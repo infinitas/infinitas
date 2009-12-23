@@ -1,0 +1,164 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BLOG
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    posts
+        delete
+            delete related comments
+            delete related tags if they are not being used
+        test new parent::delete/toggle
+
+        users can manage posts by tag ( assign tags to a user and they can only
+        work on posts / comments with those tags)
+
+        new posts to add to twitter
+
+    Comments
+        option to enable / disable
+        option for moderation
+        purge :: delete all comments that are not active older than one month.
+        comment count box not right
+        actions.ctp heading need __()
+        test new parent::delete/toggle
+        profile picture ( gravitar )
+================================================================================
+
+
+
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CORE
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    cache
+        parent action to delete cache
+        admin method to clear all
+
+    installer
+        populate database
+            table structure
+            core settings
+            optional demo data
+    layout
+        cache menus
+            based on group
+            will need to cache an array and not the whole layout so the selected
+            can still be set
+
+    acl
+        row based acl?
+        cascading groups ( inherit from parent/child )
+
+    templates
+        integrate ceeram's template thing once 1.3 is sorted
+
+    delete validation
+        confirmation with jquery model box that is a form, remove delete by id
+        and add viwes for delete confirm when there is no js
+
+    groups
+        developer
+        superadmin
+            admin
+                moderator
+                    publisher
+
+        superuser
+            moderator
+                publisher
+                    public
+                        guest
+
+    viewable
+        fix : updates in admin
+        fix : updates in index
+
+    backups
+        check for large backups and break them up somehow. maybe with a while
+        loop while( $last_id < $current_highest_id )
+        check for habtm and automaticaly do a backup.
+
+    config management
+
+================================================================================
+
+
+
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+NEWSLETTER
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    Add system mails to que
+    run on cron jobs to send in batches (cron is implemented but has errors)
+    track views with a image tag something like <img src="site.com/newsletter/newsletters/trac/{newsletter_id} (tracking is done
+    just need to implement the image tag
+
+    enable variables like [name] to show the users name.
+
+    make the reply_to validation array( 'email', true ) when internet is on
+
+    send a preview
+        show page to enter email address and send the mail
+
+    delete campaign,
+        do not allow if any mails sent
+
+    replace relative paths for links and images with http://site.com/...
+
+    export/import templates.
+
+================================================================================
+
+
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cron jobs
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    running with errors
+================================================================================
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+WIKI
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+section for admin for help.
+================================================================================
+
+
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CART
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    migrate to 1.3
+================================================================================
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CMS
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    start
+    publishable behavior.
+
+    beforeDelete check if there are any hasMany relations left.
+
+    ordering not being set in hompeges
+================================================================================

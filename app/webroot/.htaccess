@@ -3,4 +3,6 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    AddType application/x-javascript .js
+    AddType text/css .css
 </IfModule>

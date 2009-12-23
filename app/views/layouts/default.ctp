@@ -10,7 +10,9 @@
         <?php
             echo $this->Html->meta('icon');
             echo $html->css( 'default' );
+            echo $html->css( '/core/css/geshi' );
     		echo $scripts_for_layout;
+    		echo $javascript->link( 'fckeditor' );
         ?>
     </head>
     <body>
@@ -25,6 +27,7 @@
         		<div id="splash"></div>
                 <?php
                     echo $this->element( 'menu/top', array( 'plugin' => 'core' ) );
+                    echo $this->Session->flash();
                     echo $this->element( 'main_content', array( 'content_for_layout' => $content_for_layout ) );
                     echo $this->element( 'right_bar' );
                 ?>

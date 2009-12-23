@@ -1,4 +1,8 @@
-/app/config
-/app/tmp
-/plugins
-/vendors
+app/tests/
+app/tmp
+app/lib/cronjobs
+/joomla
+/croogo
+*.7z
+*.LCK
+.gitignore
