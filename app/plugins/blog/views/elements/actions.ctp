@@ -34,7 +34,7 @@
 <h3><?php __( 'Maintanence' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'Accept All Comments', true ), array( 'plugin' => 'blog', 'controller' => 'comments', 'action' => 'acceptAll' ), array( 'title' => __( 'Mark all comments as accepted', true ) ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Perge Old Comments', true ), array( 'plugin' => 'blog', 'controller' => 'comments', 'action' => 'perge' ), array( 'title' => __( 'Mark all comments as accepted', true ) ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Perge Old Comments', true ), array( 'plugin' => 'blog', 'controller' => 'comments', 'action' => 'commentPurge', 'Blog.Post' ), array( 'title' => __( 'Mark all comments as accepted', true ) ) ); ?></li>
     <li>
         <?php
             echo $this->Html->link(
