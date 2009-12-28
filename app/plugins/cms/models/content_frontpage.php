@@ -2,7 +2,6 @@
     class ContentFrontpage extends CmsAppModel
     {
     	var $name = 'ContentFrontpage';
-    	var $useDbConfig = 'cms';
     	var $primaryKey = 'content_id';
     	var $displayField = 'content_id';
 

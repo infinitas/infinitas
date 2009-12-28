@@ -2,7 +2,6 @@
     class Section extends CmsAppModel
     {
     	var $name = 'Section';
-    	var $useDbConfig = 'cms';
 
         var $actsAs = array(
             'Core.Sluggable',

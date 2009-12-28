@@ -1,7 +1,7 @@
 <?php
     class BlogAppModel extends AppModel
     {
-        var $useDbConfig = 'blog';
+        var $tablePrefix = 'blog_';
 
         function beforeSave()
         {

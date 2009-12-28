@@ -2,7 +2,6 @@
     class Category extends CmsAppModel
     {
     	var $name = 'Category';
-    	var $useDbConfig = 'cms';
 
         var $actsAs = array(
             'Core.Sluggable',

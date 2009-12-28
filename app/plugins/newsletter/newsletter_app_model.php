@@ -5,7 +5,7 @@
      */
     class NewsletterAppModel extends AppModel
     {
-        var $useDbConfig = 'newsletter';
+        var $tablePrefix = 'newsletter_';
 
         function beforeSave()
         {

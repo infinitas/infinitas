@@ -5,6 +5,6 @@
      */
     class CmsAppModel extends AppModel
     {
-        var $useDbConfig = 'cms';
+        var $tablePrefix = 'cms_';
     }
 ?>

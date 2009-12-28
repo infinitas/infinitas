@@ -16,6 +16,8 @@
     {
         var $actsAs = array( 'Containable' );
 
+        var $useDbConfig = 'default';
+
 
         function lock( $fields = null, $id = null )
         {
@@ -68,7 +70,7 @@
             switch( $conditions )
             {
                 case 'feed':
-                    return $this->feedableFind( $this, $fields );
+                    return $this->__feedableFind( $this, $fields );
                     break;
 
                 default:
@@ -76,9 +78,7 @@
             } // switch
         }
 
-
-
-        function feedableFind(&$Model, $query)
+        function __feedableFind(&$Model, $query)
         {
             if ( !isset( $query['feed'] ) )
             {

@@ -5,6 +5,6 @@
      */
     class CoreAppModel extends AppModel
     {
-        var $useDbConfig = 'core';
+        var $tablePrefix = 'core_';
     }
 ?>

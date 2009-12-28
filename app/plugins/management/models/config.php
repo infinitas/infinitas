@@ -7,7 +7,7 @@
     {
         var $name = 'Config';
 
-        var $useDbConfig = 'core';
+        var $tablePrefix = 'core_';
 
         function getConfig()
         {

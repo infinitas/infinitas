@@ -3,8 +3,6 @@
     {
     	var $name = 'Content';
 
-    	var $useDbConfig = 'cms';
-
         var $order = array(
             'Category.title' => 'ASC',
             'Content.ordering' => 'ASC'
