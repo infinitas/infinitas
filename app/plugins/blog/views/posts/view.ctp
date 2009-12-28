@@ -19,6 +19,16 @@
 
     $this->PostLayout->setData( $post );
     echo $this->PostLayout->viewPostHead();
+
+    if (
+        Configure::read( 'Blog.depreciate' ) &&
+        date( 'Y-m-d H:i:s', strtotime( '- '.Configure::read( 'Blog.depreciate' ) ) ) > $post['Post']['modified']
+        )
+    {
+        ?><h2><?php __( 'Depreciated' ); ?> </h2><?php
+        echo __( 'This post is old, so the information may be a bit out-dated.', true );
+    }
+
     echo $this->PostLayout->viewPostBody( array( 'highlight' ) );
 
     if ( Configure::read( 'Blog.allow_comments' ) )
