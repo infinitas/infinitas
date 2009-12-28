@@ -36,6 +36,11 @@
             $this->__setupCache();
 
             $this->set( 'commentModel', 'Comment' );
+
+            if ( isset( $this->params['prefix'] ) && $this->params['prefix'] == 'admin' )
+            {
+                $this->{$this->modelClass}->Behaviors->disable( 'Viewable' );
+            }
         }
 
         /**
