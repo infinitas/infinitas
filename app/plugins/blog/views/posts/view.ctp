@@ -26,11 +26,20 @@
         ?>
             <div id="comments">
                 <?php
-                    foreach( $post['Comment'] as $comment )
+                    if ( !empty( $post['Comment'] ) )
                     {
-                        $this->CommentLayout->setData( $comment );
-                        echo $this->CommentLayout->showComment();
+                        ?><h2><?php __( 'No Comments' ); ?> </h2><?php
+                        echo __( 'There are no comments at this time, would you like to be the first?', true );
                     }
+                    else
+                    {
+                        foreach( $post['Comment'] as $comment )
+                        {
+                            $this->CommentLayout->setData( $comment );
+                            echo $this->CommentLayout->showComment();
+                        }
+                    }
+
                     echo $this->element( 'comments/add', array( 'plugin' => 'core', 'fk' => $post['Post']['id'] ) );
                 ?>
             </div>

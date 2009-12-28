@@ -37,7 +37,14 @@
                 )
             );
 
-            $this->set( 'contentFrontpages', $this->paginate() );
+            $contentFrontpages = $this->paginate();
+
+            if ( empty( $contentFrontpages ) )
+            {
+                $this->Session->setFlash( __( 'Nothing to see here.', true ) );
+                $this->redirect( $this->referer() );
+            }
+            $this->set( 'contentFrontpages', $contentFrontpages );
         }
 
         function admin_add()
