@@ -90,6 +90,38 @@
         );
 
         /**
+        * before deleting a post.
+        *
+        *remove the tags
+        */
+        function beforeDelete( $return = null )
+        {
+            $data = $this->read();
+
+            foreach( $data['Tag'] as $tag )
+            {
+                $count = ClassRegistry::init( 'Blog.PostsTag' )->find(
+                    'count',
+                    array(
+                        'conditions' => array(
+                            'PostsTag.tag_id' => $tag['PostsTag']['tag_id']
+                        )
+                    )
+                );
+
+                if ( $count === 1 )
+                {
+                    if ( $this->Tag->delete( $tag['PostsTag']['tag_id'] ) )
+                    {
+                        ClassRegistry::init( 'Blog.PostsTag' )->delete( $tag['PostsTag']['id'] );
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /**
          * Get years and months of all posts.
          *
          * The years are cached cos they wont change much so it saves a
