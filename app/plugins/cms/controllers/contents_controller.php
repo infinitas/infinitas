@@ -85,5 +85,10 @@
             $categories = $this->Content->Category->find( 'list' );
             $this->set( compact( 'categories' ) );
         }
+
+        function admin_toggle( $id = null )
+        {
+
+        }
     }
 ?>

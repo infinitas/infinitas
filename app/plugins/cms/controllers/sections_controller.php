@@ -119,5 +119,24 @@
             $groups = $this->Section->Group->find( 'list' );
             $this->set( compact( 'groups' ) );
         }
+
+        function admin_delete( $id = null )
+        {
+            if ( !$id )
+            {
+                $this->Session->setFlash( 'That Section could not be found', true );
+                $this->redirect( $this->referer() );
+            }
+
+            $section = $this->Section->read( null, $id );
+
+            if ( !empty( $section['Category'] ) )
+            {
+                $this->Session->setFlash( __( 'There are still categories in this section. Remove them and try again.', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            return parent::admin_delete( $id );
+        }
     }
 ?>

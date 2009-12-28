@@ -189,7 +189,7 @@
          * @param mixed $id the id of the record
          * @return n/a, redirects with different messages in {@see Session::setFlash}
          */
-        protected function admin_toggle( $id )
+        protected function admin_toggle( $id = null )
         {
             $model = $this->modelNames[0];
 
