@@ -34,6 +34,8 @@
             $this->__setupLayout();
 
             $this->__setupCache();
+
+            $this->set( 'commentModel', 'Comment' );
         }
 
         /**
@@ -126,6 +128,46 @@
         /**
         * Common methods for the app
         */
+
+        protected function comment()
+        {
+            if ( !empty( $this->data ) )
+            {
+                if ( !isset( $this->data[Inflector::classify( $this->name )]['id'] ) )
+                {
+                    $this->Session->setFlash( __( 'There is a problem with your comment.', true ) );
+                    $this->redirect( $this->referer() );
+                }
+
+                $this->data['Comment']['foreign_id'] = $this->data[Inflector::classify( $this->name )]['id'];
+                $this->data['Comment']['class']      = $this->__getClassName();
+
+                $comment['Comment'] = $this->data['Comment'];
+
+                ClassRegistry::init( 'Core.Comment' )->create();
+
+                if ( ClassRegistry::init( 'Core.Comment' )->save( $comment ) )
+                {
+                    $this->Session->setFlash( __( 'Your comment has been saved for review.', true ) );
+                    $this->redirect( $this->referer() );
+                }
+
+                $this->Session->setFlash( __( 'Your comment could not be saved, please try again.', true ) );
+                $this->redirect( $this->referer() );
+            }
+        }
+
+        function __getClassName()
+        {
+            if ( isset( $this->params['plugin'] ) )
+            {
+                return Inflector::classify( $this->params['plugin'] ).'.'.Inflector::classify( $this->name );
+            }
+            else
+            {
+                return Inflector::classify( $this->name );
+            }
+        }
 
         /**
          * reorder records.

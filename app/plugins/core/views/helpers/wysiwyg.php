@@ -10,7 +10,7 @@
             return $this->input( $id ).$this->fckStarter( $id, $toolbar );
         }
 
-        function fckStarter($id = null, $toolbar = 'Basic')
+        function fckStarter( $id = null, $toolbar = 'Basic' )
         {
             if ( !$id )
             {

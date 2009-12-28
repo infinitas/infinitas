@@ -16,20 +16,24 @@
      * @subpackage    blog.views.posts.view
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-?>
-<?php
+
     $this->PostLayout->setData( $post );
     echo $this->PostLayout->viewPostHead();
     echo $this->PostLayout->viewPostBody( array( 'highlight' ) );
-?>
 
-<div id="comments">
-    <?php
-        foreach( $post['Comment'] as $comment )
-        {
-            $this->CommentLayout->setData( $comment );
-            echo $this->CommentLayout->showComment();
-        }
-        echo $this->CommentLayout->addComment( $post['Post']['id'] );
-    ?>
-</div>
+    if ( Configure::read( 'Blog.allow_comments' ) )
+    {
+        ?>
+            <div id="comments">
+                <?php
+                    foreach( $post['Comment'] as $comment )
+                    {
+                        $this->CommentLayout->setData( $comment );
+                        echo $this->CommentLayout->showComment();
+                    }
+                    echo $this->element( 'comments/add', array( 'plugin' => 'core', 'fk' => $post['Post']['id'] ) );
+                ?>
+            </div>
+        <?php
+    }
+?>

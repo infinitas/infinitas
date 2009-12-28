@@ -188,26 +188,31 @@
                 $conditions = array( 'Post.active' => $active );
             }
 
-            $this->paginate = array(
-                'fields' => array(
-                    'Post.id',
-                    'Post.title',
-                    'Post.slug',
-                    'Post.intro',
-                    'Post.active',
-                    'Post.views',
-                    'Post.comment_count',
-                    'Post.created',
-                    'Post.locked',
-                    'Post.locked_by',
-                    'Post.locked_since',
-                ),
-                'conditions' => $conditions
-            );
+//            $this->Post->recursive = 0;
+//
+//            $this->paginate = array(
+//                'fields' => array(
+//                    'Post.id',
+//                    'Post.title',
+//                    'Post.slug',
+//                    'Post.intro',
+//                    'Post.active',
+//                    'Post.views',
+//                    'Post.comment_count',
+//                    'Post.created',
+//                    'Post.locked',
+//                    'Post.locked_by',
+//                    'Post.locked_since',
+//                ),
+//                'conditions' => $conditions
+//            );
 
-            $posts = $this->paginate( 'Post' );
+            $this->Post->recursive = 0;
+            $this->set( 'posts', $this->paginate() );
 
-            $this->set( compact( 'posts' ) );
+            //$posts = $this->paginate( 'Post' );
+
+            //$this->set( compact( 'posts' ) );
         }
 
         function admin_add()

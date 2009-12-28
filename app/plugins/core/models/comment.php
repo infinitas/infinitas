@@ -46,14 +46,6 @@
             )
     	);
 
-        var $belongsTo = array(
-            'Post' => array(
-                'className' => 'Blog.Post',
-                'counterCache' => true,
-                'counterScope' => array( 'Comment.active' => 1 )
-            )
-        );
-
         function getCounts( $class = null )
         {
             if ( !$class )

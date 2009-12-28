@@ -38,16 +38,6 @@
         );
 
         /**
-        * fields allowed in the comments
-        */
-        var $commentFields = array(
-            'name',
-            'email',
-            'website',
-            'comment'
-        );
-
-        /**
          * Set the data for the layout helper to use.
          *
          * {@see BlogHelper::setdata} for more information
