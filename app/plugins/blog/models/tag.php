@@ -39,7 +39,7 @@
             'Post' =>
                 array(
                     'className'              => 'Blog.Post',
-                    'joinTable'              => 'posts_tags',
+                    'joinTable'              => 'blog_posts_tags',
                     'foreignKey'             => 'tag_id',
                     'associationForeignKey'  => 'post_id',
                     'unique'                 => true,

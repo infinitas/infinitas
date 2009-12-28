@@ -111,7 +111,7 @@
                 $sql .= ', '.implode( ', ', $_fields );
             }
 
-            $sql .= ' FROM '.$Model->useDbConfig.'_'.$Model->useTable;
+            $sql .= ' FROM '.$Model->tablePrefix.$Model->useTable;
 
             if ( isset( $query['feed'] ) )
             {
