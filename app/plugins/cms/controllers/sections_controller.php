@@ -5,8 +5,21 @@
 
         function index()
         {
-            $this->Section->recursive = 0;
-            $this->set( 'sections', $this->paginate() );
+            $this->Section->recursive = 1;
+            $sections = $this->paginate();
+
+            if ( count( $sections ) == 1 && Configure::read( 'Cms.auto_redirect' ) )
+            {
+                $this->redirect(
+                    array(
+                        'controller' => 'sections',
+                        'action' => 'view',
+                        $sections[0]['Section']['id']
+                    )
+                );
+            }
+
+            $this->set( 'sections', $sections );
         }
 
         function view( $id = null )
@@ -16,7 +29,21 @@
                 $this->Session->setFlash( __( 'Invalid section', true ) );
                 $this->redirect( array( 'action' => 'index' ) );
             }
-            $this->set( 'section', $this->Section->read( null, $id ) );
+
+            $section = $this->Section->read( null, $id );
+
+            // redirect if there is only one category.
+            if ( count( $section['Category'] ) == 1 && Configure::read( 'Cms.auto_redirect' ) )
+            {
+                $this->redirect(
+                    array(
+                        'controller' => 'categories',
+                        'action' => 'index'
+                    )
+                );
+            }
+
+            $this->set( 'section', $section );
         }
 
         function admin_dashboard()

@@ -6,7 +6,22 @@
         function index()
         {
             $this->Category->recursive = 0;
-            $this->set( 'categories', $this->paginate() );
+
+            $categories = $this->paginate();
+
+            // redirect if there is only one category.
+            if ( count( $categories ) == 1 && Configure::read( 'Cms.auto_redirect' ) )
+            {
+                $this->redirect(
+                    array(
+                        'controller' => 'categories',
+                        'action' => 'view',
+                        $categories[0]['Category']['id']
+                    )
+                );
+            }
+
+            $this->set( 'categories', $categories );
         }
 
         function view( $id = null )
@@ -16,7 +31,22 @@
                 $this->Session->setFlash( __( 'Invalid category', true ) );
                 $this->redirect( array( 'action' => 'index' ) );
             }
-            $this->set( 'category', $this->Category->read( null, $id ) );
+
+            $category = $this->Category->read( null, $id );
+
+            // redirect if there is only one content item.
+            if ( count( $category['Content'] ) == 1 && Configure::read( 'Cms.auto_redirect' ) )
+            {
+                $this->redirect(
+                    array(
+                        'controller' => 'contents',
+                        'action' => 'view',
+                        $category['Content'][0]['id']
+                    )
+                );
+            }
+
+            $this->set( 'category', $category );
         }
 
         function admin_index()
