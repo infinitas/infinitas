@@ -7,16 +7,17 @@
 <h3><?php __( 'Campaigns' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 0 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Add', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'add', 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 'Campaign.active' => 1 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 'Campaign.active' => 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Add', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'add' ) ); ?></li>
 </ul>
 <h3><?php __( 'Newsletters' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 0 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Sending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'sending' ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 1 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Sending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 1, 'Newsletter.sent' => 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Completed', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.sent' => 1 ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'add' ) ); ?></li>
 </ul>
 

@@ -142,23 +142,8 @@
             }
         }
 
-        function admin_index( $active = null )
+        function admin_index()
         {
-            $conditions = array();
-            if ( $active !== null )
-            {
-                $conditions = array(
-                    'Newsletter.active' => $active,
-                );
-            }
-            if ( $active == 'sending' )
-            {
-                $conditions = array(
-                    'Newsletter.active' => 1,
-                    'Newsletter.sent' => 0
-                );
-            }
-
             $this->paginate = array(
                 'fields' => array(
                     'Newsletter.id',
@@ -170,7 +155,6 @@
                     'Newsletter.sent',
                     'Newsletter.created',
                 ),
-                'conditions' => $conditions,
                 'limit' => 20,
                 'contain' => array(
                     'Campaign' => array(
@@ -181,7 +165,7 @@
                 )
             );
 
-            $newsletters = $this->paginate( 'Newsletter' );
+            $newsletters = $this->paginate( 'Newsletter', $this->Filter->filter );
 
             $this->set( compact( 'newsletters' ) );
         }

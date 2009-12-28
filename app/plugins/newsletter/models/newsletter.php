@@ -80,7 +80,7 @@
             'User' =>
                 array(
                     'className'              => 'Core.User',
-                    'joinTable'              => 'newsletters_users',
+                    'joinTable'              => 'newsletter_newsletters_users',
                     'foreignKey'             => 'newsletter_id',
                     'associationForeignKey'  => 'user_id',
                     'unique'                 => true,

@@ -7,14 +7,8 @@
     {
         var $name = 'Campaigns';
 
-        function admin_index( $active = null )
+        function admin_index()
         {
-            $conditions = array();
-            if ( $active !== null )
-            {
-                $conditions = array( 'Campaign.active' => $active );
-            }
-
             $this->paginate = array(
                 'fields' => array(
                     'Campaign.id',
@@ -28,7 +22,6 @@
                     'Campaign.created',
                     'Campaign.modified'
                 ),
-                'conditions' => $conditions,
                 'Campaign' => array(
                     'contain' => array(
                         'Template' => array(
@@ -52,7 +45,7 @@
                 )
             );
 
-            $campaigns = $this->paginate( 'Campaign' );
+            $campaigns = $this->paginate( 'Campaign', $this->Filter->filter );
 
             $this->set( compact( 'campaigns' ) );
         }

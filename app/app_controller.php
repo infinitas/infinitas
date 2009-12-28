@@ -21,7 +21,12 @@
             'Session',
 
             //core components
-            'DebugKit.Toolbar', 'Core.Cron', 'Core.Config'
+            'DebugKit.Toolbar', 'Core.Cron', 'Core.Config',
+
+            // components
+            'Filter.Filter' => array(
+                'actions' => array('admin_index')
+            )
         );
 
         /**

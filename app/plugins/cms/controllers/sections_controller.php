@@ -54,7 +54,7 @@
         function admin_index()
         {
             $this->Section->recursive = 0;
-            $this->set( 'sections', $this->paginate() );
+            $this->set( 'sections', $this->paginate( null, $this->Filter->filter ) );
         }
 
         function admin_view( $id = null )

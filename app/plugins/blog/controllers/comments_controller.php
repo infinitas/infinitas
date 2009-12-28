@@ -23,14 +23,8 @@
 
         var $uses = array( 'Core.Comment' );
 
-        function admin_index( $active = null )
+        function admin_index()
         {
-            $conditions = array();
-            if ( $active !== null )
-            {
-                $conditions = array( 'Comment.active' => $active );
-            }
-
             $this->paginate = array(
                 'fields' => array(
                     'Comment.id',
@@ -42,7 +36,6 @@
                     'Comment.foreign_id',
                     'Comment.created',
                 ),
-                'conditions' => $conditions,
                 'order' => array(
                     'Comment.active' => 'ASC',
                     'Comment.created' => 'ASC',

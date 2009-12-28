@@ -22,22 +22,22 @@
 <h3><?php __( 'Sections' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index', 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index', 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index', 'Section.active' => 1 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index', 'Section.active' => 0 ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'add' ) ); ?></li>
 </ul>
 <h3><?php __( 'Categories' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'index', 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'index', 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'index', 'Category.active' => 1 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'index', 'Category.active' => 0 ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'add' ) ); ?></li>
 </ul>
 <h3><?php __( 'Contents' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 'Content.active' => 1 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 'Content.active' => 0 ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'add' ) ); ?></li>
 </ul>
 <h3><?php __( 'Front Page' ); ?></h3>

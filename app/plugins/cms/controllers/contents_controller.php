@@ -22,7 +22,7 @@
         function admin_index()
         {
             $this->Content->recursive = 1;
-            $this->set( 'contents', $this->paginate() );
+            $this->set( 'contents', $this->paginate( null, $this->Filter->filter ) );
         }
 
         function admin_view( $id = null )

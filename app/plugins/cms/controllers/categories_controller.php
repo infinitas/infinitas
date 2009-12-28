@@ -52,7 +52,7 @@
         function admin_index()
         {
             $this->Category->recursive = 0;
-            $this->set( 'categories', $this->paginate() );
+            $this->set( 'categories', $this->paginate( null, $this->Filter->filter ) );
         }
 
         function admin_view( $id = null )

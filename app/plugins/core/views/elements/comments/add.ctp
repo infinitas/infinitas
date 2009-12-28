@@ -51,7 +51,7 @@
             {
                 if ( $field != 'comment' )
                 {
-                    echo $this->Form->input( 'Comment'.$field );
+                    echo $this->Form->input( 'Comment.'.$field );
                 }
                 else
                 {

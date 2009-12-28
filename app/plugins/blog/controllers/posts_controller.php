@@ -181,39 +181,11 @@
             $this->set( 'dashboardCommentsCount', $this->Post->Comment->getCounts( 'Blog.Post' ) );
         }
 
-        function admin_index( $active = null )
+        function admin_index()
         {
-            $conditions = array();
-            if ( $active !== null )
-            {
-                $conditions = array( 'Post.active' => $active );
-            }
-
-//            $this->Post->recursive = 0;
-//
-//            $this->paginate = array(
-//                'fields' => array(
-//                    'Post.id',
-//                    'Post.title',
-//                    'Post.slug',
-//                    'Post.intro',
-//                    'Post.active',
-//                    'Post.views',
-//                    'Post.comment_count',
-//                    'Post.created',
-//                    'Post.locked',
-//                    'Post.locked_by',
-//                    'Post.locked_since',
-//                ),
-//                'conditions' => $conditions
-//            );
-
             $this->Post->recursive = 0;
-            $this->set( 'posts', $this->paginate() );
-
-            //$posts = $this->paginate( 'Post' );
-
-            //$this->set( compact( 'posts' ) );
+            $posts = $this->paginate( null, $this->Filter->filter );
+            $this->set( compact( 'posts' ) );
         }
 
         function admin_add()
