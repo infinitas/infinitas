@@ -24,6 +24,13 @@
             'DebugKit.Toolbar', 'Core.Cron', 'Core.Config'
         );
 
+        /**
+        * actions where viewable will work.
+        */
+        var $viewableActions = array(
+            'view'
+        );
+
         function beforeFilter()
         {
             parent::beforeFilter();
@@ -37,9 +44,9 @@
 
             $this->set( 'commentModel', 'Comment' );
 
-            if ( isset( $this->params['prefix'] ) && $this->params['prefix'] == 'admin' )
+            if ( isset( $this->params['prefix'] ) && $this->params['prefix'] == 'admin' && !in_array( $this->params['action'], $this->viewableActions ) )
             {
-                $this->{$this->modelClass}->Behaviors->disable( 'Viewable' );
+                $this->{$this->modelClass}->Behaviors->detach( 'Viewable' );
             }
         }
 
