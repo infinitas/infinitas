@@ -70,8 +70,8 @@
 
         var $hasMany = array(
             'Comment' => array(
-                'className' => 'Blog.Comment',
-                'foreignKey' => 'post_id',
+                'className' => 'Core.Comment',
+                'foreignKey' => 'foreign_id',
                 'dependent' => true
             )
         );
@@ -239,7 +239,7 @@
             return $posts;
         }
 
-        function getCounts()
+        function getCounts( $model = null )
         {
             $counts = Cache::read( 'posts_count' );
             if ( $counts !== false )

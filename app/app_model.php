@@ -57,6 +57,9 @@
             $data[$this->name]['locked_by'] = null;
             $data[$this->name]['locked_since'] = null;
 
+            pr( $fieldList );
+            exit;
+
             return parent::save( $data, $validate, $fieldList );
         }
 

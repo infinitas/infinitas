@@ -153,9 +153,9 @@
                         'Post.created'
                     ),
                     'feed' => array(
-                        'Blog.Comment' => array(
+                        'Core.Comment' => array(
                             'setup' => array(
-                                'plugin' => 'Blog',
+                                'plugin' => 'Core',
                                 'controller' => 'comments',
                                 'action' => 'view',
                             ),
@@ -177,7 +177,7 @@
 
             $this->set( 'dashboardPostCount', $this->Post->getCounts() );
             $this->set( 'dashboardPostLatest', $this->Post->getLatest() );
-            $this->set( 'dashboardCommentsCount', $this->Post->Comment->getCounts() );
+            $this->set( 'dashboardCommentsCount', $this->Post->Comment->getCounts( 'Blog.Post' ) );
         }
 
         function admin_index( $active = null )

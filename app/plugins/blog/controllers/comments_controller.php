@@ -21,19 +21,7 @@
     {
         var $name = 'Comments';
 
-        function add()
-        {
-            if ( !empty( $this->data ) )
-            {
-                $this->Comment->create();
-
-                if ( $this->Comment->save( $this->data ) )
-                {
-                    $this->Session->setFlash( 'Your comment has been submitted for review.' );
-                    $this->redirect( $this->referer() );
-                }
-            }
-        }
+        var $uses = array( 'Core.Comment' );
 
         function admin_index( $active = null )
         {
@@ -51,7 +39,7 @@
                     'Comment.website',
                     'Comment.comment',
                     'Comment.active',
-                    'Comment.post_id',
+                    'Comment.foreign_id',
                     'Comment.created',
                 ),
                 'conditions' => $conditions,
@@ -60,11 +48,13 @@
                     'Comment.created' => 'ASC',
                 ),
                 'limit' => 20,
-                'contain' => array(
-                    'Post' => array(
-                        'fields' => array(
-                            'Post.title',
-                            'Post.slug',
+                'Comment' => array(
+                    'contain' => array(
+                        'Post' => array(
+                            'fields' => array(
+                                'Post.title',
+                                'Post.slug'
+                            )
                         )
                     )
                 )
@@ -114,6 +104,5 @@
 
             $this->Session->setFlash( sprintf( '%s %s', $i, __( 'Comments deleted', true ) ) );
         }
-
     }
 ?>
