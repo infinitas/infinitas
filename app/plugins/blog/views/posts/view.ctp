@@ -44,7 +44,7 @@
                         if ( empty( $post['Comment'] ) )
                         {
                             ?><h2><?php __( 'No Comments' ); ?> </h2><?php
-                            echo __( 'There are no comments at this time, would you like to be the first?', true );
+                            echo '<p>'.__( 'There are no comments at this time, would you like to be the first?', true ).'</p>';
                         }
                         else
                         {

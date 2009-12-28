@@ -11,7 +11,7 @@
 
         var $errors = array();
 
-        var $helpers = array( 'Core.Wysiwyg' );
+        var $helpers = array( 'Core.Wysiwyg', 'Core.Gravatar' );
 
         /**
         * create some bread crumbs.
@@ -271,6 +271,17 @@
             $editor = ( Configure::read( 'Wysiwyg.editor' ) ) ? Configure::read( 'Wysiwyg.editor' ) : 'text';
 
             return $this->Wysiwyg->$editor( $id, $toolbar );
+        }
+
+        function gravatar( $email = null, $options = array() )
+        {
+            if ( !$email )
+            {
+                $this->errors[] = 'no email specified for the gravatar.';
+                return false;
+            }
+
+            return $this->Gravatar->image( $email, $options );
         }
     }
 ?>

@@ -23,7 +23,7 @@
             'Form', 'Time', 'Html',
 
             //core helpers
-            'Core.Geshi', 'Core.Wysiwyg'
+            'Core.Geshi', 'Core.Wysiwyg', 'Core.Gravatar'
         );
 
         /**
@@ -69,6 +69,13 @@
         function showComment( $params = array( 'code' => true ) )
         {
             $out = '<div class="comment">';
+                if ( isset( $this->data['Comment']['email'] ) )
+                {
+                    $out .= '<div class="image">';
+                        $out .= $this->gravatar( $this->data['Comment']['email'] );
+                    $out .= '</div>';
+                }
+
                 $out .= '<div class="comment-by" style="font-size:120%;">';
                     $name = $this->data['Comment']['name'];
 
