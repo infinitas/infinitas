@@ -23,26 +23,37 @@
 
     if ( Configure::read( 'Blog.allow_comments' ) )
     {
-        ?>
-            <div id="comments">
-                <?php
-                    if ( !empty( $post['Comment'] ) )
-                    {
-                        ?><h2><?php __( 'No Comments' ); ?> </h2><?php
-                        echo __( 'There are no comments at this time, would you like to be the first?', true );
-                    }
-                    else
-                    {
-                        foreach( $post['Comment'] as $comment )
+        if (
+            !Configure::read( 'Blog.allow_comments' ) ||
+            date( 'Y-m-d H:i:s', strtotime( '- '.Configure::read( 'Comments.time_limit' ) ) ) < $post['Post']['modified']
+        )
+        {
+            ?>
+                <div id="comments">
+                    <?php
+                        if ( empty( $post['Comment'] ) )
                         {
-                            $this->CommentLayout->setData( $comment );
-                            echo $this->CommentLayout->showComment();
+                            ?><h2><?php __( 'No Comments' ); ?> </h2><?php
+                            echo __( 'There are no comments at this time, would you like to be the first?', true );
                         }
-                    }
+                        else
+                        {
+                            foreach( $post['Comment'] as $comment )
+                            {
+                                $this->CommentLayout->setData( $comment );
+                                echo $this->CommentLayout->showComment();
+                            }
+                        }
 
-                    echo $this->element( 'comments/add', array( 'plugin' => 'core', 'fk' => $post['Post']['id'] ) );
-                ?>
-            </div>
-        <?php
+                        echo $this->element( 'comments/add', array( 'plugin' => 'core', 'fk' => $post['Post']['id'] ) );
+                    ?>
+                </div>
+            <?php
+        }
+        else
+        {
+            ?><h2><?php __( 'Closed for Comments' ); ?> </h2><?php
+            echo __( 'Sorry, the comments for this post is closed. Why not check out some of our newer posts.', true );
+        }
     }
 ?>

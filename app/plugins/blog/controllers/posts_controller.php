@@ -94,6 +94,7 @@
                         'Post.views',
                         'Post.comment_count',
                         'Post.created',
+                        'Post.modified'
                     ),
                     'conditions' => array(
                         'or' => array(
