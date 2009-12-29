@@ -9,6 +9,10 @@
             'Core.Ordered'
         );
 
+        var $order = array(
+            'Section.ordering' => 'ASC'
+        );
+
     	var $validate = array(
     		'title' => array(
     			'notempty' => array('rule' => array('notempty')),

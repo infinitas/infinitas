@@ -51,6 +51,13 @@
 
         function admin_index()
         {
+            $this->paginate = array(
+                'order' => array(
+                    'Section.title' => 'ASC',
+                    'Category.ordering' => 'ASC'
+                )
+            );
+
             $this->Category->recursive = 0;
             $this->set( 'categories', $this->paginate( null, $this->Filter->filter ) );
         }
