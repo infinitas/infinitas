@@ -22,10 +22,10 @@ App::import('Vendor', 'DebugKit.DebugKitDebugger');
 App::import('File', 'TestFireCake', false, Configure::read('pluginPaths'), 'test_objects.php');
 
 /**
- * Short description for class.
+ * Test case for the DebugKitDebugger
  *
- * @package       cake.tests
- * @subpackage    cake.tests.cases.libs
+ * @package       debug_kit.tests
+ * @subpackage    debug_kit.tests.cases.vendors
  */
 class DebugKitDebuggerTest extends CakeTestCase {
 /**
@@ -44,7 +44,16 @@ class DebugKitDebuggerTest extends CakeTestCase {
 			}
 		}
 	}
-
+/**
+ * tearDown method
+ *
+ * @access public
+ * @return void
+ */
+	function tearDown() {
+		Configure::write('log', true);
+		DebugKitDebugger::clearTimers();
+	}
 /**
  * Start Timer test
  *
@@ -67,7 +76,6 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		$this->assertFalse(DebugKitDebugger::elapsedTime('test3'));
 		$this->assertFalse(DebugKitDebugger::stopTimer('wrong'));
 	}
-
 /**
  * test timers with no names.
  *
@@ -78,10 +86,11 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		usleep(2000);
 		$this->assertTrue(DebugKitDebugger::stopTimer());
 		$timers = DebugKitDebugger::getTimers();
-		
-		$this->assertEqual(count($timers), 1);
+
+		$this->assertEqual(count($timers), 2);
+		end($timers);
 		$key = key($timers);
-		$lineNo = __LINE__ - 7;
+		$lineNo = __LINE__ - 8;
 
 		$file = Debugger::trimPath(__FILE__);
 		$expected = $file . ' line ' . $lineNo;
@@ -91,7 +100,6 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		$this->assertTrue($timer['time'] > 0.0020);
 		$this->assertEqual($timers[$expected]['message'], $expected);
 	}
-
 /**
  * Assert that nested anonymous timers don't get mixed up.
  *
@@ -104,21 +112,20 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		usleep(100);
 		$this->assertTrue(DebugKitDebugger::stopTimer());
 		$this->assertTrue(DebugKitDebugger::stopTimer());
-		
+
 		$timers = DebugKitDebugger::getTimers();
-		$this->assertEqual(count($timers), 2, 'incorrect number of timers %s');
+		$this->assertEqual(count($timers), 3, 'incorrect number of timers %s');
 		$firstTimerLine = __LINE__ -9;
 		$secondTimerLine = __LINE__ -8;
 		$file = Debugger::trimPath(__FILE__);
-		
+
 		$this->assertTrue(isset($timers[$file . ' line ' . $firstTimerLine]), 'first timer is not set %s');
 		$this->assertTrue(isset($timers[$file . ' line ' . $secondTimerLine]), 'second timer is not set %s');
-		
+
 		$firstTimer = $timers[$file . ' line ' . $firstTimerLine];
 		$secondTimer = $timers[$file . ' line ' . $secondTimerLine];
 		$this->assertTrue($firstTimer['time'] > $secondTimer['time']);
 	}
-
 /**
  * test that calling startTimer with the same name does not overwrite previous timers
  * and instead adds new ones.
@@ -130,21 +137,20 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		usleep(100);
 		DebugKitDebugger::startTimer('my timer', 'This is the second call');
 		usleep(100);
-		
+
 		DebugKitDebugger::stopTimer('my timer');
 		DebugKitDebugger::stopTimer('my timer');
-		
+
 		$timers = DebugKitDebugger::getTimers();
-		$this->assertEqual(count($timers), 2, 'wrong timer count %s');
-		
+		$this->assertEqual(count($timers), 3, 'wrong timer count %s');
+
 		$this->assertTrue(isset($timers['my timer']));
 		$this->assertTrue(isset($timers['my timer #2']));
-		
+
 		$this->assertTrue($timers['my timer']['time'] > $timers['my timer #2']['time'], 'timer 2 is longer? %s');
 		$this->assertEqual($timers['my timer']['message'], 'This is the first call');
 		$this->assertEqual($timers['my timer #2']['message'], 'This is the second call #2');
 	}
-
 /**
  * testRequestTime
  *
@@ -157,7 +163,6 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		$result2 = DebugKitDebugger::requestTime();
 		$this->assertTrue($result1 < $result2);
 	}
-
 /**
  * test getting all the set timers.
  *
@@ -171,12 +176,11 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		DebugKitDebugger::stopTimer('test2');
 		$timers = DebugKitDebugger::getTimers();
 
-		$this->assertEqual(count($timers), 2);
+		$this->assertEqual(count($timers), 3);
 		$this->assertTrue(is_float($timers['test1']['time']));
 		$this->assertTrue(isset($timers['test1']['message']));
 		$this->assertTrue(isset($timers['test2']['message']));
 	}
-	
 /**
  * test memory usage
  *
@@ -185,7 +189,7 @@ class DebugKitDebuggerTest extends CakeTestCase {
 	function testMemoryUsage() {
 		$result = DebugKitDebugger::getMemoryUse();
 		$this->assertTrue(is_int($result));
-		
+
 		$result = DebugKitDebugger::getPeakMemoryUse();
 		$this->assertTrue(is_int($result));
 	}
@@ -200,24 +204,37 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		Debugger::output('fb');
 		$foo .= '';
 		$result = $firecake->sentHeaders;
-		
+
 		$this->assertPattern('/GROUP_START/', $result['X-Wf-1-1-1-1']);
 		$this->assertPattern('/ERROR/', $result['X-Wf-1-1-1-2']);
 		$this->assertPattern('/GROUP_END/', $result['X-Wf-1-1-1-5']);
-		
+
 		Debugger::invoke(Debugger::getInstance('Debugger'));
 		Debugger::output();
 	}
-
 /**
- * tearDown method
+ * test making memory use markers.
  *
- * @access public
  * @return void
- */
-	function tearDown() {
-		Configure::write('log', true);
-		DebugKitDebugger::clearTimers();
+ **/
+	function testMemorySettingAndGetting() {
+		$result = DebugKitDebugger::setMemoryPoint('test marker');
+		$this->assertTrue($result);
+
+		$result = DebugKitDebugger::getMemoryPoints(true);
+		$this->assertEqual(count($result), 1);
+		$this->assertTrue(isset($result['test marker']));
+		$this->assertTrue(is_numeric($result['test marker']));
+
+		$result = DebugKitDebugger::getMemoryPoints();
+		$this->assertTrue(empty($result));
+
+		DebugKitDebugger::setMemoryPoint('test marker');
+		DebugKitDebugger::setMemoryPoint('test marker');
+		$result = DebugKitDebugger::getMemoryPoints();
+		$this->assertEqual(count($result), 2);
+		$this->assertTrue(isset($result['test marker']));
+		$this->assertTrue(isset($result['test marker #2']));
 	}
 
 }

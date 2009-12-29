@@ -18,13 +18,13 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 ?>
-<h2> <?php __('Request History'); ?></h2>
+<h2> <?php __d('debug_kit', 'Request History'); ?></h2>
 <?php if (empty($content)): ?>
-  <p class="warning"><?php __('No previous requests logged.'); ?></p>
+  <p class="warning"><?php __d('debug_kit', 'No previous requests logged.'); ?></p>
 <?php else: ?>
-	<?php echo count($content); ?> <?php __('previous requests available') ?>
+	<?php echo count($content); ?> <?php __d('debug_kit', 'previous requests available') ?>
 	<ul class="history-list">
-		<li><?php echo $html->link(__('Restore to current request', true), 
+		<li><?php echo $html->link(__d('debug_kit', 'Restore to current request', true),
 			'#', array('class' => 'history-link', 'id' => 'history-restore-current')); ?>
 		</li>
 		<?php foreach ($content as $previous): ?>
@@ -34,6 +34,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
+//<![CDATA[
 DEBUGKIT.module('historyPanel');
 DEBUGKIT.historyPanel = function () {
 	var toolbar = DEBUGKIT.toolbar,
@@ -41,9 +42,10 @@ DEBUGKIT.historyPanel = function () {
 		Cookie = DEBUGKIT.Util.Cookie,
 		Event = DEBUGKIT.Util.Event,
 		Request = DEBUGKIT.Util.Request,
+		Collection = DEBUGKIT.Util.Collection,
 		historyLinks = [];
 
-	// Private methods to handle JSON response and insertion of 
+	// Private methods to handle JSON response and insertion of
 	// new content.
 	var switchHistory = function (response) {
 		try {
@@ -53,22 +55,39 @@ DEBUGKIT.historyPanel = function () {
 			return false;
 		}
 
-		for (var i in historyLinks) {
-			Element.removeClass(historyLinks[i], 'loading');
-		}
+		Element.removeClass(historyLinks, 'loading');
 
-		for (var id in toolbar.panels) {
-			var panel = toolbar.panels[id];
+		Collection.apply(toolbar.panels, function (panel, id) {
 			if (panel.content === undefined || responseJson[id] === undefined) {
-				continue;
+				return;
 			}
 
-			var panelDivs = panel.content.childNodes;
-			for (var i in panelDivs) {
+			var panelDivs = panel.content.childNodes,
+				i = panelDivs.length,
+				regionDiv;
+
+			while (i--) {
+				var panelRegion = panelDivs[i];
+				if (panelRegion.nodeType != 1) {
+					continue;
+				}
+				if (
+					Element.nodeName(panelRegion, 'DIV') &&
+					Element.hasClass(panelRegion, 'panel-resize-region')
+				) {
+					regionDiv = panelRegion;
+					break;
+				}
+			}
+			if (!regionDiv) return;
+
+			var regionDivs = regionDiv.childNodes,
+				i = regionDivs.length;
+
+			while (i--) {
 				//toggle history element, hide current request one.
-				var panelContent = panelDivs[i],
-					tag = panelContent.nodeName ? panelContent.nodeName.toUpperCase() : false;
-				if (tag === 'DIV' && Element.hasClass(panelContent, 'panel-content-history')) {
+				var panelContent = regionDivs[i];
+				if (Element.nodeName(panelContent, 'DIV') && Element.hasClass(panelContent, 'panel-history')) {
 					var panelId = panelContent.id.replace('-history', '');
 					if (responseJson[panelId]) {
 						panelContent.innerHTML = responseJson[panelId];
@@ -81,45 +100,62 @@ DEBUGKIT.historyPanel = function () {
 						toolbar.makeNeatArray(lists);
 					}
 					Element.show(panelContent);
-				} else if (tag === 'DIV') {
+				} else if (Element.nodeName(panelContent, 'DIV')) {
 					Element.hide(panelContent);
 				}
 			}
-		}
+		});
 	};
 
 	// Private method to handle restoration to current request.
 	var restoreCurrentState = function () {
 		var id, i, panelContent, tag;
-		
-		for (i in historyLinks) {
-			Element.removeClass(historyLinks[i], 'loading');
-		}
 
-		for (id in toolbar.panels) {
-			panel = toolbar.panels[id];
+		Element.removeClass(historyLinks, 'loading');
+
+		//for (id in toolbar.panels) {
+		Collection.apply(toolbar.panels, function (panel, id) {
 			if (panel.content === undefined) {
-				continue;
+				return;
 			}
-			var panelDivs = panel.content.childNodes;
-			for (i in panelDivs) {
-				panelContent = panelDivs[i];
-				tag = panelContent.nodeName ? panelContent.nodeName.toUpperCase() : false;
-				if (tag === 'DIV' && Element.hasClass(panelContent, 'panel-content-history')) {
+
+			var panelDivs = panel.content.childNodes,
+				i = panelDivs.length,
+				regionDiv;
+
+			while (i--) {
+				var panelRegion = panelDivs[i];
+				if (panelRegion.nodeType != 1) {
+					continue;
+				}
+				if (
+					Element.nodeName(panelRegion, 'DIV') &&
+					Element.hasClass(panelRegion, 'panel-resize-region')
+				) {
+					regionDiv = panelRegion;
+					break;
+				}
+			}
+			if (!regionDiv) return;
+
+			var regionDivs = regionDiv.childNodes,
+				i = regionDivs.length;
+
+			while (i--) {
+				panelContent = regionDivs[i];
+				if (Element.nodeName(panelContent, 'DIV') && Element.hasClass(panelContent, 'panel-history')) {
 					Element.hide(panelContent);
-				} else if (tag === 'DIV') {
+				} else if (Element.nodeName(panelContent, 'DIV')) {
 					Element.show(panelContent);
 				}
 			}
-		}
+		});
 	};
-	
+
 	function handleHistoryLink (event) {
 		event.preventDefault();
 
-		for (i in historyLinks) {
-			Element.removeClass(historyLinks[i], 'active');
-		}
+		Element.removeClass(historyLinks, 'active');
 		Element.addClass(this, 'active loading');
 
 		if (this.id === 'history-restore-current') {
@@ -142,19 +178,18 @@ DEBUGKIT.historyPanel = function () {
 				console.log('bailing on history');
 				return;
 			}
-		
-			var anchors = toolbar.panels['history'].content.getElementsByTagName('A');
 
-			for (i in anchors) {
-				button = anchors[i];
+			var anchors = toolbar.panels['history'].content.getElementsByTagName('A');
+			Collection.apply(anchors, function (button) {
 				if (Element.hasClass(button, 'history-link')) {
 					historyLinks.push(button);
 					Event.addEvent(button, 'click', handleHistoryLink);
 				}
-			}
+			});
 		}
 	};
 }();
 
 DEBUGKIT.loader.register(DEBUGKIT.historyPanel);
+//]]>
 </script>

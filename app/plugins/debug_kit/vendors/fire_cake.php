@@ -54,7 +54,7 @@ class FireCake extends Object {
  * Message Levels for messages sent via FirePHP
  *
  * @var array
- */	
+ */
 	var $_levels = array(
 		'log' => 'LOG',
 		'info' => 'INFO',
@@ -67,7 +67,7 @@ class FireCake extends Object {
 		'groupStart' => 'GROUP_START',
 		'groupEnd' => 'GROUP_END',
 	);
-	
+
 	var $_version = '0.2.1';
 /**
  * internal messageIndex counter
@@ -81,7 +81,7 @@ class FireCake extends Object {
  *
  * @var array
  **/
-	var $_encodedObjects = array();	
+	var $_encodedObjects = array();
 /**
  * methodIndex to include in tracebacks when using includeLineNumbers
  *
@@ -106,12 +106,12 @@ class FireCake extends Object {
 		static $instance = array();
 		if (!empty($class)) {
 			if (!$instance || strtolower($class) != strtolower(get_class($instance[0]))) {
-				$instance[0] = new $class();
+				$instance[0] =& new $class();
 				$instance[0]->setOptions();
 			}
 		}
 		if (!isset($instance[0]) || !$instance[0]) {
-			$instance[0] = new FireCake();
+			$instance[0] =& new FireCake();
 			$instance[0]->setOptions();
 		}
 		return $instance[0];
@@ -125,7 +125,7 @@ class FireCake extends Object {
  * @return void
  */
 	function setOptions($options = array()) {
-		$_this = FireCake::getInstance();
+		$_this =& FireCake::getInstance();
 		if (empty($_this->options)) {
 			$_this->options = array_merge($_this->_defaultOptions, $options);
 		} else {
@@ -156,13 +156,13 @@ class FireCake extends Object {
 		return env('HTTP_USER_AGENT');
 	}
 /**
- * Disable FireCake output 
+ * Disable FireCake output
  * All subsequent output calls will not be run.
  *
  * @return void
  **/
 	function disable() {
-		$_this = FireCake::getInstance();
+		$_this =& FireCake::getInstance();
 		$_this->_enabled = false;
 	}
 /**
@@ -171,110 +171,110 @@ class FireCake extends Object {
  * @return void
  **/
 	function enable() {
-		$_this = FireCake::getInstance();
+		$_this =& FireCake::getInstance();
 		$_this->_enabled = true;
 	}
 /**
- * Convenience wrapper for LOG messages 
+ * Convenience wrapper for LOG messages
  *
- * @param string $message Message to log 
+ * @param string $message Message to log
  * @param string $label Label for message (optional)
  * @access public
  * @static
  * @return void
- */	
+ */
 	function log($message, $label = null) {
 		FireCake::fb($message, $label, 'log');
 	}
 /**
- * Convenience wrapper for WARN messages 
+ * Convenience wrapper for WARN messages
  *
- * @param string $message Message to log 
+ * @param string $message Message to log
  * @param string $label Label for message (optional)
  * @access public
  * @static
  * @return void
- */	
+ */
 	function warn($message, $label = null) {
 		FireCake::fb($message, $label, 'warn');
 	}
 /**
- * Convenience wrapper for INFO messages 
+ * Convenience wrapper for INFO messages
  *
- * @param string $message Message to log 
+ * @param string $message Message to log
  * @param string $label Label for message (optional)
  * @access public
  * @static
  * @return void
- */	
+ */
 	function info($message, $label = null) {
 		FireCake::fb($message, $label, 'info');
 	}
 /**
- * Convenience wrapper for ERROR messages 
+ * Convenience wrapper for ERROR messages
  *
- * @param string $message Message to log 
+ * @param string $message Message to log
  * @param string $label Label for message (optional)
  * @access public
  * @static
  * @return void
- */	
+ */
 	function error($message, $label = null) {
 		FireCake::fb($message, $label, 'error');
 	}
 /**
- * Convenience wrapper for TABLE messages 
+ * Convenience wrapper for TABLE messages
  *
- * @param string $message Message to log 
+ * @param string $message Message to log
  * @param string $label Label for message (optional)
  * @access public
  * @static
  * @return void
- */	
+ */
 	function table($label, $message) {
 		FireCake::fb($message, $label, 'table');
 	}
 /**
- * Convenience wrapper for DUMP messages 
+ * Convenience wrapper for DUMP messages
  *
- * @param string $message Message to log 
+ * @param string $message Message to log
  * @param string $label Unique label for message
  * @access public
  * @static
  * @return void
- */	
+ */
 	function dump($label, $message) {
 		FireCake::fb($message, $label, 'dump');
 	}
 /**
- * Convenience wrapper for TRACE messages 
+ * Convenience wrapper for TRACE messages
  *
  * @param string $label Label for message (optional)
  * @access public
  * @return void
- */	
+ */
 	function trace($label)  {
 		FireCake::fb($label, 'trace');
 	}
 /**
- * Convenience wrapper for GROUP messages 
+ * Convenience wrapper for GROUP messages
  * Messages following the group call will be nested in a group block
  *
  * @param string $label Label for group (optional)
  * @access public
  * @return void
- */	
+ */
 	function group($label)  {
 		FireCake::fb(null, $label, 'groupStart');
 	}
 /**
- * Convenience wrapper for GROUPEND messages 
+ * Convenience wrapper for GROUPEND messages
  * Closes a group block
  *
  * @param string $label Label for group (optional)
  * @access public
  * @return void
- */	
+ */
 	function groupEnd()  {
 		FireCake::fb(null, null, 'groupEnd');
 	}
@@ -285,22 +285,22 @@ class FireCake extends Object {
  * fb($message) - Just send a message defaults to LOG type
  * fb($message, $type) - Send a message with a specific type
  * fb($message, $label, $type) - Send a message with a custom label and type.
- * 
+ *
  * @param mixed $message Message to output. For other parameters see usage above.
  * @static
  * @return void
  **/
 	function fb($message) {
-		$_this = FireCake::getInstance();
+		$_this =& FireCake::getInstance();
 
 		if (headers_sent($filename, $linenum)) {
-			trigger_error(sprintf(__('Headers already sent in %s on line %s. Cannot send log data to FirePHP.', true), $filename, $linenum), E_USER_WARNING);
+			trigger_error(sprintf(__d('debug_kit', 'Headers already sent in %s on line %s. Cannot send log data to FirePHP.', true), $filename, $linenum), E_USER_WARNING);
 			return false;
 		}
 		if (!$_this->_enabled || !$_this->detectClientExtension()) {
 			return false;
 		}
-	
+
 		$args = func_get_args();
 		$type = $label = null;
 		switch (count($args)) {
@@ -315,7 +315,7 @@ class FireCake extends Object {
 				$label = $args[1];
 				break;
 			default:
-				trigger_error(__('Incorrect parameter count for FireCake::fb()', true), E_USER_WARNING);
+				trigger_error(__d('debug_kit', 'Incorrect parameter count for FireCake::fb()', true), E_USER_WARNING);
 				return false;
 		}
 		if (isset($_this->_levels[$type])) {
@@ -325,7 +325,7 @@ class FireCake extends Object {
 		}
 
 		$meta = array();
-		$skipFinalObjectEncode = false;		
+		$skipFinalObjectEncode = false;
 		if ($type == $_this->_levels['trace']) {
 			$trace = debug_backtrace();
 			if (!$trace) {
@@ -340,7 +340,10 @@ class FireCake extends Object {
 				$trace = debug_backtrace();
 				for ($i = 0, $len = count($trace); $i < $len ; $i++) {
 					$keySet = (isset($trace[$i]['class']) && isset($trace[$i]['function']));
-					$selfCall = ($keySet && $trace[$i]['class'] == 'FireCake' && in_array($trace[$i]['function'], $_this->_methodIndex));
+					$selfCall = ($keySet && 
+						strtolower($trace[$i]['class']) == 'firecake' &&
+						in_array($trace[$i]['function'], $_this->_methodIndex)
+					);
 					if ($selfCall) {
 						$meta['File'] = isset($trace[$i]['file']) ? Debugger::trimPath($trace[$i]['file']) : '';
 						$meta['Line'] = isset($trace[$i]['line']) ? $trace[$i]['line'] : '';
@@ -360,7 +363,9 @@ class FireCake extends Object {
 
 		$_this->_sendHeader('X-Wf-Protocol-1', 'http://meta.wildfirehq.org/Protocol/JsonStream/0.2');
 		$_this->_sendHeader('X-Wf-1-Plugin-1', 'http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/'. $_this->_version);
-
+		if ($type == $_this->_levels['groupStart']) {
+			$meta['Collapsed'] = 'true';
+		}
 		if ($type == $_this->_levels['dump']) {
 			$dump = $_this->jsonEncode($message);
 			$msg = '{"' . $label .'":' . $dump .'}';
@@ -373,6 +378,7 @@ class FireCake extends Object {
 		}
 
 		$lines = explode("\n", chunk_split($msg, 5000, "\n"));
+
 		foreach ($lines as $i => $line) {
 			if (empty($line)) {
 				continue;
@@ -388,7 +394,7 @@ class FireCake extends Object {
 			}
 			$_this->_messageIndex++;
 			if ($_this->_messageIndex > 99999) {
-				trigger_error(__('Maximum number (99,999) of messages reached!', true), E_USER_WARNING);
+				trigger_error(__d('debug_kit', 'Maximum number (99,999) of messages reached!', true), E_USER_WARNING);
 			}
 		}
 		$_this->_sendHeader('X-Wf-1-Index', $_this->_messageIndex - 1);
@@ -444,7 +450,7 @@ class FireCake extends Object {
 /**
  * Encode non string objects to string.
  * Filter out recursion, so no errors are raised by json_encode or $javascript->object()
- * 
+ *
  * @param mixed $object Object or variable to encode to string.
  * @param int $objectDepth Current Depth in object chains.
  * @param int $arrayDepth Current Depth in array chains.
@@ -452,7 +458,7 @@ class FireCake extends Object {
  * @return void
  **/
 	function stringEncode($object, $objectDepth = 1, $arrayDepth = 1) {
-		$_this = FireCake::getInstance();
+		$_this =& FireCake::getInstance();
 		$return = array();
 		if (is_resource($object)) {
 			return '** ' . (string)$object . '**';
@@ -466,10 +472,10 @@ class FireCake extends Object {
 					return '** Recursion (' . get_class($object) . ') **';
 				}
 			}
-			$_this->_encodedObjects[] =  $object;
+			$_this->_encodedObjects[] =& $object;
 
 			$return['__className'] = $class = get_class($object);
-			$properties = (array) $object;
+			$properties = (array)$object;
 			foreach ($properties as $name => $property) {
 				$return[$name] = FireCake::stringEncode($property, 1, $objectDepth + 1);
 			}
@@ -498,11 +504,11 @@ class FireCake extends Object {
  * @return string
  **/
 	function jsonEncode($object, $skipEncode = false) {
-		$_this = FireCake::getInstance();
+		$_this =& FireCake::getInstance();
 		if (!$skipEncode) {
 			$object = FireCake::stringEncode($object);
 		}
-		
+
 		if (function_exists('json_encode') && $_this->options['useNativeJsonEncode']) {
 			return json_encode($object);
 		} else {
@@ -521,8 +527,11 @@ class FireCake extends Object {
 		if (!class_exists('JavascriptHelper')) {
 			App::import('Helper', 'Javascript');
 		}
-		$javascript = new JavascriptHelper();
+		$javascript =& new JavascriptHelper();
 		$javascript->useNative = false;
+		if (is_string($object)) {
+			return '"' . $javascript->escapeString($object) . '"';
+		}
 		return $javascript->object($object);
 	}
 /**

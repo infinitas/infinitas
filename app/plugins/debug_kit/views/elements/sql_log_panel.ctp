@@ -16,59 +16,75 @@
  * @subpackage    debug_kit.views.elements
  * @since         DebugKit 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
+ */
+$headers = array('Query', 'Error', 'Affected', 'Num. rows', 'Took (ms)', 'Actions');
+if (isset($debugKitInHistoryMode)) {
+	$content = $toolbar->readCache('sql_log', $this->params['pass'][0]);
+}
 ?>
-<h2><?php __('Sql Logs')?></h2>
+<h2><?php __d('debug_kit', 'Sql Logs')?></h2>
 <?php if (!empty($content)) : ?>
-	<?php foreach ($content as $dbName => $queryLog) : ?>
+	<?php foreach ($content['connections'] as $dbName => $explain): ?>
 	<div class="sql-log-panel-query-log">
 		<h4><?php echo $dbName ?></h4>
 		<?php
-			$headers = array('Nr', 'Query', 'Error', 'Affected', 'Num. rows', 'Took (ms)');
-			echo $toolbar->table($queryLog['queries'], $headers, array('title' => 'SQL Log ' . $dbName));
-
-			if (!empty($queryLog['explains'])):
-				$name = sprintf(__('toggle (%s) query explains for %s', true), count($queryLog['explains']), $dbName);
-				echo $html->link($name, '#', array('class' => 'show-slow'));
-
-				echo '<div class="slow-query-container">';
-					$headers = array_keys($queryLog['explains'][0]);
-					echo $toolbar->table($queryLog['explains'], $headers, array('title' => 'Slow Queries ' . $dbName));
-				echo '</div>';
+			if (!isset($debugKitInHistoryMode)):
+				$queryLog = $toolbar->getQueryLogs($dbName, array(
+					'explain' => $explain, 'threshold' => $content['threshold']
+				));
 			else:
-				echo $toolbar->message('Warning', __('No slow queries!, or your database does not support EXPLAIN', true));
-			endif; ?>
+				$queryLog = $content[$dbName];
+			endif;
+			echo $toolbar->table($queryLog, $headers, array('title' => 'SQL Log ' . $dbName));
+		 ?>
+		<h4><?php __d('debug_kit', 'Query Explain:'); ?></h4>
+		<div id="sql-log-explain-query">
+			<a id="debug-kit-explain-<?php echo $dbName ?>"> </a>
+			<p><?php __d('debug_kit', 'Click an "Explain" link above, to see the query explanation.'); ?></p>
+		</div>
 	</div>
 	<?php endforeach; ?>
 <?php else:
-	echo $toolbar->message('Warning', __('No active database connections', true));
+	echo $toolbar->message('Warning', __d('debug_kit', 'No active database connections', true));
 endif; ?>
 
 <script type="text/javascript">
+//<![CDATA[
 DEBUGKIT.module('sqlLog');
 DEBUGKIT.sqlLog = function () {
 	var Element = DEBUGKIT.Util.Element,
-		Event = DEBUGKIT.Util.Event;
+		Request = DEBUGKIT.Util.Request,
+		Event = DEBUGKIT.Util.Event,
+		Collection = DEBUGKIT.Util.Collection;
 
 	return {
 		init : function () {
 			var sqlPanel = document.getElementById('sql_log-tab');
 			var buttons = sqlPanel.getElementsByTagName('A');
 
-			for (var i in buttons) {
-				var button = buttons[i];
-				if (Element.hasClass(button, 'show-slow')) {
-					var nextDiv = button.nextSibling;
-					Event.addEvent(button, 'click', function (event) {
-						event.preventDefault();
-						Element.toggle(nextDiv);
-					});
-					Element.hide(nextDiv);
+			// Button handling code for explain links.
+			// performs XHR request to get explain query.
+			var handleButton = function (event) {
+				event.preventDefault();
+				var fetch = new Request({
+					onComplete : function (response) {
+						var targetEl = document.getElementById('sql-log-explain-query');
+						targetEl.innerHTML = response.response.text;
+					},
+					onFail : function () {
+						alert('Could not fetch EXPLAIN for query.');
+					}
+				}).send(this.href);
+			};
+	
+			Collection.apply(buttons, function (button) {
+				if (Element.hasClass(button, 'sql-explain-link')) {
+					Event.addEvent(button, 'click', handleButton);
 				}
-			}
-
+			});
 		}
 	};
 }();
 DEBUGKIT.loader.register(DEBUGKIT.sqlLog);
+//]]>
 </script>

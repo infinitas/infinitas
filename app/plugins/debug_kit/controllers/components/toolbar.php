@@ -18,7 +18,19 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 class ToolbarComponent extends Object {
-	var $settings = array();
+/**
+ * Settings for the Component
+ *
+ * - forceEnable - Force the toolbar to display even if debug == 0. Default = false
+ * - autoRun - Automatically display the toolbar. If set to false, toolbar display can be triggered by adding
+ *    `?debug=true` to your URL.
+ *
+ * @var array
+ **/
+	var $settings = array(
+		'forceEnable' => false,
+		'autoRun' => true
+	);
 /**
  * Controller instance reference
  *
@@ -52,21 +64,18 @@ class ToolbarComponent extends Object {
 	var $javascript = array(
 		'behavior' => '/debug_kit/js/js_debug_toolbar'
 	);
-
 /**
  * CacheKey used for the cache file.
  *
  * @var string
  **/
 	var $cacheKey = 'toolbar_cache';
-
 /**
  * Duration of the debug kit history cache
  *
  * @var string
  **/
 	var $cacheDuration = '+4 hours';
-
 /**
  * initialize
  *
@@ -81,15 +90,21 @@ class ToolbarComponent extends Object {
 			$this->enabled = false;
 			return false;
 		}
+		if ($this->settings['autoRun'] == false && !isset($controller->params['url']['debug'])) {
+			$this->enabled = false;
+			return false;
+		}
 		App::import('Vendor', 'DebugKit.DebugKitDebugger');
 
-		DebugKitDebugger::startTimer('componentInit', __('Component initialization and startup', true));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Component intitailization', true));
+		DebugKitDebugger::startTimer('componentInit', __d('debug_kit', 'Component initialization and startup', true));
 
 		$panels = $this->_defaultPanels;
 		if (isset($settings['panels'])) {
-			$panels = $settings['panels'];
+			$panels = $this->_makePanelList($settings['panels']);
 			unset($settings['panels']);
 		}
+
 		$this->cacheKey .= $controller->Session->read('Config.userAgent');
 		if (!isset($settings['history']) || (isset($settings['history']) && $settings['history'] !== false)) {
 			$this->_createCacheConfig();
@@ -101,7 +116,27 @@ class ToolbarComponent extends Object {
 		$this->controller =& $controller;
 		return false;
 	}
-
+/**
+ * Go through user panels and remove default panels as indicated.
+ *
+ * @param array $userPanels The list of panels ther user has added removed.
+ * @return array Array of panels to use.
+ **/
+	function _makePanelList($userPanels) {
+		$panels = $this->_defaultPanels;
+		foreach ($userPanels as $key => $value) {
+			if (is_numeric($key)) {
+				$panels[] = $value;
+			}
+			if (is_string($key) && $value === false) {
+				$index = array_search($key, $panels);
+				if ($index !== false) {
+					unset($panels[$index]);
+				}
+			}
+		}
+		return $panels;
+	}
 /**
  * Component Startup
  *
@@ -132,20 +167,22 @@ class ToolbarComponent extends Object {
 			$this->panels[$panelName]->startup($controller);
 		}
 		DebugKitDebugger::stopTimer('componentInit');
-		DebugKitDebugger::startTimer('controllerAction', __('Controller Action', true));
+		DebugKitDebugger::startTimer('controllerAction', __d('debug_kit', 'Controller action', true));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Controller action start', true));
 	}
-
 /**
  * beforeRedirect callback
  *
  * @return void
  **/
 	function beforeRedirect(&$controller) {
+		if (!class_exists('DebugKitDebugger')) {
+			return null;
+		}
 		DebugKitDebugger::stopTimer('controllerAction');
 		$vars = $this->_gatherVars($controller);
 		$this->_saveState($controller, $vars);
 	}
-
 /**
  * beforeRender callback
  *
@@ -159,9 +196,9 @@ class ToolbarComponent extends Object {
 		$this->_saveState($controller, $vars);
 
 		$controller->set(array('debugToolbarPanels' => $vars, 'debugToolbarJavascript' => $this->javascript));
-		DebugKitDebugger::startTimer('controllerRender', __('Render Controller Action', true));
+		DebugKitDebugger::startTimer('controllerRender', __d('debug_kit', 'Render Controller Action', true));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Controller render start', true));
 	}
-
 /**
  * Load a toolbar state from cache
  *
@@ -175,7 +212,6 @@ class ToolbarComponent extends Object {
 		}
 		return array();
 	}
-
 /**
  * Create the cache config for the history
  *
@@ -184,10 +220,13 @@ class ToolbarComponent extends Object {
  **/
 	function _createCacheConfig() {
 		if (Configure::read('Cache.disable') !== true) {
-			Cache::config('debug_kit', array('duration' => $this->cacheDuration, 'engine' => 'File'));
+			Cache::config('debug_kit', array(
+				'duration' => $this->cacheDuration,
+				'engine' => 'File',
+				'path' => CACHE
+			));
 		}
 	}
-
 /**
  * collects the panel contents
  *
@@ -208,11 +247,11 @@ class ToolbarComponent extends Object {
 			}
 			$vars[$panelName]['elementName'] = $elementName;
 			$vars[$panelName]['plugin'] = $panel->plugin;
+			$vars[$panelName]['title'] = $panel->title;
 			$vars[$panelName]['disableTimer'] = true;
 		}
 		return $vars;
 	}
-
 /**
  * Load Panels used in the debug toolbar
  *
@@ -223,8 +262,11 @@ class ToolbarComponent extends Object {
 		foreach ($panels as $panel) {
 			$className = $panel . 'Panel';
 			if (!class_exists($className) && !App::import('Vendor',  $className)) {
-				trigger_error(sprintf(__('Could not load DebugToolbar panel %s', true), $panel), E_USER_WARNING);
+				trigger_error(sprintf(__d('debug_kit', 'Could not load DebugToolbar panel %s', true), $panel), E_USER_WARNING);
 				continue;
+			}
+			if (strpos($className, '.') !== false) {
+				list($plugin, $className) = explode('.', $className);
 			}
 			$panelObj =& new $className($settings);
 			if (is_subclass_of($panelObj, 'DebugPanel') || is_subclass_of($panelObj, 'debugpanel')) {
@@ -232,7 +274,6 @@ class ToolbarComponent extends Object {
 			}
 		}
 	}
-
 /**
  * Makes the DoppleGangerView class if it doesn't already exist.
  * This allows DebugView to be compatible with all view classes.
@@ -244,12 +285,23 @@ class ToolbarComponent extends Object {
 	function _makeViewClass($baseClassName) {
 		if (!class_exists('DoppelGangerView')) {
 			App::import('View', $baseClassName);
-			if (strpos('View', $baseClassName) === false) {
+			if (strpos($baseClassName, '.') !== false) {
+				list($plugin, $baseClassName) = explode('.', $baseClassName);
+			}
+			if (strpos($baseClassName, 'View') === false) {
 				$baseClassName .= 'View';
 			}
 			$class = "class DoppelGangerView extends $baseClassName {}";
-			eval($class);
+			$this->_eval($class);
 		}
+	}
+/**
+ * Method wrapper for eval() for testing uses.
+ *
+ * @return void
+ **/
+	function _eval($code) {
+		eval($code);
 	}
 /**
  * Save the current state of the toolbar varibles to the cache file.
@@ -292,6 +344,12 @@ class DebugPanel extends Object {
  */
 	var $plugin = null;
 /**
+ * Defines the title for displaying on the toolbar.
+ *
+ * @var string
+ */
+	var $title = null;
+/**
  * startup the panel
  *
  * Pull information from the controller / request
@@ -300,7 +358,6 @@ class DebugPanel extends Object {
  * @return void
  **/
 	function startup(&$controller) { }
-
 /**
  * Prepare output vars before Controller Rendering.
  *
@@ -479,7 +536,7 @@ class SqlLogPanel extends DebugPanel {
  **/
 	var $slowRate = 20;
 /**
- * Get Sql Logs for each DB config
+ * Gets the connection names that should have logs + dumps generated.
  *
  * @param string $controller
  * @access public
@@ -489,88 +546,20 @@ class SqlLogPanel extends DebugPanel {
 		if (!class_exists('ConnectionManager')) {
 			return array();
 		}
-		App::import('Core', 'Xml');
-		$queryLogs = array();
+		$connections = array();
 
 		$dbConfigs = ConnectionManager::sourceList();
 		foreach ($dbConfigs as $configName) {
 			$db =& ConnectionManager::getDataSource($configName);
-			if ($db->isInterfaceSupported('showLog')) {
-				ob_start();
-				$db->showLog();
-				$htmlBlob = ob_get_clean();
-
-				$Xml =& new Xml($htmlBlob);
-
-				$table = $Xml->children[0];
-				$tbody = $table->children('tbody');
-				$rows = $tbody[0]->children;
-				if (empty($rows) || empty($rows[0]->children)) {
-				 	continue;
-				}
-				$queries = $explained = array();
-				foreach ($rows as $row) {
-					$tds = $this->_getCells($row);
-					$queries[] = $tds;
-					$isSlow = (
-						$tds[5] > 0 &&
-						$tds[4] / $tds[5] != 1 &&
-						$tds[4] / $tds[5] <= $this->slowRate
-					);
-					if ($isSlow && preg_match('/^SELECT /', $tds[1])) {
-						$explain = $this->_explainQuery($db, $tds[1]);
-						if (!empty($explain)) {
-							$explained[] = $explain;
-						}
-					}
-				}
-				$queryLogs[$configName]['queries'] = $queries;
-				$queryLogs[$configName]['explains'] = $explained;
+			$driver = $db->config['driver'];
+			$explain = false;
+			$isExplainable = ($driver === 'mysql' || $driver === 'mysqli' || $driver === 'postgres');
+			if ($isExplainable && $db->isInterfaceSupported('getLog')) {
+				$explain = true;
 			}
+			$connections[$configName] = $explain;
 		}
-		return $queryLogs;
-	}
-/**
- * get cell values from xml
- *
- * @param array of XmlElements.
- * @return array Array of extracted values.
- **/
-	function _getCells($rowXml) {
-		$tds = array();
-		foreach ($rowXml->children as $cell) {
-			if ($cell->hasChildren()) {
-				$tds[] = $cell->children[0]->value;
-			} else {
-				$tds[] = $cell->value;
-			}
-		}
-		return $tds;
-	}
-/**
- * Run an explain query for a slow query.
- *
- * @param object $db Dbo instance
- * @param string $queryString The Query to explain
- * @access public
- * @return void
- **/
-	function _explainQuery(&$db, $queryString) {
-		$driver = $db->config['driver'];
-		$results = null;
-		if ($driver === 'mysqli' || $driver === 'mysql' || $driver === 'postgres') {
-			$results = $db->query('EXPLAIN ' . $queryString);
-			if ($driver === 'postgres') {
-				$queryPlan = array();
-				foreach ($results as $postgreValue) {
-					$queryPlan[] = $postgreValue[0]['QUERY PLAN'];
-				}
-				$results[0][0] = array('Query Plan' => implode("<br />", $queryPlan));
-			}
-			$results = $results[0][0];
-			$results['query'] =  $queryString;
-		}
-		return $results;
+		return array('connections' => $connections, 'threshold' => $this->slowRate);
 	}
 }
 
@@ -594,7 +583,7 @@ class LogPanel extends DebugPanel {
  **/
 	function startup(&$controller) {
 		if (!class_exists('CakeLog')) {
-			App::import('Core', 'Log');
+			App::import('Core', 'CakeLog');
 		}
 	}
 /**
@@ -623,16 +612,34 @@ class LogPanel extends DebugPanel {
  * @return array
  */
 	function _parseFile($filename) {
-		$file =& new File($filename);
-		$contents = $file->read();
-		$timePattern = '/(\d{4}-\d{2}\-\d{2}\s\d{1,2}\:\d{1,2}\:\d{1,2})/';
-		$chunks = preg_split($timePattern, $contents, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-		for ($i = 0, $len = count($chunks); $i < $len; $i += 2) {
-			if (strtotime($chunks[$i]) < $this->startTime) {
-				unset($chunks[$i], $chunks[$i + 1]);
+		$fh = fopen($filename, 'r');
+		$timePattern = '/^(\d{4}-\d{2}\-\d{2}\s\d{1,2}\:\d{1,2}\:\d{1,2})\s(.*)/';
+
+		$out = array();
+		$entry = '';
+		$done = false;
+
+		while (!feof($fh)) {
+			$line = fgets($fh);
+			if (preg_match($timePattern, $line, $matches)) {
+				if (strtotime($matches[1]) < $this->startTime) {
+					continue;
+				}
+				$out[] = $matches[1];
+				$out[] = $matches[2];
+			} elseif (count($out) - 1 > 0) {
+				$currentIndex = count($out) - 1;
+				while (!feof($fh)) {
+					$line = fgets($fh);
+					if (preg_match($timePattern, $line)) {
+						break;
+					}
+					$out[$currentIndex] .= $line;
+				}
 			}
 		}
-		return array_values($chunks);
+		fclose($fh);
+		return $out;
 	}
 }
 
