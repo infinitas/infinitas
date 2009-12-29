@@ -6,6 +6,10 @@
         var $helpers = array(
         );
 
+        var $components = array(
+            'Email'
+        );
+
         function beforeFilter( )
         {
             parent::beforeFilter();
@@ -193,10 +197,37 @@
 
         function admin_view( $id = null )
         {
-            if ( !$id )
+            if ( !$id && empty( $this->data ))
             {
                 $this->Session->setFlash( __( 'Please select a newsletter', true ) );
                 $this->redirect( $this->referer() );
+            }
+
+            if ( !empty( $this->data ) )
+            {
+                $addresses = explode( ',', $this->data['Newsletter']['email_addresses'] );
+                if ( empty( $addresses ) )
+                {
+                    $this->Session->setFlash( __( 'Please input at least one email address for testing.', true ) );
+                    $this->redirect( $this->referer() );
+                }
+
+                $newsletter = $this->Newsletter->read( null, $this->data['Newsletter']['id'] );
+
+                foreach( $addresses as $address )
+                {
+                    $this->Email->from    = 'Somebody <'.$newsletter['Newsletter']['from'].'>';
+                    $this->Email->to      = 'Test <'.$address.'>';
+                    $this->Email->subject = strip_tags( $newsletter['Newsletter']['subject'] );
+                    $this->set( 'email', $newsletter['Template']['header'].$newsletter['Newsletter']['html'].$newsletter['Template']['footer'] );
+                    $this->Email->sendAs = 'both';
+                    $this->Email->delivery = 'mail';
+
+                    var_dump( $this->Email->send() );
+                    exit;
+
+                    $this->Email->reset();
+                }
             }
 
             $this->set( 'newsletter', $this->Newsletter->read( null, $id ) );
@@ -235,11 +266,6 @@
 
                 $this->set( 'data', $newsletter['Template']['header'].$newsletter['Newsletter']['html'].$newsletter['Template']['footer'] );
             }
-
-        }
-
-        function admin_testSend( $id = null )
-        {
 
         }
 
