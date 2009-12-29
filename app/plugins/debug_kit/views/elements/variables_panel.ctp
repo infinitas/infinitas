@@ -18,6 +18,8 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 ?>
-<h2> <?php __('View Variables'); ?></h2>
-<?php $content['$this->validationErrors'] = $this->validationErrors; ?>
-<?php echo $toolbar->makeNeatArray($content); ?>
+<h2> <?php __d('debug_kit', 'View Variables'); ?></h2>
+<?php 
+$content['$this->validationErrors'] = $this->validationErrors;
+$content['Loaded Helpers'] = array_keys($this->loaded);
+echo $toolbar->makeNeatArray($content); ?>

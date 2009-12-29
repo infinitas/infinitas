@@ -3,8 +3,6 @@
  * Abstract Toolbar helper.  Provides Base methods for content
  * specific debug toolbar helpers.  Acts as a facade for other toolbars helpers as well.
  *
- * helps with development.
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -59,7 +57,7 @@ class ToolbarHelper extends AppHelper {
 		if (strpos($options['output'], '.') !== false) {
 			list($plugin, $className) = explode('.', $options['output']);
 		}
-		$this->_backEndClassName =  $className;
+		$this->_backEndClassName = $className;
 		$this->helpers[$options['output']] = $options;
 		if (isset($options['cacheKey']) && isset($options['cacheConfig'])) {
 			$this->_cacheKey = $options['cacheKey'];
@@ -67,7 +65,6 @@ class ToolbarHelper extends AppHelper {
 			$this->_cacheEnabled = true;
 		}
 	}
-
 /**
  * Get the name of the backend Helper
  * used to conditionally trigger toolbar output
@@ -127,15 +124,55 @@ class ToolbarHelper extends AppHelper {
 		return $existing[$index][$name]['content'];
 	}
 /**
- * postRender method
+ * Gets the query logs for the given connection names.
  *
- * Custom Callback defined in DebugView to allow helpers to modify
- * View output after all rendering is complete.
+ * ### Options
  *
- * @return void
- * @access public
+ * - explain - Whether explain links should be generated for this connection.
+ * - cache - Whether the toolbar_state Cache should be updated.
+ * - threshold - The threshold at which a visual 'maybe slow' flag should be added.
+ *   results with rows/ms lower than $threshold will be marked.
+ *
+ * @param string $connection Connection name to get logs for.
+ * @param array $options Options for the query log retrieval.
+ * @return array Array of data to be converted into a table.
  */
-	function postRender() {
-		$this->_send();
+	function getQueryLogs($connection, $options = array()) {
+		$options += array('explain' => false, 'cache' => true, 'threshold' => 20);
+		App::import('Model', 'ConnectionManager');
+		$db =& ConnectionManager::getDataSource($connection);
+		
+		$out = array();
+		$log = $db->getLog();
+		foreach ($log['log'] as $i => $query) {
+			$isSlow = (
+				$query['took'] > 0 &&
+				$query['numRows'] / $query['took'] != 1 &&
+				$query['numRows'] / $query['took'] <= $options['threshold']
+			);
+			$query['actions'] = '';
+			$isHtml = ($this->getName() == 'HtmlToolbar');
+			if ($isSlow && $isHtml) {
+				$query['actions'] = sprintf(
+					'<span class="slow-query">%s</span>',
+					__d('debug_kit', 'maybe slow', true)
+				);
+			} elseif ($isSlow) {
+				$query['actions'] = '*';
+			}
+			if ($options['explain'] && $isHtml) {
+				$query['actions'] .= $this->explainLink($query['query'], $connection);
+			}
+			if ($isHtml) {
+				$query['query'] = h($query['query']);
+			}
+			$out[] = $query;
+		}
+		if ($options['cache']) {
+			$existing = $this->readCache('sql_log');
+			$existing[$connection] = $out;
+			$this->writeCache('sql_log', $existing);
+		}
+		return $out;
 	}
 }

@@ -22,7 +22,7 @@
 ?>
 <div id="debug-kit-toolbar">
 	<?php if (empty($debugToolbarPanels)) :?>
-		<p class="warning"><?php __('There are no active panels. You must enable a panel to see its output.'); ?></p>
+		<p class="warning"><?php __d('debug_kit', 'There are no active panels. You must enable a panel to see its output.'); ?></p>
 	<?php else: ?>
 		<ul id="panel-tabs">
 			<li class="panel-tab icon">
@@ -33,17 +33,22 @@
 		<?php foreach ($debugToolbarPanels as $panelName => $panelInfo): ?>
 			<?php $panelUnderscore = Inflector::underscore($panelName);?>
 			<li class="panel-tab">
-				<a href="#<?php echo $panelUnderscore; ?>">
-					<?php echo Inflector::humanize($panelUnderscore); ?>
-				</a>
+			<?php
+				$title = (empty($panelInfo['title'])) ? Inflector::humanize($panelUnderscore) : $panelInfo['title'];
+				echo $toolbar->panelStart($title, $panelUnderscore);
+			?>
 				<div class="panel-content" id="<?php echo $panelUnderscore ?>-tab">
-					<div class="panel-content-data">
-						<?php echo $this->element($panelInfo['elementName'], $panelInfo); ?>
+					<div class="panel-resize-region">
+						<div class="panel-content-data">
+							<?php echo $this->element($panelInfo['elementName'], $panelInfo); ?>
+						</div>
+						<div class="panel-content-data panel-history" id="<?php echo $panelUnderscore; ?>-history">
+							<!-- content here -->
+						</div>
 					</div>
-					<div class="panel-content-data panel-content-history" id="<?php echo $panelUnderscore; ?>-history">
-						<!-- content here -->
-					</div>
+					<div class="panel-resize-handle">====</div>
 				</div>
+			<?php $toolbar->panelEnd(); ?>
 			</li>
 		<?php endforeach ?>
 		</ul>

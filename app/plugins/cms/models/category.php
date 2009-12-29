@@ -11,6 +11,11 @@
             )
         );
 
+        var $order = array(
+            'Category.section_id' => 'ASC',
+            'Category.ordering' => 'ASC'
+        );
+
     	var $validate = array(
     		'title' => array(
     			'notempty' => array('rule' => array('notempty')),

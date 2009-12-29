@@ -40,7 +40,6 @@ class HtmlToolbarHelperTestCase extends CakeTestCase {
 			Configure::write('debug', $this->_debug);
 		}
 	}
-
 /**
  * start Case - switch view paths
  *
@@ -55,7 +54,6 @@ class HtmlToolbarHelperTestCase extends CakeTestCase {
 		));
 		$this->_debug = Configure::read('debug');
 	}
-
 /**
  * test Neat Array formatting
  *
@@ -85,6 +83,15 @@ class HtmlToolbarHelperTestCase extends CakeTestCase {
 		$expected = array(
 			'ul' => array('class' => 'neat-array depth-0'),
 			'<li', '<strong', '0' , '/strong', '(true)', '/li',
+			'/ul'
+		);
+		$this->assertTags($result, $expected);
+
+		$in = array();
+		$result = $this->Toolbar->makeNeatArray($in);
+		$expected = array(
+			'ul' => array('class' => 'neat-array depth-0'),
+			'<li', '<strong', '0' , '/strong', '(empty)', '/li',
 			'/ul'
 		);
 		$this->assertTags($result, $expected);
@@ -297,6 +304,29 @@ class HtmlToolbarHelperTestCase extends CakeTestCase {
 			'/table'
 		);
 		$this->assertTags($result, $expected);
+	}
+/**
+ * test starting a panel
+ *
+ * @return void
+ **/
+	function testStartPanel() {
+		$result = $this->Toolbar->panelStart('My Panel', 'my_panel');
+		$expected = array(
+			'a' => array('href' => '#my_panel'),
+			'My Panel',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+	}
+/**
+ * test ending a panel
+ *
+ * @return void
+ **/
+	function testPanelEnd() {
+		$result = $this->Toolbar->panelEnd();
+		$this->assertNull($result);
 	}
 /**
  * reset the view paths

@@ -40,13 +40,13 @@ class DebugViewTestCase extends CakeTestCase {
 		Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		Router::parse('/');
 		$this->Controller =& ClassRegistry::init('Controller');
-		$this->View  =& new DebugView($this->Controller, false);
+		$this->View =& new DebugView($this->Controller, false);
 		$this->_debug = Configure::read('debug');
 		$this->_paths = array();
-		$this->_paths['plugin'] = Configure::read('pluginPaths');
-		$this->_paths['view'] = Configure::read('viewPaths');
-		$this->_paths['vendor'] = Configure::read('vendorPaths');
-		$this->_paths['controller'] = Configure::read('controllerPaths');
+		$this->_paths['plugins'] = App::path('plugins');
+		$this->_paths['views'] = App::path('views');
+		$this->_paths['vendors'] = App::path('vendors');
+		$this->_paths['controllers'] = App::path('controllers');
 	}
 /**
  * tear down function
@@ -54,30 +54,31 @@ class DebugViewTestCase extends CakeTestCase {
  * @return void
  **/
 	function endTest() {
-		Configure::write('pluginPaths', $this->_paths['plugin']);
-		Configure::write('viewPaths', $this->_paths['view']);
-		Configure::write('vendorPaths', $this->_paths['vendor']);
-		Configure::write('controllerPaths', $this->_paths['controller']);
+		App::build(array(
+			'plugins' => $this->_paths['plugins'],
+			'views' => $this->_paths['views'],
+			'vendors' => $this->_paths['vendors'],
+			'controllers' => $this->_paths['controllers']
+		));
 
 		unset($this->View, $this->Controller);
 		DebugKitDebugger::clearTimers();
 		Configure::write('debug', $this->_debug);
 	}
-	
 /**
  * start Case - switch view paths
  *
  * @return void
  **/
 	function startCase() {
-		$this->_viewPaths = Configure::read('viewPaths');
-		Configure::write('viewPaths', array(
-			TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS,
-			APP . 'plugins' . DS . 'debug_kit' . DS . 'views'. DS, 
-			ROOT . DS . LIBS . 'view' . DS
-		));
+		App::build(array(
+			'views' => array(
+				TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS,
+				APP . 'plugins' . DS . 'debug_kit' . DS . 'views'. DS,
+				ROOT . DS . LIBS . 'view' . DS
+			)
+		), true);
 	}
-	
 /**
  * test that element timers are working
  *
@@ -90,7 +91,6 @@ class DebugViewTestCase extends CakeTestCase {
 		$result = DebugKitDebugger::getTimers();
 		$this->assertTrue(isset($result['render_test_element.ctp']));
 	}
-
 /**
  * test rendering and ensure that timers are being set.
  *
@@ -111,14 +111,16 @@ class DebugViewTestCase extends CakeTestCase {
 		$this->Controller->layout = 'default';
 		$View =& new DebugView($this->Controller, false);
 		$View->render('index');
-		
+
 		$result = DebugKitDebugger::getTimers();
-		$this->assertEqual(count($result), 3);
+		$this->assertEqual(count($result), 4);
 		$this->assertTrue(isset($result['viewRender']));
 		$this->assertTrue(isset($result['render_default.ctp']));
 		$this->assertTrue(isset($result['render_index.ctp']));
+		
+		$result = DebugKitDebugger::getMemoryPoints();
+		$this->assertTrue(isset($result['View render complete']));
 	}
-	
 /**
  * Test for correct loading of helpers into custom view
  *
@@ -138,12 +140,12 @@ class DebugViewTestCase extends CakeTestCase {
  * @return void
  **/
 	function testProperReturnUnderRequestAction() {
-		$plugins = Configure::read('pluginPaths');
-		$views = Configure::read('viewPaths');
+		$plugins = App::path('plugins');
+		$views = App::path('views');
 		$testapp = $plugins[1] . 'debug_kit' . DS . 'tests' . DS . 'test_app' . DS . 'views' . DS;
 		array_unshift($views, $testapp);
-		Configure::write('viewPaths', $views);
-		
+		App::build(array('views' => $views), true);
+
 		$this->View->set('test', 'I have been rendered.');
 		$this->View->viewPath = 'debug_kit_test';
 		$this->View->layout = false;

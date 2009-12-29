@@ -4,7 +4,7 @@
     	var $name = 'Content';
 
         var $order = array(
-            'Category.title' => 'ASC',
+            'Content.category_id' => 'ASC',
             'Content.ordering' => 'ASC'
         );
 

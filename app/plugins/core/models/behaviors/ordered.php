@@ -119,7 +119,6 @@
                 $config = array();
             }
             $this->settings = array_merge( $this->_defaults, $config );
-            $Model->order = $Model->alias . '.' . $this->settings['field'] . ' ASC';
         }
 
         function beforedelete( &$Model )

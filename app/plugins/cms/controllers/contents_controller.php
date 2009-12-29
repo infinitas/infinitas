@@ -21,6 +21,13 @@
 
         function admin_index()
         {
+            $this->paginate = array(
+                'order' => array(
+                    'Category.title' => 'ASC',
+                    'Content.ordering' => 'ASC'
+                )
+            );
+
             $this->Content->recursive = 1;
             $this->set( 'contents', $this->paginate( null, $this->Filter->filter ) );
         }

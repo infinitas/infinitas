@@ -27,10 +27,58 @@ App::import('Vendor', 'DebugKit.FireCake');
  * Provides the future features that are planned. Yet not implemented in the 1.2 code base
  *
  * This file will not be needed in future version of CakePHP.
- * @todo merge these changes with core Debugger
  */
 class DebugKitDebugger extends Debugger {
+/**
+ * Internal benchmarks array
+ *
+ * @var array
+ **/
+	var $__benchmarks = array();
+/**
+ * Internal memory points array
+ *
+ * @var array
+ **/
+	var $__memoryPoints = array();
+/**
+ * destruct method
+ *
+ * Allow timer info to be displayed if the code dies or is being debugged before rendering the view
+ * Cheat and use the debug log class for formatting
+ *
+ * @return void
+ * @access private
+ */
+	function __destruct() {
+		$_this =& DebugKitDebugger::getInstance();
+		if (Configure::read('debug') < 2 || !$_this->__benchmarks) {
+			return;
+		}
+		$timers = array_values(DebugKitDebugger::getTimers());
+		$end = end($timers);
+		echo '<table class="cake-sql-log"><tbody>';
+		echo '<caption>Debug timer info</caption>';
+		echo '<tr><th>Message</th><th>Start Time (ms)</th><th>End Time (ms)</th><th>Duration (ms)</th></tr>';
+		$i = 0;
+		foreach ($timers as $timer) {
+			$indent = 0;
+			for ($j = 0; $j < $i; $j++) {
+				if (($timers[$j]['end']) > ($timer['start']) && ($timers[$j]['end']) > ($timer['end'])) {
+					$indent++;
+				}
+			}
+			$indent = str_repeat(' » ', $indent);
 
+			extract($timer);
+			$start = round($start * 1000, 0);
+			$end = round($end * 1000, 0);
+			$time = round($time * 1000, 0);
+			echo "<tr><td>{$indent}$message</td><td>$start</td><td>$end</td><td>$time</td></tr>";
+			$i++;
+		}
+		echo '</tbody></table>';
+	}
 /**
  * Start an benchmarking timer.
  *
@@ -41,7 +89,7 @@ class DebugKitDebugger extends Debugger {
  **/
 	function startTimer($name = null, $message = null) {
 		$start = getMicrotime();
-		$_this = DebugKitDebugger::getInstance();
+		$_this =& DebugKitDebugger::getInstance();
 
 		if (!$name) {
 			$named = false;
@@ -73,7 +121,6 @@ class DebugKitDebugger extends Debugger {
 		);
 		return true;
 	}
-
 /**
  * Stop a benchmarking timer.
  *
@@ -86,7 +133,7 @@ class DebugKitDebugger extends Debugger {
  */
 	function stopTimer($name = null) {
 		$end = getMicrotime();
-		$_this = DebugKitDebugger::getInstance();
+		$_this =& DebugKitDebugger::getInstance();
 		if (!$name) {
 			$names = array_reverse(array_keys($_this->__benchmarks));
 			foreach($names as $name) {
@@ -114,23 +161,48 @@ class DebugKitDebugger extends Debugger {
 		$_this->__benchmarks[$name]['end'] = $end;
 		return true;
 	}
-
 /**
  * Get all timers that have been started and stopped.
- * Calculates elapsed time for each timer.
+ * Calculates elapsed time for each timer. If clear is true, will delete existing timers
  *
+ * @param bool $clear false
  * @return array
+ * @access public
  **/
-	function getTimers() {
+	function getTimers($clear = false) {
 		$_this =& DebugKitDebugger::getInstance();
+		$start = DebugKitDebugger::requestStartTime();
+		$now = getMicrotime();
+
 		$times = array();
+		if (!empty($_this->__benchmarks)) {
+			$firstTimer = current($_this->__benchmarks);
+			$_end = $firstTimer['start'];
+		} else {
+			$_end = $now;
+		}
+		$times['Core Processing (Derived)'] = array(
+			'message' => __d('debug_kit', 'Core Processing (Derived)', true),
+			'start' => 0,
+			'end' => $_end - $start,
+			'time' => round($_end - $start, 6),
+			'named' => null
+		);
 		foreach ($_this->__benchmarks as $name => $timer) {
-			$times[$name]['time'] = DebugKitDebugger::elapsedTime($name);
-			$times[$name]['message'] = $timer['message'];
+			if (!isset($timer['end'])) {
+				$timer['end'] = $now;
+			}
+			$times[$name] = array_merge($timer, array(
+				'start' => $timer['start'] - $start,
+				'end' => $timer['end'] - $start,
+				'time' => DebugKitDebugger::elapsedTime($name)
+			));
+		}
+		if ($clear) {
+			$_this->__benchmarks = array();
 		}
 		return $times;
 	}
-
 /**
  * Clear all existing timers
  *
@@ -141,7 +213,6 @@ class DebugKitDebugger extends Debugger {
 		$_this->__benchmarks = array();
 		return true;
 	}
-
 /**
  * Get the difference in time between the timer start and timer end.
  *
@@ -157,7 +228,6 @@ class DebugKitDebugger extends Debugger {
 		}
 		return round($_this->__benchmarks[$name]['end'] - $_this->__benchmarks[$name]['start'], $precision);
 	}
-
 /**
  * Get the total execution time until this point
  *
@@ -170,7 +240,6 @@ class DebugKitDebugger extends Debugger {
 		$now = getMicroTime();
 		return ($now - $start);
 	}
-
 /**
  * get the time the current request started.
  *
@@ -181,14 +250,13 @@ class DebugKitDebugger extends Debugger {
 	function requestStartTime() {
 		if (defined('TIME_START')) {
 			$startTime = TIME_START;
-		} else if (isset($_GLOBALS['TIME_START'])) {
-			$startTime = $_GLOBALS['TIME_START'];
+		} else if (isset($GLOBALS['TIME_START'])) {
+			$startTime = $GLOBALS['TIME_START'];
 		} else {
 			$startTime = env('REQUEST_TIME');
 		}
 		return $startTime;
 	}
-
 /**
  * get current memory usage
  *
@@ -201,7 +269,6 @@ class DebugKitDebugger extends Debugger {
 		}
 		return memory_get_usage();
 	}
-
 /**
  * Get peak memory use
  *
@@ -214,29 +281,96 @@ class DebugKitDebugger extends Debugger {
 		}
 		return memory_get_peak_usage();
 	}
-
+/**
+ * Stores a memory point in the internal tracker.
+ * Takes a optional message name which can be used to identify the memory point.
+ * If no message is supplied a debug_backtrace will be done to identifty the memory point.
+ * If you don't have memory_get_xx methods this will not work.
+ *
+ * @param string $message Message to identify this memory point.
+ * @return boolean
+ **/
+	function setMemoryPoint($message = null) {
+		$memoryUse = DebugKitDebugger::getMemoryUse();
+		if (!$message) {
+			$named = false;
+			$trace = debug_backtrace();
+			$message = Debugger::trimpath($trace[0]['file']) . ' line ' . $trace[0]['line'];
+		}
+		$self =& DebugKitDebugger::getInstance();
+		if (isset($self->__memoryPoints[$message])) {
+			$originalMessage = $message;
+			$i = 1;
+			while (isset($self->__memoryPoints[$message])) {
+				$i++;
+				$message = $originalMessage . ' #' . $i;
+			}
+		}
+		$self->__memoryPoints[$message] = $memoryUse;
+		return true;
+	}
+/**
+ * Get all the stored memory points
+ *
+ * @param boolean $clear Whether you want to clear the memory points as well. Defaults to false.
+ * @return array Array of memory marks stored so far.
+ **/
+	function getMemoryPoints($clear = false) {
+		$self =& DebugKitDebugger::getInstance();
+		$marks = $self->__memoryPoints;
+		if ($clear) {
+			$self->__memoryPoints = array();
+		}
+		return $marks;
+	}
+/**
+ * Clear out any existing memory points
+ *
+ * @return void
+ **/
+	function clearMemoryPoints() {
+		$self =& DebugKitDebugger::getInstance();
+		$self->__memoryPoints = array();
+	}
 /**
  * Handles object conversion to debug string.
  *
  * @param string $var Object to convert
  * @access protected
  */
-	function _output($level, $error, $code, $helpCode, $description, $file, $line, $kontext) {
+	function _output($data = array()) {
+		extract($data);
+		if (is_array($level)) {
+			$error = $level['error'];
+			$code = $level['code'];
+			if (isset($level['helpID'])) {
+				$helpID = $level['helpID'];
+			} else {
+				$helpID = '';
+			}
+			$description = $level['description'];
+			$file = $level['file'];
+			$line = $level['line'];
+			$context = $level['context'];
+			$level = $level['level'];
+		}
 		$files = $this->trace(array('start' => 2, 'format' => 'points'));
 		$listing = $this->excerpt($files[0]['file'], $files[0]['line'] - 1, 1);
 		$trace = $this->trace(array('start' => 2, 'depth' => '20'));
-		$context = array();
 
-		foreach ((array)$kontext as $var => $value) {
-			$context[] = "\${$var}\t=\t" . $this->exportVar($value, 1);
-		}
 		if ($this->_outputFormat == 'fb') {
-			$this->_fireError($error, $code, $description, $file, $line, $trace, $context);
+			$kontext = array();
+			foreach ((array)$context as $var => $value) {
+				$kontext[] = "\${$var}\t=\t" . $this->exportVar($value, 1);
+			}
+			$this->_fireError($error, $code, $description, $file, $line, $trace, $kontext);
 		} else {
-			echo parent::_output($level, $error, $code, $helpCode, $description, $file, $line, $kontext);
+			$data = compact(
+				'level', 'error', 'code', 'helpID', 'description', 'file', 'path', 'line', 'context'
+			);
+			echo parent::_output($data);
 		}
 	}
-
 /**
  * Create a FirePHP error message
  *
