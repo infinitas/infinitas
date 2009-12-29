@@ -13,7 +13,6 @@
             <div id="main_block">
                 <div id="top_block">
         			<div class="navi">
-                        <?php pr( $this->action ); ?>
         				<a href="#" class="<?php echo $a = ( $this->action == 'index' ) ? 'navi_hm' : 'navi_tx'; ?>">Checks</a>
         				<a href="#" class="<?php echo $a = ( $this->action == 'database' ) ? 'navi_hm' : 'navi_tx'; ?>">Database</a>
         				<a href="#" class="<?php echo $a = ( $this->action == 'config' ) ? 'navi_hm' : 'navi_tx'; ?>">Services</a>
