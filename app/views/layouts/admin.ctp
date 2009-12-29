@@ -46,6 +46,5 @@
             </div>
         	<div id="footer"></div>
         </div>
-    	<?php echo $cakeDebug; ?>
     </body>
 </html>
