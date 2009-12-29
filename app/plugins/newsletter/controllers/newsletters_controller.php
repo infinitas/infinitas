@@ -205,6 +205,8 @@
 
             if ( !empty( $this->data ) )
             {
+                $id = $this->data['Newsletter']['id'];
+
                 $addresses = explode( ',', $this->data['Newsletter']['email_addresses'] );
                 if ( empty( $addresses ) )
                 {
@@ -212,7 +214,7 @@
                     $this->redirect( $this->referer() );
                 }
 
-                $newsletter = $this->Newsletter->read( null, $this->data['Newsletter']['id'] );
+                $newsletter = $this->Newsletter->read( null, $id );
 
                 foreach( $addresses as $address )
                 {
@@ -223,8 +225,9 @@
                     $this->Email->sendAs = 'both';
                     $this->Email->delivery = 'mail';
 
-                    var_dump( $this->Email->send() );
-                    exit;
+                    $this->Email->template = 'default';
+
+                    $this->Email->send();
 
                     $this->Email->reset();
                 }
