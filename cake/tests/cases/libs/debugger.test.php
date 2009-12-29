@@ -2,8 +2,6 @@
 /**
  * DebuggerTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -240,7 +238,7 @@ class DebuggerTest extends CakeTestCase {
 		View::$autoLayout = true
 		View::$ext = ".ctp"
 		View::$subDir = NULL
-		View::$themeWeb = NULL
+		View::$theme = NULL
 		View::$cacheAction = false
 		View::$validationErrors = array
 		View::$hasRendered = false
@@ -256,7 +254,6 @@ class DebuggerTest extends CakeTestCase {
 		View::$__passedVars = array
 		View::$__scripts = array
 		View::$__paths = array
-		View::$_log = NULL
 		View::$webroot = NULL';
 		$result = str_replace(array("\t", "\r\n", "\n"), "", $result);
 		$expected =  str_replace(array("\t", "\r\n", "\n"), "", $expected);

@@ -2,8 +2,6 @@
 /**
  * DispatcherTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -491,6 +489,15 @@ class TestCachedPagesController extends AppController {
  */
 	function view($id = null) {
 		$this->render('index');
+	}
+/**
+ * test cached forms / tests view object being registered
+ *
+ * @return void
+ */
+	function cache_form() {
+		$this->cacheAction = 10;
+		$this->helpers[] = 'Form';
 	}
 }
 
@@ -1323,6 +1330,8 @@ class DispatcherTest extends CakeTestCase {
 
 		$url = 'pages/home/';
 		$controller = $Dispatcher->dispatch($url, array('return' => 1));
+		$this->assertNull($controller->plugin);
+		$this->assertNull($Dispatcher->params['plugin']);
 
 		$expected = 'Pages';
 		$this->assertEqual($expected, $controller->name);
@@ -1379,7 +1388,7 @@ class DispatcherTest extends CakeTestCase {
 	function testAdminDispatch() {
 		$_POST = array();
 		$Dispatcher =& new TestDispatcher();
-		Configure::write('Routing.admin', 'admin');
+		Configure::write('Routing.prefixes', array('admin'));
 		Configure::write('App.baseUrl','/cake/repo/branches/1.2.x.x/index.php');
 		$url = 'admin/test_dispatch_pages/index/param:value/param2:value2';
 
@@ -1545,7 +1554,7 @@ class DispatcherTest extends CakeTestCase {
 		$this->assertEqual($controller->params['controller'], $expected);
 
 
-		Configure::write('Routing.admin', 'admin');
+		Configure::write('Routing.prefixes', array('admin'));
 
 		Router::reload();
 		$Dispatcher =& new TestDispatcher();
@@ -1601,10 +1610,17 @@ class DispatcherTest extends CakeTestCase {
 		$_SERVER['PHP_SELF'] = '/cake/repo/branches/1.2.x.x/index.php';
 
 		Router::reload();
-		Router::connect('/my_plugin/:controller/:action/*', array('plugin'=>'my_plugin'));
+		Router::connect('/my_plugin/:controller/:action/*', array('plugin' => 'my_plugin'));
 
 		$Dispatcher =& new TestDispatcher();
 		$Dispatcher->base = false;
+
+		$url = 'my_plugin/';
+		$controller = $Dispatcher->dispatch($url, array('return' => 1));
+		$this->assertEqual($controller->params['controller'], 'my_plugin');
+		$this->assertEqual($controller->params['plugin'], 'my_plugin');
+		$this->assertEqual($controller->params['action'], 'index');
+		$this->assertFalse(isset($controller->params['pass'][0]));
 
 		$url = 'my_plugin/my_plugin/add';
 		$controller = $Dispatcher->dispatch($url, array('return' => 1));
@@ -1622,7 +1638,6 @@ class DispatcherTest extends CakeTestCase {
 
 		$url = 'my_plugin/add';
 		$controller = $Dispatcher->dispatch($url, array('return' => 1));
-
 		$this->assertFalse(isset($controller->params['pass'][0]));
 
 		$Dispatcher =& new TestDispatcher();
@@ -1630,14 +1645,48 @@ class DispatcherTest extends CakeTestCase {
 
 		$url = 'my_plugin/add/0';
 		$controller = $Dispatcher->dispatch($url, array('return' => 1));
-		$this->assertIdentical('0',$controller->params['pass'][0]);
+		$this->assertEqual($controller->params['controller'], 'my_plugin');
+		$this->assertEqual($controller->params['plugin'], 'my_plugin');
+		$this->assertEqual($controller->params['action'], 'add');
+		$this->assertIdentical('0', $controller->params['pass'][0]);
 
 		$Dispatcher =& new TestDispatcher();
 		$Dispatcher->base = false;
 
 		$url = 'my_plugin/add/1';
 		$controller = $Dispatcher->dispatch($url, array('return' => 1));
-		$this->assertIdentical('1',$controller->params['pass'][0]);
+
+		$this->assertEqual($controller->params['controller'], 'my_plugin');
+		$this->assertEqual($controller->params['plugin'], 'my_plugin');
+		$this->assertEqual($controller->params['action'], 'add');
+		$this->assertIdentical('1', $controller->params['pass'][0]);
+	}
+
+/**
+ * test plugin shortcut urls with controllers that need to be loaded,
+ * the above test uses a controller that has already been included.
+ *
+ * @return void
+ */
+	function testPluginShortCutUrlsWithControllerThatNeedsToBeLoaded() {
+		$loaded = class_exists('TestPluginController', false);
+		if ($this->skipIf($loaded, 'TestPluginController already loaded, this test will always pass, skipping %s')) {
+			return true;
+		}
+		Router::reload();
+		App::build(array(
+			'plugins' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS)
+		), true);
+		$Dispatcher =& new TestDispatcher();
+		$Dispatcher->base = false;
+
+		$url = 'test_plugin/';
+		$controller = $Dispatcher->dispatch($url, array('return' => 1));
+		$this->assertEqual($controller->params['controller'], 'test_plugin');
+		$this->assertEqual($controller->params['plugin'], 'test_plugin');
+		$this->assertEqual($controller->params['action'], 'index');
+		$this->assertFalse(isset($controller->params['pass'][0]));
+		App::build();
 	}
 
 /**
@@ -1713,7 +1762,7 @@ class DispatcherTest extends CakeTestCase {
 	}
 
 /**
- * undocumented function
+ * Test dispatching into the TestPlugin in the test_app
  *
  * @return void
  * @access public
@@ -1723,12 +1772,20 @@ class DispatcherTest extends CakeTestCase {
 		App::build(array(
 			'plugins' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS)
 		));
+		App::objects('plugin', null, false);
+		Router::reload();
+		Router::parse('/');
+
 		$url = '/test_plugin/tests/index';
 		$result = $Dispatcher->dispatch($url, array('return' => 1));
 		$this->assertTrue(class_exists('TestsController'));
 		$this->assertTrue(class_exists('TestPluginAppController'));
 		$this->assertTrue(class_exists('OtherComponentComponent'));
 		$this->assertTrue(class_exists('PluginsComponentComponent'));
+
+		$this->assertEqual($result->params['controller'], 'tests');
+		$this->assertEqual($result->params['plugin'], 'test_plugin');
+		$this->assertEqual($result->params['action'], 'index');
 
 		App::build();
 	}
@@ -1773,75 +1830,137 @@ class DispatcherTest extends CakeTestCase {
  * @return void
  * @access public
  */
-	function testStaticAssets() {
+	function testAssets() {
 		Router::reload();
 		$Configure = Configure::getInstance();
 		$Configure->__objects = null;
 
 		App::build(array(
 			'plugins' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS),
-			'vendors' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'vendors'. DS)
+			'vendors' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'vendors'. DS),
+			'views' => array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS)
 		));
 
 		$Dispatcher =& new TestDispatcher();
-
+		$debug = Configure::read('debug');
 		Configure::write('debug', 0);
+
 		ob_start();
-		$Dispatcher->dispatch('img/test.jpg');
+		$Dispatcher->dispatch('theme/test_theme/../webroot/css/test_asset.css');
 		$result = ob_get_clean();
-		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'vendors' . DS . 'img' . DS . 'test.jpg');
+		$this->assertFalse($result);
+
+		ob_start();
+		$Dispatcher->dispatch('theme/test_theme/pdfs');
+		$result = ob_get_clean();
+		$this->assertFalse($result);
+
+		ob_start();
+		$Dispatcher->dispatch('theme/test_theme/flash/theme_test.swf');
+		$result = ob_get_clean();
+		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views' . DS . 'themed' . DS . 'test_theme' . DS . 'webroot' . DS . 'flash' . DS . 'theme_test.swf');
+		$this->assertEqual($file, $result);
+		$this->assertEqual('this is just a test to load swf file from the theme.', $result);
+
+		ob_start();
+		$Dispatcher->dispatch('theme/test_theme/pdfs/theme_test.pdf');
+		$result = ob_get_clean();
+		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views' . DS . 'themed' . DS . 'test_theme' . DS . 'webroot' . DS . 'pdfs' . DS . 'theme_test.pdf');
+		$this->assertEqual($file, $result);
+		$this->assertEqual('this is just a test to load pdf file from the theme.', $result);
+
+		ob_start();
+		$Dispatcher->dispatch('theme/test_theme/img/test.jpg');
+		$result = ob_get_clean();
+		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views' . DS . 'themed' . DS . 'test_theme' . DS . 'webroot' . DS . 'img' . DS . 'test.jpg');
 		$this->assertEqual($file, $result);
 
-
-		Configure::write('debug', 0);
-		$Dispatcher->params = $Dispatcher->parseParams('css/test_asset.css');
-
+		$Dispatcher->params = $Dispatcher->parseParams('theme/test_theme/css/test_asset.css');
 		ob_start();
-		$Dispatcher->cached('css/test_asset.css');
+		$Dispatcher->asset('theme/test_theme/css/test_asset.css');
 		$result = ob_get_clean();
 		$this->assertEqual('this is the test asset css file', $result);
 
+		$Dispatcher->params = $Dispatcher->parseParams('theme/test_theme/js/theme.js');
+		ob_start();
+		$Dispatcher->asset('theme/test_theme/js/theme.js');
+		$result = ob_get_clean();
+		$this->assertEqual('root theme js file', $result);
+
+		$Dispatcher->params = $Dispatcher->parseParams('theme/test_theme/js/one/theme_one.js');
+		ob_start();
+		$Dispatcher->asset('theme/test_theme/js/one/theme_one.js');
+		$result = ob_get_clean();
+		$this->assertEqual('nested theme js file', $result);
 
 		ob_start();
-		$Dispatcher->cached('test_plugin/js/test_plugin/test.js');
+		$Dispatcher->dispatch('test_plugin/flash/plugin_test.swf');
+		$result = ob_get_clean();
+		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS . 'test_plugin' . DS . 'webroot' . DS . 'flash' . DS . 'plugin_test.swf');
+		$this->assertEqual($file, $result);
+		$this->assertEqual('this is just a test to load swf file from the plugin.', $result);
+
+		ob_start();
+		$Dispatcher->dispatch('test_plugin/pdfs/plugin_test.pdf');
+		$result = ob_get_clean();
+		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS . 'test_plugin' . DS . 'webroot' . DS . 'pdfs' . DS . 'plugin_test.pdf');
+		$this->assertEqual($file, $result);
+		 $this->assertEqual('this is just a test to load pdf file from the plugin.', $result);
+
+		ob_start();
+		$Dispatcher->asset('test_plugin/js/test_plugin/test.js');
 		$result = ob_get_clean();
 		$this->assertEqual('alert("Test App");', $result);
 
-
-		Configure::write('debug', 0);
 		$Dispatcher->params = $Dispatcher->parseParams('test_plugin/js/test_plugin/test.js');
 		ob_start();
-		$Dispatcher->cached('test_plugin/js/test_plugin/test.js');
+		$Dispatcher->asset('test_plugin/js/test_plugin/test.js');
 		$result = ob_get_clean();
 		$this->assertEqual('alert("Test App");', $result);
 
-
-		Configure::write('debug', 0);
 		$Dispatcher->params = $Dispatcher->parseParams('test_plugin/css/test_plugin_asset.css');
 		ob_start();
-		$Dispatcher->cached('test_plugin/css/test_plugin_asset.css');
+		$Dispatcher->asset('test_plugin/css/test_plugin_asset.css');
 		$result = ob_get_clean();
 		$this->assertEqual('this is the test plugin asset css file', $result);
 
-
-		Configure::write('debug', 0);
 		$Dispatcher->params = $Dispatcher->parseParams('test_plugin/img/cake.icon.gif');
 		ob_start();
-		$Dispatcher->cached('test_plugin/img/cake.icon.gif');
+		$Dispatcher->asset('test_plugin/img/cake.icon.gif');
 		$result = ob_get_clean();
-		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS . 'test_plugin' .DS . 'vendors' . DS . 'img' . DS . 'cake.icon.gif');
+		$file = file_get_contents(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'plugins' . DS . 'test_plugin' .DS . 'webroot' . DS . 'img' . DS . 'cake.icon.gif');
 		$this->assertEqual($file, $result);
 
-
-		Configure::write('debug', 2);
 		$Dispatcher->params = $Dispatcher->parseParams('plugin_js/js/plugin_js.js');
 		ob_start();
-		$Dispatcher->cached('plugin_js/js/plugin_js.js');
+		$Dispatcher->asset('plugin_js/js/plugin_js.js');
 		$result = ob_get_clean();
 		$expected = "alert('win sauce');";
 		$this->assertEqual($result, $expected);
 
-		header('Content-type: text/html');//reset the header content-type without page can render as plain text.
+		$Dispatcher->params = $Dispatcher->parseParams('plugin_js/js/one/plugin_one.js');
+		ob_start();
+		$Dispatcher->asset('plugin_js/js/one/plugin_one.js');
+		$result = ob_get_clean();
+		$expected = "alert('plugin one nested js file');";
+		$this->assertEqual($result, $expected);
+		Configure::write('debug', $debug);
+		//reset the header content-type without page can render as plain text.
+		header('Content-type: text/html');
+
+		$Dispatcher->params = $Dispatcher->parseParams('test_plugin/css/theme_one.htc');
+		ob_start();
+		$Dispatcher->asset('test_plugin/css/unknown.extension');
+		$result = ob_get_clean();
+		$this->assertEqual('Testing a file with unknown extension to mime mapping.', $result);
+		header('Content-type: text/html');
+
+		$Dispatcher->params = $Dispatcher->parseParams('test_plugin/css/theme_one.htc');
+		ob_start();
+		$Dispatcher->asset('test_plugin/css/theme_one.htc');
+		$result = ob_get_clean();
+		$this->assertEqual('htc file', $result);
+		header('Content-type: text/html');
 	}
 
 /**
@@ -1978,6 +2097,48 @@ class DispatcherTest extends CakeTestCase {
 		$filename = $this->__cachePath($dispatcher->here);
 		$this->assertTrue(file_exists($filename));
 		unlink($filename);
+
+		$url = 'TestCachedPages/test_nocache_tags';
+	}
+/**
+ * test that cached() registers a view and un-registers it.  Tests
+ * that helpers using ClassRegistry::getObject('view'); don't fail
+ *
+ * @return void
+ */
+	function testCachedRegisteringViewObject() {
+		Configure::write('Cache.disable', false);
+		Configure::write('Cache.check', true);
+		Configure::write('debug', 2);
+
+		$_POST = array();
+		$_SERVER['PHP_SELF'] = '/';
+
+		Router::reload();
+		Configure::write('viewPaths', array(TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS));
+
+		$dispatcher =& new Dispatcher();
+		$dispatcher->base = false;
+
+		$url = 'test_cached_pages/cache_form';
+		ob_start();
+		$dispatcher->dispatch($url);
+		$out = ob_get_clean();
+
+		ClassRegistry::flush();
+
+		ob_start();
+		$dispatcher->cached($url);
+		$cached = ob_get_clean();
+
+		$result = str_replace(array("\t", "\r\n", "\n"), "", $out);
+		$cached = preg_replace('/<!--+[^<>]+-->/', '', $cached);
+		$expected =  str_replace(array("\t", "\r\n", "\n"), "", $cached);
+
+		$this->assertEqual($result, $expected);
+		$filename = $this->__cachePath($dispatcher->here);
+		unlink($filename);
+		ClassRegistry::flush();
 	}
 
 /**

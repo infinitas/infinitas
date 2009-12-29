@@ -109,7 +109,7 @@ class Configure extends Object {
 			}
 		}
 
-		if (isset($config['debug'])) {
+		if (isset($config['debug']) || isset($config['log'])) {
 			$reporting = 0;
 			if ($_this->debug) {
 				if (!class_exists('Debugger')) {
@@ -235,22 +235,25 @@ class Configure extends Object {
 		if ($plugin) {
 			$pluginPath = App::pluginPath($plugin);
 		}
-
-		if ($pluginPath && file_exists($pluginPath . 'config' . DS . $fileName . '.php')) {
-			include($pluginPath . 'config' . DS . $fileName . '.php');
-			$found = true;
-		} elseif (file_exists(CONFIGS . $fileName . '.php')) {
-			include(CONFIGS . $fileName . '.php');
-			$found = true;
-		} elseif (file_exists(CACHE . 'persistent' . DS . $fileName . '.php')) {
-			include(CACHE . 'persistent' . DS . $fileName . '.php');
-			$found = true;
-		} else {
-			foreach (App::core('cake') as $key => $path) {
-				if (file_exists($path . DS . 'config' . DS . $fileName . '.php')) {
-					include($path . DS . 'config' . DS . $fileName . '.php');
-					$found = true;
-					break;
+		$pos = strpos($fileName, '..');
+		
+		if ($pos === false) {
+			if ($pluginPath && file_exists($pluginPath . 'config' . DS . $fileName . '.php')) {
+				include($pluginPath . 'config' . DS . $fileName . '.php');
+				$found = true;
+			} elseif (file_exists(CONFIGS . $fileName . '.php')) {
+				include(CONFIGS . $fileName . '.php');
+				$found = true;
+			} elseif (file_exists(CACHE . 'persistent' . DS . $fileName . '.php')) {
+				include(CACHE . 'persistent' . DS . $fileName . '.php');
+				$found = true;
+			} else {
+				foreach (App::core('cake') as $key => $path) {
+					if (file_exists($path . DS . 'config' . DS . $fileName . '.php')) {
+						include($path . DS . 'config' . DS . $fileName . '.php');
+						$found = true;
+						break;
+					}
 				}
 			}
 		}
@@ -387,7 +390,7 @@ class Configure extends Object {
 		$libPaths = $modelPaths = $behaviorPaths = $controllerPaths = $componentPaths = $viewPaths = $helperPaths = $pluginPaths = $vendorPaths = $localePaths = $shellPaths = null;
 
 		if ($boot) {
-			Configure::write('App', array('base' => false, 'baseUrl' => false, 'dir' => APP_DIR, 'webroot' => WEBROOT_DIR));
+			Configure::write('App', array('base' => false, 'baseUrl' => false, 'dir' => APP_DIR, 'webroot' => WEBROOT_DIR, 'www_root' => WWW_ROOT));
 
 			if (!include(CONFIGS . 'core.php')) {
 				trigger_error(sprintf(__("Can't find application core file. Please create %score.php, and make sure it is readable by PHP.", true), CONFIGS), E_USER_ERROR);

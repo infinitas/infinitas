@@ -2,8 +2,6 @@
 /**
  * The ModelTask handles creating and updating models files.
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -605,9 +603,9 @@ class ModelTask extends Shell {
 			if (!empty($associations[$type])) {
 				$count = count($associations[$type]);
 				$response = 'y';
-				for ($i = 0; $i < $count; $i++) {
-					$prompt = "{$model->name} {$type} {$associations[$type][$i]['alias']}";
-					$response = $this->in("{$prompt}?", array('y','n'), 'y');
+				foreach ($associations[$type] as $i => $assoc) {
+					$prompt = "{$model->name} {$type} {$assoc['alias']}?";
+					$response = $this->in($prompt, array('y','n'), 'y');
 
 					if ('n' == strtolower($response)) {
 						unset($associations[$type][$i]);

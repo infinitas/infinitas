@@ -2,8 +2,6 @@
 /**
  * CookieComponentTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -93,6 +91,21 @@ class CookieComponentTest extends CakeTestCase {
  */
 	function end() {
 		$this->Controller->Cookie->destroy();
+	}
+
+/**
+ * test that initialize sets settings from components array
+ *
+ * @return void
+ */
+	function testInitialize() {
+		$settings = array(
+			'time' => '5 days',
+			'path' => '/'
+		);
+		$this->Controller->Cookie->initialize($this->Controller, $settings);
+		$this->assertEqual($this->Controller->Cookie->time, $settings['time']);
+		$this->assertEqual($this->Controller->Cookie->path, $settings['path']);
 	}
 
 /**

@@ -2,8 +2,6 @@
 /**
  * SessionComponentTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -134,26 +132,6 @@ class SessionComponentTest extends CakeTestCase {
 
 		$result = $Object->requestAction('/orange_session_test/session_id');
 		$this->assertEqual($result, $expected);
-	}
-
-/**
- * testSessionInitialize method
- *
- * @access public
- * @return void
- */
-	function testSessionInitialize() {
-		$Session =& new SessionComponent();
-
-		$this->assertEqual($Session->__bare, 0);
-
-		$Session->initialize(new SessionTestController());
-		$this->assertEqual($Session->__bare, 0);
-
-		$sessionController =& new SessionTestController();
-		$sessionController->params['bare'] = 1;
-		$Session->initialize($sessionController);
-		$this->assertEqual($Session->__bare, 1);
 	}
 
 /**

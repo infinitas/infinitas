@@ -62,22 +62,6 @@ class Dispatcher extends Object {
 	var $here = false;
 
 /**
- * Admin route (if on it)
- *
- * @var string
- * @access public
- */
-	var $admin = false;
-
-/**
- * Plugin being served (if any)
- *
- * @var string
- * @access public
- */
-	var $plugin = null;
-
-/**
  * the params for this request
  *
  * @var string
@@ -123,13 +107,11 @@ class Dispatcher extends Object {
 			$url = $this->getUrl();
 			$this->params = array_merge($this->parseParams($url), $additionalParams);
 		}
-
 		$this->here = $this->base . '/' . $url;
 
-		if ($this->cached($url)) {
+		if ($this->asset($url) || $this->cached($url)) {
 			$this->_stop();
 		}
-
 		$controller =& $this->__getController();
 
 		if (!is_object($controller)) {
@@ -141,7 +123,6 @@ class Dispatcher extends Object {
 				'base' => $this->base
 			)));
 		}
-
 		$privateAction = $this->params['action'][0] === '_';
 		$prefixes = Router::prefixes();
 
@@ -167,11 +148,10 @@ class Dispatcher extends Object {
 				'base' => $this->base
 			)));
 		}
-
 		$controller->base = $this->base;
 		$controller->here = $this->here;
 		$controller->webroot = $this->webroot;
-		$controller->plugin = $this->plugin;
+		$controller->plugin = isset($this->params['plugin']) ? $this->params['plugin'] : null;
 		$controller->params =& $this->params;
 		$controller->action =& $this->params['action'];
 		$controller->passedArgs = array_merge($this->params['pass'], $this->params['named']);
@@ -297,7 +277,7 @@ class Dispatcher extends Object {
 			$params['action'] = 'index';
 		}
 		if (isset($params['form']['data'])) {
-			$params['data'] = Router::stripEscape($params['form']['data']);
+			$params['data'] = $params['form']['data'];
 			unset($params['form']['data']);
 		}
 		if (isset($_GET)) {
@@ -377,21 +357,21 @@ class Dispatcher extends Object {
 			$this->webroot = $base .'/';
 			return $base;
 		}
-			$file = '/' . basename($baseUrl);
-			$base = dirname($baseUrl);
+		$file = '/' . basename($baseUrl);
+		$base = dirname($baseUrl);
+		
+		if ($base === DS || $base === '.') {
+			$base = '';
+		}
+		$this->webroot = $base .'/';
 
-			if ($base === DS || $base === '.') {
-				$base = '';
-			}
-			$this->webroot = $base .'/';
-
-			if (strpos($this->webroot, $dir) === false) {
-				$this->webroot .= $dir . '/' ;
-			}
-			if (strpos($this->webroot, $webroot) === false) {
-				$this->webroot .= $webroot . '/';
-			}
-			return $base . $file;
+		if (strpos($this->webroot, $dir) === false) {
+			$this->webroot .= $dir . '/' ;
+		}
+		if (strpos($this->webroot, $webroot) === false) {
+			$this->webroot .= $webroot . '/';
+		}
+		return $base . $file;
 	}
 
 /**
@@ -411,16 +391,8 @@ class Dispatcher extends Object {
 				'pass' => array_merge($pass, $params['pass']),
 				'named' => array_merge($named, $params['named'])
 			));
-			$this->plugin = $params['plugin'];
 		} else {
 			$params['plugin'] = $params['controller'];
-			$params['controller'] = $params['action'];
-			if (isset($params['pass'][0])) {
-				$params['action'] = $params['pass'][0];
-				array_shift($params['pass']);
-			} else {
-				$params['action'] = null;
-			}
 		}
 		return $params;
 	}
@@ -432,19 +404,15 @@ class Dispatcher extends Object {
  * @return mixed name of controller if not loaded, or object if loaded
  * @access private
  */
-	function &__getController($params = null) {
-		if (!is_array($params)) {
-			$original = $params = $this->params;
-		}
+	function &__getController() {
+		$original = $params = $this->params;
+
 		$controller = false;
 		$ctrlClass = $this->__loadController($params);
 		if (!$ctrlClass) {
 			if (!isset($params['plugin'])) {
 				$params = $this->_restructureParams($params);
 			} else {
-				if (empty($original['pass']) && $original['action'] == 'index') {
-					$params['action'] = null;
-				}
 				$params = $this->_restructureParams($params, true);
 			}
 			$ctrlClass = $this->__loadController($params);
@@ -452,15 +420,12 @@ class Dispatcher extends Object {
 				$this->params = $original;
 				return $controller;
 			}
-		} else {
-			$params = $this->params;
 		}
 		$name = $ctrlClass;
-		$ctrlClass = $ctrlClass . 'Controller';
+		$ctrlClass .= 'Controller';
 		if (class_exists($ctrlClass)) {
-			if (strtolower(get_parent_class($ctrlClass)) === strtolower($name . 'AppController') && empty($params['plugin'])) {
+			if (empty($params['plugin']) && strtolower(get_parent_class($ctrlClass)) === strtolower($name . 'AppController')) {
 				$params = $this->_restructureParams($params);
-				$params = $this->_restructureParams($params, true);
 			}
 			$this->params = $params;
 			$controller =& new $ctrlClass();
@@ -478,10 +443,9 @@ class Dispatcher extends Object {
 	function __loadController($params) {
 		$pluginName = $pluginPath = $controller = null;
 		if (!empty($params['plugin'])) {
-			$this->plugin = $params['plugin'];
 			$pluginName = Inflector::camelize($params['plugin']);
 			$pluginPath = $pluginName . '.';
-			$this->params['controller'] = $this->plugin;
+			$this->params['controller'] = $params['plugin'];
 			$controller = $pluginName;
 		}
 		if (!empty($params['controller'])) {
@@ -594,85 +558,12 @@ class Dispatcher extends Object {
 	}
 
 /**
- * Outputs cached dispatch for js, css, img, view cache
+ * Outputs cached dispatch view cache
  *
  * @param string $url Requested URL
  * @access public
  */
 	function cached($url) {
-		if (strpos($url, 'css/') !== false || strpos($url, 'js/') !== false || strpos($url, 'img/') !== false) {
-			if (strpos($url, 'ccss/') === 0) {
-				include WWW_ROOT . DS . Configure::read('Asset.filter.css');
-				$this->_stop();
-			} elseif (strpos($url, 'cjs/') === 0) {
-				include WWW_ROOT . DS . Configure::read('Asset.filter.js');
-				$this->_stop();
-			}
-			$isAsset = false;
-			$assets = array(
-				'js' => 'text/javascript', 'css' => 'text/css',
-				'gif' => 'image/gif', 'jpg' => 'image/jpeg', 'png' => 'image/png'
-			);
-			$ext = array_pop(explode('.', $url));
-
-			foreach ($assets as $type => $contentType) {
-				if ($type === $ext) {
-					$parts = explode('/', $url);
-					if ($parts[0] === 'css' || $parts[0] === 'js' || $parts[0] === 'img') {
-						$pos = 0;
-					} else {
-						$pos = strlen($parts[0]);
-					}
-					$isAsset = true;
-					break;
-				}
-			}
-
-			if ($isAsset === true) {
-				$ob = @ini_get("zlib.output_compression") !== '1' && extension_loaded("zlib") && (strpos(env('HTTP_ACCEPT_ENCODING'), 'gzip') !== false);
-
-				if ($ob && Configure::read('Asset.compress')) {
-					ob_start();
-					ob_start('ob_gzhandler');
-				}
-				$assetFile = null;
-				$paths = array();
-
-				if ($pos > 0) {
-					$plugin = substr($url, 0, $pos);
-					$url = preg_replace('/^' . preg_quote($plugin, '/') . '\//i', '', $url);
-					$paths[] = App::pluginPath($plugin) . 'vendors' . DS;
-				}
-				$paths = array_merge($paths, App::path('vendors'));
-
-				foreach ($paths as $path) {
-					if (is_file($path . $url) && file_exists($path . $url)) {
-						$assetFile = $path . $url;
-						break;
-					}
-				}
-
-				if ($assetFile !== null) {
-					$fileModified = filemtime($assetFile);
-					header("Date: " . date("D, j M Y G:i:s ", $fileModified) . 'GMT');
-					header('Content-type: ' . $assets[$type]);
-					header("Expires: " . gmdate("D, j M Y H:i:s", time() + DAY) . " GMT");
-					header("Cache-Control: cache");
-					header("Pragma: cache");
-					if ($type === 'css' || $type === 'js') {
-						include($assetFile);
-					} else {
-						readfile($assetFile);
-					}
-
-					if (Configure::read('Asset.compress')) {
-						ob_end_flush();
-					}
-					return true;
-				}
-			}
-		}
-
 		if (Configure::read('Cache.check') === true) {
 			$path = $this->here;
 			if ($this->here == '/') {
@@ -691,11 +582,132 @@ class Dispatcher extends Object {
 					App::import('View', 'View', false);
 				}
 				$controller = null;
-				$view =& new View($controller, false);
-				return $view->renderCache($filename, getMicrotime());
+				$view =& new View($controller);
+				$return = $view->renderCache($filename, getMicrotime());
+				if (!$return) {
+					ClassRegistry::removeObject('view');
+				}
+				return $return;
 			}
+		}
+
+		return false;
+	}
+
+/**
+ * Checks if a requested asset exists and sends it to the browser
+ *
+ * @param $url string $url Requested URL
+ * @return boolean True on success if the asset file was found and sent
+ * @access public
+ */
+	function asset($url) {
+		if (strpos($url, '..') !== false || strpos($url, '.') === false) {
+			return false;
+		}
+
+		if (strpos($url, 'ccss/') === 0) {
+			include WWW_ROOT . DS . Configure::read('Asset.filter.css');
+			$this->_stop();
+		} elseif (strpos($url, 'cjs/') === 0) {
+			include WWW_ROOT . DS . Configure::read('Asset.filter.js');
+			$this->_stop();
+		}
+		$controller = null;
+		$ext = array_pop(explode('.', $url));
+		$pos = 0;
+		$parts = explode('/', $url);
+
+		if ($parts[0] === 'theme') {
+			$pos = strlen($parts[0] . $parts[1]) + 1;
+		} elseif (count($parts) > 2) {
+			$pos = strlen($parts[0]);
+		}
+		$assetFile = null;
+		$paths = array();
+		$matched = false;
+
+		if ($pos > 0) {
+			$plugin = substr($url, 0, $pos);
+			$url = preg_replace('/^' . preg_quote($plugin, '/') . '\//i', '', $url);
+
+			if (strpos($plugin, '/') !== false) {
+				list($plugin, $theme) = explode('/', $plugin);
+				$themePaths = App::path('views');
+
+				foreach ($themePaths as $viewPath) {
+					$path = $viewPath . 'themed' . DS . $theme . DS . 'webroot' . DS;
+					if ($plugin === 'theme' && (is_file($path . $url) && file_exists($path . $url))) {
+						$assetFile = $path . $url;
+						break;
+					}
+				}
+			}
+
+			if ($matched === false) {
+				$paths[] = App::pluginPath($plugin) . 'webroot' . DS;
+			}
+		}
+
+		if ($matched === false) {
+			foreach ($paths as $path) {
+				if (is_file($path . $url) && file_exists($path . $url)) {
+					$assetFile = $path . $url;
+					break;
+				}
+			}
+		}
+
+		if ($assetFile !== null) {
+			$this->_deliverAsset($assetFile, $ext);
+			return true;
 		}
 		return false;
 	}
+
+/**
+ * Sends an asset file to the client
+ *
+ * @param string $assetFile Path to the asset file in the file system
+ * @param string $ext The extension of the file to determine its mime type
+ * @return void
+ * @access protected
+ */
+	function _deliverAsset($assetFile, $ext) {
+		$ob = @ini_get("zlib.output_compression") !== '1' && extension_loaded("zlib") && (strpos(env('HTTP_ACCEPT_ENCODING'), 'gzip') !== false);
+		if ($ob && Configure::read('Asset.compress')) {
+			ob_start();
+			ob_start('ob_gzhandler');
+		}
+
+		App::import('View', 'Media', false);
+		$Media = new MediaView($controller);
+		if (isset($Media->mimeType[$ext])) {
+			$contentType = $Media->mimeType[$ext];
+		} else {
+			$contentType = 'application/octet-stream';
+			$agent = env('HTTP_USER_AGENT');
+			if (preg_match('%Opera(/| )([0-9].[0-9]{1,2})%', $agent) || preg_match('/MSIE ([0-9].[0-9]{1,2})/', $agent)) {
+				$contentType = 'application/octetstream';
+			}
+		}
+
+		header("Date: " . date("D, j M Y G:i:s ", filemtime($assetFile)) . 'GMT');
+		header('Content-type: ' . $contentType);
+		header("Expires: " . gmdate("D, j M Y H:i:s", time() + DAY) . " GMT");
+		header("Cache-Control: cache");
+		header("Pragma: cache");
+
+		if ($ext === 'css' || $ext === 'js') {
+			include($assetFile);
+		} else {
+			readfile($assetFile);
+		}
+
+		if (Configure::read('Asset.compress')) {
+			ob_end_flush();
+		}
+	}
+
 }
 ?>

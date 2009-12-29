@@ -2,8 +2,6 @@
 /**
  * NumberHelperTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -325,6 +323,18 @@ class NumberHelperTest extends CakeTestCase {
 
 		$result = $this->Number->currency($value, 'GBP', array('escape' => true));
 		$expected = '&amp;#163;1,234,567.89';
+		$this->assertEqual($expected, $result);
+
+		$result = $this->Number->currency('0.35', 'USD', array('after' => false));
+		$expected = '$0.35';
+		$this->assertEqual($expected, $result);
+
+		$result = $this->Number->currency('0.35', 'GBP', array('after' => false));
+		$expected = '&#163;0.35';
+		$this->assertEqual($expected, $result);
+
+		$result = $this->Number->currency('0.35', 'GBP');
+		$expected = '35p';
 		$this->assertEqual($expected, $result);
 	}
 

@@ -161,13 +161,13 @@ class View extends Object {
  * @var string
  */
 	var $subDir = null;
-
+	
 /**
  * Theme name.
  *
  * @var string
  */
-	var $themeWeb = null;
+	var $theme = null;
 
 /**
  * Used to define methods a controller that will be cached.
@@ -433,7 +433,6 @@ class View extends Object {
  * - `title_for_layout` - contains page title
  * - `content_for_layout` - contains rendered view file
  * - `scripts_for_layout` - contains scripts added to header
- * - `cakeDebug` - if debug is on, cake debug information is added.
  *
  * @param string $content_for_layout Content to render in a view, wrapped by the surrounding layout.
  * @return mixed Rendered output, or false on error
@@ -444,18 +443,9 @@ class View extends Object {
 			return $this->output;
 		}
 
-		$debug = '';
-
-		if (isset($this->viewVars['cakeDebug']) && Configure::read() > 2) {
-			$params = array('controller' => $this->viewVars['cakeDebug']);
-			$debug = View::element('dump', $params, false);
-			unset($this->viewVars['cakeDebug']);
-		}
-
 		$dataForLayout = array_merge($this->viewVars, array(
 			'content_for_layout' => $content_for_layout,
 			'scripts_for_layout' => implode("\n\t", $this->__scripts),
-			'cakeDebug' => $debug
 		));
 
 		if (!isset($dataForLayout['title_for_layout'])) {
@@ -609,7 +599,7 @@ class View extends Object {
 	function entity() {
 		$assoc = ($this->association) ? $this->association : $this->model;
 		if (!empty($this->entityPath)) {
-			$path = explode('.',$this->entityPath);
+			$path = explode('.', $this->entityPath);
 			$count = count($path);
 			if (
 				($count == 1 && !empty($this->association)) ||
@@ -686,13 +676,16 @@ class View extends Object {
 
 			for ($i = count($helpers) - 1; $i >= 0; $i--) {
 				$name = $helperNames[$i];
+				$helper =& $loadedHelpers[$helpers[$i]];
 
-				${$name} =& $loadedHelpers[$helpers[$i]];
-				$this->loaded[$helperNames[$i]] =& ${$name};
-				$this->{$helpers[$i]} =& ${$name};
+				if (!isset($___dataForView[$name])) {
+					${$name} =& $helper;
+				}
+				$this->loaded[$helperNames[$i]] =& $helper;
+				$this->{$helpers[$i]} =& $helper;
 			}
 			$this->_triggerHelpers('beforeRender');
-			unset($name, $loadedHelpers, $helpers, $i, $helperNames);
+			unset($name, $loadedHelpers, $helpers, $i, $helperNames, $helper);
 		}
 
 		extract($___dataForView, EXTR_SKIP);
@@ -779,9 +772,7 @@ class View extends Object {
 					}
 				}
 				$loaded[$helper] =& new $helperCn($options);
-				$vars = array(
-					'base', 'webroot', 'here', 'params', 'action', 'data', 'themeWeb', 'plugin'
-				);
+				$vars = array('base', 'webroot', 'here', 'params', 'action', 'data', 'theme', 'plugin');
 				$c = count($vars);
 
 				for ($j = 0; $j < $c; $j++) {
@@ -837,7 +828,6 @@ class View extends Object {
 				$name = $this->viewPath . DS . $subDir . $name;
 			}
 		}
-
 		$paths = $this->_paths(Inflector::underscore($this->plugin));
 		
 		$exts = array($this->ext);
@@ -947,12 +937,8 @@ class View extends Object {
 			}
 			$paths[] = App::pluginPath($plugin) . 'views' . DS;
 		}
-		$paths = array_merge($paths, $viewPaths);
-
-		if (empty($this->__paths)) {
-			$this->__paths = $paths;
-		}
-		return $paths;
+		$this->__paths = array_merge($paths, $viewPaths);
+		return $this->__paths;
 	}
 }
 

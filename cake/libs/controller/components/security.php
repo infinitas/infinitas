@@ -2,8 +2,6 @@
 /**
  * Short description for file.
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -22,8 +20,6 @@
 
 /**
  * Short description for file.
- *
- * Long description for file
  *
  * @package       cake
  * @subpackage    cake.cake.libs.controller.components
@@ -173,9 +169,22 @@ class SecurityComponent extends Object {
 	var $_action = null;
 
 /**
+ * Initialize the SecurityComponent
+ *
+ * @param object $controller Controller instance for the request
+ * @param array $settings Settings to set to the component
+ * @return void
+ * @access public
+ */
+	function initialize(&$controller, $settings = array()) {
+		$this->_set($settings);
+	}
+
+/**
  * Component startup. All security checking happens here.
  *
  * @param object $controller Instantiating controller
+ * @return void
  * @access public
  */
 	function startup(&$controller) {
@@ -346,7 +355,7 @@ class SecurityComponent extends Object {
 		if (strtolower($options['type']) == 'digest') {
 			$out[] = 'qop="auth"';
 			$out[] = 'nonce="' . uniqid("") . '"';
-			$out[] = 'opaque="' . md5($options['realm']).'"';
+			$out[] = 'opaque="' . md5($options['realm']) . '"';
 		}
 
 		return $auth . ' ' . implode(',', $out);
@@ -429,6 +438,9 @@ class SecurityComponent extends Object {
  * @access protected
  */
 	function _requireMethod($method, $actions = array()) {
+		if (isset($actions[0]) && is_array($actions[0])) {
+			$actions = $actions[0];
+		}
 		$this->{'require' . $method} = (empty($actions)) ? array('*'): $actions;
 	}
 
@@ -653,6 +665,10 @@ class SecurityComponent extends Object {
  */
 	function _generateToken(&$controller) {
 		if (isset($controller->params['requested']) && $controller->params['requested'] === 1) {
+			if ($this->Session->check('_Token')) {
+				$tokenData = unserialize($this->Session->read('_Token'));
+				$controller->params['_Token'] = $tokenData;
+			}
 			return false;
 		}
 		$authKey = Security::generateAuthKey();
@@ -683,7 +699,6 @@ class SecurityComponent extends Object {
 		}
 		$controller->params['_Token'] = $token;
 		$this->Session->write('_Token', serialize($token));
-
 		return true;
 	}
 
@@ -717,10 +732,8 @@ class SecurityComponent extends Object {
 		if (is_callable(array($controller, $method))) {
 			return call_user_func_array(array(&$controller, $method), empty($params) ? null : $params);
 		} else {
-			// Debug::warning('Callback method ' . $method . ' in controller ' . get_class($controller)
 			return null;
 		}
 	}
 }
-
 ?>

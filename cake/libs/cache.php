@@ -119,8 +119,8 @@ class Cache {
 			return false;
 		}
 
-		$self->__name = $name;
 		$engine = $self->__config[$name]['engine'];
+		$self->__name = $name;
 
 		if (!isset($self->_engines[$name])) {
 			$self->_buildEngine($name);
@@ -196,11 +196,13 @@ class Cache {
 		if ($plugin) {
 			return App::import('Lib', $plugin . '.cache' . DS . $name, false);
 		} else {
-			$app = App::import('Lib', 'cache' . DS . $name, false);
-			if (!$app) {
-				require LIBS . 'cache' . DS . strtolower($name) . '.php';
+			$core = App::core();
+			$path = $core['libs'][0] . 'cache' . DS . strtolower($name) . '.php';
+			if (file_exists($path)) {
+				require $path;
+				return true;
 			}
-			return true;
+			return App::import('Lib', 'cache' . DS . $name, false);
 		}
 	}
 
@@ -216,10 +218,9 @@ class Cache {
  */
 	function set($settings = array(), $value = null) {
 		$self =& Cache::getInstance();
-		if (!isset($self->__config[$self->__name])) {
+		if (!isset($self->__config[$self->__name]) || !isset($self->_engines[$self->__name])) {
 			return false;
 		}
-
 		$name = $self->__name;
 		if (!empty($settings)) {
 			$self->__reset = true;

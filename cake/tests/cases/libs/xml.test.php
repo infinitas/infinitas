@@ -2,8 +2,6 @@
 /**
  * XmlTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -113,7 +111,6 @@ class XmlTest extends CakeTestCase {
 		$result =& new Xml($data, array('format' => 'tags'));
 		$expected = '<statuses><status><id>1</id></status><status><id>2</id></status></statuses>';
 		$this->assertIdentical($result->toString(), $expected);
-
 	}
 
 /**
@@ -190,6 +187,22 @@ class XmlTest extends CakeTestCase {
 		$result = $xml->toString(false);
 		$expected = '<zero_string>0</zero_string><zero_integer>0</zero_integer>';
 		$this->assertEqual($expected, $result);
+
+		$data = array(
+			'Client' => array(
+				'id' => 3,
+				'object_id' => 9,
+				'key' => 'alt',
+				'name' => 'Client Two',
+				'created_by' => 4,
+				'status' => '0',
+				'num_projects' => 0
+			)
+		);
+		$xml = new Xml($data, array('format' => 'tags'));
+		$result = $xml->toString(array('format' => 'tags', 'header' => false));
+		$this->assertPattern('/<status>0<\/status>/', $result);
+		$this->assertPattern('/<num_projects>0<\/num_projects>/', $result);
 	}
 /**
  * testHeader method
@@ -263,7 +276,7 @@ class XmlTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function testArraySerialization() {
+	function testSerializationArray() {
 		$input = array(
 			array(
 				'Project' => array('id' => 1, 'title' => null, 'client_id' => 1, 'show' => 1, 'is_spotlight' => null, 'style_id' => 0, 'job_type_id' => 1, 'industry_id' => 1, 'modified' => null, 'created' => null),
@@ -291,7 +304,7 @@ class XmlTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function testNestedArraySerialization() {
+	function testSerializationNestedArray() {
 		$input = array(
 			array(
 				'Project' => array('id' => 1, 'title' => null, 'client_id' => 1, 'show' => 1, 'is_spotlight' => null, 'style_id' => 0, 'job_type_id' => 1, 'industry_id' => 1, 'modified' => null, 'created' => null),
@@ -337,9 +350,9 @@ class XmlTest extends CakeTestCase {
  */
 	function testArraySerializationWithRoot() {
 		$input = array(
-					array('Shirt' => array('id' => 1, 'color' => 'green')),
-					array('Shirt' => array('id' => 2, 'color' => 'blue')),
-					);
+			array('Shirt' => array('id' => 1, 'color' => 'green')),
+			array('Shirt' => array('id' => 2, 'color' => 'blue')),
+		);
 		$expected = '<collection><shirt id="1" color="green" />';
 		$expected .= '<shirt id="2" color="blue" /></collection>';
 
@@ -714,6 +727,24 @@ class XmlTest extends CakeTestCase {
 		$this->assertEqual($expected, $result);
 	}
 
+/**
+ * ensure that normalize does not add _name_ elements that come from Set::map sometimes.
+ *
+ * @return void
+ */
+	function testNormalizeNotAdding_name_Element() {
+		$input = array(
+			'output' => array(
+				'Vouchers' => array(
+					array('Voucher' => array('id' => 1)),
+					array('Voucher' => array('id' => 2)),
+				),
+			)
+		);
+		$xml = new Xml($input, array('attributes' => false, 'format' => 'tags'));
+		$this->assertFalse(isset($xml->children[0]->children[0]->children[1]), 'Too many children %s');
+		$this->assertEqual($xml->children[0]->children[0]->children[0]->name, 'voucher');
+	}
 /**
  * testSimpleParsing method
  *

@@ -2,8 +2,6 @@
 /**
  * MySQL layer for DBO
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -450,19 +448,51 @@ class DboMysqlBase extends DboSource {
 	}
 
 /**
- * Query charset by collation
+ * Converts database-layer column types to basic types
  *
- * @param string $name Collation name
- * @return string Character set name
+ * @param string $real Real database-layer column type (i.e. "varchar(255)")
+ * @return string Abstract column type (i.e. "string")
  */
-	function getCharsetName($name) {
-		if ((bool)version_compare(mysql_get_server_info($this->connection), "5", ">=")) {
-			$cols = $this->query('SELECT CHARACTER_SET_NAME FROM INFORMATION_SCHEMA.COLLATIONS WHERE COLLATION_NAME= ' . $this->value($name) . ';');
-			if (isset($cols[0]['COLLATIONS']['CHARACTER_SET_NAME'])) {
-				return $cols[0]['COLLATIONS']['CHARACTER_SET_NAME'];
+	function column($real) {
+		if (is_array($real)) {
+			$col = $real['name'];
+			if (isset($real['limit'])) {
+				$col .= '('.$real['limit'].')';
 			}
+			return $col;
 		}
-		return false;
+
+		$col = str_replace(')', '', $real);
+		$limit = $this->length($real);
+		if (strpos($col, '(') !== false) {
+			list($col, $vals) = explode('(', $col);
+		}
+
+		if (in_array($col, array('date', 'time', 'datetime', 'timestamp'))) {
+			return $col;
+		}
+		if (($col == 'tinyint' && $limit == 1) || $col == 'boolean') {
+			return 'boolean';
+		}
+		if (strpos($col, 'int') !== false) {
+			return 'integer';
+		}
+		if (strpos($col, 'char') !== false || $col == 'tinytext') {
+			return 'string';
+		}
+		if (strpos($col, 'text') !== false) {
+			return 'text';
+		}
+		if (strpos($col, 'blob') !== false || $col == 'binary') {
+			return 'binary';
+		}
+		if (strpos($col, 'float') !== false || strpos($col, 'double') !== false || strpos($col, 'decimal') !== false) {
+			return 'float';
+		}
+		if (strpos($col, 'enum') !== false) {
+			return "enum($vals)";
+		}
+		return 'text';
 	}
 }
 
@@ -494,8 +524,7 @@ class DboMysql extends DboMysqlBase {
 		'login' => 'root',
 		'password' => '',
 		'database' => 'cake',
-		'port' => '3306',
-		'connect' => 'mysql_pconnect'
+		'port' => '3306'
 	);
 
 /**
@@ -505,20 +534,20 @@ class DboMysql extends DboMysqlBase {
  */
 	function connect() {
 		$config = $this->config;
-		$connect = $config['connect'];
 		$this->connected = false;
 
 		if (!$config['persistent']) {
 			$this->connection = mysql_connect($config['host'] . ':' . $config['port'], $config['login'], $config['password'], true);
+			$config['connect'] = 'mysql_connect';
 		} else {
-			$this->connection = $connect($config['host'] . ':' . $config['port'], $config['login'], $config['password']);
+			$this->connection = mysql_pconnect($config['host'] . ':' . $config['port'], $config['login'], $config['password']);
 		}
 
 		if (mysql_select_db($config['database'], $this->connection)) {
 			$this->connected = true;
 		}
 
-		if (isset($config['encoding']) && !empty($config['encoding'])) {
+		if (!empty($config['encoding'])) {
 			$this->setEncoding($config['encoding']);
 		}
 
@@ -683,54 +712,6 @@ class DboMysql extends DboMysqlBase {
 	}
 
 /**
- * Converts database-layer column types to basic types
- *
- * @param string $real Real database-layer column type (i.e. "varchar(255)")
- * @return string Abstract column type (i.e. "string")
- */
-	function column($real) {
-		if (is_array($real)) {
-			$col = $real['name'];
-			if (isset($real['limit'])) {
-				$col .= '('.$real['limit'].')';
-			}
-			return $col;
-		}
-
-		$col = str_replace(')', '', $real);
-		$limit = $this->length($real);
-		if (strpos($col, '(') !== false) {
-			list($col, $vals) = explode('(', $col);
-		}
-
-		if (in_array($col, array('date', 'time', 'datetime', 'timestamp'))) {
-			return $col;
-		}
-		if (($col == 'tinyint' && $limit == 1) || $col == 'boolean') {
-			return 'boolean';
-		}
-		if (strpos($col, 'int') !== false) {
-			return 'integer';
-		}
-		if (strpos($col, 'char') !== false || $col == 'tinytext') {
-			return 'string';
-		}
-		if (strpos($col, 'text') !== false) {
-			return 'text';
-		}
-		if (strpos($col, 'blob') !== false || $col == 'binary') {
-			return 'binary';
-		}
-		if (strpos($col, 'float') !== false || strpos($col, 'double') !== false || strpos($col, 'decimal') !== false) {
-			return 'float';
-		}
-		if (strpos($col, 'enum') !== false) {
-			return "enum($vals)";
-		}
-		return 'text';
-	}
-
-/**
  * Enter description here...
  *
  * @param unknown_type $results
@@ -784,6 +765,22 @@ class DboMysql extends DboMysqlBase {
  */
 	function getEncoding() {
 		return mysql_client_encoding($this->connection);
+	}
+
+/**
+ * Query charset by collation
+ *
+ * @param string $name Collation name
+ * @return string Character set name
+ */
+	function getCharsetName($name) {
+		if ((bool)version_compare(mysql_get_server_info($this->connection), "5", ">=")) {
+			$cols = $this->query('SELECT CHARACTER_SET_NAME FROM INFORMATION_SCHEMA.COLLATIONS WHERE COLLATION_NAME= ' . $this->value($name) . ';');
+			if (isset($cols[0]['COLLATIONS']['CHARACTER_SET_NAME'])) {
+				return $cols[0]['COLLATIONS']['CHARACTER_SET_NAME'];
+			}
+		}
+		return false;
 	}
 }
 ?>

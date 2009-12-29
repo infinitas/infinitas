@@ -2,8 +2,6 @@
 /**
  * SQLite layer for DBO
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -66,8 +64,7 @@ class DboSqlite extends DboSource {
  */
 	var $_baseConfig = array(
 		'persistent' => true,
-		'database' => null,
-		'connect' => 'sqlite_popen'
+		'database' => null
 	);
 
 /**
@@ -128,7 +125,12 @@ class DboSqlite extends DboSource {
  */
 	function connect() {
 		$config = $this->config;
-		$this->connection = $config['connect']($config['database']);
+
+		if (!$config['persistent']) {
+			$this->connection = sqlite_open($config['database']);
+		} else {
+			$this->connection = sqlite_popen($config['database']);
+		}
 		$this->connected = is_resource($this->connection);
 
 		if ($this->connected) {

@@ -176,6 +176,11 @@ class ConfigureTest extends CakeTestCase {
 		Configure::write('debug', 2);
 		$this->assertEqual(ini_get('error_reporting'), E_ALL & ~E_DEPRECATED);
 		$this->assertEqual(ini_get('display_errors'), 1);
+
+		Configure::write('debug', 0);
+		Configure::write('log', false);
+		$this->assertEqual(ini_get('error_reporting'), 0);
+		$this->assertEqual(ini_get('display_errors'), 0);
 	}
 
 /**
@@ -222,6 +227,9 @@ class ConfigureTest extends CakeTestCase {
 
 		$result = Configure::load('config');
 		$this->assertTrue($result === null);
+		
+		$result = Configure::load('../../index');
+		$this->assertFalse($result);
 	}
 
 /**

@@ -2,8 +2,6 @@
 /**
  * The Plugin Task handles creating an empty plugin, ready to be used
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -153,10 +151,9 @@ class PluginTask extends Shell {
 				'tests' . DS . 'cases' . DS . 'models',
 				'tests' . DS . 'groups',
 				'tests' . DS . 'fixtures',
-				'vendors' . DS . 'img',
-				'vendors' . DS . 'js',
-				'vendors' . DS . 'css',
-				'vendors' . DS . 'shells' . DS . 'tasks'
+				'vendors',
+				'vendors' . DS . 'shells' . DS . 'tasks',
+				'webroot'
 			);
 
 			foreach ($directories as $directory) {

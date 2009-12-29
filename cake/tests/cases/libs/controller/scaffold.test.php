@@ -2,8 +2,6 @@
 /**
  * ScaffoldTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -414,11 +412,11 @@ class ScaffoldViewTest extends CakeTestCase {
 
 		$this->assertPattern('#<h2>Scaffold Mock</h2>#', $result);
 		$this->assertPattern('#<table cellpadding="0" cellspacing="0">#', $result);
-		//TODO: add testing for table generation
+
 		$this->assertPattern('#<a href="/scaffold_users/view/1">1</a>#', $result); //belongsTo links
-		$this->assertPattern('#<li><a href="/scaffold_mock/add/">New Scaffold Mock</a></li>#', $result);
-		$this->assertPattern('#<li><a href="/scaffold_users/">List Scaffold Users</a></li>#', $result);
-		$this->assertPattern('#<li><a href="/scaffold_comments/add/">New Comment</a></li>#', $result);
+		$this->assertPattern('#<li><a href="/scaffold_mock/add">New Scaffold Mock</a></li>#', $result);
+		$this->assertPattern('#<li><a href="/scaffold_users">List Scaffold Users</a></li>#', $result);
+		$this->assertPattern('#<li><a href="/scaffold_comments/add">New Comment</a></li>#', $result);
 	}
 
 /**
@@ -460,7 +458,7 @@ class ScaffoldViewTest extends CakeTestCase {
 		$this->assertPattern('/<li><a href="\/scaffold_mock\/delete\/1"[^>]*>Delete Scaffold Mock<\/a>\s*<\/li>/', $result);
 		//check related table
 		$this->assertPattern('/<div class="related">\s*<h3>Related Scaffold Comments<\/h3>\s*<table cellpadding="0" cellspacing="0">/', $result);
-		$this->assertPattern('/<li><a href="\/scaffold_comments\/add\/">New Comment<\/a><\/li>/', $result);
+		$this->assertPattern('/<li><a href="\/scaffold_comments\/add">New Comment<\/a><\/li>/', $result);
 	}
 
 /**
@@ -544,7 +542,7 @@ class ScaffoldViewTest extends CakeTestCase {
 		$this->assertPattern('/<h2>Scaffold Mock<\/h2>/', $result);
 		$this->assertPattern('/<table cellpadding="0" cellspacing="0">/', $result);
 		//TODO: add testing for table generation
-		$this->assertPattern('/<li><a href="\/admin\/scaffold_mock\/add\/">New Scaffold Mock<\/a><\/li>/', $result);
+		$this->assertPattern('/<li><a href="\/admin\/scaffold_mock\/add">New Scaffold Mock<\/a><\/li>/', $result);
 
 		Configure::write('Routing.prefixes', $_backAdmin);
 	}
@@ -632,7 +630,7 @@ class ScaffoldViewTest extends CakeTestCase {
 		$this->assertPattern('/<h2>Scaffold Mock<\/h2>/', $result);
 		$this->assertPattern('/<table cellpadding="0" cellspacing="0">/', $result);
 		//TODO: add testing for table generation
-		$this->assertPattern('/<li><a href="\/member\/scaffold_mock\/add\/">New Scaffold Mock<\/a><\/li>/', $result);
+		$this->assertPattern('/<li><a href="\/member\/scaffold_mock\/add">New Scaffold Mock<\/a><\/li>/', $result);
 
 		Configure::write('Routing.prefixes', $_backAdmin);
 	}

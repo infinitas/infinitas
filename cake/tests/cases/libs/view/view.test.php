@@ -2,8 +2,6 @@
 /**
  * ViewTest file
  *
- * Long description for file
- *
  * PHP versions 4 and 5
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -445,11 +443,11 @@ class ViewTest extends CakeTestCase {
  */
 	function testUUIDGeneration() {
 		$result = $this->View->uuid('form', array('controller' => 'posts', 'action' => 'index'));
-		$this->assertEqual($result, 'form0425fe3bad');
+		$this->assertEqual($result, 'form5988016017');
 		$result = $this->View->uuid('form', array('controller' => 'posts', 'action' => 'index'));
-		$this->assertEqual($result, 'forma9918342a7');
+		$this->assertEqual($result, 'formc3dc6be854');
 		$result = $this->View->uuid('form', array('controller' => 'posts', 'action' => 'index'));
-		$this->assertEqual($result, 'form3ecf2e3e96');
+		$this->assertEqual($result, 'form28f92cc87f');
 	}
 
 /**
@@ -476,6 +474,13 @@ class ViewTest extends CakeTestCase {
 	function testElement() {
 		$result = $this->View->element('test_element');
 		$this->assertEqual($result, 'this is the test element');
+		
+		$result = $this->View->element('plugin_element', array('plugin' => 'test_plugin'));
+		$this->assertEqual($result, 'this is the plugin element using params[plugin]');
+		
+		$this->View->plugin = 'test_plugin';
+		$result = $this->View->element('test_plugin_element');
+		$this->assertEqual($result, 'this is the test set using View::$plugin plugin element');
 
 		$result = $this->View->element('non_existant_element');
 		$this->assertPattern('/Not Found:/', $result);
@@ -505,6 +510,10 @@ class ViewTest extends CakeTestCase {
  * @return void
  */
 	function testElementCache() {
+		$writable = is_writable(CACHE . 'views' . DS);
+		if ($this->skipIf(!$writable, 'CACHE/views dir is not writable, cannot test elementCache. %s')) {
+			return;
+		}
 		$View = new TestView($this->PostsController);
 		$element = 'test_element';
 		$expected = 'this is the test element';
@@ -720,6 +729,23 @@ class ViewTest extends CakeTestCase {
 	}
 
 /**
+ * test that view vars can replace the local helper variables
+ * and not overwrite the $this->Helper references
+ *
+ * @return void
+ */
+	function testViewVarOverwritingLocalHelperVar() {
+		$Controller = new ViewPostsController();
+		$Controller->helpers = array('Html');
+		$Controller->set('html', 'I am some test html');
+		$View = new View($Controller);
+		$result = $View->render('helper_overwrite', false);
+
+		$this->assertPattern('/I am some test html/', $result);
+		$this->assertPattern('/Test link/', $result);
+	}
+
+/**
  * testGetViewFileName method
  *
  * @access public
@@ -753,6 +779,10 @@ class ViewTest extends CakeTestCase {
  * @return void
  */
 	function testRenderCache() {
+		$writable = is_writable(CACHE . 'views' . DS);
+		if ($this->skipIf(!$writable, 'CACHE/views dir is not writable, cannot test renderCache. %s')) {
+			return;
+		}
 		$view = 'test_view';
 		$View = new View($this->PostsController);
 		$path = CACHE . 'views' . DS . 'view_cache_'.$view;
