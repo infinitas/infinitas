@@ -25,6 +25,8 @@ class InstallController extends InstallerAppController
      */
     var $components = null;
 
+    var $phpVersion = '5.0';
+
     /**
      * beforeFilter
      *
@@ -49,37 +51,90 @@ class InstallController extends InstallerAppController
     {
         $this->pageTitle = __( 'Installation: Welcome', true );
 
+        // core setup
         $setup[] = array (
-            'label' => __( 'PHP version', true ).' >= 4.3.0',
-            'value' => phpversion() >= '4.3' ? 'Yes' : 'No'
+            'label' => __( 'PHP version', true ).' >= '.$this->phpVersion.'.x',
+            'value' => phpversion() >= $this->phpVersion ? 'Yes' : 'No',
+            'desc'  => 'Php '.$this->phpVersion.'.x is recomended, although php 4.x may run Infinitas fine.'
         );
 
         $setup[] = array (
             'label' => __( 'zlib compression support', true ),
-            'value' => extension_loaded( 'zlib' ) ? 'Yes' : 'No'
+            'value' => extension_loaded( 'zlib' ) ? 'Yes' : 'No',
+            'desc'  => 'zlib is required for some of the functionality in Infinitas'
         );
 
         $setup[] = array (
             'label' => __( 'MySQL support', true ),
-            'value' => ( function_exists( 'mysql_connect' ) ) ? 'Yes' : 'No'
+            'value' => ( function_exists( 'mysql_connect' ) ) ? 'Yes' : 'No',
+            'desc'  => 'Infinitas uses mysql for generating dynamic content. Other databases will follow soon.'
         );
 
+        // path status
         $paths[] = array (
             'path'      => APP.'config',
-            'writeable' => is_writable( APP.'config' ) ? 'Yes' : 'No'
+            'writeable' => is_writable( APP.'config' ) ? 'Yes' : 'No',
+            'desc'      => 'This path needs to be writeable for Infinitas to complete the installation.'
         );
 
         $paths[] = array (
             'path'      => APP.'tmp',
-            'writeable' => is_writable( APP.'tmp' ) ? 'Yes' : 'No'
+            'writeable' => is_writable( APP.'tmp' ) ? 'Yes' : 'No',
+            'desc'      => 'The tmp dir needs to be writable for caching to work in Infinitas.'
         );
 
         $paths[] = array (
             'path'      => APP.'webroot',
-            'writeable' => is_writable( APP.'webroot' ) ? 'Yes' : 'No'
+            'writeable' => is_writable( APP.'webroot' ) ? 'Yes' : 'No',
+            'desc'      => 'This needs to be web accesible or your images and css will not be found.'
         );
 
-        $this->set( compact( 'setup', 'paths' ) );
+        // recomendations
+        $recomendations = array (
+            array (
+            	'setting'       => 'safe_mode',
+            	'recomendation' => 'Off',
+                'desc'          => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0'
+            ),
+            array (
+            	'setting'       => 'display_errors',
+            	'recomendation' => 'On',
+            	'desc'          => 'Infinitas will handle errors througout the app'
+            ),
+            array (
+            	'setting'       => 'file_uploads',
+            	'recomendation' => 'On',
+            	'desc'          => 'File uploads are needed for the wysiwyg editors and system installers'
+            ),
+            array (
+            	'setting'       => 'magic_quotes_runtime',
+            	'recomendation' => 'Off',
+            	'desc'          => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
+            ),
+            array (
+            	'setting'       => 'register_globals',
+            	'recomendation' => 'Off',
+            	'desc'          => 'This feature has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
+            ),
+            array (
+            	'setting'       => 'output_buffering',
+            	'recomendation' => 'Off',
+            	'desc'          => 'Infinitas will handle output_buffering for you throughout the app'
+            ),
+            array (
+            	'setting'       => 'session.auto_start',
+            	'recomendation' => 'Off',
+            	'desc'          => 'Sessions are completly hanled by Infinitas'
+            ),
+        );
+
+        foreach( $recomendations as $k => $setting )
+        {
+            $recomendations[$k]['actual'] = ( (int)ini_get( $setting['setting'] ) ? 'On' : 'Off' );
+            $recomendations[$k]['state']  = ( $recomendations[$k]['actual'] == $setting['setting'] ) ? 'No' : 'Yes';
+        }
+
+        $this->set( compact( 'setup', 'paths', 'recomendations' ) );
     }
 
     /**

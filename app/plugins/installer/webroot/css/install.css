@@ -82,5 +82,11 @@ img{border:0; float:left;}
 .ftr_nv span{ color:#36240C; font: bold 12px Trebuchet MS; float:left; padding:0 13px;}
 .ftr_nv a:hover{ text-decoration:underline; }
 
+.yes a, .on a{
+    color:green;
+}
+no a, off a{
+    color:red;
+}
 
 
