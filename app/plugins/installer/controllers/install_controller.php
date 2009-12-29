@@ -49,7 +49,7 @@ class InstallController extends InstallerAppController
      */
     function index()
     {
-        $this->pageTitle = __( 'Installation: Welcome', true );
+        $this->set( 'title_for_layout', __( 'Installation: Welcome', true ) );
 
         // core setup
         $setup[] = array (
@@ -137,6 +137,11 @@ class InstallController extends InstallerAppController
         $this->set( compact( 'setup', 'paths', 'recomendations' ) );
     }
 
+    function licence()
+    {
+        $this->set( 'title_for_layout', __( 'Licence', true ) );
+    }
+
     /**
      * database setup
      *
@@ -144,7 +149,7 @@ class InstallController extends InstallerAppController
      */
     function database()
     {
-        $this->pageTitle = __( 'Step 1: Database', true );
+        $this->set( 'title_for_layout', __( 'Database Configuration', true ) );
         if ( !empty( $this->data ) )
         {
             // test database connection
@@ -183,7 +188,7 @@ class InstallController extends InstallerAppController
      *
      * @return void
      */
-    function config()
+    function install()
     {
         $this->pageTitle = __( 'Step 2: Run SQL', true );
         // App::import('Core', 'Model');
@@ -206,6 +211,11 @@ class InstallController extends InstallerAppController
                 $this->redirect( array( 'action' => 'finish' ) );
             }
         }
+    }
+
+    function siteConfig()
+    {
+        $this->set( 'title_for_layout', __( 'Site Config', true ) );
     }
 
     /**

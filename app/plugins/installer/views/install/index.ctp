@@ -74,7 +74,7 @@
             echo $this->Html->link(
                 'Click here to continue',
                 array(
-                    'action' => 'database'
+                    'action' => 'licence'
                 )
             );
         }
