@@ -176,7 +176,7 @@ class InstallController extends InstallerAppController
         {
             if ( $this->__testConnection() )
             {
-                rename( APP.'config'.DS.'db.install', APP.'config'.DS.'database.php' );
+                copy( APP.'plugins'.DS.'installer'.DS.'config'.DS.'database.install', APP.'config'.DS.'database.php' );
 
                 App::import( 'Core', 'File' );
                 $file = new File( APP.'config'.DS.'database.php', true );
