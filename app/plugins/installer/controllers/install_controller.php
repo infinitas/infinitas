@@ -312,7 +312,14 @@ class InstallController extends InstallerAppController
     function __executeSQLScript( $db, $fileName )
     {
         $statements = file_get_contents( $fileName );
-        $statements = explode( ';'."\r\n", $statements );
+
+        $delimiter = ';'."\r\n";
+        if ( substr( APP, 0, 1 ) == '/' )
+        {
+            $delimiter = ';'."\n";
+        }
+
+        $statements = explode( $delimiter, $statements );
 
         $status = true;
         foreach ( $statements as $statement )
