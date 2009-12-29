@@ -30,6 +30,7 @@
             'class' => 'Comment', // name of Comment model
             'foreign_key' => 'foreign_id', // foreign key of Comment model
             'counter_cache' => true,
+            'counter_cache_scope' => array( 'Comment.active' => 1 ),
             'dependent' => true, // model dependency
             'conditions' => array(), // conditions for find method on Comment model
             'auto_bind' => true, // automatically bind the model to the User model (default true),
@@ -40,7 +41,7 @@
             'column_email' => 'email', // Column name for the authors email
             'column_website' => 'website', // Column name for the authors website
             'column_foreign_id' => 'foreign_id', // Column name of the foreign id that links to the article/entry/etc
-            'column_status' => 'active', // Column name for automatic rating
+            'column_status' => 'status', // Column name for automatic rating
             'column_points' => 'points', // Column name for accrued points
             'blacklist_keywords' => array(
                 'levitra', 'viagra', 'casino', 'sex', 'loan', 'finance',
@@ -88,10 +89,12 @@
                         'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
                         'dependent' => $this->__settings[$model->alias]['dependent'],
                         'conditions' => $this->__settings[$model->alias]['conditions'] ) );
+
                 $commentBelongsTo = array( $model->alias => array(
                         'className' => $model->alias,
                         'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
-                        'counterCache' => $this->__settings[$model->alias]['counter_cache']
+                        'counterCache' => $this->__settings[$model->alias]['counter_cache'],
+                        'counterScope' => $this->__settings[$model->alias]['counter_cache_scope']
                         )
                     );
                 $model->bindModel( array( 'hasMany' => $hasManyComment ), false );
@@ -151,6 +154,17 @@
                 $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
                 $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_foreign_id']] = $id;
                 $data[$this->__settings[$model->alias]['class']] = $this->_rateComment( $model, $data['Comment'] );
+
+                if ( $data[$this->__settings[$model->alias]['class']]['status'] == 'spam' )
+                {
+                    $data[$this->__settings[$model->alias]['class']]['active'] == 0;
+                }
+
+                else if ( Configure::read( 'Comments.auto_moderate' ) === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam')
+                {
+                    $data[$this->__settings[$model->alias]['class']]['active'] == 1;
+                }
+
                 if ( $this->__settings[$model->alias]['sanitize'] )
                 {
                     App::import( 'Sanitize' );
@@ -243,11 +257,11 @@
                 $data[$this->__settings[$model->alias]['column_content']], $matches );
             $links = $matches[0];
 
-            $totalLinks = count( $links );
+            $this->totalLinks = count( $links );
             $length = mb_strlen( $data[$this->__settings[$model->alias]['column_content']] );
             // How many links are in the body
             // -1 per link if over 2, otherwise +2 if less than 2
-            $points = ( $totalLinks > 2 ) ? $totalLinks * - 1 : 2;
+            $points = ( $this->totalLinks > 2 ) ? $totalLinks * - 1 : 2;
             // URLs that have certain words or characters in them
             // -1 per blacklisted word
             // URL length
@@ -274,13 +288,18 @@
             // How long is the body
             // +2 if more then 20 chars and no links, -1 if less then 20
             $length = mb_strlen( $data[$this->__settings[$model->alias]['column_content']] );
-            if ( $length >= 20 && $totalLinks <= 0 )
+
+            if ( $length >= 20 && $this->totalLinks <= 0 )
             {
                 return 2;
-            } elseif ( $length >= 20 && $totalLinks == 1 )
+            }
+
+            elseif ( $length >= 20 && $this->totalLinks == 1 )
             {
                 return 1;
-            } elseif ( $length < 20 )
+            }
+
+            elseif ( $length < 20 )
             {
                 return - 1;
             }
@@ -291,13 +310,15 @@
             $points = 0;
             // Number of previous comments from email
             // +1 per approved, -1 per spam
-            $comments = $model->Comment->find( 'all', array(
+            $comments = $model->Comment->find(
+                'all', array(
                     'fields' => array( 'Comment.id', 'Comment.status' ),
                     'conditions' => array(
                         'Comment.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']] ),
                     'recursive' => - 1,
                     'contain' => false
-                    ) );
+                )
+            );
 
             if ( !empty( $comments ) )
             {
@@ -306,7 +327,9 @@
                     if ( $comment['Comment']['status'] == 'spam' )
                     {
                         --$points;
-                    } elseif ( $comment['Comment']['status'] == 'approved' )
+                    }
+
+                    elseif ( $comment['Comment']['status'] == 'approved' )
                     {
                         ++$points;
                     }

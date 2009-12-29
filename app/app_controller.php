@@ -146,33 +146,31 @@
         * Common methods for the app
         */
 
-        protected function comment()
+        protected function comment($id = null)
         {
-            if ( !empty( $this->data ) )
+            if ( !empty( $this->data['Comment'] ) )
             {
-                if ( !isset( $this->data[Inflector::classify( $this->name )]['id'] ) )
+
+                $message = 'Your comment has been saved and will be available after admin moderation.';
+                if ( Configure::read( 'Comments.auto_moderate' ) === true )
                 {
-                    $this->Session->setFlash( __( 'There is a problem with your comment.', true ) );
-                    $this->redirect( $this->referer() );
+                    $this->data['Comment']['active'] = 1;
+                    $message = 'Your comment has been saved and is active.';
                 }
 
-                $this->data['Comment']['foreign_id'] = $this->data[Inflector::classify( $this->name )]['id'];
-                $this->data['Comment']['class']      = $this->__getClassName();
-
-                $comment['Comment'] = $this->data['Comment'];
-
-                ClassRegistry::init( 'Core.Comment' )->create();
-
-                if ( ClassRegistry::init( 'Core.Comment' )->save( $comment ) )
+                if ( $this->Post->createComment( $id, $this->data ) )
                 {
-                    $this->Session->setFlash( __( 'Your comment has been saved for review.', true ) );
-                    $this->redirect( $this->referer() );
+                    $this->Session->setFlash( __( $message, true ) );
+                    $this->redirect( array( 'action' => 'view', $this->data[$this->modelClass]['id'] ) );
                 }
 
-                $this->Session->setFlash( __( 'Your comment could not be saved, please try again.', true ) );
-                $this->redirect( $this->referer() );
+                else
+                {
+                    $this->Session->setFlash( __( 'Your comment was not saved. Please check for errors and try again', true ) );
+                }
             }
         }
+
 
         function __getClassName()
         {

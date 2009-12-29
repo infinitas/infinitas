@@ -33,7 +33,8 @@
         var $actsAs = array(
             'Core.Sluggable',
             'Core.Viewable',
-            'Core.Feedable'
+            'Core.Feedable',
+            'Core.Commentable'
         );
 
         var $validate = array(

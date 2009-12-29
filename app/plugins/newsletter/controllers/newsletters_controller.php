@@ -238,6 +238,11 @@
 
         }
 
+        function admin_testSend( $id = null )
+        {
+
+        }
+
         function admin_delte()
         {
 
