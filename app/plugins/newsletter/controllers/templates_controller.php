@@ -117,6 +117,8 @@
             $File = new File( $path.DS.'template.xml', true );
             $Folder = new Folder( $path.DS.'img', true );
 
+            $image_files = array();
+
             foreach( $images[1] as $img )
             {
                 $slash = $Folder->correctSlashFor( $path );
@@ -153,6 +155,27 @@
 
             $File->path = $path.DS.'template.xml';
             $File->write( $xml_string );
+
+            App::import( 'Vendor', 'Zip', array( 'file' => 'zip.php' ) );
+
+            $Zip = new CreateZipFile();
+
+            $Zip->zipDirectory( $path, $path.DS.'template.zip' );
+
+            $File = new File( $path.DS.'template.zip', true );
+            $File->write( $Zip->getZippedfile() );
+
+            $this->view = 'Media';
+            $params = array(
+                'id' => 'template.zip',
+                'name' => $template['Template']['name'],
+                'download' => true,
+                'extension' => 'zip',
+                'path' => $path.DS.'template.zip'
+            );
+            $this->set( $params );
+
+            //@unlink($zipName);
         }
 
         function admin_preview( $id = null )
