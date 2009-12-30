@@ -3,6 +3,8 @@
     {
         var $name = 'Templates';
 
+        var $version = '0.5';
+
         var $helpers = array(
         );
 
@@ -84,6 +86,73 @@
             }
 
             $this->set( 'template', $this->Template->read( null, $id ) );
+        }
+
+        function admin_export( $id = null )
+        {
+            if ( !$id )
+            {
+                $this->Session->setFlash( __( 'Please select a template', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $this->Template->recursive = -1;
+            $template = $this->Template->read( array( 'name', 'description', 'author', 'header', 'footer' ), $id );
+
+            if ( empty( $template ) )
+            {
+                $this->Session->setFlash( __( 'The template does not exist.', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $pattern = "/src=[\\\"']?([^\\\"']?.*(png|jpg|gif))[\\\"']?/i";
+            preg_match_all( $pattern, $template['Template']['header'], $images );
+
+
+            $path = TMP.'cache'.DS.'newsletter'.DS.'template'.DS.$template['Template']['name'];
+
+            App::import( 'File' );
+            App::import( 'Folder' );
+
+            $File = new File( $path.DS.'template.xml', true );
+            $Folder = new Folder( $path.DS.'img', true );
+
+            foreach( $images[1] as $img )
+            {
+                $slash = $Folder->correctSlashFor( $path );
+                $img = str_replace( '/', $slash, $img );
+                $img = str_replace( '\\', $slash, $img );
+
+                $image_files[] = $img;
+
+                if ( is_file( APP.'webroot'.$img ) )
+                {
+                    $image_path = dirname( $path.$img );
+                    $Folder->create( $image_path );
+
+                    $File->path = APP.'webroot'.$img;
+                    $file_name = basename( $img );
+                    $File->copy( $image_path.DS.$file_name );
+                }
+            }
+
+            $xml['template']['name']        = 'Infinitas Newsletter Template';
+            $xml['template']['generator']   = 'Infinitas Template Generator';
+            $xml['template']['version']     = $this->version;
+            $xml['template']['template']    = $template['Template']['name'];
+            $xml['template']['description'] = $template['Template']['description'];
+            $xml['template']['author']      = $template['Template']['author'];
+            $xml['data']['header']          = $template['Template']['header'];
+            $xml['data']['footer']          = $template['Template']['footer'];
+            $xml['files']['images']         = $image_files;
+
+            App::Import( 'Helper', 'Xml' );
+            $Xml = new XmlHelper();
+
+            $xml_string = $Xml->serialize( $xml );
+
+            $File->path = $path.DS.'template.xml';
+            $File->write( $xml_string );
         }
 
         function admin_preview( $id = null )

@@ -61,7 +61,8 @@
                         <td>
                             <?php
 
-                                echo $this->Html->link( 'preview', array( 'action' => 'view', $template['Template']['id'] ) ), ' ',
+                                echo $this->Html->link( 'export', array( 'action' => 'export', $template['Template']['id'] ) ), ' ',
+                                $this->Html->link( 'preview', array( 'action' => 'view', $template['Template']['id'] ) ), ' ',
                                 $this->Html->link( 'edit', array( 'action' => 'edit', $template['Template']['id'] ) ), ' ',
                                 $this->Html->link( 'delete', array( 'action' => 'delete', $template['Template']['id'] ) );
                             ?>
