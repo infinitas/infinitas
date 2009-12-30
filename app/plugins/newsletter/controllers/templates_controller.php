@@ -105,36 +105,37 @@
                 $this->redirect( $this->referer() );
             }
 
-            $pattern = "/src=[\\\"']?([^\\\"']?.*(png|jpg|gif))[\\\"']?/i";
+            $pattern = "/src=[\\\"']?([^\\\"']?.*(png|jpg|gif|jpeg))[\\\"']?/i";
             preg_match_all( $pattern, $template['Template']['header'], $images );
 
 
             $path = TMP.'cache'.DS.'newsletter'.DS.'template'.DS.$template['Template']['name'];
 
+            $Folder = new Folder( $path, 0777 );
+            $slash = $Folder->correctSlashFor( $path );
+
             App::import( 'File' );
             App::import( 'Folder' );
 
-            $File = new File( $path.DS.'template.xml', true );
-            $Folder = new Folder( $path.DS.'img', true );
+            $File = new File( $path.DS.'template.xml', true, 0777 );
 
             $image_files = array();
 
-            foreach( $images[1] as $img )
+            if ( !empty( $images[1] ) )
             {
-                $slash = $Folder->correctSlashFor( $path );
-                $img = str_replace( '/', $slash, $img );
-                $img = str_replace( '\\', $slash, $img );
-
-                $image_files[] = $img;
-
-                if ( is_file( APP.'webroot'.$img ) )
+                foreach( $images[1] as $img )
                 {
-                    $image_path = dirname( $path.$img );
-                    $Folder->create( $image_path );
+                    $img = str_replace( '/', $slash, $img );
+                    $img = str_replace( '\\', $slash.$slash, $img );
 
-                    $File->path = APP.'webroot'.$img;
-                    $file_name = basename( $img );
-                    $File->copy( $image_path.DS.$file_name );
+                    $image_files[] = $img;
+
+                    if ( is_file( APP.'webroot'.$img ) )
+                    {
+                        $Folder->create( dirname( $path.$img ), 0777 );
+                        $File->path = APP.'webroot'.$img;
+                        $File->copy( dirname( $path.$img ).DS.basename( $img ) );
+                    }
                 }
             }
 
@@ -159,10 +160,8 @@
             App::import( 'Vendor', 'Zip', array( 'file' => 'zip.php' ) );
 
             $Zip = new CreateZipFile();
-
-            $Zip->zipDirectory( $path, $path.DS.'template.zip' );
-
-            $File = new File( $path.DS.'template.zip', true );
+            $Zip->zipDirectory( $path, null );
+            $File = new File( $path.DS.'template.zip', true, 0777 );
             $File->write( $Zip->getZippedfile() );
 
             $this->view = 'Media';
@@ -173,10 +172,11 @@
                 'extension' => 'zip',
                 'path' => $path.DS
             );
-            $this->set( $params );
 
+            $this->set( $params );
+            $Folder = new Folder( $path );
+            $Folder->read();
             $Folder->delete( $path );
-            pr( $Folder->__errors );
         }
 
         function admin_preview( $id = null )
