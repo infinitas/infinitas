@@ -3,7 +3,7 @@
      *
      *
      */
-    class ConfigComponent extends Object
+    class CoreConfigComponent extends Object
     {
         function startup( &$controller )
         {

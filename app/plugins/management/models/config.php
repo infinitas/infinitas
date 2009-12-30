@@ -59,5 +59,31 @@
 
             return $configs;
         }
+
+        function afterSave( $created )
+        {
+            parent::afterSave( $created );
+
+            $this->__clearCache();
+            return true;
+        }
+
+        function afterDelete()
+        {
+            parent::afterDelete();
+
+            $this->__clearCache();
+            return true;
+        }
+
+        private function __clearCache()
+        {
+            if ( is_file( CACHE.'core'.DS.'core_configs' ) )
+            {
+                unlink( CACHE.'core'.DS.'core_configs' );
+            }
+
+            return true;
+        }
     }
 ?>

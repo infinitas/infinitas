@@ -17,11 +17,13 @@
         );
 
         var $components = array(
+            'Core.CoreConfig',
+
             // cake components
             'Session',
 
             //core components
-            'DebugKit.Toolbar', 'Core.Cron', 'Core.Config',
+            'DebugKit.Toolbar', 'Core.Cron',
 
             // components
             'Filter.Filter' => array(
@@ -40,7 +42,7 @@
         {
             parent::beforeFilter();
 
-            //$this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 1 ) ) ) );
+            $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 1 ) ) ) );
 
             $this->__checkUrl();
             $this->__setupLayout();
@@ -51,7 +53,10 @@
 
             if ( isset( $this->params['prefix'] ) && $this->params['prefix'] == 'admin' && !in_array( $this->params['action'], $this->viewableActions ) )
             {
-                $this->{$this->modelClass}->Behaviors->detach( 'Viewable' );
+                if ( isset( $this->{$this->modelClass}->Behaviors ) )
+                {
+                    $this->{$this->modelClass}->Behaviors->detach( 'Viewable' );
+                }
             }
         }
 
