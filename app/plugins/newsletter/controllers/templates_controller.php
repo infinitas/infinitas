@@ -171,11 +171,12 @@
                 'name' => $template['Template']['name'],
                 'download' => true,
                 'extension' => 'zip',
-                'path' => $path.DS.'template.zip'
+                'path' => $path.DS
             );
             $this->set( $params );
 
-            //@unlink($zipName);
+            $Folder->delete( $path );
+            pr( $Folder->__errors );
         }
 
         function admin_preview( $id = null )

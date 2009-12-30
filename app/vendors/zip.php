@@ -26,7 +26,9 @@
          */
         public function addDirectory( $directoryName )
         {
+            $directoryName = str_replace( $this->mainPath, '', $directoryName );
             $directoryName = str_replace( "\\", "/", $directoryName );
+            $directoryName = substr( $directoryName, 1 );
             $feedArrayRow = "\x50\x4b\x03\x04";
             $feedArrayRow .= "\x0a\x00";
             $feedArrayRow .= "\x00\x00";
@@ -76,6 +78,7 @@
         {
             $directoryName = str_replace( $this->mainPath, '', $directoryName );
             $directoryName = str_replace( "\\", "/", $directoryName );
+            $directoryName = substr( $directoryName, 1 );
             $feedArrayRow = "\x50\x4b\x03\x04";
             $feedArrayRow .= "\x14\x00";
             $feedArrayRow .= "\x00\x00";
@@ -194,8 +197,10 @@
             for ( $i = 0;$i < $count;$i++ )
             {
                 $fileToZip = trim( $tmp[$i] );
+
                 $newOutputDir = substr( $fileToZip, 0, ( strrpos( $fileToZip, '/' ) + 1 ) );
                 $outputDir = $outputDir . $newOutputDir;
+
                 $fileContents = file_get_contents( $fileToZip );
                 $this->addFile( $fileContents, $fileToZip );
             }
