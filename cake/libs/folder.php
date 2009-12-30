@@ -583,6 +583,8 @@ class Folder extends Object {
 				}
 			}
 			$path = substr($path, 0, strlen($path) - 1);
+
+            clearstatcache();
 			if (rmdir($path) === false) {
 				$this->__errors[] = sprintf(__('%s NOT removed', true), $path);
 				return false;
