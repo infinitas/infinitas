@@ -17,11 +17,13 @@
         );
 
         var $components = array(
+            'Core.CoreConfig',
+
             // cake components
             'Session',
 
             //core components
-            'DebugKit.Toolbar', 'Core.Cron', 'Core.Config',
+            'DebugKit.Toolbar', 'Core.Cron',
 
             // components
             'Filter.Filter' => array(

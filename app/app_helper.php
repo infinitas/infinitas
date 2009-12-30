@@ -11,7 +11,7 @@
 
         var $errors = array();
 
-        var $helpers = array( 'Core.Wysiwyg', 'Core.Gravatar' );
+        var $helpers = array( 'Html', 'Core.Wysiwyg', 'Core.Gravatar' );
 
         /**
         * create some bread crumbs.
