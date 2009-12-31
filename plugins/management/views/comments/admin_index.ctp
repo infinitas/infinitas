@@ -19,19 +19,20 @@
      */
 ?>
 <?php
-    echo $this->Blog->adminIndexHead( $this, $paginator );
+    echo $this->Core->adminIndexHead( $this, $paginator );
 ?>
 <div class="table">
-    <?php echo $this->Blog->adminTableHeadImages(); ?>
+    <?php echo $this->Core->adminTableHeadImages(); ?>
     <?php echo $this->Form->create( 'Comment', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Blog->adminTableHeader(
+            echo $this->Core->adminTableHeader(
                 array(
                     $this->Form->checkbox( 'all' ) => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
+                    $paginator->sort( __( 'Where', true ), 'class' ),
                     $paginator->sort( 'name' ) => array(
                         'style' => '50px;'
                     ),
@@ -39,9 +40,6 @@
                         'style' => '50px;'
                     ),
                     $paginator->sort( 'website' ) => array(
-                        'style' => '50px;'
-                    ),
-                    $paginator->sort( 'Post', 'Post.title' ) => array(
                         'style' => '50px;'
                     ),
                     $paginator->sort( 'comment' ),
@@ -61,12 +59,12 @@
             foreach( $comments as $comment )
             {
                 ?>
-                    <tr class="<?php echo $this->Blog->rowClass( $i ); ?>">
+                    <tr class="<?php echo $this->Core->rowClass( $i ); ?>">
                         <td><?php echo $this->Form->checkbox( $comment['Comment']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $comment['Comment']['class']; ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['name']; ?>&nbsp;</td>
-                        <td><?php echo $comment['Comment']['email']; ?>&nbsp;</td>
-                        <td><?php echo $comment['Comment']['website']; ?>&nbsp;</td>
-                        <td><?php echo $this->Html->link( $comment['Post']['title'], array( 'controller' => 'posts', 'action' => 'view', $comment['Post']['slug'], 'admin' => false ), array( 'target' => '_blank' ) ); ?>&nbsp;</td>
+                        <td><?php echo $this->Text->autoLinkEmails( $comment['Comment']['email'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Text->autoLinkUrls( $comment['Comment']['website'] ); ?>&nbsp;</td>
                         <td><?php echo htmlspecialchars( $comment['Comment']['comment'] ); ?>&nbsp;</td>
                         <td><?php echo $this->Time->timeAgoInWords( $comment['Comment']['created'] ); ?>&nbsp;</td>
                         <td>

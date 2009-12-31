@@ -17,9 +17,11 @@
      * @subpackage    blog.controllers.comments
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-    class CommentsController extends BlogAppController
+    class CommentsController extends ManagementAppController
     {
         var $name = 'Comments';
+
+        var $helpers = array( 'Text' );
 
         var $uses = array( 'Core.Comment' );
 
@@ -28,6 +30,7 @@
             $this->paginate = array(
                 'fields' => array(
                     'Comment.id',
+                    'Comment.class',
                     'Comment.name',
                     'Comment.email',
                     'Comment.website',
@@ -40,17 +43,7 @@
                     'Comment.active' => 'ASC',
                     'Comment.created' => 'ASC',
                 ),
-                'limit' => 20,
-                'Comment' => array(
-                    'contain' => array(
-                        'Post' => array(
-                            'fields' => array(
-                                'Post.title',
-                                'Post.slug'
-                            )
-                        )
-                    )
-                )
+                'limit' => 20
             );
 
             $comments = $this->paginate( 'Comment' );
