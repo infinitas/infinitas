@@ -1,9 +1,9 @@
 <?php
+
     /**
-     * Blog pagination view element file.
+     * Comment Template.
      *
-     * this is a custom pagination element for the blog plugin.  you can
-     * customize the entire blog pagination look and feel by modyfying this file.
+     * @todo -c Implement .this needs to be sorted out.
      *
      * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      *
@@ -13,10 +13,12 @@
      * @filesource
      * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      * @link          http://www.dogmatic.co.za
-     * @package       blog
-     * @subpackage    blog.views.elements.pagination.navigation
+     * @package       sort
+     * @subpackage    sort.comments
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
      */
+
 ?>
 <div class="clr">&nbsp;</div>
 <div class="pagination">

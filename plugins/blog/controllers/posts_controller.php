@@ -16,23 +16,44 @@
      * @package       blog
      * @subpackage    blog.controllers.posts
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
      */
     class PostsController extends BlogAppController
     {
+        /**
+         * Class name.
+         *
+         * @access public
+         * @var string
+         */
         var $name = 'Posts';
 
+        /**
+         * Helpers.
+         *
+         * @access public
+         * @var array
+         */
         var $helpers = array( 'Core.Geshi' );
 
+        /**
+         * PostsController::beforeFilter()
+         *
+         * empty
+         */
         function beforeFilter()
         {
             parent::beforeFilter();
-
-            /**
-            * @todo -cPostsController Implement PostsController.beforeFilter
-            * - unBind Viewable for admin
-            */
         }
 
+        /**
+         * Index for users
+         *
+         * @param string $tag used to find posts with a tag
+         * @param string $year used to find posts in a cetain year
+         * @param string $month used to find posts in a year and month needs year
+         * @return
+         */
         function index( $tag = null, $year = null, $month = null )
         {
             $post_ids = '';
@@ -73,6 +94,12 @@
             $this->set( compact( 'posts' ) );
         }
 
+        /**
+         * User view
+         *
+         * @param string $slug the slug for the record
+         * @return na
+         */
         function view( $slug = null )
         {
             if ( !$slug )
@@ -121,6 +148,9 @@
                 )
             );
 
+            /**
+             * make sure there is something found and the post is active
+             */
             if ( empty( $post ) || !$post['Post']['active'] )
             {
                 $this->Session->setFlash( 'No post was found', true );
@@ -131,12 +161,16 @@
             $this->set( 'title_for_layout', $post['Post']['slug'] );
         }
 
-
-
         /**
-        * Admin Section
+         * Admin Section.
+         *
+         * All the admin methods.
          */
-
+        /**
+         * Admin dashboard
+         *
+         * @return na
+         */
         function admin_dashboard()
         {
             $feed = $this->Post->find(
@@ -181,6 +215,13 @@
             $this->set( 'dashboardCommentsCount', $this->Post->Comment->getCounts( 'Blog.Post' ) );
         }
 
+        /**
+         * Admin index.
+         *
+         * Uses the {@see FilterComponent} component to filter results.
+         *
+         * @return na
+         */
         function admin_index()
         {
             $this->Post->recursive = 0;
@@ -188,6 +229,14 @@
             $this->set( compact( 'posts' ) );
         }
 
+        /**
+         * Admin add.
+         *
+         * This does some trickery for creating tags from the textarea comma
+         * delimited. also makes sure there are no duplicates created.
+         *
+         * @return na
+         */
         function admin_add()
         {
             if ( !empty( $this->data ) )
@@ -296,6 +345,9 @@
             $this->render( 'view' );
         }
 
+        /**
+        *
+        */
         function admin_mass()
         {
             pr( $this->params['form'] );

@@ -1,0 +1,80 @@
+## CakePHP Google Api (CakePHP GApi)
+
+This is a set of datasources, models, libs and helpers that will eventually allow you to use all of Google's api's in CakePhp.
+
+### Structure definition of CakePHP GApi (So far)
+
+#### General Google API methods like auth and sendRequest
+
+##### app/libs/
+           google_api_base.php
+
+#### Specific API interaction classes that extend google_api_base (to be used by datasources)
+
+##### app/libs/
+           google_api_adsense.php
+           google_api_adwords.php
+           google_api_analytics.php
+           google_api_blogger.php
+           google_api_calendar.php
+           google_api_checkout.php
+           google_api_contacts.php
+           google_api_finance.php
+
+#### Models
+
+##### app/models/
+           google_contacts.php
+           google_adwords.php
+           google_analytics.php
+           google_blogger.php
+           google_calendar.php
+           google_checkout.php
+           google_contacts.php
+           google_finance.php
+
+#### Datasources
+
+##### app/models/datasources/
+           google_contacts_source.php
+           google_adwords_source.php
+           google_analytics_source.php
+           google_blogger_source.php
+           google_calendar_source.php
+           google_checkout_source.php
+           google_contacts_source.php
+           google_finance_source.php
+
+#### Helpers (dogmatic should define this)
+
+##### app/views/helpers/
+           chart.php
+           map.php
+
+## Contributing to CakePHP GApi
+
+If you want to help to contribute in any way, please fork the project on github.
+Once you have forked the project you can commit your code.
+Once you have pushed your changes back to github send a pull request, and your changes will be reviewed and merged in or feedback will be given.
+
+Order in branches new code should have is the following:
+
+Dev -> Testing -> Master
+
+We should keep master branch free of bugs as they are filtered by dev and testing branches.
+
+## Issues with CakePHP GApi
+
+For a list of known issues have a look at the issue tracker.
+If you have issues with CakePHP GApi, you can report them at the issue tracker. 
+
+You can look at the wiki for more information on how to use CakePHP GApi, they will all be self containing so that you are able to use them independent form each other.
+
+## License
+
+The MIT License (http://www.opensource.org/licenses/mit-license.php)
+Redistributions of files must retain the above copyright notice.
+
+## Contact Collaborators (dogmatic, imekinox)
+
+Look for us on irc.freenode.net #cakephp or send a message on github to us.

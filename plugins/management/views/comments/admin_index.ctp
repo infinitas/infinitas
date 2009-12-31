@@ -17,8 +17,7 @@
      * @subpackage    blog.views.comments.admin_index
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-?>
-<?php
+
     echo $this->Core->adminIndexHead( $this, $paginator );
 ?>
 <div class="table">

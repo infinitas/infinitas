@@ -1,10 +1,20 @@
-<div id="menu">
-    <ul>
-        <li class="first"><a href="#">Home</a></li>
-        <li><a href="#">Archives</a></li>
-        <li><a href="#">Links</a></li>
-        <li><a href="#">Resources</a></li>
-        <li><a href="#">Contact</a></li>
-    </ul>
-    <div id="date"><?php echo date( 'F d, Y' ); ?></div>
-</div>
+<?php
+    /**
+     * Comment Template.
+     *
+     * @todo -c Implement .this needs to be sorted out.
+     *
+     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     *
+     * Licensed under The MIT License
+     * Redistributions of files must retain the above copyright notice.
+     *
+     * @filesource
+     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     * @link          http://www.dogmatic.co.za
+     * @package       sort
+     * @subpackage    sort.comments
+     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
+     */
+?>
