@@ -237,6 +237,7 @@ class CronComponent extends Object
 
     function _parseElement( $element, &$targetArray, $numberOfElements )
     {
+        $this->log( $element, 'cron_jobs' );
         $subelements = explode( ",", $element );
         for ( $i = 0;$i < $numberOfElements;$i++ )
         {
@@ -251,14 +252,18 @@ class CronComponent extends Object
                 {
                     $matches[2] = 0; // from
                     $matches[4] = $numberOfElements; //to
-                } elseif ( $matches[4] == "" )
+                }
+
+                elseif ( isset( $matches[4] ) && $matches[4] == "" )
                 {
                     $matches[4] = $matches[2];
                 }
-                if ( $matches[5][0] != "/" )
+
+                if ( isset( $matches[5] ) && $matches[5][0] != "/" )
                 {
                     $matches[6] = 1; // step
                 }
+
                 for ( $j = $this->_lTrimZeros( $matches[2] );$j <= $this->_lTrimZeros( $matches[4] );$j += $this->_lTrimZeros( $matches[6] ) )
                 {
                     $targetArray[$j] = true;
