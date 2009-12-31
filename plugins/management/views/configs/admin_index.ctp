@@ -63,7 +63,6 @@
                 		</td>
                 		<td class="actions">
                 			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $config['Config']['id'])); ?>
-                			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $config['Config']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $config['Config']['id'])); ?>
                 		</td>
                 	</tr>
                 <?php
