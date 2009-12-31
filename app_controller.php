@@ -42,7 +42,7 @@
         {
             parent::beforeFilter();
 
-            $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 1 ) ) ) );
+            //$this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 1 ) ) ) );
 
             $this->__checkUrl();
             $this->__setupLayout();
