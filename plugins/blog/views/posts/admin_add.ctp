@@ -17,7 +17,6 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-
     echo $this->Blog->adminOtherHead( $this );
     echo $this->Form->create( 'Post' );
         echo $this->Form->input( 'title', array( 'class' => 'title' ) );

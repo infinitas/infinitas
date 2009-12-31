@@ -16,8 +16,7 @@
      * @subpackage    blog.views.posts.admin_index
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-?>
-<?php
+
     echo $this->Blog->adminIndexHead( $this, $paginator );
 ?>
 <div class="table">
