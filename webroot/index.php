@@ -50,7 +50,7 @@
  *
  */
 	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-		define('CAKE_CORE_INCLUDE_PATH', 'C:\\Users\\dogmatic\\websites\\git\\cakephp\\cakephp1x');
+		define('CAKE_CORE_INCLUDE_PATH', ROOT);
 	}
 
 /**
