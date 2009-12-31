@@ -1,7 +1,0 @@
-#comments start with '#'
-#mi  h    d    m    dow      job                       comment
-#0    5    *    *    Sun      /users/cleanup     # make user cleanu every sunday at 5 am
-#40   5    2    *    *        /posts/makeIndex   #build an index of your posts
-#*/15 8-19 *    *    Mon-Fri  /emails/send       # Send emails
-
-5    *    *    *    *      /admin/newsletter/newsletters/index     # make user cleanu every sunday at 5 am

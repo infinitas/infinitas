@@ -1,1 +1,0 @@
-<?php echo str_replace( '<br/>', "\r", strip_tags( $email ) ); ?>
