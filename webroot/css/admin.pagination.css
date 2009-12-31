@@ -1,0 +1,85 @@
+.pagination .wrap{
+    display:table;
+    margin:0 auto;
+}
+.pagination{
+    border-top:      2px solid #FF7700;
+    border-bottom:   2px solid #FF7700;
+    height:          27px;
+    padding-top:     5px;
+    line-height:     21px;
+    font-size:       120%;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    text-decoration: none;
+    color: #0B55C4;
+}
+
+.pagination a,
+.pagination span a {
+}
+
+.pagination .numbers span {
+    padding-left:10px;
+}
+
+.button2-left,
+.button2-right,
+.button2-left div,
+.button2-right div {
+    float:left;
+}
+
+.pagination .limit{
+    height: 19px;
+    float:  left;
+}
+.pagination .button2-right,
+.pagination .button2-left{
+    float:       left;
+    margin-left: 5px;
+    height:      22px;
+}
+.pagination .button2-right{
+    background:  url( ../img/admin/button-right.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .button2-left{
+    background:  url( ../img/admin/button-left.png ) no-repeat scroll 0 0 transparent;
+}
+
+.pagination .start,
+.pagination .prev{
+    height:        22px;
+    padding-left:  25px;
+    padding-right: 10px;
+}
+
+.pagination .button2-right .start{
+    background:    url( ../img/admin/button-first.png ) no-repeat scroll 0 0 transparent;
+}
+.pagination .button2-right .prev{
+    background:    url( ../img/admin/button-first.png ) no-repeat scroll 0 0 transparent;
+    float:left;
+}
+
+.pagination .numbers{
+    background:  url( ../img/admin/button-right-cap.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .last,
+.pagination .next{
+    height:        22px;
+    padding-right: 25px;
+    padding-left:  10px;
+}
+
+.pagination .button2-left .next{
+    background:    url( ../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .button2-left .last{
+    background:    url( ../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
+}
