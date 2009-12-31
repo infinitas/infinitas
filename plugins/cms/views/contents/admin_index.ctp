@@ -1,5 +1,5 @@
 <?php
-    echo $this->Cms->adminIndexHead( $this, $paginator );
+    echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions );
     /**
      * Comment Template.
      *

@@ -22,6 +22,10 @@
     {
         var $name = 'Categories';
 
+        var $helpers = array(
+            'Filter.Filter'
+        );
+
         function index()
         {
             $this->Category->recursive = 0;
@@ -79,6 +83,7 @@
 
             $this->Category->recursive = 0;
             $this->set( 'categories', $this->paginate( null, $this->Filter->filter ) );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         function admin_view( $id = null )

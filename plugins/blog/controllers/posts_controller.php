@@ -224,10 +224,10 @@
          */
         function admin_index()
         {
-            $filterOptions = $this->Filter->filterOptions;
             $this->Post->recursive = 0;
             $posts = $this->paginate( null, $this->Filter->filter );
-            $this->set( compact( 'filterOptions', 'posts' ) );
+            $this->set( compact( 'posts' ) );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         /**

@@ -22,6 +22,14 @@
     {
         var $name = 'Contents';
 
+        /**
+         * Helpers.
+         *
+         * @access public
+         * @var array
+         */
+        var $helpers = array( 'Filter.Filter' );
+
         function index()
         {
             $this->Content->recursive = 0;
@@ -49,6 +57,7 @@
 
             $this->Content->recursive = 1;
             $this->set( 'contents', $this->paginate( null, $this->Filter->filter ) );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         function admin_view( $id = null )

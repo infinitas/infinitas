@@ -22,6 +22,14 @@
     {
         var $name = 'ContentFrontpages';
 
+        /**
+         * Helpers.
+         *
+         * @access public
+         * @var array
+         */
+        var $helpers = array( 'Filter.Filter' );
+
         function index()
         {
             $this->ContentFrontpage->recursive = 0;
@@ -64,6 +72,7 @@
                 $this->redirect( $this->referer() );
             }
             $this->set( 'contentFrontpages', $contentFrontpages );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         function admin_add()

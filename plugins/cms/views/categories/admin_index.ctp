@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Cms->adminIndexHead( $this, $paginator );
+    echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions );
 ?>
 <div class="table">
     <?php echo $this->Cms->adminTableHeadImages(); ?>
