@@ -1,1 +1,2 @@
 #mi    h    d    m    dow        job                        comment
+1      *    *    *    *          /blog/posts/index          # just do something
