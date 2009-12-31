@@ -18,6 +18,8 @@
      */
 
     echo $this->Blog->adminIndexHead( $this, $paginator );
+
+    echo $this->Filter->clear( $filterOptions );
 ?>
 <div class="table">
     <?php echo $this->Blog->adminTableHeadImages(); ?>

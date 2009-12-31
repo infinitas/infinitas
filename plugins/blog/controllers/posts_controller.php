@@ -34,7 +34,7 @@
          * @access public
          * @var array
          */
-        var $helpers = array( 'Core.Geshi' );
+        var $helpers = array( 'Core.Geshi', 'Filter.Filter' );
 
         /**
          * PostsController::beforeFilter()
@@ -224,9 +224,10 @@
          */
         function admin_index()
         {
+            $filterOptions = $this->Filter->filterOptions;
             $this->Post->recursive = 0;
             $posts = $this->paginate( null, $this->Filter->filter );
-            $this->set( compact( 'posts' ) );
+            $this->set( compact( 'filterOptions', 'posts' ) );
         }
 
         /**
