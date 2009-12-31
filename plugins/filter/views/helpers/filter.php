@@ -53,6 +53,12 @@
          */
         function clear( $filter )
         {
+            if ( !isset( $filter['url'][0] ) || empty( $filter['url'][0] ) || $filter['url'][0] == '/' )
+            {
+                $this->messages[] = '$filter is empty';
+                return false;
+            }
+
             $out = '<div class="filter">'.
                 '<div class="wrap">';
                     $parts = explode( '/', $filter['url'][0] );
