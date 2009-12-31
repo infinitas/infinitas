@@ -34,7 +34,10 @@
          * @access public
          * @var array
          */
-        var $helpers = array( 'Core.Geshi', 'Filter.Filter' );
+        var $helpers = array(
+            'Core.Geshi',
+            'Filter.Filter'
+        );
 
         /**
          * PostsController::beforeFilter()

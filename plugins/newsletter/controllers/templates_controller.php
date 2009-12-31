@@ -24,7 +24,14 @@
 
         var $version = '0.5';
 
+        /**
+         * Helpers.
+         *
+         * @access public
+         * @var array
+         */
         var $helpers = array(
+            'Filter.Filter'
         );
 
         private $sampleText = '<p>This is some sample text to test your template</p>';
@@ -51,6 +58,7 @@
             $templates = $this->paginate( 'Template' );
 
             $this->set( compact( 'templates' ) );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         function admin_add()

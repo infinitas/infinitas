@@ -20,11 +20,30 @@
 
     class NewslettersController extends NewsletterAppController
     {
+        /**
+         * Class name.
+         *
+         * @access public
+         * @var string
+         */
         var $name = 'Newsletters';
 
+        /**
+         * Helpers.
+         *
+         * @access public
+         * @var array
+         */
         var $helpers = array(
+            'Filter.Filter'
         );
 
+        /**
+         * Components.
+         *
+         * @access public
+         * @var array
+         */
         var $components = array(
             'Email'
         );
@@ -191,6 +210,7 @@
             $newsletters = $this->paginate( 'Newsletter', $this->Filter->filter );
 
             $this->set( compact( 'newsletters' ) );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         function admin_add()

@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Letter->adminIndexHead( $this, $paginator );
+    echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions );
 ?>
 <div class="table">
     <?php echo $this->Letter->adminTableHeadImages(); ?>

@@ -22,6 +22,16 @@
     {
         var $name = 'Campaigns';
 
+        /**
+         * Helpers.
+         *
+         * @access public
+         * @var array
+         */
+        var $helpers = array(
+            'Filter.Filter'
+        );
+
         function admin_index()
         {
             $this->paginate = array(
@@ -63,6 +73,7 @@
             $campaigns = $this->paginate( 'Campaign', $this->Filter->filter );
 
             $this->set( compact( 'campaigns' ) );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
         }
 
         function admin_add()

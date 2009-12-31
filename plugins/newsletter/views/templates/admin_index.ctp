@@ -13,13 +13,13 @@
      * @filesource
      * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      * @link          http://www.dogmatic.co.za
-     * @package       blog
-     * @subpackage    blog.views.posts.admin_index
+     * @package       newsletter
+     * @subpackage    newsletter.views.templates.admin_index
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 ?>
 <?php
-    echo $this->Letter->adminIndexHead( $this, $paginator );
+    echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions );
 ?>
 <div class="table">
     <?php echo $this->Letter->adminTableHeadImages(); ?>
