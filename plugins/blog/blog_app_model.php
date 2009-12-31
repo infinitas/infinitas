@@ -53,6 +53,10 @@
 
             foreach( $files[1] as $file )
             {
+                if ( $file == 'empty' )
+                {
+                    continue;
+                }
                 unlink( CACHE.'blog'.DS.$file );
             }
 

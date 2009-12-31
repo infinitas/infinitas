@@ -116,6 +116,11 @@
 
             foreach( $files[1] as $file )
             {
+                if ( $file == 'empty' )
+                {
+                    continue;
+                }
+
                 if ( substr( $file, 0, 15 ) == 'comments_count_' )
                 {
                     unlink( CACHE.'blog'.DS.$file );
