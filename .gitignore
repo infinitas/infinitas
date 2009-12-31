@@ -4,3 +4,4 @@ tmp/*
 libs/cronjobs
 *.LCK
 .gitignore
+infinitas.PHPEditProject
