@@ -28,6 +28,8 @@
 
         function admin_index()
         {
+            $this->Revision->initializeRevisions();
+            exit;
             $configs = $this->paginate( 'Config' );
 
             $this->set( compact( 'configs' ) );
@@ -43,6 +45,21 @@
 
             if ( !empty( $this->data ) )
             {
+                switch( $this->data['Config']['type'] )
+                {
+                    case 'bool':
+                        switch( $this->data['Config']['value'] )
+                        {
+                            case 1:
+                                $this->data['Config']['value'] = 'true';
+                                break;
+
+                            default:
+                                $this->data['Config']['value'] = 'false';
+                        } // switch
+                        break;
+                } // switch
+
                 if ( $this->Config->save( $this->data ) )
                 {
                     $this->Session->setFlash( __( 'Your config has been saved.', true ) );
