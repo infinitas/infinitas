@@ -2,6 +2,5 @@ app/config/database.php
 app/tests/
 app/tmp
 app/lib/cronjobs
-*.7z
 *.LCK
 .gitignore
