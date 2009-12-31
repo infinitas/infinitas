@@ -1,13 +1,20 @@
-<h3>Topics</h3>
-<div class="content">
-    <ul class="linklist">
-    	<li class="first"><a href="#">Accumsan congue (32)</a></li>
-    	<li><a href="#">Dignissim nec augue (14)</a></li>
-    	<li><a href="#">Nunc ante elit nulla (83)</a></li>
-    	<li><a href="#">Aliquam suscipit (74)</a></li>
-    	<li><a href="#">Cursus sed arcu sed (14)</a></li>
-    	<li><a href="#">Eu ante cras at risus (24)</a></li>
-    	<li><a href="#">Donec mollis dolore (39)</a></li>
-    	<li><a href="#">Aliquam suscipit (74)</a></li>
-    </ul>
-</div>
+<?php
+    /**
+     * Comment Template.
+     *
+     * @todo -c Implement .this needs to be sorted out.
+     *
+     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     *
+     * Licensed under The MIT License
+     * Redistributions of files must retain the above copyright notice.
+     *
+     * @filesource
+     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     * @link          http://www.dogmatic.co.za
+     * @package       sort
+     * @subpackage    sort.comments
+     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
+     */
+?>

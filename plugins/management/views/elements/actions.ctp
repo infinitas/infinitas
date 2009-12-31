@@ -1,4 +1,24 @@
-<?php echo $this->Html->link( __( 'Dashboard', true ), array( 'plugin' => 'management' ), array( 'class' => 'link' ) ); ?>
+<?php
+    /**
+     * Comment Template.
+     *
+     * @todo -c Implement .this needs to be sorted out.
+     *
+     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     *
+     * Licensed under The MIT License
+     * Redistributions of files must retain the above copyright notice.
+     *
+     * @filesource
+     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     * @link          http://www.dogmatic.co.za
+     * @package       sort
+     * @subpackage    sort.comments
+     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
+     */
+    echo $this->Html->link( __( 'Dashboard', true ), array( 'plugin' => 'management' ), array( 'class' => 'link' ) );
+?>
 <?php echo $this->Html->link( __( 'Blog', true ), array( 'plugin' => 'blog' ), array( 'class' => 'link' ) ); ?>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'Pending Posts', true ), array( 'plugin' => 'blog', 'controller' => 'posts', 'action' => 'index', 0 ) ); ?></li>

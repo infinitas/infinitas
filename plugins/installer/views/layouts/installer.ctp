@@ -1,3 +1,23 @@
+<?php
+    /**
+     * Comment Template.
+     *
+     * @todo -c Implement .this needs to be sorted out.
+     *
+     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     *
+     * Licensed under The MIT License
+     * Redistributions of files must retain the above copyright notice.
+     *
+     * @filesource
+     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     * @link          http://www.dogmatic.co.za
+     * @package       sort
+     * @subpackage    sort.comments
+     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
+     */
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>

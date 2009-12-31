@@ -1,9 +1,8 @@
 <?php
     /**
-     * Blog Comments Controller class file.
+     * Comment Template.
      *
-     * This is the main controller for all the blog comments.  It extends
-     * {@see BlogAppController} for some functionality.
+     * @todo -c Implement .this needs to be sorted out.
      *
      * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      *
@@ -13,10 +12,12 @@
      * @filesource
      * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      * @link          http://www.dogmatic.co.za
-     * @package       blog
-     * @subpackage    blog.controllers.comments
+     * @package       sort
+     * @subpackage    sort.comments
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since         0.5a
      */
+
     class CommentsController extends ManagementAppController
     {
         var $name = 'Comments';

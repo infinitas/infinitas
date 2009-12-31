@@ -18,6 +18,7 @@
      * @lastmodified October 4th, 2009
      * @license http://www.opensource.org/licenses/mit-license.php The MIT License
      */
+
     class CommentableBehavior extends ModelBehavior
     {
         /**
