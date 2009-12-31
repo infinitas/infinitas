@@ -9,6 +9,11 @@
 
         var $tablePrefix = 'core_';
 
+        var $order = array(
+            'Config.core' => 'DESC',
+            'Config.key' => 'ASC'
+        );
+
         function getConfig()
         {
             $configs = Cache::read( 'core_configs' );
