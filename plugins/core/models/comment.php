@@ -84,5 +84,45 @@
 
             return $counts;
         }
+
+        function afterSave(  $created )
+        {
+            parent::afterSave(  $created );
+
+            $this->__clearCache();
+            return true;
+        }
+
+        function afterDelete()
+        {
+            parent::afterDelete();
+
+            $this->__clearCache();
+            return true;
+        }
+
+        private function __clearCache()
+        {
+            App::import( 'Folder' );
+
+            $Folder = new Folder( CACHE.'blog' );
+
+            $files = $Folder->read();
+
+            if ( empty( $files[1] ) )
+            {
+                return true;
+            }
+
+            foreach( $files[1] as $file )
+            {
+                if ( substr( $file, 0, 15 ) == 'comments_count_' )
+                {
+                    unlink( CACHE.'blog'.DS.$file );
+                }
+            }
+
+            return true;
+        }
     }
 ?>
