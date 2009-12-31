@@ -1,6 +1,6 @@
-app/config/database.php
-app/tests/
-app/tmp
-app/lib/cronjobs
+config/database.php
+tests/
+tmp/*
+lib/cronjobs
 *.LCK
 .gitignore
