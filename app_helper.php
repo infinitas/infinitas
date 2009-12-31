@@ -149,12 +149,19 @@
             );
         }
 
-        function adminIndexHead( $view = array(), $pagintion = array() )
+        function adminIndexHead( $view = array(), $pagintion = array(), $filterOptions = array() )
         {
             if ( empty( $view ) )
             {
                 $this->errors[] = 'I need the view.';
                 return false;
+            }
+
+            $filters = '';
+            if ( !empty( $filterOptions ) )
+            {
+                App::import( 'Helper', 'FilterHelper' );
+                $filters = FilterHelper::clear( $filterOptions );
             }
 
             $out = '<div class="adminTopBar">';
@@ -169,7 +176,7 @@
                 $out .= '</div>';
             $out .= '</div>';
 
-            return $out;
+            return $out.$filters;
         }
 
         function adminOtherHead( $view = array() )
