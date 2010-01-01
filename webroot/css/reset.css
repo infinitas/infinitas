@@ -14,3 +14,12 @@ q:before, q:after {content: '';content: none;}
 ins {text-decoration: none;}
 del {text-decoration: line-through;}
 table {border-collapse: collapse;border-spacing: 0;}
+
+/** define some defaults */
+img {border:none;}
+.clr {clear:both;}
+.floatleft {float:left !important}
+.floatright {float:right !important}
+.bold {font-weight:bold !important}
+.normal {font-weight:normal !important}
+.block {display:block !important}

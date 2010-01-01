@@ -18,6 +18,8 @@
     <body>
         <div id="main">
         	<div id="header">
+                <div class="left"></div>
+                <div class="right"></div>
                 <?php echo $this->Session->flash(); ?>
         		<ul id="top-navigation">
         			<li class="<?php echo ( ( $this->here == '/admin' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Dashboard', true ), '/admin' ); ?></span></span></li>
@@ -33,17 +35,23 @@
         		</ul>
         	</div>
         	<div id="middle">
-        		<div id="left-column">
-                    <?php echo $this->element( 'actions' ); ?>
-        		</div>
-        		<div id="center-column">
-                    <?php echo $content_for_layout ?>
+                <div id="wrap">
+            		<div id="left-column">
+                        <?php echo $this->element( 'actions' ); ?>
+            		</div>
+            		<div id="center-column">
+                        <?php echo $content_for_layout ?>
+                    </div>
+                    <div id="right-column">
+                        <?php echo $this->element( 'right_boxes' ); ?>
+                    </div>
                 </div>
-                <div id="right-column">
-                    <?php echo $this->element( 'right_boxes' ); ?>
-                </div>
+                <div class="clr"></div>
             </div>
-        	<div id="footer"></div>
+        	<div id="footer">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
         </div>
     </body>
 </html>
