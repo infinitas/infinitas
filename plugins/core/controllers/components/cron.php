@@ -297,7 +297,7 @@ class CronComponent extends Object
                     $matches[4] = $matches[2];
                 }
 
-                if ( isset( $matches[5][0] ) && $matches[5][0] != '/' )
+                if ( $matches[5][0] != '/' )
                 {
                     $matches[6] = 1; // step
                 }

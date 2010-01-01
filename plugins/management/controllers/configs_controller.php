@@ -28,8 +28,6 @@
 
         function admin_index()
         {
-            $this->Revision->initializeRevisions();
-            exit;
             $configs = $this->paginate( 'Config' );
 
             $this->set( compact( 'configs' ) );
