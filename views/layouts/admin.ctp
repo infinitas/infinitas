@@ -11,7 +11,6 @@
             echo $this->Html->meta('icon');
             echo $this->Html->css( 'admin' );
             echo $this->Html->css( 'admin.pagination' );
-            echo $this->Html->css( '/core/css/geshi' );
     		echo $scripts_for_layout;
     		echo $javascript->link( 'fckeditor' );
         ?>
