@@ -238,6 +238,7 @@ ul.nav li.last {background:none;}
 	color:#43729F;
 	margin:0 0 4px 0;
 }
+
 .main-actions{
     float:right;
 }
@@ -250,6 +251,7 @@ ul.nav li.last {background:none;}
 	padding:5px 0 3px 0;
 	margin:0 0 17px 0;
 }
+
 .select-bar select {width:145px;margin:0 2px;}
 
 /* table container */
@@ -279,6 +281,7 @@ div.table img.left {
 	top:0;
 	left:0;
 }
+
 div.table img.right {
 	position:absolute;
 	top:0;
