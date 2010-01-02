@@ -43,11 +43,11 @@
     height:      22px;
 }
 .pagination .button2-right{
-    background:  url( ../img/admin/button-right.png ) no-repeat scroll 100% 0 transparent;
+    background:  url( ../../img/admin/button-right.png ) no-repeat scroll 100% 0 transparent;
 }
 
 .pagination .button2-left{
-    background:  url( ../img/admin/button-left.png ) no-repeat scroll 0 0 transparent;
+    background:  url( ../../img/admin/button-left.png ) no-repeat scroll 0 0 transparent;
 }
 
 .pagination .start,
@@ -58,15 +58,15 @@
 }
 
 .pagination .button2-right .start{
-    background:    url( ../img/admin/button-first.png ) no-repeat scroll 0 0 transparent;
+    background:    url( ../../img/admin/button-first.png ) no-repeat scroll 0 0 transparent;
 }
 .pagination .button2-right .prev{
-    background:    url( ../img/admin/button-first.png ) no-repeat scroll 0 0 transparent;
+    background:    url( ../../img/admin/button-first.png ) no-repeat scroll 0 0 transparent;
     float:left;
 }
 
 .pagination .numbers{
-    background:  url( ../img/admin/button-right-cap.png ) no-repeat scroll 100% 0 transparent;
+    background:  url( ../../img/admin/button-right-cap.png ) no-repeat scroll 100% 0 transparent;
 }
 
 .pagination .last,
@@ -77,9 +77,9 @@
 }
 
 .pagination .button2-left .next{
-    background:    url( ../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
+    background:    url( ../../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
 }
 
 .pagination .button2-left .last{
-    background:    url( ../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
+    background:    url( ../../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
 }

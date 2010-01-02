@@ -154,3 +154,17 @@ img {border:none;}
     .filter .left .remove{
         background: url( ../../img/admin/button-remove.png ) no-repeat scroll 100% 0 transparent;
     }
+
+/**
+    messages
+*/
+#flashMessage{
+    background: #EBEBEB url(../img/core/icons/actions/16/warning.png) 5px 5px no-repeat;
+    font-size:120%;
+    height:20px;
+    margin:5px auto auto;
+    padding-left:30px;
+    padding-top:5px;
+    text-align:left;
+    width:250px;
+}

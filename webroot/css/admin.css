@@ -2,6 +2,8 @@
 @import url('reset.css');
 @import url('admin/core.css');
 @import url('admin/pagination.css');
+@import url('admin/navigation.css');
+@import url('admin/form.css');
 @import url('/core/css/geshi');
 
 /* main styles */
@@ -23,21 +25,6 @@ a:hover {text-decoration: underline}
     	left:20px;
     }
 
-/** form */
-input {
-    vertical-align:middle;
-}
-input.text, select, textarea {
-	font-family:arial,sans-serif;
-	color:#333;
-	font-size:12px;
-	vertical-align:middle;
-}
-input.text {
-	padding:1px 0 0 4px;
-	height:14px;
-	font-weight:normal;
-}
 
 /* Global layout */
     /* main container */
@@ -125,61 +112,6 @@ input.text {
             margin:auto;
         }
 
-
-/* Top navigation */
-#top-navigation {
-	position:relative;
-	top:60px;
-	left:20px;
-	list-style:none;
-}
-
-#top-navigation li {
-	float:left;
-	margin:0 3px 0 0;
-	height:34px;
-	background:url(../img/admin/tab.gif) repeat-x top;
-}
-
-#top-navigation li a {
-	float:left;
-	display:block;
-	height:20px;
-	line-height:19px;
-	color:#606060;
-	padding:4px 0 0 0;
-}
-
-#top-navigation li span {
-	float:left;
-	background:url(../img/admin/tab-left.gif) no-repeat left top;
-}
-
-#top-navigation li span span {
-	background:url(../img/admin/tab-right.gif) no-repeat right top;
-	padding:7px 10px 0 10px;
-}
-
-#top-navigation li.active {
-	padding:0;
-	height:34px;
-	background:url(../img/admin/tab-active.gif) repeat-x top;
-	margin-right:2px;
-}
-
-#top-navigation li.active span {
-	background:url(../img/admin/tab-active-left.gif) no-repeat left top;
-	height:34px;
-}
-
-#top-navigation li.active span span {
-	background:url(../img/admin/tab-active-right.gif) no-repeat right top;
-	height:23px;
-	padding:11px 10px 0 10px;
-	line-height:19px;
-	color:#606060;
-}
-
 * html #middle {height:584px;}
 
 /* left column styles */
@@ -194,30 +126,6 @@ input.text {
 	padding:0 0 0 9px;
 }
 
-ul.nav {
-	margin:0 0 11px 0;
-	border-bottom:2px solid #FF9600;
-	background:#ECEFE7;
-	list-style:none;
-	padding:0 2px;
-}
-
-ul.nav li {
-	padding:4px 4px 6px 5px;
-	background:url(../img/admin/bg-dotted.gif) repeat-x bottom;
-}
-
-ul.nav a {
-	padding:0 0 0 12px;
-	background:url(../img/admin/arrow.gif) no-repeat 0 4px;
-}
-
-ul.nav a:hover {
-	font-weight:bold;
-}
-
-ul.nav li.last {background:none;}
-
 #left-column .link {
 	display:block;
 	width:142px;
@@ -230,7 +138,9 @@ ul.nav li.last {background:none;}
 	color:#60635A;
 }
 
-/* center column styles */
+/**
+    Main Content styles
+*/
 .top-bar {
 	float:left;
 	width:603px;
@@ -238,27 +148,18 @@ ul.nav li.last {background:none;}
 	padding:0 0 0 9px;
 	margin:0 0 4px 0;
 }
-/* text page header */
-.top-bar h1 {
-	font:20px/21px verdana,sans-serif;
-	color:#43729F;
-	margin:0 0 4px 0;
-}
 
-.main-actions{
-    float:right;
-}
+    /* text page header */
+    .top-bar h1 {
+    	font:20px/21px verdana,sans-serif;
+    	color:#43729F;
+    	margin:0 0 4px 0;
+    }
 
-/* bar with select */
-.select-bar {
-	clear:both;
-	border-top:2px solid #f70;
-	border-bottom:2px solid #f70;
-	padding:5px 0 3px 0;
-	margin:0 0 17px 0;
-}
+    .main-actions{
+        float:right;
+    }
 
-.select-bar select {width:145px;margin:0 2px;}
 
 /* table container */
 div.table {
@@ -366,20 +267,6 @@ div.table .select select {
 .title{
     width:99%;
 }
-
-
-
-#flashMessage{
-    background: #EBEBEB url(../img/core/icons/actions/16/warning.png) 5px 5px no-repeat;
-    font-size:120%;
-    height:20px;
-    margin:5px auto auto;
-    padding-left:30px;
-    padding-top:5px;
-    text-align:left;
-    width:250px;
-}
-
 
 .box ul{
     margin:0;
