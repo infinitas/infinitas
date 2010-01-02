@@ -33,10 +33,15 @@
     <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 'Content.active' => 0 ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'add' ) ); ?></li>
 </ul>
-<h3><?php __( 'Front Page' ); ?></h3>
+<h3><?php __( 'Front Pages' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'contentFrontpages', 'action' => 'index' ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'contentFrontpages', 'action' => 'add' ) ); ?></li>
+</ul>
+<h3><?php __( 'Featured Pages' ); ?></h3>
+<ul class="nav">
+    <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'features', 'action' => 'index' ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'features', 'action' => 'add' ) ); ?></li>
 </ul>
 <h3><?php __( 'Maintanence' ); ?></h3>
 <ul class="nav">
