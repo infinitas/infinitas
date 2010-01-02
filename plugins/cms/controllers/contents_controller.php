@@ -85,7 +85,8 @@
                     $this->Session->setFlash( __( 'The content could not be saved. Please, try again.', true ) );
                 }
             }
-            $categories = $this->Content->Category->find( 'list' );
+
+            $categories = array( __( 'Please select', true ) ) + $this->Content->Category->generatetreelist();
             $this->set( compact( 'categories' ) );
         }
 
@@ -117,7 +118,8 @@
                     $this->redirect( $this->referer() );
                 }
             }
-            $categories = $this->Content->Category->find( 'list' );
+
+            $categories = array( __( 'Please select', true ) ) + $this->Content->Category->generatetreelist();
             $this->set( compact( 'categories' ) );
         }
 

@@ -19,13 +19,6 @@
      */
 ?>
 <?php echo $this->Html->link( __( 'Dashboard', true ), '/admin/cms', array( 'class' => 'link' ) ); ?>
-<h3><?php __( 'Sections' ); ?></h3>
-<ul class="nav">
-    <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index', 'Section.active' => 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'index', 'Section.active' => 0 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'sections', 'action' => 'add' ) ); ?></li>
-</ul>
 <h3><?php __( 'Categories' ); ?></h3>
 <ul class="nav">
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'index' ) ); ?></li>

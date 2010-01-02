@@ -25,14 +25,11 @@
         var $actsAs = array(
             'Core.Sluggable',
             'Core.Viewable',
-            'Core.Ordered' => array(
-                'foreign_key' => 'section_id'
-            )
+            'Tree'
         );
 
         var $order = array(
-            'Category.section_id' => 'ASC',
-            'Category.ordering' => 'ASC'
+            'Category.lft' => 'ASC'
         );
 
     	var $validate = array(
@@ -42,8 +39,8 @@
     	);
 
     	var $belongsTo = array(
-    		'Section' => array(
-        		'className' => 'Cms.Section',
+    		'Parent' => array(
+        		'className' => 'Cms.Category',
                 'counterCache' => true
             ),
             'Core.Group',
