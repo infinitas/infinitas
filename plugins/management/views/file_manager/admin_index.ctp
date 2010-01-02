@@ -59,12 +59,11 @@
                 )
             );
 
-            $i = 0;
             foreach ( $folders as $folder )
             {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( 'File.'.$folder['Folder']['path'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( 'Folder.'.$folder['Folder']['path'] ); ?>&nbsp;</td>
                         <td>
                             <?php
                                 echo $this->Html->image(
@@ -110,6 +109,57 @@
                         </td>
                         <td>
                             <?php echo $this->Time->niceShort( $folder['Folder']['accessed'] ); ?>
+                        </td>
+                	</tr>
+                <?php
+            }
+
+            foreach ( $files as $file )
+            {
+                ?>
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                        <td><?php echo $this->Form->checkbox( 'File.'.$file['File']['path'] ); ?>&nbsp;</td>
+                        <td>
+                            <?php
+                                echo $this->Html->image(
+
+                                );
+                            ?>
+                        </td>
+                		<td>
+                			<?php
+                			    echo $this->Html->link(
+                			        $file['File']['name'],
+                			        array(
+                    			        'action' => 'view',
+                    			        $file['File']['Path']
+                			        )
+                    			);
+                    		?>
+                		</td>
+                        <td>
+                            <?php echo $file['File']['path']; ?>
+                        </td>
+                        <td>
+                            <?php echo $this->Number->toReadableSize( $file['File']['size'] ); ?>
+                        </td>
+                        <td>
+                            <?php echo $file['File']['owner'].' / '.$file['File']['group']; ?>
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <?php echo $file['File']['permission'].' / '.$file['File']['octal']; ?>
+                        </td>
+                        <td>
+                            <?php echo $this->Time->niceShort( $file['File']['created'] ); ?>
+                        </td>
+                        <td>
+                            <?php echo $this->Time->niceShort( $file['File']['modified'] ); ?>
+                        </td>
+                        <td>
+                            <?php echo $this->Time->niceShort( $file['File']['accessed'] ); ?>
                         </td>
                 	</tr>
                 <?php

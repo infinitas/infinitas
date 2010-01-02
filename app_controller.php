@@ -51,6 +51,7 @@
         function beforeFilter()
         {
             parent::beforeFilter();
+            var_dump( Configure::load( 'images' ) );
 
             $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 2 ) ) ) );
 
