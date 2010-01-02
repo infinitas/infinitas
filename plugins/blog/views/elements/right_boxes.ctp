@@ -31,7 +31,7 @@
     foreach( $commentCount as $type => $count )
     {
         $data[0] = __( $type.' comments', true ).' ('.$count.')';
-        $data[1]['Coment.active'] = ( $type ) ? 1 : 0;
+        $data[1]['Comment.active'] = ( $type ) ? 1 : 0;
 
         echo $this->Design->quickLink( $data );
 
