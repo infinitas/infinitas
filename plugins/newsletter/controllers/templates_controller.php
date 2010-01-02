@@ -52,6 +52,8 @@
                     'Template.locked_since',
                     'Template.created',
                     'Template.modified',
+                    'Locker.id',
+                    'Locker.username'
                 )
             );
 
