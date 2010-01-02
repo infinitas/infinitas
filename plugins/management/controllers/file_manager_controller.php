@@ -7,18 +7,14 @@
     {
         var $name = 'FileManager';
 
-        var $uses = array( 'Management.FileManager' );
+        var $uses = array( 'Management.Files' ); //'Management.Folder' );
 
         function admin_index( $path = null )
         {
-            $this->FileManager->recursive = 2;
-            $data = $this->FileManager->find(
+            $this->Files->recursive = 2;
+            $files = $this->Files->find(
                 'all',
                 array(
-                    'types' => array(
-                        'files',
-                        'folders'
-                    ),
                     'fields' => array(
                     ),
                     'conditions' => array(
@@ -30,7 +26,7 @@
                 )
             );
 
-            $this->set( compact( 'data' ) );
+            $this->set( compact( 'files' ) );
         }
 
         function admin_view( $file = null )
