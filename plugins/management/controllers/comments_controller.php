@@ -53,8 +53,6 @@
             $comments = $this->paginate( 'Comment', $this->Filter->filter );
             $this->set( 'filterOptions', $this->Filter->filterOptions );
 
-            pr( $this->Filter->filterOptions );
-
             $this->set( compact( 'comments' ) );
         }
 
