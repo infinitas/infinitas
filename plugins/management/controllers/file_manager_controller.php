@@ -9,6 +9,10 @@
 
         var $uses = array( 'Management.Files', 'Management.Folders' );
 
+        var $helpers = array(
+            'Number'
+        );
+
         function admin_index( $path = '-' )
         {
             $path = str_replace( '-', '/', $path );
