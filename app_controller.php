@@ -52,7 +52,12 @@
         {
             parent::beforeFilter();
 
-            //$this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 2 ) ) ) );
+            $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 2 ) ) ) );
+
+            if ( sizeof( $this->uses ) && $this->{$this->modelClass}->Behaviors->attached( 'Logable' ) )
+            {
+                $this->{$this->modelClass}->setUserData( $this->Session->read( 'Auth' ) );
+            }
 
             $this->__checkUrl();
             $this->__setupLayout();
