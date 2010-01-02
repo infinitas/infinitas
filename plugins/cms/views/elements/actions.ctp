@@ -43,6 +43,11 @@
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'features', 'action' => 'index' ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'cms', 'controller' => 'features', 'action' => 'add' ) ); ?></li>
 </ul>
+<h3><?php __( 'Comments' ); ?></h3>
+<ul class="nav">
+    <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'management', 'controller' => 'comments', 'action' => 'index', 'Comment.class' => 'Cms' ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'management', 'controller' => 'comments', 'action' => 'index', 'Comment.class' => 'Cms', 'Comment.active' => 0 ) ); ?></li>
+</ul>
 <h3><?php __( 'Maintanence' ); ?></h3>
 <ul class="nav">
     <li>

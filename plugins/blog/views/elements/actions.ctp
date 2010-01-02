@@ -28,8 +28,8 @@
 </ul>
 <h3><?php __( 'Comments' ); ?></h3>
 <ul class="nav">
-    <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'blog', 'controller' => 'comments', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'blog', 'controller' => 'comments', 'action' => 'index', 'Post.active' => 0 ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'management', 'controller' => 'comments', 'action' => 'index', 'Comment.class' => 'Blog' ) ); ?></li>
+    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'management', 'controller' => 'comments', 'action' => 'index', 'Comment.class' => 'Blog', 'Comment.active' => 0 ) ); ?></li>
 </ul>
 <h3><?php __( 'Maintanence' ); ?></h3>
 <ul class="nav">
