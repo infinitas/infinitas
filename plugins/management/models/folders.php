@@ -52,7 +52,8 @@
                 return false;
             }
 
-            $FileList = $Folder->read();
+            $this->fileList = $Folder->read();
+            unset( $this->fileList[1] );
 
             if ( !empty( $queryData['order'] ) )
             {
@@ -69,12 +70,10 @@
                 return false;
             }
 
-            $data = Cache::read( sha1( $this->path.$conditions ) );
+            $data = Cache::read( 'folders_'.sha1( $this->path.$conditions ) );
             if ( $data !== false )
             {
-                pr( $data );
-                exit;
-                return $data;
+                //return $data;
             }
 
             return $this->__read( $findType, $conditions );
@@ -87,140 +86,32 @@
 
         function __read( $findType, $conditions )
         {
-            foreach( $conditions['types'] as $type )
+            switch( $findType )
             {
-                switch( Inflector::pluralize( $type ) )
-                {
-                    case 'files':
-                        switch( $findType )
-                        {
-                            case 'all':
-                                $this->__advancedFileFind( $conditions );
-                                break;
+                case 'all':
+                    $this->__advancedFolderFind( $conditions );
+                    break;
 
-                            case 'list':
-                                $this->__simpleFileFind( $conditions );
-                                break;
-                        } // switch
-                        break;
+                case 'list':
+                    $this->__simpleFolderFind( $conditions );
+                    break;
+            } // switch
 
-                    case 'folders':
-                        switch( $findType )
-                        {
-                            case 'all':
-                                $this->__advancedFolderFind( $conditions );
-                                break;
+            Cache::write( 'folders_'.sha1( $this->path.$conditions ), $this->return );
 
-                            case 'list':
-                                $this->__simpleFolderFind( $conditions );
-                                break;
-                        } // switch
-                        break;
-                } // switch
-
-                $data[$type][$findType] = $this->return;
-                $this->return = null;
-            }
-
-            Cache::write( sha1( $this->path.$conditions ), $data );
-
-            pr( $data );
-            exit;
-        }
-
-        function __advancedFileFind( $conditions )
-        {
-            if ( empty( $FileList[1] ) )
-            {
-                $this->return = array();
-                return true;
-            }
-            $i = 0;
-
-            foreach( $FileList[1] as $file )
-            {
-                if ( in_array( $file, $this->ignore ) )
-                {
-                    continue;
-                }
-
-                if ( $this->recursive > -2 )
-                {
-                    $this->return[$i]['File']['path']      = $Folder->path.DS.$file;
-                    $this->return[$i]['File']['relative']  = $this->__relativePath( $Folder->path.DS.$file );
-
-                    if ( $this->recursive > -1 )
-                    {
-                        $File = new File( $this->return[$i]['File']['path'] );
-                        $info                            = $File->info();
-                        $this->return[$i]['File']['dirname']   = $info['dirname'];
-                        $this->return[$i]['File']['basename']  = $info['basename'];
-                        $this->return[$i]['File']['extension'] = $info['extension'];
-                        $this->return[$i]['File']['filename']  = $info['filename'];
-                        $this->return[$i]['File']['writable']  = $File->writable();
-
-                        if ( $this->recursive > 0 )
-                        {
-                            $this->return[$i]['File']['size']      = $File->size();
-                            $this->return[$i]['File']['owner']     = $File->owner();
-                            $this->return[$i]['File']['gorup']     = $File->group();
-                            $this->return[$i]['File']['accessed']  = $File->lastAccess();
-                            $this->return[$i]['File']['modidfied'] = $File->lastChange();
-                            $this->return[$i]['File']['charmod']   = $File->perms();
-
-                            if ( $this->recursive > 1 )
-                            {
-                                $this->return[$i]['File']['type']     = filetype( $this->return[$i]['File']['path'] );
-                                $this->return[$i]['File']['md5']      = $File->md5();
-                                $this->return[$i]['File']['Extended'] = stat( $this->return[$i]['File']['path'] );
-
-                                $i++;
-                                continue;
-                            }
-                            $i++;
-                        }
-
-                        $i++;
-                    }
-
-                    $i++;
-                }
-
-                $i++;
-            }
-            return true;
-        }
-
-        function __simpleFileFind( $conditions )
-        {
-            if ( empty( $FileList[1] ) )
-            {
-                $this->return = array();
-                return true;
-            }
-
-            foreach( $FileList[1] as $file )
-            {
-                if ( in_array( $file, $this->ignore ) )
-                {
-                    continue;
-                }
-
-                $this->return[] = $Folder->path.DS.$file;
-            }
-            return true;
+            return $this->return;
         }
 
         function __advancedFolderFind( $conditions )
         {
-            if ( empty( $FileList[0] ) )
+            if ( empty( $this->fileList[0] ) )
             {
                 $this->return = array();
                 return true;
             }
             $i = 0;
 
-            foreach( $FileList[0] as $folder )
+            foreach( $this->fileList[0] as $folder )
             {
                 if ( in_array( $folder, $this->ignore ) )
                 {
@@ -229,7 +120,7 @@
 
                 if ( $this->recursive > -2 )
                 {
-                    $Folder = & new Folder( $Folder->path.DS.$folder );
+                    $Folder = & new Folder( $this->path.DS.$folder );
 
                     $this->return[$i]['Folder']['path']      = $Folder->path;
                     $this->return[$i]['Folder']['relative']  = $this->__relativePath( $Folder->path );
@@ -244,10 +135,10 @@
 
                             if ( $this->recursive > 1 )
                             {
-                                $this->return[$i]['realpath'] = $Folder->realpath( $Folder->path );
-                                $this->return[$i]['absolute'] = $Folder->isAbsolute( $Folder->path );
-                                $this->return[$i]['windows']  = $Folder->isWindowsPath( $Folder->path );
-                                $this->return[$i]['Children'] = $Folder->tree( $Folder->path );
+                                $this->return[$i]['Folder']['realpath'] = $Folder->realpath( $Folder->path );
+                                $this->return[$i]['Folder']['absolute'] = $Folder->isAbsolute( $Folder->path );
+                                $this->return[$i]['Folder']['windows']  = $Folder->isWindowsPath( $Folder->path );
+                                $this->return[$i]['Folder']['Children'] = $Folder->tree( $Folder->path );
                                 $i++;
                                 continue;
                             }
@@ -267,13 +158,13 @@
 
         function __simpleFolderFind( $conditions )
         {
-            if ( empty( $FileList[0] ) )
+            if ( empty( $this->fileList[0] ) )
             {
                 $this->return = array();
                 return true;
             }
 
-            foreach( $FileList[0] as $file )
+            foreach( $this->fileList[0] as $file )
             {
                 if ( in_array( $file, $this->ignore ) )
                 {
@@ -303,13 +194,11 @@
                 {
                     if ( strtolower( $direction ) == 'asc' )
                     {
-                        sort( $FileList[0] );
-                        sort( $FileList[1] );
+                        sort( $this->fileList[0] );
                     }
                     else
                     {
-                        rsort( $FileList[0] );
-                        rsort( $FileList[1] );
+                        rsort( $this->fileList[0] );
                     }
                 }
             }

@@ -7,18 +7,20 @@
     {
         var $name = 'FileManager';
 
-        var $uses = array( 'Management.Files' ); //'Management.Folder' );
+        var $uses = array( 'Management.Files', 'Management.Folders' );
 
-        function admin_index( $path = null )
+        function admin_index( $path = '-' )
         {
-            $this->Files->recursive = 2;
-            $files = $this->Files->find(
+            $path = str_replace( '-', '/', $path );
+
+            $this->Folders->recursive = 2;
+            $folders = $this->Folders->find(
                 'all',
                 array(
                     'fields' => array(
                     ),
                     'conditions' => array(
-                        'path' => '/'
+                        'path' => $path
                     ),
                     'order' => array(
                         'name' => 'ASC'
@@ -26,7 +28,22 @@
                 )
             );
 
-            $this->set( compact( 'files' ) );
+            $this->Files->recursive = 2;
+            $files = $this->Files->find(
+                'all',
+                array(
+                    'fields' => array(
+                    ),
+                    'conditions' => array(
+                        'path' => $path
+                    ),
+                    'order' => array(
+                        'name' => 'ASC'
+                    )
+                )
+            );
+
+            $this->set( compact( 'files', 'folders' ) );
         }
 
         function admin_view( $file = null )
