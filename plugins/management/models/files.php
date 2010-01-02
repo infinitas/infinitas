@@ -100,7 +100,7 @@
 
             $this->return;
 
-            Cache::write( sha1( $this->path.$conditions ), $this->return );
+            Cache::write( 'files_'.sha1( $this->path.$conditions ), $this->return );
         }
 
         function __advancedFileFind( $conditions )
