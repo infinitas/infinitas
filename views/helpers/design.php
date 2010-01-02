@@ -34,10 +34,13 @@
                             list( $image_path, $url, $params ) = $image;
                             $url = $this->__createUrl( $url, $id );
 
+                            $url_params = $params;
+                            unset( $url_params['alt'] );
+
                             $out .= $this->Html->link(
-                                $this->Html->image( $image_path ).' '.$text,
+                                $this->Html->image( $image_path, $params ).' '.$text,
                                 $url,
-                                $params + array( 'escape' => false )
+                                $url_params + array( 'escape' => false )
                             );
                         }
                         else if ( $link )
@@ -45,6 +48,7 @@
                             list( $url, $params ) = $link;
                             $url = $this->__createUrl( $url, $id );
 
+                            unset( $params['alt'] );
                             $out .= $this->Html->link(
                                 $text,
                                 $url,
