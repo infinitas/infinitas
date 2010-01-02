@@ -14,19 +14,19 @@ img {border:none;}
     margin-bottom: 10px;
 }
     .niceBox .top{
-        background:url("../img/core/niceBox/border.png") repeat-x scroll 0 0 transparent;
+        background:url("../../img/core/niceBox/border.png") repeat-x scroll 0 0 transparent;
     }
     .niceBox .top .top {
-       background: url(../img/core/niceBox/crn_tr_dark.png) 100% 0 no-repeat;
+       background: url(../../img/core/niceBox/crn_tr_dark.png) 100% 0 no-repeat;
     }
 
     .niceBox .top .top .top {
-       background: url(../img/core/niceBox/crn_tl_dark.png) 0 0 no-repeat;
+       background: url(../../img/core/niceBox/crn_tl_dark.png) 0 0 no-repeat;
    }
 
 
     .niceBox{
-        background:url("../img/core/niceBox/crn_tr_dark.png") no-repeat scroll 100% 0 transparent;
+        background:url("../../img/core/niceBox/crn_tr_dark.png") no-repeat scroll 100% 0 transparent;
     }
 
     .niceBox .top, .niceBox .bottom {
@@ -42,15 +42,15 @@ img {border:none;}
     }
 
     .niceBox .bottom {
-        background: url(../img/core/niceBox/border.png) repeat-x scroll 0 5px transparent;
+        background: url(../../img/core/niceBox/border.png) repeat-x scroll 0 5px transparent;
     }
 
     .niceBox .bottom .bottom {
-        background: url(../img/core/niceBox/crn_br_dark.png) scroll 100% 0 no-repeat;
+        background: url(../../img/core/niceBox/crn_br_dark.png) scroll 100% 0 no-repeat;
     }
 
     .niceBox .bottom .bottom .bottom {
-        background: url(../img/core/niceBox/crn_bl_dark.png) scroll 0 0 no-repeat;
+        background: url(../../img/core/niceBox/crn_bl_dark.png) scroll 0 0 no-repeat;
     }
 
 /**
@@ -90,7 +90,7 @@ img {border:none;}
     	display:       block;
     	width:         142px;
     	height:        25px;
-    	background:    url(../img/admin/bg-left-link.gif);
+    	background:    url(../../img/admin/bg-left-link.gif);
     	margin-bottom: 5px;
     	padding-left:  9px;
     	line-height:   25px;
@@ -142,7 +142,7 @@ img {border:none;}
     }
 
     .filter .left{
-        background: url( ../img/admin/button-left.png ) no-repeat scroll 0 0 transparent;
+        background: url( ../../img/admin/button-left.png ) no-repeat scroll 0 0 transparent;
     }
 
     .filter .remove{
@@ -152,5 +152,5 @@ img {border:none;}
     }
 
     .filter .left .remove{
-        background: url( ../img/admin/button-remove.png ) no-repeat scroll 100% 0 transparent;
+        background: url( ../../img/admin/button-remove.png ) no-repeat scroll 100% 0 transparent;
     }
