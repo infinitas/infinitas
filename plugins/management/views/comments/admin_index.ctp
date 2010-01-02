@@ -18,7 +18,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Core->adminIndexHead( $this, $paginator );
+    echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>

@@ -22,7 +22,10 @@
     {
         var $name = 'Comments';
 
-        var $helpers = array( 'Text' );
+        var $helpers = array(
+            'Text',
+            'Filter.Filter'
+        );
 
         var $uses = array( 'Core.Comment' );
 
@@ -47,7 +50,10 @@
                 'limit' => 20
             );
 
-            $comments = $this->paginate( 'Comment' );
+            $comments = $this->paginate( 'Comment', $this->Filter->filter );
+            $this->set( 'filterOptions', $this->Filter->filterOptions );
+
+            pr( $this->Filter->filterOptions );
 
             $this->set( compact( 'comments' ) );
         }

@@ -43,6 +43,7 @@
                                 $url_params + array( 'escape' => false )
                             );
                         }
+
                         else if ( $link )
                         {
                             list( $url, $params ) = $link;
