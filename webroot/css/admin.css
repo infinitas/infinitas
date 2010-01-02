@@ -1,5 +1,6 @@
 /** import some reset stuff */
 @import url('reset.css');
+@import url('core.css');
 @import url('/core/css/geshi');
 
 /* main styles */
@@ -155,20 +156,19 @@ input.text {
 }
 
 /* right column */
-#right-column {
+.right-column {
 	float:right;
-	padding:0 9px 0 0;
+	padding:0 25px 0 0;
 	width:180px;
-	}
+}
 
 /* center column */
 #center-column {
 	float:left;
-	width:1075px;
-	background:url(../img/admin/bg-center-column.jpg) no-repeat left top;
 	min-height:584px;
 	padding:12px 16px 0 13px;
-	}
+    width:78%;
+}
 * html #middle {height:584px;}
 
 /* left column styles */
@@ -334,25 +334,6 @@ div.table .select select {
 	text-align:right;
 	}
 
-/* right column header */
-#right-column .h {
-	float:left;
-	background:#7E878A;
-	border:1px solid #B8B8B8;
-	border-bottom:0;
-	padding:3px 10px;
-	color:#fff;
-	text-transform:uppercase;
-	}
-/* right column box */
-#right-column .box {
-	float:left;
-	width:170px;
-	padding:5px;
-	border:1px solid #B8B8B8;
-	background:#EBEBEB;
-	margin:0 0 15px 0;
-	}
 
 /* right column buttons */
 .buttons {

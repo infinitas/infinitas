@@ -40,11 +40,9 @@
                         <?php echo $this->element( 'actions' ); ?>
             		</div>
             		<div id="center-column">
-                        <?php echo $content_for_layout ?>
+                        <?php echo $content_for_layout; ?>
                     </div>
-                    <div id="right-column">
-                        <?php echo $this->element( 'right_boxes' ); ?>
-                    </div>
+                    <?php echo $this->Design->niceBox( 'right-column', $this->element( 'right_boxes' ) ); ?>
                 </div>
                 <div class="clr"></div>
             </div>
