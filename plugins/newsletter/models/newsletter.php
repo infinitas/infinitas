@@ -102,6 +102,5 @@
             ),
             'Newsletter.Template'
         );
-
     }
 ?>
