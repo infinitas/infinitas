@@ -24,13 +24,13 @@
     	var $primaryKey = 'content_id';
     	var $displayField = 'content_id';
 
+        var $actsAs = array(
+            'Core.Ordered'
+        );
+
     	var $belongsTo = array(
             'Cms.Content',
             'Core.Group'
     	);
-
-        var $actsAs = array(
-            'Core.Ordered'
-        );
     }
 ?>
