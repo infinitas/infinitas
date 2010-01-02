@@ -119,6 +119,11 @@ input.text {
             	background:url(../img/admin/footer-right.jpg) no-repeat right bottom;
             }
 
+        #bottom-credits{
+            width:99%;
+            margin:auto;
+        }
+
 
 /* Top navigation */
 #top-navigation {

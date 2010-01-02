@@ -51,5 +51,6 @@
                 <div class="right"></div>
             </div>
         </div>
+        <?php echo $this->element( 'admin/bottom' ); ?>
     </body>
 </html>
