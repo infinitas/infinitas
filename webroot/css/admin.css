@@ -1,6 +1,7 @@
 /** import some reset stuff */
 @import url('reset.css');
-@import url('core.css');
+@import url('admin/core.css');
+@import url('admin/pagination.css');
 @import url('/core/css/geshi');
 
 /* main styles */

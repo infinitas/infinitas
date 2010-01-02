@@ -10,7 +10,6 @@
         <?php
             echo $this->Html->meta( 'icon' );
             echo $this->Html->css( 'admin' );
-            echo $this->Html->css( 'admin.pagination' );
     		echo $scripts_for_layout;
     		echo $javascript->link( 'fckeditor' );
         ?>
