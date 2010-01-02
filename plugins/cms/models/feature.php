@@ -17,12 +17,19 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
+
+    class Feature extends CmsAppModel
+    {
+        var $name         = 'Feature';
+        var $primaryKey   = 'content_id';
+        var $displayField = 'content_id';
+
+        var $actsAs = array(
+            'Core.Ordered'
+        );
+
+        var $belongsTo = array(
+            'Cms.Content'
+    	);
+    }
 ?>
-<div class="sections form">
-    <?php
-        echo $this->Cms->adminOtherHead( $this );
-        echo $this->Form->create( 'ContentFrontpage', array( 'action' => 'edit' ) );
-    		echo $this->Form->input( 'content_id' );
-        echo $this->Form->end( __( 'Submit', true ) );
-    ?>
-</div>

@@ -22,7 +22,7 @@
 ?>
 <div class="table">
     <?php echo $this->Cms->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Content', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
+    <?php echo $this->Form->create( 'Feature', array( 'url' => array( 'controller' => 'features', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Cms->adminTableHeader(
@@ -52,38 +52,38 @@
             );
 
             $i = 0;
-            foreach ( $contentFrontpages as $contentFrontpage )
+            foreach ( $features as $feature )
             {
                 ?>
                 	<tr class="<?php echo $this->Cms->rowClass( $i ); ?>">
-                        <td><?php echo $this->Form->checkbox( $contentFrontpage['ContentFrontpage']['content_id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( $feature['Feature']['content_id'] ); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( $contentFrontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $contentFrontpage['Content']['id'])); ?>
+                			<?php echo $this->Html->link( $feature['Content']['title'], array('controller' => 'features', 'action' => 'view', $feature['Content']['id'])); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link( $contentFrontpage['Content']['Category']['title'], array( 'controller' => 'categories', 'action' => 'edit', $contentFrontpage['Content']['Category']['id'] ) ); ?>
+                			<?php echo $this->Html->link( $feature['Content']['Category']['title'], array( 'controller' => 'features', 'action' => 'edit', $feature['Content']['Category']['id'] ) ); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $contentFrontpage['ContentFrontpage']['created'] ); ?>
+                			<?php echo $this->Time->niceShort( $feature['Feature']['created'] ); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $contentFrontpage['ContentFrontpage']['modified'] ); ?>
+                			<?php echo $this->Time->niceShort( $feature['Feature']['modified'] ); ?>
                 		</td>
                 		<td>
                 			<?php
                 			    echo $this->Cms->ordering(
-                			        $contentFrontpage['ContentFrontpage']['content_id'],
-                			        $contentFrontpage['ContentFrontpage']['ordering']
+                			        $feature['Feature']['content_id'],
+                			        $feature['Feature']['ordering']
                 			    );
                 			?>
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Status->toggle( $contentFrontpage['Content']['active'], $contentFrontpage['Content']['id'], array( 'controller' => 'contents', 'action' => 'toggle' ) );
+                			    echo $this->Status->toggle( $feature['Content']['active'], $feature['Content']['id'], array( 'controller' => 'features', 'action' => 'toggle' ) );
                 			?>
                 		</td>
                 		<td class="actions">
-                			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $contentFrontpage['ContentFrontpage']['content_id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $contentFrontpage['ContentFrontpage']['content_id'])); ?>
+                			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $feature['Feature']['content_id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $feature['Feature']['content_id'])); ?>
                 		</td>
                 	</tr>
                 <?php
