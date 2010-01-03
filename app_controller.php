@@ -338,10 +338,23 @@
         protected function admin_mass( )
         {
             $model = $this->modelNames[0];
+            $ids    = $this->__massGetIds( $this->data[$model] );
+            $action = $this->__massGetAction( $this->params['form'] );
 
+            switch( $action )
+            {
+                case 'delete':
+                    $this->__massActionDelete( $ids );
+                    break;
+            } // switch
+
+            exit;
+        }
+
+        protected function __massGetIds( $data )
+        {
             $ids = array();
-
-            foreach( $this->data[$model] as $id => $selected )
+            foreach( $data as $id => $selected )
             {
                 if ( $selected )
                 {
@@ -349,31 +362,43 @@
                 }
             }
 
+
             if ( empty( $ids ) )
             {
                 $this->Session->setFlash( __( 'Nothing was selected, please select something and try again.', true ) );
                 $this->redirect( $this->referer() );
             }
 
-            if ( !isset( $this->params['form']['action'] ) )
+            return $ids;
+        }
+
+        function __massGetAction( $form )
+        {
+            if ( isset( $form['action'] ) )
             {
-                $this->Session->setFlash( __( 'I dont know what to do.', true ) );
+                return $form['action'];
+            }
+
+            $this->Session->setFlash( __( 'I dont know what to do.', true ) );
+            $this->redirect( $this->referer() );
+        }
+
+        protected function __massActionDelete( $ids )
+        {
+            $model = $this->modelNames[0];
+
+            $conditions = array(
+                $model.'.id' => $ids
+            );
+
+            if ( $this->$model->deleteAll( $conditions ) )
+            {
+                $this->Session->setFlash( __( 'The '.$model.'\'s have been deleted', true ) );
                 $this->redirect( $this->referer() );
             }
 
-            $class = $model.'AppController';
-
-            if ( in_array( '__massAction', get_class_methods( $class ) ) )
-            {
-                call_user_func( array( $class, '__massAction' ), $this->params['form']['action'], $ids );
-            }
-            exit;
-        }
-
-        protected function __massDelete( $ids )
-        {
-            pr( $self );
-            echo 'yey';
+            $this->Session->setFlash( __( 'The '.$model.'\'s could not be deleted', true ) );
+            $this->redirect( $this->referer() );
         }
     }
 ?>
