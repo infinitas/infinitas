@@ -38,21 +38,11 @@
             'Filter.Filter'
         );
 
-        /**
-         * Components.
-         *
-         * @access public
-         * @var array
-         */
-        var $components = array(
-            'Email'
-        );
-
         function beforeFilter( )
         {
             parent::beforeFilter();
 
-            // @todo make sure track is allowed by all
+            // @todo make sure function track is allowed by all
         }
 
         function track( $id )
@@ -242,6 +232,8 @@
                 $this->redirect( $this->referer() );
             }
 
+            $newsletter = $this->Newsletter->read( null, $id );
+
             if ( !empty( $this->data ) )
             {
                 $id = $this->data['Newsletter']['id'];
@@ -253,23 +245,30 @@
                     $this->redirect( $this->referer() );
                 }
 
-                $newsletter = $this->Newsletter->read( null, $id );
-
+                $sent = 0;
                 foreach( $addresses as $address )
                 {
-                    $this->Email->from    = 'Somebody <'.$newsletter['Newsletter']['from'].'>';
+                    $this->Email->from    = 'Infinitas Test Mail <'.$newsletter['Newsletter']['from'].'>';
                     $this->Email->to      = 'Test <'.$address.'>';
+
                     $this->Email->subject = strip_tags( $newsletter['Newsletter']['subject'] );
                     $this->set( 'email', $newsletter['Template']['header'].$newsletter['Newsletter']['html'].$newsletter['Template']['footer'] );
-                    $this->Email->sendAs = 'both';
-                    $this->Email->delivery = 'mail';
 
-                    $this->Email->template = 'default';
+                    if ( $this->Email->send() )
+                    {
+                        $sent++;
+                    }
 
-                    $this->Email->send();
+                    pr( $this->Email->smtpError );
 
                     $this->Email->reset();
                 }
+                $this->Session->setFlash( sprintf( '%s %s' , $sent, __( 'mails were sent', true ) ) );
+            }
+
+            if ( empty( $this->data ) && $id )
+            {
+                $this->data = $newsletter;
             }
 
             $this->set( 'newsletter', $this->Newsletter->read( null, $id ) );
