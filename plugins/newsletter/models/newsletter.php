@@ -58,7 +58,7 @@
         			'message' => 'Please enter the reply to email'
                 ),
                 'email' => array(
-                    'rule' => array( 'email' ),
+                    'rule' => array( 'email', true ),
                     'message' => 'Please enter a valid email addres'
                 )
     		),
@@ -102,6 +102,5 @@
             ),
             'Newsletter.Template'
         );
-
     }
 ?>

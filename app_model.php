@@ -20,10 +20,12 @@
 
     class AppModel extends Model
     {
-        var $actsAs = array( 'Containable' );
-
         var $useDbConfig = 'default';
 
+        var $actsAs = array(
+            'Containable',
+            // 'Core.Logable' some wierd issues
+        );
 
         function lock( $fields = null, $id = null )
         {

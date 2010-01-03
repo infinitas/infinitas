@@ -66,11 +66,6 @@
 
             $contentFrontpages = $this->paginate();
 
-            if ( empty( $contentFrontpages ) )
-            {
-                $this->Session->setFlash( __( 'Nothing to see here.', true ) );
-                $this->redirect( $this->referer() );
-            }
             $this->set( 'contentFrontpages', $contentFrontpages );
             $this->set( 'filterOptions', $this->Filter->filterOptions );
         }

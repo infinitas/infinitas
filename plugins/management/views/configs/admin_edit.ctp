@@ -22,7 +22,7 @@
         echo $this->Form->input( 'id' );
         echo $this->Form->input( 'key', array( 'readonly' => true ) );
 
-        //echo $this->Form->input( 'type' );
+        echo $this->Form->hidden( 'type' );
 
         switch( $this->data['Config']['type'] )
         {

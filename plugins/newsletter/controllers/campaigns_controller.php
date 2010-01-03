@@ -193,7 +193,6 @@
 
         function admin_delete( $id = null )
         {
-
             if ( !$id )
             {
                 $this->Session->setFlash( 'That Campaign could not be found', true );
@@ -202,18 +201,9 @@
 
             $campaign = $this->Campaign->read( null, $id );
 
-            $sent = false;
-            foreach( $campaign['Newsletter'] as $newsletter )
+            if ( !empty( $campaign['Newsletter'] ) )
             {
-                if ( $newsletter['sent'] == 1 || $newsletter['sends'] > 0 )
-                {
-                    $sent = true;
-                }
-            }
-
-            if ( $sent )
-            {
-                $this->Session->setFlash( 'You can not delete a Campaign that has sent newsletters', true );
+                $this->Session->setFlash( __( 'There are some Newsleters in that campaign.', true ) );
                 $this->redirect( $this->referer() );
             }
 

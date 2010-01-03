@@ -42,7 +42,6 @@
                     $image = $this->Html->image(
                         'core/icons/actions/16/active.png',
                         $params + array(
-                            'alt' => __( 'Active', true ),
                             'width' => '16px'
                         )
                     );
@@ -59,7 +58,6 @@
                     $image = $this->Html->image(
                         'core/icons/actions/16/disabled.png',
                         $params + array(
-                            'alt' => __( 'Disabled', true ),
                             'width' => '16px'
                         )
                     );
@@ -85,12 +83,14 @@
                 case 'off':
                 case 'no':
                     $params['title'] = __( 'Click to activate', true );
+                    $params['alt'] = __( 'Disabled', true );
                     break;
 
                 case 1:
                 case 'yes':
                 case 'on':
                     $params['title'] = __( 'Click to disable', true );
+                    $params['alt'] = __( 'Active', true );
                     break;
                 default:
                     ;

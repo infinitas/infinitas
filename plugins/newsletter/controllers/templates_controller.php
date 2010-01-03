@@ -52,6 +52,8 @@
                     'Template.locked_since',
                     'Template.created',
                     'Template.modified',
+                    'Locker.id',
+                    'Locker.username'
                 )
             );
 
@@ -220,6 +222,31 @@
                 $this->set( 'data', $template['Template']['header'].$this->sampleText.$template['Template']['footer'] );
             }
 
+        }
+
+        function admin_delete( $id = null )
+        {
+            if ( !$id )
+            {
+                $this->Session->setFlash( __( 'That template could not be found', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $template = $this->Template->read( null, $id );
+
+            if ( !empty( $template['Campaign'] ) )
+            {
+                $this->Session->setFlash( __( 'There are some campaigns using that template', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            if ( !empty( $template['Newsletter'] ) )
+            {
+                $this->Session->setFlash( __( 'There are some newsletters using that template', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            parent::admin_delete( $id );
         }
     }
 ?>

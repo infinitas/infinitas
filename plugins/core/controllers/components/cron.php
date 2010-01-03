@@ -103,18 +103,53 @@ class CronComponent extends Object
     {
         $this->cronTab = APP.'libs'.DS.'cronjobs'.DS.'crontab.txt'; //Modify this if you want
         $this->writeDir = APP.'libs'.DS.'cronjobs'.DS; //Modify this if you want
-        define( "CRON_INTERVAL", 1 ); //Modify this if you want. this is the time interval betwen each run of this script
-        // Dependig on how much traffic you have in your controller's component caller.
+        if ( !defined( 'CRON_INTERVAL' ) )
+        {
+            define( 'CRON_INTERVAL', 1 ); //Modify this if you want. this is the time interval betwen each run of this script
+            // Dependig on how much traffic you have in your controller's component caller.
+        }
+
         $this->jobs = array();
 
-        define( "CRON_MINUTE", 1 );
-        define( "CRON_HOUR", 2 );
-        define( "CRON_DOM", 3 );
-        define( "CRON_MONTH", 4 );
-        define( "CRON_DOW", 5 );
-        define( "CRON_CMD", 7 );
-        define( "CRON_COMMENT", 8 );
-        define( "CRON_CRONLINE", 20 );
+        if ( !defined( 'CRON_MINUTE' ) )
+        {
+            define( 'CRON_MINUTE', 1 );
+        }
+
+        if ( !defined( 'CRON_HOUR' ) )
+        {
+            define( 'CRON_HOUR', 2 );
+        }
+
+        if ( !defined( 'CRON_DOM' ) )
+        {
+            define( 'CRON_DOM', 3 );
+        }
+
+        if ( !defined( 'CRON_MONTH' ) )
+        {
+            define( 'CRON_MONTH', 4 );
+        }
+
+        if ( !defined( 'CRON_DOW' ) )
+        {
+            define( 'CRON_DOW', 5 );
+        }
+
+        if ( !defined( 'CRON_CMD' ) )
+        {
+            define( 'CRON_CMD', 7 );
+        }
+
+        if ( !defined( 'CRON_COMMENT' ) )
+        {
+            define( 'CRON_COMMENT', 8 );
+        }
+
+        if ( !defined( 'CRON_CRONLINE' ) )
+        {
+            define( 'CRON_CRONLINE', 20 );
+        }
 
         $this->controller = $controller;
     }
@@ -237,28 +272,36 @@ class CronComponent extends Object
 
     function _parseElement( $element, &$targetArray, $numberOfElements )
     {
+        $this->log( $element, 'cron_jobs' );
         $subelements = explode( ",", $element );
+
         for ( $i = 0;$i < $numberOfElements;$i++ )
         {
             $targetArray[$i] = $subelements[0] == "*";
         }
 
+
+
         for ( $i = 0;$i < count( $subelements );$i++ )
         {
             if ( preg_match( "~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~", $subelements[$i], $matches ) )
             {
-                if ( $matches[1] == "*" )
+                if ( $matches[1] == '*' )
                 {
                     $matches[2] = 0; // from
                     $matches[4] = $numberOfElements; //to
-                } elseif ( $matches[4] == "" )
+                }
+
+                elseif ( !isset( $matches[4] ) || $matches[4] == '' )
                 {
                     $matches[4] = $matches[2];
                 }
-                if ( $matches[5][0] != "/" )
+
+                if ( $matches[5][0] != '/' )
                 {
                     $matches[6] = 1; // step
                 }
+
                 for ( $j = $this->_lTrimZeros( $matches[2] );$j <= $this->_lTrimZeros( $matches[4] );$j += $this->_lTrimZeros( $matches[6] ) )
                 {
                     $targetArray[$j] = true;

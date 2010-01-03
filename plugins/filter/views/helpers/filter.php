@@ -5,6 +5,8 @@
     	    'Form', 'Html'
     	);
 
+        var $count = 0;
+
     	function form( $model, $fields = array() )
     	{
     		$output  = '<tr>';
@@ -63,12 +65,16 @@
                 '<div class="wrap">';
                     $parts = explode( '/', $filter['url'][0] );
 
+                    $done = array();
+
                     foreach( $parts as $_f )
                     {
-                        if ( empty( $_f ) )
+                        if ( empty( $_f ) || in_array( $_f, $done ) )
                         {
                             continue;
                         }
+
+                        $done[] = $_f;
 
                         $text = explode( ':', $_f );
                         $text = explode( '.', $text[0] );

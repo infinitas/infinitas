@@ -72,15 +72,13 @@
             $this->set( 'category', $category );
         }
 
+        function admin_dashboard()
+        {
+
+        }
+
         function admin_index()
         {
-            $this->paginate = array(
-                'order' => array(
-                    'Section.title' => 'ASC',
-                    'Category.ordering' => 'ASC'
-                )
-            );
-
             $this->Category->recursive = 0;
             $this->set( 'categories', $this->paginate( null, $this->Filter->filter ) );
             $this->set( 'filterOptions', $this->Filter->filterOptions );
@@ -111,9 +109,10 @@
                     $this->Session->setFlash( __( 'The category could not be saved. Please, try again.', true ) );
                 }
             }
-            $sections = $this->Category->Section->find( 'list' );
+
+            $parents = array( __( 'Top Level Category', true ) ) + $this->Category->generatetreelist();
             $groups = $this->Category->Group->find( 'list' );
-            $this->set( compact( 'sections', 'groups' ) );
+            $this->set( compact( 'parents', 'groups' ) );
         }
 
         function admin_edit( $id = null )
@@ -147,9 +146,9 @@
                 }
             }
 
-            $sections = $this->Category->Section->find( 'list' );
+            $parents = array( __( 'None', true ) ) + $this->Category->generatetreelist();
             $groups = $this->Category->Group->find( 'list' );
-            $this->set( compact( 'sections', 'groups' ) );
+            $this->set( compact( 'parents', 'groups' ) );
         }
 
         function admin_delete( $id = null )
@@ -157,6 +156,13 @@
             if ( !$id )
             {
                 $this->Session->setFlash( 'That Category could not be found', true );
+                $this->redirect( $this->referer() );
+            }
+
+            $count = $this->Category->find( 'count', array( 'conditions' => array( 'Category.parent_id' => $id ) ) );
+            if ( $count > 0 )
+            {
+                $this->Session->setFlash( __( 'This Category has sub-categories.', true ) );
                 $this->redirect( $this->referer() );
             }
 

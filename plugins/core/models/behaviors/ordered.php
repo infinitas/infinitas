@@ -591,9 +591,10 @@
             $fields = array( $Model->primaryKey, $this->settings['field'] );
             if ( $this->settings['foreign_key'] )
             {
-                $conditions[$this->settings['foreign_key']] = $Model->data[$Model->alias][$this->settings['foreign_key']];
+                $conditions[$Model->alias.'.'.$this->settings['foreign_key']] = $Model->data[$Model->alias][$this->settings['foreign_key']];
                 $fields[] = $this->settings['foreign_key'];
             }
+
             return $Model->find( 'first', array(
                     'conditions' => $conditions,
                     'order' => $this->settings['field'] . ' DESC',

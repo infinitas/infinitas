@@ -83,7 +83,6 @@
                 			?>
                 		</td>
                 		<td class="actions">
-                			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $contentFrontpage['ContentFrontpage']['content_id'])); ?>
                 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $contentFrontpage['ContentFrontpage']['content_id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $contentFrontpage['ContentFrontpage']['content_id'])); ?>
                 		</td>
                 	</tr>

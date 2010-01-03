@@ -29,6 +29,19 @@
             'Config.key' => 'ASC'
         );
 
+        var $configuration = array(
+            'Revision' => array(
+                'Core.Revision' => array(
+                    'active'      => 'Config.Revision.active',
+                    'limit'       => 'Config.Revision.limit',
+                    'auto'        => 'Config.Revision.auto',
+                    'ignore'      => 'Config.Revision.ignore',
+                    'useDbConfig' => 'Config.Revision.useDbConfig',
+                    'model'       => 'Config.Revision.model'
+                )
+            )
+        );
+
         function getConfig()
         {
             $configs = Cache::read( 'core_configs' );
@@ -78,6 +91,12 @@
             Cache::write( 'core_configs', $configs, 'core' );
 
             return $configs;
+        }
+
+        function beforeFind( $queryData )
+        {
+            parent::beforeFind( $queryData );
+            return true;
         }
 
         function afterSave( $created )

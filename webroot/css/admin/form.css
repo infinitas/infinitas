@@ -1,0 +1,17 @@
+
+input {
+    vertical-align:middle;
+}
+    input.text,
+    select,
+    textarea {
+    	font-family:arial,sans-serif;
+    	color:#333;
+    	font-size:12px;
+    	vertical-align:middle;
+    }
+    input.text {
+    	padding:1px 0 0 4px;
+    	height:14px;
+    	font-weight:normal;
+    }

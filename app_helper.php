@@ -26,6 +26,8 @@
 
         var $errors = array();
 
+        var $wysiwyg = 'fck';
+
         var $helpers = array( 'Html', 'Core.Wysiwyg', 'Core.Gravatar' );
 
         /**
@@ -274,8 +276,6 @@
             return $out;
         }
 
-        var $wysiwyg = 'fck';
-
         function wysiwyg( $id = null, $toolbar = 'Basic' )
         {
             if ( !$id )
@@ -304,6 +304,27 @@
             }
 
             return $this->Gravatar->image( $email, $options );
+        }
+
+        function niceBox( $class = '', $content = false )
+        {
+            $out = '<div class="niceBox '.$class.'"><div class="top"><div class="top"><div class="top"></div></div></div>';
+                $out .= '<div class="middle">';
+                    if ( $content )
+                    {
+                        $out .= $content.'<div class="clr"></div>';
+                    }
+                $out .= '</div>';
+                if ( $content )
+                {
+                    $out .= $this->niceBoxEnd();
+                }
+            return $out;
+        }
+
+        function niceBoxEnd()
+        {
+            return '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
         }
     }
 ?>

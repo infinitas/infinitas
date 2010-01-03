@@ -32,7 +32,7 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort( 'title' ),
-                    $this->Paginator->sort( 'Section', 'Section.title' ),
+                    $this->Paginator->sort( 'Parent', 'Section.title' ),
                     $this->Paginator->sort( 'Group', 'Group.name' ) => array(
                         'style' => 'width:100px;'
                     ),
@@ -67,7 +67,7 @@
                 			<?php echo $this->Html->link( $category['Category']['title'], array('action' => 'edit', $category['Category']['id'] ) ); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link( $category['Section']['title'], array('controller' => 'sections', 'action' => 'edit', $category['Section']['id'] ) ); ?>
+                			<?php echo $this->Html->link( $category['Parent']['title'], array('controller' => 'categories', 'action' => 'edit', $category['Parent']['id'] ) ); ?>
                 		</td>
                 		<td>
                 			<?php echo $category['Group']['name']; ?>

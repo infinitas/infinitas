@@ -43,4 +43,5 @@
 
 <?php echo $this->Html->link( __( 'Cart', true ), array( 'plugin' => 'cart' ), array( 'class' => 'link' ) ); ?>
 
-<?php echo $this->Html->link( __( 'Global Config', true ), array( 'plugin' => 'management', 'controller' => 'configs', 'action' => 'index' ), array( 'class' => 'link' ) ); ?>
+<?php echo $this->Html->link( __( 'Global Config', true ), array( 'plugin' => 'management', 'controller' => 'configs' ), array( 'class' => 'link' ) ); ?>
+<?php echo $this->Html->link( __( 'File Manager', true ), array( 'plugin' => 'management', 'controller' => 'file_manager' ), array( 'class' => 'link' ) ); ?>

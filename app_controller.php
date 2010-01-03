@@ -23,7 +23,7 @@
         var $helpers = array(
             'Html', 'Form', 'Javascript',
 
-            'Core.Status'
+            'Core.Status', 'Design'
         );
 
         var $components = array(
@@ -51,8 +51,14 @@
         function beforeFilter()
         {
             parent::beforeFilter();
+            Configure::load( 'images' );
 
-            //$this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 1 ) ) ) );
+            $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 2 ) ) ) );
+
+            if ( sizeof( $this->uses ) && ( isset( $this->{$this->modelClass}->Behaviors ) && $this->{$this->modelClass}->Behaviors->attached( 'Logable' ) ) )
+            {
+                $this->{$this->modelClass}->setUserData( $this->Session->read( 'Auth' ) );
+            }
 
             $this->__checkUrl();
             $this->__setupLayout();

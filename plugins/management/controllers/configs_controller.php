@@ -26,11 +26,40 @@
             'Text'
         );
 
+        var $configOptions = array();
+
+        function beforeFilter()
+        {
+            parent::beforeFilter();
+
+            $this->configTypes = array(
+                'bool'     => __( 'Boolean Value', true ),
+                'dropdown' => __( 'Selectable List', true ),
+                'integer'  => __( 'Integer input', true ),
+                'string'   => __( 'String input', true )
+            );
+        }
+
         function admin_index()
         {
             $configs = $this->paginate( 'Config' );
 
             $this->set( compact( 'configs' ) );
+        }
+
+        function admin_add()
+        {
+            if ( !empty( $this->data ) )
+            {
+                $this->Config->create();
+                if ( $this->Config->saveAll( $this->data ) )
+                {
+                    $this->Session->setFlash( 'Your config setting has been saved.' );
+                    $this->redirect( array( 'action' => 'index' ) );
+                }
+            }
+
+            $this->set( 'types', $this->configTypes );
         }
 
         function admin_edit( $id = null )
@@ -43,6 +72,21 @@
 
             if ( !empty( $this->data ) )
             {
+                switch( $this->data['Config']['type'] )
+                {
+                    case 'bool':
+                        switch( $this->data['Config']['value'] )
+                        {
+                            case 1:
+                                $this->data['Config']['value'] = 'true';
+                                break;
+
+                            default:
+                                $this->data['Config']['value'] = 'false';
+                        } // switch
+                        break;
+                } // switch
+
                 if ( $this->Config->save( $this->data ) )
                 {
                     $this->Session->setFlash( __( 'Your config has been saved.', true ) );
