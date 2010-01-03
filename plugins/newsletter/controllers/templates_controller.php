@@ -248,5 +248,78 @@
 
             parent::admin_delete( $id );
         }
+
+        protected function admin_mass( )
+        {
+            $model = $this->modelNames[0];
+            $ids    = $this->__massGetIds( $this->data[$model] );
+
+            switch( $this->__massGetAction( $this->params['form'] ) )
+            {
+                case 'delete':
+                    return parent::__massActionDelete( $this->__canDelete( $ids ) );
+                    break;
+            } // switch
+        }
+
+        private function __canDelete( $ids )
+        {
+            $newsletters = $this->Template->Newsletter->find(
+                'list',
+                array(
+                    'fields' => array(
+                        'Newsletter.template_id',
+                        'Newsletter.template_id'
+                    ),
+                    'conditions' => array(
+                        'Newsletter.template_id' => $ids
+                    )
+                )
+            );
+
+            foreach( $ids as $k => $v )
+            {
+                if ( isset( $newsletters[$v] ) )
+                {
+                    unset( $ids[$k] );
+                }
+            }
+
+            if ( empty( $ids ) )
+            {
+                $this->Session->setFlash( __( 'There are some newsletters using that template.', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $campaigns = $this->Template->Campaign->find(
+                'list',
+                array(
+                    'fields' => array(
+                        'Campaign.template_id',
+                        'Campaign.template_id'
+                    ),
+                    'conditions' => array(
+                        'Campaign.template_id' => $ids
+                    )
+                )
+            );
+
+            foreach( $ids as $k => $v )
+            {
+                if ( isset( $campaigns[$v] ) )
+                {
+                    unset( $ids[$k] );
+                }
+            }
+
+            if ( empty( $ids ) )
+            {
+                $this->Session->setFlash( __( 'There are some campaigns using that template.', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            return $ids;
+
+        }
     }
 ?>

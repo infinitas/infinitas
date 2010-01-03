@@ -191,23 +191,10 @@
             return parent::admin_toggle( $id );
         }
 
+        /** stop this being called */
         function admin_delete( $id = null )
         {
-            if ( !$id )
-            {
-                $this->Session->setFlash( 'That Campaign could not be found', true );
-                $this->redirect( $this->referer() );
-            }
-
-            $campaign = $this->Campaign->read( null, $id );
-
-            if ( !empty( $campaign['Newsletter'] ) )
-            {
-                $this->Session->setFlash( __( 'There are some Newsleters in that campaign.', true ) );
-                $this->redirect( $this->referer() );
-            }
-
-            return parent::admin_delete( $id );
+            return false;
         }
 
         protected function admin_mass( )

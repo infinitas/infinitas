@@ -23,7 +23,7 @@
 ?>
 <div class="table">
     <?php echo $this->Letter->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Post', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
+    <?php echo $this->Form->create( 'Template', array( 'url' => array( 'controller' => 'templates', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Letter->adminTableHeader(
@@ -63,8 +63,7 @@
 
                                 echo $this->Html->link( 'export', array( 'action' => 'export', $template['Template']['id'] ) ), ' ',
                                 $this->Html->link( 'preview', array( 'action' => 'view', $template['Template']['id'] ) ), ' ',
-                                $this->Html->link( 'edit', array( 'action' => 'edit', $template['Template']['id'] ) ), ' ',
-                                $this->Html->link( 'delete', array( 'action' => 'delete', $template['Template']['id'] ) );
+                                $this->Html->link( 'edit', array( 'action' => 'edit', $template['Template']['id'] ) );
                             ?>
                         </td>
                     </tr>
@@ -73,8 +72,7 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'delete' ) );
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle' ) );
+        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
         echo $this->Form->end();
 
     ?>
