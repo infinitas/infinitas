@@ -256,6 +256,7 @@
 
             $this->redirect( $this->referer() );
         }
+
         /**
          * toggle records with an active table that is tinyint(1).
          *
@@ -323,53 +324,56 @@
             }
         }
 
+
         function admin_commentPurge( $class = null )
         {
-            if ( !$class )
+            echo 'moved to comments';
+        }
+
+
+
+
+
+
+        protected function admin_mass( )
+        {
+            $model = $this->modelNames[0];
+
+            $ids = array();
+
+            foreach( $this->data[$model] as $id => $selected )
             {
-                $this->Session->setFlash( __( 'Nothing chosen to purge', true ) );
-                $this->redirect( $this->referer() );
-            }
-
-            if ( !Configure::read( 'Comments.purge' ) )
-            {
-                $this->Session->setFlash( __( 'Purge is disabled', true ) );
-                $this->redirect( $this->referer() );
-            }
-
-            $ids = ClassRegistry::init( 'Core.Comment' )->find(
-                'list',
-                array(
-                    'fields' => array(
-                        'Comment.id',
-                        'Comment.id'
-                    ),
-                    'conditions' => array(
-                        'Comment.class' => $class,
-                        'Comment.active' => 0,
-                        'Comment.created < ' => date( 'Y-m-d H:i:s', strtotime( '-'.Configure::read( 'Comments.purge' ) ) )
-                    )
-                )
-            );
-
-            if ( empty( $ids ) )
-            {
-                $this->Session->setFlash( __( 'Nothing to purge', true ) );
-                $this->redirect( $this->referer() );
-            }
-
-            $counter = 0;
-
-            foreach( $ids as $id )
-            {
-                if ( ClassRegistry::init( 'Core.Comment' )->delete( $id ) )
+                if ( $selected )
                 {
-                    $counter++;
+                    $ids[] = $id;
                 }
             }
 
-            $this->Session->setFlash( sprintf( __( '%s comments were purged.', true ), $counter ) );
-            $this->redirect( $this->referer() );
+            if ( empty( $ids ) )
+            {
+                $this->Session->setFlash( __( 'Nothing was selected, please select something and try again.', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            if ( !isset( $this->params['form']['action'] ) )
+            {
+                $this->Session->setFlash( __( 'I dont know what to do.', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $class = $model.'AppController';
+
+            if ( in_array( '__massAction', get_class_methods( $class ) ) )
+            {
+                call_user_func( array( $class, '__massAction' ), $this->params['form']['action'], $ids );
+            }
+            exit;
+        }
+
+        protected function __massDelete( $ids )
+        {
+            pr( $self );
+            echo 'yey';
         }
     }
 ?>

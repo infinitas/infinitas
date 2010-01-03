@@ -95,5 +95,56 @@
 
             $this->Session->setFlash( sprintf( '%s %s', $i, __( 'Comments deleted', true ) ) );
         }
+
+
+
+        function admin_commentPurge( $class = null )
+        {
+            if ( !$class )
+            {
+                $this->Session->setFlash( __( 'Nothing chosen to purge', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            if ( !Configure::read( 'Comments.purge' ) )
+            {
+                $this->Session->setFlash( __( 'Purge is disabled', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $ids = ClassRegistry::init( 'Core.Comment' )->find(
+                'list',
+                array(
+                    'fields' => array(
+                        'Comment.id',
+                        'Comment.id'
+                    ),
+                    'conditions' => array(
+                        'Comment.class' => $class,
+                        'Comment.active' => 0,
+                        'Comment.created < ' => date( 'Y-m-d H:i:s', strtotime( '-'.Configure::read( 'Comments.purge' ) ) )
+                    )
+                )
+            );
+
+            if ( empty( $ids ) )
+            {
+                $this->Session->setFlash( __( 'Nothing to purge', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $counter = 0;
+
+            foreach( $ids as $id )
+            {
+                if ( ClassRegistry::init( 'Core.Comment' )->delete( $id ) )
+                {
+                    $counter++;
+                }
+            }
+
+            $this->Session->setFlash( sprintf( __( '%s comments were purged.', true ), $counter ) );
+            $this->redirect( $this->referer() );
+        }
     }
 ?>
