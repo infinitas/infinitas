@@ -21,7 +21,7 @@
 
         function beforeFind( $queryData )
         {
-            $this->basePath = Configure::read( 'FileManager.base_path' );
+            $this->basePath = APP; //Configure::read( 'FileManager.base_path' );
 
             if ( empty( $this->basePath ) )
             {
@@ -76,7 +76,7 @@
                 //return $data;
             }
 
-            return $this->__read( $findType, $conditions );
+            return (array)$this->__read( $findType, $conditions );
         }
 
         function chmod( $path )
@@ -134,8 +134,8 @@
                     if ( $this->recursive > -1 )
                     {
                         $this->return[$i]['Folder']['accessed']  = date( 'Y-m-d H:i:s', $stat['atime'] );
-                        $this->return[$i]['Folder']['modified']  = date( 'Y-m-d H:i:s', $stat['atime'] );
-                        $this->return[$i]['Folder']['created']   = date( 'Y-m-d H:i:s', $stat['atime'] );
+                        $this->return[$i]['Folder']['modified']  = date( 'Y-m-d H:i:s', $stat['mtime'] );
+                        $this->return[$i]['Folder']['created']   = date( 'Y-m-d H:i:s', $stat['ctime'] );
 
                         if ( $this->recursive > 0 )
                         {

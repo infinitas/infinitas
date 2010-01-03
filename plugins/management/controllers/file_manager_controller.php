@@ -10,7 +10,10 @@
         var $uses = array( 'Management.Files', 'Management.Folders' );
 
         var $helpers = array(
+            'Image',
+
             'Number'
+
         );
 
         function admin_index( $path = '-' )

@@ -21,7 +21,7 @@
 
         function beforeFind( $queryData )
         {
-            $this->basePath = Configure::read( 'FileManager.base_path' );
+            $this->basePath = APP; //Configure::read( 'FileManager.base_path' );
 
             if ( empty( $this->basePath ) )
             {
@@ -74,10 +74,10 @@
             $data = Cache::read( 'files_'.sha1( $this->path.$conditions ) );
             if ( $data !== false )
             {
-                return $data;
+                //return $data;
             }
 
-            return $this->__read( $findType, $conditions );
+            return (array)$this->__read( $findType, $conditions );
         }
 
         function chmod( $path )
@@ -101,6 +101,8 @@
             $this->return;
 
             Cache::write( 'files_'.sha1( $this->path.$conditions ), $this->return );
+
+            return $this->return;
         }
 
         function __advancedFileFind( $conditions )
@@ -123,14 +125,21 @@
                 {
                     $Folder = new Folder( $this->path );
                     $this->return[$i]['File']['path']      = $Folder->path.DS.$file;
-                    $this->return[$i]['File']['relative']  = $this->__relativePath( $Folder->path.DS.$file );
+                    $this->return[$i]['File']['relative']  = $this->__relativePath( $this->return[$i]['File']['path'] );
+
+                    $stat = stat( $this->return[$i]['File']['path'] );
+                    $this->__fileStatus( $i, $stat );
 
                     if ( $this->recursive > -1 )
                     {
+                        $this->return[$i]['File']['accessed']  = date( 'Y-m-d H:i:s', $stat['atime'] );
+                        $this->return[$i]['File']['modified']  = date( 'Y-m-d H:i:s', $stat['mtime'] );
+                        $this->return[$i]['File']['created']   = date( 'Y-m-d H:i:s', $stat['ctime'] );
+
                         $File = new File( $this->return[$i]['File']['path'] );
                         $info                            = $File->info();
                         $this->return[$i]['File']['dirname']   = $info['dirname'];
-                        $this->return[$i]['File']['basename']  = $info['basename'];
+                        $this->return[$i]['File']['name']      = $info['basename'];
                         $this->return[$i]['File']['extension'] = $info['extension'];
                         $this->return[$i]['File']['filename']  = $info['filename'];
                         $this->return[$i]['File']['writable']  = $File->writable();
@@ -139,7 +148,7 @@
                         {
                             $this->return[$i]['File']['size']      = $File->size();
                             $this->return[$i]['File']['owner']     = $File->owner();
-                            $this->return[$i]['File']['gorup']     = $File->group();
+                            $this->return[$i]['File']['group']     = $File->group();
                             $this->return[$i]['File']['accessed']  = $File->lastAccess();
                             $this->return[$i]['File']['modidfied'] = $File->lastChange();
                             $this->return[$i]['File']['charmod']   = $File->perms();
@@ -165,6 +174,32 @@
                 $i++;
             }
             return true;
+        }
+
+        function __fileStatus( $currentI, $stat )
+        {
+            $ts=array(
+                0140000=>'ssocket', 0120000=>'llink', 0100000=>'-file',
+                0060000=>'bblock', 0040000=>'ddir', 0020000=>'cchar',
+                0010000=>'pfifo'
+            );
+            $p = $stat['mode'];
+            $t = decoct( $stat['mode'] & 0170000 );
+
+            $str =(array_key_exists(octdec($t),$ts))?$ts[octdec($t)]{0}:'u';
+            $str.=(($p&0x0100)?'r':'-').(($p&0x0080)?'w':'-');
+            $str.=(($p&0x0040)?(($p&0x0800)?'s':'x'):(($p&0x0800)?'S':'-'));
+            $str.=(($p&0x0020)?'r':'-').(($p&0x0010)?'w':'-');
+            $str.=(($p&0x0008)?(($p&0x0400)?'s':'x'):(($p&0x0400)?'S':'-'));
+            $str.=(($p&0x0004)?'r':'-').(($p&0x0002)?'w':'-');
+            $str.=(($p&0x0001)?(($p&0x0200)?'t':'x'):(($p&0x0200)?'T':'-'));
+
+            $this->return[$currentI]['File']['permission'] = $str;
+            $this->return[$currentI]['File']['octal']      = sprintf("0%o", 0777 & $p);
+            $this->return[$currentI]['File']['owner']      = $stat['uid'];
+            $this->return[$currentI]['File']['group']      = $stat['gid'];
+            $this->return[$currentI]['File']['owner_name'] = ( function_exists( 'posix_getpwuid' ) ) ? posix_getpwuid( $this->return[$currentI]['File']['owner'] ) : '';
+            $this->return[$currentI]['File']['group_name'] = ( function_exists( 'posix_getgrgid' ) ) ? posix_getgrgid( $this->return[$currentI]['File']['group'] ) : '';
         }
 
         function __simpleFileFind( $conditions )

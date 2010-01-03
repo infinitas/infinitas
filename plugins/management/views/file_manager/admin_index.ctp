@@ -58,6 +58,21 @@
                     )
                 )
             );
+            ?>
+            	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                    <td>&nbsp;</td>
+                    <td><?php echo $this->Image->image( 'actions', 'arrow-left' ); ?></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+            	</tr>
+            <?php
 
             foreach ( $folders as $folder )
             {
@@ -66,9 +81,7 @@
                         <td><?php echo $this->Form->checkbox( 'Folder.'.$folder['Folder']['path'] ); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Html->image(
-
-                                );
+                                echo $this->Image->findByChildren( $folder['Folder']['Children'] );
                             ?>
                         </td>
                 		<td>
@@ -121,9 +134,7 @@
                         <td><?php echo $this->Form->checkbox( 'File.'.$file['File']['path'] ); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Html->image(
-
-                                );
+                                echo $this->Image->findByExtention( $file['File']['extension'] );
                             ?>
                         </td>
                 		<td>
@@ -132,7 +143,7 @@
                 			        $file['File']['name'],
                 			        array(
                     			        'action' => 'view',
-                    			        $file['File']['Path']
+                    			        $file['File']['path']
                 			        )
                     			);
                     		?>

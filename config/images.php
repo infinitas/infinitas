@@ -1,7 +1,7 @@
 <?php
-    $config['Site']['Images']['path'] = 'core/icons/';
-    $config['Site']['Images']['images'] = array(
-        'acitons' => array(
+    $config['CoreImages']['path'] = 'core/icons/';
+    $config['CoreImages']['images'] = array(
+        'actions' => array(
             'accept'      => 'accept.png',
             'add'         => 'add.png',
             'addCategory' => 'addCategory.png',
@@ -45,7 +45,7 @@
 
         'applications' => array(
             'ai'   => '',
-            'doc'  => '',
+            'doc'  => 'doc.png',
             'docx' => 'docx.png',
             'dwt'  => 'dwt.png',
             'eps'  => '',
@@ -53,22 +53,24 @@
             'ods'  => 'ooMaths.png',
             'odt'  => 'ooWord.png',
             'pdf'  => 'pdf.png',
-            'ppt'  => '',
+            'ppt'  => 'ppt.png',
             'pptx' => 'ppt.png',
-            'ps'   => '',
+            'ps'   => 'ps.png',
             'psd'  => 'psd.png',
             'rtf'  => '',
             'txt'  => 'txt.png',
-            'xls'  => '',
+            'xls'  => 'sxl.png',
             'xlsx' => 'xlsx.png'
         ),
 
         'archives' => array(
             '7z'  => '7z.png',
-            'cab' => '',
+            'cab' => 'cab.png',
+            'dll' => 'dll.png',
             'exe' => 'exe.png',
             'msi' => '',
             'rar' => 'win-rar.png',
+            'tar' => 'tar.png',
             'zip' => '',
         ),
 
@@ -87,32 +89,37 @@
 
         'images' => array(
             'bmp'  => 'bmp.png',
-            'gif'  => '',
+            'gif'  => 'gif.png',
             'ico'  => '',
             'jpe'  => 'jpg.png',
             'jpeg' => 'jpg.png',
             'jpg'  => 'jpg.png',
             'png'  => 'png.png',
-            'svg'  => '',
+            'svg'  => 'svg.png',
             'svgz' => '',
-            'tif'  => '',
-            'tiff' => ''
+            'tga'  => 'tga/png',
+            'tif'  => 'tiff.png',
+            'tiff' => 'tiff.png'
         ),
 
         'multiMedia' => array(
-            '3gp' => '',
-            'mov' => '',
-            'mp2' => '',
-            'mp3' => '',
-            'mp4' => 'mp4.png',
-            'oog' => '',
-            'ra'  => 'rm.png',
-            'ram' => 'rm.png',
-            'rm'  => 'rm.png',
-            'rmi' => 'rm.png',
-            'qt'  => 'qt.png',
-            'vlc' => 'vlc.png',
-            'mwa' => 'wma.png'
+            '3gp'  => '3gp.png',
+            'dvi'  => 'dvi.png',
+            'mov'  => 'mov.png',
+            'mp2'  => 'mp2.png',
+            'mp3'  => 'mp3.png',
+            'mp4'  => 'mp4.png',
+            'mpeg' => 'mpeg.png',
+            'ogg'  => 'ogg.png',
+            'ra'   => 'rm.png',
+            'ram'  => 'rm.png',
+            'rm'   => 'rm.png',
+            'rmi'  => 'rm.png',
+            's3m'  => 's3m.png',
+            'qt'   => 'qt.png',
+            'vlc'  => 'vlc.png',
+            'wav'  => 'wav.png',
+            'wma'  => 'wma.png'
         ),
 
         'notifications' => array(
@@ -140,6 +147,12 @@
             'yahoo'    => 'yahoo-messanger.png'
         ),
 
+        'unknown' => array(
+            'unknown' => 'unknown.png',
+            'readme'  => 'readme.png',
+            ''        => 'readme.png'
+        ),
+
         'weather' => array(
             'clear'               => 'clear.png',
             'clear-night'         => 'clear-night.png',
@@ -153,17 +166,21 @@
         ),
 
         'web' => array(
-            'css'  => '',
+            'asx'  => 'asx.png',
+            'css'  => 'css.png',
             'flv'  => 'flv.png',
             'htm'  => 'html.png',
             'html' => 'html.png',
-            'js'   => '',
+            'java' => 'java.png',
+            'js'   => 'js.png',
             'json' => '',
-            'php'  => '',
-            'php3' => '',
-            'php4' => '',
-            'php5' => '',
-            'php6' => '',
+            'php'  => 'php.png',
+            'php3' => 'php.png',
+            'php4' => 'php.png',
+            'php5' => 'php.png',
+            'php6' => 'php.png',
+            'py'   => 'py.png',
+            'sql'  => 'sql.png',
             'swf'  => 'flv.png',
             'xml'  => 'xml.png'
         )
