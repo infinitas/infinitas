@@ -209,5 +209,57 @@
 
             return parent::admin_delete( $id );
         }
+
+        protected function admin_mass( )
+        {
+            $model = $this->modelNames[0];
+            $ids    = $this->__massGetIds( $this->data[$model] );
+
+            switch( $this->__massGetAction( $this->params['form'] ) )
+            {
+                case 'delete':
+                        return parent::__massActionDelete( $this->__canDelete( $ids ) );
+                    break;
+            } // switch
+        }
+
+        private function __canDelete( $ids )
+        {
+            $newsletters = $this->Campaign->Newsletter->find(
+                'list',
+                array(
+                    'fields' => array(
+                        'Newsletter.campaign_id',
+                        'Newsletter.campaign_id'
+                    ),
+                    'conditions' => array(
+                        'Newsletter.sent' => 1,
+                        'Newsletter.campaign_id' => $ids
+                    )
+                )
+            );
+
+            if ( empty( $newsletters ) )
+            {
+                return $ids;
+            }
+
+            foreach( $ids as $k => $v )
+            {
+                if ( isset( $newsletters[$v] ) )
+                {
+                    unset( $ids[$k] );
+                }
+            }
+
+            if ( !empty( $ids ) )
+            {
+                return $ids;
+            }
+
+            $this->Session->setFlash( __( 'None of the campaigns you selected are deletable.', true ) );
+            $this->redirect( $this->referer() );
+
+        }
     }
 ?>

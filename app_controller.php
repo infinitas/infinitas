@@ -337,11 +337,12 @@
 
         protected function admin_mass( )
         {
+            pr( $this->modelNames );
+
             $model = $this->modelNames[0];
             $ids    = $this->__massGetIds( $this->data[$model] );
-            $action = $this->__massGetAction( $this->params['form'] );
 
-            switch( $action )
+            switch( $this->__massGetAction( $this->params['form'] ) )
             {
                 case 'delete':
                     $this->__massActionDelete( $ids );

@@ -123,17 +123,5 @@
         {
             parent::afterFilter();
         }
-
-
-
-        function __massAction( $action, $ids )
-        {
-            switch( $action )
-            {
-                case 'delete':
-                    parent::__massDelete( $ids );
-                    break;
-            } // switch
-        }
     }
 ?>

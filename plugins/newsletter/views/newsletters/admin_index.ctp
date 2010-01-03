@@ -107,8 +107,7 @@
 
                                 if ( !$newsletter['Newsletter']['sent'] )
                                 {
-                                    echo $this->Html->link( 'edit', array( 'action' => 'edit', $newsletter['Newsletter']['id'] ) ), ' ',
-                                        $this->Html->link( 'delete', array( 'action' => 'delete', $newsletter['Newsletter']['id'] ) );
+                                    echo $this->Html->link( 'edit', array( 'action' => 'edit', $newsletter['Newsletter']['id'] ) );
                                 }
                             ?>
                         </td>
