@@ -402,7 +402,7 @@
             $model = $this->modelNames[0];
 
             $conditions = array(
-                $model.'.id' => $ids
+                $model.'.'.$this->$model->primaryKey => $ids
             );
 
             if ( $this->$model->deleteAll( $conditions ) )
