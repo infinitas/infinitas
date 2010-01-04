@@ -1,6 +1,6 @@
 <?php
     /**
-     * Blog Comments admin index view file.
+     * Management Comments admin index view file.
      *
      * this is the admin index file that displays a list of comments in the
      * admin section of the blog plugin.
@@ -19,11 +19,10 @@
      */
 
     //echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions );
-    echo $this->Form->create( 'Comment', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create( 'Comment', array( 'url' => array( 'controller' => 'comments', 'action' => 'mass', 'admin' => 'true' ) ) );
         $massActions = $this->Core->massActionButtons(
             array(
                 'toggle',
-                'copy',
                 'delete'
             )
         );
@@ -59,9 +58,6 @@
                     ),
                     __( 'Status', true ) => array(
                         'class' => 'actions'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'class' => 'last actions'
                     )
                 )
             );
@@ -81,11 +77,6 @@
                         <td>
                             <?php
                                 echo $this->Status->toggle( $comment['Comment']['active'], $comment['Comment']['id'] );
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                                echo $this->Html->link( 'delete', array( 'action' => 'delete', $comment['Comment']['id'] ) );
                             ?>
                         </td>
                     </tr>
