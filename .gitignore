@@ -5,3 +5,6 @@ libs/cronjobs
 *.LCK
 .gitignore
 infinitas.PHPEditProject
+.project
+.buildpath
+.settings/*
