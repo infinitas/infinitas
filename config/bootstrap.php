@@ -48,5 +48,5 @@
      * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
      *
      */
-    App::build( array( 'plugins' => array( dirname( dirname( __FILE__ ) ).DS.'core'.DS ) ) );
+    App::build( array( 'plugins' => array( dirname( dirname( __FILE__ ) ).DS.'infinitas'.DS ) ) );
 ?>
