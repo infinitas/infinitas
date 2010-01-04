@@ -18,11 +18,22 @@
      * @since         0.5a
      */
 
-    echo $this->Core->adminIndexHead( $this, $paginator );
+    echo $this->Form->create( 'Config', array( 'url' => array( 'controller' => 'configs', 'action' => 'mass', 'admin' => 'true' ) ) );
+
+        $massActions = $this->Core->massActionButtons(
+            array(
+                'upload',
+                'view',
+                'edit',
+                'copy',
+                'delete'
+            )
+        );
+        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Config', array( 'url' => array( 'controller' => 'configs', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
+    <?php  ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(
@@ -89,8 +100,6 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'delete' ) );
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle' ) );
         echo $this->Form->end();
 
     ?>
