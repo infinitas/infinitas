@@ -114,6 +114,11 @@ a:hover {text-decoration: underline}
 
 * html #middle {height:584px;}
 
+.massActions input{
+    float:   left;
+    padding: 5px;
+}
+
 /* left column styles */
 #left-column a {color:#3E3E3E;}
 #left-column h3 {
