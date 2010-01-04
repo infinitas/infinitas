@@ -21,15 +21,15 @@
     class Feature extends CmsAppModel
     {
         var $name         = 'Feature';
-        var $primaryKey   = 'content_id';
-        var $displayField = 'content_id';
 
         var $order = array(
             'Feature.ordering' => 'DESC'
         );
 
         var $actsAs = array(
-            'Core.Ordered'
+            'Core.Ordered' => array(
+                'foreign_key' => 'order_id'
+            )
         );
 
         var $belongsTo = array(

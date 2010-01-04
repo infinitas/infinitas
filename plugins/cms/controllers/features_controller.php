@@ -27,6 +27,7 @@
 
             $this->paginate = array(
                 'fields' => array(
+                    'Feature.id',
                     'Feature.content_id',
                     'Feature.ordering',
                     'Feature.created',

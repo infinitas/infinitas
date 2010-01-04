@@ -35,10 +35,7 @@
 
         var $actsAs = array(
             'Core.Sluggable',
-            'Core.Viewable',
-            'Core.Ordered' => array(
-                'foreign_key' => 'category_id'
-            )
+            'Core.Viewable'
         );
 
     	var $belongsTo = array(

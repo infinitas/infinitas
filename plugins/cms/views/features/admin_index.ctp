@@ -61,7 +61,7 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Cms->rowClass( $i ); ?>">
-                        <td><?php echo $this->Form->checkbox( $feature['Feature']['content_id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( $feature['Feature']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $feature['Content']['title'], array('controller' => 'features', 'action' => 'view', $feature['Content']['id'])); ?>
                 		</td>

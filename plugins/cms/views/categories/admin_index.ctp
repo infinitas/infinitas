@@ -89,10 +89,7 @@
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Cms->ordering(
-                			        $category['Category']['id'],
-                			        $category['Category']['ordering']
-                			    );
+                			    // @todo -c Implement .add up and down for mptt
                 			?>
                 		</td>
                 		<td>
