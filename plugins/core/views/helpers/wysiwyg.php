@@ -43,11 +43,13 @@
                 $did .= ucfirst( $v );
             }
 
+            $path = $this->webroot.'js/';
+
             return <<<FCK_CODE
 <script type="text/javascript">
 fckLoader_$did = function () {
     var bFCKeditor_$did = new FCKeditor('$did');
-    bFCKeditor_$did.BasePath = '/js/';
+    bFCKeditor_$did.BasePath = $path;
     bFCKeditor_$did.ToolbarSet = '$toolbar';
     bFCKeditor_$did.ReplaceTextarea();
 }
