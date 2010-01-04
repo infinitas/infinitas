@@ -44,9 +44,6 @@
                     $this->Paginator->sort( 'created' ) => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'modified' ) => array(
-                        'style' => 'width:100px;'
-                    ),
                     $this->Paginator->sort( 'ordering' ) => array(
                         'style' => 'width:50px;'
                     ),
@@ -70,9 +67,6 @@
                 		</td>
                 		<td>
                 			<?php echo $this->Time->niceShort( $feature['Feature']['created'] ); ?>
-                		</td>
-                		<td>
-                			<?php echo $this->Time->niceShort( $feature['Feature']['modified'] ); ?>
                 		</td>
                 		<td>
                 			<?php

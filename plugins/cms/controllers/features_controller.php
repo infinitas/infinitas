@@ -30,8 +30,7 @@
                     'Feature.id',
                     'Feature.content_id',
                     'Feature.ordering',
-                    'Feature.created',
-                    'Feature.modified'
+                    'Feature.created'
                 ),
                 'contain' => array(
                     'Content' => array(
