@@ -20,6 +20,8 @@
 
     class ManagementAppController extends AppController
     {
-        var $helpers = array( 'Management.Core' );
+        var $helpers = array( 'Management.Core', 'Filter.Filter' );
+
+        var $components = array( 'Filter.Filter' );
     }
 ?>
