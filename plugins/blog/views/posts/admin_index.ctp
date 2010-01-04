@@ -20,6 +20,8 @@
         $massActions = $this->Blog->massActionButtons(
             array(
                 'add',
+                'edit',
+                'preview',
                 'toggle',
                 'copy',
                 'delete'
@@ -50,9 +52,6 @@
                     ),
                     __( 'Status', true ) => array(
                         'class' => 'actions'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'class' => 'last actions'
                     )
                 )
             );
@@ -64,7 +63,7 @@
                     <tr class="<?php echo $this->Blog->rowClass( $i ); ?>">
                         <td><?php echo $this->Form->checkbox( $post['Post']['id'] ); ?>&nbsp;</td>
                         <td title="<?php echo $post['Post']['slug']; ?>">
-                            <?php $this->Html->link( $post['Post']['title'], array( 'action' => 'edit', $post['Post']['id'] ) ); ?>
+                            <?php echo $this->Html->link( $post['Post']['title'], array( 'action' => 'edit', $post['Post']['id'] ) ); ?>
                         </td>
                         <td><?php echo strip_tags( $post['Post']['intro'] ); ?>&nbsp;</td>
                         <td><?php echo implode( ', ', Set::extract( '/Tag/name', $post ) ); ?>&nbsp;</td>
@@ -74,12 +73,6 @@
                             <?php
                                 echo $this->Status->toggle( $post['Post']['active'], $post['Post']['id'] ),
                                     $this->Status->locked( $post, 'Post' );
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                                echo $this->Html->link( 'preview', array( 'action' => 'view', $post['Post']['id'], 'admin' => false ), array( 'target' => '_blank' ) ), ' ',
-                                $this->Html->link( 'edit', array( 'action' => 'edit', $post['Post']['id'] ) );
                             ?>
                         </td>
                     </tr>
