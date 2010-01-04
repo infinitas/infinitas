@@ -19,6 +19,7 @@
     echo $this->Form->create( 'Post', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
         $massActions = $this->Blog->massActionButtons(
             array(
+                'add',
                 'toggle',
                 'copy',
                 'delete'

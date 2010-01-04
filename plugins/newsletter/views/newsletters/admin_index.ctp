@@ -18,11 +18,20 @@
      * @since         0.5a
      */
 
-    echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions );
+    echo $this->Form->create( 'Newsletter', array( 'url' => array( 'controller' => 'newsletters', 'action' => 'mass', 'admin' => 'true' ) ) );
+        $massActions = $this->Letter->massActionButtons(
+            array(
+                'add',
+                'copy',
+                'toggle',
+                'send',
+                'delete'
+            )
+        );
+        echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Letter->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Newsletter', array( 'url' => array( 'controller' => 'newsletters', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <tr>
             <th class="first" style="width:10px;"><?php echo $this->Form->checkbox( 'all' ); ?></th>

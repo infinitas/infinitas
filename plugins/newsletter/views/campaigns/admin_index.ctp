@@ -18,11 +18,20 @@
      * @since         0.5a
      */
 
-    echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions );
+    echo $this->Form->create( 'Campaign', array( 'url' => array( 'controller' => 'campaigns', 'action' => 'mass', 'admin' => 'true' ) ) );
+        $massActions = $this->Letter->massActionButtons(
+            array(
+                'add',
+                'copy',
+                'toggle',
+                'delete'
+            )
+        );
+        echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+
 ?>
 <div class="table">
     <?php echo $this->Letter->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Campaign', array( 'url' => array( 'controller' => 'campaigns', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Letter->adminTableHeader(

@@ -22,6 +22,7 @@
         echo $this->Form->create( 'Template', array( 'url' => array( 'controller' => 'templates', 'action' => 'mass', 'admin' => 'true' ) ) );
         $massActions = $this->Letter->massActionButtons(
             array(
+                'add',
                 'copy',
                 'export',
                 'delete'
