@@ -1,5 +1,4 @@
 <?php
-    echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions );
     /**
      * Comment Template.
      *
@@ -19,10 +18,19 @@
      * @since         0.5a
      */
 
+     echo $this->Form->create( 'Feature', array( 'url' => array( 'controller' => 'features', 'action' => 'mass', 'admin' => 'true' ) ) );
+        $massActions = $this->Cms->massActionButtons(
+            array(
+                'add',
+                'delete'
+            )
+        );
+        echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+
 ?>
 <div class="table">
     <?php echo $this->Cms->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Feature', array( 'url' => array( 'controller' => 'features', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
+    <?php  ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Cms->adminTableHeader(
@@ -44,9 +52,6 @@
                     ),
                     __( 'Status', true ) => array(
                         'style' => 'width:50px;'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'style' => 'width:100px;'
                     )
                 )
             );
@@ -82,17 +87,12 @@
                 			    echo $this->Status->toggle( $feature['Content']['active'], $feature['Content']['id'], array( 'controller' => 'features', 'action' => 'toggle' ) );
                 			?>
                 		</td>
-                		<td class="actions">
-                			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $feature['Feature']['content_id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $feature['Feature']['content_id'])); ?>
-                		</td>
                 	</tr>
                 <?php
             }
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'delete' ) );
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle' ) );
         echo $this->Form->end();
 
     ?>
