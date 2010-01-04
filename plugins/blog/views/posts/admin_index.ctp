@@ -16,12 +16,11 @@
      * @subpackage    blog.views.posts.admin_index
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-
+    echo $this->Form->create( 'Post', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
     echo $this->Blog->adminIndexHead( $this, $paginator, $filterOptions );
 ?>
 <div class="table">
     <?php echo $this->Blog->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Post', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Blog->adminTableHeader(
@@ -82,9 +81,13 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle', 'name' => 'action' ) );
-        echo $this->Form->button( __( 'Copy', true ), array( 'value' => 'copy', 'name' => 'action' ) );
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
+        echo $this->Blog->massActionButtons(
+            array(
+                'toggle',
+                'copy',
+                'delete'
+            )
+        );
         echo $this->Form->end();
 
     ?>

@@ -20,7 +20,7 @@
     {
         var $helpers = array(
             //cake helpers
-            'Html', 'Text', 'Time',
+            'Html', 'Form', 'Text', 'Time',
 
             // core helpers
             'Core.Wysiwyg'

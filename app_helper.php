@@ -326,5 +326,23 @@
         {
             return '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
         }
+
+        function massActionButtons( $buttons = null )
+        {
+            if ( !$buttons )
+            {
+                $this->errors[] = 'No buttons set';
+                return false;
+            }
+
+            $out = '';
+
+            foreach( $buttons as $button )
+            {
+                $out .= $this->Form->button( __( Inflector::humanize( $button ), true ), array( 'value' => strtolower( str_replace( array( '-', ' ' ), '_', $button ) ), 'name' => 'action' ) );
+            }
+
+            return $out;
+        }
     }
 ?>
