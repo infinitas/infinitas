@@ -43,7 +43,17 @@
                 'className' => 'Cms.Category',
                 'counterCache' => true
             ),
-            'Core.Group'
+            'Core.Group',
+            'Locker' => array(
+            	'className' => 'Core.User',
+            	'foreignKey' => 'locked_by',
+            	'conditions' => '',
+            	'fields' => array(
+                    'Locker.id',
+                    'Locker.username'
+                ),
+            	'order' => ''
+            )
     	);
 
     	var $hasMany = array(

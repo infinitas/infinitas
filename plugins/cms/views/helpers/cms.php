@@ -56,31 +56,5 @@
                 )
             );
         }
-
-        function featuredItem( $record = array() )
-        {
-            if ( empty( $record ) )
-            {
-                $this->messages[] = 'This has no featured items.';
-
-                return $this->Html->image(
-                    $this->Image->getRelativePath( 'status', 'inactive' ),
-                    array(
-                        'alt'   => __( 'No', true ),
-                        'title' => __( 'Not a featured item', true ),
-                        'width' => '16px'
-                    )
-                );
-            }
-
-            return $this->Html->image(
-                $this->Image->getRelativePath( 'status', 'active' ),
-                array(
-                    'alt'   => __( 'Yes', true ),
-                    'title' => __( 'Featured Item', true ),
-                    'width' => '16px'
-                )
-            );
-        }
     }
 ?>

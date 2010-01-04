@@ -56,7 +56,7 @@
                         'style' => 'width:50px;'
                     ),
                     __( 'Status', true ) => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:100px;'
                     )
                 )
             );
@@ -100,18 +100,15 @@
                 		<td>
                 			<?php echo $this->Time->niceShort( $content['Content']['modified'] ); ?>
                 		</td>
-                		<td>
+                		<td class="status">
                 			<?php
-                			    echo $this->Cms->ordering(
-                			        $content['Content']['id'],
-                			        $content['Content']['ordering']
-                			    );
+                			    echo $this->Cms->ordering( $content['Content']['id'], $content['Content']['ordering'] );
                 			?>
                 		</td>
-                		<td>
+                		<td class="status">
                 			<?php
                 			    echo $this->Cms->homePageItem( $content ),
-                        			$this->Cms->featuredItem( $content['Feature'] ),
+                        			$this->Status->featured( $content ),
                 			        $this->Status->toggle( $content['Content']['active'], $content['Content']['id'] ),
                     			    $this->Status->locked( $content, 'Content' );
                 			?>

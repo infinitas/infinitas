@@ -124,7 +124,7 @@
             {
                 case 1:
                     $image = $this->Html->image(
-                        'core/icons/actions/16/locked-yes.png',
+                        $this->Image->getRelativePath( 'status', 'locked' ),
                         array(
                             'alt' => __( 'Locked', true ),
                             'width' => '16px',
@@ -138,7 +138,7 @@
 
                 case 0:
                     $image = $this->Html->image(
-                        'core/icons/actions/16/locked-no.png',
+                        $this->Image->getRelativePath( 'status', 'not-locked' ),
                         array(
                             'alt' => __( 'Not Locked', true ),
                             'width' => '16px',
@@ -149,6 +149,32 @@
             }
 
             return $image;
+        }
+
+        function featured( $record = array(), $model = 'Feature' )
+        {
+            if ( empty( $record[$model] ) )
+            {
+                $this->messages[] = 'This has no featured items.';
+
+                return $this->Html->image(
+                    $this->Image->getRelativePath( 'status', 'not-featured' ),
+                    array(
+                        'alt'   => __( 'No', true ),
+                        'title' => __( 'Not a featured item', true ),
+                        'width' => '16px'
+                    )
+                );
+            }
+
+            return $this->Html->image(
+                $this->Image->getRelativePath( 'status', 'featured' ),
+                array(
+                    'alt'   => __( 'Yes', true ),
+                    'title' => __( 'Featured Item', true ),
+                    'width' => '16px'
+                )
+            );
         }
     }
 ?>

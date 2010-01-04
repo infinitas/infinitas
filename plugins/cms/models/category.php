@@ -2,25 +2,24 @@
     /**
      * Comment Template.
      *
-     * @todo -c Implement .this needs to be sorted out.
+     * @todo Implement .this needs to be sorted out.
      *
      * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      *
      * Licensed under The MIT License
      * Redistributions of files must retain the above copyright notice.
-     *
      * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://www.dogmatic.co.za
-     * @package       sort
-     * @subpackage    sort.comments
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     * @since         0.5a
+     * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     * @link http://www.dogmatic.co.za
+     * @package sort
+     * @subpackage sort.comments
+     * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since 0.5a
      */
 
     class Category extends CmsAppModel
     {
-    	var $name = 'Category';
+        var $name = 'Category';
 
         var $actsAs = array(
             'Core.Sluggable',
@@ -32,32 +31,32 @@
             'Category.lft' => 'ASC'
         );
 
-    	var $validate = array(
-    		'title' => array(
-    			'notempty' => array('rule' => array('notempty')),
-    		),
-    	);
+        var $validate = array(
+            'title' => array(
+                'notempty' => array( 'rule' => array( 'notempty' ) ),
+                ),
+            );
 
-    	var $belongsTo = array(
-    		'Parent' => array(
-        		'className' => 'Cms.Category',
+        var $belongsTo = array(
+            'Parent' => array(
+                'className' => 'Cms.Category',
                 'counterCache' => true
             ),
             'Core.Group',
-    		'Locker' => array(
-    			'className' => 'Core.User',
-    			'foreignKey' => 'locked_by',
-    			'conditions' => '',
-    			'fields' => array(
-        			'Locker.id',
-        			'Locker.username'
+            'Locker' => array(
+                'className'  => 'Core.User',
+                'foreignKey' => 'locked_by',
+                'conditions' => '',
+                'fields' => array(
+                    'Locker.id',
+                    'Locker.username'
                 ),
-    			'order' => ''
-    		)
-    	);
+                'order' => ''
+            )
+        );
 
-    	var $hasMany = array(
-    		'Cms.Content'
+        var $hasMany = array(
+            'Cms.Content'
         );
     }
 ?>

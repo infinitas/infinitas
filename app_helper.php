@@ -207,11 +207,18 @@
             {
                 $this->errors[] = 'The order was not passed';
             }
-            $out  = $order.' ';
+
+            $out  = $this->Html->link( $order, array( '#' => $order ) );
 
             $out .= $this->Html->link(
                 $this->Html->image(
-                    'core/icons/actions/16/arrow-up-yes.png'
+                    $this->Image->getRelativePath( 'actions', 'arrow-up' ),
+                    array(
+                        'alt'   => __( 'Up', true ),
+                        'title' => __( 'Move up', true ),
+                        'width' => '16px',
+                        'class' => 'arrow-up'
+                    )
                 ),
                 array(
                     'action' => 'reorder',
@@ -221,14 +228,18 @@
                 ),
                 array(
                     'escape' => false,
-                    'title' => __( 'Move up', true ),
-                    'alt' => __( 'Up', true )
                 )
             );
 
             $out .= $this->Html->link(
                 $this->Html->image(
-                    'core/icons/actions/16/arrow-down-yes.png'
+                    $this->Image->getRelativePath( 'actions', 'arrow-down' ),
+                    array(
+                        'alt'   => __( 'Down', true ),
+                        'title' => __( 'Move down', true ),
+                        'width' => '16px',
+                        'class' => 'arrow-down'
+                    )
                 ),
                 array(
                     'action' => 'reorder',
@@ -238,8 +249,6 @@
                 ),
                 array(
                     'escape' => false,
-                    'title' => __( 'Move down', true ),
-                    'alt' => __( 'Down', true )
                 )
             );
 

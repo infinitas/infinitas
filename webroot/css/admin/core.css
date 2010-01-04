@@ -193,3 +193,12 @@ img {
     text-align:left;
     width:250px;
 }
+
+/**
+ * Status images
+ */
+.status img,
+.status span{
+    padding-right: 5px;
+    rloat:         left;
+}

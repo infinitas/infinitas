@@ -19,7 +19,7 @@
             'export'      => 'zip.png',
             'favourite'   => 'favourite.png',
             'featured'    => 'featured.png',
-            'locked'      => 'locked.png',
+            '-locked'      => 'locked.png',
             'move'        => 'move.png',
             'order-asc'   => 'order-asc.png',
             'order-desc'  => 'order-desc.png',
@@ -149,10 +149,14 @@
         ),
 
         'status' => array(
-            'active'   => 'active.png',
-            'home'     => 'home.png',
-            'not-home' => 'not-home.png',
-            'inactive' => 'inactive.png'
+            'active'       => 'active.png',
+            'inactive'     => 'inactive.png',
+            'home'         => 'home.png',
+            'not-home'     => 'not-home.png',
+            'locked'       => 'locked.png',
+            'not-locked'   => 'not-locked.png',
+            'featured'     => 'featured.png',
+            'not-featured' => 'not-featured.png',
         ),
 
         'unknown' => array(
