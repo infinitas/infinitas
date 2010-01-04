@@ -16,6 +16,7 @@
             'delete'      => 'delete.png',
             'download'    => 'download.png',
             'edit'        => 'edit.png',
+            'export'      => 'zip.png',
             'favourite'   => 'favourite.png',
             'featured'    => 'featured.png',
             'locked'      => 'locked.png',

@@ -23,7 +23,9 @@
         $massActions = $this->Letter->massActionButtons(
             array(
                 'add',
+                'edit',
                 'copy',
+                'view',
                 'export',
                 'delete'
             )
