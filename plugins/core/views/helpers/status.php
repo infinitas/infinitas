@@ -42,7 +42,8 @@
                     $image = $this->Html->image(
                         'core/icons/actions/16/active.png',
                         $params + array(
-                            'width' => '16px'
+                            'width' => '16px',
+                            'alt' => __( 'On', true )
                         )
                     );
                     break;
@@ -58,7 +59,8 @@
                     $image = $this->Html->image(
                         'core/icons/actions/16/disabled.png',
                         $params + array(
-                            'width' => '16px'
+                            'width' => '16px',
+                            'alt' => __( 'Off', true )
                         )
                     );
                     break;
