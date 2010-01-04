@@ -8,3 +8,4 @@ infinitas.PHPEditProject
 .project
 .buildpath
 .settings/*
+.vimrc.custom
