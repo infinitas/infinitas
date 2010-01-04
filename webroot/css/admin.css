@@ -112,8 +112,12 @@ a:hover {text-decoration: underline}
             margin:auto;
         }
 
-* html #middle {height:584px;}
 
+
+.massActions{
+    position:relative;
+    right:0;
+}
 .massActions input{
     float:   left;
     padding: 5px;
@@ -148,8 +152,6 @@ a:hover {text-decoration: underline}
 */
 .top-bar {
 	float:left;
-	width:603px;
-	border-left:2px solid #f70;
 	padding:0 0 0 9px;
 	margin:0 0 4px 0;
 }
@@ -280,7 +282,4 @@ div.table .select select {
 }
 
 .adminTopBar{
-    clear:both;
-    width:100%;
-    height:35px;
 }

@@ -17,7 +17,14 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
     echo $this->Form->create( 'Post', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
-    echo $this->Blog->adminIndexHead( $this, $paginator, $filterOptions );
+        $massActions = $this->Blog->massActionButtons(
+            array(
+                'toggle',
+                'copy',
+                'delete'
+            )
+        );
+        echo $this->Blog->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Blog->adminTableHeadImages(); ?>
@@ -80,16 +87,6 @@
             }
         ?>
     </table>
-    <?php
-        echo $this->Blog->massActionButtons(
-            array(
-                'toggle',
-                'copy',
-                'delete'
-            )
-        );
-        echo $this->Form->end();
-
-    ?>
+    <?php echo $this->Form->end(); ?>
 </div>
 <?php echo $this->element( 'pagination/navigation' ); ?>

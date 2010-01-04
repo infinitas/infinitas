@@ -151,7 +151,7 @@
             );
         }
 
-        function adminIndexHead( $view = array(), $pagintion = array(), $filterOptions = array() )
+        function adminIndexHead( $view = array(), $pagintion = array(), $filterOptions = array(), $massActions = null )
         {
             if ( empty( $view ) )
             {
@@ -166,19 +166,7 @@
                 $filters = FilterHelper::clear( $filterOptions );
             }
 
-            $out = '<div class="adminTopBar">';
-                $out .= $this->adminPageHead( $view );
-                $out .= '<div class="main-actions">';
-                $out .= $this->Html->link(
-                    'Add',
-                    array(
-                        'action' => 'add'
-                    )
-                );
-                $out .= '</div>';
-            $out .= '</div>';
-
-            return $out.$filters;
+            return $this->Design->niceBox( 'adminTopBar', $this->adminPageHead( $view ).$massActions.$filters );
         }
 
         function adminOtherHead( $view = array() )
@@ -327,7 +315,7 @@
             return '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
         }
 
-        function massActionButtons( $buttons = null )
+        function massActionButtons( $buttons = null, $niceBox = false )
         {
             if ( !$buttons )
             {
@@ -349,12 +337,18 @@
                     $imagePath,
                     array(
                         'value' => strtolower( str_replace( array( '-', ' ' ), '_', $button ) ),
-                        'name' => 'action'
+                        'name'  => 'action',
+                        'title' => __( Inflector::humanize( $button ), true )
                     )
                 );
             }
 
-            return $this->Design->niceBox( 'massActions', $out );
+            if ( $niceBox )
+            {
+                return $this->Design->niceBox( 'massActions', $out );
+            }
+
+            return '<div class="massActions">'.$out.'</div>';
         }
     }
 ?>

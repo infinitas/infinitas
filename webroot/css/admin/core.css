@@ -36,9 +36,10 @@ img {border:none;}
     }
 
     .niceBox .middle {
-    	border-left: 1px solid #ccc;
-    	border-right: 1px solid #ccc;
-    	padding: 5px 10px;
+    	border-left:      1px solid #ccc;
+    	border-right:     1px solid #ccc;
+    	padding:          5px 10px;
+        background-color: #F8F8F8;
     }
 
     .niceBox .bottom {

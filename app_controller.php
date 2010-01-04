@@ -449,7 +449,7 @@
 
             if ( $saves )
             {
-                $this->Session->setFlash( __( $saves.' copies of '.$model.'were made', true ) );
+                $this->Session->setFlash( __( $saves.' copies of '.$model.' was made', true ) );
                 $this->redirect( $this->referer() );
             }
 
