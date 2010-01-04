@@ -433,11 +433,18 @@
             $model = $this->modelNames[0];
             $this->$model->recursive = -1;
 
+            $copyText = sprintf( '- %s ( %s )', __( 'copy', true ), date( 'Y-m-d' ) );
+
             $saves = 0;
             foreach( $ids as $id )
             {
                 $record = $this->$model->read( null, $id );
                 unset( $record[$model]['id'] );
+
+                if ( $record[$model][$this->$model->displayField] != $this->$model->primaryKey )
+                {
+                    $record[$model][$this->$model->displayField] = $record[$model][$this->$model->displayField].$copyText;
+                }
 
                 $this->$model->create();
 
