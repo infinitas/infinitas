@@ -82,8 +82,9 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
         echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle', 'name' => 'action' ) );
+        echo $this->Form->button( __( 'Copy', true ), array( 'value' => 'copy', 'name' => 'action' ) );
+        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
         echo $this->Form->end();
 
     ?>

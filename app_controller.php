@@ -344,9 +344,11 @@
                 case 'toggle':
                     $this->__massActionToggle( $ids );
                     break;
-            } // switch
 
-            exit;
+                case 'copy':
+                    $this->__massActionCopy( $ids );
+                    break;
+            } // switch
         }
 
         protected function __massGetIds( $data )
@@ -354,6 +356,11 @@
             $ids = array();
             foreach( $data as $id => $selected )
             {
+                if ( !is_int( $id ) )
+                {
+                    continue;
+                }
+
                 if ( $selected )
                 {
                     $ids[] = $id;
@@ -405,12 +412,6 @@
             $this->$model->recursive = -1;
             $ids = $ids + array( 0 );
 
-
-            //$this->$model->updateAll(
-//                array( '`'.$model.'`.`active` 1 - `'.$model.'`.`active`' ),
-//                array( $model.'.id IN('.implode( ',', $ids ).')'  )
-//            )
-
             if  (
                 $this->$model->updateAll(
                     array( $model.'.active' => '1 - `'.$model.'`.`active`' ),
@@ -423,6 +424,36 @@
             }
 
             $this->Session->setFlash( __( 'The '.$model.'\'s could not be toggled', true ) );
+            $this->redirect( $this->referer() );
+
+        }
+
+        protected function __massActionCopy( $ids )
+        {
+            $model = $this->modelNames[0];
+            $this->$model->recursive = -1;
+
+            $saves = 0;
+            foreach( $ids as $id )
+            {
+                $record = $this->$model->read( null, $id );
+                unset( $record[$model]['id'] );
+
+                $this->$model->create();
+
+                if ( $this->$model->save( $record ) )
+                {
+                    $saves++;
+                };
+            }
+
+            if ( $saves )
+            {
+                $this->Session->setFlash( __( $saves.' copies of '.$model.'were made', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $this->Session->setFlash( __( 'No copies could be made.', true ) );
             $this->redirect( $this->referer() );
 
         }
