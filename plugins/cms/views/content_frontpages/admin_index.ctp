@@ -60,7 +60,7 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Cms->rowClass( $i ); ?>">
-                        <td><?php echo $this->Form->checkbox( $contentFrontpage['ContentFrontpage']['content_id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( $contentFrontpage['ContentFrontpage']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $contentFrontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $contentFrontpage['Content']['id'])); ?>
                 		</td>

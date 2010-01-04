@@ -42,6 +42,7 @@
 
             $this->paginate = array(
                 'fields' => array(
+                    'ContentFrontpage.id',
                     'ContentFrontpage.content_id',
                     'ContentFrontpage.ordering',
                     'ContentFrontpage.created',
