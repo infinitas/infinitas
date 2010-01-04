@@ -330,15 +330,8 @@
             echo 'moved to comments';
         }
 
-
-
-
-
-
         protected function admin_mass( )
         {
-            pr( $this->modelNames );
-
             $model = $this->modelNames[0];
             $ids    = $this->__massGetIds( $this->data[$model] );
 

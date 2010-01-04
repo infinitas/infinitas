@@ -312,6 +312,47 @@
 
         function admin_delte()
         {
+            return false;
+        }
+
+
+
+        protected function admin_mass( )
+        {
+            $model = $this->modelNames[0];
+            $ids    = $this->__massGetIds( $this->data[$model] );
+
+            switch( $this->__massGetAction( $this->params['form'] ) )
+            {
+                case 'delete':
+                    return parent::__massActionDelete( $this->__canDelete( $ids ) );
+                    break;
+            } // switch
+        }
+
+        private function __canDelete( $ids )
+        {
+            $newsletters = $this->Newsletter->find(
+                'list',
+                array(
+                    'fields' => array(
+                        'Newsletter.id',
+                        'Newsletter.id'
+                    ),
+                    'conditions' => array(
+                        'Newsletter.sent' => 0, // only get mails that are not sent
+                        'Newsletter.sends > ' => 0, // get mails that have not sent anything.
+                        'Newsletter.id' => $ids
+                    )
+                )
+            );
+
+            if ( empty( $newsletters ) )
+            {
+                $this->Session->setFlash( __( 'There are no newsletters to delete.', true ) );
+                $this->redirect( $this->referer() );
+            }
+            return $newsletters;
 
         }
 
