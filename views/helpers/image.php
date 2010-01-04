@@ -14,6 +14,9 @@
             'width' => '20px'
         );
 
+        var $places = null;
+        var $images = null;
+
         function image( $path = null, $key = null )
         {
             $images = Configure::read( 'CoreImages.images' );
@@ -112,6 +115,103 @@
             }
 
             return $this->findByExtention( $_ext );
+        }
+
+        function getRelativePath( $places = null, $key = null )
+        {
+            $places = $this->__placeExists( $places );
+
+            if ( !$places )
+            {
+                return $places;
+            }
+
+            if ( !$key )
+            {
+                $this->errors[] = 'No key or place given to find a path';
+            }
+
+            foreach( $this->__getImages() as $path => $image )
+            {
+                $return = $this->__imageExists( $path, $key, 'relativePath' );
+
+                if ( $return !== false )
+                {
+                    return $return;
+                }
+            }
+        }
+
+        function __placeExists( $places = null )
+        {
+            if ( !is_array( $places ) )
+            {
+                $places = array( $places );
+            }
+
+            foreach( $places as $k => $place )
+            {
+                if ( !in_array( $place, $this->__getPlaces() ) )
+                {
+                    unset( $places[$k] );
+                }
+            }
+
+            if ( empty( $places ) )
+            {
+                $this->errors[] = 'the place(s) does not exist.';
+                return false;
+            }
+
+            return $places;
+        }
+
+        function __getImages()
+        {
+            if ( !$this->images )
+            {
+                $this->images = Configure::read( 'CoreImages.images' );
+            }
+            return $this->images;
+        }
+
+        function __getPlaces()
+        {
+            if ( !$this->places )
+            {
+                $this->places = array_keys( $this->__getImages() );
+            }
+            return $this->places;
+        }
+
+        function __imageExists( $place, $key, $returnType = null )
+        {
+            $images = $this->__getImages();
+
+            if ( !isset( $images[$place][$key] ) )
+            {
+                $this->errors[] = 'CoreImages.images.'.$place.'.'.$key.' does not exist';
+                return false;
+            }
+
+            switch( $returnType )
+            {
+                case 'fileName':
+                    return $images[$place][$key];
+                    break;
+
+                case 'relativePath':
+                    return Configure::read( 'CoreImages.path' ).$place.'/'.$images[$place][$key];
+                    break;
+
+                case 'absolutePath':
+                    echo 'todo: '.__LINE__.' - '.__FILE__ ;
+                    exit;
+                    break;
+
+                default:
+                    return true;
+            } // switch
         }
     }
 ?>
