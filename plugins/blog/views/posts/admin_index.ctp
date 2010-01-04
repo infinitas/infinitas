@@ -57,7 +57,7 @@
                     <tr class="<?php echo $this->Blog->rowClass( $i ); ?>">
                         <td><?php echo $this->Form->checkbox( $post['Post']['id'] ); ?>&nbsp;</td>
                         <td title="<?php echo $post['Post']['slug']; ?>">
-                            <?php echo $post['Post']['title'] ?>
+                            <?php $this->Html->link( $post['Post']['title'], array( 'action' => 'edit', $post['Post']['id'] ) ); ?>
                         </td>
                         <td><?php echo strip_tags( $post['Post']['intro'] ); ?>&nbsp;</td>
                         <td><?php echo implode( ', ', Set::extract( '/Tag/name', $post ) ); ?>&nbsp;</td>
@@ -71,10 +71,8 @@
                         </td>
                         <td>
                             <?php
-
                                 echo $this->Html->link( 'preview', array( 'action' => 'view', $post['Post']['id'], 'admin' => false ), array( 'target' => '_blank' ) ), ' ',
-                                $this->Html->link( 'edit', array( 'action' => 'edit', $post['Post']['id'] ) ), ' ',
-                                $this->Html->link( 'delete', array( 'action' => 'delete', $post['Post']['id'] ) );
+                                $this->Html->link( 'edit', array( 'action' => 'edit', $post['Post']['id'] ) );
                             ?>
                         </td>
                     </tr>
@@ -84,8 +82,8 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'delete' ) );
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle' ) );
+        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
+        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle', 'name' => 'action' ) );
         echo $this->Form->end();
 
     ?>

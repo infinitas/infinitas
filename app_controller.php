@@ -340,6 +340,10 @@
                 case 'delete':
                     $this->__massActionDelete( $ids );
                     break;
+
+                case 'toggle':
+                    $this->__massActionToggle( $ids );
+                    break;
             } // switch
 
             exit;
@@ -393,6 +397,26 @@
 
             $this->Session->setFlash( __( 'The '.$model.'\'s could not be deleted', true ) );
             $this->redirect( $this->referer() );
+        }
+
+        protected function __massActionToggle( $ids )
+        {
+            $model = $this->modelNames[0];
+
+            if  (
+                $this->$model->updateAll(
+                    array( $model.'.id' => $ids ),
+                    array( 'IF( '.$model.'.active = 0, 1, 0)' )
+                )
+            )
+            {
+                $this->Session->setFlash( __( 'The '.$model.'\'s were toggled', true ) );
+                $this->redirect( $this->referer() );
+            }
+
+            $this->Session->setFlash( __( 'The '.$model.'\'s could not be toggled', true ) );
+            $this->redirect( $this->referer() );
+
         }
     }
 ?>

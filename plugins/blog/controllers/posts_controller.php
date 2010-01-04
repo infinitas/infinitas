@@ -349,12 +349,9 @@
             $this->render( 'view' );
         }
 
-        /**
-        *
-        */
-        function admin_mass()
+        function admin_delete()
         {
-            pr( $this->params['form'] );
+            return false;
         }
     }
 ?>
