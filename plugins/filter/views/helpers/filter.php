@@ -53,16 +53,19 @@
          * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
          * @since         0.5a
          */
-        function clear( $filter )
+        function clear( $filter, $div = false )
         {
             if ( !isset( $filter['url'][0] ) || empty( $filter['url'][0] ) || $filter['url'][0] == '/' )
             {
-                $this->messages[] = '$filter is empty';
-                return false;
+                $filter['url'][0] = '/';
             }
 
-            $out = '<div class="filter">'.
-                '<div class="wrap">';
+            $out = '';
+                if ( $div )
+                {
+                    $out .= '<div class="filter">';
+                }
+                $out .= '<div class="wrap">';
                     $parts = explode( '/', $filter['url'][0] );
 
                     $done = array();
@@ -89,8 +92,11 @@
                                     '</div>'.
                                 '</div>';
                     }
-                $out .= '</div>'.
-                '</div>';
+                $out .= '</div>';
+                if ( $div )
+                {
+                    $out .= '</div>';
+                }
 
             return $out;
         }

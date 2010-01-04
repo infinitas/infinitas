@@ -18,11 +18,23 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions );
+    //echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions );
+    echo $this->Form->create( 'Comment', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
+        $massActions = $this->Core->massActionButtons(
+            array(
+                'toggle',
+                'copy',
+                'delete'
+            )
+        );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Core->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Comment', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
+    <?php
+        echo $this->Core->adminTableHeadImages();
+
+    ?>
+    <?php  ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(

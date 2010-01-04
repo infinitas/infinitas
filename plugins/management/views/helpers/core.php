@@ -20,5 +20,6 @@
 
     class CoreHelper extends AppHelper
     {
+        var $helpers = array( 'Image', 'Form', 'Html', 'Design' );
     }
 ?>

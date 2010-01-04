@@ -159,14 +159,11 @@
                 return false;
             }
 
-            $filters = '';
-            if ( !empty( $filterOptions ) )
-            {
-                App::import( 'Helper', 'FilterHelper' );
-                $filters = FilterHelper::clear( $filterOptions );
-            }
+            App::import( 'Helper', 'FilterHelper' );
 
-            return $this->Design->niceBox( 'adminTopBar', $this->adminPageHead( $view ).$massActions.$filters );
+            $filters = $this->Design->niceBox( 'filter', FilterHelper::clear( $filterOptions ) );
+
+            return $this->Design->niceBox( 'adminTopBar', $this->adminPageHead( $view ).$massActions ).$filters;
         }
 
         function adminOtherHead( $view = array() )

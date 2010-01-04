@@ -43,7 +43,7 @@ img {border:none;}
     }
 
     .niceBox .bottom {
-        background: url(../../img/core/niceBox/border.png) repeat-x scroll 0 5px transparent;
+        background: url(../../img/core/niceBox/border.png) repeat-x scroll 0 5px #F8F8F8;
     }
 
     .niceBox .bottom .bottom {
@@ -106,14 +106,7 @@ img {border:none;}
 * filter
 */
 .filter{
-    border-top:      2px solid #FF7700;
-    border-bottom:   2px solid #FF7700;
-    height:          27px;
-    padding-top:     5px;
-    margin-top:      5px;
-    margin-bottom:   5px;
     line-height:     21px;
-    font-size:       120%;
     text-decoration: none;
 }
     .filter .wrap{
@@ -123,7 +116,7 @@ img {border:none;}
 
     .filter a:hover {
         text-decoration: none;
-        color:           #0B55C4;
+        color:           #FF7700;
     }
 
     .filter a,
