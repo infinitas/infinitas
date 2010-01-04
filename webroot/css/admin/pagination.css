@@ -1,12 +1,9 @@
 .pagination .wrap{
     display:table;
     margin:0 auto;
+    width: 99%;
 }
 .pagination{
-    border-top:      2px solid #FF7700;
-    border-bottom:   2px solid #FF7700;
-    height:          27px;
-    padding-top:     5px;
     line-height:     21px;
     font-size:       120%;
     text-decoration: none;

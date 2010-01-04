@@ -19,7 +19,9 @@
      */
 ?>
 <div class="clr">&nbsp;</div>
-<div class="pagination">
+<?php
+     echo $this->Design->niceBox( 'pagination' );
+?>
     <div class="wrap">
         <div class="limit">
             Display #
@@ -128,8 +130,8 @@
             </div>
         </div>
         <span>
-            <?php echo $this->Blog->paginationCounter( $paginator ); ?>
+            <?php echo $this->Design->paginationCounter( $paginator ); ?>
         </span>
         <div class="clr">&nbsp;</div>
     </div>
-</div>
+<?php echo $this->Design->niceBoxEnd(); ?>
