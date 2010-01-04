@@ -113,16 +113,6 @@ a:hover {text-decoration: underline}
         }
 
 
-
-.massActions{
-    position:relative;
-    right:0;
-}
-.massActions input{
-    float:   left;
-    padding: 5px;
-}
-
 /* left column styles */
 #left-column a {color:#3E3E3E;}
 #left-column h3 {

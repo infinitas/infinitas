@@ -1,15 +1,35 @@
-img {border:none;}
-.clr {clear:both;}
-.floatleft {float:left !important}
-.floatright {float:right !important}
-.bold {font-weight:bold !important}
-.normal {font-weight:normal !important}
-.block {display:block !important}
+img {
+    border:none;
+}
+
+.clr {
+    clear:both;
+}
+
+.floatleft {
+    float:left !important
+}
+
+.floatright {
+    float:right !important
+}
+
+.bold {
+    font-weight:bold !important
+}
+
+.normal {
+    font-weight:normal !important
+}
+
+.block {
+    display:block !important
+}
 
 
 /**
-    niceBox
-*/
+ * niceBox
+ */
 .niceBox{
     margin-bottom: 10px;
 }
@@ -55,8 +75,8 @@ img {border:none;}
     }
 
 /**
-    infoBox
-*/
+ * infoBox
+ */
 .infoBox {
     width:98%;
 }
@@ -99,12 +119,23 @@ img {border:none;}
     }
 
 
-
+/**
+ * Mass actions
+ */
+.massActions{
+    position: relative;
+    right:    0;
+}
+    .massActions input{
+        float:   left;
+        padding: 5px;
+        width:   32px;
+    }
 
 
 /**
-* filter
-*/
+ * filter
+ */
 .filter{
     line-height:     21px;
     text-decoration: none;
@@ -150,8 +181,8 @@ img {border:none;}
     }
 
 /**
-    messages
-*/
+ * messages
+ */
 #flashMessage{
     background: #EBEBEB url(../img/core/icons/actions/16/warning.png) 5px 5px no-repeat;
     font-size:120%;
