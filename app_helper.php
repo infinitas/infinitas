@@ -28,7 +28,7 @@
 
         var $wysiwyg = 'fck';
 
-        var $helpers = array( 'Html', 'Core.Wysiwyg', 'Core.Gravatar' );
+        var $helpers = array( 'Html', 'Design', 'Core.Wysiwyg', 'Core.Gravatar' );
 
         /**
         * create some bread crumbs.
@@ -336,13 +336,25 @@
             }
 
             $out = '';
-
             foreach( $buttons as $button )
             {
-                $out .= $this->Form->button( __( Inflector::humanize( $button ), true ), array( 'value' => strtolower( str_replace( array( '-', ' ' ), '_', $button ) ), 'name' => 'action' ) );
+                $imagePath = $this->Image->getRelativePath( array( 'actions' ), $button );
+
+                if ( !$imagePath )
+                {
+                    $imagePath = __( Inflector::humanize( $button ), true );
+                }
+
+                $out .= $this->Form->submit(
+                    $imagePath,
+                    array(
+                        'value' => strtolower( str_replace( array( '-', ' ' ), '_', $button ) ),
+                        'name' => 'action'
+                    )
+                );
             }
 
-            return $out;
+            return $this->Design->niceBox( 'massActions', $out );
         }
     }
 ?>
