@@ -207,6 +207,10 @@
                 case 'delete':
                         return parent::__massActionDelete( $this->__canDelete( $ids ) );
                     break;
+
+                default:
+                    parent::admin_mass();
+                    break;
             } // switch
         }
 

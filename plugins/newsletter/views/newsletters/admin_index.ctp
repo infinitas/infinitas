@@ -22,6 +22,7 @@
         $massActions = $this->Letter->massActionButtons(
             array(
                 'add',
+                'view',
                 'edit',
                 'copy',
                 'toggle',
@@ -36,13 +37,12 @@
     <table class="listing" cellpadding="0" cellspacing="0">
         <tr>
             <th class="first" style="width:10px;"><?php echo $this->Form->checkbox( 'all' ); ?></th>
-            <th style="width:100px;"><?php echo $paginator->sort( 'Campaign', 'Campaign.name' ); ?></th>
-            <th style="width:150px;"><?php echo $paginator->sort( 'subject' ); ?></th>
+            <th><?php echo $paginator->sort( 'subject' ); ?></th>
+            <th><?php echo $paginator->sort( 'Campaign', 'Campaign.name' ); ?></th>
             <th style="width:100px;"><?php echo $paginator->sort( 'from' ); ?></th>
             <th style="width:100px;"><?php echo $paginator->sort( 'reply_to' ); ?></th>
             <th style="width:50px;"><?php echo $paginator->sort( 'status' ); ?></th>
             <th style="width:50px;"><?php echo $paginator->sort( 'sent' ); ?></th>
-            <th class="last actions"><?php echo __( 'Actions', true ); ?></th>
         </tr>
         <?php
             $i = 0;
@@ -51,6 +51,7 @@
                 ?>
                     <tr class="<?php echo $this->Letter->rowClass( $i ); ?>">
                         <td><?php echo $this->Form->checkbox( $newsletter['Newsletter']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $newsletter['Newsletter']['subject'] ?>&nbsp;</td>
                         <td>
                             <?php
                                 echo $html->link(
@@ -63,7 +64,6 @@
                                 );
                             ?>&nbsp;
                         </td>
-                        <td><?php echo $newsletter['Newsletter']['subject'] ?>&nbsp;</td>
                         <td><?php echo $newsletter['Newsletter']['from'] ?>&nbsp;</td>
                         <td><?php echo $newsletter['Newsletter']['reply_to'] ?>&nbsp;</td>
                         <td>
@@ -109,18 +109,6 @@
                                 }
                             ?>
                         </td>
-                        <td>
-                            <?php
-
-                                echo $this->Html->link( 'to', array( 'action' => 'sentTo', $newsletter['Newsletter']['id'] ) ), ' ',
-                                    $this->Html->link( 'view', array( 'action' => 'view', $newsletter['Newsletter']['id'] ) ), ' ';
-
-                                if ( !$newsletter['Newsletter']['sent'] )
-                                {
-                                    echo $this->Html->link( 'edit', array( 'action' => 'edit', $newsletter['Newsletter']['id'] ) );
-                                }
-                            ?>
-                        </td>
                     </tr>
                 <?
                 $i++;
@@ -128,8 +116,6 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle', 'name' => 'action' ) );
         echo $this->Form->end();
     ?>
 </div>

@@ -22,6 +22,7 @@
         $massActions = $this->Letter->massActionButtons(
             array(
                 'add',
+                'edit',
                 'copy',
                 'toggle',
                 'delete'
@@ -55,9 +56,6 @@
                     __( 'Status', true ) => array(
                         'class' => 'actions',
                         'width' => '50px'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'class' => 'last actions'
                     )
                 )
             );
@@ -127,11 +125,6 @@
                                 }
 
                                 echo $this->Status->locked( $campaign, 'Campaign' );
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                                echo $this->Html->link( 'edit', array( 'action' => 'edit', $campaign['Campaign']['id'] ) );
                             ?>
                         </td>
                     </tr>
