@@ -26,7 +26,7 @@
 
             // core helpers
             'Core.Wysiwyg', 'Design', 'Image'
-        );
+            );
 
         function homePageItem( $record = array(), $model = 'Content' )
         {
@@ -38,39 +38,49 @@
 
             if ( !empty( $record['ContentFrontpage'] ) )
             {
-                return $this->Html->link(
-                    $this->Html->image(
-                        'core/icons/actions/16/home-yes.png'
-                    ),
+                return $this->Html->image(
+                    $this->Image->getRelativePath( 'status', 'home' ),
                     array(
-                        'action' => 'removeHomePage',
-                        $record[$model]['id'],
-                    ),
+                        'alt'   => __( 'Yes', true ),
+                        'title' => __( 'Home page item', true ),
+                        'width' => '16px'
+                    )
+                );
+            }
+            return $this->Html->image(
+                $this->Image->getRelativePath( 'status', 'not-home' ),
+                array(
+                    'alt'   => __( 'No', true ),
+                    'title' => __( 'Not on home page', true ),
+                    'width' => '16px'
+                )
+            );
+        }
+
+        function featuredItem( $record = array() )
+        {
+            if ( empty( $record ) )
+            {
+                $this->messages[] = 'This has no featured items.';
+
+                return $this->Html->image(
+                    $this->Image->getRelativePath( 'status', 'inactive' ),
                     array(
-                        'title' => __( 'Remove from the home page', true ),
-                        'alt' => __( 'Remove from home page', true ),
-                        'escape' => false
+                        'alt'   => __( 'No', true ),
+                        'title' => __( 'Not a featured item', true ),
+                        'width' => '16px'
                     )
                 );
             }
 
-            else
-            {
-                return $this->Html->link(
-                    $this->Html->image(
-                        'core/icons/actions/16/home-no.png'
-                    ),
-                    array(
-                        'action' => 'addHomePage',
-                        $record[$model]['id'],
-                    ),
-                    array(
-                        'title' => __( 'Add to the home page', true ),
-                        'alt' => __( 'Add to the home page', true ),
-                        'escape' => false
-                    )
-                );
-            }
+            return $this->Html->image(
+                $this->Image->getRelativePath( 'status', 'active' ),
+                array(
+                    'alt'   => __( 'Yes', true ),
+                    'title' => __( 'Featured Item', true ),
+                    'width' => '16px'
+                )
+            );
         }
     }
 ?>

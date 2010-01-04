@@ -46,6 +46,8 @@
             $this->set( 'content', $this->Content->read( null, $id ) );
         }
 
+
+
         function admin_index()
         {
             $this->paginate = array(

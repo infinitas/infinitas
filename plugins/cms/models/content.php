@@ -47,8 +47,8 @@
     	);
 
     	var $hasMany = array(
-    		'Cms.ContentFrontpage'
+    		'Cms.ContentFrontpage',
+    		'Cms.Feature',
     	);
-
     }
 ?>

@@ -56,7 +56,7 @@
                         'style' => 'width:50px;'
                     ),
                     __( 'Status', true ) => array(
-                        'style' => 'width:50px;'
+                        'style' => 'width:75px;'
                     )
                 )
             );
@@ -111,6 +111,7 @@
                 		<td>
                 			<?php
                 			    echo $this->Cms->homePageItem( $content ),
+                        			$this->Cms->featuredItem( $content['Feature'] ),
                 			        $this->Status->toggle( $content['Content']['active'], $content['Content']['id'] ),
                     			    $this->Status->locked( $content, 'Content' );
                 			?>
