@@ -148,6 +148,13 @@
             'yahoo'    => 'yahoo-messanger.png'
         ),
 
+        'status' => array(
+            'active'   => 'active.png',
+            'home'     => 'home.png',
+            'not-home' => 'not-home.png',
+            'inactive' => 'inactive.png'
+        ),
+
         'unknown' => array(
             'unknown' => 'unknown.png',
             'readme'  => 'readme.png',
