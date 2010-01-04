@@ -23,7 +23,7 @@
         var $helpers = array(
             'Html', 'Form', 'Javascript',
 
-            'Core.Status', 'Design'
+            'Core.Status', 'Image', 'Design'
         );
 
         var $components = array(
