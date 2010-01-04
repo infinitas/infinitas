@@ -52,9 +52,6 @@
                     __( 'Status', true ) => array(
                         'class' => 'actions',
                         'width' => '50px'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'class' => 'last actions'
                     )
                 )
             );
@@ -68,13 +65,6 @@
                         <td><?php echo $this->Time->niceShort( $template['Template']['created'] ); ?>&nbsp;</td>
                         <td><?php echo $this->Time->niceShort( $template['Template']['modified'] ); ?>&nbsp;</td>
                         <td><?php echo $this->Status->locked( $template, 'Template' ); ?>&nbsp;</td>
-                        <td>
-                            <?php
-
-                                echo $this->Html->link( 'preview', array( 'action' => 'view', $template['Template']['id'] ) ), ' ',
-                                $this->Html->link( 'edit', array( 'action' => 'edit', $template['Template']['id'] ) );
-                            ?>
-                        </td>
                     </tr>
                 <?php
             }
