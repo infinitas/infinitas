@@ -402,11 +402,19 @@
         protected function __massActionToggle( $ids )
         {
             $model = $this->modelNames[0];
+            $this->$model->recursive = -1;
+            $ids = $ids + array( 0 );
+
+
+            //$this->$model->updateAll(
+//                array( '`'.$model.'`.`active` 1 - `'.$model.'`.`active`' ),
+//                array( $model.'.id IN('.implode( ',', $ids ).')'  )
+//            )
 
             if  (
                 $this->$model->updateAll(
-                    array( $model.'.id' => $ids ),
-                    array( 'IF( '.$model.'.active = 0, 1, 0)' )
+                    array( $model.'.active' => '1 - `'.$model.'`.`active`' ),
+                    array( $model.'.id IN('.implode( ',', $ids ).')'  )
                 )
             )
             {
