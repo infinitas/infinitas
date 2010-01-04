@@ -19,11 +19,18 @@
      */
 ?>
 <?php
-    echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions );
+        echo $this->Form->create( 'Template', array( 'url' => array( 'controller' => 'templates', 'action' => 'mass', 'admin' => 'true' ) ) );
+        $massActions = $this->Letter->massActionButtons(
+            array(
+                'copy',
+                'export',
+                'delete'
+            )
+        );
+        echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Letter->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Template', array( 'url' => array( 'controller' => 'templates', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Letter->adminTableHeader(
@@ -61,8 +68,7 @@
                         <td>
                             <?php
 
-                                echo $this->Html->link( 'export', array( 'action' => 'export', $template['Template']['id'] ) ), ' ',
-                                $this->Html->link( 'preview', array( 'action' => 'view', $template['Template']['id'] ) ), ' ',
+                                echo $this->Html->link( 'preview', array( 'action' => 'view', $template['Template']['id'] ) ), ' ',
                                 $this->Html->link( 'edit', array( 'action' => 'edit', $template['Template']['id'] ) );
                             ?>
                         </td>
@@ -72,7 +78,6 @@
         ?>
     </table>
     <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'action' ) );
         echo $this->Form->end();
 
     ?>

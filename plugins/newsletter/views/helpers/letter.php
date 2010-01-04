@@ -28,7 +28,7 @@
             'Html',
 
             // core helpers
-            'Core.Wysiwyg'
+            'Core.Wysiwyg', 'Design', 'Image', 'Form'
         );
 
         var $allowedPreviews = array(
