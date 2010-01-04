@@ -20,7 +20,7 @@
 
     class StatusHelper extends AppHelper
     {
-        var $helpers = array( 'Html', 'Time' );
+        var $helpers = array( 'Html', 'Time', 'Image' );
 
         protected $external = true;
 
@@ -40,7 +40,7 @@
                     }
 
                     $image = $this->Html->image(
-                        'core/icons/actions/16/active.png',
+                        $this->Image->getRelativePath( 'status', 'active' ),
                         $params + array(
                             'width' => '16px',
                             'alt' => __( 'On', true )
@@ -57,7 +57,7 @@
                     }
 
                     $image = $this->Html->image(
-                        'core/icons/actions/16/disabled.png',
+                        $this->Image->getRelativePath( 'status', 'inactive' ),
                         $params + array(
                             'width' => '16px',
                             'alt' => __( 'Off', true )
