@@ -23,7 +23,7 @@
             'Html', 'Form', 'Text', 'Time',
 
             // core helpers
-            'Core.Wysiwyg'
+            'Image', 'Design', 'Core.Wysiwyg'
         );
 
 
