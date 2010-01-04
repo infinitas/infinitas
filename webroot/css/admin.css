@@ -74,7 +74,7 @@ a:hover {text-decoration: underline}
                 /* right column */
                 .right-column {
                 	float:right;
-                	padding:0 25px 0 0;
+                    margin-right:25px;
                 	width:180px;
                 }
 
