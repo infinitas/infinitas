@@ -1,5 +1,4 @@
 <?php
-    echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions );
     /**
      * Comment Template.
      *
@@ -19,10 +18,21 @@
      * @since         0.5a
      */
 
+    echo $this->Form->create( 'Content', array( 'url' => array( 'controller' => 'contents', 'action' => 'mass', 'admin' => 'true' ) ) );
+        $massActions = $this->Cms->massActionButtons(
+            array(
+                'add',
+                'edit',
+                'preview',
+                'toggle',
+                'copy',
+                'delete'
+            )
+        );
+        echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Cms->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'Content', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class ="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Cms->adminTableHeader(
@@ -47,9 +57,6 @@
                     ),
                     __( 'Status', true ) => array(
                         'style' => 'width:50px;'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'style' => 'width:100px;'
                     )
                 )
             );
@@ -108,21 +115,11 @@
                     			    $this->Status->locked( $content, 'Content' );
                 			?>
                 		</td>
-                		<td class="actions">
-                			<?php echo $this->Html->link( __( 'Preview', true), array( 'action' => 'view', $content['Content']['id'], 'admin' => false ), array( 'target' => '_blank' ) ); ?>
-                			<?php echo $this->Html->link( __( 'Edit', true), array('action' => 'edit', $content['Content']['id'])); ?>
-                			<?php echo $this->Html->link( __( 'Delete', true), array('action' => 'delete', $content['Content']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $content['Content']['id'])); ?>
-                		</td>
                 	</tr>
                 <?php
             }
         ?>
     </table>
-    <?php
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'delete' ) );
-        echo $this->Form->button( __( 'Toggle', true ), array( 'value' => 'toggle' ) );
-        echo $this->Form->end();
-
-    ?>
+    <?php echo $this->Form->end(); ?>
 </div>
 <?php echo $this->element( 'pagination/navigation' ); ?>
