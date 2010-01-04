@@ -132,6 +132,6 @@
         <span>
             <?php echo $this->Design->paginationCounter( $paginator ); ?>
         </span>
-        <div class="clr">&nbsp;</div>
     </div>
+    <div class="clr">&nbsp;</div>
 <?php echo $this->Design->niceBoxEnd(); ?>

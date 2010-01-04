@@ -1,9 +1,4 @@
-.pagination .wrap{
-    display:table;
-    margin:0 auto;
-    width: 99%;
-}
-.pagination{
+.pagination .wrap {
     line-height:     21px;
     font-size:       120%;
     text-decoration: none;
