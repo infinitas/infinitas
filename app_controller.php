@@ -348,11 +348,20 @@
                 case 'copy':
                     $this->__massActionCopy( $ids );
                     break;
+
+                default:
+                    $this->__massActionGeneric( $this->__massGetAction( $this->params['form'] ), $ids );
+                    break;
             } // switch
         }
 
         protected function __massGetIds( $data )
         {
+            if ( in_array( $this->__massGetAction( $this->params['form'] ), array( 'add' ) ) )
+            {
+                return null;
+            }
+
             $ids = array();
             foreach( $data as $id => $selected )
             {
@@ -377,7 +386,7 @@
             return $ids;
         }
 
-        function __massGetAction( $form )
+        protected function __massGetAction( $form )
         {
             if ( isset( $form['action'] ) )
             {
@@ -463,6 +472,19 @@
             $this->Session->setFlash( __( 'No copies could be made.', true ) );
             $this->redirect( $this->referer() );
 
+        }
+
+        protected function __massActionGeneric( $action, $ids )
+        {
+            if ( !$ids )
+            {
+                $this->redirect( array( 'action' => $action ) );
+            }
+
+            foreach( $ids as $id )
+            {
+                $this->redirect( array( 'action' => $action, $id ) );
+            }
         }
     }
 ?>
