@@ -22,10 +22,10 @@
     {
         var $helpers = array(
             //cake
-            'Html',
+            'Html', 'Form',
 
             // core helpers
-            'Core.Wysiwyg'
+            'Core.Wysiwyg', 'Design', 'Image'
         );
 
         function homePageItem( $record = array(), $model = 'Content' )
