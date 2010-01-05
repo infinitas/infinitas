@@ -414,7 +414,7 @@
 
         function __checkCache()
         {
-            $path = APP.'plugins'.DS.'google'.DS.'vendors'.DS.'img'.DS.'chart_cache'.DS;
+            $path = APP.'plugins'.DS.'google'.DS.'webroot'.DS.'img'.DS.'chart_cache'.DS;
             $file = sha1( $this->originalData['name'].serialize( $this->originalData['data'] ) ).'.jpg';
 
             if ( is_file( $path.$file ) )
@@ -427,7 +427,7 @@
 
         function __writeCache( $url )
         {
-            $path = APP.'plugins'.DS.'google'.DS.'vendors'.DS.'img'.DS.'chart_cache'.DS;
+            $path = APP.'plugins'.DS.'google'.DS.'webroot'.DS.'img'.DS.'chart_cache'.DS;
             $file = sha1( $this->originalData['name'].serialize( $this->originalData['data'] ) ).'.jpg';
 
             $contents = file_get_contents( $url );
