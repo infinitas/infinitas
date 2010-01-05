@@ -1,11 +1,21 @@
+# Infinitas ignores
 config/database.php
 tests/
 tmp/*
 libs/cronjobs
-*.LCK
 .gitignore
-infinitas.PHPEditProject
+
+# If you are using an ide other than bellow add ignores for the files it creates
+# and commit the changes.
+
+# PHPEdit project files
+*.PHPEditProject
+*.LCK
+
+# Eclips project files
 .project
 .buildpath
 .settings/*
+
+# vim project files
 .vimrc.custom
