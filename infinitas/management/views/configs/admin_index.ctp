@@ -22,11 +22,9 @@
 
         $massActions = $this->Core->massActionButtons(
             array(
-                'upload',
-                'view',
+                'add',
                 'edit',
-                'copy',
-                'delete'
+                'copy', // @todo -c Implement .should read the file populate $this->data and render add
             )
         );
         echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
