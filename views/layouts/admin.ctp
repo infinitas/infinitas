@@ -36,12 +36,12 @@
         	<div id="middle">
                 <div id="wrap">
             		<div id="left-column">
-                        <?php echo $this->element( 'actions' ); ?>
+                        <?php echo $this->element( 'admin/actions' ); ?>
             		</div>
             		<div id="center-column">
                         <?php echo $content_for_layout; ?>
                     </div>
-                    <?php echo $this->Design->niceBox( 'right-column', $this->element( 'right_boxes' ) ); ?>
+                    <?php echo $this->Design->niceBox( 'right-column', $this->element( 'admin/right_boxes' ) ); ?>
                 </div>
                 <div class="clr"></div>
             </div>

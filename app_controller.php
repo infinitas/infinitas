@@ -71,7 +71,7 @@
                 );
             }
 
-            $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 2 ) ) ) );
+            $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 1 ) ) ) );
 
             if ( sizeof( $this->uses ) && ( isset( $this->{$this->modelClass}->Behaviors ) && $this->{$this->modelClass}->Behaviors->attached( 'Logable' ) ) )
             {
