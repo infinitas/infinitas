@@ -53,9 +53,6 @@
                     __( 'Description', true ),
                     __( 'Core', true ) => array(
                         'style' => 'width:50px;'
-                    ),
-                    __( 'Actions', true ) => array(
-                        'style' => 'width:100px;'
                     )
                 )
             );
@@ -88,9 +85,6 @@
                 		</td>
                 		<td>
                 			<?php echo $this->Status->status( $config['Config']['core'] ); ?>&nbsp;
-                		</td>
-                		<td class="actions">
-                			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $config['Config']['id'])); ?>
                 		</td>
                 	</tr>
                 <?php

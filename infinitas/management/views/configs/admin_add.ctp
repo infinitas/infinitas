@@ -23,7 +23,7 @@
         echo $this->Form->input( 'key' );
         echo $this->Form->input( 'value' );
         echo $this->Form->input( 'type' );
-        echo $this->Form->input( 'options' );
+        echo $this->Form->input( 'options', array( 'class' => 'title' ) );
         echo $this->Form->input( 'core' );
         echo $this->Core->wysiwyg( 'Config.description' );
     echo $this->Form->end( 'Save Configuration' );
