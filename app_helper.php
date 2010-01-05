@@ -308,7 +308,6 @@
                     {
                         $out .= $content.'<div class="clr"></div>';
                     }
-                $out .= '</div>';
                 if ( $content )
                 {
                     $out .= $this->niceBoxEnd();
@@ -318,7 +317,9 @@
 
         function niceBoxEnd()
         {
-            return '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
+                $out = '</div>';
+            $out .= '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
+            return $out;
         }
 
         function massActionButtons( $buttons = null, $niceBox = false )

@@ -43,7 +43,6 @@
         function admin_index()
         {
             $configs = $this->paginate( 'Config' );
-
             $this->set( compact( 'configs' ) );
         }
 

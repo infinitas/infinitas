@@ -15,6 +15,9 @@
 .pagination span a {
 }
 
+.pagination .numbers .current {
+    font-weight: bold;
+}
 .pagination .numbers span {
     padding-left: 10px;
 }
@@ -30,6 +33,20 @@
     height: 19px;
     float:  left;
 }
+.pagination .limit span {
+    float:left;
+}
+
+.pagination .limit .submit {
+    float:right;
+}
+
+.pagination .limit select {
+    float:       right;
+    margin-left: 5px;
+    padding:     3px;
+}
+
 .pagination .button2-right,
 .pagination .button2-left{
     float:       left;

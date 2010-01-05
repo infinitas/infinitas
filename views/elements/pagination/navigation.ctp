@@ -24,17 +24,27 @@
 ?>
     <div class="wrap">
         <div class="limit">
-            Display #
-            <?php
+            <span><?php echo __( 'Display', true ); ?> #</span>
+            <span><?php
                 $_paginationOptions = explode( ',', Configure::read( 'Global.pagination_select' ) );
                 $paginationLimmits = array_combine(
                     array_values( $_paginationOptions ),
                     array_values( $_paginationOptions )
                 );
+
+                $_paginationOptionsSelected = ( isset( $this->params['named']['limit'] ) ) ? $this->params['named']['limit'] : 20;
                 echo $this->Form->create( 'PaginationOptions', array( 'url' => $this->here  ) );
-                    echo $this->Form->input( 'pagination_limit', array( 'options' => $paginationLimmits, 'div' => false, 'label' => false ) );
+                    echo $this->Form->input(
+                        'pagination_limit',
+                        array(
+                            'options' => $paginationLimmits,
+                            'div' => false,
+                            'label' => false,
+                            'selected' => $_paginationOptionsSelected
+                        )
+                    );
                 echo $this->Form->end( __( 'Update', true ) );
-            ?>
+            ?><span>
         </div>
         <div class="button2-right">
             <div class="start">
@@ -133,5 +143,4 @@
             <?php echo $this->Design->paginationCounter( $paginator ); ?>
         </span>
     </div>
-    <div class="clr">&nbsp;</div>
 <?php echo $this->Design->niceBoxEnd(); ?>

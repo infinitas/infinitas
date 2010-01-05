@@ -37,7 +37,7 @@
 
             // components
             'Filter.Filter' => array(
-                'actions' => array('admin_index')
+                'actions' => array( 'admin_index' )
             )
         );
 
@@ -52,6 +52,24 @@
         {
             parent::beforeFilter();
             Configure::load( 'images' );
+
+            if ( isset( $this->data['PaginationOptions']['pagination_limit'] ) )
+            {
+                if ( isset( $this->params['named']['limit'] ) )
+                {
+                    unset( $this->params['named']['limit'] );
+                }
+
+                $this->params['named']['limit'] = $this->data['PaginationOptions']['pagination_limit'];
+
+                $this->redirect(
+                    array(
+                        'plugin'     => $this->params['plugin'],
+                        'controller' => $this->params['controller'],
+                        'action'     => $this->params['action']
+                    ) + $this->params['named']
+                );
+            }
 
             $this->Session->write( 'Auth', ClassRegistry::init( 'Core.User' )->find( 'first', array( 'conditions' => array( 'User.id' => 2 ) ) ) );
 
