@@ -25,16 +25,16 @@
     <div class="wrap">
         <div class="limit">
             Display #
-            <select id="limit" class="inputbox" size="1" name="limit">
-                <option selected="selected" value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="25">25</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
+            <?php
+                $_paginationOptions = explode( ',', Configure::read( 'Global.pagination_select' ) );
+                $paginationLimmits = array_combine(
+                    array_values( $_paginationOptions ),
+                    array_values( $_paginationOptions )
+                );
+                echo $this->Form->create( 'PaginationOptions', array( 'url' => $this->here  ) );
+                    echo $this->Form->input( 'pagination_limit', array( 'options' => $paginationLimmits, 'div' => false, 'label' => false ) );
+                echo $this->Form->end( __( 'Update', true ) );
+            ?>
         </div>
         <div class="button2-right">
             <div class="start">
