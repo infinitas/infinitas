@@ -33,7 +33,7 @@
             'Session',
 
             //core components
-            'DebugKit.Toolbar', 'Core.Cron',
+            'DebugKit.Toolbar',// 'Core.Cron',
 
             // components
             'Filter.Filter' => array(
