@@ -2,6 +2,7 @@
 config/database.php
 tests/
 tmp/*
+plugins/*
 libs/cronjobs
 .gitignore
 
