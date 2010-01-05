@@ -17,11 +17,22 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
-    echo $this->Core->adminIndexHead( $this, null, null );
+
+    echo $this->Form->create( 'FileManager', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
+
+        $massActions = $this->Core->massActionButtons(
+            array(
+                'upload',
+                'view',
+                'edit',
+                'copy',
+                'delete'
+            )
+        );
+        echo $this->Core->adminIndexHead( $this, null, null, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
-    <?php echo $this->Form->create( 'FileManager', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) ); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(
@@ -177,11 +188,5 @@
             }
         ?>
     </table>
-    <?php
-        echo $this->Form->button( __( 'Copy', true ), array( 'value' => 'copy', 'name' => 'copy' ) );
-        echo $this->Form->button( __( 'Move', true ), array( 'value' => 'move', 'name' => 'move' ) );
-        echo $this->Form->button( __( 'Delete', true ), array( 'value' => 'delete', 'name' => 'delete' ) );
-        echo $this->Form->end();
-
-    ?>
+    <?php echo $this->Form->end(); ?>
 </div>
