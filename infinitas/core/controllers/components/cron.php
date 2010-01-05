@@ -31,7 +31,7 @@
 
 class CronComponent extends Object
 {
-    var $controller;
+    var $Controller;
     var $components = array( 'RequestHandler' );
 
     /**
@@ -94,22 +94,28 @@ class CronComponent extends Object
      * @var array $jobs
      * jobs to be executed by cron.
      */
-    var $jobs;
+    var $jobs = array();
 
+    /**
+     * Controllers initialize function.
+     */
+	function initialize(&$controller, $settings = array()) {
+		$this->Controller =& $controller;
+		$writeDir = APP . 'libs' . DS . 'cronjobs' . DS;
+		$settings = array_merge(array('cronTab' => $writeDir . 'crontab.txt', 'writeDir' => $writeDir),	$settings);
+    	$this->_set($settings);
+    }
+    
     /**
      * Controllers startup function.
      */
     function startup( &$controller )
     {
-        $this->cronTab = APP.'libs'.DS.'cronjobs'.DS.'crontab.txt'; //Modify this if you want
-        $this->writeDir = APP.'libs'.DS.'cronjobs'.DS; //Modify this if you want
         if ( !defined( 'CRON_INTERVAL' ) )
         {
             define( 'CRON_INTERVAL', 1 ); //Modify this if you want. this is the time interval betwen each run of this script
             // Dependig on how much traffic you have in your controller's component caller.
         }
-
-        $this->jobs = array();
 
         if ( !defined( 'CRON_MINUTE' ) )
         {
@@ -151,7 +157,6 @@ class CronComponent extends Object
             define( 'CRON_CRONLINE', 20 );
         }
 
-        $this->controller = $controller;
     }
 
     /**
@@ -412,12 +417,12 @@ class CronComponent extends Object
             $this->_logMessage( "  Last scheduled: " . date( "r", $lastScheduled ) );
             if ( $this->debug )
             {
-                @$this->controller->requestAction( $job[CRON_CMD] );
+                @$this->Controller->requestAction( $job[CRON_CMD] );
                 debug( 'Fue llamada la accion ' . $job[CRON_CMD] );
             }
             else
             {
-                @$this->controller->requestAction( $job[CRON_CMD] );
+                @$this->Controller->requestAction( $job[CRON_CMD] );
             }
             $this->_markLastRun( $job[CRON_CMD] );
             $this->_logMessage( "Completed	" . $job[CRON_CRONLINE] );
