@@ -45,5 +45,6 @@
      * cms routes
      */
     Router::connect('/admin/cms', array( 'plugin' => 'cms', 'controller' => 'categories', 'action' => 'dashboard', 'prefix' => 'admin', 'admin' => true ) );
+    //Router::connect('/admin/cms/:controller/:action/*', array( 'plugin' => 'cms', 'admin' => true ) );
     Router::connect('/cms',       array( 'plugin' => 'cms', 'controller' => 'contentFrontpages' ) );
 ?>
