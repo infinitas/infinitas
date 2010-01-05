@@ -25,12 +25,7 @@
         			<li class="<?php echo ( ( $this->plugin == 'blog' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Blog', true ), '/admin/blog' ); ?></span></span></li>
         			<li class="<?php echo ( ( $this->plugin == 'newsletter' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Newsletters', true ), '/admin/newsletter' ); ?></span></span></li>
         			<li class="<?php echo ( ( $this->plugin == 'cms' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Cms', true ), '/admin/cms' ); ?></span></span></li>
-        			<li class="<?php echo ( ( $this->plugin == 'forum' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Forum', true ), '/admin/forum' ); ?></span></span></li>
-        			<li class="<?php echo ( ( $this->plugin == 'cart' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Cart', true ), '/admin/cart' ); ?></span></span></li>
-        			<li class="<?php echo ( ( $this->plugin == 'accounts' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Account', true ), '/admin/account' ); ?></span></span></li>
-
                     <li class="<?php echo ( ( $this->plugin == 'core' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Developer', true ), '/admin/core' ); ?></span></span></li>
-                    <li class="<?php echo ( ( $this->plugin == 'management' && $this->here != '/admin' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Admin', true ), '/admin/management' ); ?></span></span></li>
         		</ul>
         	</div>
         	<div id="middle">
