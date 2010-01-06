@@ -17,6 +17,7 @@ libs/cronjobs
 .project
 .buildpath
 .settings/*
+.tmp*
 
 # vim project files
 .vimrc.custom
