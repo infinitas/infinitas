@@ -74,7 +74,7 @@
                 			        array(
                     			        'controller' => 'contents',
                     			        'action' => 'edit',
-                    			        $content['Content']['title']
+                    			        $content['Content']['id']
                     			    )
                     			);
                 			?>
