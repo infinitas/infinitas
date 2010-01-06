@@ -22,12 +22,12 @@
 * Configuration in app/config/database.php:
 *
 * var $google_contacts = array(
-*     'datasource'  => 'google_contacts',
-*     'accounttype' => 'GOOGLE',
-*     'email'       => 'YOUR GOOGLE EMAIL',
-*     'passwd'      => 'YOUR PASSWORD',
-*     'source'      => 'companyName-applicationName-versionID',
-*     'database'    => ''
+*      'datasource'  => 'google_contacts',
+*      'accounttype' => 'GOOGLE',
+*      'email'       => 'YOUR GOOGLE EMAIL',
+*      'passwd'      => 'YOUR PASSWORD',
+*      'source'      => 'companyName-applicationName-versionID',
+*      'database'    => ''
 * );
 *
 * Find methods:
@@ -47,60 +47,57 @@
 * Restult array keys:
 *
 * Use debug($this->GoogleContacts->_schema); to get structured array
-*
 */
 
-class GoogleContactsController extends AppController
-{
-  var $name = 'GoogleContacts';
-  var $uses = array( 'GoogleContacts' , 'Users' );
+class GoogleContactsController extends AppController {
+	var $name = 'GoogleContacts';
+	var $uses = array('GoogleContacts' , 'Users');
 
-  function testFindById(){
-    $contact = $this->GoogleContacts->find('first');
-    $res = $this->GoogleContacts->findById($contact['id']);
-    debug($res);
-    die();
-  }
+	function testFindById() {
+		$contact = $this->GoogleContacts->find('first');
+		$res = $this->GoogleContacts->findById($contact['id']);
+		debug($res);
+		die();
+	}
 
-  function testFindAllLimit5(){
-    $contact = $this->GoogleContacts->find('all', array('limit'=>5));
-    debug($contact);
-    die();
-  }
-  
-  function testFindAll(){
-    $contact = $this->GoogleContacts->find('all');
-    debug($contact);
-    die();
-  }
+	function testFindAllLimit5() {
+		$contact = $this->GoogleContacts->find('all', array('limit' => 5));
+		debug($contact);
+		die();
+	}
 
-  function testCount(){
-    $contact = $this->GoogleContacts->find('count');
-    debug($contact);
-    die();
-  }
-  
-  function testFindFirst(){
-    $contact = $this->GoogleContacts->find('first');
-    debug($contact);
-    die();
-  }
-  
-  function testUpdate() {
-    $contact = $this->GoogleContacts->find('first');
-    $contact['Name']['fullName'] = "Contact Changed From Cake";
-    $this->GoogleContacts->create($contact);
-    $r = $this->GoogleContacts->save();
-    debug($r);
-    die();
-  }
+	function testFindAll() {
+		$contact = $this->GoogleContacts->find('all');
+		debug($contact);
+		die();
+	}
 
-  function index()
-  {
-    $contact['title'] = "NEW CONTACT";
-    $res = $this->GoogleContacts->create('Juanito');
-    debug($res);
-    $this->GoogleContacts->save($contact);
-    //debug($r);
-  }
+	function testCount() {
+		$contact = $this->GoogleContacts->find('count');
+		debug($contact);
+		die();
+	}
+
+	function testFindFirst() {
+		$contact = $this->GoogleContacts->find('first');
+		debug($contact);
+		die();
+	}
+
+	function testUpdate() {
+		$contact = $this->GoogleContacts->find('first');
+		$contact['Name']['fullName'] = "Contact Changed From Cake";
+		$this->GoogleContacts->create($contact);
+		$r = $this->GoogleContacts->save();
+		debug($r);
+		die();
+	}
+
+	function index() {
+		$contact['title'] = "NEW CONTACT";
+		$res = $this->GoogleContacts->create('Juanito');
+		debug($res);
+		$this->GoogleContacts->save($contact);
+		// debug($r);
+	}
 }

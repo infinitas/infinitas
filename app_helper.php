@@ -1,21 +1,21 @@
 <?php
 /**
- * Comment Template.
- *
- * @todo Implement .this needs to be sorted out.
- *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://www.dogmatic.co.za
- * @package sort
- * @subpackage sort.comments
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @since 0.5a
- */
+* Comment Template.
+*
+* @todo Implement .this needs to be sorted out.
+*
+* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+*
+* Licensed under The MIT License
+* Redistributions of files must retain the above copyright notice.
+* @filesource
+* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+* @link http://www.dogmatic.co.za
+* @package sort
+* @subpackage sort.comments
+* @license http://www.opensource.org/licenses/mit-license.php The MIT License
+* @since 0.5a
+*/
 
 class AppHelper extends Helper {
 	var $rowClassCounter = 0;
@@ -29,14 +29,14 @@ class AppHelper extends Helper {
 	var $helpers = array('Html', 'Design', 'Core.Wysiwyg', 'Core.Gravatar');
 
 	/**
-	 * create some bread crumbs.
-	 *
-	 * Creates some bread crumbs.
-	 *
-	 * @todo -c"AppHelper" Implement AppHelper.
-	 * - generate some links
-	 * @param array $here is $this from the view.
-	 */
+	* create some bread crumbs.
+	*
+	* Creates some bread crumbs.
+	*
+	* @todo -c"AppHelper" Implement AppHelper.
+	* - generate some links
+	* @param array $here is $this from the view.
+	*/
 	function breadcrumbs($view = array(), $seperator = ' :: ') {
 		if (empty($view)) {
 			return false;
@@ -51,13 +51,13 @@ class AppHelper extends Helper {
 	}
 
 	/**
-	 * switch the class for table rows
-	 *
-	 * @param integer $i the number of the row
-	 * @param string $class1 class 1 highlight
-	 * @param string $class2 class 2 highlight
-	 * @return string the class
-	 */
+	* switch the class for table rows
+	*
+	* @param integer $i the number of the row
+	* @param string $class1 class 1 highlight
+	* @param string $class2 class 2 highlight
+	* @return string the class
+	*/
 	function rowClass($class1 = 'bg', $class2 = '') {
 		return (($this->rowClassCounter++ % 2) ? $class1 : $class2);
 	}
@@ -72,15 +72,15 @@ class AppHelper extends Helper {
 	}
 
 	/**
-	 * creates table headers for admin.
-	 *
-	 * if the format is just array( 'head1', 'head2' ... ) it will output a
-	 * normal table with TH that have no classes/styles applied.  you can
-	 * also pass things like array ( 'head1' => array( 'class' => 'something' ) )
-	 * to get out put like <th class="something">head1</th>
-	 *
-	 * @param array $data an array of items for the head.
-	 */
+	* creates table headers for admin.
+	*
+	* if the format is just array( 'head1', 'head2' ... ) it will output a
+	* normal table with TH that have no classes/styles applied.  you can
+	* also pass things like array ( 'head1' => array( 'class' => 'something' ) )
+	* to get out put like <th class="something">head1</th>
+	*
+	* @param array $data an array of items for the head.
+	*/
 	function adminTableHeader($data) {
 		$out = '<tr>';
 		foreach($data as $field => $params) {
@@ -89,7 +89,7 @@ class AppHelper extends Helper {
 			if (is_int($field) && !is_array($params)) {
 				$field = $params;
 				$params = '';
-			}else {
+			} else {
 				foreach($params as $type => $param) {
 					$atributes = '';
 					$atributes .= $type . '="' . $param . '" ';
@@ -110,8 +110,8 @@ class AppHelper extends Helper {
 	}
 
 	/**
-	 * creates the header images for the admin table headers.
-	 */
+	* creates the header images for the admin table headers.
+	*/
 	function adminTableHeadImages() {
 		return $this->Html->image(
 			'admin/bg-th-left.gif',
