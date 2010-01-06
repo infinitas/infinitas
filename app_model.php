@@ -20,10 +20,8 @@
 class AppModel extends Model {
 	var $useDbConfig = 'default';
 
-	var $actsAs = array(
-		'Containable', 'Core.Lockable'
-		// 'Core.Logable' some wierd issues
-		);
+	var $actsAs = array('Containable', 'Core.Lockable', 'Core.Logable');
+
 }
 
 ?>
