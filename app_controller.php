@@ -1,21 +1,21 @@
 <?php
 /**
- * Comment Template.
- *
- * @todo Implement .this needs to be sorted out.
- *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://www.dogmatic.co.za
- * @package sort
- * @subpackage sort.comments
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @since 0.5a
- */
+* Comment Template.
+*
+* @todo Implement .this needs to be sorted out.
+*
+* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+*
+* Licensed under The MIT License
+* Redistributions of files must retain the above copyright notice.
+* @filesource
+* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+* @link http://www.dogmatic.co.za
+* @package sort
+* @subpackage sort.comments
+* @license http://www.opensource.org/licenses/mit-license.php The MIT License
+* @since 0.5a
+*/
 
 class AppController extends Controller {
 	var $helpers = array(
@@ -37,8 +37,8 @@ class AppController extends Controller {
 		);
 
 	/**
-	 * actions where viewable will work.
-	 */
+	* actions where viewable will work.
+	*/
 	var $viewableActions = array(
 		'view'
 		);
@@ -89,22 +89,22 @@ class AppController extends Controller {
 	}
 
 	/**
-	 * Check the url is www.
-	 *
-	 * will redirect to www. if it is not set.
-	 *
-	 * @return true ;
-	 */
+	* Check the url is www.
+	*
+	* will redirect to www. if it is not set.
+	*
+	* @return true ;
+	*/
 	private function __checkUrl() {
 	}
 
 	/**
-	 * Setup layout based on the prefix.
-	 *
-	 * Sets the layout to the corect var based on what path the user visits.
-	 *
-	 * @return bool true
-	 */
+	* Setup layout based on the prefix.
+	*
+	* Sets the layout to the corect var based on what path the user visits.
+	*
+	* @return bool true
+	*/
 	private function __setupLayout() {
 		$prefix = '';
 		if (isset($this->params['prefix'])) {
@@ -167,8 +167,8 @@ class AppController extends Controller {
 	}
 
 	/**
-	 * Common methods for the app
-	 */
+	* Common methods for the app
+	*/
 
 	protected function comment($id = null) {
 		if (!empty($this->data['Comment'])) {
@@ -181,7 +181,7 @@ class AppController extends Controller {
 			if ($this->Post->createComment($id, $this->data)) {
 				$this->Session->setFlash(__($message, true));
 				$this->redirect(array('action' => 'view', $this->data[$this->modelClass]['id']));
-			}else {
+			} else {
 				$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
 			}
 		}
@@ -190,22 +190,22 @@ class AppController extends Controller {
 	function __getClassName() {
 		if (isset($this->params['plugin'])) {
 			return Inflector::classify($this->params['plugin']) . '.' . Inflector::classify($this->name);
-		}else {
+		} else {
 			return Inflector::classify($this->name);
 		}
 	}
 
 	/**
-	 * reorder records.
-	 *
-	 * uses named paramiters can use the following:
-	 * - up:       moves the record up.
-	 * - down:     moves the record down.
-	 * - position: sets the position for the record.
-	 *
-	 * @param int $id the id of the record to move.
-	 * @return does a redirect to the referer.
-	 */
+	* reorder records.
+	*
+	* uses named paramiters can use the following:
+	* - up:       moves the record up.
+	* - down:     moves the record down.
+	* - position: sets the position for the record.
+	*
+	* @param int $id the id of the record to move.
+	* @return does a redirect to the referer.
+	*/
 	protected function admin_reorder($id = null) {
 		$model = $this->modelNames[0];
 
@@ -226,9 +226,9 @@ class AppController extends Controller {
 		switch ($this->params['named']['direction']) {
 			case 'position':
 				/**
-				 *
-				 * @todo set the position of the record after add
-				 */
+				*
+				* @todo set the position of the record after add
+				*/
 				break;
 
 			case 'up':
@@ -243,15 +243,15 @@ class AppController extends Controller {
 	}
 
 	/**
-	 * toggle records with an active table that is tinyint(1).
-	 *
-	 * @todo -c"AppController" Implement AppController.
-	 * - check the table has "active" field
-	 * - check its tinyint(1)
-	 * - make better with saveField and not reading the whole record.
-	 * @param mixed $id the id of the record
-	 * @return n /a, redirects with different messages in {@see Session::setFlash}
-	 */
+	* toggle records with an active table that is tinyint(1).
+	*
+	* @todo -c"AppController" Implement AppController.
+	* - check the table has "active" field
+	* - check its tinyint(1)
+	* - make better with saveField and not reading the whole record.
+	* @param mixed $id the id of the record
+	* @return n /a, redirects with different messages in {@see Session::setFlash}
+	*/
 	protected function admin_toggle($id = null) {
 		$model = $this->modelNames[0];
 
@@ -275,18 +275,18 @@ class AppController extends Controller {
 	}
 
 	/**
-	 * delete records.
-	 *
-	 * delete records throughout the app.
-	 *
-	 * @todo -c"AppController" Implement AppController.
-	 * - make a confirm if the js box does not happen. eg open delete in new
-	 *    window there is no confirm, just delete.
-	 * - undo thing... maybe save the whole record in the session and if click
-	 *    undo just save it back, or use soft delete and purge
-	 * @param mixed $id the id of the record.
-	 * @return n /a just redirects with different messages in {@see Session::setFlash}
-	 */
+	* delete records.
+	*
+	* delete records throughout the app.
+	*
+	* @todo -c"AppController" Implement AppController.
+	* - make a confirm if the js box does not happen. eg open delete in new
+	*     window there is no confirm, just delete.
+	* - undo thing... maybe save the whole record in the session and if click
+	*     undo just save it back, or use soft delete and purge
+	* @param mixed $id the id of the record.
+	* @return n /a just redirects with different messages in {@see Session::setFlash}
+	*/
 	protected function admin_delete($id = null) {
 		$model = $this->modelNames[0];
 
