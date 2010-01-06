@@ -49,7 +49,9 @@ class LockableBehavior extends ModelBehavior {
 
 	function lock(&$Model, $fields = null, $id = null) {
 		$Model->contain();
-		$data = $Model->read($this->settings[$Model->alias]['fields'], $id);
+		if($data = $Model->read($this->settings[$Model->alias]['fields'], $id) == false) {
+			return false;
+		}
 		$this->Session = new CakeSession();
 		$user_id = $this->Session->read('Auth.User.id');
 		if($data[$Model->alias]['locked'] && $data[$Model->alias]['locked_by'] != $user_id) {
