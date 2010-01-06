@@ -50,8 +50,16 @@ class ContentsController extends CmsAppController {
 			);
 
 		$this->Content->recursive = 1;
-		$this->set('contents', $this->paginate(null, $this->Filter->filter));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$contents = $this->paginate(null, $this->Filter->filter);
+
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'title',
+			'introduction',
+			'body'
+		);
+
+		$this->set(compact('contents','filterOptions'));
 	}
 
 	function admin_view($id = null) {
