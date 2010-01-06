@@ -108,14 +108,14 @@ img {
 
     .quickLink{
         text-decoration: none;
-    	display:       block;
-    	width:         142px;
-    	height:        25px;
-    	background:    url(../../img/admin/bg-left-link.gif);
-    	margin-bottom: 5px;
-    	padding-left:  9px;
-    	line-height:   25px;
-    	color:         #60635A;
+    	display:         block;
+    	width:           142px;
+    	height:          25px;
+    	background:      url(../../img/admin/bg-left-link.gif);
+    	margin-bottom:   5px;
+    	padding-left:    9px;
+    	line-height:     25px;
+    	color:           #60635A;
     }
 
 
@@ -126,6 +126,10 @@ img {
     position: relative;
     right:    0;
 }
+	.massActions .wrapper{
+		float: right;
+	}
+
     .massActions input{
         float:   left;
         padding: 5px;

@@ -298,7 +298,8 @@ class AppHelper extends Helper {
 				array(
 					'value' => strtolower(str_replace(array('-', ' '), '_', $button)),
 					'name' => 'action',
-					'title' => __(Inflector::humanize($button), true)
+					'title' => __(Inflector::humanize($button), true),
+					'div' => false
 					)
 				);
 		}
@@ -307,7 +308,7 @@ class AppHelper extends Helper {
 			return $this->Design->niceBox('massActions', $out);
 		}
 
-		return '<div class="massActions">' . $out . '<div class="clr">&nbsp;</div></div>';
+		return '<div class="massActions"><div class="wrapper">' . $out . '</div><div class="clr">&nbsp;</div></div>';
 	}
 }
 
