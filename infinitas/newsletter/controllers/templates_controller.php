@@ -53,10 +53,14 @@ class TemplatesController extends NewsletterAppController {
 				)
 			);
 
-		$templates = $this->paginate('Template');
+		$templates = $this->paginate( null, $this->Filter->filter );
 
-		$this->set(compact('templates'));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'name'
+		);
+
+		$this->set(compact('templates','filterOptions'));
 	}
 
 	function admin_add() {

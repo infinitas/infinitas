@@ -69,8 +69,13 @@ class CampaignsController extends NewsletterAppController {
 
 		$campaigns = $this->paginate('Campaign', $this->Filter->filter);
 
-		$this->set(compact('campaigns'));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'name',
+			'description'
+		);
+
+		$this->set(compact('campaigns','filterOptions'));
 	}
 
 	function admin_add() {

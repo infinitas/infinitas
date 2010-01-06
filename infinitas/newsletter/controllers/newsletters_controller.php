@@ -177,8 +177,15 @@ class NewslettersController extends NewsletterAppController {
 
 		$newsletters = $this->paginate('Newsletter', $this->Filter->filter);
 
-		$this->set(compact('newsletters'));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'subject',
+			'html',
+			'from',
+			'reply_to'
+		);
+
+		$this->set(compact('newsletters','filterOptions'));
 	}
 
 	function admin_add() {
