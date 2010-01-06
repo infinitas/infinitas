@@ -355,7 +355,7 @@
                 return $this->Design->niceBox( 'massActions', $out );
             }
 
-            return '<div class="massActions">'.$out.'</div>';
+            return '<div class="massActions">'.$out.'<div class="clr">&nbsp;</div></div>';
         }
     }
 ?>
