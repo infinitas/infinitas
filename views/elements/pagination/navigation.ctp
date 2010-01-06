@@ -67,11 +67,7 @@
                             'class' => ''
                         ),
                         null,
-                        array(
-                            'escape' => false,
-                            'tag' => 'span',
-                            'class' => ''
-                        )
+                        null
                     );
                 ?>
             </div>
@@ -107,7 +103,7 @@
         <div class="button2-left">
             <div class="next">
                 <?php
-                    echo $paginator->prev(
+                    echo $paginator->next(
                         __( 'Next', true ),
                         array(
                             'escape' => false,
@@ -115,11 +111,7 @@
                             'class' => ''
                         ),
                         null,
-                        array(
-                            'escape' => false,
-                            'tag' => 'span',
-                            'class' => ''
-                        )
+                        null
                     );
                 ?>
             </div>
