@@ -19,6 +19,7 @@ $config['CoreImages']['images'] = array(
 		'export' => 'zip.png',
 		'favourite' => 'favourite.png',
 		'featured' => 'featured.png',
+		'filter' => 'filter.png',
 		'-locked' => 'locked.png',
 		'move' => 'move.png',
 		'order-asc' => 'order-asc.png',

@@ -65,11 +65,8 @@ class AppController extends Controller {
 
 		$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
 
-		if (sizeof($this->uses) && (isset($this-> {
-						$this->modelClass} ->Behaviors) && $this-> {
-					$this->modelClass} ->Behaviors->attached('Logable'))) {
-			$this-> {
-				$this->modelClass} ->setUserData($this->Session->read('Auth'));
+		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
+			$this->{$this->modelClass} ->setUserData($this->Session->read('Auth'));
 		}
 
 		$this->__checkUrl();
@@ -80,10 +77,8 @@ class AppController extends Controller {
 		$this->set('commentModel', 'Comment');
 
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && !in_array($this->params['action'], $this->viewableActions)) {
-			if (isset($this-> {
-						$this->modelClass} ->Behaviors)) {
-				$this-> {
-					$this->modelClass} ->Behaviors->detach('Viewable');
+			if (isset($this->{$this->modelClass}->Behaviors)) {
+				$this->{$this->modelClass}->Behaviors->detach('Viewable');
 			}
 		}
 	}
@@ -306,8 +301,7 @@ class AppController extends Controller {
 	}
 
 	protected function admin_mass() {
-		$model = $this->modelNames[0];
-		$ids = $this->__massGetIds($this->data[$model]);
+		$ids = $this->__massGetIds($this->data[$this->modelClass]);
 
 		switch ($this->__massGetAction($this->params['form'])) {
 			case 'delete':
@@ -322,6 +316,22 @@ class AppController extends Controller {
 				$this->__massActionCopy($ids);
 				break;
 
+			case 'filter':
+				$data = array();
+				foreach( $this->data[$this->modelClass] as $k => $field ){
+					if ( is_int( $k ) || $k == 'all' ){
+						continue;
+					}
+					$data[$k] = $field;
+				}
+				$this->redirect(array(
+						'plugin' => $this->params['plugin'],
+						'controller' => $this->params['controller'],
+						'action' => 'index'
+					) + $this->params['named'] + $data
+				);
+				break;
+
 			default:
 				$this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
 				break;
@@ -329,7 +339,7 @@ class AppController extends Controller {
 	}
 
 	protected function __massGetIds($data) {
-		if (in_array($this->__massGetAction($this->params['form']), array('add'))) {
+		if (in_array($this->__massGetAction($this->params['form']), array('add','filter'))) {
 			return null;
 		}
 

@@ -15,3 +15,16 @@ input {
     	height:14px;
     	font-weight:normal;
     }
+
+.filter-form{
+	float: left;
+}
+.filter-form label{
+	float: left;
+	padding-right: 5px;
+}
+.filter-form input{
+	float:left;
+	clear:none;
+	margin-right:10px;
+}

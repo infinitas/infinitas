@@ -7,31 +7,40 @@
 
         var $count = 0;
 
-    	function form( $model, $fields = array() )
+    	function form( $model, $filter = array() )
     	{
-    		$output  = '<tr>';
-        		$output .= $this->Form->create( $model, array( 'action' => 'index', 'id' => 'filters' ) );
+    		if ( empty( $filter ) || !isset( $filter['fields'] ) )
+    		{
+    			$this->errors[] = 'There is no filters';
+    			return false;
+    		}
 
-        		foreach( $fields as $field )
-        		{
-        			if( empty( $field ) )
-        			{
-        				$output .= '<th>&nbsp;</th>';
-        			}
+    		$output = '<div class="filter-form">';
+       		foreach( (array)$filter['fields'] as $field )
+       		{
+       			if( empty( $field ) )
+       			{
+       				continue;
+       			}
 
-                    else
-                    {
-        				$output .= '<th>' . $this->Form->input($field, array('label' => false)) . '</th>';
-        			}
-        		}
+    			$output .= $this->Form->input($field,
+    				array(
+	    				'type' => 'text',
+	    				'div'=>false
+	    			)
+    			);
+       		}
 
-        		$output .= '<th>'.
-        		    $this->Form->button( __( 'Filter', true ), array( 'type' => 'submit', 'name' => 'data[filter]' ) ).
-        		    $this->Form->button( __( 'Reset', true ), array( 'type' => 'submit', 'name' => 'data[reset]' ) ).
-        		'</th>';
-
-        		$output .= $this->Form->end();
-    		$output .= '</tr>';
+			$output .= $this->Form->submit($this->Image->getRelativePath(array('actions'), 'filter'),
+				array(
+					'value' => 'filter',
+					'name' => 'action',
+					'title' => 'Filter results',
+					'div' => false,
+					'width' => '16px'
+					)
+				);
+    		$output .= '</div>';
     		return $output;
     	}
 

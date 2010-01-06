@@ -139,7 +139,10 @@ class AppHelper extends Helper {
 
 		App::import('Helper', 'FilterHelper');
 
-		$filters = $this->Design->niceBox('filter', FilterHelper::clear($filterOptions));
+		$filters = $this->Design->niceBox(
+			'filter',
+			FilterHelper::form( 'Post', $filterOptions ).FilterHelper::clear($filterOptions)
+			);
 
 		return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
 	}
