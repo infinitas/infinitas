@@ -6,9 +6,9 @@
     margin:          0 auto;
 }
 
-.pagination .wrap .pages{
-	margin-left: 5px;
-}
+	.pagination .wrap .pages{
+		margin-left: 5px;
+	}
 
 .pagination a:hover {
     text-decoration: none;
@@ -97,4 +97,11 @@
 
 .pagination .button2-left .last{
     background: url( ../../img/admin/button-next.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .empty{
+	font-weight: bold;
+	font-size:   120%;
+	text-align:  center;
+	color:       #C7CDBE;
 }
