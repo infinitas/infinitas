@@ -47,10 +47,19 @@ class CommentsController extends ManagementAppController {
 			'limit' => 20
 			);
 
-		$comments = $this->paginate('Comment', $this->Filter->filter);
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$comments = $this->paginate(null, $this->Filter->filter);
 
-		$this->set(compact('comments'));
+		$filterOptions = $this->Filter->filterOptions;
+
+		$filterOptions['fields'] = array(
+			'class',
+			'name',
+			'email',
+			'website',
+			'comment'
+		);
+
+		$this->set(compact('comments','filterOptions'));
 	}
 
 	function admin_perge($date = null) {
