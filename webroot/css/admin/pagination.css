@@ -6,9 +6,13 @@
     margin:          0 auto;
 }
 
+.pagination .wrap .pages{
+	margin-left: 5px;
+}
+
 .pagination a:hover {
     text-decoration: none;
-    color:           #0B55C4;
+    color:           #FF6500;
 }
 
 .pagination a,
@@ -38,7 +42,7 @@
 }
 
 .pagination .limit .submit {
-    float:right;
+    float:left;
 }
 
 .pagination .limit select {

@@ -24,7 +24,6 @@
 ?>
     <div class="wrap">
         <div class="limit">
-            <span><?php echo __( 'Display', true ); ?> #</span>
             <span><?php
                 $_paginationOptions = explode( ',', Configure::read( 'Global.pagination_select' ) );
                 $paginationLimmits = array_combine(
@@ -67,11 +66,7 @@
                             'class' => ''
                         ),
                         null,
-                        array(
-                            'escape' => false,
-                            'tag' => 'span',
-                            'class' => ''
-                        )
+                        null
                     );
                 ?>
             </div>
@@ -107,7 +102,7 @@
         <div class="button2-left">
             <div class="next">
                 <?php
-                    echo $paginator->prev(
+                    echo $paginator->next(
                         __( 'Next', true ),
                         array(
                             'escape' => false,
@@ -115,11 +110,7 @@
                             'class' => ''
                         ),
                         null,
-                        array(
-                            'escape' => false,
-                            'tag' => 'span',
-                            'class' => ''
-                        )
+                        null
                     );
                 ?>
             </div>
@@ -139,7 +130,7 @@
                 ?>
             </div>
         </div>
-        <span>
+        <span class="pages">
             <?php echo $this->Design->paginationCounter( $paginator ); ?>
         </span>
     </div>
