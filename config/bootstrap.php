@@ -46,6 +46,6 @@
  * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  */
-App::build(array('plugins' => array(dirname(dirname(__FILE__)) . DS . 'infinitas' . DS)));
+App::build(array('plugins' => array(APP . 'infinitas' . DS, APP . 'extensions' . DS)));
 
 ?>
