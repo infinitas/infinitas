@@ -322,7 +322,7 @@ class AppController extends Controller {
 					if ( is_int( $k ) || $k == 'all' ){
 						continue;
 					}
-					$data[$k] = $field;
+					$data[$this->modelClass.'.'.$k] = $field;
 				}
 				$this->redirect(array(
 						'plugin' => $this->params['plugin'],
