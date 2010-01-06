@@ -48,3 +48,4 @@
         <?php echo $this->element( 'admin/bottom' ); ?>
     </body>
 </html>
+<?php echo $this->element('sql_dump'); ?>

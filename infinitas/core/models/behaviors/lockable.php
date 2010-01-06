@@ -48,22 +48,20 @@ class LockableBehavior extends ModelBehavior {
 	}
 
 	function lock(&$Model, $fields = null, $id = null) {
-		$old_recursive = $Model->recursive;
-		$Model->recursive = - 1;
-		$data = $Model->read($this->_defaults['fields'], $id);
+		$Model->contain();
+		$data = $Model->read($this->settings[$Model->alias]['fields'], $id);
 		$this->Session = new CakeSession();
 		$user_id = $this->Session->read('Auth.User.id');
-		if($data[$Model->name]['locked'] && $data[$Model->name]['locked_by'] != $user_id) {
+		if($data[$Model->alias]['locked'] && $data[$Model->alias]['locked_by'] != $user_id) {
 			return false;
 		}
-		$data[$Model->name] = array(
+		$data[$Model->alias] = array(
 			'id' => $id,
-			'locked' => 1,
-			'locked_by' => $user_id,
-			'locked_since' => date('Y-m-d H:i:s')
+			$this->settings[$Model->alias]['fields']['locked'] => 1,
+			$this->settings[$Model->alias]['fields']['locked_by'] => $user_id,
+			$this->settings[$Model->alias]['fields']['locked_since'] => date('Y-m-d H:i:s')
 			);
 		$Model->save($data, array('validate' => false, 'callbacks' => false));
-		$Model->recursive = $old_recursive;
 		$data = $Model->read($fields, $id);
 		return $data;
 	}
