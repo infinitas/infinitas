@@ -19,6 +19,10 @@
 
 class AppController extends Controller {
 
+	var $view = 'Theme';
+
+	var $theme = 'default_admin';
+
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
 
@@ -49,6 +53,10 @@ class AppController extends Controller {
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
+		}
+
+		if (isset($this->params['named']['limit'])) {
+			$this->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->params['named']['limit']);
 		}
 
 		if (Configure::read('Website.force_www')) {

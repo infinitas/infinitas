@@ -2,8 +2,13 @@
 /**
 */
 class InfinitasComponent extends Object {
-	//var $name = 'Infinitas';
-	var $components = array();
+	var $name = 'Infinitas';
+
+	/**
+	* components being used here
+	*/
+	var $components = array('Session');
+
 	/**
 	* Controllers initialize function.
 	*/
@@ -86,15 +91,40 @@ class InfinitasComponent extends Object {
 			unset($params['named']['limit']);
 		}
 
-		$params['named']['limit'] = $options['pagination_limit'];
+		$parmas['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'],true);
 
-		$this->redirect(
+		$this->Controller->redirect(
 			array(
 				'plugin' => $params['plugin'],
 				'controller' => $params['controller'],
 				'action' => $params['action']
 				) + $params['named']
 			);
+	}
+
+	/**
+	* Set a hard limit on pagination.
+	*
+	* This will stop people requesting to many pages and slowing down the site.
+	* setting the Global.pagination_limit to 0 should turn this off
+	*
+	* @param int $limit the current limit that is being requested
+	* @return int site max if limit was to high :: the limit that was set if its not to high
+	*/
+	function paginationHardLimit($limit = null, $return = false){
+		if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
+			$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
+
+			$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
+			$url = array(
+				'plugin'     => $this->Controller->params['plugin'],
+				'controller' => $this->Controller->params['controller'],
+				'action'     => $this->Controller->params['action']
+			) + $this->Controller->params['named'];
+
+			$this->Controller->redirect($url);
+		}
+		return (int)$limit;
 	}
 
 	/**
@@ -158,8 +188,6 @@ class InfinitasComponent extends Object {
 				return 'default';
 		} // switch
 	}
-
-
 }
 
 ?>
