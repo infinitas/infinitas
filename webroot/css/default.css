@@ -221,6 +221,7 @@ font-weight: normal;
     position: relative;
     width: 180px;
     float: right;
+    margin-top : 100px;
 }
 
 #secondarycontent h3
@@ -248,6 +249,7 @@ font-weight: normal;
     position: relative;
     width: 480px;
     float: left;
+    margin-top:100px;
 }
 
 #primarycontent h3
