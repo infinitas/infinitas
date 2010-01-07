@@ -51,6 +51,10 @@ class AppController extends Controller {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
 		}
 
+		if (isset($this->params['named']['limit'])) {
+			$this->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->params['named']['limit']);
+		}
+
 		if (Configure::read('Website.force_www')) {
 			$this->Infinitas->forceWwwUrl();
 		}

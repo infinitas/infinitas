@@ -2,8 +2,13 @@
 /**
 */
 class InfinitasComponent extends Object {
-	//var $name = 'Infinitas';
-	var $components = array();
+	var $name = 'Infinitas';
+
+	/**
+	* components being used here
+	*/
+	var $components = array('Session');
+
 	/**
 	* Controllers initialize function.
 	*/
@@ -86,7 +91,7 @@ class InfinitasComponent extends Object {
 			unset($params['named']['limit']);
 		}
 
-		$params['named']['limit'] = $options['pagination_limit'];
+		$parmas['named']['limit'] = $this->paginationHardLimit($options['pagination_limit']);
 
 		$this->redirect(
 			array(
@@ -95,6 +100,22 @@ class InfinitasComponent extends Object {
 				'action' => $params['action']
 				) + $params['named']
 			);
+	}
+
+	/**
+	* Set a hard limit on pagination.
+	*
+	* This will stop people requesting to many pages and slowing down the site.
+	*
+	* @param int $limit the current limit that is being requested
+	* @return int site max if limit was to high :: the limit that was set if its not to high
+	*/
+	function paginationHardLimit($limit = null){
+		if ( $limit && $limit > Configure::read('Global.pagination_limit')) {
+			$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
+			$limit = Configure::read('Global.pagination_limit');
+		}
+		return (int)$limit;
 	}
 
 	/**
@@ -158,8 +179,6 @@ class InfinitasComponent extends Object {
 				return 'default';
 		} // switch
 	}
-
-
 }
 
 ?>
