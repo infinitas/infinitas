@@ -21,7 +21,7 @@ class AppController extends Controller {
 
 	var $view = 'Theme';
 
-	var $theme = 'default_admin';
+	var $theme = '';
 
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
@@ -50,6 +50,8 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
+		pr( Configure::read('Theme') );
+		$this->theme = Configure::read('Theme.name');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -69,7 +71,7 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		$this->layout = $this->Infinitas->getCorrectLayout($this->params);
+		//$this->layout = $this->Infinitas->getCorrectLayout($this->params);
 
 		$this->set('commentModel', 'Comment');
 
