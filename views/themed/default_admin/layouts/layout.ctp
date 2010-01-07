@@ -9,7 +9,7 @@
     	</title>
         <?php
             echo $this->Html->meta( 'icon' );
-            echo $this->Html->css( 'admin' );
+            echo $this->Html->css( 'layout' );
     		echo $scripts_for_layout;
     		echo $javascript->link( 'fckeditor' );
         ?>

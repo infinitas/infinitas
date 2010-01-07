@@ -12,7 +12,7 @@
 	float:left;
 	margin:0 3px 0 0;
 	height:34px;
-	background:url(../../img/admin/tab.gif) repeat-x top;
+	background:url(../img/tab.gif) repeat-x top;
 }
 
 #top-navigation li a {
@@ -26,28 +26,28 @@
 
 #top-navigation li span {
 	float:left;
-	background:url(../../img/admin/tab-left.gif) no-repeat left top;
+	background:url(../img/tab-left.gif) no-repeat left top;
 }
 
 #top-navigation li span span {
-	background:url(../../img/admin/tab-right.gif) no-repeat right top;
+	background:url(../img/tab-right.gif) no-repeat right top;
 	padding:7px 10px 0 10px;
 }
 
 #top-navigation li.active {
 	padding:0;
 	height:34px;
-	background:url(../../img/admin/tab-active.gif) repeat-x top;
+	background:url(../img/tab-active.gif) repeat-x top;
 	margin-right:2px;
 }
 
 #top-navigation li.active span {
-	background:url(../../img/admin/tab-active-left.gif) no-repeat left top;
+	background:url(../img/tab-active-left.gif) no-repeat left top;
 	height:34px;
 }
 
 #top-navigation li.active span span {
-	background:url(../../img/admin/tab-active-right.gif) no-repeat right top;
+	background:url(../img/tab-active-right.gif) no-repeat right top;
 	height:23px;
 	padding:11px 10px 0 10px;
 	line-height:19px;
@@ -68,12 +68,12 @@ ul.nav {
 
 ul.nav li {
 	padding:4px 4px 6px 5px;
-	background:url(../../img/admin/bg-dotted.gif) repeat-x bottom;
+	background:url(../img/bg-dotted.gif) repeat-x bottom;
 }
 
 ul.nav a {
 	padding:0 0 0 12px;
-	background:url(../../img/admin/arrow.gif) no-repeat 0 4px;
+	background:url(../img/arrow.gif) no-repeat 0 4px;
 }
 
 ul.nav a:hover {

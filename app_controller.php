@@ -19,6 +19,10 @@
 
 class AppController extends Controller {
 
+	var $view = 'Theme';
+
+	var $theme = 'default_admin';
+
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
 

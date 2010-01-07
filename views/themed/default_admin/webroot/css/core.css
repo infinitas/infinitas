@@ -34,19 +34,19 @@ img {
     margin-bottom: 10px;
 }
     .niceBox .top{
-        background:url("../../img/core/niceBox/border.png") repeat-x scroll 0 0 transparent;
+        background:url("../img/niceBox/border.png") repeat-x scroll 0 0 transparent;
     }
     .niceBox .top .top {
-       background: url(../../img/core/niceBox/crn_tr_dark.png) 100% 0 no-repeat;
+       background: url(../img/niceBox/crn_tr_dark.png) 100% 0 no-repeat;
     }
 
     .niceBox .top .top .top {
-       background: url(../../img/core/niceBox/crn_tl_dark.png) 0 0 no-repeat;
+       background: url(../img/niceBox/crn_tl_dark.png) 0 0 no-repeat;
    }
 
 
     .niceBox{
-        background:url("../../img/core/niceBox/crn_tr_dark.png") no-repeat scroll 100% 0 transparent;
+        background:url("../img/niceBox/crn_tr_dark.png") no-repeat scroll 100% 0 transparent;
     }
 
     .niceBox .top, .niceBox .bottom {
@@ -63,15 +63,15 @@ img {
     }
 
     .niceBox .bottom {
-        background: url(../../img/core/niceBox/border.png) repeat-x scroll 0 5px #F8F8F8;
+        background: url(../img/niceBox/border.png) repeat-x scroll 0 5px #F8F8F8;
     }
 
     .niceBox .bottom .bottom {
-        background: url(../../img/core/niceBox/crn_br_dark.png) scroll 100% 0 no-repeat;
+        background: url(../img/niceBox/crn_br_dark.png) scroll 100% 0 no-repeat;
     }
 
     .niceBox .bottom .bottom .bottom {
-        background: url(../../img/core/niceBox/crn_bl_dark.png) scroll 0 0 no-repeat;
+        background: url(../img/niceBox/crn_bl_dark.png) scroll 0 0 no-repeat;
     }
 
 /**

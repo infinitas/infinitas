@@ -91,9 +91,9 @@ class InfinitasComponent extends Object {
 			unset($params['named']['limit']);
 		}
 
-		$parmas['named']['limit'] = $this->paginationHardLimit($options['pagination_limit']);
+		$parmas['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'],true);
 
-		$this->redirect(
+		$this->Controller->redirect(
 			array(
 				'plugin' => $params['plugin'],
 				'controller' => $params['controller'],
@@ -111,7 +111,7 @@ class InfinitasComponent extends Object {
 	* @param int $limit the current limit that is being requested
 	* @return int site max if limit was to high :: the limit that was set if its not to high
 	*/
-	function paginationHardLimit($limit = null){
+	function paginationHardLimit($limit = null, $return = false){
 		if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
 			$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
 
