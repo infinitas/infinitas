@@ -11,8 +11,8 @@ class InfinitasComponent extends Object {
 		$this->Controller = &$controller;
 		$settings = array_merge(array(), (array)$settings);
 
-		$this->__setupCache();
-		$this->__loadCoreImages();
+		$this->setupCache();
+		$this->loadCoreImages();
 	}
 
 	/**
@@ -21,7 +21,7 @@ class InfinitasComponent extends Object {
 	* This creates some cache configs for the main
 	* parts of infinitas.
 	*/
-	function __setupCache() {
+	function setupCache() {
 		Cache::config(
 			'cms',
 			array(
@@ -67,7 +67,7 @@ class InfinitasComponent extends Object {
 	*
 	* This is where all the images for the site is loaded.
 	*/
-	function __loadCoreImages(){
+	function loadCoreImages(){
 		Configure::load('images');
 	}
 
@@ -80,7 +80,7 @@ class InfinitasComponent extends Object {
 	* @param array $options
 	* @return
 	*/
-	function __changePaginationLimit($options=array(),$params=array()){
+	function changePaginationLimit($options=array(),$params=array()){
 		// remove the current / default value
 		if (isset($params['named']['limit'])) {
 			unset($params['named']['limit']);
@@ -97,8 +97,66 @@ class InfinitasComponent extends Object {
 			);
 	}
 
-	function __forceWwwUrl(){
+	/**
+	* force the site to use www.
+	*
+	* this will force your site to use the sub domain www.
+	*/
+	function forceWwwUrl(){
+		// read the host from the server environment
+		$host = env('HTTP_HOST');
+		if ($host='loaclhost') {
+			return true;
+		}
 
+		// clean up the host
+		$host = strtolower($host);
+		$host = trim($host);
+
+		// some apps request with the port
+		$host = str_replace(':80', '', $host);
+		$host = str_replace(':8080', '', $host);
+		$host = trim($host);
+
+		// if the host is not starting with www. redirect the
+		// user to the same URL but with www :-)
+		if (!strpos($host,'www')){
+			$this->redirect('www'.$host);
+		}
+	}
+
+	/**
+	 * Get the correct layout
+	 *
+	 * @param array $params
+	 * @return string the layout to be used when rendering the site.
+	 */
+	function getCorrectLayout($params=array()){
+		if (empty($params)){
+			return 'default';
+		}
+
+		if ($this->Controller->RequestHandler->isAjax()) {
+			return 'ajax';
+		}
+
+		$prefix = '';
+		if (isset($this->params['prefix'])) {
+			$prefix = $this->params['prefix'];
+		}
+
+		switch ($prefix) {
+			case 'admin':
+				return 'admin';
+				break;
+
+			case 'client':
+				return 'client';
+				break;
+
+			default:
+				return 'default';
+		} // switch
 	}
 
 

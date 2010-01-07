@@ -48,7 +48,11 @@ class AppController extends Controller {
 		parent::beforeFilter();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
-			$this->Infinitas->__changePaginationLimit( $this->data['PaginationOptions'], $this->params );
+			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
+		}
+
+		if (Configure::read('Website.force_www')) {
+			$this->Infinitas->forceWwwUrl();
 		}
 
 		$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
@@ -57,7 +61,7 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		$this->__setupLayout();
+		$this->layout = $this->Infinitas->getCorrectLayout($this->params);
 
 		$this->set('commentModel', 'Comment');
 
@@ -66,43 +70,6 @@ class AppController extends Controller {
 				$this->{$this->modelClass}->Behaviors->detach('Viewable');
 			}
 		}
-	}
-
-	/**
-	* Check the url is www.
-	*
-	* will redirect to www. if it is not set.
-	*
-	* @return true ;
-	*/
-	private function __checkUrl() {
-	}
-
-	/**
-	* Setup layout based on the prefix.
-	*
-	* Sets the layout to the corect var based on what path the user visits.
-	*
-	* @return bool true
-	*/
-	private function __setupLayout() {
-		$prefix = '';
-		if (isset($this->params['prefix'])) {
-			$prefix = $this->params['prefix'];
-		}
-		switch ($prefix) {
-			case 'admin':
-				$this->layout = 'admin';
-				break;
-
-			case 'client':
-				$this->layout = 'client';
-				break;
-
-			default:
-				$this->layout = 'default';
-		} // switch
-		return true;
 	}
 
 	/**
