@@ -106,14 +106,23 @@ class InfinitasComponent extends Object {
 	* Set a hard limit on pagination.
 	*
 	* This will stop people requesting to many pages and slowing down the site.
+	* setting the Global.pagination_limit to 0 should turn this off
 	*
 	* @param int $limit the current limit that is being requested
 	* @return int site max if limit was to high :: the limit that was set if its not to high
 	*/
 	function paginationHardLimit($limit = null){
-		if ( $limit && $limit > Configure::read('Global.pagination_limit')) {
+		if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
 			$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
-			$limit = Configure::read('Global.pagination_limit');
+
+			$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
+			$url = array(
+				'plugin'     => $this->Controller->params['plugin'],
+				'controller' => $this->Controller->params['controller'],
+				'action'     => $this->Controller->params['action']
+			) + $this->Controller->params['named'];
+
+			$this->Controller->redirect($url);
 		}
 		return (int)$limit;
 	}
