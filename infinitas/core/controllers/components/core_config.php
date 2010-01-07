@@ -19,13 +19,31 @@
 
 class CoreConfigComponent extends Object {
 	function initialize(&$controller) {
-		$this->controller = $controller;
+		$this->Controller = $controller;
 
+		$this->setupConfig();
+		$this->setupTheme();
+	}
+
+	function setupConfig(){
 		$configs = ClassRegistry::init('Management.Config')->getConfig();
 
 		foreach($configs as $config) {
 			Configure::write($config['Config']['key'], $config['Config']['value']);
 		}
+	}
+
+	function setupTheme(){
+		$conditions['Theme.admin'] = 0;
+		if ( isset( $this->Controller->params['admin'] ) && $this->Controller->params['admin'] ){
+			$conditions['Theme.admin'] = 1;
+		}
+
+		$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme($conditions);
+		if (!isset($theme['Theme']['name'])) {
+			$theme['Theme'] = array();
+		}
+		Configure::write('Theme',$theme['Theme']);
 	}
 }
 

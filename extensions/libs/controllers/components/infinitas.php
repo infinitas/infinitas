@@ -4,6 +4,8 @@
 class InfinitasComponent extends Object {
 	var $name = 'Infinitas';
 
+	var $defaultLayout = 'default';
+
 	/**
 	* components being used here
 	*/
@@ -153,40 +155,6 @@ class InfinitasComponent extends Object {
 		if (!strpos($host,'www')){
 			$this->redirect('www'.$host);
 		}
-	}
-
-	/**
-	 * Get the correct layout
-	 *
-	 * @param array $params
-	 * @return string the layout to be used when rendering the site.
-	 */
-	function getCorrectLayout($params=array()){
-		if (empty($params)){
-			return 'default';
-		}
-
-		if ($this->Controller->RequestHandler->isAjax()) {
-			return 'ajax';
-		}
-
-		$prefix = '';
-		if (isset($params['prefix'])) {
-			$prefix = $params['prefix'];
-		}
-
-		switch ($prefix) {
-			case 'admin':
-				return 'admin';
-				break;
-
-			case 'client':
-				return 'client';
-				break;
-
-			default:
-				return 'default';
-		} // switch
 	}
 }
 
