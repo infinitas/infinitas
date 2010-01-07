@@ -21,8 +21,6 @@ class AppController extends Controller {
 
 	var $view = 'Theme';
 
-	var $theme = '';
-
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
 
@@ -50,7 +48,6 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		pr( Configure::read('Theme') );
 		$this->theme = Configure::read('Theme.name');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
