@@ -67,7 +67,7 @@ class ViewableBehavior extends ModelBehavior {
 				$Model->primaryKey} = $data[0][$Model->alias][$Model->primaryKey];
 			$Model->saveField($this->__settings[$Model->alias]['view_counter'],
 				$data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']]
-				);
+				, array('callbacks'=>false));
 		}
 
 		return $data;
