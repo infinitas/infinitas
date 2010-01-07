@@ -141,8 +141,8 @@ class InfinitasComponent extends Object {
 		}
 
 		$prefix = '';
-		if (isset($this->params['prefix'])) {
-			$prefix = $this->params['prefix'];
+		if (isset($params['prefix'])) {
+			$prefix = $params['prefix'];
 		}
 
 		switch ($prefix) {
