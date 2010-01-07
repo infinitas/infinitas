@@ -23,19 +23,14 @@
         /**
          * fields allowed in the comments
          */
-        $commentFields = array(
-            'name',
-            'email',
-            'website',
-            'comment'
-        );
+        $commentFields = explode(',',Configure::read('Comment.fields'));
 
 	    $action = ( isset( $action ) ) ? $action : 'comment';
         $modelName = ( isset( $modelName ) ) ? $modelName : Inflector::singularize( $this->name );
 
         if ( isset( $urlParams ) )
         {
-            echo $form->create(
+            echo $this->Form->create(
                 $modelName,
                 array(
                 	'url' => array(
@@ -50,7 +45,7 @@
 
         else
         {
-            echo $form->create(
+            echo $this->Form->create(
                 $modelName,
                 array(
                 	'url' => array(
@@ -65,7 +60,7 @@
     <fieldset>
         <legend><?php __( "Post a {$commentModel}" );?></legend>
         <?php
-            echo $form->input( "$modelName.id", array( 'value' => $fk ) );
+            echo $this->Form->input( "$modelName.id", array( 'value' => $fk ) );
 
             foreach( $commentFields as $field )
             {
@@ -80,5 +75,5 @@
             }
         ?>
     </fieldset>
-	<?php echo $form->end('Submit'); ?>
+	<?php echo $this->Form->end('Submit'); ?>
 </div>
