@@ -75,7 +75,7 @@ class AppController extends Controller {
 	/**
 	* Common methods for the app
 	*/
-	protected function comment($id = null) {
+	function comment($id = null) {
 		if (!empty($this->data['Comment'])) {
 			$message = 'Your comment has been saved and will be available after admin moderation.';
 			if (Configure::read('Comments.auto_moderate') === true) {
@@ -92,7 +92,7 @@ class AppController extends Controller {
 		}
 	}
 
-	protected function rate($id = null) {
+	function rate($id = null) {
 		if (!empty($this->data['Rating'])) {
 			if (Configure::read('Rating.require_auth') === true) {
 				$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
@@ -132,7 +132,7 @@ class AppController extends Controller {
 	* @param int $id the id of the record to move.
 	* @return does a redirect to the referer.
 	*/
-	protected function admin_reorder($id = null) {
+	function admin_reorder($id = null) {
 		$model = $this->modelNames[0];
 
 		if (!$id) {
@@ -178,7 +178,7 @@ class AppController extends Controller {
 	* @param mixed $id the id of the record
 	* @return n /a, redirects with different messages in {@see Session::setFlash}
 	*/
-	protected function admin_toggle($id = null) {
+	function admin_toggle($id = null) {
 		$model = $this->modelNames[0];
 
 		if (!$id) {
@@ -213,7 +213,7 @@ class AppController extends Controller {
 	* @param mixed $id the id of the record.
 	* @return n /a just redirects with different messages in {@see Session::setFlash}
 	*/
-	protected function admin_delete($id = null) {
+	function admin_delete($id = null) {
 		$model = $this->modelNames[0];
 
 		if (!$id) {
@@ -231,7 +231,7 @@ class AppController extends Controller {
 		echo 'moved to comments';
 	}
 
-	protected function admin_mass() {
+	function admin_mass() {
 		$ids = $this->__massGetIds($this->data[$this->modelClass]);
 
 		switch ($this->__massGetAction($this->params['form'])) {
@@ -269,7 +269,7 @@ class AppController extends Controller {
 		} // switch
 	}
 
-	protected function __massGetIds($data) {
+	function __massGetIds($data) {
 		if (in_array($this->__massGetAction($this->params['form']), array('add','filter'))) {
 			return null;
 		}
@@ -293,7 +293,7 @@ class AppController extends Controller {
 		return $ids;
 	}
 
-	protected function __massGetAction($form) {
+	function __massGetAction($form) {
 		if (isset($form['action'])) {
 			return $form['action'];
 		}
@@ -302,7 +302,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionDelete($ids) {
+	function __massActionDelete($ids) {
 		$model = $this->modelNames[0];
 
 		$conditions = array($model . '.' . $this->$model->primaryKey => $ids
@@ -317,7 +317,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionToggle($ids) {
+	function __massActionToggle($ids) {
 		$model = $this->modelNames[0];
 		$this->$model->recursive = - 1;
 		$ids = $ids + array(0);
@@ -335,7 +335,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionCopy($ids) {
+	function __massActionCopy($ids) {
 		$model = $this->modelNames[0];
 		$this->$model->recursive = - 1;
 
@@ -366,7 +366,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionGeneric($action, $ids) {
+	function __massActionGeneric($action, $ids) {
 		if (!$ids) {
 			$this->redirect(array('action' => $action));
 		}
