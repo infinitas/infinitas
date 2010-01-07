@@ -137,7 +137,7 @@ class InfinitasComponent extends Object {
 	function forceWwwUrl(){
 		// read the host from the server environment
 		$host = env('HTTP_HOST');
-		if ($host='loaclhost') {
+		if ($host='localhost') {
 			return true;
 		}
 
