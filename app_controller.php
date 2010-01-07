@@ -18,6 +18,7 @@
 */
 
 class AppController extends Controller {
+
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
 
@@ -70,8 +71,6 @@ class AppController extends Controller {
 
 		$this->__checkUrl();
 		$this->__setupLayout();
-
-		$this->__setupCache();
 
 		$this->set('commentModel', 'Comment');
 

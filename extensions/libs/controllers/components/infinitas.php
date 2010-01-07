@@ -2,6 +2,8 @@
 /**
 */
 class InfinitasComponent extends Object {
+	//var $name = 'Infinitas';
+	var $components = array();
 	/**
 	* Controllers initialize function.
 	*/
