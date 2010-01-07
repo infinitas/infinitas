@@ -25,7 +25,7 @@ class AppController extends Controller {
 		);
 
 	var $components = array(
-		'Core.CoreConfig',
+		'Libs.Infinitas', 'Core.CoreConfig',
 		// cake components
 		'Session','RequestHandler',
 		// core components
@@ -45,7 +45,6 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		Configure::load('images');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			if (isset($this->params['named']['limit'])) {
@@ -118,47 +117,6 @@ class AppController extends Controller {
 				$this->layout = 'default';
 		} // switch
 		return true;
-	}
-
-	private function __setupCache() {
-		Cache::config(
-			'cms',
-			array(
-				'engine' => 'File',
-				'duration' => 3600,
-				'probability' => 100,
-				'prefix' => '',
-				'lock' => false,
-				'serialize' => true,
-				'path' => CACHE . 'cms'
-				)
-			);
-
-		Cache::config(
-			'core',
-			array(
-				'engine' => 'File',
-				'duration' => 3600,
-				'probability' => 100,
-				'prefix' => '',
-				'lock' => false,
-				'serialize' => true,
-				'path' => CACHE . 'core'
-				)
-			);
-
-		Cache::config(
-			'blog',
-			array(
-				'engine' => 'File',
-				'duration' => 3600,
-				'probability' => 100,
-				'prefix' => '',
-				'lock' => false,
-				'serialize' => true,
-				'path' => CACHE . 'blog'
-				)
-			);
 	}
 
 	/**
