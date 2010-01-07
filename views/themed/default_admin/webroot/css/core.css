@@ -111,7 +111,7 @@ img {
     	display:         block;
     	width:           142px;
     	height:          25px;
-    	background:      url(../../img/admin/bg-left-link.gif);
+    	background:      url(../img/bg-left-link.gif);
     	margin-bottom:   5px;
     	padding-left:    9px;
     	line-height:     25px;
@@ -171,7 +171,7 @@ img {
     }
 
     .filter .left{
-        background: url( ../../img/admin/button-left.png ) no-repeat scroll 0 0 transparent;
+        background: url( ../img/button-left.png ) no-repeat scroll 0 0 transparent;
     }
 
     .filter .remove{
@@ -181,14 +181,14 @@ img {
     }
 
     .filter .left .remove{
-        background: url( ../../img/admin/button-remove.png ) no-repeat scroll 100% 0 transparent;
+        background: url( ../img/button-remove.png ) no-repeat scroll 100% 0 transparent;
     }
 
 /**
  * messages
  */
 #flashMessage{
-    background: #EBEBEB url(../img/core/icons/actions/16/warning.png) 5px 5px no-repeat;
+    background: #EBEBEB url(../img/warning.png) 5px 5px no-repeat;
     font-size:120%;
     height:20px;
     margin:5px auto auto;
