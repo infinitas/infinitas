@@ -96,7 +96,7 @@
                                     '<div class="remove">'.
                                         $this->Html->link(
                                             Inflector::humanize( $text ),
-                                            str_replace( $_f, '', $this->here )
+                                            str_replace( $_f, '', '/' . $this->params['url']['url'] )
                                         ).
                                     '</div>'.
                                 '</div>';
