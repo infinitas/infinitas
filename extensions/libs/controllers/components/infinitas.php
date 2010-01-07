@@ -70,6 +70,38 @@ class InfinitasComponent extends Object {
 	function __loadCoreImages(){
 		Configure::load('images');
 	}
+
+	/**
+	* Change the Pagination dropdown.
+	*
+	* This is what allows you to view different number of records in the
+	* index pages.
+	*
+	* @param array $options
+	* @return
+	*/
+	function __changePaginationLimit($options=array(),$params=array()){
+		// remove the current / default value
+		if (isset($params['named']['limit'])) {
+			unset($params['named']['limit']);
+		}
+
+		$params['named']['limit'] = $options['pagination_limit'];
+
+		$this->redirect(
+			array(
+				'plugin' => $params['plugin'],
+				'controller' => $params['controller'],
+				'action' => $params['action']
+				) + $params['named']
+			);
+	}
+
+	function __forceWwwUrl(){
+
+	}
+
+
 }
 
 ?>

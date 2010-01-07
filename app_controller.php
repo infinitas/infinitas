@@ -48,28 +48,15 @@ class AppController extends Controller {
 		parent::beforeFilter();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
-			if (isset($this->params['named']['limit'])) {
-				unset($this->params['named']['limit']);
-			}
-
-			$this->params['named']['limit'] = $this->data['PaginationOptions']['pagination_limit'];
-
-			$this->redirect(
-				array(
-					'plugin' => $this->params['plugin'],
-					'controller' => $this->params['controller'],
-					'action' => $this->params['action']
-					) + $this->params['named']
-				);
+			$this->Infinitas->__changePaginationLimit( $this->data['PaginationOptions'], $this->params );
 		}
 
 		$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
 
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
-			$this->{$this->modelClass} ->setUserData($this->Session->read('Auth'));
+			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		$this->__checkUrl();
 		$this->__setupLayout();
 
 		$this->set('commentModel', 'Comment');
