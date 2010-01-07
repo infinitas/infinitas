@@ -18,10 +18,15 @@
 */
 
 class AppModel extends Model {
+	/**
+	* The database configuration to use for the site.
+	*/
 	var $useDbConfig = 'default';
 
-	var $actsAs = array('Containable', 'Core.Lockable', 'Core.Logable');
-
+	/**
+	* Behaviors to attach to the site.
+	*/
+	var $actsAs = array('Containable', 'Core.Lockable');
 }
 
 ?>
