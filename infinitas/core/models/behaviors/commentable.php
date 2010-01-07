@@ -27,7 +27,8 @@ class CommentableBehavior extends ModelBehavior {
 	* @var array
 	*/
 	var $defaults = array(
-		'class' => 'Core.Comment', // name of Comment model
+		'plugin' => 'Core',
+		'class' => 'Comment', // name of Comment model
 		'foreign_key' => 'foreign_id', // foreign key of Comment model
 		'counter_cache' => true,
 		'counter_cache_scope' => array('Comment.active' => 1),
@@ -72,6 +73,8 @@ class CommentableBehavior extends ModelBehavior {
 		$default = $this->defaults;
 		$default['conditions'] = array('Comment.class' => $model->alias);
 
+		$commentClass = isset( $default['plugin'] ) ? $default['plugin'].'.'.$default['class'] : $default['class'];
+
 		if (!isset($this->__settings[$model->alias])) {
 			$this->__settings[$model->alias] = $default;
 		}
@@ -82,7 +85,7 @@ class CommentableBehavior extends ModelBehavior {
 		if ($this->__settings[$model->alias]['auto_bind']) {
 			$hasManyComment = array(
 				'Comment' => array(
-					'className' => $this->__settings[$model->alias]['class'],
+					'className' => $commentClass,
 					'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
 					'dependent' => $this->__settings[$model->alias]['dependent'],
 					'conditions' => $this->__settings[$model->alias]['conditions']));

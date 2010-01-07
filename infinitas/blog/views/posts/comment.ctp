@@ -18,5 +18,5 @@
      * @since         0.5a
      */
 
-    echo $this->element( 'comments/add', array( 'plugin' => 'core', 'fk' => $this->data['Post']['id'] ) );
+    echo $this->element('global/comment_add',array('fk'=>$this->data['Post']['id']));
 ?>
