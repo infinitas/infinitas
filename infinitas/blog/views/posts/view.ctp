@@ -31,6 +31,20 @@
 
     echo $this->PostLayout->viewPostBody( array( 'highlight' ) );
 
+    if ( Configure::read( 'Blog.allow_ratings' ) )
+    {
+        if ( !Configure::read( 'Blog.allow_ratings' ) ||
+            date( 'Y-m-d H:i:s', strtotime( '- '.Configure::read( 'Rating.time_limit' ) ) ) < $post['Post']['modified']
+        )
+		{
+			echo $this->element( 'global/rating_add', array( 'data' => $post, 'modelName' => 'Post' ) );
+		}
+        else
+        {
+            ?><h2><?php __( 'Closed for Rating' ); ?> </h2><?php
+            echo __( 'Sorry, the ratings for this post are closed. Why not check out some of our newer posts.', true );
+        }
+   	}
     if ( Configure::read( 'Blog.allow_comments' ) )
     {
         if (
@@ -55,7 +69,7 @@
                             }
                         }
 
-                        echo $this->element( 'comments/add', array( 'plugin' => 'core', 'fk' => $post['Post']['id'] ) );
+                        echo $this->element( 'global/comment_add', array( 'fk' => $post['Post']['id'] ) );
                     ?>
                 </div>
             <?php
@@ -63,7 +77,7 @@
         else
         {
             ?><h2><?php __( 'Closed for Comments' ); ?> </h2><?php
-            echo __( 'Sorry, the comments for this post is closed. Why not check out some of our newer posts.', true );
+            echo __( 'Sorry, the comments for this post are closed. Why not check out some of our newer posts.', true );
         }
     }
 ?>

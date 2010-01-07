@@ -117,6 +117,8 @@ class PostsController extends BlogAppController {
 					'Post.active',
 					'Post.views',
 					'Post.comment_count',
+					'Post.rating',
+					'Post.rating_count',
 					'Post.created',
 					'Post.modified'
 					),

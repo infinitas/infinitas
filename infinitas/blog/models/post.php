@@ -33,7 +33,8 @@ class Post extends BlogAppModel {
 		'Core.Sluggable',
 		'Core.Viewable',
 		'Core.Feedable',
-		'Core.Commentable'
+		'Core.Commentable',
+		'Core.Rateable'
 		);
 
 	var $validate = array(
@@ -69,11 +70,6 @@ class Post extends BlogAppModel {
 		);
 
 	var $hasMany = array(
-		'Comment' => array(
-			'className' => 'Core.Comment',
-			'foreignKey' => 'foreign_id',
-			'dependent' => true
-			)
 		);
 
 	var $belongsTo = array(

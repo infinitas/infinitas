@@ -27,7 +27,7 @@ class AppController extends Controller {
 	var $components = array(
 		'Core.CoreConfig',
 		// cake components
-		'Session',
+		'Session','RequestHandler',
 		// core components
 		'DebugKit.Toolbar', // 'Core.Cron',
 		// components
@@ -164,7 +164,6 @@ class AppController extends Controller {
 	/**
 	* Common methods for the app
 	*/
-
 	protected function comment($id = null) {
 		if (!empty($this->data['Comment'])) {
 			$message = 'Your comment has been saved and will be available after admin moderation.';
@@ -175,10 +174,31 @@ class AppController extends Controller {
 
 			if ($this->Post->createComment($id, $this->data)) {
 				$this->Session->setFlash(__($message, true));
-				$this->redirect(array('action' => 'view', $this->data[$this->modelClass]['id']));
+				$this->redirect($this->referer());
 			} else {
 				$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
 			}
+		}
+	}
+
+	protected function rate($id = null) {
+		if (!empty($this->data['Rating'])) {
+			if (Configure::read('Rating.require_auth') === true) {
+				$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
+				if (!$this->data['Rating']['user_id']) {
+					$this->Session->setFlash(__('You need to be logged in to rate this item',true));
+					$this->redirect('/login');
+				}
+			}
+
+			$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
+
+			if ($this->{$this->modelClass}->rateRecord($this->data)) {
+				$this->Session->setFlash(__('Your rating was saved.', true));
+			} else {
+				$this->Session->setFlash(__('There was a problem submitting your vote', true));
+			}
+			$this->redirect($this->referer());
 		}
 	}
 
