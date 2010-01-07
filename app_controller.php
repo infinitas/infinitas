@@ -29,7 +29,7 @@ class AppController extends Controller {
 		// cake components
 		'Session','RequestHandler',
 		// core components
-		'DebugKit.Toolbar', // 'Core.Cron',
+		'DebugKit.Toolbar', // 'Libs.Cron',
 		// components
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
