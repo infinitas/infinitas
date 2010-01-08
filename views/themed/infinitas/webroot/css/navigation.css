@@ -1,0 +1,84 @@
+/**
+    Top navigation
+*/
+#top-navigation {
+	position:relative;
+	top:60px;
+	left:20px;
+	list-style:none;
+}
+
+#top-navigation li {
+	float:left;
+	margin:0 3px 0 0;
+	height:34px;
+	background:url(../img/tab.gif) repeat-x top;
+}
+
+#top-navigation li a {
+	float:left;
+	display:block;
+	height:20px;
+	line-height:19px;
+	color:#606060;
+	padding:4px 0 0 0;
+}
+
+#top-navigation li span {
+	float:left;
+	background:url(../img/tab-left.gif) no-repeat left top;
+}
+
+#top-navigation li span span {
+	background:url(../img/tab-right.gif) no-repeat right top;
+	padding:7px 10px 0 10px;
+}
+
+#top-navigation li.active {
+	padding:0;
+	height:34px;
+	background:url(../img/tab-active.gif) repeat-x top;
+	margin-right:2px;
+}
+
+#top-navigation li.active span {
+	background:url(../img/tab-active-left.gif) no-repeat left top;
+	height:34px;
+}
+
+#top-navigation li.active span span {
+	background:url(../img/tab-active-right.gif) no-repeat right top;
+	height:23px;
+	padding:11px 10px 0 10px;
+	line-height:19px;
+	color:#606060;
+}
+
+
+/**
+    left navigation
+*/
+ul.nav {
+	margin:0 0 11px 0;
+	border-bottom:2px solid #FF9600;
+	background:#ECEFE7;
+	list-style:none;
+	padding:0 2px;
+}
+
+ul.nav li {
+	padding:4px 4px 6px 5px;
+	background:url(../img/bg-dotted.gif) repeat-x bottom;
+}
+
+ul.nav a {
+	padding:0 0 0 12px;
+	background:url(../img/arrow.gif) no-repeat 0 4px;
+}
+
+ul.nav a:hover {
+	font-weight:bold;
+    text-decoration:none;
+}
+
+ul.nav li.last {background:none;}

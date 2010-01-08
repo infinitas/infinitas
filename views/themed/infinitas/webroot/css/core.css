@@ -1,0 +1,208 @@
+img {
+    border:none;
+}
+
+.clr {
+    clear:both;
+}
+
+.floatleft {
+    float:left !important
+}
+
+.floatright {
+    float:right !important
+}
+
+.bold {
+    font-weight:bold !important
+}
+
+.normal {
+    font-weight:normal !important
+}
+
+.block {
+    display:block !important
+}
+
+
+/**
+ * niceBox
+ */
+.niceBox{
+    margin-bottom: 10px;
+}
+    .niceBox .top{
+        background:url("../img/niceBox/border.png") repeat-x scroll 0 0 transparent;
+    }
+    .niceBox .top .top {
+       background: url(../img/niceBox/crn_tr_dark.png) 100% 0 no-repeat;
+    }
+
+    .niceBox .top .top .top {
+       background: url(../img/niceBox/crn_tl_dark.png) 0 0 no-repeat;
+   }
+
+
+    .niceBox{
+        background:url("../img/niceBox/crn_tr_dark.png") no-repeat scroll 100% 0 transparent;
+    }
+
+    .niceBox .top, .niceBox .bottom {
+    	height: 6px;
+    	overflow: hidden;
+    	background-color: #f8f8f8;
+    }
+
+    .niceBox .middle {
+    	border-left:      1px solid #ccc;
+    	border-right:     1px solid #ccc;
+    	padding:          5px 10px;
+        background-color: #F8F8F8;
+    }
+
+    .niceBox .bottom {
+        background: url(../img/niceBox/border.png) repeat-x scroll 0 5px #F8F8F8;
+    }
+
+    .niceBox .bottom .bottom {
+        background: url(../img/niceBox/crn_br_dark.png) scroll 100% 0 no-repeat;
+    }
+
+    .niceBox .bottom .bottom .bottom {
+        background: url(../img/niceBox/crn_bl_dark.png) scroll 0 0 no-repeat;
+    }
+
+/**
+ * infoBox
+ */
+.infoBox {
+    width:98%;
+}
+    .infoBox .heading {
+    	background:     #7E878A;
+    	border:         1px solid #B8B8B8;
+    	color:          #ffffff;
+    	text-transform: uppercase;
+    	padding:        3px 10px;
+        overflow:       hidden;
+    }
+
+    .infoBox .body {
+        width:         143px;
+    	background:    #EBEBEB;
+    	border:        1px solid #B8B8B8;
+    	padding:       5px;
+    	margin-bottom: 5px;
+    }
+
+    .infoBox .body img{
+        vertical-align: middle;
+    }
+
+    .infoBox .body a:hover{
+        text-decoration:none;
+        font-weight:bold;
+    }
+
+    .quickLink{
+        text-decoration: none;
+    	display:         block;
+    	width:           142px;
+    	height:          25px;
+    	background:      url(../img/bg-left-link.gif);
+    	margin-bottom:   5px;
+    	padding-left:    9px;
+    	line-height:     25px;
+    	color:           #60635A;
+    }
+
+
+/**
+ * Mass actions
+ */
+.massActions{
+    position: relative;
+    right:    0;
+}
+	.massActions .wrapper{
+		float: right;
+	}
+
+    .massActions input{
+        float:   left;
+        padding: 5px;
+        width:   32px;
+    }
+
+
+/**
+ * filter
+ */
+.filter{
+    line-height:     21px;
+    text-decoration: none;
+}
+    .filter .wrap{
+        display:table;
+        float:right;
+    }
+
+    .filter a:hover {
+        text-decoration: none;
+        color:           #FF7700;
+    }
+
+    .filter a,
+    .filter span a {
+    }
+
+    .left,
+    .left div{
+        float: left;
+    }
+
+
+    .filter .left{
+        float:       left;
+        margin-left: 5px;
+        height:      22px;
+    }
+
+    .filter .left{
+        background: url( ../img/button-left.png ) no-repeat scroll 0 0 transparent;
+    }
+
+    .filter .remove{
+        height:        22px;
+        padding-right: 25px;
+        padding-left:  10px;
+    }
+
+    .filter .left .remove{
+        background: url( ../img/button-remove.png ) no-repeat scroll 100% 0 transparent;
+    }
+
+/**
+ * messages
+ */
+#flashMessage{
+    background: #EBEBEB url(../img/warning.png) 5px 5px no-repeat;
+    font-size:120%;
+    height:20px;
+    margin:5px auto auto;
+    padding-left:30px;
+    padding-top:5px;
+    text-align:left;
+    width:250px;
+}
+
+/**
+ * Status images
+ */
+.status img,
+.status span{
+    padding-right: 5px;
+    rloat:         left;
+}

@@ -9,7 +9,7 @@
     	</title>
         <?php
             echo $this->Html->meta('icon');
-            echo $html->css( 'default' );
+            echo $html->css( 'front' );
             echo $html->css( '/core/css/geshi' );
     		echo $scripts_for_layout;
     		echo $javascript->link( 'fckeditor' );
