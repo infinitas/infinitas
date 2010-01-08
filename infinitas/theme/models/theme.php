@@ -12,18 +12,22 @@
 		 * @param array $conditions
 		 * @return array $theme the current theme.
 		 */
-		function getCurrnetTheme($conditions = array()){
+		function getCurrnetTheme($admin = 0){
 
-			$theme = Cache::read('currentTheme');
+			$theme = Cache::read('currentTheme-'.$admin);
+
 			if ($theme == false) {
 				$theme = $this->find(
 					'first',
 					array(
-						'conditions' => $conditions
+						'conditions' => array(
+							'Theme.admin' => $admin,
+							'Theme.active' => 1
+						)
 					)
 				);
 			}
-			Cache::write('currentTheme', $theme, 'core');
+			Cache::write('currentTheme-'.$admin, $theme, 'core');
 
 			return $theme;
 		}

@@ -35,12 +35,15 @@ class CoreConfigComponent extends Object {
 
 	function setupTheme(){
 		$this->Controller->layout = 'front';
-		$conditions = array('Theme.admin' => 0, 'Theme.active' => 1);
+
+		$admin = 0;
 		if ( isset( $this->Controller->params['admin'] ) && $this->Controller->params['admin'] ){
-			$conditions['Theme.admin'] = 1;
+			$admin = 1;
 			$this->Controller->layout = 'admin';
 		}
-		$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme(array());
+
+		$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme($admin);
+
 		if (!isset($theme['Theme']['name'])) {
 			$theme['Theme'] = array();
 		} else {
