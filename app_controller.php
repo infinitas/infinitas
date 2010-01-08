@@ -48,7 +48,6 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		$this->theme = Configure::read('Theme.name');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );

@@ -1,0 +1,107 @@
+.pagination .wrap {
+    line-height:     21px;
+    font-size:       120%;
+    text-decoration: none;
+    display:         table;
+    margin:          0 auto;
+}
+
+	.pagination .wrap .pages{
+		margin-left: 5px;
+	}
+
+.pagination a:hover {
+    text-decoration: none;
+    color:           #FF6500;
+}
+
+.pagination a,
+.pagination span a {
+}
+
+.pagination .numbers .current {
+    font-weight: bold;
+}
+.pagination .numbers span {
+    padding-left: 10px;
+}
+
+.button2-left,
+.button2-right,
+.button2-left div,
+.button2-right div {
+    float: left;
+}
+
+.pagination .limit{
+    height: 19px;
+    float:  left;
+}
+.pagination .limit span {
+    float:left;
+}
+
+.pagination .limit .submit {
+    float:left;
+}
+
+.pagination .limit select {
+    float:       right;
+    margin-left: 5px;
+    padding:     3px;
+}
+
+.pagination .button2-right,
+.pagination .button2-left{
+    float:       left;
+    margin-left: 5px;
+    height:      22px;
+}
+.pagination .button2-right{
+    background: url( ../img/button-right.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .button2-left{
+    background: url( ../img/button-left.png ) no-repeat scroll 0 0 transparent;
+}
+
+.pagination .start,
+.pagination .prev{
+    height:        22px;
+    padding-left:  25px;
+    padding-right: 10px;
+}
+
+.pagination .button2-right .start{
+    background: url( ../img/button-first.png ) no-repeat scroll 0 0 transparent;
+}
+.pagination .button2-right .prev{
+    background: url( ../img/button-first.png ) no-repeat scroll 0 0 transparent;
+    float:left;
+}
+
+.pagination .numbers{
+    background: url( ../img/button-right-cap.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .last,
+.pagination .next{
+    height:        22px;
+    padding-right: 25px;
+    padding-left:  10px;
+}
+
+.pagination .button2-left .next{
+    background: url( ../img/button-next.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .button2-left .last{
+    background: url( ../img/button-next.png ) no-repeat scroll 100% 0 transparent;
+}
+
+.pagination .empty{
+	font-weight: bold;
+	font-size:   120%;
+	text-align:  center;
+	color:       #C7CDBE;
+}
