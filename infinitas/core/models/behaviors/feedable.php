@@ -18,9 +18,9 @@
 */
 
 class FeedableBehavior extends ModelBehavior {
-	
+
 	var $_defaults = array();
-	
+
 	var $_results = null;
 /**
  * @param object $Model Model using the behavior
@@ -31,7 +31,7 @@ class FeedableBehavior extends ModelBehavior {
 	function setup(&$Model, $config = null) {
 		$Model->_findMethods = array_merge($Model->_findMethods, array('feed'=>true));
 		if (is_array($config)) {
-			$this->settings[$Model->alias] = array_merge($this->_defaults, $config);			
+			$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 		} else {
 			$this->settings[$Model->alias] = $this->_defaults;
 		}
@@ -40,7 +40,7 @@ class FeedableBehavior extends ModelBehavior {
 			array('_findFeed' => array('_findFeed', 'Feedable'))
 		);
 	}
-	
+
 	function _findFeed(&$Model, $state, $query, $results = array()) {
 		if($state == 'before') {
 			if ( !isset( $query['feed'] ) ) {
@@ -49,7 +49,7 @@ class FeedableBehavior extends ModelBehavior {
 			$sql = 'SELECT ';
    			if ( isset( $query['setup'] ) ) {
 	   			$fields = array();
-				foreach( $query['setup'] as $name => $value ) {	
+				foreach( $query['setup'] as $name => $value ) {
 					$fields[] = "'$value' AS $name";
 				}
 				$sql .= implode( ', ', $fields );
@@ -94,12 +94,17 @@ class FeedableBehavior extends ModelBehavior {
 				}
 				$sql .= ' ORDER BY '.implode( ', ', $ordering );
 			}
-			$this->_results = $Model->query( $sql );
+			$_results = $Model->query( $sql );
+			//pr( $this->_results );
+
+			foreach( $_results as $res ){
+				$this->_results[]['Feed'] = $res[0];
+			}
 			return $query;
 		} elseif ($state == 'after') {
 			return $this->_results;
 		}
 		return false;
-	}	  
+	}
 }
 ?>
