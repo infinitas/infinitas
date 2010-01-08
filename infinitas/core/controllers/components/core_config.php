@@ -39,8 +39,9 @@ class CoreConfigComponent extends Object {
 		if ( isset( $this->Controller->params['admin'] ) && $this->Controller->params['admin'] ){
 			$this->Controller->layout = 'admin';
 		}
-
-		$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme();
+		if(!$theme = Cache::read('currentTheme')) {
+			$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme();
+		}
 
 		if (!isset($theme['Theme']['name'])) {
 			$theme['Theme'] = array();
