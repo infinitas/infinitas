@@ -4,6 +4,7 @@
 	http://www.nodethirtythree.com
 
 */
+@import url('reset.css');
 
 *
 {
@@ -13,7 +14,7 @@
 
 body
 {
-    background: #F9F9F7 url('../img/terrafirma/a1.gif') repeat-x;
+    background: #F9F9F7 url('../img/a1.gif') repeat-x;
     font-size: 11px;
     font-family: "trebuchet ms", helvetica, sans-serif;
     color: #8C8C73;
@@ -47,7 +48,7 @@ img.picA
 {
     position: relative;
     top: -2px;
-    background: url('../img/terrafirma/a47.gif') no-repeat;
+    background: url('../img/a47.gif') no-repeat;
     width: 76px;
     height: 74px;
     padding: 8px;
@@ -57,7 +58,7 @@ img.picB
 {
     position: relative;
     top: -2px;
-    background: url('../img/terrafirma/a26.gif') no-repeat;
+    background: url('../img/a26.gif') no-repeat;
     width: 146px;
     height: 75px;
     padding: 7px;
@@ -93,7 +94,7 @@ ul.linklist li.first
 {
     position: absolute;
     left: 0px;
-    background: #fff url('../img/terrafirma/upbg.gif') no-repeat;
+    background: #fff url('../img/upbg.gif') no-repeat;
     width: 747px;
     height: 264px;
     z-index: 1;
@@ -105,7 +106,7 @@ ul.linklist li.first
     position: relative;
     width: 747px;
     margin: 0 auto;
-    background: #fff url('../img/terrafirma/abg.gif') repeat-y;
+    background: #fff url('../img/abg.gif') repeat-y;
 }
 
 #inner
@@ -118,7 +119,7 @@ ul.linklist li.first
 #header
 {
     position: absolute;
-    background: #FF7800 url('../img/terrafirma/a8.gif') repeat-x;
+    background: #FF7800 url('../img/a8.gif') repeat-x;
     width: 202px;
     height: 92px;
     color: #fff;
@@ -157,7 +158,7 @@ font-weight: normal;
 {
     position: absolute;
     right: 30px;
-    background: #EAEAE2 url('../img/terrafirma/a10.jpg') no-repeat;
+    background: #EAEAE2 url('../img/a10.jpg') no-repeat;
     width: 458px;
     height: 92px;
 }
@@ -165,7 +166,7 @@ font-weight: normal;
 #menu
 {
     position: relative;
-    background: #46461F url('../img/terrafirma/a16.gif') repeat-x;
+    background: #46461F url('../img/a16.gif') repeat-x;
     height: 67px;
     padding: 0px 20px 0px 5px;
     margin: 98px 0px 20px 0px;
@@ -199,7 +200,7 @@ font-weight: normal;
 
 #menu ul li a:hover
 {
-    background: #fff url('../img/terrafirma/a18.gif') repeat-x top;
+    background: #fff url('../img/a18.gif') repeat-x top;
     color: #4A4A24;
     text-decoration: none;
 }
@@ -232,7 +233,7 @@ font-weight: normal;
     line-height: 25px;
     color: #656551;
     letter-spacing: -1px;
-    background: url('../img/terrafirma/a22.gif') bottom repeat-x;
+    background: url('../img/a22.gif') bottom repeat-x;
     padding: 0px 0px 10px 10px;
     margin-bottom: 20px;
 }
@@ -260,7 +261,7 @@ font-weight: normal;
     line-height: 25px;
     color: #656551;
     letter-spacing: -1px;
-    background: url('../img/terrafirma/a22.gif') bottom repeat-x;
+    background: url('../img/a22.gif') bottom repeat-x;
     padding: 0px 0px 10px 15px;
     margin-bottom: 20px;
 }
@@ -304,7 +305,7 @@ font-weight: normal;
 #primarycontent .post .footer
 {
     position: relative;
-    background: url('../img/terrafirma/a33.gif') repeat-x;
+    background: url('../img/a33.gif') repeat-x;
     height: 64px;
 }
 
@@ -332,17 +333,17 @@ font-weight: normal;
 
 #primarycontent .post .footer ul li.printerfriendly
 {
-    background-image: url('../img/terrafirma/a41.gif');
+    background-image: url('../img/a41.gif');
 }
 
 #primarycontent .post .footer ul li.comments
 {
-    background-image: url('../img/terrafirma/a36.gif');
+    background-image: url('../img/a36.gif');
 }
 
 #primarycontent .post .footer ul li.readmore
 {
-    background-image: url('../img/terrafirma/a38.gif');
+    background-image: url('../img/a38.gif');
 }
 
 #footer
@@ -352,7 +353,7 @@ font-weight: normal;
     height: 66px;
     text-align: center;
     line-height: 66px;
-    background-image: url('../img/terrafirma/a50.gif');
+    background-image: url('../img/a50.gif');
     color: #A8A88D;
 }
 
@@ -508,70 +509,4 @@ p.error em {
 }
 .success {
 	background: green;
-}
-
-
-/**
-* pagination
-*/
-.pagination_helper {
-    display:table;
-    margin:0 auto;
-    padding:0;
-    padding-top:15px;
-}
-.pagination_helper .disabled{
-    display:none;
-}
-
-.pagination_helper .button-left,
-.pagination_helper .button-left div {
-float: left;
-}
-
-.pagination_helper .button-left a,
-.pagination_helper. button-left span {
-display: block;
-height: 22px;
-float: left;
-line-height: 22px;
-font-size: 11px;
-color: #333;
-cursor: pointer;
-}
-.pagination_helper .button-left span {
-    cursor: default;
-    color: #999;
-}
-
-.pagination_helper .button-left .page a,
-.pagination_helper .button-left .page span,
-.pagination_helper .button-left .blank a,
-.pagination_helper .button-left .blank span {
-    padding: 0 6px;
-}
-
-.pagination_helper .button-left a:hover,
-.pagination_helper .button-right a:hover {
-    text-decoration: none;
-    color: #0B55C4;
-}
-
-.pagination_helper .button-left a,
-.pagination_helper .button-left span {
-    padding: 0 24px 0 6px;
-}
-
-.pagination_helper .button-left {
-    background: url(../img/left.png) no-repeat;
-    float: left;
-    margin-left: 5px;
-}
-
-.pagination_helper .button-left .image {
-    background: url(../img/image.png) 100% 0 no-repeat;
-}
-
-.pagination_helper .button-left .blank {
-    background: url(../img/blank.png) 100% 0 no-repeat;
 }
