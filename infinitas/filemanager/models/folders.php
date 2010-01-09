@@ -1,20 +1,20 @@
 <?php
 /**
 */
-class Folders extends ManagementAppModel {
+class Folders extends AppModel {
 	var $name = 'Folders';
 
 	var $useTable = false;
 
 	var $hasMany = array(
-		'Management.Files'
-		);
+		'Filemanager.Files'
+	);
 
 	var $ignore = array(
 		'.htaccess',
 		'.htpasswd',
 		'.gitignore'
-		);
+	);
 
 	function beforeFind($queryData) {
 		$this->basePath = APP; //Configure::read( 'FileManager.base_path' );

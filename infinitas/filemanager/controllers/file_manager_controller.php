@@ -1,17 +1,17 @@
 <?php
 /**
 */
-class FileManagerController extends ManagementAppController {
+class FileManagerController extends AppController {
 	var $name = 'FileManager';
 
-	var $uses = array('Management.Files', 'Management.Folders');
+	var $uses = array('Filemanager.Files', 'Filemanager.Folders');
 
 	var $helpers = array(
 		'Image',
-
-		'Number'
-
-		);
+		'Number',
+		'Management.Core',
+		'Filter.Filter'
+	);
 
 	function admin_index($path = '-') {
 		$path = str_replace('-', '/', $path);
@@ -21,15 +21,15 @@ class FileManagerController extends ManagementAppController {
 			'all',
 			array(
 				'fields' => array(
-					),
+				),
 				'conditions' => array(
 					'path' => $path
-					),
+				),
 				'order' => array(
 					'name' => 'ASC'
-					)
 				)
-			);
+			)
+		);
 
 		$this->Files->recursive = 2;
 		$files = $this->Files->find(
