@@ -113,14 +113,14 @@ class RevisionBehavior extends ModelBehavior {
 	* @access private
 	* @var string
 	*/
-	private $revision_suffix = '_revs';
+	var $revision_suffix = '_revs';
 	/**
 	* Defaul setting values
 	*
 	* @access private
 	* @var array
 	*/
-	private $defaults = array(
+	var $defaults = array(
 		'limit' => false,
 		'auto' => true,
 		'ignore' => array(),
@@ -132,7 +132,7 @@ class RevisionBehavior extends ModelBehavior {
 	*
 	* @var array
 	*/
-	private $oldData = array();
+	var $oldData = array();
 
 	/**
 	* Configure the behavior through the Model::actsAs property
@@ -140,7 +140,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @param array $config
 	*/
-	public function setup(&$Model, $config = null) {
+	function setup(&$Model, $config = null) {
 		if (is_array($config)) {
 			$this->settings[$Model->alias] = array_merge($this->defaults, $config);
 		} else {
@@ -157,7 +157,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @return boolean success
 	*/
-	public function createRevision(&$Model) {
+	function createRevision(&$Model) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -199,7 +199,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param array $options
 	* @return array
 	*/
-	public function diff(&$Model, $from_version_id = null, $to_version_id = null, $options = array()) {
+	function diff(&$Model, $from_version_id = null, $to_version_id = null, $options = array()) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -268,7 +268,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param int $limit number of rows to initialize in one go
 	* @return boolean
 	*/
-	public function initializeRevisions(&$Model, $limit = 100) {
+	function initializeRevisions(&$Model, $limit = 100) {
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 			return false;
@@ -304,7 +304,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param int $page
 	* @param int $limit
 	*/
-	private function init(&$Model, $page, $limit) {
+	function init(&$Model, $page, $limit) {
 		$habtm = array();
 		$all_habtm = $Model->getAssociated('hasAndBelongsToMany');
 		foreach ($all_habtm as $assocAlias) {
@@ -335,7 +335,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param array $options
 	* @return array
 	*/
-	public function newest(&$Model, $options = array()) {
+	function newest(&$Model, $options = array()) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -363,7 +363,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param array $options
 	* @return array
 	*/
-	public function oldest(&$Model, $options = array()) {
+	function oldest(&$Model, $options = array()) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -389,7 +389,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param array $options
 	* @return array
 	*/
-	public function previous(&$Model, $options = array()) {
+	function previous(&$Model, $options = array()) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -421,7 +421,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param array $options 'conditions','date'
 	* @return boolean success
 	*/
-	public function revertAll(&$Model, $options = array()) {
+	function revertAll(&$Model, $options = array()) {
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 			return false;
@@ -480,7 +480,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param int $version_id
 	* @return boolean
 	*/
-	public function revertTo(&$Model, $version_id) {
+	function revertTo(&$Model, $version_id) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -514,7 +514,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param boolean $force_delete
 	* @return boolean
 	*/
-	public function revertToDate(&$Model, $datetime, $cascade = false, $force_delete = false) {
+	function revertToDate(&$Model, $datetime, $cascade = false, $force_delete = false) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -640,7 +640,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param boolean $include_current If true will include last saved (live) data
 	* @return array
 	*/
-	public function revisions(&$Model, $options = array(), $include_current = false) {
+	function revisions(&$Model, $options = array(), $include_current = false) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -670,7 +670,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @return boolean
 	*/
-	public function undelete(&$Model) {
+	function undelete(&$Model) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -725,7 +725,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @return boolean
 	*/
-	public function undo(&$Model) {
+	function undo(&$Model) {
 		if (! $Model->id) {
 			trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 			return null;
@@ -756,7 +756,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @param array $idlist
 	*/
-	public function updateRevisions(&$Model, $idlist = array()) {
+	function updateRevisions(&$Model, $idlist = array()) {
 		if (!$Model->ShadowModel) {
 			trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 			return null;
@@ -774,7 +774,7 @@ class RevisionBehavior extends ModelBehavior {
 	*
 	* @param unknown_type $Model
 	*/
-	public function afterDelete(&$Model) {
+	function afterDelete(&$Model) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
 			return true;
 		}
@@ -798,7 +798,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param boolean $created
 	* @return boolean
 	*/
-	public function afterSave(&$Model, $created) {
+	function afterSave(&$Model, $created) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
 			return true;
 		}
@@ -891,7 +891,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @return boolean
 	*/
-	public function beforeDelete(&$Model) {
+	function beforeDelete(&$Model) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
 			return true;
 		}
@@ -919,7 +919,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @return boolean
 	*/
-	public function beforeSave(&$Model) {
+	function beforeSave(&$Model) {
 		if ($this->settings[$Model->alias]['auto'] === false) {
 			return true;
 		}
@@ -950,7 +950,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @param object $Model
 	* @return boolean
 	*/
-	private function createShadowModel(&$Model) {
+	function createShadowModel(&$Model) {
 		if (is_null($this->settings[$Model->alias]['useDbConfig'])) {
 			$dbConfig = $Model->useDbConfig;
 		} else {
