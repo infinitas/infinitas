@@ -27,7 +27,7 @@ class CommentLayoutHelper extends BlogHelper {
 	/**
 	* Url to adding comments
 	*/
-	private $addCommentUrl = array(
+	var $addCommentUrl = array(
 		'url' => array(
 			'plugin' => 'blog',
 			'controller' => 'comments',

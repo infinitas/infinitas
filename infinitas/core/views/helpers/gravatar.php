@@ -19,7 +19,7 @@
          * @var string
          * @access private
          */
-        private $__url = 'http://www.gravatar.com/avatar/';
+        var $__url = 'http://www.gravatar.com/avatar/';
 
         /**
          * Hash type to use for email addresses
@@ -27,7 +27,7 @@
          * @var string
          * @access private
          */
-        private $__hashType = 'md5';
+        var $__hashType = 'md5';
 
         /**
          * Collection of allowed ratings
@@ -35,7 +35,7 @@
          * @var array
          * @access private
          */
-        private $__allowedRatings = array( 'g', 'pg', 'r', 'x' );
+        var $__allowedRatings = array( 'g', 'pg', 'r', 'x' );
 
         /**
          * Default Icon sets
@@ -43,7 +43,7 @@
          * @var array
          * @access private
          */
-        private $__defaultIcons = array( 'none', 'identicon', 'monsterid', 'wavatar' );
+        var $__defaultIcons = array( 'none', 'identicon', 'monsterid', 'wavatar' );
 
         /**
          * Default settings
@@ -51,7 +51,7 @@
          * @var array
          * @access private
          */
-        private $__default = array( 'default' => 'identicon', 'size' => null, 'rating' => null, 'ext' => false );
+        var $__default = array( 'default' => 'identicon', 'size' => null, 'rating' => null, 'ext' => false );
 
         /**
          * Helpers used by this helper
@@ -59,7 +59,7 @@
          * @var array
          * @access public
          */
-        public $helpers = array( 'Html' );
+        var $helpers = array( 'Html' );
 
         /**
          * Show gravatar for the supplied email address
@@ -69,7 +69,7 @@
          * @return string Gravatar image string
          * @access public
          */
-        public function image( $email, $options = array() )
+        function image( $email, $options = array() )
         {
             $options = $this->__cleanOptions( array_merge( $this->__default, $options ) );
 
@@ -87,7 +87,7 @@
          * @return string Gravatar Image URL
          * @access public
          */
-        public function url( $email, $options = array() )
+        function url( $email, $options = array() )
         {
             $ext = $options['ext'];
             unset( $options['ext'] );
@@ -110,7 +110,7 @@
          * @return array Default images array
          * @access public
          */
-        public function defaultImages( $options = array() )
+        function defaultImages( $options = array() )
         {
             $options = $this->__cleanOptions( array_merge( $this->__default, $options ) );
             $images = array();
@@ -129,7 +129,7 @@
          * @return array Clean options array
          * @access private
          */
-        private function __cleanOptions( $options )
+        function __cleanOptions( $options )
         {
             if ( !isset( $options['size'] ) || empty( $options['size'] ) || !is_numeric( $options['size'] ) )
             {
@@ -167,7 +167,7 @@
          * @return string Email address hash
          * @access private
          */
-        private function __emailHash( $email, $type )
+        function __emailHash( $email, $type )
         {
             return Security::hash( mb_strtolower( $email ), $type );
         }
@@ -179,7 +179,7 @@
          * @return string URL string of options
          * @access private
          */
-        private function __buildOptions( $options = array() )
+        function __buildOptions( $options = array() )
         {
             if ( !empty( $options ) )
             {
