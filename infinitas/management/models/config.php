@@ -36,9 +36,9 @@ class Config extends ManagementAppModel {
 				'ignore' => 'Config.Revision.ignore',
 				'useDbConfig' => 'Config.Revision.useDbConfig',
 				'model' => 'Config.Revision.model'
-				)
 			)
-		);
+		)
+	);
 
 	function getConfig() {
 		$configs = Cache::read('core_configs');

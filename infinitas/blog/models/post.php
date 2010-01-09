@@ -30,12 +30,12 @@ class Post extends BlogAppModel {
 		);
 
 	var $actsAs = array(
-		'Core.Sluggable',
-		'Core.Viewable',
-		'Core.Feedable',
-		'Core.Commentable',
-		'Core.Rateable'
-		);
+		'Libs.Sluggable',
+		'Libs.Viewable',
+		'Libs.Feedable',
+		'Libs.Commentable',
+		'Libs.Rateable'
+	);
 
 	var $validate = array(
 		'title' => array(

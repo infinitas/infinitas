@@ -26,7 +26,11 @@ class AppModel extends Model {
 	/**
 	* Behaviors to attach to the site.
 	*/
-	var $actsAs = array('Containable', 'Core.Lockable', 'Core.Logable');
+	var $actsAs = array(
+		'Containable',
+		'Libs.Lockable',
+		'Libs.Logable'
+	);
 }
 
 ?>

@@ -25,7 +25,7 @@ class Feature extends CmsAppModel {
 		);
 
 	var $actsAs = array(
-		'Core.Ordered' => array(
+		'Libs.Ordered' => array(
 			'foreign_key' => 'order_id'
 			)
 		);

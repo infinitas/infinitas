@@ -21,7 +21,7 @@ class ContentFrontpage extends CmsAppModel {
 	var $name = 'ContentFrontpage';
 
 	var $actsAs = array(
-		'Core.Ordered'
+		'Libs.Ordered'
 		);
 
 	var $belongsTo = array(

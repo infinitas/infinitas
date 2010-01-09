@@ -19,20 +19,22 @@
 class Tag extends BlogAppModel {
 	var $name = 'Tag';
 
-	var $order = array('Tag.name' => 'ASC');
+	var $order = array(
+		'Tag.name' => 'ASC'
+	);
 
 	var $validate = array(
 		'name' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'Please enter a tag'
-				),
+			),
 			'isUnique' => array(
 				'rule' => 'isUnique',
 				'message' => 'That tag already exists'
-				)
 			)
-		);
+		)
+	);
 
 	var $hasAndBelongsToMany = array(
 		'Post' =>
@@ -50,8 +52,8 @@ class Tag extends BlogAppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-			)
-		);
+		)
+	);
 
 	function getCount($limit = 50) {
 		$tags = Cache::read('tag_count');
