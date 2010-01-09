@@ -20,7 +20,7 @@
 			return true;
 		}
 
-		private function __clearCache() {
+		function __clearCache() {
 			App::import('Folder');
 
 			$Folder = new Folder(CACHE . 'core');

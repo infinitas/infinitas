@@ -105,7 +105,7 @@ class Config extends ManagementAppModel {
 		return true;
 	}
 
-	private function __clearCache() {
+	function __clearCache() {
 		if (is_file(CACHE . 'core' . DS . 'core_configs')) {
 			unlink(CACHE . 'core' . DS . 'core_configs');
 		}

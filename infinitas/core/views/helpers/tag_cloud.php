@@ -110,7 +110,7 @@
         *
         * @return array $data the data with an added 'score' field
         */
-        private function score( $data )
+        function function score( $data )
         {
             $counts =
                 array_flip(
