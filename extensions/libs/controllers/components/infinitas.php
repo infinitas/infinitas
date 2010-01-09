@@ -18,8 +18,50 @@ class InfinitasComponent extends Object {
 		$this->Controller = &$controller;
 		$settings = array_merge(array(), (array)$settings);
 
+		$this->setupConfig(); //must always be first.
+		$this->setupTheme();
+
 		$this->setupCache();
 		$this->loadCoreImages();
+	}
+
+	/**
+	* Load config vars from the db.
+	*
+	* This gets all the config vars from the database and loads them in to the
+	* {#see Configure} class to be used later in the app
+	*
+	* @todo load the users configs also.
+	*/
+	function setupConfig(){
+		$configs = ClassRegistry::init('Management.Config')->getConfig();
+
+		foreach($configs as $config) {
+			Configure::write($config['Config']['key'], $config['Config']['value']);
+		}
+	}
+
+	/**
+	* Setup the theme for the site
+	*
+	* Gets the current theme set in db and sets if up
+	*/
+	function setupTheme(){
+		$this->Controller->layout = 'front';
+
+		if ( isset( $this->Controller->params['admin'] ) && $this->Controller->params['admin'] ){
+			$this->Controller->layout = 'admin';
+		}
+		if(!$theme = Cache::read('currentTheme')) {
+			$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme();
+		}
+
+		if (!isset($theme['Theme']['name'])) {
+			$theme['Theme'] = array();
+		} else {
+			$this->Controller->theme = $theme['Theme']['name'];
+		}
+		Configure::write('Theme',$theme['Theme']);
 	}
 
 	/**

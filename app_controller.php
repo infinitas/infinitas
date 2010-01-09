@@ -28,7 +28,7 @@ class AppController extends Controller {
 		);
 
 	var $components = array(
-		'Libs.Infinitas', 'Core.CoreConfig',
+		'Libs.Infinitas',
 		// cake components
 		'Session','RequestHandler',
 		// core components
