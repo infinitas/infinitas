@@ -61,10 +61,10 @@
 */
 
 class LogableBehavior extends ModelBehavior {
-	public $user = null;
-	public $UserModel = false;
-	public $settings = array();
-	public $defaults = array(
+	var $user = null;
+	var $UserModel = false;
+	var $settings = array();
+	var $defaults = array(
 		'enabled' => true,
 		'userModel' => 'Core.User',
 		'logModel' => 'Core.Log',

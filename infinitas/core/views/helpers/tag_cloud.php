@@ -56,7 +56,7 @@
         *
         * @retrurn string the stags nicly formated
         */
-        public function display( $data, $config = array() )
+        function display( $data, $config = array() )
         {
             $this->return = null;
 
@@ -110,7 +110,7 @@
         *
         * @return array $data the data with an added 'score' field
         */
-        function function score( $data )
+        function score( $data )
         {
             $counts =
                 array_flip(

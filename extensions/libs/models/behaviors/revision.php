@@ -105,7 +105,7 @@ class RevisionBehavior extends ModelBehavior {
 	* @access public
 	* @var array
 	*/
-	public $settings = array();
+	var $settings = array();
 	/**
 	* Shadow table prefix
 	* Only change this value if it causes table name crashes

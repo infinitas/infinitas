@@ -22,9 +22,9 @@
     {
         var $helpers = array( 'Html', 'Time', 'Libs.Image' );
 
-        protected $external = true;
+        var $external = true;
 
-        public function status( $status = null )
+        function status( $status = null )
         {
             $image = false;
             $params = array();
@@ -75,7 +75,7 @@
         * Uses Status::status to get the image and then creates a link based on
         * the $method param
         */
-        public function toggle( $status = null, $id = null, $url = array( 'action' => 'toggle' ) )
+        function toggle( $status = null, $id = null, $url = array( 'action' => 'toggle' ) )
         {
             $params = array();
 
@@ -112,7 +112,7 @@
             return $link;
         }
 
-        public function locked( $item = array(), $model = null )
+        function locked( $item = array(), $model = null )
         {
             if ( !$model || empty( $item ) || empty( $item[$model] ) )
             {
