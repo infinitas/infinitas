@@ -17,15 +17,13 @@
 * @since 0.5a
 */
 
-class CommentsController extends ManagementAppController {
+class CommentsController extends AppController {
 	var $name = 'Comments';
 
 	var $helpers = array(
 		'Text',
 		'Filter.Filter'
-		);
-
-	var $uses = array('Core.Comment');
+	);
 
 	function admin_index() {
 		$this->paginate = array(
@@ -39,13 +37,13 @@ class CommentsController extends ManagementAppController {
 				'Comment.active',
 				'Comment.foreign_id',
 				'Comment.created',
-				),
+			),
 			'order' => array(
 				'Comment.active' => 'ASC',
 				'Comment.created' => 'ASC',
-				),
+			),
 			'limit' => 20
-			);
+		);
 
 		$comments = $this->paginate(null, $this->Filter->filter);
 

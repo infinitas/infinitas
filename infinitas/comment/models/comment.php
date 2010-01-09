@@ -1,6 +1,6 @@
 <?php
 /**
-* Blog Comment Model class file.
+* Comment Model class file.
 *
 * This is the main model for Blog Comments. There are a number of
 * methods for getting the counts of all comments, active comments, pending
@@ -19,31 +19,32 @@
 * @subpackage blog.models.comment
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 */
-class Comment extends CoreAppModel {
+class Comment extends AppModel {
 	var $name = 'Comment';
+	var $tablePrefix = 'core_';
 
 	var $validate = array(
 		'name' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'Please enter your name'
-				)
-			),
+			)
+		),
 		'email' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'Please enter your email address'
-				),
+			),
 			'email' => array(
 				'rule' => array('email'),
 				'message' => 'Please enter a valid email address'
-				)
-			),
+			)
+		),
 		'comment' => array(
 			'rule' => 'notEmpty',
 			'message' => 'Please enter your comments'
-			)
-		);
+		)
+	);
 
 	function getCounts($class = null) {
 		if (!$class) {
