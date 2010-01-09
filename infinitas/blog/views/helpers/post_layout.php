@@ -21,7 +21,7 @@ class PostLayoutHelper extends BlogHelper {
 		// cake helpers
 		'Time', 'Text', 'Html',
 		// core helpers
-		'Core.Geshi', 'Core.Status',
+		'Libs.Geshi', 'Libs.Status',
 		// blog helpers
 		'Blog.Blog'
 		);

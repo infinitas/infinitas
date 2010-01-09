@@ -21,7 +21,7 @@ class CommentLayoutHelper extends BlogHelper {
 		// cake helpers
 		'Form', 'Time', 'Html',
 		// core helpers
-		'Core.Geshi', 'Core.Wysiwyg', 'Core.Gravatar'
+		'Libs.Geshi', 'Libs.Wysiwyg', 'Libs.Gravatar'
 		);
 
 	/**

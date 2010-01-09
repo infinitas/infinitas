@@ -24,7 +24,7 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
 
-		'Core.Status', 'Libs.Image', 'Libs.Design'
+		'Libs.Status', 'Libs.Image', 'Libs.Design'
 		);
 
 	var $components = array(

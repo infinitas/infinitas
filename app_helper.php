@@ -26,7 +26,7 @@ class AppHelper extends Helper {
 
 	var $wysiwyg = 'fck';
 
-	var $helpers = array('Html', 'Libs.Design', 'Core.Wysiwyg', 'Core.Gravatar');
+	var $helpers = array('Html', 'Libs.Design', 'Libs.Wysiwyg', 'Libs.Gravatar');
 
 	/**
 	* create some bread crumbs.

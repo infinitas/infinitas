@@ -34,7 +34,7 @@ class PostsController extends BlogAppController {
 	* @var array
 	*/
 	var $helpers = array(
-		'Core.Geshi',
+		'Libs.Geshi',
 		'Filter.Filter'
 		);
 
