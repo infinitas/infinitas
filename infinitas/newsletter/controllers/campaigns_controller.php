@@ -186,7 +186,7 @@ class CampaignsController extends NewsletterAppController {
 		return false;
 	}
 
-	protected function admin_mass() {
+	function admin_mass() {
 		$model = $this->modelNames[0];
 		$ids = $this->__massGetIds($this->data[$model]);
 
@@ -201,7 +201,7 @@ class CampaignsController extends NewsletterAppController {
 		} // switch
 	}
 
-	private function __canDelete($ids) {
+	function __canDelete($ids) {
 		$newsletters = $this->Campaign->Newsletter->find(
 			'list',
 			array(
