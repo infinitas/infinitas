@@ -272,3 +272,33 @@ div.table .select select {
 
 .adminTopBar{
 }
+
+/* Dashboard styles */
+
+.dashboard { color: #333; }
+.dashboard h2 { font-size: 14px; margin-bottom: 14px; }
+.dashboard h3, .dashboard h3, .dashboard h3, .dashboard h4 { font-weight: normal; }
+.dashboard a { color: #224488; }
+.dashboard a:hover { color: #f63; text-decoration: none; }
+.dashboard .info { padding: 10px; margin-bottom: 15px; background-color: #f5f5f5; border: 1px dotted #ccc; border-width: 1px 0; }
+.dashboard .column-a { width: 50%; float: left }
+.dashboard .column-b { width: 50%; float: right }
+.dashboard .column-b .box { margin-left: 15px; }
+.dashboard .box h3, .dashboard .box .view-all { font-size: 14px; line-height: 24px; }
+.dashboard .box .view-all a { color: #999; }
+.dashboard .tasks a { color: #333; }
+.dashboard .tasks a:hover div { background-color: #f2f2f2; border-color: #f90; }
+.dashboard .tasks div { background-color: #eee; border-top: 6px solid #cbcbcb; padding: 10px; padding-left: 40px; margin-bottom: 10px; min-height: 50px; background: #eee no-repeat 12px 12px; }
+.dashboard .tasks h4 { font-size: 16px; margin-bottom: 15px; }
+.dashboard .charts li { float: left; border: 1px solid #ccc; margin: 5px 5px 0 0; }
+.dashboard .charts h4 { font-size: 11px; line-height: 16px; padding: 5px; background-color: #ccc; }
+.dashboard .charts img { padding: 5px; }
+.dashboard .feed li { padding: 10px; padding-left: 40px; background: #fcfdfe no-repeat 12px 12px; }
+.dashboard .feed li.alternate { background-color: #eff2f7; }
+.dashboard .feed h4 { font-size: 12px; line-height: 18px; }
+.dashboard .feed .preview { padding-top: 5px; }
+.clear { clear: both; }
+.right { float: right; }
+.left { float: left; }
+.quiet { color: #999; }
+p { line-height: 1.2em; }
