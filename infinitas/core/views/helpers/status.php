@@ -20,7 +20,7 @@
 
     class StatusHelper extends AppHelper
     {
-        var $helpers = array( 'Html', 'Time', 'Image' );
+        var $helpers = array( 'Html', 'Time', 'Libs.Image' );
 
         protected $external = true;
 

@@ -7,7 +7,7 @@ class FileManagerController extends AppController {
 	var $uses = array('Filemanager.Files', 'Filemanager.Folders');
 
 	var $helpers = array(
-		'Image',
+		'Libs.Image',
 		'Number',
 		'Management.Core',
 		'Filter.Filter'
