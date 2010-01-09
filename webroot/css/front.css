@@ -510,3 +510,32 @@ p.error em {
 .success {
 	background: green;
 }
+
+
+/**
+	Feeds
+*/
+
+.feeds{
+}
+	.feeds .time{
+		color: #768693;
+		float:right;
+	}
+
+	.feeds .item{
+		margin-bottom:15px;
+		padding:10px;
+	}
+
+	.feeds .title,
+	.feeds .title a,
+	.feeds .title a:link,
+	.feeds .title a:hover,
+	.feeds .title a:visited{
+		color: #2B4487;
+		text-decoration:none;
+		float:left;
+		width: 85%;
+		font-size: 110%;
+	}

@@ -19,20 +19,22 @@
 					<div class="time"><?php echo $this->Time->niceShort( $feed['Feed']['created'] ); ?></div>
 					<div class="clr">&nbsp;</div>
 					<div class="body">
-						<?php echo strip_tags( $feed['Feed']['intro'] ); ?>
-						<div class="readmore">
-							<?php
-								echo $this->Html->link(
-									__( 'Read More', true ),
-									array(
-										'plugin' => $feed['Feed']['plugin'],
-										'controller' => $feed['Feed']['controller'],
-										'action' => $feed['Feed']['action'],
-										$feed['Feed']['id']
-									)
-								);
-							?>
-						</div>
+						<?php
+							echo strip_tags( $feed['Feed']['intro'] );
+
+							echo $this->Html->link(
+								__( 'Read More', true ),
+								array(
+									'plugin' => $feed['Feed']['plugin'],
+									'controller' => $feed['Feed']['controller'],
+									'action' => $feed['Feed']['action'],
+									$feed['Feed']['id']
+								),
+								array(
+									'class' => 'readmore'
+								)
+							);
+						?>
 					</div>
 				</div>
 			<?php
