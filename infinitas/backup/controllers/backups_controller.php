@@ -17,7 +17,7 @@
 * @since 0.5a
 */
 
-class BackupsController extends CoreAppController {
+class BackupsController extends AppController {
 	var $name = 'Backups';
 
 	function admin_backup() {
