@@ -1,7 +1,7 @@
 v0.5 alpha
 ================================================================================
 Themes support
-	- switch themes in admin easily
+	- switch themes easily (no admin interface yet)
 
 Newsletter template export
 	- export templates to share with others
