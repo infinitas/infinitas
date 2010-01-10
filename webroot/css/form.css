@@ -28,3 +28,18 @@ input {
 	clear:none;
 	margin-right:10px;
 }
+
+label{
+	float:left;
+	width:140px;
+}
+.filter label{
+	float:left;
+	width:auto;
+}
+
+form h2{
+	margin-top:10px;
+	color: #FF7200;
+	margin-bottom:5px;
+}
