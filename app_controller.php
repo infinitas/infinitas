@@ -356,6 +356,10 @@ class AppController extends Controller {
 				$record[$model][$this->$model->displayField] = $record[$model][$this->$model->displayField] . $copyText;
 			}
 
+			$record[$model]['active'] = 0;
+			unset( $record[$model]['created'] );
+			unset( $record[$model]['modified'] );
+
 			$this->$model->create();
 
 			if ($this->$model->save($record)) {
