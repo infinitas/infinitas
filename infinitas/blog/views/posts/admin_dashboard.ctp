@@ -44,18 +44,18 @@
 						<h3>
 							<?php
 								echo $this->Html->link(
-									$feed[0]['title'],
+									$feed['Feed']['title'],
 									array(
-										'plugin' => $feed[0]['plugin'],
-										'controller' => $feed[0]['controller'],
-										'action' => $feed[0]['action'],
-										$feed[0]['id']
+										'plugin' => $feed['Feed']['plugin'],
+										'controller' => $feed['Feed']['controller'],
+										'action' => $feed['Feed']['action'],
+										$feed['Feed']['id']
 									)
 								);
 							?>
 						</h3>
-						<div class="time"><?php echo $this->Time->niceShort($feed[0]['created']); ?></div>
-						<div class="preview"><?php echo $feed[0]['intro']; ?></div>
+						<div class="time"><?php echo $this->Time->niceShort($feed['Feed']['created']); ?></div>
+						<div class="preview"><?php echo $feed['Feed']['intro']; ?></div>
 					</div>
 				</li>
 			<?php endforeach; ?>

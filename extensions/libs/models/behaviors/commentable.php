@@ -27,7 +27,7 @@ class CommentableBehavior extends ModelBehavior {
 	* @var array
 	*/
 	var $defaults = array(
-		'plugin' => 'Core',
+		'plugin' => 'Comment',
 		'class' => 'Comment', // name of Comment model
 		'foreign_key' => 'foreign_id', // foreign key of Comment model
 		'counter_cache' => true,
