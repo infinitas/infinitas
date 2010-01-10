@@ -40,4 +40,4 @@ Infinitas Core
 Php4
 	removed private / protected declarations so php 4 can still be used
 
-In total +- 40 issues resloved
+http://infinitas.lighthouseapp.com/projects/43419/milestones/58957-05-alpha
