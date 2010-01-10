@@ -35,7 +35,10 @@
 		)
 	);
 
-	if ( !$numbers )
+	// show a message if nothing is found ( count == 0 or its not set )
+	if (
+		!isset($this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count']) ||
+		$this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count'] == 0 )
 	{
 		echo '<p class="empty">', __( Configure::read( 'Pagination.nothing_found_message' ), true ), '</p>';
 		echo $this->Design->niceBoxEnd();
@@ -94,6 +97,9 @@
         <div class="button2-left">
             <div class="numbers">
                 <?php
+                	if (!$numbers){
+                	  	echo '<span class="current">1</span>';
+                	}
 					echo $numbers;
                 ?>
                 <span class="blank"></span>
