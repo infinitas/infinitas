@@ -187,7 +187,7 @@ class PostsController extends BlogAppController {
 				'feed' => array(
 					'Core.Comment' => array(
 						'setup' => array(
-							'plugin' => 'Core',
+							'plugin' => 'Comment',
 							'controller' => 'comments',
 							'action' => 'view',
 							),

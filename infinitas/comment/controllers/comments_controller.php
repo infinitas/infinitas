@@ -106,7 +106,7 @@ class CommentsController extends AppController {
 			$this->redirect($this->referer());
 		}
 
-		$ids = ClassRegistry::init('Core.Comment')->find(
+		$ids = ClassRegistry::init('Comment.Comment')->find(
 			'list',
 			array(
 				'fields' => array(
@@ -129,7 +129,7 @@ class CommentsController extends AppController {
 		$counter = 0;
 
 		foreach($ids as $id) {
-			if (ClassRegistry::init('Core.Comment')->delete($id)) {
+			if (ClassRegistry::init('Comment.Comment')->delete($id)) {
 				$counter++;
 			}
 		}

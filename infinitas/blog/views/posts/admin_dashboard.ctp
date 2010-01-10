@@ -94,10 +94,10 @@
 		</div>
 	</div>
 	<div class="column-b">
-		<div class="box blog-feed clear">
+		<div class="box blog-feed clr">
 			<h3 class="left"><?php __('Recent activity'); ?></h3>
 			<div class="view-all left">&nbsp;<?php echo $html->link('(view all)', array('controller' => 'posts')); ?></div>
-			<ul class="feed clear">
+			<ul class="feed clr">
 				<?php foreach($blogFeeds as $feed): ?>
 					<?php
 						if (!isset($iteration)) $iteration = 0;
@@ -107,7 +107,7 @@
 							$icon = 'comment';
 						}
 					?>
-					<li class="clear <?php if ($iteration % 2) echo 'alternate'; ?>" style="background-image: url(<?php echo $html->url('/img/core/icons/fatcow/16/' . $icon . '.png'); ?>);">
+					<li class="clr <?php if ($iteration % 2) echo 'alternate'; ?>" style="background-image: url(<?php echo $html->url('/img/core/icons/fatcow/16/' . $icon . '.png'); ?>);">
 						<div class="item">
 							<h4>
 								<strong><?php echo Inflector::singularize(ucfirst($feed['Feed']['controller'])); ?></strong>:
@@ -124,12 +124,12 @@
 								?>
 							</h4>
 							<div class="time quiet"><?php echo $this->Time->niceShort($feed['Feed']['created']); ?></div>
-							<div class="preview clear"><?php echo $text->truncate($feed['Feed']['intro'], 150, array('exact' => false, 'html' => true)); ?></div>
+							<div class="preview clr"><?php echo $text->truncate($feed['Feed']['intro'], 150, array('exact' => false, 'html' => true)); ?></div>
 						</div>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
 	</div>
-	<div class="clear"></div>
+	<div class="clr"></div>
 </div>

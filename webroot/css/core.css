@@ -188,16 +188,21 @@ img {
  * messages
  */
 #flashMessage{
-    background: #EBEBEB url(../img/warning.png) 5px 5px no-repeat;
-    font-size:120%;
-    height:20px;
-    margin:5px auto auto;
-    padding-left:30px;
-    padding-top:5px;
-    text-align:left;
+	position: absolute;
+	background: #EBEBEB;
+	border:1px solid #FF9600;
+	font-size:120%;
+    margin: 5px 40px 5px;
+	text-align:center;
+	padding:10px;
     width:250px;
 }
-
+/*
+* default id for flash messages
+*/
+div.message {
+	font-weight: bold;
+}
 /**
  * Status images
  */
