@@ -59,9 +59,9 @@ class InstallController extends InstallerAppController {
 		$this->Session = new SessionComponent;
 
 		$this->sql = array(
-			'core_tables' => APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas.sql',
-			'core_data' => APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
-			'core_sample_data' => APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
+			'core_tables' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas.sql',
+			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
+			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
 			);
 	}
 
@@ -186,7 +186,7 @@ class InstallController extends InstallerAppController {
 		$this->set('title_for_layout', __('Database Configuration', true));
 		if (!empty($this->data)) {
 			if ($this->__testConnection()) {
-				copy(APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
+				copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
 				App::import('Core', 'File');
 				$file = new File(APP . 'config' . DS . 'database.php', true);
@@ -280,7 +280,7 @@ class InstallController extends InstallerAppController {
 		$this->pageTitle = __('Installation completed successfully', true);
 
 		if (isset($this->params['named']['rename'])) {
-			if (is_dir(APP . 'plugins' . DS . 'installer') && rename(APP . 'plugins' . DS . 'installer', APP . 'plugins' . DS . 'installer' . time())) {
+			if (is_dir(APP . 'infinitas' . DS . 'installer') && rename(APP . 'infinitas' . DS . 'installer', APP . 'infinitas' . DS . 'installer' . time())) {
 				$this->Session->setFlash(__('The instilation folder has been renamed, if you ever need to run installation again just rename it back to installer.', true));
 			}else {
 				$this->Session->setFlash(__('Could not find the installer directory.', true));
