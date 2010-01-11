@@ -10,11 +10,11 @@
 */
 
 class CreateZipFile {
-	public $compressedData = array();
-	public $centralDirectory = array(); // central directory
-	public $endOfCentralDirectory = "\x50\x4b\x05\x06\x00\x00\x00\x00"; //end of Central directory record
-	public $oldOffset = 0;
-	public $mainPath = '';
+	var $compressedData = array();
+	var $centralDirectory = array(); // central directory
+	var $endOfCentralDirectory = "\x50\x4b\x05\x06\x00\x00\x00\x00"; //end of Central directory record
+	var $oldOffset = 0;
+	var $mainPath = '';
 
 	/**
 	* Function to create the directory where the file(s) will be unzipped
@@ -23,7 +23,7 @@ class CreateZipFile {
 	* @access public
 	* @return void
 	*/
-	public function addDirectory($directoryName) {
+	function addDirectory($directoryName) {
 		$directoryName = str_replace($this->mainPath, '', $directoryName);
 		$directoryName = str_replace("\\", "/", $directoryName);
 		$directoryName = substr($directoryName, 1);
@@ -72,7 +72,7 @@ class CreateZipFile {
 	* @return void
 	* @access public
 	*/
-	public function addFile($data, $directoryName) {
+	function addFile($data, $directoryName) {
 		$directoryName = str_replace($this->mainPath, '', $directoryName);
 		$directoryName = str_replace("\\", "/", $directoryName);
 		$directoryName = substr($directoryName, 1);
@@ -126,7 +126,7 @@ class CreateZipFile {
 	* @access public
 	* @return void
 	*/
-	public function getZippedfile() {
+	function getZippedfile() {
 		$data = implode("", $this->compressedData);
 		$controlDirectory = implode("", $this->centralDirectory);
 
@@ -148,7 +148,7 @@ class CreateZipFile {
 	* @access private
 	* @return array
 	*/
-	private function parseDirectory($rootPath, $seperator = "/") {
+	function parseDirectory($rootPath, $seperator = "/") {
 		$fileArray = array();
 		$handle = opendir($rootPath);
 		while (($file = @readdir($handle)) !== false) {
@@ -171,7 +171,7 @@ class CreateZipFile {
 	* @access public
 	* @return void
 	*/
-	public function zipDirectory($dirName, $outputDir) {
+	function zipDirectory($dirName, $outputDir) {
 		if (!is_dir($dirName)) {
 			trigger_error("CreateZipFile FATAL ERROR: Could not locate the specified directory $dirName", E_USER_ERROR);
 		}

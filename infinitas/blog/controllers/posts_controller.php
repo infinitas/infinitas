@@ -34,7 +34,7 @@ class PostsController extends BlogAppController {
 	* @var array
 	*/
 	var $helpers = array(
-		'Core.Geshi',
+		'Libs.Geshi',
 		'Filter.Filter'
 		);
 
@@ -117,6 +117,8 @@ class PostsController extends BlogAppController {
 					'Post.active',
 					'Post.views',
 					'Post.comment_count',
+					'Post.rating',
+					'Post.rating_count',
 					'Post.created',
 					'Post.modified'
 					),
@@ -185,7 +187,7 @@ class PostsController extends BlogAppController {
 				'feed' => array(
 					'Core.Comment' => array(
 						'setup' => array(
-							'plugin' => 'Core',
+							'plugin' => 'Comment',
 							'controller' => 'comments',
 							'action' => 'view',
 							),
@@ -220,8 +222,14 @@ class PostsController extends BlogAppController {
 	function admin_index() {
 		$this->Post->recursive = 0;
 		$posts = $this->paginate(null, $this->Filter->filter);
-		$this->set(compact('posts'));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'title',
+			'body'
+		);
+
+		$this->set(compact('posts','filterOptions'));
 	}
 
 	/**

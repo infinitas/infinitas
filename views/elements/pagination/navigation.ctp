@@ -20,7 +20,30 @@
 ?>
 <div class="clr">&nbsp;</div>
 <?php
-     echo $this->Design->niceBox( 'pagination' );
+	echo $this->Design->niceBox( 'pagination' );
+
+	$numbers = $paginator->numbers(
+		array(
+			'tag' => 'span',
+			'before' => null,
+			'after' => null,
+			'model' => null,
+			'modulus' => '8',
+			'separator' => '',
+			'first' => null,
+			'last' => null
+		)
+	);
+
+	// show a message if nothing is found ( count == 0 or its not set )
+	if (
+		!isset($this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count']) ||
+		$this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count'] == 0 )
+	{
+		echo '<p class="empty">', __( Configure::read( 'Pagination.nothing_found_message' ), true ), '</p>';
+		echo $this->Design->niceBoxEnd();
+		return true;
+	}
 ?>
     <div class="wrap">
         <div class="limit">
@@ -74,27 +97,10 @@
         <div class="button2-left">
             <div class="numbers">
                 <?php
-                    $numbers = $paginator->numbers(
-                        array(
-                            'tag' => 'span',
-                            'before' => null,
-                            'after' => null,
-                            'model' => null,
-                            'modulus' => '8',
-                            'separator' => '',
-                            'first' => null,
-                            'last' => null
-                        )
-                    );
-
-                    if ( $numbers === false )
-                    {
-                        echo '<span><b>1</b></span>';
-                    }
-                    else
-                    {
-                        echo $numbers;
-                    }
+                	if (!$numbers){
+                	  	echo '<span class="current">1</span>';
+                	}
+					echo $numbers;
                 ?>
                 <span class="blank"></span>
             </div>

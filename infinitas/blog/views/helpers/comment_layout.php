@@ -21,13 +21,13 @@ class CommentLayoutHelper extends BlogHelper {
 		// cake helpers
 		'Form', 'Time', 'Html',
 		// core helpers
-		'Core.Geshi', 'Core.Wysiwyg', 'Core.Gravatar'
+		'Libs.Geshi', 'Libs.Wysiwyg', 'Libs.Gravatar'
 		);
 
 	/**
 	* Url to adding comments
 	*/
-	private $addCommentUrl = array(
+	var $addCommentUrl = array(
 		'url' => array(
 			'plugin' => 'blog',
 			'controller' => 'comments',

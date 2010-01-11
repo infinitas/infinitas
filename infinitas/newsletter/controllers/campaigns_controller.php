@@ -69,8 +69,13 @@ class CampaignsController extends NewsletterAppController {
 
 		$campaigns = $this->paginate('Campaign', $this->Filter->filter);
 
-		$this->set(compact('campaigns'));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'name',
+			'description'
+		);
+
+		$this->set(compact('campaigns','filterOptions'));
 	}
 
 	function admin_add() {
@@ -181,7 +186,7 @@ class CampaignsController extends NewsletterAppController {
 		return false;
 	}
 
-	protected function admin_mass() {
+	function admin_mass() {
 		$model = $this->modelNames[0];
 		$ids = $this->__massGetIds($this->data[$model]);
 
@@ -196,7 +201,7 @@ class CampaignsController extends NewsletterAppController {
 		} // switch
 	}
 
-	private function __canDelete($ids) {
+	function __canDelete($ids) {
 		$newsletters = $this->Campaign->Newsletter->find(
 			'list',
 			array(

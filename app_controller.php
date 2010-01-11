@@ -18,18 +18,21 @@
 */
 
 class AppController extends Controller {
+
+	var $view = 'Theme';
+
 	var $helpers = array(
 		'Html', 'Form', 'Javascript',
 
-		'Core.Status', 'Image', 'Design'
+		'Libs.Status', 'Libs.Image', 'Libs.Design'
 		);
 
 	var $components = array(
-		'Core.CoreConfig',
+		'Libs.Infinitas',
 		// cake components
-		'Session',
+		'Session','RequestHandler',
 		// core components
-		'DebugKit.Toolbar', // 'Core.Cron',
+		'DebugKit.Toolbar', // 'Libs.Cron',
 		// components
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
@@ -45,132 +48,40 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		Configure::load('images');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
-			if (isset($this->params['named']['limit'])) {
-				unset($this->params['named']['limit']);
-			}
+			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
+		}
 
-			$this->params['named']['limit'] = $this->data['PaginationOptions']['pagination_limit'];
+		if (isset($this->params['named']['limit'])) {
+			$this->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->params['named']['limit']);
+		}
 
-			$this->redirect(
-				array(
-					'plugin' => $this->params['plugin'],
-					'controller' => $this->params['controller'],
-					'action' => $this->params['action']
-					) + $this->params['named']
-				);
+		if (Configure::read('Website.force_www')) {
+			$this->Infinitas->forceWwwUrl();
 		}
 
 		$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
 
-		if (sizeof($this->uses) && (isset($this-> {
-						$this->modelClass} ->Behaviors) && $this-> {
-					$this->modelClass} ->Behaviors->attached('Logable'))) {
-			$this-> {
-				$this->modelClass} ->setUserData($this->Session->read('Auth'));
+		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
+			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		$this->__checkUrl();
-		$this->__setupLayout();
-
-		$this->__setupCache();
+		//$this->layout = $this->Infinitas->getCorrectLayout($this->params);
 
 		$this->set('commentModel', 'Comment');
 
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && !in_array($this->params['action'], $this->viewableActions)) {
-			if (isset($this-> {
-						$this->modelClass} ->Behaviors)) {
-				$this-> {
-					$this->modelClass} ->Behaviors->detach('Viewable');
+			if (isset($this->{$this->modelClass}->Behaviors)) {
+				$this->{$this->modelClass}->Behaviors->detach('Viewable');
 			}
 		}
-	}
-
-	/**
-	* Check the url is www.
-	*
-	* will redirect to www. if it is not set.
-	*
-	* @return true ;
-	*/
-	private function __checkUrl() {
-	}
-
-	/**
-	* Setup layout based on the prefix.
-	*
-	* Sets the layout to the corect var based on what path the user visits.
-	*
-	* @return bool true
-	*/
-	private function __setupLayout() {
-		$prefix = '';
-		if (isset($this->params['prefix'])) {
-			$prefix = $this->params['prefix'];
-		}
-		switch ($prefix) {
-			case 'admin':
-				$this->layout = 'admin';
-				break;
-
-			case 'client':
-				$this->layout = 'client';
-				break;
-
-			default:
-				$this->layout = 'default';
-		} // switch
-		return true;
-	}
-
-	private function __setupCache() {
-		Cache::config(
-			'cms',
-			array(
-				'engine' => 'File',
-				'duration' => 3600,
-				'probability' => 100,
-				'prefix' => '',
-				'lock' => false,
-				'serialize' => true,
-				'path' => CACHE . 'cms'
-				)
-			);
-
-		Cache::config(
-			'core',
-			array(
-				'engine' => 'File',
-				'duration' => 3600,
-				'probability' => 100,
-				'prefix' => '',
-				'lock' => false,
-				'serialize' => true,
-				'path' => CACHE . 'core'
-				)
-			);
-
-		Cache::config(
-			'blog',
-			array(
-				'engine' => 'File',
-				'duration' => 3600,
-				'probability' => 100,
-				'prefix' => '',
-				'lock' => false,
-				'serialize' => true,
-				'path' => CACHE . 'blog'
-				)
-			);
 	}
 
 	/**
 	* Common methods for the app
 	*/
-
-	protected function comment($id = null) {
+	function comment($id = null) {
 		if (!empty($this->data['Comment'])) {
 			$message = 'Your comment has been saved and will be available after admin moderation.';
 			if (Configure::read('Comments.auto_moderate') === true) {
@@ -180,10 +91,31 @@ class AppController extends Controller {
 
 			if ($this->Post->createComment($id, $this->data)) {
 				$this->Session->setFlash(__($message, true));
-				$this->redirect(array('action' => 'view', $this->data[$this->modelClass]['id']));
+				$this->redirect($this->referer());
 			} else {
 				$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
 			}
+		}
+	}
+
+	function rate($id = null) {
+		if (!empty($this->data['Rating'])) {
+			if (Configure::read('Rating.require_auth') === true) {
+				$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
+				if (!$this->data['Rating']['user_id']) {
+					$this->Session->setFlash(__('You need to be logged in to rate this item',true));
+					$this->redirect('/login');
+				}
+			}
+
+			$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
+
+			if ($this->{$this->modelClass}->rateRecord($this->data)) {
+				$this->Session->setFlash(__('Your rating was saved.', true));
+			} else {
+				$this->Session->setFlash(__('There was a problem submitting your vote', true));
+			}
+			$this->redirect($this->referer());
 		}
 	}
 
@@ -206,7 +138,7 @@ class AppController extends Controller {
 	* @param int $id the id of the record to move.
 	* @return does a redirect to the referer.
 	*/
-	protected function admin_reorder($id = null) {
+	function admin_reorder($id = null) {
 		$model = $this->modelNames[0];
 
 		if (!$id) {
@@ -252,7 +184,7 @@ class AppController extends Controller {
 	* @param mixed $id the id of the record
 	* @return n /a, redirects with different messages in {@see Session::setFlash}
 	*/
-	protected function admin_toggle($id = null) {
+	function admin_toggle($id = null) {
 		$model = $this->modelNames[0];
 
 		if (!$id) {
@@ -287,7 +219,7 @@ class AppController extends Controller {
 	* @param mixed $id the id of the record.
 	* @return n /a just redirects with different messages in {@see Session::setFlash}
 	*/
-	protected function admin_delete($id = null) {
+	function admin_delete($id = null) {
 		$model = $this->modelNames[0];
 
 		if (!$id) {
@@ -305,9 +237,8 @@ class AppController extends Controller {
 		echo 'moved to comments';
 	}
 
-	protected function admin_mass() {
-		$model = $this->modelNames[0];
-		$ids = $this->__massGetIds($this->data[$model]);
+	function admin_mass() {
+		$ids = $this->__massGetIds($this->data[$this->modelClass]);
 
 		switch ($this->__massGetAction($this->params['form'])) {
 			case 'delete':
@@ -322,14 +253,30 @@ class AppController extends Controller {
 				$this->__massActionCopy($ids);
 				break;
 
+			case 'filter':
+				$data = array();
+				foreach( $this->data[$this->modelClass] as $k => $field ){
+					if ( is_int( $k ) || $k == 'all' ){
+						continue;
+					}
+					$data[$this->modelClass.'.'.$k] = $field;
+				}
+				$this->redirect(array(
+						'plugin' => $this->params['plugin'],
+						'controller' => $this->params['controller'],
+						'action' => 'index'
+					) + $this->params['named'] + $data
+				);
+				break;
+
 			default:
 				$this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
 				break;
 		} // switch
 	}
 
-	protected function __massGetIds($data) {
-		if (in_array($this->__massGetAction($this->params['form']), array('add'))) {
+	function __massGetIds($data) {
+		if (in_array($this->__massGetAction($this->params['form']), array('add','filter'))) {
 			return null;
 		}
 
@@ -352,7 +299,7 @@ class AppController extends Controller {
 		return $ids;
 	}
 
-	protected function __massGetAction($form) {
+	function __massGetAction($form) {
 		if (isset($form['action'])) {
 			return $form['action'];
 		}
@@ -361,7 +308,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionDelete($ids) {
+	function __massActionDelete($ids) {
 		$model = $this->modelNames[0];
 
 		$conditions = array($model . '.' . $this->$model->primaryKey => $ids
@@ -376,7 +323,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionToggle($ids) {
+	function __massActionToggle($ids) {
 		$model = $this->modelNames[0];
 		$this->$model->recursive = - 1;
 		$ids = $ids + array(0);
@@ -394,7 +341,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionCopy($ids) {
+	function __massActionCopy($ids) {
 		$model = $this->modelNames[0];
 		$this->$model->recursive = - 1;
 
@@ -408,6 +355,10 @@ class AppController extends Controller {
 			if ($record[$model][$this->$model->displayField] != $this->$model->primaryKey) {
 				$record[$model][$this->$model->displayField] = $record[$model][$this->$model->displayField] . $copyText;
 			}
+
+			$record[$model]['active'] = 0;
+			unset( $record[$model]['created'] );
+			unset( $record[$model]['modified'] );
 
 			$this->$model->create();
 
@@ -425,7 +376,7 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
-	protected function __massActionGeneric($action, $ids) {
+	function __massActionGeneric($action, $ids) {
 		if (!$ids) {
 			$this->redirect(array('action' => $action));
 		}

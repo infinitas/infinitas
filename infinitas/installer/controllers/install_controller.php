@@ -43,6 +43,8 @@ class InstallController extends InstallerAppController {
 	var $components = null;
 
 	var $phpVersion = '5.0';
+	
+	var $sqlVersion = '4';
 
 	/**
 	* beforeFilter
@@ -57,9 +59,9 @@ class InstallController extends InstallerAppController {
 		$this->Session = new SessionComponent;
 
 		$this->sql = array(
-			'core_tables' => APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas.sql',
-			'core_data' => APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
-			'core_sample_data' => APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
+			'core_tables' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas.sql',
+			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
+			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
 			);
 	}
 
@@ -71,41 +73,48 @@ class InstallController extends InstallerAppController {
 	function index() {
 		$this->set('title_for_layout', __('Installation: Welcome', true));
 		// core setup
-		$setup[] = array (
-			'label' => __('PHP version', true) . ' >= ' . $this->phpVersion . '.x',
-			'value' => phpversion() >= $this->phpVersion ? 'Yes' : 'No',
-			'desc' => 'Php ' . $this->phpVersion . '.x is recomended, although php 4.x may run Infinitas fine.'
-			);
+		$setup = array(
+			array(
+				'label' => __('PHP version', true) . ' >= ' . $this->phpVersion . '.x',
+				'value' => phpversion() >= $this->phpVersion ? 'Yes' : 'No',
+				'desc' => 'Php ' . $this->phpVersion . '.x is recomended, although php 4.x may run Infinitas fine.'
+			),
+			array (
+				'label' => __('zlib compression support', true),
+				'value' => extension_loaded('zlib') ? 'Yes' : 'No',
+				'desc' => 'zlib is required for some of the functionality in Infinitas'
+			),
+			array (
+				'label' => __('MySQL support', true),
+				'value' => (function_exists('mysql_connect')) ? 'Yes' : 'No',
+				'desc' => 'Infinitas uses mysql for generating dynamic content. Other databases will follow soon.'
+			),
+			array (
+				'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
+				'value' => (substr(mysql_get_client_info(), 0, 1) >= 4) ? 'Yes' : 'No',
+				'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
+			)
+		);
 
-		$setup[] = array (
-			'label' => __('zlib compression support', true),
-			'value' => extension_loaded('zlib') ? 'Yes' : 'No',
-			'desc' => 'zlib is required for some of the functionality in Infinitas'
-			);
-
-		$setup[] = array (
-			'label' => __('MySQL support', true),
-			'value' => (function_exists('mysql_connect')) ? 'Yes' : 'No',
-			'desc' => 'Infinitas uses mysql for generating dynamic content. Other databases will follow soon.'
-			);
 		// path status
-		$paths[] = array (
-			'path' => APP . 'config',
-			'writeable' => is_writable(APP . 'config') ? 'Yes' : 'No',
-			'desc' => 'This path needs to be writeable for Infinitas to complete the installation.'
-			);
+		$paths = array(
+			array(
+				'path' => APP . 'config',
+				'writeable' => is_writable(APP . 'config') ? 'Yes' : 'No',
+				'desc' => 'This path needs to be writeable for Infinitas to complete the installation.'
+			),
+			array (
+				'path' => APP . 'tmp',
+				'writeable' => is_writable(APP . 'tmp') ? 'Yes' : 'No',
+				'desc' => 'The tmp dir needs to be writable for caching to work in Infinitas.'
+			),
+			array (
+				'path' => APP . 'webroot',
+				'writeable' => is_writable(APP . 'webroot') ? 'Yes' : 'No',
+				'desc' => 'This needs to be web accesible or your images and css will not be found.'
+			)
+		);
 
-		$paths[] = array (
-			'path' => APP . 'tmp',
-			'writeable' => is_writable(APP . 'tmp') ? 'Yes' : 'No',
-			'desc' => 'The tmp dir needs to be writable for caching to work in Infinitas.'
-			);
-
-		$paths[] = array (
-			'path' => APP . 'webroot',
-			'writeable' => is_writable(APP . 'webroot') ? 'Yes' : 'No',
-			'desc' => 'This needs to be web accesible or your images and css will not be found.'
-			);
 		// recomendations
 		$recomendations = array (
 			array (
@@ -177,7 +186,7 @@ class InstallController extends InstallerAppController {
 		$this->set('title_for_layout', __('Database Configuration', true));
 		if (!empty($this->data)) {
 			if ($this->__testConnection()) {
-				copy(APP . 'plugins' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
+				copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
 				App::import('Core', 'File');
 				$file = new File(APP . 'config' . DS . 'database.php', true);
@@ -271,7 +280,7 @@ class InstallController extends InstallerAppController {
 		$this->pageTitle = __('Installation completed successfully', true);
 
 		if (isset($this->params['named']['rename'])) {
-			if (is_dir(APP . 'plugins' . DS . 'installer') && rename(APP . 'plugins' . DS . 'installer', APP . 'plugins' . DS . 'installer' . time())) {
+			if (is_dir(APP . 'infinitas' . DS . 'installer') && rename(APP . 'infinitas' . DS . 'installer', APP . 'infinitas' . DS . 'installer' . time())) {
 				$this->Session->setFlash(__('The instilation folder has been renamed, if you ever need to run installation again just rename it back to installer.', true));
 			}else {
 				$this->Session->setFlash(__('Could not find the installer directory.', true));

@@ -26,7 +26,7 @@ class BlogAppController extends AppController {
 		// cake helpers
 		'Time', 'Text', 'Form',
 		// core helpers
-		'Core.TagCloud',
+		'Libs.TagCloud',
 		// plugin helpers
 		'Blog.Blog', 'Google.Chart',
 		// layout helpers
@@ -53,7 +53,7 @@ class BlogAppController extends AppController {
 		$this->set('postPending', ClassRegistry::init('Blog.Post')->getPending());
 		$this->set('postPopular', ClassRegistry::init('Blog.Post')->getPopular());
 
-		$this->set('commentCount', ClassRegistry::init('Core.Comment')->getCounts('Post'));
+		$this->set('commentCount', ClassRegistry::init('Comment.Comment')->getCounts('Post'));
 	}
 
 	/**

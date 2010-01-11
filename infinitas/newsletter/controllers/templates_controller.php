@@ -32,7 +32,7 @@ class TemplatesController extends NewsletterAppController {
 		'Filter.Filter'
 		);
 
-	private $sampleText = '<p>This is some sample text to test your template</p>';
+	var $sampleText = '<p>This is some sample text to test your template</p>';
 
 	function beforeFilter() {
 		parent::beforeFilter();
@@ -53,10 +53,14 @@ class TemplatesController extends NewsletterAppController {
 				)
 			);
 
-		$templates = $this->paginate('Template');
+		$templates = $this->paginate( null, $this->Filter->filter );
 
-		$this->set(compact('templates'));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'name'
+		);
+
+		$this->set(compact('templates','filterOptions'));
 	}
 
 	function admin_add() {
@@ -218,7 +222,7 @@ class TemplatesController extends NewsletterAppController {
 		parent::admin_delete($id);
 	}
 
-	protected function admin_mass() {
+	function admin_mass() {
 		$model = $this->modelNames[0];
 		$ids = $this->__massGetIds($this->data[$model]);
 
@@ -233,7 +237,7 @@ class TemplatesController extends NewsletterAppController {
 		} // switch
 	}
 
-	private function __canDelete($ids) {
+	function __canDelete($ids) {
 		$newsletters = $this->Template->Newsletter->find(
 			'list',
 			array(

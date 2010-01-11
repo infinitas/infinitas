@@ -21,7 +21,7 @@ class BlogHelper extends AppHelper {
 		// cake helpers
 		'Html', 'Form', 'Text', 'Time',
 		// core helpers
-		'Image', 'Design', 'Core.Wysiwyg'
+		'Libs.Image', 'Libs.Design', 'Libs.Wysiwyg'
 		);
 
 	/**

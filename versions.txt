@@ -1,0 +1,43 @@
+v0.5 alpha
+================================================================================
+Themes support
+	- switch themes easily (no admin interface yet)
+
+Newsletter template export
+	- export templates to share with others
+
+Commentable Behavior
+	- set any model to allow comments
+
+Installer
+	- Set up infinitus on your server easily
+
+Rateable Behavior
+	- Set any model to be rateable
+
+Feedable Behavior
+	- pull a feed from any number of unrelated models
+	- eg: comments posts from the blog with content items from the cms
+
+Loggable behavior
+	- log all actions on your site to know who is accountable for changes
+
+Ordered behavior
+	- order records the way you want them
+
+Filter plugin
+	- filter records to find what you want by any field you set
+
+Mass actions
+	- delete / copy etc many records in any model by checking some boxes
+
+Cms :: MPTT
+	- removed sections in favor of a mptt category tree
+
+Infinitas Core
+	- all moved to seperate dir so users can create plugins without touching core
+
+Php4
+	removed private / protected declarations so php 4 can still be used
+
+http://infinitas.lighthouseapp.com/projects/43419/milestones/58957-05-alpha

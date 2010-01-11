@@ -21,8 +21,8 @@ class Category extends CmsAppModel {
 	var $name = 'Category';
 
 	var $actsAs = array(
-		'Core.Sluggable',
-		'Core.Viewable',
+		'Libs.Sluggable',
+		'Libs.Viewable',
 		'Tree'
 		);
 

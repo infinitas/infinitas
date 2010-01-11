@@ -26,7 +26,7 @@ class AppHelper extends Helper {
 
 	var $wysiwyg = 'fck';
 
-	var $helpers = array('Html', 'Design', 'Core.Wysiwyg', 'Core.Gravatar');
+	var $helpers = array('Html', 'Libs.Design', 'Libs.Wysiwyg', 'Libs.Gravatar');
 
 	/**
 	* create some bread crumbs.
@@ -139,7 +139,10 @@ class AppHelper extends Helper {
 
 		App::import('Helper', 'FilterHelper');
 
-		$filters = $this->Design->niceBox('filter', FilterHelper::clear($filterOptions));
+		$filters = $this->Design->niceBox(
+			'filter',
+			FilterHelper::form( 'Post', $filterOptions ).FilterHelper::clear($filterOptions)
+			);
 
 		return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
 	}

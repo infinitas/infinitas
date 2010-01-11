@@ -68,8 +68,15 @@ class CategoriesController extends CmsAppController {
 
 	function admin_index() {
 		$this->Category->recursive = 0;
-		$this->set('categories', $this->paginate(null, $this->Filter->filter));
-		$this->set('filterOptions', $this->Filter->filterOptions);
+
+		$categories = $this->paginate(null, $this->Filter->filter);
+
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'title',
+			'description'
+		);
+		$this->set(compact('filterOptions','categories'));
 	}
 
 	function admin_view($id = null) {

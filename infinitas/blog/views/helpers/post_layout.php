@@ -21,7 +21,7 @@ class PostLayoutHelper extends BlogHelper {
 		// cake helpers
 		'Time', 'Text', 'Html',
 		// core helpers
-		'Core.Geshi', 'Core.Status',
+		'Libs.Geshi', 'Libs.Status',
 		// blog helpers
 		'Blog.Blog'
 		);
@@ -58,8 +58,15 @@ class PostLayoutHelper extends BlogHelper {
 	* @return string :: html code for the post head
 	*/
 	function indexPostHead() {
-		$out = '<div class="header">' .
-		'<h3>' . $this->data['Post']['title'] . '</h3>';
+		$out = '<div class="header"><h3>';
+		$out .= $this->Html->link(
+			$this->data['Post']['title'],
+			array(
+				'plugin' => 'blog',
+				'controller' => 'posts',
+				'action' => 'view',
+				(!empty($this->data['Post']['slug'])) ? $this->data['Post']['slug'] : $this->data['Post']['id']));
+		$out .= '</h3>';
 		$out .= '<div class="date">' . $this->Time-> {
 			$this->dateFormat}
 		($this->data['Post']['created']) . '</div>';

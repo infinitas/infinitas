@@ -5,8 +5,9 @@ tmp/*
 plugins/*
 libs/cronjobs
 .gitignore
+views/themed/*
 
-# If you are using an ide other than bellow add ignores for the files it creates
+# If you are using an ide other than below add ignores for the files it creates
 # and commit the changes.
 
 # PHPEdit project files

@@ -30,11 +30,12 @@ class Post extends BlogAppModel {
 		);
 
 	var $actsAs = array(
-		'Core.Sluggable',
-		'Core.Viewable',
-		'Core.Feedable',
-		'Core.Commentable'
-		);
+		'Libs.Sluggable',
+		'Libs.Viewable',
+		'Libs.Feedable',
+		'Libs.Commentable',
+		'Libs.Rateable'
+	);
 
 	var $validate = array(
 		'title' => array(
@@ -69,11 +70,6 @@ class Post extends BlogAppModel {
 		);
 
 	var $hasMany = array(
-		'Comment' => array(
-			'className' => 'Core.Comment',
-			'foreignKey' => 'foreign_id',
-			'dependent' => true
-			)
 		);
 
 	var $belongsTo = array(

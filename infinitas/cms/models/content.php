@@ -32,8 +32,8 @@ class Content extends CmsAppModel {
 		);
 
 	var $actsAs = array(
-		'Core.Sluggable',
-		'Core.Viewable'
+		'Libs.Sluggable',
+		'Libs.Viewable'
 		);
 
 	var $belongsTo = array(

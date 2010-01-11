@@ -1,10 +1,9 @@
 /** import some reset stuff */
 @import url('reset.css');
-@import url('admin/core.css');
-@import url('admin/pagination.css');
-@import url('admin/navigation.css');
-@import url('admin/form.css');
-@import url('/core/css/geshi');
+@import url('core.css');
+@import url('pagination.css');
+@import url('navigation.css');
+@import url('form.css');
 
 /* main styles */
 body {
@@ -38,7 +37,7 @@ a:hover {text-decoration: underline}
         #header {
         	width:100%;
         	height:106px;
-        	background: url(../img/admin/header-middle.jpg) repeat-x left bottom;
+        	background: url(../img/header-middle.jpg) repeat-x left bottom;
     	}
             #header .left, #header .right{
                 width:19px;
@@ -46,21 +45,21 @@ a:hover {text-decoration: underline}
             }
 
             #header .left{
-            	background:url(../img/admin/header-left.jpg) no-repeat left bottom;
+            	background:url(../img/header-left.jpg) no-repeat left bottom;
             }
 
             #header .right{
                 float:right;
-            	background:url(../img/admin/header-right.jpg) no-repeat right bottom;
+            	background:url(../img/header-right.jpg) no-repeat right bottom;
             }
 
         /* main body */
         #middle {
             padding-left:15px;
-            background:#FFFFFF url(../img/admin/middle-left.jpg) repeat-y;
+            background:#FFFFFF url(../img/middle-left.jpg) repeat-y;
         }
             #middle #wrap {
-            	background:url(../img/admin/middle-right.jpg) repeat-y scroll 100% 0;
+            	background:url(../img/middle-right.jpg) repeat-y scroll 100% 0;
                 width:100%;
                 float:right;
             }
@@ -90,7 +89,7 @@ a:hover {text-decoration: underline}
         #footer {
         	width:100%;
         	height:15px;
-        	background:url(../img/admin/footer-middle.jpg) repeat-x;
+        	background:url(../img/footer-middle.jpg) repeat-x;
             clear:both;
     	}
             #footer .left, #footer .right{
@@ -99,12 +98,12 @@ a:hover {text-decoration: underline}
         	}
 
             #footer .left{
-            	background:url(../img/admin/footer-left.jpg) no-repeat left bottom;
+            	background:url(../img/footer-left.jpg) no-repeat left bottom;
             }
 
             #footer .right{
                 float:right;
-            	background:url(../img/admin/footer-right.jpg) no-repeat right bottom;
+            	background:url(../img/footer-right.jpg) no-repeat right bottom;
             }
 
         #bottom-credits{
@@ -119,7 +118,7 @@ a:hover {text-decoration: underline}
 	font-size:11px;
 	margin:0;
 	color:#fff;
-	background:url(../img/admin/bg-left-header.gif) no-repeat left top;
+	background:url(../img/bg-left-header.gif) no-repeat left top;
 	height:25px;
 	line-height:23px;
 	padding:0 0 0 9px;
@@ -129,7 +128,7 @@ a:hover {text-decoration: underline}
 	display:block;
 	width:142px;
 	height:25px;
-	background:url(../img/admin/bg-left-link.gif);
+	background:url(../img/bg-left-link.gif);
 	margin:0 0 4px 0;
 	font-weight:bold;
 	padding:0 0 0 9px;
@@ -163,7 +162,7 @@ div.table {
 	float:left;
 	position:relative;
 	width:100%;
-	margin:0 0 37px 0;
+	margin:0 0 5px 0;
 }
 
 table.listing {
@@ -227,8 +226,8 @@ table.listing .white td {
 table.listing .first {border-left:0px solid #9097A9;text-align:left;}
 table.listing .last {border-right:0px solid #9097A9;}
 
-table.listing th.first {background:#9097A9 url(../img/admin/bg-th-left.gif) no-repeat left top;border-left:0;}
-table.listing th.last {background:#9097A9 url(../img/admin/bg-th-right.gif) no-repeat right top;border-right:0;}
+table.listing th.first {background:#9097A9 url(../img/bg-th-left.gif) no-repeat left top;border-left:0;}
+table.listing th.last {background:#9097A9 url(../img/bg-th-right.gif) no-repeat right top;border-right:0;}
 
 table.listing .style1 {font-weight:bold;color:#FF7A00;}
 table.listing .style2 {font-weight:bold;padding-left:16px;}
@@ -245,7 +244,7 @@ div.table .select {
 	margin:2px 1px 0 0;
 	width:176px;
 	height:25px;
-	background:#9097A9 url(../img/admin/bg-select.gif);
+	background:#9097A9 url(../img/bg-select.gif);
 	color:#fff;
 }
 
@@ -273,3 +272,33 @@ div.table .select select {
 
 .adminTopBar{
 }
+
+/* Dashboard styles */
+
+.dashboard { color: #333; }
+.dashboard h2 { font-size: 14px; margin-bottom: 14px; }
+.dashboard h3, .dashboard h3, .dashboard h3, .dashboard h4 { font-weight: normal; }
+.dashboard a { color: #224488; }
+.dashboard a:hover { color: #f63; text-decoration: none; }
+.dashboard .info { padding: 10px; margin-bottom: 15px; background-color: #f5f5f5; border: 1px dotted #ccc; border-width: 1px 0; }
+.dashboard .column-a { width: 50%; float: left }
+.dashboard .column-b { width: 50%; float: right }
+.dashboard .column-b .box { margin-left: 15px; }
+.dashboard .box h3, .dashboard .box .view-all { font-size: 14px; line-height: 24px; }
+.dashboard .box .view-all a { color: #999; }
+.dashboard .tasks a { color: #333; }
+.dashboard .tasks a:hover div { background-color: #f2f2f2; border-color: #f90; }
+.dashboard .tasks div { background-color: #eee; border-top: 6px solid #cbcbcb; padding: 10px; padding-left: 40px; margin-bottom: 10px; min-height: 50px; background: #eee no-repeat 12px 12px; }
+.dashboard .tasks h4 { font-size: 16px; margin-bottom: 15px; }
+.dashboard .charts li { float: left; border: 1px solid #ccc; margin: 5px 5px 0 0; }
+.dashboard .charts h4 { font-size: 11px; line-height: 16px; padding: 5px; background-color: #ccc; }
+.dashboard .charts img { padding: 5px; }
+.dashboard .feed li { padding: 10px; padding-left: 40px; background: #fcfdfe no-repeat 12px 12px; }
+.dashboard .feed li.alternate { background-color: #eff2f7; }
+.dashboard .feed h4 { font-size: 12px; line-height: 18px; }
+.dashboard .feed .preview { padding-top: 5px; }
+.clear { clear: both; }
+.right { float: right; }
+.left { float: left; }
+.quiet { color: #999; }
+p { line-height: 1.2em; }

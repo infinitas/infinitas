@@ -18,97 +18,19 @@
 */
 
 class AppModel extends Model {
+	/**
+	* The database configuration to use for the site.
+	*/
 	var $useDbConfig = 'default';
 
+	/**
+	* Behaviors to attach to the site.
+	*/
 	var $actsAs = array(
-		'Containable', 'Core.Lockable'
-		// 'Core.Logable' some wierd issues
-		);
-
-	function find($conditions = null, $fields = array(), $order = null, $recursive = null) {
-		switch($conditions) {
-			case 'feed':
-				return $this->__feedableFind($this, $fields);
-				break;
-
-			default:
-				return parent::find($conditions, $fields, $order, $recursive);
-		} // switch
-	}
-
-	function __feedableFind(&$Model, $query) {
-		if (!isset($query['feed'])) {
-			return $query;
-		}
-
-		$sql = 'SELECT ';
-		if (isset($query['setup'])) {
-			$fields = array();
-
-			foreach($query['setup'] as $name => $value) {
-				$fields[] = "'$value' AS $name";
-			}
-
-			$sql .= implode(', ', $fields);
-		}
-
-		if (isset($query['fields'])) {
-			$_fields = array();
-
-			foreach($query['fields'] as $field) {
-				$__fields = explode('.', $field);
-				$_fields[] = $__fields[1];
-			}
-
-			$sql .= ', ' . implode(', ', $_fields);
-		}
-
-		$sql .= ' FROM ' . $Model->tablePrefix . $Model->useTable;
-
-		if (isset($query['feed'])) {
-			foreach($query['feed'] as $key => $feed) {
-				$sql .= ' UNION SELECT ';
-				if (isset($feed['setup'])) {
-					$fields = array();
-
-					foreach($feed['setup'] as $name => $value) {
-						$fields[] = "'$value' AS $name";
-					}
-
-					$sql .= implode(', ', $fields);
-				}
-
-				if (isset($feed['fields'])) {
-					$_fields = array();
-
-					foreach($feed['fields'] as $field) {
-						$__fields = explode('.', $field);
-						$_fields[] = $__fields[1];
-					}
-
-					$sql .= ', ' . implode(', ', $_fields);
-				}
-
-				$__key = explode('.', $key);
-				$__key[0] = strtolower($__key[0]);
-				$__key[1] = strtolower(Inflector::pluralize($__key[1]));
-
-				$sql .= ' FROM ' . implode('_', $__key);
-			}
-		}
-
-		if (isset($query['order'])) {
-			$ordering = array();
-
-			foreach($query['order'] as $key => $value) {
-				$ordering[] = $key . ' ' . $value;
-			}
-
-			$sql .= ' ORDER BY ' . implode(', ', $ordering);
-		}
-
-		return $this->query($sql);
-	}
+		'Containable',
+		'Libs.Lockable',
+		'Libs.Logable'
+	);
 }
 
 ?>
