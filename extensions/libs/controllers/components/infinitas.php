@@ -18,10 +18,9 @@ class InfinitasComponent extends Object {
 		$this->Controller = &$controller;
 		$settings = array_merge(array(), (array)$settings);
 
-		$this->setupConfig(); //must always be first.
-		$this->setupTheme();
-
 		$this->setupCache();
+		$this->setupConfig();
+		$this->setupTheme();
 		$this->loadCoreImages();
 	}
 
@@ -34,7 +33,11 @@ class InfinitasComponent extends Object {
 	* @todo load the users configs also.
 	*/
 	function setupConfig(){
-		$configs = ClassRegistry::init('Management.Config')->getConfig();
+		$configs = Cache::read('core_configs', 'core');
+
+		if (!$configs) {
+			$configs = ClassRegistry::init('Management.Config')->getConfig();
+		}
 
 		foreach($configs as $config) {
 			Configure::write($config['Config']['key'], $config['Config']['value']);
