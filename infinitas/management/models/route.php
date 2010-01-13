@@ -36,6 +36,10 @@
 			'Route.ordering' => 'ASC'
 		);
 
+		var $belongsTo = array(
+			'Core.Theme'
+		);
+
 		function getPlugins(){
 			$plugins = Configure::listObjects('plugin');
 
@@ -66,7 +70,8 @@
 						'Route.pass',
 						'Route.rules',
 						'Route.force_backend',
-						'Route.force_frontend'
+						'Route.force_frontend',
+						'Route.theme_id'
 					),
 					'conditions' => array(
 						'Route.active' => 1
@@ -74,7 +79,14 @@
 					'order' => array(
 						'Route.ordering' => 'ASC'
 					),
-					'contain' => false
+					'contain' => array(
+						'Theme' => array(
+							'fields' => array(
+								'Theme.id',
+								'Theme.name'
+							)
+						)
+					)
 				)
 			);
 
