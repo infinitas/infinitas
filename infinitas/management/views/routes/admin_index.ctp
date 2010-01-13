@@ -41,8 +41,8 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort( 'name' ),
-                    __( 'Url' ),
-                    __( 'route' ),
+                    __( 'Url', true ),
+                    __( 'Route', true ),
                     __( 'Core', true ) => array(
                         'style' => 'width:50px;'
                     )
@@ -62,7 +62,14 @@
                 			<?php echo $route['Route']['url']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo '/'.$route['Route']['plugin'].'/'.$route['Route']['controller'].'/'.$route['Route']['action']; ?>&nbsp;
+                			<?php
+	                			$plugin = ( $route['Route']['plugin'] ) ? $route['Route']['plugin'].'/' : '';
+	                			$controller = ( $route['Route']['controller'] ) ? $route['Route']['controller'].'/' : '';
+	                			$action = ( $route['Route']['action'] ) ? $route['Route']['action'].'/' : '';
+	                			$all = ( $route['Route']['match_all'] ) ? '*' : '';
+
+	                			echo '/'.$plugin.$controller.$action.$all;
+	                		?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Status->status( $route['Route']['core'] ); ?>&nbsp;

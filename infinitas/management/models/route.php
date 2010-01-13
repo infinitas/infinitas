@@ -21,5 +21,23 @@
 		var $name = 'Route';
 
 		var $tablePrefix = 'core_';
+
+		var $blockedPlugins = array(
+			'DebugKit',
+			'Filter',
+			'Libs'
+		);
+
+		function getPlugins(){
+			$plugins = Configure::listObjects('plugin');
+
+			foreach($plugins as $plugin){
+				if (!in_array($plugin, $this->blockedPlugins)){
+					$return[Inflector::underscore($plugin)] = $plugin;
+				}
+			}
+
+			return array(0 => 'None') + (array)$return;
+		}
 	}
 ?>

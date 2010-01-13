@@ -19,12 +19,11 @@
 
     echo $this->Core->adminOtherHead( $this );
     echo $this->Form->create( 'Config' );
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'key' );
-        echo $this->Form->input( 'value' );
-        echo $this->Form->input( 'type' );
-        echo $this->Form->input( 'options', array( 'class' => 'title' ) );
-        echo $this->Form->input( 'core' );
-        echo $this->Core->wysiwyg( 'Config.description' );
+        echo $this->Form->input( 'name' );
+        echo $this->Form->input( 'url', array('value' => '/') );
+        echo $this->Form->input( 'plugin' );
+        echo $this->Form->input( 'controller' );
+        echo $this->Form->input( 'action' );
+        echo $this->Form->input( 'match_all' );
     echo $this->Form->end( 'Save Configuration' );
  ?>
