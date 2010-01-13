@@ -43,5 +43,7 @@
 
 <?php echo $this->Html->link( __( 'Cart', true ), array( 'plugin' => 'cart' ), array( 'class' => 'link' ) ); ?>
 
-<?php echo $this->Html->link( __( 'Global Config', true ), array( 'plugin' => 'management', 'controller' => 'configs' ), array( 'class' => 'link' ) ); ?>
+<?php echo $this->Html->link( __( 'Config Manager', true ), array( 'plugin' => 'management', 'controller' => 'configs' ), array( 'class' => 'link' ) ); ?>
 <?php echo $this->Html->link( __( 'File Manager', true ), array( 'plugin' => 'management', 'controller' => 'file_manager' ), array( 'class' => 'link' ) ); ?>
+<?php echo $this->Html->link( __( 'Routing Manager', true ), array( 'plugin' => 'management', 'controller' => 'routes' ), array( 'class' => 'link' ) ); ?>
+<?php echo $this->Html->link( __( 'Themes Manager', true ), array( 'plugin' => 'management', 'controller' => 'themes' ), array( 'class' => 'link' ) ); ?>
