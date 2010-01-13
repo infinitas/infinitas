@@ -11,28 +11,12 @@
 	if (!$routes) {
 		$routes = Classregistry::init('Management.Route')->getRoutes();
 		if (empty($routes)) {
+			//something is broken
+			// @todo -c Implement .some error message or something
 		}
 	}
 
 	foreach($routes as $route ){
-		//Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex'] );
-		//Router::connect('/p/:year/:month/:day', array('plugin'=>'blog','controller'=>'posts','day'=>null,'admin'=>null),  array('year'=>'[12][0-9]{3}','month'=>'0[1-9]|1[012]','day'=>'0[1-9]|[12][0-9]|3[01]') );
+		Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex'] );
 	}
-	$db = array(
-		'url' => $routes[0]['Route']['url'],
-		'values' => $routes[0]['Route']['values'],
-		'regex' => $routes[0]['Route']['regex']
-
-	);
-
-	$code = array(
-		'url' => '/p/:year/:month/:day',
-		'values' => array('plugin'=>'blog','controller'=>'posts','day'=>null,'admin'=>null),
-		'regex' => array('year'=>'[12][0-9]{3}','month'=>'0[1-9]|1[012]','day'=>'0[1-9]|[12][0-9]|3[01]')
-	);
-
-	var_dump( $db );
-	echo '<br/>';
-	var_dump( $code );
-	exit;
 ?>

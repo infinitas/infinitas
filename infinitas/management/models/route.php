@@ -145,6 +145,7 @@
 				foreach((array)$_v as $line ){
 					$parts = explode( ':', $line );
 					if (count($parts) == 2 ) {
+
 						$values[$parts[0]] = $this->_getType($parts[1]);
 					}
 				}
@@ -153,9 +154,16 @@
 		}
 
 		function _getType($field = false){
+			$replace = array(
+				"\r",
+				"\n",
+				"\n\r",
+				"\r\n",
+				' '
+			);
+			$field = str_replace( $replace, '', $field );
 			switch($field){
 				case 'null':
-				case strstr($field, 'null'): // var_dump has "null " and trim/rtrim/str_replace("\n".. || "\n\r"..)  wont remove the space
 					return null;
 					break;
 
