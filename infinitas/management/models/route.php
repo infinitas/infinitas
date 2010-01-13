@@ -51,7 +51,7 @@
 		function getRoutes(){
 			$routes = Cache::read('routes');
 			if ($routes !== false) {
-				//return $routes;
+				return $routes;
 			}
 			$routes = $this->find(
 				'all',
@@ -68,7 +68,7 @@
 						'Route.force_frontend'
 					),
 					'conditions' => array(
-						'Route.active' => 0
+						'Route.active' => 1
 					),
 					'order' => array(
 						'Route.ordering' => 'ASC'
