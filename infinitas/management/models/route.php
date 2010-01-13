@@ -37,7 +37,7 @@
 		);
 
 		var $belongsTo = array(
-			'Core.Theme'
+			'Management.Theme'
 		);
 
 		function getPlugins(){
