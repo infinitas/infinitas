@@ -16,14 +16,12 @@
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @since 0.5a
 */
+	class ManagementController extends ManagementAppController {
+		var $name = 'Management';
 
-class ManagementController extends ManagementAppController {
-	var $name = 'Management';
+		var $uses = array();
 
-	var $uses = array();
-
-	function admin_dashboard() {
+		function admin_dashboard() {
+		}
 	}
-}
-
 ?>
