@@ -49,7 +49,8 @@
 App::build(
 	array(
 		'plugins' => array(
-			APP . 'infinitas' . DS, APP . 'extensions' . DS
+			APP . 'infinitas' . DS,
+			APP . 'extensions' . DS
 		)
 	)
 );
