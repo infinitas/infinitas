@@ -31,14 +31,28 @@ class ContentsController extends CmsAppController {
 	function index() {
 		$this->Content->recursive = 0;
 		$this->set('contents', $this->paginate());
-	}
-
-	function view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid content', true));
-			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('content', $this->Content->read(null, $id));
+
+	function view($slug = null) {
+		if (!$slug) {
+			$this->Session->setFlash( __('Invalid content selected', true) );
+			$this->redirect($this->referer());
+		}
+
+		$content = $this->Content->find(
+			'first',
+			array(
+				'conditions' => array(
+					'or' => array(
+						'Content.slug' => $slug,
+						'Content.id' => $slug
+					),
+					'Content.active' => 1
+				)
+			)
+		);
+
+		$this->set(compact('content'));
 	}
 
 	function admin_index() {

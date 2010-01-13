@@ -17,132 +17,120 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
-?>
-<div class="contents view">
-<h2><?php  __('Content');?></h2>
-	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['id']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Title'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['title']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Introduction'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['introduction']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Body'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['body']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Locked'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['locked']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Locked Since'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['locked_since']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Locked By'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['locked_by']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Ordering'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['ordering']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Group Id'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['group_id']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Views'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['views']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['created']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['modified']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created By'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['created_by']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified By'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $content['Content']['modified_by']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Category'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $this->Html->link($content['Category']['title'], array('controller' => 'categories', 'action' => 'view', $content['Category']['id'])); ?>
-			&nbsp;
-		</dd>
-	</dl>
-</div>
-<div class="actions">
-	<ul>
-		<li><?php echo $this->Html->link(sprintf(__('Edit %s', true), __('Content', true)), array('action' => 'edit', $content['Content']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('Delete %s', true), __('Content', true)), array('action' => 'delete', $content['Content']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $content['Content']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Contents', true)), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Content', true)), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Categories', true)), array('controller' => 'categories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('controller' => 'categories', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Content Frontpages', true)), array('controller' => 'content_frontpages', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Content Frontpage', true)), array('controller' => 'content_frontpages', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
-<div class="related">
-	<h3><?php printf(__('Related %s', true), __('Content Frontpages', true));?></h3>
-	<?php if (!empty($content['ContentFrontpage'])):?>
-	<table cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php __('Content Id'); ?></th>
-		<th><?php __('Ordering'); ?></th>
-		<th class="actions"><?php __('Actions');?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($content['ContentFrontpage'] as $contentFrontpage):
-			$class = null;
-			if ($i++ % 2 == 0) {
-				$class = ' class="altrow"';
-			}
-		?>
-		<tr<?php echo $class;?>>
-			<td><?php echo $contentFrontpage['content_id'];?></td>
-			<td><?php echo $contentFrontpage['ordering'];?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'content_frontpages', 'action' => 'view', $contentFrontpage['content_id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'content_frontpages', 'action' => 'edit', $contentFrontpage['content_id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'content_frontpages', 'action' => 'delete', $contentFrontpage['content_id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $contentFrontpage['content_id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
 
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Content Frontpage', true)), array('controller' => 'content_frontpages', 'action' => 'add'));?> </li>
-		</ul>
+     if (empty($content)) {
+     	echo 'Nothing to see';
+     	return true;
+     }
+?>
+<div class="cms-content">
+	<div class="heading">
+		<h2><?php echo $content['Content']['title']; ?></h2>
+		<div class="stats">
+			<div class="views">
+				<?php echo sprintf( __('Viewed %s times', true), sprintf('<b>%s</b>', $content['Content']['views'] )); ?>
+			</div>
+			<div class="perma-link">
+				<?php
+					echo $this->Html->link(
+						'permalink',
+						array(
+							'action' => 'view',
+							$content['Content']['id'],
+							$content['Content']['slug']
+						)
+					);
+				?>
+			</div>
+		</div>
+	</div>
+	<div class="introduction quote">
+		<blockquote>
+			<span class="bqstart">&#8220;</span>
+			<?php echo $content['Content']['introduction']; ?>
+			<span class="bqend">&#8221;</span>
+		</blockquote>
+	</div>
+	<div class="body">
+		<?php echo $content['Content']['body']; ?>
+		<div class="stats">
+			<div class="modified">
+				<?php echo sprintf( __('Last updated: %s', true), sprintf('<b>%s</b>', $this->Time->niceShort($content['Content']['modified']))); ?>
+			</div>
+		</div>
 	</div>
 </div>
+<style>
+	.quote blockquote{
+		line-height:180%;
+		margin:45px;
+		font-size:130%;
+		background-color:#EEEEEE;
+	}
+	.quote .bqstart,
+	.quote .bqend{
+		font-family:'Lucida Grande',Verdana,helvetica,sans-serif;
+		font-size:700%;
+		font-style:normal;
+		color:#FF0000;
+	}
+	.quote .bqstart{
+		padding-top:45px;
+		float:left;
+		height:45px;
+		margin-bottom:-50px;
+		margin-top:-20px;
+	}
+	.quote .bqend{
+		padding-top:5px;
+		float:right;
+		height:25px;
+		margin-top:0;
+	}
+
+	.cms-content big{
+		font-size:120%;
+	}
+	.cms-content ol,
+	.cms-content ul {
+		list-style:lower-greek outside none;
+	}
+
+	.cms-content .heading{
+		margin-bottom:20px;
+	}
+
+	.cms-content .heading h2{
+		font-size:130%;
+		color:#1E379C;
+		padding-bottom:5px;
+	}
+
+	.cms-content .stats{
+		border-top:1px dotted #E4E4E4;
+	}
+
+	.cms-content .stats div{
+		float:left;
+		padding-right:20px;
+		font-size:80%;
+		padding-top:3px;
+	}
+
+	.cms-content .introduction{
+		font-style: italic;
+		color: #8F8F8F;
+	}
+
+	.cms-content p{
+		margin-bottom:10px;
+	}
+
+	.cms-content .body{
+		color:#535D6F;
+		line-height:110%;
+	}
+		.cms-content .body .stats div{
+			float:right;
+		}
+</style>
