@@ -45,6 +45,9 @@
                     $this->Paginator->sort( 'name' ),
                     __( 'Url', true ),
                     __( 'Route', true ),
+                    __( 'Theme', true ) => array(
+                        'style' => 'width:75px;'
+                    ),
                     __( 'Order', true ) => array(
                         'style' => 'width:50px;'
                     ),
@@ -78,6 +81,9 @@
 
 	                			echo '/'.$prefix.$plugin.$controller.$action;
 	                		?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo Inflector::humanize($route['Theme']['name']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Core->ordering( $route['Route']['id'], $route['Route']['ordering'] ); ?>&nbsp;

@@ -31,6 +31,7 @@
         echo $this->Form->input( 'force_backend' );
         echo $this->Form->input( 'force_frontend' );
         echo $this->Form->input( 'active' );
+        echo $this->Form->input( 'theme_id' );
         echo $this->Form->hidden( 'order_id', array('value'=>1) );
     echo $this->Form->end( 'Save Configuration' );
  ?>

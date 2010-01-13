@@ -20,8 +20,14 @@
 	class RoutesController extends ManagementAppController{
 		var $name = 'Routes';
 
+		var $listThemes = array(0 => 'Default');
+
 		function beforeFilter() {
 			parent::beforeFilter();
+
+			$this->listThemes = array(
+				0 => __('Default', true)
+			) + $this->Route->Theme->find('list');
 		}
 
 		function admin_index() {
@@ -39,6 +45,7 @@
 			}
 
 			$this->set('plugins', $this->Route->getPlugins());
+			$this->set('themes', $this->listThemes);
 		}
 
 		function admin_edit($id = null) {
@@ -61,6 +68,7 @@
 			}
 
 			$this->set('plugins', $this->Route->getPlugins());
+			$this->set('themes', $this->listThemes);
 		}
 	}
 ?>
