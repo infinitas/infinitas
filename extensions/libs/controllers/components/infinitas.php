@@ -53,7 +53,7 @@ class InfinitasComponent extends Object {
 			$this->Controller->layout = 'admin';
 		}
 		if(!$theme = Cache::read('currentTheme')) {
-			$theme = ClassRegistry::init('Theme.Theme')->getCurrnetTheme();
+			$theme = ClassRegistry::init('Management.Theme')->getCurrnetTheme();
 		}
 
 		if (!isset($theme['Theme']['name'])) {
