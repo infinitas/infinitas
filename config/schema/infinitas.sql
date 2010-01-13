@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 
--- Generation Time: Jan 13, 2010 at 10:05 PM
+-- Generation Time: Jan 13, 2010 at 10:25 PM
 -- Server version: 5.1.34
 -- PHP Version: 5.2.9-2
 
@@ -495,6 +495,7 @@ CREATE TABLE `core_routes` (
   `controller` varchar(50) DEFAULT NULL,
   `action` varchar(50) DEFAULT NULL,
   `values` text NOT NULL,
+  `pass` varchar(100) DEFAULT NULL,
   `rules` text NOT NULL,
   `force_backend` tinyint(1) NOT NULL DEFAULT '0',
   `force_frontend` tinyint(1) NOT NULL DEFAULT '0',
@@ -510,16 +511,16 @@ CREATE TABLE `core_routes` (
 -- Dumping data for table `core_routes`
 --
 
-INSERT INTO `core_routes` VALUES(7, 0, 'Home Page', '/', '', 'blog', 'posts', '', '', '', 0, 0, 1, 2, 1, '2010-01-13 16:50:39', '2010-01-13 16:50:39');
-INSERT INTO `core_routes` VALUES(8, 0, 'Pages', '/pages/*', '', '0', 'pages', 'display', '', '', 0, 0, 1, 3, 1, '2010-01-13 18:26:36', '2010-01-13 18:26:36');
-INSERT INTO `core_routes` VALUES(9, 0, 'Admin Home', '/admin', 'admin', 'management', 'management', 'dashboard', '', '', 1, 0, 1, 4, 1, '2010-01-13 18:36:50', '2010-01-13 18:36:50');
-INSERT INTO `core_routes` VALUES(11, 0, 'Management Home', '/admin/management', 'admin', 'management', 'management', 'dashboard', '', '', 1, 0, 1, 6, 1, '2010-01-13 18:40:23', '2010-01-13 18:42:53');
-INSERT INTO `core_routes` VALUES(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', '', 1, 0, 1, 7, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17');
-INSERT INTO `core_routes` VALUES(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', '', 0, 1, 1, 8, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00');
-INSERT INTO `core_routes` VALUES(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', '', 1, 0, 1, 9, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59');
-INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'contentFrontpages', '', '', '', 0, 1, 1, 10, 1, '2010-01-13 19:05:28', '2010-01-13 19:11:14');
-INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', '', 1, 0, 1, 11, 1, '2010-01-13 19:18:16', '2010-01-13 19:18:16');
-INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 12, 0, '2010-01-13 19:36:31', '2010-01-13 20:26:33');
+INSERT INTO `core_routes` VALUES(7, 0, 'Home Page', '/', '', 'blog', 'posts', '', '', NULL, '', 0, 0, 1, 2, 1, '2010-01-13 16:50:39', '2010-01-13 16:50:39');
+INSERT INTO `core_routes` VALUES(8, 0, 'Pages', '/pages/*', '', '0', 'pages', 'display', '', NULL, '', 0, 0, 1, 3, 1, '2010-01-13 18:26:36', '2010-01-13 18:26:36');
+INSERT INTO `core_routes` VALUES(9, 0, 'Admin Home', '/admin', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 4, 1, '2010-01-13 18:36:50', '2010-01-13 18:36:50');
+INSERT INTO `core_routes` VALUES(11, 0, 'Management Home', '/admin/management', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 6, 1, '2010-01-13 18:40:23', '2010-01-13 18:42:53');
+INSERT INTO `core_routes` VALUES(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', NULL, '', 1, 0, 1, 7, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17');
+INSERT INTO `core_routes` VALUES(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', NULL, '', 0, 1, 1, 8, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00');
+INSERT INTO `core_routes` VALUES(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', NULL, '', 1, 0, 1, 9, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59');
+INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'contentFrontpages', '', '', NULL, '', 0, 1, 1, 10, 1, '2010-01-13 19:05:28', '2010-01-13 19:11:14');
+INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', NULL, '', 1, 0, 1, 11, 1, '2010-01-13 19:18:16', '2010-01-13 19:18:16');
+INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', NULL, 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 12, 1, '2010-01-13 19:36:31', '2010-01-13 20:26:33');
 
 -- --------------------------------------------------------
 

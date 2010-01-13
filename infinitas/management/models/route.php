@@ -63,6 +63,7 @@
 						'Route.controller',
 						'Route.action',
 						'Route.values',
+						'Route.pass',
 						'Route.rules',
 						'Route.force_backend',
 						'Route.force_frontend'
@@ -84,7 +85,7 @@
 				$routingRules[]['Route'] = array(
 					'url' => $array['Route']['url'],
 					'values' => $this->_getValues($array['Route']),
-					'regex' => $this->_getRegex($array['Route']['rules'])
+					'regex' => $this->_getRegex($array['Route']['rules'], $array['Route']['pass'])
 				);
 			}
 
@@ -137,7 +138,7 @@
 			return $values;
 		}
 
-		function _getRegex($field){
+		function _getRegex($field, $pass = null){
 			$values = array();
 			if (!empty($field)) {
 				$_v = explode("\n", $field);
@@ -150,6 +151,12 @@
 					}
 				}
 			}
+
+			if ($pass) {
+				$_values = explode( ',', $pass);
+				$values = array_merge((array)$values, (array)$_values);
+			}
+
 			return $values;
 		}
 

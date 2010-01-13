@@ -26,6 +26,7 @@
         echo $this->Form->input( 'plugin' );
         echo $this->Form->input( 'controller' );
         echo $this->Form->input( 'action' );
+        echo $this->Form->input( 'pass' );
         echo $this->Form->input( 'values' );
         echo $this->Form->input( 'rules' );
         echo $this->Form->input( 'force_backend' );
