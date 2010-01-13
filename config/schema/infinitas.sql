@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 
--- Generation Time: Jan 13, 2010 at 02:21 PM
+-- Generation Time: Jan 13, 2010 at 10:05 PM
 -- Server version: 5.1.34
 -- PHP Version: 5.2.9-2
 
@@ -402,7 +402,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -416,6 +416,43 @@ INSERT INTO `core_logs` VALUES(5, 'Config (50)', 'Config (50) updated by Core.Us
 INSERT INTO `core_logs` VALUES(6, 'making cake show the primary key field.', 'Post "making cake show the primary key field." (1) updated by Core.User "1" (1).', 'Post', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-10 07:48:34) => ()', NULL, '2010-01-10 07:48:45');
 INSERT INTO `core_logs` VALUES(7, 'dsfgsdf', 'Newsletter "dsfgsdf" (10) added by Core.User "1" (1).', 'Newsletter', 10, 'add', 1, 'sent () => (0), views () => (0), sends () => (0), campaign_id () => (6), from () => (gsdfgd@dssd.com), reply_to () => (gsdfgd@dssd.com), subject () => (dsfgsdf), html () => (<p>dfgdsfgsd</p>), text () => (<p>sdfgdsfsfsfsfsfsf</p>), created () => (2010-01-12 14:19:31)', NULL, '2010-01-12 14:19:31');
 INSERT INTO `core_logs` VALUES(8, 'bob smith', 'Comment "bob smith" (2) added by Core.User "1" (1).', 'Comment', 2, 'add', 1, 'name () => (bob smith), email () => (dogmatic69@gmail.com), website () => (www.google.com), comment () => (&lt;p&gt;Our expert says:  &amp;quot;Attractive reward card, particularly for AA members. Members receive 2 points for every &amp;pound;1.00 spent on motoring costs and 1 point per &amp;pound;1.00 for other spending. Non&#45;members receive 1 point for every &amp;pound;2.00 spent. Balance transfers are interest&#45;free until Jan 2011. Spend on motoring products and services, fuel and AA products are interest free until Jan 2011&amp;quot;&lt;/p&gt;), class () => (Post), foreign_id () => (1), points () => (-4), status () => (spam), created () => (2010-01-12 14:23:27)', NULL, '2010-01-12 14:23:27');
+INSERT INTO `core_logs` VALUES(9, '', 'Route "" (2) added by Core.User "1" (1).', 'Route', 2, 'add', 1, 'url () => (/), plugin () => (0), match_all () => (0), created () => (2010-01-13 14:58:29), ordering () => (1)', NULL, '2010-01-13 14:58:29');
+INSERT INTO `core_logs` VALUES(10, '', 'Route "" (3) added by Core.User "1" (1).', 'Route', 3, 'add', 1, 'url () => (/), plugin () => (0), match_all () => (0), created () => (2010-01-13 14:59:37), ordering () => (1)', NULL, '2010-01-13 14:59:37');
+INSERT INTO `core_logs` VALUES(11, 'dsf', 'Route "dsf" (4) added by Core.User "1" (1).', 'Route', 4, 'add', 1, 'name () => (dsf), url () => (/sdf), plugin () => (filemanager), controller () => (filemanager), action () => (index), match_all () => (0), created () => (2010-01-13 15:02:25), ordering () => (2)', NULL, '2010-01-13 15:02:25');
+INSERT INTO `core_logs` VALUES(12, 'dsf', 'Route "dsf" (5) added by Core.User "1" (1).', 'Route', 5, 'add', 1, 'name () => (dsf), url () => (/sdf), plugin () => (filemanager), controller () => (filemanager), action () => (index), match_all () => (0), created () => (2010-01-13 15:02:45), ordering () => (3)', NULL, '2010-01-13 15:02:45');
+INSERT INTO `core_logs` VALUES(13, 'dsf', 'Route "dsf" (6) added by Core.User "1" (1).', 'Route', 6, 'add', 1, 'name () => (dsf), url () => (/sdf), plugin () => (cms), controller () => (content), action () => (view), match_all () => (1), order_id () => (1), created () => (2010-01-13 15:14:14), ordering () => (4)', NULL, '2010-01-13 15:14:14');
+INSERT INTO `core_logs` VALUES(14, 'dsf', 'Route (4) updated by Core.User "1" (1).', 'Route', 4, 'edit', 1, 'ordering (2) => (1)', NULL, '2010-01-13 15:46:23');
+INSERT INTO `core_logs` VALUES(15, '', 'Route (3) updated by Core.User "1" (1).', 'Route', 3, 'edit', 1, 'ordering (1) => (2)', NULL, '2010-01-13 15:46:23');
+INSERT INTO `core_logs` VALUES(16, 'dsf', 'Route (4) updated by Core.User "1" (1).', 'Route', 4, 'edit', 1, 'ordering (1) => (2)', NULL, '2010-01-13 15:46:35');
+INSERT INTO `core_logs` VALUES(17, '', 'Route (3) updated by Core.User "1" (1).', 'Route', 3, 'edit', 1, 'ordering (2) => (1)', NULL, '2010-01-13 15:46:35');
+INSERT INTO `core_logs` VALUES(18, 'Home Page', 'Route "Home Page" (7) added by Core.User "1" (1).', 'Route', 7, 'add', 1, 'name () => (Home Page), url () => (/), plugin () => (blog), controller () => (posts), match_all () => (0), force_backend () => (0), force_frontend () => (0), active () => (1), order_id () => (1), created () => (2010-01-13 16:50:39), ordering () => (2)', NULL, '2010-01-13 16:50:39');
+INSERT INTO `core_logs` VALUES(19, 'Pages', 'Route "Pages" (8) added by Core.User "1" (1).', 'Route', 8, 'add', 1, 'name () => (Pages), url () => (/pages/*), plugin () => (0), controller () => (pages), action () => (display), match_all () => (0), force_backend () => (0), force_frontend () => (0), active () => (1), order_id () => (1), created () => (2010-01-13 18:26:36), ordering () => (3)', NULL, '2010-01-13 18:26:36');
+INSERT INTO `core_logs` VALUES(20, 'Admin Home', 'Route "Admin Home" (9) added by Core.User "1" (1).', 'Route', 9, 'add', 1, 'name () => (Admin Home), url () => (/admin), prefix () => (admin), plugin () => (management), controller () => (management), action () => (dashboard), force_backend () => (1), force_frontend () => (0), active () => (1), order_id () => (1), created () => (2010-01-13 18:36:50), ordering () => (4)', NULL, '2010-01-13 18:36:50');
+INSERT INTO `core_logs` VALUES(21, 'Admin Home- copy ( 2010-01-13 )', 'Route "Admin Home- copy ( 2010-01-13 )" (10) added by Core.User "1" (1).', 'Route', 10, 'add', 1, 'force_backend () => (1), force_frontend () => (0), order_id () => (1), core () => (0), name () => (Admin Home- copy ( 2010-01-13 )), url () => (/admin), prefix () => (admin), plugin () => (management), controller () => (management), action () => (dashboard), ordering () => (5), created () => (2010-01-13 18:39:13)', NULL, '2010-01-13 18:39:13');
+INSERT INTO `core_logs` VALUES(22, 'Management Home', 'Route "Management Home" (11) added by Core.User "1" (1).', 'Route', 11, 'add', 1, 'name () => (Management Home), url () => (/), plugin () => (management), controller () => (management), action () => (dashboard), order_id () => (1), created () => (2010-01-13 18:40:23), ordering () => (6)', NULL, '2010-01-13 18:40:23');
+INSERT INTO `core_logs` VALUES(23, 'Management Home', 'Route "Management Home" (11) updated by Core.User "1" (1).', 'Route', 11, 'edit', 1, 'url (/) => (/admin/management), prefix () => (admin), force_backend (0) => (1)', NULL, '2010-01-13 18:41:46');
+INSERT INTO `core_logs` VALUES(24, 'Management Home', 'Route "Management Home" (11) updated by Core.User "1" (1).', 'Route', 11, 'edit', 1, 'url (/admin/management) => (/), active (0) => (1)', NULL, '2010-01-13 18:42:04');
+INSERT INTO `core_logs` VALUES(25, 'Management Home', 'Route "Management Home" (11) updated by Core.User "1" (1).', 'Route', 11, 'edit', 1, 'url (/) => (/admin/management)', NULL, '2010-01-13 18:42:53');
+INSERT INTO `core_logs` VALUES(26, 'Blog Home - Admin', 'Route "Blog Home - Admin" (12) added by Core.User "1" (1).', 'Route', 12, 'add', 1, 'name () => (Blog Home - Admin), url () => (/admin/blog), prefix () => (admin), plugin () => (blog), controller () => (posts), action () => (dashboard), force_backend () => (1), force_frontend () => (0), active () => (0), order_id () => (1), created () => (2010-01-13 18:45:23), ordering () => (7)', NULL, '2010-01-13 18:45:23');
+INSERT INTO `core_logs` VALUES(27, 'Blog Home - Admin- copy ( 2010-01-13 )', 'Route "Blog Home - Admin- copy ( 2010-01-13 )" (13) added by Core.User "1" (1).', 'Route', 13, 'add', 1, 'force_backend () => (1), force_frontend () => (0), order_id () => (1), core () => (0), name () => (Blog Home - Admin- copy ( 2010-01-13 )), url () => (/admin/blog), prefix () => (admin), plugin () => (blog), controller () => (posts), action () => (dashboard), ordering () => (8), created () => (2010-01-13 18:47:07)', NULL, '2010-01-13 18:47:07');
+INSERT INTO `core_logs` VALUES(28, 'Blog Home - frontend', 'Route "Blog Home - frontend" (13) updated by Core.User "1" (1).', 'Route', 13, 'edit', 1, 'name (Blog Home - Admin- copy ( 2010-01-13 )) => (Blog Home - frontend), url (/admin/blog) => (/blog), prefix (admin) => (), action (dashboard) => (), force_backend (1) => (0), force_frontend (0) => (1), active (0) => (1)', NULL, '2010-01-13 18:47:45');
+INSERT INTO `core_logs` VALUES(29, 'Blog Home - Backend', 'Route "Blog Home - Backend" (14) added by Core.User "1" (1).', 'Route', 14, 'add', 1, 'name () => (Blog Home - Backend), url () => (/admin/blog), prefix () => (admin), plugin () => (blog), controller () => (posts), action () => (dashboard), force_backend () => (1), force_frontend () => (0), active () => (0), order_id () => (1), created () => (2010-01-13 19:01:14), ordering () => (9)', NULL, '2010-01-13 19:01:14');
+INSERT INTO `core_logs` VALUES(30, 'Blog Home - Backend', 'Route "Blog Home - Backend" (12) updated by Core.User "1" (1).', 'Route', 12, 'edit', 1, 'name (Blog Home - Admin) => (Blog Home - Backend)', NULL, '2010-01-13 19:02:17');
+INSERT INTO `core_logs` VALUES(31, 'Cms Home - Backend', 'Route "Cms Home - Backend" (14) updated by Core.User "1" (1).', 'Route', 14, 'edit', 1, 'name (Blog Home - Backend) => (Cms Home - Backend), url (/admin/blog) => (/cms/admin), plugin (blog) => (cms), controller (posts) => (categories), active (0) => (1)', NULL, '2010-01-13 19:03:23');
+INSERT INTO `core_logs` VALUES(32, 'Cms Home - Backend', 'Route "Cms Home - Backend" (14) updated by Core.User "1" (1).', 'Route', 14, 'edit', 1, 'url (/cms/admin) => (/admin/cms)', NULL, '2010-01-13 19:04:59');
+INSERT INTO `core_logs` VALUES(33, 'Cms Home - Backend- copy ( 2010-01-13 )', 'Route "Cms Home - Backend- copy ( 2010-01-13 )" (15) added by Core.User "1" (1).', 'Route', 15, 'add', 1, 'force_backend () => (1), force_frontend () => (0), order_id () => (1), core () => (0), name () => (Cms Home - Backend- copy ( 2010-01-13 )), url () => (/admin/cms), prefix () => (admin), plugin () => (cms), controller () => (categories), action () => (dashboard), ordering () => (10), created () => (2010-01-13 19:05:28)', NULL, '2010-01-13 19:05:28');
+INSERT INTO `core_logs` VALUES(34, 'Cms Home - Frontend', 'Route "Cms Home - Frontend" (15) updated by Core.User "1" (1).', 'Route', 15, 'edit', 1, 'name (Cms Home - Backend- copy ( 2010-01-13 )) => (Cms Home - Frontend), url (/admin/cms) => (/cms), prefix (admin) => (), action (dashboard) => (), force_backend (1) => (0), force_frontend (0) => (1), active (0) => (1)', NULL, '2010-01-13 19:09:11');
+INSERT INTO `core_logs` VALUES(35, 'Blog Home - Frontend', 'Route "Blog Home - Frontend" (13) updated by Core.User "1" (1).', 'Route', 13, 'edit', 1, 'name (Blog Home - frontend) => (Blog Home - Frontend)', NULL, '2010-01-13 19:10:00');
+INSERT INTO `core_logs` VALUES(36, 'Cms Home - Frontend', 'Route "Cms Home - Frontend" (15) updated by Core.User "1" (1).', 'Route', 15, 'edit', 1, 'controller (categories) => (contentFrontpages)', NULL, '2010-01-13 19:11:14');
+INSERT INTO `core_logs` VALUES(37, 'Newsletter Home - Backend', 'Route "Newsletter Home - Backend" (16) added by Core.User "1" (1).', 'Route', 16, 'add', 1, 'name () => (Newsletter Home - Backend), url () => (/admin/newsletter), prefix () => (admin), plugin () => (newsletter), controller () => (newsletters), action () => (dashboard), force_backend () => (1), force_frontend () => (0), active () => (1), order_id () => (1), created () => (2010-01-13 19:18:16), ordering () => (11)', NULL, '2010-01-13 19:18:16');
+INSERT INTO `core_logs` VALUES(38, 'Newsletter Home - Backend- copy ( 2010-01-13 )', 'Route "Newsletter Home - Backend- copy ( 2010-01-13 )" (17) added by Core.User "1" (1).', 'Route', 17, 'add', 1, 'force_backend () => (1), force_frontend () => (0), order_id () => (1), core () => (0), name () => (Newsletter Home - Backend- copy ( 2010-01-13 )), url () => (/admin/newsletter), prefix () => (admin), plugin () => (newsletter), controller () => (newsletters), action () => (dashboard), ordering () => (12), created () => (2010-01-13 19:19:03)', NULL, '2010-01-13 19:19:03');
+INSERT INTO `core_logs` VALUES(39, 'Blog Test', 'Route "Blog Test" (18) added by Core.User "1" (1).', 'Route', 18, 'add', 1, 'name () => (Blog Test), url () => (/:controller/:year/:month/:day), plugin () => (blog), controller () => (/posts), action () => (index), values () => (day:null\r\nhour:null), rules () => (year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n), force_backend () => (0), force_frontend () => (1), active () => (1), order_id () => (1), created () => (2010-01-13 19:36:31), ordering () => (12)', NULL, '2010-01-13 19:36:31');
+INSERT INTO `core_logs` VALUES(40, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/:controller/:year/:month/:day) => (/p/:year/:month/:day)', NULL, '2010-01-13 19:38:12');
+INSERT INTO `core_logs` VALUES(41, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'controller (/posts) => (posts)', NULL, '2010-01-13 19:38:38');
+INSERT INTO `core_logs` VALUES(42, 'Blog Test', 'Route "Blog Test" (19) added by Core.User "1" (1).', 'Route', 19, 'add', 1, 'name () => (Blog Test), url () => (/), plugin () => (blog), controller () => (posts), action () => (index), values () => (day:null), rules () => (year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n), force_backend () => (0), force_frontend () => (1), active () => (0), order_id () => (1), created () => (2010-01-13 20:08:29), ordering () => (13)', NULL, '2010-01-13 20:08:29');
+INSERT INTO `core_logs` VALUES(43, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/p/:year/:month/:day) => (/), values (day:null\r\nhour:null) => (day:null)', NULL, '2010-01-13 20:09:29');
+INSERT INTO `core_logs` VALUES(44, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/) => (/p/:year/:month/:day)', NULL, '2010-01-13 20:09:55');
+INSERT INTO `core_logs` VALUES(45, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/p/:year/:month/:day) => (/:controller/:year/:month/:day), controller (posts) => ()', NULL, '2010-01-13 20:26:17');
 
 -- --------------------------------------------------------
 
@@ -453,20 +490,36 @@ CREATE TABLE `core_routes` (
   `core` tinyint(1) NOT NULL,
   `name` varchar(50) NOT NULL,
   `url` varchar(255) NOT NULL,
+  `prefix` varchar(100) DEFAULT NULL,
   `plugin` varchar(50) DEFAULT NULL,
   `controller` varchar(50) DEFAULT NULL,
   `action` varchar(50) DEFAULT NULL,
-  `match_all` tinyint(1) NOT NULL,
+  `values` text NOT NULL,
+  `rules` text NOT NULL,
+  `force_backend` tinyint(1) NOT NULL DEFAULT '0',
+  `force_frontend` tinyint(1) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  `ordering` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Dumping data for table `core_routes`
 --
 
-INSERT INTO `core_routes` VALUES(1, 0, 'Home Page', '/', '', '', '', 0, '2010-01-13 12:37:18', '2010-01-13 12:37:18');
+INSERT INTO `core_routes` VALUES(7, 0, 'Home Page', '/', '', 'blog', 'posts', '', '', '', 0, 0, 1, 2, 1, '2010-01-13 16:50:39', '2010-01-13 16:50:39');
+INSERT INTO `core_routes` VALUES(8, 0, 'Pages', '/pages/*', '', '0', 'pages', 'display', '', '', 0, 0, 1, 3, 1, '2010-01-13 18:26:36', '2010-01-13 18:26:36');
+INSERT INTO `core_routes` VALUES(9, 0, 'Admin Home', '/admin', 'admin', 'management', 'management', 'dashboard', '', '', 1, 0, 1, 4, 1, '2010-01-13 18:36:50', '2010-01-13 18:36:50');
+INSERT INTO `core_routes` VALUES(11, 0, 'Management Home', '/admin/management', 'admin', 'management', 'management', 'dashboard', '', '', 1, 0, 1, 6, 1, '2010-01-13 18:40:23', '2010-01-13 18:42:53');
+INSERT INTO `core_routes` VALUES(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', '', 1, 0, 1, 7, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17');
+INSERT INTO `core_routes` VALUES(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', '', 0, 1, 1, 8, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00');
+INSERT INTO `core_routes` VALUES(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', '', 1, 0, 1, 9, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59');
+INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'contentFrontpages', '', '', '', 0, 1, 1, 10, 1, '2010-01-13 19:05:28', '2010-01-13 19:11:14');
+INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', '', 1, 0, 1, 11, 1, '2010-01-13 19:18:16', '2010-01-13 19:18:16');
+INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 12, 0, '2010-01-13 19:36:31', '2010-01-13 20:26:33');
 
 -- --------------------------------------------------------
 
