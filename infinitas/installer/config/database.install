@@ -26,7 +26,8 @@ class DATABASE_CONFIG {
 		'password' => '{default_password}',
 		'database' => '{default_database}',
 		'prefix' => '',
-		);
+		'encoding' => 'utf-8'
+	);
 
 	var $test = array(
 		'driver' => 'mysql',
@@ -36,7 +37,8 @@ class DATABASE_CONFIG {
 		'password' => '{default_password}',
 		'database' => 'test_{default_database}',
 		'prefix' => '',
-		);
+		'encoding' => 'utf-8'
+	);
 }
 
 ?>
