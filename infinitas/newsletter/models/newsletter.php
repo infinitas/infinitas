@@ -47,7 +47,7 @@ class Newsletter extends NewsletterAppModel {
 				'message' => 'Please enter the from address'
 				),
 			'email' => array(
-				'rule' => 'email',
+				'rule' => array( 'email', true ),
 				'message' => 'Please enter a valid email addres'
 				)
 			),
