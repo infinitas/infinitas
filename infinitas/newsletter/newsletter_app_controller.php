@@ -26,7 +26,7 @@ class NewsletterAppController extends AppController {
 		// cake helpers
 		'Time', 'Text', 'Form',
 		// core helpers
-		'Core.TagCloud',
+		'Libs.TagCloud',
 		// plugin helpers
 		'Newsletter.Letter', 'Google.Chart',
 		// layout helpers
