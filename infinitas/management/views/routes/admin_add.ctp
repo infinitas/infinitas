@@ -18,12 +18,18 @@
      */
 
     echo $this->Core->adminOtherHead( $this );
-    echo $this->Form->create( 'Config' );
+    echo $this->Form->create( 'Route' );
         echo $this->Form->input( 'name' );
-        echo $this->Form->input( 'url', array('value' => '/') );
+        echo $this->Form->input( 'url' );
+        echo $this->Form->input( 'prefix' );
         echo $this->Form->input( 'plugin' );
         echo $this->Form->input( 'controller' );
         echo $this->Form->input( 'action' );
-        echo $this->Form->input( 'match_all' );
+        echo $this->Form->input( 'values' );
+        echo $this->Form->input( 'rules' );
+        echo $this->Form->input( 'force_backend' );
+        echo $this->Form->input( 'force_frontend' );
+        echo $this->Form->input( 'active' );
+        echo $this->Form->hidden( 'order_id', array('value'=>1) );
     echo $this->Form->end( 'Save Configuration' );
  ?>

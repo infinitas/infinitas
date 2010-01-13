@@ -28,6 +28,14 @@
 			'Libs'
 		);
 
+		var $actsAs = array(
+			'Libs.Ordered'
+		);
+
+		var $order = array(
+			'Route.ordering' => 'ASC'
+		);
+
 		function getPlugins(){
 			$plugins = Configure::listObjects('plugin');
 
@@ -38,6 +46,146 @@
 			}
 
 			return array(0 => 'None') + (array)$return;
+		}
+
+		function getRoutes(){
+			$routes = Cache::read('routes');
+			if ($routes !== false) {
+				//return $routes;
+			}
+			$routes = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Route.url',
+						'Route.prefix',
+						'Route.plugin',
+						'Route.controller',
+						'Route.action',
+						'Route.values',
+						'Route.rules',
+						'Route.force_backend',
+						'Route.force_frontend'
+					),
+					'conditions' => array(
+						'Route.active' => 0
+					),
+					'order' => array(
+						'Route.ordering' => 'ASC'
+					),
+					'contain' => false
+				)
+			);
+
+
+			foreach( $routes as $array ){
+				$vaules = $regex = array();
+
+				$routingRules[]['Route'] = array(
+					'url' => $array['Route']['url'],
+					'values' => $this->_getValues($array['Route']),
+					'regex' => $this->_getRegex($array['Route']['rules'])
+				);
+			}
+
+			Cache::write('routes', $routingRules, 'core');
+
+			return $routingRules;
+		}
+
+		function _getValues($route = array()){
+			if (!$route) {
+				return false;
+			}
+
+			if (!empty($route['prefix'])) {
+				$values['prefix'] = $route['prefix'];
+			}
+
+			if (!empty($route['plugin'])) {
+				$values['plugin'] = $route['plugin'];
+			}
+
+			if (!empty($route['controller'])) {
+				$values['controller'] = $route['controller'];
+			}
+
+			if (!empty($route['action'])) {
+				$values['action'] = $route['action'];
+			}
+
+			if (!empty($route['values'])) {
+				$_v = explode("\n", $route['values']);
+
+				foreach((array)$_v as $line ){
+					$parts = explode( ':', $line );
+					if (count($parts) == 2) {
+						$_values[$parts[0]] = $this->_getType($parts[1]);
+					}
+				}
+
+				$values = array_merge((array)$values, (array)$_values);
+			}
+
+			if ($route['force_backend']) {
+				$values['admin'] = true;
+			}
+			else if ($route['force_frontend']) {
+				$values['admin'] = null;
+			}
+
+			return $values;
+		}
+
+		function _getRegex($field){
+			$values = array();
+			if (!empty($field)) {
+				$_v = explode("\n", $field);
+
+				foreach((array)$_v as $line ){
+					$parts = explode( ':', $line );
+					if (count($parts) == 2 ) {
+						$values[$parts[0]] = $this->_getType($parts[1]);
+					}
+				}
+			}
+			return $values;
+		}
+
+		function _getType($field = false){
+			switch($field){
+				case 'null':
+				case strstr($field, 'null'): // var_dump has "null " and trim/rtrim/str_replace("\n".. || "\n\r"..)  wont remove the space
+					return null;
+					break;
+
+				default:
+					return $field;
+					break;
+
+			} // switch
+		}
+
+		function afterSave($created) {
+			parent::afterSave($created);
+
+			$this->__clearCache();
+			return true;
+		}
+
+		function afterDelete() {
+			parent::afterDelete();
+
+			$this->__clearCache();
+			return true;
+		}
+
+		function __clearCache() {
+			if (is_file(CACHE . 'core' . DS . 'routes')) {
+				unlink(CACHE . 'core' . DS . 'routes');
+			}
+
+			return true;
 		}
 	}
 ?>

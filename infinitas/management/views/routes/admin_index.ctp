@@ -24,7 +24,9 @@
             array(
                 'add',
                 'edit',
-                'copy'
+                'copy',
+                'toggle',
+                'delete'
             )
         );
         echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
@@ -43,7 +45,13 @@
                     $this->Paginator->sort( 'name' ),
                     __( 'Url', true ),
                     __( 'Route', true ),
+                    __( 'Order', true ) => array(
+                        'style' => 'width:50px;'
+                    ),
                     __( 'Core', true ) => array(
+                        'style' => 'width:50px;'
+                    ),
+                    __( 'Active', true ) => array(
                         'style' => 'width:50px;'
                     )
                 )
@@ -63,25 +71,28 @@
                 		</td>
                 		<td>
                 			<?php
+	                			$prefix = ( $route['Route']['prefix'] ) ? $route['Route']['prefix'].'/' : '';
 	                			$plugin = ( $route['Route']['plugin'] ) ? $route['Route']['plugin'].'/' : '';
 	                			$controller = ( $route['Route']['controller'] ) ? $route['Route']['controller'].'/' : '';
-	                			$action = ( $route['Route']['action'] ) ? $route['Route']['action'].'/' : '';
-	                			$all = ( $route['Route']['match_all'] ) ? '*' : '';
+	                			$action = ( $route['Route']['action'] ) ? $route['Route']['action'].'/' : 'index/';
 
-	                			echo '/'.$plugin.$controller.$action.$all;
+	                			echo '/'.$prefix.$plugin.$controller.$action;
 	                		?>&nbsp;
                 		</td>
                 		<td>
+                			<?php echo $this->Core->ordering( $route['Route']['id'], $route['Route']['ordering'] ); ?>&nbsp;
+                		</td>
+                		<td>
                 			<?php echo $this->Status->status( $route['Route']['core'] ); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $this->Status->status( $route['Route']['active'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
             }
         ?>
     </table>
-    <?php
-        echo $this->Form->end();
-
-    ?>
+    <?php echo $this->Form->end(); ?>
 </div>
 <?php echo $this->element( 'pagination/navigation' ); ?>
