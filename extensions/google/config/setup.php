@@ -23,7 +23,7 @@ class GoogleConfig {
 	* @access public
 	* @var string
 	*/
-	public $version = '0.1';
+	var $version = '0.1';
 
 	/**
 	* Settings
@@ -31,7 +31,7 @@ class GoogleConfig {
 	* @access public
 	* @var array
 	*/
-	public $settings = array();
+	var $settings = array();
 
 	/**
 	* Singleton Instance
@@ -40,7 +40,7 @@ class GoogleConfig {
 	* @var array
 	* @static
 	*/
-	private static $__instance;
+	var $__instance;
 
 	/**
 	*

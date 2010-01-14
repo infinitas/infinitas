@@ -48,7 +48,7 @@ class GoogleApiBase {
 	* @var string
 	* @access private
 	*/
-	private $_login_uri = "https://www.google.com/accounts/ClientLogin"; //you'll have to uncomment extension=php_openssl.dll from php.ini
+	var $_login_uri = "https://www.google.com/accounts/ClientLogin"; //you'll have to uncomment extension=php_openssl.dll from php.ini
 
 	/**
 	* Auth key returned by google API
@@ -56,7 +56,7 @@ class GoogleApiBase {
 	* @var string
 	* @access private
 	*/
-	protected $_auth_key;
+	var $_auth_key;
 
 	/**
 	* Method used to make requests (curl or file_get_contents)
@@ -64,7 +64,7 @@ class GoogleApiBase {
 	* @var string
 	* @access private
 	*/
-	protected $_method;
+	var $_method;
 
 	/**
 	* Default Constructor
@@ -72,7 +72,7 @@ class GoogleApiBase {
 	* @param array $config options
 	* @access public
 	*/
-	public function __construct($config) {
+	function __construct($config) {
 		// _toPost keys are case sensitive for google api, changin them will result in bad authentication
 		$_toPost['accountType'] = $config['accounttype'];
 		$_toPost['Email'] = $config['email'];
@@ -114,7 +114,7 @@ class GoogleApiBase {
 	* @return xml object
 	* @access public
 	*/
-	public function sendRequest($url, $action, $content = null) {
+	function sendRequest($url, $action, $content = null) {
 		/*
       Could'nt find a way to do it via HttpSocket i got empty result
 

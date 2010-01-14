@@ -28,7 +28,7 @@ App::import(
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 */
 class AnalyticsHelper extends AppHelper {
-	private $__trackingInstalled = false;
+	var $__trackingInstalled = false;
 
 	/**
 	* get the settings for analytics.
@@ -51,7 +51,7 @@ class AnalyticsHelper extends AppHelper {
 	* @param string $params stuff you would normaly put in pageTracker._trackPageview()
 	* @return the script generated.
 	*/
-	public function tracker($params = '') {
+	function tracker($params = '') {
 		// already run.
 		if ($this->__trackingInstalled) {
 			return true;
