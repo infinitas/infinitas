@@ -65,6 +65,21 @@ class InfinitasComponent extends Object {
 			$this->Controller->theme = $theme['Theme']['name'];
 		}
 		Configure::write('Theme',$theme['Theme']);
+
+		$routes = Cache::read('routes', 'core');
+
+		if (!$routes) {
+			$routes = Classregistry::init('Management.Route')->getRoutes();
+		}
+
+		$currentRoute = Router::currentRoute();
+		if (!empty($routes)) {
+			foreach( $routes as $route ){
+				if ( $route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {
+					$this->Controller->theme = $route['Route']['theme'];
+				}
+			}
+		}
 	}
 
 	/**

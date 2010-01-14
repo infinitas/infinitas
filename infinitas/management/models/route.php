@@ -93,11 +93,11 @@
 
 			foreach( $routes as $array ){
 				$vaules = $regex = array();
-
 				$routingRules[]['Route'] = array(
 					'url' => $array['Route']['url'],
 					'values' => $this->_getValues($array['Route']),
-					'regex' => $this->_getRegex($array['Route']['rules'], $array['Route']['pass'])
+					'regex' => $this->_getRegex($array['Route']['rules'], $array['Route']['pass']),
+					'theme' => $array['Theme']['name']
 				);
 			}
 
