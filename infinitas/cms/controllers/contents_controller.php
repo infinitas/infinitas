@@ -28,10 +28,14 @@ class ContentsController extends CmsAppController {
 	*/
 	var $helpers = array('Filter.Filter');
 
+	function beforeFilter(){
+		parent::beforeFilter();
+	}
+
 	function index() {
 		$this->Content->recursive = 0;
 		$this->set('contents', $this->paginate());
-		}
+	}
 
 	function view($slug = null) {
 		if (!$slug) {
@@ -87,7 +91,7 @@ class ContentsController extends CmsAppController {
 	function admin_add() {
 		if (!empty($this->data)) {
 			$this->Content->create();
-			if ($this->Content->save($this->data)) {
+			if ($this->Content->saveAll($this->data)) {
 				$this->Session->setFlash(__('The content has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			}else {
@@ -96,7 +100,9 @@ class ContentsController extends CmsAppController {
 		}
 
 		$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
-		$this->set(compact('categories'));
+		$groups = array(__('Public', true)) + $this->Content->Group->generatetreelist();
+		$layouts = $this->Content->Layout->find('list');
+		$this->set(compact('categories','groups','layouts'));
 	}
 
 	function admin_edit($id = null) {
@@ -105,7 +111,7 @@ class ContentsController extends CmsAppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		if (!empty($this->data)) {
-			if ($this->Content->save($this->data)) {
+			if ($this->Content->saveAll($this->data)) {
 				$this->Session->setFlash(__('The content has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			}else {
@@ -121,10 +127,8 @@ class ContentsController extends CmsAppController {
 		}
 
 		$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
-		$this->set(compact('categories'));
-	}
-
-	function admin_toggle($id = null) {
+		$groups = array(__('Public', true)) + $this->Content->Group->generatetreelist();
+		$this->set(compact('categories','groups'));
 	}
 }
 

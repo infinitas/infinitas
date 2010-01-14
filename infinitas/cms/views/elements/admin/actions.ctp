@@ -28,6 +28,7 @@
 </ul>
 <h3><?php __( 'Contents' ); ?></h3>
 <ul class="nav">
+    <li><?php echo $this->Html->link( __( 'Layouts', true ), array( 'plugin' => 'cms', 'controller' => 'layouts', 'action' => 'index' ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'All', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index' ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 'Content.active' => 1 ) ); ?></li>
     <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'cms', 'controller' => 'contents', 'action' => 'index', 'Content.active' => 0 ) ); ?></li>

@@ -46,6 +46,9 @@
                     $this->Paginator->sort( 'Group', 'Group.name' ) => array(
                         'style' => 'width:100px;'
                     ),
+                    $this->Paginator->sort( 'Layout', 'Layout.name' ) => array(
+                        'style' => 'width:100px;'
+                    ),
                     $this->Paginator->sort( 'views' ) => array(
                         'style' => 'width:35px;'
                     ),
@@ -93,6 +96,9 @@
                 		</td>
                 		<td>
                 			<?php echo $content['Group']['name']; ?>
+                		</td>
+                		<td>
+                			<?php echo $content['Layout']['name']; ?>
                 		</td>
                 		<td style="text-align:center;">
                 			<?php echo $content['Content']['views']; ?>
