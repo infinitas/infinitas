@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 
--- Generation Time: Jan 13, 2010 at 10:25 PM
+-- Generation Time: Jan 14, 2010 at 03:15 AM
 -- Server version: 5.1.34
 -- PHP Version: 5.2.9-2
 
@@ -20,6 +20,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `blog_posts`
 --
 
+DROP TABLE IF EXISTS `blog_posts`;
 CREATE TABLE `blog_posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
@@ -51,6 +52,7 @@ INSERT INTO `blog_posts` VALUES(1, 'making cake show the primary key field.', 'm
 -- Table structure for table `blog_posts_tags`
 --
 
+DROP TABLE IF EXISTS `blog_posts_tags`;
 CREATE TABLE `blog_posts_tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
@@ -71,6 +73,7 @@ INSERT INTO `blog_posts_tags` VALUES(27, 1, 2);
 -- Table structure for table `blog_tags`
 --
 
+DROP TABLE IF EXISTS `blog_tags`;
 CREATE TABLE `blog_tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -93,6 +96,7 @@ INSERT INTO `blog_tags` VALUES(2, 'Forms', '2009-12-20 13:39:20', '2009-12-20 13
 -- Table structure for table `cms_categories`
 --
 
+DROP TABLE IF EXISTS `cms_categories`;
 CREATE TABLE `cms_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -133,6 +137,7 @@ INSERT INTO `cms_categories` VALUES(4, '123', '123', '<p>123</p>', 0, 0, NULL, N
 -- Table structure for table `cms_contents`
 --
 
+DROP TABLE IF EXISTS `cms_contents`;
 CREATE TABLE `cms_contents` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -171,6 +176,7 @@ INSERT INTO `cms_contents` VALUES(2, 'asdfasd', 'asdf', '<p>asdf</p>', '<p>sadf<
 -- Table structure for table `cms_content_frontpages`
 --
 
+DROP TABLE IF EXISTS `cms_content_frontpages`;
 CREATE TABLE `cms_content_frontpages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `content_id` int(11) NOT NULL DEFAULT '0',
@@ -195,6 +201,7 @@ INSERT INTO `cms_content_frontpages` VALUES(2, 2, 1, 1, '2010-01-04 22:46:15', '
 -- Table structure for table `cms_features`
 --
 
+DROP TABLE IF EXISTS `cms_features`;
 CREATE TABLE `cms_features` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `content_id` int(11) NOT NULL DEFAULT '0',
@@ -217,6 +224,7 @@ INSERT INTO `cms_features` VALUES(1, 1, 1, 1, '2010-01-04 21:49:03', 0);
 -- Table structure for table `core_backups`
 --
 
+DROP TABLE IF EXISTS `core_backups`;
 CREATE TABLE `core_backups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `plugin` varchar(50) DEFAULT NULL,
@@ -238,6 +246,7 @@ CREATE TABLE `core_backups` (
 -- Table structure for table `core_comments`
 --
 
+DROP TABLE IF EXISTS `core_comments`;
 CREATE TABLE `core_comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `class` varchar(128) NOT NULL,
@@ -267,6 +276,7 @@ INSERT INTO `core_comments` VALUES(2, 'Post', 1, 'bob smith', 'dogmatic69@gmail.
 -- Table structure for table `core_configs`
 --
 
+DROP TABLE IF EXISTS `core_configs`;
 CREATE TABLE `core_configs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `key` varchar(100) NOT NULL,
@@ -341,6 +351,7 @@ INSERT INTO `core_configs` VALUES(51, 'Website.home_page', 'blog', 'dropdown', '
 -- Table structure for table `core_feeds`
 --
 
+DROP TABLE IF EXISTS `core_feeds`;
 CREATE TABLE `core_feeds` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `plugin` int(11) DEFAULT NULL,
@@ -365,6 +376,7 @@ CREATE TABLE `core_feeds` (
 -- Table structure for table `core_groups`
 --
 
+DROP TABLE IF EXISTS `core_groups`;
 CREATE TABLE `core_groups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -390,6 +402,7 @@ INSERT INTO `core_groups` VALUES(1, 'admin', 'admin', '2009-12-16 00:06:53', '20
 -- Table structure for table `core_logs`
 --
 
+DROP TABLE IF EXISTS `core_logs`;
 CREATE TABLE `core_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
@@ -402,7 +415,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -453,6 +466,10 @@ INSERT INTO `core_logs` VALUES(42, 'Blog Test', 'Route "Blog Test" (19) added by
 INSERT INTO `core_logs` VALUES(43, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/p/:year/:month/:day) => (/), values (day:null\r\nhour:null) => (day:null)', NULL, '2010-01-13 20:09:29');
 INSERT INTO `core_logs` VALUES(44, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/) => (/p/:year/:month/:day)', NULL, '2010-01-13 20:09:55');
 INSERT INTO `core_logs` VALUES(45, 'Blog Test', 'Route "Blog Test" (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'url (/p/:year/:month/:day) => (/:controller/:year/:month/:day), controller (posts) => ()', NULL, '2010-01-13 20:26:17');
+INSERT INTO `core_logs` VALUES(46, '', 'Route "" (20) added by Core.User "1" (1).', 'Route', 20, 'add', 1, 'plugin () => (0), force_backend () => (0), force_frontend () => (0), active () => (0), theme_id () => (0), order_id () => (1), created () => (2010-01-14 00:38:19), ordering () => (13)', NULL, '2010-01-14 00:38:19');
+INSERT INTO `core_logs` VALUES(47, 'Pages', 'Route "Pages" (8) updated by Core.User "1" (1).', 'Route', 8, 'edit', 1, 'theme_id () => (4)', NULL, '2010-01-14 00:38:53');
+INSERT INTO `core_logs` VALUES(48, 'sdfg', 'Theme "sdfg" (6) added by Core.User "1" (1).', 'Theme', 6, 'add', 1, 'name () => (sdfg), author () => (dsfg), url () => (dfsg), update_url () => (dfg), licence () => (dsfg), active () => (0), core () => (1), description () => (<p>dfg</p>), created () => (2010-01-14 01:17:11)', NULL, '2010-01-14 01:17:11');
+INSERT INTO `core_logs` VALUES(49, '234', 'Theme "234" (6) updated by Core.User "1" (1).', 'Theme', 6, 'edit', 1, 'name (sdfg) => (234)', NULL, '2010-01-14 01:17:34');
 
 -- --------------------------------------------------------
 
@@ -460,6 +477,7 @@ INSERT INTO `core_logs` VALUES(45, 'Blog Test', 'Route "Blog Test" (18) updated 
 -- Table structure for table `core_ratings`
 --
 
+DROP TABLE IF EXISTS `core_ratings`;
 CREATE TABLE `core_ratings` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `class` varchar(100) NOT NULL,
@@ -485,6 +503,7 @@ INSERT INTO `core_ratings` VALUES(3, 'Blog.Post', 1, 4, 1, '127.0.0.1', '2010-01
 -- Table structure for table `core_routes`
 --
 
+DROP TABLE IF EXISTS `core_routes`;
 CREATE TABLE `core_routes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `core` tinyint(1) NOT NULL,
@@ -501,26 +520,27 @@ CREATE TABLE `core_routes` (
   `force_frontend` tinyint(1) NOT NULL DEFAULT '0',
   `order_id` int(11) NOT NULL DEFAULT '1',
   `ordering` int(11) NOT NULL,
+  `theme_id` int(11) DEFAULT NULL,
   `active` tinyint(1) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `core_routes`
 --
 
-INSERT INTO `core_routes` VALUES(7, 0, 'Home Page', '/', '', 'blog', 'posts', '', '', NULL, '', 0, 0, 1, 2, 1, '2010-01-13 16:50:39', '2010-01-13 16:50:39');
-INSERT INTO `core_routes` VALUES(8, 0, 'Pages', '/pages/*', '', '0', 'pages', 'display', '', NULL, '', 0, 0, 1, 3, 1, '2010-01-13 18:26:36', '2010-01-13 18:26:36');
-INSERT INTO `core_routes` VALUES(9, 0, 'Admin Home', '/admin', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 4, 1, '2010-01-13 18:36:50', '2010-01-13 18:36:50');
-INSERT INTO `core_routes` VALUES(11, 0, 'Management Home', '/admin/management', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 6, 1, '2010-01-13 18:40:23', '2010-01-13 18:42:53');
-INSERT INTO `core_routes` VALUES(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', NULL, '', 1, 0, 1, 7, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17');
-INSERT INTO `core_routes` VALUES(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', NULL, '', 0, 1, 1, 8, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00');
-INSERT INTO `core_routes` VALUES(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', NULL, '', 1, 0, 1, 9, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59');
-INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'contentFrontpages', '', '', NULL, '', 0, 1, 1, 10, 1, '2010-01-13 19:05:28', '2010-01-13 19:11:14');
-INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', NULL, '', 1, 0, 1, 11, 1, '2010-01-13 19:18:16', '2010-01-13 19:18:16');
-INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', NULL, 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 12, 1, '2010-01-13 19:36:31', '2010-01-13 20:26:33');
+INSERT INTO `core_routes` VALUES(7, 0, 'Home Page', '/', '', 'blog', 'posts', '', '', NULL, '', 0, 0, 1, 2, NULL, 1, '2010-01-13 16:50:39', '2010-01-13 16:50:39');
+INSERT INTO `core_routes` VALUES(8, 0, 'Pages', '/pages/*', '', '0', 'pages', 'display', '', '', '', 0, 0, 1, 3, 4, 1, '2010-01-13 18:26:36', '2010-01-14 00:38:53');
+INSERT INTO `core_routes` VALUES(9, 0, 'Admin Home', '/admin', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 4, NULL, 1, '2010-01-13 18:36:50', '2010-01-13 18:36:50');
+INSERT INTO `core_routes` VALUES(11, 0, 'Management Home', '/admin/management', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 6, NULL, 1, '2010-01-13 18:40:23', '2010-01-13 18:42:53');
+INSERT INTO `core_routes` VALUES(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', NULL, '', 1, 0, 1, 7, NULL, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17');
+INSERT INTO `core_routes` VALUES(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', NULL, '', 0, 1, 1, 8, NULL, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00');
+INSERT INTO `core_routes` VALUES(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', NULL, '', 1, 0, 1, 9, NULL, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59');
+INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'contentFrontpages', '', '', NULL, '', 0, 1, 1, 10, NULL, 1, '2010-01-13 19:05:28', '2010-01-13 19:11:14');
+INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', NULL, '', 1, 0, 1, 11, NULL, 1, '2010-01-13 19:18:16', '2010-01-13 19:18:16');
+INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', NULL, 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 12, 1, 1, '2010-01-13 19:36:31', '2010-01-13 20:26:33');
 
 -- --------------------------------------------------------
 
@@ -528,6 +548,7 @@ INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '',
 -- Table structure for table `core_sessions`
 --
 
+DROP TABLE IF EXISTS `core_sessions`;
 CREATE TABLE `core_sessions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `data` text,
@@ -546,24 +567,30 @@ CREATE TABLE `core_sessions` (
 -- Table structure for table `core_themes`
 --
 
+DROP TABLE IF EXISTS `core_themes`;
 CREATE TABLE `core_themes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` text,
   `author` varchar(150) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `update_url` varchar(255) DEFAULT NULL,
   `licence` varchar(100) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
+  `core` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `core_themes`
 --
 
-INSERT INTO `core_themes` VALUES(2, 'terrafirma', NULL, '', '', 0);
-INSERT INTO `core_themes` VALUES(3, 'aqueous', 'A blue 3 col layout', 'Six Shooter Media\r\n', '', 0);
-INSERT INTO `core_themes` VALUES(4, 'aqueous_light', 'aqueous_light', '', '', 0);
-INSERT INTO `core_themes` VALUES(5, 'think', NULL, 'Carl Sutton', '(c) ', 1);
+INSERT INTO `core_themes` VALUES(1, 'default', 'This is the default infinitas theme', 'Infinitas', NULL, NULL, '', 0, 1, '2010-01-14 01:39:54', '2010-01-14 01:39:57');
+INSERT INTO `core_themes` VALUES(2, 'terrafirma', NULL, '', NULL, NULL, '', 0, 0, NULL, NULL);
+INSERT INTO `core_themes` VALUES(3, 'aqueous', 'A blue 3 col layout', 'Six Shooter Media\r\n', NULL, NULL, '', 0, 0, NULL, NULL);
+INSERT INTO `core_themes` VALUES(4, 'aqueous_light', 'aqueous_light', '', NULL, NULL, '', 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -571,6 +598,7 @@ INSERT INTO `core_themes` VALUES(5, 'think', NULL, 'Carl Sutton', '(c) ', 1);
 -- Table structure for table `core_users`
 --
 
+DROP TABLE IF EXISTS `core_users`;
 CREATE TABLE `core_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
@@ -596,6 +624,7 @@ INSERT INTO `core_users` VALUES(2, 'bob', 'bob@bob.com', 'def267b31a9443f297b593
 -- Table structure for table `newsletter_campaigns`
 --
 
+DROP TABLE IF EXISTS `newsletter_campaigns`;
 CREATE TABLE `newsletter_campaigns` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -624,6 +653,7 @@ INSERT INTO `newsletter_campaigns` VALUES(6, '23423', '23423', 1, 1, 1, 0, NULL,
 -- Table structure for table `newsletter_newsletters`
 --
 
+DROP TABLE IF EXISTS `newsletter_newsletters`;
 CREATE TABLE `newsletter_newsletters` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `campaign_id` int(11) DEFAULT NULL,
@@ -663,6 +693,7 @@ INSERT INTO `newsletter_newsletters` VALUES(10, 6, 0, 'gsdfgd@dssd.com', 'gsdfgd
 -- Table structure for table `newsletter_newsletters_users`
 --
 
+DROP TABLE IF EXISTS `newsletter_newsletters_users`;
 CREATE TABLE `newsletter_newsletters_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -686,6 +717,7 @@ CREATE TABLE `newsletter_newsletters_users` (
 -- Table structure for table `newsletter_subscribers`
 --
 
+DROP TABLE IF EXISTS `newsletter_subscribers`;
 CREATE TABLE `newsletter_subscribers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -707,6 +739,7 @@ INSERT INTO `newsletter_subscribers` VALUES(1, 1, 1, '2009-12-13 01:49:32', '200
 -- Table structure for table `newsletter_templates`
 --
 
+DROP TABLE IF EXISTS `newsletter_templates`;
 CREATE TABLE `newsletter_templates` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -733,6 +766,7 @@ INSERT INTO `newsletter_templates` VALUES(1, 'first template', '<p style="color:
 -- Table structure for table `user_configs`
 --
 
+DROP TABLE IF EXISTS `user_configs`;
 CREATE TABLE `user_configs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -756,6 +790,7 @@ CREATE TABLE `user_configs` (
 -- Table structure for table `user_details`
 --
 
+DROP TABLE IF EXISTS `user_details`;
 CREATE TABLE `user_details` (
   `name` varchar(50) NOT NULL,
   `surname` varchar(50) NOT NULL,
