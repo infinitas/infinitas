@@ -1,3 +1,17 @@
+v0.6 alpha ( in progress )
+================================================================================
+Themes backend management
+	- you can now switch themes from the backend easily
+
+Routes managemet
+	- set up routing rules from the backed
+	- select a theme that will run off your selected rule
+
+Bug fixes
+	- pagination links
+	- set copied items to inactive
+
+
 v0.5 alpha
 ================================================================================
 Themes support
