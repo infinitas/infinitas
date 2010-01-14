@@ -23,21 +23,21 @@
          *
          * @var array
          **/
-        public $validContainers = array('pre');
+        var $validContainers = array('pre');
 
         /**
          * Replace containers with divs to increase validation
          *
          * @var string
          */
-        public $containerMap = array('pre' => array('div class="code"', 'div'));
+        var $containerMap = array('pre' => array('div class="code"', 'div'));
 
         /**
          * The languages you want to highlight.
          *
          * @var array
          **/
-        public $validLanguages = array('css', 'html', 'php', 'javascript', 'python', 'sql');
+        var $validLanguages = array('css', 'html', 'php', 'javascript', 'python', 'sql');
 
         /**
          * Default language to use if no valid language is found.  leave null to require a language attribute
@@ -45,7 +45,7 @@
          *
          * @var mixed  false for no default language, String for the default language
          **/
-        public $defaultLanguage = false;
+        var $defaultLanguage = false;
 
         /**
          * The Attribute use for finding the code Language.
@@ -54,21 +54,21 @@
          *
          * @var string
          **/
-        public $langAttribute = 'lang';
+        var $langAttribute = 'lang';
 
         /**
          * GeSHi Instance
          *
          * @var object
          **/
-        protected $_geshi = null;
+        var $_geshi = null;
 
         /**
          * Show the Button that can be used with JS to switch to plain text.
          *
          * @var bool
          */
-        public $showPlainTextButton = true;
+        var $showPlainTextButton = true;
 
         function highlight( $htmlString ) {
             $tags = implode('|', $this->validContainers);
@@ -92,7 +92,7 @@
          *
          * @return string Completed replacement string
          **/
-        protected function _processCodeBlock($matches) {
+        function _processCodeBlock($matches) {
             list($block, $openTag, $tagName, $lang, $code, $closeTag) = $matches;
             unset($matches);
             //check language
@@ -130,7 +130,7 @@
          *
          * @return mixed.
          **/
-        protected function validLang( $lang )  {
+        function validLang( $lang )  {
             if (in_array($lang, $this->validLanguages)) {
                 return $lang;
             }
@@ -146,7 +146,7 @@
          *
          * @return void
          **/
-        private function __configureInstance($geshi) {
+        function __configureInstance($geshi) {
             if (file_exists( CONFIGS . 'geshi.php')) {
                 include CONFIGS .'geshi.php';
             }

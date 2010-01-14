@@ -56,7 +56,7 @@ class GoogleContactsSource extends DataSource {
   * @var Array
   * @access protected
   */
-  protected $_schema;
+  var $_schema;
 
   /**
   * Url to request contacts
@@ -64,7 +64,7 @@ class GoogleContactsSource extends DataSource {
   * @var String
   * @access private
   */
-  private $read_uri = "http://www.google.com/m8/feeds/contacts/default/full";
+  var $read_uri = "http://www.google.com/m8/feeds/contacts/default/full";
 
   /**
   * Default Constructor
@@ -72,7 +72,7 @@ class GoogleContactsSource extends DataSource {
   * @param array $config options
   * @access public
   */
-  public function __construct($config) {
+  function __construct($config) {
     //Select contacts service for login token
     $this->GoogleApiContacts = new GoogleApiContacts($config);
     $this->_schema = $this->GoogleApiContacts->getSchema();
@@ -86,7 +86,7 @@ class GoogleContactsSource extends DataSource {
   * @param array $queryData
   * @access public
   */
-  public function read($model, $queryData = array()) {
+  function read($model, $queryData = array()) {
     if (isset($queryData['conditions']['id'])) {
       return $this->findById($queryData['conditions']['id']);
     } else {
@@ -130,7 +130,7 @@ class GoogleContactsSource extends DataSource {
   * @param array $values
   * @access public
   */
-  public function create($model, $fields = array(), $values = array()) {
+  function create($model, $fields = array(), $values = array()) {
     $baseObject = $model->data['GoogleContacts'];
     debug($baseObject);
     // $atom = $this->GoogleApiContacts->toAtom($baseObject);
@@ -145,7 +145,7 @@ class GoogleContactsSource extends DataSource {
   * @param array $values
   * @access public
   */
-  public function update($model, $fields = array(), $values = array()) {
+  function update($model, $fields = array(), $values = array()) {
     $baseObject = $model->data['GoogleContacts'];
     $atom = $this->GoogleApiContacts->toAtom($baseObject);
     $query = $baseObject['Link'][1]['href'];
@@ -159,7 +159,7 @@ class GoogleContactsSource extends DataSource {
   * @param string $id
   * @access public
   */
-  public function delete($model, $id = null) {
+  function delete($model, $id = null) {
     debug("delete");
   }
 
