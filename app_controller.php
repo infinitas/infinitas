@@ -22,7 +22,7 @@ class AppController extends Controller {
 	var $view = 'Theme';
 
 	var $helpers = array(
-		'Html', 'Form', 'Javascript',
+		'Html', 'Form', 'Javascript', 'Session',
 
 		'Libs.Status', 'Libs.Image', 'Libs.Design'
 		);
