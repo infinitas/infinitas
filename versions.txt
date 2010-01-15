@@ -15,7 +15,7 @@ Bug fixes
 v0.5 alpha
 ================================================================================
 Themes support
-	- switch themes easily (no admin interface yet)
+	- switch themes easily in admin interface
 
 Newsletter template export
 	- export templates to share with others
