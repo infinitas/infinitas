@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 
--- Generation Time: Jan 14, 2010 at 03:15 AM
+-- Generation Time: Jan 15, 2010 at 02:00 AM
 -- Server version: 5.1.34
 -- PHP Version: 5.2.9-2
 
@@ -38,7 +38,7 @@ CREATE TABLE `blog_posts` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `blog_posts`
@@ -127,9 +127,32 @@ CREATE TABLE `cms_categories` (
 --
 
 INSERT INTO `cms_categories` VALUES(1, 'test', 'test', '<p>test</p>', 0, 0, NULL, NULL, 1, 0, 3, 3, 6, 0, '2010-01-02 08:11:04', '2010-01-02 08:12:48', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `cms_categories` VALUES(2, 'test2', 'test2', '<p>test</p>', 0, 0, NULL, NULL, 1, 6, 0, 1, 8, 0, '2010-01-02 08:11:27', '2010-01-02 08:11:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `cms_categories` VALUES(2, 'test2', 'test2', '<p>test</p>', 0, 0, NULL, NULL, 1, 2, 0, 1, 8, 0, '2010-01-02 08:11:27', '2010-01-02 08:11:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `cms_categories` VALUES(3, 'test2.1', 'test2-1', '', 0, 1, '2010-01-04 10:28:27', 2, 1, 0, 2, 2, 7, 0, '2010-01-02 08:11:43', '2010-01-04 10:28:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 INSERT INTO `cms_categories` VALUES(4, '123', '123', '<p>123</p>', 0, 0, NULL, NULL, 1, 0, 1, 0, 0, 0, '2010-01-04 10:27:40', '2010-01-04 10:27:40', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cms_category_configs`
+--
+
+DROP TABLE IF EXISTS `cms_category_configs`;
+CREATE TABLE `cms_category_configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `main_articles` int(11) NOT NULL DEFAULT '0',
+  `columns` int(11) NOT NULL,
+  `limit` int(11) NOT NULL,
+  `keywords` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `cms_category_configs`
+--
+
 
 -- --------------------------------------------------------
 
@@ -155,20 +178,44 @@ CREATE TABLE `cms_contents` (
   `end` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
+  `layout_id` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`group_id`),
   KEY `idx_checkout` (`locked`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `cms_contents`
 --
 
-INSERT INTO `cms_contents` VALUES(1, 'test cat content', 'test-cat-content', '<p>test</p>', '<p>test</p>', 0, NULL, NULL, 1, 1, 0, 0, NULL, NULL, '2010-01-02 08:02:58', '2010-01-02 08:02:58', 0, 0, 2);
-INSERT INTO `cms_contents` VALUES(2, 'asdfasd', 'asdf', '<p>asdf</p>', '<p>sadf</p>', 0, NULL, NULL, 2, 1, 0, 1, NULL, NULL, '2010-01-02 08:20:33', '2010-01-02 08:21:03', 0, 0, 2);
+INSERT INTO `cms_contents` VALUES(1, 'test cat content', 'test-cat-content', '<p>This uses a layout with a introduction</p>', '<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>', 0, NULL, NULL, 1, 1, 20, 1, NULL, NULL, '2010-01-02 08:02:58', '2010-01-15 01:54:57', 1, 0, 0, 2);
+INSERT INTO `cms_contents` VALUES(2, 'asdfasd', 'asdf', '<p>asdf</p>', '<p>this does not use a introduction because it has a different layout</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>', 0, NULL, NULL, 2, 1, 6, 1, NULL, NULL, '2010-01-02 08:20:33', '2010-01-15 01:55:13', 2, 0, 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cms_content_configs`
+--
+
+DROP TABLE IF EXISTS `cms_content_configs`;
+CREATE TABLE `cms_content_configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content_id` int(11) NOT NULL,
+  `author_alias` varchar(50) DEFAULT NULL,
+  `keywords` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `cms_content_configs`
+--
+
+INSERT INTO `cms_content_configs` VALUES(1, 1, '', '', '');
+INSERT INTO `cms_content_configs` VALUES(2, 2, 'bob', '', '');
 
 -- --------------------------------------------------------
 
@@ -194,6 +241,36 @@ CREATE TABLE `cms_content_frontpages` (
 --
 
 INSERT INTO `cms_content_frontpages` VALUES(2, 2, 1, 1, '2010-01-04 22:46:15', '2010-01-04 22:46:15', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cms_content_layouts`
+--
+
+DROP TABLE IF EXISTS `cms_content_layouts`;
+CREATE TABLE `cms_content_layouts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `css` text NOT NULL,
+  `html` text NOT NULL,
+  `php` text NOT NULL,
+  `locked` tinyint(4) NOT NULL,
+  `locked_by` int(11) DEFAULT NULL,
+  `locked_since` datetime DEFAULT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT '1',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `cms_content_layouts`
+--
+
+INSERT INTO `cms_content_layouts` VALUES(1, 1, 'default', '\r\n	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}', '<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="introduction quote"><blockquote> 			<span class="bqstart">&ldquo;</span> 			[[Content.introduction]] 			<span class="bqend">&rdquo;</span> 		</blockquote></div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>', '', 0, NULL, NULL, 1, '2010-01-15 00:46:16', '2010-01-15 01:09:54');
+INSERT INTO `cms_content_layouts` VALUES(2, 2, 'no introduction', '	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}', '<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>', '', 0, NULL, NULL, 0, '2010-01-15 01:44:10', '2010-01-15 01:45:33');
 
 -- --------------------------------------------------------
 
@@ -287,7 +364,7 @@ CREATE TABLE `core_configs` (
   `core` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `config_key` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
 
 --
 -- Dumping data for table `core_configs`
@@ -344,6 +421,17 @@ INSERT INTO `core_configs` VALUES(48, 'Website.blacklist_words', '.html,.info,?,
 INSERT INTO `core_configs` VALUES(49, 'Reviews.auto_moderate', 'true', 'bool', 'true,false', '<p>Set this to true to alow the reviews to be automaticaly moderated for spam. If set to true the reviews will be cross checked with the data in the blacklisted keywordsconfiguration setting.</p>', 0);
 INSERT INTO `core_configs` VALUES(50, 'Global.pagination_limit', '100', 'integer', '', '<p>This is the maximum number of rows a query will ever return. only used where limits are set. This should stop people from passing params in urls to pull the entire database. Setting this value to 0 will disable and alow any nomber of records to be requested. The default for this setting is 100.</p>', 0);
 INSERT INTO `core_configs` VALUES(51, 'Website.home_page', 'blog', 'dropdown', 'blog,cms,shop', '<p>this is the page visitors to your site will land on when entering your domain directly</p>', 0);
+INSERT INTO `core_configs` VALUES(52, 'Cms.content_layout', 'default', 'string', '', '<p>This is the default layout of your content pages for the cms.&nbsp; Have a look when editing content pages for what is available, you can set any one of the values in the dropdown as the default here.&nbsp; All values must be like &quot;my_layout&quot; and not &quot;My Layout&quot;</p>', 0);
+INSERT INTO `core_configs` VALUES(53, 'Cms.content_title', 'true', 'bool', 'true,false', '<p>This sets if the heading is displayed in the content pages of your cms</p>', 0);
+INSERT INTO `core_configs` VALUES(54, 'Cms.content_title_link', 'true', 'bool', 'true,false', '<p>Set this to true to make the headings links in your content itmes pages</p>', 0);
+INSERT INTO `core_configs` VALUES(55, 'Cms.content_introduction_text', 'true', 'bool', 'true,false', '<p>Display the introduction text when viewing the content pages in your cms</p>', 0);
+INSERT INTO `core_configs` VALUES(56, 'Cms.content_category_title', 'true', 'bool', 'true,false', '<p>This sets if the category name should be displayed in the content items page</p>', 0);
+INSERT INTO `core_configs` VALUES(57, 'Cms.content_category_title_link', 'true', 'bool', 'true,false', '<p>If you have category headings displayed on the content pages this will set if they should be links</p>', 0);
+INSERT INTO `core_configs` VALUES(58, 'Cms.content_rateable', 'true', 'bool', 'true,false', '<p>If this is enabled content will be rateable by users and will display the overall rating for that content item.</p>', 0);
+INSERT INTO `core_configs` VALUES(59, 'Cms.content_commentable', 'true', 'bool', 'true,false', '<p>This sets if users my comment on the content items displayed in the site.</p>', 0);
+INSERT INTO `core_configs` VALUES(60, 'Cms.content_show_created', 'true', 'bool', 'true,false', '<p>If this is set to true the date the article will be displayed on the content items</p>', 0);
+INSERT INTO `core_configs` VALUES(61, 'Cms.content_show_author', 'true', 'bool', 'true,false', '<p>When set to true this will display the author of the article</p>', 0);
+INSERT INTO `core_configs` VALUES(62, 'Cms.content_share', 'true', 'bool', 'true,false', '<p>If this is set to true some social networking links will be available for your users to share your content</p>', 0);
 
 -- --------------------------------------------------------
 
@@ -415,7 +503,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -470,6 +558,41 @@ INSERT INTO `core_logs` VALUES(46, '', 'Route "" (20) added by Core.User "1" (1)
 INSERT INTO `core_logs` VALUES(47, 'Pages', 'Route "Pages" (8) updated by Core.User "1" (1).', 'Route', 8, 'edit', 1, 'theme_id () => (4)', NULL, '2010-01-14 00:38:53');
 INSERT INTO `core_logs` VALUES(48, 'sdfg', 'Theme "sdfg" (6) added by Core.User "1" (1).', 'Theme', 6, 'add', 1, 'name () => (sdfg), author () => (dsfg), url () => (dfsg), update_url () => (dfg), licence () => (dsfg), active () => (0), core () => (1), description () => (<p>dfg</p>), created () => (2010-01-14 01:17:11)', NULL, '2010-01-14 01:17:11');
 INSERT INTO `core_logs` VALUES(49, '234', 'Theme "234" (6) updated by Core.User "1" (1).', 'Theme', 6, 'edit', 1, 'name (sdfg) => (234)', NULL, '2010-01-14 01:17:34');
+INSERT INTO `core_logs` VALUES(50, 'Config (52)', 'Config (52) added by Core.User "1" (1).', 'Config', 52, 'add', 1, 'key () => (content_layout), value () => (default), type () => (string), core () => (0), description () => (<p>This is the default layout of your content pages for the cms.&nbsp; Have a look when editing content pages for what is available, you can set any one of the values in the dropdown as the default here.&nbsp; All values must be like &quot;my_layout&quot; and not &quot;My Layout&quot;</p>)', NULL, '2010-01-14 19:08:49');
+INSERT INTO `core_logs` VALUES(51, 'Config (53)', 'Config (53) added by Core.User "1" (1).', 'Config', 53, 'add', 1, 'key () => (Cms.content_title), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>This sets if the heading is displayed in the content pages of your cms</p>)', NULL, '2010-01-14 19:13:35');
+INSERT INTO `core_logs` VALUES(52, 'Config (54)', 'Config (54) added by Core.User "1" (1).', 'Config', 54, 'add', 1, 'key () => (Cms.content_title_link), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>Set this to true to make the headings links in your content itmes pages</p>)', NULL, '2010-01-14 19:14:28');
+INSERT INTO `core_logs` VALUES(53, 'Config (55)', 'Config (55) added by Core.User "1" (1).', 'Config', 55, 'add', 1, 'key () => (Cms.content_introduction_text), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>Display the introduction text when viewing the content pages in your cms</p>)', NULL, '2010-01-14 19:15:22');
+INSERT INTO `core_logs` VALUES(54, 'Config (56)', 'Config (56) added by Core.User "1" (1).', 'Config', 56, 'add', 1, 'key () => (Cms.content_category_title), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>This sets if the category name should be displayed in the content items page</p>)', NULL, '2010-01-14 19:16:30');
+INSERT INTO `core_logs` VALUES(55, 'Config (57)', 'Config (57) added by Core.User "1" (1).', 'Config', 57, 'add', 1, 'key () => (Cms.content_category_title_link), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>If you have category headings displayed on the content pages this will set if they should be links</p>)', NULL, '2010-01-14 19:17:18');
+INSERT INTO `core_logs` VALUES(56, 'Config (58)', 'Config (58) added by Core.User "1" (1).', 'Config', 58, 'add', 1, 'key () => (Cms.content_rateable), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>If this is enabled content will be rateable by users and will display the overall rating for that content item.</p>)', NULL, '2010-01-14 19:18:17');
+INSERT INTO `core_logs` VALUES(57, 'Config (59)', 'Config (59) added by Core.User "1" (1).', 'Config', 59, 'add', 1, 'key () => (Cms.content_commentable), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>This sets if users my comment on the content items displayed in the site.</p>)', NULL, '2010-01-14 19:19:54');
+INSERT INTO `core_logs` VALUES(58, 'Config (60)', 'Config (60) added by Core.User "1" (1).', 'Config', 60, 'add', 1, 'key () => (Cms.content_show_created), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>If this is set to true the date the article will be displayed on the content items</p>)', NULL, '2010-01-14 19:20:51');
+INSERT INTO `core_logs` VALUES(59, 'Config (61)', 'Config (61) added by Core.User "1" (1).', 'Config', 61, 'add', 1, 'key () => (Cms.content_show_author), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>When set to true this will display the author of the article</p>)', NULL, '2010-01-14 19:22:05');
+INSERT INTO `core_logs` VALUES(60, 'Config (62)', 'Config (62) added by Core.User "1" (1).', 'Config', 62, 'add', 1, 'key () => (Cms.content_share), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>If this is set to true some social networking links will be available for your users to share your content</p>)', NULL, '2010-01-14 19:23:07');
+INSERT INTO `core_logs` VALUES(61, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:07:29) => ()', NULL, '2010-01-14 20:09:59');
+INSERT INTO `core_logs` VALUES(62, '2', 'ContentConfig "2" (1) added by Core.User "1" (1).', 'ContentConfig', 1, 'add', 1, 'layout () => (0), title () => (2), title_link () => (2), introduction_text () => (2), category_title () => (2), category_title_link () => (2), rateable () => (2), commentable () => (2), show_created () => (2), show_author () => (2), share () => (2), content_id () => (1)', NULL, '2010-01-14 20:10:43');
+INSERT INTO `core_logs` VALUES(63, 'asdfasd', 'Content "asdfasd" (2) updated by Core.User "1" (1).', 'Content', 2, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:11:51) => ()', NULL, '2010-01-14 20:12:43');
+INSERT INTO `core_logs` VALUES(64, '0', 'ContentConfig "0" (2) added by Core.User "1" (1).', 'ContentConfig', 2, 'add', 1, 'layout () => (0), author_alias () => (bob), title () => (0), title_link () => (2), introduction_text () => (0), category_title () => (2), category_title_link () => (2), rateable () => (0), commentable () => (2), show_created () => (2), show_author () => (2), share () => (2), content_id () => (2)', NULL, '2010-01-14 20:12:43');
+INSERT INTO `core_logs` VALUES(65, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:23:46) => ()', NULL, '2010-01-14 20:24:05');
+INSERT INTO `core_logs` VALUES(66, '2', 'ContentConfig "2" (3) added by Core.User "1" (1).', 'ContentConfig', 3, 'add', 1, 'layout () => (2), title () => (2), title_link () => (2), introduction_text () => (2), category_title () => (2), category_title_link () => (2), rateable () => (2), commentable () => (2), show_created () => (2), show_author () => (2), share () => (2), content_id () => (1)', NULL, '2010-01-14 20:24:05');
+INSERT INTO `core_logs` VALUES(67, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:25:28) => ()', NULL, '2010-01-14 20:25:39');
+INSERT INTO `core_logs` VALUES(68, '2', 'ContentConfig "2" (4) added by Core.User "1" (1).', 'ContentConfig', 4, 'add', 1, 'content_id () => (1), layout () => (2), title () => (2), title_link () => (2), introduction_text () => (2), category_title () => (2), category_title_link () => (2), rateable () => (2), commentable () => (2), show_created () => (2), show_author () => (2), share () => (2)', NULL, '2010-01-14 20:25:39');
+INSERT INTO `core_logs` VALUES(69, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:29:18) => ()', NULL, '2010-01-14 20:29:26');
+INSERT INTO `core_logs` VALUES(70, '2', 'ContentConfig "2" (1) updated by Core.User "1" (1).', 'ContentConfig', 1, 'edit', 1, 'layout (0) => (2)', NULL, '2010-01-14 20:29:26');
+INSERT INTO `core_logs` VALUES(71, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:30:17) => ()', NULL, '2010-01-14 20:30:30');
+INSERT INTO `core_logs` VALUES(72, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:31:54) => ()', NULL, '2010-01-14 20:32:02');
+INSERT INTO `core_logs` VALUES(73, '2', 'ContentConfig "2" (1) updated by Core.User "1" (1).', 'ContentConfig', 1, 'edit', 1, 'layout (2) => (default)', NULL, '2010-01-14 20:32:02');
+INSERT INTO `core_logs` VALUES(74, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 20:54:18) => ()', NULL, '2010-01-14 20:54:30');
+INSERT INTO `core_logs` VALUES(75, '2', 'ContentConfig "2" (1) updated by Core.User "1" (1).', 'ContentConfig', 1, 'edit', 1, 'category_title (2) => (0), category_title_link (2) => (0), rateable (2) => (1)', NULL, '2010-01-14 20:54:30');
+INSERT INTO `core_logs` VALUES(76, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-14 21:02:16) => ()', NULL, '2010-01-14 21:03:33');
+INSERT INTO `core_logs` VALUES(77, 'default', 'Layout "default" (1) added by Core.User "1" (1).', 'Layout', 1, 'add', 1, 'name () => (default), css () => (.test{\r\nwidth:100px;\r\n}), html () => (<p>[[Content.title]]</p>\r\n<p>&nbsp;</p>\r\n<p>{{Category.title}}</p>), created () => (2010-01-15 00:46:16)', NULL, '2010-01-15 00:46:16');
+INSERT INTO `core_logs` VALUES(78, 'default', 'Layout "default" (1) updated by Core.User "1" (1).', 'Layout', 1, 'edit', 1, 'name (0) => (default), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 00:59:48) => ()', NULL, '2010-01-15 01:00:46');
+INSERT INTO `core_logs` VALUES(79, 'default', 'Layout "default" (1) updated by Core.User "1" (1).', 'Layout', 1, 'edit', 1, 'css (.test{\r\nwidth:100px;\r\n}) => (\r\n	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}), html (<p>[[Content.title]]</p>\r\n<p>&nbsp;</p>\r\n<p>{{Category.title}}</p>) => (<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="introduction quote"><blockquote> 			<span class="bqstart">&ldquo;</span> 			[[Content.introduction]] 			<span class="bqend">&rdquo;</span> 		</blockquote></div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:02:26) => ()', NULL, '2010-01-15 01:09:54');
+INSERT INTO `core_logs` VALUES(80, 'default- copy ( 2010-01-15 )', 'Layout "default- copy ( 2010-01-15 )" (2) added by Core.User "1" (1).', 'Layout', 2, 'add', 1, 'content_id () => (1), name () => (default- copy ( 2010-01-15 )), css () => (\r\n	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}), html () => (<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="introduction quote"><blockquote> 			<span class="bqstart">&ldquo;</span> 			[[Content.introduction]] 			<span class="bqend">&rdquo;</span> 		</blockquote></div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>), created () => (2010-01-15 01:44:10)', NULL, '2010-01-15 01:44:10');
+INSERT INTO `core_logs` VALUES(81, 'no introduction', 'Layout "no introduction" (2) updated by Core.User "1" (1).', 'Layout', 2, 'edit', 1, 'name (default- copy ( 2010-01-15 )) => (no introduction), css (\r\n	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}) => (	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}), html (<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="introduction quote"><blockquote> 			<span class="bqstart">&ldquo;</span> 			[[Content.introduction]] 			<span class="bqend">&rdquo;</span> 		</blockquote></div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>) => (<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:44:21) => ()', NULL, '2010-01-15 01:45:33');
+INSERT INTO `core_logs` VALUES(82, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'introduction (<p>test</p>) => (<p>This uses a layout with a introduction</p>), body (<p>test</p>) => (<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:46:43) => ()', NULL, '2010-01-15 01:48:15');
+INSERT INTO `core_logs` VALUES(83, 'asdfasd', 'Content "asdfasd" (2) updated by Core.User "1" (1).', 'Content', 2, 'edit', 1, 'body (<p>sadf</p>) => (<p>this does not use a introduction because its a different layout</p>\r\n<p>&nbsp;</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:46:46) => ()', NULL, '2010-01-15 01:49:09');
+INSERT INTO `core_logs` VALUES(84, 'asdfasd', 'Content "asdfasd" (2) updated by Core.User "1" (1).', 'Content', 2, 'edit', 1, 'body (<p>this does not use a introduction because its a different layout</p>\r\n<p>&nbsp;</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>) => (<p>this does not use a introduction because it has a different layout</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:50:19) => ()', NULL, '2010-01-15 01:50:58');
 
 -- --------------------------------------------------------
 
@@ -525,7 +648,7 @@ CREATE TABLE `core_routes` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `core_routes`
@@ -581,7 +704,7 @@ CREATE TABLE `core_themes` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `core_themes`
@@ -704,7 +827,7 @@ CREATE TABLE `newsletter_newsletters_users` (
   PRIMARY KEY (`id`),
   KEY `newsletter_sent` (`sent`),
   KEY `newsletter_newsletter_id` (`newsletter_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `newsletter_newsletters_users`
@@ -752,7 +875,7 @@ CREATE TABLE `newsletter_templates` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `newsletter_templates`
