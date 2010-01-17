@@ -17,8 +17,8 @@
 * @since 0.5a
 */
 
-class ContentFrontpage extends CmsAppModel {
-	var $name = 'ContentFrontpage';
+class Frontpage extends CmsAppModel {
+	var $name = 'Frontpage';
 
 	var $actsAs = array(
 		'Libs.Ordered'

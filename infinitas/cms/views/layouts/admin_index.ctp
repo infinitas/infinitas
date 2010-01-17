@@ -43,7 +43,9 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'Content', 'Content.name' ),
+                    $this->Paginator->sort( 'Contents', 'content_count' ) => array(
+                        'style' => 'width:100px;'
+                    ),
                     $this->Paginator->sort( 'modified' ) => array(
                         'style' => 'width:100px;'
                     ),
@@ -58,7 +60,7 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Cms->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $layout['Content']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( $layout['Layout']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php
                     			echo $this->Html->link(
@@ -71,16 +73,7 @@
                         	?>
                 		</td>
                 		<td>
-                			<?php
-                			    echo $this->Html->link(
-                			        $layout['Content']['title'],
-                			        array(
-                    			        'controller' => 'contents',
-                    			        'action' => 'edit',
-                    			        $layout['Content']['id']
-                    			    )
-                    			);
-                			?>
+                			<?php echo $layout['Layout']['content_count']; ?>
                 		</td>
                 		<td>
                 			<?php echo $this->Time->niceShort($layout['Layout']['modified']); ?>

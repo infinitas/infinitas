@@ -17,8 +17,8 @@
 * @since 0.5a
 */
 
-class ContentFrontpagesController extends CmsAppController {
-	var $name = 'ContentFrontpages';
+class FrontpagesController extends CmsAppController {
+	var $name = 'Frontpages';
 
 	/**
 	* Helpers.
@@ -29,20 +29,20 @@ class ContentFrontpagesController extends CmsAppController {
 	var $helpers = array('Filter.Filter');
 
 	function index() {
-		$this->ContentFrontpage->recursive = 0;
-		$this->set('contentFrontpages', $this->paginate());
+		$this->Frontpage->recursive = 0;
+		$this->set('frontpages', $this->paginate());
 	}
 
 	function admin_index() {
-		$this->ContentFrontpage->recursive = 0;
+		$this->Frontpage->recursive = 0;
 
 		$this->paginate = array(
 			'fields' => array(
-				'ContentFrontpage.id',
-				'ContentFrontpage.content_id',
-				'ContentFrontpage.ordering',
-				'ContentFrontpage.created',
-				'ContentFrontpage.modified'
+				'Frontpage.id',
+				'Frontpage.content_id',
+				'Frontpage.ordering',
+				'Frontpage.created',
+				'Frontpage.modified'
 				),
 			'contain' => array(
 				'Content' => array(
@@ -61,20 +61,20 @@ class ContentFrontpagesController extends CmsAppController {
 				)
 			);
 
-		$contentFrontpages = $this->paginate();
+		$frontpages = $this->paginate();
 
-		$this->set('contentFrontpages', $contentFrontpages);
+		$this->set('frontpages', $frontpages);
 		$this->set('filterOptions', $this->Filter->filterOptions);
 	}
 
 	function admin_add() {
 		if (!empty($this->data)) {
-			$this->ContentFrontpage->create();
-			if ($this->ContentFrontpage->save($this->data)) {
-				$this->Session->setFlash(__('The content frontpage has been saved', true));
+			$this->Frontpage->create();
+			if ($this->Frontpage->save($this->data)) {
+				$this->Session->setFlash(__('The frontpage has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			}else {
-				$this->Session->setFlash(__('The content frontpage could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The frontpage could not be saved. Please, try again.', true));
 			}
 		}
 
@@ -82,12 +82,12 @@ class ContentFrontpagesController extends CmsAppController {
 		* check what is already in the table so that the list only shows
 		* what is available.
 		*/
-		$content_ids = $this->ContentFrontpage->find(
+		$content_ids = $this->Frontpage->find(
 			'list',
 			array(
 				'fields' => array(
-					'ContentFrontpage.content_id',
-					'ContentFrontpage.content_id'
+					'Frontpage.content_id',
+					'Frontpage.content_id'
 					)
 				)
 			);
@@ -95,7 +95,7 @@ class ContentFrontpagesController extends CmsAppController {
 		/**
 		* only get the content itmes that are not being used.
 		*/
-		$contents = $this->ContentFrontpage->Content->find(
+		$contents = $this->Frontpage->Content->find(
 			'list',
 			array(
 				'conditions' => array(
