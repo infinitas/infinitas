@@ -128,7 +128,8 @@ class ContentsController extends CmsAppController {
 
 		$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
 		$groups = array(__('Public', true)) + $this->Content->Group->generatetreelist();
-		$this->set(compact('categories','groups'));
+		$layouts = $this->Content->Layout->find('list');
+		$this->set(compact('categories','groups','layouts'));
 	}
 }
 

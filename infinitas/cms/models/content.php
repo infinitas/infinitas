@@ -87,7 +87,8 @@
 			),
 			'Layout' => array(
 				'className' => 'Cms.ContentLayout',
-				'foreignKey' => 'layout_id'
+				'foreignKey' => 'layout_id',
+				'counterCache' => true
 			)
 		);
 
@@ -102,7 +103,7 @@
 				)
 			),
 			'Frontpage' => array(
-				'className' => 'Cms.ContentFrontpage',
+				'className' => 'Cms.Frontpage',
 				'fields' => array(
 					'Frontpage.id'
 				)
