@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 
--- Generation Time: Jan 15, 2010 at 02:00 AM
+-- Generation Time: Jan 18, 2010 at 11:42 PM
 -- Server version: 5.1.34
 -- PHP Version: 5.2.9-2
 
@@ -120,16 +120,13 @@ CREATE TABLE `cms_categories` (
   KEY `cat_idx` (`active`,`group_id`),
   KEY `idx_access` (`group_id`),
   KEY `idx_checkout` (`locked`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `cms_categories`
 --
 
-INSERT INTO `cms_categories` VALUES(1, 'test', 'test', '<p>test</p>', 0, 0, NULL, NULL, 1, 0, 3, 3, 6, 0, '2010-01-02 08:11:04', '2010-01-02 08:12:48', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `cms_categories` VALUES(2, 'test2', 'test2', '<p>test</p>', 0, 0, NULL, NULL, 1, 2, 0, 1, 8, 0, '2010-01-02 08:11:27', '2010-01-02 08:11:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `cms_categories` VALUES(3, 'test2.1', 'test2-1', '', 0, 1, '2010-01-04 10:28:27', 2, 1, 0, 2, 2, 7, 0, '2010-01-02 08:11:43', '2010-01-04 10:28:27', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `cms_categories` VALUES(4, '123', '123', '<p>123</p>', 0, 0, NULL, NULL, 1, 0, 1, 0, 0, 0, '2010-01-04 10:27:40', '2010-01-04 10:27:40', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+INSERT INTO `cms_categories` VALUES(5, 'Infinitas Pages', 'infinitas-pages', '<p>This category contains some information about infinitus, and what you can do when you have infinitus running your website.</p>', 1, 0, NULL, NULL, 1, 3, 0, 1, 2, 0, '2010-01-18 02:47:12', '2010-01-18 03:03:10', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -185,14 +182,15 @@ CREATE TABLE `cms_contents` (
   PRIMARY KEY (`id`),
   KEY `idx_access` (`group_id`),
   KEY `idx_checkout` (`locked`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `cms_contents`
 --
 
-INSERT INTO `cms_contents` VALUES(1, 'test cat content', 'test-cat-content', '<p>This uses a layout with a introduction</p>', '<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>', 0, NULL, NULL, 1, 1, 20, 1, NULL, NULL, '2010-01-02 08:02:58', '2010-01-15 01:54:57', 1, 0, 0, 2);
-INSERT INTO `cms_contents` VALUES(2, 'asdfasd', 'asdf', '<p>asdf</p>', '<p>this does not use a introduction because it has a different layout</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>', 0, NULL, NULL, 2, 1, 6, 1, NULL, NULL, '2010-01-02 08:20:33', '2010-01-15 01:55:13', 2, 0, 0, 2);
+INSERT INTO `cms_contents` VALUES(3, 'What is infinitas', 'what-is-infinitas', '<p>Infinitas is the cumulation of all the great web application rolled into one easy to manage system. All the features that you would expect from top class web based content management systems, with a powerfull e-commerce platform are at your disposal.&nbsp; Infinitas has been designed to be easy enough to use as a small personal blog site, but also powerful enough to be used as corporate level intranet or e-commerce platform.</p>', '<p>Over and above the core of infinitus is an easy to use api so anything that is not included in the core can be added through easy to develop plugins.&nbsp; With infinitas being built using the ever popular CakePHP&nbsp;framework there is countless plugins already developed that can be integrated with little or no modification.</p>\r\n<p>The core of infinitas has been developed using the MVC standard of object orintated design.&nbsp; If you are an amature php deveeloper or a veteran you will find Infinitas easy to follow and even easier to expand on.&nbsp;</p>\r\n<p>Now that you have Infinitas running your web site, you will have time to run your business.</p>', 0, NULL, NULL, 0, 0, 0, 1, NULL, NULL, '2010-01-18 03:37:17', '2010-01-18 03:39:03', 1, 0, 0, 5);
+INSERT INTO `cms_contents` VALUES(4, 'Extending Infinitus', 'extending-infinitus', '<p>Its never been easier to extend a web system. With the power of CakePHP''s helpers, components, behaviors, elements and plugins you can have new functionality up and running on your site in no time.&nbsp;&nbsp;&nbsp;&nbsp;</p>', '<p>With infinitas built using the CakePHP&nbsp;framework with the MVC design pattern, adding functionality to your site could not be easier. Even if you are developing a plugin from scratch you have the Infinitas API&nbsp;at your disposal allowing you to create admin pages with copy / delete functionality with out even one line of code for example. Other functionalty like locking records, deleting traking creators, editors and dates content was last updated is all handled for you.</p>\r\n<p>Full logging of create and modifing actions is logged and there is also full revisions of all models available.&nbsp; For more information see the development guide.</p>\r\n<p>Future versions of Infinitas have a full plugin installer planed meaning you will not even need to use your ftp program to add plugins. The installer will work in two ways, the first being a normal installer like the one found in other popular cms''s, and the second is a online installer that will display a list of trusted plugins that you can just select from.</p>', 0, NULL, NULL, 0, 0, 0, 1, NULL, NULL, '2010-01-18 04:05:26', '2010-01-18 09:50:14', 1, 0, 0, 5);
+INSERT INTO `cms_contents` VALUES(5, 'Contributing to Infinitas', 'contributing-to-infinitas', '<p>Contributing to Infinitus is important as there is only so many hours in the day to get code into the repo. All help is welcome by the core developers and is greatly appreciated.</p>', '<p>Open source software is all about the community around the application, and Infinitas is no different. With out users and developers contributing Infinitas would not get anywere. To help make it as easy as possible, we have the code hosted on <a target="_blank" href="http://github.com/infinitas">git</a> and the issues are being tracked on <a href="http://infinitas.lighthouseapp.com/dashboard">lighthouse</a>.&nbsp; There is a lot of information for developers that are interested in helping with Infinitas on lighthouse.</p>\r\n<p>We have a channel on irc where you can come and chat to us about issues you are having, or if you need some help integrating code / developing an application with Infinitas. We will be more than happy to help you were we can.</p>\r\n<p>If you find an issues and would like to fix it all you need to do is have a look at the details on <a target="_blank" href="http://infinitas.lighthouseapp.com/contributor-guidelines">lighthouse</a>.&nbsp; Once you have submitted a patch or pushed your code fixes, dont forget to send us a pull request or let us know in the irc channel that there is code we need to pull.</p>\r\n<p>&nbsp;</p>', 0, NULL, NULL, 0, 0, 0, 1, NULL, NULL, '2010-01-18 04:17:50', '2010-01-18 09:49:46', 1, 0, 0, 5);
 
 -- --------------------------------------------------------
 
@@ -208,7 +206,7 @@ CREATE TABLE `cms_content_configs` (
   `keywords` varchar(255) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `cms_content_configs`
@@ -216,31 +214,9 @@ CREATE TABLE `cms_content_configs` (
 
 INSERT INTO `cms_content_configs` VALUES(1, 1, '', '', '');
 INSERT INTO `cms_content_configs` VALUES(2, 2, 'bob', '', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cms_content_frontpages`
---
-
-DROP TABLE IF EXISTS `cms_content_frontpages`;
-CREATE TABLE `cms_content_frontpages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `content_id` int(11) NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `order_id` int(11) NOT NULL DEFAULT '1',
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `created_by` int(11) NOT NULL,
-  `modified_by` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `cms_content_frontpages`
---
-
-INSERT INTO `cms_content_frontpages` VALUES(2, 2, 1, 1, '2010-01-04 22:46:15', '2010-01-04 22:46:15', 0, 0);
+INSERT INTO `cms_content_configs` VALUES(5, 3, '', 'infinitas,core,cms', 'Infinitas is a powerful content management system');
+INSERT INTO `cms_content_configs` VALUES(6, 4, '', '', '');
+INSERT INTO `cms_content_configs` VALUES(7, 5, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -259,6 +235,7 @@ CREATE TABLE `cms_content_layouts` (
   `locked` tinyint(4) NOT NULL,
   `locked_by` int(11) DEFAULT NULL,
   `locked_since` datetime DEFAULT NULL,
+  `content_count` int(11) NOT NULL,
   `active` tinyint(4) NOT NULL DEFAULT '1',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -269,8 +246,8 @@ CREATE TABLE `cms_content_layouts` (
 -- Dumping data for table `cms_content_layouts`
 --
 
-INSERT INTO `cms_content_layouts` VALUES(1, 1, 'default', '\r\n	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}', '<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="introduction quote"><blockquote> 			<span class="bqstart">&ldquo;</span> 			[[Content.introduction]] 			<span class="bqend">&rdquo;</span> 		</blockquote></div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>', '', 0, NULL, NULL, 1, '2010-01-15 00:46:16', '2010-01-15 01:09:54');
-INSERT INTO `cms_content_layouts` VALUES(2, 2, 'no introduction', '	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}', '<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>', '', 0, NULL, NULL, 0, '2010-01-15 01:44:10', '2010-01-15 01:45:33');
+INSERT INTO `cms_content_layouts` VALUES(1, 1, 'default', '	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}', '<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="introduction quote"><blockquote> 			<span class="bqstart">&ldquo;</span> 			[[Content.introduction]] 			<span class="bqend">&rdquo;</span> 		</blockquote></div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>', '', 0, NULL, NULL, 3, 1, '2010-01-15 00:46:16', '2010-01-18 02:38:34');
+INSERT INTO `cms_content_layouts` VALUES(2, 2, 'no introduction', '	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}', '<div class="cms-content">\r\n<div class="heading">\r\n<h2>{{Content.title}}</h2>\r\n<div class="stats">\r\n<div class="views">||Viewed|| [[Content.views]] ||times||</div>\r\n</div>\r\n</div>\r\n<div class="body">[[Content.body]]\r\n<div class="stats">\r\n<div class="modified">||Last updated||: [[Content.modified]]</div>\r\n</div>\r\n</div>\r\n</div>', '', 0, NULL, NULL, 1, 1, '2010-01-15 01:44:10', '2010-01-15 01:45:33');
 
 -- --------------------------------------------------------
 
@@ -294,6 +271,33 @@ CREATE TABLE `cms_features` (
 --
 
 INSERT INTO `cms_features` VALUES(1, 1, 1, 1, '2010-01-04 21:49:03', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cms_frontpages`
+--
+
+DROP TABLE IF EXISTS `cms_frontpages`;
+CREATE TABLE `cms_frontpages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `content_id` int(11) NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `order_id` int(11) NOT NULL DEFAULT '1',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `cms_frontpages`
+--
+
+INSERT INTO `cms_frontpages` VALUES(3, 3, 1, 1, '2010-01-18 03:49:33', '2010-01-18 03:49:33', 0, 0);
+INSERT INTO `cms_frontpages` VALUES(4, 4, 2, 1, '2010-01-18 09:50:56', '2010-01-18 09:50:56', 0, 0);
+INSERT INTO `cms_frontpages` VALUES(5, 5, 3, 1, '2010-01-18 09:58:10', '2010-01-18 09:58:10', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -364,7 +368,7 @@ CREATE TABLE `core_configs` (
   `core` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `config_key` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
 
 --
 -- Dumping data for table `core_configs`
@@ -432,6 +436,7 @@ INSERT INTO `core_configs` VALUES(59, 'Cms.content_commentable', 'true', 'bool',
 INSERT INTO `core_configs` VALUES(60, 'Cms.content_show_created', 'true', 'bool', 'true,false', '<p>If this is set to true the date the article will be displayed on the content items</p>', 0);
 INSERT INTO `core_configs` VALUES(61, 'Cms.content_show_author', 'true', 'bool', 'true,false', '<p>When set to true this will display the author of the article</p>', 0);
 INSERT INTO `core_configs` VALUES(62, 'Cms.content_share', 'true', 'bool', 'true,false', '<p>If this is set to true some social networking links will be available for your users to share your content</p>', 0);
+INSERT INTO `core_configs` VALUES(63, 'Website.read_more', 'Read more...', 'string', '', '<p>This is the text you want to be displayed in read more text.</p>', 0);
 
 -- --------------------------------------------------------
 
@@ -503,7 +508,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=119 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -593,6 +598,127 @@ INSERT INTO `core_logs` VALUES(81, 'no introduction', 'Layout "no introduction" 
 INSERT INTO `core_logs` VALUES(82, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'introduction (<p>test</p>) => (<p>This uses a layout with a introduction</p>), body (<p>test</p>) => (<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:46:43) => ()', NULL, '2010-01-15 01:48:15');
 INSERT INTO `core_logs` VALUES(83, 'asdfasd', 'Content "asdfasd" (2) updated by Core.User "1" (1).', 'Content', 2, 'edit', 1, 'body (<p>sadf</p>) => (<p>this does not use a introduction because its a different layout</p>\r\n<p>&nbsp;</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:46:46) => ()', NULL, '2010-01-15 01:49:09');
 INSERT INTO `core_logs` VALUES(84, 'asdfasd', 'Content "asdfasd" (2) updated by Core.User "1" (1).', 'Content', 2, 'edit', 1, 'body (<p>this does not use a introduction because its a different layout</p>\r\n<p>&nbsp;</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>) => (<p>this does not use a introduction because it has a different layout</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-15 01:50:19) => ()', NULL, '2010-01-15 01:50:58');
+INSERT INTO `core_logs` VALUES(85, 'test cat content', 'Content "test cat content" (1) updated by Core.User "1" (1).', 'Content', 1, 'edit', 1, 'body (<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa </p>) => (<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-17 21:14:15) => ()', NULL, '2010-01-17 21:14:52');
+INSERT INTO `core_logs` VALUES(86, 'asdfasd', 'Content "asdfasd" (2) updated by Core.User "1" (1).', 'Content', 2, 'edit', 1, 'body (<p>this does not use a introduction because it has a different layout</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>) => (<p><img height="16" width="16" src="/img/content/img/hr.gif" alt="" />this does not use a introduction because it has a different layout</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa b</p>\r\n<p>laa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa bla</p>\r\n<p>a blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa</p>\r\n<p>blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa<br />\r\n&nbsp;</p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-17 21:15:11) => ()', NULL, '2010-01-17 21:15:44');
+INSERT INTO `core_logs` VALUES(87, 'Cms Home - Frontend', 'Route "Cms Home - Frontend" (15) updated by Core.User "1" (1).', 'Route', 15, 'edit', 1, 'controller (contentFrontpages) => (frontpages), theme_id () => (0)', NULL, '2010-01-17 23:38:36');
+INSERT INTO `core_logs` VALUES(88, 'Config (63)', 'Config (63) added by Core.User "1" (1).', 'Config', 63, 'add', 1, 'key () => (Website.read_more), value () => (Read more...), type () => (string), core () => (0), description () => (<p>This is the text you want to be displayed in read more text.</p>)', NULL, '2010-01-18 01:20:03');
+INSERT INTO `core_logs` VALUES(89, 'Cms Home - Frontend', 'Route "Cms Home - Frontend" (15) updated by Core.User "1" (1).', 'Route', 15, 'edit', 1, 'url (/cms) => (/cms/:category/:slug), controller (frontpages) => (contents), action () => (view), pass () => (:slug), active (1) => (0)', NULL, '2010-01-18 01:25:52');
+INSERT INTO `core_logs` VALUES(90, 'Cms Home - Frontend', 'Route "Cms Home - Frontend" (15) updated by Core.User "1" (1).', 'Route', 15, 'edit', 1, 'url (/cms/:category/:slug) => (/cms), controller (contents) => (fontpages), action (view) => (), pass (:slug) => ()', NULL, '2010-01-18 01:34:30');
+INSERT INTO `core_logs` VALUES(91, 'Blog Test- copy ( 2010-01-18 )', 'Route "Blog Test- copy ( 2010-01-18 )" (19) added by Core.User "1" (1).', 'Route', 19, 'add', 1, 'force_backend () => (0), force_frontend () => (1), order_id () => (1), core () => (0), name () => (Blog Test- copy ( 2010-01-18 )), url () => (/p/:year/:month/:day), plugin () => (blog), controller () => (posts), values () => (day:null), rules () => (year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n), ordering () => (13), theme_id () => (1), created () => (2010-01-18 01:35:21)', NULL, '2010-01-18 01:35:21');
+INSERT INTO `core_logs` VALUES(92, 'Blog Test- copy ( 2010-01-18 )', 'Route (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'ordering (13) => (12)', NULL, '2010-01-18 01:35:41');
+INSERT INTO `core_logs` VALUES(93, 'Blog Test', 'Route (18) updated by Core.User "1" (1).', 'Route', 18, 'edit', 1, 'ordering (12) => (13)', NULL, '2010-01-18 01:35:41');
+INSERT INTO `core_logs` VALUES(94, 'Blog Test- copy ( 2010-01-18 )', 'Route (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'ordering (12) => (11)', NULL, '2010-01-18 01:35:56');
+INSERT INTO `core_logs` VALUES(95, 'Newsletter Home - Backend', 'Route (16) updated by Core.User "1" (1).', 'Route', 16, 'edit', 1, 'ordering (11) => (12)', NULL, '2010-01-18 01:35:56');
+INSERT INTO `core_logs` VALUES(96, 'Cms SEO', 'Route "Cms SEO" (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'name (Blog Test- copy ( 2010-01-18 )) => (Cms SEO), url (/p/:year/:month/:day) => (/cms/:category/:slug), plugin (blog) => (cms), controller (posts) => (contents), action () => (view), values (day:null) => (category:null), rules (year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n) => (slug:\r\n)', NULL, '2010-01-18 01:37:55');
+INSERT INTO `core_logs` VALUES(97, 'Cms SEO', 'Route "Cms SEO" (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'values (category:null) => (), rules (slug:\r\n) => (\r\n)', NULL, '2010-01-18 01:38:38');
+INSERT INTO `core_logs` VALUES(98, 'Cms Home - Frontend', 'Route "Cms Home - Frontend" (15) updated by Core.User "1" (1).', 'Route', 15, 'edit', 1, 'controller (fontpages) => (frontpages)', NULL, '2010-01-18 01:40:23');
+INSERT INTO `core_logs` VALUES(99, 'Cms SEO', 'Route "Cms SEO" (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'values () => (category:all), rules (\r\n) => (), active (0) => (1)', NULL, '2010-01-18 01:55:47');
+INSERT INTO `core_logs` VALUES(100, 'Cms SEO', 'Route "Cms SEO" (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'url (/cms/:category/:slug) => (/cms/:id-:slug), pass () => (id,slug), values (category:all) => (), rules () => (id:[0-9]+)', NULL, '2010-01-18 02:04:51');
+INSERT INTO `core_logs` VALUES(101, 'Cms SEO', 'Route "Cms SEO" (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'url (/cms/:id-:slug) => (/cms/:category/:id-:slug)', NULL, '2010-01-18 02:05:59');
+INSERT INTO `core_logs` VALUES(102, 'Cms SEO', 'Route "Cms SEO" (19) updated by Core.User "1" (1).', 'Route', 19, 'edit', 1, 'theme_id (1) => (0)', NULL, '2010-01-18 02:09:17');
+INSERT INTO `core_logs` VALUES(103, 'default', 'Layout "default" (1) updated by Core.User "1" (1).', 'Layout', 1, 'edit', 1, 'css (\r\n	.quote blockquote{\r\n		line-height:180%;\r\n		margin:45px;\r\n		font-size:130%;\r\n		background-color:#EEEEEE;\r\n	}\r\n	.quote .bqstart,\r\n	.quote .bqend{\r\n		font-family:''Lucida Grande'',Verdana,helvetica,sans-serif;\r\n		font-size:700%;\r\n		font-style:normal;\r\n		color:#FF0000;\r\n	}\r\n	.quote .bqstart{\r\n		padding-top:45px;\r\n		float:left;\r\n		height:45px;\r\n		margin-bottom:-50px;\r\n		margin-top:-20px;\r\n	}\r\n	.quote .bqend{\r\n		padding-top:5px;\r\n		float:right;\r\n		height:25px;\r\n		margin-top:0;\r\n	}\r\n\r\n	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}) => (	.cms-content big{\r\n		font-size:120%;\r\n	}\r\n	.cms-content ol,\r\n	.cms-content ul {\r\n		list-style:lower-greek outside none;\r\n	}\r\n\r\n	.cms-content .heading{\r\n		margin-bottom:20px;\r\n	}\r\n\r\n	.cms-content .heading h2{\r\n		font-size:130%;\r\n		color:#1E379C;\r\n		padding-bottom:5px;\r\n	}\r\n\r\n	.cms-content .stats{\r\n		border-top:1px dotted #E4E4E4;\r\n	}\r\n\r\n	.cms-content .stats div{\r\n		float:left;\r\n		padding-right:20px;\r\n		font-size:80%;\r\n		padding-top:3px;\r\n	}\r\n\r\n	.cms-content .introduction{\r\n		font-style: italic;\r\n		color: #8F8F8F;\r\n	}\r\n\r\n	.cms-content p{\r\n		margin-bottom:10px;\r\n	}\r\n\r\n	.cms-content .body{\r\n		color:#535D6F;\r\n		line-height:110%;\r\n	}\r\n		.cms-content .body .stats div{\r\n			float:right;\r\n		}), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-18 02:37:22) => ()', NULL, '2010-01-18 02:38:34');
+INSERT INTO `core_logs` VALUES(104, 'Infinitas Pager', 'Category "Infinitas Pager" (5) added by Core.User "1" (1).', 'Category', 5, 'add', 1, 'active () => (1), group_id () => (1), content_count () => (0), title () => (Infinitas Pager), parent_id () => (0), description () => (<p>This category contains some information about infinitus, and what you can do when you have infinitus running your website.</p>), created () => (2010-01-18 02:47:12), slug () => (infinitas-pager), lft () => (1), rght () => (2)', NULL, '2010-01-18 02:47:12');
+INSERT INTO `core_logs` VALUES(105, 'Infinitas Pages', 'Category "Infinitas Pages" (5) updated by Core.User "1" (1).', 'Category', 5, 'edit', 1, 'title (Infinitas Pager) => (Infinitas Pages), parent_id (0) => (), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-18 03:02:58) => ()', NULL, '2010-01-18 03:03:10');
+INSERT INTO `core_logs` VALUES(106, 'What is infinitas', 'Content "What is infinitas" (3) added by Core.User "1" (1).', 'Content', 3, 'add', 1, 'title () => (What is infinitas), introduction () => (<p>Infinitas is the cumulation of all the great web application rolled into one easy to manage system. All the features that you would expect from top class web based content management systems, with a powerfull e-commerce platform are at your disposal.&nbsp; Infinitas has been designed to be easy enough to use as a small personal blog site, but also powerful enough to be used as corporate level intranet or e-commerce platform.</p>), body () => (<p>Over and above the core of infinitus is an easy to use api so anything that is not included in the core can be added through easy to develop plugins.&nbsp; With infinitas being built using the ever popular CakePHP&nbsp;framework there is countless plugins already developed that can be integrated with little or no modification.</p>\r\n<p>The core of infinitas has been developed using the MVC standard of object orintated design.&nbsp; If you are an amature php deveeloper or a veteran you will find Infinitas easy to follow and even easier to expand on.&nbsp; </p>\r\n<p>Now that you have Infinitas running your web site, you will have time to run your business.</p>), active () => (0), layout_id () => (1), category_id () => (0), group_id () => (0), created () => (2010-01-18 03:37:17), slug () => (what-is-infinitas)', NULL, '2010-01-18 03:37:17');
+INSERT INTO `core_logs` VALUES(107, 'ContentConfig (5)', 'ContentConfig (5) added by Core.User "1" (1).', 'ContentConfig', 5, 'add', 1, 'content_id () => (3)', NULL, '2010-01-18 03:37:17');
+INSERT INTO `core_logs` VALUES(108, 'What is infinitas', 'Content "What is infinitas" (3) updated by Core.User "1" (1).', 'Content', 3, 'edit', 1, 'body (<p>Over and above the core of infinitus is an easy to use api so anything that is not included in the core can be added through easy to develop plugins.&nbsp; With infinitas being built using the ever popular CakePHP&nbsp;framework there is countless plugins already developed that can be integrated with little or no modification.</p>\r\n<p>The core of infinitas has been developed using the MVC standard of object orintated design.&nbsp; If you are an amature php deveeloper or a veteran you will find Infinitas easy to follow and even easier to expand on.&nbsp; </p>\r\n<p>Now that you have Infinitas running your web site, you will have time to run your business.</p>) => (<p>Over and above the core of infinitus is an easy to use api so anything that is not included in the core can be added through easy to develop plugins.&nbsp; With infinitas being built using the ever popular CakePHP&nbsp;framework there is countless plugins already developed that can be integrated with little or no modification.</p>\r\n<p>The core of infinitas has been developed using the MVC standard of object orintated design.&nbsp; If you are an amature php deveeloper or a veteran you will find Infinitas easy to follow and even easier to expand on.&nbsp;</p>\r\n<p>Now that you have Infinitas running your web site, you will have time to run your business.</p>), category_id (0) => (5), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-18 03:37:28) => ()', NULL, '2010-01-18 03:39:03');
+INSERT INTO `core_logs` VALUES(109, 'ContentConfig (5)', 'ContentConfig (5) updated by Core.User "1" (1).', 'ContentConfig', 5, 'edit', 1, 'keywords () => (infinitas,core,cms), description () => (Infinitas is a powerful content management system)', NULL, '2010-01-18 03:39:03');
+INSERT INTO `core_logs` VALUES(110, 'Frontpage (3)', 'Frontpage (3) added by Core.User "1" (1).', 'Frontpage', 3, 'add', 1, 'content_id () => (3), ordering () => (1), order_id () => (1), created () => (2010-01-18 03:49:33)', NULL, '2010-01-18 03:49:33');
+INSERT INTO `core_logs` VALUES(111, 'Extending Infinitus', 'Content "Extending Infinitus" (4) added by Core.User "1" (1).', 'Content', 4, 'add', 1, 'title () => (Extending Infinitus), introduction () => (<p>Its never been easier to extend a web system. With the power of CakePHP''s helpers, components, behaviors, elements and plugins you can have new functionality up and running on your site in no time.&nbsp;&nbsp;&nbsp;&nbsp;</p>), body () => (<p>With infinitas built using the CakePHP&nbsp;framework with the MVC design pattern, adding functionality to your site could not be easier. Even if you are developing a plugin from scratch you have the Infinitas API&nbsp;at your disposal allowing you to create admin pages with copy / delete functionality with out even one line of code for example. Other functionalty like locking records, deleting traking creators, editors and dates content was last updated is all handled for you.</p>\r\n<p>Full logging of create and modifing actions is logged and there is also full revisions of all models available.&nbsp; For more information see the development guide.</p>\r\n<p>Future versions of Infinitas have a full plugin installer planed meaning you will not even need to use your ftp program to add plugins. The installer will work in two ways, the first being a normal installer like the one found in other popular cms''s, and the second is a online installer that will display a list of trusted plugins that you can just select from.</p>), active () => (0), layout_id () => (1), category_id () => (0), group_id () => (0), created () => (2010-01-18 04:05:26), slug () => (extending-infinitus)', NULL, '2010-01-18 04:05:26');
+INSERT INTO `core_logs` VALUES(112, 'ContentConfig (6)', 'ContentConfig (6) added by Core.User "1" (1).', 'ContentConfig', 6, 'add', 1, 'content_id () => (4)', NULL, '2010-01-18 04:05:26');
+INSERT INTO `core_logs` VALUES(113, 'Contributing to Infinitas', 'Content "Contributing to Infinitas" (5) added by Core.User "1" (1).', 'Content', 5, 'add', 1, 'title () => (Contributing to Infinitas), introduction () => (<p>Contributing to Infinitus is important as there is only so many hours in the day to get code into the repo. All help is welcome by the core developers and is greatly appreciated. </p>), body () => (<p>Open source software is all about the community around the application, and Infinitas is no different. With out users and developers contributing Infinitas would not get anywere. To help make it as easy as possible, we have the code hosted on <a href="http://github.com/infinitas" target="_blank">git</a> and the issues are being tracked on <a href="http://infinitas.lighthouseapp.com/dashboard">lighthouse</a>.&nbsp; There is a lot of information for developers that are interested in helping with Infinitas on lighthouse.</p>\r\n<p>We have a channel on irc where you can come and chat to us about issues you are having, or if you need some help integrating code / developing an application with Infinitas. We will be more than happy to help you were we can.</p>\r\n<p>If you find an issues and would like to fix it all you need to do is have a look at the details on <a href="http://infinitas.lighthouseapp.com/contributor-guidelines" target="_blank">lighthouse</a>.&nbsp; Once you have submitted a patch or pushed your code fixes, dont forget to send us a pull request or let us know in the irc channel that there is code we need to pull.</p>\r\n<p>&nbsp;</p>), active () => (0), layout_id () => (1), category_id () => (0), group_id () => (0), created () => (2010-01-18 04:17:50), slug () => (contributing-to-infinitas)', NULL, '2010-01-18 04:17:50');
+INSERT INTO `core_logs` VALUES(114, 'ContentConfig (7)', 'ContentConfig (7) added by Core.User "1" (1).', 'ContentConfig', 7, 'add', 1, 'content_id () => (5)', NULL, '2010-01-18 04:17:50');
+INSERT INTO `core_logs` VALUES(115, 'Contributing to Infinitas', 'Content "Contributing to Infinitas" (5) updated by Core.User "1" (1).', 'Content', 5, 'edit', 1, 'introduction (<p>Contributing to Infinitus is important as there is only so many hours in the day to get code into the repo. All help is welcome by the core developers and is greatly appreciated. </p>) => (<p>Contributing to Infinitus is important as there is only so many hours in the day to get code into the repo. All help is welcome by the core developers and is greatly appreciated.</p>), body (<p>Open source software is all about the community around the application, and Infinitas is no different. With out users and developers contributing Infinitas would not get anywere. To help make it as easy as possible, we have the code hosted on <a href="http://github.com/infinitas" target="_blank">git</a> and the issues are being tracked on <a href="http://infinitas.lighthouseapp.com/dashboard">lighthouse</a>.&nbsp; There is a lot of information for developers that are interested in helping with Infinitas on lighthouse.</p>\r\n<p>We have a channel on irc where you can come and chat to us about issues you are having, or if you need some help integrating code / developing an application with Infinitas. We will be more than happy to help you were we can.</p>\r\n<p>If you find an issues and would like to fix it all you need to do is have a look at the details on <a href="http://infinitas.lighthouseapp.com/contributor-guidelines" target="_blank">lighthouse</a>.&nbsp; Once you have submitted a patch or pushed your code fixes, dont forget to send us a pull request or let us know in the irc channel that there is code we need to pull.</p>\r\n<p>&nbsp;</p>) => (<p>Open source software is all about the community around the application, and Infinitas is no different. With out users and developers contributing Infinitas would not get anywere. To help make it as easy as possible, we have the code hosted on <a target="_blank" href="http://github.com/infinitas">git</a> and the issues are being tracked on <a href="http://infinitas.lighthouseapp.com/dashboard">lighthouse</a>.&nbsp; There is a lot of information for developers that are interested in helping with Infinitas on lighthouse.</p>\r\n<p>We have a channel on irc where you can come and chat to us about issues you are having, or if you need some help integrating code / developing an application with Infinitas. We will be more than happy to help you were we can.</p>\r\n<p>If you find an issues and would like to fix it all you need to do is have a look at the details on <a target="_blank" href="http://infinitas.lighthouseapp.com/contributor-guidelines">lighthouse</a>.&nbsp; Once you have submitted a patch or pushed your code fixes, dont forget to send us a pull request or let us know in the irc channel that there is code we need to pull.</p>\r\n<p>&nbsp;</p>), category_id (0) => (5), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-18 09:49:20) => ()', NULL, '2010-01-18 09:49:46');
+INSERT INTO `core_logs` VALUES(116, 'Extending Infinitus', 'Content "Extending Infinitus" (4) updated by Core.User "1" (1).', 'Content', 4, 'edit', 1, 'category_id (0) => (5), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-18 09:50:01) => ()', NULL, '2010-01-18 09:50:14');
+INSERT INTO `core_logs` VALUES(117, 'Frontpage (4)', 'Frontpage (4) added by Core.User "1" (1).', 'Frontpage', 4, 'add', 1, 'content_id () => (4), ordering () => (2), order_id () => (1), created () => (2010-01-18 09:50:56)', NULL, '2010-01-18 09:50:56');
+INSERT INTO `core_logs` VALUES(118, 'Frontpage (5)', 'Frontpage (5) added by Core.User "1" (1).', 'Frontpage', 5, 'add', 1, 'content_id () => (5), ordering () => (3), order_id () => (1), created () => (2010-01-18 09:58:10)', NULL, '2010-01-18 09:58:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `core_modules`
+--
+
+DROP TABLE IF EXISTS `core_modules`;
+CREATE TABLE `core_modules` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `content` text NOT NULL,
+  `module` varchar(100) NOT NULL,
+  `config` text,
+  `position_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `locked` tinyint(1) NOT NULL,
+  `locked_by` int(11) DEFAULT NULL,
+  `locked_since` int(11) DEFAULT NULL,
+  `show_heading` tinyint(1) NOT NULL DEFAULT '1',
+  `core` tinyint(1) NOT NULL DEFAULT '0',
+  `author` varchar(50) DEFAULT NULL,
+  `licence` varchar(75) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `update_url` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `core_modules`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `core_modules_routes`
+--
+
+DROP TABLE IF EXISTS `core_modules_routes`;
+CREATE TABLE `core_modules_routes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `module_id` int(11) NOT NULL,
+  `route_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `core_modules_routes`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `core_module_positions`
+--
+
+DROP TABLE IF EXISTS `core_module_positions`;
+CREATE TABLE `core_module_positions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `core_module_positions`
+--
+
+INSERT INTO `core_module_positions` VALUES(1, 'top', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(2, 'bottom', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(3, 'left', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(4, 'right', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(5, 'custom1', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(6, 'custom2', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(7, 'custom3', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(8, 'custom4', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(9, 'bread_crumbs', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(10, 'debug', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(11, 'feeds', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
 
 -- --------------------------------------------------------
 
@@ -648,7 +774,7 @@ CREATE TABLE `core_routes` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Dumping data for table `core_routes`
@@ -661,9 +787,10 @@ INSERT INTO `core_routes` VALUES(11, 0, 'Management Home', '/admin/management', 
 INSERT INTO `core_routes` VALUES(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', NULL, '', 1, 0, 1, 7, NULL, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17');
 INSERT INTO `core_routes` VALUES(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', NULL, '', 0, 1, 1, 8, NULL, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00');
 INSERT INTO `core_routes` VALUES(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', NULL, '', 1, 0, 1, 9, NULL, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59');
-INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'contentFrontpages', '', '', NULL, '', 0, 1, 1, 10, NULL, 1, '2010-01-13 19:05:28', '2010-01-13 19:11:14');
-INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', NULL, '', 1, 0, 1, 11, NULL, 1, '2010-01-13 19:18:16', '2010-01-13 19:18:16');
-INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', NULL, 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 12, 1, 1, '2010-01-13 19:36:31', '2010-01-13 20:26:33');
+INSERT INTO `core_routes` VALUES(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'frontpages', '', '', '', '', 0, 1, 1, 10, 0, 1, '2010-01-13 19:05:28', '2010-01-18 01:40:23');
+INSERT INTO `core_routes` VALUES(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', NULL, '', 1, 0, 1, 12, NULL, 1, '2010-01-13 19:18:16', '2010-01-18 01:35:56');
+INSERT INTO `core_routes` VALUES(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', NULL, 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 13, 1, 1, '2010-01-13 19:36:31', '2010-01-18 01:35:41');
+INSERT INTO `core_routes` VALUES(19, 0, 'Cms SEO', '/cms/:category/:id-:slug', '', 'cms', 'contents', 'view', '', 'id,slug', 'id:[0-9]+', 0, 1, 1, 11, 0, 1, '2010-01-18 01:35:21', '2010-01-18 02:09:17');
 
 -- --------------------------------------------------------
 
