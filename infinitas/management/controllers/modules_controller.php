@@ -26,7 +26,8 @@
 
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
-			$this->set(compact('positions', 'groups'));
+			$modulesRoute = $this->Module->ModulesRoute->find('all');
+			$this->set(compact('positions', 'groups', 'modulesRoute'));
 		}
 
 		function admin_edit($id = null) {

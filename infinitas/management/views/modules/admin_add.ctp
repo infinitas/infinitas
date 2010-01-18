@@ -19,19 +19,31 @@
 
     echo $this->Core->adminOtherHead( $this );
     echo $this->Form->create( 'Module' );
-        echo $this->Form->input( 'name' );
-        echo $this->Form->input( 'module' );
-        echo $this->Form->input( 'position_id' );
-        echo $this->Form->input( 'group_id' );
-        echo $this->Form->input( 'active' );
-        echo $this->Form->input( 'show_heading' );
-        echo $this->Form->input( 'core' );
-        echo $this->Form->input( 'author' );
-        echo $this->Form->input( 'url' );
-        echo $this->Form->input( 'update_url' );
-        echo $this->Form->input( 'licence' );
+    ?>
+		<div style="width:50%; float:left;">
+			<?php
+		        echo $this->Form->input( 'name' );
+		        echo $this->Form->input( 'module' );
+		        echo $this->Form->input( 'position_id' );
+		        echo $this->Form->input( 'group_id' );
+		        echo $this->Form->input( 'active' );
+		        echo $this->Form->input( 'show_heading' );
+		        echo $this->Form->input( 'core' );
+		        echo $this->Form->input( 'author' );
+		        echo $this->Form->input( 'url' );
+		        echo $this->Form->input( 'update_url' );
+		        echo $this->Form->input( 'licence' );
 
-        echo $this->Form->input( 'content', array('class' => 'title') );
-        echo $this->Form->input( 'config', array('class' => 'title') );
+		        echo $this->Form->input( 'content', array('class' => 'title') );
+		        echo $this->Form->input( 'config', array('class' => 'title') );
+			?>
+		</div>
+		<div style="width:50%; float:left;">
+			<?php
+				pr($modulesRoute);
+				echo $this->Form->input( 'ModulesRoute' );
+			?>
+		</div>
+	<?php
     echo $this->Form->end( 'Save Module' );
 ?>
