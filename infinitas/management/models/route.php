@@ -40,6 +40,16 @@
 			'Management.Theme'
 		);
 
+		var $hasAndBelongsToMany = array(
+			'ModulesRoute' => array(
+				'className' => 'Core.ModulesRoute',
+				'joinTable' => 'modules_routes',
+				'foreignKey' => 'routes_id',
+				'associationForeignKey' => 'module_id',
+				'unique' => true
+			)
+		);
+
 		function getPlugins(){
 			$plugins = Configure::listObjects('plugin');
 

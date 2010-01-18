@@ -23,6 +23,10 @@
 					$this->redirect(array('action' => 'index'));
 				}
 			}
+
+			$positions = $this->Module->Position->find('list');
+			$groups = $this->Module->Group->find('list');
+			$this->set(compact('positions', 'groups'));
 		}
 
 		function admin_edit($id = null) {
