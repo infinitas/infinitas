@@ -32,18 +32,21 @@
 		var $order = array(
 			'Content.category_id' => 'ASC',
 			'Content.ordering' => 'ASC'
-			);
+		);
 
 		var $validate = array(
 			'title' => array(
-				'notempty' => array('rule' => array('notempty')),
+				'notempty' => array(
+					'rule' => array( 'notempty' ),
+					'message' => 'Please enter the title of your page'
 				),
-			);
+			)
+		);
 
 		var $actsAs = array(
 			'Libs.Sluggable',
 			'Libs.Viewable'
-			);
+		);
 
 		var $belongsTo = array(
 			'Author' => array(

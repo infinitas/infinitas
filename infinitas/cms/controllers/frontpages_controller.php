@@ -30,7 +30,55 @@ class FrontpagesController extends CmsAppController {
 
 	function index() {
 		$this->Frontpage->recursive = 0;
-		$this->set('frontpages', $this->paginate());
+
+		$this->paginate = array(
+			'fields' => array(
+				'Frontpage.id',
+				'Frontpage.content_id',
+				'Frontpage.ordering',
+				'Frontpage.created',
+				'Frontpage.modified'
+			),
+			'contain' => array(
+				'Content' => array(
+					'fields' => array(
+						'Content.id',
+						'Content.title',
+						'Content.slug',
+						'Content.introduction',
+						'Content.active',
+						'Content.created',
+						'Content.modified',
+					),
+					'Author' => array(
+						'fields' => array(
+							'Author.id',
+							'Author.username'
+						)
+					),
+					'Editor' => array(
+						'fields' => array(
+							'Editor.id',
+							'Editor.username'
+						)
+					),
+					'Category' => array(
+						'fields' => array(
+							'Category.id',
+							'Category.title',
+							'Category.slug'
+						)
+					),
+					'ContentConfig',
+					'Feature'
+				)
+			)
+		);
+
+		$frontpages = $this->paginate();
+
+		$this->set('frontpages', $frontpages);
+		$this->set('filterOptions', $this->Filter->filterOptions);
 	}
 
 	function admin_index() {
@@ -43,23 +91,23 @@ class FrontpagesController extends CmsAppController {
 				'Frontpage.ordering',
 				'Frontpage.created',
 				'Frontpage.modified'
-				),
+			),
 			'contain' => array(
 				'Content' => array(
 					'fields' => array(
 						'Content.id',
 						'Content.title',
 						'Content.active',
-						),
+					),
 					'Category' => array(
 						'fields' => array(
 							'Category.id',
 							'Category.title'
-							)
 						)
 					)
 				)
-			);
+			)
+		);
 
 		$frontpages = $this->paginate();
 

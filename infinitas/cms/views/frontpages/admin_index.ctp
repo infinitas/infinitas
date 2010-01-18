@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'ContentFrontpage', array( 'url' => array( 'controller' => 'contentFrontpages', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create( 'Frontpage', array( 'url' => array( 'controller' => 'frontpages', 'action' => 'mass', 'admin' => 'true' ) ) );
         $massActions = $this->Cms->massActionButtons(
             array(
                 'add',
@@ -56,34 +56,34 @@
             );
 
             $i = 0;
-            foreach ( $contentFrontpages as $contentFrontpage )
+            foreach ( $frontpages as $frontpage )
             {
                 ?>
                 	<tr class="<?php echo $this->Cms->rowClass( $i ); ?>">
-                        <td><?php echo $this->Form->checkbox( $contentFrontpage['ContentFrontpage']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( $frontpage['Frontpage']['id'] ); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( $contentFrontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $contentFrontpage['Content']['id'])); ?>
+                			<?php echo $this->Html->link( $frontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $frontpage['Content']['id'])); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link( $contentFrontpage['Content']['Category']['title'], array( 'controller' => 'categories', 'action' => 'edit', $contentFrontpage['Content']['Category']['id'] ) ); ?>
+                			<?php echo $this->Html->link( $frontpage['Content']['Category']['title'], array( 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category']['id'] ) ); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $contentFrontpage['ContentFrontpage']['created'] ); ?>
+                			<?php echo $this->Time->niceShort( $frontpage['Frontpage']['created'] ); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $contentFrontpage['ContentFrontpage']['modified'] ); ?>
+                			<?php echo $this->Time->niceShort( $frontpage['Frontpage']['modified'] ); ?>
                 		</td>
                 		<td>
                 			<?php
                 			    echo $this->Cms->ordering(
-                			        $contentFrontpage['ContentFrontpage']['content_id'],
-                			        $contentFrontpage['ContentFrontpage']['ordering']
+                			        $frontpage['Frontpage']['content_id'],
+                			        $frontpage['Frontpage']['ordering']
                 			    );
                 			?>
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Status->toggle( $contentFrontpage['Content']['active'], $contentFrontpage['Content']['id'], array( 'controller' => 'contents', 'action' => 'toggle' ) );
+                			    echo $this->Status->toggle( $frontpage['Content']['active'], $frontpage['Content']['id'], array( 'controller' => 'contents', 'action' => 'toggle' ) );
                 			?>
                 		</td>
                 	</tr>

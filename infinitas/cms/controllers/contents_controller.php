@@ -37,8 +37,8 @@ class ContentsController extends CmsAppController {
 		$this->set('contents', $this->paginate());
 	}
 
-	function view($slug = null) {
-		if (!$slug) {
+	function view() {
+		if (!isset($this->params['slug'])) {
 			$this->Session->setFlash( __('Invalid content selected', true) );
 			$this->redirect($this->referer());
 		}
@@ -48,8 +48,7 @@ class ContentsController extends CmsAppController {
 			array(
 				'conditions' => array(
 					'or' => array(
-						'Content.slug' => $slug,
-						'Content.id' => $slug
+						'Content.slug' => $this->params['slug']
 					),
 					'Content.active' => 1
 				)
