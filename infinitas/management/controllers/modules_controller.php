@@ -26,8 +26,7 @@
 
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
-
-			$routes = ClassRegistry::init('Core.Route')->find('list');
+			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
 			$this->set(compact('positions', 'groups', 'routes'));
 		}
 
@@ -49,6 +48,11 @@
 			if ($id && empty($this->data)) {
 				$this->data = $this->Module->read(null, $id);
 			}
+
+			$positions = $this->Module->Position->find('list');
+			$groups = $this->Module->Group->find('list');
+			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
+			$this->set(compact('positions', 'groups', 'routes'));
 		}
 	}
 ?>

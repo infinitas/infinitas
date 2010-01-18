@@ -42,9 +42,9 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort( 'name' ),
+                    $this->Paginator->sort( 'Position', 'Position.Name' ),
                     $this->Paginator->sort( 'author' ),
-                    $this->Paginator->sort( 'licence' ),
-                    $this->Paginator->sort( 'Position', 'Position.Name' ) => array(
+                    $this->Paginator->sort( 'licence' ) => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort( 'Group', 'Group.Name' ) => array(
@@ -98,13 +98,13 @@
                 			<?php echo $this->Status->locked($module['Module']['locked']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Core->ordering($module['Module']['order']); ?>&nbsp;
+                			<?php echo $module['Module']['ordering'], ' ', $this->Core->ordering($module['Module']['ordering']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $theme['Theme']['core'] ); ?>&nbsp;
+                			<?php echo $this->Status->status($module['Module']['core']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $theme['Theme']['active'] ); ?>&nbsp;
+                			<?php echo $this->Status->status($module['Module']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

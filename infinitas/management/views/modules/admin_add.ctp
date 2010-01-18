@@ -1,8 +1,8 @@
 <?php
     /**
-     * Management Config admin edit post.
+     * Management Modules admin edit post.
      *
-     * this page is for admin to manage the setup of the site
+     * this page is for admin to manage the modules on the site
      *
      * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      *
@@ -40,7 +40,7 @@
 		</div>
 		<div style="width:50%; float:left;">
 			<?php
-				echo $this->Form->input('ModulesRoute.Route', array('multiple' => true));
+				echo $this->Form->input('Route', array('selected' => 0));
 			?>
 		</div>
 		<div class="clr">&nbsp;</div>
