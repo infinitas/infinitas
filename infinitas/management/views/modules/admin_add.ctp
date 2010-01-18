@@ -40,9 +40,10 @@
 		</div>
 		<div style="width:50%; float:left;">
 			<?php
-				echo $this->Form->input( 'Route' );
+				echo $this->Form->input('ModulesRoute.Route', array('multiple' => true));
 			?>
 		</div>
+		<div class="clr">&nbsp;</div>
 	<?php
     echo $this->Form->end( 'Save Module' );
 ?>

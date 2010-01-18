@@ -9,7 +9,9 @@
 		var $tablePrefix = 'core_';
 
 		var $actsAs = array(
-			'Libs.Ordered'
+			'Libs.Ordered' => array(
+				'foreign_key' => 'position_id'
+			)
 		);
 
 		var $order = array(
@@ -26,7 +28,7 @@
 		);
 
 		var $hasAndBelongsToMany = array(
-			'Route' => array(
+			'ModulesRoute' => array(
 				'className' => 'Core.ModulesRoute',
 				'joinTable' => 'modules_routes',
 				'foreignKey' => 'module_id',

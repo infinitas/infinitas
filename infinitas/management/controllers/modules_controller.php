@@ -26,7 +26,8 @@
 
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
-			$routes = $this->Module->Route->find('all');
+
+			$routes = ClassRegistry::init('Core.Route')->find('list');
 			$this->set(compact('positions', 'groups', 'routes'));
 		}
 
