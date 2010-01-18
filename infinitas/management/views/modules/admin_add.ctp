@@ -40,8 +40,7 @@
 		</div>
 		<div style="width:50%; float:left;">
 			<?php
-				pr($modulesRoute);
-				echo $this->Form->input( 'ModulesRoute' );
+				echo $this->Form->input( 'Route' );
 			?>
 		</div>
 	<?php

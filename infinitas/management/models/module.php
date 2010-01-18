@@ -26,11 +26,11 @@
 		);
 
 		var $hasAndBelongsToMany = array(
-			'ModulesRoute' => array(
+			'Route' => array(
 				'className' => 'Core.ModulesRoute',
 				'joinTable' => 'modules_routes',
 				'foreignKey' => 'module_id',
-				'associationForeignKey' => 'routes_id',
+				'associationForeignKey' => 'route_id',
 				'unique' => true
 			)
 		);

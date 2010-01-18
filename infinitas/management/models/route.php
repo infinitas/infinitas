@@ -44,7 +44,7 @@
 			'ModulesRoute' => array(
 				'className' => 'Core.ModulesRoute',
 				'joinTable' => 'modules_routes',
-				'foreignKey' => 'routes_id',
+				'foreignKey' => 'route_id',
 				'associationForeignKey' => 'module_id',
 				'unique' => true
 			)
