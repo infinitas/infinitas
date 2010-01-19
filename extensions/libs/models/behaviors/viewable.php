@@ -56,6 +56,7 @@ class ViewableBehavior extends ModelBehavior {
 	* @access public
 	*/
 	function afterFind(&$Model, $data) {
+		// skip finds with more than one result.
 		if (isset($data[0]) && count($data) > 1) {
 			return $data;
 		}
@@ -63,11 +64,22 @@ class ViewableBehavior extends ModelBehavior {
 		if (isset($data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']])) {
 			$data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']]++;
 
-			$Model-> {
-				$Model->primaryKey} = $data[0][$Model->alias][$Model->primaryKey];
-			$Model->saveField($this->__settings[$Model->alias]['view_counter'],
-				$data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']]
-				, array('callbacks'=>false));
+			$Model->{$Model->primaryKey} = $data[0][$Model->alias][$Model->primaryKey];
+
+			$__data = array(
+				$Model->primaryKey => $data[0][$Model->alias][$Model->primaryKey],
+				$this->__settings[$Model->alias]['view_counter'] => $data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']],
+				'modified' => false
+			);
+
+			$Model->save(
+				$__data,
+				array(
+					'validate' => false,
+					'callbacks' => false
+				)
+
+			);
 		}
 
 		return $data;

@@ -5,7 +5,7 @@
 			'feed',
 			array(
 				'setup' => array(
-					'plugin' => 'Blog',
+					'plugin' => 'blog',
 					'controller' => 'posts',
 					'action' => 'view',
 				),
@@ -18,7 +18,7 @@
 				'feed' => array(
 					'Core.Comment' => array(
 						'setup' => array(
-							'plugin' => 'Comment',
+							'plugin' => 'comment',
 							'controller' => 'comments',
 							'action' => 'view',
 						),
@@ -33,7 +33,7 @@
 				'order' => array(
 					'date' => 'DESC'
 				),
-				'limit' => 1
+				'limit' => 10
 			)
 		);
 	}
@@ -50,6 +50,7 @@
 							'plugin' => $feed['Feed']['plugin'],
 							'controller' => $feed['Feed']['controller'],
 							'action' => $feed['Feed']['action'],
+							$feed['Feed']['id'],
 						),
 						array(
 							'class' => 'more'
