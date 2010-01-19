@@ -41,7 +41,7 @@ class Category extends CmsAppModel {
 			'className' => 'Cms.Category',
 			'counterCache' => true
 			),
-		'Core.Group',
+		'Management.Group',
 		'Locker' => array(
 			'className' => 'Core.User',
 			'foreignKey' => 'locked_by',

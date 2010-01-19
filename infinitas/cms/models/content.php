@@ -74,7 +74,7 @@
 				)
 			),
 			'Group' => array(
-				'className' => 'Core.Group',
+				'className' => 'Management.Group',
 				'fields' => array(
 					'Group.id',
 					'Group.name'
