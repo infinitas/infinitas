@@ -36,5 +36,50 @@
 				'unique' => true
 			)
 		);
+
+		function getModules($position = null){
+			if (!$position) {
+				return array();
+			}
+
+			$positions = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Module.id',
+						'Module.name',
+						'Module.content',
+						'Module.module',
+						'Module.config',
+						'Module.show_heading'
+					),
+					'conditions' => array(
+						'Position.name' => $position
+					),
+					'contain' => array(
+						'Position' => array(
+							'fields' => array(
+								'Position.id',
+								'Position.name'
+							)
+						),
+						'Group' => array(
+							'fields' => array(
+								'Group.id',
+								'Group.name'
+							)
+						),
+						'Route' => array(
+							'fields' => array(
+								'Route.id',
+								'Route.name'
+							)
+						)
+					)
+				)
+			);
+
+			return $positions;
+		}
 	}
 ?>

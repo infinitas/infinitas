@@ -24,8 +24,8 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Html', 'Form', 'Javascript', 'Session',
 
-		'Libs.Status', 'Libs.Image', 'Libs.Design'
-		);
+		'Libs.Infinitas', 'Libs.Status', 'Libs.Image', 'Libs.Design'
+	);
 
 	var $components = array(
 		'Libs.Infinitas',
@@ -36,15 +36,15 @@ class AppController extends Controller {
 		// components
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
-			)
-		);
+		)
+	);
 
 	/**
 	* actions where viewable will work.
 	*/
 	var $viewableActions = array(
 		'view'
-		);
+	);
 
 	function beforeFilter() {
 		parent::beforeFilter();
