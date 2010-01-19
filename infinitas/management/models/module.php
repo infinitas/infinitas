@@ -24,7 +24,7 @@
 				'className' => 'CoreModulePosition',
 				'foreignKey' => 'position_id'
 			),
-			'Core.Management'
+			'Management.Group'
 		);
 
 		var $hasAndBelongsToMany = array(
