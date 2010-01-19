@@ -94,6 +94,10 @@ class FeedableBehavior extends ModelBehavior {
 				}
 				$sql .= ' ORDER BY '.implode( ', ', $ordering );
 			}
+			if ( isset( $query['limit'] ) ) {
+				$ordering = array();
+				$sql .= ' LIMIT '.$query['limit'];
+			}
 			$_results = $Model->query( $sql );
 			//pr( $this->_results );
 
