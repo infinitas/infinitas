@@ -21,7 +21,7 @@
 
 		var $belongsTo = array(
 			'Position' => array(
-				'className' => 'Core.ModulePosition',
+				'className' => 'CoreModulePosition',
 				'foreignKey' => 'position_id'
 			),
 			'Core.Management'
@@ -29,7 +29,7 @@
 
 		var $hasAndBelongsToMany = array(
 			'Route' => array(
-				'className' => 'Core.Route',
+				'className' => 'Management.Route',
 				'joinTable' => 'core_modules_routes',
 				'foreignKey' => 'module_id',
 				'associationForeignKey' => 'route_id',
