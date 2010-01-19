@@ -1,22 +1,62 @@
-<h2>Latest News</h2>
+<?php
+	$feeds = Cache::read('global_feeds');
+	if (!$feeds) {
+		$feeds = ClassRegistry::init('Blog.Post')->find(
+			'feed',
+			array(
+				'setup' => array(
+					'plugin' => 'Blog',
+					'controller' => 'posts',
+					'action' => 'view',
+				),
+				'fields' => array(
+					'Post.id',
+					'Post.title',
+					'Post.intro AS body',
+					'Post.created AS date'
+				),
+				'feed' => array(
+					'Core.Comment' => array(
+						'setup' => array(
+							'plugin' => 'Comment',
+							'controller' => 'comments',
+							'action' => 'view',
+						),
+						'fields' => array(
+							'Comment.id',
+							'Comment.name',
+							'Comment.comment',
+							'Comment.created'
+						)
+					)
+				),
+				'order' => array(
+					'date' => 'DESC'
+				),
+				'limit' => 1
+			)
+		);
+	}
 
-<h3>News Title</h3>
-
-<p class="news">
-	An example of a "latest news" type text area.
-	<a href="" class="more">Read More &raquo;</a>
-</p>
-
-<h3>News Title</h3>
-
-<p class="news">
-	An example of a "latest news" type text area.
-	<a href="" class="more">Read More &raquo;</a>
-</p>
-
-<h3>News Title</h3>
-
-<p class="news">
-	An example of a "latest news" type text area.
-	<a href="" class="more">Read More &raquo;</a>
-</p>
+	foreach($feeds as $feed){
+		?>
+			<h3><?php echo $feed['Feed']['title'] ?></h3>
+			<p class="news">
+				<?php
+					echo strip_tags( html_entity_decode($feed['Feed']['body']) );
+					echo $this->Html->link(
+						__(Configure::read('Website.read_more'), true),
+						array(
+							'plugin' => $feed['Feed']['plugin'],
+							'controller' => $feed['Feed']['controller'],
+							'action' => $feed['Feed']['action'],
+						),
+						array(
+							'class' => 'more'
+						)
+					);
+				?>
+			</p>
+		<?
+	}
+?>
