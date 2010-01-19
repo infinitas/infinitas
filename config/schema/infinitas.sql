@@ -4,7 +4,7 @@
 --
 -- Host: localhost:3306
 
--- Generation Time: Jan 18, 2010 at 11:42 PM
+-- Generation Time: Jan 19, 2010 at 09:46 PM
 -- Server version: 5.1.34
 -- PHP Version: 5.2.9-2
 
@@ -508,7 +508,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=119 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=132 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -632,6 +632,19 @@ INSERT INTO `core_logs` VALUES(115, 'Contributing to Infinitas', 'Content "Contr
 INSERT INTO `core_logs` VALUES(116, 'Extending Infinitus', 'Content "Extending Infinitus" (4) updated by Core.User "1" (1).', 'Content', 4, 'edit', 1, 'category_id (0) => (5), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-18 09:50:01) => ()', NULL, '2010-01-18 09:50:14');
 INSERT INTO `core_logs` VALUES(117, 'Frontpage (4)', 'Frontpage (4) added by Core.User "1" (1).', 'Frontpage', 4, 'add', 1, 'content_id () => (4), ordering () => (2), order_id () => (1), created () => (2010-01-18 09:50:56)', NULL, '2010-01-18 09:50:56');
 INSERT INTO `core_logs` VALUES(118, 'Frontpage (5)', 'Frontpage (5) added by Core.User "1" (1).', 'Frontpage', 5, 'add', 1, 'content_id () => (5), ordering () => (3), order_id () => (1), created () => (2010-01-18 09:58:10)', NULL, '2010-01-18 09:58:10');
+INSERT INTO `core_logs` VALUES(119, 'login', 'Module "login" (1) added by Core.User "1" (1).', 'Module', 1, 'add', 1, 'name () => (login), module () => (login), position_id () => (4), group_id () => (1), active () => (1), show_heading () => (1), core () => (0), author () => (Infinitas), url () => (http://www.i-project.co.za), licence () => (MIT), created () => (2010-01-19 00:28:28), ordering () => (1)', NULL, '2010-01-19 00:28:28');
+INSERT INTO `core_logs` VALUES(120, 'login', 'Module "login" (2) added by Core.User "1" (1).', 'Module', 2, 'add', 1, 'name () => (login), module () => (login), position_id () => (4), group_id () => (1), active () => (1), show_heading () => (1), core () => (0), author () => (Infinitas), url () => (http://www.i-project.co.za), licence () => (MIT), created () => (2010-01-19 00:30:53), ordering () => (1)', NULL, '2010-01-19 00:30:53');
+INSERT INTO `core_logs` VALUES(121, 'ter', 'Module "ter" (3) added by Core.User "1" (1).', 'Module', 3, 'add', 1, 'name () => (ter), position_id () => (1), group_id () => (1), active () => (0), show_heading () => (0), core () => (0), created () => (2010-01-19 00:38:17), ordering () => (1)', NULL, '2010-01-19 00:38:17');
+INSERT INTO `core_logs` VALUES(122, 'CoreModulesRoute (1)', 'CoreModulesRoute (1) deleted by Core.User "1" (1).', 'CoreModulesRoute', 1, 'delete', 1, NULL, NULL, '2010-01-19 00:53:29');
+INSERT INTO `core_logs` VALUES(123, 'CoreModulesRoute (2)', 'CoreModulesRoute (2) deleted by Core.User "1" (1).', 'CoreModulesRoute', 2, 'delete', 1, NULL, NULL, '2010-01-19 00:53:29');
+INSERT INTO `core_logs` VALUES(124, 'CoreModulesRoute (3)', 'CoreModulesRoute (3) deleted by Core.User "1" (1).', 'CoreModulesRoute', 3, 'delete', 1, NULL, NULL, '2010-01-19 00:53:29');
+INSERT INTO `core_logs` VALUES(125, 'Popular Posts', 'Module "Popular Posts" (4) added by Core.User "1" (1).', 'Module', 4, 'add', 1, 'name () => (Popular Posts), module () => (popular_posts), position_id () => (5), group_id () => (1), active () => (1), show_heading () => (1), core () => (0), author () => (Infinitas), url () => (http://www.i-project.co.za), licence () => (MIT), created () => (2010-01-19 00:58:20), ordering () => (1)', NULL, '2010-01-19 00:58:20');
+INSERT INTO `core_logs` VALUES(126, 'search', 'Module "search" (5) added by Core.User "1" (1).', 'Module', 5, 'add', 1, 'name () => (search), module () => (search), position_id () => (12), group_id () => (1), active () => (1), show_heading () => (0), core () => (1), author () => (Infinitas), url () => (http://www.i-project.co.za), created () => (2010-01-19 11:22:09), ordering () => (1)', NULL, '2010-01-19 11:22:09');
+INSERT INTO `core_logs` VALUES(127, 'Frontend Menu', 'Module "Frontend Menu" (6) added by Core.User "1" (1).', 'Module', 6, 'add', 1, 'name () => (Frontend Menu), module () => (frontend_menu), position_id () => (1), group_id () => (1), active () => (1), show_heading () => (0), core () => (1), author () => (Infinitas), url () => (http://www.i-project.co.za), licence () => (MIT), created () => (2010-01-19 11:25:10), ordering () => (1)', NULL, '2010-01-19 11:25:10');
+INSERT INTO `core_logs` VALUES(128, 'Latest News', 'Module "Latest News" (7) added by Core.User "1" (1).', 'Module', 7, 'add', 1, 'name () => (Latest News), module () => (latest_news), position_id () => (3), group_id () => (1), active () => (1), show_heading () => (1), core () => (0), author () => (Infinitas), url () => (http://www.i-project.co.za), licence () => (MIT), created () => (2010-01-19 11:40:45), ordering () => (1)', NULL, '2010-01-19 11:40:45');
+INSERT INTO `core_logs` VALUES(129, 'Frontend Menu- copy ( 2010-01-19 )', 'Module "Frontend Menu- copy ( 2010-01-19 )" (8) added by Core.User "1" (1).', 'Module', 8, 'add', 1, 'group_id () => (1), show_heading () => (0), core () => (1), name () => (Frontend Menu- copy ( 2010-01-19 )), module () => (frontend_menu), position_id () => (1), ordering () => (2), author () => (Infinitas), licence () => (MIT), url () => (http://www.i-project.co.za), created () => (2010-01-19 13:28:24)', NULL, '2010-01-19 13:28:24');
+INSERT INTO `core_logs` VALUES(130, 'Frontend sub nav', 'Module "Frontend sub nav" (8) updated by Core.User "1" (1).', 'Module', 8, 'edit', 1, 'name (Frontend Menu- copy ( 2010-01-19 )) => (Frontend sub nav), module (frontend_menu) => (frontend_sub_nav)', NULL, '2010-01-19 13:29:12');
+INSERT INTO `core_logs` VALUES(131, 'Frontend sub nav', 'Module "Frontend sub nav" (8) updated by Core.User "1" (1).', 'Module', 8, 'edit', 1, 'active (0) => (1)', NULL, '2010-01-19 13:31:53');
 
 -- --------------------------------------------------------
 
@@ -663,12 +676,18 @@ CREATE TABLE `core_modules` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `core_modules`
 --
 
+INSERT INTO `core_modules` VALUES(2, 'login', '', 'login', '', 4, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18');
+INSERT INTO `core_modules` VALUES(4, 'Popular Posts', '', 'popular_posts', '', 5, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20');
+INSERT INTO `core_modules` VALUES(5, 'search', '', 'search', '', 12, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49');
+INSERT INTO `core_modules` VALUES(6, 'Frontend Menu', '', 'frontend_menu', '', 1, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-19 13:36:34');
+INSERT INTO `core_modules` VALUES(7, 'Latest News', '', 'latest_news', '', 3, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45');
+INSERT INTO `core_modules` VALUES(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 1, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53');
 
 -- --------------------------------------------------------
 
@@ -682,12 +701,20 @@ CREATE TABLE `core_modules_routes` (
   `module_id` int(11) NOT NULL,
   `route_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `core_modules_routes`
 --
 
+INSERT INTO `core_modules_routes` VALUES(16, 6, 0);
+INSERT INTO `core_modules_routes` VALUES(17, 5, 0);
+INSERT INTO `core_modules_routes` VALUES(10, 4, 0);
+INSERT INTO `core_modules_routes` VALUES(9, 2, 9);
+INSERT INTO `core_modules_routes` VALUES(8, 2, 8);
+INSERT INTO `core_modules_routes` VALUES(7, 2, 7);
+INSERT INTO `core_modules_routes` VALUES(13, 7, 0);
+INSERT INTO `core_modules_routes` VALUES(15, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -702,7 +729,7 @@ CREATE TABLE `core_module_positions` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `core_module_positions`
@@ -719,6 +746,7 @@ INSERT INTO `core_module_positions` VALUES(8, 'custom4', '2010-01-18 21:45:23', 
 INSERT INTO `core_module_positions` VALUES(9, 'bread_crumbs', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
 INSERT INTO `core_module_positions` VALUES(10, 'debug', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
 INSERT INTO `core_module_positions` VALUES(11, 'feeds', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
+INSERT INTO `core_module_positions` VALUES(12, 'search', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
 
 -- --------------------------------------------------------
 
