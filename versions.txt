@@ -6,6 +6,10 @@ Themes backend management
 Routes managemet
 	- set up routing rules from the backed
 	- select a theme that will run off your selected rule
+	
+Modules
+	- create little modules like "most viewed" or "popular"
+	- manage the position and display from backend
 
 Bug fixes
 	- pagination links
