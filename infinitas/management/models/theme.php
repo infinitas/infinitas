@@ -23,7 +23,7 @@
 		var $tablePrefix = 'core_';
 
 		var $hasMay = array(
-			'Core.Route'
+			'Management.Route'
 		);
 
 		/**

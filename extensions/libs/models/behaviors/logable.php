@@ -66,8 +66,8 @@ class LogableBehavior extends ModelBehavior {
 	var $settings = array();
 	var $defaults = array(
 		'enabled' => true,
-		'userModel' => 'Core.User',
-		'logModel' => 'Core.Log',
+		'userModel' => 'Management.User',
+		'logModel' => 'Management.Log',
 		'userKey' => 'user_id',
 		'change' => 'full',
 		'description_ids' => true,

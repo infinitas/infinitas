@@ -73,7 +73,7 @@ class InfinitasComponent extends Object {
 		}
 
 		$currentRoute = Router::currentRoute();
-		if (!empty($routes)) {
+		if (!empty($routes) && is_object($currentRoute)) {
 			foreach( $routes as $route ){
 				if ( $route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {
 					$this->Controller->theme = $route['Route']['theme'];

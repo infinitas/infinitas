@@ -57,6 +57,7 @@
 			if ($routes !== false) {
 				return $routes;
 			}
+
 			$routes = $this->find(
 				'all',
 				array(

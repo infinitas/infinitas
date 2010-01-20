@@ -38,7 +38,8 @@ class RateableBehavior extends ModelBehavior {
 		$default['conditions'] = array('Rating.class' => $model->alias);
 		$default['requre_auth'] = Configure::read('Rating.require_auth');
 
-		$ratingClass = isset( $default['plugin'] ) ? $default['plugin'].'.'.$default['class'] : $default['class'];
+		//$ratingClass = isset( $default['plugin'] ) ? $default['plugin'].'.'.$default['class'] : $default['class'];
+		$ratingClass = 'CoreRating';
 
 		if (!isset($this->__settings[$model->alias])) {
 			$this->__settings[$model->alias] = $default;
