@@ -34,6 +34,7 @@
 					<div><?php echo $this->Time->niceShort( $frontpage['Content']['created'] ); ?></div>
 				</div>
 				<div class="body">
+				<br/>
 					<?php
 						echo $frontpage['Content']['introduction'];
 					?>
@@ -113,7 +114,6 @@
 	.cms .body{
 		color:#535D6F;
 		line-height:110%;
-		clear:both;
 	}
 		.cms .body .stats div{
 			float:right;
