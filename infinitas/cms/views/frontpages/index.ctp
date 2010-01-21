@@ -70,7 +70,6 @@
 	.cms h3{
 		font-size:110%;
 		color:#1E379C;
-		padding-bottom:5px;
 	}
 
 	.cms big{
@@ -105,6 +104,7 @@
 	.cms .introduction{
 		font-style: italic;
 		color: #8F8F8F;
+		margin-top: 35px;
 	}
 
 	.cms p{
