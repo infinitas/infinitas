@@ -24,7 +24,11 @@
 				'className' => 'Management.ModulePosition',
 				'foreignKey' => 'position_id'
 			),
-			'Management.Group'
+			'Management.Group',
+			'Theme' => array(
+				'className' => 'Management.Theme',
+				'foreignKey' => 'theme_id'
+			),
 		);
 
 		var $hasAndBelongsToMany = array(
@@ -74,6 +78,12 @@
 								'Route.id',
 								'Route.name',
 								'Route.url'
+							)
+						),
+						'Theme' => array(
+							'fields' => array(
+								'Theme.id',
+								'Theme.name'
 							)
 						)
 					)

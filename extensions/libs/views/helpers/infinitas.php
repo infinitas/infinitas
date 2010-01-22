@@ -16,6 +16,11 @@
 				$currentRoute = Router::currentRoute();
 
 				foreach($modules as $module){
+					if ($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) {
+						//skip modules that are not for the current theme
+						continue;
+					}
+
 					$moduleOut = '<div class="module '.$module['Module']['module'].'">';
 						if ($module['Module']['show_heading']) {
 							$moduleOut .= '<h2>'.__($module['Module']['name'],true).'</h2>';

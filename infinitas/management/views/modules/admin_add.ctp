@@ -24,6 +24,7 @@
 			<?php
 		        echo $this->Form->input( 'name' );
 		        echo $this->Form->input( 'module' );
+		        echo $this->Form->input( 'theme_id' );
 		        echo $this->Form->input( 'position_id' );
 		        echo $this->Form->input( 'group_id' );
 		        echo $this->Form->input( 'active' );

@@ -27,7 +27,8 @@
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
-			$this->set(compact('positions', 'groups', 'routes'));
+			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
+			$this->set(compact('positions', 'groups', 'routes', 'themes'));
 		}
 
 		function admin_edit($id = null) {
@@ -52,7 +53,8 @@
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
-			$this->set(compact('positions', 'groups', 'routes'));
+			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
+			$this->set(compact('positions', 'groups', 'routes', 'themes'));
 		}
 	}
 ?>

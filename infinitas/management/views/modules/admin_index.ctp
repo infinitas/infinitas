@@ -42,12 +42,13 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'Position', 'Position.Name' ),
+                    $this->Paginator->sort( 'Theme', 'Theme.name' ),
+                    $this->Paginator->sort( 'Position', 'Position.name' ),
                     $this->Paginator->sort( 'author' ),
                     $this->Paginator->sort( 'licence' ) => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Group', 'Group.Name' ) => array(
+                    $this->Paginator->sort( 'Group', 'Group.name' ) => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort( 'Locked', true ) => array(
@@ -73,6 +74,17 @@
                         <td><?php echo $this->Form->checkbox( $module['Module']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php
+	                			if (!empty($module['Theme']['name'])) {
+	                				echo $module['Theme']['name'];
+	                			}
+	                			else
+                				{
+			                		echo __('All');
+                				}
+							?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $module['Position']['name']; ?>&nbsp;
