@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2010 at 03:24 PM
+-- Generation Time: Jan 22, 2010 at 05:02 PM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -194,7 +194,7 @@ CREATE TABLE `cms_contents` (
 --
 
 INSERT INTO `cms_contents` (`id`, `title`, `slug`, `introduction`, `body`, `locked`, `locked_since`, `locked_by`, `ordering`, `group_id`, `views`, `active`, `start`, `end`, `created`, `modified`, `layout_id`, `created_by`, `modified_by`, `category_id`) VALUES
-(3, 'What is infinitas', 'what-is-infinitas', '<p>Infinitas is the cumulation of all the great web application rolled into one easy to manage system. All the features that you would expect from top class web based content management systems, with a powerfull e-commerce platform are at your disposal.&nbsp; Infinitas has been designed to be easy enough to use as a small personal blog site, but also powerful enough to be used as corporate level intranet or e-commerce platform.</p>', '<p>Over and above the core of infinitus is an easy to use api so anything that is not included in the core can be added through easy to develop plugins.&nbsp; With infinitas being built using the ever popular CakePHP&nbsp;framework there is countless plugins already developed that can be integrated with little or no modification.</p>\r\n<p>The core of infinitas has been developed using the MVC standard of object orintated design.&nbsp; If you are an amature php deveeloper or a veteran you will find Infinitas easy to follow and even easier to expand on.&nbsp;</p>\r\n<p>Now that you have Infinitas running your web site, you will have time to run your business.</p>', 0, NULL, NULL, 0, 0, 2, 1, NULL, NULL, '2010-01-18 03:37:17', '2010-01-18 03:39:03', 1, 0, 0, 5),
+(3, 'What is infinitas', 'what-is-infinitas', '<p>Infinitas is the cumulation of all the great web application rolled into one easy to manage system. All the features that you would expect from top class web based content management systems, with a powerfull e-commerce platform are at your disposal.&nbsp; Infinitas has been designed to be easy enough to use as a small personal blog site, but also powerful enough to be used as corporate level intranet or e-commerce platform.</p>', '<p>Over and above the core of infinitus is an easy to use api so anything that is not included in the core can be added through easy to develop plugins.&nbsp; With infinitas being built using the ever popular CakePHP&nbsp;framework there is countless plugins already developed that can be integrated with little or no modification.</p>\r\n<p>The core of infinitas has been developed using the MVC standard of object orintated design.&nbsp; If you are an amature php deveeloper or a veteran you will find Infinitas easy to follow and even easier to expand on.&nbsp;</p>\r\n<p>Now that you have Infinitas running your web site, you will have time to run your business.</p>', 0, NULL, NULL, 0, 0, 6, 1, NULL, NULL, '2010-01-18 03:37:17', '2010-01-18 03:39:03', 1, 0, 0, 5),
 (4, 'Extending Infinitas', 'extending-infinitas', '<p>Its never been easier to extend a web system. With the power of CakePHP''s helpers, components, behaviors, elements and plugins you can have new functionality up and running on your site in no time.&nbsp;&nbsp;&nbsp;&nbsp;</p>', '<p>With infinitas built using the CakePHP&nbsp;framework with the MVC design pattern, adding functionality to your site could not be easier. Even if you are developing a plugin from scratch you have the Infinitas API&nbsp;at your disposal allowing you to create admin pages with copy / delete functionality with out even one line of code for example. Other functionalty like locking records, deleting traking creators, editors and dates content was last updated is all handled for you.</p>\r\n<p>Full logging of create and update actions is done automaticaly and there is also full revisions of all models available.&nbsp; For more information see the development guide.</p>\r\n<p>Future versions of Infinitas have a full plugin installer planed meaning you will not even need to use your ftp program to add plugins. The installer will work in two ways, the first being a normal installer like the one found in other popular cms''s, and the second is a online installer that will display a list of trusted plugins that you can just select from.</p>', 0, NULL, NULL, 0, 0, 4, 1, NULL, NULL, '2010-01-18 04:05:26', '2010-01-20 18:00:46', 1, 0, 0, 5),
 (5, 'Contributing to Infinitas', 'contributing-to-infinitas', '<p>Contributing to Infinitus is important as there is only so many hours in the day to get code into the repo. All help is welcome by the core developers and is greatly appreciated.</p>', '<p>Open source software is all about the community around the application, and Infinitas is no different. With out users and developers contributing Infinitas would not get anywere. To help make it as easy as possible, we have the code hosted on <a target="_blank" href="http://github.com/infinitas">git</a> and the issues are being tracked on <a href="http://infinitas.lighthouseapp.com/dashboard">lighthouse</a>.&nbsp; There is a lot of information for developers that are interested in helping with Infinitas on lighthouse.</p>\r\n<p>We have a channel on irc where you can come and chat to us about issues you are having, or if you need some help integrating code / developing an application with Infinitas. We will be more than happy to help you were we can.</p>\r\n<p>If you find an issues and would like to fix it all you need to do is have a look at the details on <a target="_blank" href="http://infinitas.lighthouseapp.com/contributor-guidelines">lighthouse</a>.&nbsp; Once you have submitted a patch or pushed your code fixes, dont forget to send us a pull request or let us know in the irc channel that there is code we need to pull.</p>\r\n<p>&nbsp;</p>', 0, NULL, NULL, 0, 0, 1, 1, NULL, NULL, '2010-01-18 04:17:50', '2010-01-18 09:49:46', 1, 0, 0, 5);
 
@@ -546,7 +546,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=155 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=156 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -707,7 +707,8 @@ INSERT INTO `core_logs` (`id`, `title`, `description`, `model`, `model_id`, `act
 (151, 'Infinitas Users', 'Module "Infinitas Users" (11) added by Management.User "1" (1).', 'Module', 11, 'add', 1, 'name () => (Infinitas Users), position_id () => (4), group_id () => (1), active () => (1), show_heading () => (0), core () => (0), author () => (Infinitas), url () => (http://infinitas-cms.org), licence () => (MIT), content () => (<script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script>), created () => (2010-01-21 20:02:55), ordering () => (4)', NULL, '2010-01-21 20:02:56'),
 (152, 'Infinitas Users', 'Module "Infinitas Users" (11) updated by Management.User "1" (1).', 'Module', 11, 'edit', 1, 'content (<script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script>) => (<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>)', NULL, '2010-01-21 20:05:12'),
 (153, 'Infinitas Cms is live', 'Post "Infinitas Cms is live" (2) updated by Management.User "1" (1).', 'Post', 2, 'edit', 1, 'body (<p>Everything is up and running, so feel free to browse the site, just try not to break it.&nbsp; If you want to have a look at the admin section click <a href="http://infinitas-cms/admin">here</a></p>) => (<p>Everything is up and running, so feel free to browse the site, just try not to break it.&nbsp; If you want to have a look at the admin section click <a href="http://infinitas-cms.org/admin">here</a></p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-21 20:40:57) => ()', NULL, '2010-01-21 20:41:18'),
-(154, 'Config (1)', 'Config (1) updated by Management.User "1" (1).', 'Config', 1, 'edit', 1, 'value (0) => (2)', NULL, '2010-01-21 20:48:05');
+(154, 'Config (1)', 'Config (1) updated by Management.User "1" (1).', 'Config', 1, 'edit', 1, 'value (0) => (2)', NULL, '2010-01-21 20:48:05'),
+(155, 'Infinitas Users', 'Module "Infinitas Users" (11) updated by Management.User "1" (1).', 'Module', 11, 'edit', 1, 'theme_id (0) => (2)', NULL, '2010-01-22 16:09:25');
 
 -- --------------------------------------------------------
 
@@ -722,6 +723,7 @@ CREATE TABLE `core_modules` (
   `content` text NOT NULL,
   `module` varchar(100) NOT NULL,
   `config` text,
+  `theme_id` int(11) NOT NULL DEFAULT '0',
   `position_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL,
@@ -745,16 +747,16 @@ CREATE TABLE `core_modules` (
 -- Dumping data for table `core_modules`
 --
 
-INSERT INTO `core_modules` (`id`, `name`, `content`, `module`, `config`, `position_id`, `group_id`, `ordering`, `active`, `locked`, `locked_by`, `locked_since`, `show_heading`, `core`, `author`, `licence`, `url`, `update_url`, `created`, `modified`) VALUES
-(2, 'login', '', 'login', '', 4, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18'),
-(4, 'Popular Posts', '', 'popular_posts', '', 5, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20'),
-(5, 'search', '', 'search', '', 12, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49'),
-(6, 'Frontend Menu', '', 'frontend_menu', '', 1, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-19 13:36:34'),
-(7, 'Latest News', '', 'latest_news', '', 3, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45'),
-(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 1, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53'),
-(9, 'Latest Tweets', '', 'twitter_tweets', '', 3, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:23:37', '2010-01-21 20:46:54'),
-(10, 'Twitter News', '', 'twitter_search', '', 4, 1, 3, 0, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:50:17', '2010-01-21 19:50:58'),
-(11, 'Infinitas Users', '<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>', '', '', 4, 1, 4, 1, 0, NULL, NULL, 0, 0, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-21 20:02:55', '2010-01-21 20:05:12');
+INSERT INTO `core_modules` (`id`, `name`, `content`, `module`, `config`, `theme_id`, `position_id`, `group_id`, `ordering`, `active`, `locked`, `locked_by`, `locked_since`, `show_heading`, `core`, `author`, `licence`, `url`, `update_url`, `created`, `modified`) VALUES
+(2, 'login', '', 'login', '', 0, 4, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18'),
+(4, 'Popular Posts', '', 'popular_posts', '', 0, 5, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20'),
+(5, 'search', '', 'search', '', 0, 12, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49'),
+(6, 'Frontend Menu', '', 'frontend_menu', '', 0, 1, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-22 16:09:01'),
+(7, 'Latest News', '', 'latest_news', '', 0, 3, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45'),
+(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 0, 1, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53'),
+(9, 'Latest Tweets', '', 'twitter_tweets', '', 0, 3, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:23:37', '2010-01-21 20:46:54'),
+(10, 'Twitter News', '', 'twitter_search', '', 0, 4, 1, 3, 0, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:50:17', '2010-01-21 19:50:58'),
+(11, 'Infinitas Users', '<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>', '', '', 2, 4, 1, 4, 1, 0, NULL, NULL, 0, 0, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-21 20:02:55', '2010-01-22 16:09:25');
 
 -- --------------------------------------------------------
 
@@ -768,14 +770,13 @@ CREATE TABLE `core_modules_routes` (
   `module_id` int(11) NOT NULL,
   `route_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `core_modules_routes`
 --
 
 INSERT INTO `core_modules_routes` (`id`, `module_id`, `route_id`) VALUES
-(16, 6, 0),
 (17, 5, 0),
 (10, 4, 0),
 (9, 2, 9),
