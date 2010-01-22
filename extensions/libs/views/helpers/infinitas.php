@@ -4,6 +4,13 @@
 	 *
 	 */
 	class InfinitasHelper extends AppHelper{
+		var $_json_errors = array(
+		    JSON_ERROR_NONE      => 'No error',
+		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
+		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+		    JSON_ERROR_SYNTAX    => 'Syntax error',
+		);
+
 		function loadModules($position = null){
 			if (!$position) {
 				$this->errors[] = 'No position selected to load modules';
@@ -28,7 +35,7 @@
 
 						if (!empty($module['Module']['module'])) {
 							$View = ClassRegistry::getObject('view');
-							$moduleOut .= $View->element('modules/'.$module['Module']['module']);
+							$moduleOut .= $View->element('modules/'.$module['Module']['module'], array('config' => $this->_moduleConfig($module['Module'])));
 						}
 						else if (!empty($module['Module']['content'])) {
 							$moduleOut .= $module['Module']['content'];
@@ -49,6 +56,21 @@
 			$out .= '</div>';
 
 			return $out;
+		}
+
+		function _moduleConfig($config = ''){
+			if (empty($config['config'])) {
+				return array();
+			}
+
+			$json = json_decode($config['config'], true);
+
+			if (!$json) {
+				$this->errors[] = 'module ('.$config['name'].'): '.$this->_json_errors[json_last_error()];
+				return array();
+			}
+
+			return $json;
 		}
 	}
 ?>
