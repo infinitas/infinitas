@@ -72,7 +72,8 @@
 						'Route' => array(
 							'fields' => array(
 								'Route.id',
-								'Route.name'
+								'Route.name',
+								'Route.url'
 							)
 						)
 					)
