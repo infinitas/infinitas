@@ -55,4 +55,8 @@ App::build(
 	)
 );
 
+if(!defined('JSON_ERROR_NONE')){define('JSON_ERROR_NONE', 0);}
+if(!defined('JSON_ERROR_DEPTH')){define('JSON_ERROR_DEPTH', 1);}
+if(!defined('JSON_ERROR_CTRL_CHAR')){define('JSON_ERROR_CTRL_CHAR', 3);}
+if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}
 ?>
