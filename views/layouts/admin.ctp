@@ -4,7 +4,7 @@
     	<?php echo $this->Html->charset(); ?>
     	<title>
     		<?php
-    		    echo __( 'Infinitas :: ', true ), $title_for_layout;
+    		    echo __( 'Infinitas Admin :: ', true ), $title_for_layout;
         	?>
     	</title>
         <?php
