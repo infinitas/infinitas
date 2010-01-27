@@ -12,7 +12,7 @@
 *
 * @filesource
 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-* @link http://www.dogmatic.co.za
+* @link http://infinitas-cms.org
 * @package blog
 * @subpackage blog.controllers.posts
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License

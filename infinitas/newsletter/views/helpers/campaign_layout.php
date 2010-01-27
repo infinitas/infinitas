@@ -10,7 +10,7 @@
 * Redistributions of files must retain the above copyright notice.
 * @filesource
 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-* @link http://www.dogmatic.co.za
+* @link http://infinitas-cms.org
 * @package sort
 * @subpackage sort.comments
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
