@@ -41,7 +41,7 @@
 			)
 		);
 
-		function getModules($position = null){
+		function getModules($position = null, $admin){
 			if (!$position) {
 				return array();
 			}
@@ -58,7 +58,8 @@
 						'Module.show_heading'
 					),
 					'conditions' => array(
-						'Position.name' => $position
+						'Position.name' => $position,
+						'Module.admin' => $admin
 					),
 					'contain' => array(
 						'Position' => array(
