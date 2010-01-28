@@ -11,13 +11,16 @@
 		    JSON_ERROR_SYNTAX    => 'Syntax error',
 		);
 
-		function loadModules($position = null){
+		var $_menuData = '';
+		var $_menuLevel = 0;
+
+		function loadModules($position = null, $admin = false){
 			if (!$position) {
 				$this->errors[] = 'No position selected to load modules';
 				return false;
 			}
 
-			$modules = ClassRegistry::init('Management.Module')->getModules($position);
+			$modules = ClassRegistry::init('Management.Module')->getModules($position, $admin);
 
 			$out = '<div class="modules '.$position.'">';
 				$currentRoute = Router::currentRoute();
@@ -35,7 +38,11 @@
 
 						if (!empty($module['Module']['module'])) {
 							$View = ClassRegistry::getObject('view');
-							$moduleOut .= $View->element('modules/'.$module['Module']['module'], array('config' => $this->_moduleConfig($module['Module'])));
+							$path = 'modules/';
+							if ($admin) {
+								$path .= 'admin/';
+							}
+							$moduleOut .= $View->element($path.$module['Module']['module'], array('config' => $this->_moduleConfig($module['Module'])));
 						}
 						else if (!empty($module['Module']['content'])) {
 							$moduleOut .= $module['Module']['content'];
@@ -72,5 +79,60 @@
 
 			return $json;
 		}
+
+		function generateMenu($data = array(), $type = 'horizontal'){
+			if (empty($data)) {
+				$this->errors[] = 'There are no items to make the menu with';
+				return false;
+			}
+			$this->_menuData = '<ul class="pureCssMenu pureCssMenum0">';
+				foreach( $data as $k => $v ){
+					$this->_menuLevel = 0;
+					$this->__buildMenu($v, 'MenuItem');
+				}
+			$this->_menuData .= '</ul>';
+
+			return $this->_menuData;
+		}
+
+		function __buildMenu($array = array(), $model = ''){
+			if (empty($array['MenuItem']) || $model = '') {
+				$this->errors[] = 'nothing passed to generate';
+				return false;
+			}
+
+			$suffix = '';
+			if ($this->_menuLevel == 0) {
+				$suffix = '0';
+			}
+
+			$linkName = __($array['MenuItem']['name'], true);
+			if (!empty($array['children'])) {
+				$linkName = '<span>'.$linkName.'</span>';
+			}
+
+			$this->_menuData .= '<li class="pureCssMenui'.$suffix.'">';
+				$this->_menuData .= $this->Html->link(
+					$linkName,
+					$array['MenuItem']['link'],
+					array(
+						'class' => 'pureCssMenui'.$suffix,
+						'escape' => false
+					)
+				);
+
+				if (!empty($array['children'])) {
+					$this->_menuData .= '<ul class="pureCssMenum">';
+						foreach( $array['children'] as $k => $v ){
+							$this->_menuLevel = 1;
+							$this->__buildMenu($v, $model);
+						}
+					$this->_menuData .= '</ul>';
+				}
+
+			$this->_menuData .= '</li>';
+		}
+
+
 	}
 ?>
