@@ -147,31 +147,13 @@ class AppHelper extends Helper {
 		return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
 	}
 
-	function adminOtherHead($view = array()) {
-		if (empty($view)) {
-			$this->errors[] = 'I need the view.';
-			return false;
-		}
+		function adminOtherHead($view = array(), $massActions = null) {
+			if (empty($view)) {
+				$this->errors[] = 'I need the view.';
+				return false;
+			}
 
-		$out = '<div class="adminTopBar">';
-		$out .= $this->adminPageHead($view);
-		$out .= '<div class="main-actions">';
-		$out .= $this->Html->link(
-			'Index',
-			array(
-				'action' => 'index'
-				)
-			) . ' ';
-		$out .= $this->Html->link(
-			'Add',
-			array(
-				'action' => 'add'
-				)
-			);
-		$out .= '</div>';
-		$out .= '</div><div class="clr">&nbsp;</div>';
-
-		return $out;
+			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 	}
 
 	function ordering($id = null, $order = null) {
