@@ -31,6 +31,24 @@ class AppModel extends Model {
 		'Libs.Lockable',
 		'Libs.Logable'
 	);
+
+	var $blockedPlugins = array(
+		'DebugKit',
+		'Filter',
+		'Libs'
+	);
+
+	function getPlugins(){
+		$plugins = Configure::listObjects('plugin');
+
+		foreach($plugins as $plugin){
+			if (!in_array($plugin, $this->blockedPlugins)){
+				$return[Inflector::underscore($plugin)] = $plugin;
+			}
+		}
+
+		return array('' => 'None') + (array)$return;
+	}
 }
 
 ?>
