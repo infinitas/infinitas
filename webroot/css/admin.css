@@ -89,7 +89,6 @@ a:hover {text-decoration: underline}
 /* table container */
 div.table {
 	float:left;
-	position:relative;
 	width:100%;
 	margin:0 0 5px 0;
 }
