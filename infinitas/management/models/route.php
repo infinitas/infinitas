@@ -22,12 +22,6 @@
 
 		var $tablePrefix = 'core_';
 
-		var $blockedPlugins = array(
-			'DebugKit',
-			'Filter',
-			'Libs'
-		);
-
 		var $actsAs = array(
 			'Libs.Ordered'
 		);
@@ -39,18 +33,6 @@
 		var $belongsTo = array(
 			'Management.Theme'
 		);
-
-		function getPlugins(){
-			$plugins = Configure::listObjects('plugin');
-
-			foreach($plugins as $plugin){
-				if (!in_array($plugin, $this->blockedPlugins)){
-					$return[Inflector::underscore($plugin)] = $plugin;
-				}
-			}
-
-			return array(0 => 'None') + (array)$return;
-		}
 
 		function getRoutes(){
 			$routes = Cache::read('routes');
