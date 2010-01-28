@@ -359,6 +359,8 @@ class AppController extends Controller {
 			$record[$model]['active'] = 0;
 			unset( $record[$model]['created'] );
 			unset( $record[$model]['modified'] );
+			unset( $record[$model]['lft'] );
+			unset( $record[$model]['rght'] );
 
 			$this->$model->create();
 
