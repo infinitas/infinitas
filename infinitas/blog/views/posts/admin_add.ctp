@@ -17,13 +17,32 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Blog->adminOtherHead( $this );
     echo $this->Form->create( 'Post' );
-        echo $this->Form->input( 'title', array( 'class' => 'title' ) );
-        echo $this->Form->input( 'active' );
-        echo $this->Blog->wysiwyg( 'Post.intro' );
-        echo $this->Blog->wysiwyg( 'Post.body' );
-        echo $this->Form->input( 'Tag', array( 'multiple' =>  'checkbox' ) );
-        echo $this->Form->input( 'new_tags', array( 'type' => 'textarea', 'rows' => 5, 'style' => 'width:100%;' ) );
-    echo $this->Form->end( 'Save Post' );
+        $massActions = $this->Blog->massActionButtons(
+            array(
+                'save',
+            )
+        );
+        echo $this->Blog->adminOtherHead( $this, $massActions );
+        echo $this->Design->niceBox();
+	        ?>
+				<div class="data">
+					<?php
+				        echo $this->Blog->wysiwyg( 'Post.intro' );
+				        echo $this->Blog->wysiwyg( 'Post.body' );
+				    ?>
+				</div>
+				<div class="config">
+					<?php
+						echo $this->Design->niceBox();
+					        echo $this->Form->input( 'title', array( 'class' => 'title' ) );
+					        echo $this->Form->input( 'active' );
+					        echo $this->Form->input( 'Tag', array( 'label' => __('Tags', true), 'multiple' =>  'checkbox' ) );
+					        echo $this->Form->input( 'new_tags', array( 'type' => 'textarea', 'rows' => 5, 'style' => 'width:98%' ) );
+				        echo $this->Design->niceBoxEnd();
+				    ?>
+				</div>
+			<?php
+        echo $this->Design->niceBoxEnd();
+    echo $this->Form->end();
 ?>
