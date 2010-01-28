@@ -1,45 +1,50 @@
+/* FORM STYLES */
+form {font:1em/1 Verdana,Geneva,Kalimati,sans-serif; color:#333;}
+fieldset {border:1px solid #999;}
+fieldset fieldset {border:none;}
+fieldset fieldset legend {font:bold 1em/1 Verdana,Geneva,Kalimati,sans-serif; color:#000;}
+legend {font:1.5em/1 "Trebuchet MS",Helvetica,Jamrul,sans-serif; color:#000;}
+.textfield input, .file input, .dropdown select, .textarea textarea, div input.innertextfield {font:1em/1 Verdana,Geneva,Kalimati,sans-serif; color:#000; border:1px solid #999; background:#ececec;}
+.textfield input:hover, .file input:hover, .dropdown select:hover, .textarea textarea:hover, div input.innertextfield:hover {border-color:orange;}
+.textfield input:focus, .file input:focus, .dropdown select:focus, .textarea textarea:focus, div input.innertextfield:hover {border-color:#333;}
+.textfield input:active, .file input:active, .dropdown select:active, .textarea textarea:active, div input.innertextfield:active {border-color:#333;}
+.textfield input:focus:hover, .file input:focus:hover, .dropdown select:focus:hover, .textarea textarea:focus:hover, div input.innertextfield:focus:hover {border-color:orange;}
+.checkbox input, .radio input {border:none; background:transparent;}
+button {font:1.2em/1 Verdana,Geneva,Kalimati,sans-serif; border:1px solid #666; background:#666; color:#fff;}
+button:hover {border-color:#000; color:orange;}
+optgroup {font:bold 1em/1 Verdana,Geneva,Kalimati,sans-serif;}
+option {font:1em/1 Verdana,Geneva,Kalimati,sans-serif;}
 
-input {
-    vertical-align:middle;
-}
-    input.text,
-    select,
-    textarea {
-    	font-family:arial,sans-serif;
-    	color:#333;
-    	font-size:12px;
-    	vertical-align:middle;
-    }
-    input.text {
-    	padding:1px 0 0 4px;
-    	height:14px;
-    	font-weight:normal;
-    }
 
-.filter-form{
-	float: left;
-}
-.filter-form label{
-	float: left;
-	padding-right: 5px;
-}
-.filter-form input{
-	float:left;
-	clear:none;
-	margin-right:10px;
-}
+/* FORM LAYOUT */
+form {}
+fieldset {margin-bottom:3em; padding:10px;}
+fieldset fieldset {padding:0;}
+legend {margin-bottom:1em;}
+.textfield, .textarea, .file, .dropdown, .radio, .checkbox, .buttons, fieldset fieldset {margin-bottom:1em;}
+.textfield input, .file input, .dropdown select, .textarea textarea, input.innertextfield {padding:2px 5px;}
+.textfield input, .file input, .dropdown select, .textarea textarea {width:250px;}
+textarea {height:6em;}
+.textfield input, .file input, .dropdown select, .textarea textarea {display:block; margin:0.1em 0 0 0;}
+.checkbox input, .radio input {margin-right:5px;}
+div input.innertextfield {display:inline; margin-right:0;}
+.buttons {}
+button {padding:4px;}
+optgroup {}
+option {padding:1px 3px;}
 
 label{
 	float:left;
-	width:140px;
-}
-.filter label{
-	float:left;
-	width:auto;
+	width:100px;
 }
 
-form h2{
-	margin-top:10px;
-	color: #FF7200;
-	margin-bottom:5px;
+.config label{
+	float:left;
+	width:100px;
+	text-align:right;
+	padding-right:10px;
+}
+
+input{
+	margin:1px;
 }

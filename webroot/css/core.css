@@ -32,6 +32,7 @@ img {
  */
 .niceBox{
     margin-bottom: 10px;
+	overflow:auto;
 }
     .niceBox .top{
         background:url("../img/niceBox/border.png") repeat-x scroll 0 0 transparent;
@@ -60,6 +61,7 @@ img {
     	border-right:     1px solid #ccc;
     	padding:          5px 10px;
         background-color: #F8F8F8;
+		overflow:auto;
     }
 
     .niceBox .bottom {
