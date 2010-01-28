@@ -15,34 +15,24 @@
         ?>
     </head>
     <body>
-        <div id="main">
+        <div id="wrap">
         	<div id="header">
-                <div class="left"></div>
-                <div class="right"></div>
-                <?php echo $this->Session->flash(); ?>
-        		<ul id="top-navigation">
-        			<li class="<?php echo ( ( $this->here == '/admin' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Dashboard', true ), '/admin' ); ?></span></span></li>
-        			<li class="<?php echo ( ( $this->plugin == 'blog' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Blog', true ), '/admin/blog' ); ?></span></span></li>
-        			<li class="<?php echo ( ( $this->plugin == 'newsletter' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Newsletters', true ), '/admin/newsletter' ); ?></span></span></li>
-        			<li class="<?php echo ( ( $this->plugin == 'cms' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Cms', true ), '/admin/cms' ); ?></span></span></li>
-                    <li class="<?php echo ( ( $this->plugin == 'core' ) ? 'active' : '' ); ?>"><span><span><?php echo $this->Html->link( __( 'Developer', true ), '/admin/core' ); ?></span></span></li>
-        		</ul>
+                <?php
+                	echo $this->Infinitas->loadModules('top', true);
+                	echo $this->Session->flash();
+				?>
         	</div>
-        	<div id="middle">
-                <div id="wrap">
-            		<div id="left-column">
-                        <?php echo $this->element( 'admin/actions' ); ?>
-            		</div>
-            		<div id="center-column">
-                        <?php echo $content_for_layout; ?>
-                    </div>
-                    <?php echo $this->Design->niceBox( 'right-column', $this->element( 'admin/right_boxes' ) ); ?>
-                </div>
-                <div class="clr"></div>
-            </div>
+        	<div id="content">
+				<div class="<?php echo isset($this->params['plugin'])?$this->params['plugin']:''; ?>">
+					<div class="<?php echo isset($this->params['controller'])?$this->params['controller']:''; ?>">
+						<div class="<?php echo isset($this->params['action'])?$this->params['action']:''; ?>">
+							<?php echo $content_for_layout; ?>
+						</div>
+					</div>
+				</div>
+			</div>
         	<div id="footer">
-                <div class="left"></div>
-                <div class="right"></div>
+				<?php echo $this->Infinitas->loadModules('bottom', true); ?>
             </div>
         </div>
         <?php echo $this->element( 'admin/bottom' ); ?>
