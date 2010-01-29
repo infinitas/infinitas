@@ -36,7 +36,7 @@ class PostsController extends BlogAppController {
 	var $helpers = array(
 		'Libs.Geshi',
 		'Filter.Filter'
-		);
+	);
 
 	/**
 	* PostsController::beforeFilter()
@@ -70,24 +70,19 @@ class PostsController extends BlogAppController {
 				'Post.intro',
 				'Post.comment_count',
 				'Post.created',
-				),
+			),
 			'conditions' => array(
 				'Post.active' => 1,
 				'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0')
-				),
+			),
 			'contain' => array(
 				'Tag' => array(
 					'fields' => array(
 						'Tag.name'
-						)
-					),
-				'Comment' => array(
-					'conditions' => array(
-						'Comment.active' => 1
-						)
 					)
 				)
-			);
+			)
+		);
 
 		$posts = $this->paginate('Post');
 		$this->set(compact('posts'));

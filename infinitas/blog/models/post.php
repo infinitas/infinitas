@@ -27,7 +27,7 @@ class Post extends BlogAppModel {
 	*/
 	var $order = array(
 		'Post.created' => 'DESC'
-		);
+	);
 
 	var $actsAs = array(
 		'Libs.Sluggable',
