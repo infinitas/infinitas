@@ -1,6 +1,6 @@
 <?php
-	$menu  = (isset($config['menu'])?$config['menu']:'core_admin');
+	$menuToLoad  = (isset($config['menu'])?$config['menu']:'core_admin');
 	$type = (isset($config['type'])?$config['type']:'horizontal');
 
-	echo $this->Infinitas->generateMenu(ClassRegistry::init('Management.MenuItem')->getMenu($menu), $type);
+	echo $this->Infinitas->generateMenu(ClassRegistry::init('Management.MenuItem')->getMenu($menuToLoad), $type);
 ?>
