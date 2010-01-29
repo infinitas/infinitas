@@ -15,6 +15,11 @@
 			'Management.Group'
 		);
 
+		var $order = array(
+			'MenuItem.menu_id' => 'ASC',
+			'MenuItem.lft' => 'ASC'
+		);
+
 		function getMenu($type = null){
 			if (!$type) {
 				return false;
@@ -22,7 +27,7 @@
 
 			$menus = Cache::read('menu_'.$type);
 			if (!empty($menus)) {
-				return $menus;
+				//return $menus;
 			}
 
 			$menus = $this->find(
@@ -37,6 +42,15 @@
 						'MenuItem.id',
 						'MenuItem.name',
 						'MenuItem.link',
+
+						'MenuItem.prefix',
+						'MenuItem.plugin',
+						'MenuItem.controller',
+						'MenuItem.action',
+						'MenuItem.params',
+						'MenuItem.force_backend',
+						'MenuItem.force_frontend',
+
 						'MenuItem.class',
 						'MenuItem.active',
 						'MenuItem.menu_id',

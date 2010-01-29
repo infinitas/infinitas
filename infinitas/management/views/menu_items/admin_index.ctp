@@ -65,14 +65,15 @@
                 			<?php
                 				$paths = ClassRegistry::init('Management.MenuItem')->getPath($menuItem['MenuItem']['id']);
                 				$links = array();
-                				foreach($paths as $path){
-	                				$links[] = $this->Html->link(
-	                					Inflector::humanize($path['MenuItem']['name']),
-	                					array('action' => 'edit', $path['MenuItem']['id'])
-		                			);
-	                			}
 
-	                			echo implode(' :: ', $links);
+                				if (count($paths) > 1) {
+                					echo '<b>', str_repeat('- ', count($paths)-1), ' |</b> ';
+                				}
+
+	                			echo $this->Html->link(
+                					Inflector::humanize($menuItem['MenuItem']['name']),
+                					array('action' => 'edit', $menuItem['MenuItem']['id'])
+	                			);
                 			?>&nbsp;
                 		</td>
                 		<td>
