@@ -30,22 +30,24 @@ class Comment extends ManagementAppModel {
 			'name' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => 'Please enter your name'
+					'message' => __('Please enter your name', true)
 				)
 			),
 			'email' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => 'Please enter your email address'
+					'message' => __('Please enter your email address', true)
 				),
 				'email' => array(
 					'rule' => array('email'),
-					'message' => 'Please enter a valid email address'
+					'message' => __('Please enter a valid email address', true)
 				)
 			),
 			'comment' => array(
-				'rule' => 'notEmpty',
-				'message' => 'Please enter your comments'
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter your comments', true)
+				)
 			)
 		);
 	}
