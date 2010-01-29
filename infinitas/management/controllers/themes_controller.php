@@ -58,5 +58,32 @@
 				$this->data = $this->Theme->read(null, $id);
 			}
 		}
+
+
+
+		function admin_mass() {
+			$model = $this->modelNames[0];
+			$ids = $this->__massGetIds($this->data[$model]);
+
+			switch($this->__massGetAction($this->params['form'])) {
+				case 'toggle':
+					if (count($ids) > 1) {
+						$this->Session->setFlash(__('Please select only one theme to be active', true));
+						$this->redirect($this->referer());
+					}
+
+					$this->$model->updateAll(
+						array(
+							$model.'.active' => '0'
+						)
+					);
+					return parent::__massActionToggle($ids);
+					break;
+
+				default:
+					parent::admin_mass();
+					break;
+			} // switch
+		}
 	}
 ?>
