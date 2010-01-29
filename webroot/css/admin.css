@@ -35,7 +35,8 @@ a:hover {text-decoration: underline}
         /* header */
         #header {
         	width:100%;
-        	height:35px;
+        	height:31px;
+			background-image:url(../img/nav/btn3.jpg);
     	}
 
         /* main body */
