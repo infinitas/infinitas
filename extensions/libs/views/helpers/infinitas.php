@@ -112,9 +112,27 @@
 			}
 
 			$this->_menuData .= '<li class="pureCssMenui'.$suffix.'">';
+				$menuLink = $array['MenuItem']['link'];
+				if (empty($array['MenuItem']['link'])) {
+					$_items = $array['MenuItem'];
+
+					$menuLink['prefix']     = (!empty($array['MenuItem']['prefix'])     ? $array['MenuItem']['prefix']     : null);
+					$menuLink['plugin']     = (!empty($array['MenuItem']['plugin'])     ? $array['MenuItem']['plugin']     : null);
+					$menuLink['controller'] = (!empty($array['MenuItem']['controller']) ? $array['MenuItem']['controller'] : null);
+					$menuLink['action']     = (!empty($array['MenuItem']['action'])     ? $array['MenuItem']['action']     : null);
+					$menuLink[]             = (!empty($array['MenuItem']['params'])     ? $array['MenuItem']['params']     : null);
+
+					if ($array['MenuItem']['force_backend']) {
+						$menuLink['admin'] = true;
+					}
+					else if ($array['MenuItem']['force_frontend']) {
+						$menuLink['admin'] = false;
+					}
+				}
+
 				$this->_menuData .= $this->Html->link(
 					$linkName,
-					$array['MenuItem']['link'],
+					$menuLink,
 					array(
 						'class' => 'pureCssMenui'.$suffix,
 						'escape' => false
@@ -129,6 +147,7 @@
 						}
 					$this->_menuData .= '</ul>';
 				}
+				$this->_menuData .= '</a>';
 
 			$this->_menuData .= '</li>';
 		}
