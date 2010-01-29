@@ -19,32 +19,36 @@
 * @subpackage blog.models.comment
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 */
-class Comment extends AppModel {
+class Comment extends ManagementAppModel {
 	var $name = 'Comment';
 	var $tablePrefix = 'core_';
 
-	var $validate = array(
-		'name' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty',
-				'message' => 'Please enter your name'
-			)
-		),
-		'email' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty',
-				'message' => 'Please enter your email address'
+	function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->validate = array(
+			'name' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Please enter your name'
+				)
 			),
 			'email' => array(
-				'rule' => array('email'),
-				'message' => 'Please enter a valid email address'
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Please enter your email address'
+				),
+				'email' => array(
+					'rule' => array('email'),
+					'message' => 'Please enter a valid email address'
+				)
+			),
+			'comment' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Please enter your comments'
 			)
-		),
-		'comment' => array(
-			'rule' => 'notEmpty',
-			'message' => 'Please enter your comments'
-		)
-	);
+		);
+	}
 
 	function getCounts($class = null) {
 		if (!$class) {

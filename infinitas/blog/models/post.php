@@ -37,19 +37,6 @@ class Post extends BlogAppModel {
 		'Libs.Rateable'
 	);
 
-	var $validate = array(
-		'title' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty',
-				'message' => 'Please enter a message'
-				)
-			),
-		'body' => array(
-			'rule' => 'notEmpty',
-			'message' => 'Please enter your post'
-			)
-		);
-
 	var $hasAndBelongsToMany = array(
 		'Tag' =>
 		array(
@@ -70,7 +57,7 @@ class Post extends BlogAppModel {
 		);
 
 	var $hasMany = array(
-		);
+	);
 
 	var $belongsTo = array(
 		'Locker' => array(
@@ -80,10 +67,29 @@ class Post extends BlogAppModel {
 			'fields' => array(
 				'Locker.id',
 				'Locker.username'
-				),
+			),
 			'order' => ''
+		)
+	);
+
+	function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->validate = array(
+			'title' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter a message', true)
+				)
+			),
+			'body' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter your post', true)
+				)
 			)
 		);
+	}
 
 	/**
 	* before deleting a post.
