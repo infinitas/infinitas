@@ -51,6 +51,9 @@
 			return $theme;
 		}
 
+		/**
+		 * Deactivate everything after making something else active
+		 */
 		function afterSave($created) {
 			parent::afterSave($created);
 
