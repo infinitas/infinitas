@@ -37,6 +37,7 @@ a:hover {text-decoration: underline}
         	width:100%;
         	height:31px;
 			background-image:url(../img/nav/btn3.jpg);
+			margin-bottom:10px;
     	}
 
         /* main body */
