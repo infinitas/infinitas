@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2010 at 05:02 PM
+-- Generation Time: Jan 29, 2010 at 11:17 AM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -12,6 +12,137 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `infinitas`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `api_api_classes`
+--
+
+DROP TABLE IF EXISTS `api_api_classes`;
+CREATE TABLE `api_api_classes` (
+  `id` varchar(36) NOT NULL,
+  `api_package_id` varchar(36) DEFAULT NULL,
+  `name` varchar(200) NOT NULL,
+  `slug` varchar(200) NOT NULL,
+  `file_name` text NOT NULL,
+  `method_index` text NOT NULL,
+  `property_index` text NOT NULL,
+  `flags` int(5) NOT NULL,
+  `coverage_cache` float(4,4) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `api_package_id` (`api_package_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `api_api_classes`
+--
+
+INSERT INTO `api_api_classes` (`id`, `api_package_id`, `name`, `slug`, `file_name`, `method_index`, `property_index`, `flags`, `coverage_cache`, `created`, `modified`) VALUES
+('4b600eef-2838-4b94-8ace-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'DATABASE_CONFIG', 'd-a-t-a-b-a-s-e--c-o-n-f-i-g', 'C:\\xampp\\htdocs\\infinitas\\config\\database.php', '', 'default default', 2, 0.0000, '2010-01-27 12:01:19', '2010-01-27 12:01:19'),
+('4b600ef0-f6b4-4ff9-ba52-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'BackupsController', 'backups-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\backup\\controllers\\backups_controller.php', 'admin_backup __checkbackups __savebackup admin_backup __checkbackups __savebackup', 'name name', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-aec0-4c9a-8e4e-1ccc6318cd70', '4b600ef0-658c-4c38-afc9-1ccc6318cd70', 'BlogAppController', 'blog-app-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\blog_app_controller.php', 'beforefilter afterfilter beforefilter afterfilter', 'helpers helpers', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-eadc-4cd2-8e71-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'BlogAppModel', 'blog-app-model', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\blog_app_model.php', 'beforesave afterdelete __clearcache beforesave afterdelete __clearcache', 'tableprefix tableprefix', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-69c0-42e3-888e-1ccc6318cd70', '4b600ef0-03cc-40c2-8ce7-1ccc6318cd70', 'PostsController', 'posts-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\controllers\\posts_controller.php', 'beforefilter index view admin_dashboard admin_index admin_add admin_edit admin_view admin_delete beforefilter index view admin_dashboard admin_index admin_add admin_edit admin_view admin_delete', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-b320-4676-b04b-1ccc6318cd70', '4b600ef0-f438-404d-af3c-1ccc6318cd70', 'Post', 'post', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\models\\post.php', 'beforedelete getdates getlatest getcounts getpopular getpending beforedelete getdates getlatest getcounts getpopular getpending', 'name order actsas validate hasandbelongstomany hasmany belongsto name order actsas validate hasandbelongstomany hasmany belongsto', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-c464-4171-918f-1ccc6318cd70', '4b600ef0-83b8-41b0-aab7-1ccc6318cd70', 'Tag', 'tag', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\models\\tag.php', 'getcount findpostsbytag getcount findpostsbytag', 'name order validate hasandbelongstomany name order validate hasandbelongstomany', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-be80-4eff-8b72-1ccc6318cd70', '4b600ef0-bc68-45c8-a2d0-1ccc6318cd70', 'BlogHelper', 'blog-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\views\\helpers\\blog.php', 'metadata setdata unsetdata formaturl highlighttags metadata setdata unsetdata formaturl highlighttags', 'helpers dateformat layout errors data showintro helpers dateformat layout errors data showintro', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-9988-41ab-b084-1ccc6318cd70', '4b600ef0-0aa0-4d8d-a30a-1ccc6318cd70', 'CommentLayoutHelper', 'comment-layout-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\views\\helpers\\comment_layout.php', 'setdata unsetdata showcomment addcomment countbox setdata unsetdata showcomment addcomment countbox', 'helpers addcommenturl helpers addcommenturl', 2, 0.0000, '2010-01-27 12:01:20', '2010-01-27 12:01:21'),
+('4b600ef1-8ea4-4665-a9ce-1ccc6318cd70', '4b600ef1-7874-4220-8d4e-1ccc6318cd70', 'PostLayoutHelper', 'post-layout-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\blog\\views\\helpers\\post_layout.php', 'indexpoststart indexposthead indexpostcontent indexpostfooter indexpostend viewposthead viewpostbody tags pendingbox mostpopular indexpoststart indexposthead indexpostcontent indexpostfooter indexpostend viewposthead viewpostbody tags pendingbox mostpopular', 'helpers indexconfig helpers indexconfig', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-c2a8-47b7-814a-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CmsAppController', 'cms-app-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\cms_app_controller.php', 'beforefilter beforefilter', 'helpers components helpers components', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-abf0-442b-b495-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CmsAppModel', 'cms-app-model', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\cms_app_model.php', '', 'tableprefix tableprefix', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-3694-4205-b892-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CategoriesController', 'categories-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\controllers\\categories_controller.php', 'index view admin_dashboard admin_index admin_view admin_add admin_edit admin_delete index view admin_dashboard admin_index admin_view admin_add admin_edit admin_delete', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-1d68-4914-b990-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'ContentsController', 'contents-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\controllers\\contents_controller.php', 'beforefilter index view admin_index admin_view admin_add admin_edit beforefilter index view admin_index admin_view admin_add admin_edit', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-05e0-40d4-baa9-1ccc6318cd70', NULL, 'FeaturesController', 'features-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\controllers\\features_controller.php', 'index admin_index admin_add index admin_index admin_add', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-bc90-4cd1-a3ee-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'FrontpagesController', 'frontpages-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\controllers\\frontpages_controller.php', 'index admin_index admin_add index admin_index admin_add', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-3e54-453d-b638-1ccc6318cd70', NULL, 'LayoutsController', 'layouts-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\controllers\\layouts_controller.php', 'admin_index admin_add admin_edit admin_index admin_add admin_edit', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-e168-4f38-8172-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Category', 'category', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\models\\category.php', '', 'name actsas order validate belongsto hasmany name actsas order validate belongsto hasmany', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-3bd0-41e7-9919-1ccc6318cd70', '4b600ef1-34b0-411c-972b-1ccc6318cd70', 'Content', 'content', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\models\\content.php', '', 'name order validate actsas belongsto hasone name order validate actsas belongsto hasone', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-2f18-442a-9834-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Feature', 'feature', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\models\\feature.php', '', 'name order actsas belongsto name order actsas belongsto', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-0d2c-4d4c-8dea-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Frontpage', 'frontpage', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\models\\frontpage.php', '', 'name actsas order belongsto name actsas order belongsto', 2, 0.0000, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef2-770c-4448-bc23-1ccc6318cd70', NULL, 'Layout', 'layout', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\models\\layout.php', '', 'name usetable hasmany belongsto name usetable hasmany belongsto', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-6e8c-4d51-acb3-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CmsHelper', 'cms-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\cms\\views\\helpers\\cms.php', 'homepageitem homepageitem', 'helpers helpers', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-f76c-4beb-b117-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CommentsController', 'comments-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\comment\\controllers\\comments_controller.php', 'admin_index admin_perge admin_commentpurge admin_index admin_perge admin_commentpurge', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-bbf4-4e47-8ce5-1ccc6318cd70', '4b600ef2-f79c-4047-985e-1ccc6318cd70', 'Comment', 'comment', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\comment\\models\\comment.php', 'getcounts aftersave afterdelete __clearcache getcounts aftersave afterdelete __clearcache', 'name tableprefix validate name tableprefix validate', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-19d0-4b9a-97c2-1ccc6318cd70', NULL, 'FileManagerController', 'file-manager-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\filemanager\\controllers\\file_manager_controller.php', 'admin_index admin_view admin_download admin_delete admin_index admin_view admin_download admin_delete', 'name uses helpers name uses helpers', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-f968-4719-b563-1ccc6318cd70', NULL, 'Files', 'files', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\filemanager\\models\\files.php', 'beforefind find chmod __read __advancedfilefind __filestatus __simplefilefind __relativepath __order beforefind find chmod __read __advancedfilefind __filestatus __simplefilefind __relativepath __order', 'name usetable belongsto ignore name usetable belongsto ignore', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-24b4-4437-8665-1ccc6318cd70', NULL, 'Folders', 'folders', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\filemanager\\models\\folders.php', 'beforefind find chmod __read __advancedfolderfind __filestatus __simplefolderfind __relativepath __order beforefind find chmod __read __advancedfolderfind __filestatus __simplefolderfind __relativepath __order', 'name usetable hasmany ignore name usetable hasmany ignore', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-b0e0-442c-8035-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'InstallerAppController', 'installer-app-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\installer\\installer_app_controller.php', '', '', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-a080-46fc-93d3-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'InstallerAppModel', 'installer-app-model', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\installer\\installer_app_model.php', '', '', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-01b4-4ebc-85df-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'InstallController', 'install-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\installer\\controllers\\install_controller.php', 'beforefilter index licence __testconnection database install siteconfig done __executesqlscript beforefilter index licence __testconnection database install siteconfig done __executesqlscript', 'name uses components phpversion sqlversion name uses components phpversion sqlversion', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-9f94-4f3a-af6d-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Install', 'install', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\installer\\models\\install.php', '', 'name usetable name usetable', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-09c0-44ab-bc6d-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'ManagementAppController', 'management-app-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\management_app_controller.php', '', 'helpers components helpers components', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-abd4-43f8-b2c3-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'ManagementAppModel', 'management-app-model', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\management_app_model.php', '', '', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef2-a6b0-4f74-91c5-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'ConfigsController', 'configs-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\controllers\\configs_controller.php', 'beforefilter admin_index admin_add admin_edit beforefilter admin_index admin_add admin_edit', 'name helpers configoptions name helpers configoptions', 2, 0.0000, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef3-77a8-47b7-9b69-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'ManagementController', 'management-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\controllers\\management_controller.php', 'admin_dashboard admin_dashboard', 'name uses name uses', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-0a94-497b-b854-1ccc6318cd70', NULL, 'ModulesController', 'modules-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\controllers\\modules_controller.php', 'beforefilter admin_index admin_add admin_edit beforefilter admin_index admin_add admin_edit', 'name name', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-8674-4037-84ab-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'RoutesController', 'routes-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\controllers\\routes_controller.php', 'beforefilter admin_index admin_add admin_edit beforefilter admin_index admin_add admin_edit', 'name listthemes name listthemes', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-78a8-4242-823f-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'ThemesController', 'themes-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\controllers\\themes_controller.php', 'beforefilter admin_index admin_add admin_edit beforefilter admin_index admin_add admin_edit', 'name name', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-881c-455b-9ad9-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Config', 'config', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\config.php', 'getconfig beforefind aftersave afterdelete __clearcache getconfig beforefind aftersave afterdelete __clearcache', 'name tableprefix order configuration name tableprefix order configuration', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-cd38-4510-b1f2-1ccc6318cd70', NULL, 'Group', 'group', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\group.php', '', 'tableprefix actsas tableprefix actsas', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-d930-4706-bd1e-1ccc6318cd70', NULL, 'Log', 'log', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\log.php', '', 'tableprefix name order tableprefix name order', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-edcc-4f49-bad6-1ccc6318cd70', NULL, 'Module', 'module', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\module.php', 'getmodules getmodules', 'name tableprefix actsas order belongsto hasandbelongstomany name tableprefix actsas order belongsto hasandbelongstomany', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-06bc-4754-801b-1ccc6318cd70', NULL, 'ModulePosition', 'module-position', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\module_position.php', '', 'name tableprefix name tableprefix', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-d0ac-4a24-be56-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Route', 'route', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\route.php', 'getplugins getroutes _getvalues _getregex _gettype aftersave afterdelete __clearcache getplugins getroutes _getvalues _getregex _gettype aftersave afterdelete __clearcache', 'name tableprefix blockedplugins actsas order belongsto name tableprefix blockedplugins actsas order belongsto', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-0b00-4bfa-b32e-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Theme', 'theme', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\theme.php', 'getcurrnettheme aftersave afterdelete __clearcache getcurrnettheme aftersave afterdelete __clearcache', 'name tableprefix hasmay name tableprefix hasmay', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-f85c-45d3-b563-1ccc6318cd70', NULL, 'User', 'user', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\models\\user.php', '', 'name tableprefix name tableprefix', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-3a6c-44f0-b6eb-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CoreHelper', 'core-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\management\\views\\helpers\\core.php', '', 'helpers helpers', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-80c8-4f03-9c41-1ccc6318cd70', '4b600ef3-99c0-4949-89ff-1ccc6318cd70', 'NewsletterAppController', 'newsletter-app-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\newsletter_app_controller.php', 'beforefilter beforerender afterfilter beforefilter beforerender afterfilter', 'helpers components helpers components', 2, 0.0000, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef4-7420-4ca5-8295-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'NewsletterAppModel', 'newsletter-app-model', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\newsletter_app_model.php', 'beforesave afterdelete __clearcache beforesave afterdelete __clearcache', 'tableprefix tableprefix', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-8dc0-488a-b242-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'CampaignsController', 'campaigns-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\controllers\\campaigns_controller.php', 'admin_index admin_add admin_edit admin_toggle admin_delete admin_mass __candelete admin_index admin_add admin_edit admin_toggle admin_delete admin_mass __candelete', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-3e84-446e-a4db-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'NewslettersController', 'newsletters-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\controllers\\newsletters_controller.php', 'beforefilter track sendnewsletters admin_dashboard admin_report admin_index admin_add admin_edit admin_view admin_preview admin_delte admin_mass __candelete admin_togglesend admin_stopall beforefilter track sendnewsletters admin_dashboard admin_report admin_index admin_add admin_edit admin_view admin_preview admin_delte admin_mass __candelete admin_togglesend admin_stopall', 'name helpers name helpers', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-684c-4796-8aa2-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'TemplatesController', 'templates-controller', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\controllers\\templates_controller.php', 'beforefilter admin_index admin_add admin_edit admin_view admin_export admin_preview admin_delete admin_mass __candelete beforefilter admin_index admin_add admin_edit admin_view admin_export admin_preview admin_delete admin_mass __candelete', 'name version helpers sampletext name version helpers sampletext', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-407c-401a-bb08-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Campaign', 'campaign', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\models\\campaign.php', '', 'name order hasmany belongsto name order hasmany belongsto', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-4984-4ae4-97b7-1ccc6318cd70', '4b600ef0-21e0-4bf9-a618-1ccc6318cd70', 'Newsletter', 'newsletter', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\models\\newsletter.php', '', 'name order displayfield validate hasandbelongstomany belongsto name order displayfield validate hasandbelongstomany belongsto', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-bd40-4c1f-911b-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'Template', 'template', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\models\\template.php', '', 'name order validation hasmany belongsto name order validation hasmany belongsto', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-9d04-4be3-bb45-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'LetterHelper', 'letter-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\views\\helpers\\letter.php', 'toggle preview toggle preview', 'helpers allowedpreviews errors helpers allowedpreviews errors', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24'),
+('4b600ef4-2634-4c07-852c-1ccc6318cd70', '4b600eef-c318-43fd-8773-1ccc6318cd70', 'NewsletterLayoutHelper', 'newsletter-layout-helper', 'C:\\xampp\\htdocs\\infinitas\\infinitas\\newsletter\\views\\helpers\\newsletter_layout.php', '', '', 2, 0.0000, '2010-01-27 12:01:24', '2010-01-27 12:01:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `api_api_packages`
+--
+
+DROP TABLE IF EXISTS `api_api_packages`;
+CREATE TABLE `api_api_packages` (
+  `id` varchar(36) NOT NULL,
+  `parent_id` varchar(36) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `lft` int(11) NOT NULL,
+  `rght` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `api_api_packages`
+--
+
+INSERT INTO `api_api_packages` (`id`, `parent_id`, `name`, `slug`, `lft`, `rght`, `created`, `modified`) VALUES
+('4b600eef-78b4-4a3f-8898-1ccc6318cd70', NULL, 'sort', 'sort', 1, 4, '2010-01-27 12:01:19', '2010-01-27 12:01:19'),
+('4b600eef-c318-43fd-8773-1ccc6318cd70', '4b600eef-78b4-4a3f-8898-1ccc6318cd70', 'comments', 'comments', 2, 3, '2010-01-27 12:01:19', '2010-01-27 12:01:19'),
+('4b600ef0-18d8-45b4-a13f-1ccc6318cd70', NULL, 'blog', 'blog', 5, 32, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-898c-420c-970e-1ccc6318cd70', '4b600ef0-18d8-45b4-a13f-1ccc6318cd70', 'controllers', 'controllers', 6, 13, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-658c-4c38-afc9-1ccc6318cd70', '4b600ef0-898c-420c-970e-1ccc6318cd70', 'blogAppController', 'blog-app-controller', 7, 8, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-03cc-40c2-8ce7-1ccc6318cd70', '4b600ef0-898c-420c-970e-1ccc6318cd70', 'posts', 'posts', 9, 10, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-21e0-4bf9-a618-1ccc6318cd70', '4b600ef0-18d8-45b4-a13f-1ccc6318cd70', 'models', 'models', 14, 23, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-f438-404d-af3c-1ccc6318cd70', '4b600ef0-21e0-4bf9-a618-1ccc6318cd70', 'post', 'post', 15, 16, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-83b8-41b0-aab7-1ccc6318cd70', '4b600ef0-21e0-4bf9-a618-1ccc6318cd70', 'tag', 'tag', 17, 18, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-6130-415b-a34b-1ccc6318cd70', '4b600ef0-18d8-45b4-a13f-1ccc6318cd70', 'views', 'views', 24, 31, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-bc68-45c8-a2d0-1ccc6318cd70', '4b600ef0-6130-415b-a34b-1ccc6318cd70', 'helpers', 'helpers', 25, 30, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef0-0aa0-4d8d-a30a-1ccc6318cd70', '4b600ef0-bc68-45c8-a2d0-1ccc6318cd70', 'commentLayout', 'comment-layout', 26, 27, '2010-01-27 12:01:20', '2010-01-27 12:01:20'),
+('4b600ef1-7874-4220-8d4e-1ccc6318cd70', '4b600ef0-bc68-45c8-a2d0-1ccc6318cd70', 'postLayout', 'post-layout', 28, 29, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-60a0-4894-b73b-1ccc6318cd70', NULL, 'cms', 'cms', 33, 34, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef1-34b0-411c-972b-1ccc6318cd70', '4b600ef0-21e0-4bf9-a618-1ccc6318cd70', 'content', 'content', 19, 20, '2010-01-27 12:01:21', '2010-01-27 12:01:21'),
+('4b600ef2-f79c-4047-985e-1ccc6318cd70', '4b600ef0-21e0-4bf9-a618-1ccc6318cd70', 'comment', 'comment', 21, 22, '2010-01-27 12:01:22', '2010-01-27 12:01:22'),
+('4b600ef3-d180-490b-bb3b-1ccc6318cd70', NULL, 'newsletter', 'newsletter', 35, 36, '2010-01-27 12:01:23', '2010-01-27 12:01:23'),
+('4b600ef3-99c0-4949-89ff-1ccc6318cd70', '4b600ef0-898c-420c-970e-1ccc6318cd70', 'newsletterAppController', 'newsletter-app-controller', 11, 12, '2010-01-27 12:01:23', '2010-01-27 12:01:23');
 
 -- --------------------------------------------------------
 
@@ -37,14 +168,15 @@ CREATE TABLE `blog_posts` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `blog_posts`
 --
 
 INSERT INTO `blog_posts` (`id`, `title`, `slug`, `intro`, `body`, `comment_count`, `active`, `views`, `rating`, `rating_count`, `locked`, `locked_by`, `locked_since`, `created`, `modified`) VALUES
-(2, 'Infinitas Cms is live', 'infinitas-cms-is-live', '<p>Welcome to our new home</p>', '<p>Everything is up and running, so feel free to browse the site, just try not to break it.&nbsp; If you want to have a look at the admin section click <a href="http://infinitas-cms.org/admin">here</a></p>', 0, 1, 2, 0, 0, 0, NULL, NULL, '2010-01-20 17:48:26', '2010-01-21 20:41:18');
+(2, 'Infinitas Cms is live', 'infinitas-cms-is-live', '<p>Welcome to our new home</p>', '<p>Everything is up and running, so feel free to browse the site, just try not to break it.&nbsp; If you want to have a look at the admin section click <a href="http://infinitas-cms.org/admin">here</a></p>', 0, 1, 2, 0, 0, 0, NULL, NULL, '2010-01-20 17:48:26', '2010-01-21 20:41:18'),
+(3, 'test', 'test', '<p>tests</p>', '<p>tests</p>', 0, 1, 0, 0, 0, 0, NULL, NULL, '2010-01-28 12:21:13', '2010-01-28 12:43:19');
 
 -- --------------------------------------------------------
 
@@ -58,7 +190,7 @@ CREATE TABLE `blog_posts_tags` (
   `post_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=40 ;
 
 --
 -- Dumping data for table `blog_posts_tags`
@@ -66,7 +198,10 @@ CREATE TABLE `blog_posts_tags` (
 
 INSERT INTO `blog_posts_tags` (`id`, `post_id`, `tag_id`) VALUES
 (32, 2, 3),
-(33, 2, 4);
+(33, 2, 4),
+(37, 3, 1),
+(38, 3, 4),
+(39, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -82,7 +217,7 @@ CREATE TABLE `blog_tags` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `blog_tags`
@@ -92,7 +227,8 @@ INSERT INTO `blog_tags` (`id`, `name`, `created`, `modified`) VALUES
 (1, 'Cakephp', '2009-12-20 13:39:20', '2009-12-20 13:39:20'),
 (2, 'Forms', '2009-12-20 13:39:20', '2009-12-20 13:39:20'),
 (3, 'Infinitas', '2010-01-20 17:48:26', '2010-01-20 17:48:26'),
-(4, 'News', '2010-01-20 17:48:26', '2010-01-20 17:48:26');
+(4, 'News', '2010-01-20 17:48:26', '2010-01-20 17:48:26'),
+(5, 'Test', '2010-01-28 12:21:13', '2010-01-28 12:21:13');
 
 -- --------------------------------------------------------
 
@@ -546,7 +682,7 @@ CREATE TABLE `core_logs` (
   `version_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=156 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=243 ;
 
 --
 -- Dumping data for table `core_logs`
@@ -708,7 +844,213 @@ INSERT INTO `core_logs` (`id`, `title`, `description`, `model`, `model_id`, `act
 (152, 'Infinitas Users', 'Module "Infinitas Users" (11) updated by Management.User "1" (1).', 'Module', 11, 'edit', 1, 'content (<script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script>) => (<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>)', NULL, '2010-01-21 20:05:12'),
 (153, 'Infinitas Cms is live', 'Post "Infinitas Cms is live" (2) updated by Management.User "1" (1).', 'Post', 2, 'edit', 1, 'body (<p>Everything is up and running, so feel free to browse the site, just try not to break it.&nbsp; If you want to have a look at the admin section click <a href="http://infinitas-cms/admin">here</a></p>) => (<p>Everything is up and running, so feel free to browse the site, just try not to break it.&nbsp; If you want to have a look at the admin section click <a href="http://infinitas-cms.org/admin">here</a></p>), locked (1) => (0), locked_by (1) => (), locked_since (2010-01-21 20:40:57) => ()', NULL, '2010-01-21 20:41:18'),
 (154, 'Config (1)', 'Config (1) updated by Management.User "1" (1).', 'Config', 1, 'edit', 1, 'value (0) => (2)', NULL, '2010-01-21 20:48:05'),
-(155, 'Infinitas Users', 'Module "Infinitas Users" (11) updated by Management.User "1" (1).', 'Module', 11, 'edit', 1, 'theme_id (0) => (2)', NULL, '2010-01-22 16:09:25');
+(155, 'Infinitas Users', 'Module "Infinitas Users" (11) updated by Management.User "1" (1).', 'Module', 11, 'edit', 1, 'theme_id (0) => (2)', NULL, '2010-01-22 16:09:25'),
+(156, 'Admin Menu', 'Module "Admin Menu" (12) added by Management.User "1" (1).', 'Module', 12, 'add', 1, 'name () => (Admin Menu), module () => (menu), theme_id () => (0), position_id () => (1), group_id () => (1), active () => (1), show_heading () => (0), core () => (1), author () => (Infinitas), url () => (http://infinitas-cms.org), licence () => (MIT), created () => (2010-01-27 18:14:16), ordering () => (3)', NULL, '2010-01-27 18:14:16'),
+(157, 'Admin Menu', 'Module "Admin Menu" (12) updated by Management.User "1" (1).', 'Module', 12, 'edit', 1, 'config () => ({"menu":"admin_menu"})', NULL, '2010-01-27 18:24:51'),
+(158, 'Admin Menu', 'Module "Admin Menu" (12) updated by Management.User "1" (1).', 'Module', 12, 'edit', 1, 'config ({"menu":"admin_menu"}) => ({"menu":"core_admin"})', NULL, '2010-01-27 18:25:12'),
+(159, 'Test', 'Tag "Test" (5) added by Management.User "1" (1).', 'Tag', 5, 'add', 1, 'name () => (Test), created () => (2010-01-28 12:21:13)', NULL, '2010-01-28 12:21:13'),
+(160, 'test', 'Post "test" (3) added by Management.User "1" (1).', 'Post', 3, 'add', 1, 'title () => (test), active () => (1), intro () => (<p>tests</p>), body () => (<p>tests</p>), created () => (2010-01-28 12:21:13), slug () => (test)', NULL, '2010-01-28 12:21:13'),
+(161, 'test', 'Post "test" (3) updated by Management.User "1" (1).', 'Post', 3, 'edit', 1, 'locked (1) => (0), locked_by (1) => (), locked_since (2010-01-28 12:33:28) => ()', NULL, '2010-01-28 12:43:19'),
+(162, 'Site', 'MenuItem "Site" (4) added by Management.User "1" (1).', 'MenuItem', 4, 'add', 1, 'name () => (Site), plugin () => (0), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (0), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 13:22:43), lft () => (7), rght () => (8)', NULL, '2010-01-28 13:22:43'),
+(163, 'Site', 'MenuItem "Site" (4) updated by Management.User "1" (1).', 'MenuItem', 4, 'edit', 1, 'plugin (0) => (google), parent_id (0) => ()', NULL, '2010-01-28 13:27:38'),
+(164, 'Site', 'MenuItem "Site" (4) updated by Management.User "1" (1).', 'MenuItem', 4, 'edit', 1, 'plugin (google) => (), parent_id (0) => ()', NULL, '2010-01-28 13:28:20'),
+(165, 'Site', 'MenuItem "Site" (1) updated by Management.User "1" (1).', 'MenuItem', 1, 'edit', 1, 'name (Dashboard) => (Site), parent_id (0) => ()', NULL, '2010-01-28 13:30:06'),
+(166, 'Site', 'MenuItem "Site" (1) updated by Management.User "1" (1).', 'MenuItem', 1, 'edit', 1, 'parent_id (0) => (), force_backend (0) => (1)', NULL, '2010-01-28 13:46:50'),
+(167, 'Site', 'MenuItem "Site" (1) updated by Management.User "1" (1).', 'MenuItem', 1, 'edit', 1, 'parent_id (0) => ()', NULL, '2010-01-28 14:36:56'),
+(168, 'Site', 'MenuItem "Site" (1) updated by Management.User "1" (1).', 'MenuItem', 1, 'edit', 1, 'link (/) => (), parent_id (0) => ()', NULL, '2010-01-28 14:37:11'),
+(169, 'Site', 'MenuItem "Site" (1) updated by Management.User "1" (1).', 'MenuItem', 1, 'edit', 1, 'prefix () => (admin), parent_id (0) => ()', NULL, '2010-01-28 14:37:49'),
+(170, 'Site', 'MenuItem "Site" (1) updated by Management.User "1" (1).', 'MenuItem', 1, 'edit', 1, 'plugin () => (management), controller () => (management), action () => (dashboard), parent_id (0) => ()', NULL, '2010-01-28 14:44:49'),
+(171, 'Configuration', 'MenuItem "Configuration" (5) added by Management.User "1" (1).', 'MenuItem', 5, 'add', 1, 'name () => (Configuration), prefix () => (admin), plugin () => (management), controller () => (configs), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 14:46:38)', NULL, '2010-01-28 14:46:38'),
+(172, 'File Manager', 'MenuItem "File Manager" (6) added by Management.User "1" (1).', 'MenuItem', 6, 'add', 1, 'name () => (File Manager), plugin () => (filemanager), controller () => (file_manager), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 14:50:05)', NULL, '2010-01-28 14:50:05'),
+(173, 'Menu Items', 'MenuItem "Menu Items" (7) added by Management.User "1" (1).', 'MenuItem', 7, 'add', 1, 'name () => (Menu Items), plugin () => (management), controller () => (menuItems), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:20:12)', NULL, '2010-01-28 16:20:12'),
+(174, 'Routes', 'MenuItem "Routes" (8) added by Management.User "1" (1).', 'MenuItem', 8, 'add', 1, 'name () => (Routes), plugin () => (management), controller () => (routes), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:24:35)', NULL, '2010-01-28 16:24:35'),
+(175, 'Themes', 'MenuItem "Themes" (9) added by Management.User "1" (1).', 'MenuItem', 9, 'add', 1, 'name () => (Themes), plugin () => (management), controller () => (themes), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:24:54)', NULL, '2010-01-28 16:24:54'),
+(176, 'Modules', 'MenuItem "Modules" (10) added by Management.User "1" (1).', 'MenuItem', 10, 'add', 1, 'name () => (Modules), plugin () => (management), controller () => (modules), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:25:19)', NULL, '2010-01-28 16:25:19'),
+(177, 'Tags', 'MenuItem "Tags" (11) added by Management.User "1" (1).', 'MenuItem', 11, 'add', 1, 'name () => (Tags), plugin () => (blog), controller () => (tags), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (2), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:27:12)', NULL, '2010-01-28 16:27:12'),
+(178, 'Cms', 'MenuItem "Cms" (12) added by Management.User "1" (1).', 'MenuItem', 12, 'add', 1, 'name () => (Cms), plugin () => (cms), controller () => (categories), action () => (dashboard), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (0), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:27:44), lft () => (21), rght () => (22)', NULL, '2010-01-28 16:27:44'),
+(179, 'Categories', 'MenuItem "Categories" (13) added by Management.User "1" (1).', 'MenuItem', 13, 'add', 1, 'name () => (Categories), plugin () => (cms), controller () => (categories), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (12), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:28:23)', NULL, '2010-01-28 16:28:23'),
+(180, 'Categories', 'MenuItem "Categories" (14) added by Management.User "1" (1).', 'MenuItem', 14, 'add', 1, 'name () => (Categories), plugin () => (cms), controller () => (contents), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (12), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:28:50)', NULL, '2010-01-28 16:28:50'),
+(181, 'Contents', 'MenuItem "Contents" (14) updated by Management.User "1" (1).', 'MenuItem', 14, 'edit', 1, 'name (Categories) => (Contents)', NULL, '2010-01-28 16:30:03'),
+(182, 'Front Page Items', 'MenuItem "Front Page Items" (15) added by Management.User "1" (1).', 'MenuItem', 15, 'add', 1, 'name () => (Front Page Items), plugin () => (cms), controller () => (frontpages), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (12), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:31:16)', NULL, '2010-01-28 16:31:16'),
+(183, 'Comments', 'MenuItem "Comments" (16) added by Management.User "1" (1).', 'MenuItem', 16, 'add', 1, 'name () => (Comments), plugin () => (management), controller () => (comments), action () => (class:Cms), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (12), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:31:50)', NULL, '2010-01-28 16:31:50'),
+(184, 'Comments', 'MenuItem "Comments" (16) updated by Management.User "1" (1).', 'MenuItem', 16, 'edit', 1, 'action (class:Cms) => (index), params () => (class:Cms)', NULL, '2010-01-28 16:32:17'),
+(185, 'Maintanence', 'MenuItem "Maintanence" (17) added by Management.User "1" (1).', 'MenuItem', 17, 'add', 1, 'name () => (Maintanence), plugin () => (backup), controller () => (backups), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (12), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:34:19)', NULL, '2010-01-28 16:34:19'),
+(186, 'Backup Sections', 'MenuItem "Backup Sections" (18) added by Management.User "1" (1).', 'MenuItem', 18, 'add', 1, 'name () => (Backup Sections), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:cms/m:section), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (17), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:35:18)', NULL, '2010-01-28 16:35:18'),
+(187, 'Backup Categories', 'MenuItem "Backup Categories" (19) added by Management.User "1" (1).', 'MenuItem', 19, 'add', 1, 'name () => (Backup Categories), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:cms/m:category), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (17), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:36:02)', NULL, '2010-01-28 16:36:02'),
+(188, 'Backup Contents', 'MenuItem "Backup Contents" (20) added by Management.User "1" (1).', 'MenuItem', 20, 'add', 1, 'name () => (Backup Contents), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:cms/m:content), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (17), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:36:42)', NULL, '2010-01-28 16:36:42'),
+(189, 'Backup Contents', 'MenuItem "Backup Contents" (20) updated by Management.User "1" (1).', 'MenuItem', 20, 'edit', 1, 'parent_id (17) => (14)', NULL, '2010-01-28 16:44:31'),
+(190, 'Backup Categories', 'MenuItem "Backup Categories" (19) updated by Management.User "1" (1).', 'MenuItem', 19, 'edit', 1, 'parent_id (17) => (13)', NULL, '2010-01-28 16:44:42'),
+(191, 'Backup Front Pages', 'MenuItem "Backup Front Pages" (21) added by Management.User "1" (1).', 'MenuItem', 21, 'add', 1, 'name () => (Backup Front Pages), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:cms/m:frontPages), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (15), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:45:51)', NULL, '2010-01-28 16:45:51'),
+(192, 'Active', 'MenuItem "Active" (22) added by Management.User "1" (1).', 'MenuItem', 22, 'add', 1, 'name () => (Active), plugin () => (cms), controller () => (categories), action () => (index), params () => (Category.active:1), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (13), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:52:56)', NULL, '2010-01-28 16:52:56'),
+(193, 'Pending', 'MenuItem "Pending" (23) added by Management.User "1" (1).', 'MenuItem', 23, 'add', 1, 'name () => (Pending), plugin () => (cms), controller () => (categories), action () => (index), params () => (Category.active:0), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (13), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:53:50)', NULL, '2010-01-28 16:53:50'),
+(194, 'New', 'MenuItem "New" (24) added by Management.User "1" (1).', 'MenuItem', 24, 'add', 1, 'name () => (New), plugin () => (cms), controller () => (categories), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (13), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:54:06)', NULL, '2010-01-28 16:54:06'),
+(195, 'Active', 'MenuItem "Active" (25) added by Management.User "1" (1).', 'MenuItem', 25, 'add', 1, 'name () => (Active), plugin () => (cms), controller () => (contents), action () => (index), params () => (Content.active:1), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (14), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:55:44)', NULL, '2010-01-28 16:55:44'),
+(196, 'Pending', 'MenuItem "Pending" (26) added by Management.User "1" (1).', 'MenuItem', 26, 'add', 1, 'name () => (Pending), plugin () => (cms), controller () => (contents), action () => (index), params () => (Content.active:0), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (14), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:56:27)', NULL, '2010-01-28 16:56:27'),
+(197, 'New', 'MenuItem "New" (27) added by Management.User "1" (1).', 'MenuItem', 27, 'add', 1, 'name () => (New), plugin () => (cms), controller () => (contents), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (14), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:56:44)', NULL, '2010-01-28 16:56:44'),
+(198, 'New', 'MenuItem "New" (28) added by Management.User "1" (1).', 'MenuItem', 28, 'add', 1, 'name () => (New), plugin () => (cms), controller () => (frontpages), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (15), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:57:26)', NULL, '2010-01-28 16:57:26'),
+(199, 'Featured Pages', 'MenuItem "Featured Pages" (29) added by Management.User "1" (1).', 'MenuItem', 29, 'add', 1, 'name () => (Featured Pages), plugin () => (cms), controller () => (features), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (12), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:58:02)', NULL, '2010-01-28 16:58:02'),
+(200, 'New', 'MenuItem "New" (30) added by Management.User "1" (1).', 'MenuItem', 30, 'add', 1, 'name () => (New), plugin () => (cms), controller () => (features), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (29), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 16:58:27)', NULL, '2010-01-28 16:58:27'),
+(201, 'Pending', 'MenuItem "Pending" (31) added by Management.User "1" (1).', 'MenuItem', 31, 'add', 1, 'name () => (Pending), plugin () => (management), controller () => (comments), action () => (index), params () => (Comment.class:Cms,Comment.active:0), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (29), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:00:50)', NULL, '2010-01-28 17:00:50'),
+(202, 'Accept All', 'MenuItem "Accept All" (32) added by Management.User "1" (1).', 'MenuItem', 32, 'add', 1, 'name () => (Accept All), plugin () => (management), controller () => (comments), action () => (accept), params () => (Comment.class:Cms), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (16), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:03:00)', NULL, '2010-01-28 17:03:00'),
+(203, 'Pending', 'MenuItem "Pending" (31) updated by Management.User "1" (1).', 'MenuItem', 31, 'edit', 1, 'parent_id (29) => (16)', NULL, '2010-01-28 17:03:24'),
+(204, 'Active', 'MenuItem "Active" (33) added by Management.User "1" (1).', 'MenuItem', 33, 'add', 1, 'name () => (Active), plugin () => (blog), controller () => (posts), action () => (index), params () => (Post.active:1), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (3), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:26:26)', NULL, '2010-01-28 17:26:26'),
+(205, 'Pending', 'MenuItem "Pending" (34) added by Management.User "1" (1).', 'MenuItem', 34, 'add', 1, 'name () => (Pending), plugin () => (blog), controller () => (posts), action () => (index), params () => (Post.active:0), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (3), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:26:45)', NULL, '2010-01-28 17:26:45'),
+(206, 'New', 'MenuItem "New" (35) added by Management.User "1" (1).', 'MenuItem', 35, 'add', 1, 'name () => (New), plugin () => (blog), controller () => (posts), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (3), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:27:12)', NULL, '2010-01-28 17:27:12'),
+(207, 'Backup', 'MenuItem "Backup" (36) added by Management.User "1" (1).', 'MenuItem', 36, 'add', 1, 'name () => (Backup), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:blog/m:post), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (3), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:27:50)', NULL, '2010-01-28 17:27:50'),
+(208, 'Clean Up', 'MenuItem "Clean Up" (37) added by Management.User "1" (1).', 'MenuItem', 37, 'add', 1, 'name () => (Clean Up), plugin () => (blog), controller () => (tags), action () => (clean_up), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (11), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:29:03)', NULL, '2010-01-28 17:29:03'),
+(209, 'Newsletter', 'MenuItem "Newsletter" (38) added by Management.User "1" (1).', 'MenuItem', 38, 'add', 1, 'name () => (Newsletter), plugin () => (newsletter), controller () => (campaigns), action () => (dashboard), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (0), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:30:25), lft () => (73), rght () => (74)', NULL, '2010-01-28 17:30:25'),
+(210, 'Newsletter', 'MenuItem "Newsletter" (38) updated by Management.User "1" (1).', 'MenuItem', 38, 'edit', 1, 'controller (campaigns) => (newsletters), parent_id (0) => ()', NULL, '2010-01-28 17:31:34'),
+(211, 'Templates', 'MenuItem "Templates" (39) added by Management.User "1" (1).', 'MenuItem', 39, 'add', 1, 'name () => (Templates), plugin () => (newsletter), controller () => (templates), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (38), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:33:17)', NULL, '2010-01-28 17:33:17'),
+(212, 'Campaigns', 'MenuItem "Campaigns" (40) added by Management.User "1" (1).', 'MenuItem', 40, 'add', 1, 'name () => (Campaigns), plugin () => (newsletter), controller () => (campaigns), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (38), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:33:37)', NULL, '2010-01-28 17:33:37'),
+(213, 'Newsletters', 'MenuItem "Newsletters" (41) added by Management.User "1" (1).', 'MenuItem', 41, 'add', 1, 'name () => (Newsletters), plugin () => (newsletter), controller () => (newsletters), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (38), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:33:51)', NULL, '2010-01-28 17:33:51'),
+(214, 'New', 'MenuItem "New" (42) added by Management.User "1" (1).', 'MenuItem', 42, 'add', 1, 'name () => (New), plugin () => (newsletter), controller () => (templates), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (39), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:35:29)', NULL, '2010-01-28 17:35:29'),
+(215, 'Active', 'MenuItem "Active" (43) added by Management.User "1" (1).', 'MenuItem', 43, 'add', 1, 'name () => (Active), plugin () => (newsletter), controller () => (campaigns), action () => (index), params () => (Campaign.active:1), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (40), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:36:14)', NULL, '2010-01-28 17:36:14'),
+(216, 'Pending', 'MenuItem "Pending" (44) added by Management.User "1" (1).', 'MenuItem', 44, 'add', 1, 'name () => (Pending), plugin () => (newsletter), controller () => (campaigns), action () => (index), params () => (Campaign.active:0), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (40), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:36:26)', NULL, '2010-01-28 17:36:26'),
+(217, 'New', 'MenuItem "New" (45) added by Management.User "1" (1).', 'MenuItem', 45, 'add', 1, 'name () => (New), plugin () => (newsletter), controller () => (campaigns), action () => (add), active () => (1), group_id () => (0), menu_id () => (1), parent_id () => (40), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:36:43)', NULL, '2010-01-28 17:36:43');
+INSERT INTO `core_logs` (`id`, `title`, `description`, `model`, `model_id`, `action`, `user_id`, `change`, `version_id`, `created`) VALUES
+(218, 'Active', 'MenuItem "Active" (46) added by Management.User "1" (1).', 'MenuItem', 46, 'add', 1, 'name () => (Active), plugin () => (newsletter), controller () => (newsletters), action () => (index), params () => (Newsletter.active:1), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (41), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:57:04)', NULL, '2010-01-28 17:57:04'),
+(219, 'Pending', 'MenuItem "Pending" (47) added by Management.User "1" (1).', 'MenuItem', 47, 'add', 1, 'name () => (Pending), plugin () => (newsletter), controller () => (newsletters), action () => (index), params () => (Newsletter.active:0), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (41), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:57:22)', NULL, '2010-01-28 17:57:22'),
+(220, 'Sending', 'MenuItem "Sending" (48) added by Management.User "1" (1).', 'MenuItem', 48, 'add', 1, 'name () => (Sending), plugin () => (newsletter), controller () => (newsletters), action () => (index), params () => (Newsletter.active:1/Newsletter.sent:0), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (41), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:58:17)', NULL, '2010-01-28 17:58:17'),
+(221, 'Sent', 'MenuItem "Sent" (49) added by Management.User "1" (1).', 'MenuItem', 49, 'add', 1, 'name () => (Sent), plugin () => (newsletter), controller () => (newsletters), action () => (index), params () => (Newsletter.sent:1), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (41), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:58:35)', NULL, '2010-01-28 17:58:35'),
+(222, 'New', 'MenuItem "New" (50) added by Management.User "1" (1).', 'MenuItem', 50, 'add', 1, 'name () => (New), plugin () => (newsletter), controller () => (newsletters), action () => (add), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (41), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 17:58:45)', NULL, '2010-01-28 17:58:45'),
+(223, 'Backup', 'MenuItem "Backup" (51) added by Management.User "1" (1).', 'MenuItem', 51, 'add', 1, 'name () => (Backup), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:newsletter/m:template), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (39), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:02:29)', NULL, '2010-01-28 18:02:29'),
+(224, 'Backup', 'MenuItem "Backup" (52) added by Management.User "1" (1).', 'MenuItem', 52, 'add', 1, 'name () => (Backup), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:newsletter/m:template), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (40), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:02:37)', NULL, '2010-01-28 18:02:37'),
+(225, 'Backup', 'MenuItem "Backup" (53) added by Management.User "1" (1).', 'MenuItem', 53, 'add', 1, 'name () => (Backup), plugin () => (backup), controller () => (backups), action () => (backup), params () => (p:newsletter/m:newsletter), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (41), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:02:55)', NULL, '2010-01-28 18:02:55'),
+(226, 'Backup', 'MenuItem "Backup" (52) updated by Management.User "1" (1).', 'MenuItem', 52, 'edit', 1, 'params (p:newsletter/m:template) => (p:newsletter/m:campaign)', NULL, '2010-01-28 18:04:07'),
+(227, 'Blog', 'MenuItem "Blog" (2) updated by Management.User "1" (1).', 'MenuItem', 2, 'edit', 1, 'link (/blog) => (), plugin () => (blog), controller () => (posts), action () => (dashboard), parent_id (0) => (), force_backend (0) => (1)', NULL, '2010-01-28 18:07:26'),
+(228, 'Posts', 'MenuItem "Posts" (3) updated by Management.User "1" (1).', 'MenuItem', 3, 'edit', 1, 'link (/blog/posts/index) => (), plugin () => (blog), controller () => (posts), action () => (index), force_backend (0) => (1)', NULL, '2010-01-28 18:08:09'),
+(229, 'Management', 'MenuItem "Management" (54) added by Management.User "1" (1).', 'MenuItem', 54, 'add', 1, 'name () => (Management), plugin () => (management), controller () => (management), action () => (dashboard), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (0), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:20:54), lft () => (105), rght () => (106)', NULL, '2010-01-28 18:20:54'),
+(230, 'Menus', 'MenuItem "Menus" (55) added by Management.User "1" (1).', 'MenuItem', 55, 'add', 1, 'name () => (Menus), plugin () => (management), controller () => (menus), action () => (index), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (54), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:21:43)', NULL, '2010-01-28 18:21:43'),
+(231, 'Menu Items', 'MenuItem "Menu Items" (7) updated by Management.User "1" (1).', 'MenuItem', 7, 'edit', 1, 'parent_id (1) => (55)', NULL, '2010-01-28 18:22:02'),
+(232, 'Configuration', 'MenuItem "Configuration" (56) added by Management.User "1" (1).', 'MenuItem', 56, 'add', 1, 'name () => (Configuration), plugin () => (management), controller () => (configs), action () => (index), params () => (Config.name:Blog), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (2), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:23:13)', NULL, '2010-01-28 18:23:13'),
+(233, 'Configuration', 'MenuItem "Configuration" (56) updated by Management.User "1" (1).', 'MenuItem', 56, 'edit', 1, 'params (Config.name:Blog) => (Config.key:Blog)', NULL, '2010-01-28 18:23:59'),
+(234, 'File Manager', 'MenuItem "File Manager" (6) updated by Management.User "1" (1).', 'MenuItem', 6, 'edit', 1, 'parent_id (1) => (54)', NULL, '2010-01-28 18:24:24'),
+(235, 'Routes', 'MenuItem "Routes" (8) updated by Management.User "1" (1).', 'MenuItem', 8, 'edit', 1, 'parent_id (1) => (54)', NULL, '2010-01-28 18:24:46'),
+(236, 'Themes', 'MenuItem "Themes" (9) updated by Management.User "1" (1).', 'MenuItem', 9, 'edit', 1, 'parent_id (1) => (54)', NULL, '2010-01-28 18:25:05'),
+(237, 'Modules', 'MenuItem "Modules" (10) updated by Management.User "1" (1).', 'MenuItem', 10, 'edit', 1, 'parent_id (1) => (54)', NULL, '2010-01-28 18:25:17'),
+(238, 'Installer', 'MenuItem "Installer" (57) added by Management.User "1" (1).', 'MenuItem', 57, 'add', 1, 'name () => (Installer), plugin () => (installer), controller () => (install), action () => (dashboard), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (0), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:37:06), lft () => (111), rght () => (112)', NULL, '2010-01-28 18:37:06'),
+(239, 'Installer', 'MenuItem "Installer" (57) updated by Management.User "1" (1).', 'MenuItem', 57, 'edit', 1, 'parent_id (0) => (54)', NULL, '2010-01-28 18:37:27'),
+(240, 'Extentions', 'MenuItem "Extentions" (58) added by Management.User "1" (1).', 'MenuItem', 58, 'add', 1, 'name () => (Extentions), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (0), force_backend () => (1), force_frontend () => (0), created () => (2010-01-28 18:38:23), lft () => (113), rght () => (114)', NULL, '2010-01-28 18:38:23'),
+(241, 'Installer', 'MenuItem "Installer" (57) updated by Management.User "1" (1).', 'MenuItem', 57, 'edit', 1, 'parent_id (54) => (58)', NULL, '2010-01-28 18:39:35'),
+(242, 'Users', 'MenuItem "Users" (59) added by Management.User "1" (1).', 'MenuItem', 59, 'add', 1, 'name () => (Users), plugin () => (management), controller () => (users), active () => (1), group_id () => (1), menu_id () => (1), parent_id () => (1), force_backend () => (1), force_frontend () => (0), created () => (2010-01-29 11:12:36)', NULL, '2010-01-29 11:12:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `core_menus`
+--
+
+DROP TABLE IF EXISTS `core_menus`;
+CREATE TABLE `core_menus` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `item_count` int(11) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `core_menus`
+--
+
+INSERT INTO `core_menus` (`id`, `name`, `type`, `item_count`, `active`, `created`, `modified`) VALUES
+(1, 'Admin Menu', 'core_admin', 0, 1, '2010-01-27 18:07:51', '2010-01-27 18:07:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `core_menu_items`
+--
+
+DROP TABLE IF EXISTS `core_menu_items`;
+CREATE TABLE `core_menu_items` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `slug` varchar(200) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `prefix` varchar(50) NOT NULL,
+  `plugin` varchar(100) NOT NULL,
+  `controller` varchar(100) NOT NULL,
+  `action` varchar(100) NOT NULL,
+  `params` varchar(255) NOT NULL,
+  `force_backend` tinyint(1) NOT NULL DEFAULT '0',
+  `force_frontend` tinyint(1) NOT NULL DEFAULT '0',
+  `class` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `menu_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL,
+  `rght` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=60 ;
+
+--
+-- Dumping data for table `core_menu_items`
+--
+
+INSERT INTO `core_menu_items` (`id`, `name`, `slug`, `link`, `prefix`, `plugin`, `controller`, `action`, `params`, `force_backend`, `force_frontend`, `class`, `active`, `menu_id`, `group_id`, `parent_id`, `lft`, `rght`, `created`, `modified`) VALUES
+(1, 'Site', 'dashboard', '', '', 'management', 'management', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 1, 6, '2010-01-27 18:07:51', '2010-01-28 14:44:49'),
+(2, 'Blog', 'blog', '', '', 'blog', 'posts', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 7, 24, '2010-01-27 18:07:51', '2010-01-28 18:07:26'),
+(3, 'Posts', 'blog-index', '', '', 'blog', 'posts', 'index', '', 1, 0, '', 1, 1, 1, 2, 8, 17, '2010-01-27 18:07:51', '2010-01-28 18:08:09'),
+(5, 'Configuration', '', '', '', 'management', 'configs', '', '', 1, 0, '', 1, 1, 1, 1, 2, 3, '2010-01-28 14:46:38', '2010-01-28 14:46:38'),
+(6, 'File Manager', '', '', '', 'filemanager', 'file_manager', '', '', 1, 0, '', 1, 1, 1, 54, 104, 105, '2010-01-28 14:50:05', '2010-01-28 18:24:24'),
+(7, 'Menu Items', '', '', '', 'management', 'menuItems', '', '', 1, 0, '', 1, 1, 1, 55, 101, 102, '2010-01-28 16:20:12', '2010-01-28 18:22:02'),
+(8, 'Routes', '', '', '', 'management', 'routes', '', '', 1, 0, '', 1, 1, 1, 54, 106, 107, '2010-01-28 16:24:35', '2010-01-28 18:24:46'),
+(9, 'Themes', '', '', '', 'management', 'themes', '', '', 1, 0, '', 1, 1, 1, 54, 108, 109, '2010-01-28 16:24:54', '2010-01-28 18:25:05'),
+(10, 'Modules', '', '', '', 'management', 'modules', '', '', 1, 0, '', 1, 1, 1, 54, 110, 111, '2010-01-28 16:25:19', '2010-01-28 18:25:17'),
+(11, 'Tags', '', '', '', 'blog', 'tags', '', '', 1, 0, '', 1, 1, 1, 2, 18, 21, '2010-01-28 16:27:12', '2010-01-28 16:27:12'),
+(12, 'Cms', '', '', '', 'cms', 'categories', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 25, 66, '2010-01-28 16:27:44', '2010-01-28 16:27:44'),
+(13, 'Categories', '', '', '', 'cms', 'categories', '', '', 1, 0, '', 1, 1, 1, 12, 26, 35, '2010-01-28 16:28:23', '2010-01-28 16:28:23'),
+(14, 'Contents', '', '', '', 'cms', 'contents', '', '', 1, 0, '', 1, 1, 1, 12, 36, 45, '2010-01-28 16:28:50', '2010-01-28 16:30:03'),
+(15, 'Front Page Items', '', '', '', 'cms', 'frontpages', '', '', 1, 0, '', 1, 1, 1, 12, 46, 51, '2010-01-28 16:31:16', '2010-01-28 16:31:16'),
+(16, 'Comments', '', '', '', 'management', 'comments', 'index', 'class:Cms', 1, 0, '', 1, 1, 1, 12, 52, 57, '2010-01-28 16:31:50', '2010-01-28 16:32:17'),
+(21, 'Backup Front Pages', '', '', '', 'backup', 'backups', 'backup', 'p:cms/m:frontPages', 1, 0, '', 1, 1, 1, 15, 47, 48, '2010-01-28 16:45:51', '2010-01-28 16:45:51'),
+(20, 'Backup Contents', '', '', '', 'backup', 'backups', 'backup', 'p:cms/m:content', 1, 0, '', 1, 1, 1, 14, 37, 38, '2010-01-28 16:36:42', '2010-01-28 16:44:31'),
+(19, 'Backup Categories', '', '', '', 'backup', 'backups', 'backup', 'p:cms/m:category', 1, 0, '', 1, 1, 1, 13, 27, 28, '2010-01-28 16:36:02', '2010-01-28 16:44:42'),
+(22, 'Active', '', '', '', 'cms', 'categories', 'index', 'Category.active:1', 1, 0, '', 1, 1, 1, 13, 29, 30, '2010-01-28 16:52:56', '2010-01-28 16:52:56'),
+(23, 'Pending', '', '', '', 'cms', 'categories', 'index', 'Category.active:0', 1, 0, '', 1, 1, 1, 13, 31, 32, '2010-01-28 16:53:50', '2010-01-28 16:53:50'),
+(24, 'New', '', '', '', 'cms', 'categories', 'add', '', 1, 0, '', 1, 1, 1, 13, 33, 34, '2010-01-28 16:54:06', '2010-01-28 16:54:06'),
+(25, 'Active', '', '', '', 'cms', 'contents', 'index', 'Content.active:1', 1, 0, '', 1, 1, 1, 14, 39, 40, '2010-01-28 16:55:44', '2010-01-28 16:55:44'),
+(26, 'Pending', '', '', '', 'cms', 'contents', 'index', 'Content.active:0', 1, 0, '', 1, 1, 1, 14, 41, 42, '2010-01-28 16:56:27', '2010-01-28 16:56:27'),
+(27, 'New', '', '', '', 'cms', 'contents', 'add', '', 1, 0, '', 1, 1, 1, 14, 43, 44, '2010-01-28 16:56:44', '2010-01-28 16:56:44'),
+(28, 'New', '', '', '', 'cms', 'frontpages', 'add', '', 1, 0, '', 1, 1, 1, 15, 49, 50, '2010-01-28 16:57:26', '2010-01-28 16:57:26'),
+(29, 'Featured Pages', '', '', '', 'cms', 'features', '', '', 1, 0, '', 1, 1, 1, 12, 62, 65, '2010-01-28 16:58:02', '2010-01-28 16:58:02'),
+(30, 'New', '', '', '', 'cms', 'features', 'add', '', 1, 0, '', 1, 1, 1, 29, 63, 64, '2010-01-28 16:58:27', '2010-01-28 16:58:27'),
+(31, 'Pending', '', '', '', 'management', 'comments', 'index', 'Comment.class:Cms,Comment.active:0', 1, 0, '', 1, 1, 1, 16, 55, 56, '2010-01-28 17:00:50', '2010-01-28 17:03:24'),
+(32, 'Accept All', '', '', '', 'management', 'comments', 'accept', 'Comment.class:Cms', 1, 0, '', 1, 1, 1, 16, 53, 54, '2010-01-28 17:03:00', '2010-01-28 17:03:00'),
+(33, 'Active', '', '', '', 'blog', 'posts', 'index', 'Post.active:1', 1, 0, '', 1, 1, 1, 3, 9, 10, '2010-01-28 17:26:26', '2010-01-28 17:26:26'),
+(34, 'Pending', '', '', '', 'blog', 'posts', 'index', 'Post.active:0', 1, 0, '', 1, 1, 1, 3, 11, 12, '2010-01-28 17:26:45', '2010-01-28 17:26:45'),
+(35, 'New', '', '', '', 'blog', 'posts', 'add', '', 1, 0, '', 1, 1, 1, 3, 13, 14, '2010-01-28 17:27:12', '2010-01-28 17:27:12'),
+(36, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:blog/m:post', 1, 0, '', 1, 1, 1, 3, 15, 16, '2010-01-28 17:27:50', '2010-01-28 17:27:50'),
+(37, 'Clean Up', '', '', '', 'blog', 'tags', 'clean_up', '', 1, 0, '', 1, 1, 1, 11, 19, 20, '2010-01-28 17:29:03', '2010-01-28 17:29:03'),
+(38, 'Newsletter', '', '', '', 'newsletter', 'newsletters', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 67, 98, '2010-01-28 17:30:25', '2010-01-28 17:31:34'),
+(39, 'Templates', '', '', '', 'newsletter', 'templates', '', '', 1, 0, '', 1, 1, 1, 38, 68, 73, '2010-01-28 17:33:17', '2010-01-28 17:33:17'),
+(40, 'Campaigns', '', '', '', 'newsletter', 'campaigns', '', '', 1, 0, '', 1, 1, 1, 38, 74, 83, '2010-01-28 17:33:37', '2010-01-28 17:33:37'),
+(41, 'Newsletters', '', '', '', 'newsletter', 'newsletters', '', '', 1, 0, '', 1, 1, 1, 38, 84, 97, '2010-01-28 17:33:51', '2010-01-28 17:33:51'),
+(42, 'New', '', '', '', 'newsletter', 'templates', 'add', '', 1, 0, '', 1, 1, 1, 39, 69, 70, '2010-01-28 17:35:29', '2010-01-28 17:35:29'),
+(43, 'Active', '', '', '', 'newsletter', 'campaigns', 'index', 'Campaign.active:1', 1, 0, '', 1, 1, 1, 40, 75, 76, '2010-01-28 17:36:14', '2010-01-28 17:36:14'),
+(44, 'Pending', '', '', '', 'newsletter', 'campaigns', 'index', 'Campaign.active:0', 1, 0, '', 1, 1, 1, 40, 77, 78, '2010-01-28 17:36:26', '2010-01-28 17:36:26'),
+(45, 'New', '', '', '', 'newsletter', 'campaigns', 'add', '', 1, 0, '', 1, 1, 1, 40, 79, 80, '2010-01-28 17:36:43', '2010-01-28 17:36:43'),
+(46, 'Active', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.active:1', 1, 0, '', 1, 1, 1, 41, 85, 86, '2010-01-28 17:57:04', '2010-01-28 17:57:04'),
+(47, 'Pending', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.active:0', 1, 0, '', 1, 1, 1, 41, 87, 88, '2010-01-28 17:57:22', '2010-01-28 17:57:22'),
+(48, 'Sending', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.active:1/Newsletter.sent:0', 1, 0, '', 1, 1, 1, 41, 89, 90, '2010-01-28 17:58:17', '2010-01-28 17:58:17'),
+(49, 'Sent', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.sent:1', 1, 0, '', 1, 1, 1, 41, 91, 92, '2010-01-28 17:58:35', '2010-01-28 17:58:35'),
+(50, 'New', '', '', '', 'newsletter', 'newsletters', 'add', '', 1, 0, '', 1, 1, 1, 41, 93, 94, '2010-01-28 17:58:45', '2010-01-28 17:58:45'),
+(51, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:newsletter/m:template', 1, 0, '', 1, 1, 1, 39, 71, 72, '2010-01-28 18:02:29', '2010-01-28 18:02:29'),
+(52, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:newsletter/m:campaign', 1, 0, '', 1, 1, 1, 40, 81, 82, '2010-01-28 18:02:37', '2010-01-28 18:04:07'),
+(53, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:newsletter/m:newsletter', 1, 0, '', 1, 1, 1, 41, 95, 96, '2010-01-28 18:02:55', '2010-01-28 18:02:55'),
+(54, 'Management', '', '', '', 'management', 'management', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 99, 112, '2010-01-28 18:20:54', '2010-01-28 18:20:54'),
+(55, 'Menus', '', '', '', 'management', 'menus', 'index', '', 1, 0, '', 1, 1, 1, 54, 100, 103, '2010-01-28 18:21:43', '2010-01-28 18:21:43'),
+(56, 'Configuration', '', '', '', 'management', 'configs', 'index', 'Config.key:Blog', 1, 0, '', 1, 1, 1, 2, 22, 23, '2010-01-28 18:23:13', '2010-01-28 18:23:59'),
+(57, 'Installer', '', '', '', 'installer', 'install', 'dashboard', '', 1, 0, '', 1, 1, 1, 58, 114, 115, '2010-01-28 18:37:06', '2010-01-28 18:39:35'),
+(58, 'Extentions', '', '', '', '', '', '', '', 1, 0, '', 1, 1, 1, 0, 113, 116, '2010-01-28 18:38:23', '2010-01-28 18:38:23'),
+(59, 'Users', '', '', '', 'management', 'users', '', '', 1, 0, '', 1, 1, 1, 1, 4, 5, '2010-01-29 11:12:36', '2010-01-29 11:12:36');
 
 -- --------------------------------------------------------
 
@@ -727,6 +1069,7 @@ CREATE TABLE `core_modules` (
   `position_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL DEFAULT '0',
   `ordering` int(11) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `locked` tinyint(1) NOT NULL,
   `locked_by` int(11) DEFAULT NULL,
@@ -741,22 +1084,23 @@ CREATE TABLE `core_modules` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `core_modules`
 --
 
-INSERT INTO `core_modules` (`id`, `name`, `content`, `module`, `config`, `theme_id`, `position_id`, `group_id`, `ordering`, `active`, `locked`, `locked_by`, `locked_since`, `show_heading`, `core`, `author`, `licence`, `url`, `update_url`, `created`, `modified`) VALUES
-(2, 'login', '', 'login', '', 0, 4, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18'),
-(4, 'Popular Posts', '', 'popular_posts', '', 0, 5, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20'),
-(5, 'search', '', 'search', '', 0, 12, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49'),
-(6, 'Frontend Menu', '', 'frontend_menu', '', 0, 1, 1, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-22 16:09:01'),
-(7, 'Latest News', '', 'latest_news', '', 0, 3, 1, 1, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45'),
-(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 0, 1, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53'),
-(9, 'Latest Tweets', '', 'twitter_tweets', '', 0, 3, 1, 2, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:23:37', '2010-01-21 20:46:54'),
-(10, 'Twitter News', '', 'twitter_search', '', 0, 4, 1, 3, 0, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:50:17', '2010-01-21 19:50:58'),
-(11, 'Infinitas Users', '<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>', '', '', 2, 4, 1, 4, 1, 0, NULL, NULL, 0, 0, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-21 20:02:55', '2010-01-22 16:09:25');
+INSERT INTO `core_modules` (`id`, `name`, `content`, `module`, `config`, `theme_id`, `position_id`, `group_id`, `ordering`, `admin`, `active`, `locked`, `locked_by`, `locked_since`, `show_heading`, `core`, `author`, `licence`, `url`, `update_url`, `created`, `modified`) VALUES
+(2, 'login', '', 'login', '', 0, 4, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18'),
+(4, 'Popular Posts', '', 'popular_posts', '', 0, 5, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20'),
+(5, 'search', '', 'search', '', 0, 12, 1, 1, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49'),
+(6, 'Frontend Menu', '', 'frontend_menu', '', 0, 1, 1, 1, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-22 16:09:01'),
+(7, 'Latest News', '', 'latest_news', '', 0, 3, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45'),
+(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 0, 1, 1, 2, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53'),
+(9, 'Latest Tweets', '', 'twitter_tweets', '', 0, 3, 1, 2, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:23:37', '2010-01-21 20:46:54'),
+(10, 'Twitter News', '', 'twitter_search', '', 0, 4, 1, 3, 0, 0, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:50:17', '2010-01-21 19:50:58'),
+(11, 'Infinitas Users', '<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>', '', '', 2, 4, 1, 4, 0, 1, 0, NULL, NULL, 0, 0, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-21 20:02:55', '2010-01-22 16:09:25'),
+(12, 'Admin Menu', '', 'menu', '{"menu":"core_admin"}', 0, 1, 1, 3, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-27 18:14:16', '2010-01-27 18:25:12');
 
 -- --------------------------------------------------------
 
@@ -770,7 +1114,7 @@ CREATE TABLE `core_modules_routes` (
   `module_id` int(11) NOT NULL,
   `route_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `core_modules_routes`
