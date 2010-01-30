@@ -236,6 +236,7 @@ class CommentableBehavior extends ModelBehavior {
 		$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
 		// How many links are in the body
 		// -1 per link if over 2, otherwise +2 if less than 2
+		$maxLinks = ((Configure::read('Comment.maximum_links') > 0)?Configure::read('Comment.maximum_links'):2);
 		$points = ($this->totalLinks > 2) ? $totalLinks * - 1 : 2;
 		// URLs that have certain words or characters in them
 		// -1 per blacklisted word
@@ -260,11 +261,12 @@ class CommentableBehavior extends ModelBehavior {
 		// +2 if more then 20 chars and no links, -1 if less then 20
 		$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
 
-		if ($length >= 20 && $this->totalLinks <= 0) {
+		$minLenght = ((Configure::read('Comment.minimum_length') > 0)?Configure::read('Comment.minimum_length'):20);
+		if ($length >= $minLenght && $this->totalLinks <= 0) {
 			return 2;
-		}elseif ($length >= 20 && $this->totalLinks == 1) {
+		}elseif ($length >= $minLenght && $this->totalLinks == 1) {
 			return 1;
-		}elseif ($length < 20) {
+		}elseif ($length < $minLenght) {
 			return - 1;
 		}
 	}
