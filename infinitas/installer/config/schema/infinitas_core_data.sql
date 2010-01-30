@@ -1,85 +1,195 @@
---    /**
---     * Comment Template.
---     *
---     * @todo -c Implement .this needs to be sorted out.
---     *
---     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
---     *
---     * Licensed under The MIT License
---     * Redistributions of files must retain the above copyright notice.
---     *
---     * @filesource
---     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
---     * @link          http://infinitas-cms.org
---     * @package       sort
---     * @subpackage    sort.comments
---     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
---     * @since         0.5a
---     */
-
--- Generation Time: Dec 29, 2009 at 06:47 PM
--- Server version: 5.1.34
--- PHP Version: 5.2.9-2
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
---
--- Database: `phpdev`
---
+INSERT INTO `core_configs` (`id`, `key`, `value`, `type`, `options`, `description`, `core`) VALUES
+(1, 'debug', '2', 'dropdown', '0,1,2,3', '<p>Production Mode: 0: No error messages, errors, or warnings shown. Flash messages redirect.  Development Mode: 1: Errors and warnings shown, model caches refreshed, flash messages halted. 2: As in 1, but also with full debug messages and SQL output.</p>', 1),
+(2, 'log', '1', 'bool', 'true,false', 'In case of Production Mode CakePHP gives you the possibility to continue logging errors.\r\n\r\nThe following parameters can be used:\r\nBoolean: Set true/false to activate/deactivate logging', 1),
+(3, 'Session.save', 'php', 'dropdown', 'php,cake,database', 'The preferred session handling method.\r\n\r\n''php'' -> Uses settings defined in your php.ini.\r\n''cake'' -> Saves session files in CakePHP''s /tmp directory.\r\n''database'' -> Uses CakePHP''s database sessions.', 1),
+(4, 'App.encoding', 'UTF-8', 'string', '', 'Application wide charset encoding', 1),
+(5, 'Cache.disable', 'false', 'bool', 'true,false', 'Turn off all caching application-wide.', 1),
+(6, 'Session.model', 'Session', 'string', '', 'The model name to be used for the session model.\r\n\r\n''Session.save'' must be set to ''database'' in order to utilize this constant.\r\n\r\nThe model name set here should *not* be used elsewhere in your application.', 1),
+(7, 'Session.database', 'default', 'string', '', 'The DATABASE_CONFIG::$var to use for database session handling.\r\n\r\n''Session.save'' must be set to ''database'' in order to utilize this constant.', 1),
+(8, 'Session.timeout', '120', 'integer', '', 'Session time out time (in seconds).\r\nActual value depends on ''Security.level'' setting.', 1),
+(9, 'Session.start', 'true', 'bool', 'true,false', 'If set to false, sessions are not automatically started.', 1),
+(10, 'Session.checkAgent', 'true', 'bool', 'true,false', 'When set to false, HTTP_USER_AGENT will not be checked in the session', 1),
+(11, 'Security.level', 'medium', 'dropdown', 'high,medium,low', 'The level of CakePHP security. The session timeout time defined in ''Session.timeout'' is multiplied according to the settings here.\r\n\r\n''high'' -> Session timeout in ''Session.timeout'' x 10\r\n''medium'' -> Session timeout in ''session.timeout'' x 100\r\n''low'' -> Session timeout in ''Session.timeout'' x 300\r\n\r\nsession IDs are also regenerated between requests if set to high', 1),
+(12, 'Session.cookie', 'CAKEPHP', 'string', '', 'The name of the session cookie', 1),
+(13, 'Wysiwyg.editor', 'fck', 'dropdown', 'text,fck', 'Select the wysiwyg editor that you would like to use.', 0),
+(14, 'Currency.name', 'Rand', 'string', '', '<p>The name of the default currency</p>', 0),
+(15, 'Currency.unit', 'R', 'string', '', 'The unit of the default currency', 0),
+(16, 'Language.name', 'English', 'string', '', 'The default language of the site', 0),
+(17, 'Language.code', 'En', 'string', '', 'The iso code of the default site language.', 0),
+(18, 'Blog.allow_comments', 'true', 'bool', 'true,false', 'Whether to allow comments on the blog or not. If disabled historical comments will not be displayed but will not be deleted.', 0),
+(19, 'Cms.allow_comments', 'true', 'bool', 'true,false', 'Whether to allow comments on the cms Content items or not. If disabled historical comments will not be displayed but will not be deleted.', 0),
+(20, 'Newsletter.send_count', '200', 'integer', '', 'The number of newsletters to send at a time.', 0),
+(21, 'Newsletter.send_interval', '300', 'integer', '', 'The time interval between sending emails in seconds', 0),
+(22, 'Newsletter.track_views', 'true', 'bool', 'true,false', 'Attempt to track the number of views a newsletter creates.  works with  a call back to the server.  Needs html to work', 0),
+(23, 'Newsletter.send_as', 'both', 'dropdown', 'both,html,text', 'What format to send the newsletter out as. Both is the best option as its nut uncommon for people to only accept text mails.', 0),
+(24, 'Website.name', 'Infinitas Cms', 'string', '', '<p>This is the name of the site that will be used in emails and on the website its self</p>', 0),
+(25, 'Website.description', 'Some Seo information about the site', 'string', '', 'This is the main description about the site', 0),
+(26, 'Cms.auto_redirect', 'true', 'bool', 'true,false', 'When a category has only one content itme should the site automaticaly redirect to that one item of first display the category.\r\n\r\nThis will also work for sections.', 0),
+(27, 'Comments.time_limit', '4 weeks', 'string', '', 'the date the comments will stop being available. if it is set to 0 users will always be able to comment on a record.\r\n\r\nit uses strtotime() and will expire after the amount of time you specify. eg: 4 weeks - comments will be disabled 4 weeks after the post was last edited.', 0),
+(28, 'Blog.depreciate', '6 months', 'string', '', 'Uses strtotime, after this time the post will be marked as depreciated.  set to 0 to never show this message.', 0),
+(29, 'Comments.purge', '4 weeks', 'string', '', 'If set to 0 purge is disabled.  You can also enter a time string used in strtotime() like "4 weeks" and purge will remove comments that pending older than 4 weeks.', 0),
+(30, 'Comments.auto_moderate', 'false', 'bool', 'true,false', 'Set this to true for comments to be automaticaly set to active so you do not need to manually moderate them in admin.\r\n\r\nif set to false, comments will need to be activated before they are displayed on the site.', 0),
+(31, 'FileManager.base_path', 'z:/www/webroot', 'string', '', '<p>The base path for access to manage files.</p>', 0),
+(32, 'Newsletter.send_method', 'smtp', 'dropdown', 'smtp,mail,debug', '<p>This is the method that you would like to send emails with.&nbsp; Smtp requres that you have the correct ports and login details (for servers that require sending authentication ).</p>', 0),
+(33, 'Newsletter.smtp_out_going_port', '25', 'integer', '', '<p>The default port is 25 for smtp sending (outgoing mails). If you are having problems sending try findout from your host if there is another port to use.</p>', 0),
+(34, 'Newsletter.smtp_timeout', '30', 'integer', '', '<p>Smtp timeout in seconds. If you are getting timeout errors try and up this ammount a bit. The default time is 30 seconds</p>', 0),
+(35, 'Newsletter.smtp_host', 'mail.php-dev.co.za', 'string', '', '<p>This is the host address of your smtp server. There is no default. It is normaly something like mail.server.com but can be an ip address.</p>', 0),
+(36, 'Newsletter.smtp_username', 'test@php-dev.co.za', 'string', '', '<p>This is your smtp username for authenticating. It is usualy in the form of username@domain.com. If your server does not require outgoing authentication you must leave this blank.</p>', 0),
+(37, 'Newsletter.smtp_password', 'test', 'string', '', '<p>This is your password for smtp authentication. It should be left blank if there is no authentication for outgoing mails on your server.</p>', 0),
+(38, 'Newsletter.from_name', 'Dogmatic', 'string', '', '<p>This is the name you would like to have as the sender of your mails.. will default to the site name if it is empty.</p>', 0),
+(39, 'Newsletter.from_email', 'test@php-dev.co.za', 'string', '', '<p>The email address where your mails come from. This is used as the default when generating mails.</p>', 0),
+(40, 'Newsletter.template', 'default', 'string', '', '<p>This is the internal template that is used by the Newsletter plugin to send mails. If you do not know what this is do not edit it.&nbsp; The default template used is &quot;default&quot;.</p>', 0),
+(41, 'Global.pagination_select', '5,10,20,50,100', 'string', '', '<p>This is for the options in the pagiantion drop down. Any comma seperated list of integers will be generated in the pagination.</p>\r\n<p>The default is "5,10,20,50,100"</p>', 0),
+(42, 'Pagination.nothing_found_message', 'Nothing was found, try a more generic search.', 'string', '', '<p>This is the message that will show at the bottom of a page when there is no resaults.</p>', 0),
+(43, 'Blog.allow_ratings', 'true', 'bool', 'true,false', '<p>If you would like people to be able to rate your blog posts enable this option.</p>', 0),
+(44, 'Rating.time_limit', '4 weeks', 'string', '', '<p>the date the ratings will stop being available. if it is set to 0 users will always be able to comment on a record. it uses strtotime() and will expire after the amount of time you specify. eg: 4 weeks - ratings will be disabled 4 weeks after the post was last edited.</p>', 0),
+(45, 'Comment.fields', 'name,email,website,comment', 'string', '', '<p>A comma seperated list of the fields you should have in your comments. the defaut is &quot;name,email,website,comment&quot;. if you are adding other fields to the comments make sure that the fields are available in the database or the information will not be saved.</p>', 0),
+(46, 'Rating.require_auth', 'true', 'bool', 'true,false', '<p>Set to true if you would like only logged in users to be able to rate items.&nbsp; If set to false anybody will be able to rate items. The default setting is true.</p>', 0),
+(47, 'Website.blacklist_keywords', 'levitra,viagra,casino,sex,loan,finance,slots,debt,free,interesting,sorry,cool', 'string', '', '<p>A list of comma separated keywords that are used for automatic moderation of comments and reviews.</p>', 0),
+(48, 'Website.blacklist_words', '.html,.info,?,&,.de,.pl,.cn', 'string', '', '<p>A list of comma seperated words used to automaticaly moderate comments and reviews on the site.</p>', 0),
+(49, 'Reviews.auto_moderate', 'true', 'bool', 'true,false', '<p>Set this to true to alow the reviews to be automaticaly moderated for spam. If set to true the reviews will be cross checked with the data in the blacklisted keywordsconfiguration setting.</p>', 0),
+(50, 'Global.pagination_limit', '100', 'integer', '', '<p>This is the maximum number of rows a query will ever return. only used where limits are set. This should stop people from passing params in urls to pull the entire database. Setting this value to 0 will disable and alow any nomber of records to be requested. The default for this setting is 100.</p>', 0),
+(51, 'Website.home_page', 'cms', 'dropdown', 'blog,cms,shop', '<p>this is the page visitors to your site will land on when entering your domain directly</p>', 0),
+(52, 'Cms.content_layout', 'default', 'string', '', '<p>This is the default layout of your content pages for the cms.&nbsp; Have a look when editing content pages for what is available, you can set any one of the values in the dropdown as the default here.&nbsp; All values must be like &quot;my_layout&quot; and not &quot;My Layout&quot;</p>', 0),
+(53, 'Cms.content_title', 'true', 'bool', 'true,false', '<p>This sets if the heading is displayed in the content pages of your cms</p>', 0),
+(54, 'Cms.content_title_link', 'true', 'bool', 'true,false', '<p>Set this to true to make the headings links in your content itmes pages</p>', 0),
+(55, 'Cms.content_introduction_text', 'true', 'bool', 'true,false', '<p>Display the introduction text when viewing the content pages in your cms</p>', 0),
+(56, 'Cms.content_category_title', 'true', 'bool', 'true,false', '<p>This sets if the category name should be displayed in the content items page</p>', 0),
+(57, 'Cms.content_category_title_link', 'true', 'bool', 'true,false', '<p>If you have category headings displayed on the content pages this will set if they should be links</p>', 0),
+(58, 'Cms.content_rateable', 'true', 'bool', 'true,false', '<p>If this is enabled content will be rateable by users and will display the overall rating for that content item.</p>', 0),
+(59, 'Cms.content_commentable', 'true', 'bool', 'true,false', '<p>This sets if users my comment on the content items displayed in the site.</p>', 0),
+(60, 'Cms.content_show_created', 'true', 'bool', 'true,false', '<p>If this is set to true the date the article will be displayed on the content items</p>', 0),
+(61, 'Cms.content_show_author', 'true', 'bool', 'true,false', '<p>When set to true this will display the author of the article</p>', 0),
+(62, 'Cms.content_share', 'true', 'bool', 'true,false', '<p>If this is set to true some social networking links will be available for your users to share your content</p>', 0),
+(63, 'Website.read_more', 'Read more...', 'string', '', '<p>This is the text you want to be displayed in read more text.</p>', 0);
 
---
--- Dumping data for table `core_configs`
---
+INSERT INTO `core_groups` (`id`, `name`, `description`, `created`, `modified`, `parent_id`, `lft`, `rght`) VALUES
+(1, 'admin', 'admin', '2009-12-16 00:06:53', '2009-12-16 00:06:53', 0, 1, 2);
 
-INSERT INTO `core_configs` VALUES(1, 'debug', '2', 'dropdown', '0,1,2,3', 'Production Mode:\r\n0: No error messages, errors, or warnings shown. Flash messages redirect.\r\n\r\nDevelopment Mode:\r\n1: Errors and warnings shown, model caches refreshed, flash messages halted.\r\n2: As in 1, but also with full debug messages and SQL output.\r\n', 1);
-INSERT INTO `core_configs` VALUES(2, 'log', '1', 'bool', 'true,false', 'In case of Production Mode CakePHP gives you the possibility to continue logging errors.\r\n\r\nThe following parameters can be used:\r\nBoolean: Set true/false to activate/deactivate logging', 1);
-INSERT INTO `core_configs` VALUES(3, 'Session.save', 'php', 'dropdown', 'php,cake,database', 'The preferred session handling method.\r\n\r\n''php'' -> Uses settings defined in your php.ini.\r\n''cake'' -> Saves session files in CakePHP''s /tmp directory.\r\n''database'' -> Uses CakePHP''s database sessions.', 1);
-INSERT INTO `core_configs` VALUES(4, 'App.encoding', 'UTF-8', 'string', '', 'Application wide charset encoding', 1);
-INSERT INTO `core_configs` VALUES(5, 'Cache.disable', 'false', 'bool', 'true,false', 'Turn off all caching application-wide.', 1);
-INSERT INTO `core_configs` VALUES(6, 'Session.model', 'Session', 'string', '', 'The model name to be used for the session model.\r\n\r\n''Session.save'' must be set to ''database'' in order to utilize this constant.\r\n\r\nThe model name set here should *not* be used elsewhere in your application.', 1);
-INSERT INTO `core_configs` VALUES(7, 'Session.database', 'default', 'string', '', 'The DATABASE_CONFIG::$var to use for database session handling.\r\n\r\n''Session.save'' must be set to ''database'' in order to utilize this constant.', 1);
-INSERT INTO `core_configs` VALUES(8, 'Session.timeout', '120', 'integer', '', 'Session time out time (in seconds).\r\nActual value depends on ''Security.level'' setting.', 1);
-INSERT INTO `core_configs` VALUES(9, 'Session.start', 'true', 'bool', 'true,false', 'If set to false, sessions are not automatically started.', 1);
-INSERT INTO `core_configs` VALUES(10, 'Session.checkAgent', 'true', 'bool', 'true,false', 'When set to false, HTTP_USER_AGENT will not be checked in the session', 1);
-INSERT INTO `core_configs` VALUES(11, 'Security.level', 'medium', 'dropdown', 'high,medium,low', 'The level of CakePHP security. The session timeout time defined in ''Session.timeout'' is multiplied according to the settings here.\r\n\r\n''high'' -> Session timeout in ''Session.timeout'' x 10\r\n''medium'' -> Session timeout in ''session.timeout'' x 100\r\n''low'' -> Session timeout in ''Session.timeout'' x 300\r\n\r\nsession IDs are also regenerated between requests if set to high', 1);
-INSERT INTO `core_configs` VALUES(12, 'Session.cookie', 'CAKEPHP', 'string', '', 'The name of the session cookie', 1);
-INSERT INTO `core_configs` VALUES(13, 'Wysiwyg.editor', 'fck', 'dropdown', 'text,fck', 'Select the wysiwyg editor that you would like to use.', 0);
-INSERT INTO `core_configs` VALUES(14, 'Currency.name', 'Rand', 'string', '', 'The name of the default currency', 0);
-INSERT INTO `core_configs` VALUES(15, 'Currency.unit', 'R', 'string', '', 'The unit of the default currency', 0);
-INSERT INTO `core_configs` VALUES(16, 'Language.name', 'English', 'string', '', 'The default language of the site', 0);
-INSERT INTO `core_configs` VALUES(17, 'Language.code', 'En', 'string', '', 'The iso code of the default site language.', 0);
-INSERT INTO `core_configs` VALUES(18, 'Blog.allow_comments', 'true', 'bool', 'true,false', 'Whether to allow comments on the blog or not. If disabled historical comments will not be displayed but will not be deleted.', 0);
-INSERT INTO `core_configs` VALUES(19, 'Cms.allow_comments', 'true', 'bool', 'true,false', 'Whether to allow comments on the cms Content items or not. If disabled historical comments will not be displayed but will not be deleted.', 0);
-INSERT INTO `core_configs` VALUES(20, 'Newsletter.send_count', '200', 'integer', '', 'The number of newsletters to send at a time.', 0);
-INSERT INTO `core_configs` VALUES(21, 'Newsletter.send_interval', '300', 'integer', '', 'The time interval between sending emails in seconds', 0);
-INSERT INTO `core_configs` VALUES(22, 'Newsletter.track_views', 'true', 'bool', 'true,false', 'Attempt to track the number of views a newsletter creates.  works with  a call back to the server.  Needs html to work', 0);
-INSERT INTO `core_configs` VALUES(23, 'Newsletter.send_as', 'both', 'dropdown', 'both,html,text', 'What format to send the newsletter out as. Both is the best option as its nut uncommon for people to only accept text mails.', 0);
-INSERT INTO `core_configs` VALUES(24, 'Website.name', 'Some Site', 'string', '', 'This is the name of the site that will be used in emails and on the website its self', 1);
-INSERT INTO `core_configs` VALUES(25, 'Website.description', 'Some Seo information about the site', 'string', '', 'This is the main description about the site', 0);
-INSERT INTO `core_configs` VALUES(26, 'Cms.auto_redirect', 'true', 'bool', 'true,false', 'When a category has only one content itme should the site automaticaly redirect to that one item of first display the category.\r\n\r\nThis will also work for sections.', 0);
-INSERT INTO `core_configs` VALUES(27, 'Comments.time_limit', '4 weeks', 'string', '', 'the date the comments will stop being available. if it is set to 0 users will always be able to comment on a record.\r\n\r\nit uses strtotime() and will expire after the amount of time you specify. eg: 4 weeks - comments will be disabled 4 weeks after the post was last edited.', 0);
-INSERT INTO `core_configs` VALUES(28, 'Blog.depreciate', '6 months', 'string', '', 'Uses strtotime, after this time the post will be marked as depreciated.  set to 0 to never show this message.', 1);
-INSERT INTO `core_configs` VALUES(29, 'Comments.purge', '4 weeks', 'string', '', 'If set to 0 purge is disabled.  You can also enter a time string used in strtotime() like "4 weeks" and purge will remove comments that pending older than 4 weeks.', 1);
-INSERT INTO `core_configs` VALUES(30, 'Comments.auto_moderate', 'false', 'bool', 'true,false', 'Set this to true for comments to be automaticaly set to active so you do not need to manually moderate them in admin.\r\n\r\nif set to false, comments will need to be activated before they are displayed on the site.', 1);
+INSERT INTO `core_menus` (`id`, `name`, `type`, `item_count`, `active`, `created`, `modified`) VALUES
+(1, 'Admin Menu', 'core_admin', 0, 1, '2010-01-27 18:07:51', '2010-01-27 18:07:51');
 
---
--- Dumping data for table `core_groups`
---
+INSERT INTO `core_menu_items` (`id`, `name`, `slug`, `link`, `prefix`, `plugin`, `controller`, `action`, `params`, `force_backend`, `force_frontend`, `class`, `active`, `menu_id`, `group_id`, `parent_id`, `lft`, `rght`, `created`, `modified`) VALUES
+(1, 'Site', 'dashboard', '', '', 'management', 'management', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 1, 6, '2010-01-27 18:07:51', '2010-01-28 14:44:49'),
+(2, 'Blog', 'blog', '', '', 'blog', 'posts', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 7, 24, '2010-01-27 18:07:51', '2010-01-28 18:07:26'),
+(3, 'Posts', 'blog-index', '', '', 'blog', 'posts', 'index', '', 1, 0, '', 1, 1, 1, 2, 8, 17, '2010-01-27 18:07:51', '2010-01-28 18:08:09'),
+(5, 'Configuration', '', '', '', 'management', 'configs', '', '', 1, 0, '', 1, 1, 1, 1, 2, 3, '2010-01-28 14:46:38', '2010-01-28 14:46:38'),
+(6, 'File Manager', '', '', '', 'filemanager', 'file_manager', '', '', 1, 0, '', 1, 1, 1, 54, 104, 105, '2010-01-28 14:50:05', '2010-01-28 18:24:24'),
+(7, 'Menu Items', '', '', '', 'management', 'menuItems', '', '', 1, 0, '', 1, 1, 1, 55, 101, 102, '2010-01-28 16:20:12', '2010-01-28 18:22:02'),
+(8, 'Routes', '', '', '', 'management', 'routes', '', '', 1, 0, '', 1, 1, 1, 54, 106, 107, '2010-01-28 16:24:35', '2010-01-28 18:24:46'),
+(9, 'Themes', '', '', '', 'management', 'themes', '', '', 1, 0, '', 1, 1, 1, 54, 108, 109, '2010-01-28 16:24:54', '2010-01-28 18:25:05'),
+(10, 'Modules', '', '', '', 'management', 'modules', '', '', 1, 0, '', 1, 1, 1, 54, 110, 111, '2010-01-28 16:25:19', '2010-01-28 18:25:17'),
+(11, 'Tags', '', '', '', 'blog', 'tags', '', '', 1, 0, '', 1, 1, 1, 2, 18, 21, '2010-01-28 16:27:12', '2010-01-28 16:27:12'),
+(12, 'Cms', '', '', '', 'cms', 'categories', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 25, 66, '2010-01-28 16:27:44', '2010-01-28 16:27:44'),
+(13, 'Categories', '', '', '', 'cms', 'categories', '', '', 1, 0, '', 1, 1, 1, 12, 26, 35, '2010-01-28 16:28:23', '2010-01-28 16:28:23'),
+(14, 'Contents', '', '', '', 'cms', 'contents', '', '', 1, 0, '', 1, 1, 1, 12, 36, 45, '2010-01-28 16:28:50', '2010-01-28 16:30:03'),
+(15, 'Front Page Items', '', '', '', 'cms', 'frontpages', '', '', 1, 0, '', 1, 1, 1, 12, 46, 51, '2010-01-28 16:31:16', '2010-01-28 16:31:16'),
+(16, 'Comments', '', '', '', 'management', 'comments', 'index', 'class:Cms', 1, 0, '', 1, 1, 1, 12, 52, 57, '2010-01-28 16:31:50', '2010-01-28 16:32:17'),
+(21, 'Backup Front Pages', '', '', '', 'backup', 'backups', 'backup', 'p:cms/m:frontPages', 1, 0, '', 1, 1, 1, 15, 47, 48, '2010-01-28 16:45:51', '2010-01-28 16:45:51'),
+(20, 'Backup Contents', '', '', '', 'backup', 'backups', 'backup', 'p:cms/m:content', 1, 0, '', 1, 1, 1, 14, 37, 38, '2010-01-28 16:36:42', '2010-01-28 16:44:31'),
+(19, 'Backup Categories', '', '', '', 'backup', 'backups', 'backup', 'p:cms/m:category', 1, 0, '', 1, 1, 1, 13, 27, 28, '2010-01-28 16:36:02', '2010-01-28 16:44:42'),
+(22, 'Active', '', '', '', 'cms', 'categories', 'index', 'Category.active:1', 1, 0, '', 1, 1, 1, 13, 29, 30, '2010-01-28 16:52:56', '2010-01-28 16:52:56'),
+(23, 'Pending', '', '', '', 'cms', 'categories', 'index', 'Category.active:0', 1, 0, '', 1, 1, 1, 13, 31, 32, '2010-01-28 16:53:50', '2010-01-28 16:53:50'),
+(24, 'New', '', '', '', 'cms', 'categories', 'add', '', 1, 0, '', 1, 1, 1, 13, 33, 34, '2010-01-28 16:54:06', '2010-01-28 16:54:06'),
+(25, 'Active', '', '', '', 'cms', 'contents', 'index', 'Content.active:1', 1, 0, '', 1, 1, 1, 14, 39, 40, '2010-01-28 16:55:44', '2010-01-28 16:55:44'),
+(26, 'Pending', '', '', '', 'cms', 'contents', 'index', 'Content.active:0', 1, 0, '', 1, 1, 1, 14, 41, 42, '2010-01-28 16:56:27', '2010-01-28 16:56:27'),
+(27, 'New', '', '', '', 'cms', 'contents', 'add', '', 1, 0, '', 1, 1, 1, 14, 43, 44, '2010-01-28 16:56:44', '2010-01-28 16:56:44'),
+(28, 'New', '', '', '', 'cms', 'frontpages', 'add', '', 1, 0, '', 1, 1, 1, 15, 49, 50, '2010-01-28 16:57:26', '2010-01-28 16:57:26'),
+(29, 'Featured Pages', '', '', '', 'cms', 'features', '', '', 1, 0, '', 1, 1, 1, 12, 62, 65, '2010-01-28 16:58:02', '2010-01-28 16:58:02'),
+(30, 'New', '', '', '', 'cms', 'features', 'add', '', 1, 0, '', 1, 1, 1, 29, 63, 64, '2010-01-28 16:58:27', '2010-01-28 16:58:27'),
+(31, 'Pending', '', '', '', 'management', 'comments', 'index', 'Comment.class:Cms,Comment.active:0', 1, 0, '', 1, 1, 1, 16, 55, 56, '2010-01-28 17:00:50', '2010-01-28 17:03:24'),
+(32, 'Accept All', '', '', '', 'management', 'comments', 'accept', 'Comment.class:Cms', 1, 0, '', 1, 1, 1, 16, 53, 54, '2010-01-28 17:03:00', '2010-01-28 17:03:00'),
+(33, 'Active', '', '', '', 'blog', 'posts', 'index', 'Post.active:1', 1, 0, '', 1, 1, 1, 3, 9, 10, '2010-01-28 17:26:26', '2010-01-28 17:26:26'),
+(34, 'Pending', '', '', '', 'blog', 'posts', 'index', 'Post.active:0', 1, 0, '', 1, 1, 1, 3, 11, 12, '2010-01-28 17:26:45', '2010-01-28 17:26:45'),
+(35, 'New', '', '', '', 'blog', 'posts', 'add', '', 1, 0, '', 1, 1, 1, 3, 13, 14, '2010-01-28 17:27:12', '2010-01-28 17:27:12'),
+(36, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:blog/m:post', 1, 0, '', 1, 1, 1, 3, 15, 16, '2010-01-28 17:27:50', '2010-01-28 17:27:50'),
+(37, 'Clean Up', '', '', '', 'blog', 'tags', 'clean_up', '', 1, 0, '', 1, 1, 1, 11, 19, 20, '2010-01-28 17:29:03', '2010-01-28 17:29:03'),
+(38, 'Newsletter', '', '', '', 'newsletter', 'newsletters', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 67, 98, '2010-01-28 17:30:25', '2010-01-28 17:31:34'),
+(39, 'Templates', '', '', '', 'newsletter', 'templates', '', '', 1, 0, '', 1, 1, 1, 38, 68, 73, '2010-01-28 17:33:17', '2010-01-28 17:33:17'),
+(40, 'Campaigns', '', '', '', 'newsletter', 'campaigns', '', '', 1, 0, '', 1, 1, 1, 38, 74, 83, '2010-01-28 17:33:37', '2010-01-28 17:33:37'),
+(41, 'Newsletters', '', '', '', 'newsletter', 'newsletters', '', '', 1, 0, '', 1, 1, 1, 38, 84, 97, '2010-01-28 17:33:51', '2010-01-28 17:33:51'),
+(42, 'New', '', '', '', 'newsletter', 'templates', 'add', '', 1, 0, '', 1, 1, 1, 39, 69, 70, '2010-01-28 17:35:29', '2010-01-28 17:35:29'),
+(43, 'Active', '', '', '', 'newsletter', 'campaigns', 'index', 'Campaign.active:1', 1, 0, '', 1, 1, 1, 40, 75, 76, '2010-01-28 17:36:14', '2010-01-28 17:36:14'),
+(44, 'Pending', '', '', '', 'newsletter', 'campaigns', 'index', 'Campaign.active:0', 1, 0, '', 1, 1, 1, 40, 77, 78, '2010-01-28 17:36:26', '2010-01-28 17:36:26'),
+(45, 'New', '', '', '', 'newsletter', 'campaigns', 'add', '', 1, 0, '', 1, 1, 1, 40, 79, 80, '2010-01-28 17:36:43', '2010-01-28 17:36:43'),
+(46, 'Active', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.active:1', 1, 0, '', 1, 1, 1, 41, 85, 86, '2010-01-28 17:57:04', '2010-01-28 17:57:04'),
+(47, 'Pending', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.active:0', 1, 0, '', 1, 1, 1, 41, 87, 88, '2010-01-28 17:57:22', '2010-01-28 17:57:22'),
+(48, 'Sending', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.active:1/Newsletter.sent:0', 1, 0, '', 1, 1, 1, 41, 89, 90, '2010-01-28 17:58:17', '2010-01-28 17:58:17'),
+(49, 'Sent', '', '', '', 'newsletter', 'newsletters', 'index', 'Newsletter.sent:1', 1, 0, '', 1, 1, 1, 41, 91, 92, '2010-01-28 17:58:35', '2010-01-28 17:58:35'),
+(50, 'New', '', '', '', 'newsletter', 'newsletters', 'add', '', 1, 0, '', 1, 1, 1, 41, 93, 94, '2010-01-28 17:58:45', '2010-01-28 17:58:45'),
+(51, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:newsletter/m:template', 1, 0, '', 1, 1, 1, 39, 71, 72, '2010-01-28 18:02:29', '2010-01-28 18:02:29'),
+(52, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:newsletter/m:campaign', 1, 0, '', 1, 1, 1, 40, 81, 82, '2010-01-28 18:02:37', '2010-01-28 18:04:07'),
+(53, 'Backup', '', '', '', 'backup', 'backups', 'backup', 'p:newsletter/m:newsletter', 1, 0, '', 1, 1, 1, 41, 95, 96, '2010-01-28 18:02:55', '2010-01-28 18:02:55'),
+(54, 'Management', '', '', '', 'management', 'management', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 99, 112, '2010-01-28 18:20:54', '2010-01-28 18:20:54'),
+(55, 'Menus', '', '', '', 'management', 'menus', 'index', '', 1, 0, '', 1, 1, 1, 54, 100, 103, '2010-01-28 18:21:43', '2010-01-28 18:21:43'),
+(56, 'Configuration', '', '', '', 'management', 'configs', 'index', 'Config.key:Blog', 1, 0, '', 1, 1, 1, 2, 22, 23, '2010-01-28 18:23:13', '2010-01-28 18:23:59'),
+(57, 'Installer', '', '', '', 'installer', 'install', 'dashboard', '', 1, 0, '', 1, 1, 1, 58, 114, 115, '2010-01-28 18:37:06', '2010-01-28 18:39:35'),
+(58, 'Extentions', '', '', '', '', '', '', '', 1, 0, '', 1, 1, 1, 0, 113, 116, '2010-01-28 18:38:23', '2010-01-28 18:38:23'),
+(59, 'Users', '', '', '', 'management', 'users', '', '', 1, 0, '', 1, 1, 1, 1, 4, 5, '2010-01-29 11:12:36', '2010-01-29 11:12:36'),
+(60, 'Help', '', '', '', '', '', '', '', 1, 0, '', 1, 1, 1, 0, 117, 122, '2010-01-29 14:02:00', '2010-01-29 14:02:00'),
+(62, 'Infinitas', '', 'http://infinitas-cms.org', '', '', '', '', '', 0, 0, '', 1, 1, 1, 60, 118, 119, '2010-01-29 14:03:40', '2010-01-29 14:09:03'),
+(63, 'Git Repo', '', 'http://github.com/infinitas/infinitas', '', '', '', '', '', 0, 0, '', 1, 1, 1, 60, 120, 121, '2010-01-29 14:09:46', '2010-01-29 15:43:03'),
+(64, 'Developer', '', '', '', '', '', '', '', 1, 0, '', 1, 1, 1, 0, 123, 126, '2010-01-29 15:43:33', '2010-01-29 15:44:03'),
+(65, 'Api', '', '', '', 'api_generator', 'apiClasses', 'index', '', 1, 0, '', 1, 1, 0, 64, 124, 125, '2010-01-29 15:45:26', '2010-01-29 15:47:13');
 
-INSERT INTO `core_groups` VALUES(1, 'admin', 'admin', '2009-12-16 00:06:53', '2009-12-16 00:06:53', 0, 1, 2);
+INSERT INTO `core_modules` (`id`, `name`, `content`, `module`, `config`, `theme_id`, `position_id`, `group_id`, `ordering`, `admin`, `active`, `locked`, `locked_by`, `locked_since`, `show_heading`, `core`, `author`, `licence`, `url`, `update_url`, `created`, `modified`) VALUES
+(2, 'login', '', 'login', '', 0, 4, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18'),
+(4, 'Popular Posts', '', 'popular_posts', '', 0, 5, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20'),
+(5, 'search', '', 'search', '', 0, 12, 1, 1, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49'),
+(6, 'Frontend Menu', '', 'frontend_menu', '', 0, 1, 1, 1, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-22 16:09:01'),
+(7, 'Latest News', '', 'latest_news', '', 0, 3, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45'),
+(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 0, 1, 1, 2, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53'),
+(9, 'Latest Tweets', '', 'twitter_tweets', '', 0, 3, 1, 2, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:23:37', '2010-01-21 20:46:54'),
+(10, 'Twitter News', '', 'twitter_search', '', 0, 4, 1, 3, 0, 0, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:50:17', '2010-01-21 19:50:58'),
+(11, 'Infinitas Users', '<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>', '', '', 2, 4, 1, 4, 0, 1, 0, NULL, NULL, 0, 0, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-21 20:02:55', '2010-01-22 16:09:25'),
+(12, 'Admin Menu', '', 'menu', '{"menu":"core_admin"}', 0, 1, 1, 3, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-27 18:14:16', '2010-01-27 18:25:12');
 
---
--- Dumping data for table `core_users`
---
+INSERT INTO `core_modules_routes` (`id`, `module_id`, `route_id`) VALUES
+(17, 5, 0),
+(10, 4, 0),
+(9, 2, 9),
+(8, 2, 8),
+(7, 2, 7),
+(13, 7, 0),
+(15, 8, 0),
+(21, 9, 7),
+(19, 10, 0);
 
-INSERT INTO `core_users` VALUES(1, 'dogmatic', 'dogmatic69@gmail.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-13 01:53:54', '2009-12-13 01:53:54');
-INSERT INTO `core_users` VALUES(2, 'bob', 'bob@bob.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-16 16:24:33', '2009-12-16 16:24:33');
+INSERT INTO `core_module_positions` (`id`, `name`, `created`, `modified`) VALUES
+(1, 'top', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(2, 'bottom', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(3, 'left', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(4, 'right', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(5, 'custom1', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(6, 'custom2', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(7, 'custom3', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(8, 'custom4', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(9, 'bread_crumbs', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(10, 'debug', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(11, 'feeds', '2010-01-18 21:45:23', '2010-01-18 21:45:23'),
+(12, 'search', '2010-01-18 21:45:23', '2010-01-18 21:45:23');
 
---
--- Dumping data for table `user_configs`
---
+INSERT INTO `core_routes` (`id`, `core`, `name`, `url`, `prefix`, `plugin`, `controller`, `action`, `values`, `pass`, `rules`, `force_backend`, `force_frontend`, `order_id`, `ordering`, `theme_id`, `active`, `created`, `modified`) VALUES
+(7, 0, 'Home Page', '/', '', 'cms', 'frontpages', '', '', '', '', 0, 0, 1, 2, 0, 1, '2010-01-13 16:50:39', '2010-01-20 17:45:43'),
+(8, 0, 'Pages', '/pages/*', '', '0', 'pages', 'display', '', '', '', 0, 0, 1, 3, 4, 1, '2010-01-13 18:26:36', '2010-01-14 00:38:53'),
+(9, 0, 'Admin Home', '/admin', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 4, NULL, 1, '2010-01-13 18:36:50', '2010-01-13 18:36:50'),
+(11, 0, 'Management Home', '/admin/management', 'admin', 'management', 'management', 'dashboard', '', NULL, '', 1, 0, 1, 6, NULL, 1, '2010-01-13 18:40:23', '2010-01-13 18:42:53'),
+(12, 0, 'Blog Home - Backend', '/admin/blog', 'admin', 'blog', 'posts', 'dashboard', '', NULL, '', 1, 0, 1, 7, NULL, 1, '2010-01-13 18:45:23', '2010-01-13 19:02:17'),
+(13, 0, 'Blog Home - Frontend', '/blog', '', 'blog', 'posts', '', '', NULL, '', 0, 1, 1, 8, NULL, 1, '2010-01-13 18:47:07', '2010-01-13 19:10:00'),
+(14, 0, 'Cms Home - Backend', '/admin/cms', 'admin', 'cms', 'categories', 'dashboard', '', NULL, '', 1, 0, 1, 9, NULL, 1, '2010-01-13 19:01:14', '2010-01-13 19:04:59'),
+(15, 0, 'Cms Home - Frontend', '/cms', '', 'cms', 'frontpages', '', '', '', '', 0, 1, 1, 10, 0, 1, '2010-01-13 19:05:28', '2010-01-18 01:40:23'),
+(16, 0, 'Newsletter Home - Backend', '/admin/newsletter', 'admin', 'newsletter', 'newsletters', 'dashboard', '', NULL, '', 1, 0, 1, 12, NULL, 1, '2010-01-13 19:18:16', '2010-01-18 01:35:56'),
+(18, 0, 'Blog Test', '/p/:year/:month/:day', '', 'blog', 'posts', '', 'day:null', NULL, 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n', 0, 1, 1, 13, 1, 1, '2010-01-13 19:36:31', '2010-01-18 01:35:41'),
+(19, 0, 'Cms SEO', '/cms/:category/:id-:slug', '', 'cms', 'contents', 'view', '', 'id,slug', 'id:[0-9]+', 0, 1, 1, 11, 0, 1, '2010-01-18 01:35:21', '2010-01-18 02:09:17');
 
+INSERT INTO `core_themes` (`id`, `name`, `description`, `author`, `url`, `update_url`, `licence`, `active`, `core`, `created`, `modified`) VALUES
+(1, 'default', 'This is the default infinitas theme', 'Infinitas', NULL, NULL, '', 0, 1, '2010-01-14 01:39:54', '2010-01-14 01:39:57'),
+(2, 'terrafirma', NULL, '', NULL, NULL, '', 0, 0, NULL, NULL),
+(3, 'aqueous', 'A blue 3 col layout', 'Six Shooter Media\r\n', NULL, NULL, '', 0, 0, NULL, NULL),
+(4, 'aqueous_light', 'aqueous_light', '', NULL, NULL, '', 1, 0, NULL, NULL);
 
---
--- Dumping data for table `user_details`
---
+INSERT INTO `core_users` (`id`, `username`, `email`, `password`, `active`, `created`, `modified`) VALUES
+(1, 'dogmatic', 'dogmatic69@gmail.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-13 01:53:54', '2009-12-13 01:53:54'),
+(2, 'bob', 'bob@bob.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-16 16:24:33', '2009-12-16 16:24:33');
