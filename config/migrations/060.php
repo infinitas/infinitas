@@ -1,5 +1,5 @@
 <?php
-class M4b641629a39c4bf18b621ea46318cd70 extends CakeMigration {
+class M4b644f46745c4e65ace415346318cd70 extends CakeMigration {
 
 /**
  * Migration description
@@ -569,16 +569,6 @@ class M4b641629a39c4bf18b621ea46318cd70 extends CakeMigration {
 						'name' => array('column' => 'name', 'unique' => 1),
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'schema_migrations' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
 				),
 				'user_configs' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
