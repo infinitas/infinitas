@@ -61,7 +61,10 @@ class AppController extends Controller {
 			$this->Infinitas->forceWwwUrl();
 		}
 
-		$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
+		if (isset($this->Session)&&is_object($this->Session)) {
+			$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
+		}
+
 
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
