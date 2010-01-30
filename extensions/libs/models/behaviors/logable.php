@@ -75,7 +75,8 @@ class LogableBehavior extends ModelBehavior {
 		'ignore' => array(),
 		'classField' => 'model',
 		'foreignKey' => 'model_id'
-		);
+	);
+
 	/**
 	* Cake called intializer
 	* Config options are :
@@ -89,11 +90,18 @@ class LogableBehavior extends ModelBehavior {
 	* @param array $config
 	*/
 	function setup(&$Model, $config = array()) {
+
 		if (!is_array($config)) {
 			$config = array();
 		}
 		$this->settings[$Model->alias] = array_merge($this->defaults, $config);
 		$this->settings[$Model->alias]['ignore'][] = $Model->primaryKey;
+
+
+		if (!in_array('core_logs', ConnectionManager::getDataSource($Model->useDbConfig)->listSources())) {
+			$this->default['enabled'] = $this->settings[$Model->alias]['enabled'] = false;
+				return true;
+		}
 
 		$this->Log = &ClassRegistry::init($this->settings[$Model->alias]['logModel']);
 		if ($this->settings[$Model->alias]['userModel'] != $Model->alias) {
