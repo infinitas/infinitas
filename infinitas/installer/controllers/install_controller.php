@@ -43,7 +43,7 @@ class InstallController extends InstallerAppController {
 	var $components = null;
 
 	var $phpVersion = '5.0';
-	
+
 	var $sqlVersion = '4';
 
 	/**
@@ -56,13 +56,12 @@ class InstallController extends InstallerAppController {
 		$this->layout = 'installer';
 
 		App::import('Component', 'Session');
-		$this->Session = new SessionComponent;
+		//$this->Session = new SessionComponent;
 
 		$this->sql = array(
-			'core_tables' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas.sql',
 			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
-			);
+		);
 	}
 
 	/**
@@ -198,12 +197,12 @@ class InstallController extends InstallerAppController {
 				$content = str_replace('{default_database}', $this->data['Install']['database'], $content);
 
 				if ($file->write($content)) {
-					$this->Session->setFlash(__('Database configuration saved.', true));
-					$this->redirect(array('action' => 'install'));
+					//SessionComponent::setFlash(__('Database configuration saved.', true));
+					$this->install();
 				}
-				$this->Session->setFlash(__('Could not write database.php file.', true));
+				//SessionComponent::setFlash(__('Could not write database.php file.', true));
 			}else {
-				$this->Session->setFlash(__('That connection does not seem to be valid', true));
+				//SessionComponent::setFlash(__('That connection does not seem to be valid', true));
 			}
 		}
 	}
@@ -226,7 +225,6 @@ class InstallController extends InstallerAppController {
 				$files = false;
 			}
 		}
-
 		if (!empty($this->data) && $files) {
 			App::import('Core', 'File');
 			App::import('Model', 'ConnectionManager');
@@ -234,34 +232,43 @@ class InstallController extends InstallerAppController {
 			$db = ConnectionManager::getDataSource('default');
 
 			if (!$db->isConnected()) {
-				$this->Session->setFlash(__('Could not connect to database.', true));
-			}else {
-				if ($this->__executeSQLScript($db, $this->sql['core_tables'])) {
-					$this->__executeSQLScript($db, $this->sql['core_data']);
+				SessionComponent::setFlash(__('Could not connect to database.', true));
+			}
 
-					$this->Session->setFlash(__('Database Tables installed', true));
+			else {
+				// Can be 'app' or a plugin name
+				$type = 'app';
 
-					if ($this->data['Install']['sample_data']) {
-						$this->Session->setFlash(__('Database Tables installed with sample data.', true));
-						$this->__executeSQLScript($db, $this->sql['core_sample_data']);
-					}
+				App::import('Lib', 'Migrations.MigrationVersion');
+				// All the job is done by MigrationVersion
+				$version = new MigrationVersion();
 
-					foreach($this->sql as $name => $path) {
-						if (!strstr($name, 'core')) {
-							$this->Session->setFlash(__('Database Tables installed with sample data and some other data.', true));
-							$this->__executeSQLScript($db, $path);
-						}
-					}
+				// Get the mapping and the latest version avaiable
+				$mapping = $version->getMapping($type);
+				$latest = array_pop($mapping);
 
-					$this->redirect(array('action' => 'siteConfig'));
+				// Run it to latest version
+				$version->run(array('type' => $type, 'version' => $latest['version']));
+
+				if ($this->__executeSQLScript($db, $this->sql['core_data'])) {
+
+					//SessionComponent::setFlash(__('Database Tables installed', true));
+
+					//if ($this->data['Install']['sample_data']) {
+						//SessionComponent::setFlash(__('Database Tables installed with sample data.', true));
+						//$this->__executeSQLScript($db, $this->sql['core_sample_data']);
+					//}
+
 				}
 
-				$this->Session->setFlash(__('There was an error installing database data.', true));
+				$this->redirect(array('action' => 'siteConfig'));
+
+				//SessionComponent::setFlash(__('There was an error installing database data.', true));
 			}
 		}
 
 		if (!$files) {
-			$this->Session->setFlash(__('There is a problem with the sql installation files.', true));
+			//SessionComponent::setFlash(__('There is a problem with the sql installation files.', true));
 		}
 	}
 
@@ -297,19 +304,27 @@ class InstallController extends InstallerAppController {
 	* @return void
 	*/
 	function __executeSQLScript($db, $fileName) {
-		$statements = file_get_contents($fileName);
-
-		$delimiter = ';' . "\r\n";
-		if (substr(APP, 0, 1) == '/') {
-			$delimiter = ';' . "\n";
-		}
-
-		$statements = explode($delimiter, $statements);
+		$statements = file($fileName);
 
 		$status = true;
-		foreach ($statements as $statement) {
-			if (trim($statement) != '') {
-				$status = $status && $db->query($statement);
+		$templine = '';
+		foreach ($statements as $line)
+		{
+			// Skip it if it's a comment
+			if (substr($line, 0, 2) == '--' || $line == '')
+			{
+				continue;
+			}
+
+			// Add this line to the current segment
+			$templine .= $line;
+			// If it has a semicolon at the end, it's the end of the query
+			if (substr(trim($line), -1, 1) == ';')
+			{
+				// Perform the query
+				$status = $status && $db->query($templine);
+				// Reset temp variable to empty
+				$templine = '';
 			}
 		}
 
