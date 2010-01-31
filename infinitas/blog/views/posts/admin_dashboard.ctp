@@ -99,40 +99,43 @@
 			<div class="view-all left">&nbsp;<?php echo $html->link('(view all)', array('controller' => 'posts')); ?></div>
 			<ul class="feed clr">
 				<?php
-					if($blogFeeds):
-					foreach($blogFeeds as $feed):
-				?>
-					<?php
-						if (!isset($iteration)) $iteration = 0;
-						$iteration++;
-						$icon = 'page';
-						if ($feed['Feed']['controller'] == 'comments') {
-							$icon = 'comment';
+					if($blogFeeds){
+						foreach($blogFeeds as $feed){
+							if (!isset($iteration)) {
+								$iteration = 0;
+							}
+
+							$iteration++;
+							$icon = 'page';
+
+							if ($feed['Feed']['controller'] == 'comments') {
+								$icon = 'comment';
+							}
+
+							?>
+								<li class="clr <?php if ($iteration % 2) echo 'alternate'; ?>" style="background-image: url(<?php echo $html->url('/img/core/icons/fatcow/16/' . $icon . '.png'); ?>);">
+									<div class="item">
+										<h4>
+											<strong><?php echo Inflector::singularize(ucfirst($feed['Feed']['controller'])); ?></strong>:
+											<?php
+												echo $this->Html->link(
+													$feed['Feed']['title'],
+													array(
+														'plugin' => $feed['Feed']['plugin'],
+														'controller' => $feed['Feed']['controller'],
+														'action' => $feed['Feed']['action'],
+														$feed['Feed']['id']
+													)
+												);
+											?>
+										</h4>
+										<div class="time quiet"><?php echo $this->Time->niceShort($feed['Feed']['created']); ?></div>
+										<div class="preview clr"><?php echo $text->truncate($feed['Feed']['intro'], 150, array('exact' => false, 'html' => true)); ?></div>
+									</div>
+								</li>
+							<?php
 						}
-					?>
-					<li class="clr <?php if ($iteration % 2) echo 'alternate'; ?>" style="background-image: url(<?php echo $html->url('/img/core/icons/fatcow/16/' . $icon . '.png'); ?>);">
-						<div class="item">
-							<h4>
-								<strong><?php echo Inflector::singularize(ucfirst($feed['Feed']['controller'])); ?></strong>:
-								<?php
-									echo $this->Html->link(
-										$feed['Feed']['title'],
-										array(
-											'plugin' => $feed['Feed']['plugin'],
-											'controller' => $feed['Feed']['controller'],
-											'action' => $feed['Feed']['action'],
-											$feed['Feed']['id']
-										)
-									);
-								?>
-							</h4>
-							<div class="time quiet"><?php echo $this->Time->niceShort($feed['Feed']['created']); ?></div>
-							<div class="preview clr"><?php echo $text->truncate($feed['Feed']['intro'], 150, array('exact' => false, 'html' => true)); ?></div>
-						</div>
-					</li>
-				<?php
-					endforeach;
-					endif;
+					}
 				?>
 			</ul>
 		</div>
