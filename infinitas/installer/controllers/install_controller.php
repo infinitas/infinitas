@@ -274,6 +274,33 @@ class InstallController extends InstallerAppController {
 
 	function siteConfig() {
 		$this->set('title_for_layout', __('Site Configuration', true));
+		if (!empty($this->data)) {
+			$good = true;
+			foreach($this->data['Config'] as $config){
+				switch($config['type']){
+					case 'bool':
+						switch($config['value']) {
+							case 1:
+								$config['value'] = 'true';
+								break;
+
+							default:
+								$config['value'] = 'false';
+						} // switch
+						break;
+				} // switch
+
+				$_config['Config'] = $config;
+				$good = $good && ClassRegistry::init('Management.Config')->save($_config);
+			}
+
+			if ($good === true) {
+				$this->redirect(array('action' => 'done'));
+			}
+		}
+
+		$configs = ClassRegistry::init('Management.Config')->getInstallSetupConfigs();
+		$this->set('configs', $configs);
 	}
 
 	/**

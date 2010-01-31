@@ -1,108 +1,238 @@
-/**
- * Comment Template.
- *
- * @todo -c Implement .this needs to be sorted out.
- *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @filesource
- * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link          http://infinitas-cms.org
- * @package       sort
- * @subpackage    sort.comments
- * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
- * @since         0.5a
- */
-/* CSS Document */
-body,p{
-margin:0;
-padding:0;
-background:#fff;
-font:12px/15px tahoma;
+*{
+	margin: 0px;
+	padding: 0px;
 }
-img{border:0; float:left;}
-.flt{float:left;}
-.flr{float:right;}
-.clr{clear:left;}
-.ds{display:inline;}
+a {
+	color: #0EA2CC;
+	text-decoration: none;
+}
+h1, h2, h3 {font-family:"Trebuchet MS", Verdana, sans-serif; margin-top:15px; clear:both;}
+h1 {font-size:26px;}
+h2 {font-size:18px;}
+h3 {font-size:16px;}
+body {background:url(../img/bg2.jpg) fixed center top; background-color:#ccc; font:12px Verdana, Arial, Helvetica, sans-serif;}
+#wrap {width:950px; margin:0 auto 0 auto;}
+#header {background:url(../img/header.png) no-repeat; height:174px;}
+#content {background:url(../img/pagebg.png) repeat-y; padding:0 40px 0 40px;}
+#right { float:right; width:610px;}
+#right p {line-height:20px; margin-bottom:20px;}
+#right a {border-bottom: solid 1px #0ea2cc;}
+#right a:visited, active {border:none;}
+#right a:hover {color:#000; border-bottom:solid 1px #000;}
+h1 a, h2 a, h3 a, h4 a {text-decoration:none; border:none!important;}
+.clear {clear:both;}
+#sidebar {float:left; width:250px; background:url(../img/sb2.jpg) left repeat-y;}
+#sidebartop {background: url(../img/sb1.jpg) left top no-repeat; height:10px;}
+#sidebarbtm {background:url(../img/sb3.jpg) left top no-repeat; height:9px;}
+#sidebar ul {list-style:none; font:bold 14px "Trebuchet MS", Verdana, sans-serif; margin-bottom:15px;}
+#sidebar li {display:block; height:36px; margin-bottom:2px;}
+#sidebar a, #sidebar a:visited {
+	display:block;
+	background:url(../img/menu1.jpg) right top no-repeat;
+	padding: 10px 10px 0 40px;
+	height: 26px;
+	color:#999;
+}
+#right h2 {
+	color:#014782; font:normal 18px "Trebuchet MS", Verdana, sans-serif;
+}
+#right h2 a {color:#014782}
+#right h2 a:hover {color:#000; background:#ffffee; border:none;}
 
-#main_block{width:1004px; text-align:left;}
-#sub_block1{width:1004px;text-align:left; }
-#top_block{ width:1004px; float:left; padding-top:9px; background:#007A87;}
-#content_block{ width:1004px; float:left;background:#fff; }
-#left_block{ float:left; width:315px;}
-#right_block{ width:656px; float:right; margin:30px 16px 0 0;display:inline; }
-#sub_block2{width:1004px;text-align:left;}
-#footer_block{ width:1004px; float:left; background:#D29D07; padding:20px 0 20px 0;}
+#sidebar .active a{background:url(../img/menu3.jpg) right top no-repeat; color:#000;}
+#sidebar h2 {
+	display:block;
+	background:url(../img/sidebarh2.jpg) no-repeat;
+	height:40px;
+	padding:14px 10px 0 40px;
+	color: #186185;
+	text-transform:uppercase;
+}
+#footer {background:url(../img/footerbg.png) no-repeat; height:62px;}
 
-/*top*/
-.tp_img1,.tp_img2{ background:url(../img/tp_bk1.jpg) no-repeat left; width:1004px; height:319px; float:left;}
-.tp_img2{background:url(../img/tp_bk2.jpg) no-repeat right; }
-.navi{ width:1004px; float:left; background:#fff;}
-.navi a:hover{ text-decoration:underline; float:left;}
-.navi_hm{ background:url(../img/til_hm.gif) repeat-x; float:left; padding:20px 72px; margin-right:1px; font: bold 15px Trebuchet MS; color:#fff; text-decoration:none; }
-.navi_tx{ background:url(../img/til_ab.gif) repeat-x; float:left; padding:20px 74px; margin-right:1px; font: bold 15px Trebuchet MS; color:#fff; text-decoration:none; }
-.logo{ margin:49px 400px 0 55px; float:left;}
-.tp_tx{ margin:55px 0 0 225px; float:left; }
+#sitename {
+	display:block;
+	float:left;
+	width:210px;
+	padding:15px 0 0 40px;
+	text-align:center;
+	color: #FFFFFF;
+	font: normal 28px "Trebuchet MS", Verdana, sans-serif;
+}
+#sitename a{color:#fff;}
+.caption {
+	display:block;
+	font: normal 12px Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	padding-top:30px;}
 
-/*left*/
-.nws{ color:#fff; font:17px/15px trebuchet MS; float:left;}
-.blk1_lp{ width:272px; background:url(../img/til_lf.gif) #FFCA81 repeat-x; float:left; padding:15px 0 12px 43px; }
-.blk2_lp{ background:#348890; float:left; padding:15px 0 15px 43px;  width:272px; margin-top:1px;}
-.usr{ color:#36240C; font:11px/17px verdana; float:left; margin-top:6px; width:250px;}
-.txbx{ width:160px; float:left; margin:6px 0 0 0; border:0; }
-.smt{ margin:12px 100px 0 0; float:left; background:url(../img/sbm.gif) no-repeat; width:60px; height:20px; border:0; }
-.chk{ width:250px; float:left; margin:10px 0 0 0; }
-.chk input{width:13px; height:13px; float:left;}
-.chk span{ font:10px verdana; float:left; color:#36240C; margin:2px 0 0 9px;}
-.usr a{color:#36240C;}
-.usr a:hover{ text-decoration:none; }
-.dat{ width:235px; float:left; margin:16px 0 0 0; color:#fff; font:12px/16px Georgia; }
-.dat span{ color:#FBDE14;font: bold 12px/16px Georgia; float:left; text-decoration:underline; }
-.dat input{ background:url(../img/rd_lf.gif) no-repeat; width:86px; height:20px; float:left; margin:9px 0 0 0; border:0; }
+#sitename a .blue {
+	color:#0F9EC8;
+	font-style: italic;
+}
+#sitename a:hover {color:#0f9ec8;}
+#sitename a:hover .blue{color:#9c6; font-family:Georgia; font-weight:normal;}
 
-/*right*/
-.modul{ padding:0 0 0 16px; float:left;width:640px;}
-.wel{ color:#077BD4; font:22px Trebuchet MS; float:left; }
-.inr_bllk{ margin:14px 0 0 0; width:640px; float:left;}
-.txt{ color:#66573A; float:left; width:430px;}
-.txt a{color:#EC892B; text-decoration:underline; float:left; }
-.txt a:hover{ text-decoration:none; }
-.our{ color:#363636; float:left; font:18px Trebuchet MS;}
-.rdmr{ margin:12px 0 0 0; float:left;}
-.rdmr2{ margin:12px 0 0 15px; float:left;}
-.rp_ln{ margin:18px 0 0 0; float:left;}
-.blks{ width:656px; background:url(../img/spn_ln.gif) repeat-y; float:left; margin:18px 0 0 0; padding-bottom:5px;}
-.special{ width:328px; float:left; padding:0 0 0 14px;}
-.clnt{ width:280px; float:left;padding:0 0 0 32px; }
-.spcl_blk{ background:#FCFEFE; width:656px; float:left; }
-.widt{ margin-top:18px; float:left; width:656px; }
-.tx_widt{ width:386px; float:left;color:#66573A; margin:0 0 0 14px;}
-.lnk{ width:280px; float:left; margin:24px 0 0 0; }
-.lnk a{ color:#D59F28; font:12px/27px tahoma; float:left; margin:2px -3px 0 10px;position:relative; width:265px;text-decoration:underline; }
-.lnk a:hover{ text-decoration:none;}
-.lnk img{ float:left; margin-top:12px;}
-.lnk_cl{ width:280px; float:left; margin:24px 0 0 0; }
-.lnk_cl a{ color:#D59F28;float:left; text-decoration:underline; }
-.lnk_cl a:hover{ text-decoration:none;}
-.lnk_cl img{ float:left; margin-top:21px;}
-.cls2{float:left; color:#66573A;margin:0 -3px 0 10px;position:relative; width:265px;}
-.cls{float:left; color:#66573A;margin:16px -3px 0 10px;position:relative; width:265px;}
+#nav {float:right; width:645px; padding:0 40px 0 0; height:134px;}
+#breadcrumb { background:url(../img/breadcrumb.jpg) center bottom no-repeat;
+	padding:7px 40px 5px ;
+	height: 18px;
+	color:#999999; text-transform:uppercase;
+	font: bold 16px"Trebuchet MS", Verdana, sans-serif;}
+#breadcrumb a.active {color:#000!important;}
+#breadcrumb a{text-decoration:none; color:#999;}
+#breadcrumb a:visited, breadcrumb a:active {color:#999;}
+#breadcrumb a:hover {color:#333;}
+#nav #search{
+	padding-left: 475px;
+	padding-top: 17px;
+	height: 48px;
+}
+#nav #search .keyword{
+	background: transparent url(../img/search.png) no-repeat;
+	height: 33px;
+	width: 132px;
+	padding: 10px 20px 0 10px;
+	font-size: 12px;
+	color: #999;
+	border:none;
+	overflow:hidden;
+}
+#header form {padding:0; margin:0;}
+#topmenu { height:51px; font:bold 14px "Trebuchet MS", Verdana, sans-serif; text-transform:uppercase; padding-top:15px;}
+#topmenu ul {list-style:none; padding-left:10px;}
+#topmenu li {display:inline; margin-left:3px;}
+#topmenu a, #topmenu a:visited {display:block; float:left; background:url(../img/nav2.png) repeat-x; text-align:center; padding:5px 25px 0 25px; height:25px; color:#999999;}
+#topmenu .active a {background:url(../img/nav1.png) repeat-x; color:#333;}
+#topmenu .active a:hover {background:url(../img/nav4.png) repeat-x; color:#333;}
+#topmenu a:hover {background:url(../img/nav3.png) repeat-x; color:#fff;}
+#featured {
+	background:url(../img/ftrdbox.jpg) no-repeat;
+	height:150px;
+	color:#00CCFF;
+	margin-bottom:15px;
+}
+#featured div {
+	padding:25px 10px 0 50px;
+	height: 90px;
+	font:normal 16px "Palatino Linotype", "Book Antiqua", Palatino, serif;
 
-/*footer*/
-.cpy{ color:#36240C; font:11px Trebuchet MS; float:left; margin-left:225px; width:500px;}
-.cpy a{ color:#000000; font:11px Trebuchet MS; }
-.ftr_nv{ margin-left:185px; width:520px; float:left;}
-.ftr_nv a{ color:#36240C; font: bold 12px Trebuchet MS; float:left; padding:0 13px; text-decoration:none;}
-.ftr_nv span{ color:#36240C; font: bold 12px Trebuchet MS; float:left; padding:0 13px;}
-.ftr_nv a:hover{ text-decoration:underline; }
+}
+.ftd_btm {display:block; height:20px; padding:15px 5px 0 35px; background:url(../img/ftrdlink.png)8px 12px no-repeat}
+#featured a {color:#fff; border-bottom:none;}
+#featured a:visited, #featured a:active{color:#E3F7FD;}
+#featured a:hover { text-decoration:underline; color:#fff!important;}
+.postbottom {background:url(../img/postbttm.png) no-repeat; height:26px; margin-bottom:20px;}
+.postbottom ul {list-style:none;}
+.postbottom li {display:inline; margin:0!important; padding:0!important;}
+.postbottom a, .postbottom a:visited, .postbottom a:active{color:#fff; border:none!important; display:block; float:left; height:20px; padding:6px 5px 0 30px;}
+.postbottom a:hover {color:#000;}
+.permalink a, .permalink a:visited, .permalink a:active {background:url(../img/ico_more.png)5px 5px no-repeat;}
+.cats a{background:url(../img/ico_cat.png)5px 5px no-repeat;}
+.auth a{background:url(../img/ico_usr.png)5px 5px no-repeat;}
+.date a{background:url(../img/ico_date.png) 5px 5px no-repeat;}
+.comnts a{background:url(../img/comment.png)5px 5px no-repeat;}
 
-.yes a, .on a{
+.post h2 {display:block; margin-bottom:15px;}
+
+.post .description {display:block; font-size:12px; color:#999;}
+
+blockquote {background:#eee url(../img/quote.png) 5px 5px no-repeat; padding:8px 8px 0 35px; font:normal 14px "Palatino Linotype", "Book Antiqua", Palatino, serif; display:block; border: solid 1px #ddd; }
+
+.extract { float:left; margin-right:10px;}
+
+/*tables and Forms */
+
+#right table {
+	width:90%;
+	border:1px solid #0075A4;
+	margin-bottom:20px;
+	background: #E3F6FF;
+	margin-top: 15px;
+}
+#right th {
+	background:#0075A4;
+	padding:5px 15px 5px 15px;
+	color:#8ADBFF;
+	text-align:center;
+	border-bottom:1px solid #000000;
+	font: bold 16px "Trebuchet MS", Verdana, sans-serif;
+	text-transform: uppercase;
+}
+#right td {
+	border-bottom:1px solid #0075A4;
+	padding:5px 15px 5px 15px;
+	border-right:1px solid #0075A4;
+}
+
+
+.textfield {
+	display: block;
+	width:50%;
+	margin:3px 3px 3px 30px;
+	padding:3px;
+	border: 1px solid #CBE0E7;
+	background: #E9F2F5;
+}
+label {
+	display: block;
+	margin:3px;
+	padding: 5px;
+	font-weight: bold;
+}
+.button {
+	display: block;
+	padding:0px;
+	margin:3px;
+	border: 1px solid #9DC6D2;
+	color:#000000;
+	background: #E9F2F5;
+}
+.textfield:hover {
+	background:#FFFFCC;
+}
+.textfield:focus {
+	background:#ffffff;
+	border: 1px solid #3A2C1B;
+}
+.hide {display:none;}
+#bottom {padding:20px; background:url(../img/bottombg.png) repeat-x; margin-top:15px;}
+#bottom p {display:block; padding:3px; text-align:center;}
+#credits {text-align:right; font-size:8px; padding:5px 40px 0 40px; }
+.pagenavi { height:22px; padding: 5px 5px 0 5px; background: #eee; border: solid 1px #ddd; margin:25px 0 15px 0;}
+.pagenavi .alignleft {display:block; text-align:left;}
+.pagenavi .alignright {display:block; float:right;}
+.pagenavi a, .pagenavi a :visited, .pagenavi a :active {color:#000; font-weight:bold; text-decoration:none; border:none!important;}
+.pagenavi a:hover {color:#0099CC!important;}
+
+/*shopping Cart */
+#catalogue {margin:10px 0 10px 0; background:#eee; border:solid 1px #ddd; padding:5px;}
+.item {width:135px; float:left; height:220px;}
+.item h3 {display:block; padding:3px;}
+.item span {display:block; padding:3px;}
+.item .price {color:#993300; font-weight:bold; }
+.item span img {border:none!important;}
+.item span a {border:none!important; text-decoration:none;}
+.item img {}
+img.productimg {border:solid 1px #716148; margin:0 0 0 8px;}
+.clear2 {width:100%; clear:left;}
+.sec_head {
+	display:block;
+	background: #0077A2 url(../img/ftrdbox.jpg) no-repeat 0px -60px;
+	padding:3px;
+	margin-bottom:15px;
+	color: #FFF !important;
+}
+
+#right .yes a, #right .on a{
     color:green;
+	text-decoration:none;
+	font-weight:bold;
+	border-bottom:0px solid green;
 }
-no a, off a{
+#right .no a, #right .off a{
     color:red;
+	text-decoration:none;
+	font-weight:bold;
+	border-bottom:0px solid red;
 }
