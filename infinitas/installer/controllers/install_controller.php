@@ -305,31 +305,24 @@ class InstallController extends InstallerAppController {
 	*/
 	function __executeSQLScript($db, $fileName) {
 		$statements = file($fileName);
-
 		$status = true;
 		$templine = '';
-		foreach ($statements as $line)
-		{
+		foreach ($statements as $line) {
 			// Skip it if it's a comment
-			if (substr($line, 0, 2) == '--' || $line == '')
-			{
+			if (substr($line, 0, 2) == '--' || $line == '')	{
 				continue;
 			}
-
 			// Add this line to the current segment
 			$templine .= $line;
 			// If it has a semicolon at the end, it's the end of the query
-			if (substr(trim($line), -1, 1) == ';')
-			{
+			if (substr(trim($line), -1, 1) == ';') {
 				// Perform the query
 				$status = $status && $db->query($templine);
 				// Reset temp variable to empty
 				$templine = '';
 			}
 		}
-
 		return $status;
 	}
 }
-
 ?>
