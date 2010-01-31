@@ -86,6 +86,17 @@ class Config extends ManagementAppModel {
 		return $configs;
 	}
 
+	function getInstallSetupConfigs(){
+		return $this->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Config.key LIKE ' => 'Website.%'
+				)
+			)
+		);
+	}
+
 	function beforeFind($queryData) {
 		parent::beforeFind($queryData);
 		return true;
