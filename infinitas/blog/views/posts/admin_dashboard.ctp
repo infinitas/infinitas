@@ -98,7 +98,10 @@
 			<h3 class="left"><?php __('Recent activity'); ?></h3>
 			<div class="view-all left">&nbsp;<?php echo $html->link('(view all)', array('controller' => 'posts')); ?></div>
 			<ul class="feed clr">
-				<?php foreach($blogFeeds as $feed): ?>
+				<?php
+					if($blogFeeds):
+					foreach($blogFeeds as $feed):
+				?>
 					<?php
 						if (!isset($iteration)) $iteration = 0;
 						$iteration++;
@@ -127,7 +130,10 @@
 							<div class="preview clr"><?php echo $text->truncate($feed['Feed']['intro'], 150, array('exact' => false, 'html' => true)); ?></div>
 						</div>
 					</li>
-				<?php endforeach; ?>
+				<?php
+					endforeach;
+					endif;
+				?>
 			</ul>
 		</div>
 	</div>
