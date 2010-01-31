@@ -19,13 +19,65 @@
      */
 ?>
 <h2><?php __( 'Set up your site' ); ?></h2>
-<p>This will be the set up of the site, like config.php and some other stuff.</p>
-<p>&nbsp;</p>
+<blockquote class="extract">
+	<p><?php echo __('You can now set up some basic information about your website. You can hover over each of the field titles for more information.', true); ?></p>
+</blockquote>
 <?php
-    echo $this->Html->link(
-        __( 'Continue', true ),
-        array(
-            'action' => 'done'
-        )
-    );
+	echo $this->Form->create( 'Config', array('url' => array('controller' => 'install', 'action' => 'siteConfig')));
+
+	$i = 0;
+	foreach($configs as $config){
+		$_name = explode('.', $config['Config']['key']);
+		echo '<div style="padding-top:10px; width:100%; clear:both; font-weight:bold;" title="'.strip_tags($config['Config']['description']).'">'.
+			Inflector::humanize($_name[1]).
+		'</div>';
+
+		echo $this->Form->hidden('Config.'.$i.'.id', array('value' => $config['Config']['id']));
+		echo $this->Form->hidden('Config.'.$i.'.type', array('value' => $config['Config']['type']));
+        echo $this->Form->hidden('Config.'.$i.'.core', array('value' => $config['Config']['core']));
+        echo $this->Form->hidden('Config.'.$i.'.description', array('value' => $config['Config']['description']));
+
+        switch( $config['Config']['type'] )
+        {
+            case 'bool':
+                $_label = explode( '.', $config['Config']['key'] );
+                $label = ( isset( $_label[1] ) ? $_label[1] : $_label[0] );
+                $config['Config']['value'] = ( $xonfig['Config']['value'] == 'true' ) ? '1' : '0';
+                echo $this->Form->input(
+                    'Config.'.$i.'.value',
+                    array(
+                        'type' => 'checkbox',
+                        'label' => false,
+                        'style' => 'width:100%;'
+                    )
+                );
+                break;
+
+            case 'dropdown':
+                $_options = explode( ',', $config['Config']['options'] );
+                foreach( $_options as $o )
+                {
+                    $options[$o] = Inflector::humanize($o);
+                }
+                echo $this->Form->input(
+                    'Config.'.$i.'.value',
+                    array(
+                        'type' => 'select',
+                        'options' => $options,
+                        'selected' => $config['Config']['value'],
+						'label' => false,
+                        'style' => 'width:100%;'
+                    )
+                );
+                break;
+
+            case 'integer':
+            case 'string':
+                echo $this->Form->input('Config.'.$i.'.value', array('value' => $config['Config']['value'], 'label' => false, 'style' => 'width:100%;'));
+                break;
+        } // switch
+		$i++;
+	}
+
+	echo $this->Form->end( 'Save and continue' );
 ?>
