@@ -1,5 +1,5 @@
 <?php
-class M4b6620b29ca446959fbe1f846318cd70 extends CakeMigration {
+class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 
 /**
  * Migration description
@@ -17,11 +17,6 @@ class M4b6620b29ca446959fbe1f846318cd70 extends CakeMigration {
  */
 	var $migration = array(
 		'up' => array(
-			'drop_table' => array(
-				'api_api_classes', 'api_api_packages', 'blog_posts', 'blog_posts_tags', 'blog_tags', 'cms_categories', 'cms_category_configs', 'cms_content_configs', 'cms_content_frontpages', 'cms_content_layouts', 'cms_contents', 'cms_features', 'cms_frontpages', 'core_backups', 'core_comments', 'core_configs', 'core_feeds', 'core_groups', 'core_logs', 'core_menu_items', 'core_menus', 'core_module_positions', 'core_modules', 'core_modules_routes', 'core_ratings', 'core_routes', 'core_sessions', 'core_themes', 'core_users', 'newsletter_campaigns', 'newsletter_newsletters', 'newsletter_newsletters_users', 'newsletter_subscribers', 'newsletter_templates', 'schema_migrations', 'user_configs', 'user_details'
-			),
-		),
-		'down' => array(
 			'create_table' => array(
 				'api_api_classes' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
@@ -99,7 +94,7 @@ class M4b6620b29ca446959fbe1f846318cd70 extends CakeMigration {
 				),
 				'cms_categories' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'title' => array('type' => 'string', 'null' => false),
 					'slug' => array('type' => 'string', 'null' => true, 'default' => NULL),
 					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
@@ -183,7 +178,7 @@ class M4b6620b29ca446959fbe1f846318cd70 extends CakeMigration {
 				),
 				'cms_contents' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'title' => array('type' => 'string', 'null' => false),
 					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
 					'introduction' => array('type' => 'text', 'null' => false, 'default' => NULL),
 					'body' => array('type' => 'text', 'null' => false, 'default' => NULL),
@@ -599,6 +594,11 @@ class M4b6620b29ca446959fbe1f846318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
+			),
+		),
+		'down' => array(
+			'drop_table' => array(
+				'api_api_classes', 'api_api_packages', 'blog_posts', 'blog_posts_tags', 'blog_tags', 'cms_categories', 'cms_category_configs', 'cms_content_configs', 'cms_content_frontpages', 'cms_content_layouts', 'cms_contents', 'cms_features', 'cms_frontpages', 'core_backups', 'core_comments', 'core_configs', 'core_feeds', 'core_groups', 'core_logs', 'core_menu_items', 'core_menus', 'core_module_positions', 'core_modules', 'core_modules_routes', 'core_ratings', 'core_routes', 'core_sessions', 'core_themes', 'core_users', 'newsletter_campaigns', 'newsletter_newsletters', 'newsletter_newsletters_users', 'newsletter_subscribers', 'newsletter_templates', 'schema_migrations', 'user_configs', 'user_details'
 			),
 		),
 	);
