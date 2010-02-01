@@ -79,7 +79,15 @@ class AppController extends Controller {
 				$this->{$this->modelClass}->Behaviors->detach('Viewable');
 			}
 		}
+
+		$this->__setupAuth();
 	}
+
+	function __setupAuth(){
+
+	}
+
+
 
 	/**
 	* Common methods for the app
