@@ -4,7 +4,7 @@
     	<?php echo $this->Html->charset(); ?>
     	<title>
     		<?php
-    		    echo __( 'PhpDev :: ', true ), $title_for_layout;
+    		    echo Configure::read('Website.name'), ' :: ', $title_for_layout;
         	?>
     	</title>
         <?php
@@ -21,16 +21,29 @@
         	<div id="upbg"></div>
         	<div id="inner">
         		<div id="header">
-        			<h1><span>Php</span>dev<sup>1.0</sup></h1>
-        			<h2>by dogmatic69</h2>
+        			<h1><?php echo $this->Html->link(Configure::read('Website.name'), '/'); ?><sup>1.0</sup></h1>
         		</div>
         		<div id="splash"></div>
-                <?php
-                    echo $this->element( 'menu/top', array( 'plugin' => 'core' ) );
+				<?php
+					echo $this->Infinitas->loadModules('top');
                     echo $this->Session->flash();
-                    echo $this->element( 'main_content', array( 'content_for_layout' => $content_for_layout ) );
-                    echo $this->element( 'right_bar' );
                 ?>
+				<div id="primarycontent">
+					<div class="<?php echo isset($this->params['plugin'])?$this->params['plugin']:''; ?>">
+						<div class="<?php echo isset($this->params['controller'])?$this->params['controller']:''; ?>">
+							<div class="<?php echo isset($this->params['action'])?$this->params['action']:''; ?>">
+								<div id="content">
+									<?php
+										echo $session->flash(), $content_for_layout;
+									?>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="secondarycontent">
+					<?php echo $this->Infinitas->loadModules('right'); ?>
+				</div>
         		<div id="footer">
         			&copy; Php-Dev.co.za. All rights reserved. <?php echo $this->Html->link( 'Hosted by Change Me', 'http://www.changeme.com' ); ?>
         			<?php
