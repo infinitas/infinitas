@@ -20,74 +20,44 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 ?>
-<style>
-    .post-dates{
-        font-size:120%;
-    }
-    .post-dates ul .years,
-    .post-dates ul .months,
-    .post-dates li .years,
-    .post-dates li .months{
-        list-style:none;
-    }
-    .post-dates li .years{
-        padding-left: 10px;
-    }
-    .post-dates ul .months{
-        padding-left: 10px;
-    }
-</style>
 <div class="post-dates">
-    <p style="width:150px;">
-        <?php
-        	$postDates = ClassRegistry::init('Blog.Post')->getDates();
+<?php
+	$postDates = ClassRegistry::init('Blog.Post')->getDates();
 
-            if ( empty( $postDates ) ){
-                echo __( 'Nothing Found', true );
-            }
+	if ( empty( $postDates ) ){
+		echo __( 'Nothing Found', true );
+	}
 
-            else{
-                foreach( $postDates as $year => $months ){
-                    ?>
-                        <ul>
-                            <li class="years">
-                                <?php
-                                    echo $this->Html->link(
-                                        $year,
-                                        array(
-                                            'plugin' => 'blogs',
-                                            'controller' => 'posts',
-                                            'action'  => 'index',
-                                            'all',
-                                            $year
-                                        )
-                                    );
+    else{
+        foreach( $postDates as $year => $months ){
+			echo '<h4>'.$this->Html->link(
+				$year,
+				array(
+					'plugin' => 'blogs',
+					'controller' => 'posts',
+					'action'  => 'index',
+					'all',
+					$year
+				)
+			).'</h4>';
 
-                                    if ( !empty( $months ) ){ ?>
-										<ul><?php
-                                        foreach( $months as $month ){ ?>
-                                            <li class="months"> <?php
-                                                echo $this->Html->link(
-                                                    $month,
-                                                    array(
-                                                        'plugin' => 'blogs',
-                                                        'controller' => 'posts',
-                                                        'action'  => 'index',
-                                                        'all',
-                                                        $year,
-                                                        $month
-                                                    )
-                                                ); ?>
-                                            </li> <?php
-                                        } ?>
-                                        </ul>  <?php
-                                    }
-                                ?>
-                            </li>
-                        </ul>
-                    <?php
-                }
-            }
-        ?>
-    </p>
+			if ( !empty( $months ) ){
+				sort($months);
+				foreach( $months as $month ){
+					echo '<p>'.$this->Html->link(
+						date('F', mktime(0,0,0,$month)),
+						array(
+							'plugin' => 'blogs',
+							'controller' => 'posts',
+							'action'  => 'index',
+							'all',
+							$year,
+							$month
+						)
+					).'</p>';
+				}
+			}
+        }
+    }
+?>
 </div>
