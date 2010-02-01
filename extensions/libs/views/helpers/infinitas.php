@@ -80,7 +80,7 @@
 			return $json;
 		}
 
-		function generateMenu($data = array(), $type = 'horizontal'){
+		function generateDropdownMenu($data = array(), $type = 'horizontal'){
 			if (empty($data)) {
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;
@@ -88,14 +88,14 @@
 			$this->_menuData = '<ul class="pureCssMenu pureCssMenum0">';
 				foreach( $data as $k => $v ){
 					$this->_menuLevel = 0;
-					$this->__buildMenu($v, 'MenuItem');
+					$this->__buildDropdownMenu($v, 'MenuItem');
 				}
 			$this->_menuData .= '</ul>';
 
 			return $this->_menuData;
 		}
 
-		function __buildMenu($array = array(), $model = ''){
+		function __buildDropdownMenu($array = array(), $model = ''){
 			if (empty($array['MenuItem']) || $model = '') {
 				$this->errors[] = 'nothing passed to generate';
 				return false;
@@ -122,6 +122,12 @@
 					$menuLink['action']     = (!empty($array['MenuItem']['action'])     ? $array['MenuItem']['action']     : null);
 					$menuLink[]             = (!empty($array['MenuItem']['params'])     ? $array['MenuItem']['params']     : null);
 
+					foreach($menuLink as $key => $value ){
+						if (empty($value)) {
+							unset($menuLink[$key]);
+						}
+					}
+
 					if ($array['MenuItem']['force_backend']) {
 						$menuLink['admin'] = true;
 					}
@@ -143,7 +149,7 @@
 					$this->_menuData .= '<ul class="pureCssMenum">';
 						foreach( $array['children'] as $k => $v ){
 							$this->_menuLevel = 1;
-							$this->__buildMenu($v, $model);
+							$this->__buildDropdownMenu($v, $model);
 						}
 					$this->_menuData .= '</ul>';
 				}
@@ -151,7 +157,5 @@
 
 			$this->_menuData .= '</li>';
 		}
-
-
 	}
 ?>
