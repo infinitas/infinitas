@@ -6,6 +6,12 @@ a {
 	color: #0EA2CC;
 	text-decoration: none;
 }
+.logo{
+	border: 1px solid red;
+	width:100px;
+	height:100px;
+	padding-left:20px;
+}
 h1, h2, h3 {font-family:"Trebuchet MS", Verdana, sans-serif; margin-top:15px; clear:both;}
 h1 {font-size:26px;}
 h2 {font-size:18px;}
@@ -53,7 +59,7 @@ h1 a, h2 a, h3 a, h4 a {text-decoration:none; border:none!important;}
 #sitename {
 	display:block;
 	float:left;
-	width:210px;
+	width:337px;
 	padding:15px 0 0 40px;
 	text-align:center;
 	color: #FFFFFF;

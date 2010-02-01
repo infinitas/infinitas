@@ -23,7 +23,7 @@
 	<blockquote class="extract">
 	    <p>
 			<?php
-				echo __( 'Database tables and core data is aboout to be installed. '.
+				echo __( 'Database tables and core data is about to be installed. '.
 			    	'Please make sure you have created a database already, then fill out the '.
 			    	'connection details below. If the installer is not able to connect to the databse '.
 			    	'the installer will not be able to continue', true );
