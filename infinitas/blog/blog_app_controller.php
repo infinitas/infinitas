@@ -46,9 +46,7 @@ class BlogAppController extends AppController {
 	function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->set('tagCount', ClassRegistry::init('Blog.Tag')->getCount());
 
-		$this->set('postDates', ClassRegistry::init('Blog.Post')->getDates());
 		$this->set('postLatest', ClassRegistry::init('Blog.Post')->getLatest());
 		$this->set('postPending', ClassRegistry::init('Blog.Post')->getPending());
 		$this->set('postPopular', ClassRegistry::init('Blog.Post')->getPopular());
