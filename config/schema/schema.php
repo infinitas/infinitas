@@ -1,7 +1,7 @@
-<?php 
+<?php
 /* SVN FILE: $Id$ */
 /* Infinitas schema generated on: 2010-02-01 02:02:21 : 1264984161*/
-class InfinitasSchema extends CakeSchema {
+class AppSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
 	function before($event = array()) {
