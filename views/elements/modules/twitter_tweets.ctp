@@ -1,10 +1,11 @@
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
 <script>
+//<!--
 new TWTR.Widget({
   version: <?php echo ( isset($config['version']) ? (int)$config['version'] : 2 ); ?>,
   type: '<?php echo ( isset($config['type']) ? $config['type'] : 'profile' ); ?>',
   rpp: 10,
-  interval: <?php echo ( isset($config['interval']) ? (int)$config['interval'] : 1000 ); ?>,
+  interval: <?php echo ( isset($config['interval']) ? (int)$config['interval'] : 5000 ); ?>,
   width: '<?php echo ( isset($config['width']) ? $config['width'] : 'auto' ); ?>',
   height: <?php echo ( isset($config['height']) ? (int)$config['height'] : 200 ); ?>,
   theme: {
@@ -28,4 +29,5 @@ new TWTR.Widget({
     behavior: '<?php echo ( isset($config['behavior']) ? $config['behavior'] : 'default' ); ?>'
   }
 }).render().setUser('infinit8s').start();
+-->
 </script>
