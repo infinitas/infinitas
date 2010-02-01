@@ -194,5 +194,5 @@ INSERT INTO `core_themes` (`id`, `name`, `description`, `author`, `url`, `update
 (4, 'aqueous_light', 'aqueous_light', '', NULL, NULL, '', 1, 0, NULL, NULL);
 
 INSERT INTO `core_users` (`id`, `username`, `email`, `password`, `active`, `created`, `modified`) VALUES
-(1, 'dogmatic', 'dogmatic69@gmail.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-13 01:53:54', '2009-12-13 01:53:54'),
+(1, 'dogmatic', 'bob@bob.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-13 01:53:54', '2009-12-13 01:53:54'),
 (2, 'bob', 'bob@bob.com', 'def267b31a9443f297b593b42992da19c0e72fec', 1, '2009-12-16 16:24:33', '2009-12-16 16:24:33');
