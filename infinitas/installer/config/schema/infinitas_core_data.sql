@@ -24,7 +24,7 @@ INSERT INTO `core_configs` (`id`, `key`, `value`, `type`, `options`, `descriptio
 (21, 'Newsletter.send_interval', '300', 'integer', '', 'The time interval between sending emails in seconds', 0),
 (22, 'Newsletter.track_views', 'true', 'bool', 'true,false', 'Attempt to track the number of views a newsletter creates.  works with  a call back to the server.  Needs html to work', 0),
 (23, 'Newsletter.send_as', 'both', 'dropdown', 'both,html,text', 'What format to send the newsletter out as. Both is the best option as its nut uncommon for people to only accept text mails.', 0),
-(24, 'Website.name', 'Infinitas Cms', 'string', '', '<p>This is the name of the site that will be used in emails and on the website its self</p>', 0),
+(24, 'Website.name', 'Infinitas', 'string', '', '<p>This is the name of the site that will be used in emails and on the website its self</p>', 0),
 (25, 'Website.description', 'Some Seo information about the site', 'string', '', 'This is the main description about the site', 0),
 (26, 'Cms.auto_redirect', 'true', 'bool', 'true,false', 'When a category has only one content itme should the site automaticaly redirect to that one item of first display the category.\r\n\r\nThis will also work for sections.', 0),
 (27, 'Comments.time_limit', '4 weeks', 'string', '', 'the date the comments will stop being available. if it is set to 0 users will always be able to comment on a record.\r\n\r\nit uses strtotime() and will expire after the amount of time you specify. eg: 4 weeks - comments will be disabled 4 weeks after the post was last edited.', 0),
@@ -69,7 +69,8 @@ INSERT INTO `core_groups` (`id`, `name`, `description`, `created`, `modified`, `
 (1, 'admin', 'admin', '2009-12-16 00:06:53', '2009-12-16 00:06:53', 0, 1, 2);
 
 INSERT INTO `core_menus` (`id`, `name`, `type`, `item_count`, `active`, `created`, `modified`) VALUES
-(1, 'Admin Menu', 'core_admin', 0, 1, '2010-01-27 18:07:51', '2010-01-27 18:07:51');
+(1, 'Admin Menu', 'core_admin', 0, 1, '2010-01-27 18:07:51', '2010-01-27 18:07:51'),
+(2, 'Main User Menu', 'main_menu', 0, 1, '2010-02-01 00:35:47', '2010-02-01 00:35:47');
 
 INSERT INTO `core_menu_items` (`id`, `name`, `slug`, `link`, `prefix`, `plugin`, `controller`, `action`, `params`, `force_backend`, `force_frontend`, `class`, `active`, `menu_id`, `group_id`, `parent_id`, `lft`, `rght`, `created`, `modified`) VALUES
 (1, 'Site', 'dashboard', '', '', 'management', 'management', 'dashboard', '', 1, 0, '', 1, 1, 1, 0, 1, 6, '2010-01-27 18:07:51', '2010-01-28 14:44:49'),
@@ -132,28 +133,30 @@ INSERT INTO `core_menu_items` (`id`, `name`, `slug`, `link`, `prefix`, `plugin`,
 (62, 'Infinitas', '', 'http://infinitas-cms.org', '', '', '', '', '', 0, 0, '', 1, 1, 1, 60, 118, 119, '2010-01-29 14:03:40', '2010-01-29 14:09:03'),
 (63, 'Git Repo', '', 'http://github.com/infinitas/infinitas', '', '', '', '', '', 0, 0, '', 1, 1, 1, 60, 120, 121, '2010-01-29 14:09:46', '2010-01-29 15:43:03'),
 (64, 'Developer', '', '', '', '', '', '', '', 1, 0, '', 1, 1, 1, 0, 123, 126, '2010-01-29 15:43:33', '2010-01-29 15:44:03'),
-(65, 'Api', '', '', '', 'api_generator', 'apiClasses', 'index', '', 1, 0, '', 1, 1, 0, 64, 124, 125, '2010-01-29 15:45:26', '2010-01-29 15:47:13');
+(65, 'Api', '', '', '', 'api_generator', 'apiClasses', 'index', '', 1, 0, '', 1, 1, 0, 64, 124, 125, '2010-01-29 15:45:26', '2010-01-29 15:47:13'),
+(66, 'Home', '', '/', '', '', '', '', '', 0, 1, '', 1, 2, 0, 0, 127, 128, '2010-02-01 00:38:17', '2010-02-01 02:04:39'),
+(67, 'Blog', '', '', '', 'blog', 'posts', 'index', '', 0, 1, '', 1, 2, 0, 0, 129, 130, '2010-02-01 00:39:54', '2010-02-01 02:04:04'),
+(68, 'Cms', '', '', '', 'cms', 'frontpages', 'index', '', 0, 1, '', 1, 2, 0, 0, 131, 136, '2010-02-01 00:40:18', '2010-02-01 02:03:32');
 
 INSERT INTO `core_modules` (`id`, `name`, `content`, `module`, `config`, `theme_id`, `position_id`, `group_id`, `ordering`, `admin`, `active`, `locked`, `locked_by`, `locked_since`, `show_heading`, `core`, `author`, `licence`, `url`, `update_url`, `created`, `modified`) VALUES
-(2, 'login', '', 'login', '', 0, 4, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-01-19 00:53:18'),
+(2, 'login', '', 'login', '', 0, 4, 1, 1, 0, 0, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:30:53', '2010-02-01 01:22:16'),
 (4, 'Popular Posts', '', 'popular_posts', '', 0, 5, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 00:58:20', '2010-01-19 00:58:20'),
 (5, 'search', '', 'search', '', 0, 12, 1, 1, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', '', 'http://www.i-project.co.za', '', '2010-01-19 11:22:09', '2010-01-19 14:44:49'),
-(6, 'Frontend Menu', '', 'frontend_menu', '', 0, 1, 1, 1, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:25:10', '2010-01-22 16:09:01'),
 (7, 'Latest News', '', 'latest_news', '', 0, 3, 1, 1, 0, 1, 0, NULL, NULL, 1, 0, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 11:40:45', '2010-01-19 11:40:45'),
-(8, 'Frontend sub nav', '', 'frontend_sub_nav', '', 0, 1, 1, 2, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.i-project.co.za', '', '2010-01-19 13:28:24', '2010-01-19 13:31:53'),
+(13, 'Frontend Menu', '', 'main_menu', '{"menu":"main_menu"}', 0, 1, 1, 4, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-02-01 00:57:01', '2010-02-01 00:59:20'),
 (9, 'Latest Tweets', '', 'twitter_tweets', '', 0, 3, 1, 2, 0, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:23:37', '2010-01-21 20:46:54'),
 (10, 'Twitter News', '', 'twitter_search', '', 0, 4, 1, 3, 0, 0, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://www.infinitas-cms.org', '', '2010-01-21 19:50:17', '2010-01-21 19:50:58'),
 (11, 'Infinitas Users', '<div style="padding-top:10px"><script type="text/javascript" src="http://www.ohloh.net/p/442724/widgets/project_users.js?style=blue"></script></div>', '', '', 2, 4, 1, 4, 0, 1, 0, NULL, NULL, 0, 0, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-21 20:02:55', '2010-01-22 16:09:25'),
-(12, 'Admin Menu', '', 'menu', '{"menu":"core_admin"}', 0, 1, 1, 3, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-27 18:14:16', '2010-01-27 18:25:12');
+(12, 'Admin Menu', '', 'menu', '{"menu":"core_admin"}', 0, 1, 1, 3, 1, 1, 0, NULL, NULL, 0, 1, 'Infinitas', 'MIT', 'http://infinitas-cms.org', '', '2010-01-27 18:14:16', '2010-02-01 00:56:09');
 
 INSERT INTO `core_modules_routes` (`id`, `module_id`, `route_id`) VALUES
 (17, 5, 0),
 (10, 4, 0),
-(9, 2, 9),
-(8, 2, 8),
-(7, 2, 7),
+(27, 2, 9),
+(26, 2, 8),
+(25, 2, 7),
 (13, 7, 0),
-(15, 8, 0),
+(24, 13, 0),
 (21, 9, 7),
 (19, 10, 0);
 
