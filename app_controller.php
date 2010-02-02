@@ -30,7 +30,7 @@ class AppController extends Controller {
 	var $components = array(
 		'Libs.Infinitas',
 		// cake components
-		'Session','RequestHandler',
+		'Session','RequestHandler', 'Auth',
 		// core components
 		'DebugKit.Toolbar', // 'Libs.Cron',
 		// components
