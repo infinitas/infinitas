@@ -58,5 +58,15 @@
 
 			$this->set(compact('users','filterOptions'));
 		}
+
+		function admin_add(){
+			if (!empty($this->data)) {
+				$this->User->create();
+				if ($this->User->saveAll($this->data)) {
+					$this->Session->setFlash('The user has been saved.');
+					$this->redirect(array('action' => 'index'));
+				}
+			}
+		}
 	}
 ?>
