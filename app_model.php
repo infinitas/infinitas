@@ -29,7 +29,8 @@ class AppModel extends Model {
 	var $actsAs = array(
 		'Containable',
 		'Libs.Lockable',
-		'Libs.Logable'
+		'Libs.Logable',
+		//'Libs.AutomaticAssociation'
 	);
 
 	var $blockedPlugins = array(
