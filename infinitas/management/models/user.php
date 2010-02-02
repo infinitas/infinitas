@@ -54,18 +54,36 @@
 						'rule' => 'isUnique',
 						'message' => __('It seems you are already registered, please use the forgot password option', true)
 					)
+				),
+				'password' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter a password', true)
+					)
+				),
+				'confirm_password' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please re-enter your password', true)
+					),
+					'validPassword' => array(
+						'rule' => 'validPassword',
+						'message' => Configure::read('Website.password_validation')
+					),
+					'matchPassword' => array(
+						'rule' => 'matchPassword',
+						'message' => __('The password entered does not match', true)
+					)
 				)
 			);
+		}
 
-			 $this->bindModel(
-		        array('hasMany' => array(
-		                'UserConfig' => array(
-		                    'className' => 'UserConfig'
-		                )
-		            )
-		        )
-		    );
+		function matchPassword($field = null){
+			return (Security::hash($field['confirm_password'], null, true) == $this->data['User']['password']);
+		}
 
+		function validPassword($field = null){
+			return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
 		}
 	}
 ?>
