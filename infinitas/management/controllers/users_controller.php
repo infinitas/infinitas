@@ -45,6 +45,16 @@
 
 		}
 
+		function register(){
+			if (!empty($this->data)) {
+				$this->User->create();
+				if ($this->User->saveAll($this->data)) {
+					$this->Session->setFlash(__('Thank you, your registration was completed'));
+					$this->redirect('/');
+				}
+			}
+		}
+
 
 		function admin_index(){
 			$this->User->recursive = 0;
