@@ -52,7 +52,7 @@ class CommentableBehavior extends ModelBehavior {
 		'blacklist_words' => array('.html', '.info', '?', '&', '.de', '.pl', '.cn'),
 		// List of blacklisted words within URLs
 		'deletion' => - 10 // How many points till the comment is deleted (negative)
-		);
+	);
 
 	/**
 	* Contain settings indexed by model name.
