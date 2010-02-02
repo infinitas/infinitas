@@ -44,5 +44,19 @@
 		function logout(){
 
 		}
+
+
+		function admin_index(){
+			$this->User->recursive = 0;
+			$users = $this->paginate(null, $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'email'
+			);
+
+			$this->set(compact('users','filterOptions'));
+		}
 	}
 ?>

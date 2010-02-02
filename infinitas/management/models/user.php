@@ -24,5 +24,48 @@
 		var $name = 'User';
 
 		var $tablePrefix = 'core_';
+
+		var $hasOne = array();
+
+		function __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'username' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter your username', true)
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => __('That username is taken, sorry', true)
+					)
+				),
+				'email' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter your email address', true)
+					),
+					'email' => array(
+						'rule' => array('email', true),
+						'message' => __('That email address does not seem to be valid', true)
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => __('It seems you are already registered, please use the forgot password option', true)
+					)
+				)
+			);
+
+			 $this->bindModel(
+		        array('hasMany' => array(
+		                'UserConfig' => array(
+		                    'className' => 'UserConfig'
+		                )
+		            )
+		        )
+		    );
+
+		}
 	}
 ?>
