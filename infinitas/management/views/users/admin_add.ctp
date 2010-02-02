@@ -29,17 +29,19 @@
 			?>
 			<div class="data">
 				<?php
+			        echo $this->Form->input('id');
 			        echo $this->Form->input('username');
-			        echo $this->Form->input('password');
+			        echo $this->Form->input('password', array('value' => ''));
 			        echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
-			        echo $this->Form->input('email', array('value' => ''));
+			        echo $this->Form->input('email');
 			        echo $this->Form->input('birthday');
 			    ?>
 			</div>
 			<div class="config">
 				<?php
 					echo $this->Design->niceBox();
-						echo 'no settings';
+				        echo $this->Form->input('active');
+				        echo $this->Form->input('group_id');
 					echo $this->Design->niceBoxEnd();
 				?>
 			</div>

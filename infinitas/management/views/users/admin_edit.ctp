@@ -17,22 +17,35 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Core->adminOtherHead( $this );
-    echo $this->Form->create( 'Route' );
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'name' );
-        echo $this->Form->input( 'url' );
-        echo $this->Form->input( 'prefix' );
-        echo $this->Form->input( 'plugin' );
-        echo $this->Form->input( 'controller' );
-        echo $this->Form->input( 'action' );
-        echo $this->Form->input( 'pass' );
-        echo $this->Form->input( 'values' );
-        echo $this->Form->input( 'rules' );
-        echo $this->Form->input( 'force_backend' );
-        echo $this->Form->input( 'force_frontend' );
-        echo $this->Form->input( 'active' );
-        echo $this->Form->input( 'theme_id' );
-        echo $this->Form->hidden( 'order_id', array('value'=>1) );
-    echo $this->Form->end( 'Save Configuration' );
- ?>
+	echo $this->Form->create( 'User' );
+		$massActions = $this->Core->massActionButtons(
+			array(
+				'save'
+			)
+		);
+
+		echo $this->Core->adminOtherHead( $this, $massActions );
+		echo $this->Design->niceBox();
+			?>
+			<div class="data">
+				<?php
+			        echo $this->Form->input('id');
+			        echo $this->Form->input('username');
+			        echo $this->Form->input('password', array('value' => ''));
+			        echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
+			        echo $this->Form->input('email');
+			        echo $this->Form->input('birthday');
+			    ?>
+			</div>
+			<div class="config">
+				<?php
+					echo $this->Design->niceBox();
+				        echo $this->Form->input('active');
+				        echo $this->Form->input('group_id');
+					echo $this->Design->niceBoxEnd();
+				?>
+			</div>
+			<?php
+		echo $this->Design->niceBoxEnd();
+	echo $this->Form->end();
+?>
