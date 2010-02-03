@@ -36,7 +36,8 @@ class AppController extends Controller {
 		// components
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
-		)
+		),
+		'Libs.Voucher'
 	);
 
 	/**
@@ -48,6 +49,8 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
+
+		$this->Voucher->getVoucher();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
