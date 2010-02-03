@@ -1,0 +1,27 @@
+/**
+ * Permissionable Plugin for CakePHP 1.3
+ *
+ * @author		Joshua McNeese <jmcneese@gmail.com>
+ * @author		Joe Beeson <jbeeson@gmail.com>
+ * @license		Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * @copyright	Copyright (c) 2009,2010 Joshua M. McNeese, Curtis J. Beeson
+ */
+ 
+/* Summary */
+Provides row level permissions to a CakePHP application that mimic the
+UNIX filesystem methods by providing owner, group and other permission
+levels.
+
+/* Usage */
+Attach the behavior to any model that should be controlled. Make
+sure that you use the plugin path for the model.
+
+/* Example */
+class User extends AppModel {
+    public $actsAs = array('Permissionable.Permissionable');
+}
+
+/* Requirements */
+PHP5
+CakePHP 1.3.0
+An understanding of UNIX permissions and bitwise operations

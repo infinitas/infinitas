@@ -24,7 +24,7 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Html', 'Form', 'Javascript', 'Session',
 
-		'Libs.Infinitas', 'Libs.Status', 'Libs.Image', 'Libs.Design'
+		'Libs.Infinitas', 'Libs.Status', 'Libs.Image', 'Libs.Design', 'Libs.TagCloud'
 	);
 
 	var $components = array(
@@ -79,7 +79,15 @@ class AppController extends Controller {
 				$this->{$this->modelClass}->Behaviors->detach('Viewable');
 			}
 		}
+
+		$this->__setupAuth();
 	}
+
+	function __setupAuth(){
+
+	}
+
+
 
 	/**
 	* Common methods for the app

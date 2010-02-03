@@ -2,18 +2,46 @@ v0.6 alpha ( in progress )
 ================================================================================
 Themes backend management
 	- you can now switch themes from the backend easily
+	- you can set themes based on routes, allowing you to set different themes for
+		different sections of the site (cms can be different to blog for example)
+
+Core Layouts
+	- work on the core admin layout, removing 3 col layout and adding css drop down menus
+
+Menu manager
+	- create unlimited menus with unlimited menu items that can be nestend to any level
 
 Routes managemet
 	- set up routing rules from the backed
 	- select a theme that will run off your selected rule
-	
+
 Modules
 	- create little modules like "most viewed" or "popular"
 	- manage the position and display from backend
+	- created some sample modules as examples
+	- added configuration in the form of JSON
+	- set modules per theme
+	- in theme layouts, call ->loadModules('somePossition') to load all the
+		modules with that possition.
 
+Infinitas installer
+	- updated to use migrations plugin
+	- added some configuration options from the config manager (set site name etc
+		during the install
+
+Core plugin
+	- this has been removed and all "loose" behaviors/helpers/components are now
+		in infinitas/libs/
+	- anything that needs to be managed from the backend is in management ( like
+		comments )
 Bug fixes
 	- pagination links
 	- set copied items to inactive
+	- removed all private/protected declarations in infinitas core so php4 has less issues
+
+
+
+
 
 
 v0.5 alpha

@@ -20,7 +20,7 @@ new TWTR.Widget({
   version: <?php echo ( isset($config['version']) ? (int)$config['version'] : 2 ); ?>,
   type: '<?php echo ( isset($config['type']) ? $config['type'] : 'search' ); ?>',
   search: '<?php echo ( isset($config['search']) ? $config['search'] : '#infinitas' ); ?>',
-  interval: <?php echo ( isset($config['interval']) ? (int)$config['interval'] : 1000 ); ?>,
+  interval: <?php echo ( isset($config['interval']) ? (int)$config['interval'] : 5000 ); ?>,
   title: '<?php echo ( isset($config['title']) ? $config['title'] : 'Infinitas News' ); ?>',
   subject: '<?php echo ( isset($config['subject']) ? $config['subject'] : 'Infinitas Cms' ); ?>',
   width: '<?php echo ( isset($config['width']) ? $config['width'] : 'auto' ); ?>',

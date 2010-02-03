@@ -37,27 +37,31 @@
 			)
 		);
 	}
-
-	foreach($feeds as $feed){
-		?>
-			<h3><?php echo $feed['Feed']['title'] ?></h3>
-			<p class="news">
-				<?php
-					echo strip_tags( html_entity_decode($feed['Feed']['body']) );
-					echo $this->Html->link(
-						__(Configure::read('Website.read_more'), true),
-						array(
-							'plugin' => $feed['Feed']['plugin'],
-							'controller' => $feed['Feed']['controller'],
-							'action' => $feed['Feed']['action'],
-							$feed['Feed']['id'],
-						),
-						array(
-							'class' => 'more'
-						)
-					);
-				?>
-			</p>
-		<?php
+	if (empty($feeds)) {
+		echo __('No news is good news.', true);
+	}
+	else{
+		foreach($feeds as $feed){
+			?>
+				<h3><?php echo $feed['Feed']['title'] ?></h3>
+				<p class="news">
+					<?php
+						echo strip_tags( html_entity_decode($feed['Feed']['body']) );
+						echo $this->Html->link(
+							__(Configure::read('Website.read_more'), true),
+							array(
+								'plugin' => $feed['Feed']['plugin'],
+								'controller' => $feed['Feed']['controller'],
+								'action' => $feed['Feed']['action'],
+								$feed['Feed']['id'],
+							),
+							array(
+								'class' => 'more'
+							)
+						);
+					?>
+				</p>
+			<?php
+		}
 	}
 ?>

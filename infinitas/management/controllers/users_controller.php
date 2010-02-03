@@ -1,8 +1,8 @@
 <?php
 	/**
-	 * User Model.
+	 * Users controller
 	 *
-	 * Model for managing users
+	 * This is for the management of users.
 	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
@@ -10,7 +10,7 @@
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package management
-	 * @subpackage management.models.user
+	 * @subpackage management.controllers.users
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7alpha
 	 *
@@ -20,9 +20,29 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class User extends ManagementAppModel{
-		var $name = 'User';
+	class UsersController extends ManagementAppController{
+		var $name = 'Users';
 
-		var $tablePrefix = 'core_';
+		/**
+		 * Login method.
+		 *
+		 * Cake magic
+		 *
+		 * @access public
+		 */
+		function login(){
+
+		}
+
+		/**
+		 * Logout method.
+		 *
+		 * Cake magic
+		 *
+		 * @access public
+		 */
+		function logout(){
+
+		}
 	}
 ?>

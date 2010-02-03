@@ -59,7 +59,8 @@
 					),
 					'conditions' => array(
 						'Position.name' => $position,
-						'Module.admin' => $admin
+						'Module.admin' => $admin,
+						'Module.active' => 1
 					),
 					'contain' => array(
 						'Position' => array(

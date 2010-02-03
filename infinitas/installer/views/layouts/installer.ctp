@@ -31,7 +31,7 @@
     <body>
 		<div id="wrap">
 			<div id="header">
-				<h1 id="sitename"><?php echo __('Welcome to Infinitas', true); ?></h1>
+				<?php echo $this->Html->image('/installer/img/infinitas.png', array('alt' => 'Infinitas Cms', 'style' => 'padding-left:35px;padding-top:10px; width:220px;')); ?>
 				<div id="nav">
 					<div id="topmenu">
 						<ul>
@@ -41,6 +41,7 @@
 							<li><?php echo $this->Html->link(__('Themes', true), 'http://github.com/infinitas/themes', array('target' => '_blank')); ?></li>
 							<li><?php echo $this->Html->link(__('Issues', true), 'http://infinitas.lighthouseapp.com', array('target' => '_blank')); ?></li>
 						</ul>
+						<h1 id="sitename"><?php echo __('Welcome to Infinitas', true); ?></h1>
 					</div>
 				</div>
 				<div class="clear"></div>

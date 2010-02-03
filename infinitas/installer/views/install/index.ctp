@@ -62,7 +62,7 @@
 	</div>
 
 	<div style="width:50%; float:left;">
-		<h2><?php __( 'Paths' ); ?></h2>
+		<h2><?php __( 'Paths Writeable' ); ?></h2>
 		<ul>
 			<?php
 				foreach( $paths as $path ){

@@ -87,7 +87,7 @@
                         // link for the tag
                             $this->Html->link(
                                 $v[$this->config['model']][ClassRegistry::init( $this->config['model'] )->displayField],
-                                (array)$this->config['url'] + (array)$v[$this->config['model']][$this->config['primaryKey']]
+                                (array)$this->config['url'] + (array)$v[$this->config['model']][ClassRegistry::init( $this->config['model'] )->displayField]
                             ).
                         // close
                     '</'.$this->config['tag'].'>';
