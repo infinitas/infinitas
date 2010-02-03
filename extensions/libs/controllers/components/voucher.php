@@ -14,6 +14,8 @@
 
 		var $errors = null;
 
+		var $voucherUuidCode = null;
+
 		var $voucherSize = array();
 
 		var $voucherRecource = null;
@@ -39,12 +41,15 @@
 				$this->__writeVoucherCode();
 				$this->__writeUserName();
 				$this->__writeExpiryDate();
+				$this->__writeTerms();
 
 				$this->__saveVoucher();
 			}
 
 			pr( $this->errors );
 			exit;
+
+			return $this->voucherUuidCode;
 		}
 
 		/**
@@ -77,9 +82,9 @@
 		 */
 		function __writeVoucherCode($color = array(255, 255, 0)){
 			$yellow = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
-			$voucherUuidCode = md5(time());
+			$this->voucherUuidCode = md5(time());
 
-			if (imagestring($this->output, 3, 500, 310, $voucherUuidCode, $yellow)) {
+			if (imagestring($this->output, 3, 500, 310, $this->voucherUuidCode, $yellow)) {
 				return true;
 			}
 
@@ -145,6 +150,15 @@
 
 			$this->errors[] = 'Could not write the voucher code';
 			return false;
+		}
+
+		function __writeTerms($color = array(0, 0, 0)){
+			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
+
+			$text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+			imagettftext($this->output, 10, 90, 30, 320, $color, $this->font, __('Terms and Conditions', true));
+			imagettftext($this->output, 6, 90, 50, 320, $color, $this->font, wordwrap($text, 60, "\n"));
 		}
 
 		/**
