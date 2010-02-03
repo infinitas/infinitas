@@ -38,12 +38,16 @@
 
 			if ($this->__generateNewVoucher()) {
 
-				$this->__writeVoucherCode();
-				$this->__writeUserName();
-				$this->__writeExpiryDate();
-				$this->__writeTerms();
-
-				$this->__saveVoucher();
+				if (
+					$this->__writeVoucherCode() &&
+					$this->__writeUserName() &&
+					$this->__writeExpiryDate() &&
+					$this->__writeTerms() &&
+					$this->__writeVoucherTitle() &&
+					$this->__writeVoucherDescription()
+				){
+					$this->__saveVoucher();
+				}
 			}
 
 			pr( $this->errors );
@@ -152,13 +156,65 @@
 			return false;
 		}
 
+		/**
+		 * Terms and conditions
+		 *
+		 * @param array $color the text collor for terms, defaults to black
+		 * @return bool true if terms are created
+		 */
 		function __writeTerms($color = array(0, 0, 0)){
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 
-			$text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+			$text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, '.
+				'sed do eiusmod tempor incididunt ut labore et dolore magna '.
+				'aliqua. Ut enim ad minim veniam, quis nostrud exercitation '.
+				'ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis '.
+				'aute irure dolor in reprehenderit in voluptate velit esse '.
+				'cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat '.
+				'cupidatat non proident, sunt in culpa qui officia deserunt '.
+				'mollit anim id est laborum.';
 
-			imagettftext($this->output, 10, 90, 30, 320, $color, $this->font, __('Terms and Conditions', true));
-			imagettftext($this->output, 6, 90, 50, 320, $color, $this->font, wordwrap($text, 60, "\n"));
+			return imagettftext($this->output, 10, 90, 30, 320, $color, $this->font, __('Terms and Conditions', true)) &&
+			imagettftext($this->output, 6, 90, 50, 320, $color, $this->font, wordwrap(__($text, true), 60, "\n"));
+		}
+
+		/**
+		 * Voucher title
+		 *
+		 * @param array $color the text collor for terms, defaults to black
+		 * @return bool true if text written, false if not
+		 */
+		function __writeVoucherTitle($color = array(0, 146, 63), $shadow = true){
+			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
+
+			$heading = __('One free some product', true);
+
+			if ($shadow) {
+				imagettftext($this->output, 30, 0, 197, 97, imagecolorallocate($this->output, 142, 143, 44), $this->font, $heading);
+			}
+
+			return imagettftext($this->output, 30, 0, 195, 95, $color, $this->font, $heading);
+		}
+
+		/**
+		 * Voucher description
+		 *
+		 * @param array $color the text collor for terms, defaults to black
+		 * @return bool true if text written, false if not
+		 */
+		function __writeVoucherDescription($color = array(0, 0, 0)){
+			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
+
+			$text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, '.
+				'sed do eiusmod tempor incididunt ut labore et dolore magna '.
+				'aliqua. Ut enim ad minim veniam, quis nostrud exercitation '.
+				'ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis '.
+				'aute irure dolor in reprehenderit in voluptate velit esse '.
+				'cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat '.
+				'cupidatat non proident, sunt in culpa qui officia deserunt '.
+				'mollit anim id est laborum.';
+
+			return imagettftext($this->output, 8, 0, 195, 130, $color, $this->font, wordwrap(__($text, true), 90, "\n"));
 		}
 
 		/**

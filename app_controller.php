@@ -50,7 +50,6 @@ class AppController extends Controller {
 	function beforeFilter() {
 		parent::beforeFilter();
 
-		$this->Voucher->getVoucher();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -72,6 +71,8 @@ class AppController extends Controller {
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
+
+		//$this->Voucher->getVoucher();
 
 		//$this->layout = $this->Infinitas->getCorrectLayout($this->params);
 
