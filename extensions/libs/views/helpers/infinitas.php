@@ -37,12 +37,12 @@
 						}
 
 						if (!empty($module['Module']['module'])) {
-							$View = ClassRegistry::getObject('view');
+							$View = ClassRegistry::getObject('View');
 							$path = 'modules/';
 							if ($admin) {
 								$path .= 'admin/';
 							}
-							$moduleOut .= $View->element($path.$module['Module']['module'], array('config' => $this->_moduleConfig($module['Module'])));
+							$moduleOut .= $View->element($path.$module['Module']['module'], array('config' => $this->_moduleConfig($module['Module'])), true);
 						}
 						else if (!empty($module['Module']['content'])) {
 							$moduleOut .= $module['Module']['content'];
