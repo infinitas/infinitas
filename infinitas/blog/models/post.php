@@ -41,7 +41,7 @@ class Post extends BlogAppModel {
 		'Tag' =>
 		array(
 			'className' => 'Blog.Tag',
-			'joinTable' => 'blog_posts_tags',
+			'joinTable' => 'posts_tags',
 			'foreignKey' => 'post_id',
 			'associationForeignKey' => 'tag_id',
 			'unique' => true,

@@ -40,7 +40,7 @@ class Tag extends BlogAppModel {
 		'Post' =>
 		array(
 			'className' => 'Blog.Post',
-			'joinTable' => 'blog_posts_tags',
+			'joinTable' => 'posts_tags',
 			'foreignKey' => 'tag_id',
 			'associationForeignKey' => 'post_id',
 			'unique' => true,
