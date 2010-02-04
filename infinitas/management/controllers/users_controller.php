@@ -42,7 +42,7 @@
 		 * @access public
 		 */
 		function logout(){
-
+			$this->redirect($this->Auth->logout());
 		}
 
 		function register(){
@@ -55,6 +55,14 @@
 			}
 		}
 
+
+		function admin_login(){
+
+		}
+
+		function admin_logout(){
+			$this->redirect($this->Auth->logout());
+		}
 
 		function admin_index(){
 			$this->User->recursive = 0;
@@ -109,5 +117,17 @@
 			$groups = $this->User->Group->find('list');
 			$this->set(compact('groups'));
 		}
+
+		function admin_initDB() {
+			$group =& $this->User->Group;
+			//Allow admins to everything
+			$group->id = 1;
+			$this->Acl->allow($group, 'controllers');
+
+			//allow managers to posts and widgets
+			$group->id = 2;
+			//$this->Acl->deny($group, 'controllers');
+		}
+
 	}
 ?>

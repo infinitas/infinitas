@@ -20,8 +20,6 @@
 class Config extends ManagementAppModel {
 	var $name = 'Config';
 
-	var $tablePrefix = 'core_';
-
 	var $order = array(
 		'Config.core' => 'DESC',
 		'Config.key' => 'ASC'

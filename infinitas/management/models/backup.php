@@ -20,8 +20,6 @@
 class Backup extends CoreAppModel {
 	var $name = 'Backup';
 
-	var $tablePrefix = 'core_';
-
 	var $last_id = 0;
 	/**
 	* Constructor

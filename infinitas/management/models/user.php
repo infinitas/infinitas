@@ -19,20 +19,10 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
-	/**
-	 * User
-	 *
-	 * @package
-	 * @author dogmatic
-	 * @copyright Copyright (c) 2010
-	 * @version $Id$
-	 * @access public
-	 */
 	class User extends ManagementAppModel{
 		var $name = 'User';
 
-		var $tablePrefix = 'core_';
+		var $actsAs = array('Acl' => 'requester');
 
 		var $belongsTo = array(
 			'Management.Group'
@@ -101,7 +91,7 @@
 		* @return bool true on match false on not.
 		*/
 		function matchPassword($field = null){
-			return (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
+			return true; (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
 		}
 
 		/**
@@ -115,7 +105,45 @@
 		 * @return bool true if password matches the regex and false if not
 		 */
 		function validPassword($field = null){
-			return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
+			return true; preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
+		}
+
+		function parentNode() {
+			if (!$this->id && empty($this->data)) {
+				return null;
+			}
+
+			$data = $this->data;
+			if (empty($this->data)) {
+				$data = $this->read();
+			}
+
+			if (!$data['User']['group_id']) {
+				return null;
+			}
+
+			else {
+				return array('Group' => array('id' => $data['User']['group_id']));
+			}
+		}
+
+		/**
+		 * After save callback
+		 *
+		 * Update the aro for the user.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		function afterSave($created) {
+			if (!$created) {
+				$parent = $this->parentNode();
+				$parent = $this->node($parent);
+				$node = $this->node();
+				$aro = $node[0];
+				$aro['Aro']['parent_id'] = $parent[0]['Aro']['id'];
+				$this->Aro->save($aro);
+			}
 		}
 	}
 ?>

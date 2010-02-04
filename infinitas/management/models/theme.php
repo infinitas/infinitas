@@ -20,8 +20,6 @@
 	class Theme extends ManagementAppModel {
 		var $name = 'Theme';
 
-		var $tablePrefix = 'core_';
-
 		var $hasMay = array(
 			'Management.Route'
 		);

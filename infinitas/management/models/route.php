@@ -20,8 +20,6 @@
 	class Route extends ManagementAppModel {
 		var $name = 'Route';
 
-		var $tablePrefix = 'core_';
-
 		var $actsAs = array(
 			'Libs.Ordered'
 		);

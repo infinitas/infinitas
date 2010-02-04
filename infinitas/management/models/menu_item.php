@@ -6,8 +6,6 @@
 	class MenuItem extends ManagementAppModel{
 		var $name = 'MenuItem';
 
-		var $tablePrefix = 'core_';
-
 		var $actsAs = array('Tree');
 
 		var $belongsTo = array(
