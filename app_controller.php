@@ -50,7 +50,6 @@ class AppController extends Controller {
 	function beforeFilter() {
 		parent::beforeFilter();
 
-
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
 		}
@@ -74,10 +73,9 @@ class AppController extends Controller {
 
 		//$this->Voucher->getVoucher();
 
-		//$this->layout = $this->Infinitas->getCorrectLayout($this->params);
-
 		$this->set('commentModel', 'Comment');
 
+		// @todo remove from acts as and atach when something is viewed.
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && !in_array($this->params['action'], $this->viewableActions)) {
 			if (isset($this->{$this->modelClass}->Behaviors)) {
 				$this->{$this->modelClass}->Behaviors->detach('Viewable');
