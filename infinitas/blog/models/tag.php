@@ -39,9 +39,10 @@ class Tag extends BlogAppModel {
 	var $hasAndBelongsToMany = array(
 		'Post' =>
 		array(
-			'className' => 'Blog.PostsTag',
+			'className' => 'Blog.Tag',
 			'foreignKey' => 'tag_id',
 			'associationForeignKey' => 'post_id',
+			'with' => 'Blog.PostsTag',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',
