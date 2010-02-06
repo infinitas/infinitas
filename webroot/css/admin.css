@@ -67,6 +67,17 @@ a:hover {text-decoration: underline}
 	float: right;
 }
 
+.configs .data{
+	width:40%;
+}
+.configs .config{
+	width:59%;
+}
+.configs textarea{
+	width:95%;
+	clear:both;
+}
+
 /**
     Main Content styles
 */
@@ -86,6 +97,10 @@ a:hover {text-decoration: underline}
     .main-actions{
         float:right;
     }
+
+.error-message{
+	color:#ff0000;
+}
 
 
 /* table container */

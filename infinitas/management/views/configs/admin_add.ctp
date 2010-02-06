@@ -17,21 +17,40 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Core->adminOtherHead( $this );
-    echo $this->Form->create( 'Config' );
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'key' );
-        echo $this->Form->input( 'value' );
-        echo $this->Form->input(
-        	'type',
-        	array(
-	        	'value' => $types,
-	        	'type' => 'select',
-	        	'selected' => isset($this->data['Config']['type']) ? $this->data['Config']['type'] : ''
-	        )
-	    );
-        echo $this->Form->input( 'options', array( 'class' => 'title' ) );
-        echo $this->Form->input( 'core' );
-        echo $this->Core->wysiwyg( 'Config.description' );
-    echo $this->Form->end( 'Save Configuration' );
+	echo $this->Form->create( 'Config' );
+        $massActions = $this->Core->massActionButtons(
+            array(
+                'save',
+            )
+        );
+        echo $this->Core->adminOtherHead( $this, $massActions );
+        echo $this->Design->niceBox();
+	        ?>
+				<div class="data">
+					<?php
+				        echo $this->Form->input( 'id' );
+				        echo $this->Form->input( 'key' );
+				        echo $this->Form->input( 'value' );
+				        echo $this->Form->input(
+				        	'type',
+				        	array(
+					        	'value' => $types,
+					        	'type' => 'select',
+					        	'selected' => isset($this->data['Config']['type']) ? $this->data['Config']['type'] : ''
+					        )
+					    );
+				        echo $this->Form->input( 'options', array( 'class' => 'title' ) );
+				        echo $this->Form->input( 'core' );
+				    ?>
+				</div>
+				<div class="config">
+					<?php
+						echo $this->Design->niceBox();
+					        echo $this->Core->wysiwyg( 'Config.description' );
+				        echo $this->Design->niceBoxEnd();
+				    ?>
+				</div>
+			<?php
+        echo $this->Design->niceBoxEnd();
+    echo $this->Form->end();
 ?>

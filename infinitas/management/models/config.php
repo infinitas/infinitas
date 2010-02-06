@@ -144,7 +144,7 @@ class Config extends ManagementAppModel {
 	 * @return array all the config options set to the correct type
 	 */
 	function getConfig() {
-		$configs = Cache::read('core_configs', 'core');
+		$configs = Cache::read('configs', 'core');
 		if ($configs !== false) {
 			return $configs;
 		}
@@ -180,7 +180,7 @@ class Config extends ManagementAppModel {
 			} // switch
 		}
 
-		Cache::write('core_configs', $configs, 'core');
+		Cache::write('configs', $configs, 'core');
 
 		return $configs;
 	}
@@ -204,37 +204,17 @@ class Config extends ManagementAppModel {
 		);
 	}
 
-	function beforeFind($queryData) {
-		parent::beforeFind($queryData);
-		return true;
-	}
-
 	function afterSave($created) {
 		parent::afterSave($created);
 
-		$this->__clearCache();
+		Cache::delete('configs', 'core');
 		return true;
 	}
 
 	function afterDelete() {
 		parent::afterDelete();
 
-		$this->__clearCache();
-		return true;
-	}
-
-	/**
-	 * delete cache.
-	 *
-	 * This deletes the cache after something is changed.
-	 *
-	 * @return
-	 */
-	function __clearCache() {
-		if (is_file(CACHE . 'core' . DS . 'core_configs')) {
-			unlink(CACHE . 'core' . DS . 'core_configs');
-		}
-
+		Cache::delete('configs', 'core');
 		return true;
 	}
 }
