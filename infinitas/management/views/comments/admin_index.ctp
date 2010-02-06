@@ -76,7 +76,7 @@
                         <td><?php echo $this->Time->timeAgoInWords( $comment['Comment']['created'] ); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Status->toggle( $comment['Comment']['active'], $comment['Comment']['id'] );
+                                echo $this->Infinitas->toggle( $comment['Comment']['active'], $comment['Comment']['id'] );
                             ?>
                         </td>
                     </tr>

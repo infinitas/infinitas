@@ -80,8 +80,8 @@
                 		</td>
                 		<td class="status">
                 			<?php
-                			    echo $this->Status->status( $layout['Layout']['active'] ),
-                    			    $this->Status->locked( $layout, 'Layout' );
+                			    echo $this->Infinitas->status( $layout['Layout']['active'] ),
+                    			    $this->Infinitas->locked( $layout, 'Layout' );
                 			?>
                 		</td>
                 	</tr>

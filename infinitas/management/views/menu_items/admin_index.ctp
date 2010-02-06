@@ -83,7 +83,7 @@
                 			<?php echo Inflector::humanize($menuItem['Group']['name']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($menuItem['MenuItem']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($menuItem['MenuItem']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

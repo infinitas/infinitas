@@ -84,7 +84,7 @@
                 			<?php echo $config['Config']['description']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $config['Config']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $config['Config']['core'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

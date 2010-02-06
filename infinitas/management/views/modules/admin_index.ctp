@@ -25,6 +25,7 @@
                 'add',
                 'edit',
                 'copy',
+                'toggle',
                 'delete'
             )
         );
@@ -107,16 +108,16 @@
                 			<?php echo $module['Group']['name']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->locked($module['Module']['locked']); ?>&nbsp;
+                			<?php echo $this->Infinitas->locked($module['Module']['locked']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $module['Module']['ordering'], ' ', $this->Core->ordering($module['Module']['ordering']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($module['Module']['core']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($module['Module']['core']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($module['Module']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($module['Module']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

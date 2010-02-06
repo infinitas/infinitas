@@ -114,9 +114,9 @@
                 		<td class="status">
                 			<?php
                 			    echo $this->Cms->homePageItem( $content ),
-                        			$this->Status->featured( $content ),
-                			        $this->Status->toggle( $content['Content']['active'], $content['Content']['id'] ),
-                    			    $this->Status->locked( $content, 'Content' );
+                        			$this->Infinitas->featured( $content ),
+                			        $this->Infinitas->toggle( $content['Content']['active'], $content['Content']['id'] ),
+                    			    $this->Infinitas->locked( $content, 'Content' );
                 			?>
                 		</td>
                 	</tr>

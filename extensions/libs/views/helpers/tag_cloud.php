@@ -25,7 +25,7 @@
         *
         * @param array
         */
-        var $helpers = array( 'Html' );
+        //var $helpers = array( 'Html' );
 
         var $config = array(
             'model' => 'Model',

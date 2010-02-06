@@ -89,10 +89,10 @@
                 			<?php echo $this->Core->ordering( $route['Route']['id'], $route['Route']['ordering'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $route['Route']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $route['Route']['core'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $route['Route']['active'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $route['Route']['active'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

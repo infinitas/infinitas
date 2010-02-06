@@ -88,7 +88,7 @@
                 			<?php echo $this->Time->niceShort( $user['User']['modified'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $user['User']['active'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $user['User']['active'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

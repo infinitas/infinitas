@@ -77,7 +77,7 @@
                 			<?php echo $menu['Menu']['item_count']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($menu['Menu']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($menu['Menu']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

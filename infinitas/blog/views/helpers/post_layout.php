@@ -326,7 +326,7 @@ class PostLayoutHelper extends BlogHelper {
 			'</strong>';
 			$out .= '<div class="box"><ul>';
 			foreach($pendingPosts as $k => $title) {
-				$out .= '<li>' . $this->Status->toggle(0, $k) . ' ' . $title . '</li>';
+				$out .= '<li>' . $this->Infinitas->toggle(0, $k) . ' ' . $title . '</li>';
 			}
 			$out .= '</ul></div>';
 			return $out;

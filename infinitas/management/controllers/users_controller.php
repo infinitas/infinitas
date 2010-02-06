@@ -23,6 +23,8 @@
 	class UsersController extends ManagementAppController{
 		var $name = 'Users';
 
+		var $helpers = array('Libs.Wysiwyg');
+
 		/**
 		 * Login method.
 		 *

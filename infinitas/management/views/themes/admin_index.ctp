@@ -81,10 +81,10 @@
 							?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $theme['Theme']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $theme['Theme']['core'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $theme['Theme']['active'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $theme['Theme']['active'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

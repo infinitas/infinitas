@@ -94,8 +94,8 @@
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Status->toggle( $category['Category']['active'], $category['Category']['id'] ),
-                    			    $this->Status->locked( $category, 'Category' );
+                			    echo $this->Infinitas->toggle( $category['Category']['active'], $category['Category']['id'] ),
+                    			    $this->Infinitas->locked( $category, 'Category' );
                 			?>
                 		</td>
                 	</tr>
