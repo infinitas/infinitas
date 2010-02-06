@@ -22,9 +22,16 @@
         echo $this->Form->input( 'id' );
         echo $this->Form->input( 'key' );
         echo $this->Form->input( 'value' );
-        echo $this->Form->input( 'type' );
+        echo $this->Form->input(
+        	'type',
+        	array(
+	        	'value' => $types,
+	        	'type' => 'select',
+	        	'selected' => isset($this->data['Config']['type']) ? $this->data['Config']['type'] : ''
+	        )
+	    );
         echo $this->Form->input( 'options', array( 'class' => 'title' ) );
         echo $this->Form->input( 'core' );
         echo $this->Core->wysiwyg( 'Config.description' );
     echo $this->Form->end( 'Save Configuration' );
- ?>
+?>
