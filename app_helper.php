@@ -26,7 +26,12 @@ class AppHelper extends Helper {
 
 	var $wysiwyg = 'fck';
 
-	var $helpers = array('Html', 'Libs.Design', 'Libs.Wysiwyg', 'Libs.Gravatar');
+	var $helpers = array(
+		'Html',
+		//'Libs.Design',
+		'Libs.Wysiwyg',
+		//'Libs.Gravatar'
+	);
 
 	/**
 	* create some bread crumbs.
@@ -147,7 +152,7 @@ class AppHelper extends Helper {
 		return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
 	}
 
-		function adminOtherHead($view = array(), $massActions = null) {
+	function adminOtherHead($view = array(), $massActions = null) {
 			if (empty($view)) {
 				$this->errors[] = 'I need the view.';
 				return false;
