@@ -111,7 +111,7 @@
                 			<?php echo $this->Infinitas->locked($module['Module']['locked']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $module['Module']['ordering'], ' ', $this->Core->ordering($module['Module']['ordering']); ?>&nbsp;
+                			<?php echo $module['Module']['ordering'], $this->Core->ordering($module['Module']['id'], $module['Module']['ordering'], 'Management.Module'); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Infinitas->status($module['Module']['core']); ?>&nbsp;

@@ -91,7 +91,7 @@ class AppController extends Controller {
 	function __setupAuth(){
 		$this->Auth->actionPath = 'controllers/';
 		$this->Auth->authorize = 'actions';
-		$this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
+		$this->Auth->loginAction = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
 	}
 
 
@@ -166,29 +166,22 @@ class AppController extends Controller {
 
 		$this->$model->id = $id;
 
-		if (!isset($this->params['named']['direction'])) {
-			$this->Session->setFlash(__('Please select the direction you would like to move the record.', true));
+		if (!isset($this->params['named']['possition'])) {
+			$this->Session->setFlash(__('A problem occured moving the record.', true));
 			$this->redirect($this->referer());
 		}
 
-		$amount = (isset($this->params['named']['amount'])) ? $this->params['named']['amount'] : 1;
+		if (isset($this->$model->actsAs['Libs.Sequence']['order_field']) && !empty($this->$model->actsAs['Libs.Sequence']['order_field'])) {
+			$this->data[$model][$this->$model->actsAs['Libs.Sequence']['order_field']] = $this->params['named']['possition'];
+		}
+		else{
+			$this->data[$model]['ordering'] = $this->params['named']['possition'];
+		}
 
-		switch ($this->params['named']['direction']) {
-			case 'position':
-				/**
-				*
-				* @todo set the position of the record after add
-				*/
-				break;
+		if (!$this->$model->save($this->data)) {
+			$this->Session->setFlash(__('The record could not be moved', true));
+		}
 
-			case 'up':
-				$this->$model->moveup($id, $amount);
-				break;
-
-			case 'down':
-				$this->$model->movedown($id, $amount);
-				break;
-		} // switch
 		$this->redirect($this->referer());
 	}
 

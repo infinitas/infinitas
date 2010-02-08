@@ -161,36 +161,37 @@ class AppHelper extends Helper {
 			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 	}
 
-	function ordering($id = null, $order = null) {
+	function ordering($id = null, $currentPossition = null, $model = null) {
 		if (!$id) {
-			$this->errors[] = 'You need an id to move something';
-			return false;
+			$this->errors[] = 'How will i know what to move?';
+		}
+		if (!$currentPossition) {
+			$this->errors[] = 'The new order was not passed';
 		}
 
-		if (!$order) {
-			$this->errors[] = 'The order was not passed';
-		}
+		$out = '';
 
-		$out = $this->Html->link($order, array('#' => $order));
-
-		$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-up'),
-				array(
-					'alt' => __('Up', true),
-					'title' => __('Move up', true),
-					'width' => '16px',
-					'class' => 'arrow-up'
+		if ($currentPossition > 1) {
+			$out .= $this->Html->link(
+				$this->Html->image(
+					$this->Image->getRelativePath('actions', 'arrow-up'),
+					array(
+						'alt' => __('Up', true),
+						'title' => __('Move up', true),
+						'width' => '16px',
+						'class' => 'arrow-up'
 					)
 				),
-			array(
-				'action' => 'reorder',
-				$id,
-				'direction' => 'up',
-				'amount' => 1
+				array(
+					'action' => 'reorder',
+					'possition' => $currentPossition - 1,
+					$id
 				),
-			array(
-				'escape' => false,
+				array(
+					'escape' => false,
 				)
 			);
+		}
 
 		$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-down'),
 				array(
@@ -198,18 +199,17 @@ class AppHelper extends Helper {
 					'title' => __('Move down', true),
 					'width' => '16px',
 					'class' => 'arrow-down'
-					)
-				),
+				)
+			),
 			array(
 				'action' => 'reorder',
-				$id,
-				'direction' => 'down',
-				'amount' => 1
-				),
+				'possition' => $currentPossition + 1,
+				$id
+			),
 			array(
 				'escape' => false,
-				)
-			);
+			)
+		);
 
 		return $out;
 	}

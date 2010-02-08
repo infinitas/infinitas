@@ -7,8 +7,10 @@
 		var $name = 'Module';
 
 		var $actsAs = array(
-			'Libs.Ordered' => array(
-				'foreign_key' => 'position_id'
+			'Libs.Sequence' => array(
+				'group_fields' => array(
+					'position_id'
+				)
 			)
 		);
 

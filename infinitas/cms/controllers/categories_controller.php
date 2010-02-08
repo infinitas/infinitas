@@ -21,8 +21,8 @@ class CategoriesController extends CmsAppController {
 	var $name = 'Categories';
 
 	var $helpers = array(
-		'Filter.Filter'
-		);
+		'Filter.Filter', 'Infinitas.Image'
+	);
 
 	function index() {
 		$this->Category->recursive = 0;
