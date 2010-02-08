@@ -23,9 +23,9 @@
 				return false;
 			}
 
-			$menus = Cache::read('menu_'.$type);
+			$menus = Cache::read('menu_'.$type, 'core');
 			if (!empty($menus)) {
-				//return $menus;
+				return $menus;
 			}
 
 			$menus = $this->find(
@@ -65,9 +65,33 @@
 				)
 			);
 
-			Cache::write('menu_'.$type, $menus);
+			Cache::write('menu_'.$type, $menus, 'core');
 
 			return $menus;
+		}
+
+		function afterSave($created) {
+			parent::afterSave($created);
+
+			$menus = $this->find( 'list' );
+
+			foreach($menus as $menu){
+				Cache::delete('menu_'.$menu, 'core');
+			}
+
+			return true;
+		}
+
+		function afterDelete() {
+			parent::afterDelete();
+
+			$menus = $this->find( 'list' );
+
+			foreach($menus as $menu){
+				Cache::delete('menu_'.$menu, 'core');
+			}
+
+			return true;
 		}
 	}
 ?>
