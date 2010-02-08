@@ -33,7 +33,9 @@
 		);
 
 		function getRoutes(){
-			$routes = Cache::read('routes');
+			$routes = Cache::read('routes', 'core');
+
+
 			if ($routes !== false) {
 				return $routes;
 			}
@@ -81,6 +83,8 @@
 					'theme' => $array['Theme']['name']
 				);
 			}
+
+			unset($routes);
 
 			Cache::write('routes', $routingRules, 'core');
 
@@ -177,22 +181,14 @@
 		function afterSave($created) {
 			parent::afterSave($created);
 
-			$this->__clearCache();
+			Cache::delete('routes', 'core');
 			return true;
 		}
 
 		function afterDelete() {
 			parent::afterDelete();
 
-			$this->__clearCache();
-			return true;
-		}
-
-		function __clearCache() {
-			if (is_file(CACHE . 'core' . DS . 'routes')) {
-				unlink(CACHE . 'core' . DS . 'routes');
-			}
-
+			Cache::delete('routes', 'core');
 			return true;
 		}
 	}
