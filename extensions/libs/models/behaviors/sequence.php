@@ -359,8 +359,6 @@ class SequenceBehavior extends ModelBehavior
 				'recursive' => - 1,
 				'order' => $escapedOrderField . ' DESC',
 				));
-		pr($last);
-		exit;
 		// If there is a last record (i.e. any) in the set, return the it's order
 		if ($last)
 		{

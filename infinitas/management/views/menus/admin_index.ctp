@@ -65,7 +65,7 @@
                 	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
                         <td><?php echo $this->Form->checkbox( $menu['Menu']['id'] ); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( Inflector::humanize($menu['Menu']['name']), array('action' => 'edit', $menu['Menu']['id'])); ?>&nbsp;
+                			<?php echo $this->Html->link( Inflector::humanize($menu['Menu']['name']), array('controller' => 'menuItems', 'action' => 'index', 'menu_id' => $menu['Menu']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $menu['Menu']['type']; ?>&nbsp;

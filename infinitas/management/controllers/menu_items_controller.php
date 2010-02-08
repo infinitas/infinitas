@@ -6,6 +6,10 @@
 	class MenuItemsController extends ManagementAppController{
 		var $name = 'MenuItems';
 
+		var $helpers = array(
+			'Filter.Filter'
+		);
+
 		function admin_index(){
 			$this->MenuItem->recursive = 0;
 
