@@ -38,23 +38,24 @@ class Post extends BlogAppModel {
 	);
 
 	var $hasAndBelongsToMany = array(
-		'Tag' =>
-		array(
-			'className' => 'Blog.Tag',
-			'foreignKey' => 'post_id',
-			'associationForeignKey' => 'tag_id',
-			'with' => 'Blog.PostsTag',
-			'unique' => true,
-			'conditions' => '',
-			'fields' => array('Tag.id', 'Tag.name'),
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-			)
-		);
+		'Tag' => array(
+			'className'              => 'Blog.Tag',
+			'joinTable'              => 'posts_tags',
+			'with'                   => 'Blog.PostsTag',
+			'foreignKey'             => 'post_id',
+			'associationForeignKey'  => 'tag_id',
+			'unique'                 => true,
+			'conditions'             => '',
+			'fields'                 => '',
+			'order'                  => '',
+			'limit'                  => '',
+			'offset'                 => '',
+			'finderQuery'            => '',
+			'deleteQuery'            => '',
+			'insertQuery'            => ''
+		)
+	);
+
 
 	var $hasMany = array(
 	);

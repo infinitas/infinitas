@@ -7,7 +7,7 @@ class RateableBehavior extends ModelBehavior {
 	* @var array
 	*/
 	var $defaults = array(
-		'plugin' => 'Core', // name of Rating model
+		'plugin' => 'Management', // name of Rating model
 		'class' => 'Rating', // name of Rating model
 		'foreign_key' => 'foreign_id', // foreign key of Rating model
 		'counter_cache' => true,
@@ -39,7 +39,7 @@ class RateableBehavior extends ModelBehavior {
 		$default['requre_auth'] = Configure::read('Rating.require_auth');
 
 		//$ratingClass = isset( $default['plugin'] ) ? $default['plugin'].'.'.$default['class'] : $default['class'];
-		$ratingClass = 'CoreRating';
+		$ratingClass = 'Management.Rating';
 
 		if (!isset($this->__settings[$model->alias])) {
 			$this->__settings[$model->alias] = $default;

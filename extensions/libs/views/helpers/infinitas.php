@@ -239,7 +239,7 @@
 		/**
 		 * Toogle button
 		 *
-		 * Uses Status::status to get the image and then creates a link based on
+		 * Uses Infinitas::status to get the image and then creates a link based on
 		 * the $method param
 		 */
 		function toggle( $status = null, $id = null, $url = array( 'action' => 'toggle' ) )
@@ -287,9 +287,9 @@
 				return false;
 			}
 
-			switch ( strtolower( $item[$model]['locked'] ) )
-			{
+			switch ( strtolower( $item[$model]['locked'] ) ){
 				case 1:
+					$this->Time = new TimeHelper();
 					$image = $this->Html->image(
 					    $this->Image->getRelativePath( 'status', 'locked' ),
 					    array(
@@ -301,6 +301,7 @@
 					            $item['Locker']['username'] )
 					    )
 					);
+					unset($this->Time);
 					break;
 
 				case 0:
