@@ -24,7 +24,7 @@ class AppController extends Controller {
 	var $helpers = array(
 		'Html', 'Form', 'Javascript', 'Session', 'Time',
 
-		'Libs.Infinitas'
+		'Libs.Infinitas', 'Libs.TagCloud'
 	);
 
 	var $components = array(

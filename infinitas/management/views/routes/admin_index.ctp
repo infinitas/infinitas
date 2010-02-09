@@ -60,11 +60,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $routes as $route )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $route['Route']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $route['Route']['name'], array('action' => 'edit', $route['Route']['id'])); ?>&nbsp;

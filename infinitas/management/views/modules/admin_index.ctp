@@ -71,7 +71,7 @@
             foreach ( $modules as $module )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $module['Module']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;

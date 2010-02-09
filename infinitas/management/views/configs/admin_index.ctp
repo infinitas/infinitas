@@ -57,11 +57,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $configs as $config )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $config['Config']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $config['Config']['key'], array('controller' => 'configs', 'action' => 'edit', $config['Config']['id'])); ?>&nbsp;

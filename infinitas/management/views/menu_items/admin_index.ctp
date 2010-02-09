@@ -55,11 +55,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $menuItems as $menuItem )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $menuItem['MenuItem']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php

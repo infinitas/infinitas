@@ -66,7 +66,7 @@
             foreach( $comments as $comment )
             {
                 ?>
-                    <tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                    <tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $comment['Comment']['id'] ); ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['class']; ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['name']; ?>&nbsp;</td>

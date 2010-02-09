@@ -59,11 +59,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $users as $user )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $user['User']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $user['User']['username'], array('action' => 'edit', $user['User']['id'])); ?>&nbsp;
