@@ -40,11 +40,18 @@ label{
 
 .config label{
 	float:left;
-	width:100px;
-	text-align:right;
 	padding-right:10px;
+	text-align:left;
+	width:50px;
 }
 
 input{
 	margin:1px;
+}
+
+.select .checkbox{
+	border:1px dotted gray;
+	float:left;
+	margin:5px;
+	padding:1px;
 }
