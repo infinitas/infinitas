@@ -86,6 +86,10 @@ class PostsController extends BlogAppController {
 
 		$posts = $this->paginate('Post');
 		$this->set(compact('posts'));
+
+		if( $this->RequestHandler->isRss() ){
+			//$this->render('index');
+		}
 	}
 
 	/**

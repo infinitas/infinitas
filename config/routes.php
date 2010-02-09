@@ -12,6 +12,8 @@
 		)
 	);
 
+	Router::parseExtensions('rss');
+
 	/**
 	 * redirect to the installer if there is nothing
 	 */

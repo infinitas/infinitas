@@ -65,16 +65,15 @@ class AppController extends Controller {
 			$this->Infinitas->forceWwwUrl();
 		}
 
-//		if (isset($this->Session)&&is_object($this->Session)) {
-//			$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
-//		}
-
 
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		//$this->Voucher->getVoucher();
+		if( $this->RequestHandler->isRss() ){
+			Configure::write('debug', 0);
+			$this->theme = null;
+		}
 
 		$this->set('commentModel', 'Comment');
 
@@ -86,6 +85,10 @@ class AppController extends Controller {
 		}
 
 		$this->__setupAuth();
+	}
+
+	function beforeRender(){
+		parent::beforeRender();
 	}
 
 	function __setupAuth(){
