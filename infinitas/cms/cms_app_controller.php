@@ -22,7 +22,7 @@ class CmsAppController extends AppController {
 		// cake
 		'Time', 'Html', 'Form',
 		// core
-		'Cms.Cms', 'Infinitas.Image'
+		'Cms.Cms'
 	);
 
 	var $components = array(

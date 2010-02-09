@@ -25,9 +25,9 @@
             'Html', 'Form',
 
             // core helpers
-            //'Libs.Wysiwyg',
-            //'Libs.Design',
-            //'Libs.Image'
+            'Libs.Wysiwyg',
+            'Libs.Design',
+            'Libs.Image'
 		);
 
         function homePageItem( $record = array(), $model = 'Content' )

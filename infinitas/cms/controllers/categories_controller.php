@@ -21,7 +21,7 @@ class CategoriesController extends CmsAppController {
 	var $name = 'Categories';
 
 	var $helpers = array(
-		'Filter.Filter', 'Infinitas.Image'
+		'Filter.Filter'
 	);
 
 	function index() {
