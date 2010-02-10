@@ -73,7 +73,7 @@
 		function afterSave($created) {
 			parent::afterSave($created);
 
-			$menus = $this->find( 'list' );
+			$menus = $this->Menu->find( 'list', array('fields' => array('Menu.id', 'Menu.type')) );
 
 			foreach($menus as $menu){
 				Cache::delete('menu_'.$menu, 'core');
@@ -85,7 +85,7 @@
 		function afterDelete() {
 			parent::afterDelete();
 
-			$menus = $this->find( 'list' );
+			$menus = $this->Menu->find( 'list', array('fields' => array('Menu.id', 'Menu.type')) );
 
 			foreach($menus as $menu){
 				Cache::delete('menu_'.$menu, 'core');
