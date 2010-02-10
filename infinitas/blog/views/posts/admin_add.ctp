@@ -36,8 +36,10 @@
 				<div class="config">
 					<?php
 						echo $this->Design->niceBox();
-					        echo $this->Form->input( 'title', array( 'class' => 'title' ) );
-					        echo $this->Form->input( 'active' );
+					        echo $this->Form->input('title', array( 'class' => 'title' ) );
+					        echo $this->Form->input('category_id', array('empty' => Configure::read('Website.empty_select')));
+					        echo $this->Form->input('parent_id', array('empty' => __('No Parent', true)));
+					        echo $this->Form->input('active');
 					        ?>
 								<div style="clear:both; overflow:auto;">
 									<h3><?php __('Tags'); ?></h3>

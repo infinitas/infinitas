@@ -43,6 +43,9 @@
                         'style' => 'width:150px;'
                     ),
                     __( 'Introduction', true ),
+                    $paginator->sort( __('Category', true), 'Category.name' ) => array(
+                        'style' => 'width:150px;'
+                    ),
                     __( 'Tags', true ),
                     $paginator->sort( 'Comments','comment_count' ) => array(
                         'style' => 'width:50px;'
@@ -65,7 +68,8 @@
                         <td title="<?php echo $post['Post']['slug']; ?>">
                             <?php echo $this->Html->link( $post['Post']['title'], array( 'action' => 'edit', $post['Post']['id'] ) ); ?>
                         </td>
-                        <td><?php echo strip_tags( $post['Post']['intro'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Text->truncate(strip_tags( $post['Post']['intro'] )); ?>&nbsp;</td>
+                        <td><?php echo $post['Category']['name']; ?>&nbsp;</td>
                         <td><?php echo implode( ', ', Set::extract( '/Tag/name', $post ) ); ?>&nbsp;</td>
                         <td><?php echo $post['Post']['comment_count']; ?>&nbsp;</td>
                         <td><?php echo $post['Post']['views']; ?>&nbsp;</td>

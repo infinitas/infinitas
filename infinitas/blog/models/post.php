@@ -26,7 +26,7 @@ class Post extends BlogAppModel {
 	* always sort posts so newest is at the top
 	*/
 	var $order = array(
-		'Post.created' => 'DESC'
+		'Post.created' => 'DESC',
 	);
 
 	var $actsAs = array(
@@ -58,6 +58,23 @@ class Post extends BlogAppModel {
 
 
 	var $hasMany = array(
+		'ChildPost' => array(
+			'className' => 'Blog.Post',
+			'foreignKey' => 'parent_id',
+			'dependent' => true,
+			'conditions' => '',
+			'fields' => array(
+				'ChildPost.id',
+				'ChildPost.title',
+				'ChildPost.slug',
+			),
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
 	);
 
 	var $belongsTo = array(
@@ -70,6 +87,27 @@ class Post extends BlogAppModel {
 				'Locker.username'
 			),
 			'order' => ''
+		),
+		'ParentPost' => array(
+			'className' => 'Blog.Post',
+			'foreignKey' => 'parent_id',
+			'conditions' => '',
+			'fields' => array(
+				'ParentPost.id',
+				'ParentPost.title',
+				'ParentPost.slug',
+			),
+			'order' => ''
+		),
+		'Category' => array(
+			'className' => 'Blog.Category',
+			'foreignKey' => 'category_id',
+			'conditions' => '',
+			'fields' => array(
+				'Category.id',
+				'Category.name'
+			),
+			'order' => ''
 		)
 	);
 
@@ -80,13 +118,19 @@ class Post extends BlogAppModel {
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter a message', true)
+					'message' => __('Please enter the title of your post', true)
 				)
 			),
 			'body' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
 					'message' => __('Please enter your post', true)
+				)
+			),
+			'category_id' => array(
+				'comparison' => array(
+					'rule' => array('comparison', '>', 0),
+					'message' => __('Please select a category', true)
 				)
 			)
 		);
