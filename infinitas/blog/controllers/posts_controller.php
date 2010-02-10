@@ -109,9 +109,9 @@ class PostsController extends BlogAppController {
 	* @param string $slug the slug for the record
 	* @return na
 	*/
-	function view($slug = null) {
-		if (!$slug) {
-			$this->Session->setFlash('That post could not be found', true);
+	function view() {
+		if (!isset($this->params['slug'])) {
+			$this->Session->setFlash( __('Post could not be found', true) );
 			$this->redirect($this->referer());
 		}
 
@@ -134,8 +134,7 @@ class PostsController extends BlogAppController {
 				),
 				'conditions' => array(
 					'or' => array(
-						'Post.slug' => $slug,
-						'Post.id' => $slug
+						'Post.slug' => $this->params['slug']
 					),
 					'Post.active' => 1
 				),
@@ -177,6 +176,23 @@ class PostsController extends BlogAppController {
 				)
 			)
 		);
+
+		if (!empty($post['ParentPost']['id'])) {
+			$post['ParentPost']['ChildPost'] = $this->Post->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Post.parent_id' => $post['ParentPost']['id']
+					),
+					'fields' => array(
+						'Post.id',
+						'Post.title',
+						'Post.slug',
+					),
+					'contain' => false
+				)
+			);
+		}
 
 		/**
 		* make sure there is something found and the post is active
