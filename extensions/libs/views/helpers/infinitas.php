@@ -236,49 +236,6 @@
 			return $image;
 		}
 
-		/**
-		 * Toogle button
-		 *
-		 * Uses Infinitas::status to get the image and then creates a link based on
-		 * the $method param
-		 */
-		function toggle( $status = null, $id = null, $url = array( 'action' => 'toggle' ) )
-		{
-			$params = array();
-
-			switch( $status )
-			{
-				case 0:
-				case 'off':
-				case 'no':
-					$params['title'] = __( 'Click to activate', true );
-					$params['alt'] = __( 'Disabled', true );
-					break;
-
-				case 1:
-				case 'yes':
-				case 'on':
-					$params['title'] = __( 'Click to disable', true );
-					$params['alt'] = __( 'Active', true );
-					break;
-				default:
-				;
-			} // switch
-
-			$this->external = false;
-
-			$link = $this->Html->link(
-			    $this->status( $status ),
-			    (array)$url + (array)$id
-			    ,
-			    $params + array(
-			        'escape' => false
-			    )
-			);
-
-			return $link;
-		}
-
 		function locked( $item = array(), $model = null )
 		{
 			if ( !$model || empty( $item ) || empty( $item[$model] ) )
