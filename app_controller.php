@@ -189,38 +189,6 @@ class AppController extends Controller {
 	}
 
 	/**
-	* toggle records with an active table that is tinyint(1).
-	*
-	* @todo -c"AppController" Implement AppController.
-	* - check the table has "active" field
-	* - check its tinyint(1)
-	* - make better with saveField and not reading the whole record.
-	* @param mixed $id the id of the record
-	* @return n /a, redirects with different messages in {@see Session::setFlash}
-	*/
-	function admin_toggle($id = null) {
-		$model = $this->modelNames[0];
-
-		if (!$id) {
-			$this->Session->setFlash('That ' . $model . ' could not be found', true);
-			$this->redirect($this->referer());
-		}
-
-		$this->$model->id = $id;
-		$this->$model->recursive = - 1;
-		$__data = $this->$model->read();
-		$__data[$model]['active'] = ($__data[$model]['active']) ? 0 : 1;
-
-		if ($this->$model->save($__data, array('validate' => false))) {
-			$this->Session->setFlash(sprintf(__('The ' . $model . ' is now %s', true), (($__data[$model]['active']) ? __('active', true) : __('disabled', true))));
-			$this->redirect($this->referer());
-		}
-
-		$this->Session->setFlash('That ' . $model . ' could not be toggled', true);
-		$this->redirect($this->referer());
-	}
-
-	/**
 	* delete records.
 	*
 	* delete records throughout the app.
