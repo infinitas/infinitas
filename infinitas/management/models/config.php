@@ -50,6 +50,18 @@ class Config extends ManagementAppModel {
 	function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 
+		$this->_configTypes = array(
+			0          => __('Please Select', true),
+			'string'   => __('String', true),
+			'integer'  => __('Integer', true),
+			'dropdown' => __('Dropdown', true),
+			'bool'     => __('Bool', true),
+			'array'    => __('Array', true)
+		);
+
+		$ruleCheck = $this->_configTypes;
+		unset($ruleCheck[0]);
+
 		$this->validate = array(
 			'key' => array(
 				'notEmpty' => array(
@@ -68,8 +80,8 @@ class Config extends ManagementAppModel {
 				)
 			),
 			'type' => array(
-				'notEmpty' => array(
-					'rule' => array('comparison', '>', 0),
+				'allowedChoice' => array(
+					'rule' => array('inList', array_keys($ruleCheck)),
 					'message' => __('Please select the type', true)
 				)
 			),
@@ -85,15 +97,6 @@ class Config extends ManagementAppModel {
 					'message' => __('Please enter a good description for this config', true)
 				)
 			)
-		);
-
-		$this->_configTypes = array(
-			0          => __('Please Select', true),
-			'string'   => __('String', true),
-			'integer'  => __('Integer', true),
-			'dropdown' => __('Dropdown', true),
-			'bool'     => __('Bool', true),
-			'array'    => __('Array', true)
 		);
 	}
 
