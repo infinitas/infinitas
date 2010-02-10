@@ -67,12 +67,17 @@ a:hover {text-decoration: underline}
 	float: right;
 }
 
+.categories .data,
 .configs .data{
 	width:40%;
 }
+
+.categories .config,
 .configs .config{
 	width:59%;
 }
+
+.categories textarea,
 .configs textarea{
 	width:95%;
 	clear:both;

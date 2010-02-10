@@ -1,21 +1,25 @@
 <?php
-    /**
-     * Blog Comments admin index
-     *
-     * this is the page for admins to view all the posts on the site.
-     *
-     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     *
-     * Licensed under The MIT License
-     * Redistributions of files must retain the above copyright notice.
-     *
-     * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       blog
-     * @subpackage    blog.views.posts.admin_index
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     */
+	/**
+	 * Blog Category admin index.
+	 *
+	 * The view file for admins to see categories in the blog
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package blog
+	 * @subpackage blog.category.views.admin_index
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.7a
+	 *
+	 * @author Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
     echo $this->Form->create( 'Category', array( 'url' => array( 'controller' => 'categories', 'action' => 'mass', 'admin' => 'true' ) ) );
         $massActions = $this->Blog->massActionButtons(
             array(
