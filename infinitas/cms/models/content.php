@@ -46,8 +46,10 @@
 		var $actsAs = array(
 			'Libs.Sluggable',
 			'Libs.Viewable',
-			'Libs.Ordered' => array(
-				'foreign_key' => 'category_id'
+			'Libs.Sequence' => array(
+				'group_fields' => array(
+					'category_id'
+				)
 			)
 		);
 
