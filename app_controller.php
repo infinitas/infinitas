@@ -152,9 +152,10 @@ class AppController extends Controller {
 	* reorder records.
 	*
 	* uses named paramiters can use the following:
-	* - up:       moves the record up.
-	* - down:     moves the record down.
-	* - position: sets the position for the record.
+	* - position: sets the position for the record for sequenced models
+	*  - possition needs the new possition of the record
+	*
+	* - direction: for MPTT and only needs the record id.
 	*
 	* @param int $id the id of the record to move.
 	* @return does a redirect to the referer.
@@ -169,14 +170,82 @@ class AppController extends Controller {
 
 		$this->$model->id = $id;
 
-		if (!isset($this->params['named']['possition'])) {
-			$this->Session->setFlash(__('A problem occured moving the record.', true));
+		if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Libs.Sequence'])) {
+			$this->Session->setFlash(__('A problem occured moving the ordered record.', true));
 			$this->redirect($this->referer());
 		}
+
+		if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Tree'])) {
+			$this->Session->setFlash(__('A problem occured moving the MPTT record.', true));
+			$this->redirect($this->referer());
+		}
+
+		if (isset($this->params['named']['possition'])) {
+			$this->_orderedMove();
+		}
+
+		if (isset($this->params['named']['direction'])) {
+			$this->_treeMove();
+		}
+
+		$this->redirect($this->referer());
+	}
+
+	/**
+	* Moving MPTT records
+	*
+	* This is used for moving mptt records and is called by admin_reorder.
+	*/
+	function _treeMove(){
+		$model = $this->modelNames[0];
+		$check = $this->{$model}->find(
+			'first',
+			array(
+				'fields' => array($model.'.id'),
+				'conditions' => array($model.'.id' => $this->$model->id),
+				'recursive' => -1
+			)
+		);
+
+		if (empty($check)) {
+			$this->Session->setFlash(__('Nothing found to move', true));
+			return false;
+		}
+
+		switch($this->params['named']['direction']){
+			case 'up':
+				$this->Session->setFlash(__('The record was moved up', true));
+				if (!$this->{$model}->moveUp($this->{$model}->id, abs(1))) {
+					$this->Session->setFlash(__('Unable to move the record up', true));
+				}
+				break;
+
+			case 'down':
+				$this->Session->setFlash(__('The record was moved down', true));
+				if (!$this->{$model}->moveDown($this->{$model}->id, abs(1))) {
+					$this->Session->setFlash(__('Unable to move the record down', true));
+				}
+				break;
+
+			default:
+				$this->Session->setFlash(__('Error occured reordering the records', true));
+				break;
+		} // switch
+		return true;
+	}
+
+	/**
+	 * Moving records that actas sequenced
+	 *
+	 * This is used for moving sequenced records and is called by admin_reorder.
+	 */
+	function _orderedMove(){
+		$model = $this->modelNames[0];
 
 		if (isset($this->$model->actsAs['Libs.Sequence']['order_field']) && !empty($this->$model->actsAs['Libs.Sequence']['order_field'])) {
 			$this->data[$model][$this->$model->actsAs['Libs.Sequence']['order_field']] = $this->params['named']['possition'];
 		}
+
 		else{
 			$this->data[$model]['ordering'] = $this->params['named']['possition'];
 		}
@@ -185,7 +254,7 @@ class AppController extends Controller {
 			$this->Session->setFlash(__('The record could not be moved', true));
 		}
 
-		$this->redirect($this->referer());
+		return true;
 	}
 
 	/**

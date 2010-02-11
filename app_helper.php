@@ -214,6 +214,56 @@ class AppHelper extends Helper {
 		return $out;
 	}
 
+	function treeOrdering($data = null){
+		if (!$data) {
+			$this->errors[] = 'There is no data to build reorder links';
+			return false;
+		}
+
+
+		$out = $this->Html->link(
+			$this->Html->image(
+				$this->Image->getRelativePath('actions', 'arrow-up'),
+				array(
+					'alt' => __('Up', true),
+					'title' => __('Move up', true),
+					'width' => '16px',
+					'class' => 'arrow-up'
+				)
+			),
+			array(
+				'action' => 'reorder',
+				'direction' => 'up',
+				$data['id']
+			),
+			array(
+				'escape' => false,
+			)
+		);
+
+		$out .= $this->Html->link(
+			$this->Html->image(
+				$this->Image->getRelativePath('actions', 'arrow-down'),
+				array(
+					'alt' => __('Down', true),
+					'title' => __('Move down', true),
+					'width' => '16px',
+					'class' => 'arrow-down'
+				)
+			),
+			array(
+				'action' => 'reorder',
+				'direction' => 'down',
+				$data['id']
+			),
+			array(
+				'escape' => false,
+			)
+		);
+
+		return $out;
+	}
+
 	function paginationCounter($pagintion) {
 		if (empty($pagintion)) {
 			$this->errors[] = 'You did not pass the pagination object.';

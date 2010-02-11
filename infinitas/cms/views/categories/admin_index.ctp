@@ -100,9 +100,7 @@
                 			<?php echo $this->Time->niceShort( $category['Category']['modified'] ); ?>
                 		</td>
                 		<td>
-                			<?php
-                			    // @todo -c Implement .add up and down for mptt
-                			?>
+                			<?php echo $this->Cms->treeOrdering( $category['Category'] ); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
