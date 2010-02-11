@@ -118,7 +118,7 @@
 				$data = $this->read();
 			}
 
-			if (!$data['User']['group_id']) {
+			if (!isset($data['User']['group_id']) || !$data['User']['group_id']) {
 				return null;
 			}
 

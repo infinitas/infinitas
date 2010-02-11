@@ -49,9 +49,9 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-
 		//$this->Auth->allow('*');
-		$this->Auth->allowedActions = array('display');
+
+		$this->Auth->allowedActions = array('display', 'login', 'logout');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -95,7 +95,10 @@ class AppController extends Controller {
 		$this->Auth->actionPath   = 'controllers/';
 		$this->Auth->authorize    = 'actions';
 		$this->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
+
 		$this->Auth->autoRedirect = false;
+		$this->Auth->loginRedirect = '/';
+		$this->Auth->logoutRedirect = '/';
 	}
 
 

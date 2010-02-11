@@ -25,6 +25,10 @@
 
 		var $helpers = array('Libs.Wysiwyg');
 
+		function beforeFilter(){
+			parent::beforeFilter();
+		}
+
 		/**
 		 * Login method.
 		 *
@@ -41,7 +45,11 @@
 					$this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
 					unset($this->data['User']['remember_me']);
 				}
+				//$this->redirect($this->Auth->redirect());
+			}
 
+			if(!(empty($this->data)) && $this->Auth->user()){
+				$this->User->recursive = -1;
 				$lastLogon = $this->User->read(
 					array(
 						'User.ip_address',
@@ -59,8 +67,6 @@
 				$data['User']['browser']          = $this->Infinitas->getBrowser();
 				$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
 
-				pr($data);
-				exit;
 				$data['User']['country']          = $this->Infinitas->getCountry();
 				$data['User']['city']             = $this->Infinitas->getCity();
 				$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
@@ -68,7 +74,7 @@
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
 
-					$this->Session->write('Auth.User', array_merge($data['user'], $currentUser));
+					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
 					$this->Session->setFlash(
 						sprintf(
 							__('Welcome back %s, your last login was from %s, %s on %s. (%s)', true),
@@ -80,9 +86,9 @@
 						)
 					);
 				}
-
 				$this->redirect($this->Auth->redirect());
 			}
+
 			if (!empty($this->data)) {
 				$cookie = $this->Cookie->read('Auth.User');
 				if (!is_null($cookie)) {

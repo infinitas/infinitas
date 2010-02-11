@@ -217,12 +217,17 @@ class InfinitasComponent extends Object {
 		}
 	}
 
+	/**
+	* Get the users browser.
+	*
+	* return string the users browser name or Unknown.
+	*/
 	function getBrowser(){
 		$agent = env( 'HTTP_USER_AGENT' );
 
-		srand( (double)microtime() * 1000000 );
+		srand((double)microtime() * 1000000);
 		$r = rand();
-		$u = uniqid(getmypid() . $r . (double)microtime() * 1000000, 1 );
+		$u = uniqid(getmypid().$r.(double)microtime() * 1000000, 1);
 		$m = md5 ( $u );
 
 
@@ -268,6 +273,11 @@ class InfinitasComponent extends Object {
 		return 'Unknown';
 	}
 
+	/**
+	 * Get users opperating system.
+	 *
+	 * @return string the name of the opperating sustem or Unknown if unable to detect
+	 */
 	function getOperatingSystem(){
 		$agent = env( 'HTTP_USER_AGENT' );
 		Configure::load('operating_systems');
@@ -282,12 +292,54 @@ class InfinitasComponent extends Object {
 		return 'Unknown';
 	}
 
-	function getCountry(){
+	/**
+	* Find users country.
+	*
+	* Attempt to get the country the user is from.  returns unknown if its not
+	* able to match something.
+	*/
+	function getCountry($ipAddress = null, $code = false){
+		if (!$ipAddress){
+			$ipAddress = $this->Controller->RequestHandler->getClientIP();
+			if (!$ipAddress) {
+				return array( 'code' => '', 'name' => '' );
+			}
+		}
 
+		App::import('Lib', 'Libs.Geoip/inc.php');
+		$countryDataFile = dirname(dirname(dirname(__FILE__))).DS.'libs'.DS.'geoip'.DS.'country.dat';
+		if (!is_file($countryDataFile)) {
+			return false;
+		}
+
+		$data = geoip_open($countryDataFile, GEOIP_STANDARD);
+
+		$country = geoip_country_name_by_addr($data, $ipAddress);
+		if (empty($country)) {
+			$country = 'Unknown';
+		}
+
+		if ($code) {
+			$code = geoip_country_code_by_addr( $data, $ip_address );
+			if (empty($code)) {
+				$code = 'Unknown';
+			}
+
+			geoip_close($data);
+
+			return array(
+				'code' => $code,
+				'country' => $country
+			);
+		}
+
+		geoip_close($data);
+
+		return $country;
 	}
 
 	function getCity(){
-
+		return 'TODO';
 	}
 }
 

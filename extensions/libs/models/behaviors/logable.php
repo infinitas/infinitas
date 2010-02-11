@@ -482,6 +482,10 @@ class LogableBehavior extends ModelBehavior {
 			$logData['Log']['ip'] = $this->userIP;
 		}
 
+		if (!isset($this->user[$this->UserModel->alias][$this->UserModel->primaryKey])) {
+			return;
+		}
+
 		if (isset($this->Log->_schema[ $this->settings[$Model->alias]['userKey'] ]) && $this->user) {
 			$logData['Log'][$this->settings[$Model->alias]['userKey']] = $this->user[$this->UserModel->alias][$this->UserModel->primaryKey];
 		}
