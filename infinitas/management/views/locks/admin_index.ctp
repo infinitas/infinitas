@@ -22,7 +22,7 @@
 
         $massActions = $this->Core->massActionButtons(
             array(
-                'lock'
+                'unlock'
             )
         );
         echo $this->Core->adminIndexHead( $this, null, null, $massActions );
@@ -34,10 +34,6 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
                     __('Table', true),
                     __('Plugin', true) => array(
                         'style' => 'width:75px;'
@@ -55,7 +51,6 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $lock['table'] ); ?>&nbsp;</td>
                 		<td><?php echo $lock['table']; ?>&nbsp;</td>
                 		<td><?php echo $lock['plugin']; ?>&nbsp;</td>
                 		<td><?php echo $lock['model']; ?>&nbsp;</td>
