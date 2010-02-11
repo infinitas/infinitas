@@ -21,7 +21,7 @@
 		var $name = 'Frontpage';
 
 		var $actsAs = array(
-			'Libs.Ordered'
+			'Libs.Sequence'
 		);
 
 		var $order = array(
