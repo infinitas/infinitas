@@ -33,7 +33,66 @@
 		 * @access public
 		 */
 		function login(){
+			if ($this->Auth->user()) {
+				if (!empty($this->data['User']['remember_me'])) {
+					$cookie = array();
+					$cookie['username'] = $this->data['User']['username'];
+					$cookie['password'] = $this->data['User']['password'];
+					$this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
+					unset($this->data['User']['remember_me']);
+				}
 
+				$lastLogon = $this->User->read(
+					array(
+						'User.ip_address',
+						'User.last_login',
+						'User.country',
+						'User.city'
+					),
+					$this->Auth->user('id')
+				);
+
+				$data['User']['id']               = $this->Auth->user('id');
+				$data['User']['ip_address']       = $this->RequestHandler->getClientIP();
+				$data['User']['last_login']       = date('Y-m-d H:i:s');
+				$data['User']['modified']         = false;
+				$data['User']['browser']          = $this->Infinitas->getBrowser();
+				$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
+
+				pr($data);
+				exit;
+				$data['User']['country']          = $this->Infinitas->getCountry();
+				$data['User']['city']             = $this->Infinitas->getCity();
+				$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
+
+				if ($this->User->save($data)) {
+					$currentUser = $this->Session->read('Auth.User');
+
+					$this->Session->write('Auth.User', array_merge($data['user'], $currentUser));
+					$this->Session->setFlash(
+						sprintf(
+							__('Welcome back %s, your last login was from %s, %s on %s. (%s)', true),
+							$currentUser['username'],
+							$lastLogon['User']['country'],
+							$lastLogon['User']['city'],
+							$lastLogon['User']['last_login'],
+							$lastLogon['User']['ip_address']
+						)
+					);
+				}
+
+				$this->redirect($this->Auth->redirect());
+			}
+			if (!empty($this->data)) {
+				$cookie = $this->Cookie->read('Auth.User');
+				if (!is_null($cookie)) {
+					if ($this->Auth->login($cookie)) {
+						//  Clear auth message, just in case we use it.
+						$this->Session->del('Message.auth');
+						$this->redirect($this->Auth->redirect());
+					}
+				}
+			}
 		}
 
 		/**

@@ -216,6 +216,79 @@ class InfinitasComponent extends Object {
 			$this->redirect('www'.$host);
 		}
 	}
+
+	function getBrowser(){
+		$agent = env( 'HTTP_USER_AGENT' );
+
+		srand( (double)microtime() * 1000000 );
+		$r = rand();
+		$u = uniqid(getmypid() . $r . (double)microtime() * 1000000, 1 );
+		$m = md5 ( $u );
+
+
+		if (
+			preg_match( "/msie[\/\sa-z]*([\d\.]*)/i", $agent, $m ) &&
+			!preg_match( "/webtv/i", $agent ) &&
+			!preg_match( "/omniweb/i", $agent ) &&
+			!preg_match( "/opera/i", $agent )
+		) {
+			// IE
+			return 'MS Internet Explorer '.$m[1];
+		}
+
+		else if (preg_match( "/netscape.?\/([\d\.]*)/i", $agent, $m )){
+				// Netscape 6.x, 7.x ...
+				return 'Netscape '.$m[1];
+		}
+
+		else if (
+			preg_match( "/mozilla[\/\sa-z]*([\d\.]*)/i", $agent, $m ) &&
+			!preg_match( "/gecko/i", $agent ) &&
+			!preg_match( "/compatible/i", $agent ) &&
+			!preg_match( "/opera/i", $agent ) &&
+			!preg_match( "/galeon/i", $agent ) &&
+			!preg_match( "/safari/i", $agent )
+		) {
+			// Netscape 3.x, 4.x ...
+			return 'Netscape '.$m[1];
+		}
+
+		else{
+			// Other
+			Configure::load('browsers');
+			$browsers      = Configure::read('Browsers');
+			foreach ( $browsers as $key => $value){
+				if ( preg_match( '/'.regexEscape($value).'.?\/([\d\.]*)/i', $agent, $m ) ){
+					return $browsers[$key].' '.$m[1];
+					break;
+				}
+			}
+		}
+
+		return 'Unknown';
+	}
+
+	function getOperatingSystem(){
+		$agent = env( 'HTTP_USER_AGENT' );
+		Configure::load('operating_systems');
+		$operatingSystems = Configure::read('OperatingSystems');
+
+		foreach ( $operatingSystems as $key => $value){
+			if ( preg_match( "/$value/i", $agent ) ){
+				return $operatingSystems[$key];
+			}
+		}
+
+		return 'Unknown';
+	}
+
+	function getCountry(){
+
+	}
+
+	function getCity(){
+
+	}
 }
 
 ?>

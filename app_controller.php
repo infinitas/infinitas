@@ -92,9 +92,10 @@ class AppController extends Controller {
 	}
 
 	function __setupAuth(){
-		$this->Auth->actionPath = 'controllers/';
-		$this->Auth->authorize = 'actions';
-		$this->Auth->loginAction = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
+		$this->Auth->actionPath   = 'controllers/';
+		$this->Auth->authorize    = 'actions';
+		$this->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
+		$this->Auth->autoRedirect = false;
 	}
 
 
