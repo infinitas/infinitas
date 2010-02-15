@@ -75,7 +75,7 @@
                         <td><?php echo $post['Post']['views']; ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Infinitas->toggle( $post['Post']['active'], $post['Post']['id'] ),
+                                echo $this->Infinitas->status( $post['Post']['active'], $post['Post']['id'] ),
                                     $this->Infinitas->locked( $post, 'Post' );
                             ?>
                         </td>

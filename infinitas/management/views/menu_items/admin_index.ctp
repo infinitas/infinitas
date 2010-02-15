@@ -38,18 +38,21 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'Menu' ) => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('Menu') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Access', 'Group.name' ) => array(
+                    $this->Paginator->sort('Access', 'Group.name') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Status', 'active' ) => array(
+                    __('Order', true) => array(
+                        'style' => 'width:50px;'
+                    ),
+                    $this->Paginator->sort('Status', 'active') => array(
                         'style' => 'width:50px;'
                     )
                 )
@@ -80,6 +83,11 @@
                 		</td>
                 		<td>
                 			<?php echo Inflector::humanize($menuItem['Group']['name']); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php
+	                			echo $this->Infinitas->treeOrdering($menuItem['MenuItem']);
+							?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Infinitas->status($menuItem['MenuItem']['active']); ?>&nbsp;
