@@ -27,7 +27,7 @@
                 'copy', // @todo -c Implement .should read the file populate $this->data and render add
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>

@@ -268,6 +268,7 @@ class PostsController extends BlogAppController {
 	*/
 	function admin_index() {
 		$this->Post->recursive = 1;
+		pr($this->Filter->filter);
 		$posts = $this->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;

@@ -31,8 +31,17 @@
 		}
 
 		function admin_index() {
-			$configs = $this->paginate('Config');
-			$this->set(compact('configs'));
+			$this->Config->recursive = -1;
+			//$this->Filter->filter = array('Config.key LIKE \'Blog%\'');
+			$configs = $this->paginate(null, $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'key',
+				'value'
+			);
+
+			$this->set(compact('configs', 'filterOptions'));
 		}
 
 		function admin_add() {

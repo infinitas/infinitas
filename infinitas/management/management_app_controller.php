@@ -22,9 +22,5 @@
 			'Management.Core',
 			'Filter.Filter'
 		);
-
-		var $components = array(
-			'Filter.Filter'
-		);
 	}
 ?>
