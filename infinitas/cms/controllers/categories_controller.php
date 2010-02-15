@@ -74,7 +74,9 @@ class CategoriesController extends CmsAppController {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'title',
-			'description'
+			'parent_id' => array(null => __('All', true), 0 => __('Top Level Categories', true)) + $this->Category->generatetreelist(),
+			'group_id' => array(null => __('Public', true)) + $this->Category->Group->find('list'),
+			'active' => (array)Configure::read('CORE.active_options')
 		);
 		$this->set(compact('filterOptions','categories'));
 	}

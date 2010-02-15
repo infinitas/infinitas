@@ -72,8 +72,10 @@ class ContentsController extends CmsAppController {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'title',
-			'introduction',
-			'body'
+			'category_id' => array(null => __('All', true), 0 => __('Top Level Categories', true)) + $this->Content->Category->generatetreelist(),
+			'group_id' => array(null => __('Public', true)) + $this->Content->Group->find('list'),
+			'layout_id' => array(null => __('All', true)) + $this->Content->Layout->find('list'),
+			'active' => (array)Configure::read('CORE.active_options')
 		);
 
 		$this->set(compact('contents','filterOptions'));

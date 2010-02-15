@@ -111,8 +111,14 @@ class FrontpagesController extends CmsAppController {
 
 		$frontpages = $this->paginate();
 
+
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			//@todo get related filter working
+		);
+
 		$this->set('frontpages', $frontpages);
-		$this->set('filterOptions', $this->Filter->filterOptions);
+		$this->set('filterOptions', $filterOptions);
 	}
 
 	function admin_add() {
