@@ -38,15 +38,18 @@
         <?php
             echo $this->Blog->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $paginator->sort( 'name' ) => array(
+                    $paginator->sort('name') => array(
                         'style' => 'width:150px;'
                     ),
                     __( 'Description', true ),
-                    __( 'Status', true ) => array(
+                    $paginator->sort('Group', 'Group.name') => array(
+                        'class' => 'actions'
+                    ),
+                    __('Status', true) => array(
                         'class' => 'actions'
                     )
                 )
@@ -62,6 +65,7 @@
                             <?php echo $this->Html->link( $category['Category']['name'], array( 'action' => 'edit', $category['Category']['id'] ) ); ?>
                         </td>
                         <td><?php echo $this->Text->truncate(strip_tags( $category['Category']['description'] )); ?>&nbsp;</td>
+                        <td><?php echo $category['Group']['name']; ?>&nbsp;</td>
                         <td>
                             <?php
                                 echo $this->Infinitas->status( $category['Category']['active'], $category['Category']['id'] );

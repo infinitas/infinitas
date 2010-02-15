@@ -131,7 +131,7 @@ class Config extends ManagementAppModel {
 				break;
 
 			case 'array':
-				return $this->getJson($data['options'], array(), false);
+				return $this->getJson($this->data['Config']['value'], array(), false);
 				break;
 		} // switch
 

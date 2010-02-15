@@ -55,3 +55,8 @@ input{
 	margin:5px;
 	padding:1px;
 }
+
+.filter-form label{
+	float:none;
+	padding-right:10px;
+}

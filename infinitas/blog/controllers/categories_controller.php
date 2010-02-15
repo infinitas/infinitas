@@ -122,7 +122,9 @@
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
-				'name'
+				'name',
+				'active' => Configure::read('CORE.active_options'),
+				'group_id' => array(0 => __('Public', true)) + $this->Category->Group->find('list')
 			);
 
 			$this->set(compact('categories', 'filterOptions'));

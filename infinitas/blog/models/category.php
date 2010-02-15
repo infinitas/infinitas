@@ -27,6 +27,10 @@
 			'Blog.Post'
 		);
 
+		var $belongsTo = array(
+			'Management.Group'
+		);
+
 		function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
