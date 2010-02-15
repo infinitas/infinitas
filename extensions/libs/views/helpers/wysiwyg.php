@@ -21,13 +21,24 @@
     class WysiwygHelper extends AppHelper
     {
         var $helpers = array(
-            'Form'
+            'Form',
+            'Javascript'
         );
 
         function fck( $id = null, $toolbar = 'Basic' )
         {
             return $this->input( $id ).$this->fckStarter( $id, $toolbar );
         }
+
+	    function ckEditor($id = null, $toolbar = 'Basic'){
+			$did = '';
+			foreach (explode('.', $id) as $v) {
+				$did .= ucfirst($v);
+			}
+
+			$code = "CKEDITOR.replace( '".$did."' );";
+			return $this->input($id).$this->Javascript->codeBlock($code);
+	    }
 
         function fckStarter( $id = null, $toolbar = 'Basic' )
         {
