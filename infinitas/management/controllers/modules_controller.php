@@ -11,8 +11,22 @@
 		}
 
 		function admin_index() {
-			$modules = $this->paginate();
-			$this->set(compact('modules'));
+			$this->Module->recursive = 1;
+			$modules = $this->paginate(null, $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'theme_id' => array(null => __('All', true)) + $this->Module->Theme->find('list'),
+				'position_id' => array(null => __('All', true)) + $this->Module->Position->find('list'),
+				'author',
+				'licence',
+				'group_id' => array(null => __('Public', true)) + $this->Module->Group->find('list'),
+				'core' => Configure::read('CORE.core_options'),
+				'active' => Configure::read('CORE.active_options')
+			);
+
+			$this->set(compact('modules', 'filterOptions'));
 		}
 
 		function admin_add() {

@@ -21,7 +21,9 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'class'
+				'menu_id' => array(null => __('All', true)) + $this->MenuItem->Menu->find('list'),
+				'group_id' => array(null => __('Public', true)) + $this->MenuItem->Group->find('list'),
+				'active' => (array)Configure::read('CORE.active_options')
 			);
 
 			$this->set(compact('menuItems','filterOptions'));

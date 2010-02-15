@@ -25,8 +25,19 @@
 		}
 
 		function admin_index() {
-			$themes = $this->paginate();
-			$this->set(compact('themes'));
+			$this->Theme->recursive = 1;
+			$themes = $this->paginate(null, $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'licence',
+				'author',
+				'core' => Configure::read('CORE.core_options'),
+				'active' => Configure::read('CORE.active_options')
+			);
+
+			$this->set(compact('themes', 'filterOptions'));
 		}
 
 		function admin_add() {
