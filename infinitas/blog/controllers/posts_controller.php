@@ -268,13 +268,14 @@ class PostsController extends BlogAppController {
 	*/
 	function admin_index() {
 		$this->Post->recursive = 1;
-		pr($this->Filter->filter);
 		$posts = $this->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'title',
-			'body'
+			'body',
+			'category_id' => array(null => __('All', true)) + $this->Post->Category->find('list'),
+			'active' => Configure::read('CORE.active_options')
 		);
 
 		$this->set(compact('posts', 'filterOptions'));
