@@ -277,7 +277,7 @@ class AppHelper extends Helper {
 		return $out;
 	}
 
-	function wysiwyg($id = null, $toolbar = 'Basic') {
+	function wysiwyg($id = null, $config = array( 'toolbar' => 'Full')) {
 		if (!$id) {
 			$this->errors[] = 'No field specified for the wysiwyg editor';
 			return false;
@@ -285,12 +285,16 @@ class AppHelper extends Helper {
 
 		if (!Configure::read('Wysiwyg.editor')) {
 			$this->errors[] = 'There is no editor configured';
-			return false;
 		}
 
-		$editor = (Configure::read('Wysiwyg.editor')) ? Configure::read('Wysiwyg.editor') : 'text';
+		$editor = 'text';
 
-		return $this->Wysiwyg->$editor($id, $toolbar);
+		$_editor = Configure::read('Wysiwyg.editor');
+		if (!empty($_editor)) {
+			$editor = $_editor;
+		}
+
+		return $this->Wysiwyg->{$editor}($id, $config);
 	}
 
 	function gravatar($email = null, $options = array()) {

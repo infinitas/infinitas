@@ -25,11 +25,6 @@
             'Javascript'
         );
 
-        function fck( $id = null, $toolbar = 'Basic' )
-        {
-            return $this->input( $id ).$this->fckStarter( $id, $toolbar );
-        }
-
 	    function ckEditor($id = null, $config = array()){
 	    	$default = array(
 			    'baseFloatZIndex' => '',
@@ -130,7 +125,7 @@
 			    'templates_files' => '',
 			    'templates_replaceContent' => '',
 			    'theme' => '',
-			    'toolbar' => 'Basic',
+			    'toolbar' => 'Full',
 			    'toolbar_Basic' => '',
 			    'toolbar_Full' => '',
 			    'toolbarCanCollapse' => '',
@@ -146,38 +141,10 @@
 				$did .= ucfirst($v);
 			}
 
+
 			$code = 'CKEDITOR.replace( \''.$did.'\', { toolbar : \''.$config['toolbar'].'\' } );';
 			return $this->input($id).$this->Javascript->codeBlock($code);
 	    }
-
-        function fckStarter( $id = null, $toolbar = 'Basic' )
-        {
-            if ( !$id )
-            {
-                $this->errors[] = 'No id given for the text area';
-                return false;
-            }
-
-            $did = '';
-            foreach ( explode( '.', $id ) as $v )
-            {
-                $did .= ucfirst( $v );
-            }
-
-            $path = $this->webroot.'js/';
-
-            return <<<FCK_CODE
-<script type="text/javascript">
-fckLoader_$did = function () {
-    var bFCKeditor_$did = new FCKeditor('$did');
-    bFCKeditor_$did.BasePath = '$path';
-    bFCKeditor_$did.ToolbarSet = '$toolbar';
-    bFCKeditor_$did.ReplaceTextarea();
-}
-fckLoader_$did();
-</script>
-FCK_CODE;
-        }
 
         function text( $id = null )
         {
