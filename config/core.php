@@ -118,7 +118,7 @@ define('LOG_ERROR', 2);
  * To use database sessions, run the app/config/schema/sessions.php schema using
  * the cake shell command: cake schema run create Sessions
  */
-Configure::write('Session.save', 'php');
+Configure::write('Session.save', 'database');
 
 /**
  * The model name to be used for the session model.
@@ -141,7 +141,7 @@ Configure::write('Session.model', 'Session');
  *
  * [Note: Session.table is deprecated as of CakePHP 1.3]
  */
-// Configure::write('Session.table', 'cake_sessions');
+Configure::write('Session.table', 'sessions');
 /**
  * The DATABASE_CONFIG::$var to use for database session handling.
  *
