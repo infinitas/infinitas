@@ -38,7 +38,9 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'key',
-				'value'
+				'value',
+				'type' => $this->Config->_configTypes,
+				'core' => Configure::read('CORE.core_options')
 			);
 
 			$this->set(compact('configs', 'filterOptions'));
