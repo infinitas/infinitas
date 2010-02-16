@@ -1,7 +1,5 @@
 <?php
+	class ContactAppController extends AppController {
 
-class ContactAppController extends AppController {
-
-}
-
+	}
 ?>

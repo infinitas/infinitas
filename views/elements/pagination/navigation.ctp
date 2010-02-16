@@ -54,8 +54,8 @@
                     array_values( $_paginationOptions )
                 );
 
-                $_paginationOptionsSelected = ( isset( $this->params['named']['limit'] ) ) ? $this->params['named']['limit'] : 20;
-                echo $this->Form->create( 'PaginationOptions', array( 'url' => $this->here  ) );
+                $_paginationOptionsSelected = (isset($this->params['named']['limit'])) ? $this->params['named']['limit'] : 20;
+                echo $this->Form->create('PaginationOptions', array('url' => $this->here));
                     echo $this->Form->input(
                         'pagination_limit',
                         array(

@@ -1,8 +1,8 @@
 <?php
 	/**
-	 * The main contact's plugin model
+	 * The Branch model.
 	 *
-	 * this is extended by the other models in contact plugin
+	 * for database of contact branches.
 	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ContactAppModel extends AppModel {
-		var $tablePrefix = 'contact_';
+	class Branch extends ContactAppModel{
+		var $name = 'Branch';
 	}
 ?>
