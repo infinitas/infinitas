@@ -26,7 +26,7 @@ class DATABASE_CONFIG {
 		'password' => '{default_password}',
 		'database' => '{default_database}',
 		'prefix' => '',
-		'encoding' => 'utf-8'
+		'encoding' => 'utf8'
 	);
 
 	var $test = array(
@@ -37,7 +37,7 @@ class DATABASE_CONFIG {
 		'password' => '{default_password}',
 		'database' => 'test_{default_database}',
 		'prefix' => '',
-		'encoding' => 'utf-8'
+		'encoding' => 'utf8'
 	);
 }
 
