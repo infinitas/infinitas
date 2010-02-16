@@ -43,6 +43,7 @@
 		);
 
 		var $_menuData = '';
+
 		var $_menuLevel = 0;
 
 		var $external = true;
@@ -280,7 +281,6 @@
 
 			return $image;
 		}
-
 
 		/**
 		 * Create a locked icon.
