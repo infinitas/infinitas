@@ -32,8 +32,11 @@
         echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Core->adminTableHeadImages(); ?>
-    <?php  ?>
+	<?php
+		if (isset($counts)) {
+			echo $this->Infinitas->loggedInUserText($counts);
+		}
+	?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(

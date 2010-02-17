@@ -365,5 +365,22 @@
 			    )
 			);
 		}
+
+		function loggedInUserText($counts){
+			$allInIsAre    = ($counts['all'] > 1) ? __('are', true) : __('is', true);
+			$loggedInIsAre = ($counts['loggedIn'] > 1) ? __('are', true) : __('is', true);
+			$guestsIsAre   = ($counts['guests'] > 1) ? __('are', true) : __('is', true);
+			$guests        = ($counts['guests'] > 1) ? __('guests', true) : __('a guest', true);
+
+			return '<p>'.
+				sprintf(
+					__('There %s %s people on the site, %s %s logged in and %s %s %s.', true),
+					$allInIsAre, $counts['all'],
+					$counts['loggedIn'], $loggedInIsAre,
+					$counts['guests'], $guestsIsAre,
+					$guests
+				).
+			'</p><p>&nbsp;</p>';
+		}
 	}
 ?>

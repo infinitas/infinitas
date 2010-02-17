@@ -183,6 +183,41 @@
 			$this->set(compact('users','filterOptions'));
 		}
 
+		function admin_logged_in(){
+			$Session = ClassRegistry::init('Management.Session');
+			$sessions = $Session->find('all');
+
+			$counts['all'] = count($sessions);
+
+			foreach($sessions as &$session){
+				$session['User'] = explode('Auth|', $session['Session']['data']);
+				$session['User'] = unserialize($session['User'][1]);
+				if (isset($session['User']['User'])) {
+					$session['User'] = $session['User']['User'];
+				}
+				else {
+					$session['User'] = '';
+				}
+			}
+
+			$users = Set::extract('/User/id', $sessions);
+
+			$counts['loggedIn'] = count($users);
+			$counts['guests']    = $counts['all'] - $counts['loggedIn'];
+
+			$this->User->recursive = 0;
+			$users = $this->paginate(array('User.id' => $users), $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'email'
+			);
+
+			$this->set(compact('users','filterOptions', 'counts'));
+			$this->render('admin_index');
+		}
+
 		function admin_add(){
 			if (!empty($this->data)) {
 				$this->User->create();
