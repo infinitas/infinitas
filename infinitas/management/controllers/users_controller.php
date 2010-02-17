@@ -37,42 +37,22 @@
 		 * @access public
 		 */
 		function login(){
-			if ($this->Auth->user()) {
-				if (!empty($this->data['User']['remember_me'])) {
-					$cookie = array();
-					$cookie['username'] = $this->data['User']['username'];
-					$cookie['password'] = $this->data['User']['password'];
-					$this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-					unset($this->data['User']['remember_me']);
-				}
-				//$this->redirect($this->Auth->redirect());
-			}
+			$this->_createCookie();
 
 			if(!(empty($this->data)) && $this->Auth->user()){
 				$this->User->recursive = -1;
-				$lastLogon = $this->User->read(
-					array(
-						'User.ip_address',
-						'User.last_login',
-						'User.country',
-						'User.city'
-					),
-					$this->Auth->user('id')
-				);
 
-				$data['User']['id']               = $this->Auth->user('id');
-				$data['User']['ip_address']       = $this->RequestHandler->getClientIP();
-				$data['User']['last_login']       = date('Y-m-d H:i:s');
-				$data['User']['modified']         = false;
-				$data['User']['browser']          = $this->Infinitas->getBrowser();
-				$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
-
-				$data['User']['country']          = $this->Infinitas->getCountry();
-				$data['User']['city']             = $this->Infinitas->getCity();
-				$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
+				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
+
+					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
+
+					// there is something wrong
+					if ($lastLogon === false) {
+						$this->redirect('/logout');
+					}
 
 					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
 					$this->Session->setFlash(
@@ -88,15 +68,42 @@
 				}
 				$this->redirect($this->Auth->redirect());
 			}
+		}
 
+		function _getUserData(){
+			$data['User']['id']               = $this->Auth->user('id');
+			$data['User']['ip_address']       = $this->RequestHandler->getClientIP();
+			$data['User']['last_login']       = date('Y-m-d H:i:s');
+			$data['User']['modified']         = false;
+			$data['User']['browser']          = $this->Infinitas->getBrowser();
+			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
+
+			$data['User']['country']          = $this->Infinitas->getCountry();
+			$data['User']['city']             = $this->Infinitas->getCity();
+			$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
+
+			return $data;
+		}
+
+		function _checkCookie(){
 			if (!empty($this->data)) {
 				$cookie = $this->Cookie->read('Auth.User');
 				if (!is_null($cookie)) {
 					if ($this->Auth->login($cookie)) {
-						//  Clear auth message, just in case we use it.
 						$this->Session->del('Message.auth');
-						$this->redirect($this->Auth->redirect());
 					}
+				}
+			}
+		}
+
+		function _createCookie(){
+			if ($this->Auth->user()) {
+				if (!empty($this->data['User']['remember_me'])) {
+					$cookie = array();
+					$cookie['username'] = $this->data['User']['username'];
+					$cookie['password'] = $this->data['User']['password'];
+					$this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
+					unset($this->data['User']['remember_me']);
 				}
 			}
 		}
@@ -124,7 +131,39 @@
 
 
 		function admin_login(){
+			$this->layout = 'admin_login';
 
+			$this->_createCookie();
+
+			if(!(empty($this->data)) && $this->Auth->user()){
+				$this->User->recursive = -1;
+
+				$data = $this->_getUserData();
+
+				if ($this->User->save($data)) {
+					$currentUser = $this->Session->read('Auth.User');
+
+					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
+
+					// there is something wrong
+					if ($lastLogon === false) {
+						$this->redirect('/logout');
+					}
+
+					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
+					$this->Session->setFlash(
+						sprintf(
+							__('Welcome back %s, your last login was from %s, %s on %s. (%s)', true),
+							$currentUser['username'],
+							$lastLogon['User']['country'],
+							$lastLogon['User']['city'],
+							$lastLogon['User']['last_login'],
+							$lastLogon['User']['ip_address']
+						)
+					);
+				}
+				$this->redirect($this->Auth->redirect());
+			}
 		}
 
 		function admin_logout(){

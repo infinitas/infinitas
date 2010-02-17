@@ -108,6 +108,22 @@
 			return true; preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
 		}
 
+		function getLastLogon($user_id){
+			if (!$user_id) {
+				return false;
+			}
+
+			return $this->read(
+				array(
+					'User.ip_address',
+					'User.last_login',
+					'User.country',
+					'User.city'
+				),
+				$user_id
+			);
+		}
+
 		function parentNode() {
 			if (!$this->id && empty($this->data)) {
 				return null;

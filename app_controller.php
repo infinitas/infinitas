@@ -98,6 +98,10 @@ class AppController extends Controller {
 
 		$this->Auth->autoRedirect = false;
 		$this->Auth->loginRedirect = '/';
+
+		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
+			$this->Auth->loginRedirect = '/admin';
+		}
 		$this->Auth->logoutRedirect = '/';
 	}
 
