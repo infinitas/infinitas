@@ -20,9 +20,9 @@
         	<div id="header">
                 <?php
                 	echo $this->Infinitas->loadModules('top', true);
-                	echo $this->Session->flash();
 				?>
         	</div>
+			<?php echo $this->Session->flash(); ?>
         	<div id="content">
 				<div class="<?php echo isset($this->params['plugin'])?$this->params['plugin']:''; ?>">
 					<div class="<?php echo isset($this->params['controller'])?$this->params['controller']:''; ?>">
