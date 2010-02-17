@@ -38,6 +38,10 @@
 				}
 			}
 
+			if (isset($this->params['named']['parent_id'])) {
+				$this->data['MenuItem']['parent_id'] = $this->params['named']['parent_id'];
+			}
+
 			$menus   = $this->MenuItem->Menu->find('list');
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
 			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList();

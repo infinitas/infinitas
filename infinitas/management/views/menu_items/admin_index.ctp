@@ -54,6 +54,9 @@
                     ),
                     $this->Paginator->sort('Status', 'active') => array(
                         'style' => 'width:50px;'
+                    ),
+                    __('Actions', true) => array(
+                        'style' => 'width:50px;'
                     )
                 )
             );
@@ -92,6 +95,20 @@
                 		<td>
                 			<?php echo $this->Infinitas->status($menuItem['MenuItem']['active']); ?>&nbsp;
                 		</td>
+						<td>
+							<?php
+								echo $this->Html->image(
+									$this->Image->getRelativePath('actions', 'add'),
+									array(
+										'width' => '16px',
+										'url' => array(
+											'action' => 'add',
+											'parent_id' => $menuItem['MenuItem']['id']
+										),
+									)
+								);
+							?>
+						</td>
                 	</tr>
                 <?php
             }
