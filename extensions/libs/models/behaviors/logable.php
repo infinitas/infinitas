@@ -77,6 +77,10 @@ class LogableBehavior extends ModelBehavior {
 		'foreignKey' => 'model_id'
 	);
 
+	var $ignore = array(
+		'Session'
+	);
+
 	/**
 	* Cake called intializer
 	* Config options are :
@@ -503,8 +507,10 @@ class LogableBehavior extends ModelBehavior {
 			}
 			$logData['Log']['description'] .= '.';
 		}
-		$this->Log->create($logData);
-		$this->Log->save(null, array('validate'=>false, 'callbacks' => false));
+		if (!in_array($logData['Log']['model'], $this->ignore)) {
+			$this->Log->create($logData);
+			$this->Log->save(null, array('validate'=>false, 'callbacks' => false));
+		}
 	}
 }
 
