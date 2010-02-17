@@ -22,5 +22,26 @@
 
 	class Branch extends ContactAppModel{
 		var $name = 'Branch';
+
+		var $actsAs = array(
+	        'MeioUpload.MeioUpload' => array(
+	        	'image' => array(
+		        	'dir' => 'img{DS}{plugin}{DS}{model}{DS}{field}',
+		        	'create_directory' => true,
+		        	'allowed_mime' => array(
+			        	'image/jpeg',
+			        	'image/pjpeg',
+			        	'image/png'
+					),
+					'allowed_ext' => array(
+						'.jpg',
+						'.jpeg',
+						'.png'
+					),
+
+				)
+	        )
+	    );
+
 	}
 ?>

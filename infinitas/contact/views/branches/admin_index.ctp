@@ -43,7 +43,7 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort( 'image' ) => array(
-                        'style' => 'width:50px;'
+                        'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort( 'name' ),
                     $this->Paginator->sort( 'Users', 'user_count' ) => array(
@@ -59,8 +59,7 @@
             );
 
             $i = 0;
-            foreach ( $modules as $module )
-            {
+            foreach ($branches as $branch){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($branch['Branch']['id']); ?>&nbsp;</td>
@@ -75,7 +74,7 @@
                 			<?php echo $this->Infinitas->ordering($branch['Branch']['id'], $branch['Branch']['ordering'], 'Management.Module'); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($module['Module']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($branch['Branch']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
