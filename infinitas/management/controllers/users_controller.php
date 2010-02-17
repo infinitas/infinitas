@@ -116,6 +116,7 @@
 		 * @access public
 		 */
 		function logout(){
+			$this->Session->destroy();
 			$this->redirect($this->Auth->logout());
 		}
 
@@ -167,6 +168,7 @@
 		}
 
 		function admin_logout(){
+			$this->Session->destroy();
 			$this->redirect($this->Auth->logout());
 		}
 
