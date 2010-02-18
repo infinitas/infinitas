@@ -18,17 +18,20 @@
      */
 
     echo $this->Infinitas->adminOtherHead($this);
-    echo $this->Form->create('Branch', array('type' => 'file'));
+    echo $this->Form->create('Contact', array('type' => 'file'));
     ?>
 		<div style="width:50%; float:left;">
 			<?php
-		        echo $this->Form->input('id');
+				echo $this->Form->input('id');
 		        echo $this->Form->input('image', array('type' => 'file'));
-		        echo $this->Form->input('name');
+		        echo $this->Form->input('first_name');
+		        echo $this->Form->input('last_name');
+		        echo $this->Form->input('position');
 		        echo $this->Form->input('phone');
-		        echo $this->Form->input('fax');
-		        echo $this->Form->input('address');
-		        echo $this->Form->input('map');
+		        echo $this->Form->input('mobile');
+		        echo $this->Form->input('skype');
+		        echo $this->Form->input('branch_id', array('empty' => __(Configure::read('Website.empty_select'), true)));
+		        echo $this->Form->input('configs');
 		        echo $this->Form->input('active');
 			?>
 		</div>
@@ -38,5 +41,5 @@
 		</div>
 		<div class="clr">&nbsp;</div>
 	<?php
-    echo $this->Form->end( 'Save Module' );
+    echo $this->Form->end( 'Save Contact' );
 ?>

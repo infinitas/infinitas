@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Branch', array( 'url' => array( 'controller' => 'branches', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create( 'Contact', array( 'url' => array( 'controller' => 'contacts', 'action' => 'mass', 'admin' => 'true' ) ) );
 
         $massActions = $this->Infinitas->massActionButtons(
             array(
@@ -45,14 +45,18 @@
                     $this->Paginator->sort('image') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('first_name'),
+                    $this->Paginator->sort('Last_name'),
+                    $this->Paginator->sort('Branch', 'Branch.name') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('position') => array(
+                        'style' => 'width:75px;'
+                    ),
                     $this->Paginator->sort('phone') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('fax') => array(
-                        'style' => 'width:75px;'
-                    ),
-                    $this->Paginator->sort('Users', 'user_count') => array(
+                    $this->Paginator->sort('mobile') => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort('ordering') => array(
@@ -68,14 +72,14 @@
             );
 
             $i = 0;
-            foreach ($branches as $branch){
+            foreach ($contacts as $contact){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($branch['Branch']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($contact['Contact']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
 								echo $this->Html->image(
-									'content/contact/branch/'.$branch['Branch']['image'],
+									'content/contact/contact/'.$contact['Contact']['image'],
 									array(
 										'height' => '35px;'
 									)
@@ -83,25 +87,31 @@
 							?>&nbsp;
 						</td>
                 		<td>
-                			<?php echo $this->Html->link($branch['Branch']['name'], array('action' => 'edit', $branch['Branch']['id'])); ?>&nbsp;
+                			<?php echo $this->Html->link($contact['Contact']['first_name'], array('action' => 'edit', $contact['Contact']['id'])); ?>&nbsp;
                 		</td>
 						<td>
-							<?php echo $branch['Branch']['phone']; ?>
+							<?php echo $contact['Contact']['last_name']; ?>
 						</td>
 						<td>
-							<?php echo $branch['Branch']['fax']; ?>
+							<?php echo $contact['Branch']['name']; ?>
 						</td>
 						<td>
-							<?php echo $branch['Branch']['user_count']; ?>
+							<?php echo $contact['Contact']['position']; ?>
+						</td>
+						<td>
+							<?php echo $contact['Contact']['phone']; ?>
+						</td>
+						<td>
+							<?php echo $contact['Contact']['mobile']; ?>
 						</td>
                 		<td>
-                			<?php echo $this->Infinitas->ordering($branch['Branch']['id'], $branch['Branch']['ordering'], 'Contact.Branch'); ?>&nbsp;
+                			<?php echo $this->Infinitas->ordering($contact['Contact']['id'], $contact['Contact']['ordering'], 'Contact.Contact'); ?>&nbsp;
                 		</td>
 						<td>
-							<?php echo $this->Time->niceShort($branch['Branch']['modified']); ?>
+							<?php echo $this->Time->niceShort($contact['Contact']['modified']); ?>
 						</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($branch['Branch']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($contact['Contact']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

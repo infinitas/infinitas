@@ -1,27 +1,10 @@
 <?php
 	/**
-	 * The Branch model.
 	 *
-	 * for database of contact branches.
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package contact
-	 * @subpackage contact.models.app_model
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.7a
-	 *
-	 * @author Carl Sutton ( dogmatic69 )
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
 	 */
-
-	class Branch extends ContactAppModel{
-		var $name = 'Branch';
+	class Contact extends ContactAppModel{
+		var $name = 'Contact';
 
 		var $actsAs = array(
 	        'MeioUpload.MeioUpload' => array(
@@ -41,12 +24,16 @@
 
 				)
 	        ),
-			'Libs.Sequence'
-	    );
-
-		var $hasMany = array(
-			'Contact.Contact'
+			'Libs.Sequence' => array(
+				'group_fields' => array(
+					'branch_id'
+				)
+			)
 		);
+
+		var $belongsTo = array(
+			'Contact.Branch'
+			);
 
 		/**
 		 * Construct for validation.
@@ -61,17 +48,17 @@
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
-				'name' => array(
+				'first_name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of your branch', true)
+						'message' => __('Please enter the contacts first name', true)
 					),
 				),
-				'address' => array(
+				'last_name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the branches address', true)
-					)
+						'message' => __('Please enter the contacts last name', true)
+					),
 				),
 				'phone' => array(
 					'notEmpty' => array(
@@ -83,14 +70,14 @@
 						'message' => __('The number does not seem to be valid', true)
 					)
 				),
-				'fax' => array(
+				'mobile' => array(
 					'rule' => 'phone',
-					'message' => __('Please enter a valid fax number', true),
+					'message' => __('Please enter a valid mobile number', true),
 					'allowEmpty' =>  true
 				),
-				'map' => array(
-					'rule' => 'url',
-					'message' => __('Please enter a valid url for the map', true)
+				'branch_id' => array(
+					'rule' => array('comparison', '>', 0),
+					'message' => __('Please select a branch', true)
 				)
 			);
 		}

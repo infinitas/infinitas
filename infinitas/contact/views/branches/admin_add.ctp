@@ -18,13 +18,17 @@
      */
 
     echo $this->Infinitas->adminOtherHead($this);
-    echo $this->Form->create('Module', array('type' => 'file'));
+    echo $this->Form->create('Branch', array('type' => 'file'));
     ?>
 		<div style="width:50%; float:left;">
 			<?php
+				echo $this->Form->input('id');
 		        echo $this->Form->input('image', array('type' => 'file'));
-		        echo $this->Form->input('name', array('class' => 'title'));
+		        echo $this->Form->input('name');
+		        echo $this->Form->input('phone');
+		        echo $this->Form->input('fax');
 		        echo $this->Form->input('address');
+		        echo $this->Form->input('map');
 		        echo $this->Form->input('active');
 			?>
 		</div>
