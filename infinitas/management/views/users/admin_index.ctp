@@ -41,22 +41,34 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'username' ),
-                    $this->Paginator->sort( 'email' ),
-                    $this->Paginator->sort( 'birthday', true ) => array(
+                    $this->Paginator->sort('username'),
+                    $this->Paginator->sort('email'),
+                    $this->Paginator->sort('browser') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'created', true ) => array(
+                    $this->Paginator->sort('OS', 'operating_system') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'modified', true ) => array(
+                    $this->Paginator->sort('country') => array(
                         'style' => 'width:75px;'
                     ),
-                    __( 'Active', true ) => array(
+                    $this->Paginator->sort('birthday') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('created') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('modified') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('last_login') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    __('Active', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
@@ -71,12 +83,21 @@
                 			<?php echo $this->Html->link( $user['User']['username'], array('action' => 'edit', $user['User']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Text->autoLinkEmails( $user['User']['email'] ); ?>&nbsp;
+                			<?php echo $this->Text->autoLinkEmails($user['User']['email']); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $user['User']['browser']; ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $user['User']['operating_system']; ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $user['User']['country']; ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
                 				if ($user['User']['birthday']) {
-                					echo $this->Time->niceShort( $user['User']['birthday'] );
+                					echo $this->Time->niceShort($user['User']['birthday'], null, false);
                 				}
                 				else{
 									echo __('Not Set', true);
@@ -84,13 +105,16 @@
 	                		?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $user['User']['created'] ); ?>&nbsp;
+                			<?php echo $this->Time->niceShort($user['User']['created']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $user['User']['modified'] ); ?>&nbsp;
+                			<?php echo $this->Time->niceShort($user['User']['modified']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status( $user['User']['active'] ); ?>&nbsp;
+                			<?php echo $this->Time->niceShort($user['User']['last_login']); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
@@ -99,4 +123,4 @@
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
-<?php echo $this->element( 'pagination/navigation' ); ?>
+<?php echo $this->element('pagination/navigation'); ?>
