@@ -41,11 +41,20 @@
 
 				)
 	        ),
-			'Libs.Sequence'
+			'Libs.Sequence',
+			'Libs.Sluggable' => array(
+				'label' => array(
+					'name'
+				)
+			)
 	    );
 
 		var $hasMany = array(
 			'Contact.Contact'
+		);
+
+		var $belongsTo = array(
+			'Management.Address'
 		);
 
 		/**
@@ -84,15 +93,37 @@
 					)
 				),
 				'fax' => array(
-					'rule' => 'phone',
-					'message' => __('Please enter a valid fax number', true),
-					'allowEmpty' =>  true
+					'phone' => array(
+						'rule' => 'phone',
+						'message' => __('Please enter a valid fax number', true),
+						'allowEmpty' =>  true
+					)
 				),
 				'map' => array(
-					'rule' => 'url',
-					'message' => __('Please enter a valid url for the map', true)
+					'map' => array(
+						'rule' => 'url',
+						'message' => __('Please enter a valid url for the map', true)
+					)
+				),
+				'time_zone_id' => array(
+					'comparison' => array(
+						'rule' => array('comparison', '>', 0),
+						'message' => __('Please select your time zone', true)
+					)
 				)
 			);
+		}
+
+		function beforeFind($queryData){
+			$this->bindModel(
+				array(
+					'belongsTo' => array(
+						//'Management.TimeZone'
+					)
+				)
+			);
+
+			return true;
 		}
 	}
 ?>

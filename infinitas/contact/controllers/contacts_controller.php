@@ -49,7 +49,6 @@
 					$this->redirect(array('action' => 'index'));
 				}
 			}
-
 			$branches = $this->Contact->Branch->find('list');
 			$this->set(compact('branches'));
 		}

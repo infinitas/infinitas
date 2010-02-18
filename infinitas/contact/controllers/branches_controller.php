@@ -27,6 +27,46 @@
 			'Filter.Filter'
 		);
 
+		function view(){
+			if (!isset($this->params['slug'])) {
+				$this->Session->setFlash( __('A problem occured', true) );
+				$this->redirect($this->referer());
+			}
+
+			$branch = $this->Branch->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Branch.slug' => $this->params['slug'],
+						'Branch.active' => 1
+					),
+					'contain' => array(
+						'Address' => array(
+							'fields' => array(
+								'Address.name',
+								'Address.street',
+								'Address.city',
+								'Address.postal',
+								'Address.province'
+							),
+							'Country' => array(
+								'fields' => array(
+									'Country.name'
+								)
+							)
+						),
+					)
+				)
+			);
+
+			if (empty($branch)) {
+				$this->Session->setFlash( __('The branch does not exsit', true) );
+				$this->redirect($this->referer());
+			}
+
+			$this->set(compact('branch'));
+		}
+
 		function admin_index(){
 			$this->Branch->recursive = 0;
 
@@ -52,6 +92,9 @@
 					$this->redirect(array('action' => 'index'));
 				}
 			}
+
+			$timeZones = $this->Contact->TimeZone->find('list');
+			$this->set(compact('timeZones'));
 		}
 
 		function admin_edit($id = null){
@@ -72,6 +115,9 @@
 			if ($id && empty($this->data)) {
 				$this->data = $this->Branch->read(null, $id);
 			}
+
+			//$timeZones = $this->Branch->TimeZone->find('list');
+			$this->set(compact('timeZones'));
 		}
 	}
 ?>

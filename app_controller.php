@@ -70,9 +70,9 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		if( $this->RequestHandler->isRss() ){
-			Configure::write('debug', 0);
-			$this->theme = null;
+		if($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf')){
+			//Configure::write('debug', 0);
+			//$this->theme = null;
 		}
 
 		$this->set('commentModel', 'Comment');

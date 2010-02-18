@@ -33,7 +33,7 @@
 
 		var $belongsTo = array(
 			'Contact.Branch'
-			);
+		);
 
 		/**
 		 * Construct for validation.
@@ -71,9 +71,11 @@
 					)
 				),
 				'mobile' => array(
-					'rule' => 'phone',
-					'message' => __('Please enter a valid mobile number', true),
-					'allowEmpty' =>  true
+					'phone' => array(
+						'rule' => 'phone',
+						'message' => __('Please enter a valid mobile number', true),
+						'allowEmpty' =>  true
+					)
 				),
 				'branch_id' => array(
 					'rule' => array('comparison', '>', 0),

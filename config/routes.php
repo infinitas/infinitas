@@ -13,6 +13,7 @@
 	);
 
 	Router::parseExtensions('rss');
+	Router::parseExtensions('vcf');
 
 	/**
 	 * redirect to the installer if there is nothing
