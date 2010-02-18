@@ -1,12 +1,12 @@
 # Infinitas ignores
 config/database.php
+libs/cronjobs
+plugins/*
 tests/
 tmp/*
-plugins/*
-libs/cronjobs
-.gitignore
 views/themed/*
 webroot/img/content/contact/*
+.gitignore
 
 # If you are using an ide other than below add ignores for the files it creates
 # and commit the changes.
