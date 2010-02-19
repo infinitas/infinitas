@@ -1,10 +1,26 @@
 <?php
 	/**
 	*/
+	/**
+	 * InfinitasComponent
+	 *
+	 * @package
+	 * @author dogmatic
+	 * @copyright Copyright (c) 2010
+	 * @version $Id$
+	 * @access public
+	 */
 	class InfinitasComponent extends Object {
 		var $name = 'Infinitas';
 
 		var $defaultLayout = 'default';
+
+		/**
+		* Risk is calculated on bad logins vs the number of times that username
+		* has been blocked. the higher the risk is the longer the lock out time
+		* will be.
+		*/
+		var $risk = 0;
 
 		/**
 		* components being used here
@@ -18,10 +34,12 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->__ipBlocker();
-
 			$this->setupCache();
 			$this->setupConfig();
+
+			$this->__checkBadLogins();
+			$this->__ipBlocker();
+
 			$this->setupTheme();
 			$this->loadCoreImages();
 		}
@@ -340,6 +358,9 @@
 			return $country;
 		}
 
+		/**
+		* Get the city the user is in.
+		*/
 		function getCity(){
 			return 'TODO';
 		}
@@ -366,17 +387,67 @@
 			$currentIp = $this->Controller->RequestHandler->getClientIp();
 
 			if(in_array($currentIp, $ips)) {
-				$this->Controller->Security->blackHole();
+				$this->Controller->Security->blackHole($this->Controller, 'ipAddressBlocked');
 			}
+
 			else {
 				foreach($ips as $ip) {
 					if(eregi($ip, $currentIp)) {
-						$this->Controller->Security->blackHole();
+						$this->Controller->Security->blackHole($this->Controller, 'ipAddressBlocked');
 					}
 				}
 			}
 
 			$this->Controller->Session->write('Infinitas.Security.ip_checked', true);
+
+			return true;
+		}
+
+		/**
+		 * Record bad logins.
+		 *
+		 * This will record each time a user tries to log in with the incorect
+		 * username / password combination.
+		 *
+		 * @param array $data the username and password form the login atempt.
+		 * @return true
+		 */
+		function badLoginAttempt($data){
+			$old = (array)$this->Controller->Session->read('Infinitas.Security.loginAttempts');
+			$old[] = $data;
+			$this->Controller->Session->write('Infinitas.Security.loginAttempts', $old);
+			$this->Controller->Session->delete('Infinitas.Security.ip_checked');
+			return true;
+		}
+
+
+		/**
+		 * Check the bad logins.
+		 *
+		 * If the bad logins are more than the system allows the user will be band.
+		 *
+		 * @return true or blackHole;
+		 */
+		function __checkBadLogins(){
+			$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
+
+			if (count($old) > 0) {
+				$this->risk = ClassRegistry::init('Management.IpAddress')->findSimmilarAttempts(
+					$this->Controller->RequestHandler->getClientIp(),
+					$this->Controller->data['User']['username']
+				);
+			}
+
+			if (count($old) >= Configure::read('Security.login_attempts')) {
+
+				ClassRegistry::init('Management.IpAddress')->blockIp(
+					$this->Controller->RequestHandler->getClientIp(),
+					$this->Controller->Session->read('Infinitas.Security.loginAttempts'),
+					$this->risk
+				);
+
+				$this->Controller->Security->blackHole($this->Controller, 'invalidLogin');
+			}
 
 			return true;
 		}

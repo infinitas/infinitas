@@ -22,7 +22,9 @@
 	class User extends ManagementAppModel{
 		var $name = 'User';
 
-		var $actsAs = array('Acl' => 'requester');
+		var $actsAs = array(
+			'Acl' => 'requester'
+		);
 
 		var $belongsTo = array(
 			'Management.Group'
@@ -108,6 +110,15 @@
 			return true; preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
 		}
 
+		/**
+		* Get last login details.
+		*
+		* Gets the details of the last login of the user so we can show the last
+		* login and ipaddress to them.
+		*
+		* @param int $user_id the users id.
+		* @return array the data from the last login.
+		*/
 		function getLastLogon($user_id){
 			if (!$user_id) {
 				return false;

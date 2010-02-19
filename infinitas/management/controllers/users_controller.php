@@ -68,6 +68,9 @@
 				}
 				$this->redirect($this->Auth->redirect());
 			}
+			if (!(empty($this->data)) && !$this->Auth->user()) {
+				$this->Infinitas->badLoginAttempt($this->data['User']);
+			}
 		}
 
 		function _getUserData(){
