@@ -1,5 +1,5 @@
 <?php
-class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
+class M4b7ea90fd37040c3bdf715046318cd70 extends CakeMigration {
 
 /**
  * Migration description
@@ -18,6 +18,21 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 	var $migration = array(
 		'up' => array(
 			'create_table' => array(
+				'access_permissions' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'key' => 'index'),
+					'foreign_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'uid' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
+					'gid' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
+					'perms' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'polymorphic_idx' => array('column' => array('model', 'foreign_id'), 'unique' => 0),
+						'uid_idx' => array('column' => 'uid', 'unique' => 0),
+						'gid_idx' => array('column' => 'gid', 'unique' => 0),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB'),
+				),
 				'api_api_classes' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
 					'api_package_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index'),
@@ -34,7 +49,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'api_package_id' => array('column' => 'api_package_id', 'unique' => 0),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'api_api_packages' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
@@ -49,7 +64,22 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'parent_id' => array('column' => 'parent_id', 'unique' => 0),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'blog_categories' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
+					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modeified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'name' => array('column' => 'name', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'blog_posts' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -62,6 +92,9 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'rating' => array('type' => 'float', 'null' => false, 'default' => '0'),
 					'rating_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+					'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+					'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -94,7 +127,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 				),
 				'cms_categories' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'title' => array('type' => 'string', 'null' => false),
+					'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
 					'slug' => array('type' => 'string', 'null' => true, 'default' => NULL),
 					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
@@ -130,7 +163,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'cms_content_configs' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
@@ -141,7 +174,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'cms_content_frontpages' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -155,7 +188,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'cms_content_layouts' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
@@ -174,11 +207,11 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'cms_contents' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'title' => array('type' => 'string', 'null' => false),
+					'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
 					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
 					'introduction' => array('type' => 'text', 'null' => false, 'default' => NULL),
 					'body' => array('type' => 'text', 'null' => false, 'default' => NULL),
@@ -230,6 +263,109 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
+				'contact_branches' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'map' => array('type' => 'string', 'null' => true, 'default' => NULL),
+					'image' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'phone' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 20),
+					'fax' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 20),
+					'address_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+					'user_count' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'time_zone_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'contact_contacts' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'image' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'first_name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'last_name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'position' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+					'phone' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
+					'mobile' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
+					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'skype' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
+					'branch_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'configs' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'core_acos' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL),
+					'foreign_key' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'alias' => array('type' => 'string', 'null' => true, 'default' => NULL, 'key' => 'index'),
+					'lft' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'rght' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'mptt_alias' => array('column' => array('alias', 'lft', 'rght'), 'unique' => 0),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'core_addresses' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'street' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'province' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'postal' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10),
+					'country_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'core_aros' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL),
+					'foreign_key' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'alias' => array('type' => 'string', 'null' => true, 'default' => NULL),
+					'lft' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'rght' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'core_aros_acos' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'aro_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'index'),
+					'aco_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
+					'_create' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'_read' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'_update' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'_delete' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'ARO_ACO_KEY' => array('column' => array('aro_id', 'aco_id'), 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
 				'core_backups' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
@@ -274,6 +410,16 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
+				'core_countries' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 5),
+					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
 				'core_feeds' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'plugin' => array('type' => 'integer', 'null' => true, 'default' => NULL),
@@ -301,6 +447,22 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'parent_id' => array('column' => 'parent_id', 'unique' => 0),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'core_ip_addresses' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'ip_address' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'times_blocked' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 6),
+					'unlock_at' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'risk' => array('type' => 'integer', 'null' => false, 'default' => '1'),
+					'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
@@ -334,8 +496,8 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'class' => array('type' => 'string', 'null' => false, 'default' => NULL),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-					'menu_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'menu_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
+					'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 					'parent_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'rght' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -343,21 +505,24 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'menuItems_groupIndex' => array('column' => 'group_id', 'unique' => 0),
+						'menuItems_menuIndex' => array('column' => 'menu_id', 'unique' => 0),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'core_menus' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'index'),
 					'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'menu_index' => array('column' => array('type', 'active'), 'unique' => 0),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'core_module_positions' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -367,7 +532,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'core_modules' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -396,7 +561,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'name' => array('column' => 'name', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'core_modules_routes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -405,7 +570,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'core_ratings' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
@@ -445,8 +610,18 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
+				'core_schema_migrations' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM'),
+				),
 				'core_sessions' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'key' => 'primary'),
 					'data' => array('type' => 'text', 'null' => true, 'default' => NULL),
 					'expires' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -476,7 +651,17 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index'),
 					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 					'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
+					'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'ip_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'browser' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'operating_system' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'last_login' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'last_click' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'country' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
+					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
+					'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'indexes' => array(
@@ -570,6 +755,62 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
+				'relation_relation_types' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'type' => array('column' => 'type', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'relation_relations' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'model' => array('type' => 'string', 'null' => false, 'length' => 100, 'key' => 'unique'),
+					'foreign_key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+					'conditions' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'fields' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'order' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'dependent' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+					'limit' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+					'offset' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+					'counter_cache' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+					'counter_scope' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'join_table' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
+					'with' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 150),
+					'association_foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'unique' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+					'finder_query' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'delete_query' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'insert_query' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'bind' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+					'reverse_association' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'type_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+						'class_name' => array('column' => 'model', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+//				'schema_migrations' => array(
+//					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+//					'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+//					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+//					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+//					'indexes' => array(
+//						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+//					),
+//					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+//				),
 				'user_configs' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -598,7 +839,7 @@ class M4b6630b873dc4854ba4c1e846318cd70 extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'api_api_classes', 'api_api_packages', 'blog_posts', 'blog_posts_tags', 'blog_tags', 'cms_categories', 'cms_category_configs', 'cms_content_configs', 'cms_content_frontpages', 'cms_content_layouts', 'cms_contents', 'cms_features', 'cms_frontpages', 'core_backups', 'core_comments', 'core_configs', 'core_feeds', 'core_groups', 'core_logs', 'core_menu_items', 'core_menus', 'core_module_positions', 'core_modules', 'core_modules_routes', 'core_ratings', 'core_routes', 'core_sessions', 'core_themes', 'core_users', 'newsletter_campaigns', 'newsletter_newsletters', 'newsletter_newsletters_users', 'newsletter_subscribers', 'newsletter_templates', 'schema_migrations', 'user_configs', 'user_details'
+				'access_permissions', 'api_api_classes', 'api_api_packages', 'blog_categories', 'blog_posts', 'blog_posts_tags', 'blog_tags', 'cms_categories', 'cms_category_configs', 'cms_content_configs', 'cms_content_frontpages', 'cms_content_layouts', 'cms_contents', 'cms_features', 'cms_frontpages', 'contact_branches', 'contact_contacts', 'core_acos', 'core_addresses', 'core_aros', 'core_aros_acos', 'core_backups', 'core_comments', 'core_configs', 'core_countries', 'core_feeds', 'core_groups', 'core_ip_addresses', 'core_logs', 'core_menu_items', 'core_menus', 'core_module_positions', 'core_modules', 'core_modules_routes', 'core_ratings', 'core_routes', 'core_schema_migrations', 'core_sessions', 'core_themes', 'core_users', 'newsletter_campaigns', 'newsletter_newsletters', 'newsletter_newsletters_users', 'newsletter_subscribers', 'newsletter_templates', 'relation_relation_types', 'relation_relations', 'schema_migrations', 'user_configs', 'user_details'
 			),
 		),
 	);
