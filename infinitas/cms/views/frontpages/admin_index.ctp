@@ -83,7 +83,7 @@
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Status->toggle( $frontpage['Content']['active'], $frontpage['Content']['id'], array( 'controller' => 'contents', 'action' => 'toggle' ) );
+                			    echo $this->Infinitas->status( $frontpage['Content']['active'] );
                 			?>
                 		</td>
                 	</tr>

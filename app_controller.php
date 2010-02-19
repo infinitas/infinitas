@@ -22,21 +22,22 @@ class AppController extends Controller {
 	var $view = 'Theme';
 
 	var $helpers = array(
-		'Html', 'Form', 'Javascript', 'Session',
+		'Html', 'Form', 'Javascript', 'Session', 'Time',
 
-		'Libs.Infinitas', 'Libs.Status', 'Libs.Image', 'Libs.Design', 'Libs.TagCloud'
+		'Libs.Infinitas', 'Libs.TagCloud'
 	);
 
 	var $components = array(
 		'Libs.Infinitas',
 		// cake components
-		'Session','RequestHandler',
+		'Session','RequestHandler', 'Auth', 'Acl', 'Security',
 		// core components
 		'DebugKit.Toolbar', // 'Libs.Cron',
 		// components
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
-		)
+		),
+		'Libs.Voucher'
 	);
 
 	/**
@@ -48,6 +49,9 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
+		//$this->Auth->allow('*');
+
+		$this->Auth->allowedActions = array('display', 'login', 'logout');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -61,19 +65,19 @@ class AppController extends Controller {
 			$this->Infinitas->forceWwwUrl();
 		}
 
-		if (isset($this->Session)&&is_object($this->Session)) {
-			$this->Session->write('Auth', ClassRegistry::init('Core.User')->find('first', array('conditions' => array('User.id' => 1))));
-		}
-
 
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		//$this->layout = $this->Infinitas->getCorrectLayout($this->params);
+		if($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf')){
+			//Configure::write('debug', 0);
+			//$this->theme = null;
+		}
 
 		$this->set('commentModel', 'Comment');
 
+		// @todo remove from acts as and atach when something is viewed.
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && !in_array($this->params['action'], $this->viewableActions)) {
 			if (isset($this->{$this->modelClass}->Behaviors)) {
 				$this->{$this->modelClass}->Behaviors->detach('Viewable');
@@ -83,8 +87,22 @@ class AppController extends Controller {
 		$this->__setupAuth();
 	}
 
-	function __setupAuth(){
+	function beforeRender(){
+		parent::beforeRender();
+	}
 
+	function __setupAuth(){
+		$this->Auth->actionPath   = 'controllers/';
+		$this->Auth->authorize    = 'actions';
+		$this->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
+
+		$this->Auth->autoRedirect = false;
+		$this->Auth->loginRedirect = '/';
+
+		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
+			$this->Auth->loginRedirect = '/admin';
+		}
+		$this->Auth->logoutRedirect = '/';
 	}
 
 
@@ -142,9 +160,10 @@ class AppController extends Controller {
 	* reorder records.
 	*
 	* uses named paramiters can use the following:
-	* - up:       moves the record up.
-	* - down:     moves the record down.
-	* - position: sets the position for the record.
+	* - position: sets the position for the record for sequenced models
+	*  - possition needs the new possition of the record
+	*
+	* - direction: for MPTT and only needs the record id.
 	*
 	* @param int $id the id of the record to move.
 	* @return does a redirect to the referer.
@@ -159,62 +178,91 @@ class AppController extends Controller {
 
 		$this->$model->id = $id;
 
-		if (!isset($this->params['named']['direction'])) {
-			$this->Session->setFlash(__('Please select the direction you would like to move the record.', true));
+		if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Libs.Sequence'])) {
+			$this->Session->setFlash(__('A problem occured moving the ordered record.', true));
 			$this->redirect($this->referer());
 		}
 
-		$amount = (isset($this->params['named']['amount'])) ? $this->params['named']['amount'] : 1;
+		if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Tree'])) {
+			$this->Session->setFlash(__('A problem occured moving the MPTT record.', true));
+			$this->redirect($this->referer());
+		}
 
-		switch ($this->params['named']['direction']) {
-			case 'position':
-				/**
-				*
-				* @todo set the position of the record after add
-				*/
-				break;
+		if (isset($this->params['named']['possition'])) {
+			$this->_orderedMove();
+		}
 
-			case 'up':
-				$this->$model->moveup($id, $amount);
-				break;
+		if (isset($this->params['named']['direction'])) {
+			$this->_treeMove();
+		}
 
-			case 'down':
-				$this->$model->movedown($id, $amount);
-				break;
-		} // switch
 		$this->redirect($this->referer());
 	}
 
 	/**
-	* toggle records with an active table that is tinyint(1).
+	* Moving MPTT records
 	*
-	* @todo -c"AppController" Implement AppController.
-	* - check the table has "active" field
-	* - check its tinyint(1)
-	* - make better with saveField and not reading the whole record.
-	* @param mixed $id the id of the record
-	* @return n /a, redirects with different messages in {@see Session::setFlash}
+	* This is used for moving mptt records and is called by admin_reorder.
 	*/
-	function admin_toggle($id = null) {
+	function _treeMove(){
+		$model = $this->modelNames[0];
+		$check = $this->{$model}->find(
+			'first',
+			array(
+				'fields' => array($model.'.id'),
+				'conditions' => array($model.'.id' => $this->$model->id),
+				'recursive' => -1
+			)
+		);
+
+		if (empty($check)) {
+			$this->Session->setFlash(__('Nothing found to move', true));
+			return false;
+		}
+
+		switch($this->params['named']['direction']){
+			case 'up':
+				$this->Session->setFlash(__('The record was moved up', true));
+				if (!$this->{$model}->moveUp($this->{$model}->id, abs(1))) {
+					$this->Session->setFlash(__('Unable to move the record up', true));
+				}
+				break;
+
+			case 'down':
+				$this->Session->setFlash(__('The record was moved down', true));
+				if (!$this->{$model}->moveDown($this->{$model}->id, abs(1))) {
+					$this->Session->setFlash(__('Unable to move the record down', true));
+				}
+				break;
+
+			default:
+				$this->Session->setFlash(__('Error occured reordering the records', true));
+				break;
+		} // switch
+		return true;
+	}
+
+	/**
+	 * Moving records that actas sequenced
+	 *
+	 * This is used for moving sequenced records and is called by admin_reorder.
+	 */
+	function _orderedMove(){
 		$model = $this->modelNames[0];
 
-		if (!$id) {
-			$this->Session->setFlash('That ' . $model . ' could not be found', true);
-			$this->redirect($this->referer());
+		if (isset($this->$model->actsAs['Libs.Sequence']['order_field']) && !empty($this->$model->actsAs['Libs.Sequence']['order_field'])) {
+			$this->data[$model][$this->$model->actsAs['Libs.Sequence']['order_field']] = $this->params['named']['possition'];
 		}
 
-		$this->$model->id = $id;
-		$this->$model->recursive = - 1;
-		$__data = $this->$model->read();
-		$__data[$model]['active'] = ($__data[$model]['active']) ? 0 : 1;
-
-		if ($this->$model->save($__data, array('validate' => false))) {
-			$this->Session->setFlash(sprintf(__('The ' . $model . ' is now %s', true), (($__data[$model]['active']) ? __('active', true) : __('disabled', true))));
-			$this->redirect($this->referer());
+		else{
+			$this->data[$model]['ordering'] = $this->params['named']['possition'];
 		}
 
-		$this->Session->setFlash('That ' . $model . ' could not be toggled', true);
-		$this->redirect($this->referer());
+		if (!$this->$model->save($this->data)) {
+			$this->Session->setFlash(__('The record could not be moved', true));
+		}
+
+		return true;
 	}
 
 	/**
@@ -397,6 +445,219 @@ class AppController extends Controller {
 		foreach($ids as $id) {
 			$this->redirect(array('action' => $action, $id));
 		}
+	}
+
+	/**
+	* Create ACO's automaticaly
+	*
+	* http://book.cakephp.org/view/647/An-Automated-tool-for-creating-ACOs
+	*/
+	function admin_buildAcl() {
+		if (!Configure::read('debug')) {
+			return $this->_stop();
+		}
+		$log = array();
+
+		$aco =& $this->Acl->Aco;
+		$root = $aco->node('controllers');
+		if (!$root) {
+			$aco->create(array('parent_id' => null, 'model' => null, 'alias' => 'controllers'));
+			$root = $aco->save();
+			$root['Aco']['id'] = $aco->id;
+			$log[] = 'Created Aco node for controllers';
+		} else {
+			$root = $root[0];
+		}
+
+		App::import('Core', 'File');
+		$Controllers = Configure::listObjects('controller');
+		$appIndex = array_search('App', $Controllers);
+		if ($appIndex !== false ) {
+			unset($Controllers[$appIndex]);
+		}
+		$baseMethods = get_class_methods('Controller');
+		$baseMethods[] = 'buildAcl';
+
+		$Plugins = $this->_getPlugins();
+
+		$Controllers = array_merge($Controllers, $Plugins);
+
+		// look at each controller in app/controllers
+		foreach ($Controllers as $ctrlName) {
+			$methods = $this->_getClassMethods($this->_getPluginControllerPath($ctrlName));
+
+			// Do all Plugins First
+			if ($this->_isPlugin($ctrlName)){
+				$pluginNode = $aco->node('controllers/'.$this->_getPluginName($ctrlName));
+				if (!$pluginNode) {
+					$aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $this->_getPluginName($ctrlName)));
+					$pluginNode = $aco->save();
+					$pluginNode['Aco']['id'] = $aco->id;
+					$log[] = 'Created Aco node for ' . $this->_getPluginName($ctrlName) . ' Plugin';
+				}
+			}
+			// find / make controller node
+			$controllerNode = $aco->node('controllers/'.$ctrlName);
+			if (!$controllerNode) {
+				if ($this->_isPlugin($ctrlName)){
+					$pluginNode = $aco->node('controllers/' . $this->_getPluginName($ctrlName));
+					$aco->create(array('parent_id' => $pluginNode['0']['Aco']['id'], 'model' => null, 'alias' => $this->_getPluginControllerName($ctrlName)));
+					$controllerNode = $aco->save();
+					$controllerNode['Aco']['id'] = $aco->id;
+					$log[] = 'Created Aco node for ' . $this->_getPluginControllerName($ctrlName) . ' ' . $this->_getPluginName($ctrlName) . ' Plugin Controller';
+				} else {
+					$aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $ctrlName));
+					$controllerNode = $aco->save();
+					$controllerNode['Aco']['id'] = $aco->id;
+					$log[] = 'Created Aco node for ' . $ctrlName;
+				}
+			} else {
+				$controllerNode = $controllerNode[0];
+			}
+
+			//clean the methods. to remove those in Controller and private actions.
+			foreach ((array)$methods as $k => $method) {
+				if (strpos($method, '_', 0) === 0) {
+					unset($methods[$k]);
+					continue;
+				}
+				if (in_array($method, $baseMethods)) {
+					unset($methods[$k]);
+					continue;
+				}
+				$methodNode = $aco->node('controllers/'.$ctrlName.'/'.$method);
+				if (!$methodNode) {
+					$aco->create(array('parent_id' => $controllerNode['Aco']['id'], 'model' => null, 'alias' => $method));
+					$methodNode = $aco->save();
+					$log[] = 'Created Aco node for '. $method;
+				}
+			}
+		}
+		if(count($log)>0) {
+			debug($log);
+		}
+	}
+
+	function _getClassMethods($ctrlName = null) {
+		App::import('Controller', $ctrlName);
+		if (strlen(strstr($ctrlName, '.')) > 0) {
+			// plugin's controller
+			$num = strpos($ctrlName, '.');
+			$ctrlName = substr($ctrlName, $num+1);
+		}
+		$ctrlclass = $ctrlName . 'Controller';
+		$methods = get_class_methods($ctrlclass);
+
+		// Add scaffold defaults if scaffolds are being used
+		$properties = get_class_vars($ctrlclass);
+		if (is_array($properties) && array_key_exists('scaffold',$properties)) {
+			if($properties['scaffold'] == 'admin') {
+				$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
+			} else {
+				$methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
+			}
+		}
+		return $methods;
+	}
+
+	function _isPlugin($ctrlName = null) {
+		$arr = String::tokenize($ctrlName, '/');
+		if (count($arr) > 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function _getPluginControllerPath($ctrlName = null) {
+		$arr = String::tokenize($ctrlName, '/');
+		if (count($arr) == 2) {
+			return $arr[0] . '.' . $arr[1];
+		} else {
+			return $arr[0];
+		}
+	}
+
+	function _getPluginName($ctrlName = null) {
+		$arr = String::tokenize($ctrlName, '/');
+		if (count($arr) == 2) {
+			return $arr[0];
+		} else {
+			return false;
+		}
+	}
+
+	function _getPluginControllerName($ctrlName = null) {
+		$arr = String::tokenize($ctrlName, '/');
+		if (count($arr) == 2) {
+			return $arr[1];
+		} else {
+			return false;
+		}
+	}
+
+	function _getPlugins(){
+		$plugins = array(
+			'infinitas',
+			'extentions',
+			'plugins'
+		);
+		$return = array();
+		foreach($plugins as $plugin ){
+			$return = array_merge($return, $this->_getPluginControllerNames($plugin));
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Get the names of the plugin controllers ...
+	 *
+	 * This function will get an array of the plugin controller names, and
+	 * also makes sure the controllers are available for us to get the
+	 * method names by doing an App::import for each plugin controller.
+	 *
+	 * @return array of plugin names.
+	 *
+	 */
+	function _getPluginControllerNames($plugin) {
+		App::import('Core', 'File', 'Folder');
+		$paths = Configure::getInstance();
+		$folder =& new Folder();
+		$folder->cd(APP . $plugin);
+
+		$Plugins = $folder->read();
+		$Plugins = $Plugins[0];
+
+		$arr = array();
+
+		// Loop through the plugins
+		foreach($Plugins as $pluginName) {
+			// Change directory to the plugin
+			$didCD = $folder->cd(APP . $plugin. DS . $pluginName . DS . 'controllers');
+			// Get a list of the files that have a file name that ends
+			// with controller.php
+			$files = $folder->findRecursive('.*_controller\.php');
+
+			// Loop through the controllers we found in the plugins directory
+			foreach($files as $fileName) {
+				// Get the base file name
+				$file = basename($fileName);
+
+				// Get the controller name
+				$file = Inflector::camelize(substr($file, 0, strlen($file)-strlen('_controller.php')));
+				if (!preg_match('/^'. Inflector::humanize($pluginName). 'App/', $file)) {
+					if (!App::import('Controller', $pluginName.'.'.$file)) {
+						debug('Error importing '.$file.' for plugin '.$pluginName);
+					} else {
+						/// Now prepend the Plugin name ...
+						// This is required to allow us to fetch the method names.
+						$arr[] = Inflector::humanize($pluginName) . "/" . $file;
+					}
+				}
+			}
+		}
+		return $arr;
 	}
 }
 

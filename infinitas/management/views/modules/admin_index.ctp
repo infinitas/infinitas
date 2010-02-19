@@ -25,10 +25,11 @@
                 'add',
                 'edit',
                 'copy',
+                'toggle',
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
@@ -70,7 +71,7 @@
             foreach ( $modules as $module )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $module['Module']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;
@@ -107,16 +108,16 @@
                 			<?php echo $module['Group']['name']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->locked($module['Module']['locked']); ?>&nbsp;
+                			<?php echo $this->Infinitas->locked($module['Module']['locked']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $module['Module']['ordering'], ' ', $this->Core->ordering($module['Module']['ordering']); ?>&nbsp;
+                			<?php echo $this->Core->ordering($module['Module']['id'], $module['Module']['ordering'], 'Management.Module'); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($module['Module']['core']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($module['Module']['core']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($module['Module']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($module['Module']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

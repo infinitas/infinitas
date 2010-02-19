@@ -31,8 +31,18 @@
 		}
 
 		function admin_index() {
-			$routes = $this->paginate();
-			$this->set(compact('routes'));
+			$this->Route->recursive = 1;
+			$routes = $this->paginate(null, $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'core' => Configure::read('CORE.core_options'),
+				'theme_id' => array(null => __('All', true)) + $this->Route->Theme->find('list'),
+				'active' => Configure::read('CORE.active_options')
+			);
+
+			$this->set(compact('routes', 'filterOptions'));
 		}
 
 		function admin_add() {

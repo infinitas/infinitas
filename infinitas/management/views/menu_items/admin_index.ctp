@@ -29,7 +29,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
@@ -38,28 +38,33 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'Menu' ) => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('Menu') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Access', 'Group.name' ) => array(
+                    $this->Paginator->sort('Access', 'Group.name') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Status', 'active' ) => array(
+                    __('Order', true) => array(
+                        'style' => 'width:50px;'
+                    ),
+                    $this->Paginator->sort('Status', 'active') => array(
+                        'style' => 'width:50px;'
+                    ),
+                    __('Actions', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
 
-            $i = 0;
             foreach ( $menuItems as $menuItem )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $menuItem['MenuItem']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php
@@ -83,8 +88,27 @@
                 			<?php echo Inflector::humanize($menuItem['Group']['name']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status($menuItem['MenuItem']['active']); ?>&nbsp;
+                			<?php
+	                			echo $this->Infinitas->treeOrdering($menuItem['MenuItem']);
+							?>&nbsp;
                 		</td>
+                		<td>
+                			<?php echo $this->Infinitas->status($menuItem['MenuItem']['active']); ?>&nbsp;
+                		</td>
+						<td>
+							<?php
+								echo $this->Html->image(
+									$this->Image->getRelativePath('actions', 'add'),
+									array(
+										'width' => '16px',
+										'url' => array(
+											'action' => 'add',
+											'parent_id' => $menuItem['MenuItem']['id']
+										),
+									)
+								);
+							?>
+						</td>
                 	</tr>
                 <?php
             }

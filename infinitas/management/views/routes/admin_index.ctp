@@ -29,7 +29,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
@@ -60,11 +60,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $routes as $route )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $route['Route']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $route['Route']['name'], array('action' => 'edit', $route['Route']['id'])); ?>&nbsp;
@@ -89,10 +88,10 @@
                 			<?php echo $this->Core->ordering( $route['Route']['id'], $route['Route']['ordering'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $route['Route']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $route['Route']['core'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $route['Route']['active'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $route['Route']['active'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

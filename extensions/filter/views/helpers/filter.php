@@ -9,26 +9,32 @@
 
     	function form( $model, $filter = array() )
     	{
-    		if ( empty( $filter ) || !isset( $filter['fields'] ) )
-    		{
+    		if ( empty( $filter ) || !isset( $filter['fields'] ) ){
     			$this->errors[] = 'There is no filters';
     			return false;
     		}
 
     		$output = '<div class="filter-form">';
-       		foreach( (array)$filter['fields'] as $field )
-       		{
-       			if( empty( $field ) )
-       			{
-       				continue;
-       			}
-
-    			$output .= $this->Form->input($field,
-    				array(
-	    				'type' => 'text',
-	    				'div'=>false
-	    			)
-    			);
+       		foreach( $filter['fields'] as $field => $options){
+       			if (is_array($options)){
+					$output .= $this->Form->input(
+						$field,
+	    				array(
+		    				'type' => 'select',
+		    				'div' => false,
+		    				'options' => $options
+		    			)
+	    			);
+				}
+				else{
+					$output .= $this->Form->input(
+						$options,
+						array(
+							'type' => 'text',
+							'div' => false
+						)
+					);
+				}
        		}
 
 			$output .= $this->Form->submit($this->Image->getRelativePath(array('actions'), 'filter'),
@@ -38,8 +44,8 @@
 					'title' => 'Filter results',
 					'div' => false,
 					'width' => '16px'
-					)
-				);
+				)
+			);
     		$output .= '</div>';
     		return $output;
     	}

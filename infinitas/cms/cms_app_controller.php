@@ -23,7 +23,7 @@ class CmsAppController extends AppController {
 		'Time', 'Html', 'Form',
 		// core
 		'Cms.Cms'
-		);
+	);
 
 	var $components = array(
 		'Filter.Filter' => array(

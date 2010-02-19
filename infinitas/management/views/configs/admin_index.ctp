@@ -27,7 +27,7 @@
                 'copy', // @todo -c Implement .should read the file populate $this->data and render add
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
@@ -57,11 +57,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $configs as $config )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $config['Config']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( $config['Config']['key'], array('controller' => 'configs', 'action' => 'edit', $config['Config']['id'])); ?>&nbsp;
@@ -84,7 +83,7 @@
                 			<?php echo $config['Config']['description']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $config['Config']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $config['Config']['core'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

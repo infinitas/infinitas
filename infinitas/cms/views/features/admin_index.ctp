@@ -78,7 +78,7 @@
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Status->toggle( $feature['Content']['active'], $feature['Content']['id'], array( 'controller' => 'features', 'action' => 'toggle' ) );
+                			    echo $this->Infinitas->toggle( $feature['Content']['active'], $feature['Content']['id'], array( 'controller' => 'features', 'action' => 'toggle' ) );
                 			?>
                 		</td>
                 	</tr>

@@ -1,0 +1,32 @@
+<?php
+	$config['OperatingSystems'] = array (
+		'windows nt 6\.0' 	=> 'Windows Vista',
+		'windows nt 5\.2' 	=> 'Windows 2003',
+		'windows nt 5\.0' 	=> 'Windows 2000',
+		'windows nt 5\.1'	=> 'Windows XP',
+		'winnt' 			=> 'Windows NT',
+		'winnt 4\.0' 		=> 'Windows NT',
+		'windows 98' 		=> 'Windows 98',
+		'win98' 			=> 'Windows 98',
+		'windows 95' 		=> 'Windows 95',
+		'win95' 			=> 'Windows 95',
+		'sunos' 			=> 'Sun Solaris',
+		'freebsd' 			=> 'FreeBSD',
+		'ppc' 				=> 'Macintosh',
+		'mac os x' 			=> 'Mac OS X',
+		'linux' 			=> 'Linux',
+		'debian' 			=> 'Debian',
+		'beos' 				=> 'BeOS',
+		'winnt4\.0' 		=> 'Windows NT 4.0',
+		'apachebench' 		=> 'ApacheBench',
+		'aix' 				=> 'AIX',
+		'irix' 				=> 'Irix',
+		'osf' 				=> 'DEC OSF',
+		'hp-ux' 			=> 'HP-UX',
+		'netbsd' 			=> 'NetBSD',
+		'bsdi' 				=> 'BSDi',
+		'openbsd' 			=> 'OpenBSD',
+		'gnu' 				=> 'GNU/Linux',
+		'unix' 				=> 'Unknown Unix system'
+	);
+?>

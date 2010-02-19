@@ -28,7 +28,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <?php echo $this->Core->adminTableHeadImages(); ?>
@@ -57,11 +57,10 @@
                 )
             );
 
-            $i = 0;
             foreach ( $themes as $theme )
             {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $theme['Theme']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($theme['Theme']['name']), array('action' => 'edit', $theme['Theme']['id'])); ?>&nbsp;
@@ -81,10 +80,10 @@
 							?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $theme['Theme']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $theme['Theme']['core'] ); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Status->status( $theme['Theme']['active'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status( $theme['Theme']['active'] ); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

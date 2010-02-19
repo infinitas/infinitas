@@ -87,7 +87,7 @@
                                 }
                                 else
                                 {
-                                    echo $this->Status->toggle( $newsletter['Newsletter']['active'], $newsletter['Newsletter']['id'] );
+                                    echo $this->Infinitas->toggle( $newsletter['Newsletter']['active'], $newsletter['Newsletter']['id'] );
                                 }
                             ?>
                         </td>

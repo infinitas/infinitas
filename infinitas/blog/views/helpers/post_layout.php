@@ -21,7 +21,7 @@ class PostLayoutHelper extends BlogHelper {
 		// cake helpers
 		'Time', 'Text', 'Html',
 		// core helpers
-		'Libs.Geshi', 'Libs.Status',
+		'Libs.Geshi',
 		// blog helpers
 		'Blog.Blog'
 		);
@@ -144,28 +144,17 @@ class PostLayoutHelper extends BlogHelper {
 					$out .= '<li class="comments">' .
 					$this->Html->link(
 						sprintf('%s ( %s )', __('Comments', true), $this->data['Post']['comment_count']),
-						array(
-							'plugin' => 'blog',
-							'controller' => 'posts',
-							'action' => 'view',
-							(!empty($this->data['Post']['slug'])) ? $this->data['Post']['slug'] : $this->data['Post']['id'],
-							'#' => 'comments'
-							)
+						$this->Blog->slugLink($this->data['Post'], $this->data['Category']['slug'], null, false) + array('#' => 'comments')
 						) .
 					'</li>';
 					break;
 
 				case 'more':
 					$out .= '<li class="readmore">' .
-					$this->Html->link(
-						__('Read more', true),
-						array(
-							'plugin' => 'blog',
-							'controller' => 'posts',
-							'action' => 'view',
-							(!empty($this->data['Post']['slug'])) ? $this->data['Post']['slug'] : $this->data['Post']['id']
-							)
-						) .
+						$this->Html->link(
+							__('Read more', true),
+							$this->Blog->slugLink($this->data['Post'], $this->data['Category']['slug'], null, false)
+						).
 					'</li>';
 					break;
 			} // switch
@@ -326,7 +315,7 @@ class PostLayoutHelper extends BlogHelper {
 			'</strong>';
 			$out .= '<div class="box"><ul>';
 			foreach($pendingPosts as $k => $title) {
-				$out .= '<li>' . $this->Status->toggle(0, $k) . ' ' . $title . '</li>';
+				$out .= '<li>' . $this->Infinitas->toggle(0, $k) . ' ' . $title . '</li>';
 			}
 			$out .= '</ul></div>';
 			return $out;

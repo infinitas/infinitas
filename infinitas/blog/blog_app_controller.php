@@ -23,15 +23,13 @@ class BlogAppController extends AppController {
 	* The helpers that the blog plugin needs to function
 	*/
 	var $helpers = array(
-		// cake helpers
-		'Time', 'Text', 'Form',
 		// core helpers
 		'Libs.TagCloud',
 		// plugin helpers
 		'Blog.Blog', 'Google.Chart',
 		// layout helpers
 		'Blog.PostLayout', 'Blog.CommentLayout'
-		);
+	);
 
 	/**
 	* beforeFilter callback

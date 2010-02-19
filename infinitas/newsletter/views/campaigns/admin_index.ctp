@@ -120,11 +120,11 @@
                                     }
                                     else
                                     {
-                                        echo $this->Status->toggle( $campaign['Campaign']['active'], $campaign['Campaign']['id'] );
+                                        echo $this->Infinitas->toggle( $campaign['Campaign']['active'], $campaign['Campaign']['id'] );
                                     }
                                 }
 
-                                echo $this->Status->locked( $campaign, 'Campaign' );
+                                echo $this->Infinitas->locked( $campaign, 'Campaign' );
                             ?>
                         </td>
                     </tr>

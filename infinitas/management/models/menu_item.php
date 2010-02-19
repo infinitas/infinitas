@@ -6,8 +6,6 @@
 	class MenuItem extends ManagementAppModel{
 		var $name = 'MenuItem';
 
-		var $tablePrefix = 'core_';
-
 		var $actsAs = array('Tree');
 
 		var $belongsTo = array(
@@ -25,9 +23,9 @@
 				return false;
 			}
 
-			$menus = Cache::read('menu_'.$type);
+			$menus = Cache::read('menu_'.$type, 'core');
 			if (!empty($menus)) {
-				//return $menus;
+				return $menus;
 			}
 
 			$menus = $this->find(
@@ -67,9 +65,33 @@
 				)
 			);
 
-			Cache::write('menu_'.$type, $menus);
+			Cache::write('menu_'.$type, $menus, 'core');
 
 			return $menus;
+		}
+
+		function afterSave($created) {
+			parent::afterSave($created);
+
+			$menus = $this->Menu->find( 'list', array('fields' => array('Menu.id', 'Menu.type')) );
+
+			foreach($menus as $menu){
+				Cache::delete('menu_'.$menu, 'core');
+			}
+
+			return true;
+		}
+
+		function afterDelete() {
+			parent::afterDelete();
+
+			$menus = $this->Menu->find( 'list', array('fields' => array('Menu.id', 'Menu.type')) );
+
+			foreach($menus as $menu){
+				Cache::delete('menu_'.$menu, 'core');
+			}
+
+			return true;
 		}
 	}
 ?>

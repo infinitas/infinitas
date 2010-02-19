@@ -250,16 +250,8 @@ class InstallController extends InstallerAppController {
 				// Run it to latest version
 				$version->run(array('type' => $type, 'version' => $latest['version']));
 
-				if ($this->__executeSQLScript($db, $this->sql['core_data'])) {
-
-					//SessionComponent::setFlash(__('Database Tables installed', true));
-
-					//if ($this->data['Install']['sample_data']) {
-						//SessionComponent::setFlash(__('Database Tables installed with sample data.', true));
-						//$this->__executeSQLScript($db, $this->sql['core_sample_data']);
-					//}
-
-				}
+				ClassRegistry::init('Installer.Release')->writeCoreData();
+				ClassRegistry::init('Installer.Release')->writeSampleData();
 
 				$this->redirect(array('action' => 'siteConfig'));
 

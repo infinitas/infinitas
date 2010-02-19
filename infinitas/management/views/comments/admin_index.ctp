@@ -66,7 +66,7 @@
             foreach( $comments as $comment )
             {
                 ?>
-                    <tr class="<?php echo $this->Core->rowClass( $i ); ?>">
+                    <tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $comment['Comment']['id'] ); ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['class']; ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['name']; ?>&nbsp;</td>
@@ -76,7 +76,7 @@
                         <td><?php echo $this->Time->timeAgoInWords( $comment['Comment']['created'] ); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Status->toggle( $comment['Comment']['active'], $comment['Comment']['id'] );
+                                echo $this->Infinitas->toggle( $comment['Comment']['active'], $comment['Comment']['id'] );
                             ?>
                         </td>
                     </tr>

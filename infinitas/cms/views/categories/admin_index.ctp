@@ -70,7 +70,19 @@
                 	<tr class="<?php echo $this->Cms->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $category['Category']['id'] ); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( $category['Category']['title'], array('action' => 'edit', $category['Category']['id'] ) ); ?>
+                			<?php
+                				$paths = ClassRegistry::init('Cms.Category')->getPath($category['Category']['id']);
+                				$links = array();
+
+                				if (count($paths) > 1) {
+                					echo '<b>', str_repeat('- ', count($paths)-1), ' |</b> ';
+                				}
+
+	                			echo $this->Html->link(
+                					Inflector::humanize($category['Category']['title']),
+                					array('action' => 'edit', $category['Category']['id'])
+	                			);
+							?>
                 		</td>
                 		<td>
                 			<?php echo $this->Html->link( $category['Parent']['title'], array('controller' => 'categories', 'action' => 'edit', $category['Parent']['id'] ) ); ?>
@@ -88,14 +100,12 @@
                 			<?php echo $this->Time->niceShort( $category['Category']['modified'] ); ?>
                 		</td>
                 		<td>
-                			<?php
-                			    // @todo -c Implement .add up and down for mptt
-                			?>
+                			<?php echo $this->Cms->treeOrdering( $category['Category'] ); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Status->toggle( $category['Category']['active'], $category['Category']['id'] ),
-                    			    $this->Status->locked( $category, 'Category' );
+                			    echo $this->Infinitas->status( $category['Category']['active'], $category['Category']['id'] ),
+                    			    $this->Infinitas->locked( $category, 'Category' );
                 			?>
                 		</td>
                 	</tr>

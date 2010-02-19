@@ -70,7 +70,7 @@
                 }
                 else
                 {
-                    echo $this->Blog->wysiwyg( 'Comment.comment', 'Simple' );
+                    echo $this->Blog->wysiwyg( 'Comment.comment', array('toolbar' => 'Basic') );
                 }
             }
         ?>
