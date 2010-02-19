@@ -13,11 +13,8 @@
 		}
 
 		function admin_index(){
-			//$this->Release->getCoreData();
-			//$this->Release->getSampleData();
-
-			$this->Release->writeCoreData();
-			$this->Release->writeSampleData();
+			$this->Release->getCoreData();
+			$this->Release->getSampleData();
 		}
 
 		function admin_core_data(){
