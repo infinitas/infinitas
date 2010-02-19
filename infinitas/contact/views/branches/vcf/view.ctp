@@ -16,5 +16,4 @@
 			)
 		);
 	echo $this->Vcf->end();
-
 ?>
