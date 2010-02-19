@@ -78,7 +78,8 @@ class LogableBehavior extends ModelBehavior {
 	);
 
 	var $ignore = array(
-		'Session'
+		'Session',
+		'Aco'
 	);
 
 	/**
