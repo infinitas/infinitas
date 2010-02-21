@@ -77,6 +77,11 @@ class LogableBehavior extends ModelBehavior {
 		'foreignKey' => 'model_id'
 	);
 
+	var $ignore = array(
+		'Session',
+		'Aco'
+	);
+
 	/**
 	* Cake called intializer
 	* Config options are :
@@ -482,6 +487,10 @@ class LogableBehavior extends ModelBehavior {
 			$logData['Log']['ip'] = $this->userIP;
 		}
 
+		if (!isset($this->user[$this->UserModel->alias][$this->UserModel->primaryKey])) {
+			return;
+		}
+
 		if (isset($this->Log->_schema[ $this->settings[$Model->alias]['userKey'] ]) && $this->user) {
 			$logData['Log'][$this->settings[$Model->alias]['userKey']] = $this->user[$this->UserModel->alias][$this->UserModel->primaryKey];
 		}
@@ -499,8 +508,10 @@ class LogableBehavior extends ModelBehavior {
 			}
 			$logData['Log']['description'] .= '.';
 		}
-		$this->Log->create($logData);
-		$this->Log->save(null, array('validate'=>false, 'callbacks' => false));
+		if (!in_array($logData['Log']['model'], $this->ignore)) {
+			$this->Log->create($logData);
+			$this->Log->save(null, array('validate'=>false, 'callbacks' => false));
+		}
 	}
 }
 

@@ -4,8 +4,11 @@
 	 *
 	 */
 	class Group extends ManagementAppModel{
-		var $tablePrefix = 'core_';
+		var $name = 'Group';
+		var $actsAs = array('Tree', 'Acl' => array('requester'));
 
-		var $actsAs = array('Tree');
+		function parentNode() {
+			return null;
+		}
 	}
 ?>

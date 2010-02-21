@@ -30,6 +30,7 @@
     }
 
     echo $this->PostLayout->viewPostBody( array( 'highlight' ) );
+    echo $this->Blog->pagination($post);
 
     if ( Configure::read( 'Blog.allow_ratings' ) )
     {

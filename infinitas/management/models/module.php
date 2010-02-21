@@ -6,11 +6,11 @@
 	class Module extends ManagementAppModel{
 		var $name = 'Module';
 
-		var $tablePrefix = 'core_';
-
 		var $actsAs = array(
-			'Libs.Ordered' => array(
-				'foreign_key' => 'position_id'
+			'Libs.Sequence' => array(
+				'group_fields' => array(
+					'position_id'
+				)
 			)
 		);
 
@@ -34,7 +34,7 @@
 		var $hasAndBelongsToMany = array(
 			'Route' => array(
 				'className' => 'Management.Route',
-				'joinTable' => 'core_modules_routes',
+				'joinTable' => 'modules_routes',
 				'foreignKey' => 'module_id',
 				'associationForeignKey' => 'route_id',
 				'unique' => true

@@ -26,7 +26,7 @@ class Post extends BlogAppModel {
 	* always sort posts so newest is at the top
 	*/
 	var $order = array(
-		'Post.created' => 'DESC'
+		'Post.created' => 'DESC',
 	);
 
 	var $actsAs = array(
@@ -38,25 +38,43 @@ class Post extends BlogAppModel {
 	);
 
 	var $hasAndBelongsToMany = array(
-		'Tag' =>
-		array(
-			'className' => 'Blog.Tag',
-			'joinTable' => 'blog_posts_tags',
-			'foreignKey' => 'post_id',
-			'associationForeignKey' => 'tag_id',
-			'unique' => true,
+		'Tag' => array(
+			'className'              => 'Blog.Tag',
+			'joinTable'              => 'posts_tags',
+			'with'                   => 'Blog.PostsTag',
+			'foreignKey'             => 'post_id',
+			'associationForeignKey'  => 'tag_id',
+			'unique'                 => true,
+			'conditions'             => '',
+			'fields'                 => '',
+			'order'                  => '',
+			'limit'                  => '',
+			'offset'                 => '',
+			'finderQuery'            => '',
+			'deleteQuery'            => '',
+			'insertQuery'            => ''
+		)
+	);
+
+
+	var $hasMany = array(
+		'ChildPost' => array(
+			'className' => 'Blog.Post',
+			'foreignKey' => 'parent_id',
+			'dependent' => true,
 			'conditions' => '',
-			'fields' => array('Tag.id', 'Tag.name'),
+			'fields' => array(
+				'ChildPost.id',
+				'ChildPost.title',
+				'ChildPost.slug',
+			),
 			'order' => '',
 			'limit' => '',
 			'offset' => '',
+			'exclusive' => '',
 			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
-			)
-		);
-
-	var $hasMany = array(
+			'counterQuery' => ''
+		)
 	);
 
 	var $belongsTo = array(
@@ -69,6 +87,27 @@ class Post extends BlogAppModel {
 				'Locker.username'
 			),
 			'order' => ''
+		),
+		'ParentPost' => array(
+			'className' => 'Blog.Post',
+			'foreignKey' => 'parent_id',
+			'conditions' => '',
+			'fields' => array(
+				'ParentPost.id',
+				'ParentPost.title',
+				'ParentPost.slug',
+			),
+			'order' => ''
+		),
+		'Category' => array(
+			'className' => 'Blog.Category',
+			'foreignKey' => 'category_id',
+			'conditions' => '',
+			'fields' => array(
+				'Category.id',
+				'Category.name'
+			),
+			'order' => ''
 		)
 	);
 
@@ -79,13 +118,19 @@ class Post extends BlogAppModel {
 			'title' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter a message', true)
+					'message' => __('Please enter the title of your post', true)
 				)
 			),
 			'body' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
 					'message' => __('Please enter your post', true)
+				)
+			),
+			'category_id' => array(
+				'comparison' => array(
+					'rule' => array('comparison', '>', 0),
+					'message' => __('Please select a category', true)
 				)
 			)
 		);

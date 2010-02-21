@@ -7,7 +7,7 @@ class RateableBehavior extends ModelBehavior {
 	* @var array
 	*/
 	var $defaults = array(
-		'plugin' => 'Core', // name of Rating model
+		'plugin' => 'Management', // name of Rating model
 		'class' => 'Rating', // name of Rating model
 		'foreign_key' => 'foreign_id', // foreign key of Rating model
 		'counter_cache' => true,
@@ -39,7 +39,7 @@ class RateableBehavior extends ModelBehavior {
 		$default['requre_auth'] = Configure::read('Rating.require_auth');
 
 		//$ratingClass = isset( $default['plugin'] ) ? $default['plugin'].'.'.$default['class'] : $default['class'];
-		$ratingClass = 'CoreRating';
+		$ratingClass = 'Management.Rating';
 
 		if (!isset($this->__settings[$model->alias])) {
 			$this->__settings[$model->alias] = $default;
@@ -105,8 +105,13 @@ class RateableBehavior extends ModelBehavior {
 
 				$total = array_sum($ratings);
 				$rating = number_format($total/count($ratings),2,'.',',');
-				$model->id = $data['Rating']['foreign_id'];
-				$model->saveField('rating',$rating);
+
+				$this->data[$model->name]['id'] = $data['Rating']['foreign_id'];
+				$this->data[$model->name]['rating'] = $rating;
+				$this->data[$model->name]['modified'] = false;
+
+				//@todo see why this wont save the new rating.
+				//$model->save($this->data, array('validate' => false));
 				return true;
 			}
 		}

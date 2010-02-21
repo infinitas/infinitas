@@ -21,7 +21,6 @@
 */
 class Comment extends ManagementAppModel {
 	var $name = 'Comment';
-	var $tablePrefix = 'core_';
 
 	function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);

@@ -37,21 +37,21 @@ class Tag extends BlogAppModel {
 	);
 
 	var $hasAndBelongsToMany = array(
-		'Post' =>
-		array(
-			'className' => 'Blog.Post',
-			'joinTable' => 'blog_posts_tags',
-			'foreignKey' => 'tag_id',
-			'associationForeignKey' => 'post_id',
-			'unique' => true,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
+		'Post' => array(
+			'className'              => 'Blog.Post',
+			'joinTable'              => 'posts_tags',
+			'with'                   => 'Blog.PostsTag',
+			'foreignKey'             => 'tag_id',
+			'associationForeignKey'  => 'post_id',
+			'unique'                 => true,
+			'conditions'             => '',
+			'fields'                 => '',
+			'order'                  => '',
+			'limit'                  => '',
+			'offset'                 => '',
+			'finderQuery'            => '',
+			'deleteQuery'            => '',
+			'insertQuery'            => ''
 		)
 	);
 

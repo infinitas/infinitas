@@ -26,7 +26,12 @@ class AppHelper extends Helper {
 
 	var $wysiwyg = 'fck';
 
-	var $helpers = array('Html', 'Libs.Design', 'Libs.Wysiwyg', 'Libs.Gravatar');
+	var $helpers = array(
+		'Html',
+		//'Libs.Design',
+		'Libs.Wysiwyg',
+		//'Libs.Gravatar'
+	);
 
 	/**
 	* create some bread crumbs.
@@ -147,7 +152,7 @@ class AppHelper extends Helper {
 		return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
 	}
 
-		function adminOtherHead($view = array(), $massActions = null) {
+	function adminOtherHead($view = array(), $massActions = null) {
 			if (empty($view)) {
 				$this->errors[] = 'I need the view.';
 				return false;
@@ -156,36 +161,37 @@ class AppHelper extends Helper {
 			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 	}
 
-	function ordering($id = null, $order = null) {
+	function ordering($id = null, $currentPossition = null, $model = null) {
 		if (!$id) {
-			$this->errors[] = 'You need an id to move something';
-			return false;
+			$this->errors[] = 'How will i know what to move?';
+		}
+		if (!$currentPossition) {
+			$this->errors[] = 'The new order was not passed';
 		}
 
-		if (!$order) {
-			$this->errors[] = 'The order was not passed';
-		}
+		$out = '';
 
-		$out = $this->Html->link($order, array('#' => $order));
-
-		$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-up'),
-				array(
-					'alt' => __('Up', true),
-					'title' => __('Move up', true),
-					'width' => '16px',
-					'class' => 'arrow-up'
+		if ($currentPossition > 1) {
+			$out .= $this->Html->link(
+				$this->Html->image(
+					$this->Image->getRelativePath('actions', 'arrow-up'),
+					array(
+						'alt' => __('Up', true),
+						'title' => __('Move up', true),
+						'width' => '16px',
+						'class' => 'arrow-up'
 					)
 				),
-			array(
-				'action' => 'reorder',
-				$id,
-				'direction' => 'up',
-				'amount' => 1
+				array(
+					'action' => 'reorder',
+					'possition' => $currentPossition - 1,
+					$id
 				),
-			array(
-				'escape' => false,
+				array(
+					'escape' => false,
 				)
 			);
+		}
 
 		$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-down'),
 				array(
@@ -193,18 +199,67 @@ class AppHelper extends Helper {
 					'title' => __('Move down', true),
 					'width' => '16px',
 					'class' => 'arrow-down'
-					)
-				),
+				)
+			),
 			array(
 				'action' => 'reorder',
-				$id,
-				'direction' => 'down',
-				'amount' => 1
-				),
+				'possition' => $currentPossition + 1,
+				$id
+			),
 			array(
 				'escape' => false,
+			)
+		);
+
+		return $out;
+	}
+
+	function treeOrdering($data = null){
+		if (!$data) {
+			$this->errors[] = 'There is no data to build reorder links';
+			return false;
+		}
+
+
+		$out = $this->Html->link(
+			$this->Html->image(
+				$this->Image->getRelativePath('actions', 'arrow-up'),
+				array(
+					'alt' => __('Up', true),
+					'title' => __('Move up', true),
+					'width' => '16px',
+					'class' => 'arrow-up'
 				)
-			);
+			),
+			array(
+				'action' => 'reorder',
+				'direction' => 'up',
+				$data['id']
+			),
+			array(
+				'escape' => false,
+			)
+		);
+
+		$out .= $this->Html->link(
+			$this->Html->image(
+				$this->Image->getRelativePath('actions', 'arrow-down'),
+				array(
+					'alt' => __('Down', true),
+					'title' => __('Move down', true),
+					'width' => '16px',
+					'class' => 'arrow-down'
+				)
+			),
+			array(
+				'action' => 'reorder',
+				'direction' => 'down',
+				$data['id']
+			),
+			array(
+				'escape' => false,
+			)
+		);
 
 		return $out;
 	}
@@ -222,7 +277,7 @@ class AppHelper extends Helper {
 		return $out;
 	}
 
-	function wysiwyg($id = null, $toolbar = 'Basic') {
+	function wysiwyg($id = null, $config = array( 'toolbar' => 'Full')) {
 		if (!$id) {
 			$this->errors[] = 'No field specified for the wysiwyg editor';
 			return false;
@@ -230,12 +285,16 @@ class AppHelper extends Helper {
 
 		if (!Configure::read('Wysiwyg.editor')) {
 			$this->errors[] = 'There is no editor configured';
-			return false;
 		}
 
-		$editor = (Configure::read('Wysiwyg.editor')) ? Configure::read('Wysiwyg.editor') : 'text';
+		$editor = 'text';
 
-		return $this->Wysiwyg->$editor($id, $toolbar);
+		$_editor = Configure::read('Wysiwyg.editor');
+		if (!empty($_editor)) {
+			$editor = $_editor;
+		}
+
+		return $this->Wysiwyg->{$editor}($id, $config);
 	}
 
 	function gravatar($email = null, $options = array()) {

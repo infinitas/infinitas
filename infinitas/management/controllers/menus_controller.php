@@ -15,7 +15,8 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'class'
+				'type',
+				'active' => (array)Configure::read('CORE.active_options')
 			);
 
 			$this->set(compact('menus','filterOptions'));

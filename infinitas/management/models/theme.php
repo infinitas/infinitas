@@ -20,8 +20,6 @@
 	class Theme extends ManagementAppModel {
 		var $name = 'Theme';
 
-		var $tablePrefix = 'core_';
-
 		var $hasMay = array(
 			'Management.Route'
 		);
@@ -33,8 +31,7 @@
 		 * @return array $theme the current theme.
 		 */
 		function getCurrnetTheme(){
-
-			$theme = Cache::read('currentTheme');
+			$theme = Cache::read('current_theme', 'core');
 
 			if ($theme == false) {
 				$theme = $this->find(
@@ -46,33 +43,38 @@
 					)
 				);
 			}
-			Cache::write('currentTheme', $theme, 'core');
+			Cache::write('current_theme', $theme, 'core');
 
 			return $theme;
 		}
 
 		/**
-		 * Deactivate everything after making something else active
-		 */
+		* deactivate all themes.
+		*
+		* This is used before activating a theme to make sure that there is only
+		* ever one theme active.
+		*
+		* @return bool true on sucsess false if not.
+		*/
+		function _deactivateAll(){
+			return $this->updateAll(
+				array(
+					'Theme.active' => '0'
+				)
+			);
+		}
+
 		function afterSave($created) {
 			parent::afterSave($created);
 
-			$this->__clearCache();
+			Cache::delete('current_theme', 'core');
 			return true;
 		}
 
 		function afterDelete() {
 			parent::afterDelete();
 
-			$this->__clearCache();
-			return true;
-		}
-
-		function __clearCache() {
-			if (is_file(CACHE . 'core' . DS . 'current_theme')) {
-				unlink(CACHE . 'core' . DS . 'current_theme');
-			}
-
+			Cache::delete('current_theme', 'core');
 			return true;
 		}
 	}

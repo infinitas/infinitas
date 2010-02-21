@@ -25,12 +25,27 @@
 		}
 
 		function admin_index() {
-			$themes = $this->paginate();
-			$this->set(compact('themes'));
+			$this->Theme->recursive = 1;
+			$themes = $this->paginate(null, $this->Filter->filter);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'licence',
+				'author',
+				'core' => Configure::read('CORE.core_options'),
+				'active' => Configure::read('CORE.active_options')
+			);
+
+			$this->set(compact('themes', 'filterOptions'));
 		}
 
 		function admin_add() {
 			if (!empty($this->data)) {
+				if ($this->data['Theme']['active']) {
+					$this->Theme->_deactivateAll();
+				}
+
 				$this->Theme->create();
 				if ($this->Theme->saveAll($this->data)) {
 					$this->Session->setFlash('Your theme has been saved.');
@@ -46,6 +61,10 @@
 			}
 
 			if (!empty($this->data)) {
+				if ($this->data['Theme']['active']) {
+					$this->Theme->_deactivateAll();
+				}
+
 				if ($this->Theme->save($this->data)) {
 					$this->Session->setFlash(__('Your theme has been saved.', true));
 					$this->redirect(array('action' => 'index'));
@@ -60,7 +79,12 @@
 		}
 
 
-
+		/**
+		* Mass action.
+		*
+		* This overwrites the default toggle action so that other themes can
+		* be deactivated first as you should only have one active at a time.
+		*/
 		function admin_mass() {
 			$model = $this->modelNames[0];
 			$ids = $this->__massGetIds($this->data[$model]);
@@ -72,12 +96,12 @@
 						$this->redirect($this->referer());
 					}
 
-					$this->$model->updateAll(
-						array(
-							$model.'.active' => '0'
-						)
-					);
-					return parent::__massActionToggle($ids);
+					if ($this->Theme->_deactivateAll()) {
+						return parent::__massActionToggle($ids);
+					}
+
+					$this->Session->setFlash(__('There was a problem deactivating the other theme', true));
+					$this->redirect($this->referer());
 					break;
 
 				default:

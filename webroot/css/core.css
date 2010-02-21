@@ -189,14 +189,13 @@ img {
  * messages
  */
 #flashMessage{
-	position: absolute;
-	background: #EBEBEB;
+	background:none repeat scroll 0 0 #EBEBEB;
 	border:1px solid #FF9600;
 	font-size:120%;
-    margin: 5px 40px 5px;
-	text-align:center;
+	margin:auto auto 10px;
 	padding:10px;
-    width:250px;
+	text-align:center;
+	width:500px;
 }
 /*
 * default id for flash messages

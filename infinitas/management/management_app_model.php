@@ -18,6 +18,7 @@
 */
 
 class ManagementAppModel extends AppModel {
+	var $tablePrefix = 'core_';
 }
 
 ?>

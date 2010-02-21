@@ -6,6 +6,10 @@
 	class MenuItemsController extends ManagementAppController{
 		var $name = 'MenuItems';
 
+		var $helpers = array(
+			'Filter.Filter'
+		);
+
 		function admin_index(){
 			$this->MenuItem->recursive = 0;
 
@@ -17,7 +21,9 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'class'
+				'menu_id' => array(null => __('All', true)) + $this->MenuItem->Menu->find('list'),
+				'group_id' => array(null => __('Public', true)) + $this->MenuItem->Group->find('list'),
+				'active' => (array)Configure::read('CORE.active_options')
 			);
 
 			$this->set(compact('menuItems','filterOptions'));
@@ -30,6 +36,10 @@
 					$this->Session->setFlash('Your menu item has been saved.');
 					$this->redirect(array('action' => 'index'));
 				}
+			}
+
+			if (isset($this->params['named']['parent_id'])) {
+				$this->data['MenuItem']['parent_id'] = $this->params['named']['parent_id'];
 			}
 
 			$menus   = $this->MenuItem->Menu->find('list');

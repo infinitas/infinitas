@@ -34,20 +34,13 @@
 			'Content.ordering' => 'ASC'
 		);
 
-		var $validate = array(
-			'title' => array(
-				'notempty' => array(
-					'rule' => array( 'notempty' ),
-					'message' => 'Please enter the title of your page'
-				),
-			)
-		);
-
 		var $actsAs = array(
 			'Libs.Sluggable',
 			'Libs.Viewable',
-			'Libs.Ordered' => array(
-				'foreign_key' => 'category_id'
+			'Libs.Sequence' => array(
+				'group_fields' => array(
+					'category_id'
+				)
 			)
 		);
 
@@ -100,21 +93,56 @@
 
 		var $hasOne = array(
 			'ContentConfig' => array(
-				'className' => 'Cms.ContentConfig'
+				'className' => 'Cms.ContentConfig',
+				'dependent' =>  true
 			),
 			'Feature' => array(
 				'className' => 'Cms.Feature',
 				'fields' => array(
 					'Feature.id'
-				)
+				),
+				'dependent' =>  true
 			),
 			'Frontpage' => array(
 				'className' => 'Cms.Frontpage',
 				'fields' => array(
 					'Frontpage.id'
-				)
-
+				),
+				'dependent' =>  true
 			)
 		);
+
+
+		/**
+		 * Construct for validation.
+		 *
+		 * This is used to make the validation messages run through __()
+		 *
+		 * @param mixed $id
+		 * @param mixed $table
+		 * @param mixed $ds
+		 */
+		function __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'title' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the title of your page', true)
+					),
+				),
+				'category_id' => array(
+					'rule' => array('comparison', '>=', 1),
+					'message' => __('Please select a category', true)
+				),
+				'body' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter some text for the body', true)
+					),
+				),
+			);
+		}
 	}
 ?>

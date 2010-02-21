@@ -70,15 +70,26 @@ class PostsController extends BlogAppController {
 				'Post.intro',
 				'Post.comment_count',
 				'Post.created',
+				'Post.parent_id',
+				'Post.ordering',
+				'Post.category_id',
 			),
 			'conditions' => array(
 				'Post.active' => 1,
-				'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0')
+				'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0'),
+				'Post.parent_id' => null
 			),
 			'contain' => array(
 				'Tag' => array(
 					'fields' => array(
 						'Tag.name'
+					)
+				),
+				'Category' => array(
+					'fields' => array(
+						'Category.id',
+						'Category.name',
+						'Category.slug',
 					)
 				)
 			)
@@ -86,6 +97,10 @@ class PostsController extends BlogAppController {
 
 		$posts = $this->paginate('Post');
 		$this->set(compact('posts'));
+
+		if( $this->RequestHandler->isRss() ){
+			//$this->render('index');
+		}
 	}
 
 	/**
@@ -94,9 +109,9 @@ class PostsController extends BlogAppController {
 	* @param string $slug the slug for the record
 	* @return na
 	*/
-	function view($slug = null) {
-		if (!$slug) {
-			$this->Session->setFlash('That post could not be found', true);
+	function view() {
+		if (!isset($this->params['slug'])) {
+			$this->Session->setFlash( __('Post could not be found', true) );
 			$this->redirect($this->referer());
 		}
 
@@ -116,14 +131,13 @@ class PostsController extends BlogAppController {
 					'Post.rating_count',
 					'Post.created',
 					'Post.modified'
-					),
+				),
 				'conditions' => array(
 					'or' => array(
-						'Post.slug' => $slug,
-						'Post.id' => $slug
-						),
-					'Post.active' => 1
+						'Post.slug' => $this->params['slug']
 					),
+					'Post.active' => 1
+				),
 				'contain' => array(
 					'Comment' => array(
 						'fields' => array(
@@ -133,14 +147,52 @@ class PostsController extends BlogAppController {
 							'Comment.website',
 							'Comment.comment',
 							'Comment.created'
-							),
+						),
 						'conditions' => array(
 							'Comment.active' => 1
-							)
+						)
+					),
+					'Category' => array(
+						'fields' => array(
+							'Category.id',
+							'Category.name',
+							'Category.slug'
+						)
+					),
+					'ChildPost' => array(
+						'fields' => array(
+							'ChildPost.id',
+							'ChildPost.title',
+							'ChildPost.slug',
+						)
+					),
+					'ParentPost' => array(
+						'fields' => array(
+							'ParentPost.id',
+							'ParentPost.title',
+							'ParentPost.slug',
 						)
 					)
 				)
+			)
+		);
+
+		if (!empty($post['ParentPost']['id'])) {
+			$post['ParentPost']['ChildPost'] = $this->Post->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Post.parent_id' => $post['ParentPost']['id']
+					),
+					'fields' => array(
+						'Post.id',
+						'Post.title',
+						'Post.slug',
+					),
+					'contain' => false
+				)
 			);
+		}
 
 		/**
 		* make sure there is something found and the post is active
@@ -215,16 +267,18 @@ class PostsController extends BlogAppController {
 	* @return na
 	*/
 	function admin_index() {
-		$this->Post->recursive = 0;
+		$this->Post->recursive = 1;
 		$posts = $this->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'title',
-			'body'
+			'body',
+			'category_id' => array(null => __('All', true)) + $this->Post->Category->find('list'),
+			'active' => Configure::read('CORE.active_options')
 		);
 
-		$this->set(compact('posts','filterOptions'));
+		$this->set(compact('posts', 'filterOptions'));
 	}
 
 	/**
@@ -259,8 +313,10 @@ class PostsController extends BlogAppController {
 			}
 		}
 
+		$parents    = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
+		$categories = $this->Post->Category->find('list');
 		$tags = $this->Post->Tag->find('list');
-		$this->set(compact('tags'));
+		$this->set(compact('tags', 'parents', 'categories'));
 	}
 
 	function admin_edit($id = null) {
@@ -301,8 +357,10 @@ class PostsController extends BlogAppController {
 			}
 		}
 
+		$parents    = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
+		$categories = $this->Post->Category->find('list');
 		$tags = $this->Post->Tag->find('list');
-		$this->set(compact('tags'));
+		$this->set(compact('tags', 'parents', 'categories'));
 	}
 
 	function admin_view($slug = null) {

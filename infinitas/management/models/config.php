@@ -20,12 +20,10 @@
 class Config extends ManagementAppModel {
 	var $name = 'Config';
 
-	var $tablePrefix = 'core_';
-
 	var $order = array(
 		'Config.core' => 'DESC',
 		'Config.key' => 'ASC'
-		);
+	);
 
 	var $configuration = array(
 		'Revision' => array(
@@ -40,8 +38,116 @@ class Config extends ManagementAppModel {
 		)
 	);
 
+	/**
+	 * Construct for validation.
+	 *
+	 * This is used to make the validation messages run through __()
+	 *
+	 * @param mixed $id
+	 * @param mixed $table
+	 * @param mixed $ds
+	 */
+	function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->_configTypes = array(
+			0          => __('Please Select', true),
+			'string'   => __('String', true),
+			'integer'  => __('Integer', true),
+			'dropdown' => __('Dropdown', true),
+			'bool'     => __('Bool', true),
+			'array'    => __('Array', true)
+		);
+
+		$ruleCheck = $this->_configTypes;
+		unset($ruleCheck[0]);
+
+		$this->validate = array(
+			'key' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter the name of this config', true)
+				),
+				'validKeyName' => array(
+					'rule' => '/^[A-Z][A-Za-z]*\.[a-z_]+$/',
+					'message' => __('The key must be in the format "Plugin.config_name"', true)
+				)
+			),
+			'value' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter the value', true)
+				)
+			),
+			'type' => array(
+				'allowedChoice' => array(
+					'rule' => array('inList', array_keys($ruleCheck)),
+					'message' => __('Please select the type', true)
+				)
+			),
+			'options' => array(
+				'customOptionCheck' => array(
+					'rule' => 'customOptionCheck',
+					'message' => __('Please enter some valid options', true)
+				)
+			),
+			'description' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter a good description for this config', true)
+				)
+			)
+		);
+	}
+
+	/**
+	* customOptionCheck
+	*
+	* check the options based on what type is set.
+	*/
+	function customOptionCheck($data){
+		if (!isset($this->data['Config']['type']) || empty($this->data['Config']['type'])) {
+			return true;
+		}
+
+		switch($this->data['Config']['type']){
+			case 'string':
+				return true;
+				break;
+
+			case 'integer':
+				return empty($data['options']) ? true : false;
+				break;
+
+			case 'dropdown':
+				//@todo needs a bit more work
+				return preg_match('/[0-9A-Za-z*\,]+$/', $data['options']);
+				break;
+
+			case 'bool':
+				if ($data['options'] == 'true,false' || $data['options'] == 'false,true') {
+					return true;
+				}
+				break;
+
+			case 'array':
+				return $this->getJson($this->data['Config']['value'], array(), false);
+				break;
+		} // switch
+
+		return false;
+	}
+
+	/**
+	 * Get configuration for the app.
+	 *
+	 * This gets and formats an array of config values for the app to use. it goes
+	 * through the list and formats the values to match the type that was passed.
+	 *
+	 * @return array all the config options set to the correct type
+	 */
 	function getConfig() {
-		$configs = Cache::read('core_configs');
+		$configs = Cache::read('configs', 'core');
 		if ($configs !== false) {
 			return $configs;
 		}
@@ -53,22 +159,14 @@ class Config extends ManagementAppModel {
 					'Config.key',
 					'Config.value',
 					'Config.type'
-					)
 				)
-			);
+			)
+		);
 
 		foreach($configs as $k => $config) {
 			switch($configs[$k]['Config']['type']) {
 				case 'bool':
-					switch($configs[$k]['Config']['value']) {
-						case 'true':
-							$configs[$k]['Config']['value'] = true;
-							break;
-
-						case 'false':
-							$configs[$k]['Config']['value'] = false;
-							break;
-					} // switch
+					$configs[$k]['Config']['value'] = ($configs[$k]['Config']['value'] == 'true') ? true : false;
 					break;
 
 				case 'string':
@@ -78,14 +176,26 @@ class Config extends ManagementAppModel {
 				case 'integer':
 					$configs[$k]['Config']['value'] = (int)$configs[$k]['Config']['value'];
 					break;
+
+				case 'array':
+					$configs[$k]['Config']['value'] = $this->getJson($configs[$k]['Config']['value']);
+					break;
 			} // switch
 		}
 
-		Cache::write('core_configs', $configs, 'core');
+		Cache::write('configs', $configs, 'core');
 
 		return $configs;
 	}
 
+	/**
+	 * Installer setup.
+	 *
+	 * This gets some config values that are used in the installer for the site
+	 * setup.
+	 *
+	 * @return array of all the configs that are needed/able to be done in the installer
+	 */
 	function getInstallSetupConfigs(){
 		return $this->find(
 			'all',
@@ -97,30 +207,17 @@ class Config extends ManagementAppModel {
 		);
 	}
 
-	function beforeFind($queryData) {
-		parent::beforeFind($queryData);
-		return true;
-	}
-
 	function afterSave($created) {
 		parent::afterSave($created);
 
-		$this->__clearCache();
+		Cache::delete('configs', 'core');
 		return true;
 	}
 
 	function afterDelete() {
 		parent::afterDelete();
 
-		$this->__clearCache();
-		return true;
-	}
-
-	function __clearCache() {
-		if (is_file(CACHE . 'core' . DS . 'core_configs')) {
-			unlink(CACHE . 'core' . DS . 'core_configs');
-		}
-
+		Cache::delete('configs', 'core');
 		return true;
 	}
 }
