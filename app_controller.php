@@ -49,9 +49,8 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow('*');
-
-		$this->Auth->allowedActions = array('display', 'login', 'logout');
+		$this->Auth->allow('*');
+		//$this->Auth->allowedActions = array('display', 'login', 'logout');
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -70,7 +69,7 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		if($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf')){
+		if(isset($this->RequestHandler) && ($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf'))){
 			//Configure::write('debug', 0);
 			//$this->theme = null;
 		}

@@ -41,6 +41,7 @@ class InstallController extends InstallerAppController {
 	* @access public
 	*/
 	var $components = null;
+	var $helpers = null;
 
 	var $phpVersion = '5.0';
 
@@ -55,7 +56,11 @@ class InstallController extends InstallerAppController {
 		parent::beforeFilter();
 		$this->layout = 'installer';
 
-		App::import('Component', 'Session');
+		$this->view = 'View';
+
+		$this->helpers[] = 'Html';
+
+		//App::import('Component', 'Session');
 		//$this->Session = new SessionComponent;
 
 		$this->sql = array(
@@ -215,52 +220,36 @@ class InstallController extends InstallerAppController {
 	function install() {
 		$this->set('title_for_layout', __('Install Database', true));
 
-		$files = true;
-		if (empty($this->sql)) {
-			$files = false;
+		App::import('Core', 'File');
+		App::import('Model', 'ConnectionManager');
+
+		$db = ConnectionManager::getDataSource('default');
+
+		if (!$db->isConnected()) {
+			SessionComponent::setFlash(__('Could not connect to database.', true));
 		}
 
-		foreach($this->sql as $type => $path) {
-			if (!is_file($path)) {
-				$files = false;
-			}
-		}
-		if (!empty($this->data) && $files) {
-			App::import('Core', 'File');
-			App::import('Model', 'ConnectionManager');
+		else {
+			// Can be 'app' or a plugin name
+			$type = 'app';
 
-			$db = ConnectionManager::getDataSource('default');
+			App::import('Lib', 'Migrations.MigrationVersion');
+			// All the job is done by MigrationVersion
+			$version = new MigrationVersion();
 
-			if (!$db->isConnected()) {
-				SessionComponent::setFlash(__('Could not connect to database.', true));
-			}
+			// Get the mapping and the latest version avaiable
+			$mapping = $version->getMapping($type);
+			$latest = array_pop($mapping);
 
-			else {
-				// Can be 'app' or a plugin name
-				$type = 'app';
+			// Run it to latest version
+			$version->run(array('type' => $type, 'version' => $latest['version']));
+			exit;
+			ClassRegistry::init('Installer.Release')->writeCoreData();
+			ClassRegistry::init('Installer.Release')->writeSampleData();
 
-				App::import('Lib', 'Migrations.MigrationVersion');
-				// All the job is done by MigrationVersion
-				$version = new MigrationVersion();
+			$this->redirect(array('action' => 'siteConfig'));
 
-				// Get the mapping and the latest version avaiable
-				$mapping = $version->getMapping($type);
-				$latest = array_pop($mapping);
-
-				// Run it to latest version
-				$version->run(array('type' => $type, 'version' => $latest['version']));
-
-				ClassRegistry::init('Installer.Release')->writeCoreData();
-				ClassRegistry::init('Installer.Release')->writeSampleData();
-
-				$this->redirect(array('action' => 'siteConfig'));
-
-				//SessionComponent::setFlash(__('There was an error installing database data.', true));
-			}
-		}
-
-		if (!$files) {
-			//SessionComponent::setFlash(__('There is a problem with the sql installation files.', true));
+			//SessionComponent::setFlash(__('There was an error installing database data.', true));
 		}
 	}
 
