@@ -79,7 +79,7 @@ class Post extends BlogAppModel {
 
 	var $belongsTo = array(
 		'Locker' => array(
-			'className' => 'Core.User',
+			'className' => 'Management.User',
 			'foreignKey' => 'locked_by',
 			'conditions' => '',
 			'fields' => array(

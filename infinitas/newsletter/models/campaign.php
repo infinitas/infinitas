@@ -29,7 +29,7 @@ class Campaign extends NewsletterAppModel {
 	var $belongsTo = array(
 		'Newsletter.Template',
 		'Locker' => array(
-			'className' => 'Core.User',
+			'className' => 'Management.User',
 			'foreignKey' => 'locked_by',
 			'conditions' => '',
 			'fields' => array(

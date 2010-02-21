@@ -46,7 +46,7 @@
 
 		var $belongsTo = array(
 			'Author' => array(
-				'className' => 'core.User',
+				'className' => 'Management.User',
 				'foreignKey' => 'created_by',
 				'fields' => array(
 					'Author.id',
@@ -54,7 +54,7 @@
 				)
 			),
 			'Editor' => array(
-				'className' => 'core.User',
+				'className' => 'Management.User',
 				'foreignKey' => 'modified_by',
 				'fields' => array(
 					'Editor.id',
@@ -77,7 +77,7 @@
 				)
 			),
 			'Locker' => array(
-				'className' => 'Core.User',
+				'className' => 'Management.User',
 				'foreignKey' => 'locked_by',
 				'fields' => array(
 					'Locker.id',
