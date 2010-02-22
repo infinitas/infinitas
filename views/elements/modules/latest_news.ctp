@@ -16,7 +16,7 @@
 					'Post.created AS date'
 				),
 				'feed' => array(
-					'Core.Comment' => array(
+					'Management.Comment' => array(
 						'setup' => array(
 							'plugin' => 'comment',
 							'controller' => 'comments',

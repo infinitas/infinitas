@@ -18,7 +18,7 @@
 */
 
 class CoreHelper extends AppHelper {
-	var $helpers = array('Libs.Image', 'Form', 'Html', 'Libs.Design', 'Core.Wysiwyg');
+	var $helpers = array('Libs.Image', 'Form', 'Html', 'Libs.Design', 'Libs.Wysiwyg');
 }
 
 ?>
