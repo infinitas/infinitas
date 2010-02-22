@@ -76,9 +76,9 @@
 				return false;
 			}
 
-			$defaultConfig = array('assoc' => true, 'depth' => 512);
+			$defaultConfig = array('assoc' => true);
 			$config = array_merge($defaultConfig, (array)$config);
-			$json = json_decode($data, $config['assoc'], $config['depth']);
+			$json = json_decode($data, $config['assoc']);
 
 			if (!$json) {
 				$this->__jsonErrors[] = $this->_json_messages[json_last_error()];
