@@ -49,12 +49,8 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow('*');
-		$this->Auth->allowedActions = array('display', 'login', 'logout');
 
-		if (!isset($this->params['prefix']) || $this->params['prefix'] != 'admin') {
-			$this->Auth->allow('*');
-		}
+		$this->__setupAuth();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -87,7 +83,6 @@ class AppController extends Controller {
 			}
 		}
 
-		$this->__setupAuth();
 	}
 
 	function beforeRender(){
@@ -95,6 +90,12 @@ class AppController extends Controller {
 	}
 
 	function __setupAuth(){
+		//$this->Auth->allow('*');
+		$this->Auth->allowedActions = array('display', 'login', 'logout');
+
+		if (!isset($this->params['prefix']) || $this->params['prefix'] != 'admin') {
+			$this->Auth->allow('*');
+		}
 		$this->Auth->actionPath   = 'controllers/';
 		$this->Auth->authorize    = 'actions';
 		$this->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
@@ -105,7 +106,16 @@ class AppController extends Controller {
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
 			$this->Auth->loginRedirect = '/admin';
 		}
+
 		$this->Auth->logoutRedirect = '/';
+
+		$this->Security->blackHoleCallback = 'blackHole';
+	}
+
+	function blackHole(&$controller, $error){
+		pr('you been blackHoled');
+		pr($error);
+		exit;
 	}
 
 
