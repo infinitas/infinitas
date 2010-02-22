@@ -79,9 +79,10 @@ class Newsletter extends NewsletterAppModel {
 		'User' =>
 		array(
 			'className' => 'Management.User',
-			'joinTable' => 'newsletter_newsletters_users',
+			'joinTable' => 'newsletters_users',
 			'foreignKey' => 'newsletter_id',
 			'associationForeignKey' => 'user_id',
+			'with' => 'Newsletter.NewslettersUser',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',
