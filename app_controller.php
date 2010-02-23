@@ -50,6 +50,8 @@ class AppController extends Controller {
 	function beforeFilter() {
 		parent::beforeFilter();
 
+		$this->Security->validatePost = false;
+
 		$this->__setupAuth();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
