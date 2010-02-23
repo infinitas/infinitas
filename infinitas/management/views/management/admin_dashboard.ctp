@@ -70,8 +70,25 @@
 							<h3><?php __('Posts'); ?></h3>
 							<?php
 								echo $this->Design->niceBox();
-									foreach($data['popularPost'] as $posts){
-
+									foreach($data['popularPost'] as $post){
+										?>
+											<div>
+												<?php
+													echo $this->Html->link(
+														$this->Text->truncate($post['Post']['title'], 30),
+														array(
+															'plugin' => 'blog',
+															'controller' => 'posts',
+															'action' => 'edit',
+															$post['Post']['id']
+														),
+														array(
+															'title' => sprintf('%s '.__('views', true), $post['Post']['views'])
+														)
+													);
+												?>
+											</div>
+										<?php
 									}
 								echo $this->Design->niceBoxEnd();
 							?>
@@ -80,8 +97,25 @@
 							<h3><?php __('Content'); ?></h3>
 							<?php
 								echo $this->Design->niceBox();
-									foreach($data['popularPost'] as $posts){
-
+									foreach($data['popularContent'] as $content){
+										?>
+											<div>
+												<?php
+													echo $this->Html->link(
+														$this->Text->truncate($content['Content']['title'], 30),
+														array(
+															'plugin' => 'cms',
+															'controller' => 'contents',
+															'action' => 'edit',
+															$content['Content']['id']
+														),
+														array(
+															'title' => sprintf('%s '.__('views', true), $content['Content']['views'])
+														)
+													);
+												?>
+											</div>
+										<?php
 									}
 								echo $this->Design->niceBoxEnd();
 							?>
