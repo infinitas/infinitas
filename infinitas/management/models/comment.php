@@ -124,6 +124,34 @@ class Comment extends ManagementAppModel {
 
 		return true;
 	}
+
+	function latestComments($all = true, $limit = 10){
+		$cacheName = cacheName('latest_comments_', array($all, $limit));
+		$comments = Cache::read($cacheName, 'core');
+		if (!empty($comments)) {
+			return $comments;
+		}
+
+		$conditions = array();
+		if (!$all) {
+			$conditions = array('Comment.active' => 1);
+		}
+
+		$comments = $this->find(
+			'all',
+			array(
+				'conditions' => $conditions,
+				'limit' => $limit,
+				'order' => array(
+					'Comment.created' => 'DESC'
+				)
+			)
+		);
+
+		Cache::write($cacheName, $comments, 'core');
+
+		return $comments;
+	}
 }
 
 ?>
