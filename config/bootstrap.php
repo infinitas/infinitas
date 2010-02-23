@@ -50,4 +50,24 @@
 
 		return preg_replace($patterns,$replace, $str);
 	}
+
+	/**
+	 * generate a unique cache name for a file.
+	 *
+	 * uses an array of data or a string to generate a hash for the end of the cache
+	 * name so that you can cache finds etc
+	 *
+	 * @param string $prefix the normal name for cache
+	 * @param mixed $data your conditions in the find
+	 * @return a nice unique name
+	 */
+	function cacheName($prefix = 'PleaseNameMe', $data = null){
+		$hash = '';
+
+		if ($data) {
+			$hash = sha1(serialize($data));
+		}
+
+		return Inflector::underscore($prefix).'_'.$hash;
+	}
 ?>
