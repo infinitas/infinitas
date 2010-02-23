@@ -30,7 +30,7 @@
 					<div class="counts item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
 						<h4><?php __('Site Status'); ?></h4>
 						<div class="count">
-							<h3><?php __('Blog'); ?></h3>
+							<h3><?php __('Posts'); ?></h3>
 							<?php
 								echo $this->Design->niceBox();
 									?><div><?php echo $data['Count']['Post']['total'].' | ', __('Total', true); ?></div>
@@ -40,7 +40,7 @@
 							?>
 						</div>
 						<div class="count">
-							<h3><?php __('Cms'); ?></h3>
+							<h3><?php __('Content'); ?></h3>
 							<?php
 								echo $this->Design->niceBox();
 									?><div><?php echo $data['Count']['Content']['total'].' | ', __('Total', true); ?></div>
@@ -64,7 +64,7 @@
 				</li>
 				<li>
 					<div class="counts item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
-						<h4><?php __('Popular'); ?></h4>
+						<h4><?php __('Popular Content'); ?></h4>
 
 						<div class="count">
 							<h3><?php __('Posts'); ?></h3>
