@@ -27,6 +27,12 @@
         );
 
     	function load($editor = null, $field = null, $config = array()){
+    		switch($editor){
+    			case 'text':
+    				return $this->text($field);
+    				break;
+    		} // switch
+
     		$editor = Inflector::Classify($editor);
 
     		if (!App::import('Helper', $editor, true, array(dirname(dirname(dirname(dirname(__FILE__))))))) {
@@ -39,7 +45,7 @@
     		return $this->input($field, array('label' => false)).$this->_Editor->editor($field, $config);
     	}
 
-        function text( $id = null ){
+        function text($id = null){
             return $this->input($id);
         }
 
