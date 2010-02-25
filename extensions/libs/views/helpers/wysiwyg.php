@@ -22,138 +22,29 @@
     {
         var $helpers = array(
             'Form',
+            'Html',
             'Javascript'
         );
 
-	    function ckEditor($id = null, $config = array()){
-	    	$default = array(
-			    'baseFloatZIndex' => '',
-			    'baseHref' => '',
-			    'blockedKeystrokes' => '',
-			    'bodyClass' => '',
-			    'bodyId' => '',
-			    'browserContextMenuOnCtrl' => '',
-			    'colorButton_backStyle' => '',
-			    'colorButton_colors' => '',
-			    'colorButton_enableMore' => '',
-			    'colorButton_foreStyle' => '',
-			    'contentsCss' => '',
-			    'contentsLangDirection' => '',
-			    'corePlugins' => '',
-			    'customConfig' => '',
-			    'defaultLanguage' => '',
-			    'dialog_backgroundCoverColor' => '',
-			    'dialog_backgroundCoverOpacity' => '',
-			    'dialog_magnetDistance' => '',
-			    'disableNativeSpellChecker' => '',
-			    'disableNativeTableHandles' => '',
-			    'disableObjectResizing' => '',
-			    'docType' => '',
-			    'editingBlock' => '',
-			    'emailProtection' => '',
-			    'enterMode' => '',
-			    'entities' => '',
-			    'entities_additional' => '',
-			    'entities_greek' => '',
-			    'entities_latin' => '',
-			    'entities_processNumerical' => '',
-			    'extraPlugins' => '',
-			    'filebrowserBrowseUrl' => '',
-			    'filebrowserFlashBrowseUrl' => '',
-			    'filebrowserFlashUploadUrl' => '',
-			    'filebrowserImageBrowseLinkUrl' => '',
-			    'filebrowserImageBrowseUrl' => '',
-			    'filebrowserImageUploadUrl' => '',
-			    'filebrowserUploadUrl' => '',
-			    'find_highlight' => '',
-			    'font_defaultLabel' => '',
-			    'font_names' => '',
-			    'font_style' => '',
-			    'fontSize_defaultLabel' => '',
-			    'fontSize_sizes' => '',
-			    'fontSize_style' => '',
-			    'forcePasteAsPlainText' => '',
-			    'forceSimpleAmpersand' => '',
-			    'format_address' => '',
-			    'format_div' => '',
-			    'format_h1' => '',
-			    'format_h2' => '',
-			    'format_h3' => '',
-			    'format_h4' => '',
-			    'format_h5' => '',
-			    'format_h6' => '',
-			    'format_p' => '',
-			    'format_pre' => '',
-			    'format_tags' => '',
-			    'fullPage' => '',
-			    'height' => '',
-			    'htmlEncodeOutput' => '',
-			    'ignoreEmptyParagraph' => '',
-			    'image_removeLinkByEmptyURL' => '',
-			    'keystrokes' => '',
-			    'language' => '',
-			    'menu_groups' => '',
-			    'menu_subMenuDelay' => '',
-			    'newpage_html' => '',
-			    'pasteFromWordCleanupFile' => '',
-			    'pasteFromWordNumberedHeadingToList' => '',
-			    'pasteFromWordPromptCleanup' => '',
-			    'pasteFromWordRemoveFontStyles' => '',
-			    'pasteFromWordRemoveStyles' => '',
-			    'plugins' => '',
-			    'protectedSource' => '',
-			    'removeFormatAttributes' => '',
-			    'removeFormatTags' => '',
-			    'removePlugins' => '',
-			    'resize_enabled' => '',
-			    'resize_maxHeight' => '',
-			    'resize_maxWidth' => '',
-			    'resize_minHeight' => '',
-			    'resize_minWidth' => '',
-			    'shiftEnterMode' => '',
-			    'skin' => '',
-			    'smiley_descriptions' => '',
-			    'smiley_images' => '',
-			    'smiley_path' => '',
-			    'startupFocus' => '',
-			    'startupMode' => '',
-			    'startupOutlineBlocks' => '',
-			    'stylesCombo_stylesSet' => '',
-			    'tabIndex' => '',
-			    'tabSpaces' => '',
-			    'templates' => '',
-			    'templates_files' => '',
-			    'templates_replaceContent' => '',
-			    'theme' => '',
-			    'toolbar' => 'Full',
-			    'toolbar_Basic' => '',
-			    'toolbar_Full' => '',
-			    'toolbarCanCollapse' => '',
-			    'toolbarLocation' => '',
-			    'toolbarStartupExpanded' => '',
-			    'undoStackSize' => '',
-			    'width' => ''
-			);
+    	function load($editor = null, $field = null, $config = array()){
+    		$editor = Inflector::Classify($editor);
 
-	    	$config = array_merge($default,(array)$config);
-			$did = '';
-			foreach (explode('.', $id) as $v) {
-				$did .= ucfirst($v);
-			}
+    		if (!App::import('Helper', $editor, true, array(dirname(dirname(dirname(dirname(__FILE__))))))) {
+    			return $this->input($field, array('style' => 'width:98%; height:500px;', 'value' => sprintf(__('%s was not found', true), $editor)));
+    		}
 
+    		$helper = $editor.'Helper';
+			$this->_Editor = new $helper;
 
-			$code = 'CKEDITOR.replace( \''.$did.'\', { toolbar : \''.$config['toolbar'].'\' } );';
-			return $this->input($id).$this->Javascript->codeBlock($code);
-	    }
+    		return $this->input($field, array('label' => false)).$this->_Editor->editor($field, $config);
+    	}
 
-        function text( $id = null )
-        {
-            return $this->input( $id );
+        function text( $id = null ){
+            return $this->input($id);
         }
 
-        function input( $id )
-        {
-            return $this->Form->input( $id, array( 'style' => 'width:100%; height:500px;' ) );
+        function input($id, $params = array( 'style' => 'width:98%; height:500px;')){
+            return $this->Form->input($id, $params);
         }
     }
 ?>
