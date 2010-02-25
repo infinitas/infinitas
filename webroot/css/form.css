@@ -60,3 +60,9 @@ input{
 	float:none;
 	padding-right:10px;
 }
+
+.box.tasks textarea{
+	clear: both;
+	float: left;
+	width: 98%;
+}
