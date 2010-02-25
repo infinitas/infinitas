@@ -294,7 +294,7 @@ class AppHelper extends Helper {
 			$editor = $_editor;
 		}
 
-		return $this->Wysiwyg->{$editor}($id, $config);
+		return $this->Wysiwyg->load($editor, $id, $config);
 	}
 
 	function gravatar($email = null, $options = array()) {
