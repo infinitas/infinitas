@@ -26,6 +26,7 @@
 		array(
 			'add',
 			'edit',
+			'copy',
 			'delete'
 		)
 	);

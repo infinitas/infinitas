@@ -40,6 +40,12 @@
 					'default' => null,
 					'key' => 'primary'
 				),
+				'slug' => array(
+					'type' => 'string',
+					'null' => false,
+					'default' => null,
+					'length' => 255
+				),
 				'name' => array(
 					'type' => 'string',
 					'null' => false,
@@ -140,7 +146,7 @@
 			$this->id = null;
 			if(file_exists($pageFile)){
 				$this->id = $filename;
-				return array('Page' => array('body' => file_get_contents($pageFile), 'file_name' => $filename));
+				return array('Page' => array('body' => file_get_contents($pageFile), 'file_name' => $filename, 'slug' => Inflector::underscore($filename)));
 			}
 
 			return false;

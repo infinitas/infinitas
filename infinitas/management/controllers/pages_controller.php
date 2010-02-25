@@ -103,6 +103,11 @@
 						) + $this->params['named'] + $data
 					);
 					break;
+				case 'add':
+				case 'edit':
+					parent::admin_mass();
+					break;
+
 
 				default:
 					$this->Session->setFlash(__('That is an invalid option', true));
