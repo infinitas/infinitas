@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-    echo $this->Form->create( 'Pages', array( 'url' => array( 'controller' => 'pages', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create( 'Page', array( 'url' => array( 'controller' => 'pages', 'action' => 'mass', 'admin' => 'true' ) ) );
 
 	$massActions = $this->Core->massActionButtons(
 		array(
@@ -30,7 +30,7 @@
 		)
 	);
 
-	echo $this->Core->adminIndexHead( $this, null, null, $massActions );
+	echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 
 	if(!$writable){ ?>
 		<div class="error-message">
@@ -53,9 +53,10 @@
                 )
             );
 
+            $id = 0;
 			foreach ( $pages as $page ){ ?>
 				<tr class="<?php echo $this->Core->rowClass(); ?>">
-					<td><?php echo $this->Form->checkbox( $page['Page']['file_name'] ); ?>&nbsp;</td>
+					<td><?php echo $this->Form->checkbox( 'Page.'.$id.'.id', array('value' => $page['Page']['file_name']) ); ?>&nbsp;</td>
 					<td>
 						<?php echo $this->Html->link( Inflector::humanize($page['Page']['name']), array('controller' => 'pages', 'action' => 'edit', $page['Page']['file_name'])); ?>&nbsp;
 					</td>
@@ -63,8 +64,10 @@
 						<?php echo $page['Page']['file_name']; ?>&nbsp;
 					</td>
 				</tr><?php
+				$id++;
 			}
 		?>
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
+<?php echo $this->element( 'pagination/navigation' ); ?>
