@@ -50,7 +50,7 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		
+
 		$this->Security->validatePost = false;
 
 		$this->__setupAuth();
@@ -386,8 +386,7 @@ class AppController extends Controller {
 	function __massActionDelete($ids) {
 		$model = $this->modelNames[0];
 
-		$conditions = array($model . '.' . $this->$model->primaryKey => $ids
-			);
+		$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
 
 		if ($this->$model->deleteAll($conditions)) {
 			$this->Session->setFlash(__('The ' . $model . '\'s have been deleted', true));
