@@ -37,7 +37,8 @@ class AppController extends Controller {
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
 		),
-		'Libs.Voucher'
+		'Libs.Voucher',
+		'Events.Event'
 	);
 
 	/**
@@ -49,7 +50,7 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-
+		
 		$this->Security->validatePost = false;
 
 		$this->__setupAuth();
