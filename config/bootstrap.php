@@ -10,6 +10,13 @@
 			)
 		)
 	);
+	
+	/**
+	 * Load plugin events
+	 */
+	App::import('Libs', 'Events.Events');
+	EventCore::getInstance();
+ 
 
 	/**
 	* Make sure the json defines are loaded.
