@@ -193,4 +193,24 @@
 			}
 			return false;
 		}
+
+		function delete($id = null){
+			if (!$id) {
+				return false;
+			}
+
+			if (is_file($this->__path($id))) {
+				return unlink($this->__path($id));
+			}
+
+			return false;
+		}
+
+		function __massActionCopy($ids) {
+			// read file
+
+			// new name
+
+			// save
+		}
 	}
