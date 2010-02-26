@@ -1,19 +1,26 @@
 <?php
+	/**
+	 * TinyMce Wysiwig Helper
+	 *
+	 * This is the helper to load and cofigure the tiny mce editor for infinitas
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package wysiwyg
+	 * @subpackage wysiwyg.helpers.ck_editor
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.6a
+	 *
+	 * @author Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
 	class CkEditorHelper extends Helper{
-		/**
-		 * Other helpers used by FormHelper
-		 *
-		 * @var array
-		 * @access public
-		 */
-		var $helpers = array('Html');
-
-		/**
-		 * @var array
-		 * @access public
-		 */
-		var $configs = array();
-
 		/**
 		 * @var array
 		 * @access protected
@@ -21,14 +28,14 @@
 		var $_defaults = array();
 
 		/**
-		* Load the editor.
-		*
-		* This is the method that will replace the html element with the editor
-		*
-		* @param sring $fieldName the name of the field to replace.
-		*
-		* @return string the javascript code to load the editor.
-		*/
+		 * Load the editor.
+		 *
+		 * This is the method that will replace the html element with the editor
+		 *
+		 * @param sring $fieldName the name of the field to replace.
+		 *
+		 * @return string the javascript code to load the editor.
+		 */
 		function editor($fieldName = null, $config = array()){
 			$did = $lines = '';
 
@@ -50,13 +57,6 @@
 			$this->Html = new HtmlHelper();
 
 			return $this->Html->scriptBlock("CKEDITOR.replace( '$did', { $lines });");
-		}
-
-		/**
-		* Load required js before rendering the page.
-		*/
-		public function beforeRender() {
-			$this->Html->script('/wysiwyg/js/ck_editor/ckeditor.js', false);
 		}
 	}
 ?>
