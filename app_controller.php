@@ -574,9 +574,10 @@ class AppController extends Controller {
 		if (is_array($properties) && array_key_exists('scaffold',$properties)) {
 			if($properties['scaffold'] == 'admin') {
 				$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
-			} else {
-				$methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
 			}
+			/*else {
+				$methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
+			}*/
 		}
 		return $methods;
 	}
