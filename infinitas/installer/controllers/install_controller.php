@@ -189,6 +189,7 @@ class InstallController extends InstallerAppController {
 	function database() {
 		$this->set('title_for_layout', __('Database Configuration', true));
 		if (!empty($this->data)) {
+			exit;
 			if ($this->__testConnection()) {
 				copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
@@ -242,10 +243,11 @@ class InstallController extends InstallerAppController {
 			$latest = array_pop($mapping);
 
 			// Run it to latest version
-			$version->run(array('type' => $type, 'version' => $latest['version']));
+			var_dump($version->run(array('type' => $type, 'version' => $latest['version'])));
 			exit;
-			ClassRegistry::init('Installer.Release')->writeCoreData();
-			ClassRegistry::init('Installer.Release')->writeSampleData();
+
+			$this->writeCoreData();
+			$this->writeSampleData();
 
 			$this->redirect(array('action' => 'siteConfig'));
 
@@ -272,13 +274,15 @@ class InstallController extends InstallerAppController {
 				} // switch
 
 				$_config['Config'] = $config;
-				$good = $good && ClassRegistry::init('Management.Config')->save($_config);
+				$good = $good && ClassRegistry::init('CoreConfig')->save($_config);
 			}
 
 			if ($good === true) {
 				$this->redirect(array('action' => 'done'));
 			}
 		}
+
+		ClassRegistry::flush();
 
 		$configs = ClassRegistry::init('Management.Config')->getInstallSetupConfigs();
 		$this->set('configs', $configs);
@@ -331,6 +335,47 @@ class InstallController extends InstallerAppController {
 			}
 		}
 		return $status;
+	}
+
+
+
+
+
+	function writeCoreData(){
+		$this->_writeTableData(
+			$this->_getFileData('core.dat')
+		);
+	}
+
+	function writeSampleData(){
+		$this->_writeTableData(
+			$this->_getFileData('sample.dat')
+		);
+	}
+
+	function path(){
+		return dirname(dirname(__FILE__)).DS.'config'.DS;
+	}
+
+
+	function _writeTableData($datas){
+
+		foreach($datas as $data){
+			pr($data);
+			exit;
+			$db->query($data);
+		}
+	}
+
+	function _getFileData($file){
+		App::import('File');
+
+		$this->File = new File($this->path().$file);
+		return $this->_decompress($this->File->read());
+	}
+
+	function _decompress($data){
+		return unserialize(gzuncompress(stripslashes($data)));
 	}
 }
 ?>
