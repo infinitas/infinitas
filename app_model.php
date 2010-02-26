@@ -21,6 +21,7 @@
 		* The database configuration to use for the site.
 		*/
 		var $useDbConfig = 'default';
+		var $tablePrefix = 'core_';
 
 		/**
 		* Behaviors to attach to the site.
