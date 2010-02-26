@@ -17,8 +17,8 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Infinitas->adminOtherHead($this);
     echo $this->Form->create('Contact', array('type' => 'file'));
+        echo $this->Infinitas->adminEditHead($this);    
     ?>
 		<div style="width:50%; float:left;">
 			<?php
@@ -41,5 +41,5 @@
 		</div>
 		<div class="clr">&nbsp;</div>
 	<?php
-    echo $this->Form->end( 'Save Contact' );
+    echo $this->Form->end( );
 ?>

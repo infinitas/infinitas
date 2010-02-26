@@ -20,9 +20,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-    echo $this->Core->adminOtherHead( $this );
     echo $this->Form->create( 'Page', array( 'action' => 'edit' ) );
-    echo $this->Form->input('Page.file_name');
-    echo $this->Core->wysiwyg( 'Page.body' );
-    echo $this->Form->end( 'Save page' );
+        echo $this->Infinitas->adminEditHead($this);    
+        echo $this->Design->niceBox();
+	    echo $this->Form->input('Page.file_name');
+	    echo $this->Core->wysiwyg( 'Page.body' );
+		echo $this->Design->niceBoxEnd();
+    echo $this->Form->end( );
 ?>

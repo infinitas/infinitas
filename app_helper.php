@@ -160,6 +160,18 @@ class AppHelper extends Helper {
 
 			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 	}
+	
+	function adminEditHead($view)
+	{
+        $massActions = $this->massActionButtons(
+            array(
+                'save',
+            	'cancel'
+            )
+        );
+        
+        return $this->adminOtherHead( $view, $massActions );		
+	}
 
 	function ordering($id = null, $currentPossition = null, $model = null) {
 		if (!$id) {

@@ -19,6 +19,8 @@
      */
 
     echo $this->Form->create( 'Newsletter' );
+        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Design->niceBox();       
         echo $this->Form->input( 'id' );
         echo $this->Form->input( 'campaign_id' );
         echo $this->Form->input( 'from', array( 'class' => 'title' ) );
@@ -26,5 +28,6 @@
         echo $this->Form->input( 'subject', array( 'class' => 'title' ) );
         echo $this->Letter->wysiwyg( 'Newsletter.html', array('toolbar' => 'EmailHtml') );
         echo $this->Letter->wysiwyg( 'Newsletter.text', array('toolbar' => 'EmailText') );
-    echo $this->Form->end( 'Save Newsletter' );
+        echo $this->Design->niceBoxEnd();
+    echo $this->Form->end();
 ?>

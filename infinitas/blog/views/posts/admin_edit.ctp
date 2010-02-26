@@ -18,12 +18,7 @@
      */
 
     echo $this->Form->create( 'Post' );
-        $massActions = $this->Blog->massActionButtons(
-            array(
-                'save',
-            )
-        );
-        echo $this->Blog->adminOtherHead( $this, $massActions );
+        echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
 	        ?>
 				<div class="data">

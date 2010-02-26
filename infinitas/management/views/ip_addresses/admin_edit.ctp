@@ -19,12 +19,7 @@
 
 
 	echo $this->Form->create( 'IpAddress' );
-        $massActions = $this->Core->massActionButtons(
-            array(
-                'save',
-            )
-        );
-        echo $this->Core->adminOtherHead( $this, $massActions );
+        echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
 	        ?>
 				<div class="data">
