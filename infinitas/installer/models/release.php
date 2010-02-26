@@ -10,6 +10,7 @@
 
 		var $coreDataTables = array(
 			'cms_content_layouts',
+
 			'core_acos',
 			'core_aros',
 			'core_aros_acos',
