@@ -62,11 +62,19 @@ class AppController extends Controller {
 		if (isset($this->params['named']['limit'])) {
 			$this->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->params['named']['limit']);
 		}
+		
+		if(isset($this->params['form']['action']) && $this->params['form']['action'] == 'cancel')
+		{
+			if($this->{$this->modelClass}->hasField('locked') && isset($this->data[$this->modelClass]['id']))
+			{
+				$this->{$this->modelClass}->unlock($this->data[$this->modelClass]['id']);
+			}
+			$this->redirect(array('action' => 'index'));
+		}		
 
 		if (Configure::read('Website.force_www')) {
 			$this->Infinitas->forceWwwUrl();
 		}
-
 
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));

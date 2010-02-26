@@ -20,8 +20,8 @@
 ?>
 <div class="contents form">
 	<?php
-		echo $this->Cms->adminOtherHead( $this );
 		echo $this->Form->create( 'Content' );
+        echo $this->Infinitas->adminEditHead($this);		
 	?>
 	<div style="width:75%; float:left;">
 	    <?php
@@ -44,5 +44,5 @@
 	    ?>
 	</div>
 	<div class="clr">&nbsp;</div>
-	<?php echo $this->Form->end( __( 'Submit', true ) ); ?>
+	<?php echo $this->Form->end( ); ?>
 </div>

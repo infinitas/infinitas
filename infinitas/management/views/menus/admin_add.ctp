@@ -17,8 +17,8 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Core->adminOtherHead( $this );
     echo $this->Form->create( 'Module' );
+        echo $this->Infinitas->adminEditHead($this);
     ?>
 		<div style="width:50%; float:left;">
 			<?php
@@ -46,5 +46,5 @@
 		</div>
 		<div class="clr">&nbsp;</div>
 	<?php
-    echo $this->Form->end( 'Save Module' );
+    echo $this->Form->end();
 ?>
