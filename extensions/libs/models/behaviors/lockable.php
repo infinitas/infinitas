@@ -35,7 +35,8 @@
 			'fields' => array(
 				'locked_by' => 'locked_by',
 				'locked_since' => 'locked_since',
-				'locked' => 'locked'
+				'locked' => 'locked',
+				'modified' => 'modified'
 				)
 			);
 
@@ -78,7 +79,7 @@
 			if($data[$Model->alias]['locked'] && $data[$Model->alias]['locked_by'] != $user_id) {
 				return false;
 			}
-
+			
 			$data[$Model->alias] = array(
 				'id' => $id,
 				$this->settings[$Model->alias]['fields']['locked'] => 1,
