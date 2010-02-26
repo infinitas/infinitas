@@ -32,7 +32,8 @@ class FilterComponent extends Object {
 	var $paginatorParams = array(
 		'page',
 		'sort',
-		'direction'
+		'direction',
+		'limit'
 	);
 
 /**
