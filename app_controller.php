@@ -579,6 +579,7 @@ class AppController extends Controller {
 				$methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
 			}*/
 		}
+
 		return $methods;
 	}
 
