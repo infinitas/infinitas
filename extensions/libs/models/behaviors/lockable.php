@@ -61,7 +61,8 @@ class LockableBehavior extends ModelBehavior {
 			'id' => $id,
 			$this->settings[$Model->alias]['fields']['locked'] => 1,
 			$this->settings[$Model->alias]['fields']['locked_by'] => $user_id,
-			$this->settings[$Model->alias]['fields']['locked_since'] => date('Y-m-d H:i:s')
+			$this->settings[$Model->alias]['fields']['locked_since'] => date('Y-m-d H:i:s'),
+			$this->settings[$Model->alias]['fields']['modified'] => false
 			);
 		$Model->save($data, array('validate' => false, 'callbacks' => false));
 		$data = $Model->read($fields, $id);
