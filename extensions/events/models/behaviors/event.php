@@ -1,5 +1,5 @@
 <?php
-class EventBehaviour extends ModelBehaviour {
+class EventBehavior extends ModelBehavior {
 	var $name = 'Events';
 	
 	/**
