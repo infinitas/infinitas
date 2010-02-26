@@ -116,7 +116,7 @@ class EventCore extends Object
 				{
 					$EventObject = $_this->eventClasses[$eventClass];
 
-					$Event = new Event($eventName, &$HandlerObject, $pluginName, $data);
+					$Event = new Event($eventName, $HandlerObject, $pluginName, $data);
 			
 					$return[$pluginName] = call_user_func_array(array(&$EventObject, $eventHandlerMethod), array(&$Event));
 				}
