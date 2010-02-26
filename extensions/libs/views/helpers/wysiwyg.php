@@ -35,7 +35,7 @@
 
     		$editor = Inflector::Classify($editor);
 
-    		if (!App::import('Helper', $editor, true, array(dirname(dirname(dirname(dirname(__FILE__))))))) {
+    		if (!App::import('Helper', $editor, true, array(dirname(dirname(dirname(dirname(__FILE__)))).DS.'wysiwyg'.DS.'webroot'.DS.'js'))) {
     			return $this->input($field, array('style' => 'width:98%; height:500px;', 'value' => sprintf(__('%s was not found', true), $editor)));
     		}
 
