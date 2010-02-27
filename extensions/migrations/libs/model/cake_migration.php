@@ -30,7 +30,7 @@ class CakeMigration extends Object {
  * @var string
  * @access public
  */
-	var $description = '';
+	public $description = '';
 
 /**
  * Migration information
@@ -45,7 +45,7 @@ class CakeMigration extends Object {
  * @var array
  * @access public
  */
-	var $info = null;
+	public $info = null;
 
 /**
  * Actions to be performed
@@ -53,7 +53,7 @@ class CakeMigration extends Object {
  * @var array $migration
  * @access public
  */
-	var $migration = array(
+	public $migration = array(
 		'up' => array(),
 		'down' => array()
 	);
@@ -64,7 +64,7 @@ class CakeMigration extends Object {
  * @var string $direction
  * @access public
  */
-	var $direction = null;
+	public $direction = null;
 
 /**
  * Connection used
@@ -72,7 +72,7 @@ class CakeMigration extends Object {
  * @var string
  * @access public
  */
-	var $connection = 'default';
+	public $connection = 'default';
 
 /**
  * DataSource used
@@ -80,7 +80,7 @@ class CakeMigration extends Object {
  * @var DataSource
  * @access public
  */
-	var $db = null;
+	public $db = null;
 
 /**
  * CakeSchema instace
@@ -88,7 +88,7 @@ class CakeMigration extends Object {
  * @var CakeSchema
  * @access public
  */
-	var $Schema = null;
+	public $Schema = null;
 
 /**
  * Callback class that will be called before/after every action
@@ -96,7 +96,7 @@ class CakeMigration extends Object {
  * @var object
  * @access public
  */
-	var $callback = null;
+	public $callback = null;
 
 /**
  * Before migration callback
@@ -105,7 +105,7 @@ class CakeMigration extends Object {
  * @return boolean Should process continue
  * @access public
  */
-	function before($direction) {
+	public function before($direction) {
 		return true;
 	}
 
@@ -116,7 +116,7 @@ class CakeMigration extends Object {
  * @return boolean Should process continue
  * @access public
  */
-	function after($direction) {
+	public function after($direction) {
 		return true;
 	}
 
@@ -125,7 +125,7 @@ class CakeMigration extends Object {
  *
  * @param array $options optional load object properties
  */
-	function __construct($options = array()) {
+	public function __construct($options = array()) {
 		parent::__construct();
 
 		if (!empty($options['up'])) {
@@ -150,10 +150,11 @@ class CakeMigration extends Object {
  * @return boolean Status of the process
  * @access public
  */
-	function run($direction) {
+	public function run($direction) {
 		if (!in_array($direction, array('up', 'down'))) {
-			trigger_error(sprintf(__d('migrations', 'Migration direction (%s) is not one of valid directions.', true), $direction), E_USER_NOTICE);
-			return false;
+			throw new MigrationException($this, sprintf(
+				__d('migrations', 'Migration direction (%s) is not one of valid directions.', true), $direction
+			), E_USER_NOTICE);
 		}
 		$this->direction = $direction;
 
@@ -193,8 +194,9 @@ class CakeMigration extends Object {
 					$methodName = '_alterTable';
 					break;
 				default:
-					trigger_error(sprintf(__d('migrations', 'Migration action type (%s) is not one of valid actions type.', true), $type), E_USER_NOTICE);
-					continue 2;
+					throw new MigrationException($this, sprintf(
+						__d('migrations', 'Migration action type (%s) is not one of valid actions type.', true), $type
+					), E_USER_NOTICE);
 			}
 
 			$this->{$methodName}($type, $info);
@@ -212,12 +214,19 @@ class CakeMigration extends Object {
  * @return boolean Return true in case of success, otherwise false
  * @access protected
  */
-	function _createTable($type, $tables) {
+	protected function _createTable($type, $tables) {
 		foreach ($tables as $table => $fields) {
+			if (in_array($table, $this->db->listSources())) {
+				throw new MigrationException($this, sprintf(
+					__d('migrations', 'Table "%s" already exists in database.', true), $table
+				));
+			}
 			$this->Schema->tables = array($table => $fields);
 
 			$this->__invokeCallbacks('beforeAction', 'create_table', array('table' => $table));
-			$this->db->execute($this->db->createSchema($this->Schema));
+			if (@$this->db->execute($this->db->createSchema($this->Schema)) === false) {
+				throw new MigrationException($this, sprintf(__d('migrations', 'SQL Error: %s', true), $this->db->error));
+			}
 			$this->__invokeCallbacks('afterAction', 'create_table', array('table' => $table));
 		}
 		return true;
@@ -231,12 +240,19 @@ class CakeMigration extends Object {
  * @return boolean Return true in case of success, otherwise false
  * @access protected
  */
-	function _dropTable($type, $tables) {
+	protected function _dropTable($type, $tables) {
 		foreach ($tables as $table) {
+			if (!in_array($table, $this->db->listSources())) {
+				throw new MigrationException($this, sprintf(
+					__d('migrations', 'Table "%s" does not exists in database.', true), $table
+				));
+			}
 			$this->Schema->tables = array($table => array());
 
 			$this->__invokeCallbacks('beforeAction', 'drop_table', array('table' => $table));
-			$this->db->execute($this->db->dropSchema($this->Schema));
+			if (@$this->db->execute($this->db->dropSchema($this->Schema)) === false) {
+				throw new MigrationException($this, sprintf(__d('migrations', 'SQL Error: %s', true), $this->db->error));
+			}
 			$this->__invokeCallbacks('afterAction', 'drop_table', array('table' => $table));
 		}
 		return true;
@@ -250,12 +266,24 @@ class CakeMigration extends Object {
  * @return boolean Return true in case of success, otherwise false
  * @access protected
  */
-	function _renameTable($type, $tables) {
+	protected function _renameTable($type, $tables) {
 		foreach ($tables as $oldName => $newName) {
+			$sources = $this->db->listSources();
+			if (!in_array($oldName, $sources)) {
+				throw new MigrationException($this, sprintf(
+					__d('migrations', 'Table "%s" does not exists in database.', true), $oldName
+				));
+			} else if (in_array($newName, $sources)) {
+				throw new MigrationException($this, sprintf(
+					__d('migrations', 'Table "%s" already exists in database.', true), $newName
+				));
+			}
 			$sql = 'RENAME TABLE ' . $this->db->fullTableName($oldName) . ' TO ' . $this->db->fullTableName($newName) . ';';
 
 			$this->__invokeCallbacks('beforeAction', 'rename_table', array('old_name' => $oldName, 'new_name' => $newName));
-			$this->db->execute($sql);
+			if (@$this->db->execute($sql) === false) {
+				throw new MigrationException($this, sprintf(__d('migrations', 'SQL Error: %s', true), $this->db->error));
+			}
 			$this->__invokeCallbacks('afterAction', 'rename_table', array('old_name' => $oldName, 'new_name' => $newName));
 		}
 		return true;
@@ -269,7 +297,7 @@ class CakeMigration extends Object {
  * @return boolean Return true in case of success, otherwise false
  * @access protected
  */
-	function _alterTable($type, $tables) {
+	protected function _alterTable($type, $tables) {
 		foreach ($tables as $table => $fields) {
 			$indexes = array();
 			if (isset($fields['indexes'])) {
@@ -278,30 +306,40 @@ class CakeMigration extends Object {
 			}
 
 			foreach ($fields as $field => $col) {
+				$model = new Model(array('table' => $table, 'ds' => $this->connection));
+				$tableFields = $this->db->describe($model);
+
+				if ($type === 'drop') {
+					$field = $col;
+				}
+				if ($type !== 'add' && !isset($tableFields[$field])) {
+					throw new MigrationException($this, sprintf(
+						__d('migrations', 'Field "%s" does not exists in "%s".', true), $field, $table
+					));
+				}
+
 				switch ($type) {
 					case 'add':
+						if (isset($tableFields[$field])) {
+							throw new MigrationException($this, sprintf(
+								__d('migrations', 'Field "%s" already exists in "%s".', true), $field, $table
+							));
+						}
 						$sql = $this->db->alterSchema(array(
 							$table => array('add' => array($field => $col))
 						));
 						break;
 					case 'drop':
-						$field = $col;
 						$sql = $this->db->alterSchema(array(
 							$table => array('drop' => array($field => array()))
 						));
 						break;
 					case 'change':
-						$model = new Model(array('table' => $table, 'ds' => $this->connection));
-						$tableFields = $this->db->describe($model);
-
 						$sql = $this->db->alterSchema(array(
 							$table => array('change' => array($field => array_merge($tableFields[$field], $col)))
 						));
 						break;
 					case 'rename':
-						$model = new Model(array('table' => $table, 'ds' => $this->connection));
-						$tableFields = $this->db->describe($model);
-
 						$sql = $this->db->alterSchema(array(
 							$table => array('change' => array($field => array_merge($tableFields[$field], array('name' => $col))))
 						));
@@ -315,7 +353,9 @@ class CakeMigration extends Object {
 				}
 
 				$this->__invokeCallbacks('beforeAction', $type . '_field', $data);
-				$this->db->execute($sql);
+				if (@$this->db->execute($sql) === false) {
+					throw new MigrationException($this, sprintf(__d('migrations', 'SQL Error: %s', true), $this->db->error));
+				}
 				$this->__invokeCallbacks('afterAction', $type . '_field', $data);
 			}
 
@@ -329,7 +369,9 @@ class CakeMigration extends Object {
 				));
 
 				$this->__invokeCallbacks('beforeAction', $type . '_index', array('table' => $table, 'index' => $key));
-				$this->db->execute($sql);
+				if (@$this->db->execute($sql) === false) {
+					throw new MigrationException($this, sprintf(__d('migrations', 'SQL Error: %s', true), $this->db->error));
+				}
 				$this->__invokeCallbacks('afterAction', $type . '_index', array('table' => $table, 'index' => $key));
 			}
 		}
@@ -348,7 +390,7 @@ class CakeMigration extends Object {
  * @return void
  * @access private
  */
-	function __invokeCallbacks($callback, $type, $data = array()) {
+	private function __invokeCallbacks($callback, $type, $data = array()) {
 		if ($this->callback !== null && method_exists($this->callback, $callback)) {
 			if ($callback == 'beforeMigration' || $callback == 'afterMigration') {
 				$this->callback->{$callback}($this, $type);
@@ -372,7 +414,7 @@ class CakeMigration extends Object {
  * @return void
  * @access private
  */
-	function __clearCache() {
+	private function __clearCache() {
 		Cache::clear(false, '_cake_model_');
 		ClassRegistry::flush();
 	}
@@ -385,7 +427,7 @@ class CakeMigration extends Object {
  * @return Model
  * @access public
  */
-	function generateModel($name, $table = null, $options = array()) {
+	public function generateModel($name, $table = null, $options = array()) {
 		if (empty($table)) {
 			$table = Inflector::tableize($name);
 		}
@@ -397,4 +439,34 @@ class CakeMigration extends Object {
 		return new AppModel($options);
 	}
 }
+
+/**
+ * Exception used when something goes wrong on migrations
+ *
+ * @package       migrations
+ * @subpackage    migrations.libs.model
+ */
+class MigrationException extends Exception {
+
+/**
+ * Reference to the Migration being processed on time the error ocurred
+
+ * @var CakeMigration
+ */
+	public $Migration;
+
+/**
+ * Constructor
+ *
+ * @param CakeMigration $Migration Reference to the Migration
+ * @param string $message Message explaining the error
+ * @param int $code Error code
+ * @return void
+ */
+	public function __construct(&$Migration, $message = '', $code = 0) {
+		parent::__construct($message, $code);
+		$this->Migration = $Migration;
+	}
+}
+
 ?>

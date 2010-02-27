@@ -19,7 +19,7 @@
      */
 ?>
 <div class="install">
-    <h2><?php __( 'And were done' ); ?></h2>
+    <h2><?php __( 'And we\'re done' ); ?></h2>
     <p>
         Frontend:
         <?php

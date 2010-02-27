@@ -98,6 +98,7 @@ class Config extends ManagementAppModel {
 				)
 			)
 		);
+		
 	}
 
 	/**

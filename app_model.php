@@ -118,5 +118,12 @@
 
 			return array('' => 'None') + (array)$return;
 		}
+		
+		function setTablePrefix(){
+			//Hack to make Migrations work
+			if($this->useTable == 'schema_migrations'){
+				$this->tablePrefix = '';
+			}
+		}
 	}
 ?>
