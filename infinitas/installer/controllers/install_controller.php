@@ -60,9 +60,9 @@ class InstallController extends InstallerAppController {
 
 		$this->helpers[] = 'Html';
 
-		App::import('Component', 'Session');
-		$this->Session = new SessionComponent;
-
+		//App::import('Component', 'Session');
+		//$this->Session = new SessionComponent;
+	
 		$this->sql = array(
 			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
@@ -203,12 +203,12 @@ class InstallController extends InstallerAppController {
 				$content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
 				
 				if ($file->write($content)) {
-					SessionComponent::setFlash(__('Database configuration saved.', true));
+					//SessionComponent::setFlash(__('Database configuration saved.', true));
 					$this->install();
 				}
-				SessionComponent::setFlash(__('Could not write database.php file.', true));
+				//SessionComponent::setFlash(__('Could not write database.php file.', true));
 			}else {
-				SessionComponent::setFlash(__('That connection does not seem to be valid', true));
+				//SessionComponent::setFlash(__('That connection does not seem to be valid', true));
 			}
 		}
 	}
@@ -227,7 +227,7 @@ class InstallController extends InstallerAppController {
 		$db = ConnectionManager::getDataSource('default');
 
 		if (!$db->isConnected()) {
-			SessionComponent::setFlash(__('Could not connect to database.', true));
+			//SessionComponent::setFlash(__('Could not connect to database.', true));
 		}
 		else {
 			// Can be 'app' or a plugin name
@@ -250,7 +250,7 @@ class InstallController extends InstallerAppController {
 			}
 			else
 			{
-				SessionComponent::setFlash(__('There was an error installing database data.', true));
+				//SessionComponent::setFlash(__('There was an error installing database data.', true));
 			}
 		}
 	}

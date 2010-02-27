@@ -64,6 +64,22 @@
 		var $_errors = array();
 
 		/**
+		 * Constructor 
+		 * @param $id
+		 * @param $table
+		 * @param $ds
+		 * @return unknown_type
+		 */
+		function __construct( $id = false, $table = NULL, $ds = NULL ){
+			//Hack to make Migrations work
+			if(isset($id['name']) && $id['name'] == 'SchemaMigration'){
+				$this->tablePrefix = '';
+			}
+
+			parent::__construct($id, $table, $ds);
+		}		
+		
+		/**
 		* convert json data.
 		*
 		* takes a string and returns some data. can pass return false for validation.
@@ -117,13 +133,6 @@
 			}
 
 			return array('' => 'None') + (array)$return;
-		}
-		
-		function setTablePrefix(){
-			//Hack to make Migrations work
-			if($this->useTable == 'schema_migrations'){
-				$this->tablePrefix = '';
-			}
 		}
 	}
 ?>
