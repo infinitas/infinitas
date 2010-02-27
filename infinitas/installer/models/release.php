@@ -10,6 +10,7 @@
 
 		var $coreDataTables = array(
 			'cms_content_layouts',
+
 			'core_acos',
 			'core_aros',
 			'core_aros_acos',
@@ -61,15 +62,15 @@
 		}
 
 		function getCoreData(){
-			$this->_writeFileData(
+			return $this->_writeFileData(
 				$this->_getTableData($this->coreDataTables),
 				'core.dat'
 			);
 		}
 
 		function getSampleData(){
-			$this->_writeFileData(
-				$this->_getTableData($this->sampleDataTables),
+			return $this->_writeFileData(
+				$this->_getTableData($this->coreDataTables),
 				'sample.dat'
 			);
 		}
@@ -78,17 +79,32 @@
 
 
 		function writeCoreData(){
-			$this->_writeTableData(
-				$this->_getFileData('core.dat')
-			);
+			if ($this->_truncateTables($this->coreDataTables)) {
+				return $this->_writeTableData(
+					$this->_getFileData('core.dat')
+				);
+			}
+			return false;
 		}
 
 		function writeSampleData(){
-			$this->_writeTableData(
-				$this->_getFileData('sample.dat')
-			);
+			if ($this->_truncateTables($this->sampleDataTables)) {
+				return $this->_writeTableData(
+					$this->_getFileData('sample.dat')
+				);
+			}
+			return false;
 		}
 
+
+		function _truncateTables($tables = array()){
+			$check = true;
+			foreach($tables as $table){
+				$check = $check && $this->query('TRUNCATE `'.$table.'`;');
+			}
+
+			return $check;
+		}
 
 
 
@@ -123,9 +139,13 @@
 		}
 
 		function _writeTableData($datas){
+			$status = true;
+
 			foreach($datas as $data){
-				$this->query($data);
+				$status = $status && $this->query($data);
 			}
+
+			return $status;
 		}
 
 
@@ -143,7 +163,7 @@
 			App::import('File');
 
 			$this->File = new File($this->path().$file, true);
-			$this->File->write($data);
+			return $this->File->write($data);
 		}
 
 

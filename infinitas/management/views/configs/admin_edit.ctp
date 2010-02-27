@@ -33,7 +33,8 @@
                     'value',
                     array(
                         'type' => 'checkbox',
-                        'label' => Inflector::humanize( $label )
+                        'label' => Inflector::humanize( $label ),
+                        'value' => $this->data['Config']['value']
                     )
                 );
                 break;
