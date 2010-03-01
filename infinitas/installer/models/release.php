@@ -11,9 +11,9 @@
 		var $coreDataTables = array(
 			'cms_content_layouts',
 
-			'core_acos',
-			'core_aros',
-			'core_aros_acos',
+			'acos',
+			'aros',
+			'aros_acos',
 			'core_configs',
 			'core_countries',
 			'core_groups',

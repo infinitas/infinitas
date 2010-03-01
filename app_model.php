@@ -21,8 +21,8 @@
 		* The database configuration to use for the site.
 		*/
 		var $useDbConfig = 'default';
-		var $tablePrefix = 'core_';
-
+		//var $tablePrefix = 'core_';
+		
 		/**
 		* Behaviors to attach to the site.
 		*/
@@ -71,14 +71,14 @@
 		 * @param $ds
 		 * @return unknown_type
 		 */
-		function __construct( $id = false, $table = NULL, $ds = NULL ){
+		/*function __construct( $id = false, $table = NULL, $ds = NULL ){
 			//Hack to make Migrations work
 			if(isset($id['name']) && $id['name'] == 'SchemaMigration'){
 				$this->tablePrefix = '';
 			}
 
 			parent::__construct($id, $table, $ds);
-		}		
+		}*/		
 		
 		/**
 		* convert json data.

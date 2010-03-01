@@ -34,7 +34,7 @@
 		var $hasAndBelongsToMany = array(
 			'Route' => array(
 				'className' => 'Management.Route',
-				'joinTable' => 'modules_routes',
+				'joinTable' => 'core_modules_routes',
 				'foreignKey' => 'module_id',
 				'associationForeignKey' => 'route_id',
 				'unique' => true
