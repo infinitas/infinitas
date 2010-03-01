@@ -7,7 +7,7 @@
 		var $name = 'Backlinks';
 
 		function admin_index(){
-			$this->Backlink->find('count');
+			$this->Backlink->find('all');
 			$this->set(compact('data'));
 		}
 	}
