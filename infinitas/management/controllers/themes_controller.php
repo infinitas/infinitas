@@ -80,34 +80,23 @@
 
 
 		/**
-		* Mass action.
+		* Mass toggle action.
 		*
 		* This overwrites the default toggle action so that other themes can
 		* be deactivated first as you should only have one active at a time.
 		*/
-		function admin_mass() {
-			$model = $this->modelNames[0];
-			$ids = $this->__massGetIds($this->data[$model]);
+		function __massActionToggle($ids) {
+			if (count($ids) > 1) {
+				$this->Session->setFlash(__('Please select only one theme to be active', true));
+				$this->redirect($this->referer());
+			}
 
-			switch($this->__massGetAction($this->params['form'])) {
-				case 'toggle':
-					if (count($ids) > 1) {
-						$this->Session->setFlash(__('Please select only one theme to be active', true));
-						$this->redirect($this->referer());
-					}
+			if ($this->Theme->_deactivateAll()) {
+				return parent::__massActionToggle($ids);
+			}
 
-					if ($this->Theme->_deactivateAll()) {
-						return parent::__massActionToggle($ids);
-					}
-
-					$this->Session->setFlash(__('There was a problem deactivating the other theme', true));
-					$this->redirect($this->referer());
-					break;
-
-				default:
-					parent::admin_mass();
-					break;
-			} // switch
+			$this->Session->setFlash(__('There was a problem deactivating the other theme', true));
+			$this->redirect($this->referer());
 		}
 	}
 ?>

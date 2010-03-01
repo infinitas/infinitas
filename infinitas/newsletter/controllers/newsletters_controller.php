@@ -281,21 +281,11 @@ class NewslettersController extends NewsletterAppController {
 	function admin_delte() {
 		return false;
 	}
-
-	function admin_mass() {
-		$model = $this->modelNames[0];
-		$ids = $this->__massGetIds($this->data[$model]);
-
-		switch($this->__massGetAction($this->params['form'])) {
-			case 'delete':
-				return parent::__massActionDelete($this->__canDelete($ids));
-				break;
-
-			default:
-				parent::admin_mass();
-				break;
-		} // switch
-	}
+	
+	function __massActionDelete($ids)
+	{
+		return parent::__massActionDelete($this->__canDelete($ids));
+	}	
 
 	function __canDelete($ids) {
 		$newsletters = $this->Newsletter->find(

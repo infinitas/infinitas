@@ -221,21 +221,11 @@ class TemplatesController extends NewsletterAppController {
 
 		parent::admin_delete($id);
 	}
-
-	function admin_mass() {
-		$model = $this->modelNames[0];
-		$ids = $this->__massGetIds($this->data[$model]);
-
-		switch($this->__massGetAction($this->params['form'])) {
-			case 'delete':
-				return parent::__massActionDelete($this->__canDelete($ids));
-				break;
-
-			default:
-				parent::admin_mass();
-				break;
-		} // switch
-	}
+	
+	function __massActionDelete($ids)
+	{
+		return parent::__massActionDelete($this->__canDelete($ids));
+	}	
 
 	function __canDelete($ids) {
 		$newsletters = $this->Template->Newsletter->find(

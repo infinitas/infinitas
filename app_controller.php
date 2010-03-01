@@ -323,11 +323,11 @@ class AppController extends Controller {
 		$massActionMethod = '__massAction' . ucfirst($massAction);
 
 		if(method_exists($this, $massActionMethod)){
-			$this->{$massActionMethod}($ids);
+			return $this->{$massActionMethod}($ids);
 		}
 		else
 		{
-			$this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
+			return $this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
 		}
 	}
 
@@ -394,6 +394,8 @@ class AppController extends Controller {
 	}
 	
 	function __handleDeletes($ids) {
+		$model = $this->modelNames[0];
+		
 		if($this->{$model}->Behaviors->attached('SoftDeletable')) {
 			$result = true;
 			foreach($ids as $id) {		
