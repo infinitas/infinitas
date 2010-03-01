@@ -17,6 +17,7 @@ class TrashController extends ManagementAppController {
 	function admin_index(){
 		$trashableTables = $this->_getTrashableTables();
 
+		$trashed = array();
 		foreach($trashableTables as $table ){
 			$count = $this->db->query(
 				'SELECT COUNT(*) AS `count` FROM `'.$table['table'].'` AS `'.$table['model'].'`   WHERE `'.$table['model'].'`.`deleted` = 1'
@@ -30,7 +31,7 @@ class TrashController extends ManagementAppController {
 			);
 		}
 
-		$this->set('trashed', $trashed);
+		$this->set(compact('trashed'));
 	}
 
 	function admin_list_items(){
