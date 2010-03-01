@@ -31,7 +31,7 @@ class MigrationShell extends Shell {
  * @var string
  * @access public
  */
-	var $connection = 'default';
+	public $connection = 'default';
 
 /**
  * Current path to load and save migrations
@@ -39,7 +39,7 @@ class MigrationShell extends Shell {
  * @var string
  * @access public
  */
-	var $path;
+	public $path;
 
 /**
  * Type of migration, can be 'app' or a plugin name
@@ -47,7 +47,7 @@ class MigrationShell extends Shell {
  * @var string
  * @access public
  */
-	var $type = 'app';
+	public $type = 'app';
 
 /**
  * MigrationVersion instance
@@ -55,7 +55,7 @@ class MigrationShell extends Shell {
  * @var MigrationVersion
  * @access public
  */
-	var $Version;
+	public $Version;
 
 /**
  * Messages used to display action being perfomed
@@ -63,7 +63,7 @@ class MigrationShell extends Shell {
  * @var array
  * @access private
  */
-	var $__messages = array();
+	private $__messages = array();
 
 /**
  * Override startup
@@ -71,7 +71,7 @@ class MigrationShell extends Shell {
  * @return void
  * @access public
  */
-	function startup() {
+	public function startup() {
 		$this->_welcome();
 		$this->out(__d('migrations', 'Cake Migration Shell', true));
 		$this->hr();
@@ -107,7 +107,7 @@ class MigrationShell extends Shell {
  * @return void
  * @access public
  */
-	function main() {
+	public function main() {
 		$this->run();
 	}
 
@@ -117,7 +117,7 @@ class MigrationShell extends Shell {
  * @return void
  * @access public
  */
-	function run() {
+	public function run() {
 		$mapping = $this->Version->getMapping($this->type);
 		if ($mapping === false) {
 			$this->out(__d('migrations', 'No migrations available.', true));
@@ -162,7 +162,7 @@ class MigrationShell extends Shell {
 					if (strtolower($response) === 'q') {
 						return $this->_stop();
 					} else if (strtolower($response) === 'c') {
-						$this->Dispatch->clear();
+						$this->_clear();
 						continue;
 					}
 
@@ -180,10 +180,19 @@ class MigrationShell extends Shell {
 		}
 
 		$this->out(__d('migrations', 'Running migrations:', true));
-		$this->Version->run($options);
+		try {
+			$this->Version->run($options);
+		} catch (MigrationException $e) {
+			$this->out(__d('migrations', 'An error ocurred when processing the migration:', true));
+			$this->out('  ' . sprintf(__d('migrations', 'Migration: %s', true), $e->Migration->info['name']));
+			$this->out('  ' . sprintf(__d('migrations', 'Error: %s', true), $e->getMessage()));
+
+			$this->out('');
+			return false;
+		}
 
 		$this->out(__d('migrations', 'All migrations have completed.', true));
-		$this->out();
+		$this->out('');
 		return true;
 	}
 
@@ -193,7 +202,7 @@ class MigrationShell extends Shell {
  * @return void
  * @access public
  */
-	function generate() {
+	public function generate() {
 		while (true) {
 			$name = $this->in(__d('migrations', 'Please enter the descriptive name of the migration to generate:', true));
 			if (!preg_match('/^([a-z0-9]+|\s)+$/', $name)) {
@@ -205,21 +214,19 @@ class MigrationShell extends Shell {
 			}
 		}
 
-		$this->Schema = new CakeSchema(array('connection' => $this->connection));
+		$this->Schema = $this->_getSchema();
 		$migration = array('up' => array(), 'down' => array());
 
-		if (file_exists(CONFIGS . 'schema' . DS . 'schema.php')) {
+		$oldSchema = $this->_getSchema($this->type);
+		if ($oldSchema !== false) {
 			$response = $this->in(__d('migrations', 'Do you wanna compare the schema.php file to the database?', true), array('y', 'n'), 'y');
 			if (strtolower($response) === 'y') {
 				$this->hr();
 				$this->out(__d('migrations', 'Comparing schema.php to the database...', true));
 
-				include CONFIGS . 'schema' . DS . 'schema.php';
-				$oldSchema = new AppSchema(array('connection' => $this->connection));
-				$newSchema = $this->Schema->read(array('models' => !isset($this->params['f'])));
+				$newSchema = $this->_readSchema();
 				$comparison = $this->Schema->compare($oldSchema, $newSchema);
-
-				$migration = $this->_fromComparison($migration, $comparison, $oldSchema->tables);
+				$migration = $this->_fromComparison($migration, $comparison, $oldSchema->tables, $newSchema['tables']);
 			}
 		} else {
 			$response = $this->in(__d('migrations', 'Do you wanna generate a dump from current database?', true), array('y', 'n'), 'y');
@@ -227,7 +234,7 @@ class MigrationShell extends Shell {
 				$this->hr();
 				$this->out(__d('migrations', 'Generating dump from current database...', true));
 
-				$dump = $this->Schema->read(array('models' => !isset($this->params['f'])));
+				$dump = $this->_readSchema();
 				$dump = $dump['tables'];
 				unset($dump['missing']);
 
@@ -257,7 +264,7 @@ class MigrationShell extends Shell {
 		$this->out(__d('migrations', 'Mapping Migrations...', true));
 		$this->_writeMap($map);
 
-		$this->out();
+		$this->out('');
 		$this->out(__d('migrations', 'Done.', true));
 	}
 
@@ -267,8 +274,44 @@ class MigrationShell extends Shell {
  * @see generate
  * @access public
  */
-	function add() {
+	public function add() {
 		return $this->generate();
+	}
+
+/**
+ * Displays a summary of all plugin and app migrations
+ *
+ * @access public
+ * @return void
+ */
+	public function summary() {
+		$types = App::objects('plugin');
+		ksort($types);
+		array_unshift($types, 'App');
+
+		foreach ($types as $name) {
+			$type = Inflector::underscore($name);
+			$mapping = $this->Version->getMapping($type);
+			if ($mapping === false || count($mapping) === 0) {
+				continue;
+			}
+
+			$version = $this->Version->getVersion($type);
+			$this->out($name . ' Plugin');
+			$this->out('');
+			$this->out(__d('migrations', 'Current version:', true));
+			if ($version != 0) {
+				$info = $mapping[$version];
+				$this->out('  #' . number_format($info['version'] / 100, 2, '', '') . ' ' . $info['name']);
+			} else {
+				$this->out('  ' . __d('migrations', 'None applied.', true));
+			}
+
+			$info = array_pop($mapping);
+			$this->out(__d('migrations', 'Latest version:', true));
+			$this->out('  #' . number_format($info['version'] / 100, 2, '', '') . ' ' . $info['name']);
+			$this->hr();
+		}
 	}
 
 /**
@@ -277,7 +320,7 @@ class MigrationShell extends Shell {
  * @return void
  * @access public
  */
-	function help() {
+	public function help() {
 		$help = <<<TEXT
 The Migration database management for CakePHP
 ---------------------------------------------------------------
@@ -305,6 +348,9 @@ Commands:
 	migration <generate|add>
 		Generates a migration file.
 		To force generation of all tables when making a comparison/dump, use the -f param.
+
+	migration summary
+		Displays a summary of all plugin and app migrations
 TEXT;
 
 		$this->out($help);
@@ -319,7 +365,7 @@ TEXT;
  * @return void
  * @access protected
  */
-	function _showInfo($mapping, $type = null) {
+	protected function _showInfo($mapping, $type = null) {
 		if ($type === null) {
 			$type = $this->type;
 		}
@@ -346,15 +392,26 @@ TEXT;
 	}
 
 /**
+ * Clear the console
+ *
+ * @return void
+ * @access public
+ */
+	protected function _clear() {
+		$this->Dispatch->clear();
+	}
+
+/**
  * Generate a migration string using comparison
  *
  * @param array $migration Migration instructions array
  * @param array $comparison Result from CakeSchema::compare()
  * @param array $oldTables List of tables on schema.php file
+ * @param array $currentTables List of current tables on database
  * @return array
  * @access protected
  */
-	function _fromComparison($migration, $comparison, $oldTables) {
+	protected function _fromComparison($migration, $comparison, $oldTables, $currentTables) {
 		foreach ($comparison as $table => $actions) {
 			if (!isset($oldTables[$table])) {
 				$migration['up']['create_table'][$table] = $actions['add'];
@@ -370,30 +427,75 @@ TEXT;
 				}
 
 				if ($type == 'add') {
-					$migration['up']['add_field'][$table] = array_merge($fields, $indexes);
+					$migration['up']['create_field'][$table] = array_merge($fields, $indexes);
 
 					$migration['down']['drop_field'][$table] = array_keys($fields);
 					if (!empty($indexes['indexes'])) {
 						$migration['down']['drop_field'][$table]['indexes'] = array_keys($indexes['indexes']);
 					}
+				} else if ($type == 'change') {
+					$migration['up']['alter_field'][$table] = $fields;
+					$migration['down']['alter_field'][$table] = array_intersect_key($oldTables[$table], $fields);
 				} else {
 					$migration['up']['drop_field'][$table] = array_keys($fields);
 					if (!empty($indexes['indexes'])) {
 						$migration['up']['drop_field'][$table]['indexes'] = array_keys($indexes['indexes']);
 					}
 
-					$migration['down']['add_field'][$table] = array_merge($fields, $indexes);
+					$migration['down']['create_field'][$table] = array_merge($fields, $indexes);
 				}
 			}
 		}
 
 		foreach ($oldTables as $table => $fields) {
-			if (!isset($comparison[$table])) {
+			if (!isset($currentTables[$table])) {
 				$migration['up']['drop_table'][] = $table;
 				$migration['down']['create_table'][$table] = $fields;
 			}
 		}
 		return $migration;
+	}
+
+/**
+ * Load and construct the schema class if exists
+ *
+ * @param string $type Can be 'app' or a plugin name
+ * @return mixed False in case of no file found, schema object
+ * @access protected
+ */
+	protected function _getSchema($type = null) {
+		if ($type === null) {
+			return new CakeSchema(array('connection' => $this->connection));
+		}
+		$file = $this->__getPath($type) . 'config' . DS . 'schema' . DS . 'schema.php';
+		if (!file_exists($file)) {
+			return false;
+		}
+		require_once $file;
+
+		$name = Inflector::camelize($type) . 'Schema';
+		if ($type == 'app' && !class_exists($name)) {
+			$name = Inflector::camelize($this->params['app']) . 'Schema';
+		}
+		$schema = new $name(array('connection' => $this->connection));
+		if ($type != 'app') {
+			$schema->plugin = $type;
+		}
+		return $schema;
+	}
+
+/**
+ * Reads the schema data
+ *
+ * @return array
+ * @access protected
+ */
+	protected function _readSchema() {
+		$read = $this->Schema->read(array('models' => !isset($this->params['f'])));
+		if ($this->type !== 'migrations') {
+			unset($read['tables']['schema_migrations']);
+		}
+		return $read;
 	}
 
 /**
@@ -405,13 +507,13 @@ TEXT;
  * @return boolean
  * @access protected
  */
-	function _writeMigration($name, $class, $migration) {
+	protected function _writeMigration($name, $class, $migration) {
 		$content = '';
 		foreach ($migration as $direction => $actions) {
 			$content .= "\t\t'" . $direction . "' => array(\n";
 			foreach ($actions as $type => $tables) {
 				$content .= "\t\t\t'" . $type . "' => array(\n";
-				if ($type == 'create_table' || $type == 'add_field') {
+				if ($type == 'create_table' || $type == 'create_field' || $type == 'alter_field') {
 					foreach ($tables as $table => $fields) {
 						$content .= "\t\t\t\t'" . $table . "' => array(\n";
 						foreach ($fields as $field => $col) {
@@ -466,7 +568,7 @@ TEXT;
  * @return boolean
  * @access protected
  */
-	function _writeMap($map) {
+	protected function _writeMap($map) {
 		$content = "<?php\n";
 		$content .= "\$map = array(\n";
 		foreach ($map as $version => $info) {
@@ -488,7 +590,7 @@ TEXT;
  * @return string
  * @access private
  */
-	function __values($values) {
+	private function __values($values) {
 		$_values = array();
 		if (is_array($values)) {
 			foreach ($values as $key => $value) {
@@ -511,7 +613,7 @@ TEXT;
  * @return string
  * @access private
  */
-	function __generateTemplate($template, $vars) {
+	private function __generateTemplate($template, $vars) {
 		extract($vars);
 		ob_start();
 		ob_implicit_flush(0);
@@ -524,12 +626,16 @@ TEXT;
 /**
  * Return the path used
  *
+ * @param string $type Can be 'app' or a plugin name
  * @return string Path used
  * @access private
  */
-	function __getPath() {
-		if ($this->type != 'app') {
-			return App::pluginPath($this->type);
+	private function __getPath($type = null) {
+		if ($type === null) {
+			$type = $this->type;
+		}
+		if ($type != 'app') {
+			return App::pluginPath($type);
 		}
 		return APP;
 	}
@@ -542,7 +648,7 @@ TEXT;
  * @return void
  * @access public
  */
-	function beforeMigration(&$Migration, $direction) {
+	public function beforeMigration(&$Migration, $direction) {
 		$this->out('  [' . number_format($Migration->info['version'] / 100, 2, '', '') . '] ' . $Migration->info['name']);
 	}
 
@@ -554,8 +660,8 @@ TEXT;
  * @return void
  * @access public
  */
-	function afterMigration(&$Migration, $direction) {
-		$this->out();
+	public function afterMigration(&$Migration, $direction) {
+		$this->out('');
 	}
 
 /**
@@ -567,7 +673,7 @@ TEXT;
  * @return void
  * @access public
  */
-	function beforeAction(&$Migration, $type, $data) {
+	public function beforeAction(&$Migration, $type, $data) {
 		if (isset($this->__messages[$type])) {
 			$message = String::insert($this->__messages[$type], $data);
 			$this->out('      > ' . $message);

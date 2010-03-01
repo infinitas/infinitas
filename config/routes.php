@@ -19,6 +19,8 @@
 	 * redirect to the installer if there is nothing
 	 */
 	if (!file_exists(APP . 'config' . DS . 'database.php')) {
+		Configure::write('Session.save', 'php');
+		
 		Router::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
 	}
 	else{
@@ -32,9 +34,10 @@
 			}
 		}
 
-
-		foreach($routes as $route ){
-			Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex'] );
+		if (!empty($routes)) {
+			foreach($routes as $route ){
+				Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex'] );
+			}
 		}
 	}
 ?>

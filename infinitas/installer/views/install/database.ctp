@@ -36,6 +36,8 @@
         echo $form->input( 'Install.login', array( 'value' => 'root', 'title' => __('This is the username to access the database', true) ) );
         echo $form->input( 'Install.password', array('title' => __('This is the password to your database', true)) );
         echo $form->input( 'Install.database', array( 'value' => 'infinitas', 'title' => __('This is the name of the database Infinitas will use', true) ) );
+        echo $form->input( 'Install.prefix', array( 'value' => '', 'title' => __('This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.', true) ) );
+        echo $form->input( 'Install.sample_data', array('type' => 'checkbox', 'title' => __('Should sample data be installed', true) ) );
         echo $form->end( 'Submit' );
     ?>
 </div>

@@ -62,7 +62,7 @@ class InstallController extends InstallerAppController {
 
 		//App::import('Component', 'Session');
 		//$this->Session = new SessionComponent;
-
+	
 		$this->sql = array(
 			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
@@ -95,7 +95,7 @@ class InstallController extends InstallerAppController {
 			),
 			array (
 				'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
-				'value' => (substr(mysql_get_client_info(), 0, 1) >= 4) ? 'Yes' : 'No',
+				'value' => (substr(str_replace('mysqlnd ', '', mysql_get_client_info()), 0, 1) >= 4) ? 'Yes' : 'No',
 				'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
 			)
 		);
@@ -189,7 +189,6 @@ class InstallController extends InstallerAppController {
 	function database() {
 		$this->set('title_for_layout', __('Database Configuration', true));
 		if (!empty($this->data)) {
-			exit;
 			if ($this->__testConnection()) {
 				copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
@@ -201,7 +200,8 @@ class InstallController extends InstallerAppController {
 				$content = str_replace('{default_login}', $this->data['Install']['login'], $content);
 				$content = str_replace('{default_password}', $this->data['Install']['password'], $content);
 				$content = str_replace('{default_database}', $this->data['Install']['database'], $content);
-
+				$content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
+				
 				if ($file->write($content)) {
 					//SessionComponent::setFlash(__('Database configuration saved.', true));
 					$this->install();
@@ -220,16 +220,15 @@ class InstallController extends InstallerAppController {
 	*/
 	function install() {
 		$this->set('title_for_layout', __('Install Database', true));
-
+		
 		App::import('Core', 'File');
 		App::import('Model', 'ConnectionManager');
-
+		
 		$db = ConnectionManager::getDataSource('default');
 
 		if (!$db->isConnected()) {
-			SessionComponent::setFlash(__('Could not connect to database.', true));
+			//SessionComponent::setFlash(__('Could not connect to database.', true));
 		}
-
 		else {
 			// Can be 'app' or a plugin name
 			$type = 'app';
@@ -237,21 +236,22 @@ class InstallController extends InstallerAppController {
 			App::import('Lib', 'Migrations.MigrationVersion');
 			// All the job is done by MigrationVersion
 			$version = new MigrationVersion();
-
+			
 			// Get the mapping and the latest version avaiable
 			$mapping = $version->getMapping($type);
 			$latest = array_pop($mapping);
 
 			// Run it to latest version
-			var_dump($version->run(array('type' => $type, 'version' => $latest['version'])));
-			exit;
+			if($version->run(array('type' => $type, 'version' => $latest['version'])))
+			{
+				ClassRegistry::init('Installer.Release')->installData($this->data['Install']['sample_data']);
 
-			$this->writeCoreData();
-			$this->writeSampleData();
-
-			$this->redirect(array('action' => 'siteConfig'));
-
-			//SessionComponent::setFlash(__('There was an error installing database data.', true));
+				$this->redirect(array('action' => 'siteConfig'));
+			}
+			else
+			{
+				//SessionComponent::setFlash(__('There was an error installing database data.', true));
+			}
 		}
 	}
 
@@ -274,7 +274,7 @@ class InstallController extends InstallerAppController {
 				} // switch
 
 				$_config['Config'] = $config;
-				$good = $good && ClassRegistry::init('CoreConfig')->save($_config);
+				$good = $good && ClassRegistry::init('Management.Config')->save($_config);
 			}
 
 			if ($good === true) {
@@ -337,34 +337,8 @@ class InstallController extends InstallerAppController {
 		return $status;
 	}
 
-
-
-
-
-	function writeCoreData(){
-		$this->_writeTableData(
-			$this->_getFileData('core.dat')
-		);
-	}
-
-	function writeSampleData(){
-		$this->_writeTableData(
-			$this->_getFileData('sample.dat')
-		);
-	}
-
 	function path(){
 		return dirname(dirname(__FILE__)).DS.'config'.DS;
-	}
-
-
-	function _writeTableData($datas){
-
-		foreach($datas as $data){
-			pr($data);
-			exit;
-			$db->query($data);
-		}
 	}
 
 	function _getFileData($file){

@@ -10,6 +10,7 @@
 
 		var $coreDataTables = array(
 			'cms_content_layouts',
+
 			'core_acos',
 			'core_aros',
 			'core_aros_acos',
@@ -60,6 +61,14 @@
 			return dirname(dirname(__FILE__)).DS.'config'.DS;
 		}
 
+		function installData($sampleData){
+			$this->writeCoreData();
+			
+			if($sampleData){
+				$this->writeSampleData();
+			}
+		}
+		
 		function getCoreData(){
 			return $this->_writeFileData(
 				$this->_getTableData($this->coreDataTables),
@@ -73,9 +82,6 @@
 				'sample.dat'
 			);
 		}
-
-
-
 
 		function writeCoreData(){
 			if ($this->_truncateTables($this->coreDataTables)) {
