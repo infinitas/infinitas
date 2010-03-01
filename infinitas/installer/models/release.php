@@ -78,7 +78,7 @@
 
 		function getSampleData(){
 			return $this->_writeFileData(
-				$this->_getTableData($this->coreDataTables),
+				$this->_getTableData($this->sampleDataTables),
 				'sample.dat'
 			);
 		}
@@ -117,8 +117,7 @@
 			foreach($tables as $table ){
 				$datas[$table] = $this->query('SELECT * FROM `'.$table.'`;');
 			}
-
-
+			
 			foreach($datas as $table => $records){
 				foreach($records as $record){
 					foreach($record[$table] as $field => $value ){
@@ -145,17 +144,12 @@
 
 		function _writeTableData($datas){
 			$status = true;
-
 			foreach($datas as $data){
 				$status = $status && $this->query($data);
 			}
 
 			return $status;
 		}
-
-
-
-
 
 		function _getFileData($file){
 			App::import('File');
@@ -170,10 +164,6 @@
 			$this->File = new File($this->path().$file, true);
 			return $this->File->write($data);
 		}
-
-
-
-
 
 		function _compress($data){
 			return addslashes(gzcompress(serialize($data),9));
