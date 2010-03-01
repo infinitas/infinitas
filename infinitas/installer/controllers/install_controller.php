@@ -95,11 +95,11 @@ class InstallController extends InstallerAppController {
 			),
 			array (
 				'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
-				'value' => (substr(str_replace('mysqlnd ', '', mysql_get_client_info()), 0, 1) >= 4) ? 'Yes' : 'No',
+				'value' => (preg_match('/['.$this->sqlVersion.'.][0-9.]{1,3}[0-9.]{1,3}/', mysql_get_client_info())) ? 'Yes' : 'No',
 				'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
 			)
 		);
-
+		
 		// path status
 		$paths = array(
 			array(
@@ -154,7 +154,7 @@ class InstallController extends InstallerAppController {
 			array (
 				'setting' => 'session.auto_start',
 				'recomendation' => 'Off',
-				'desc' => 'Sessions are completly hanled by Infinitas'
+				'desc' => 'Sessions are completly handled by Infinitas'
 				),
 			);
 
