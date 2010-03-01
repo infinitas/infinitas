@@ -391,15 +391,22 @@ class AppController extends Controller {
 	function __massActionDelete($ids) {
 		$model = $this->modelNames[0];
 
-		$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
+		if (isset($this->data['Confirm']['confirmed']) && $this->data['Confirm']['confirmed']) {
+			$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
 
-		if ($this->$model->deleteAll($conditions)) {
-			$this->Session->setFlash(__('The ' . $model . '\'s have been deleted', true));
-			$this->redirect($this->referer());
+			if ($this->$model->deleteAll($conditions)) {
+				$this->Session->setFlash(__('The ' . $model . '\'s have been deleted', true));
+				$this->redirect($this->data['Confirm']['referer']);
+			}
+
+			$this->Session->setFlash(__('The ' . $model . '\'s could not be deleted', true));
+			$this->redirect($this->data['Confirm']['referer']);
 		}
 
-		$this->Session->setFlash(__('The ' . $model . '\'s could not be deleted', true));
-		$this->redirect($this->referer());
+		$referer = $this->referer();
+		$rows = $this->$model->find('list', array('conditions' => array($model.'.id' => $ids)));
+		$this->set(compact('model', 'referer', 'rows'));
+		$this->render('delete', null, dirname(__FILE__).DS.'views'.DS.'global'.DS.'delete.ctp');
 	}
 
 	function __massActionToggle($ids) {
