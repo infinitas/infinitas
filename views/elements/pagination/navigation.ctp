@@ -129,7 +129,7 @@
                         __( 'End', true ),
                         $paginator->url(
                             array(
-                                'page' => $paginator->params['paging'][Inflector::singularize( $this->name )]['pageCount']
+                                'page' => $paginator->params['paging'][$paginator->defaultModel()]['pageCount']
                             ),
                             true
                         )
