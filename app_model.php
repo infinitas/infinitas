@@ -21,6 +21,7 @@
 		* The database configuration to use for the site.
 		*/
 		var $useDbConfig = 'default';
+		var $tablePrefix = 'core_';
 
 		/**
 		* Behaviors to attach to the site.
@@ -29,6 +30,7 @@
 			'Containable',
 			'Libs.Lockable',
 			'Libs.Logable',
+			'Events.Event'
 			//'Libs.AutomaticAssociation'
 		);
 
@@ -62,6 +64,22 @@
 		var $_errors = array();
 
 		/**
+		 * Constructor 
+		 * @param $id
+		 * @param $table
+		 * @param $ds
+		 * @return unknown_type
+		 */
+		function __construct( $id = false, $table = NULL, $ds = NULL ){
+			//Hack to make Migrations work
+			if(isset($id['name']) && $id['name'] == 'SchemaMigration'){
+				$this->tablePrefix = '';
+			}
+
+			parent::__construct($id, $table, $ds);
+		}		
+		
+		/**
 		* convert json data.
 		*
 		* takes a string and returns some data. can pass return false for validation.
@@ -76,9 +94,9 @@
 				return false;
 			}
 
-			$defaultConfig = array('assoc' => true, 'depth' => 512);
+			$defaultConfig = array('assoc' => true);
 			$config = array_merge($defaultConfig, (array)$config);
-			$json = json_decode($data, $config['assoc'], $config['depth']);
+			$json = json_decode($data, $config['assoc']);
 
 			if (!$json) {
 				$this->__jsonErrors[] = $this->_json_messages[json_last_error()];

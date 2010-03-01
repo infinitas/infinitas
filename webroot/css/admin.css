@@ -231,6 +231,8 @@ div.table .select select {
 /* Dashboard styles */
 
 .dashboard { color: #333; }
+.dashboard .counts{ overflow:auto; font-size:120%; }
+.dashboard .count{ width:30%; float:left; padding-right:10px; }
 .dashboard h2 { font-size: 14px; margin-bottom: 14px; }
 .dashboard h3, .dashboard h3, .dashboard h3, .dashboard h4 { font-weight: normal; }
 .dashboard a { color: #224488; }
@@ -243,7 +245,7 @@ div.table .select select {
 .dashboard .box .view-all a { color: #999; }
 .dashboard .tasks a { color: #333; }
 .dashboard .tasks a:hover div { background-color: #f2f2f2; border-color: #f90; }
-.dashboard .tasks div { background-color: #eee; border-top: 6px solid #cbcbcb; padding: 10px; padding-left: 40px; margin-bottom: 10px; min-height: 50px; background: #eee no-repeat 12px 12px; }
+.dashboard .tasks .item { background-color: #eee; border-top: 6px solid #cbcbcb; padding: 10px; padding-left: 40px; margin-bottom: 10px; min-height: 50px; background: #eee no-repeat 12px 12px; }
 .dashboard .tasks h4 { font-size: 16px; margin-bottom: 15px; }
 .dashboard .charts li { float: left; border: 1px solid #ccc; margin: 5px 5px 0 0; }
 .dashboard .charts h4 { font-size: 11px; line-height: 16px; padding: 5px; background-color: #ccc; }
@@ -257,3 +259,34 @@ div.table .select select {
 .left { float: left; }
 .quiet { color: #999; }
 p { line-height: 1.2em; }
+
+.dashboard .comment{
+	background: url('/infinitas/img/core/icons/fatcow/16/comments.png') no-repeat scroll 12px 12px #EEEEEE;
+	overflow:auto;
+}
+
+.dashboard .gravitar{
+	width: 50px;
+	height: 50px;
+	overflow:hidden;
+	float: left;
+	margin-right:10px;
+}
+
+.dashboard .actions{
+	float:right;
+	width: auto;
+}
+	.dashboard .actions a:hover{
+		text-decoration:underline;
+	}
+
+	.dashboard .actions a.accept{
+		color:green;
+	}
+	.dashboard .actions a.reply{
+		color:orange;
+	}
+	.dashboard .actions a.delete{
+		color:red;
+	}

@@ -43,7 +43,7 @@ class Category extends CmsAppModel {
 			),
 		'Management.Group',
 		'Locker' => array(
-			'className' => 'Core.User',
+			'className' => 'Management.User',
 			'foreignKey' => 'locked_by',
 			'conditions' => '',
 			'fields' => array(

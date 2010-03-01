@@ -11,8 +11,8 @@
             echo $this->Html->meta( 'icon' );
             echo $this->Html->css( 'admin' );
     		echo $scripts_for_layout;
-    		//echo $javascript->link( 'fckeditor' );
-    		echo $javascript->link( 'ckeditor/ckeditor' );
+    		echo $this->Html->script('/wysiwyg/js/tiny_mce/tiny_mce.js');
+    		echo $this->Html->script('/wysiwyg/js/ck_editor/ckeditor.js');
         ?>
     </head>
     <body>

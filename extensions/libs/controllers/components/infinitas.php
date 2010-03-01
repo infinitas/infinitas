@@ -173,7 +173,7 @@
 				unset($params['named']['limit']);
 			}
 
-			$parmas['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'],true);
+			$params['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'],true);
 
 			$this->Controller->redirect(
 				array(

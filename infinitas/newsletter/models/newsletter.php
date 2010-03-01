@@ -78,10 +78,11 @@ class Newsletter extends NewsletterAppModel {
 	var $hasAndBelongsToMany = array(
 		'User' =>
 		array(
-			'className' => 'Core.User',
-			'joinTable' => 'newsletter_newsletters_users',
+			'className' => 'Management.User',
+			'joinTable' => 'newsletters_users',
 			'foreignKey' => 'newsletter_id',
 			'associationForeignKey' => 'user_id',
+			'with' => 'Newsletter.NewslettersUser',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',

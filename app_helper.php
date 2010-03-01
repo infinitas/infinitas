@@ -161,6 +161,17 @@ class AppHelper extends Helper {
 			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 	}
 
+	function adminEditHead($view){
+        $massActions = $this->massActionButtons(
+            array(
+                'save',
+            	'cancel'
+            )
+        );
+
+        return $this->adminOtherHead( $view, $massActions );
+	}
+
 	function ordering($id = null, $currentPossition = null, $model = null) {
 		if (!$id) {
 			$this->errors[] = 'How will i know what to move?';
@@ -294,7 +305,7 @@ class AppHelper extends Helper {
 			$editor = $_editor;
 		}
 
-		return $this->Wysiwyg->{$editor}($id, $config);
+		return $this->Wysiwyg->load($editor, $id, $config);
 	}
 
 	function gravatar($email = null, $options = array()) {

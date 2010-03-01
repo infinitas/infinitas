@@ -23,7 +23,6 @@ class AppController extends Controller {
 
 	var $helpers = array(
 		'Html', 'Form', 'Javascript', 'Session', 'Time',
-
 		'Libs.Infinitas', 'Libs.TagCloud'
 	);
 
@@ -37,7 +36,8 @@ class AppController extends Controller {
 		'Filter.Filter' => array(
 			'actions' => array('admin_index')
 		),
-		'Libs.Voucher'
+		'Libs.Voucher',
+		'Events.Event'
 	);
 
 	/**
@@ -49,9 +49,10 @@ class AppController extends Controller {
 
 	function beforeFilter() {
 		parent::beforeFilter();
-		//$this->Auth->allow('*');
 
-		$this->Auth->allowedActions = array('display', 'login', 'logout');
+		$this->Security->validatePost = false;
+
+		$this->__setupAuth();
 
 		if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 			$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
@@ -61,16 +62,22 @@ class AppController extends Controller {
 			$this->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->params['named']['limit']);
 		}
 
+		if(isset($this->params['form']['action']) && $this->params['form']['action'] == 'cancel'){
+			if($this->{$this->modelClass}->hasField('locked') && isset($this->data[$this->modelClass]['id'])){
+				$this->{$this->modelClass}->unlock($this->data[$this->modelClass]['id']);
+			}
+			$this->redirect(array('action' => 'index'));
+		}
+
 		if (Configure::read('Website.force_www')) {
 			$this->Infinitas->forceWwwUrl();
 		}
-
 
 		if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		if($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf')){
+		if(isset($this->RequestHandler) && ($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf'))){
 			//Configure::write('debug', 0);
 			//$this->theme = null;
 		}
@@ -84,7 +91,6 @@ class AppController extends Controller {
 			}
 		}
 
-		$this->__setupAuth();
 	}
 
 	function beforeRender(){
@@ -92,6 +98,12 @@ class AppController extends Controller {
 	}
 
 	function __setupAuth(){
+		//$this->Auth->allow('*');
+		$this->Auth->allowedActions = array('display', 'login', 'logout');
+
+		if (!isset($this->params['prefix']) || $this->params['prefix'] != 'admin') {
+			$this->Auth->allow('*');
+		}
 		$this->Auth->actionPath   = 'controllers/';
 		$this->Auth->authorize    = 'actions';
 		$this->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
@@ -102,7 +114,16 @@ class AppController extends Controller {
 		if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
 			$this->Auth->loginRedirect = '/admin';
 		}
+
 		$this->Auth->logoutRedirect = '/';
+
+		$this->Security->blackHoleCallback = 'blackHole';
+	}
+
+	function blackHole(&$controller, $error){
+		pr('you been blackHoled');
+		pr($error);
+		exit;
 	}
 
 
@@ -370,16 +391,22 @@ class AppController extends Controller {
 	function __massActionDelete($ids) {
 		$model = $this->modelNames[0];
 
-		$conditions = array($model . '.' . $this->$model->primaryKey => $ids
-			);
+		if (isset($this->data['Confirm']['confirmed']) && $this->data['Confirm']['confirmed']) {
+			$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
 
-		if ($this->$model->deleteAll($conditions)) {
-			$this->Session->setFlash(__('The ' . $model . '\'s have been deleted', true));
-			$this->redirect($this->referer());
+			if ($this->$model->deleteAll($conditions)) {
+				$this->Session->setFlash(__('The ' . $model . '\'s have been deleted', true));
+				$this->redirect($this->data['Confirm']['referer']);
+			}
+
+			$this->Session->setFlash(__('The ' . $model . '\'s could not be deleted', true));
+			$this->redirect($this->data['Confirm']['referer']);
 		}
 
-		$this->Session->setFlash(__('The ' . $model . '\'s could not be deleted', true));
-		$this->redirect($this->referer());
+		$referer = $this->referer();
+		$rows = $this->$model->find('list', array('conditions' => array($model.'.id' => $ids)));
+		$this->set(compact('model', 'referer', 'rows'));
+		$this->render('delete', null, dirname(__FILE__).DS.'views'.DS.'global'.DS.'delete.ctp');
 	}
 
 	function __massActionToggle($ids) {
@@ -553,10 +580,12 @@ class AppController extends Controller {
 		if (is_array($properties) && array_key_exists('scaffold',$properties)) {
 			if($properties['scaffold'] == 'admin') {
 				$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
-			} else {
-				$methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
 			}
+			/*else {
+				$methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
+			}*/
 		}
+
 		return $methods;
 	}
 

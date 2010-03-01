@@ -98,6 +98,7 @@ class Config extends ManagementAppModel {
 				)
 			)
 		);
+		
 	}
 
 	/**
@@ -219,6 +220,33 @@ class Config extends ManagementAppModel {
 
 		Cache::delete('configs', 'core');
 		return true;
+	}
+
+
+	function __generateWikiHelp(){
+		$configs = $this->find(
+			'all',
+			array(
+				'fields' => array(
+					'Config.key',
+					'Config.description',
+				)
+			)
+		);
+
+		echo '<table>';
+		echo '<tr>';
+		echo '<th>Configuration Key</th>';
+		echo '<th>Description</th>';
+		echo '</tr>';
+		foreach($configs as $config){
+			echo '<tr>';
+			echo '<td><b>'.$config['Config']['key'].'</b></td>';
+			echo '<td><i>'.strip_tags($config['Config']['description']).'</i></td>';
+			echo '</tr>';
+		}
+		echo '</table>';
+		exit;
 	}
 }
 

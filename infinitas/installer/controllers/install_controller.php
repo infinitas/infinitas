@@ -41,6 +41,7 @@ class InstallController extends InstallerAppController {
 	* @access public
 	*/
 	var $components = null;
+	var $helpers = null;
 
 	var $phpVersion = '5.0';
 
@@ -55,9 +56,13 @@ class InstallController extends InstallerAppController {
 		parent::beforeFilter();
 		$this->layout = 'installer';
 
-		App::import('Component', 'Session');
-		//$this->Session = new SessionComponent;
+		$this->view = 'View';
 
+		$this->helpers[] = 'Html';
+
+		//App::import('Component', 'Session');
+		//$this->Session = new SessionComponent;
+	
 		$this->sql = array(
 			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
@@ -76,7 +81,7 @@ class InstallController extends InstallerAppController {
 			array(
 				'label' => __('PHP version', true) . ' >= ' . $this->phpVersion . '.x',
 				'value' => phpversion() >= $this->phpVersion ? 'Yes' : 'No',
-				'desc' => 'Php ' . $this->phpVersion . '.x is recomended, although php 4.x may run Infinitas fine.'
+				'desc' => 'Php ' . $this->phpVersion . '.x is required. Infinitas will not work on PHP 4.x'
 			),
 			array (
 				'label' => __('zlib compression support', true),
@@ -90,11 +95,11 @@ class InstallController extends InstallerAppController {
 			),
 			array (
 				'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
-				'value' => (substr(mysql_get_client_info(), 0, 1) >= 4) ? 'Yes' : 'No',
+				'value' => (preg_match('/['.$this->sqlVersion.'.][0-9.]{1,3}[0-9.]{1,3}/', mysql_get_client_info())) ? 'Yes' : 'No',
 				'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
 			)
 		);
-
+		
 		// path status
 		$paths = array(
 			array(
@@ -149,7 +154,7 @@ class InstallController extends InstallerAppController {
 			array (
 				'setting' => 'session.auto_start',
 				'recomendation' => 'Off',
-				'desc' => 'Sessions are completly hanled by Infinitas'
+				'desc' => 'Sessions are completly handled by Infinitas'
 				),
 			);
 
@@ -195,7 +200,8 @@ class InstallController extends InstallerAppController {
 				$content = str_replace('{default_login}', $this->data['Install']['login'], $content);
 				$content = str_replace('{default_password}', $this->data['Install']['password'], $content);
 				$content = str_replace('{default_database}', $this->data['Install']['database'], $content);
-
+				$content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
+				
 				if ($file->write($content)) {
 					//SessionComponent::setFlash(__('Database configuration saved.', true));
 					$this->install();
@@ -214,53 +220,39 @@ class InstallController extends InstallerAppController {
 	*/
 	function install() {
 		$this->set('title_for_layout', __('Install Database', true));
+		
+		App::import('Core', 'File');
+		App::import('Model', 'ConnectionManager');
+		
+		$db = ConnectionManager::getDataSource('default');
 
-		$files = true;
-		if (empty($this->sql)) {
-			$files = false;
+		if (!$db->isConnected()) {
+			pr('Could not connect');
+			//SessionComponent::setFlash(__('Could not connect to database.', true));
 		}
+		else {
+			// Can be 'app' or a plugin name
+			$type = 'app';
 
-		foreach($this->sql as $type => $path) {
-			if (!is_file($path)) {
-				$files = false;
-			}
-		}
-		if (!empty($this->data) && $files) {
-			App::import('Core', 'File');
-			App::import('Model', 'ConnectionManager');
+			App::import('Lib', 'Migrations.MigrationVersion');
+			// All the job is done by MigrationVersion
+			$version = new MigrationVersion();
+			
+			// Get the mapping and the latest version avaiable
+			$mapping = $version->getMapping($type);
+			$latest = array_pop($mapping);
 
-			$db = ConnectionManager::getDataSource('default');
-
-			if (!$db->isConnected()) {
-				SessionComponent::setFlash(__('Could not connect to database.', true));
-			}
-
-			else {
-				// Can be 'app' or a plugin name
-				$type = 'app';
-
-				App::import('Lib', 'Migrations.MigrationVersion');
-				// All the job is done by MigrationVersion
-				$version = new MigrationVersion();
-
-				// Get the mapping and the latest version avaiable
-				$mapping = $version->getMapping($type);
-				$latest = array_pop($mapping);
-
-				// Run it to latest version
-				$version->run(array('type' => $type, 'version' => $latest['version']));
-
-				ClassRegistry::init('Installer.Release')->writeCoreData();
-				ClassRegistry::init('Installer.Release')->writeSampleData();
+			// Run it to latest version
+			if($version->run(array('type' => $type, 'version' => $latest['version'])))
+			{
+				ClassRegistry::init('Installer.Release')->installData($this->data['Install']['sample_data']);
 
 				$this->redirect(array('action' => 'siteConfig'));
-
+			}
+			else
+			{
 				//SessionComponent::setFlash(__('There was an error installing database data.', true));
 			}
-		}
-
-		if (!$files) {
-			//SessionComponent::setFlash(__('There is a problem with the sql installation files.', true));
 		}
 	}
 
@@ -290,6 +282,8 @@ class InstallController extends InstallerAppController {
 				$this->redirect(array('action' => 'done'));
 			}
 		}
+
+		ClassRegistry::flush();
 
 		$configs = ClassRegistry::init('Management.Config')->getInstallSetupConfigs();
 		$this->set('configs', $configs);
@@ -342,6 +336,21 @@ class InstallController extends InstallerAppController {
 			}
 		}
 		return $status;
+	}
+
+	function path(){
+		return dirname(dirname(__FILE__)).DS.'config'.DS;
+	}
+
+	function _getFileData($file){
+		App::import('File');
+
+		$this->File = new File($this->path().$file);
+		return $this->_decompress($this->File->read());
+	}
+
+	function _decompress($data){
+		return unserialize(gzuncompress(stripslashes($data)));
 	}
 }
 ?>

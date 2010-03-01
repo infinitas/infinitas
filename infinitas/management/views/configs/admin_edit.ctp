@@ -16,9 +16,8 @@
      * @subpackage    management.views.configs.admin_edit
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-
-    echo $this->Core->adminOtherHead( $this );
     echo $this->Form->create( 'Config', array( 'action' => 'edit' ) );
+		echo $this->Infinitas->adminEditHead($this);
         echo $this->Form->input( 'id' );
         echo $this->Form->input( 'key', array( 'readonly' => true ) );
 
@@ -34,7 +33,8 @@
                     'value',
                     array(
                         'type' => 'checkbox',
-                        'label' => Inflector::humanize( $label )
+                        'label' => Inflector::humanize( $label ),
+                        'value' => $this->data['Config']['value']
                     )
                 );
                 break;
@@ -64,5 +64,5 @@
         //echo $this->Form->input( 'options' );
         echo $this->Form->input( 'core', array( 'disabled' => true ) );
         echo $this->Core->wysiwyg( 'Config.description' );
-    echo $this->Form->end( 'Save Configuration' );
+    echo $this->Form->end( );
 ?>

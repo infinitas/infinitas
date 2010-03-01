@@ -55,7 +55,7 @@
 						<div class="<?php echo isset($this->params['controller'])?$this->params['controller']:''; ?>">
 							<div class="<?php echo isset($this->params['action'])?$this->params['action']:''; ?>">
 								<?php
-									echo $this->Session->flash();
+									//echo $this->Session->flash();
 									echo $content_for_layout;
 								?>
 							</div>

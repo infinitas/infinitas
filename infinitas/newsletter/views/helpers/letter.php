@@ -25,7 +25,7 @@ class LetterHelper extends AppHelper {
 		// cake helpers
 		'Html',
 		// core helpers
-		'Core.Wysiwyg', 'Libs.Design', 'Libs.Image', 'Form'
+		'Libs.Wysiwyg', 'Libs.Design', 'Libs.Image', 'Form'
 		);
 
 	var $allowedPreviews = array(

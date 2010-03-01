@@ -37,6 +37,11 @@
 		 * @access public
 		 */
 		function login(){
+			if (!Configure::read('Website.allow_login')) {
+				$this->Session->setFlash(__('Login is disabled', true));
+				$this->redirect('/');
+			}
+
 			$this->_createCookie();
 
 			if(!(empty($this->data)) && $this->Auth->user()){
@@ -124,9 +129,25 @@
 		}
 
 		function register(){
+			if (!Configure::read('Website.allow_registration')) {
+				$this->Session->setFlash(__('Registration is disabled', true));
+				$this->redirect('/');
+			}
+
 			if (!empty($this->data)) {
+				$this->data['User']['active'] = 1;
+
+				if (Configure::read('Website.email_validation') == true) {
+					$this->data['User']['active'] = 0;
+				}
+
 				$this->User->create();
+
 				if ($this->User->saveAll($this->data)) {
+					if (!$this->data['User']['active']) {
+						// @todo send a email for validation.
+					}
+
 					$this->Session->setFlash(__('Thank you, your registration was completed'));
 					$this->redirect('/');
 				}

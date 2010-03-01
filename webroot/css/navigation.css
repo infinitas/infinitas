@@ -76,7 +76,7 @@ ul.pureCssMenu li.sep a:hover {
 	font:11px Arial;
 	color: #000;
 	text-decoration:none;
-	cursor:default;
+	cursor:pointer;
 }
 
 ul.pureCssMenu span{

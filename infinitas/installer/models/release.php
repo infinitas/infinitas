@@ -10,6 +10,7 @@
 
 		var $coreDataTables = array(
 			'cms_content_layouts',
+
 			'core_acos',
 			'core_aros',
 			'core_aros_acos',
@@ -60,35 +61,55 @@
 			return dirname(dirname(__FILE__)).DS.'config'.DS;
 		}
 
+		function installData($sampleData){
+			$this->writeCoreData();
+			
+			if($sampleData){
+				$this->writeSampleData();
+			}
+		}
+		
 		function getCoreData(){
-			$this->_writeFileData(
+			return $this->_writeFileData(
 				$this->_getTableData($this->coreDataTables),
 				'core.dat'
 			);
 		}
 
 		function getSampleData(){
-			$this->_writeFileData(
+			return $this->_writeFileData(
 				$this->_getTableData($this->sampleDataTables),
 				'sample.dat'
 			);
 		}
 
-
-
-
 		function writeCoreData(){
-			$this->_writeTableData(
-				$this->_getFileData('core.dat')
-			);
+			if ($this->_truncateTables($this->coreDataTables)) {
+				return $this->_writeTableData(
+					$this->_getFileData('core.dat')
+				);
+			}
+			return false;
 		}
 
 		function writeSampleData(){
-			$this->_writeTableData(
-				$this->_getFileData('sample.dat')
-			);
+			if ($this->_truncateTables($this->sampleDataTables)) {
+				return $this->_writeTableData(
+					$this->_getFileData('sample.dat')
+				);
+			}
+			return false;
 		}
 
+
+		function _truncateTables($tables = array()){
+			$check = true;
+			foreach($tables as $table){
+				$check = $check && $this->query('TRUNCATE `'.$table.'`;');
+			}
+
+			return $check;
+		}
 
 
 
@@ -96,8 +117,7 @@
 			foreach($tables as $table ){
 				$datas[$table] = $this->query('SELECT * FROM `'.$table.'`;');
 			}
-
-
+			
 			foreach($datas as $table => $records){
 				foreach($records as $record){
 					foreach($record[$table] as $field => $value ){
@@ -123,14 +143,13 @@
 		}
 
 		function _writeTableData($datas){
+			$status = true;
 			foreach($datas as $data){
-				$this->query($data);
+				$status = $status && $this->query($data);
 			}
+
+			return $status;
 		}
-
-
-
-
 
 		function _getFileData($file){
 			App::import('File');
@@ -143,12 +162,8 @@
 			App::import('File');
 
 			$this->File = new File($this->path().$file, true);
-			$this->File->write($data);
+			return $this->File->write($data);
 		}
-
-
-
-
 
 		function _compress($data){
 			return addslashes(gzcompress(serialize($data),9));

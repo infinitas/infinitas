@@ -70,6 +70,56 @@ class AnalyticsHelper extends AppHelper {
 
 		return $out;
 	}
+
+
+	 var $login = array(
+		'uri' => array(
+			'scheme' => 'https',
+			'host' => 'www.google.com',
+			'path' => '/accounts/ClientLogin',
+			'method' => 'POST'
+		),
+		'auth' => array(
+			'method' => 'Basic',
+			'email' => 'infinit8s@gmail.com',
+			'password' => 'infinitas123',
+			'profile' => '25571140'
+		)
+	);
+
+	 var $setup = array(
+		'uri' => array(
+			'scheme' => 'https',
+			'host' => 'www.google.com',
+			'path' => '/analytics/feeds/data?',
+			'method' => 'POST'
+		),
+		'auth' => array(
+			'method' => 'Basic',
+			'email' => 'infinit8s@gmail.com',
+			'password' => 'infinitas123',
+			'profile' => '25571140'
+		)
+	);
+	function chart(){
+		$this->__sendRequest();
+	}
+
+	function __sendRequest(){
+		App::import('Core', 'HttpSocket');
+		$this->HttpSocket = new HttpSocket();
+
+		$request = $this->setup;
+
+		$request['uri']['path'] .=
+			'dimensions=ga:pagePath&'.
+			'metrics=ga:pageviews';
+
+		pr($this->HttpSocket->request($request));
+		exit;
+
+		return $this->HttpSocket->request($request);
+	}
 }
 
 ?>

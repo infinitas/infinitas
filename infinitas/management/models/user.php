@@ -135,6 +135,42 @@
 			);
 		}
 
+		function loggedInUserCount(){
+			$Session = ClassRegistry::init('Management.Session');
+			return $Session->find('count');
+		}
+
+		function latestUsers($limit = 10){
+			$Session = ClassRegistry::init('Management.Session');
+			$sessions = $Session->find('all');
+
+			foreach($sessions as &$session){
+				$session['User'] = explode('Auth|', $session['Session']['data']);
+				$session['User'] = unserialize($session['User'][1]);
+				if (isset($session['User']['User'])) {
+					$session['User'] = $session['User']['User'];
+				}
+				else {
+					$session['User'] = '';
+				}
+			}
+
+			$users = Set::extract('/User/id', $sessions);
+
+			$this->User->recursive = 0;
+			$users = $this->find(
+				'all',
+				array(
+					'conditions' => array(
+						'User.id' => $users
+					),
+					'limit' => $limit
+				)
+			);
+
+			return $users;
+		}
+
 		function parentNode() {
 			if (!$this->id && empty($this->data)) {
 				return null;
