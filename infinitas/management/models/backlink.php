@@ -5,16 +5,10 @@
 	 */
 	class Backlink extends ManagementAppModel{
 		var $name = 'Backlink';
-
 		var $useDbConfig = 'xml';
-
-		var $useTable = false;
-
 		var $actsAs = false;
-
-		var $schema = array(
-
-		);
+		var $useTable = false;
+		var $schema = array();
 
 		var $request = array(
 			'method' => 'GET',

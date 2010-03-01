@@ -28,13 +28,15 @@
 			'cookies' => array()
 		);
 
+		var $driver = null;
+
 		function __construct($config) {
 			parent::__construct($config);
 			//$this->Http =& new HttpSocket();
 		}
 
 		function describe(&$model){
-			return $model->schema['tweets'];
+			return $model->schema;
 		}
 
 		function listSources(){
@@ -43,13 +45,11 @@
 
 		function read(&$model, $map = array(), $recursive = null){
 			$this->request = array_merge($this->request, $model->request);
-			return $this->__process(
+			$data = $this->__process(
 				$this->__getData($this->request)
 			);
-		}
 
-		function calculate(&$model, $func = 'count', $params = array()) {
-			return $model->map['count'];
+			return $data;
 		}
 
 		function _sort($map = array(), $data = array()){
