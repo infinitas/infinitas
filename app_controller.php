@@ -63,7 +63,7 @@ class AppController extends Controller {
 		}
 
 		if(isset($this->params['form']['action']) && $this->params['form']['action'] == 'cancel'){
-			if($this->{$this->modelClass}->hasField('locked') && isset($this->data[$this->modelClass]['id'])){
+			if(isset($this->{$this->modelClass}) && $this->{$this->modelClass}->hasField('locked') && isset($this->data[$this->modelClass]['id'])){
 				$this->{$this->modelClass}->unlock($this->data[$this->modelClass]['id']);
 			}
 			$this->redirect(array('action' => 'index'));
@@ -318,41 +318,17 @@ class AppController extends Controller {
 	}
 
 	function admin_mass() {
-		$ids = $this->__massGetIds($this->data[$this->modelClass]);
+		$ids = $this->__massGetIds($this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]);
+		$massAction = $this->__massGetAction($this->params['form']);
+		$massActionMethod = '__massAction' . ucfirst($massAction);
 
-		switch ($this->__massGetAction($this->params['form'])) {
-			case 'delete':
-				$this->__massActionDelete($ids);
-				break;
-
-			case 'toggle':
-				$this->__massActionToggle($ids);
-				break;
-
-			case 'copy':
-				$this->__massActionCopy($ids);
-				break;
-
-			case 'filter':
-				$data = array();
-				foreach( $this->data[$this->modelClass] as $k => $field ){
-					if ( is_int( $k ) || $k == 'all' ){
-						continue;
-					}
-					$data[$this->modelClass.'.'.$k] = $field;
-				}
-				$this->redirect(array(
-						'plugin' => $this->params['plugin'],
-						'controller' => $this->params['controller'],
-						'action' => 'index'
-					) + $this->params['named'] + $data
-				);
-				break;
-
-			default:
-				$this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
-				break;
-		} // switch
+		if(method_exists($this, $massActionMethod)){
+			$this->{$massActionMethod}($ids);
+		}
+		else
+		{
+			$this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
+		}
 	}
 
 	function __massGetIds($data) {
@@ -373,7 +349,7 @@ class AppController extends Controller {
 
 		if (empty($ids)) {
 			$this->Session->setFlash(__('Nothing was selected, please select something and try again.', true));
-			$this->redirect($this->referer());
+			$this->redirect(isset($this->data['Confirm']['referer']) ? $this->data['Confirm']['referer'] : $this->referer());
 		}
 
 		return $ids;
@@ -388,25 +364,59 @@ class AppController extends Controller {
 		$this->redirect($this->referer());
 	}
 
+	function __massActionFilter($ids) {
+		$data = array();
+		foreach( $this->data[$this->modelClass] as $k => $field ){
+			if ( is_int( $k ) || $k == 'all' ){
+				continue;
+			}
+			$data[$this->modelClass.'.'.$k] = $field;
+		}
+		$this->redirect(array(
+				'plugin' => $this->params['plugin'],
+				'controller' => $this->params['controller'],
+				'action' => 'index'
+			) + $this->params['named'] + $data
+		);		
+	}
+	
 	function __massActionDelete($ids) {
 		$model = $this->modelNames[0];
 
 		if (isset($this->data['Confirm']['confirmed']) && $this->data['Confirm']['confirmed']) {
-			$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
-
-			if ($this->$model->deleteAll($conditions)) {
-				$this->Session->setFlash(__('The ' . $model . '\'s have been deleted', true));
-				$this->redirect($this->data['Confirm']['referer']);
-			}
-
-			$this->Session->setFlash(__('The ' . $model . '\'s could not be deleted', true));
-			$this->redirect($this->data['Confirm']['referer']);
+			$this->__handleDeletes($ids);
 		}
 
 		$referer = $this->referer();
 		$rows = $this->$model->find('list', array('conditions' => array($model.'.id' => $ids)));
 		$this->set(compact('model', 'referer', 'rows'));
 		$this->render('delete', null, dirname(__FILE__).DS.'views'.DS.'global'.DS.'delete.ctp');
+	}
+	
+	function __handleDeletes($ids) {
+		if($this->{$model}->Behaviors->attached('SoftDeletable')) {
+			$result = true;
+			foreach($ids as $id) {		
+				$result = $result && ($this->{$model}->delete($id) || $this->{$model}->checkResult());
+			}
+			
+			$message = __('moved to the trash bin', true);
+		}
+		else {
+			$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
+ 
+			$result = $this->{$model}->deleteAll($conditions);
+			
+			$message = __('deleted', true);
+		}
+		
+		if($result == true) {
+			$this->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' have been', true) . ' ' . $message);
+		}
+		else {
+			$this->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' could not be', true) . ' ' . $message);
+		}
+		$this->redirect($this->data['Confirm']['referer']);
 	}
 
 	function __massActionToggle($ids) {
