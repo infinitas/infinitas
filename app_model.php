@@ -30,6 +30,7 @@
 			'Containable',
 			'Libs.Lockable',
 			'Libs.Logable',
+			'Libs.SoftDeletable',
 			'Events.Event'
 			//'Libs.AutomaticAssociation'
 		);
