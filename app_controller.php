@@ -37,6 +37,7 @@ class AppController extends Controller {
 			'actions' => array('admin_index')
 		),
 		'Libs.Voucher',
+		'Libs.MassAction',
 		'Events.Event'
 	);
 
@@ -317,172 +318,24 @@ class AppController extends Controller {
 		echo 'moved to comments';
 	}
 
+	/**
+	 * Method to handle mass actions (Such as mass deletions, toggles, etc.)
+	 * 
+	 * @return mixed
+	 */
 	function admin_mass() {
-		$ids = $this->__massGetIds($this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]);
-		$massAction = $this->__massGetAction($this->params['form']);
+		$massAction = $this->MassAction->getAction($this->params['form']);
+		$ids = $this->MassAction->getIds($massAction, $this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]);
 		$massActionMethod = '__massAction' . ucfirst($massAction);
 
 		if(method_exists($this, $massActionMethod)){
 			return $this->{$massActionMethod}($ids);
 		}
-		else
-		{
-			return $this->__massActionGeneric($this->__massGetAction($this->params['form']), $ids);
-		}
-	}
-
-	function __massGetIds($data) {
-		if (in_array($this->__massGetAction($this->params['form']), array('add','filter'))) {
-			return null;
-		}
-
-		$ids = array();
-		foreach($data as $id => $selected) {
-			if (!is_int($id)) {
-				continue;
-			}
-
-			if ($selected) {
-				$ids[] = $id;
-			}
-		}
-
-		if (empty($ids)) {
-			$this->Session->setFlash(__('Nothing was selected, please select something and try again.', true));
-			$this->redirect(isset($this->data['Confirm']['referer']) ? $this->data['Confirm']['referer'] : $this->referer());
-		}
-
-		return $ids;
-	}
-
-	function __massGetAction($form) {
-		if (isset($form['action'])) {
-			return $form['action'];
-		}
-
-		$this->Session->setFlash(__('I dont know what to do.', true));
-		$this->redirect($this->referer());
-	}
-
-	function __massActionFilter($ids) {
-		$data = array();
-		foreach( $this->data[$this->modelClass] as $k => $field ){
-			if ( is_int( $k ) || $k == 'all' ){
-				continue;
-			}
-			$data[$this->modelClass.'.'.$k] = $field;
-		}
-		$this->redirect(array(
-				'plugin' => $this->params['plugin'],
-				'controller' => $this->params['controller'],
-				'action' => 'index'
-			) + $this->params['named'] + $data
-		);		
-	}
-	
-	function __massActionDelete($ids) {
-		$model = $this->modelNames[0];
-
-		if (isset($this->data['Confirm']['confirmed']) && $this->data['Confirm']['confirmed']) {
-			$this->__handleDeletes($ids);
-		}
-
-		$referer = $this->referer();
-		$rows = $this->$model->find('list', array('conditions' => array($model.'.id' => $ids)));
-		$this->set(compact('model', 'referer', 'rows'));
-		$this->render('delete', null, dirname(__FILE__).DS.'views'.DS.'global'.DS.'delete.ctp');
-	}
-	
-	function __handleDeletes($ids) {
-		$model = $this->modelNames[0];
-		
-		if($this->{$model}->Behaviors->attached('SoftDeletable')) {
-			$result = true;
-			foreach($ids as $id) {		
-				$result = $result && ($this->{$model}->delete($id) || $this->{$model}->checkResult());
-			}
-			
-			$message = __('moved to the trash bin', true);
+		elseif(method_exists($this->MassAction, $massAction)) {
+			return $this->MassAction->{$massAction}($ids);
 		}
 		else {
-			$conditions = array($model . '.' . $this->$model->primaryKey => $ids);
- 
-			$result = $this->{$model}->deleteAll($conditions);
-			
-			$message = __('deleted', true);
-		}
-		
-		if($result == true) {
-			$this->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' have been', true) . ' ' . $message);
-		}
-		else {
-			$this->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' could not be', true) . ' ' . $message);
-		}
-		$this->redirect($this->data['Confirm']['referer']);
-	}
-
-	function __massActionToggle($ids) {
-		$model = $this->modelNames[0];
-		$this->$model->recursive = - 1;
-		$ids = $ids + array(0);
-
-		if ($this->$model->updateAll(
-				array($model . '.active' => '1 - `' . $model . '`.`active`'),
-					array($model . '.id IN(' . implode(',', $ids) . ')')
-					)
-				) {
-			$this->Session->setFlash(__('The ' . $model . '\'s were toggled', true));
-			$this->redirect($this->referer());
-		}
-
-		$this->Session->setFlash(__('The ' . $model . '\'s could not be toggled', true));
-		$this->redirect($this->referer());
-	}
-
-	function __massActionCopy($ids) {
-		$model = $this->modelNames[0];
-		$this->$model->recursive = - 1;
-
-		$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
-
-		$saves = 0;
-		foreach($ids as $id) {
-			$record = $this->$model->read(null, $id);
-			unset($record[$model]['id']);
-
-			if ($record[$model][$this->$model->displayField] != $this->$model->primaryKey) {
-				$record[$model][$this->$model->displayField] = $record[$model][$this->$model->displayField] . $copyText;
-			}
-
-			$record[$model]['active'] = 0;
-			unset( $record[$model]['created'] );
-			unset( $record[$model]['modified'] );
-			unset( $record[$model]['lft'] );
-			unset( $record[$model]['rght'] );
-
-			$this->$model->create();
-
-			if ($this->$model->save($record)) {
-				$saves++;
-			} ;
-		}
-
-		if ($saves) {
-			$this->Session->setFlash(__($saves . ' copies of ' . $model . ' was made', true));
-			$this->redirect($this->referer());
-		}
-
-		$this->Session->setFlash(__('No copies could be made.', true));
-		$this->redirect($this->referer());
-	}
-
-	function __massActionGeneric($action, $ids) {
-		if (!$ids) {
-			$this->redirect(array('action' => $action));
-		}
-
-		foreach($ids as $id) {
-			$this->redirect(array('action' => $action, $id));
+			return $this->MassAction->generic($massAction, $ids);
 		}
 	}
 

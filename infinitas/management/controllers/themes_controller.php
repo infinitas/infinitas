@@ -92,7 +92,7 @@
 			}
 
 			if ($this->Theme->_deactivateAll()) {
-				return parent::__massActionToggle($ids);
+				return $this->MassAction->toggle($ids);
 			}
 
 			$this->Session->setFlash(__('There was a problem deactivating the other theme', true));

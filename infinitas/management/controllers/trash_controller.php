@@ -113,7 +113,7 @@ class TrashController extends ManagementAppController {
 
 			$this->{$modelName}->enableSoftDeletable('find', false);
 			
-			parent::__massActionDelete($ids);
+			$this->MassAction->delete($ids);
 		}
 		else
 		{

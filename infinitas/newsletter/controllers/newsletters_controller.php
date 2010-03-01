@@ -284,7 +284,7 @@ class NewslettersController extends NewsletterAppController {
 	
 	function __massActionDelete($ids)
 	{
-		return parent::__massActionDelete($this->__canDelete($ids));
+		return $this->MassAction->delete($this->__canDelete($ids));
 	}	
 
 	function __canDelete($ids) {
