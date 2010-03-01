@@ -81,7 +81,7 @@ class InstallController extends InstallerAppController {
 			array(
 				'label' => __('PHP version', true) . ' >= ' . $this->phpVersion . '.x',
 				'value' => phpversion() >= $this->phpVersion ? 'Yes' : 'No',
-				'desc' => 'Php ' . $this->phpVersion . '.x is recomended, although php 4.x may run Infinitas fine.'
+				'desc' => 'Php ' . $this->phpVersion . '.x is required. Infinitas will not work on PHP 4.x'
 			),
 			array (
 				'label' => __('zlib compression support', true),
@@ -227,6 +227,7 @@ class InstallController extends InstallerAppController {
 		$db = ConnectionManager::getDataSource('default');
 
 		if (!$db->isConnected()) {
+			pr('Could not connect');
 			//SessionComponent::setFlash(__('Could not connect to database.', true));
 		}
 		else {
