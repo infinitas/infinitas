@@ -78,9 +78,5 @@
 
 			return $lockableTables;
 		}
-
-		function admin_mass(){
-
-		}
 	}
 ?>

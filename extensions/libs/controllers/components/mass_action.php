@@ -1,7 +1,7 @@
 <?php
 class MassActionComponent extends Object {
 	var $name = 'MassAction';
-	
+
 	/**
 	* Controllers initialize function.
 	*/
@@ -9,7 +9,7 @@ class MassActionComponent extends Object {
 		$this->Controller = &$controller;
 		$settings = array_merge(array(), (array)$settings);
 	}
-	
+
 	function getIds($massAction, $data) {
 		if (in_array($massAction, array('add','filter'))) {
 			return null;
@@ -56,9 +56,9 @@ class MassActionComponent extends Object {
 				'controller' => $this->Controller->params['controller'],
 				'action' => 'index'
 			) + $this->Controller->params['named'] + $data
-		);		
+		);
 	}
-	
+
 	function delete($ids) {
 		$model = $this->Controller->modelNames[0];
 
@@ -76,26 +76,26 @@ class MassActionComponent extends Object {
 		$this->Controller->set(compact('model', 'referer', 'rows'));
 		$this->Controller->render('delete', null, APP.'views'.DS.'global'.DS.'delete.ctp');
 	}
-	
+
 	function __handleDeletes($ids) {
 		$model = $this->Controller->modelNames[0];
-		
+
 		if($this->Controller->{$model}->Behaviors->attached('SoftDeletable')) {
 			$result = true;
-			foreach($ids as $id) {		
+			foreach($ids as $id) {
 				$result = $result && ($this->Controller->{$model}->delete($id) || $this->Controller->{$model}->checkResult());
 			}
-			
+
 			$message = __('moved to the trash bin', true);
 		}
 		else {
 			$conditions = array($model . '.' . $this->Controller->$model->primaryKey => $ids);
- 
+
 			$result = $this->Controller->{$model}->deleteAll($conditions);
-			
+
 			$message = __('deleted', true);
 		}
-		
+
 		if($result == true) {
 			$this->Controller->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' have been', true) . ' ' . $message);
 		}
@@ -168,5 +168,28 @@ class MassActionComponent extends Object {
 		foreach($ids as $id) {
 			$this->Controller->redirect(array('action' => $action, $id));
 		}
-	}	
+	}
+
+	/**
+	* Global Unlock.
+	*
+	* Finds all tables in the app that have locked fields and unlocks them.
+	*/
+	function unlock($null = null) {
+		$tables = $this->Controller->_getLockableTables();
+		$this->db = ConnectionManager::getDataSource('default');
+
+		$status = true;
+
+		foreach($tables as $table){
+			$status = $status && $this->db->query('UPDATE `'.$table['table'].'` SET `locked` = 0, `locked_by` = null, `locked_since` = null;');
+		}
+		if ($status) {
+			$this->Controller->Session->setFlash(__('All records unlocked', true));
+		}
+		else{
+			$this->Controller->Session->setFlash(__('There was a problem unlocking some records', true));
+		}
+		$this->Controller->redirect($this->Controller->referer());
+	}
 }

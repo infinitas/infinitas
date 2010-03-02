@@ -58,6 +58,7 @@
                 	</tr>
                 <?php
             }
+           	echo $this->Form->checkbox('Lock.0.id', array('checked' => true));
         ?>
     </table>
     <?php echo $this->Form->end(); ?>
