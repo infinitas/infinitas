@@ -35,6 +35,7 @@ $config['CoreImages']['images'] = array(
 		'stats' => 'stats.png',
 		'toggle' => 'toggle.png',
 		'trash' => 'trash.png',
+		'unlock' => 'reload.png',
 		'unlocked' => 'unlocked.png',
 		'unzip' => 'unzip.png',
 		'update' => 'update.png',
