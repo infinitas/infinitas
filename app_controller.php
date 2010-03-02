@@ -327,7 +327,9 @@ class AppController extends Controller {
 		$massAction = $this->MassAction->getAction($this->params['form']);
 		$ids = $this->MassAction->getIds(
 			$massAction,
-			$this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]);
+			$this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]
+		);
+
 		$massActionMethod = '__massAction' . ucfirst($massAction);
 
 		if(method_exists($this, $massActionMethod)){
