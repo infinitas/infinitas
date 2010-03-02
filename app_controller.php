@@ -301,7 +301,7 @@ class AppController extends Controller {
 	* @return n /a just redirects with different messages in {@see Session::setFlash}
 	*/
 	function admin_delete($id = null) {
-		$model = $this->modelNames[0];
+		$model = $this->modelClass;
 
 		if (!$id) {
 			$this->Session->setFlash('That ' . $model . ' could not be found', true);
@@ -320,12 +320,14 @@ class AppController extends Controller {
 
 	/**
 	 * Method to handle mass actions (Such as mass deletions, toggles, etc.)
-	 * 
+	 *
 	 * @return mixed
 	 */
 	function admin_mass() {
 		$massAction = $this->MassAction->getAction($this->params['form']);
-		$ids = $this->MassAction->getIds($massAction, $this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]);
+		$ids = $this->MassAction->getIds(
+			$massAction,
+			$this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]);
 		$massActionMethod = '__massAction' . ucfirst($massAction);
 
 		if(method_exists($this, $massActionMethod)){
