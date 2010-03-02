@@ -43,13 +43,30 @@
 			return 'listSources';
 		}
 
-		function read(&$model, $map = array(), $recursive = null){
+		function read(&$model, $query){
 			$this->request = array_merge($this->request, $model->request);
-			$data = $this->__process(
+			$response = $this->__process(
 				$this->__getData($this->request)
 			);
+			if ($query['fields'] == 'count') {
+				$count = Set::extract($model->map['count'], $response);
+				$result[0][$model->alias]['count'] = $count;
+				return $result;
+			}
+			$results = Set::extract($model->map['data'], $response);
+			foreach ($results as $key => $value) {
+				$result[$key][$model->alias] = $value;
+			}
+			return $result;
+		}
 
-			return $data;
+		function calculate(&$model, $func, $params = array()) {
+			$params = (array)$params;
+			switch (strtolower($func)) {
+				case 'count':
+					return 'count';
+				break;
+			}
 		}
 
 		function _sort($map = array(), $data = array()){

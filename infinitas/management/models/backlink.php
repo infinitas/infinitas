@@ -29,10 +29,10 @@
 
 
 		var $map = array(
-			'count'  => '/Rss/Channel/totalResults',
+			'count'  => 'Rss.Channel.totalResults',
 			'limit'  => '/Rss/Channel/itemsPerPage',
 			'offset' => '/Rss/Channel/itemsPerPage',
-			'data'   => '/Rss/Channel/Item'
+			'data'   => 'Rss.Channel.Item'
 		);
 	}
 ?>
