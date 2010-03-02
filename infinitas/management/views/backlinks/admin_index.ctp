@@ -57,11 +57,11 @@
             {
                 ?>
                     <tr class="<?php echo $this->Core->rowClass(); ?>">
-						<td><?php echo $link['publisher']; ?></td>
-						<td><?php echo $this->Html->link($link['title'], $link['link']); ?></td>
-						<td><?php echo $link['description']; ?></td>
-						<td><?php echo $link['creator']; ?></td>
-						<td><?php echo $this->Time->niceShort($link['date']); ?></td>
+						<td><?php echo $link['Backlink']['publisher']; ?></td>
+						<td><?php echo $this->Html->link($link['Backlink']['title'], $link['Backlink']['link']); ?></td>
+						<td><?php echo $link['Backlink']['description']; ?></td>
+						<td><?php echo $link['Backlink']['creator']; ?></td>
+						<td><?php echo $this->Time->niceShort($link['Backlink']['date']); ?></td>
                     </tr>
                 <?php
                 $i++;
