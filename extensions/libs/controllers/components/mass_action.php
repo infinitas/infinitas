@@ -160,7 +160,15 @@ class MassActionComponent extends Object {
 		$this->Controller->redirect($this->Controller->referer());
 	}
 
-	function generic($action, $ids) {
+	/**
+	* Generic action.
+	*
+	* This method handles the actions like add and edit.
+	*
+	* @param string $action the action to redirect to.
+	* @param int $id the id of the record that is selected.
+	*/
+	function generic($action = 'add', $ids) {
 		if (!$ids) {
 			$this->Controller->redirect(array('action' => $action));
 		}
