@@ -19,9 +19,8 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
-    echo $this->Form->create( $model, array( 'url' => array( 'controller' => strtolower(Inflector::pluralize($model)), 'action' => 'mass', 'admin' => 'true' ) ) );
-        $massActions = $this->Blog->massActionButtons(
+    echo $this->Form->create( $model, array('url' => '/' . $this->params['url']['url']) );
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'delete',
                 'cancel'
@@ -54,7 +53,8 @@
                         </td>
                     </tr>
                 <?php
-               	echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
+               	echo $this->Form->hidden('Confirm.model', array('value' => $model));
+                echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
                	echo $this->Form->hidden('Confirm.referer', array('value' => $referer));
                	$i++;
             }

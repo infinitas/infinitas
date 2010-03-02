@@ -42,7 +42,7 @@ class ToolbarComponent extends Object {
  *
  * @var array
  */
-	var $components = array('RequestHandler');
+	var $components = array('RequestHandler', 'Session');
 /**
  * The default panels the toolbar uses.
  * which panels are used can be configured when attaching the component
@@ -105,8 +105,8 @@ class ToolbarComponent extends Object {
 			unset($settings['panels']);
 		}
 
-		$this->cacheKey .= $controller->Session->read('Config.userAgent');
-		if (!isset($settings['history']) || (isset($settings['history']) && $settings['history'] !== false)) {
+		$this->cacheKey .= $this->Session->read('Config.userAgent');
+		if (in_array('history', $panels) || (isset($settings['history']) && $settings['history'] !== false)) {
 			$this->_createCacheConfig();
 		}
 
@@ -160,7 +160,7 @@ class ToolbarComponent extends Object {
 			'output' => sprintf('DebugKit.%sToolbar', $format),
 			'cacheKey' => $this->cacheKey,
 			'cacheConfig' => 'debug_kit',
-			'forceEnable' => isset($this->settings['forceEnable'])? true : null,
+			'forceEnable' => $this->settings['forceEnable'],
 		);
 		$panels = array_keys($this->panels);
 		foreach ($panels as $panelName) {
@@ -225,6 +225,7 @@ class ToolbarComponent extends Object {
 				'engine' => 'File',
 				'path' => CACHE
 			));
+			Cache::config('default');
 		}
 	}
 /**
@@ -464,7 +465,7 @@ class SessionPanel extends DebugPanel {
  * @return array
  */
 	function beforeRender(&$controller) {
-		$sessions = $controller->Session->read();
+		$sessions = $controller->Toolbar->Session->read();
 		return $sessions;
 	}
 }
@@ -551,6 +552,9 @@ class SqlLogPanel extends DebugPanel {
 		$dbConfigs = ConnectionManager::sourceList();
 		foreach ($dbConfigs as $configName) {
 			$db =& ConnectionManager::getDataSource($configName);
+			if (!isset($db->config['driver'])) {
+				return false;
+			}
 			$driver = $db->config['driver'];
 			$explain = false;
 			$isExplainable = ($driver === 'mysql' || $driver === 'mysqli' || $driver === 'postgres');

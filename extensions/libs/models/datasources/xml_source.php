@@ -28,6 +28,8 @@
 			'cookies' => array()
 		);
 
+		var $driver = null;
+
 		function __construct($config) {
 			parent::__construct($config);
 			//$this->Http =& new HttpSocket();
