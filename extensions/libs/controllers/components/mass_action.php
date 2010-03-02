@@ -163,19 +163,19 @@ class MassActionComponent extends Object {
 	/**
 	* Generic action.
 	*
-	* This method handles the actions like add and edit.
+	* This method handles the actions like add and edit. If there is no ids or
+	* there is no id in the array it will redirect to the action without passing
+	* an id.
 	*
 	* @param string $action the action to redirect to.
 	* @param int $id the id of the record that is selected.
 	*/
 	function generic($action = 'add', $ids) {
-		if (!$ids) {
+		if (!$ids || !isset($ids[0])) {
 			$this->Controller->redirect(array('action' => $action));
 		}
 
-		foreach($ids as $id) {
-			$this->Controller->redirect(array('action' => $action, $id));
-		}
+		$this->Controller->redirect(array('action' => $action, $ids[0]));
 	}
 
 	/**
