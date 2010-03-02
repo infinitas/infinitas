@@ -22,7 +22,7 @@
 		*/
 		var $useDbConfig = 'default';
 		//var $tablePrefix = 'core_';
-		
+
 		/**
 		* Behaviors to attach to the site.
 		*/
@@ -65,7 +65,7 @@
 		var $_errors = array();
 
 		/**
-		 * Constructor 
+		 * Constructor
 		 * @param $id
 		 * @param $table
 		 * @param $ds
@@ -78,8 +78,8 @@
 			}
 
 			parent::__construct($id, $table, $ds);
-		}*/		
-		
+		}*/
+
 		/**
 		* convert json data.
 		*
