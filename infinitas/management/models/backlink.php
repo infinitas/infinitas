@@ -30,8 +30,8 @@
 
 		var $map = array(
 			'count'  => 'Rss.Channel.totalResults',
-			'limit'  => '/Rss/Channel/itemsPerPage',
-			'offset' => '/Rss/Channel/itemsPerPage',
+			'limit'  => 'Rss.Channel.itemsPerPage',
+			'offset' => 'Rss.Channel.itemsPerPage',
 			'data'   => 'Rss.Channel.Item'
 		);
 
