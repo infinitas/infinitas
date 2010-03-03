@@ -17,7 +17,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create( 'Post' );
+    echo $this->Form->create('Post');
         echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
 	        ?>

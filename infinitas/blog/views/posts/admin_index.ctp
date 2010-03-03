@@ -30,7 +30,6 @@
         echo $this->Blog->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Blog->adminTableHeadImages(); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Blog->adminTableHeader(
@@ -59,11 +58,10 @@
                 )
             );
 
-            $i = 0;
             foreach( $posts as $post )
             {
                 ?>
-                    <tr class="<?php echo $this->Blog->rowClass( $i ); ?>">
+                    <tr class="<?php echo $this->Blog->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $post['Post']['id'] ); ?>&nbsp;</td>
                         <td title="<?php echo $post['Post']['slug']; ?>">
                             <?php echo $this->Html->link( $post['Post']['title'], array( 'action' => 'edit', $post['Post']['id'] ) ); ?>
@@ -81,7 +79,6 @@
                         </td>
                     </tr>
                 <?php
-                $i++;
             }
         ?>
     </table>

@@ -24,17 +24,17 @@ class Category extends CmsAppModel {
 		'Libs.Sluggable',
 		'Libs.Viewable',
 		'Tree'
-		);
+	);
 
 	var $order = array(
 		'Category.lft' => 'ASC'
-		);
+	);
 
 	var $validate = array(
 		'title' => array(
 			'notempty' => array('rule' => array('notempty')),
-			),
-		);
+		)
+	);
 
 	var $belongsTo = array(
 		'Parent' => array(
