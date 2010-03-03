@@ -40,7 +40,7 @@ class Category extends CmsAppModel {
 		'Parent' => array(
 			'className' => 'Cms.Category',
 			'counterCache' => true
-			),
+		),
 		'Management.Group',
 		'Locker' => array(
 			'className' => 'Management.User',
@@ -49,14 +49,14 @@ class Category extends CmsAppModel {
 			'fields' => array(
 				'Locker.id',
 				'Locker.username'
-				),
+			),
 			'order' => ''
-			)
-		);
+		)
+	);
 
 	var $hasMany = array(
 		'Cms.Content'
-		);
+	);
 }
 
 ?>
