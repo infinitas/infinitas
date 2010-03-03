@@ -1,5 +1,64 @@
 <?php
 	/**
+	 * Infinitas controller actions bake template
+	 *
+	 * This is the file that is used to bake the controller actions when
+	 * using infinitas skel
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package bake
+	 * @subpackage bake.classes.controller
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.7a
+	 *
+	 * @author Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * variables available
+	 *
+	 * [directory] => actions
+	 * [filename] => controller_actions
+	 * [vars] =>
+	 * [themePath] => C:\xampp\htdocs\infinitas\vendors\shells\templates\infinitas\
+	 * [templateFile] => C:\xampp\htdocs\infinitas\vendors\shells\templates\infinitas\actions\controller_actions.ctp
+	 * [admin] => admin_
+	 * [controllerPath] => core_logs
+	 * [pluralName] => coreLogs
+	 * [singularName] => coreLog
+	 * [singularHumanName] => Core Log
+	 * [pluralHumanName] => coreLogs
+	 * [wannaUseSession] => 1
+	 *
+	 * modelObj] => CoreLog Object (
+	 *    [name] => ''
+	 *    [displayField] => ''
+	 *    [order] => Array()
+	 *    [hasOne] => Array()
+	 *    [belongsTo] => Array()
+	 *    [hasMany] => Array()
+	 *    [hasAndBelongsToMany] => Array()
+	 *    [useDbConfig] => ''
+	 *    [actsAs] => Array()
+	 *    [blockedPlugins] => Array()
+	 *    [useTable] => ''
+	 *    [id] => ''
+	 *    [data] => Array()
+	 *    [table] => ''
+	 *    [primaryKey] => ''
+	 *    [_schema] => Array()
+	 *    [validate] => Array()
+	 *    [validationErrors] => Array()
+	 *    [tablePrefix] => ''
+     *    [alias] => ''
+	 */
+
+	/**
 	* generate the index code
 	*/
 	echo "\t\tfunction {$admin}index() {\n";
@@ -104,5 +163,4 @@
 			echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 		}
 	echo "\t\t}\n";
-
 ?>
