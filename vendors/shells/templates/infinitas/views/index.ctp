@@ -111,7 +111,6 @@
 								}
 							}
 							if ($isKey !== true) {
-
 								switch($field){
 									case 'created':
 									case 'modified':
@@ -165,14 +164,6 @@
 							}
 							if ($isKey !== true) {
 								switch($field){
-									case $displayField && in_array('slug', $fields):
-										echo "\t\t\t\t\t<td title=\"<?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>\"><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
-										break;
-
-									case 'email':
-										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
-										break;
-
 									case 'created':
 									case 'modified':
 										$endFields .= "\t\t\t\t\t<td><?php echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
@@ -184,6 +175,14 @@
 
 									case 'locked':
 										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->locked(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n".$endFields;
+										break;
+
+									case 'email':
+										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
+										break;
+
+									case $displayField && in_array('slug', $fields):
+										echo "\t\t\t\t\t<td title=\"<?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>\"><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
 										break;
 
 									default:

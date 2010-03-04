@@ -127,13 +127,13 @@
 						$_order = "\t\t'{$name}.lft' => 'ASC'\n";
 						break;
 				} // switch
-			}
+			} // end foreach
 
 			echo
 				"\t\t\t// 'Libs.Feedable',\n".
 				"\t\t\t// 'Libs.Commentable',\n".
 				"\t\t\t// 'Libs.Rateable\n";
-		echo "\t\t);\n\n";
+		echo "\t\t);\n\n"; //end actsAs
 
 		echo "\t\tvar \$order = array(\n".
 			$_order.
