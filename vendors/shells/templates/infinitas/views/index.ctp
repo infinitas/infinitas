@@ -99,9 +99,11 @@
 					                    "\t\t\t\t\t),\n".$endFields;
 										break;
 
-									case preg_match('/[a-z_]+_count/i', $field):
+									case str_replace('_count', '', $field) != $field:
 										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
-										echo "\t\t\t\t\t\$this->Paginator->sort('$name', '{$field}'),\n";
+										echo "\t\t\t\t\t\$this->Paginator->sort('$name', '{$field}') => array(\n".
+					                        "\t\t\t\t\t\t'style' => 'width:50px;'\n".
+					                    "\t\t\t\t\t),\n";
 										break;
 
 									default:
