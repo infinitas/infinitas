@@ -43,6 +43,7 @@
 		'locked', 'locked_by', 'locked_since',
 		'deleted_date',
 		'created', 'modified', 'updated',
+		'slug',
 
 		'active', 'deleted'
 	);
@@ -89,6 +90,7 @@
 					if (!in_array($field, $ignore) && (str_replace('_count', '', $field) == $field)) {
 						switch($schema[$field]['type']){
 							case 'text':
+								$end .= "\t\t\t\t\t?><h3><?php __('".ucfirst($field)."'); ?></h3><?php\n";
 								$end .= "\t\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
 
@@ -104,6 +106,7 @@
         echo "\t\t\t<div class=\"config\">\n";
 	        echo "\t\t\t\t<?php\n";
 		        echo "\t\t\t\t\techo \$this->Design->niceBox();\n";
+			        echo "\t\t\t\t\t\t?><h2><?php __('Configuration'); ?></h2><?php\n";
 					foreach ($fields as $field) {
 						if (in_array($field, $configs)) {
 							echo "\t\t\t\t\t\techo \$this->Form->input('{$field}');\n";
@@ -119,7 +122,7 @@
 		        echo "\t\t\t\t\techo \$this->Design->niceBoxEnd();\n";
 	        echo "\t\t\t\t?>\n";
         echo "\t\t\t</div><?php\n";
-        echo "\t\techo \$this->Design->niceBox();\n";
+        echo "\t\techo \$this->Design->niceBoxEnd();\n";
 	echo "\techo \$this->Form->end();\n";
 echo "?>\n";
 
