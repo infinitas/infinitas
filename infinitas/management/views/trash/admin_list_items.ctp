@@ -50,7 +50,7 @@
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
                 		 <td><?php echo $this->Form->checkbox( $trashedItem[$modelName]['id'] ); ?>&nbsp;</td>
 						<td>
-                			<?php echo $trashedItem[$modelName]['title']; ?>&nbsp;
+                			<?php echo isset($trashedItem[$modelName]['title']) ? $trashedItem[$modelName]['title'] : $trashedItem[$modelName]['name']; ?>&nbsp;
                 		</td>                		 
 						<td>
                 			<?php echo $this->Time->nice($trashedItem[$modelName]['deleted_date']); ?>&nbsp;

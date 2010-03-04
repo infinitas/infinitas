@@ -162,12 +162,14 @@
 				$message = __('deleted', true);
 			}
 
+			$prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($modelName))));
+			
 			if($result == true) {
-				$this->Controller->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' have been', true) . ' ' . $message);
+				$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' have been', true) . ' ' . $message);
 			}
 
 			else {
-				$this->Controller->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' could not be', true) . ' ' . $message);
+				$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' could not be', true) . ' ' . $message);
 			}
 
 			$this->Controller->redirect($this->Controller->data['Confirm']['referer']);
@@ -186,16 +188,18 @@
 			$this->Controller->$model->recursive = - 1;
 			$ids = $ids + array(0);
 
+			$prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($modelName))));
+			
 			if ($this->Controller->$model->updateAll(
 					array($model . '.active' => '1 - `' . $model . '`.`active`'),
 						array($model . '.id IN(' . implode(',', $ids) . ')')
 						)
 					) {
-				$this->Controller->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' were toggled', true));
+				$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' were toggled', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
-			$this->Controller->Session->setFlash(__('The ' . Inflector::pluralize(low($model)) . ' could not be toggled', true));
+			$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' could not be toggled', true));
 			$this->Controller->redirect($this->Controller->referer());
 		}
 
@@ -214,7 +218,9 @@
 			$this->Controller->$model->recursive = - 1;
 
 			$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
-
+			
+			$prettyModelName = low(Inflector::humanize(Inflector::underscore($modelName)));
+			
 			$saves = 0;
 			foreach($ids as $id) {
 				$record = $this->Controller->$model->read(null, $id);
@@ -238,7 +244,7 @@
 			}
 
 			if ($saves) {
-				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $model . ' was made', true));
+				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $prettyModelName . ' was made', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
