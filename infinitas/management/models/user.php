@@ -146,9 +146,15 @@
 
 			foreach($sessions as &$session){
 				$session['User'] = explode('Auth|', $session['Session']['data']);
-				$session['User'] = unserialize($session['User'][1]);
-				if (isset($session['User']['User'])) {
-					$session['User'] = $session['User']['User'];
+				
+				if(isset($session['User'][1])) {
+					$session['User'] = unserialize($session['User'][1]);
+					if (isset($session['User']['User'])) {
+						$session['User'] = $session['User']['User'];
+					}
+					else {
+						$session['User'] = '';
+					}
 				}
 				else {
 					$session['User'] = '';
