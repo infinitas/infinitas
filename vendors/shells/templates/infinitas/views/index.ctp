@@ -42,10 +42,15 @@
 		'id',
 		'locked_by', 'locked_since',
 		'password',
-		'deleted', 'deleted_date'
+		'deleted', 'deleted_date',
+		'slug'
 	);
 
-	pr(get_defined_vars());
+	foreach($fields as $field){
+		if ($schema[$field]['type'] == 'text') {
+			$ignore[] = $field;
+		}
+	}
 
 	echo "<?php\n".
 		"\t/**\n".
@@ -160,6 +165,10 @@
 							}
 							if ($isKey !== true) {
 								switch($field){
+									case $displayField && in_array('slug', $fields):
+										echo "\t\t\t\t\t<td title=\"<?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>\"><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
+										break;
+
 									case 'email':
 										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
 										break;
