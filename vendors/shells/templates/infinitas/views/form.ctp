@@ -43,7 +43,6 @@
 		'locked', 'locked_by', 'locked_since',
 		'deleted_date',
 		'created', 'modified', 'updated',
-		'slug',
 
 		'active', 'deleted'
 	);
@@ -90,7 +89,6 @@
 					if (!in_array($field, $ignore) && (str_replace('_count', '', $field) == $field)) {
 						switch($schema[$field]['type']){
 							case 'text':
-								$end .= "\t\t\t\t\t?><h3><?php __('".ucfirst($field)."'); ?></h3><?php\n";
 								$end .= "\t\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
 
