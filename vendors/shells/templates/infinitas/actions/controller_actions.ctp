@@ -35,7 +35,7 @@
 	 * [pluralHumanName] => coreLogs
 	 * [wannaUseSession] => 1
 	 *
-	 * modelObj] => CoreLog Object (
+	 * [modelObj] => CoreLog Object (
 	 *    [name] => ''
 	 *    [displayField] => ''
 	 *    [order] => Array()
@@ -67,11 +67,26 @@
 
 		echo "\t\t\t\$filterOptions = \$this->Filter->filterOptions;\n";
 		echo "\t\t\t\$filterOptions['fields'] = array(\n";
-			foreach ($modelObj->belongsTo as $associationName => $relation){
-				// @todo check the relations and add field_id to the list with a find
+			foreach ($modelObj->_schema as $field => $data){
+				switch($field){
+					case $modelObj->displayField:
+						echo "\t\t\t\t'{$modelObj->displayField}',\n";
+						break;
+
+					case 'active':
+						echo "\t\t\t\t'active' => (array)Configure::read('CORE.active_options'),\n";
+						break;
+
+					case 'locked':
+						echo "\t\t\t\t'locked' => (array)Configure::read('CORE.locked_options'),\n";
+						break;
+
+					case substr($field, -1, 2) == 'id':
+						echo "\t\t\t\t'$field' => \$this->{$currentModelName}->".Inflector::classify(substr($field, -1, 2))."->find('list'),\n";
+						break;
+				} // switch
 				// like 'layout_id' => $this->Content->Layout->find('list'),
 			}
-			echo "\t\t\t\t'active' => (array)Configure::read('CORE.active_options')\n";
 		echo "\t\t\t);\n\n";
 		echo "\t\t\t\$this->set(compact('$pluralName','filterOptions'));\n";
 	echo "\t\t}\n\n";

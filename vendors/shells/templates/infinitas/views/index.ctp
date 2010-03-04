@@ -77,10 +77,9 @@
 				"\t\t\t'edit',\n".
 				"\t\t\t'toggle',\n".
 				"\t\t\t'copy',\n".
-				"\t\t\t'delete,'\n\n".
+				"\t\t\t'delete',\n\n".
 				"\t\t\t// other methods available\n".
 				"\t\t\t// 'unlock',\n".
-				"\t\t\t''\n".
 			"\t\t)\n".
 		"\t);\n\n".
 		"\techo \$this->Infinitas->adminIndexHead(\$this, \$paginator, \$filterOptions, \$massActions);\n".
