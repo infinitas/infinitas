@@ -100,7 +100,7 @@
 										break;
 
 									case preg_match('/[a-z_]+_count/i', $field):
-										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $modelClass))));
+										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
 										echo "\t\t\t\t\t\$this->Paginator->sort('$name', '{$field}'),\n";
 										break;
 
