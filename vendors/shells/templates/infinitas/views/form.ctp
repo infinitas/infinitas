@@ -81,6 +81,9 @@
 					if (!empty($associations['belongsTo'])) {
 						foreach ($associations['belongsTo'] as $alias => $details) {
 							if ($field === $details['foreignKey']) {
+								if (in_array($field, array('locked_by'))) {
+									continue;
+								}
 								$configs[] = $field;
 								continue;
 							}
@@ -107,7 +110,7 @@
 		        echo "\t\t\t\t\techo \$this->Design->niceBox();\n";
 			        echo "\t\t\t\t\t\t?><h2><?php __('Configuration'); ?></h2><?php\n";
 					foreach ($fields as $field) {
-						if (in_array($field, $configs) && !in_array($field, $ignore)) {
+						if (in_array($field, $configs)) {
 							echo "\t\t\t\t\t\techo \$this->Form->input('{$field}');\n";
 						}
 					}
