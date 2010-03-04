@@ -70,8 +70,6 @@
 	"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
 	"\t */\n\n";
 
-	pr(get_defined_vars());
-
 	echo "\techo \$this->Form->create('Post');\n".
         "\t\techo \$this->Infinitas->adminEditHead(\$this);\n".
         "\t\techo \$this->Design->niceBox(); ?>\n";
@@ -91,7 +89,7 @@
 					if (!in_array($field, $ignore) && (str_replace('_count', '', $field) == $field)) {
 						switch($schema[$field]['type']){
 							case 'text':
-								$end .= "\t\t\t\t\techo \$this->Infinitas->wysiwyg('{$modelClass}.{$field}');\n";
+								$end .= "\t\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
 
 							default:
