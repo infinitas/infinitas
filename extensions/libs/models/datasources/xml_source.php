@@ -1,22 +1,4 @@
 <?php
-	/**
-	 * XmlSource
-	 *
-	 * @package
-	 * @author dogmatic
-	 * @copyright Copyright (c) 2010
-	 * @version $Id$
-	 * @access public
-	 */
-	/**
-	 * XmlSource
-	 *
-	 * @package
-	 * @author dogmatic
-	 * @copyright Copyright (c) 2010
-	 * @version $Id$
-	 * @access public
-	 */
 	class XmlSource extends DataSource {
 		/**
 		 * A default request array
@@ -100,8 +82,14 @@
 			);
 
 			if ($query['fields'] == 'count') {
-				$count = Set::extract($model->map['count'], $response);
-				$result[0][$model->alias]['count'] = $count;
+				if (isset($model->map['count'])) {
+					$count = Set::extract($model->map['count'], $response);
+					$result[0][$model->alias]['count'] = $count;
+				}
+				else{
+					$count = count(Set::extract($model->map['data'], $response));
+					$result[0][$model->alias]['count'] = $count;
+				}
 				return $result;
 			}
 
