@@ -38,16 +38,29 @@ class TrashController extends ManagementAppController {
 		if(isset($this->params['named']['pluginName']) && isset($this->params['named']['modelName'])){
 			extract($this->params['named']);
 			
+			if($pluginName == 'Core') {
+				$pluginName = 'Management';
+			}
+			
 			$this->loadModel($pluginName . '.' . $modelName);
+			
+			$fieldList = array(
+						$modelName . '.id',
+						$modelName . '.deleted_date'
+			);
+			
+			if($this->{$modelName}->hasField('title')) {
+				$fieldList[] = $modelName . '.title';
+			}
+			elseif($this->{$modelName}->hasField('name')) {
+				$fieldList[] = $modelName . '.name';
+			}
+			
 			
 			$this->paginate = array(
 				$modelName => array(
 					'contain' => false,
-					'fields' => array(
-						$modelName . '.id',
-						$modelName . '.title',
-						$modelName . '.deleted_date'
-					)
+					'fields' => $fieldList
 				)
 			);
 			
@@ -97,7 +110,8 @@ class TrashController extends ManagementAppController {
 				$this->{$modelName}->undelete($id);
 			}
 			
-			$this->Session->setFlash(__('The ' . Inflector::pluralize(low($modelName)) . ' have been restored', true));
+			$prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($modelName))));
+			$this->Session->setFlash(__('The ' . $prettyModelName . ' have been restored', true));
 			$this->redirect($this->referer());
 		}
 		else

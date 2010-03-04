@@ -88,7 +88,7 @@ class SoftDeletableBehavior extends ModelBehavior {
 		if (method_exists($model, 'beforeSoftDeletable') && $model->beforeSoftDeletable($id) === false) {
 			return false;
 		}
-
+		
 		$model->id = $id;
 		$deleted = $model->save($data, false, array_keys($data[$model->alias]));
 
