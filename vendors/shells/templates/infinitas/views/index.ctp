@@ -15,6 +15,27 @@
 	 * @package       Shell
 	 * @subpackage    Shell.templates.views.index
 	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 *
+	 * Available vars
+	 * ============================
+	 *
+	 [directory] => views
+	 [filename] => index
+	 [vars] =>
+	 [themePath] => c:\xampp\htdocs\thinkmoney\vendors\shells\templates\infinitas\
+	 [templateFile] => c:\xampp\htdocs\thinkmoney\vendors\shells\templates\infinitas\views\index.ctp
+	 [action] => admin_index
+	 [plugin] => compare
+	 [modelClass] => Supplier
+	 [schema] => Array
+	 [primaryKey] => id
+	 [displayField] => name
+	 [singularVar] => supplier
+	 [pluralVar] => suppliers
+	 [singularHumanName] => Supplier
+	 [pluralHumanName] => Suppliers
+	 [fields] => Array
+	 [associations] => Array
 	 */
 
 	$ignore = array(
@@ -23,6 +44,8 @@
 		'password',
 		'deleted', 'deleted_date'
 	);
+
+	pr(get_defined_vars());
 
 	echo "<?php\n".
 		"\t/**\n".
