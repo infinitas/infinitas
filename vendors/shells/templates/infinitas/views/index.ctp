@@ -138,7 +138,7 @@
 							if ($isKey !== true) {
 								switch($field){
 									case 'email':
-										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n".$endFields;
+										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
 										break;
 
 									case 'created':
