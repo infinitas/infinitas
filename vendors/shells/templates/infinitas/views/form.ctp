@@ -70,7 +70,7 @@
 	"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
 	"\t */\n\n";
 
-	echo "\techo \$this->Form->create('Post');\n".
+	echo "\techo \$this->Form->create('$modelClass');\n".
         "\t\techo \$this->Infinitas->adminEditHead(\$this);\n".
         "\t\techo \$this->Design->niceBox(); ?>\n";
 		echo "\t\t\t<div class=\"data\">\n";
