@@ -38,6 +38,8 @@
 	  [validationIgnore] => Array
 	 */
 
+	$schema = ClassRegistry::init(Inflector::classify($useTable))->_schema;
+
 	$validationIgnore = array(
 		'slug', 'views', 'ordering', 'active',
 		'locked', 'locked_by', 'locked_since',
@@ -85,54 +87,53 @@
 		if ($displayField){
 			echo "\t\tvar \$displayField = '$displayField';\n";
 		}
-		if (!empty($validate)){
-			echo "\t\tvar \$actsAs = array(\n";
-				foreach ($validate as $field => $validations){
-					switch($field){
-						case 'locked':
-							$_belongsTo =
-								"\t\t\t'Locker' => array(\n".
-									"\t\t\t\t'className' => 'Management.User',\n".
-									"\t\t\t\t'foreignKey' => 'locked_by',\n".
-									"\t\t\t\t'conditions' => '',\n".
-									"\t\t\t\t'fields' => array(\n".
-										"\t\t\t\t\t'Locker.id',\n".
-										"\t\t\t\t\t'Locker.username'\n".
-									"\t\t\t\t),\n".
-									"\t\t\t\t'order' => ''\n".
-								"\t\t\t),\n";
-							break;
 
-						case 'ordering':
-							echo
-								"\t\t\t'Libs.Sequence' => array(\n".
-									"\t\t\t\t'group_fields' => array(\n".
-										"\t\t\t\t\t/* Add parent field here */\n".
-									"\t\t\t\t)\n".
-								"\t\t\t),\n";
-							break;
+		echo "\t\tvar \$actsAs = array(\n";
+			foreach ($schema as $field => $data){
+				switch($field){
+					case 'locked':
+						$_belongsTo =
+							"\t\t\t'Locker' => array(\n".
+								"\t\t\t\t'className' => 'Management.User',\n".
+								"\t\t\t\t'foreignKey' => 'locked_by',\n".
+								"\t\t\t\t'conditions' => '',\n".
+								"\t\t\t\t'fields' => array(\n".
+									"\t\t\t\t\t'Locker.id',\n".
+									"\t\t\t\t\t'Locker.username'\n".
+								"\t\t\t\t),\n".
+								"\t\t\t\t'order' => ''\n".
+							"\t\t\t),\n";
+						break;
 
-						case 'slug':
-							echo "\t\t\t'Libs.Sluggable',\n";
-							break;
+					case 'ordering':
+						echo
+							"\t\t\t'Libs.Sequence' => array(\n".
+								"\t\t\t\t'group_fields' => array(\n".
+									"\t\t\t\t\t/* Add parent field here */\n".
+								"\t\t\t\t)\n".
+							"\t\t\t),\n";
+						break;
 
-						case 'views':
-							echo "\t\t\t'Libs.Viewable',\n";
-							break;
+					case 'slug':
+						echo "\t\t\t'Libs.Sluggable',\n";
+						break;
 
-						case 'lft':
-							echo "\t\t\t'Tree',\n";
-							$_order = "\t\t'{$name}.lft' => 'ASC'\n";
-							break;
-					} // switch
-				}
+					case 'views':
+						echo "\t\t\t'Libs.Viewable',\n";
+						break;
 
-				echo
-					"\t\t\t// 'Libs.Feedable',\n".
-					"\t\t\t// 'Libs.Commentable',\n".
-					"\t\t\t// 'Libs.Rateable\n";
-			echo "\t\t);\n\n";
-		}
+					case 'lft':
+						echo "\t\t\t'Tree',\n";
+						$_order = "\t\t'{$name}.lft' => 'ASC'\n";
+						break;
+				} // switch
+			}
+
+			echo
+				"\t\t\t// 'Libs.Feedable',\n".
+				"\t\t\t// 'Libs.Commentable',\n".
+				"\t\t\t// 'Libs.Rateable\n";
+		echo "\t\t);\n\n";
 
 		echo "\t\tvar \$order = array(\n".
 			$_order.
