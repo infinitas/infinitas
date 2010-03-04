@@ -42,7 +42,7 @@
 		"\t * @subpackage    $modelClass.views.$pluralVar.index\n".
 		"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
 		"\t */\n\n".
-		"\techo \$this->Form->create( '$modelClass', array( 'url' => array( 'controller' => '".Inflector::underscore($modelClass)."', 'action' => 'mass', 'admin' => 'true' ) ) );\n\n".
+		"\techo \$this->Form->create( '$modelClass', array( 'url' => array( 'controller' => '".Inflector::pluralize(Inflector::underscore($modelClass))."', 'action' => 'mass', 'admin' => 'true' ) ) );\n\n".
 		"\t\$massActions = \$this->Infinitas->massActionButtons(\n".
 			"\t\tarray(\n".
 				"\t\t\t'add',\n".
@@ -97,6 +97,11 @@
 										$endFields = "\t\t\t\t\t\$this->Paginator->sort( '{$field}' ) => array(\n".
 					                        "\t\t\t\t\t\t'style' => 'width:50px;'\n".
 					                    "\t\t\t\t\t),\n".$endFields;
+										break;
+
+									case preg_match('/[a-z_]+_count/i', $field):
+										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $modelClass))));
+										echo "\t\t\t\t\t\$this->Paginator->sort('$name', '{$field}'),\n";
 										break;
 
 									default:
