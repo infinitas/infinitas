@@ -70,17 +70,20 @@
 		"\t * @subpackage    $modelClass.views.$pluralVar.index\n".
 		"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
 		"\t */\n\n".
-		"\techo \$this->Form->create( '$modelClass', array( 'url' => array( 'controller' => '".Inflector::pluralize(Inflector::underscore($modelClass))."', 'action' => 'mass', 'admin' => 'true' ) ) );\n\n".
+		"\techo \$this->Form->create('$modelClass', array('url' => array('controller' => '".Inflector::pluralize(Inflector::underscore($modelClass))."', 'action' => 'mass', 'admin' => 'true')));\n\n".
 		"\t\$massActions = \$this->Infinitas->massActionButtons(\n".
 			"\t\tarray(\n".
 				"\t\t\t'add',\n".
 				"\t\t\t'edit',\n".
 				"\t\t\t'toggle',\n".
 				"\t\t\t'copy',\n".
-				"\t\t\t'delete'\n".
+				"\t\t\t'delete,'\n\n".
+				"\t\t\t// other methods available\n".
+				"\t\t\t// 'unlock',\n".
+				"\t\t\t''\n".
 			"\t\t)\n".
 		"\t);\n\n".
-		"\techo \$this->Infinitas->adminIndexHead( \$this, \$paginator, \$filterOptions, \$massActions );\n".
+		"\techo \$this->Infinitas->adminIndexHead(\$this, \$paginator, \$filterOptions, \$massActions);\n".
 	"?>\n";
 ?>
 <div class="table">
@@ -90,7 +93,7 @@
 	            "\t\t\techo \$this->Infinitas->adminTableHeader(\n".
 	                "\t\t\t\tarray(\n".
 
-	                    "\t\t\t\t\t\$this->Form->checkbox( 'all' ) => array(\n".
+	                    "\t\t\t\t\t\$this->Form->checkbox('all') => array(\n".
 	                        "\t\t\t\t\t\t'class' => 'first',\n".
 	                        "\t\t\t\t\t\t'style' => 'width:25px;'\n".
 	                    "\t\t\t\t\t),\n";
@@ -114,14 +117,14 @@
 								switch($field){
 									case 'created':
 									case 'modified':
-					                    $endFields .= "\t\t\t\t\t\$this->Paginator->sort( '{$field}' ) => array(\n".
+					                    $endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
 					                        "\t\t\t\t\t\t'style' => 'width:75px;'\n".
 					                    "\t\t\t\t\t),\n";
 										break;
 
 									case 'active':
 									case 'locked':
-										$endFields = "\t\t\t\t\t\$this->Paginator->sort( '{$field}' ) => array(\n".
+										$endFields = "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
 					                        "\t\t\t\t\t\t'style' => 'width:50px;'\n".
 					                    "\t\t\t\t\t),\n".$endFields;
 										break;
@@ -144,7 +147,7 @@
 
 				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}){ ?>\n".
 					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n".
-						"\t\t\t\t\t<td><?php echo \$this->Form->checkbox( \${$singularVar}['{$modelClass}']['id'] ); ?>&nbsp;</td>\n";
+						"\t\t\t\t\t<td><?php echo \$this->Form->checkbox(\${$singularVar}['{$modelClass}']['id']); ?>&nbsp;</td>\n";
 
 						$endFields = '';
 						foreach ($fields as $field) {
@@ -198,4 +201,4 @@
 	</table>
 	<?php echo "<?php echo \$this->Form->end(); ?>\n"; ?>
 </div>
-<?php echo "<?php echo \$this->element( 'pagination/navigation' ); ?>" ?>
+<?php echo "<?php echo \$this->element('pagination/navigation'); ?>" ?>
