@@ -86,6 +86,7 @@
 							}
 						}
 					}
+
 					if (!in_array($field, $ignore) && (str_replace('_count', '', $field) == $field)) {
 						switch($schema[$field]['type']){
 							case 'text':
@@ -106,7 +107,7 @@
 		        echo "\t\t\t\t\techo \$this->Design->niceBox();\n";
 			        echo "\t\t\t\t\t\t?><h2><?php __('Configuration'); ?></h2><?php\n";
 					foreach ($fields as $field) {
-						if (in_array($field, $configs)) {
+						if (in_array($field, $configs) && !in_array($field, $ignore)) {
 							echo "\t\t\t\t\t\techo \$this->Form->input('{$field}');\n";
 						}
 					}
