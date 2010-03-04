@@ -92,6 +92,7 @@ class AppController extends Controller {
 			}
 		}
 
+		//$this->Event->trigger('testEvent');
 	}
 
 	function beforeRender(){

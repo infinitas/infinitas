@@ -56,27 +56,34 @@ class EventCore extends Object{
 	 *
 	 */
 	private function __loadEventHandlers(){
-		App::import('Core', 'Folder');
-
-		$folder = new Folder();
-
-		$pluginsPaths = App::path('plugins');
-
-		foreach($pluginsPaths as $pluginsPath){
-			$folder->cd($pluginsPath);
-			$plugins = $folder->read();
-			$plugins = $plugins[0];
-				
-			if(count($plugins)){
-				foreach($plugins as $pluginName){
-					$filename = $pluginsPath . $pluginName . DS . $pluginName . '_events.php';
-					$className = Inflector::camelize($pluginName . '_events');
-					if(file_exists($filename)){
-						if(EventCore::__loadEventClass($className, $filename))
-						EventCore::__getAvailableHandlers($this->__eventClasses[$className]);
+		$this->__eventHandlerCache = Cache::read('event_handlers');
+		
+		if($this->__eventHandlerCache === false) {
+			App::import('Core', 'Folder');
+	
+			$folder = new Folder();
+	
+			$pluginsPaths = App::path('plugins');
+	
+			foreach($pluginsPaths as $pluginsPath){
+				$folder->cd($pluginsPath);
+				$plugins = $folder->read();
+				$plugins = $plugins[0];
+					
+				if(count($plugins)){
+					foreach($plugins as $pluginName){
+						$filename = $pluginsPath . $pluginName . DS . $pluginName . '_events.php';
+						$className = Inflector::camelize($pluginName . '_events');
+						if(file_exists($filename)){
+							if(EventCore::__loadEventClass($className, $filename)) {
+								EventCore::__getAvailableHandlers($this->__eventClasses[$className]);
+							}
+						}
 					}
 				}
 			}
+			
+			Cache::write('event_handlers', $this->__eventHandlerCache);
 		}
 	}
 
@@ -91,16 +98,17 @@ class EventCore extends Object{
 	private function __dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()){
 		$eventHandlerMethod = EventCore::__handlerMethodName($eventName);
 		$_this =& EventCore::getInstance();
-
+		
 		$return = array();
 
 		if(isset($_this->__eventHandlerCache[$eventName])){
 			foreach($_this->__eventHandlerCache[$eventName] as $eventClass){
 				$pluginName = EventCore::__extractPluginName($eventClass);
-				if(isset($_this->__eventClasses[$eventClass])
-					&& is_object($_this->__eventClasses[$eventClass])
-					&& ($scope == 'Global' || $scope == $pluginName)
-				){
+				if(($scope == 'Global' || $scope == $pluginName)){
+					if(!isset($_this->__eventClasses[$eventClass]) || !is_object($_this->__eventClasses[$eventClass])) {
+						EventCore::__loadEventClass($eventClass);
+					}
+					
 					$EventObject = $_this->__eventClasses[$eventClass];
 
 					$Event = new Event($eventName, $HandlerObject, $pluginName, $data);
@@ -166,7 +174,17 @@ class EventCore extends Object{
 	 * @param string $filename
 	 *
 	 */
-	private function __loadEventClass($className, $filename){
+	private function __loadEventClass($className, $filename = false){
+		if($filename === false) {
+			$baseName = Inflector::underscore($className) . '.php';
+			
+			$pluginName = Inflector::camelize(preg_replace('/_events.php$/', '', $baseName));
+			
+			$pluginPath = App::pluginPath($pluginName);			
+		
+			$filename = $pluginPath . $baseName;
+		}
+		
 		App::Import('file', $className, true, array(), $filename);
 
 		try{
