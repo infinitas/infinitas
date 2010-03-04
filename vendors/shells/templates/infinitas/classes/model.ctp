@@ -118,6 +118,10 @@
 						echo "\t\t\t'Libs.Sluggable',\n";
 						break;
 
+					case 'deleted':
+						echo "\t\t\t'Libs.SoftDeletable',\n";
+						break;
+
 					case 'views':
 						echo "\t\t\t'Libs.Viewable',\n";
 						break;
