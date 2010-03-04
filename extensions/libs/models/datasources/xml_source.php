@@ -93,11 +93,31 @@
 				return $result;
 			}
 
-			$results = Set::extract($model->map['data'], $response);
-			foreach ($results as $key => $value) {
+			if (isset($model->map['data'])) {
+				if (strtolower($query['conditions']) !== 'raw') {
+					$response = Set::extract($model->map['data'], $response);
+				}
+			}
+
+			$i = 0;
+			foreach ($response as $key => $value) {
+				if (isset($query['limit']) && $i >= $query['limit']) {
+					return $result;
+				}
+
 				$result[$key][$model->alias] = $value;
+				$i++;
 			}
 			return $result;
+		}
+
+		function calculate(&$model, $func, $params = array()) {
+			$params = (array)$params;
+			switch (strtolower($func)) {
+				case 'count':
+					return 'count';
+					break;
+			}
 		}
 
 		/**

@@ -72,7 +72,7 @@
 		var $map = array(
 			'count'  => 'Rss.Channel.totalResults',
 			'limit'  => 'Rss.Channel.itemsPerPage',
-			'offset' => 'Rss.Channel.itemsPerPage',
+			'page'   => 'Rss.Channel.startIndex',
 			'data'   => 'Rss.Channel.Item'
 		);
 
