@@ -18,6 +18,24 @@
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * available variables
+	 * ==================================
+	 *
+	  [directory] => classes
+	  [filename] => model
+	  [vars] =>
+	  [themePath] => c:\xampp\htdocs\thinkmoney\vendors\shells\templates\infinitas\
+	  [templateFile] => c:\xampp\htdocs\thinkmoney\vendors\shells\templates\infinitas\classes\model.ctp
+	  [associations] => Array
+	  [validate] => Array
+	  [primaryKey] => id
+	  [useTable] => suppliers
+	  [useDbConfig] => default
+	  [displayField] =>
+	  [name] => Supplier
+	  [plugin] => Compare
+	  [validationIgnore] => Array
 	 */
 
 	$validationIgnore = array(
