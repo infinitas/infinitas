@@ -114,28 +114,6 @@ class AppHelper extends Helper {
 		return $out;
 	}
 
-	/**
-	* creates the header images for the admin table headers.
-	*/
-	function adminTableHeadImages() {
-		return $this->Html->image(
-			'admin/bg-th-left.gif',
-			array(
-				'width' => '8px',
-				'height' => '7px',
-				'class' => 'left'
-				)
-			) .
-		$this->Html->image(
-			'admin/bg-th-right.gif',
-			array(
-				'width' => '8px',
-				'height' => '7px',
-				'class' => 'right'
-				)
-			);
-	}
-
 	function adminIndexHead($view = array(), $pagintion = array(), $filterOptions = array(), $massActions = null) {
 		if (empty($view)) {
 			$this->errors[] = 'I need the view.';
