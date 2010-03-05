@@ -63,12 +63,12 @@
 
 		function installData($sampleData){
 			$this->writeCoreData();
-			
+
 			if($sampleData){
 				$this->writeSampleData();
 			}
 		}
-		
+
 		function getCoreData(){
 			return $this->_writeFileData(
 				$this->_getTableData($this->coreDataTables),
@@ -114,10 +114,11 @@
 
 
 		function _getTableData($tables){
+			$sql = '';
 			foreach($tables as $table ){
 				$datas[$table] = $this->query('SELECT * FROM `'.$table.'`;');
 			}
-			
+
 			foreach($datas as $table => $records){
 				foreach($records as $record){
 					foreach($record[$table] as $field => $value ){
@@ -138,7 +139,6 @@
 				}
 				unset($_allValues);
 			}
-
 			return $this->_compress($sql);
 		}
 

@@ -118,23 +118,7 @@
 				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
 			echo "\t\t\t\t}\n"; // else
 		echo "\t\t\t}\n"; // if empty
-
-		$compact = array();
-		foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
-			foreach ($modelObj->{$assoc} as $associationName => $relation){
-				if (!empty($associationName)){
-					$otherModelName  = $this->_modelName($associationName);
-					$otherPluralName = $this->_pluralName($associationName);
-
-					echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
-					$compact[] = "'{$otherPluralName}'";
-				}
-			}
-		}
-
-		if (!empty($compact)){
-			echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
-		}
+		relatedFinds();
 	echo "\t\t}\n\n";
 
 	/**
@@ -160,7 +144,10 @@
 			echo "\t\t\t\t\t\$this->data = \$this->{$currentModelName}->read(null, \$id);\n";
 		echo "\t\t\t}\n"; // if empty and !$id
 
+		relatedFinds();
+	echo "\t\t}\n";
 
+	function relatedFinds(){
 		$compact = array();
 		foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
 			foreach ($modelObj->{$assoc} as $associationName => $relation){
@@ -177,5 +164,5 @@
 		if (!empty($compact)){
 			echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 		}
-	echo "\t\t}\n";
+	}
 ?>
