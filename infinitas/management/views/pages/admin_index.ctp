@@ -40,7 +40,6 @@
 	}
 ?>
 <div class="table">
-    <?php echo $this->Core->adminTableHeadImages(); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(

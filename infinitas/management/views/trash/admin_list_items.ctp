@@ -29,7 +29,6 @@
         echo $this->Core->adminIndexHead( $this, null, null, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Core->adminTableHeadImages(); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(
@@ -37,7 +36,7 @@
                     $this->Form->checkbox( 'all' ) => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
-                    ),                    
+                    ),
                     $this->Paginator->sort( 'title' ),
                     $this->Paginator->sort( 'deleted_date' ) => array(
                         'style' => 'width:75px;'
@@ -51,10 +50,10 @@
                 		 <td><?php echo $this->Form->checkbox( $trashedItem[$modelName]['id'] ); ?>&nbsp;</td>
 						<td>
                 			<?php echo isset($trashedItem[$modelName]['title']) ? $trashedItem[$modelName]['title'] : $trashedItem[$modelName]['name']; ?>&nbsp;
-                		</td>                		 
+                		</td>
 						<td>
                 			<?php echo $this->Time->nice($trashedItem[$modelName]['deleted_date']); ?>&nbsp;
-                		</td>                		 
+                		</td>
                 	</tr>
                 <?php
             }

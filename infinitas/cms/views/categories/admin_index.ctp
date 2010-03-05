@@ -31,7 +31,6 @@
         echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Cms->adminTableHeadImages(); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Cms->adminTableHeader(

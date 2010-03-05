@@ -33,7 +33,6 @@
         echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Letter->adminTableHeadImages(); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <tr>
             <th class="first" style="width:10px;"><?php echo $this->Form->checkbox( 'all' ); ?></th>

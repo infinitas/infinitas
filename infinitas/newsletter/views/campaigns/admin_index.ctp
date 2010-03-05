@@ -32,7 +32,6 @@
 
 ?>
 <div class="table">
-    <?php echo $this->Letter->adminTableHeadImages(); ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Letter->adminTableHeader(
