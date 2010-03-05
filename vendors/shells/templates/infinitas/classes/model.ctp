@@ -37,8 +37,8 @@
 	  [plugin] => Compare
 	  [validationIgnore] => Array
 	 */
-
-	$schema = ClassRegistry::init(Inflector::classify($useTable))->_schema;
+	$class = implode('.', array($plungin, $name));
+	$schema = ClassRegistry::init($class)->_schema;
 
 	$validationIgnore = array(
 		'slug', 'views', 'ordering', 'active',
