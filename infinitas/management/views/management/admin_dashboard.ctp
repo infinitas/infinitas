@@ -65,69 +65,101 @@
 				<li>
 					<div class="counts item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
 						<h4><?php __('Popular Content'); ?></h4>
+						<?php
+							if (empty($data['popularContent']) && empty($data['popularContent'])){
+								echo sprintf(
+									__('You dont have any content yet, click %s to get started', true ),
+									$this->Html->link(
+										__('here', true ),
+										array(
+											'plugin' => 'blog',
+											'controller' => 'posts',
+											'action' => 'add'
+										)
+									)
+								), '<br/>';
 
-						<div class="count">
-							<h3><?php __('Posts'); ?></h3>
-							<?php
-								echo $this->Design->niceBox();
-									foreach($data['popularPost'] as $post){
-										?>
-											<div>
-												<?php
-													echo $this->Html->link(
-														$this->Text->truncate($post['Post']['title'], 30),
-														array(
-															'plugin' => 'blog',
-															'controller' => 'posts',
-															'action' => 'edit',
-															$post['Post']['id']
-														),
-														array(
-															'title' => sprintf('%s '.__('views', true), $post['Post']['views'])
-														)
-													);
-												?>
-											</div>
-										<?php
-									}
-								echo $this->Design->niceBoxEnd();
-							?>
-						</div>
-						<div class="count">
-							<h3><?php __('Content'); ?></h3>
-							<?php
-								echo $this->Design->niceBox();
-									foreach($data['popularContent'] as $content){
-										?>
-											<div>
-												<?php
-													echo $this->Html->link(
-														$this->Text->truncate($content['Content']['title'], 30),
-														array(
-															'plugin' => 'cms',
-															'controller' => 'contents',
-															'action' => 'edit',
-															$content['Content']['id']
-														),
-														array(
-															'title' => sprintf('%s '.__('views', true), $content['Content']['views'])
-														)
-													);
-												?>
-											</div>
-										<?php
-									}
-								echo $this->Design->niceBoxEnd();
-							?>
-						</div>
+								echo sprintf(
+									__('You can also check the %s', true ),
+									$this->Html->link(
+										__('wiki', true ),
+										'http://help.infinitas-cms.org/index.php?title=Category:Users',
+										array('target' => '_blank')
+									)
+								), '<br/>';
+
+							}
+						?>
+
+						<?php if (!empty($data['popularPost'])) { ?>
+							<div class="count">
+								<h3><?php __('Posts'); ?></h3>
+								<?php
+									echo $this->Design->niceBox();
+										foreach($data['popularPost'] as $post){
+											?>
+												<div>
+													<?php
+														echo $this->Html->link(
+															$this->Text->truncate($post['Post']['title'], 30),
+															array(
+																'plugin' => 'blog',
+																'controller' => 'posts',
+																'action' => 'edit',
+																$post['Post']['id']
+															),
+															array(
+																'title' => sprintf('%s '.__('views', true), $post['Post']['views'])
+															)
+														);
+													?>
+												</div>
+											<?php
+										}
+									echo $this->Design->niceBoxEnd();
+								?>
+							</div>
+						<?php } ?>
+
+						<?php if (!empty($data['popularContent'])) { ?>
+							<div class="count">
+								<h3><?php __('Content'); ?></h3>
+								<?php
+									echo $this->Design->niceBox();
+										foreach($data['popularContent'] as $content){
+											?>
+												<div>
+													<?php
+														echo $this->Html->link(
+															$this->Text->truncate($content['Content']['title'], 30),
+															array(
+																'plugin' => 'cms',
+																'controller' => 'contents',
+																'action' => 'edit',
+																$content['Content']['id']
+															),
+															array(
+																'title' => sprintf('%s '.__('views', true), $content['Content']['views'])
+															)
+														);
+													?>
+												</div>
+											<?php
+										}
+									echo $this->Design->niceBoxEnd();
+								?>
+							</div>
+						<?php } ?>
 					</div>
 				</li>
+				<?php if (!empty($data['latestComment'])) { ?>
 				<li>
 					<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
 						<h4><?php __('Latest Comments'); ?></h4>
 						<?php echo $this->element('admin/comments/latest', array('plugin' => 'management', 'comments' => $data['latestComment'])); ?>
 					</div>
 				</li>
+				<?php } ?>
 				<li>
 					<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
 						<h4><?php __('Latest Users'); ?></h4>
