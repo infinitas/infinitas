@@ -28,6 +28,7 @@
 		*/
 		var $actsAs = array(
 			'Containable',
+			'Libs.Infinitas',
 			'Libs.Lockable',
 			'Libs.Logable',
 			'Libs.SoftDeletable',
