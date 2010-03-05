@@ -103,7 +103,7 @@
 		 * @params array $config the params to pass to json_decode (assoc && depth)
 		 * @params bool $return will return the array/object by default but can be set to false to just check its valid.
 		 */
-		function getJson($data = null, $config = array(), $return = true){
+		function getJson(&$Model, $data = null, $config = array(), $return = true){
 			if (!$data) {
 				$this->_errors[] = 'No data for json';
 				return false;
@@ -114,7 +114,7 @@
 			$json = json_decode($data, $config['assoc']);
 
 			if (!$json) {
-				$this->__jsonErrors[] = $this->_json_messages[json_last_error()];
+				$Model->__jsonErrors[] = $this->_json_messages[json_last_error()];
 				return false;
 			}
 
