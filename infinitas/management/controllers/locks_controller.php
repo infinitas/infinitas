@@ -27,14 +27,15 @@
 
 		function beforeFilter(){
 			parent::beforeFilter();
-			$this->db = ConnectionManager::getDataSource('default');
 		}
 
 		function admin_index(){
-			$lockableTables = $this->_getLockableTables();
+			App::import('AppModel');
+			$this->AppModel = new AppModel(array('table' => false));
+			$lockableTables = $this->AppModel->getTablesByField('default', 'locked');
 
 			foreach($lockableTables as $table ){
-				$count = $this->db->query(
+				$count = $this->AppModel->query(
 					'SELECT COUNT(*) AS `count` FROM `'.$table['table'].'` AS `'.$table['model'].'`   WHERE `'.$table['model'].'`.`locked` = 1'
 				);
 

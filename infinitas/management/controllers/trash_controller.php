@@ -10,8 +10,6 @@ class TrashController extends ManagementAppController {
 			unset($this->params['form']['action']);
 			$this->redirect(array_merge(array('action' => 'list_items'), $this->params['named']));
 		}
-
-		//$this->db = ConnectionManager::getDataSource('default');
 	}
 
 	/**
