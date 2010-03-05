@@ -28,8 +28,6 @@
         echo $this->Core->adminIndexHead( $this, null, null, $massActions );
 ?>
 <div class="table">
-    <?php echo $this->Core->adminTableHeadImages(); ?>
-    <?php  ?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(
@@ -58,8 +56,8 @@
                 	</tr>
                 <?php
             }
-           	echo $this->Form->checkbox('Lock.0.id', array('checked' => true));
         ?>
     </table>
+	<div style="display:none"><?php echo $this->Form->checkbox('Lock.0.id', array('checked' => true)); ?></div>
     <?php echo $this->Form->end(); ?>
 </div>
