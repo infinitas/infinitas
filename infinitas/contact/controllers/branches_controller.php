@@ -90,9 +90,9 @@
 				$this->redirect($this->referer());
 			}
 
-			$this->set('title_for_layout', sprintf(__('Contact us at %s', true), $branch['Branch']['name']));
+			$title_for_layout = sprintf(__('Contact us at %s', true), $branch['Branch']['name']);
 
-			$this->set(compact('branch'));
+			$this->set(compact('branch', 'title_for_layout'));
 		}
 
 		function admin_index(){

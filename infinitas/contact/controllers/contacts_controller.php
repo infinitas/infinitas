@@ -41,6 +41,45 @@
 			$this->set(compact('contacts','filterOptions'));
 		}
 
+		function view(){
+			if (!isset($this->params['slug'])) {
+				$this->Session->setFlash( __('A problem occured', true) );
+				$this->redirect($this->referer());
+			}
+
+			$contact = $this->Contact->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Contact.slug' => $this->params['slug'],
+						'Contact.active' => 1
+					),
+					'contain' => array(
+						'Branch' => array(
+							'fields' => array(
+								'id',
+								'name',
+								'slug',
+								'active'
+							),
+							'Address' => array(
+								'Country'
+							)
+						)
+					)
+				)
+			);
+
+			if (!$contact['Branch']['active']) {
+				$this->Session->setFlash(__('No contact found', true));
+				$this->redirect($this->referer());
+			}
+
+			$title_for_layout = sprintf(__('Contact details for %s %s', true), $contact['Contact']['first_name'], $contact['Contact']['last_name']);
+
+			$this->set(compact('contact', 'title_for_layout'));
+		}
+
 		function admin_add(){
 			if (!empty($this->data)) {
 				$this->Contact->create();
