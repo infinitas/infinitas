@@ -81,6 +81,16 @@
 						'allowEmpty' =>  true
 					)
 				),
+				'email' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter an email address', true)
+					),
+					'email' => array(
+						'rule' => array('email', true),
+						'message' => __('That email address does not seem valid', true)
+					)
+				),
 				'branch_id' => array(
 					'rule' => array('comparison', '>', 0),
 					'message' => __('Please select a branch', true)
