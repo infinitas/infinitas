@@ -43,5 +43,45 @@
 				)
 			);
 		}
+
+		function getActiveIds(){
+			$ids = Cache::read('active_category_ids', 'blog');
+			if (!empty($ids)) {
+				return $ids;
+			}
+
+			$ids = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						'Category.id',
+						'Category.id'
+					),
+					'conditions' => array(
+						'Category.active' => 1
+					)
+				)
+			);
+
+			Cache::write('active_category_ids', $ids, 'blog');
+
+			return $ids;
+		}
+
+		function afterSave($created) {
+			parent::afterSave($created);
+
+			Cache::delete('active_category_ids', 'blog');
+
+			return true;
+		}
+
+		function afterDelete() {
+			parent::afterDelete();
+
+			Cache::delete('active_category_ids', 'blog');
+
+			return true;
+		}
 	}
 ?>

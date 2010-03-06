@@ -61,6 +61,8 @@ class PostsController extends BlogAppController {
 			$post_ids = $this->Post->Tag->findPostsByTag($tag);
 		}
 
+		$categoryIds = $this->Post->Category->getActiveIds();
+
 		$this->paginate = array(
 			'fields' => array(
 				'Post.id',
@@ -77,7 +79,8 @@ class PostsController extends BlogAppController {
 			'conditions' => array(
 				'Post.active' => 1,
 				'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0'),
-				'Post.parent_id' => null
+				'Post.parent_id' => null,
+				'Post.category_id' => $categoryIds
 			),
 			'contain' => array(
 				'Tag' => array(
