@@ -27,6 +27,31 @@
 			'Filter.Filter'
 		);
 
+		function index(){
+			$this->Branch->recursive = 0;
+
+			$branches = $this->paginate(
+				null,
+				$this->Filter->filter
+			);
+
+			if (empty($branches)) {
+				$this->Session->setFlash(__('There are no contact details available', true));
+				$this->redirect($this->referer());
+			}
+
+			if (count($branches) == 1) {
+				$this->redirect(array('action' => 'view', 'slug' => $branches[0]['Branch']['slug'], 'id' => $branches[0]['Branch']['id']));
+			}
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name'
+			);
+
+			$this->set(compact('branches','filterOptions'));
+		}
+
 		function view(){
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('A problem occured', true) );
@@ -55,6 +80,7 @@
 								)
 							)
 						),
+						'Contact'
 					)
 				)
 			);
@@ -93,7 +119,7 @@
 				}
 			}
 
-			$timeZones = $this->Contact->TimeZone->find('list');
+			//$timeZones = $this->Branch->TimeZone->find('list');
 			$this->set(compact('timeZones'));
 		}
 
