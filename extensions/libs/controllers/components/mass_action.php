@@ -25,12 +25,21 @@
 	class MassActionComponent extends Object {
 		var $name = 'MassAction';
 
+		var $modelName = null;
+
+		var $prettyModelName = null;
+
 		/**
 		* Controllers initialize function.
 		*/
 		function initialize(&$controller, $settings = array()) {
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
+
+
+			$this->modelName = $this->Controller->modelClass;
+
+			$this->prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($this->modelName))));
 		}
 
 		/**
@@ -117,8 +126,6 @@
 		* If there was no javascript confirmation a page is displayed with the confirmation
 		*/
 		function delete($ids) {
-			$model = $this->Controller->modelClass;
-
 			if (isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) {
 				if(method_exists($this->Controller, '__handleDeletes')) {
 					$this->Controller->__handleDeletes($ids);
@@ -129,8 +136,10 @@
 			}
 
 			$referer = $this->Controller->referer();
-			$rows = $this->Controller->$model->find('list', array('conditions' => array($model.'.id' => $ids)));
-			$this->Controller->set(compact('model', 'referer', 'rows'));
+			$rows = $this->Controller->{$this->modelName}->find('list', array('conditions' => array($this->modelName.'.id' => $ids)));
+
+			$this->Controller->set('model', $this->modelName);
+			$this->Controller->set(compact('referer', 'rows'));
 			$this->Controller->render('delete', null, APP.'views'.DS.'global'.DS.'delete.ctp');
 		}
 
@@ -144,32 +153,28 @@
 		* @param array $ids the ids to delete.
 		*/
 		function __handleDeletes($ids) {
-			$model = $this->Controller->modelClass;
-
-			if($this->Controller->{$model}->Behaviors->attached('SoftDeletable')) {
+			if($this->Controller->{$this->modelName}->Behaviors->attached('SoftDeletable')) {
 				$result = true;
 
 				foreach($ids as $id) {
-					$result = $result && ($this->Controller->{$model}->delete($id) || $this->Controller->{$model}->checkResult());
+					$result = $result && ($this->Controller->{$this->modelName}->delete($id) || $this->Controller->{$this->modelName}->checkResult());
 				}
 
 				$message = __('moved to the trash bin', true);
 			}
 
 			else {
-				$conditions = array($model . '.' . $this->Controller->$model->primaryKey => $ids);
-				$result = $this->Controller->{$model}->deleteAll($conditions);
+				$conditions = array($this->modelName . '.' . $this->Controller->{$this->modelName}->primaryKey => $ids);
+				$result = $this->Controller->{$this->modelName}->deleteAll($conditions);
 				$message = __('deleted', true);
 			}
 
-			$prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($modelName))));
-			
 			if($result == true) {
-				$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' have been', true) . ' ' . $message);
+				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' have been', true) . ' ' . $message);
 			}
 
 			else {
-				$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' could not be', true) . ' ' . $message);
+				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' could not be', true) . ' ' . $message);
 			}
 
 			$this->Controller->redirect($this->Controller->data['Confirm']['referer']);
@@ -184,22 +189,19 @@
 		 * @param array $ids array of ids.
 		 */
 		function toggle($ids) {
-			$model = $this->Controller->modelClass;
-			$this->Controller->$model->recursive = - 1;
+			$this->Controller->{$this->modelName}->recursive = - 1;
 			$ids = $ids + array(0);
 
-			$prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($modelName))));
-			
-			if ($this->Controller->$model->updateAll(
-					array($model . '.active' => '1 - `' . $model . '`.`active`'),
-						array($model . '.id IN(' . implode(',', $ids) . ')')
+			if ($this->Controller->{$this->modelName}->updateAll(
+					array($this->modelName . '.active' => '1 - `' . $this->modelName . '`.`active`'),
+						array($this->modelName . '.id IN(' . implode(',', $ids) . ')')
 						)
 					) {
-				$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' were toggled', true));
+				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' were toggled', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
-			$this->Controller->Session->setFlash(__('The ' . $prettyModelName . ' could not be toggled', true));
+			$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' could not be toggled', true));
 			$this->Controller->redirect($this->Controller->referer());
 		}
 
@@ -214,37 +216,33 @@
 		* @param array $ids array of ids.
 		*/
 		function copy($ids) {
-			$model = $this->Controller->modelClass;
-			$this->Controller->$model->recursive = - 1;
-
+			$this->Controller->{$this->modelName}->recursive = - 1;
 			$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
-			
-			$prettyModelName = low(Inflector::humanize(Inflector::underscore($modelName)));
-			
+
 			$saves = 0;
 			foreach($ids as $id) {
-				$record = $this->Controller->$model->read(null, $id);
-				unset($record[$model]['id']);
+				$record = $this->Controller->{$this->modelName}->read(null, $id);
+				unset($record[$this->modelName]['id']);
 
-				if ($record[$model][$this->Controller->$model->displayField] != $this->Controller->$model->primaryKey) {
-					$record[$model][$this->Controller->$model->displayField] = $record[$model][$this->Controller->$model->displayField] . $copyText;
+				if ($record[$this->modelName][$this->Controller->{$this->modelName}->displayField] != $this->Controller->{$this->modelName}->primaryKey) {
+					$record[$this->modelName][$this->Controller->{$this->modelName}->displayField] = $record[$this->modelName][$this->Controller->{$this->modelName}->displayField] . $copyText;
 				}
 
-				$record[$model]['active'] = 0;
-				unset( $record[$model]['created'] );
-				unset( $record[$model]['modified'] );
-				unset( $record[$model]['lft'] );
-				unset( $record[$model]['rght'] );
+				$record[$this->modelName]['active'] = 0;
+				unset( $record[$this->modelName]['created'] );
+				unset( $record[$this->modelName]['modified'] );
+				unset( $record[$this->modelName]['lft'] );
+				unset( $record[$this->modelName]['rght'] );
 
-				$this->Controller->$model->create();
+				$this->Controller->{$this->modelName}->create();
 
-				if ($this->Controller->$model->save($record)) {
+				if ($this->Controller->{$this->modelName}->save($record)) {
 					$saves++;
 				} ;
 			}
 
 			if ($saves) {
-				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $prettyModelName . ' was made', true));
+				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $this->prettyModelName . ' was made', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
