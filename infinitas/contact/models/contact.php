@@ -28,6 +28,13 @@
 				'group_fields' => array(
 					'branch_id'
 				)
+			),
+			'Libs.Sluggable' => array(
+				'label' => array(
+					'first_name', 'last_name'
+				),
+				'length' => 255,
+				'overwrite' => true
 			)
 		);
 
