@@ -23,7 +23,7 @@
 		    				'type' => 'select',
 		    				'div' => false,
 		    				'options' => $options,
-		    				'empty' => Configure::read('Website.empty_select')
+		    				'empty' => __(Configure::read('Website.empty_select'), true)
 		    			)
 	    			);
 				}
