@@ -34,7 +34,7 @@
             'displayField' => null,
             'url' => array(),
             'factor' => 1.4,
-            'tag' => 'div',
+            'tag' => 'span',
             'class' => 'tag_item',
         );
 
@@ -48,15 +48,16 @@
         /**
         * Display the tags
         *
-        * Takes an array from find( 'all' ) and works out sizes to generate the
+        * Takes an array from find('all') and works out sizes to generate the
         * tag cloud.
         *
         * @param array $data from find( 'all' )
         * @param array $config settings for the tags
+        * @param string $seperator how to seperate the tags
         *
         * @retrurn string the stags nicly formated
         */
-        function display($data, $config = array()){
+        function display($data, $config = array(), $seperator = ' | '){
             if (empty($data)){
                 $this->errors[] = __( 'You need to pass some data', true );
                 return false;
@@ -91,7 +92,7 @@
 
             shuffle($this->return);
 
-            return implode('&nbsp;', $this->return);
+            return implode($seperator, $this->return);
         }
 
         /**
