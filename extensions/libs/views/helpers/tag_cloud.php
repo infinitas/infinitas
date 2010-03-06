@@ -56,22 +56,18 @@
         *
         * @retrurn string the stags nicly formated
         */
-        function display( $data, $config = array() )
-        {
-            $this->return = null;
-
-            if ( !is_array( $data ) )
-            {
+        function display($data, $config = array()){
+            if (empty($data)){
                 $this->errors[] = __( 'You need to pass some data', true );
                 return false;
-            }
+			}
+			$this->return = array();
 
-            $this->config = array_merge( $this->config, (array)$config );
+            $this->config = array_merge($this->config, (array)$config);
 
-            $data = $this->score( $data );
+            $data = $this->score($data);
 
-            foreach( $data as $k => $v )
-            {
+            foreach($data as $k => $v){
                 $this->return[] .=
                     '<'.$this->config['tag'].' '.
                         // html params
@@ -87,15 +83,15 @@
                         // link for the tag
                             $this->Html->link(
                                 $v[$this->config['model']][ClassRegistry::init( $this->config['model'] )->displayField],
-                                (array)$this->config['url'] + (array)$v[$this->config['model']][ClassRegistry::init( $this->config['model'] )->displayField]
+                                (array)$this->config['url'] + (array)$v[$this->config['model']][ClassRegistry::init($this->config['model'])->displayField]
                             ).
                         // close
                     '</'.$this->config['tag'].'>';
             }
 
-            shuffle( $this->return );
+            shuffle($this->return);
 
-            return implode( '&nbsp;', $this->return );
+            return implode('&nbsp;', $this->return);
         }
 
         /**
@@ -110,8 +106,12 @@
         *
         * @return array $data the data with an added 'score' field
         */
-        function score( $data )
-        {
+		function score($data){
+			if (empty($data)) {
+        		$this->errors[] = 'No data';
+				return array();
+			}
+
             $counts =
                 array_flip(
                     array_flip(
@@ -122,15 +122,12 @@
             $min = min( $counts );
             $max = max( $counts );
 
-            if ( $max < 1 )
-            {
+            if ( $max < 1 ){
                 $max = 1;
             }
 
-            foreach( $data as $k => $v )
-            {
-                $data[$k][$this->config['model']]['score'] =
-                (
+            foreach( $data as $k => $v ){
+                $data[$k][$this->config['model']]['score'] = (
                     ( $v[$this->config['model']][$this->config['count_field']] / $max ) * 100
                 ) * $this->config['factor'];
             }
