@@ -29,6 +29,7 @@
 		        echo $this->Form->input('position');
 		        echo $this->Form->input('phone');
 		        echo $this->Form->input('mobile');
+		        echo $this->Form->input('email');
 		        echo $this->Form->input('skype');
 		        echo $this->Form->input('branch_id', array('empty' => __(Configure::read('Website.empty_select'), true)));
 		        echo $this->Form->input('configs');
