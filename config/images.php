@@ -147,6 +147,7 @@ $config['CoreImages']['images'] = array(
 		'rss' => 'rss.png',
 		'skype' => 'skype.png',
 		'twitter' => '',
+		'vcf' => 'vcf.png',
 		'yahoo' => 'yahoo-messanger.png'
 		),
 
