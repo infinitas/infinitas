@@ -90,6 +90,8 @@
 				$this->redirect($this->referer());
 			}
 
+			$this->set('title_for_layout', sprintf(__('Contact us at %s', true), $branch['Branch']['name']));
+
 			$this->set(compact('branch'));
 		}
 
