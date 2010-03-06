@@ -43,8 +43,8 @@
                     $this->Paginator->sort('image') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('first_name'),
-                    $this->Paginator->sort('Last_name'),
+                    $this->Paginator->sort(__('Name', true), 'last_name'),
+                    $this->Paginator->sort('email'),
                     $this->Paginator->sort('Branch', 'Branch.name') => array(
                         'style' => 'width:75px;'
                     ),
@@ -85,10 +85,10 @@
 							?>&nbsp;
 						</td>
                 		<td>
-                			<?php echo $this->Html->link($contact['Contact']['first_name'], array('action' => 'edit', $contact['Contact']['id'])); ?>&nbsp;
+                			<?php echo $this->Html->link($contact['Contact']['last_name'].', '.$contact['Contact']['first_name'], array('action' => 'edit', $contact['Contact']['id'])); ?>&nbsp;
                 		</td>
 						<td>
-							<?php echo $contact['Contact']['last_name']; ?>
+							<?php echo $this->Text->autoLinkEmails($contact['Contact']['email']); ?>
 						</td>
 						<td>
 							<?php echo $contact['Branch']['name']; ?>
