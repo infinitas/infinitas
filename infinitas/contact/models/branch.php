@@ -38,7 +38,13 @@
 						'.jpeg',
 						'.png'
 					),
+					'validations' => array(
+						'Empty' => array(
+						)
+					),
 
+						'Empty' => array(
+						)
 				)
 	        ),
 			'Libs.Sequence',
@@ -88,13 +94,13 @@
 						'message' => __('Please enter some text for the body', true)
 					),
 					'phone' => array(
-						'rule' => 'phone',
+						'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
 						'message' => __('The number does not seem to be valid', true)
 					)
 				),
 				'fax' => array(
 					'phone' => array(
-						'rule' => 'phone',
+						'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
 						'message' => __('Please enter a valid fax number', true),
 						'allowEmpty' =>  true
 					)
@@ -102,7 +108,8 @@
 				'map' => array(
 					'map' => array(
 						'rule' => 'url',
-						'message' => __('Please enter a valid url for the map', true)
+						'message' => __('Please enter a valid url for the map', true),
+						'allowEmpty' =>  true
 					)
 				),
 				'time_zone_id' => array(

@@ -61,18 +61,15 @@
 					),
 				),
 				'phone' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please enter some text for the body', true)
-					),
 					'phone' => array(
-						'rule' => 'phone',
-						'message' => __('The number does not seem to be valid', true)
+						'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
+						'message' => __('The number does not seem to be valid', true),
+						'allowEmpty' =>  true
 					)
 				),
 				'mobile' => array(
 					'phone' => array(
-						'rule' => 'phone',
+						'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
 						'message' => __('Please enter a valid mobile number', true),
 						'allowEmpty' =>  true
 					)
