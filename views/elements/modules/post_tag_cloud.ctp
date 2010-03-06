@@ -1,6 +1,6 @@
 <div class="right-item">
     <div class="tags">
-        <p style="width:150px;">
+        <p>
             <?php
             	$tagCount = ClassRegistry::init('Blog.Tag')->getCount();
 				echo $this->TagCloud->display(
