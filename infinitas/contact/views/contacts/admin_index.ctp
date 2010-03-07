@@ -118,4 +118,4 @@
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
-<?php echo $this->element( 'pagination/navigation' ); ?>
+<?php echo $this->element( 'admin/pagination/navigation' ); ?>

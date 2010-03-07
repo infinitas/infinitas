@@ -27,5 +27,5 @@
         echo $this->PostLayout->indexPostEnd();
     }
 
-    echo $this->element( 'pagination/navigation' );
+    echo $this->element( 'admin/pagination/navigation' );
 ?>

@@ -200,4 +200,4 @@
 	</table>
 	<?php echo "<?php echo \$this->Form->end(); ?>\n"; ?>
 </div>
-<?php echo "<?php echo \$this->element('pagination/navigation'); ?>" ?>
+<?php echo "<?php echo \$this->element('admin/pagination/navigation'); ?>" ?>

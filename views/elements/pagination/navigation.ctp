@@ -22,19 +22,6 @@
 <?php
 	echo $this->Design->niceBox( 'pagination' );
 
-	$numbers = $paginator->numbers(
-		array(
-			'tag' => 'span',
-			'before' => null,
-			'after' => null,
-			'model' => null,
-			'modulus' => '8',
-			'separator' => '',
-			'first' => null,
-			'last' => null
-		)
-	);
-
 	// show a message if nothing is found ( count == 0 or its not set )
 	if (
 		!isset($this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count']) ||
@@ -46,44 +33,11 @@
 	}
 ?>
     <div class="wrap">
-        <div class="limit">
-            <span><?php
-                $_paginationOptions = explode( ',', Configure::read( 'Global.pagination_select' ) );
-                $paginationLimmits = array_combine(
-                    array_values( $_paginationOptions ),
-                    array_values( $_paginationOptions )
-                );
-
-                $_paginationOptionsSelected = (isset($this->params['named']['limit'])) ? $this->params['named']['limit'] : 20;
-
-                echo $this->Form->create('PaginationOptions', array('url' => str_replace($this->base, '', $this->here)));
-                    echo $this->Form->input(
-                        'pagination_limit',
-                        array(
-                            'options' => $paginationLimmits,
-                            'div' => false,
-                            'label' => false,
-                            'selected' => $_paginationOptionsSelected
-                        )
-                    );
-                echo $this->Form->end( __( 'Update', true ) );
-            ?><span>
-        </div>
-        <div class="button2-right">
-            <div class="start">
-                <?php
-                    echo $this->Html->link(
-                        __( 'Start', true ),
-                        $paginator->url( array( 'page' => 1 ), true )
-                    );
-                ?>
-            </div>
-        </div>
         <div class="button2-right">
             <div class="prev">
                 <?php
                     echo $paginator->prev(
-                        __( 'Prev', true ),
+                        __( 'Older', true ),
                         array(
                             'escape' => false,
                             'tag' => 'span',
@@ -93,24 +47,13 @@
                         null
                     );
                 ?>
-            </div>
-        </div>
-        <div class="button2-left">
-            <div class="numbers">
-                <?php
-                	if (!$numbers){
-                	  	echo '<span class="current">1</span>';
-                	}
-					echo $numbers;
-                ?>
-                <span class="blank"></span>
             </div>
         </div>
         <div class="button2-left">
             <div class="next">
                 <?php
                     echo $paginator->next(
-                        __( 'Next', true ),
+                        __( 'Newer', true ),
                         array(
                             'escape' => false,
                             'tag' => 'span',
@@ -122,23 +65,5 @@
                 ?>
             </div>
         </div>
-        <div class="button2-left">
-            <div class="last">
-                <?php
-                    echo $this->Html->link(
-                        __( 'End', true ),
-                        $paginator->url(
-                            array(
-                                'page' => $paginator->params['paging'][$paginator->defaultModel()]['pageCount']
-                            ),
-                            true
-                        )
-                    );
-                ?>
-            </div>
-        </div>
-        <span class="pages">
-            <?php echo $this->Design->paginationCounter( $paginator ); ?>
-        </span>
     </div>
 <?php echo $this->Design->niceBoxEnd(); ?>
