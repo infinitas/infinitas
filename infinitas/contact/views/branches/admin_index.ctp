@@ -50,7 +50,7 @@
                     $this->Paginator->sort('fax') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('Users', 'user_count') => array(
+                    $this->Paginator->sort('Contacts', 'contact_count') => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort('ordering') => array(
@@ -90,7 +90,7 @@
 							<?php echo $branch['Branch']['fax']; ?>
 						</td>
 						<td>
-							<?php echo $branch['Branch']['user_count']; ?>
+							<?php echo $branch['Branch']['contact_count']; ?>
 						</td>
                 		<td>
                 			<?php echo $this->Infinitas->ordering($branch['Branch']['id'], $branch['Branch']['ordering'], 'Contact.Branch'); ?>&nbsp;

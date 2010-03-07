@@ -39,7 +39,11 @@
 		);
 
 		var $belongsTo = array(
-			'Contact.Branch'
+			'Branch' => array(
+				'className' => 'Contact.Branch',
+				'counterCache' =>  true,
+				'counterScope' =>  array('Contact.active' => 1)
+			)
 		);
 
 		/**
