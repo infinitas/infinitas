@@ -227,33 +227,33 @@ class PostsController extends BlogAppController {
 					'plugin' => 'Blog',
 					'controller' => 'posts',
 					'action' => 'view',
-					),
+				),
 				'fields' => array(
 					'Post.id',
 					'Post.title',
 					'Post.intro',
 					'Post.created'
-					),
+				),
 				'feed' => array(
 					'Core.Comment' => array(
 						'setup' => array(
 							'plugin' => 'Comment',
 							'controller' => 'comments',
 							'action' => 'view',
-							),
+						),
 						'fields' => array(
 							'Comment.id',
 							'Comment.name',
 							'Comment.comment',
 							'Comment.created'
-							)
 						)
-					),
+					)
+				),
 				'order' => array(
 					'created' => 'DESC'
-					)
 				)
-			);
+			)
+		);
 
 		$this->set('blogFeeds', $feed);
 
