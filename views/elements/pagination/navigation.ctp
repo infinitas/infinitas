@@ -33,7 +33,7 @@
 	}
 ?>
     <div class="wrap">
-        <div class="button2-right">
+        <div class="button2-left">
             <div class="prev">
                 <?php
                     echo $paginator->prev(
@@ -49,7 +49,7 @@
                 ?>
             </div>
         </div>
-        <div class="button2-left">
+        <div class="button2-right">
             <div class="next">
                 <?php
                     echo $paginator->next(
