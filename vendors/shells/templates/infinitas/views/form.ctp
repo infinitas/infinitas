@@ -116,7 +116,6 @@
 					}
 
 					if (!empty($associations['hasAndBelongsToMany'])) {
-				        echo "\t\t\t\t\t\t<h2>$assocName</h2>";
 						foreach ($associations['hasAndBelongsToMany'] as $assocName => $assocData) {
 							echo "\t\t\t\t\t\techo \$this->Form->input('{$assocName}');\n";
 						}
