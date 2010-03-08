@@ -130,7 +130,7 @@
 
 									case str_replace('_count', '', $field) != $field:
 										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
-										echo "\t\t\t\t\t\$this->Paginator->sort('$name', '{$field}') => array(\n".
+										echo "\t\t\t\t\t\$this->Paginator->sort('{$name}', '{$field}') => array(\n".
 					                        "\t\t\t\t\t\t'style' => 'width:50px;'\n".
 					                    "\t\t\t\t\t),\n";
 										break;
@@ -184,7 +184,7 @@
 										break;
 
 									case 'ordering':
-										echo "\t\t\t\t\t<td><?php echo \$this->Cms->ordering(\${$singularVar}['{$modelClass}']['{$primaryKey}'], \${$singularVar}['{$modelClass}']['ordering']); ?>&nbsp;</td>\n";
+										echo "\t\t\t\t\t<td><?php echo \$this->{$plugin}->ordering(\${$singularVar}['{$modelClass}']['{$primaryKey}'], \${$singularVar}['{$modelClass}']['ordering']); ?>&nbsp;</td>\n";
 										break;
 
 
