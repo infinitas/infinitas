@@ -70,7 +70,7 @@
 		"\t * @subpackage    $modelClass.views.$pluralVar.index\n".
 		"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
 		"\t */\n\n".
-		"\techo \$this->Form->create('$modelClass', array('url' => array('controller' => '".Inflector::pluralize(Inflector::underscore($modelClass))."', 'action' => 'mass', 'admin' => 'true')));\n\n".
+		"\techo \$this->Form->create('$modelClass', array('url' => array('controller' => '".Inflector::pluralize(Inflector::underscore($modelClass))."', 'action' => 'mass', 'admin' => true)));\n\n".
 		"\t\$massActions = \$this->Infinitas->massActionButtons(\n".
 			"\t\tarray(\n".
 				"\t\t\t'add',\n".
@@ -183,8 +183,26 @@
 										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
 										break;
 
-									case $displayField && in_array('slug', $fields):
-										echo "\t\t\t\t\t<td title=\"<?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>\"><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
+									case $displayField:
+										$title = '';
+										switch(in_array('slug', $fields)){
+											case true:
+												$title = "title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
+
+											default:
+												echo "\t\t\t\t\t<td{$title}>\n".
+														"\t\t\t\t\t\t<?php \n".
+															"\t\t\t\t\t\t\techo \$this->Html->link(\n".
+																"\t\t\t\t\t\t\t\t\${$singularVar}['{$modelClass}']['{$field}'],\n".
+																	"\t\t\t\t\t\t\t\tarray(\n".
+																		"\t\t\t\t\t\t\t\t\t'action' => 'edit',\n".
+																		"\t\t\t\t\t\t\t\t\t\${$singularVar}['{$modelClass}']['{$primaryKey}']\n".
+																	"\t\t\t\t\t\t\t\t)\n".
+																"\t\t\t\t\t\t\t);\n".
+															"\t\t\t\t\t\t?>&nbsp;\n".
+														"\t\t\t\t\t</td>\n";
+												break;
+										} // switch
 										break;
 
 									default:
