@@ -1,43 +1,5 @@
 <?php
-	/**
-	 * Infinitas model bake template
-	 *
-	 * This is the file that is used to bake the models when using infinitas skel
-	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package bake
-	 * @subpackage bake.classes.model
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.7a
-	 *
-	 * @author Carl Sutton ( dogmatic69 )
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 *
-	 * available variables
-	 * ==================================
-	 *
-	  [directory] => classes
-	  [filename] => model
-	  [vars] =>
-	  [themePath] => c:\xampp\htdocs\thinkmoney\vendors\shells\templates\infinitas\
-	  [templateFile] => c:\xampp\htdocs\thinkmoney\vendors\shells\templates\infinitas\classes\model.ctp
-	  [associations] => Array
-	  [validate] => Array
-	  [primaryKey] => id
-	  [useTable] => suppliers
-	  [useDbConfig] => default
-	  [displayField] =>
-	  [name] => Supplier
-	  [plugin] => Compare
-	  [validationIgnore] => Array
-	 */
-	$class = implode('.', array($plungin, $name));
+	$class = implode('.', array($plugin, $name));
 	$schema = ClassRegistry::init($class)->_schema;
 
 	$validationIgnore = array(
