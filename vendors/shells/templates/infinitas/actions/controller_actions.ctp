@@ -58,6 +58,11 @@
      *    [alias] => ''
 	 */
 
+	if (!function_exists('relatedFinds')) {
+		function relatedFinds($modelObj){
+		}
+	}
+
 	/**
 	* generate the index code
 	*/
@@ -105,64 +110,82 @@
 	echo "\t\t}\n\n";
 
 	/**
-	 * generate the add code
-	 */
-	echo "\t\tfunction {$admin}add() {\n";
-		echo "\t\t\tif (!empty(\$this->data)) {\n";
-			echo "\t\t\t\t\$this->{$currentModelName}->create();\n";
-			echo "\t\t\t\tif(\$this->{$currentModelName}->saveAll(\$this->data)){\n";
-				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s has been saved', true), '".strtolower($singularHumanName)."'));\n";
-				echo "\t\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
-			echo "\t\t\t\t}\n"; // saveAll
-			echo "\t\t\t\telse {\n";
-				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
-			echo "\t\t\t\t}\n"; // else
-		echo "\t\t\t}\n"; // if empty
-		relatedFinds();
-	echo "\t\t}\n\n";
+	* generaly only need admin add / edit methods.
+	*/
+	if ($admin) {
+		/**
+		 * generate the add code
+		 */
+		echo "\t\tfunction {$admin}add() {\n";
+			echo "\t\t\tif (!empty(\$this->data)) {\n";
+				echo "\t\t\t\t\$this->{$currentModelName}->create();\n";
+				echo "\t\t\t\tif(\$this->{$currentModelName}->saveAll(\$this->data)){\n";
+					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s has been saved', true), '".strtolower($singularHumanName)."'));\n";
+					echo "\t\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
+				echo "\t\t\t\t}\n"; // saveAll
+				echo "\t\t\t\telse {\n";
+					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
+				echo "\t\t\t\t}\n"; // else
+			echo "\t\t\t}\n"; // if empty
 
-	/**
-	 * generate the edit code
-	 */
-	echo "\t\tfunction {$admin}edit(\$id = null) {\n";
-		echo "\t\t\tif (!\$id && empty(\$this->data)) {\n";
-			echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('Invalid %s', true), '".strtolower($singularHumanName)."'));\n";
-		echo "\t\t\t}\n\n"; // if empty and !$id
+				$compact = array();
+				foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
+					foreach ($modelObj->{$assoc} as $associationName => $relation){
+						if (!empty($associationName)){
+							$otherModelName  = $this->_modelName($associationName);
+							$otherPluralName = $this->_pluralName($associationName);
+
+							echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
+							$compact[] = "'{$otherPluralName}'";
+						}
+					}
+				}
+
+				if (!empty($compact)){
+					echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
+				}
+		echo "\t\t}\n\n";
+
+		/**
+		 * generate the edit code
+		 */
+		echo "\t\tfunction {$admin}edit(\$id = null) {\n";
+			echo "\t\t\tif (!\$id && empty(\$this->data)) {\n";
+				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('Invalid %s', true), '".strtolower($singularHumanName)."'));\n";
+			echo "\t\t\t}\n\n"; // if empty and !$id
 
 
-		echo "\t\t\tif (!empty(\$this->data)) {\n";
-			echo "\t\t\t\tif(\$this->{$currentModelName}->saveAll(\$this->data)){\n";
-				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s has been saved', true), '".strtolower($singularHumanName)."'));\n";
-				echo "\t\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
-			echo "\t\t\t\t}\n"; // saveAll
-			echo "\t\t\t\telse {\n";
-				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
-			echo "\t\t\t\t}\n"; // else
-		echo "\t\t\t}\n\n"; // if empty
+			echo "\t\t\tif (!empty(\$this->data)) {\n";
+				echo "\t\t\t\tif(\$this->{$currentModelName}->saveAll(\$this->data)){\n";
+					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s has been saved', true), '".strtolower($singularHumanName)."'));\n";
+					echo "\t\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
+				echo "\t\t\t\t}\n"; // saveAll
+				echo "\t\t\t\telse {\n";
+					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
+				echo "\t\t\t\t}\n"; // else
+			echo "\t\t\t}\n\n"; // if empty
 
-		echo "\t\t\tif (empty(\$this->data)) {\n";
-			echo "\t\t\t\t\t\$this->data = \$this->{$currentModelName}->read(null, \$id);\n";
-		echo "\t\t\t}\n"; // if empty and !$id
+			echo "\t\t\tif (empty(\$this->data)) {\n";
+				echo "\t\t\t\t\t\$this->data = \$this->{$currentModelName}->read(null, \$id);\n";
+			echo "\t\t\t}\n"; // if empty and !$id
 
-		relatedFinds();
-	echo "\t\t}\n";
 
-	function relatedFinds(){
-		$compact = array();
-		foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
-			foreach ($modelObj->{$assoc} as $associationName => $relation){
-				if (!empty($associationName)){
-					$otherModelName  = $this->_modelName($associationName);
-					$otherPluralName = $this->_pluralName($associationName);
+			$compact = array();
+			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
+				foreach ($modelObj->{$assoc} as $associationName => $relation){
+					if (!empty($associationName)){
+						$otherModelName  = $this->_modelName($associationName);
+						$otherPluralName = $this->_pluralName($associationName);
 
-					echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
-					$compact[] = "'{$otherPluralName}'";
+						echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
+						$compact[] = "'{$otherPluralName}'";
+					}
 				}
 			}
-		}
 
-		if (!empty($compact)){
-			echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
-		}
+			if (!empty($compact)){
+				echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
+			}
+		echo "\t\t}\n";
 	}
 ?>
