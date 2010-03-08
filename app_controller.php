@@ -48,6 +48,7 @@ class AppController extends Controller {
 		'view'
 	);
 
+
 	function beforeFilter() {
 		parent::beforeFilter();
 
