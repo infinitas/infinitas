@@ -183,11 +183,16 @@
 										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
 										break;
 
+									case 'ordering':
+										echo "\t\t\t\t\t<td><?php echo \$this->Cms->ordering(\${$singularVar}['{$modelClass}']['{$primaryKey}'], \${$singularVar}['{$modelClass}']['ordering']); ?>&nbsp;</td>\n";
+										break;
+
+
 									case $displayField:
 										$title = '';
 										switch(in_array('slug', $fields)){
 											case true:
-												$title = "title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
+												$title = " title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
 
 											default:
 												echo "\t\t\t\t\t<td{$title}>\n".
