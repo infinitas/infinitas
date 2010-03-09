@@ -533,6 +533,10 @@ class AppController extends Controller {
 
 		// Loop through the plugins
 		foreach($Plugins as $pluginName) {
+			if ($pluginName == '.git') {
+				continue;
+			}
+
 			// Change directory to the plugin
 			$didCD = $folder->cd(APP . $plugin. DS . $pluginName . DS . 'controllers');
 			// Get a list of the files that have a file name that ends
