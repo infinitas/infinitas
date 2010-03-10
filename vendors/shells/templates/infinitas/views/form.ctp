@@ -96,8 +96,13 @@
 								$end .= "\t\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
 
+							case $displayField == $field:
+								echo "\t\t\t\t\techo \$this->Form->input('{$field}', array('class' => 'title'));\n";
+								break;
+
 							default:
 								echo "\t\t\t\t\techo \$this->Form->input('{$field}');\n";
+								break;
 						} // switch
 					}
 				}
