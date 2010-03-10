@@ -11,6 +11,8 @@
 
 	$_order = $_belongsTo = null;
 
+	$possibleFileFields = array('file', 'image');
+
 	echo "<?php\n".
 		"\t/**\n".
 		"\t * $name model\n".
@@ -96,6 +98,41 @@
 						echo "\t\t\t'Tree',\n";
 						$_order = "\t\t'{$name}.lft' => 'ASC'\n";
 						break;
+
+					case 'image':
+						echo "\t\t\t'MeioUpload.MeioUpload' => array(\n".
+							"\t\t\t\t'image' => array(\n".
+								"\t\t\t\t\t'dir' => 'img{DS}content{DS}thinkmoney{DS}creditcards{DS}{ModelName}',\n".
+								"\t\t\t\t\t'create_directory' => true,\n".
+								"\t\t\t\t\t'allowed_mime' => array(\n".
+									"\t\t\t\t\t\t'image/jpeg',\n".
+									"\t\t\t\t\t\t'image/pjpeg',\n".
+									"\t\t\t\t\t\t'image/png'\n".
+								"\t\t\t\t\t),\n".
+								"\t\t\t\t\t'allowed_ext' => array(\n".
+									"\t\t\t\t\t\t'.jpg',\n".
+									"\t\t\t\t\t\t'.jpeg',\n".
+									"\t\t\t\t\t\t'.png'\n".
+								"\t\t\t\t\t)\n".
+							"\t\t\t\t)\n".
+						"\t\t\t),\n";
+						break;
+
+					case 'file':
+						echo "\t\t\t'MeioUpload.MeioUpload' => array(\n".
+							"\t\t\t\t'image' => array(\n".
+								"\t\t\t\t\t'dir' => 'img{DS}content{DS}thinkmoney{DS}creditcards{DS}{ModelName}',\n".
+								"\t\t\t\t\t'create_directory' => true,\n".
+								"\t\t\t\t\t'allowed_mime' => array(\n".
+									"\t\t\t\t\t\t/** add mime types */\n".
+								"\t\t\t\t\t),\n".
+								"\t\t\t\t\t'allowed_ext' => array(\n".
+									"\t\t\t\t\t\t/** add extentions */\n".
+								"\t\t\t\t\t)\n".
+							"\t\t\t\t)\n".
+						"\t\t\t),\n";
+						break;
+
 				} // switch
 			} // end foreach
 
