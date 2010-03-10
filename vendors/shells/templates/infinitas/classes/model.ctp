@@ -123,7 +123,37 @@
 						$out .= "\t\t\t\t'foreignKey' => '{$relation['foreignKey']}',\n";
 						$out .= "\t\t\t\t'conditions' => '',\n";
 						$out .= "\t\t\t\t'fields' => '',\n";
-						$out .= "\t\t\t\t'order' => ''\n";
+						$out .= "\t\t\t\t'order' => '',\n";
+						if ($assocType == 'belongsTo') {
+							$relatedSchema = ClassRegistry::init($relation['className'])->_schema;
+							$relatedCounterCache = false;
+							$relatedActive = false;
+							$relatedDeleted = false;
+							foreach($relatedSchema as $field => $data){
+								if (strstr($field, '_count')) {
+									$relatedCounterCache = true;
+								}
+								if ($field == 'active') {
+									$relatedActive = true;
+								}
+								else if ($field == 'active') {
+									$relatedDeleted = true;
+								}
+							}
+							if ($relatedCounterCache) {
+								$out .= "\t\t\t\t'counterCache' => true,\n";
+							}
+							if ($relatedActive || $relatedDeleted) {
+								$out .= "\t\t\t\t'counterScope' => array(\n";
+									if ($relatedActive) {
+										$out .= "\t\t\t\t\t'{$name}.active' => 1\n";
+									}
+									if ($relatedDeleted) {
+										$out .= "\t\t\t\t\t'{$name}.deleted' => 1\n";
+									}
+								$out .= "\t\t\t\t),\n";
+							}
+						}
 						$out .= "\t\t\t)";
 						if ($i + 1 < $typeCount) {
 							$out .= ",\n";
