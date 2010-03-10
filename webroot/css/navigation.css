@@ -34,6 +34,7 @@ ul.pureCssMenu,ul.pureCssMenu ul {
 	border-color:#808080;
 	border-width:1px;
 	border-style:solid;
+	z-index:10;
 }
 
 ul.pureCssMenu table {
@@ -48,7 +49,8 @@ ul.pureCssMenu {
 }
 
 ul.pureCssMenu ul{
-	width:135.45000000000002px;
+	/*width:135.45000000000002px;*/
+	width:175px;
 }
 ul.pureCssMenu li{
 	display:block;
