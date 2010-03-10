@@ -166,7 +166,13 @@
 			echo "\t\t\t}\n\n"; // if empty
 
 			echo "\t\t\tif (empty(\$this->data)) {\n";
-				echo "\t\t\t\t\t\$this->data = \$this->{$currentModelName}->read(null, \$id);\n";
+				$__function = 'read';
+				foreach($omdelObj->_schema as $field => $data){
+					if ($field == 'locked') {
+						$__function = 'lock';
+					}
+				}
+				echo "\t\t\t\t\t\$this->data = \$this->{$currentModelName}->{$__function}(null, \$id);\n";
 			echo "\t\t\t}\n"; // if empty and !$id
 
 
