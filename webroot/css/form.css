@@ -42,7 +42,10 @@ label{
 	float:left;
 	padding-right:10px;
 	text-align:left;
-	width:50px;
+	width:100px;
+}
+.config select{
+	width:140px;
 }
 
 input{
@@ -65,4 +68,8 @@ input{
 	clear: both;
 	float: left;
 	width: 98%;
+}
+
+.input.select{
+	clear:both;
 }
