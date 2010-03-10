@@ -131,7 +131,7 @@
 				$compact = array();
 				foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
 					foreach ($modelObj->{$assoc} as $associationName => $relation){
-						if (!empty($associationName)){
+						if (!empty($associationName) && $this->_modelName($associationName) != 'Locker'){
 							$otherModelName  = $this->_modelName($associationName);
 							$otherPluralName = $this->_pluralName($associationName);
 
@@ -179,7 +179,7 @@
 			$compact = array();
 			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
 				foreach ($modelObj->{$assoc} as $associationName => $relation){
-					if (!empty($associationName)){
+					if (!empty($associationName) && $this->_modelName($associationName) != 'Locker'){
 						$otherModelName  = $this->_modelName($associationName);
 						$otherPluralName = $this->_pluralName($associationName);
 
