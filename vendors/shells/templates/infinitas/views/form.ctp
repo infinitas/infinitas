@@ -70,7 +70,17 @@
 	"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
 	"\t */\n\n";
 
-	echo "\techo \$this->Form->create('$modelClass');\n".
+	$possibleFileFields = array('file', 'image');
+
+	$fileUpload = '';
+
+	foreach ($fields as $field) {
+		if (in_array($field, $possibleFileFields)) {
+			$fileUpload = ", array('type' => 'file')";
+		}
+	}
+
+	echo "\techo \$this->Form->create('{$modelClass}'{$fileUpload});\n".
         "\t\techo \$this->Infinitas->adminEditHead(\$this);\n".
         "\t\techo \$this->Design->niceBox(); ?>\n";
 		echo "\t\t\t<div class=\"data\">\n";
@@ -99,6 +109,11 @@
 							case $displayField == $field:
 								echo "\t\t\t\t\techo \$this->Form->input('{$field}', array('class' => 'title'));\n";
 								break;
+
+							case in_array($file, $possibleFileFields):
+								echo "\t\t\t\t\techo \$this->Form->input('{$field}'{$fileUpload});\n";
+								break;
+
 
 							default:
 								echo "\t\t\t\t\techo \$this->Form->input('{$field}');\n";
