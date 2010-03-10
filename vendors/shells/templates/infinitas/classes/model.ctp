@@ -77,7 +77,11 @@
 						break;
 
 					case 'slug':
-						echo "\t\t\t'Libs.Sluggable',\n";
+						echo "\t\t\t'Libs.Sluggable' => array(\n";
+							if ($displayField) {
+								echo "\t\t\t\t'label' => array('$displayField')\n";
+							}
+						echo "\t\t\t),\n";
 						break;
 
 					case 'deleted':
