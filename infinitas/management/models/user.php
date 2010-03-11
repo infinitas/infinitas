@@ -22,9 +22,7 @@
 	class User extends ManagementAppModel{
 		var $name = 'User';
 
-		var $actsAs = array(
-			'Acl' => 'requester'
-		);
+		var $actsAs1 = array('Acl' => 'requester');
 
 		var $belongsTo = array(
 			'Management.Group'
@@ -146,7 +144,7 @@
 
 			foreach($sessions as &$session){
 				$session['User'] = explode('Auth|', $session['Session']['data']);
-				
+
 				if(isset($session['User'][1])) {
 					$session['User'] = unserialize($session['User'][1]);
 					if (isset($session['User']['User'])) {
