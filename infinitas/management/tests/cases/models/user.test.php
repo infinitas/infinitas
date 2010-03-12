@@ -6,7 +6,8 @@ class UserTestCase extends CakeTestCase {
 	var $fixtures = array(
 		'plugin.management.user',
 		'plugin.management.group',
-		'plugin.management.aco', 'plugin.management.aro', 'plugin.management.aros_aco'
+		'plugin.management.aco', 'plugin.management.aro', 'plugin.management.aros_aco',
+		'plugin.management.session'
 	);
 
 	function startTest() {
