@@ -2,7 +2,6 @@
 config/database.php
 libs/cronjobs
 plugins/*
-tests/
 tmp/*
 views/themed/*
 webroot/img/content/contact/*
