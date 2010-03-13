@@ -127,6 +127,34 @@
 		}
 
 		/**
+		 * get only the first dimention out of the array. used in router and configs
+		 * to stop multi dimention arrays being passed to methods that will not
+		 * handle them.
+		 *
+		 * @param object $Model the model object
+		 * @param array $array the array to check
+		 *
+		 * @return empty array on error or single dimention array.
+		 */
+		function singleDimentionArray(&$Model, $array = array()){
+			if (empty($array) || !is_array($array)) {
+				$this->errors[] = 'Array must be passed to me';
+				return array();
+			}
+
+			$return = array();
+
+			foreach($array as $k => $v){
+				if (is_array($v)) {
+					continue;
+				}
+				$return[$k] = $v;
+			}
+
+			return $return;
+		}
+
+		/**
 		 * Get a list of plugins.
 		 *
 		 * Just gets a list of plugins and returns them after rempving the plugins
