@@ -6,6 +6,7 @@ tests/
 tmp/*
 views/themed/*
 webroot/img/content/contact/*
+webroot/img/content/thinkmoney/*
 .gitignore
 config/schema/schema.php
 
