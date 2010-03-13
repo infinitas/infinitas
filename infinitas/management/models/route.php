@@ -36,7 +36,7 @@
 			$routes = Cache::read('routes', 'core');
 
 
-			if ($routes !== false) {
+			if (!empty($routes)) {
 				return $routes;
 			}
 
@@ -91,10 +91,22 @@
 			return $routingRules;
 		}
 
+		/**
+		 * get values for the route
+		 *
+		 * gets the values that are in the route and creates an array of what is
+		 * set for Router::connect
+		 *
+		 * @param array $route the route from the database
+		 *
+		 * @return formatted array for Router::connect
+		 */
 		function _getValues($route = array()){
 			if (!$route) {
 				return false;
 			}
+
+			$values = array();
 
 			if (!empty($route['prefix'])) {
 				$values['prefix'] = $route['prefix'];
@@ -113,16 +125,7 @@
 			}
 
 			if (!empty($route['values'])) {
-				$_v = explode("\n", $route['values']);
-
-				foreach((array)$_v as $line ){
-					$parts = explode( ':', $line );
-					if (count($parts) == 2) {
-						$_values[$parts[0]] = $this->_getType($parts[1]);
-					}
-				}
-
-				$values = array_merge((array)$values, (array)$_values);
+				$values = array_merge($values, $this->singleDimentionArray($this->getJson($route['values'])));
 			}
 
 			if ($route['force_backend']) {
@@ -135,18 +138,21 @@
 			return $values;
 		}
 
+		/**
+		 * get the regex rules
+		 *
+		 * gets the json regex rules from the data and creates an array or
+		 * returns an empty array.
+		 *
+		 * @param array $field the data from the rute
+		 * @param mixed $pass array of fields to pass back to the controller
+		 *
+		 * @return array the data for Router::connect
+		 */
 		function _getRegex($field, $pass = null){
 			$values = array();
 			if (!empty($field)) {
-				$_v = explode("\n", $field);
-
-				foreach((array)$_v as $line ){
-					$parts = explode( ':', $line );
-					if (count($parts) == 2 ) {
-
-						$values[$parts[0]] = $this->_getType($parts[1]);
-					}
-				}
+				$values = $this->singleDimentionArray($this->getJson($field));
 			}
 
 			if ($pass) {
@@ -155,27 +161,6 @@
 			}
 
 			return $values;
-		}
-
-		function _getType($field = false){
-			$replace = array(
-				"\r",
-				"\n",
-				"\n\r",
-				"\r\n",
-				' '
-			);
-			$field = str_replace( $replace, '', $field );
-			switch($field){
-				case 'null':
-					return null;
-					break;
-
-				default:
-					return $field;
-					break;
-
-			} // switch
 		}
 
 		function afterSave($created) {
