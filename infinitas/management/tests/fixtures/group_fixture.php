@@ -1,5 +1,5 @@
 <?php
-/* CoreGroup Fixture generated on: 2010-03-11 18:03:29 : 1268325569 */
+/* CoreGroup Fixture generated on: 2010-03-13 11:03:51 : 1268471871 */
 class GroupFixture extends CakeTestFixture {
 	var $name = 'Group';
 
@@ -23,8 +23,8 @@ class GroupFixture extends CakeTestFixture {
 			'id' => 1,
 			'name' => 'Administrators',
 			'description' => 'Site Administrators',
-			'created' => '2010-02-04 16:53:33',
-			'modified' => '2010-02-04 16:53:33',
+			'created' => '2010-02-01 00:00:00',
+			'modified' => '2010-02-01 00:00:00',
 			'parent_id' => 0,
 			'lft' => 1,
 			'rght' => 2
@@ -33,8 +33,8 @@ class GroupFixture extends CakeTestFixture {
 			'id' => 2,
 			'name' => 'Users',
 			'description' => '',
-			'created' => '2010-02-17 23:14:32',
-			'modified' => '2010-02-17 23:14:32',
+			'created' => '2010-02-01 00:00:00',
+			'modified' => '2010-02-01 00:00:00',
 			'parent_id' => 0,
 			'lft' => 3,
 			'rght' => 4
