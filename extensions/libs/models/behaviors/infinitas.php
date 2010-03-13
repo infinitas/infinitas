@@ -111,7 +111,7 @@
 
 			$defaultConfig = array('assoc' => true);
 			$config = array_merge($defaultConfig, (array)$config);
-			$json = json_decode($data, $config['assoc']);
+			$json = json_decode((string)$data, $config['assoc']);
 
 			if (!$json) {
 				$Model->__jsonErrors[] = $this->_json_messages[json_last_error()];
