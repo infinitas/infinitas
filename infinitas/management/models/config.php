@@ -98,7 +98,7 @@ class Config extends ManagementAppModel {
 				)
 			)
 		);
-		
+
 	}
 
 	/**
@@ -117,16 +117,21 @@ class Config extends ManagementAppModel {
 				break;
 
 			case 'integer':
-				return empty($data['options']) ? true : false;
+				if (!empty($data['options']) && is_int($data['options'])) {
+					return true;
+				}
 				break;
 
 			case 'dropdown':
+				if (is_int($data['options'])) {
+					return false;
+				}
 				//@todo needs a bit more work
 				return preg_match('/[0-9A-Za-z*\,]+$/', $data['options']);
 				break;
 
 			case 'bool':
-				if ($data['options'] == 'true,false' || $data['options'] == 'false,true') {
+				if ($data['options'] === 'true,false' || $data['options'] === 'false,true') {
 					return true;
 				}
 				break;
