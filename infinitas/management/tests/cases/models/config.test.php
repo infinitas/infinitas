@@ -125,13 +125,44 @@ class ConfigTestCase extends CakeTestCase {
 	 * Need to bypass cache.
 	 */
 	function testGetConfigs(){
-		//check the cache
-		$data = $this->Config->getConfig();
-		unlink(CACHE.'core'.DS.'configs');
+		// value format
+		$expected = array(
+			array('Config' => array('key' => 'Test.bool_false', 'value' => false, 'type' => 'bool')),
+			array('Config' => array('key' => 'Test.bool_true', 'value' => true, 'type' => 'bool')),
+			array('Config' => array('key' => 'Test.int_normal', 'value' => 123, 'type' => 'integer')),
+			array('Config' => array('key' => 'Test.int_string', 'value' => 987, 'type' => 'integer')),
+			array('Config' => array('key' => 'Test.nested_array',
+					'value' => array('abc1' => array('abc2' => array(
+						'abc3' => array('abc4' => array('abc5' => 'xyz'))))),
+					'type' => 'array')),
+			array('Config' => array('key' => 'Test.simple_array', 'value' => array('abc' => 'xyz'), 'type' => 'array')),
+			array('Config' => array('key' => 'Test.string1', 'value' => 'this is a string', 'type' => 'string')),
+			array('Config' => array('key' => 'Website.description',
+					'value' => 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.',
+					'type' => 'string')),
+			array('Config' => array('key' => 'Website.name', 'value' => 'Infinitas Cms', 'type' => 'string')));
+		$this->assertEqual($this->Config->getConfig(), $expected);
 
-
-		$data = Set::extract('/Config/key', $this->Config->getInstallSetupConfigs());
-		$this->assertEqual($data, array(0 => 'Website.description', 1 => 'Website.name'));
+		// getting website configs for installer
+		$expected = array(
+			array(
+				'Config' => array(
+					'id' => 9, 'key' => 'Website.description',
+					'value' => 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.',
+					'type' => 'string', 'options' => null,
+					'description' => 'This is the main description about the site', 'core' => 0
+				)
+			),
+			array(
+				'Config' => array(
+					'id' => 8, 'key' => 'Website.name', 'value' => 'Infinitas Cms',
+					'type' => 'string', 'options' => null,
+					'description' => '<p>This is the name of the site that will be used in emails and on the website its self</p>',
+					'core' => 0
+				)
+			)
+		);
+		$this->assertEqual($this->Config->getInstallSetupConfigs(), $expected);
 	}
 
 	function endTest() {

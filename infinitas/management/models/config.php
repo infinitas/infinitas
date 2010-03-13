@@ -154,7 +154,7 @@ class Config extends ManagementAppModel {
 	 */
 	function getConfig() {
 		$configs = Cache::read('configs', 'core');
-		if ($configs !== false) {
+		if (!empty($routes)) {
 			return $configs;
 		}
 
