@@ -52,6 +52,19 @@ class AppController extends Controller {
 	function beforeFilter() {
 		parent::beforeFilter();
 
+		$infinitasJsData['base']	     = (isset($this->base) ? $this->base : '');
+		$infinitasJsData['here']	     = (isset($this->here) ? $this->here : '');
+		$infinitasJsData['plugin']     = (isset($this->plugin) ? $this->plugin : '');
+		$infinitasJsData['name']	     = (isset($this->name) ? $this->name : '');
+		$infinitasJsData['action']     = (isset($this->action) ? $this->action : '');
+		$params                  = (isset($this->params) ? $this->params : '');
+		unset($params['_Token']);
+		$infinitasJsData['params']     = $params;
+		$infinitasJsData['passedArgs'] = (isset($this->passedArgs) ? $this->passedArgs : '');
+		$infinitasJsData['data']	     = (isset($this->data) ? $this->data : '');
+
+		$this->set(compact('infinitasJsData'));
+
 		$this->Security->validatePost = false;
 
 		$this->__setupAuth();
@@ -79,9 +92,23 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
 		}
 
-		if(isset($this->RequestHandler) && ($this->RequestHandler->prefers('rss') || $this->RequestHandler->prefers('vcf'))){
-			//Configure::write('debug', 0);
-			//$this->theme = null;
+		if(isset($this->RequestHandler)){
+			switch(true){
+				case $this->RequestHandler->prefers('json'):
+					$this->view = 'Libs.Json';
+					break;
+
+				case $this->RequestHandler->prefers('rss'):
+					;
+					break;
+
+				case $this->RequestHandler->prefers('vcf'):
+					;
+					break;
+
+			} // switch
+			// Configure::write('debug', 0);
+			// $this->theme = null;
 		}
 
 		$this->set('commentModel', 'Comment');
@@ -101,8 +128,8 @@ class AppController extends Controller {
 	}
 
 	function __setupAuth(){
-		//$this->Auth->allow('*');
-		$this->Auth->allowedActions = array('display', 'login', 'logout');
+		$this->Auth->allow('*');
+		//$this->Auth->allowedActions = array('display', 'login', 'logout');
 
 		if (!isset($this->params['prefix']) || $this->params['prefix'] != 'admin') {
 			$this->Auth->allow('*');
@@ -533,10 +560,6 @@ class AppController extends Controller {
 
 		// Loop through the plugins
 		foreach($Plugins as $pluginName) {
-			if ($pluginName == '.git') {
-				continue;
-			}
-
 			// Change directory to the plugin
 			$didCD = $folder->cd(APP . $plugin. DS . $pluginName . DS . 'controllers');
 			// Get a list of the files that have a file name that ends
@@ -562,6 +585,10 @@ class AppController extends Controller {
 			}
 		}
 		return $arr;
+	}
+
+	function admin_getPlugins(){
+		$this->set('plugins', $this->{$this->modelClass}->getPlugins());
 	}
 }
 
