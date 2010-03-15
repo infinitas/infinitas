@@ -177,5 +177,40 @@
 
 			return array('' => 'None') + (array)$return;
 		}
+
+		function getList(&$Model, $plugin = null, $model = 'AppModel', $method = null, $conditions = array()){
+			if (!$model) {
+				return 'Config error!';
+			}
+
+			$class = null;
+
+			if (!$plugin) {
+				$class = Infilector::classify($model);
+			}
+
+			if (!$class) {
+				$class = Infilector::classify($plugin).'.'.Infilector::classify($model);
+			}
+
+			if ($model == 'AppModel') {
+				App::import('Appmodel', array('table' => false));
+				$this->Model = new AppModel();
+			}
+
+			if (!isset($this->AppModel) && $model != 'AppModel') {
+				$this->Model = ClassRegistry::init($class);
+			}
+
+			if ($method && method_exists($this->Model, $method)) {
+				return $this->Model->{$method}($conditions);
+			}
+
+			if (method_exists($this->Model, '_getList')) {
+				return $this->Model->_getList($conditions);
+			}
+
+			return $this->find('list');
+		}
 	}
 ?>
