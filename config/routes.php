@@ -14,13 +14,14 @@
 
 	Router::parseExtensions('rss');
 	Router::parseExtensions('vcf');
+	Router::parseExtensions('json');
 
 	/**
 	 * redirect to the installer if there is nothing
 	 */
 	if (!file_exists(APP . 'config' . DS . 'database.php')) {
 		Configure::write('Session.save', 'php');
-		
+
 		Router::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
 	}
 	else{
