@@ -74,7 +74,7 @@
 				$this->Controller->layout = 'admin';
 			}
 			if(!$theme = Cache::read('currentTheme')) {
-				$theme = ClassRegistry::init('Management.Theme')->getCurrnetTheme();
+				$theme = ClassRegistry::init('Management.Theme')->getCurrentTheme();
 			}
 
 			if (!isset($theme['Theme']['name'])) {

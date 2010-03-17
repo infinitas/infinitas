@@ -30,7 +30,7 @@
 		 * @param array $conditions
 		 * @return array $theme the current theme.
 		 */
-		function getCurrnetTheme(){
+		function getCurrentTheme(){
 			$theme = Cache::read('current_theme', 'core');
 
 			if ($theme == false) {
