@@ -114,7 +114,12 @@
 			$json = json_decode((string)$data, $config['assoc']);
 
 			if (!$json) {
-				$Model->__jsonErrors[] = $this->_json_messages[json_last_error()];
+				if (function_exists('json_last_error')) {
+					$Model->__jsonErrors[] = $this->_json_messages[json_last_error()];
+				}
+				else{
+					$Model->__jsonErrors[] = 'Json seems invalid';
+				}
 				return false;
 			}
 
