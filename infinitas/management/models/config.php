@@ -152,9 +152,12 @@ class Config extends ManagementAppModel {
 	 *
 	 * @return array all the config options set to the correct type
 	 */
-	function getConfig() {
+	function getConfig($format = false) {
 		$configs = Cache::read('configs', 'core');
-		if (!empty($routes)) {
+		if (!empty($configs)) {
+			if ($format) {
+				return $this->_formatConfigs($configs);
+			}
 			return $configs;
 		}
 
@@ -191,7 +194,23 @@ class Config extends ManagementAppModel {
 
 		Cache::write('configs', $configs, 'core');
 
+		if ($format) {
+			return $this->_formatConfigs($configs);
+		}
+
 		return $configs;
+	}
+
+	function _formatConfigs($configs = array()){
+		if (empty($configs)) {
+			return false;
+		}
+
+		$format = array();
+		foreach($configs as $k => $config) {
+			$format[$configs[$k]['Config']['key']] = $configs[$k]['Config']['value'];
+		}
+		return $format;
 	}
 
 	/**
