@@ -52,16 +52,18 @@ class AppController extends Controller {
 	function beforeFilter() {
 		parent::beforeFilter();
 
-		$infinitasJsData['base']	     = (isset($this->base) ? $this->base : '');
-		$infinitasJsData['here']	     = (isset($this->here) ? $this->here : '');
+		$infinitasJsData['base']	   = (isset($this->base) ? $this->base : '');
+		$infinitasJsData['here']	   = (isset($this->here) ? $this->here : '');
 		$infinitasJsData['plugin']     = (isset($this->plugin) ? $this->plugin : '');
-		$infinitasJsData['name']	     = (isset($this->name) ? $this->name : '');
+		$infinitasJsData['name']	   = (isset($this->name) ? $this->name : '');
 		$infinitasJsData['action']     = (isset($this->action) ? $this->action : '');
-		$params                  = (isset($this->params) ? $this->params : '');
+		$params                        = (isset($this->params) ? $this->params : '');
 		unset($params['_Token']);
 		$infinitasJsData['params']     = $params;
 		$infinitasJsData['passedArgs'] = (isset($this->passedArgs) ? $this->passedArgs : '');
-		$infinitasJsData['data']	     = (isset($this->data) ? $this->data : '');
+		$infinitasJsData['data']	   = (isset($this->data) ? $this->data : '');
+
+		$infinitasJsData['config']     = Configure::getInstance();
 
 		$this->set(compact('infinitasJsData'));
 
@@ -588,8 +590,50 @@ class AppController extends Controller {
 	}
 
 	function admin_getPlugins(){
-		$this->set('plugins', $this->{$this->modelClass}->getPlugins());
+		$this->set('json', $this->{$this->modelClass}->getPlugins());
+	}
+
+	function admin_getControllers(){
+		$plugin = $this->params['named']['plugin'];
+
+		$list = App::objects(
+			'controller',
+			array(App::pluginPath($plugin).'controllers'.DS),
+			false
+		);
+
+		foreach($list as $controller){
+			$controllers[$controller] = $controller;
+		}
+
+		$this->set('json', $controllers);
+	}
+
+	function admin_getActions(){
+		$plugin = $this->params['named']['plugin'];
+		$controller = $this->params['named']['controller'];
+
+		App::import('Controller', $plugin.'.'.$controller);
+
+		$list = get_class_methods($controller.'Controller');
+		$ignore = $this->_methodsToIgnore();
+
+		$actions = array();
+		foreach((array)$list as $action){
+			if (in_array($action, $ignore) || substr($action, 0, 1) == '_'){
+				continue;
+			}
+			else{
+				$actions[$action] = $action;
+			}
+		}
+
+		$this->set('json', $actions);
+	}
+
+	function _methodsToIgnore(){
+		$return = get_class_methods('AppController');
+		return $return;
 	}
 }
-
 ?>
