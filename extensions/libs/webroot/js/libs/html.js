@@ -1,92 +1,60 @@
-/*(function($) {
-	$.fn.html = function(options) {
-		var opts = $.extend({}, $.fn.html.defaults, options);
-		alert('abc');
-		// the plugin functionality goes in here
-	}
-
-	$.fn.html.defaults = {
-	}
-})(jQuery);*/
-
 (function($) {
-	//
-	// plugin definition
-	//
-	$.fn.HtmlHelper = function(options) {
-		// build main options before element iteration
-		var opts = $.extend({}, $.fn.HtmlHelper.defaults, options);
-		// iterate and reformat each matched element
-		return this.each(function() {
-			$this = $(this);
-			alert('yey');
-		});
-	};
+	var HtmlHelper = $.HtmlHelper = {};
 
-	/*
+	/**
 		convert array to url
 	*/
-	$.fn.HtmlHelper.url = function(options) {
-		var opts = $.extend({}, $.fn.HtmlHelper.url.defaults, options);
+	HtmlHelper.url = function(options) {
+		var opts = $.extend({}, HtmlHelper.url.defaults, options.url);
 		var seperator = '/';
 		var returnUrl = [];
-		$.each(opts, function(key, value){
-			if (key == 'action') {
-				opts[key] = value;
-			}
-			else{
-				opts[key] = value + '/';
-			}
 
-			if (opts[key] == '/') {
-				opts[key] = '';
-			}
+		var parts = [];
+
+		returnUrl = Infinitas.base + [
+			opts.prefix,
+			opts.plugin,
+			opts.controller,
+			opts.action
+		].join('/');
+
+		debug(options.params);
+		end = '/';
+		$.each(options.params, function(key, value){
+			end += key + ':' + value + '/';
 		});
 
-		returnUrl = Infinitas.base + opts.prefix + opts.plugin + opts.controller + opts.action;
-
-		return returnUrl + '/.json';
+		return returnUrl + end;
 	};
 
-	$.fn.HtmlHelper.url.defaults = {
+	HtmlHelper.url.defaults = {
 		prefix: Infinitas.params.prefix,
 		plugin: Infinitas.params.plugin,
 		controller: Infinitas.params.controller,
 		action: Infinitas.params.action
 	};
 
-	//
-	// define and expose our format function
-	//
-	$.fn.HtmlHelper.requestAction = function(metaData) {
-		var getUrl    = $.fn.HtmlHelper.url(metaData.url);
+	HtmlHelper.getParams = function(that){
+		metaData = $('#' + that.attr("id")).metadata();
+		metaData.params = {};
+
+		return metaData;
+	}
+
+	/**
+	 * get data from a controller.
+	 *
+	 * Requests data from the server and when the data is not
+	 */
+	HtmlHelper.requestAction = function(metaData, callback) {
+		var getUrl = HtmlHelper.url(metaData);
 		$.getJSON(
-			getUrl,
-			{param: metaData.param},
+			getUrl + metaData.param + '.json',
 			function(returnData) {
 				if(returnData !== null) {
-					return returnData;
+					callback(returnData['json'], metaData);
 				}
-				return false;
 			}
 		);
 	};
-
-	//
-	// plugin defaults
-	//
-	$.fn.HtmlHelper.defaults = {
-	};
 })(jQuery);
-$Html = $.fn.HtmlHelper;
-
-$(document).ready(function(){
-	$('.json').change(function(){
-		if ($(this).val().length != 0) {
-			metaData = $('#' + $(this).attr("id")).metadata();
-			data = $Html.requestAction(metaData);
-			console.log(data);
-			//$Html.input(data);
-		}
-	});
-});
