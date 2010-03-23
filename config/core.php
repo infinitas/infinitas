@@ -84,7 +84,7 @@ Configure::write('App.encoding', 'UTF-8');
  *
  * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
  */
-Configure::write('Routing.prefixes', array('admin', 'customer'));
+Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
