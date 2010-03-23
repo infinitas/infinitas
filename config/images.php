@@ -132,7 +132,8 @@ $config['CoreImages']['images'] = array(
 		'message' => 'message.png',
 		'status' => 'status.png',
 		'stop' => 'stop.png',
-		'warning' => 'warning.png'
+		'warning' => 'warning.png',
+		'loading' => 'loading.gif'
 		),
 
 	'social' => array(
