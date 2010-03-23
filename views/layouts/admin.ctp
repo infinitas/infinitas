@@ -13,24 +13,22 @@
     		echo $scripts_for_layout;
     		//echo $this->Html->script('/wysiwyg/js/tiny_mce/tiny_mce');
     		echo $this->Html->script('/wysiwyg/js/ck_editor/ckeditor');
-
-    		echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js');
         ?>
 		<script type="text/javascript">
 			Infinitas = <?php echo json_encode($infinitasJsData); ?>;
 			if (Infinitas.base != '/') {
 				Infinitas.base = Infinitas.base + '/';
 			}
-			console.log(Infinitas);
 		</script>
 		<?php
     		echo $this->Html->script(
     			array(
-					'/libs/js/libs/metadata',
-					'/libs/js/libs/html'
+	    			'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js',
+					'/libs/js/libs/require',
+					'/libs/js/infinitas'
 				)
     		);
-    	?>
+		?>
     </head>
     <body>
         <div id="wrap">
