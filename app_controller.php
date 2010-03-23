@@ -62,6 +62,7 @@ class AppController extends Controller {
 		$infinitasJsData['params']     = $params;
 		$infinitasJsData['passedArgs'] = (isset($this->passedArgs) ? $this->passedArgs : '');
 		$infinitasJsData['data']	   = (isset($this->data) ? $this->data : '');
+		$infinitasJsData['model']	   = $this->modelClass;
 
 		$infinitasJsData['config']     = Configure::getInstance();
 
