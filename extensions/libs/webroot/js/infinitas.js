@@ -38,6 +38,8 @@ function(require) {
 function render(){
 	$(document).ready(function(){
 		urlDropdownSelects();
+
+		$.FormHelper.checkboxToggleAll();
 	});
 }
 
