@@ -1,65 +1,80 @@
-/*
-$(document).ready(function(){
-	$('.json').change(function() {
-		if($(this).val().length != 0) {
-			$.getJSON(Html.url($(this).attr("id")),
-				{carId: $(this).val()},
-				function(carModels) {
-					if(carModels !== null) {
-						populateCarModelList(carModels);
-					}
-			});
-		}
-	});
-});
+/**
+ * popup alert box
+ * @access public
+ * @return void
+ **/
+function pr(data){
+	alert(data);
+}
 
 /**
- * Js version of HtmlHelper.
- **
-var Html = {
+ * write data to console
+ * @access public
+ * @return void
+ **/
+function debug(data){
+	console.log(data);
+}
+
+
+require(
+[
+	"require",
+	Infinitas.base + "libs/js/libs/metadata.js",
+	Infinitas.base + "libs/js/libs/core.js",
+	Infinitas.base + "libs/js/libs/form.js",
+	Infinitas.base + "libs/js/libs/html.js"
+],
+function(require) {
+	render();
+});
+
+
+/**
+ *
+ * @access public
+ * @return void
+ **/
+function render(){
+	$(document).ready(function(){
+		urlDropdownSelects();
+	});
+}
+
+
+
+
+
+
+
+
+/** core code */
+/**
+ *
+ * @access public
+ * @return void
+ **/
+function urlDropdownSelects(){
 	/**
-	 * generate a url from a css class or array.
-	 *
-	 *
-	url: function(data){
-		var parts = data.split(' ');
-		var addressUrl = [];
-
-		$.each(parts, function(key, value){
-			addressUrl.action     = Html._urlGetPart('action', value);
-			addressUrl.controller = Html._urlGetPart('controller', value);
-			addressUrl.plugin     = Html._urlGetPart('plugin', value);
-			//addressUrl.admin      = this._urlGetPart('plugin', value);
-		});
-		console.log(addressUrl);
-	},
+	 * Check for plugin dropdown changes
+	 */
+	$('.pluginSelect').change(function(){
+		if ($(this).val().length != 0) {
+			metaData = $.HtmlHelper.getParams($(this));
+			metaData.params.plugin = $(this).val();
+			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
+		}
+	});
 
 	/**
-	 * get parts from a class used to build an url array.
-	 *
-	 * @param string type part of the array action/controller/plugin
-	 * @param string data the part of the class to check for the params.
-	 *
-	 * @access public
-	 * @return void
-	 **
-	_urlGetPart: function(type, data){
-		sendBack = '';
-		if (data.indexOf(type) !== -1) {
-			action = data.split(':');
-			sendBack = action[1];
+	 * Check for controller dropdown changes
+	 */
+	$('.controllerSelect').change(function(){
+		if ($(this).val().length != 0) {
+			metaData = $.HtmlHelper.getParams($(this));
+			metaData.params.plugin     = $('.pluginSelect').val();
+			metaData.params.controller = $(this).val();
+			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
 		}
-
-		else{
-			sendBack = Infinitas.params.type;
-		}
-
-		if (type == 'action') {
-			sendBack = sendBack.split('admin_');
-		}
-
-		return sendBack;
-	}
-}*/
-
-$('html').html();
+	});
+}
