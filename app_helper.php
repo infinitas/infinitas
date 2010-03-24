@@ -47,10 +47,14 @@ class AppHelper extends Helper {
 			return false;
 		}
 
-		$breadcrumbs = array($view->params['prefix'],
+		$breadcrumbs = array(
 			$view->params['plugin'],
 			$view->name
-			);
+		);
+
+		if (isset($view->params['prefix'])) {
+			$breadcrumbs = (array)$view->params['prefix'] + $breadcrumbs;
+		}
 
 		return implode($seperator, $breadcrumbs);
 	}
