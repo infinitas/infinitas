@@ -77,8 +77,12 @@
 				$this->data = $this->Route->read(null, $id);
 			}
 
-			$this->set('plugins', $this->Route->getPlugins());
-			$this->set('themes', $this->listThemes);
+			$plugins = $this->Route->getPlugins();
+			$controllers = $this->Route->getControllers($this->data['Route']['plugin']);
+			$actions = $this->Route->getActions($this->data['Route']['plugin'], $this->data['Route']['controller']);
+			$themes = $this->listThemes;
+
+			$this->set(compact('plugins', 'controllers', 'actions', 'themes'));
 		}
 	}
 ?>
