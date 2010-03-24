@@ -41,7 +41,7 @@
 		else if (jQuery.isEmptyObject(data)){
 			return 'emptyObject';
 		}
-		else if (jQuery.isFunction(data)){
+		else if (jQuery.isFunction(data) || typeof data == 'function'){
 			return 'function';
 		}
 		else if (jQuery.isPlainObject(data)){
@@ -51,28 +51,7 @@
 			return 'xmlDoc';
 		}
 
-
-
-		else if (typeof data == 'number'){
-			return 'number';
-		}
-		else if (typeof data == 'string'){
-			return 'number';
-		}
-		else if (typeof data == 'boolean'){
-			return 'boolean';
-		}
-		else if (typeof data == 'object'){
-			return 'object';
-		}
-		else if (typeof data == 'function'){
-			return 'function';
-		}
-		else if (typeof data == 'xml'){
-			return 'xml';
-		}
-
-		return 'undefined';
+		return typeof data;
 
 		//functions, arrays and plain objects
 	}
