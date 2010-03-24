@@ -183,6 +183,44 @@
 			return array('' => 'None') + (array)$return;
 		}
 
+		function getControllers(&$Model, $plugin){
+			$list = App::objects(
+				'controller',
+				array(App::pluginPath($plugin).'controllers'.DS),
+				false
+			);
+
+			foreach($list as $controller){
+				$controllers[$controller] = $controller;
+			}
+
+			return $controllers;
+		}
+
+		function getActions(&$Model, $plugin, $controller){
+			App::import('Controller', $plugin.'.'.$controller);
+
+			$list = get_class_methods($controller.'Controller');
+			$ignore = $this->_methodsToIgnore();
+
+			$actions = array();
+			foreach((array)$list as $action){
+				if (in_array($action, $ignore) || substr($action, 0, 1) == '_'){
+					continue;
+				}
+				else{
+					$actions[$action] = $action;
+				}
+			}
+
+			return $actions;
+		}
+
+		function _methodsToIgnore(){
+			$return = get_class_methods('AppController');
+			return $return;
+		}
+
 		function getList(&$Model, $plugin = null, $model = 'AppModel', $method = null, $conditions = array()){
 			if (!$model) {
 				return 'Config error!';

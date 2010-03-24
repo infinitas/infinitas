@@ -595,46 +595,11 @@ class AppController extends Controller {
 	}
 
 	function admin_getControllers(){
-		$plugin = $this->params['named']['plugin'];
-
-		$list = App::objects(
-			'controller',
-			array(App::pluginPath($plugin).'controllers'.DS),
-			false
-		);
-
-		foreach($list as $controller){
-			$controllers[$controller] = $controller;
-		}
-
-		$this->set('json', $controllers);
+		$this->set('json', $this->{$this->modelClass}->getControllers($this->params['named']['plugin']));
 	}
 
 	function admin_getActions(){
-		$plugin = $this->params['named']['plugin'];
-		$controller = $this->params['named']['controller'];
-
-		App::import('Controller', $plugin.'.'.$controller);
-
-		$list = get_class_methods($controller.'Controller');
-		$ignore = $this->_methodsToIgnore();
-
-		$actions = array();
-		foreach((array)$list as $action){
-			if (in_array($action, $ignore) || substr($action, 0, 1) == '_'){
-				continue;
-			}
-			else{
-				$actions[$action] = $action;
-			}
-		}
-
-		$this->set('json', $actions);
-	}
-
-	function _methodsToIgnore(){
-		$return = get_class_methods('AppController');
-		return $return;
+		$this->set('json', $this->{$this->modelClass}->getActions($this->params['named']['plugin'], $this->params['named']['controller']));
 	}
 }
 ?>
