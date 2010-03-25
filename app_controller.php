@@ -346,7 +346,7 @@
 		 * @param mixed $id the id of the record.
 		 * @return n /a just redirects with different messages in {@see Session::setFlash}
 		 */
-		function admin_delete($id = null) {
+		function admin_delete() {
 			try {
 				throw new Exception('Please use the delete through the mass action handler.');
 			} catch (Exception $e) {
