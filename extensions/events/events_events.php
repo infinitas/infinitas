@@ -1,7 +1,6 @@
 <?php
 class EventsEvents {
-	function onTestEvent($event)
-	{
+	function onTestEvent($event){
 		echo('Success!');
 	}
 }
