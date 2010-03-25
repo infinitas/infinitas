@@ -99,10 +99,10 @@
 
 			$this->set('commentModel', 'Comment');
 
-			// @todo remove from acts as and atach when something is viewed.
-			if (isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && !in_array($this->params['action'], $this->viewableActions)) {
-				if (isset($this->{$this->modelClass}->Behaviors)) {
-					$this->{$this->modelClass}->Behaviors->detach('Viewable');
+			// @todo check this still works
+			if (!isset($this->params['prefix']) && $this->params['prefix'] != 'admin' && in_array($this->params['action'], $this->viewableActions)) {
+				if (!isset($this->{$this->modelClass}->Behaviors) && array_key_exists('views', $this->{$this->modelClass}->_schema)) {
+					$this->{$this->modelClass}->Behaviors->attach('Viewable');
 				}
 			}
 		}
