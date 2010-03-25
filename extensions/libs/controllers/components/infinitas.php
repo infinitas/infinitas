@@ -8,6 +8,15 @@
 	 * @version $Id$
 	 * @access public
 	 */
+	/**
+	 * InfinitasComponent
+	 *
+	 * @package
+	 * @author dogmatic
+	 * @copyright Copyright (c) 2010
+	 * @version $Id$
+	 * @access public
+	 */
 	class InfinitasComponent extends Object {
 		var $name = 'Infinitas';
 
@@ -40,6 +49,10 @@
 
 			$this->setupTheme();
 			$this->loadCoreImages();
+
+			if (Configure::read('Website.force_www')) {
+				$this->forceWwwUrl();
+			}
 		}
 
 		/**
@@ -117,8 +130,8 @@
 					'lock' => false,
 					'serialize' => true,
 					'path' => CACHE . 'cms'
-					)
-				);
+				)
+			);
 
 			Cache::config(
 				'core',
@@ -130,8 +143,8 @@
 					'lock' => false,
 					'serialize' => true,
 					'path' => CACHE . 'core'
-					)
-				);
+				)
+			);
 
 			Cache::config(
 				'blog',
@@ -143,8 +156,8 @@
 					'lock' => false,
 					'serialize' => true,
 					'path' => CACHE . 'blog'
-					)
-				);
+				)
+			);
 		}
 
 		/**
@@ -418,7 +431,6 @@
 			return true;
 		}
 
-
 		/**
 		 * Check the bad logins.
 		 *
@@ -448,6 +460,257 @@
 			}
 
 			return true;
+		}
+
+		/**
+		* Set up Auth.
+		*
+		* Define some things that auth needs to work
+		*/
+		function _setupAuth(){
+			$this->Controller->Auth->allow('*');
+			//$this->Auth->allowedActions = array('display', 'login', 'logout');
+
+			if (!isset($this->Controller->params['prefix']) || $this->Controller->params['prefix'] != 'admin') {
+				$this->Controller->Auth->allow('*');
+			}
+			$this->Controller->Auth->actionPath   = 'controllers/';
+			$this->Controller->Auth->authorize    = 'actions';
+			$this->Controller->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
+
+			$this->Controller->Auth->autoRedirect = false;
+			$this->Controller->Auth->loginRedirect = '/';
+
+			if (isset($this->Controller->params['prefix']) && $this->Controller->params['prefix'] == 'admin') {
+				$this->Controller->Auth->loginRedirect = '/admin';
+			}
+
+			$this->Controller->Auth->logoutRedirect = '/';
+		}
+
+		/**
+		 * setup Security
+		 *
+		 * settings for security
+		 */
+		function _setupSecurity(){
+			$this->Controller->Security->blackHoleCallback = 'blackHole';
+			$this->Controller->Security->validatePost = false;
+		}
+
+		/**
+		* Set some data for the infinitas js lib.
+		*/
+		function _setupJavascript(){
+			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');
+			$infinitasJsData['here']	   = (isset($this->Controller->here) ? $this->Controller->here : '');
+			$infinitasJsData['plugin']     = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');
+			$infinitasJsData['name']	   = (isset($this->Controller->name) ? $this->Controller->name : '');
+			$infinitasJsData['action']     = (isset($this->Controller->action) ? $this->Controller->action : '');
+			$params                        = (isset($this->Controller->params) ? $this->Controller->params : '');
+			unset($params['_Token']);
+			$infinitasJsData['params']     = $params;
+			$infinitasJsData['passedArgs'] = (isset($this->Controller->passedArgs) ? $this->Controller->passedArgs : '');
+			$infinitasJsData['data']	   = (isset($this->Controller->data) ? $this->Controller->data : '');
+			$infinitasJsData['model']	   = $this->Controller->modelClass;
+
+			$infinitasJsData['config']     = Configure::getInstance();
+
+			$this->Controller->set(compact('infinitasJsData'));
+		}
+
+		/**
+		 * Moving MPTT records
+		 *
+		 * This is used for moving mptt records and is called by admin_reorder.
+		 */
+		function _treeMove(){
+			$model = $this->Controller->modelClass;
+			$check = $this->Controller->{$model}->find(
+				'first',
+				array(
+					'fields' => array($model.'.id'),
+					'conditions' => array($model.'.id' => $this->Controller->$model->id),
+					'recursive' => -1
+				)
+			);
+
+			if (empty($check)) {
+				$this->Controller->Session->setFlash(__('Nothing found to move', true));
+				return false;
+			}
+
+			switch($this->Controller->params['named']['direction']){
+				case 'up':
+					$this->Controller->Session->setFlash(__('The record was moved up', true));
+					if (!$this->Controller->{$model}->moveUp($this->Controller->{$model}->id, abs(1))) {
+						$this->Controller->Session->setFlash(__('Unable to move the record up', true));
+					}
+					break;
+
+				case 'down':
+					$this->Controller->Session->setFlash(__('The record was moved down', true));
+					if (!$this->Controller->{$model}->moveDown($this->Controller->{$model}->id, abs(1))) {
+						$this->Controller->Session->setFlash(__('Unable to move the record down', true));
+					}
+					break;
+
+				default:
+					$this->Controller->Session->setFlash(__('Error occured reordering the records', true));
+					break;
+			} // switch
+			return true;
+		}
+
+		/**
+		 * Moving records that actas sequenced
+		 *
+		 * This is used for moving sequenced records and is called by admin_reorder.
+		 */
+		function _orderedMove(){
+			$model = $this->Controller->modelClass;
+
+			if (isset($this->Controller->$model->actsAs['Libs.Sequence']['order_field']) && !empty($this->Controller->$model->actsAs['Libs.Sequence']['order_field'])) {
+				$this->Controller->data[$model][$this->Controller->$model->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['possition'];
+			}
+
+			else{
+				$this->Controller->data[$model]['ordering'] = $this->Controller->params['named']['possition'];
+			}
+
+			if (!$this->Controller->$model->save($this->Controller->data)) {
+				$this->Controller->Session->setFlash(__('The record could not be moved', true));
+			}
+
+			return true;
+		}
+
+
+
+
+		/**
+		* Temp acl things
+		 */
+		function _getClassMethods($ctrlName = null) {
+			App::import('Controller', $ctrlName);
+			if (strlen(strstr($ctrlName, '.')) > 0) {
+				// plugin's controller
+				$num = strpos($ctrlName, '.');
+				$ctrlName = substr($ctrlName, $num+1);
+			}
+			$ctrlclass = $ctrlName . 'Controller';
+			$methods = get_class_methods($ctrlclass);
+
+			// Add scaffold defaults if scaffolds are being used
+			$properties = get_class_vars($ctrlclass);
+			if (is_array($properties) && array_key_exists('scaffold',$properties)) {
+				if($properties['scaffold'] == 'admin') {
+					$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
+				}
+				/*else {
+				   $methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
+				   }*/
+			}
+
+			return $methods;
+		}
+
+		function _isPlugin($ctrlName = null) {
+			$arr = String::tokenize($ctrlName, '/');
+			if (count($arr) > 1) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function _getPluginControllerPath($ctrlName = null) {
+			$arr = String::tokenize($ctrlName, '/');
+			if (count($arr) == 2) {
+				return $arr[0] . '.' . $arr[1];
+			} else {
+				return $arr[0];
+			}
+		}
+
+		function _getPluginName($ctrlName = null) {
+			$arr = String::tokenize($ctrlName, '/');
+			if (count($arr) == 2) {
+				return $arr[0];
+			} else {
+				return false;
+			}
+		}
+
+		function _getPluginControllerName($ctrlName = null) {
+			$arr = String::tokenize($ctrlName, '/');
+			if (count($arr) == 2) {
+				return $arr[1];
+			} else {
+				return false;
+			}
+		}
+
+		function __getClassName() {
+			if (isset($this->params['plugin'])) {
+				return Inflector::classify($this->params['plugin']) . '.' . Inflector::classify($this->Controller->name);
+			} else {
+				return Inflector::classify($this->Controller->name);
+			}
+		}
+
+		function _getPlugins(){
+			$plugins = array(
+				'infinitas',
+				'extentions',
+				'plugins'
+			);
+			$return = array();
+			foreach($plugins as $plugin ){
+				$return = array_merge($return, $this->Infinitas->_getPluginControllerNames($plugin));
+			}
+
+			return $return;
+		}
+
+		function _getPluginControllerNames($plugin) {
+			App::import('Core', 'File', 'Folder');
+			$paths = Configure::getInstance();
+			$folder =& new Folder();
+			$folder->cd(APP . $plugin);
+
+			$Plugins = $folder->read();
+			$Plugins = $Plugins[0];
+
+			$arr = array();
+
+			// Loop through the plugins
+			foreach($Plugins as $pluginName) {
+				// Change directory to the plugin
+				$didCD = $folder->cd(APP . $plugin. DS . $pluginName . DS . 'controllers');
+				// Get a list of the files that have a file name that ends
+				// with controller.php
+				$files = $folder->findRecursive('.*_controller\.php');
+
+				// Loop through the controllers we found in the plugins directory
+				foreach($files as $fileName) {
+					// Get the base file name
+					$file = basename($fileName);
+
+					// Get the controller name
+					$file = Inflector::camelize(substr($file, 0, strlen($file)-strlen('_controller.php')));
+					if (!preg_match('/^'. Inflector::humanize($pluginName). 'App/', $file)) {
+						if (!App::import('Controller', $pluginName.'.'.$file)) {
+							debug('Error importing '.$file.' for plugin '.$pluginName);
+						} else {
+							/// Now prepend the Plugin name ...
+							// This is required to allow us to fetch the method names.
+							$arr[] = Inflector::humanize($pluginName) . "/" . $file;
+						}
+					}
+				}
+			}
+			return $arr;
 		}
 	}
 ?>
