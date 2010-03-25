@@ -34,7 +34,6 @@
 			}
 		}
 
-
 		/**
 		 * Get all the tables
 		 *
@@ -165,7 +164,7 @@
 		 * Just gets a list of plugins and returns them after rempving the plugins
 		 * that should not be displayed to the user.
 		 *
-		 * @return array an array of all the plugins in infinitas.
+		 * @return array all the plugins in infinitas.
 		 */
 		function getPlugins($skipBlocked = true){
 			$plugins = Configure::listObjects('plugin');
@@ -183,6 +182,17 @@
 			return array('' => 'None') + (array)$return;
 		}
 
+		/**
+		* Get a list of controllers.
+		*
+		* Checks the passed plugin and returns all the controllers for that
+		* plugin, after formating the array to be used in a select box.
+		*
+		* @param object $Model the currect model
+		* @param string $plugin the plugin to search for controllers
+		*
+		* @return array a list of controllers that were found
+		*/
 		function getControllers(&$Model, $plugin){
 			$list = App::objects(
 				'controller',
@@ -197,11 +207,23 @@
 			return $controllers;
 		}
 
+		/**
+		 * Get a list of actions.
+		 *
+		 * Checks the passed plugin and controller and returns all the
+		 * actions that fall under the match, will filter out some methods. that
+		 * should not be called. returns the data after formating the array to
+		 * be used in a select box.
+		 *
+		 * @param object $Model the currect model
+		 * @param string $plugin the plugin to search with
+		 * @param string $controller the controller to search with
+		 */
 		function getActions(&$Model, $plugin, $controller){
 			App::import('Controller', $plugin.'.'.$controller);
 
 			$list = get_class_methods($controller.'Controller');
-			$ignore = $this->_methodsToIgnore();
+			$ignore = $this->_filterMethods();
 
 			$actions = array();
 			foreach((array)$list as $action){
@@ -216,11 +238,30 @@
 			return $actions;
 		}
 
-		function _methodsToIgnore(){
-			$return = get_class_methods('AppController');
-			return $return;
+		/**
+		* actions to filter out
+		*
+		* This filters out noise actions for the Infinitas::getActions method
+		*
+		* @return array the stuff that can be ignored
+		*/
+		function _filterMethods(){
+			$ignores = get_class_methods('AppController');
+			$dontIgnores = get_class_methods('GlobalActions');
+
+			foreach($ignores as &$ignore){
+				if (in_array($ignore, $dontIgnore)) {
+					unset($ignore);
+				}
+			}
+			return $ignores;
 		}
 
+		/**
+		* get a list from the db.
+		*
+		* seems like a method to call a function in a model via ajax mostly.
+		*/
 		function getList(&$Model, $plugin = null, $model = 'AppModel', $method = null, $conditions = array()){
 			if (!$model) {
 				return 'Config error!';
