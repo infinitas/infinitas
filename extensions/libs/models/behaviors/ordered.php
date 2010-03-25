@@ -1,4 +1,10 @@
 <?php
+try {
+	throw new Exception('Please use the sequence behavior, this ones going.');
+} catch (Exception $e) {
+	echo 'Depreciated: ',  $e->getMessage(), ' Where: ', __METHOD__, ' Line: ',  __LINE__, "\n";
+}
+exit;
 /**
 * OrderedBehavior
 *

@@ -21,7 +21,7 @@
 		var $name = 'Route';
 
 		var $actsAs = array(
-			'Libs.Ordered'
+			'Libs.Sequence'
 		);
 
 		var $order = array(

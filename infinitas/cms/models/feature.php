@@ -25,14 +25,12 @@ class Feature extends CmsAppModel {
 		);
 
 	var $actsAs = array(
-		'Libs.Ordered' => array(
-			'foreign_key' => 'order_id'
-			)
-		);
+		'Libs.Sequence'
+	);
 
 	var $belongsTo = array(
 		'Cms.Content'
-		);
+	);
 }
 
 ?>
