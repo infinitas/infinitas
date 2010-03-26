@@ -30,18 +30,18 @@
 		var $name = 'Content';
 
 		var $order = array(
-			'Content.category_id' => 'ASC',
+			'Category.lft' => 'ASC',
 			'Content.ordering' => 'ASC'
 		);
 
 		var $actsAs = array(
 			'Libs.Sluggable',
 			'Libs.Viewable',
-			'Libs.Sequence' => array(
+			/*'Libs.Sequence' => array(
 				'group_fields' => array(
 					'category_id'
 				)
-			)
+			)*/
 		);
 
 		var $belongsTo = array(
@@ -92,10 +92,11 @@
 		);
 
 		var $hasOne = array(
+			/* making duplicate records.
 			'ContentConfig' => array(
 				'className' => 'Cms.ContentConfig',
 				'dependent' =>  true
-			),
+			),*/
 			'Feature' => array(
 				'className' => 'Cms.Feature',
 				'fields' => array(
