@@ -34,6 +34,8 @@
 		*/
 		var $components = array('Session');
 
+		var $configs = array();
+
 		/**
 		* Controllers initialize function.
 		*/
@@ -41,7 +43,8 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->setupCache();
+			$this->Controller->Event->trigger('setupCache');
+
 			$this->setupConfig();
 
 			$this->__checkBadLogins();
@@ -55,22 +58,34 @@
 			}
 		}
 
-		/**
-		* Load config vars from the db.
-		*
-		* This gets all the config vars from the database and loads them in to the
-		* {#see Configure} class to be used later in the app
-		*
-		* @todo load the users configs also.
-		*/
 		function setupConfig(){
-			$configs = Cache::read('core_configs', 'core');
+			$this->configs = Cache::read('core_configs', 'core');
 
-			if (!$configs) {
-				$configs = ClassRegistry::init('Management.Config')->getConfig();
+			if (!$this->configs) {
+				$this->configs = ClassRegistry::init('Management.Config')->getConfig();
 			}
 
-			foreach($configs as $config) {
+			$eventData = $this->Controller->Event->trigger($this->Controller->plugin.'.setupConfigStart', $this->configs);
+			if (isset($eventData['setupConfigStart'][$this->Controller->plugin])){
+				$this->configs = (array)$eventData['setupConfigStart'][$this->Controller->plugin];
+
+				if (!array($this->configs)) {
+					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
+				}
+			}
+
+			$eventData = $this->Controller->Event->trigger($this->Controller->plugin.'.setupConfigEnd');
+			if (isset($eventData['setupConfigEnd'][$this->Controller->plugin])){
+				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->Controller->plugin];
+			}
+			$this->_writeConfigs();
+		}
+
+		function _writeConfigs(){
+			foreach($this->configs as $config) {
+				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
+					continue;
+				}
 				Configure::write($config['Config']['key'], $config['Config']['value']);
 			}
 		}
@@ -81,25 +96,59 @@
 		* Gets the current theme set in db and sets if up
 		*/
 		function setupTheme(){
+			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeStart');
+			if (isset($event['setupThemeStart'][$this->Controller->plugin])) {
+				if (is_string($event['setupThemeStart'][$this->Controller->plugin])) {
+					$this->Controller->theme = $event['setupThemeStart'][$this->Controller->plugin];
+					return true;
+				}
+
+				else if ($event['setupThemeStart'][$this->Controller->plugin] === false) {
+					return false;
+				}
+			}
+
 			$this->Controller->layout = 'front';
 
-			if ( isset( $this->Controller->params['admin'] ) && $this->Controller->params['admin'] ){
+			if (isset($this->Controller->params['admin'] ) && $this->Controller->params['admin']){
 				$this->Controller->layout = 'admin';
 			}
+
+			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeLayout', array('layout' => $this->Controller->layout, 'params' => $this->Controller->params));
+			if (isset($event['setupThemeLayout'][$this->Controller->plugin])) {
+				if (is_string($event['setupThemeLayout'][$this->Controller->plugin])) {
+					$this->Controller->layout = $event['setupThemeLayout'][$this->Controller->plugin];
+				}
+			}
+
 			if(!$theme = Cache::read('currentTheme')) {
 				$theme = ClassRegistry::init('Management.Theme')->getCurrentTheme();
 			}
 
 			if (!isset($theme['Theme']['name'])) {
 				$theme['Theme'] = array();
-			} else {
-				$this->Controller->theme = $theme['Theme']['name'];
 			}
-			Configure::write('Theme',$theme['Theme']);
+			else {
+				$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeSelector', array('theme' => $theme['Theme'], 'params' => $this->Controller->params));
+				if (isset($event['setupThemeSelector'][$this->Controller->plugin])) {
+					if (is_array($event['setupThemeSelector'][$this->Controller->plugin])) {
+						$theme['Theme'] = $event['setupThemeSelector'][$this->Controller->plugin];
+						if (!isset($theme['Theme']['name'])) {
+							$this->cakeError('eventError', array('message' => 'The theme is invalid.', 'event' => $event));
+						}
+					}
+				}
+			}
+			$this->Controller->theme = $theme['Theme']['name'];
+			Configure::write('Theme', $theme['Theme']);
+
+			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeRoutes', array('params' => $this->Controller->params));
+			if (isset($event['setupThemeRoutes'][$this->Controller->plugin]) && !$event['setupThemeRoutes'][$this->Controller->plugin]) {
+				return false;
+			}
 
 			$routes = Cache::read('routes', 'core');
-
-			if (!$routes) {
+			if (empty($routes)) {
 				$routes = Classregistry::init('Management.Route')->getRoutes();
 			}
 
@@ -111,53 +160,13 @@
 					}
 				}
 			}
-		}
 
-		/**
-		* Setup some default cache settings.
-		*
-		* This creates some cache configs for the main
-		* parts of infinitas.
-		*/
-		function setupCache() {
-			Cache::config(
-				'cms',
-				array(
-					'engine' => 'File',
-					'duration' => 3600,
-					'probability' => 100,
-					'prefix' => '',
-					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'cms'
-				)
-			);
-
-			Cache::config(
-				'core',
-				array(
-					'engine' => 'File',
-					'duration' => 3600,
-					'probability' => 100,
-					'prefix' => '',
-					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'core'
-				)
-			);
-
-			Cache::config(
-				'blog',
-				array(
-					'engine' => 'File',
-					'duration' => 3600,
-					'probability' => 100,
-					'prefix' => '',
-					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'blog'
-				)
-			);
+			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeEnd', array('theme' => $this->Controller->theme, 'params' => $this->Controller->params));
+			if (isset($event['setupThemeEnd'][$this->Controller->plugin])) {
+				if (is_string($event['setupThemeEnd'][$this->Controller->plugin])) {
+					$this->Controller->theme = $event['setupThemeEnd'][$this->Controller->plugin];
+				}
+			}
 		}
 
 		/**
@@ -386,6 +395,8 @@
 		* is not done on every request.
 		*/
 		function __ipBlocker(){
+			$this->Controller->Session->destroy();
+
 			if ($this->Controller->Session->read('Infinitas.Security.ip_checked')) {
 				return true;
 			}
