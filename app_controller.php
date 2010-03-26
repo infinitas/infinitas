@@ -375,7 +375,7 @@
 				$this->redirect($this->referer());
 			}
 
-			$this->$model->id = $id;
+			$this->data[$model]['id'] = $id;
 
 			if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Libs.Sequence'])) {
 				$this->Session->setFlash(__('A problem occured moving the ordered record.', true));
