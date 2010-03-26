@@ -41,4 +41,14 @@
 		function onSetupThemeEnd(&$event, $data){
 			return $data['theme'];
 		}
+
+		function onFindBrowser(&$event){
+			return false;
+		}
+
+		function onFindOperatingSystem(&$event){
+			return false;
+		}
+
+
 	}

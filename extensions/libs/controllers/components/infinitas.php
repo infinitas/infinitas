@@ -263,6 +263,11 @@
 		* return string the users browser name or Unknown.
 		*/
 		function getBrowser(){
+			$event = $this->Controller->Event->trigger('findBrowser');
+			if (isset($event['findBrowser'][$this->Controller->plugin]) && is_string($event['findBrowser'][$this->Controller->plugin])) {
+				return $event['findBrowser'][$this->Controller->plugin];
+			}
+
 			$agent = env( 'HTTP_USER_AGENT' );
 
 			srand((double)microtime() * 1000000);
@@ -319,6 +324,11 @@
 		 * @return string the name of the opperating sustem or Unknown if unable to detect
 		 */
 		function getOperatingSystem(){
+			$event = $this->Controller->Event->trigger('findOperatingSystem');
+			if (isset($event['findOperatingSystem'][$this->Controller->plugin]) && is_string($event['findOperatingSystem'][$this->Controller->plugin])) {
+				return $event['findOperatingSystem'][$this->Controller->plugin];
+			}
+
 			$agent = env( 'HTTP_USER_AGENT' );
 			Configure::load('operating_systems');
 			$operatingSystems = Configure::read('OperatingSystems');
