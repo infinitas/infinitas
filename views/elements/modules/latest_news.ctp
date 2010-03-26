@@ -12,6 +12,7 @@
 				'fields' => array(
 					'Post.id',
 					'Post.title',
+					'Post.slug',
 					'Post.intro AS body',
 					'Post.created AS date'
 				),
@@ -25,8 +26,23 @@
 						'fields' => array(
 							'Comment.id',
 							'Comment.name',
+							'Comment.name AS slug',
 							'Comment.comment',
 							'Comment.created'
+						)
+					),
+					'Cms.Content' => array(
+						'setup' => array(
+							'plugin' => 'cms',
+							'controller' => 'contents',
+							'action' => 'view',
+						),
+						'fields' => array(
+							'Content.id',
+							'Content.title',
+							'Content.slug',
+							'Content.body',
+							'Content.created'
 						)
 					)
 				),
@@ -46,19 +62,22 @@
 				<h3><?php echo $feed['Feed']['title'] ?></h3>
 				<p class="news">
 					<?php
-						echo strip_tags( html_entity_decode($feed['Feed']['body']) );
-						echo $this->Html->link(
+						$more = $this->Html->link(
 							__(Configure::read('Website.read_more'), true),
 							array(
 								'plugin' => $feed['Feed']['plugin'],
 								'controller' => $feed['Feed']['controller'],
 								'action' => $feed['Feed']['action'],
-								$feed['Feed']['id'],
+								'id' => $feed['Feed']['id'],
+								'category' => 'news-feed',
+								'slug' => $feed['Feed']['slug']
 							),
 							array(
 								'class' => 'more'
 							)
 						);
+
+						echo $this->Text->truncate($feed['Feed']['body'], 150, array('html' => true)), ' ', $more;
 					?>
 				</p>
 			<?php
