@@ -589,17 +589,17 @@
 		 * This is used for moving sequenced records and is called by admin_reorder.
 		 */
 		function _orderedMove(){
-			$model = $this->Controller->modelClass;
+			$modelName = $this->Controller->modelClass;
 
-			if (isset($this->Controller->$model->actsAs['Libs.Sequence']['order_field']) && !empty($this->Controller->$model->actsAs['Libs.Sequence']['order_field'])) {
-				$this->Controller->data[$model][$this->Controller->$model->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['possition'];
+			if (isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) && !empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field'])) {
+				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['possition'];
 			}
 
 			else{
-				$this->Controller->data[$model]['ordering'] = $this->Controller->params['named']['possition'];
+				$this->Controller->data[$modelName]['ordering'] = $this->Controller->params['named']['possition'];
 			}
 
-			if (!$this->Controller->$model->save($this->Controller->data)) {
+			if (!$this->Controller->{$modelName}->save($this->Controller->data)) {
 				$this->Controller->Session->setFlash(__('The record could not be moved', true));
 			}
 
