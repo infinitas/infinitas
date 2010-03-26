@@ -28,7 +28,21 @@
 		$frontpage['Content']['Author']['username'] = $frontpage['Content']['Editor']['username'] = 'Admin';
 		?>
 			<div class="introduction">
-				<h3><?php echo $frontpage['Content']['title']; ?></h3>
+				<h3>
+					<?php
+						echo $this->Html->link(
+							$frontpage['Content']['title'],
+							array(
+								'plugin'     => 'cms',
+								'controller' => 'contents',
+								'action'     => 'view',
+								'id'         => $frontpage['Content']['id'],
+								'slug'       => $frontpage['Content']['slug'],
+								'category'   => $frontpage['Content']['Category']['slug']
+							)
+						);
+					?>
+				</h3>
 				<div class="stats">
 					<div><?php echo __('Written by', true), ': ', $frontpage['Content']['Author']['username']; ?></div>
 					<div><?php echo $this->Time->niceShort( $frontpage['Content']['created'] ); ?></div>
@@ -36,27 +50,12 @@
 				<div class="body">
 				<br/>
 					<?php
-						echo $frontpage['Content']['introduction'];
+						echo $frontpage['Content']['body'];
 					?>
 				</div>
 				<div class="footer">
 					<span><?php echo __('Last updated on', true), ': ', $this->Time->niceShort( $frontpage['Content']['modified'] ); ?></span>
 					<span><?php echo '('.$frontpage['Content']['Editor']['username'].')'; ?></span>
-					<div class="read-more">
-						<?php
-							echo $this->Html->link(
-								Configure::read('Website.read_more'),
-								array(
-									'plugin'     => 'cms',
-									'controller' => 'contents',
-									'action'     => 'view',
-									'id'         => $frontpage['Content']['id'],
-									'slug'       => $frontpage['Content']['slug'],
-									'category'   => $frontpage['Content']['Category']['slug']
-								)
-							);
-						?>
-					</div>
 				</div>
 			</div>
 		<?php
