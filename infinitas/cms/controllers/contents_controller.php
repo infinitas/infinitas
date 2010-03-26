@@ -59,13 +59,6 @@ class ContentsController extends CmsAppController {
 	}
 
 	function admin_index() {
-		$this->paginate = array(
-			'order' => array(
-				'Category.title' => 'ASC',
-				'Content.ordering' => 'ASC'
-				)
-			);
-
 		$this->Content->recursive = 1;
 		$contents = $this->paginate(null, $this->Filter->filter);
 
