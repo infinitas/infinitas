@@ -45,7 +45,7 @@ class FrontpagesController extends CmsAppController {
 						'Content.id',
 						'Content.title',
 						'Content.slug',
-						'Content.introduction',
+						'Content.body',
 						'Content.active',
 						'Content.created',
 						'Content.modified',
