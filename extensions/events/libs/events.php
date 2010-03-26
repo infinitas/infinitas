@@ -22,7 +22,8 @@
 		 */
 		public function &getInstance(){
 			static $instance = array();
-			if (!$instance) {
+
+			if (empty($instance)) {
 				$instance[0] =& new EventCore();
 				$instance[0]->__loadEventHandlers();
 			}
@@ -44,8 +45,10 @@
 
 			$eventNames = Set::filter($eventName);
 			foreach($eventNames as $eventName){
-				extract(EventCore::__parseEventName($eventName), EXTR_OVERWRITE);
-				$return[$eventName] = EventCore::__dispatchEvent($HandlerObject, $scope, $event, $data);
+				//extract(EventCore::__parseEventName($eventName), EXTR_OVERWRITE);
+				$eventData = EventCore::__parseEventName($eventName);
+
+				$return[$eventData['event']] = EventCore::__dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
 
 			return $return;
@@ -56,9 +59,9 @@
 		 *
 		 */
 		private function __loadEventHandlers(){
-			$this->__eventHandlerCache = Cache::read('event_handlers');
+			$this->__eventHandlerCache = Cache::read('event_handlers', 'core');
 
-			if($this->__eventHandlerCache === false) {
+			if(empty($this->__eventHandlerCache)) {
 				App::import('Core', 'Folder');
 
 				$folder = new Folder();
@@ -83,7 +86,7 @@
 					}
 				}
 
-				Cache::write('event_handlers', $this->__eventHandlerCache);
+				Cache::write('event_handlers', $this->__eventHandlerCache, 'core');
 			}
 		}
 
@@ -104,6 +107,7 @@
 			if(isset($_this->__eventHandlerCache[$eventName])){
 				foreach($_this->__eventHandlerCache[$eventName] as $eventClass){
 					$pluginName = EventCore::__extractPluginName($eventClass);
+
 					if(($scope == 'Global' || $scope == $pluginName)){
 						if(!isset($_this->__eventClasses[$eventClass]) || !is_object($_this->__eventClasses[$eventClass])) {
 							EventCore::__loadEventClass($eventClass);
@@ -111,18 +115,19 @@
 
 						$EventObject = $_this->__eventClasses[$eventClass];
 
-						$Event = new Event($eventName, $HandlerObject, $pluginName, $data);
+						//$Event = new Event($eventName, $HandlerObject, $pluginName, $data);
+						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
-						$return[$pluginName] = call_user_func_array(array(&$EventObject, $eventHandlerMethod), array(&$Event));
+						$return[$pluginName] = call_user_func_array(array(&$EventObject, $eventHandlerMethod), array(&$Event, $data));
 					}
 				}
 			}
-
 			return $return;
 		}
 
 		private function __parseEventName($eventName){
 			App::import('Core', 'String');
+
 
 			$eventTokens = String::tokenize($eventName, '.');
 			$scope = 'Global';
@@ -130,6 +135,7 @@
 			if (count($eventTokens) > 1){
 				list($scope, $event) = $eventTokens;
 			}
+
 			return compact('scope', 'event');
 		}
 
@@ -185,6 +191,9 @@
 				$filename = $pluginPath . $baseName;
 			}
 
+			if (!class_exists('LibsEvent')) {
+				//App::Import('file', 'LibsEvent', true, array(), App::pluginPath('libs').'libs_events.php');
+			}
 			App::Import('file', $className, true, array(), $filename);
 
 			try{
@@ -206,7 +215,7 @@
 		 *
 		 */
 		private function __extractPluginName($className){
-			return substr($className, 0, strlen($className) - 6);
+			return strtolower(substr($className, 0, strlen($className) - 6));
 		}
 	}
 
@@ -219,8 +228,8 @@
 		 * Contains assigned values
 		 *
 		 * @var array
-		 */
-		protected $values = array();
+		 *
+		protected $values = array();*/
 
 		/**
 		 * Constructor with EventName and EventData (optional)
@@ -230,16 +239,11 @@
 		 * @param string $eventName Name of the Event
 		 * @param array $data optional array with k/v data
 		 */
-		public function __construct($eventName, &$HandlerObject, $pluginName, $data = array()) {
+		//public function __construct($eventName, &$HandlerObject, $pluginName, $data = array()) {
+		public function __construct($eventName, &$HandlerObject, $pluginName) {
 			$this->name = $eventName;
 			$this->Controller = $HandlerObject;
 			$this->plugin = $pluginName;
-
-			if (!empty($data)) {
-				foreach ($data as $name => $value) {
-					$this->{$name} = $value;
-				} // push data values to props
-			}
 		}
 
 		/**
@@ -247,17 +251,17 @@
 		 *
 		 * @param string $name Key
 		 * @param mixed $value Value
-		 */
-		public function __set($name, $value) {
-			$this->values[$name] = $value;
+		 *
+		public function __set1($name, $value) {
+			$this->values['eventData'][$name] = $value;
 		}
 
 		/**
 		 * Read from object
 		 *
 		 * @param string $name Key
-		 */
-		public function __get($name) {
-			return $this->values[$name];
-		}
+		 *
+		public function __get1($name) {
+			return $this->values['eventData'][$name];
+		}*/
 	}
