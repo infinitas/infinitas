@@ -50,6 +50,11 @@ General / Global changes
 	- do quick posts from admin dashboard (cms/blog)
 	- most config fields converted to json
 
+Tests
+	- most of the model tests and fixtures have been added
+	- config model tests are done
+	- routes model tests are done
+
 
 
 v0.6 alpha
