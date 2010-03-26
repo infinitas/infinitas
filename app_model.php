@@ -40,21 +40,5 @@
 		* error messages in the model
 		*/
 		var $_errors = array();
-
-		/**
-		 * Constructor
-		 * @param $id
-		 * @param $table
-		 * @param $ds
-		 * @return unknown_type
-		 */
-		/*function __construct( $id = false, $table = NULL, $ds = NULL ){
-			//Hack to make Migrations work
-			if(isset($id['name']) && $id['name'] == 'SchemaMigration'){
-				$this->tablePrefix = '';
-			}
-
-			parent::__construct($id, $table, $ds);
-		}*/
 	}
 ?>
