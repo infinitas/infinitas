@@ -1,4 +1,58 @@
-v0.6 alpha ( in progress )
+v0.7 alpha ( in progress )
+================================================================================
+Contacts us
+	- Set up branches for your company
+	- Set up contacts for each branch
+	- download vcf of each contact/branch
+
+Acl
+	- Basics implemented
+
+Blog
+	- Create multi page posts
+	- Categories have been added in addition to the tags
+
+Custom bake
+	- customised for infinitas
+	- takes into account table structure and adds helpers/behaviors/components accordingly
+
+Static page manager
+	- Like the pages controller but manageable from the backend with wysiwyg editor
+
+User management
+	- Ses who is logged in at the moment
+
+Registration / login
+	- Set allow or not
+	- Allow login without registration (intranets / manual user add)
+	- block ip addresses after x faild logins.
+
+Xml datasource
+	- works with most basic xml feeds
+	- set a map to the data you want
+
+Bug fixes
+	- theme loading problems
+	- ecoding for the installer
+	- admin edit links
+	- Clear sessions on logout
+	- admin / frontend modules properly distinguished
+	- hand pointer on admin menu
+	- dynamic pagination limit
+	- installer mysql version
+	- all the ordering of records around the site
+	- deleteing cms items removes the frontpage link
+
+General / Global changes
+	- Alot of comments and the api is set up
+	- delete confirmation before delete happens (html)
+	- global trash behavior so records are not really deleted
+	- do quick posts from admin dashboard (cms/blog)
+	- most config fields converted to json
+
+
+
+v0.6 alpha
 ================================================================================
 Themes backend management
 	- you can now switch themes from the backend easily
