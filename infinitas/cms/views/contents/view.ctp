@@ -39,7 +39,7 @@
 	$__html = str_replace( '||Viewed||', __('Viewed',true), $__html);
 	$__html = str_replace( '[[Content.views]]', $content['Content']['views'], $__html);
 	$__html = str_replace( '||times||', __('times',true), $__html);
-	$__html = str_replace( '[[Content.introduction]]', $content['Content']['introduction'], $__html);
+	$__html = str_replace( '[[Content.introduction]]', $this->Text->truncate($content['Content']['body'], 200, array('html' => true)), $__html);
 	$__html = str_replace( '[[Content.body]]', $content['Content']['body'], $__html);
 	$__html = str_replace( '||Last updated||', __('Last updated',true), $__html);
 	$__html = str_replace( '[[Content.modified]]', $content['Content']['modified'], $__html);
