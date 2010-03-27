@@ -85,6 +85,23 @@ class FeedableBehavior extends ModelBehavior {
 					$__key[0] = strtolower( $__key[0] );
 				   	$__key[1] = strtolower( Inflector::pluralize( $__key[1] ) );
 				   	$sql .= ' FROM '.implode( '_', $__key );
+
+					if ( isset( $feed['conditions'] ) ) {
+						$_fields = array();
+						foreach( $feed['conditions'] as $field => $condition ) {
+							if (is_string($field)) {
+								$__fields = explode( '.', $field );
+								$_fields[] = $__fields[1].' = '.$condition;
+							}
+							else{
+								$__fields = explode( '.', $condition );
+								$_fields[] = $__fields[1];
+							}
+						}
+
+						$sql .= ' WHERE ';
+						$sql .= implode( ' AND ', $_fields );
+					}
 			   	}
 			}
 			if ( isset( $query['order'] ) ) {
