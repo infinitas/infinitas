@@ -43,19 +43,7 @@ class ContentsController extends CmsAppController {
 			$this->redirect($this->referer());
 		}
 
-		$content = $this->Content->find(
-			'first',
-			array(
-				'conditions' => array(
-					'or' => array(
-						'Content.slug' => $this->params['slug']
-					),
-					'Content.active' => 1
-				)
-			)
-		);
-
-		$this->set(compact('content'));
+		$this->set('content', $this->Content->getContentPage($this->params['slug']));
 	}
 
 	function admin_index() {

@@ -145,5 +145,27 @@
 				),
 			);
 		}
+
+		function getContentPage($slug = null){
+			if (!$slug) {
+				return array();
+			}
+
+			$this->order = array();
+
+			$content = $this->find(
+				'first',
+				array(
+					'conditions' => array(
+						'or' => array(
+							'Content.slug' => $slug
+						),
+						'Content.active' => 1
+					)
+				)
+			);
+
+			return $content;
+		}
 	}
 ?>
