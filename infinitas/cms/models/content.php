@@ -29,7 +29,7 @@
 	class Content extends CmsAppModel {
 		var $name = 'Content';
 
-		var $order = array(
+		var $_order = array(
 			'Category.lft' => 'ASC',
 			'Content.ordering' => 'ASC'
 		);
@@ -148,8 +148,6 @@
 			if (!$slug) {
 				return array();
 			}
-
-			$this->order = array();
 
 			$content = $this->find(
 				'first',

@@ -30,13 +30,10 @@ class ContentsController extends CmsAppController {
 
 	function beforeFilter(){
 		parent::beforeFilter();
-		$reset = array('admin_add', 'admin_edit');
-		if (in_array($this->params['action'], $reset)) {
-			$this->Content->order = array();
-		}
 	}
 
 	function index() {
+		$this->Content->order = $this->Content->_order;
 		$this->Content->recursive = 0;
 		$this->set('contents', $this->paginate());
 	}
@@ -52,6 +49,7 @@ class ContentsController extends CmsAppController {
 
 	function admin_index() {
 		$this->Content->recursive = 1;
+		$this->Content->order = $this->Content->_order;
 		$contents = $this->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
