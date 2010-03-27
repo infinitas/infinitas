@@ -23,18 +23,22 @@ class Tag extends BlogAppModel {
 		'Tag.name' => 'ASC'
 	);
 
-	var $validate = array(
-		'name' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty',
-				'message' => 'Please enter a tag'
-			),
-			'isUnique' => array(
-				'rule' => 'isUnique',
-				'message' => 'That tag already exists'
+	function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->validate = array(
+			'name' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter a tag', true)
+				),
+				'isUnique' => array(
+					'rule' => 'isUnique',
+					'message' => __('That tag already exists', true)
+				)
 			)
-		)
-	);
+		);
+	}
 
 	var $hasAndBelongsToMany = array(
 		'Post' => array(
