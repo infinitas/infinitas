@@ -47,7 +47,6 @@
 						)
 				)
 	        ),
-			'Libs.Sequence',
 			'Libs.Sluggable' => array(
 				'label' => array(
 					'name'
