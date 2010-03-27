@@ -30,11 +30,8 @@ class Post extends BlogAppModel {
 	);
 
 	var $actsAs = array(
-		'Libs.Sluggable',
-		'Libs.Viewable',
 		'Libs.Feedable',
-		'Libs.Commentable',
-		'Libs.Rateable'
+		'Libs.Commentable'
 	);
 
 	var $hasAndBelongsToMany = array(
