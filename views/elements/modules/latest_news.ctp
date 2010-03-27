@@ -1,6 +1,6 @@
 <?php
 	$feeds = Cache::read('global_feeds');
-	if (!$feeds) {
+	if (empty($feeds)) {
 		$feeds = ClassRegistry::init('Blog.Post')->find(
 			'feed',
 			array(
@@ -29,6 +29,9 @@
 							'Comment.name AS slug',
 							'Comment.comment',
 							'Comment.created'
+						),
+						'conditions' => array(
+							'Comment.active' => 1
 						)
 					),
 					'Cms.Content' => array(
@@ -43,8 +46,14 @@
 							'Content.slug',
 							'Content.body',
 							'Content.created'
+						),
+						'conditions' => array(
+							'Post.active' => 1
 						)
 					)
+				),
+				'conditions' => array(
+					'Post.active' => 1
 				),
 				'order' => array(
 					'date' => 'DESC'
@@ -53,10 +62,12 @@
 			)
 		);
 	}
+
 	if (empty($feeds)) {
 		echo __('No news is good news.', true);
 	}
 	else{
+		Cache::write('global_feeds', $feeds);
 		foreach($feeds as $feed){
 			?>
 				<h3><?php echo $feed['Feed']['title'] ?></h3>
