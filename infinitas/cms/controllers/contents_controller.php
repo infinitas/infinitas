@@ -30,6 +30,10 @@ class ContentsController extends CmsAppController {
 
 	function beforeFilter(){
 		parent::beforeFilter();
+		$reset = array('admin_add', 'admin_edit');
+		if (in_array($this->params['action'], $reset)) {
+			$this->Content->order = array();
+		}
 	}
 
 	function index() {

@@ -35,8 +35,6 @@
 		);
 
 		var $actsAs = array(
-			'Libs.Sluggable',
-			'Libs.Viewable',
 			/*'Libs.Sequence' => array(
 				'group_fields' => array(
 					'category_id'

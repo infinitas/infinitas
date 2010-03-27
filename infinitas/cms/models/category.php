@@ -20,11 +20,7 @@
 class Category extends CmsAppModel {
 	var $name = 'Category';
 
-	var $actsAs = array(
-		'Libs.Sluggable',
-		'Libs.Viewable',
-		'Tree'
-	);
+	var $actsAs = array();
 
 	var $order = array(
 		'Category.lft' => 'ASC'

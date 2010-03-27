@@ -20,9 +20,7 @@
 	class Frontpage extends CmsAppModel {
 		var $name = 'Frontpage';
 
-		var $actsAs = array(
-			'Libs.Sequence'
-		);
+		var $actsAs = array();
 
 		var $order = array(
 			'Frontpage.order_id' => 'ASC',

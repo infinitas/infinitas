@@ -24,9 +24,7 @@
 			'Feature.ordering' => 'DESC'
 			);
 
-		var $actsAs = array(
-			'Libs.Sequence'
-		);
+		var $actsAs = array();
 
 		var $belongsTo = array(
 			'Cms.Content'
