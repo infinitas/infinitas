@@ -20,9 +20,7 @@
 	class Route extends ManagementAppModel {
 		var $name = 'Route';
 
-		var $actsAs = array(
-			'Libs.Sequence'
-		);
+		var $actsAs = array();
 
 		var $order = array(
 			'Route.ordering' => 'ASC'

@@ -3,7 +3,7 @@ class Aco extends ManagementAppModel {
 	var $name = 'Aco';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
-	var $actsAs = array('Tree');
+	//var $actsAs = array('Tree');
 
 	var $order = array(
 		'Aco.lft' => 'ASC'

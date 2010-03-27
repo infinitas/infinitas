@@ -22,7 +22,7 @@
 	class User extends ManagementAppModel{
 		var $name = 'User';
 
-		var $actsAs1 = array('Acl' => 'requester');
+		var $actsAs = array('Acl' => 'requester');
 
 		var $belongsTo = array(
 			'Management.Group'
