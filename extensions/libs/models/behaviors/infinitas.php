@@ -250,7 +250,7 @@
 			$dontIgnores = get_class_methods('GlobalActions');
 
 			foreach($ignores as &$ignore){
-				if (in_array($ignore, $dontIgnore)) {
+				if (in_array($ignore, $dontIgnores)) {
 					unset($ignore);
 				}
 			}
