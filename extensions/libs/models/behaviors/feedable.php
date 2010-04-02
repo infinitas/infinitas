@@ -22,6 +22,17 @@ class FeedableBehavior extends ModelBehavior {
 	var $_defaults = array();
 
 	var $_results = null;
+
+	var $basicStatement = array(
+		'order' => array(),
+		'limit' => array(),
+		'setup' => array(),
+		'conditions' => array(),
+		'joins' => array(),
+		'group' => array(),
+		'fields' => array(),
+
+	);
 /**
  * @param object $Model Model using the behavior
  * @param array $settings Settings to override for model.
@@ -41,82 +52,54 @@ class FeedableBehavior extends ModelBehavior {
 		);
 	}
 
-	function _findFeed(&$Model, $state, $query, $results = array()) {
+	function _findFeed(&$Model, $state, $query, $results = array()){
 		if($state == 'before') {
-			if ( !isset( $query['feed'] ) ) {
-					return $query;
+			if (!isset($query['feed'])){
+				return $query;
 			}
-			$sql = 'SELECT ';
-   			if ( isset( $query['setup'] ) ) {
-	   			$fields = array();
-				foreach( $query['setup'] as $name => $value ) {
-					$fields[] = "'$value' AS $name";
-				}
-				$sql .= implode( ', ', $fields );
-			}
-			if ( isset( $query['fields'] ) ) {
-				$_fields = array();
-				foreach( $query['fields'] as $field ) {
-					$__fields = explode( '.', $field );
-					$_fields[] = $__fields[1];
-				}
-				$sql .= ', '.implode( ', ', $_fields );
-			}
-			$sql .= ' FROM '.$Model->tablePrefix.$Model->useTable;
-			if ( isset( $query['feed'] ) ) {
-				foreach( $query['feed'] as $key => $feed ) {
-					$sql .= ' UNION SELECT ';
-					if ( isset( $feed['setup'] ) ) {
-						$fields = array();
-						foreach( $feed['setup'] as $name => $value ) {
-							$fields[] = "'$value' AS $name";
-						}
-						$sql .= implode( ', ', $fields );
-					}
-					if ( isset( $feed['fields'] ) ) {
-						$_fields = array();
-						foreach( $feed['fields'] as $field ) {
-							$__fields = explode( '.', $field );
-							$_fields[] = $__fields[1];
-						}
-						$sql .= ', '.implode( ', ', $_fields );
-					}
-					$__key = explode( '.', $key );
-					$__key[0] = strtolower( $__key[0] );
-				   	$__key[1] = strtolower( Inflector::pluralize( $__key[1] ) );
-				   	$sql .= ' FROM '.implode( '_', $__key );
 
-					if ( isset( $feed['conditions'] ) ) {
-						$_fields = array();
-						foreach( $feed['conditions'] as $field => $condition ) {
-							if (is_string($field)) {
-								$__fields = explode( '.', $field );
-								$_fields[] = $__fields[1].' = '.$condition;
-							}
-							else{
-								$__fields = explode( '.', $condition );
-								$_fields[] = $__fields[1];
-							}
-						}
+			$DboMysql = new DboMysql();
 
-						$sql .= ' WHERE ';
-						$sql .= implode( ' AND ', $_fields );
-					}
-			   	}
-			}
-			if ( isset( $query['order'] ) ) {
-				$ordering = array();
-				foreach( $query['order'] as $key => $value ) {
-					$ordering[] = $key.' '.$value;
-				}
-				$sql .= ' ORDER BY '.implode( ', ', $ordering );
-			}
-			if ( isset( $query['limit'] ) ) {
-				$ordering = array();
-				$sql .= ' LIMIT '.$query['limit'];
-			}
+			$sql = '';
+			foreach((array)$query['feed'] as $key => $feed){
+				$feed = array_merge($this->basicStatement, $feed);
+				$sql .= ' UNION ';
+
+				$currentModel = ClassRegistry::init($key);
+
+				$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($feed['setup']), false, false)));
+				$sql .= $DboMysql->renderStatement(
+					'select',
+					array(
+						'fields' => implode(', ', array_merge($DboMysql->fields($currentModel, null, (array)$feed['fields']), $setup)),
+						'table' => $DboMysql->fullTableName($currentModel),
+						'alias' => $currentModel->alias,
+						'joins' => '',
+						'conditions' => $DboMysql->conditions($feed['conditions']),
+						'group' => '',
+						'order' => $DboMysql->order($feed['order']),
+						'limit' => $DboMysql->limit($feed['limit'])
+					)
+				);
+		   	}
+
+			$query = array_merge($this->basicStatement, $query);
+			$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($query['setup']), false, false)));
+			$sql = $DboMysql->renderStatement(
+				'select',
+				array(
+					'fields' => implode(', ', array_merge($DboMysql->fields($Model, null, (array)$query['fields']), $setup)),
+					'table' => $DboMysql->fullTableName($Model),
+					'alias' => $Model->alias,
+					'joins' => '',
+					'conditions' => $DboMysql->conditions($query['conditions']),
+					'group' => $sql, // @todo slight hack
+					'order' => $DboMysql->order($query['order']),
+					'limit' => $DboMysql->limit($query['limit'])
+				)
+			);
+
 			$_results = $Model->query( $sql );
-			//pr( $this->_results );
 
 			foreach( $_results as $res ){
 				$this->_results[]['Feed'] = $res[0];
