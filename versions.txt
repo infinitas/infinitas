@@ -31,6 +31,10 @@ Xml datasource
 	- works with most basic xml feeds
 	- set a map to the data you want
 
+Events
+	- adding events so plugins can manipulate the core
+	- events for cache, themes and some user data is done.
+
 Bug fixes
 	- theme loading problems
 	- ecoding for the installer
