@@ -99,8 +99,8 @@
 
 			$this->set('commentModel', 'Comment');
 
-			if (array_key_exists('views', $this->{$this->modelClass}->_schema) && (!isset($this->params['prefix']) || isset($this->params['prefix']) && $this->params['prefix'] != 'admin') && in_array($this->params['action'], $this->viewableActions)) {
-				$this->{$this->modelClass}->Behaviors->attach('Libs.Viewable');
+			if (isset($this->{$this->modelClass}->_schema) && array_key_exists('views', $this->{$this->modelClass}->_schema) && (!isset($this->params['prefix']) || isset($this->params['prefix']) && $this->params['prefix'] != 'admin') && in_array($this->params['action'], $this->viewableActions)) {
+					$this->{$this->modelClass}->Behaviors->attach('Libs.Viewable');
 			}
 		}
 

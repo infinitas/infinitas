@@ -46,28 +46,30 @@
 		function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
-			if (array_key_exists('locked', $this->_schema)) {
-				$this->Behaviors->attach('Libs.Lockable');
-			}
+			if (isset($this->_schema) && is_array($this->_schema)) {
+				if (array_key_exists('locked', $this->_schema)) {
+					$this->Behaviors->attach('Libs.Lockable');
+				}
 
-			if (array_key_exists('deleted', $this->_schema)) {
-				$this->Behaviors->attach('Libs.SoftDeletable');
-			}
+				if (array_key_exists('deleted', $this->_schema)) {
+					$this->Behaviors->attach('Libs.SoftDeletable');
+				}
 
-			if (array_key_exists('slug', $this->_schema)) {
-				$this->Behaviors->attach('Libs.Sluggable');
-			}
+				if (array_key_exists('slug', $this->_schema)) {
+					$this->Behaviors->attach('Libs.Sluggable');
+				}
 
-			if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {
-				$this->Behaviors->attach('Tree');
-			}
+				if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {
+					$this->Behaviors->attach('Tree');
+				}
 
-			if (array_key_exists('ordering', $this->_schema)) {
-				$this->Behaviors->attach('Libs.Sequence');
-			}
+				if (array_key_exists('ordering', $this->_schema)) {
+					$this->Behaviors->attach('Libs.Sequence');
+				}
 
-			if (array_key_exists('rating', $this->_schema)) {
-				$this->Behaviors->attach('Libs.Rateable');
+				if (array_key_exists('rating', $this->_schema)) {
+					$this->Behaviors->attach('Libs.Rateable');
+				}
 			}
 		}
 	}
