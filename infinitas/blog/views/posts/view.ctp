@@ -16,9 +16,33 @@
      * @subpackage    blog.views.posts.view
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
+?>
+<h1><?php echo $post['Post']['title']; ?></h1>
+<p>
+	<small>
+		<?php
+			foreach(array('comments', 'date', 'views') as $param) {
+				switch($param) {
+					case 'date':
+						$temp[] = sprintf('%s: %s', __('Created', true), $this->Time->{$this->Blog->dateFormat}($post['Post']['created']));
+						break;
 
-    $this->PostLayout->setData( $post );
-    echo $this->PostLayout->viewPostHead();
+					case 'comments':
+						$temp[] = sprintf('%s ( %s )', __('Comments', true), $post['Post']['comment_count']);
+						break;
+
+					case 'views':
+						$temp[] = sprintf('%s ( %s )', __('Views', true), $post['Post']['views']);
+						break;
+				} // switch
+			}
+			if (!empty($temp)) {
+				echo implode(' :: ', $temp);
+			}
+		?>
+	</small>
+</p>
+<?php
 
     if (
         Configure::read( 'Blog.depreciate' ) &&
@@ -29,7 +53,13 @@
         echo __( 'This post is old, so the information may be a bit out-dated.', true );
     }
 
-    echo $this->PostLayout->viewPostBody( array( 'highlight' ) );
+    $body = $post['Post']['body'];
+	if (Configure::read('Blog.highlight') === true) {
+		$body = $this->Geshi->highlight($body);
+	}
+
+	echo $body;
+
     echo $this->Blog->pagination($post);
 
     if ( Configure::read( 'Blog.allow_ratings' ) )
