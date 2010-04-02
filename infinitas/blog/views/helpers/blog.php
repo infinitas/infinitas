@@ -98,35 +98,6 @@
 			return true;
 		}
 
-		/**
-		* Set the data for the layout helper to use.
-		*
-		* @param array $post
-		* @return bool true
-		*/
-		function setData($data) {
-			if (!is_array($data)) {
-				$this->errors[] = __('There is something wrond with the post.', true);
-				return false;
-			}
-
-			$this->data = $data;
-
-			return true;
-		}
-
-		/**
-		* Unset the internal data.
-		*
-		* dont want everything getting messed up.
-		*
-		* @return bool true
-		*/
-		function unsetData() {
-			$this->data = '';
-			return true;
-		}
-
 		function formatUrl($url) {
 			// if has http(s):// just return
 			// if only www. add http:// and return
