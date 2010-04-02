@@ -54,17 +54,18 @@
 
 		}
 
-		function _getTables(){
-			$tables = $this->db->query('SHOW TABLES;');
+		function _getTables($Model){
+			$tables = $Model->query('SHOW TABLES;');
 			return Set::extract('/TABLE_NAMES/Tables_in_infinitas', $tables);
 		}
 
 		function _getLockableTables(){
-			$tableNames = $this->_getTables();
+			$this->AppModel = new AppModel(array('table' => false));
+			$tableNames = $this->_getTables($this->AppModel);
 			$lockableTables = array();
 
 			foreach($tableNames as $table ){
-				$fields = $this->db->query('DESCRIBE '.$table);
+				$fields = $this->AppModel->query('DESCRIBE '.$table);
 				$fields = Set::extract('/COLUMNS/Field', $fields);
 
 				if (in_array('locked', $fields)) {
