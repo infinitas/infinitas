@@ -58,10 +58,6 @@
 				$this->Behaviors->attach('Libs.Sluggable');
 			}
 
-			if (array_key_exists('views', $this->_schema)) {
-				$this->Behaviors->attach('Libs.Viewable');
-			}
-
 			if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {
 				$this->Behaviors->attach('Tree');
 			}
