@@ -71,6 +71,7 @@ class PostsController extends BlogAppController {
 				'Post.body',
 				'Post.intro',
 				'Post.comment_count',
+				'Post.views',
 				'Post.created',
 				'Post.parent_id',
 				'Post.ordering',
