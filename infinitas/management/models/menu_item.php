@@ -30,11 +30,6 @@
 				'threaded',
 				array(
 					'fields' => array(
-						'Menu.id',
-						'Menu.name',
-						'Menu.type',
-						'Menu.active',
-
 						'MenuItem.id',
 						'MenuItem.name',
 						'MenuItem.link',
@@ -59,6 +54,16 @@
 						'Menu.type' => $type,
 						'Menu.active' => 1,
 						'MenuItem.active' => 1
+					),
+					'contain' => array(
+						'Menu' => array(
+							'fields' => array(
+								'Menu.id',
+								'Menu.name',
+								'Menu.type',
+								'Menu.active',
+							)
+						)
 					)
 				)
 			);
