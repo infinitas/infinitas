@@ -110,7 +110,7 @@
 								echo "\t\t\t\t\techo \$this->Form->input('{$field}', array('class' => 'title'));\n";
 								break;
 
-							case in_array($file, $possibleFileFields):
+							case in_array($field, $possibleFileFields):
 								echo "\t\t\t\t\techo \$this->Form->input('{$field}'{$fileUpload});\n";
 								break;
 
