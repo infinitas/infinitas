@@ -58,7 +58,7 @@ class FeedableBehavior extends ModelBehavior {
 				return $query;
 			}
 
-			$DboMysql = new DboMysql();
+			$DboMysql = Connectionmanager::getDataSource($Model->useDbConfig);
 
 			$sql = '';
 			foreach((array)$query['feed'] as $key => $feed){
