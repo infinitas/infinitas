@@ -200,6 +200,7 @@
 				false
 			);
 
+			$controllers = array();
 			foreach($list as $controller){
 				$controllers[$controller] = $controller;
 			}
