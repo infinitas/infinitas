@@ -296,5 +296,13 @@
 
 			return $this->find('list');
 		}
+
+		function validateJson(&$Model, $data = null, $field = null){
+			if (!$data) {
+				return false;
+			}
+
+			return $this->getJson(&$Model, current($data), array(), false);
+		}
 	}
 ?>
