@@ -38,6 +38,8 @@
 			//'Libs.AutomaticAssociation'
 		);
 
+		var $recursive = -1;
+
 		/**
 		* error messages in the model
 		*/
