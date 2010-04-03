@@ -24,7 +24,6 @@
 				<div class="data">
 					<?php
 				        echo $this->Form->input('id');
-				        echo $this->Blog->wysiwyg('Post.intro');
 				        echo $this->Blog->wysiwyg('Post.body');
 				    ?>
 				</div>
