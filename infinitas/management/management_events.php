@@ -50,5 +50,17 @@
 			return false;
 		}
 
-
+		function onSlugUrl(&$event, $data){
+			switch($data['type']){
+				case 'comments':
+					return array(
+						'plugin' => $data['data']['plugin'],
+						'controller' => $data['data']['controller'],
+						'action' => $data['data']['action'],
+						'id' => $data['data']['id'],
+						'category' => 'news-feed'
+					);
+					break;
+			} // switch
+		}
 	}
