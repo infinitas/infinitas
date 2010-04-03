@@ -1,5 +1,5 @@
 <?php
-	$feeds = Cache::read('global_feeds');
+	$feeds = array(); //Cache::read('global_feeds');
 	if (empty($feeds)) {
 		$feeds = ClassRegistry::init('Blog.Post')->find(
 			'feed',
@@ -19,7 +19,7 @@
 				'feed' => array(
 					'Core.Comment' => array(
 						'setup' => array(
-							'plugin' => 'comment',
+							'plugin' => 'management',
 							'controller' => 'comments',
 							'action' => 'view',
 						),
@@ -48,12 +48,13 @@
 							'Content.created'
 						),
 						'conditions' => array(
-							'Post.active' => 1
+							'Content.active' => 1
 						)
 					)
 				),
 				'conditions' => array(
-					'Post.active' => 1
+					'Post.active' => 1,
+					'Post.parent_id < ' => 1,
 				),
 				'order' => array(
 					'date' => 'DESC'
@@ -73,20 +74,15 @@
 				<h3><?php echo $feed['Feed']['title'] ?></h3>
 				<p class="news">
 					<?php
+						$eventData = $this->Event->trigger($feed['Feed']['plugin'].'.slugUrl', array('type' => $feed['Feed']['controller'], 'data' => $feed['Feed']));
 						$more = $this->Html->link(
 							__(Configure::read('Website.read_more'), true),
-							array(
-								'plugin' => $feed['Feed']['plugin'],
-								'controller' => $feed['Feed']['controller'],
-								'action' => $feed['Feed']['action'],
-								'id' => $feed['Feed']['id'],
-								'category' => 'news-feed',
-								'slug' => $feed['Feed']['slug']
-							),
+							current($eventData['slugUrl']),
 							array(
 								'class' => 'more'
 							)
 						);
+						unset($eventData);
 
 						echo $this->Text->truncate($feed['Feed']['body'], 150, array('html' => true)), ' ', $more;
 					?>
