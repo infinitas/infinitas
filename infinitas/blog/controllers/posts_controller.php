@@ -95,6 +95,15 @@ class PostsController extends BlogAppController {
 						'Category.name',
 						'Category.slug',
 					)
+				),
+				'ChildPost' => array(
+					'Category' => array(
+						'fields' => array(
+							'Category.id',
+							'Category.name',
+							'Category.slug'
+						)
+					),
 				)
 			)
 		);
