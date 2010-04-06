@@ -33,9 +33,6 @@
 			'Events.Event',
 			'Libs.Logable',
 
-			//'Libs.Lockable',
-			//'Libs.SoftDeletable',
-
 			//'Libs.AutomaticAssociation'
 		);
 
