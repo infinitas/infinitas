@@ -44,17 +44,29 @@
 						'style' => 'width:25px;'
 					),
 					$this->Paginator->sort('name'),
-					$this->Paginator->sort('model'),
-					$this->Paginator->sort('plugin'),
-					$this->Paginator->sort('controller'),
-					$this->Paginator->sort('action'),
-					$this->Paginator->sort('limit'),
-					$this->Paginator->sort('Group', 'Group.name'),
+					$this->Paginator->sort('model') => array(
+						'style' => 'width:75px;'
+					),
+					$this->Paginator->sort('plugin') => array(
+						'style' => 'width:75px;'
+					),
+					$this->Paginator->sort('controller') => array(
+						'style' => 'width:75px;'
+					),
+					$this->Paginator->sort('action') => array(
+						'style' => 'width:75px;'
+					),
+					$this->Paginator->sort('limit') => array(
+						'style' => 'width:75px;'
+					),
+					$this->Paginator->sort('Group', 'Group.name') => array(
+						'style' => 'width:75px;'
+					),
 					$this->Paginator->sort('active') => array(
 						'style' => 'width:50px;'
 					),
 					$this->Paginator->sort('modified') => array(
-						'style' => 'width:75px;'
+						'style' => 'width:100px;'
 					),
 				)
 			);
