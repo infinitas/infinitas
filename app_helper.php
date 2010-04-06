@@ -75,8 +75,8 @@ class AppHelper extends Helper {
 		if (empty($view)) {
 			return false;
 		}
-
-		return '<div class="top-bar"><h1>' . __($view->name, true) . '</h1>' .
+		$plugin = ($this->plugin != 'management') ? $this->plugin : '';
+		return '<div class="top-bar"><h1>' . __(Inflector::humanize($this->plugin).' '.Inflector::humanize(Inflector::underscore($view->name)).' Manager', true) . '</h1>' .
 		'<div class="breadcrumbs">' . $this->breadcrumbs($view) . '</div></div>';
 	}
 
