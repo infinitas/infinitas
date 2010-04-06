@@ -38,16 +38,11 @@ function(require) {
 function render(){
 	$(document).ready(function(){
 		urlDropdownSelects();
+		doToolTips();
 
 		$.FormHelper.checkboxToggleAll();
 	});
 }
-
-
-
-
-
-
 
 
 /** core code */
@@ -79,4 +74,18 @@ function urlDropdownSelects(){
 			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
 		}
 	});
+}
+
+function doToolTips(){
+	$("*").tooltip({ 
+	    track: true, 
+	    delay: 0, 
+	    showURL: false, 
+	    opacity: 0.1, 
+	    fixPNG: true, 
+	    showBody: " - ", 
+	    extraClass: "pretty fancy", 
+	    top: -15, 
+	    left: 5 
+	}); 
 }
