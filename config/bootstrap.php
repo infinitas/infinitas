@@ -77,4 +77,24 @@
 
 		return Inflector::underscore($prefix).'_'.$hash;
 	}
+	
+	/**
+	 * return a nice user friendly name.
+	 *
+	 * Takes a cake class like SomeModel and converts it to Some model
+	 *
+	 * @param string $class the name to convert
+	 * @return a nice name
+	 */
+	function prettyName($class = null){
+		if(!class_exists('Inflector')){
+			App::import('Inflector');
+		}
+		
+		if($class !== null){
+			return Inflector::humanize(Inflector::underscore((string)$class));
+		}
+		
+		return false;		
+	}
 ?>

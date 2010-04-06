@@ -49,7 +49,7 @@ class AppHelper extends Helper {
 
 		$breadcrumbs = array(
 			$this->Html->link(
-				__($view->plugin, true),
+				__(strtolower(prettyName($view->plugin)), true),
 				array(
 					'prefix' => isset($view->params['prefix']) ? $view->params['prefix'] : '',
 					'plugin' => $view->plugin,
@@ -58,7 +58,7 @@ class AppHelper extends Helper {
 				)
 			),
 			$this->Html->link(
-				__(strtolower(Inflector::humanize(Inflector::underscore($view->name))), true),
+				__(strtolower(prettyName($view->name)), true),
 				array(
 					'prefix' => isset($view->params['prefix']) ? $view->params['prefix'] : '',
 					'plugin' => $view->plugin,
@@ -99,7 +99,7 @@ class AppHelper extends Helper {
 			return false;
 		}
 		$plugin = ($this->plugin != 'management') ? $this->plugin : '';
-		return '<div class="top-bar"><h1>' . __(Inflector::humanize($this->plugin).' '.Inflector::humanize(Inflector::underscore($view->name)).' Manager', true) . '</h1>' .
+		return '<div class="top-bar"><h1>' . __(prettyName($this->plugin).' '.prettyName($view->name).' Manager', true) . '</h1>' .
 		'<div class="breadcrumbs">' . $this->breadcrumbs($view) . '</div></div>';
 	}
 
