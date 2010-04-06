@@ -29,4 +29,3 @@
 		'gnu' 				=> 'GNU/Linux',
 		'unix' 				=> 'Unknown Unix system'
 	);
-?>

@@ -70,4 +70,3 @@
 		echo implode(', ', $parts);
 		echo ')); </br>';
 	}
-?>
