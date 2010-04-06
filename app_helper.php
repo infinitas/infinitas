@@ -154,7 +154,7 @@
 	
 			$filters = $this->Design->niceBox(
 				'filter',
-				FilterHelper::form( 'Post', $filterOptions ).FilterHelper::clear($filterOptions)
+				FilterHelper::form('Post', $filterOptions).FilterHelper::clear($filterOptions)
 				);
 	
 			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
@@ -361,7 +361,7 @@
 					array(
 						'value' => strtolower(str_replace(array('-', ' '), '_', $button)),
 						'name' => 'action',
-						'title' => __(Inflector::humanize($button), true),
+						'title' => $this->niceTitleText($button),
 						'div' => false
 						)
 					);
@@ -372,5 +372,94 @@
 			}
 	
 			return '<div class="massActions"><div class="wrapper">' . $out . '</div><div class="clr">&nbsp;</div></div>';
+		}
+		
+		/**
+		 * Generate nice title text.
+		 * 
+		 * This method is used to generate nice looking information title text 
+		 * depending on what is displayed to the user.
+		 * 
+		 * @param $switch this is the title that is passed in
+		 * @param $notHuman if this is true the prettyName function will be called making the text human readable.
+		 * 
+		 * @return string the text for the title.
+		 */
+		function niceTitleText($switch = null, $notHuman = false){
+			if($notHuman){
+				$switch = prettyName($switch);
+			}					
+			
+			$controller = __(Inflector::singularize($this->params['controller']), true);
+			
+			switch(strtolower($switch)){
+				case 'add':
+					$heading = sprintf('%s %s', __('Create a New', true), $controller);
+					$text = sprintf(
+						__('Click here to create a new %s. You do not need to tick any checkboxes to create a new %s.', true), 
+						$controller, $controller
+					);
+					break;
+					
+				case 'edit':
+					$heading = sprintf('%s %s', __('Edit the', true), $controller);
+					$text = sprintf(
+						__('Tick the checkbox next to the record you want to edit then click here.<br/><br/>Currently you may only edit one %s at a time.', true), 
+						$controller
+					);
+					break;
+					
+				case 'copy':
+					$controller = __($this->params['controller'], true);
+					$heading = sprintf('%s %s', __('Copy some', true), $controller);
+					$text = sprintf(
+						__('Tick the checkboxes next to the %s you want to copy then click here.<br/><br/>You may copy as many %s as you like.', true), 
+						$controller, $controller
+					);
+					break;
+					
+				case 'toggle':
+					$controller = __($this->params['controller'], true);
+					$heading = sprintf('%s %s', __('Toggle some', true), $controller);
+					$text = sprintf(
+						__('Tick the checkboxes next to the %s you want to toggle then click here.<br/><br/>Inactive %s will become active, and active %s will become inactive', true), 
+						$controller, $controller, $controller 
+					);
+					break;
+					
+				case 'delete':
+					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
+					$text = sprintf(
+						__('Tick the checkboxes next to the %s you want to delete then click here.<br/><br/>If possible the %s will be moved to the trash can. If not they will be deleted permanently.', true), 
+						$controller, $controller
+					);
+					break;
+					
+				case 'disabled':
+					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
+					$text = sprintf(
+						__('This %s currently disabled, to enable it tick the check to the left and click toggle.', true), 
+						$controller, $controller
+					);
+					break;
+					
+				case 'active':
+					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
+					$text = sprintf(
+						__('This %s currently active, to disable it tick the check to the left and click toggle.', true), 
+						$controller, $controller
+					);
+					break;
+					
+				default:
+					$heading = $switch;
+					$text = 'todo: Need to add something';
+			}
+			
+			return sprintf('%s :: %s', $heading, $text);
+		}
+		
+		function niceAltText($text){
+			return $text;
 		}
 	}
