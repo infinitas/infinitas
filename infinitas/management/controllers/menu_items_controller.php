@@ -72,8 +72,8 @@
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
 			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList();
 			$plugins = $this->MenuItem->getPlugins();
-			$controllers = $this->MenuItem->getControllers($this->data['Route']['plugin']);
-			$actions = $this->MenuItem->getActions($this->data['Route']['plugin'], $this->data['Route']['controller']);
+			$controllers = $this->MenuItem->getControllers($this->data['MenuItem']['plugin']);
+			$actions = $this->MenuItem->getActions($this->data['MenuItem']['plugin'], $this->data['MenuItem']['controller']);
 			$this->set(compact('menus', 'groups', 'parents', 'plugins', 'controllers', 'actions'));
 		}
 	}
