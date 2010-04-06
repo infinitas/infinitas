@@ -385,10 +385,8 @@
 		 * 
 		 * @return string the text for the title.
 		 */
-		function niceTitleText($switch = null, $notHuman = false){
-			if($notHuman){
-				$switch = prettyName($switch);
-			}					
+		function niceTitleText($switch = null){
+			$switch = prettyName($switch);
 			
 			$controller = __(Inflector::singularize($this->params['controller']), true);
 			
@@ -404,8 +402,8 @@
 				case 'edit':
 					$heading = sprintf('%s %s', __('Edit the', true), $controller);
 					$text = sprintf(
-						__('Tick the checkbox next to the record you want to edit then click here.<br/><br/>Currently you may only edit one %s at a time.', true), 
-						$controller
+						__('Tick the checkbox next to the %s you want to edit then click here.<br/><br/>Currently you may only edit one %s at a time.', true), 
+						$controller, $controller
 					);
 					break;
 					
@@ -439,7 +437,7 @@
 					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
 					$text = sprintf(
 						__('This %s currently disabled, to enable it tick the check to the left and click toggle.', true), 
-						$controller, $controller
+						$controller
 					);
 					break;
 					
@@ -447,7 +445,23 @@
 					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
 					$text = sprintf(
 						__('This %s currently active, to disable it tick the check to the left and click toggle.', true), 
-						$controller, $controller
+						$controller
+					);
+					break;
+					
+				case 'save':
+					$heading = sprintf('%s %s', __('Save the', true), $this->params['controller']);
+					$text = sprintf(
+						__('Click here to save your %s. This will save your current changes and take you back to the index list.', true), 
+						$controller
+					);
+					break;
+					
+				case 'cancel':
+					$heading = sprintf('%s', __('Discard your changes', true));
+					$text = sprintf(
+						__('Click here to return to the index page without saving the changes you have made to the %s.', true), 
+						$controller
 					);
 					break;
 					
