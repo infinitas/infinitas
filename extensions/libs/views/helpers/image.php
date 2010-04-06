@@ -30,8 +30,8 @@ class ImageHelper extends AppHelper {
 		return $this->Html->image(
 			Configure::read('CoreImages.path') . $path . '/' . $images[$path][$key],
 			$this->settings + array(
-				'title' => Inflector::humanize($key),
-				'alt' => Inflector::humanize($key)
+				'title' => $this->niceTitleText($key),
+				'alt' => $this->niceAltText($key)
 				)
 			);
 	}
@@ -49,8 +49,8 @@ class ImageHelper extends AppHelper {
 				return $this->Html->image(
 					Configure::read('CoreImages.path') . $path . '/' . $image[$extention],
 					$this->settings + array(
-						'title' => Inflector::humanize($extention),
-						'alt' => Inflector::humanize($extention)
+						'title' => $this->niceTitleText($extention),
+						'alt' => $this->niceAltText($extention)
 						)
 
 					);
