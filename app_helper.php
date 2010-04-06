@@ -114,9 +114,12 @@
 		* to get out put like <th class="something">head1</th>
 		*
 		* @param array $data an array of items for the head.
+		* @param bool $footer if you want to show the table footer or not.
+		* 
+		* @return string the thead and tfoot html
 		*/
-		function adminTableHeader($data) {
-			$out = '<tr>';
+		function adminTableHeader($data, $footer = true) {
+			$out = '';
 			foreach($data as $field => $params) {
 				$atributes = '';
 	
@@ -138,9 +141,7 @@
 	
 				$out .= '<th ' . $params . '>' . $field . '</th>';
 			}
-			$out .= '</tr>';
-	
-			return $out;
+			return '<tr><thead>'.$out.'<thead>'. (($footer) ? '<tfoot>'.$out.'</tfoot></tr>' : '');
 		}
 	
 		function adminIndexHead($view = array(), $pagintion = array(), $filterOptions = array(), $massActions = null) {
