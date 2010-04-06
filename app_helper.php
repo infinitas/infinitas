@@ -48,12 +48,35 @@ class AppHelper extends Helper {
 		}
 
 		$breadcrumbs = array(
-			$view->params['plugin'],
-			$view->name
+			$this->Html->link(
+				__($view->plugin, true),
+				array(
+					'prefix' => isset($view->params['prefix']) ? $view->params['prefix'] : '',
+					'plugin' => $view->plugin,
+					'controller' => false,
+					'action' => false 
+				)
+			),
+			$this->Html->link(
+				__(strtolower(Inflector::humanize(Inflector::underscore($view->name))), true),
+				array(
+					'prefix' => isset($view->params['prefix']) ? $view->params['prefix'] : '',
+					'plugin' => $view->plugin,
+					'controller' => Inflector::underscore($view->name),
+					'action' => false 
+				)
+			),
+			str_replace('admin_', '', $view->action)
 		);
 
 		if (isset($view->params['prefix'])) {
-			$breadcrumbs = (array)$view->params['prefix'] + $breadcrumbs;
+			$breadcrumbs = array_merge(
+				(array)$this->Html->link(
+					__($view->params['prefix'], true),					
+					'/'.$view->params['prefix']					
+				), 
+				$breadcrumbs
+			);
 		}
 
 		return implode($seperator, $breadcrumbs);
