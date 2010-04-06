@@ -202,7 +202,7 @@
 
 			$controllers = array();
 			foreach($list as $controller){
-				$controllers[$controller] = $controller;
+				$controllers[Inflector::underscore($controller)] = $controller;
 			}
 
 			return $controllers;
