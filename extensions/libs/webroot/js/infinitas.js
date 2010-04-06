@@ -78,14 +78,8 @@ function urlDropdownSelects(){
 
 function doToolTips(){
 	$("*").tooltip({ 
-	    track: true, 
-	    delay: 0, 
-	    showURL: false, 
-	    opacity: 0.1, 
-	    fixPNG: true, 
-	    showBody: " - ", 
-	    extraClass: "pretty fancy", 
-	    top: -15, 
-	    left: 5 
+	    track: true, delay: 0, showURL: false, 
+	    fixPNG: true, showBody: " :: ", 
+	    extraClass: "pretty fancy", left: 5 
 	}); 
 }
