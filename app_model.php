@@ -16,6 +16,7 @@
 	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	* @since 0.5a
 	*/
+
 	class AppModel extends Model {
 		/**
 		* The database configuration to use for the site.
@@ -75,4 +76,3 @@
 			}
 		}
 	}
-?>

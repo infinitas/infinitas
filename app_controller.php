@@ -403,4 +403,3 @@
 			echo 'moved to comments';
 		}
 	}
-?>
