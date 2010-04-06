@@ -17,9 +17,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
-?>
-<h2>Welcome to <?php echo Configure::read('Website.name'); ?></h2>
-<?php
+
 	$i = 0;
 	foreach($frontpages as $frontpage ){
 		if ($i >= 2) {
@@ -28,21 +26,16 @@
 		$frontpage['Content']['Author']['username'] = $frontpage['Content']['Editor']['username'] = 'Admin';
 		?>
 			<div class="introduction">
-				<h3>
+				<h2>
 					<?php
+						$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'content', 'data' => $frontpage['Content']));
+						$urlArray = current($eventData['slugUrl']);
 						echo $this->Html->link(
 							$frontpage['Content']['title'],
-							array(
-								'plugin'     => 'cms',
-								'controller' => 'contents',
-								'action'     => 'view',
-								'id'         => $frontpage['Content']['id'],
-								'slug'       => $frontpage['Content']['slug'],
-								'category'   => $frontpage['Content']['Category']['slug']
-							)
+							$urlArray
 						);
 					?>
-				</h3>
+				</h2>
 				<div class="stats">
 					<div><?php echo __('Written by', true), ': ', $frontpage['Content']['Author']['username']; ?></div>
 					<div><?php echo $this->Time->niceShort( $frontpage['Content']['created'] ); ?></div>
@@ -50,8 +43,19 @@
 				<div class="body">
 				<br/>
 					<?php
-						echo $frontpage['Content']['body'];
+						echo $this->Text->truncate($frontpage['Content']['body'], 300	, array('html' => true));
 					?>
+					<p>
+						<?php 						
+							echo $this->Html->link(
+								__(Configure::read('Website.read_more'), true),
+								$urlArray,
+								array(
+									'class' => 'more'
+								)
+							);	
+						?>
+					</p>
 				</div>
 				<div class="footer">
 					<span><?php echo __('Last updated on', true), ': ', $this->Time->niceShort( $frontpage['Content']['modified'] ); ?></span>

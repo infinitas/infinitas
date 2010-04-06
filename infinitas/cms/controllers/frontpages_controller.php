@@ -69,7 +69,6 @@ class FrontpagesController extends CmsAppController {
 							'Category.slug'
 						)
 					),
-					'ContentConfig',
 					'Feature'
 				)
 			)
