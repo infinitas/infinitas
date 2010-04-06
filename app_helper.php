@@ -46,12 +46,14 @@ class AppHelper extends Helper {
 		if (empty($view)) {
 			return false;
 		}
-
+		
+		$_prefix = isset($view->params['prefix']) ? (string)$view->params['prefix'] : false;
+		
 		$breadcrumbs = array(
 			$this->Html->link(
 				__(strtolower(prettyName($view->plugin)), true),
 				array(
-					'prefix' => isset($view->params['prefix']) ? $view->params['prefix'] : '',
+					'prefix' => $_prefix,
 					'plugin' => $view->plugin,
 					'controller' => false,
 					'action' => false 
@@ -60,7 +62,7 @@ class AppHelper extends Helper {
 			$this->Html->link(
 				__(strtolower(prettyName($view->name)), true),
 				array(
-					'prefix' => isset($view->params['prefix']) ? $view->params['prefix'] : '',
+					'prefix' => $_prefix,
 					'plugin' => $view->plugin,
 					'controller' => Inflector::underscore($view->name),
 					'action' => false 
@@ -69,11 +71,11 @@ class AppHelper extends Helper {
 			str_replace('admin_', '', $view->action)
 		);
 
-		if (isset($view->params['prefix'])) {
+		if ($_prefix !== false) {
 			$breadcrumbs = array_merge(
 				(array)$this->Html->link(
-					__($view->params['prefix'], true),					
-					'/'.$view->params['prefix']					
+					__($_prefix, true),					
+					'/'.$_prefix					
 				), 
 				$breadcrumbs
 			);
@@ -98,8 +100,8 @@ class AppHelper extends Helper {
 		if (empty($view)) {
 			return false;
 		}
-		$plugin = ($this->plugin != 'management') ? $this->plugin : '';
-		return '<div class="top-bar"><h1>' . __(prettyName($this->plugin).' '.prettyName($view->name).' Manager', true) . '</h1>' .
+		$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin.' ' : '';
+		return '<div class="top-bar"><h1>' . __(prettyName($plugin).prettyName($view->name).' Manager', true) . '</h1>' .
 		'<div class="breadcrumbs">' . $this->breadcrumbs($view) . '</div></div>';
 	}
 
