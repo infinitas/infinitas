@@ -7,7 +7,6 @@ views/themed/*
 webroot/img/content/contact/*
 webroot/img/content/thinkmoney/*
 .gitignore
-config/schema/schema.php
 
 # If you are using an ide other than below add ignores for the files it creates
 # and commit the changes.
