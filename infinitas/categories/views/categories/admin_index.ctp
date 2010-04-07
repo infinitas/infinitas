@@ -18,7 +18,7 @@
      * @since         0.5a
      */
     echo $this->Form->create( 'Category', array( 'url' => array( 'controller' => 'categories', 'action' => 'mass', 'admin' => 'true' ) ) );
-        $massActions = $this->Cms->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
@@ -28,12 +28,12 @@
                 'delete'
             )
         );
-        echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Infinitas->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Cms->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox( 'all' ) => array(
                         'class' => 'first',
@@ -66,7 +66,7 @@
             foreach ( $categories as $category )
             {
                 ?>
-                	<tr class="<?php echo $this->Cms->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $category['Category']['id'] ); ?>&nbsp;</td>
                 		<td>
                 			<?php
@@ -99,7 +99,7 @@
                 			<?php echo $this->Time->niceShort( $category['Category']['modified'] ); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Cms->treeOrdering( $category['Category'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->treeOrdering( $category['Category'] ); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php

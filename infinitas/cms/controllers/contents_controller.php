@@ -28,6 +28,8 @@ class ContentsController extends CmsAppController {
 	*/
 	var $helpers = array('Filter.Filter');
 
+	var $components = array('Categories.Category');
+
 	function beforeFilter(){
 		parent::beforeFilter();
 	}
@@ -83,10 +85,10 @@ class ContentsController extends CmsAppController {
 			}
 		}
 
-		$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
+		//$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
 		$groups = array(__('Public', true)) + $this->Content->Group->generatetreelist();
 		$layouts = $this->Content->Layout->find('list');
-		$this->set(compact('categories','groups','layouts'));
+		$this->set(compact('groups','layouts'));
 	}
 
 	function admin_edit($id = null) {
