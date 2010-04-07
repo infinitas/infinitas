@@ -34,63 +34,54 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'key' ),
-                    $this->Paginator->sort( 'value' ) => array(
-                        'style' => 'width:50px;'
-                    ),
-                    $this->Paginator->sort( 'type' ) => array(
-                        'style' => 'width:50px;'
-                    ),
-                    $this->Paginator->sort( 'options' ) => array(
+                    $this->Paginator->sort('key') => array(
                         'style' => 'width:100px;'
                     ),
-                    __( 'Description', true ),
-                    __( 'Core', true ) => array(
+                    $this->Paginator->sort('value'),
+                    $this->Paginator->sort('options') => array(
+                        'style' => 'width:100px;'
+                    ),
+                    $this->Paginator->sort('type') => array(
+                        'style' => 'width:50px;'
+                    ),
+                    __('Core', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
 
-            foreach ( $configs as $config )
-            {
+            foreach ($configs as $config){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $config['Config']['id'] ); ?>&nbsp;</td>
-                		<td>
+                		<td title="<?php echo __('Description', true), ' :: ', $this->Text->Truncate($config['Config']['description'], 200, array('html' => true)); ?>">
                 			<?php echo $this->Html->link( $config['Config']['key'], array('controller' => 'configs', 'action' => 'edit', $config['Config']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $config['Config']['value']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo Inflector::humanize( $config['Config']['type'] ); ?>&nbsp;
-                		</td>
-                		<td>
                 			<?php
-                			    if ( !empty( $config['Config']['options'] ) )
-                			    {
-                			        echo $this->Text->toList( explode( ',', Inflector::humanize( $config['Config']['options'] ) ), 'or' );
+                			    if (!empty($config['Config']['options'])){
+                			        echo $this->Text->toList(explode(',', Inflector::humanize($config['Config']['options'])), 'or');
                 			    }
                 			?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $config['Config']['description']; ?>&nbsp;
+                			<?php echo Inflector::humanize($config['Config']['type']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status( $config['Config']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($config['Config']['core']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
             }
         ?>
     </table>
-    <?php
-        echo $this->Form->end();
-
-    ?>
+    <?php echo $this->Form->end(); ?>
 </div>
 <?php echo $this->element( 'admin/pagination/navigation' ); ?>
