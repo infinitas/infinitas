@@ -13,7 +13,9 @@ function pr(data){
  * @return void
  **/
 function debug(data){
-	console.log(data);
+	if(typeof console.log != 'undefined') {}
+		console.log(data);
+	}
 }
 
 
@@ -87,27 +89,35 @@ function doToolTips(){
 }
 
 function rowSelect(){
-	$("table.listing input").click(function() {
-        if ($(this).attr("checked") == true) {
-			$(this).parent().parent().removeClass('highlightRowRelated');
-        	$(this).parent().parent().toggleClass("highlightRowSelected");
+	$("table.listing input:checkbox").change(function() {
+		var $this = $(this);
+		
+        if ($this.attr("checked") == true) {
+			$this
+				.parents('tr')
+				.removeClass('highlightRowRelated')
+				.addClass("highlightRowSelected");
         } else {
-        	$(this).parent().parent().removeClass("highlightRowSelected");
+        	$this.parents('tr').removeClass("highlightRowSelected");
         }
 	});	
 
-	$('td').click(function(){ 
-		var col = $(this).parent().children().index($(this));
-		col++;
+	$('td').click(function(){
+		var $this = $(this)
+		var col = $this.prevAll().length+1;
+		
 		if (col > 1){
-			var thisClicked = $.trim($(this).text());
-			$('table.listing td:nth-child(' + col + ')' ).each(function(index) { 				
-				if (thisClicked == $.trim($(this).text())) {
-					$(this).parent().removeClass('highlightRowSelected');	
-					$(this).parent().addClass('highlightRowRelated');				
+			var thisClicked = $.trim($this.text());
+
+			$('table.listing td:nth-child(' + col + ')' ).each(function() {
+				var $_this = $(this);
+				
+				if (thisClicked == $.trim($_this.text())) {
+					$_this.parent().removeClass('highlightRowSelected');
+					$_this.parent().addClass('highlightRowRelated');
 				}
 				else{
-					$(this).parent().removeClass('highlightRowRelated');
+					$_this.parent().removeClass('highlightRowRelated');
 				}
 			}); 
 		}

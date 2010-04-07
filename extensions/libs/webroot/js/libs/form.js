@@ -16,12 +16,11 @@
 	 * generate a select dropdown
 	 */
 	FormHelper.select = function(data, metaData) {
-		$('#' + metaData.target).empty();
 		var options = '<option>' + $.Core.config('Website.empty_select') + '</option>';
 		$.each(data, function(index, name) {
 			options += '<option value="' + index + '">' + name + '</option>';
 		});
-		$('#' + metaData.target).html(options);
+		$('#' + metaData.target).empty().html(options);
 	};
 
 	/**
@@ -29,8 +28,9 @@
 	 */
 	FormHelper.checkboxToggleAll = function() {
 		var tog = false;
-		$('#' + Infinitas.model + 'All').click(function(){
-			$("input[type=checkbox]").attr("checked",!tog);
+		var toggleId = '#' + Infinitas.model + 'All';
+		$(toggleId).click(function(){
+			$("input:checkbox[not:"+toggleId+"]").attr("checked",!tog).change();
 			tog = !tog;
 		});
 	};
