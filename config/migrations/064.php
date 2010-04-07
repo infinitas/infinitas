@@ -56,16 +56,6 @@ class M4bbcb56f88dc4bbb88b60ba06318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'core_schema_migrations' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM'),
-				),
 			),
 			'create_field' => array(
 				'core_feeds' => array(
