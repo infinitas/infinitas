@@ -100,6 +100,7 @@
 			if (empty($view)) {
 				return false;
 			}
+			
 			$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin.' ' : '';
 			return '<div class="top-bar"><h1>' . __(prettyName($plugin).prettyName($view->name).' Manager', true) . '</h1>' .
 			'<div class="breadcrumbs">' . $this->breadcrumbs($view) . '</div></div>';
@@ -126,7 +127,9 @@
 				if (is_int($field) && !is_array($params)) {
 					$field = $params;
 					$params = '';
-				} else {
+				} 
+				
+				else {
 					foreach($params as $type => $param) {
 						$atributes = '';
 						$atributes .= $type . '="' . $param . '" ';
@@ -141,7 +144,7 @@
 	
 				$out .= '<th ' . $params . '>' . $field . '</th>';
 			}
-			return '<tr><thead>'.$out.'<thead>'. (($footer) ? '<tfoot>'.$out.'</tfoot></tr>' : '');
+			return '<thead>'.$out.'<thead>'. (($footer) ? '<tfoot>'.$out.'</tfoot>' : '');
 		}
 	
 		function adminIndexHead($view = array(), $pagintion = array(), $filterOptions = array(), $massActions = null) {
@@ -154,8 +157,8 @@
 	
 			$filters = $this->Design->niceBox(
 				'filter',
-				FilterHelper::form('Post', $filterOptions).FilterHelper::clear($filterOptions)
-				);
+				FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions)
+			);
 	
 			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
 		}
@@ -177,13 +180,14 @@
 	            )
 	        );
 	
-	        return $this->adminOtherHead( $view, $massActions );
+	        return $this->adminOtherHead($view, $massActions);
 		}
 	
 		function ordering($id = null, $currentPossition = null, $model = null) {
 			if (!$id) {
 				$this->errors[] = 'How will i know what to move?';
 			}
+			
 			if (!$currentPossition) {
 				$this->errors[] = 'The new order was not passed';
 			}
