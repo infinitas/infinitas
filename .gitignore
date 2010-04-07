@@ -24,3 +24,6 @@ config/schema/schema.php
 
 # vim project files
 .vimrc.custom
+
+# NetBeans project files
+nbproject/*
