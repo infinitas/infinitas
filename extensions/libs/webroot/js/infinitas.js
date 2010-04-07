@@ -13,7 +13,7 @@ function pr(data){
  * @return void
  **/
 function debug(data){
-	if(typeof console.log != 'undefined') {}
+	if(typeof console.log != 'undefined') {
 		console.log(data);
 	}
 }
