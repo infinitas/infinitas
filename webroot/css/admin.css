@@ -114,11 +114,12 @@ div.table {
 }
 
 table.listing {
-	border-bottom: 1px solid #9097A9;
-	width:         100%;
-	padding:       0;
-	margin:        0;
-	border:        1px solid #9097A9;
+	border-bottom:       1px solid #9097A9;
+	width:               100%;
+	background-image:    url("../img/core/infinitas_med.png");
+	background-position: right bottom;
+	background-repeat:   no-repeat;
+	border:              none;
 }
 
 table.listing th {
@@ -132,25 +133,7 @@ table.listing th.full {
 	text-transform: uppercase;
 }
 
-div.table img.left {
-	position: absolute;
-	top:      0;
-	left:     0;
-}
-
-div.table img.right {
-	position: absolute;
-	top:      0;
-	right:    0;
-}
-
-
 /* table styles */
-table.listing td,
-table.listing th {
-	border: 0px dotted #ffffff;
-}
-
 table.listing th {
 	background: #D8D8D8;
 	color:      #fff;
@@ -161,15 +144,22 @@ table.listing th {
 table.listing .highlightRowSelected td,
 table.listing .bg.highlightRowSelected td,
 table.listing .highlightRowSelected.highlightRowRelated td,
-table.listing .bg.highlightRowSelected.highlightRowRelated td {
-	background: none repeat scroll 0 0 yellow;
+table.listing .bg.highlightRowSelected.highlightRowRelated rt {
+	background:  none repeat scroll 0 0 #E1FFDF;	
+	font-weight:bold;
 }
 
 table.listing .highlightRowRelated td,
 table.listing .bg.highlightRowRelated td,
 table.listing .highlightRowRelated.highlightRowSelected td,
 table.listing .bg.highlightRowRelated.highlightRowSelected td {
-	background: none repeat scroll 0 0 red;
+	background:  none repeat scroll 0 0 #FFE2BF;	
+	font-weight:bold;
+}
+
+table.listing tr:hover td{
+	background:  none repeat scroll 0 0 #FFFCDF;	
+	text-decoration: italics;
 }
 
 .actions{
@@ -177,9 +167,11 @@ table.listing .bg.highlightRowRelated.highlightRowSelected td {
 }
 
 table.listing td {
-	background: #ECECEC;
-	color:      #000;
+	background: #ffffff;
+	color:      #000000;
 	padding:    3px 5px;
+	opacity:    0.95;
+	filter:alpha(opacity=40)
 }
 
 table.listing .bg td {
@@ -193,14 +185,6 @@ table.listing .white td {
 table.listing .first {
 	border-left: 0px solid #9097A9;
 	text-align:  left;
-}
-
-table.listing .last {
-	border-right: 0px solid #9097A9;
-}
-
-table .listing{
-	background-image: url(../img/core/infinitas_med.png);
 }
 
 table.form .last {
@@ -285,7 +269,7 @@ div.table .select select {
 p { line-height: 1.2em; }
 
 .dashboard .comment{
-	background: url('/infinitas/img/core/icons/fatcow/16/comments.png') no-repeat scroll 12px 12px #EEEEEE;
+	background: url('../img/core/icons/fatcow/16/comments.png') no-repeat scroll 12px 12px #EEEEEE;
 	overflow:   auto;
 }
 
