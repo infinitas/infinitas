@@ -30,7 +30,7 @@ class Post extends BlogAppModel {
 	);
 
 	var $actsAs = array(
-		'Libs.Feedable',
+		'Feed.Feedable',
 		'Libs.Commentable'
 	);
 
