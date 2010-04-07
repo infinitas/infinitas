@@ -81,7 +81,7 @@ function urlDropdownSelects(){
 }
 
 function doToolTips(){
-	$("*").tooltip({ 
+	$("[title]:not(.textarea)").tooltip({ 
 	    track: true, delay: 0, showURL: false, 
 	    fixPNG: true, showBody: " :: ", 
 	    extraClass: "pretty fancy", left: 5 
