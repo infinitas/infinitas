@@ -16,19 +16,20 @@
      * @subpackage    blog.views.index
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-    foreach( $posts as $post ){
+    foreach($posts as $post){
 		?>
 			<div class="post <?php echo $this->layout; ?>">
 				<h1><?php echo $post['Post']['title']; ?></h1>
 				<p>
 					<small>
 						<?php
+    						$temp = array();					
 							foreach(array('comments', 'date', 'views') as $param) {
 								switch($param) {
 									case 'date':
 										$temp[] = sprintf('%s: %s', __('Created', true), $this->Time->{$this->Blog->dateFormat}($post['Post']['created']));
 										break;
-
+																					
 									case 'comments':
 										$temp[] = sprintf('%s ( %s )', __('Comments', true), $post['Post']['comment_count']);
 										break;
