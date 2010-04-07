@@ -80,7 +80,7 @@ class PostsController extends BlogAppController {
 			'conditions' => array(
 				'Post.active' => 1,
 				'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0'),
-				'Post.parent_id' => null,
+				'Post.parent_id' => 0,
 				'Post.category_id' => $categoryIds
 			),
 			'contain' => array(
