@@ -160,6 +160,20 @@ table.listing th {
     text-align:left;
 }
 
+table.listing .highlightRowSelected td,
+table.listing .bg.highlightRowSelected td,
+table.listing .highlightRowSelected.highlightRowRelated td,
+table.listing .bg.highlightRowSelected.highlightRowRelated td {
+	background: none repeat scroll 0 0 yellow;
+}
+
+table.listing .highlightRowRelated td,
+table.listing .bg.highlightRowRelated td,
+table.listing .highlightRowRelated.highlightRowSelected td,
+table.listing .bg.highlightRowRelated.highlightRowSelected td {
+	background: none repeat scroll 0 0 red;
+}
+
 .actions{
     width:100px;
 }

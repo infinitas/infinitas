@@ -39,6 +39,8 @@ function render(){
 	$(document).ready(function(){
 		urlDropdownSelects();
 		doToolTips();
+		
+		rowSelect();
 
 		$.FormHelper.checkboxToggleAll();
 	});
@@ -82,4 +84,32 @@ function doToolTips(){
 	    fixPNG: true, showBody: " :: ", 
 	    extraClass: "pretty fancy", left: 5 
 	}); 
+}
+
+function rowSelect(){
+	$("table.listing input").click(function() {
+        if ($(this).attr("checked") == true) {
+			$(this).parent().parent().removeClass('highlightRowRelated');
+        	$(this).parent().parent().toggleClass("highlightRowSelected");
+        } else {
+        	$(this).parent().parent().removeClass("highlightRowSelected");
+        }
+	});	
+
+	$('td').click(function(){ 
+		var col = $(this).parent().children().index($(this));
+		col++;
+		if (col > 1){
+			var thisClicked = $.trim($(this).text());
+			$('table.listing td:nth-child(' + col + ')' ).each(function(index) { 				
+				if (thisClicked == $.trim($(this).text())) {
+					$(this).parent().removeClass('highlightRowSelected');	
+					$(this).parent().addClass('highlightRowRelated');				
+				}
+				else{
+					$(this).parent().removeClass('highlightRowRelated');
+				}
+			}); 
+		}
+	});
 }
