@@ -189,7 +189,6 @@
 		 * @param array $ids array of ids.
 		 */
 		function toggle($ids) {
-			$this->Controller->{$this->modelName}->recursive = - 1;
 			$ids = $ids + array(0);
 
 			if ($this->Controller->{$this->modelName}->updateAll(
@@ -216,7 +215,6 @@
 		* @param array $ids array of ids.
 		*/
 		function copy($ids) {
-			$this->Controller->{$this->modelName}->recursive = - 1;
 			$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
 
 			$saves = 0;
