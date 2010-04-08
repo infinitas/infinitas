@@ -63,6 +63,13 @@ a:hover {
 .config {
 	width: 29%;
 	float: right;
+	
+}
+
+.info {
+	width: 150px;
+	float: left;
+	padding:10px;
 }
 
 .categories .data,

@@ -26,7 +26,8 @@
                 'edit',
                 'toggle',
                 'copy',
-                'delete'
+                'move',
+            	'delete'
             )
         );
         echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
