@@ -327,6 +327,10 @@
 				unset($save);
 			}
 
+			if(in_array('tree', $this->controller->{$this->modelname}->behaviors->_attached)){
+				$this->controller->{$this->modelname}->recover('parent');
+			}
+
 			if($result == true) {
 				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' have been moved', true));
 			}
