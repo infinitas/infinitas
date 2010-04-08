@@ -146,7 +146,7 @@ table.listing .bg.highlightRowSelected td,
 table.listing .highlightRowSelected.highlightRowRelated td,
 table.listing .bg.highlightRowSelected.highlightRowRelated rt {
 	background:  none repeat scroll 0 0 #E1FFDF;	
-	font-weight:bold;
+	font-weight: bold;
 }
 
 table.listing .highlightRowRelated td,
@@ -171,7 +171,7 @@ table.listing td {
 	color:      #000000;
 	padding:    3px 5px;
 	opacity:    0.95;
-	filter:alpha(opacity=40)
+	filter:     alpha(opacity=95)
 }
 
 table.listing .bg td {
