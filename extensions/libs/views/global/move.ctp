@@ -87,10 +87,10 @@
 	echo $this->Form->hidden('Move.confirmed', array('value' => 1));
 	echo $this->Form->hidden('Move.referer', array('value' => $referer));
 
-    foreach($relations['belongsTo'] as $belongsTo){
+    foreach($relations['belongsTo'] as $alias => $belongsTo){
     	?><div class="info"><?php
 	    	echo $this->Design->niceBox(); ?>
-	        	<h3><?php echo __(prettyName($belongsTo['className']), true); ?></h3><?php
+	        	<h3><?php echo __(prettyName($alias), true); ?></h3><?php
 	        	echo $this->Form->input('Move.'.$belongsTo['foreignKey'], array('label' => false, 'empty' => __(Configure::read('Website.empty_select'), true)));
 	        echo $this->Design->niceBoxEnd();
         ?></div><?php

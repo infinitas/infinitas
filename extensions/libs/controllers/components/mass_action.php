@@ -273,8 +273,24 @@
 			$relations['belongsTo'] = array();
 			if (isset($this->Controller->{$this->modelName}->belongsTo)) {
 				$relations['belongsTo'] = $this->Controller->{$this->modelName}->belongsTo;
-				foreach($relations['belongsTo'] as $belongsTo){
-					$this->Controller->set(strtolower(Inflector::pluralize($belongsTo['className'])), ClassRegistry::init($this->Controller->plugin.'.'.$belongsTo['className'])->find('list'));
+
+				foreach($relations['belongsTo'] as $alias => $belongsTo){
+					switch($alias){
+						case 'Parent':
+								$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->modelName);
+
+								if(in_array('Tree', $_Model->Behaviors->_attached)){
+									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
+								}
+								else{
+									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
+								}
+							break;
+
+						default:
+							$this->Controller->set(strtolower(Inflector::pluralize($alias)), ClassRegistry::init($this->Controller->plugin.'.'.$alias)->find('list'));
+							break;
+					}
 				}
 			}
 
@@ -306,8 +322,9 @@
 			foreach ($ids as $id){
 				$row = array('id' => $id);
 				$save[$this->modelName] = array_merge(array_filter($movedTo), $row);
+				// @todo this is messing up trees, need to see why the lft and rght is not updating.
 				$result = $result && $this->Controller->{$this->modelName}->save($save);
-				unset($save[$this->modelName]);
+				unset($save);
 			}
 
 			if($result == true) {
