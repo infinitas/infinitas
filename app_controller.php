@@ -53,7 +53,7 @@
 		/**
 		* normal before filter.
 		*/
-		function beforeFilter() {
+		function beforeFilter() {						 
 			parent::beforeFilter();
 
 			$this->Infinitas->_setupAuth();
@@ -304,6 +304,7 @@
 			}
 		}
 
+		
 		/**
 		 * Mass actions
 		 *
