@@ -58,7 +58,7 @@ class MigrationShell extends Shell {
 	public $Version;
 
 /**
- * Messages used to display action being perfomed
+ * Messages used to display action being performed
  *
  * @var array
  * @access private
@@ -183,7 +183,7 @@ class MigrationShell extends Shell {
 		try {
 			$this->Version->run($options);
 		} catch (MigrationException $e) {
-			$this->out(__d('migrations', 'An error ocurred when processing the migration:', true));
+			$this->out(__d('migrations', 'An error occurred when processing the migration:', true));
 			$this->out('  ' . sprintf(__d('migrations', 'Migration: %s', true), $e->Migration->info['name']));
 			$this->out('  ' . sprintf(__d('migrations', 'Error: %s', true), $e->getMessage()));
 
@@ -214,12 +214,13 @@ class MigrationShell extends Shell {
 			}
 		}
 
+		$fromSchema = false;
 		$this->Schema = $this->_getSchema();
 		$migration = array('up' => array(), 'down' => array());
 
 		$oldSchema = $this->_getSchema($this->type);
 		if ($oldSchema !== false) {
-			$response = $this->in(__d('migrations', 'Do you wanna compare the schema.php file to the database?', true), array('y', 'n'), 'y');
+			$response = $this->in(__d('migrations', 'Do you want compare the schema.php file to the database?', true), array('y', 'n'), 'y');
 			if (strtolower($response) === 'y') {
 				$this->hr();
 				$this->out(__d('migrations', 'Comparing schema.php to the database...', true));
@@ -227,9 +228,10 @@ class MigrationShell extends Shell {
 				$newSchema = $this->_readSchema();
 				$comparison = $this->Schema->compare($oldSchema, $newSchema);
 				$migration = $this->_fromComparison($migration, $comparison, $oldSchema->tables, $newSchema['tables']);
+				$fromSchema = true;
 			}
 		} else {
-			$response = $this->in(__d('migrations', 'Do you wanna generate a dump from current database?', true), array('y', 'n'), 'y');
+			$response = $this->in(__d('migrations', 'Do you want generate a dump from current database?', true), array('y', 'n'), 'y');
 			if (strtolower($response) === 'y') {
 				$this->hr();
 				$this->out(__d('migrations', 'Generating dump from current database...', true));
@@ -242,6 +244,7 @@ class MigrationShell extends Shell {
 					$migration['up']['create_table'] = $dump;
 					$migration['down']['drop_table'] = array_keys($dump);
 				}
+				$fromSchema = true;
 			}
 		}
 
@@ -264,6 +267,10 @@ class MigrationShell extends Shell {
 		$this->out(__d('migrations', 'Mapping Migrations...', true));
 		$this->_writeMap($map);
 
+		if ($fromSchema) {
+			$this->Version->setVersion($version, $this->type);
+		}
+
 		$this->out('');
 		$this->out(__d('migrations', 'Done.', true));
 	}
@@ -279,38 +286,43 @@ class MigrationShell extends Shell {
 	}
 
 /**
- * Displays a summary of all plugin and app migrations
+ * Displays a status of all plugin and app migrations
  *
  * @access public
  * @return void
  */
-	public function summary() {
+	public function status() {
 		$types = App::objects('plugin');
 		ksort($types);
 		array_unshift($types, 'App');
 
+		$outdated = (isset($this->args[0]) && $this->args[0] == 'outdated');
 		foreach ($types as $name) {
-			$type = Inflector::underscore($name);
-			$mapping = $this->Version->getMapping($type);
-			if ($mapping === false || count($mapping) === 0) {
+			try {
+				$type = Inflector::underscore($name);
+				$mapping = $this->Version->getMapping($type);
+				$version = $this->Version->getVersion($type);
+				$latest = end($mapping);
+				if ($outdated && $latest['version'] == $version) {
+					continue;
+				}
+
+				$this->out(($type == 'app') ? 'Application' : $name . ' Plugin');
+				$this->out('');
+				$this->out(__d('migrations', 'Current version:', true));
+				if ($version != 0) {
+					$info = $mapping[$version];
+					$this->out('  #' . number_format($info['version'] / 100, 2, '', '') . ' ' . $info['name']);
+				} else {
+					$this->out('  ' . __d('migrations', 'None applied.', true));
+				}
+
+				$this->out(__d('migrations', 'Latest version:', true));
+				$this->out('  #' . number_format($latest['version'] / 100, 2, '', '') . ' ' . $latest['name']);
+				$this->hr();
+			} catch (MigrationVersionException $e) {
 				continue;
 			}
-
-			$version = $this->Version->getVersion($type);
-			$this->out($name . ' Plugin');
-			$this->out('');
-			$this->out(__d('migrations', 'Current version:', true));
-			if ($version != 0) {
-				$info = $mapping[$version];
-				$this->out('  #' . number_format($info['version'] / 100, 2, '', '') . ' ' . $info['name']);
-			} else {
-				$this->out('  ' . __d('migrations', 'None applied.', true));
-			}
-
-			$info = array_pop($mapping);
-			$this->out(__d('migrations', 'Latest version:', true));
-			$this->out('  #' . number_format($info['version'] / 100, 2, '', '') . ' ' . $info['name']);
-			$this->hr();
 		}
 	}
 
@@ -349,8 +361,8 @@ Commands:
 		Generates a migration file.
 		To force generation of all tables when making a comparison/dump, use the -f param.
 
-	migration summary
-		Displays a summary of all plugin and app migrations
+	migration status <outdated>
+		Displays a status of all plugin and app migrations.
 TEXT;
 
 		$this->out($help);
@@ -465,7 +477,8 @@ TEXT;
  */
 	protected function _getSchema($type = null) {
 		if ($type === null) {
-			return new CakeSchema(array('connection' => $this->connection));
+			$plugin = ($this->type === 'app') ? null : $this->type;
+			return new CakeSchema(array('connection' => $this->connection, 'plugin' => $plugin));
 		}
 		$file = $this->__getPath($type) . 'config' . DS . 'schema' . DS . 'schema.php';
 		if (!file_exists($file)) {
@@ -477,10 +490,9 @@ TEXT;
 		if ($type == 'app' && !class_exists($name)) {
 			$name = Inflector::camelize($this->params['app']) . 'Schema';
 		}
-		$schema = new $name(array('connection' => $this->connection));
-		if ($type != 'app') {
-			$schema->plugin = $type;
-		}
+
+		$plugin = ($type === 'app') ? null : $type;
+		$schema = new $name(array('connection' => $this->connection, 'plugin' => $plugin));
 		return $schema;
 	}
 
