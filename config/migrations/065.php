@@ -47,21 +47,11 @@ class M4bbcdf8fe48442b7b17217d86318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'global_category_items' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
-				),
 			),
 		),
 		'down' => array(
 			'drop_table' => array(
-				'global_categories', 'global_category_items'
+				'global_categories',
 			),
 		),
 	);

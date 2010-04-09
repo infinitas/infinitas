@@ -9,7 +9,7 @@
 		var $belongsTo = array(
 			'Management.Menu',
 			'Management.Group',
-			'Parent' => array(
+			/*'Parent' => array(
 	            'className'     => 'Management.MenuItem',
 	            'foreignKey'    => 'parent_id',
 				'fields'     => array(
@@ -19,7 +19,7 @@
 					'Parent.rght',
 					'Parent.parent_id',
 				)
-			)
+			)*/
 		);
 
 		var $order = array(

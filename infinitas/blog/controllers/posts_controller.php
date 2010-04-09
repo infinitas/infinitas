@@ -327,7 +327,6 @@ class PostsController extends BlogAppController {
 		}
 
 		$parents    = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
-		$categories = $this->Post->Category->find('list');
 		$tags = $this->Post->Tag->find('list');
 		$this->set(compact('tags', 'parents', 'categories'));
 	}
@@ -371,7 +370,6 @@ class PostsController extends BlogAppController {
 		}
 
 		$parents    = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
-		$categories = $this->Post->Category->find('list');
 		$tags = $this->Post->Tag->find('list');
 		$this->set(compact('tags', 'parents', 'categories'));
 	}

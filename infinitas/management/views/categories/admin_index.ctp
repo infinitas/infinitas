@@ -90,7 +90,7 @@
                 			<?php echo $category['Group']['name']; ?>
                 		</td>
                 		<td style="text-align:center;">
-                			<?php echo $category['Category']['content_count']; ?>
+                			<?php echo $category['Category']['item_count']; ?>
                 		</td>
                 		<td style="text-align:center;">
                 			<?php echo $category['Category']['views']; ?>

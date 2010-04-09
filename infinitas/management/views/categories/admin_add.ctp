@@ -25,7 +25,7 @@
     		echo $this->Form->input( 'title', array( 'class' => 'title' ) );
     		echo $this->Form->input( 'parent_id' );
     		echo $this->Form->input( 'group_id', array( 'label' => __( 'Min Group', true ) ) );
-    		echo $this->Category->wysiwyg( 'Category.description' );
+    		echo $this->Core->wysiwyg( 'Category.description' );
     		echo $this->Form->input( 'active' );
         echo $this->Form->end();
     ?>

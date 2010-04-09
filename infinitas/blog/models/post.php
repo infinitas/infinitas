@@ -96,16 +96,6 @@ class Post extends BlogAppModel {
 			),
 			'order' => ''
 		),
-		'Category' => array(
-			'className' => 'Blog.Category',
-			'foreignKey' => 'category_id',
-			'conditions' => '',
-			'fields' => array(
-				'Category.id',
-				'Category.name'
-			),
-			'order' => ''
-		)
 	);
 
 	function __construct($id = false, $table = null, $ds = null) {

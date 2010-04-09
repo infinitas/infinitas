@@ -17,12 +17,12 @@
 * @since 0.5a
 */
 
-class CategoriesController extends CategoriesAppController {
+class CategoriesController extends ManagementAppController {
 	var $name = 'Categories';
 
 	var $helpers = array(
 		'Filter.Filter',
-		'Categories.Category'
+		'Text'
 	);
 
 	function index() {

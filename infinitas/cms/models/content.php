@@ -59,14 +59,6 @@
 					'Editor.username'
 				)
 			),
-			'Category' => array(
-				'className' => 'Cms.Category',
-				'counterCache' => true,
-				'fields' => array(
-					'Category.id',
-					'Category.title'
-				)
-			),
 			'Group' => array(
 				'className' => 'Management.Group',
 				'fields' => array(

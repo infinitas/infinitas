@@ -70,6 +70,10 @@
 				if (array_key_exists('rating', $this->_schema)) {
 					$this->Behaviors->attach('Libs.Rateable');
 				}
+
+				if (array_key_exists('category_id', $this->_schema)) {
+					$this->Behaviors->attach('Libs.Categorised');
+				}
 			}
 		}
 	}
