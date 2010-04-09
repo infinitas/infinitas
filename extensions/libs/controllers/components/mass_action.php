@@ -276,10 +276,15 @@
 
 				foreach($relations['belongsTo'] as $alias => $belongsTo){
 					switch($alias){
+						case 'Locker':
+							break;
+
+						case 'Parent Post':
 						case 'Parent':
 								$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->modelName);
 
 								if(in_array('Tree', $_Model->Behaviors->_attached)){
+									$_Model->order = array();
 									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
 								}
 								else{
@@ -288,7 +293,9 @@
 							break;
 
 						default:
-							$this->Controller->set(strtolower(Inflector::pluralize($alias)), ClassRegistry::init($this->Controller->plugin.'.'.$alias)->find('list'));
+							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
+							$_Model->order = array();
+							$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
 							break;
 					}
 				}
@@ -297,9 +304,16 @@
 			$relations['hasAndBelongsToMany'] = array();
 			if (isset($this->Controller->{$this->modelName}->hasAndBelongsToMany)) {
 				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->modelName}->hasAndBelongsToMany;
+
+				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
+					$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
+					$this->Controller->set(strtolower($alias), $_Model->find('list'));
+				}
 			}
 
-			$this->Controller->set(compact('referer', 'rows', 'model', 'relations'));
+			$modelSetup['displayField'] = $this->Controller->{$this->modelName}->displayField;
+			$modelSetup['primaryKey'] = $this->Controller->{$this->modelName}->primaryKey;
+			$this->Controller->set(compact('referer', 'rows', 'model', 'modelSetup', 'relations'));
 			$this->Controller->render('move', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'move.ctp');
 		}
 
@@ -321,13 +335,24 @@
 
 			foreach ($ids as $id){
 				$row = array('id' => $id);
-				$save[$this->modelName] = array_merge(array_filter($movedTo), $row);
+				$_data = array_merge(array_filter($movedTo), $row);
+
+				$_mn = $this->modelName;
+				foreach($_data as $key => $value){
+					if(is_array($value)){
+						$save[$key][$key] = $value;
+					}
+					else{
+						$save[$_mn][$key] = $value;
+					}
+				}
+
 				// @todo this is messing up trees, need to see why the lft and rght is not updating.
-				$result = $result && $this->Controller->{$this->modelName}->save($save);
+				$result = $result && $this->Controller->{$this->modelName}->saveAll($save);
 				unset($save);
 			}
 
-			if(in_array('tree', $this->controller->{$this->modelname}->behaviors->_attached)){
+			if(in_array('Tree', $this->Controller->{$this->modelName}->Behaviors->_attached)){
 				$this->controller->{$this->modelname}->recover('parent');
 			}
 
