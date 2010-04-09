@@ -28,8 +28,6 @@ class ContentsController extends CmsAppController {
 	*/
 	var $helpers = array('Filter.Filter');
 
-	var $components = array('Categories.Category');
-
 	function beforeFilter(){
 		parent::beforeFilter();
 	}
