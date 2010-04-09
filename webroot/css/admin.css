@@ -36,11 +36,16 @@ a:hover {
         	height:           31px;
 			background-image: url(../img/nav/btn3.jpg);
 			margin-bottom:    10px;
+			position:fixed;
+			width:100%;
+			top: 0;
+			z-index:100;
     	}
 
         /* main body */
         #content {
             margin: 0 15px;
+        	margin-top: 31px;
         }
 
         /* footer */
@@ -241,6 +246,16 @@ div.table .select select {
 }
 
 .adminTopBar{
+}
+
+.niceBox.adminTopBar{
+	position:fixed;
+	width:97%;
+	z-index:10;
+	top:40px;
+}
+.admin_index, .admin_add, .admin_edit{
+	padding-top:95px;	
 }
 
 /* Dashboard styles */
