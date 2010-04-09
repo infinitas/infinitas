@@ -8,15 +8,6 @@
 	 * @version $Id$
 	 * @access public
 	 */
-	/**
-	 * InfinitasComponent
-	 *
-	 * @package
-	 * @author dogmatic
-	 * @copyright Copyright (c) 2010
-	 * @version $Id$
-	 * @access public
-	 */
 	class InfinitasComponent extends Object {
 		var $name = 'Infinitas';
 
@@ -58,6 +49,13 @@
 			}
 		}
 
+		/**
+		 * Set up system configuration.
+		 *
+		 * Load the default configuration and check if there are any configs
+		 * to load from the current plugin. configurations can be completely rewriten
+		 * or just added to.
+		 */
 		function setupConfig(){
 			$this->configs = Cache::read('core_configs', 'core');
 
@@ -78,16 +76,30 @@
 			if (isset($eventData['setupConfigEnd'][$this->Controller->plugin])){
 				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->Controller->plugin];
 			}
-			$this->_writeConfigs();
+
+			if (!$this->_writeConfigs()) {
+				$this->cakeError('configError', array('message' => 'Config was not written'));
+			}
 		}
 
+		/**
+		 * Write the configuration.
+		 *
+		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
+		 */
 		function _writeConfigs(){
+			if (empty($this->configs)) {
+				return false;
+			}
+
 			foreach($this->configs as $config) {
 				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
 					continue;
 				}
 				Configure::write($config['Config']['key'], $config['Config']['value']);
 			}
+
+			return true;
 		}
 
 		/**
@@ -734,4 +746,3 @@
 			return $arr;
 		}
 	}
-?>

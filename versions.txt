@@ -13,19 +13,19 @@ Blog
 	- Categories have been added in addition to the tags
 
 Custom bake
-	- customised for infinitas
+	- customised for Infinitas
 	- takes into account table structure and adds helpers/behaviors/components accordingly
 
 Static page manager
 	- Like the pages controller but manageable from the backend with wysiwyg editor
 
 User management
-	- Ses who is logged in at the moment
+	- See who is logged in at the moment
 
 Registration / login
 	- Set allow or not
-	- Allow login without registration (intranets / manual user add)
-	- block ip addresses after x faild logins.
+	- Allow login without registration (Internet's / manual user add)
+	- block ip addresses after x failed logins.
 
 Xml datasource
 	- works with most basic xml feeds
@@ -37,7 +37,7 @@ Events
 
 Bug fixes
 	- theme loading problems
-	- ecoding for the installer
+	- encoding for the installer
 	- admin edit links
 	- Clear sessions on logout
 	- admin / frontend modules properly distinguished
@@ -45,10 +45,10 @@ Bug fixes
 	- dynamic pagination limit
 	- installer mysql version
 	- all the ordering of records around the site
-	- deleteing cms items removes the frontpage link
+	- deleting cms items removes the frontpage link
 
 General / Global changes
-	- Alot of comments and the api is set up
+	- A lot of comments and the api is set up
 	- delete confirmation before delete happens (html)
 	- global trash behavior so records are not really deleted
 	- do quick posts from admin dashboard (cms/blog)
@@ -72,7 +72,7 @@ Core Layouts
 	- work on the core admin layout, removing 3 col layout and adding css drop down menus
 
 Menu manager
-	- create unlimited menus with unlimited menu items that can be nestend to any level
+	- create unlimited menus with unlimited menu items that can be nested to any level
 
 Routes managemet
 	- set up routing rules from the backed
@@ -85,7 +85,7 @@ Modules
 	- added configuration in the form of JSON
 	- set modules per theme
 	- in theme layouts, call ->loadModules('somePossition') to load all the
-		modules with that possition.
+		modules with that position.
 
 Infinitas installer
 	- updated to use migrations plugin
@@ -95,8 +95,7 @@ Infinitas installer
 Core plugin
 	- this has been removed and all "loose" behaviors/helpers/components are now
 		in infinitas/libs/
-	- anything that needs to be managed from the backend is in management ( like
-		comments )
+	- anything that needs to be managed from the backend is in management ( like comments )
 Bug fixes
 	- pagination links
 	- set copied items to inactive
@@ -119,7 +118,7 @@ Commentable Behavior
 	- set any model to allow comments
 
 Installer
-	- Set up infinitus on your server easily
+	- Set up infinitas on your server easily
 
 Rateable Behavior
 	- Set any model to be rateable
@@ -141,10 +140,10 @@ Mass actions
 	- delete / copy etc many records in any model by checking some boxes
 
 Cms :: MPTT
-	- removed sections in favor of a mptt category tree
+	- removed sections in favour of a mptt category tree
 
 Infinitas Core
-	- all moved to seperate dir so users can create plugins without touching core
+	- all moved to separate dir so users can create plugins without touching core
 
 Php4
 	removed private / protected declarations so php 4 can still be used

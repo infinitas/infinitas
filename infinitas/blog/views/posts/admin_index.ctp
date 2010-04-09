@@ -24,6 +24,7 @@
                 'preview',
                 'toggle',
                 'copy',
+                'move',
                 'delete'
             )
         );

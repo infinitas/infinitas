@@ -20,16 +20,18 @@
 
     echo $this->Form->create( 'MenuItem', array( 'url' => array( 'controller' => 'menuItems', 'action' => 'mass', 'admin' => 'true' ) ) );
 
-        $massActions = $this->Core->massActionButtons(
-            array(
-                'add',
-                'edit',
-                'toggle',
-                'copy',
-                'delete'
-            )
-        );
-        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+    $massActions = $this->Core->massActionButtons(
+		array(
+        	'add',
+            'edit',
+            'toggle',
+            'copy',
+            'move',
+            'delete'
+        )
+    );
+
+    echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
@@ -42,10 +44,10 @@
                     ),
                     $this->Paginator->sort('name'),
                     $this->Paginator->sort('Menu') => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('Access', 'Group.name') => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:90px;'
                     ),
                     __('Order', true) => array(
                         'style' => 'width:50px;'
@@ -59,11 +61,10 @@
                 )
             );
 
-            foreach ( $menuItems as $menuItem )
-            {
+            foreach ($menuItems as $menuItem){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $menuItem['MenuItem']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($menuItem['MenuItem']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php
                 				$paths = ClassRegistry::init('Management.MenuItem')->getPath($menuItem['MenuItem']['id']);
@@ -102,7 +103,7 @@
 										'url' => array(
 											'action' => 'add',
 											'parent_id' => $menuItem['MenuItem']['id']
-										),
+										)
 									)
 								);
 							?>
@@ -114,4 +115,4 @@
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
-<?php echo $this->element( 'admin/pagination/navigation' ); ?>
+<?php echo $this->element('admin/pagination/navigation'); ?>

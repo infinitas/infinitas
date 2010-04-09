@@ -8,7 +8,18 @@
 
 		var $belongsTo = array(
 			'Management.Menu',
-			'Management.Group'
+			'Management.Group',
+			'Parent' => array(
+	            'className'     => 'Management.MenuItem',
+	            'foreignKey'    => 'parent_id',
+				'fields'     => array(
+					'Parent.id',
+					'Parent.name',
+					'Parent.lft',
+					'Parent.rght',
+					'Parent.parent_id',
+				)
+			)
 		);
 
 		var $order = array(

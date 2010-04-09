@@ -140,7 +140,7 @@
 
 			$this->Controller->set('model', $this->modelName);
 			$this->Controller->set(compact('referer', 'rows'));
-			$this->Controller->render('delete', null, APP.'views'.DS.'global'.DS.'delete.ctp');
+			$this->Controller->render('delete', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'delete.ctp');
 		}
 
 		/**
@@ -189,7 +189,6 @@
 		 * @param array $ids array of ids.
 		 */
 		function toggle($ids) {
-			$this->Controller->{$this->modelName}->recursive = - 1;
 			$ids = $ids + array(0);
 
 			if ($this->Controller->{$this->modelName}->updateAll(
@@ -216,7 +215,6 @@
 		* @param array $ids array of ids.
 		*/
 		function copy($ids) {
-			$this->Controller->{$this->modelName}->recursive = - 1;
 			$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
 
 			$saves = 0;
@@ -248,6 +246,125 @@
 
 			$this->Controller->Session->setFlash(__('No copies could be made.', true));
 			$this->Controller->redirect($this->Controller->referer());
+		}
+
+		/**
+		 * Move records
+		 *
+		 * find out relations like belongsTo and habtm and send the ids to a view
+		 * so you can easily move many items
+		 *
+		 * @param array $ids array of ids.
+		 */
+		function move($ids) {
+			if (isset($this->Controller->data['Move']['confirmed']) && $this->Controller->data['Move']['confirmed']) {
+				if(method_exists($this->Controller, '__handleMove')) {
+					$this->Controller->__handleMove($ids);
+				}
+				else {
+					$this->__handleMove($ids);
+				}
+			}
+
+			$referer = $this->Controller->referer();
+			$rows = $this->Controller->{$this->modelName}->find('all', array('conditions' => array($this->modelName.'.id' => $ids), 'contain' => false));
+			$model = $this->modelName;
+
+			$relations['belongsTo'] = array();
+			if (isset($this->Controller->{$this->modelName}->belongsTo)) {
+				$relations['belongsTo'] = $this->Controller->{$this->modelName}->belongsTo;
+
+				foreach($relations['belongsTo'] as $alias => $belongsTo){
+					switch($alias){
+						case 'Locker':
+							break;
+
+						case 'Parent Post':
+						case 'Parent':
+								$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->modelName);
+
+								if(in_array('Tree', $_Model->Behaviors->_attached)){
+									$_Model->order = array();
+									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
+								}
+								else{
+									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
+								}
+							break;
+
+						default:
+							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
+							$_Model->order = array();
+							$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
+							break;
+					}
+				}
+			}
+
+			$relations['hasAndBelongsToMany'] = array();
+			if (isset($this->Controller->{$this->modelName}->hasAndBelongsToMany)) {
+				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->modelName}->hasAndBelongsToMany;
+
+				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
+					$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
+					$this->Controller->set(strtolower($alias), $_Model->find('list'));
+				}
+			}
+
+			$modelSetup['displayField'] = $this->Controller->{$this->modelName}->displayField;
+			$modelSetup['primaryKey'] = $this->Controller->{$this->modelName}->primaryKey;
+			$this->Controller->set(compact('referer', 'rows', 'model', 'modelSetup', 'relations'));
+			$this->Controller->render('move', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'move.ctp');
+		}
+
+		/**
+		* Handle move requests.
+		*
+		* get the id's passed and assign the new relations so the records are
+		* moved.
+		*
+		* @param array $ids the ids to delete.
+		*/
+		function __handleMove($ids) {
+			$movedTo = $this->Controller->data['Move'];
+			unset($movedTo['model']);
+			unset($movedTo['confirmed']);
+			unset($movedTo['referer']);
+
+			$result = true;
+
+			foreach ($ids as $id){
+				$row = array('id' => $id);
+				$_data = array_merge(array_filter($movedTo), $row);
+
+				$_mn = $this->modelName;
+				foreach($_data as $key => $value){
+					if(is_array($value)){
+						$save[$key][$key] = $value;
+					}
+					else{
+						$save[$_mn][$key] = $value;
+					}
+				}
+
+				// @todo this is messing up trees, need to see why the lft and rght is not updating.
+				$result = $result && $this->Controller->{$this->modelName}->saveAll($save);
+				unset($save);
+			}
+
+			if(in_array('Tree', $this->Controller->{$this->modelName}->Behaviors->_attached)){
+				$this->controller->{$this->modelname}->recover('parent');
+			}
+
+			if($result == true) {
+				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' have been moved', true));
+			}
+
+			else {
+				$this->Controller->Session->setFlash(__('Some of the ' . $this->prettyModelName . ' could not be moved', true));
+			}
+
+			$this->Controller->redirect($this->Controller->data['Move']['referer']);
 		}
 
 		/**
