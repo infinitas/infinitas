@@ -25,6 +25,7 @@
                 'add',
                 'edit',
                 'copy',
+                'move',
                 'toggle',
                 'delete'
             )
