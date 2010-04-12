@@ -84,14 +84,17 @@
                 		</td>
                 		<td>
                 			<?php
-                    			echo $this->Html->link(
-                    			    $content['Category']['title'],
-                    			    array(
-                        			    'controller' => 'categories',
-                        			    'action' => 'edit',
-                        			    $content['Category']['id']
-                        			)
-                        		);
+								if(isset($content['Category']['title'])) {
+									echo $this->Html->link(
+										$content['Category']['title'],
+										array(
+											'plugin' => 'management',
+											'controller' => 'categories',
+											'action' => 'edit',
+											$content['Category']['id']
+										)
+									);
+								}
                         	?>
                 		</td>
                 		<td>

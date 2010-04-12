@@ -169,7 +169,7 @@ class FilterComponent extends Object {
 							if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
 								continue;
 							}
-							if (isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
+							if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
 								// insert value into fieldFormatting
 								$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
 								// don't put key.fieldname as array key if a LIKE clause

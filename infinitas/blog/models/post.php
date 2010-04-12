@@ -31,7 +31,8 @@ class Post extends BlogAppModel {
 
 	var $actsAs = array(
 		'Feed.Feedable',
-		'Libs.Commentable'
+		'Libs.Commentable',
+		'Libs.Categorised'
 	);
 
 	var $hasAndBelongsToMany = array(

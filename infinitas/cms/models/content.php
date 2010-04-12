@@ -30,7 +30,6 @@
 		var $name = 'Content';
 
 		var $_order = array(
-			'Category.lft' => 'ASC',
 			'Content.ordering' => 'ASC'
 		);
 
@@ -40,6 +39,7 @@
 					'category_id'
 				)
 			)*/
+			'Libs.Categorised'
 		);
 
 		var $belongsTo = array(

@@ -7,6 +7,6 @@ $map = array(
 	3 => array(
 		'064' => 'M4bbcb56f88dc4bbb88b60ba06318cd70'),
 	4 => array(
-		'065' => 'M4bbcdf8fe48442b7b17217d86318cd70'),
+		'global_categories' => 'M4bc334eb2f6c43b2842a0f786318cd70'),
 );
 ?>

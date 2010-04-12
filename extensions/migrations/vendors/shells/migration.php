@@ -505,7 +505,7 @@ TEXT;
 	protected function _readSchema() {
 		$read = $this->Schema->read(array('models' => !isset($this->params['f'])));
 		if ($this->type !== 'migrations') {
-			unset($read['tables']['schema_migrations']);
+			//unset($read['tables']['schema_migrations']);
 		}
 		return $read;
 	}

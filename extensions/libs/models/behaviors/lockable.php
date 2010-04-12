@@ -70,10 +70,10 @@
 		function lock(&$Model, $fields = null, $id = null) {
 			$Model->contain();
 
-			if($data = $Model->read($this->settings[$Model->alias]['fields'], $id) == false) {
+			if(($data = $Model->read($this->settings[$Model->alias]['fields'], $id)) == false) {
 				return false;
 			}
-
+		
 			$this->Session = new CakeSession();
 			$user_id = $this->Session->read('Auth.User.id');
 			if($data[$Model->alias]['locked'] && $data[$Model->alias]['locked_by'] != $user_id) {
@@ -87,8 +87,10 @@
 				$this->settings[$Model->alias]['fields']['locked_since'] => date('Y-m-d H:i:s'),
 				$this->settings[$Model->alias]['fields']['modified'] => false
 			);
+
 			$Model->save($data, array('validate' => false, 'callbacks' => false));
 			$data = $Model->read($fields, $id);
+
 			return $data;
 		}
 

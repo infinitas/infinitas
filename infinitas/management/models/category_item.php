@@ -24,7 +24,7 @@ class CategoryItem extends ManagementAppModel {
 	var $belongsTo = array(
 		'Category' => array(
 			'className' => 'Management.Category',
-			'counterCache' => true
+			'counterCache' => 'item_count'
 		)
 	);
 }

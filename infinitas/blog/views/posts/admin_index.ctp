@@ -68,7 +68,21 @@
                             <?php echo $this->Html->link( $post['Post']['title'], array( 'action' => 'edit', $post['Post']['id'] ) ); ?>
                         </td>
                         <td><?php echo $this->Text->truncate(strip_tags( $post['Post']['intro'] )); ?>&nbsp;</td>
-                        <td><?php echo $post['Category']['title']; ?>&nbsp;</td>
+                        <td>
+							<?php
+								if(isset($post['Category']['title'])) {
+									echo $this->Html->link(
+										$post['Category']['title'],
+										array(
+											'plugin' => 'management',
+											'controller' => 'categories',
+											'action' => 'edit',
+											$post['Category']['id']
+										)
+									);
+								}
+                        	?>
+						</td>
                         <td><?php echo implode( ', ', Set::extract( '/Tag/name', $post ) ); ?>&nbsp;</td>
                         <td><?php echo $post['Post']['comment_count']; ?>&nbsp;</td>
                         <td><?php echo $post['Post']['views']; ?>&nbsp;</td>

@@ -43,6 +43,11 @@
 		*/
 		var $_errors = array();
 
+		/**
+		 * @var string Plugin that the model belongs to.
+		 */
+		var $plugin = null;
+
 		function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
@@ -71,9 +76,27 @@
 					$this->Behaviors->attach('Libs.Rateable');
 				}
 
-				if (array_key_exists('category_id', $this->_schema)) {
-					$this->Behaviors->attach('Libs.Categorised');
-				}
+				$this->__getPlugin();
+			}
+		}
+
+		/**
+		 *
+		 * @return string Name of the model in the form of Plugin.Name. Usefull for polymorphic relations.
+		 */
+		function modelName() {
+			if($this->plugin == null) {
+				$this->__getPlugin();
+			}
+
+			return $this->plugin == null ? $this->name : $this->plugin . '.' . $this->name;
+		}
+
+		private function __getPlugin() {
+			$parentName = get_parent_class($this);
+
+			if($parentName !== 'AppModel' && $parentName !== 'Model' && strpos($parentName, 'AppModel') !== false) {
+				$this->plugin = str_replace('AppModel', '', $parentName);
 			}
 		}
 	}

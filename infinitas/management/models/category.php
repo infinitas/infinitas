@@ -52,7 +52,10 @@ class Category extends ManagementAppModel {
 	);
 
 	var $hasMany = array(
-		'Management.CategoryItem'
+		'CategoryItem' => array(
+			'className' => 'Management.CategoryItem',
+			'dependant' => true
+		)
 	);
 }
 
