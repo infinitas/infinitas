@@ -64,6 +64,7 @@ class Post extends BlogAppModel {
 				'ChildPost.id',
 				'ChildPost.title',
 				'ChildPost.slug',
+				'ChildPost.category_id',
 			),
 			'order' => '',
 			'limit' => '',

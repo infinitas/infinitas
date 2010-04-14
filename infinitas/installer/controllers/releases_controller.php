@@ -57,12 +57,8 @@
 			// Get the mapping and the latest version avaiable
 			$mapping = $this->MigrationVersion->getMapping($type);
 			$latest = array_pop($mapping);
-			
-			try{
-				$this->MigrationVersion->run(array('type' => $type, 'version' => $latest['version']));
-			}						
-			catch(Exception $e){
-				$this->Session->setFlash(__('Seems you are up to date with the latest db changes', true));
+			if (count(ClassRegistry::init('SchemaMigration')->find('list')) == count($mapping)){
+				$this->MigrationVersion->run(array('type' => $type, 'version' => $latest['version'])); exit;	
 			}
 		}
 
