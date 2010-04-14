@@ -34,7 +34,7 @@
 	 * In development mode, you need to click the flash message to continue.
 	 */
 	Configure::write('debug', 2);
-	
+
 	/**
 	 * CakePHP Log Level:
 	 *
@@ -49,12 +49,12 @@
 	 *     Configure::write('log', E_ALL ^ E_NOTICE);
 	 */
 	Configure::write('log', true);
-	
+
 	/**
 	 * Application wide charset encoding
 	 */
 	Configure::write('App.encoding', 'UTF-8');
-	
+
 	/**
 	 * To configure CakePHP *not* to use mod_rewrite and to
 	 * use CakePHP pretty URLs, remove these .htaccess
@@ -85,7 +85,7 @@
 	 * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
 	 */
 	Configure::write('Routing.prefixes', array('admin'));
-	
+
 	/**
 	 * Turn off all caching application-wide.
 	 */
@@ -104,7 +104,7 @@
 	 * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
 	 */
 	define('LOG_ERROR', 2);
-	
+
 	/**
 	 * The preferred session handling method. Valid values:
 	 *
@@ -119,7 +119,7 @@
 	 * the cake shell command: cake schema run create Sessions
 	 */
 	Configure::write('Session.save', 'database');
-	
+
 	/**
 	 * The model name to be used for the session model.
 	 *
@@ -128,7 +128,7 @@
 	 * The model name set here should *not* be used elsewhere in your application.
 	 */
 	Configure::write('Session.model', 'Session');
-	
+
 	/**
 	 * The name of the table used to store CakePHP database sessions.
 	 *
@@ -148,29 +148,29 @@
 	 * 'Session.save' must be set to 'database' in order to utilize this constant.
 	 */
 	Configure::write('Session.database', 'default');
-	
+
 	/**
 	 * The name of CakePHP's session cookie.
 	 */
 	Configure::write('Session.cookie', 'CAKEPHP');
-	
+
 	/**
 	 * Session time out time (in seconds).
 	 * Actual value depends on 'Security.level' setting.
 	 */
 	Configure::write('Session.timeout', '120');
-	
+
 	/**
 	 * If set to false, sessions are not automatically started.
 	 */
 	Configure::write('Session.start', true);
-	
+
 	/**
 	 * When set to false, HTTP_USER_AGENT will not be checked
 	 * in the session
 	 */
 	Configure::write('Session.checkAgent', true);
-	
+
 	/**
 	 * The level of CakePHP security. The session timeout time defined
 	 * in 'Session.timeout' is multiplied according to the settings here.
@@ -184,12 +184,12 @@
 	 * 'Security.level' is set to 'high'.
 	 */
 	Configure::write('Security.level', 'medium');
-	
+
 	/**
 	 * A random string used in security hashing methods.
 	 */
 	Configure::write('Security.salt', 'dev-DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
-	
+
 	/**
 	 * Apply timestamps with the last modified time to static assets (js, css, images).
 	 * Will append a querystring parameter containing the time the file was modified. This is
@@ -220,7 +220,7 @@
 	 */
 	Configure::write('Acl.classname', 'DbAcl');
 	Configure::write('Acl.database', 'default');
-	
+
 	/**
 	 * If you are on PHP 5.3 uncomment this line and correct your server timezone
 	 * to fix the date & time related errors.
