@@ -17,8 +17,9 @@
 * @since 0.5a
 */
 
-class Category extends CmsAppModel {
+class Category extends ManagementAppModel {
 	var $name = 'Category';
+	var $tablePrefix = 'global_';
 
 	var $actsAs = array();
 
@@ -34,7 +35,7 @@ class Category extends CmsAppModel {
 
 	var $belongsTo = array(
 		'Parent' => array(
-			'className' => 'Cms.Category',
+			'className' => 'Management.Category',
 			'counterCache' => true
 		),
 		'Management.Group',
@@ -51,7 +52,10 @@ class Category extends CmsAppModel {
 	);
 
 	var $hasMany = array(
-		'Cms.Content'
+		'CategoryItem' => array(
+			'className' => 'Management.CategoryItem',
+			'dependant' => true
+		)
 	);
 }
 

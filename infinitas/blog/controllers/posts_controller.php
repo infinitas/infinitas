@@ -287,7 +287,7 @@ class PostsController extends BlogAppController {
 		$filterOptions['fields'] = array(
 			'title',
 			'body',
-			'category_id' => array(null => __('All', true)) + $this->Post->Category->find('list'),
+			'category_id' => array(null => __('All', true)) + $this->Post->generateCategoryList(),
 			'active' => Configure::read('CORE.active_options')
 		);
 
@@ -326,10 +326,9 @@ class PostsController extends BlogAppController {
 			}
 		}
 
-		$parents    = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
-		$categories = $this->Post->Category->find('list');
+		$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
 		$tags = $this->Post->Tag->find('list');
-		$this->set(compact('tags', 'parents', 'categories'));
+		$this->set(compact('tags', 'parents'));
 	}
 
 	function admin_edit($id = null) {
@@ -370,10 +369,9 @@ class PostsController extends BlogAppController {
 			}
 		}
 
-		$parents    = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
-		$categories = $this->Post->Category->find('list');
+		$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
 		$tags = $this->Post->Tag->find('list');
-		$this->set(compact('tags', 'parents', 'categories'));
+		$this->set(compact('tags', 'parents'));
 	}
 
 	function admin_view($slug = null) {

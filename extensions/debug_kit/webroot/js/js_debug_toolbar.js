@@ -161,16 +161,18 @@ DEBUGKIT.Util.Collection = {
 	 Optionally you can supply a binding parameter to change `this` in the callback.
 	*/
 	apply: function (collection, callback, binding) {
-		//for (var i = 0, len = collection.length; i < len; i++) {
-		for (var i in collection) {
-			if (!collection.hasOwnProperty(i)) {
-				continue;
+		var name, thisVar, i = 0, len = collection.length;
+		
+		if (len === undefined) {
+			for (name in collection) {
+				thisVar = (binding === undefined) ? collection[name] : binding;
+				callback.apply(thisVar, [collection[name], name]);
 			}
-			var thisVar = collection[i];
-			if (binding !== undefined) {
-				thisVar = binding;
+		} else {
+			for (; i < len; i++) {
+				thisVar = (binding === undefined) ? collection[i] : binding;
+				callback.apply(thisVar, [collection[i], i]);
 			}
-			callback.apply(thisVar, [collection[i], i]);
 		}
 	}
 }
@@ -191,8 +193,20 @@ DEBUGKIT.Util.Event = function () {
 	
 	// Fixes IE's broken event object, adds in common methods + properties.
 	var fixEvent = function (event) {
-		event.preventDefault = event.preventDefault || preventDefault;
-		event.stopPropagation = event.stopPropagation || stopPropagation;
+		if (!event.preventDefault) {
+			event.preventDefault = preventDefault;
+		}
+		if (!event.stopPropagation) {
+			event.stopPropagation = stopPropagation;
+		}
+		if (!event.target) {
+			event.target = event.srcElement || document;
+		}
+		if (event.pageX == null && event.clientX != null) {
+			var doc = document.body;
+			event.pageX = event.clientX + (doc.scrollLeft || 0) - (doc.clientLeft || 0);
+			event.pageY = event.clientY + (doc.scrollTop || 0) - (doc.clientTop || 0);
+		}
 		return event;
 	}
 	
@@ -203,7 +217,7 @@ DEBUGKIT.Util.Event = function () {
 
 			var callback = function (event) {
 				event = fixEvent(event || window.event);
-				handler.apply(this, [event]);
+				handler.apply(element, [event]);
 			};
 
 			if (element.addEventListener) {
@@ -563,6 +577,9 @@ DEBUGKIT.toolbar = function () {
 			// resize the panel
 			var mouseMoveHandler = function (event) {
 				event.preventDefault();
+				if (!currentElement) {
+					return;
+				}
 				var newHeight = currentElement._startHeight + (event.pageY - currentElement._startY);
 				Element.height(Element.getPrevious(currentElement), newHeight);
 			}

@@ -55,7 +55,7 @@ class ContentsController extends CmsAppController {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'title',
-			'category_id' => array(null => __('All', true), 0 => __('Top Level Categories', true)) + $this->Content->Category->generatetreelist(),
+			'category_id' => array(null => __('All', true), null => __('Top Level Categories', true)) + $this->Content->generateCategoryList(),
 			'group_id' => array(null => __('Public', true)) + $this->Content->Group->find('list'),
 			'layout_id' => array(null => __('All', true)) + $this->Content->Layout->find('list'),
 			'active' => (array)Configure::read('CORE.active_options')
@@ -83,10 +83,10 @@ class ContentsController extends CmsAppController {
 			}
 		}
 
-		$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
+		//$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
 		$groups = array(__('Public', true)) + $this->Content->Group->generatetreelist();
 		$layouts = $this->Content->Layout->find('list');
-		$this->set(compact('categories','groups','layouts'));
+		$this->set(compact('groups','layouts'));
 	}
 
 	function admin_edit($id = null) {
@@ -110,7 +110,6 @@ class ContentsController extends CmsAppController {
 			}
 		}
 
-		$categories = array(__('Please select', true)) + $this->Content->Category->generatetreelist();
 		$groups = array(__('Public', true)) + $this->Content->Group->generatetreelist();
 		$layouts = $this->Content->Layout->find('list');
 		$this->set(compact('categories','groups','layouts'));

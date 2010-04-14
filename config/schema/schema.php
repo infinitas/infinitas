@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-04-07 19:04:08 : 1270658468*/
+/* Infinitas schema generated on: 2010-04-07 19:04:45 : 1270669245*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -375,19 +375,19 @@ class InfinitasSchema extends CakeSchema {
 	);
 	var $core_feeds = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'fields' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'conditions' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'order' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'limit' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'id' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
@@ -557,14 +557,6 @@ class InfinitasSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
-	var $core_schema_migrations = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
-	);
 	var $core_themes = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
@@ -697,7 +689,7 @@ class InfinitasSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'model' => array('type' => 'string', 'null' => false, 'length' => 100, 'key' => 'unique'),
+		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
 		'foreign_key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
 		'conditions' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'fields' => array('type' => 'text', 'null' => true, 'default' => NULL),
@@ -728,7 +720,7 @@ class InfinitasSchema extends CakeSchema {
 		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 	var $sessions = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'key' => 'primary'),

@@ -30,7 +30,6 @@
 		var $name = 'Content';
 
 		var $_order = array(
-			'Category.lft' => 'ASC',
 			'Content.ordering' => 'ASC'
 		);
 
@@ -40,6 +39,7 @@
 					'category_id'
 				)
 			)*/
+			'Libs.Categorised'
 		);
 
 		var $belongsTo = array(
@@ -57,14 +57,6 @@
 				'fields' => array(
 					'Editor.id',
 					'Editor.username'
-				)
-			),
-			'Category' => array(
-				'className' => 'Cms.Category',
-				'counterCache' => true,
-				'fields' => array(
-					'Category.id',
-					'Category.title'
 				)
 			),
 			'Group' => array(
