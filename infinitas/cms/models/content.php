@@ -149,10 +149,14 @@
 							'Content.slug' => $slug
 						),
 						'Content.active' => 1
+					),
+					'contain' => array(
+						'Layout',
+						'Category'
 					)
 				)
 			);
-
+			
 			return $content;
 		}
 	}

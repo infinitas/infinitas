@@ -64,7 +64,7 @@
                 			<?php echo $this->Html->link( $frontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $frontpage['Content']['id'])); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link( $frontpage['Content']['Category']['title'], array( 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category']['id'] ) ); ?>
+                			<?php echo $this->Html->link( $frontpage['Content']['Category'][0]['title'], array('plugin' => 'management', 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category'][0]['id'] ) ); ?>
                 		</td>
                 		<td>
                 			<?php echo $this->Time->niceShort( $frontpage['Frontpage']['created'] ); ?>
