@@ -28,13 +28,10 @@
 		);
 
 		var $sampleDataTables = array(
-			'blog_categories',
 			'blog_posts',
 			'blog_posts_tags',
 			'blog_tags',
 
-			'cms_categories',
-			'cms_category_configs',
 			'cms_contents',
 			'cms_content_configs',
 			'cms_content_frontpages',
@@ -47,6 +44,9 @@
 			'core_addresses',
 			'core_comments',
 			'core_feeds',
+
+			'global_categories',
+			'global_category_items',
 
 			'newsletter_campaigns',
 			'newsletter_newsletters',
