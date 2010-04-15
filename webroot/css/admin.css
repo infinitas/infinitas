@@ -254,7 +254,7 @@ div.table .select select {
 	z-index:10;
 	top:40px;
 }
-.admin_index, .admin_add, .admin_edit, .admin_mass{
+.admin_index, .admin_add, .admin_edit, .admin_mass, .admin_list_items{
 	padding-top:95px;	
 }
 
