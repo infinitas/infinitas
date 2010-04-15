@@ -24,7 +24,7 @@
 	}
 
 	?>
-		<style>
+		<style type="text/css">
 			<?php echo $content['Layout']['css']; ?>
 		</style>
 	<?php

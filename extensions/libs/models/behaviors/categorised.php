@@ -89,7 +89,7 @@ class CategorisedBehavior extends ModelBehavior {
 	}
 
 	function beforeFind(&$Model, $queryData) {
-		if($Model->recursive == -1 && empty($queryData['fields'])) {
+		if($Model->recursive == -1 && empty($queryData['fields']) && !isset($queryData['contain'])) {
 			$queryData['joins'] = array(
 				array(
 					'table' => 'global_category_items',
