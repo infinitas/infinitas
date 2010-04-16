@@ -175,7 +175,7 @@
 				if ($this->{$this->modelClass}->rateRecord($this->data)) {
 					$this->Session->setFlash(__('Your rating was saved.', true));
 				} else {
-					$this->Session->setFlash(__('There was a problem submitting your vote', true));
+					$this->Session->setFlash(__('It seems you have already voted for this item.', true));
 				}
 				$this->redirect($this->referer());
 			}
