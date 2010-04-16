@@ -155,7 +155,9 @@
 						'Content.end',
 						'Content.created',
 						'Content.modified',
-						'Content.layout_id'
+						'Content.layout_id',
+						'Content.rating',
+						'Content.rating_count',
 					),
 					'conditions' => array(
 						'Content.slug' => $slug,
