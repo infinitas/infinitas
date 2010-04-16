@@ -106,12 +106,11 @@ class RateableBehavior extends ModelBehavior {
 				$total = array_sum($ratings);
 				$rating = number_format($total/count($ratings),2,'.',',');
 
-				$this->data[$model->name]['id'] = $data['Rating']['foreign_id'];
-				$this->data[$model->name]['rating'] = $rating;
-				$this->data[$model->name]['modified'] = false;
+				$model->id = $data['Rating']['foreign_id'];
+				$model->data[$model->name]['rating'] = $rating;
+				$model->data[$model->name]['modified'] = false;
 
-				//@todo see why this wont save the new rating.
-				//$model->save($this->data, array('validate' => false));
+				$model->save($model->data, array('validate' => false));
 				return true;
 			}
 		}
