@@ -17,8 +17,17 @@ class M4bc8bedae4fc4a4b8bc214806318cd70 extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
+			'create_field' => array(
+				'cms_contents' => array(
+					'rating' => array('type' => 'float', 'null' => false, 'default' => 0),
+					'rating_count' => array('type' => 'integer', 'null' => false, 'default' => 0),
+				),
+			),
 		),
 		'down' => array(
+			'drop_field' => array(
+				'cms_contents' => array('rating', 'rating_count'),
+			),
 		),
 	);
 
