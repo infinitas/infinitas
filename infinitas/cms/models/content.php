@@ -143,19 +143,44 @@
 			$content = $this->find(
 				'first',
 				array(
+					'fields' => array(
+						'Content.id',
+						'Content.title',
+						'Content.slug',
+						'Content.body',
+						'Content.group_id',
+						'Content.views',
+						'Content.active',
+						'Content.start',
+						'Content.end',
+						'Content.created',
+						'Content.modified',
+						'Content.layout_id'
+					),
 					'conditions' => array(
-						'or' => array(
-							'Content.slug' => $slug
-						),
+						'Content.slug' => $slug,
 						'Content.active' => 1
 					),
 					'contain' => array(
-						'Layout',
-						'Category'
+						'Layout' => array(
+							'fields' => array(
+								'Layout.id',
+								'Layout.html',
+								'Layout.css',
+								'Layout.id',
+							)
+						),
+						'Category' => array(
+							'fields' => array(
+								'Category.id',
+								'category.title',
+								'category.slug',
+							)
+						)
 					)
 				)
 			);
-			
+
 			return $content;
 		}
 	}
