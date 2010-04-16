@@ -74,7 +74,6 @@ class M4bbcb56f88dc4bbb88b60ba06318cd70 extends CakeMigration {
 				'core_feeds' => array('primary_key', 'body',),
 			),
 			'drop_table' => array(
-				'schema_migrations'
 			),
 		),
 		'down' => array(
