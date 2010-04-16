@@ -41,7 +41,7 @@ function render(){
 	$(document).ready(function(){
 		urlDropdownSelects();
 		doToolTips();
-		
+
 		rowSelect();
 
 		$.FormHelper.checkboxToggleAll();
@@ -81,17 +81,17 @@ function urlDropdownSelects(){
 }
 
 function doToolTips(){
-	$("[title]:not(.textarea)").tooltip({ 
-	    track: true, delay: 0, showURL: false, 
-	    fixPNG: true, showBody: " :: ", 
-	    extraClass: "pretty fancy", left: 5 
-	}); 
+	$("[title]:not(.textarea *)").tooltip({
+	    track: true, delay: 0, showURL: false,
+	    fixPNG: true, showBody: " :: ",
+	    extraClass: "pretty fancy", left: 0, top: -10
+	});
 }
 
 function rowSelect(){
 	$("table.listing input:checkbox").change(function() {
 		var $this = $(this);
-		
+
         if ($this.attr("checked") == true) {
 			$this
 				.parents('tr')
@@ -100,18 +100,18 @@ function rowSelect(){
         } else {
         	$this.parents('tr').removeClass("highlightRowSelected");
         }
-	});	
+	});
 
 	$('td').click(function(){
 		var $this = $(this)
 		var col = $this.prevAll().length+1;
-		
+
 		if (col > 1){
 			var thisClicked = $.trim($this.text());
 
 			$('table.listing td:nth-child(' + col + ')' ).each(function() {
 				var $_this = $(this);
-				
+
 				if (thisClicked == $.trim($_this.text())) {
 					$_this.parent().removeClass('highlightRowSelected');
 					$_this.parent().addClass('highlightRowRelated');
@@ -119,7 +119,7 @@ function rowSelect(){
 				else{
 					$_this.parent().removeClass('highlightRowRelated');
 				}
-			}); 
+			});
 		}
 	});
 }
