@@ -1,4 +1,4 @@
-v0.7 alpha ( in progress )
+v0.7 alpha
 ================================================================================
 Contacts us
 	- Set up branches for your company
@@ -15,6 +15,10 @@ Blog
 Custom bake
 	- customised for Infinitas
 	- takes into account table structure and adds helpers/behaviors/components accordingly
+	
+Global categories
+	- cms / blog etc uses one table for categories
+	- can be habtm
 
 Static page manager
 	- Like the pages controller but manageable from the backend with wysiwyg editor
@@ -53,6 +57,7 @@ General / Global changes
 	- global trash behavior so records are not really deleted
 	- do quick posts from admin dashboard (cms/blog)
 	- most config fields converted to json
+	- moving records around, bulk update belongsTo and habtm relations.
 
 Tests
 	- most of the model tests and fixtures have been added
