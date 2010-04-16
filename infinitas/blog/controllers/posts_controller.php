@@ -280,7 +280,6 @@ class PostsController extends BlogAppController {
 	* @return na
 	*/
 	function admin_index() {
-		$this->Post->recursive = 1;
 		$posts = $this->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
@@ -321,7 +320,7 @@ class PostsController extends BlogAppController {
 
 			$this->Post->create();
 			if ($this->Post->saveAll($this->data)) {
-				$this->Session->setFlash('Your post has been saved.');
+				$this->Session->setFlash(__('Your post has been saved.'));
 				$this->redirect(array('action' => 'index'));
 			}
 		}
@@ -333,7 +332,7 @@ class PostsController extends BlogAppController {
 
 	function admin_edit($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('That post could not be found', true), true);
+			$this->Session->setFlash(__('That post could not be found', true));
 			$this->redirect($this->referer());
 		}
 

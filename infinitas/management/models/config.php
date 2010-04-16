@@ -70,7 +70,8 @@ class Config extends ManagementAppModel {
 				),
 				'validKeyName' => array(
 					'rule' => '/^[A-Z][A-Za-z]*\.[a-z_]+$/',
-					'message' => __('The key must be in the format "Plugin.config_name"', true)
+					'message' => __('The key must be in the format "Plugin.config_name"', true),
+					'on' => 'create'
 				)
 			),
 			'value' => array(

@@ -22,6 +22,7 @@
 		* The database configuration to use for the site.
 		*/
 		var $useDbConfig = 'default';
+
 		//var $tablePrefix = 'core_';
 
 		/**
@@ -32,6 +33,7 @@
 			'Libs.Infinitas',
 			'Events.Event',
 			'Libs.Logable',
+			'DebugKit.Timed'
 
 			//'Libs.AutomaticAssociation'
 		);
