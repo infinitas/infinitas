@@ -17,32 +17,27 @@
 	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since         0.5a
 	 */
-
-	if (empty($content)) {
-		echo 'Nothing to see';
-		return true;
-	}
-
-	?>
-		<style type="text/css">
-			<?php echo $content['Layout']['css']; ?>
-		</style>
-	<?php
-
+?>
+	<style type="text/css">
+		<?php echo $content['Layout']['css']; ?>
+	</style>
+<?php
 	$content['Content']['modified'] = $this->Time->niceShort($content['Content']['modified']);
 
 	$content['Content']['title'] = $this->Html->link($content['Content']['title'], array('action' => 'view', $content['Content']['id']));
 
 	$__html = $content['Layout']['html'];
 
-	$__html = str_replace( '{{Content.title}}', $content['Content']['title'], $__html);
-	$__html = str_replace( '||Viewed||', __('Viewed',true), $__html);
-	$__html = str_replace( '[[Content.views]]', $content['Content']['views'], $__html);
-	$__html = str_replace( '||times||', __('times',true), $__html);
-	$__html = str_replace( '[[Content.introduction]]', $this->Text->truncate($content['Content']['body'], 200, array('html' => true)), $__html);
-	$__html = str_replace( '[[Content.body]]', $content['Content']['body'], $__html);
-	$__html = str_replace( '||Last updated||', __('Last updated',true), $__html);
-	$__html = str_replace( '[[Content.modified]]', $content['Content']['modified'], $__html);
+	$__html = str_replace('{{Content.title}}', $content['Content']['title'], $__html);
+	$__html = str_replace('||Viewed||', __('Viewed',true), $__html);
+	$__html = str_replace('[[Content.views]]', $content['Content']['views'], $__html);
+	$__html = str_replace('||times||', __('times',true), $__html);
+	$__html = str_replace('[[Content.introduction]]', $this->Text->truncate($content['Content']['body'], 200, array('html' => true)), $__html);
+	$__html = str_replace('[[Content.body]]', $content['Content']['body'], $__html);
+	$__html = str_replace('||Last updated||', __('Last updated',true), $__html);
+	$__html = str_replace('[[Content.modified]]', $content['Content']['modified'], $__html);
 
 	echo $__html;
+
+	echo $this->element('global/rating_add', array('data' => $content));
 ?>
