@@ -30,12 +30,10 @@ class Post extends BlogAppModel {
 	);
 
 	var $actsAs = array(
-		'Feed.Feedable',
-		'Libs.Commentable',
-		'Libs.Categorised'
+		'Feed.Feedable'
 	);
 
-	var $hasAndBelongsToMany = array(
+	/*var $hasAndBelongsToMany = array(
 		'Tag' => array(
 			'className'              => 'Blog.Tag',
 			'joinTable'              => 'posts_tags',
@@ -52,7 +50,7 @@ class Post extends BlogAppModel {
 			'deleteQuery'            => '',
 			'insertQuery'            => ''
 		)
-	);
+	);*/
 
 
 	var $hasMany = array(
@@ -65,7 +63,6 @@ class Post extends BlogAppModel {
 				'ChildPost.id',
 				'ChildPost.title',
 				'ChildPost.slug',
-				'ChildPost.category_id',
 			),
 			'order' => '',
 			'limit' => '',

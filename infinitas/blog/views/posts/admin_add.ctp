@@ -24,23 +24,17 @@
 				<div class="data">
 					<?php
 				        echo $this->Form->input('id');
+					    echo $this->Form->input('title', array( 'class' => 'title' ) );
 				        echo $this->Blog->wysiwyg('Post.body');
 				    ?>
 				</div>
 				<div class="config">
 					<?php
 						echo $this->Design->niceBox();
-					        echo $this->Form->input('title', array( 'class' => 'title' ) );
 					        echo $this->element('category_list', array('plugin' => 'Libs'));
 					        echo $this->Form->input('parent_id', array('empty' => __('No Parent', true)));
 					        echo $this->Form->input('active');
-					        ?>
-								<div style="clear:both; overflow:auto;">
-									<h3><?php __('Tags'); ?></h3>
-									<?php echo $this->Form->input( 'Tag', array( 'label' => false, 'multiple' =>  'checkbox' ) ); ?>
-								</div>
-							<?php
-					        echo $this->Form->input( 'new_tags', array( 'type' => 'textarea', 'rows' => 5, 'style' => 'width:70%' ) );
+					        echo $this->Form->input( 'tags' );
 				        echo $this->Design->niceBoxEnd();
 				    ?>
 				</div>

@@ -22,7 +22,7 @@
  */
 
 class TagsAppModel extends AppModel {
-
+	public $tablePrefix = 'global_';
 /**
  * Customized paginateCount method
  *

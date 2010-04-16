@@ -299,60 +299,32 @@ class PostsController extends BlogAppController {
 	* This does some trickery for creating tags from the textarea comma
 	* delimited. also makes sure there are no duplicates created.
 	*
-	* @return na
+	* @return void
 	*/
 	function admin_add() {
 		if (!empty($this->data)) {
-			if (isset($this->data['Post']['new_tags'])) {
-				$new_tags = explode(',', $this->data['Post']['new_tags']);
-
-				foreach($new_tags as $new_tag) {
-					$tag['Tag']['name'] = ucfirst(strtolower(trim($new_tag)));
-					$this->Post->Tag->create();
-					if ($this->Post->Tag->save($tag)) {
-						$this->data['Tag']['Tag'][] = $this->Post->Tag->id;
-						// unset( $this->Post->Tag->id );
-					}
-
-					unset($tag);
-				}
-			}
-
 			$this->Post->create();
-			if ($this->Post->saveAll($this->data)) {
-				$this->Session->setFlash(__('Your post has been saved.'));
+			if ($this->Post->save($this->data)) {
+				$this->Session->setFlash('Your post has been saved.');
 				$this->redirect(array('action' => 'index'));
 			}
 		}
 
 		$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
-		$tags = $this->Post->Tag->find('list');
 		$this->set(compact('tags', 'parents'));
 	}
 
 	function admin_edit($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('That post could not be found', true));
+		if (!$id && empty($this->data['Post']['id'])) {
+			$this->Session->setFlash(__('That post could not be found', true), true);
 			$this->redirect($this->referer());
+		}
+		elseif (!empty($this->data['Post']['id'])) {
+			$id = $this->data['Post']['id'];
 		}
 
 		if (!empty($this->data)) {
-			if (isset($this->data['Post']['new_tags'])) {
-				$new_tags = explode(',', $this->data['Post']['new_tags']);
-
-				foreach($new_tags as $new_tag) {
-					$tag['Tag']['name'] = ucfirst(strtolower(trim($new_tag)));
-					$this->Post->Tag->create();
-					if ($this->Post->Tag->save($tag)) {
-						$this->data['Tag']['Tag'][] = $this->Post->Tag->id;
-						// unset( $this->Post->Tag->id );
-					}
-
-					unset($tag);
-				}
-			}
-
-			if ($this->Post->saveAll($this->data)) {
+			if ($this->Post->save($this->data)) {
 				$this->Session->setFlash(__('Your post has been saved.', true));
 				$this->redirect(array('action' => 'index'));
 			}
@@ -361,6 +333,7 @@ class PostsController extends BlogAppController {
 		}
 
 		if ($id && empty($this->data)) {
+			$this->Post->recursive = 1;
 			$this->data = $this->Post->lock(null, $id);
 			if ($this->data === false) {
 				$this->Session->setFlash(__('The post is currently locked', true));
@@ -369,8 +342,7 @@ class PostsController extends BlogAppController {
 		}
 
 		$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
-		$tags = $this->Post->Tag->find('list');
-		$this->set(compact('tags', 'parents'));
+		$this->set(compact('parents'));
 	}
 
 	function admin_view($slug = null) {
