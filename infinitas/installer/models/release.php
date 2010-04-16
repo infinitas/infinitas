@@ -29,8 +29,6 @@
 
 		var $sampleDataTables = array(
 			'blog_posts',
-			'blog_posts_tags',
-			'blog_tags',
 
 			'cms_contents',
 			'cms_content_configs',
@@ -46,6 +44,8 @@
 			'core_feeds',
 
 			'global_categories',
+			'global_tags',
+			'global_tagged',
 
 			'newsletter_campaigns',
 			'newsletter_newsletters',
@@ -146,7 +146,6 @@
 			foreach($datas as $data){
 				$status = $status && $this->query($data);
 			}
-
 			return $status;
 		}
 

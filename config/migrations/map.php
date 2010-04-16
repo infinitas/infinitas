@@ -8,5 +8,7 @@ $map = array(
 		'064' => 'M4bbcb56f88dc4bbb88b60ba06318cd70'),
 	4 => array(
 		'global_categories' => 'M4bc334eb2f6c43b2842a0f786318cd70'),
+	5 => array(
+		'global_category_update_and_global_tags' => 'M4bc84829f0b04d0792530d586318cd70'),
 );
 ?>

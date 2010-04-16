@@ -51,8 +51,8 @@
 		var $plugin = null;
 
 		function __construct($id = false, $table = null, $ds = null) {
-			parent::__construct($id, $table, $ds);
 			$this->__getPlugin();
+			parent::__construct($id, $table, $ds);
 			
 			if (isset($this->_schema) && is_array($this->_schema)) {
 				if($this->Behaviors->enabled('Event')) {

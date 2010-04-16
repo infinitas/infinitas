@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-04-16 07:04:06 : 1271404386*/
+/* Infinitas schema generated on: 2010-04-16 11:04:40 : 1271416960*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -78,6 +78,8 @@ class InfinitasSchema extends CakeSchema {
 		'intro' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'body' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'comment_count' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
+		'tags' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'rating' => array('type' => 'float', 'null' => false, 'default' => '0'),
@@ -91,22 +93,7 @@ class InfinitasSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-	var $blog_posts_tags = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'post_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'tag_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-	var $blog_tags = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'name' => array('column' => 'name', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'category_id' => array('column' => 'category_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $cms_content_configs = array(
@@ -167,11 +154,12 @@ class InfinitasSchema extends CakeSchema {
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'layout_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'created_by' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'modified_by' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0), 'category_id' => array('column' => 'category_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $cms_features = array(
@@ -570,12 +558,26 @@ class InfinitasSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'cat_idx' => array('column' => array('active', 'group_id'), 'unique' => 0), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
-	var $global_category_items = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
-		'foreign_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+	var $global_tagged = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
+		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
+		'tag_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
+		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'index'),
+		'language' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 6, 'key' => 'index'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'UNIQUE_TAGGING' => array('column' => array('model', 'foreign_key', 'tag_id', 'language'), 'unique' => 1), 'INDEX_TAGGED' => array('column' => 'model', 'unique' => 0), 'INDEX_LANGUAGE' => array('column' => 'language', 'unique' => 0)),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
+	);
+	var $global_tags = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
+		'identifier' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 30, 'key' => 'index'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 30),
+		'keyname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 30),
+		'weight' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 2),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'UNIQUE_TAG' => array('column' => array('identifier', 'keyname'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 	var $newsletter_campaigns = array(

@@ -167,7 +167,7 @@ class TaggableBehavior extends ModelBehavior {
 					$tagged = $tagModel->Tagged->find('all', array(
 						'contain' => array(),
 						'conditions' => array(
-							'Tagged.model' => $Model->name,
+							'Tagged.model' => $Model->modelName(),
 							'Tagged.foreign_key' => $foreignKey,
 							'Tagged.language' => Configure::read('Config.language'),
 							'Tagged.tag_id' => $existingTagIds),
@@ -175,7 +175,7 @@ class TaggableBehavior extends ModelBehavior {
 
 					$deleteAll = array(
 						'Tagged.foreign_key' => $foreignKey,
-						'Tagged.model' => $Model->name);
+						'Tagged.model' => $Model->modelName());
 
 					if (!empty($tagged)) {
 						$alreadyTagged = Set::extract($tagged, '{n}.Tagged.tag_id');
@@ -190,7 +190,7 @@ class TaggableBehavior extends ModelBehavior {
 
 					foreach ($existingTagIds as $tagId) {
 						$data['Tagged']['tag_id'] = $tagId;
-						$data['Tagged']['model'] = $Model->name;
+						$data['Tagged']['model'] = $Model->modelName();
 						$data['Tagged']['foreign_key'] = $foreignKey;
 						$data['Tagged']['language'] = Configure::read('Config.language');
 						$tagModel->Tagged->create($data);

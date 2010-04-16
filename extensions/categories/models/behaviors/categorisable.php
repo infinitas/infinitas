@@ -40,7 +40,7 @@ class CategorisableBehavior extends ModelBehavior {
 	}
 
 	public function generateCategoryList() {
-		return ClassRegistry::init('Category')->generatetreelist();
+		return ClassRegistry::init('Categories.Category')->generatetreelist();
 	}
 }
 

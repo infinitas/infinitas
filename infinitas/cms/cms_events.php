@@ -24,7 +24,7 @@
 						'action'     => 'view',
 						'id'         => $data['data']['id'],
 						'slug'       => $data['data']['slug'],
-						'category'   => $data['data']['Category'][0]['slug']
+						'category'   => $data['data']['Category']['slug']
 					);
 					break;
 			} // switch
