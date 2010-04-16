@@ -45,7 +45,6 @@
 
 			$eventNames = Set::filter($eventName);
 			foreach($eventNames as $eventName){
-				//extract(EventCore::__parseEventName($eventName), EXTR_OVERWRITE);
 				$eventData = EventCore::__parseEventName($eventName);
 
 				$return[$eventData['event']] = EventCore::__dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
@@ -242,7 +241,7 @@
 		//public function __construct($eventName, &$HandlerObject, $pluginName, $data = array()) {
 		public function __construct($eventName, &$HandlerObject, $pluginName) {
 			$this->name = $eventName;
-			$this->Controller = $HandlerObject;
+			$this->Handler = $HandlerObject;
 			$this->plugin = $pluginName;
 		}
 
