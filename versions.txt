@@ -11,6 +11,10 @@ Acl
 Blog
 	- Create multi page posts
 	- Categories have been added in addition to the tags
+	
+Cms
+	- added ratings to cms content with options to turn on/off
+	- removed introductino field
 
 Custom bake
 	- customised for Infinitas
@@ -49,8 +53,7 @@ Bug fixes
 	- dynamic pagination limit
 	- installer mysql version
 	- all the ordering of records around the site
-	- deleting cms items removes the frontpage link
-	- added ratings to cms content with options to turn on/off
+	- deleting cms items removes the frontpage link 
 	- fixed rating updates
 
 General / Global changes

@@ -20,27 +20,26 @@
 ?>
 <div class="contents form">
 	<?php
-		echo $this->Form->create( 'Content' );
-        echo $this->Infinitas->adminEditHead($this);		
+		echo $this->Form->create('Content');
+        echo $this->Infinitas->adminEditHead($this);
 	?>
 	<div style="width:75%; float:left;">
 	    <?php
-    		echo $this->Form->input( 'id' );
-    		echo $this->Form->input( 'title', array( 'class' => 'title' ) );
-    		echo $this->Cms->wysiwyg( 'Content.introduction' );
-    		echo $this->Cms->wysiwyg( 'Content.body' );
+    		echo $this->Form->input('id');
+    		echo $this->Form->input('title', array('class' => 'title'));
+    		echo $this->Cms->wysiwyg('Content.body');
 	    ?>
 	</div>
 	<div style="width:20%; float:right;">
 	    <?php
-			echo $this->Form->input( 'active' );
-			echo $this->Form->input( 'layout_id' );
+			echo $this->Form->input('active');
+			echo $this->Form->input('layout_id');
 			echo $this->element('category_list', array('plugin' => 'Libs'));
-    		echo $this->Form->input( 'group_id', array( 'label' => __( 'Min Group', true ) ) );
-    		echo $this->Form->hidden( 'ContentConfig.id' );
-    		echo $this->Form->input( 'ContentConfig.author_alias' );
-    		echo $this->Form->input( 'ContentConfig.keywords' );
-    		echo $this->Form->input( 'ContentConfig.description', array('class'=>'title') );
+    		echo $this->Form->input('group_id', array( 'label' => __('Min Group', true)));
+    		echo $this->Form->hidden('ContentConfig.id');
+    		echo $this->Form->input('ContentConfig.author_alias');
+    		echo $this->Form->input('ContentConfig.keywords');
+    		echo $this->Form->input('ContentConfig.description', array('class'=>'title'));
 	    ?>
 	</div>
 	<div class="clr">&nbsp;</div>

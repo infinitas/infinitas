@@ -12,5 +12,7 @@ $map = array(
 		'071_global_category_update_and_global_tags' => 'M4bc84829f0b04d0792530d586318cd70'),
 	6 => array(
 		'071_rating_for_cms_content' => 'M4bc8bedae4fc4a4b8bc214806318cd70'),
+	7 => array(
+		'071_removign_intro_field_from_cms' => 'M4bc8e132f9b441ce9f171bdc6318cd70'),
 );
 ?>
