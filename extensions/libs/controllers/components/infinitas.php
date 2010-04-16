@@ -417,8 +417,6 @@
 		* is not done on every request.
 		*/
 		function __ipBlocker(){
-			$this->Controller->Session->destroy();
-
 			if ($this->Controller->Session->read('Infinitas.Security.ip_checked')) {
 				return true;
 			}
