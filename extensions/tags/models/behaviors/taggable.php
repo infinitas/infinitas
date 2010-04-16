@@ -83,7 +83,7 @@ class TaggableBehavior extends ModelBehavior {
 				'associationForeignKey' => $this->settings[$Model->alias]['associationForeignKey'],
 				'unique' => true,
 				'conditions' => array(
-					'Tagged.model' => $Model->name),
+					'Tagged.model' => $Model->modelName()),
 				'fields' => '',
 				'dependent' => true,
 				'with' => $this->settings[$Model->alias]['withModel']))),  $this->settings[$Model->alias]['resetBinding']);

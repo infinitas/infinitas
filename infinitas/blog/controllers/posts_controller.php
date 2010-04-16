@@ -318,12 +318,9 @@ class PostsController extends BlogAppController {
 	}
 
 	function admin_edit($id = null) {
-		if (!$id && empty($this->data['Post']['id'])) {
+		if (!$id) {
 			$this->Session->setFlash(__('That post could not be found', true), true);
 			$this->redirect($this->referer());
-		}
-		elseif (!empty($this->data['Post']['id'])) {
-			$id = $this->data['Post']['id'];
 		}
 
 		if (!empty($this->data)) {

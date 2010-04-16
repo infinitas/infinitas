@@ -83,7 +83,6 @@
 
 			if($parentName !== 'AppModel' && $parentName !== 'Model' && strpos($parentName, 'AppModel') !== false) {
 				$this->plugin = str_replace('AppModel', '', $parentName);
-				$this->name = $this->modelName();
 			}
 		}
 	}
