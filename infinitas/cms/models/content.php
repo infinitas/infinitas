@@ -39,7 +39,6 @@
 					'category_id'
 				)
 			)*/
-			'Libs.Categorised'
 		);
 
 		var $belongsTo = array(

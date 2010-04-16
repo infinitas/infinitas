@@ -46,7 +46,6 @@
 			'core_feeds',
 
 			'global_categories',
-			'global_category_items',
 
 			'newsletter_campaigns',
 			'newsletter_newsletters',

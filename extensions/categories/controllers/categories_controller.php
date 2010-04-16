@@ -17,7 +17,7 @@
 * @since 0.5a
 */
 
-class CategoriesController extends ManagementAppController {
+class CategoriesController extends CategoriesAppController {
 	var $name = 'Categories';
 
 	var $helpers = array(

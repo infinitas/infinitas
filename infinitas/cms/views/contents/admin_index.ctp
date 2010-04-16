@@ -88,7 +88,7 @@
 									echo $this->Html->link(
 										$content['Category']['title'],
 										array(
-											'plugin' => 'management',
+											'plugin' => 'categories',
 											'controller' => 'categories',
 											'action' => 'edit',
 											$content['Category']['id']

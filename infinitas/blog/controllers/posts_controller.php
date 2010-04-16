@@ -280,6 +280,9 @@ class PostsController extends BlogAppController {
 	* @return na
 	*/
 	function admin_index() {
+		$this->paginate['Post'] = array(
+			'contain' => array('Tag', 'Locker', 'Category')
+		);
 		$posts = $this->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;

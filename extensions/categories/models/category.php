@@ -17,11 +17,8 @@
 * @since 0.5a
 */
 
-class Category extends ManagementAppModel {
+class Category extends CategoriesAppModel {
 	var $name = 'Category';
-	var $tablePrefix = 'global_';
-
-	var $actsAs = array();
 
 	var $order = array(
 		'Category.lft' => 'ASC'
@@ -35,7 +32,7 @@ class Category extends ManagementAppModel {
 
 	var $belongsTo = array(
 		'Parent' => array(
-			'className' => 'Management.Category',
+			'className' => 'Categories.Category',
 			'counterCache' => true
 		),
 		'Management.Group',
@@ -48,13 +45,6 @@ class Category extends ManagementAppModel {
 				'Locker.username'
 			),
 			'order' => ''
-		)
-	);
-
-	var $hasMany = array(
-		'CategoryItem' => array(
-			'className' => 'Management.CategoryItem',
-			'dependant' => true
 		)
 	);
 }

@@ -31,7 +31,7 @@
 				<div class="config">
 					<?php
 						echo $this->Design->niceBox();
-					        echo $this->element('category_list', array('plugin' => 'Libs'));
+					        echo $this->element('category_list', array('plugin' => 'Categories'));
 					        echo $this->Form->input('parent_id', array('empty' => __('No Parent', true)));
 					        echo $this->Form->input('active');
 					        echo $this->Form->input( 'tags');
