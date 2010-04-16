@@ -18,14 +18,14 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Frontpage', array( 'url' => array( 'controller' => 'frontpages', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('Frontpage', array('url' => array('controller' => 'frontpages', 'action' => 'mass', 'admin' => 'true')));
         $massActions = $this->Cms->massActionButtons(
             array(
                 'add',
                 'delete'
             )
         );
-        echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Cms->adminIndexHead($this, $paginator, $filterOptions, $massActions);
 
 ?>
 <div class="table">
@@ -33,57 +33,49 @@
         <?php
             echo $this->Cms->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'Content Item', 'Content.title' ),
-                    __( 'Category', true ),
-                    $this->Paginator->sort( 'created' ) => array(
+                    $this->Paginator->sort('Content Item', 'Content.title'),
+                    __('Category', true),
+                    $this->Paginator->sort('created') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'modified' ) => array(
+                    $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'ordering' ) => array(
+                    $this->Paginator->sort('ordering') => array(
                         'style' => 'width:50px;'
                     ),
-                    __( 'Status', true ) => array(
+                    __('Status', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
 
             $i = 0;
-            foreach ( $frontpages as $frontpage )
-            {
+            foreach ($frontpages as $frontpage){
                 ?>
-                	<tr class="<?php echo $this->Cms->rowClass( $i ); ?>">
-                        <td><?php echo $this->Form->checkbox( $frontpage['Frontpage']['id'] ); ?>&nbsp;</td>
+                	<tr class="<?php echo $this->Cms->rowClass(); ?>">
+                        <td><?php echo $this->Form->checkbox($frontpage['Frontpage']['id']); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( $frontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $frontpage['Content']['id'])); ?>
+                			<?php echo $this->Html->link($frontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $frontpage['Content']['id'])); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link( $frontpage['Content']['Category'][0]['title'], array('plugin' => 'management', 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category'][0]['id'] ) ); ?>
+                			<?php echo $this->Html->link($frontpage['Content']['Category'][0]['title'], array('plugin' => 'management', 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category'][0]['id'])); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $frontpage['Frontpage']['created'] ); ?>
+                			<?php echo $this->Time->niceShort($frontpage['Frontpage']['created']); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $frontpage['Frontpage']['modified'] ); ?>
+                			<?php echo $this->Time->niceShort($frontpage['Frontpage']['modified']); ?>
                 		</td>
                 		<td>
-                			<?php
-                			    echo $this->Cms->ordering(
-                			        $frontpage['Frontpage']['content_id'],
-                			        $frontpage['Frontpage']['ordering']
-                			    );
-                			?>
+                			<?php echo $this->Cms->ordering($frontpage['Frontpage']['content_id'], $frontpage['Frontpage']['ordering']); ?>
                 		</td>
                 		<td>
-                			<?php
-                			    echo $this->Infinitas->status( $frontpage['Content']['active'] );
-                			?>
+                			<?php echo $this->Infinitas->status($frontpage['Content']['active']); ?>
                 		</td>
                 	</tr>
                 <?php
@@ -95,4 +87,4 @@
 
     ?>
 </div>
-<?php echo $this->element( 'admin/pagination/navigation' ); ?>
+<?php echo $this->element('admin/pagination/navigation'); ?>

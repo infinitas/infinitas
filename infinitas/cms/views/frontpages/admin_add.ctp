@@ -20,9 +20,9 @@
 ?>
 <div class="sections form">
     <?php
-        echo $this->Form->create( 'Frontpage' );
-        echo $this->Infinitas->adminEditHead($this);        
-    		echo $this->Form->input( 'content_id', array( 'label' => __( 'Content Item', true ), 'type' => 'select', 'options' => $contents ) );
-        echo $this->Form->end( );
+        echo $this->Form->create('Frontpage');
+        echo $this->Infinitas->adminEditHead($this);
+    		echo $this->Form->input('content_id', array('label' => __('Content Item', true), 'type' => 'select', 'options' => $contents));
+        echo $this->Form->end();
     ?>
 </div>

@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Content', array( 'url' => array( 'controller' => 'contents', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('Content', array('url' => array('controller' => 'contents', 'action' => 'mass', 'admin' => 'true')));
         $massActions = $this->Cms->massActionButtons(
             array(
                 'add',
@@ -33,32 +33,32 @@
         echo $this->Cms->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
-    <table class ="listing" cellpadding="0" cellspacing="0">
+    <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Cms->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'title' ),
-                    $this->Paginator->sort( 'Category', 'Category.title' ),
-                    $this->Paginator->sort( 'Group', 'Group.name' ) => array(
+                    $this->Paginator->sort('title' ),
+                    $this->Paginator->sort('Category', 'Category.title'),
+                    $this->Paginator->sort('Group', 'Group.name') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'Layout', 'Layout.name' ) => array(
+                    $this->Paginator->sort('Layout', 'Layout.name') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'views' ) => array(
+                    $this->Paginator->sort('views') => array(
                         'style' => 'width:35px;'
                     ),
-                    $this->Paginator->sort( 'modified' ) => array(
+                    $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'ordering' ) => array(
+                    $this->Paginator->sort('ordering') => array(
                         'style' => 'width:50px;'
                     ),
-                    __( 'Status', true ) => array(
+                    __('Status', true) => array(
                         'style' => 'width:100px;'
                     )
                 )
@@ -69,7 +69,7 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Cms->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $content['Content']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($content['Content']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php
                 			    echo $this->Html->link(
@@ -107,17 +107,17 @@
                 			<?php echo $content['Content']['views']; ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $content['Content']['modified'] ); ?>
+                			<?php echo $this->Time->niceShort($content['Content']['modified']); ?>
                 		</td>
                 		<td class="status">
                 			<?php echo $this->Cms->ordering($content['Content']['id'], $content['Content']['ordering'], 'Cms.Content'); ?>&nbsp;
                 		</td>
                 		<td class="status">
                 			<?php
-                			    echo $this->Cms->homePageItem( $content ),
-                        			$this->Infinitas->featured( $content ),
-                			        $this->Infinitas->status( $content['Content']['active'], $content['Content']['id'] ),
-                    			    $this->Infinitas->locked( $content, 'Content' );
+                			    echo $this->Cms->homePageItem($content),
+                        			$this->Infinitas->featured($content),
+                			        $this->Infinitas->status($content['Content']['active'], $content['Content']['id']),
+                    			    $this->Infinitas->locked($content, 'Content' );
                 			?>
                 		</td>
                 	</tr>
@@ -127,4 +127,4 @@
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
-<?php echo $this->element( 'admin/pagination/navigation' ); ?>
+<?php echo $this->element('admin/pagination/navigation'); ?>
