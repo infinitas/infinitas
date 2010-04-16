@@ -1,43 +1,55 @@
 <?php
-pr($data);
 	$action    = (isset($action)) ? $action : 'rate';
 	$modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
+    $Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
 
-	if (!isset($data[$modelName]['rating'])){
+    $allow = Configure::read(ucfirst($this->params['plugin']).'.allow_ratings');
+
+	if (!isset($data[$modelName]['rating']) || $allow === false){
 		return false;
 	}
 ?>
 <div class="rating">
 	<p>
-		<?php echo sprintf(__('This article is rated %s out of %s votes', true), $data[$modelName]['rating'], $data[$modelName]['rating_count']); ?>
+		<?php
+			if ($data[$modelName]['rating_count'] > 0) {
+				echo sprintf(__('This article is rated %s out of %s votes', true), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
+			}
+			else{
+				echo sprintf(__('This %s has not been rated yet', true), $modelName);
+			}
+		?>
 	</p>
 	<p>
-		<?php
-            echo $this->Form->create(
-                $modelName,
-                array(
-                	'url' => array(
-                		'plugin' => $this->params['plugin'],
-                		'controller' => $this->params['controller'],
-                		'action' => $action
-                	)
-                )
-            );
-            // @todo -c Implement .remove id and use the models value for pk
-            echo $this->Form->input($modelName.'.id', array('value' => $data[$modelName]['id']));
-            echo $this->Form->hidden('Rating.class', array('value' => ($this->params['plugin'] ? Inflector::classify( $this->params['plugin'] ).'.'.$modelName : $modelName)));
-            echo $this->Form->hidden('Rating.foreign_id', array('value' => $data[$modelName]['id']));
+		<div id="coreRatingBox">
+			<?php
+	            echo $this->Form->create(
+	                $modelName,
+	                array(
+	                	'url' => array(
+	                		'plugin' => $this->params['plugin'],
+	                		'controller' => $this->params['controller'],
+	                		'action' => $action
+	                	)
+	                )
+	            );
 
-            echo $this->Form->input(
-            	'Rating.rating',
-            	array(
-	            	'type'=>'radio',
-	            	'div'=>false,
-	            	'options'=>array(1=>1,2=>2,3=>3,4=>4,5=>5)
-	            )
-	        );
+	            echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
+	            echo $this->Form->hidden('Rating.class', array('value' => ucfirst($this->params['plugin']).'.'.$modelName));
+	            echo $this->Form->hidden('Rating.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 
-            echo $form->end('Submit');
-		?>
+	            echo $this->Form->input(
+	            	'Rating.rating',
+	            	array(
+		            	'type'=>'radio',
+	            		'legend' => false,
+		            	'div' => false,
+		            	'options' => array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5)
+		            )
+		        );
+
+	            echo $form->end('Submit');
+			?>
+		</div>
 	</p>
 </div>
