@@ -52,33 +52,17 @@
 
 		function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-
+			$this->__getPlugin();
+			
 			if (isset($this->_schema) && is_array($this->_schema)) {
-				if (array_key_exists('locked', $this->_schema)) {
-					$this->Behaviors->attach('Libs.Lockable');
+				if($this->Behaviors->enabled('Event')) {
+					$this->triggerEvent('attachBehaviors');
 				}
 
-				if (array_key_exists('deleted', $this->_schema)) {
-					$this->Behaviors->attach('Libs.SoftDeletable');
-				}
-
-				if (array_key_exists('slug', $this->_schema)) {
-					$this->Behaviors->attach('Libs.Sluggable');
-				}
-
+				//The Tree behaviour is a core CakePHP behaviour and should be attached seperately from the plugin based behaviours
 				if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {
 					$this->Behaviors->attach('Tree');
 				}
-
-				if (array_key_exists('ordering', $this->_schema)) {
-					$this->Behaviors->attach('Libs.Sequence');
-				}
-
-				if (array_key_exists('rating', $this->_schema)) {
-					$this->Behaviors->attach('Libs.Rateable');
-				}
-
-				$this->__getPlugin();
 			}
 		}
 
@@ -99,6 +83,7 @@
 
 			if($parentName !== 'AppModel' && $parentName !== 'Model' && strpos($parentName, 'AppModel') !== false) {
 				$this->plugin = str_replace('AppModel', '', $parentName);
+				$this->name = $this->modelName();
 			}
 		}
 	}
