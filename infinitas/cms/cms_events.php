@@ -17,16 +17,22 @@
 
 		function onSlugUrl(&$event, $data){
 			switch(strtolower($data['type'])){
-				case 'content':
-					return array(					
+				case 'contents':
+					$url = array(
 						'plugin'     => 'cms',
 						'controller' => 'contents',
 						'action'     => 'view',
 						'id'         => $data['data']['id'],
 						'slug'       => $data['data']['slug'],
-						'category'   => $data['data']['Category']['slug']
+						'category'   => isset($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : __('news-item',true)
 					);
 					break;
+
+				default:
+					echo 'Error: invalid url type';
+					break;
 			} // switch
+
+			return $url;
 		}
 	}

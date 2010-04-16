@@ -28,7 +28,7 @@
 			<div class="introduction">
 				<h2>
 					<?php
-						$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'content', 'data' => $frontpage['Content']));
+						$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'contents', 'data' => $frontpage['Content']));
 						$urlArray = current($eventData['slugUrl']);
 						echo $this->Html->link(
 							$frontpage['Content']['title'],
@@ -46,14 +46,14 @@
 						echo $this->Text->truncate($frontpage['Content']['body'], 300	, array('html' => true));
 					?>
 					<p>
-						<?php 						
+						<?php
 							echo $this->Html->link(
 								__(Configure::read('Website.read_more'), true),
 								$urlArray,
 								array(
 									'class' => 'more'
 								)
-							);	
+							);
 						?>
 					</p>
 				</div>
