@@ -268,7 +268,7 @@ div.table .select select {
 .dashboard a { color: #224488; }
 .dashboard a:hover { color: #f63; text-decoration: none; }
 .dashboard .info { padding: 10px; margin-bottom: 15px; background-color: #f5f5f5; border: 1px dotted #ccc; border-width: 1px 0; }
-.dashboard .column-a { width: 50%; float: left }
+.dashboard .column-a { width: 50%; float: left; clear:left; }
 .dashboard .column-b { width: 50%; float: right }
 .dashboard .column-b .box { margin-left: 15px; }
 .dashboard .box h3, .dashboard .box .view-all { font-size: 14px; line-height: 24px; }
