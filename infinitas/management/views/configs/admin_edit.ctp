@@ -29,13 +29,14 @@
             case 'bool':
                 $_label = explode('.', $this->data['Config']['key']);
                 $label = (isset($_label[1]) ? $_label[1] : $_label[0]);
-                $this->data['Config']['value'] = ($this->data['Config']['value'] == 'true') ? '1' : '0';
+                $this->data['Config']['value'] = ($this->data['Config']['value'] == 'true') ? 1 : 0;
                 echo $this->Form->input(
                     'value',
                     array(
                         'type' => 'checkbox',
                         'label' => Inflector::humanize( $label ),
-                        'checked' => (bool)$this->data['Config']['value']
+                        'checked' => $this->data['Config']['value'] == 1 ? 'checked' : '',
+                        'value' => $this->data['Config']['value']
                     )
                 );
                 break;
