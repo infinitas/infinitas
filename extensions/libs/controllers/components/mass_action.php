@@ -59,11 +59,7 @@
 
 			$ids = array();
 			foreach($data as $id => $selected) {
-				if (!is_int($id)) {
-					continue;
-				}
-
-				if ($selected) {
+				if ((!is_int($id) || strlen($id) == 36) && $selected) {
 					$ids[] = $id;
 				}
 			}
