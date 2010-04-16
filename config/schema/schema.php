@@ -1,6 +1,6 @@
-<?php
+<?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-04-16 22:04:43 : 1271447683*/
+/* Infinitas schema generated on: 2010-04-17 01:04:19 : 1271457139*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -140,7 +140,6 @@ class InfinitasSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'introduction' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'body' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -657,6 +656,22 @@ class InfinitasSchema extends CakeSchema {
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'name' => array('column' => 'name', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $rcs_applications = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
+		'initial' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 5),
+		'lastname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+		'firstname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+		'id_number' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 13),
+		'salary' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 6),
+		'mobile' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10),
+		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+		'processed' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'approved' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $relation_relation_types = array(
