@@ -59,7 +59,7 @@
 
 			$ids = array();
 			foreach($data as $id => $selected) {
-				if ((!is_int($id) || strlen($id) == 36) && $selected) {
+				if ((is_int($id) || strlen($id) == 36) && $selected) {
 					$ids[] = $id;
 				}
 			}
@@ -342,13 +342,17 @@
 					}
 				}
 
+				$data = $this->Controller->{$this->modelName}->read(null, $id);
+				unset($data[$this->modelName]['lft']);
+				unset($data[$this->modelName]['rght']);
+				$save[$this->modelName] = array_merge($data[$this->modelName], $save[$this->modelName]);
 				// @todo this is messing up trees, need to see why the lft and rght is not updating.
 				$result = $result && $this->Controller->{$this->modelName}->saveAll($save);
 				unset($save);
 			}
 
 			if(in_array('Tree', $this->Controller->{$this->modelName}->Behaviors->_attached)){
-				$this->controller->{$this->modelname}->recover('parent');
+				//$this->Controller->{$this->modelName}->recover('parent');
 			}
 
 			if($result == true) {
