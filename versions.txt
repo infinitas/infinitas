@@ -50,6 +50,8 @@ Bug fixes
 	- installer mysql version
 	- all the ordering of records around the site
 	- deleting cms items removes the frontpage link
+	- added ratings to cms content with options to turn on/off
+	- fixed rating updates
 
 General / Global changes
 	- A lot of comments and the api is set up
