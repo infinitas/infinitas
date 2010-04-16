@@ -84,7 +84,7 @@ function doToolTips(){
 	$("[title]:not(.textarea *)").tooltip({
 	    track: true, delay: 0, showURL: false,
 	    fixPNG: true, showBody: " :: ",
-	    extraClass: "pretty fancy", left: 0, top: -10
+	    extraClass: "pretty fancy", left: 5, top: -5
 	});
 }
 
