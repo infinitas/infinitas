@@ -1,6 +1,6 @@
 <?php
     /**
-     * Management Config admin edit post.
+     * Management Config admin edit configs.
      *
      * this page is for admin to manage the setup of the site
      *
@@ -15,36 +15,37 @@
      * @package       management
      * @subpackage    management.views.configs.admin_edit
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @since 0.5a
      */
-    echo $this->Form->create( 'Config', array( 'action' => 'edit' ) );
+
+    echo $this->Form->create('Config', array('action' => 'edit'));
 		echo $this->Infinitas->adminEditHead($this);
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'key', array( 'readonly' => true ) );
+        echo $this->Form->input('id' );
+        echo $this->Form->input('key', array('readonly' => true));
 
-        echo $this->Form->hidden( 'type' );
+        echo $this->Form->hidden('type');
 
-        switch( $this->data['Config']['type'] )
-        {
+        switch( $this->data['Config']['type']){
             case 'bool':
-                $_label = explode( '.', $this->data['Config']['key'] );
-                $label = ( isset( $_label[1] ) ? $_label[1] : $_label[0] );
-                $this->data['Config']['value'] = ( $this->data['Config']['value'] == 'true' ) ? '1' : '0';
+                $_label = explode('.', $this->data['Config']['key']);
+                $label = (isset($_label[1]) ? $_label[1] : $_label[0]);
+                $this->data['Config']['value'] = ($this->data['Config']['value'] == 'true') ? '1' : '0';
                 echo $this->Form->input(
                     'value',
                     array(
                         'type' => 'checkbox',
                         'label' => Inflector::humanize( $label ),
-                        'value' => $this->data['Config']['value']
+                        'checked' => (bool)$this->data['Config']['value']
                     )
                 );
                 break;
 
             case 'dropdown':
-                $_options = explode( ',', $this->data['Config']['options'] );
-                foreach( $_options as $o )
-                {
+                $_options = explode(',', $this->data['Config']['options']);
+                foreach($_options as $o){
                     $options[$o] = $o;
                 }
+
                 echo $this->Form->input(
                     'value',
                     array(
@@ -57,12 +58,12 @@
 
             case 'integer':
             case 'string':
-                echo $this->Form->input( 'value' );
+                echo $this->Form->input('value');
                 break;
         } // switch
 
         //echo $this->Form->input( 'options' );
-        echo $this->Form->input( 'core', array( 'disabled' => true ) );
-        echo $this->Core->wysiwyg( 'Config.description' );
-    echo $this->Form->end( );
+        echo $this->Form->input('core', array('disabled' => true));
+        echo $this->Core->wysiwyg('Config.description');
+    echo $this->Form->end();
 ?>
