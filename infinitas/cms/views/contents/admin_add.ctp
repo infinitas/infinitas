@@ -34,7 +34,7 @@
 	    <?php
 			echo $this->Form->input('active');
 			echo $this->Form->input('layout_id');
-			echo $this->element('category_list', array('plugin' => 'Libs'));
+			echo $this->element('category_list', array('plugin' => 'Categories'));
     		echo $this->Form->input('group_id', array( 'label' => __('Min Group', true)));
     		echo $this->Form->hidden('ContentConfig.id');
     		echo $this->Form->input('ContentConfig.author_alias');
