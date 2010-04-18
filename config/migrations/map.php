@@ -14,5 +14,7 @@ $map = array(
 		'071_rating_for_cms_content' => 'M4bc8bedae4fc4a4b8bc214806318cd70'),
 	7 => array(
 		'071_removign_intro_field_from_cms' => 'M4bc8e132f9b441ce9f171bdc6318cd70'),
+	8 => array(
+		'071_new_trashable_behavior_schema' => 'M4bcb4c1525f448d78c492dd46318cd70'),
 );
 ?>
