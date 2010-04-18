@@ -320,7 +320,7 @@
 			);
 
 			$massActionMethod = '__massAction' . ucfirst($massAction);
-
+	
 			if(method_exists($this, $massActionMethod)){
 				return $this->{$massActionMethod}($ids);
 			}
@@ -376,17 +376,17 @@
 
 			$this->data[$model]['id'] = $id;
 
-			if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Libs.Sequence'])) {
+			if (!isset($this->params['named']['position']) && isset($this->$model->actsAs['Libs.Sequence'])) {
 				$this->Session->setFlash(__('A problem occured moving the ordered record.', true));
 				$this->redirect($this->referer());
 			}
 
-			if (!isset($this->params['named']['possition']) && isset($this->$model->actsAs['Tree'])) {
+			if (!isset($this->params['named']['direction']) && isset($this->$model->actsAs['Tree'])) {
 				$this->Session->setFlash(__('A problem occured moving the MPTT record.', true));
 				$this->redirect($this->referer());
 			}
 
-			if (isset($this->params['named']['possition'])) {
+			if (isset($this->params['named']['position'])) {
 				$this->Infinitas->_orderedMove();
 			}
 
