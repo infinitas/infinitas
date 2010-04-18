@@ -6,6 +6,13 @@
 	class MenuItem extends ManagementAppModel{
 		var $name = 'MenuItem';
 
+		var $actsAs = array(
+			'Libs.Tree' => array(
+				'scope' => 'Menu',
+				'recursive' => 0
+			)
+		);
+
 		var $belongsTo = array(
 			'Management.Menu',
 			'Management.Group',
