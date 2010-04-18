@@ -56,9 +56,9 @@
 					$Model->Behaviors->attach('Libs.Lockable');
 				}
 
-				if (array_key_exists('deleted', $Model->_schema)) {
+				/*if (array_key_exists('deleted', $Model->_schema)) {
 					$Model->Behaviors->attach('Libs.SoftDeletable');
-				}
+				}*/
 
 				if (array_key_exists('slug', $Model->_schema)) {
 					$Model->Behaviors->attach('Libs.Sluggable');
@@ -74,6 +74,10 @@
 
 				if (array_key_exists('comment_count', $Model->_schema)) {
 					$Model->Behaviors->attach('Libs.Commentable');
+				}
+
+				if (array_key_exists('lft', $Model->_schema) && array_key_exists('rght', $Model->_schema) && !$Model->Behaviors->attached('Tree')) {
+					$Model->Behaviors->attach('Libs.Tree');
 				}
 			}
 		}

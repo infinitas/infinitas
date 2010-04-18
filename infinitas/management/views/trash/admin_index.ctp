@@ -20,35 +20,53 @@
 
     echo $this->Form->create( 'Trash', array( 'url' => array( 'controller' => 'trash', 'action' => 'mass', 'admin' => 'true' ) ) );
 
-    echo $this->Core->adminIndexHead( $this);
+        $massActions = $this->Core->massActionButtons(
+            array(
+                'restore',
+                'delete'
+            )
+        );
+        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    __('Table', true) => array(
-                        'style' => 'width:75px;'
+                    $this->Form->checkbox( 'all' ) => array(
+                        'class' => 'first',
+                        'style' => 'width:25px;'
                     ),
-                    __('Plugin', true) => array(
-                        'style' => 'width:75px;'
+                    $this->Paginator->sort( 'name' ),
+                    $this->Paginator->sort( 'Type', 'model' ) => array(
+                        'style' => 'width:100px;'
                     ),
-                    __('Model', true) => array(
-                        'style' => 'width:75px;'
+                    $this->Paginator->sort( 'deleted' ) => array(
+                        'style' => 'width:100px;'
                     ),
-                    __('Trashed', true) => array(
-                        'style' => 'width:75px;'
+                    $this->Paginator->sort( 'Deleted By', 'Deleter.name' ) => array(
+                        'style' => 'width:100px;'
                     )
                 )
             );
 
-            foreach ( $trashed as $trash ){
+            foreach ( $trashed as $trash )
+            {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                		<td><?php echo $this->Html->link($trash['table'], array('action' => 'list_items', 'pluginName' => $trash['plugin'], 'modelName' => $trash['model'])); ?>&nbsp;</td>
-                		<td><?php echo $trash['plugin']; ?>&nbsp;</td>
-                		<td><?php echo $trash['model']; ?>&nbsp;</td>
-                		<td><?php echo $trash['deleted']; ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox( $trash['Trash']['id'] ); ?>&nbsp;</td>
+                		<td>
+                			<?php echo Inflector::humanize($trash['Trash']['name']); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php $type = explode('.', $trash['Trash']['model']); echo $type[0] . (isset($type[1]) ? ' ' . $type[1] : ''); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $trash['Trash']['deleted']; ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $trash['Trash']['deleted_by']; ?>&nbsp;
+                		</td>
                 	</tr>
                 <?php
             }
@@ -56,3 +74,4 @@
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
+<?php echo $this->element( 'admin/pagination/navigation' ); ?>

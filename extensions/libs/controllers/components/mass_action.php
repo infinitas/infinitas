@@ -148,21 +148,9 @@
 		* @param array $ids the ids to delete.
 		*/
 		function __handleDeletes($ids) {
-			if($this->Controller->{$this->modelName}->Behaviors->attached('SoftDeletable')) {
-				$result = true;
-
-				foreach($ids as $id) {
-					$result = $result && ($this->Controller->{$this->modelName}->delete($id) || $this->Controller->{$this->modelName}->checkResult());
-				}
-
-				$message = __('moved to the trash bin', true);
-			}
-
-			else {
-				$conditions = array($this->modelName . '.' . $this->Controller->{$this->modelName}->primaryKey => $ids);
-				$result = $this->Controller->{$this->modelName}->deleteAll($conditions);
-				$message = __('deleted', true);
-			}
+			$conditions = array($this->modelName . '.' . $this->Controller->{$this->modelName}->primaryKey => $ids);
+			$result = $this->Controller->{$this->modelName}->deleteAll($conditions, true, true);
+			$message = __('deleted', true);
 
 			if($result == true) {
 				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' have been', true) . ' ' . $message);

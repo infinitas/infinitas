@@ -33,7 +33,8 @@
 			'Libs.Infinitas',
 			'Events.Event',
 			'Libs.Logable',
-			'DebugKit.Timed'
+			'DebugKit.Timed',
+			'Libs.Trashable'
 
 			//'Libs.AutomaticAssociation'
 		);
@@ -57,11 +58,6 @@
 			if (isset($this->_schema) && is_array($this->_schema)) {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
-				}
-
-				//The Tree behaviour is a core CakePHP behaviour and should be attached seperately from the plugin based behaviours
-				if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {
-					$this->Behaviors->attach('Tree');
 				}
 			}
 		}
