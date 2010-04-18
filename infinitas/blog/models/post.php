@@ -22,36 +22,9 @@
 class Post extends BlogAppModel {
 	var $name = 'Post';
 
-	/**
-	* always sort posts so newest is at the top
-	*/
-	var $order = array(
-		'Post.created' => 'DESC',
-	);
-
 	var $actsAs = array(
 		'Feed.Feedable'
 	);
-
-	/*var $hasAndBelongsToMany = array(
-		'Tag' => array(
-			'className'              => 'Blog.Tag',
-			'joinTable'              => 'posts_tags',
-			'with'                   => 'Blog.PostsTag',
-			'foreignKey'             => 'post_id',
-			'associationForeignKey'  => 'tag_id',
-			'unique'                 => true,
-			'conditions'             => '',
-			'fields'                 => '',
-			'order'                  => '',
-			'limit'                  => '',
-			'offset'                 => '',
-			'finderQuery'            => '',
-			'deleteQuery'            => '',
-			'insertQuery'            => ''
-		)
-	);*/
-
 
 	var $hasMany = array(
 		'ChildPost' => array(
@@ -120,34 +93,13 @@ class Post extends BlogAppModel {
 				)
 			)
 		);
-	}
 
-	/**
-	* before deleting a post.
-	*
-	* remove the tags
-	*/
-	function beforeDelete($return = null) {
-		$data = $this->read();
-
-		foreach($data['Tag'] as $tag) {
-			$count = ClassRegistry::init('Blog.PostsTag')->find(
-				'count',
-				array(
-					'conditions' => array(
-						'PostsTag.tag_id' => $tag['PostsTag']['tag_id']
-						)
-					)
-				);
-
-			if ($count === 1) {
-				if ($this->Tag->delete($tag['PostsTag']['tag_id'])) {
-					ClassRegistry::init('Blog.PostsTag')->delete($tag['PostsTag']['id']);
-				}
-			}
-		}
-
-		return true;
+		/**
+		* always sort posts so newest is at the top
+		*/
+		$this->order = array(
+			$this->alias . '.created' => 'DESC',
+		);
 	}
 
 	/**
