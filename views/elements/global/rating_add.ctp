@@ -20,36 +20,34 @@
 			}
 		?>
 	</p>
-	<p>
-		<div id="coreRatingBox">
-			<?php
-	            echo $this->Form->create(
-	                $modelName,
-	                array(
-	                	'url' => array(
-	                		'plugin' => $this->params['plugin'],
-	                		'controller' => $this->params['controller'],
-	                		'action' => $action
-	                	)
-	                )
-	            );
+	<div id="coreRatingBox">
+		<?php
+            echo $this->Form->create(
+                $modelName,
+                array(
+                	'url' => array(
+                		'plugin' => $this->params['plugin'],
+                		'controller' => $this->params['controller'],
+                		'action' => $action
+                	)
+                )
+            );
 
-	            echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
-	            echo $this->Form->hidden('Rating.class', array('value' => ucfirst($this->params['plugin']).'.'.$modelName));
-	            echo $this->Form->hidden('Rating.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
+            echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
+            echo $this->Form->hidden('Rating.class', array('value' => ucfirst($this->params['plugin']).'.'.$modelName));
+            echo $this->Form->hidden('Rating.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 
-	            echo $this->Form->input(
-	            	'Rating.rating',
-	            	array(
-		            	'type'=>'radio',
-	            		'legend' => false,
-		            	'div' => false,
-		            	'options' => array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5)
-		            )
-		        );
+            echo $this->Form->input(
+            	'Rating.rating',
+            	array(
+	            	'type'=>'radio',
+            		'legend' => false,
+	            	'div' => false,
+	            	'options' => array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5)
+	            )
+	        );
 
-	            echo $form->end('Submit');
-			?>
-		</div>
-	</p>
+            echo $form->end('Submit');
+		?>
+	</div>
 </div>
