@@ -357,11 +357,15 @@
 			foreach($buttons as $button) {
 				$imagePath = $this->Image->getRelativePath(array('actions'), $button);
 
-				if (!$imagePath) {
-					$imagePath = __(Inflector::humanize($button), true);
+				$buttonCaption = '<span>';
+				if ($imagePath) {
+					$buttonCaption .= $this->Html->image($imagePath) . '<br>';
 				}
 
-				$out .= $this->Form->submit($imagePath,
+				$buttonCaption .= __(Inflector::humanize($button), true) . '</span>';
+
+				$out .= $this->Form->button(
+					 $buttonCaption,
 					array(
 						'value' => strtolower(str_replace(array('-', ' '), '_', $button)),
 						'name' => 'action',

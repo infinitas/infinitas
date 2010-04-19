@@ -13,7 +13,7 @@
 			'cancel' => 'cancel.png',
 			'copy' => 'copy.png',
 			'date' => 'date.png',
-			'delete' => 'delete.png',
+			'delete' => 'trash.png',
 			'download' => 'download.png',
 			'edit' => 'edit.png',
 			'export' => 'zip.png',
