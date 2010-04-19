@@ -60,6 +60,8 @@ class Tagged extends TagsAppModel {
 		'Tag' => array(
 			'className' => 'Tags.Tag'));
 
+	public $trashable = false;
+
 /**
  * Returns a tag cloud
  *

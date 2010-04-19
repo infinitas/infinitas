@@ -67,6 +67,14 @@ class InstallController extends InstallerAppController {
 			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
 		);
+
+		$this->set('installerProgress', array(
+			'index' => __('Welcome', true),
+			'licence' => __('License', true),
+			'database' => __('Install Database', true),
+			'siteConfig' => __('Configuration', true),
+			'done' => __('Done', true),
+		));
 	}
 
 	/**

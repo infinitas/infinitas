@@ -169,7 +169,7 @@
 					return false;
 				}
 
-				return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
+				return $this->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 		}
 
 		function adminEditHead($view){

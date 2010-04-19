@@ -517,6 +517,7 @@
 			}
 
 			$this->Controller->Auth->logoutRedirect = '/';
+			$this->Controller->Auth->userModel = 'Management.User';
 		}
 
 		/**
@@ -742,5 +743,18 @@
 				}
 			}
 			return $arr;
+		}
+
+		function checkDbVersion() {
+			App::import('Lib', 'Migrations.MigrationVersion');
+
+			$Version = new MigrationVersion();
+
+			$currentVersion = $Version->getVersion('app');
+			$latestVersion = end($Version->getMapping('app'));
+
+			if($currentVersion < $latestVersion['version']) {
+				$this->Controller->redirect(array('plugin' => 'installer', 'controller' => 'upgrade', 'action' => 'index', 'admin' => true));
+			}
 		}
 	}

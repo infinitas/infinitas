@@ -266,8 +266,8 @@ class TaggableBehavior extends ModelBehavior {
 	public function afterFind(Model $Model, $results, $primary) {
 		extract($this->settings[$Model->alias]);
 		foreach ($results as $key => $row) {
-			$row[$Model->alias][$field] = '';
 			if (isset($row[$tagAlias]) && !empty($row[$tagAlias])) {
+				$row[$Model->alias][$field] = '';
 				$row[$Model->alias][$field] = $this->tagArrayToString($Model, $row[$tagAlias]);
 				if ($unsetInAfterFind == true) {
 					unset($row[$tagAlias]);
