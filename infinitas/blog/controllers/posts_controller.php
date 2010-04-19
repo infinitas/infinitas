@@ -108,7 +108,7 @@ class PostsController extends BlogAppController {
 			)
 		);
 
-		$this->paginate = $this->Post->setPaginateDateOptions($paginate, $year, $month);
+		$this->paginate = $this->Post->setPaginateDateOptions($this->paginate, $year, $month);
 
 		$posts = $this->paginate('Post');
 		$this->set(compact('posts'));

@@ -59,7 +59,9 @@
 
 			$expected = array(
 				'conditions' => array(
-					'Post.id' => array(1,2,3,4)				)
+					'Post.id' => array(1,2,3,4),
+					'Post.created BETWEEN ? AND ?' => array('2010-01-01 00:00:00', '2010-12-31 23:59:59')	
+				)
 			);
 			$result = $this->Post->setPaginateDateOptions($paginate);
 			$this->assertEqual($result, $expected);
