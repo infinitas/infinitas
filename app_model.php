@@ -53,7 +53,7 @@
 		function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
 			parent::__construct($id, $table, $ds);
-			
+
 			if (isset($this->_schema) && is_array($this->_schema)) {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
@@ -67,8 +67,12 @@
 		}
 
 		/**
+		 * Get model name.
 		 *
-		 * @return string Name of the model in the form of Plugin.Name. Usefull for polymorphic relations.
+		 * Get a model name with the plugin prepended in the format used in
+		 * CR::init() and Usefull for polymorphic relations.
+		 *
+		 * @return string Name of the model in the form of Plugin.Name.
 		 */
 		function modelName() {
 			if($this->plugin == null) {
@@ -78,6 +82,13 @@
 			return $this->plugin == null ? $this->name : $this->plugin . '.' . $this->name;
 		}
 
+		/**
+		 * Get the current plugin.
+		 *
+		 * try and get the name of the current plugin from the parent model class
+		 *
+		 * @return the plugin name
+		 */
 		private function __getPlugin() {
 			$parentName = get_parent_class($this);
 
