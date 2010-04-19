@@ -192,7 +192,7 @@
 		* get a list of all the plugins in the app
 		*/
 		function admin_getPlugins(){
-			$this->set('json', $this->{$this->modelClass}->getPlugins());
+			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getPlugins());
 		}
 
 		/**
@@ -203,7 +203,7 @@
 				$this->set('json', array('error'));
 				return;
 			}
-			$this->set('json', $this->{$this->modelClass}->getControllers($this->params['named']['plugin']));
+			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getControllers($this->params['named']['plugin']));
 		}
 
 		/**
@@ -214,7 +214,7 @@
 				$this->set('json', array('error'));
 				return;
 			}
-			$this->set('json', $this->{$this->modelClass}->getActions($this->params['named']['plugin'], $this->params['named']['controller']));
+			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getActions($this->params['named']['plugin'], $this->params['named']['controller']));
 		}
 
 		/**

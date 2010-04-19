@@ -63,7 +63,7 @@ class PostsController extends BlogAppController {
 
 		$categoryIds = $this->Post->Category->getActiveIds();
 
-		$this->paginate = array(
+		$paginate = array(
 			'fields' => array(
 				'Post.id',
 				'Post.title',
@@ -107,6 +107,13 @@ class PostsController extends BlogAppController {
 				)
 			)
 		);
+
+		$this->paginate = $this->Post->setPaginateDateOptions($paginate, array(
+			'year' => $year,
+			'month' => $month
+			//'model' => 'custom_model',
+			//'created' => 'custom_created_field'
+		));
 
 		$posts = $this->paginate('Post');
 		$this->set(compact('posts'));

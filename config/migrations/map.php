@@ -16,5 +16,7 @@ $map = array(
 		'071_removign_intro_field_from_cms' => 'M4bc8e132f9b441ce9f171bdc6318cd70'),
 	8 => array(
 		'080_new_trashable_behavior_schema' => 'M4bcb4c1525f448d78c492dd46318cd70'),
+	9 => array(
+		'081_shopping_cart_basic_structure' => 'M4bccdbd12b684b18956c19986318cd70'),
 );
 ?>

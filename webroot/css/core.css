@@ -127,15 +127,33 @@ img {
 .massActions{
     right:    0;
 }
-	.massActions .wrapper{
-		float: right;
-	}
+.massActions .wrapper{
+	float: right;
+}
 
-    .massActions input{
-        float:   left;
-        padding: 5px;
-        width:   32px;
-    }
+.massActions button{
+	float:   left;
+	padding: 1px 5px;
+	background: #F8F8F8;
+	border: 1px solid #f8f8f8;
+	color: #000;
+	margin: 0px 5px;
+	text-align: center;
+	font-size: 0.8em;
+	cursor: pointer;
+}
+
+.massActions button span{
+	display: block;
+}
+
+.massActions button:hover {
+	border-color:#EEEEEE #CCCCCC #CCCCCC #EEEEEE;
+	border-left:1px solid #EEEEEE;
+	border-style:solid;
+	border-width:1px;
+	text-decoration:none;
+}
 
 
 /**
