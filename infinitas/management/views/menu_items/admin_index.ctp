@@ -67,11 +67,11 @@
                         <td><?php echo $this->Form->checkbox($menuItem['MenuItem']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php
-                				$paths = ClassRegistry::init('Management.MenuItem')->getPath($menuItem['MenuItem']['id']);
+                				$paths = count(ClassRegistry::init('Management.MenuItem')->getPath($menuItem['MenuItem']['id']))-1;
                 				$links = array();
 
-                				if (count($paths) > 1) {
-                					echo '<b>', str_repeat('- ', count($paths)-1), ' |</b> ';
+                				if ($paths > 1) {
+                					echo '<b>', str_repeat('- ', $paths-1), ' |</b> ';
                 				}
 
 	                			echo $this->Html->link(

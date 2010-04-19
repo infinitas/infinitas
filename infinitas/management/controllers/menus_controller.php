@@ -30,8 +30,6 @@
 					$this->redirect(array('action' => 'index'));
 				}
 			}
-
-			$this->set(compact());
 		}
 
 		function admin_edit($id = null){

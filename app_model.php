@@ -58,6 +58,10 @@
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
 				}
+			
+				if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {
+					$this->Behaviors->attach('Tree');
+				}
 			}
 		}
 

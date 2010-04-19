@@ -17,31 +17,14 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create( 'Module' );
+    echo $this->Form->create( 'Menu' );
         echo $this->Infinitas->adminEditHead($this);
     ?>
 		<div style="width:50%; float:left;">
 			<?php
 		        echo $this->Form->input( 'name' );
-		        echo $this->Form->input( 'module' );
-		        echo $this->Form->input( 'theme_id' );
-		        echo $this->Form->input( 'position_id' );
-		        echo $this->Form->input( 'group_id' );
+		        echo $this->Form->input( 'type' );
 		        echo $this->Form->input( 'active' );
-		        echo $this->Form->input( 'show_heading' );
-		        echo $this->Form->input( 'core' );
-		        echo $this->Form->input( 'author' );
-		        echo $this->Form->input( 'url' );
-		        echo $this->Form->input( 'update_url' );
-		        echo $this->Form->input( 'licence' );
-
-		        echo $this->Form->input( 'content', array('class' => 'title') );
-		        echo $this->Form->input( 'config', array('class' => 'title') );
-			?>
-		</div>
-		<div style="width:50%; float:left;">
-			<?php
-				echo $this->Form->input('Route', array('selected' => 0));
 			?>
 		</div>
 		<div class="clr">&nbsp;</div>

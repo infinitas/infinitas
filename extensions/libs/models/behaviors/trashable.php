@@ -11,10 +11,12 @@ class TrashableBehavior extends ModelBehavior {
 			$this->Session = new CakeSession();
 			$user_id = $this->Session->read('Auth.User.id');
 
+			$Model->recursive = -1;
+			$item = $Model->read();
 			$data = array(
 				'model' => $Model->modelName(),
-				'foreign_key' => $Model->data[$Model->alias][$Model->primaryKey],
-				'name' => $Model->data[$Model->alias][$Model->displayField],
+				'foreign_key' => $Model->id,
+				'name' => $item[$Model->alias][$Model->displayField],
 				'data' => serialize($Model->data),
 				'deleted' => date('Y-m-d H:i:s'),
 				'deleted_by' => $user_id
