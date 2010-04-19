@@ -122,7 +122,6 @@
 	 * basicaly all the methods like _something should be moved to a component
 	 */
 	class GlobalActions extends Controller{
-
 		/**
 		 * Common methods for the app
 		 */
@@ -134,10 +133,11 @@
 					$message = 'Your comment has been saved and is active.';
 				}
 
-				if ($this->Post->createComment($id, $this->data)) {
+				if ($this->{$this->modelClass}->createComment($id, $this->data)) {
 					$this->Session->setFlash(__($message, true));
 					$this->redirect($this->referer());
-				} else {
+				}
+				else {
 					$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
 				}
 			}
@@ -174,7 +174,8 @@
 
 				if ($this->{$this->modelClass}->rateRecord($this->data)) {
 					$this->Session->setFlash(__('Your rating was saved.', true));
-				} else {
+				}
+				else {
 					$this->Session->setFlash(__('It seems you have already voted for this item.', true));
 				}
 				$this->redirect($this->referer());
