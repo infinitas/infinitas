@@ -384,4 +384,62 @@
 			);
 			return Set::extract('/Post/id', $tags);
 		}
+/**
+ * Adds BETWEEN conditions for $year and $month to any array.
+ * You can pass a custom Model and a custom created field, too.
+ * 
+ * @param array $paginate the pagination array to be processed
+ * @param array $options
+ * 	###	possible options:
+ * 			- year (int) year of the format YYYY (defaults null)
+ * 			- month (int) month of the year in the format 01 - 12 (defaults null)
+ * 			- model (string) custom Model Alias to pass (defaults calling Model)
+ * 			- created (string) the name of the field to use in the Between statement (defaults 'created')
+ * @todo take just reference parameter?
+ */
+		function setPaginateDateOptions($paginate, $options = array()) {
+			$default = array(
+				'year' => null,
+				'month' => null,
+				'model' => null,
+				'created' => 'created'
+			);
+			// Extract Options
+			extract(array_merge($default, $options));
+
+			// If nothing is given, add nothing
+			if ($year === null && $month === null) {
+				return $paginate;
+			}
+
+			// SQL time templates for sprintf
+			$yTmplBegin = "%s-01-01 00:00:00";
+			$yTmplEnd = "%s-12-31 23:59:59";
+			$ymTmplBegin = "%s-%02d-01 00:00:00";
+			$ymTmplEnd = "%s-%02d-%02d 23:59:59";
+			
+			if ($model === null) {
+				$model = $this->alias;
+			}
+
+			if ($year === null) {
+				$year = date('Y');
+			}
+			
+			if ($month !== null) {
+				// Get days for selected month
+				$days = cal_days_in_month(CAL_GREGORIAN, intval($month), intval($year));
+				$begin = sprintf($ymTmplBegin, $year, $month);
+				$end = sprintf($ymTmplEnd, $year, $month, $days);
+			} else {
+				$begin = sprintf($yTmplBegin, $year);
+				$end = sprintf($yTmplEnd, $year);
+			}
+
+			$paginate['conditions'] += array(
+				"$model.$created BETWEEN ? AND ?" => array($begin,$end)
+			);
+			
+			return $paginate;
+		}
 	}
