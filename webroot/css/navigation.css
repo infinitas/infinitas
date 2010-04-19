@@ -286,3 +286,8 @@ ul.pureCssMenum0 li {
 ul.pureCssMenum0 li li {
 	margin:2px 0px 0px 2px;
 }
+
+li.seperator {
+	background:url("../img/bg-menu.gif") repeat scroll 0 0 #DDE1E6;
+	height:1px;
+}

@@ -179,12 +179,25 @@
 				$suffix = '0';
 			}
 
+			$isSeperator = $array['MenuItem']['name'] == '--' ? true : false;
+
+			if($isSeperator) {
+				$array['MenuItem']['item'] = '';
+			}
+
 			$linkName = __($array['MenuItem']['name'], true);
+
 			if (!empty($array['children'])) {
 				$linkName = '<span>'.$linkName.'</span>';
 			}
 
-			$this->_menuData .= '<li class="pureCssMenui'.$suffix.'">';
+			$class = 'pureCssMenui'.$suffix;
+			if($isSeperator) {
+				$class .= ' seperator';
+			}
+			
+			$this->_menuData .= '<li class="'.$class.'">';
+			if(!$isSeperator) {
 				$menuLink = $array['MenuItem']['link'];
 				if (empty($array['MenuItem']['link'])) {
 					$_items = $array['MenuItem'];
@@ -227,7 +240,11 @@
 					$this->_menuData .= '</ul>';
 				}
 				$this->_menuData .= '</a>';
-
+			}
+			else {
+				$this->_menuData .= $linkName;
+			}
+			
 			$this->_menuData .= '</li>';
 		}
 

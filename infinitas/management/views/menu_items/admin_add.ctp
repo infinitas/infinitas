@@ -25,15 +25,19 @@
 					<?php
 						echo $this->Form->input('id');
 						echo $this->Form->input('name');
-						echo $this->Form->input('link', array('label' => __('External Link', true)));
-						echo $this->Form->input('prefix');
-				        echo $this->Form->input('plugin', array('class' => "pluginSelect {url:{action:'getControllers'}, target:'MenuItemController'}"));
-				        echo $this->Form->input('controller', array('type' => 'select', 'class' => "controllerSelect {url:{action:'getActions'}, target:'MenuItemAction'}"));
-				        echo $this->Form->input('action', array('type' => 'select'));
-						echo $this->Form->input('params', array('type' => 'textarea'));
-				    ?>
+					?>
+					<div id="otherData">
+						<?php
+							echo $this->Form->input('link', array('label' => __('External Link', true)));
+							echo $this->Form->input('prefix');
+							echo $this->Form->input('plugin', array('class' => "pluginSelect {url:{action:'getControllers'}, target:'MenuItemController'}"));
+							echo $this->Form->input('controller', array('type' => 'select', 'class' => "controllerSelect {url:{action:'getActions'}, target:'MenuItemAction'}"));
+							echo $this->Form->input('action', array('type' => 'select'));
+							echo $this->Form->input('params', array('type' => 'textarea'));
+						?>
+					</div>
 				</div>
-				<div class="config">
+				<div class="config" id="config">
 					<?php
 						echo $this->Design->niceBox();
 					        echo $this->Form->input('active');
@@ -50,3 +54,15 @@
         echo $this->Design->niceBoxEnd();
     echo $this->Form->end();
 ?>
+<script type="text/javascript">
+	$(function() {
+		$('#MenuItemName').keyup(function(e) {
+			if($(this).val() == '--') {
+				$('#otherData').fadeOut('fast');
+			}
+			else {
+				$('#otherData').fadeIn('fast');
+			}
+		})
+	});
+</script>

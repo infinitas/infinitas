@@ -75,7 +75,7 @@
                 				}
 
 	                			echo $this->Html->link(
-                					Inflector::humanize($menuItem['MenuItem']['name']),
+                					$menuItem['MenuItem']['name'] == '--' ? __('Seperator' ,true) : Inflector::humanize($menuItem['MenuItem']['name']),
                 					array('action' => 'edit', $menuItem['MenuItem']['id'])
 	                			);
                 			?>&nbsp;
