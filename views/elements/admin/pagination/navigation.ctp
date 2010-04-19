@@ -67,7 +67,7 @@
                         )
                     );
                 echo $this->Form->end( __( 'Update', true ) );
-            ?><span>
+            ?></span>
         </div>
         <div class="button2-right">
             <div class="start">
