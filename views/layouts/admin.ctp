@@ -34,10 +34,16 @@
         <div id="wrap">
         	<div id="header">
                 <?php
-                	echo $this->Infinitas->loadModules('top', true);
+					if(isset($this->Infinitas)) {
+						echo $this->Infinitas->loadModules('top', true);
+					}
 				?>
         	</div>
-			<?php echo $this->Session->flash(); ?>
+			<?php
+				if(isset($this->Session)) {
+					echo $this->Session->flash();
+				}
+			?>
         	<div id="content">
 				<div class="<?php echo isset($this->params['plugin'])?$this->params['plugin']:''; ?>">
 					<div class="<?php echo isset($this->params['controller'])?$this->params['controller']:''; ?>">
@@ -48,7 +54,11 @@
 				</div>
 			</div>
         	<div id="footer">
-				<?php echo $this->Infinitas->loadModules('bottom', true); ?>
+				<?php
+					if(isset($this->Infinitas)) {
+						echo $this->Infinitas->loadModules('bottom', true);
+					}
+				 ?>
             </div>
         </div>
         <?php echo $this->element( 'admin/bottom' ); ?>

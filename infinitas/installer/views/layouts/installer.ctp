@@ -66,11 +66,9 @@
 					<div id="sidebartop"></div>
 					<h2><?php echo __('Progress', true); ?></h2>
 					<ul>
-						<li class="<?php echo ($this->action == 'index') ? 'active' : ''; ?>"><?php echo $this->Html->link(__('Welcome', true), array('plugin' => 'installer', 'controller' => 'install', 'action' => $this->action, '#' => 'here' )); ?></li>
-						<li class="<?php echo ($this->action == 'licence') ? 'active' : ''; ?>"><?php echo $this->Html->link(__('Licence', true), array('plugin' => 'installer', 'controller' => 'install', 'action' => $this->action, '#' => 'here' )); ?></li>
-						<li class="<?php echo ($this->action == 'database') ? 'active' : ''; ?>"><?php echo $this->Html->link(__('Install Database', true), array('plugin' => 'installer', 'controller' => 'install', 'action' => $this->action, '#' => 'here' )); ?></li>
-						<li class="<?php echo ($this->action == 'siteConfig') ? 'active' : ''; ?>"><?php echo $this->Html->link(__('Configuration', true), array('plugin' => 'installer', 'controller' => 'install', 'action' => $this->action, '#' => 'here' )); ?></li>
-						<li class="<?php echo ($this->action == 'done') ? 'active' : ''; ?>"><?php echo $this->Html->link(__('Done', true), array('plugin' => 'installer', 'controller' => 'install', 'action' => $this->action, '#' => 'here' )); ?></li>
+						<?php foreach($installerProgress as $action => $title) { ?>
+							<li class="<?php echo ($this->action == $action) ? 'active' : ''; ?>"><?php echo $this->Html->link($title, array('plugin' => 'installer', 'controller' => 'install', 'action' => $this->action, '#' => 'here' )); ?></li>
+						<?php } ?>
 					</ul>
 					<div id="sidebarbtm"></div>
 				</div>

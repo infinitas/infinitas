@@ -59,6 +59,9 @@
 			$this->Infinitas->_setupAuth();
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
+			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && $this->params['controller'] !== 'upgrade') {
+				$this->Infinitas->checkDbVersion();
+			}
 
 			if (isset($this->data['PaginationOptions']['pagination_limit'])) {
 				$this->Infinitas->changePaginationLimit( $this->data['PaginationOptions'], $this->params );
