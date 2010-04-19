@@ -25,11 +25,11 @@
          */
         $commentFields = explode(',',Configure::read('Comment.fields'));
 
-	    $action = ( isset( $action ) ) ? $action : 'comment';
-        $modelName = ( isset( $modelName ) ) ? $modelName : Inflector::singularize( $this->name );
+	    $action    = (isset($action)) ? $action : 'comment';
+        $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
+    	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
 
-        if ( isset( $urlParams ) )
-        {
+        if (isset($urlParams)){
             echo $this->Form->create(
                 $modelName,
                 array(
@@ -43,8 +43,7 @@
             );
         }
 
-        else
-        {
+        else{
             echo $this->Form->create(
                 $modelName,
                 array(
@@ -58,19 +57,16 @@
         }
     ?>
     <fieldset>
-        <legend><?php __( "Post a {$commentModel}" );?></legend>
+        <legend><?php __('Post a '.$commentModel);?></legend>
         <?php
-            echo $this->Form->input( "$modelName.id", array( 'value' => $fk ) );
+            echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
 
-            foreach( $commentFields as $field )
-            {
-                if ( $field != 'comment' )
-                {
-                    echo $this->Form->input( 'Comment.'.$field );
+            foreach($commentFields as $field){
+                if ($field != 'comment'){
+                    echo $this->Form->input('Comment.'.$field);
                 }
-                else
-                {
-                    echo $this->Blog->wysiwyg( 'Comment.comment', array('toolbar' => 'Basic') );
+                else{
+                    echo $this->Cms->wysiwyg('Comment.comment', array('toolbar' => 'Basic'));
                 }
             }
         ?>

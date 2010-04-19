@@ -42,4 +42,5 @@
 	echo $__html;
 
 	echo $this->element('global/rating_add', array('data' => $content));
+	echo $this->element('global/comment_add', array('data' => $content));
 ?>
