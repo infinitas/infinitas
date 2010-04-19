@@ -16,7 +16,8 @@
 	 * generate a select dropdown
 	 */
 	FormHelper.select = function(data, metaData) {
-		var options = '<option>' + $.Core.config('Website.empty_select') + '</option>';
+		//var options = '<option>' + $.Core.config('Website.empty_select') + '</option>';
+		var options = '';
 		$.each(data, function(index, name) {
 			options += '<option value="' + index + '">' + name + '</option>';
 		});

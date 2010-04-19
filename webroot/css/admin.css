@@ -250,12 +250,12 @@ div.table .select select {
 
 .niceBox.adminTopBar{
 	position:fixed;
-	width:97%;
+	width:98%;
 	z-index:10;
 	top:40px;
 }
 .admin_index, .admin_add, .admin_edit, .admin_mass, .admin_list_items{
-	padding-top:95px;	
+	padding-top:100px;
 }
 
 /* Dashboard styles */

@@ -15,9 +15,8 @@
 
 			$menuItems = $this->paginate(
 				null,
-				$this->Filter->filter
+				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)
 			);
-
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
@@ -31,6 +30,11 @@
 
 		function admin_add(){
 			if (!empty($this->data)) {
+				if($this->data['MenuItem']['parent_id'] == 0) {
+					$menuItem = $this->MenuItem->find('first', array('fields' => array('id'), 'conditions' => array('parent_id' => 0, 'menu_id' => $this->data['MenuItem']['menu_id'])));
+
+					$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
+				}
 				$this->MenuItem->create();
 				if ($this->MenuItem->saveAll($this->data)) {
 					$this->Session->setFlash('Your menu item has been saved.');
@@ -44,9 +48,13 @@
 
 			$menus   = $this->MenuItem->Menu->find('list');
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
-			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList();
+			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => reset(array_keys($menus))));
 			$plugins = $this->MenuItem->getPlugins();
 			$this->set(compact('menus', 'groups', 'parents', 'plugins'));
+		}
+
+		function admin_getParents() {
+			$this->set('json', array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => $this->params['named']['plugin'])));
 		}
 
 		function admin_edit($id = null){
@@ -56,6 +64,11 @@
 			}
 
 			if (!empty($this->data)) {
+				if($this->data['MenuItem']['parent_id'] == 0) {
+					$menuItem = $this->MenuItem->find('first', array('fields' => array('id'), 'conditions' => array('parent_id' => 0, 'menu_id' => $this->data['MenuItem']['menu_id'])));
+
+					$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
+				}				
 				if ($this->MenuItem->save($this->data)) {
 					$this->Session->setFlash(__('Your menu item has been saved.', true));
 					$this->redirect(array('action' => 'index'));
@@ -70,7 +83,7 @@
 
 			$menus   = $this->MenuItem->Menu->find('list');
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
-			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList();
+			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => $this->data['MenuItem']['menu_id']));
 			$plugins = $this->MenuItem->getPlugins();
 			$controllers = $this->MenuItem->getControllers($this->data['MenuItem']['plugin']);
 			$actions = $this->MenuItem->getActions($this->data['MenuItem']['plugin'], $this->data['MenuItem']['controller']);
