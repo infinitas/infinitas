@@ -395,6 +395,11 @@
 			// Extract Options
 			extract(array_merge($default, $options));
 
+			// If nothing is given, add nothing
+			if ($year === null && $month === null) {
+				return $paginate;
+			}
+			
 			if ($model === null) {
 				$model = $this->alias;
 			}
