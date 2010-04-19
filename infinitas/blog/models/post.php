@@ -384,45 +384,4 @@
 			);
 			return Set::extract('/Post/id', $tags);
 		}
-
-		function setPaginateDateOptions($paginate, $options = array()) {
-			$default = array(
-				'year' => null,
-				'month' => null,
-				'model' => null,
-				'created' => 'created'
-			);
-			// Extract Options
-			extract(array_merge($default, $options));
-
-			if ($model === null) {
-				$model = $this->alias;
-			}
-
-			if ($year === null) {
-				$year = date('Y');
-			}
-
-			// SQL time templates for sprintf
-			$yTmplBegin = "%s-01-01 00:00:00";
-			$yTmplEnd = "%s-12-31 23:59:59";
-			$ymTmplBegin = "%s-%02d-01 00:00:00";
-			$ymTmplEnd = "%s-%02d-%02d 23:59:59";
-
-			if ($month !== null) {
-				// Get days for selected month
-				$days = cal_days_in_month(CAL_GREGORIAN, intval($month), intval($year));
-				$begin = sprintf($ymTmplBegin, $year, $month);
-				$end = sprintf($ymTmplEnd, $year, $month, $days);
-			} else {
-				$begin = sprintf($yTmplBegin, $year);
-				$end = sprintf($yTmplEnd, $year);
-			}
-
-			$paginate['conditions'] += array(
-				"$model.$created BETWEEN ? AND ?" => array($begin,$end)
-			);
-			
-			return $paginate;
-		}
 	}
