@@ -578,15 +578,19 @@
 					if (!$this->Controller->{$model}->moveUp($this->Controller->{$model}->id, abs(1))) {
 						$this->Controller->Session->setFlash(__('Unable to move the record up', true));
 					}
+					else {
+						$this->Controller->{$model}->afterSave(false);
+					}
 					break;
-
 				case 'down':
 					$this->Controller->Session->setFlash(__('The record was moved down', true));
 					if (!$this->Controller->{$model}->moveDown($this->Controller->{$model}->id, abs(1))) {
 						$this->Controller->Session->setFlash(__('Unable to move the record down', true));
 					}
+					else {
+						$this->Controller->{$model}->afterSave(false);
+					}
 					break;
-
 				default:
 					$this->Controller->Session->setFlash(__('Error occured reordering the records', true));
 					break;
