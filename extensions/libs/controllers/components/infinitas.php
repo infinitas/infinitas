@@ -698,7 +698,7 @@
 			);
 			$return = array();
 			foreach($plugins as $plugin ){
-				$return = array_merge($return, $this->Infinitas->_getPluginControllerNames($plugin));
+				$return = array_merge($return, $this->_getPluginControllerNames($plugin));
 			}
 
 			return $return;
