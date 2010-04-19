@@ -1,7 +1,8 @@
 <?php
+	class ShopAppModel extends AppModel {
+		var $tablePrefix = 'shop_';
 
-class ShopAppModel extends AppModel {
-
-}
-
-?>
+		var $actsAs = array(
+			'Feed.Feedable'
+		);
+	}
