@@ -79,6 +79,11 @@
 				if (array_key_exists('lft', $Model->_schema) && array_key_exists('rght', $Model->_schema) && !$Model->Behaviors->attached('Tree')) {
 					$Model->Behaviors->attach('Libs.Tree');
 				}
+
+				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro');
+				if (!in_array($Model->name, $noTrashModels)) {
+					$Model->Behaviors->attach('Libs.Trashable');
+				}
 			}
 		}
 	}

@@ -32,9 +32,8 @@
 			'Containable',
 			'Libs.Infinitas',
 			'Events.Event',
-			'Libs.Logable',
+			//'Libs.Logable',
 			'DebugKit.Timed',
-			'Libs.Trashable'
 
 			//'Libs.AutomaticAssociation'
 		);

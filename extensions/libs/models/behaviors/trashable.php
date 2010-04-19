@@ -1,16 +1,13 @@
 <?php
 class TrashableBehavior extends ModelBehavior {
 	var $Trash = null;
-	var $excludes = array('Session', 'Trash', 'Tagged');
-
-	public function setup(&$Model, $settings = array()) {
-		if($this->Trash === null) {
-			$this->Trash = ClassRegistry::init('Management.Trash');
-		}
-	}
 
     public function beforeDelete(&$Model, $cascade = true) {
-		if(!in_array($Model->name, $this->excludes)) {
+		if((!isset($Model->trashable) || $Model->trashable == true)) {
+			if($this->Trash === null) {
+				$this->Trash = ClassRegistry::init('Management.Trash');
+			}
+
 			$this->Session = new CakeSession();
 			$user_id = $this->Session->read('Auth.User.id');
 
