@@ -179,6 +179,7 @@
 						array($this->modelName . '.id IN(' . implode(',', $ids) . ')')
 						)
 					) {
+				$this->Controller->{$this->modelName}->afterSave(false);
 				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' were toggled', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}

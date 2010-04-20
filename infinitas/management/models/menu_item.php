@@ -64,7 +64,8 @@
 					'conditions' => array(
 						'Menu.type' => $type,
 						'Menu.active' => 1,
-						'MenuItem.active' => 1
+						'MenuItem.active' => 1,
+						'MenuItem.parent_id !=' => 0
 					),
 					'contain' => array(
 						'Menu' => array(
