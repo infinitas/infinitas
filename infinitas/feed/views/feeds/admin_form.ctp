@@ -35,13 +35,17 @@
 				<?php
 					echo $this->Design->niceBox();
 						?><h2><?php __('Configuration'); ?></h2><?php
-						echo $this->Form->input('plugin');
-						echo $this->Form->input('controller');
-						echo $this->Form->input('action');
+				        echo $this->Form->input('plugin', array('class' => "pluginSelect {url:{action:'getControllers'}, target:'FeedController'}"));
+				        echo $this->Form->input('controller', array('type' => 'select', 'class' => "controllerSelect {url:{action:'getActions'}, target:'FeedAction'}"));
+				        echo $this->Form->input('action', array('type' => 'select'));
 
 						echo $this->Form->input('active');
 						echo $this->Form->input('group_id');
 						echo $this->Form->input('limit');
+					echo $this->Design->niceBoxEnd();
+					echo $this->Design->niceBox();
+						?><h2><?php __('What to include'); ?></h2><?php
+						echo $this->Form->input('FeedItem');
 					echo $this->Design->niceBoxEnd();
 				?>
 			</div><?php

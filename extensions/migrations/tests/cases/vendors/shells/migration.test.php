@@ -725,8 +725,8 @@ TEXT;
 
 		// Adding other migration to it
 		$this->Shell->expectCallCount('err', 1);
-		$this->Shell->setReturnValueAt(2, 'in', '002_invalid_name');
-		$this->Shell->setReturnValueAt(3, 'in', '002 create some sample data');
+		$this->Shell->setReturnValueAt(2, 'in', '002-invalid-name');
+		$this->Shell->setReturnValueAt(3, 'in', '002 create some sample_data');
 		$this->Shell->setReturnValueAt(4, 'in', 'n');
 
 		$this->assertFalse(file_exists(TMP . 'tests' . DS . '002_create_some_sample_data.php'));
@@ -769,6 +769,8 @@ TEXT;
 		$this->assertTrue(file_exists(TMP . 'tests' . DS . 'map.php'));
 
 		$result = $this->__getMigrationVariable(TMP . 'tests' . DS . '002_drop_slug_field.php');
+		$this->assertNoPattern('/\'schema_migrations\'/', $result);
+
 		$pattern = <<<TEXT
 /			'drop_field' => array\(
 				'articles' => array\('slug',\),

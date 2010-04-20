@@ -69,14 +69,16 @@
                 		<td>
                 			<?php
                 			    echo $this->Cms->ordering(
-                			        $feature['Feature']['content_id'],
-                			        $feature['Feature']['ordering']
+                			        $feature['Feature']['id'],
+                			        $feature['Feature']['ordering'],
+									'Feature',
+									$features
                 			    );
                 			?>
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Infinitas->toggle( $feature['Content']['active'], $feature['Content']['id'], array( 'controller' => 'features', 'action' => 'toggle' ) );
+                			    echo $this->Infinitas->status( $feature['Content']['active'], $feature['Content']['id'], array( 'controller' => 'features', 'action' => 'toggle' ) );
                 			?>
                 		</td>
                 	</tr>

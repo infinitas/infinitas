@@ -420,14 +420,14 @@
 		{
 			$this->_newOrder[$model->alias] = null;
 
-			$orderField = $this->settings[$model->alias]['order_field'];
+			extract($this->settings[$model->alias]);
 
-			if (!isset($model->data[$model->alias][$orderField]))
+			if (!isset($model->data[$model->alias][$order_field]) || $model->data[$model->alias][$order_field] < $start_at)
 			{
 				return;
 			}
 
-			$this->_newOrder[$model->alias] = $model->data[$model->alias][$orderField];
+			$this->_newOrder[$model->alias] = $model->data[$model->alias][$order_field];
 		}
 
 		/**
