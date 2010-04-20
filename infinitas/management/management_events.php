@@ -1,16 +1,14 @@
 <?php
 	class ManagementEvents {
-		function onSetupCacheStart(){
-			Cache::config(
-				'core',
-				array(
-					'engine' => 'File',
+		function onSetupCache(){
+			return array(
+				'name' => 'core',
+				'config' => array(
 					'duration' => 3600,
 					'probability' => 100,
-					'prefix' => '',
+					'prefix' => 'core.',
 					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'core'
+					'serialize' => true
 				)
 			);
 		}
