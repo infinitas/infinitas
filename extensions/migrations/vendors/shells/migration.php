@@ -118,7 +118,13 @@ class MigrationShell extends Shell {
  * @access public
  */
 	public function run() {
-		$mapping = $this->Version->getMapping($this->type);
+		try {
+			$mapping = $this->Version->getMapping($this->type);
+		} catch (MigrationVersionException $e) {
+			$this->err($e->getMessage());
+			return false;
+		}
+
 		if ($mapping === false) {
 			$this->out(__d('migrations', 'No migrations available.', true));
 			return $this->_stop();
@@ -205,7 +211,7 @@ class MigrationShell extends Shell {
 	public function generate() {
 		while (true) {
 			$name = $this->in(__d('migrations', 'Please enter the descriptive name of the migration to generate:', true));
-			if (!preg_match('/^([a-z0-9]+|\s)+$/', $name)) {
+			if (!preg_match('/^([a-z0-9_]+|\s)+$/', $name)) {
 				$this->out('');
 				$this->err(sprintf(__d('migrations', 'Migration name (%s) is invalid. It must only contain alphanumeric characters.', true), $name));
 			} else {
@@ -225,6 +231,9 @@ class MigrationShell extends Shell {
 				$this->hr();
 				$this->out(__d('migrations', 'Comparing schema.php to the database...', true));
 
+				if ($this->type !== 'migrations') {
+					unset($oldSchema->tables['schema_migrations']);
+				}
 				$newSchema = $this->_readSchema();
 				$comparison = $this->Schema->compare($oldSchema, $newSchema);
 				$migration = $this->_fromComparison($migration, $comparison, $oldSchema->tables, $newSchema['tables']);
@@ -505,7 +514,7 @@ TEXT;
 	protected function _readSchema() {
 		$read = $this->Schema->read(array('models' => !isset($this->params['f'])));
 		if ($this->type !== 'migrations') {
-			//unset($read['tables']['schema_migrations']);
+			unset($read['tables']['schema_migrations']);
 		}
 		return $read;
 	}
