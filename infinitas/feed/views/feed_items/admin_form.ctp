@@ -19,7 +19,8 @@
 
 	echo $this->Form->create('Feed');
 		echo $this->Infinitas->adminEditHead($this);
-		echo $this->Design->niceBox(); ?>
+		echo $this->Design->niceBox();
+?>
 			<div class="data">
 				<?php
 					echo $this->Form->input('id');
@@ -28,8 +29,6 @@
 					echo $this->Form->input('Feed.fields');
 					echo $this->Form->input('Feed.conditions');
 					echo $this->Form->input('Feed.order');
-					
-				
 				?>
 			</div>
 
@@ -46,11 +45,14 @@
 						echo $this->Form->input('limit');
 					echo $this->Design->niceBoxEnd();
 					echo $this->Design->niceBox();
-						?><h2><?php __('What to include'); ?></h2><?php
-						echo $this->Form->input('FeedItem');
+				?>
+				<h2><?php __('What to include'); ?></h2>
+				<?php
+					echo $this->Form->input('FeedItem');
 					echo $this->Design->niceBoxEnd();
 				?>
-			</div><?php
+			</div>
+<?php
 		echo $this->Design->niceBoxEnd();
 	echo $this->Form->end();
 ?>

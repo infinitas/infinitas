@@ -28,8 +28,6 @@
 					echo $this->Form->input('Feed.fields');
 					echo $this->Form->input('Feed.conditions');
 					echo $this->Form->input('Feed.order');
-					
-				
 				?>
 			</div>
 
