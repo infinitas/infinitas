@@ -607,11 +607,10 @@
 			$modelName = $this->Controller->modelClass;
 
 			if (isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) && !empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field'])) {
-				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['possition'];
+				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['position'];
 			}
-
 			else{
-				$this->Controller->data[$modelName]['ordering'] = $this->Controller->params['named']['possition'];
+				$this->Controller->data[$modelName]['ordering'] = $this->Controller->params['named']['position'];
 			}
 
 			if (!$this->Controller->{$modelName}->save($this->Controller->data)) {

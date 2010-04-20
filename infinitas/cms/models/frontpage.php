@@ -30,5 +30,8 @@
 		var $belongsTo = array(
 			'Cms.Content'
 		);
+
+		var $noTrash = true;
+		var $noConfirm = true;
 	}
 ?>
