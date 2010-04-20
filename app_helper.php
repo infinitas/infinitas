@@ -183,18 +183,22 @@
 	        return $this->adminOtherHead($view, $massActions);
 		}
 
-		function ordering($id = null, $currentPossition = null, $model = null) {
+		function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
 			if (!$id) {
 				$this->errors[] = 'How will i know what to move?';
 			}
 
-			if (!$currentPossition) {
+			if (!$currentPosition) {
 				$this->errors[] = 'The new order was not passed';
+			}
+
+			if($results != null && $modelName) {
+				$maxPosition = max(Set::extract('/' . $modelName . '/ordering', $results));
 			}
 
 			$out = '';
 
-			if ($currentPossition > 1) {
+			if ($currentPosition > 1) {
 				$out .= $this->Html->link(
 					$this->Html->image(
 						$this->Image->getRelativePath('actions', 'arrow-up'),
@@ -207,7 +211,7 @@
 					),
 					array(
 						'action' => 'reorder',
-						'possition' => $currentPossition - 1,
+						'position' => $currentPosition - 1,
 						$id
 					),
 					array(
@@ -216,23 +220,25 @@
 				);
 			}
 
-			$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-down'),
+			if($results == null || $currentPosition < $maxPosition) {
+				$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-down'),
+						array(
+							'alt' => __('Down', true),
+							'title' => __('Move down', true),
+							'width' => '16px',
+							'class' => 'arrow-down'
+						)
+					),
 					array(
-						'alt' => __('Down', true),
-						'title' => __('Move down', true),
-						'width' => '16px',
-						'class' => 'arrow-down'
+						'action' => 'reorder',
+						'position' => $currentPosition + 1,
+						$id
+					),
+					array(
+						'escape' => false,
 					)
-				),
-				array(
-					'action' => 'reorder',
-					'possition' => $currentPossition + 1,
-					$id
-				),
-				array(
-					'escape' => false,
-				)
-			);
+				);
+			}
 
 			return $out;
 		}

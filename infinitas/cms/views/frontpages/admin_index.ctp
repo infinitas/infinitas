@@ -63,7 +63,7 @@
                 			<?php echo $this->Html->link($frontpage['Content']['title'], array('controller' => 'contents', 'action' => 'view', $frontpage['Content']['id'])); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link($frontpage['Content']['Category'][0]['title'], array('plugin' => 'management', 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category'][0]['id'])); ?>
+                			<?php echo $this->Html->link($frontpage['Content']['Category']['title'], array('plugin' => 'management', 'controller' => 'categories', 'action' => 'edit', $frontpage['Content']['Category']['id'])); ?>
                 		</td>
                 		<td>
                 			<?php echo $this->Time->niceShort($frontpage['Frontpage']['created']); ?>
@@ -72,7 +72,14 @@
                 			<?php echo $this->Time->niceShort($frontpage['Frontpage']['modified']); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Cms->ordering($frontpage['Frontpage']['content_id'], $frontpage['Frontpage']['ordering']); ?>
+							<?php
+                			    echo $this->Cms->ordering(
+                			        $frontpage['Frontpage']['id'],
+                			        $frontpage['Frontpage']['ordering'],
+									'Frontpage',
+									$frontpages
+                			    );
+                			?>
                 		</td>
                 		<td>
                 			<?php echo $this->Infinitas->status($frontpage['Content']['active']); ?>

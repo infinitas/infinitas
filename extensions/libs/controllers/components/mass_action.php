@@ -121,7 +121,7 @@
 		* If there was no javascript confirmation a page is displayed with the confirmation
 		*/
 		function delete($ids) {
-			if (isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) {
+			if ((isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) || (isset($this->Controller->{$this->modelName}->noConfirm))) {
 				if(method_exists($this->Controller, '__handleDeletes')) {
 					$this->Controller->__handleDeletes($ids);
 				}
@@ -160,7 +160,12 @@
 				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' could not be', true) . ' ' . $message);
 			}
 
-			$this->Controller->redirect($this->Controller->data['Confirm']['referer']);
+			if(isset($this->Controller->data['Confirm']['referer'])) {
+				$this->Controller->redirect($this->Controller->data['Confirm']['referer']);
+			}
+			else {
+				$this->Controller->redirect($this->Controller->referer());
+			}
 		}
 
 		/**
@@ -179,6 +184,7 @@
 						array($this->modelName . '.id IN(' . implode(',', $ids) . ')')
 						)
 					) {
+				$this->Controller->{$this->modelName}->afterSave(false);
 				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' were toggled', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}

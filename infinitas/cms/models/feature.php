@@ -21,13 +21,14 @@
 		var $name = 'Feature';
 
 		var $order = array(
-			'Feature.ordering' => 'DESC'
-			);
-
-		var $actsAs = array();
+			'Feature.ordering' => 'ASC'
+		);
 
 		var $belongsTo = array(
 			'Cms.Content'
 		);
+
+		var $noTrash = true;
+		var $noConfirm = true;
 	}
 ?>

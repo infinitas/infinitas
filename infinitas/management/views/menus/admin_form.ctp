@@ -22,6 +22,7 @@
     ?>
 		<div style="width:50%; float:left;">
 			<?php
+		        echo $this->Form->input( 'id' );
 		        echo $this->Form->input( 'name' );
 		        echo $this->Form->input( 'type' );
 		        echo $this->Form->input( 'active' );

@@ -56,10 +56,6 @@
 					$Model->Behaviors->attach('Libs.Lockable');
 				}
 
-				/*if (array_key_exists('deleted', $Model->_schema)) {
-					$Model->Behaviors->attach('Libs.SoftDeletable');
-				}*/
-
 				if (array_key_exists('slug', $Model->_schema)) {
 					$Model->Behaviors->attach('Libs.Sluggable');
 				}
@@ -77,7 +73,7 @@
 				}
 
 				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro', 'Trash');
-				if (!in_array($Model->name, $noTrashModels)) {
+				if (!in_array($Model->name, $noTrashModels) && !isset($Model->noTrash)) {
 					$Model->Behaviors->attach('Libs.Trashable');
 				}
 			}

@@ -108,8 +108,15 @@
 			}
 		}
 
-		function beforeRender(){
-			parent::beforeRender();
+		function render( $action = NULL, $layout = NULL, $file = NULL ) {
+			if(($this->action == 'admin_edit' || $this->action == 'admin_add')) {
+				$viewPath = App::pluginPath($this->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->action . '.ctp';
+				if(!file_exists($viewPath)) {
+					$action = 'admin_form';
+				}
+			}
+
+			return parent::render($action, $layout, $file);
 		}
 
 		function blackHole(&$controller, $error){
