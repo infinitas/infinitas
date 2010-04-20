@@ -29,4 +29,8 @@
 					break;
 			} // switch
 		}
+
+		function onSetupConfigEnd(&$event){
+			Configure::load('Shop.config');
+		}
 	}
