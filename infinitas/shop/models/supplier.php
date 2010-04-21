@@ -25,7 +25,6 @@
 					)
 				)
 	        ),
-			'Libs.SoftDeletable',
 			'Libs.Sluggable' => array(
 				'label' => array(
 					'name'
