@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-04-21 17:04:26 : 1271858786*/
+/* Infinitas schema generated on: 2010-04-22 02:04:45 : 1271891985*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -748,7 +748,7 @@ class InfinitasSchema extends CakeSchema {
 	);
 	var $shop_images = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'image' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'ext' => array('type' => 'string', 'null' => false, 'default' => 'jpg', 'length' => 4),
 		'width' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'height' => array('type' => 'integer', 'null' => false, 'default' => NULL),
