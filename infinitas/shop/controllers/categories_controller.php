@@ -95,8 +95,6 @@
 			}
 
 			if (!empty($this->data)) {
-				pr($this->data);
-				exit;
 				if ($this->Category->saveAll($this->data)) {
 					$this->Session->setFlash('Your category has been saved.');
 					$this->redirect(array('action' => 'index'));
