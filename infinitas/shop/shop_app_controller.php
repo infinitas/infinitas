@@ -1,7 +1,6 @@
 <?php
-
-class ShopAppController extends AppController {
-
-}
-
-?>
+	class ShopAppController extends AppController {
+		var $helpers = array(
+			'Shop.Shop'
+		);
+	}
