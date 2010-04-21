@@ -17,7 +17,7 @@
 * @since 0.5a
 */
 
-class InstallerAppController extends Controller {
+class InstallerAppController extends AppController {
 }
 
 ?>

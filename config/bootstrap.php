@@ -17,6 +17,10 @@
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
 
+	class dummy {}
+	$dummy = new dummy();
+
+	configureCache(EventCore::trigger($dummy, 'setupCache'));
 
 	/**
 	* Make sure the json defines are loaded.
@@ -25,6 +29,14 @@
 	if(!defined('JSON_ERROR_DEPTH')){define('JSON_ERROR_DEPTH', 1);}
 	if(!defined('JSON_ERROR_CTRL_CHAR')){define('JSON_ERROR_CTRL_CHAR', 3);}
 	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}
+
+	function configureCache($cacheDetails) {
+		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
+			if(!empty($cache)) {
+				Cache::config($cache['name'], array_merge(array('engine' => Configure::read('Cache.engine')), $cache['config']));
+			}
+		}
+	}
 
 	/**
 	 * Escape things for preg_match

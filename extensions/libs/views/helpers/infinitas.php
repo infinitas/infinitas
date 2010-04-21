@@ -64,7 +64,13 @@
 				return false;
 			}
 
-			$modules = ClassRegistry::init('Management.Module')->getModules($position, $admin);
+			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
+
+			if($modules == false || empty($modules)) {
+				$modules = ClassRegistry::init('Management.Module')->getModules($position, $admin);
+
+				Cache::write('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), $modules, 'core');
+			}
 
 			$out = '<div class="modules '.$position.'">';
 				$currentRoute = Router::currentRoute();
