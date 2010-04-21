@@ -32,11 +32,11 @@ class MeioUploadBehavior extends ModelBehavior {
 		'allowedExt' => array('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico'),
 		'default' => false, // Not sure what this does
 		'zoomCrop' => false, // Whether to use ZoomCrop or not with PHPThumb
+		'thumbnails' => true,
 		'thumbsizes' => array(
 			// Place any custom thumbsize in model config instead,
 		),
 		'thumbnailQuality' => 75, // Global Thumbnail Quality
-		'maxDimension' => null, // Can be null, h, or w
 		'useImageMagick' => false,
 		'imageMagickPath' => '/usr/bin/convert', // Path to imageMagick on your server
 		'fields' => array(
@@ -231,9 +231,11 @@ class MeioUploadBehavior extends ModelBehavior {
 			}
 
 			// Verifies if the thumbsizes names is alphanumeric
-			foreach ($options['thumbsizes'] as $name => $size) {
-				if (empty($name) || !ctype_alnum($name)) {
-					trigger_error(__d('meio_upload', 'MeioUploadBehavior Error: The thumbsizes names must be alphanumeric.', true), E_USER_ERROR);
+			if ($options['thumbnails'] == true) {
+				foreach ($options['thumbsizes'] as $name => $size) {
+					if (empty($name) || !ctype_alnum($name)) {
+						trigger_error(__d('meio_upload', 'MeioUploadBehavior Error: The thumbsizes names must be alphanumeric.', true), E_USER_ERROR);
+					}
 				}
 			}
 
@@ -246,7 +248,12 @@ class MeioUploadBehavior extends ModelBehavior {
 			$options['uploadName'] = rtrim($this->_replaceTokens($model, $options['uploadName'], $field, $tokens), DS);
 
 			// Create the folders for the uploads
-			$this->_createFolders($options['dir'], array_keys($options['thumbsizes']));
+			// Create the folders for the uploads
+			if (!empty($options['thumbsizes'])) {
+				$this->_createFolders($options['dir'], array_keys($options['thumbsizes']));
+			} else {
+				$this->_createFolders($options['dir'], array());
+			}
 
 			// Replace tokens in the fields names
 			if ($options['useTable']) {
@@ -292,7 +299,7 @@ class MeioUploadBehavior extends ModelBehavior {
  */
 	function afterSave(&$model) {
 		foreach ($this->__filesToRemove as $file) {
-			if ($file['name']) {
+			if (!empty($file['name'])) {
 				$this->_deleteFiles($model, $file['field'], $file['name'], $file['dir']);
 			}
 		}
@@ -340,10 +347,7 @@ class MeioUploadBehavior extends ModelBehavior {
 		$model->read(null, $model->id);
 		if (isset($model->data)) {
 			foreach ($this->__fields[$model->alias] as $field => $options) {
-				$file = $model->data[$model->alias][$field];
-				if ($file && $file != $options['default']) {
-					$this->_deleteFiles($model, $field, $file, $options['dir']);
-				}
+				$this->_setFileToRemove($model, $field);
 			}
 		}
 		return true;
@@ -621,7 +625,7 @@ class MeioUploadBehavior extends ModelBehavior {
 			// Take care of removal flagged field
 			// However, this seems to be kind of code duplicating, see line ~711
 			if (!empty($data[$model->alias][$fieldName]['remove'])) {
-				$this->_markForDeletion($model->alias, $model->primaryKey, $fieldName, $data, $options['default']);
+				$this->_markForDeletion($model, $fieldName, $data, $options['default']);
 				$data = $this->_unsetDataFields($model->alias, $fieldName, $data, $options);
 				$result = array('return' => true, 'data' => $data);
 				continue;
@@ -749,10 +753,13 @@ class MeioUploadBehavior extends ModelBehavior {
 			} else {
 				$thumbSaveAs = $this->_getThumbnailName($saveAs, $options['dir'], $key, $data[$model->alias][$fieldName]['name']);
 			}
-			$params = array(
-				'thumbWidth' => $value['width'],
-				'thumbHeight' => $value['height']
-			);
+			$params = array();
+			if (isset($value['width'])) {
+				$params['thumbWidth'] = $value['width'];
+			}
+			if (isset($value['height'])) {
+				$params['thumbHeight'] = $value['height'];
+			}
 			if (isset($value['maxDimension'])) {
 				$params['maxDimension'] = $value['maxDimension'];
 			}
@@ -1078,14 +1085,11 @@ class MeioUploadBehavior extends ModelBehavior {
 	function _setFileToRemove(&$model, $fieldName) {
 		$filename = $model->field($fieldName);
 		if (!empty($filename) && $filename != $this->__fields[$model->alias][$fieldName]['default']) {
-			if (empty($this->__fields[$model->alias][$fieldName]['thumbsizes'])) {
-				$this->__filesToRemove[] = array(
-					'field' => $fieldName,
-					'dir' => $this->__fields[$model->alias][$fieldName]['dir'],
-					'name' => $filename
-				);
-				return;
-			}
+			$this->__filesToRemove[] = array(
+				'field' => $fieldName,
+				'dir' => $this->__fields[$model->alias][$fieldName]['dir'],
+				'name' => $filename
+			);
 			foreach($this->__fields[$model->alias][$fieldName]['thumbsizes'] as $key => $sizes){
 				if ($key === 'normal') {
 					$subpath = '';
@@ -1104,23 +1108,22 @@ class MeioUploadBehavior extends ModelBehavior {
 /**
  * Marks files for deletion in the beforeSave() callback
  *
- * @param $modelName string name of the Model
- * @param $modelPrimaryKey string field of the Model that is the primary key
+ * @param $model Reference to model
  * @param $fieldName string name of field that holds a reference to the file
  * @param $data array
  * @param $default
  * @return void
  * @author Jose Diaz-Gonzalez
  **/
-	function _markForDeletion($modelName, $modelPrimaryKey, $fieldName, $data, $default) {
-		if (!empty($data[$modelName][$fieldName]['remove'])) {
+	function _markForDeletion(&$model, $fieldName, $data, $default) {
+		if (!empty($data[$model->alias][$fieldName]['remove'])) {
 			if ($default) {
-				$data[$modelName][$fieldName] = $default;
+				$data[$model->alias][$fieldName] = $default;
 			} else {
-				$data[$modelName][$fieldName] = '';
+				$data[$model->alias][$fieldName] = '';
 			}
 			//if the record is already saved in the database, set the existing file to be removed after the save is sucessfull
-			if (!empty($data[$modelName][$modelPrimaryKey])) {
+			if (!empty($data[$model->alias][$model->primaryKey])) {
 				$this->_setFileToRemove($model, $fieldName);
 			}
 		}
@@ -1141,7 +1144,7 @@ class MeioUploadBehavior extends ModelBehavior {
 			return false;
 		}
 		foreach ($this->__fields[$model->alias][$field]['thumbsizes'] as $size => &$config) {
-			$file = &new File($dir . DS . $size . DS . $filename);
+			$file =& new File($dir . DS . $size . DS . $filename);
 			$file->delete();
 		}
 		return true;
