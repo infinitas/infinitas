@@ -18,5 +18,7 @@ $map = array(
 		'080_new_trashable_behavior_schema' => 'M4bcb4c1525f448d78c492dd46318cd70'),
 	9 => array(
 		'081_shopping_cart_basic_structure' => 'M4bccdbd12b684b18956c19986318cd70'),
+	10 => array(
+		'081_updating_suppliers_table' => 'M4bce213438dc45b189e820d46318cd70'),
 );
 ?>
