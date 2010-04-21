@@ -34,8 +34,6 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->Controller->Event->trigger('setupCache');
-
 			$this->setupConfig();
 
 			$this->__checkBadLogins();

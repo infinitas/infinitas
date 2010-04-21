@@ -1,17 +1,4 @@
 <?php
-	Cache::config(
-		'core',
-		array(
-			'engine' => 'File',
-			'duration' => 3600,
-			'probability' => 100,
-			'prefix' => '',
-			'lock' => false,
-			'serialize' => true,
-			'path' => CACHE . 'core'
-		)
-	);
-
 	Router::parseExtensions('rss');
 	Router::parseExtensions('vcf');
 	Router::parseExtensions('json');

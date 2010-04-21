@@ -32,7 +32,7 @@
 				return false;
 			}
 
-			$menus = Cache::read('menu_'.$type, 'core');
+			$menus = Cache::read('menu.'.$type, 'core');
 			if (!empty($menus)) {
 				return $menus;
 			}
@@ -80,7 +80,7 @@
 				)
 			);
 
-			Cache::write('menu_'.$type, $menus, 'core');
+			Cache::write('menu.'.$type, $menus, 'core');
 
 			return $menus;
 		}
@@ -88,11 +88,7 @@
 		function afterSave($created) {
 			parent::afterSave($created);
 
-			$menus = $this->Menu->find( 'list', array('fields' => array('Menu.id', 'Menu.type')) );
-
-			foreach($menus as $menu){
-				Cache::delete('menu_'.$menu, 'core');
-			}
+			Cache::delete('menu', 'core');
 
 			return true;
 		}
@@ -100,11 +96,7 @@
 		function afterDelete() {
 			parent::afterDelete();
 
-			$menus = $this->Menu->find( 'list', array('fields' => array('Menu.id', 'Menu.type')) );
-
-			foreach($menus as $menu){
-				Cache::delete('menu_'.$menu, 'core');
-			}
+			Cache::delete('menu', 'core');
 
 			return true;
 		}
