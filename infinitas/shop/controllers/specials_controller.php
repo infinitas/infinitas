@@ -55,7 +55,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'active' => (array)Configure::read('CORE.active_options'),
-				'product_id' => $this->Special->Product->fnd('list')
+				'product_id' => $this->Special->Product->find('list')
 			);
 			$this->set(compact('specials','filterOptions'));
 		}
