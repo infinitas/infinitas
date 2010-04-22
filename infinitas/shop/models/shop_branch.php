@@ -106,8 +106,10 @@
 					'Special.image_id',
 					'Special.discount',
 					'Special.amount',
-					'Special.start',
-					'Special.end'
+					'Special.start_date',
+					'Special.end_date',
+					'Special.start_time',
+					'Special.end_time'
 				),
 				'order' => '',
 				'limit' => '',
@@ -127,8 +129,10 @@
 					'Spotlight.id',
 					'Spotlight.product_id',
 					'Spotlight.image_id',
-					'Spotlight.start',
-					'Spotlight.end'
+					'Spotlight.start_date',
+					'Spotlight.end_date',
+					'Spotlight.start_time',
+					'Spotlight.end_time'
 				),
 				'order' => '',
 				'limit' => '',
