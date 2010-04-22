@@ -82,18 +82,7 @@
 						<td>
 							<?php echo $this->Shop->currency($special['Special']['amount']); ?>
 						</td>
-						<?php
-							$title =
-							__('Breakdown', true).' :: '.sprintf(
-								__('Retail: %s</br>Cost: %s vs Price: %s</br>Margin: %s vs Profit: %s', true),
-								$this->Shop->currency($special['Product']['retail']),
-								$this->Shop->currency($special['Product']['cost']),
-								$this->Shop->currency($special['Product']['price']),
-								$this->Shop->currency($this->Shop->calculateMargin($special['Product']['cost'], $special['Product']['price'])),
-								$this->Shop->currency($this->Shop->calculateProfit($special['Product']['cost'], $special['Product']['price']))
-							);
-						?>
-						<td title="">
+						<td title="<?php echo $this->Shop->breakdown($spotlight['Product'], $special['Special']); ?>">
 							<?php echo $this->Shop->calculateSpecial($special['Product'], $special['Special']); ?>
 						</td>
 						<td>
