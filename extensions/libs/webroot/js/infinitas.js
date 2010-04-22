@@ -25,7 +25,9 @@ require(
 	Infinitas.base + "libs/js/libs/metadata.js",
 	Infinitas.base + "libs/js/libs/core.js",
 	Infinitas.base + "libs/js/libs/form.js",
-	Infinitas.base + "libs/js/libs/html.js"
+	Infinitas.base + "libs/js/libs/html.js",
+
+	Infinitas.base + "libs/js/3rd/date.js"
 ],
 function(require) {
 	render();
@@ -45,6 +47,8 @@ function render(){
 		rowSelect();
 
 		$.FormHelper.checkboxToggleAll();
+
+		datePicker();
 	});
 }
 
@@ -122,4 +126,23 @@ function rowSelect(){
 			});
 		}
 	});
+}
+
+function datePicker() {
+	var startDate;
+	var endDate;
+
+	startDate = $("#" + Infinitas.model + "DatePickerStart").calendarPicker({
+		callback: function(cal){
+			$("#" + Infinitas.model + "Start").val(cal.mysqlDate);
+		}
+	});
+
+	endDate = $("#" + Infinitas.model + "DatePickerEnd").calendarPicker({
+		callback: function(cal){
+			$("#" + Infinitas.model + "End").val(cal.mysqlDate);
+		}
+	});
+
+	//$("#" + Infinitas.model + "Start, #" + Infinitas.model + "End").parent().toggle();
 }

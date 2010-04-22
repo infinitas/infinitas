@@ -27,7 +27,7 @@
 		var $wysiwyg = 'fck';
 
 		var $helpers = array(
-			'Html',
+			'Html', 'Form',
 			//'Libs.Design',
 			'Libs.Wysiwyg',
 			//'Libs.Gravatar'
@@ -497,5 +497,19 @@
 
 		function niceAltText($text){
 			return $text;
+		}
+
+		function datePicker($classes, $model = null){
+			if (!$model){
+				$model = Inflector::classify($this->params['controller']);
+			}
+
+			$out = '';
+			foreach((array)$classes as $class){
+				$out .= '<div id="'.$model.'DatePicker'.ucfirst($class).'"></div>';
+				$out .= $this->Form->input($model.'.'.$class, array('type' => 'text'))."\n";
+			}
+
+			return $out;
 		}
 	}
