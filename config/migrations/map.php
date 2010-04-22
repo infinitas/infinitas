@@ -24,5 +24,7 @@ $map = array(
 		'081_shop_update_image_table' => 'M4bcf87eee70c4d7eb8e822386318cd70'),
 	12 => array(
 		'081_modding_date_fields_and_adding_time' => 'M4bd0bc203d7046a1a90819f86318cd70'),
+	13 => array(
+		'081_modding_spotlights_adding_time' => 'M4bd0bd9fbb4441c89c941fb86318cd70'),
 );
 ?>
