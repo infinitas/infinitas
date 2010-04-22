@@ -34,19 +34,20 @@
 	<?php
 		foreach ($images as $image){
 			?>
-				<div class=image">
+				<div title="<?php echo __('File', true), ' :: ', $image['Image']['image']; ?>"class="image">
 					<?php
 						echo $this->Html->image(
 							'content/shop/global/'.$image['Image']['image'],
 							array(
-								'height' => '35px'
+								'height' => '35px',
+								'class' => 'img'
 							)
 						);
 					?>
-					<div class="name"><?php echo $this->Html->link($image['Image']['image'], array('action' => 'edit', $image['Image']['id'])); ?></div>
-					<div class="width"><?php echo __('Width', true), ':', $image['Image']['width'], 'px'; ?></div>
-					<div class="height"><?php echo __('Height', true), ':', $image['Image']['height'], 'px'; ?></div>
-					<div class="ext"><?php echo __('Ext', true), ':', $image['Image']['ext']; ?></div>
+					<div class="name"><?php echo $this->Html->link($this->Text->truncate($image['Image']['image'], 20), array('action' => 'edit', $image['Image']['id'])); ?></div>
+					<div class="width"><span><?php echo __('Width', true), ':</span>', $image['Image']['width'], 'px'; ?></div>
+					<div class="height"><span><?php echo __('Height', true), ':</span>', $image['Image']['height'], 'px'; ?></div>
+					<div class="ext"><span><?php echo __('Ext', true), ':</span>', $image['Image']['ext']; ?></div>
 					<div class="check"><?php echo $this->Form->checkbox($image['Image']['id']); ?></div>
 				</div>
 			<?php

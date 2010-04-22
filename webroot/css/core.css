@@ -232,3 +232,37 @@ div.message {
     padding-right: 5px;
     rloat:         left;
 }
+
+
+/**
+	shop image layout
+*/
+.shop .image{
+	margin:           5px;
+	padding:          5px;
+	width:            90px;
+	height:           95px;
+	border-width:     1px;
+	border-style:     solid;
+	border-color:     #cccccc #eeeeee #eeeeee #cccccc;
+	float:            left;
+	background-color: #ffffff;
+	overflow:         hidden; 
+}
+.shop .image:hover{
+	border-width: 2px;
+	padding:      4px;
+	z-index:      100px;
+	border-color: #eeeeee #cccccc #cccccc #eeeeee;
+}
+
+.shop .image .img:hover { 
+	height: 100%;
+	width:  auto;
+} 
+.shop .image input[type="checkbox"]{
+	float: right;
+}
+.shop .image span{
+	font-weight: bold;
+}
