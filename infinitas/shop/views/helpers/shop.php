@@ -47,4 +47,18 @@
 
 			return $margin;
 		}
+
+		function calculateProfit($cost = 0, $sell = 0, $toCurrency = true){
+			if($cost = 0 || $sell =0){
+				return __('N/a', true);
+			}
+
+			$profit = $sell - $cost;
+
+			if($toCurrency){
+				return $this->currency($profit);
+			}
+
+			return $profit;
+		}
 	}
