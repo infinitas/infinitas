@@ -48,8 +48,8 @@
                     $this->Paginator->sort('discount'),
                     $this->Paginator->sort('amount'),
                     __('Adjusted Price'),
-                    $this->Paginator->sort('start'),
-                    $this->Paginator->sort('end'),
+                    $this->Paginator->sort('start_date'),
+                    $this->Paginator->sort('end_date'),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:75px;'
                     ),
@@ -86,16 +86,16 @@
 							<?php echo $this->Shop->calculateSpecial($special['Product'], $special['Special']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($category['Special']['start']); ?>
+							<?php echo $this->Time->niceShort($special['Special']['start_date'].' '.$special['Special']['start_time']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($category['Special']['end']); ?>
+							<?php echo $this->Time->niceShort($special['Special']['end_date'].' '.$special['Special']['end_time']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($category['Special']['modified']); ?>
+							<?php echo $this->Time->niceShort($special['Special']['modified']); ?>
 						</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($category['Special']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($special['Special']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

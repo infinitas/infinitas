@@ -46,8 +46,8 @@
                     ),
                     $this->Paginator->sort('Product', 'Product.name'),
                     $this->Paginator->sort('Product', 'Product.price'),
-                    $this->Paginator->sort('start'),
-                    $this->Paginator->sort('end'),
+                    $this->Paginator->sort('start_date'),
+                    $this->Paginator->sort('end_date'),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:75px;'
                     ),
@@ -78,10 +78,10 @@
 							<?php echo $this->Shop->currency($spotlight['Product']['price']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($spotlight['Spotlight']['start']); ?>
+							<?php echo $this->Time->niceShort($spotlight['Spotlight']['start_date'].' '.$spotlight['Spotlight']['start_time']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($spotlight['Spotlight']['end']); ?>
+							<?php echo $this->Time->niceShort($spotlight['Spotlight']['end_date'].' '.$spotlight['Spotlight']['end_time']); ?>
 						</td>
 						<td>
 							<?php echo $this->Time->niceShort($spotlight['Spotlight']['modified']); ?>
