@@ -303,7 +303,7 @@
 				return false;
 			}
 
-			return $this->getJson(&$Model, current($data), array(), false);
+			return $this->getJson($Model, current($data), array(), false);
 		}
 	}
 ?>
