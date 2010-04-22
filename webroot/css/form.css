@@ -74,7 +74,16 @@ input{
 	clear:both;
 }
 
-/** date picker*/
+/** 
+	time picker
+*/
+select.timePicker{
+	width:48px;
+	margin-bottom:10px;	
+}
+/** 
+	date picker 
+*/
 .calBox {
   background-color: #928d81;
   padding: 2px;
@@ -82,6 +91,8 @@ input{
   text-align: center;
   color: white;
   width:240px;
+  margin-bottom:5px;
+  margin-top:5px;
 }
 
 .calElement {

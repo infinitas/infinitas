@@ -499,15 +499,19 @@
 			return $text;
 		}
 
-		function datePicker($classes, $model = null){
+		function datePicker($classes, $model = null, $time = false){
 			if (!$model){
 				$model = Inflector::classify($this->params['controller']);
 			}
 
 			$out = '';
 			foreach((array)$classes as $class){
-				$out .= '<div id="'.$model.'DatePicker'.ucfirst($class).'"></div>';
-				$out .= $this->Form->input($model.'.'.$class, array('type' => 'text'))."\n";
+				$out .= '<div id="'.$model.'DatePicker'.ucfirst(Inflector::classify($class)).'"></div>';
+				$out .= $this->Form->input($model.'.'.$class, array('type' => 'text'));
+				if($time){
+					$out .= $this->Form->input($model.'.'.str_replace('date', 'time', $class), array('type' => 'time', 'class' => 'timePicker'));
+				}
+				$out .= "\n";
 			}
 
 			return $out;

@@ -131,16 +131,23 @@ function rowSelect(){
 function datePicker() {
 	var startDate;
 	var endDate;
+	var date;
 
-	startDate = $("#" + Infinitas.model + "DatePickerStart").calendarPicker({
+	startDate = $("#" + Infinitas.model + "DatePickerStartDate").calendarPicker({
 		callback: function(cal){
-			$("#" + Infinitas.model + "Start").val(cal.mysqlDate);
+			$("#" + Infinitas.model + "StartDate").val(cal.mysqlDate);
 		}
 	});
 
-	endDate = $("#" + Infinitas.model + "DatePickerEnd").calendarPicker({
+	endDate = $("#" + Infinitas.model + "DatePickerEndDate").calendarPicker({
 		callback: function(cal){
-			$("#" + Infinitas.model + "End").val(cal.mysqlDate);
+			$("#" + Infinitas.model + "EndDate").val(cal.mysqlDate);
+		}
+	});
+
+	date = $("#" + Infinitas.model + "DatePickerDate").calendarPicker({
+		callback: function(cal){
+			$("#" + Infinitas.model + "Date").val(cal.mysqlDate);
 		}
 	});
 
