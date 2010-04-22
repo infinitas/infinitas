@@ -61,4 +61,25 @@
 
 			return $profit;
 		}
+
+		function breakdown($product = null, $special){
+			if(!$product){
+				return __('No information available');
+			}
+
+			$price = $product['price'];
+			if(!empty($special)){
+				$price = $this->calculateSpecial($product, $special, false);
+			}
+
+
+			return __('Breakdown', true).' :: '.sprintf(
+				__('Retail: %s</br>Cost: %s vs Price: %s</br>Margin: %s vs Profit: %s', true),
+				$this->currency($product['retail']),
+				$this->currency($product['cost']),
+				$this->currency($price),
+				$this->currency($this->calculateMargin($product['cost'], $price)),
+				$this->currency($this->calculateProfit($product['cost'], $price))
+			);
+		}
 	}
