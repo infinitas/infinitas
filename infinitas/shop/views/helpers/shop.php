@@ -33,4 +33,18 @@
 			}
 			return $newPrice;
 		}
+
+		function calculateMargin($cost = 0, $sell = 0, $toCurrency = true){
+			if($cost = 0 || $sell =0){
+				return __('N/a', true);
+			}
+
+			$margin = ($this->calculateProfit($cost, $sell, false)/$sell)*100;
+
+			if($toCurrency){
+				return $this->Number->toPercentage($margin);
+			}
+
+			return $margin;
+		}
 	}
