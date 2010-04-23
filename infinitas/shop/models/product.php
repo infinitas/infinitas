@@ -4,13 +4,31 @@
 
 		var $belongsTo = array(
 			'Image' => array(
-				'className' => 'Shop.Image'
+				'className' => 'Shop.Image',
+				'fields' => array(
+					'Image.id',
+					'Image.image',
+					'Image.width',
+					'Image.height'
+				)
 			),
 			'Unit' => array(
-				'className' => 'Shop.Unit'
+				'className' => 'Shop.Unit',
+				'counterCache' =>  true,
+				'fields' => array(
+					'Unit.id',
+					'Unit.symbol',
+					'Unit.description'
+				)
 			),
 			'Supplier' => array(
-				'className' => 'Shop.Supplier'
+				'className' => 'Shop.Supplier',
+				'counterCache' =>  true,
+				'fields' => array(
+					'Supplier.id',
+					'Supplier.name',
+					'Supplier.slug'
+				)
 			)
 		);
 
@@ -72,6 +90,6 @@
 				'finderQuery' => '',
 				'deleteQuery' => '',
 				'insertQuery' => ''
-			),
+			)
 		);
 	}
