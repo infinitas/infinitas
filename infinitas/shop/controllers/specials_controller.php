@@ -15,8 +15,10 @@
 					'Special.image_id',
 					'Special.discount',
 					'Special.amount',
-					'Special.start',
-					'Special.end',
+					'Special.start_date',
+					'Special.end_date',
+					'Special.start_time',
+					'Special.end_time',
 					'Special.modified',
 				),
 				'contain' => array(
@@ -69,9 +71,10 @@
 				}
 			}
 
+			$shopBranches = $this->Special->ShopBranch->getList();
 			$products = $this->Special->Product->find('list');
 			$images = $this->Special->Image->find('list');
-			$this->set(compact('products', 'images'));
+			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 
 		function admin_edit($id = null){
@@ -91,8 +94,9 @@
 				$this->data = $this->Special->read(null, $id);
 			}
 
+			$shopBranches = $this->Special->ShopBranch->getList();
 			$products = $this->Special->Product->find('list');
 			$images = $this->Special->Image->find('list');
-			$this->set(compact('products', 'images'));
+			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 	}

@@ -48,8 +48,12 @@
                     $this->Paginator->sort('discount'),
                     $this->Paginator->sort('amount'),
                     __('Adjusted Price'),
-                    $this->Paginator->sort('start_date'),
-                    $this->Paginator->sort('end_date'),
+                    $this->Paginator->sort('start_date') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('end_date') => array(
+                        'style' => 'width:75px;'
+                    ),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:75px;'
                     ),
