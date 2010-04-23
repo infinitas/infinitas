@@ -1,10 +1,6 @@
-<?php 
+<?php
 /* SVN FILE: $Id$ */
-<<<<<<< HEAD
-/* Infinitas schema generated on: 2010-04-23 01:04:20 : 1271973920*/
-=======
 /* Infinitas schema generated on: 2010-04-23 18:04:53 : 1272035153*/
->>>>>>> dev
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
