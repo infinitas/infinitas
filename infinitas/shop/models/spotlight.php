@@ -36,4 +36,25 @@
 				)
 			)
 		);
+
+		var $hasAndBelongsToMany = array(
+			'ShopBranch' => array(
+				'className' => 'Shop.ShopBranch',
+				'foreignKey' => 'branch_id',
+				'associationForeignKey' => 'spotlight_id',
+				'with' => 'Shop.BranchesSpotlight',
+				'unique' => true,
+				'conditions' => '',
+				'fields' => array(
+					'ShopBranch.id',
+					'ShopBranch.name'
+				),
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'finderQuery' => '',
+				'deleteQuery' => '',
+				'insertQuery' => ''
+			),
+		);
 	}
