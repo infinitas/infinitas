@@ -25,7 +25,7 @@
 				<div class="data">
 					<?php
 						echo $this->Form->input('id');
-						echo $this->Form->input('name');
+						echo $this->Form->input('name', array('class' => 'title'));
 						echo $this->Form->input('address_id', array('empty' => __(Configure::read('Website.empty_select'), true)));
 						echo $this->Form->input('email');
 						echo $this->Form->input('phone');
