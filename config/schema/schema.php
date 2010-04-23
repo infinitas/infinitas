@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-04-22 02:04:45 : 1271891985*/
+/* Infinitas schema generated on: 2010-04-23 18:04:53 : 1272035153*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -779,6 +779,7 @@ class InfinitasSchema extends CakeSchema {
 		'image_id' => array('type' => 'string', 'null' => true, 'default' => NULL),
 		'rating' => array('type' => 'float', 'null' => true, 'default' => '0'),
 		'rating_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'supplier_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -806,8 +807,10 @@ class InfinitasSchema extends CakeSchema {
 		'image_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'discount' => array('type' => 'float', 'null' => true, 'default' => NULL),
 		'amount' => array('type' => 'float', 'null' => true, 'default' => NULL),
-		'start' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'end' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'start_date' => array('type' => 'date', 'null' => false, 'default' => NULL),
+		'end_date' => array('type' => 'date', 'null' => false, 'default' => NULL),
+		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
+		'end_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -819,8 +822,10 @@ class InfinitasSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'product_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'image_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'start' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'end' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'start_date' => array('type' => 'date', 'null' => false, 'default' => NULL),
+		'end_date' => array('type' => 'date', 'null' => false, 'default' => NULL),
+		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
+		'end_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -854,6 +859,18 @@ class InfinitasSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $shop_units = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
 	var $user_configs = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
