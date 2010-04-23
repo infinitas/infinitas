@@ -46,8 +46,12 @@
                     ),
                     $this->Paginator->sort('Product', 'Product.name'),
                     $this->Paginator->sort('Product', 'Product.price'),
-                    $this->Paginator->sort('start_date'),
-                    $this->Paginator->sort('end_date'),
+                    $this->Paginator->sort('start_date') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('end_date') => array(
+                        'style' => 'width:75px;'
+                    ),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:75px;'
                     ),

@@ -68,9 +68,10 @@
 				}
 			}
 
+			$shopBranches = $this->Spotlight->ShopBranch->getList();
 			$products = $this->Spotlight->Product->find('list');
 			$images = $this->Spotlight->Image->find('list');
-			$this->set(compact('products', 'images'));
+			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 
 		function admin_edit($id = null){
@@ -90,8 +91,9 @@
 				$this->data = $this->Spotlight->read(null, $id);
 			}
 
+			$shopBranches = $this->Spotlight->ShopBranch->getList();
 			$products = $this->Spotlight->Product->find('list');
 			$images = $this->Spotlight->Image->find('list');
-			$this->set(compact('products', 'images'));
+			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 	}

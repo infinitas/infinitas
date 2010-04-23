@@ -33,6 +33,7 @@
 					<?php
         				echo $this->Design->niceBox();
         					?><h2><?php __('config'); ?></h2><?php
+							echo $this->Form->input('ShopBranch');
 							echo $this->Form->input('product_id', array('empty' => __(Configure::read('Website.empty_select'), true)));
         				echo $this->Design->niceBoxEnd();
 
