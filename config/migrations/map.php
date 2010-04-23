@@ -26,5 +26,7 @@ $map = array(
 		'081_modding_date_fields_and_adding_time' => 'M4bd0bc203d7046a1a90819f86318cd70'),
 	13 => array(
 		'081_modding_spotlights_adding_time' => 'M4bd0bd9fbb4441c89c941fb86318cd70'),
+	14 => array(
+		'081_adding_units_and_updating_products' => 'M4bd1afc44dc840aba1e41e5c6318cd70'),
 );
 ?>
