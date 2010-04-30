@@ -3,4 +3,14 @@
 		var $helpers = array(
 			'Shop.Shop'
 		);
+
+		function beforeFilter(){
+			parent::beforeFilter();
+
+			$this->addCss(
+				array(
+					'/shop/css/shop'
+				)
+			);
+		}
 	}
