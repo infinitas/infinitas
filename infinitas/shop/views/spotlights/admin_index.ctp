@@ -66,20 +66,13 @@
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($spotlight['Spotlight']['id']); ?>&nbsp;</td>
                         <td>
-							<?php
-								echo $this->Html->image(
-									'content/shop/global/'.!empty($spotlight['Image']['image']) ? $spotlight['Image']['image'] : $spotlight['Product']['Image']['image'],
-									array(
-										'height' => '35px'
-									)
-								);
-							?>&nbsp;
+							<?php echo $this->Shop->getImage($spotlight); ?>&nbsp;
 						</td>
                 		<td>
                 			<?php echo $this->Html->link($spotlight['Product']['name'], array('action' => 'edit', $spotlight['Spotlight']['id'])); ?>&nbsp;
                 		</td>
-						<td title="<?php echo $this->Shop->breakdown($spotlight['Product']); ?>">
-							<?php echo $this->Shop->currency($spotlight['Product']['price']); ?>
+						<td title="<?php echo $this->Shop->breakdown($spotlight['Product'], $spotlight['Product']['Special']); ?>">
+							<?php echo $this->Shop->calculateSpecial($spotlight['Product'], $spotlight['Product']['Special']); ?>
 						</td>
 						<td>
 							<?php echo $this->Time->niceShort($spotlight['Spotlight']['start_date'].' '.$spotlight['Spotlight']['start_time']); ?>

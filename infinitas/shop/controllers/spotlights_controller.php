@@ -16,6 +16,7 @@
 					'Spotlight.end_date',
 					'Spotlight.start_time',
 					'Spotlight.end_time',
+					'Spotlight.active',
 					'Spotlight.modified',
 				),
 				'contain' => array(
@@ -35,6 +36,20 @@
 								'Image.id',
 								'Image.image'
 							)
+						),
+						'Special' => array(
+							'fields' => array(
+								'Special.id',
+								'Special.product_id',
+								'Special.image_id',
+								'Special.discount',
+								'Special.amount',
+								'Special.start_date',
+								'Special.start_time',
+								'Special.end_date',
+								'Special.end_time',
+								'Special.active'
+							)
 						)
 					),
 					'Image' => array(
@@ -53,8 +68,8 @@
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
-				'active' => (array)Configure::read('CORE.active_options'),
-				'product_id' => $this->Spotlight->Product->find('list')
+				'product_id' => $this->Spotlight->Product->find('list'),
+				'active' => (array)Configure::read('CORE.active_options')
 			);
 			$this->set(compact('spotlights','filterOptions'));
 		}
@@ -82,7 +97,7 @@
 
 			if (!empty($this->data)) {
 				if ($this->Spotlight->saveAll($this->data)) {
-					$this->Spotlight->setFlash('Your spotlight has been saved.');
+					$this->Session->setFlash('Your spotlight has been saved.');
 					$this->redirect(array('action' => 'index'));
 				}
 			}

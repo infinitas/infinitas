@@ -1,7 +1,7 @@
 <?php
 	class ShopHelper extends AppHelper{
 		var $helpers = array(
-			'Number', 'Form',
+			'Number', 'Form', 'Html',
 			'Libs.Wysiwyg',
 		);
 
@@ -24,18 +24,26 @@
 				$special = $product['Special'];
 			}
 
-			if($special['discount'] > 0){
+			// @todo figure which is the current special
+			$special = isset($special[0]) ? $special[0] : $special;
+			$newPrice = $product['price'];
+
+			if(isset($special['discount']) && (int)$special['discount'] > 0){
 				$newPrice = $product['price'] - (($product['price'] / 100) * $special['discount']);
 			}
 
-			if ($toCurrency){
+			else if(isset($special['amount']) && (int)$special['amount'] > 0){
+				$newPrice = $product['price'] - $special['amount'];
+			}
+
+			if ((bool)$toCurrency){
 				return $this->currency($newPrice);
 			}
 			return $newPrice;
 		}
 
 		function calculateMargin($cost = 0, $sell = 0, $toCurrency = true){
-			if($cost = 0 || $sell =0){
+			if($cost == 0 || $sell == 0){
 				return __('N/a', true);
 			}
 
@@ -62,7 +70,7 @@
 			return $profit;
 		}
 
-		function breakdown($product = null, $special){
+		function breakdown($product = null, $special = array()){
 			if(!$product){
 				return __('No information available');
 			}
@@ -74,12 +82,33 @@
 
 
 			return __('Breakdown', true).' :: '.sprintf(
-				__('Retail: %s</br>Cost: %s vs Price: %s</br>Margin: %s vs Profit: %s', true),
+				__('Retail: %s<br/>Cost: %s vs Price: %s<br/>Margin: %s vs Profit: %s', true),
 				$this->currency($product['retail']),
 				$this->currency($product['cost']),
 				$this->currency($price),
-				$this->currency($this->calculateMargin($product['cost'], $price)),
-				$this->currency($this->calculateProfit($product['cost'], $price))
+				$this->calculateMargin($product['cost'], $price),
+				$this->calculateProfit($product, $special)
+			);
+		}
+
+		function getImage($data){
+			if(isset($data['Image']['image'])){
+				$img = $data['Image']['image'];
+			}
+
+			else if(isset($data['Product']['Image']['image'])){
+				$img = $data['Product']['Image']['image'];
+			}
+
+			else{
+				$img = Configure::read('Shop.default_image');
+			}
+
+			return $this->Html->image(
+				'content/shop/global/'.$img,
+				array(
+					'height' => '35px'
+				)
 			);
 		}
 	}

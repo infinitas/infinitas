@@ -32,6 +32,12 @@
 			)
 		);
 
+		var $hasMany = array(
+			'Special' => array(
+				'className' => 'Shop.Special'
+			)
+		);
+
 		var $hasAndBelongsToMany = array(
 			'ProductImage' => array(
 				'className' => 'Shop.Image',

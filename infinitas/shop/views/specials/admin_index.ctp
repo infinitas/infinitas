@@ -47,7 +47,7 @@
                     $this->Paginator->sort('Product', 'Product.name'),
                     $this->Paginator->sort('discount'),
                     $this->Paginator->sort('amount'),
-                    __('Adjusted Price'),
+                    __('Adjusted Price', true),
                     $this->Paginator->sort('start_date') => array(
                         'style' => 'width:75px;'
                     ),
@@ -68,14 +68,7 @@
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($special['Special']['id']); ?>&nbsp;</td>
                         <td>
-							<?php
-								echo $this->Html->image(
-									'content/shop/global/'.!empty($special['Image']['image']) ? $special['Image']['image'] : $special['Product']['Image']['image'],
-									array(
-										'height' => '35px'
-									)
-								);
-							?>&nbsp;
+							<?php echo $this->Shop->getImage($special); ?>&nbsp;
 						</td>
                 		<td>
                 			<?php echo $this->Html->link($special['Product']['name'], array('action' => 'edit', $special['Special']['id'])); ?>&nbsp;
@@ -86,7 +79,7 @@
 						<td>
 							<?php echo $this->Shop->currency($special['Special']['amount']); ?>
 						</td>
-						<td title="<?php echo $this->Shop->breakdown($spotlight['Product'], $special['Special']); ?>">
+						<td title="<?php echo $this->Shop->breakdown($special['Product'], $special['Special']); ?>">
 							<?php echo $this->Shop->calculateSpecial($special['Product'], $special['Special']); ?>
 						</td>
 						<td>

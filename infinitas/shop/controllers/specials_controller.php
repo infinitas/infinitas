@@ -19,6 +19,7 @@
 					'Special.end_date',
 					'Special.start_time',
 					'Special.end_time',
+					'Special.active',
 					'Special.modified',
 				),
 				'contain' => array(
@@ -56,8 +57,8 @@
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
-				'active' => (array)Configure::read('CORE.active_options'),
-				'product_id' => $this->Special->Product->find('list')
+				'product_id' => $this->Special->Product->find('list'),
+				'active' => (array)Configure::read('CORE.active_options')
 			);
 			$this->set(compact('specials','filterOptions'));
 		}

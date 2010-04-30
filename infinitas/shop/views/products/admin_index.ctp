@@ -74,7 +74,7 @@
             foreach ($products as $product){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($product['Category']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($product['Product']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
 								echo $this->Html->image(
@@ -89,10 +89,10 @@
                 			<?php echo $this->Html->link($product['Product']['name'], array('action' => 'edit', $product['Product']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link($product['Category']['name'], array('action' => 'edit', $product['Category']['id'])); ?>&nbsp;
+                			<?php echo $this->Text->toList(Set::extract('/name', $product['ProductCategory'])); ?>
                 		</td>
 						<td>
-							<?php echo $this->Text->toList(Set::extract('/BranchDetail/name', $category['ShopBranch'])); ?>
+							<?php echo $this->Text->toList(Set::extract('/BranchDetail/name', $product['ShopBranch'])); ?>
 						</td>
 						<td>
                 			<?php echo $this->Html->link($product['Unit']['name'], array('action' => 'edit', $product['Unit']['id'])); ?>&nbsp;
@@ -110,10 +110,10 @@
                 			<?php echo $this->Html->link($product['Supplier']['name'], array('action' => 'edit', $product['Supplier']['id'])); ?>&nbsp;
                 		</td>
 						<td>
-							<?php echo $this->Time->niceShort($category['Category']['modified']); ?>
+							<?php echo $this->Time->niceShort($product['Product']['modified']); ?>
 						</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($category['Category']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($product['Product']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
