@@ -50,6 +50,14 @@
 			'view'
 		);
 
+		protected $cssToLoad = array();
+
+		function beforeRender(){
+			parent::beforeRender();
+
+			$this->set('css_for_layout', $this->cssToLoad);
+		}
+
 		/**
 		* normal before filter.
 		*/
@@ -105,6 +113,14 @@
 
 			if (isset($this->{$this->modelClass}->_schema) && array_key_exists('views', $this->{$this->modelClass}->_schema) && (!isset($this->params['prefix']) || isset($this->params['prefix']) && $this->params['prefix'] != 'admin') && in_array($this->params['action'], $this->viewableActions)) {
 					$this->{$this->modelClass}->Behaviors->attach('Libs.Viewable');
+			}
+		}
+
+		function addCss($css){
+			foreach((array)$css as $_css){
+				if(!in_array($_css, $this->cssToLoad)){
+					$this->cssToLoad[] = $_css;
+				}
 			}
 		}
 
@@ -331,7 +347,7 @@
 			);
 
 			$massActionMethod = '__massAction' . ucfirst($massAction);
-	
+
 			if(method_exists($this, $massActionMethod)){
 				return $this->{$massActionMethod}($ids);
 			}
