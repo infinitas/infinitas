@@ -119,6 +119,9 @@ jQuery.fn.calendarPicker = function(options) {
         		month = "0" + month;
         	}
         	day = date.getDate();
+        	if(day.length == 1) {
+        		day = "0" + day;
+        	}
 
             calendar.mysqlDate = year + month + day;
           options.callback(calendar);

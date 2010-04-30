@@ -35,4 +35,11 @@
 			tog = !tog;
 		});
 	};
+
+	/**
+	 * image dropdown
+	 */
+	FormHelper.imageDropdown = function(fieldId) {
+		$("#" + fieldId).msDropDown();
+	};
 })(jQuery);
