@@ -51,7 +51,7 @@
             </div>
         </div>
         <?php
-        	echo $this->element( 'admin/bottom' );
+        	echo $this->element('admin/bottom');
             echo $this->Html->script($js_for_layout);
         ?>
     </body>
