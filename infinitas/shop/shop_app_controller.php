@@ -12,5 +12,11 @@
 					'/shop/css/shop'
 				)
 			);
+
+			$this->addJs(
+				array(
+					'/shop/js/shop'
+				)
+			);
 		}
 	}
