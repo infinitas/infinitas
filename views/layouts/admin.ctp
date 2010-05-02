@@ -8,9 +8,11 @@
         	?>
     	</title>
         <?php
-            echo $this->Html->meta( 'icon' );
-            echo $this->Html->css( 'admin' );
-    		echo $scripts_for_layout;
+            echo $this->Html->meta('icon');
+            echo $this->Html->css('admin');
+            echo $this->Html->css('/libs/css/jquery_ui');
+            echo $scripts_for_layout;
+            echo $this->Html->css($css_for_layout);
     		//echo $this->Html->script('/wysiwyg/js/tiny_mce/tiny_mce');
     		echo $this->Html->script('/wysiwyg/js/ck_editor/ckeditor');
         ?>
