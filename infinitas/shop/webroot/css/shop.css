@@ -1,0 +1,9 @@
+.ui-slider-horizontal  {
+	height:        0.8em;
+	width:         255px;
+	margin-bottom: 10px;
+}
+
+#SpecialDiscount{
+	text-align: right;
+}
