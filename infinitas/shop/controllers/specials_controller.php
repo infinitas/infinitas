@@ -75,7 +75,34 @@
 			$shopBranches = $this->Special->ShopBranch->getList();
 			$products = $this->Special->Product->find('list');
 			$images = $this->Special->Image->find('list');
-			$this->set(compact('shopBranches', 'products', 'images'));
+
+			$maxPrice = $this->Special->Product->find(
+				'all',
+				array(
+					'fields' => array(
+						'Product.price'
+					),
+					'order' => array(
+						'Product.price' => 'DESC'
+					)
+				)
+			);
+			$maxPrice = isset($maxPrice[0]['Product']['price']) ? $maxPrice[0]['Product']['price'] : 1000;
+
+			$minPrice = $this->Special->Product->find(
+				'all',
+				array(
+					'fields' => array(
+						'Product.cost'
+					),
+					'order' => array(
+						'Product.cost' => 'ASC'
+					)
+				)
+			);
+			$minPrice = isset($minPrice[0]['Product']['cost']) ? $minPrice[0]['Product']['cost'] : 0;
+
+			$this->set(compact('shopBranches', 'products', 'images', 'minPrice', 'maxPrice'));
 		}
 
 		function admin_edit($id = null){
@@ -99,5 +126,24 @@
 			$products = $this->Special->Product->find('list');
 			$images = $this->Special->Image->find('list');
 			$this->set(compact('shopBranches', 'products', 'images'));
+		}
+
+		function admin_getPrices(){
+			$this->set(
+				'json',
+				$this->Special->Product->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Product.id' => $this->params['named']['product']
+						),
+						'fields' => array(
+							'Product.price',
+							'Product.retail',
+							'Product.cost',
+						)
+					)
+				)
+			);
 		}
 	}
