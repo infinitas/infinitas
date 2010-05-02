@@ -22,12 +22,12 @@ function debug(data){
 require(
 [
 	"require",
-	Infinitas.base + "libs/js/libs/metadata.js",
 	Infinitas.base + "libs/js/libs/core.js",
 	Infinitas.base + "libs/js/libs/form.js",
 	Infinitas.base + "libs/js/libs/html.js",
 	Infinitas.base + "libs/js/libs/number.js",
 
+	Infinitas.base + "libs/js/3rd/metadata.js",
 	Infinitas.base + "libs/js/3rd/date.js",
 	Infinitas.base + "libs/js/3rd/image_drop_down.js",
 
