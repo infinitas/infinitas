@@ -9,12 +9,8 @@
     	</title>
         <?php
             echo $this->Html->meta('icon');
-            echo $this->Html->css('admin');
-            echo $this->Html->css('/libs/css/jquery_ui');
             echo $scripts_for_layout;
             echo $this->Html->css($css_for_layout);
-    		//echo $this->Html->script('/wysiwyg/js/tiny_mce/tiny_mce');
-    		echo $this->Html->script('/wysiwyg/js/ck_editor/ckeditor');
         ?>
 		<script type="text/javascript">
 			Infinitas = <?php echo json_encode($infinitasJsData); ?>;
@@ -22,15 +18,6 @@
 				Infinitas.base = Infinitas.base + '/';
 			}
 		</script>
-		<?php
-    		echo $this->Html->script(
-    			array(
-	    			'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js',
-					'/libs/js/libs/require',
-					'/libs/js/infinitas'
-				)
-    		);
-		?>
     </head>
     <body>
         <div id="wrap">
@@ -63,6 +50,9 @@
 				 ?>
             </div>
         </div>
-        <?php echo $this->element( 'admin/bottom' ); ?>
+        <?php
+        	echo $this->element( 'admin/bottom' );
+            echo $this->Html->script($js_for_layout);
+        ?>
     </body>
 </html>
