@@ -38,72 +38,14 @@
 								'class' => "productChange {url:{action:'getPrices'}, target:'price'}"
 							)
 						);
-						?><div class="priceAdjusters"><?php
-							echo $this->Form->input('id');
-							echo $this->Form->input('amount', array('before' => Configure::read('Currency.unit')));
-							?><div class="SpecialAmountSlider"></div><?php
-							echo $this->Form->input('discount', array('after' => '%'));
-							?><div class="SpecialDiscountSlider"></div>
-						</div>
-					<script type="text/javascript">
-						$(function() {
-							$(".priceAdjusters").hide();
-							var currentProduct;
-							$(".SpecialDiscountSlider").slider({
-								value:0,
-								min: 0,
-								max: 100,
-								range: "min",
-								step: 0.01,
-								slide: function(event, ui) {
-									specialAmount = $.NumberHelper.format((currentProduct.price/100)*ui.value);
-
-									$("#SpecialAmount").val(specialAmount);
-									$(".SpecialAmountSlider").slider("option", "value", specialAmount);
-									$("#SpecialDiscount").val(ui.value);
-								}
-							});
-
-							$('.productChange').change(function(){
-								if ($(this).val().length != 0) {
-									metaData = $.HtmlHelper.getParams($(this));
-									metaData.params.product = $(this).val();
-									$.HtmlHelper.requestAction(metaData, resetData);
-								}
-							});
-
-							$('#SpecialAmount').change(function(){
-								var amount = $(this).val();
-								var discount = $.NumberHelper.format((amount / currentProduct.price) * 100);
-
-								$('#SpecialDiscount').val(discount);
-								$(".SpecialDiscountSlider").slider("option", "value", discount);
-
-							});
-
-							$('#SpecialDiscount').change(function(){
-								var discount = $(this).val();
-								var amount = $.NumberHelper.format((currentProduct.price/100) * discount);
-
-								$('#SpecialAmount').val(amount);
-								$(".SpecialDiscountSlider").slider("option", "value", discount);
-
-							});
-
-							var maxDiscount;
-							function resetData(data, metaData){
-								$(".priceAdjusters").show();
-								currentProduct = data.Product;
-								maxDiscount = 100 - (currentProduct.cost/currentProduct.price)*100;
-
-								$(".SpecialDiscountSlider").slider("option", "max", maxDiscount);
-
-								$("#SpecialAmount").val(0.00);
-								$("#SpecialDiscount").val(0.00);
-								$(".SpecialDiscountSlider").slider("option", "value", 0);
-							}
-						});
-					</script>
+						?>
+					<div class="priceAdjusters"><?php
+						echo $this->Form->input('id');
+						echo $this->Form->input('amount', array('before' => Configure::read('Currency.unit')));
+						?><div class="SpecialAmountSlider"></div><?php
+						echo $this->Form->input('discount', array('after' => '%'));
+						?><div class="SpecialDiscountSlider"></div>
+					</div>
 				</div>
 				<div class="config">
 					<?php
