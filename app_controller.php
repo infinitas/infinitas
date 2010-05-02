@@ -51,11 +51,13 @@
 		);
 
 		protected $cssToLoad = array();
+		protected $jsToLoad  = array();
 
 		function beforeRender(){
 			parent::beforeRender();
 
 			$this->set('css_for_layout', $this->cssToLoad);
+			$this->set('js_for_layout', $this->jsToLoad);
 		}
 
 		/**
@@ -124,7 +126,15 @@
 			}
 		}
 
-		function render( $action = NULL, $layout = NULL, $file = NULL ) {
+		function addJs($js){
+			foreach((array)$js as $_js){
+				if(!in_array($_js, $this->jsToLoad)){
+					$this->jsToLoad[] = $_js;
+				}
+			}
+		}
+
+		function render($action = null, $layout = null, $file = null) {
 			if(($this->action == 'admin_edit' || $this->action == 'admin_add')) {
 				$viewPath = App::pluginPath($this->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->action . '.ctp';
 				if(!file_exists($viewPath)) {
