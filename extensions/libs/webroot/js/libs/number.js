@@ -1,17 +1,3 @@
-/*
-* @Copyright (c) 2010 Ricardo Andrietta Mendes - eng.rmendes@gmail.com
-*
-* How to use it:
-* var formated_value = $().number_format(final_value);
-*
-* Advanced:
-* var formated_value = $().number_format(final_value, {
-* 	numberOfDecimals:3,
-* 	decimalSeparator: '.',
-* 	thousandSeparator: ',',
-* 	symbol: 'R$'
-* });
-*/
 (function($) {
 	var NumberHelper = $.NumberHelper = {};
 	
@@ -116,6 +102,19 @@
 	 * format a number.
 	 * 
 	 * format numbers setting the number of decimal places and the seperators. 
+	 * 
+	 * @Copyright (c) 2010 Ricardo Andrietta Mendes - eng.rmendes@gmail.com
+	 *
+	 * How to use it:
+	 * var formated_value = $().number_format(final_value);
+	 *
+	 * Advanced:
+	 * var formated_value = $().number_format(final_value, {
+	 * 	numberOfDecimals:3,
+	 * 	decimalSeparator: '.',
+	 * 	thousandSeparator: ',',
+	 * 	symbol: 'R$'
+	 * });
 	 */
 	NumberHelper.format = function(numero, params){
 		var sDefaults = {
