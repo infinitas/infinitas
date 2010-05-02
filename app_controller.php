@@ -50,8 +50,15 @@
 			'view'
 		);
 
-		protected $cssToLoad = array();
-		protected $jsToLoad  = array();
+		protected $cssToLoad = array(
+			'/libs/css/jquery_ui'
+		);
+
+		protected $jsToLoad  = array(
+			'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js',
+			'/libs/js/libs/require',
+			'/libs/js/infinitas'
+		);
 
 		function beforeRender(){
 			parent::beforeRender();
@@ -69,8 +76,23 @@
 			$this->Infinitas->_setupAuth();
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
-			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin' && $this->params['controller'] !== 'upgrade') {
-				$this->Infinitas->checkDbVersion();
+			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
+				$this->addJs(
+					array(
+						'/wysiwyg/js/ck_editor/ckeditor',
+						//'/wysiwyg/js/tiny_mce/tiny_mce',
+					)
+				);
+
+				$this->addCss(
+					array(
+						'admin'
+					)
+				);
+
+				if($this->params['controller'] !== 'upgrade'){
+					$this->Infinitas->checkDbVersion();
+				}
 			}
 
 			if (isset($this->data['PaginationOptions']['pagination_limit'])) {
@@ -118,7 +140,24 @@
 			}
 		}
 
-		function addCss($css){
+		/**
+		 * add css from other controllers.
+		 *
+		 * way to inject css from plugins to the layout. call addCss(false) to
+		 * clear current stack, call addCss(true) to get a list back of what is there.
+		 *
+		 * @param mixed $css array of paths like HtmlHelper::css or a string path
+		 */
+		function addCss($css = false){
+			if($css === false){
+				$this->cssToLoad = array();
+				return true;
+			}
+
+			if($css === true){
+				return $this->cssToLoad;
+			}
+
 			foreach((array)$css as $_css){
 				if(!in_array($_css, $this->cssToLoad)){
 					$this->cssToLoad[] = $_css;
@@ -126,7 +165,24 @@
 			}
 		}
 
-		function addJs($js){
+		/**
+		 * add js from other controllers.
+		 *
+		 * way to inject js from plugins to the layout. call addJs(false) to
+		 * clear current stack, call addJs(true) to get a list back of what is there.
+		 *
+		 * @param mixed $js array of paths like HtmlHelper::css or a string path
+		 */
+		function addJs($js = false){
+			if($js === false){
+				$this->jsToLoad = array();
+				return true;
+			}
+
+			if($js === true){
+				return $this->jsToLoad;
+			}
+
 			foreach((array)$js as $_js){
 				if(!in_array($_js, $this->jsToLoad)){
 					$this->jsToLoad[] = $_js;
