@@ -14,6 +14,64 @@
 */
 (function($) {
 	var NumberHelper = $.NumberHelper = {};
+	
+	/**
+	 * Formats a number into a currency format.
+	 *
+	 * ### Options
+	 *
+	 * - `before` - The currency symbol to place before whole numbers ie. '$'  
+	 * - `after` - The currency symbol to place after decimal numbers ie. 'c'. 
+	 * - `zero` - The text to use for zero values, can be a string or a number. ie. 0, 'Free!'
+	 * - `numberOfDecimals` - Number of decimal places to use. ie. 2
+	 * - `thousandSeparator` - Thousands separator ie. ','
+	 * - `decimalSeparator` - Decimal separator symbol ie. '.'
+	 * - `negative` - Symbol for negative numbers. If equal to '()', the number will be wrapped with ( and )
+	 * 
+	 * @param float number the number to convert to currency 
+	 * @param object the params to pass
+	 * 
+	 * return string the zero string or the currecy converted string.
+	 */
+	NumberHelper.currency = function(number, params){
+		var sDefaults = {
+			numberOfDecimals: 2,
+			decimalSeparator: '.',
+			thousandSeparator: ',',
+			symbol: '',
+			before: $.Core.config('Currency.unit'),
+			after: $.Core.config('Currency.unit_after'),
+			zero: 'Free!',
+			negative: '()'
+		}
+
+		var options = jQuery.extend(sDefaults, params);
+
+		number = $.NumberHelper.format(number, params);
+
+		switch(number) {
+			case number == 0:
+				return options.zero;
+				break;
+
+			default:
+					number = options.before + number + options.after;
+					switch(number) {
+						case number < 0:
+							if(options.negative == '()') {
+								return '(' + number ')';
+							}
+							break;
+
+						default:
+							return number;
+							break;
+					}
+				break;
+		}
+
+		return $.NumberHelper.format(number, params);
+	}
 
 	/**
 	 * Returns a formatted-for-humans file size.
@@ -53,7 +111,12 @@
 
 		return NumberHelper.format(number, {numberOfDecimals: precision}) + '%';
 	}
-
+	
+	/**
+	 * format a number.
+	 * 
+	 * format numbers setting the number of decimal places and the seperators. 
+	 */
 	NumberHelper.format = function(numero, params){
 		var sDefaults = {
 			numberOfDecimals: 2,
