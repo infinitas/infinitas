@@ -15,6 +15,45 @@
 (function($) {
 	var NumberHelper = $.NumberHelper = {};
 
+	/**
+	 * Returns a formatted-for-humans file size.
+	 *
+	 * @param integer $length Size in bytes
+	 * @return string Human readable size
+	 * @access public
+	 */
+	NumberHelper.toReadableSize = function (size) {
+		switch (true) {
+			case size < 1024:
+				return size + "Bytes";
+
+			case (size / 1024) < 1024:
+				return $.NumberHelper.format(size / 1024, {numberOfDecimals: 0}) + " KB";
+
+			case (size / 1024 / 1024) < 1024:
+				return $.NumberHelper.format(size / 1024 / 1024, {numberOfDecimals: 2}) + " MB";
+
+			case (size / 1024 / 1024 / 1024) < 1024:
+				return $.NumberHelper.format(size / 1024 / 1024 / 1024, {numberOfDecimals: 2}) + " GB";
+
+			default:
+				return $.NumberHelper.format(size / 1024 / 1024 / 1024 / 1024, {numberOfDecimals: 2}) + " TB";
+		}
+	}
+
+	/**
+	 * Formats a number into a percentage string.
+	 *
+	 * @param float number A floating point number
+	 * @param integer precision The precision of the returned number
+	 * @return string Percentage string
+	 */
+	NumberHelper.toPercentage = function(number, precision) {
+		precision = $.Core.type(precision) != 'undefined' ? precision : 2;
+
+		return NumberHelper.format(number, {numberOfDecimals: precision}) + '%';
+	}
+
 	NumberHelper.format = function(numero, params){
 		var sDefaults = {
 			numberOfDecimals: 2,
