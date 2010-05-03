@@ -91,7 +91,7 @@
 			);
 		}
 
-		function getImage($data){
+		function getImage($data, $params = array('height' => '35px')){
 			if(isset($data['Image']['image'])){
 				$img = $data['Image']['image'];
 			}
@@ -106,9 +106,7 @@
 
 			return $this->Html->image(
 				'content/shop/global/'.$img,
-				array(
-					'height' => '35px'
-				)
+				(array)$params
 			);
 		}
 	}
