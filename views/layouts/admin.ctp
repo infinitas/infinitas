@@ -18,6 +18,9 @@
 				Infinitas.base = Infinitas.base + '/';
 			}
 		</script>
+		<?php
+            echo $this->Html->script($js_for_layout);
+        ?>
     </head>
     <body>
         <div id="wrap">
@@ -52,7 +55,6 @@
         </div>
         <?php
         	echo $this->element('admin/bottom');
-            echo $this->Html->script($js_for_layout);
         ?>
     </body>
 </html>
