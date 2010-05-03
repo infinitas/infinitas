@@ -27,6 +27,16 @@
 						'slug' => $data['data']['slug']
 					);
 					break;
+
+				case 'categories':
+					return array(
+						'plugin' => $data['data']['plugin'],
+						'controller' => $data['data']['controller'],
+						'action' => $data['data']['action'],
+						'id' => $data['data']['id'],
+						'slug' => $data['data']['slug']
+					);
+					break;
 			} // switch
 		}
 
