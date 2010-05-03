@@ -7,7 +7,9 @@
 		);
 
 		function dashboard(){
+			$specials = $this->Product->Special->getSpecials();
 
+			$this->set(compact('specials'));
 		}
 
 		function index(){

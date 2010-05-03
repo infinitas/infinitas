@@ -8,7 +8,7 @@
 				'foreignKey' => 'image_id',
 				'fields' => array(
 					'Image.id',
-					'Image.name',
+					'Image.image',
 					'Image.width',
 					'Image.height'
 				),
@@ -57,4 +57,45 @@
 				'insertQuery' => ''
 			),
 		);
+
+		function getSpecials($limit = 10){
+			$specials = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Special.id',
+						'Special.image_id',
+						'Special.amount',
+						'Special.active',
+						'Special.start_date',
+						'Special.end_date'
+					),
+					'conditions' => array(
+						'Special.active' => 1,
+						'and' => array(
+							'CONCAT(`Special`.`start_date`, " ", `Special`.`start_time`) <= ' => date('Y-m-d H:i:s'),
+							'CONCAT(`Special`.`end_date`, " ", `Special`.`end_time`) >= ' => date('Y-m-d H:i:s')
+						)
+					),
+					'contain' => array(
+						'Product' => array(
+							'fields' => array(
+								'Product.id',
+								'Product.name',
+								'Product.slug',
+								'Product.price',
+								'Product.retail',
+								'Product.description'
+							),
+							'Image',
+							'ProductCategory'
+						),
+						'Image'
+					),
+					'limit' => $limit
+				)
+			);
+
+			return $specials;
+		}
 	}
