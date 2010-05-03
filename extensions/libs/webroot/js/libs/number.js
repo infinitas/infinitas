@@ -1,22 +1,22 @@
 (function($) {
 	var NumberHelper = $.NumberHelper = {};
-	
+
 	/**
 	 * Formats a number into a currency format.
 	 *
 	 * ### Options
 	 *
-	 * - `before` - The currency symbol to place before whole numbers ie. '$'  
-	 * - `after` - The currency symbol to place after decimal numbers ie. 'c'. 
+	 * - `before` - The currency symbol to place before whole numbers ie. '$'
+	 * - `after` - The currency symbol to place after decimal numbers ie. 'c'.
 	 * - `zero` - The text to use for zero values, can be a string or a number. ie. 0, 'Free!'
 	 * - `numberOfDecimals` - Number of decimal places to use. ie. 2
 	 * - `thousandSeparator` - Thousands separator ie. ','
 	 * - `decimalSeparator` - Decimal separator symbol ie. '.'
 	 * - `negative` - Symbol for negative numbers. If equal to '()', the number will be wrapped with ( and )
-	 * 
-	 * @param float number the number to convert to currency 
+	 *
+	 * @param float number the number to convert to currency
 	 * @param object the params to pass
-	 * 
+	 *
 	 * return string the zero string or the currecy converted string.
 	 */
 	NumberHelper.currency = function(number, params){
@@ -45,7 +45,7 @@
 					switch(number) {
 						case number < 0:
 							if(options.negative == '()') {
-								return '(' + number ')';
+								return '(' + number + ')';
 							}
 							break;
 
@@ -97,12 +97,12 @@
 
 		return NumberHelper.format(number, {numberOfDecimals: precision}) + '%';
 	}
-	
+
 	/**
 	 * format a number.
-	 * 
-	 * format numbers setting the number of decimal places and the seperators. 
-	 * 
+	 *
+	 * format numbers setting the number of decimal places and the seperators.
+	 *
 	 * @Copyright (c) 2010 Ricardo Andrietta Mendes - eng.rmendes@gmail.com
 	 *
 	 * How to use it:
