@@ -50,6 +50,23 @@
 						'conditions' => array(
 							'Content.active' => 1
 						)
+					),
+					'Shop.Product' => array(
+						'setup' => array(
+							'plugin' => 'shop',
+							'controller' => 'products',
+							'action' => 'view',
+						),
+						'fields' => array(
+							'Product.id',
+							'Product.name',
+							'Product.slug',
+							'Product.description',
+							'Product.created'
+						),
+						'conditions' => array(
+							'Product.active' => 1
+						)
 					)
 				),
 				'conditions' => array(
@@ -70,9 +87,12 @@
 	else{
 		Cache::write('global_feeds', $feeds);
 		foreach($feeds as $feed){
+			if(!isset($feed['Feed']['body']) || empty($feed['Feed']['body'])){
+				continue;
+			}
 			?>
-				<h3><?php echo $feed['Feed']['title'] ?></h3>
-				<p class="news">
+				<div class="news">
+					<h3 class="<?php echo $feed['Feed']['plugin'], ' ', $feed['Feed']['controller']; ?>"><?php echo $feed['Feed']['title'] ?></h3>
 					<?php
 						$eventData = $this->Event->trigger($feed['Feed']['plugin'].'.slugUrl', array('type' => $feed['Feed']['controller'], 'data' => $feed['Feed']));
 						$more = $this->Html->link(
@@ -84,9 +104,10 @@
 						);
 						unset($eventData);
 
-						echo $this->Text->truncate($feed['Feed']['body'], 150, array('html' => true)), ' ', $more;
+						echo $this->Text->truncate(strip_tags($feed['Feed']['body']), 100, array('html' => false));
+						echo $more;
 					?>
-				</p>
+				</div>
 			<?php
 		}
 	}
