@@ -6,6 +6,22 @@
 			'Filter.Filter'
 		);
 
+		function dashboard(){
+
+		}
+
+		function index(){
+
+		}
+
+		function view(){
+
+		}
+
+		function admin_dashboard(){
+
+		}
+
 		function admin_index(){
 			$this->paginate = array(
 				'fields' => array(

@@ -54,6 +54,7 @@ function render(){
 		$.FormHelper.checkboxToggleAll();
 
 		datePicker();
+		$.HtmlHelper.slideshow();
 	});
 }
 
