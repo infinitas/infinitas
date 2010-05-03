@@ -130,6 +130,7 @@
 				return array();
 			}
 
+			$config['config'] = str_replace('\\', '\\\\\\\\', $config['config']);
 			$json = json_decode($config['config'], true);
 
 			if (!$json) {
@@ -201,7 +202,7 @@
 			if($isSeperator) {
 				$class .= ' seperator';
 			}
-			
+
 			$this->_menuData .= '<li class="'.$class.'">';
 			if(!$isSeperator) {
 				$menuLink = $array['MenuItem']['link'];
@@ -250,7 +251,7 @@
 			else {
 				$this->_menuData .= $linkName;
 			}
-			
+
 			$this->_menuData .= '</li>';
 		}
 
