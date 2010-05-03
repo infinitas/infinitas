@@ -49,6 +49,12 @@
 		var $external = true;
 
 		/**
+		 * Set to true when the menu has a current marker to avoid duplicates.
+		 * @var unknown_type
+		 */
+		var $_currentCssDone = false;
+
+		/**
 		* Module Loader.
 		*
 		* This is used to load modules. it generates a wrapper div with the class
@@ -229,11 +235,17 @@
 					}
 				}
 
+				$currentCss = '';
+				if($this->_currentCssDone === false && Router::url($menuLink) == $this->here){
+					$currentCss = ' current';
+					$this->_currentCssDone = true;
+				}
+
 				$this->_menuData .= $this->Html->link(
 					$linkName,
 					$menuLink,
 					array(
-						'class' => 'pureCssMenui'.$suffix,
+						'class' => 'pureCssMenui'.$suffix.$currentCss,
 						'escape' => false
 					)
 				);
