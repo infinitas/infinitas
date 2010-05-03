@@ -79,4 +79,34 @@
 				'insertQuery' => ''
 			),
 		);
+
+		function getCategories($category_id = null){
+			$conditions = array(
+				'Category.parent_id IS NULL'
+			);
+
+			if((int)$category_id > 0){
+				$conditions = array(
+					'Category.parent_id' => $category_id
+				);
+			}
+
+			$categories = $this->find(
+				'all',
+				array(
+					'conditions' => array(
+						$conditions
+					),
+					'fields' => array(
+						'Category.id',
+						'Category.parent_id',
+						'Category.name',
+						'Category.slug',
+						'Category.product_count'
+					)
+				)
+			);
+
+			return $categories;
+		}
 	}
