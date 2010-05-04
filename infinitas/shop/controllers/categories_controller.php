@@ -8,10 +8,6 @@
 
 		function beforeFilter(){
 			parent::beforeFilter();
-
-			if(isset($this->data['Image']['image']['name']) && empty($this->data['Image']['image']['name'])){
-				unset($this->data['Image']);
-			}
 		}
 
 		function index(){
