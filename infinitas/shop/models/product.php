@@ -98,4 +98,31 @@
 				'insertQuery' => ''
 			)
 		);
+
+		function getActiveProducts(){
+			$products = $this->ProductCategory->find(
+				'all',
+				array(
+					'fields' => array(
+						'ProductCategory.id'
+					),
+					'conditions' => array(
+						'ProductCategory.active' => 1
+					),
+					'order' => false,
+					'contain' => array(
+						'Product' => array(
+							'fields' => array(
+								'Product.id', 'Product.id'
+							),
+							'conditions' => array(
+								'Product.active' => 1
+							)
+						)
+					)
+				)
+			);
+
+			return Set::extract('/Product/id', $products);
+		}
 	}
