@@ -37,7 +37,7 @@
     			'action' => 'index'
     		),
     		array(
-    			'class' => 'prepend-12'
+    			'class' => 'moreLink'
     		)
     	)
     ?>
