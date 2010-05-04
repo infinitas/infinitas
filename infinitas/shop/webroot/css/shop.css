@@ -13,7 +13,7 @@
 .category_item .category_image{height: 88px; overflow:hidden;}
 .category_item .category_image img{-moz-box-shadow:5px 5px 6px #666666;}
 
-.product_item{float:left;width:100px;color:#353535;height:210px;padding:0 0 0 6px}
+.product_item{float:left;width:100px;color:#353535;height:210px;padding:0 0 0 6px; clear:none;}
 .product_item div{float:left;background-color:transparent}
 .product_item .product_details{height:65px; text-align: center;}
 .product_item .product_image{height: 88px; overflow:hidden;}
@@ -55,4 +55,7 @@
 	float:         right;
 	padding-right: 10px;
 	padding-top:   7px;
+}
+
+.shop.categories.index div{
 }

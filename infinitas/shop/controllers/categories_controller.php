@@ -84,7 +84,9 @@
 				)
 			);
 
-			$this->set(compact('categories', 'products', 'currentCategory'));
+			$specials = $this->Category->Product->Special->getSpecials(5);
+			$spotlights = $this->Category->Product->Spotlight->getSpotlights(5);
+			$this->set(compact('categories', 'products', 'currentCategory', 'specials', 'spotlights'));
 		}
 
 		function admin_index(){
