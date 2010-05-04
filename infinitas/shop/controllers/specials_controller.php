@@ -35,7 +35,8 @@
 
 			$specials = $this->paginate('Special');
 
-			$this->set(compact('specials'));
+			$spotlights = $this->Special->Product->Spotlight->getSpotlights(5);
+			$this->set(compact('specials', 'spotlights'));
 		}
 
 		function admin_index(){
