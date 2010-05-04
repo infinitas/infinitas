@@ -24,7 +24,7 @@
 
 		var $helpers = array(
 			'Html', 'Form', 'Javascript', 'Session', 'Time',
-			'Libs.Infinitas', 'Libs.TagCloud',
+			'Libs.Infinitas', 'Tags.TagCloud',
 			'Events.Event'
 		);
 
@@ -331,7 +331,7 @@
 			);
 
 			$massActionMethod = '__massAction' . ucfirst($massAction);
-	
+
 			if(method_exists($this, $massActionMethod)){
 				return $this->{$massActionMethod}($ids);
 			}

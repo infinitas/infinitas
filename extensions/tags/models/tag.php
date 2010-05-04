@@ -153,42 +153,4 @@
 				}
 			}
 		}
-
-		/*
-		 * Get count of tags.
-		 *
-		 * Used for things like generating the tag cloud.
-		 */
-		function getCount($limit = 50) {
-			$tags = Cache::read('tag_count');
-			if (!empty($tags)) {
-				return $tags;
-			}
-
-			$tags = $this->find(
-				'all',
-				array(
-					'fields' => array(
-						'Tag.id',
-						'Tag.name'
-					),
-					'contain' => array(
-						'Post' => array(
-							'fields' => array(
-								'Post.id'
-							)
-						)
-					),
-					'limit' => $limit
-				)
-			);
-
-			foreach($tags as $k => $tag) {
-				$tags[$k]['Tag']['count'] = count($tag['Post']);
-				unset($tags[$k]['Post']);
-			}
-
-			Cache::write('tag_count', $tags, 'blog');
-			return $tags;
-		}
 	}
