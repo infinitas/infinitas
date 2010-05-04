@@ -1,5 +1,5 @@
 <div class="product_item">
-    <div class="product_image" title="Henri Van Vuren - I'm Just Me">
+    <div class="product_image" title="<?php echo $product['Product']['name']; ?>">
     	<?php
 			$product['Product']['plugin'] = 'shop';
 			$product['Product']['controller'] = 'product';
@@ -48,6 +48,7 @@
 				if($this->Shop->isSpecial($product)){
 					echo '<span>'.$this->Shop->currency($product['Product']['price']).'</span><br/>';
 				}
+				$product['Special'] = isset($product['Special']) ? $product['Special'] : null;
 				echo $this->Shop->calculateSpecial($product['Product'], $product['Special']);
 			?>
 		</div>

@@ -18,7 +18,11 @@
 			'Parent' => array(
 				'className' => 'Shop.Category',
 				'foreignKey' => 'parent_id',
-				'fields' => array(),
+				'fields' => array(
+					'Parent.id',
+					'Parent.name',
+					'Parent.slug',
+				),
 				'conditions' => array(),
 				'order' => array(
 					'Parent.name' => 'ASC'

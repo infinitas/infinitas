@@ -20,6 +20,7 @@
 				'Category.parent_id IS NULL'
 			);
 
+			$category_id = null;
 			if (isset($this->params['slug']) && !empty($this->params['slug'])) {
 				$id = $this->Category->find(
 					'first',
@@ -28,14 +29,23 @@
 							'Category.slug' => $this->params['slug']
 						),
 						'fields' => array(
-							'Category.id'
+							'Category.id',
+							'Category.name',
+							'Category.slug',
+							'Category.parent_id'
+						),
+						'contain' => array(
+							'Parent'
 						)
 					)
 				);
 
+				$parent = Set::extract('/Parent', $id);
+				$currentCategory['Category'] = isset($parent[0]['Parent']) ? $parent[0]['Parent'] : null;
+
 				$category_id = isset($id['Category']['id']) ? $id['Category']['id'] : null;
 
-				if(isset($id['Category']['id'])){
+				if($id){
 					$conditions = array(
 						'Category.parent_id' => $category_id
 					);
@@ -73,7 +83,8 @@
 					'limit' => 10
 				)
 			);
-			$this->set(compact('categories', 'products'));
+
+			$this->set(compact('categories', 'products', 'currentCategory'));
 		}
 
 		function admin_index(){
