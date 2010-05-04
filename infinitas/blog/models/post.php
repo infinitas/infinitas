@@ -387,7 +387,7 @@
 /**
  * Adds BETWEEN conditions for $year and $month to any array.
  * You can pass a custom Model and a custom created field, too.
- * 
+ *
  * @param array $paginate the pagination array to be processed
  * @param array $options
  * 	###	possible options:
@@ -417,7 +417,7 @@
 			$yTmplEnd = "%s-12-31 23:59:59";
 			$ymTmplBegin = "%s-%02d-01 00:00:00";
 			$ymTmplEnd = "%s-%02d-%02d 23:59:59";
-			
+
 			if ($model === null) {
 				$model = $this->alias;
 			}
@@ -425,7 +425,7 @@
 			if ($year === null) {
 				$year = date('Y');
 			}
-			
+
 			if ($month !== null) {
 				// Get days for selected month
 				$days = cal_days_in_month(CAL_GREGORIAN, intval($month), intval($year));
@@ -439,7 +439,24 @@
 			$paginate['conditions'] += array(
 				"$model.$created BETWEEN ? AND ?" => array($begin,$end)
 			);
-			
+
 			return $paginate;
+		}
+
+		/*
+		 * Get count of tags.
+		 *
+		 * Used for things like generating the tag cloud.
+		 */
+		function getTags($limit = 50) {
+			$tags = Cache::read('tags');
+			if (!empty($tags)) {
+				return $tags;
+			}
+
+			$tags = $this->Tagged->find('cloud', array('limit' => 10));
+
+			Cache::write('tags', $tags, 'blog');
+			return $tags;
 		}
 	}

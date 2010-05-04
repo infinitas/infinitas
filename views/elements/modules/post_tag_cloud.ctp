@@ -2,12 +2,12 @@
     <div class="tags">
         <p>
             <?php
-            	$tagCount = ClassRegistry::init('Blog.Tag')->getCount();
+            	$tags = ClassRegistry::init('Blog.Post')->getTags();
 				echo $this->TagCloud->display(
-					$tagCount,
+					$tags,
 					array(
-						'model' => 'Tag',
-						'url' => array('plugin' => 'blog', 'controller' => 'posts', 'action' => 'index')
+						'before' => '<li size="%size%" class="tag">',
+						'after'  => '</li>'
 					)
 				);
 			?>
