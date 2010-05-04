@@ -8,6 +8,16 @@
 	text-align: right;
 }
 
+.product_item{float:left;width:100px;color:#353535;height:210px;padding:0 0 30px 6px}
+.product_item div{float:left;background-color:transparent}
+.product_item .product_details{height:65px; text-align: center;}
+.product_item .product_image{height: 85px; overflow:hidden;}
+.product_item .product_image img{display: none;}
+.product_item .product{width:100px;color:#353535;font-size:90%;height:35px;overflow:hidden}
+.product_item .price{width:100px;padding-bottom:6px}
+.product_item .price span{clear:both; text-decoration: line-through; font-size:90%;}
+.product_item .product a{text-align: center;}
+
 .product_item .product_image a span.isSpecial,
 .product_item .product_image a span.isFeatured{
 	left:47px;
