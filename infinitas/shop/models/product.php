@@ -129,7 +129,7 @@
 			return $products;
 		}
 
-		function getActiveProducts(){
+		function getActiveProducts($category_id = null){
 			$products = $this->ProductCategory->find(
 				'all',
 				array(
@@ -137,7 +137,8 @@
 						'ProductCategory.id'
 					),
 					'conditions' => array(
-						'ProductCategory.active' => 1
+						'ProductCategory.active' => 1,
+						'ProductCategory.id' => $category_id
 					),
 					'order' => false,
 					'contain' => array(

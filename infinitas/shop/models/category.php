@@ -29,7 +29,7 @@
 				'foreignKey' => 'image_id',
 				'fields' => array(
 					'Image.id',
-					'Image.name',
+					'Image.image',
 					'Image.width',
 					'Image.height'
 				),

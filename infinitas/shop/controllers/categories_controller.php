@@ -14,6 +14,68 @@
 			}
 		}
 
+		function index(){
+			$conditions = array(
+				'Category.active' => 1,
+				'Category.parent_id IS NULL'
+			);
+
+			if (isset($this->params['slug']) && !empty($this->params['slug'])) {
+				$id = $this->Category->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Category.slug' => $this->params['slug']
+						),
+						'fields' => array(
+							'Category.id'
+						)
+					)
+				);
+
+				$category_id = isset($id['Category']['id']) ? $id['Category']['id'] : null;
+
+				if(isset($id['Category']['id'])){
+					$conditions = array(
+						'Category.parent_id' => $category_id
+					);
+				}
+
+			}
+
+			$this->paginate = array(
+				'fields' => array(
+					'Category.id',
+					'Category.name',
+					'Category.slug',
+					'Category.keywords',
+					'Category.image_id',
+				),
+				'conditions' => $conditions,
+				'contain' => array(
+					'Image'
+				)
+			);
+
+			$categories = $this->paginate('Category');
+			$products = $this->Category->Product->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Product.id' => $this->Category->Product->getActiveProducts($category_id)
+					),
+					'contain' => array(
+						'ProductCategory',
+						'Image',
+						'Special',
+						'Spotlight'
+					),
+					'limit' => 10
+				)
+			);
+			$this->set(compact('categories', 'products'));
+		}
+
 		function admin_index(){
 			$this->paginate = array(
 				'fields' => array(
