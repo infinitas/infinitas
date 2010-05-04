@@ -109,4 +109,12 @@
 				(array)$params
 			);
 		}
+
+		function isSpecial($product){
+			if(isset($product['Special']) && !empty($product['Special'])){
+				return true;
+			}
+
+			return false;
+		}
 	}
