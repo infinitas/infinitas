@@ -26,6 +26,10 @@
 	top:-75px;
 	visibility:visible;
 }
+.product_item .product_image a span.isSpecial img,
+.product_item .product_image a span.isFeatured img{
+	-moz-box-shadow: none;
+}
 
 .product_item .product_image:hover a span.isSpecial,
 .product_item .product_image:hover a span.isFeatured{
