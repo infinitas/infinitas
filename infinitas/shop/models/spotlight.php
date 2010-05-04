@@ -23,6 +23,7 @@
 				'fields' => array(
 					'Product.id',
 					'Product.name',
+					'Product.slug',
 					'Product.image_id',
 					'Product.cost',
 					'Product.retail',

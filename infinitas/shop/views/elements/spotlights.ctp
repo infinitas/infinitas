@@ -4,18 +4,19 @@
 		foreach((array)$spotlights as $spotlight){
 			echo $this->element('product', array('plugin' => 'shop', 'product' => $spotlight));
 		}
-	?>
-    <?php
-    	echo $this->Html->link(
-    		'('.__('See all', true).')',
-    		array(
-    			'plugin' => 'shop',
-    			'controller' => 'spotlights',
-    			'action' => 'index'
-    		),
-    		array(
-    			'class' => 'moreLink'
-    		)
-    	)
+
+	    if($this->params['controller'] != 'spotlights'){
+	    	echo $this->Html->link(
+	    		'('.__('See all', true).')',
+	    		array(
+	    			'plugin' => 'shop',
+	    			'controller' => 'spotlights',
+	    			'action' => 'index'
+	    		),
+	    		array(
+	    			'class' => 'moreLink'
+	    		)
+	    	);
+	    }
     ?>
 </div>

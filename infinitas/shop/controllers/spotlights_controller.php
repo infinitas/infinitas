@@ -6,6 +6,37 @@
 			'Filter.Filter'
 		);
 
+		function index(){
+			$this->paginate = array(
+				'fields' => array(
+					'Spotlight.id',
+					'Spotlight.image_id',
+					'Spotlight.active',
+					'Spotlight.start_date',
+					'Spotlight.end_date'
+				),
+				'conditions' => array(
+					'Spotlight.active' => 1,
+					'and' => array(
+						'CONCAT(`Spotlight`.`start_date`, " ", `Spotlight`.`start_time`) <= ' => date('Y-m-d H:i:s'),
+						'CONCAT(`Spotlight`.`end_date`, " ", `Spotlight`.`end_time`) >= ' => date('Y-m-d H:i:s')
+					)
+				),
+				'contain' => array(
+					'Image',
+					'Product' => array(
+						'Image',
+						'ProductCategory'
+					)
+				)
+			);
+
+			$spotlights = $this->paginate('Spotlight');
+
+			$specials = $this->Spotlight->Product->Special->getSpecials(5);
+			$this->set(compact('spotlights', 'specials'));
+		}
+
 		function admin_index(){
 			$this->paginate = array(
 				'fields' => array(
