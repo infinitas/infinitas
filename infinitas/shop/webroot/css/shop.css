@@ -8,7 +8,7 @@
 	text-align: right;
 }
 
-.product_item{float:left;width:100px;color:#353535;height:210px;padding:0 0 30px 6px}
+.product_item{float:left;width:100px;color:#353535;height:210px;padding:0 0 0 6px}
 .product_item div{float:left;background-color:transparent}
 .product_item .product_details{height:65px; text-align: center;}
 .product_item .product_image{height: 88px; overflow:hidden;}
@@ -36,3 +36,13 @@
 	visibility:hidden;
 }
 
+.specialsCenterModule,
+.mostViewedCenterModule{
+	clear:both;
+	padding-top: 20px;
+}
+
+.moreLink{
+	marign-bottom: 10px;
+	padding-left: 480px;
+}
