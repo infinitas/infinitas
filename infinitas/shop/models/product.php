@@ -99,6 +99,33 @@
 			)
 		);
 
+		function getMostViewed($limit = 10){
+			$products = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Product.id',
+						'Product.name',
+						'Product.slug',
+						'Product.cost',
+						'Product.price',
+						'Product.image_id',
+					),
+					'conditions' => array(
+						'Product.id' => $this->getActiveProducts()
+					),
+					'limit' => (int)$limit,
+					'contain' => array(
+						'ProductCategory',
+						'Image',
+						'Special'
+					)
+				)
+			);
+
+			return $products;
+		}
+
 		function getActiveProducts(){
 			$products = $this->ProductCategory->find(
 				'all',
