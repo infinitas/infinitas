@@ -73,6 +73,11 @@
 		function beforeFilter() {
 			parent::beforeFilter();
 
+			// @todo it meio upload is updated.
+			if(isset($this->data['Image']['image']['name']) && empty($this->data['Image']['image']['name'])){
+				unset($this->data['Image']);
+			}
+
 			$this->Infinitas->_setupAuth();
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
