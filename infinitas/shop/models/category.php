@@ -109,4 +109,20 @@
 
 			return $categories;
 		}
+
+		function getActiveCategories(){
+			$category_ids = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						'Category.id','Category.id'
+					),
+					'conditions' => array(
+						'Category.active' => 1
+					)
+				)
+			);
+
+			return $category_ids;
+		}
 	}
