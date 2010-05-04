@@ -7,6 +7,37 @@
 			'Number'
 		);
 
+		function index(){
+			$this->paginate = array(
+				'fields' => array(
+					'Special.id',
+					'Special.image_id',
+					'Special.amount',
+					'Special.active',
+					'Special.start_date',
+					'Special.end_date'
+				),
+				'conditions' => array(
+					'Special.active' => 1,
+					'and' => array(
+						'CONCAT(`Special`.`start_date`, " ", `Special`.`start_time`) <= ' => date('Y-m-d H:i:s'),
+						'CONCAT(`Special`.`end_date`, " ", `Special`.`end_time`) >= ' => date('Y-m-d H:i:s')
+					)
+				),
+				'contain' => array(
+					'Image',
+					'Product' => array(
+						'Image',
+						'ProductCategory'
+					)
+				)
+			);
+
+			$specials = $this->paginate('Special');
+
+			$this->set(compact('specials'));
+		}
+
 		function admin_index(){
 			$this->paginate = array(
 				'fields' => array(
