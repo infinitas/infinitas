@@ -8,8 +8,9 @@
 
 		function dashboard(){
 			$specials = $this->Product->Special->getSpecials();
+			$mostViewedProducts = $this->Product->getMostViewed();
 
-			$this->set(compact('specials'));
+			$this->set(compact('specials', 'mostViewedProducts'));
 		}
 
 		function index(){
