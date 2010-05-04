@@ -8,7 +8,7 @@
 				'foreignKey' => 'image_id',
 				'fields' => array(
 					'Image.id',
-					'Image.name',
+					'Image.image',
 					'Image.width',
 					'Image.height'
 				),
@@ -57,4 +57,43 @@
 				'insertQuery' => ''
 			),
 		);
+
+		function getSpotlights($limit = 10){
+			$spotlights = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Spotlight.id',
+						'Spotlight.image_id',
+						'Spotlight.start_date',
+						'Spotlight.end_date'
+					),
+					'conditions' => array(
+						'Spotlight.active' => 1,
+						'and' => array(
+							'CONCAT(`Spotlight`.`start_date`, " ", `Spotlight`.`start_time`) <= ' => date('Y-m-d H:i:s'),
+							'CONCAT(`Spotlight`.`end_date`, " ", `Spotlight`.`end_time`) >= ' => date('Y-m-d H:i:s')
+						)
+					),
+					'contain' => array(
+						'Product' => array(
+							'fields' => array(
+								'Product.id',
+								'Product.name',
+								'Product.slug',
+								'Product.price',
+								'Product.retail',
+								'Product.description'
+							),
+							'Image',
+							'ProductCategory'
+						),
+						'Image'
+					),
+					'limit' => $limit
+				)
+			);
+
+			return $spotlights;
+		}
 	}

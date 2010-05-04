@@ -35,6 +35,9 @@
 		var $hasMany = array(
 			'Special' => array(
 				'className' => 'Shop.Special'
+			),
+			'Spotlight' => array(
+				'className' => 'Shop.Spotlight'
 			)
 		);
 

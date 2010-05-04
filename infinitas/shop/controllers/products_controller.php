@@ -9,8 +9,9 @@
 		function dashboard(){
 			$specials = $this->Product->Special->getSpecials();
 			$mostViewedProducts = $this->Product->getMostViewed();
+			$spotlights = $this->Product->Spotlight->getSpotlights();
 
-			$this->set(compact('specials', 'mostViewedProducts'));
+			$this->set(compact('specials', 'mostViewedProducts', 'spotlights'));
 		}
 
 		function index(){
