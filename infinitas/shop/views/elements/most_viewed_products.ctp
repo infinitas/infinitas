@@ -1,4 +1,4 @@
-<div class="mostViewedCenterModule">
+<div class="centerModule">
 	<h2 class="fade"><?php __('Whats Popular'); ?></h2>
 	<?php
 		foreach((array)$mostViewedProducts as $mostViewed){

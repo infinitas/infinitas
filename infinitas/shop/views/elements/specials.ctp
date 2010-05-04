@@ -1,4 +1,4 @@
-<div class="specialsCenterModule">
+<div class="centerModule">
 	<h2 class="fade"><?php __('On Special'); ?></h2>
 	<?php
 		foreach((array)$specials as $special){

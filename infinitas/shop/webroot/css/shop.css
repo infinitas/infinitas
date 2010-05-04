@@ -36,8 +36,7 @@
 	visibility:hidden;
 }
 
-.specialsCenterModule,
-.mostViewedCenterModule{
+.centerModule,{
 	clear:both;
 	padding-top: 20px;
 }
