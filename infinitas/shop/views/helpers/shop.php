@@ -125,4 +125,16 @@
 
 			return false;
 		}
+
+		function overlay($type = 'isSpecial'){
+			return '<span class="'.(string)$type.'">'.
+			$this->Html->image(
+				'/shop/img/'.$type.'.png',
+				array(
+					'width' => '32px',
+					'height' => '32px',
+					'alt' => __(Inflector::humanize($type), true)
+				)
+			).'</span>';
+		}
 	}
