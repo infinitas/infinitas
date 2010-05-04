@@ -100,6 +100,10 @@
 				$img = $data['Product']['Image']['image'];
 			}
 
+			else if(isset($data['Category']['Image']['image'])){
+				$img = $data['Category']['Image']['image'];
+			}
+
 			else{
 				$img = Configure::read('Shop.default_image');
 			}
