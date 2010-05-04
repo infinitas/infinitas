@@ -117,4 +117,12 @@
 
 			return false;
 		}
+
+		function isFeatured($product){
+			if(isset($product['Spotlight']) && !empty($product['Spotlight'])){
+				return true;
+			}
+
+			return false;
+		}
 	}
