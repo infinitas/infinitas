@@ -84,7 +84,14 @@
                 			<?php echo Inflector::humanize($menuItem['Menu']['name']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo Inflector::humanize($menuItem['Group']['name']); ?>&nbsp;
+                			<?php
+                				if(isset($menuItem['Group']['name'])){
+                					echo __(Inflector::humanize($menuItem['Group']['name']), true);
+                				}
+                				else{
+									echo __('Public', true);
+                				}
+                			?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
