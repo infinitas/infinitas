@@ -95,16 +95,11 @@
                         </td>
                 		<td>
                 			<?php
-                			    $path = !isset( $this->params['pass'][0])
-                			        ? ''
-                			        : $this->params['pass'][0];
-
                 			    echo $this->Html->link(
                 			        $folder['Folder']['name'],
                 			        array(
                     			        'action' => 'index',
-                    			        $path.'-'.$folder['Folder']['name']
-                			        )
+                			        ) + array_merge((array)$this->params['pass'], (array)$folder['Folder']['name'])
                     			);
                     		?>
                 		</td>

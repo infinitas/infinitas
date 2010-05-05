@@ -13,8 +13,11 @@ class FileManagerController extends AppController {
 		'Filter.Filter'
 	);
 
-	function admin_index($path = '-') {
-		$path = str_replace('-', '/', $path);
+	function admin_index() {
+		$path = '/';
+		if(!empty($this->params['pass'])){
+			$path = implode('/', $this->params['pass']);
+		}
 
 		$this->Folders->recursive = 2;
 		$folders = $this->Folders->find(
