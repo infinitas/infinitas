@@ -2,6 +2,11 @@
 	class Special extends ShopAppModel{
 		var $name = 'Special';
 
+		var $virtualFields = array(
+			'start' => 'CONCAT(Special.start_date, " ", Special.start_time)',
+			'end'   => 'CONCAT(Special.end_date, " ", Special.end_time)'
+		);
+
 		var $belongsTo = array(
 			'Image' => array(
 				'className' => 'Shop.Image',
@@ -24,6 +29,7 @@
 					'Product.id',
 					'Product.name',
 					'Product.slug',
+					'Product.description',
 					'Product.image_id',
 					'Product.cost',
 					'Product.retail',
@@ -74,20 +80,15 @@
 					'conditions' => array(
 						'Special.active' => 1,
 						'and' => array(
-							'CONCAT(`Special`.`start_date`, " ", `Special`.`start_time`) <= ' => date('Y-m-d H:i:s'),
-							'CONCAT(`Special`.`end_date`, " ", `Special`.`end_time`) >= ' => date('Y-m-d H:i:s')
+							'start <= ' => date('Y-m-d H:i:s'),
+							'end >= ' => date('Y-m-d H:i:s')
 						)
+					),
+					'order' => array(
+						'end' => 'ASC'
 					),
 					'contain' => array(
 						'Product' => array(
-							'fields' => array(
-								'Product.id',
-								'Product.name',
-								'Product.slug',
-								'Product.price',
-								'Product.retail',
-								'Product.description'
-							),
 							'Image',
 							'ProductCategory'
 						),
