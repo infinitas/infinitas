@@ -10,8 +10,9 @@
 			$specials = $this->Product->Special->getSpecials();
 			$mostViewedProducts = $this->Product->getMostViewed();
 			$spotlights = $this->Product->Spotlight->getSpotlights();
+			$newest = $this->Product->getNewest();
 
-			$this->set(compact('specials', 'mostViewedProducts', 'spotlights'));
+			$this->set(compact('specials', 'mostViewedProducts', 'spotlights', 'newest'));
 		}
 
 		function index(){

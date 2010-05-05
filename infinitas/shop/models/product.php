@@ -134,6 +134,38 @@
 			return $products;
 		}
 
+		function getNewest($limit = 10){
+			$products = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Product.id',
+						'Product.name',
+						'Product.slug',
+						'Product.cost',
+						'Product.price',
+						'Product.image_id',
+					),
+					'conditions' => array(
+						'Product.id' => $this->getActiveProducts()
+					),
+					'limit' => (int)$limit,
+					'order' => array(
+						'Product.created' => 'DESC'
+					),
+					'contain' => array(
+						'ProductCategory',
+						'Image',
+						'Special' => array(
+							'Image'
+						)
+					)
+				)
+			);
+
+			return $products;
+		}
+
 		function getActiveProducts($category_id = null){
 			$conditions = array(
 				'ProductCategory.active' => 1
