@@ -7,6 +7,10 @@
 			'end'   => 'CONCAT(Special.end_date, " ", Special.end_time)'
 		);
 
+		var $order = array(
+			'end' => 'ASC'
+		);
+
 		var $belongsTo = array(
 			'Image' => array(
 				'className' => 'Shop.Image',
@@ -83,9 +87,6 @@
 							'start <= ' => date('Y-m-d H:i:s'),
 							'end >= ' => date('Y-m-d H:i:s')
 						)
-					),
-					'order' => array(
-						'end' => 'ASC'
 					),
 					'contain' => array(
 						'Product' => array(

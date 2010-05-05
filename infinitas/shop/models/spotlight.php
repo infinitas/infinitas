@@ -2,6 +2,15 @@
 	class Spotlight extends ShopAppModel{
 		var $name = 'Spotlight';
 
+		var $virtualFields = array(
+			'start' => 'CONCAT(Spotlight.start_date, " ", Spotlight.start_time)',
+			'end'   => 'CONCAT(Spotlight.end_date, " ", Spotlight.end_time)'
+		);
+
+		var $order = array(
+			'end' => 'ASC'
+		);
+
 		var $belongsTo = array(
 			'Image' => array(
 				'className' => 'Shop.Image',
@@ -72,20 +81,12 @@
 					'conditions' => array(
 						'Spotlight.active' => 1,
 						'and' => array(
-							'CONCAT(`Spotlight`.`start_date`, " ", `Spotlight`.`start_time`) <= ' => date('Y-m-d H:i:s'),
-							'CONCAT(`Spotlight`.`end_date`, " ", `Spotlight`.`end_time`) >= ' => date('Y-m-d H:i:s')
+							'start <= ' => date('Y-m-d H:i:s'),
+							'end >= ' => date('Y-m-d H:i:s')
 						)
 					),
 					'contain' => array(
 						'Product' => array(
-							'fields' => array(
-								'Product.id',
-								'Product.name',
-								'Product.slug',
-								'Product.price',
-								'Product.retail',
-								'Product.description'
-							),
 							'Image',
 							'ProductCategory'
 						),
