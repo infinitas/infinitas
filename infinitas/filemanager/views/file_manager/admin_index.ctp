@@ -90,7 +90,7 @@
                         <td><?php echo $this->Form->checkbox('Folder.'.$folder['Folder']['path']); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Image->findByChildren($folder['Folder']['Children']);
+                                echo $this->Image->findByExtention();
                             ?>
                         </td>
                 		<td>
