@@ -2,7 +2,7 @@
     <div class="product_image" title="<?php echo $product['Product']['name']; ?>">
     	<?php
 			$product['Product']['plugin'] = 'shop';
-			$product['Product']['controller'] = 'product';
+			$product['Product']['controller'] = 'products';
 			$product['Product']['action'] = 'view';
 			$product['Product']['Category'] = isset($product['ProductCategory'][0]) ? $product['ProductCategory'][0] : 'missing-category';
 			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'products', 'data' => $product['Product']));

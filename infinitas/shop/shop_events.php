@@ -23,7 +23,6 @@
 						'controller' => $data['data']['controller'],
 						'action' => $data['data']['action'],
 						'id' => $data['data']['id'],
-						'category' => !empty($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : __('news-feed', true),
 						'slug' => $data['data']['slug']
 					);
 					break;
