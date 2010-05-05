@@ -52,12 +52,17 @@ class FileManagerController extends AppController {
 		$this->set(compact('files', 'folders'));
 	}
 
-	function admin_view($file = null) {
-		if (!$file) {
+	function admin_view() {
+		if(!empty($this->params['pass'])){
+			$path = implode('/', $this->params['pass']);
+		}
+
+		if (!$path || !is_file(APP.$path)) {
 			$this->Session->setFlash(__('Please select a file first', true));
 			$this->redirect($this->referer());
 		}
-		//  @todo mediaViews
+
+		$this->set('path', APP.$path);
 	}
 
 	function admin_download($file = null) {

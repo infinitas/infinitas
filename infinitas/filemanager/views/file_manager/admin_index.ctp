@@ -146,8 +146,7 @@
                 			        $file['File']['name'],
                 			        array(
                     			        'action' => 'view',
-                    			        $file['File']['path']
-                			        )
+                			        ) + array_merge((array)$this->params['pass'], (array)$file['File']['name'])
                     			);
                     		?>
                 		</td>
