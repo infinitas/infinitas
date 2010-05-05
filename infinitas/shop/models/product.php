@@ -118,10 +118,15 @@
 						'Product.id' => $this->getActiveProducts()
 					),
 					'limit' => (int)$limit,
+					'order' => array(
+						'Product.views' => 'DESC'
+					),
 					'contain' => array(
 						'ProductCategory',
 						'Image',
-						'Special'
+						'Special' => array(
+							'Image'
+						)
 					)
 				)
 			);
@@ -130,16 +135,24 @@
 		}
 
 		function getActiveProducts($category_id = null){
+			$conditions = array(
+				'ProductCategory.active' => 1
+			);
+
+			if ($category_id){
+				$conditions = array(
+					'ProductCategory.active' => 1,
+					'ProductCategory.id' => $category_id
+				);
+			}
+
 			$products = $this->ProductCategory->find(
 				'all',
 				array(
 					'fields' => array(
 						'ProductCategory.id'
 					),
-					'conditions' => array(
-						'ProductCategory.active' => 1,
-						'ProductCategory.id' => $category_id
-					),
+					'conditions' => $conditions,
 					'order' => false,
 					'contain' => array(
 						'Product' => array(
