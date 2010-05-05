@@ -217,6 +217,31 @@
 			return $branchDetails;
 		}
 
+		function branchList(){
+			$branches = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'ShopBranch.id'
+					),
+					'contain' => array(
+						'BranchDetail' => array(
+							'fields' => array(
+								'BranchDetail.name'
+							)
+						)
+					)
+				)
+			);
+
+			$list = array();
+			foreach($branches as $branch){
+				$list[$branch['ShopBranch']['id']] = $branch['BranchDetail']['name'];
+			}
+
+			return $list;
+		}
+
 		function getList(){
 			$ids = $this->find(
 				'list',
