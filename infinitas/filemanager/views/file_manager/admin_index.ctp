@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'FileManager', array( 'url' => array( 'controller' => 'posts', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('FileManager', array('url' => array('action' => 'mass')));
 
         $massActions = $this->Core->massActionButtons(
             array(
@@ -36,34 +36,34 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    __( 'Type', true ) => array(
+                    __('Type', true) => array(
                         'style' => 'width:25px;'
                     ),
-                    __( 'Name', true ),
-                    __( 'Path', true ),
-                    __( 'Size', true ) => array(
+                    __('Name', true),
+                    __('Path', true),
+                    __('Size', true) => array(
                         'style' => 'width:75px;'
                     ),
-                    __( 'Owner / Group', true ) => array(
+                    __('Owner / Group', true) => array(
                         'style' => 'width:60px;'
                     ),
-                    __( 'Folders / Files', true ) => array(
+                    __('Folders / Files', true) => array(
                         'style' => 'width:60px;'
                     ),
-                    __( 'Chmod / Octal', true ) => array(
+                    __('Chmod / Octal', true) => array(
                         'style' => 'width:100px;'
                     ),
-                    __( 'Created', true ) => array(
+                    __('Created', true) => array(
                         'style' => 'width:100px;'
                     ),
-                    __( 'Modified', true ) => array(
+                    __('Modified', true) => array(
                         'style' => 'width:100px;'
                     ),
-                    __( 'Accessed', true ) => array(
+                    __('Accessed', true) => array(
                         'style' => 'width:100px;'
                     )
                 )
@@ -84,28 +84,22 @@
             	</tr>
             <?php
 
-            foreach ( $folders as $folder )
-            {
+            foreach($folders as $folder){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( 'Folder.'.$folder['Folder']['path'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox('Folder.'.$folder['Folder']['path']); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Image->findByChildren( $folder['Folder']['Children'] );
+                                echo $this->Image->findByExtention();
                             ?>
                         </td>
                 		<td>
                 			<?php
-                			    $path = ( !isset( $this->params['pass'][0] ) )
-                			        ? ''
-                			        : $this->params['pass'][0];
-
                 			    echo $this->Html->link(
                 			        $folder['Folder']['name'],
                 			        array(
                     			        'action' => 'index',
-                    			        $path.'-'.$folder['Folder']['name']
-                			        )
+                			        ) + array_merge((array)$this->params['pass'], (array)$folder['Folder']['name'])
                     			);
                     		?>
                 		</td>
@@ -113,7 +107,7 @@
                             <?php echo $folder['Folder']['path']; ?>
                         </td>
                         <td>
-                            <?php echo $this->Number->toReadableSize( $folder['Folder']['size'] ); ?>
+                            <?php echo $this->Number->toReadableSize($folder['Folder']['size']); ?>
                         </td>
                         <td>
                             <?php echo $folder['Folder']['owner'].' / '.$folder['Folder']['group']; ?>
@@ -125,26 +119,25 @@
                             <?php echo $folder['Folder']['permission'].' / '.$folder['Folder']['octal']; ?>
                         </td>
                         <td>
-                            <?php echo $this->Time->niceShort( $folder['Folder']['created'] ); ?>
+                            <?php echo $this->Time->niceShort($folder['Folder']['created']); ?>
                         </td>
                         <td>
-                            <?php echo $this->Time->niceShort( $folder['Folder']['modified'] ); ?>
+                            <?php echo $this->Time->niceShort($folder['Folder']['modified']); ?>
                         </td>
                         <td>
-                            <?php echo $this->Time->niceShort( $folder['Folder']['accessed'] ); ?>
+                            <?php echo $this->Time->niceShort($folder['Folder']['accessed']); ?>
                         </td>
                 	</tr>
                 <?php
             }
 
-            foreach ( $files as $file )
-            {
+            foreach ($files as $file){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( 'File.'.$file['File']['path'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox('File.'.$file['File']['path']); ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $this->Image->findByExtention( $file['File']['extension'] );
+                                echo $this->Image->findByExtention($file['File']['extension']);
                             ?>
                         </td>
                 		<td>
@@ -153,8 +146,7 @@
                 			        $file['File']['name'],
                 			        array(
                     			        'action' => 'view',
-                    			        $file['File']['path']
-                			        )
+                			        ) + array_merge((array)$this->params['pass'], (array)$file['File']['name'])
                     			);
                     		?>
                 		</td>
@@ -162,7 +154,7 @@
                             <?php echo $file['File']['path']; ?>
                         </td>
                         <td>
-                            <?php echo $this->Number->toReadableSize( $file['File']['size'] ); ?>
+                            <?php echo $this->Number->toReadableSize($file['File']['size']); ?>
                         </td>
                         <td>
                             <?php echo $file['File']['owner'].' / '.$file['File']['group']; ?>
@@ -174,13 +166,13 @@
                             <?php echo $file['File']['permission'].' / '.$file['File']['octal']; ?>
                         </td>
                         <td>
-                            <?php echo $this->Time->niceShort( $file['File']['created'] ); ?>
+                            <?php echo $this->Time->niceShort($file['File']['created']); ?>
                         </td>
                         <td>
-                            <?php echo $this->Time->niceShort( $file['File']['modified'] ); ?>
+                            <?php echo $this->Time->niceShort($file['File']['modified']); ?>
                         </td>
                         <td>
-                            <?php echo $this->Time->niceShort( $file['File']['accessed'] ); ?>
+                            <?php echo $this->Time->niceShort($file['File']['accessed']); ?>
                         </td>
                 	</tr>
                 <?php
