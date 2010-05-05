@@ -18,8 +18,8 @@
 				'conditions' => array(
 					'Spotlight.active' => 1,
 					'and' => array(
-						'CONCAT(`Spotlight`.`start_date`, " ", `Spotlight`.`start_time`) <= ' => date('Y-m-d H:i:s'),
-						'CONCAT(`Spotlight`.`end_date`, " ", `Spotlight`.`end_time`) >= ' => date('Y-m-d H:i:s')
+						'start <= ' => date('Y-m-d H:i:s'),
+						'end >= '   => date('Y-m-d H:i:s')
 					)
 				),
 				'contain' => array(

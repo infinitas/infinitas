@@ -20,8 +20,8 @@
 				'conditions' => array(
 					'Special.active' => 1,
 					'and' => array(
-						'CONCAT(`Special`.`start_date`, " ", `Special`.`start_time`) <= ' => date('Y-m-d H:i:s'),
-						'CONCAT(`Special`.`end_date`, " ", `Special`.`end_time`) >= ' => date('Y-m-d H:i:s')
+						'start <= ' => date('Y-m-d H:i:s'),
+						'end >= '   => date('Y-m-d H:i:s')
 					)
 				),
 				'contain' => array(
