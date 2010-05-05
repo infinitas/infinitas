@@ -22,6 +22,9 @@
 					'Parent.id',
 					'Parent.name',
 					'Parent.slug',
+					'Parent.lft',
+					'Parent.rght',
+					'Parent.parent_id'
 				),
 				'conditions' => array(),
 				'order' => array(
@@ -72,8 +75,8 @@
 				'unique' => true,
 				'conditions' => '',
 				'fields' => array(
-					'Branch.id',
-					'Branch.name'
+					'ShopBranch.id',
+					'ShopBranch.branch_id',
 				),
 				'order' => '',
 				'limit' => '',

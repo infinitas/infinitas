@@ -75,64 +75,15 @@
 					'Product.image_id',
 				),
 				'contain' => array(
-					'Image' => array(
-						'fields' => array(
-							'Image.id',
-							'Image.image'
-						)
-					),
-					'Unit' => array(
-						'fields' => array(
-							'Unit.id',
-							'Unit.name',
-							'Unit.slug'
-						)
-					),
-					'Supplier' => array(
-						'fields' => array(
-							'Supplier.id',
-							'Supplier.name',
-							'Supplier.slug'
-						)
-					),
-					'ProductCategory' => array(
-						'fields' => array(
-							'ProductCategory.id',
-							'ProductCategory.name',
-							'ProductCategory.slug'
-						)
-					),
+					'Image',
+					'Unit',
+					'Supplier',
+					'ProductCategory',
 					'ShopBranch' => array(
-						'fields' => array(
-							'ShopBranch.id',
-							'ShopBranch.branch_id',
-						),
-						'BranchDetail' => array(
-							'fields' => array(
-								'BranchDetail.id',
-								'BranchDetail.name',
-							)
-						)
+						'BranchDetail'
 					),
 					'Special' => array(
-						'fields' => array(
-							'Special.id',
-							'Special.product_id',
-							'Special.image_id',
-							'Special.discount',
-							'Special.amount',
-							'Special.start_date',
-							'Special.start_time',
-							'Special.end_date',
-							'Special.end_time',
-							'Special.active'
-						),
-						'Image' => array(
-							'fields' => array(
-								'Image.id',
-								'Image.image'
-							)
-						)
+						'Image'
 					)
 				)
 			);

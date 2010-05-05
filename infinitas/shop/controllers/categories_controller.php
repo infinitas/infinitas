@@ -99,33 +99,10 @@
 					'Category.modified'
 				),
 				'contain' => array(
-					'Parent' => array(
-						'fields' => array(
-							'Parent.id',
-							'Parent.name',
-							'Parent.slug',
-							'Parent.lft',
-							'Parent.rght',
-							'Parent.parent_id'
-						)
-					),
-					'Image' => array(
-						'fields' => array(
-							'Image.id',
-							'Image.image'
-						)
-					),
+					'Parent',
+					'Image',
 					'ShopBranch' => array(
-						'fields' => array(
-							'ShopBranch.id',
-							'ShopBranch.branch_id',
-						),
-						'BranchDetail' => array(
-							'fields' => array(
-								'BranchDetail.id',
-								'BranchDetail.name',
-							)
-						)
+						'BranchDetail'
 					)
 				)
 			);

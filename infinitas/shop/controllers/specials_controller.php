@@ -56,29 +56,9 @@
 				),
 				'contain' => array(
 					'Product' => array(
-						'fields' => array(
-							'Product.id',
-							'Product.name',
-							'Product.image_id',
-							'Product.cost',
-							'Product.retail',
-							'Product.price',
-							'Product.active',
-							'Product.image_id',
-						),
-						'Image' => array(
-							'fields' => array(
-								'Image.id',
-								'Image.image'
-							)
-						)
+						'Image'
 					),
-					'Image' => array(
-						'fields' => array(
-							'Image.id',
-							'Image.image'
-						)
-					)
+					'Image'
 				)
 			);
 

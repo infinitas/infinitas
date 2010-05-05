@@ -43,7 +43,16 @@
 		var $belongsTo = array(
 			'BranchDetail' => array(
 				'className' => 'Contact.Branch',
-				'foreignKey' => 'branch_id'
+				'foreignKey' => 'branch_id',
+				'fields' => array(
+					'BranchDetail.id',
+					'BranchDetail.name',
+					'BranchDetail.slug',
+					'BranchDetail.image',
+					'BranchDetail.phone',
+					'BranchDetail.fax',
+					'BranchDetail.address_id'
+				)
 			),
 			'Manager' => array(
 				'className' => 'Management.User',

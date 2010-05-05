@@ -37,17 +37,7 @@
 					'ShopBranch.modified',
 				),
 				'contain' => array(
-					'BranchDetail' => array(
-						'fields' => array(
-							'BranchDetail.id',
-							'BranchDetail.name',
-							'BranchDetail.slug',
-							'BranchDetail.image',
-							'BranchDetail.phone',
-							'BranchDetail.fax',
-							'BranchDetail.address_id'
-						)
-					),
+					'BranchDetail',
 					'Manager',
 					'ShopCategory',
 					'Product',

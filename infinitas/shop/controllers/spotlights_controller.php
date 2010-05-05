@@ -52,43 +52,10 @@
 				),
 				'contain' => array(
 					'Product' => array(
-						'fields' => array(
-							'Product.id',
-							'Product.name',
-							'Product.image_id',
-							'Product.cost',
-							'Product.retail',
-							'Product.price',
-							'Product.active',
-							'Product.image_id',
-						),
-						'Image' => array(
-							'fields' => array(
-								'Image.id',
-								'Image.image'
-							)
-						),
-						'Special' => array(
-							'fields' => array(
-								'Special.id',
-								'Special.product_id',
-								'Special.image_id',
-								'Special.discount',
-								'Special.amount',
-								'Special.start_date',
-								'Special.start_time',
-								'Special.end_date',
-								'Special.end_time',
-								'Special.active'
-							)
-						)
+						'Image',
+						'Special'
 					),
-					'Image' => array(
-						'fields' => array(
-							'Image.id',
-							'Image.image'
-						)
-					)
+					'Image'
 				)
 			);
 

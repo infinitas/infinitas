@@ -17,6 +17,7 @@
 				'counterCache' =>  true,
 				'fields' => array(
 					'Unit.id',
+					'Unit.name',
 					'Unit.symbol',
 					'Unit.description'
 				)
@@ -90,8 +91,7 @@
 				'unique' => true,
 				'conditions' => '',
 				'fields' => array(
-					'ShopBranch.id',
-					'ShopBranch.name'
+					'ShopBranch.id'
 				),
 				'order' => '',
 				'limit' => '',
