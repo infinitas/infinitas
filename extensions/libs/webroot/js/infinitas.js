@@ -45,6 +45,7 @@ function(require) {
  * @return void
  **/
 function render(){
+
 	$(document).ready(function(){
 		urlDropdownSelects();
 		doToolTips();
@@ -55,6 +56,8 @@ function render(){
 
 		datePicker();
 		$.HtmlHelper.slideshow();
+
+		$('.tabs').tabs();
 	});
 }
 

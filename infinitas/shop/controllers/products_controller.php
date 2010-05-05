@@ -49,7 +49,69 @@
 		}
 
 		function view(){
+			if (!isset($this->params['slug'])) {
+				$this->Session->setFlash( __('The product could not be found', true) );
+				$this->redirect($this->referer());
+			}
 
+			$conditions = array(
+				'Product.id' => $this->Product->getActiveProducts(),
+				'Product.slug' => $this->params['slug']
+			);
+
+			$product = $this->Product->find(
+				'first',
+				array(
+					'fields' => array(
+					),
+					'conditions' => $conditions,
+					'contain' => array(
+						'ProductCategory' => array(
+							'Parent'
+						),
+						'Image',
+						'ProductImage',
+						'Special' => array(
+							'Image'
+						),
+						'Spotlight' => array(
+							'Image'
+						),
+						'Unit',
+						'Supplier',
+						'ShopBranch'
+					)
+				)
+			);
+
+			if(empty($product)){
+				$this->Session->setFlash( __('You have selected an invalid product', true) );
+				$this->redirect($this->referer());
+			}
+
+			$tabs = array(
+				'description' => '/Product/description',
+				'comments' => 'comments'
+			);
+
+			$neighbors = $this->Product->find(
+				'neighbors',
+				array(
+					'fields' => array(
+						'Product.id',
+						'Product.name',
+						'Product.slug',
+						'Product.image_id'
+					),
+					'contain' => array(
+						'Image'
+					)
+				)
+			);
+
+			$specials = $this->Product->Special->getSpecials(5);
+			$spotlights = $this->Product->Spotlight->getSpotlights(5);
+			$this->set(compact('product', 'tabs', 'neighbors', 'specials', 'spotlights'));
 		}
 
 		function admin_dashboard(){

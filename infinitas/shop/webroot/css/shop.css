@@ -70,3 +70,74 @@
 	border: 1px solid #7F7F7F;
 	margin:auto;
 }
+
+.products .neighbors{	
+	width:80%;
+	text-align:center;
+	clear:both;
+	box-shadow: 5px 5px 6px #666666;
+	-moz-box-shadow:5px 5px 6px #666666;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	padding: 5px 5px 5px 15px;
+	background-color: #DFDFDF;
+	border: 1px solid #7F7F7F;
+	margin: 10px auto 15px;
+	overflow: auto;
+}
+
+.products .neighbors img{
+	display:block;
+}
+
+.products .neighbors .prev,
+.products .neighbors .next{
+	padding: 10px;
+}
+
+.products .neighbors .prev{	
+	float:   left;
+}
+.products .neighbors .next{	
+	float:   right;
+}
+
+.viewProduct .imageGallery{
+	float:left;
+	width:230px;
+}
+.viewProduct .info{
+	float:right;
+	width: 300px;	
+}
+
+.viewProduct table{
+	font-size:90%;	
+}
+
+.viewProduct .extra{
+	clear:both;
+}
+
+.mainImage img{
+	height: 220px;
+	width: 220px;
+	box-shadow: 5px 5px 6px #666666;
+	-moz-box-shadow:5px 5px 6px #666666;
+}
+
+
+
+	
+/**
+	Galery
+*/
+.galleria{list-style:none;width:200px;padding-top:20px;}
+.galleria li{display:block;width:40px;height:40px;overflow:hidden;float:left;margin:0 10px 10px 0;border:3px double #DFDFDF;padding:3px;}
+.galleria li a{display:none}
+.galleria li div{position:absolute;display:none;top:0;left:180px}
+.galleria li div img{cursor:pointer;}
+.galleria li.active div img,.galleria li.active div{display:block}
+.galleria li img.thumb{cursor:pointer;top:auto;left:auto;display:block;width:auto;height:auto}
+.galleria li .caption{display:block;padding-top:.5em}
+* html .galleria li div span{width:400px} /* MSIE bug */ 

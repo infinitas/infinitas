@@ -91,7 +91,7 @@
 			);
 		}
 
-		function getImage($data, $params = array('height' => '35px')){
+		function getImage($data, $params = array('height' => '35px'), $link = false){
 			if(isset($data['Image']['image'])){
 				$img = $data['Image']['image'];
 			}
@@ -106,6 +106,10 @@
 
 			else{
 				$img = Configure::read('Shop.default_image');
+			}
+
+			if($link){
+				$params['url'] = '../../img/content/shop/global/'.$img;
 			}
 
 			return $this->Html->image(

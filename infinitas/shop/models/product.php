@@ -52,7 +52,9 @@
 				'conditions' => '',
 				'fields' => array(
 					'ProductImage.id',
-					'ProductImage.name'
+					'ProductImage.image',
+					'ProductImage.width',
+					'ProductImage.height',
 				),
 				'order' => '',
 				'limit' => '',
