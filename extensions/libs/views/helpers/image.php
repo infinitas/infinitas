@@ -41,21 +41,35 @@ class ImageHelper extends AppHelper {
 	* @param mixed $extention
 	* @return
 	*/
-	function findByExtention($extention) {
+	function findByExtention($extention = null) {
 		$images = Configure::read('CoreImages');
+		$imageData = array();
+		if(!$extention){
+			$imageData['path']  = Configure::read('CoreImages.path') . 'folders/' . $images['images']['folders']['empty'];
+			$imageData['title'] = $imageData['alt'] = $this->niceAltText('folder');
+		}
 
-		foreach($images['images'] as $path => $image) {
-			if (isset($image[$extention])) {
-				return $this->Html->image(
-					Configure::read('CoreImages.path') . $path . '/' . $image[$extention],
-					$this->settings + array(
-						'title' => $this->niceTitleText($extention),
-						'alt' => $this->niceAltText($extention)
-						)
-
-					);
+		if(empty($imageData)){
+			foreach($images['images'] as $path => $image) {
+				if (isset($image[$extention])) {
+					$imageData['path']  = Configure::read('CoreImages.path') . $path . '/' . $image[$extention];
+					$imageData['title'] = $imageData['alt'] = $this->niceTitleText($extention);
+				}
 			}
 		}
+
+		if($extention[0] == '.' || empty($imageData)){
+			$imageData['path']  = Configure::read('CoreImages.path') . 'unknown/' . $images['images']['unknown']['unknown'];
+			$imageData['title'] = $imageData['alt'] = $this->niceAltText('unknown');
+		}
+
+		return $this->Html->image(
+			$imageData['path'],
+			$this->settings + array(
+				'title' => $imageData['title'],
+				'alt'   => $imageData['alt']
+			)
+		);
 	}
 
 	/**
