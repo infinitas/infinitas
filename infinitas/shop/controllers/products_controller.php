@@ -16,7 +16,36 @@
 		}
 
 		function index(){
+			$this->paginate = array(
+				'fields' => array(
+					'Product.id',
+					'Product.name',
+					'Product.slug',
+					'Product.description',
+					'Product.image_id',
+					'Product.cost',
+					'Product.retail',
+					'Product.price',
+					'Product.active',
+					'Product.image_id',
+				),
+				'conditions' => array(
+					'Product.id' => $this->Product->getActiveProducts(),
+				),
+				'contain' => array(
+					'Image',
+					'ProductCategory',
+					'Special' => array(
+						'Image'
+					)
+				)
+			);
 
+			$products = $this->paginate('Product');
+
+			$spotlights = $this->Product->Spotlight->getSpotlights(5);
+			$specials = $this->Product->Special->getSpecials(5);
+			$this->set(compact('products', 'specials', 'spotlights'));
 		}
 
 		function view(){
