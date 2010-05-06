@@ -178,7 +178,7 @@ class M4bccdbd12b684b18956c19986318cd70 extends CakeMigration {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'shop_stock' => array(
+				'shop_stocks' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 					'branch_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'product_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -210,7 +210,7 @@ class M4bccdbd12b684b18956c19986318cd70 extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'shop_branches_categories', 'shop_branches_products', 'shop_branches_specials', 'shop_branches_spotlights', 'shop_categories', 'shop_categories_products', 'shop_images', 'shop_images_products', 'shop_products', 'shop_shop_branches', 'shop_specials', 'shop_spotlights', 'shop_stock', 'shop_suppliers'
+				'shop_branches_categories', 'shop_branches_products', 'shop_branches_specials', 'shop_branches_spotlights', 'shop_categories', 'shop_categories_products', 'shop_images', 'shop_images_products', 'shop_products', 'shop_shop_branches', 'shop_specials', 'shop_spotlights', 'shop_stocks', 'shop_suppliers'
 			),
 		),
 	);
