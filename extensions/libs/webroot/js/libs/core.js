@@ -20,7 +20,7 @@
 	/**
 		import files
 	*/
-	Core.import = function(file, metaData, callback) {
+	Core.importJs = function(file, metaData, callback) {
 		require(
 		[
 			"require",
