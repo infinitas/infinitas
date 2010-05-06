@@ -42,4 +42,10 @@
 		function onSetupConfigEnd(&$event){
 			Configure::load('Shop.config');
 		}
+
+		function onSetupThemeLayout(&$event, $data){
+			if($data['params']['plugin'] == 'shop' && $data['params']['controller'] == 'carts' && $data['params']['action'] == 'index'){
+				return 'checkout';
+			}
+		}
 	}
