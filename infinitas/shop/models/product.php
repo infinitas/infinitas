@@ -101,6 +101,26 @@
 				'finderQuery' => '',
 				'deleteQuery' => '',
 				'insertQuery' => ''
+			),
+			'Stock' => array(
+				'className' => 'Shop.Stock',
+				'foreignKey' => 'branch_id',
+				'associationForeignKey' => 'stock_id',
+				'with' => 'Shop.Stock',
+				'unique' => true,
+				'conditions' => '',
+				'fields' => array(
+					'Stock.id',
+					'Stock.branch_id',
+					'Stock.branch_id',
+					'Stock.stock',
+				),
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'finderQuery' => '',
+				'deleteQuery' => '',
+				'insertQuery' => ''
 			)
 		);
 

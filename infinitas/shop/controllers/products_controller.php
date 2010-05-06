@@ -142,7 +142,7 @@
 					'Supplier',
 					'ProductCategory',
 					'ShopBranch' => array(
-						'BranchDetail'
+						'BranchDetail',
 					),
 					'Special' => array(
 						'Image'
