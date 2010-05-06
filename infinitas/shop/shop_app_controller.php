@@ -4,6 +4,10 @@
 			'Shop.Shop'
 		);
 
+		var $components = array(
+			'Shop.Shop'
+		);
+
 		function beforeFilter(){
 			parent::beforeFilter();
 

@@ -83,86 +83,15 @@
 				$this->redirect($this->referer());
 			}
 
-			$price = $product['Product']['price'];
 			if(isset($product['Special']) && !empty($product['Special'][0])){
-				$price = $product['Product']['price'] - (($product['Product']['price'] / 100) * $product['Special'][0]['discount']);
+				$product['Product']['price'] = $product['Product']['price'] - (($product['Product']['price'] / 100) * $product['Special'][0]['discount']);
 			}
 
 			if($userId = $this->Session->read('Auth.User.id') > 0){
-				$currentCart = $this->Cart->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Cart.user_id' => $userId,
-							'Cart.product_id' => $this->params['named']['product_id'],
-							'Cart.deleted' => array(0, 1)
-						)
-					)
-				);
-
-				if(!empty($currentCart)){
-					if($this->params['named']['quantity'] == 0){
-						if($this->Cart->delete($currentCart)){
-							$this->Session->setFlash(__('Product was removed from the cart', true));
-						}
-						else{
-							$this->Session->setFlash(__('Something went wrong', true));
-						}
-					}
-					else{
-						$currentCart['Cart']['quantity'] += $this->params['named']['quantity'];
-						$currentCart['Cart']['deleted'] = 0;
-						$currentCart['Cart']['deleted_date'] = '';
-						$currentCart['Cart']['price'] = $price;
-						$currentCart['Cart']['name'] = $product['Product']['name'];
-
-						if($this->Cart->save($currentCart)){
-							$this->Session->setFlash(__('Your cart was updated', true));
-						}
-					}
-					$this->redirect($this->referer());
-				}
-
-				$cart['Cart']['product_id'] = $this->params['named']['product_id'];
-				$cart['Cart']['quantity'] = $this->params['named']['quantity'];
-				$cart['Cart']['user_id'] = $userId;
-				$cart['Cart']['price'] = $price;
-				$cart['Cart']['name'] = $product['Product']['name'];
-
-				$this->Cart->create();
-				if($this->Cart->save($cart)){
-					$this->Session->setFlash(__('The product was added to your cart', true));
-					$this->redirect($this->referer());
-				}
+				$this->Shop->dbCartSave($product);
 			}
 
-			$carts = $this->Session->read('Cart.TempCart');
-			if(!empty($carts)){
-				foreach($carts as &$cart){
-					if($cart['Cart']['product_id'] == $this->params['named']['product_id']){
-						if($cart['Cart']['quantity'] == 0){
-							unset($cart);
-							$this->Session->setFlash(__('Product was removed from the cart', true));
-						}
-						else{
-							$cart['Cart']['quantity'] += $this->params['named']['quantity'];
-							$cart['Cart']['price'] = $price;
-							$cart['Cart']['name'] = $product['Product']['name'];
-							$this->Session->setFlash(__('Your cart was updated', true));
-						}
-					}
-				}
-
-				$this->Session->write('Cart.TempCart', $carts);
-				$this->redirect($this->referer());
-			}
-
-			$currentCart[0]['Cart']['product_id'] = $this->params['named']['product_id'];
-			$currentCart[0]['Cart']['quantity'] = $this->params['named']['quantity'];
-			$currentCart[0]['Cart']['price'] = $price;
-			$currentCart[0]['Cart']['name'] = $product['Product']['name'];
-			$this->Session->setFlash(__('The product was added to your cart', true));
-			$this->redirect($this->referer());
+			$this->Shop->sessionCartSave($product);
 		}
 
 		function change_shipping_method(){

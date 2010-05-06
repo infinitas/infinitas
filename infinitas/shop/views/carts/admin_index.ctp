@@ -37,10 +37,10 @@
                     $this->Paginator->sort('price'),
                     $this->Paginator->sort('sub_total'),
                     $this->Paginator->sort('created') => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('deleted_date') => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:150px;'
                     )
                 )
             );
@@ -51,10 +51,30 @@
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($cart['Cart']['id']); ?>&nbsp;</td>
 						<td>
-							<?php echo $cart['User']['name']; ?>
+							<?php
+								echo $this->Html->link(
+									$cart['User']['username'],
+									array(
+										'plugin' => 'management',
+										'controller' => 'users',
+										'action' => 'edit',
+										$cart['User']['id']
+									)
+								);
+							?>
 						</td>
 						<td>
-							<?php echo $cart['Product']['name']; ?>
+							<?php
+								echo $this->Html->link(
+									$cart['Product']['name'],
+									array(
+										'plugin' => 'shop',
+										'controller' => 'products',
+										'action' => 'edit',
+										$cart['Product']['id']
+									)
+								);
+							?>
 						</td>
 						<td>
 							<?php echo $cart['Cart']['quantity']; ?>
@@ -69,7 +89,7 @@
 							<?php echo $this->Time->niceShort($cart['Cart']['created']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($cart['Cart']['deleted_date']); ?>
+							<?php echo $this->Time->timeAgoInWords($cart['Cart']['deleted_date']); ?>
 						</td>
                 	</tr>
                 <?php
