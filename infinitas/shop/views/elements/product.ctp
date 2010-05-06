@@ -55,13 +55,16 @@
 	</div>
     <div class="product_add_to_cart">
     	<?php
-			$product['Product']['controller'] = 'carts';
-			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'carts', 'data' => $product['Product']));
-
 			echo $this->Html->image(
 				'/shop/img/add_to_cart.png',
 				array(
-					'url' => current($eventData['slugUrl']),
+					'url' => array(
+						'plugin' => 'shop',
+						'controller' => 'carts',
+						'action' => 'add',
+						'product_id' => $product['Product']['id'],
+						'quantity' => 1
+					),
 					'title' => __('Add to cart', true),
 					'alt' => __('Add to cart', true),
 					'width' => '90px'
@@ -72,13 +75,16 @@
 
     <div class="product_add_to_wishlist">
     	<?php
-			$product['Product']['controller'] = 'wishlists';
-			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'carts', 'data' => $product['Product']));
-
 			echo $this->Html->image(
 				'/shop/img/add_to_wishlist.png',
 				array(
-					'url' => current($eventData['slugUrl']),
+					'url' => array(
+						'plugin' => 'shop',
+						'controller' => 'wishlists',
+						'action' => 'add',
+						'product_id' => $product['Product']['id'],
+						'quantity' => 1
+					),
 					'title' => __('Add to wishlist', true),
 					'alt' => __('Add to wishlist', true),
 					'width' => '90px'
