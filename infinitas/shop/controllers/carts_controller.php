@@ -32,6 +32,11 @@
 				)
 			);
 
+			if(empty($carts)){
+				$this->Session->setFlash(__('Your cart is empty', true));
+				$this->redirect($this->referer());
+			}
+
 			$amounts['sub_total'] = array_sum((array)Set::extract('/Cart/sub_total', $carts));
 			$eventData = $this->Event->trigger(
 				'calculateShipping',
@@ -70,7 +75,8 @@
 						'Product.id',
 						'Product.name',
 						'Product.price',
-						'Product.active'
+						'Product.active',
+						'Product.added_to_cart'
 					),
 					'contain' => array(
 						'Special'

@@ -31,6 +31,8 @@
 			$currentCart[0]['Cart']['quantity'] = $this->Controller->params['named']['quantity'];
 			$currentCart[0]['Cart']['price'] = $product['Product']['price'];
 			$currentCart[0]['Cart']['name'] = $product['Product']['name'];
+
+			$this->_updateAddCount($product['Product']);
 			$this->Controller->Session->setFlash(__('The product was added to your cart', true));
 			$this->Controller->redirect($this->Controller->referer());
 		}
@@ -74,12 +76,29 @@
 			$cart['Cart']['quantity'] = $this->Controller->params['named']['quantity'];
 			$cart['Cart']['price'] = $product['Product']['price'];
 			$cart['Cart']['name'] = $product['Product']['name'];
+			$cart['Cart']['user_id'] = $this->Controller->Session->read('Auth.User.id');
 
 			$this->Controller->Cart->create();
 			if($this->Controller->Cart->save($cart)){
+				$this->_updateAddCount($product['Product']);
 				$this->Controller->Session->setFlash(__('The product was added to your cart', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
+		}
+
+		function _updateAddCount($product = null){
+			if(!$product || empty($product)){
+				$this->errors[] = 'no product selected';
+				return false;
+			}
+			return $this->Controller->Cart->Product->updateAll(
+				array(
+					'Product.added_to_cart' => $product['added_to_cart'] + 1
+				),
+				array(
+					'Product.id' => $product['id']
+				)
+			);
 		}
 	}
 ?>

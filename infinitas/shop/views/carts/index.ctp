@@ -83,18 +83,18 @@
             }
         ?>
         <tr>
-			<th><?php echo __('Sub total', true);?></th>
+			<th><?php echo __('Sub total', true);?>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th><?php echo $this->Shop->currency($amounts['sub_total']); ?></th>
+			<th><?php echo $this->Shop->currency($amounts['sub_total']); ?>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
         </tr>
         <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
-			<td><?php echo sprintf('%s (%s)', __('Shipping', true), __(Inflector::humanize($this->Session->read('Shop.shipping_method')), true));?></td>
+			<td><?php echo sprintf('%s (%s)', __('Shipping', true), __(Inflector::humanize($this->Session->read('Shop.shipping_method')), true));?>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td><?php echo $this->Shop->currency($amounts['shipping']); ?></td>
+			<td><?php echo $this->Shop->currency($amounts['shipping']); ?>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
         </tr>
@@ -102,10 +102,10 @@
         	if($amounts['vat'] > 0){
         		?>
 			        <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
-						<td><?php echo __('Tax', true);?></td>
+						<td><?php echo __('Tax', true);?>&nbsp;</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
-						<td><?php echo sprintf(__('%s @%s', true), $this->Shop->currency($amounts['vat']), $this->Number->toPercentage((int)Configure::read('Shop.vat_rate'))); ?></td>
+						<td><?php echo sprintf(__('%s @%s', true), $this->Shop->currency($amounts['vat']), $this->Number->toPercentage((int)Configure::read('Shop.vat_rate'))); ?>&nbsp;</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
 			        </tr>
@@ -113,12 +113,29 @@
         	}
         ?>
         <tr>
-			<th><?php echo __('Total Due', true);?></th>
+			<th><?php echo __('Total Due', true);?>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th><?php echo $this->Shop->currency($amounts['total_due']); ?></th>
+			<th><?php echo $this->Shop->currency($amounts['total_due']); ?>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
+        </tr>
+        <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
+			<td>
+				<?php
+					echo $this->Html->link(
+						__('Change Shipping method', true),
+						array(
+							'action' => 'change_shipping_method'
+						)
+					);
+				?>&nbsp;
+			</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
         </tr>
     </table>
     <?php echo $this->Form->end(); ?>
