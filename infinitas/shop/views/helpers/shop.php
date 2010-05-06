@@ -2,7 +2,7 @@
 	class ShopHelper extends AppHelper{
 		var $helpers = array(
 			'Number', 'Form', 'Html',
-			'Libs.Wysiwyg',
+			'Libs.Wysiwyg', 'Libs.Image'
 		);
 
 		function currency($amount = 0, $currency = null){
@@ -144,5 +144,85 @@
 					'alt' => __(Inflector::humanize($type), true)
 				)
 			).'</span>';
+		}
+
+		function cartActions($cart = null){
+			if(!$cart){
+				$this->errors[] = 'You must pass a record in';
+				return false;
+			}
+
+			$link = '';
+
+			if(isset($cart['Cart']['product_id'])){
+				if(isset($cart['Cart']['quantity']) && $cart['Cart']['quantity'] > 1){
+					$link .= $this->Html->link(
+						$this->Html->image(
+							$this->Image->getRelativePath('actions', 'arrow-down'),
+							array(
+								'alt' => __('Less', true),
+								'title' => __('Less', true),
+								'width' => '16px',
+								'class' => 'arrow-down'
+							)
+						),
+						array(
+							'plugin' => 'shop',
+							'controller' => 'carts',
+							'action' => 'adjust',
+							'product_id' => $cart['Cart']['product_id'],
+							'quantity' => -1
+						),
+						array(
+							'escape' => false,
+						)
+					);
+				}
+
+				$link .= $this->Html->link(
+					$this->Html->image(
+						$this->Image->getRelativePath('actions', 'arrow-up'),
+						array(
+							'alt' => __('More', true),
+							'title' => __('More', true),
+							'width' => '16px',
+							'class' => 'arrow-up'
+						)
+					),
+					array(
+						'plugin' => 'shop',
+						'controller' => 'carts',
+						'action' => 'adjust',
+						'product_id' => $cart['Cart']['product_id'],
+						'quantity' => 1
+					),
+					array(
+						'escape' => false,
+					)
+				);
+
+				$link .= $this->Html->link(
+					$this->Html->image(
+						$this->Image->getRelativePath('actions', 'trash'),
+						array(
+							'alt' => __('Remove', true),
+							'title' => __('Remove', true),
+							'width' => '16px'
+						)
+					),
+					array(
+						'plugin' => 'shop',
+						'controller' => 'carts',
+						'action' => 'adjust',
+						'product_id' => $cart['Cart']['product_id'],
+						'quantity' => 0
+					),
+					array(
+						'escape' => false,
+					)
+				);
+
+				return $link;
+			}
 		}
 	}

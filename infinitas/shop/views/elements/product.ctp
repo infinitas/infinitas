@@ -4,7 +4,6 @@
 			$product['Product']['plugin'] = 'shop';
 			$product['Product']['controller'] = 'products';
 			$product['Product']['action'] = 'view';
-			$product['Product']['Category'] = isset($product['ProductCategory'][0]) ? $product['ProductCategory'][0] : 'missing-category';
 			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'products', 'data' => $product['Product']));
 
 			$overlay = '';
@@ -61,7 +60,7 @@
 					'url' => array(
 						'plugin' => 'shop',
 						'controller' => 'carts',
-						'action' => 'add',
+						'action' => 'adjust',
 						'product_id' => $product['Product']['id'],
 						'quantity' => 1
 					),
@@ -81,7 +80,7 @@
 					'url' => array(
 						'plugin' => 'shop',
 						'controller' => 'wishlists',
-						'action' => 'add',
+						'action' => 'adjust',
 						'product_id' => $product['Product']['id'],
 						'quantity' => 1
 					),

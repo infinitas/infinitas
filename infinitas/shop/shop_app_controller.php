@@ -18,5 +18,9 @@
 					'/shop/js/shop'
 				)
 			);
+
+			if(!$this->Session->read('Shop.shipping_method')){
+				$this->Session->write('Shop.shipping_method', Configure::read('Shop.shipping_method'));
+			}
 		}
 	}
