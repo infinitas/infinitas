@@ -28,5 +28,7 @@ $map = array(
 		'081_modding_spotlights_adding_time' => 'M4bd0bd9fbb4441c89c941fb86318cd70'),
 	14 => array(
 		'081_adding_units_and_updating_products' => 'M4bd1afc44dc840aba1e41e5c6318cd70'),
+	15 => array(
+		'081_adding_cart_and_wishlist_to_the_shop' => 'M4be4348b234045f0baa114606318cd70'),
 );
 ?>

@@ -1,6 +1,6 @@
-<?php
+<?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-04-23 18:04:53 : 1272035153*/
+/* Infinitas schema generated on: 2010-05-07 18:05:56 : 1273246916*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -720,6 +720,20 @@ class InfinitasSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
+	var $shop_carts = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'product_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'price' => array('type' => 'float', 'null' => false, 'default' => '0'),
+		'quantity' => array('type' => 'integer', 'null' => false, 'default' => '1'),
+		'deleted' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'deleted_date' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
+	);
 	var $shop_categories = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45),
@@ -780,6 +794,8 @@ class InfinitasSchema extends CakeSchema {
 		'rating' => array('type' => 'float', 'null' => true, 'default' => '0'),
 		'rating_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'added_to_cart' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'added_to_wishlist' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'supplier_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -811,6 +827,7 @@ class InfinitasSchema extends CakeSchema {
 		'end_date' => array('type' => 'date', 'null' => false, 'default' => NULL),
 		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'end_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -826,6 +843,7 @@ class InfinitasSchema extends CakeSchema {
 		'end_date' => array('type' => 'date', 'null' => false, 'default' => NULL),
 		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'end_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
+		'active' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -864,11 +882,28 @@ class InfinitasSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+		'symbol' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 5),
 		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'product_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
+	);
+	var $shop_wishlists = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'product_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'price' => array('type' => 'float', 'null' => false, 'default' => '0'),
+		'quantity' => array('type' => 'integer', 'null' => false, 'default' => '1'),
+		'deleted' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'deleted_date' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
