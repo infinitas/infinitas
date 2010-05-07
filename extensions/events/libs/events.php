@@ -61,26 +61,13 @@
 			$this->__eventHandlerCache = Cache::read('event_handlers', 'core');
 
 			if(empty($this->__eventHandlerCache)) {
-				App::import('Core', 'Folder');
-
-				$folder = new Folder();
-
-				$pluginsPaths = App::path('plugins');
-
-				foreach($pluginsPaths as $pluginsPath){
-					$folder->cd($pluginsPath);
-					$plugins = $folder->read();
-					$plugins = $plugins[0];
-
-					if(count($plugins)){
-						foreach($plugins as $pluginName){
-							$filename = $pluginsPath . $pluginName . DS . $pluginName . '_events.php';
-							$className = Inflector::camelize($pluginName . '_events');
-							if(file_exists($filename)){
-								if(EventCore::__loadEventClass($className, $filename)) {
-									EventCore::__getAvailableHandlers($this->__eventClasses[$className]);
-								}
-							}
+				$plugins = App::objects('plugin');
+				foreach((array)$plugins as $pluginName){
+					$filename = App::pluginPath($pluginName) . Inflector::underscore($pluginName) . '_events.php';
+					$className = Inflector::camelize($pluginName . '_events');
+					if(file_exists($filename)){
+						if(EventCore::__loadEventClass($className, $filename)) {
+							EventCore::__getAvailableHandlers($this->__eventClasses[$className]);
 						}
 					}
 				}
