@@ -8,6 +8,19 @@
 			'Shop.Shop'
 		);
 
+		function beforeRender(){
+			$user_id = $this->Session->read('Auth.User.id');
+
+			if(isset($this->Cart)){
+				$usersCart = $this->Cart->getCartData($user_id);
+			}
+			else{
+				$usersCart = ClassRegistry::init('Shop.Cart')->getCartData($user_id);
+			}
+
+			$this->set(compact('usersCart'));
+		}
+
 		function beforeFilter(){
 			parent::beforeFilter();
 

@@ -4,7 +4,7 @@
 		if(!isset($specials)){
 			$specials = Cache::read('specials', 'shop');
 
-			if(empty($newest)){
+			if(empty($specials)){
 				$specials = ClassRegistry::init('Shop.Special')->getSpecials();
 			}
 		}
