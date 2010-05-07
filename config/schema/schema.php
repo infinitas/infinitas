@@ -833,7 +833,7 @@ class InfinitasSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
-	var $shop_stock = array(
+	var $shop_stocks = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'branch_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'product_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
