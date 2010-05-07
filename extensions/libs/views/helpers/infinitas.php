@@ -92,7 +92,16 @@
 							if ($admin) {
 								$path .= 'admin/';
 							}
-							$moduleOut .= $View->element($path.$module['Module']['module'], array('config' => $this->_moduleConfig($module['Module'])), true);
+							$params = array(
+								'plugin' => $module['Module']['plugin'],
+								'config' => $this->_moduleConfig($module['Module'])
+							);
+
+							$moduleOut .= $View->element(
+								$path.$module['Module']['module'],
+								$params,
+								true
+							);
 						}
 						else if (!empty($module['Module']['content'])) {
 							$moduleOut .= $module['Module']['content'];
@@ -201,7 +210,7 @@
 			if($isSeperator) {
 				$class .= ' seperator';
 			}
-			
+
 			$this->_menuData .= '<li class="'.$class.'">';
 			if(!$isSeperator) {
 				$menuLink = $array['MenuItem']['link'];
@@ -250,7 +259,7 @@
 			else {
 				$this->_menuData .= $linkName;
 			}
-			
+
 			$this->_menuData .= '</li>';
 		}
 

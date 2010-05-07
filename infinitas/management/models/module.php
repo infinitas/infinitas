@@ -52,6 +52,7 @@
 					'fields' => array(
 						'Module.id',
 						'Module.name',
+						'Module.plugin',
 						'Module.content',
 						'Module.module',
 						'Module.config',
