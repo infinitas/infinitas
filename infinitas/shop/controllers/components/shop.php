@@ -3,6 +3,14 @@
 		function initialize(&$controller, $settings = array()) {
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
+
+			App::build(
+				array(
+					'plugins' => array(
+						App::pluginPath('shop').'plugins'
+					)
+				)
+			);
 		}
 
 		function sessionCartSave($product){
