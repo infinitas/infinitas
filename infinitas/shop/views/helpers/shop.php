@@ -225,4 +225,46 @@
 				return $link;
 			}
 		}
+
+		function wishlistActions($wishlist){
+			return
+				$this->Html->link(
+					$this->Html->image(
+						$this->Image->getRelativePath('actions', 'arrow-right'),
+						array(
+							'alt' => __('Add to cart', true),
+							'title' => __('Add to cart', true),
+							'width' => '16px'
+						)
+					),
+					array(
+						'plugin' => 'shop',
+						'controller' => 'wishlists',
+						'action' => 'move',
+						$wishlist['Wishlist']['product_id']
+					),
+					array(
+						'escape' => false,
+					)
+				).
+				$this->Html->link(
+					$this->Html->image(
+						$this->Image->getRelativePath('actions', 'trash'),
+						array(
+							'alt' => __('Remove', true),
+							'title' => __('Remove', true),
+							'width' => '16px'
+						)
+					),
+					array(
+						'plugin' => 'shop',
+						'controller' => 'wishlists',
+						'action' => 'adjust',
+						'product_id' => $wishlist['Wishlist']['product_id']
+					),
+					array(
+						'escape' => false,
+					)
+				);
+		}
 	}
