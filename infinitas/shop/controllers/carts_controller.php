@@ -94,10 +94,10 @@
 			}
 
 			if($userId = $this->Session->read('Auth.User.id') > 0){
-				$this->Shop->dbCartSave($product);
+				$this->Shop->dbCartSave($this->Cart, $product);
 			}
 
-			$this->Shop->sessionCartSave($product);
+			$this->Shop->sessionCartSave($this->Cart, $product);
 		}
 
 		function change_shipping_method(){
