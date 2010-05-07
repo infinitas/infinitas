@@ -1,24 +1,22 @@
 <?php
-	/**
-	* Load all the plugin dirs
-	*/
 	App::build(
 		array(
 			'plugins' => array(
 				APP . 'infinitas' . DS,
-				APP . 'extensions' . DS
+				APP . 'extensions' . DS,
+				APP . 'infinitas' . DS . 'shop'. DS .'plugins' . DS
 			)
 		)
 	);
+
+	class dummy {}
+	$dummy = new dummy();
 
 	/**
 	 * Load plugin events
 	 */
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
-
-	class dummy {}
-	$dummy = new dummy();
 
 	configureCache(EventCore::trigger($dummy, 'setupCache'));
 
@@ -89,7 +87,7 @@
 
 		return Inflector::underscore($prefix).'_'.$hash;
 	}
-	
+
 	/**
 	 * return a nice user friendly name.
 	 *
@@ -102,10 +100,10 @@
 		if(!class_exists('Inflector')){
 			App::import('Inflector');
 		}
-		
+
 		if($class !== null){
 			return Inflector::humanize(Inflector::underscore((string)$class));
 		}
-		
-		return false;		
+
+		return false;
 	}

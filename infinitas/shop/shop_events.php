@@ -41,32 +41,11 @@
 
 		function onSetupConfigEnd(&$event){
 			Configure::load('Shop.config');
-
-			Configure::write('Shop.shipping_method', 'courier');
-			Configure::write('Shop.shipping_methods', array('courier', 'store_pickup'));
 		}
 
 		function onSetupThemeLayout(&$event, $data){
 			if($data['params']['plugin'] == 'shop' && $data['params']['controller'] == 'carts' && $data['params']['action'] == 'index'){
 				return 'checkout';
-			}
-		}
-
-		function onCalculateShipping(&$event, $data){
-			switch($data['method']){
-				case 'pick_up':
-					return 0;
-					break;
-
-				case 'courier':
-					if(isset($data['total'])){
-						if($data['total'] > 150){
-							return 0;
-						}
-						else{
-							return 35;
-						}
-					}
 			}
 		}
 	}

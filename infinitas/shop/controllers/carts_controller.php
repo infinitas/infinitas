@@ -47,7 +47,7 @@
 				)
 			);
 
-			$amounts['shipping']   = (int)$eventData['calculateShipping']['shop'];
+			$amounts['shipping']   = (float)$eventData['calculateShipping']['shipping'.$this->Session->read('Shop.shipping_method')];
 			$amounts['total_excl'] = $amounts['sub_total'] + $amounts['shipping'];
 			$amounts['vat']        = Configure::read('Shop.vat_rate') > 0 ? ($amounts['total_excl'] / 100) * (int)Configure::read('Shop.vat_rate') : 0;
 			$amounts['total_due']  = $amounts['total_excl'] + $amounts['vat'];
