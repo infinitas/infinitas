@@ -17,6 +17,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
+				'plugin' => $this->Module->getPlugins(),
 				'theme_id' => array(null => __('All', true)) + $this->Module->Theme->find('list'),
 				'position_id' => array(null => __('All', true)) + $this->Module->Position->find('list'),
 				'author',
@@ -42,7 +43,8 @@
 			$groups = $this->Module->Group->find('list');
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
 			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
-			$this->set(compact('positions', 'groups', 'routes', 'themes'));
+			$plugins = $this->Module->getPlugins();
+			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins'));
 		}
 
 		function admin_edit($id = null) {
@@ -68,7 +70,8 @@
 			$groups = $this->Module->Group->find('list');
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
 			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
-			$this->set(compact('positions', 'groups', 'routes', 'themes'));
+			$plugins = $this->Module->getPlugins();
+			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins'));
 		}
 	}
 ?>

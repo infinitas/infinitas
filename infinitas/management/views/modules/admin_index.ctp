@@ -37,41 +37,41 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'Theme', 'Theme.name' ),
-                    $this->Paginator->sort( 'Position', 'Position.name' ),
-                    $this->Paginator->sort( 'author' ),
-                    $this->Paginator->sort( 'licence' ) => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('Theme', 'Theme.name'),
+                    $this->Paginator->sort('plugin'),
+                    $this->Paginator->sort('Position', 'Position.name'),
+                    $this->Paginator->sort('author'),
+                    $this->Paginator->sort('licence') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Group', 'Group.name' ) => array(
+                    $this->Paginator->sort('Group', 'Group.name') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Locked', true ) => array(
+                    $this->Paginator->sort('Locked', true) => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort( 'Order', true ) => array(
+                    $this->Paginator->sort('Order', true) => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort( 'core', true ) => array(
+                    $this->Paginator->sort('core', true) => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort( 'active', true ) => array(
+                    $this->Paginator->sort('active', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
 
             $i = 0;
-            foreach ( $modules as $module )
-            {
+            foreach ($modules as $module){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $module['Module']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($module['Module']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;
                 		</td>
@@ -80,11 +80,13 @@
 	                			if (!empty($module['Theme']['name'])) {
 	                				echo $module['Theme']['name'];
 	                			}
-	                			else
-                				{
-			                		echo __('All');
+	                			else{
+			                		echo __('All', true);
                 				}
 							?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo Inflector::humanize($module['Module']['plugin']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $module['Position']['name']; ?>&nbsp;
@@ -94,8 +96,7 @@
                 				if (!empty($module['Module']['url'])) {
                 					echo $this->Html->link($module['Module']['author'], $module['Module']['url'], array('target' => '_blank'));
                 				}
-                				else
-								{
+                				else{
 									echo $module['Module']['author'];
 								}
 							?>&nbsp;
@@ -125,4 +126,4 @@
     </table>
     <?php echo $this->Form->end(); ?>
 </div>
-<?php echo $this->element( 'admin/pagination/navigation' ); ?>
+<?php echo $this->element('admin/pagination/navigation'); ?>
