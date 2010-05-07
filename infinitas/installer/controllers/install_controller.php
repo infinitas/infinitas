@@ -62,7 +62,7 @@ class InstallController extends Controller {
 
 		//App::import('Component', 'Session');
 		//$this->Session = new SessionComponent;
-	
+
 		$this->sql = array(
 			'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 			'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
@@ -107,7 +107,7 @@ class InstallController extends Controller {
 				'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
 			)
 		);
-		
+
 		// path status
 		$paths = array(
 			array(
@@ -209,7 +209,8 @@ class InstallController extends Controller {
 				$content = str_replace('{default_password}', $this->data['Install']['password'], $content);
 				$content = str_replace('{default_database}', $this->data['Install']['database'], $content);
 				$content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
-				
+				$content = str_replace('{default_port}', $this->data['Install']['port'], $content);
+
 				if ($file->write($content)) {
 					//SessionComponent::setFlash(__('Database configuration saved.', true));
 					$this->install();
@@ -228,10 +229,10 @@ class InstallController extends Controller {
 	*/
 	function install() {
 		$this->set('title_for_layout', __('Install Database', true));
-		
+
 		App::import('Core', 'File');
 		App::import('Model', 'ConnectionManager');
-		
+
 		$db = ConnectionManager::getDataSource('default');
 
 		if (!$db->isConnected()) {
@@ -245,7 +246,7 @@ class InstallController extends Controller {
 			App::import('Lib', 'Migrations.MigrationVersion');
 			// All the job is done by MigrationVersion
 			$version = new MigrationVersion();
-			
+
 			// Get the mapping and the latest version avaiable
 			$mapping = $version->getMapping($type);
 			$latest = array_pop($mapping);
