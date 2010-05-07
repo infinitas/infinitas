@@ -26,6 +26,7 @@
 			'password' => '{default_password}',
 			'database' => '{default_database}',
 			'prefix' => '{default_prefix}',
+			'port' => '{default_port}',
 			'encoding' => 'utf8'
 		);
 
@@ -37,6 +38,7 @@
 			'password' => '{default_password}',
 			'database' => 'test_{default_database}',
 			'prefix' => '',
+			'port' => '{default_port}',
 			'encoding' => 'utf8'
 		);
 	}
