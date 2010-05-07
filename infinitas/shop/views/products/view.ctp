@@ -114,20 +114,4 @@
 		</div>
 	</div>
 </div>
-<?php
-	if(!empty($specials)){
-		?>
-			<div><?php
-				echo $this->element('specials', array('plugin' => 'shop', 'specials' => $specials));?>
-			</div>
-		<?php
-	}
-	if(!empty($spotlights)){
-		?>
-			<div><?php
-				echo $this->element('spotlights', array('plugin' => 'shop', 'spotlights' => $spotlights));?>
-			</div>
-		<?php
-	}
-?>
 

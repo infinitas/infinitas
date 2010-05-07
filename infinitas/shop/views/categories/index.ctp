@@ -27,11 +27,11 @@
 	if(!empty($categories)){
 		?>
 			<div>
-				<h2 class="fade"><?php __('Categories'); ?></h2><?php
+				<h2 class="fade"><?php echo sprintf('%s (%s)',__('Categories', true), $currentCategory['Category']['name']); ?></h2><?php
 				foreach($categories as $category){
 					echo $this->element('category', array('plugin' => 'shop', 'category' => $category));
 				} ?>
-			</div>
+			</div><div class="clear"> </div>
 		<?php
 	}
 	if(!empty($products)){
@@ -57,20 +57,6 @@
 			    			'class' => 'moreLink'
 			    		)
 			    	); ?>
-			</div>
-		<?php
-	}
-	if(!empty($specials)){
-		?>
-			<div><?php
-				echo $this->element('specials', array('plugin' => 'shop', 'specials' => $specials));?>
-			</div>
-		<?php
-	}
-	if(!empty($spotlights)){
-		?>
-			<div><?php
-				echo $this->element('spotlights', array('plugin' => 'shop', 'spotlights' => $spotlights));?>
 			</div>
 		<?php
 	}
