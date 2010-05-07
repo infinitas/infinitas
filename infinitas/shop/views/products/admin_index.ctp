@@ -62,6 +62,12 @@
                     $this->Paginator->sort('Supplier', 'Supplier.name') => array(
                         'style' => 'width:75px;'
                     ),
+                    $this->Paginator->sort('added_to_cart') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('added_to_wishlist') => array(
+                        'style' => 'width:75px;'
+                    ),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:75px;'
                     ),
@@ -109,6 +115,12 @@
                 		<td>
                 			<?php echo $this->Html->link($product['Supplier']['name'], array('action' => 'edit', $product['Supplier']['id'])); ?>&nbsp;
                 		</td>
+						<td>
+							<?php echo $product['Product']['added_to_cart']; ?>
+						</td>
+						<td>
+							<?php echo $product['Product']['added_to_wishlist']; ?>
+						</td>
 						<td>
 							<?php echo $this->Time->niceShort($product['Product']['modified']); ?>
 						</td>

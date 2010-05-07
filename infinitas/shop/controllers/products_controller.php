@@ -135,6 +135,8 @@
 					'Product.supplier_id',
 					'Product.unit_id',
 					'Product.image_id',
+					'Product.added_to_cart',
+					'Product.added_to_wishlist'
 				),
 				'contain' => array(
 					'Image',
