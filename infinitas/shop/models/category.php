@@ -98,6 +98,12 @@
 				);
 			}
 
+			$cacheName = cacheName('categories', $conditions);
+			$categories = Cache::read($cacheName, 'shop');
+			if(!empty($categories)){
+				return $categories;
+			}
+
 			$categories = $this->find(
 				'all',
 				array(
@@ -114,10 +120,18 @@
 				)
 			);
 
+			Cache::write($cacheName, $categories, 'shop');
+
 			return $categories;
 		}
 
 		function getActiveCategories(){
+			$cacheName = cacheName('categories_active', $conditions);
+			$category_ids = Cache::read($cacheName, 'shop');
+			if(!empty($category_ids)){
+				return $category_ids;
+			}
+
 			$category_ids = $this->find(
 				'list',
 				array(
@@ -130,6 +144,30 @@
 				)
 			);
 
+			Cache::write($cacheName, $category_ids, 'shop');
+
 			return $category_ids;
+		}
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('Folder');
+			$Folder = new Folder(CACHE . 'shop');
+			$files = $Folder->read();
+
+			foreach($files[1] as $file){
+				if(strstr($file, 'categories_') != false){
+					Cache::delete($file, 'shop');
+				}
+			}
+
+			return true;
 		}
 	}

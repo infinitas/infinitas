@@ -39,4 +39,31 @@
 				'className' => 'Shop.Category'
 			)
 		);
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('Folder');
+			$Folder = new Folder(CACHE . 'shop');
+			$files = $Folder->read();
+
+			foreach($files[1] as $file){
+				$shouldDelete =
+					strstr($file, 'products') ||
+					strstr($file, 'specials') ||
+					strstr($file, 'spotlights');
+
+				if($shouldDelete != false){
+					Cache::delete($file, 'shop');
+				}
+			}
+
+			return true;
+		}
 	}

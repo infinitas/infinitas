@@ -69,6 +69,12 @@
 		);
 
 		function getSpotlights($limit = 10){
+			$cacheName = cacheName('spotlights', $limit);
+			$spotlights = Cache::read($cacheName, 'shop');
+			if(!empty($spotlights)){
+				return $spotlights;
+			}
+
 			$spotlights = $this->find(
 				'all',
 				array(
@@ -96,6 +102,30 @@
 				)
 			);
 
+			Cache::write($cacheName, $spotlights, 'shop');
+
 			return $spotlights;
+		}
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('Folder');
+			$Folder = new Folder(CACHE . 'shop');
+			$files = $Folder->read();
+
+			foreach($files[1] as $file){
+				if(strstr($file, 'spotlights') != false){
+					Cache::delete($file, 'shop');
+				}
+			}
+
+			return true;
 		}
 	}

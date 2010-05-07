@@ -125,6 +125,12 @@
 		);
 
 		function getMostViewed($limit = 10){
+			$cacheName = cacheName('products_mostViewed', $limit);
+			$products = Cache::read($cacheName, 'shop');
+			if(!empty($products)){
+				return $products;
+			}
+
 			$products = $this->find(
 				'all',
 				array(
@@ -153,10 +159,18 @@
 				)
 			);
 
+			Cache::write($cacheName, $products, 'shop');
+
 			return $products;
 		}
 
 		function getNewest($limit = 10){
+			$cacheName = cacheName('products_newest', $limit);
+			$products = Cache::read($cacheName, 'shop');
+			if(!empty($products)){
+				return $products;
+			}
+
 			$products = $this->find(
 				'all',
 				array(
@@ -185,6 +199,8 @@
 				)
 			);
 
+			Cache::write($cacheName, $products, 'shop');
+
 			return $products;
 		}
 
@@ -198,6 +214,12 @@
 					'ProductCategory.active' => 1,
 					'ProductCategory.id' => $category_id
 				);
+			}
+
+			$cacheName = cacheName('products_active', $conditions);
+			$products = Cache::read($cacheName, 'shop');
+			if(!empty($products)){
+				return $products;
 			}
 
 			$products = $this->ProductCategory->find(
@@ -221,6 +243,32 @@
 				)
 			);
 
-			return Set::extract('/Product/id', $products);
+			$products = Set::extract('/Product/id', $products);
+
+			Cache::write($cacheName, $products, 'shop');
+
+			return $products;
+		}
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('Folder');
+			$Folder = new Folder(CACHE . 'shop');
+			$files = $Folder->read();
+
+			foreach($files[1] as $file){
+				if(strstr($file, 'products_') != false){
+					Cache::delete($file, 'shop');
+				}
+			}
+
+			return true;
 		}
 	}
