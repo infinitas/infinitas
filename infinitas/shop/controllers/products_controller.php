@@ -125,12 +125,53 @@
 					'Product.name',
 					'Product.slug',
 					'Product.active',
-					'Product.views',
-					'Product.rating',
-					'Product.rating_count',
 					'Product.cost',
 					'Product.retail',
 					'Product.price',
+					'Product.modified',
+					'Product.supplier_id',
+					'Product.unit_id',
+					'Product.image_id'
+				),
+				'contain' => array(
+					'Image',
+					'Unit',
+					'Supplier',
+					'ProductCategory',
+					'ShopBranch' => array(
+						'BranchDetail',
+					),
+					'Special' => array(
+						'Image'
+					)
+				)
+			);
+
+			$products = $this->paginate(
+				null,
+				$this->Filter->filter
+			);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'category_id' => $this->Product->ProductCategory->generatetreelist(null, null, null, '_'),
+				'supplier_id' => $this->Product->Supplier->find('list'),
+				'unit_id' => $this->Product->Unit->find('list'),
+				'active' => (array)Configure::read('CORE.active_options')
+			);
+			$this->set(compact('products','filterOptions'));
+		}
+
+		function admin_statistics(){
+			$this->paginate = array(
+				'fields' => array(
+					'Product.id',
+					'Product.name',
+					'Product.active',
+					'Product.views',
+					'Product.rating',
+					'Product.rating_count',
 					'Product.modified',
 					'Product.supplier_id',
 					'Product.unit_id',
@@ -145,9 +186,6 @@
 					'ProductCategory',
 					'ShopBranch' => array(
 						'BranchDetail',
-					),
-					'Special' => array(
-						'Image'
 					)
 				)
 			);

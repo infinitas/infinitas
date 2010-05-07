@@ -21,14 +21,14 @@
     echo $this->Form->create('Product', array('url' => array('action' => 'mass')));
 
     $massActions = $this->Infinitas->massActionButtons(
-        array(
+    	array(
             'add',
             'edit',
             'copy',
             'toggle',
             'move',
             'delete'
-        )
+    	)
     );
     echo $this->Infinitas->adminIndexHead($this, $paginator, $filterOptions, $massActions);
 ?>
@@ -45,15 +45,16 @@
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('name'),
-                    $this->Paginator->sort('Category', 'Category.name'),
-                    $this->Paginator->sort('Branches', 'ShopBranch.name'),
-                    $this->Paginator->sort('Unit', 'Unit.name') => array(
+                    $this->Paginator->sort('rating') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('price') => array(
+                    $this->Paginator->sort('views') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('Supplier', 'Supplier.name') => array(
+                    $this->Paginator->sort('added_to_cart') => array(
+                        'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('added_to_wishlist') => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort('modified') => array(
@@ -82,21 +83,18 @@
                 		<td>
                 			<?php echo $this->Html->link($product['Product']['name'], array('action' => 'edit', $product['Product']['id'])); ?>&nbsp;
                 		</td>
-                		<td>
-                			<?php echo $this->Text->toList(Set::extract('/name', $product['ProductCategory'])); ?>
-                		</td>
 						<td>
-							<?php echo $this->Text->toList(Set::extract('/BranchDetail/name', $product['ShopBranch'])); ?>
+							<?php echo $product['Product']['rating']; ?>
 						</td>
 						<td>
-                			<?php echo $this->Html->link($product['Unit']['name'], array('action' => 'edit', $product['Unit']['id'])); ?>&nbsp;
+							<?php echo $product['Product']['views']; ?>
 						</td>
-						<td title="<?php echo $this->Shop->breakdown($product['Product'], $product['Special']); ?>">
-							<?php echo $this->Shop->calculateSpecial($product['Product'], $product['Special']); ?>
+						<td>
+							<?php echo $product['Product']['added_to_cart']; ?>
 						</td>
-                		<td>
-                			<?php echo $this->Html->link($product['Supplier']['name'], array('action' => 'edit', $product['Supplier']['id'])); ?>&nbsp;
-                		</td>
+						<td>
+							<?php echo $product['Product']['added_to_wishlist']; ?>
+						</td>
 						<td>
 							<?php echo $this->Time->niceShort($product['Product']['modified']); ?>
 						</td>
