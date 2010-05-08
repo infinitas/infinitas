@@ -36,4 +36,55 @@
 				)
 			)
 		);
+
+		function getWishlistData($user_id = null){
+			if((int)$user_id > 0){
+				$cacheName = cacheName('wishlist', $user_id);
+				$wishlistData = Cache::read($cacheName, 'shop');
+				if(!empty($wishlistData)){
+					return $wishlistData;
+				}
+
+				$wishlistData = $this->find(
+					'all',
+					array(
+						'conditions' => array(
+							'Wishlist.user_id' => $user_id
+						),
+						'contain' => array(
+							'User',
+							'Product'
+						)
+					)
+				);
+
+				Cache::write($cacheName, $wishlistData, 'shop');
+
+				return $wishlistData;
+			}
+
+			App::import('CakeSession');
+			$this->Session = new CakeSession();
+
+			$wishlistData = $this->Session->read('Wishlist.TempWishlist');
+
+			return (array)$wishlistData;
+		}
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('CakeSession');
+			$this->Session = new CakeSession();
+
+			Cache::delete(cacheName('wishlist', $this->Session->read('Auth.User.id')), 'shop');
+
+			return true;
+		}
 	}
