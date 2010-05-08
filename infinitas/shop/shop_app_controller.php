@@ -9,6 +9,7 @@
 		);
 
 		function beforeRender(){
+			parent::beforeRender();
 			$user_id = $this->Session->read('Auth.User.id');
 
 			if(isset($this->Cart)){
