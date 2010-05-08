@@ -19,7 +19,7 @@
 <table>
 	<tr>
 		<th><?php echo __('Product' ,true) ?></th>
-		<th><?php echo __('price' ,true) ?></th>
+		<th style="width:50px;"><?php echo __('price' ,true) ?></th>
 	</tr>
 	<?php
 		foreach((array)$usersWishlist as $wishlistItem){

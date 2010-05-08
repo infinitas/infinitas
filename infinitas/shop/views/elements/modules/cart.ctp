@@ -19,7 +19,7 @@
 <table>
 	<tr>
 		<th><?php echo __('Product' ,true) ?></th>
-		<th><?php echo __('price' ,true) ?></th>
+		<th style="width:50px;"><?php echo __('price' ,true) ?></th>
 	</tr>
 	<?php
 		foreach((array)$usersCart as $cartItem){
@@ -43,5 +43,20 @@
 	<tr>
 		<td><?php echo __('Sub total', true)?></td>
 		<td><?php echo $this->Shop->currency(array_sum(Set::extract('/Cart/sub_total', $usersCart))); ?>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<?php
+				echo $this->Html->link(
+					__('Checkout', true),
+					array(
+						'plugin' => 'shop',
+						'controller' => 'carts',
+						'action' => 'index'
+					)
+				);
+			?>&nbsp;
+		</td>
 	</tr>
 </table>
