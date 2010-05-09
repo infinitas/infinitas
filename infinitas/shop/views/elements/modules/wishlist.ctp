@@ -11,10 +11,6 @@
 		echo __('Your wishlist is empty', true);
 		return;
 	}
-
-	if(!isset($this->Shop)){
-		App::import('Helper', 'Shop.Shop');
-	}
 ?>
 <table>
 	<tr>

@@ -135,6 +135,9 @@
 		}
 
 		function overlay($type = 'isSpecial'){
+			if(!isset($this->Html)){
+				$this->Html = new HtmlHelper();
+			}
 			return '<span class="'.(string)$type.'">'.
 			$this->Html->image(
 				'/shop/img/'.$type.'.png',

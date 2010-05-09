@@ -11,10 +11,6 @@
 		echo __('Your cart is empty', true);
 		return;
 	}
-
-	if(!isset($this->Shop)){
-		App::import('Helper', 'Shop.Shop');
-	}
 ?>
 <table>
 	<tr>
