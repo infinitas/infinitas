@@ -51,7 +51,7 @@
 		function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				$Model = $event->Handler;
-				
+
 				if (array_key_exists('locked', $Model->_schema)) {
 					$Model->Behaviors->attach('Libs.Lockable');
 				}
