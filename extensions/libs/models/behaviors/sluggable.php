@@ -52,7 +52,7 @@ class SluggableBehavior extends ModelBehavior {
 	* @access public
 	*/
 	function setup(&$Model, $settings = array()) {
-		$default = array('label' => array('title'), 'slug' => 'slug', 'separator' => '-', 'length' => 100, 'overwrite' => false, 'translation' => null);
+		$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'length' => 100, 'overwrite' => false, 'translation' => null);
 		if (Configure::read('debug') > 0) {
 			$default['overwrite'] = true;
 		}
