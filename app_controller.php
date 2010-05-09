@@ -25,7 +25,7 @@
 		var $helpers = array(
 			'Html', 'Form', 'Javascript', 'Session', 'Time',
 			'Libs.Infinitas', 'Tags.TagCloud',
-			'Events.Event'
+			'Events.Event', 'Shop.Shop'
 		);
 
 		var $components = array(
