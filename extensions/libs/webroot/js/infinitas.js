@@ -45,7 +45,6 @@ function(require) {
  * @return void
  **/
 function render(){
-
 	$(document).ready(function(){
 		urlDropdownSelects();
 		doToolTips();
@@ -72,10 +71,12 @@ function urlDropdownSelects(){
 	/**
 	 * Check for plugin dropdown changes
 	 */
-	$('.pluginSelect').change(function(){
-		if ($(this).val().length != 0) {
-			metaData = $.HtmlHelper.getParams($(this));
-			metaData.params.plugin = $(this).val();
+	$pluginSelect = $('.pluginSelect');
+	$pluginSelect.change(function(){
+		var $this = $(this);
+		if ($this.val().length != 0) {
+			metaData = $.HtmlHelper.getParams($this);
+			metaData.params.plugin = $this.val();
 			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
 		}
 	});
@@ -84,10 +85,25 @@ function urlDropdownSelects(){
 	 * Check for controller dropdown changes
 	 */
 	$('.controllerSelect').change(function(){
-		if ($(this).val().length != 0) {
-			metaData = $.HtmlHelper.getParams($(this));
-			metaData.params.plugin     = $('.pluginSelect').val();
-			metaData.params.controller = $(this).val();
+		var $this = $(this);
+		if ($this.val().length != 0) {
+			metaData = $.HtmlHelper.getParams($this);
+			metaData.params.plugin     = $pluginSelect.val();
+			metaData.params.controller = $this.val();
+			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
+		}
+	});
+
+	/**
+	 * Check for module changes
+	 */
+	$modulePuluginSelect = $('.modulePuluginSelect');
+	$modulePuluginSelect.change(function(){
+		var $this = $(this);
+		if ($this.val().length != 0) {
+			metaData = $.HtmlHelper.getParams($this);
+			metaData.params.plugin     = $('.modulePuluginSelect').val();
+			metaData.params.controller = $this.val();
 			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
 		}
 	});

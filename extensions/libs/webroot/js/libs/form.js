@@ -16,10 +16,19 @@
 	 * generate a select dropdown
 	 */
 	FormHelper.select = function(data, metaData) {
-		//var options = '<option>' + $.Core.config('Website.empty_select') + '</option>';
 		var options = '';
 		$.each(data, function(index, name) {
-			options += '<option value="' + index + '">' + name + '</option>';
+			if(($.Core.type(name) == 'plainObject') || ($.Core.type(name) == 'array')) {
+				options += '<optgroup label="' + index + '">';
+				$.each(name, function(sub_index, sub_name) {
+					options += '<option value="' + sub_index + '">' + sub_name + '</option>';
+				});
+				options += '</optgroup>';
+			}
+			else {
+				options += '<option value="' + index + '">' + name + '</option>';
+			}
+
 		});
 		$('#' + metaData.target).empty().html(options);
 	};
