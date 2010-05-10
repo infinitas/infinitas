@@ -5,7 +5,7 @@
 
     $allow = Configure::read(ucfirst($this->params['plugin']).'.allow_ratings');
 
-	if (!isset($data[$modelName]['rating']) || $allow === false){
+	if (!isset($data[$modelName]['rating']) || $allow !== true){
 		return false;
 	}
 ?>
@@ -13,10 +13,10 @@
 	<p>
 		<?php
 			if ($data[$modelName]['rating_count'] > 0) {
-				echo sprintf(__('This article is rated %s out of %s votes', true), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
+				echo sprintf(__('Currently rated %s (out of %s votes)', true), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
 			}
 			else{
-				echo sprintf(__('This %s has not been rated yet', true), $modelName);
+				echo sprintf(__('This %s has not been rated yet', true), prettyName($modelName));
 			}
 		?>
 	</p>
