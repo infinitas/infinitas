@@ -127,7 +127,7 @@ class Tagged extends TagsAppModel {
 
 /**
  * Find all the Model entries tagged with a given tag
- * 
+ *
  * The query must contain a Model name, and can contain a 'by' key with the Tag keyname to filter the results
  * <code>
  * $this->Article->Tagged->find('tagged', array(
