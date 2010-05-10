@@ -1,42 +1,7 @@
 <div class="viewProduct">
 	<?php echo $this->element('product_neighbors', array('plugin' => 'shop', 'neighbors' => $neighbors)); ?>
 	<h2 class="fade"><?php echo $product['Product']['name']; ?></h2>
-	<div class="imageGallery">
-		<div class="mainImage">
-			<?php
-				$product['ProductImage'][] = $product['Image'];
-				if(count($product['ProductImage']) == 1){
-					$_image['Product']['Image'] = $product['ProductImage'][0];
-					echo $this->Shop->getImage(
-						$_image,
-						array(
-							'width' => '80px',
-							'title' => $product['Product']['name'],
-							'alt' => $product['Product']['name']
-						)
-					);
-				}
-			?>
-		</div>
-		<ul class="gallery">
-			<?php
-				if(count($product['ProductImage']) > 1){
-					shuffle($product['ProductImage']);
-					foreach((array)$product['ProductImage'] as $otherImage){
-						$_image['Product']['Image'] = $otherImage;
-						echo '<li>', $this->Shop->getImage(
-							$_image,
-							array(
-								'width' => '80px',
-								'title' => $product['Product']['name'],
-								'alt' => $product['Product']['name']
-							)
-						), '</li>';
-					}
-				}
-			?>
-		</ul>
-	</div>
+	<?php echo $this->element('product_image_gallery', array('plugin' => 'shop', 'product' => $product)); ?>
 	<div class="info">
 		<table cellspacing="0" cellpadding="0">
 			<tr><th style="width:70px;"><?php echo __('Code', true); ?>:</th><td><?php echo 'todo'; ?></td></tr>

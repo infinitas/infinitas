@@ -27,6 +27,7 @@
 						echo $this->Form->input('id');
 						echo $this->Form->input('name', array('class' => 'title'));
 						echo $this->Shop->wysiwyg('Product.description');
+						echo $this->Shop->wysiwyg('Product.specifications');
 					?>
 				</div>
 				<div class="config">

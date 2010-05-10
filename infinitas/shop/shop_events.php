@@ -48,4 +48,9 @@
 				return 'checkout';
 			}
 		}
+
+		function onSetupTabs(&$event, $data){
+			echo 'yey: shop event';
+			exit;
+		}
 	}

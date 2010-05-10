@@ -91,8 +91,13 @@
 
 			$tabs = array(
 				'description' => '/Product/description',
-				'comments' => 'comments'
+				'comments' => 'comments',
+				'specifications' => '/Product/specifications'
 			);
+
+			$eventData = $this->Event->trigger('Shop.setupTabs', $tabs);
+			if (isset($eventData)){
+			}
 
 			$neighbors = $this->Product->find(
 				'neighbors',
