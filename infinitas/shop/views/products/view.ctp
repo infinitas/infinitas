@@ -2,27 +2,37 @@
 	<?php echo $this->element('product_neighbors', array('plugin' => 'shop', 'neighbors' => $neighbors)); ?>
 	<h2 class="fade"><?php echo $product['Product']['name']; ?></h2>
 	<div class="imageGallery">
-		<div class="mainImage"></div>
-		<ul class="gallery">
+		<div class="mainImage">
 			<?php
 				$product['ProductImage'][] = $product['Image'];
-				foreach((array)$product['ProductImage'] as $otherImage){
-					$overlay = '';
-					if($this->Shop->isSpecial($product)){
-							$overlay = $this->Shop->overlay('isSpecial');
-					}
-					else if($this->Shop->isFeatured($product)){
-						$overlay = $this->Shop->overlay('isSpotlight');
-					}
-					$_image['Product']['Image'] = $otherImage;
-					echo '<li>', $this->Shop->getImage(
+				if(count($product['ProductImage']) == 1){
+					$_image['Product']['Image'] = $product['ProductImage'][0];
+					echo $this->Shop->getImage(
 						$_image,
 						array(
 							'width' => '80px',
 							'title' => $product['Product']['name'],
 							'alt' => $product['Product']['name']
 						)
-					).$overlay, '</li>';
+					);
+				}
+			?>
+		</div>
+		<ul class="gallery">
+			<?php
+				if(count($product['ProductImage']) > 1){
+					shuffle($product['ProductImage']);
+					foreach((array)$product['ProductImage'] as $otherImage){
+						$_image['Product']['Image'] = $otherImage;
+						echo '<li>', $this->Shop->getImage(
+							$_image,
+							array(
+								'width' => '80px',
+								'title' => $product['Product']['name'],
+								'alt' => $product['Product']['name']
+							)
+						), '</li>';
+					}
 				}
 			?>
 		</ul>
