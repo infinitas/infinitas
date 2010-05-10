@@ -6,6 +6,11 @@
 	class Module extends ManagementAppModel{
 		var $name = 'Module';
 
+		var $virtualFields = array(
+			'list_name' => "IF(Module.admin = 1, CONCAT('Admin :: ', Module.name), Module.name)",
+			'save_name' => "IF(Module.admin = 1, CONCAT('admin/', Module.module), Module.module)"
+		);
+
 		var $actsAs = array(
 			'Libs.Sequence' => array(
 				'group_fields' => array(
@@ -40,6 +45,12 @@
 				'unique' => true
 			)
 		);
+
+		function __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->subPath = 'views'.DS.'elements'.DS.'modules'.DS;
+		}
 
 		function getModules($position = null, $admin){
 			if (!$position) {
@@ -94,6 +105,43 @@
 			);
 
 			return $positions;
+		}
+
+		function getModuleList($plugin = null){
+			$admin = $non_admin = array();
+
+			$conditions = array();
+			$path = APP;
+			if ($plugin) {
+				$plugin = strtolower($plugin);
+				$path   = App::pluginPath($plugin);
+				$conditions = array('Module.plugin' => $plugin);
+			}
+
+			App::import('File');
+			$this->Folder = new Folder($path.$this->subPath);
+
+			$files = $this->Folder->read();
+
+			foreach($files[1] as $file){
+				$file = str_replace('.ctp', '', $file);
+				$non_admin[$file] = Inflector::humanize($file);
+			}
+
+			if(!empty($files[0]) && is_dir($path.$this->subPath.'admin')){
+				$this->Folder->cd($path.$this->subPath.'admin');
+				$files = $this->Folder->read();
+
+				foreach($files[1] as &$file){
+					$file = str_replace('.ctp', '', $file);
+					$admin['admin/'.$file] = Inflector::humanize($file);
+				}
+			}
+
+			return array(
+				'admin' => $admin,
+				'user' => $non_admin
+			);
 		}
 	}
 ?>

@@ -25,8 +25,8 @@
 					<?php
 				        echo $this->Form->input('id');
 				        echo $this->Form->input('name');
-				        echo $this->Form->input('module');
-				        echo $this->Form->input('plugin', array('options' => $plugins, 'empty' => __(Configure::read('Website.empty_select'), true)));
+				        echo $this->Form->input('plugin', array('class' => "modulePuluginSelect {url:{action:'getModules'}, target:'ModuleModule'}"));
+				        echo $this->Form->input('module', array('empty' => __(Configure::read('Website.empty_select'), true)));
 				        echo $this->Form->input('theme_id');
 				        echo $this->Form->input('position_id');
 				        echo $this->Form->input('group_id');

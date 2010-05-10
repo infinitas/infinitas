@@ -44,7 +44,8 @@
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
 			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
 			$plugins = $this->Module->getPlugins();
-			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins'));
+			$modules = $this->Module->getModuleList();
+			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins', 'modules'));
 		}
 
 		function admin_edit($id = null) {
@@ -71,7 +72,20 @@
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
 			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
 			$plugins = $this->Module->getPlugins();
-			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins'));
+			$modules = $this->Module->getModuleList($this->data['Module']['plugin']);
+			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins', 'modules'));
+		}
+
+		/**
+		* get a list of modules that can be used.
+		*/
+		function admin_getModules(){
+			if (!isset($this->params['named']['plugin'])) {
+				$this->set('json', array('error'));
+				return;
+			}
+
+			$this->set('json', $this->{$this->modelClass}->getModuleList($this->params['named']['plugin']));
 		}
 	}
 ?>
