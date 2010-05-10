@@ -1,16 +1,18 @@
 <?php
-	$action    = (isset($action)) ? $action : 'rate';
 	$modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
     $Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
 
+
+
     $allow = Configure::read(ucfirst($this->params['plugin']).'.allow_ratings');
 
-	if (!isset($data[$modelName]['rating']) || $allow !== true){
+	if (!isset(${strtolower($modelName)}[$modelName]['rating']) || $allow !== true){
 		return false;
 	}
+	$data = ${strtolower($modelName)};
 ?>
-<div class="rating">
-	<p>
+<div id="star-rating" class="rating {currentRating: '<?php echo $data[$modelName]['rating']; ?>', url:{action:'rate', id: <?php echo $data[$modelName]['id']; ?>}, target:'this'}">
+	<span class="star-rating-result">
 		<?php
 			if ($data[$modelName]['rating_count'] > 0) {
 				echo sprintf(__('Currently rated %s (out of %s votes)', true), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
@@ -19,7 +21,7 @@
 				echo sprintf(__('This %s has not been rated yet', true), prettyName($modelName));
 			}
 		?>
-	</p>
+	</span>
 	<div id="coreRatingBox">
 		<?php
             echo $this->Form->create(
@@ -28,7 +30,7 @@
                 	'url' => array(
                 		'plugin' => $this->params['plugin'],
                 		'controller' => $this->params['controller'],
-                		'action' => $action
+                		'action' => 'rate'
                 	)
                 )
             );

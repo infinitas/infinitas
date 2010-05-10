@@ -15,7 +15,6 @@
 			opts.action
 		].join('/');
 
-		debug(options.params);
 		end = '/';
 		$.each(options.params, function(key, value){
 			end += key + ':' + value + '/';

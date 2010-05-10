@@ -18,7 +18,6 @@ function debug(data){
 	}
 }
 
-
 require(
 [
 	"require",
@@ -32,6 +31,7 @@ require(
 	Infinitas.base + "libs/js/3rd/image_drop_down.js",
 
 	Infinitas.base + "libs/js/3rd/jquery_ui.js",
+	Infinitas.base + "libs/js/3rd/rater.js",
 
 ],
 function(require) {
@@ -57,6 +57,8 @@ function render(){
 		$.HtmlHelper.slideshow();
 
 		$('.tabs').tabs();
+
+		starRating();
 	});
 }
 
@@ -151,6 +153,20 @@ function rowSelect(){
 			});
 		}
 	});
+}
+
+function starRating() {
+	$rating = $('.rating');
+	metaData = $.HtmlHelper.getParams($rating);
+	url = $.HtmlHelper.url(metaData);
+
+	$('#coreRatingBox').empty();
+	$rating.rater(
+		url + metaData.url.id,
+		{
+			curvalue: metaData.currentRating
+		}
+	);
 }
 
 function datePicker() {

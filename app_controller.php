@@ -258,24 +258,47 @@
 		* @todo check if the model is a rateable model.
 		*/
 		function rate($id = null) {
-			if (!empty($this->data['Rating'])) {
-				if (Configure::read('Rating.require_auth') === true) {
-					$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
-					if (!$this->data['Rating']['user_id']) {
-						$this->Session->setFlash(__('You need to be logged in to rate this item',true));
-						$this->redirect('/login');
-					}
-				}
+			$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
+			$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
+			$this->data['Rating']['class'] = isset($this->data['Rating']['class']) ? $this->data['Rating']['class']: ucfirst($this->params['plugin']).'.'.$this->modelClass;
+			$this->data['Rating']['foreign_id'] = isset($this->data['Rating']['foreign_id']) ? $this->data['Rating']['foreign_id'] : $id;
+			$this->data['Rating']['rating'] = isset($this->data['Rating']['rating']) ? $this->data['Rating']['rating'] : $this->params['named']['rating'];
 
-				$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
+			$this->log(serialize($this->data['Rating']));
 
+			if (Configure::read('Rating.require_auth') === true && !$this->data['Rating']['user_id']) {
+				$this->Session->setFlash(__('You need to be logged in to rate this item',true));
+				$this->redirect('/login');
+			}
+
+			if (!empty($this->data['Rating']['rating'])) {
 				if ($this->{$this->modelClass}->rateRecord($this->data)) {
-					$this->Session->setFlash(__('Your rating was saved.', true));
+					$data = $this->{$this->modelClass}->find(
+						'first',
+						array(
+							'fields' => array(
+								$this->modelClass.'.rating',
+								$this->modelClass.'.rating_count'
+							),
+							'conditions' => array(
+								$this->modelClass.'.id' => $this->data['Rating']['foreign_id']
+							)
+						)
+					);
+					$message = sprintf(__('Saved! new rating %s (out of %s)', true), $data[$this->modelClass]['rating'], $data[$this->modelClass]['rating_count']);
 				}
 				else {
-					$this->Session->setFlash(__('It seems you have already voted for this item.', true));
+					$message = __('It seems you have already voted for this item.', true);
 				}
-				$this->redirect($this->referer());
+
+				if(!$this->RequestHandler->isAjax()){
+					$this->Session->setFlash($message);
+					$this->redirect($this->referer());
+				}
+				else{
+					Configure::write('debug', 0);
+					$this->set('json', array('message' => $message));
+				}
 			}
 		}
 
