@@ -30,7 +30,8 @@
 		);
 
 		var $actsAs = array(
-			'Feed.Feedable'
+			'Feed.Feedable',
+			'Tags.Taggable'
 		);
 
 		/*var $hasAndBelongsToMany = array(
@@ -449,14 +450,37 @@
 		 * Used for things like generating the tag cloud.
 		 */
 		function getTags($limit = 50) {
-			$tags = Cache::read('tags');
-			if (!empty($tags)) {
+			$cacheName = cacheName('tags', $limit);
+			$tags = Cache::read($cacheName, 'shop');
+			if(!empty($tags)){
 				return $tags;
 			}
 
-			$tags = $this->Tagged->find('cloud', array('limit' => 10));
+			$tags = $this->Tagged->find('cloud', array('limit' => $limit));
 
-			Cache::write('tags', $tags, 'blog');
+			Cache::write($cacheName, $tags, 'blog');
 			return $tags;
+		}
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('Folder');
+			$Folder = new Folder(CACHE . 'shop');
+			$files = $Folder->read();
+
+			foreach($files[1] as $file){
+				if(strstr($file, 'tags_') != false){
+					Cache::delete($file, 'shop');
+				}
+			}
+
+			return true;
 		}
 	}
