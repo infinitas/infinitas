@@ -7,8 +7,12 @@
 			<?php
 				$product['ProductImage'][] = $product['Image'];
 				foreach((array)$product['ProductImage'] as $otherImage){
+					$overlay = '';
 					if($this->Shop->isSpecial($product)){
-						$overlay = $this->Shop->overlay('isSpecial');
+							$overlay = $this->Shop->overlay('isSpecial');
+					}
+					else if($this->Shop->isFeatured($product)){
+						$overlay = $this->Shop->overlay('isSpotlight');
 					}
 					$_image['Product']['Image'] = $otherImage;
 					echo '<li>', $this->Shop->getImage(
