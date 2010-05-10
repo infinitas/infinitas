@@ -340,7 +340,14 @@
 				unset($Controllers[$appIndex]);
 			}
 			$baseMethods = get_class_methods('Controller');
-			$baseMethods[] = 'buildAcl';
+			$baseMethods[] = 'admin_buildAcl';
+			$baseMethods[] = 'blackHole';
+			$baseMethods[] = 'comment';
+			$baseMethods[] = 'rate';
+			$baseMethods[] = 'blackHole';
+			$baseMethods[] = 'addCss';
+			$baseMethods[] = 'addJs';
+			$baseMethods[] = 'admin_delete';
 
 			$Plugins = $this->Infinitas->_getPlugins();
 
@@ -381,14 +388,11 @@
 
 				//clean the methods. to remove those in Controller and private actions.
 				foreach ((array)$methods as $k => $method) {
-					if (strpos($method, '_', 0) === 0) {
+					if (strpos($method, '_', 0) === 0 || in_array($method, $baseMethods)) {
 						unset($methods[$k]);
 						continue;
 					}
-					if (in_array($method, $baseMethods)) {
-						unset($methods[$k]);
-						continue;
-					}
+
 					$methodNode = $aco->node('controllers/'.$ctrlName.'/'.$method);
 					if (!$methodNode) {
 						$aco->create(array('parent_id' => $controllerNode['Aco']['id'], 'model' => null, 'alias' => $method));
