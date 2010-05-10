@@ -100,8 +100,8 @@
 				$img = $data['Product']['Image']['image'];
 			}
 
-			else if(isset($data['Category']['Image']['image'])){
-				$img = $data['Category']['Image']['image'];
+			else if(isset($data['ShopCategory']['Image']['image'])){
+				$img = $data['ShopCategory']['Image']['image'];
 			}
 
 			else{

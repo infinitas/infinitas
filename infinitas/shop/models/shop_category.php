@@ -1,22 +1,14 @@
 <?php
-	class Category extends ShopAppModel{
-		var $name = 'Category';
+	class ShopCategory extends ShopAppModel{
+		var $name = 'ShopCategory';
 
 		var $order = array(
-			'Category.name' => 'ASC'
-		);
-
-		var $actsAs = array(
-			'Libs.Sluggable' => array(
-				'label' => array(
-					'name'
-				)
-			)
+			'ShopCategory.name' => 'ASC'
 		);
 
 		var $belongsTo = array(
 			'Parent' => array(
-				'className' => 'Shop.Category',
+				'className' => 'Shop.ShopCategory',
 				'foreignKey' => 'parent_id',
 				'fields' => array(
 					'Parent.id',
@@ -89,12 +81,12 @@
 
 		function getCategories($category_id = null){
 			$conditions = array(
-				'Category.parent_id IS NULL'
+				'ShopCategory.parent_id IS NULL'
 			);
 
 			if((int)$category_id > 0){
 				$conditions = array(
-					'Category.parent_id' => $category_id
+					'ShopCategory.parent_id' => $category_id
 				);
 			}
 
@@ -111,11 +103,11 @@
 						$conditions
 					),
 					'fields' => array(
-						'Category.id',
-						'Category.parent_id',
-						'Category.name',
-						'Category.slug',
-						'Category.product_count'
+						'ShopCategory.id',
+						'ShopCategory.parent_id',
+						'ShopCategory.name',
+						'ShopCategory.slug',
+						'ShopCategory.product_count'
 					)
 				)
 			);
@@ -136,10 +128,10 @@
 				'list',
 				array(
 					'fields' => array(
-						'Category.id','Category.id'
+						'ShopCategory.id','ShopCategory.id'
 					),
 					'conditions' => array(
-						'Category.active' => 1
+						'ShopCategory.active' => 1
 					)
 				)
 			);

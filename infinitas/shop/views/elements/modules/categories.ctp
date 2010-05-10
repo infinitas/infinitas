@@ -1,6 +1,5 @@
 <?php
-	$Category = ClassRegistry::init('Shop.Category');
-	$categories = $Category->getCategories();
+	$categories = ClassRegistry::init('Shop.ShopCategory')->getCategories();
 
 	if(empty($categories)){
 		echo __('No categories setup', true);
@@ -9,14 +8,14 @@
 
 	$out = '<ul>';
 		foreach($categories as $category){
-			$category['Category']['plugin'] = 'shop';
-			$category['Category']['controller'] = 'categories';
-			$category['Category']['action'] = 'index';
-			$category['Category']['plugin'] = 'shop';
+			$category['ShopCategory']['plugin'] = 'shop';
+			$category['ShopCategory']['controller'] = 'categories';
+			$category['ShopCategory']['action'] = 'index';
+			$category['ShopCategory']['plugin'] = 'shop';
 
-			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'categories', 'data' => $category['Category']));
+			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'categories', 'data' => $category['ShopCategory']));
 			$out .= '<li>'.$this->Html->link(
-				$category['Category']['name'],
+				$category['ShopCategory']['name'],
 				current($eventData['slugUrl'])
 			).'</li>';
 		}

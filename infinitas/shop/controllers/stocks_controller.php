@@ -10,7 +10,7 @@
 			$this->paginate = array(
 				'contain' => array(
 					'Product' => array(
-						'ProductCategory'
+						'ShopCategory'
 					),
 					'ShopBranch' => array(
 						'BranchDetail'

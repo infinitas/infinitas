@@ -32,12 +32,7 @@
 		);
 
 		var $actsAs = array(
-			'Libs.SoftDeletable',
-			'Libs.Sluggable' => array(
-				'label' => array(
-					'name'
-				)
-			)
+			'Libs.SoftDeletable'
 		);
 
 		var $belongsTo = array(
@@ -66,7 +61,7 @@
 
 		var $hasAndBelongsToMany = array(
 			'ShopCategory' => array(
-				'className' => 'Shop.Category',
+				'className' => 'Shop.ShopCategory',
 				'foreignKey' => 'category_id',
 				'associationForeignKey' => 'branch_id',
 				'with' => 'Shop.BranchesCategory',

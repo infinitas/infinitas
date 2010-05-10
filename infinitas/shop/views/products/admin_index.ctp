@@ -45,7 +45,7 @@
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('name'),
-                    $this->Paginator->sort('Category', 'Category.name'),
+                    $this->Paginator->sort('ShopCategory', 'ShopCategory.name'),
                     $this->Paginator->sort('Branches', 'ShopBranch.name'),
                     $this->Paginator->sort('Unit', 'Unit.name') => array(
                         'style' => 'width:75px;'
@@ -83,7 +83,7 @@
                 			<?php echo $this->Html->link($product['Product']['name'], array('action' => 'edit', $product['Product']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Text->toList(Set::extract('/name', $product['ProductCategory'])); ?>
+                			<?php echo $this->Text->toList(Set::extract('/name', $product['ShopCategory'])); ?>
                 		</td>
 						<td>
 							<?php echo $this->Text->toList(Set::extract('/BranchDetail/name', $product['ShopBranch'])); ?>

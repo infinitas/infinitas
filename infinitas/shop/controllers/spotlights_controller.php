@@ -26,7 +26,7 @@
 					'Image',
 					'Product' => array(
 						'Image',
-						'ProductCategory'
+						'ShopCategory'
 					)
 				)
 			);

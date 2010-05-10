@@ -63,20 +63,20 @@
 				'deleteQuery' => '',
 				'insertQuery' => ''
 			),
-			'ProductCategory' => array(
-				'className' => 'Shop.Category',
+			'ShopCategory' => array(
+				'className' => 'Shop.ShopCategory',
 				'foreignKey' => 'category_id',
 				'associationForeignKey' => 'product_id',
 				'with' => 'Shop.CategoriesProduct',
 				'unique' => true,
 				'conditions' => '',
 				'fields' => array(
-					'ProductCategory.id',
-					'ProductCategory.name',
-					'ProductCategory.slug',
-					'ProductCategory.active',
-					'ProductCategory.image_id',
-					'ProductCategory.parent_id'
+					'ShopCategory.id',
+					'ShopCategory.name',
+					'ShopCategory.slug',
+					'ShopCategory.active',
+					'ShopCategory.image_id',
+					'ShopCategory.parent_id'
 				),
 				'order' => '',
 				'limit' => '',
@@ -150,7 +150,7 @@
 						'Product.views' => 'DESC'
 					),
 					'contain' => array(
-						'ProductCategory',
+						'ShopCategory',
 						'Image',
 						'Special' => array(
 							'Image'
@@ -190,7 +190,7 @@
 						'Product.created' => 'DESC'
 					),
 					'contain' => array(
-						'ProductCategory',
+						'ShopCategory',
 						'Image',
 						'Special' => array(
 							'Image'
@@ -206,13 +206,14 @@
 
 		function getActiveProducts($category_id = null){
 			$conditions = array(
-				'ProductCategory.active' => 1
+				'ShopCategory.active' => 1
 			);
+
 
 			if ($category_id){
 				$conditions = array(
-					'ProductCategory.active' => 1,
-					'ProductCategory.id' => $category_id
+					'ShopCategory.active' => 1,
+					'ShopCategory.id' => $category_id
 				);
 			}
 
@@ -222,11 +223,11 @@
 				return $products;
 			}
 
-			$products = $this->ProductCategory->find(
+			$products = $this->ShopCategory->find(
 				'all',
 				array(
 					'fields' => array(
-						'ProductCategory.id'
+						'ShopCategory.id'
 					),
 					'conditions' => $conditions,
 					'order' => false,

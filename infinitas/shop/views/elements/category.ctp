@@ -1,19 +1,19 @@
 <div class="category_item">
-    <div class="category_image" title="<?php echo $category['Category']['name']; ?>">
+    <div class="category_image" title="<?php echo $category['ShopCategory']['name']; ?>">
     	<?php
-			$category['Category']['plugin'] = 'shop';
-			$category['Category']['controller'] = 'categories';
-			$category['Category']['action'] = 'index';
-			$category['Category']['parent_id'] = $category['Category']['id'];
-			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'categories', 'data' => $category['Category']));
+			$category['ShopCategory']['plugin'] = 'shop';
+			$category['ShopCategory']['controller'] = 'categories';
+			$category['ShopCategory']['action'] = 'index';
+			$category['ShopCategory']['parent_id'] = $category['ShopCategory']['id'];
+			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'categories', 'data' => $category['ShopCategory']));
 
 			echo $this->Html->link(
 				$this->Shop->getImage(
 					$category,
 					array(
 						'width' => '100px',
-						'title' => $category['Category']['name'],
-						'alt' => $category['Category']['name']
+						'title' => $category['ShopCategory']['name'],
+						'alt' => $category['ShopCategory']['name']
 					)
 				),
 				current($eventData['slugUrl']),
@@ -26,7 +26,7 @@
     <div class="category_name">
     	<?php
 			echo $this->Html->link(
-				$category['Category']['name'],
+				$category['ShopCategory']['name'],
 				current($eventData['slugUrl'])
 			);
     	?>

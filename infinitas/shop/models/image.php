@@ -36,7 +36,7 @@
 
 		var $hasMany = array(
 			'Category' => array(
-				'className' => 'Shop.Category'
+				'className' => 'Shop.ShopCategory'
 			)
 		);
 

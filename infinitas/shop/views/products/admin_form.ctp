@@ -35,7 +35,7 @@
         					?><h2><?php __('Config'); ?></h2><?php
 							echo $this->Form->input('supplier_id', array('empty' => __(Configure::read('Website.empty_select'), true)));
 							echo $this->Form->input('ShopBranch');
-							echo $this->Form->input('ProductCategory');
+							echo $this->Form->input('ShopCategory');
 							echo $this->Form->input('active');
 						echo $this->Design->niceBoxEnd();
 

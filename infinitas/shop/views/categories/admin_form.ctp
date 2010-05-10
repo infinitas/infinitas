@@ -18,7 +18,7 @@
      * @since 0.8a
      */
 
-    echo $this->Form->create('Category', array('type' => 'file'));
+    echo $this->Form->create('ShopCategory', array('type' => 'file'));
         echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
         	?>
@@ -26,7 +26,7 @@
 					<?php
 						echo $this->Form->input('id');
 						echo $this->Form->input('name', array('class' => 'title'));
-						echo $this->Shop->wysiwyg('Category.description');
+						echo $this->Shop->wysiwyg('ShopCategory.description');
 					?>
 				</div>
 				<div class="config">

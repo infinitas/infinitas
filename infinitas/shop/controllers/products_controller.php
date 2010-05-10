@@ -34,7 +34,7 @@
 				),
 				'contain' => array(
 					'Image',
-					'ProductCategory',
+					'ShopCategory',
 					'Special' => array(
 						'Image'
 					)
@@ -66,7 +66,7 @@
 					),
 					'conditions' => $conditions,
 					'contain' => array(
-						'ProductCategory' => array(
+						'ShopCategory' => array(
 							'Parent'
 						),
 						'Image',
@@ -137,7 +137,7 @@
 					'Image',
 					'Unit',
 					'Supplier',
-					'ProductCategory',
+					'ShopCategory',
 					'ShopBranch' => array(
 						'BranchDetail',
 					),
@@ -155,7 +155,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'category_id' => $this->Product->ProductCategory->generatetreelist(null, null, null, '_'),
+				'category_id' => $this->Product->ShopCategory->generatetreelist(null, null, null, '_'),
 				'supplier_id' => $this->Product->Supplier->find('list'),
 				'unit_id' => $this->Product->Unit->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
@@ -183,7 +183,7 @@
 					'Image',
 					'Unit',
 					'Supplier',
-					'ProductCategory',
+					'ShopCategory',
 					'ShopBranch' => array(
 						'BranchDetail',
 					)
@@ -198,7 +198,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'category_id' => $this->Product->ProductCategory->generatetreelist(null, null, null, '_'),
+				'category_id' => $this->Product->ShopCategory->generatetreelist(null, null, null, '_'),
 				'supplier_id' => $this->Product->Supplier->find('list'),
 				'unit_id' => $this->Product->Unit->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
@@ -215,12 +215,12 @@
 				}
 			}
 
-			$productCategories = $this->Product->ProductCategory->generatetreelist(null, null, null, '_');
+			$shopCategories = $this->Product->ShopCategory->generatetreelist(null, null, null, '_');
 			$units = $this->Product->Unit->find('list');
 			$suppliers = $this->Product->Supplier->find('list');
 			$shopBranches = $this->Product->ShopBranch->getList();
 			$images = $this->Product->Image->find('list');
-			$this->set(compact('productCategories', 'units', 'suppliers', 'shopBranches', 'images'));
+			$this->set(compact('shopCategories', 'units', 'suppliers', 'shopBranches', 'images'));
 		}
 
 		function admin_edit($id = null){
@@ -240,11 +240,11 @@
 				$this->data = $this->Product->read(null, $id);
 			}
 
-			$productCategories = $this->Product->ProductCategory->generatetreelist(null, null, null, '_');
+			$shopCategories = $this->Product->ShopCategory->generatetreelist(null, null, null, '_');
 			$units = $this->Product->Unit->find('list');
 			$suppliers = $this->Product->Supplier->find('list');
 			$shopBranches = $this->Product->ShopBranch->getList();
 			$images = $this->Product->Image->find('list');
-			$this->set(compact('productCategories', 'units', 'suppliers', 'shopBranches', 'images'));
+			$this->set(compact('shopCategories', 'units', 'suppliers', 'shopBranches', 'images'));
 		}
 	}

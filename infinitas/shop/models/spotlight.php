@@ -94,7 +94,7 @@
 					'contain' => array(
 						'Product' => array(
 							'Image',
-							'ProductCategory'
+							'ShopCategory'
 						),
 						'Image'
 					),

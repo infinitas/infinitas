@@ -5,15 +5,15 @@
 		'action' => 'index'
 	);
 	$back['category'] = __('Index', true);
-	if(!empty($currentCategory['Category']['id'])){
-		$currentCategory['Category']['plugin'] = 'shop';
-		$currentCategory['Category']['controller'] = 'categories';
-		$currentCategory['Category']['action'] = 'index';
-		$currentCategory['Category']['parent_id'] = $currentCategory['Category']['id'];
-		$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'categories', 'data' => $currentCategory['Category']));
+	if(!empty($currentCategory['ShopCategory']['id'])){
+		$currentCategory['ShopCategory']['plugin'] = 'shop';
+		$currentCategory['ShopCategory']['controller'] = 'categories';
+		$currentCategory['ShopCategory']['action'] = 'index';
+		$currentCategory['ShopCategory']['parent_id'] = $currentCategory['ShopCategory']['id'];
+		$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'categories', 'data' => $currentCategory['ShopCategory']));
 
 		$back['url'] = current($eventData['slugUrl']);
-		$back['category'] = $currentCategory['Category']['name'];
+		$back['category'] = $currentCategory['ShopCategory']['name'];
 	}
 
 	echo $this->Html->link(
@@ -27,7 +27,7 @@
 	if(!empty($categories)){
 		?>
 			<div>
-				<h2 class="fade"><?php echo sprintf('%s (%s)',__('Categories', true), $currentCategory['Category']['name']); ?></h2><?php
+				<h2 class="fade"><?php echo sprintf('%s (%s)',__('Categories', true), $currentCategory['ShopCategory']['name']); ?></h2><?php
 				foreach($categories as $category){
 					echo $this->element('category', array('plugin' => 'shop', 'category' => $category));
 				} ?>
@@ -42,8 +42,8 @@
 						echo $this->element('product', array('plugin' => 'shop', 'product' => $product));
 					}
 
-					$slug = isset($product['ProductCategory'][0]['slug']) ? $product['ProductCategory'][0]['slug'] : 'missing-category';
-					$id   = isset($product['ProductCategory'][0]['id']) ? $product['ProductCategory'][0]['id'] : 'missing-category';
+					$slug = isset($product['ShopCategory'][0]['slug']) ? $product['ShopCategory'][0]['slug'] : 'missing-category';
+					$id   = isset($product['ShopCategory'][0]['id']) ? $product['ShopCategory'][0]['id'] : 'missing-category';
 			    	echo $this->Html->link(
 			    		'('.__('See all', true).')',
 			    		array(

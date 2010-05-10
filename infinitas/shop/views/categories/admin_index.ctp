@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create('Category', array('url' => array('action' => 'mass')));
+    echo $this->Form->create('ShopCategory', array('url' => array('action' => 'mass')));
 
     $massActions = $this->Infinitas->massActionButtons(
         array(
@@ -59,7 +59,7 @@
             foreach ($categories as $category){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($category['Category']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($category['ShopCategory']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
 								echo $this->Html->image(
@@ -71,7 +71,7 @@
 							?>&nbsp;
 						</td>
                 		<td>
-                			<?php echo $this->Html->link($category['Category']['name'], array('action' => 'edit', $category['Category']['id'])); ?>&nbsp;
+                			<?php echo $this->Html->link($category['ShopCategory']['name'], array('action' => 'edit', $category['ShopCategory']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
@@ -87,10 +87,10 @@
 							<?php echo $this->Text->toList(Set::extract('/BranchDetail/name', $category['ShopBranch'])); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($category['Category']['modified']); ?>
+							<?php echo $this->Time->niceShort($category['ShopCategory']['modified']); ?>
 						</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($category['Category']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($category['ShopCategory']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
