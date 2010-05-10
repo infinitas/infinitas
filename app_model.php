@@ -55,8 +55,34 @@
 			parent::__construct($id, $table, $ds);
 
 			if (isset($this->_schema) && is_array($this->_schema)) {
-				if($this->Behaviors->enabled('Event')) {
+				/**if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
+				}*/
+
+
+				if (array_key_exists('locked', $this->_schema) && !$this->Behaviors->enabled('Libs.Lockable')) {
+					$this->Behaviors->attach('Libs.Lockable');
+				}
+
+				if (array_key_exists('slug', $this->_schema) && !$this->Behaviors->enabled('Libs.Sluggable')) {
+					$this->Behaviors->attach('Libs.Sluggable');
+				}
+
+				if (array_key_exists('ordering', $this->_schema) && !$this->Behaviors->enabled('Libs.Sequence')) {
+					$this->Behaviors->attach('Libs.Sequence');
+				}
+
+				if (array_key_exists('rating', $this->_schema) && !$this->Behaviors->enabled('Libs.Rateable')) {
+					$this->Behaviors->attach('Libs.Rateable');
+				}
+
+				if (array_key_exists('comment_count', $this->_schema) && !$this->Behaviors->enabled('Libs.Commentable')) {
+					$this->Behaviors->attach('Libs.Commentable');
+				}
+
+				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro', 'Trash');
+				if (!in_array($this->name, $noTrashModels) && !isset($this->noTrash) && !$this->Behaviors->enabled('Libs.Trashable')) {
+					$this->Behaviors->attach('Libs.Trashable');
 				}
 
 				if (array_key_exists('lft', $this->_schema) && array_key_exists('rght', $this->_schema)) {

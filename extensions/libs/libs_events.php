@@ -52,28 +52,28 @@
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				$Model = $event->Handler;
 
-				if (array_key_exists('locked', $Model->_schema)) {
+				if (array_key_exists('locked', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Lockable')) {
 					$Model->Behaviors->attach('Libs.Lockable');
 				}
 
-				if (array_key_exists('slug', $Model->_schema)) {
+				if (array_key_exists('slug', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Sluggable')) {
 					$Model->Behaviors->attach('Libs.Sluggable');
 				}
 
-				if (array_key_exists('ordering', $Model->_schema)) {
+				if (array_key_exists('ordering', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Sequence')) {
 					$Model->Behaviors->attach('Libs.Sequence');
 				}
 
-				if (array_key_exists('rating', $Model->_schema)) {
+				if (array_key_exists('rating', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Rateable')) {
 					$Model->Behaviors->attach('Libs.Rateable');
 				}
 
-				if (array_key_exists('comment_count', $Model->_schema)) {
+				if (array_key_exists('comment_count', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Commentable')) {
 					$Model->Behaviors->attach('Libs.Commentable');
 				}
 
 				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro', 'Trash');
-				if (!in_array($Model->name, $noTrashModels) && !isset($Model->noTrash)) {
+				if (!in_array($Model->name, $noTrashModels) && !isset($Model->noTrash) && !$Model->Behaviors->enabled('Libs.Trashable')) {
 					$Model->Behaviors->attach('Libs.Trashable');
 				}
 			}
