@@ -193,4 +193,3 @@
 			return unserialize(gzuncompress(stripslashes($data)));
 		}
 	}
-?>
