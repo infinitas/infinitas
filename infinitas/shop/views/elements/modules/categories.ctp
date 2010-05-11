@@ -1,9 +1,11 @@
 <?php
-	$categories = ClassRegistry::init('Shop.ShopCategory')->getCategories();
+	if(!isset($categories) || empty($categories)){
+		$categories = ClassRegistry::init('Shop.ShopCategory')->getCategories();
 
-	if(empty($categories)){
-		echo __('No categories setup', true);
-		return;
+		if(empty($categories)){
+			echo __('No categories setup', true);
+			return;
+		}
 	}
 
 	$out = '<ul>';
@@ -21,5 +23,37 @@
 		}
 	$out .= '</ul>';
 
-	echo $out;
+	echo $out,
+	$this->Html->link(
+		__('All Categories', true),
+		array(
+			'plugin' => 'shop',
+			'controller' => 'categories',
+			'action' => 'index'
+		)
+	), '<br/>',
+	$this->Html->link(
+		__('All Products', true),
+		array(
+			'plugin' => 'shop',
+			'controller' => 'products',
+			'action' => 'index'
+		)
+	), '<br/>',
+	$this->Html->link(
+		__('All Specials', true),
+		array(
+			'plugin' => 'shop',
+			'controller' => 'specials',
+			'action' => 'index'
+		)
+	), '<br/>',
+	$this->Html->link(
+		__('All Spotlights', true),
+		array(
+			'plugin' => 'shop',
+			'controller' => 'spotlights',
+			'action' => 'index'
+		)
+	);
 ?>

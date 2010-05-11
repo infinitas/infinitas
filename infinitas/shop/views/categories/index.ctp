@@ -25,9 +25,10 @@
 	);
 
 	if(!empty($categories)){
+		$categoryName = isset($currentCategory['ShopCategory']['name']) ? $currentCategory['ShopCategory']['name'] : __('All Categories', true);
 		?>
 			<div>
-				<h2 class="fade"><?php echo sprintf('%s (%s)',__('Categories', true), $currentCategory['ShopCategory']['name']); ?></h2><?php
+				<h2 class="fade"><?php echo sprintf('%s (%s)',__('Categories', true), $categoryName); ?></h2><?php
 				foreach($categories as $category){
 					echo $this->element('category', array('plugin' => 'shop', 'category' => $category));
 				} ?>
