@@ -179,8 +179,9 @@ class InstallController extends Controller {
 	}
 
 	function __testConnection() {
+		$host = (isset($this->data['Install']['port']) && !empty($this->data['Install']['port'])) ? $this->data['Install']['host'].':'.$this->data['Install']['port'] : $this->data['Install']['host'];
 		return
-		mysql_connect($this->data['Install']['host'],
+		mysql_connect($host,
 			$this->data['Install']['login'],
 			$this->data['Install']['password']
 			) &&
