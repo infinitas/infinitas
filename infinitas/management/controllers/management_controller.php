@@ -85,6 +85,7 @@
 					$layouts    = ClassRegistry::init('Cms.Layout')->find('list');
 					$this->set(compact('categories', 'groups', 'layouts'));
 					break;
+
 				case 'blog':
 					$categories = ClassRegistry::init('Blog.Category')->find('list');
 					$this->set(compact('categories'));
@@ -94,4 +95,3 @@
 			$this->set(compact('data'));
 		}
 	}
-?>
