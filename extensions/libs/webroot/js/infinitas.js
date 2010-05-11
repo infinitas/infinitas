@@ -13,6 +13,7 @@ function pr(data){
  * @return void
  **/
 function debug(data){
+	// better test http://benalman.com/projects/javascript-debug-console-log/
 	if(typeof console.log != 'undefined') {
 		console.log(data);
 	}
@@ -57,6 +58,8 @@ function render(){
 		$.HtmlHelper.slideshow();
 
 		$('.tabs').tabs();
+
+		ajaxPagination();
 
 		starRating();
 	});
@@ -157,6 +160,9 @@ function rowSelect(){
 
 function starRating() {
 	$rating = $('.rating');
+	if($.Core.type($rating) != 'object') {
+		return false;
+	}
 	metaData = $.HtmlHelper.getParams($rating);
 	url = $.HtmlHelper.url(metaData);
 
@@ -191,6 +197,19 @@ function datePicker() {
 			$("#" + Infinitas.model + "Date").val(cal.mysqlDate);
 		}
 	});
+}
 
-	//$("#" + Infinitas.model + "Start, #" + Infinitas.model + "End").parent().toggle();
+function ajaxPagination() {
+	$link = $('a.ajax');
+	$link.live('click', function(event){
+		$('.showMore').remove();
+		$.ajax({
+			url: $(this).attr('href'),
+		  	success: function(data, textStatus, XMLHttpRequest){
+				//$('.list').append(data);
+				$(data).find(".product_item").appendTo('.index');
+			}
+		});
+		return false;
+	});
 }

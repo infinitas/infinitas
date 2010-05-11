@@ -34,7 +34,7 @@
 			array(
 				'escape' => false,
 				'tag' => 'span',
-				'class' => ''
+				'class' => 'ajax'
 			),
 			null,
 			null

@@ -38,7 +38,8 @@
 					'Special' => array(
 						'Image'
 					)
-				)
+				),
+				'limit' => 1
 			);
 
 			$products = $this->paginate('Product');
