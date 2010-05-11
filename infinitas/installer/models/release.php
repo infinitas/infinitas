@@ -8,6 +8,9 @@
 
 		var $useTable = false;
 
+		/*
+		 * Data that is required to run
+		 */
 		var $coreDataTables = array(
 			'cms_content_layouts',
 
@@ -27,6 +30,9 @@
 			'core_users'
 		);
 
+		/*
+		 * Data that demonstrates functionality
+		 */
 		var $sampleDataTables = array(
 			'blog_posts',
 
@@ -51,7 +57,23 @@
 			'newsletter_newsletters',
 			'newsletter_newsletters_users',
 			'newsletter_subscribers',
-			'newsletter_templates'
+			'newsletter_templates',
+
+			'shop_branches_categories',
+			'shop_branches_products',
+			'shop_branches_specials',
+			'shop_branches_spotlights',
+			'shop_categories_products',
+			'shop_images',
+			'shop_images_products',
+			'shop_products',
+			'shop_shop_branches',
+			'shop_shop_categories',
+			'shop_specials',
+			'shop_spotlights',
+			'shop_stocks',
+			'shop_suppliers',
+			'shop_units'
 		);
 
 		var $sql = 'INSERT INTO `%table%` (`%fields%`) VALUES %values%;';
