@@ -32,28 +32,3 @@
 			}
 		}
 	}
-
-
-	/**
-	 * having issues with routes ?
-	 *
-	 * @todo this can be removed after stable.
-	 *
-	 * @param mixed $route
-	 * @return null echo's out the route.
-	 */
-	function debugRoute($route){
-		echo 'Router::connect(\''.$route['Route']['url'].'\', array(';
-		$parts = array();
-		foreach($route['Route']['values'] as $k => $v){
-			$parts[] = "'$k' => '$v'";
-		}
-		echo implode(', ', $parts);
-		echo '), array(';
-		$parts = array();
-		foreach($route['Route']['regex'] as $k => $v){
-			$parts[] = "'$k' => '$v'";
-		}
-		echo implode(', ', $parts);
-		echo ')); </br>';
-	}
