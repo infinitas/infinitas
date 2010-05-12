@@ -57,7 +57,12 @@
 				return array();
 			}
 
-			$positions = $this->find(
+			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
+			if(!empty($modules)){
+				return $modules;
+			}
+
+			$modules = $this->find(
 				'all',
 				array(
 					'fields' => array(
@@ -103,8 +108,9 @@
 					)
 				)
 			);
+			Cache::write('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), $modules, 'core');
 
-			return $positions;
+			return $modules;
 		}
 
 		function getModuleList($plugin = null){
@@ -143,5 +149,22 @@
 				'user' => $non_admin
 			);
 		}
+
+		function afterSave($created){
+			return $this->dataChanged('afterSave');
+		}
+
+		function afterDelete(){
+			return $this->dataChanged('afterDelete');
+		}
+
+		function dataChanged($from){
+			App::import('Folder');
+			$Folder = new Folder(CACHE . 'core' . DS . 'modules');
+			$Folder->delete();
+
+			unset($Folder);
+
+			return true;
+		}
 	}
-?>
