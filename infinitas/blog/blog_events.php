@@ -1,16 +1,14 @@
 <?php
 	class BlogEvents{
 		function onSetupCache(){
-			Cache::config(
-				'blog',
-				array(
-					'engine' => 'File',
+			return array(
+				'name' => 'blog',
+				'config' => array(
 					'duration' => 3600,
 					'probability' => 100,
-					'prefix' => '',
+					'prefix' => 'blog.',
 					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'blog'
+					'serialize' => true
 				)
 			);
 		}

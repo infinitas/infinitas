@@ -1,16 +1,14 @@
 <?php
 	class CmsEvents {
 		function onSetupCache(){
-			Cache::config(
-				'cms',
-				array(
-					'engine' => 'File',
+			return array(
+				'name' => 'cms',
+				'config' => array(
 					'duration' => 3600,
 					'probability' => 100,
-					'prefix' => '',
+					'prefix' => 'cms.',
 					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'cms'
+					'serialize' => true
 				)
 			);
 		}

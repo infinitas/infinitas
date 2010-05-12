@@ -1,16 +1,14 @@
 <?php
 	class ShopEvents{
 		function onSetupCache(){
-			Cache::config(
-				'shop',
-				array(
-					'engine' => 'File',
+			return array(
+				'name' => 'shop',
+				'config' => array(
 					'duration' => 3600,
 					'probability' => 100,
-					'prefix' => '',
+					'prefix' => 'shop.',
 					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'shop'
+					'serialize' => true
 				)
 			);
 		}

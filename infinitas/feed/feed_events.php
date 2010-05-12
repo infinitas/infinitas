@@ -1,16 +1,14 @@
 <?php
 	class FeedEvents {
 		function onSetupCacheStart(){
-			Cache::config(
-				'feed',
-				array(
-					'engine' => 'File',
+			return array(
+				'name' => 'feed',
+				'config' => array(
 					'duration' => 3600,
 					'probability' => 100,
-					'prefix' => '',
+					'prefix' => 'feed.',
 					'lock' => false,
-					'serialize' => true,
-					'path' => CACHE . 'feed'
+					'serialize' => true
 				)
 			);
 		}

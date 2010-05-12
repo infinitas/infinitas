@@ -29,8 +29,8 @@
 
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
-			if(!empty($cache)) {
-				Cache::config($cache['name'], array_merge(array('engine' => Configure::read('Cache.engine')), $cache['config']));
+			if(!empty($cache['name']) && !empty($cache['config'])) {
+				Cache::config($cache['name'], array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']));
 			}
 		}
 	}
