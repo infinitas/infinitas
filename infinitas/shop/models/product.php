@@ -127,7 +127,7 @@
 		function getMostViewed($limit = 10){
 			$cacheName = cacheName('products_mostViewed', $limit);
 			$products = Cache::read($cacheName, 'shop');
-			if(!empty($products)){
+			if($products !== false){
 				return $products;
 			}
 
@@ -167,7 +167,7 @@
 		function getNewest($limit = 10){
 			$cacheName = cacheName('products_newest', $limit);
 			$products = Cache::read($cacheName, 'shop');
-			if(!empty($products)){
+			if($products !== false){
 				return $products;
 			}
 
@@ -219,7 +219,7 @@
 
 			$cacheName = cacheName('products_active', $conditions);
 			$products = Cache::read($cacheName, 'shop');
-			if(!empty($products)){
+			if($products !== false){
 				return $products;
 			}
 

@@ -33,8 +33,7 @@
 		function getRoutes(){
 			$routes = Cache::read('routes', 'core');
 
-
-			if (!empty($routes)) {
+			if ($routes !== false) {
 				return $routes;
 			}
 

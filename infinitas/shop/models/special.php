@@ -72,7 +72,7 @@
 		function getSpecials($limit = 10){
 			$cacheName = cacheName('products_specials', $limit);
 			$specials = Cache::read($cacheName, 'shop');
-			if(!empty($specials)){
+			if($specials !== false){
 				return $specials;
 			}
 			$specials = $this->find(

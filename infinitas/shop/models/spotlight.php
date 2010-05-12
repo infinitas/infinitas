@@ -71,7 +71,8 @@
 		function getSpotlights($limit = 10){
 			$cacheName = cacheName('spotlights', $limit);
 			$spotlights = Cache::read($cacheName, 'shop');
-			if(!empty($spotlights)){
+
+			if($spotlights !== false){
 				return $spotlights;
 			}
 

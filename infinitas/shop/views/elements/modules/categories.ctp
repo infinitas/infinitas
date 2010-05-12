@@ -2,7 +2,7 @@
 	if(!isset($categories) || empty($categories)){
 		$categories = ClassRegistry::init('Shop.ShopCategory')->getCategories();
 
-		if(empty($categories)){
+		if($categories === false){
 			echo __('No categories setup', true);
 			return;
 		}

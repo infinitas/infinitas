@@ -58,7 +58,7 @@
 			}
 
 			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
-			if(!empty($modules)){
+			if($modules !== false){
 				return $modules;
 			}
 

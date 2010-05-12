@@ -2,7 +2,7 @@
 	if(!isset($usersWishlist)){
 		$usersWishlist = Cache::read('cart', 'shop');
 
-		if(empty($usersWishlist)){
+		if($usersWishlist === false){
 			$usersWishlist = ClassRegistry::init('Shop.Wishlist')->getWishlistData();
 		}
 	}

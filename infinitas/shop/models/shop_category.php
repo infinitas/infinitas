@@ -92,7 +92,7 @@
 
 			$cacheName = cacheName('categories', $conditions);
 			$categories = Cache::read($cacheName, 'shop');
-			if(!empty($categories)){
+			if($categories !== false){
 				return $categories;
 			}
 
@@ -120,7 +120,7 @@
 		function getActiveCategories(){
 			$cacheName = cacheName('categories_active', $conditions);
 			$category_ids = Cache::read($cacheName, 'shop');
-			if(!empty($category_ids)){
+			if($category_ids !== false){
 				return $category_ids;
 			}
 

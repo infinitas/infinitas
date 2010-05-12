@@ -161,12 +161,12 @@
 		* @return array $dates an array or years and months
 		*/
 		function getDates() {
-			$dates = Cache::read('post_dates');
+			$dates = Cache::read('posts_dates');
 			if ($dates !== false) {
 				return $dates;
 			}
 
-			$years = Cache::read('post_dates_years');
+			$years = Cache::read('posts_dates_years');
 			if ($years === false) {
 				$years = $this->find(
 					'all',
@@ -182,7 +182,7 @@
 					);
 
 				$years = Set::extract('{n}.{n}.year', $years);
-				Cache::write('post_dates_years', $years, 'blog');
+				Cache::write('posts_dates_years', $years, 'blog');
 			}
 
 			if (!is_array($years)) {
@@ -213,7 +213,7 @@
 				$dates[$year[0]] = $m;
 			}
 
-			Cache::write('post_dates', $dates, 'blog');
+			Cache::write('posts_dates', $dates, 'blog');
 
 			return $dates;
 		}
@@ -228,8 +228,9 @@
 		* @return array $dates an array or years and months
 		*/
 		function getLatest($limit = 10, $active = 1) {
-			$posts = Cache::read('post_latest-' . $limit . '-' . $active);
-			if ($posts !== false) {
+			$cacheName = cacheName('posts_latest', array($limit, $active));
+			$posts = Cache::read($cacheName, 'blog');
+			if($posts !== false){
 				return $posts;
 			}
 
@@ -255,14 +256,15 @@
 					)
 				);
 
-			Cache::write('post_latest-' . $limit . '-' . $active, $posts, 'blog');
+			Cache::write($cacheName, $posts, 'blog');
 
 			return $posts;
 		}
 
 		function getCounts($model = null) {
-			$counts = Cache::read('posts_count');
-			if ($counts !== false) {
+			$cacheName = cacheName('posts_count', $model);
+			$counts = Cache::read($cacheName, 'blog');
+			if($counts !== false){
 				return $counts;
 			}
 
@@ -285,14 +287,15 @@
 					)
 				);
 
-			Cache::write('posts_count', $counts, 'blog');
+			Cache::write($cacheName, $counts, 'blog');
 
 			return $counts;
 		}
 
 		function getPopular($limit = 10) {
-			$poular = Cache::read('posts_popular');
-			if ($poular !== false) {
+			$cacheName = cacheName('posts_popular', $limit);
+			$poular = Cache::read($cacheName, 'blog');
+			if($poular !== false){
 				return $poular;
 			}
 
@@ -309,7 +312,7 @@
 					)
 				);
 
-			Cache::write('posts_popular', $poular, 'blog');
+			Cache::write($cacheName, $poular, 'blog');
 
 			return $poular;
 		}
@@ -324,8 +327,9 @@
 		* @return array the list of pending posts
 		*/
 		function getPending($limit = 10) {
-			$pending = Cache::read('posts_pending');
-			if ($pending !== false) {
+			$cacheName = cacheName('posts_pending', $limit);
+			$pending = Cache::read($cacheName, 'blog');
+			if($pending !== false){
 				return $pending;
 			}
 
@@ -355,13 +359,19 @@
 				$pending[] = __('And More...', true);
 			}
 
-			Cache::write('posts_pending', $pending, 'blog');
+			Cache::write($cacheName, $pending, 'blog');
 
 			return $pending;
 		}
 
 
 		function findPostsByTag($tag) {
+			$cacheName = cacheName('posts_by_tag', $tag);
+			$tags = Cache::read($cacheName, 'blog');
+			if($tags !== false){
+				return $tags;
+			}
+
 			$tags = $this->Tag->find(
 				'all',
 				array(
@@ -383,7 +393,11 @@
 					)
 				)
 			);
-			return Set::extract('/Post/id', $tags);
+
+			$tags = Set::extract('/Post/id', $tags);
+			Cache::write($cacheName, $pending, 'blog');
+
+			return $tags;
 		}
 /**
  * Adds BETWEEN conditions for $year and $month to any array.
@@ -450,9 +464,9 @@
 		 * Used for things like generating the tag cloud.
 		 */
 		function getTags($limit = 50) {
-			$cacheName = cacheName('tags', $limit);
+			$cacheName = cacheName('post_tags', $limit);
 			$tags = Cache::read($cacheName, 'shop');
-			if(!empty($tags)){
+			if($tags !== false){
 				return $tags;
 			}
 

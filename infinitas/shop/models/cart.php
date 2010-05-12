@@ -41,7 +41,7 @@
 			if((int)$user_id > 0){
 				$cacheName = cacheName('cart', $user_id);
 				$cartData = Cache::read($cacheName, 'shop');
-				if(!empty($cartData)){
+				if($cartData !== false){
 					return $cartData;
 				}
 

@@ -41,7 +41,7 @@
 			if((int)$user_id > 0){
 				$cacheName = cacheName('wishlist', $user_id);
 				$wishlistData = Cache::read($cacheName, 'shop');
-				if(!empty($wishlistData)){
+				if($wishlistData !== false){
 					return $wishlistData;
 				}
 
