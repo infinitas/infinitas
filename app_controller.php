@@ -211,6 +211,22 @@
 			pr($error);
 			exit;
 		}
+
+		function afterFilter(){
+			if(Configure::read('debug') === 0){
+				$this->output = preg_replace(
+					array(
+						'/ {2,}/',
+						'/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s'
+					),
+					array(
+						' ',
+						''
+					),
+					$this->output
+				);
+			}
+		}
 	}
 
 	/**
