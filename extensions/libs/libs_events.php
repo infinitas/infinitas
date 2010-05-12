@@ -50,31 +50,29 @@
 
 		function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
-				$Model = $event->Handler;
-
-				if (array_key_exists('locked', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Lockable')) {
-					$Model->Behaviors->attach('Libs.Lockable');
+				if (array_key_exists('locked', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Lockable')) {
+					$event->Handler->Behaviors->attach('Libs.Lockable');
 				}
 
-				if (array_key_exists('slug', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Sluggable')) {
-					$Model->Behaviors->attach('Libs.Sluggable');
+				if (array_key_exists('slug', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sluggable')) {
+					$event->Handler->Behaviors->attach('Libs.Sluggable');
 				}
 
-				if (array_key_exists('ordering', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Sequence')) {
-					$Model->Behaviors->attach('Libs.Sequence');
+				if (array_key_exists('ordering', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sequence')) {
+					$event->Handler->Behaviors->attach('Libs.Sequence');
 				}
 
-				if (array_key_exists('rating', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Rateable')) {
-					$Model->Behaviors->attach('Libs.Rateable');
+				if (array_key_exists('rating', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
+					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
 
-				if (array_key_exists('comment_count', $Model->_schema) && !$Model->Behaviors->enabled('Libs.Commentable')) {
-					$Model->Behaviors->attach('Libs.Commentable');
+				if (array_key_exists('comment_count', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Commentable')) {
+					$event->Handler->Behaviors->attach('Libs.Commentable');
 				}
 
 				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro', 'Trash');
-				if (!in_array($Model->name, $noTrashModels) && !isset($Model->noTrash) && !$Model->Behaviors->enabled('Libs.Trashable')) {
-					$Model->Behaviors->attach('Libs.Trashable');
+				if (!in_array($event->Handler->name, $noTrashModels) && !isset($event->Handler->noTrash) && !$event->Handler->Behaviors->enabled('Libs.Trashable')) {
+					$event->Handler->Behaviors->attach('Libs.Trashable');
 				}
 			}
 		}
