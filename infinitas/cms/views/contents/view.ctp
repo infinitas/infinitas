@@ -40,7 +40,5 @@
 	$__html = str_replace('[[Content.modified]]', $content['Content']['modified'], $__html);
 
 	echo $__html;
-
-	echo $this->element('global/rating_add', array('data' => $content));
 	echo $this->element('global/comment_add', array('data' => $content));
 ?>
