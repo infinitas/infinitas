@@ -20,11 +20,11 @@
 class SoftDeletableBehavior extends ModelBehavior {
 	/**
 	 * Stores the result of the previous soft delete.
-	 * 
+	 *
 	 * @var tristate
 	 */
 	private $__result = null;
-	
+
 	/**
 	 * Initiate behaviour for the model using settings.
 	 *
@@ -50,12 +50,12 @@ class SoftDeletableBehavior extends ModelBehavior {
 	 */
 	public function beforeDelete($model, $cascade = true) {
 		$this->__result = null;
-		
+
 		if ($this->settings[$model->alias]['delete'] && $model->hasField($this->settings[$model->alias]['field'])) {
 			$this->__result = $this->softDelete($model, $model->id, $cascade);
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -88,7 +88,7 @@ class SoftDeletableBehavior extends ModelBehavior {
 		if (method_exists($model, 'beforeSoftDeletable') && $model->beforeSoftDeletable($id) === false) {
 			return false;
 		}
-		
+
 		$model->id = $id;
 		$deleted = $model->save($data, false, array_keys($data[$model->alias]));
 
@@ -103,16 +103,16 @@ class SoftDeletableBehavior extends ModelBehavior {
 
 		return !empty($deleted);
 	}
-	
+
 	/**
 	 * Returns the result of the previous soft delete and results the result variable
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function checkResult() {
 		$result = $this->__result;
 		$this->__result = null;
-		
+
 		return $result === true;
 	}
 

@@ -48,6 +48,8 @@
 
 		var $external = true;
 
+		var $View = null;
+
 		/**
 		 * Set to true when the menu has a current marker to avoid duplicates.
 		 * @var unknown_type
@@ -71,15 +73,17 @@
 			}
 
 			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
-
-			if($modules == false || empty($modules)) {
+			if(empty($modules)) {
 				$modules = ClassRegistry::init('Management.Module')->getModules($position, $admin);
+			}
 
-				Cache::write('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), $modules, 'core');
+			$currentRoute = Configure::read('CORE.current_route');
+
+			if(!$this->View){
+				$this->View = &ClassRegistry::getObject('view');
 			}
 
 			$out = '<div class="modules '.$position.'">';
-				$currentRoute = Router::currentRoute();
 
 				foreach($modules as $module){
 					if ($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) {
@@ -93,7 +97,6 @@
 						}
 
 						if (!empty($module['Module']['module'])) {
-							$View = ClassRegistry::getObject('View');
 							$path = 'modules/';
 							if ($admin) {
 								$path .= 'admin/';
@@ -103,11 +106,13 @@
 								'config' => $this->_moduleConfig($module['Module'])
 							);
 
-							$moduleOut .= $View->element(
+							$moduleOut .= $this->View->element(
 								$path.$module['Module']['module'],
 								$params,
 								true
 							);
+
+
 						}
 						else if (!empty($module['Module']['content'])) {
 							$moduleOut .= $module['Module']['content'];

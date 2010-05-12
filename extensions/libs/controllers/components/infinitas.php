@@ -31,6 +31,7 @@
 		* Controllers initialize function.
 		*/
 		function initialize(&$controller, $settings = array()) {
+			Configure::write('CORE.current_route', Router::currentRoute());
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
@@ -162,7 +163,7 @@
 				$routes = Classregistry::init('Management.Route')->getRoutes();
 			}
 
-			$currentRoute = Router::currentRoute();
+			$currentRoute = Router::currentRoute(Configure::read('CORE.current_route'));
 			if (!empty($routes) && is_object($currentRoute)) {
 				foreach( $routes as $route ){
 					if ( $route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {

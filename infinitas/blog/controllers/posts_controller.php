@@ -61,8 +61,6 @@ class PostsController extends BlogAppController {
 			$post_ids = $this->Post->Tag->findPostsByTag($tag);
 		}
 
-		$categoryIds = $this->Post->Category->getActiveIds();
-
 		$paginate = array(
 			'fields' => array(
 				'Post.id',
@@ -81,19 +79,12 @@ class PostsController extends BlogAppController {
 				'Post.active' => 1,
 				'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0'),
 				'Post.parent_id' => 0,
-				'Post.category_id' => $categoryIds
+				'Post.category_id' => $this->Post->Category->getActiveIds()
 			),
 			'contain' => array(
 				'Tag' => array(
 					'fields' => array(
 						'Tag.name'
-					)
-				),
-				'Category' => array(
-					'fields' => array(
-						'Category.id',
-						'Category.name',
-						'Category.slug',
 					)
 				),
 				'ChildPost' => array(
@@ -107,6 +98,8 @@ class PostsController extends BlogAppController {
 				)
 			)
 		);
+
+
 
 		$this->paginate = $this->Post->setPaginateDateOptions($paginate, array(
 			'year' => $year,
