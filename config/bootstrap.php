@@ -131,3 +131,20 @@
 		echo implode(', ', $parts);
 		echo ')); </br>';
 	}
+
+function convert($size){
+	$unit=array('b','kb','mb','gb','tb','pb');
+	return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+}
+
+function memoryUsage(){
+	pr(
+		array(
+			'current' => convert(memory_get_usage()),
+			'current_t' => convert(memory_get_usage(true)),
+			'max' => convert(memory_get_peak_usage()),
+			'max_' => convert(memory_get_peak_usage(true)),
+			'limit' => ini_get('memory_limit')
+		)
+	);
+}
