@@ -28,6 +28,26 @@
 		var $components = array(
 			'Filter.Filter' => array(
 				'actions' => array('admin_index')
+			)
+		);
+
+		function beforeFilter(){
+			parent::beforeFilter();
+
+			$this->addCss(
+				array(
+					'/cms/css/cms'
 				)
 			);
+
+			$this->addJs(
+				array(
+
+				)
+			);
+
+			if(!$this->Session->read('Shop.shipping_method')){
+				$this->Session->write('Shop.shipping_method', Configure::read('Shop.shipping_method'));
+			}
+		}
 	}

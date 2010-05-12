@@ -20,9 +20,6 @@
 
 	$i = 0;
 	foreach($frontpages as $frontpage ){
-		if ($i >= 2) {
-			echo '<div style="width:50%; float:left;">';
-		}
 		$frontpage['Content']['Author']['username'] = $frontpage['Content']['Editor']['username'] = 'Admin';
 		?>
 			<div class="introduction">
@@ -41,7 +38,6 @@
 					<div><?php echo $this->Time->niceShort( $frontpage['Content']['created'] ); ?></div>
 				</div>
 				<div class="body">
-				<br/>
 					<?php
 						echo $this->Text->truncate($frontpage['Content']['body'], 300	, array('html' => true));
 					?>
@@ -63,62 +59,5 @@
 				</div>
 			</div>
 		<?php
-		if ($i >= 2) {
-			echo '</div>';
-		}
-		$i++;
 	}
 ?>
-<style>
-	.cms h3{
-		font-size:110%;
-		color:#1E379C;
-	}
-
-	.cms big{
-		font-size:120%;
-	}
-	.cms ol,
-	.cms ul {
-		list-style:lower-greek outside none;
-	}
-
-	.cms .heading{
-		margin-bottom:20px;
-	}
-
-	.cms .heading h2{
-		font-size:130%;
-		color:#1E379C;
-		padding-bottom:5px;
-	}
-
-	.cms .stats{
-		border-top:1px dotted #E4E4E4;
-	}
-
-	.cms .stats div{
-		float:left;
-		padding-right:20px;
-		font-size:80%;
-		padding-top:3px;
-	}
-
-	.cms .introduction{
-		font-style: italic;
-		color: #8F8F8F;
-		margin-top: 35px;
-	}
-
-	.cms p{
-		margin-bottom:10px;
-	}
-
-	.cms .body{
-		color:#535D6F;
-		line-height:110%;
-	}
-		.cms .body .stats div{
-			float:right;
-		}
-</style>
