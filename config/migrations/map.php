@@ -30,5 +30,7 @@ $map = array(
 		'081_adding_units_and_updating_products' => 'M4bd1afc44dc840aba1e41e5c6318cd70'),
 	15 => array(
 		'081_adding_cart_and_wishlist_to_the_shop' => 'M4be4348b234045f0baa114606318cd70'),
+	16 => array(
+		'081_fixing_up_some_tables_for_the_shop' => 'M4bea8f6abfb84b2092a908186318cd70'),
 );
 ?>
