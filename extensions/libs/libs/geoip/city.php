@@ -218,5 +218,3 @@
 		$ipnum = ip2long($addr);
 		return _get_record($gi, $ipnum);
 	}
-
-?>

@@ -6,4 +6,3 @@
 			'created' => 'DESC'
 		);
 	}
-?>

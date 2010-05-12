@@ -34,4 +34,3 @@
 		var $noTrash = true;
 		var $noConfirm = true;
 	}
-?>

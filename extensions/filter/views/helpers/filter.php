@@ -1,15 +1,13 @@
 <?php
-    class FilterHelper extends Helper
-    {
+    class FilterHelper extends Helper{
     	var $helpers = array(
     	    'Form', 'Html'
     	);
 
         var $count = 0;
 
-    	function form( $model, $filter = array() )
-    	{
-    		if ( empty( $filter ) || !isset( $filter['fields'] ) ){
+    	function form($model, $filter = array()){
+    		if (empty($filter) || !isset($filter['fields'])){
     			$this->errors[] = 'There is no filters';
     			return false;
     		}
@@ -69,52 +67,45 @@
          * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
          * @since         0.5a
          */
-        function clear( $filter, $div = false )
-        {
-            if ( !isset( $filter['url'][0] ) || empty( $filter['url'][0] ) || $filter['url'][0] == '/' )
-            {
+        function clear($filter, $div = false){
+            if (!isset($filter['url'][0]) || empty($filter['url'][0]) || $filter['url'][0] == '/'){
                 $filter['url'][0] = '/';
             }
 
-            $out = '';
-                if ( $div )
-                {
-                    $out .= '<div class="filter">';
-                }
-                $out .= '<div class="wrap">';
-                    $parts = explode( '/', $filter['url'][0] );
+        	$out = '';
+            if ($div){
+                $out .= '<div class="filter">';
+            }
 
-                    $done = array();
+            $out .= '<div class="wrap">';
+                $parts = explode( '/', $filter['url'][0] );
+                $done = array();
 
-                    foreach( $parts as $_f )
-                    {
-                        if ( empty( $_f ) || in_array( $_f, $done ) )
-                        {
-                            continue;
-                        }
-
-                        $done[] = $_f;
-
-                        $text = explode( ':', $_f );
-                        $text = explode( '.', $text[0] );
-                        $text = ( count( $text ) > 1 ) ? $text[1] : $text[0];
-
-                        $out .= '<div class="left">'.
-                                    '<div class="remove">'.
-                                        $this->Html->link(
-                                            Inflector::humanize( $text ),
-                                            str_replace( $_f, '', '/' . $this->params['url']['url'] )
-                                        ).
-                                    '</div>'.
-                                '</div>';
+                foreach($parts as $_f){
+                    if (empty($_f) || in_array($_f, $done)){
+                        continue;
                     }
-                $out .= '</div>';
-                if ( $div )
-                {
-                    $out .= '</div>';
+
+                    $done[] = $_f;
+
+                    $text = explode(':', $_f);
+                    $text = explode('.', $text[0]);
+                    $text = count($text ) > 1 ? $text[1] : $text[0];
+
+                    $out .= '<div class="left">'.
+                                '<div class="remove">'.
+                                        $this->Html->link(
+                                        Inflector::humanize($text),
+                                        str_replace($_f, '', '/' . $this->params['url']['url'])
+                                    ).
+                                '</div>'.
+                            '</div>';
                 }
+            $out .= '</div>';
+            if ($div){
+                $out .= '</div>';
+            }
 
             return $out;
         }
     }
-?>

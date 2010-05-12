@@ -25,10 +25,6 @@
 
 		var $uses = array();
 
-		function beforeFilter(){
-			parent::beforeFilter();
-		}
-
 		function admin_index(){
 			App::import('AppModel');
 			$this->AppModel = new AppModel(array('table' => false));
@@ -81,4 +77,3 @@
 			return $lockableTables;
 		}
 	}
-?>

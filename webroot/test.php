@@ -92,5 +92,3 @@
 
 	$Dispatcher = new CakeTestSuiteDispatcher();
 	$Dispatcher->dispatch();
-
-?>

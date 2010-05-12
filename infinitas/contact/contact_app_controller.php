@@ -12,4 +12,3 @@
 			$this->RequestHandler->setContent('vcf', 'text/x-vcard');
 		}
 	}
-?>

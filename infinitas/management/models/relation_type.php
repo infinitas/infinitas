@@ -7,4 +7,3 @@
 		var $name = 'RelationType';
 		var $tablePrefix = 'relation_';
 	}
-?>

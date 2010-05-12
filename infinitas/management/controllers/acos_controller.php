@@ -77,4 +77,3 @@ class AcosController extends ManagementAppController {
 		$this->set(compact('parentAcos', 'aros'));
 	}
 }
-?>

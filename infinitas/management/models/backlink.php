@@ -82,4 +82,3 @@
 			$this->request['uri']['query']['q'] = str_replace('%site%', 'http://cakephp.org', $this->request['uri']['query']['q']);
 		}
 	}
-?>

@@ -21,7 +21,7 @@
 		}
 
 		function admin_add() {
-			if (!empty($this->data)) {			
+			if (!empty($this->data)) {
 				$this->IpAddress->create();
 				if ($this->IpAddress->save($this->data)) {
 					$this->Session->setFlash('The ip address / range has been blocked.');
@@ -50,4 +50,3 @@
 			}
 		}
 	}
-?>

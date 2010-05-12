@@ -73,13 +73,13 @@
 			if(($data = $Model->read($this->settings[$Model->alias]['fields'], $id)) == false) {
 				return false;
 			}
-		
+
 			$this->Session = new CakeSession();
 			$user_id = $this->Session->read('Auth.User.id');
 			if($data[$Model->alias]['locked'] && $data[$Model->alias]['locked_by'] != $user_id) {
 				return false;
 			}
-			
+
 			$data[$Model->alias] = array(
 				'id' => $id,
 				$this->settings[$Model->alias]['fields']['locked'] => 1,
@@ -132,4 +132,3 @@
 			return true;
 		}
 	}
-?>

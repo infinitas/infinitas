@@ -186,4 +186,3 @@
 			return $content;
 		}
 	}
-?>

@@ -23,4 +23,3 @@
 			'Filter.Filter'
 		);
 	}
-?>

@@ -115,4 +115,3 @@
 			$this->set(compact('branches'));
 		}
 	}
-?>

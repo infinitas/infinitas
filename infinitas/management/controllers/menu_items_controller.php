@@ -68,7 +68,7 @@
 					$menuItem = $this->MenuItem->find('first', array('fields' => array('id'), 'conditions' => array('parent_id' => 0, 'menu_id' => $this->data['MenuItem']['menu_id'])));
 
 					$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
-				}				
+				}
 				if ($this->MenuItem->save($this->data)) {
 					$this->Session->setFlash(__('Your menu item has been saved.', true));
 					$this->redirect(array('action' => 'index'));
@@ -90,4 +90,3 @@
 			$this->set(compact('menus', 'groups', 'parents', 'plugins', 'controllers', 'actions'));
 		}
 	}
-?>

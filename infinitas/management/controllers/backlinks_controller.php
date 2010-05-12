@@ -11,4 +11,3 @@
 			$this->set(compact('data'));
 		}
 	}
-?>

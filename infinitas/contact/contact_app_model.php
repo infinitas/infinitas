@@ -23,4 +23,3 @@
 	class ContactAppModel extends AppModel {
 		var $tablePrefix = 'contact_';
 	}
-?>

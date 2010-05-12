@@ -85,4 +85,3 @@
 			$this->set(compact('plugins', 'controllers', 'actions', 'themes'));
 		}
 	}
-?>

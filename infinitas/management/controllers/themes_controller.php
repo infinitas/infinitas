@@ -99,4 +99,3 @@
 			$this->redirect($this->referer());
 		}
 	}
-?>

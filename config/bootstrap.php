@@ -17,7 +17,6 @@
 	 */
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
-
 	configureCache(EventCore::trigger($dummy, 'setupCache'));
 
 	/**
@@ -132,12 +131,20 @@
 		echo ')); </br>';
 	}
 
-function convert($size){
-	$unit=array('b','kb','mb','gb','tb','pb');
-	return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
-}
 
-function memoryUsage(){
+	/**
+	 * Quick method to conver byte -> anything.
+	 * @param $size
+	 */
+	function convert($size){
+		$unit=array('b','kb','mb','gb','tb','pb');
+		return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+	}
+
+	/**
+	 * get the current memory stats
+	 */
+	function memoryUsage(){
 	pr(
 		array(
 			'current' => convert(memory_get_usage()),

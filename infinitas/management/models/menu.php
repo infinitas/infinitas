@@ -36,10 +36,9 @@
 
 		function afterDelete() {
 			$menuItem = $this->MenuItem->find('first', array('conditions' => array('menu_id' => $this->id, 'parent_id' => 0)));
-			
+
 			$this->MenuItem->Behaviors->disable('Trashable');
 			$this->MenuItem->delete($menuItem['MenuItem']['id']);
 			$this->MenuItem->Behaviors->enable('Trashable');
 		}
 	}
-?>

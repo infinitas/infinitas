@@ -88,4 +88,3 @@
 			$this->set('json', $this->{$this->modelClass}->getModuleList($this->params['named']['plugin']));
 		}
 	}
-?>

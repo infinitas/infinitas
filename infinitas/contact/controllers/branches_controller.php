@@ -148,4 +148,3 @@
 			$this->set(compact('timeZones'));
 		}
 	}
-?>

@@ -265,4 +265,3 @@
 			return $this->settings[$this->Model->alias]['enclosure'].$value.$this->settings[$this->Model->alias]['enclosure'];
 		}
 	}
-?>

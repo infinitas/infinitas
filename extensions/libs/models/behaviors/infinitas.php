@@ -306,4 +306,3 @@
 			return $this->getJson($Model, current($data), array(), false);
 		}
 	}
-?>
