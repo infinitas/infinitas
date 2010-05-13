@@ -71,6 +71,8 @@
 						)
 					);
 				}
+				$this->Event->trigger('userLogin', array('user' => $currentUser, 'lastLogon' => $lastLogon));
+
 				$this->redirect($this->Auth->redirect());
 			}
 			if (!(empty($this->data)) && !$this->Auth->user()) {
@@ -124,6 +126,7 @@
 		 * @access public
 		 */
 		function logout(){
+			$this->Event->trigger('userLogout', array('user' => $currentUser, 'lastLogon' => $lastLogon));
 			$this->Session->destroy();
 			$this->redirect($this->Auth->logout());
 		}
