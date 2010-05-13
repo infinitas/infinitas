@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-05-07 18:05:56 : 1273246916*/
+/* Infinitas schema generated on: 2010-05-13 03:05:28 : 1273712308*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -412,6 +412,7 @@ class InfinitasSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
 		'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
 		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'config' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'theme_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -489,6 +490,13 @@ class InfinitasSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $core_tickets = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'key' => 'primary'),
+		'data' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
 	var $core_trash = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
@@ -688,8 +696,8 @@ class InfinitasSchema extends CakeSchema {
 	var $sessions = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'key' => 'primary'),
 		'data' => array('type' => 'text', 'null' => true, 'default' => NULL),
-		'expires' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'expires' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'key' => 'index'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'id_unique' => array('column' => 'id', 'unique' => 1), 'expires_index' => array('column' => 'expires', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $shop_branches_categories = array(
@@ -734,25 +742,6 @@ class InfinitasSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
-	var $shop_categories = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45),
-		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'description' => array('type' => 'string', 'null' => true, 'default' => NULL),
-		'keywords' => array('type' => 'string', 'null' => true, 'default' => NULL),
-		'image_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'product_count' => array('type' => 'integer', 'null' => true, 'default' => '0'),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'rght' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
 	var $shop_categories_products = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -785,6 +774,7 @@ class InfinitasSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45),
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'specifications' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'unit_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'cost' => array('type' => 'float', 'null' => false, 'default' => '0'),
 		'retail' => array('type' => 'float', 'null' => false, 'default' => '0'),
@@ -814,6 +804,25 @@ class InfinitasSchema extends CakeSchema {
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $shop_shop_categories = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'description' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'keywords' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'image_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'product_count' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'rght' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
