@@ -50,6 +50,7 @@
 					'fields' => array(
 						'Product.id',
 						'Product.name',
+						'Product.slug',
 						'Product.price',
 						'Product.active',
 						'Product.added_to_wishlist'

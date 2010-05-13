@@ -25,7 +25,7 @@
 			$eventData = $this->Event->trigger('shop.slugUrl', array('type' => 'products', 'data' => $wishlistItem['Product']));
 
 			$productLink = $this->Html->link(
-				$wishlistItem['Cart']['name'],
+				$wishlistItem['Wishlist']['name'],
 				current($eventData['slugUrl'])
 			);
 			?>

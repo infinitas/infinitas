@@ -14,23 +14,13 @@
 				$this->redirect(
 					array(
 						'plugin' => 'management',
-						'controller' => 'user',
+						'controller' => 'users',
 						'action' => 'login'
 					)
 				);
 			}
 
-			$carts = $this->Cart->find(
-				'all',
-				array(
-					'conditions' => array(
-						'Cart.user_id' => $userId
-					),
-					'contain' => array(
-						'Product'
-					)
-				)
-			);
+			$carts = $this->Cart->getCartData($userId);
 
 			if(empty($carts)){
 				$this->Session->setFlash(__('Your cart is empty', true));
@@ -74,6 +64,7 @@
 					'fields' => array(
 						'Product.id',
 						'Product.name',
+						'Product.slug',
 						'Product.price',
 						'Product.active',
 						'Product.added_to_cart'

@@ -6,31 +6,54 @@
 		}
 
 		function sessionCartSave($Model, $product){
-			$carts = $this->Controller->Session->read($Model->alias.'.Temp'.$Model->alias);
-			if(!empty($carts)){
-				foreach($carts as &$cart){
-					if($cart[$Model->alias]['product_id'] == $this->Controller->params['named']['product_id']){
-						if($cart[$Model->alias]['quantity'] == 0){
-							unset($cart);
+			$this->Controller->Session->write($Model->alias.'.Temp'.$Model->alias, '');
+			$datas = $this->Controller->Session->read($Model->alias.'.Temp'.$Model->alias);
+
+			if(!empty($datas)){
+				$done = false;
+				foreach($datas as &$data){
+					if($data[$Model->alias]['product_id'] == $this->Controller->params['named']['product_id']){
+						if($data[$Model->alias]['quantity'] == 0){
+							unset($data);
 							$this->Controller->Session->setFlash(__('Product was removed from the '.$Model->alias, true));
+							$done = true;
 						}
 						else{
-							$cart[$Model->alias]['quantity'] += $this->Controller->params['named']['quantity'];
-							$cart[$Model->alias]['price'] = $product['Product']['price'];
-							$cart[$Model->alias]['name'] = $product['Product']['name'];
+							$data[$Model->alias]['quantity'] += $this->Controller->params['named']['quantity'];
+							$data[$Model->alias]['price']     = $product['Product']['price'];
+							$data[$Model->alias]['name']      = $product['Product']['name'];
+							$data[$Model->alias]['sub_total'] = $product['Product']['price'] * $data[$Model->alias]['quantity'];
 							$this->Controller->Session->setFlash(__('Your '.$Model->alias.' was updated', true));
+							$done = true;
 						}
 					}
 				}
 
-				$this->Controller->Session->write($Model->alias.'.TempCart', $carts);
+				if(!$done){
+					$datas[] = array(
+						$Model->alias => array(
+							'product_id' => $this->Controller->params['named']['product_id'],
+							'quantity'   => $this->Controller->params['named']['quantity'],
+							'price'      => $product['Product']['price'],
+							'sub_total'  => $product['Product']['price'] * $this->Controller->params['named']['quantity'],
+							'name'       => $product['Product']['name']
+						),
+						'Product' => $product['Product']
+					);
+				}
+
+				$this->Controller->Session->write($Model->alias.'.Temp'.$Model->alias, $datas);
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
 			$currentCart[0][$Model->alias]['product_id'] = $this->Controller->params['named']['product_id'];
 			$currentCart[0][$Model->alias]['quantity'] = $this->Controller->params['named']['quantity'];
 			$currentCart[0][$Model->alias]['price'] = $product['Product']['price'];
+			$currentCart[0][$Model->alias]['sub_total'] = $product['Product']['price'] * $this->Controller->params['named']['quantity'];
 			$currentCart[0][$Model->alias]['name'] = $product['Product']['name'];
+			$currentCart[0]['Product'] = $product['Product'];
+
+			$this->Controller->Session->write($Model->alias.'.Temp'.$Model->alias, $currentCart);
 
 			$this->_updateAddCount($product['Product']);
 			$this->Controller->Session->setFlash(__('The product was added to your '.$Model->alias, true));
