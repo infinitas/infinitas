@@ -150,7 +150,6 @@
 				return array();
 			}
 
-			$config['config'] = str_replace('\\', '\\\\\\\\', $config['config']);
 			$json = json_decode($config['config'], true);
 
 			if (!$json) {

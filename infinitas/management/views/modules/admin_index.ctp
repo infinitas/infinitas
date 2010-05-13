@@ -18,8 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Module', array( 'url' => array( 'controller' => 'modules', 'action' => 'mass', 'admin' => 'true' ) ) );
-
+    echo $this->Form->create('Module', array('url' => array('controller' => 'modules', 'action' => 'mass', 'admin' => 'true')));
         $massActions = $this->Core->massActionButtons(
             array(
                 'add',
@@ -30,7 +29,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Core->adminIndexHead($this, $paginator, $filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
@@ -73,7 +72,7 @@
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($module['Module']['id']); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;
+                			<?php echo $this->Html->link(Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
@@ -86,7 +85,14 @@
 							?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo Inflector::humanize($module['Module']['plugin']); ?>&nbsp;
+                			<?php
+                				if(!empty($module['Module']['plugin'])){
+                					echo Inflector::humanize($module['Module']['plugin']);
+                				}
+                				else{
+                					echo __('Global', true);
+                				}
+                			?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $module['Position']['name']; ?>&nbsp;

@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'MenuItem', array( 'url' => array( 'controller' => 'menuItems', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('MenuItem', array('url' => array('controller' => 'menuItems', 'action' => 'mass', 'admin' => 'true')));
 
     $massActions = $this->Core->massActionButtons(
 		array(
@@ -60,6 +60,7 @@
                     )
                 )
             );
+            $MenuItem = ClassRegistry::init('Management.MenuItem');
 
             foreach ($menuItems as $menuItem){
                 ?>
@@ -67,7 +68,7 @@
                         <td><?php echo $this->Form->checkbox($menuItem['MenuItem']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php
-                				$paths = count(ClassRegistry::init('Management.MenuItem')->getPath($menuItem['MenuItem']['id']))-1;
+                				$paths = count($MenuItem->getPath($menuItem['MenuItem']['id']))-1;
                 				$links = array();
 
                 				if ($paths > 1) {
@@ -118,6 +119,7 @@
                 	</tr>
                 <?php
             }
+            unset($MenuItem);
         ?>
     </table>
     <?php echo $this->Form->end(); ?>
