@@ -36,7 +36,6 @@
                 return false;
             }
 
-            $data['Ticket']['hash'] = md5(Configure::read('Security.salt').microtime(true));
             $data['Ticket']['data'] = serialize($info);
 
             $this->Ticket->create();
@@ -62,7 +61,7 @@
             	'first',
             	array(
             		'conditions' => array(
-            			'Ticket.hash' => $this->Ticket
+            			'Ticket.id' => $ticket
             		)
             	)
             );
