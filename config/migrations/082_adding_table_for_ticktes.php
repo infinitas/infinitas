@@ -18,9 +18,6 @@ class M4beb4cb980ac4fdc98bf1e986318cd70 extends CakeMigration {
 	public $migration = array(
 		'up' => array(
 			'create_field' => array(
-				'core_modules' => array(
-					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-				),
 				'sessions' => array(
 					'indexes' => array(
 						'id_unique' => array('column' => 'id', 'unique' => 1),
@@ -50,7 +47,6 @@ class M4beb4cb980ac4fdc98bf1e986318cd70 extends CakeMigration {
 		),
 		'down' => array(
 			'drop_field' => array(
-				'core_modules' => array('plugin',),
 				'sessions' => array('', 'indexes' => array('id_unique', 'expires_index')),
 				'shop_products' => array('specifications',),
 			),
