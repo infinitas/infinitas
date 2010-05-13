@@ -70,6 +70,10 @@
 					$event->Handler->Behaviors->attach('Libs.Commentable');
 				}
 
+				if (array_key_exists('lft', $event->Handler->_schema) && array_key_exists('rght', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Tree')) {
+					$event->Handler->Behaviors->attach('Tree');
+				}
+
 				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro', 'Trash');
 				if (!in_array($event->Handler->name, $noTrashModels) && !isset($event->Handler->noTrash) && !$event->Handler->Behaviors->enabled('Libs.Trashable')) {
 					$event->Handler->Behaviors->attach('Libs.Trashable');
