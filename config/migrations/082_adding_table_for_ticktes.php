@@ -17,17 +17,6 @@ class M4beb4cb980ac4fdc98bf1e986318cd70 extends CakeMigration {
  */
 	public $migration = array(
 		'up' => array(
-			'create_field' => array(
-				'sessions' => array(
-					'indexes' => array(
-						'id_unique' => array('column' => 'id', 'unique' => 1),
-						'expires_index' => array('column' => 'expires', 'unique' => 0),
-					),
-				),
-				'shop_products' => array(
-					'specifications' => array('type' => 'text', 'null' => false, 'default' => NULL),
-				),
-			),
 			'create_table' => array(
 				'core_tickets' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'key' => 'primary'),
@@ -39,25 +28,11 @@ class M4beb4cb980ac4fdc98bf1e986318cd70 extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM'),
 				),
 			),
-			'alter_field' => array(
-				'sessions' => array(
-					'expires' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'key' => 'index'),
-				),
-			),
 		),
 		'down' => array(
-			'drop_field' => array(
-				'sessions' => array('', 'indexes' => array('id_unique', 'expires_index')),
-				'shop_products' => array('specifications',),
-			),
 			'drop_table' => array(
 				'core_tickets'
 			),
-			'alter_field' => array(
-				'sessions' => array(
-					'expires' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-				),
-			)
 		),
 	);
 
