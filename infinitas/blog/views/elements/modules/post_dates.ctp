@@ -19,18 +19,24 @@
      * @subpackage    blog.views.elements.post_dates
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
-?>
-<div class="post-dates">
-<?php
-	$postDates = ClassRegistry::init('Blog.Post')->getDates();
 
-	if ( empty( $postDates ) ){
-		echo __( 'Nothing Found', true );
+	if(!isset($postDates)){
+		$postDates = Cache::read('posts_dates', 'blog');
+
+		if($postDates === false){
+			$postDates = ClassRegistry::init('Blog.Post')->getDates();
+		}
 	}
 
-    else{
-        foreach( $postDates as $year => $months ){
-			echo '<h4>'.$this->Html->link(
+	if(empty($postDates)){
+		echo __('No popular posts found', true);
+		return;
+	}
+?>
+<ul>
+	<?php
+		foreach($postDates as $year => $months){
+			echo '<li><h4>', $this->Html->link(
 				$year,
 				array(
 					'plugin' => 'blogs',
@@ -39,25 +45,28 @@
 					'all',
 					$year
 				)
-			).'</h4>';
+			), '</h4>';
 
-			if ( !empty( $months ) ){
+			if (!empty($months)){
 				sort($months);
-				foreach( $months as $month ){
-					echo '<p>'.$this->Html->link(
-						date('F', mktime(0,0,0,$month)),
-						array(
-							'plugin' => 'blogs',
-							'controller' => 'posts',
-							'action'  => 'index',
-							'all',
-							$year,
-							$month
-						)
-					).'</p>';
-				}
+				echo '<ul>';
+					foreach($months as $month){
+						echo '<li>', $this->Html->link(
+							date('F', mktime(0,0,0,$month)),
+							array(
+								'plugin' => 'blogs',
+								'controller' => 'posts',
+								'action'  => 'index',
+								'all',
+								$year,
+								$month
+							)
+						), '</li>';
+					}
+				echo '</ul>';
 			}
-        }
-    }
-?>
-</div>
+
+			echo '</li>';
+		}
+	?>
+</ul>
