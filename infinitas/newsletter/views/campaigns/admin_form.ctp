@@ -18,11 +18,11 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Campaign' );
-        echo $this->Infinitas->adminEditHead($this);      
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'name', array( 'class' => 'title' ) );
-        echo $this->Form->input( 'description', array( 'class' => 'title' ) );
-        echo $this->Form->input( 'template_id', array( 'class' => 'title' ) );
-    echo $this->Form->end( );
+    echo $this->Form->create('Campaign');
+        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Form->input('id');
+        echo $this->Form->input('name', array('class' => 'title'));
+        echo $this->Letter->wysiwyg('Campaign.description');
+        echo $this->Form->input('template_id');
+    echo $this->Form->end();
 ?>

@@ -34,11 +34,12 @@
 		*/
 		var $helpers = array(
 			'Filter.Filter'
-			);
+		);
 
 		function beforeFilter() {
 			parent::beforeFilter();
 			//  @todo make sure function track is allowed by all
+			$this->Auth->allow('track');
 		}
 
 		function track($id) {
@@ -78,31 +79,31 @@
 						'Newsletter.html',
 						'Newsletter.text',
 						'Newsletter.sends'
-						),
+					),
 					'conditions' => array(
 						'Newsletter.sent' => 0,
 						'Newsletter.active' => 1,
-						),
+					),
 					'contain' => array(
 						'Template' => array(
 							'fields' => array(
 								'Template.header',
 								'Template.footer',
-								)
-							),
+							)
+						),
 						'User' => array(
 							'fields' => array(
 								'User.id',
 								'User.email',
 								'User.username'
-								),
+							),
 							'conditions' => array(
 								'NewslettersUser.sent' => 0
-								)
 							)
 						)
 					)
-				);
+				)
+			);
 
 			foreach($newsletters as $newsletter) {
 				if (empty($newsletter['User'])) {
@@ -115,14 +116,14 @@
 					'<br/>',
 					'<br>',
 					'</p><p>'
-					);
+				);
 
 				$text = strip_tags(
 					str_replace($search,
 						"\n\r",
 						$newsletter['Template']['header'] . $newsletter['Newsletter']['html'] . $newsletter['Template']['footer']
-						)
-					);
+					)
+				);
 
 				foreach($newsletter['User'] as $user) {
 					$to = $user['email'];
@@ -170,10 +171,10 @@
 					'Campaign' => array(
 						'fields' => array(
 							'Campaign.name'
-							)
 						)
 					)
-				);
+				)
+			);
 
 			$newsletters = $this->paginate('Newsletter', $this->Filter->filter);
 
@@ -259,20 +260,20 @@
 						'fields' => array(
 							'Newsletter.id',
 							'Newsletter.html'
-							),
+						),
 						'conditions' => array(
 							'Newsletter.id' => $id
-							),
+						),
 						'contain' => array(
 							'Template' => array(
 								'fields' => array(
 									'Template.header',
 									'Template.footer',
-									)
 								)
 							)
 						)
-					);
+					)
+				);
 
 				$this->set('data', $newsletter['Template']['header'] . $newsletter['Newsletter']['html'] . $newsletter['Template']['footer']);
 			}
@@ -294,14 +295,14 @@
 					'fields' => array(
 						'Newsletter.id',
 						'Newsletter.id'
-						),
+					),
 					'conditions' => array(
 						'Newsletter.sent' => 0, // only get mails that are not sent
 						'Newsletter.sends > ' => 0, // get mails that have not sent anything.
 						'Newsletter.id' => $ids
-						)
 					)
-				);
+				)
+			);
 
 			if (empty($newsletters)) {
 				$this->Session->setFlash(__('There are no newsletters to delete.', true));
@@ -349,14 +350,14 @@
 					'fields' => array(
 						'Newsletter.id',
 						'Newsletter.id'
-						),
+					),
 					'conditions' => array(
 						'Newsletter.active' => 1,
 						'Newsletter.sent' => 0
-						),
+					),
 					'contain' => false
-					)
-				);
+				)
+			);
 
 			foreach($runningNewsletters as $id) {
 				$this->Newsletter->id = $id;

@@ -24,7 +24,7 @@
 
 		var $hasMany = array(
 			'Newsletter.Newsletter'
-			);
+		);
 
 		var $belongsTo = array(
 			'Newsletter.Template',
@@ -35,8 +35,8 @@
 				'fields' => array(
 					'Locker.id',
 					'Locker.username'
-					),
+				),
 				'order' => ''
-				)
-			);
+			)
+		);
 	}

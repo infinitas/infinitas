@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 ?>
-<base href="<?php Configure::read( 'Site.base_url' ); ?>"/>
+<base href="<?php Configure::read('Site.base_url'); ?>"/>
 <?php
     echo $data;
 ?>

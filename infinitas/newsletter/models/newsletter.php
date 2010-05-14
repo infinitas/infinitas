@@ -39,8 +39,8 @@
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
 					'message' => 'Please select the campaign this email belongs to'
-					)
-				),
+				)
+			),
 			'from' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
@@ -49,8 +49,8 @@
 				'email' => array(
 					'rule' => array( 'email', true ),
 					'message' => 'Please enter a valid email addres'
-					)
-				),
+				)
+			),
 			'reply_to' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
@@ -59,21 +59,21 @@
 				'email' => array(
 					'rule' => array('email', true),
 					'message' => 'Please enter a valid email addres'
-					)
-				),
+				)
+			),
 			'html' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
 					'message' => 'Please enter the html version of your email'
-					)
-				),
+				)
+			),
 			'text' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
 					'message' => 'Please enter the text version of your email'
-					)
 				)
-			);
+			)
+		);
 
 		var $hasAndBelongsToMany = array(
 			'User' =>
@@ -99,7 +99,7 @@
 			'Campaign' => array(
 				'className' => 'Newsletter.Campaign',
 				'counterCache' => true,
-				),
+			),
 			'Newsletter.Template'
-			);
+		);
 	}

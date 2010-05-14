@@ -18,5 +18,5 @@
      * @since         0.5a
      */
 
-    echo $this->Letter->adminOtherHead( $this );
+    echo $this->Letter->adminOtherHead($this);
 ?>

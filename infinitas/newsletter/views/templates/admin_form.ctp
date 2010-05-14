@@ -18,11 +18,11 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Template' );
-        echo $this->Infinitas->adminEditHead($this);  
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'name', array( 'class' => 'title' ) );
-        echo $this->Letter->wysiwyg( 'Template.header' );
-        echo $this->Letter->wysiwyg( 'Template.footer' );
-    echo $this->Form->end( );
+    echo $this->Form->create('Template');
+        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Form->input('id');
+        echo $this->Form->input('name', array('class' => 'title'));
+        echo $this->Letter->wysiwyg('Template.header');
+        echo $this->Letter->wysiwyg('Template.footer');
+    echo $this->Form->end();
 ?>

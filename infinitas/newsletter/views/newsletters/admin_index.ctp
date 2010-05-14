@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Newsletter', array( 'url' => array( 'controller' => 'newsletters', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('Newsletter', array('action' => 'mass'));
         $massActions = $this->Letter->massActionButtons(
             array(
                 'add',
@@ -30,27 +30,26 @@
                 'delete'
             )
         );
-        echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Letter->adminIndexHead($this, $paginator, $filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <tr>
-            <th class="first" style="width:10px;"><?php echo $this->Form->checkbox( 'all' ); ?></th>
-            <th><?php echo $paginator->sort( 'subject' ); ?></th>
-            <th><?php echo $paginator->sort( 'Campaign', 'Campaign.name' ); ?></th>
-            <th style="width:100px;"><?php echo $paginator->sort( 'from' ); ?></th>
-            <th style="width:100px;"><?php echo $paginator->sort( 'reply_to' ); ?></th>
-            <th style="width:50px;"><?php echo $paginator->sort( 'status' ); ?></th>
-            <th style="width:50px;"><?php echo $paginator->sort( 'sent' ); ?></th>
+            <th class="first" style="width:10px;"><?php echo $this->Form->checkbox('all'); ?></th>
+            <th><?php echo $paginator->sort('subject'); ?></th>
+            <th><?php echo $paginator->sort('Campaign', 'Campaign.name'); ?></th>
+            <th style="width:100px;"><?php echo $paginator->sort('from'); ?></th>
+            <th style="width:100px;"><?php echo $paginator->sort('reply_to'); ?></th>
+            <th style="width:50px;"><?php echo $paginator->sort('status'); ?></th>
+            <th style="width:50px;"><?php echo $paginator->sort('sent'); ?></th>
         </tr>
         <?php
             $i = 0;
-            foreach( $newsletters as $newsletter )
-            {
+            foreach($newsletters as $newsletter){
                 ?>
-                    <tr class="<?php echo $this->Letter->rowClass( $i ); ?>">
-                        <td><?php echo $this->Form->checkbox( $newsletter['Newsletter']['id'] ); ?>&nbsp;</td>
-                        <td><?php echo $newsletter['Newsletter']['subject'] ?>&nbsp;</td>
+                    <tr class="<?php echo $this->Letter->rowClass(); ?>">
+                        <td><?php echo $this->Form->checkbox($newsletter['Newsletter']['id']); ?>&nbsp;</td>
+                        <td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
                         <td>
                             <?php
                                 echo $html->link(
@@ -63,12 +62,11 @@
                                 );
                             ?>&nbsp;
                         </td>
-                        <td><?php echo $newsletter['Newsletter']['from'] ?>&nbsp;</td>
-                        <td><?php echo $newsletter['Newsletter']['reply_to'] ?>&nbsp;</td>
+                        <td><?php echo $newsletter['Newsletter']['from']; ?>&nbsp;</td>
+                        <td><?php echo $newsletter['Newsletter']['reply_to']; ?>&nbsp;</td>
                         <td>
                             <?php
-                                if ( $newsletter['Newsletter']['sent'] )
-                                {
+                                if ($newsletter['Newsletter']['sent']){
                                     echo $this->Html->link(
                                         $this->Html->image(
                                             'core/icons/actions/16/reports.png'
@@ -78,33 +76,32 @@
                                             $newsletter['Newsletter']['id']
                                         ),
                                         array(
-                                            'title' => __( 'Sending complete. See the report.', true ),
-                                            'alt' => __( 'Done', true ),
+                                            'title' => __('Sending complete. See the report.', true),
+                                            'alt' => __('Done', true ),
                                             'escape' => false
                                         )
                                     );
                                 }
-                                else
-                                {
-                                    echo $this->Infinitas->toggle( $newsletter['Newsletter']['active'], $newsletter['Newsletter']['id'] );
+
+                                else{
+                                    echo $this->Letter->toggle($newsletter['Newsletter']['active'], $newsletter['Newsletter']['id']);
                                 }
                             ?>
                         </td>
                         <td>
                             <?php
-                                if ( $newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent'] )
-                                {
+                                if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']){
                                     echo $this->Html->image(
                                         'core/icons/actions/16/update.png',
                                         array(
-                                            'alt' => __( 'In Progress', true ),
-                                            'title' => __( 'Busy sending', true )
+                                            'alt' => __('In Progress', true),
+                                            'title' => __('Busy sending', true)
                                         )
                                     );
                                 }
-                                else
-                                {
-                                    echo $this->Letter->toggle( $newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent'] );
+
+                                else{
+                                    echo $this->Letter->toggle($newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent']);
                                 }
                             ?>
                         </td>
@@ -118,4 +115,4 @@
         echo $this->Form->end();
     ?>
 </div>
-<?php echo $this->element( 'admin/pagination/navigation' ); ?>
+<?php echo $this->element('admin/pagination/navigation'); ?>

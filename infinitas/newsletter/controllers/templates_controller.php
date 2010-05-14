@@ -30,7 +30,7 @@
 		*/
 		var $helpers = array(
 			'Filter.Filter'
-			);
+		);
 
 		var $sampleText = '<p>This is some sample text to test your template</p>';
 
@@ -48,12 +48,13 @@
 					'Template.locked_since',
 					'Template.created',
 					'Template.modified',
-					'Locker.id',
-					'Locker.username'
-					)
-				);
+				),
+				'contain' => array(
+					'Locker'
+				)
+			);
 
-			$templates = $this->paginate( null, $this->Filter->filter );
+			$templates = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
@@ -258,12 +259,12 @@
 					'fields' => array(
 						'Campaign.template_id',
 						'Campaign.template_id'
-						),
+					),
 					'conditions' => array(
 						'Campaign.template_id' => $ids
-						)
 					)
-				);
+				)
+			);
 
 			foreach($ids as $k => $v) {
 				if (isset($campaigns[$v])) {

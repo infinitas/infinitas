@@ -43,29 +43,29 @@
 					'Campaign.locked_since',
 					'Campaign.created',
 					'Campaign.modified'
-					),
+				),
 				'Campaign' => array(
 					'contain' => array(
 						'Template' => array(
 							'fields' => array(
 								'Template.id',
 								'Template.name'
-								)
-							),
+							)
+						),
 						'Newsletter' => array(
 							'fields' => array(
 								'Newsletter.sent'
-								)
-							),
+							)
+						),
 						'Locker' => array(
 							'fields' => array(
 								'Locker.id',
 								'Locker.username'
-								)
 							)
 						)
 					)
-				);
+				)
+			);
 
 			$campaigns = $this->paginate('Campaign', $this->Filter->filter);
 
@@ -105,19 +105,19 @@
 						'fields' => array(
 							'Campaign.id',
 							'Campaign.active',
-							),
+						),
 						'conditions' => array(
 							'Campaign.id' => $this->data['Campaign']['id']
-							),
+						),
 						'contain' => array(
 							'Newsletter' => array(
 								'fields' => array(
 									'Newsletter.id'
-									)
 								)
 							)
 						)
-					);
+					)
+				);
 
 				$message = '';
 
@@ -157,19 +157,19 @@
 					'fields' => array(
 						'Campaign.id',
 						'Campaign.active',
-						),
+					),
 					'conditions' => array(
 						'Campaign.id' => $id
-						),
+					),
 					'contain' => array(
 						'Newsletter' => array(
 							'fields' => array(
 								'Newsletter.id'
-								)
 							)
 						)
 					)
-				);
+				)
+			);
 
 			if (!$data['Campaign']['active'] && empty($data['Newsletter'])) {
 				$this->Session->setFlash(__('You can not enable a campaign with no mails.', true));
@@ -198,13 +198,13 @@
 					'fields' => array(
 						'Newsletter.campaign_id',
 						'Newsletter.campaign_id'
-						),
+					),
 					'conditions' => array(
 						'Newsletter.sent' => 1,
 						'Newsletter.campaign_id' => $ids
-						)
 					)
-				);
+				)
+			);
 
 			if (empty($newsletters)) {
 				return $ids;
