@@ -154,7 +154,7 @@
 						// @todo send a email for validation.
 					}
 
-					$this->Session->setFlash(__('Thank you, your registration was completed'));
+					$this->Session->setFlash(__('Thank you, your registration was completed', true));
 					$this->redirect('/');
 				}
 			}
