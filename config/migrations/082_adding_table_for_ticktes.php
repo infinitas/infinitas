@@ -21,7 +21,7 @@ class M4beb4cb980ac4fdc98bf1e986318cd70 extends CakeMigration {
 				'core_tickets' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 32, 'key' => 'primary'),
 					'data' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'expires' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
