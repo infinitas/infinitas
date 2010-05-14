@@ -188,6 +188,42 @@
 	        }
 	    }
 
+	    function reset_password($hash = null){
+	        if (!$hash){
+	            $this->Session->setFlash(__('Reset request timed out, please try again', true));
+	            $this->redirect('/');
+	        }
+
+	        if (!empty($this->data)){
+	            $this->User->id = $this->data['User']['id'];
+
+	            if ( $this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))){
+	                $this->Session->setFlash(__('Your new password was saved. You may now login', true));
+	                $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'login'));
+	            }
+	            else{
+	                $this->Session->setFlash('User could not be saved');
+	                $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'forgot_password'));
+	            }
+	        }
+
+	        $email = $this->User->getTicket($hash);
+
+	        if (!$email){
+	            $this->Session->setFlash(__('Your ticket has expired, please request a new password', true));
+	            $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'forgot_password'));
+	        }
+
+	        $this->data = $this->User->find(
+	        	'first',
+	        	array(
+	        		'conditions' => array(
+	        			'User.email' => $email
+	        		)
+	        	)
+	        );
+	    }
+
 
 		function admin_login(){
 			$this->layout = 'admin_login';
