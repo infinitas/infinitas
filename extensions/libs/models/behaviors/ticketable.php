@@ -42,6 +42,8 @@
             if ($this->Ticket->save($data)){
                 return $data['Ticket']['hash'];
             }
+
+            return false;
         }
 
         /**
