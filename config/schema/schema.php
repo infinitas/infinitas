@@ -1,6 +1,6 @@
-<?php 
+<?php
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-05-13 03:05:28 : 1273712308*/
+/* Infinitas schema generated on: 2010-05-14 04:05:42 : 1273802382*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -471,6 +471,14 @@ class InfinitasSchema extends CakeSchema {
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $core_short_urls = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'url' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
