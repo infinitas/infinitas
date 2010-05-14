@@ -34,17 +34,33 @@
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
-        <tr>
-            <th class="first" style="width:10px;"><?php echo $this->Form->checkbox('all'); ?></th>
-            <th><?php echo $paginator->sort('subject'); ?></th>
-            <th><?php echo $paginator->sort('Campaign', 'Campaign.name'); ?></th>
-            <th style="width:100px;"><?php echo $paginator->sort('from'); ?></th>
-            <th style="width:100px;"><?php echo $paginator->sort('reply_to'); ?></th>
-            <th style="width:50px;"><?php echo $paginator->sort('status'); ?></th>
-            <th style="width:50px;"><?php echo $paginator->sort('sent'); ?></th>
-        </tr>
-        <?php
-            $i = 0;
+    	<?php
+            echo $this->Letter->adminTableHeader(
+                array(
+                    $this->Form->checkbox('all') => array(
+                        'class' => 'first',
+                        'style' => 'width:25px;'
+                    ),
+                    $paginator->sort('subject'),
+                    $paginator->sort('Campaign', 'Campaign.name') => array(
+                        'style' => 'width:150px;'
+                    ),
+                    $paginator->sort('from') => array(
+                        'style' => 'width:100px;'
+                    ),
+                    $paginator->sort('reply_to') => array(
+                        'style' => 'width:100px;'
+                    ),
+                    $paginator->sort('sent') => array(
+                        'style' => 'width:100px;'
+                    ),
+                    __('Status', true) => array(
+                        'class' => 'actions',
+                        'width' => '50px'
+                    )
+                )
+            );
+
             foreach($newsletters as $newsletter){
                 ?>
                     <tr class="<?php echo $this->Letter->rowClass(); ?>">
@@ -64,6 +80,23 @@
                         </td>
                         <td><?php echo $newsletter['Newsletter']['from']; ?>&nbsp;</td>
                         <td><?php echo $newsletter['Newsletter']['reply_to']; ?>&nbsp;</td>
+                        <td>
+                            <?php
+                                if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']){
+                                    echo $this->Html->image(
+                                        'core/icons/actions/16/update.png',
+                                        array(
+                                            'alt' => __('In Progress', true),
+                                            'title' => __('Busy sending', true)
+                                        )
+                                    );
+                                }
+
+                                else{
+                                    echo $this->Letter->toggle($newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent']);
+                                }
+                            ?>
+                        </td>
                         <td>
                             <?php
                                 if ($newsletter['Newsletter']['sent']){
@@ -88,26 +121,8 @@
                                 }
                             ?>
                         </td>
-                        <td>
-                            <?php
-                                if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']){
-                                    echo $this->Html->image(
-                                        'core/icons/actions/16/update.png',
-                                        array(
-                                            'alt' => __('In Progress', true),
-                                            'title' => __('Busy sending', true)
-                                        )
-                                    );
-                                }
-
-                                else{
-                                    echo $this->Letter->toggle($newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent']);
-                                }
-                            ?>
-                        </td>
                     </tr>
                 <?php
-                $i++;
             }
         ?>
     </table>

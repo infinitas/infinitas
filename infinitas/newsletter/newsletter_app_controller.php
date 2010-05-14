@@ -40,7 +40,7 @@
 		* @var array
 		*/
 		var $components = array(
-			'Email'
+			'Emailer'
 			);
 
 		/**
@@ -57,34 +57,6 @@
 			parent::beforeFilter();
 			// $this->set( 'newsletterPending', ClassRegistry::init( 'Newsletter.Newsletter' )->getPending() );
 			// $this->set( 'newsletterSending', ClassRegistry::init( 'Newsletter.Newsletter' )->getSending() );
-			$this->Email->delivery = Configure::read('Newsletter.send_method');
-
-			if (Configure::read('Newsletter.send_method') == 'smtp') {
-				$this->Email->smtpOptions = array(
-					'port' => Configure::read('Newsletter.smtp_out_going_port'),
-					'timeout' => Configure::read('Newsletter.smtp_timeout'),
-					'host' => Configure::read('Newsletter.smtp_host'),
-					'username' => Configure::read('Newsletter.smtp_username'),
-					'password' => Configure::read('Newsletter.smtp_password')
-					);
-			}
-
-			$this->Email->sendAs = Configure::read('Newsletter.send_as');
-
-			$name = Configure::read('Website.name');
-			if (Configure::read('Newsletter.from_name')) {
-				$name = Configure::read('Newsletter.from_name');
-			}
-
-			if ($name == '') {
-				$name = 'Infinitas Mailer';
-			}
-
-			$this->Email->template = Configure::read('Newsletter.template');
-
-			$this->Email->defaultFromName = $name;
-
-			$this->Email->from = $name . ' <' . Configure::read('Newsletter.from_email') . '>';
 		}
 
 		function beforeRender() {

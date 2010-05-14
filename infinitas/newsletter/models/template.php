@@ -50,4 +50,33 @@
 				'order' => ''
 			)
 		);
+
+		function getTemplate($data = null){
+			if($data){
+				$template = $this->find(
+					'first',
+					array(
+						'conditions' => array(
+							'or' => array(
+								'Template.id' => $data,
+								'Template.name' => $data
+							)
+						)
+					)
+				);
+
+				if(!empty($template)){
+					return $template;
+				}
+			}
+
+			return $this->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Template.name' => Configure::read('Newsletter.template')
+					)
+				)
+			);
+		}
 	}

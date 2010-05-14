@@ -66,6 +66,33 @@
 			exit;
 		}
 
+		function sendEmail(){
+			$this->Emailer->settings();
+
+			$info = array_merge(
+				array(
+					'to' => null,
+					'cc' => null,
+					'bcc' => null,
+					'subject' => null,
+					'html' => null,
+					'text' => null
+				),
+				$this->params['named']['email']
+			);
+
+			$this->Emailer->to  = $info['to'];
+			$this->Emailer->bcc = $info['bcc'];
+			$this->Emailer->subject = $info['subject'];
+			$this->Emailer->template = 'blank';
+			$this->set('info', $info);
+
+			$this->Emailer->send();
+
+			pr($this->Emailer->smtpError);
+			exit;
+		}
+
 		function sendNewsletters() {
 			$this->autoRender = false;
 			$this->layout = 'ajax';
