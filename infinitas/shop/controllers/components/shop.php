@@ -6,7 +6,6 @@
 		}
 
 		function sessionCartSave($Model, $product){
-			$this->Controller->Session->write($Model->alias.'.Temp'.$Model->alias, '');
 			$datas = $this->Controller->Session->read($Model->alias.'.Temp'.$Model->alias);
 
 			if(!empty($datas)){
@@ -74,7 +73,7 @@
 
 			if(!empty($currentCart)){
 				if($this->Controller->params['named']['quantity'] == 0){
-					if($Model->delete($currentCart)){
+					if(isset($currentCart[$Model->alias]['id']) && $Model->delete($currentCart[$Model->alias]['id'])){
 						$this->Controller->Session->setFlash(__('Product was removed from the '.$Model->alias, true));
 					}
 					else{
@@ -92,7 +91,7 @@
 						$this->Controller->Session->setFlash(__('Your '.$Model->alias.' was updated', true));
 					}
 				}
-				$this->Controller->redirect($this->Controller->referer());
+				$this->redirect(array('plugin' => 'shop', 'controller' => Inflector::pluralize(strtolower($Model->alias)), 'action' => 'index'));
 			}
 
 			$cart[$Model->alias]['product_id'] = $this->Controller->params['named']['product_id'];

@@ -1,9 +1,10 @@
 <?php
+	$userId = $this->Session->read('Auth.User.id');
 	if(!isset($usersCart)){
-		$usersCart = Cache::read('cart', 'shop');
+		$usersCart = Cache::read(cacheName('cart', $userId), 'shop');
 
 		if($usersCart === false){
-			$usersCart = ClassRegistry::init('Shop.Cart')->getCartData();
+			$usersCart = ClassRegistry::init('Shop.Cart')->getCartData($userId);
 		}
 	}
 

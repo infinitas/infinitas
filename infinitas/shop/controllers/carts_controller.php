@@ -24,7 +24,7 @@
 
 			if(empty($carts)){
 				$this->Session->setFlash(__('Your cart is empty', true));
-				$this->redirect($this->referer());
+				$this->redirect(array('plugin' => 'shop', 'controller' => 'product', 'action' => 'dashboard'));
 			}
 
 			$amounts['sub_total'] = array_sum((array)Set::extract('/Cart/sub_total', $carts));
@@ -48,7 +48,7 @@
 		function adjust(){
 			if(!isset($this->params['named']['product_id'])){
 				$this->Session->setFlash(__('Invalid product selected'), true);
-				$this->redirect($this->referer());
+				$this->redirect(array('plugin' => 'shop', 'controller' => 'product', 'action' => 'dashboard'));
 			}
 
 			if(!isset($this->params['named']['quantity'])){
@@ -77,7 +77,7 @@
 
 			if(empty($product) || $product['Product']['active'] == false){
 				$this->Session->setFlash(__('That product does not exsist'), true);
-				$this->redirect($this->referer());
+				$this->redirect(array('plugin' => 'shop', 'controller' => 'product', 'action' => 'dashboard'));
 			}
 
 			if(isset($product['Special']) && !empty($product['Special'][0])){

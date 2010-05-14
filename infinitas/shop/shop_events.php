@@ -51,4 +51,17 @@
 			echo 'yey: shop event';
 			exit;
 		}
+
+		function onUserLogin(&$event, $data){
+			App::import('CakeSession');
+			$this->Session = new CakeSession();
+
+			if(ClassRegistry::init('Shop.Cart')->moveSessionToDb($this->Session->read('Cart.TempCart'), $data) === true){
+				$this->Session->delete('Cart');
+			}
+
+			if(ClassRegistry::init('Shop.Wishlist')->moveSessionToDb($this->Session->read('Wishlist.TempWishlist'), $data) === true){
+				$this->Session->delete('Wishlist');
+			}
+		}
 	}

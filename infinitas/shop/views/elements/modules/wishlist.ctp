@@ -1,9 +1,10 @@
 <?php
+	$userId = $this->Session->read('Auth.User.id');
 	if(!isset($usersWishlist)){
-		$usersWishlist = Cache::read('cart', 'shop');
+		$usersWishlist = Cache::read(cacheName('wishlist', $userId));
 
 		if($usersWishlist === false){
-			$usersWishlist = ClassRegistry::init('Shop.Wishlist')->getWishlistData();
+			$usersWishlist = ClassRegistry::init('Shop.Wishlist')->getWishlistData($userId);
 		}
 	}
 
