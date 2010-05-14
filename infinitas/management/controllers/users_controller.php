@@ -71,7 +71,7 @@
 						)
 					);
 				}
-				$this->Event->trigger('userLogin', array('user' => $currentUser, 'lastLogon' => $lastLogon));
+				$this->Event->trigger('userLogin', $currentUser);
 
 				$this->redirect($this->Auth->redirect());
 			}
@@ -126,8 +126,11 @@
 		 * @access public
 		 */
 		function logout(){
-			$this->Event->trigger('userLogout', array('user' => $currentUser, 'lastLogon' => $lastLogon));
+			$this->Event->trigger('beforeUserLogout', array('user' => $this->Session->read('Auth.User')));
+			//@todo if this is false dont logout.
+
 			$this->Session->destroy();
+			$this->Event->trigger('afterUserLogout');
 			$this->redirect($this->Auth->logout());
 		}
 
@@ -155,6 +158,10 @@
 					$this->redirect('/');
 				}
 			}
+		}
+
+		function forgot_password(){
+
 		}
 
 
