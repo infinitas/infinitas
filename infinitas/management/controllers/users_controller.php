@@ -27,6 +27,10 @@
 
 		function beforeFilter(){
 			parent::beforeFilter();
+			$this->Auth->allow(
+				'login', 'logout', 'register',
+				'forgot_password', 'reset_password'
+			);
 		}
 
 		/**

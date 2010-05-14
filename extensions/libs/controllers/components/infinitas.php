@@ -499,7 +499,7 @@
 		*/
 		function _setupAuth(){
 			$this->Controller->Auth->allow('*');
-			//$this->Auth->allowedActions = array('display', 'login', 'logout');
+			//$this->Auth->allow('display');
 
 			if (!isset($this->Controller->params['prefix']) || $this->Controller->params['prefix'] != 'admin') {
 				$this->Controller->Auth->allow('*');
