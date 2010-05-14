@@ -160,9 +160,33 @@
 			}
 		}
 
-		function forgot_password(){
 
-		}
+	    function forgot_password(){
+	        if (!empty($this->data)){
+	            $theUser = $this->User->find(
+	            	'first',
+	            	array(
+	            		'conditions' => array(
+	            			'User.email' => $this->data['User']['email']
+	            		)
+	            	)
+	            );
+
+	            if (is_array( $theUser['User']) && ($ticket = $this->User->createTicket($theUser['User']['email']) !== false)){
+	            	$urlToRessetPassword = ClassRegistry::init('Management.ShortUrl')->newUrl(
+	            		'http://'.env('SERVER_NAME').$this->webroot.'management/users/reset_password/'.$ticket
+	            	);
+
+	            	// @todo send a email with a link to reset.
+                    $this->Session->setFlash(__('An email has been sent to your address with instructions to reset your password', true));
+	            }
+
+	            else{
+	                // no user found for adress
+	                $this->Session->setFlash(__('That does not seem to be a valid user', true));
+	            }
+	        }
+	    }
 
 
 		function admin_login(){

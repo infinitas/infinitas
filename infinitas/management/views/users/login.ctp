@@ -1,7 +1,26 @@
 <?php
-	$session->flash('auth');
-	echo $form->create('User', array('action' => 'login'));
-	echo $form->input('username');
-	echo $form->input('password');
-	echo $form->end('Login');
+	$this->Session->flash('auth');
+	echo $this->Form->create('User', array('action' => 'login'));
+		echo $this->Form->input('username');
+		echo $this->Form->input('password');
+		echo $this->Form->input('language', array('type' => 'select'));
+	echo $this->Form->end('Login');
+
+	echo $this->Html->link(
+		__('Forgot Password', true),
+		array(
+			'plugin' => 'management',
+			'controller' => 'users',
+			'action' => 'forgot_password'
+		)
+	);
+
+	echo $this->Html->link(
+		__('Register', true),
+		array(
+			'plugin' => 'management',
+			'controller' => 'users',
+			'action' => 'register'
+		)
+	);
 ?>
