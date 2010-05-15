@@ -1,6 +1,23 @@
 <?php
 	App::import('Component', 'Email');
 
+	/**
+	 * sample usage
+	 * $this->Emailer->sendDirectMail(
+				array(
+					'dogmatic69@gmail.com'
+				),
+				array(
+					'subject' => 'this is a test email',
+					'body' => "This allows the requestAction call to bypass the usage of Router::url which can increase performance. The url based arrays are the same as the ones that HtmlHelper::link uses with one difference - if you are using named or passed parameters, you must put them in a second array and wrap them with the correct key. This is because requestAction only merges the named args array into the Controller::params member array and does not place the named args in the key 'named'.",
+					'template' => 'User - Registration'
+				)
+			);
+			exit;
+	 * @author dogmatic
+	 *
+	 */
+
 	class EmailerComponent extends EmailComponent{
 		var $settings = null;
 		var $_default = array();
@@ -27,7 +44,8 @@
 					'timeout' => Configure::read('Newsletter.smtp_timeout'),
 					'host' => Configure::read('Newsletter.smtp_host'),
 					'username' => Configure::read('Newsletter.smtp_username'),
-					'password' => Configure::read('Newsletter.smtp_password')
+					'password' => Configure::read('Newsletter.smtp_password'),
+					'greeting' => Configure::read('Newsletter.greeting')
 				);
 			}
 

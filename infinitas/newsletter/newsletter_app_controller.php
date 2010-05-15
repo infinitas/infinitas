@@ -63,8 +63,8 @@
 			parent::beforeRender();
 
 			if (strtolower(Configure::read('Newsletter.send_method')) == 'smtp' && $this->Email->smtpError) {
-				$this->log('newsletter_smtp_errors', $this->Email->smtpError);
-				Configure::write('Newsletter.smtp_errors', $this->Email->smtpError);
+				$this->log('newsletter_smtp_errors', $this->Emailer->smtpError);
+				Configure::write('Newsletter.smtp_errors', $this->Emailer->smtpError);
 			}
 		}
 

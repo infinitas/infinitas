@@ -67,13 +67,11 @@
 		}
 
 		function sendEmail(){
-			$this->Emailer->settings();
-
 			$info = array_merge(
 				array(
-					'to' => null,
-					'cc' => null,
-					'bcc' => null,
+					'to' => array(),
+					'cc' => array(),
+					'bcc' => array(),
 					'subject' => null,
 					'html' => null,
 					'text' => null
@@ -87,10 +85,9 @@
 			$this->Emailer->template = 'blank';
 			$this->set('info', $info);
 
-			$this->Emailer->send();
+		    $this->Emailer->delivery = 'smtp';
 
-			pr($this->Emailer->smtpError);
-			exit;
+			$this->Emailer->send();
 		}
 
 		function sendNewsletters() {
