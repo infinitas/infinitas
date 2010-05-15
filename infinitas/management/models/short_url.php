@@ -24,8 +24,6 @@
 			);
 
 			if(isset($check['ShortUrl']['id'])){
-				pr($this->_encode($check['ShortUrl']['id']));
-				exit;
 				return $this->_encode($check['ShortUrl']['id']);
 			}
 
@@ -35,8 +33,6 @@
 
 			if($this->id > 0){
 				$code = $this->_encode($this->id);
-				pr($code);
-				exit;
 				if($full){
 					return $this->server.'/s/'.$code;
 				}
