@@ -9,15 +9,12 @@
 		)
 	);
 
-	class dummy {}
-	$dummy = new dummy();
-
 	/**
 	 * Load plugin events
 	 */
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
-	configureCache(EventCore::trigger($dummy, 'setupCache'));
+	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
 	/**
 	* Make sure the json defines are loaded.
