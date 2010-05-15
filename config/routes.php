@@ -3,6 +3,8 @@
 	Router::parseExtensions('vcf');
 	Router::parseExtensions('json');
 
+	EventCore::trigger(new StdClass(), 'setupRoutes');
+
 	/**
 	 * redirect to the installer if there is nothing
 	 */
