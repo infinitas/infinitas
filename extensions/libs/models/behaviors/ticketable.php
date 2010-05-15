@@ -12,7 +12,7 @@
 		 */
 		function setup(&$Model, $settings = array()) {
 			$default = array(
-				'timeout' => date('Y-m-d H:i:s', time() + (24 * 60 * 60))
+				'expires' => date('Y-m-d H:i:s', time() + (24 * 60 * 60))
 			);
 
 			if (!isset($this->__settings[$Model->alias])) {
@@ -31,8 +31,9 @@
          *
          * @param string $info the information to save. will be serialized so arrays are fine
          */
-        function createTicket($info = null){
+        function createTicket(&$Model, $info = null){
         	$this->cleanup();
+
             if (!$info){
                 return false;
             }
@@ -41,8 +42,9 @@
             $data['Ticket']['expires'] = $this->__settings[$Model->alias]['expires'];
 
             $this->Ticket->create();
-            if ($this->Ticket->save($data)){
-                return $data['Ticket']['hash'];
+            $return = $this->Ticket->save($data);
+            if ($this->Ticket->id > 0){
+                return $this->Ticket->id;
             }
 
             return false;
@@ -56,7 +58,7 @@
          *
          * @param string $ticket the ticket uuid
          */
-        function getTicket($ticket = null){
+        function getTicket(&$Model, $ticket = null){
         	$this->cleanup();
             if (!$ticket){
                 return false;
