@@ -34,7 +34,7 @@
 			if($this->id > 0){
 				$code = $this->_encode($this->id);
 				if($full){
-					return $this->server.'/s/'.$code;
+					return 'http://'.env('SERVER_NAME').$this->webroot.'/s/'.$code;
 				}
 				return $code;
 			}
