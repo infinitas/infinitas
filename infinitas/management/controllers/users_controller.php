@@ -25,6 +25,10 @@
 
 		var $helpers = array('Libs.Wysiwyg');
 
+		var $components = array(
+			'Newsletter.Emailer'
+		);
+
 		function beforeFilter(){
 			parent::beforeFilter();
 			$this->Auth->allow(
@@ -147,21 +151,80 @@
 			if (!empty($this->data)) {
 				$this->data['User']['active'] = 1;
 
-				if (Configure::read('Website.email_validation') == true) {
+				if (Configure::read('Website.email_validation') === true) {
 					$this->data['User']['active'] = 0;
 				}
+				$this->data['User']['group_id'] = 2;
 
 				$this->User->create();
 
 				if ($this->User->saveAll($this->data)) {
 					if (!$this->data['User']['active']) {
-						// @todo send a email for validation.
+						$ticket = $this->User->createTicket($this->User->id);
+
+						$urlToActivateUser = ClassRegistry::init('Management.ShortUrl')->newUrl(
+			            	'http://'.env('SERVER_NAME').$this->webroot.'management/users/activate/'.$ticket
+			            );
+
+						$this->Emailer->sendDirectMail(
+							array(
+								$this->data['User']['email']
+							),
+							array(
+								'subject' => Configure::read('Website.name').' '.__('Confirm your registration', true),
+								'body' => $urlToActivateUser,
+								'template' => 'User - Activate'
+							)
+						);
+					}
+					else{
+						$this->Emailer->sendDirectMail(
+							array(
+								$this->data['User']['email']
+							),
+							array(
+								'subject' => __('Welcome to ', true).' '.Configure::read('Website.name'),
+								'body' => '',
+								'template' => 'User - Registration'
+							)
+						);
 					}
 
 					$this->Session->setFlash(__('Thank you, your registration was completed', true));
 					$this->redirect('/');
 				}
 			}
+		}
+
+		function activate($hash = null){
+	        if (!$hash){
+	            $this->Session->setFlash(__('Invalid address', true));
+	            $this->redirect('/');
+	        }
+
+	        $this->User->id = $this->User->getTicket($hash);
+
+            if ($this->User->saveField('active', 1, null, true)){
+            	$user = $this->User->read('email', $this->User->id);
+
+				$this->Emailer->sendDirectMail(
+					array(
+						$user['User']['email']
+					),
+					array(
+						'subject' => __('Welcome to ', true).' '.Configure::read('Website.name'),
+						'body' => '',
+						'template' => 'User - Registration'
+					)
+				);
+
+                $this->Session->setFlash(__('Your account is now active, you may log in', true));
+                $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'login'));
+            }
+            else{
+                $this->Session->setFlash('There was a problem activating your account, please try again');
+                $this->redirect('/');
+            }
 		}
 
 
