@@ -40,7 +40,8 @@
 			),
 			'Libs.Voucher',
 			'Libs.MassAction',
-			'Events.Event'
+			'Events.Event',
+			'Newsletter.Emailer'
 		);
 
 		/**
