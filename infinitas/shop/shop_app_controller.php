@@ -24,6 +24,7 @@
 
 		function beforeFilter(){
 			parent::beforeFilter();
+			Configure::write('Rating.time_limit', false);
 
 			$this->addCss(
 				array(
