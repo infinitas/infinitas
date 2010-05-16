@@ -29,6 +29,6 @@
     		array(
     			'class' => 'moreLink'
     		)
-    	)
+    	);
     ?>
 </div>
