@@ -178,27 +178,57 @@ function starRating() {
 function datePicker() {
 	var currentDate;
 
-	currentDate = $("#" + Infinitas.model + "StartDate").val().split('-');
+	/**
+	 * Start dates
+	 */
+	var date1 = $("#" + Infinitas.model + "StartDate");
+	if(date1.val() != ''){
+		currentDate = date1.val().split('-');
+		currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
+	}
+	else {
+		currentDate = new Date();
+	}
 	startDate = $("#" + Infinitas.model + "DatePickerStartDate").calendarPicker({
-		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
+		"date": currentDate,
 		callback: function(cal){
-			$("#" + Infinitas.model + "StartDate").val(cal.mysqlDate);
+			date1.val(cal.mysqlDate);
 		}
 	});
 
-	currentDate = $("#" + Infinitas.model + "EndDate").val().split('-');
+	/**
+	 * end dates
+	 */
+	var date2 = $("#" + Infinitas.model + "EndDate");
+	if(date2.val() != ''){
+		currentDate = date2.val().split('-');
+		currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
+	}
+	else {
+		currentDate = new Date();
+	}
 	endDate = $("#" + Infinitas.model + "DatePickerEndDate").calendarPicker({
-		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
+		"date": currentDate,
 		callback: function(cal){
-			$("#" + Infinitas.model + "EndDate").val(cal.mysqlDate);
+			date2.val(cal.mysqlDate);
 		}
 	});
 
-	currentDate = $("#" + Infinitas.model + "Date").val().split('-');
+	/**
+	 * general dates
+	 */
+	var date3 = $("#" + Infinitas.model + "Date");
+	if(date3.val() != ''){
+		currentDate = date3.val().split('-');
+		currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
+	}
+	else {
+		currentDate = new Date();
+	}
 	date = $("#" + Infinitas.model + "DatePickerDate").calendarPicker({
 		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
 		callback: function(cal){
-			$("#" + Infinitas.model + "Date").val(cal.mysqlDate);
+			date3.val(cal.mysqlDate);
 		}
 	});
 }
