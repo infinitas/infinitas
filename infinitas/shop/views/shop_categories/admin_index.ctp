@@ -50,6 +50,9 @@
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:75px;'
                     ),
+                    $this->Paginator->sort('ordering') => array(
+                        'style' => 'width:50px;'
+                    ),
                     $this->Paginator->sort('active') => array(
                         'style' => 'width:50px;'
                     )
@@ -89,6 +92,9 @@
 						<td>
 							<?php echo $this->Time->niceShort($category['ShopCategory']['modified']); ?>
 						</td>
+                		<td>
+                			<?php echo $this->Infinitas->treeOrdering($category['ShopCategory']); ?>&nbsp;
+                		</td>
                 		<td>
                 			<?php echo $this->Infinitas->status($category['ShopCategory']['active']); ?>&nbsp;
                 		</td>
