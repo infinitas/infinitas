@@ -2,6 +2,10 @@
 	class Image extends ShopAppModel{
 		var $name = 'Image';
 
+		var $virtualFields = array(
+			'full_path' => 'CONCAT("/infinitas/img/content/shop/global/", Image.image)'
+		);
+
 		var $displayField = 'image';
 
 		var $order = array(
@@ -40,6 +44,27 @@
 			)
 		);
 
+		function getImagePaths(){
+			$images = Cache::read('images', 'shop');
+			if($images !== false){
+				return $images;
+			}
+
+			$images = $this->find(
+				'list',
+				array(
+					'fields' =>
+						array(
+							'Image.id', 'full_path'
+						)
+					)
+			);
+
+			Cache::write('images', $images, 'shop');
+
+			return $images;
+		}
+
 		function afterSave($created){
 			return $this->dataChanged('afterSave');
 		}
@@ -52,6 +77,8 @@
 			App::import('Folder');
 			$Folder = new Folder(CACHE . 'shop');
 			$files = $Folder->read();
+
+			Cache::delete('images', 'shop');
 
 			foreach($files[1] as $file){
 				$shouldDelete =

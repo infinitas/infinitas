@@ -18,7 +18,7 @@
      * @since 0.8a
      */
 
-    echo $this->Form->create('ShopCategory', array('type' => 'file'));
+    echo $this->Form->create('Category', array('type' => 'file'));
         echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
         	?>

@@ -225,7 +225,7 @@
 			$units = $this->Product->Unit->find('list');
 			$suppliers = $this->Product->Supplier->find('list');
 			$shopBranches = $this->Product->ShopBranch->getList();
-			$images = $this->Product->Image->find('list');
+			$images = $this->Product->Image->getImagePaths();
 			$this->set(compact('shopCategories', 'units', 'suppliers', 'shopBranches', 'images'));
 		}
 
@@ -247,10 +247,10 @@
 			}
 
 			$shopCategories = $this->Product->ShopCategory->generatetreelist(null, null, null, '_');
-			$units = $this->Product->Unit->find('list');
-			$suppliers = $this->Product->Supplier->find('list');
-			$shopBranches = $this->Product->ShopBranch->getList();
-			$images = $this->Product->Image->find('list');
+			$units          = $this->Product->Unit->find('list');
+			$suppliers      = $this->Product->Supplier->find('list');
+			$shopBranches   = $this->Product->ShopBranch->getList();
+			$images         = $this->Product->Image->getImagePaths();
 			$this->set(compact('shopCategories', 'units', 'suppliers', 'shopBranches', 'images'));
 		}
 	}

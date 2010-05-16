@@ -145,3 +145,23 @@
 .galleria li img.thumb{cursor:pointer;top:auto;left:auto;display:block;width:auto;height:auto}
 .galleria li .caption{display:block;padding-top:.5em}
 * html .galleria li div span{width:400px} /* MSIE bug */ 
+
+/**
+Image selector
+*/
+.image-select-container{
+	clear:both;
+}
+
+.image-select img{
+	border:1px solid gray;
+	margin:2px;
+	padding:3px;
+	-webkit-box-shadow: 2px 2px 2px #666666;
+	-moz-box-shadow: 2px 2px 2px #666666;
+	box-shadow: 2px 2px 2px #666666;
+}
+
+.image-select-container .selected img{
+	border:1px solid red;
+}
