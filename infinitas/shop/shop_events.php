@@ -17,8 +17,8 @@
 			switch($data['type']){
 				case 'products':
 					return array(
-						'plugin' => $data['data']['plugin'],
-						'controller' => $data['data']['controller'],
+						'plugin' => 'shop',
+						'controller' => 'products',
 						'action' => $data['data']['action'],
 						'id' => $data['data']['id'],
 						'slug' => $data['data']['slug']
@@ -27,8 +27,8 @@
 
 				case 'categories':
 					return array(
-						'plugin' => $data['data']['plugin'],
-						'controller' => $data['data']['controller'],
+						'plugin' => 'shop',
+						'controller' => 'shop_categories',
 						'action' => $data['data']['action'],
 						'id' => $data['data']['id'],
 						'slug' => $data['data']['slug']
