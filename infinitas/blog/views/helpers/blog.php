@@ -21,7 +21,7 @@
 			// cake helpers
 			'Html', 'Form', 'Text', 'Time',
 			// core helpers
-			'Libs.Image', 'Libs.Design', 'Libs.Wysiwyg'
+			'Libs.Image', 'Libs.Design', 'Libs.Wysiwyg', 'Events.Event'
 		);
 
 		/**
@@ -138,81 +138,47 @@
 		 * @return mixed $out is the links or '' for non linked posts
 		 */
 		function pagination($post){
-			if (empty($post['ParentPost']['id']) && empty($post['ChildPost']['id'])) {
+			if (empty($post['ParentPost']['id']) && empty($post['ChildPost'])) {
 				return '';
 			}
 			$this->currentCategory = $post['Category']['slug'];
 
 			$out = '<ul>';
 
+			$post['Post']['plugin'] = 'blog';
+			$post['Post']['controller'] = 'posts';
+			$post['Post']['action'] = 'view';
+			$eventData = $this->Event->trigger('blog.slugUrl', array('type' => 'posts', 'data' => $post));
+
 			if (empty($post['ParentPost']['id'])) {
 				$out .= '<li>';
-				$out .= $this->slugLink($post['Post']);
+				$out .= $this->Html->link($post['Post']['title'], current($eventData['slugUrl']));
 				$out .= '</li>';
 
 				foreach($post['ChildPost'] as $child ){
+					$child = array_merge($post['Post'], $child);
+					$eventData = $this->Event->trigger('blog.slugUrl', array('type' => 'posts', 'data' => $child));
 					$out .= '<li>';
-					$out .= $this->slugLink($child);
+					$out .= $this->Html->link($child['title'], current($eventData['slugUrl']));
 					$out .= '</li>';
 				}
 			}
 			else{
+				$post['Post'] = array_merge($post['Post'], $post['ParentPost']);
+				$eventData = $this->Event->trigger('blog.slugUrl', array('type' => 'posts', 'data' => $post));
 				$out .= '<li>';
-				$out .= $this->slugLink($post['ParentPost']);
+				$out .= $this->Html->link($post['ParentPost']['title'], current($eventData['slugUrl']));
 				$out .= '</li>';
 
 				foreach($post['ParentPost']['ChildPost'] as $child ){
+					$child = array_merge($post['Post'], $child['Post']);
+					$eventData = $this->Event->trigger('blog.slugUrl', array('type' => 'posts', 'data' => $child));
 					$out .= '<li>';
-					$out .= $this->slugLink($child['Post']);
+					$out .= $this->Html->link($child['title'], current($eventData['slugUrl']));
 					$out .= '</li>';
 				}
 			}
 			$out .= '</ul>';
 			return $out;
-		}
-
-
-		/**
-		 * Create blog slugs
-		 *
-		 * creates custom sluged urls for the posts. includes the post category and
-		 * the post tile.
-		 *
-		 * @param mixed $data the post data (from ->read() but only $post['Post'])
-		 * @param mixed $category the category of the post
-		 * @param string $class a class to append to the link that is active
-		 * @param mixed $link true for a <a> link false for array() url
-		 *
-		 * @return mixed if $link is true a link will be returned else a url in array format
-		 */
-		function slugLink($data, $category = null, $class = 'current', $link = true){
-			if (isset($this->params['id']) && $this->params['id'] !== $data['id']) {
-				$class = '';
-			}
-
-			if (!isset($this->currentCategory)) {
-				$this->currentCategory = $category;
-			}
-
-			$url = array(
-				'plugin' => 'blog',
-				'controller' =>'posts',
-				'action' => 'view',
-				'category' => $this->currentCategory,
-				'slug' => $data['slug'],
-				'id' => $data['id']
-			);
-
-			if ($link) {
-				return $this->Html->link(
-					$data['title'],
-					$url,
-					array(
-						'class' => $class,
-						'title' => $data['title']
-					)
-				);
-			}
-			return $url;
 		}
 	}

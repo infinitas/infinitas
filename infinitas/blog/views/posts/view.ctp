@@ -43,7 +43,6 @@
 	</small>
 </p>
 <?php
-
     if (
         Configure::read('Blog.depreciate') &&
         date( 'Y-m-d H:i:s', strtotime('- '.Configure::read( 'Blog.depreciate'))) > $post['Post']['modified']
@@ -61,18 +60,7 @@
 
     echo $this->Blog->pagination($post);
 
-    if (Configure::read('Blog.allow_ratings')){
-        if (!Configure::read( 'Blog.allow_ratings') ||
-            date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $post['Post']['modified']
-        ){
-			echo $this->element('global/rating_add', array( 'data' => $post, 'modelName' => 'Post'));
-		}
-        else{
-            ?><h2><?php __('Closed for Rating'); ?> </h2><?php
-            echo __('Sorry, the ratings for this post are closed. Why not check out some of our newer posts.', true);
-        }
-   	}
-    if (Configure::read('Blog.allow_comments')){
+    if (false && Configure::read('Blog.allow_comments')){
         if (
             !Configure::read('Blog.allow_comments') ||
             date('Y-m-d H:i:s', strtotime('- '.Configure::read('Comments.time_limit'))) < $post['Post']['modified']

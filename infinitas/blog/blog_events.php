@@ -16,13 +16,14 @@
 		function onSlugUrl(&$event, $data){
 			switch($data['type']){
 				case 'posts':
+					$post = isset($data['data']['Post']) ? $data['data']['Post'] : $data['data'];
 					return array(
-						'plugin' => $data['data']['plugin'],
-						'controller' => $data['data']['controller'],
-						'action' => $data['data']['action'],
-						'id' => $data['data']['id'],
-						'category' => 'news-feed',
-						'slug' => $data['data']['slug']
+						'plugin' => $post['plugin'],
+						'controller' => $post['controller'],
+						'action' => $post['action'],
+						'id' => $post['id'],
+						'category' => isset($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : 'news-feed',
+						'slug' => $post['slug']
 					);
 					break;
 			} // switch
