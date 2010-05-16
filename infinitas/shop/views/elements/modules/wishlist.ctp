@@ -39,6 +39,22 @@
 	?>
 	<tr>
 		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>
+			<?php
+				if($this->Session->read('Auth.User.id') > 0){
+					echo $this->Html->link(
+						__('Manage', true),
+						array(
+							'plugin' => 'shop',
+							'controller' => 'wishlists',
+							'action' => 'index'
+						)
+					);
+				}
+				else{
+					echo __('You must be logged in to manage your wishlist', true);
+				}
+			?>&nbsp;
+		</td>
 	</tr>
 </table>
