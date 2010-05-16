@@ -76,4 +76,12 @@
 				)
 			);
 		}
+
+		function onUserRegistration(){
+
+		}
+
+		function onUserActivation(){
+
+		}
 	}
