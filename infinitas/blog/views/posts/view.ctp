@@ -45,11 +45,10 @@
 <?php
 
     if (
-        Configure::read( 'Blog.depreciate' ) &&
-        date( 'Y-m-d H:i:s', strtotime( '- '.Configure::read( 'Blog.depreciate' ) ) ) > $post['Post']['modified']
-        )
-    {
-        ?><h2><?php __( 'Depreciated' ); ?> </h2><?php
+        Configure::read('Blog.depreciate') &&
+        date( 'Y-m-d H:i:s', strtotime('- '.Configure::read( 'Blog.depreciate'))) > $post['Post']['modified']
+        ){
+        ?><h2><?php __('Depreciated'); ?> </h2><?php
         echo __( 'This post is old, so the information may be a bit out-dated.', true );
     }
 
@@ -62,53 +61,44 @@
 
     echo $this->Blog->pagination($post);
 
-    if ( Configure::read( 'Blog.allow_ratings' ) )
-    {
-        if ( !Configure::read( 'Blog.allow_ratings' ) ||
-            date( 'Y-m-d H:i:s', strtotime( '- '.Configure::read( 'Rating.time_limit' ) ) ) < $post['Post']['modified']
-        )
-		{
-			echo $this->element( 'global/rating_add', array( 'data' => $post, 'modelName' => 'Post' ) );
+    if (Configure::read('Blog.allow_ratings')){
+        if (!Configure::read( 'Blog.allow_ratings') ||
+            date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $post['Post']['modified']
+        ){
+			echo $this->element('global/rating_add', array( 'data' => $post, 'modelName' => 'Post'));
 		}
-        else
-        {
-            ?><h2><?php __( 'Closed for Rating' ); ?> </h2><?php
-            echo __( 'Sorry, the ratings for this post are closed. Why not check out some of our newer posts.', true );
+        else{
+            ?><h2><?php __('Closed for Rating'); ?> </h2><?php
+            echo __('Sorry, the ratings for this post are closed. Why not check out some of our newer posts.', true);
         }
    	}
-    if ( Configure::read( 'Blog.allow_comments' ) )
-    {
+    if (Configure::read('Blog.allow_comments')){
         if (
-            !Configure::read( 'Blog.allow_comments' ) ||
-            date( 'Y-m-d H:i:s', strtotime( '- '.Configure::read( 'Comments.time_limit' ) ) ) < $post['Post']['modified']
-        )
-        {
+            !Configure::read('Blog.allow_comments') ||
+            date('Y-m-d H:i:s', strtotime('- '.Configure::read('Comments.time_limit'))) < $post['Post']['modified']
+        ){
             ?>
                 <div id="comments">
                     <?php
-                        if ( empty( $post['Comment'] ) )
-                        {
-                            ?><h2><?php __( 'No Comments' ); ?> </h2><?php
-                            echo '<p>'.__( 'There are no comments at this time, would you like to be the first?', true ).'</p>';
+                        if (empty($post['Comment'])){
+                            ?><h2><?php __('No Comments'); ?> </h2><?php
+                            echo '<p>'.__('There are no comments at this time, would you like to be the first?', true).'</p>';
                         }
-                        else
-                        {
-                            foreach( $post['Comment'] as $comment )
-                            {
-                                $this->CommentLayout->setData( $comment );
+                        else{
+                            foreach($post['Comment'] as $comment){
+                                $this->CommentLayout->setData($comment);
                                 echo $this->CommentLayout->showComment();
                             }
                         }
 
-                        echo $this->element( 'global/comment_add', array( 'fk' => $post['Post']['id'] ) );
+                        echo $this->element('global/comment_add', array('fk' => $post['Post']['id']));
                     ?>
                 </div>
             <?php
         }
-        else
-        {
-            ?><h2><?php __( 'Closed for Comments' ); ?> </h2><?php
-            echo __( 'Sorry, the comments for this post are closed. Why not check out some of our newer posts.', true );
+        else{
+            ?><h2><?php __('Closed for Comments'); ?> </h2><?php
+            echo __('Sorry, the comments for this post are closed. Why not check out some of our newer posts.', true);
         }
     }
 ?>

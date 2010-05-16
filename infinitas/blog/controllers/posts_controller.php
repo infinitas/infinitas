@@ -82,6 +82,7 @@
 					'Post.category_id' => $this->Post->Category->getActiveIds()
 				),
 				'contain' => array(
+					'Category',
 					'Tag' => array(
 						'fields' => array(
 							'Tag.name'
@@ -168,7 +169,7 @@
 						'Category' => array(
 							'fields' => array(
 								'Category.id',
-								'Category.name',
+								'Category.title',
 								'Category.slug'
 							)
 						),
@@ -341,7 +342,7 @@
 				}
 			}
 
-			$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
+			$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => 0)));
 			$this->set(compact('parents'));
 		}
 

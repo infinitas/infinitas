@@ -23,13 +23,13 @@
 				<p>
 					<small>
 						<?php
-    						$temp = array();					
+    						$temp = array();
 							foreach(array('comments', 'date', 'views') as $param) {
 								switch($param) {
 									case 'date':
 										$temp[] = sprintf('%s: %s', __('Created', true), $this->Time->{$this->Blog->dateFormat}($post['Post']['created']));
 										break;
-																					
+
 									case 'comments':
 										$temp[] = sprintf('%s ( %s )', __('Comments', true), $post['Post']['comment_count']);
 										break;
@@ -57,6 +57,10 @@
 						<?php
 							$out = '';
 							foreach(array('print', 'comment', 'more') as $param) {
+								$post['Post']['plugin'] = 'blog';
+								$post['Post']['controller'] = 'posts';
+								$post['Post']['action'] = 'view';
+								$eventData = $this->Event->trigger('blog.slugUrl', array('type' => 'posts', 'data' => $post['Post']));
 								switch($param) {
 									case 'print':
 										$out .= '<li class="printerfriendly"><a href="#">Printer Friendly</a></li>';
@@ -64,10 +68,10 @@
 
 									case 'comment':
 										$out .= '<li class="comments">' .
-										$this->Html->link(
-											sprintf('%s ( %s )', __('Comments', true), $post['Post']['comment_count']),
-											$this->Blog->slugLink($post['Post'], $post['Category']['slug'], null, false) + array('#' => 'comments')
-											) .
+											$this->Html->link(
+												sprintf('%s ( %s )', __('Comments', true), $post['Post']['comment_count']),
+												current($eventData['slugUrl']) + array('#' => 'comments')
+											).
 										'</li>';
 										break;
 
@@ -75,12 +79,7 @@
 										$out .= '<li class="readmore">' .
 											$this->Html->link(
 												__('Read more', true),
-												array(
-													'action' => 'view',
-													'category' => $post['Category']['slug'],
-													'slug' => $post['Post']['slug'],
-													'id' => $post['Post']['id']
-												)
+												current($eventData['slugUrl'])
 											).
 										'</li>';
 										break;
