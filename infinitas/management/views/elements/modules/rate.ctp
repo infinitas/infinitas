@@ -1,15 +1,17 @@
 <?php
 	$modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
     $Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
-
-
-
+	$data = &${strtolower($modelName)};
     $allow = Configure::read(ucfirst($this->params['plugin']).'.allow_ratings');
 
+    if(Configure::read('Rating.time_limit')){
+    	$allow &= date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $data[$modelName]['modified'];
+    }
+
 	if (!isset(${strtolower($modelName)}[$modelName]['rating']) || $allow !== true){
+		echo __('Rating is currently dissabled for this page', true);
 		return false;
 	}
-	$data = ${strtolower($modelName)};
 ?>
 <div id="star-rating" class="rating {currentRating: '<?php echo $data[$modelName]['rating']; ?>', url:{action:'rate', id: <?php echo $data[$modelName]['id']; ?>}, target:'this'}">
 	<span class="star-rating-result">
