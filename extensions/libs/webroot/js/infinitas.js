@@ -176,23 +176,27 @@ function starRating() {
 }
 
 function datePicker() {
-	var startDate;
-	var endDate;
-	var date;
+	var currentDate;
 
+	currentDate = $("#" + Infinitas.model + "StartDate").val().split('-');
 	startDate = $("#" + Infinitas.model + "DatePickerStartDate").calendarPicker({
+		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
 		callback: function(cal){
 			$("#" + Infinitas.model + "StartDate").val(cal.mysqlDate);
 		}
 	});
 
+	currentDate = $("#" + Infinitas.model + "EndDate").val().split('-');
 	endDate = $("#" + Infinitas.model + "DatePickerEndDate").calendarPicker({
+		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
 		callback: function(cal){
 			$("#" + Infinitas.model + "EndDate").val(cal.mysqlDate);
 		}
 	});
 
+	currentDate = $("#" + Infinitas.model + "Date").val().split('-');
 	date = $("#" + Infinitas.model + "DatePickerDate").calendarPicker({
+		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
 		callback: function(cal){
 			$("#" + Infinitas.model + "Date").val(cal.mysqlDate);
 		}
