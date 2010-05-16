@@ -47,21 +47,17 @@ function(require) {
  **/
 function render(){
 	$(document).ready(function(){
-		urlDropdownSelects();
-		doToolTips();
-
-		rowSelect();
+		setupAjaxDropdowns(); setupRowSelecting(); setupDatePicker(); setupAjaxPagination(); setupStarRating();
 
 		$.FormHelper.checkboxToggleAll();
-
-		datePicker();
 		$.HtmlHelper.slideshow();
-
 		$('.tabs').tabs();
 
-		ajaxPagination();
-
-		starRating();
+		$("[title]:not(.textarea *)").tooltip({
+		    track: true, delay: 0, showURL: false,
+		    fixPNG: true, showBody: " :: ",
+		    extraClass: "pretty fancy", left: 5, top: -5
+		});
 	});
 }
 
@@ -72,7 +68,7 @@ function render(){
  * @access public
  * @return void
  **/
-function urlDropdownSelects(){
+function setupAjaxDropdowns(){
 	/**
 	 * Check for plugin dropdown changes
 	 */
@@ -114,15 +110,7 @@ function urlDropdownSelects(){
 	});
 }
 
-function doToolTips(){
-	$("[title]:not(.textarea *)").tooltip({
-	    track: true, delay: 0, showURL: false,
-	    fixPNG: true, showBody: " :: ",
-	    extraClass: "pretty fancy", left: 5, top: -5
-	});
-}
-
-function rowSelect(){
+function setupRowSelecting(){
 	$("table.listing input:checkbox").change(function() {
 		var $this = $(this);
 
@@ -158,8 +146,11 @@ function rowSelect(){
 	});
 }
 
-function starRating() {
-	$rating = $('.rating');
+function setupStarRating() {
+	var $rating = $('.rating');
+	if(!$rating.lenght) {
+		return false;
+	}
 	if($.Core.type($rating) != 'object') {
 		return false;
 	}
@@ -175,65 +166,69 @@ function starRating() {
 	);
 }
 
-function datePicker() {
+function setupDatePicker() {
 	var currentDate;
+	var now = new Date(); now.setDate(now.getDate());
 
 	/**
 	 * Start dates
 	 */
 	var date1 = $("#" + Infinitas.model + "StartDate");
-	if(date1.val() != ''){
-		currentDate = date1.val().split('-');
-		currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
-	}
-	else {
-		currentDate = new Date();
-	}
-	startDate = $("#" + Infinitas.model + "DatePickerStartDate").calendarPicker({
-		"date": currentDate,
-		callback: function(cal){
-			date1.val(cal.mysqlDate);
+	if(date1.length){
+		currentDate = now;
+		if(date1.val() != '') {
+			currentDate = date1.val().split('-');
+			currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
 		}
-	});
+
+		startDate = $("#" + Infinitas.model + "DatePickerStartDate").calendarPicker({
+			"date": currentDate,
+			callback: function(cal){
+				date1.val(cal.mysqlDate);
+			}
+		});
+	}
 
 	/**
 	 * end dates
 	 */
 	var date2 = $("#" + Infinitas.model + "EndDate");
-	if(date2.val() != ''){
-		currentDate = date2.val().split('-');
-		currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
-	}
-	else {
-		currentDate = new Date();
-	}
-	endDate = $("#" + Infinitas.model + "DatePickerEndDate").calendarPicker({
-		"date": currentDate,
-		callback: function(cal){
-			date2.val(cal.mysqlDate);
+	if(date2.length){
+		currentDate = now;
+		if(date2.val() != ''){
+			currentDate = date2.val().split('-');
+			currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
 		}
-	});
+
+		endDate = $("#" + Infinitas.model + "DatePickerEndDate").calendarPicker({
+			"date": currentDate,
+			callback: function(cal){
+				date2.val(cal.mysqlDate);
+			}
+		});
+	}
 
 	/**
 	 * general dates
 	 */
 	var date3 = $("#" + Infinitas.model + "Date");
-	if(date3.val() != ''){
-		currentDate = date3.val().split('-');
-		currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
-	}
-	else {
-		currentDate = new Date();
-	}
-	date = $("#" + Infinitas.model + "DatePickerDate").calendarPicker({
-		"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
-		callback: function(cal){
-			date3.val(cal.mysqlDate);
+	if(date3.length){
+		currentDate = now;
+		if(date3.val() != '') {
+			currentDate = date3.val().split('-');
+			currentDate = new Date (currentDate[0], currentDate[1]-1, currentDate[2]);
 		}
-	});
+
+		date = $("#" + Infinitas.model + "DatePickerDate").calendarPicker({
+			"date": new Date (currentDate[0], currentDate[1]-1, currentDate[2]),
+			callback: function(cal){
+				date3.val(cal.mysqlDate);
+			}
+		});
+	}
 }
 
-function ajaxPagination() {
+function setupAjaxPagination() {
 	$link = $('a.ajax');
 	$.HtmlHelper.loading('showMore');
 	$link.live('click', function(event){
