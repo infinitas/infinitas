@@ -3,7 +3,7 @@
 		var $name = 'ShopCategory';
 
 		var $order = array(
-			'ShopCategory.name' => 'ASC'
+			'ShopCategory.lft' => 'ASC'
 		);
 
 		var $belongsTo = array(

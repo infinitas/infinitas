@@ -1,7 +1,7 @@
 <?php
-	class CategoriesController extends ShopAppController{
-		var $name = 'Categories';
-		var $uses = array('Shop.ShopCategory');
+	class ShopCategoriesController extends ShopAppController{
+		var $name = 'ShopCategories';
+		//var $uses = array('Shop.ShopCategory');
 
 		var $helpers = array(
 			'Filter.Filter'

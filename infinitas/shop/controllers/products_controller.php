@@ -243,14 +243,25 @@
 			}
 
 			if ($id && empty($this->data)) {
-				$this->data = $this->Product->read(null, $id);
+				$this->data = $this->Product->find(
+					'first',
+					array(
+						'conditions' => array(
+							'Product.id' => $id
+						),
+						'contain' => array(
+							'ShopBranch',
+							'ShopCategory'
+						)
+					)
+				);
 			}
 
-			$shopCategories = $this->Product->ShopCategory->generatetreelist(null, null, null, '_');
 			$units          = $this->Product->Unit->find('list');
 			$suppliers      = $this->Product->Supplier->find('list');
-			$shopBranches   = $this->Product->ShopBranch->getList();
 			$images         = $this->Product->Image->getImagePaths();
+			$shopBranches   = $this->Product->ShopBranch->getList();
+			$shopCategories = $this->Product->ShopCategory->generatetreelist(null, null, null, '_');
 			$this->set(compact('shopCategories', 'units', 'suppliers', 'shopBranches', 'images'));
 		}
 	}

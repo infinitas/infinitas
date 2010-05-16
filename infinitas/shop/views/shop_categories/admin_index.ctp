@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create('Category', array('url' => array('action' => 'mass')));
+    echo $this->Form->create('ShopCategory', array('url' => array('action' => 'mass')));
 
     $massActions = $this->Infinitas->massActionButtons(
         array(
