@@ -47,7 +47,7 @@
 	 */
 	HtmlHelper.loading = function(target, create){
 		if (!create) {
-			$('#' + target).next().remove();
+			//$('.loadingImage').remove();
 		}
 		else{
 			$('#' + target).after('<img class="loadingImage" src="' + Infinitas.base + 'img/core/icons/notifications/loading.gif" alt="loading" width="16px"/>');

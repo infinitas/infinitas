@@ -27,7 +27,7 @@
 		return true;
 	}
 ?>
-<div class="showMore">
+<div id="showMore" class="showMore">
 	<?php
 		echo $paginator->next(
 			__('More', true),

@@ -201,13 +201,16 @@ function datePicker() {
 
 function ajaxPagination() {
 	$link = $('a.ajax');
+	$.HtmlHelper.loading('showMore');
 	$link.live('click', function(event){
 		$('.showMore').remove();
 		$.ajax({
 			url: $(this).attr('href'),
 		  	success: function(data, textStatus, XMLHttpRequest){
-				//$('.list').append(data);
-				$(data).find(".product_item").appendTo('.index');
+				data = $('<div>'+data+'</div>').find('.list').children();
+				$('.list').append(data);
+				data = '';
+				$.HtmlHelper.loading('', false);
 			}
 		});
 		return false;
