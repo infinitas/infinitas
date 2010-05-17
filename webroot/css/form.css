@@ -53,10 +53,12 @@ input{
 }
 
 .select .checkbox{
-	border:1px dotted gray;
 	float:left;
-	margin:5px;
+	margin:1px;
 	padding:1px;
+}
+.checkbox{
+	clear: both;	
 }
 
 .filter-form label{
