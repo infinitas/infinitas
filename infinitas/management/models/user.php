@@ -61,6 +61,12 @@
 						'message' => __('It seems you are already registered, please use the forgot password option', true)
 					)
 				),
+				'confirm_email' => array(
+					'matchEmail' => array(
+						'rule' => 'matchEmail',
+						'message' => __('Your email address does not match', true)
+					)
+				),
 				'password' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
@@ -95,6 +101,10 @@
 		*/
 		function matchPassword($field = null){
 			return true; (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
+		}
+
+		function matchEmail($field = null){
+			return $field['confirm_email'] === $this->data['User']['email'];
 		}
 
 		/**
