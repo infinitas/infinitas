@@ -203,6 +203,12 @@
 					$action = 'admin_form';
 				}
 			}
+			else if(($this->action == 'edit' || $this->action == 'add')) {
+				$viewPath = App::pluginPath($this->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->action . '.ctp';
+				if(!file_exists($viewPath)) {
+					$action = 'form';
+				}
+			}
 
 			return parent::render($action, $layout, $file);
 		}
