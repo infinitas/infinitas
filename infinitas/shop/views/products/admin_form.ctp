@@ -36,7 +36,6 @@
         					?><h2><?php __('Config'); ?></h2><?php
 							echo $this->Form->input('supplier_id', array('empty' => __(Configure::read('Website.empty_select'), true)));
 							echo $this->Form->input('ShopBranch');
-							echo $this->Form->input('ShopCategory');
 							echo $this->Form->input('active');
 						echo $this->Design->niceBoxEnd();
 
@@ -47,6 +46,11 @@
 							echo $this->Form->input('price', array('before' => Configure::read('Currency.unit'), 'title' => __('Price :: This is your selling price', true)));
 							echo $this->Form->input('unit_id', array('title' => __('Unit :: The unit that the product is sold in [eg: ounces]', true)));
         				echo $this->Design->niceBoxEnd();
+
+        				echo $this->Design->niceBox();
+        					?><h2><?php __('Categories'); ?></h2><?php
+							echo $this->Form->input('ShopCategory', array('label' => false, 'multiple' =>  'checkbox', 'style' => 'clear:both;'));
+						echo $this->Design->niceBoxEnd();
 
         				echo $this->Design->niceBox();
         					?><h2><?php __('Images'); ?></h2><?php
