@@ -1,8 +1,8 @@
 <?php
 	class ShippingCourierEvents{
-		function onSetupConfigEnd(&$event){
+		function onShopLoad(&$event){
 			Configure::write('Shop.shipping_method', 'courier');
-			Configure::write('Shop.shipping_methods', array_merge(Configure::read('Shop.shipping_methods'), array('courier')));
+			Configure::write('Shop.shipping_methods', array_merge((array)Configure::read('Shop.shipping_methods'), array('courier')));
 		}
 
 		function onCalculateShipping(&$event, $data){

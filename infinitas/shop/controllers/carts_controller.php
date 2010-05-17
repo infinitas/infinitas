@@ -98,6 +98,12 @@
 				$this->Session->setFlash(__('Shipping method updated', true));
 				$this->redirect(array('action' => 'index'));
 			}
+
+			$methods = $this->Session->read('Shop.shipping_methods');
+			if(count($methods) < 2){
+				$this->Session->setFlash(__('There are no other options at this time', true));
+				$this->redirect($this->referer());
+			}
 		}
 
 		function admin_index(){

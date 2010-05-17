@@ -20,6 +20,7 @@
 			}
 
 			$this->set(compact('usersCart'));
+
 		}
 
 		function beforeFilter(){
@@ -38,6 +39,7 @@
 				)
 			);
 
+			$this->Event->trigger('shopLoad');
 			if(!$this->Session->read('Shop.shipping_method')){
 				$this->Session->write('Shop.shipping_method', Configure::read('Shop.shipping_method'));
 			}
