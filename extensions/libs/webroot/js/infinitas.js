@@ -33,11 +33,17 @@ require(
 
 	Infinitas.base + "libs/js/3rd/jquery_ui.js",
 	Infinitas.base + "libs/js/3rd/rater.js",
+	//Infinitas.base + "libs/js/3rd/roundabout.js"
 
 ],
 function(require) {
 	render();
 });
+function startAutoPlay() {
+	return setInterval(function() {
+		$('div.slidesContainer').roundabout_animateToNextChild();
+	}, 4000);
+}
 
 
 /**
@@ -46,11 +52,21 @@ function(require) {
  * @return void
  **/
 function render(){
+
 	$(document).ready(function(){
 		setupAjaxDropdowns(); setupRowSelecting(); setupDatePicker(); setupAjaxPagination(); setupStarRating();
 
 		$.FormHelper.checkboxToggleAll();
-		$.HtmlHelper.slideshow();
+
+		$('div.slidesContainer').roundabout({
+			childSelector: 'div.data',
+			minScale: 0.1
+		}).hover(
+			function() {clearInterval(interval);},
+			function() {interval = startAutoPlay();}
+		);
+		interval = startAutoPlay();
+
 		$('.tabs').tabs();
 		$('#ProductImageId').imageSelect();
 		$('#ProductImageProductImage').imageSelect();

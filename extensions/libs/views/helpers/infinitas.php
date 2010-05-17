@@ -183,7 +183,7 @@
 				}
 			$this->_menuData .= '</ul>';
 
-			return $this->_menuData;
+			return str_replace('</a></a>', '</a>', $this->_menuData);
 		}
 
 		/**
