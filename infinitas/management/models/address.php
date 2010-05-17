@@ -10,6 +10,26 @@
 		);
 
 		var $belongsTo = array(
-			'Management.Country'
+			'Management.Country',
+			//'Management.Continent'
 		);
+
+		function getAddressByUser($user_id = null, $type = 'list'){
+			if(!$user_id){
+				return false;
+			}
+
+			$address = $this->find(
+				$type,
+				array(
+					'conditions' => array(
+						'Address.foreign_key' => $user_id,
+						'Address.plugin' => 'management',
+						'Address.model' => 'user'
+					)
+				)
+			);
+
+			return $address;
+		}
 	}
