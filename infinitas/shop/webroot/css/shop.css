@@ -36,6 +36,10 @@
 	-moz-box-shadow: none;
 }
 
+.product_item:hover{
+	background-color: #EEEEEE;	
+}
+
 .product_item .product_image:hover a span.isSpecial,
 .product_item .product_image:hover a span.isFeatured{
 	visibility:hidden;

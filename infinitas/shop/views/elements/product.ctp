@@ -17,7 +17,7 @@
 				$this->Shop->getImage(
 					$product,
 					array(
-						'width' => '80px',
+						'width' => '70px',
 						'title' => $product['Product']['name'],
 						'alt' => $product['Product']['name']
 					)
@@ -66,7 +66,7 @@
 					),
 					'title' => __('Add to cart', true),
 					'alt' => __('Add to cart', true),
-					'width' => '90px'
+					'width' => '70px'
 				)
 			);
     	?>
@@ -86,7 +86,7 @@
 					),
 					'title' => __('Add to wishlist', true),
 					'alt' => __('Add to wishlist', true),
-					'width' => '90px'
+					'width' => '80px'
 				)
 			);
     	?>

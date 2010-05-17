@@ -33,6 +33,7 @@
 					'Product.id',
 					'Product.name',
 					'Product.slug',
+					'Product.description',
 					'Product.image_id',
 					'Product.cost',
 					'Product.retail',
