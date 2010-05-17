@@ -2,6 +2,10 @@
 	class Order extends OrderAppModel{
 		var $name = 'Order';
 
+		var $virtualFields = array(
+			'grand_total' => 'Order.total + Order.shipping'
+		);
+
 		var $belongsTo = array(
 			'User' => array(
 				'className' => 'Management.User',
@@ -30,4 +34,26 @@
 				'className' => 'Order.Item'
 			)
 		);
+
+		function getPendingOrders($user_id = null){
+			if(!$user_id){
+				return array();
+			}
+
+			return $this->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Order.status_id' => $this->Status->getFirst(),
+						'Order.user_id' => $user_id
+					),
+					'contain' => array(
+						'User',
+						'Item',
+						'Address',
+						'Status'
+					)
+				)
+			);
+		}
 	}

@@ -16,4 +16,10 @@
 		function onUserLogin(&$event, $data){
 			// check if order status has changed and notify
 		}
+
+		function onSetupThemeLayout(&$event, $data){
+			if($data['params']['plugin'] == 'order' && $data['params']['controller'] == 'orders' && $data['params']['action'] == 'pay'){
+				return 'checkout';
+			}
+		}
 	}
