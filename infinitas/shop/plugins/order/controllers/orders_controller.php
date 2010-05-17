@@ -2,14 +2,6 @@
 	class OrdersController extends OrderAppController{
 		var $name = 'Orders';
 
-		var $helpers = array(
-			'Filter.Filter'
-		);
-
-		function checkout(){
-			$this->data['Order']['status_id'] = $this->Order->Status->getFirst();
-		}
-
 		function admin_index(){
 			$this->paginate = array(
 				'contain' => array(

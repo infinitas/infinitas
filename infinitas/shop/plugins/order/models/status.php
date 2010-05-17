@@ -5,8 +5,9 @@
 		function getFirst(){
 			$status = Cache::read('status_first', 'orders');
 			if($status !== false){
-				return $status
+				return $status;
 			}
+
 			$status = $this->find(
 				'first',
 				array(

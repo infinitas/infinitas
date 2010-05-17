@@ -11,21 +11,6 @@
 					'User.email'
 				)
 			),
-			'Product' => array(
-				'className' => 'Shop.Product',
-				'fields' => array(
-					'Product.id',
-					'Product.name',
-					'Product.slug',
-					'Product.description',
-					'Product.image_id',
-					'Product.cost',
-					'Product.retail',
-					'Product.price',
-					'Product.active',
-					'Product.image_id',
-				)
-			),
 			'Address' => array(
 				'className' => 'Management.Address'
 			),
@@ -35,7 +20,14 @@
 					'Status.id',
 					'Status.name',
 					'Status.ordering'
-				)
+				),
+				'counterCache' => true
+			)
+		);
+
+		var $hasMany = array(
+			'Item' => array(
+				'className' => 'Order.Item'
 			)
 		);
 	}

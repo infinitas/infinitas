@@ -1,7 +1,8 @@
 <?php
 	class OrderAppController extends AppController {
 		var $helpers = array(
-			'Shop.Shop'
+			'Shop.Shop',
+			'Filter.Filter'
 		);
 
 		var $components = array(

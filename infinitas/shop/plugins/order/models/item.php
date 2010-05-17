@@ -1,6 +1,14 @@
 <?php
-	class OrderItem extends OrderAppModel{
-		var $name = 'OrderItem';
+	class Item extends OrderAppModel{
+		var $name = 'Item';
+
+		/**
+		 * sub_total is the line total
+		 * @var unknown_type
+		 */
+		var $virtualFields = array(
+			'sub_total' => 'Item.quantity * Item.price'
+		);
 
 		var $belongsTo = array(
 			'Product' => array(
@@ -16,7 +24,11 @@
 					'Product.price',
 					'Product.active',
 					'Product.image_id',
-				)
+				),
+				'counterCache' => 'sales'
+			),
+			'Order' => array(
+				'className' => 'Order.Order'
 			)
 		);
 	}
