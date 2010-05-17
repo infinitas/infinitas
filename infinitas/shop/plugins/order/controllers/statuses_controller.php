@@ -38,7 +38,7 @@
 			}
 
 			if (!empty($this->data)) {
-				if ($this->Status->saveAll($this->data)) {
+				if ($this->Status->save($this->data)) {
 					$this->Session->setFlash('Your status has been saved.');
 					$this->redirect(array('action' => 'index'));
 				}

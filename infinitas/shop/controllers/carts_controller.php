@@ -20,6 +20,12 @@
 				);
 			}
 
+			$addresses = ClassRegistry::init('Management.Address')->getAddressByUser($userId);
+			if(empty($addresses)){
+				$this->Session->setFlash(__('Please setup your address before checking out', true));
+				$this->redirect(array('plugin' => 'management', 'controller' => 'addresses', 'action' => 'add'));
+			}
+
 			$carts = $this->Cart->getCartData($userId);
 
 			if(empty($carts)){
@@ -42,7 +48,7 @@
 			$amounts['vat']        = Configure::read('Shop.vat_rate') > 0 ? ($amounts['total_excl'] / 100) * (int)Configure::read('Shop.vat_rate') : 0;
 			$amounts['total_due']  = $amounts['total_excl'] + $amounts['vat'];
 
-			$this->set(compact('carts', 'amounts'));
+			$this->set(compact('addresses', 'carts', 'amounts'));
 		}
 
 		function adjust(){

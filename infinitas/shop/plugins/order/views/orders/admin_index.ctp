@@ -50,34 +50,36 @@
             foreach ($orders as $order){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($cart['Order']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($order['Order']['id']); ?>&nbsp;</td>
 						<td>
 							<?php
 								echo $this->Html->link(
-									$cart['User']['username'],
+									$order['User']['username'],
 									array(
 										'plugin' => 'order',
 										'controller' => 'clients',
 										'action' => 'view',
-										$cart['User']['id']
+										$order['User']['id']
 									)
 								);
 							?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($order['Order']['payment_method']); ?>
+							<?php echo $order['Order']['payment_method']; ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($order['Order']['shipping_method']); ?>
+							<?php echo $order['Order']['shipping_method']; ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($order['Order']['tracking_number']); ?>
+							<?php
+								echo !empty($order['Order']['tracking_number']) ? $order['Order']['tracking_number'] : 'Not Set';
+							?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($order['Order']['item_count']); ?>
+							<?php echo $order['Order']['item_count']; ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($order['Status']['name']); ?>
+							<?php echo $order['Status']['name']; ?>
 						</td>
 						<td>
 							<?php echo $this->Time->niceShort($order['Order']['modified']); ?>

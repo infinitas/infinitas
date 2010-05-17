@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create('Cart', array('url' => array('action' => 'mass')));
+    echo $this->Form->create('Cart', array('url' => array('plugin' => 'order', 'controller' => 'orders', 'action' => 'checkout')));
 ?>
 <div class="table checkout">
 	<h2 class="fade"><?php __('Checkout'); ?></h2>
@@ -82,7 +82,7 @@
                 <?php
             }
         ?>
-        <tr>
+        <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
 			<th><?php echo __('Sub total', true);?>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
@@ -92,8 +92,7 @@
         </tr>
         <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
 			<td><?php echo sprintf('%s (%s)', __('Shipping', true), __(Inflector::humanize($this->Session->read('Shop.shipping_method')), true));?>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td colspan="2"><?php echo $this->Html->link(__('Change Shipping method', true), array('action' => 'change_shipping_method'));?></td>
 			<td><?php echo $this->Shop->currency($amounts['shipping']); ?>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -112,7 +111,7 @@
         		<?php
         	}
         ?>
-        <tr>
+        <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
 			<th><?php echo __('Total Due', true);?>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
@@ -123,20 +122,17 @@
         <tr class="<?php echo $this->Infinitas->rowClass('even'); ?>">
 			<td>
 				<?php
-					echo $this->Html->link(
-						__('Change Shipping method', true),
-						array(
-							'action' => 'change_shipping_method'
-						)
-					);
+					echo sprintf('%s %s', __('Ship to', true), $this->Form->input('Order.address_id', array('div' => false, 'label' => false)));
 				?>&nbsp;
 			</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td colspan="5"><?php echo $this->Html->link(__('Add address', true), array('plugin' => 'management', 'controller' => 'addresses', 'action' => 'add'));?></td>
         </tr>
     </table>
-    <?php echo $this->Form->end(); ?>
+    <?php
+    	echo $this->Form->input('Order.special_instructions', array('type' => 'textarea', 'style' => 'width:100%'));
+    	echo $this->Form->hidden('Order.total', array('value' => $amounts['sub_total']));
+    	echo $this->Form->hidden('Order.shipping', array('value' => $amounts['shipping']));
+    	echo $this->Form->hidden('Order.shipping_method', array('value' => $this->Session->read('Shop.shipping_method')));
+    	echo $this->Form->submit('Checkout');
+    ?>
 </div>

@@ -71,6 +71,26 @@
 			return (array)$data;
 		}
 
+		function clearCart($user_id = null){
+			if(!$user_id){
+				return false;
+			}
+
+			$this->enableSoftDeletable(false);
+			$status = $this->deleteAll(
+				array(
+					'Cart.user_id' => $user_id
+				),
+				null,
+				true
+			);
+
+			if($status){
+				$this->dataChanged('afterDelete');
+			}
+			return $status;
+		}
+
 		function afterSave($created){
 			return $this->dataChanged('afterSave');
 		}
