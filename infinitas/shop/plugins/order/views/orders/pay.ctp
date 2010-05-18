@@ -1,6 +1,5 @@
-<?php var_dump($paymentMethods); ?>
 <p><?php __('Below are your orders that are still awating payment, to complete the checkout proccess select your payment gateway from the list next to your order.')?></p>
-<div class="table checkout">
+<div class="table payments">
 	<h2 class="fade"><?php __('Orders pending payments'); ?></h2>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
@@ -47,7 +46,9 @@
 						</td>
 						<td>
 							<?php
-								echo $this->element('payment', array('plugin' => 'payment_netcash', 'order' => $order));
+								foreach($paymentMethods as $payment){
+									echo $this->element('payment', array('plugin' => 'payment_'.$payment, 'order' => $order));
+								}
 							?>&nbsp;
 						</td>
                 	</tr>

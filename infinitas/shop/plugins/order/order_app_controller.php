@@ -15,5 +15,13 @@
 
 		function beforeFilter(){
 			parent::beforeFilter();
+			$data = $this->Event->trigger('loadPaymentGateways');
+
+			$gateways = array();
+			foreach($data['loadPaymentGateways'] as $gateway){
+				$gateways[] = $gateway;
+			}
+			Configure::write('Shop.payment_methods', $gateways);
+			Configure::write('Order.notify_url', 'http://'.env('SERVER_NAME').$this->webroot.'order/orders/recive_payment');
 		}
 	}
