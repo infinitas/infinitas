@@ -17,6 +17,6 @@
 		echo $this->Form->hidden('currency_ code', array('name' => 'currency_ code', 'value' => Configure::read('Currency.code'))); // currency code
 		echo $this->Form->hidden('invoice', array('name' => 'invoice', 'value' => $order['Order']['id'])); // order number
 		echo $this->Form->hidden('shopping_url', array('name' => 'shopping_url', 'value' => 'http://'.env('SERVER_NAME').$this->webroot)); // continue shopping url
-		echo $this->Form->submit('Paypal');
+		echo $this->Form->button($this->Html->image('/payment_paypal/img/logo.gif'));
 	echo '</form>';
 ?>

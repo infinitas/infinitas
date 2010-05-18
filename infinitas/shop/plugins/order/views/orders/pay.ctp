@@ -6,21 +6,21 @@
             echo $this->Infinitas->adminTableHeader(
                 array(
                     __('Order', true) => array(
-                        'style' => 'width:100px;'
+                        'style' => 'width:90px;'
                     ),
                     __('Items', true) => array(
                         'style' => 'width:100px;'
                     ),
                     __('Status', true) => array(
-                        'style' => 'width:100px;'
+                        'style' => 'width:75px;'
                     ),
                     __('Total', true) => array(
-                        'style' => 'width:150px;'
+                        'style' => 'width:125px;'
                     ),
                     __('Created', true) => array(
-                        'style' => 'width:100px;'
+                        'style' => 'width:150px;'
                     ),
-                    __('Pay', true)
+                    __('Pay via', true)
                 ),
                 false
             );

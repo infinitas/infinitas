@@ -12,6 +12,6 @@
 		echo $this->Form->hidden('m_4', array('name' => 'm_4', 'value' => $order['Order']['id'])); // order id
 		echo $this->Form->hidden('m_5', array('name' => 'm_5', 'value' => $order['Order']['user_id'])); // user id
 		echo $this->Form->hidden('m_9', array('name' => 'm_9', 'value' => $order['User']['email'])); // email address
-		echo $this->Form->submit('Netcash');
+		echo $this->Form->button($this->Html->image('/payment_netcash/img/logo.gif'));
 	echo '</form>';
 ?>
