@@ -19,7 +19,13 @@
      */
 
     echo $this->Form->create('Item', array('url' => array('action' => 'mass')));
-    echo $this->Infinitas->adminIndexHead($this, $paginator, $filterOptions);
+
+    $massActions = $this->Infinitas->massActionButtons(
+        array(
+            'export'
+        )
+    );
+    echo $this->Infinitas->adminIndexHead($this, $paginator, $filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">

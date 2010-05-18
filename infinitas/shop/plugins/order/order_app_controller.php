@@ -24,4 +24,13 @@
 			Configure::write('Shop.payment_methods', $gateways);
 			Configure::write('Order.notify_url', 'http://'.env('SERVER_NAME').$this->webroot.'order/orders/recive_payment');
 		}
+
+		function admin_mass() {
+			$massAction = $this->MassAction->getAction($this->params['form']);
+			if(strtolower($massAction) == 'export'){
+				$this->redirect($this->referer().'.csv');
+			}
+
+			return parent::admin_mass();
+		}
 	}
