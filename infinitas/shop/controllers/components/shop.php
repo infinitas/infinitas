@@ -91,7 +91,7 @@
 						$this->Controller->Session->setFlash(__('Your '.$Model->alias.' was updated', true));
 					}
 				}
-				$this->redirect(array('plugin' => 'shop', 'controller' => Inflector::pluralize(strtolower($Model->alias)), 'action' => 'index'));
+				$this->Controller->redirect(array('plugin' => 'shop', 'controller' => Inflector::pluralize(strtolower($Model->alias)), 'action' => 'index'));
 			}
 
 			$cart[$Model->alias]['product_id'] = $this->Controller->params['named']['product_id'];

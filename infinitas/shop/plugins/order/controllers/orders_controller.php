@@ -2,6 +2,38 @@
 	class OrdersController extends OrderAppController{
 		var $name = 'Orders';
 
+		function index(){
+			$user_id = $this->Session->read('Auth.User.id');
+
+			$this->paginate = array(
+				'conditions' => array(
+					'Order.user_id' => $user_id
+				),
+				'contain' => array(
+					'User',
+					'Address',
+					'Status'
+				),
+				'order' => array(
+					'Status.ordering' => 'ASC'
+				)
+			);
+
+			$orders = $this->paginate(
+				null,
+				$this->Filter->filter
+			);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'user_id' => $this->Order->User->find('list'),
+				'status_id' => $this->Order->Status->find('list'),
+				'payment_method' => array(),
+				'shipping_method' => array()
+			);
+			$this->set(compact('orders','filterOptions'));
+		}
+
 		function checkout(){
 			$user_id = $this->Session->read('Auth.User.id');
 			if($user_id < 1){
