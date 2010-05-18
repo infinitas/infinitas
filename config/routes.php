@@ -2,6 +2,7 @@
 	Router::parseExtensions('rss');
 	Router::parseExtensions('vcf');
 	Router::parseExtensions('json');
+	Router::parseExtensions('csv');
 
 	EventCore::trigger(new StdClass(), 'setupRoutes');
 
