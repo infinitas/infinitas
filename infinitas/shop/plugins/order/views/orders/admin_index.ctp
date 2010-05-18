@@ -22,6 +22,7 @@
 
     $massActions = $this->Infinitas->massActionButtons(
         array(
+            'save',
             'export'
         )
     );
@@ -56,7 +57,12 @@
             foreach ($orders as $order){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($order['Order']['id']); ?>&nbsp;</td>
+                        <td>
+                        	<?php
+                        		echo $this->Form->checkbox($order['Order']['id']);
+                        		echo $this->Form->hidden('Save.'.$order['Order']['id'].'.id', array('value' => $order['Order']['id']));
+                        	?>&nbsp;
+                        </td>
 						<td>
 							<?php
 								echo $this->Html->link(
@@ -87,18 +93,22 @@
 							<?php echo $order['Order']['payment_method']; ?>
 						</td>
 						<td>
-							<?php echo $order['Order']['shipping_method']; ?>
+							<?php
+								echo $this->Form->input('Save.'.$order['Order']['id'].'.shipping_method', array('value' => $order['Order']['shipping_method'], 'div' => false, 'label' => false));
+							?>
 						</td>
 						<td>
 							<?php
-								echo !empty($order['Order']['tracking_number']) ? $order['Order']['tracking_number'] : 'Not Set';
+								echo $this->Form->input('Save.'.$order['Order']['id'].'.tracking_number', array('value' => $order['Order']['tracking_number'], 'div' => false, 'label' => false));
 							?>
 						</td>
 						<td>
 							<?php echo $order['Order']['item_count']; ?>
 						</td>
 						<td>
-							<?php echo $order['Status']['name']; ?>
+							<?php
+								echo $this->Form->input('Save.'.$order['Order']['id'].'.status_id', array('options' => $filterOptions['fields']['status_id'], 'selected' => $order['Order']['status_id'], 'div' => false, 'label' => false));
+							?>
 						</td>
 						<td>
 							<?php echo $this->Time->niceShort($order['Order']['modified']); ?>

@@ -166,8 +166,9 @@
 			$filterOptions['fields'] = array(
 				'user_id' => $this->Order->User->find('list'),
 				'status_id' => $this->Order->Status->find('list'),
-				'payment_method' => array(),
-				'shipping_method' => array(),
+				'payment_method' => Configure::read('Shop.payment_methods'),
+				'shipping_method',
+				'tracking_number',
 				'year' => $years,
 				'month' => array(
 					'01' => 'Jan', '02' => 'Feb', '03' => 'Mar',

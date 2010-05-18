@@ -28,10 +28,30 @@
 
 		function admin_mass() {
 			$massAction = $this->MassAction->getAction($this->params['form']);
-			if(strtolower($massAction) == 'export'){
-				$this->redirect($this->referer().'.csv');
+			switch(strtolower($massAction)){
+				case 'export':
+					$this->redirect($this->referer().'.csv');
+					break;
+
+				case 'save':
+					$this->save();
+					break;
+
+				default:
+					return parent::admin_mass();
+					break;
+			}
+		}
+
+		function save(){
+			$data[$this->modelClass] = $this->data['Save'];
+
+			if($this->{$this->modelClass}->saveAll($data[$this->modelClass])){
+				$this->Session->setFlash(__('All items updated', true));
+				$this->redirect($this->referer());
 			}
 
-			return parent::admin_mass();
+			$this->Session->setFlash(__('There was a problem updating the data', true));
+			$this->redirect($this->referer());
 		}
 	}
