@@ -18,6 +18,12 @@
 			if(!$user_id){
 				return false;
 			}
+			$contain = array();
+			if($type === 'all'){
+				$contain = array(
+					'Country'
+				);
+			}
 
 			$address = $this->find(
 				$type,
@@ -26,7 +32,8 @@
 						'Address.foreign_key' => $user_id,
 						'Address.plugin' => 'management',
 						'Address.model' => 'user'
-					)
+					),
+					'contain' => $contain
 				)
 			);
 
