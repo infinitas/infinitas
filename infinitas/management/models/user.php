@@ -22,6 +22,8 @@
 	class User extends ManagementAppModel{
 		var $name = 'User';
 
+		var $displayField = 'username';
+
 		var $actsAs = array(
 			'Acl' => 'requester',
 			'Libs.Ticketable'
