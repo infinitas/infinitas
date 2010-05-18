@@ -2,7 +2,8 @@
 	class OrderAppController extends AppController {
 		var $helpers = array(
 			'Shop.Shop',
-			'Filter.Filter'
+			'Filter.Filter',
+			'Data.Csv'
 		);
 
 		var $components = array(

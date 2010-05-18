@@ -1,7 +1,6 @@
 <?php
 	class ItemsController extends OrderAppController{
 		var $name = 'Items';
-		var $helpers = array('Data.Csv');
 
 		function admin_index(){
 			$year = $month = null;
@@ -53,7 +52,7 @@
 					'04' => 'Apr', '05' => 'May', '06' => 'Jun',
 					'07' => 'Jul', '08' => 'Aug', '09' => 'Sep',
 					'10' => 'Oct', '11' => 'Nov', '12' => 'Dec'
-				),
+				)
 			);
 			$this->set(compact('items','filterOptions'));
 		}
