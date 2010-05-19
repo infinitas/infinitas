@@ -49,6 +49,51 @@
 			$this->set(compact('products', 'specials', 'spotlights'));
 		}
 
+		function search(){
+			if(!isset($this->data['Search']['search'])){
+				$this->Session->setFlash(__('Please enter your search term', true));
+				$this->redirect($this->referer());
+			}
+
+			$this->paginate = array(
+				'fields' => array(
+					'Product.id',
+					'Product.name',
+					'Product.slug',
+					'Product.description',
+					'Product.image_id',
+					'Product.cost',
+					'Product.retail',
+					'Product.price',
+					'Product.active',
+					'Product.image_id',
+				),
+				'conditions' => array(
+					'Product.id' => $this->Product->getActiveProducts(),
+					'or' => array(
+						'Product.name LIKE ' => '%'. $this->data['Search']['search'] .'%',
+						'Product.description LIKE ' => '%'. $this->data['Search']['search'] .'%',
+						'Product.specifications LIKE ' => '%'. $this->data['Search']['search'] .'%'
+					)
+				),
+				'contain' => array(
+					'Image',
+					'ShopCategory',
+					'Special' => array(
+						'Image'
+					)
+				),
+				'limit' => 1
+			);
+
+			$products = $this->paginate('Product');
+
+			$spotlights = $this->Product->Spotlight->getSpotlights(5);
+			$specials = $this->Product->Special->getSpecials(5);
+			$this->set(compact('products', 'specials', 'spotlights'));
+			$this->render('index');
+		}
+
 		function view(){
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('The product could not be found', true) );

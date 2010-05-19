@@ -17,7 +17,7 @@
 				$this->Shop->getImage(
 					$product,
 					array(
-						'width' => '70px',
+						'width' => '100px',
 						'title' => $product['Product']['name'],
 						'alt' => $product['Product']['name']
 					)
@@ -53,42 +53,44 @@
 		</div>
 	</div>
     <div class="product_add_to_cart">
-    	<?php
-			echo $this->Html->image(
-				'/shop/img/add_to_cart.png',
-				array(
-					'url' => array(
-						'plugin' => 'shop',
-						'controller' => 'carts',
-						'action' => 'adjust',
-						'product_id' => $product['Product']['id'],
-						'quantity' => 1
-					),
-					'title' => __('Add to cart', true),
-					'alt' => __('Add to cart', true),
-					'width' => '70px'
-				)
-			);
-    	?>
+    	<center>
+	    	<?php
+				echo $this->Html->image(
+					'/shop/img/add_to_cart.png',
+					array(
+						'url' => array(
+							'plugin' => 'shop',
+							'controller' => 'carts',
+							'action' => 'adjust',
+							'product_id' => $product['Product']['id'],
+							'quantity' => 1
+						),
+						'title' => __('Add to cart', true),
+						'alt' => __('Add to cart', true),
+					)
+				);
+	    	?>
+    	</center>
     </div>
 
     <div class="product_add_to_wishlist">
-    	<?php
-			echo $this->Html->image(
-				'/shop/img/add_to_wishlist.png',
-				array(
-					'url' => array(
-						'plugin' => 'shop',
-						'controller' => 'wishlists',
-						'action' => 'adjust',
-						'product_id' => $product['Product']['id'],
-						'quantity' => 1
-					),
-					'title' => __('Add to wishlist', true),
-					'alt' => __('Add to wishlist', true),
-					'width' => '80px'
-				)
-			);
-    	?>
+    	<center>
+	    	<?php
+				echo $this->Html->image(
+					'/shop/img/add_to_wishlist.png',
+					array(
+						'url' => array(
+							'plugin' => 'shop',
+							'controller' => 'wishlists',
+							'action' => 'adjust',
+							'product_id' => $product['Product']['id'],
+							'quantity' => 1
+						),
+						'title' => __('Add to wishlist', true),
+						'alt' => __('Add to wishlist', true),
+					)
+				);
+	    	?>
+    	</center>
     </div>
 </div>
