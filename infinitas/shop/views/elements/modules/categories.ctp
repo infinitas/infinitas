@@ -30,30 +30,42 @@
 					'plugin' => 'shop',
 					'controller' => 'categories',
 					'action' => 'index'
+				),
+				array(
+					'class' => 'all'
 				)
-			),
+			),'<br/>',
 			$this->Html->link(
 				__('All Products', true),
 				array(
 					'plugin' => 'shop',
 					'controller' => 'products',
 					'action' => 'index'
+				),
+				array(
+					'class' => 'all'
 				)
-			),
+			),'<br/>',
 			$this->Html->link(
 				__('All Specials', true),
 				array(
 					'plugin' => 'shop',
 					'controller' => 'specials',
 					'action' => 'index'
+				),
+				array(
+					'class' => 'all'
 				)
-			),
+			),'<br/>',
 			$this->Html->link(
 				__('All Spotlights', true),
 				array(
 					'plugin' => 'shop',
 					'controller' => 'spotlights',
 					'action' => 'index'
+				),
+				array(
+					'class' => 'all'
 				)
 			);
 		}
