@@ -56,7 +56,7 @@
 		);
 
 		protected $jsToLoad  = array(
-			'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js',
+			'/libs/js/3rd/jquery',
 			'/libs/js/3rd/require',
 			'/libs/js/infinitas'
 		);
