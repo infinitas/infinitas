@@ -74,17 +74,19 @@ function render(){
 				break;
 
 			default:
-				setupStarRating();
+				if(Infinitas.action == 'view') {
+					setupStarRating();
+				}
 				$.FormHelper.checkboxToggleAll();
 
-				/*$('div.slidesContainer').roundabout({
+				$('div.slidesContainer').roundabout({
 					childSelector: 'div.data',
 					minScale: 0.1
 				}).hover(
 					function() {clearInterval(interval);},
 					function() {interval = startAutoPlay();}
 				);
-				interval = startAutoPlay();*/
+				interval = startAutoPlay();
 
 				break;
 		}
