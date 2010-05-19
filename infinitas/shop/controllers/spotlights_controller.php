@@ -83,7 +83,7 @@
 
 			$shopBranches = $this->Spotlight->ShopBranch->getList();
 			$products = $this->Spotlight->Product->find('list');
-			$images = $this->Spotlight->Image->find('list');
+			$images = $this->Spotlight->Image->getImagePaths();
 			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 
@@ -106,7 +106,7 @@
 
 			$shopBranches = $this->Spotlight->ShopBranch->getList();
 			$products = $this->Spotlight->Product->find('list');
-			$images = $this->Spotlight->Image->find('list');
+			$images = $this->Spotlight->Image->getImagePaths();
 			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 	}

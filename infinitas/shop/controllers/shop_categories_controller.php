@@ -132,7 +132,7 @@
 			}
 
 			$parents = $this->ShopCategory->generatetreelist(null, null, null, '_');
-			$images = $this->ShopCategory->Image->find('list');
+			$images = $this->ShopCategory->Image->getImagePaths();
 			$branches = $this->ShopCategory->ShopBranch->find('list');
 			$this->set(compact('parents', 'images', 'branches'));
 		}
@@ -155,7 +155,7 @@
 			}
 
 			$parents = $this->ShopCategory->generatetreelist(null, null, null, '_');
-			$images = $this->ShopCategory->Image->find('list');
+			$images = $this->ShopCategory->Image->getImagePaths();
 			$shopBranches = $this->ShopCategory->ShopBranch->find('list');
 			$this->set(compact('parents', 'images', 'shopBranches'));
 		}

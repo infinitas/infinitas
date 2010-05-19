@@ -86,7 +86,7 @@
 
 			$shopBranches = $this->Special->ShopBranch->getList();
 			$products = $this->Special->Product->find('list');
-			$images = $this->Special->Image->find('list');
+			$images = $this->Special->Image->getImagePaths();
 
 			$maxPrice = $this->Special->Product->find(
 				'all',
@@ -136,7 +136,7 @@
 
 			$shopBranches = $this->Special->ShopBranch->getList();
 			$products = $this->Special->Product->find('list');
-			$images = $this->Special->Image->find('list');
+			$images = $this->Special->Image->getImagePaths();
 			$this->set(compact('shopBranches', 'products', 'images'));
 		}
 
