@@ -31,6 +31,7 @@ require(
 	Infinitas.base + "libs/js/3rd/date.js",
 	Infinitas.base + "libs/js/3rd/image_drop_down.js",
 
+	//Infinitas.base + "libs/js/3rd/jquery.js",
 	Infinitas.base + "libs/js/3rd/jquery_ui.js",
 	Infinitas.base + "libs/js/3rd/rater.js",
 	//Infinitas.base + "libs/js/3rd/roundabout.js"
@@ -54,29 +55,39 @@ function startAutoPlay() {
 function render(){
 
 	$(document).ready(function(){
-		setupAjaxDropdowns(); setupRowSelecting(); setupDatePicker(); setupAjaxPagination(); setupStarRating();
-
-		$.FormHelper.checkboxToggleAll();
-
-		$('div.slidesContainer').roundabout({
-			childSelector: 'div.data',
-			minScale: 0.1
-		}).hover(
-			function() {clearInterval(interval);},
-			function() {interval = startAutoPlay();}
-		);
-		interval = startAutoPlay();
-
-
 		$('.tabs').tabs();
-		$('#ProductImageId').imageSelect();
-		$('#ProductImageProductImage').imageSelect();
+		switch(Infinitas.params.prefix) {
+			case 'admin':
+				setupAjaxDropdowns();
+				setupRowSelecting();
+				setupDatePicker();
+				setupAjaxPagination();
 
-		$("[title]:not(.textarea *)").tooltip({
-		    track: true, delay: 0, showURL: false,
-		    fixPNG: true, showBody: " :: ",
-		    extraClass: "pretty fancy", left: 5, top: -5
-		});
+				$("[title]:not(.textarea *)").tooltip({
+				    track: true, delay: 0, showURL: false,
+				    fixPNG: true, showBody: " :: ",
+				    extraClass: "pretty fancy", left: 5, top: -5
+				});
+
+				$('#' + Infinitas.model + 'ImageId').imageSelect();
+				$('#ProductImageProductImage').imageSelect();
+				break;
+
+			default:
+				setupStarRating();
+				$.FormHelper.checkboxToggleAll();
+
+				/*$('div.slidesContainer').roundabout({
+					childSelector: 'div.data',
+					minScale: 0.1
+				}).hover(
+					function() {clearInterval(interval);},
+					function() {interval = startAutoPlay();}
+				);
+				interval = startAutoPlay();*/
+
+				break;
+		}
 	});
 }
 
