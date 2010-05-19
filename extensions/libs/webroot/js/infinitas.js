@@ -67,6 +67,7 @@ function render(){
 		);
 		interval = startAutoPlay();
 
+
 		$('.tabs').tabs();
 		$('#ProductImageId').imageSelect();
 		$('#ProductImageProductImage').imageSelect();
@@ -165,13 +166,7 @@ function setupRowSelecting(){
 }
 
 function setupStarRating() {
-	var $rating = $('.rating');
-	if(!$rating.lenght) {
-		return false;
-	}
-	if($.Core.type($rating) != 'object') {
-		return false;
-	}
+	var $rating = $('#star-rating');
 	metaData = $.HtmlHelper.getParams($rating);
 	url = $.HtmlHelper.url(metaData);
 
