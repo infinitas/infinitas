@@ -125,6 +125,17 @@
 		}
 
 		function admin_index(){
+			$conditions = array();
+			if(isset($this->Filter->filter['Product.category_id'])){
+				$category_id  = $this->Filter->filter['Product.category_id'];
+				unset($this->Filter->filter['Product.category_id']);
+			}
+			if(isset($category_id)){
+				$conditions = array(
+					'Product.id' => $this->Product->getActiveProducts($category_id, array(0,1))
+				);
+			}
+
 			$this->paginate = array(
 				'fields' => array(
 					'Product.id',
@@ -139,6 +150,7 @@
 					'Product.unit_id',
 					'Product.image_id'
 				),
+				'conditions' => $conditions,
 				'contain' => array(
 					'Image',
 					'Unit',

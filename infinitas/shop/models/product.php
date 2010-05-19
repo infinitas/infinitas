@@ -204,15 +204,15 @@
 			return $products;
 		}
 
-		function getActiveProducts($category_id = null){
+		function getActiveProducts($category_id = null, $categoryStatus = 1){
 			$conditions = array(
-				'ShopCategory.active' => 1
+				'ShopCategory.active' => $categoryStatus
 			);
 
 
 			if ($category_id){
 				$conditions = array(
-					'ShopCategory.active' => 1,
+					'ShopCategory.active' => $categoryStatus,
 					'ShopCategory.id' => $category_id
 				);
 			}
@@ -237,7 +237,7 @@
 								'Product.id', 'Product.id'
 							),
 							'conditions' => array(
-								'Product.active' => 1
+								'Product.active' => $categoryStatus
 							)
 						)
 					)
