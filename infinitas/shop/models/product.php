@@ -124,6 +124,46 @@
 			)
 		);
 
+		function getBestSellers($limit = 10){
+			$cacheName = cacheName('products_best_sellers', $limit);
+			$products = Cache::read($cacheName, 'shop');
+			if($products !== false){
+				return $products;
+			}
+
+			$products = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Product.id',
+						'Product.name',
+						'Product.slug',
+						'Product.cost',
+						'Product.price',
+						'Product.image_id',
+					),
+					'conditions' => array(
+						'Product.id' => $this->getActiveProducts()
+					),
+					'limit' => (int)$limit,
+					'order' => array(
+						'Product.sales' => 'DESC'
+					),
+					'contain' => array(
+						'ShopCategory',
+						'Image',
+						'Special' => array(
+							'Image'
+						)
+					)
+				)
+			);
+
+			Cache::write($cacheName, $products, 'shop');
+
+			return $products;
+		}
+
 		function getMostViewed($limit = 10){
 			$cacheName = cacheName('products_mostViewed', $limit);
 			$products = Cache::read($cacheName, 'shop');
