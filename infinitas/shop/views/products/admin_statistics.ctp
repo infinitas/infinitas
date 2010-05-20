@@ -53,8 +53,11 @@
                     $this->Paginator->sort('added_to_wishlist') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('modified') => array(
+                    $this->Paginator->sort('sales') => array(
                         'style' => 'width:75px;'
+                    ),
+                    $this->Paginator->sort('modified') => array(
+                        'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('active') => array(
                         'style' => 'width:50px;'
@@ -90,6 +93,9 @@
 						</td>
 						<td>
 							<?php echo $product['Product']['added_to_wishlist']; ?>
+						</td>
+						<td>
+							<?php echo $product['Product']['sales']; ?>
 						</td>
 						<td>
 							<?php echo $this->Time->niceShort($product['Product']['modified']); ?>

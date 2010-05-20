@@ -235,6 +235,7 @@
 					'Product.views',
 					'Product.rating',
 					'Product.rating_count',
+					'Product.sales',
 					'Product.modified',
 					'Product.supplier_id',
 					'Product.unit_id',
@@ -244,7 +245,6 @@
 				),
 				'contain' => array(
 					'Image',
-					'Unit',
 					'Supplier',
 					'ShopCategory',
 					'ShopBranch' => array(
