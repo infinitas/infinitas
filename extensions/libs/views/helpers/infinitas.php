@@ -57,15 +57,25 @@
 		var $_currentCssDone = false;
 
 		/**
-		* Module Loader.
-		*
-		* This is used to load modules. it generates a wrapper div with the class
-		* set as the module name for easy styleing, and will create a header if set
-		* in the backend.
-		*
-		* @params string $position this is the possition that is to be loaded, can be anything from the database
-		* @params bool $admin if true its a admin module that should be loaded.
-		*/
+		 * Skip modules.
+		 *
+		 * Add the names of modules you want to skip to this var and they will not
+		 * be loaded.
+		 *
+		 * @var array
+		 */
+		var $moduleIgnoreOverload = array();
+
+		/**
+		 * Module Loader.
+		 *
+		 * This is used to load modules. it generates a wrapper div with the class
+		 * set as the module name for easy styleing, and will create a header if set
+		 * in the backend.
+		 *
+		 * @params string $position this is the possition that is to be loaded, can be anything from the database
+		 * @params bool $admin if true its a admin module that should be loaded.
+		 */
 		function loadModules($position = null, $admin = false){
 			if (!$position) {
 				$this->errors[] = 'No position selected to load modules';
@@ -82,7 +92,10 @@
 			$out = '<div class="modules '.$position.'">';
 
 				foreach($modules as $module){
-					if ($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) {
+					if (
+						($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
+						in_array($module['Module']['module'], $moduleIgnoreOverload)
+					) {
 						//skip modules that are not for the current theme
 						continue;
 					}
@@ -116,6 +129,15 @@
 			return $out;
 		}
 
+		/**
+		 * Load single modules.
+		 *
+		 * This is used by the core module loader, and to load single modules. This
+		 * can be handy when you just want to load a particular module inside a view.
+		 *
+		 * @params string $position this is the possition that is to be loaded, can be anything from the database
+		 * @params bool $admin if true its a admin module that should be loaded.
+		 */
 		function loadModule($module = null, $params = array()){
 			if(!$module){
 				return false;
