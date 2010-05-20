@@ -36,5 +36,7 @@ $map = array(
 		'082_adding_table_for_ticktes' => 'M4beb4cb980ac4fdc98bf1e986318cd70'),
 	18 => array(
 		'082_table_for_creating_short_urls' => 'M4becae321ae84cd8902409746318cd70'),
+	19 => array(
+		'082_general_changes' => 'M4bf54213ffdc4bc396a311046318cd70'),
 );
 ?>
