@@ -94,7 +94,7 @@
 				foreach($modules as $module){
 					if (
 						($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
-						in_array($module['Module']['module'], $moduleIgnoreOverload)
+						in_array($module['Module']['module'], $this->moduleIgnoreOverload)
 					) {
 						//skip modules that are not for the current theme
 						continue;
