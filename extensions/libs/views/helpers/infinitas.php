@@ -79,10 +79,6 @@
 
 			$currentRoute = Configure::read('CORE.current_route');
 
-			if(!$this->View){
-				$this->View = &ClassRegistry::getObject('view');
-			}
-
 			$out = '<div class="modules '.$position.'">';
 
 				foreach($modules as $module){
@@ -91,33 +87,16 @@
 						continue;
 					}
 
-					$moduleOut = '<div class="module '.$module['Module']['module'].'">';
-						if ($module['Module']['show_heading']) {
-							$moduleOut .= '<h2>'.__($module['Module']['name'],true).'</h2>';
-						}
-
-						if (!empty($module['Module']['module'])) {
-							$path = 'modules/';
-							if ($admin) {
-								$path .= 'admin/';
-							}
-							$params = array(
-								'plugin' => $module['Module']['plugin'],
-								'config' => $this->_moduleConfig($module['Module'])
-							);
-
-							$moduleOut .= $this->View->element(
-								$path.$module['Module']['module'],
-								$params,
-								true
-							);
-
-
-						}
-						else if (!empty($module['Module']['content'])) {
-							$moduleOut .= $module['Module']['content'];
-						}
-					$moduleOut .= '</div>';
+					$moduleOut = $this->loadModule(
+						$module['Module']['module'],
+						array(
+							'plugin' => $module['Module']['plugin'],
+							'title' => $module['Module']['show_heading'] ? $module['Module']['name'] : false,
+							'config' => $this->_moduleConfig($module['Module']),
+							'content' => !empty($module['Module']['content']) ? $module['Module']['content'] : false,
+							'admin' => $admin
+						)
+					);
 
 					if (!empty($module['Route']) && is_object($currentRoute)){
 						foreach($module['Route'] as $route){
@@ -126,13 +105,54 @@
 							}
 						}
 					}
+
 					else if (empty($module['Route'])) {
 						$out .= $moduleOut;
 					}
+
 				}
 			$out .= '</div>';
 
 			return $out;
+		}
+
+		function loadModule($module = null, $params = array()){
+			if(!$module){
+				return false;
+			}
+
+			$moduleOut = '<div class="module '.$module.'">';
+				if ($params['title']) {
+					$moduleOut .= '<h2>'.__($params['title'],true).'</h2>';
+				}
+
+				if (!empty($module)) {
+					$path = 'modules/';
+					if ($params['admin']) {
+						$path .= 'admin/';
+					}
+
+					$this->_getViewClass();
+					$moduleOut .= $this->View->element(
+						$path.$module,
+						$params,
+						true
+					);
+
+
+				}
+				else if ($params['content']) {
+					$moduleOut .= $params['content'];
+				}
+			$moduleOut .= '</div>';
+
+			return $moduleOut;
+		}
+
+		function _getViewClass(){
+			if(!$this->View){
+				$this->View = &ClassRegistry::getObject('view');
+			}
 		}
 
 		/**
