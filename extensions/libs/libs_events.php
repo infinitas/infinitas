@@ -55,7 +55,12 @@
 				}
 
 				if (array_key_exists('slug', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sluggable')) {
-					$event->Handler->Behaviors->attach('Libs.Sluggable');
+					$event->Handler->Behaviors->attach(
+						'Libs.Sluggable',
+						array(
+							'label' => array($event->Handler->displayField)
+						)
+					);
 				}
 
 				if (array_key_exists('ordering', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sequence')) {
