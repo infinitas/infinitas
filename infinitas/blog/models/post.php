@@ -98,6 +98,16 @@
 			),
 		);
 
+		function getParentPosts(){
+			return $this->find(
+				'list',
+				array(
+					'conditions' => array(
+						'Post.parent_id IS NULL'
+					)
+				)
+			);
+		}
 		function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 

@@ -67,7 +67,6 @@
 					'Post.title',
 					'Post.slug',
 					'Post.body',
-					'Post.intro',
 					'Post.comment_count',
 					'Post.views',
 					'Post.created',
@@ -78,7 +77,7 @@
 				'conditions' => array(
 					'Post.active' => 1,
 					'Post.id' . ((!empty($post_ids)) ? ' IN (' . implode(',', $post_ids) . ')' : ' > 0'),
-					'Post.parent_id' => 0,
+					'Post.parent_id IS NULL',
 					'Post.category_id' => $this->Post->Category->getActiveIds()
 				),
 				'contain' => array(
@@ -136,7 +135,6 @@
 						'Post.id',
 						'Post.title',
 						'Post.slug',
-						'Post.intro',
 						'Post.body',
 						'Post.active',
 						'Post.views',
@@ -314,7 +312,7 @@
 				}
 			}
 
-			$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => null)));
+			$parents = $this->Post->getParentPosts();
 			$this->set(compact('tags', 'parents'));
 		}
 
@@ -342,7 +340,7 @@
 				}
 			}
 
-			$parents = $this->Post->find('list', array('conditions' => array('Post.parent_id' => 0)));
+			$parents = $this->Post->getParentPosts();
 			$this->set(compact('parents'));
 		}
 
