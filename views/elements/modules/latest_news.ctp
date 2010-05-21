@@ -13,7 +13,7 @@
 					'Post.id',
 					'Post.title',
 					'Post.slug',
-					'Post.intro AS body',
+					'Post.body',
 					'Post.created AS date'
 				),
 				'feed' => array(
