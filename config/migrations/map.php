@@ -38,5 +38,7 @@ $map = array(
 		'082_table_for_creating_short_urls' => 'M4becae321ae84cd8902409746318cd70'),
 	19 => array(
 		'082_general_changes' => 'M4bf54213ffdc4bc396a311046318cd70'),
+	20 => array(
+		'082_removing_intro_field_from_blog' => 'M4bf66ca7c4fc4ea5b2e321b06318cd70'),
 );
 ?>

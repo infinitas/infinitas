@@ -1,6 +1,6 @@
 <?php
 /* SVN FILE: $Id$ */
-/* Infinitas schema generated on: 2010-05-20 17:05:05 : 1274364545*/
+/* Infinitas schema generated on: 2010-05-21 14:05:33 : 1274440953*/
 class InfinitasSchema extends CakeSchema {
 	var $name = 'Infinitas';
 
@@ -75,7 +75,6 @@ class InfinitasSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 		'title' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'intro' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'body' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'comment_count' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
@@ -542,13 +541,13 @@ class InfinitasSchema extends CakeSchema {
 	var $global_categories = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'slug' => array('type' => 'string', 'null' => true, 'default' => NULL),
-		'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3, 'key' => 'index'),
+		'group_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 3, 'key' => 'index'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -556,8 +555,6 @@ class InfinitasSchema extends CakeSchema {
 		'views' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'created_by' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'modified_by' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'cat_idx' => array('column' => array('active', 'group_id'), 'unique' => 0), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
