@@ -25,6 +25,7 @@
                 'preview',
                 'toggle',
                 'copy',
+                'move',
                 'delete'
             )
         );
@@ -35,39 +36,37 @@
         <?php
             echo $this->Infinitas->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'title' ),
-                    $this->Paginator->sort( 'Parent', 'Section.title' ),
-                    $this->Paginator->sort( 'Group', 'Group.name' ) => array(
+                    $this->Paginator->sort('title'),
+                    $this->Paginator->sort('Group', 'Group.name') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'Items', 'content_count' ) => array(
+                    $this->Paginator->sort('Items', 'content_count') => array(
                         'style' => 'width:35px;'
                     ),
-                    $this->Paginator->sort( 'views' ) => array(
+                    $this->Paginator->sort('views') => array(
                         'style' => 'width:40px;'
                     ),
-                    $this->Paginator->sort( 'modified' ) => array(
+                    $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'ordering' ) => array(
+                    $this->Paginator->sort('ordering') => array(
                         'style' => 'width:50px;'
                     ),
-                    __( 'Status', true ) => array(
+                    __('Status', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
 
             $i = 0;
-            foreach ( $categories as $category )
-            {
+            foreach ($categories as $category){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $category['Category']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($category['Category']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php
                 				$paths = ClassRegistry::init('Cms.Category')->getPath($category['Category']['id']);
@@ -84,10 +83,14 @@
 							?>
                 		</td>
                 		<td>
-                			<?php echo $this->Html->link( $category['Parent']['title'], array('controller' => 'categories', 'action' => 'edit', $category['Parent']['id'] ) ); ?>
-                		</td>
-                		<td>
-                			<?php echo $category['Group']['name']; ?>
+                			<?php
+                				if(!empty($category['Group']['name'])){
+                					echo $category['Group']['name'];
+                				}
+                				else{
+                					echo __('Public', true);
+                				}
+                			?>
                 		</td>
                 		<td style="text-align:center;">
                 			<?php echo $category['Category']['item_count']; ?>
@@ -96,15 +99,15 @@
                 			<?php echo $category['Category']['views']; ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort( $category['Category']['modified'] ); ?>
+                			<?php echo $this->Time->niceShort($category['Category']['modified']); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->treeOrdering( $category['Category'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->treeOrdering($category['Category']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Infinitas->status( $category['Category']['active'], $category['Category']['id'] ),
-                    			    $this->Infinitas->locked( $category, 'Category' );
+                			    echo $this->Infinitas->status($category['Category']['active'], $category['Category']['id']),
+                    			    $this->Infinitas->locked($category, 'Category');
                 			?>
                 		</td>
                 	</tr>
