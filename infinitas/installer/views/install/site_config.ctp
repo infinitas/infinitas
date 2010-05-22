@@ -18,12 +18,12 @@
      * @since         0.5a
      */
 ?>
-<h2><?php __( 'Set up your site' ); ?></h2>
+<h2><?php __('Set up your site'); ?></h2>
 <blockquote class="extract">
 	<p><?php echo __('You can now set up some basic information about your website. You can hover over each of the field titles for more information.', true); ?></p>
 </blockquote>
 <?php
-	echo $this->Form->create( 'Config', array('url' => array('controller' => 'install', 'action' => 'siteConfig')));
+	echo $this->Form->create('Config', array('url' => array('controller' => 'install', 'action' => 'siteConfig')));
 
 	$i = 0;
 	foreach($configs as $config){
@@ -37,12 +37,11 @@
         echo $this->Form->hidden('Config.'.$i.'.core', array('value' => $config['Config']['core']));
         echo $this->Form->hidden('Config.'.$i.'.description', array('value' => $config['Config']['description']));
 
-        switch( $config['Config']['type'] )
-        {
+        switch($config['Config']['type']){
             case 'bool':
                 $_label = explode( '.', $config['Config']['key'] );
-                $label = ( isset( $_label[1] ) ? $_label[1] : $_label[0] );
-                $config['Config']['value'] = ( $xonfig['Config']['value'] == 'true' ) ? '1' : '0';
+                $label = isset($_label[1]) ? $_label[1] : $_label[0];
+                $config['Config']['value'] = $config['Config']['value'] == 'true' ? '1' : '0';
                 echo $this->Form->input(
                     'Config.'.$i.'.value',
                     array(
@@ -54,9 +53,8 @@
                 break;
 
             case 'dropdown':
-                $_options = explode( ',', $config['Config']['options'] );
-                foreach( $_options as $o )
-                {
+                $_options = explode(',', $config['Config']['options']);
+                foreach($_options as $o){
                     $options[$o] = Inflector::humanize($o);
                 }
                 echo $this->Form->input(
@@ -79,5 +77,5 @@
 		$i++;
 	}
 
-	echo $this->Form->end( 'Save and continue' );
+	echo $this->Form->end('Save and continue');
 ?>
