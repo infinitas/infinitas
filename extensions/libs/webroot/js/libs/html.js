@@ -38,6 +38,20 @@
 	}
 
 	/**
+	 * Remove cols from a table.
+	 */
+	HtmlHelper.removeCol = function(col){
+	    if(!col){
+	    	return false;
+	    }
+
+	    pr(col);
+
+	    $('tr td:eq('+col+'), tr th:eq('+col+')').hide();
+	    return this;
+	};
+
+	/**
 	 * Loading image for ajax.
 	 *
 	 * This can create and detroy a loading image depending on what is passed.
@@ -47,7 +61,7 @@
 	 */
 	HtmlHelper.loading = function(target, create){
 		if (!create) {
-			//$('.loadingImage').remove();
+			$('.loadingImage').remove();
 		}
 		else{
 			$('#' + target).after('<img class="loadingImage" src="' + Infinitas.base + 'img/core/icons/notifications/loading.gif" alt="loading" width="16px"/>');
