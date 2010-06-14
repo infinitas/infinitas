@@ -26,7 +26,8 @@
 			'Html',
 			'Form',
 			'Libs.Design',
-			'Libs.Image'
+			'Libs.Image',
+			'Libs.Wysiwyg'
 		);
 
 		/**
