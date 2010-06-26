@@ -29,7 +29,11 @@
 		    if (!empty($rows)){
 		        foreach($params['needed'][key($params['needed'])] as $head){
 	                if (!in_array($head, $this->ignore)){
-		            	$parts[] = Inflector::humanize(str_replace('_id', ' #', $head));
+						if($head == 'id'){
+							$parts[] = __(Inflector::humanize(key($params['needed'])), true).' #';
+							continue;
+						}
+		            	$parts[] = __(Inflector::humanize(str_replace('_id', ' #', $head)), true);
 	                }
 		        }
 
@@ -40,7 +44,10 @@
 
 		            foreach($array[key($params['needed'])] as $field => $value){
 		                if (!in_array($field, $this->ignore)){
-		                    if (strpos($field, '_id') && in_array($field, $params['needed'][key($params['needed'])])){
+							if($field == 'id'){
+								$parts[] = str_pad($value, 5, 0, STR_PAD_LEFT);
+							}
+		                    else if (strpos($field, '_id') && in_array($field, $params['needed'][key($params['needed'])])){
 		                        $parts[] = $array[Inflector::camelize(str_replace('_id', '' , $field))][ClassRegistry::init(Inflector::camelize(str_replace('_id', '' , $field)))->displayField];
 		                    }
 

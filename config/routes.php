@@ -1,8 +1,5 @@
 <?php
-	Router::parseExtensions('rss');
-	Router::parseExtensions('vcf');
-	Router::parseExtensions('json');
-	Router::parseExtensions('csv');
+	Router::parseExtensions('rss', 'vcf', 'json', 'csv');
 
 	EventCore::trigger(new StdClass(), 'setupRoutes');
 

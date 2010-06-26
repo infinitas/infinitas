@@ -26,6 +26,9 @@
 
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
+			if(!is_dir(CACHE.$cache['name'])){
+				$Folder = new Folder(CACHE.$cache['name'], true);
+			}
 			if(!empty($cache['name']) && !empty($cache['config'])) {
 				Cache::config($cache['name'], array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']));
 			}
