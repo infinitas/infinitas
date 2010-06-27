@@ -16,7 +16,8 @@
 					'Image.width',
 					'Image.height',
 				),
-				'contain' => false
+				'contain' => false,
+				'limit' => 24
 			);
 
 			$images = $this->paginate(
