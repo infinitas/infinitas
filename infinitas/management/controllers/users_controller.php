@@ -190,7 +190,13 @@
 						);
 					}
 
-					$this->Session->setFlash(__('Thank you, your registration was completed', true));
+					if (Configure::read('Website.email_validation') === true) {
+						$this->Session->setFlash(__('Thank you, please check your email to complete your registration', true));
+					}
+					else{
+						$this->Session->setFlash(__('Thank you, your registration was completed', true));
+					}
+
 					$this->redirect('/');
 				}
 			}
@@ -340,7 +346,9 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'email'
+				'email',
+				'group_id' => $this->User->Group->find('list'),
+				'active' => Configure::read('CORE.active_options')
 			);
 
 			$this->set(compact('users','filterOptions'));
