@@ -13,7 +13,7 @@
             echo $this->Html->css($css_for_layout);
         ?>
 		<script type="text/javascript">
-			Infinitas = <?php echo json_encode($infinitasJsData); ?>;
+			Infinitas = <?php echo json_encode(isset($infinitasJsData) ? $infinitasJsData : ''); ?>;
 			if (Infinitas.base != '/') {
 				Infinitas.base = Infinitas.base + '/';
 			}
