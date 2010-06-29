@@ -1,23 +1,48 @@
-<?php
-    /**
-     * Comment Template.
-     *
-     * @todo -c Implement .this needs to be sorted out.
-     *
-     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     *
-     * Licensed under The MIT License
-     * Redistributions of files must retain the above copyright notice.
-     *
-     * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       sort
-     * @subpackage    sort.comments
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     * @since         0.5a
-     */
-?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Infinitas Installer :: <?php echo $title_for_layout; ?></title>
+		<?php
+			echo $this->Html->css('reset');
+			echo $this->Html->css('960');
+			echo $this->Html->css( '/installer/css/install' );
+			echo $scripts_for_layout;
+		?>
+	</head>
+	<body>
+		<?php echo $this->Form->create('Install', array('id' => 'container', 'class' => 'container_12', 'url' => array('controller' => 'install', 'action' => 'index', $this->Wizard->activeStep()))) ?>
+			<?php echo $this->Form->hidden('step', array('value' => $this->Wizard->activeStep())); ?>
+			<h2 class="grid_12" id="header">Infinitas</h2>
+			<div class="clear"></div>
+			<div class="grid_8" id="inner-container">
+				<div class="grid_8 alpha" id="inner-header">
+					<h3 class="grid_5 alpha"><?php echo $title_for_layout; ?></h3>
+					<div class="grid_3 omega" id="buttons">
+						<?php
+							if($this->Wizard->stepNumber() > 1) {
+								echo $this->Form->button('Previous', array('name' => 'Previous', 'value' => 'Previous'));
+							}
+							echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next'));
+						?>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_8 alpha" id="content">
+					<?php echo $content_for_layout; ?>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="grid_3" id="steps">
+				<?php echo $this->Wizard->progressMenu() ?>
+			</div>
+			<div class="clear"></div>
+		</form>
+	</body>
+</html>
+
+
+<?php /*
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -83,3 +108,4 @@
 		</div>
     </body>
 </html>
+ */

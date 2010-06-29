@@ -20,7 +20,6 @@
 ?>
 <div class="install form">
     <h2><?php __( 'Database Setup' ); ?></h2>
-	<blockquote class="extract">
 	    <p>
 			<?php
 				echo __( 'Database tables and core data is about to be installed. '.
@@ -29,24 +28,42 @@
 			    	'the installer will not be able to continue', true );
 			?>
 		</p>
-	</blockquote>
     <?php
-        echo $form->create( 'Install', array( 'url' => array( 'plugin' => 'installer', 'controller' => 'install', 'action' => 'database' ) ) );
-        echo $form->input( 'Install.host', array( 'value' => 'localhost', 'title' => __('This is the host address of your database. If you dont know what it is leave it as "localhost"', true) ) );
-        echo $form->input( 'Install.login', array( 'value' => 'root', 'title' => __('This is the username to access the database', true) ) );
-        echo $form->input( 'Install.password', array('title' => __('This is the password to your database', true)) );
-        echo $form->input( 'Install.database', array( 'value' => 'infinitas', 'title' => __('This is the name of the database Infinitas will use', true) ) );
-        echo $form->input( 'Install.port', array( 'value' => 'infinitas', 'title' => __('This is the port your db is on, leave blank for default', true) ) );
-        echo $form->input( 'Install.prefix', array( 'value' => '', 'title' => __('This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.', true) ) );
-        echo $form->input( 'Install.sample_data', array('type' => 'checkbox', 'title' => __('Should sample data be installed', true) ) );
-        echo $form->end( 'Submit' );
+        echo $form->input( 'Install.database', array(
+			'label' => 'Database name',
+			'value' => 'infinitas',
+			'after' => '<div>'.__('This is the name of the database Infinitas will use', true).'</div><br style="clear:both;" />'
+		));
+
+        echo $form->input( 'Install.username', array(
+			'label' => 'Database username',
+			'value' => 'username',
+			'after' => '<div>'.__('The username to access the database', true).'</div><br style="clear:both;" />'
+		));
+
+        echo $form->input( 'Install.password', array(
+			'type' => 'text',
+			'label' => 'Database password',
+			'value' => 'password', 
+			'after' =>'<div>'. __('The password to your database', true).'</div><br style="clear:both;" />'
+		));
+
+        echo $form->input( 'Install.host', array(
+			'label' => 'Database host',
+			'value' => 'localhost',
+			'after' => '<div>'.__('The server for your database. <em>localhost</em> should work, if it does not then you can get the info from your web host.', true).'</div><br style="clear:both;" />'
+		));
+
+        echo $form->input( 'Install.port', array( 
+			'label' => 'Database port',
+			'value' => '', 
+			'after' => '<div>'.__('This is the port your database server runs is on, leave blank for default.', true).'</div><br style="clear:both;" />'
+		));
+
+        echo $form->input( 'Install.prefix', array( 
+			'label' => 'Table prefix',
+			'value' => '',
+			'after' => '<div>'.__('This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.', true).'</div><br style="clear:both;" />'
+		));
     ?>
 </div>
-<blockquote class="extract">
-    <p>
-		<?php
-			echo __( 'Please note that at the moment Infinitas is best used in its own databse. There is no global prefix for the database tables '.
-				'as each plugin uses its own prefix. This may change in future versions.', true );
-		?>
-	</p>
-</blockquote>

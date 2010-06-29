@@ -40,12 +40,36 @@
 		* @var array
 		* @access public
 		*/
-		var $components = null;
-		var $helpers = null;
+		var $components = array('Libs.Wizard');
+		var $helpers = array('Libs.Wizard');
 
 		var $phpVersion = '5.0';
 
-		var $sqlVersion = '4';
+		/*array (
+			'label' => __('MySQL support', true),
+			'value' => (function_exists('mysql_connect')) ? 'Yes' : 'No',
+			'desc' => 'Infinitas uses mysql for generating dynamic content. Other databases will follow soon.'
+		),
+		array (
+			'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
+			'value' => (preg_match('/['.$this->sqlVersion.'.][0-9.]{1,3}[0-9.]{1,3}/', mysql_get_client_info())) ? 'Yes' : 'No',
+			'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
+		)*/
+
+		var $supportedDatabases = array(
+			'mysql' => array(
+				'label' => 'MySQL support',
+			 	'function' => 'mysql_connect',
+				'desc' => 'MySQL is a free and open source database engine that is available on most free and low cost hosting providers.'
+			),
+			'mssql' => array(
+				'label' => 'Microsoft SQL Server support',
+				'function' => 'mssql_connect',
+				'desc' => 'Microsoft\'s SQL Server is an advanced, non-free database engine that is favoured for enterprise applications.'
+			)
+		);
+
+		var $installerProgress = array();
 
 		/**
 		* beforeFilter
@@ -68,22 +92,44 @@
 				'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
 			);
 
-			$this->set('installerProgress', array(
-				'index' => __('Welcome', true),
-				'licence' => __('License', true),
-				'database' => __('Install Database', true),
-				'siteConfig' => __('Configuration', true),
-				'done' => __('Done', true),
-			));
+
+			$this->Wizard->wizardAction = 'index';
+
+			$this->Wizard->steps = array(
+				'welcome',
+				'requirements',
+				'database',
+				'install',
+				'configuration',
+				'finish'
+			);
+
+			$this->installerProgress = array(
+				'welcome' => __('Welcome', true),
+				'requirements' => __('Requirements', true),
+				'database' => __('Database Configuration', true),
+				'install' => __('Installation', true),
+				'configuration' => __('Configuration', true),
+				'finish' => __('Finished', true),
+			);
+			
+			$this->set('installerProgress', $this->installerProgress);
 		}
 
-		/**
-		* index
-		*
-		* @return void
-		*/
-		function index() {
-			$this->set('title_for_layout', __('Installation: Welcome', true));
+		function index($step = null) {
+			$this->set('title_for_layout', $this->installerProgress[$step]);
+			$this->Wizard->process($step);
+		}
+
+		function _processWelcome() {
+			return true;
+		}
+
+		function _processRequirements() {
+			return true;
+		}
+
+		function _prepareRequirements() {
 			// core setup
 			$setup = array(
 				array(
@@ -96,17 +142,9 @@
 					'value' => extension_loaded('zlib') ? 'Yes' : 'No',
 					'desc' => 'zlib is required for some of the functionality in Infinitas'
 				),
-				array (
-					'label' => __('MySQL support', true),
-					'value' => (function_exists('mysql_connect')) ? 'Yes' : 'No',
-					'desc' => 'Infinitas uses mysql for generating dynamic content. Other databases will follow soon.'
-				),
-				array (
-					'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
-					'value' => (preg_match('/['.$this->sqlVersion.'.][0-9.]{1,3}[0-9.]{1,3}/', mysql_get_client_info())) ? 'Yes' : 'No',
-					'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
-				)
 			);
+
+			$database = $this->__checkDatabases();
 
 			// path status
 			$paths = array(
@@ -168,14 +206,27 @@
 
 			foreach($recomendations as $k => $setting) {
 				$recomendations[$k]['actual'] = ((int)ini_get($setting['setting']) ? 'On' : 'Off');
-				$recomendations[$k]['state'] = ($recomendations[$k]['actual'] == $setting['setting']) ? 'No' : 'Yes';
 			}
 
-			$this->set(compact('setup', 'paths', 'recomendations'));
+			$this->set(compact('setup', 'database', 'paths', 'recomendations'));
 		}
 
 		function licence() {
 			$this->set('title_for_layout', __('Licence', true));
+		}
+
+		private function __checkDatabases() {
+			$checks = array();
+
+			foreach($this->supportedDatabases as $supportedDatabase) {
+				$checks[] = array(
+					'label' => __($supportedDatabase['label'], true),
+					'value' => function_exists($supportedDatabase['function']) ? 'Yes' : 'No',
+					'desc' => $supportedDatabase['desc']
+				);
+			}
+
+			return $checks;
 		}
 
 		function __testConnection() {
