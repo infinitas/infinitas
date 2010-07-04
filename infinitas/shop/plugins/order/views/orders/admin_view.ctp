@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Order', array('type' => 'file'));
-        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Infinitas->adminEditHead($this, array('cancel'));
         echo '<br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         echo $this->Design->niceBox();
         	?>

@@ -172,12 +172,9 @@
 				return $this->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
 		}
 
-		function adminEditHead($view){
+		function adminEditHead($view, $actions = array('save', 'cancel')){
 	        $massActions = $this->massActionButtons(
-	            array(
-	                'save',
-	            	'cancel'
-	            )
+	            $actions
 	        );
 
 	        return $this->adminOtherHead($view, $massActions);
