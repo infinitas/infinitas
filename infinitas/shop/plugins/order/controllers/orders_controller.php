@@ -179,4 +179,28 @@
 			);
 			$this->set(compact('orders','filterOptions'));
 		}
+
+		function admin_view($id = null){
+			if(!$id){
+				$this->Session->setFlash(__('Please select an order to view'));
+				$this->redirect($this->referer());
+			}
+
+			$order = $this->Order->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Order.id' => $id
+					),
+					'contain' => array(
+						'Item' => array(
+							'Product'
+						),
+						'Status'
+					)
+				)
+			);
+
+			$this->set(compact('order'));
+		}
 	}
