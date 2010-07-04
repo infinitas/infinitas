@@ -37,14 +37,15 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
+                    $this->Paginator->sort('User', 'User.firstname'),
                     $this->Paginator->sort('order_id') => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort('User', 'User.firstname') => array(
+                    $this->Paginator->sort('amount') => array(
                         'style' => 'width:50px;'
                     ),
                     $this->Paginator->sort('created') => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:125px;'
                     ),
                 )
             );
@@ -53,21 +54,34 @@
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($payment['Payment']['id']); ?>&nbsp;</td>
-                        <td>
-							<?php echo '#'.str_pad($payment['Payment']['id'], 5, '0', STR_PAD_LEFT); ?>&nbsp;
-						</td>
 						<td>
 							<?php
 								echo $this->Html->link(
-									$payment['User']['firstname'],
+									$payment['User']['name'].' '.$payment['User']['lastname'],
 									array(
 										'plugin' => 'management',
-										'controller' => 'user',
+										'controller' => 'users',
 										'action' => 'edit',
 										$payment['Payment']['user_id']
 									)
 								);
 							?>
+						</td>
+                        <td>
+							<?php
+								echo $this->Html->link(
+									$this->Shop->orderNumber($payment['Payment']['order_id']),
+									array(
+										'plugin' => 'order',
+										'controller' => 'orders',
+										'action' => 'index',
+										$payment['Payment']['order_id']
+									)
+								);
+							?>&nbsp;
+						</td>
+                        <td>
+							<?php echo $this->Shop->currency($payment['Payment']['amount']); ?>&nbsp;
 						</td>
 						<td>
 							<?php echo $this->Time->niceShort($payment['Payment']['created']); ?>

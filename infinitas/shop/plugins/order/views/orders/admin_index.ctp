@@ -69,7 +69,7 @@
 									'#'.str_pad($order['Order']['id'], 5, '0', STR_PAD_LEFT),
 									array(
 										'plugin' => 'order',
-										'controller' => 'order',
+										'controller' => 'orders',
 										'action' => 'view',
 										$order['Order']['id']
 									)
