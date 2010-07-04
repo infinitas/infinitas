@@ -28,6 +28,7 @@
 	    $action    = (isset($action)) ? $action : 'comment';
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
     	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
+		$data = &${strtolower($modelName)};
 
         if (isset($urlParams)){
             echo $this->Form->create(
@@ -56,8 +57,7 @@
             );
         }
     ?>
-    <fieldset>
-        <legend><?php __('Post a '.$commentModel);?></legend>
+        <h5><?php __('Post a '.$commentModel);?></h5>
         <?php
             echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
 
@@ -66,10 +66,9 @@
                     echo $this->Form->input('Comment.'.$field);
                 }
                 else{
-                    echo $this->Cms->wysiwyg('Comment.comment', array('toolbar' => 'Basic'));
+                    echo $this->Form->input('Comment.comment', array('type' => 'textarea', 'class' => 'title'));
                 }
             }
         ?>
-    </fieldset>
 	<?php echo $this->Form->end('Submit'); ?>
 </div>

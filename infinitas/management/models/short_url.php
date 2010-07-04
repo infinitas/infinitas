@@ -9,7 +9,7 @@
 			$this->server = env('HTTP_HOST');
 		}
 
-		function newUrl($url = null, $full = true){
+		function newUrl($url = null, $full = true, $webroot = '/'){
 			if(!$url){
 				return false;
 			}
@@ -34,7 +34,7 @@
 			if($this->id > 0){
 				$code = $this->_encode($this->id);
 				if($full){
-					return 'http://'.env('SERVER_NAME').$this->webroot.'/s/'.$code;
+					return 'http://'.env('SERVER_NAME').$webroot.'/s/'.$code;
 				}
 				return $code;
 			}

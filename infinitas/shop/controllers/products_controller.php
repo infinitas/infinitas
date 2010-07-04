@@ -38,8 +38,7 @@
 					'Special' => array(
 						'Image'
 					)
-				),
-				'limit' => 1
+				)
 			);
 
 			$products = $this->paginate('Product');
@@ -137,8 +136,8 @@
 
 			$tabs = array(
 				'description' => '/Product/description',
-				'comments' => 'comments',
-				'specifications' => '/Product/specifications'
+				'specifications' => '/Product/specifications',
+				'comments' => 'comments'
 			);
 
 			$eventData = $this->Event->trigger('Shop.setupTabs', $tabs);

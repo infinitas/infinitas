@@ -61,12 +61,4 @@
 				$this->MigrationVersion->run(array('type' => $type, 'version' => $latest['version'])); exit;
 			}
 		}
-
-		function admin_core_data(){
-
-		}
-
-		function admin_sample_data(){
-
-		}
 	}

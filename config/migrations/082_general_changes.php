@@ -82,9 +82,6 @@ class M4bf54213ffdc4bc396a311046318cd70 extends CakeMigration {
 				'core_addresses' => array(
 					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 				),
-				'core_tickets' => array(
-					'expires' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-				),
 				'newsletter_campaigns' => array(
 					'deleted' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
 					'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -96,9 +93,6 @@ class M4bf54213ffdc4bc396a311046318cd70 extends CakeMigration {
 				'shop_products' => array(
 					'sales' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 				),
-			),
-			'drop_field' => array(
-				'core_tickets' => array('created',),
 			),
 			'alter_field' => array(
 				'core_tickets' => array(
@@ -112,15 +106,9 @@ class M4bf54213ffdc4bc396a311046318cd70 extends CakeMigration {
 			),
 			'drop_field' => array(
 				'core_addresses' => array('foreign_key',),
-				'core_tickets' => array('expires',),
 				'newsletter_campaigns' => array('deleted', 'deleted_date',),
 				'newsletter_templates' => array('delete', 'deleted_date',),
 				'shop_products' => array('sales',),
-			),
-			'create_field' => array(
-				'core_tickets' => array(
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-				),
 			),
 			'alter_field' => array(
 				'core_tickets' => array(

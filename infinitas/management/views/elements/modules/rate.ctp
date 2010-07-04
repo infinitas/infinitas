@@ -13,18 +13,19 @@
 		return false;
 	}
 ?>
-<div id="star-rating" class="rating {currentRating: '<?php echo $data[$modelName]['rating']; ?>', url:{action:'rate', id: <?php echo $data[$modelName]['id']; ?>}, target:'this'}">
+<div class="star-rating rating {currentRating: '<?php echo $data[$modelName]['rating']; ?>', url:{action:'rate', id: <?php echo $data[$modelName]['id']; ?>}, target:'this'}">
 	<span class="star-rating-result">
 		<?php
-			if ($data[$modelName]['rating_count'] > 0) {
+			$stats = !isset($stats) || !$stats ? false : true;
+			if ($data[$modelName]['rating_count'] > 0 && $stats) {
 				echo sprintf(__('Currently rated %s (out of %s votes)', true), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
 			}
-			else{
+			else if($stats){
 				echo sprintf(__('This %s has not been rated yet', true), prettyName($modelName));
 			}
 		?>
 	</span>
-	<div id="coreRatingBox">
+	<div class="coreRatingBox">
 		<?php
             echo $this->Form->create(
                 $modelName,
@@ -47,7 +48,8 @@
 	            	'type'=>'radio',
             		'legend' => false,
 	            	'div' => false,
-	            	'options' => array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5)
+	            	'options' => array(1=>1, 2=>2, 3=>3, 4=>4, 5=>5),
+            		'class' => 'ratingRadioButton'
 	            )
 	        );
 

@@ -26,7 +26,8 @@
 			'Html',
 			'Form',
 			'Libs.Design',
-			'Libs.Image'
+			'Libs.Image',
+			'Libs.Wysiwyg'
 		);
 
 		/**
@@ -242,7 +243,8 @@
 				return false;
 			}
 
-			$suffix = '';
+			$currentCss = $suffix = '';
+
 			if ($this->_menuLevel == 0) {
 				$suffix = '0';
 			}
@@ -276,6 +278,11 @@
 					$menuLink['action']     = (!empty($array['MenuItem']['action'])     ? $array['MenuItem']['action']     : 'index');
 					$menuLink[]             = (!empty($array['MenuItem']['params'])     ? $array['MenuItem']['params']     : null);
 
+					if($menuLink['controller'] == $this->params['controller'] || $menuLink['plugin'] == $this->params['plugin']){
+						$currentCss = ' current';
+						$this->_currentCssDone = true;
+					}
+
 					foreach($menuLink as $key => $value ){
 						if (empty($value)) {
 							unset($menuLink[$key]);
@@ -290,8 +297,7 @@
 					}
 				}
 
-				$currentCss = '';
-				if($this->_currentCssDone === false && Router::url($menuLink) == $this->here){
+				if(!empty($currentCss) && $this->_currentCssDone === false && Router::url($menuLink) == $this->here){
 					$currentCss = ' current';
 					$this->_currentCssDone = true;
 				}

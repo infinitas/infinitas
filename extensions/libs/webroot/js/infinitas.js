@@ -18,79 +18,68 @@ function debug(data){
 		console.log(data);
 	}
 }
+switch(Infinitas.params.prefix) {
+	case 'admin':
+		require(
+				[
+					"require",
+					Infinitas.base + "libs/js/libs/core.js",
+					Infinitas.base + "libs/js/libs/form.js",
+					Infinitas.base + "libs/js/libs/html.js",
+					Infinitas.base + "libs/js/libs/number.js",
 
-require(
-[
-	"require",
-	Infinitas.base + "libs/js/libs/core.js",
-	Infinitas.base + "libs/js/libs/form.js",
-	Infinitas.base + "libs/js/libs/html.js",
-	Infinitas.base + "libs/js/libs/number.js",
+					Infinitas.base + "libs/js/3rd/metadata.js",
+					Infinitas.base + "libs/js/3rd/date.js",
+					Infinitas.base + "libs/js/3rd/image_drop_down.js",
 
-	Infinitas.base + "libs/js/3rd/metadata.js",
-	Infinitas.base + "libs/js/3rd/date.js",
-	Infinitas.base + "libs/js/3rd/image_drop_down.js",
+					Infinitas.base + "libs/js/3rd/jquery_ui.js",
+				],
+				function(require) {
+					$(document).ready(function(){
+						$('.tabs').tabs();
+						setupAjaxDropdowns();
+						setupRowSelecting();
+						setupDatePicker();
+						setupAjaxPagination();
 
-	//Infinitas.base + "libs/js/3rd/jquery.js",
-	Infinitas.base + "libs/js/3rd/jquery_ui.js",
-	Infinitas.base + "libs/js/3rd/rater.js",
-	//Infinitas.base + "libs/js/3rd/roundabout.js"
+						$.FormHelper.checkboxToggleAll();
 
-],
-function(require) {
-	render();
-});
-function startAutoPlay() {
-	return setInterval(function() {
-		$('div.slidesContainer').roundabout_animateToNextChild();
-	}, 4000);
-}
+						$("[title]:not(.textarea *)").tooltip({
+						    track: true, delay: 0, showURL: false,
+						    fixPNG: true, showBody: " :: ",
+						    extraClass: "pretty fancy", left: 5, top: -5
+						});
 
-
-/**
- *
- * @access public
- * @return void
- **/
-function render(){
-
-	$(document).ready(function(){
-		$('.tabs').tabs();
-		switch(Infinitas.params.prefix) {
-			case 'admin':
-				setupAjaxDropdowns();
-				setupRowSelecting();
-				setupDatePicker();
-				setupAjaxPagination();
-
-				$("[title]:not(.textarea *)").tooltip({
-				    track: true, delay: 0, showURL: false,
-				    fixPNG: true, showBody: " :: ",
-				    extraClass: "pretty fancy", left: 5, top: -5
+						$('#' + Infinitas.model + 'ImageId').imageSelect();
+						$('#ProductImageProductImage').imageSelect();
+					});
 				});
+		break;
 
-				$('#' + Infinitas.model + 'ImageId').imageSelect();
-				$('#ProductImageProductImage').imageSelect();
-				break;
+	default:
+		require(
+				[
+					"require",
+					Infinitas.base + "libs/js/libs/core.js",
+					Infinitas.base + "libs/js/libs/form.js",
+					Infinitas.base + "libs/js/libs/html.js",
+					Infinitas.base + "libs/js/libs/number.js",
 
-			default:
-				if(Infinitas.action == 'view') {
-					setupStarRating();
-				}
-				$.FormHelper.checkboxToggleAll();
+					Infinitas.base + "libs/js/3rd/metadata.js",
 
-				$('div.slidesContainer').roundabout({
-					childSelector: 'div.data',
-					minScale: 0.1
-				}).hover(
-					function() {clearInterval(interval);},
-					function() {interval = startAutoPlay();}
-				);
-				interval = startAutoPlay();
-
-				break;
-		}
-	});
+					Infinitas.base + "libs/js/3rd/jquery_ui.js",
+					Infinitas.base + "libs/js/3rd/rater.js",
+					Infinitas.base + "libs/js/3rd/moving_boxes.js",
+					Infinitas.base + "libs/js/3rd/side_bar.js",
+				],
+				function(require) {
+					$(document).ready(function(){
+						$('.tabs').tabs();
+						$("#side_bar").show().jixedbar();
+						//setupStarRating();
+					});
+				});
+		break;
 }
 
 
@@ -179,11 +168,12 @@ function setupRowSelecting(){
 }
 
 function setupStarRating() {
-	var $rating = $('#star-rating');
+	var $rating = $('.star-rating');
 	metaData = $.HtmlHelper.getParams($rating);
+	pr(metaData);
 	url = $.HtmlHelper.url(metaData);
 
-	$('#coreRatingBox').empty();
+	$('.coreRatingBox').empty();
 	$rating.rater(
 		url + metaData.url.id,
 		{

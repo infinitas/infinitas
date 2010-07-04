@@ -33,8 +33,34 @@
 		}
 
 		function index() {
+			if(isset($this->params['id'])){
+				$ids = $this->Content->find(
+					'list',
+					array(
+						'fields' => array(
+							'Content.id', 'Content.id'
+						),
+						'conditions' => array(
+							'Content.category_id' => $this->params['id']
+						)
+					)
+				);
+
+				$this->paginate = array(
+					'conditions' => array(
+						'Content.id' => $ids
+					)
+				);
+			}
+
 			$this->Content->order = $this->Content->_order;
-			$this->Content->recursive = 0;
+			$contents = $this->paginate();
+
+			if(count($contents) == 1 && Configure::read('Cms.auto_redirect')){
+				$this->params['slug'] = $contents[0]['Content']['slug'];
+				$this->view();
+			}
+
 			$this->set('contents', $this->paginate());
 		}
 
@@ -45,6 +71,7 @@
 			}
 
 			$this->set('content', $this->Content->getContentPage($this->params['slug']));
+			$this->render('view');
 		}
 
 		function admin_index() {
