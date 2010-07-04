@@ -18,7 +18,7 @@
      * @since 0.8a
      */
 
-    echo $this->Form->create('Spotlight', array('type' => 'file'));
+    echo $this->Form->create('Payment');
         echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
         	?>

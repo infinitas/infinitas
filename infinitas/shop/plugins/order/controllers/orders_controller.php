@@ -196,7 +196,8 @@
 						'Item' => array(
 							'Product'
 						),
-						'Status'
+						'Status',
+						'Payment'
 					)
 				)
 			);

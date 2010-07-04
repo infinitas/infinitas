@@ -47,14 +47,21 @@
         echo $this->Design->niceBoxEnd();
 	?>
 	<div class="table">
+		<h2><?php __('Items Ordered'); ?></h2>
 	    <table class="listing" cellpadding="0" cellspacing="0">
 	        <?php
 	            echo $this->Infinitas->adminTableHeader(
 	                array(
 	                    __('Product', true),
-	                    __('Quantity', true),
-	                    __('Price', true),
-	                    __('Sub total', true)
+	                    __('Quantity', true) => array(
+	                    	'style' => 'width: 100px;'
+	                    ),
+	                    __('Price', true) => array(
+	                    	'style' => 'width: 100px;'
+	                    ),
+	                    __('Sub total', true) => array(
+	                    	'style' => 'width: 100px;'
+	                    )
 	                ),
 	                false
 	            );
@@ -94,6 +101,39 @@
 	            }
 			?>
     	</table>
+		<h2><?php __('Payments made'); ?></h2>
+	    <table class="listing" cellpadding="0" cellspacing="0">
+			<?php
+	            echo $this->Infinitas->adminTableHeader(
+	                array(
+	                    __('Method', true),
+	                    __('Amount', true) => array(
+	                    	'style' => 'width: 100px;'
+	                    ),
+	                    __('Created', true) => array(
+	                    	'style' => 'width: 100px;'
+	                    )
+	                ),
+	                false
+	            );
+
+	            foreach ($order['Payment'] as $payment){
+	                ?>
+	                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+							<td>
+								<?php echo Inflector::humanize($payment['payment_method']); ?>
+							</td>
+							<td>
+								<?php echo $this->Shop->currency($payment['amount']); ?>
+							</td>
+							<td>
+								<?php echo $this->Time->niceShort($payment['created']); ?>
+							</td>
+	                	</tr>
+	                <?php
+	            }
+			?>
+		</table>
     <?php echo $this->Form->end(); ?>
 </div>
 <style>
