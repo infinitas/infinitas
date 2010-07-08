@@ -59,6 +59,9 @@
 					$this->Paginator->sort('Group', 'Group.name') => array(
 						'style' => 'width:75px;'
 					),
+					$this->Paginator->sort('limit') => array(
+						'style' => 'width:50px;'
+					),
 					$this->Paginator->sort('active') => array(
 						'style' => 'width:50px;'
 					),
@@ -88,6 +91,7 @@
 					<td>
 						<?php echo $this->Html->link($feedItem['Group']['name'], array('controller' => 'groups', 'action' => 'edit', $feedItem['Group']['id'])); ?>
 					</td>
+					<td><?php echo $feedItem['FeedItem']['limit']; ?>&nbsp;</td>
 					<td><?php echo $this->Infinitas->status($feedItem['FeedItem']['active'], $feedItem['FeedItem']['id']); ?>&nbsp;</td>
 					<td><?php echo $this->Time->niceShort($feedItem['FeedItem']['modified']); ?>&nbsp;</td>
 				</tr><?php
