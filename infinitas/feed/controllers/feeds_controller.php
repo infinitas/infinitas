@@ -10,6 +10,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
+				'plugin' => $this->Feed->getPlugins(),
 				'active' => Configure::read('CORE.active_options')
 			);
 
@@ -47,10 +48,10 @@
 
 			if ($id && empty($this->data)) {
 				$this->data = $this->Feed->find(
-					'first', 
+					'first',
 					array(
 						'conditions' => array(
-							'Feed.id' => $id		
+							'Feed.id' => $id
 						),
 						'contain' => array(
 							'FeedItem'
@@ -61,7 +62,7 @@
 
 			$plugins     = $this->Feed->getPlugins();
 			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);
-			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);		
+			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
 			$feedItems   = $this->Feed->FeedItem->find('list');
 			$groups      = $this->Feed->Group->find('list');
 

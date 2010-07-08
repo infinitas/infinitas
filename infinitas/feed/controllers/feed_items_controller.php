@@ -10,6 +10,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
+				'plugin' => $this->FeedItem->getPlugins(),
 				'active' => Configure::read('CORE.active_options')
 			);
 
