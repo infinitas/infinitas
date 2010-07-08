@@ -25,10 +25,11 @@
 				}
 			}
 
-			$plugins = $this->FeedItem->getPlugins();			
+			$plugins = $this->FeedItem->getPlugins();
 			$groups = $this->FeedItem->Group->find('list');
-			$this->set(compact('plugins', 'groups'));
-		}	
+			$feeds = $this->FeedItem->Feed->find('list');
+			$this->set(compact('plugins', 'groups', 'feeds'));
+		}
 
 		function admin_edit($id = null) {
 			if (!$id) {
@@ -47,10 +48,10 @@
 
 			if ($id && empty($this->data)) {
 				$this->data = $this->Feed->find(
-					'first', 
+					'first',
 					array(
 						'conditions' => array(
-							'FeedItem.id' => $id		
+							'FeedItem.id' => $id
 						),
 						'contain' => array(
 							'Feed'
@@ -61,7 +62,7 @@
 
 			$plugins     = $this->FeedItem->getPlugins();
 			$controllers = $this->FeedItem->getControllers($this->data['FeedItem']['plugin']);
-			$actions     = $this->FeedItem->getActions($this->data['FeedItem']['plugin'], $this->data['FeedItem']['controller']);		
+			$actions     = $this->FeedItem->getActions($this->data['FeedItem']['plugin'], $this->data['FeedItem']['controller']);
 			$feeds       = $this->FeedItem->FeedItem->find('list');
 			$groups      = $this->FeedItem->Group->find('list');
 
