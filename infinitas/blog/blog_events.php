@@ -14,6 +14,12 @@
 		}
 
 		function onSlugUrl(&$event, $data){
+			if(!isset($data['data'])){
+				$data['data'] = $data;
+			}
+			if(!isset($data['type'])){
+				$data['type'] = 'posts';
+			}
 			switch($data['type']){
 				case 'posts':
 					$post = isset($data['data']['Post']) ? $data['data']['Post'] : $data['data'];
