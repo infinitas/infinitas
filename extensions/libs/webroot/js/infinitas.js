@@ -77,6 +77,10 @@ switch(Infinitas.params.prefix) {
 						$('.tabs').tabs();
 						$("#side_bar").show().jixedbar();
 						//setupStarRating();
+						
+						$("#accordion").accordion({
+							collapsible: true
+						});
 					});
 				});
 		break;
