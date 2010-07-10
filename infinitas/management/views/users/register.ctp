@@ -19,11 +19,13 @@
 
 	echo $this->Form->create( 'User' );
         echo $this->Form->input('id');
-        echo $this->Form->input('username');
-        echo $this->Form->input('password', array('value' => ''));
-        echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
+		if(Configure::read('Website.login_type') == 'username'){
+			echo $this->Form->input('username');
+		}
         echo $this->Form->input('email');
         echo $this->Form->input('confirm_email');
+        echo $this->Form->input('password', array('value' => ''));
+        echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
         echo $this->Form->input('birthday', array('minYear' => date('Y') - 100, 'maxYear' => date('Y') - 16));
 	echo $this->Form->end(__('Register', true));
 ?>

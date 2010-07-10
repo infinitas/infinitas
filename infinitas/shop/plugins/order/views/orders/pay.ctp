@@ -20,7 +20,7 @@
                     __('Created', true) => array(
                         'style' => 'width:150px;'
                     ),
-                    __('Pay via', true)
+                    __('Pay', true)
                 ),
                 false
             );
@@ -46,9 +46,7 @@
 						</td>
 						<td>
 							<?php
-								foreach($paymentMethods as $payment){
-									echo $this->element('payment', array('plugin' => 'payment_'.$payment, 'order' => $order));
-								}
+								echo $this->Html->link('Pay Now', array('action' => 'pay_now', $order['Order']['id']));
 							?>&nbsp;
 						</td>
                 	</tr>

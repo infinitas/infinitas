@@ -508,6 +508,10 @@
 			$this->Controller->Auth->authorize    = 'actions';
 			$this->Controller->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
 
+			if(Configure::read('Website.login_type') == 'email'){
+				$this->Controller->fields = array('username' => 'email', 'password' => 'password');
+			}
+
 			$this->Controller->Auth->autoRedirect = false;
 			$this->Controller->Auth->loginRedirect = '/';
 

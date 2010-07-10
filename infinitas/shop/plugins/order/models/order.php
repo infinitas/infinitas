@@ -32,6 +32,9 @@
 		var $hasMany = array(
 			'Item' => array(
 				'className' => 'Order.Item'
+			),
+			'Payment' => array(
+				'className' => 'Order.Payment'
 			)
 		);
 

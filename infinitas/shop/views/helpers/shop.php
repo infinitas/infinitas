@@ -270,4 +270,28 @@
 					)
 				);
 		}
+
+		/**
+		 * Order number default config
+		 *
+		 * @var unknown_type
+		 */
+		var $orderNumber = array(
+			'prefix' => '#',
+			'count' => 5,
+			'padding' => '0',
+			'suffix' => ''
+		);
+
+		/**
+		 * Format the order number.
+		 *
+		 * @param $number int
+		 */
+		function orderNumber($number = null){
+			if(!$number){
+				return __('Error!', true);
+			}
+			return $this->orderNumber['prefix'].str_pad($number, $this->orderNumber['count'], $this->orderNumber['padding'], STR_PAD_LEFT).$this->orderNumber['suffix'];
+		}
 	}
