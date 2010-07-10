@@ -20,7 +20,6 @@
 	class Feed extends FeedAppModel {
 		var $name = 'Feed';
 		var $actsAs = array(
-			// 'Libs.Feedable',
 			// 'Libs.Commentable',
 			// 'Libs.Rateable
 		);
@@ -117,9 +116,7 @@
 				)
 			);
 
-			$data = $this->feedArrayFormat($this->getJsonRecursive($feed));
-
-			exit;
+			return $this->feedArrayFormat($this->getJsonRecursive($feed));
 		}
 
 		function feedArrayFormat($feed = array()){
@@ -129,20 +126,29 @@
 
 			$query['fields']     = $feed['Feed']['fields'];
 			//$query['conditions'] = $feed['Feed']['conditions'];
-			$query['order']      = $feed['Feed']['order'];
+			//$query['order']      = $feed['Feed']['order'];
 			$query['limit']      = $feed['Feed']['limit'];
+			$query['setup']      = array(
+				'plugin' => $feed['Feed']['plugin'],
+				'controller' => $feed['Feed']['controller'],
+				'action' => $feed['Feed']['action']
+			);
 
 			foreach($feed['FeedItem'] as $item){
-				$query['feed'][] = array(
+				$query['feed'][ucfirst($item['plugin']).'.'.ucfirst(Inflector::singularize($item['controller']))] = array(
+					'setup' => array(
+						'plugin' => $item['plugin'],
+						'controller' => $item['controller'],
+						'action' => $item['action']
+					),
 					'fields'     => $item['fields'],
 					//'conditions' => $item['conditions'],
-					'limit'      => $item['limit']
+					//'limit'      => $item['limit']
 				);
 			}
 
 			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::singularize($feed['Feed']['controller']));
 
-			pr($_Model->find('all', $query));
-			exit;
+			return $_Model->find('feed', $query);
 		}
 	}
