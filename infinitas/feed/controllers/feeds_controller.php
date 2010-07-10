@@ -2,6 +2,24 @@
 	class FeedsController extends FeedAppController {
 		var $name = 'Feeds';
 
+		function get_feed($id = null){
+			if(!$id){
+				$this->Session->setFlash(__('Invalid feed selected', true));
+				$this->redirect($this->referer());
+			}
+
+			$feed = $this->Feed->getFeed($id, $this->Session->read('Auth.User.group_id'));
+
+			if(empty($feed)){
+				$this->Session->setFlash(__('The feed you have selected is not valid', true));
+				$this->redirect($this->referer());
+			}
+
+
+
+			$this->set(compact('feed'));
+		}
+
 		function admin_index() {
 			$this->paginate = array('contain' => array('Group'));
 
@@ -26,9 +44,10 @@
 				}
 			}
 
-			$this->set('plugins', $this->Feed->getPlugins());
+			$plugins = $this->Feed->getPlugins();
 			$groups = $this->Feed->Group->find('list');
-			$this->set(compact('groups'));
+			$feedItems = $this->Feed->FeedItem->find('list');
+			$this->set(compact('plugins', 'groups', 'feedItems'));
 		}
 
 		function admin_edit($id = null) {

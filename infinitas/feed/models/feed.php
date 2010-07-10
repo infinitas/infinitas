@@ -97,4 +97,52 @@
 				),
 			);
 		}
+
+		function getFeed($id = null, $group_id = 999){
+			if(!$id){
+				return array();
+			}
+
+			$feed = $this->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Feed.active' => 1,
+						'Feed.group_id > ' => $group_id,
+						'Feed.id' => $id
+					),
+					'contain' => array(
+						'FeedItem'
+					)
+				)
+			);
+
+			$data = $this->feedArrayFormat($this->getJsonRecursive($feed));
+
+			exit;
+		}
+
+		function feedArrayFormat($feed = array()){
+			if (empty($feed)){
+				return array();
+			}
+
+			$query['fields']     = $feed['Feed']['fields'];
+			//$query['conditions'] = $feed['Feed']['conditions'];
+			$query['order']      = $feed['Feed']['order'];
+			$query['limit']      = $feed['Feed']['limit'];
+
+			foreach($feed['FeedItem'] as $item){
+				$query['feed'][] = array(
+					'fields'     => $item['fields'],
+					//'conditions' => $item['conditions'],
+					'limit'      => $item['limit']
+				);
+			}
+
+			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::singularize($feed['Feed']['controller']));
+
+			pr($_Model->find('all', $query));
+			exit;
+		}
 	}
