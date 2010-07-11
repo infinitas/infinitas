@@ -36,13 +36,18 @@
 				}
        		}
 
-			$output .= $this->Form->submit($this->Image->getRelativePath(array('actions'), 'filter'),
+			$output .= $this->Form->button(
+				$this->Html->image(
+					$this->Image->getRelativePath(array('actions'), 'filter'),
+					array(
+						'width' => '16px'
+					)
+				),
 				array(
 					'value' => 'filter',
 					'name' => 'action',
-					'title' => 'Filter results',
-					'div' => false,
-					'width' => '16px'
+					'title' => $this->niceTitleText('Filter results'),
+					'div' => false
 				)
 			);
     		$output .= '</div>';

@@ -11,6 +11,7 @@ legend {font:1.5em/1 "Trebuchet MS",Helvetica,Jamrul,sans-serif; color:#000;}
 .textfield input:focus:hover, .file input:focus:hover, .dropdown select:focus:hover, .textarea textarea:focus:hover, div input.innertextfield:focus:hover {border-color:orange;}
 .checkbox input, .radio input {border:none; background:transparent;}
 button {font:1.2em/1 Verdana,Geneva,Kalimati,sans-serif; border:1px solid #666; background:#666; color:#fff;}
+.filter-form button{background: transparent; border:0px solid black;}
 button:hover {border-color:#000; color:orange;}
 optgroup {font:bold 1em/1 Verdana,Geneva,Kalimati,sans-serif;}
 option {font:1em/1 Verdana,Geneva,Kalimati,sans-serif;}
