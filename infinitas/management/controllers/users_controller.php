@@ -97,7 +97,7 @@
 			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
 
 			$data['User']['country']          = $this->Infinitas->getCountry();
-			$data['User']['city']             = $this->Infinitas->getCity();
+			$data['User']['city']             = $this->Infinitas->getUserCity();
 			$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
 
 			return $data;
