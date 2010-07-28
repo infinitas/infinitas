@@ -128,6 +128,7 @@
 				switch(true){
 					case $this->RequestHandler->prefers('json'):
 						$this->view = 'Libs.Json';
+						Configure::write('debug', 0);
 						break;
 
 					case $this->RequestHandler->prefers('rss'):
@@ -139,7 +140,6 @@
 						break;
 
 				} // switch
-				// Configure::write('debug', 0);
 				// $this->theme = null;
 			}
 
