@@ -403,15 +403,16 @@
 			if(empty($this->cityData)){
 				$this->__getData($ipAddress);
 			}
+
 			return array(
-				'latitude' => $this->cityData->latitude,
-				'longitude' => $this->cityData->longitude,
-				'region' => $this->cityData->region,
-				'city' => $this->cityData->city,
-				'postcode' => $this->cityData->postal_code,
-				//'country' => $this->cityData->country,
-				'countryCode' => $this->cityData->country_code3,
-				'areaCode' => $this->cityData->area_code
+				'latitude' => $this->cityData['latitude'],
+				'longitude' => $this->cityData['longitude'],
+				'region' => $this->cityData['region'],
+				'city' => $this->cityData['city'],
+				'postcode' => $this->cityData['postal_code'],
+				//'country' => $this->cityData['country'],
+				'countryCode' => $this->cityData['country_code3'],
+				'areaCode' => $this->cityData['area_code']
 			);
 		}
 
@@ -419,21 +420,21 @@
 			if(empty($this->cityData)){
 				$this->__getData($ipAddress);
 			}
-			return $this->cityData->region;
+			return $this->cityData['region'];
 		}
 
 		public function getUserCity($ipAddress = null){
 			if(empty($this->cityData)){
 				$this->__getData($ipAddress);
 			}
-			return $this->cityData->city;
+			return $this->cityData['city'];
 		}
 
 		public function getUserPostcode($ipAddress = null){
 			if(empty($this->cityData)){
 				$this->__getData($ipAddress);
 			}
-			return $this->cityData->postal_code;
+			return $this->cityData['postcode'];
 		}
 
 		public function getUserGps($ipAddress = null){
@@ -441,8 +442,8 @@
 				$this->__getData($ipAddress);
 			}
 			return array(
-				'latitude' => $this->cityData->latitude,
-				'longitude' => $this->cityData->longitude,
+				'latitude' => $this->cityData['latitude'],
+				'longitude' => $this->cityData['longitude'],
 			);
 		}
 
