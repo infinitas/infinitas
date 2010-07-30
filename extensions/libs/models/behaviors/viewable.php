@@ -93,7 +93,7 @@
 				}
 
 				unset($this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]]);
-				$this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]] = time();
+				$this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]] = $data[0][$Model->alias][$Model->primaryKey];
 				if(count($this->__session[$Model->alias]) > $this->__settings[$Model->alias]['session_tracking']){
 					array_shift($this->__session[$Model->alias]);
 				}
