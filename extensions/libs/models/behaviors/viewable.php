@@ -24,28 +24,38 @@
 		* @var array
 		* @access private
 		*/
-		var $__settings = array();
+		public $__settings = array();
+
+		public $__session = array();
 
 		/**
 		* Initiate behavior for the model using specified settings.
 		* Available settings:
 		*
 		* - view_counter: string :: the field in the table that has the count
+		* - session_tracking false to disable, int for number of views to keep track of
+		* 	views are tracked by displayField and will do funny things if displayField is not a string.
 		*
 		* @param object $Model Model using the behaviour
 		* @param array $settings Settings to override for model.
 		* @access public
 		*/
-		function setup(&$Model, $settings = array()) {
+		public function setup(&$Model, $settings = array()) {
 			$default = array(
-				'view_counter' => 'views'
-				);
+				'view_counter' => 'views',
+				'session_tracking' => 20
+			);
 
 			if (!isset($this->__settings[$Model->alias])) {
 				$this->__settings[$Model->alias] = $default;
 			}
 
 			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], ife(is_array($settings), $settings, array()));
+
+			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']){
+				$this->Session = new CakeSession();
+				$this->__session[$Model->alias] = $this->Session->read('Viewable.'.$Model->alias);
+			}
 		}
 
 		/**
@@ -55,7 +65,7 @@
 		* @return boolean true if save should proceed, false otherwise
 		* @access public
 		*/
-		function afterFind(&$Model, $data) {
+		public function afterFind(&$Model, $data) {
 			// skip finds with more than one result.
 			if (isset($data[0]) && count($data) > 1) {
 				return $data;
@@ -63,23 +73,31 @@
 
 			if (isset($data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']])) {
 				$data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']]++;
-
 				$Model->{$Model->primaryKey} = $data[0][$Model->alias][$Model->primaryKey];
 
-				$__data = array(
-					$Model->primaryKey => $data[0][$Model->alias][$Model->primaryKey],
-					$this->__settings[$Model->alias]['view_counter'] => $data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']],
-					'modified' => false
-				);
+				if(!isset($__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]])){
+					$__data = array(
+						$Model->primaryKey => $data[0][$Model->alias][$Model->primaryKey],
+						$this->__settings[$Model->alias]['view_counter'] => $data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']],
+						'modified' => false
+					);
 
-				$Model->save(
-					$__data,
-					array(
-						'validate' => false,
-						'callbacks' => false
-					)
+					$Model->save(
+						$__data,
+						array(
+							'validate' => false,
+							'callbacks' => false
+						)
 
-				);
+					);
+				}
+
+				unset($this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]]);
+				$this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]] = time();
+				if(count($this->__session[$Model->alias]) > $this->__settings[$Model->alias]['session_tracking']){
+					array_shift($this->__session[$Model->alias]);
+				}
+				$this->Session->write('Viewable.'.$Model->alias, $this->__session[$Model->alias]);
 			}
 
 			return $data;
