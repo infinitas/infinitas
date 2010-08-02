@@ -32,6 +32,7 @@
 ?>
 <div class="table">
 	<?php
+		echo $this->Form->input('all', array('label' => __('Select all', true), 'type' => 'checkbox'));
 		foreach ($images as $image){
 			?>
 				<div title="<?php echo __('File', true), ' :: ', $image['Image']['image']; ?>"class="image">
