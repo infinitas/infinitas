@@ -492,21 +492,25 @@
 			return sprintf('%s :: %s', $heading, $text);
 		}
 
-		function niceAltText($text){
+		public function niceAltText($text){
 			return $text;
 		}
 
-		function datePicker($classes, $model = null, $time = false){
-			if (!$model){
-				$model = Inflector::classify($this->params['controller']);
-			}
+		public function datePicker($classes, $model = null, $time = false){
+			$model = (!$model) ? Inflector::classify($this->params['controller']) : $model;
 
 			$out = '';
 			foreach((array)$classes as $class){
 				$out .= '<div id="'.$model.'DatePicker'.ucfirst(Inflector::classify($class)).'"></div>';
 				$out .= $this->Form->input($model.'.'.$class, array('type' => 'text'));
-				if($time){
+				if($time === true){
 					$out .= $this->Form->input($model.'.'.str_replace('date', 'time', $class), array('type' => 'time', 'class' => 'timePicker'));
+				}
+
+				else if(is_array($time)){
+					foreach($time as $t){
+						$out .= $this->Form->input($model.'.'.$t, array('type' => 'time', 'class' => 'timePicker'));
+					}
 				}
 				$out .= "\n";
 			}
