@@ -17,7 +17,7 @@
  * @since         DebugKit 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-$headers = array('Query', 'Error', 'Affected', 'Num. rows', 'Took (ms)', 'Actions');
+$headers = array('Query', 'Error', 'Affected', 'Num. rows', 'Took (ms)', 'Possible Keys', 'Key', 'Actions');
 if (isset($debugKitInHistoryMode)) {
 	$content = $toolbar->readCache('sql_log', $this->params['pass'][0]);
 }
@@ -76,7 +76,7 @@ DEBUGKIT.sqlLog = function () {
 					}
 				}).send(this.href);
 			};
-	
+
 			Collection.apply(buttons, function (button) {
 				if (Element.hasClass(button, 'sql-explain-link')) {
 					Event.addEvent(button, 'click', handleButton);
