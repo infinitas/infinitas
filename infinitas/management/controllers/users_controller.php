@@ -90,14 +90,14 @@
 
 		function _getUserData(){
 			$data['User']['id']               = $this->Auth->user('id');
-			$data['User']['ip_address']       = $this->RequestHandler->getClientIP();
+			$data['User']['ip_address']       = $this->Session->read('GeoLocation.ip_address');
 			$data['User']['last_login']       = date('Y-m-d H:i:s');
 			$data['User']['modified']         = false;
 			$data['User']['browser']          = $this->Infinitas->getBrowser();
 			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
 
-			$data['User']['country']          = $this->Infinitas->getCountry();
-			$data['User']['city']             = $this->Infinitas->getUserCity();
+			$data['User']['country']          = $this->Session->read('GeoLocation.country');
+			$data['User']['city']             = $this->Session->read('GeoLocation.city');
 			$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
 
 			return $data;
