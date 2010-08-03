@@ -26,7 +26,9 @@
 		);
 
 		function index() {
-			$this->Category->recursive = 0;
+			if(isset($this->params['category'])){
+				$this->paginate['Category']['conditions']['Category.slug'] = $this->params['category'];
+			}
 
 			$categories = $this->paginate();
 			// redirect if there is only one category.
@@ -43,15 +45,20 @@
 			$this->set('categories', $categories);
 		}
 
-		function view($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('Invalid category', true));
-				$this->redirect(array('action' => 'index'));
+		function view() {
+			if(isset($this->params['category'])){
+				$conditions['Category.slug'] = $this->params['category'];
 			}
 
-			$category = $this->Category->read(null, $id);
+			$category = $this->Category->find(
+				'first',
+				array(
+					'conditions' => $conditions
+				)
+			);
+
 			// redirect if there is only one content item.
-			if (count($category['Content']) == 1 && Configure::read('Cms.auto_redirect')) {
+			if ((isset($category['Content']) && count($category['Content']) == 1) && Configure::read('Cms.auto_redirect')) {
 				$this->redirect(
 					array(
 						'controller' => 'contents',
@@ -60,7 +67,12 @@
 						)
 					);
 			}
+			else if(empty($category)){
+				$this->Session->setFlash(__('Invalid category', true));
+				$this->redirect($this->referer());
+			}
 
+			$this->set('title_for_layout', $category['Category']['title']);
 			$this->set('category', $category);
 		}
 
