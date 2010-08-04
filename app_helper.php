@@ -517,4 +517,66 @@
 
 			return $out;
 		}
+
+		/*
+		 * Url Caching
+		 * Copyright (c) 2009 Matt Curry
+		 * www.PseudoCoder.com
+		 * http://github.com/mcurry/url_cache
+		 * http://www.pseudocoder.com/archives/how-to-save-half-a-second-on-every-cakephp-requestand-maintain-reverse-routing
+		 *
+		 * @author      Matt Curry <matt@pseudocoder.com>
+		 * @license     MIT
+		 *
+		 */
+
+		var $_cache = array();
+		var $_key = '';
+		var $_extras = array();
+		var $_paramFields = array('controller', 'plugin', 'action', 'prefix');
+
+		function __construct() {
+			parent::__construct();
+
+			if (Configure::read('UrlCache.pageFiles')) {
+				$view =& ClassRegistry::getObject('view');
+				$path = $view->here;
+				if ($this->here == '/') {
+					$path = 'home';
+				}
+				$this->_key = '_' . strtolower(Inflector::slug($path));
+			}
+
+			$this->_key = 'url_map' . $this->_key;
+			$this->_cache = Cache::read($this->_key, 'core');
+		}
+
+		function beforeRender() {
+			$this->_extras = array_intersect_key($this->params, array_combine($this->_paramFields, $this->_paramFields));
+		}
+
+		function afterLayout() {
+			if (is_a($this, 'HtmlHelper')) {
+				Cache::write($this->_key, $this->_cache, 'core');
+			}
+		}
+
+		function url($url = null, $full = false) {
+			$keyUrl = $url;
+			if (is_array($keyUrl)) {
+				$keyUrl += $this->_extras;
+			}
+
+			$key = md5(serialize($keyUrl) . $full);
+			$key .= md5_file(CONFIGS . DS . 'routes.php');
+
+			if (!empty($this->_cache[$key])) {
+				return $this->_cache[$key];
+			}
+
+			$url = parent::url($url, $full);
+			$this->_cache[$key] = $url;
+
+			return $url;
+		}
 	}
