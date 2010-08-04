@@ -147,7 +147,8 @@ class ToolbarHelper extends AppHelper {
 		foreach ($log['log'] as $i => $query) {
 			if(strstr($query['query'], 'DESCRIBE') === false){
 				$describe = $db->query('EXPLAIN '.$query['query']);
-				$query['possible_keys'] = $describe[0][0]['possible_keys'];
+				$query['possible_keys'] = str_replace(',', '<br/>', $describe[0][0]['possible_keys']);
+				$query['index_rows'] = $describe[0][0]['rows'];
 				$query['key'] = $describe[0][0]['key'];
 				if(empty($query['key'])){
 					$query['key'] = '<b style="color: red;">NO INDEX</b>';
@@ -155,7 +156,15 @@ class ToolbarHelper extends AppHelper {
 			}
 			else{
 				$query['possible_keys'] = '';
+				$query['index_rows'] = '';
 				$query['key'] = '';
+			}
+			if($query['index_rows'] > $query['numRows']){
+				$query['index_rows'] = '<b style="color:red; font-size: 110%;">'.$query['index_rows'].'</b>';
+			}
+			else
+			if($query['index_rows'] == $query['numRows']){
+				$query['index_rows'] = '<b style="color:green; font-size: 110%;">'.$query['index_rows'].'</b>';
 			}
 			$isSlow = (
 				$query['took'] > 0 &&

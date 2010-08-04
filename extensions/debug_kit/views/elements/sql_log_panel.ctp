@@ -17,7 +17,7 @@
  * @since         DebugKit 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-$headers = array('Query', 'Error', 'Affected', 'Num. rows', 'Took (ms)', 'Possible Keys', 'Key', 'Actions');
+$headers = array('Query', 'Error', 'Affected', 'Num. rows', 'Took (ms)', 'Possible Keys', 'Index Rows', 'Key', 'Actions');
 if (isset($debugKitInHistoryMode)) {
 	$content = $toolbar->readCache('sql_log', $this->params['pass'][0]);
 }
