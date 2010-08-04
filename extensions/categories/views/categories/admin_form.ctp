@@ -22,14 +22,14 @@
 		echo $this->Infinitas->adminEditHead($this);
         echo $this->Design->niceBox();
 	        ?>
-				<div class="data">
+				<div class="config">
 					<?php
 				    	echo $this->Form->input('id');
 				    	echo $this->Form->input('title', array('class' => 'title'));
     					echo $this->Categories->wysiwyg('Category.description');
 				    ?>
 				</div>
-				<div class="config">
+				<div class="data">
 					<?php
 						echo $this->Design->niceBox();
 					    	echo $this->Form->input('parent_id');

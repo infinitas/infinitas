@@ -568,6 +568,53 @@ class SqlLogPanel extends DebugPanel {
 }
 
 /**
+ * SqlLog Panel
+ *
+ * Provides debug information on the SQL logs and provides links to an ajax explain interface.
+ *
+ * @package       cake.debug_kit.panels
+ **/
+class IndexCheckerPanel extends DebugPanel {
+	var $plugin = 'debug_kit';
+/**
+ * Minimum number of Rows Per Millisecond that must be returned by a query before an explain
+ * is done.
+ *
+ * @var int
+ **/
+	var $slowRate = 20;
+/**
+ * Gets the connection names that should have logs + dumps generated.
+ *
+ * @param string $controller
+ * @access public
+ * @return void
+ */
+	function beforeRender(&$controller) {
+		if (!class_exists('ConnectionManager')) {
+			return array();
+		}
+		$connections = array();
+
+		$dbConfigs = ConnectionManager::sourceList();
+		foreach ($dbConfigs as $configName) {
+			$db =& ConnectionManager::getDataSource($configName);
+			if (!isset($db->config['driver'])) {
+				return false;
+			}
+			$driver = $db->config['driver'];
+			$explain = false;
+			$isExplainable = ($driver === 'mysql' || $driver === 'mysqli' || $driver === 'postgres');
+			if ($isExplainable && $db->isInterfaceSupported('getLog')) {
+				$explain = true;
+			}
+			$connections[$configName] = $explain;
+		}
+		return array('connections' => $connections, 'threshold' => $this->slowRate);
+	}
+}
+
+/**
  * Log Panel - Reads log entries made this request.
  *
  * @package       cake.debug_kit.panels

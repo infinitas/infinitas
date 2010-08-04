@@ -49,7 +49,7 @@
     	}
 
         function text($id = null){
-            return $this->input($id);
+            return $this->input($id, array('type' => 'textarea'));
         }
 
         function input($id, $params = array( 'style' => 'width:98%; height:500px;')){

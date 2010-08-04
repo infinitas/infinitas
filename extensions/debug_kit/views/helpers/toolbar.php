@@ -141,10 +141,22 @@ class ToolbarHelper extends AppHelper {
 		$options += array('explain' => false, 'cache' => true, 'threshold' => 20);
 		App::import('Model', 'ConnectionManager');
 		$db =& ConnectionManager::getDataSource($connection);
-		
+
 		$out = array();
 		$log = $db->getLog();
 		foreach ($log['log'] as $i => $query) {
+			if(strstr($query['query'], 'DESCRIBE') === false){
+				$describe = $db->query('EXPLAIN '.$query['query']);
+				$query['possible_keys'] = $describe[0][0]['possible_keys'];
+				$query['key'] = $describe[0][0]['key'];
+				if(empty($query['key'])){
+					$query['key'] = '<b style="color: red;">NO INDEX</b>';
+				}
+			}
+			else{
+				$query['possible_keys'] = '';
+				$query['key'] = '';
+			}
 			$isSlow = (
 				$query['took'] > 0 &&
 				$query['numRows'] / $query['took'] != 1 &&

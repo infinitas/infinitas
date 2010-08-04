@@ -23,7 +23,7 @@
 		/**
 		* components being used here
 		*/
-		public $components = array('Session');
+		public $components = array('Session', 'Libs.GeoLocation');
 
 		public $configs = array();
 
@@ -35,6 +35,7 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
+			$this->__paginationRecall();
 			$this->setupConfig();
 
 			$this->__checkBadLogins();
@@ -353,126 +354,7 @@
 			return 'Unknown';
 		}
 
-		/**
-		* Find users country.
-		*
-		* Attempt to get the country the user is from.  returns unknown if its not
-		* able to match something.
-		*/
-		public function getCountry($ipAddress = null, $code = false){
-			if (!$ipAddress){
-				$ipAddress = $this->Controller->RequestHandler->getClientIP();
-				if (!$ipAddress) {
-					return array( 'code' => '', 'name' => '' );
-				}
-			}
 
-			App::import('Lib', 'Libs.Geoip/inc.php');
-			$countryDataFile = dirname(dirname(dirname(__FILE__))).DS.'libs'.DS.'geoip'.DS.'country.dat';
-			if (!is_file($countryDataFile)) {
-				return false;
-			}
-
-			$data = geoip_open($countryDataFile, GEOIP_STANDARD);
-
-			$country = geoip_country_name_by_addr($data, $ipAddress);
-			if (empty($country)) {
-				$country = 'Unknown';
-			}
-
-			if ($code) {
-				$code = geoip_country_code_by_addr( $data, $ip_address );
-				if (empty($code)) {
-					$code = 'Unknown';
-				}
-
-				geoip_close($data);
-
-				return array(
-					'code' => $code,
-					'country' => $country
-				);
-			}
-
-			geoip_close($data);
-
-			return $country;
-		}
-
-		public function getUserPosition($ipAddress = null){
-			if(empty($this->cityData)){
-				$this->__getData($ipAddress);
-			}
-			return array(
-				'latitude' => $this->cityData->latitude,
-				'longitude' => $this->cityData->longitude,
-				'region' => $this->cityData->region,
-				'city' => $this->cityData->city,
-				'postcode' => $this->cityData->postal_code,
-				//'country' => $this->cityData->country,
-				'countryCode' => $this->cityData->country_code3,
-				'areaCode' => $this->cityData->area_code
-			);
-		}
-
-		public function getUserRegion($ipAddress = null){
-			if(empty($this->cityData)){
-				$this->__getData($ipAddress);
-			}
-			return $this->cityData->region;
-		}
-
-		public function getUserCity($ipAddress = null){
-			if(empty($this->cityData)){
-				$this->__getData($ipAddress);
-			}
-			return $this->cityData->city;
-		}
-
-		public function getUserPostcode($ipAddress = null){
-			if(empty($this->cityData)){
-				$this->__getData($ipAddress);
-			}
-			return $this->cityData->postal_code;
-		}
-
-		public function getUserGps($ipAddress = null){
-			if(empty($this->cityData)){
-				$this->__getData($ipAddress);
-			}
-			return array(
-				'latitude' => $this->cityData->latitude,
-				'longitude' => $this->cityData->longitude,
-			);
-		}
-
-		/**
-		* Get the city the user is in.
-		*/
-		private function __getData($ipAddress = null){
-			if (!$ipAddress){
-				$ipAddress = $this->Controller->RequestHandler->getClientIP();
-				if (!$ipAddress) {
-					return array( 'code' => '', 'name' => '' );
-				}
-			}
-
-			App::import('Lib', 'Libs.Geoip/inc.php');
-			App::import('Lib', 'Libs.Geoip/city.php');
-			App::import('Lib', 'Libs.Geoip/region_vars.php');
-
-			$cityDataFile = dirname(dirname(dirname(__FILE__))).DS.'libs'.DS.'geoip'.DS.'city.dat';
-			if(!is_file($cityDataFile)){
-				return false;
-			}
-
-			$gi = geoip_open($cityDataFile ,GEOIP_STANDARD);
-
-			$this->cityData = geoip_record_by_addr($gi, $ipAddress);
-			geoip_close($gi);
-
-			return $this->cityData;
-		}
 
 		/**
 		* Block people.
@@ -697,6 +579,47 @@
 			return true;
 		}
 
+		/**
+		 * Pagination Recall CakePHP Component
+		 * Copyright (c) 2008 Matt Curry
+		 * www.PseudoCoder.com
+		 *
+		 * @author      mattc <matt@pseudocoder.com>
+		 * @version     1.0
+		 * @license     MIT
+		 */
+		private function __paginationRecall(){
+			$options = array_merge(
+				$this->Controller->params,
+				$this->Controller->params['url'],
+				$this->Controller->passedArgs
+			);
+
+			$vars = array('page', 'sort', 'direction', 'limit');
+			$keys = array_keys($options);
+			$count = count($keys);
+
+			for ($i = 0; $i < $count; $i++) {
+				if (!in_array($keys[$i], $vars)) {
+					unset($options[$keys[$i]]);
+				}
+			}
+
+			//save the options into the session
+			if ($options) {
+				if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
+					$options = array_merge($this->Session->read("Pagination.{$this->Controller->modelClass}.options"), $options);
+				}
+
+				$this->Session->write("Pagination.{$this->Controller->modelClass}.options", $options);
+			}
+
+			//recall previous options
+			if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
+				$options = $this->Session->read("Pagination.{$this->Controller->modelClass}.options");
+				$this->Controller->passedArgs = array_merge($this->Controller->passedArgs, $options);
+			}
+		}
 
 
 
