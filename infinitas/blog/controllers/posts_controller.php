@@ -34,7 +34,6 @@
 		* @var array
 		*/
 		var $helpers = array(
-			'Libs.Geshi',
 			'Filter.Filter'
 		);
 

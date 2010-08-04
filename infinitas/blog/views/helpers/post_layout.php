@@ -20,8 +20,6 @@
 		var $helpers = array(
 			// cake helpers
 			'Time', 'Text', 'Html',
-			// core helpers
-			'Libs.Geshi',
 			// blog helpers
 			'Blog.Blog'
 			);

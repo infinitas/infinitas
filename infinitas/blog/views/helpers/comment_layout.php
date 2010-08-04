@@ -21,7 +21,7 @@
 			// cake helpers
 			'Form', 'Time', 'Html',
 			// core helpers
-			'Libs.Geshi', 'Libs.Wysiwyg', 'Libs.Gravatar'
+			'Libs.Wysiwyg', 'Libs.Gravatar'
 			);
 
 		/**
