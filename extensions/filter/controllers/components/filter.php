@@ -104,7 +104,7 @@
 		function processAction($controller, $controllerAction){
 			if ($controller->action == $controllerAction) {
 				$this->filter = $this->processFilters($controller);
-				$this->_paginationRecall();
+				$this->_paginationRecall($controller);
 				$url = (empty($this->url)) ? '/' : $this->url;
 
 				$this->filterOptions = array('url' => array($url));
@@ -124,7 +124,7 @@
 			}
 		}
 
-		function _paginationRecall(){
+		function _paginationRecall($controller){
 			$params = array_filter(explode('/', $this->url));
 			$options = array();
 			foreach($params as $param){
@@ -143,7 +143,7 @@
 				}
 			}
 
-			$this->Infinitas->addToPaginationRecall($options);
+			$this->Infinitas->addToPaginationRecall($options, $controller);
 		}
 
 	/**
