@@ -626,7 +626,14 @@
 				}
 			}
 
+			$this->addToPaginationRecall($options);
+		}
+
+		public function addToPaginationRecall($options = array(), $controller = null){
 			//save the options into the session
+			if($controller){
+				$this->Controller = &$controller;
+			}
 			if ($options) {
 				if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
 					$options = array_merge($this->Session->read("Pagination.{$this->Controller->modelClass}.options"), $options);

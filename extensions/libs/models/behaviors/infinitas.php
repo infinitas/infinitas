@@ -26,7 +26,7 @@
 		 */
 		var $__jsonErrors = array();
 
-		function setup(&$Model, $config = null) {
+		public function setup(&$Model, $config = null) {
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 			} else {
@@ -193,7 +193,7 @@
 		 *
 		 * @return array all the plugins in infinitas.
 		 */
-		function getPlugins($skipBlocked = true){
+		public function getPlugins($skipBlocked = true){
 			$plugins = Configure::listObjects('plugin');
 
 			if ($skipBlocked === false) {
@@ -220,7 +220,7 @@
 		*
 		* @return array a list of controllers that were found
 		*/
-		function getControllers(&$Model, $plugin){
+		public function getControllers(&$Model, $plugin){
 			$list = App::objects(
 				'controller',
 				array(App::pluginPath($plugin).'controllers'.DS),
@@ -247,7 +247,7 @@
 		 * @param string $plugin the plugin to search with
 		 * @param string $controller the controller to search with
 		 */
-		function getActions(&$Model, $plugin, $controller){
+		public function getActions(&$Model, $plugin, $controller){
 			App::import('Controller', $plugin.'.'.$controller);
 
 			$list = get_class_methods($controller.'Controller');
