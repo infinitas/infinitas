@@ -20,10 +20,7 @@
 	class CommentsController extends AppController {
 		var $name = 'Comments';
 
-		var $helpers = array(
-			'Text',
-			'Filter.Filter'
-		);
+		var $helpers = array('Libs.Infinitas', 'Filter.Filter');
 
 		function admin_index() {
 			$this->paginate = array(
@@ -35,6 +32,8 @@
 					'Comment.website',
 					'Comment.comment',
 					'Comment.active',
+					'Comment.status',
+					'Comment.points',
 					'Comment.foreign_id',
 					'Comment.created',
 				),
