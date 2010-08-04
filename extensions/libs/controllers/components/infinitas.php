@@ -35,17 +35,33 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->__paginationRecall();
+
 			$this->setupConfig();
+			$this->__registerPlugins();
 
 			$this->__checkBadLogins();
 			$this->__ipBlocker();
 
 			$this->setupTheme();
 			$this->loadCoreImages();
+			$this->__paginationRecall();
 
 			if (Configure::read('Website.force_www')) {
 				$this->forceWwwUrl();
+			}
+		}
+
+		private function __registerPlugins(){
+			/**
+			* wysiwyg editors
+			*/
+			$wysiwygEditors = Cache::read('wysiwyg_editors', 'core');
+			if($wysiwygEditors === false){
+				$eventData = $this->Controller->Event->trigger('registerWysiwyg');
+				if(is_array($eventData) && !empty($eventData)){
+					$editors = implode(',', current($eventData));
+					Cache::write('wysiwyg_editors', $editors, 'core');
+				}
 			}
 		}
 
@@ -59,7 +75,7 @@
 		public function setupConfig(){
 			$this->configs = Cache::read('core_configs', 'core');
 
-			if (!$this->configs) {
+			if ($this->configs === false) {
 				$this->configs = ClassRegistry::init('Management.Config')->getConfig();
 			}
 
@@ -491,6 +507,11 @@
 		function _setupJavascript(){
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
+			}
+
+			$eventData = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
+			if(is_array($eventData) && !empty($eventData)){
+				$this->Controller->addJs(current($eventData));
 			}
 
 			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');

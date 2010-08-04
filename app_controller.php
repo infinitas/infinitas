@@ -83,13 +83,6 @@
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
 			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
-				$this->addJs(
-					array(
-						'/wysiwyg/js/ck_editor/ckeditor',
-						//'/wysiwyg/js/tiny_mce/tiny_mce',
-					)
-				);
-
 				$this->addCss(
 					array(
 						'admin'
