@@ -20,7 +20,6 @@
 	class Feed extends FeedAppModel {
 		var $name = 'Feed';
 		var $actsAs = array(
-			// 'Libs.Feedable',
 			// 'Libs.Commentable',
 			// 'Libs.Rateable
 		);
@@ -96,5 +95,60 @@
 					)
 				),
 			);
+		}
+
+		function getFeed($id = null, $group_id = 999){
+			if(!$id){
+				return array();
+			}
+
+			$feed = $this->find(
+				'first',
+				array(
+					'conditions' => array(
+						'Feed.active' => 1,
+						'Feed.group_id > ' => $group_id,
+						'Feed.id' => $id
+					),
+					'contain' => array(
+						'FeedItem'
+					)
+				)
+			);
+
+			return $this->feedArrayFormat($this->getJsonRecursive($feed));
+		}
+
+		function feedArrayFormat($feed = array()){
+			if (empty($feed)){
+				return array();
+			}
+
+			$query['fields']     = $feed['Feed']['fields'];
+			//$query['conditions'] = $feed['Feed']['conditions'];
+			//$query['order']      = $feed['Feed']['order'];
+			$query['limit']      = $feed['Feed']['limit'];
+			$query['setup']      = array(
+				'plugin' => $feed['Feed']['plugin'],
+				'controller' => $feed['Feed']['controller'],
+				'action' => $feed['Feed']['action']
+			);
+
+			foreach($feed['FeedItem'] as $item){
+				$query['feed'][ucfirst($item['plugin']).'.'.ucfirst(Inflector::singularize($item['controller']))] = array(
+					'setup' => array(
+						'plugin' => $item['plugin'],
+						'controller' => $item['controller'],
+						'action' => $item['action']
+					),
+					'fields'     => $item['fields'],
+					//'conditions' => $item['conditions'],
+					//'limit'      => $item['limit']
+				);
+			}
+
+			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::singularize($feed['Feed']['controller']));
+
+			return $_Model->find('feed', $query);
 		}
 	}

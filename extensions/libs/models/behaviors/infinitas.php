@@ -131,6 +131,33 @@
 		}
 
 		/**
+		 * Recursive json conversion.
+		 *
+		 * Takes an array with k => v format and gets json into array format.
+		 *
+		 * @param object $Model
+		 * @param array $data
+		 * @param unknown_type $config
+		 * @param unknown_type $return
+		 */
+		function getJsonRecursive(&$Model, $data = array(), $config = array()){
+			if(!is_array($data)){
+				$data = (array)$data;
+			}
+
+			foreach($data as $k => $v){
+				if(is_array($v)){
+					$data[$k] = $this->getJsonRecursive(&$Model, $v, $config, true);
+				}
+
+				if(self::getJson(&$Model, $v, $config, false)){
+					$data[$k] = $this->getJson(&$Model, $v, $config, true);
+				}
+			}
+			return $data;
+		}
+
+		/**
 		 * get only the first dimention out of the array. used in router and configs
 		 * to stop multi dimention arrays being passed to methods that will not
 		 * handle them.

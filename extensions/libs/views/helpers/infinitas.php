@@ -22,7 +22,7 @@
 	 */
 
 	class InfinitasHelper extends AppHelper{
-		var $helpers = array(
+		public $helpers = array(
 			'Html',
 			'Form',
 			'Libs.Design',
@@ -36,7 +36,7 @@
 		* Set up some errors for json.
 		* @access public
 		*/
-		var $_json_errors = array(
+		public $_json_errors = array(
 		    JSON_ERROR_NONE      => 'No error',
 		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
 		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
@@ -47,7 +47,7 @@
 
 		var $_menuLevel = 0;
 
-		var $external = true;
+		public $external = true;
 
 		var $View = null;
 
@@ -65,7 +65,7 @@
 		 *
 		 * @var array
 		 */
-		var $moduleIgnoreOverload = array();
+		public $moduleIgnoreOverload = array();
 
 		/**
 		 * Module Loader.
@@ -77,7 +77,7 @@
 		 * @params string $position this is the possition that is to be loaded, can be anything from the database
 		 * @params bool $admin if true its a admin module that should be loaded.
 		 */
-		function loadModules($position = null, $admin = false){
+		public function loadModules($position = null, $admin = false){
 			if (!$position) {
 				$this->errors[] = 'No position selected to load modules';
 				return false;
@@ -139,14 +139,16 @@
 		 * @params string $position this is the possition that is to be loaded, can be anything from the database
 		 * @params bool $admin if true its a admin module that should be loaded.
 		 */
-		function loadModule($module = null, $params = array()){
+		public function loadModule($module = null, $params = array()){
 			if(!$module){
 				return false;
 			}
 
-			$moduleOut = '<div class="module '.$module.'">';
+			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
+			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
+			$moduleOut = '<div class="module '.$module.' '.$class.'">';
 				if ($params['title']) {
-					$moduleOut .= '<h2>'.__($params['title'],true).'</h2>';
+					$moduleOut .= '<h2><a id="'.$id.'" href="#">'.__($params['title'],true).'</a></h2>';
 				}
 
 				if (!empty($module)) {
@@ -214,7 +216,7 @@
 		 *
 		 * @return a nice formated <ul> list
 		 */
-		function generateDropdownMenu($data = array(), $type = 'horizontal'){
+		public function generateDropdownMenu($data = array(), $type = 'horizontal'){
 			if (empty($data)) {
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;
@@ -237,7 +239,7 @@
 		 *
 		 * @return part of the formated tree.
 		 */
-		function __buildDropdownMenu($array = array(), $model = ''){
+		private function __buildDropdownMenu($array = array(), $model = ''){
 			if (empty($array['MenuItem']) || $model = '') {
 				$this->errors[] = 'nothing passed to generate';
 				return false;
@@ -338,7 +340,7 @@
 		*
 		* @return string some html for the generated image.
 		*/
-		function status($status = null){
+		public function status($status = null){
 			$image = false;
 			$params = array();
 
@@ -390,7 +392,7 @@
 		 *
 		 * @return mixed some html with the image
 		 */
-		function locked($item = array(), $model = null){
+		public function locked($item = array(), $model = null){
 			if (!$model || empty($item) || empty($item[$model])){
 				$this->errors[] = 'you missing some data there.';
 				return false;
@@ -439,7 +441,7 @@
 		 *
 		 * @return string html of the icon.
 		 */
-		function featured($record = array(), $model = 'Feature'){
+		public function featured($record = array(), $model = 'Feature'){
 			if (empty($record[$model])){
 				$this->messages[] = 'This has no featured items.';
 
@@ -463,7 +465,7 @@
 			);
 		}
 
-		function loggedInUserText($counts){
+		public function loggedInUserText($counts){
 			$allInIsAre    = ($counts['all'] > 1) ? __('are', true) : __('is', true);
 			$loggedInIsAre = ($counts['loggedIn'] > 1) ? __('are', true) : __('is', true);
 			$guestsIsAre   = ($counts['guests'] > 1) ? __('are', true) : __('is', true);

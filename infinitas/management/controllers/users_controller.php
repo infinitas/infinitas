@@ -55,12 +55,12 @@
 			if(!(empty($this->data)) && $this->Auth->user()){
 				$this->User->recursive = -1;
 
+				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
 
-					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 
 					// there is something wrong
 					if ($lastLogon === false) {
@@ -80,7 +80,7 @@
 					);
 				}
 				$this->Event->trigger('userLogin', $currentUser);
-
+				unset($lastLogon, $data);
 				$this->redirect($this->Auth->redirect());
 			}
 			if (!(empty($this->data)) && !$this->Auth->user()) {
@@ -90,14 +90,14 @@
 
 		function _getUserData(){
 			$data['User']['id']               = $this->Auth->user('id');
-			$data['User']['ip_address']       = $this->RequestHandler->getClientIP();
+			$data['User']['ip_address']       = $this->Session->read('GeoLocation.ip_address');
 			$data['User']['last_login']       = date('Y-m-d H:i:s');
 			$data['User']['modified']         = false;
 			$data['User']['browser']          = $this->Infinitas->getBrowser();
 			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
 
-			$data['User']['country']          = $this->Infinitas->getCountry();
-			$data['User']['city']             = $this->Infinitas->getCity();
+			$data['User']['country']          = $this->Session->read('GeoLocation.country');
+			$data['User']['city']             = $this->Session->read('GeoLocation.city');
 			$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
 
 			return $data;
@@ -306,12 +306,11 @@
 			if(!(empty($this->data)) && $this->Auth->user()){
 				$this->User->recursive = -1;
 
+				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
-
-					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 
 					// there is something wrong
 					if ($lastLogon === false) {

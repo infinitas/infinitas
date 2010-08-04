@@ -13,6 +13,7 @@ webroot/img/content/thinkmoney/*
 
 # PHPEdit project files
 *.PHPEditProject
+*.PHPEditBackup
 *.LCK
 
 # Eclips project files

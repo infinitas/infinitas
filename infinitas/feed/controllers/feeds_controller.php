@@ -2,6 +2,60 @@
 	class FeedsController extends FeedAppController {
 		var $name = 'Feeds';
 
+		function index(){
+			$feeds = $this->Feed->find(
+				'all',
+				array(
+					'fields' => array(
+						'Feed.id',
+						'Feed.name',
+						'Feed.slug',
+						'Feed.description',
+						'Feed.plugin',
+						'Feed.controller'
+					),
+					'conditions' => array(
+						'Feed.active' => 1,
+						//'Feed.group_id >= ' => $this->Session->read('Auth.User.group_id')
+					),
+					'contain' => array(
+						'FeedItem' => array(
+							'fields' => array(
+								'FeedItem.name',
+								'FeedItem.description',
+								'FeedItem.plugin',
+								'FeedItem.controller'
+							),
+							'conditions' => array(
+								'FeedItem.active' => 1,
+								//'FeedItem.group_id >= ' => $this->Session->read('Auth.User.group_id')
+							)
+						)
+					)
+				)
+			);
+
+			$this->set(compact('feeds'));
+		}
+
+		function get_feed(){
+			if(!$this->params['id']){
+				$this->Session->setFlash(__('Invalid feed selected', true));
+				$this->redirect($this->referer());
+			}
+
+			$feed = $this->Feed->getFeed($this->params['id'], $this->Session->read('Auth.User.group_id'));
+
+			if(empty($feed)){
+				$this->Session->setFlash(__('The feed you have selected is not valid', true));
+				$this->redirect($this->referer());
+			}
+
+			$raw = $this->Feed->find('first', array('conditions' => array('Feed.id' => $this->params['id'])));
+
+			$this->set(compact('feed', 'raw'));
+		}
+
 		function admin_index() {
 			$this->paginate = array('contain' => array('Group'));
 
@@ -10,6 +64,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
+				'plugin' => $this->Feed->getPlugins(),
 				'active' => Configure::read('CORE.active_options')
 			);
 
@@ -25,9 +80,10 @@
 				}
 			}
 
-			$this->set('plugins', $this->Feed->getPlugins());
+			$plugins = $this->Feed->getPlugins();
 			$groups = $this->Feed->Group->find('list');
-			$this->set(compact('groups'));
+			$feedItems = $this->Feed->FeedItem->find('list');
+			$this->set(compact('plugins', 'groups', 'feedItems'));
 		}
 
 		function admin_edit($id = null) {
@@ -47,10 +103,10 @@
 
 			if ($id && empty($this->data)) {
 				$this->data = $this->Feed->find(
-					'first', 
+					'first',
 					array(
 						'conditions' => array(
-							'Feed.id' => $id		
+							'Feed.id' => $id
 						),
 						'contain' => array(
 							'FeedItem'
@@ -61,7 +117,7 @@
 
 			$plugins     = $this->Feed->getPlugins();
 			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);
-			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);		
+			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
 			$feedItems   = $this->Feed->FeedItem->find('list');
 			$groups      = $this->Feed->Group->find('list');
 

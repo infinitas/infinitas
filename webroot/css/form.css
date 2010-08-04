@@ -11,6 +11,7 @@ legend {font:1.5em/1 "Trebuchet MS",Helvetica,Jamrul,sans-serif; color:#000;}
 .textfield input:focus:hover, .file input:focus:hover, .dropdown select:focus:hover, .textarea textarea:focus:hover, div input.innertextfield:focus:hover {border-color:orange;}
 .checkbox input, .radio input {border:none; background:transparent;}
 button {font:1.2em/1 Verdana,Geneva,Kalimati,sans-serif; border:1px solid #666; background:#666; color:#fff;}
+.filter-form button{background: transparent; border:0px solid black;}
 button:hover {border-color:#000; color:orange;}
 optgroup {font:bold 1em/1 Verdana,Geneva,Kalimati,sans-serif;}
 option {font:1em/1 Verdana,Geneva,Kalimati,sans-serif;}
@@ -23,7 +24,8 @@ fieldset fieldset {padding:0;}
 legend {margin-bottom:1em;}
 .textfield, .textarea, .file, .dropdown, .radio, .checkbox, .buttons, fieldset fieldset {margin-bottom:1em;}
 .textfield input, .file input, .dropdown select, .textarea textarea, input.innertextfield {padding:2px 5px;}
-.textfield input, .file input, .dropdown select, .textarea textarea {width:250px;}
+.textfield input, .file input, .dropdown select {width:250px;}
+.textarea textarea{ width: 98%; clear: both; height: 25em;}
 textarea {height:6em;}
 .textfield input, .file input, .dropdown select, .textarea textarea {display:block; margin:0.1em 0 0 0;}
 .checkbox input, .radio input {margin-right:5px;}
@@ -58,7 +60,7 @@ input{
 	padding:1px;
 }
 .checkbox{
-	clear: both;	
+	clear: both;
 }
 
 .filter-form label{
@@ -76,15 +78,15 @@ input{
 	clear:both;
 }
 
-/** 
+/**
 	time picker
 */
 select.timePicker{
 	width:48px;
-	margin-bottom:10px;	
+	margin-bottom:10px;
 }
-/** 
-	date picker 
+/**
+	date picker
 */
 .calBox {
   background-color: #928d81;

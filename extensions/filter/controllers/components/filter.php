@@ -36,6 +36,10 @@
 			'limit'
 		);
 
+		public $components = array(
+			'Libs.Infinitas'
+		);
+
 	/**
 	 * Url variable used in paginate helper (array('url'=>$url));
 	 * @var string
@@ -100,6 +104,7 @@
 		function processAction($controller, $controllerAction){
 			if ($controller->action == $controllerAction) {
 				$this->filter = $this->processFilters($controller);
+				$this->_paginationRecall();
 				$url = (empty($this->url)) ? '/' : $this->url;
 
 				$this->filterOptions = array('url' => array($url));
@@ -117,6 +122,28 @@
 					$controller->redirect("/{$controller->name}/{$controllerAction}");
 				}
 			}
+		}
+
+		function _paginationRecall(){
+			$params = array_filter(explode('/', $this->url));
+			$options = array();
+			foreach($params as $param){
+				$parts = explode(':', $param);
+				switch(count($parts)){
+					case 0:
+						break;
+
+					case 1:
+						$options[$parts[0]] = '';
+						break;
+
+					default:
+						$options[$parts[0]] = $parts[1];
+						break;
+				}
+			}
+
+			$this->Infinitas->addToPaginationRecall($options);
 		}
 
 	/**

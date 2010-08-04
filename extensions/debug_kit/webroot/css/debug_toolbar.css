@@ -97,7 +97,7 @@
 
 #debug-kit-toolbar .panel-resize-region {
 	overflow:auto;
-	height:99%;
+	height:400px;
 	max-height: 550px;
 	padding:15px;
 }

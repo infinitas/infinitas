@@ -9,32 +9,33 @@
 	 * @access public
 	 */
 	class InfinitasComponent extends Object {
-		var $name = 'Infinitas';
+		public $name = 'Infinitas';
 
-		var $defaultLayout = 'default';
+		public $defaultLayout = 'default';
 
 		/**
 		* Risk is calculated on bad logins vs the number of times that username
 		* has been blocked. the higher the risk is the longer the lock out time
 		* will be.
 		*/
-		var $risk = 0;
+		public $risk = 0;
 
 		/**
 		* components being used here
 		*/
-		var $components = array('Session');
+		public $components = array('Session', 'Libs.GeoLocation');
 
-		var $configs = array();
+		public $configs = array();
 
 		/**
 		* Controllers initialize function.
 		*/
-		function initialize(&$controller, $settings = array()) {
+		public function initialize(&$controller, $settings = array()) {
 			Configure::write('CORE.current_route', Router::currentRoute());
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
+			$this->__paginationRecall();
 			$this->setupConfig();
 
 			$this->__checkBadLogins();
@@ -55,7 +56,7 @@
 		 * to load from the current plugin. configurations can be completely rewriten
 		 * or just added to.
 		 */
-		function setupConfig(){
+		public function setupConfig(){
 			$this->configs = Cache::read('core_configs', 'core');
 
 			if (!$this->configs) {
@@ -106,7 +107,7 @@
 		*
 		* Gets the current theme set in db and sets if up
 		*/
-		function setupTheme(){
+		public function setupTheme(){
 			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeStart');
 			if (isset($event['setupThemeStart'][$this->Controller->plugin])) {
 				if (is_string($event['setupThemeStart'][$this->Controller->plugin])) {
@@ -185,7 +186,7 @@
 		*
 		* This is where all the images for the site is loaded.
 		*/
-		function loadCoreImages(){
+		public function loadCoreImages(){
 			Configure::load('images');
 		}
 
@@ -198,7 +199,7 @@
 		* @param array $options
 		* @return
 		*/
-		function changePaginationLimit($options=array(),$params=array()){
+		public function changePaginationLimit($options=array(),$params=array()){
 			// remove the current / default value
 			if (isset($params['named']['limit'])) {
 				unset($params['named']['limit']);
@@ -224,7 +225,7 @@
 		* @param int $limit the current limit that is being requested
 		* @return int site max if limit was to high :: the limit that was set if its not to high
 		*/
-		function paginationHardLimit($limit = null, $return = false){
+		public function paginationHardLimit($limit = null, $return = false){
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
 				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
 
@@ -245,7 +246,7 @@
 		*
 		* this will force your site to use the sub domain www.
 		*/
-		function forceWwwUrl(){
+		public function forceWwwUrl(){
 			// read the host from the server environment
 			$host = env('HTTP_HOST');
 			if ($host='localhost') {
@@ -273,7 +274,7 @@
 		*
 		* return string the users browser name or Unknown.
 		*/
-		function getBrowser(){
+		public function getBrowser(){
 			$event = $this->Controller->Event->trigger('findBrowser');
 			if (isset($event['findBrowser'][$this->Controller->plugin]) && is_string($event['findBrowser'][$this->Controller->plugin])) {
 				return $event['findBrowser'][$this->Controller->plugin];
@@ -334,7 +335,7 @@
 		 *
 		 * @return string the name of the opperating sustem or Unknown if unable to detect
 		 */
-		function getOperatingSystem(){
+		public function getOperatingSystem(){
 			$event = $this->Controller->Event->trigger('findOperatingSystem');
 			if (isset($event['findOperatingSystem'][$this->Controller->plugin]) && is_string($event['findOperatingSystem'][$this->Controller->plugin])) {
 				return $event['findOperatingSystem'][$this->Controller->plugin];
@@ -353,58 +354,7 @@
 			return 'Unknown';
 		}
 
-		/**
-		* Find users country.
-		*
-		* Attempt to get the country the user is from.  returns unknown if its not
-		* able to match something.
-		*/
-		function getCountry($ipAddress = null, $code = false){
-			if (!$ipAddress){
-				$ipAddress = $this->Controller->RequestHandler->getClientIP();
-				if (!$ipAddress) {
-					return array( 'code' => '', 'name' => '' );
-				}
-			}
 
-			App::import('Lib', 'Libs.Geoip/inc.php');
-			$countryDataFile = dirname(dirname(dirname(__FILE__))).DS.'libs'.DS.'geoip'.DS.'country.dat';
-			if (!is_file($countryDataFile)) {
-				return false;
-			}
-
-			$data = geoip_open($countryDataFile, GEOIP_STANDARD);
-
-			$country = geoip_country_name_by_addr($data, $ipAddress);
-			if (empty($country)) {
-				$country = 'Unknown';
-			}
-
-			if ($code) {
-				$code = geoip_country_code_by_addr( $data, $ip_address );
-				if (empty($code)) {
-					$code = 'Unknown';
-				}
-
-				geoip_close($data);
-
-				return array(
-					'code' => $code,
-					'country' => $country
-				);
-			}
-
-			geoip_close($data);
-
-			return $country;
-		}
-
-		/**
-		* Get the city the user is in.
-		*/
-		function getCity(){
-			return 'TODO';
-		}
 
 		/**
 		* Block people.
@@ -415,7 +365,7 @@
 		* If the user is allowed it is saved to their session so that the test
 		* is not done on every request.
 		*/
-		function __ipBlocker(){
+		private function __ipBlocker(){
 			if ($this->Controller->Session->read('Infinitas.Security.ip_checked')) {
 				return true;
 			}
@@ -468,7 +418,7 @@
 		 *
 		 * @return true or blackHole;
 		 */
-		function __checkBadLogins(){
+		private function __checkBadLogins(){
 			$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 
 			if (count($old) > 0) {
@@ -629,6 +579,47 @@
 			return true;
 		}
 
+		/**
+		 * Pagination Recall CakePHP Component
+		 * Copyright (c) 2008 Matt Curry
+		 * www.PseudoCoder.com
+		 *
+		 * @author      mattc <matt@pseudocoder.com>
+		 * @version     1.0
+		 * @license     MIT
+		 */
+		private function __paginationRecall(){
+			$options = array_merge(
+				$this->Controller->params,
+				$this->Controller->params['url'],
+				$this->Controller->passedArgs
+			);
+
+			$vars = array('page', 'sort', 'direction', 'limit');
+			$keys = array_keys($options);
+			$count = count($keys);
+
+			for ($i = 0; $i < $count; $i++) {
+				if (!in_array($keys[$i], $vars)) {
+					unset($options[$keys[$i]]);
+				}
+			}
+
+			//save the options into the session
+			if ($options) {
+				if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
+					$options = array_merge($this->Session->read("Pagination.{$this->Controller->modelClass}.options"), $options);
+				}
+
+				$this->Session->write("Pagination.{$this->Controller->modelClass}.options", $options);
+			}
+
+			//recall previous options
+			if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
+				$options = $this->Session->read("Pagination.{$this->Controller->modelClass}.options");
+				$this->Controller->passedArgs = array_merge($this->Controller->passedArgs, $options);
+			}
+		}
 
 
 
