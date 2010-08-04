@@ -55,12 +55,12 @@
 			if(!(empty($this->data)) && $this->Auth->user()){
 				$this->User->recursive = -1;
 
+				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
 
-					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 
 					// there is something wrong
 					if ($lastLogon === false) {
@@ -80,7 +80,7 @@
 					);
 				}
 				$this->Event->trigger('userLogin', $currentUser);
-
+				unset($lastLogon, $data);
 				$this->redirect($this->Auth->redirect());
 			}
 			if (!(empty($this->data)) && !$this->Auth->user()) {
@@ -306,12 +306,11 @@
 			if(!(empty($this->data)) && $this->Auth->user()){
 				$this->User->recursive = -1;
 
+				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
-
-					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 
 					// there is something wrong
 					if ($lastLogon === false) {
