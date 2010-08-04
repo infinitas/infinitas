@@ -185,4 +185,64 @@
 
 			return $content;
 		}
+
+		function getPopular($limit = 10){
+			return $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Content.id',
+						'Content.name',
+						'Content.slug',
+						'Content.category_id'
+					),
+					'conditions' => array(
+						'Content.active' => 1
+					),
+					'contain' => array(
+						'Category' => array(
+							'fields' => array(
+								'Category.slug'
+							)
+						)
+					),
+					'limit' => (int)$limit,
+					'order' => array(
+						'Content.views' => 'desc'
+					)
+				)
+			);
+		}
+
+		function getMostCommented($limit = 10){
+			return $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Content.id',
+						'Content.name',
+						'Content.slug',
+						'Content.category_id'
+					),
+					'conditions' => array(
+						'Content.active' => 1
+					),
+					'contain' => array(
+						'Category' => array(
+							'fields' => array(
+								'Category.slug'
+							)
+						)
+					),
+					'limit' => (int)$limit,
+					'order' => array(
+						'Content.coment_count' => 'desc'
+					)
+				)
+			);
+		}
+
+		function getRelated(){
+			return array();
+		}
 	}
