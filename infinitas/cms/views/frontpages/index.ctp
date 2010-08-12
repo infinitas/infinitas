@@ -25,7 +25,7 @@
 			<div class="introduction">
 				<h2>
 					<?php
-						$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'contents', 'data' => $frontpage['Content']));
+						$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'contents', 'data' => $frontpage));
 						$urlArray = current($eventData['slugUrl']);
 						echo $this->Html->link(
 							$frontpage['Content']['title'],
