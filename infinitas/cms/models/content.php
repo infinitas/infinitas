@@ -192,7 +192,7 @@
 				array(
 					'fields' => array(
 						'Content.id',
-						'Content.name',
+						'Content.title',
 						'Content.slug',
 						'Content.category_id'
 					),
@@ -220,7 +220,7 @@
 				array(
 					'fields' => array(
 						'Content.id',
-						'Content.name',
+						'Content.title',
 						'Content.slug',
 						'Content.category_id'
 					),
@@ -236,7 +236,7 @@
 					),
 					'limit' => (int)$limit,
 					'order' => array(
-						'Content.coment_count' => 'desc'
+						'Content.comment_count' => 'desc'
 					)
 				)
 			);
