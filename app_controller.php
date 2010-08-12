@@ -15,20 +15,20 @@
 	* @subpackage sort.comments
 	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	* @since 0.5a
-	*/
+	 */
 	class AppController extends GlobalActions {
 		/**
 		*
 		*/
-		var $view = 'Theme';
+		public $view = 'Theme';
 
-		var $helpers = array(
+		public $helpers = array(
 			'Html', 'Form', 'Javascript', 'Session', 'Time',
 			'Libs.Infinitas', 'Tags.TagCloud',
 			'Events.Event', 'Shop.Shop'
 		);
 
-		var $components = array(
+		public $components = array(
 			'Libs.Infinitas',
 			// cake components
 			'Session','RequestHandler', 'Auth', 'Acl', 'Security',
@@ -47,7 +47,7 @@
 		/**
 		* actions where viewable will work.
 		*/
-		var $viewableActions = array(
+		public $viewableActions = array(
 			'view'
 		);
 
@@ -63,7 +63,6 @@
 
 		function beforeRender(){
 			parent::beforeRender();
-
 			$this->set('css_for_layout', $this->cssToLoad);
 			$this->set('js_for_layout', $this->jsToLoad);
 		}
