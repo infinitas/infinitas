@@ -20,8 +20,8 @@
 						'plugin'     => 'cms',
 						'controller' => 'contents',
 						'action'     => 'view',
-						'id'         => $data['data']['id'],
-						'slug'       => $data['data']['slug'],
+						'id'         => $data['data']['Content']['id'],
+						'slug'       => $data['data']['Content']['slug'],
 						'category'   => isset($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : __('news-item',true)
 					);
 					break;
