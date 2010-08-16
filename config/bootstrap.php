@@ -14,6 +14,7 @@
 	 */
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
+
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
 	/**
@@ -81,10 +82,10 @@
 		$hash = '';
 
 		if ($data) {
-			$hash = sha1(serialize($data));
+			$hash = '_'.sha1(serialize($data));
 		}
 
-		return Inflector::underscore($prefix).'_'.$hash;
+		return Inflector::underscore($prefix).$hash;
 	}
 
 	/**
@@ -96,11 +97,10 @@
 	 * @return a nice name
 	 */
 	function prettyName($class = null){
-		if(!class_exists('Inflector')){
-			App::import('Inflector');
-		}
-
 		if($class !== null){
+			if(!class_exists('Inflector')){
+				App::import('Inflector');
+			}
 			return Inflector::humanize(Inflector::underscore((string)$class));
 		}
 
@@ -145,13 +145,13 @@
 	 * get the current memory stats
 	 */
 	function memoryUsage(){
-	pr(
-		array(
-			'current' => convert(memory_get_usage()),
-			'current_t' => convert(memory_get_usage(true)),
-			'max' => convert(memory_get_peak_usage()),
-			'max_' => convert(memory_get_peak_usage(true)),
-			'limit' => ini_get('memory_limit')
-		)
-	);
-}
+		pr(
+			array(
+				'current' => convert(memory_get_usage()),
+				'current_t' => convert(memory_get_usage(true)),
+				'max' => convert(memory_get_peak_usage()),
+				'max_' => convert(memory_get_peak_usage(true)),
+				'limit' => ini_get('memory_limit')
+			)
+		);
+	}
