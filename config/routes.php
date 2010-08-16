@@ -28,7 +28,7 @@
 					debugRoute($route);
 					continue;
 				}
-				Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex'] );
+				Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex']);
 			}
 		}
 	}
