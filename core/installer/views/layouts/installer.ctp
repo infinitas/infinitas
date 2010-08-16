@@ -34,7 +34,7 @@
 				<div class="clear"></div>
 			</div>
 			<div class="grid_3" id="steps">
-				<?php echo $this->Wizard->progressMenu() ?>
+				<?php echo $this->Wizard->progressMenu($installerProgress) ?>
 			</div>
 			<div class="clear"></div>
 		</form>

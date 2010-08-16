@@ -32,7 +32,7 @@
 		* @var array
 		* @access public
 		*/
-		var $uses = array();
+		//var $uses = array();
 
 		/**
 		* No components required
@@ -43,31 +43,64 @@
 		var $components = array('Libs.Wizard');
 		var $helpers = array('Libs.Wizard');
 
-		var $phpVersion = '5.0';
+		private $__phpVersion = '5.0';
 
-		/*array (
-			'label' => __('MySQL support', true),
-			'value' => (function_exists('mysql_connect')) ? 'Yes' : 'No',
-			'desc' => 'Infinitas uses mysql for generating dynamic content. Other databases will follow soon.'
-		),
-		array (
-			'label' => __('MySQL Version', true). ' >= ' . $this->sqlVersion . '.x',
-			'value' => (preg_match('/['.$this->sqlVersion.'.][0-9.]{1,3}[0-9.]{1,3}/', mysql_get_client_info())) ? 'Yes' : 'No',
-			'desc' => 'Infinitas requires Mysql version >= '. $this->sqlVersion
-		)*/
-
-		var $supportedDatabases = array(
+		private $__supportedDatabases = array(
 			'mysql' => array(
-				'label' => 'MySQL support',
+				'name' => 'MySQL',
+				'version' => '5.0',
+				'versionQuery' => 'select version();',
 			 	'function' => 'mysql_connect',
-				'desc' => 'MySQL is a free and open source database engine that is available on most free and low cost hosting providers.'
 			),
 			'mssql' => array(
-				'label' => 'Microsoft SQL Server support',
+				'name' => 'Microsoft SQL Server',
+				'version' => '8.0',
+				'versionQuery' => 'SELECT CAST(SERVERPROPERTY(\'productversion\') AS VARCHAR)',
 				'function' => 'mssql_connect',
-				'desc' => 'Microsoft\'s SQL Server is an advanced, non-free database engine that is favoured for enterprise applications.'
 			)
 		);
+
+		private $__requiredExtensions = array(
+			'zlib' => 'Zlib is required for some of the functionality in Infinitas'
+		);
+
+		private $__recommendedIniSettings = array (
+				array (
+					'setting' => 'safe_mode',
+					'recomendation' => 0,
+					'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0'
+					),
+				array (
+					'setting' => 'display_errors',
+					'recomendation' => 1,
+					'desc' => 'Infinitas will handle errors througout the app'
+					),
+				array (
+					'setting' => 'file_uploads',
+					'recomendation' => 1,
+					'desc' => 'File uploads are needed for the wysiwyg editors and system installers'
+					),
+				array (
+					'setting' => 'magic_quotes_runtime',
+					'recomendation' => 0,
+					'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
+					),
+				array (
+					'setting' => 'register_globals',
+					'recomendation' => 0,
+					'desc' => 'This feature has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
+					),
+				array (
+					'setting' => 'output_buffering',
+					'recomendation' => 0,
+					'desc' => 'Infinitas will handle output_buffering for you throughout the app'
+					),
+				array (
+					'setting' => 'session.auto_start',
+					'recomendation' => 0,
+					'desc' => 'Sessions are completly handled by Infinitas'
+					),
+				);
 
 		var $installerProgress = array();
 
@@ -84,9 +117,6 @@
 
 			$this->helpers[] = 'Html';
 
-			//App::import('Component', 'Session');
-			//$this->Session = new SessionComponent;
-
 			$this->sql = array(
 				'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
 				'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
@@ -97,7 +127,6 @@
 
 			$this->Wizard->steps = array(
 				'welcome',
-				'requirements',
 				'database',
 				'install',
 				'configuration',
@@ -106,7 +135,6 @@
 
 			$this->installerProgress = array(
 				'welcome' => __('Welcome', true),
-				'requirements' => __('Requirements', true),
 				'database' => __('Database Configuration', true),
 				'install' => __('Installation', true),
 				'configuration' => __('Configuration', true),
@@ -121,131 +149,186 @@
 			$this->Wizard->process($step);
 		}
 
+/**
+ * Wizard prepare steps methods
+ */
+		function _prepareWelcome() {
+			$core = $this->__checkCore();
+			$paths = $this->__checkPaths();
+			$database = $this->__checkDatabases(true);
+			$recomendations = $this->__checkIniSettings();
+
+			$this->set(compact('core', 'database', 'paths', 'recomendations'));
+			$this->set('supportedDb', $this->__supportedDatabases);
+		}
+
+		function _prepareDatabase() {
+			$database = $this->__checkDatabases();
+
+			$this->set(compact('database'));
+		}
+
+		function _prepareInstall() {
+			
+		}
+
+/**
+ * Wizard process step methods
+ */
 		function _processWelcome() {
 			return true;
 		}
 
-		function _processRequirements() {
-			return true;
-		}
-
-		function _prepareRequirements() {
-			// core setup
-			$setup = array(
-				array(
-					'label' => __('PHP version', true) . ' >= ' . $this->phpVersion . '.x',
-					'value' => phpversion() >= $this->phpVersion ? 'Yes' : 'No',
-					'desc' => 'Php ' . $this->phpVersion . '.x is required. Infinitas will not work on PHP 4.x'
-				),
-				array (
-					'label' => __('zlib compression support', true),
-					'value' => extension_loaded('zlib') ? 'Yes' : 'No',
-					'desc' => 'zlib is required for some of the functionality in Infinitas'
-				),
-			);
-
-			$database = $this->__checkDatabases();
-
-			// path status
-			$paths = array(
-				array(
-					'path' => APP . 'config',
-					'writeable' => is_writable(APP . 'config') ? 'Yes' : 'No',
-					'desc' => 'This path needs to be writeable for Infinitas to complete the installation.'
-				),
-				array (
-					'path' => APP . 'tmp',
-					'writeable' => is_writable(APP . 'tmp') ? 'Yes' : 'No',
-					'desc' => 'The tmp dir needs to be writable for caching to work in Infinitas.'
-				),
-				array (
-					'path' => APP . 'webroot',
-					'writeable' => is_writable(APP . 'webroot') ? 'Yes' : 'No',
-					'desc' => 'This needs to be web accesible or your images and css will not be found.'
-				)
-			);
-
-			// recomendations
-			$recomendations = array (
-				array (
-					'setting' => 'safe_mode',
-					'recomendation' => 'Off',
-					'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0'
-					),
-				array (
-					'setting' => 'display_errors',
-					'recomendation' => 'On',
-					'desc' => 'Infinitas will handle errors througout the app'
-					),
-				array (
-					'setting' => 'file_uploads',
-					'recomendation' => 'On',
-					'desc' => 'File uploads are needed for the wysiwyg editors and system installers'
-					),
-				array (
-					'setting' => 'magic_quotes_runtime',
-					'recomendation' => 'Off',
-					'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
-					),
-				array (
-					'setting' => 'register_globals',
-					'recomendation' => 'Off',
-					'desc' => 'This feature has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
-					),
-				array (
-					'setting' => 'output_buffering',
-					'recomendation' => 'Off',
-					'desc' => 'Infinitas will handle output_buffering for you throughout the app'
-					),
-				array (
-					'setting' => 'session.auto_start',
-					'recomendation' => 'Off',
-					'desc' => 'Sessions are completly handled by Infinitas'
-					),
-				);
-
-			foreach($recomendations as $k => $setting) {
-				$recomendations[$k]['actual'] = ((int)ini_get($setting['setting']) ? 'On' : 'Off');
+		function _processDatabase() {
+			$this->Install->set($this->data);
+			if($this->Install->validates() && $this->__testConnection()) {
+				return true;
 			}
 
-			$this->set(compact('setup', 'database', 'paths', 'recomendations'));
+			return false;
 		}
 
+		function _processInstall() {
+			copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
+
+			App::import('Core', 'File');
+			$file = new File(APP . 'config' . DS . 'database.php', true);
+			$content = $file->read();
+
+			$content = str_replace('{default_host}', $this->data['Install']['host'], $content);
+			$content = str_replace('{default_login}', $this->data['Install']['login'], $content);
+			$content = str_replace('{default_password}', $this->data['Install']['password'], $content);
+			$content = str_replace('{default_database}', $this->data['Install']['database'], $content);
+			$content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
+			$content = str_replace('{default_port}', $this->data['Install']['port'], $content);
+
+			if ($file->write($content)) {
+				return true;
+			}
+		}
+
+
+/**
+ * Private methods
+ */
+
+		/**
+		 *
+		 * @return array
+		 */
+		private function __checkCore() {
+			$core = array();
+
+			if(phpversion() < $this->__phpVersion) {
+				$core[] = sprintf(__('PHP version %s detected, %s needs at least version %s.', true), phpversion(), 'Infinitas', $this->phpVersion.'.x');
+			}
+
+			foreach($this->__requiredExtensions as $extension => $message) {
+				if(!extension_loaded($extension)) {
+					$core[] = __($message);
+				}
+			}
+
+			return $core;
+		}
+
+		/**
+		 *
+		 * @return array
+		 */
+		private function __checkPaths() {
+			$paths = array();
+
+			foreach($paths as $path => $options) {
+				switch($options['type']) {
+					case 'write':
+						$function = 'is_writable';
+						break;
+					default:
+						$function = 'is_readable';
+				}
+				if(!$function(APP.$path)) {
+					$paths[] = sprintf(__($options['message'], true), APP.$path);
+				}
+			}
+		}
+
+		/**
+		 *
+		 * @return array
+		 */
+		private function __checkDatabases($databaseSupported = false) {
+			$availableDb = array();
+
+			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
+				if(function_exists($supportedDatabase['function'])) {
+					$availableDb[$cakeType] = $supportedDatabase['name'] . ' (Version ' . $supportedDatabase['version'] . ' or newer)';
+				}
+			}
+
+			return $databaseSupported == true ? !empty($availableDb) : $availableDb;
+		}
+
+		/**
+		 *
+		 * @return array
+		 */
+		private function __checkIniSettings() {
+			$recomendations = array();
+
+			foreach($this->__recommendedIniSettings as $k => $setting) {
+				if((int)ini_get($setting['setting']) !== $setting['recomendation']) {
+					$recomendations[] = $setting;
+				}
+			}
+
+			return $recomendations;
+		}
+
+
+
+		function __testConnection() {
+			$connectionDetails = $this->data['Install'];
+			unset($connectionDetails['step']);
+
+			if(trim($connectionDetails['port']) == '') {
+				unset($connectionDetails['port']);
+			}
+
+			if(trim($connectionDetails['prefix']) == '') {
+				unset($connectionDetails['prefix']);
+			}
+
+			if(!@ConnectionManager::create('installer', $connectionDetails)->isConnected()) {
+				$this->set('dbError', true);
+				return false;
+			}
+			else {
+				$dbOptions = $this->__supportedDatabases[$connectionDetails['driver']];
+				$version = ConnectionManager::getDataSource('installer')->query($dbOptions['versionQuery']);
+				$version = $version[0][0]['version()'];
+
+				if(version_compare($version, $dbOptions['version']) >= 0) {
+					return true;
+				}
+				else {
+					$this->set('versionError', $version);
+					$this->set('requiredVersion', $dbOptions['version']);
+					return false;
+				}
+			}
+		}
+
+
+
+
+
+
+/*
 		function licence() {
 			$this->set('title_for_layout', __('Licence', true));
 		}
 
-		private function __checkDatabases() {
-			$checks = array();
-
-			foreach($this->supportedDatabases as $supportedDatabase) {
-				$checks[] = array(
-					'label' => __($supportedDatabase['label'], true),
-					'value' => function_exists($supportedDatabase['function']) ? 'Yes' : 'No',
-					'desc' => $supportedDatabase['desc']
-				);
-			}
-
-			return $checks;
-		}
-
-		function __testConnection() {
-			$host = (isset($this->data['Install']['port']) && !empty($this->data['Install']['port'])) ? $this->data['Install']['host'].':'.$this->data['Install']['port'] : $this->data['Install']['host'];
-			return
-			mysql_connect($host,
-				$this->data['Install']['login'],
-				$this->data['Install']['password']
-				) &&
-
-			mysql_select_db($this->data['Install']['database']
-				);
-		}
-
-		/**
-		* database setup
-		*
-		* @return void
-		*/
 		function database() {
 			$this->set('title_for_layout', __('Database Configuration', true));
 			if (!empty($this->data)) {
@@ -274,11 +357,6 @@
 			}
 		}
 
-		/**
-		* configuration
-		*
-		* @return void
-		*/
 		function install() {
 			$this->set('title_for_layout', __('Install Database', true));
 
@@ -350,13 +428,6 @@
 			$this->set('configs', $configs);
 		}
 
-		/**
-		* done
-		*
-		* Remind the user to delete 'install' plugin.
-		*
-		* @return void
-		*/
 		function done() {
 			$this->pageTitle = __('Installation completed successfully', true);
 
@@ -367,7 +438,7 @@
 					$this->Session->setFlash(__('Could not find the installer directory.', true));
 				}
 			}
-		}
+		}*/
 
 		/**
 		* Execute SQL file
