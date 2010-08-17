@@ -309,7 +309,6 @@ class WizardComponent extends Object {
 		}
 
 		$url = $this->wizardAction . $step;
-
 		$this->controller->redirect($url, $status, $exit);
 	}
 /**
@@ -318,8 +317,8 @@ class WizardComponent extends Object {
  * @access public
  */
 	function resetWizard() {
-		$this->Session->del($this->_branchKey);
-		$this->Session->del($this->_sessionKey);
+		$this->Session->delete($this->_branchKey);
+		$this->Session->delete($this->_sessionKey);
 	}
 /**
  * Saves the data from the current step into the Session.
@@ -339,7 +338,7 @@ class WizardComponent extends Object {
  * @access public
  */
 	function unbranch($branch) {
-		$this->Session->del("$this->_branchKey.$branch");
+		$this->Session->delete("$this->_branchKey.$branch");
 	}
 /**
  * Finds the first incomplete step (i.e. step data not saved in Session).
