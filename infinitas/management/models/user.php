@@ -102,7 +102,7 @@
 		* @return bool true on match false on not.
 		*/
 		function matchPassword($field = null){
-			return true; (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
+			return (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
 		}
 
 		function matchEmail($field = null){
@@ -120,7 +120,7 @@
 		 * @return bool true if password matches the regex and false if not
 		 */
 		function validPassword($field = null){
-			return true; preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
+			return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
 		}
 
 		/**
@@ -132,7 +132,7 @@
 		* @param int $user_id the users id.
 		* @return array the data from the last login.
 		*/
-		function getLastLogon($user_id){
+		function getLastLogon($user_id = null){
 			if (!$user_id) {
 				return false;
 			}
@@ -144,7 +144,7 @@
 					'User.country',
 					'User.city'
 				),
-				$user_id
+				(int)$user_id
 			);
 		}
 

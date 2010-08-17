@@ -1,5 +1,5 @@
 <?php
-/* CoreUser Fixture generated on: 2010-03-11 18:03:02 : 1268325062 */
+/* CoreUser Fixture generated on: 2010-08-17 01:08:26 : 1282003706 */
 class UserFixture extends CakeTestFixture {
 	var $name = 'User';
 
@@ -12,7 +12,7 @@ class UserFixture extends CakeTestFixture {
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
 		'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
 		'ip_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'browser' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'operating_system' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
@@ -23,33 +23,48 @@ class UserFixture extends CakeTestFixture {
 		'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => array('username', 'email'), 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => array('username', 'email'), 'unique' => 1), 'user' => array('column' => array('id', 'username'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
 	var $records = array(
 		array(
 			'id' => 1,
-			'username' => 'testAdmin',
+			'username' => 'admin',
 			'email' => 'admin@admin.com',
 			'password' => 'b45e7cddbeafb9f619d93fd996c6a78c784e7fb5',
 			'birthday' => '2010-02-04',
 			'active' => 1,
 			'group_id' => 1,
-			'ip_address' => '::1',
+			'ip_address' => '127.0.0.1',
 			'browser' => 'Mozilla 5.0',
 			'operating_system' => 'Windows NT',
-			'last_login' => '2010-03-10 13:25:53',
+			'last_login' => '2010-08-16 10:49:19',
 			'last_click' => '0000-00-00 00:00:00',
 			'country' => 'Unknown',
-			'city' => 'TODO',
+			'city' => '',
 			'is_mobile' => 0,
 			'created' => '2010-02-04 16:54:48',
-			'modified' => '2010-02-04 16:54:48',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-02-04 16:54:48'
+		),
+		array(
+			'id' => 15,
+			'username' => 'asdf',
+			'email' => 'dogmatic@test.com',
+			'password' => 'cb0b7000df8e143bfc4c4cb6d6f4d88e693b1234',
+			'birthday' => '2010-05-15',
+			'active' => 1,
+			'group_id' => 1,
+			'ip_address' => '',
+			'browser' => '',
+			'operating_system' => '',
+			'last_login' => '0000-00-00 00:00:00',
+			'last_click' => '0000-00-00 00:00:00',
+			'country' => '',
+			'city' => '',
+			'is_mobile' => 0,
+			'created' => '2010-05-15 14:35:32',
+			'modified' => '2010-05-15 14:36:19'
 		),
 	);
 }
