@@ -49,7 +49,7 @@
 		);
 
 		function getActiveIds(){
-			return $this->find(
+			$ids = $this->find(
 				'list',
 				array(
 					'fields' => array(
@@ -60,5 +60,7 @@
 					)
 				)
 			);
+
+			return $ids;
 		}
 	}
