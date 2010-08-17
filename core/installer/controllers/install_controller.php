@@ -40,7 +40,7 @@
 		* @var array
 		* @access public
 		*/
-		var $components = array('Libs.Wizard');
+		var $components = array('Libs.Wizard', 'DebugKit.Toolbar');
 		var $helpers = array('Libs.Wizard');
 
 		private $__phpVersion = '5.0';
@@ -129,24 +129,28 @@
 				'welcome',
 				'database',
 				'install',
-				'configuration',
-				'finish'
+				'admin_user',
 			);
 
 			$this->installerProgress = array(
 				'welcome' => __('Welcome', true),
-				'database' => __('Database Configuration', true),
+				'database' => __('Database configuration', true),
 				'install' => __('Installation', true),
-				'configuration' => __('Configuration', true),
-				'finish' => __('Finished', true),
+				'admin_user' => __('Site administrator', true),
 			);
+
+			$this->Wizard->completeUrl = 'install/finish';
 			
 			$this->set('installerProgress', $this->installerProgress);
 		}
 
-		function index($step = null) {
+		function index($step = 'welcome') {
 			$this->set('title_for_layout', $this->installerProgress[$step]);
 			$this->Wizard->process($step);
+		}
+
+		function finish() {
+			
 		}
 
 /**
@@ -172,6 +176,10 @@
 			
 		}
 
+		function _prepareAdminUser() {
+			$this->loadModel('Management.User');
+		}
+
 /**
  * Wizard process step methods
  */
@@ -189,25 +197,21 @@
 		}
 
 		function _processInstall() {
-			copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
-
-			App::import('Core', 'File');
-			$file = new File(APP . 'config' . DS . 'database.php', true);
-			$content = $file->read();
-
-			$content = str_replace('{default_host}', $this->data['Install']['host'], $content);
-			$content = str_replace('{default_login}', $this->data['Install']['login'], $content);
-			$content = str_replace('{default_password}', $this->data['Install']['password'], $content);
-			$content = str_replace('{default_database}', $this->data['Install']['database'], $content);
-			$content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
-			$content = str_replace('{default_port}', $this->data['Install']['port'], $content);
-
-			if ($file->write($content)) {
+			if($this->__writeDbConfig() && $this->__migrateTables() && $this->__installCore()) {
 				return true;
 			}
+
+			return false;
 		}
 
+		function _processAdminUser() {
+			$this->loadModel('Management.User');
 
+			if($this->User->save($this->data)) {
+				return true;
+			}
+			return false;
+		}
 /**
  * Private methods
  */
@@ -319,8 +323,80 @@
 			}
 		}
 
+		private function __writeDbConfig() {
+			$dbConfig = $this->Wizard->read('database.Install');
 
+			copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
+			App::import('Core', 'File');
+			$file = new File(APP . 'config' . DS . 'database.php', true);
+			$content = $file->read();
+
+			$find = array(
+				'{default_host}',
+				'{default_login}',
+				'{default_password}',
+				'{default_database}',
+				'{default_prefix}',
+				'{default_port}',
+			);
+
+			$replacements = array(
+				$dbConfig['host'],
+				$dbConfig['login'],
+				$dbConfig['password'],
+				$dbConfig['database'],
+				$dbConfig['prefix'],
+				$dbConfig['port'],
+			);
+
+			$content = str_replace($find, $replacements, $content);
+
+			if ($file->write($content)) {
+				return true;
+			}
+			return false;
+		}
+
+		private function __migrateTables() {
+			$dbConfig = $this->Wizard->read('database.Install');
+			unset($dbConfig['step']);
+
+			if(trim($dbConfig['port']) == '') {
+				unset($dbConfig['port']);
+			}
+
+			if(trim($dbConfig['prefix']) == '') {
+				unset($dbConfig['prefix']);
+			}
+			$db = ConnectionManager::create('default', $dbConfig);
+
+			// Can be 'app' or a plugin name
+			$type = 'app';
+
+			App::import('Lib', 'Migrations.MigrationVersion');
+			// All the job is done by MigrationVersion
+			$version = new MigrationVersion();
+
+			// Get the mapping and the latest version avaiable
+			$mapping = $version->getMapping($type);
+
+			$latest = array_pop($mapping);
+
+			// Run it to latest version
+			if($version->run(array('type' => $type, 'version' => $latest['version'])))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		private function __installCore() {
+			ClassRegistry::init('Installer.Release')->installData($this->data['Install']['sample']);
+
+			return true;
+		}
 
 
 
