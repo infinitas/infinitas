@@ -43,7 +43,11 @@
 		 * @return array list of tables.
 		 */
 		function getTables(&$Model, $connection = 'default'){
-			$this->db    = ConnectionManager::getDataSource($connection);
+			$this->db = ConnectionManager::getDataSource($connection);
+			if(!$this->db){
+				return false;
+			}
+
 			$tables      = $this->db->query('SHOW TABLES;');
 			$databseName = $this->db->config['database'];
 
@@ -290,28 +294,18 @@
 		*
 		* seems like a method to call a function in a model via ajax mostly.
 		*/
-		function getList(&$Model, $plugin = null, $model = 'AppModel', $method = null, $conditions = array()){
-			if (!$model) {
-				return 'Config error!';
-			}
-
+		function getList(&$Model, $plugin = null, $model = null, $method = null, $conditions = array()){
 			$class = null;
-
-			if (!$plugin) {
-				$class = Infilector::classify($model);
+			if (!$plugin && $model) {
+				$class = Inflector::classify($model);
 			}
 
-			if (!$class) {
-				$class = Infilector::classify($plugin).'.'.Infilector::classify($model);
+			if (!$class && ($plugin && $model)) {
+				$class = Inflector::classify($plugin).'.'.Inflector::classify($model);
 			}
-
-			if ($model == 'AppModel') {
-				App::import('Appmodel', array('table' => false));
-				$this->Model = new AppModel();
-			}
-
-			if (!isset($this->AppModel) && $model != 'AppModel') {
-				$this->Model = ClassRegistry::init($class);
+			$this->Model = !empty($class) ? ClassRegistry::init($class) : $Model;
+			if(get_class($this->Model) == 'AppModel' && !$this->Model->useTable){
+				return false;
 			}
 
 			if ($method && method_exists($this->Model, $method)) {
@@ -322,12 +316,15 @@
 				return $this->Model->_getList($conditions);
 			}
 
-			return $this->find('list');
+			return $this->Model->find('list', array('conditions' => $conditions));
 		}
 
 		function validateJson(&$Model, $data = null, $field = null){
 			if (!$data) {
 				return false;
+			}
+			if(!is_array($data)){
+				$data = array($data);
 			}
 
 			return $this->getJson($Model, current($data), array(), false);
