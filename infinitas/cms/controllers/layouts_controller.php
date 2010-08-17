@@ -4,7 +4,7 @@
 	 *
 	 */
 	class LayoutsController extends CmsAppController{
-		var $name = 'Layouts';
+		public $name = 'Layouts';
 
 		/**
 		 * Helpers.
@@ -12,9 +12,9 @@
 		 * @access public
 		 * @var array
 		 */
-		var $helpers = array('Filter.Filter');
+		public $helpers = array('Filter.Filter');
 
-		function admin_index() {
+		public function admin_index() {
 			$this->Layout->recursive = 1;
 			$layouts = $this->paginate(null, $this->Filter->filter);
 
@@ -26,7 +26,7 @@
 			$this->set(compact('layouts','filterOptions'));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Layout->create();
 				if ($this->Layout->saveAll($this->data)) {
@@ -38,7 +38,7 @@
 			}
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			if (!$id && empty($this->data)) {
 				$this->Session->setFlash(__('Invalid layout', true));
 				$this->redirect(array('action' => 'index'));

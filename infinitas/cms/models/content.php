@@ -27,21 +27,15 @@
 	*/
 
 	class Content extends CmsAppModel {
-		var $name = 'Content';
+		public $name = 'Content';
 
-		var $_order = array(
+		public $_order = array(
 			'Content.ordering' => 'ASC'
 		);
 
-		var $actsAs = array(
-			/*'Libs.Sequence' => array(
-				'group_fields' => array(
-					'category_id'
-				)
-			)*/
-		);
+		public $actsAs = array();
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Author' => array(
 				'className' => 'Management.User',
 				'foreignKey' => 'created_by',
@@ -80,7 +74,7 @@
 			)
 		);
 
-		var $hasOne = array(
+		public $hasOne = array(
 			/* making duplicate records.
 			'ContentConfig' => array(
 				'className' => 'Cms.ContentConfig',
@@ -112,7 +106,7 @@
 		 * @param mixed $table
 		 * @param mixed $ds
 		 */
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
@@ -135,7 +129,7 @@
 			);
 		}
 
-		function getContentPage($slug = null){
+		public function getContentPage($slug = null){
 			if (!$slug) {
 				return array();
 			}
@@ -186,7 +180,7 @@
 			return $content;
 		}
 
-		function getPopular($limit = 10){
+		public function getPopular($limit = 10){
 			return $this->find(
 				'all',
 				array(
@@ -214,7 +208,7 @@
 			);
 		}
 
-		function getMostCommented($limit = 10){
+		public function getMostCommented($limit = 10){
 			return $this->find(
 				'all',
 				array(
@@ -242,7 +236,7 @@
 			);
 		}
 
-		function getRelated(){
+		public function getRelated(){
 			return array();
 		}
 	}

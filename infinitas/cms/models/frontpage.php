@@ -18,19 +18,19 @@
 	*/
 
 	class Frontpage extends CmsAppModel {
-		var $name = 'Frontpage';
+		public $name = 'Frontpage';
 
-		var $actsAs = array();
+		public $actsAs = array();
 
-		var $order = array(
+		public $order = array(
 			'Frontpage.order_id' => 'ASC',
 			'Frontpage.ordering' => 'ASC'
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Cms.Content'
 		);
 
-		var $noTrash = true;
-		var $noConfirm = true;
+		public $noTrash = true;
+		public $noConfirm = true;
 	}

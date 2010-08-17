@@ -18,7 +18,7 @@
 	*/
 
 	class FrontpagesController extends CmsAppController {
-		var $name = 'Frontpages';
+		public $name = 'Frontpages';
 
 		/**
 		* Helpers.
@@ -26,9 +26,9 @@
 		* @access public
 		* @var array
 		*/
-		var $helpers = array('Filter.Filter');
+		public $helpers = array('Filter.Filter');
 
-		function index() {
+		public function index() {
 			$this->Frontpage->recursive = 0;
 
 			$this->paginate = array(
@@ -80,7 +80,7 @@
 			$this->set('filterOptions', $this->Filter->filterOptions);
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->Frontpage->recursive = 0;
 
 			$this->paginate = array(
@@ -120,7 +120,7 @@
 			$this->set('filterOptions', $filterOptions);
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Frontpage->create();
 				if ($this->Frontpage->save($this->data)) {

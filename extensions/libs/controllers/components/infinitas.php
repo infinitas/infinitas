@@ -34,7 +34,6 @@
 			Configure::write('CORE.current_route', Router::currentRoute());
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
-			return;
 
 			$this->setupConfig();
 			$this->__registerPlugins();

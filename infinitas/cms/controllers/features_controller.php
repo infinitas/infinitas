@@ -2,7 +2,7 @@
 	/**
 	*/
 	class FeaturesController extends CmsAppController {
-		var $name = 'Features';
+		public $name = 'Features';
 
 		/**
 		* Helpers.
@@ -10,14 +10,14 @@
 		* @access public
 		* @var array
 		*/
-		var $helpers = array('Filter.Filter');
+		public $helpers = array('Filter.Filter');
 
-		function index() {
+		public function index() {
 			$this->Feature->recursive = 0;
 			$this->set('features', $this->paginate);
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->Feature->recursive = 0;
 
 			$this->paginate = array(
@@ -50,7 +50,7 @@
 			$this->set('filterOptions', $this->Filter->filterOptions);
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Feature->create();
 				if ($this->Feature->save($this->data)) {

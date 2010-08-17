@@ -18,16 +18,16 @@
 	 */
 
 	class Feature extends CmsAppModel {
-		var $name = 'Feature';
+		public $name = 'Feature';
 
-		var $order = array(
+		public $order = array(
 			'Feature.ordering' => 'ASC'
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Cms.Content'
 		);
 
-		var $noTrash = true;
-		var $noConfirm = true;
+		public $noTrash = true;
+		public $noConfirm = true;
 	}
