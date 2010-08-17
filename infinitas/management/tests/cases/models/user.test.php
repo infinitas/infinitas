@@ -16,8 +16,7 @@
 
 	class UserTestCase extends CakeTestCase {
 		public $fixtures = array(
-			'plugin.management.core_user',
-			'plugin.management.core_ticket'
+			'plugin.management.user'
 		);
 
 		public function startTest() {

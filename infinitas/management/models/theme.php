@@ -16,7 +16,6 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
-
 	class Theme extends ManagementAppModel {
 		var $name = 'Theme';
 
@@ -33,16 +32,24 @@
 		function getCurrentTheme(){
 			$theme = Cache::read('current_theme', 'core');
 
-			if ($theme == false) {
-				$theme = $this->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Theme.active' => 1
-						)
-					)
-				);
+			if ($theme !== false) {
+				return $theme;
 			}
+
+			$theme = $this->find(
+				'first',
+				array(
+					'fields' => array(
+						'Theme.id',
+						'Theme.name',
+						'Theme.core'
+					),
+					'conditions' => array(
+						'Theme.active' => 1
+					)
+				)
+			);
+
 			Cache::write('current_theme', $theme, 'core');
 
 			return $theme;
