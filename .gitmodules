@@ -4,3 +4,6 @@
 [submodule "plugins/wysiwyg_ck_editor"]
 	path = plugins/wysiwyg_ck_editor
 	url = git@github.com:Infinitas-Plugins/wysiwyg_ck_editor.git
+[submodule "plugins/Gallery"]
+	path = plugins/Gallery
+	url = git@github.com:Infinitas-Plugins/Gallery.git
