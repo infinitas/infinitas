@@ -17,7 +17,7 @@
 	* @since 0.5a
 	*/
 
-	class Backup extends CoreAppModel {
+	class Backup extends ManagementAppModel {
 		var $name = 'Backup';
 
 		var $last_id = 0;
