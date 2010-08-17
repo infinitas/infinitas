@@ -7,3 +7,6 @@
 [submodule "plugins/Gallery"]
 	path = plugins/Gallery
 	url = git@github.com:Infinitas-Plugins/Gallery.git
+[submodule "plugins/geshi"]
+	path = plugins/geshi
+	url = git@github.com:Infinitas-Plugins/geshi.git
