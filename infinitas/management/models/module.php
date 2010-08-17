@@ -4,14 +4,14 @@
 	 *
 	 */
 	class Module extends ManagementAppModel{
-		var $name = 'Module';
+		public $name = 'Module';
 
-		var $virtualFields = array(
+		public $virtualFields = array(
 			'list_name' => "IF(Module.admin = 1, CONCAT('Admin :: ', Module.name), Module.name)",
 			'save_name' => "IF(Module.admin = 1, CONCAT('admin/', Module.module), Module.module)"
 		);
 
-		var $actsAs = array(
+		public $actsAs = array(
 			'Libs.Sequence' => array(
 				'group_fields' => array(
 					'position_id'
@@ -19,12 +19,12 @@
 			)
 		);
 
-		var $order = array(
+		public $order = array(
 			'Module.position_id' => 'ASC',
 			'Module.ordering' => 'ASC'
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Position' => array(
 				'className' => 'Management.ModulePosition',
 				'foreignKey' => 'position_id'
@@ -36,7 +36,7 @@
 			),
 		);
 
-		var $hasAndBelongsToMany = array(
+		public $hasAndBelongsToMany = array(
 			'Route' => array(
 				'className' => 'Management.Route',
 				'joinTable' => 'core_modules_routes',
@@ -46,20 +46,20 @@
 			)
 		);
 
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->subPath = 'views'.DS.'elements'.DS.'modules'.DS;
 		}
 
-		function getModules($position = null, $admin = false){
+		public function getModules($position = null, $admin = false){
 			if (!$position) {
 				return array();
 			}
 
 			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
 			if($modules !== false){
-				return $modules;
+				//return $modules;
 			}
 
 			$modules = $this->find(
@@ -113,7 +113,7 @@
 			return $modules;
 		}
 
-		function getModuleList($plugin = null){
+		public function getModuleList($plugin = null){
 			$admin = $non_admin = array();
 
 			$conditions = array();
@@ -150,15 +150,15 @@
 			);
 		}
 
-		function afterSave($created){
+		public function afterSave($created){
 			return $this->dataChanged('afterSave');
 		}
 
-		function afterDelete(){
+		public function afterDelete(){
 			return $this->dataChanged('afterDelete');
 		}
 
-		function dataChanged($from){
+		public function dataChanged($from){
 			App::import('Folder');
 			$Folder = new Folder(CACHE . 'core' . DS . 'modules');
 			$Folder->delete();

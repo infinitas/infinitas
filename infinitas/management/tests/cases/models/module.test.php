@@ -26,7 +26,7 @@
 
 		public function testGet(){
 			$this->assertEqual(array(), $this->Module->getModules());
-			$result = $this->Module->getModules('bottom');
+			$result = $this->Module->getModules('top');
 			//pr($result);
 		}
 
