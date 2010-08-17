@@ -10,3 +10,6 @@
 [submodule "plugins/geshi"]
 	path = plugins/geshi
 	url = git@github.com:Infinitas-Plugins/geshi.git
+[submodule "plugins/facebook"]
+	path = plugins/facebook
+	url = http://github.com/webtechnick/CakePHP-Facebook-Plugin.git
