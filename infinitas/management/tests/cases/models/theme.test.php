@@ -9,7 +9,8 @@
 
 	class ThemeTestCase extends CakeTestCase {
 		public $fixtures = array(
-			'plugin.management.theme'
+			'plugin.management.theme',
+			'plugin.management.trash'
 		);
 
 		function startTest() {
