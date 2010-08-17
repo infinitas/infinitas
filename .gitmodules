@@ -1,0 +1,3 @@
+[submodule "plugins/wysiwyg_tiny_mce"]
+	path = plugins/wysiwyg_tiny_mce
+	url = git@github.com:Infinitas-Plugins/wysiwyg_tiny_mce.git
