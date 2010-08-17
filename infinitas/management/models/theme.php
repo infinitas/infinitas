@@ -1,8 +1,9 @@
 <?php
 	/**
-	 * Comment Template.
+	 * Model for themes
 	 *
-	 * @todo Implement .this needs to be sorted out.
+	 * handles the themes for infinitas finding and making sure only one can be
+	 * active at a time.
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
@@ -11,8 +12,8 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
+	 * @package management
+	 * @subpackage management.models.theme
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */

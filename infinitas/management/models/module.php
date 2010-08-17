@@ -52,7 +52,7 @@
 			$this->subPath = 'views'.DS.'elements'.DS.'modules'.DS;
 		}
 
-		function getModules($position = null, $admin){
+		function getModules($position = null, $admin = false){
 			if (!$position) {
 				return array();
 			}
