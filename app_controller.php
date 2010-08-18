@@ -25,7 +25,8 @@
 		public $helpers = array(
 			'Html', 'Form', 'Javascript', 'Session', 'Time',
 			'Libs.Infinitas', 'Tags.TagCloud',
-			'Events.Event', 'Shop.Shop'
+			'Events.Event', 'Shop.Shop',
+			'Facebook.Facebook'
 		);
 
 		public $components = array(
@@ -41,7 +42,8 @@
 			'Libs.Voucher',
 			'Libs.MassAction',
 			'Events.Event',
-			'Newsletter.Emailer'
+			'Newsletter.Emailer',
+			'Facebook.Connect'
 		);
 
 		/**
