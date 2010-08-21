@@ -65,8 +65,8 @@
 
 		function beforeRender(){
 			parent::beforeRender();
-			$this->set('css_for_layout', $this->cssToLoad);
-			$this->set('js_for_layout', $this->jsToLoad);
+			$this->set('css_for_layout', array_filter($this->cssToLoad));
+			$this->set('js_for_layout', array_filter($this->jsToLoad));
 		}
 
 		/**
