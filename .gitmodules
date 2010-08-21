@@ -4,12 +4,12 @@
 [submodule "plugins/wysiwyg_ck_editor"]
 	path = plugins/wysiwyg_ck_editor
 	url = git://github.com/Infinitas-Plugins/wysiwyg_ck_editor.git
-[submodule "plugins/Gallery"]
-	path = plugins/gallery
-	url = git://github.com/Infinitas-Plugins/Gallery.git
 [submodule "plugins/geshi"]
 	path = plugins/geshi
 	url = git://github.com/Infinitas-Plugins/geshi.git
 [submodule "plugins/facebook"]
 	path = plugins/facebook
 	url = git://github.com/Infinitas-Plugins/CakePHP-Facebook-Plugin.git
+[submodule "plugins/gallery"]
+	path = plugins/gallery
+	url = git://github.com/Infinitas-Plugins/Gallery
