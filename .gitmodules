@@ -1,15 +1,15 @@
 [submodule "plugins/wysiwyg_tiny_mce"]
 	path = plugins/wysiwyg_tiny_mce
-	url = git@github.com:Infinitas-Plugins/wysiwyg_tiny_mce.git
+	url = git://github.com/Infinitas-Plugins/wysiwyg_tiny_mce.git
 [submodule "plugins/wysiwyg_ck_editor"]
 	path = plugins/wysiwyg_ck_editor
-	url = git@github.com:Infinitas-Plugins/wysiwyg_ck_editor.git
+	url = git://github.com/Infinitas-Plugins/wysiwyg_ck_editor.git
 [submodule "plugins/Gallery"]
-	path = plugins/Gallery
-	url = git@github.com:Infinitas-Plugins/Gallery.git
+	path = plugins/allery
+	url = git://github.com/Infinitas-Plugins/Gallery.git
 [submodule "plugins/geshi"]
 	path = plugins/geshi
-	url = git@github.com:Infinitas-Plugins/geshi.git
+	url = git://github.com/Infinitas-Plugins/geshi.git
 [submodule "plugins/facebook"]
 	path = plugins/facebook
-	url = http://github.com/webtechnick/CakePHP-Facebook-Plugin.git
+	url = git://github.com/Infinitas-Plugins/CakePHP-Facebook-Plugin.git
