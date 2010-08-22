@@ -53,11 +53,11 @@
 			'view'
 		);
 
-		protected $cssToLoad = array(
+		private $__addCss = array( 
 			'/libs/css/jquery_ui'
 		);
 
-		protected $jsToLoad  = array(
+		private $__addJs  = array( 
 			'/libs/js/3rd/jquery',
 			'/libs/js/3rd/require',
 			'/libs/js/infinitas'
@@ -69,8 +69,8 @@
 		function beforeRender(){
 			parent::beforeRender();
 			$this->Infinitas->getPluginAssets();
-			$this->set('css_for_layout', array_filter($this->cssToLoad));
-			$this->set('js_for_layout', array_filter($this->jsToLoad));
+			$this->set('css_for_layout', array_filter($this->__addCss));
+			$this->set('js_for_layout', array_filter($this->__addJs));
 		}
 
 		/**
@@ -156,8 +156,8 @@
 		 *
 		 * @param mixed $css array of paths like HtmlHelper::css or a string path
 		 */
-		function addCss($css = false){
-			$this->__loadAsset($css, __FUNCTION__);
+		function addCss($css = false){			
+			return $this->__loadAsset($css, __FUNCTION__);
 		}
 
 		/**
@@ -169,18 +169,19 @@
 		 * @param mixed $js array of paths like HtmlHelper::css or a string path
 		 */
 		function addJs($js = false){
-			$this->__loadAsset($css, __FUNCTION__);
+			return $this->__loadAsset($js, __FUNCTION__);
 		}
 
 
 		function __loadAsset($data, $method){
+			$property = '__'.$method;
 			if($data === false){
-				$this->{$method} = array();
+				$this->{$property} = array();
 				return true;
 			}
 
 			else if($data === true){
-				return $this->{$method};
+				return $this->{$property};
 			}
 
 			foreach((array)$data as $_data){
@@ -188,11 +189,12 @@
 					$this->{$method}($_data);
 					continue;
 				}
-
-				if(!in_array($_data, $this->cssToLoad) && !empty($_data)){
-					$this->{$method}[] = $_data;
+				if(!in_array($_data, $this->{$property}) && !empty($_data)){
+					$this->{$property}[] = $_data;
 				}
 			}
+
+			return true;
 		}
 
 		function render($action = null, $layout = null, $file = null) {
