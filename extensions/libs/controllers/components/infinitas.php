@@ -500,17 +500,24 @@
 			$this->Controller->Security->validatePost = false;
 		}
 
+		public function getPluginAssets(){
+			$eventData = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);			
+			if(is_array($eventData) && !empty($eventData)){
+				$this->Controller->addJs(current($eventData));
+			}
+			
+			$eventData = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
+			if(is_array($eventData) && !empty($eventData)){
+				$this->Controller->addCss(current($eventData));
+			}
+		}
+
 		/**
 		* Set some data for the infinitas js lib.
 		*/
 		function _setupJavascript(){
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
-			}
-
-			$eventData = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
-			if(is_array($eventData) && !empty($eventData)){
-				$this->Controller->addJs(current($eventData));
 			}
 
 			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');

@@ -62,9 +62,13 @@
 			'/libs/js/3rd/require',
 			'/libs/js/infinitas'
 		);
+		function afterRender(){
+			parent::afterRender();
+		}
 
 		function beforeRender(){
 			parent::beforeRender();
+			$this->Infinitas->getPluginAssets();
 			$this->set('css_for_layout', array_filter($this->cssToLoad));
 			$this->set('js_for_layout', array_filter($this->jsToLoad));
 		}
@@ -153,20 +157,7 @@
 		 * @param mixed $css array of paths like HtmlHelper::css or a string path
 		 */
 		function addCss($css = false){
-			if($css === false){
-				$this->cssToLoad = array();
-				return true;
-			}
-
-			if($css === true){
-				return $this->cssToLoad;
-			}
-
-			foreach((array)$css as $_css){
-				if(!in_array($_css, $this->cssToLoad)){
-					$this->cssToLoad[] = $_css;
-				}
-			}
+			$this->__loadAsset($css, __FUNCTION__);
 		}
 
 		/**
@@ -178,18 +169,28 @@
 		 * @param mixed $js array of paths like HtmlHelper::css or a string path
 		 */
 		function addJs($js = false){
-			if($js === false){
-				$this->jsToLoad = array();
+			$this->__loadAsset($css, __FUNCTION__);
+		}
+
+
+		function __loadAsset($data, $method){
+			if($data === false){
+				$this->{$method} = array();
 				return true;
 			}
 
-			if($js === true){
-				return $this->jsToLoad;
+			else if($data === true){
+				return $this->{$method};
 			}
 
-			foreach((array)$js as $_js){
-				if(!in_array($_js, $this->jsToLoad)){
-					$this->jsToLoad[] = $_js;
+			foreach((array)$data as $_data){
+				if(is_array($_data)){
+					$this->{$method}($_data);
+					continue;
+				}
+
+				if(!in_array($_data, $this->cssToLoad) && !empty($_data)){
+					$this->{$method}[] = $_data;
 				}
 			}
 		}
