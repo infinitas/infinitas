@@ -48,6 +48,9 @@
 			)
 		);
 
+		/**
+		 * get active categories
+		 */
 		function getActiveIds(){
 			$ids = $this->find(
 				'list',
@@ -62,5 +65,33 @@
 			);
 
 			return $ids;
+		}
+
+		/**
+		 * overwrite childern method to allow finding by slug or name
+		 * @return TreeBehavior::children
+		 */
+		public function children($id = null, $direct = false){
+			if(!$id || is_int($id)){
+				return parent::children($id, $direct);
+			}
+
+			$id = $this->find(
+				'first',
+				array(
+					'conditions' => array(
+						'or' => array(
+							'Category.slug' => $id,
+							'Category.title' => $id
+						),
+					)
+				)
+			);
+
+			if(isset($id['Category']['id']) && !empty($id['Category']['id'])){
+				$id = $id['Category']['id'];
+			}
+
+			return parent::children($id, $direct);
 		}
 	}
