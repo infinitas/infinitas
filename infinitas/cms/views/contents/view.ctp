@@ -40,5 +40,7 @@
 	$__html = str_replace('[[Content.modified]]', $content['Content']['modified'], $__html);
 
 	echo $__html;
-	echo $this->element('global/comment_add', array('data' => $content));
+	if(Configure::read('Cms.allow_comments')){
+		echo $this->element('global/comment_add', array('data' => $content));
+	}
 ?>
