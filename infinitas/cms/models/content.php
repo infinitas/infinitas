@@ -30,7 +30,8 @@
 		public $name = 'Content';
 
 		public $_order = array(
-			'Content.ordering' => 'ASC'
+			'Category.title' => 'asc',
+			'Content.ordering' => 'asc'
 		);
 
 		public $actsAs = array();
