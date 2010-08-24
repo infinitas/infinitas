@@ -169,8 +169,8 @@
 						'Category' => array(
 							'fields' => array(
 								'Category.id',
-								'category.title',
-								'category.slug',
+								'Category.title',
+								'Category.slug',
 							)
 						)
 					)
