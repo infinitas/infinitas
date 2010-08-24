@@ -24,7 +24,7 @@
 <?php
 	$content['Content']['modified'] = $this->Time->niceShort($content['Content']['modified']);
 
-	$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'contents', 'data' => $content['Content']));
+	$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'contents', 'data' => $content));
 	$urlArray = current($eventData['slugUrl']);
 	$content['Content']['title'] = $this->Html->link($content['Content']['title'], $urlArray);
 
