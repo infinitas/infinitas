@@ -15,7 +15,7 @@
 
 		function onSlugUrl(&$event, $data){
 			switch(strtolower($data['type'])){
-				case 'contents':
+				case 'contents':					
 					$url = array(
 						'plugin'     => 'cms',
 						'controller' => 'contents',
