@@ -20,14 +20,14 @@
 ?>
 <div class="contents form">
 	<?php
-	echo $this->Form->create( 'Layout' );
+	echo $this->Form->create('Layout');
         echo $this->Infinitas->adminEditHead($this);	
-		echo $this->Form->input( 'id' );
-		echo $this->Form->input( 'name', array('class' => 'title') );
-		echo $this->Form->input( 'css', array('class' => 'title') );
-		echo $this->Cms->wysiwyg( 'Layout.html' );
-		echo $this->Form->input( 'php', array('class' => 'title') );
-	echo $this->Form->end(  );
+		echo $this->Form->input('id');
+		echo $this->Form->input('name', array('class' => 'title'));
+		echo $this->Form->input('css', array('class' => 'title'));
+		echo $this->Cms->wysiwyg('Layout.html');
+		echo $this->Form->input('php', array('class' => 'title'));
+	echo $this->Form->end();
 ?>
 </div>
 <div class="clr">
