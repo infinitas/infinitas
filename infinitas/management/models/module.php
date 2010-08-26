@@ -46,6 +46,34 @@
 			)
 		);
 
+		private $__contain = array(
+			'Position' => array(
+				'fields' => array(
+					'Position.id',
+					'Position.name'
+				)
+			),
+			'Group' => array(
+				'fields' => array(
+					'Group.id',
+					'Group.name'
+				)
+			),
+			'Route' => array(
+				'fields' => array(
+					'Route.id',
+					'Route.name',
+					'Route.url'
+				)
+			),
+			'Theme' => array(
+				'fields' => array(
+					'Theme.id',
+					'Theme.name'
+				)
+			)
+		);
+
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
@@ -59,7 +87,7 @@
 
 			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
 			if($modules !== false){
-				//return $modules;
+				return $modules;
 			}
 
 			$modules = $this->find(
@@ -79,38 +107,47 @@
 						'Module.admin' => $admin,
 						'Module.active' => 1
 					),
-					'contain' => array(
-						'Position' => array(
-							'fields' => array(
-								'Position.id',
-								'Position.name'
-							)
-						),
-						'Group' => array(
-							'fields' => array(
-								'Group.id',
-								'Group.name'
-							)
-						),
-						'Route' => array(
-							'fields' => array(
-								'Route.id',
-								'Route.name',
-								'Route.url'
-							)
-						),
-						'Theme' => array(
-							'fields' => array(
-								'Theme.id',
-								'Theme.name'
-							)
-						)
-					)
+					'contain' => $this->__contain
 				)
 			);
 			Cache::write('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), $modules, 'core');
 
 			return $modules;
+		}
+
+		public function getModule($module = null, $admin = false){
+			if (!$module) {
+				return false;
+			}
+
+			$_module = Cache::read('modules.single.' . ($admin ? 'admin' : 'user'), 'core');
+			if($_module !== false){
+				return $_module;
+			}
+
+			$module = $this->find(
+				'first',
+				array(
+					'fields' => array(
+						'Module.id',
+						'Module.name',
+						'Module.plugin',
+						'Module.content',
+						'Module.module',
+						'Module.config',
+						'Module.show_heading'
+					),
+					'conditions' => array(
+						'Module.name' => $module,
+						'Module.admin' => $admin,
+						'Module.active' => 1
+					),
+					'contain' => $this->__contain
+				)
+			);
+			Cache::write('modules.single.' . ($admin ? 'admin' : 'user'), $module, 'core');
+
+			return $module;
 		}
 
 		public function getModuleList($plugin = null){
