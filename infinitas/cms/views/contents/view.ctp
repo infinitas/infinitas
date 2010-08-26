@@ -17,6 +17,10 @@
 	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since         0.5a
 	 */
+	 $eventData = $this->Event->trigger('cmsBeforeContentRender', array('_this' => $this, 'content' => $content));
+	 foreach((array)$eventData['cmsBeforeContentRender'] as $_plugin => $_data){
+		 echo '<div class="before '.$_plugin.'">'.$_data.'</div>';
+	 }
 ?>
 	<style type="text/css">
 		<?php echo $content['Layout']['css']; ?>
@@ -40,7 +44,12 @@
 	$__html = str_replace('[[Content.modified]]', $content['Content']['modified'], $__html);
 
 	echo $__html;
+	
+	$eventData = $this->Event->trigger('cmsAfterContentRender', array('_this' => $this, 'content' => $content));
+	foreach((array)$eventData['cmsAfterContentRender'] as $_plugin => $_data){
+		echo '<div class="after '.$_plugin.'">'.$_data.'</div>';
+	}
+
 	if(Configure::read('Cms.allow_comments')){
 		echo $this->element('global/comment_add', array('data' => $content));
 	}
-?>
