@@ -22,14 +22,13 @@
 			}
 			switch($data['type']){
 				case 'posts':
-					$post = isset($data['data']['Post']) ? $data['data']['Post'] : $data['data'];
 					return array(
-						'plugin' => $post['plugin'],
-						'controller' => $post['controller'],
-						'action' => $post['action'],
-						'id' => $post['id'],
+						'plugin' => 'blog',
+						'controller' => 'posts',
+						'action' => 'view',
+						'id' => $data['data']['Post']['id'],
 						'category' => isset($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : 'news-feed',
-						'slug' => $post['slug']
+						'slug' => $data['data']['Post']['slug']
 					);
 					break;
 			} // switch
