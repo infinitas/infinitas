@@ -17,6 +17,10 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
+
+	if(!Configure::read('Cms.allow_comments')){
+		return false;
+	}
 ?>
 <div id="comment-box">
 	<?php
@@ -29,6 +33,13 @@
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
     	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
 		$data = &${strtolower($modelName)};
+
+		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){
+			$this->data[$modelName] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName]);
+		}
+		else{
+			$this->data[$modelName] = $this->Session->read('Auth.User');
+		}
 
         if (isset($urlParams)){
             echo $this->Form->create(
@@ -63,7 +74,7 @@
 
             foreach($commentFields as $field){
                 if ($field != 'comment'){
-                    echo $this->Form->input('Comment.'.$field);
+                    echo $this->Form->input('Comment.'.$field, array('value' => isset($this->data[$modelName][$field]) ? $this->data[$modelName][$field] : ''));
                 }
                 else{
                     echo $this->Form->input('Comment.comment', array('type' => 'textarea', 'class' => 'title'));
