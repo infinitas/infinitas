@@ -49,7 +49,3 @@
 	foreach((array)$eventData['cmsAfterContentRender'] as $_plugin => $_data){
 		echo '<div class="after '.$_plugin.'">'.$_data.'</div>';
 	}
-
-	if(Configure::read('Cms.allow_comments')){
-		echo $this->element('global/comment_add', array('data' => $content));
-	}
