@@ -13,3 +13,6 @@
 [submodule "plugins/gallery"]
 	path = plugins/gallery
 	url = git://github.com/Infinitas-Plugins/Gallery
+[submodule "plugins/thickbox"]
+	path = plugins/thickbox
+	url = git://github.com/Infinitas-Plugins/thickbox
