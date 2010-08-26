@@ -100,17 +100,12 @@
 						//skip modules that are not for the current theme
 						continue;
 					}
+					$params = $this->__getModuleParams($module, $admin);
+					if($params === false){
+						continue; // from userland and its not active
+					}
 
-					$moduleOut = $this->loadModule(
-						$module['Module']['module'],
-						array(
-							'plugin' => $module['Module']['plugin'],
-							'title' => $module['Module']['show_heading'] ? $module['Module']['name'] : false,
-							'config' => $this->_moduleConfig($module['Module']),
-							'content' => !empty($module['Module']['content']) ? $module['Module']['content'] : false,
-							'admin' => $admin
-						)
-					);
+					$moduleOut = $this->loadModule($module['Module']['module'], $params);
 
 					if (!empty($module['Route']) && is_object($currentRoute)){
 						foreach($module['Route'] as $route){
@@ -131,6 +126,63 @@
 		}
 
 		/**
+		 * Get the params for the module being loaded, If loadModule is called
+		 * from user land, they will not have the details of the module for it
+		 * to load properly, and instead of making them do the db call manualy,
+		 * it is done here automaticaly
+		 *
+		 * @param mixed $module string from userland, array (like find(first)) from core
+		 * @param bool $admin affects the path the module is loaded from.
+		 *
+		 * @return array the params for loading the module.
+		 */
+		private function __getModuleParams($module, $admin = null){
+			if(!$admin){
+				$admin = isset($this->params['admin']) ? $this->params['admin'] : false;
+			}
+
+			if(is_string($module)){
+				$module = ClassRegistry::init('Management.Module')->getModule($module, $admin);
+				if(empty($module)){
+					return false;
+				}
+			}
+			
+			return array(
+				'plugin' => $module['Module']['plugin'],
+				'title' => $module['Module']['show_heading'] ? $module['Module']['name'] : false,
+				'config' => $this->__getModuleConfig($module['Module']),
+				'content' => !empty($module['Module']['content']) ? $module['Module']['content'] : false,
+				'admin' => $admin
+			);
+		}
+
+		/**
+		* Module Config.
+		*
+		* This method works out params from JSON data in the module. if there is something
+		* wrong with the JSON code that is submitted it will return an empty array(), or it
+		* will return an array with the config.
+		*
+		* @access protected
+		* @params string $config some JSON data to be decoded.
+		*/
+		private function __getModuleConfig($config = ''){
+			if (empty($config['config'])) {
+				return array();
+			}
+
+			$json = json_decode($config['config'], true);
+
+			if (!$json) {
+				$this->errors[] = 'module ('.$config['name'].'): '.$this->_json_errors[json_last_error()];
+				return array();
+			}
+
+			return $json;
+		}
+
+		/**
 		 * Load single modules.
 		 *
 		 * This is used by the core module loader, and to load single modules. This
@@ -142,6 +194,10 @@
 		public function loadModule($module = null, $params = array()){
 			if(!$module){
 				return false;
+			}
+			
+			if($params == null){
+				$params = $this->__getModuleParams($module);
 			}
 
 			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
@@ -156,7 +212,7 @@
 					if ($params['admin']) {
 						$path .= 'admin/';
 					}
-
+					
 					$this->_getViewClass();
 					$moduleOut .= $this->View->element(
 						$path.$module,
@@ -178,31 +234,6 @@
 			if(!$this->View){
 				$this->View = &ClassRegistry::getObject('view');
 			}
-		}
-
-		/**
-		* Module Config.
-		*
-		* This method works out params from JSON data in the module. if there is something
-		* wrong with the JSON code that is submitted it will return an empty array(), or it
-		* will return an array with the config.
-		*
-		* @access protected
-		* @params string $config some JSON data to be decoded.
-		*/
-		function _moduleConfig($config = ''){
-			if (empty($config['config'])) {
-				return array();
-			}
-
-			$json = json_decode($config['config'], true);
-
-			if (!$json) {
-				$this->errors[] = 'module ('.$config['name'].'): '.$this->_json_errors[json_last_error()];
-				return array();
-			}
-
-			return $json;
 		}
 
 		/**
