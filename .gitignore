@@ -4,6 +4,7 @@ libs/cronjobs
 plugins/*
 tmp/*
 views/themed/*
+views/pages/*
 webroot/img/content/*
 .gitignore
 
