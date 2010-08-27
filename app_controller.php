@@ -1,27 +1,27 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
 	 */
 	class AppController extends GlobalActions {
 		public $name = 'AppController';
 		
 		/**
-		*
-		*/
+		 * 
+		 */
 		public $view = 'Theme';
 
 		public $components = array(
@@ -42,8 +42,8 @@
 		);
 
 		/**
-		* actions where viewable will work.
-		*/
+		 * actions where viewable will work.
+		 */
 		public $viewableActions = array(
 			'view'
 		);
@@ -71,8 +71,8 @@
 		}
 
 		/**
-		* normal before filter.
-		*/
+		 * normal before filter.
+		 */
 		function beforeFilter() {
 			parent::beforeFilter();
 
