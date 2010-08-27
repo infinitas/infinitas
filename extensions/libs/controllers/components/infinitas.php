@@ -500,6 +500,22 @@
 			$this->Controller->Security->validatePost = false;
 		}
 
+		/**
+		 * triggers an event to get all the helpers
+		 */
+		public function getPluginHelpers(){
+			$data = $this->Controller->Event->trigger('requireHelpersToLoad');
+			if(!empty($data['requireHelpersToLoad'])){
+				foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
+					if(!is_array($helpers)){
+						$helpers = array($helpers);
+					}
+
+					$this->Controller->helpers = array_merge($this->Controller->helpers, $helpers);
+				}
+			}
+		}
+
 		public function getPluginAssets(){
 			$eventData = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);			
 			if(is_array($eventData) && !empty($eventData)){

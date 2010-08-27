@@ -17,17 +17,12 @@
 	* @since 0.5a
 	 */
 	class AppController extends GlobalActions {
+		public $name = 'AppController';
+		
 		/**
 		*
 		*/
 		public $view = 'Theme';
-
-		public $helpers = array(
-			'Html', 'Form', 'Javascript', 'Session', 'Time',
-			'Libs.Infinitas', 'Tags.TagCloud',
-			'Events.Event', 'Shop.Shop',
-			'Facebook.Facebook'
-		);
 
 		public $components = array(
 			'Libs.Infinitas',
@@ -62,6 +57,7 @@
 			'/libs/js/3rd/require',
 			'/libs/js/infinitas'
 		);
+		
 		function afterRender(){
 			parent::afterRender();
 		}
@@ -69,6 +65,7 @@
 		function beforeRender(){
 			parent::beforeRender();
 			$this->Infinitas->getPluginAssets();
+			$this->Infinitas->getPluginHelpers();			
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
 		}
