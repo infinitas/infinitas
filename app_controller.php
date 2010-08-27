@@ -24,23 +24,6 @@
 		 */
 		public $view = 'Theme';
 
-		public $components = array(
-			'Libs.Infinitas',
-			// cake components
-			'Session','RequestHandler', 'Auth', 'Acl', 'Security',
-			// core components
-			'DebugKit.Toolbar', // 'Libs.Cron',
-			// components
-			'Filter.Filter' => array(
-				'actions' => array('admin_index')
-			),
-			'Libs.Voucher',
-			'Libs.MassAction',
-			'Events.Event',
-			'Newsletter.Emailer',
-			'Facebook.Connect'
-		);
-
 		/**
 		 * actions where viewable will work.
 		 */
@@ -240,6 +223,22 @@
 	 * basicaly all the methods like _something should be moved to a component
 	 */
 	class GlobalActions extends Controller{
+		public $components = array();
+
+		function __construct(){
+			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
+			foreach($event['requireComponentsToLoad'] as $plugin => $components){
+				if(!empty($components)){
+					if(!is_array($components)){
+						$components = array($components);
+					}
+					$this->components = array_merge($this->components, $components);
+				}
+			}
+			
+			parent::__construct();
+		}
+
 		/**
 		 * Common methods for the app
 		 */
