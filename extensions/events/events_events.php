@@ -1,6 +1,10 @@
 <?php
-class EventsEvents {
-	function onTestEvent($event){
-		echo('Success!');
+	final class EventsEvents {
+		public function onTestEvent($event){
+			echo('Success!');
+		}
+
+		public function onRequireHelpersToLoad(){
+			return 'Events.Event';
+		}
 	}
-}

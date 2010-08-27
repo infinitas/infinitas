@@ -1,6 +1,6 @@
 <?php
-	class ShopEvents{
-		function onSetupCache(){
+	final class ShopEvents{
+		public function onSetupCache(){
 			return array(
 				'name' => 'shop',
 				'config' => array(
@@ -13,7 +13,7 @@
 			);
 		}
 
-		function onSlugUrl(&$event, $data){
+		public function onSlugUrl(&$event, $data){
 			switch($data['type']){
 				case 'products':
 					return array(
@@ -37,22 +37,22 @@
 			} // switch
 		}
 
-		function onSetupConfigEnd(&$event){
+		public function onSetupConfigEnd(&$event){
 			Configure::load('Shop.config');
 		}
 
-		function onSetupThemeLayout(&$event, $data){
+		public function onSetupThemeLayout(&$event, $data){
 			if($data['params']['plugin'] == 'shop' && $data['params']['controller'] == 'carts' && $data['params']['action'] == 'index'){
 				//return 'checkout';
 			}
 		}
 
-		function onSetupTabs(&$event, $data){
+		public function onSetupTabs(&$event, $data){
 			echo 'yey: shop event';
 			exit;
 		}
 
-		function onUserLogin(&$event, $data){
+		public function onUserLogin(&$event, $data){
 			App::import('CakeSession');
 			$this->Session = new CakeSession();
 
@@ -63,5 +63,9 @@
 			if(ClassRegistry::init('Shop.Wishlist')->moveSessionToDb($this->Session->read('Wishlist.TempWishlist'), $data) === true){
 				$this->Session->delete('Wishlist');
 			}
+		}
+
+		public function onRequireHelpersToLoad(){
+			return 'Shop.Shop';
 		}
 	}
