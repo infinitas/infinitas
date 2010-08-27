@@ -3,6 +3,7 @@
 class ReleaseShell extends Shell {
 	private $__info = array();
 	private $__models = array();
+	public $tasks = array('Migration');
 
 	public function main() {
 		do {
@@ -129,6 +130,16 @@ class ReleaseShell extends Shell {
 				$this->__pluginModelConfig($plugin);
 				$correct = $this->__reviewInformation($plugin);
 			} while(strtoupper($correct) == 'N');
+
+			if(strtoupper($correct) == 'Q') {
+				return;
+			}
+			else {
+				$this->Migration->type = Inflector::underscore($plugin);
+				$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info[$plugin]['version'])), 4, STR_PAD_LEFT) . '_' . $this->Migration->type;
+				$schemaMigration = $this->Migration->generate($name);
+				print_r($schemaMigration);
+			}
 		}
 	}
 
@@ -204,7 +215,7 @@ class ReleaseShell extends Shell {
 		}
 		$this->hr();
 
-		return $this->in('Is this information correct?', array('Y', 'N'), 'Y');
+		return $this->in('Is this information correct (Q to cancel)?', array('Y', 'N', 'Q'), 'Y');
 	}
 }
 
