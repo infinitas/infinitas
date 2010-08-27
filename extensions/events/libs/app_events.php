@@ -58,8 +58,10 @@
 		 * test if things are working
 		 */
 		final public function onTestEvent(&$event){
-			echo 'your event is working';
-			pr($event);
+			echo '<h1>your event is working</h1>';
+			echo '<p>The following events are available for use in the Infinitas core</p>';
+			pr($this->availableEvents());
+			exit;
 		}
 
 		/**
@@ -75,11 +77,17 @@
 		public function onSetupCache(&$event, $data = null){}
 
 		/**
-		 * 
+		 * Slug urls.
+		 *
+		 * Use this method to figure out what vars are needed for the
+		 * controller / action pair you need to get to. You  will get some data,
+		 * normally in the form of Model::find(first) that you can use.
+		 *
 		 */
 		public function onSlugUrl(&$event, $data = null){}
 
 		public function onSetupConfigStart(&$event, $data = null){}
+		
 		/**
 		 * Load config vars from the db.
 		 *
@@ -87,8 +95,6 @@
 		 * {#see Configure} class to be used later in the app
 		 *
 		 * Called in InfinitasComponent::initialize
-		 *
-		 * @todo load the users configs also.
 		 *
 		 * @return true
 		 */
@@ -107,7 +113,13 @@
 		#public function onFindOperatingSystem(&$event, $data = null){}
 
 		/**
+		 * Adding routes
+		 *
+		 * Add routing to for the app from your plugin by calling Router::connect
+		 *
+		 * called in routes.php
 		 * 
+		 * @return nothing, it wont do anything
 		 */
 		public function onSetupRoutes(&$event, $data = null){}
 
@@ -125,14 +137,50 @@
 		 * This event provides a way for you to attach your helper to the entire
 		 * application without needin to modyfy app_controller.php
 		 *
-		 * just return an array like you would use in Controller->helpers
+		 * called in AppController::beforeRender()
+		 *
+		 * @return mixed string | array like you would use in Controller->helpers
 		 */
 		public function onRequireHelpersToLoad(&$event = null){
 			return array();
 		}
 
 		/**
-		 * load components into app controller
+		 * Get js files to include
+		 *
+		 * Allows you to include javascript from your plugin that can be loaded
+		 * on any page
+		 * 
+		 * called in AppController::beforeRender()
+		 *
+		 * @param $event some data for the current event
+		 * @return mixed string | array() of javascript like HtmlHelper::script() takes
+		 */
+		public function onRequireJavascriptToLoad(&$event, $data = null){}
+
+		/**
+		 * Get vcss files to include
+		 *
+		 * Allows you to include css from your plugin that can be loaded
+		 * on any page
+		 *
+		 * called in AppController::beforeRender()
+		 *
+		 * @param $event some data for the current event
+		 * @return mixed string | array() of css like HtmlHelper::css() takes
+		 */
+		public function onRequireCssToLoad(&$event, $data = null){}
+
+		/**
+		 * Load components
+		 *
+		 * Allows you to include components into the app that can be accessed
+		 * globaly.
+		 *
+		 * called before AppController::__construct()
+		 *
+		 * @param $event some data for the current event
+		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
 		public function onRequireComponentsToLoad(&$event = null){
 			return array();
