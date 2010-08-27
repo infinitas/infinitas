@@ -1,5 +1,5 @@
 <?php
-	final class ShopEvents{
+	final class ShopEvents extends AppEvents{
 		public function onSetupCache(){
 			return array(
 				'name' => 'shop',

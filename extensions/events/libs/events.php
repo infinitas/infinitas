@@ -1,4 +1,5 @@
 <?php
+	App::import('Lib', 'Events.AppEvents');
 	class EventCore extends Object{
 		/**
 		 * Event objects

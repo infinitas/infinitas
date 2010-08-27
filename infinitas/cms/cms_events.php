@@ -1,6 +1,6 @@
 <?php
-	class CmsEvents {
-		function onSetupCache(){
+	final class CmsEvents extends AppEvents{
+		public function onSetupCache(){
 			return array(
 				'name' => 'cms',
 				'config' => array(
@@ -13,7 +13,7 @@
 			);
 		}
 
-		function onSlugUrl(&$event, $data){
+		public function onSlugUrl(&$event, $data){
 			switch(strtolower($data['type'])){
 				case 'contents':					
 					$url = array(

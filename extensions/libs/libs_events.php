@@ -1,9 +1,5 @@
 <?php
-	final class LibsEvents{
-		public function onSetupThemeStart1(){
-			return true;
-		}
-
+	class LibsEvents extends AppEvents{
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				if (array_key_exists('locked', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Lockable')) {
@@ -42,7 +38,7 @@
 			}
 		}
 
-		public function onRequireHelpersToLoad(){
+		public function onRequireHelpersToLoad(&$event){
 			return array(
 				'Html', 'Form', 'Javascript', 'Session', 'Time', // core general things from cake
 				'Libs.Infinitas'				

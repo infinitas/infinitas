@@ -1,5 +1,5 @@
 <?php
-	final class BlogEvents{
+	final class BlogEvents extends AppEvents{
 		public function onSetupCache(){
 			return array(
 				'name' => 'blog',
