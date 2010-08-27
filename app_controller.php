@@ -215,6 +215,10 @@
 			exit;
 		}
 
+		/**
+		 * after filter is called after your html is put together, and just before
+		 * it is rendered to the user.
+		 */
 		function afterFilter(){
 			if(Configure::read('debug') === 0){
 				$this->output = preg_replace(
