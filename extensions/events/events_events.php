@@ -3,4 +3,8 @@
 		public function onRequireHelpersToLoad(){
 			return 'Events.Event';
 		}
+
+		public function onRequireComponentsToLoad(){
+			return 'Events.Event';
+		}
 	}

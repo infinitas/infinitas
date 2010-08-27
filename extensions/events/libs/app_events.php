@@ -132,6 +132,13 @@
 		}
 
 		/**
+		 * load components into app controller
+		 */
+		public function onRequireComponentsToLoad(&$event = null){
+			return array();
+		}
+
+		/**
 		 *
 		 */
 		public function onAttachBehaviors(&$event = null){}

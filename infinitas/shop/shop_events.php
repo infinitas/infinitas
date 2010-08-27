@@ -68,4 +68,8 @@
 		public function onRequireHelpersToLoad(){
 			return 'Shop.Shop';
 		}
+
+		public function onRequireComponentsToLoad(){
+			return 'Libs.Voucher';
+		}
 	}

@@ -38,6 +38,14 @@
 			}
 		}
 
+		public function onRequireComponentsToLoad(&$event){
+			return array(
+				'Libs.Infinitas',
+				'Session','RequestHandler', 'Auth', 'Acl', 'Security', // core general things from cake
+				'Libs.MassAction'
+			);
+		}
+
 		public function onRequireHelpersToLoad(&$event){
 			return array(
 				'Html', 'Form', 'Javascript', 'Session', 'Time', // core general things from cake
