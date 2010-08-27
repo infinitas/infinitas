@@ -52,4 +52,16 @@
 				'Libs.Infinitas'				
 			);
 		}
+
+		public function onRequireJavascriptToLoad(){
+			return array(
+				'/libs/js/3rd/jquery',
+				'/libs/js/3rd/require',
+				'/libs/js/infinitas'
+			);
+		}
+
+		public function onRequireCssToLoad(){
+			return '/libs/css/jquery_ui';
+		}
 	}

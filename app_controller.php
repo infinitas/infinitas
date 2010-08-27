@@ -31,15 +31,17 @@
 			'view'
 		);
 
-		private $__addCss = array( 
-			'/libs/css/jquery_ui'
-		);
+		/**
+		 * internal cache of css files to load
+		 * @access private
+		 */
+		private $__addCss = array();
 
-		private $__addJs  = array( 
-			'/libs/js/3rd/jquery',
-			'/libs/js/3rd/require',
-			'/libs/js/infinitas'
-		);
+		/**
+		 * internal cache of javascript files to load
+		 * @access private
+		 */
+		private $__addJs  = array();
 		
 		function afterRender(){
 			parent::afterRender();
