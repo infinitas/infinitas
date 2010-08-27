@@ -3,7 +3,7 @@
 class ReleaseShell extends Shell {
 	private $__info = array();
 	private $__models = array();
-	public $tasks = array('Migration');
+	public $tasks = array('Migration', 'Fixture');
 
 	public function main() {
 		do {
@@ -77,8 +77,12 @@ class ReleaseShell extends Shell {
 	private function __generateRelease($plugin) {
 		$pluginPath = App::pluginPath($plugin);
 
-		if(file_exists($pluginPath . DS . 'config' . DS . 'config.json')) {
+		$this->configPath = $pluginPath . DS . 'config' . DS;
 
+		if(file_exists($this->configPath . 'config.json')) {
+			$configFile = new File($this->configPath . 'config.json');
+			$this->__info[$plugin] = Set::reverse(json_decode($configFile->read()));
+			$this->__updatePlugin($plugin);
 		}
 		else {
 			$this->__info[$plugin] = array(
@@ -96,32 +100,7 @@ class ReleaseShell extends Shell {
 
 				$dependancies = $this->in('Does this plugin have any non-core dependancies?', array('Y', 'N'), !empty($this->__info[$plugin]['dependancies']) ? 'Y' : 'N');
 				if(strtoupper($dependancies) == 'Y') {
-					$possiblePlugins = $this->__getPluginList();
-					do {
-						$i = 1;
-						$pluginLookup = array();
-						foreach($possiblePlugins as $key => $possiblePlugin) {
-							if($possiblePlugin != $plugin) {
-								$pluginLookup[$i] = $possiblePlugin;
-								$label = $i++ . '. ' . $possiblePlugin;
-								if(isset($this->__info[$plugin]['dependancies'][$possiblePlugin])) {
-									$label .= ' *';
-								}
-
-								$this->out($label);
-							}
-						}
-
-						$dependancy = $this->in('Select the plugins this plugin depends on (Blank to end).');
-						if(isset($pluginLookup[$dependancy])) {
-							if(!isset($this->__info[$plugin]['dependancies'][$pluginLookup[$dependancy]])) {
-								$this->__info[$plugin]['dependancies'][$pluginLookup[$dependancy]] = true;
-							}
-							else {
-								unset($this->__info[$plugin]['dependancies'][$pluginLookup[$dependancy]]);
-							}
-						}
-					} while($dependancy != '');
+					$this->__configureDependancies($plugin);
 				}
 
 				$this->hr();
@@ -135,12 +114,136 @@ class ReleaseShell extends Shell {
 				return;
 			}
 			else {
-				$this->Migration->type = Inflector::underscore($plugin);
-				$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info[$plugin]['version'])), 4, STR_PAD_LEFT) . '_' . $this->Migration->type;
-				$schemaMigration = $this->Migration->generate($name);
-				print_r($schemaMigration);
+				$this->hr();
+
+				$this->out('Generating migration...');
+				$schemaMigration = $this->Migration->generate($plugin);
+
+				$this->out('Generating fixtures...');
+				$fixtures = $this->Fixture->generate($this->__models[$plugin], $plugin);
+
+				$class = 'R' . str_replace('-', '', String::uuid());
+				$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info[$plugin]['version'])), 4, '0', STR_PAD_LEFT) . '_' . Inflector::underscore($plugin);
+
+				$this->out('Writing config...');
+				$this->__writeConfig($plugin);
+
+				$this->out('Writing release file...');
+				$this->__writeRelease($plugin, $class, $name, $schemaMigration, $fixtures);
+
+				$this->out('Writing release map...');
+				$version = 1;
+				$map = array();
+				if (file_exists($this->configPath . 'releases' . DS . 'map.php')) {
+					include $this->configPath . 'releases' . DS . 'map.php';
+					ksort($map);
+					end($map);
+
+					list($version) = each($map);
+					$version++;
+				}
+				$map[$version] = array($name => $class);
+
+				$this->_writeMap($map);
+
+				$this->out('Done.');
 			}
 		}
+	}
+
+	private function __updatePlugin($plugin) {
+		do {
+			$this->hr();
+			$this->__displayPluginInformation($plugin, true);
+			$this->out('');
+			$this->__displayDependancies($plugin, true);
+			$this->hr();
+
+			$update = $this->in('Do you wish to update any of this data (1 to 6, empty to continue, Q to exit)?');
+
+			switch($update) {
+				case 1:
+					$this->__info[$plugin]['name'] = $this->in("Plugin name.", null, $this->__info[$plugin]['name']);
+					break;
+				case 2:
+					$this->__info[$plugin]['author'] = $this->in('Author name.', null, $this->__info[$plugin]['author']);
+					break;
+				case 3:
+					$this->__info[$plugin]['email'] = $this->in('Author email address.', null, $this->__info[$plugin]['email']);
+					break;
+				case 4:
+					$this->__info[$plugin]['website'] = $this->in('Plugin website.', null, $this->__info[$plugin]['website']);
+					break;
+				case 4:
+					$this->__configureDependancies($plugin);
+					break;
+			}
+		} while($update != '' && strtoupper($update) != 'Q');
+
+		if(strtoupper($update) == 'Q') {
+			return;
+		}
+		else {
+			$currentVersion = $this->__info[$plugin]['version'];
+
+			do {
+				$this->__info[$plugin]['version'] = $this->in('You are required to enter a new version number.');
+			} while($this->__info[$plugin]['version'] == $currentVersion || $this->__info[$plugin]['version'] == '');
+		}
+	}
+
+	private function __writeConfig($plugin) {
+		$jsonConfig = json_encode($this->__info[$plugin]);
+
+		$File = new File($this->configPath . 'config.json', true);
+		return $File->write($jsonConfig);
+	}
+
+	private function __writeRelease($plugin, $class, $name, $migration, $fixtures = null) {
+		$content = $this->__generateTemplate('release', array('name' => $name, 'class' => $class, 'migration' => $migration, 'fixtures' => $fixtures));
+
+		$File = new File($this->configPath . 'releases' . DS . $name . '.php', true);
+		return $File->write($content);
+	}
+
+/**
+ * Generate and write the map file
+ *
+ * @param array $map List of migrations
+ * @return boolean
+ * @access protected
+ */
+	protected function _writeMap($map) {
+		$content = "<?php\n";
+		$content .= "\$map = array(\n";
+		foreach ($map as $version => $info) {
+			list($name, $class) = each($info);
+			$content .= "\t" . $version . " => array(\n";
+			$content .= "\t\t'" . $name . "' => '" . $class . "'),\n";
+		}
+		$content .= ");\n";
+		$content .= "?>";
+
+		$File = new File($this->configPath . 'releases' . DS . 'map.php', true);
+		return $File->write($content);
+	}
+
+/**
+ * Include and generate a template string based on a template file
+ *
+ * @param string $template Template file name
+ * @param array $vars List of variables to be used on tempalte
+ * @return string
+ * @access private
+ */
+	private function __generateTemplate($template, $vars) {
+		extract($vars);
+		ob_start();
+		ob_implicit_flush(0);
+		include(dirname(__FILE__) . DS . 'templates' . DS . $template . '.ctp');
+		$content = ob_get_clean();
+
+		return $content;
 	}
 
 	private function __pluginModelConfig($plugin) {
@@ -187,21 +290,28 @@ class ReleaseShell extends Shell {
 		}
 	}
 
-	private function __reviewInformation($plugin) {
-		$this->hr();
+	private function __displayPluginInformation($plugin, $asMenu = false) {
 		$this->out('Plugin internal name: ' . $plugin);
-		$this->out('Plugin name:          ' . $this->__info[$plugin]['name']);
-		$this->out('Author name:          ' . $this->__info[$plugin]['author']);
-		$this->out('Author email address: ' . $this->__info[$plugin]['email']);
-		$this->out('Plugin website:       ' . $this->__info[$plugin]['website']);
+		$this->out(($asMenu ? '1. ' : '') . 'Plugin name:          ' . $this->__info[$plugin]['name']);
+		$this->out(($asMenu ? '2. ' : '') . 'Author name:          ' . $this->__info[$plugin]['author']);
+		$this->out(($asMenu ? '3. ' : '') . 'Author email address: ' . $this->__info[$plugin]['email']);
+		$this->out(($asMenu ? '4. ' : '') . 'Plugin website:       ' . $this->__info[$plugin]['website']);
 		$this->out('Plugin version:       ' . $this->__info[$plugin]['version']);
+	}
 
+	private function __displayDependancies($plugin, $asMenu = false) {
+		$this->out(($asMenu ? '5. ' : '') . 'Dependancies: ');
 		if(!empty($this->__info[$plugin]['dependancies'])) {
-			$this->out('Dependancies: ');
 			foreach($this->__info[$plugin]['dependancies'] as $dependancy => $value) {
 				$this->out("\t* " . $dependancy);
 			}
 		}
+		else {
+			$this->out("\t None");
+		}
+	}
+
+	private function __displayModels($plugin) {
 		$this->out('Models: ');
 		foreach($this->__models[$plugin] as $model => $info) {
 			$label = "\t* " . $model;
@@ -213,9 +323,47 @@ class ReleaseShell extends Shell {
 			}
 			$this->out($label);
 		}
+	}
+
+	private function __reviewInformation($plugin) {
+		$this->hr();
+		$this->__displayPluginInformation($plugin);
+		$this->out('');
+		$this->__displayDependancies($plugin);
+		$this->out('');
+		$this->__displayModels($plugin);
 		$this->hr();
 
 		return $this->in('Is this information correct (Q to cancel)?', array('Y', 'N', 'Q'), 'Y');
+	}
+
+	private function __configureDependancies($plugin) {
+		$possiblePlugins = $this->__getPluginList();
+		do {
+			$i = 1;
+			$pluginLookup = array();
+			foreach($possiblePlugins as $key => $possiblePlugin) {
+				if($possiblePlugin != $plugin) {
+					$pluginLookup[$i] = $possiblePlugin;
+					$label = $i++ . '. ' . $possiblePlugin;
+					if(isset($this->__info[$plugin]['dependancies'][$possiblePlugin])) {
+						$label .= ' *';
+					}
+
+					$this->out($label);
+				}
+			}
+
+			$dependancy = $this->in('Select the plugins this plugin depends on (Blank to end).');
+			if(isset($pluginLookup[$dependancy])) {
+				if(!isset($this->__info[$plugin]['dependancies'][$pluginLookup[$dependancy]])) {
+					$this->__info[$plugin]['dependancies'][$pluginLookup[$dependancy]] = true;
+				}
+				else {
+					unset($this->__info[$plugin]['dependancies'][$pluginLookup[$dependancy]]);
+				}
+			}
+		} while($dependancy != '');
 	}
 }
 

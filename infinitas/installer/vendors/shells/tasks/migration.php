@@ -12,8 +12,9 @@ class MigrationTask extends Shell {
 	 * @return void
 	 * @access public
 	 */
-	public function generate($name) {
-		$this->path = $this->__getPath() . 'config' . DS . 'migrations' . DS;
+	public function generate($plugin) {
+		$this->type = Inflector::underscore($plugin);
+		$this->path = $this->__getPath() . 'config' . DS . 'releases' . DS;
 
 		$fromSchema = false;
 		$this->Schema = $this->_getSchema();
@@ -24,12 +25,12 @@ class MigrationTask extends Shell {
 			if ($this->type !== 'migrations') {
 				unset($oldSchema->tables['schema_migrations']);
 			}
-			$newSchema = $this->_readSchema();
+			$schema = $newSchema = $this->_readSchema();
 			$comparison = $this->Schema->compare($oldSchema, $newSchema);
 			$migration = $this->_fromComparison($migration, $comparison, $oldSchema->tables, $newSchema['tables']);
 			$fromSchema = true;
 		} else {
-			$dump = $this->_readSchema();
+			$schema = $dump = $this->_readSchema();
 			$dump = $dump['tables'];
 			unset($dump['missing']);
 
@@ -40,7 +41,11 @@ class MigrationTask extends Shell {
 			$fromSchema = true;
 		}
 
-		return $migration;
+		if(isset($schema)) {
+			$this->Schema->write($schema);
+		}
+
+		return $this->_makeMigrationString($migration);
 	}
 
 
@@ -126,7 +131,7 @@ class MigrationTask extends Shell {
 	protected function _getSchema($type = null) {
 		if ($type === null) {
 			$plugin = ($this->type === 'app') ? null : $this->type;
-			return new CakeSchema(array('connection' => $this->connection, 'plugin' => $plugin));
+			return new CakeSchema(array('connection' => $this->connection, 'plugin' => $plugin, 'path' => $this->__getPath($type) . 'config' . DS . 'schema' . DS));
 		}
 		$file = $this->__getPath($type) . 'config' . DS . 'schema' . DS . 'schema.php';
 		if (!file_exists($file)) {
@@ -176,7 +181,7 @@ class MigrationTask extends Shell {
  * @return boolean
  * @access protected
  */
-	protected function _writeMigration($name, $class, $migration) {
+	protected function _makeMigrationString($migration) {
 		$content = '';
 		foreach ($migration as $direction => $actions) {
 			$content .= "\t\t'" . $direction . "' => array(\n";
@@ -224,31 +229,29 @@ class MigrationTask extends Shell {
 			}
 			$content .= "\t\t),\n";
 		}
-		$content = $this->__generateTemplate('migration', array('name' => $name, 'class' => $class, 'migration' => $content));
 
-		//$File = new File($this->path . $name . '.php', true);
-		//return $File->write($content);
+		return $content;
 	}
 
 /**
- * Generate and write the map file
+ * Format a array/string into a one-line syntax
  *
- * @param array $map List of migrations
- * @return boolean
- * @access protected
+ * @param array $values Array to be converted
+ * @return string
+ * @access private
  */
-	protected function _writeMap($map) {
-		$content = "<?php\n";
-		$content .= "\$map = array(\n";
-		foreach ($map as $version => $info) {
-			list($name, $class) = each($info);
-			$content .= "\t" . $version . " => array(\n";
-			$content .= "\t\t'" . $name . "' => '" . $class . "'),\n";
+	private function __values($values) {
+		$_values = array();
+		if (is_array($values)) {
+			foreach ($values as $key => $value) {
+				if (is_array($value)) {
+					$_values[] = "'" . $key . "' => array('" . implode("', '",  $value) . "')";
+				} else if (!is_numeric($key)) {
+					$value = var_export($value, true);
+					$_values[] = "'" . $key . "' => " . $value;
+				}
+			}
 		}
-		$content .= ");\n";
-		$content .= "?>";
-
-		//$File = new File($this->path . 'map.php', true);
-		//return $File->write($content);
+		return $_values;
 	}
 }
