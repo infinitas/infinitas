@@ -145,7 +145,7 @@ class ToolbarHelper extends AppHelper {
 		$out = array();
 		$log = $db->getLog();
 		foreach ($log['log'] as $i => $query) {
-			if(strstr($query['query'], 'DESCRIBE') === false){
+			if(strstr($query['query'], 'SHOW FULL COLUMNS') === false){
 				$describe = $db->query('EXPLAIN '.$query['query']);
 				$query['possible_keys'] = str_replace(',', '<br/>', $describe[0][0]['possible_keys']);
 				$query['index_rows'] = $describe[0][0]['rows'];
