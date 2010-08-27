@@ -1,6 +1,6 @@
 <?php
 	/*
-	 * Generic xml data fetcher.
+	 * Generic Json data fetcher.
 	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
@@ -8,7 +8,7 @@
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package libs
-	 * @subpackage libs.models.datasources.xml
+	 * @subpackage libs.models.datasources.json
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -17,30 +17,30 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+
 	App::import('Datasource', 'Libs.ReaderSource');
-	class XmlSource extends ReaderSource {
+	class JsonSource extends ReaderSource {
 
 		/**
-		 * Process xml.
+		 * Process json.
 		 *
-		 * Takes xml and convers it to an array using cakes xml class
+		 * Takes json and convers it to an array using json_decode
 		 *
-		 * @param string $response the xml that will be converted
+		 * @param string $response the json that will be converted
 		 *
-		 * @return array the data from xml or empty array if there is nothing passed
+		 * @return array the data from json or empty array if there is nothing passed
 		 */
 		protected function _process($response = null) {
 			if (empty($response)) {
 				return array();
 			}
 
-			App::import('Xml');
-			$this->Xml = new Xml($response);
-
-			$data = $this->Xml->toArray();
-			$this->Xml->__destruct();
-			unset($this->Xml);
-
-			return $data;
+			$_response = json_decode($response);
+			if(!empty($_response)){
+				$response = $_response;
+			}
+			
+			// @todo app::import modeless AppModel and use the Infinitas->getJson() method.
+			return $response;
 		}
 	}
