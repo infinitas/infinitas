@@ -20,7 +20,8 @@
 		public $name = 'AppController';
 		
 		/**
-		 * 
+		 * the View Class that will load by defaul is themes to take advantage
+		 * of cake themes. This changes when requests are json etc
 		 */
 		public $view = 'Theme';
 
@@ -42,11 +43,19 @@
 		 * @access private
 		 */
 		private $__addJs  = array();
-		
+
+		/**
+		 * after render is called after the page is rendered. output here will not
+		 * be in your html. this is used for cleanup / loggin etc.
+		 */
 		function afterRender(){
 			parent::afterRender();
 		}
 
+		/**
+		 * before render is called before the page is rendered, but after all the
+		 * processing is done.
+		 */
 		function beforeRender(){
 			parent::beforeRender();
 			$this->Infinitas->getPluginAssets();
@@ -196,6 +205,10 @@
 			return parent::render($action, $layout, $file);
 		}
 
+		/**
+		 * this function is just here to stop wsod confusion. it will become more
+		 * usefull one day
+		 */
 		function blackHole(&$controller, $error){
 			pr('you been blackHoled');
 			pr($error);
