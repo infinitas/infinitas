@@ -505,26 +505,40 @@
 		 */
 		public function getPluginHelpers(){
 			$data = $this->Controller->Event->trigger('requireHelpersToLoad');
-			if(!empty($data['requireHelpersToLoad'])){
-				foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
-					if(!is_array($helpers)){
-						$helpers = array($helpers);
-					}
-
-					$this->Controller->helpers = array_merge($this->Controller->helpers, $helpers);
+			
+			if(isset($data['requireHelpersToLoad']['libs'])){
+				$libs['libs'] = $data['requireHelpersToLoad']['libs'];
+				$data['requireHelpersToLoad'] = $libs + $data['requireHelpersToLoad'];
+			}
+			
+			foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
+				if(!is_array($helpers)){
+					$helpers = array($helpers);
 				}
+
+				$this->Controller->helpers = array_merge($this->Controller->helpers, $helpers);
 			}
 		}
 
 		public function getPluginAssets(){
-			$eventData = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);			
-			if(is_array($eventData) && !empty($eventData)){
-				$this->Controller->addJs(current($eventData));
+			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
+			if(isset($event['requireJavascriptToLoad']['libs'])){
+				$libs['libs'] = $event['requireJavascriptToLoad']['libs'];
+				$event['requireJavascriptToLoad'] = $libs + $event['requireJavascriptToLoad'];
+			}
+
+			if(is_array($event) && !empty($event)){
+				$this->Controller->addJs(current($event));
 			}
 			
-			$eventData = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
-			if(is_array($eventData) && !empty($eventData)){
-				$this->Controller->addCss(current($eventData));
+			$event = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
+			if(isset($event['requireCssToLoad']['libs'])){
+				$libs['libs'] = $event['requireCssToLoad']['libs'];
+				$event['requireCssToLoad'] = $libs + $event['requireCssToLoad'];
+			}
+
+			if(is_array($event) && !empty($event)){
+				$this->Controller->addCss(current($event));
 			}
 		}
 
