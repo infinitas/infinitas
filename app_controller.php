@@ -246,6 +246,12 @@
 
 		function __construct(){
 			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
+
+			if(isset($event['requireComponentsToLoad']['libs'])){
+				$libs['libs'] = $event['requireComponentsToLoad']['libs'];
+				$event['requireComponentsToLoad'] = $libs + $event['requireComponentsToLoad'];
+			}
+
 			foreach($event['requireComponentsToLoad'] as $plugin => $components){
 				if(!empty($components)){
 					if(!is_array($components)){
