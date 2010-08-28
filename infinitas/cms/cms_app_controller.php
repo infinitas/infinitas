@@ -30,8 +30,6 @@
 				'actions' => array('admin_index')
 			)
 		);
-		
-		public $view = 'Libs.Mustache';
 
 		public function beforeFilter(){
 			parent::beforeFilter();

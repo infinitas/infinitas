@@ -20,10 +20,11 @@
 		public $name = 'AppController';
 		
 		/**
-		 * the View Class that will load by defaul is themes to take advantage
-		 * of cake themes. This changes when requests are json etc
+		 * the View Class that will load by defaul is the Infinitas View to take
+		 * advantage which extends the ThemeView and auto loads the Mustache class.
+		 * This changes when requests are json etc
 		 */
-		public $view = 'Theme';
+		public $view = 'Libs.Infinitas';
 
 		/**
 		 * actions where viewable will work.
