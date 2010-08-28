@@ -57,7 +57,7 @@
 		/**
 		 * test if things are working
 		 */
-		final public function onTestEvent(&$event){
+		final public function testEvent(){
 			echo '<h1>your event is working</h1>';
 			echo '<p>The following events are available for use in the Infinitas core</p>';
 			pr($this->availableEvents());
