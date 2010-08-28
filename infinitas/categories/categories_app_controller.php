@@ -1,6 +1,8 @@
 <?php
 	class CategoriesAppController extends AppController {
-		var $helpers = array(
+		public $view = 'Libs.Mustache';
+		
+		public $helpers = array(
 			'Categories.Categories'
 		);
 	}

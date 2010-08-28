@@ -18,20 +18,22 @@
 	*/
 
 	class CmsAppController extends AppController {
-		var $helpers = array(
+		public $helpers = array(
 			// cake
 			'Time', 'Html', 'Form',
 			// core
 			'Cms.Cms'
 		);
 
-		var $components = array(
+		public $components = array(
 			'Filter.Filter' => array(
 				'actions' => array('admin_index')
 			)
 		);
+		
+		public $view = 'Libs.Mustache';
 
-		function beforeFilter(){
+		public function beforeFilter(){
 			parent::beforeFilter();
 
 			$this->addCss(
