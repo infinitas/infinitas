@@ -1,6 +1,6 @@
 <?php
-	class BlogEvents{
-		function onSetupCache(){
+	final class BlogEvents extends AppEvents{
+		public function onSetupCache(){
 			return array(
 				'name' => 'blog',
 				'config' => array(
@@ -13,7 +13,7 @@
 			);
 		}
 
-		function onSlugUrl(&$event, $data){
+		public function onSlugUrl(&$event, $data){
 			if(!isset($data['data'])){
 				$data['data'] = $data;
 			}
@@ -32,5 +32,11 @@
 					);
 					break;
 			} // switch
+		}
+
+		public function onRequireHelpersToLoad(){
+			return array(
+				'Tags.TagCloud'
+			);
 		}
 	}

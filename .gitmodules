@@ -9,13 +9,13 @@
 	url = git://github.com/Infinitas-Plugins/geshi.git
 [submodule "plugins/facebook"]
 	path = plugins/facebook
-	url = git://github.com/Infinitas-Plugins/CakePHP-Facebook-Plugin.git
+	url = git://github.com/Infinitas-Plugins/facebook.git
 [submodule "plugins/gallery"]
 	path = plugins/gallery
-	url = git://github.com/Infinitas-Plugins/Gallery
+	url = git://github.com/Infinitas-Plugins/gallery.git
 [submodule "plugins/thickbox"]
 	path = plugins/thickbox
-	url = git://github.com/Infinitas-Plugins/thickbox
+	url = git://github.com/Infinitas-Plugins/thickbox.git
 [submodule "plugins/twitter"]
 	path = plugins/twitter
 	url = git://github.com/Infinitas-Plugins/twitter.git

@@ -1,6 +1,6 @@
 <?php
-	class TagsEvents{
-		function onAttachBehaviors(&$event) {
+	final class TagsEvents extends AppEvents{
+		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				$Model = $event->Handler;
 				

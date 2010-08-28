@@ -1,6 +1,10 @@
 <?php
-class EventsEvents {
-	function onTestEvent($event){
-		echo('Success!');
+	final class EventsEvents extends AppEvents {
+		public function onRequireHelpersToLoad(){
+			return 'Events.Event';
+		}
+
+		public function onRequireComponentsToLoad(){
+			return 'Events.Event';
+		}
 	}
-}

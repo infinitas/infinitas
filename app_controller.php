@@ -1,81 +1,72 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
 	 */
 	class AppController extends GlobalActions {
+		public $name = 'AppController';
+		
 		/**
-		*
-		*/
+		 * the View Class that will load by defaul is themes to take advantage
+		 * of cake themes. This changes when requests are json etc
+		 */
 		public $view = 'Theme';
 
-		public $helpers = array(
-			'Html', 'Form', 'Javascript', 'Session', 'Time',
-			'Libs.Infinitas', 'Tags.TagCloud',
-			'Events.Event', 'Shop.Shop',
-			'Facebook.Facebook'
-		);
-
-		public $components = array(
-			'Libs.Infinitas',
-			// cake components
-			'Session','RequestHandler', 'Auth', 'Acl', 'Security',
-			// core components
-			'DebugKit.Toolbar', // 'Libs.Cron',
-			// components
-			'Filter.Filter' => array(
-				'actions' => array('admin_index')
-			),
-			'Libs.Voucher',
-			'Libs.MassAction',
-			'Events.Event',
-			'Newsletter.Emailer',
-			'Facebook.Connect'
-		);
-
 		/**
-		* actions where viewable will work.
-		*/
+		 * actions where viewable will work.
+		 */
 		public $viewableActions = array(
 			'view'
 		);
 
-		private $__addCss = array( 
-			'/libs/css/jquery_ui'
-		);
+		/**
+		 * internal cache of css files to load
+		 * @access private
+		 */
+		private $__addCss = array();
 
-		private $__addJs  = array( 
-			'/libs/js/3rd/jquery',
-			'/libs/js/3rd/require',
-			'/libs/js/infinitas'
-		);
+		/**
+		 * internal cache of javascript files to load
+		 * @access private
+		 */
+		private $__addJs  = array();
+
+		/**
+		 * after render is called after the page is rendered. output here will not
+		 * be in your html. this is used for cleanup / loggin etc.
+		 */
 		function afterRender(){
 			parent::afterRender();
 		}
 
+		/**
+		 * before render is called before the page is rendered, but after all the
+		 * processing is done.
+		 */
 		function beforeRender(){
 			parent::beforeRender();
 			$this->Infinitas->getPluginAssets();
+			$this->Infinitas->getPluginHelpers();			
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
 		}
 
 		/**
-		* normal before filter.
-		*/
+		 * normal before filter.
+		 */
 		function beforeFilter() {
 			parent::beforeFilter();
 
@@ -214,12 +205,20 @@
 			return parent::render($action, $layout, $file);
 		}
 
+		/**
+		 * this function is just here to stop wsod confusion. it will become more
+		 * usefull one day
+		 */
 		function blackHole(&$controller, $error){
 			pr('you been blackHoled');
 			pr($error);
 			exit;
 		}
 
+		/**
+		 * after filter is called after your html is put together, and just before
+		 * it is rendered to the user.
+		 */
 		function afterFilter(){
 			if(Configure::read('debug') === 0){
 				$this->output = preg_replace(
@@ -243,6 +242,22 @@
 	 * basicaly all the methods like _something should be moved to a component
 	 */
 	class GlobalActions extends Controller{
+		public $components = array();
+
+		function __construct(){
+			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
+			foreach($event['requireComponentsToLoad'] as $plugin => $components){
+				if(!empty($components)){
+					if(!is_array($components)){
+						$components = array($components);
+					}
+					$this->components = array_merge($this->components, $components);
+				}
+			}
+			
+			parent::__construct();
+		}
+
 		/**
 		 * Common methods for the app
 		 */
