@@ -14,6 +14,11 @@
 		 */
 		public $helpers = array('Filter.Filter');
 
+		public function beforeRender(){
+			parent::beforeRender();
+			Configure::write('Wysiwyg.editor', 'text');
+		}
+
 		public function admin_index() {
 			$this->Layout->recursive = 1;
 			$layouts = $this->paginate(null, $this->Filter->filter);
