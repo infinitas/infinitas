@@ -190,4 +190,17 @@
 		 *
 		 */
 		public function onAttachBehaviors(&$event = null){}
+
+		/**
+		 * Require Global templates used in page rendering.
+		 *
+		 * This is called just before a page is rendered by the InfinitasView
+		 * and takes an array of items to add. Its used for adding global pieces
+		 * to your template.
+		 *
+		 * if you pass back array('phone' => '012 345 6789') from foo plugin
+		 * you can use {{templates.foo.phone}} in your views to show your phone
+		 * number.
+		 */
+		public function onRequireGlobalTemplates(&$event){}
 	}
