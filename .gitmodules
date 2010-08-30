@@ -19,3 +19,6 @@
 [submodule "plugins/twitter"]
 	path = plugins/twitter
 	url = git://github.com/Infinitas-Plugins/twitter.git
+[submodule "plugins/debug_kit"]
+	path = plugins/debug_kit
+	url = git://github.com/Infinitas-Plugins/debug_kit.git
