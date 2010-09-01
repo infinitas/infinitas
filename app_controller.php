@@ -629,11 +629,4 @@
 
 			$this->redirect($this->referer());
 		}
-
-		/**
-		 * depreciated methods
-		 */
-		function admin_commentPurge($class = null) {
-			echo 'moved to comments';
-		}
 	}
