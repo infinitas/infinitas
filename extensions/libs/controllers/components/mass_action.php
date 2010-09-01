@@ -37,8 +37,7 @@
 			$settings = array_merge(array(), (array)$settings);
 
 			$this->modelName = $this->Controller->modelClass;
-
-			$this->prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($this->modelName))));
+			$this->prettyModelName = prettyName($this->modelName);
 		}
 
 		/**
