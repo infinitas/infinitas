@@ -245,6 +245,16 @@
 	class GlobalActions extends Controller{
 		public $components = array();
 
+		private $__modelName;
+
+		private $__prettyModelName;
+
+		public function beforeFilter(){
+			parent::beforeFilter();
+			$this->__modelName = $this->modelClass;
+			$this->__prettyModelName = prettyName($this->__modelName);
+		}
+
 		function __construct(){
 			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
 
@@ -504,13 +514,65 @@
 		}
 
 		/**
+		 * Simple Admin add method.
+		 *
+		 * If you need simple Add method for your admin just dont create one and
+		 * it will fall back to this. It does the basics, saveAll with a
+		 * Session::setFlash() message.
+		 *
+		 * @todo sanitize input
+		 * @todo render generic view
+		 */
+		function admin_add(){
+			if (!empty($this->data)) {
+				$this->{$this->__modelName}->create();
+				if ($this->{$this->__modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->__prettyModelName));
+					$this->redirect(array('action' => 'index'));
+				}
+
+				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->__prettyModelName));
+			}
+		}
+
+		/**
+		 * Simple Admin edit method
+		 *
+		 * If you need simple Edit method for your admin just dont create one and
+		 * it will fall back to this. It does the basics, saveAll with a
+		 * Session::setFlash() message.
+		 *
+		 * @todo sanitize input
+		 * @todo render generic view
+		 *
+		 * @param mixed $id int | string (uuid) the id of the record to edit.
+		 */
+		function admin_edit($id = null){
+			if(empty($this->data) && !$id){
+				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->__prettyModelName));
+				$this->redirect($this->referer());
+			}
+
+			if (!empty($this->data)) {
+				if ($this->{$this->__modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->__prettyModelName));
+					$this->redirect(array('action' => 'index'));
+				}
+
+				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->__prettyModelName));
+			}
+
+			if(empty($this->data) && $id){
+				$this->data = $this->{$this->__modelName}->read(null, $id);
+			}
+		}
+
+		/**
 		 * delete records.
 		 *
 		 * delete records throughout the app.
 		 *
 		 * @todo -c"AppController" Implement AppController.
-		 * - make a confirm if the js box does not happen. eg open delete in new
-		 *     window there is no confirm, just delete.
 		 * - undo thing... maybe save the whole record in the session and if click
 		 *     undo just save it back, or use soft delete and purge
 		 * @param mixed $id the id of the record.
