@@ -243,9 +243,38 @@
 	 * basicaly all the methods like _something should be moved to a component
 	 */
 	class GlobalActions extends Controller{
+		/**
+		 * components should not be included here
+		 */
 		public $components = array();
 
-		function __construct(){
+		/**
+		 * reference to the model name of the current controller
+		 */
+		public $modelName;
+
+		/**
+		 * reference to the model name for user output
+		 */
+		public $prettyModelName;
+
+		/**
+		 * Set up some general variables that are used around the code.
+		 */
+		public function beforeFilter(){
+			parent::beforeFilter();
+			$this->__modelName = $this->modelClass;
+			$this->__prettyModelName = prettyName($this->__modelName);
+		}
+
+		/**
+		 * Construct the Controller
+		 *
+		 * Currently getting components that are needed by the application. they
+		 * are then loaded into $components making them available to the entire
+		 * application.
+		 */
+		public function __construct(){
 			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
 
 			if(isset($event['requireComponentsToLoad']['libs'])){
@@ -268,7 +297,7 @@
 		/**
 		 * Common methods for the app
 		 */
-		function comment($id = null) {
+		public function comment($id = null) {
 			if (!empty($this->data['Comment'])) {
 				$message = 'Your comment has been saved and will be available after admin moderation.';
 				if (Configure::read('Comments.auto_moderate') === true) {
@@ -287,23 +316,23 @@
 		}
 
 		/**
-		* Common method for rating.
-		*
-		* This is the default method for a rating, if you would like to change
-		* the way it works for your own plugin just define your own method in the
-		* plugins app_controller or the actual controller.
-		*
-		* By default it will check if users need to be logged in before rating and
-		* redirect if they must and are not. else it will get the ip address and then
-		* save the rating.
-		*
-		* @param int $id the id of the itme you are rating.
-		*
-		* @return null, will redirect.
-		*
-		* @todo check if the model is a rateable model.
-		*/
-		function rate($id = null) {
+		 * Common method for rating.
+		 *
+		 * This is the default method for a rating, if you would like to change
+		 * the way it works for your own plugin just define your own method in the
+		 * plugins app_controller or the actual controller.
+		 *
+		 * By default it will check if users need to be logged in before rating and
+		 * redirect if they must and are not. else it will get the ip address and then
+		 * save the rating.
+		 *
+		 * @param int $id the id of the itme you are rating.
+		 *
+		 * @return null, will redirect.
+		 *
+		 * @todo check if the model is a rateable model.
+		 */
+		public function rate($id = null) {
 			$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
 			$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
 			$this->data['Rating']['class'] = isset($this->data['Rating']['class']) ? $this->data['Rating']['class']: ucfirst($this->params['plugin']).'.'.$this->modelClass;
@@ -349,19 +378,19 @@
 		}
 
 		/**
-		* Some global methods for admin
-		*/
+		 * Some global methods for admin
+		 */
 		/**
-		* get a list of all the plugins in the app
-		*/
-		function admin_getPlugins(){
+		 * get a list of all the plugins in the app
+		 */
+		public function admin_getPlugins(){
 			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getPlugins());
 		}
 
 		/**
-		* get a list of all the controllers for the selected plugin
-		*/
-		function admin_getControllers(){
+		 * get a list of all the controllers for the selected plugin
+		 */
+		public function admin_getControllers(){
 			if (!isset($this->params['named']['plugin'])) {
 				$this->set('json', array('error'));
 				return;
@@ -370,9 +399,9 @@
 		}
 
 		/**
-		* get a list of all the actions for the selected plugin + controller
-		*/
-		function admin_getActions(){
+		 * get a list of all the actions for the selected plugin + controller
+		 */
+		public function admin_getActions(){
 			if (!(isset($this->params['named']['plugin']) && isset($this->params['named']['controller'] ))) {
 				$this->set('json', array('error'));
 				return;
@@ -381,11 +410,11 @@
 		}
 
 		/**
-		* Create ACO's automaticaly
-		*
-		* http://book.cakephp.org/view/647/An-Automated-tool-for-creating-ACOs
-		*/
-		function admin_buildAcl() {
+		 * Create ACO's automaticaly
+		 *
+		 * http://book.cakephp.org/view/647/An-Automated-tool-for-creating-ACOs
+		 */
+		public function admin_buildAcl() {
 			if (!Configure::read('debug')) {
 				return $this->_stop();
 			}
@@ -483,7 +512,7 @@
 		 *
 		 * @return mixed
 		 */
-		function admin_mass() {
+		public function admin_mass() {
 			$massAction = $this->MassAction->getAction($this->params['form']);
 			$ids = $this->MassAction->getIds(
 				$massAction,
@@ -504,23 +533,76 @@
 		}
 
 		/**
+		 * Simple Admin add method.
+		 *
+		 * If you need simple Add method for your admin just dont create one and
+		 * it will fall back to this. It does the basics, saveAll with a
+		 * Session::setFlash() message.
+		 *
+		 * @todo sanitize input
+		 * @todo render generic view
+		 */
+		public function admin_add(){
+			if (!empty($this->data)) {
+				$this->{$this->__modelName}->create();
+				if ($this->{$this->modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
+					$this->redirect(array('action' => 'index'));
+				}
+
+				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
+			}
+		}
+
+		/**
+		 * Simple Admin edit method
+		 *
+		 * If you need simple Edit method for your admin just dont create one and
+		 * it will fall back to this. It does the basics, saveAll with a
+		 * Session::setFlash() message.
+		 *
+		 * @todo sanitize input
+		 * @todo render generic view
+		 *
+		 * @param mixed $id int | string (uuid) the id of the record to edit.
+		 */
+		public function admin_edit($id = null){
+			if(empty($this->data) && !$id){
+				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName));
+				$this->redirect($this->referer());
+			}
+
+			if (!empty($this->data)) {
+				if ($this->{$this->modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
+					$this->redirect(array('action' => 'index'));
+				}
+
+				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
+			}
+
+			if(empty($this->data) && $id){
+				$this->data = $this->{$this->__modelName}->read(null, $id);
+			}
+		}
+
+		/**
 		 * delete records.
 		 *
 		 * delete records throughout the app.
 		 *
 		 * @todo -c"AppController" Implement AppController.
-		 * - make a confirm if the js box does not happen. eg open delete in new
-		 *     window there is no confirm, just delete.
 		 * - undo thing... maybe save the whole record in the session and if click
 		 *     undo just save it back, or use soft delete and purge
 		 * @param mixed $id the id of the record.
 		 * @return n /a just redirects with different messages in {@see Session::setFlash}
 		 */
-		function admin_delete() {
+		public function admin_delete() {
 			try {
 				throw new Exception('Please use the delete through the mass action handler.');
 			} catch (Exception $e) {
 				echo 'Depreciated: ',  $e->getMessage(), ' Where: ', __METHOD__, ' Line: ',  __LINE__, "\n";
+				print_r(debug_backtrace());
 			}
 			exit;
 		}
@@ -537,7 +619,7 @@
 		 * @param int $id the id of the record to move.
 		 * @return does a redirect to the referer.
 		 */
-		function admin_reorder($id = null) {
+		public function admin_reorder($id = null) {
 			$model = $this->modelClass;
 
 			if (!$id) {
@@ -566,12 +648,5 @@
 			}
 
 			$this->redirect($this->referer());
-		}
-
-		/**
-		 * depreciated methods
-		 */
-		function admin_commentPurge($class = null) {
-			echo 'moved to comments';
 		}
 	}

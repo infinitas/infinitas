@@ -23,36 +23,35 @@
 	 */
 
 	class MassActionComponent extends Object {
-		var $name = 'MassAction';
+		public $name = 'MassAction';
 
-		var $modelName = null;
+		private $__modelName = null;
 
-		var $prettyModelName = null;
+		private $__prettyModelName = null;
 
 		/**
-		* Controllers initialize function.
-		*/
-		function initialize(&$controller, $settings = array()) {
+		 * Controllers initialize function.
+		 */
+		public function initialize(&$controller, $settings = array()) {
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->modelName = $this->Controller->modelClass;
-
-			$this->prettyModelName = low(Inflector::humanize(Inflector::underscore(Inflector::pluralize($this->modelName))));
+			$this->__modelName = $this->Controller->modelClass;
+			$this->__prettyModelName = prettyName($this->__modelName);
 		}
 
 		/**
-		* Get submitted ids.
-		*
-		* Checks the form data and returns an array of all the ids found for that
-		* model.
-		*
-		* @param string $massAction the action to preform
-		* @param array $data the form data
-		*
-		* @return array $ids the array of ids for the model that was selected.
-		*/
-		function getIds($massAction, $data) {
+		 * Get submitted ids.
+		 *
+		 * Checks the form data and returns an array of all the ids found for that
+		 * model.
+		 *
+		 * @param string $massAction the action to preform
+		 * @param array $data the form data
+		 *
+		 * @return array $ids the array of ids for the model that was selected.
+		 */
+		public function getIds($massAction, $data) {
 			if (in_array($massAction, array('add','filter'))) {
 				return null;
 			}
@@ -73,15 +72,15 @@
 		}
 
 		/**
-		* Get the action to preform.
-		*
-		* Gets the action that was selected from the form.
-		*
-		* @param array $form the data from the form submition $this->params['form']
-		*
-		* @return string the action selected, or redirect to referer if no action found.
-		*/
-		function getAction($form) {
+		 * Get the action to preform.
+		 *
+		 * Gets the action that was selected from the form.
+		 *
+		 * @param array $form the data from the form submition $this->params['form']
+		 *
+		 * @return string the action selected, or redirect to referer if no action found.
+		 */
+		public function getAction($form) {
 			if (isset($form['action'])) {
 				return $form['action'];
 			}
@@ -91,12 +90,12 @@
 		}
 
 		/**
-		* Filter records.
-		*
-		* Checks the data posted from the form and redirects to the url with the params
-		* for the filter component to catch.
-		*/
-		function filter($null = null) {
+		 * Filter records.
+		 *
+		 * Checks the data posted from the form and redirects to the url with the params
+		 * for the filter component to catch.
+		 */
+		public function filter($null = null) {
 			$data = array();
 			foreach( $this->Controller->data[$this->Controller->modelClass] as $k => $field ){
 				if ( is_int( $k ) || $k == 'all' ){
@@ -113,15 +112,15 @@
 		}
 
 		/**
-		* Delete records.
-		*
-		* Take the array of ids and checks that the deletion was confirmed. if it is
-		* they will be sent for delete processing (could be soft|hard delete).
-		*
-		* If there was no javascript confirmation a page is displayed with the confirmation
-		*/
-		function delete($ids) {
-			if ((isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) || (isset($this->Controller->{$this->modelName}->noConfirm))) {
+		 * Delete records.
+		 *
+		 * Take the array of ids and checks that the deletion was confirmed. if it is
+		 * they will be sent for delete processing (could be soft|hard delete).
+		 *
+		 * If there was no javascript confirmation a page is displayed with the confirmation
+		 */
+		public function delete($ids) {
+			if ((isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) || (isset($this->Controller->{$this->__modelName}->noConfirm))) {
 				if(method_exists($this->Controller, '__handleDeletes')) {
 					$this->Controller->__handleDeletes($ids);
 				}
@@ -131,33 +130,33 @@
 			}
 
 			$referer = $this->Controller->referer();
-			$rows = $this->Controller->{$this->modelName}->find('list', array('conditions' => array($this->modelName.'.id' => $ids)));
+			$rows = $this->Controller->{$this->__modelName}->find('list', array('conditions' => array($this->__modelName.'.id' => $ids)));
 
-			$this->Controller->set('model', $this->modelName);
+			$this->Controller->set('model', $this->__modelName);
 			$this->Controller->set(compact('referer', 'rows'));
 			$this->Controller->render('delete', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'delete.ctp');
 		}
 
 		/**
-		* Handle delete requests.
-		*
-		* Takes the ids and if the model is using the soft delete behavior it will
-		* stick them in the trash (set a delete flag on the record) or it will do a hard
-		* delete.
-		*
-		* @param array $ids the ids to delete.
-		*/
-		function __handleDeletes($ids) {
-			$conditions = array($this->modelName . '.' . $this->Controller->{$this->modelName}->primaryKey => $ids);
-			$result = $this->Controller->{$this->modelName}->deleteAll($conditions, true, true);
+		 * Handle delete requests.
+		 *
+		 * Takes the ids and if the model is using the soft delete behavior it will
+		 * stick them in the trash (set a delete flag on the record) or it will do a hard
+		 * delete.
+		 *
+		 * @param array $ids the ids to delete.
+		 */
+		public function __handleDeletes($ids) {
+			$conditions = array($this->__modelName . '.' . $this->Controller->{$this->__modelName}->primaryKey => $ids);
+			$result = $this->Controller->{$this->__modelName}->deleteAll($conditions, true, true);
 			$message = __('deleted', true);
 
 			if($result == true) {
-				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' have been', true) . ' ' . $message);
+				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' have been', true) . ' ' . $message);
 			}
 
 			else {
-				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' could not be', true) . ' ' . $message);
+				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' could not be', true) . ' ' . $message);
 			}
 
 			if(isset($this->Controller->data['Confirm']['referer'])) {
@@ -176,20 +175,20 @@
 		 *
 		 * @param array $ids array of ids.
 		 */
-		function toggle($ids) {
+		public function toggle($ids) {
 			$ids = $ids + array(0);
 
-			if ($this->Controller->{$this->modelName}->updateAll(
-					array($this->modelName . '.active' => '1 - `' . $this->modelName . '`.`active`'),
-						array($this->modelName . '.id IN(' . implode(',', $ids) . ')')
+			if ($this->Controller->{$this->__modelName}->updateAll(
+					array($this->__modelName . '.active' => '1 - `' . $this->__modelName . '`.`active`'),
+						array($this->__modelName . '.id IN(' . implode(',', $ids) . ')')
 						)
 					) {
-				$this->Controller->{$this->modelName}->afterSave(false);
-				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' were toggled', true));
+				$this->Controller->{$this->__modelName}->afterSave(false);
+				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' were toggled', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
-			$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' could not be toggled', true));
+			$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' could not be toggled', true));
 			$this->Controller->redirect($this->Controller->referer());
 		}
 
@@ -203,33 +202,33 @@
 		*
 		* @param array $ids array of ids.
 		*/
-		function copy($ids) {
+		public function copy($ids) {
 			$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
 
 			$saves = 0;
 			foreach($ids as $id) {
-				$record = $this->Controller->{$this->modelName}->read(null, $id);
-				unset($record[$this->modelName]['id']);
+				$record = $this->Controller->{$this->__modelName}->read(null, $id);
+				unset($record[$this->__modelName]['id']);
 
-				if ($record[$this->modelName][$this->Controller->{$this->modelName}->displayField] != $this->Controller->{$this->modelName}->primaryKey) {
-					$record[$this->modelName][$this->Controller->{$this->modelName}->displayField] = $record[$this->modelName][$this->Controller->{$this->modelName}->displayField] . $copyText;
+				if ($record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] != $this->Controller->{$this->__modelName}->primaryKey) {
+					$record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] = $record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] . $copyText;
 				}
 
-				$record[$this->modelName]['active'] = 0;
-				unset( $record[$this->modelName]['created'] );
-				unset( $record[$this->modelName]['modified'] );
-				unset( $record[$this->modelName]['lft'] );
-				unset( $record[$this->modelName]['rght'] );
+				$record[$this->__modelName]['active'] = 0;
+				unset( $record[$this->__modelName]['created'] );
+				unset( $record[$this->__modelName]['modified'] );
+				unset( $record[$this->__modelName]['lft'] );
+				unset( $record[$this->__modelName]['rght'] );
 
-				$this->Controller->{$this->modelName}->create();
+				$this->Controller->{$this->__modelName}->create();
 
-				if ($this->Controller->{$this->modelName}->save($record)) {
+				if ($this->Controller->{$this->__modelName}->save($record)) {
 					$saves++;
 				} ;
 			}
 
 			if ($saves) {
-				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $this->prettyModelName . ' was made', true));
+				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $this->__prettyModelName . ' was made', true));
 				$this->Controller->redirect($this->Controller->referer());
 			}
 
@@ -245,7 +244,7 @@
 		 *
 		 * @param array $ids array of ids.
 		 */
-		function move($ids) {
+		public function move($ids) {
 			if (isset($this->Controller->data['Move']['confirmed']) && $this->Controller->data['Move']['confirmed']) {
 				if(method_exists($this->Controller, '__handleMove')) {
 					$this->Controller->__handleMove($ids);
@@ -256,12 +255,12 @@
 			}
 
 			$referer = $this->Controller->referer();
-			$rows = $this->Controller->{$this->modelName}->find('all', array('conditions' => array($this->modelName.'.id' => $ids), 'contain' => false));
-			$model = $this->modelName;
+			$rows = $this->Controller->{$this->__modelName}->find('all', array('conditions' => array($this->__modelName.'.id' => $ids), 'contain' => false));
+			$model = $this->__modelName;
 
 			$relations['belongsTo'] = array();
-			if (isset($this->Controller->{$this->modelName}->belongsTo)) {
-				$relations['belongsTo'] = $this->Controller->{$this->modelName}->belongsTo;
+			if (isset($this->Controller->{$this->__modelName}->belongsTo)) {
+				$relations['belongsTo'] = $this->Controller->{$this->__modelName}->belongsTo;
 
 				foreach($relations['belongsTo'] as $alias => $belongsTo){
 					switch($alias){
@@ -270,7 +269,7 @@
 
 						case 'Parent Post':
 						case 'Parent':
-								$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->modelName);
+								$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->__modelName);
 
 								if(in_array('Tree', $_Model->Behaviors->_attached)){
 									$_Model->order = array();
@@ -291,8 +290,8 @@
 			}
 
 			$relations['hasAndBelongsToMany'] = array();
-			if (isset($this->Controller->{$this->modelName}->hasAndBelongsToMany)) {
-				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->modelName}->hasAndBelongsToMany;
+			if (isset($this->Controller->{$this->__modelName}->hasAndBelongsToMany)) {
+				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->__modelName}->hasAndBelongsToMany;
 
 				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
 					$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
@@ -300,8 +299,8 @@
 				}
 			}
 
-			$modelSetup['displayField'] = $this->Controller->{$this->modelName}->displayField;
-			$modelSetup['primaryKey'] = $this->Controller->{$this->modelName}->primaryKey;
+			$modelSetup['displayField'] = $this->Controller->{$this->__modelName}->displayField;
+			$modelSetup['primaryKey'] = $this->Controller->{$this->__modelName}->primaryKey;
 			$this->Controller->set(compact('referer', 'rows', 'model', 'modelSetup', 'relations'));
 			$this->Controller->render('move', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'move.ctp');
 		}
@@ -314,7 +313,7 @@
 		*
 		* @param array $ids the ids to delete.
 		*/
-		function __handleMove($ids) {
+		private function __handleMove($ids) {
 			$movedTo = $this->Controller->data['Move'];
 			unset($movedTo['model']);
 			unset($movedTo['confirmed']);
@@ -326,7 +325,7 @@
 				$row = array('id' => $id);
 				$_data = array_merge(array_filter($movedTo), $row);
 
-				$_mn = $this->modelName;
+				$_mn = $this->__modelName;
 				foreach($_data as $key => $value){
 					if(is_array($value)){
 						$save[$key][$key] = $value;
@@ -336,25 +335,25 @@
 					}
 				}
 
-				$data = $this->Controller->{$this->modelName}->read(null, $id);
-				unset($data[$this->modelName]['lft']);
-				unset($data[$this->modelName]['rght']);
-				$save[$this->modelName] = array_merge($data[$this->modelName], $save[$this->modelName]);
+				$data = $this->Controller->{$this->__modelName}->read(null, $id);
+				unset($data[$this->__modelName]['lft']);
+				unset($data[$this->__modelName]['rght']);
+				$save[$this->__modelName] = array_merge($data[$this->__modelName], $save[$this->__modelName]);
 				// @todo this is messing up trees, need to see why the lft and rght is not updating.
-				$result = $result && $this->Controller->{$this->modelName}->saveAll($save);
+				$result = $result && $this->Controller->{$this->__modelName}->saveAll($save);
 				unset($save);
 			}
 
-			if(in_array('Tree', $this->Controller->{$this->modelName}->Behaviors->_attached)){
-				//$this->Controller->{$this->modelName}->recover('parent');
+			if(in_array('Tree', $this->Controller->{$this->__modelName}->Behaviors->_attached)){
+				//$this->Controller->{$this->__modelName}->recover('parent');
 			}
 
 			if($result == true) {
-				$this->Controller->Session->setFlash(__('The ' . $this->prettyModelName . ' have been moved', true));
+				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' have been moved', true));
 			}
 
 			else {
-				$this->Controller->Session->setFlash(__('Some of the ' . $this->prettyModelName . ' could not be moved', true));
+				$this->Controller->Session->setFlash(__('Some of the ' . $this->__prettyModelName . ' could not be moved', true));
 			}
 
 			$this->Controller->redirect($this->Controller->data['Move']['referer']);
@@ -370,7 +369,7 @@
 		* @param string $action the action to redirect to.
 		* @param int $id the id of the record that is selected.
 		*/
-		function generic($action = 'add', $ids) {
+		public function generic($action = 'add', $ids) {
 			if (!$ids || !isset($ids[0])) {
 				$this->Controller->redirect(array('action' => $action));
 			}
@@ -383,7 +382,7 @@
 		*
 		* Finds all tables in the app that have locked fields and unlocks them.
 		*/
-		function unlock($null = null) {
+		public function unlock($null = null) {
 			$tables = $this->Controller->_getLockableTables();
 			$this->db = ConnectionManager::getDataSource('default');
 

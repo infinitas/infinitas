@@ -101,7 +101,8 @@
 			if(!class_exists('Inflector')){
 				App::import('Inflector');
 			}
-			return Inflector::humanize(Inflector::underscore((string)$class));
+			
+			return ucfirst(low(Inflector::humanize(Inflector::underscore(Inflector::pluralize((string)$class)))));
 		}
 
 		return false;
