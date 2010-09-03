@@ -12,6 +12,7 @@ class ReleaseShell extends Shell {
 			$this->out('[P]lugin');
 			$this->out('[M]odule');
 			$this->out('[T]heme');
+			$this->out('Plugin [A]dd-on');
 			$this->out('[Q]uit');
 
 			$input = strtoupper($this->in('What do you wish to release?'));
@@ -23,6 +24,8 @@ class ReleaseShell extends Shell {
 				case 'M':
 					break;
 				case 'T':
+					break;
+				case 'A':
 					break;
 				case 'Q':
 					exit(0);
@@ -55,6 +58,11 @@ class ReleaseShell extends Shell {
 		} while($plugin > 0);
 	}
 
+	/**
+	 *
+	 * @param boolean $searchAll True if we should return all plugins, false for only plugins in /plugins and plugin plugins.
+	 * @return array Array of available plugins 
+	 */
 	private function __getPluginList($searchAll = false) {
 		$plugins = App::objects('plugin');
 
@@ -74,6 +82,11 @@ class ReleaseShell extends Shell {
 		return $infinitasPlugins;
 	}
 
+	/**
+	 *
+	 * @param string $plugin Name of the plugin to generate the release for.
+	 * @return Nothing
+	 */
 	private function __generateRelease($plugin) {
 		$pluginPath = App::pluginPath($plugin);
 
@@ -92,11 +105,7 @@ class ReleaseShell extends Shell {
 				$this->out("Initial release for " . $plugin);
 				$this->hr();
 				$this->out("It looks like this is the first time you are generating\nan Infinitas release for this plugin.");
-				$this->__info[$plugin]['name'] = $this->in("Enter the name your plugin will be known as\n(I.E. what it will display in the Infinitas plugin manager).", null, isset($this->__info[$plugin]['name']) ? $this->__info[$plugin]['name'] : $plugin);
-				$this->__info[$plugin]['author'] = $this->in('Enter the plugin author name.', null, isset($this->__info[$plugin]['author']) ? $this->__info[$plugin]['author'] : null);
-				$this->__info[$plugin]['email'] = $this->in('Enter the plugin author email address.', null, isset($this->__info[$plugin]['email']) ? $this->__info[$plugin]['email'] : null);
-				$this->__info[$plugin]['website'] = $this->in('Enter the plugin website.', null, isset($this->__info[$plugin]['website']) ? $this->__info[$plugin]['website'] : null);
-				$this->__info[$plugin]['version'] = $this->in('Enter your initial version number.', null, isset($this->__info[$plugin]['version']) ? $this->__info[$plugin]['version'] : '1.0');
+				$this->__initialPluginInfo($plugin);
 
 				$dependancies = $this->in('Does this plugin have any non-core dependancies?', array('Y', 'N'), !empty($this->__info[$plugin]['dependancies']) ? 'Y' : 'N');
 				if(strtoupper($dependancies) == 'Y') {
@@ -174,7 +183,7 @@ class ReleaseShell extends Shell {
 				case 4:
 					$this->__info[$plugin]['website'] = $this->in('Plugin website.', null, $this->__info[$plugin]['website']);
 					break;
-				case 4:
+				case 5:
 					$this->__configureDependancies($plugin);
 					break;
 			}
@@ -249,7 +258,9 @@ class ReleaseShell extends Shell {
 	private function __pluginModelConfig($plugin) {
 		$models = App::objects('model', App::pluginPath($plugin) . 'models' . DS, false);
 
-		$this->__models[$plugin] = array_fill_keys($models, array());
+		if(empty($this->__models[$plugin])) {
+			$this->__models[$plugin] = array_fill_keys($models, array());
+		}
 		
 		do {
 			$this->hr();
@@ -364,6 +375,14 @@ class ReleaseShell extends Shell {
 				}
 			}
 		} while($dependancy != '');
+	}
+
+	private function __initialPluginInfo($plugin) {
+		$this->__info[$plugin]['name'] = $this->in("Enter the name your plugin will be known as\n(I.E. what it will display in the Infinitas plugin manager).", null, isset($this->__info[$plugin]['name']) ? $this->__info[$plugin]['name'] : $plugin);
+		$this->__info[$plugin]['author'] = $this->in('Enter the plugin author name.', null, isset($this->__info[$plugin]['author']) ? $this->__info[$plugin]['author'] : null);
+		$this->__info[$plugin]['email'] = $this->in('Enter the plugin author email address.', null, isset($this->__info[$plugin]['email']) ? $this->__info[$plugin]['email'] : null);
+		$this->__info[$plugin]['website'] = $this->in('Enter the plugin website.', null, isset($this->__info[$plugin]['website']) ? $this->__info[$plugin]['website'] : null);
+		$this->__info[$plugin]['version'] = $this->in('Enter your initial version number.', null, isset($this->__info[$plugin]['version']) ? $this->__info[$plugin]['version'] : '1.0');
 	}
 }
 
