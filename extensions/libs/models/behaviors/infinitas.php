@@ -151,11 +151,11 @@
 
 			foreach($data as $k => $v){
 				if(is_array($v)){
-					$data[$k] = $this->getJsonRecursive(&$Model, $v, $config, true);
+					$data[$k] = $this->getJsonRecursive($Model, $v, $config, true);
 				}
 
 				if(self::getJson(&$Model, $v, $config, false)){
-					$data[$k] = $this->getJson(&$Model, $v, $config, true);
+					$data[$k] = $this->getJson($Model, $v, $config, true);
 				}
 			}
 			return $data;
