@@ -301,11 +301,10 @@
 			if (!empty($this->data['Comment'])) {
 				$message = 'Your comment has been saved and will be available after admin moderation.';
 				if (Configure::read('Comments.auto_moderate') === true) {
-					$this->data['Comment']['active'] = 1;
 					$message = 'Your comment has been saved and is active.';
 				}
 
-				if ($this->{$this->modelClass}->createComment($id, $this->data)) {
+				if ($this->{$this->modelClass}->createComment($this->data)) {
 					$this->Session->setFlash(__($message, true));
 					$this->redirect($this->referer());
 				}
@@ -313,6 +312,8 @@
 					$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
 				}
 			}
+
+			$this->render(null, null, App::pluginPath('Comment').'views'.DS.'comments'.DS.'add.ctp');
 		}
 
 		/**
