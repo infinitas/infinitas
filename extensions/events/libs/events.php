@@ -150,8 +150,7 @@
 				$availableMethods = get_class_methods($Event);
 
 				foreach($availableMethods as $availableMethod){
-					if(strpos($availableMethod, 'on') === 0)
-					{
+					if(strpos($availableMethod, 'on') === 0){
 						$handlerName = substr($availableMethod, 2);
 						$handlerName{0} = strtolower($handlerName{0});
 						$_this->__eventHandlerCache[$handlerName][] = get_class($Event);
@@ -170,17 +169,11 @@
 		private function __loadEventClass($className, $filename = false){
 			if($filename === false) {
 				$baseName = Inflector::underscore($className) . '.php';
-
 				$pluginName = Inflector::camelize(preg_replace('/_events.php$/', '', $baseName));
-
 				$pluginPath = App::pluginPath($pluginName);
-
 				$filename = $pluginPath . $baseName;
 			}
-
-			if (!class_exists('LibsEvent')) {
-				//App::Import('file', 'LibsEvent', true, array(), App::pluginPath('libs').'libs_events.php');
-			}
+			
 			App::Import('file', $className, true, array(), $filename);
 
 			try{
@@ -190,6 +183,7 @@
 				return true;
 			}
 			catch(Exception $e){
+				$this->log(serialize($e), 'core');
 				return false;
 			}
 		}
