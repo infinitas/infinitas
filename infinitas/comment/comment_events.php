@@ -26,4 +26,16 @@
 				}
 			}
 		}
+
+		public function onRequireCssToLoad(&$event){
+			return array(
+				'/comment/css/comment'
+			);
+		}
+
+		public function onRequireJavascriptToLoad(&$event){
+			return array(
+				'/comment/js/comment'
+			);
+		}
 	 }
