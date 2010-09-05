@@ -23,10 +23,6 @@
 					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
 
-				if (array_key_exists('comment_count', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Commentable')) {
-					$event->Handler->Behaviors->attach('Libs.Commentable');
-				}
-
 				if (array_key_exists('lft', $event->Handler->_schema) && array_key_exists('rght', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Tree')) {
 					$event->Handler->Behaviors->attach('Tree');
 				}
