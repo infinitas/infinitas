@@ -18,11 +18,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 final class CommentsEvents extends AppEvents{
+	 final class CommentEvents extends AppEvents{
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {			
 				if (array_key_exists('comment_count', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Comments.Commentable')) {					
-					$event->Handler->Behaviors->attach('Comments.Commentable');
+					$event->Handler->Behaviors->attach('Comment.Commentable');					
 				}
 			}
 		}

@@ -17,7 +17,7 @@
 	* @since 0.5a
 	*/
 
-	class CommentsController extends AppController {
+	class CommentsController extends CommentAppController {
 		var $name = 'Comments';
 
 		var $helpers = array('Libs.Infinitas', 'Filter.Filter');

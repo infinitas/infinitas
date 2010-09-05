@@ -20,6 +20,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class CommentsAppController extends AppController{
-		 public $name = 'CommentsAppController';
+	 class CommentAppController extends AppController{
+		 public $name = 'CommentAppController';
 	 }

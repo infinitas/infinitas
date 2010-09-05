@@ -20,8 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class CommentsAppModel extends AppModel{
-		 public $name = 'CommentsAppModel';
-
-		 public $prefix = 'core_';
+	 class CommentAppModel extends AppModel{
+		 public $name = 'CommentAppModel';
+		 public $tablePrefix = 'global_';
 	 }

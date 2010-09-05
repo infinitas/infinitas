@@ -19,19 +19,13 @@
 	* @subpackage blog.models.comment
 	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	*/
-	class Comment extends ManagementAppModel {
-		var $name = 'Comment';
-
-		function __construct($id = false, $table = null, $ds = null) {
+	class Comment extends CommentAppModel {
+		public $name = 'Comment';
+		
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
-				'name' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please enter your name', true)
-					)
-				),
 				'email' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
@@ -51,7 +45,7 @@
 			);
 		}
 
-		function getCounts($class = null) {
+		public function getCounts($class = null) {
 			if (!$class) {
 				return false;
 			}
@@ -87,21 +81,21 @@
 			return $counts;
 		}
 
-		function afterSave($created) {
+		public function afterSave($created) {
 			parent::afterSave($created);
 
 			$this->__clearCache();
 			return true;
 		}
 
-		function afterDelete() {
+		public function afterDelete() {
 			parent::afterDelete();
 
 			$this->__clearCache();
 			return true;
 		}
 
-		function __clearCache() {
+		private function __clearCache() {
 			App::import('Folder');
 
 			$Folder = new Folder(CACHE . 'blog');
@@ -125,7 +119,7 @@
 			return true;
 		}
 
-		function latestComments($all = true, $limit = 10){
+		public function latestComments($all = true, $limit = 10){
 			$cacheName = cacheName('latest_comments_', array($all, $limit));
 			$comments = Cache::read($cacheName, 'core');
 			if (!empty($comments)) {
