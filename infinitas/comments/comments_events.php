@@ -1,25 +1,29 @@
 <?php
-	/* 
-	 * Short Description / title.
-	 * 
-	 * Overview of what the file does. About a paragraph or two
+	/**
+	 * Events for the comments plugin
 	 * 
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * 
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package {see_below}
-	 * @subpackage {see_below}
+	 * @package infinitas.comments
+	 * @subpackage infinitas.comments.events
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
+	 * @since 0.8a
 	 * 
-	 * @author {your_name}
+	 * @author dogmatic69
 	 * 
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class CommentsEvents extends AppEvents{
-		 
+	 final class CommentsEvents extends AppEvents{
+		public function onAttachBehaviors(&$event) {
+			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {			
+				if (array_key_exists('comment_count', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Comments.Commentable')) {					
+					$event->Handler->Behaviors->attach('Comments.Commentable');
+				}
+			}
+		}
 	 }
