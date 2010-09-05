@@ -42,10 +42,17 @@
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
     	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
 		$data = &${strtolower($modelName)};
-		
+
+		$_comments = array();
 		foreach($data[$modelName]['Comment'] as $comment){
-			echo '<div class="comment">blaa</div>';
+			$_comments[] = 
+				'<div class="comment">'.
+					$this->Gravatar->image($comment['email'], array('size' => '50')).
+					'<p>'.strip_tags($comment['comment']).'</p>'.
+				'</div>';
 		}
+		
+		echo implode('', $_comments);
 
 		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){
 			$this->data[$modelName] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName]);
@@ -77,7 +84,7 @@
             );
         }
 
-			echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
+			echo $this->Form->hidden('Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 
 			foreach($commentFields as $field){
 				if ($field != 'comment'){
@@ -97,13 +104,15 @@
 				$options = array('type' => 'textarea', 'class' => 'title');
 				$submitOptions = array();
 				if($this->action != 'comment'){
-					$options = array(
-						'label' => false,
-						'div' => false,
-						'type' => 'text',
-						'value' => __('Enter your comment...', true)
+					$options = array_merge(
+						$options,
+						array(
+							'label' => false,
+							'div' => false,
+							'value' => __('Enter your comment...', true)
+						)
 					);
-					$submitOptions = array('div' => false);
+					$submitOptions = array('div' => false, 'class' => 'submit');
 					echo '<div class="comment">';
 				}
 				
