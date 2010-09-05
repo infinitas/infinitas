@@ -29,11 +29,6 @@
 		var $defaults = array(
 			'plugin' => 'Comment',
 			'class' => 'Comment', // name of Comment model
-			'foreign_key' => 'foreign_id', // foreign key of Comment model
-			'counter_cache' => true,
-			'counter_cache_scope' => array('Comment.active' => 1),
-			'dependent' => true, // model dependency
-			'conditions' => array(), // conditions for find method on Comment model
 			'auto_bind' => true, // automatically bind the model to the User model (default true),
 			'sanitize' => true, // whether to sanitize incoming comments
 			'column_author' => 'name', // Column name for the authors name
@@ -44,14 +39,8 @@
 			'column_foreign_id' => 'foreign_id', // Column name of the foreign id that links to the article/entry/etc
 			'column_status' => 'status', // Column name for automatic rating
 			'column_points' => 'points', // Column name for accrued points
-			'blacklist_keywords' => array(
-				'levitra', 'viagra', 'casino', 'sex', 'loan', 'finance',
-				'slots', 'debt', 'free', 'interesting', 'sorry', 'cool'
-			),
-			// List of blacklisted words within text blocks
-			'blacklist_words' => array('.html', '.info', '?', '&', '.de', '.pl', '.cn'),
 			// List of blacklisted words within URLs
-			'deletion' => - 10 // How many points till the comment is deleted (negative)
+			'deletion' => -10 // How many points till the comment is deleted (negative)
 		);
 
 		/**
@@ -71,52 +60,43 @@
 		 */
 		function setup(&$model, $settings = array()) {
 			$default = $this->defaults;
-			$default['conditions'] = array('Comment.class' => $model->alias);
-
-			$commentClass = isset($default['plugin'])
-				? $default['plugin'].'.'.$default['class']
-				: $default['class'];
+			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
+			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
+			$default['conditions'] = array('Comment.class' => $model->alias);			
 
 			if (!isset($this->__settings[$model->alias])) {
 				$this->__settings[$model->alias] = $default;
 			}
 
-			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], ife(is_array($settings), $settings, array()));
-			// handles model binding to the model
-			// according to the auto_bind settings (default true)
-			if ($this->__settings[$model->alias]['auto_bind']) {
-				pr($commentClass);
-				$hasManyComment = array(
-					'Comment' => array(
-						'className' => $commentClass,
-						'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
-						'dependent' => $this->__settings[$model->alias]['dependent'],
-						'conditions' => $this->__settings[$model->alias]['conditions']
+			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], (array)$settings);
+			
+			$hasManyComment = array(
+				'Comment' => array(
+					'className' => 'Comment.Comment',
+					'foreignKey' => 'foreign_id',
+					'dependent' => true,
+					'conditions' => array(
+						'Comment.status != ' => 'delete'
 					)
-				);
+				)
+			);
 
-				$commentBelongsTo = array(
-					$model->alias => array(
-						'className' => $model->alias,
-						'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
-						'counterCache' => $this->__settings[$model->alias]['counter_cache'],
-						'counterScope' => $this->__settings[$model->alias]['counter_cache_scope']
-					)
-				);
-				$model->bindModel(array('hasMany' => $hasManyComment), false);
-				$model->Comment->bindModel(array('belongsTo' => $commentBelongsTo), false);
-			}
+			$commentBelongsTo = array(
+				$model->alias => array(
+					'className' => $model->alias,
+					'foreignKey' => 'foreign_id',
+					'counterCache' => true,
+					'counterScope' => array('Comment.active' => 1)
+				)
+			);
+			$model->bindModel(array('hasMany' => $hasManyComment), false);
+			$model->Comment->bindModel(array('belongsTo' => $commentBelongsTo), false);
 		}
 
-		function createComment(&$model, $id, $data = array()) {
+		function createComment(&$model, $data = array()) {
 			if (!empty($data[$this->__settings[$model->alias]['class']])) {
 				unset($data[$model->alias]);
 				$model->Comment->validate = array(
-					$this->__settings[$model->alias]['column_author'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						)
-					),
 					$this->__settings[$model->alias]['column_content'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
@@ -157,7 +137,6 @@
 				);
 
 				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
-				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_foreign_id']] = $id;
 				$data[$this->__settings[$model->alias]['class']] = $this->_rateComment($model, $data['Comment']);
 
 				if ($data[$this->__settings[$model->alias]['class']]['status'] == 'spam') {
@@ -170,25 +149,15 @@
 
 				if ($this->__settings[$model->alias]['sanitize']) {
 					App::import('Sanitize');
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']] =
-							Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']]);
 					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']] =
 							Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']]);
 					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] =
 							Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']]);
 				}
-
-				else {
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']] = $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']];
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']] = $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']];
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] = $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']];
-				}
-
-				if ($this->_checkForEmptyVal($data[$this->__settings[$model->alias]['class']]) == false) {
-					$model->Comment->create();
-					if ($model->Comment->save($data)) {
-						return true;
-					}
+				
+				$model->Comment->create();
+				if ($model->Comment->save($data)) {
+					return true;
 				}
 			}
 			return false;
@@ -203,7 +172,7 @@
 					array(
 						'conditions' => array(
 							$settings['class'] . '.' . $settings['column_class'] => $model->alias,
-							$settings['class'] . '.' . $settings['foreign_key'] => $options['id'],
+							$settings['class'] . '.foreign_id' => $options['id'],
 							$settings['class'] . '.' . $settings['column_status'] => 'approved')
 					),
 					$options['options']
@@ -220,7 +189,6 @@
 				$points += $this->_rateEmail($model, $data);
 				$points += $this->_rateKeywords($model, $data);
 				$points += $this->_rateStartingWord($model, $data);
-				$points += $this->_rateAuthorName($model, $data);
 				$points += $this->_rateByPreviousComment($model, $data);
 				$points += $this->_rateBody($model, $data);
 				$data[$this->__settings[$model->alias]['column_points']] = $points;
@@ -261,11 +229,11 @@
 			$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
 			// How many links are in the body
 			// -1 per link if over 2, otherwise +2 if less than 2
-			$maxLinks = Configure::read('Comment.maximum_links') > 0
-				? Configure::read('Comment.maximum_links')
-				: 2;
+			$maxLinks = Configure::read('Comment.maximum_links');
+			$maxLinks > 0 ? $maxLinks : 2;
+			
 			$points = $this->totalLinks > 2
-				? $totalLinks * - 1
+				? $this->totalLinks * -1
 				: 2;
 			// URLs that have certain words or characters in them
 			// -1 per blacklisted word
@@ -361,15 +329,6 @@
 				: 0;
 		}
 
-		function _rateAuthorName($model, $data) {
-			// Author name has http:// in it
-			// -2 points
-			if (stripos($data[$this->__settings[$model->alias]['column_author']], 'http://') !== false) {
-				return - 2;
-			}
-			return 0;
-		}
-
 		function _rateByPreviousComment($model, $data) {
 			// Body used in previous comment
 			// -1 per exact comment
@@ -397,18 +356,5 @@
 			$totalConsonants = count($matches[0]);
 
 			return $totalConsonants > 0 ? - $totalConsonants : 0;
-		}
-
-		function _checkForEmptyVal($array) {
-			$isEmpty = 0;
-			foreach ($array as $key => $item) {
-				if (is_numeric($item)) {
-				}
-
-				elseif (empty($item)) {
-					$isEmpty++;
-				}
-			}
-			return $isEmpty > 0;
 		}
 	}
