@@ -21,6 +21,7 @@
 		public $helpers = array(
 			// cake
 			'Time', 'Html', 'Form',
+			'Libs.Gravatar',
 			// core
 			'Cms.Cms'
 		);
