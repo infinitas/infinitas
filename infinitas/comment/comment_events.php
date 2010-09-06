@@ -20,9 +20,44 @@
 
 	 final class CommentEvents extends AppEvents{
 		public function onAttachBehaviors(&$event) {
-			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {			
-				if (array_key_exists('comment_count', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Comments.Commentable')) {					
-					$event->Handler->Behaviors->attach('Comment.Commentable');					
+			if(is_subclass_of($event->Handler, 'Model')) {				
+				if ($event->Handler->hasField('comment_count')) {					
+					$event->Handler->bindModel(
+						array(
+							'hasMany' => array(
+								$event->Handler->name.'Comment' => array(
+									'className' => 'Comment.Comment',
+									'foreignKey' => 'foreign_id',
+									'limit' => 5,
+									'order' => array(
+										$event->Handler->name.'Comment.created' => 'desc'
+									),
+									'fields' => array(
+										$event->Handler->name.'Comment.id',
+										$event->Handler->name.'Comment.class',
+										$event->Handler->name.'Comment.foreign_id',
+										$event->Handler->name.'Comment.email',
+										$event->Handler->name.'Comment.comment',
+										$event->Handler->name.'Comment.active',
+										$event->Handler->name.'Comment.status',
+										$event->Handler->name.'Comment.created'
+									),
+									'conditions' => array(
+										'or' => array(
+											$event->Handler->name.'Comment.active' => 1,
+											$event->Handler->name.'Comment.status' => 'approved'
+										)
+									),
+									'dependent' => true
+								)
+							)
+						),
+						false
+					);
+					
+					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')){
+						$event->Handler->Behaviors->attach('Comment.Commentable');
+					}
 				}
 			}
 		}
