@@ -51,8 +51,14 @@
 					'<p>'.strip_tags($comment['comment']).'</p>'.
 				'</div>';
 		}
-		
+
 		echo implode('', $_comments);
+
+		if(!$this->Session->read('Auth.User.id')){
+
+			?><div class="comment"><?php echo __('Please log in to leave a comment', true); ?></div></div><?php
+			return;
+		}
 
 		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){
 			$this->data[$modelName] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName]);
