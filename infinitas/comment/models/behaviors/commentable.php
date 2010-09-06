@@ -68,30 +68,7 @@
 				$this->__settings[$model->alias] = $default;
 			}
 
-			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], (array)$settings);
-			
-			$hasManyComment = array(
-				'Comment' => array(
-					'className' => 'Comment.Comment',
-					'foreignKey' => 'foreign_id',
-					'dependent' => true,
-					'conditions' => array(
-						'Comment.status != ' => 'delete'
-					)
-				)
-			);
-
-			$commentBelongsTo = array(
-				$model->alias => array(
-					'className' => $model->alias,
-					'foreignKey' => 'foreign_id',
-					'counterCache' => true,
-					'counterScope' => array('Comment.active' => 1)
-				)
-			);
-			
-			$model->bindModel(array('hasMany' => $hasManyComment), false);
-			$model->Comment->bindModel(array('belongsTo' => $commentBelongsTo), false);
+			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], (array)$settings);			
 		}
 
 		public function createComment(&$model, $data = array()) {
