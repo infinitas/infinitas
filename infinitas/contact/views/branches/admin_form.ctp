@@ -28,7 +28,6 @@
 		        echo $this->Form->input('phone');
 		        echo $this->Form->input('fax');
 		        echo $this->Form->input('address');
-		        echo $this->Form->input('map');
 		        echo $this->Form->input('active');
 			?>
 		</div>

@@ -3,7 +3,8 @@
 		var $helpers = array(
 			'Filter.Filter',
 			'Contact.Vcf',
-			'Html'
+			'Html',
+			'Google.StaticMap'
 		);
 
 		function beforeFilter(){

@@ -41,7 +41,7 @@
 		var $belongsTo = array(
 			'Branch' => array(
 				'className' => 'Contact.Branch',
-				'counterCache' =>  true,
+				'counterCache' =>  'user_count',
 				'counterScope' =>  array('Contact.active' => 1)
 			)
 		);

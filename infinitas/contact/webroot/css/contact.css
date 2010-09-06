@@ -1,0 +1,9 @@
+.contact.branches img.map{
+	margin: auto;
+	display: block;
+	border: 1px solid #AFAFAF;
+
+	-moz-box-shadow: 0px 0px 15px #AFAFAF; /* FF3.5+ */
+	-webkit-box-shadow: 0px 0px 15px #AFAFAF; /* Saf3.0+, Chrome */
+	box-shadow: 0px 0px 15px #AFAFAF; /* Opera 10.5, IE 9.0 */
+}

@@ -104,13 +104,6 @@
 						'allowEmpty' =>  true
 					)
 				),
-				'map' => array(
-					'map' => array(
-						'rule' => 'url',
-						'message' => __('Please enter a valid url for the map', true),
-						'allowEmpty' =>  true
-					)
-				),
 				'time_zone_id' => array(
 					'comparison' => array(
 						'rule' => array('comparison', '>', 0),

@@ -68,11 +68,7 @@
 					'contain' => array(
 						'Address' => array(
 							'fields' => array(
-								'Address.name',
-								'Address.street',
-								'Address.city',
-								'Address.postal',
-								'Address.province'
+								'Address.address'
 							),
 							'Country' => array(
 								'fields' => array(
