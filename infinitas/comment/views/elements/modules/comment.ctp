@@ -35,16 +35,18 @@
 			? $data[$modelName][$modelName.'Comment']
 			: $data[$modelName.'Comment'];
 
-		echo $this->Html->link(
-			__('View all comments', true),
-			array(
-				'plugin' => 'comment',
-				'controller' => 'comments',
-				'action' => 'index',
-				'Comment.class' => $modelName,
-				'Comment.foreign_id' => $foreign_id
-			)
-		);
+		if(!empty($comments)){
+			echo $this->Html->link(
+				__('View all comments', true),
+				array(
+					'plugin' => 'comment',
+					'controller' => 'comments',
+					'action' => 'index',
+					'Comment.class' => $modelName,
+					'Comment.foreign_id' => $foreign_id
+				)
+			);
+		}
 
 		foreach($comments as $comment){
 			$_comments[] = 
