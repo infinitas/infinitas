@@ -48,7 +48,7 @@
 			$_comments[] = 
 				'<div class="comment">'.
 					$this->Gravatar->image($comment['email'], array('size' => '50')).
-					'<p>'.strip_tags($comment['comment']).'</p>'.
+					'<p>'.$this->Text->truncate(strip_tags($comment['comment']), 350).'</p>'.
 				'</div>';
 		}
 
