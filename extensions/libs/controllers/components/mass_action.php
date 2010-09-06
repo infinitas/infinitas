@@ -175,14 +175,25 @@
 		 *
 		 * @param array $ids array of ids.
 		 */
-		public function toggle($ids) {
-			$ids = $ids + array(0);
+		public function toggle($ids) {			
+			$conditions = array($this->__modelName . '.id IN (' . implode(',', array_merge(array(0=>0), $ids)) . ')');
+			$newValues = array(
+				$this->__modelName . '.active' => '1 - `' . $this->__modelName . '`.`active`'
+			);
 
-			if ($this->Controller->{$this->__modelName}->updateAll(
-					array($this->__modelName . '.active' => '1 - `' . $this->__modelName . '`.`active`'),
-						array($this->__modelName . '.id IN(' . implode(',', $ids) . ')')
-						)
-					) {
+			if($this->Controller->{$this->__modelName}->hasField('modified')){
+				$newValues[$this->__modelName . '.modified'] = '\''.date('Y-m-d H:m:s').'\'';
+			}
+
+			// unbind things for the update. dont need all the models for this.
+			$this->Controller->{$this->__modelName}->unbindModel(
+				array(
+					'belongsTo' => array_keys($this->Controller->{$this->__modelName}->belongsTo),
+					'hasOne' => array_keys($this->Controller->{$this->__modelName}->hasOne)
+				)
+			);
+
+			if ($this->Controller->{$this->__modelName}->updateAll($newValues, $conditions)) {
 				$this->Controller->{$this->__modelName}->afterSave(false);
 				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' were toggled', true));
 				$this->Controller->redirect($this->Controller->referer());
