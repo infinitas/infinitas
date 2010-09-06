@@ -95,7 +95,7 @@
 		}
 
 		public function createComment(&$model, $data = array()) {
-			if (!empty($data[$this->__settings[$model->alias]['class']])) {
+			if (empty($data[$this->__settings[$model->alias]['class']])) {
 				return false;
 			}
 
@@ -141,8 +141,10 @@
 			);
 
 			$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
-			$data[$this->__settings[$model->alias]['class']] = $this->_rateComment($model, $data['Comment']);
+			$data[$this->__settings[$model->alias]['class']] = $this->__rateComment($model, $data['Comment']);
 
+			$data[$this->__settings[$model->alias]['class']]['active'] = 0;
+			
 			if ($data[$this->__settings[$model->alias]['class']]['status'] == 'spam') {
 				$data[$this->__settings[$model->alias]['class']]['active'] == 0;
 			}
