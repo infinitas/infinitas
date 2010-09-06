@@ -56,15 +56,17 @@
 
 		if(!$this->Session->read('Auth.User.id')){
 
-			?><div class="comment"><?php echo __('Please log in to leave a comment', true); ?></div></div><?php
+			?><div class="comment"><?php echo __('Please log in to leave a comment', true); ?></div><?php
+			echo '</div>'; // dont remove it keeps things even when exiting early
 			return;
 		}
 
-		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){
-			$this->data[$modelName] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName]);
+		if(isset($this->data[$modelName.'Comment']) && is_array($this->data[$modelName.'Comment'])){
+			$this->data[$modelName.'Comment'] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName.'Comment']);
 		}
+		
 		else{
-			$this->data[$modelName] = $this->Session->read('Auth.User');
+			$this->data[$modelName.'Comment'] = $this->Session->read('Auth.User');
 		}
 
         if (isset($urlParams)){
@@ -90,19 +92,19 @@
             );
         }
 
-			echo $this->Form->hidden('Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
+			echo $this->Form->hidden($modelName.'Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 
 			foreach($commentFields as $field){
 				if ($field != 'comment'){
 					$value = '';
 					$method = 'input';
-					if(isset($this->data[$modelName][$field])){
-						$value = isset($this->data[$modelName][$field]) ? $this->data[$modelName][$field] : '';
+					if(isset($this->data[$modelName.'Comment'][$field])){
+						$value = isset($this->data[$modelName.'Comment'][$field]) ? $this->data[$modelName.'Comment'][$field] : '';
 						if($this->action != 'comment'){
 							$method = 'hidden';
 						}
 					}
-					echo $this->Form->{$method}('Comment.'.$field, array('value' => $value));
+					echo $this->Form->{$method}($modelName.'Comment.'.$field, array('value' => $value));
 					continue;
 				}
 				
@@ -122,7 +124,7 @@
 					echo '<div class="comment">';
 				}
 				
-				echo $this->Form->input('Comment.comment', $options);
+				echo $this->Form->input($modelName.'Comment.comment', $options);
 
 				echo $this->Form->submit('Submit', $submitOptions);
 				
