@@ -139,8 +139,9 @@
 						Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']]);
 			}
 
-			$model->Comment->create();
-			if ($model->Comment->save($data)) {
+			$name = $model->name.'Comment';
+			$model->{$name}->create();
+			if ($model->{$name}->save($data)) {
 				return true;
 			}
 		}
@@ -308,21 +309,21 @@
 		 */
 		private function __rateEmail($model, $data) {
 			$points = 0;
-			
-			$comments = $model->Comment->find(
+			$name = $model->name.'Comment';
+			$comments = $model->{$name}->find(
 				'all',
 				array(
-					'fields' => array('Comment.id', 'Comment.status'),
+					'fields' => array($name.'.id', $name.'.status'),
 					'conditions' => array(
-							'Comment.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']],
-							'Comment.active' => 1
+							$name.'.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']],
+							$name.'.active' => 1
 					),
 					'contain' => false
 				)
 			);
 
 			foreach ($comments as $comment) {
-				switch($comment['Comment']['status']){
+				switch($comment[$name]['status']){
 					case 'approved':
 						++$points;
 						break;
@@ -389,11 +390,12 @@
 		private function __rateByPreviousComment($model, $data) {
 			// Body used in previous comment
 			// -1 per exact comment
-			$previousComments = $model->Comment->find(
+			$name = $model->name.'Comment';
+			$previousComments = $model->{$name}->find(
 				'count',
 				array(
 					'conditions' => array(
-						'Comment.' . $this->__settings[$model->alias]['column_content'] => $data[$this->__settings[$model->alias]['column_content']]
+						$name.'.' . $this->__settings[$model->alias]['column_content'] => $data[$this->__settings[$model->alias]['column_content']]
 					),
 					'contain' => false
 				)
