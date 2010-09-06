@@ -47,13 +47,20 @@
 			if(!$this->db){
 				return false;
 			}
+			$tables = Cache::read($connection.'_tables', 'core');
+			if($tables != false){
+				return $tables;
+			}
 
 			$tables      = $this->db->query('SHOW TABLES;');
 			$databseName = $this->db->config['database'];
 
 			unset($this->db);
 
-			return Set::extract('/TABLE_NAMES/Tables_in_'.$databseName, $tables);
+			$tables = Set::extract('/TABLE_NAMES/Tables_in_'.$databseName, $tables);
+			Cache::write($connection.'_tables', $tables, 'core');
+
+			return $tables;
 		}
 
 		/**
