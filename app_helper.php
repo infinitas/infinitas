@@ -68,7 +68,7 @@
 						'action' => false
 					)
 				),
-				str_replace('admin_', '', $view->action)
+				strstr($view->action, 'mass') === false ? str_replace('admin_', '', $view->action) : $view->params['form']['action']
 			);
 
 			if ($_prefix !== false) {
