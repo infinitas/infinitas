@@ -14,19 +14,19 @@
 	 * @package commentable
 	 * @subpackage commentable.models.behaviors
 	 * @version 0.3
-	 * @modifiedby Jose Diaz-Gonzalez
-	 * @lastmodified October 4th, 2009
+	 * @author Jose Diaz-Gonzalez
+	 * @author dogmatic69
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
-	class CommentableBehavior extends ModelBehavior {
+	class CommentableBehavior extends ModelBehavior{
 		/**
 		 * Settings initialized with the behavior
 		 *
 		 * @access public
 		 * @var array
 		 */
-		var $defaults = array(
+		public $defaults = array(
 			'plugin' => 'Comment',
 			'class' => 'Comment', // name of Comment model
 			'auto_bind' => true, // automatically bind the model to the User model (default true),
@@ -49,7 +49,7 @@
 		 * @var array
 		 * @access private
 		 */
-		var $__settings = array();
+		private $__settings = array();
 
 		/**
 		 * Initiate behaviour for the model using settings.
@@ -58,7 +58,7 @@
 		 * @param array $settings Settings to override for model.
 		 * @access public
 		 */
-		function setup(&$model, $settings = array()) {
+		public function setup(&$model, $settings = array()) {
 			$default = $this->defaults;
 			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
 			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
@@ -89,81 +89,84 @@
 					'counterScope' => array('Comment.active' => 1)
 				)
 			);
+			
 			$model->bindModel(array('hasMany' => $hasManyComment), false);
 			$model->Comment->bindModel(array('belongsTo' => $commentBelongsTo), false);
 		}
 
-		function createComment(&$model, $data = array()) {
+		public function createComment(&$model, $data = array()) {
 			if (!empty($data[$this->__settings[$model->alias]['class']])) {
-				unset($data[$model->alias]);
-				$model->Comment->validate = array(
-					$this->__settings[$model->alias]['column_content'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						)
-					),
-					$this->__settings[$model->alias]['column_email'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						),
-						'email' => array(
-							'rule' => array('email'),
-							'message' => __('Please enter a valid email address', true)
-						)
-					),
-					$this->__settings[$model->alias]['column_class'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						)
-					),
-					$this->__settings[$model->alias]['column_foreign_id'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						)
-					),
-					$this->__settings[$model->alias]['column_status'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						)
-					),
-					$this->__settings[$model->alias]['column_points'] => array(
-						'notempty' => array(
-							'rule' => array('notempty')
-						),
-						'numeric' => array(
-							'rule' => array('numeric'),
-						)
-					)
-				);
-
-				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
-				$data[$this->__settings[$model->alias]['class']] = $this->_rateComment($model, $data['Comment']);
-
-				if ($data[$this->__settings[$model->alias]['class']]['status'] == 'spam') {
-					$data[$this->__settings[$model->alias]['class']]['active'] == 0;
-				}
-
-				else if (Configure::read('Comments.auto_moderate') === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam') {
-					$data[$this->__settings[$model->alias]['class']]['active'] == 1;
-				}
-
-				if ($this->__settings[$model->alias]['sanitize']) {
-					App::import('Sanitize');
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']] =
-							Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']]);
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] =
-							Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']]);
-				}
-				
-				$model->Comment->create();
-				if ($model->Comment->save($data)) {
-					return true;
-				}
+				return false;
 			}
-			return false;
+
+			unset($data[$model->alias]);
+			$model->Comment->validate = array(
+				$this->__settings[$model->alias]['column_content'] => array(
+					'notempty' => array(
+						'rule' => array('notempty')
+					)
+				),
+				$this->__settings[$model->alias]['column_email'] => array(
+					'notempty' => array(
+						'rule' => array('notempty')
+					),
+					'email' => array(
+						'rule' => array('email'),
+						'message' => __('Please enter a valid email address', true)
+					)
+				),
+				$this->__settings[$model->alias]['column_class'] => array(
+					'notempty' => array(
+						'rule' => array('notempty')
+					)
+				),
+				$this->__settings[$model->alias]['column_foreign_id'] => array(
+					'notempty' => array(
+						'rule' => array('notempty')
+					)
+				),
+				$this->__settings[$model->alias]['column_status'] => array(
+					'notempty' => array(
+						'rule' => array('notempty')
+					)
+				),
+				$this->__settings[$model->alias]['column_points'] => array(
+					'notempty' => array(
+						'rule' => array('notempty')
+					),
+					'numeric' => array(
+						'rule' => array('numeric'),
+					)
+				)
+			);
+
+			$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
+			$data[$this->__settings[$model->alias]['class']] = $this->_rateComment($model, $data['Comment']);
+
+			if ($data[$this->__settings[$model->alias]['class']]['status'] == 'spam') {
+				$data[$this->__settings[$model->alias]['class']]['active'] == 0;
+			}
+
+			else if (Configure::read('Comments.auto_moderate') === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam') {
+				$data[$this->__settings[$model->alias]['class']]['active'] == 1;
+			}
+
+			if ($this->__settings[$model->alias]['sanitize']) {
+				App::import('Sanitize');
+				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']] =
+						Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']]);
+				
+				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] =
+						Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']]);
+			}
+
+			$model->Comment->create();
+			if ($model->Comment->save($data)) {
+				return true;
+			}
 		}
 
-		function getComments(&$model, $options = array()) {
+		public function getComments(&$model, $options = array()) {
 			$options = array_merge(array('id' => $model->id, 'options' => array()), $options);
 			$parameters = array();
 			if (isset($options['id']) && is_numeric($options['id'])) {
@@ -182,15 +185,15 @@
 			return $model->Comment->find('all', $parameters);
 		}
 
-		function _rateComment($model, $data) {
+		private function __rateComment($model, $data) {
 			if (!empty($data)) {
-				$points = $this->_rateLinks($model, $data);
-				$points += $this->_rateLength($model, $data);
-				$points += $this->_rateEmail($model, $data);
-				$points += $this->_rateKeywords($model, $data);
-				$points += $this->_rateStartingWord($model, $data);
-				$points += $this->_rateByPreviousComment($model, $data);
-				$points += $this->_rateBody($model, $data);
+				$points = $this->__rateLinks($model, $data);
+				$points += $this->__rateLength($model, $data);
+				$points += $this->__rateEmail($model, $data);
+				$points += $this->__rateKeywords($model, $data);
+				$points += $this->__rateStartingWord($model, $data);
+				$points += $this->__rateByPreviousComment($model, $data);
+				$points += $this->__rateBody($model, $data);
 				$data[$this->__settings[$model->alias]['column_points']] = $points;
 				if ($points >= 1) {
 					$data[$this->__settings[$model->alias]['column_status']] = 'approved';
@@ -216,7 +219,7 @@
 			return $data;
 		}
 
-		function _rateLinks($model, $data) {
+		private function __rateLinks($model, $data) {
 			$links = preg_match_all(
 				"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
 				$data[$this->__settings[$model->alias]['column_content']],
@@ -254,7 +257,7 @@
 			return $points;
 		}
 
-		function _rateLength($model, $data) {
+		private function __rateLength($model, $data) {
 			// How long is the body
 			// +2 if more then 20 chars and no links, -1 if less then 20
 			$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
@@ -276,7 +279,7 @@
 			}
 		}
 
-		function _rateEmail($model, $data) {
+		private function __rateEmail($model, $data) {
 			$points = 0;
 			// Number of previous comments from email
 			// +1 per approved, -1 per spam
@@ -303,7 +306,7 @@
 			return $points;
 		}
 
-		function _rateKeywords($model, $data) {
+		private function __rateKeywords($model, $data) {
 			$points = 0;
 			// Keyword search
 			// -1 per blacklisted keyword
@@ -315,7 +318,7 @@
 			return $points;
 		}
 
-		function _rateStartingWord($model, $data) {
+		private function __rateStartingWord($model, $data) {
 			// Body starts with...
 			// -10 points
 			$firstWord = mb_substr(
@@ -329,7 +332,7 @@
 				: 0;
 		}
 
-		function _rateByPreviousComment($model, $data) {
+		private function __rateByPreviousComment($model, $data) {
 			// Body used in previous comment
 			// -1 per exact comment
 			$previousComments = $model->Comment->find(
@@ -345,7 +348,7 @@
 			return $previousComments > 0 ? - $previousComments : 0;
 		}
 
-		function _rateBody($model, $data) {
+		private function __rateBody($model, $data) {
 			// Random character match
 			// -1 point per 5 consecutive consonants
 			$consonants = preg_match_all(
