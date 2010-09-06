@@ -53,6 +53,9 @@
 				);
 			}
 
+			$this->paginate['contain'][] = 'Category';
+			$this->paginate['contain'][] = 'ContentComment';
+
 			$this->Content->order = $this->Content->_order;
 			$contents = $this->paginate();
 
@@ -102,10 +105,17 @@
 		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Content->create();
-				if ($this->Content->saveAll($this->data)) {
+
+				if ($data = $this->Content->saveAll($this->data) == true) {
+					if($this->data['Content']['active']){
+						$this->Event->trigger('cmsContentAdded', array('event' => $this->Event, 'data' => $data));
+					}
+
 					$this->Session->setFlash(__('The content has been saved', true));
 					$this->redirect(array('action' => 'index'));
-				}else {
+				}
+
+				else {
 					$this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
 				}
 			}
@@ -121,14 +131,23 @@
 				$this->Session->setFlash(__('Invalid content', true));
 				$this->redirect(array('action' => 'index'));
 			}
+
 			if (!empty($this->data)) {
-				if ($this->Content->saveAll($this->data)) {
+				if ($data = $this->Content->saveAll($this->data) == true) {
+					if($this->data['Content']['active']){
+						$this->Event->trigger('cmsContentAdded', array('event' => $this->Event, 'data' => $data));
+					}
+
+					
 					$this->Session->setFlash(__('The content has been saved', true));
 					$this->redirect(array('action' => 'index'));
-				}else {
+				}
+
+				else {
 					$this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
 				}
 			}
+
 			if (empty($this->data)) {
 				$this->data = $this->Content->lock(null, $id);
 				if ($this->data === false) {
