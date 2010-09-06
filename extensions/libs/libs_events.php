@@ -16,7 +16,7 @@
 								)
 							)
 						),
-						true
+						false
 					);
 
 					$event->Handler->Behaviors->attach('Libs.Expandable');
