@@ -2,6 +2,17 @@
 	var FormHelper = $.FormHelper = {};
 
 	/**
+	 * Focus on the first available text field, used in admin to make the
+	 * overall usability a bit better.
+	 *
+	 * @access public
+	 * @return void
+	 **/
+	FormHelper.foucusOnFirst = function(){
+		$("input:text:visible:first").focus();
+	}
+
+	/**
 	 * generate a form input
 	 */
 	FormHelper.input = function(data, metaData) {

@@ -23,15 +23,6 @@ if(typeof Infinitas.params.prefix == 'undefined'){
 	Infinitas.params.prefix = 'frontend';
 }
 
-/**
- *
- * @access public
- * @return void
- **/
-function focus(){
-	$(':input:visible:first').focus();
-}
-
 switch(Infinitas.params.prefix) {
 	case 'admin':
 		require([
@@ -50,7 +41,7 @@ switch(Infinitas.params.prefix) {
 		function(require) {
 			$(document).ready(function(){
 				$('.tabs').tabs();
-				focus();
+				$.FormHelper.foucusOnFirst();
 				setupAjaxDropdowns();
 				setupRowSelecting();
 				setupDatePicker();
@@ -89,7 +80,6 @@ switch(Infinitas.params.prefix) {
 		function(require) {
 			$(document).ready(function(){
 				$('.tabs').tabs();
-				focus();
 				$("#side_bar").show().jixedbar();
 				//setupStarRating();
 
