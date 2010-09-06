@@ -34,8 +34,6 @@
 			'Content.ordering' => 'asc'
 		);
 
-		public $actsAs = array();
-
 		public $belongsTo = array(
 			'Author' => array(
 				'className' => 'Management.User',
