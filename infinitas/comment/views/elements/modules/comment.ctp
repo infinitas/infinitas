@@ -23,20 +23,7 @@
 	}
 ?>
 <div class="comments">
-	<?php
-		echo $this->Html->link(
-			__('View all comments', true),
-			array(
-				'plugin' => 'management',
-				'controller' => 'comments',
-				'action' => 'index',
-				'Comment.class' => 'Content'
-			)
-		);
-		
-        /**
-         * fields allowed in the comments
-         */
+	<?php       
         $commentFields = explode(',',Configure::read('Comment.fields'));
 
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
@@ -47,6 +34,18 @@
 		$comments = isset($data[$modelName][$modelName.'Comment'])
 			? $data[$modelName][$modelName.'Comment']
 			: $data[$modelName.'Comment'];
+
+		echo $this->Html->link(
+			__('View all comments', true),
+			array(
+				'plugin' => 'comment',
+				'controller' => 'comments',
+				'action' => 'index',
+				'Comment.class' => $modelName,
+				'Comment.foreign_id' => $foreign_id
+			)
+		);
+
 		foreach($comments as $comment){
 			$_comments[] = 
 				'<div class="comment">'.
