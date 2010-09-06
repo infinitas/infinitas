@@ -44,7 +44,10 @@
 		$data = &${strtolower($modelName)};
 
 		$_comments = array();
-		foreach($data[$modelName][$modelName.'Comment'] as $comment){
+		$comments = isset($data[$modelName][$modelName.'Comment'])
+			? $data[$modelName][$modelName.'Comment']
+			: $data[$modelName.'Comment'];
+		foreach($comments as $comment){
 			$_comments[] = 
 				'<div class="comment">'.
 					$this->Gravatar->image($comment['email'], array('size' => '50')).
