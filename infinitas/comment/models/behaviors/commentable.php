@@ -166,9 +166,18 @@
 			}
 		}
 
+		/**
+		 * gets comments 
+		 *
+		 * @var $model object the model object
+		 * @var $options array the data from the form
+		 *
+		 * @return int the amout of points to add/deduct
+		 */
 		public function getComments(&$model, $options = array()) {
 			$options = array_merge(array('id' => $model->id, 'options' => array()), $options);
 			$parameters = array();
+
 			if (isset($options['id']) && is_numeric($options['id'])) {
 				$settings = $this->__settings[$model->alias];
 				$parameters = array_merge_recursive(
@@ -176,49 +185,68 @@
 						'conditions' => array(
 							$settings['class'] . '.' . $settings['column_class'] => $model->alias,
 							$settings['class'] . '.foreign_id' => $options['id'],
-							$settings['class'] . '.' . $settings['column_status'] => 'approved')
+							$settings['class'] . '.' . $settings['column_status'] => 'approved'
+						)
 					),
 					$options['options']
 				);
 			}
-			$parameters = (isset($parameters) && !$this->_checkForEmptyVal($parameters)) ? $parameters : array();
+			
 			return $model->Comment->find('all', $parameters);
 		}
 
+		/**
+		 * the main method that calls all the comment rating code. after getting
+		 * the score it will set a staus for the comment.
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to add/deduct
+		 */
 		private function __rateComment($model, $data) {
-			if (!empty($data)) {
-				$points = $this->__rateLinks($model, $data);
-				$points += $this->__rateLength($model, $data);
-				$points += $this->__rateEmail($model, $data);
-				$points += $this->__rateKeywords($model, $data);
-				$points += $this->__rateStartingWord($model, $data);
-				$points += $this->__rateByPreviousComment($model, $data);
-				$points += $this->__rateBody($model, $data);
-				$data[$this->__settings[$model->alias]['column_points']] = $points;
-				if ($points >= 1) {
-					$data[$this->__settings[$model->alias]['column_status']] = 'approved';
-				}
+			if (empty($data)) {
+				$data[$this->__settings[$model->alias]['column_points']] = -100;
+				$data[$this->__settings[$model->alias]['column_status']] = 'delete';
+				return $data;
+			}
 
-				else if ($points == 0) {
-					$data[$this->__settings[$model->alias]['column_status']] = 'pending';
-				}
+			$points = $this->__rateLinks($model, $data);
+			$points += $this->__rateLength($model, $data);
+			$points += $this->__rateEmail($model, $data);
+			$points += $this->__rateKeywords($model, $data);
+			$points += $this->__rateStartingWord($model, $data);
+			$points += $this->__rateByPreviousComment($model, $data);
+			$points += $this->__rateBody($model, $data);
+			$data[$this->__settings[$model->alias]['column_points']] = $points;
 
-				else if ($points <= $this->__settings[$model->alias]['deletion']) {
-					$data[$this->__settings[$model->alias]['column_status']] = 'delete';
-				}
+			if ($points >= 1) {
+				$data[$this->__settings[$model->alias]['column_status']] = 'approved';
+			}
 
-				else {
-					$data[$this->__settings[$model->alias]['column_status']] = 'spam';
-				}
+			else if ($points == 0) {
+				$data[$this->__settings[$model->alias]['column_status']] = 'pending';
+			}
+
+			else if ($points <= $this->__settings[$model->alias]['deletion']) {
+				$data[$this->__settings[$model->alias]['column_status']] = 'delete';
 			}
 
 			else {
-				$data[$this->__settings[$model->alias]['column_points']] = -100;
-				$data[$this->__settings[$model->alias]['column_status']] = 'delete';
+				$data[$this->__settings[$model->alias]['column_status']] = 'spam';
 			}
+			
 			return $data;
 		}
 
+		/**
+		 * adds points based on the amount and length of links in the comment
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to add/deduct
+		 */
 		private function __rateLinks($model, $data) {
 			$links = preg_match_all(
 				"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
@@ -235,7 +263,7 @@
 			$maxLinks = Configure::read('Comment.maximum_links');
 			$maxLinks > 0 ? $maxLinks : 2;
 			
-			$points = $this->totalLinks > 2
+			$points = $this->totalLinks > $maxLinks
 				? $this->totalLinks * -1
 				: 2;
 			// URLs that have certain words or characters in them
@@ -257,6 +285,16 @@
 			return $points;
 		}
 
+		/**
+		 * Rate the length of the comment. if the length is greater than the required
+		 * and there are no links then 2 points are added. with links only 1 point
+		 * is added. if the lenght is too short 1 point is deducted
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to add/deduct
+		 */
 		private function __rateLength($model, $data) {
 			// How long is the body
 			// +2 if more then 20 chars and no links, -1 if less then 20
@@ -279,48 +317,77 @@
 			}
 		}
 
+		/**
+		 * Check previous comments by the same user. If they have been marked as
+		 * active they get points added, if they are marked as spam points are
+		 * deducted.
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to deduct
+		 */
 		private function __rateEmail($model, $data) {
 			$points = 0;
-			// Number of previous comments from email
-			// +1 per approved, -1 per spam
+			
 			$comments = $model->Comment->find(
 				'all',
 				array(
 					'fields' => array('Comment.id', 'Comment.status'),
 					'conditions' => array(
-							'Comment.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']]
+							'Comment.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']],
+							'Comment.active' => 1
 					),
 					'contain' => false
 				)
 			);
 
-			if (!empty($comments)) {
-				foreach ($comments as $comment) {
-					if ($comment['Comment']['status'] == 'spam') {
-						--$points;
-					}elseif ($comment['Comment']['status'] == 'approved') {
+			foreach ($comments as $comment) {
+				switch($comment['Comment']['status']){
+					case 'approved':
 						++$points;
-					}
+						break;
+
+					case 'spam':
+						--$points;
+						break;
 				}
 			}
+			
 			return $points;
 		}
 
+		/**
+		 * Checks the text to see if it contains any of the blacklisted words.
+		 * If there are, 1 point is deducted for each match.
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to deduct
+		 */
 		private function __rateKeywords($model, $data) {
 			$points = 0;
-			// Keyword search
-			// -1 per blacklisted keyword
+
 			foreach ($this->__settings[$model->alias]['blacklist_keywords'] as $keyword) {
 				if (stripos($data[$this->__settings[$model->alias]['column_content']], $keyword) !== false) {
 					--$points;
 				}
 			}
+
 			return $points;
 		}
 
+		/**
+		 * Checks the first word against the blacklist keywords. if there is a
+		 * match then 10 points are deducted.
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to deduct
+		 */
 		private function __rateStartingWord($model, $data) {
-			// Body starts with...
-			// -10 points
 			$firstWord = mb_substr(
 				$data[$this->__settings[$model->alias]['column_content']],
 				0,
@@ -332,6 +399,14 @@
 				: 0;
 		}
 
+		/**
+		 * Deduct points if it is a copy of any other comments in the database.
+		 *
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to deduct
+		 */
 		private function __rateByPreviousComment($model, $data) {
 			// Body used in previous comment
 			// -1 per exact comment
@@ -345,12 +420,20 @@
 				)
 			);
 
-			return $previousComments > 0 ? - $previousComments : 0;
+			return 0 - $previousComments;
 		}
 
+		/**
+		 * Rate according to the text. Generaly words do not contain more than
+		 * a few consecutive consonants. -1 point is given per 5 consecutive
+		 * consonants.
+		 * 
+		 * @var $model object the model object
+		 * @var $data array the data from the form
+		 *
+		 * @return int the amout of points to deduct
+		 */
 		private function __rateBody($model, $data) {
-			// Random character match
-			// -1 point per 5 consecutive consonants
 			$consonants = preg_match_all(
 				'/[^aAeEiIoOuU\s]{5,}+/i',
 				$data[$this->__settings[$model->alias]['column_content']],
@@ -358,6 +441,6 @@
 			);
 			$totalConsonants = count($matches[0]);
 
-			return $totalConsonants > 0 ? - $totalConsonants : 0;
+			return 0 - $totalConsonants;
 		}
 	}
