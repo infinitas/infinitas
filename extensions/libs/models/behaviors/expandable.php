@@ -15,12 +15,12 @@
 		public function setup(&$Model, $settings = array()) {
 			$base = array('schema' => $Model->schema());
 			if (isset($settings['with'])) {
-				$conventions = array('foreignKey', $Model->hasMany[$settings['with']]['foreignKey']);				
+				$conventions = array('foreignKey', $Model->hasMany[$settings['with']]['foreignKey']);
 				return $this->settings[$Model->alias] = am($base, $conventions, $settings);
 			}
-			
+
 			foreach ($Model->hasMany as $assoc => $option) {
-				if (strpos($assoc, 'Field') !== false) {
+				if (strpos($assoc, 'Attribute') !== false) {
 					$conventions = array('with' => $assoc, 'foreignKey' => $Model->hasMany[$assoc]['foreignKey']);					
 					return $this->settings[$Model->alias] = am($base, $conventions, !empty($settings) ? $settings : array());
 				}
@@ -52,7 +52,7 @@
 					array(
 						'fields' => array($with.'.id'),
 						'conditions' => array($with.'.'.$foreignKey => $id, $with.'.key' => $key),
-						'recursive' => -1,
+						'contain' => false
 					)
 				);
 
