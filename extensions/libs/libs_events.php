@@ -2,6 +2,26 @@
 	class LibsEvents extends AppEvents{
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
+				
+				// attach the expandable (eva) behavior if there is a table for it
+				$attributesTable = Inflector::singularize($event->Handler->tablePrefix.$event->Handler->table).'_attributes';
+				if(in_array($attributesTable, $event->Handler->getTables($event->Handler->useDbConfig))){
+					$event->Handler->bindModel(
+						array(
+							'hasMany' => array(
+								$event->Handler->name.'Attribute' => array(
+									'className' => Inflector::camelize($attributesTable),
+									'foreignKey' => Inflector::underscore($event->Handler->name).'_id',
+									'dependent' => true
+								)
+							)
+						),
+						true
+					);
+
+					$event->Handler->Behaviors->attach('Libs.Expandable');
+				}
+				
 				if (array_key_exists('locked', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Lockable')) {
 					$event->Handler->Behaviors->attach('Libs.Lockable');
 				}
