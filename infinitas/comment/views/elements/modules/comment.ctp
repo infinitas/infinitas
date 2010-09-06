@@ -30,7 +30,6 @@
     	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
 		$data = &${strtolower($modelName)};
 
-		$_comments = array();
 		$comments = isset($data[$modelName][$modelName.'Comment'])
 			? $data[$modelName][$modelName.'Comment']
 			: $data[$modelName.'Comment'];
@@ -48,6 +47,7 @@
 			);
 		}
 
+		$_comments = array();
 		foreach($comments as $comment){
 			$_comments[] = 
 				'<div class="comment">'.
