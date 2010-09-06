@@ -29,8 +29,6 @@
 		public $helpers = array('Filter.Filter');
 
 		public function index() {
-			$this->Frontpage->recursive = 0;
-
 			$this->paginate = array(
 				'fields' => array(
 					'Frontpage.id',
@@ -41,35 +39,11 @@
 				),
 				'contain' => array(
 					'Content' => array(
-						'fields' => array(
-							'Content.id',
-							'Content.title',
-							'Content.slug',
-							'Content.body',
-							'Content.active',
-							'Content.created',
-							'Content.modified',
-						),
-						'Author' => array(
-							'fields' => array(
-								'Author.id',
-								'Author.username'
-							)
-						),
-						'Editor' => array(
-							'fields' => array(
-								'Editor.id',
-								'Editor.username'
-							)
-						),
-						'Category' => array(
-							'fields' => array(
-								'Category.id',
-								'Category.title',
-								'Category.slug'
-							)
-						),
-						'Feature'
+						'Author',
+						'Editor',
+						'Category',
+						'Feature',
+						'ContentComment'
 					)
 				)
 			);
@@ -98,12 +72,7 @@
 							'Content.title',
 							'Content.active',
 						),
-						'Category' => array(
-							'fields' => array(
-								'Category.id',
-								'Category.title'
-							)
-						)
+						'Category'
 					)
 				)
 			);
