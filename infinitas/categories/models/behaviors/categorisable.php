@@ -1,11 +1,11 @@
 <?php
 	class CategorisableBehavior extends ModelBehavior {
 		/**
-		* Contain settings indexed by model name.
-		*
-		* @var array
-		* @access private
-		*/
+		 * Contain settings indexed by model name.
+		 *
+		 * @var array
+		 * @access private
+		 */
 		public $settings = array();
 
 		protected $_defaults = array(
@@ -18,12 +18,12 @@
 		);
 
 		/**
-		* Initiate behaviour for the model using settings.
-		*
-		* @param object $Model Model using the behaviour
-		* @param array $settings Settings to override for model.
-		* @access public
-		*/
+		 * Initiate behaviour for the model using settings.
+		 *
+		 * @param object $Model Model using the behaviour
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 */
 		public function setup(&$Model, $settings = array()) {
 			$this->settings[$Model->alias] = array_merge($this->_defaults, $settings);
 
@@ -38,6 +38,11 @@
 			), $this->settings[$Model->alias]['resetBinding']);
 		}
 
+		/**
+		 * get a list of categories.
+		 *
+		 * @return array nested list of categories. TreeBehavior::generatetreelist
+		 */
 		public function generateCategoryList() {
 			return ClassRegistry::init('Categories.Category')->generatetreelist();
 		}
