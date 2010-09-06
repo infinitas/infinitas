@@ -10,6 +10,12 @@
 	 * @author felixge
 	 */
 	class ExpandableBehavior extends ModelBehavior{
+		/**
+		 * the settings for the behavior
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $settings = array();
 
 		public function setup(&$Model, $settings = array()) {
@@ -27,6 +33,16 @@
 			}
 		}
 
+		/**
+		 * after a find this will join on the extra fields to the array so
+		 * they are available in the view.
+		 *
+		 * @var $Model object the model that did the find
+		 * @var $results array what was found
+		 * @var $primary if its the main model doing the call
+		 *
+		 * @return array the modified find data
+		 */
 		public function afterFind(&$Model, $results, $primary) {
 			extract($this->settings[$Model->alias]);
 			if (!Set::matches('/'.$with, $results)) {
@@ -42,6 +58,16 @@
 			return $results;
 		}
 
+		/**
+		 * After the main record has been saved this will get a diff of the
+		 * schema and work out what needs to be added to the attributes table
+		 * linked to the main model. first checking if its an update / insert and
+		 * then saving what is required
+		 *
+		 * @var $Model object the model object of the "main" model
+		 *
+		 * @return bool true
+		 */
 		public function afterSave(&$Model) {
 			extract($this->settings[$Model->alias]);
 			$fields = array_diff_key($Model->data[$Model->alias], $schema);
@@ -69,5 +95,7 @@
 				$Model->{$with}->set('val', $val);
 				$Model->{$with}->save();
 			}
+
+			return true;
 		}
 	}
