@@ -58,7 +58,14 @@
 		public function index($tag = null, $year = null, $month = null) {
 			$post_ids = '';
 			if (isset($tag) && strtolower($tag) != 'all') {
-				$post_ids = $this->Post->Tag->findPostsByTag($tag);
+				$post_ids = $this->Post->Tagged->find(
+					'tagged',
+					array(
+						'by' => $tag,
+						//'model' => 'Blog.Post'
+					)
+				);
+				$post_ids = Set::extract('/Tagged/foreign_key', $post_ids);
 			}
 
 			$paginate = array(
@@ -82,19 +89,9 @@
 				),
 				'contain' => array(
 					'Category',
-					'Tag' => array(
-						'fields' => array(
-							'Tag.name'
-						)
-					),
+					'Tag',
 					'ChildPost' => array(
-						'Category' => array(
-							'fields' => array(
-								'Category.id',
-								'Category.name',
-								'Category.slug'
-							)
-						),
+						'Category'
 					),
 					'PostComment'
 				)

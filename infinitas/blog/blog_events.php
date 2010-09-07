@@ -35,10 +35,25 @@
 		}
 
 		public function onRequireHelpersToLoad(&$event){
-			return array(
-				'Tags.TagCloud',
-				'Blog.Blog', 'Google.Chart',
-				'Blog.PostLayout', 'Blog.CommentLayout'
-			);
+			$helpers = array();
+
+			if($event->Handler->params['plugin'] == 'blog'){
+				$helpers = array_merge(
+					$helpers,
+					array(
+						'Tags.TagCloud',
+						'Blog.Blog', 'Google.Chart',
+						'Blog.PostLayout', 'Blog.CommentLayout'
+					)
+				);
+			}
+
+			return $helpers;
+		}
+
+		public function onRequireCssToLoad(&$event){
+			if($event->Handler->params['plugin'] == 'blog'){
+				return '/blog/css/blog';
+			}
 		}
 	}

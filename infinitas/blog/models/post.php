@@ -188,13 +188,13 @@
 					array(
 						'fields' => array(
 							'DISTINCT month( Post.created ) as month'
-							),
+						),
 						'conditions' => array(
 							'Post.active' => 1
-							),
+						),
 						'contain' => false
-						)
-					);
+					)
+				);
 
 				$months = Set::extract('{n}.{n}.month', $months);
 
