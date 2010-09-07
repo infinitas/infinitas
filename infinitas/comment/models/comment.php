@@ -81,6 +81,23 @@
 			return $counts;
 		}
 
+		public function getUniqueClassList(){
+			$this->displayField = 'class';
+			$classes = $this->find(
+				'list',
+				array(
+					'group' => array(
+						'Comment.class'
+					),
+					'order' => array(
+						'Comment.class' => 'asc'
+					)
+				)
+			);
+			
+			return array_combine($classes, $classes);
+		}
+
 		public function afterSave($created) {
 			parent::afterSave($created);
 
