@@ -302,7 +302,7 @@
 					$message = 'Your comment has been saved and is active.';
 				}
 
-				$this->data['Comment'] = $this->data[$this->modelClass.'Comment'];
+				$this->data[$this->modelClass.'Comment']['class'] = Inflector::camelize($this->params['plugin']).'.'.$this->modelClass;
 				
 				if ($this->{$this->modelClass}->createComment($this->data)) {
 					$this->Session->setFlash(__($message, true));

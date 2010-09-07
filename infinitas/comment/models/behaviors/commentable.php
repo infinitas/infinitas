@@ -62,7 +62,8 @@
 			$default = $this->defaults;
 			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
 			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
-			$default['conditions'] = array('Comment.class' => $model->alias);			
+			$default['conditions'] = array('Comment.class' => $model->alias);
+			$default['class'] = $model->name.'Comment';
 
 			if (!isset($this->__settings[$model->alias])) {
 				$this->__settings[$model->alias] = $default;
@@ -83,6 +84,7 @@
 						'rule' => array('notempty')
 					)
 				),
+
 				$this->__settings[$model->alias]['column_email'] => array(
 					'notempty' => array(
 						'rule' => array('notempty')
@@ -92,21 +94,25 @@
 						'message' => __('Please enter a valid email address', true)
 					)
 				),
+
 				$this->__settings[$model->alias]['column_class'] => array(
 					'notempty' => array(
 						'rule' => array('notempty')
 					)
 				),
+
 				$this->__settings[$model->alias]['column_foreign_id'] => array(
 					'notempty' => array(
 						'rule' => array('notempty')
 					)
 				),
+
 				$this->__settings[$model->alias]['column_status'] => array(
 					'notempty' => array(
 						'rule' => array('notempty')
 					)
 				),
+				
 				$this->__settings[$model->alias]['column_points'] => array(
 					'notempty' => array(
 						'rule' => array('notempty')
@@ -116,9 +122,8 @@
 					)
 				)
 			);
-
-			$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
-			$data[$this->__settings[$model->alias]['class']] = $this->__rateComment($model, $data['Comment']);
+			
+			$data[$this->__settings[$model->alias]['class']] = $this->__rateComment($model, $data[$this->__settings[$model->alias]['class']]);
 
 			$data[$this->__settings[$model->alias]['class']]['active'] = 0;
 			
@@ -138,10 +143,9 @@
 				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] =
 						Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']]);
 			}
-
-			$name = $model->name.'Comment';
-			$model->{$name}->create();
-			if ($model->{$name}->save($data)) {
+			
+			$model->{$this->__settings[$model->alias]['class']}->create();
+			if ($model->{$this->__settings[$model->alias]['class']}->save($data)) {
 				return true;
 			}
 		}
@@ -309,21 +313,20 @@
 		 */
 		private function __rateEmail($model, $data) {
 			$points = 0;
-			$name = $model->name.'Comment';
-			$comments = $model->{$name}->find(
+			$comments = $model->{$this->__settings[$model->alias]['class']}->find(
 				'all',
 				array(
-					'fields' => array($name.'.id', $name.'.status'),
+					'fields' => array($this->__settings[$model->alias]['class'].'.id', $this->__settings[$model->alias]['class'].'.status'),
 					'conditions' => array(
-							$name.'.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']],
-							$name.'.active' => 1
+							$this->__settings[$model->alias]['class'].'.' . $this->__settings[$model->alias]['column_email'] => $data[$this->__settings[$model->alias]['column_email']],
+							$this->__settings[$model->alias]['class'].'.active' => 1
 					),
 					'contain' => false
 				)
 			);
 
 			foreach ($comments as $comment) {
-				switch($comment[$name]['status']){
+				switch($comment[$this->__settings[$model->alias]['class']]['status']){
 					case 'approved':
 						++$points;
 						break;
@@ -390,12 +393,11 @@
 		private function __rateByPreviousComment($model, $data) {
 			// Body used in previous comment
 			// -1 per exact comment
-			$name = $model->name.'Comment';
-			$previousComments = $model->{$name}->find(
+			$previousComments = $model->{$this->__settings[$model->alias]['class']}->find(
 				'count',
 				array(
 					'conditions' => array(
-						$name.'.' . $this->__settings[$model->alias]['column_content'] => $data[$this->__settings[$model->alias]['column_content']]
+						$this->__settings[$model->alias]['class'] . '.' . $this->__settings[$model->alias]['column_content'] => $data[$this->__settings[$model->alias]['column_content']]
 					),
 					'contain' => false
 				)
@@ -420,8 +422,7 @@
 				$data[$this->__settings[$model->alias]['column_content']],
 				$matches
 			);
-			$totalConsonants = count($matches[0]);
 
-			return 0 - $totalConsonants;
+			return 0 - count($matches[0]);
 		}
 	}

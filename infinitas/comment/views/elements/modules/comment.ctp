@@ -45,18 +45,18 @@
 					'Comment.foreign_id' => $foreign_id
 				)
 			);
-		}
 
-		$_comments = array();
-		foreach($comments as $comment){
-			$_comments[] = 
-				'<div class="comment">'.
-					$this->Gravatar->image($comment['email'], array('size' => '50')).
-					'<p>'.$this->Text->truncate(strip_tags($comment['comment']), 350).'</p>'.
-				'</div>';
-		}
+			$_comments = array();
+			foreach($comments as $comment){
+				$_comments[] =
+					'<div class="comment">'.
+						$this->Gravatar->image($comment['email'], array('size' => '50')).
+						'<p>'.$this->Text->truncate(strip_tags($comment['comment']), 350).'</p>'.
+					'</div>';
+			}
 
-		echo implode('', $_comments);
+			echo implode('', $_comments);
+		}
 
 		if(!$this->Session->read('Auth.User.id')){
 
