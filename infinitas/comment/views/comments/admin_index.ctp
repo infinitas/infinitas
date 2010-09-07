@@ -54,8 +54,9 @@
             );
 
             foreach($comments as $comment){
+				$rowClass = $this->Infinitas->rowClass();
                 ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+                    <tr class="<?php echo $rowClass; ?>">
                         <td rowspan="2"><?php echo $this->Form->checkbox($comment['Comment']['id']); ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['class']; ?>&nbsp;</td>
                         <td><?php echo $this->Text->autoLinkEmails($comment['Comment']['email']); ?>&nbsp;</td>
@@ -63,14 +64,14 @@
                         <td><?php echo $comment['Comment']['points']; ?>&nbsp;</td>
                         <td rowspan="2">
                             <?php
-                            	if(!$comment['Comment']['active']){
-                            		echo Inflector::humanize($comment['Comment']['status']);
-                            	}
 								echo $this->Infinitas->status($comment['Comment']['active'], $comment['Comment']['id']);
+                            	if(!$comment['Comment']['active']){
+                            		echo ' ', Inflector::humanize($comment['Comment']['status']);
+                            	}
                             ?>
                         </td>
                     </tr>
-					<tr>
+					<tr class="<?php echo $rowClass; ?>">
 						<td colspan="4">
 							<?php echo strip_tags($comment['Comment']['comment']); ?>
 						</td>
