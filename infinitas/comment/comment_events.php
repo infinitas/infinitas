@@ -20,7 +20,7 @@
 
 	 final class CommentEvents extends AppEvents{
 		public function onAttachBehaviors(&$event) {
-			if(is_subclass_of($event->Handler, 'Model')) {				
+			if(is_subclass_of($event->Handler, 'Model')) {
 				if ($event->Handler->hasField('comment_count')) {					
 					$event->Handler->bindModel(
 						array(
@@ -44,8 +44,7 @@
 									),
 									'conditions' => array(
 										'or' => array(
-											$event->Handler->name.'Comment.active' => 1,
-											$event->Handler->name.'Comment.status' => 'approved'
+											$event->Handler->name.'Comment.active' => 1
 										)
 									),
 									'dependent' => true
