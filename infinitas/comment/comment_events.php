@@ -36,6 +36,7 @@
 										$event->Handler->name.'Comment.id',
 										$event->Handler->name.'Comment.class',
 										$event->Handler->name.'Comment.foreign_id',
+										$event->Handler->name.'Comment.user_id',
 										$event->Handler->name.'Comment.email',
 										$event->Handler->name.'Comment.comment',
 										$event->Handler->name.'Comment.active',

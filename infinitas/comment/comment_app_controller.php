@@ -24,6 +24,7 @@
 		 public $name = 'CommentAppController';
 
 		 public $helpers = array(
-			 'Filter.Filter'
+			 'Filter.Filter',
+			 'Libs.Gravatar'
 		 );
 	 }

@@ -21,6 +21,7 @@
 	 */
 
 	 class CommentAppModel extends AppModel{
-		 public $name = 'CommentAppModel';
+		 //public $name = 'CommentAppModel';
+		 
 		 public $tablePrefix = 'global_';
 	 }

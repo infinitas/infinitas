@@ -21,7 +21,26 @@
 		var $name = 'Comments';
 
 		function index(){
-			
+			$conditions = array(
+				'Comment.active' => 1
+			);
+
+			if(isset($this->params['named']['Comment.class'])){
+				$conditions['Comment.class'] = $this->params['named']['Comment.class'];
+			}
+
+			if(isset($this->params['named']['Comment.foreign_id'])){
+				$conditions['Comment.foreign_id'] = $this->params['named']['Comment.foreign_id'];
+			}
+
+			$this->paginate = array(
+				'conditions' => $conditions,
+				'contain' => array(
+					'CommentAttributes'
+				)
+			);
+
+			$this->set('comments', $this->paginate());
 		}
 
 		function admin_index() {

@@ -19,3 +19,22 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+?>
+<div class="comments">
+	<?php
+		foreach($comments as $comment){
+			?>
+				<div class="comment">
+					<h3><?php echo $comment['Comment']['username']; ?></h3>
+					<?php
+						if(isset($comment['Comment']['website'])){
+							echo '<h4>'.$comment['Comment']['website'].'</h4>';
+						}
+					?>
+					<?php echo $this->Gravatar->image($comment['Comment']['email'], array('size' => '50')); ?>
+					<p><?php echo $this->Text->truncate(strip_tags($comment['Comment']['comment']), 350); ?></p>
+				</div>
+			<?php
+		}
+	?>
+</div>

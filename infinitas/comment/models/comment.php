@@ -21,6 +21,16 @@
 	*/
 	class Comment extends CommentAppModel {
 		public $name = 'Comment';
+
+		public $actsAs = array(
+			'Libs.Expandable'
+		);
+
+		public $hasMany = array(
+			'CommentAttributes' => array(
+				'className' => 'Comment.CommentAttributes'
+			)
+		);
 		
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
