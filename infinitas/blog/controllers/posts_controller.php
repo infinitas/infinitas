@@ -1,59 +1,60 @@
 <?php
-/**
-	* Blog Posts Controller class file.
-	*
-	* This is the main controller for all the blog posts.  It extends
-	* {@see BlogAppController} for some functionality.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	*
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package blog
-	* @subpackage blog.controllers.posts
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Blog Posts Controller class file.
+	 *
+	 * This is the main controller for all the blog posts.  It extends
+	 * {@see BlogAppController} for some functionality.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package blog
+	 * @subpackage blog.controllers.posts
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
+
 	class PostsController extends BlogAppController {
 		/**
-		* Class name.
-		*
-		* @access public
-		* @var string
-		*/
+		 * Class name.
+		 *
+		 * @access public
+		 * @var string
+		 */
 		var $name = 'Posts';
 
 		/**
-		* Helpers.
-		*
-		* @access public
-		* @var array
-		*/
+		 * Helpers.
+		 *
+		 * @access public
+		 * @var array
+		 */
 		var $helpers = array(
 			'Filter.Filter'
 		);
 
 		/**
-		* PostsController::beforeFilter()
-		*
-		* empty
-		*/
+		 * PostsController::beforeFilter()
+		 *
+		 * empty
+		 */
 		function beforeFilter() {
 			parent::beforeFilter();
 		}
 
 		/**
-		* Index for users
-		*
-		* @param string $tag used to find posts with a tag
-		* @param string $year used to find posts in a cetain year
-		* @param string $month used to find posts in a year and month needs year
-		* @return
-		*/
+		 * Index for users
+		 *
+		 * @param string $tag used to find posts with a tag
+		 * @param string $year used to find posts in a cetain year
+		 * @param string $month used to find posts in a year and month needs year
+		 * @return
+		 */
 		function index($tag = null, $year = null, $month = null) {
 			$post_ids = '';
 			if (isset($tag) && strtolower($tag) != 'all') {
@@ -94,18 +95,22 @@
 								'Category.slug'
 							)
 						),
-					)
+					),
+					'PostComment'
 				)
 			);
 
 
 
-			$this->paginate = $this->Post->setPaginateDateOptions($paginate, array(
-				'year' => $year,
-				'month' => $month
-				//'model' => 'custom_model',
-				//'created' => 'custom_created_field'
-			));
+			$this->paginate = $this->Post->setPaginateDateOptions(
+				$paginate,
+				array(
+					'year' => $year,
+					'month' => $month
+					//'model' => 'custom_model',
+					//'created' => 'custom_created_field'
+				)
+			);
 
 			$posts = $this->paginate('Post');
 			$this->set(compact('posts'));
@@ -116,11 +121,11 @@
 		}
 
 		/**
-		* User view
-		*
-		* @param string $slug the slug for the record
-		* @return na
-		*/
+		 * User view
+		 *
+		 * @param string $slug the slug for the record
+		 * @return na
+		 */
 		function view() {
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('Post could not be found', true) );
@@ -206,8 +211,8 @@
 			}
 
 			/**
-			* make sure there is something found and the post is active
-			*/
+			 * make sure there is something found and the post is active
+			 */
 			if (empty($post) || !$post['Post']['active']) {
 				$this->Session->setFlash('No post was found', true);
 				$this->redirect($this->referer());
@@ -218,15 +223,15 @@
 		}
 
 		/**
-		* Admin Section.
-		*
-		* All the admin methods.
-		*/
+		 * Admin Section.
+		 *
+		 * All the admin methods.
+		 */
 		/**
-		* Admin dashboard
-		*
-		* @return na
-		*/
+		 * Admin dashboard
+		 *
+		 * @return na
+		 */
 		function admin_dashboard() {
 			$feed = $this->Post->find(
 				'feed',
@@ -271,12 +276,12 @@
 		}
 
 		/**
-		* Admin index.
-		*
-		* Uses the {@see FilterComponent} component to filter results.
-		*
-		* @return na
-		*/
+		 * Admin index.
+		 *
+		 * Uses the {@see FilterComponent} component to filter results.
+		 *
+		 * @return na
+		 */
 		function admin_index() {
 			$this->paginate['Post'] = array(
 				'contain' => array('Tag', 'Locker', 'Category')
@@ -295,13 +300,13 @@
 		}
 
 		/**
-		* Admin add.
-		*
-		* This does some trickery for creating tags from the textarea comma
-		* delimited. also makes sure there are no duplicates created.
-		*
-		* @return void
-		*/
+		 * Admin add.
+		 *
+		 * This does some trickery for creating tags from the textarea comma
+		 * delimited. also makes sure there are no duplicates created.
+		 *
+		 * @return void
+		 */
 		function admin_add() {
 			if (!empty($this->data)) {
 				$this->Post->create();

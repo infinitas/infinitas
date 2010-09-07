@@ -34,9 +34,11 @@
 			} // switch
 		}
 
-		public function onRequireHelpersToLoad(){
+		public function onRequireHelpersToLoad(&$event){
 			return array(
-				'Tags.TagCloud'
+				'Tags.TagCloud',
+				'Blog.Blog', 'Google.Chart',
+				'Blog.PostLayout', 'Blog.CommentLayout'
 			);
 		}
 	}
