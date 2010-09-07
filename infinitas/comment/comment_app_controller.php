@@ -22,4 +22,8 @@
 
 	 class CommentAppController extends AppController{
 		 public $name = 'CommentAppController';
+
+		 public $helpers = array(
+			 'Filter.Filter'
+		 );
 	 }
