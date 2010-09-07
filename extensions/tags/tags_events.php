@@ -9,4 +9,17 @@
 				}
 			}
 		}
+
+		public function onRequireJavascriptToLoad(&$event){
+			return array(
+				'/tags/js/jq-tags',
+				'/tags/js/tags'
+			);
+		}
+
+		public function onRequireCssToLoad(&$event){
+			return array(
+				'/tags/css/tags'
+			);
+		}
 	}
