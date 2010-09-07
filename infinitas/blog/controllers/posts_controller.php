@@ -26,7 +26,7 @@
 		 * @access public
 		 * @var string
 		 */
-		var $name = 'Posts';
+		public $name = 'Posts';
 
 		/**
 		 * Helpers.
@@ -34,7 +34,7 @@
 		 * @access public
 		 * @var array
 		 */
-		var $helpers = array(
+		public $helpers = array(
 			'Filter.Filter'
 		);
 
@@ -43,7 +43,7 @@
 		 *
 		 * empty
 		 */
-		function beforeFilter() {
+		public function beforeFilter() {
 			parent::beforeFilter();
 		}
 
@@ -55,7 +55,7 @@
 		 * @param string $month used to find posts in a year and month needs year
 		 * @return
 		 */
-		function index($tag = null, $year = null, $month = null) {
+		public function index($tag = null, $year = null, $month = null) {
 			$post_ids = '';
 			if (isset($tag) && strtolower($tag) != 'all') {
 				$post_ids = $this->Post->Tag->findPostsByTag($tag);
@@ -126,7 +126,7 @@
 		 * @param string $slug the slug for the record
 		 * @return na
 		 */
-		function view() {
+		public function view() {
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('Post could not be found', true) );
 				$this->redirect($this->referer());
@@ -232,7 +232,7 @@
 		 *
 		 * @return na
 		 */
-		function admin_dashboard() {
+		public function admin_dashboard() {
 			$feed = $this->Post->find(
 				'feed',
 				array(
@@ -282,7 +282,7 @@
 		 *
 		 * @return na
 		 */
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate['Post'] = array(
 				'contain' => array('Tag', 'Locker', 'Category')
 			);
@@ -307,7 +307,7 @@
 		 *
 		 * @return void
 		 */
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Post->create();
 				if ($this->Post->save($this->data)) {
@@ -320,7 +320,7 @@
 			$this->set(compact('tags', 'parents'));
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('That post could not be found', true), true);
 				$this->redirect($this->referer());
@@ -348,7 +348,7 @@
 			$this->set(compact('parents'));
 		}
 
-		function admin_view($slug = null) {
+		public function admin_view($slug = null) {
 			if (!$slug) {
 				$this->Session->setFlash('That post could not be found', true);
 				$this->redirect($this->referer());
