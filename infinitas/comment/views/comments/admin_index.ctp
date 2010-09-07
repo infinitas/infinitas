@@ -58,7 +58,16 @@
                 ?>
                     <tr class="<?php echo $rowClass; ?>">
                         <td rowspan="2"><?php echo $this->Form->checkbox($comment['Comment']['id']); ?>&nbsp;</td>
-                        <td><?php echo $comment['Comment']['class']; ?>&nbsp;</td>
+                        <td>
+							<?php
+								echo $this->Html->link(
+									$comment['Comment']['class'],
+									array(
+										'Comment.class' => $comment['Comment']['class']
+									)
+								);
+							?>&nbsp;
+						</td>
                         <td><?php echo $this->Text->autoLinkEmails($comment['Comment']['email']); ?>&nbsp;</td>
                         <td><?php echo $this->Time->timeAgoInWords($comment['Comment']['created']); ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['points']; ?>&nbsp;</td>

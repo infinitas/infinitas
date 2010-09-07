@@ -29,9 +29,8 @@
 				'fields' => array(
 					'Comment.id',
 					'Comment.class',
-					'Comment.name',
 					'Comment.email',
-					'Comment.website',
+					'Comment.user_id',
 					'Comment.comment',
 					'Comment.active',
 					'Comment.status',
