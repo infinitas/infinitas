@@ -32,7 +32,15 @@
 					$this->settings[$Model->alias]['categoryAlias'] => array(
 						'className' => $this->settings[$Model->alias]['categoryClass'],
 						'foreignKey' => $this->settings[$Model->alias]['foreignKey'],
-						'counterCache' => $this->settings[$Model->alias]['counterCache']
+						'counterCache' => $this->settings[$Model->alias]['counterCache'],
+						'fields' => array(
+							'Category.id',
+							'Category.title',
+							'Category.slug',
+							'Category.active',
+							'Category.group_id',
+							'Category.parent_id'
+						)
 					)
 				),
 			), $this->settings[$Model->alias]['resetBinding']);
