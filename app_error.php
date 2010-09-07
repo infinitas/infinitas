@@ -40,5 +40,6 @@
 			$this->controller->render($template);
 			$this->controller->afterFilter();
 			echo $this->controller->output;
+			pr(debug_backtrace(false));
 		}
 	}
