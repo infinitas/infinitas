@@ -20,8 +20,6 @@
 	class CommentsController extends CommentAppController {
 		var $name = 'Comments';
 
-		var $helpers = array('Libs.Infinitas', 'Filter.Filter');
-
 		function index(){
 			
 		}
@@ -42,7 +40,7 @@
 					'Comment.created',
 				),
 				'contain' => array(
-					'CommentAttributes'
+					//'CommentAttributes'
 				),
 				'order' => array(
 					'Comment.active' => 'ASC',
@@ -56,62 +54,17 @@
 			$filterOptions = $this->Filter->filterOptions;
 
 			$filterOptions['fields'] = array(
-				'class',
-				'name',
+				'class' => $this->Comment->getUniqueClassList(),
 				'email',
-				'website',
-				'comment'
+				'comment',
+				'active' => Configure::read('CORE.active_options')
 			);
 
 			$this->set(compact('comments','filterOptions'));
 		}
 
-		function admin_toggle($id = null){
-			if (!$id) {
-				$this->Session->setFlash(__('Please select the comment to toggle'));
-				$this->redirect($this->referer());
-			}
-
-			// @todo toggle the comment
-		}
-
 		function admin_reply(){
 			// @todo reply to the comment.
-		}
-
-		function admin_perge($date = null) {
-			if (!$date) {
-				$date = date('Y-m-d h:i:s', mktime(0, 0, 0, date('m') - 1, date('d'), date('y')));
-			}
-
-			$old = $this->Comment->find(
-				'list',
-				array(
-					'fields' => array(
-						'Comment.id',
-						'Comment.id'
-						),
-					'conditions' => array(
-						'Comment.created < ' => $date,
-						'Comment.active' => 0
-						),
-					'contain' => false
-					)
-				);
-
-			if (empty($old)) {
-				$this->Session->setFlash(__('No old comments found', true));
-				$this->redirect($this->referer());
-			}
-
-			$i = 0;
-			foreach($old as $id) {
-				if ($this->Comment->delete($id)) {
-					$i++;
-				}
-			}
-
-			$this->Session->setFlash(sprintf('%s %s', $i, __('Comments deleted', true)));
 		}
 
 		function admin_commentPurge($class = null) {
@@ -131,14 +84,14 @@
 					'fields' => array(
 						'Comment.id',
 						'Comment.id'
-						),
+					),
 					'conditions' => array(
 						'Comment.class' => $class,
 						'Comment.active' => 0,
 						'Comment.created < ' => date('Y-m-d H:i:s', strtotime('-' . Configure::read('Comments.purge')))
-						)
 					)
-				);
+				)
+			);
 
 			if (empty($ids)) {
 				$this->Session->setFlash(__('Nothing to purge', true));
