@@ -41,7 +41,7 @@
 					'plugin' => 'comment',
 					'controller' => 'comments',
 					'action' => 'index',
-					'Comment.class' => $modelName,
+					'Comment.class' => Inflector::camelize($this->params['plugin']).'.'.$modelName,
 					'Comment.foreign_id' => $foreign_id
 				)
 			);
