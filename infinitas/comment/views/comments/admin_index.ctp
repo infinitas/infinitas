@@ -38,13 +38,7 @@
                         'style' => 'width:25px;'
                     ),
                     $paginator->sort(__('Where', true), 'class'),
-                    $paginator->sort('name') => array(
-                        'style' => '50px;'
-                    ),
                     $paginator->sort('email') => array(
-                        'style' => '50px;'
-                    ),
-                    $paginator->sort('website') => array(
                         'style' => '50px;'
                     ),
                     $paginator->sort('created') => array(
@@ -61,28 +55,30 @@
 
             foreach($comments as $comment){
                 ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>" title="<?php echo sprintf( '%s said :: %s', $comment['Comment']['name'], $this->Text->truncate(htmlspecialchars($comment['Comment']['comment']))); ?>">
-                        <td><?php echo $this->Form->checkbox($comment['Comment']['id']); ?>&nbsp;</td>
+                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+                        <td rowspan="2"><?php echo $this->Form->checkbox($comment['Comment']['id']); ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['class']; ?>&nbsp;</td>
-                        <td><?php echo $comment['Comment']['name']; ?>&nbsp;</td>
                         <td><?php echo $this->Text->autoLinkEmails($comment['Comment']['email']); ?>&nbsp;</td>
-                        <td><?php echo $this->Text->autoLinkUrls($comment['Comment']['website']); ?>&nbsp;</td>
                         <td><?php echo $this->Time->timeAgoInWords($comment['Comment']['created']); ?>&nbsp;</td>
                         <td><?php echo $comment['Comment']['points']; ?>&nbsp;</td>
-                        <td>
+                        <td rowspan="2">
                             <?php
                             	if(!$comment['Comment']['active']){
                             		echo Inflector::humanize($comment['Comment']['status']);
                             	}
-                            	else{
-                                	echo $this->Infinitas->status($comment['Comment']['active'], $comment['Comment']['id']);
-                            	}
+								echo $this->Infinitas->status($comment['Comment']['active'], $comment['Comment']['id']);
                             ?>
                         </td>
                     </tr>
+					<tr>
+						<td colspan="4">
+							<?php echo strip_tags($comment['Comment']['comment']); ?>
+						</td>
+					</tr>
                 <?php
             }
         ?>
     </table>
+    <?php echo $this->Form->end(); ?>
 </div>
 <?php echo $this->element('admin/pagination/navigation'); ?>

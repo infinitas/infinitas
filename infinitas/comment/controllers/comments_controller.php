@@ -22,6 +22,10 @@
 
 		var $helpers = array('Libs.Infinitas', 'Filter.Filter');
 
+		function index(){
+			
+		}
+
 		function admin_index() {
 			$this->paginate = array(
 				'fields' => array(
@@ -36,6 +40,9 @@
 					'Comment.points',
 					'Comment.foreign_id',
 					'Comment.created',
+				),
+				'contain' => array(
+					'CommentAttributes'
 				),
 				'order' => array(
 					'Comment.active' => 'ASC',
