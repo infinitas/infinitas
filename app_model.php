@@ -53,7 +53,7 @@
 
 		function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
-			parent::__construct($id, $table, $ds);
+			parent::__construct($id, $table, $ds);			
 
 			if (isset($this->_schema) && is_array($this->_schema)) {
 				if($this->Behaviors->enabled('Event')) {

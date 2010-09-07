@@ -273,6 +273,7 @@
 		 * application.
 		 */
 		public function __construct(){
+			$this->__setupConfig();
 			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
 
 			if(isset($event['requireComponentsToLoad']['libs'])){
@@ -288,8 +289,65 @@
 					$this->components = array_merge($this->components, $components);
 				}
 			}
+
+			unset($event);
 			
 			parent::__construct();
+		}
+
+		/**
+		 * Set up system configuration.
+		 *
+		 * Load the default configuration and check if there are any configs
+		 * to load from the current plugin. configurations can be completely rewriten
+		 * or just added to.
+		 */
+		private function __setupConfig(){
+			$this->configs = ClassRegistry::init('Management.Config')->getConfig();
+			
+			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $this->configs);
+			if (isset($eventData['setupConfigStart'][$this->plugin])){
+				$this->configs = (array)$eventData['setupConfigStart'][$this->plugin];
+
+				if (!array($this->configs)) {
+					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
+				}
+			}
+
+			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigEnd');
+			if (isset($eventData['setupConfigEnd'][$this->plugin])){
+				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->plugin];
+			}
+
+			if (!$this->__writeConfigs()) {
+				$this->cakeError('configError', array('message' => 'Config was not written'));
+			}
+			
+			unset($this->configs, $eventData);
+		}
+
+		/**
+		 * Write the configuration.
+		 *
+		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
+		 */
+		private function __writeConfigs(){
+			if (empty($this->configs)) {
+				return false;
+			}
+
+			foreach($this->configs as $config) {
+				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
+					$config['Config']['key'] = isset($config['Config']['key']) ? $config['Config']['key'] : 'NOT SET';
+					$config['Config']['value'] = isset($config['Config']['key']) ? $config['Config']['value'] : 'NOT SET';
+					$this->log(serialize($config['Config']), 'configuration_error');
+					continue;
+				}
+				
+				Configure::write($config['Config']['key'], $config['Config']['value']);
+			}
+
+			return true;
 		}
 
 		/**

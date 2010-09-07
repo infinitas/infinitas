@@ -35,7 +35,6 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->setupConfig();
 			$this->__registerPlugins();
 
 			$this->__checkBadLogins();
@@ -62,59 +61,6 @@
 					Cache::write('wysiwyg_editors', $editors, 'core');
 				}
 			}
-		}
-
-		/**
-		 * Set up system configuration.
-		 *
-		 * Load the default configuration and check if there are any configs
-		 * to load from the current plugin. configurations can be completely rewriten
-		 * or just added to.
-		 */
-		public function setupConfig(){
-			$this->configs = Cache::read('core_configs', 'core');
-
-			if ($this->configs === false) {
-				$this->configs = ClassRegistry::init('Management.Config')->getConfig();
-			}
-
-			$eventData = $this->Controller->Event->trigger($this->Controller->plugin.'.setupConfigStart', $this->configs);
-			if (isset($eventData['setupConfigStart'][$this->Controller->plugin])){
-				$this->configs = (array)$eventData['setupConfigStart'][$this->Controller->plugin];
-
-				if (!array($this->configs)) {
-					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
-				}
-			}
-
-			$eventData = $this->Controller->Event->trigger($this->Controller->plugin.'.setupConfigEnd');
-			if (isset($eventData['setupConfigEnd'][$this->Controller->plugin])){
-				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->Controller->plugin];
-			}
-
-			if (!$this->_writeConfigs()) {
-				$this->cakeError('configError', array('message' => 'Config was not written'));
-			}
-		}
-
-		/**
-		 * Write the configuration.
-		 *
-		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
-		 */
-		function _writeConfigs(){
-			if (empty($this->configs)) {
-				return false;
-			}
-
-			foreach($this->configs as $config) {
-				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
-					continue;
-				}
-				Configure::write($config['Config']['key'], $config['Config']['value']);
-			}
-
-			return true;
 		}
 
 		/**
