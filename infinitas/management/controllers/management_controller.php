@@ -53,14 +53,14 @@
 
 			switch(Configure::read('Website.admin_quick_post')){
 				case 'cms':
-					$categories = ClassRegistry::init('Cms.Category')->find('list');
+					$categories = ClassRegistry::init('Cms.Content')->generateCategoryList();
 					$groups     = ClassRegistry::init('Management.Group')->find('list');
 					$layouts    = ClassRegistry::init('Cms.Layout')->find('list');
 					$this->set(compact('categories', 'groups', 'layouts'));
 					break;
 
 				case 'blog':
-					$categories = ClassRegistry::init('Blog.Category')->find('list');
+					$categories = ClassRegistry::init('Blog.Post')->generateCategoryList();
 					$this->set(compact('categories'));
 					break;
 			} // switch

@@ -51,7 +51,8 @@
 		 *
 		 * @return array nested list of categories. TreeBehavior::generatetreelist
 		 */
-		public function generateCategoryList() {
-			return ClassRegistry::init('Categories.Category')->generatetreelist();
+		public function generateCategoryList(&$Model) {
+			return $Model->Category->generatetreelist();
+			//return ClassRegistry::init('Categories.Category')->generatetreelist();
 		}
 	}
