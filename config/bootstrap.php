@@ -14,6 +14,7 @@
 	 */
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
+
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
 	/**
@@ -81,10 +82,10 @@
 		$hash = '';
 
 		if ($data) {
-			$hash = sha1(serialize($data));
+			$hash = '_'.sha1(serialize($data));
 		}
 
-		return Inflector::underscore($prefix).'_'.$hash;
+		return Inflector::underscore($prefix).$hash;
 	}
 
 	/**
@@ -96,12 +97,12 @@
 	 * @return a nice name
 	 */
 	function prettyName($class = null){
-		if(!class_exists('Inflector')){
-			App::import('Inflector');
-		}
-
 		if($class !== null){
-			return Inflector::humanize(Inflector::underscore((string)$class));
+			if(!class_exists('Inflector')){
+				App::import('Inflector');
+			}
+			
+			return ucfirst(low(Inflector::humanize(Inflector::underscore(Inflector::pluralize((string)$class)))));
 		}
 
 		return false;

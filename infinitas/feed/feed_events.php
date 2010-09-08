@@ -1,6 +1,6 @@
 <?php
-	class FeedEvents {
-		function onSetupCacheStart(){
+	final class FeedEvents extends AppEvents {
+		public function onSetupCacheStart(){
 			return array(
 				'name' => 'feed',
 				'config' => array(

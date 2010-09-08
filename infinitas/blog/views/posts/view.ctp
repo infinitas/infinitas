@@ -50,13 +50,7 @@
         ?><h2><?php __('Depreciated'); ?> </h2><?php
         echo __( 'This post is old, so the information may be a bit out-dated.', true );
     }
-
-    $body = $post['Post']['body'];
-	if (Configure::read('Blog.highlight') === true) {
-		$body = $this->Geshi->highlight($body);
-	}
-
-	echo $body;
+    echo $post['Post']['body'];
 
     echo $this->Blog->pagination($post);
 

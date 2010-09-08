@@ -40,5 +40,7 @@ $map = array(
 		'082_general_changes' => 'M4bf54213ffdc4bc396a311046318cd70'),
 	20 => array(
 		'082_removing_intro_field_from_blog' => 'M4bf66ca7c4fc4ea5b2e321b06318cd70'),
+	21 => array(
+		'083' => 'M4c8782b1f92449aca83656866318cd70'),
 );
 ?>

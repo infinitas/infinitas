@@ -4,18 +4,18 @@
 	 *
 	 */
 	class Layout extends CmsAppModel{
-		var $name = 'Layout';
+		public $name = 'Layout';
 
-		var $useTable = 'content_layouts';
+		public $useTable = 'content_layouts';
 
-		var $hasMany = array(
+		public $hasMany = array(
 			'Content' => array(
 				'className' => 'Cms.Content',
 				'foreignKey' => 'layout_id',
 			),
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Locker' => array(
 				'className' => 'Management.User',
 				'foreignKey' => 'locked_by',

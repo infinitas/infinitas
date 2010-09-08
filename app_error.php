@@ -30,8 +30,16 @@
 		 * 
 		 * @param array $params the array of params to display to the user.
 		 */
-		function eventError($params){
+		public function eventError($params){
 			$this->controller->set('params', $params);
 			$this->_outputMessage('event_error');
+		}
+
+		public function _outputMessage($template) {
+			$this->log(serialize($this->controller->viewVars), 'page_errors');
+			$this->controller->render($template);
+			$this->controller->afterFilter();
+			echo $this->controller->output;
+			pr(debug_backtrace(false));
 		}
 	}

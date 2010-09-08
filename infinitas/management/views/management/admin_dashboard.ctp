@@ -156,7 +156,7 @@
 				<li>
 					<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
 						<h4><?php __('Latest Comments'); ?></h4>
-						<?php echo $this->element('admin/comments/latest', array('plugin' => 'management', 'comments' => $data['latestComment'])); ?>
+						<?php echo $this->element('admin/comments/latest', array('plugin' => 'comment', 'comments' => $data['latestComment'])); ?>
 					</div>
 				</li>
 				<?php } ?>

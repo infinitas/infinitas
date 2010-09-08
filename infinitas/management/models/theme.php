@@ -1,8 +1,9 @@
 <?php
 	/**
-	 * Comment Template.
+	 * Model for themes
 	 *
-	 * @todo Implement .this needs to be sorted out.
+	 * handles the themes for infinitas finding and making sure only one can be
+	 * active at a time.
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
@@ -11,12 +12,11 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
+	 * @package management
+	 * @subpackage management.models.theme
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
-
 	class Theme extends ManagementAppModel {
 		var $name = 'Theme';
 
@@ -33,16 +33,24 @@
 		function getCurrentTheme(){
 			$theme = Cache::read('current_theme', 'core');
 
-			if ($theme == false) {
-				$theme = $this->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Theme.active' => 1
-						)
-					)
-				);
+			if ($theme !== false) {
+				return $theme;
 			}
+
+			$theme = $this->find(
+				'first',
+				array(
+					'fields' => array(
+						'Theme.id',
+						'Theme.name',
+						'Theme.core'
+					),
+					'conditions' => array(
+						'Theme.active' => 1
+					)
+				)
+			);
+
 			Cache::write('current_theme', $theme, 'core');
 
 			return $theme;

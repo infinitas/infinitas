@@ -1,60 +1,40 @@
 <?php
 	/**
-	* Blog Post Model class file.
-	*
-	* This is the main model for Blog Posts. There are a number of
-	* methods for getting the counts of all posts, active posts, pending
-	* posts etc.  It extends {@see BlogAppModel} for some all round
-	* functionality. look at {@see BlogAppModel::afterSave} for an example
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	*
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package blog
-	* @subpackage blog.models.post
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	*/
+	 * Blog Post Model class file.
+	 *
+	 * This is the main model for Blog Posts. There are a number of
+	 * methods for getting the counts of all posts, active posts, pending
+	 * posts etc.  It extends {@see BlogAppModel} for some all round
+	 * functionality. look at {@see BlogAppModel::afterSave} for an example
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package blog
+	 * @subpackage blog.models.post
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 */
 	class Post extends BlogAppModel {
-		var $name = 'Post';
+		public $name = 'Post';
 
 		/**
-		* always sort posts so newest is at the top
-		*/
-		var $order = array(
+		 * always sort posts so newest is at the top
+		 */
+		public $order = array(
 			'Post.created' => 'DESC',
 		);
 
-		var $actsAs = array(
+		public $actsAs = array(
 			'Feed.Feedable',
 			'Tags.Taggable'
 		);
 
-		/*var $hasAndBelongsToMany = array(
-			'Tag' => array(
-				'className'              => 'Blog.Tag',
-				'joinTable'              => 'posts_tags',
-				'with'                   => 'Blog.PostsTag',
-				'foreignKey'             => 'post_id',
-				'associationForeignKey'  => 'tag_id',
-				'unique'                 => true,
-				'conditions'             => '',
-				'fields'                 => '',
-				'order'                  => '',
-				'limit'                  => '',
-				'offset'                 => '',
-				'finderQuery'            => '',
-				'deleteQuery'            => '',
-				'insertQuery'            => ''
-			)
-		);*/
-
-
-		var $hasMany = array(
+		public $hasMany = array(
 			'ChildPost' => array(
 				'className' => 'Blog.Post',
 				'foreignKey' => 'parent_id',
@@ -74,7 +54,7 @@
 			)
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Locker' => array(
 				'className' => 'Management.User',
 				'foreignKey' => 'locked_by',
@@ -98,7 +78,7 @@
 			),
 		);
 
-		function getParentPosts(){
+		public function getParentPosts(){
 			return $this->find(
 				'list',
 				array(
@@ -108,7 +88,8 @@
 				)
 			);
 		}
-		function __construct($id = false, $table = null, $ds = null) {
+		
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
@@ -134,15 +115,17 @@
 		}
 
 		/**
-		* before deleting a post.
-		*
-		* remove the tags
-		*/
-		function beforeDelete($return = null) {
+		 * clear un-used tags.
+		 *
+		 * Check if there are any tags that are only being used by this post, and
+		 * if there are remove them. keeps the tables tidy
+		 */
+		public function beforeDelete($return = null) {
 			$data = $this->read();
 
+			$PostsTag = ClassRegistry::init('Blog.PostsTag');
 			foreach($data['Tag'] as $tag) {
-				$count = ClassRegistry::init('Blog.PostsTag')->find(
+				$count = $PostsTag->find(
 					'count',
 					array(
 						'conditions' => array(
@@ -153,7 +136,7 @@
 
 				if ($count === 1) {
 					if ($this->Tag->delete($tag['PostsTag']['tag_id'])) {
-						ClassRegistry::init('Blog.PostsTag')->delete($tag['PostsTag']['id']);
+						$PostsTag->delete($tag['PostsTag']['id']);
 					}
 				}
 			}
@@ -162,15 +145,15 @@
 		}
 
 		/**
-		* Get years and months of all posts.
-		*
-		* The years are cached cos they wont change much so it saves a
-		* little bit of database calls. only gets active posts so if a month
-		* has no active posts it will not get them.
-		*
-		* @return array $dates an array or years and months
-		*/
-		function getDates() {
+		 * Get years and months of all posts.
+		 *
+		 * The years are cached cos they wont change much so it saves a
+		 * little bit of database calls. only gets active posts so if a month
+		 * has no active posts it will not get them.
+		 *
+		 * @return array $dates an array or years and months
+		 */
+		public function getDates() {
 			$dates = Cache::read('posts_dates');
 			if ($dates !== false) {
 				return $dates;
@@ -183,13 +166,13 @@
 					array(
 						'fields' => array(
 							'DISTINCT year( Post.created ) as year'
-							),
+						),
 						'conditions' => array(
 							'Post.active' => 1
-							),
+						),
 						'contain' => false
-						)
-					);
+					)
+				);
 
 				$years = Set::extract('{n}.{n}.year', $years);
 				Cache::write('posts_dates_years', $years, 'blog');
@@ -205,13 +188,13 @@
 					array(
 						'fields' => array(
 							'DISTINCT month( Post.created ) as month'
-							),
+						),
 						'conditions' => array(
 							'Post.active' => 1
-							),
+						),
 						'contain' => false
-						)
-					);
+					)
+				);
 
 				$months = Set::extract('{n}.{n}.month', $months);
 
@@ -229,15 +212,15 @@
 		}
 
 		/**
-		* Gets the latest posts.
-		*
-		* returns a list of the latest addes posts
-		*
-		* @param int $limit the number of posts to return
-		* @param int $active if the posts should be active or not
-		* @return array $dates an array or years and months
-		*/
-		function getLatest($limit = 10, $active = 1) {
+		 * Gets the latest posts.
+		 *
+		 * returns a list of the latest addes posts
+		 *
+		 * @param int $limit the number of posts to return
+		 * @param int $active if the posts should be active or not
+		 * @return array $dates an array or years and months
+		 */
+		public function getLatest($limit = 10, $active = 1) {
 			$cacheName = cacheName('posts_latest', array($limit, $active));
 			$posts = Cache::read($cacheName, 'blog');
 			if($posts !== false){
@@ -249,29 +232,29 @@
 				array(
 					'conditions' => array(
 						'Post.active' => $active
-						),
+					),
 					'limit' => $limit,
 					'order' => array(
 						'Post.created' => 'DESC'
-						)
 					)
-				);
+				)
+			);
 
 			$posts['countAll'] = $this->find(
 				'count',
 				array(
 					'conditions' => array(
 						'Post.active' => $active
-						)
 					)
-				);
+				)
+			);
 
 			Cache::write($cacheName, $posts, 'blog');
 
 			return $posts;
 		}
 
-		function getCounts($model = null) {
+		public function getCounts($model = null) {
 			$cacheName = cacheName('posts_count', $model);
 			$counts = Cache::read($cacheName, 'blog');
 			if($counts !== false){
@@ -283,28 +266,30 @@
 				array(
 					'conditions' => array(
 						'Post.active' => 1
-						),
+					),
 					'contain' => false
-					)
-				);
+				)
+			);
+			
 			$counts['pending'] = $this->find(
 				'count',
 				array(
 					'conditions' => array(
 						'Post.active' => 0
-						),
+					),
 					'contain' => false
-					)
-				);
+				)
+			);
 
 			Cache::write($cacheName, $counts, 'blog');
 
 			return $counts;
 		}
 
-		function getPopular($limit = 10) {
+		public function getPopular($limit = 10) {
 			$cacheName = cacheName('posts_popular', $limit);
 			$poular = Cache::read($cacheName, 'blog');
+
 			if($poular !== false){
 				return $poular;
 			}
@@ -314,13 +299,13 @@
 				array(
 					'conditions' => array(
 						'Post.active' => 1
-						),
+					),
 					'order' => array(
 						'Post.views' => 'DESC'
-						),
+					),
 					'limit' => $limit
-					)
-				);
+				)
+			);
 
 			Cache::write($cacheName, $poular, 'blog');
 
@@ -328,15 +313,15 @@
 		}
 
 		/**
-		* Get the pending posts.
-		*
-		* if the count of pending is > the limit it will add "and more..."
-		* to the end of the list
-		*
-		* @param integer $limit how many items to return
-		* @return array the list of pending posts
-		*/
-		function getPending($limit = 10) {
+		 * Get the pending posts.
+		 *
+		 * if the count of pending is > the limit it will add "and more..."
+		 * to the end of the list
+		 *
+		 * @param integer $limit how many items to return
+		 * @return array the list of pending posts
+		 */
+		public function getPending($limit = 10) {
 			$cacheName = cacheName('posts_pending', $limit);
 			$pending = Cache::read($cacheName, 'blog');
 			if($pending !== false){
@@ -348,22 +333,22 @@
 				array(
 					'conditions' => array(
 						'Post.active' => 0
-						),
+					),
 					'order' => array(
 						'Post.modified' => 'ASC'
-						),
+					),
 					'limit' => $limit
-					)
-				);
+				)
+			);
 
 			$count = $this->find(
 				'count',
 				array(
 					'conditions' => array(
 						'Post.active' => 0
-						)
 					)
-				);
+				)
+			);
 
 			if ($count > count($pending)) {
 				$pending[] = __('And More...', true);
@@ -375,7 +360,7 @@
 		}
 
 
-		function findPostsByTag($tag) {
+		public function findPostsByTag($tag) {
 			$cacheName = cacheName('posts_by_tag', $tag);
 			$tags = Cache::read($cacheName, 'blog');
 			if($tags !== false){
@@ -409,20 +394,21 @@
 
 			return $tags;
 		}
-/**
- * Adds BETWEEN conditions for $year and $month to any array.
- * You can pass a custom Model and a custom created field, too.
- *
- * @param array $paginate the pagination array to be processed
- * @param array $options
- * 	###	possible options:
- * 			- year (int) year of the format YYYY (defaults null)
- * 			- month (int) month of the year in the format 01 - 12 (defaults null)
- * 			- model (string) custom Model Alias to pass (defaults calling Model)
- * 			- created (string) the name of the field to use in the Between statement (defaults 'created')
- * @todo take just reference parameter?
- */
-		function setPaginateDateOptions($paginate, $options = array()) {
+		
+		/**
+		 * Adds BETWEEN conditions for $year and $month to any array.
+		 * You can pass a custom Model and a custom created field, too.
+		 *
+		 * @param array $paginate the pagination array to be processed
+		 * @param array $options
+		 * 	###	possible options:
+		 * 			- year (int) year of the format YYYY (defaults null)
+		 * 			- month (int) month of the year in the format 01 - 12 (defaults null)
+		 * 			- model (string) custom Model Alias to pass (defaults calling Model)
+		 * 			- created (string) the name of the field to use in the Between statement (defaults 'created')
+		 * @todo take just reference parameter?
+		 */
+		public function setPaginateDateOptions($paginate, $options = array()) {
 			$default = array(
 				'year' => null,
 				'month' => null,
@@ -456,13 +442,15 @@
 				$days = cal_days_in_month(CAL_GREGORIAN, intval($month), intval($year));
 				$begin = sprintf($ymTmplBegin, $year, $month);
 				$end = sprintf($ymTmplEnd, $year, $month, $days);
-			} else {
+			}
+
+			else {
 				$begin = sprintf($yTmplBegin, $year);
 				$end = sprintf($yTmplEnd, $year);
 			}
 
 			$paginate['conditions'] += array(
-				"$model.$created BETWEEN ? AND ?" => array($begin,$end)
+				$model.$created.' BETWEEN ? AND ?' => array($begin,$end)
 			);
 
 			return $paginate;
@@ -473,7 +461,7 @@
 		 *
 		 * Used for things like generating the tag cloud.
 		 */
-		function getTags($limit = 50) {
+		public function getTags($limit = 50) {
 			$cacheName = cacheName('post_tags', $limit);
 			$tags = Cache::read($cacheName, 'shop');
 			if($tags !== false){
@@ -486,15 +474,15 @@
 			return $tags;
 		}
 
-		function afterSave($created){
-			return $this->dataChanged('afterSave');
+		public function afterSave($created){
+			return $this->__dataChanged('afterSave');
 		}
 
-		function afterDelete(){
-			return $this->dataChanged('afterDelete');
+		public function afterDelete(){
+			return $this->__dataChanged('afterDelete');
 		}
 
-		function dataChanged($from){
+		private function __dataChanged($from){
 			App::import('Folder');
 			$Folder = new Folder(CACHE . 'shop');
 			$files = $Folder->read();

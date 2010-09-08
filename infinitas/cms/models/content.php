@@ -27,21 +27,14 @@
 	*/
 
 	class Content extends CmsAppModel {
-		var $name = 'Content';
+		public $name = 'Content';
 
-		var $_order = array(
-			'Content.ordering' => 'ASC'
+		public $_order = array(
+			'Category.title' => 'asc',
+			'Content.ordering' => 'asc'
 		);
 
-		var $actsAs = array(
-			/*'Libs.Sequence' => array(
-				'group_fields' => array(
-					'category_id'
-				)
-			)*/
-		);
-
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Author' => array(
 				'className' => 'Management.User',
 				'foreignKey' => 'created_by',
@@ -80,7 +73,7 @@
 			)
 		);
 
-		var $hasOne = array(
+		public $hasOne = array(
 			/* making duplicate records.
 			'ContentConfig' => array(
 				'className' => 'Cms.ContentConfig',
@@ -112,7 +105,7 @@
 		 * @param mixed $table
 		 * @param mixed $ds
 		 */
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
@@ -135,7 +128,7 @@
 			);
 		}
 
-		function getContentPage($slug = null){
+		public function getContentPage($slug = null){
 			if (!$slug) {
 				return array();
 			}
@@ -175,8 +168,8 @@
 						'Category' => array(
 							'fields' => array(
 								'Category.id',
-								'category.title',
-								'category.slug',
+								'Category.title',
+								'Category.slug',
 							)
 						)
 					)
@@ -184,5 +177,65 @@
 			);
 
 			return $content;
+		}
+
+		public function getPopular($limit = 10){
+			return $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Content.id',
+						'Content.title',
+						'Content.slug',
+						'Content.category_id'
+					),
+					'conditions' => array(
+						'Content.active' => 1
+					),
+					'contain' => array(
+						'Category' => array(
+							'fields' => array(
+								'Category.slug'
+							)
+						)
+					),
+					'limit' => (int)$limit,
+					'order' => array(
+						'Content.views' => 'desc'
+					)
+				)
+			);
+		}
+
+		public function getMostCommented($limit = 10){
+			return $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'Content.id',
+						'Content.title',
+						'Content.slug',
+						'Content.category_id'
+					),
+					'conditions' => array(
+						'Content.active' => 1
+					),
+					'contain' => array(
+						'Category' => array(
+							'fields' => array(
+								'Category.slug'
+							)
+						)
+					),
+					'limit' => (int)$limit,
+					'order' => array(
+						'Content.comment_count' => 'desc'
+					)
+				)
+			);
+		}
+
+		public function getRelated(){
+			return array();
 		}
 	}

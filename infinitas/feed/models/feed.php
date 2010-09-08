@@ -107,7 +107,7 @@
 				array(
 					'conditions' => array(
 						'Feed.active' => 1,
-						'Feed.group_id > ' => $group_id,
+						//'Feed.group_id > ' => $group_id,
 						'Feed.id' => $id
 					),
 					'contain' => array(
@@ -115,6 +115,9 @@
 					)
 				)
 			);
+			if(empty($feed)){
+				return $feed;
+			}
 
 			return $this->feedArrayFormat($this->getJsonRecursive($feed));
 		}

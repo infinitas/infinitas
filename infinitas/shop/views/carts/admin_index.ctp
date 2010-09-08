@@ -20,7 +20,7 @@
 
     echo $this->Form->create('Cart', array('url' => array('action' => 'mass')));
 
-    echo $this->Infinitas->adminIndexHead($this, $paginator, $filterOptions);
+    echo $this->Infinitas->adminIndexHead($this, $filterOptions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">

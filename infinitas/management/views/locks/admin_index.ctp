@@ -25,7 +25,7 @@
                 'unlock'
             )
         );
-        echo $this->Core->adminIndexHead( $this, null, null, $massActions );
+        echo $this->Core->adminIndexHead( $this, null, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">

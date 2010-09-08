@@ -29,7 +29,7 @@
                 'delete'
             )
         );
-        echo $this->Infinitas->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Infinitas->adminIndexHead( $this, $filterOptions, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
@@ -50,7 +50,7 @@
                     $this->Paginator->sort('fax') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('Contacts', 'contact_count') => array(
+                    $this->Paginator->sort('Contacts', 'user_count') => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort('ordering') => array(
@@ -84,19 +84,19 @@
                 			<?php echo $this->Html->link($branch['Branch']['name'], array('action' => 'edit', $branch['Branch']['id'])); ?>&nbsp;
                 		</td>
 						<td>
-							<?php echo $branch['Branch']['phone']; ?>
+							<?php echo $branch['Branch']['phone']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $branch['Branch']['fax']; ?>
+							<?php echo $branch['Branch']['fax']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $branch['Branch']['contact_count']; ?>
+							<?php echo $branch['Branch']['user_count']; ?>&nbsp;
 						</td>
                 		<td>
                 			<?php echo $this->Infinitas->ordering($branch['Branch']['id'], $branch['Branch']['ordering'], 'Contact.Branch'); ?>&nbsp;
                 		</td>
 						<td>
-							<?php echo $this->Time->niceShort($branch['Branch']['modified']); ?>
+							<?php echo $this->Time->niceShort($branch['Branch']['modified']); ?>&nbsp;
 						</td>
                 		<td>
                 			<?php echo $this->Infinitas->status($branch['Branch']['active']); ?>&nbsp;

@@ -17,28 +17,20 @@
 	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since         0.5a
 	 */
-?>
-	<style type="text/css">
-		<?php echo $content['Layout']['css']; ?>
-	</style>
-<?php
-	$content['Content']['modified'] = $this->Time->niceShort($content['Content']['modified']);
+	$eventData = $this->Event->trigger('cmsBeforeContentRender', array('_this' => $this, 'content' => $content));
+	foreach((array)$eventData['cmsBeforeContentRender'] as $_plugin => $_data){
+		echo '<div class="before '.$_plugin.'">'.$_data.'</div>';
+	}
+	
+	?><style type="text/css"><?php echo $content['Layout']['css']; ?></style><?php
 
-	$eventData = $this->Event->trigger('cms.slugUrl', array('type' => 'contents', 'data' => $content['Content']));
-	$urlArray = current($eventData['slugUrl']);
-	$content['Content']['title'] = $this->Html->link($content['Content']['title'], $urlArray);
-
-	$__html = $content['Layout']['html'];
-
-	$__html = str_replace('{{Content.title}}', $content['Content']['title'], $__html);
-	$__html = str_replace('||Viewed||', __('Viewed',true), $__html);
-	$__html = str_replace('[[Content.views]]', $content['Content']['views'], $__html);
-	$__html = str_replace('||times||', __('times',true), $__html);
-	$__html = str_replace('[[Content.introduction]]', $this->Text->truncate($content['Content']['body'], 200, array('html' => true)), $__html);
-	$__html = str_replace('[[Content.body]]', $content['Content']['body'], $__html);
-	$__html = str_replace('||Last updated||', __('Last updated',true), $__html);
-	$__html = str_replace('[[Content.modified]]', $content['Content']['modified'], $__html);
-
-	echo $__html;
-	echo $this->element('global/comment_add', array('data' => $content));
-?>
+	// render the content template
+	echo $this->Mustache->render(
+		$content['Layout']['html'],
+		$content
+	);
+	
+	$eventData = $this->Event->trigger('cmsAfterContentRender', array('_this' => $this, 'content' => $content));
+	foreach((array)$eventData['cmsAfterContentRender'] as $_plugin => $_data){
+		echo '<div class="after '.$_plugin.'">'.$_data.'</div>';
+	}

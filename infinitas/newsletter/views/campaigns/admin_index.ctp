@@ -28,7 +28,7 @@
                 'delete'
             )
         );
-        echo $this->Letter->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Letter->adminIndexHead( $this, $filterOptions, $massActions );
 
 ?>
 <div class="table">

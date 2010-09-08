@@ -1,0 +1,24 @@
+[submodule "plugins/wysiwyg_tiny_mce"]
+	path = plugins/wysiwyg_tiny_mce
+	url = git://github.com/Infinitas-Plugins/wysiwyg_tiny_mce.git
+[submodule "plugins/wysiwyg_ck_editor"]
+	path = plugins/wysiwyg_ck_editor
+	url = git://github.com/Infinitas-Plugins/wysiwyg_ck_editor.git
+[submodule "plugins/geshi"]
+	path = plugins/geshi
+	url = git://github.com/Infinitas-Plugins/geshi.git
+[submodule "plugins/facebook"]
+	path = plugins/facebook
+	url = git://github.com/Infinitas-Plugins/facebook.git
+[submodule "plugins/gallery"]
+	path = plugins/gallery
+	url = git://github.com/Infinitas-Plugins/gallery.git
+[submodule "plugins/thickbox"]
+	path = plugins/thickbox
+	url = git://github.com/Infinitas-Plugins/thickbox.git
+[submodule "plugins/twitter"]
+	path = plugins/twitter
+	url = git://github.com/Infinitas-Plugins/twitter.git
+[submodule "plugins/debug_kit"]
+	path = plugins/debug_kit
+	url = git://github.com/Infinitas-Plugins/debug_kit.git

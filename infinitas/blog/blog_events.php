@@ -1,6 +1,6 @@
 <?php
-	class BlogEvents{
-		function onSetupCache(){
+	final class BlogEvents extends AppEvents{
+		public function onSetupCache(){
 			return array(
 				'name' => 'blog',
 				'config' => array(
@@ -13,7 +13,7 @@
 			);
 		}
 
-		function onSlugUrl(&$event, $data){
+		public function onSlugUrl(&$event, $data){
 			if(!isset($data['data'])){
 				$data['data'] = $data;
 			}
@@ -22,16 +22,38 @@
 			}
 			switch($data['type']){
 				case 'posts':
-					$post = isset($data['data']['Post']) ? $data['data']['Post'] : $data['data'];
 					return array(
-						'plugin' => $post['plugin'],
-						'controller' => $post['controller'],
-						'action' => $post['action'],
-						'id' => $post['id'],
+						'plugin' => 'blog',
+						'controller' => 'posts',
+						'action' => 'view',
+						'id' => $data['data']['Post']['id'],
 						'category' => isset($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : 'news-feed',
-						'slug' => $post['slug']
+						'slug' => $data['data']['Post']['slug']
 					);
 					break;
 			} // switch
+		}
+
+		public function onRequireHelpersToLoad(&$event){
+			$helpers = array();
+
+			if($event->Handler->params['plugin'] == 'blog'){
+				$helpers = array_merge(
+					$helpers,
+					array(
+						'Tags.TagCloud',
+						'Blog.Blog', 'Google.Chart',
+						'Blog.PostLayout', 'Blog.CommentLayout'
+					)
+				);
+			}
+
+			return $helpers;
+		}
+
+		public function onRequireCssToLoad(&$event){
+			if($event->Handler->params['plugin'] == 'blog'){
+				return '/blog/css/blog';
+			}
 		}
 	}

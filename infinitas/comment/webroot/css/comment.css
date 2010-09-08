@@ -1,0 +1,14 @@
+.comments .comment textarea{
+	width: 98%;
+	height: 15px;
+}
+.comments img{
+	vertical-align: top;
+}
+.comments p{
+	float: right;
+	width: 90%;
+}
+.comments .comment .submit{
+	display: none;
+}

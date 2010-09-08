@@ -18,20 +18,21 @@
 	*/
 
 	class CmsAppController extends AppController {
-		var $helpers = array(
+		public $helpers = array(
 			// cake
 			'Time', 'Html', 'Form',
+			'Libs.Gravatar',
 			// core
 			'Cms.Cms'
 		);
 
-		var $components = array(
+		public $components = array(
 			'Filter.Filter' => array(
 				'actions' => array('admin_index')
 			)
 		);
 
-		function beforeFilter(){
+		public function beforeFilter(){
 			parent::beforeFilter();
 
 			$this->addCss(

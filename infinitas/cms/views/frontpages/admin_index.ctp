@@ -25,7 +25,7 @@
                 'delete'
             )
         );
-        echo $this->Cms->adminIndexHead($this, $paginator, $filterOptions, $massActions);
+        echo $this->Cms->adminIndexHead($this, $filterOptions, $massActions);
 
 ?>
 <div class="table">

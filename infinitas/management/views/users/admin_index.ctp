@@ -30,7 +30,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Core->adminIndexHead( $this, $filterOptions, $massActions );
 ?>
 <div class="table">
 	<?php

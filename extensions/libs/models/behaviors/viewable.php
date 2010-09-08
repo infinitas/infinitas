@@ -102,4 +102,32 @@
 
 			return $data;
 		}
+
+		/**
+		 * Get the most viewed records for the table
+		 * 
+		 * @param object $Model the model that is being used.
+		 * @param int $limit the number or records to return
+		 * 
+		 * @return array the most viewed records
+		 */
+		public function getMostViewed(&$Model, $limit = 10){
+			return $Model->find(
+				'all',
+				array(
+					'fields' => array(
+						$Model->alias.'.id',
+						$Model->alias.'.'.$Model->displayField,
+						$Model->alias.'.views'
+					),
+					'conditions' => array(
+						$Model->alias.'.views > ' => 0
+					),
+					'order' => array(
+						$Model->alias.'.views' => 'DESC'
+					),
+					'limit' => (int)$limit
+				)
+			);
+		}
 	}

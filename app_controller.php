@@ -1,76 +1,73 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 	class AppController extends GlobalActions {
+		public $name = 'AppController';
+		
 		/**
-		*
-		*/
-		var $view = 'Theme';
-
-		var $helpers = array(
-			'Html', 'Form', 'Javascript', 'Session', 'Time',
-			'Libs.Infinitas', 'Tags.TagCloud',
-			'Events.Event', 'Shop.Shop'
-		);
-
-		var $components = array(
-			'Libs.Infinitas',
-			// cake components
-			'Session','RequestHandler', 'Auth', 'Acl', 'Security',
-			// core components
-			'DebugKit.Toolbar', // 'Libs.Cron',
-			// components
-			'Filter.Filter' => array(
-				'actions' => array('admin_index')
-			),
-			'Libs.Voucher',
-			'Libs.MassAction',
-			'Events.Event',
-			'Newsletter.Emailer'
-		);
+		 * the View Class that will load by defaul is the Infinitas View to take
+		 * advantage which extends the ThemeView and auto loads the Mustache class.
+		 * This changes when requests are json etc
+		 */
+		public $view = 'Libs.Infinitas';
 
 		/**
-		* actions where viewable will work.
-		*/
-		var $viewableActions = array(
+		 * actions where viewable will work.
+		 */
+		public $viewableActions = array(
 			'view'
 		);
 
-		protected $cssToLoad = array(
-			'/libs/css/jquery_ui'
-		);
+		/**
+		 * internal cache of css files to load
+		 * @access private
+		 */
+		private $__addCss = array();
 
-		protected $jsToLoad  = array(
-			'/libs/js/3rd/jquery',
-			'/libs/js/3rd/require',
-			'/libs/js/infinitas'
-		);
+		/**
+		 * internal cache of javascript files to load
+		 * @access private
+		 */
+		private $__addJs  = array();
 
-		function beforeRender(){
-			parent::beforeRender();
-
-			$this->set('css_for_layout', $this->cssToLoad);
-			$this->set('js_for_layout', $this->jsToLoad);
+		/**
+		 * after render is called after the page is rendered. output here will not
+		 * be in your html. this is used for cleanup / loggin etc.
+		 */
+		function afterRender(){
+			parent::afterRender();
 		}
 
 		/**
-		* normal before filter.
-		*/
+		 * before render is called before the page is rendered, but after all the
+		 * processing is done.
+		 */
+		function beforeRender(){
+			parent::beforeRender();
+			$this->Infinitas->getPluginAssets();
+			$this->Infinitas->getPluginHelpers();			
+			$this->set('css_for_layout', array_filter($this->__addCss));
+			$this->set('js_for_layout', array_filter($this->__addJs));
+		}
+
+		/**
+		 * normal before filter.
+		 */
 		function beforeFilter() {
 			parent::beforeFilter();
 
@@ -83,13 +80,6 @@
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
 			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
-				$this->addJs(
-					array(
-						'/wysiwyg/js/ck_editor/ckeditor',
-						//'/wysiwyg/js/tiny_mce/tiny_mce',
-					)
-				);
-
 				$this->addCss(
 					array(
 						'admin'
@@ -128,6 +118,7 @@
 				switch(true){
 					case $this->RequestHandler->prefers('json'):
 						$this->view = 'Libs.Json';
+						Configure::write('debug', 0);
 						break;
 
 					case $this->RequestHandler->prefers('rss'):
@@ -139,14 +130,7 @@
 						break;
 
 				} // switch
-				// Configure::write('debug', 0);
 				// $this->theme = null;
-			}
-
-			$this->set('commentModel', 'Comment');
-
-			if (isset($this->{$this->modelClass}->_schema) && array_key_exists('views', $this->{$this->modelClass}->_schema) && (!isset($this->params['prefix']) || isset($this->params['prefix']) && $this->params['prefix'] != 'admin') && in_array($this->params['action'], $this->viewableActions)) {
-					$this->{$this->modelClass}->Behaviors->attach('Libs.Viewable');
 			}
 		}
 
@@ -158,21 +142,8 @@
 		 *
 		 * @param mixed $css array of paths like HtmlHelper::css or a string path
 		 */
-		function addCss($css = false){
-			if($css === false){
-				$this->cssToLoad = array();
-				return true;
-			}
-
-			if($css === true){
-				return $this->cssToLoad;
-			}
-
-			foreach((array)$css as $_css){
-				if(!in_array($_css, $this->cssToLoad)){
-					$this->cssToLoad[] = $_css;
-				}
-			}
+		function addCss($css = false){			
+			return $this->__loadAsset($css, __FUNCTION__);
 		}
 
 		/**
@@ -184,20 +155,32 @@
 		 * @param mixed $js array of paths like HtmlHelper::css or a string path
 		 */
 		function addJs($js = false){
-			if($js === false){
-				$this->jsToLoad = array();
+			return $this->__loadAsset($js, __FUNCTION__);
+		}
+
+
+		function __loadAsset($data, $method){
+			$property = '__'.$method;
+			if($data === false){
+				$this->{$property} = array();
 				return true;
 			}
 
-			if($js === true){
-				return $this->jsToLoad;
+			else if($data === true){
+				return $this->{$property};
 			}
 
-			foreach((array)$js as $_js){
-				if(!in_array($_js, $this->jsToLoad)){
-					$this->jsToLoad[] = $_js;
+			foreach((array)$data as $_data){
+				if(is_array($_data)){
+					$this->{$method}($_data);
+					continue;
+				}
+				if(!in_array($_data, $this->{$property}) && !empty($_data)){
+					$this->{$property}[] = $_data;
 				}
 			}
+
+			return true;
 		}
 
 		function render($action = null, $layout = null, $file = null) {
@@ -217,12 +200,20 @@
 			return parent::render($action, $layout, $file);
 		}
 
+		/**
+		 * this function is just here to stop wsod confusion. it will become more
+		 * usefull one day
+		 */
 		function blackHole(&$controller, $error){
 			pr('you been blackHoled');
 			pr($error);
 			exit;
 		}
 
+		/**
+		 * after filter is called after your html is put together, and just before
+		 * it is rendered to the user.
+		 */
 		function afterFilter(){
 			if(Configure::read('debug') === 0){
 				$this->output = preg_replace(
@@ -247,17 +238,127 @@
 	 */
 	class GlobalActions extends Controller{
 		/**
+		 * components should not be included here
+		 */
+		public $components = array();
+
+		/**
+		 * reference to the model name of the current controller
+		 */
+		public $modelName;
+
+		/**
+		 * reference to the model name for user output
+		 */
+		public $prettyModelName;
+
+		/**
+		 * Set up some general variables that are used around the code.
+		 */
+		public function beforeFilter(){
+			parent::beforeFilter();
+			$this->__modelName = $this->modelClass;
+			$this->__prettyModelName = prettyName($this->__modelName);
+		}
+
+		/**
+		 * Construct the Controller
+		 *
+		 * Currently getting components that are needed by the application. they
+		 * are then loaded into $components making them available to the entire
+		 * application.
+		 */
+		public function __construct(){
+			$this->__setupConfig();
+			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
+
+			if(isset($event['requireComponentsToLoad']['libs'])){
+				$libs['libs'] = $event['requireComponentsToLoad']['libs'];
+				$event['requireComponentsToLoad'] = $libs + $event['requireComponentsToLoad'];
+			}
+
+			foreach($event['requireComponentsToLoad'] as $plugin => $components){
+				if(!empty($components)){
+					if(!is_array($components)){
+						$components = array($components);
+					}
+					$this->components = array_merge($this->components, $components);
+				}
+			}
+
+			unset($event);
+			
+			parent::__construct();
+		}
+
+		/**
+		 * Set up system configuration.
+		 *
+		 * Load the default configuration and check if there are any configs
+		 * to load from the current plugin. configurations can be completely rewriten
+		 * or just added to.
+		 */
+		private function __setupConfig(){
+			$this->configs = ClassRegistry::init('Management.Config')->getConfig();
+			
+			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $this->configs);
+			if (isset($eventData['setupConfigStart'][$this->plugin])){
+				$this->configs = (array)$eventData['setupConfigStart'][$this->plugin];
+
+				if (!array($this->configs)) {
+					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
+				}
+			}
+
+			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigEnd');
+			if (isset($eventData['setupConfigEnd'][$this->plugin])){
+				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->plugin];
+			}
+
+			if (!$this->__writeConfigs()) {
+				$this->cakeError('configError', array('message' => 'Config was not written'));
+			}
+			
+			unset($this->configs, $eventData);
+		}
+
+		/**
+		 * Write the configuration.
+		 *
+		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
+		 */
+		private function __writeConfigs(){
+			if (empty($this->configs)) {
+				return false;
+			}
+
+			foreach($this->configs as $config) {
+				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
+					$config['Config']['key'] = isset($config['Config']['key']) ? $config['Config']['key'] : 'NOT SET';
+					$config['Config']['value'] = isset($config['Config']['key']) ? $config['Config']['value'] : 'NOT SET';
+					$this->log(serialize($config['Config']), 'configuration_error');
+					continue;
+				}
+				
+				Configure::write($config['Config']['key'], $config['Config']['value']);
+			}
+
+			return true;
+		}
+
+		/**
 		 * Common methods for the app
 		 */
-		function comment($id = null) {
-			if (!empty($this->data['Comment'])) {
+		public function comment($id = null) {
+			if (!empty($this->data[$this->modelClass.'Comment'])) {
 				$message = 'Your comment has been saved and will be available after admin moderation.';
 				if (Configure::read('Comments.auto_moderate') === true) {
-					$this->data['Comment']['active'] = 1;
 					$message = 'Your comment has been saved and is active.';
 				}
 
-				if ($this->{$this->modelClass}->createComment($id, $this->data)) {
+				$this->data[$this->modelClass.'Comment']['class'] = Inflector::camelize($this->params['plugin']).'.'.$this->modelClass;
+				
+				if ($this->{$this->modelClass}->createComment($this->data)) {
 					$this->Session->setFlash(__($message, true));
 					$this->redirect($this->referer());
 				}
@@ -265,26 +366,28 @@
 					$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
 				}
 			}
+
+			$this->render(null, null, App::pluginPath('Comment').'views'.DS.'comments'.DS.'add.ctp');
 		}
 
 		/**
-		* Common method for rating.
-		*
-		* This is the default method for a rating, if you would like to change
-		* the way it works for your own plugin just define your own method in the
-		* plugins app_controller or the actual controller.
-		*
-		* By default it will check if users need to be logged in before rating and
-		* redirect if they must and are not. else it will get the ip address and then
-		* save the rating.
-		*
-		* @param int $id the id of the itme you are rating.
-		*
-		* @return null, will redirect.
-		*
-		* @todo check if the model is a rateable model.
-		*/
-		function rate($id = null) {
+		 * Common method for rating.
+		 *
+		 * This is the default method for a rating, if you would like to change
+		 * the way it works for your own plugin just define your own method in the
+		 * plugins app_controller or the actual controller.
+		 *
+		 * By default it will check if users need to be logged in before rating and
+		 * redirect if they must and are not. else it will get the ip address and then
+		 * save the rating.
+		 *
+		 * @param int $id the id of the itme you are rating.
+		 *
+		 * @return null, will redirect.
+		 *
+		 * @todo check if the model is a rateable model.
+		 */
+		public function rate($id = null) {
 			$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
 			$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
 			$this->data['Rating']['class'] = isset($this->data['Rating']['class']) ? $this->data['Rating']['class']: ucfirst($this->params['plugin']).'.'.$this->modelClass;
@@ -330,19 +433,19 @@
 		}
 
 		/**
-		* Some global methods for admin
-		*/
+		 * Some global methods for admin
+		 */
 		/**
-		* get a list of all the plugins in the app
-		*/
-		function admin_getPlugins(){
+		 * get a list of all the plugins in the app
+		 */
+		public function admin_getPlugins(){
 			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getPlugins());
 		}
 
 		/**
-		* get a list of all the controllers for the selected plugin
-		*/
-		function admin_getControllers(){
+		 * get a list of all the controllers for the selected plugin
+		 */
+		public function admin_getControllers(){
 			if (!isset($this->params['named']['plugin'])) {
 				$this->set('json', array('error'));
 				return;
@@ -351,9 +454,9 @@
 		}
 
 		/**
-		* get a list of all the actions for the selected plugin + controller
-		*/
-		function admin_getActions(){
+		 * get a list of all the actions for the selected plugin + controller
+		 */
+		public function admin_getActions(){
 			if (!(isset($this->params['named']['plugin']) && isset($this->params['named']['controller'] ))) {
 				$this->set('json', array('error'));
 				return;
@@ -362,11 +465,11 @@
 		}
 
 		/**
-		* Create ACO's automaticaly
-		*
-		* http://book.cakephp.org/view/647/An-Automated-tool-for-creating-ACOs
-		*/
-		function admin_buildAcl() {
+		 * Create ACO's automaticaly
+		 *
+		 * http://book.cakephp.org/view/647/An-Automated-tool-for-creating-ACOs
+		 */
+		public function admin_buildAcl() {
 			if (!Configure::read('debug')) {
 				return $this->_stop();
 			}
@@ -464,7 +567,7 @@
 		 *
 		 * @return mixed
 		 */
-		function admin_mass() {
+		public function admin_mass() {
 			$massAction = $this->MassAction->getAction($this->params['form']);
 			$ids = $this->MassAction->getIds(
 				$massAction,
@@ -485,23 +588,76 @@
 		}
 
 		/**
+		 * Simple Admin add method.
+		 *
+		 * If you need simple Add method for your admin just dont create one and
+		 * it will fall back to this. It does the basics, saveAll with a
+		 * Session::setFlash() message.
+		 *
+		 * @todo sanitize input
+		 * @todo render generic view
+		 */
+		public function admin_add(){
+			if (!empty($this->data)) {
+				$this->{$this->__modelName}->create();
+				if ($this->{$this->modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
+					$this->redirect(array('action' => 'index'));
+				}
+
+				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
+			}
+		}
+
+		/**
+		 * Simple Admin edit method
+		 *
+		 * If you need simple Edit method for your admin just dont create one and
+		 * it will fall back to this. It does the basics, saveAll with a
+		 * Session::setFlash() message.
+		 *
+		 * @todo sanitize input
+		 * @todo render generic view
+		 *
+		 * @param mixed $id int | string (uuid) the id of the record to edit.
+		 */
+		public function admin_edit($id = null){
+			if(empty($this->data) && !$id){
+				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName));
+				$this->redirect($this->referer());
+			}
+
+			if (!empty($this->data)) {
+				if ($this->{$this->modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
+					$this->redirect(array('action' => 'index'));
+				}
+
+				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
+			}
+
+			if(empty($this->data) && $id){
+				$this->data = $this->{$this->__modelName}->read(null, $id);
+			}
+		}
+
+		/**
 		 * delete records.
 		 *
 		 * delete records throughout the app.
 		 *
 		 * @todo -c"AppController" Implement AppController.
-		 * - make a confirm if the js box does not happen. eg open delete in new
-		 *     window there is no confirm, just delete.
 		 * - undo thing... maybe save the whole record in the session and if click
 		 *     undo just save it back, or use soft delete and purge
 		 * @param mixed $id the id of the record.
 		 * @return n /a just redirects with different messages in {@see Session::setFlash}
 		 */
-		function admin_delete() {
+		public function admin_delete() {
 			try {
 				throw new Exception('Please use the delete through the mass action handler.');
 			} catch (Exception $e) {
 				echo 'Depreciated: ',  $e->getMessage(), ' Where: ', __METHOD__, ' Line: ',  __LINE__, "\n";
+				print_r(debug_backtrace());
 			}
 			exit;
 		}
@@ -518,7 +674,7 @@
 		 * @param int $id the id of the record to move.
 		 * @return does a redirect to the referer.
 		 */
-		function admin_reorder($id = null) {
+		public function admin_reorder($id = null) {
 			$model = $this->modelClass;
 
 			if (!$id) {
@@ -547,12 +703,5 @@
 			}
 
 			$this->redirect($this->referer());
-		}
-
-		/**
-		 * depreciated methods
-		 */
-		function admin_commentPurge($class = null) {
-			echo 'moved to comments';
 		}
 	}

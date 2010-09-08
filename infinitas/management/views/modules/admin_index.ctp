@@ -29,7 +29,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead($this, $paginator, $filterOptions, $massActions);
+        echo $this->Core->adminIndexHead($this, $filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
@@ -46,7 +46,7 @@
                     $this->Paginator->sort('Position', 'Position.name'),
                     $this->Paginator->sort('author'),
                     $this->Paginator->sort('licence') => array(
-                        'style' => 'width:75px;'
+                        'style' => 'width:90px;'
                     ),
                     $this->Paginator->sort('Group', 'Group.name') => array(
                         'style' => 'width:75px;'

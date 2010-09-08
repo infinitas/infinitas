@@ -105,4 +105,27 @@
 			}
 		?>
 	</table>
+	<?php
+		echo $this->StaticMap->draw(
+			array(
+				'location' => $branch['Address']['address'],
+				'size' => array(
+					'width' => '600',
+					'height' => '200'
+				),
+				'zoom' => 12,
+				'markers' => array(
+					array(
+						'size' => 'normal',
+						'color' => 'ff0000',
+						'label' => 'A',
+						'location' => $branch['Address']['address']
+					)
+				)
+			),
+			array(
+				'class' => 'map'
+			)
+		);
+	?>
 </div>

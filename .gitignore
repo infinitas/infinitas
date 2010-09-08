@@ -4,8 +4,9 @@ libs/cronjobs
 plugins/*
 tmp/*
 views/themed/*
-webroot/img/content/contact/*
-webroot/img/content/thinkmoney/*
+views/pages/*
+webroot/img/content/*
+webroot/*
 .gitignore
 
 # If you are using an ide other than below add ignores for the files it creates

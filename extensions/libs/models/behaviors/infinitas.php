@@ -1,8 +1,20 @@
 <?php
 	class InfinitasBehavior extends ModelBehavior {
-		var $_defaults = array();
+		/**
+		 * defaults for the model
+		 *
+		 * @var array
+		 * @access protected
+		 */
+		protected $_defaults = array();
 
-		var $blockedPlugins = array(
+		/**
+		 * plugins that will be removed from the plugin list
+		 *
+		 * @var array
+		 * @access public
+		 */
+		public $blockedPlugins = array(
 			'DebugKit',
 			'Filter',
 			'Libs'
@@ -12,9 +24,9 @@
 		 * JSON error messages.
 		 *
 		 * Set up some errors for json.
-		 * @access public
+		 * @access protected
 		 */
-		var $_json_messages = array(
+		protected  $_json_messages = array(
 		    JSON_ERROR_NONE      => 'No error',
 		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
 		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
@@ -23,15 +35,40 @@
 
 		/**
 		 * error messages from checking json
+		 *
+		 * @var array
+		 * @access private
 		 */
-		var $__jsonErrors = array();
+		private $__jsonErrors = array();
 
-		function setup(&$Model, $config = null) {
+		public function setup(&$Model, $config = null) {
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 			} else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
+		}
+
+		/**
+		 * Convinience method to get active records
+		 *
+		 * @var $Model object the current model
+		 * @var $active mixed int 1 / 0 or true false
+		 * @var $conditions normal find conditions
+		 *
+		 * @return the count of records
+		 */
+		public function getActive(&$Model, $active = true, $conditions = array()){
+			$conditions = array_merge(
+				array($Model->alias.'.active' => (int)(bool)$active),
+				(array)$conditions
+			);
+			return $Model->find(
+				'count',
+				array(
+					'conditions' => $conditions
+				)
+			);
 		}
 
 		/**
@@ -43,13 +80,24 @@
 		 * @return array list of tables.
 		 */
 		function getTables(&$Model, $connection = 'default'){
-			$this->db    = ConnectionManager::getDataSource($connection);
+			$this->db = ConnectionManager::getDataSource($connection);
+			if(!$this->db){
+				return false;
+			}
+			$tables = Cache::read($connection.'_tables', 'core');
+			if($tables != false){
+				return $tables;
+			}
+
 			$tables      = $this->db->query('SHOW TABLES;');
 			$databseName = $this->db->config['database'];
 
 			unset($this->db);
 
-			return Set::extract('/TABLE_NAMES/Tables_in_'.$databseName, $tables);
+			$tables = Set::extract('/TABLE_NAMES/Tables_in_'.$databseName, $tables);
+			Cache::write($connection.'_tables', $tables, 'core');
+
+			return $tables;
 		}
 
 		/**
@@ -147,11 +195,11 @@
 
 			foreach($data as $k => $v){
 				if(is_array($v)){
-					$data[$k] = $this->getJsonRecursive(&$Model, $v, $config, true);
+					$data[$k] = $this->getJsonRecursive($Model, $v, $config, true);
 				}
 
 				if(self::getJson(&$Model, $v, $config, false)){
-					$data[$k] = $this->getJson(&$Model, $v, $config, true);
+					$data[$k] = $this->getJson($Model, $v, $config, true);
 				}
 			}
 			return $data;
@@ -193,7 +241,7 @@
 		 *
 		 * @return array all the plugins in infinitas.
 		 */
-		function getPlugins($skipBlocked = true){
+		public function getPlugins($skipBlocked = true){
 			$plugins = Configure::listObjects('plugin');
 
 			if ($skipBlocked === false) {
@@ -220,7 +268,7 @@
 		*
 		* @return array a list of controllers that were found
 		*/
-		function getControllers(&$Model, $plugin){
+		public function getControllers(&$Model, $plugin){
 			$list = App::objects(
 				'controller',
 				array(App::pluginPath($plugin).'controllers'.DS),
@@ -247,7 +295,7 @@
 		 * @param string $plugin the plugin to search with
 		 * @param string $controller the controller to search with
 		 */
-		function getActions(&$Model, $plugin, $controller){
+		public function getActions(&$Model, $plugin, $controller){
 			App::import('Controller', $plugin.'.'.$controller);
 
 			$list = get_class_methods($controller.'Controller');
@@ -290,28 +338,18 @@
 		*
 		* seems like a method to call a function in a model via ajax mostly.
 		*/
-		function getList(&$Model, $plugin = null, $model = 'AppModel', $method = null, $conditions = array()){
-			if (!$model) {
-				return 'Config error!';
-			}
-
+		function getList(&$Model, $plugin = null, $model = null, $method = null, $conditions = array()){
 			$class = null;
-
-			if (!$plugin) {
-				$class = Infilector::classify($model);
+			if (!$plugin && $model) {
+				$class = Inflector::classify($model);
 			}
 
-			if (!$class) {
-				$class = Infilector::classify($plugin).'.'.Infilector::classify($model);
+			if (!$class && ($plugin && $model)) {
+				$class = Inflector::classify($plugin).'.'.Inflector::classify($model);
 			}
-
-			if ($model == 'AppModel') {
-				App::import('Appmodel', array('table' => false));
-				$this->Model = new AppModel();
-			}
-
-			if (!isset($this->AppModel) && $model != 'AppModel') {
-				$this->Model = ClassRegistry::init($class);
+			$this->Model = !empty($class) ? ClassRegistry::init($class) : $Model;
+			if(get_class($this->Model) == 'AppModel' && !$this->Model->useTable){
+				return false;
 			}
 
 			if ($method && method_exists($this->Model, $method)) {
@@ -322,12 +360,15 @@
 				return $this->Model->_getList($conditions);
 			}
 
-			return $this->find('list');
+			return $this->Model->find('list', array('conditions' => $conditions));
 		}
 
 		function validateJson(&$Model, $data = null, $field = null){
 			if (!$data) {
 				return false;
+			}
+			if(!is_array($data)){
+				$data = array($data);
 			}
 
 			return $this->getJson($Model, current($data), array(), false);

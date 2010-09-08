@@ -1,55 +1,27 @@
 <?php
-	/*
-		$debug = array();
-		foreach(debug_backtrace() as $backtrace){
-			if (isset($backtrace['file']) && strstr($backtrace['file'], '_events.php')) {
-				$debug[] = array(
-					'file' => $backtrace['file'],
-					'function' => $backtrace['function'],
-					'line' => $backtrace['line'],
-				);
-			}
-		}
-		pr($debug);
-	*/
-	class LibsEvents{
-
-		/**
-		 * Load the default cache settings.
-		 *
-		 * allows all the parts of the app to set up any cache configs that are
-		 * needed.
-		 *
-		 * Called in InfinitasComponent::initialize
-		 *
-		 * @return true
-		 */
-		function onSetupCache1(){
-			return true;
-		}
-
-		/**
-		 * Load config vars from the db.
-		 *
-		 * This gets all the config vars from the database and loads them in to the
-		 * {#see Configure} class to be used later in the app
-		 *
-		 * Called in InfinitasComponent::initialize
-		 *
-		 * @todo load the users configs also.
-		 *
-		 * @return true
-		 */
-		function onSetupConfig1(){
-			return true;
-		}
-
-		function onSetupThemeStart1(){
-			return true;
-		}
-
-		function onAttachBehaviors(&$event) {
+	class LibsEvents extends AppEvents{
+		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
+				
+				// attach the expandable (eva) behavior if there is a table for it
+				$attributesTable = Inflector::singularize($event->Handler->tablePrefix.$event->Handler->table).'_attributes';
+				if(in_array($attributesTable, $event->Handler->getTables($event->Handler->useDbConfig))){
+					$event->Handler->bindModel(
+						array(
+							'hasMany' => array(
+								$event->Handler->name.'Attribute' => array(
+									'className' => Inflector::camelize($attributesTable),
+									'foreignKey' => Inflector::underscore($event->Handler->name).'_id',
+									'dependent' => true
+								)
+							)
+						),
+						false
+					);
+
+					$event->Handler->Behaviors->attach('Libs.Expandable');
+				}
+				
 				if (array_key_exists('locked', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Lockable')) {
 					$event->Handler->Behaviors->attach('Libs.Lockable');
 				}
@@ -67,12 +39,12 @@
 					$event->Handler->Behaviors->attach('Libs.Sequence');
 				}
 
-				if (array_key_exists('rating', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
-					$event->Handler->Behaviors->attach('Libs.Rateable');
+				if (array_key_exists('views', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Viewable')) {
+					$event->Handler->Behaviors->attach('Libs.Viewable');
 				}
 
-				if (array_key_exists('comment_count', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Commentable')) {
-					$event->Handler->Behaviors->attach('Libs.Commentable');
+				if (array_key_exists('rating', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
+					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
 
 				if (array_key_exists('lft', $event->Handler->_schema) && array_key_exists('rght', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Tree')) {
@@ -84,5 +56,32 @@
 					$event->Handler->Behaviors->attach('Libs.Trashable');
 				}
 			}
+		}
+
+		public function onRequireComponentsToLoad(&$event){
+			return array(
+				'Libs.Infinitas',
+				'Session','RequestHandler', 'Auth', 'Acl', 'Security', // core general things from cake
+				'Libs.MassAction'
+			);
+		}
+
+		public function onRequireHelpersToLoad(&$event){
+			return array(
+				'Html', 'Form', 'Javascript', 'Session', 'Time', // core general things from cake
+				'Libs.Infinitas'				
+			);
+		}
+
+		public function onRequireJavascriptToLoad(){
+			return array(
+				'/libs/js/3rd/jquery',
+				'/libs/js/3rd/require',
+				'/libs/js/infinitas'
+			);
+		}
+
+		public function onRequireCssToLoad(){
+			return '/libs/css/jquery_ui';
 		}
 	}

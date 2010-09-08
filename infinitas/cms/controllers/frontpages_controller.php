@@ -18,7 +18,7 @@
 	*/
 
 	class FrontpagesController extends CmsAppController {
-		var $name = 'Frontpages';
+		public $name = 'Frontpages';
 
 		/**
 		* Helpers.
@@ -26,11 +26,9 @@
 		* @access public
 		* @var array
 		*/
-		var $helpers = array('Filter.Filter');
+		public $helpers = array('Filter.Filter');
 
-		function index() {
-			$this->Frontpage->recursive = 0;
-
+		public function index() {
 			$this->paginate = array(
 				'fields' => array(
 					'Frontpage.id',
@@ -41,35 +39,11 @@
 				),
 				'contain' => array(
 					'Content' => array(
-						'fields' => array(
-							'Content.id',
-							'Content.title',
-							'Content.slug',
-							'Content.body',
-							'Content.active',
-							'Content.created',
-							'Content.modified',
-						),
-						'Author' => array(
-							'fields' => array(
-								'Author.id',
-								'Author.username'
-							)
-						),
-						'Editor' => array(
-							'fields' => array(
-								'Editor.id',
-								'Editor.username'
-							)
-						),
-						'Category' => array(
-							'fields' => array(
-								'Category.id',
-								'Category.title',
-								'Category.slug'
-							)
-						),
-						'Feature'
+						'Author',
+						'Editor',
+						'Category',
+						'Feature',
+						'ContentComment'
 					)
 				)
 			);
@@ -80,7 +54,7 @@
 			$this->set('filterOptions', $this->Filter->filterOptions);
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->Frontpage->recursive = 0;
 
 			$this->paginate = array(
@@ -98,12 +72,7 @@
 							'Content.title',
 							'Content.active',
 						),
-						'Category' => array(
-							'fields' => array(
-								'Category.id',
-								'Category.title'
-							)
-						)
+						'Category'
 					)
 				)
 			);
@@ -120,7 +89,7 @@
 			$this->set('filterOptions', $filterOptions);
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Frontpage->create();
 				if ($this->Frontpage->save($this->data)) {

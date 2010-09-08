@@ -18,7 +18,7 @@
 	*/
 
 	class DATABASE_CONFIG {
-		var $default = array(
+		public $default = array(
 			'driver' => 'mysql',
 			'persistent' => true,
 			'host' => '{default_host}',
@@ -30,7 +30,7 @@
 			'encoding' => 'utf8'
 		);
 
-		var $test = array(
+		public $test = array(
 			'driver' => 'mysql',
 			'persistent' => true,
 			'host' => '{default_host}',
@@ -40,6 +40,14 @@
 			'prefix' => '',
 			'port' => '{default_port}',
 			'encoding' => 'utf8'
+		);
+
+		public $xml = array(
+			'datasource' => 'Libs.Xml'
+		);
+
+		public $json = array(
+			'datasource' => 'Libs.Json'
 		);
 	}
 ?>

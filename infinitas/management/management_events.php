@@ -1,6 +1,6 @@
 <?php
-	class ManagementEvents {
-		function onSetupCache(){
+	final class ManagementEvents extends AppEvents{
+		public function onSetupCache(){
 			return array(
 				'name' => 'core',
 				'config' => array(
@@ -13,56 +13,21 @@
 			);
 		}
 
-		function onSetupConfigStart(&$event, $data){
-			return $data;
-		}
-
-		function onSetupConfigEnd(&$event){
-		}
-
-		function onSetupThemeStart(&$event){
-			return true;
-		}
-
-		function onSetupThemeLayout(&$event, $data){
-			return $data['layout'];
-		}
-
-		function onSetupThemeSelector(&$event, $data){
-			return $data['theme'];
-		}
-
-		function onSetupThemeRoutes(&$event){
-			return true;
-		}
-
-		function onSetupThemeEnd(&$event, $data){
-			return $data['theme'];
-		}
-
-		function onFindBrowser(&$event){
-			return false;
-		}
-
-		function onFindOperatingSystem(&$event){
-			return false;
-		}
-
-		function onSlugUrl(&$event, $data){
+		public function onSlugUrl(&$event, $data){
 			switch($data['type']){
 				case 'comments':
 					return array(
-						'plugin' => $data['data']['plugin'],
-						'controller' => $data['data']['controller'],
+						'plugin' => 'management',
+						'controller' => 'comments',
 						'action' => $data['data']['action'],
 						'id' => $data['data']['id'],
-						'category' => 'news-feed'
+						'category' => 'user-feedback'
 					);
 					break;
 			} // switch
 		}
 
-		function onsetupRoutes(){
+		public function onSetupRoutes(){
 			Router::connect(
 				'/s/:code',
 				array(
@@ -75,13 +40,5 @@
 					'code' => '[0-9a-zA-Z]+'
 				)
 			);
-		}
-
-		function onUserRegistration(){
-
-		}
-
-		function onUserActivation(){
-
 		}
 	}

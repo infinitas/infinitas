@@ -18,7 +18,7 @@
 	*/
 
 	class ContentsController extends CmsAppController {
-		var $name = 'Contents';
+		public $name = 'Contents';
 
 		/**
 		* Helpers.
@@ -26,13 +26,13 @@
 		* @access public
 		* @var array
 		*/
-		var $helpers = array('Filter.Filter');
+		public $helpers = array('Filter.Filter');
 
-		function beforeFilter(){
+		public function beforeFilter(){
 			parent::beforeFilter();
 		}
 
-		function index() {
+		public function index() {
 			if(isset($this->params['id'])){
 				$ids = $this->Content->find(
 					'list',
@@ -53,6 +53,9 @@
 				);
 			}
 
+			$this->paginate['contain'][] = 'Category';
+			$this->paginate['contain'][] = 'ContentComment';
+
 			$this->Content->order = $this->Content->_order;
 			$contents = $this->paginate();
 
@@ -64,7 +67,7 @@
 			$this->set('contents', $this->paginate());
 		}
 
-		function view() {
+		public function view() {
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('Invalid content selected', true) );
 				$this->redirect($this->referer());
@@ -74,7 +77,7 @@
 			$this->render('view');
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->Content->recursive = 1;
 			$this->Content->order = $this->Content->_order;
 			$contents = $this->paginate(null, $this->Filter->filter);
@@ -91,7 +94,7 @@
 			$this->set(compact('contents','filterOptions'));
 		}
 
-		function admin_view($id = null) {
+		public function admin_view($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('Invalid content', true));
 				$this->redirect(array('action' => 'index'));
@@ -99,13 +102,20 @@
 			$this->set('content', $this->Content->read(null, $id));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Content->create();
-				if ($this->Content->saveAll($this->data)) {
+
+				if ($data = $this->Content->saveAll($this->data) == true) {
+					if($this->data['Content']['active']){
+						$this->Event->trigger('cmsContentAdded', array('event' => $this->Event, 'data' => $data));
+					}
+
 					$this->Session->setFlash(__('The content has been saved', true));
 					$this->redirect(array('action' => 'index'));
-				}else {
+				}
+
+				else {
 					$this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
 				}
 			}
@@ -116,19 +126,28 @@
 			$this->set(compact('groups','layouts'));
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			if (!$id && empty($this->data)) {
 				$this->Session->setFlash(__('Invalid content', true));
 				$this->redirect(array('action' => 'index'));
 			}
+
 			if (!empty($this->data)) {
-				if ($this->Content->saveAll($this->data)) {
+				if ($data = $this->Content->saveAll($this->data) == true) {
+					if($this->data['Content']['active']){
+						$this->Event->trigger('cmsContentAdded', array('event' => $this->Event, 'data' => $data));
+					}
+
+					
 					$this->Session->setFlash(__('The content has been saved', true));
 					$this->redirect(array('action' => 'index'));
-				}else {
+				}
+
+				else {
 					$this->Session->setFlash(__('The content could not be saved. Please, try again.', true));
 				}
 			}
+
 			if (empty($this->data)) {
 				$this->data = $this->Content->lock(null, $id);
 				if ($this->data === false) {

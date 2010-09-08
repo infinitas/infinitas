@@ -35,71 +35,32 @@
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->__paginationRecall();
-			$this->setupConfig();
+			$this->__registerPlugins();
 
 			$this->__checkBadLogins();
 			$this->__ipBlocker();
 
 			$this->setupTheme();
 			$this->loadCoreImages();
+			$this->__paginationRecall();
 
 			if (Configure::read('Website.force_www')) {
 				$this->forceWwwUrl();
 			}
 		}
 
-		/**
-		 * Set up system configuration.
-		 *
-		 * Load the default configuration and check if there are any configs
-		 * to load from the current plugin. configurations can be completely rewriten
-		 * or just added to.
-		 */
-		public function setupConfig(){
-			$this->configs = Cache::read('core_configs', 'core');
-
-			if (!$this->configs) {
-				$this->configs = ClassRegistry::init('Management.Config')->getConfig();
-			}
-
-			$eventData = $this->Controller->Event->trigger($this->Controller->plugin.'.setupConfigStart', $this->configs);
-			if (isset($eventData['setupConfigStart'][$this->Controller->plugin])){
-				$this->configs = (array)$eventData['setupConfigStart'][$this->Controller->plugin];
-
-				if (!array($this->configs)) {
-					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
+		private function __registerPlugins(){
+			/**
+			* wysiwyg editors
+			*/
+			$wysiwygEditors = Cache::read('wysiwyg_editors', 'core');
+			if($wysiwygEditors === false){
+				$eventData = $this->Controller->Event->trigger('registerWysiwyg');
+				if(is_array($eventData) && !empty($eventData)){
+					$editors = implode(',', current($eventData));
+					Cache::write('wysiwyg_editors', $editors, 'core');
 				}
 			}
-
-			$eventData = $this->Controller->Event->trigger($this->Controller->plugin.'.setupConfigEnd');
-			if (isset($eventData['setupConfigEnd'][$this->Controller->plugin])){
-				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->Controller->plugin];
-			}
-
-			if (!$this->_writeConfigs()) {
-				$this->cakeError('configError', array('message' => 'Config was not written'));
-			}
-		}
-
-		/**
-		 * Write the configuration.
-		 *
-		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
-		 */
-		function _writeConfigs(){
-			if (empty($this->configs)) {
-				return false;
-			}
-
-			foreach($this->configs as $config) {
-				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
-					continue;
-				}
-				Configure::write($config['Config']['key'], $config['Config']['value']);
-			}
-
-			return true;
 		}
 
 		/**
@@ -486,6 +447,48 @@
 		}
 
 		/**
+		 * triggers an event to get all the helpers
+		 */
+		public function getPluginHelpers(){
+			$data = $this->Controller->Event->trigger('requireHelpersToLoad');
+			
+			if(isset($data['requireHelpersToLoad']['libs'])){
+				$libs['libs'] = $data['requireHelpersToLoad']['libs'];
+				$data['requireHelpersToLoad'] = $libs + $data['requireHelpersToLoad'];
+			}
+			
+			foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
+				if(!is_array($helpers)){
+					$helpers = array($helpers);
+				}
+
+				$this->Controller->helpers = array_merge($this->Controller->helpers, $helpers);
+			}
+		}
+
+		public function getPluginAssets(){
+			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
+			if(isset($event['requireJavascriptToLoad']['libs'])){
+				$libs['libs'] = $event['requireJavascriptToLoad']['libs'];
+				$event['requireJavascriptToLoad'] = $libs + $event['requireJavascriptToLoad'];
+			}
+
+			if(is_array($event) && !empty($event)){
+				$this->Controller->addJs(current($event));
+			}
+			
+			$event = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
+			if(isset($event['requireCssToLoad']['libs'])){
+				$libs['libs'] = $event['requireCssToLoad']['libs'];
+				$event['requireCssToLoad'] = $libs + $event['requireCssToLoad'];
+			}
+
+			if(is_array($event) && !empty($event)){
+				$this->Controller->addCss(current($event));
+			}
+		}
+
+		/**
 		* Set some data for the infinitas js lib.
 		*/
 		function _setupJavascript(){
@@ -605,7 +608,14 @@
 				}
 			}
 
+			$this->addToPaginationRecall($options);
+		}
+
+		public function addToPaginationRecall($options = array(), $controller = null){
 			//save the options into the session
+			if($controller){
+				$this->Controller = &$controller;
+			}
 			if ($options) {
 				if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
 					$options = array_merge($this->Session->read("Pagination.{$this->Controller->modelClass}.options"), $options);
