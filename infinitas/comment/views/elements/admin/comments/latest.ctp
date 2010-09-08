@@ -4,8 +4,7 @@
 			<div class="comment">
 				<div class="gravitar"><?php echo $this->Gravatar->image($comment['Comment']['email'], array('size' => '50')); ?></div>
 				<div class="text">
-					<h3><?php echo $this->Html->link($comment['Comment']['name'], $comment['Comment']['website'], array('target' => '_blank')); ?></h3>
-					<p><?php echo $comment['Comment']['comment']; ?></p>
+					<p><?php echo $this->Text->truncate($comment['Comment']['comment'], 200); ?></p>
 					<div class="actions">
 						<?php
 							$toggleText = $comment['Comment']['active'] ? 'Deactivate' : 'Activate';

@@ -27,7 +27,7 @@
 		);
 
 		function admin_dashboard() {
-			$Comment = ClassRegistry::init('Management.Comment');
+			$Comment = ClassRegistry::init('Comment.Comment');
 			$User    = ClassRegistry::init('Management.User');
 			$data['latestComment'] = $Comment->latestComments();
 			$data['latestUser']    = $User->latestUsers();
