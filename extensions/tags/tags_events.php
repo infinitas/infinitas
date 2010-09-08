@@ -10,6 +10,10 @@
 			}
 		}
 
+		public function onRequireHelpersToLoad(){
+			return 'Tags.TagCloud';
+		}
+
 		public function onRequireJavascriptToLoad(&$event){
 			return array(
 				'/tags/js/jq-tags',
