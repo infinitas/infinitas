@@ -102,4 +102,24 @@
 
 			return $data;
 		}
+
+		public function getMostViewed(&$Model, $limit = 10){
+			return $Model->find(
+				'all',
+				array(
+					'fields' => array(
+						$Model->alias.'.id',
+						$Model->alias.'.'.$Model->displayField,
+						$Model->alias.'.views'
+					),
+					'conditions' => array(
+						$Model->alias.'.views > ' => 0
+					),
+					'order' => array(
+						$Model->alias.'.views' => 'DESC'
+					),
+					'limit' => $limit
+				)
+			);
+		}
 	}
