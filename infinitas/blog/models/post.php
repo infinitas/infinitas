@@ -232,22 +232,22 @@
 				array(
 					'conditions' => array(
 						'Post.active' => $active
-						),
+					),
 					'limit' => $limit,
 					'order' => array(
 						'Post.created' => 'DESC'
-						)
 					)
-				);
+				)
+			);
 
 			$posts['countAll'] = $this->find(
 				'count',
 				array(
 					'conditions' => array(
 						'Post.active' => $active
-						)
 					)
-				);
+				)
+			);
 
 			Cache::write($cacheName, $posts, 'blog');
 
