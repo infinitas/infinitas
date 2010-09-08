@@ -51,11 +51,6 @@
 			}
 
 			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], ife(is_array($settings), $settings, array()));
-
-			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']){
-				$this->Session = new CakeSession();
-				$this->__session[$Model->alias] = $this->Session->read('Viewable.'.$Model->alias);
-			}
 		}
 
 		/**
@@ -69,6 +64,11 @@
 			// skip finds with more than one result.
 			if (isset($data[0]) && count($data) > 1) {
 				return $data;
+			}
+			
+			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']){
+				$this->Session = new CakeSession();
+				$this->__session[$Model->alias] = $this->Session->read('Viewable.'.$Model->alias);
 			}
 
 			if (isset($data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']])) {
