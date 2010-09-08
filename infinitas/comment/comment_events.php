@@ -55,7 +55,7 @@
 						false
 					);
 					
-					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')){
+					if(!$event->Handler->Behaviors->enabled('Comment.Commentable')){
 						$event->Handler->Behaviors->attach('Comment.Commentable');
 					}
 				}
