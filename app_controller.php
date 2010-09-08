@@ -85,8 +85,7 @@
 						'admin'
 					)
 				);
-
-				if($this->params['controller'] !== 'upgrade'){
+				if($this->Session->read('Auth.User.id') && $this->params['controller'] !== 'upgrade'){
 					$this->Infinitas->checkDbVersion();
 				}
 			}
