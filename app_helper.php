@@ -101,8 +101,8 @@
 				return false;
 			}
 
-			$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin.' ' : '';
-			return '<div class="top-bar"><h1>' . __(prettyName($plugin).prettyName($view->name).' Manager', true) . '</h1>' .
+			$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin : '';
+			return '<div class="top-bar"><h1>' . sprintf(__('%s %s Manager', true), prettyName($plugin), prettyName($view->name)) . '</h1>' .
 			'<div class="breadcrumbs">' . $this->breadcrumbs($view) . '</div></div>';
 		}
 
@@ -153,7 +153,9 @@
 				return false;
 			}
 
-			App::import('Helper', 'FilterHelper');
+			if(!class_exists('FilterHelper')){
+				App::import('Helper', 'FilterHelper');
+			}
 
 			$filters = $this->Design->niceBox(
 				'filter',
