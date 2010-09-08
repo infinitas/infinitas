@@ -1,8 +1,20 @@
 <?php
 	class InfinitasBehavior extends ModelBehavior {
-		var $_defaults = array();
+		/**
+		 * defaults for the model
+		 *
+		 * @var array
+		 * @access protected
+		 */
+		protected $_defaults = array();
 
-		var $blockedPlugins = array(
+		/**
+		 * plugins that will be removed from the plugin list
+		 *
+		 * @var array
+		 * @access public
+		 */
+		public $blockedPlugins = array(
 			'DebugKit',
 			'Filter',
 			'Libs'
@@ -12,9 +24,9 @@
 		 * JSON error messages.
 		 *
 		 * Set up some errors for json.
-		 * @access public
+		 * @access protected
 		 */
-		var $_json_messages = array(
+		protected  $_json_messages = array(
 		    JSON_ERROR_NONE      => 'No error',
 		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
 		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
@@ -23,8 +35,11 @@
 
 		/**
 		 * error messages from checking json
+		 *
+		 * @var array
+		 * @access private
 		 */
-		var $__jsonErrors = array();
+		private $__jsonErrors = array();
 
 		public function setup(&$Model, $config = null) {
 			if (is_array($config)) {
