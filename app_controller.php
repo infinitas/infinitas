@@ -282,7 +282,7 @@
 					if(!is_array($components)){
 						$components = array($components);
 					}
-					$this->components = array_merge($this->components, $components);
+					$this->components = array_merge((array)$this->components, (array)$components);
 				}
 			}
 
