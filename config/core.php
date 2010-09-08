@@ -221,7 +221,7 @@
 	Configure::write('Acl.classname', 'DbAcl');
 	Configure::write('Acl.database', 'default');
 
-	Configure::write('Cache.engine', 'NamespaceFile');
+	Configure::write('Cache.engine', 'Libs.NamespaceFile');
 
 	/**
 	 * If you are on PHP 5.3 uncomment this line and correct your server timezone
