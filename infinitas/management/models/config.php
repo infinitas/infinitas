@@ -273,4 +273,36 @@
 			echo '</table>';
 			exit;
 		}
+
+		/**
+		 * Just for generating code for the configs, can be used in the dev installer
+		 * plugin stuff to avoid typing out stuff.
+		 */
+		private function __generateCode(){
+			if(is_bool($config['Config']['value'])){
+				if($config['Config']['value']){
+					$_config = 'true';
+				}
+				else{
+					$_config = 'false';
+				}
+			}
+
+			else if(is_array($config['Config']['value'])){
+				$_config = 'array(';
+					foreach($config['Config']['value'] as $k => $v){
+						$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
+						$_config .= '=> \''.$v.'\',';
+					}
+				$_config .= ')';
+			}
+			else if(is_string($config['Config']['value'])){
+				$_config = '\''.$config['Config']['value'].'\'';
+			}
+			else{
+				$_config = $config['Config']['value'];
+			}
+
+			pr('Configure::write(\''.$config['Config']['key'].'\', '.$_config.');');
+		}
 	}

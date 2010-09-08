@@ -1,5 +1,9 @@
 <?php
 	final class CmsEvents extends AppEvents{
+		public function onSetupConfig(){
+			return Configure::load('cms.config');
+		}
+		
 		public function onSetupCache(){
 			return array(
 				'name' => 'cms',

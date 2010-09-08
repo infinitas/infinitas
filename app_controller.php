@@ -298,27 +298,27 @@
 		 * or just added to.
 		 */
 		private function __setupConfig(){
-			$this->configs = ClassRegistry::init('Management.Config')->getConfig();
+			$configs = ClassRegistry::init('Management.Config')->getConfig();
 			
-			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $this->configs);
+			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $configs);
 			if (isset($eventData['setupConfigStart'][$this->plugin])){
-				$this->configs = (array)$eventData['setupConfigStart'][$this->plugin];
+				$configs = (array)$eventData['setupConfigStart'][$this->plugin];
 
-				if (!array($this->configs)) {
+				if (!array($configs)) {
 					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
 				}
 			}
 
 			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigEnd');
 			if (isset($eventData['setupConfigEnd'][$this->plugin])){
-				$this->configs = $this->configs + (array)$eventData['setupConfigEnd'][$this->plugin];
+				$configs = $configs + (array)$eventData['setupConfigEnd'][$this->plugin];
 			}
 
-			if (!$this->__writeConfigs()) {
+			if (!$this->__writeConfigs($configs)) {
 				$this->cakeError('configError', array('message' => 'Config was not written'));
 			}
 			
-			unset($this->configs, $eventData);
+			unset($configs, $eventData);
 		}
 
 		/**
@@ -326,12 +326,8 @@
 		 *
 		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
 		 */
-		private function __writeConfigs(){
-			if (empty($this->configs)) {
-				return false;
-			}
-
-			foreach($this->configs as $config) {
+		private function __writeConfigs($configs){
+			foreach($configs as $config) {
 				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
 					$config['Config']['key'] = isset($config['Config']['key']) ? $config['Config']['key'] : 'NOT SET';
 					$config['Config']['value'] = isset($config['Config']['key']) ? $config['Config']['value'] : 'NOT SET';

@@ -21,6 +21,10 @@
 	 */
 
 	 final class NewsletterEvents extends AppEvents{
+		 public function onSetupConfig(){
+			 return Configure::load('newsletter.config');
+		 }
+		 
 		 public function onRequireComponentsToLoad(){
 			 return 'Newsletter.Emailer';
 		 }

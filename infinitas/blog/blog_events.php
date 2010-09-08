@@ -1,5 +1,9 @@
 <?php
 	final class BlogEvents extends AppEvents{
+		public function onSetupConfig(){
+			return Configure::load('blog.config');
+		}
+		
 		public function onSetupCache(){
 			return array(
 				'name' => 'blog',

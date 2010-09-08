@@ -86,8 +86,6 @@
 		 */
 		public function onSlugUrl(&$event, $data = null){}
 
-		public function onSetupConfigStart(&$event, $data = null){}
-		
 		/**
 		 * Load config vars from the db.
 		 *
@@ -99,6 +97,8 @@
 		 * @return true
 		 */
 		public function onSetupConfig(&$event, $data = null){}
+
+		public function onSetupConfigStart(&$event, $data = null){}
 		
 		#public function onSetupConfigEnd(&$event, $data = null){}
 

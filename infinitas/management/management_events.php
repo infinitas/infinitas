@@ -1,5 +1,9 @@
 <?php
 	final class ManagementEvents extends AppEvents{
+		public function onSetupConfig(){
+			return Configure::load('management.config');
+		}
+
 		public function onSetupCache(){
 			return array(
 				'name' => 'core',

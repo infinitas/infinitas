@@ -19,6 +19,9 @@
 	 */
 
 	 final class CommentEvents extends AppEvents{
+		public function onSetupConfig(){
+			return Configure::load('comment.config');
+		}
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model')) {
 				if ($event->Handler->hasField('comment_count')) {					
