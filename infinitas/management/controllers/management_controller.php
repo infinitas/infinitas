@@ -43,7 +43,7 @@
 			$data['Count']['Post']['pending'] = $Post->getActive(false);
 			$data['Count']['Post']['total']  = array_sum($data['Count']['Post']);
 
-			$Content                             = ClassRegistry::init('Cms.Content');
+			$Content = ClassRegistry::init('Cms.Content');
 			$data['Count']['Content']['active']  = $Content->getActive();
 			$data['Count']['Content']['pending'] = $Content->getActive(false);
 			$data['Count']['Content']['total'] = array_sum($data['Count']['Content']);
@@ -53,18 +53,17 @@
 
 			switch(Configure::read('Website.admin_quick_post')){
 				case 'cms':
-					$categories = ClassRegistry::init('Cms.Content')->generateCategoryList();
-					$groups     = ClassRegistry::init('Management.Group')->find('list');
-					$layouts    = ClassRegistry::init('Cms.Layout')->find('list');
-					$this->set(compact('categories', 'groups', 'layouts'));
+					$categories = $Content->generateCategoryList();
+					$groups     = $User->Group->find('list');
+					$layouts    = $Content->Layout->find('list');
+					$this->set(compact('groups', 'layouts'));
 					break;
 
 				case 'blog':
-					$categories = ClassRegistry::init('Blog.Post')->generateCategoryList();
-					$this->set(compact('categories'));
+					$categories = $Post->generateCategoryList();
 					break;
 			} // switch
 
-			$this->set(compact('data'));
+			$this->set(compact('data', 'categories'));
 		}
 	}
