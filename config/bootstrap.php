@@ -145,13 +145,13 @@
 	 * get the current memory stats
 	 */
 	function memoryUsage(){
-	pr(
-		array(
-			'current' => convert(memory_get_usage()),
-			'current_t' => convert(memory_get_usage(true)),
-			'max' => convert(memory_get_peak_usage()),
-			'max_' => convert(memory_get_peak_usage(true)),
-			'limit' => ini_get('memory_limit')
-		)
-	);
-}
+		pr(
+			array(
+				'current' => convert(memory_get_usage()),
+				'current_t' => convert(memory_get_usage(true)),
+				'max' => convert(memory_get_peak_usage()),
+				'max_' => convert(memory_get_peak_usage(true)),
+				'limit' => ini_get('memory_limit')
+			)
+		);
+	}
