@@ -50,6 +50,28 @@
 		}
 
 		/**
+		 * Convinience method to get active records
+		 *
+		 * @var $Model object the current model
+		 * @var $active mixed int 1 / 0 or true false
+		 * @var $conditions normal find conditions
+		 *
+		 * @return the count of records
+		 */
+		public function getActive(&$Model, $active = true, $conditions = array()){
+			$conditions = array_merge(
+				array($Model->alias.'.active' => (int)(bool)$active),
+				(array)$conditions
+			);
+			return $Model->find(
+				'count',
+				array(
+					'conditions' => $conditions
+				)
+			);
+		}
+
+		/**
 		 * Get all the tables
 		 *
 		 * @param array $Model
