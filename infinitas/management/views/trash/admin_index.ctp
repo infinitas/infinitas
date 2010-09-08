@@ -26,7 +26,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+        echo $this->Core->adminIndexHead( $this, $filterOptions, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">

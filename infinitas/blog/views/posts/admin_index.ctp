@@ -28,7 +28,7 @@
                 'delete'
             )
         );
-        echo $this->Blog->adminIndexHead($this, $paginator, $filterOptions, $massActions);
+        echo $this->Blog->adminIndexHead($this, $filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
@@ -39,7 +39,7 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $paginator->sort('title') => array(
+                    $this->Paginator->sort('title') => array(
                         'style' => 'width:150px;'
                     ),
                     __('Introduction', true),

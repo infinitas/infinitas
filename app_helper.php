@@ -147,7 +147,7 @@
 			return '<thead>'.$out.'<thead>'. (($footer) ? '<tfoot>'.$out.'</tfoot>' : '');
 		}
 
-		function adminIndexHead($view = array(), $pagintion = array(), $filterOptions = array(), $massActions = null) {
+		function adminIndexHead($view = array(), $filterOptions = array(), $massActions = null) {
 			if (empty($view)) {
 				$this->errors[] = 'I need the view.';
 				return false;

@@ -30,7 +30,7 @@
                 'delete'
             )
         );
-        echo $this->Letter->adminIndexHead($this, $paginator, $filterOptions, $massActions);
+        echo $this->Letter->adminIndexHead($this, $filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">

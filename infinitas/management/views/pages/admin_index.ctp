@@ -31,7 +31,7 @@
 		)
 	);
 
-	echo $this->Core->adminIndexHead( $this, $paginator, $filterOptions, $massActions );
+	echo $this->Core->adminIndexHead( $this, $filterOptions, $massActions );
 
 	if(!$writable){ ?>
 		<div class="error-message">
