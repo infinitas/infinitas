@@ -9,10 +9,10 @@
     	</title>
         <?php
             echo $this->Html->meta('icon');
-            echo $html->css( 'front' );
-            echo $html->css( '/core/css/geshi' );
+
+            echo $html->css(array('front') + $css_for_layout);
+    		echo $this->Html->script($js_for_layout);
     		echo $scripts_for_layout;
-    		echo $javascript->link( 'fckeditor' );
         ?>
     </head>
     <body>
