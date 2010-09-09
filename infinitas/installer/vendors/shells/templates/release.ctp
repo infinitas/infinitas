@@ -25,7 +25,15 @@ class <?php echo $class; ?> extends CakeRelease {
  * @var string
  * @access public
  */
-	public $description = '';
+	public $description = 'Migration for <?php echo $plugin; ?> version <?php echo $version ?>';
+
+/**
+ * Plugin name
+ *
+ * @var string
+ * @access public
+ */
+	public $plugin = '<?php echo $plugin ?>';
 
 /**
  * Actions to be performed

@@ -239,7 +239,9 @@ class ReleaseShell extends Shell {
 	private function __writeRelease($plugin, $options = array()) {
 		extract(array_merge(array('fixtures' => null), $options));
 
-		$content = $this->__generateTemplate('release', array('name' => $name, 'class' => $class, 'migration' => $schemaMigration, 'fixtures' => $fixtures));
+		$vars = array_merge($this->__info[$plugin], array('releaseName' => $name, 'class' => $class, 'migration' => $schemaMigration, 'fixtures' => $fixtures, 'plugin' => $plugin));
+
+		$content = $this->__generateTemplate('release', $vars);
 
 		$File = new File($this->configPath . 'releases' . DS . $name . '.php', true);
 		return $File->write($content);
