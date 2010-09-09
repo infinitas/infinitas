@@ -462,7 +462,7 @@
 					$helpers = array($helpers);
 				}
 
-				$this->Controller->helpers = array_merge($this->Controller->helpers, $helpers);
+				$this->Controller->helpers = array_merge($this->Controller->helpers, array_filter($helpers));
 			}
 		}
 
