@@ -77,16 +77,6 @@
 		public function onSetupCache(&$event, $data = null){}
 
 		/**
-		 * Slug urls.
-		 *
-		 * Use this method to figure out what vars are needed for the
-		 * controller / action pair you need to get to. You  will get some data,
-		 * normally in the form of Model::find(first) that you can use.
-		 *
-		 */
-		public function onSlugUrl(&$event, $data = null){}
-
-		/**
 		 * Load config vars from the db.
 		 *
 		 * This gets all the config vars from the database and loads them in to the
@@ -100,17 +90,7 @@
 
 		public function onSetupConfigStart(&$event, $data = null){}
 		
-		#public function onSetupConfigEnd(&$event, $data = null){}
-
-		#public function onSetupThemeStart(&$event, $data = null){}
-
-		#public function onSetupThemeSelector(&$event, $data = null){}
-
-		#public function onSetupThemeEnd(&$event, $data = null){}
-
-		#public function onFindBrowser(&$event, $data = null){}
-
-		#public function onFindOperatingSystem(&$event, $data = null){}
+		public function onSetupConfigEnd(&$event, $data = null){}
 
 		/**
 		 * Adding routes
@@ -123,6 +103,30 @@
 		 */
 		public function onSetupRoutes(&$event, $data = null){}
 
+
+
+
+
+
+
+		/**
+		 *
+		 */
+		public function onAttachBehaviors(&$event = null){}
+
+
+
+
+		#public function onSetupThemeStart(&$event, $data = null){}
+
+		#public function onSetupThemeSelector(&$event, $data = null){}
+
+		#public function onSetupThemeEnd(&$event, $data = null){}
+
+		#public function onFindBrowser(&$event, $data = null){}
+
+		#public function onFindOperatingSystem(&$event, $data = null){}
+
 		#public function onSetupThemeLayout(&$event, $data = null){}
 
 		#public function onUserLogin(&$event, $data = null){}
@@ -130,6 +134,19 @@
 		#public function onUserRegistration(&$event, $data = null){}
 
 		#public function onUserActivation(&$event, $data = null){}
+
+		/**
+		 * Require Global templates used in page rendering.
+		 *
+		 * This is called just before a page is rendered by the InfinitasView
+		 * and takes an array of items to add. Its used for adding global pieces
+		 * to your template.
+		 *
+		 * if you pass back array('phone' => '012 345 6789') from foo plugin
+		 * you can use {{templates.foo.phone}} in your views to show your phone
+		 * number.
+		 */
+		public function onRequireGlobalTemplates(&$event){}
 
 		/**
 		 * Load helpers.
@@ -187,20 +204,12 @@
 		}
 
 		/**
+		 * Slug urls.
+		 *
+		 * Use this method to figure out what vars are needed for the
+		 * controller / action pair you need to get to. You  will get some data,
+		 * normally in the form of Model::find(first) that you can use.
 		 *
 		 */
-		public function onAttachBehaviors(&$event = null){}
-
-		/**
-		 * Require Global templates used in page rendering.
-		 *
-		 * This is called just before a page is rendered by the InfinitasView
-		 * and takes an array of items to add. Its used for adding global pieces
-		 * to your template.
-		 *
-		 * if you pass back array('phone' => '012 345 6789') from foo plugin
-		 * you can use {{templates.foo.phone}} in your views to show your phone
-		 * number.
-		 */
-		public function onRequireGlobalTemplates(&$event){}
+		public function onSlugUrl(&$event, $data = null){}
 	}
