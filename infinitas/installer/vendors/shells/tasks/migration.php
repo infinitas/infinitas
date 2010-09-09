@@ -42,6 +42,7 @@ class MigrationTask extends Shell {
 		}
 
 		if(isset($schema)) {
+			$schema['name'] = $plugin;
 			$this->Schema->write($schema);
 		}
 
@@ -157,6 +158,7 @@ class MigrationTask extends Shell {
  */
 	protected function _readSchema() {
 		$read = $this->Schema->read(array('models' => !isset($this->params['f']), 'ignoreRelations' => true, 'ignorePrefix' => true));
+
 		if ($this->type !== 'migrations') {
 			unset($read['tables']['schema_migrations']);
 		}

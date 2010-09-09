@@ -1,9 +1,16 @@
 <?php
 
 class ReleaseShell extends Shell {
+	public $tasks = array('Migration', 'Fixture');
 	private $__info = array();
 	private $__models = array();
-	public $tasks = array('Migration', 'Fixture');
+	private $__options = array(
+		'name',
+		'author',
+		'email',
+		'website',
+		'version'
+	);
 
 	public function main() {
 		do {
@@ -15,7 +22,7 @@ class ReleaseShell extends Shell {
 			$this->out('Plugin [A]dd-on');
 			$this->out('[Q]uit');
 
-			$input = strtoupper($this->in('What do you wish to release?'));
+			$input = strtoupper($this->in('What do yolu wish to release?'));
 
 			switch ($input) {
 				case 'P':
@@ -38,24 +45,34 @@ class ReleaseShell extends Shell {
 	}
 
 	public function plugin() {
-		do {
-			$this->out("Select plugin");
-			$this->hr();
+		$plugins = $this->__getPluginList(isset($this->params['all']) || isset($this->params['name']));
 
-			$plugins = $this->__getPluginList(isset($this->params['all']));
-			foreach($plugins as $key => $plugin) {
-				$this->out($key+1 . '. ' . $plugin);
-			}
+		if(isset($this->params['name'])) {
+			$plugin = Inflector::classify($this->params['name']);
 
-			$plugin = $this->in('Which plugin do you want to create a new release for (nothing to return)?') - 1;
+			if(in_array($plugin, $plugins)) {
+				$this->__generateRelease($plugin);
+			}
+		}
+		else {
+			do {
+				$this->out("Select plugin");
+				$this->hr();
 
-			if($plugin < 0) {
-				return;
-			}
-			elseif(isset($plugins[$plugin])) {
-				$this->__generateRelease($plugins[$plugin]);
-			}
-		} while($plugin > 0);
+				foreach($plugins as $key => $plugin) {
+					$this->out($key+1 . '. ' . $plugin);
+				}
+
+				$plugin = $this->in('Which plugin do you want to create a new release for (nothing to return)?') - 1;
+
+				if($plugin < 0) {
+					return;
+				}
+				elseif(isset($plugins[$plugin])) {
+					$this->__generateRelease($plugins[$plugin]);
+				}
+			} while($plugin > 0);
+		}
 	}
 
 	/**
@@ -73,8 +90,7 @@ class ReleaseShell extends Shell {
 		$infinitasPlugins = array();
 		foreach($plugins as $plugin) {
 			$pluginPath = str_replace(APP, '', App::pluginPath($plugin));
-
-			if(stristr($pluginPath, 'plugins')) {
+			if(strpos($pluginPath, 'plugins') === 0) {
 				$infinitasPlugins[] = $plugin;
 			}
 		}
@@ -131,33 +147,39 @@ class ReleaseShell extends Shell {
 				$this->out('Generating fixtures...');
 				$fixtures = $this->Fixture->generate($this->__models[$plugin], $plugin);
 
-				$class = 'R' . str_replace('-', '', String::uuid());
-				$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info[$plugin]['version'])), 4, '0', STR_PAD_LEFT) . '_' . Inflector::underscore($plugin);
-
-				$this->out('Writing config...');
-				$this->__writeConfig($plugin);
-
-				$this->out('Writing release file...');
-				$this->__writeRelease($plugin, $class, $name, $schemaMigration, $fixtures);
-
-				$this->out('Writing release map...');
-				$version = 1;
-				$map = array();
-				if (file_exists($this->configPath . 'releases' . DS . 'map.php')) {
-					include $this->configPath . 'releases' . DS . 'map.php';
-					ksort($map);
-					end($map);
-
-					list($version) = each($map);
-					$version++;
-				}
-				$map[$version] = array($name => $class);
-
-				$this->_writeMap($map);
-
-				$this->out('Done.');
+				$this->__writeOutput($plugin, compact('schemaMigration', 'fixtures'));
 			}
 		}
+	}
+
+	private function __writeOutput($plugin, $options = array()) {
+		extract($options);
+		
+		$class = 'R' . str_replace('-', '', String::uuid());
+		$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info[$plugin]['version'])), 4, '0', STR_PAD_LEFT) . '_' . Inflector::underscore($plugin);
+
+		$this->out('Writing config...');
+		$this->__writeConfig($plugin);
+
+		$this->out('Writing release file...');
+		$this->__writeRelease($plugin, compact('class', 'name', 'schemaMigration', 'fixtures'));
+
+		$this->out('Writing release map...');
+		$version = 1;
+		$map = array();
+		if (file_exists($this->configPath . 'releases' . DS . 'map.php')) {
+			include $this->configPath . 'releases' . DS . 'map.php';
+			ksort($map);
+			end($map);
+
+			list($version) = each($map);
+			$version++;
+		}
+		$map[$version] = array($name => $class);
+
+		$this->_writeMap($map);
+
+		$this->out('Done.');
 	}
 
 	private function __updatePlugin($plugin) {
@@ -198,6 +220,12 @@ class ReleaseShell extends Shell {
 			do {
 				$this->__info[$plugin]['version'] = $this->in('You are required to enter a new version number.');
 			} while($this->__info[$plugin]['version'] == $currentVersion || $this->__info[$plugin]['version'] == '');
+
+
+			$this->out('Generating migration...');
+			$schemaMigration = $this->Migration->generate($plugin);
+
+			$this->__writeOutput($plugin, compact('schemaMigration', 'fixtures'));
 		}
 	}
 
@@ -208,8 +236,10 @@ class ReleaseShell extends Shell {
 		return $File->write($jsonConfig);
 	}
 
-	private function __writeRelease($plugin, $class, $name, $migration, $fixtures = null) {
-		$content = $this->__generateTemplate('release', array('name' => $name, 'class' => $class, 'migration' => $migration, 'fixtures' => $fixtures));
+	private function __writeRelease($plugin, $options = array()) {
+		extract(array_merge(array('fixtures' => null), $options));
+
+		$content = $this->__generateTemplate('release', array('name' => $name, 'class' => $class, 'migration' => $schemaMigration, 'fixtures' => $fixtures));
 
 		$File = new File($this->configPath . 'releases' . DS . $name . '.php', true);
 		return $File->write($content);
@@ -303,11 +333,9 @@ class ReleaseShell extends Shell {
 
 	private function __displayPluginInformation($plugin, $asMenu = false) {
 		$this->out('Plugin internal name: ' . $plugin);
-		$this->out(($asMenu ? '1. ' : '') . 'Plugin name:          ' . $this->__info[$plugin]['name']);
-		$this->out(($asMenu ? '2. ' : '') . 'Author name:          ' . $this->__info[$plugin]['author']);
-		$this->out(($asMenu ? '3. ' : '') . 'Author email address: ' . $this->__info[$plugin]['email']);
-		$this->out(($asMenu ? '4. ' : '') . 'Plugin website:       ' . $this->__info[$plugin]['website']);
-		$this->out('Plugin version:       ' . $this->__info[$plugin]['version']);
+		foreach($this->__options as $option) {
+			$this->out('Plugin ' . $option . ":\t" . $this->__info[$plugin][$option]);
+		}
 	}
 
 	private function __displayDependancies($plugin, $asMenu = false) {
@@ -378,11 +406,10 @@ class ReleaseShell extends Shell {
 	}
 
 	private function __initialPluginInfo($plugin) {
-		$this->__info[$plugin]['name'] = $this->in("Enter the name your plugin will be known as\n(I.E. what it will display in the Infinitas plugin manager).", null, isset($this->__info[$plugin]['name']) ? $this->__info[$plugin]['name'] : $plugin);
-		$this->__info[$plugin]['author'] = $this->in('Enter the plugin author name.', null, isset($this->__info[$plugin]['author']) ? $this->__info[$plugin]['author'] : null);
-		$this->__info[$plugin]['email'] = $this->in('Enter the plugin author email address.', null, isset($this->__info[$plugin]['email']) ? $this->__info[$plugin]['email'] : null);
-		$this->__info[$plugin]['website'] = $this->in('Enter the plugin website.', null, isset($this->__info[$plugin]['website']) ? $this->__info[$plugin]['website'] : null);
-		$this->__info[$plugin]['version'] = $this->in('Enter your initial version number.', null, isset($this->__info[$plugin]['version']) ? $this->__info[$plugin]['version'] : '1.0');
+		foreach($this->__options as $option) {
+			$default = isset($this->__info[$plugin][$option]) ? $this->__info[$plugin][$option] : (isset($this->params[$option]) ? $this->params[$option] : null);
+			$this->__info[$plugin][$option] = $this->in('Enter the plugin ' . $option, null, $default);
+		}
 	}
 }
 

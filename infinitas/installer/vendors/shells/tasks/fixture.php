@@ -5,13 +5,13 @@ class FixtureTask extends Shell {
 	public function generate($models, $plugin) {
 		$fixtures = array();
 		foreach($models as $model => $options) {
-			if(isset($options['core'])) {
+			foreach($options as $type => $option) {
 				$modelName = $plugin . '.' . $model;
-				$conditions = 'WHERE ' . $options['core']['where'];
-				if($options['core']['limit'] != 0) {
-					$conditions .= ' LIMIT ' . $options['core']['limit'];
+				$conditions = 'WHERE ' . $option['where'];
+				if($option['limit'] != 0) {
+					$conditions .= ' LIMIT ' . $option['limit'];
 				}
-				$fixtures['core'][$modelName] = $this->_getRecordsFromTable($modelName, $conditions);
+				$fixtures[$type][$modelName] = $this->_getRecordsFromTable($modelName, $conditions);
 			}
 		}
 
