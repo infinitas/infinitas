@@ -20,6 +20,7 @@
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	define('LOG_ERROR', 2);
+	Cache::config('default', array('engine' => 'File'));
 
 
 
@@ -30,9 +31,7 @@
 
 	Configure::write('Reviews.auto_moderate', true);
 
-	$App = App::getInstance();
-	$App::build();
-	$App::build(
+	App::build(
 		array(
 			'plugins' => array(
 				APP . 'infinitas' . DS,
@@ -42,8 +41,18 @@
 		),
 		false
 	);
+
+	$configs = Cache::read('global_configs');
+	if($configs !== false){
+		foreach($configs as $k => $v){
+			Configure::write($k, $v);
+		}
+		return true;
+	}
 	
 	App::import('Libs', 'Events.Events');
 	EventCore::getInstance();
 
 	EventCore::trigger(new StdClass(), 'setupConfig');
+
+	Cache::write('global_configs', Configure::getInstance());

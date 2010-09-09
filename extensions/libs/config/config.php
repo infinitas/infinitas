@@ -73,7 +73,6 @@
 		'engine' => 'Libs.NamespaceFile',
 		//'disable' => false
 	);
-	Cache::config('default', array('engine' => 'File'));
 
 	/**
 	 * Core configuration
