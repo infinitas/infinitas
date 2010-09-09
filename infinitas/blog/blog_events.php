@@ -39,20 +39,7 @@
 		}
 
 		public function onRequireHelpersToLoad(&$event){
-			$helpers = array();
-
-			if($event->Handler->params['plugin'] == 'blog'){
-				$helpers = array_merge(
-					$helpers,
-					array(
-						'Tags.TagCloud',
-						'Blog.Blog', 'Google.Chart',
-						'Blog.PostLayout', 'Blog.CommentLayout'
-					)
-				);
-			}
-
-			return $helpers;
+			
 		}
 
 		public function onRequireCssToLoad(&$event){

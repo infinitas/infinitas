@@ -20,7 +20,11 @@
 	 */
 
 	class BlogAppController extends AppController {
-
+		public $helpers = array(
+			'Blog.Blog', 'Blog.PostLayout', 'Blog.CommentLayout',
+			'Google.Chart'
+		);
+		
 		/**
 		 * beforeFilter callback
 		 *
