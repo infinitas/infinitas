@@ -2,7 +2,7 @@
 	App::build(
 		array(
 			'plugins' => array(
-				APP . 'infinitas' . DS,
+				APP . 'core' . DS,
 				APP . 'extensions' . DS,
 				APP . 'infinitas' . DS . 'shop'. DS .'plugins' . DS
 			)
