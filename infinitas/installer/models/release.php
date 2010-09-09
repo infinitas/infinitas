@@ -17,7 +17,6 @@
 			'acos',
 			'aros',
 			'aros_acos',
-			'core_configs',
 			'core_countries',
 			'core_groups',
 			'core_menus',
@@ -46,12 +45,13 @@
 			'contact_contacts',
 
 			'core_addresses',
-			'core_comments',
 			'core_feeds',
 
 			'global_categories',
 			'global_tags',
 			'global_tagged',
+			'global_comments',
+			'global_comment_attributes',
 
 			'newsletter_campaigns',
 			'newsletter_newsletters',
