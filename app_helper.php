@@ -102,8 +102,7 @@
 			}
 
 			$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin : '';
-			return '<div class="top-bar"><h1>' . sprintf(__('%s %s Manager', true), prettyName($plugin), prettyName($view->name)) . '</h1>' .
-			'<div class="breadcrumbs">' . $this->breadcrumbs($view) . '</div></div>';
+			return '<h1>' . sprintf(__('%s %s Manager', true), prettyName($plugin), prettyName($view->name)) . '<small>' . $this->breadcrumbs($view) . '</small></h1>';
 		}
 
 		/**
