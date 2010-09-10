@@ -49,10 +49,10 @@ switch(Infinitas.params.prefix) {
 
 				$.FormHelper.checkboxToggleAll();
 
-				$('#pluginDock').jqDock({
-					align: 'top',
-					labels: 'bc',
-					size: 30
+				$(".trigger").click(function(){
+					$(".panel").toggle("fast");
+					$(this).toggleClass("active");
+					return false;
 				});
 
 				$("[title]:not(.textarea *)").tooltip({
