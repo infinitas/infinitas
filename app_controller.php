@@ -231,6 +231,17 @@
 	}
 
 	/**
+	 * CoreAppController is a base clas for most of infinitas Core Controllers.
+	 * It makes the code more DRY
+	 */
+	class CoreAppController extends AppController{
+		public $helpers = array(
+			'Management.Core',
+			'Filter.Filter'
+		);
+	}
+
+	/**
 	 * seperating the global methods so the controller is a bit cleaner.
 	 *
 	 * basicaly all the methods like _something should be moved to a component
@@ -298,7 +309,7 @@
 		 * or just added to.
 		 */
 		private function __setupConfig(){
-			$configs = ClassRegistry::init('Management.Config')->getConfig();
+			$configs = ClassRegistry::init('Configs.Config')->getConfig();
 			
 			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $configs);
 			if (isset($eventData['setupConfigStart'][$this->plugin])){

@@ -149,12 +149,12 @@
 		}
 
 		function loggedInUserCount(){
-			$Session = ClassRegistry::init('Management.Session');
+			$Session = ClassRegistry::init('Session');
 			return $Session->find('count');
 		}
 
 		function latestUsers($limit = 10){
-			$Session = ClassRegistry::init('Management.Session');
+			$Session = ClassRegistry::init('Session');
 			$sessions = $Session->find('all');
 
 			foreach($sessions as &$session){

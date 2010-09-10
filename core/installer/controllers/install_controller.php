@@ -285,7 +285,7 @@
 					} // switch
 
 					$_config['Config'] = $config;
-					$good = $good && ClassRegistry::init('Management.Config')->save($_config);
+					$good = $good && ClassRegistry::init('Configs.Config')->save($_config);
 				}
 
 				if ($good === true) {
@@ -295,7 +295,7 @@
 
 			ClassRegistry::flush();
 
-			$configs = ClassRegistry::init('Management.Config')->getInstallSetupConfigs();
+			$configs = ClassRegistry::init('Configs.Config')->getInstallSetupConfigs();
 			$this->set('configs', $configs);
 		}
 

@@ -10,7 +10,7 @@
 	</ul>
 	<span class="jx-separator-left"></span>
 	<ul class="jx-bar-button-left">
-		<?php $shortUrl = ClassRegistry::init('Management.ShortUrl')->newUrl($this->here, true, $this->webroot); ?>
+		<?php $shortUrl = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl($this->here, true, $this->webroot); ?>
 		<li alt="Share with the world" class="addthis_toolbox addthis_default_style">
 			<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c114e15110816c8" class="addthis_button_compact">Share</a>
 			<span class="addthis_separator">|</span>

@@ -92,7 +92,7 @@
 			) * 3;
 
 			$risk = 0;
-			$factor = ClassRegistry::init('Management.Session')->find('count');
+			$factor = ClassRegistry::init('Session')->find('count');
 			// no risk
 			if ($totalCount === $badCount || $totalCount === 0 || $factor == 0) {
 				return $risk;

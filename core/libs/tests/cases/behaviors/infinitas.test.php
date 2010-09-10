@@ -1,7 +1,7 @@
 	<?php
 	/* Infinitas Test cases generated on: 2010-03-13 14:03:31 : 1268484451*/
 	App::import('Behavior', 'libs.Infinitas');
-	App::import('Model', 'Management.route');
+	App::import('Model', 'Routes.Route');
 	class RouteTest1 extends Route{
 		public $useDbConfig = 'test';
 

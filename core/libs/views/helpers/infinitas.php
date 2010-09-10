@@ -85,7 +85,7 @@
 
 			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
 			if(empty($modules)) {
-				$modules = ClassRegistry::init('Management.Module')->getModules($position, $admin);
+				$modules = ClassRegistry::init('Modules.Module')->getModules($position, $admin);
 			}
 
 			$currentRoute = Configure::read('CORE.current_route');
@@ -142,7 +142,7 @@
 			}
 
 			if(is_string($module)){
-				$module = ClassRegistry::init('Management.Module')->getModule($module, $admin);
+				$module = ClassRegistry::init('Modules.Module')->getModule($module, $admin);
 				if(empty($module)){
 					return false;
 				}
