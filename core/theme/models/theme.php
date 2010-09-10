@@ -17,7 +17,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
-	class Theme extends ManagementAppModel {
+	class Theme extends ThemeAppModel {
 		var $name = 'Theme';
 
 		var $hasMay = array(
