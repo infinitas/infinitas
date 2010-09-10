@@ -15,11 +15,12 @@
 		$routes = Cache::read('routes', 'core');
 
 		if (!$routes) {
-			$routes = Classregistry::init('Management.Route')->getRoutes();
+			$routes = Classregistry::init('Routes.Route')->getRoutes();
 			if (empty($routes)) {
 				//something is broken
 				// @todo -c Implement .some error message or something
 			}
+			Cache::write('routes', $routes, 'core');
 		}
 
 		if (!empty($routes)) {

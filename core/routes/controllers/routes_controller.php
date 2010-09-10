@@ -17,7 +17,7 @@
 	 * @since 0.5a
 	 */
 
-	class RoutesController extends ManagementAppController{
+	class RoutesController extends RoutesAppController{
 		var $name = 'Routes';
 
 		var $listThemes = array(0 => 'Default');

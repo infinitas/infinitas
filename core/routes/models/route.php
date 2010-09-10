@@ -17,7 +17,7 @@
 	 * @since 0.5a
 	 */
 
-	class Route extends ManagementAppModel {
+	class Route extends RoutesAppModel {
 		var $name = 'Route';
 
 		var $actsAs = array();
