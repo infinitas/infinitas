@@ -32,7 +32,7 @@
 		 *
 		 * @return a nice formated <ul> list
 		 */
-		public function generateDropdownMenu($data = array(), $type = 'horizontal'){
+		public function nestedList($data = array(), $type = 'horizontal'){
 			if (empty($data)) {
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;

@@ -43,7 +43,7 @@
 
 		public function onRequireComponentsToLoad(&$event){
 			return array(
-				'Menu.InfinitasMenu'
+				'Menu.Menu'
 			);
 		}
 	}
