@@ -3,7 +3,7 @@
 	 *
 	 *
 	 */
-	class Module extends ManagementAppModel{
+	class Module extends ModulesAppModel{
 		public $name = 'Module';
 
 		public $virtualFields = array(

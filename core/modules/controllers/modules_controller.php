@@ -3,7 +3,7 @@
 	 *
 	 *
 	 */
-	class ModulesController extends ManagementAppController{
+	class ModulesController extends ModulesAppController{
 		var $name = 'Modules';
 
 		function beforeFilter() {
