@@ -12,5 +12,5 @@
 		$menus = ClassRegistry::init('Menu.MenuItem')->getMenu($menuToLoad);
 	}
 
-	echo $this->Infinitas->generateDropdownMenu($menus, $type);
+	echo $this->Menu->generateDropdownMenu($menus, $type);
 ?>
