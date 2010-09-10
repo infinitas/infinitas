@@ -27,14 +27,7 @@
 		}
 
 		public function onAdminMenu(&$event){
-			$menu['main'] = array(
-				'Modules' => array('controller' => 'modules', 'action' => 'index'),
-				'Module Positions' => array('controller' => 'module_possitions', 'action' => 'index'),
-				'Menus' => array('controller' => 'menus', 'action' => 'index'),
-				'Menu Items' => array('controller' => 'menu_items', 'action' => 'index')
-			);
-
-			return $menu;
+			return array();
 		}
 
 		public function onSlugUrl(&$event, $data){
