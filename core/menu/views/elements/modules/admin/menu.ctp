@@ -8,7 +8,8 @@
 	);
 
 	$menus = $this->Event->trigger($this->plugin.'.adminMenu');
-	$items = isset($menus['adminMenu']['blog']['main']) ? $menus['adminMenu']['blog']['main'] : array();
+	$items = isset($menus['adminMenu'][$this->plugin]['main']) ? $menus['adminMenu'][$this->plugin]['main'] : array();
+	$_menus = array();
 	foreach($items as $name => $url){
 		$url = array_merge($_url, $url);
 		$options = array();

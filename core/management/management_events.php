@@ -26,6 +26,17 @@
 			);
 		}
 
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Modules' => array('controller' => 'modules', 'action' => 'index'),
+				'Module Positions' => array('controller' => 'module_possitions', 'action' => 'index'),
+				'Menus' => array('controller' => 'menus', 'action' => 'index'),
+				'Menu Items' => array('controller' => 'menu_items', 'action' => 'index')
+			);
+
+			return $menu;
+		}
+
 		public function onSlugUrl(&$event, $data){
 			switch($data['type']){
 				case 'comments':
