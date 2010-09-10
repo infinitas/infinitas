@@ -23,7 +23,7 @@
 	 final class FilemanagerEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'filemanager',
+				'name' => 'Files',
 				'description' => 'Allow you to manage files from the backend',
 				'icon' => '/filemanager/img/icon.png',
 				'author' => 'Infinitas'

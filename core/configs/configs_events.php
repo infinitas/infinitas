@@ -2,7 +2,7 @@
 	final class ConfigsEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'Configuration',
+				'name' => 'Configs',
 				'description' => 'Configure Your site',
 				'icon' => '/configs/img/icon.png',
 				'author' => 'Infinitas'

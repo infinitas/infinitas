@@ -21,7 +21,7 @@
 	 final class CommentEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'comment',
+				'name' => 'Comment',
 				'description' => 'See what your users have to say',
 				'icon' => '/comment/img/icon.png',
 				'author' => 'Infinitas'

@@ -2,7 +2,7 @@
 	final class FeedEvents extends AppEvents {
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'feed',
+				'name' => 'Feeds',
 				'description' => 'Provide RSS feeds of anything to your users',
 				'icon' => '/feed/img/icon.png',
 				'author' => 'Infinitas'

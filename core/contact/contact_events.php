@@ -23,7 +23,7 @@
 	final class ContactEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'contact',
+				'name' => 'Contact',
 				'description' => 'Display your contact details and allow users to contact you',
 				'icon' => '/contact/img/icon.png',
 				'author' => 'Infinitas'
