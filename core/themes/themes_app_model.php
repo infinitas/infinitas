@@ -17,5 +17,5 @@
 	 * @since 0.5a
 	 */
 
-	class ThemeAppModel extends CoreAppModel {
+	class ThemesAppModel extends CoreAppModel {
 	}

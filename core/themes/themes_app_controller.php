@@ -17,5 +17,5 @@
 	* @since 0.5a
 	*/
 
-	class ThemeAppController extends CoreAppController {
+	class ThemesAppController extends CoreAppController {
 	}

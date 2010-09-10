@@ -1,10 +1,10 @@
 <?php
-	final class ThemeEvents extends AppEvents{
+	final class ThemesEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Themes',
 				'description' => 'Theme your site',
-				'icon' => '/theme/img/icon.png',
+				'icon' => '/themes/img/icon.png',
 				'author' => 'Infinitas'
 			);
 		}
@@ -18,7 +18,7 @@
 
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
-				'Themes' => array('controller' => 'themes', 'action' => 'index')
+				'Themes' => array('controller' => false, 'action' => false)
 			);
 
 			return $menu;

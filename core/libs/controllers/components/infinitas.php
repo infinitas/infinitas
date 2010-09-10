@@ -95,7 +95,7 @@
 			}
 
 			if(!$theme = Cache::read('currentTheme')) {
-				$theme = ClassRegistry::init('Theme.Theme')->getCurrentTheme();
+				$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
 			}
 
 			if (!isset($theme['Theme']['name'])) {

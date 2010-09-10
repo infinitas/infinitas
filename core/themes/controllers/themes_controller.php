@@ -17,7 +17,7 @@
 	 * @since 0.5a
 	 */
 
-	class ThemesController extends ThemeAppController{
+	class ThemesController extends ThemesAppController{
 		var $name = 'Themes';
 
 		function beforeFilter() {
