@@ -50,8 +50,10 @@ switch(Infinitas.params.prefix) {
 				$.FormHelper.checkboxToggleAll();
 
 				$(".trigger").click(function(){
-					$(".panel").toggle("fast");
-					$(this).toggleClass("active");
+					$this = $(this);
+					$(".trigger").removeClass('active').siblings(".panel").hide();
+					$this.siblings(".panel").toggle("fast");
+					$this.toggleClass("active");
 					return false;
 				});
 

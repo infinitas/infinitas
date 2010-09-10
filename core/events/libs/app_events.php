@@ -216,4 +216,6 @@
 		 *
 		 */
 		public function onSlugUrl(&$event, $data = null){}
+
+		public function onRequireTodoList(&$event){}
 	}

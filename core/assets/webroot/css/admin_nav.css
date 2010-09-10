@@ -35,7 +35,7 @@ h1{
 .filter-form,
 table.listing,
 .adminTopBar{
-	margin-top: 15px;
+	margin-bottom: 15px;
 	-moz-box-shadow:0 0 10px #808080;
 	background-color: #FDFDFD;
 	-moz-border-radius: 5px;
@@ -128,11 +128,22 @@ table.listing td{
 /**
 	slide out pannels
 */
+#dock.plugins a.trigger{
+	top: 40px;
+}
 #dock.plugins .panel{
 	top: 20px;
 }
+
+#dock.todo a.trigger{
+	top:80px;
+}
+#dock.todo .panel{
+	top: 60px;
+}
+
 #dock div.panel {
-	position: fixed;
+	position: absolute;
 	left: 0;
 	display: none;
 	background: rgba(0, 0, 0, 0.85);
@@ -141,23 +152,24 @@ table.listing td{
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
 	-webkit-border-bottom-right-radius: 20px;
-	width: 700px;
+	width: auto;
 	height: auto;
-	padding: 30px 30px 30px 130px;
+	padding: 30px 30px 30px 155px;
 	z-index: 10;
+	margin-right:20px;
 }
 
 #dock a.trigger,
 #dock a.trigger:hover{
-	position: fixed;
+	width:90px;
+	position: absolute;
 	text-decoration: none;
-	top: 40px;
 	left: 0;
 	font-size: 16px;
 	letter-spacing:-1px;
 	font-family: verdana, helvetica, arial, sans-serif;
 	color:#ffffff;
-	padding: 20px 40px 20px 20px;
+	padding:5px 5px 5px 35px;
 	font-weight: 700;
 	border:1px solid #444444;
 	-moz-border-radius-topright: 20px;
@@ -167,18 +179,17 @@ table.listing td{
 	-moz-border-radius-bottomleft: 0px;
 	-webkit-border-bottom-left-radius: 0px;
 	display: block;
-
 }
 #dock a.trigger{
 	z-index: 11;
-	background:#333333 url(../img/plus.png) 85% 55% no-repeat;
+	background:#333333 url(../img/plus.png) 5% 55% no-repeat;
 }
 
 #dock a.trigger:hover{
-	background:#222222 url(../img/plus.png) 85% 55% no-repeat;
+	background:#222222 url(../img/plus.png) 5% 55% no-repeat;
 }
 #dock a.active.trigger {
-	background:#222222 url(../img/minus.png) 85% 55% no-repeat;
+	background:#222222 url(../img/minus.png) 5% 55% no-repeat;
 }
 
 

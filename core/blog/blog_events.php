@@ -9,6 +9,38 @@
 			);
 		}
 
+		public function onRequireTodoList(&$event){
+			return array(
+				array(
+					'name' => 'warning no categories',
+					'type' => 'warning',
+					'url' => array(
+						'plugin' => 'categories',
+						'controlelr' => 'categories',
+						'action' => 'add'
+					)
+				),
+				array(
+					'name' => 'Testing: error',
+					'type' => 'error',
+					'url' => array(
+						'plugin' => 'categories',
+						'controlelr' => 'categories',
+						'action' => 'index'
+					)
+				),
+				array(
+					'name' => 'Testing: info',
+					'type' => 'info',
+					'url' => array(
+						'plugin' => 'categories',
+						'controlelr' => 'categories',
+						'action' => 'add'
+					)
+				)
+			);
+		}
+
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
 				'Dashboard' => array('controller' => 'posts', 'action' => 'dashboard'),
