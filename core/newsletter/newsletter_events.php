@@ -21,11 +21,20 @@
 	 */
 
 	 final class NewsletterEvents extends AppEvents{
-		 public function onSetupConfig(){
-			 return Configure::load('newsletter.config');
-		 }
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'Newsletter',
+				'description' => 'Keep in contact with your user base',
+				'icon' => '/newsletter/img/icon.png',
+				'author' => 'Infinitas'
+			);
+		}
+
+		public function onSetupConfig(){
+			return Configure::load('newsletter.config');
+		}
 		 
-		 public function onRequireComponentsToLoad(){
-			 return 'Newsletter.Emailer';
-		 }
+		public function onRequireComponentsToLoad(){
+			return 'Newsletter.Emailer';
+		}
 	 }

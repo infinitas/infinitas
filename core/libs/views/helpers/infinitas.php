@@ -200,18 +200,15 @@
 				$params = $this->__getModuleParams($module);
 			}
 
-			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
+			$class = isset($params['config']['class']) ? $params['config']['class'] : '';			
 			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
-			$moduleOut = '<div class="module '.$module.' '.$class.'">';
+			$moduleOut = '<div class="module '.str_replace('/', '-', $module).' '.$class.'">';
 				if ($params['title']) {
 					$moduleOut .= '<h2><a id="'.$id.'" href="#">'.__($params['title'],true).'</a></h2>';
 				}
 
 				if (!empty($module)) {
 					$path = 'modules/';
-					if ($params['admin']) {
-						$path .= 'admin/';
-					}
 					
 					$this->_getViewClass();
 					$moduleOut .= $this->View->element(

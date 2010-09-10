@@ -12,7 +12,7 @@
     			return false;
     		}
 
-    		$output = '<div class="filter-form">';
+    		$output = '<div class="filter-form"><h1>'.__('Search', true).'</h1>';
        		foreach( $filter['fields'] as $field => $options){
        			if (is_array($options)){
 					$output .= $this->Form->input(

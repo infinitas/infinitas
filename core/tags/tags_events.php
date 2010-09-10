@@ -1,5 +1,14 @@
 <?php
 	final class TagsEvents extends AppEvents{
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'Tags',
+				'description' => 'Attach tags to records',
+				'icon' => '/tags/img/icon.png',
+				'author' => 'CakeDC'
+			);
+		}
+
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				$Model = $event->Handler;

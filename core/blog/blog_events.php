@@ -1,5 +1,25 @@
 <?php
 	final class BlogEvents extends AppEvents{
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'Blog',
+				'description' => 'Blogging platform',
+				'icon' => '/blog/img/icon.png',
+				'author' => 'Infinitas'
+			);
+		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Dashboard' => array('controller' => 'posts', 'action' => 'dashboard'),
+				'Posts' => array('controller' => 'posts', 'action' => 'index'),
+				'Active' => array('controller' => 'posts', 'action' => 'index', 'Post.active' => 1),
+				'Pending' => array('controller' => 'posts', 'action' => 'index', 'Post.active' => 0)
+			);
+
+			return $menu;
+		}
+
 		public function onSetupConfig(){
 			return Configure::load('blog.config');
 		}

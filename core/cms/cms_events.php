@@ -1,5 +1,14 @@
 <?php
 	final class CmsEvents extends AppEvents{
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'Cms',
+				'description' => 'Content Management',
+				'icon' => '/cms/img/icon.png',
+				'author' => 'Infinitas'
+			);
+		}
+		
 		public function onSetupConfig(){
 			return Configure::load('cms.config');
 		}

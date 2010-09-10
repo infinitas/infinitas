@@ -79,13 +79,13 @@
 
 		public function onRequireJavascriptToLoad(){
 			return array(
-				'/libs/js/3rd/jquery',
-				'/libs/js/3rd/require',
-				'/libs/js/infinitas'
+				'/assets/js/3rd/jquery',
+				'/assets/js/3rd/require',
+				'/assets/js/infinitas'
 			);
 		}
 
 		public function onRequireCssToLoad(){
-			return '/libs/css/jquery_ui';
+			return '/assets/css/jquery_ui';
 		}
 	}

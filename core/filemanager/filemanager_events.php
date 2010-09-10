@@ -20,19 +20,13 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class ContactEvents extends AppEvents{
+	 final class FilemanagerEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'contact',
-				'description' => 'Display your contact details and allow users to contact you',
-				'icon' => '/contact/img/icon.png',
+				'name' => 'filemanager',
+				'description' => 'Allow you to manage files from the backend',
+				'icon' => '/filemanager/img/icon.png',
 				'author' => 'Infinitas'
 			);
 		}
-		
-		public function onRequireCssToLoad(&$event){
-			return array(
-				'/contact/css/contact'
-			);
-		}
-	}
+	 }

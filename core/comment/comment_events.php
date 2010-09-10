@@ -19,6 +19,15 @@
 	 */
 
 	 final class CommentEvents extends AppEvents{
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'comment',
+				'description' => 'See what your users have to say',
+				'icon' => '/comment/img/icon.png',
+				'author' => 'Infinitas'
+			);
+		}
+		
 		public function onSetupConfig(){
 			return Configure::load('comment.config');
 		}

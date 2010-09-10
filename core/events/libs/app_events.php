@@ -64,6 +64,10 @@
 			exit;
 		}
 
+		public function onPluginRollCall(){
+			
+		}
+
 		/**
 		 * Load the default cache settings.
 		 *

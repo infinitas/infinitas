@@ -1,5 +1,14 @@
 <?php
 	final class ManagementEvents extends AppEvents{
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'Setup',
+				'description' => 'Configure Your site',
+				'icon' => '/management/img/icon.png',
+				'author' => 'Infinitas'
+			);
+		}
+		
 		public function onSetupConfig(){
 			return Configure::load('management.config');
 		}
