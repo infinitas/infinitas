@@ -325,3 +325,9 @@ table.listing td{
 		border-color:#c3c9ce;
 		color:#333;
 	}
+
+
+
+table.cake-sql-log{
+	display: none;
+}
