@@ -23,7 +23,11 @@
 		/**
 		* components being used here
 		*/
-		public $components = array('Session', 'Libs.GeoLocation');
+		public $components = array(
+			'Session',
+			'Libs.GeoLocation',
+			'Themes.Themes'
+		);
 
 		public $configs = array();
 
@@ -40,7 +44,7 @@
 			$this->__checkBadLogins();
 			$this->__ipBlocker();
 
-			$this->setupTheme();
+			//$this->setupTheme();
 			$this->loadCoreImages();
 			$this->__paginationRecall();
 
@@ -59,85 +63,6 @@
 				if(is_array($eventData) && !empty($eventData)){
 					$editors = implode(',', current($eventData));
 					Cache::write('wysiwyg_editors', $editors, 'core');
-				}
-			}
-		}
-
-		/**
-		* Setup the theme for the site
-		*
-		* Gets the current theme set in db and sets if up
-		*/
-		public function setupTheme(){
-			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeStart');
-			if (isset($event['setupThemeStart'][$this->Controller->plugin])) {
-				if (is_string($event['setupThemeStart'][$this->Controller->plugin])) {
-					$this->Controller->theme = $event['setupThemeStart'][$this->Controller->plugin];
-					return true;
-				}
-
-				else if ($event['setupThemeStart'][$this->Controller->plugin] === false) {
-					return false;
-				}
-			}
-
-			$this->Controller->layout = 'front';
-
-			if (isset($this->Controller->params['admin'] ) && $this->Controller->params['admin']){
-				$this->Controller->layout = 'admin';
-			}
-
-			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeLayout', array('layout' => $this->Controller->layout, 'params' => $this->Controller->params));
-			if (isset($event['setupThemeLayout'][$this->Controller->plugin])) {
-				if (is_string($event['setupThemeLayout'][$this->Controller->plugin])) {
-					$this->Controller->layout = $event['setupThemeLayout'][$this->Controller->plugin];
-				}
-			}
-
-			if(!$theme = Cache::read('currentTheme')) {
-				$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
-			}
-
-			if (!isset($theme['Theme']['name'])) {
-				$theme['Theme'] = array();
-			}
-			else {
-				$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeSelector', array('theme' => $theme['Theme'], 'params' => $this->Controller->params));
-				if (isset($event['setupThemeSelector'][$this->Controller->plugin])) {
-					if (is_array($event['setupThemeSelector'][$this->Controller->plugin])) {
-						$theme['Theme'] = $event['setupThemeSelector'][$this->Controller->plugin];
-						if (!isset($theme['Theme']['name'])) {
-							$this->cakeError('eventError', array('message' => 'The theme is invalid.', 'event' => $event));
-						}
-					}
-				}
-			}
-			$this->Controller->theme = $theme['Theme']['name'];
-			Configure::write('Theme', $theme['Theme']);
-
-			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeRoutes', array('params' => $this->Controller->params));
-			if (isset($event['setupThemeRoutes'][$this->Controller->plugin]) && !$event['setupThemeRoutes'][$this->Controller->plugin]) {
-				return false;
-			}
-
-			$routes = Cache::read('routes', 'core');
-			if (empty($routes)) {
-				$routes = Classregistry::init('Management.Route')->getRoutes();
-			}
-
-			$currentRoute = Router::currentRoute(Configure::read('CORE.current_route'));
-			if (!empty($routes) && is_object($currentRoute)) {
-				foreach( $routes as $route ){
-					if ( $route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {
-						$this->Controller->theme = $route['Route']['theme'];
-					}
-				}
-			}
-
-			$event = $this->Controller->Event->trigger($this->Controller->plugin.'.setupThemeEnd', array('theme' => $this->Controller->theme, 'params' => $this->Controller->params));
-			if (isset($event['setupThemeEnd'][$this->Controller->plugin])) {
-				if (is_string($event['setupThemeEnd'][$this->Controller->plugin])) {
-					$this->Controller->theme = $event['setupThemeEnd'][$this->Controller->plugin];
 				}
 			}
 		}
