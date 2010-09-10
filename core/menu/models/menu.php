@@ -8,7 +8,7 @@
 
 		var $hasMany = array(
 			'MenuItem' => array(
-	            'className'  => 'Management.MenuItem',
+	            'className'  => 'Menu.MenuItem',
 	            'foreignKey' => 'menu_id',
 	            'conditions' => array(
 	            	'MenuItem.active' => 1

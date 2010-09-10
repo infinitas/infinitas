@@ -142,7 +142,7 @@
 			}
 
 			if(is_string($module)){
-				$module = ClassRegistry::init('Management.Module')->getModule($module, $admin);
+				$module = ClassRegistry::init('Modules.Module')->getModule($module, $admin);
 				if(empty($module)){
 					return false;
 				}

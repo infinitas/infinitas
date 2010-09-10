@@ -9,7 +9,7 @@
 
 	$menus = Cache::read('menu.'.$type, 'core');
 	if(empty($menus)){
-		$menus = ClassRegistry::init('Management.MenuItem')->getMenu($menuToLoad);
+		$menus = ClassRegistry::init('Menu.MenuItem')->getMenu($menuToLoad);
 	}
 
 	echo $this->Infinitas->generateDropdownMenu($menus, $type);

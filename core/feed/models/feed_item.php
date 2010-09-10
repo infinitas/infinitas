@@ -46,9 +46,9 @@
 
 		var $hasAndBelongsToMany = array(
 			'Feed' => array(
-				'className'              => 'Management.Feed',
+				'className'              => 'Feed.Feed',
 				'joinTable'              => 'core_feeds_feed_items',
-				'with'                   => 'Management.FeedsFeedItem',
+				'with'                   => 'Feed.FeedsFeedItem',
 				'foreignKey'             => 'feed_id',
 				'associationForeignKey'  => 'feed_item_id',
 				'unique'                 => true,

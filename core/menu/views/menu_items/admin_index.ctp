@@ -60,7 +60,7 @@
                     )
                 )
             );
-            $MenuItem = ClassRegistry::init('Management.MenuItem');
+            $MenuItem = ClassRegistry::init('Menu.MenuItem');
 
             foreach ($menuItems as $menuItem){
                 ?>

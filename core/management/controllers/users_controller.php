@@ -162,7 +162,7 @@
 					if (!$this->data['User']['active']) {
 						$ticket = $this->User->createTicket($this->User->id);
 
-						$urlToActivateUser = ClassRegistry::init('Management.ShortUrl')->newUrl(
+						$urlToActivateUser = ClassRegistry::init('ShortUrlsShortUrl')->newUrl(
 			            	'http://'.env('SERVER_NAME').$this->webroot.'management/users/activate/'.$ticket
 			            );
 
@@ -246,7 +246,7 @@
 	            );
 
 	            if (is_array( $theUser['User']) && ($ticket = $this->User->createTicket($theUser['User']['email']) !== false)){
-	            	$urlToRessetPassword = ClassRegistry::init('Management.ShortUrl')->newUrl(
+	            	$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
 	            		'http://'.env('SERVER_NAME').$this->webroot.'management/users/reset_password/'.$ticket
 	            	);
 
@@ -354,7 +354,7 @@
 		}
 
 		function admin_logged_in(){
-			$Session = ClassRegistry::init('Management.Session');
+			$Session = ClassRegistry::init('Session');
 			$sessions = $Session->find('all');
 
 			$counts['all'] = count($sessions);

@@ -26,7 +26,7 @@
 
 		public $belongsTo = array(
 			'Position' => array(
-				'className' => 'Management.ModulePosition',
+				'className' => 'Modules.ModulePosition',
 				'foreignKey' => 'position_id'
 			),
 			'Management.Group',

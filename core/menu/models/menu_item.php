@@ -7,10 +7,10 @@
 		var $name = 'MenuItem';
 
 		var $belongsTo = array(
-			'Management.Menu',
+			'Menu.Menu',
 			'Management.Group',
 			/*'Parent' => array(
-	            'className'     => 'Management.MenuItem',
+	            'className'     => 'Menu.MenuItem',
 	            'foreignKey'    => 'parent_id',
 				'fields'     => array(
 					'Parent.id',
