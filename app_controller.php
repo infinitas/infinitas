@@ -595,12 +595,12 @@
 		public function admin_add(){
 			if (!empty($this->data)) {
 				$this->{$this->__modelName}->create();
-				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
+				if ($this->{$this->__modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->__prettyModelName));
 					$this->redirect(array('action' => 'index'));
 				}
 
-				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
+				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->__prettyModelName));
 			}
 		}
 
