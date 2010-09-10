@@ -3,7 +3,7 @@
 	 *
 	 *
 	 */
-	class Menu extends ManagementAppModel{
+	class Menu extends MenuAppModel{
 		var $name = 'Menu';
 
 		var $hasMany = array(

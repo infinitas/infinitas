@@ -3,7 +3,7 @@
 	 *
 	 *
 	 */
-	class MenuItem extends ManagementAppModel{
+	class MenuItem extends MenuAppModel{
 		var $name = 'MenuItem';
 
 		var $belongsTo = array(
