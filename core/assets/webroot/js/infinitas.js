@@ -51,8 +51,8 @@ switch(Infinitas.params.prefix) {
 
 				$(".trigger").click(function(){
 					$this = $(this);
-					$(".trigger").removeClass('active').siblings(".panel").hide();
 					$this.siblings(".panel").toggle("fast");
+					$(".trigger").removeClass('active').siblings(".panel").hide();
 					$this.toggleClass("active");
 					return false;
 				});
