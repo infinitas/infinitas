@@ -1,0 +1,246 @@
+body{
+	background: url("../img/admin_nav/content_bg.jpg") repeat-x scroll 0 0 #004D84;
+}
+#wrap{
+	margin:15px auto auto;
+	padding-bottom:15px;
+	width:980px;
+	background-image: url('../img/transparent-30.png');
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+h1{
+	background: url("../img/header_bg.gif") repeat-x scroll center bottom transparent;
+	color: #004A7E;
+	font-size:1.5em;
+	height:40px;
+	line-height:2.3em;
+	padding:0 20px;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+	h1 small{
+		float: right;
+		font-size:10px;
+		line-height:20px;
+	}
+
+	h1 a{
+		color: #000233
+	}
+
+.filter-form,
+table.listing,
+.adminTopBar{
+	margin-top: 15px;
+	-moz-box-shadow:0 0 10px #808080;
+	background-color: #FDFDFD;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	overflow:auto;
+	padding-bottom:10px;
+}
+.filter-form{
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+
+table.listing{
+	-moz-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+	margin-top: 0;
+	padding:10px;
+	color:#202020;
+}
+
+table.listing th,
+table.listing td{
+	display:table-cell;
+}
+
+table.listing thead th,
+table.listing foot th{
+	color:#3A3A3A;
+	font-size:1.1em;
+	padding:10px;
+	text-align:left;
+}
+table.listing thead th{
+	border-bottom:4px solid #004B80;
+}
+table.listing tfoot th{
+	border-top:4px solid #004B80;
+}
+
+table.listing td{
+	padding:10px;
+	border-bottom:1px solid #D6D6D6;
+}
+/**
+	Core
+*/
+.powered-by{
+	float: right;
+	margin-right: 10px;
+}
+	.powered-by a,
+	.powered-by a:hover{
+		text-decoration: none;
+		font-weight: bold;
+	}
+
+
+/**
+ * Mass actions
+ */
+.massActions{
+    right:    0;
+}
+.massActions .wrapper{
+	float: right;
+}
+
+.massActions button{
+	float:   left;
+	padding: 1px 5px;
+	background: #F8F8F8;
+	border: 1px solid #f8f8f8;
+	color: #000;
+	margin: 0px 5px;
+	text-align: center;
+	font-size: 0.8em;
+	cursor: pointer;
+}
+
+.massActions button span{
+	display: block;
+}
+
+.massActions button:hover {
+	border-color:#EEEEEE #CCCCCC #CCCCCC #EEEEEE;
+	border-left:1px solid #EEEEEE;
+	border-style:solid;
+	border-width:1px;
+	text-decoration:none;
+}
+
+/**
+	admin dock
+*/
+#pluginMenu {
+	width:100%;
+}
+
+#pluginDock {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	display:none;
+	padding-top:5px;
+}
+	#pluginDock div.jqDockWrap {
+		margin:0 auto;
+	}
+	#pluginDock div.jqDock {
+		cursor:pointer;
+		z-index: 100;
+	}
+	div.jqDockLabel {
+		font-weight:bold;
+		white-space:nowrap;
+		color:#000000;
+		cursor:pointer;
+	}
+
+/**
+	admin sub nav
+*/
+.module.admin-menu{
+	width:980px;
+	margin:auto;
+}
+#menucontainer *{
+	list-style:none;
+}
+
+#menucontainer{
+	height:50px;
+	color:#FFFFFF;
+	font-family:Helvetica,Arial,Verdana,sans-serif;	
+	margin-left:0;
+	width:980px;
+}
+
+#menunav{
+	position:relative;
+	margin-top:-3px;
+	height:38px;
+	font-size:12px;
+	text-transform:uppercase;
+	font-weight:bold;
+	background: transparent url(../img/admin_nav/menu_background.png) repeat-x bottom left;
+	padding:0 0 0 20px;
+	-moz-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0;
+}
+
+#menunav ul{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	width:auto;
+	float:left;
+}
+
+#menunav ul li{
+	display:block;
+	float:left;
+	margin:0 1px;
+}
+
+#menunav ul li a{
+	display:block;
+	float:left;
+	color:#EAF3F8;
+	text-decoration:none;
+	padding:0 20px;
+	height:38px;
+	line-height:420%;
+}
+
+#menunav ul li a span{
+	padding:12px 20px 0 0;
+	height:21px;
+	float:left;
+}
+
+#menunav ul li a:hover{
+	color:#fff;
+	background:transparent url(../img/admin_nav/hover.jpg) repeat-x bottom left;
+}
+
+#menunav ul li a:hover span{
+	display:block;
+	width:auto;
+	cursor:pointer;
+}
+
+#menunav ul li a.current,
+#menunav ul li a.current:hover{
+	color:#fff;
+	background:#1D6893 url(../img/admin_nav/left.jpg) no-repeat top left;
+	-moz-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0;
+	line-height:275%;
+}
+
+#menunav ul li a.current span{
+	display:block;
+	padding:0 20px 0 0;
+	width:auto;
+	background:#383636 url(../img/admin_nav/right.jpg) no-repeat top right;
+	-moz-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0;
+	height:38px;
+}

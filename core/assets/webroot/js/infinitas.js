@@ -27,16 +27,16 @@ switch(Infinitas.params.prefix) {
 	case 'admin':
 		require([
 			"require",
-			Infinitas.base + "libs/js/libs/core.js",
-			Infinitas.base + "libs/js/libs/form.js",
-			Infinitas.base + "libs/js/libs/html.js",
-			Infinitas.base + "libs/js/libs/number.js",
+			Infinitas.base + "assets/js/libs/core.js",
+			Infinitas.base + "assets/js/libs/form.js",
+			Infinitas.base + "assets/js/libs/html.js",
+			Infinitas.base + "assets/js/libs/number.js",
 
-			Infinitas.base + "libs/js/3rd/metadata.js",
-			Infinitas.base + "libs/js/3rd/date.js",
-			Infinitas.base + "libs/js/3rd/image_drop_down.js",
+			Infinitas.base + "assets/js/3rd/metadata.js",
+			Infinitas.base + "assets/js/3rd/date.js",
+			Infinitas.base + "assets/js/3rd/image_drop_down.js",
 
-			Infinitas.base + "libs/js/3rd/jquery_ui.js"
+			Infinitas.base + "assets/js/3rd/jquery_ui.js"
 		],
 		function(require) {
 			$(document).ready(function(){
@@ -48,6 +48,12 @@ switch(Infinitas.params.prefix) {
 				setupAjaxPagination();
 
 				$.FormHelper.checkboxToggleAll();
+
+				$('#pluginDock').jqDock({
+					align: 'top',
+					labels: 'bc',
+					size: 30
+				});
 
 				$("[title]:not(.textarea *)").tooltip({
 				    track: true, delay: 0, showURL: false,
@@ -63,19 +69,19 @@ switch(Infinitas.params.prefix) {
 	default:
 		require([
 			"require",
-			Infinitas.base + "libs/js/3rd/jquery.js",
-			Infinitas.base + "libs/js/3rd/jquery_ui.js",
-			Infinitas.base + "libs/js/3rd/metadata.js",
+			Infinitas.base + "assets/js/3rd/jquery.js",
+			Infinitas.base + "assets/js/3rd/jquery_ui.js",
+			Infinitas.base + "assets/js/3rd/metadata.js",
 
-			Infinitas.base + "libs/js/libs/core.js",
-			Infinitas.base + "libs/js/libs/form.js",
-			Infinitas.base + "libs/js/libs/html.js",
-			Infinitas.base + "libs/js/libs/number.js",
+			Infinitas.base + "assets/js/libs/core.js",
+			Infinitas.base + "assets/js/libs/form.js",
+			Infinitas.base + "assets/js/libs/html.js",
+			Infinitas.base + "assets/js/libs/number.js",
 
 
-			Infinitas.base + "libs/js/3rd/rater.js",
-			Infinitas.base + "libs/js/3rd/moving_boxes.js",
-			Infinitas.base + "libs/js/3rd/side_bar.js"
+			Infinitas.base + "assets/js/3rd/rater.js",
+			Infinitas.base + "assets/js/3rd/moving_boxes.js",
+			Infinitas.base + "assets/js/3rd/side_bar.js"
 		],
 		function(require) {
 			$(document).ready(function(){
