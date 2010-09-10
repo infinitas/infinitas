@@ -35,10 +35,7 @@
 	$out = '';
 
 	foreach($todo as $name => $info) {
-		if(empty($info['name'])){
-			$info['name'] = __(prettyName($name), true);
-		}
-		$out .= '<h3>'.__($name, true).'</h3>';
+		$out .= '<h3>'.__(prettyName($name), true).'</h3>';
 		$out .= '<ul>';
 			foreach((array)$info as $item){
 				$out .= '<li class="'.$item['type'].'">'.$this->Html->link(
