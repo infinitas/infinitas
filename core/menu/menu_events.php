@@ -34,4 +34,16 @@
 
 			return $menu;
 		}
+
+		public function onRequireHelpersToLoad(&$event){
+			return array(
+				'Menu.Menu'
+			);
+		}
+
+		public function onRequireComponentsToLoad(&$event){
+			return array(
+				'Menu.InfinitasMenu'
+			);
+		}
 	}
