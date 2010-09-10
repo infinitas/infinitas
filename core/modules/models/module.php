@@ -31,14 +31,14 @@
 			),
 			'Management.Group',
 			'Theme' => array(
-				'className' => 'Management.Theme',
+				'className' => 'Themes.Theme',
 				'foreignKey' => 'theme_id'
 			),
 		);
 
 		public $hasAndBelongsToMany = array(
 			'Route' => array(
-				'className' => 'Management.Route',
+				'className' => 'Routes.Route',
 				'joinTable' => 'core_modules_routes',
 				'foreignKey' => 'module_id',
 				'associationForeignKey' => 'route_id',

@@ -27,7 +27,7 @@
 		);
 
 		var $belongsTo = array(
-			'Management.Theme'
+			'Themes.Theme'
 		);
 
 		function getRoutes(){

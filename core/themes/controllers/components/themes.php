@@ -46,7 +46,7 @@
 					$Controller->layout = $event['setupThemeLayout'][$Controller->plugin];
 				}
 			}
-
+			
 			if(!$theme = Cache::read('currentTheme')) {
 				$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
 			}
@@ -75,7 +75,7 @@
 
 			$routes = Cache::read('routes', 'core');
 			if (empty($routes)) {
-				$routes = Classregistry::init('Management.Route')->getRoutes();
+				$routes = Classregistry::init('Routes.Route')->getRoutes();
 			}
 
 			$currentRoute = Router::currentRoute(Configure::read('CORE.current_route'));
