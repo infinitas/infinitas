@@ -1,5 +1,5 @@
 <?php
-	class ShortUrlsController extends ManagementAppController{
+	class ShortUrlsController extends ShortUrlsAppController{
 		var $name = 'ShortUrls';
 
 		function go(){

@@ -1,5 +1,5 @@
 <?php
-	class ShortUrl extends ManagementAppModel{
+	class ShortUrl extends ShortUrlsAppModel{
 		function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
