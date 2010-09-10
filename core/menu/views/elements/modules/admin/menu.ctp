@@ -9,9 +9,16 @@
 
 	$menus = $this->Event->trigger($this->plugin.'.adminMenu');
 	$items = isset($menus['adminMenu'][$this->plugin]['main']) ? $menus['adminMenu'][$this->plugin]['main'] : array();
-	$_menus = array();
+
+	$items = array(
+		'Home' => '/admin'
+	) + $items;
+
 	foreach($items as $name => $url){
-		$url = array_merge($_url, $url);
+		if(is_array($url)){
+			$url = array_merge($_url, $url);
+		}
+		
 		$options = array();
 		if($this->here == Router::url($url)){
 			$options = array(
