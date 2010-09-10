@@ -21,7 +21,7 @@
 		var $name = 'Theme';
 
 		var $hasMay = array(
-			'Management.Route'
+			'Routes.Route'
 		);
 
 		/**
