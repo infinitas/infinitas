@@ -43,8 +43,6 @@
 				<!-- footer -->
 				<div class="grid_16">
 					<?php
-						$js_for_layout[] = '/assets/js/3rd/dock';
-
 						echo $this->Infinitas->loadModules('bottom', true),
 							 $this->Infinitas->loadModules('hidden', true),
 							 $this->Html->script($js_for_layout);
