@@ -17,7 +17,7 @@
 	* @since 0.5a
 	*/
 
-	class ConfigsController extends ManagementAppController {
+	class ConfigsController extends ConfigsAppController {
 		var $name = 'Configs';
 
 		var $helpers = array(

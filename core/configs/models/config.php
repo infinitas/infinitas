@@ -17,7 +17,7 @@
 	* @since 0.5a
 	*/
 
-	class Config extends ManagementAppModel {
+	class Config extends ConfigsAppModel {
 		var $name = 'Config';
 
 		var $order = array(

@@ -309,7 +309,7 @@
 		 * or just added to.
 		 */
 		private function __setupConfig(){
-			$configs = ClassRegistry::init('Management.Config')->getConfig();
+			$configs = ClassRegistry::init('Configs.Config')->getConfig();
 			
 			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $configs);
 			if (isset($eventData['setupConfigStart'][$this->plugin])){

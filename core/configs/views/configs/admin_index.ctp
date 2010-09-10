@@ -18,21 +18,21 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Config', array( 'url' => array( 'controller' => 'configs', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('Config', array('url' => array('action' => 'mass')));
 
-        $massActions = $this->Core->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
                 'copy', // @todo -c Implement .should read the file populate $this->data and render add
             )
         );
-        echo $this->Core->adminIndexHead( $this, $filterOptions, $massActions );
+        echo $this->Infinitas->adminIndexHead( $this, $filterOptions, $massActions );
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Core->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
@@ -56,7 +56,7 @@
 
             foreach ($configs as $config){
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $config['Config']['id'] ); ?>&nbsp;</td>
                 		<td title="<?php echo __('Description', true), ' :: ', $this->Text->Truncate($config['Config']['description'], 200, array('html' => true)); ?>">
                 			<?php echo $this->Html->link( $config['Config']['key'], array('controller' => 'configs', 'action' => 'edit', $config['Config']['id'])); ?>&nbsp;
