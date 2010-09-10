@@ -2,14 +2,6 @@
 	App::import('Lib', 'Libs.LazyModel');
 
 	/**
-	 * CoreAppModel is used by most of Infinitas core models. All this does is
-	 * Set the table prefix so it does not need to be set in every {Core}AppModel
-	 */
-	class CoreAppModel extends AppModel{
-		public $tablePrefix = 'core_';
-	}
-
-	/**
 	 * Comment Template.
 	 *
 	 * @todo Implement .this needs to be sorted out.
@@ -100,4 +92,12 @@
 				$this->plugin = str_replace('AppModel', '', $parentName);
 			}
 		}
+	}
+
+	/**
+	 * CoreAppModel is used by most of Infinitas core models. All this does is
+	 * Set the table prefix so it does not need to be set in every {Core}AppModel
+	 */
+	class CoreAppModel extends AppModel{
+		public $tablePrefix = 'core_';
 	}
