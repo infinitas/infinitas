@@ -131,21 +131,19 @@ table.listing td{
 #dock.plugins .panel{
 	top: 20px;
 }
-#dock .panel {
+#dock div.panel {
 	position: fixed;
 	left: 0;
 	display: none;
-	background: #000000;
+	background: rgba(0, 0, 0, 0.85);
 	border:1px solid #111111;
 	-moz-border-radius-topright: 20px;
 	-webkit-border-top-right-radius: 20px;
 	-moz-border-radius-bottomright: 20px;
 	-webkit-border-bottom-right-radius: 20px;
-	width: 620px;
+	width: 700px;
 	height: auto;
 	padding: 30px 30px 30px 130px;
-	filter: alpha(opacity=85);
-	opacity: .85;
 	z-index: 10;
 }
 
@@ -282,7 +280,12 @@ table.listing td{
 */
 .dashboard{
 	clear: both;
-	opacity: 1;
+	background-color:#F9F9F9;
+	border:1px solid #AFAFAF;
+	overflow: auto;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 
 .dashboard ul.icons{
@@ -293,6 +296,7 @@ table.listing td{
 	float:left;
 	margin:7px;
 	vertical-align:baseline;
+	border:4px solid #FFFFFF;
 }
 	.dashboard ul.icons li span{
 		clear: both;
