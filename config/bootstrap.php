@@ -30,8 +30,15 @@
 			if(!is_dir(CACHE.$cache['name'])){
 				$Folder = new Folder(CACHE.$cache['name'], true);
 			}
+
+			$cache['config'] = array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']);
+
+			// set a default and turn off if debug is on.
+			$cache['config']['duration'] = isset($cache['config']['duration']) ? $cache['config']['duration'] : '+ 999 days';
+			$cache['config']['duration'] = Configure::read('debug') > 0 ? '+ 10 seconds' : $cache['config']['duration'];
+
 			if(!empty($cache['name']) && !empty($cache['config'])) {
-				Cache::config($cache['name'], array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']));
+				Cache::config($cache['name'], $cache['config']);
 			}
 		}
 	}
