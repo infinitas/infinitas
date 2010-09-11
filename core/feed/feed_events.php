@@ -21,4 +21,10 @@
 				)
 			);
 		}
+
+		public function onSetupExtentions(){
+			return array(
+				'rss'
+			);
+		}
 	}

@@ -100,13 +100,21 @@
 		 * Adding routes
 		 *
 		 * Add routing to for the app from your plugin by calling Router::connect
-		 *
-		 * called in routes.php
+		 * This should be used for routes that will not change if your plugin
+		 * has routes that can be configured they should be in the database.
 		 * 
 		 * @return nothing, it wont do anything
 		 */
 		public function onSetupRoutes(&$event, $data = null){}
 
+		/**
+		 * parse extentions
+		 *
+		 * This will allow your plugin to regiser extentions with parseExtentions
+		 *
+		 * @return array of extentions that should be registered.
+		 */
+		public function onSetupExtentions(&$event){}
 
 
 

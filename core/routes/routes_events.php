@@ -13,6 +13,12 @@
 		}
 
 		public function onSetupCache(){
+			return array(
+				'name' => 'routes',
+				'config' => array(
+					'prefix' => 'core.routes.'
+				)
+			);
 		}
 
 		public function onAdminMenu(&$event){
