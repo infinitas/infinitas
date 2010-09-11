@@ -47,10 +47,7 @@
 				return false;
 			}
 
-			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
-			if(empty($modules)) {
-				$modules = ClassRegistry::init('Modules.Module')->getModules($position, $admin);
-			}
+			$modules = ClassRegistry::init('Modules.Module')->getModules($position, $admin);
 
 			/**
 			 * @todo if no modules based on possition, possition is a module -> $this->loadModule($position)

@@ -80,12 +80,20 @@
 			$this->subPath = 'views'.DS.'elements'.DS.'modules'.DS;
 		}
 
+		/**
+		 * decide if its an admin module or not.
+		 */
+		public function beforeSave($options = array()){
+			$this->data['Module']['admin'] = strstr($this->data['Module']['module'], 'admin/') ? 1 : 0;
+			return true;
+		}
+
 		public function getModules($position = null, $admin = false){
 			if (!$position) {
 				return array();
 			}
 
-			$modules = Cache::read('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), 'core');
+			$modules = Cache::read($position . '.' . ($admin ? 'admin' : 'user'), 'modules');			
 			if($modules !== false){
 				return $modules;
 			}
@@ -110,17 +118,17 @@
 					'contain' => $this->__contain
 				)
 			);
-			Cache::write('modules.' . $position . '.' . ($admin ? 'admin' : 'user'), $modules, 'core');
+			Cache::write($position . '.' . ($admin ? 'admin' : 'user'), $modules, 'modules');
 
 			return $modules;
 		}
 
 		public function getModule($module = null, $admin = false){
 			if (!$module) {
-				return false;
+				return array();
 			}
 
-			$_module = Cache::read('modules.single.' . ($admin ? 'admin' : 'user'), 'core');
+			$_module = Cache::read('single.' . ($admin ? 'admin' : 'user'), 'modules');
 			if($_module !== false){
 				return $_module;
 			}
@@ -145,7 +153,7 @@
 					'contain' => $this->__contain
 				)
 			);
-			Cache::write('modules.single.' . ($admin ? 'admin' : 'user'), $module, 'core');
+			Cache::write('single.' . ($admin ? 'admin' : 'user'), $module, 'modules');
 
 			return $module;
 		}
@@ -196,12 +204,7 @@
 		}
 
 		public function dataChanged($from){
-			App::import('Folder');
-			$Folder = new Folder(CACHE . 'core' . DS . 'modules');
-			$Folder->delete();
-
-			unset($Folder);
-
+			Cache::delete('modules');
 			return true;
 		}
 	}

@@ -13,6 +13,12 @@
 		}
 
 		public function onSetupCache(){
+			return array(
+				'name' => 'modules',
+				'config' => array(
+					'prefix' => 'core.modules.'
+				)
+			);
 		}
 
 		public function onAdminMenu(&$event){
