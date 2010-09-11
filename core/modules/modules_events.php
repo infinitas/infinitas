@@ -23,4 +23,10 @@
 
 			return $menu;
 		}
+
+		public function onRequireHelpersToLoad(&$event){
+			return array(
+				'Modules.Module'
+			);
+		}
 	}
