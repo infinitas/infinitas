@@ -27,13 +27,6 @@
 		public $view = 'Libs.Infinitas';
 
 		/**
-		 * actions where viewable will work.
-		 */
-		public $viewableActions = array(
-			'view'
-		);
-
-		/**
 		 * internal cache of css files to load
 		 * @access private
 		 */

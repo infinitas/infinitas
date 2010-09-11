@@ -49,10 +49,6 @@
 					$event->Handler->Behaviors->attach('Libs.Sequence');
 				}
 
-				if (array_key_exists('views', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Viewable')) {
-					$event->Handler->Behaviors->attach('Libs.Viewable');
-				}
-
 				if (array_key_exists('rating', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
 					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
