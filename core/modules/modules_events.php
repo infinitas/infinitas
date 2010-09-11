@@ -26,7 +26,7 @@
 
 		public function onRequireHelpersToLoad(&$event){
 			return array(
-				'Modules.Module'
+				'Modules.ModuleLoader'
 			);
 		}
 	}

@@ -25,7 +25,7 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<?php echo $this->Module->load('top', true); ?>
+			<?php echo $this->ModuleLoader->load('top', true); ?>
 			<div class="container_16">
 				<!-- menus -->
 				<div class="grid_16">
@@ -43,8 +43,8 @@
 				<!-- footer -->
 				<div class="grid_16">
 					<?php
-						echo $this->Module->load('bottom', true),
-							 $this->Module->load('hidden', true),
+						echo $this->ModuleLoader->load('bottom', true),
+							 $this->ModuleLoader->load('hidden', true),
 							 $this->Html->script($js_for_layout);
 					?>
 				</div>
