@@ -17,9 +17,5 @@
 	* @since 0.5a
 	*/
 
-	class ManagementAppController extends AppController {
-		var $helpers = array(
-			'Management.Core',
-			'Filter.Filter'
-		);
+	class ManagementAppController extends CoreAppController {
 	}

@@ -21,49 +21,6 @@
 
 		var $uses = array();
 
-		var $helpers = array(
-			'Google.Chart',
-			'Libs.Gravatar'
-		);
-
 		function admin_dashboard() {
-			$Comment = ClassRegistry::init('Comment.Comment');
-			$User    = ClassRegistry::init('Management.User');
-			$data['latestComment'] = $Comment->latestComments();
-			$data['latestUser']    = $User->latestUsers();
-
-			$data['Count']['Comment']['active']  = $Comment->getActive();
-			$data['Count']['Comment']['pending'] = $Comment->getActive(false);
-			$data['Count']['Comment']['spam']    = $Comment->find('count', array('conditions' => array('Comment.status != ' => 'approved')));
-			$data['Count']['Comment']['total']   = array_sum($data['Count']['Comment']);
-			$data['Count']['User']['loggedIn']   = $User->loggedInUserCount();
-
-			$Post = ClassRegistry::init('Blog.Post');
-			$data['Count']['Post']['active']  = $Post->getActive();
-			$data['Count']['Post']['pending'] = $Post->getActive(false);
-			$data['Count']['Post']['total']  = array_sum($data['Count']['Post']);
-
-			$Content = ClassRegistry::init('Cms.Content');
-			$data['Count']['Content']['active']  = $Content->getActive();
-			$data['Count']['Content']['pending'] = $Content->getActive(false);
-			$data['Count']['Content']['total'] = array_sum($data['Count']['Content']);
-
-			$data['popularPost'] = $Post->getMostViewed();
-			$data['popularContent'] = $Content->getMostViewed();
-
-			switch(Configure::read('Website.admin_quick_post')){
-				case 'cms':
-					$categories = $Content->generateCategoryList();
-					$groups     = $User->Group->find('list');
-					$layouts    = $Content->Layout->find('list');
-					$this->set(compact('groups', 'layouts'));
-					break;
-
-				case 'blog':
-					$categories = $Post->generateCategoryList();
-					break;
-			} // switch
-
-			$this->set(compact('data', 'categories'));
 		}
 	}

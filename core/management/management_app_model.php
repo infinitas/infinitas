@@ -17,6 +17,5 @@
 	 * @since 0.5a
 	 */
 
-	class ManagementAppModel extends AppModel {
-		var $tablePrefix = 'core_';
+	class ManagementAppModel extends CoreAppModel {
 	}
