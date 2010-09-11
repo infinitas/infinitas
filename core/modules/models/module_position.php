@@ -1,4 +1,4 @@
 <?php
-	class ModulePosition extends ManagementAppModel{
+	class ModulePosition extends CoreAppModel{
 		var $name = 'ModulePosition';
 	}

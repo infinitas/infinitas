@@ -17,5 +17,5 @@
  * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-	echo $this->Menu->dashboard;
+	echo $this->Module->load('custom4');
 ?>
