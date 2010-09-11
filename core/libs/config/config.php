@@ -19,11 +19,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	$config['App'] = array(
-		'encodig' => 'UTF-8',
-		'base' => null,
-		'baseUrl' => null
-	);
+	Configure::write('App.encodig', 'UTF-8');
 
 	$config['Routing'] = array(
 		'prefixes' => array('admin')
