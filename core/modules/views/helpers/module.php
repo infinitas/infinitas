@@ -41,7 +41,7 @@
 		 * @params string $position this is the possition that is to be loaded, can be anything from the database
 		 * @params bool $admin if true its a admin module that should be loaded.
 		 */
-		public function loadModules($position = null, $admin = false){
+		public function load($position = null, $admin = false){
 			if (!$position) {
 				$this->errors[] = 'No position selected to load modules';
 				return false;
@@ -51,6 +51,10 @@
 			if(empty($modules)) {
 				$modules = ClassRegistry::init('Modules.Module')->getModules($position, $admin);
 			}
+
+			/**
+			 * @todo if no modules based on possition, possition is a module -> $this->loadModule($position)
+			 */
 
 			$currentRoute = Configure::read('CORE.current_route');
 
@@ -87,6 +91,51 @@
 			$out .= '</div>';
 
 			return $out;
+		}
+
+		/**
+		 * Load single modules.
+		 *
+		 * This is used by the core module loader, and to load single modules. This
+		 * can be handy when you just want to load a particular module inside a view.
+		 *
+		 * @params string $position this is the possition that is to be loaded, can be anything from the database
+		 * @params bool $admin if true its a admin module that should be loaded.
+		 */
+		public function loadModule($module = null, $params = array()){
+			if(!$module){
+				return false;
+			}
+
+			if($params == null){
+				$params = $this->__getModuleParams($module);
+			}
+
+			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
+			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
+			$moduleOut = '<div class="module '.str_replace('/', '-', $module).' '.$class.'">';
+				if ($params['title']) {
+					$moduleOut .= '<h2><a id="'.$id.'" href="#">'.__($params['title'],true).'</a></h2>';
+				}
+
+				if (!empty($module)) {
+					$path = 'modules/';
+
+					$this->__getViewClass();
+					$moduleOut .= $this->View->element(
+						$path.$module,
+						$params,
+						true
+					);
+
+
+				}
+				else if ($params['content']) {
+					$moduleOut .= $params['content'];
+				}
+			$moduleOut .= '</div>';
+
+			return $moduleOut;
 		}
 
 		/**
@@ -144,51 +193,6 @@
 			}
 
 			return $json;
-		}
-
-		/**
-		 * Load single modules.
-		 *
-		 * This is used by the core module loader, and to load single modules. This
-		 * can be handy when you just want to load a particular module inside a view.
-		 *
-		 * @params string $position this is the possition that is to be loaded, can be anything from the database
-		 * @params bool $admin if true its a admin module that should be loaded.
-		 */
-		public function loadModule($module = null, $params = array()){
-			if(!$module){
-				return false;
-			}
-
-			if($params == null){
-				$params = $this->__getModuleParams($module);
-			}
-
-			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
-			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
-			$moduleOut = '<div class="module '.str_replace('/', '-', $module).' '.$class.'">';
-				if ($params['title']) {
-					$moduleOut .= '<h2><a id="'.$id.'" href="#">'.__($params['title'],true).'</a></h2>';
-				}
-
-				if (!empty($module)) {
-					$path = 'modules/';
-
-					$this->__getViewClass();
-					$moduleOut .= $this->View->element(
-						$path.$module,
-						$params,
-						true
-					);
-
-
-				}
-				else if ($params['content']) {
-					$moduleOut .= $params['content'];
-				}
-			$moduleOut .= '</div>';
-
-			return $moduleOut;
 		}
 
 		private function __getViewClass(){
