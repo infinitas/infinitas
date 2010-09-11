@@ -27,7 +27,7 @@
 			<h3><?php __('Whats Happening'); ?></h3>
 			<ul>
 				<li>
-					<div class="counts item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
+					<div class="counts item">
 						<h4><?php __('Site Status'); ?></h4>
 						<div class="count">
 							<h3><?php __('Posts'); ?></h3>
@@ -63,7 +63,7 @@
 					</div>
 				</li>
 				<li>
-					<div class="counts item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
+					<div class="counts item">
 						<h4><?php __('Popular Content'); ?></h4>
 						<?php
 							if (empty($data['popularContent']) && empty($data['popularContent'])){
@@ -154,26 +154,18 @@
 				</li>
 				<?php if (!empty($data['latestComment'])) { ?>
 				<li>
-					<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
+					<div class="item">
 						<h4><?php __('Latest Comments'); ?></h4>
 						<?php echo $this->element('admin/comments/latest', array('plugin' => 'comment', 'comments' => $data['latestComment'])); ?>
 					</div>
 				</li>
 				<?php } ?>
 				<li>
-					<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/comments.png'); ?>)">
+					<div class="item">
 						<h4><?php __('Latest Users'); ?></h4>
 						<?php echo $this->element('admin/users/logged_in', array('plugin' => 'management', 'users' => $data['latestUser'])); ?>
 					</div>
 				</li>
-				<!--<li>
-					<a href="<?php echo $this->Html->url(array('action' => 'index')); ?>">
-						<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/page_copy.png'); ?>)">
-							<h4>Manage blog posts</h4>
-							<p>Navigate your blog and edit or publish blog posts</p>
-						</div>
-					</a>
-				</li>-->
 			</ul>
 		</div>
 	</div>
@@ -182,19 +174,11 @@
 			<h3><?php __('Time Savers'); ?></h3>
 			<ul>
 				<li>
-					<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/page_copy.png'); ?>)">
+					<div class="item">
 						<h4><?php __('Quick Post'); ?></h4>
 						<?php echo $this->element('admin/quick_post', array('plugin' => Configure::read('Website.admin_quick_post'))); ?>
 					</div>
 				</li>
-				<!--<li>
-					<a href="<?php echo $this->Html->url(array('action' => 'index')); ?>">
-						<div class="item" style="background-image: url(<?php echo $this->Html->url('/img/core/icons/fatcow/16/page_copy.png'); ?>)">
-							<h4>Manage blog posts</h4>
-							<p>Navigate your blog and edit or publish blog posts</p>
-						</div>
-					</a>
-				</li>-->
 			</ul>
 		</div>
 	</div>
