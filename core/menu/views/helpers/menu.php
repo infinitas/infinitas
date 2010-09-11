@@ -31,6 +31,9 @@
 		 */
 		public $adminMenuItems = array();
 
+		/**
+		 * base structure of admin links
+		 */
 		private $__adminMenuUrl = array(
 			'plugin' => false,
 			'controller' => false,
@@ -39,12 +42,38 @@
 			'prefix' => 'admin'
 		);
 
+		/**
+		 * Makes the plugins available in the view
+		 */
+		public $adminDashboard = array();
+
+		/**
+		 * Base structure of dashboard links
+		 */
+		private $__adminDashboardIcon = array(
+			'name' => '',
+			'icon' => 'core/infinitas_thumb.png',
+			'dashboard' => '',
+			'menus' => array(
+
+			)
+		);
+
+		/**
+		 * generate some code and set properties before the page is rendered
+		 */
 		public function beforeRender(){
 			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin'){
+				$this->__builDashboardLinks();
 				$this->__builAdminMenu();
 			}
 		}
 
+		/**
+		 * Build the main admin navigation for the current plugin.
+		 * 
+		 * @return mixed
+		 */
 		private function __builAdminMenu(){
 			$this->adminMenuItems = Cache::read('admin_menu_'.$this->plugin, 'menu');
 			if($this->adminMenuItems !== false){
@@ -58,7 +87,6 @@
 				'Home' => '/admin'
 			) + $items;
 
-			$this->adminMenuItems = array();
 			foreach($items as $name => $url){
 				if(is_array($url)){
 					$url = array_merge($this->__adminMenuUrl, $url);
@@ -80,6 +108,50 @@
 
 			unset($menus, $items);
 			return Cache::write('admin_menu_'.$this->plugin, $this->adminMenuItems, 'menu');
+		}
+
+		/**
+		 * Build the icon list for admin dashboard.
+		 *
+		 * Generates an array of links for plugins to be used as a dashboard
+		 * list of icons.
+		 */
+		private function __builDashboardLinks(){	
+			$this->adminDashboard = Cache::read('admin_menu_dashboard', 'menu');
+			if($this->adminDashboard !== false){
+				return true;
+			}
+			
+			$plugins = $this->Event->trigger('pluginRollCall');
+			$plugins = array_filter($plugins['pluginRollCall']);
+
+			foreach($plugins as $name => $info) {
+				$info = array_merge($this->__adminDashboardIcon, $info);
+				if(empty($info['name'])){
+					$info['name'] = __(prettyName($name), true);
+				}
+
+				if(empty($info['dashboard'])) {
+					$info['dashboard'] = array(
+						'plugin' => strtolower($name),
+						'controller' => false,
+						'action' => false
+					);
+				}
+
+				$this->adminDashboard[] = $this->Html->link(
+					$info['name'],
+					$info['dashboard'],
+					array(
+						'title' => $info['name'],
+						'escape' => false,
+						'style' => 'background-image: url('.$info['icon'].');'
+					)
+				);
+			}
+
+			unset($plugins);
+			return Cache::write('admin_menu_dashboard', $this->adminDashboard, 'menu');
 		}
 		
 		/**
