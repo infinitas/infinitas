@@ -15,13 +15,9 @@
 
 		public function onSetupCache(){
 			return array(
-				'name' => 'core',
+				'name' => 'menu',
 				'config' => array(
-					'duration' => 3600,
-					'probability' => 100,
-					'prefix' => 'core.',
-					'lock' => false,
-					'serialize' => true
+					'prefix' => 'core.menu.'
 				)
 			);
 		}
@@ -36,12 +32,6 @@
 		}
 
 		public function onRequireHelpersToLoad(&$event){
-			return array(
-				'Menu.Menu'
-			);
-		}
-
-		public function onRequireComponentsToLoad(&$event){
 			return array(
 				'Menu.Menu'
 			);
