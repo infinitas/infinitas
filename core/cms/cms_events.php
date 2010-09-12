@@ -27,6 +27,8 @@
 		}
 
 		public function onSlugUrl(&$event, $data){
+			$data['data'] = isset($data['data']) ? $data['data'] : $data;
+			$data['type'] = isset($data['type']) ? $data['type'] : 'contents';
 			switch(strtolower($data['type'])){
 				case 'contents':					
 					$url = array(
@@ -37,10 +39,6 @@
 						'slug'       => $data['data']['Content']['slug'],
 						'category'   => isset($data['data']['Category']['slug']) ? $data['data']['Category']['slug'] : __('news-item',true)
 					);
-					break;
-
-				default:
-					echo 'Error: invalid url type';
 					break;
 			} // switch
 
