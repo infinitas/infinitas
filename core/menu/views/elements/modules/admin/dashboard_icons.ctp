@@ -18,9 +18,10 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 ?>
-<div class="dashboard">
+<div class="dashboard grid_16">
 	<h1><?php echo __('Dashboard', true); ?></h1>
 	<ul class="icons">
 		<li><?php echo implode('</li><li>', $this->Menu->adminDashboard); ?></li>
 	</ul>
 </div>
+<div class="clear"></div>

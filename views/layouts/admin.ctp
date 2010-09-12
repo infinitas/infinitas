@@ -35,9 +35,7 @@
 			</div>
 			<div class="container_16">
 				<!-- content -->
-				<div class="grid_16">
-					<?php echo $content_for_layout; ?>
-				</div>
+				<?php echo $content_for_layout; ?>
 				<div class="clear"></div>
 
 				<!-- footer -->

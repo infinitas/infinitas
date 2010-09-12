@@ -32,7 +32,7 @@
 		}
 
 		?>
-			<div class="dashboard small">
+			<div class="dashboard small small grid_5">
 				<h1><?php echo sprintf(__('Popular %s %s', true), prettyName($stats['plugin']), prettyName($stats['model'])); ?></h1>
 				<?php
 					$counts = Set::extract('/'.$stats['model'].'/views', $stats['top_rows']);

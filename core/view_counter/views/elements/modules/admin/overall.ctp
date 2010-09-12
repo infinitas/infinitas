@@ -23,7 +23,7 @@
 		return;
 	}
 		?>
-			<div class="dashboard small">
+			<div class="dashboard small grid_5">
 				<h1><?php echo sprintf(__('Overall Usage', true)); ?></h1>
 				<?php
 					$a = 'A';
@@ -54,7 +54,7 @@
 					<?php
 						$i = 0;
 						foreach($viewStats as $model => $count){
-							$model = prettyName(str_replace('.', '', Inflector::singular($model)));
+							$model = prettyName(str_replace('.', '', Inflector::singularize($model)));
 							?><li><?php echo sprintf(__('%s: %s %s views', true), $labels[$i], $count, $model); ?></li><?php
 							++$i;
 						}

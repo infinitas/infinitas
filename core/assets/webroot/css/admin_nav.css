@@ -290,19 +290,18 @@ table.listing td{
 	Dashboard
 */
 .dashboard{
-	clear: both;
 	background-color:#F9F9F9;
 	border:1px solid #AFAFAF;
 	overflow: auto;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
+	margin-bottom: 10px;
 }
 	.dashboard.small{
-		width: 300px;
-		float: left;
+		height: 330px;
 		clear: none;
-		margin-right: 10px;
+		margin-left:24px;
 	}
 
 .dashboard ul.icons{
