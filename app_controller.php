@@ -624,17 +624,17 @@
 		 */
 		public function admin_edit($id = null){
 			if(empty($this->data) && !$id){
-				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName));
+				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->__prettyModelName));
 				$this->redirect($this->referer());
 			}
 
 			if (!empty($this->data)) {
-				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
+				if ($this->{$this->__modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->__prettyModelName));
 					$this->redirect(array('action' => 'index'));
 				}
 
-				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
+				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->__prettyModelName));
 			}
 
 			if(empty($this->data) && $id){
