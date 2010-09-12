@@ -26,16 +26,41 @@
 			<div class="dashboard small">
 				<h1><?php echo sprintf(__('Overall Usage', true)); ?></h1>
 				<?php
+					$a = 'A';
+					$labels = array();
+					$count = count($viewStats);
+					for($i = 0; $i < $count; $i++){
+						$labels[] = $a++;
+					}
+					
 					echo $this->Chart->display(
-						'pie3d',
+						array(
+							'name' => 'bar',
+							'type' => 'vertical',
+							'bar' => 'vertical'
+						),
 						array(
 							'data' => array_values($viewStats),
-							'labels' => array_keys($viewStats),
-							'size' => '280,100'
+							'labels' => $labels,
+							'size' => '280,100',
+							'colors' => array(
+								'#001A4D',
+								'#4D81A8'
+							)
 						)
 					);
 				?>
-				<p><?php echo sprintf(__('%s views in total', true), array_sum($viewStats)); ?></p>
+				<ul>
+					<?php
+						$i = 0;
+						foreach($viewStats as $model => $count){
+							$model = prettyName(str_replace('.', '', Inflector::singular($model)));
+							?><li><?php echo sprintf(__('%s: %s %s views', true), $labels[$i], $count, $model); ?></li><?php
+							++$i;
+						}
+					?>
+					<li><?php echo sprintf(__('%s views in total', true), array_sum($viewStats)); ?></li>
+				</ul>
 			</div>
 		<?php
 ?>
