@@ -1,4 +1,26 @@
 <?php
+	/**
+	 * Display some pretty stats on page views.
+	 *
+	 * This gets the data from the views table and generates some graphs and stats
+	 * for the most popular contentS
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.view_counter
+	 * @subpackage Infinitas.view_counter.modules
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
 	$viewStats = ClassRegistry::init('ViewCounter.ViewCount')->getGlobalStats();
 	if(empty($viewStats)){
 		return;
