@@ -262,6 +262,8 @@
 			parent::beforeFilter();
 			$this->__modelName = $this->modelClass;
 			$this->__prettyModelName = prettyName($this->__modelName);
+			$this->{$this->__modelName}->plugin = $this->plugin;
+			$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
 		}
 
 		/**
