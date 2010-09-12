@@ -11,7 +11,13 @@
 		}
 
 		function admin_index() {
-			$this->Module->recursive = 1;
+			$this->paginate = array(
+				'contain' => array(
+					'Position',
+					'Group'
+				)
+			);
+
 			$modules = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
