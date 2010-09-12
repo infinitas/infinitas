@@ -40,6 +40,36 @@
 			$this->controller->render($template);
 			$this->controller->afterFilter();
 			echo $this->controller->output;
-			pr(debug_backtrace(false));
+			$backtrace = debug_backtrace(false);
+			?>
+				<table width="80%" style="margin:auto;">
+					<tr>
+						<th>File</th>
+						<th>Code</th>
+						<th>Line</th>
+					</tr>
+					<?php
+						foreach($backtrace as $_b){
+							$_b = array_merge(
+								array(
+									'file' => '?',
+									'class' => '?',
+									'type' => '?',
+									'function' => '?',
+									'line' => '?'
+								),
+								$_b
+							);
+							?>
+								<tr>
+									<td><?php echo $_b['file']; ?></td>
+									<td><?php echo $_b['class'], $_b['type'], $_b['function']; ?></td>
+									<td><?php echo $_b['line']; ?></td>
+								</tr>
+							<?php
+						}
+					?>
+				</table>
+			<?php
 		}
 	}
