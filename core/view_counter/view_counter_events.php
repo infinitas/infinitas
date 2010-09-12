@@ -25,6 +25,35 @@
 					&& !$event->Handler->Behaviors->enabled('ViewCounter.Viewable');
 			
 			if($attach) {
+				$event->Handler->bindModel(
+					array(
+						'hasMany' => array(
+							'ViewCount' => array(
+								'className' => 'ViewCounter.ViewCount',
+								'foreignKey' => 'foreign_key',
+								'conditions' => array(
+									'model' => $event->Handler->plugin.'.'.$event->Handler->alias
+								),
+								'limit' => 0
+							)
+						)
+					)
+				);
+				
+				$event->Handler->ViewCount->bindModel(
+					array(
+						'belongsTo' => array(
+							$event->Handler->alias => array(
+								'className' => $event->Handler->alias,
+								'foreignKey' => 'foreign_key',
+								'counterCache' => 'views',
+								'counterScope' => array(
+								)
+							)
+						)
+					)
+				);
+
 				$event->Handler->Behaviors->attach('ViewCounter.Viewable');
 			}
 		}

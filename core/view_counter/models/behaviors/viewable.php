@@ -71,55 +71,41 @@
 				$this->__session[$Model->alias] = $this->Session->read('Viewable.'.$Model->alias);
 			}
 
-			if (isset($data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']])) {
-				$data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']]++;
-				$Model->{$Model->primaryKey} = $data[0][$Model->alias][$Model->primaryKey];
+			$view['ViewCount'] = array(
+				'ip_address' => $this->Session->read('Auth.User.ip_address'),
+				'user_id' => $this->Session->read('Auth.User.id'),
+				'model' => Inflector::camelize($Model->plugin).'.'.$Model->name,
+				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey]
+			);
 
-				if(!isset($__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]])){
-					$__data = array(
-						$Model->primaryKey => $data[0][$Model->alias][$Model->primaryKey],
-						$this->__settings[$Model->alias]['view_counter'] => $data[0][$Model->alias][$this->__settings[$Model->alias]['view_counter']],
-						'modified' => false
-					);
-
-					$Model->save(
-						$__data,
-						array(
-							'validate' => false,
-							'callbacks' => false
-						)
-
-					);
-				}
-
-				unset($this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]]);
-				$this->__session[$Model->alias][$data[0][$Model->alias][$Model->displayField]] = $data[0][$Model->alias][$Model->primaryKey];
-				if(count($this->__session[$Model->alias]) > $this->__settings[$Model->alias]['session_tracking']){
-					array_shift($this->__session[$Model->alias]);
-				}
-				$this->Session->write('Viewable.'.$Model->alias, $this->__session[$Model->alias]);
-			}
+			$Model->ViewCount->save($view);
 
 			return $data;
 		}
 
 		/**
 		 * Get the most viewed records for the table
-		 * 
+		 *
 		 * @param object $Model the model that is being used.
 		 * @param int $limit the number or records to return
-		 * 
+		 *
 		 * @return array the most viewed records
 		 */
 		public function getMostViewed(&$Model, $limit = 10){
-			return $Model->find(
+			$fields = array(
+				$Model->alias.'.id',
+				$Model->alias.'.'.$Model->displayField,
+				$Model->alias.'.views'
+			);
+
+			if($Model->hasField('slug')){
+				$fields[] = $Model->alias.'.slug';
+			}
+
+			$rows = $Model->find(
 				'all',
 				array(
-					'fields' => array(
-						$Model->alias.'.id',
-						$Model->alias.'.'.$Model->displayField,
-						$Model->alias.'.views'
-					),
+					'fields' => $fields,
 					'conditions' => array(
 						$Model->alias.'.views > ' => 0
 					),
@@ -129,5 +115,19 @@
 					'limit' => (int)$limit
 				)
 			);
+
+			return $rows;
+		}
+
+		/**
+		 * Get the total number of views for a selected model
+		 *
+		 * Short cut method for models using the viewable behavior to get the
+		 * total number of views for that model.
+		 * 
+		 * @return int the number of rows found
+		 */
+		public function getToalViews(&$Model){
+			return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias);
 		}
 	}
