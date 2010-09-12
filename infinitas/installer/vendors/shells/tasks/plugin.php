@@ -22,12 +22,12 @@ class PluginTask extends Shell {
 
 				if(in_array($plugin, $plugins)) {
 					$this->generate($plugin);
-					exit(0);
 				}
 				else {
 					$this->out($plugin . ' plugin not found');
 				}
 			}
+			exit(0);
 		}
 
 		do {
@@ -54,7 +54,7 @@ class PluginTask extends Shell {
 	 * @param string $plugin Name of the plugin to generate the release for.
 	 * @return Nothing
 	 */
-	public function generate($plugin) {
+	public function generate($plugin) {		
 		$pluginPath = App::pluginPath($plugin);
 		$this->__plugin = $plugin;
 		$this->__info = $this->__models = array();
@@ -70,11 +70,16 @@ class PluginTask extends Shell {
 			$this->__info = array(
 				'dependancies' => array()
 			);
-			do {
-				if(!isset($this->params['silent'])) {
-					$this->out("Initial release for " . $this->__plugin);
+			
+			$this->__initializeDependancies();
+			$this->__initializeModels();
+
+			if(!isset($this->params['silent'])) {
+				$this->out("Initial release for " . $this->__plugin);
+				$this->out("It looks like this is the first time you are generating\nan Infinitas release for this plugin.");
+
+				do {
 					$this->hr();
-					$this->out("It looks like this is the first time you are generating\nan Infinitas release for this plugin.");
 					$this->__info['name'] = $this->__plugin;
 					$this->__info['version'] = '1.0';
 
@@ -90,36 +95,85 @@ class PluginTask extends Shell {
 
 					$this->__configureModels();
 					$correct = $this->__reviewInformation();
+				} while(strtoupper($correct) == 'N');
+
+				if(strtoupper($correct) == 'Q') {
+					return;
 				}
 				else {
-					foreach($this->__options as $option) {
-						$this->__info[$option] = isset($this->params[$option]) ? $this->params[$option] : '';
-					}
-
-					if(isset($this->params['dep'])) {
-						$dependancies = explode($this->params['dep']);
-					}
+					$this->__writeOut();
 				}
-			} while(strtoupper($correct) == 'N');
-
-			if(strtoupper($correct) == 'Q') {
-				return;
 			}
 			else {
-				$this->hr();
+				foreach($this->__options as $option) {
+					$this->__info[$option] = isset($this->params[$option]) ? $this->params[$option] : '';
+				}
 
-				$this->out('Generating migration...');
-				$schemaMigration = $this->Migration->generate($this->__plugin);
+				if($this->__info['version'] == '') {
+					$this->__info['version'] = '1.0';
+				}
 
-				$this->out('Generating fixtures...');
-				$fixtures = $this->Fixture->generate($this->__models, $this->__plugin);
+				if(isset($this->params['models']) && $this->params['models'] === true) {
+					$this->__configureModels();
+				}
 
-				$this->__writeOutput(compact('schemaMigration', 'fixtures'));
+				$this->__writeOut();
 			}
 		}
 	}
 
+	private function __writeOut() {
+		$this->hr();
 
+		$this->out('Generating migration...');
+		$schemaMigration = $this->Migration->generate($this->__plugin);
+
+		$this->out('Generating fixtures...');
+		$fixtures = $this->Fixture->generate($this->__models, $this->__plugin);
+
+		$this->__writeOutput(compact('schemaMigration', 'fixtures'));
+	}
+
+	private function __initializeDependancies() {
+		if(isset($this->params['dep'])) {
+			$nonCorePlugins = $this->__getPluginList();
+			$dependancies = explode(',', $this->params['dep']);
+
+			foreach($dependancies as $dependancy) {
+				$dependancy = Inflector::camelize($dependancy);
+				if(in_array($dependancy, $nonCorePlugins) && $dependancy != $plugin) {
+					$this->__info['dependancies'][$dependancy] = true;
+				}
+			}
+		}
+	}
+
+	private function __initializeModels() {
+		if(isset($this->params['models']) && $this->params['models'] !== true) {
+			$modelSetups = explode(',', $this->params['models']);
+
+			$models = App::objects('model', App::pluginPath($this->__plugin) . 'models' . DS, false);
+
+			foreach($modelSetups as $modelSetup) {
+				$modelSetup = explode('-', $modelSetup);
+				$model = Inflector::classify($modelSetup[0]);
+
+				if(in_array('core', $modelSetup)) {
+					$this->__models[$model]['core'] = array(
+						'where' => '1=1',
+						'limit' => '0'
+					);
+				}
+
+				if(in_array('sample', $modelSetup)) {
+					$this->__models[$model]['sample'] = array(
+						'where' => '1=1',
+						'limit' => '0'
+					);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Returns a list of available plugins
@@ -211,7 +265,7 @@ class PluginTask extends Shell {
 			$currentVersion = $this->__info['version'];
 
 			do {
-				$this->__info['version'] = $this->in('You are required to enter a new version number.');
+				$this->__info['version'] = $this->in('You are required to enter a new version number. Current version number is: ' . $this->__info['version']);
 			} while($this->__info['version'] == $currentVersion || $this->__info['version'] == '');
 
 
@@ -413,7 +467,7 @@ class PluginTask extends Shell {
 
 	private function __initialInfo() {
 		foreach($this->__options as $option) {
-			$default = isset($this->__info[$option]) ? $this->__info[$option] : (isset($this->params[$option]) ? $this->params[$option] : '');
+			$default = isset($this->__info[$option]) ? $this->__info[$option] : (isset($this->params[$option]) ? $this->params[$option] : null);
 			$this->__info[$option] = $this->in('Enter the plugin ' . $option, null, $default);
 		}
 	}
