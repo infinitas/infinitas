@@ -641,27 +641,6 @@
 		}
 
 		/**
-		 * delete records.
-		 *
-		 * delete records throughout the app.
-		 *
-		 * @todo -c"AppController" Implement AppController.
-		 * - undo thing... maybe save the whole record in the session and if click
-		 *     undo just save it back, or use soft delete and purge
-		 * @param mixed $id the id of the record.
-		 * @return n /a just redirects with different messages in {@see Session::setFlash}
-		 */
-		public function admin_delete() {
-			try {
-				throw new Exception('Please use the delete through the mass action handler.');
-			} catch (Exception $e) {
-				echo 'Depreciated: ',  $e->getMessage(), ' Where: ', __METHOD__, ' Line: ',  __LINE__, "\n";
-				print_r(debug_backtrace());
-			}
-			exit;
-		}
-
-		/**
 		 * reorder records.
 		 *
 		 * uses named paramiters can use the following:
