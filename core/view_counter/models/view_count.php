@@ -74,7 +74,7 @@
 		/**
 		 * Get totals per model and overall
 		 *
-		 * @return array list of models and counts with the final array element the total
+		 * @return array list of models and counts
 		 */
 		public function getGlobalTotalCount(){
 			$models = $this->getUniqueModels();
@@ -83,8 +83,6 @@
 			foreach($models as $model){
 				$return[$model] = ClassRegistry::init($model)->getToalViews();
 			}
-
-			$return['total'] = array_sum($return);
 
 			return $return;
 		}

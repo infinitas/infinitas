@@ -35,6 +35,7 @@
 						)
 					);
 				?>
+				<p><?php echo sprintf(__('%s views in total', true), array_sum($viewStats)); ?></p>
 			</div>
 		<?php
 ?>
