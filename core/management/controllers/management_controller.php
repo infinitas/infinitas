@@ -21,6 +21,12 @@
 
 		var $uses = array();
 
+		public function beforeFilter(){
+			parent::beforeFilter();
+
+			$this->helpers[] = 'Google.Chart';
+		}
+
 		function admin_dashboard() {
 		}
 	}
