@@ -298,6 +298,12 @@ table.listing td{
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
+	.dashboard.small{
+		width: 300px;
+		float: left;
+		clear: none;
+		margin-right: 10px;
+	}
 
 .dashboard ul.icons{
 	list-style:none outside none;
