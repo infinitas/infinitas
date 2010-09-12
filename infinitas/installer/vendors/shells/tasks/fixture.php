@@ -7,7 +7,7 @@ class FixtureTask extends Shell {
 		foreach($models as $model => $options) {
 			foreach($options as $type => $option) {
 				$modelName = $plugin . '.' . $model;
-				$conditions = 'WHERE ' . $option['where'];
+				$conditions = $option['where'];
 				if($option['limit'] != 0) {
 					$conditions .= ' LIMIT ' . $option['limit'];
 				}
@@ -29,19 +29,25 @@ class FixtureTask extends Shell {
  */
 	function _getRecordsFromTable($modelName, $condition, $useTable = null) {
 		$modelObject = ClassRegistry::init($modelName);
-		$records = $modelObject->find('all', array(
-			'conditions' => $condition,
-			'recursive' => -1
-		));
-		$db =& ConnectionManager::getDataSource($modelObject->useDbConfig);
-		$schema = $modelObject->schema(true);
 		$out = array();
-		foreach ($records as $record) {
-			$row = array();
-			foreach ($record[$modelObject->alias] as $field => $value) {
-				$row[$field] = $db->value($value, $schema[$field]['type']);
+		if($modelObject->useTable !== false) {
+			$records = $modelObject->find('all', array(
+				'conditions' => $condition,
+				'recursive' => -1
+			));
+			$db =& ConnectionManager::getDataSource($modelObject->useDbConfig);
+			$schema = $modelObject->schema(true);
+			if(!empty($records)) {
+				foreach ($records as $record) {
+					$row = array();
+					foreach ($record[$modelObject->alias] as $field => $value) {
+						if(isset($schema[$field])) {
+							$row[$field] = $db->value($value, $schema[$field]['type']);
+						}
+					}
+					$out[] = $row;
+				}
 			}
-			$out[] = $row;
 		}
 		return $out;
 	}

@@ -125,6 +125,7 @@ class PluginTask extends Shell {
 	private function __writeOut() {
 		$this->hr();
 
+		$this->out('Plugin: ' . $this->__plugin);
 		$this->out('Generating migration...');
 		$schemaMigration = $this->Migration->generate($this->__plugin);
 
@@ -154,22 +155,37 @@ class PluginTask extends Shell {
 
 			$models = App::objects('model', App::pluginPath($this->__plugin) . 'models' . DS, false);
 
+			$defaultSetup = array(
+							'where' => '1=1',
+							'limit' => '0'
+						);
+
 			foreach($modelSetups as $modelSetup) {
 				$modelSetup = explode('-', $modelSetup);
 				$model = Inflector::classify($modelSetup[0]);
 
-				if(in_array('core', $modelSetup)) {
-					$this->__models[$model]['core'] = array(
-						'where' => '1=1',
-						'limit' => '0'
-					);
+				if($model == 'All') {
+					foreach($models as $model) {
+						if(in_array('core', $modelSetup)) {
+							$this->__models[$model]['core'] = $defaultSetup;
+						}
+
+						if(in_array('sample', $modelSetup)) {
+							$this->__models[$model]['sample'] = $defaultSetup;
+						}
+					}
+
+					break;
 				}
 
-				if(in_array('sample', $modelSetup)) {
-					$this->__models[$model]['sample'] = array(
-						'where' => '1=1',
-						'limit' => '0'
-					);
+				if(in_array($model, $models)) {
+					if(in_array('core', $modelSetup)) {
+						$this->__models[$model]['core'] = $defaultSetup;
+					}
+
+					if(in_array('sample', $modelSetup)) {
+						$this->__models[$model]['sample'] = $defaultSetup;
+					}
 				}
 			}
 		}
@@ -286,7 +302,11 @@ class PluginTask extends Shell {
 	private function __writeRelease($options = array()) {
 		extract(array_merge(array('fixtures' => null), $options));
 
-		$vars = array_merge($this->__info, array('releaseName' => $name, 'class' => $class, 'migration' => $schemaMigration, 'fixtures' => $fixtures, 'plugin' => $this->__plugin));
+		$vars = array_merge($this->__info, array('releaseName' => $name, 'class' => $class, 'migration' => $schemaMigration, 'plugin' => $this->__plugin));
+
+		if(isset($fixtures)) {
+			$vars['fixtures'] = $fixtures;
+		}
 
 		$content = $this->__generateTemplate('release', $vars);
 
@@ -328,7 +348,7 @@ class PluginTask extends Shell {
 		extract($vars);
 		ob_start();
 		ob_implicit_flush(0);
-		include(dirname(__FILE__) . DS . 'templates' . DS . $template . '.ctp');
+		include(dirname(dirname(__FILE__)) . DS . 'templates' . DS . $template . '.ctp');
 		$content = ob_get_clean();
 
 		return $content;
