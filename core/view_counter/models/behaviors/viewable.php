@@ -62,7 +62,7 @@
 		*/
 		public function afterFind(&$Model, $data) {
 			// skip finds with more than one result.
-			if (isset($data[0]) && count($data) > 1) {
+			if (empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1) {
 				return $data;
 			}
 			
