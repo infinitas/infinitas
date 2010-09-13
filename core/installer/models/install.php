@@ -17,7 +17,7 @@
 	* @since 0.5a
 	*/
 
-	class Install extends InstallerAppModel {
+	class Install extends Model {
 		public $name = 'Install';
 		public $useTable = false;
 		public $useDbConfig = false;
