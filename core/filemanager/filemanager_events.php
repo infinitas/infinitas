@@ -29,4 +29,12 @@
 				'author' => 'Infinitas'
 			);
 		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Root Dir' => array('controller' => false, 'action' => false)
+			);
+
+			return $menu;
+		}
 	 }

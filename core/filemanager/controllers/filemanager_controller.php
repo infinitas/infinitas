@@ -1,8 +1,8 @@
 <?php
 	/**
 	*/
-	class FileManagerController extends AppController {
-		var $name = 'FileManager';
+	class FilemanagerController extends AppController {
+		var $name = 'Filemanager';
 
 		var $uses = array('Filemanager.Files', 'Filemanager.Folders');
 
