@@ -26,7 +26,9 @@
 
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
-			$folder = str_replace('.', DS, $cache['name']);
+			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';
+			$folder = str_replace('.', DS, $cache['config']['prefix']);
+			
 			if(!is_dir(CACHE.$folder)){
 				$Folder = new Folder(CACHE.$folder, true);
 			}
