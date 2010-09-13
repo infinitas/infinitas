@@ -2,9 +2,8 @@
 	App::import('Lib', 'Libs.LazyModel');
 
 	/**
-	 * Comment Template.
-	 *
-	 * @todo Implement .this needs to be sorted out.
+	 * AppModel is the base Model that all models should extend, unless you are
+	 * doing something completely different.
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
@@ -23,8 +22,6 @@
 		* The database configuration to use for the site.
 		*/
 		public $useDbConfig = 'default';
-
-		//var $tablePrefix = 'core_';
 
 		/**
 		* Behaviors to attach to the site.
@@ -73,14 +70,27 @@
 			}
 		}
 
+		/**
+		 * called after something is saved
+		 */
 		public function afterSave($created){
 			$this->__clearCache();
 		}
 
+		/**
+		 * called after something is deleted.
+		 */
 		public function afterDelete(){
 			$this->__clearCache();
 		}
 
+		/**
+		 * Delete all cahce for the plugin.
+		 *
+		 * Will automaticaly delete all the cache for a model that it can detect.
+		 * you can overlaod after save/delete to stop this happening if you dont
+		 * want all your cache rebuilt after a save/delete.
+		 */
 		private function __clearCache(){
 			if(in_array($this->plugin, Cache::configured())){
 				$_cache = Cache::getInstance()->__config[$this->plugin];
