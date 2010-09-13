@@ -32,6 +32,11 @@
 		);
 
 		public function initialize(&$Controller, $settings = array()){
+			if(!isset($Controller->{$Controller->modelClass})){
+				// no model being used.
+				return false;
+			}
+
 			$settings = array_merge($this->__settings, (array)$settings);
 
 			$check =
