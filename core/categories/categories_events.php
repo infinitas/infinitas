@@ -8,6 +8,16 @@
 				'author' => 'Infinitas'
 			);
 		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Categories' => array('controller' => false, 'action' => false),
+				'Active' => array('controller' => 'categories', 'action' => 'index', 'Category.active' => 1),
+				'Disabled' => array('controller' => 'categories', 'action' => 'index', 'Category.active' => 0)
+			);
+
+			return $menu;
+		}
 		
 		function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
