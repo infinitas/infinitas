@@ -60,7 +60,7 @@ table.listing td{
 }
 
 table.listing thead th,
-table.listing foot th{
+table.listing tfoot th{
 	color:#3A3A3A;
 	font-size:1.1em;
 	padding:10px;
