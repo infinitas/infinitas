@@ -24,7 +24,7 @@
 ?>
 <div class="comments">
 	<?php       
-        $commentFields = explode(',',Configure::read('Comment.fields'));
+        $commentFields = explode(',',Configure::read('Comments.fields'));
 
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
     	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
@@ -38,7 +38,7 @@
 			echo $this->Html->link(
 				__('View all comments', true),
 				array(
-					'plugin' => 'comment',
+					'plugin' => 'comments',
 					'controller' => 'comments',
 					'action' => 'index',
 					'Comment.class' => Inflector::camelize($this->params['plugin']).'.'.$modelName,

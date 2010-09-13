@@ -28,7 +28,7 @@
 
 		public $hasMany = array(
 			'CommentAttributes' => array(
-				'className' => 'Comment.CommentAttributes'
+				'className' => 'Comments.CommentAttributes'
 			)
 		);
 		
@@ -106,44 +106,6 @@
 			);
 			
 			return array_combine($classes, $classes);
-		}
-
-		public function afterSave($created) {
-			parent::afterSave($created);
-
-			$this->__clearCache();
-			return true;
-		}
-
-		public function afterDelete() {
-			parent::afterDelete();
-
-			$this->__clearCache();
-			return true;
-		}
-
-		private function __clearCache() {
-			App::import('Folder');
-
-			$Folder = new Folder(CACHE . 'blog');
-
-			$files = $Folder->read();
-
-			if (empty($files[1])) {
-				return true;
-			}
-
-			foreach($files[1] as $file) {
-				if ($file == 'empty') {
-					continue;
-				}
-
-				if (substr($file, 0, 15) == 'comments_count_') {
-					unlink(CACHE . 'blog' . DS . $file);
-				}
-			}
-
-			return true;
 		}
 
 		public function latestComments($all = true, $limit = 10){

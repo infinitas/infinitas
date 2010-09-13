@@ -20,8 +20,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class CommentAppModel extends AppModel{
-		 //public $name = 'CommentAppModel';
-		 
+	 class CommentAppModel extends AppModel{		 
 		 public $tablePrefix = 'global_';
 	 }

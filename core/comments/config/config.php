@@ -29,4 +29,4 @@
 	/**
 	 * @todo should both be the same.
 	 */
-	Configure::write('Comment.fields', 'name,email,website,comment');
+	Configure::write('Comments.fields', 'name,email,website,comment');

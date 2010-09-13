@@ -24,15 +24,12 @@
 				'name' => 'Comment',
 				'description' => 'See what your users have to say',
 				'icon' => '/comment/img/icon.png',
-				'author' => 'Infinitas',
-				'dashboard' => array(
-					'controller' => 'comments'
-				)
+				'author' => 'Infinitas'
 			);
 		}
 		
 		public function onSetupConfig(){
-			return Configure::load('comment.config');
+			return Configure::load('comments.config');
 		}
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model')) {
@@ -41,7 +38,7 @@
 						array(
 							'hasMany' => array(
 								$event->Handler->name.'Comment' => array(
-									'className' => 'Comment.Comment',
+									'className' => 'Comments.Comment',
 									'foreignKey' => 'foreign_id',
 									'limit' => 5,
 									'order' => array(
@@ -70,8 +67,8 @@
 						false
 					);
 					
-					if(!$event->Handler->Behaviors->enabled('Comment.Commentable')){
-						$event->Handler->Behaviors->attach('Comment.Commentable');
+					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')){
+						$event->Handler->Behaviors->attach('Comments.Commentable');
 					}
 				}
 			}
@@ -79,13 +76,13 @@
 
 		public function onRequireCssToLoad(&$event){
 			return array(
-				'/comment/css/comment'
+				'/comments/css/comment'
 			);
 		}
 
 		public function onRequireJavascriptToLoad(&$event){
 			return array(
-				'/comment/js/comment'
+				'/comments/js/comment'
 			);
 		}
 	 }
