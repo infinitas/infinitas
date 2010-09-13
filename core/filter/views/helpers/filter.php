@@ -15,13 +15,25 @@
     		$output = '<div class="filter-form"><h1>'.__('Search', true).'</h1>';
        		foreach( $filter['fields'] as $field => $options){
        			if (is_array($options)){
+					switch($field){
+						case 'active':
+							$emptyText = __('status', true);
+							break;
+						
+						default:
+							$emptyText = __($field, true);
+							break;
+					}
+
+					$emptyText = sprintf(__('Select the %s', true), Inflector::humanize(str_replace('_id', '', $emptyText)));
 					$output .= $this->Form->input(
 						$field,
 	    				array(
 		    				'type' => 'select',
 		    				'div' => false,
 		    				'options' => $options,
-		    				'empty' => __(Configure::read('Website.empty_select'), true)
+		    				'empty' => $emptyText,
+							'label' => false
 		    			)
 	    			);
 				}
@@ -30,7 +42,9 @@
 						$options,
 						array(
 							'type' => 'text',
-							'div' => false
+							'div' => false,
+							'label' => false,
+							'value' => $options
 						)
 					);
 				}
