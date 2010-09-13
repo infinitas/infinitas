@@ -18,9 +18,9 @@
 	 * @since 0.5a
 	 */
 	class Theme extends ThemesAppModel {
-		var $name = 'Theme';
+		public $name = 'Theme';
 
-		var $hasMay = array(
+		public $hasMay = array(
 			'Routes.Route'
 		);
 
@@ -30,7 +30,7 @@
 		 * @param array $conditions
 		 * @return array $theme the current theme.
 		 */
-		function getCurrentTheme(){
+		public function getCurrentTheme(){
 			$theme = Cache::read('current_theme', 'core');
 
 			if ($theme !== false) {
@@ -57,32 +57,18 @@
 		}
 
 		/**
-		* deactivate all themes.
-		*
-		* This is used before activating a theme to make sure that there is only
-		* ever one theme active.
-		*
-		* @return bool true on sucsess false if not.
-		*/
-		function _deactivateAll(){
+		 * deactivate all themes.
+		 *
+		 * This is used before activating a theme to make sure that there is only
+		 * ever one theme active.
+		 *
+		 * @return bool true on sucsess false if not.
+		 */
+		private function __deactivateAll(){
 			return $this->updateAll(
 				array(
 					'Theme.active' => '0'
 				)
 			);
-		}
-
-		function afterSave($created) {
-			parent::afterSave($created);
-
-			Cache::delete('current_theme', 'core');
-			return true;
-		}
-
-		function afterDelete() {
-			parent::afterDelete();
-
-			Cache::delete('current_theme', 'core');
-			return true;
 		}
 	}

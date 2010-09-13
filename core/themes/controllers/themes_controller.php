@@ -1,8 +1,6 @@
 <?php
 	/**
-	 * Comment Template.
-	 *
-	 * @todo Implement .this needs to be sorted out.
+	 * Themes controller for managing the themes in infinitas
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
@@ -18,13 +16,9 @@
 	 */
 
 	class ThemesController extends ThemesAppController{
-		var $name = 'Themes';
+		public $name = 'Themes';
 
-		function beforeFilter() {
-			parent::beforeFilter();
-		}
-
-		function admin_index() {
+		public function admin_index() {
 			$this->Theme->recursive = 1;
 			$themes = $this->paginate(null, $this->Filter->filter);
 
@@ -40,7 +34,7 @@
 			$this->set(compact('themes', 'filterOptions'));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				if ($this->data['Theme']['active']) {
 					$this->Theme->_deactivateAll();
@@ -54,7 +48,7 @@
 			}
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('That theme could not be found', true), true);
 				$this->redirect($this->referer());
@@ -80,12 +74,14 @@
 
 
 		/**
-		* Mass toggle action.
-		*
-		* This overwrites the default toggle action so that other themes can
-		* be deactivated first as you should only have one active at a time.
-		*/
-		function __massActionToggle($ids) {
+		 * Mass toggle action.
+		 *
+		 * This overwrites the default toggle action so that other themes can
+		 * be deactivated first as you should only have one active at a time.
+		 *
+		 * @var array $ids the id of the theme to toggle
+		 */
+		private function __massActionToggle($ids) {
 			if (count($ids) > 1) {
 				$this->Session->setFlash(__('Please select only one theme to be active', true));
 				$this->redirect($this->referer());
