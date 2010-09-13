@@ -22,9 +22,29 @@
 
 	class ViewCounterComponent extends InfinitasComponent{
 		/**
-		 * actions where viewable will work.
+		 * settings for the component
 		 */
-		public $viewableActions = array(
-			'view'
+		public $__settings = array(
+			'actions' => array(
+				'view'
+			),
+			'admin' => false
 		);
+
+		public function initialize(&$Controller, $settings = array()){
+			$settings = array_merge($this->__settings, (array)$settings);
+
+			$check =
+				// dont tack admin views
+				$settings['admin'] === false && 
+				isset($Controller->params['admin']) &&
+				$Controller->params['admin'] &&
+
+				// only track actions that are set
+				in_array($Controller->action, $settings['actions']);
+
+			if($check === false){
+				$Controller->{$Controller->modelClass}->Behaviors->detach('ViewCounter.Viewable');
+			}
+		}
 	}
