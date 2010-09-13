@@ -134,10 +134,11 @@
 				if(empty($info['dashboard'])) {
 					$info['dashboard'] = array(
 						'plugin' => strtolower($name),
-						'controller' => false,
-						'action' => false
+						'controller' => strtolower($name),
+						'action' => 'index'
 					);
 				}
+				
 
 				$this->adminDashboard[] = $this->Html->link(
 					$info['name'],
