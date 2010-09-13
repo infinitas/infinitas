@@ -24,7 +24,10 @@
 				'name' => 'Comment',
 				'description' => 'See what your users have to say',
 				'icon' => '/comment/img/icon.png',
-				'author' => 'Infinitas'
+				'author' => 'Infinitas',
+				'dashboard' => array(
+					'controller' => 'comments'
+				)
 			);
 		}
 		

@@ -138,7 +138,7 @@
 						'controller' => strtolower($name),
 						'action' => 'index'
 					);
-				}
+				}				
 
 				$var = 'plugin';
 				if(strstr(App::pluginPath($name), APP.'core/')){
