@@ -20,12 +20,18 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class FilterEvents extends AppEvents{
-		 public function onRequireComponentsToLoad(){
+	class FilterEvents extends AppEvents{
+		public function onRequireComponentsToLoad(&$event){
 			return array(
 				'Filter.Filter' => array(
 					'actions' => array('admin_index')
 				)
 			);
-		 }
-	 }
+		}
+
+		public function onRequireHelpersToLoad(&$event){
+			return array(
+				'Filter.Filter'
+			);
+		}
+	}
