@@ -106,7 +106,7 @@ class PluginTask extends Shell {
 			}
 			else {
 				foreach($this->__options as $option) {
-					$this->__info[$option] = isset($this->params[$option]) ? $this->params[$option] : '';
+					$this->__info[$option] = isset($this->params[$option]) ? $this->params[$option] : (isset($this->__info[$option]) ? $this->__info[$option] : '');
 				}
 
 				if($this->__info['version'] == '') {
