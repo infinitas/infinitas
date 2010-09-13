@@ -17,6 +17,9 @@
 	* @since 0.5a
 	*/
 
+<<<<<<< HEAD:core/newsletter/views/helpers/newsletter_layout.php
+	class NewsletterLayoutHelper extends LetterHelper {
+=======
 	class Install extends InstallerAppModel {
 		public $name = 'Install';
 		public $useTable = false;
@@ -38,6 +41,10 @@
 					'rule' => 'notempty',
 					'message' => __('You need to enter the username used to connect to the database', true)
 				),
+				'password' => array(
+					'rule' => 'notempty',
+					'message' => __('You need to enter the password for the database user', true)
+				),
 				'host' => array(
 					'rule' => 'notempty',
 					'message' => __('You need to enter the host for your database', true)
@@ -52,4 +59,5 @@
 		public function find() {
 			return true;
 		}
+>>>>>>> Installer with initial pre-installation steps:infinitas/installer/models/install.php
 	}
