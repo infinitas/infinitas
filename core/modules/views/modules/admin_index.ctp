@@ -48,19 +48,19 @@
                     $this->Paginator->sort('licence') => array(
                         'style' => 'width:90px;'
                     ),
-                    $this->Paginator->sort('Group', 'Group.name') => array(
+                    $this->Paginator->sort('Display to', 'Group.name') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('Locked', true) => array(
+                    $this->Paginator->sort('Locked') => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort('Order', true) => array(
+                    $this->Paginator->sort('Order') => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort('core', true) => array(
+                    $this->Paginator->sort('core') => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort('active', true) => array(
+                    $this->Paginator->sort('Status', 'active') => array(
                         'style' => 'width:50px;'
                     )
                 )
@@ -80,7 +80,7 @@
 	                				echo $module['Theme']['name'];
 	                			}
 	                			else{
-			                		echo __('All', true);
+			                		echo __('Any', true);
                 				}
 							?>&nbsp;
                 		</td>
@@ -95,7 +95,7 @@
                 			?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $module['Position']['name']; ?>&nbsp;
+                			<?php echo Inflector::humanize($module['Position']['name']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
