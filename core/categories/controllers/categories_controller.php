@@ -38,8 +38,8 @@
 						'controller' => 'categories',
 						'action' => 'view',
 						$categories[0]['Category']['id']
-						)
-					);
+					)
+				);
 			}
 
 			$this->set('categories', $categories);
@@ -64,9 +64,10 @@
 						'controller' => 'contents',
 						'action' => 'view',
 						$category['Content'][0]['id']
-						)
-					);
+					)
+				);
 			}
+			
 			else if(empty($category)){
 				$this->Session->setFlash(__('Invalid category', true));
 				$this->redirect($this->referer());
@@ -76,12 +77,7 @@
 			$this->set('category', $category);
 		}
 
-		function admin_dashboard() {
-		}
-
 		function admin_index() {
-			$this->Category->recursive = 0;
-
 			$categories = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -103,15 +99,7 @@
 		}
 
 		function admin_add() {
-			if (!empty($this->data)) {
-				$this->Category->create();
-				if ($this->Category->save($this->data)) {
-					$this->Session->setFlash(__('The category has been saved', true));
-					$this->redirect(array('action' => 'index'));
-				}else {
-					$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
-				}
-			}
+			parent::admin_add();
 
 			$parents = array(__('Top Level Category', true)) + $this->Category->generatetreelist();
 			$groups = $this->Category->Group->find('list');
@@ -119,27 +107,7 @@
 		}
 
 		function admin_edit($id = null) {
-			if (!$id && empty($this->data)) {
-				$this->Session->setFlash(__('Invalid category', true));
-				$this->redirect(array('action' => 'index'));
-			}
-
-			if (!empty($this->data)) {
-				if ($this->Category->save($this->data)) {
-					$this->Session->setFlash(__('The category has been saved', true));
-					$this->redirect(array('action' => 'index'));
-				}else {
-					$this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
-				}
-			}
-
-			if (empty($this->data)) {
-				$this->data = $this->Category->lock(null, $id);
-				if ($this->data === false) {
-					$this->Session->setFlash(__('The category is currently locked', true));
-					$this->redirect($this->referer());
-				}
-			}
+			parent::admin_edit($id);
 
 			$parents = array(__('None', true)) + $this->Category->generatetreelist();
 			$groups = $this->Category->Group->find('list');
