@@ -139,9 +139,13 @@
 						'action' => 'index'
 					);
 				}
-				
 
-				$this->adminDashboard[] = $this->Html->link(
+				$var = 'plugin';
+				if(strstr(App::pluginPath($name), APP.'core/')){
+					$var = 'core';
+				}
+
+				$this->adminDashboard[$var][] = $this->Html->link(
 					$info['name'],
 					$info['dashboard'],
 					array(

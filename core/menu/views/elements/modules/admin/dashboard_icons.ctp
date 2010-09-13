@@ -19,9 +19,16 @@
 	 */
 ?>
 <div class="dashboard grid_16">
-	<h1><?php echo __('Dashboard', true); ?></h1>
+	<h1><?php echo __('Infinitas', true); ?></h1>
 	<ul class="icons">
-		<li><?php echo implode('</li><li>', $this->Menu->adminDashboard); ?></li>
+		<li><?php echo implode('</li><li>', $this->Menu->adminDashboard['core']); ?></li>
+	</ul>
+</div>
+<div class="clear"></div>
+<div class="dashboard grid_16">
+	<h1><?php echo __('Plugins', true); ?></h1>
+	<ul class="icons">
+		<li><?php echo implode('</li><li>', $this->Menu->adminDashboard['plugin']); ?></li>
 	</ul>
 </div>
 <div class="clear"></div>
