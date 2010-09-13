@@ -68,6 +68,9 @@
 					$this->triggerEvent('attachBehaviors');
 				}
 			}
+			elseif(php_sapi_name() == 'cli') {
+				$this->actsAs = array();
+			}
 		}
 
 		/**
