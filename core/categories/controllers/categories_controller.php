@@ -18,14 +18,14 @@
 	*/
 
 	class CategoriesController extends CategoriesAppController {
-		var $name = 'Categories';
+		public $name = 'Categories';
 
-		var $helpers = array(
+		public $helpers = array(
 			'Filter.Filter',
 			'Text'
 		);
 
-		function index() {
+		public function index() {
 			if(isset($this->params['category'])){
 				$this->paginate['Category']['conditions']['Category.slug'] = $this->params['category'];
 			}
@@ -45,7 +45,7 @@
 			$this->set('categories', $categories);
 		}
 
-		function view() {
+		public function view() {
 			if(isset($this->params['category'])){
 				$conditions['Category.slug'] = $this->params['category'];
 			}
@@ -77,7 +77,7 @@
 			$this->set('category', $category);
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$categories = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -90,7 +90,7 @@
 			$this->set(compact('filterOptions','categories'));
 		}
 
-		function admin_view($id = null) {
+		public function admin_view($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('Invalid category', true));
 				$this->redirect(array('action' => 'index'));
@@ -98,7 +98,7 @@
 			$this->set('category', $this->Category->read(null, $id));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			parent::admin_add();
 
 			$parents = array(__('Top Level Category', true)) + $this->Category->generatetreelist();
@@ -106,7 +106,7 @@
 			$this->set(compact('parents', 'groups'));
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
 			$parents = array(__('None', true)) + $this->Category->generatetreelist();
@@ -114,7 +114,7 @@
 			$this->set(compact('parents', 'groups'));
 		}
 
-		function admin_delete($id = null) {
+		public function admin_delete($id = null) {
 			if (!$id) {
 				$this->Session->setFlash('That Category could not be found', true);
 				$this->redirect($this->referer());

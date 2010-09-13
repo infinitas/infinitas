@@ -1,4 +1,23 @@
 <?php
+	/**
+	 * Allows any model to have categories.
+	 *
+	 * Add the field category_id to your model to have it all auto bind the
+	 * behaviors and relate the models
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas.categories
+	 * @subpackage Infinitas.categories.behaviors.categorisable
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 */
+
 	class CategorisableBehavior extends ModelBehavior {
 		/**
 		 * Contain settings indexed by model name.
