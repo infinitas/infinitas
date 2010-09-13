@@ -25,3 +25,6 @@
 [submodule "plugins/cms"]
 	path = plugins/cms
 	url = git://github.com/Infinitas-Plugins/cms.git
+[submodule "plugins/blog"]
+	path = plugins/blog
+	url = git://github.com/Infinitas-Plugins/blog.git
