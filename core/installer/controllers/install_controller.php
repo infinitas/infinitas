@@ -32,7 +32,7 @@
 		* @var array
 		* @access public
 		*/
-		//var $uses = array();
+		var $uses = array();
 
 		/**
 		* No components required
@@ -173,7 +173,25 @@
 		}
 
 		function _prepareInstall() {
-			
+			$plugins = App::objects('plugin');
+
+			$availablePlugins = array(
+				'core' => array(),
+				'plugin' => array()
+			);
+
+			foreach($plugins as $plugin) {
+				$pluginPath = App::pluginPath($plugin);
+
+				if(strpos($pluginPath, APP . 'core') !== false && file_exists($pluginPath . 'config' . DS . 'config.json')) {
+					$availablePlugins['core'][$plugin] = $this->__loadPluginDetails($pluginPath);
+				}
+				elseif(strpos($pluginPath, APP.'plugins') !== false && file_exists($pluginPath . 'config' . DS . 'config.json')) {
+					$availablePlugins['plugin'][$plugin] = $pluginPath;
+				}
+			}
+
+			pr($availablePlugins);
 		}
 
 		function _prepareAdminUser() {
@@ -188,8 +206,12 @@
 		}
 
 		function _processDatabase() {
-			$this->Install->set($this->data);
-			if($this->Install->validates() && $this->__testConnection()) {
+			App::import('Model', 'Installer.Install');
+
+			$install = new Install(false, false, false);
+			
+			$install->set($this->data);
+			if($install->validates() && $this->__testConnection()) {
 				return true;
 			}
 
@@ -215,6 +237,10 @@
 /**
  * Private methods
  */
+
+		private function __loadPluginDetails($pluginPath) {
+			return Set::reverse(json_decode(file_get_contents($pluginPath . 'config' . DS . 'config.json')));
+		}
 
 		/**
 		 *
@@ -289,9 +315,7 @@
 			return $recomendations;
 		}
 
-
-
-		function __testConnection() {
+		function __cleanConnectionDetails() {
 			$connectionDetails = $this->data['Install'];
 			unset($connectionDetails['step']);
 
@@ -302,6 +326,12 @@
 			if(trim($connectionDetails['prefix']) == '') {
 				unset($connectionDetails['prefix']);
 			}
+
+			return $connectionDetails;
+		}
+
+		function __testConnection() {
+			$connectionDetails = $this->__cleanConnectionDetails();
 
 			if(!@ConnectionManager::create('installer', $connectionDetails)->isConnected()) {
 				$this->set('dbError', true);
@@ -324,7 +354,7 @@
 		}
 
 		private function __writeDbConfig() {
-			$dbConfig = $this->Wizard->read('database.Install');
+			/*$dbConfig = $this->Wizard->read('database.Install');
 
 			copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
@@ -355,7 +385,8 @@
 			if ($file->write($content)) {
 				return true;
 			}
-			return false;
+			return false;*/
+			return true;
 		}
 
 		private function __migrateTables() {
@@ -370,9 +401,9 @@
 				unset($dbConfig['prefix']);
 			}
 			$db = ConnectionManager::create('default', $dbConfig);
-
+			pr($db);
 			// Can be 'app' or a plugin name
-			$type = 'app';
+			/*$type = 'app';
 
 			App::import('Lib', 'Migrations.MigrationVersion');
 			// All the job is done by MigrationVersion
@@ -387,7 +418,7 @@
 			if($version->run(array('type' => $type, 'version' => $latest['version'])))
 			{
 				return true;
-			}
+			}*/
 
 			return false;
 		}
