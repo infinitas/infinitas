@@ -57,6 +57,34 @@
 		}
 
 		/**
+		 * before saving
+		 *
+		 * if the new / edited theme is active deactivte everything.
+		 * 
+		 * @return bool
+		 */
+		public function beforeSave(){
+			if(isset($this->data['Theme']['active']) && $this->data['Theme']['active']){
+				return $this->deactivateAll();
+			}
+
+			return parent::beforeSave();
+		}
+
+		/**
+		 * before deleteing
+		 *
+		 * If the theme is active do not let it be deleted.
+		 * 
+		 * @param $cascade bool
+		 * @return bool true to delete, false to stop
+		 */
+		public function beforeDelete($cascade){
+			$active = $this->read('active');
+			return isset($active['Theme']['active']) && !$active['Theme']['active'];
+		}
+
+		/**
 		 * deactivate all themes.
 		 *
 		 * This is used before activating a theme to make sure that there is only
@@ -64,7 +92,7 @@
 		 *
 		 * @return bool true on sucsess false if not.
 		 */
-		private function __deactivateAll(){
+		public function deactivateAll(){
 			return $this->updateAll(
 				array(
 					'Theme.active' => '0'

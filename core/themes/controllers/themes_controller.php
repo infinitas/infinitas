@@ -34,44 +34,6 @@
 			$this->set(compact('themes', 'filterOptions'));
 		}
 
-		public function admin_add() {
-			if (!empty($this->data)) {
-				if ($this->data['Theme']['active']) {
-					$this->Theme->_deactivateAll();
-				}
-
-				$this->Theme->create();
-				if ($this->Theme->saveAll($this->data)) {
-					$this->Session->setFlash('Your theme has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
-		}
-
-		public function admin_edit($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('That theme could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if ($this->data['Theme']['active']) {
-					$this->Theme->_deactivateAll();
-				}
-
-				if ($this->Theme->save($this->data)) {
-					$this->Session->setFlash(__('Your theme has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your theme could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->Theme->read(null, $id);
-			}
-		}
-
 
 		/**
 		 * Mass toggle action.
@@ -81,13 +43,13 @@
 		 *
 		 * @var array $ids the id of the theme to toggle
 		 */
-		private function __massActionToggle($ids) {
+		public function __massActionToggle($ids) {
 			if (count($ids) > 1) {
 				$this->Session->setFlash(__('Please select only one theme to be active', true));
 				$this->redirect($this->referer());
 			}
 
-			if ($this->Theme->_deactivateAll()) {
+			if ($this->Theme->deactivateAll()) {
 				return $this->MassAction->toggle($ids);
 			}
 
