@@ -20,11 +20,6 @@
 	class CategoriesController extends CategoriesAppController {
 		public $name = 'Categories';
 
-		public $helpers = array(
-			'Filter.Filter',
-			'Text'
-		);
-
 		public function index() {
 			if(isset($this->params['category'])){
 				$this->paginate['Category']['conditions']['Category.slug'] = $this->params['category'];
