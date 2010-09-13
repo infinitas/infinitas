@@ -24,7 +24,7 @@
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
 				'Modules' => array('controller' => false, 'action' => false),
-				'Module Positions' => array('controller' => 'module_possitions', 'action' => 'index')
+				'Module Positions' => array('controller' => 'module_positions', 'action' => 'index')
 			);
 
 			return $menu;
