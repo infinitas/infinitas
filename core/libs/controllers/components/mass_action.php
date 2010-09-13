@@ -134,7 +134,7 @@
 
 			$this->Controller->set('model', $this->__modelName);
 			$this->Controller->set(compact('referer', 'rows'));
-			$this->Controller->render('delete', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'delete.ctp');
+			$this->Controller->render('delete', null, App::pluginPath('libs').'views'.DS.'global'.DS.'delete.ctp');
 		}
 
 		/**
@@ -313,7 +313,7 @@
 			$modelSetup['displayField'] = $this->Controller->{$this->__modelName}->displayField;
 			$modelSetup['primaryKey'] = $this->Controller->{$this->__modelName}->primaryKey;
 			$this->Controller->set(compact('referer', 'rows', 'model', 'modelSetup', 'relations'));
-			$this->Controller->render('move', null, APP.'extensions'.DS.'libs'.DS.'views'.DS.'global'.DS.'move.ctp');
+			$this->Controller->render('move', null, App::pluginPath('libs').'views'.DS.'global'.DS.'move.ctp');
 		}
 
 		/**
