@@ -54,6 +54,7 @@
 		final public function availableEvents(){
 			return $this->__events;
 		}
+		
 		/**
 		 * test if things are working
 		 */
@@ -225,5 +226,12 @@
 		 */
 		public function onSlugUrl(&$event, $data = null){}
 
+		/**
+		 * Todo list
+		 *
+		 * Gives plugins a chance to do some checks and generate a todo list for
+		 * the admin page. This can be anything like warnings about missing
+		 * dependancies or configs, new records like pending comments etc.
+		 */
 		public function onRequireTodoList(&$event){}
 	}
