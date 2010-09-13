@@ -4,13 +4,9 @@
 	 *
 	 */
 	class ModulesController extends ModulesAppController{
-		var $name = 'Modules';
+		public $name = 'Modules';
 
-		function beforeFilter() {
-			parent::beforeFilter();
-		}
-
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate = array(
 				'contain' => array(
 					'Position',
@@ -36,7 +32,7 @@
 			$this->set(compact('modules', 'filterOptions'));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			parent::admin_add();
 
 			$positions = $this->Module->Position->find('list');
@@ -48,7 +44,7 @@
 			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins', 'modules'));
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 			
 			$positions = $this->Module->Position->find('list');
@@ -61,9 +57,11 @@
 		}
 
 		/**
-		* get a list of modules that can be used.
-		*/
-		function admin_getModules(){
+		 * get a list of modules that can be used.
+		 *
+		 * Gets the plugin name from POST data to find the required modules.
+		 */
+		public function admin_getModules(){
 			if (!isset($this->params['named']['plugin'])) {
 				$this->set('json', array('error'));
 				return;

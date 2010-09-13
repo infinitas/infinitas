@@ -194,17 +194,4 @@
 				'user' => $non_admin
 			);
 		}
-
-		public function afterSave($created){
-			return $this->dataChanged('afterSave');
-		}
-
-		public function afterDelete(){
-			return $this->dataChanged('afterDelete');
-		}
-
-		public function dataChanged($from){
-			Cache::delete('modules');
-			return true;
-		}
 	}
