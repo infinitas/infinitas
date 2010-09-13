@@ -27,7 +27,9 @@
 		public $belongsTo = array(
 			'Position' => array(
 				'className' => 'Modules.ModulePosition',
-				'foreignKey' => 'position_id'
+				'foreignKey' => 'position_id',
+				'counterCache' => true,
+				'counterScope' => array('Module.active' => 1)
 			),
 			'Management.Group',
 			'Theme' => array(
