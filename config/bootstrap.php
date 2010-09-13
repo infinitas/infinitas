@@ -3,7 +3,6 @@
 		array(
 			'plugins' => array(
 				APP . 'core' . DS,
-				APP . 'extensions' . DS,
 				APP . 'infinitas' . DS . 'shop'. DS .'plugins' . DS
 			)
 		)

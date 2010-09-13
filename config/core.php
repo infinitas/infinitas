@@ -31,16 +31,7 @@
 
 	Configure::write('Reviews.auto_moderate', true);
 
-	App::build(
-		array(
-			'plugins' => array(
-				APP . 'core' . DS,
-				APP . 'extensions' . DS,
-				APP . 'infinitas' . DS . 'shop'. DS .'plugins' . DS
-			)
-		),
-		false
-	);
+	App::build(array('plugins' => array(APP . 'core' . DS)));
 
 	$configs = Cache::read('global_configs');
 	if($configs !== false){
