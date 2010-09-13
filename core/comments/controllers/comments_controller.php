@@ -17,7 +17,7 @@
 	* @since 0.5a
 	*/
 
-	class CommentsController extends CommentAppController {
+	class CommentsController extends CommentsAppController {
 		var $name = 'Comments';
 
 		function index(){

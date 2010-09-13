@@ -18,12 +18,12 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 final class CommentEvents extends AppEvents{
+	 final class CommentsEvents extends AppEvents{
 		public function onPluginRollCall(){
 			return array(
-				'name' => 'Comment',
+				'name' => 'Comments',
 				'description' => 'See what your users have to say',
-				'icon' => '/comment/img/icon.png',
+				'icon' => '/comments/img/icon.png',
 				'author' => 'Infinitas'
 			);
 		}
@@ -31,6 +31,7 @@
 		public function onSetupConfig(){
 			return Configure::load('comments.config');
 		}
+		
 		public function onAttachBehaviors(&$event) {
 			if(is_subclass_of($event->Handler, 'Model')) {
 				if ($event->Handler->hasField('comment_count')) {					

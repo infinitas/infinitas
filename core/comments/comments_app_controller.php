@@ -20,9 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class CommentAppController extends AppController{
-		 public $name = 'CommentAppController';
-
+	 class CommentsAppController extends AppController{
 		 public $helpers = array(
 			 'Filter.Filter',
 			 'Libs.Gravatar'

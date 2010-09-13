@@ -19,7 +19,7 @@
 	* @subpackage blog.models.comment
 	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	*/
-	class Comment extends CommentAppModel {
+	class Comment extends CommentsAppModel {
 		public $name = 'Comment';
 
 		public $actsAs = array(
@@ -104,6 +104,10 @@
 					)
 				)
 			);
+
+			if(empty($classes)){
+				return array();
+			}
 			
 			return array_combine($classes, $classes);
 		}
