@@ -79,6 +79,7 @@
 			if($this->adminMenuItems !== false){
 				return true;
 			}
+			$this->__adminMenuUrl['plugin'] = $this->plugin;
 			
 			$menus = $this->Event->trigger($this->plugin.'.adminMenu');
 			$items = isset($menus['adminMenu'][$this->plugin]['main']) ? $menus['adminMenu'][$this->plugin]['main'] : array();
