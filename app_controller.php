@@ -638,7 +638,16 @@
 			}
 
 			if(empty($this->data) && $id){
-				$this->data = $this->{$this->modelName}->read(null, $id);
+				if($this->{$this->modelName}->hasField('locked')){
+					$this->data = $this->{$this->modelName}->lock(null, $id);
+					if ($this->data === false) {
+						$this->Session->setFlash(sprintf(__('The %s is currently locked', true), $this->prettyModelName));
+						$this->redirect($this->referer());
+					}
+				}
+				else{
+					$this->data = $this->{$this->modelName}->read(null, $id);
+				}
 			}
 		}
 
