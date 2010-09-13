@@ -44,8 +44,7 @@ table.listing,
 	padding-bottom:10px;
 }
 .filter-form{
-	-moz-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
+	display:none;
 }
 
 table.listing{
