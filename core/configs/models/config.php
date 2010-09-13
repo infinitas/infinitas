@@ -1,31 +1,29 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Configs model for saving and editing site configurations.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas.configs
+	 * @subpackage Infinitas.configs.models
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class Config extends ConfigsAppModel {
-		var $name = 'Config';
+		public $name = 'Config';
 
-		var $order = array(
+		public $order = array(
 			'Config.core' => 'DESC',
 			'Config.key' => 'ASC'
 		);
 
-		var $configuration = array(
+		public $configuration = array(
 			'Revision' => array(
 				'Core.Revision' => array(
 					'active' => 'Config.Revision.active',
@@ -47,7 +45,7 @@
 		 * @param mixed $table
 		 * @param mixed $ds
 		 */
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->_configTypes = array(
@@ -103,11 +101,11 @@
 		}
 
 		/**
-		* customOptionCheck
-		*
-		* check the options based on what type is set.
-		*/
-		function customOptionCheck($data){
+		 * customOptionCheck
+		 *
+		 * check the options based on what type is set.
+		 */
+		public function customOptionCheck($data){
 			if (!isset($this->data['Config']['type']) || empty($this->data['Config']['type'])) {
 				return true;
 			}
@@ -153,11 +151,11 @@
 		 *
 		 * @return array all the config options set to the correct type
 		 */
-		function getConfig($format = false) {
-			$configs = Cache::read('configs', 'core');
+		public function getConfig($format = false) {
+			$configs = Cache::read('configs', 'configs');
 			if (!empty($configs)) {
 				if ($format) {
-					return $this->_formatConfigs($configs);
+					return $this->__formatConfigs($configs);
 				}
 				return $configs;
 			}
@@ -193,16 +191,16 @@
 				} // switch
 			}
 
-			Cache::write('configs', $configs, 'core');
+			Cache::write('configs', $configs, 'configs');
 
 			if ($format) {
-				return $this->_formatConfigs($configs);
+				return $this->__formatConfigs($configs);
 			}
 
 			return $configs;
 		}
 
-		function _formatConfigs($configs = array()){
+		private function __formatConfigs($configs = array()){
 			if (empty($configs)) {
 				return false;
 			}
@@ -211,6 +209,7 @@
 			foreach($configs as $k => $config) {
 				$format[$configs[$k]['Config']['key']] = $configs[$k]['Config']['value'];
 			}
+			
 			return $format;
 		}
 
@@ -222,7 +221,7 @@
 		 *
 		 * @return array of all the configs that are needed/able to be done in the installer
 		 */
-		function getInstallSetupConfigs(){
+		public function getInstallSetupConfigs(){
 			return $this->find(
 				'all',
 				array(
@@ -231,47 +230,6 @@
 					)
 				)
 			);
-		}
-
-		function afterSave($created) {
-			parent::afterSave($created);
-
-			Cache::delete('configs', 'core');
-			return true;
-		}
-
-		function afterDelete() {
-			parent::afterDelete();
-
-			Cache::delete('configs', 'core');
-			return true;
-		}
-
-
-		function __generateWikiHelp(){
-			$configs = $this->find(
-				'all',
-				array(
-					'fields' => array(
-						'Config.key',
-						'Config.description',
-					)
-				)
-			);
-
-			echo '<table>';
-			echo '<tr>';
-			echo '<th>Configuration Key</th>';
-			echo '<th>Description</th>';
-			echo '</tr>';
-			foreach($configs as $config){
-				echo '<tr>';
-				echo '<td><b>'.$config['Config']['key'].'</b></td>';
-				echo '<td><i>'.strip_tags($config['Config']['description']).'</i></td>';
-				echo '</tr>';
-			}
-			echo '</table>';
-			exit;
 		}
 
 		/**

@@ -13,6 +13,12 @@
 		}
 
 		public function onSetupCache(){
+			return array(
+				'name' => 'configs',
+				'config' => array(
+					'prefix' => 'core.configs.',
+				)
+			);
 		}
 
 		public function onAdminMenu(&$event){

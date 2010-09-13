@@ -1,38 +1,26 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	 * The configs controller for managing the site configs
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ 	 * @link http://infinitas-cms.org
+	 * @package Infinitas.configs
+	 * @subpackage Infinitas.configs.controllers
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class ConfigsController extends ConfigsAppController {
-		var $name = 'Configs';
+		public $name = 'Configs';
 
-		var $helpers = array(
-			'Text'
-		);
+		public $configOptions = array();
 
-		var $configOptions = array();
-
-		function beforeFilter() {
-			parent::beforeFilter();
-		}
-
-		function admin_index() {
-			$this->Config->recursive = -1;
-			//$this->Filter->filter = array('Config.key LIKE \'Blog%\'');
+		public function admin_index() {
 			$configs = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -46,7 +34,7 @@
 			$this->set(compact('configs', 'filterOptions'));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			if (!empty($this->data)) {
 				$this->Config->create();
 				if ($this->Config->saveAll($this->data)) {
@@ -58,7 +46,7 @@
 			$this->set('types', $this->Config->_configTypes);
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('That config could not be found', true), true);
 				$this->redirect($this->referer());
