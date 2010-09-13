@@ -27,6 +27,17 @@
 				'author' => 'Infinitas'
 			);
 		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Comments' => array('controller' => false, 'action' => false),
+				'Active' => array('controller' => 'comments', 'action' => 'index', 'Comment.active' => 1),
+				'Pending' => array('controller' => 'comments', 'action' => 'index', 'Comment.active' => 0, 'Comment.status' => 'approved'),
+				'Spam' => array('controller' => 'comments', 'action' => 'index', 'Comment.status' => 'spam')
+			);
+
+			return $menu;
+		}
 		
 		public function onSetupConfig(){
 			return Configure::load('comments.config');
