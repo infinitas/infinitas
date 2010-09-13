@@ -14,6 +14,12 @@
 		}
 
 		public function onSetupCache(){
+			return array(
+				'name' => 'themes',
+				'config' => array(
+					'prefix' => 'core.themes.',
+				)
+			);
 		}
 
 		public function onAdminMenu(&$event){
