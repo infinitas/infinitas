@@ -260,9 +260,9 @@
 		 */
 		public function beforeFilter(){
 			parent::beforeFilter();
-			$this->__modelName = $this->modelClass;
-			$this->__prettyModelName = prettyName($this->__modelName);
-			$this->{$this->__modelName}->plugin = $this->plugin;
+			$this->modelName = $this->modelClass;
+			$this->prettyModelName = prettyName($this->modelName);
+			$this->{$this->modelName}->plugin = $this->plugin;
 			$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
 		}
 
@@ -600,13 +600,13 @@
 		 */
 		public function admin_add(){
 			if (!empty($this->data)) {
-				$this->{$this->__modelName}->create();
-				if ($this->{$this->__modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->__prettyModelName));
+				$this->{$this->modelName}->create();
+				if ($this->{$this->modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
 					$this->redirect(array('action' => 'index'));
 				}
 
-				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->__prettyModelName));
+				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
 			}
 		}
 
@@ -624,21 +624,21 @@
 		 */
 		public function admin_edit($id = null){
 			if(empty($this->data) && !$id){
-				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->__prettyModelName));
+				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName));
 				$this->redirect($this->referer());
 			}
 
 			if (!empty($this->data)) {
-				if ($this->{$this->__modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->__prettyModelName));
+				if ($this->{$this->modelName}->saveAll($this->data)) {
+					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
 					$this->redirect(array('action' => 'index'));
 				}
 
-				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->__prettyModelName));
+				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
 			}
 
 			if(empty($this->data) && $id){
-				$this->data = $this->{$this->__modelName}->read(null, $id);
+				$this->data = $this->{$this->modelName}->read(null, $id);
 			}
 		}
 
