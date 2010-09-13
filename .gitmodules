@@ -22,3 +22,6 @@
 [submodule "plugins/debug_kit"]
 	path = plugins/debug_kit
 	url = git://github.com/Infinitas-Plugins/debug_kit.git
+[submodule "plugins/cms"]
+	path = plugins/cms
+	url = git://github.com/Infinitas-Plugins/cms.git
