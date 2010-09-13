@@ -54,6 +54,7 @@ table.listing{
 	margin-top: 0;
 	padding:10px;
 	color:#202020;
+	width: 100%;
 }
 
 table.listing th,
