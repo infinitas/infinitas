@@ -68,6 +68,8 @@ class PluginTask extends Shell {
 		}
 		else {
 			$this->__info = array(
+				'name' => $this->__plugin,
+				'version' => '1.0',
 				'dependancies' => array()
 			);
 			
@@ -80,8 +82,6 @@ class PluginTask extends Shell {
 
 				do {
 					$this->hr();
-					$this->__info['name'] = $this->__plugin;
-					$this->__info['version'] = '1.0';
 
 					$this->__initialInfo();
 
