@@ -22,14 +22,14 @@
 		/**
 		* The database configuration to use for the site.
 		*/
-		var $useDbConfig = 'default';
+		public $useDbConfig = 'default';
 
 		//var $tablePrefix = 'core_';
 
 		/**
 		* Behaviors to attach to the site.
 		*/
-		var $actsAs = array(
+		public $actsAs = array(
 			'Containable',
 			'Libs.Infinitas',
 			'Events.Event',
@@ -39,19 +39,19 @@
 			//'Libs.AutomaticAssociation'
 		);
 
-		var $recursive = -1;
+		public $recursive = -1;
 
 		/**
 		* error messages in the model
 		*/
-		var $_errors = array();
+		public $_errors = array();
 
 		/**
 		 * @var string Plugin that the model belongs to.
 		 */
-		var $plugin = null;
+		public $plugin = null;
 
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
 			parent::__construct($id, $table, $ds);			
 
@@ -70,7 +70,7 @@
 		 *
 		 * @return string Name of the model in the form of Plugin.Name.
 		 */
-		function modelName() {
+		public function modelName() {
 			if($this->plugin == null) {
 				$this->__getPlugin();
 			}
