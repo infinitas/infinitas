@@ -82,7 +82,7 @@
 			$this->__adminMenuUrl['plugin'] = $this->plugin;
 			
 			$menus = $this->Event->trigger($this->plugin.'.adminMenu');
-			$items = isset($menus['adminMenu'][$this->plugin]['main']) ? $menus['adminMenu'][$this->plugin]['main'] : array();
+			$items = isset($menus['adminMenu'][$this->plugin]['main']) ? $menus['adminMenu'][$this->plugin]['main'] : array();			
 
 			$items = array(
 				'Home' => '/admin'
@@ -93,11 +93,11 @@
 					$url = array_merge($this->__adminMenuUrl, $url);
 				}
 
-				$options = array();
+				$options = array(
+					'escape' => false
+				);
 				if($this->here == Router::url($url)){
-					$options = array(
-						'class' => 'current'
-					);
+					$options = array_merge($options, array('class' => 'current'));
 				}
 
 				$this->adminMenuItems[] = $this->Html->link(
