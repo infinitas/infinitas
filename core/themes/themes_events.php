@@ -18,7 +18,8 @@
 
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
-				'Themes' => array('controller' => false, 'action' => false)
+				'Themes' => array('controller' => false, 'action' => false),
+				'Default Theme' => array('controller' => 'themes', 'action' => 'index', 'Theme.active' => 1)
 			);
 
 			return $menu;
