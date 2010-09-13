@@ -45,17 +45,5 @@
 		}
 
 		public function onSetupRoutes(){
-			Router::connect(
-				'/s/:code',
-				array(
-					'plugin' => 'management',
-					'controller' => 'short_urls',
-					'action' => 'go'
-				),
-				array(
-					'pass' => array('code'),
-					'code' => '[0-9a-zA-Z]+'
-				)
-			);
 		}
 	}
