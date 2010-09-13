@@ -63,7 +63,7 @@
 			$this->__getPlugin();
 			parent::__construct($id, $table, $ds);			
 
-			if (isset($this->_schema) && is_array($this->_schema)) {
+			if (isset($this->_schema) && is_array($this->_schema) && php_sapi_name() != 'cli') {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
 				}
