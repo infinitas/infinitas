@@ -43,13 +43,24 @@
 
 		/**
 		* error messages in the model
+		 * @access public
 		*/
 		public $_errors = array();
 
 		/**
-		 * @var string Plugin that the model belongs to.
+		 * Plugin that the model belongs to.
+		 * 
+		 * @var string
+		 * @access public
 		 */
 		public $plugin = null;
+
+		/**
+		 * auto delete cache
+		 *
+		 * @var bool
+		 */
+		public $autoCacheClear = true;
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
@@ -60,6 +71,35 @@
 					$this->triggerEvent('attachBehaviors');
 				}
 			}
+		}
+
+		public function afterSave($created){
+			$this->__clearCache();
+		}
+
+		public function afterDelete(){
+			$this->__clearCache();
+		}
+
+		private function __clearCache(){
+			if(in_array($this->plugin, Cache::configured())){
+				$_cache = Cache::getInstance()->__config[$this->plugin];
+				$path = CACHE.str_replace('.', DS, $_cache['prefix']);
+				if(CACHE !== $path && is_dir($path)){
+					$Folder = new Folder($path);
+					if($Folder->delete()){
+						$this->log('deleted: '.$path, 'cache_clearing');
+					}
+					else{
+						$this->log('failed: '.$path, 'cache_clearing');
+					}
+				}
+				else{
+					$this->log('skip: '.$path, 'cache_clearing');
+				}
+			}
+
+			return true;
 		}
 
 		/**
