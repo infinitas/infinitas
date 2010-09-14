@@ -21,13 +21,13 @@
 	 */
 
 	class BranchesController extends ContactAppController{
-		var $name = 'Branches';
+		public $name = 'Branches';
 
-		var $helpers = array(
+		public $helpers = array(
 			'Filter.Filter'
 		);
 
-		function index(){
+		public function index(){
 			$this->Branch->recursive = 0;
 
 			$branches = $this->paginate(
@@ -52,7 +52,7 @@
 			$this->set(compact('branches','filterOptions'));
 		}
 
-		function view(){
+		public function view(){
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('A problem occured', true) );
 				$this->redirect($this->referer());
@@ -91,7 +91,7 @@
 			$this->set(compact('branch', 'title_for_layout'));
 		}
 
-		function admin_index(){
+		public function admin_index(){
 			$this->Branch->recursive = 0;
 
 			$branches = $this->paginate(
@@ -108,7 +108,7 @@
 			$this->set(compact('branches','filterOptions'));
 		}
 
-		function admin_add(){
+		public function admin_add(){
 			if (!empty($this->data)) {
 				$this->Branch->create();
 				if ($this->Branch->save($this->data)) {
@@ -121,7 +121,7 @@
 			$this->set(compact('timeZones'));
 		}
 
-		function admin_edit($id = null){
+		public function admin_edit($id = null){
 			if (!$id) {
 				$this->Session->setFlash(__('That branch could not be found', true), true);
 				$this->redirect($this->referer());

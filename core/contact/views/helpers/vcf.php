@@ -28,24 +28,28 @@
 			'version' => 'VERSION:%value%',
 			'image' => 'PHOTO;VALUE=URL:%value%',
 		);
+
 		/**
 		 * Separator between values.
 		 *
 		 * @var string
 		 **/
 		protected $_separator = ':';
+
 		/**
 		 * End of line character
 		 *
 		 * @var string
 		 **/
 		protected $_eol = "\n";
+
 		/**
 		 * End of attribute terminator.
 		 *
 		 * @var string
 		 **/
 		protected $_terminator = ';';
+
 		/**
 		 * Overloaded call method
 		 *
@@ -60,6 +64,7 @@
 			}
 			trigger_error($method . ' is not a valid element.', E_USER_WARNING);
 		}
+
 		/**
 		 * begin a vcard
 		 *
@@ -76,6 +81,7 @@
 		public function end() {
 			return "END:VCARD" . $this->_eol;
 		}
+
 		/**
 		 * Create a new attribute for the vCard
 		 *
@@ -135,6 +141,7 @@
 
 			return $adrEl . $this->_eol . $labelEl . $this->_eol;
 		}
+
 		/**
 		 * Escape values for vcard
 		 *
@@ -146,5 +153,4 @@
 			$replace = array('\:');
 			return is_array($values) ? array_map(array($this, '_escape'), $values) : str_replace($find, $replace, $values);
 		}
-
 	}

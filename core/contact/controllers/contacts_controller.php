@@ -21,27 +21,9 @@
 	 */
 
 	class ContactsController extends ContactAppController{
-		var $name = 'Contacts';
+		public $name = 'Contacts';
 
-		function admin_index(){
-			$this->Contact->recursive = 0;
-
-			$contacts = $this->paginate(
-				null,
-				$this->Filter->filter
-			);
-
-			$filterOptions = $this->Filter->filterOptions;
-			$filterOptions['fields'] = array(
-				'name',
-				'branch_id' => array(null => __('All branches', true)) + $this->Contact->Branch->find('list'),
-				'active' => (array)Configure::read('CORE.active_options')
-			);
-
-			$this->set(compact('contacts','filterOptions'));
-		}
-
-		function view(){
+		public function view(){
 			if (!isset($this->params['slug'])) {
 				$this->Session->setFlash( __('A problem occured', true) );
 				$this->redirect($this->referer());
@@ -80,7 +62,25 @@
 			$this->set(compact('contact', 'title_for_layout'));
 		}
 
-		function admin_add(){
+		public function admin_index(){
+			$this->Contact->recursive = 0;
+
+			$contacts = $this->paginate(
+				null,
+				$this->Filter->filter
+			);
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'branch_id' => array(null => __('All branches', true)) + $this->Contact->Branch->find('list'),
+				'active' => (array)Configure::read('CORE.active_options')
+			);
+
+			$this->set(compact('contacts','filterOptions'));
+		}
+
+		public function admin_add(){
 			if (!empty($this->data)) {
 				$this->Contact->create();
 				if ($this->Contact->save($this->data)) {
@@ -92,7 +92,7 @@
 			$this->set(compact('branches'));
 		}
 
-		function admin_edit($id = null){
+		public function admin_edit($id = null){
 			if (!$id) {
 				$this->Session->setFlash(__('That contact could not be found', true), true);
 				$this->redirect($this->referer());

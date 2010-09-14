@@ -21,9 +21,9 @@
 	 */
 
 	class Branch extends ContactAppModel{
-		var $name = 'Branch';
+		public $name = 'Branch';
 
-		var $actsAs = array(
+		public $actsAs = array(
 	        'MeioUpload.MeioUpload' => array(
 	        	'image' => array(
 		        	'dir' => 'img{DS}content{DS}contact{DS}{ModelName}',
@@ -54,11 +54,11 @@
 			)
 	    );
 
-		var $hasMany = array(
+		public $hasMany = array(
 			'Contact.Contact'
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Management.Address'
 		);
 
@@ -71,7 +71,7 @@
 		 * @param mixed $table
 		 * @param mixed $ds
 		 */
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
@@ -113,7 +113,7 @@
 			);
 		}
 
-		function beforeFind($queryData){
+		public function beforeFind($queryData){
 			$this->bindModel(
 				array(
 					'belongsTo' => array(

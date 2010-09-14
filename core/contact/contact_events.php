@@ -26,8 +26,18 @@
 				'name' => 'Contact',
 				'description' => 'Display your contact details and allow users to contact you',
 				'icon' => '/contact/img/icon.png',
-				'author' => 'Infinitas'
+				'author' => 'Infinitas',
+				'dashboard' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index')
 			);
+		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Branches' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index'),
+				'Contacts' => array('plugin' => 'contact', 'controller' => 'contacts', 'action' => 'index')
+			);
+
+			return $menu;
 		}
 		
 		public function onRequireCssToLoad(&$event){

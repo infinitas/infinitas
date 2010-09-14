@@ -4,9 +4,9 @@
 	 *
 	 */
 	class Contact extends ContactAppModel{
-		var $name = 'Contact';
+		public $name = 'Contact';
 
-		var $actsAs = array(
+		public $actsAs = array(
 	        'MeioUpload.MeioUpload' => array(
 	        	'image' => array(
 		        	'dir' => 'img{DS}content{DS}contact{DS}{ModelName}',
@@ -38,7 +38,7 @@
 			)
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Branch' => array(
 				'className' => 'Contact.Branch',
 				'counterCache' =>  'user_count',
@@ -55,7 +55,7 @@
 		 * @param mixed $table
 		 * @param mixed $ds
 		 */
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
