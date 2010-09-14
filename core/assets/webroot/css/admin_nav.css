@@ -302,28 +302,45 @@ table.listing td{
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	margin-bottom: 10px;
+	padding-bottom:10px;
 }
-.dashboard:hover p{
-	display: block;
-}
-	.dashboard p{
-		border-top:1px dotted #666666;
+	.dashboard:hover .info{
+		border-top-color: #666666;
+		color: #666666;
+	}
+	.dashboard:hover .info a{
+		color: #666666;
+	}
+	.dashboard .info a{
+		color: #E4E7EA;
+	}
+	
+	.dashboard .info{
+		border-top:1px dotted #E4E7EA;
 		margin-left:10px;
 		margin-right:20px;
 		margin-top:22px;
 		text-align:justify;
-		display: none;
+		color: #E4E7EA;
 	}
 
-	.dashboard.small{
-		height: 330px;
-		clear: none;
-		margin-left:24px;
+	.dashboard .chart{
+		float: left;
 	}
+
 	.dashboard.half{
 		clear:none;
 		float:left;
 		margin-left:8px;
+	}
+
+	.dashboard ul.info{
+		float:left;
+		list-style:none outside none;
+		margin:0 0 0 10px;
+		padding-left:10px;
+		padding-top:10px;
+		width:auto;
 	}
 
 .dashboard ul.icons{
