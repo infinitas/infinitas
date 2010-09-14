@@ -78,9 +78,9 @@
 						'admin'
 					)
 				);
-				if($this->Session->read('Auth.User.id') && $this->params['controller'] !== 'upgrade'){
+				/*if($this->Session->read('Auth.User.id') && $this->params['controller'] !== 'upgrade'){
 					$this->Infinitas->checkDbVersion();
-				}
+				}*/
 			}
 
 			if((isset($this->params['admin']) && $this->params['admin']) && $this->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
