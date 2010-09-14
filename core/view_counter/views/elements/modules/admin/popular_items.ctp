@@ -20,8 +20,13 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
-	$viewStats = ClassRegistry::init('ViewCounter.ViewCount')->getGlobalStats();
+	if($this->plugin == 'view_counter' || $this->plugin == 'management'){
+		$viewStats = ClassRegistry::init('ViewCounter.ViewCount')->getGlobalStats();
+	}
+	else{
+		$viewStats = ClassRegistry::init('ViewCounter.ViewCount')->getGlobalStats(null, $this->plugin);
+	}
+	
 	if(empty($viewStats)){
 		return;
 	}

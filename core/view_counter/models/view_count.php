@@ -51,8 +51,8 @@
 		 *
 		 * @return array of data
 		 */
-		public function getGlobalStats($limit = 5){
-			$models = $this->getUniqueModels();
+		public function getGlobalStats($limit = 5, $plugin = null){
+			$models = $this->getUniqueModels($plugin);
 
 			$return = array();
 			foreach($models as $model){
@@ -92,12 +92,20 @@
 		 *
 		 * @return array list of id -> models that are being tracked
 		 */
-		public function getUniqueModels(){
+		public function getUniqueModels($plugin = null){
 			$this->displayField = 'model';
+
+			$conditions = array();
+			if($plugin){
+				$conditions = array(
+					'ViewCount.model LIKE' => Inflector::camelize($plugin).'%'
+				);
+			}
 			
 			$models = $this->find(
 				'list',
 				array(
+					'conditions' => $conditions,
 					'group' => array(
 						'ViewCount.model'
 					)
