@@ -31,3 +31,6 @@
 [submodule "plugins/shop"]
 	path = plugins/shop
 	url = git://github.com/Infinitas-Plugins/shop.git
+[submodule "plugins/backlinks"]
+	path = plugins/backlinks
+	url = git://github.com/Infinitas-Plugins/backlinks.git
