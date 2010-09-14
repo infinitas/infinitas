@@ -303,6 +303,18 @@ table.listing td{
 	border-radius: 10px;
 	margin-bottom: 10px;
 }
+.dashboard:hover p{
+	display: block;
+}
+	.dashboard p{
+		border-top:1px dotted #666666;
+		margin-left:10px;
+		margin-right:20px;
+		margin-top:22px;
+		text-align:justify;
+		display: none;
+	}
+
 	.dashboard.small{
 		height: 330px;
 		clear: none;
