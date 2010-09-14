@@ -37,7 +37,7 @@
 		}
 
 		?>
-			<div class="dashboard half grid_8">
+			<div class="dashboard half">
 				<h1><?php echo sprintf(__('Popular %s %s', true), prettyName($stats['plugin']), prettyName($stats['model'])); ?></h1>
 				<?php
 					$counts = Set::extract('/'.$stats['model'].'/views', $stats['top_rows']);

@@ -23,7 +23,7 @@
 		return;
 	}
 		?>
-			<div class="dashboard small grid_5">
+			<div class="dashboard half">
 				<h1><?php echo sprintf(__('Overall Usage', true)); ?></h1>
 				<?php
 					$a = 'A';
@@ -42,15 +42,18 @@
 						array(
 							'data' => array_values($viewStats),
 							'labels' => $labels,
-							'size' => '280,100',
+							'size' => '280,130',
 							'colors' => array(
 								'#001A4D',
 								'#4D81A8'
+							),
+							'html' => array(
+								'class' => 'chart'
 							)
 						)
 					);
 				?>
-				<ul>
+				<ul class="info">
 					<?php
 						$i = 0;
 						foreach($viewStats as $model => $count){
