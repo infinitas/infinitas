@@ -1,8 +1,8 @@
 <?php
 	class MenusController extends MenusAppController{
-		var $name = 'Menus';
+		public $name = 'Menus';
 
-		function admin_index(){
+		public function admin_index(){
 			$menus = $this->paginate(
 				null,
 				$this->Filter->filter

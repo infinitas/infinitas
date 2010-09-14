@@ -4,13 +4,14 @@
 	 *
 	 */
 	class MenuItemsController extends MenusAppController{
-		var $name = 'MenuItems';
+		public $name = 'MenuItems';
 
-		function admin_index(){
+		public function admin_index(){
 			$menuItems = $this->paginate(
 				null,
 				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)
 			);
+			
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
@@ -22,7 +23,7 @@
 			$this->set(compact('menuItems','filterOptions'));
 		}
 
-		function admin_add(){
+		public function admin_add(){
 			parent::admin_add();
 
 			// auto select parent when the + button is used
@@ -37,11 +38,16 @@
 			$this->set(compact('menus', 'groups', 'parents', 'plugins'));
 		}
 
-		function admin_getParents() {
+		/**
+		 * Get parent menus
+		 *
+		 * Used for the ajax getting of parent menus items
+		 */
+		public function admin_getParents() {
 			$this->set('json', array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => $this->params['named']['plugin'])));
 		}
 
-		function admin_edit($id = null){
+		public function admin_edit($id = null){
 			parent::admin_edit($id);
 
 			$menus   = $this->MenuItem->Menu->find('list');

@@ -4,25 +4,28 @@
 	 *
 	 */
 	class MenuItem extends MenusAppModel{
-		var $name = 'MenuItem';
+		public $name = 'MenuItem';
 
-		var $belongsTo = array(
-			'Menus.Menu',
-			'Management.Group',
-			/*'Parent' => array(
-	            'className'     => 'Menu.MenuItem',
-	            'foreignKey'    => 'parent_id',
-				'fields'     => array(
-					'Parent.id',
-					'Parent.name',
-					'Parent.lft',
-					'Parent.rght',
-					'Parent.parent_id',
+		public $belongsTo = array(
+			'Menu' => array(
+				'className' => 'Menus.Menu',
+				'fields' => array(
+					'Menu.id',
+					'Menu.name',
+					'Menu.type',
+					'Menu.active',
 				)
-			)*/
+			),
+			'Group' => array(
+				'className' => 'Management.Group',
+				'fields' => array(
+					'Group.id',
+					'Group.name'
+				)
+			)
 		);
 
-		var $order = array(
+		public $order = array(
 			'MenuItem.menu_id' => 'ASC',
 			'MenuItem.lft' => 'ASC'
 		);
@@ -50,7 +53,7 @@
 			return parent::beforeSave($cascade);
 		}
 
-		function getMenu($type = null){
+		public function getMenu($type = null){
 			if (!$type) {
 				return false;
 			}
@@ -91,14 +94,7 @@
 						'MenuItem.parent_id !=' => 0
 					),
 					'contain' => array(
-						'Menu' => array(
-							'fields' => array(
-								'Menu.id',
-								'Menu.name',
-								'Menu.type',
-								'Menu.active',
-							)
-						)
+						'Menu'
 					)
 				)
 			);
