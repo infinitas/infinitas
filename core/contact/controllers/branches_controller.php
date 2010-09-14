@@ -92,8 +92,6 @@
 		}
 
 		public function admin_index(){
-			$this->Branch->recursive = 0;
-
 			$branches = $this->paginate(
 				null,
 				$this->Filter->filter
@@ -109,36 +107,14 @@
 		}
 
 		public function admin_add(){
-			if (!empty($this->data)) {
-				$this->Branch->create();
-				if ($this->Branch->save($this->data)) {
-					$this->Session->setFlash('Your branch has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+			parent::admin_add();
 
 			//$timeZones = $this->Branch->TimeZone->find('list');
 			$this->set(compact('timeZones'));
 		}
 
 		public function admin_edit($id = null){
-			if (!$id) {
-				$this->Session->setFlash(__('That branch could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if ($this->Branch->save($this->data)) {
-					$this->Session->setFlash(__('Your branch has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your branch could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->Branch->read(null, $id);
-			}
+			parent::admin_edit();
 
 			//$timeZones = $this->Branch->TimeZone->find('list');
 			$this->set(compact('timeZones'));

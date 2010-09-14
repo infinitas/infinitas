@@ -63,8 +63,12 @@
 		}
 
 		public function admin_index(){
-			$this->Contact->recursive = 0;
-
+			$this->paginate = array(
+				'contain' => array(
+					'Branch'
+				)
+			);
+			
 			$contacts = $this->paginate(
 				null,
 				$this->Filter->filter
@@ -81,35 +85,14 @@
 		}
 
 		public function admin_add(){
-			if (!empty($this->data)) {
-				$this->Contact->create();
-				if ($this->Contact->save($this->data)) {
-					$this->Session->setFlash('Your contact has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+			parent::admin_add();
+			
 			$branches = $this->Contact->Branch->find('list');
 			$this->set(compact('branches'));
 		}
 
 		public function admin_edit($id = null){
-			if (!$id) {
-				$this->Session->setFlash(__('That contact could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if ($this->Contact->save($this->data)) {
-					$this->Session->setFlash(__('Your contact has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your contact could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->Contact->read(null, $id);
-			}
+			parent::admin_edit($id);
 
 			$branches = $this->Contact->Branch->find('list');
 			$this->set(compact('branches'));
