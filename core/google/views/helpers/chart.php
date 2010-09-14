@@ -662,7 +662,8 @@
 		}
 
 		function __render( $data )
-		{			
+		{
+			$data['html'] = isset($data['html']) ? $data['html'] : array();
 			if ( !isset( $data['html']['title'] ) && isset( $data['title'] ) )
 			{
 				if ( !is_array( $data['title'] ) )
