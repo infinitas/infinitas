@@ -32,7 +32,7 @@
 		}
 
 		?>
-			<div class="dashboard small small grid_5">
+			<div class="dashboard half grid_8">
 				<h1><?php echo sprintf(__('Popular %s %s', true), prettyName($stats['plugin']), prettyName($stats['model'])); ?></h1>
 				<?php
 					$counts = Set::extract('/'.$stats['model'].'/views', $stats['top_rows']);
@@ -52,11 +52,14 @@
 						array(
 							'data' => $counts,
 							'labels' => $labels,
-							'size' => '280,160'
+							'size' => '250,130',
+							'html' => array(
+								'class' => 'chart'
+							)
 						)
 					);
 				?>
-				<ul>
+				<ul class="info">
 					<?php
 						foreach($stats['top_rows'] as $i => $row){
 							?>
