@@ -62,7 +62,7 @@
 		/**
 		 * generate some code and set properties before the page is rendered
 		 */
-		public function beforeRender(){
+		public function beforeRender(){			
 			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin'){
 				$this->__builDashboardLinks();
 				$this->__builAdminMenu();
@@ -75,7 +75,7 @@
 		 * @return mixed
 		 */
 		private function __builAdminMenu(){
-			$this->adminMenuItems = Cache::read('admin_menu_'.$this->plugin, 'menu');
+			$this->adminMenuItems = Cache::read('admin_menu_'.$this->plugin, 'menus');
 			if($this->adminMenuItems !== false){
 				return true;
 			}
@@ -108,7 +108,7 @@
 			}
 
 			unset($menus, $items);
-			return Cache::write('admin_menu_'.$this->plugin, $this->adminMenuItems, 'menu');
+			return Cache::write('admin_menu_'.$this->plugin, $this->adminMenuItems, 'menus');
 		}
 
 		/**
@@ -118,7 +118,7 @@
 		 * list of icons.
 		 */
 		private function __builDashboardLinks(){	
-			$this->adminDashboard = Cache::read('admin_menu_dashboard', 'menu');
+			$this->adminDashboard = Cache::read('admin_menu_dashboard', 'menus');
 			if($this->adminDashboard !== false){
 				return true;
 			}
@@ -157,7 +157,7 @@
 			}
 
 			unset($plugins);
-			return Cache::write('admin_menu_dashboard', $this->adminDashboard, 'menu');
+			return Cache::write('admin_menu_dashboard', $this->adminDashboard, 'menus');
 		}
 		
 		/**

@@ -1,5 +1,5 @@
 <?php
-	class MenussController extends MenuAppController{
+	class MenusController extends MenusAppController{
 		var $name = 'Menus';
 
 		function admin_index(){
