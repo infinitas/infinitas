@@ -21,6 +21,7 @@ h1{
 	padding:0 20px;
 	-moz-border-radius: 5px 5px 0 0;
 	border-radius: 5px 5px 0 0;
+	margin-top:0;
 }
 	h1 small{
 		float: right;
@@ -326,11 +327,17 @@ table.listing td{
 
 	.dashboard .chart{
 		float: left;
+		padding-left:10px;
 	}
 
 	.dashboard.half{
-		clear:none;
+		/** from 960gs grid_8 */
+		width:460px;
+		margin-right:10px;
+		display:inline;
 		float:left;
+
+		clear:none;
 		margin-left:8px;
 	}
 
