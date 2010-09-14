@@ -388,7 +388,47 @@ table.listing td{
 		color:#333;
 	}
 
+/**
+	pagination
+*/
+ul.pagination{
+	list-style:none outside none;
+}
 
+	ul.pagination li {
+		cursor:pointer;
+		float:left;
+		list-style:none outside none;
+		margin:2px;
+		padding:4px 0;
+		position:relative;
+	}
+		ul.pagination li.form{
+			padding-top: 5px;
+		}
+		
+		ul.pagination li.text{
+			padding-top: 5px;
+		}
+
+		ul.pagination li.current{
+			padding:8px 4px;
+			cursor:auto;
+		}
+
+		ul.pagination li a{
+			-moz-border-radius:3px 3px 3px 3px;
+			display:block;
+			padding:3px 6px 2px;
+			background: repeat-x scroll 50% 50% #F6F6F6;
+			border:1px solid #DDDDDD;
+			color:#0073EA;
+			font-weight:bold;
+			outline:medium none;
+			text-decoration:none;
+			cursor:pointer;
+			list-style:none outside none;
+		}
 
 table.cake-sql-log{
 	display: none;
