@@ -245,10 +245,10 @@ class CakeSchema extends Object {
 					$Object =& ClassRegistry::init(array('class' => $model, 'ds' => null));
 				}
 
-				if (is_object($Object) && $Object->useTable !== false) {
+				if (is_object($Object) && isset($Object->useTable) && $Object->useTable !== false) {
 					$Object->setDataSource($connection);
 					$table = $db->fullTableName($Object, false);
-					$cleanTable = str_replace($Object->tablePrefix, '', $table);
+					$cleanTable = preg_replace('/^'.$Object->tablePrefix.'/', '', $table);
 					if (in_array($table, $currentTables)) {
 						$key = array_search($table, $currentTables);
 						$useTable = $ignorePrefix ? $cleanTable : $table;
@@ -258,7 +258,7 @@ class CakeSchema extends Object {
 							$tables[$useTable]['tableParameters'] = $db->readTableParameters($table);
 							unset($currentTables[$key]);
 						}
-						if (!empty($Object->hasAndBelongsToMany)) {
+						/*if (!empty($Object->hasAndBelongsToMany)) {
 							foreach ($Object->hasAndBelongsToMany as $Assoc => $assocData) {
 								if (isset($assocData['with'])) {
 									$class = $assocData['with'];
@@ -274,7 +274,7 @@ class CakeSchema extends Object {
 									}
 								}
 							}
-						}
+						}*/
 					}
 				}
 			}
