@@ -1,8 +1,8 @@
 <?php
 	class FeedsController extends FeedAppController {
-		var $name = 'Feeds';
+		public $name = 'Feeds';
 
-		function index(){
+		public function index(){
 			$feeds = $this->Feed->find(
 				'all',
 				array(
@@ -38,7 +38,7 @@
 			$this->set(compact('feeds'));
 		}
 
-		function get_feed(){
+		public function get_feed(){
 			if(!$this->params['id']){
 				$this->Session->setFlash(__('Invalid feed selected', true));
 				$this->redirect($this->referer());
@@ -56,7 +56,7 @@
 			$this->set(compact('feed', 'raw'));
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate = array('contain' => array('Group'));
 
 			$feeds = $this->paginate(null, $this->Filter->filter);
@@ -71,14 +71,8 @@
 			$this->set(compact('feeds', 'filterOptions'));
 		}
 
-		function admin_add() {
-			if (!empty($this->data)) {
-				$this->Feed->create();
-				if ($this->Feed->saveAll($this->data)) {
-					$this->Session->setFlash('Your Feed has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+		public function admin_add() {
+			parent::admin_add();
 
 			$plugins = $this->Feed->getPlugins();
 			$groups = $this->Feed->Group->find('list');
@@ -86,34 +80,8 @@
 			$this->set(compact('plugins', 'groups', 'feedItems'));
 		}
 
-		function admin_edit($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('That Feed could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if ($this->Feed->save($this->data)) {
-					$this->Session->setFlash(__('Your Feed has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your Feed could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->Feed->find(
-					'first',
-					array(
-						'conditions' => array(
-							'Feed.id' => $id
-						),
-						'contain' => array(
-							'FeedItem'
-						)
-					)
-				);
-			}
+		public function admin_edit($id = null) {
+			parent::admin_edit($id);
 
 			$plugins     = $this->Feed->getPlugins();
 			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);

@@ -18,20 +18,20 @@
 	 */
 
 	class FeedItem extends FeedAppModel {
-		var $name = 'FeedItem';
-		var $actsAs = array(
+		public $name = 'FeedItem';
+		public $actsAs = array(
 			// 'Libs.Feedable',
 			// 'Libs.Commentable',
 			// 'Libs.Rateable
 		);
 
-		var $order = array(
+		public $order = array(
 		);
 
-		var $hasOne = array(
+		public $hasOne = array(
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Group' => array(
 				'className' => 'Management.Group',
 				'fields' => array(
@@ -41,10 +41,10 @@
 			),
 		);
 
-		var $hasMany = array(
+		public $hasMany = array(
 		);
 
-		var $hasAndBelongsToMany = array(
+		public $hasAndBelongsToMany = array(
 			'Feed' => array(
 				'className'              => 'Feed.Feed',
 				'joinTable'              => 'core_feeds_feed_items',
@@ -63,7 +63,7 @@
 			)
 		);
 
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(

@@ -18,12 +18,11 @@
 	*/
 
 	class FeedableBehavior extends ModelBehavior {
+		public $_defaults = array();
 
-		var $_defaults = array();
+		public $_results = null;
 
-		var $_results = null;
-
-		var $basicStatement = array(
+		public $basicStatement = array(
 			'order' => array(),
 			'limit' => array(),
 			'setup' => array(),
@@ -33,13 +32,14 @@
 			'fields' => array(),
 
 		);
-	/**
-	 * @param object $Model Model using the behavior
-	 * @param array $settings Settings to override for model.
-	 * @access public
-	 * @return void
-	 */
-		function setup(&$Model, $config = null) {
+
+		/**
+		 * @param object $Model Model using the behavior
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 * @return void
+		 */
+		public function setup(&$Model, $config = null) {
 			$Model->_findMethods = array_merge($Model->_findMethods, array('feed'=>true));
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
@@ -52,7 +52,7 @@
 			);
 		}
 
-		function _findFeed(&$Model, $state, $query, $results = array()){
+		protected function _findFeed(&$Model, $state, $query, $results = array()){
 			if($state == 'before') {
 				if (!isset($query['feed'])){
 					return $query;
@@ -104,8 +104,11 @@
 				foreach( $_results as $res ){
 					$this->_results[]['Feed'] = $res[0];
 				}
+				
 				return $query;
-			} elseif ($state == 'after') {
+			}
+
+			elseif ($state == 'after') {
 				return $this->_results;
 			}
 			return false;

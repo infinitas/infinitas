@@ -1,8 +1,8 @@
 <?php
 	class FeedItemsController extends FeedAppController {
-		var $name = 'FeedItems';
+		public $name = 'FeedItems';
 
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate = array('contain' => array('Group'));
 
 			$feedItems = $this->paginate(null, $this->Filter->filter);
@@ -17,14 +17,8 @@
 			$this->set(compact('feedItems', 'filterOptions'));
 		}
 
-		function admin_add() {
-			if (!empty($this->data)) {
-				$this->FeedItem->create();
-				if ($this->FeedItem->saveAll($this->data)) {
-					$this->Session->setFlash('Your Feed Item has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+		public function admin_add() {
+			parent::admin_add();
 
 			$plugins = $this->FeedItem->getPlugins();
 			$groups = $this->FeedItem->Group->find('list');
@@ -32,34 +26,8 @@
 			$this->set(compact('plugins', 'groups', 'feeds'));
 		}
 
-		function admin_edit($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('That Feed Item could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if ($this->FeedItem->save($this->data)) {
-					$this->Session->setFlash(__('Your Feed Item has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your Feed Item could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->Feed->find(
-					'first',
-					array(
-						'conditions' => array(
-							'FeedItem.id' => $id
-						),
-						'contain' => array(
-							'Feed'
-						)
-					)
-				);
-			}
+		public function admin_edit($id = null) {
+			parent::admin_edit($id);
 
 			$plugins     = $this->FeedItem->getPlugins();
 			$controllers = $this->FeedItem->getControllers($this->data['FeedItem']['plugin']);
