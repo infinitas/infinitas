@@ -18,20 +18,32 @@
 	 */
 
 	class Route extends RoutesAppModel {
-		var $name = 'Route';
+		public $name = 'Route';
 
-		var $actsAs = array();
-
-		var $order = array(
+		public $order = array(
 			'Route.ordering' => 'ASC'
 		);
 
-		var $belongsTo = array(
-			'Themes.Theme'
+		public $belongsTo = array(
+			'Theme' => array(
+				'className' => 'Themes.Theme',
+				'fields' => array(
+					'Theme.id',
+					'Theme.name'
+				)
+			)
 		);
 
-		function getRoutes(){
-			$routes = Cache::read('routes', 'core');
+		/**
+		 * Get all routes required for the app
+		 *
+		 * Gets and formats the routes data and returns it ready for Router::connect()
+		 * only active routes are needed.
+		 *
+		 * @return array the formatted routes
+		 */
+		public function getRoutes(){
+			$routes = Cache::read('routes', 'routes');
 
 			if ($routes !== false) {
 				return $routes;
@@ -60,12 +72,7 @@
 						'Route.ordering' => 'ASC'
 					),
 					'contain' => array(
-						'Theme' => array(
-							'fields' => array(
-								'Theme.id',
-								'Theme.name'
-							)
-						)
+						'Theme'
 					)
 				)
 			);
@@ -75,15 +82,15 @@
 				$vaules = $regex = array();
 				$routingRules[]['Route'] = array(
 					'url' => $array['Route']['url'],
-					'values' => $this->_getValues($array['Route']),
-					'regex' => $this->_getRegex($array['Route']['rules'], $array['Route']['pass']),
+					'values' => $this->__getValues($array['Route']),
+					'regex' => $this->__getRegex($array['Route']['rules'], $array['Route']['pass']),
 					'theme' => $array['Theme']['name']
 				);
 			}
 
 			unset($routes);
 
-			Cache::write('routes', $routingRules, 'core');
+			Cache::write('routes', $routingRules, 'routes');
 
 			return $routingRules;
 		}
@@ -98,7 +105,7 @@
 		 *
 		 * @return formatted array for Router::connect
 		 */
-		function _getValues($route = array()){
+		private function __getValues($route = array()){
 			if (!$route) {
 				return false;
 			}
@@ -146,7 +153,7 @@
 		 *
 		 * @return array the data for Router::connect
 		 */
-		function _getRegex($field, $pass = null){
+		private function __getRegex($field, $pass = null){
 			$values = array();
 			if (!empty($field)) {
 				$values = $this->singleDimentionArray($this->getJson($field));
@@ -158,19 +165,5 @@
 			}
 
 			return $values;
-		}
-
-		function afterSave($created) {
-			parent::afterSave($created);
-
-			Cache::delete('routes', 'core');
-			return true;
-		}
-
-		function afterDelete() {
-			parent::afterDelete();
-
-			Cache::delete('routes', 'core');
-			return true;
 		}
 	}

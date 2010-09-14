@@ -23,7 +23,9 @@
 
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
-				'Routes' => array('controller' => false, 'action' => false)
+				'Routes' => array('controller' => false, 'action' => false),
+				'Active' => array('controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
+				'Disabled' => array('controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
 			);
 
 			return $menu;

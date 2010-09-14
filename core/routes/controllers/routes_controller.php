@@ -18,11 +18,11 @@
 	 */
 
 	class RoutesController extends RoutesAppController{
-		var $name = 'Routes';
+		public $name = 'Routes';
 
-		var $listThemes = array(0 => 'Default');
+		public $listThemes = array(0 => 'Default');
 
-		function beforeFilter() {
+		public function beforeFilter() {
 			parent::beforeFilter();
 
 			$this->listThemes = array(
@@ -30,8 +30,13 @@
 			) + $this->Route->Theme->find('list');
 		}
 
-		function admin_index() {
-			$this->Route->recursive = 1;
+		public function admin_index() {
+			$this->paginate = array(
+				'contain' => array(
+					'Theme'
+				)
+			);
+			
 			$routes = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -47,37 +52,15 @@
 			$this->set(compact('routes', 'filterOptions'));
 		}
 
-		function admin_add() {
-			if (!empty($this->data)) {
-				$this->Route->create();
-				if ($this->Route->saveAll($this->data)) {
-					$this->Session->setFlash('Your route has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+		public function admin_add() {
+			parent::admin_add();
 
 			$this->set('plugins', $this->Route->getPlugins());
 			$this->set('themes', $this->listThemes);
 		}
 
-		function admin_edit($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('That route could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if ($this->Route->save($this->data)) {
-					$this->Session->setFlash(__('Your route has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your route could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->Route->read(null, $id);
-			}
+		public function admin_edit($id = null) {
+			parent::admin_edit($id);
 
 			$plugins = $this->Route->getPlugins();
 			$controllers = $this->Route->getControllers($this->data['Route']['plugin']);

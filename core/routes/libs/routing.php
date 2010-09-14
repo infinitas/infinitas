@@ -9,12 +9,12 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package {see_below}
-	 * @subpackage {see_below}
+	 * @package Infinitas.routes
+	 * @subpackage Infinitas.routes.events
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
+	 * @since 0.8a
 	 * 
-	 * @author {your_name}
+	 * @author dogmatic69
 	 * 
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
@@ -22,13 +22,6 @@
 
 	class InfinitasRouting extends Object{
 		public function setup(){
-			// infinitas is not installed
-			if (!file_exists(APP . 'config' . DS . 'database.php')) {
-				Configure::write('Session.save', 'php');
-				Router::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
-				return true;
-			}
-
 			InfinitasRouting::__registerExtentions();
 			InfinitasRouting::__buildRoutes();
 		}
@@ -41,24 +34,16 @@
 		 */
 		private function __buildRoutes(){
 			EventCore::trigger(new StdClass(), 'setupRoutes');
-			
-			$routes = Cache::read('routes', 'routes');
-			if (!$routes) {
-				$routes = Classregistry::init('Routes.Route')->getRoutes();
-				if (empty($routes)) {
-					//something is broken
-					// @todo -c Implement .some error message or something
-				}
-				Cache::write('routes', $routes, 'routes');
-			}
 
+			$routes = Classregistry::init('Routes.Route')->getRoutes();
 			if (!empty($routes)) {
 				foreach($routes as $route ){
 					if (false) {
 						debugRoute($route);
 						continue;
 					}
-					Router::connect($route['Route']['url'], $route['Route']['values'], $route['Route']['regex']);
+
+					call_user_func_array(array('Router', 'connect'), $route['Route']);
 				}
 			}
 		}
