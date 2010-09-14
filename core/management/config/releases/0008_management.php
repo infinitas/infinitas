@@ -1,5 +1,5 @@
 <?php
-class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
+class R4c8f8765d5d84763b04108486318cd70 extends CakeRelease {
 
 /**
  * Migration description
@@ -28,15 +28,15 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 			'create_table' => array(
 				'addresses' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'street' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'province' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'postal' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'street' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'province' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'postal' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'country_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
+					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -47,10 +47,10 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'backups' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'last_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'data' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'data' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
@@ -59,11 +59,11 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'configs' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
-					'value' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
-					'options' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'value' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'options' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
@@ -73,8 +73,8 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'groups' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'parent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
@@ -88,9 +88,9 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'ip_addresses' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'ip_address' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'ip_address' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'times_blocked' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 6),
 					'unlock_at' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'risk' => array('type' => 'integer', 'null' => false, 'default' => '1'),
@@ -104,13 +104,13 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'logs' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'title' => array('type' => 'string', 'null' => true, 'default' => NULL),
-					'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
-					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+					'title' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'model_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-					'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
+					'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'user_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-					'change' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'change' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'version_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -120,17 +120,17 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'menu_items' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
-					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
-					'link' => array('type' => 'string', 'null' => false, 'default' => NULL),
-					'prefix' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'params' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'link' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'prefix' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'params' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-					'class' => array('type' => 'string', 'null' => false, 'default' => NULL),
+					'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'menu_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
@@ -148,8 +148,8 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'menus' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'index'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -162,7 +162,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'module_positions' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -172,11 +172,11 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'modules' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
-					'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'config' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'content' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'config' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'theme_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'position_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -188,10 +188,10 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 					'locked_since' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'show_heading' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 					'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-					'author' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75),
-					'url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-					'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL),
+					'author' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -200,28 +200,37 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
+				'modules_routes' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+					'module_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'route_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
 				'relations' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
-					'foreign_key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-					'conditions' => array('type' => 'text', 'null' => true, 'default' => NULL),
-					'fields' => array('type' => 'text', 'null' => true, 'default' => NULL),
-					'order' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'foreign_key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'conditions' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'fields' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'order' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'dependent' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
 					'limit' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'offset' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'counter_cache' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
-					'counter_scope' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'join_table' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'with' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 150),
-					'association_foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'counter_scope' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'join_table' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'with' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'association_foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'unique' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
-					'finder_query' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'delete_query' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'insert_query' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'finder_query' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'delete_query' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'insert_query' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'bind' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 					'reverse_association' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'type_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -236,15 +245,15 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'routes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 					'core' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'url' => array('type' => 'string', 'null' => false, 'default' => NULL),
-					'prefix' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'controller' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'values' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'pass' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-					'rules' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'url' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'prefix' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'controller' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'values' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'pass' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'rules' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'order_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
@@ -260,7 +269,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'short_urls' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'url' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'url' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -270,12 +279,12 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'themes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
-					'author' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-					'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-					'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'author' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -287,10 +296,10 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'trash' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL),
-					'data' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+					'data' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 					'deleted' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'deleted_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -300,9 +309,9 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'relation_types' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
@@ -313,19 +322,19 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				),
 				'users' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index'),
-					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
+					'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'ip_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'browser' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'operating_system' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'ip_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'browser' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'operating_system' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'last_login' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'last_click' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'country' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
+					'country' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
@@ -342,7 +351,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'addresses', 'backups', 'configs', 'groups', 'ip_addresses', 'logs', 'menu_items', 'menus', 'module_positions', 'modules', 'relations', 'routes', 'short_urls', 'themes', 'trash', 'relation_types', 'users'
+				'addresses', 'backups', 'configs', 'groups', 'ip_addresses', 'logs', 'menu_items', 'menus', 'module_positions', 'modules', 'modules_routes', 'relations', 'routes', 'short_urls', 'themes', 'trash', 'types', 'users'
 			),
 		),
 	);
@@ -377,7 +386,163 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'rght' => 4
 			),
 		),
-		'Trash' => array(
+		'Log' => array(
+			array(
+				'id' => 13,
+				'title' => 'Stats',
+				'description' => 'MenuItem \"Stats\" (91) updated by Management.User \"1\" (1).',
+				'model' => 'MenuItem',
+				'model_id' => 91,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'parent_id (58) => (1)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 01:29:18'
+			),
+			array(
+				'id' => 12,
+				'title' => 'Categories',
+				'description' => 'MenuItem \"Categories\" (95) updated by Management.User \"1\" (1).',
+				'model' => 'MenuItem',
+				'model_id' => 95,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'parent_id (1) => (5), force_backend (0) => (1)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 01:26:59'
+			),
+			array(
+				'id' => 11,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) updated by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'value (false) => (true)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 01:00:06'
+			),
+			array(
+				'id' => 10,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) updated by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'value (true) => (false)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 00:37:28'
+			),
+			array(
+				'id' => 9,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) updated by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'value (false) => (true)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 00:36:59'
+			),
+			array(
+				'id' => 8,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) updated by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'value (true) => (false)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 00:30:49'
+			),
+			array(
+				'id' => 7,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) updated by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'value (false) => (true)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 00:28:33'
+			),
+			array(
+				'id' => 6,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) updated by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'value (true) => (false)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 00:27:10'
+			),
+			array(
+				'id' => 5,
+				'title' => 'Config (73)',
+				'description' => 'Config (73) added by Management.User \"1\" (1).',
+				'model' => 'Config',
+				'model_id' => 73,
+				'action' => 'add',
+				'user_id' => 1,
+				'change' => 'key () => (Cms.allow_ratings), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>\r\n	If you would like to not allow rating of items, set this value to false. Default is true.</p>\r\n)',
+				'version_id' => NULL,
+				'created' => '2010-04-17 00:25:11'
+			),
+			array(
+				'id' => 3,
+				'title' => 'Rating (2)',
+				'description' => 'Rating (2) added by Management.User \"1\" (1).',
+				'model' => 'Rating',
+				'model_id' => 2,
+				'action' => 'add',
+				'user_id' => 1,
+				'change' => 'class () => (Cms.Content), foreign_id () => (4), rating () => (4), user_id () => (1), ip () => (::1), created () => (2010-04-16 22:44:42)',
+				'version_id' => NULL,
+				'created' => '2010-04-16 22:44:42'
+			),
+			array(
+				'id' => 4,
+				'title' => 'Extending Infinitas',
+				'description' => 'Content (4) updated by Management.User \"1\" (1).',
+				'model' => 'Content',
+				'model_id' => 4,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'rating () => (4.50)',
+				'version_id' => NULL,
+				'created' => '2010-04-16 22:44:42'
+			),
+			array(
+				'id' => 1,
+				'title' => 'Rating (1)',
+				'description' => 'Rating (1) added by Management.User \"1\" (1).',
+				'model' => 'Rating',
+				'model_id' => 1,
+				'action' => 'add',
+				'user_id' => 1,
+				'change' => 'class () => (Cms.Content), foreign_id () => (4), rating () => (5), user_id () => (1), ip () => (::1), created () => (2010-04-16 22:39:55)',
+				'version_id' => NULL,
+				'created' => '2010-04-16 22:39:55'
+			),
+			array(
+				'id' => 2,
+				'title' => 'Extending Infinitas',
+				'description' => 'Content (4) updated by Management.User \"1\" (1).',
+				'model' => 'Content',
+				'model_id' => 4,
+				'action' => 'edit',
+				'user_id' => 1,
+				'change' => 'rating () => (5.00)',
+				'version_id' => NULL,
+				'created' => '2010-04-16 22:39:55'
+			),
 		),
 		'Menu' => array(
 			array(
@@ -389,8 +554,6 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'created' => '2010-09-09 22:27:27',
 				'modified' => '2010-09-09 22:27:27'
 			),
-		),
-		'Address' => array(
 		),
 		'Module' => array(
 			array(
@@ -994,120 +1157,137 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-01-19 14:44:49'
 			),
 		),
-		'ShortUrl' => array(
+		'ModulesRoute' => array(
 			array(
-				'id' => 1,
-				'url' => 'http://localhost/infinitas/management/users/activate/',
-				'created' => '2010-05-15 14:24:05',
-				'modified' => '2010-05-15 14:24:05'
+				'id' => 13,
+				'module_id' => 7,
+				'route_id' => 0
 			),
 			array(
-				'id' => 2,
-				'url' => 'http://localhost/infinitas/management/users/activate/4bee85c7-47a0-47e4-a72a-0c746318cd70',
-				'created' => '2010-05-15 14:30:15',
-				'modified' => '2010-05-15 14:30:15'
+				'id' => 17,
+				'module_id' => 5,
+				'route_id' => 0
 			),
 			array(
-				'id' => 3,
-				'url' => 'http://localhost/infinitas/management/users/activate/4bee85dc-d940-437b-9d8d-0c746318cd70',
-				'created' => '2010-05-15 14:30:36',
-				'modified' => '2010-05-15 14:30:36'
+				'id' => 21,
+				'module_id' => 9,
+				'route_id' => 7
 			),
 			array(
-				'id' => 4,
-				'url' => 'http://localhost/infinitas/management/users/activate/4bee85f4-0d70-48be-aa9d-0c746318cd70',
-				'created' => '2010-05-15 14:31:00',
-				'modified' => '2010-05-15 14:31:00'
+				'id' => 25,
+				'module_id' => 2,
+				'route_id' => 7
 			),
 			array(
-				'id' => 5,
-				'url' => 'http://localhost/infinitas/management/users/activate/4bee860e-a1ec-4958-93d3-0c746318cd70',
-				'created' => '2010-05-15 14:31:26',
-				'modified' => '2010-05-15 14:31:26'
+				'id' => 26,
+				'module_id' => 2,
+				'route_id' => 8
 			),
 			array(
-				'id' => 6,
-				'url' => 'http://localhost/infinitas/management/users/activate/4bee8647-657c-44af-bc2e-0c746318cd70',
-				'created' => '2010-05-15 14:32:23',
-				'modified' => '2010-05-15 14:32:23'
+				'id' => 27,
+				'module_id' => 2,
+				'route_id' => 9
 			),
 			array(
-				'id' => 7,
-				'url' => 'http://localhost/infinitas/management/users/activate/4bee8704-5f6c-4a49-b5d4-0c746318cd70',
-				'created' => '2010-05-15 14:35:32',
-				'modified' => '2010-05-15 14:35:32'
-			),
-		),
-		'Theme' => array(
-			array(
-				'id' => 1,
-				'name' => 'default',
-				'description' => 'This is the default infinitas theme',
-				'author' => 'Infinitas',
-				'url' => '',
-				'update_url' => '',
-				'licence' => '',
-				'active' => 0,
-				'core' => 1,
-				'created' => '2010-01-14 01:39:54',
-				'modified' => '2010-01-14 01:39:57'
+				'id' => 28,
+				'module_id' => 10,
+				'route_id' => 0
 			),
 			array(
-				'id' => 2,
-				'name' => 'terrafirma',
-				'description' => '',
-				'author' => '',
-				'url' => '',
-				'update_url' => '',
-				'licence' => '',
-				'active' => 0,
-				'core' => 0,
-				'created' => '0000-00-00 00:00:00',
-				'modified' => '0000-00-00 00:00:00'
+				'id' => 40,
+				'module_id' => 14,
+				'route_id' => 0
 			),
 			array(
-				'id' => 3,
-				'name' => 'aqueous',
-				'description' => 'A blue 3 col layout',
-				'author' => 'Six Shooter Media\r\n',
-				'url' => '',
-				'update_url' => '',
-				'licence' => '',
-				'active' => 0,
-				'core' => 0,
-				'created' => '0000-00-00 00:00:00',
-				'modified' => '0000-00-00 00:00:00'
+				'id' => 41,
+				'module_id' => 15,
+				'route_id' => 0
 			),
 			array(
-				'id' => 4,
-				'name' => 'aqueous_light',
-				'description' => 'aqueous_light',
-				'author' => '',
-				'url' => '',
-				'update_url' => '',
-				'licence' => '',
-				'active' => 0,
-				'core' => 0,
-				'created' => '0000-00-00 00:00:00',
-				'modified' => '0000-00-00 00:00:00'
+				'id' => 47,
+				'module_id' => 20,
+				'route_id' => 0
 			),
 			array(
-				'id' => 5,
-				'name' => 'rekordz',
-				'description' => '<p>\r\n	&nbsp;</p>',
-				'author' => '',
-				'url' => '',
-				'update_url' => '',
-				'licence' => '',
-				'active' => 1,
-				'core' => 0,
-				'created' => '2010-05-03 13:43:07',
-				'modified' => '2010-05-19 13:45:53'
+				'id' => 48,
+				'module_id' => 21,
+				'route_id' => 0
 			),
-		),
-		'Backup' => array(
-		),
-		'Config' => array(
+			array(
+				'id' => 49,
+				'module_id' => 22,
+				'route_id' => 0
+			),
+			array(
+				'id' => 50,
+				'module_id' => 23,
+				'route_id' => 0
+			),
+			array(
+				'id' => 53,
+				'module_id' => 24,
+				'route_id' => 19
+			),
+			array(
+				'id' => 54,
+				'module_id' => 24,
+				'route_id' => 22
+			),
+			array(
+				'id' => 55,
+				'module_id' => 24,
+				'route_id' => 26
+			),
+			array(
+				'id' => 56,
+				'module_id' => 4,
+				'route_id' => 0
+			),
+			array(
+				'id' => 60,
+				'module_id' => 13,
+				'route_id' => 0
+			),
+			array(
+				'id' => 61,
+				'module_id' => 18,
+				'route_id' => 0
+			),
+			array(
+				'id' => 62,
+				'module_id' => 19,
+				'route_id' => 0
+			),
+			array(
+				'id' => 65,
+				'module_id' => 25,
+				'route_id' => 0
+			),
+			array(
+				'id' => 66,
+				'module_id' => 12,
+				'route_id' => 0
+			),
+			array(
+				'id' => 67,
+				'module_id' => 26,
+				'route_id' => 0
+			),
+			array(
+				'id' => 69,
+				'module_id' => 27,
+				'route_id' => 9
+			),
+			array(
+				'id' => 71,
+				'module_id' => 28,
+				'route_id' => 9
+			),
+			array(
+				'id' => 72,
+				'module_id' => 29,
+				'route_id' => 9
+			),
 		),
 		'ModulePosition' => array(
 			array(
@@ -1188,12 +1368,6 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'created' => '2010-03-05 18:33:20',
 				'modified' => '2010-03-05 18:33:20'
 			),
-		),
-		'RelationType' => array(
-		),
-		'IpAddress' => array(
-		),
-		'Backlink' => array(
 		),
 		'Route' => array(
 			array(
@@ -1596,7 +1770,139 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-05-05 04:47:21'
 			),
 		),
-		'MenuItem' => array(
+		'ShortUrl' => array(
+			array(
+				'id' => 1,
+				'url' => 'http://localhost/infinitas/management/users/activate/',
+				'created' => '2010-05-15 14:24:05',
+				'modified' => '2010-05-15 14:24:05'
+			),
+			array(
+				'id' => 2,
+				'url' => 'http://localhost/infinitas/management/users/activate/4bee85c7-47a0-47e4-a72a-0c746318cd70',
+				'created' => '2010-05-15 14:30:15',
+				'modified' => '2010-05-15 14:30:15'
+			),
+			array(
+				'id' => 3,
+				'url' => 'http://localhost/infinitas/management/users/activate/4bee85dc-d940-437b-9d8d-0c746318cd70',
+				'created' => '2010-05-15 14:30:36',
+				'modified' => '2010-05-15 14:30:36'
+			),
+			array(
+				'id' => 4,
+				'url' => 'http://localhost/infinitas/management/users/activate/4bee85f4-0d70-48be-aa9d-0c746318cd70',
+				'created' => '2010-05-15 14:31:00',
+				'modified' => '2010-05-15 14:31:00'
+			),
+			array(
+				'id' => 5,
+				'url' => 'http://localhost/infinitas/management/users/activate/4bee860e-a1ec-4958-93d3-0c746318cd70',
+				'created' => '2010-05-15 14:31:26',
+				'modified' => '2010-05-15 14:31:26'
+			),
+			array(
+				'id' => 6,
+				'url' => 'http://localhost/infinitas/management/users/activate/4bee8647-657c-44af-bc2e-0c746318cd70',
+				'created' => '2010-05-15 14:32:23',
+				'modified' => '2010-05-15 14:32:23'
+			),
+			array(
+				'id' => 7,
+				'url' => 'http://localhost/infinitas/management/users/activate/4bee8704-5f6c-4a49-b5d4-0c746318cd70',
+				'created' => '2010-05-15 14:35:32',
+				'modified' => '2010-05-15 14:35:32'
+			),
+		),
+		'Theme' => array(
+			array(
+				'id' => 1,
+				'name' => 'default',
+				'description' => 'This is the default infinitas theme',
+				'author' => 'Infinitas',
+				'url' => '',
+				'update_url' => '',
+				'licence' => '',
+				'active' => 0,
+				'core' => 1,
+				'created' => '2010-01-14 01:39:54',
+				'modified' => '2010-01-14 01:39:57'
+			),
+			array(
+				'id' => 2,
+				'name' => 'terrafirma',
+				'description' => '',
+				'author' => '',
+				'url' => '',
+				'update_url' => '',
+				'licence' => '',
+				'active' => 0,
+				'core' => 0,
+				'created' => '0000-00-00 00:00:00',
+				'modified' => '0000-00-00 00:00:00'
+			),
+			array(
+				'id' => 3,
+				'name' => 'aqueous',
+				'description' => 'A blue 3 col layout',
+				'author' => 'Six Shooter Media\r\n',
+				'url' => '',
+				'update_url' => '',
+				'licence' => '',
+				'active' => 0,
+				'core' => 0,
+				'created' => '0000-00-00 00:00:00',
+				'modified' => '0000-00-00 00:00:00'
+			),
+			array(
+				'id' => 4,
+				'name' => 'aqueous_light',
+				'description' => 'aqueous_light',
+				'author' => '',
+				'url' => '',
+				'update_url' => '',
+				'licence' => '',
+				'active' => 0,
+				'core' => 0,
+				'created' => '0000-00-00 00:00:00',
+				'modified' => '0000-00-00 00:00:00'
+			),
+			array(
+				'id' => 5,
+				'name' => 'rekordz',
+				'description' => '<p>\r\n	&nbsp;</p>',
+				'author' => '',
+				'url' => '',
+				'update_url' => '',
+				'licence' => '',
+				'active' => 1,
+				'core' => 0,
+				'created' => '2010-05-03 13:43:07',
+				'modified' => '2010-05-19 13:45:53'
+			),
+		),
+		'User' => array(
+			array(
+				'id' => 1,
+				'username' => 'admin',
+				'email' => 'admin@admin.com',
+				'password' => 'b45e7cddbeafb9f619d93fd996c6a78c784e7fb5',
+				'birthday' => '2010-02-04',
+				'active' => 1,
+				'group_id' => 1,
+				'ip_address' => '127.0.0.1',
+				'browser' => 'Mozilla 5.0',
+				'operating_system' => 'Linux',
+				'last_login' => '2010-09-13 11:14:53',
+				'last_click' => '0000-00-00 00:00:00',
+				'country' => 'Unknown',
+				'city' => '',
+				'is_mobile' => 0,
+				'created' => '2010-02-04 16:54:48',
+				'modified' => '2010-02-04 16:54:48',
+				'facebook_id' => 0,
+				'twitter_id' => 0
+			),
 		),
 		),
 	);
