@@ -2,16 +2,34 @@
 class FixtureTask extends Shell {
 	public $connection = 'default';
 	
-	public function generate($models, $plugin) {
+	public function generate($models = null, $plugin = null) {
+		if($models == null) {
+			$models = array(
+				'Aco', 'Aro', 'ArosAco', 'Session'
+			);
+		}
+
 		$fixtures = array();
 		foreach($models as $model => $options) {
+			if(is_string($options)) {
+				$model = $options;
+				$options = array(
+					'core' => array(
+						'where' => '1=1',
+						'limit' => 0
+					)
+				);
+			}
 			foreach($options as $type => $option) {
 				$modelName = $plugin . '.' . $model;
 				$conditions = $option['where'];
 				if($option['limit'] != 0) {
 					$conditions .= ' LIMIT ' . $option['limit'];
 				}
-				$fixtures[$type][$modelName] = $this->_getRecordsFromTable($modelName, $conditions);
+				$records = $this->_getRecordsFromTable($modelName, $conditions);
+				if(!empty($records)) {
+					$fixtures[$type][$model] = $records;
+				}
 			}
 		}
 

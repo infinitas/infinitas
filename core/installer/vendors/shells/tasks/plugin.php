@@ -20,7 +20,7 @@ class PluginTask extends Shell {
 			foreach($this->args as $plugin) {
 				$plugin = Inflector::camelize($plugin);
 
-				if(in_array($plugin, $plugins)) {
+				if(in_array($plugin, $plugins) || $plugin == 'App') {
 					$this->generate($plugin);
 				}
 				else {
@@ -54,19 +54,25 @@ class PluginTask extends Shell {
 	 * @param string $plugin Name of the plugin to generate the release for.
 	 * @return Nothing
 	 */
-	public function generate($plugin) {		
-		$pluginPath = App::pluginPath($plugin);
+	public function generate($plugin) {
+		if($plugin != 'App') {
+			$pluginPath = App::pluginPath($plugin);
+			$this->__configPath = $pluginPath . 'config' . DS;
+		}
+		else {
+			$this->__configPath = APP . 'config' . DS;
+		}
+
 		$this->__plugin = $plugin;
 		$this->__info = $this->__models = array();
 
-		$this->__configPath = $pluginPath . DS . 'config' . DS;
 
-		if(file_exists($this->__configPath . 'config.json')) {
+		if($plugin != 'App' && file_exists($this->__configPath . 'config.json')) {
 			$configFile = new File($this->__configPath . 'config.json');
 			$this->__info = Set::reverse(json_decode($configFile->read()));
 			$this->__update();
 		}
-		else {
+		elseif($plugin != 'App') {
 			$this->__info = array(
 				'name' => $this->__plugin,
 				'version' => '1.0',
@@ -119,6 +125,21 @@ class PluginTask extends Shell {
 
 				$this->__writeOut();
 			}
+		}
+		else {
+			$this->__info['version'] = isset($this->params['version']) ? $this->params['version'] : '1.0';
+
+			$this->out('Generating app release');
+
+			$this->out('Generating migration...');
+			$schemaMigration = $this->Migration->generate();
+
+			if(!file_exists(APP . 'config' . DS . 'releases' . DS . 'map.php')) {
+				$this->out('Generating fixtures...');
+				$fixtures = $this->Fixture->generate();
+			}
+
+			$this->__writeOutput(compact('schemaMigration', 'fixtures'), false);
 		}
 	}
 
@@ -215,14 +236,16 @@ class PluginTask extends Shell {
 		return $infinitasPlugins;
 	}
 
-	private function __writeOutput($options = array()) {
+	private function __writeOutput($options = array(), $writeConfig = true) {
 		extract($options);
 
 		$class = 'R' . str_replace('-', '', String::uuid());
 		$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info['version'])), 4, '0', STR_PAD_LEFT) . '_' . Inflector::underscore($this->__plugin);
 
-		$this->out('Writing config...');
-		$this->__writeConfig();
+		if($writeConfig) {
+			$this->out('Writing config...');
+			$this->__writeConfig();
+		}
 
 		$this->out('Writing release file...');
 		$this->__writeRelease(compact('class', 'name', 'schemaMigration', 'fixtures'));

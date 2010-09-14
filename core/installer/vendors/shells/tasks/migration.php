@@ -12,7 +12,7 @@ class MigrationTask extends Shell {
 	 * @return void
 	 * @access public
 	 */
-	public function generate($plugin) {
+	public function generate($plugin = 'app') {
 		$this->type = Inflector::underscore($plugin);
 		$this->path = $this->__getPath() . 'config' . DS . 'releases' . DS;
 
