@@ -29,4 +29,13 @@
 				'author' => 'Infinitas'
 			);
 		}
+
+		public function onSetupRoutes(){
+			// infinitas is not installed
+			if (!file_exists(APP . 'config' . DS . 'database.php')) {
+				Configure::write('Session.save', 'php');
+				Router::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
+				return true;
+			}
+		}
 	 }
