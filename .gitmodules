@@ -28,3 +28,6 @@
 [submodule "plugins/blog"]
 	path = plugins/blog
 	url = git://github.com/Infinitas-Plugins/blog.git
+[submodule "plugins/shop"]
+	path = plugins/shop
+	url = git://github.com/Infinitas-Plugins/shop.git
