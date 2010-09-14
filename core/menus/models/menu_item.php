@@ -27,6 +27,29 @@
 			'MenuItem.lft' => 'ASC'
 		);
 
+		/**
+		 * before saving
+		 *
+		 * Set the parent_id for the menu item
+		 */
+		public function beforeSave($cascade){
+			if($this->data['MenuItem']['parent_id'] == 0) {
+				$menuItem = $this->find(
+					'first',
+					array(
+						'fields' => array('id'),
+						'conditions' => array(
+							'parent_id' => 0,
+							'menu_id' => $this->data['MenuItem']['menu_id']
+						)
+					)
+				);
+				$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
+			}
+
+			return parent::beforeSave($cascade);
+		}
+
 		function getMenu($type = null){
 			if (!$type) {
 				return false;

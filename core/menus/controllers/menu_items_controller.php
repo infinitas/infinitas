@@ -6,13 +6,7 @@
 	class MenuItemsController extends MenusAppController{
 		var $name = 'MenuItems';
 
-		var $helpers = array(
-			'Filter.Filter'
-		);
-
 		function admin_index(){
-			$this->MenuItem->recursive = 0;
-
 			$menuItems = $this->paginate(
 				null,
 				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)
@@ -29,19 +23,9 @@
 		}
 
 		function admin_add(){
-			if (!empty($this->data)) {
-				if($this->data['MenuItem']['parent_id'] == 0) {
-					$menuItem = $this->MenuItem->find('first', array('fields' => array('id'), 'conditions' => array('parent_id' => 0, 'menu_id' => $this->data['MenuItem']['menu_id'])));
+			parent::admin_add();
 
-					$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
-				}
-				$this->MenuItem->create();
-				if ($this->MenuItem->saveAll($this->data)) {
-					$this->Session->setFlash('Your menu item has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
-
+			// auto select parent when the + button is used
 			if (isset($this->params['named']['parent_id'])) {
 				$this->data['MenuItem']['parent_id'] = $this->params['named']['parent_id'];
 			}
@@ -58,28 +42,7 @@
 		}
 
 		function admin_edit($id = null){
-			if (!$id) {
-				$this->Session->setFlash(__('That menu item could not be found', true), true);
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				if($this->data['MenuItem']['parent_id'] == 0) {
-					$menuItem = $this->MenuItem->find('first', array('fields' => array('id'), 'conditions' => array('parent_id' => 0, 'menu_id' => $this->data['MenuItem']['menu_id'])));
-
-					$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
-				}
-				if ($this->MenuItem->save($this->data)) {
-					$this->Session->setFlash(__('Your menu item has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				$this->Session->setFlash(__('Your menu item could not be saved.', true));
-			}
-
-			if ($id && empty($this->data)) {
-				$this->data = $this->MenuItem->read(null, $id);
-			}
+			parent::admin_edit($id);
 
 			$menus   = $this->MenuItem->Menu->find('list');
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
