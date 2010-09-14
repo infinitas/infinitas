@@ -25,7 +25,7 @@
         		</div>
         		<div id="splash"></div>
 				<?php
-					echo $this->Infinitas->loadModules('top');
+					echo $this->ModuleLoader->load('top');
                     echo $this->Session->flash();
                 ?>
 				<div id="primarycontent">
@@ -42,11 +42,12 @@
 					</div>
 				</div>
 				<div id="secondarycontent">
-					<?php echo $this->Infinitas->loadModules('right'); ?>
+					<?php echo $this->ModuleLoader->load('right'); ?>
 				</div>
         		<div id="footer">
-        			&copy; Php-Dev.co.za. All rights reserved. <?php echo $this->Html->link( 'Hosted by Change Me', 'http://www.changeme.com' ); ?>
-        			<?php
+        			<?php 
+						echo $this->Html->link( 'Infinitas CMS', 'http://infinitas-cms.org' );
+
                         echo $this->Html->link(
         					$this->Html->image(
             					'cake.power.gif',

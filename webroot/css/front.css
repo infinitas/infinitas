@@ -225,6 +225,10 @@ ul.linklist li.first{
     margin-top:100px;
 }
 
+#primarycontent h2 span{
+	float: right;
+}
+
 #primarycontent h3{
     position: relative;
     top: 4px;
@@ -240,6 +244,10 @@ ul.linklist li.first{
 #primarycontent .content{
     padding: 0px 15px 0px 15px;
     margin-bottom: 20px;
+}
+
+#primarycontent .afterEvent{
+	margin-bottom: 20px;
 }
 .content .post{
     width:395px;
@@ -495,3 +503,7 @@ p.error em {
 		width: 85%;
 		font-size: 110%;
 	}
+
+.cake-sql-log{
+	display: none;
+}
