@@ -21,11 +21,23 @@
 <div class="install form">
     <h2><?php __( 'Database Installation' ); ?></h2>
 	<blockquote class="extract">
-	    <p><?php echo __( 'If you would like to install some sample data to see the power of infinitas, click the checkbox.', true ); ?></p>
+	    <p><?php echo __( 'You can review which plugins will be installed and optionally install some sample data.', true ); ?></p>
 	</blockquote>
-    <?php
-        echo $form->create( 'Install', array( 'url' => array( 'plugin' => 'installer', 'controller' => 'install', 'action' => 'install' ) ) );
-        echo $form->input( 'Install.sample_data', array( 'type' => 'checkbox', 'checked' => 'true' ) );
-        echo $form->end( 'Install' );
-    ?>
+	<h3><?php __('Sample data') ?> </h3>
+		<p><?php echo __('Check the checkbox below if you wish to install some sample data. The sample data can be useful to give you an overview of the capabilities of the plugins.'); ?> </p>
+		<?php
+			echo $this->Form->input('sample', array(
+				'type' => 'checkbox',
+				'label' => 'Sample data',
+			))
+		?>
+	<h3><?php __('Core plugins') ?></h3>
+	<?php echo $this->element('plugin_list', array('plugins' => $availablePlugins['core'])); ?>
+
+	<?php
+		if(!empty($availablePlugins['plugins'])) {
+			echo '<h3>' . __('Plugins') . '</h3>';
+			echo $this->element('plugin_list', array('plugins' => $availablePlugins['plugin']));
+		}
+	?>
 </div>

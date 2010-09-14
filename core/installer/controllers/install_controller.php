@@ -17,6 +17,8 @@
 	* @since 0.5a
 	*/
 
+	Configure::write('Session.save', 'php');
+
 	class InstallController extends Controller {
 		/**
 		* Controller name
@@ -191,11 +193,11 @@
 				}
 			}
 
-			pr($availablePlugins);
+			$this->set('availablePlugins', $availablePlugins);
 		}
 
 		function _prepareAdminUser() {
-			$this->loadModel('Management.User');
+			//$this->loadModel('Management.User');
 		}
 
 /**
@@ -219,7 +221,7 @@
 		}
 
 		function _processInstall() {
-			if($this->__writeDbConfig() && $this->__migrateTables() && $this->__installCore()) {
+			if($this->__installPlugins() && $this->__writeDbConfig()) {
 				return true;
 			}
 
@@ -354,9 +356,9 @@
 		}
 
 		private function __writeDbConfig() {
-			/*$dbConfig = $this->Wizard->read('database.Install');
+			$dbConfig = $this->Wizard->read('database.Install');
 
-			copy(APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
+			copy(App::pluginPath('Installer') . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
 
 			App::import('Core', 'File');
 			$file = new File(APP . 'config' . DS . 'database.php', true);
@@ -385,11 +387,10 @@
 			if ($file->write($content)) {
 				return true;
 			}
-			return false;*/
-			return true;
+			return false;
 		}
 
-		private function __migrateTables() {
+		private function __installPlugins() {
 			$dbConfig = $this->Wizard->read('database.Install');
 			unset($dbConfig['step']);
 
@@ -400,27 +401,48 @@
 			if(trim($dbConfig['prefix']) == '') {
 				unset($dbConfig['prefix']);
 			}
+
+			App::import('Core', 'ConnectionManager');
 			$db = ConnectionManager::create('default', $dbConfig);
-			pr($db);
-			// Can be 'app' or a plugin name
-			/*$type = 'app';
 
-			App::import('Lib', 'Migrations.MigrationVersion');
-			// All the job is done by MigrationVersion
-			$version = new MigrationVersion();
+			$plugins = App::objects('plugin');
 
-			// Get the mapping and the latest version avaiable
-			$mapping = $version->getMapping($type);
+			App::import('Lib', 'Installer.ReleaseVersion');
+			$Version = new ReleaseVersion();
 
-			$latest = array_pop($mapping);
+			$result = true;
+			array_push($plugins, 'app');
+			
+			foreach($plugins as $plugin) {
+				$result = $result && $this->__installPlugin($Version, $plugin);
+			}
 
-			// Run it to latest version
-			if($version->run(array('type' => $type, 'version' => $latest['version'])))
-			{
-				return true;
-			}*/
+			return $result;
+		}
 
-			return false;
+		private function __installPlugin(&$Version, $plugin = 'app') {
+			if($plugin !== 'app') {
+				$pluginPath = App::pluginPath($plugin);
+				$checkFile = $pluginPath . 'config' . DS . 'config.json';
+			}
+			else {
+				$checkFile = APP . 'config' . DS . 'releases' . DS . 'map.php';
+			}
+			
+			if(file_exists($checkFile)) {
+				$mapping = $Version->getMapping($plugin);
+
+				$latest = array_pop($mapping);
+
+				return $Version->run(array(
+					'type' => $plugin,
+					'version' => $latest['version'],
+					'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
+					'sample' => $this->data['sample'] == 1
+				));
+			}
+
+			return true;
 		}
 
 		private function __installCore() {
