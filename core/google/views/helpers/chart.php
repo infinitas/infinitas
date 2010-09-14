@@ -662,8 +662,7 @@
 		}
 
 		function __render( $data )
-		{
-			$data['html'] = array();
+		{			
 			if ( !isset( $data['html']['title'] ) && isset( $data['title'] ) )
 			{
 				if ( !is_array( $data['title'] ) )
@@ -677,7 +676,7 @@
 			}
 
 			$this->output = $this->__apiUrl.implode( $this->paramSeperator, $this->return );
-
+			
 			$graph = $this->Html->image(
 			    $this->output,
 			    $data['html'],
