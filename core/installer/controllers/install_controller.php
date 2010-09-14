@@ -141,13 +141,13 @@
 				'admin_user' => __('Site administrator', true),
 			);
 
-			$this->Wizard->completeUrl = 'install/finish';
+			$this->Wizard->completeUrl = '/installer/install/finish';
 			
 			$this->set('installerProgress', $this->installerProgress);
 		}
 
-		function index($step = 'welcome') {
-			$this->set('title_for_layout', $this->installerProgress[$step]);
+		function index($step = null) {
+			$this->set('title_for_layout', $this->installerProgress[$step == null ? 'welcome' : $step]);
 			$this->Wizard->process($step);
 		}
 
@@ -197,7 +197,7 @@
 		}
 
 		function _prepareAdminUser() {
-			//$this->loadModel('Management.User');
+			$this->loadModel('Management.User');
 		}
 
 /**
@@ -230,6 +230,10 @@
 
 		function _processAdminUser() {
 			$this->loadModel('Management.User');
+
+			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
+			$this->data['User']['group_id'] = 1;
+			$this->data['User']['active'] = 1;
 
 			if($this->User->save($this->data)) {
 				return true;
@@ -406,12 +410,15 @@
 			$db = ConnectionManager::create('default', $dbConfig);
 
 			$plugins = App::objects('plugin');
+			natsort($plugins);
 
 			App::import('Lib', 'Installer.ReleaseVersion');
 			$Version = new ReleaseVersion();
 
 			$result = true;
-			array_push($plugins, 'app');
+
+			//Install app tables first
+			$this->__installPlugin($Version, 'app');
 			
 			foreach($plugins as $plugin) {
 				$result = $result && $this->__installPlugin($Version, $plugin);
