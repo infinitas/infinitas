@@ -48,7 +48,7 @@ class FixtureTask extends Shell {
 	function _getRecordsFromTable($modelName, $condition, $useTable = null) {
 		$modelObject = ClassRegistry::init($modelName);
 		$out = array();
-		if($modelObject->useTable !== false) {
+		if(is_object($modelObject) && isset($modelObject->useTable) && $modelObject->useTable !== false) {
 			$records = $modelObject->find('all', array(
 				'conditions' => $condition,
 				'recursive' => -1

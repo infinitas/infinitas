@@ -14,13 +14,17 @@ class PluginTask extends Shell {
 	);
 
 	public function execute() {
-		$plugins = $this->__getPluginList(isset($this->params['all']) || !empty($this->args));
+		$plugins = $this->__getPluginList(isset($this->params['all']) || !empty($this->args) ? 'all' : 'plugins');
 
 		if(!empty($this->args)) {
+			if(strtolower($this->args[0]) == 'all-core') {
+				$this->args = $this->__getPluginList('core');
+			}
+
 			foreach($this->args as $plugin) {
 				$plugin = Inflector::camelize($plugin);
 
-				if(in_array($plugin, $plugins) || $plugin == 'App') {
+				if(in_array($plugin, $plugins) || strtolower($plugin) == 'app') {
 					$this->generate($plugin);
 				}
 				else {
@@ -150,8 +154,10 @@ class PluginTask extends Shell {
 		$this->out('Generating migration...');
 		$schemaMigration = $this->Migration->generate($this->__plugin);
 
-		$this->out('Generating fixtures...');
-		$fixtures = $this->Fixture->generate($this->__models, $this->__plugin);
+		if(!empty($this->__models)) {
+			$this->out('Generating fixtures...');
+			$fixtures = $this->Fixture->generate($this->__models, $this->__plugin);
+		}
 
 		$this->__writeOutput(compact('schemaMigration', 'fixtures'));
 	}
@@ -218,17 +224,18 @@ class PluginTask extends Shell {
 	 * @param boolean $searchAll True if we should return all plugins, false for only plugins in /plugins and plugin plugins.
 	 * @return array Array of available plugins
 	 */
-	private function __getPluginList($searchAll = false) {
+	private function __getPluginList($searchType = 'plugins') {
 		$plugins = App::objects('plugin');
+		natsort($plugins);
 
-		if($searchAll) {
+		if($searchType == 'all') {
 			return $plugins;
 		}
 
 		$infinitasPlugins = array();
 		foreach($plugins as $plugin) {
 			$pluginPath = str_replace(APP, '', App::pluginPath($plugin));
-			if(strpos($pluginPath, 'plugins') === 0) {
+			if(strpos($pluginPath, $searchType) === 0) {
 				$infinitasPlugins[] = $plugin;
 			}
 		}
