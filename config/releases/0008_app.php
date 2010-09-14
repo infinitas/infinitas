@@ -1,5 +1,5 @@
 <?php
-class R4c8f7f6bf5d84643821f0e506318cd70 extends CakeRelease {
+class R4c8fac209a28441b8b324a796318cd70 extends CakeRelease {
 
 /**
  * Migration description
@@ -29,9 +29,9 @@ class R4c8f7f6bf5d84643821f0e506318cd70 extends CakeRelease {
 				'acos' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
-					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL),
 					'foreign_key' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
-					'alias' => array('type' => 'string', 'null' => true, 'default' => NULL, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'alias' => array('type' => 'string', 'null' => true, 'default' => NULL, 'key' => 'index'),
 					'lft' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 					'rght' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 					'indexes' => array(
@@ -43,9 +43,9 @@ class R4c8f7f6bf5d84643821f0e506318cd70 extends CakeRelease {
 				'aros' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
-					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => true, 'default' => NULL),
 					'foreign_key' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
-					'alias' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'alias' => array('type' => 'string', 'null' => true, 'default' => NULL),
 					'lft' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 					'rght' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
 					'indexes' => array(
@@ -57,10 +57,10 @@ class R4c8f7f6bf5d84643821f0e506318cd70 extends CakeRelease {
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'aro_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'index'),
 					'aco_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
-					'_create' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'_read' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'_update' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'_delete' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'_create' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'_read' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'_update' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
+					'_delete' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 2),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'ARO_ACO_KEY' => array('column' => array('aro_id', 'aco_id'), 'unique' => 1),
@@ -68,8 +68,8 @@ class R4c8f7f6bf5d84643821f0e506318cd70 extends CakeRelease {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'sessions' => array(
-					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-					'data' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'key' => 'primary'),
+					'data' => array('type' => 'text', 'null' => true, 'default' => NULL),
 					'expires' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'key' => 'index'),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
