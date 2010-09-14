@@ -308,6 +308,11 @@ table.listing td{
 		clear: none;
 		margin-left:24px;
 	}
+	.dashboard.half{
+		clear:none;
+		float:left;
+		margin-left:8px;
+	}
 
 .dashboard ul.icons{
 	list-style:none outside none;
