@@ -3,11 +3,11 @@
 	 *
 	 *
 	 */
-	class MenuItem extends MenuAppModel{
+	class MenuItem extends MenusAppModel{
 		var $name = 'MenuItem';
 
 		var $belongsTo = array(
-			'Menu.Menu',
+			'Menus.Menu',
 			'Management.Group',
 			/*'Parent' => array(
 	            'className'     => 'Menu.MenuItem',
@@ -32,7 +32,7 @@
 				return false;
 			}
 
-			$menus = Cache::read('menu.'.$type, 'core');
+			$menus = Cache::read($type, 'menus');
 			if (!empty($menus)) {
 				return $menus;
 			}
@@ -80,24 +80,8 @@
 				)
 			);
 
-			Cache::write('menu.'.$type, $menus, 'core');
+			Cache::write($type, $menus, 'menus');
 
 			return $menus;
-		}
-
-		function afterSave($created) {
-			parent::afterSave($created);
-
-			Cache::delete('menu', 'core');
-
-			return true;
-		}
-
-		function afterDelete() {
-			parent::afterDelete();
-
-			Cache::delete('menu', 'core');
-
-			return true;
 		}
 	}

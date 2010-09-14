@@ -17,5 +17,5 @@
 	* @since 0.5a
 	*/
 
-	class MenuAppController extends CoreAppController {
+	class MenusAppController extends CoreAppController {
 	}

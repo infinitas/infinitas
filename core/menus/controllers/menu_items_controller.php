@@ -3,7 +3,7 @@
 	 *
 	 *
 	 */
-	class MenuItemsController extends MenuAppController{
+	class MenuItemsController extends MenusAppController{
 		var $name = 'MenuItems';
 
 		var $helpers = array(

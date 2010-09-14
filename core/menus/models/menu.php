@@ -3,12 +3,12 @@
 	 *
 	 *
 	 */
-	class Menu extends MenuAppModel{
+	class Menu extends MenusAppModel{
 		var $name = 'Menu';
 
 		var $hasMany = array(
 			'MenuItem' => array(
-	            'className'  => 'Menu.MenuItem',
+	            'className'  => 'Menus.MenuItem',
 	            'foreignKey' => 'menu_id',
 	            'conditions' => array(
 	            	'MenuItem.active' => 1

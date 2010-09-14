@@ -17,6 +17,6 @@
 	 * @since 0.5a
 	 */
 
-	class MenuAppModel extends CoreAppModel {
+	class MenusAppModel extends CoreAppModel {
 		
 	}

@@ -17,6 +17,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+
 ?>
 <div class="dashboard grid_16">
 	<h1><?php echo __('Infinitas', true); ?></h1>
