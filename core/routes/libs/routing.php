@@ -22,8 +22,27 @@
 
 	class InfinitasRouting extends Object{
 		public function setup(){
-			InfinitasRouting::__registerExtentions();
-			InfinitasRouting::__buildRoutes();
+			$databaseConfig = APP.'config'.DS.'database.php';
+			if(!file_exists($databaseConfig) || filesize($databaseConfig) == 0) {
+				if(!file_exists($databaseConfig)) {
+					$file = fopen($databaseConfig, 'w');
+					fclose($file);
+				}
+
+				InfinitasRouting::__configureInstallerRoute();
+			}
+			else {
+				InfinitasRouting::__registerExtentions();
+				InfinitasRouting::__buildRoutes();
+			}
+		}
+
+		private function __configureInstallerRoute() {
+			Router::connect('/', array(
+				'plugin' => 'installer',
+				'controller' => 'install',
+				'action' => 'index'
+			));
 		}
 
 		/**
