@@ -298,7 +298,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
 				),
-				'types' => array(
+				'relation_types' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
@@ -342,7 +342,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'addresses', 'backups', 'configs', 'groups', 'ip_addresses', 'logs', 'menu_items', 'menus', 'module_positions', 'modules', 'relations', 'routes', 'short_urls', 'themes', 'trash', 'types', 'users'
+				'addresses', 'backups', 'configs', 'groups', 'ip_addresses', 'logs', 'menu_items', 'menus', 'module_positions', 'modules', 'relations', 'routes', 'short_urls', 'themes', 'trash', 'relation_types', 'users'
 			),
 		),
 	);
@@ -355,165 +355,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Management.Log' => array(
-			array(
-				'id' => 13,
-				'title' => 'Stats',
-				'description' => 'MenuItem \"Stats\" (91) updated by Management.User \"1\" (1).',
-				'model' => 'MenuItem',
-				'model_id' => 91,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'parent_id (58) => (1)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 01:29:18'
-			),
-			array(
-				'id' => 12,
-				'title' => 'Categories',
-				'description' => 'MenuItem \"Categories\" (95) updated by Management.User \"1\" (1).',
-				'model' => 'MenuItem',
-				'model_id' => 95,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'parent_id (1) => (5), force_backend (0) => (1)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 01:26:59'
-			),
-			array(
-				'id' => 11,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) updated by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'value (false) => (true)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 01:00:06'
-			),
-			array(
-				'id' => 10,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) updated by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'value (true) => (false)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 00:37:28'
-			),
-			array(
-				'id' => 9,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) updated by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'value (false) => (true)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 00:36:59'
-			),
-			array(
-				'id' => 8,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) updated by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'value (true) => (false)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 00:30:49'
-			),
-			array(
-				'id' => 7,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) updated by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'value (false) => (true)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 00:28:33'
-			),
-			array(
-				'id' => 6,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) updated by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'value (true) => (false)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 00:27:10'
-			),
-			array(
-				'id' => 5,
-				'title' => 'Config (73)',
-				'description' => 'Config (73) added by Management.User \"1\" (1).',
-				'model' => 'Config',
-				'model_id' => 73,
-				'action' => 'add',
-				'user_id' => 1,
-				'change' => 'key () => (Cms.allow_ratings), value () => (true), type () => (bool), options () => (true,false), core () => (0), description () => (<p>\r\n	If you would like to not allow rating of items, set this value to false. Default is true.</p>\r\n)',
-				'version_id' => NULL,
-				'created' => '2010-04-17 00:25:11'
-			),
-			array(
-				'id' => 3,
-				'title' => 'Rating (2)',
-				'description' => 'Rating (2) added by Management.User \"1\" (1).',
-				'model' => 'Rating',
-				'model_id' => 2,
-				'action' => 'add',
-				'user_id' => 1,
-				'change' => 'class () => (Cms.Content), foreign_id () => (4), rating () => (4), user_id () => (1), ip () => (::1), created () => (2010-04-16 22:44:42)',
-				'version_id' => NULL,
-				'created' => '2010-04-16 22:44:42'
-			),
-			array(
-				'id' => 4,
-				'title' => 'Extending Infinitas',
-				'description' => 'Content (4) updated by Management.User \"1\" (1).',
-				'model' => 'Content',
-				'model_id' => 4,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'rating () => (4.50)',
-				'version_id' => NULL,
-				'created' => '2010-04-16 22:44:42'
-			),
-			array(
-				'id' => 1,
-				'title' => 'Rating (1)',
-				'description' => 'Rating (1) added by Management.User \"1\" (1).',
-				'model' => 'Rating',
-				'model_id' => 1,
-				'action' => 'add',
-				'user_id' => 1,
-				'change' => 'class () => (Cms.Content), foreign_id () => (4), rating () => (5), user_id () => (1), ip () => (::1), created () => (2010-04-16 22:39:55)',
-				'version_id' => NULL,
-				'created' => '2010-04-16 22:39:55'
-			),
-			array(
-				'id' => 2,
-				'title' => 'Extending Infinitas',
-				'description' => 'Content (4) updated by Management.User \"1\" (1).',
-				'model' => 'Content',
-				'model_id' => 4,
-				'action' => 'edit',
-				'user_id' => 1,
-				'change' => 'rating () => (5.00)',
-				'version_id' => NULL,
-				'created' => '2010-04-16 22:39:55'
-			),
-		),
-		'Management.Group' => array(
+		'Group' => array(
 			array(
 				'id' => 1,
 				'name' => 'Administrators',
@@ -535,9 +377,9 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'rght' => 4
 			),
 		),
-		'Management.Trash' => array(
+		'Trash' => array(
 		),
-		'Management.Menu' => array(
+		'Menu' => array(
 			array(
 				'id' => 4,
 				'name' => 'plugin_categories',
@@ -548,9 +390,9 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-09-09 22:27:27'
 			),
 		),
-		'Management.Address' => array(
+		'Address' => array(
 		),
-		'Management.Module' => array(
+		'Module' => array(
 			array(
 				'id' => 25,
 				'name' => 'Plugin Dock',
@@ -1152,11 +994,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-01-19 14:44:49'
 			),
 		),
-		'Management.Relation' => array(
-		),
-		'Management.Page' => array(
-		),
-		'Management.ShortUrl' => array(
+		'ShortUrl' => array(
 			array(
 				'id' => 1,
 				'url' => 'http://localhost/infinitas/management/users/activate/',
@@ -1200,30 +1038,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-05-15 14:35:32'
 			),
 		),
-		'Management.User' => array(
-			array(
-				'id' => 1,
-				'username' => 'admin',
-				'email' => 'admin@admin.com',
-				'password' => 'b45e7cddbeafb9f619d93fd996c6a78c784e7fb5',
-				'birthday' => '2010-02-04',
-				'active' => 1,
-				'group_id' => 1,
-				'ip_address' => '127.0.0.1',
-				'browser' => 'Mozilla 5.0',
-				'operating_system' => 'Linux',
-				'last_login' => '2010-09-13 11:14:53',
-				'last_click' => '0000-00-00 00:00:00',
-				'country' => 'Unknown',
-				'city' => '',
-				'is_mobile' => 0,
-				'created' => '2010-02-04 16:54:48',
-				'modified' => '2010-02-04 16:54:48',
-				'facebook_id' => 0,
-				'twitter_id' => 0
-			),
-		),
-		'Management.Theme' => array(
+		'Theme' => array(
 			array(
 				'id' => 1,
 				'name' => 'default',
@@ -1290,11 +1105,11 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-05-19 13:45:53'
 			),
 		),
-		'Management.Backup' => array(
+		'Backup' => array(
 		),
-		'Management.Config' => array(
+		'Config' => array(
 		),
-		'Management.ModulePosition' => array(
+		'ModulePosition' => array(
 			array(
 				'id' => 1,
 				'name' => 'top',
@@ -1374,15 +1189,13 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-03-05 18:33:20'
 			),
 		),
-		'Management.RelationType' => array(
+		'RelationType' => array(
 		),
-		'Management.IpAddress' => array(
+		'IpAddress' => array(
 		),
-		'Management.TimeZone' => array(
+		'Backlink' => array(
 		),
-		'Management.Backlink' => array(
-		),
-		'Management.Route' => array(
+		'Route' => array(
 			array(
 				'id' => 7,
 				'core' => 0,
@@ -1783,7 +1596,7 @@ class R4c8e68c3519045a898aa38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-05-05 04:47:21'
 			),
 		),
-		'Management.MenuItem' => array(
+		'MenuItem' => array(
 		),
 		),
 	);

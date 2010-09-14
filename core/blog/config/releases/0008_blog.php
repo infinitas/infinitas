@@ -70,7 +70,7 @@ class R4c8e68c07dc04f0cb89f38ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Blog.Post' => array(
+		'Post' => array(
 			array(
 				'id' => 13,
 				'title' => 'What happend to 0.7',

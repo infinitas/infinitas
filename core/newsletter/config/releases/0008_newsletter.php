@@ -107,7 +107,7 @@ class R4c8e68c40030411481ef38ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Newsletter.Campaign' => array(
+		'Campaign' => array(
 			array(
 				'id' => 6,
 				'name' => '23423',
@@ -154,7 +154,7 @@ class R4c8e68c40030411481ef38ba6318cd70 extends CakeRelease {
 				'modified' => '2010-05-14 15:39:18'
 			),
 		),
-		'Newsletter.Newsletter' => array(
+		'Newsletter' => array(
 			array(
 				'id' => 7,
 				'campaign_id' => 3,
@@ -222,7 +222,7 @@ class R4c8e68c40030411481ef38ba6318cd70 extends CakeRelease {
 				'modified_by' => 0
 			),
 		),
-		'Newsletter.Template' => array(
+		'Template' => array(
 			array(
 				'id' => 1,
 				'name' => 'first template',

@@ -26,7 +26,7 @@ class R4c8e68c012404e78b49538ba6318cd70 extends CakeRelease {
 	public $migration = array(
 		'up' => array(
 			'create_table' => array(
-				'content_layouts' => array(
+				'layouts' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 					'content_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
@@ -119,7 +119,7 @@ class R4c8e68c012404e78b49538ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Cms.Layout' => array(
+		'Layout' => array(
 			array(
 				'id' => 1,
 				'content_id' => 1,
@@ -151,7 +151,7 @@ class R4c8e68c012404e78b49538ba6318cd70 extends CakeRelease {
 				'modified' => '2010-01-15 01:45:33'
 			),
 		),
-		'Cms.Frontpage' => array(
+		'Frontpage' => array(
 			array(
 				'id' => 6,
 				'content_id' => 4,
@@ -183,7 +183,7 @@ class R4c8e68c012404e78b49538ba6318cd70 extends CakeRelease {
 				'modified_by' => 0
 			),
 		),
-		'Cms.Content' => array(
+		'Content' => array(
 			array(
 				'id' => 3,
 				'title' => 'What is infinitas',
@@ -257,7 +257,7 @@ class R4c8e68c012404e78b49538ba6318cd70 extends CakeRelease {
 				'comment_count' => 0
 			),
 		),
-		'Cms.Feature' => array(
+		'Feature' => array(
 			array(
 				'id' => 1,
 				'content_id' => 1,

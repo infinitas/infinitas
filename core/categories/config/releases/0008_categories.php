@@ -68,7 +68,7 @@ class R4c8e68c0ac604ff284e938ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Categories.Category' => array(
+		'Category' => array(
 			array(
 				'id' => 1,
 				'title' => 'Infinitas News',

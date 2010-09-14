@@ -83,9 +83,9 @@ class R4c8e68c23f884b73b1fc38ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Feed.FeedItem' => array(
+		'FeedItem' => array(
 		),
-		'Feed.Feed' => array(
+		'Feed' => array(
 			array(
 				'id' => 1,
 				'plugin' => 'blog',

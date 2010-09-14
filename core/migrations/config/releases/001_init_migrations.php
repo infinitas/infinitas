@@ -1,5 +1,5 @@
 <?php
-class R4c8e68c2d95c4d1b8cab38ba6318cd70 extends CakeRelease {
+class M4af6e0f0a1284147a0b100ca58157726 extends CakeRelease {
 
 /**
  * Migration description
@@ -7,15 +7,7 @@ class R4c8e68c2d95c4d1b8cab38ba6318cd70 extends CakeRelease {
  * @var string
  * @access public
  */
-	public $description = 'Migration for Filemanager version 0.8';
-
-/**
- * Plugin name
- *
- * @var string
- * @access public
- */
-	public $plugin = 'Filemanager';
+	public $description = 'Init migrations tables';
 
 /**
  * Actions to be performed
@@ -25,11 +17,25 @@ class R4c8e68c2d95c4d1b8cab38ba6318cd70 extends CakeRelease {
  */
 	public $migration = array(
 		'up' => array(
+			'create_table' => array(
+				'schema_migrations' => array(
+					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1)
+					)
+				)
+			)
 		),
 		'down' => array(
-		),
+			'drop_table' => array(
+				'schema_migrations'
+			)
+		)
 	);
-	
+
 /**
  * Before migration callback
  *

@@ -87,7 +87,7 @@ class R4c8e68c1b2cc462ba2e738ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Contact.Contact' => array(
+		'Contact' => array(
 			array(
 				'id' => 1,
 				'user_id' => 0,
@@ -127,7 +127,7 @@ class R4c8e68c1b2cc462ba2e738ba6318cd70 extends CakeRelease {
 				'modified' => '2010-02-18 08:24:13'
 			),
 		),
-		'Contact.Branch' => array(
+		'Branch' => array(
 			array(
 				'id' => 3,
 				'name' => 'Head Office',

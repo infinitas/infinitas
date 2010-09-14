@@ -51,19 +51,6 @@ class R4c8e68c10a844ddab32738ba6318cd70 extends CakeRelease {
 			),
 		),
 	);
-
-/**
- * Fixtures for data
- *
- * @var array $fixtures
- * @access public
- */
-	public $fixtures = array(
-	'core' => array(
-		'Comment.Comment' => array(
-		),
-		),
-	);
 	
 /**
  * Before migration callback

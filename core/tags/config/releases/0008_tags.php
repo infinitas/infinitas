@@ -73,9 +73,9 @@ class R4c8e68c4de2448378d8138ba6318cd70 extends CakeRelease {
  */
 	public $fixtures = array(
 	'core' => array(
-		'Tags.Tagged' => array(
+		'Tagged' => array(
 		),
-		'Tags.Tag' => array(
+		'Tag' => array(
 			array(
 				'id' => '4bcf76bb-c0bc-4b64-a586-23006318cd70',
 				'identifier' => NULL,
