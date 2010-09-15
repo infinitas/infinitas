@@ -151,7 +151,7 @@
 					array(
 						'title' => $info['name'],
 						'escape' => false,
-						'style' => 'background-image: url('.$info['icon'].');'
+						'style' => 'background-image: url('.Router::url($info['icon']).');'
 					)
 				);
 			}
