@@ -71,32 +71,30 @@
 
 			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
 
-			pr($Model->alias);
-			exit;
 			$Model->bindModel(
 				array(
 					'hasMany' => array(
-						$Model->name.'Comment' => array(
+						$Model->alias.'Comment' => array(
 							'className' => 'Comments.Comment',
 							'foreignKey' => 'foreign_id',
 							'limit' => 5,
 							'order' => array(
-								$Model->name.'Comment.created' => 'desc'
+								$Model->alias.'Comment.created' => 'desc'
 							),
 							'fields' => array(
-								$Model->name.'Comment.id',
-								$Model->name.'Comment.class',
-								$Model->name.'Comment.foreign_id',
-								$Model->name.'Comment.user_id',
-								$Model->name.'Comment.email',
-								$Model->name.'Comment.comment',
-								$Model->name.'Comment.active',
-								$Model->name.'Comment.status',
-								$Model->name.'Comment.created'
+								$Model->alias.'Comment.id',
+								$Model->alias.'Comment.class',
+								$Model->alias.'Comment.foreign_id',
+								$Model->alias.'Comment.user_id',
+								$Model->alias.'Comment.email',
+								$Model->alias.'Comment.comment',
+								$Model->alias.'Comment.active',
+								$Model->alias.'Comment.status',
+								$Model->alias.'Comment.created'
 							),
 							'conditions' => array(
 								'or' => array(
-									$Model->name.'Comment.active' => 1
+									$Model->alias.'Comment.active' => 1
 								)
 							),
 							'dependent' => true
