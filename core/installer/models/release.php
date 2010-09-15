@@ -19,11 +19,6 @@
 			'aros_acos',
 			'core_countries',
 			'core_groups',
-			'core_modules',
-			'core_modules_routes',
-			'core_module_positions',
-			'core_routes',
-			'core_themes',
 			'core_users'
 		);
 
