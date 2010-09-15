@@ -58,18 +58,53 @@
 		 * @param array $settings Settings to override for model.
 		 * @access public
 		 */
-		public function setup(&$model, $settings = array()) {
+		public function setup(&$Model, $settings = array()) {
 			$default = $this->defaults;
 			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
 			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
-			$default['conditions'] = array('Comment.class' => $model->alias);
-			$default['class'] = $model->name.'Comment';
+			$default['conditions'] = array('Comment.class' => $Model->alias);
+			$default['class'] = $Model->name.'Comment';
 
-			if (!isset($this->__settings[$model->alias])) {
-				$this->__settings[$model->alias] = $default;
+			if (!isset($this->__settings[$Model->alias])) {
+				$this->__settings[$Model->alias] = $default;
 			}
 
-			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], (array)$settings);			
+			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
+
+			pr($Model->alias);
+			exit;
+			$Model->bindModel(
+				array(
+					'hasMany' => array(
+						$Model->name.'Comment' => array(
+							'className' => 'Comments.Comment',
+							'foreignKey' => 'foreign_id',
+							'limit' => 5,
+							'order' => array(
+								$Model->name.'Comment.created' => 'desc'
+							),
+							'fields' => array(
+								$Model->name.'Comment.id',
+								$Model->name.'Comment.class',
+								$Model->name.'Comment.foreign_id',
+								$Model->name.'Comment.user_id',
+								$Model->name.'Comment.email',
+								$Model->name.'Comment.comment',
+								$Model->name.'Comment.active',
+								$Model->name.'Comment.status',
+								$Model->name.'Comment.created'
+							),
+							'conditions' => array(
+								'or' => array(
+									$Model->name.'Comment.active' => 1
+								)
+							),
+							'dependent' => true
+						)
+					)
+				),
+				false
+			);
 		}
 
 		public function createComment(&$model, $data = array()) {
