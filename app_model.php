@@ -29,6 +29,7 @@
 		public $actsAs = array(
 			'Containable',
 			'Libs.Infinitas',
+			'Events.Event',
 			//'Libs.Logable',
 			//'Libs.AutomaticAssociation'
 		);
