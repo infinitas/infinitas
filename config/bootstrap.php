@@ -8,8 +8,9 @@
 		)
 	);
 	
-	App::import('Libs', 'Developer.Xhprof');
-	Xhprof::start();
+	if(App::import('Libs', 'Developer.Xhprof')){
+		Xhprof::start();
+	}
 
 	/**
 	 * Load plugin events
