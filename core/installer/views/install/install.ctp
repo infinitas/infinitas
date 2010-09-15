@@ -35,8 +35,8 @@
 	<?php echo $this->element('plugin_list', array('plugins' => $availablePlugins['core'])); ?>
 
 	<?php
-		if(!empty($availablePlugins['plugins'])) {
-			echo '<h3>' . __('Plugins') . '</h3>';
+		if(!empty($availablePlugins['plugin'])) {
+			echo '<h3>' . __('Plugins', true) . '</h3>';
 			echo $this->element('plugin_list', array('plugins' => $availablePlugins['plugin']));
 		}
 	?>

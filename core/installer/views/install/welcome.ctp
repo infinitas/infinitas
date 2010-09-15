@@ -19,6 +19,8 @@
 	?>
 </p>
 
+//TODO: Show any failing requirements here
+
 <blockquote>
 <h2>MIT License</h2>
 <p>Copyright &copy; <?php echo date('Y'); ?> Infinitas</p>

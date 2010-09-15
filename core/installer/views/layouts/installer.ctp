@@ -19,10 +19,12 @@
 					<h3 class="grid_5 alpha"><?php echo $title_for_layout; ?></h3>
 					<div class="grid_3 omega" id="buttons">
 						<?php
-							if($this->Wizard->stepNumber() > 1) {
+							if($this->Wizard->stepNumber() > 1 && !isset($hidePrevious)) {
 								echo $this->Form->button('Previous', array('name' => 'Previous', 'value' => 'Previous'));
 							}
-							echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next'));
+							if(!isset($hideNext)) {
+								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next'));
+							}
 						?>
 					</div>
 					<div class="clear"></div>
@@ -34,7 +36,7 @@
 				<div class="clear"></div>
 			</div>
 			<div class="grid_3" id="steps">
-				<?php echo $this->Wizard->progressMenu($installerProgress) ?>
+				<?php echo $this->Wizard->progressMenu($installerProgress, false) ?>
 			</div>
 			<div class="clear"></div>
 		</form>
