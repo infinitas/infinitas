@@ -58,18 +58,51 @@
 		 * @param array $settings Settings to override for model.
 		 * @access public
 		 */
-		public function setup(&$model, $settings = array()) {
+		public function setup(&$Model, $settings = array()) {
 			$default = $this->defaults;
 			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
 			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
-			$default['conditions'] = array('Comment.class' => $model->alias);
-			$default['class'] = $model->name.'Comment';
+			$default['conditions'] = array('Comment.class' => $Model->alias);
+			$default['class'] = $Model->name.'Comment';
 
-			if (!isset($this->__settings[$model->alias])) {
-				$this->__settings[$model->alias] = $default;
+			if (!isset($this->__settings[$Model->alias])) {
+				$this->__settings[$Model->alias] = $default;
 			}
 
-			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], (array)$settings);			
+			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
+
+			$Model->bindModel(
+				array(
+					'hasMany' => array(
+						$Model->alias.'Comment' => array(
+							'className' => 'Comments.Comment',
+							'foreignKey' => 'foreign_id',
+							'limit' => 5,
+							'order' => array(
+								$Model->alias.'Comment.created' => 'desc'
+							),
+							'fields' => array(
+								$Model->alias.'Comment.id',
+								$Model->alias.'Comment.class',
+								$Model->alias.'Comment.foreign_id',
+								$Model->alias.'Comment.user_id',
+								$Model->alias.'Comment.email',
+								$Model->alias.'Comment.comment',
+								$Model->alias.'Comment.active',
+								$Model->alias.'Comment.status',
+								$Model->alias.'Comment.created'
+							),
+							'conditions' => array(
+								'or' => array(
+									$Model->alias.'Comment.active' => 1
+								)
+							),
+							'dependent' => true
+						)
+					)
+				),
+				false
+			);
 		}
 
 		public function createComment(&$model, $data = array()) {
