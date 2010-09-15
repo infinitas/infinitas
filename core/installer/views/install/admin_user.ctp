@@ -24,5 +24,4 @@
 	echo $form->input( 'User.username');
 	echo $form->input( 'User.email');
 	echo $form->input( 'User.password');
-	echo $form->input( 'User.birthday', array('maxYear' => date('Y'), 'minYear' => '1900'));
 ?>
