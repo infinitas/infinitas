@@ -73,4 +73,4 @@
 
     ?>
 </div>
-<?php echo $this->element('admin/pagination/navigation'); ?>
+<?php echo $this->element('pagination/admin/navigation'); ?>
