@@ -45,7 +45,10 @@
 		/**
 		 * Makes the plugins available in the view
 		 */
-		public $adminDashboard = array();
+		public $adminDashboard = array(
+			'core' => array(),
+			'plugin' => array()
+		);
 
 		/**
 		 * Base structure of dashboard links

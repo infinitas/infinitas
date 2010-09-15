@@ -17,18 +17,27 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-?>
-<div class="dashboard grid_16">
-	<h1><?php echo __('Infinitas', true); ?></h1>
-	<ul class="icons">
-		<li><?php echo implode('</li><li>', $this->Menu->adminDashboard['core']); ?></li>
-	</ul>
-</div>
-<div class="clear"></div>
-<div class="dashboard grid_16">
-	<h1><?php echo __('Plugins', true); ?></h1>
-	<ul class="icons">
-		<li><?php echo implode('</li><li>', $this->Menu->adminDashboard['plugin']); ?></li>
-	</ul>
-</div>
-<div class="clear"></div>
+
+	if(isset($this->Menu->adminDashboard['core']) && !empty($this->Menu->adminDashboard['core'])){
+		?>
+			<div class="dashboard grid_16">
+				<h1><?php echo __('Infinitas', true); ?></h1>
+				<ul class="icons">
+					<li><?php echo implode('</li><li>', $this->Menu->adminDashboard['core']); ?></li>
+				</ul>
+			</div>
+		<?php
+	}
+
+	if(isset($this->Menu->adminDashboard['plugin']) && !empty($this->Menu->adminDashboard['plugin'])){
+		?>
+			<div class="clear"></div>
+			<div class="dashboard grid_16">
+				<h1><?php echo __('Plugins', true); ?></h1>
+				<ul class="icons">
+					<li><?php echo implode('</li><li>', $this->Menu->adminDashboard['plugin']); ?></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		<?php
+	}
