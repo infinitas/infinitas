@@ -45,7 +45,10 @@
 		/**
 		 * Makes the plugins available in the view
 		 */
-		public $adminDashboard = array();
+		public $adminDashboard = array(
+			'core' => array(),
+			'plugin' => array()
+		);
 
 		/**
 		 * Base structure of dashboard links
@@ -63,9 +66,9 @@
 		 * generate some code and set properties before the page is rendered
 		 */
 		public function beforeRender(){			
-			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin'){
-				$this->__builDashboardLinks();
-				$this->__builAdminMenu();
+			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin'){				
+				$this->adminMenuItems = $this->builAdminMenu();
+				$this->adminDashboard = $this->builDashboardLinks();
 			}
 		}
 
@@ -74,10 +77,10 @@
 		 * 
 		 * @return mixed
 		 */
-		private function __builAdminMenu(){
-			$this->adminMenuItems = Cache::read('admin_menu_'.$this->plugin, 'menus');
-			if($this->adminMenuItems !== false){
-				return true;
+		public function builAdminMenu(){
+			$return = Cache::read('admin_menu_'.$this->plugin, 'menus');
+			if($return !== false){
+				return $return;
 			}
 			$this->__adminMenuUrl['plugin'] = $this->plugin;
 			
@@ -88,6 +91,7 @@
 				'Home' => '/admin'
 			) + $items;
 
+			$return = array();
 			foreach($items as $name => $url){
 				if(is_array($url)){
 					$url = array_merge($this->__adminMenuUrl, $url);
@@ -100,7 +104,7 @@
 					$options = array_merge($options, array('class' => 'current'));
 				}
 
-				$this->adminMenuItems[] = $this->Html->link(
+				$return[] = $this->Html->link(
 					$name,
 					$url,
 					$options
@@ -108,24 +112,39 @@
 			}
 
 			unset($menus, $items);
-			return Cache::write('admin_menu_'.$this->plugin, $this->adminMenuItems, 'menus');
+			Cache::write('admin_menu_'.$this->plugin, $return, 'menus');
+			return $return;
 		}
 
 		/**
 		 * Build the icon list for admin dashboard.
 		 *
 		 * Generates an array of links for plugins to be used as a dashboard
-		 * list of icons.
+		 * list of icons. If nothing is passed it will build the list for the entire
+		 * app (used on admin dashboard).
+		 *
+		 * @var array $plugins this is the array of icons (could do with a better name)
+		 * @var string $type this is a name that is used for cache if not used funy things can happen
+		 *
+		 * @return array the menu that was built
 		 */
-		private function __builDashboardLinks(){	
-			$this->adminDashboard = Cache::read('admin_menu_dashboard', 'menus');
-			if($this->adminDashboard !== false){
-				return true;
+		public function builDashboardLinks($plugins = array(), $type = null){
+			if(!$type){
+				$type = $this->plugin;
 			}
 			
-			$plugins = $this->Event->trigger('pluginRollCall');
-			$plugins = array_filter($plugins['pluginRollCall']);
+			if(empty($plugins)){
+				$plugins = $this->Event->trigger('pluginRollCall');
+				$plugins = array_filter($plugins['pluginRollCall']);
+				$type = 'all';
+			}
+			
+			$cache = Cache::read('dashboard_'.$type, 'menus');
+			if($cache !== false){
+				return $cache;
+			}
 
+			$return = array();
 			foreach($plugins as $name => $info) {
 				$info = array_merge($this->__adminDashboardIcon, $info);
 				if(empty($info['name'])){
@@ -141,11 +160,15 @@
 				}				
 
 				$var = 'plugin';
-				if(strstr(App::pluginPath($name), APP.'core/')){
-					$var = 'core';
+				if($type !== 'all'){
+					$var = $type;
 				}
+				
+				else if(strstr(App::pluginPath($name), APP.'core/')){
+					$var = 'core';
+				}				
 
-				$this->adminDashboard[$var][] = $this->Html->link(
+				$return[$var][] = $this->Html->link(
 					$info['name'],
 					$info['dashboard'],
 					array(
@@ -153,11 +176,13 @@
 						'escape' => false,
 						'style' => 'background-image: url('.Router::url($info['icon']).');'
 					)
-				);
+				);				 
 			}
-
+			
+			Cache::write('dashboard_'.$type, $return, 'menus');
 			unset($plugins);
-			return Cache::write('admin_menu_dashboard', $this->adminDashboard, 'menus');
+
+			return $return;
 		}
 		
 		/**
