@@ -42,7 +42,7 @@
 		* @var array
 		* @access public
 		*/
-		var $components = array('Libs.Wizard', 'DebugKit.Toolbar');
+		var $components = array('Libs.Wizard', 'DebugKit.Toolbar', 'Session');
 		var $helpers = array('Libs.Wizard');
 
 		private $__phpVersion = '5.0';
@@ -147,12 +147,20 @@
 		}
 
 		function index($step = null) {
+			if(filesize(APP.'config'.DS.'database.php') > 0 && $this->Session->read('installing') == false) {
+				$this->Session->setFlash('Infinitas has already been installed.');
+				$this->redirect('/');
+			}
+
+			$this->Session->write('installing', true);
 			$this->set('title_for_layout', $this->installerProgress[$step == null ? 'welcome' : $step]);
 			$this->Wizard->process($step);
 		}
 
 		function finish() {
-			
+			$this->Session->write('installing', false);
+			$this->set('hidePrevious', true);
+			$this->set('hideNext', true);
 		}
 
 /**
@@ -189,7 +197,7 @@
 					$availablePlugins['core'][$plugin] = $this->__loadPluginDetails($pluginPath);
 				}
 				elseif(strpos($pluginPath, APP.'plugins') !== false && file_exists($pluginPath . 'config' . DS . 'config.json')) {
-					$availablePlugins['plugin'][$plugin] = $pluginPath;
+					$availablePlugins['plugin'][$plugin] = $this->__loadPluginDetails($pluginPath);
 				}
 			}
 
@@ -198,6 +206,8 @@
 
 		function _prepareAdminUser() {
 			$this->loadModel('Management.User');
+
+			$this->set('hidePrevious', true);
 		}
 
 /**
