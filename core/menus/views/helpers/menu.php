@@ -141,7 +141,7 @@
 				}				
 
 				$var = 'plugin';
-				if(strstr(App::pluginPath($name), APP.'core/')){
+				if(strstr(App::pluginPath($name), APP.'core'.DS) !== false){
 					$var = 'core';
 				}
 
