@@ -7,6 +7,9 @@
 			)
 		)
 	);
+	
+	App::import('Libs', 'Developer.Xhprof');
+	Xhprof::start();
 
 	/**
 	 * Load plugin events
@@ -26,9 +29,11 @@
 
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
-			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';
+			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';			
 			$folder = str_replace('.', DS, $cache['config']['prefix']);
-			
+			if(!strstr($folder, 'core/')){
+				$folder = 'plugins'.DS.$folder;
+			}
 			if(!is_dir(CACHE.$folder)){
 				$Folder = new Folder(CACHE.$folder, true);
 			}
