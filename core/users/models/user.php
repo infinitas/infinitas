@@ -19,7 +19,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	class User extends ManagementAppModel{
+	class User extends UsersAppModel{
 		var $name = 'User';
 
 		var $displayField = 'username';
@@ -30,7 +30,7 @@
 		);
 
 		var $belongsTo = array(
-			'Management.Group'
+			'Users.Group'
 		);
 
 		function __construct($id = false, $table = null, $ds = null) {

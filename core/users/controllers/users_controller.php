@@ -20,14 +20,8 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class UsersController extends ManagementAppController{
+	class UsersController extends UsersAppController{
 		var $name = 'Users';
-
-		var $helpers = array('Libs.Wysiwyg');
-
-		var $components = array(
-			'Newsletter.Emailer'
-		);
 
 		function beforeFilter(){
 			parent::beforeFilter();
