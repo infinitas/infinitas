@@ -19,7 +19,7 @@
 				'order' => ''
 			),
 			'User' => array(
-				'className' => 'Management.User',
+				'className' => 'Users.User',
 				'foreignKey' => 'foreign_key',
 				'conditions' => array(
 				),

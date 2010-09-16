@@ -27,16 +27,6 @@
 		);
 
 		var $belongsTo = array(
-			'Newsletter.Template',
-			'Locker' => array(
-				'className' => 'Management.User',
-				'foreignKey' => 'locked_by',
-				'conditions' => '',
-				'fields' => array(
-					'Locker.id',
-					'Locker.username'
-				),
-				'order' => ''
-			)
+			'Newsletter.Template'
 		);
 	}

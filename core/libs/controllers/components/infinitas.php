@@ -356,7 +356,7 @@
 			}
 
 			$this->Controller->Auth->logoutRedirect = '/';
-			$this->Controller->Auth->userModel = 'Management.User';
+			$this->Controller->Auth->userModel = 'Users.User';
 
 			$this->Controller->Auth->userScope = array('User.active' => 1);
 		}

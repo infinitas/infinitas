@@ -66,7 +66,7 @@
 		var $settings = array();
 		var $defaults = array(
 			'enabled' => true,
-			'userModel' => 'Management.User',
+			'userModel' => 'Users.User',
 			'logModel' => 'Management.Log',
 			'userKey' => 'user_id',
 			'change' => 'full',

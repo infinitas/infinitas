@@ -53,6 +53,21 @@
 			} else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
+
+			/*
+			 *
+			 *
+			'Locker' => array(
+				'className' => 'Users.User',
+				'foreignKey' => 'locked_by',
+				'conditions' => '',
+				'fields' => array(
+					'Locker.id',
+					'Locker.username'
+				),
+				'order' => ''
+			)
+			 */
 		}
 
 		/**
