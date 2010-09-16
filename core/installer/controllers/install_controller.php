@@ -42,10 +42,9 @@
 		* @var array
 		* @access public
 		*/
-		var $components = array('Libs.Wizard', 'DebugKit.Toolbar', 'Session');
-		var $helpers = array('Libs.Wizard');
+		var $components = array('Libs.Wizard', 'Session');
 
-		private $__phpVersion = '5.0';
+		private $__phpVersion = '5.2';
 
 		private $__supportedDatabases = array(
 			'mysql' => array(
@@ -137,7 +136,7 @@
 			$this->installerProgress = array(
 				'welcome' => __('Welcome', true),
 				'database' => __('Database configuration', true),
-				'install' => __('Installation', true),
+				'install' => __('Ready to install', true),
 				'admin_user' => __('Site administrator', true),
 			);
 
@@ -159,6 +158,7 @@
 
 		function finish() {
 			$this->Session->write('installing', false);
+			$this->set('title_for_layout', 'Finished');
 			$this->set('hidePrevious', true);
 			$this->set('hideNext', true);
 		}
@@ -177,6 +177,7 @@
 		}
 
 		function _prepareDatabase() {
+			$this->loadModel('Installer.Install');
 			$database = $this->__checkDatabases();
 
 			$this->set(compact('database'));
@@ -331,7 +332,7 @@
 			return $recomendations;
 		}
 
-		function __cleanConnectionDetails() {
+		function __cleanConnectionDetails($adminUser = false) {
 			$connectionDetails = $this->data['Install'];
 			unset($connectionDetails['step']);
 
@@ -343,17 +344,29 @@
 				unset($connectionDetails['prefix']);
 			}
 
+			if($adminUser == true) {
+				$connectionDetails['login'] = $this->data['Admin']['username'];
+				$connectionDetails['password'] = $this->data['Admin']['password'];
+			}
+
 			return $connectionDetails;
 		}
 
 		function __testConnection() {
 			$connectionDetails = $this->__cleanConnectionDetails();
+			$adminConnectionDetails = $this->__cleanConnectionDetails(true);
 
 			if(!@ConnectionManager::create('installer', $connectionDetails)->isConnected()) {
 				$this->set('dbError', true);
 				return false;
 			}
 			else {
+				if(trim($adminConnectionDetails['login']) != '') {
+					if(!@ConnectionManager::create('admin', $adminConnectionDetails)->isConnected()) {
+						$this->set('adminDbError', true);
+						return false;
+					}
+				}
 				$dbOptions = $this->__supportedDatabases[$connectionDetails['driver']];
 				$version = ConnectionManager::getDataSource('installer')->query($dbOptions['versionQuery']);
 				$version = $version[0][0]['version()'];
@@ -405,18 +418,16 @@
 		}
 
 		private function __installPlugins() {
-			$dbConfig = $this->Wizard->read('database.Install');
-			unset($dbConfig['step']);
-
-			if(trim($dbConfig['port']) == '') {
-				unset($dbConfig['port']);
-			}
-
-			if(trim($dbConfig['prefix']) == '') {
-				unset($dbConfig['prefix']);
-			}
+			$this->data = $this->Wizard->read('database');
 
 			App::import('Core', 'ConnectionManager');
+			if($this->data['Admin']['username'] !== '') {
+				$dbConfig = $this->__cleanConnectionDetails(true);
+			}
+			else {
+				$dbConfig = $this->__cleanConnectionDetails();
+			}
+
 			$db = ConnectionManager::create('default', $dbConfig);
 
 			$plugins = App::objects('plugin');
