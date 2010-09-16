@@ -44,9 +44,9 @@
 		*/
 		var $components = array('Libs.Wizard', 'Session', 'DebugKit.Toolbar');
 
-		public $helpers = array('Html', 'Form', 'Libs.Wizard', 'Installer.Install');
+		public $helpers = array('Html', 'Form', 'Libs.Wizard', 'Text');
 
-		private $__phpVersion = '5.2';
+		private $__phpVersion = '5.3';
 
 		private $__supportedDatabases = array(
 			'mysql' => array(
@@ -104,6 +104,17 @@
 					'desc' => 'Sessions are completly handled by Infinitas'
 					),
 				);
+
+		private $__paths = array(
+			'config/database.php' => array(
+				'type' => 'write',
+				'message' => 'The database configuration (%s) file should be writable during the installation process. It should be set to be read-only once Infinitas has been installed.'
+			),
+			'tmp' => array(
+				'type' => 'write',
+				'message' => 'The temporary directory (%s) should be writable by Infinitas. Caching will not work otherwise and Infinitas will perform very poorly.',
+			)
+		);
 
 		var $installerProgress = array();
 
@@ -288,7 +299,7 @@
 		private function __checkPaths() {
 			$paths = array();
 
-			foreach($paths as $path => $options) {
+			foreach($this->__paths as $path => $options) {
 				switch($options['type']) {
 					case 'write':
 						$function = 'is_writable';
@@ -300,6 +311,8 @@
 					$paths[] = sprintf(__($options['message'], true), APP.$path);
 				}
 			}
+
+			return $paths;
 		}
 
 		/**
@@ -328,6 +341,7 @@
 			foreach($this->__recommendedIniSettings as $k => $setting) {
 				if((int)ini_get($setting['setting']) !== $setting['recomendation']) {
 					$setting['current'] = (int)ini_get($setting['setting']);
+					$setting['desc'] = __($setting['desc'], true);
 					$recomendations[] = $setting;
 				}
 			}

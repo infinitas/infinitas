@@ -1,6 +1,48 @@
 <?php
-	$errors = $this->Install->parseErrors();
+	$hasErrors = false;
+	$errors = '';
+
+	if(!empty($core)) {
+		$hasErrors = true;
+		$errors .= '<h4>'.__('Critical errors', true) . '</h4>';
+		$errors .= '<ul>';
+		foreach($core as $coreError) {
+			$errors .= '<li>' . $coreError . '</li>';
+		}
+		$errors .= '</ul>';
+	}
+
+	if(!empty($paths)) {
+		$hasErrors = true;
+		$errors .= '<h4>'.__('Path errors', true) . '</h4>';
+		$errors .= '<ul>';
+		foreach($paths as $pathError) {
+			$errors .= '<li>' . $pathError . '</li>';
+		}
+		$errors .= '</ul>';
+	}
+
+	if($database == false) {
+		$hasErrors = true;
+		$errors .= '<h4>'.__('Database errors', true) . '</h4>';
+		$errors .= '<ul>';
+		$supportedDb = Set::combine($supportedDb, '{s}.name', array(__('{0} (version {1} or newer)', true), '{s}.name', '{s}.version'));
+		$errors .= '<li>'.sprintf(__('Infinitas could not detect any supported database extensions for php. Currently Infinitas supports: %s', true), $this->Text->toList($supportedDb)).'</li>';
+		$errors .= '</ul>';
+	}
+
+	if(!empty($recomendations)) {
+		$errors .= '<h4>'.__('PHP setting recomendations', true) . '</h4>';
+		$errors .= '<ul>';
+		foreach($recomendations as $recomendation) {
+			$errors .= '<li>' . sprintf(__('The PHP setting <em>%s</em> is recommend to be set to <strong>%s</strong> (It is currently <strong>%s</strong>). %s', true) ,$recomendation['setting'], $recomendation['recomendation'], $recomendation['current'], $recomendation['desc']) . '</li>';
+		}
+		$errors .= '</ul>';
+	}
+
+	$this->set('hasErrors', $hasErrors);
 ?>
+
 <p>
 	<?php
 		$message = array(
@@ -21,6 +63,17 @@
 		echo str_replace('%s', $siteName, implode('</p><p>', $message));
 	?>
 </p>
+
+<?php if (!empty($errors)) { ?>
+	<div id="errors">
+		<?php if($hasErrors) {?>
+			<div class="general-error">
+				<?php echo __('There are a number of errors preventing Infinitas from installing. Please fix the errors and then refresh this page.',true); ?>
+			</div>
+		<?php } ?>
+		<?php echo $errors;?>
+	</div>
+<?php } ?>
 
 <blockquote>
 <h2>MIT License</h2>

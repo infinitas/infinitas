@@ -33,7 +33,7 @@
 								echo $this->Form->button('Previous', array('name' => 'Previous', 'value' => 'Previous'));
 							}
 							if(!isset($hideNext)) {
-								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next'));
+								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next', 'disabled' => ($hasErrors ? true : false)));
 							}
 						?>
 					</div>
@@ -50,7 +50,7 @@
 								echo $this->Form->button('Previous', array('name' => 'Previous', 'value' => 'Previous'));
 							}
 							if(!isset($hideNext)) {
-								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next'));
+								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next', 'disabled' => ($hasErrors ? true : false)));
 							}
 						?>
 					</div>
