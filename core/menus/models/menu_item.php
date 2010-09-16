@@ -103,4 +103,37 @@
 
 			return $menus;
 		}
+
+		/**
+		 * check if the menu being created has the menu_itmes container and if
+		 * not create one.
+		 */
+		public function hasContainer($id, $name){
+			$count = $this->find(
+				'count',
+				array(
+					'conditions' => array(
+						'menu_id' => $id,
+						'parent_id' => 0
+					)
+				)
+			);
+			
+			if($count > 0){
+				return true;
+			}
+
+			$data = array(
+				'MenuItem' => array(
+					'name' => $name,
+					'menu_id' => $this->id,
+					'parent_id' => 0,
+					'active' => 0,
+					'fake_item' => true
+				)
+			);
+
+			$this->create();
+			return $this->save($data);
+		}
 	}
