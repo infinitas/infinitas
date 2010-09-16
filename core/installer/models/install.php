@@ -21,6 +21,7 @@
 		public $name = 'Install';
 		public $useTable = false;
 		public $useDbConfig = false;
+		public $actsAs = false;
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
