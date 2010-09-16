@@ -1,5 +1,5 @@
 <?php
-	$paths = Cache::read('base_paths');
+	$paths = Cache::read('plugin_paths');
 	if($paths === false){
 		$Folder = new Folder(APP);
 		$folders = $Folder->read();
@@ -11,7 +11,9 @@
 			$paths[] = APP . $folder . DS;
 		}
 		
-		Cache::write('base_paths');
+		Cache::write('plugin_paths', $paths);
+
+		// @todo trigger event to get oter plugin paths
 	}
 
 	App::build(
