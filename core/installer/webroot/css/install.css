@@ -19,14 +19,14 @@ body {
 	border: 1px solid #aeaeae;
 }
 
-#inner-header {
+#inner-header, #inner-footer {
 	margin-top: 10px;
 	padding: 5px 5px 5px 5px;
 	background: #fff;
 	border: 1px solid #aeaeae;
 }
 
-#buttons {
+.buttons {
 	text-align:right;
 }
 
@@ -37,13 +37,14 @@ body {
 	border: 1px solid #aeaeae;
 }
 
-h1, h2, h3 {font-family:"Trebuchet MS", Verdana, sans-serif;}
+h1, h2, h3, h4 {font-family:"Trebuchet MS", Verdana, sans-serif;}
 h1 {font-size:26px;}
 h2 {font-size:18px;}
 h3 {font-size:16px;}
 
 p {
 	margin-bottom: 10px;
+	padding-right: 5px;
 }
 
 .yes a, .on a{
@@ -59,7 +60,25 @@ p {
 	border-bottom:0px solid red;
 }
 
-blockquote {background:#eee url(../img/quote.png) 5px 5px no-repeat; padding:8px 8px 0 35px; font:normal 14px "Palatino Linotype", "Book Antiqua", Palatino, serif; display:block; border: solid 1px #ddd; }
+blockquote {
+	background:#eee url(../img/quote.png) 5px 5px no-repeat;
+	padding:8px 8px 0 35px;
+	font:normal 14px "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	display:block;
+	border: solid 1px #ddd;
+	margin-right:15px;
+}
+
+div.general-error {
+	background: #800000;
+	padding:8px;
+	font:normal 14px "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	display:block;
+	border: solid 1px #300000;
+	color: #fff;
+	margin-right:15px;
+	margin-bottom: 10px;
+}
 
 div.input {
 	margin-bottom: 10px;
@@ -73,6 +92,10 @@ div.input {
 	border-radius: 10px;
 }
 
+div.input.error {
+	background-color: #fff3f3;
+}
+
 div.input div {
 	display: block;
 	margin-top: 5px;
@@ -82,245 +105,54 @@ div.input div {
 	font-style: italic;
 }
 
+div.input div.error-message {
+	margin-top: 0px;
+	color: #900f0f;
+	font-style: normal;
+}
+
 label {
 	display: block;
 	font-size: 100%;
-	padding-right: 10px;
+	padding-bottom: 10px;
 	text-align: left;
-	float: left;
-	width: 25%;
+	font-weight: bold;
+}
+div.required label {
+	color: #800000;
+}
+div.select select {
+	width:580px;
 }
 input, textarea {
 	clear: right;
 	font-size: 95%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
 	padding: 2px;
-	width: 50%;
-	border-color: rgba(0,0,0,.6);
+	width: 570px;
+	border-color: #777;
 	border-style: solid;
 	border-width: 1px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
 	padding-left: 8px;
 	padding-right: 8px;
 }
-
-/*
-*{
-	margin: 0px;
-	padding: 0px;
+fieldset {
+	padding: 10px;
+	margin-right: 15px;
 }
-a {
-	color: #0EA2CC;
-	text-decoration: none;
+h4.field-heading {
+	font-size: 1.3em;
+	font-weight: bold;	
 }
-.logo{
-	border: 1px solid red;
-	width:100px;
-	height:100px;
-	padding-left:20px;
+div.radio input {
+	display: inline;
+	width:auto;
 }
-h1, h2, h3 {font-family:"Trebuchet MS", Verdana, sans-serif; margin-top:15px; clear:both;}
-h1 {font-size:26px;}
-h2 {font-size:18px;}
-h3 {font-size:16px;}
-body {background:url(../img/bg2.jpg) fixed center top; background-color:#ccc; font:12px Verdana, Arial, Helvetica, sans-serif;}
-#wrap {width:950px; margin:0 auto 0 auto;}
-#header {background:url(../img/header.png) no-repeat; height:174px;}
-#content {background:url(../img/pagebg.png) repeat-y; padding:0 40px 0 40px;}
-#right { float:right; width:610px;}
-#right p {line-height:20px; margin-bottom:20px;}
-#right a {border-bottom: solid 1px #0ea2cc;}
-#right a:visited, active {border:none;}
-#right a:hover {color:#000; border-bottom:solid 1px #000;}
-h1 a, h2 a, h3 a, h4 a {text-decoration:none; border:none!important;}
-.clear {clear:both;}
-#sidebar {float:left; width:250px; background:url(../img/sb2.jpg) left repeat-y;}
-#sidebartop {background: url(../img/sb1.jpg) left top no-repeat; height:10px;}
-#sidebarbtm {background:url(../img/sb3.jpg) left top no-repeat; height:9px;}
-#sidebar ul {list-style:none; font:bold 14px "Trebuchet MS", Verdana, sans-serif; margin-bottom:15px;}
-#sidebar li {display:block; height:36px; margin-bottom:2px;}
-#sidebar a, #sidebar a:visited {
-	display:block;
-	background:url(../img/menu1.jpg) right top no-repeat;
-	padding: 10px 10px 0 40px;
-	height: 26px;
-	color:#999;
-}
-#right h2 {
-	color:#014782; font:normal 18px "Trebuchet MS", Verdana, sans-serif;
-}
-#right h2 a {color:#014782}
-#right h2 a:hover {color:#000; background:#ffffee; border:none;}
-
-#sidebar .active a{background:url(../img/menu3.jpg) right top no-repeat; color:#000;}
-#sidebar h2 {
-	display:block;
-	background:url(../img/sidebarh2.jpg) no-repeat;
-	height:40px;
-	padding:14px 10px 0 40px;
-	color: #186185;
-	text-transform:uppercase;
-}
-#footer {background:url(../img/footerbg.png) no-repeat; height:62px;}
-
-#sitename {
-	display:block;
-	float:left;
-	width:337px;
-	padding:15px 0 0 40px;
-	text-align:center;
-	color: #FFFFFF;
-	font: normal 28px "Trebuchet MS", Verdana, sans-serif;
-}
-#sitename a{color:#fff;}
-.caption {
-	display:block;
-	font: normal 12px Verdana, Arial, Helvetica, sans-serif;
-	color: #000000;
-	padding-top:30px;}
-
-#sitename a .blue {
-	color:#0F9EC8;
-	font-style: italic;
-}
-#sitename a:hover {color:#0f9ec8;}
-#sitename a:hover .blue{color:#9c6; font-family:Georgia; font-weight:normal;}
-
-#nav {float:right; width:645px; padding:0 40px 0 0; height:134px;}
-#breadcrumb { background:url(../img/breadcrumb.jpg) center bottom no-repeat;
-	padding:7px 40px 5px ;
-	height: 18px;
-	color:#999999; text-transform:uppercase;
-	font: bold 16px"Trebuchet MS", Verdana, sans-serif;}
-#breadcrumb a.active {color:#000!important;}
-#breadcrumb a{text-decoration:none; color:#999;}
-#breadcrumb a:visited, breadcrumb a:active {color:#999;}
-#breadcrumb a:hover {color:#333;}
-#nav #search{
-	padding-left: 475px;
-	padding-top: 17px;
-	height: 48px;
-}
-#nav #search .keyword{
-	background: transparent url(../img/search.png) no-repeat;
-	height: 33px;
-	width: 132px;
-	padding: 10px 20px 0 10px;
-	font-size: 12px;
-	color: #999;
-	border:none;
-	overflow:hidden;
-}
-#header form {padding:0; margin:0;}
-#topmenu { height:51px; font:bold 14px "Trebuchet MS", Verdana, sans-serif; text-transform:uppercase; padding-top:15px;}
-#topmenu ul {list-style:none; padding-left:10px;}
-#topmenu li {display:inline; margin-left:3px;}
-#topmenu a, #topmenu a:visited {display:block; float:left; background:url(../img/nav2.png) repeat-x; text-align:center; padding:5px 25px 0 25px; height:25px; color:#999999;}
-#topmenu .active a {background:url(../img/nav1.png) repeat-x; color:#333;}
-#topmenu .active a:hover {background:url(../img/nav4.png) repeat-x; color:#333;}
-#topmenu a:hover {background:url(../img/nav3.png) repeat-x; color:#fff;}
-#featured {
-	background:url(../img/ftrdbox.jpg) no-repeat;
-	height:150px;
-	color:#00CCFF;
-	margin-bottom:15px;
-}
-#featured div {
-	padding:25px 10px 0 50px;
-	height: 90px;
-	font:normal 16px "Palatino Linotype", "Book Antiqua", Palatino, serif;
-
-}
-.ftd_btm {display:block; height:20px; padding:15px 5px 0 35px; background:url(../img/ftrdlink.png)8px 12px no-repeat}
-#featured a {color:#fff; border-bottom:none;}
-#featured a:visited, #featured a:active{color:#E3F7FD;}
-#featured a:hover { text-decoration:underline; color:#fff!important;}
-.postbottom {background:url(../img/postbttm.png) no-repeat; height:26px; margin-bottom:20px;}
-.postbottom ul {list-style:none;}
-.postbottom li {display:inline; margin:0!important; padding:0!important;}
-.postbottom a, .postbottom a:visited, .postbottom a:active{color:#fff; border:none!important; display:block; float:left; height:20px; padding:6px 5px 0 30px;}
-.postbottom a:hover {color:#000;}
-.permalink a, .permalink a:visited, .permalink a:active {background:url(../img/ico_more.png)5px 5px no-repeat;}
-.cats a{background:url(../img/ico_cat.png)5px 5px no-repeat;}
-.auth a{background:url(../img/ico_usr.png)5px 5px no-repeat;}
-.date a{background:url(../img/ico_date.png) 5px 5px no-repeat;}
-.comnts a{background:url(../img/comment.png)5px 5px no-repeat;}
-
-.post h2 {display:block; margin-bottom:15px;}
-
-.post .description {display:block; font-size:12px; color:#999;}
-
-blockquote {background:#eee url(../img/quote.png) 5px 5px no-repeat; padding:8px 8px 0 35px; font:normal 14px "Palatino Linotype", "Book Antiqua", Palatino, serif; display:block; border: solid 1px #ddd; }
-
-.extract { float:left; margin-right:10px;}
-
-/*tables and Forms *
-
-#right table {
-	width:90%;
-	border:1px solid #0075A4;
-	margin-bottom:20px;
-	background: #E3F6FF;
-	margin-top: 15px;
-}
-#right th {
-	background:#0075A4;
-	padding:5px 15px 5px 15px;
-	color:#8ADBFF;
-	text-align:center;
-	border-bottom:1px solid #000000;
-	font: bold 16px "Trebuchet MS", Verdana, sans-serif;
-	text-transform: uppercase;
-}
-#right td {
-	border-bottom:1px solid #0075A4;
-	padding:5px 15px 5px 15px;
-	border-right:1px solid #0075A4;
+div.radio label {
+	display:inline;
+	margin-right:20px;
 }
 
-
-
-.hide {display:none;}
-#bottom {padding:20px; background:url(../img/bottombg.png) repeat-x; margin-top:15px;}
-#bottom p {display:block; padding:3px; text-align:center;}
-#credits {text-align:right; font-size:8px; padding:5px 40px 0 40px; }
-.pagenavi { height:22px; padding: 5px 5px 0 5px; background: #eee; border: solid 1px #ddd; margin:25px 0 15px 0;}
-.pagenavi .alignleft {display:block; text-align:left;}
-.pagenavi .alignright {display:block; float:right;}
-.pagenavi a, .pagenavi a :visited, .pagenavi a :active {color:#000; font-weight:bold; text-decoration:none; border:none!important;}
-.pagenavi a:hover {color:#0099CC!important;}
-
-/*shopping Cart *
-#catalogue {margin:10px 0 10px 0; background:#eee; border:solid 1px #ddd; padding:5px;}
-.item {width:135px; float:left; height:220px;}
-.item h3 {display:block; padding:3px;}
-.item span {display:block; padding:3px;}
-.item .price {color:#993300; font-weight:bold; }
-.item span img {border:none!important;}
-.item span a {border:none!important; text-decoration:none;}
-.item img {}
-img.productimg {border:solid 1px #716148; margin:0 0 0 8px;}
-.clear2 {width:100%; clear:left;}
-.sec_head {
-	display:block;
-	background: #0077A2 url(../img/ftrdbox.jpg) no-repeat 0px -60px;
-	padding:3px;
-	margin-bottom:15px;
-	color: #FFF !important;
+#content.grid_12, #inner-header.grid_12 {
+	width: 925px;
 }
-
-#right .yes a, #right .on a{
-    color:green;
-	text-decoration:none;
-	font-weight:bold;
-	border-bottom:0px solid green;
-}
-#right .no a, #right .off a{
-    color:red;
-	text-decoration:none;
-	font-weight:bold;
-	border-bottom:0px solid red;
-}
-*/
