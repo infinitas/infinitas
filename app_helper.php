@@ -155,12 +155,12 @@
 			return $this->niceBox('adminTopBar', $this->adminPageHead() . $massActions);
 		}
 
-		function adminEditHead($view, $actions = array('save', 'cancel')){
+		function adminEditHead($actions = array('save', 'cancel')){
 	        $massActions = $this->massActionButtons(
 	            $actions
 	        );
 
-	        return $this->adminOtherHead($view, $massActions);
+	        return $this->adminOtherHead($massActions);
 		}
 
 		function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
