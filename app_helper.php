@@ -42,34 +42,31 @@
 		* - generate some links
 		* @param array $here is $this from the view.
 		*/
-		function breadcrumbs($view = array(), $seperator = ' :: ') {
-			if (empty($view)) {
-				return false;
-			}
-
-			$_prefix = isset($view->params['prefix']) ? (string)$view->params['prefix'] : false;
+		function breadcrumbs($seperator = ' :: ') {
 
 			$breadcrumbs = array(
 				$this->Html->link(
-					__(strtolower(prettyName($view->plugin)), true),
+					__($this->params['plugin'], true),
 					array(
-						'prefix' => $_prefix,
-						'plugin' => $view->plugin,
+						'plugin' => $this->params['plugin'],
 						'controller' => false,
 						'action' => false
 					)
 				),
 				$this->Html->link(
-					__(strtolower(prettyName($view->name)), true),
+					__(strtolower(prettyName($this->params['controller'])), true),
 					array(
-						'prefix' => $_prefix,
-						'plugin' => $view->plugin,
-						'controller' => Inflector::underscore($view->name),
+						'plugin' => $this->params['plugin'],
+						'controller' => Inflector::underscore($this->params['controller']),
 						'action' => false
 					)
 				),
-				strstr($view->action, 'mass') === false ? str_replace('admin_', '', $view->action) : $view->params['form']['action']
+				strstr($this->params['action'], 'mass') === false 
+					? str_replace('admin_', '', $this->params['action'])
+					: $this->params['form']['action']
 			);
+
+			$_prefix = isset($this->params['prefix']) ? $this->params['prefix'] : false;
 
 			if ($_prefix !== false) {
 				$breadcrumbs = array_merge(
@@ -96,13 +93,8 @@
 			return (($this->rowClassCounter++ % 2) ? $class1 : $class2);
 		}
 
-		function adminPageHead($view) {
-			if (empty($view)) {
-				return false;
-			}
-
-			$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin : '';
-			return '<h1>' . sprintf(__('%s %s Manager', true), prettyName($plugin), prettyName($view->name)) . '<small>' . $this->breadcrumbs($view) . '</small></h1>';
+		function adminPageHead() {			
+			return '<h1>' . sprintf(__('%s Manager', true), prettyName($this->_extras['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
 		}
 
 		/**
@@ -146,12 +138,7 @@
 			return '<thead>'.$out.'<thead>'. (($footer) ? '<tfoot>'.$out.'</tfoot>' : '');
 		}
 
-		function adminIndexHead($view = array(), $filterOptions = array(), $massActions = null) {
-			if (empty($view)) {
-				$this->errors[] = 'I need the view.';
-				return false;
-			}
-
+		function adminIndexHead($filterOptions = array(), $massActions = null) {
 			if(!class_exists('FilterHelper')){
 				App::import('Helper', 'FilterHelper');
 			}
@@ -161,16 +148,11 @@
 				FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions)
 			);
 
-			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
+			return $this->Design->niceBox('adminTopBar', $this->adminPageHead() . $massActions) . $filters;
 		}
 
-		function adminOtherHead($view = array(), $massActions = null) {
-				if (empty($view)) {
-					$this->errors[] = 'I need the view.';
-					return false;
-				}
-
-				return $this->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
+		function adminOtherHead($massActions = null) {
+			return $this->niceBox('adminTopBar', $this->adminPageHead() . $massActions);
 		}
 
 		function adminEditHead($view, $actions = array('save', 'cancel')){

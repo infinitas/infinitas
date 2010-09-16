@@ -29,7 +29,7 @@
                 'delete'
             )
         );
-        echo $this->Core->adminIndexHead( $this, null, $massActions );
+	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">

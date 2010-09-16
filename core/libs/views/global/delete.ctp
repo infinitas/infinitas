@@ -27,7 +27,7 @@
                 'cancel'
             )
         );
-        echo $this->Infinitas->adminIndexHead($this, null, $massActions);
+	echo $this->Infinitas->adminIndexHead(null, $massActions);
 ?>
 	<div class="table">
 		<table class="listing" cellpadding="0" cellspacing="0">

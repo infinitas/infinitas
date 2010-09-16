@@ -82,7 +82,7 @@
 				"\t\t\t// 'unlock',\n".
 			"\t\t)\n".
 		"\t);\n\n".
-		"\techo \$this->Infinitas->adminIndexHead(\$this, \$filterOptions, \$massActions);\n".
+		"\techo \$this->Infinitas->adminIndexHead(\$filterOptions, \$massActions);\n".
 	"?>\n";
 ?>
 <div class="table">

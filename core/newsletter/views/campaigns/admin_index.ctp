@@ -28,7 +28,7 @@
                 'delete'
             )
         );
-        echo $this->Letter->adminIndexHead( $this, $filterOptions, $massActions );
+	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 
 ?>
 <div class="table">
