@@ -4,7 +4,7 @@
 		<title>Infinitas Installer :: <?php echo $title_for_layout; ?></title>
 		<?php
 			echo $this->Html->css('reset');
-			echo $this->Html->css('960');
+			echo $this->Html->css('/assets/css/960');
 			echo $this->Html->css( '/installer/css/install' );
 			echo $scripts_for_layout;
 		?>
