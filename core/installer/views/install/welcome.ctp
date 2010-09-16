@@ -1,3 +1,6 @@
+<?php
+	$errors = $this->Install->parseErrors();
+?>
 <p>
 	<?php
 		$message = array(
@@ -18,8 +21,6 @@
 		echo str_replace('%s', $siteName, implode('</p><p>', $message));
 	?>
 </p>
-
-//TODO: Show any failing requirements here
 
 <blockquote>
 <h2>MIT License</h2>

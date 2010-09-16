@@ -42,7 +42,9 @@
 		* @var array
 		* @access public
 		*/
-		var $components = array('Libs.Wizard', 'Session');
+		var $components = array('Libs.Wizard', 'Session', 'DebugKit.Toolbar');
+
+		public $helpers = array('Html', 'Form', 'Libs.Wizard', 'Installer.Install');
 
 		private $__phpVersion = '5.2';
 
@@ -267,7 +269,7 @@
 			$core = array();
 
 			if(phpversion() < $this->__phpVersion) {
-				$core[] = sprintf(__('PHP version %s detected, %s needs at least version %s.', true), phpversion(), 'Infinitas', $this->phpVersion.'.x');
+				$core[] = sprintf(__('PHP version %s detected, %s needs at least version %s.', true), phpversion(), 'Infinitas', $this->__phpVersion.'.x');
 			}
 
 			foreach($this->__requiredExtensions as $extension => $message) {
@@ -325,6 +327,7 @@
 
 			foreach($this->__recommendedIniSettings as $k => $setting) {
 				if((int)ini_get($setting['setting']) !== $setting['recomendation']) {
+					$setting['current'] = (int)ini_get($setting['setting']);
 					$recomendations[] = $setting;
 				}
 			}
