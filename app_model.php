@@ -31,7 +31,7 @@
 			'Libs.Infinitas',
 			'Events.Event',
 			//'Libs.Logable',
-			'DebugKit.Timed',
+			//'DebugKit.Timed',
 
 			//'Libs.AutomaticAssociation'
 		);
