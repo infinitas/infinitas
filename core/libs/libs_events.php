@@ -31,10 +31,6 @@
 
 					$event->Handler->Behaviors->attach('Libs.Expandable');
 				}
-				
-				if (array_key_exists('locked', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Lockable')) {
-					$event->Handler->Behaviors->attach('Libs.Lockable');
-				}
 
 				if (array_key_exists('slug', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sluggable')) {
 					$event->Handler->Behaviors->attach(

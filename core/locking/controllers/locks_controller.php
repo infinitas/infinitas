@@ -20,10 +20,8 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class LocksController extends ManagementAppController{
+	class LocksController extends LocksAppController{
 		var $name = 'Locks';
-
-		var $uses = array();
 
 		function admin_index(){
 			App::import('AppModel');

@@ -37,8 +37,8 @@
 				'locked_since' => 'locked_since',
 				'locked' => 'locked',
 				'modified' => 'modified'
-				)
-			);
+			)
+		);
 
 		/**
 		*
