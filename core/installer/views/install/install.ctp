@@ -19,25 +19,20 @@
      */
 ?>
 <div class="install form">
-    <h2><?php __( 'Database Installation' ); ?></h2>
 	<blockquote class="extract">
-	    <p><?php echo __( 'You can review which plugins will be installed and optionally install some sample data.', true ); ?></p>
+	    <p><?php 
+				echo __('Infinitas is now ready to install onto your server.', true );
+				echo __(', .',true);
+			?>
+		</p>
 	</blockquote>
-	<h3><?php __('Sample data') ?> </h3>
-		<p><?php echo __('Check the checkbox below if you wish to install some sample data. The sample data can be useful to give you an overview of the capabilities of the plugins.'); ?> </p>
-		<?php
-			echo $this->Form->input('sample', array(
-				'type' => 'checkbox',
-				'label' => 'Sample data',
-			))
-		?>
-	<h3><?php __('Core plugins') ?></h3>
-	<?php echo $this->element('plugin_list', array('plugins' => $availablePlugins['core'])); ?>
-
+	<br />
 	<?php
-		if(!empty($availablePlugins['plugin'])) {
-			echo '<h3>' . __('Plugins', true) . '</h3>';
-			echo $this->element('plugin_list', array('plugins' => $availablePlugins['plugin']));
-		}
+		echo $this->Form->input('sample', array(
+			'type' => 'radio',
+			'options' => array(1 => 'Yes', 0 => 'No'),
+			'value' => 0,
+			'legend' => 'Do you wish to install some sample data (Which is recommended for new Infinitas users)?',
+		))
 	?>
 </div>
