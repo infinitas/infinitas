@@ -11,8 +11,7 @@
  * Licensed under The MIT License
  *
  * @writtenby		jaredhoyt
- * @lastmodified	Date: March 7, 2009
- * @license		http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 class WizardComponent extends Object {
 /**
@@ -70,14 +69,14 @@ class WizardComponent extends Object {
  * Url to be redirected to after the wizard has been completed.
  * Controller::afterComplete() is called directly before redirection.
  *
- * @var string
+ * @var mixed
  * @access public
  */
 	var $completeUrl = '/';
 /**
  * Url to be redirected to after 'Cancel' submit button has been pressed by user.
  *
- * @var string
+ * @var mixed
  * @access public
  */
 	var $cancelUrl = '/';
@@ -120,6 +119,13 @@ class WizardComponent extends Object {
 	var $_configKey = null;
 	var $_branchKey = null;
 /**
+ * Holds the array based url for redirecting.
+ *
+ * @var array
+ * @access protected
+ */
+	var $_wizardUrl = array();
+/**
  * Other components used.
  *
  * @var array
@@ -132,12 +138,14 @@ class WizardComponent extends Object {
  * @param object $controller A reference to the instantiating controller object
  * @access public
  */
-	function initialize(&$controller) {
+	function initialize(&$controller, $settings = array()) {
 		$this->controller =& $controller;
 
 		$this->_sessionKey	= $this->Session->check('Wizard.complete') ? 'Wizard.complete' : 'Wizard.' . $controller->name;
 		$this->_configKey 	= 'Wizard.config';
 		$this->_branchKey	= 'Wizard.branches.' . $controller->name;
+
+		$this->_set($settings);
 	}
 /**
  * Component startup method.
@@ -146,14 +154,14 @@ class WizardComponent extends Object {
  * @access public
  */
 	function startup(&$controller) {
-		if (!empty($this->wizardAction)) {
-			$this->wizardAction .= '/';
-		}
-
 		$this->steps = $this->_parseSteps($this->steps);
 
 		$this->config('wizardAction', $this->wizardAction);
 		$this->config('steps', $this->steps);
+
+		if (!in_array('Libs.Wizard', $this->controller->helpers) && !array_key_exists('Libs.Wizard', $this->controller->helpers)) {
+			$this->controller->helpers[] = 'Libs.Wizard';
+		}
 	}
 /**
  * Main Component method.
@@ -166,7 +174,7 @@ class WizardComponent extends Object {
 			if (method_exists($this->controller, '_beforeCancel')) {
 				$this->controller->_beforeCancel($this->_getExpectedStep());
 			}
-			$this->resetWizard();
+			$this->reset();
 			$this->controller->redirect($this->cancelUrl);
 		}
 
@@ -175,30 +183,29 @@ class WizardComponent extends Object {
 				if (method_exists($this->controller, '_afterComplete')) {
 					$this->controller->_afterComplete();
 				}
-				$this->resetWizard();
+				$this->reset();
 				$this->controller->redirect($this->completeUrl);
 			}
 
 			$this->autoReset = false;
 		} elseif ($step == 'reset') {
 			if (!$this->lockdown) {
-				$this->resetWizard();
+				$this->reset();
 			}
 		} else {
 			if ($this->_validStep($step)) {
 				$this->_setCurrentStep($step);
 
-				if (!empty($this->controller->data) && !isset($this->controller->params['form']['Previous']) || isset($this->controller->params['form']['Next'])) {
+				if (!empty($this->controller->data) && !isset($this->controller->params['form']['Previous'])) {
 					$proceed = false;
 
 					$processCallback = '_' . Inflector::variable('process_' . $this->_currentStep);
-
 					if (method_exists($this->controller, $processCallback)) {
 						$proceed = $this->controller->$processCallback();
 					} elseif ($this->autoValidate) {
 						$proceed = $this->_validateData();
 					} else {
-						trigger_error(__('Process Callback not found. Please create Controller::' . $processCallback, true), E_USER_WARNING);
+						trigger_error(sprintf(__('Process Callback not found. Please create Controller::%s', true), $processCallback), E_USER_WARNING);
 					}
 
 					if ($proceed) {
@@ -211,7 +218,7 @@ class WizardComponent extends Object {
 							$this->redirect(current($this->steps));
 						} else {
 							$this->Session->write('Wizard.complete', $this->read());
-							$this->resetWizard();
+							$this->reset();
 
 							$this->controller->redirect($this->wizardAction);
 						}
@@ -228,14 +235,14 @@ class WizardComponent extends Object {
 				}
 
 				$this->config('activeStep', $this->_currentStep);
-				return $this->controller->render($this->_currentStep);
+				return $this->controller->autoRender ? $this->controller->render($this->_currentStep) : true;
 			} else {
-				trigger_error(__('Step validation: ' . $step . ' is not a valid step.', true), E_USER_WARNING);
+				trigger_error(sprintf(__('Step validation: %s is not a valid step.', true), $step), E_USER_WARNING);
 			}
 		}
 
 		if ($step != 'reset' && $this->autoReset) {
-			$this->resetWizard();
+			$this->reset();
 		}
 
 		$this->redirect();
@@ -300,15 +307,17 @@ class WizardComponent extends Object {
 /**
  * Handles Wizard redirection. A null url will redirect to the "expected" step.
  *
- * @param mixed $url Stepname to be redirected to.
+ * @param string $step Stepname to be redirected to.
+ * @param integer $status Optional HTTP status code (eg: 404)
+ * @param boolean $exit If true, exit() will be called after the redirect
+ * @see Controller::redirect()
  * @access public
  */
 	function redirect($step = null, $status = null, $exit = true) {
 		if ($step == null) {
 			$step = $this->_getExpectedStep();
 		}
-
-		$url = $this->wizardAction . $step;
+		$url = array('controller' => strtolower($this->controller->name), 'action' => $this->wizardAction, $step);
 		$this->controller->redirect($url, $status, $exit);
 	}
 /**
@@ -317,6 +326,14 @@ class WizardComponent extends Object {
  * @access public
  */
 	function resetWizard() {
+		$this->reset();
+	}
+/**
+ * Resets the wizard by deleting the wizard session.
+ *
+ * @access public
+ */
+	function reset() {
 		$this->Session->delete($this->_branchKey);
 		$this->Session->delete($this->_sessionKey);
 	}
@@ -324,7 +341,7 @@ class WizardComponent extends Object {
  * Saves the data from the current step into the Session.
  *
  * Please note: This is normally called automatically by the component after
- * a successful processCallback, but can be called directly for advanced navigation purposes.
+ * a successful _processCallback, but can be called directly for advanced navigation purposes.
  *
  * @access public
  */
