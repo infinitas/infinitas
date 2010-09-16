@@ -19,47 +19,33 @@
      */
 ?>
 <div class="install">
-    <h2><?php __( 'And we\'re done' ); ?></h2>
     <p>
-        Frontend:
+		<?php
+			echo __('Congratulations, you have successfuly installed Infinitas. You can start using your site immediately.', true);
+		?>
+	</p>
+	<p>
+		<?php
+			echo __('Infinitas has two main areas. The <em>frontend</em> and the <em>administration panel</em>.
+					The frontend is what visitors to you site will see.
+					The administration panel is where you configure your site and add content.
+					You can access either section by using the links provided below.', true);
+		?>
+	</p>
+	<p>
         <?php
+			echo __('Frontend: ', true);
             echo $html->link(
                 Router::url( '/', true),
-                Router::url( '/', true ),
-                array(
-                    'target' => '_blank'
-                )
+                Router::url( '/', true )
             );
         ?><br />
-        Admin panel:
         <?php
+			echo __('Administration panel: ', true);
             echo $html->link(
                 Router::url( '/admin', true),
-                Router::url( '/admin', true ),
-                array(
-                    'target' => '_blank'
-                )
+                Router::url( '/admin', true)
             );
         ?>
     </p>
-    <p>&nbsp;</p>
-    <?php
-        if ( is_dir( APP.'plugins'.DS.'installer' ) )
-        {
-            ?>
-                <p>
-                    <?php echo sprintf( __( 'For security reasons it is best to rename the installation directory %s', true ), '<strong>/app/plugins/install</strong>' ); ?>
-                </p>
-                <p>&nbsp;</p>
-            <?php
-
-            echo $this->Html->link(
-                __( 'Click here to rename the installation directory now', true ),
-                array(
-                    'action' => 'done',
-                    'rename' => 1,
-                )
-            );
-        }
-    ?>
 </div>
