@@ -58,6 +58,19 @@
 			$this->set('js_for_layout', array_filter($this->__addJs));
 		}
 
+		function redirect($url = null, $status = null, $exit = true){
+			if(!$url){
+				$url = $this->Session->read('Infinitas.last_page');
+				$this->Session->delete('Infinitas.last_page');
+
+				if(!$url){
+					$url = array('action' => 'index');
+				}
+			}
+			
+			parent::redirect($url, $status, $exit);
+		}
+
 		/**
 		 * normal before filter.
 		 */
@@ -603,10 +616,15 @@
 				$this->{$this->modelName}->create();
 				if ($this->{$this->modelName}->saveAll($this->data)) {
 					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
-					$this->redirect(array('action' => 'index'));
+					$this->redirect();
 				}
 
 				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
+			}
+
+			$lastPage = $this->Session->read('Infinitas.last_page');
+			if(!$lastPage){
+				$this->Session->write('Infinitas.last_page', $this->referer());
 			}
 		}
 
@@ -631,7 +649,7 @@
 			if (!empty($this->data)) {
 				if ($this->{$this->modelName}->saveAll($this->data)) {
 					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
-					$this->redirect(array('action' => 'index'));
+					$this->redirect();
 				}
 
 				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
@@ -648,6 +666,11 @@
 				else{
 					$this->data = $this->{$this->modelName}->read(null, $id);
 				}
+			}
+
+			$lastPage = $this->Session->read('Infinitas.last_page');
+			if(!$lastPage){
+				$this->Session->write('Infinitas.last_page', $this->referer());
 			}
 		}
 
