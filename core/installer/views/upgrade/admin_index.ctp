@@ -1,6 +1,6 @@
 <?php
 	echo $this->Form->create( 'MenuItem' );
-	echo $this->Html->adminOtherHead($this);
+	echo $this->Html->adminOtherHead();
 	echo $this->Html->niceBox();
 ?>
 	<p>Infinitas has detected that your database is outdated.</p>

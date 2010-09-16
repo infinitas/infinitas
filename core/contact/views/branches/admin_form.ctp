@@ -18,7 +18,7 @@
      */
 
     echo $this->Form->create('Branch', array('type' => 'file'));
-        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Infinitas->adminEditHead();
     ?>
 		<div style="width:50%; float:left;">
 			<?php

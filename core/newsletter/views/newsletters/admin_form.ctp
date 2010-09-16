@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Newsletter');
-        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Infinitas->adminEditHead();
         echo $this->Design->niceBox();
 	        echo $this->Form->input('id');
 	        echo $this->Form->input('campaign_id');

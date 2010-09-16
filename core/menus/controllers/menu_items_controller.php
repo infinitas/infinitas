@@ -7,6 +7,12 @@
 		public $name = 'MenuItems';
 
 		public function admin_index(){
+			$this->paginate = array(
+				'contain' => array(
+					'Menu'
+				)
+			);
+
 			$menuItems = $this->paginate(
 				null,
 				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)

@@ -17,7 +17,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
-    echo $this->Letter->adminOtherHead($this);
+    echo $this->Letter->adminOtherHead();
 ?>
 <h3><?php __('Newsletter Preview'); ?></h3>
 <?php

@@ -1,6 +1,6 @@
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><?php
     echo $this->Form->create('File');
-        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Infinitas->adminEditHead();
         echo $this->Design->niceBox();
 	        ?>
 				<div class="data">

@@ -18,15 +18,15 @@
 	*/
 
 	class AppHelper extends Helper {
-		var $rowClassCounter = 0;
+		public $rowClassCounter = 0;
 
-		var $paginationCounterFormat = 'Page %page% of %pages%.';
+		public $paginationCounterFormat = 'Page %page% of %pages%.';
 
-		var $errors = array();
+		public $errors = array();
 
-		var $wysiwyg = 'fck';
+		public $wysiwyg = 'fck';
 
-		var $helpers = array(
+		public $helpers = array(
 			'Html', 'Form',
 			//'Libs.Design',
 			'Libs.Wysiwyg',
@@ -34,42 +34,39 @@
 		);
 
 		/**
-		* create some bread crumbs.
-		*
-		* Creates some bread crumbs.
-		*
-		* @todo -c"AppHelper" Implement AppHelper.
-		* - generate some links
-		* @param array $here is $this from the view.
-		*/
-		function breadcrumbs($view = array(), $seperator = ' :: ') {
-			if (empty($view)) {
-				return false;
-			}
-
-			$_prefix = isset($view->params['prefix']) ? (string)$view->params['prefix'] : false;
+		 * create some bread crumbs.
+		 *
+		 * Creates some bread crumbs.
+		 *
+		 * @todo -c"AppHelper" Implement AppHelper.
+		 * - generate some links
+		 * @param array $here is $this from the view.
+		 */
+		public function breadcrumbs($seperator = ' :: ') {
 
 			$breadcrumbs = array(
 				$this->Html->link(
-					__(strtolower(prettyName($view->plugin)), true),
+					__($this->params['plugin'], true),
 					array(
-						'prefix' => $_prefix,
-						'plugin' => $view->plugin,
+						'plugin' => $this->params['plugin'],
 						'controller' => false,
 						'action' => false
 					)
 				),
 				$this->Html->link(
-					__(strtolower(prettyName($view->name)), true),
+					__(strtolower(prettyName($this->params['controller'])), true),
 					array(
-						'prefix' => $_prefix,
-						'plugin' => $view->plugin,
-						'controller' => Inflector::underscore($view->name),
+						'plugin' => $this->params['plugin'],
+						'controller' => Inflector::underscore($this->params['controller']),
 						'action' => false
 					)
 				),
-				strstr($view->action, 'mass') === false ? str_replace('admin_', '', $view->action) : $view->params['form']['action']
+				strstr($this->params['action'], 'mass') === false 
+					? str_replace('admin_', '', $this->params['action'])
+					: $this->params['form']['action']
 			);
+
+			$_prefix = isset($this->params['prefix']) ? $this->params['prefix'] : false;
 
 			if ($_prefix !== false) {
 				$breadcrumbs = array_merge(
@@ -85,40 +82,39 @@
 		}
 
 		/**
-		* switch the class for table rows
-		*
-		* @param integer $i the number of the row
-		* @param string $class1 class 1 highlight
-		* @param string $class2 class 2 highlight
-		* @return string the class
-		*/
-		function rowClass($class1 = 'bg', $class2 = '') {
+		 * switch the class for table rows
+		 *
+		 * @param string $class1 class 1 highlight
+		 * @param string $class2 class 2 highlight
+		 * @return string the class
+		 */
+		public function rowClass($class1 = 'bg', $class2 = '') {
 			return (($this->rowClassCounter++ % 2) ? $class1 : $class2);
 		}
 
-		function adminPageHead($view) {
-			if (empty($view)) {
-				return false;
-			}
-
-			$plugin = (strtolower($this->plugin) != 'management') ? $this->plugin : '';
-			return '<h1>' . sprintf(__('%s %s Manager', true), prettyName($plugin), prettyName($view->name)) . '<small>' . $this->breadcrumbs($view) . '</small></h1>';
+		/**
+		 * Admin page heading
+		 *
+		 * Generates a heading based on the controller and adds a bread crumb
+		 */
+		public function adminPageHead() {
+			return '<h1>' . sprintf(__('%s Manager', true), prettyName($this->_extras['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
 		}
 
 		/**
-		* creates table headers for admin.
-		*
-		* if the format is just array( 'head1', 'head2' ... ) it will output a
-		* normal table with TH that have no classes/styles applied.  you can
-		* also pass things like array ( 'head1' => array( 'class' => 'something' ) )
-		* to get out put like <th class="something">head1</th>
-		*
-		* @param array $data an array of items for the head.
-		* @param bool $footer if you want to show the table footer or not.
-		*
-		* @return string the thead and tfoot html
-		*/
-		function adminTableHeader($data, $footer = true) {
+		 * creates table headers for admin.
+		 *
+		 * if the format is just array( 'head1', 'head2' ... ) it will output a
+		 * normal table with TH that have no classes/styles applied.  you can
+		 * also pass things like array ( 'head1' => array( 'class' => 'something' ) )
+		 * to get out put like <th class="something">head1</th>
+		 *
+		 * @param array $data an array of items for the head.
+		 * @param bool $footer if you want to show the table footer or not.
+		 *
+		 * @return string the thead and tfoot html
+		 */
+		public function adminTableHeader($data, $footer = true) {
 			$out = '';
 			foreach($data as $field => $params) {
 				$atributes = '';
@@ -146,12 +142,7 @@
 			return '<thead>'.$out.'<thead>'. (($footer) ? '<tfoot>'.$out.'</tfoot>' : '');
 		}
 
-		function adminIndexHead($view = array(), $filterOptions = array(), $massActions = null) {
-			if (empty($view)) {
-				$this->errors[] = 'I need the view.';
-				return false;
-			}
-
+		public function adminIndexHead($filterOptions = array(), $massActions = null) {
 			if(!class_exists('FilterHelper')){
 				App::import('Helper', 'FilterHelper');
 			}
@@ -161,27 +152,22 @@
 				FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions)
 			);
 
-			return $this->Design->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions) . $filters;
+			return $this->Design->niceBox('adminTopBar', $this->adminPageHead() . $massActions) . $filters;
 		}
 
-		function adminOtherHead($view = array(), $massActions = null) {
-				if (empty($view)) {
-					$this->errors[] = 'I need the view.';
-					return false;
-				}
-
-				return $this->niceBox('adminTopBar', $this->adminPageHead($view) . $massActions);
+		public function adminOtherHead($massActions = null) {
+			return $this->niceBox('adminTopBar', $this->adminPageHead() . $massActions);
 		}
 
-		function adminEditHead($view, $actions = array('save', 'cancel')){
+		public function adminEditHead($actions = array('save', 'cancel')){
 	        $massActions = $this->massActionButtons(
 	            $actions
 	        );
 
-	        return $this->adminOtherHead($view, $massActions);
+	        return $this->adminOtherHead($massActions);
 		}
 
-		function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
+		public function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
 			if (!$id) {
 				$this->errors[] = 'How will i know what to move?';
 			}
@@ -241,7 +227,7 @@
 			return $out;
 		}
 
-		function treeOrdering($data = null){
+		public function treeOrdering($data = null){
 			if (!$data) {
 				$this->errors[] = 'There is no data to build reorder links';
 				return false;
@@ -291,7 +277,7 @@
 			return $out;
 		}
 
-		function paginationCounter($pagintion) {
+		public function paginationCounter($pagintion) {
 			if (empty($pagintion)) {
 				$this->errors[] = 'You did not pass the pagination object.';
 				return false;
@@ -304,7 +290,7 @@
 			return $out;
 		}
 
-		function wysiwyg($id = null, $config = array( 'toolbar' => 'Full')) {
+		public function wysiwyg($id = null, $config = array( 'toolbar' => 'Full')) {
 			if (!$id) {
 				$this->errors[] = 'No field specified for the wysiwyg editor';
 				return false;
@@ -324,7 +310,7 @@
 			return $this->Wysiwyg->load($editor, $id, $config);
 		}
 
-		function gravatar($email = null, $options = array()) {
+		public function gravatar($email = null, $options = array()) {
 			if (!$email) {
 				$this->errors[] = 'no email specified for the gravatar.';
 				return false;
@@ -333,7 +319,10 @@
 			return $this->Gravatar->image($email, $options);
 		}
 
-		function niceBox($class = '', $content = false) {
+		/**
+		 * @depreciated
+		 */
+		public function niceBox($class = '', $content = false) {
 			$out = '<div class="niceBox ' . $class . '"><div class="top"><div class="top"><div class="top"></div></div></div>';
 			$out .= '<div class="middle">';
 			if ($content) {
@@ -345,13 +334,16 @@
 			return $out;
 		}
 
-		function niceBoxEnd() {
+		/**
+		 * @depreciated
+		 */
+		public function niceBoxEnd() {
 			$out = '</div>';
 			$out .= '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
 			return $out;
 		}
 
-		function massActionButtons($buttons = null, $niceBox = false) {
+		public function massActionButtons($buttons = null, $niceBox = false) {
 			if (!$buttons) {
 				$this->errors[] = 'No buttons set';
 				return false;
@@ -531,12 +523,12 @@
 		 *
 		 */
 
-		var $_cache = array();
-		var $_key = '';
-		var $_extras = array();
-		var $_paramFields = array('controller', 'plugin', 'action', 'prefix');
+		public $_cache = array();
+		public $_key = '';
+		public $_extras = array();
+		public $_paramFields = array('controller', 'plugin', 'action', 'prefix');
 
-		function __construct() {
+		public function __construct() {
 			parent::__construct();
 
 			if (Configure::read('UrlCache.pageFiles')) {
@@ -552,17 +544,17 @@
 			$this->_cache = Cache::read($this->_key, 'core');
 		}
 
-		function beforeRender() {
+		public function beforeRender() {
 			$this->_extras = array_intersect_key($this->params, array_combine($this->_paramFields, $this->_paramFields));
 		}
 
-		function afterLayout() {
+		public function afterLayout() {
 			if (is_a($this, 'HtmlHelper')) {
 				Cache::write($this->_key, $this->_cache, 'core');
 			}
 		}
 
-		function url($url = null, $full = false) {
+		public function url($url = null, $full = false) {
 			$keyUrl = $url;
 			if (is_array($keyUrl)) {
 				$keyUrl += $this->_extras;

@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Config', array('action' => 'edit'));
-		echo $this->Infinitas->adminEditHead($this);
+		echo $this->Infinitas->adminEditHead();
         echo $this->Form->input('id' );
         echo $this->Form->input('key', array('readonly' => true));
 
