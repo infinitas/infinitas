@@ -32,12 +32,6 @@
 		* @access protected
 		*/
 		var $_defaults = array(
-			'fields' => array(
-				'locked_by' => 'locked_by',
-				'locked_since' => 'locked_since',
-				'locked' => 'locked',
-				'modified' => 'modified'
-			)
 		);
 
 		/**
@@ -53,6 +47,9 @@
 			} else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
+
+			pr($Model);
+			exit;
 
 			/*
 			 *
