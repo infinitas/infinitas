@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Webroot schema generated on: 2010-09-14 14:09:14 : 1284471674*/
+/* Webroot schema generated on: 2010-09-16 23:09:36 : 1284677736*/
 class WebrootSchema extends CakeSchema {
 	var $name = 'Webroot';
 
@@ -77,8 +77,8 @@ class WebrootSchema extends CakeSchema {
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'body' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'comment_count' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
+		'views' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'rating' => array('type' => 'float', 'null' => false, 'default' => '0'),
 		'rating_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => '0'),
@@ -92,7 +92,7 @@ class WebrootSchema extends CakeSchema {
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'tags' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'category_id' => array('column' => 'category_id', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'category_id' => array('column' => 'category_id', 'unique' => 0), 'active' => array('column' => 'active', 'unique' => 0), 'most_views' => array('column' => array('views', 'id', 'title'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $cms_content_configs = array(
@@ -143,20 +143,20 @@ class WebrootSchema extends CakeSchema {
 		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'views' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'start' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'end' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'rating' => array('type' => 'float', 'null' => false, 'default' => '0'),
 		'rating_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'comment_count' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 10),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'layout_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'created_by' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'modified_by' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
-		'comment_count' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 10),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0), 'category_id' => array('column' => 'category_id', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0), 'category_id' => array('column' => 'category_id', 'unique' => 0), 'most_views' => array('column' => array('views', 'id', 'title'), 'unique' => 0), 'active' => array('column' => array('active', 'ordering'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $cms_features = array(
@@ -387,22 +387,22 @@ class WebrootSchema extends CakeSchema {
 	);
 	var $core_module_positions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'module_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 5),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'module_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 5),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'name' => array('column' => 'name', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $core_modules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'content' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'config' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'theme_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'position_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'position_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
@@ -418,7 +418,7 @@ class WebrootSchema extends CakeSchema {
 		'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'name' => array('column' => 'name', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'module_loader_by_position' => array('column' => array('position_id', 'admin', 'active', 'ordering'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $core_modules_routes = array(
@@ -454,12 +454,12 @@ class WebrootSchema extends CakeSchema {
 		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'order_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active_routes' => array('column' => array('ordering', 'active', 'theme_id'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $core_short_urls = array(
@@ -478,11 +478,11 @@ class WebrootSchema extends CakeSchema {
 		'url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active' => array('column' => 'active', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $core_tickets = array(
@@ -508,6 +508,8 @@ class WebrootSchema extends CakeSchema {
 		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'facebook_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20),
+		'twitter_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20, 'key' => 'index'),
 		'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -521,8 +523,6 @@ class WebrootSchema extends CakeSchema {
 		'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'facebook_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20),
-		'twitter_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20, 'key' => 'index'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => array('username', 'email'), 'unique' => 1), 'twitter_id' => array('column' => 'twitter_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -538,12 +538,12 @@ class WebrootSchema extends CakeSchema {
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 3, 'key' => 'index'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'cat_idx' => array('column' => array('active', 'group_id'), 'unique' => 0), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'tree_list_all' => array('column' => array('lft', 'id', 'title', 'rght'), 'unique' => 1), 'cat_idx' => array('column' => array('active', 'group_id'), 'unique' => 0), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $global_comment_attributes = array(
@@ -561,12 +561,12 @@ class WebrootSchema extends CakeSchema {
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 8),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'comment' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'rating' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'points' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active' => array('column' => 'active', 'unique' => 0), 'status' => array('column' => 'status', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $global_tagged = array(
@@ -779,10 +779,10 @@ class WebrootSchema extends CakeSchema {
 	);
 	var $schema_migrations = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'version' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
+		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'migrations' => array('column' => array('version', 'type', 'created'), 'unique' => 1), 'type' => array('column' => 'type', 'unique' => 0), 'type_sort' => array('column' => array('version', 'type'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
 	var $sessions = array(

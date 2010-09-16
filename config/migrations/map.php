@@ -44,5 +44,7 @@ $map = array(
 		'083' => 'M4c8782b1f92449aca83656866318cd70'),
 	22 => array(
 		'083_stuff' => 'M4c8f7b3f31bc471a907a1eeb6318cd70'),
+	23 => array(
+		'084_some_indexing' => 'M4c929f79b9fc401e985f58ae6318cd70'),
 );
 ?>
