@@ -18,7 +18,7 @@
      */
 
     echo $this->Form->create( 'Theme' );
-        echo $this->Infinitas->adminEditHead($this);    
+        echo $this->Infinitas->adminEditHead();    
         echo $this->Form->input( 'id' );
         echo $this->Form->input( 'name' );
         echo $this->Form->input( 'author' );

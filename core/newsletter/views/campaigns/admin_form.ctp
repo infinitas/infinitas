@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Campaign');
-        echo $this->Infinitas->adminEditHead($this);
+        echo $this->Infinitas->adminEditHead();
         echo $this->Form->input('id');
         echo $this->Form->input('name', array('class' => 'title'));
         echo $this->Letter->wysiwyg('Campaign.description');

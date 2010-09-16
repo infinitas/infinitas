@@ -19,7 +19,7 @@
      */
 
 	echo $this->Form->create('Category', array('action' => 'edit'));
-		echo $this->Infinitas->adminEditHead($this);
+		echo $this->Infinitas->adminEditHead();
         echo $this->Design->niceBox();
 	        ?>
 				<div class="config">

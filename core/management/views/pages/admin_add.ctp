@@ -21,7 +21,7 @@
 	 */
 
     echo $this->Form->create( 'Page');
-        echo $this->Infinitas->adminEditHead($this);    
+        echo $this->Infinitas->adminEditHead();    
         echo $this->Design->niceBox();
 		echo $this->Form->input('Page.name', array('type' => 'text'));
 		echo $this->Core->wysiwyg( 'Page.body' );
