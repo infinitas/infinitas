@@ -50,7 +50,7 @@
 		 * Used for the ajax getting of parent menus items
 		 */
 		public function admin_getParents() {
-			$this->set('json', array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => $this->params['named']['plugin'])));
+			$this->set('json', array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.menu_id' => $this->params['named']['plugin'])));
 		}
 
 		public function admin_edit($id = null){

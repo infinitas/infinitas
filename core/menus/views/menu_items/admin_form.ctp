@@ -38,7 +38,7 @@
 						echo $this->Design->niceBox();
 					        echo $this->Form->input('active');
 					        echo $this->Form->input('group_id');
-					        echo $this->Form->input('menu_id', array('class' => "pluginSelect {url:{action:'getParents'}, target:'MenuItemParentId'}"));
+					        echo $this->Form->input('menu_id', array('class' => "pluginSelect {url:{action:'getParents'}, target:'MenuItemParentId'}", 'empty' => Configure::read('Website.empty_select')));
 					        echo $this->Form->input('parent_id');
 					        echo $this->Form->input('force_backend');
 					        echo $this->Form->input('force_frontend');
