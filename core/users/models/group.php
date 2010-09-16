@@ -4,10 +4,10 @@
 	 *
 	 */
 	class Group extends UsersAppModel{
-		var $name = 'Group';
-		var $actsAs1 = array('Tree', 'Acl' => array('requester'));
+		public $name = 'Group';
+		public $actsAs1 = array('Tree', 'Acl' => array('requester'));
 
-		function parentNode() {
+		public function parentNode() {
 			return null;
 		}
 	}

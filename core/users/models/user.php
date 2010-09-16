@@ -20,20 +20,20 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	class User extends UsersAppModel{
-		var $name = 'User';
+		public $name = 'User';
 
-		var $displayField = 'username';
+		public $displayField = 'username';
 
-		var $actsAs = array(
+		public $actsAs = array(
 			'Acl' => 'requester',
 			'Libs.Ticketable'
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Users.Group'
 		);
 
-		function __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
 			$message = Configure::read('Website.password_validation');
@@ -93,19 +93,19 @@
 		}
 
 		/**
-		* Check that passwords match.
-		*
-		* all this does is hash the confirm password and compare that to the already
-		* hashed password and returns the result.
-		*
-		* @params array $field the array $field => $value from the form
-		* @return bool true on match false on not.
-		*/
-		function matchPassword($field = null){
+		 * Check that passwords match.
+		 *
+		 * all this does is hash the confirm password and compare that to the already
+		 * hashed password and returns the result.
+		 *
+		 * @params array $field the array $field => $value from the form
+		 * @return bool true on match false on not.
+		 */
+		public function matchPassword($field = null){
 			return (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
 		}
 
-		function matchEmail($field = null){
+		public function matchEmail($field = null){
 			return $field['confirm_email'] === $this->data['User']['email'];
 		}
 
@@ -119,20 +119,20 @@
 		 * @params array $field the array $field => $value from the form
 		 * @return bool true if password matches the regex and false if not
 		 */
-		function validPassword($field = null){
+		public function validPassword($field = null){
 			return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
 		}
 
 		/**
-		* Get last login details.
-		*
-		* Gets the details of the last login of the user so we can show the last
-		* login and ipaddress to them.
-		*
-		* @param int $user_id the users id.
-		* @return array the data from the last login.
-		*/
-		function getLastLogon($user_id = null){
+		 * Get last login details.
+		 *
+		 * Gets the details of the last login of the user so we can show the last
+		 * login and ipaddress to them.
+		 *
+		 * @param int $user_id the users id.
+		 * @return array the data from the last login.
+		 */
+		public function getLastLogon($user_id = null){
 			if (!$user_id) {
 				return false;
 			}
@@ -148,12 +148,12 @@
 			);
 		}
 
-		function loggedInUserCount(){
+		public function loggedInUserCount(){
 			$Session = ClassRegistry::init('Session');
 			return $Session->find('count');
 		}
 
-		function latestUsers($limit = 10){
+		public function latestUsers($limit = 10){
 			$Session = ClassRegistry::init('Session');
 			$sessions = $Session->find('all');
 
@@ -190,7 +190,7 @@
 			return $users;
 		}
 
-		function parentNode() {
+		public function parentNode() {
 			if (!$this->id && empty($this->data)) {
 				return null;
 			}
@@ -217,7 +217,7 @@
 		 * @access public
 		 * @return void
 		 */
-		function afterSave($created) {
+		public function afterSave($created) {
 			if (!$created) {
 				$parent = $this->parentNode();
 				$parent = $this->node($parent);
