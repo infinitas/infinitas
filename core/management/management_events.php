@@ -17,11 +17,7 @@
 			return array(
 				'name' => 'core',
 				'config' => array(
-					'duration' => 3600,
-					'probability' => 100,
 					'prefix' => 'core.',
-					'lock' => false,
-					'serialize' => true
 				)
 			);
 		}

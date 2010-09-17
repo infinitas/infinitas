@@ -64,4 +64,15 @@
 				'/comments/js/comment'
 			);
 		}
+
+		public function onSiteMapRebuild(&$event){
+			return array(
+				array(
+					'url' => Router::url(array('plugin' => 'comments', 'controller' => 'comments', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
+					'last_modified' => ClassRegistry::init('Comments.Comment')->getNewestRow(),
+					'change_frequency' => ClassRegistry::init('Cms.Content')->getChangeFrequency(),
+					'priority' => 0.8
+				)
+			);
+		}
 	 }

@@ -3,6 +3,5 @@
 	 *
 	 *
 	 */
-	class WebmasterAppController extends AppController{
-		public $name = 'WebmasterAppController';
+	class WebmasterAppController extends CoreAppController{
 	}

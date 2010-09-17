@@ -142,6 +142,114 @@
 		}
 
 		/**
+		 * seconds -> text
+		 * @var array
+		 * @access private
+		 */
+		private $__frequency = array(
+			1113144960 => 'yearly3',
+			1131449600 => 'yearly2',
+			31449600 => 'yearly',
+			2620800 => 'monthly',
+			604800 => 'weekly',
+			86400 => 'daily',
+			3600 => 'hourly',
+			600 => 'always',
+		);
+
+		private function __getDateField(&$Model){
+			if($Model->hasField('created')){
+				return 'created';
+			}
+
+			else if($Model->hasField('modified')){
+				return 'modified';
+			}
+
+			return null;
+		}
+
+		/**
+		 * figure out a rough guide to how often the fields change
+		 *
+		 * always, hourly, daily, weekly, monthly, yearly, never
+		 */
+		public function getChangeFrequency(&$Model){
+			$field = $this->__getDateField($Model);
+
+			if(!$field){
+				return 'weekly';
+			}
+			
+			$data = $Model->find(
+				'all',
+				array(
+					'fields' => array(
+						'MAX(`'.$Model->alias.'`.`'.$field.'`) as newest',
+						'MIN(`'.$Model->alias.'`.`'.$field.'`) as oldest',
+						'COUNT(*) as count'
+					),
+					'order' => array(
+						$Model->alias.'.'.$field => 'asc'
+					),
+					'contain' => false,
+					'limit' => 1
+				)
+			);
+
+			if(!isset($data[0][0])){
+				return 'weekly';
+			}
+
+			$data = $data[0][0];
+
+			$seconds = strtotime($data['newest']) - strtotime($data['oldest']);
+			$timeBetweenChanges = $seconds / $data['count'];
+			$timeSinceLast = time() - strtotime($data['newest']);
+
+			$average = ($timeSinceLast + $timeBetweenChanges) / 2;
+
+			foreach($this->__frequency as $time => $frequency){
+				//pr($time);
+				if($average > $time){
+					return $frequency;
+				}
+			}
+		}
+
+		/**
+		 * get the newest row from the selected model
+		 */
+		public function getNewestRow(&$Model){
+			$field = $this->__getDateField($Model);
+			
+			if(!$field){
+				return false;
+			}
+
+			$row = $Model->find(
+				'first',
+					array(
+						'fields' => array(
+							$Model->alias.'.'.$field
+						),
+						'order' => array(
+							$Model->alias.'.'.$field => 'desc'
+						),
+						'limit' => 1,
+						'contain' => false
+					)
+			);
+
+			if(empty($row)){
+				return false;
+			}
+
+			return $row[$Model->alias][$field];
+
+		}
+
+		/**
 		 * convert json data.
 		 *
 		 * takes a string and returns some data. can pass return false for validation.

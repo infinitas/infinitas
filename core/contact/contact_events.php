@@ -51,4 +51,27 @@
 				'vcf'
 			);
 		}
+
+		public function onSiteMapRebuild(&$event){
+			$newest = ClassRegistry::init('Contact.Branch')->getNewestRow();
+			$frequency = ClassRegistry::init('Contact.Contact')->getChangeFrequency();
+
+			$return = array();
+			$return[] = array(
+				'url' => Router::url(array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
+				'last_modified' => $newest,
+				'change_frequency' => $frequency
+			);
+
+			$branches = ClassRegistry::init('Contact.Branch')->find('list');
+			foreach($branches as $branch){
+				$return[] = array(
+					'url' => Router::url(array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'view', 'slug' => $branch, 'admin' => false, 'prefix' => false), true),
+					'last_modified' => $newest,
+					'change_frequency' => $frequency
+				);
+			}
+			
+			return $return;
+		}
 	}
