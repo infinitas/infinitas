@@ -28,7 +28,7 @@
 	</blockquote>
 	<br />
 	<?php
-		echo $this->Form->input('sample', array(
+		echo $this->Form->input('Sample.sample', array(
 			'type' => 'radio',
 			'options' => array(1 => 'Yes', 0 => 'No'),
 			'value' => 0,

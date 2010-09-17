@@ -66,7 +66,9 @@ blockquote {
 	font:normal 14px "Palatino Linotype", "Book Antiqua", Palatino, serif;
 	display:block;
 	border: solid 1px #ddd;
-	margin-right:15px;
+	clear:both;
+	margin-bottom: 5px;
+	margin-right: 10px;
 }
 
 div.general-error {
@@ -76,7 +78,7 @@ div.general-error {
 	display:block;
 	border: solid 1px #300000;
 	color: #fff;
-	margin-right:15px;
+	margin-right: 10px;
 	margin-bottom: 10px;
 }
 
@@ -87,9 +89,6 @@ div.input {
 	border: #e0e0e0 1px solid;
 	background-color: #fefeff;
 	clear:both;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
 }
 
 div.input.error {
@@ -128,12 +127,11 @@ input, textarea {
 	clear: right;
 	font-size: 95%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
-	padding: 2px;
+	padding: 3px;
 	width: 570px;
 	border-color: #777;
 	border-style: solid;
 	border-width: 1px;
-	padding-left: 8px;
 	padding-right: 8px;
 }
 fieldset {
@@ -155,4 +153,22 @@ div.radio label {
 
 #content.grid_12, #inner-header.grid_12 {
 	width: 925px;
+}
+
+#errors {
+	margin-bottom: 5px;
+	margin-right: 10px;
+	padding: 10px;
+	border: #afafaf solid 1px;
+	background-color: #e0e8ef;
+}
+
+#errors h4 {
+	margin-top: 5px;
+	font-size: 1.2em;
+}
+
+#errors li {
+	margin-bottom: 5px;
+	margin-left: 5px;
 }

@@ -39,7 +39,7 @@
 		<?php }?>
 		<?php if(isset($versionError)) {?>
 			<div class="general-error">
-				<?php echo __(sprintf('The database server you selected is running version %1$s. Infinitas requires at least version %2$s.', $versionError, $requiredVersion), true); ?>
+				<?php echo sprintf(__('The database server you selected is running version %1$s. Infinitas requires at least %3$s version %2$s.', true), $versionError, $requiredDb['version'], $requiredDb['name']); ?>
 			</div>
 		<?php }?>
 		<?php if(isset($adminDbError) && $adminDbError === true) {?>

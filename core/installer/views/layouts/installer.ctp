@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<?php echo $this->Form->create('Install', array('id' => 'container', 'class' => 'container_12', 'url' => array('controller' => 'install', 'action' => 'index', $this->Wizard->activeStep()))) ?>
-			<?php echo $this->Form->hidden('step', array('value' => $this->Wizard->stepNumber())); ?>
+			<?php echo $this->Form->hidden('step', array('value' => $this->Wizard->activeStep())); ?>
 			<h2 class="grid_12" id="header">Infinitas Logo Here</h2>
 			<div class="clear"></div>
 			<div class="<?php echo $grid; ?>" id="inner-container">
@@ -33,7 +33,7 @@
 								echo $this->Form->button('Previous', array('name' => 'Previous', 'value' => 'Previous'));
 							}
 							if(!isset($hideNext)) {
-								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next', 'disabled' => ($hasErrors ? true : false)));
+								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next', 'disabled' => (isset($hasErrors) ? $hasErrors : false)));
 							}
 						?>
 					</div>
@@ -50,7 +50,7 @@
 								echo $this->Form->button('Previous', array('name' => 'Previous', 'value' => 'Previous'));
 							}
 							if(!isset($hideNext)) {
-								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next', 'disabled' => ($hasErrors ? true : false)));
+								echo $this->Form->button('Next', array('name' => 'Next', 'value' => 'Next', 'disabled' => (isset($hasErrors) ? $hasErrors : false)));
 							}
 						?>
 					</div>

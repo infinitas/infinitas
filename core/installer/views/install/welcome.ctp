@@ -27,7 +27,7 @@
 		$errors .= '<h4>'.__('Database errors', true) . '</h4>';
 		$errors .= '<ul>';
 		$supportedDb = Set::combine($supportedDb, '{s}.name', array(__('{0} (version {1} or newer)', true), '{s}.name', '{s}.version'));
-		$errors .= '<li>'.sprintf(__('Infinitas could not detect any supported database extensions for php. Currently Infinitas supports: %s', true), $this->Text->toList($supportedDb)).'</li>';
+		$errors .= '<li>'.sprintf(__('Infinitas could not detect any supported database extensions for php. Currently Infinitas supports: %1$s', true), $this->Text->toList($supportedDb)).'</li>';
 		$errors .= '</ul>';
 	}
 
@@ -35,7 +35,7 @@
 		$errors .= '<h4>'.__('PHP setting recomendations', true) . '</h4>';
 		$errors .= '<ul>';
 		foreach($recomendations as $recomendation) {
-			$errors .= '<li>' . sprintf(__('The PHP setting <em>%s</em> is recommend to be set to <strong>%s</strong> (It is currently <strong>%s</strong>). %s', true) ,$recomendation['setting'], $recomendation['recomendation'], $recomendation['current'], $recomendation['desc']) . '</li>';
+			$errors .= '<li>' . sprintf(__('The PHP setting <em>%1$s</em> is recommend to be set to <strong>%2$s</strong> (It is currently <strong>%3$s</strong>). %4$s', true) ,$recomendation['setting'], $recomendation['recomendation'], $recomendation['current'], $recomendation['desc']) . '</li>';
 		}
 		$errors .= '</ul>';
 	}
@@ -66,6 +66,7 @@
 
 <?php if (!empty($errors)) { ?>
 	<div id="errors">
+		<h2><?php echo __('Errors and recommendations'); ?></h2>
 		<?php if($hasErrors) {?>
 			<div class="general-error">
 				<?php echo __('There are a number of errors preventing Infinitas from installing. Please fix the errors and then refresh this page.',true); ?>
