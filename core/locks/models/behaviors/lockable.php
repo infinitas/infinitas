@@ -69,7 +69,7 @@
 				$this->__gc($Model);
 			}
 
-			if($primary && count($results) == 1){
+			if(!empty($results) && $primary && count($results) == 1 && isset($results[0][$Model->alias][$Model->primaryKey])){
 				$this->user_id = CakeSession::read('Auth.User.id');
 				$lock = $Model->Lock->find(
 					'all',
@@ -124,30 +124,7 @@
 		function beforeFind(&$Model, $query) {
 			$query['contain'][$Model->Lock->alias] = array('Locker');
 			call_user_func(array($Model, 'contain'), $query['contain']);
-			return $query;		
-
-			if(($data = $Model->read($this->settings[$Model->alias]['fields'], $id)) == false) {
-				return false;
-			}
-
-			$this->Session = new CakeSession();
-			$user_id = $this->Session->read('Auth.User.id');
-			if($data[$Model->alias]['locked'] && $data[$Model->alias]['locked_by'] != $user_id) {
-				return false;
-			}
-
-			$data[$Model->alias] = array(
-				'id' => $id,
-				$this->settings[$Model->alias]['fields']['locked'] => 1,
-				$this->settings[$Model->alias]['fields']['locked_by'] => $user_id,
-				$this->settings[$Model->alias]['fields']['locked_since'] => date('Y-m-d H:i:s'),
-				$this->settings[$Model->alias]['fields']['modified'] => false
-			);
-
-			$Model->save($data, array('validate' => false, 'callbacks' => false));
-			$data = $Model->read($fields, $id);
-
-			return $data;
+			return $query;
 		}
 
 		/**
@@ -161,21 +138,20 @@
 		*
 		* @return bool true on succsess false if not.
 		*/
-		function unlock(&$Model, $id = null){
-			$Model->contain();
-
-			if($data = $Model->read($this->settings[$Model->alias]['fields'], $id) == false) {
-				return false;
+		function afterSave(&$Model, $created){
+			if($created){
+				return parent::afterSave(&$Model, $created);
 			}
 
-			$data[$Model->alias] = array(
-				'id' => $id,
-				$this->settings[$Model->alias]['fields']['locked'] => 0,
-				$this->settings[$Model->alias]['fields']['locked_by'] => null,
-				$this->settings[$Model->alias]['fields']['locked_since'] => null,
-				$this->settings[$Model->alias]['fields']['modified'] => false
+			$lock = $Model->Lock->deleteAll(
+				array(
+					'Lock.foreign_key' => $Model->data[$Model->alias][$Model->primaryKey],
+					'Lock.class' => $Model->plugin.'.'.$Model->alias,
+					'Lock.user_id' => CakeSession::read('Auth.User.id')
+				)
 			);
-			return $Model->save($data, array('validate' => false, 'callbacks' => false));
+
+			parent::afterSave(&$Model, $created);
 		}
 
 		/**
