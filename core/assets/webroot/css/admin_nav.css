@@ -1,5 +1,7 @@
 body{
 	background: url("../img/admin_nav/content_bg.jpg") repeat-x scroll 0 0 #004D84;
+	font-family: "Helvetica Neue", "Trebuchet MS", Arial, sans-serif;
+	font-size: 16px;
 }
 img{
 	border: 0px solid;
