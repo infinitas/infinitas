@@ -208,11 +208,12 @@ class CakeRelease extends Object {
 				if(stristr($type, 'table')) {
 					$newMigrations[$direction][$type] = array();
 					foreach($info as $tableName => $fields) {
+						debug($tableName);
 						if(is_numeric($tableName)) {
-							$fields = $this->__getTablePrefix($fields, $basePrefix) . $fields;
+							$fields = $this->__getTablePrefix($fields) . $fields;
 						}
 						else {
-							$tableName =  $this->__getTablePrefix($tableName, $basePrefix) . $tableName;
+							$tableName =  $this->__getTablePrefix($tableName) . $tableName;
 						}
 
 						$newMigrations[$direction][$type][$tableName] = $fields;
