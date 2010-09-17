@@ -97,7 +97,7 @@
 			}
 
 			if((isset($this->params['admin']) && $this->params['admin']) && $this->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
-				$this->redirect(array('admin' => 1, 'plugin' => 'management', 'controller' => 'users', 'action' => 'login'));
+				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			}
 
 			if (isset($this->data['PaginationOptions']['pagination_limit'])) {
