@@ -325,6 +325,11 @@
 				}
 				$this->redirect($this->Auth->redirect());
 			}
+			if(!(empty($this->data)) && !$this->Auth->user()){
+				if (isset($this->data['User']['password'])) {
+					unset($this->data['User']['password']);
+				}
+			}
 		}
 
 		public function admin_logout(){
