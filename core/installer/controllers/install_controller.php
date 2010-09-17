@@ -197,25 +197,6 @@
 		}
 
 		function _prepareInstall() {
-			$plugins = App::objects('plugin');
-
-			$availablePlugins = array(
-				'core' => array(),
-				'plugin' => array()
-			);
-
-			foreach($plugins as $plugin) {
-				$pluginPath = App::pluginPath($plugin);
-
-				if(strpos($pluginPath, APP . 'core') !== false && file_exists($pluginPath . 'config' . DS . 'config.json')) {
-					$availablePlugins['core'][$plugin] = $this->__loadPluginDetails($pluginPath);
-				}
-				elseif(strpos($pluginPath, APP.'plugins') !== false && file_exists($pluginPath . 'config' . DS . 'config.json')) {
-					$availablePlugins['plugin'][$plugin] = $this->__loadPluginDetails($pluginPath);
-				}
-			}
-
-			$this->set('availablePlugins', $availablePlugins);
 		}
 
 		function _prepareAdminUser() {
