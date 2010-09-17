@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Webroot schema generated on: 2010-09-16 23:09:36 : 1284677736*/
+/* Webroot schema generated on: 2010-09-17 14:09:06 : 1284730926*/
 class WebrootSchema extends CakeSchema {
 	var $name = 'Webroot';
 
@@ -83,9 +83,6 @@ class WebrootSchema extends CakeSchema {
 		'rating_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => '0'),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
@@ -138,9 +135,6 @@ class WebrootSchema extends CakeSchema {
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'body' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
@@ -156,7 +150,7 @@ class WebrootSchema extends CakeSchema {
 		'created_by' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'modified_by' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'category_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0), 'category_id' => array('column' => 'category_id', 'unique' => 0), 'most_views' => array('column' => array('views', 'id', 'title'), 'unique' => 0), 'active' => array('column' => array('active', 'ordering'), 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'category_id' => array('column' => 'category_id', 'unique' => 0), 'most_views' => array('column' => array('views', 'id', 'title'), 'unique' => 0), 'active' => array('column' => array('active', 'ordering'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $cms_features = array(
@@ -407,9 +401,6 @@ class WebrootSchema extends CakeSchema {
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'locked_since' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'show_heading' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'author' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -532,9 +523,6 @@ class WebrootSchema extends CakeSchema {
 		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 3, 'key' => 'index'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -543,7 +531,7 @@ class WebrootSchema extends CakeSchema {
 		'views' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'tree_list_all' => array('column' => array('lft', 'id', 'title', 'rght'), 'unique' => 1), 'cat_idx' => array('column' => array('active', 'group_id'), 'unique' => 0), 'idx_access' => array('column' => 'group_id', 'unique' => 0), 'idx_checkout' => array('column' => 'locked', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'tree_list_all' => array('column' => array('lft', 'id', 'title', 'rght'), 'unique' => 1), 'cat_idx' => array('column' => array('active', 'group_id'), 'unique' => 0), 'idx_access' => array('column' => 'group_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $global_comment_attributes = array(
@@ -567,6 +555,15 @@ class WebrootSchema extends CakeSchema {
 		'status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active' => array('column' => 'active', 'unique' => 0), 'status' => array('column' => 'status', 'unique' => 0)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $global_locks = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 8),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'lock' => array('column' => array('class', 'foreign_key'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $global_tagged = array(
@@ -608,9 +605,6 @@ class WebrootSchema extends CakeSchema {
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'newsletter_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'template_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'deleted' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -632,9 +626,6 @@ class WebrootSchema extends CakeSchema {
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'sends' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'last_sent' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
@@ -666,9 +657,6 @@ class WebrootSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'header' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'footer' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'delete' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -847,8 +835,6 @@ class WebrootSchema extends CakeSchema {
 		'ext' => array('type' => 'string', 'null' => false, 'default' => 'jpg', 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'width' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'height' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -880,8 +866,6 @@ class WebrootSchema extends CakeSchema {
 		'added_to_wishlist' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'sales' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'supplier_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -893,8 +877,6 @@ class WebrootSchema extends CakeSchema {
 		'manager_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -912,8 +894,6 @@ class WebrootSchema extends CakeSchema {
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -930,8 +910,6 @@ class WebrootSchema extends CakeSchema {
 		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'end_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -946,8 +924,6 @@ class WebrootSchema extends CakeSchema {
 		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'end_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
 		'active' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -973,8 +949,6 @@ class WebrootSchema extends CakeSchema {
 		'product_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'terms' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -988,8 +962,6 @@ class WebrootSchema extends CakeSchema {
 		'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'product_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -1002,8 +974,6 @@ class WebrootSchema extends CakeSchema {
 		'product_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'price' => array('type' => 'float', 'null' => false, 'default' => '0'),
 		'quantity' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-		'deleted' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),

@@ -46,5 +46,7 @@ $map = array(
 		'083_stuff' => 'M4c8f7b3f31bc471a907a1eeb6318cd70'),
 	23 => array(
 		'084_some_indexing' => 'M4c929f79b9fc401e985f58ae6318cd70'),
+	24 => array(
+		'084_removing_unwanted_fields' => 'M4c936fa3e3c840d790bc21056318cd70'),
 );
 ?>
