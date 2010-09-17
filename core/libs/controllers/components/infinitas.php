@@ -342,7 +342,7 @@
 			}
 			$this->Controller->Auth->actionPath   = 'controllers/';
 			$this->Controller->Auth->authorize    = 'actions';
-			$this->Controller->Auth->loginAction  = array('plugin' => 'management', 'controller' => 'users', 'action' => 'login');
+			$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
 			if(Configure::read('Website.login_type') == 'email'){
 				$this->Controller->fields = array('username' => 'email', 'password' => 'password');
