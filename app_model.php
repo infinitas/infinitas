@@ -61,7 +61,17 @@
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
-			parent::__construct($id, $table, $ds);			
+
+			if($this->tablePrefix != '')
+			{
+				$config = $this->getDataSource()->config;
+
+				if(isset($config['prefix'])) {
+					$this->tablePrefix = $config['prefix'] . $this->tablePrefix;
+				}
+			}
+
+			parent::__construct($id, $table, $ds);
 
 			if (isset($this->_schema) && is_array($this->_schema) && php_sapi_name() != 'cli') {
 				if($this->Behaviors->enabled('Event')) {
