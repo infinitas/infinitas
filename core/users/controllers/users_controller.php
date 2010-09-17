@@ -298,8 +298,6 @@
 			$this->_createCookie();
 
 			if(!(empty($this->data)) && $this->Auth->user()){
-				$this->User->recursive = -1;
-
 				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
@@ -325,10 +323,9 @@
 				}
 				$this->redirect($this->Auth->redirect());
 			}
-			if(!(empty($this->data)) && !$this->Auth->user()){
-				if (isset($this->data['User']['password'])) {
-					unset($this->data['User']['password']);
-				}
+			
+			if(!empty($this->data) && !$this->Auth->user()){
+				unset($this->data['User']['password']);
 			}
 		}
 
