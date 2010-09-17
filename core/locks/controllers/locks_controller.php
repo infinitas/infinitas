@@ -74,4 +74,8 @@
 
 			return $lockableTables;
 		}
+
+		public function admin_locked(){
+			
+		}
 	}

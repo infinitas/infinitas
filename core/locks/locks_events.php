@@ -17,16 +17,18 @@
 				)
 			);
 		}
+		
+		public function onSetupConfig(){
+			return Configure::load('locks.config');
+		}
 
 		public function onAdminMenu(&$event){
 			return array();
 		}
 
-		public function onAttachBehaviors(&$event) {
-			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
-				if (!$event->Handler->Behaviors->enabled('Libs.Lockable')) {
-					$event->Handler->Behaviors->attach('Libs.Lockable');
-				}
-			}
+		public function onRequireComponentsToLoad(&$event){
+			return array(
+				'Locks.Locker'
+			);
 		}
 	}
