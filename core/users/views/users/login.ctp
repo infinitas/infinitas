@@ -14,7 +14,7 @@
 	echo $this->Html->link(
 		__('Forgot Password', true),
 		array(
-			'plugin' => 'management',
+			'plugin' => 'users',
 			'controller' => 'users',
 			'action' => 'forgot_password'
 		)
@@ -23,7 +23,7 @@
 	echo $this->Html->link(
 		__('Register', true),
 		array(
-			'plugin' => 'management',
+			'plugin' => 'users',
 			'controller' => 'users',
 			'action' => 'register'
 		)

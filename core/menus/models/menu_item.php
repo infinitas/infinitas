@@ -17,7 +17,7 @@
 				)
 			),
 			'Group' => array(
-				'className' => 'Management.Group',
+				'className' => 'Users.Group',
 				'fields' => array(
 					'Group.id',
 					'Group.name'

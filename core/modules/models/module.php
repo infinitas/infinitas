@@ -31,7 +31,7 @@
 				'counterCache' => true,
 				'counterScope' => array('Module.active' => 1)
 			),
-			'Management.Group',
+			'Users.Group',
 			'Theme' => array(
 				'className' => 'Themes.Theme',
 				'foreignKey' => 'theme_id'

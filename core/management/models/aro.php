@@ -12,7 +12,7 @@
 				'order' => ''
 			),
 			'Group' => array(
-				'className' => 'Management.Group',
+				'className' => 'Users.Group',
 				'foreignKey' => 'foreign_key',
 				'conditions' => array(),
 				'fields' => '',
