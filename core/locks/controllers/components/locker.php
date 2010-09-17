@@ -23,7 +23,8 @@
 	class LockerComponent extends InfinitasComponent{
 		function initialize(&$Controller){
 			$this->Controller = $Controller;
-			if(!isset($Controller->{$Controller->modelClass}->Behaviors)){
+
+			if($this->Controller->action != 'admin_edit' || !isset($Controller->{$Controller->modelClass}->Behaviors)){
 				return false;
 			}
 

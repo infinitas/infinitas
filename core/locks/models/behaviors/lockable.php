@@ -86,6 +86,7 @@
 				);
 
 				if(isset($lock[0]['Lock']['user_id']) && $this->user_id == $lock[0]['Lock']['user_id']){
+					$Model->Lock->Behaviors->disable('Libs.Trashable');
 					$Model->Lock->delete($lock[0]['Lock']['id']);
 					$lock = false;
 				}
@@ -96,7 +97,7 @@
 
 				$lock['Lock'] = array(
 					'foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
-					'class' => $Model->plugin.'.'.$Model->alias,
+					'class' => Inflector::camelize($Model->plugin).'.'.$Model->alias,
 					'user_id' => $this->user_id
 				);
 				
