@@ -139,6 +139,8 @@
 				$type = 'all';
 			}
 			
+			ksort($plugins);
+
 			$cache = Cache::read('dashboard_'.$type, 'menus');
 			if($cache !== false){
 				return $cache;
