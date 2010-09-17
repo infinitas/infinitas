@@ -52,7 +52,7 @@
 			}
 
 			if (!isset($theme['Theme']['name'])) {
-				$theme['Theme'] = array();
+				$theme['Theme'] = array('name' => null);
 			}
 			else {
 				$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeSelector', array('theme' => $theme['Theme'], 'params' => $Controller->params));
