@@ -68,6 +68,8 @@
 			if(rand(0, 10) == 0){
 				$this->__gc($Model);
 			}
+			
+			$class = Inflector::camelize($Model->plugin).'.'.$Model->alias;
 
 			if(!empty($results) && $primary && count($results) == 1 && isset($results[0][$Model->alias][$Model->primaryKey])){
 				$this->user_id = CakeSession::read('Auth.User.id');
@@ -76,7 +78,7 @@
 					array(
 						'conditions' => array(
 							'Lock.foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
-							'Lock.class' => $Model->plugin.'.'.$Model->alias,
+							'Lock.class' => $class,
 							'Lock.created > ' => date('Y-m-d H:m:s', strtotime(Configure::read('Locks.timeout')))
 						),
 						'contain' => array(
@@ -96,7 +98,7 @@
 
 				$lock['Lock'] = array(
 					'foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
-					'class' => Inflector::camelize($Model->plugin).'.'.$Model->alias,
+					'class' => $class,
 					'user_id' => $this->user_id
 				);
 				
