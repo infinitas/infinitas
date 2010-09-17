@@ -54,15 +54,15 @@
 		}
 
 		/**
-		* This happens after a find happens.
-		*
-		* @param object $Model Model about to be saved.
-		* @return boolean true if save should proceed, false otherwise
-		* @access public
-		*/
+		 * This happens after a find happens.
+		 *
+		 * @param object $Model Model about to be saved.
+		 * @return boolean true if save should proceed, false otherwise
+		 * @access public
+		 */
 		public function afterFind(&$Model, $data) {
 			// skip finds with more than one result.
-			if (empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1) {
+			if (empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1 || !isset($data[0][$Model->alias][$Model->primaryKey])) {
 				return $data;
 			}
 			
