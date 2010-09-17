@@ -119,7 +119,7 @@
                                     }
                                 }
 
-                                echo $this->Infinitas->locked($campaign, 'Campaign');
+                                echo $this->Locked->display($campaign);
                             ?>
                         </td>
                     </tr>

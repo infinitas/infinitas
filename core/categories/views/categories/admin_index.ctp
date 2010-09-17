@@ -107,7 +107,7 @@
                 		<td>
                 			<?php
                 			    echo $this->Infinitas->status($category['Category']['active'], $category['Category']['id']),
-                    			    $this->Infinitas->locked($category, 'Category');
+                    			    $this->Locked->display($category);
                 			?>
                 		</td>
                 	</tr>

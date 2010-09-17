@@ -20,6 +20,8 @@
 	class Campaign extends NewsletterAppModel {
 		var $name = 'Campaign';
 
+		public $lockable = true;
+
 		var $order = array('Campaign.name' => 'ASC');
 
 		var $hasMany = array(

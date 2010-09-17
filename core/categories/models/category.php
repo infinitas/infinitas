@@ -20,6 +20,8 @@
 	class Category extends CategoriesAppModel {
 		public $name = 'Category';
 
+		public $lockable = true;
+
 		public $order = array(
 			'Category.lft' => 'asc'
 		);

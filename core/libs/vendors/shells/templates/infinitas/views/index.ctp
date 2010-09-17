@@ -176,7 +176,7 @@
 										break;
 
 									case 'locked':
-										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->locked(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n".$endFields;
+										$endFields = "\t\t\t\t\t<td><?php echo \$this->Locked->display(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n".$endFields;
 										break;
 
 									case 'email':

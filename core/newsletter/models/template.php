@@ -20,6 +20,8 @@
 	class Template extends NewsletterAppModel {
 		var $name = 'Template';
 
+		public $lockable = true;
+
 		var $order = array(
 			'Template.name' => 'ASC'
 		);
