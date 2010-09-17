@@ -76,6 +76,6 @@
 		}
 
 		public function admin_locked(){
-			
+			$this->set('title_for_layout', __('This content is currently locked', true));
 		}
 	}
