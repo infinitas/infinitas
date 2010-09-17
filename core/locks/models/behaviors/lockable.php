@@ -143,7 +143,7 @@
 				return parent::afterSave(&$Model, $created);
 			}
 
-			$lock = $Model->Lock->deleteAll(
+			$Model->Lock->deleteAll(
 				array(
 					'Lock.foreign_key' => $Model->data[$Model->alias][$Model->primaryKey],
 					'Lock.class' => $Model->plugin.'.'.$Model->alias,
