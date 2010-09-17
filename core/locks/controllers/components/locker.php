@@ -24,7 +24,12 @@
 		function initialize(&$Controller){
 			$this->Controller = $Controller;
 
-			if($this->Controller->action != 'admin_edit' || !isset($Controller->{$Controller->modelClass}->Behaviors)){
+			$lockable = strstr($this->Controller->action, 'admin') &&
+				isset($Controller->{$Controller->modelClass}->Behaviors) &&
+				isset($Controller->{$Controller->modelClass}->lockable) &&
+				$Controller->{$Controller->modelClass}->lockable === true;
+
+			if(!$lockable){
 				return false;
 			}
 
@@ -35,22 +40,26 @@
 						'Lock' => array(
 							'className' => 'Locks.Lock',
 							'foreignKey' => false,
-							'dependent' => true
-						)
-					)
-				),
-				false
-			);
-
-			$Controller->{$Controller->modelClass}->Lock->bindModel(
-				array(
-					'belongsTo' => array(
-						$Controller->{$Controller->modelClass}->alias => array(
-							'foreignKey' => $Controller->{$Controller->modelClass}->primaryKey,
-							'dependent' => false,
+							'conditions' => array(
+								'Lock.class' => Inflector::camelize($Controller->{$Controller->modelClass}->plugin) . '.' . $Controller->{$Controller->modelClass}->alias,
+								'Lock.foreign_key = `'.$Controller->{$Controller->modelClass}->alias . '`.`' . $Controller->{$Controller->modelClass}->primaryKey.'`'
+							),
 							'fields' => array(
-								$Controller->{$Controller->modelClass}->alias.'.'.$Controller->{$Controller->modelClass}->primaryKey,
-								$Controller->{$Controller->modelClass}->alias.'.'.$Controller->{$Controller->modelClass}->dispalyField,
+								'Lock.id',
+								'Lock.created',
+								'Lock.user_id'						
+							),
+							'dependent' => true
+						),
+						'Locker' => array(
+							'className' => 'Users.User',
+							'foreignKey' => false,
+							'conditions' => array(
+								'Locker.id = `Lock`.`user_id'
+							),
+							'fields' => array(
+								'Locker.id',
+								'Locker.username'
 							)
 						)
 					)

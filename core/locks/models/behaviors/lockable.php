@@ -143,7 +143,8 @@
 		 * @return array the find query data
 		 */
 		public function beforeFind(&$Model, $query) {
-			$query['contain'][$Model->Lock->alias] = array('Locker');
+			$query['contain'][$Model->Lock->alias] = array();
+			$query['contain']['Locker'] = array();
 			call_user_func(array($Model, 'contain'), $query['contain']);
 			return $query;
 		}

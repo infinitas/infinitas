@@ -32,6 +32,12 @@
 			);
 		}
 
+		public function onRequireHelpersToLoad(&$event){
+			return array(
+				'Locks.Locked'
+			);
+		}
+
 		public function onSetupRoutes(){
 			Router::connect('/admin/content-locked', array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked', 'admin' => true, 'prefix' => 'admin'));
 		}
