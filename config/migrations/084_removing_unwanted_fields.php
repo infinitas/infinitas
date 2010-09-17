@@ -19,9 +19,9 @@ class M4c936fa3e3c840d790bc21056318cd70 extends CakeMigration {
 		'up' => array(
 			'drop_field' => array(
 				'blog_posts' => array('locked', 'locked_by', 'locked_since',),
-				'cms_contents' => array('locked', 'locked_since', 'locked_by', 'indexes' => array('idx_checkout')),
+				'cms_contents' => array('locked', 'locked_since', 'locked_by'),
 				'core_modules' => array('locked', 'locked_by', 'locked_since',),
-				'global_categories' => array('locked', 'locked_since', 'locked_by', 'indexes' => array('idx_checkout')),
+				'global_categories' => array('locked', 'locked_since', 'locked_by'),
 				'newsletter_campaigns' => array('locked', 'locked_by', 'locked_since',),
 				'newsletter_newsletters' => array('locked', 'locked_by', 'locked_since',),
 				'newsletter_templates' => array('locked', 'locked_by', 'locked_since',),
@@ -60,10 +60,7 @@ class M4c936fa3e3c840d790bc21056318cd70 extends CakeMigration {
 				'cms_contents' => array(
 					'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 					'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-					'indexes' => array(
-						'idx_checkout' => array('column' => 'locked', 'unique' => 0),
-					),
+					'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),					
 				),
 				'core_modules' => array(
 					'locked' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
@@ -73,10 +70,7 @@ class M4c936fa3e3c840d790bc21056318cd70 extends CakeMigration {
 				'global_categories' => array(
 					'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 					'locked_since' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-					'indexes' => array(
-						'idx_checkout' => array('column' => 'locked', 'unique' => 0),
-					),
+					'locked_by' => array('type' => 'integer', 'null' => true, 'default' => NULL),					
 				),
 				'newsletter_campaigns' => array(
 					'locked' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
