@@ -157,7 +157,7 @@
 						$ticket = $this->User->createTicket($this->User->id);
 
 						$urlToActivateUser = ClassRegistry::init('ShortUrlsShortUrl')->newUrl(
-			            	'http://'.env('SERVER_NAME').$this->webroot.'management/users/activate/'.$ticket
+							Router::url(array('action' => 'activate', $ticket), true)
 			            );
 
 						$this->Emailer->sendDirectMail(
@@ -219,7 +219,7 @@
 				);
 
                 $this->Session->setFlash(__('Your account is now active, you may log in', true));
-                $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'login'));
+                $this->redirect(array('action' => 'login'));
             }
             else{
                 $this->Session->setFlash('There was a problem activating your account, please try again');
@@ -241,7 +241,7 @@
 
 	            if (is_array( $theUser['User']) && ($ticket = $this->User->createTicket($theUser['User']['email']) !== false)){
 	            	$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
-	            		'http://'.env('SERVER_NAME').$this->webroot.'management/users/reset_password/'.$ticket
+						Router::url(array('action' => 'reset_password', $ticket), true)
 	            	);
 
 	            	// @todo send a email with a link to reset.
@@ -266,11 +266,11 @@
 
 	            if ( $this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))){
 	                $this->Session->setFlash(__('Your new password was saved. You may now login', true));
-	                $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'login'));
+	                $this->redirect(array('action' => 'login'));
 	            }
 	            else{
 	                $this->Session->setFlash('User could not be saved');
-	                $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'forgot_password'));
+	                $this->redirect(array('action' => 'forgot_password'));
 	            }
 	        }
 
@@ -278,7 +278,7 @@
 
 	        if (!$email){
 	            $this->Session->setFlash(__('Your ticket has expired, please request a new password', true));
-	            $this->redirect(array('plugin' => 'management', 'controller' => 'users', 'action' => 'forgot_password'));
+	            $this->redirect(array('action' => 'forgot_password'));
 	        }
 
 	        $this->data = $this->User->find(
@@ -298,8 +298,6 @@
 			$this->_createCookie();
 
 			if(!(empty($this->data)) && $this->Auth->user()){
-				$this->User->recursive = -1;
-
 				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
@@ -325,10 +323,9 @@
 				}
 				$this->redirect($this->Auth->redirect());
 			}
-			if(!(empty($this->data)) && !$this->Auth->user()){
-				if (isset($this->data['User']['password'])) {
-					unset($this->data['User']['password']);
-				}
+			
+			if(!empty($this->data) && !$this->Auth->user()){
+				unset($this->data['User']['password']);
 			}
 		}
 
