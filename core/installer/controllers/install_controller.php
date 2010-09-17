@@ -324,7 +324,7 @@
 
 			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
 				if(function_exists($supportedDatabase['function'])) {
-					$availableDb[$cakeType] = $supportedDatabase['name'] . ' (Version ' . $supportedDatabase['version'] . ' or newer)';
+					$availableDb[$cakeType] = sprintf(__('%s (Version %s or newer)', true), $supportedDatabase['name'], $supportedDatabase['version']);;
 				}
 			}
 
@@ -393,7 +393,7 @@
 				}
 				else {
 					$this->set('versionError', $version);
-					$this->set('requiredVersion', $dbOptions['version']);
+					$this->set('requiredDb', $dbOptions);
 					return false;
 				}
 			}
@@ -435,7 +435,7 @@
 		}
 
 		private function __installPlugins() {
-			$this->data = $this->Wizard->read('database');
+			$this->data = array_merge($this->data, $this->Wizard->read('database'));
 
 			App::import('Core', 'ConnectionManager');
 			if($this->data['Admin']['username'] !== '') {
@@ -456,16 +456,16 @@
 			$result = true;
 
 			//Install app tables first
-			$this->__installPlugin($Version, 'app');
+			$this->__installPlugin($Version, $dbConfig, 'app');
 			
 			foreach($plugins as $plugin) {
-				$result = $result && $this->__installPlugin($Version, $plugin);
+				$result = $result && $this->__installPlugin($Version, $dbConfig, $plugin);
 			}
 
 			return $result;
 		}
 
-		private function __installPlugin(&$Version, $plugin = 'app') {
+		private function __installPlugin(&$Version, $dbConfig, $plugin = 'app') {
 			if($plugin !== 'app') {
 				$pluginPath = App::pluginPath($plugin);
 				$checkFile = $pluginPath . 'config' . DS . 'config.json';
@@ -483,7 +483,7 @@
 					'type' => $plugin,
 					'version' => $latest['version'],
 					'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
-					'sample' => $this->data['sample'] == 1
+					'sample' => $this->data['Sample']['sample'] == 1
 				));
 			}
 
