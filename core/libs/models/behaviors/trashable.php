@@ -7,15 +7,12 @@
 				$this->Trash = ClassRegistry::init('Management.Trash');
 			}
 
+			$user_id = 0; // shell
 			if(class_exists('CakeSession')){
-				$this->Session = new CakeSession();
-				$user_id = $this->Session->read('Auth.User.id');
-			}
-			else{
-				$user_id = 0; // shell
+				$user_id = CakeSession::read('Auth.User.id');
 			}
 
-			$Model->recursive = -1;
+			$Model->contain();
 			$item = $Model->read();
 			$data = array(
 				'model' => $Model->modelName(),
