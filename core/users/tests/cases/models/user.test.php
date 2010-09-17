@@ -1,6 +1,6 @@
 <?php
 	/* User Test cases generated on: 2010-03-11 18:03:16 : 1268325136*/
-	App::import('Model', 'Management.User');
+	App::import('Model', 'Users.User');
 	App::import('Security');
 
 	/**
@@ -16,7 +16,7 @@
 
 	class UserTestCase extends CakeTestCase {
 		public $fixtures = array(
-			'plugin.management.user'
+			'plugin.users.user'
 		);
 
 		public function startTest() {
@@ -44,7 +44,7 @@
 			Configure::write('Website.password_regex', '[a-z]');
 			$field['confirm_password'] = 'simplepw';
 			$this->assertTrue($this->User->validPassword($field));
-			$field['confirm_password'] = '£^%&^%*^&£$%£';
+			$field['confirm_password'] = 'ï¿½^%&^%*^&ï¿½$%ï¿½';
 			$this->assertFalse($this->User->validPassword($field));
 
 			// pw regex advanced

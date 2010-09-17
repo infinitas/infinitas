@@ -55,20 +55,6 @@
 		echo "\t\tvar \$actsAs = array(\n";
 			foreach ($schema as $field => $data){
 				switch($field){
-					case 'locked':
-						$_belongsTo =
-							"\t\t\t'Locker' => array(\n".
-								"\t\t\t\t'className' => 'Management.User',\n".
-								"\t\t\t\t'foreignKey' => 'locked_by',\n".
-								"\t\t\t\t'conditions' => '',\n".
-								"\t\t\t\t'fields' => array(\n".
-									"\t\t\t\t\t'Locker.id',\n".
-									"\t\t\t\t\t'Locker.username'\n".
-								"\t\t\t\t),\n".
-								"\t\t\t\t'order' => ''\n".
-							"\t\t\t),\n";
-						break;
-
 					case 'ordering':
 						echo
 							"\t\t\t'Libs.Sequence' => array(\n".

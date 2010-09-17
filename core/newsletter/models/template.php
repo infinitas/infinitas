@@ -39,16 +39,6 @@
 		);
 
 		var $belongsTo = array(
-			'Locker' => array(
-				'className' => 'Management.User',
-				'foreignKey' => 'locked_by',
-				'conditions' => '',
-				'fields' => array(
-					'Locker.id',
-					'Locker.username'
-				),
-				'order' => ''
-			)
 		);
 
 		function getTemplate($data = null){

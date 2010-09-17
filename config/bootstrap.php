@@ -1,10 +1,24 @@
 <?php
+	$paths = Cache::read('plugin_paths');
+	if($paths === false){
+		$Folder = new Folder(APP);
+		$folders = $Folder->read();
+		$folders = array_flip($folders[0]);
+		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], $folders['nbproject'], $folders['tmp'], $folders['views'], $folders['webroot']);
+
+		$paths = array();
+		foreach(array_flip($folders) as $folder){
+			$paths[] = APP . $folder . DS;
+		}
+		
+		Cache::write('plugin_paths', $paths);
+
+		// @todo trigger event to get oter plugin paths
+	}
+
 	App::build(
 		array(
-			'plugins' => array(
-				APP . 'core' . DS,
-				APP . 'infinitas' . DS . 'shop'. DS .'plugins' . DS
-			)
+			'plugins' => $paths
 		)
 	);
 	

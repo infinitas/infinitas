@@ -57,12 +57,7 @@
 								'Newsletter.sent'
 							)
 						),
-						'Locker' => array(
-							'fields' => array(
-								'Locker.id',
-								'Locker.username'
-							)
-						)
+						'Locker'
 					)
 				)
 			);

@@ -20,16 +20,10 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class UsersController extends ManagementAppController{
-		var $name = 'Users';
+	class UsersController extends UsersAppController{
+		public $name = 'Users';
 
-		var $helpers = array('Libs.Wysiwyg');
-
-		var $components = array(
-			'Newsletter.Emailer'
-		);
-
-		function beforeFilter(){
+		public function beforeFilter(){
 			parent::beforeFilter();
 			$this->Auth->allow(
 				'login', 'logout', 'register',
@@ -44,7 +38,7 @@
 		 *
 		 * @access public
 		 */
-		function login(){
+		public function login(){
 			if (!Configure::read('Website.allow_login')) {
 				$this->Session->setFlash(__('Login is disabled', true));
 				$this->redirect('/');
@@ -88,7 +82,7 @@
 			}
 		}
 
-		function _getUserData(){
+		public function _getUserData(){
 			$data['User']['id']               = $this->Auth->user('id');
 			$data['User']['ip_address']       = $this->Session->read('GeoLocation.ip_address');
 			$data['User']['last_login']       = date('Y-m-d H:i:s');
@@ -103,7 +97,7 @@
 			return $data;
 		}
 
-		function _checkCookie(){
+		public function _checkCookie(){
 			if (!empty($this->data)) {
 				$cookie = $this->Cookie->read('Auth.User');
 				if (!is_null($cookie)) {
@@ -114,7 +108,7 @@
 			}
 		}
 
-		function _createCookie(){
+		public function _createCookie(){
 			if ($this->Auth->user()) {
 				if (!empty($this->data['User']['remember_me'])) {
 					$cookie = array();
@@ -133,7 +127,7 @@
 		 *
 		 * @access public
 		 */
-		function logout(){
+		public function logout(){
 			$this->Event->trigger('beforeUserLogout', array('user' => $this->Session->read('Auth.User')));
 			//@todo if this is false dont logout.
 
@@ -142,7 +136,7 @@
 			$this->redirect($this->Auth->logout());
 		}
 
-		function register(){
+		public function register(){
 			if (!Configure::read('Website.allow_registration')) {
 				$this->Session->setFlash(__('Registration is disabled', true));
 				$this->redirect('/');
@@ -202,7 +196,7 @@
 			}
 		}
 
-		function activate($hash = null){
+		public function activate($hash = null){
 	        if (!$hash){
 	            $this->Session->setFlash(__('Invalid address', true));
 	            $this->redirect('/');
@@ -234,7 +228,7 @@
 		}
 
 
-	    function forgot_password(){
+	    public function forgot_password(){
 	        if (!empty($this->data)){
 	            $theUser = $this->User->find(
 	            	'first',
@@ -261,7 +255,7 @@
 	        }
 	    }
 
-	    function reset_password($hash = null){
+	    public function reset_password($hash = null){
 	        if (!$hash){
 	            $this->Session->setFlash(__('Reset request timed out, please try again', true));
 	            $this->redirect('/');
@@ -298,7 +292,7 @@
 	    }
 
 
-		function admin_login(){
+		public function admin_login(){
 			$this->layout = 'admin_login';
 
 			$this->_createCookie();
@@ -333,12 +327,12 @@
 			}
 		}
 
-		function admin_logout(){
+		public function admin_logout(){
 			$this->Session->destroy();
 			$this->redirect($this->Auth->logout());
 		}
 
-		function admin_index(){
+		public function admin_index(){
 			$this->User->recursive = 0;
 			$users = $this->paginate(null, $this->Filter->filter);
 
@@ -353,7 +347,7 @@
 			$this->set(compact('users','filterOptions'));
 		}
 
-		function admin_logged_in(){
+		public function admin_logged_in(){
 			$Session = ClassRegistry::init('Session');
 			$sessions = $Session->find('all');
 
@@ -388,7 +382,7 @@
 			$this->render('admin_index');
 		}
 
-		function admin_add(){
+		public function admin_add(){
 			if (!empty($this->data)) {
 				$this->User->create();
 				if ($this->User->saveAll($this->data)) {
@@ -401,7 +395,7 @@
 			$this->set(compact('groups'));
 		}
 
-		function admin_edit($id = null) {
+		public function admin_edit($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('That user could not be found', true), true);
 				$this->redirect($this->referer());
@@ -429,7 +423,7 @@
 			$this->set(compact('groups'));
 		}
 
-		function admin_initDB() {
+		public function admin_initDB() {
 			$group =& $this->User->Group;
 			//Allow admins to everything
 			$group->id = 1;

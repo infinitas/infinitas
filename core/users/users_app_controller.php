@@ -1,5 +1,5 @@
 <?php
-/**
+	/**
 	* Comment Template.
 	*
 	* @todo Implement .this needs to be sorted out.
@@ -17,16 +17,5 @@
 	* @since 0.5a
 	*/
 
-	class Campaign extends NewsletterAppModel {
-		var $name = 'Campaign';
-
-		var $order = array('Campaign.name' => 'ASC');
-
-		var $hasMany = array(
-			'Newsletter.Newsletter'
-		);
-
-		var $belongsTo = array(
-			'Newsletter.Template'
-		);
+	class UsersAppController extends CoreAppController {
 	}
