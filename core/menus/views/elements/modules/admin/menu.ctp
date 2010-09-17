@@ -11,6 +11,7 @@
 			?>
 			<li><?php echo implode('</li><li>', $this->Menu->adminMenuItems); ?></li>
 		</ul>
+		<?php echo $this->Html->image('/users/img/logout.png', array('url' => '/admin/logout', 'class' => 'logout-link')); ?>
 	</div>
 </div>
 <div class="clear"></div>

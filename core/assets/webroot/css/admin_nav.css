@@ -293,6 +293,13 @@ table.listing td{
 	height:38px;
 }
 
+.logout-link{
+	float:right;
+	height:24px;
+	margin-right:8px;
+	margin-top:8px;
+}
+
 
 /**
 	Dashboard
