@@ -2,18 +2,18 @@
 	/**
 	 * lockable behavior.
 	 *
-	 * When you use Model::lock() instead of Model::read() the record that is
-	 * found will be locked to other users trying to edit the same record. there
-	 * is also a unlock method for manual unlocking (when the user clicks cancel)
-	 * and a automatic unlock for when they click save.
+	 * This behavior auto binds to any model and will lock a row when it is being
+	 * edited by a user. only that user will be able to edit it while it is locked.
+	 * This will avoid any issues with many people working on content at the same
+	 * time
 	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package libs
-	 * @subpackage libs.models.behaviors.lockable
+	 * @package Infinitas.locks
+	 * @subpackage Infinitas.locks.behaviors.lockable
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 *
@@ -26,24 +26,28 @@
 
 	class LockableBehavior extends ModelBehavior {
 		/**
-		* Contain default settings.
-		*
-		* @var array
-		* @access protected
-		*/
-		var $_defaults = array(
+		 * Contain default settings.
+		 *
+		 * @var array
+		 * @access protected
+		 */
+		public $_defaults = array(
 		);
 
 		/**
-		*
-		* @param object $Model Model using the behavior
-		* @param array $settings Settings to override for model.
-		* @access public
-		* @return void
-		*/
-		function setup(&$Model, $config = null) {
+		 *
+		 * @param object $Model Model using the behavior
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 * @return void
+		 */
+		public function setup(&$Model, $config = null) {
 			if($Model->alias == 'Lock'){
 				return;
+			}
+
+			if(rand(0, 50) == 0){
+				$this->__gc($Model);
 			}
 
 			if (is_array($config)) {
@@ -55,23 +59,38 @@
 			}
 		}
 
+		/**
+		 * Clear out old locks
+		 *
+		 * This will delete any locks that have expired (configured in Locks.timeout)
+		 * so that things do not remain locked when its not needed.
+		 */
 		private function __gc(&$Model){
 			$Model->Lock->clearOldLocks();
 		}
 
+		/**
+		 * Locking rows.
+		 *
+		 * After a row has been pulled from the database this will record the locked
+		 * state with the user that locked it. if a user reads a row that they
+		 * locked the date will be updated. if a different user tries to read this
+		 * row nothing will be retured and the component will take over displaying
+		 * an error message
+		 *
+		 * @var object $Model the current model
+		 * @var array $results the data that was found
+		 * @var bool $primary is it the main model doing the find
+		 */
 		public function afterFind(&$Model, $results, $primary){
 			// just doing a count
-			if(isset($results[0][0]['count'])){
+			if(isset($results[0][0]['count']) || !$primary){
 				return $results;
-			}
-
-			if(rand(0, 10) == 0){
-				$this->__gc($Model);
 			}
 			
 			$class = Inflector::camelize($Model->plugin).'.'.$Model->alias;
 
-			if(!empty($results) && $primary && count($results) == 1 && isset($results[0][$Model->alias][$Model->primaryKey])){
+			if(!empty($results) && count($results) == 1 && isset($results[0][$Model->alias][$Model->primaryKey])){
 				$this->user_id = CakeSession::read('Auth.User.id');
 				$lock = $Model->Lock->find(
 					'all',
@@ -112,35 +131,35 @@
 		}
 
 		/**
-		 * Lock a record.
+		 * contain the lock
 		 *
-		 * This is called instead of Model::read() and will attempt to lock the record
-		 * to other users that want to edit it, avoiding saving over eachothers work.
+		 * before a find is made the Lock model is added to contain so that
+		 * the lock details are available in the view to show if something is locked
+		 * or not.
 		 *
 		 * @param object $model referenced model
-		 * @param array $fields the fields that should be returned
-		 * @param int $id the id of the record to unlock
+		 * @param array $query the query being done
 		 *
-		 * @return mixed false if already locked, array of data if not.
+		 * @return array the find query data
 		 */
-		function beforeFind(&$Model, $query) {
+		public function beforeFind(&$Model, $query) {
 			$query['contain'][$Model->Lock->alias] = array('Locker');
 			call_user_func(array($Model, 'contain'), $query['contain']);
 			return $query;
 		}
 
 		/**
-		* This function needs to be called manualy when you are editing an item but
-		* decide to cancel, so that the record can be unlocked again.  Hitting back
-		* on the browser will leave the file locked and others will not be able to
-		* access it for editing.
-		*
-		* @param object $model referenced model
-		* @param int $id the id of the record to unlock
-		*
-		* @return bool true on succsess false if not.
-		*/
-		function afterSave(&$Model, $created){
+		 * unlock after the save
+		 *
+		 * once the row has been saved, the lock can be removed so that other users
+		 * may have accesss to the data.
+		 *
+		 * @param object $model referenced model
+		 * @param bool $created if its a new row
+		 *
+		 * @return bool true on succsess false if not.
+		 */
+		public function afterSave(&$Model, $created){
 			if($created){
 				return parent::afterSave(&$Model, $created);
 			}
@@ -154,15 +173,5 @@
 			);
 
 			parent::afterSave(&$Model, $created);
-		}
-
-		/**
-		* Before saving set fields to unlock the record.
-		*/
-		function beforeSave($Model) {
-			$Model->data[$Model->name]['locked'] = 0;
-			$Model->data[$Model->name]['locked_by'] = null;
-			$Model->data[$Model->name]['locked_since'] = null;
-			return true;
 		}
 	}
