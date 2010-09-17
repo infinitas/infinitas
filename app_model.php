@@ -26,10 +26,9 @@
 		/**
 		* Behaviors to attach to the site.
 		*/
-		public $actsAs = array(
-			'Containable',
+		public $actsAs = array(			
 			'Libs.Infinitas',
-			'Events.Event',
+			'Events.Event'			
 			//'Libs.Logable',
 			//'Libs.AutomaticAssociation'
 		);
@@ -64,6 +63,7 @@
 			if (isset($this->_schema) && is_array($this->_schema)) {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
+					$this->Behaviors->attach('Containable');
 				}
 			}
 		}
