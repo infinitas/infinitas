@@ -6,6 +6,8 @@
 	class Module extends ModulesAppModel{
 		public $name = 'Module';
 
+		public $lockable = true;
+
 		public $virtualFields = array(
 			'list_name' => "IF(Module.admin = 1, CONCAT('Admin :: ', Module.name), Module.name)",
 			'save_name' => "IF(Module.admin = 1, CONCAT('admin/', Module.module), Module.module)"

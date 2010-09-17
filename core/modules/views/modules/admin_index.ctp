@@ -51,9 +51,6 @@
                     $this->Paginator->sort('Display to', 'Group.name') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('Locked') => array(
-                        'style' => 'width:50px;'
-                    ),
                     $this->Paginator->sort('Order') => array(
                         'style' => 'width:50px;'
                     ),
@@ -114,16 +111,13 @@
                 			<?php echo $module['Group']['name']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->locked($module['Module']['locked']); ?>&nbsp;
-                		</td>
-                		<td>
                 			<?php echo $this->Core->ordering($module['Module']['id'], $module['Module']['ordering'], 'Modules.Module'); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Infinitas->status($module['Module']['core']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($module['Module']['active']); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($module['Module']['active']), $this->Locked->display($module); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
