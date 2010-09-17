@@ -40,7 +40,7 @@
 		* @var array
 		* @access public
 		*/
-		var $components = null;
+		var $components = array('Session');
 		var $helpers = null;
 
 		/**
@@ -50,10 +50,6 @@
 		*/
 		function beforeFilter() {
 			parent::beforeFilter();
-
-			App::import('Component', 'Session');
-			$this->Session = new SessionComponent;
-			$this->Session->startup($this);
 
 			$this->layout = 'admin';
 
