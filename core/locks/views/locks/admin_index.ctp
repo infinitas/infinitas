@@ -18,9 +18,8 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Lock', array( 'url' => array( 'controller' => 'locks', 'action' => 'mass', 'admin' => 'true' ) ) );
-
-        $massActions = $this->Core->massActionButtons(
+    echo $this->Form->create('Lock', array('action' => 'mass'));
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'unlock'
             )
@@ -30,29 +29,39 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Core->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
-                    __('Table', true),
-                    __('Plugin', true) => array(
-                        'style' => 'width:75px;'
+                    $this->Form->checkbox('all') => array(
+                        'class' => 'first',
+                        'style' => 'width:25px;'
                     ),
-                    __('Model', true) => array(
-                        'style' => 'width:75px;'
-                    ),
-                    __('Locked', true) => array(
-                        'style' => 'width:75px;'
-                    )
+					$this->Paginator->sort('User', 'User.username'),
+					$this->Paginator->sort('class'),
+					$this->Paginator->sort('foreign_key'),
+					$this->Paginator->sort('created'),
                 )
             );
 
-            foreach ( $locks as $lock )
-            {
+            foreach ($locks as $lock){
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                		<td><?php echo $lock['table']; ?>&nbsp;</td>
-                		<td><?php echo $lock['plugin']; ?>&nbsp;</td>
-                		<td><?php echo $lock['model']; ?>&nbsp;</td>
-                		<td><?php echo $lock['locked']; ?>&nbsp;</td>
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+                        <td><?php echo $this->Form->checkbox($lock['Lock']['id']); ?>&nbsp;</td>
+                		<td>
+							<?php
+								echo $this->Html->link(
+									$lock['Locker']['username'],
+									array(
+										'plugin' => 'users',
+										'controller' => 'users',
+										'action' => 'edit',
+										$lock['Locker']['id']
+									)
+								);
+							?>&nbsp;
+						</td>
+                		<td><?php echo $lock['Lock']['class']; ?>&nbsp;</td>
+                		<td><?php echo $lock['Lock']['foreign_key']; ?>&nbsp;</td>
+                		<td><?php echo $this->Time->timeAgoInWords($lock['Lock']['created']); ?>&nbsp;</td>
                 	</tr>
                 <?php
             }

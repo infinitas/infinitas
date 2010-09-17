@@ -19,3 +19,12 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+?>
+<div class="dashboard">
+	<p><?php
+		echo sprintf(
+			__('The record you are trying to view has been locked by anotehr user. %s to go back', true),
+			$this->Html->link(__('click here', true), $this->referer())
+		);
+	?></p>
+</div>
