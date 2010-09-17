@@ -21,7 +21,7 @@
 	 */
 
 	class LockerComponent extends InfinitasComponent{
-		function initialize(&$Controller){
+		public function initialize(&$Controller){
 			$this->Controller = $Controller;
 
 			$lockable = strstr($this->Controller->action, 'admin') &&
@@ -72,6 +72,17 @@
 			if(isset($this->Controller->data['Lock'])){
 				$this->Controller->Session->setFlash(sprintf(__('The %s you requested has been locked by %s', true), $this->Controller->prettyModelName, $this->Controller->data['Locker']['username']));
 				$this->Controller->redirect(array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked'));
+			}
+		}
+
+		public function beforeRedirect(){
+			if($this->Controller->params['form']['action'] == 'cancel'){				
+				$this->Controller->{$this->Controller->modelClass}->Lock->deleteAll(
+					array(
+						'Lock.class' => Inflector::camelize($this->Controller->plugin).'.'.$this->Controller->modelClass,
+						'Lock.foreign_key' => $this->Controller->params['data'][$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->primaryKey]
+					)
+				);
 			}
 		}
 	}
