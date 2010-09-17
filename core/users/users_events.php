@@ -4,7 +4,7 @@
 			return array(
 				'name' => 'Users',
 				'description' => 'Manage your community',
-				'icon' => '/management/img/icon.png',
+				'icon' => '/users/img/icon.png',
 				'author' => 'Infinitas',
 				'dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),
 			);
