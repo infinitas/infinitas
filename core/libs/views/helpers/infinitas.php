@@ -109,56 +109,6 @@
 		}
 
 		/**
-		 * Create a locked icon.
-		 *
-		 * takes the data from a find and shows if it is locked and if so who by
-		 * and when.
-		 *
-		 * @param array $item the data
-		 * @param mixed $model the model the data is from
-		 *
-		 * @return mixed some html with the image
-		 */
-		public function locked($item = array(), $model = null){
-			if (!$model || empty($item) || empty($item[$model])){
-				$this->errors[] = 'you missing some data there.';
-				return false;
-			}
-
-			switch (strtolower($item[$model]['locked'])){
-				case 1:
-					$this->Time = new TimeHelper();
-					$image = $this->Html->image(
-					    $this->Image->getRelativePath('status', 'locked'),
-					    array(
-					        'alt' => __('Locked', true),
-					        'width' => '16px',
-					        'title' => sprintf(
-					            __( 'This record was locked %s by %s', true ),
-					            $this->Time->timeAgoInWords($item[$model]['locked_since']),
-					            $item['Locker']['username']
-					        )
-					    )
-					);
-					unset($this->Time);
-					break;
-
-				case 0:
-					$image = $this->Html->image(
-					    $this->Image->getRelativePath('status', 'not-locked'),
-					    array(
-					        'alt' => __('Not Locked', true),
-					        'width' => '16px',
-					        'title' => __('This record is not locked', true)
-					    )
-					);
-					break;
-			}
-
-			return $image;
-		}
-
-		/**
 		 * Featured icon.
 		 *
 		 * Creates a featured icon like the status and locked.
