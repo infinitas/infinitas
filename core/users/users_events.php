@@ -50,6 +50,5 @@
 			 */
 			Router::connect('/admin/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'));
 			Router::connect('/admin/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
-			Router::connect('/admin', array('plugin' => 'users', 'controller' => 'management', 'action' => 'dashboard', 'admin' => true, 'prefix' => 'admin'));
 		}
 	}

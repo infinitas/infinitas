@@ -44,22 +44,7 @@
 			} // switch
 		}
 
-		public function onSetupRoutes(){
-			/**
-			 * frontend urls
-			 */
-			Router::connect('/login', array('plugin' => 'management', 'controller' => 'users', 'action' => 'login'));
-			Router::connect('/logout', array('plugin' => 'management', 'controller' => 'users', 'action' => 'logout'));
-			Router::connect('/register', array('plugin' => 'management', 'controller' => 'users', 'action' => 'register'));
-			Router::connect('/activate-account', array('plugin' => 'management', 'controller' => 'users', 'action' => 'activate'));
-			Router::connect('/forgot-password', array('plugin' => 'management', 'controller' => 'users', 'action' => 'forgot_password'));
-			Router::connect('/reset-password', array('plugin' => 'management', 'controller' => 'users', 'action' => 'reset_password'));
-
-			/**
-			 * admin urls
-			 */
-			Router::connect('/admin/login', array('plugin' => 'management', 'controller' => 'users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'));
-			Router::connect('/admin/logout', array('plugin' => 'management', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
+		public function onSetupRoutes(){		
 			Router::connect('/admin', array('plugin' => 'management', 'controller' => 'management', 'action' => 'dashboard', 'admin' => true, 'prefix' => 'admin'));
 		}
 	}
