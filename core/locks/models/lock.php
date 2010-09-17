@@ -35,6 +35,11 @@
 			)
 		);
 
+		public function beforeDelete($cascade){
+			$this->Behaviors->detach('Trashable');
+			parent::beforeDelete($cascade);
+		}
+
 		public function clearOldLocks(){
 			return $this->deleteAll(
 				array(

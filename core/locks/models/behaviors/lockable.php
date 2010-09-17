@@ -86,7 +86,6 @@
 				);
 
 				if(isset($lock[0]['Lock']['user_id']) && $this->user_id == $lock[0]['Lock']['user_id']){
-					$Model->Lock->Behaviors->disable('Libs.Trashable');
 					$Model->Lock->delete($lock[0]['Lock']['id']);
 					$lock = false;
 				}
