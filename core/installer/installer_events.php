@@ -33,6 +33,9 @@
 		public function onSetupRoutes(){
 			// infinitas is not installed
 			$databaseConfig = APP.'config'.DS.'database.php';
+			Router::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
+			Router::connect('/install/:step', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'), array('pass' => array('step')));
+
 			if(!file_exists($databaseConfig) || filesize($databaseConfig) == 0) {
 				if(!file_exists($databaseConfig)) {
 					$file = fopen($databaseConfig, 'w');
@@ -41,9 +44,8 @@
 				
 				Configure::write('Session.save', 'php');
 				Router::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
+				Router::connect('/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
 			}
-			Router::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
-			Router::connect('/install/:step', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'), array('pass' => array('step')));
 
 			return true;
 		}
