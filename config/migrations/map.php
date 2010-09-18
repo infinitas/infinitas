@@ -48,5 +48,7 @@ $map = array(
 		'084_some_indexing' => 'M4c929f79b9fc401e985f58ae6318cd70'),
 	24 => array(
 		'084_removing_unwanted_fields' => 'M4c936fa3e3c840d790bc21056318cd70'),
+	25 => array(
+		'084_adding_slug_to_feeds' => 'M4c94f0b5c7e04c8f829b27206318cd70'),
 );
 ?>

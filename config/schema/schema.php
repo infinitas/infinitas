@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Webroot schema generated on: 2010-09-17 14:09:06 : 1284730926*/
+/* Webroot schema generated on: 2010-09-18 18:09:26 : 1284829826*/
 class WebrootSchema extends CakeSchema {
 	var $name = 'Webroot';
 
@@ -286,6 +286,7 @@ class WebrootSchema extends CakeSchema {
 		'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'fields' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'conditions' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
