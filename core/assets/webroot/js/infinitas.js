@@ -73,7 +73,7 @@ switch(Infinitas.params.prefix) {
 				$("[title]:not(.textarea *)").tooltip({
 				    track: true, delay: 0, showURL: false,
 				    fixPNG: true, showBody: " :: ",
-				    extraClass: "pretty fancy", left: 5, top: -5
+				    left: 5, top: -5
 				});
 
 				$('#' + Infinitas.model + 'ImageId').imageSelect();
