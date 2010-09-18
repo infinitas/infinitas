@@ -37,4 +37,8 @@
 				'rss'
 			);
 		}
+
+		public function onListAvailableFeeds(){
+			return ClassRegistry::init('Feed.Feed')->listFeeds();
+		}
 	}
