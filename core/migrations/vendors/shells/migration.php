@@ -80,7 +80,7 @@ class MigrationShell extends Shell {
 			$this->connection = $this->params['connection'];
 		}
 		if (!empty($this->params['plugin'])) {
-			$this->type = $this->params['plugin'];
+			$this->type = Inflector::underscore($this->params['plugin']);
 		}
 		$this->path = $this->__getPath() . 'config' . DS . 'migrations' . DS;
 
@@ -516,6 +516,15 @@ TEXT;
 		if ($this->type !== 'migrations') {
 			unset($read['tables']['schema_migrations']);
 		}
+
+		if($this->type !== 'app' && !isset($this->params['f'])) {
+			$systemTables = array(
+						'aros', 'acos', 'aros_acos', Configure::read('Session.table'), 'i18n'
+					);
+
+			$read['tables'] = array_diff_key($read['tables'], array_fill_keys($systemTables, 1));
+		}
+
 		return $read;
 	}
 

@@ -19,34 +19,108 @@
      */
 ?>
 <div class="install form">
-    <h2><?php __( 'Database Setup' ); ?></h2>
-	<blockquote class="extract">
 	    <p>
 			<?php
 				echo __( 'Database tables and core data is about to be installed. '.
 			    	'Please make sure you have created a database already, then fill out the '.
-			    	'connection details below. If the installer is not able to connect to the databse '.
+			    	'connection details below. If the installer is not able to connect to the database '.
 			    	'the installer will not be able to continue', true );
 			?>
 		</p>
-	</blockquote>
-    <?php
-        echo $form->create( 'Install', array( 'url' => array( 'plugin' => 'installer', 'controller' => 'install', 'action' => 'database' ) ) );
-        echo $form->input( 'Install.host', array( 'value' => 'localhost', 'title' => __('This is the host address of your database. If you dont know what it is leave it as "localhost"', true) ) );
-        echo $form->input( 'Install.login', array( 'value' => 'root', 'title' => __('This is the username to access the database', true) ) );
-        echo $form->input( 'Install.password', array('title' => __('This is the password to your database', true)) );
-        echo $form->input( 'Install.database', array( 'value' => 'infinitas', 'title' => __('This is the name of the database Infinitas will use', true) ) );
-        echo $form->input( 'Install.port', array( 'value' => 'infinitas', 'title' => __('This is the port your db is on, leave blank for default', true) ) );
-        echo $form->input( 'Install.prefix', array( 'value' => '', 'title' => __('This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.', true) ) );
-        echo $form->input( 'Install.sample_data', array('type' => 'checkbox', 'title' => __('Should sample data be installed', true) ) );
-        echo $form->end( 'Submit' );
-    ?>
+	    <p>
+			<?php
+				echo __( 'If you are unsure how to create a database, please contact your hosting provider\'s technical support.', true );
+			?>
+		</p>
+		<?php if(isset($dbError) && $dbError === true) {?>
+			<div class="general-error">
+				<?php echo __('There is an error with your database connection. Please ensure that the details supplied are correct and that the database server is running.', true); ?>
+			</div>
+		<?php }?>
+		<?php if(isset($versionError)) {?>
+			<div class="general-error">
+				<?php echo sprintf(__('The database server you selected is running version %1$s. Infinitas requires at least %3$s version %2$s.', true), $versionError, $requiredDb['version'], $requiredDb['name']); ?>
+			</div>
+		<?php }?>
+		<?php if(isset($adminDbError) && $adminDbError === true) {?>
+			<div class="general-error">
+				<?php echo __('There is an error with the database administrator details you supplied. Please ensure that they are correct and that the user does have permissions to create, drop and alter tables in the database.', true); ?>
+			</div>
+		<?php }?>
+		
+		<h4 class="field-heading">Basic database settings</h4>
+		<div>
+			<?php
+				echo $this->Form->input( 'Install.driver', array(
+					'label' => 'Database driver',
+					'options' => $database,
+					'empty' => '-- Database driver --',
+					'after' => '<div>'.__('What type of database server should Infinitas use', true).'</div>'
+				));
+
+				echo $this->Form->input( 'Install.host', array(
+					'label' => 'Database host',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['host'] : 'localhost',
+					'after' => '<div>'.__('The server for your database. <strong>localhost</strong> should work, if it does not then you can get the info from your web host.', true).'</div>'
+				));
+
+				echo $this->Form->input( 'Install.login', array(
+					'label' => 'Database username',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['login'] : 'username',
+					'after' => '<div>'.__('The username to access the database', true).'</div>'
+				));
+
+				echo $this->Form->input( 'Install.password', array(
+					'type' => 'text',
+					'label' => 'Database password',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['password'] : 'password',
+					'after' =>'<div>'. __('The password to your database', true).'</div>'
+				));
+
+				echo $this->Form->input( 'Install.database', array(
+					'label' => 'Database name',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['database'] : 'infinitas',
+					'after' => '<div>'.__('This is the name of the database Infinitas will use', true).'</div>'
+				));
+			?>
+		</div>
+		
+		<h4 class="field-heading">Advanced database settings</h4>
+		<div>
+			<?php
+				echo $this->Form->input( 'Install.port', array(
+					'label' => 'Database port',
+					'after' => '<div>'.__('This is the port your database server runs is on, leave blank for default.', true).'</div>'
+				));
+
+				echo $this->Form->input( 'Install.prefix', array(
+					'label' => 'Table prefix',
+					'after' => '<div>'.__('This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.', true).'</div>'
+				));
+			?>
+		</div>
+		
+		<h4 class="field-heading">Database administrator details</h4>
+		<div>
+			<blockquote>
+				<p>
+					If the database user you supplied above does not have the necessary permissions to create tables,
+					please enter the details of a user that does. This information will not be saved, and will only be used during this installation process.
+				</p>
+			</blockquote>
+			<?php
+				echo $this->Form->input( 'Admin.username', array(
+					'label' => 'Database administrator username',
+					'value' => isset($this->data['Admin']) ? $this->data['Admin']['username'] : '',
+					'after' => '<div>'.__('The username of a user that can create tables in your database.', true).'</div><br style="clear:both;" />'
+				));
+
+				echo $this->Form->input( 'Admin.password', array(
+					'type' => 'text',
+					'label' => 'Database administrator password',
+					'value' => isset($this->data['Admin']) ? $this->data['Admin']['password'] : '',
+					'after' =>'<div>'. __('The password for the above user.', true).'</div><br style="clear:both;" />'
+				));
+			?>
+		</div>
 </div>
-<blockquote class="extract">
-    <p>
-		<?php
-			echo __( 'Please note that at the moment Infinitas is best used in its own databse. There is no global prefix for the database tables '.
-				'as each plugin uses its own prefix. This may change in future versions.', true );
-		?>
-	</p>
-</blockquote>

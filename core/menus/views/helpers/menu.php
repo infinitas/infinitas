@@ -166,7 +166,7 @@
 					$var = $type;
 				}
 				
-				else if(strstr(App::pluginPath($name), APP.'core/')){
+				else if(strstr(App::pluginPath($name), APP.'core'.DS)){
 					$var = 'core';
 				}				
 

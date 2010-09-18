@@ -30,6 +30,8 @@
 			'Libs.Infinitas',
 			'Events.Event'			
 			//'Libs.Logable',
+			//'DebugKit.Timed',
+
 			//'Libs.AutomaticAssociation'
 		);
 
@@ -58,13 +60,26 @@
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
-			parent::__construct($id, $table, $ds);			
 
-			if (isset($this->_schema) && is_array($this->_schema)) {
+			if($this->tablePrefix != '')
+			{
+				$config = $this->getDataSource()->config;
+
+				if(isset($config['prefix'])) {
+					$this->tablePrefix = $config['prefix'] . $this->tablePrefix;
+				}
+			}
+
+			parent::__construct($id, $table, $ds);
+
+			if (isset($this->_schema) && is_array($this->_schema) && php_sapi_name() != 'cli') {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
 					$this->Behaviors->attach('Containable');
 				}
+			}
+			elseif(php_sapi_name() == 'cli') {
+				$this->actsAs = array();
 			}
 		}
 

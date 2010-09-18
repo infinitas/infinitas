@@ -17,7 +17,40 @@
 	* @since 0.5a
 	*/
 
-	class Install extends InstallerAppModel {
-		var $name = 'Install';
-		var $useTable = false;
+	class Install extends Model {
+		public $name = 'Install';
+		public $useTable = false;
+		public $useDbConfig = false;
+		public $actsAs = false;
+
+		public function __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'driver' => array(
+					'rule' => 'notempty',
+					'message' => __('You need to select a database engine', true)
+				),
+				'database' => array(
+					'rule' => 'notempty',
+					'message' => __('You need to enter a database name', true)
+				),
+				'login' => array(
+					'rule' => 'notempty',
+					'message' => __('You need to enter the username used to connect to the database', true)
+				),
+				'host' => array(
+					'rule' => 'notempty',
+					'message' => __('You need to enter the host for your database', true)
+				),
+			);
+		}
+
+/**
+ * Ucky hacks to make the model work without a datasource
+ */
+		public $_schema = array();
+		public function find() {
+			return true;
+		}
 	}
