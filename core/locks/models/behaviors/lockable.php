@@ -145,6 +145,10 @@
 		public function beforeFind(&$Model, $query) {
 			$query['contain'][$Model->Lock->alias] = array();
 			$query['contain']['Locker'] = array();
+			if(isset($query['recursive']) && $query['recursive'] == -1){
+				$query['recursive'] = 0;
+			}
+			
 			call_user_func(array($Model, 'contain'), $query['contain']);
 			return $query;
 		}
