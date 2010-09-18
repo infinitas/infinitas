@@ -18,4 +18,5 @@
 	*/
 
 	class InstallerAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

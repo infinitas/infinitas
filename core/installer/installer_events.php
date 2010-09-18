@@ -32,10 +32,19 @@
 
 		public function onSetupRoutes(){
 			// infinitas is not installed
-			if (!file_exists(APP . 'config' . DS . 'database.php')) {
+			$databaseConfig = APP.'config'.DS.'database.php';
+			if(!file_exists($databaseConfig) || filesize($databaseConfig) == 0) {
+				if(!file_exists($databaseConfig)) {
+					$file = fopen($databaseConfig, 'w');
+					fclose($file);
+				}
+				
 				Configure::write('Session.save', 'php');
 				Router::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
-				return true;
 			}
+			Router::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
+			Router::connect('/install/:step', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'), array('pass' => array('step')));
+
+			return true;
 		}
 	 }

@@ -6,11 +6,13 @@ class PluginTask extends Shell {
 	private $__info = array();
 	private $__models = array();
 	private $__options = array(
-		'name',
-		'author',
-		'email',
-		'website',
-		'version'
+		'name' => 'What is the name of the plugin?',
+		'author' => 'Who is the author of the plugin?',
+		'website' => 'What is the main website of the plugin?',
+		'description' => 'A short description of the plugin.',
+		'license' => 'What license is the plugin released under?',
+		'update_url' => 'What url should Infinitas check for version numbers?',
+		'version' => 'What version is this release?'
 	);
 
 	public function execute() {
@@ -77,8 +79,12 @@ class PluginTask extends Shell {
 			$this->__update();
 		}
 		elseif($plugin != 'App') {
+
+			App::import('core', 'String');
 			$this->__info = array(
+				'id' => String::uuid(),
 				'name' => $this->__plugin,
+				'update-url' => 'infinitas-cms.org/plugins/version/plugin:' . Inflector::underscore($this->__plugin),
 				'version' => '1.0',
 				'dependancies' => array()
 			);
@@ -115,7 +121,7 @@ class PluginTask extends Shell {
 				}
 			}
 			else {
-				foreach($this->__options as $option) {
+				foreach($this->__options as $option => $question) {
 					$this->__info[$option] = isset($this->params[$option]) ? $this->params[$option] : (isset($this->__info[$option]) ? $this->__info[$option] : '');
 				}
 
@@ -247,7 +253,7 @@ class PluginTask extends Shell {
 		extract($options);
 
 		$class = 'R' . str_replace('-', '', String::uuid());
-		$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info['version'])), 4, '0', STR_PAD_LEFT) . '_' . Inflector::underscore($this->__plugin);
+		$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info['version'])), 6, '0', STR_PAD_LEFT) . '_' . Inflector::underscore($this->__plugin);
 
 		if($writeConfig) {
 			$this->out('Writing config...');
@@ -443,7 +449,7 @@ class PluginTask extends Shell {
 
 	private function __displayInformation($asMenu = false) {
 		$this->out('Plugin internal name: ' . $this->__plugin);
-		foreach($this->__options as $option) {
+		foreach($this->__options as $option => $question) {
 			$this->out('Plugin ' . $option . ":\t" . $this->__info[$option]);
 		}
 	}
@@ -516,9 +522,13 @@ class PluginTask extends Shell {
 	}
 
 	private function __initialInfo() {
-		foreach($this->__options as $option) {
+		foreach($this->__options as $option => $question) {
 			$default = isset($this->__info[$option]) ? $this->__info[$option] : (isset($this->params[$option]) ? $this->params[$option] : null);
-			$this->__info[$option] = $this->in('Enter the plugin ' . $option, null, $default);
+
+			if(is_numeric($option)) {
+				$question = 'Enter the plugin ' . $option;
+			}
+			$this->__info[$option] = $this->in($question, null, $default);
 		}
 	}
 }

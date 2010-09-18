@@ -205,22 +205,16 @@ class CakeRelease extends Object {
 		foreach($this->migration as $direction => $migrations) {
 			$newMigrations[$direction] = array();
 			foreach($migrations as $type => $info) {
-				if(stristr($type, 'table')) {
-					$newMigrations[$direction][$type] = array();
-					foreach($info as $tableName => $fields) {
-						debug($tableName);
-						if(is_numeric($tableName)) {
-							$fields = $this->__getTablePrefix($fields) . $fields;
-						}
-						else {
-							$tableName =  $this->__getTablePrefix($tableName) . $tableName;
-						}
-
-						$newMigrations[$direction][$type][$tableName] = $fields;
+				$newMigrations[$direction][$type] = array();
+				foreach($info as $tableName => $fields) {
+					if(is_numeric($tableName)) {
+						$fields = $this->__getTablePrefix($fields) . $fields;
 					}
-				}
-				else {
-					$newMigrations[$direction][$type] = $info;
+					else {
+						$tableName =  $this->__getTablePrefix($tableName) . $tableName;
+					}
+
+					$newMigrations[$direction][$type][$tableName] = $fields;
 				}
 			}
 		}

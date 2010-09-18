@@ -202,7 +202,16 @@ class ReleaseVersion {
 		if ($direction == 'down') {
 			krsort($mapping);
 		}
-		$basePrefix = isset($options['basePrefix']) ? $options['basePrefix'] : '';
+
+		if(isset($options['basePrefix'])) {
+			$basePrefix = isset($options['basePrefix']) ? $options['basePrefix'] : '';
+		}
+		else {
+			$Datasource = ConnectionManager::getDataSource('default');
+
+			$basePrefix = isset($Datasource->config['prefix']) ? $Datasource->config['prefix'] : '';
+		}
+		
 		$sample = isset($options['sample']) ? $options['sample'] : false;
 
 
@@ -271,8 +280,8 @@ class ReleaseVersion {
 		}
 		if (!file_exists($path . $name . '.php')) {
 			throw new MigrationVersionException(sprintf(
-				__d('migrations', 'File `%1$s` not found in the %2$s.', true),
-				$name . '.php', (($type == 'app') ? 'Application' : Inflector::camelize($type) . ' Plugin')
+				__d('migrations', 'File `%1$s` not found in the %2$s. Path: %3$s', true),
+				$name . '.php', (($type == 'app') ? 'Application' : Inflector::camelize($type) . ' Plugin'), $path . $name . '.php'
 			));
 		}
 		include $path . $name . '.php';

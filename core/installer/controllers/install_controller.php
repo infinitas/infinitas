@@ -153,7 +153,7 @@
 				'admin_user' => __('Site administrator', true),
 			);
 
-			$this->Wizard->completeUrl = '/installer/install/finish';
+			$this->Wizard->completeUrl = array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish');
 			
 			$this->set('installerProgress', $this->installerProgress);
 		}
@@ -248,10 +248,6 @@
 /**
  * Private methods
  */
-
-		private function __loadPluginDetails($pluginPath) {
-			return Set::reverse(json_decode(file_get_contents($pluginPath . 'config' . DS . 'config.json')));
-		}
 
 		/**
 		 *
@@ -434,13 +430,22 @@
 			App::import('Lib', 'Installer.ReleaseVersion');
 			$Version = new ReleaseVersion();
 
-			$result = true;
-
 			//Install app tables first
-			$this->__installPlugin($Version, $dbConfig, 'app');
-			
-			foreach($plugins as $plugin) {
-				$result = $result && $this->__installPlugin($Version, $dbConfig, $plugin);
+			$result = $this->__installPlugin($Version, $dbConfig, 'app');
+
+			$result = true;
+			if($result) {
+				//Then install the Installer plugin
+				$result = $result && $this->__installPlugin($Version, $dbConfig, 'Installer');
+
+				if($result) {
+					//Then install all other plugins
+					foreach($plugins as $plugin) {
+						if($plugin != 'Installer') {
+							$result = $result && $this->__installPlugin($Version, $dbConfig, $plugin);
+						}
+					}
+				}
 			}
 
 			return $result;
@@ -449,23 +454,43 @@
 		private function __installPlugin(&$Version, $dbConfig, $plugin = 'app') {
 			if($plugin !== 'app') {
 				$pluginPath = App::pluginPath($plugin);
-				$checkFile = $pluginPath . 'config' . DS . 'config.json';
+				$configPath = $pluginPath . 'config' . DS;
+				$checkFile = $configPath . 'config.json';
 			}
 			else {
-				$checkFile = APP . 'config' . DS . 'releases' . DS . 'map.php';
+				$configPath = APP . 'config' . DS;
+				$checkFile = $configPath . 'releases' . DS . 'map.php';
 			}
 			
 			if(file_exists($checkFile)) {
-				$mapping = $Version->getMapping($plugin);
+				if(file_exists($configPath . 'releases' . DS . 'map.php')) {
+					try {
+						$mapping = $Version->getMapping($plugin);
 
-				$latest = array_pop($mapping);
+						$latest = array_pop($mapping);
 
-				return $Version->run(array(
-					'type' => $plugin,
-					'version' => $latest['version'],
-					'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
-					'sample' => $this->data['Sample']['sample'] == 1
-				));
+						$versionResult = $Version->run(array(
+							'type' => $plugin,
+							'version' => $latest['version'],
+							'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
+							'sample' => $this->data['Sample']['sample'] == 1
+						));
+					}
+					catch (Exception $e) {
+						return false;
+					}
+				}
+				else {
+					$versionResult = true;
+				}
+
+				if($versionResult && $plugin !== 'app') {
+					$this->loadModel('Installer.Plugin');
+
+					return $this->Plugin->installPlugin($plugin, array('installRelease' => false));
+				}
+
+				return $versionResult;
 			}
 
 			return true;
