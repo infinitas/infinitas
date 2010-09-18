@@ -37,7 +37,7 @@
 			//	'className' => 'Categories.Category',
 			//	'counterCache' => true
 			//),
-			'User.Group'
+			'Users.Group'
 		);
 
 		/**
