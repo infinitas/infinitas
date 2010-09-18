@@ -38,6 +38,10 @@
 			$this->set(compact('feeds'));
 		}
 
+		public function view(){
+			
+		}
+
 		public function get_feed(){
 			if(!$this->params['id']){
 				$this->Session->setFlash(__('Invalid feed selected', true));

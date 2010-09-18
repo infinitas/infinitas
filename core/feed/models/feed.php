@@ -97,6 +97,32 @@
 			);
 		}
 
+		public function listFeeds(){
+			$feeds = $this->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Feed.active' => 1
+					),
+					'fields' => array(
+						'Feed.id',
+						'Feed.name',
+						'Feed.slug'
+					)
+				)
+			);
+
+			$return = array();
+			foreach($feeds as $feed){
+				$return[] = array(
+					'name' => $feed['Feed']['name'],
+					'url' => Router::url(array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'view', 'slug' => $feed['Feed']['slug']), true)
+				);
+			}
+
+			return $return;
+		}
+
 		public function getFeed($id = null, $group_id = 999){
 			if(!$id){
 				return array();
