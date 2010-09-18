@@ -35,7 +35,7 @@
 			<?php echo $this->Design->niceBoxEnd(); ?>
 			<div id="footer">
 				<p class="copyright">
-			        <?php echo $this->element( 'admin/bottom' ); ?>
+			        <?php //TODO: Fix this error: echo $this->element( 'admin/bottom' ); ?>
 				</p>
 			</div>
 		</div>
