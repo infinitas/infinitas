@@ -135,7 +135,7 @@
 		public function forceWwwUrl(){
 			// read the host from the server environment
 			$host = env('HTTP_HOST');
-			if ($host='localhost') {
+			if ($host == 'localhost') {
 				return true;
 			}
 
