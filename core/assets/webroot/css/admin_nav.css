@@ -3,6 +3,12 @@ body{
 	font-family: "Helvetica Neue", "Trebuchet MS", Arial, sans-serif;
 	font-size: 16px;
 }
+pre {
+	background-color: #efefef;
+	color: #000;
+	padding: 10px;
+	border: #AFAFAF solid 1px;
+}
 img{
 	border: 0px solid;
 }
