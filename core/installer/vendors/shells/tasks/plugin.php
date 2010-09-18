@@ -84,7 +84,7 @@ class PluginTask extends Shell {
 			$this->__info = array(
 				'id' => String::uuid(),
 				'name' => $this->__plugin,
-				'update-url' => 'infinitas-cms.org/plugins/version/plugin:' . Inflector::underscore($this->__plugin),
+				'update_url' => 'infinitas-cms.org/plugins/version/plugin:' . Inflector::underscore($this->__plugin),
 				'version' => '1.0',
 				'dependancies' => array()
 			);
