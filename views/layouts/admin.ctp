@@ -9,9 +9,9 @@
             echo $scripts_for_layout;
 
 			$css_for_layout = array(
-				'/assets/css/960',
+				'/assets/css/960gs/960',
 				'/assets/css/admin_nav',
-				'/assets/css/uncompressed/demo'
+				'/assets/css/960gs/uncompressed/demo'
 			) + $css_for_layout;
 
 			echo $this->Html->css($css_for_layout);

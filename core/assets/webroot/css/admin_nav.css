@@ -439,6 +439,27 @@ ul.pagination{
 			list-style:none outside none;
 		}
 
+
+
+/**
+	Tool tips
+*/
+#tooltip {
+	position:         absolute;
+	z-index:          3000;
+	border:           3px solid #111;
+	background-color: #eee;
+	padding:          5px;
+	opacity:          0.85;
+	-moz-border-radius:3px 3px 3px 3px;
+	border-radius:3px 3px 3px 3px;
+}
+
+#tooltip h3,
+#tooltip div {
+	margin: 0;
+}
+
 table.cake-sql-log{
 	display: none;
 }
