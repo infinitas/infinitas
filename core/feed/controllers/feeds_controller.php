@@ -30,16 +30,16 @@
 				$this->redirect($this->referer());
 			}
 
-			$feed = $this->Feed->getFeed($this->params['slug'], $this->Session->read('Auth.User.group_id'));
+			$feeds = $this->Feed->getFeed($this->params['slug'], $this->Session->read('Auth.User.group_id'));
 
-			if(empty($feed)){
+			if(empty($feeds)){
 				$this->Session->setFlash(__('The feed you have selected is not valid', true));
 				$this->redirect($this->referer());
 			}
 
 			$raw = $this->Feed->find('first', array('conditions' => array('Feed.slug' => $this->params['slug'])));
 
-			$this->set(compact('feed', 'raw'));
+			$this->set(compact('feeds', 'raw'));
 		}
 
 		public function admin_index() {
