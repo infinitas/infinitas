@@ -45,7 +45,7 @@
 					echo $this->Design->niceBoxEnd();
 					echo $this->Design->niceBox();
 						?><h2><?php __('What to include'); ?></h2><?php
-						echo $this->Form->input('FeedItem');
+						echo $this->Form->input('FeedsFeed');
 					echo $this->Design->niceBoxEnd();
 				?>
 			</div><?php

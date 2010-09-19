@@ -27,7 +27,7 @@
 			);
 		}
 
-		public function onSetupExtentions(){
+		public function onSetupExtentions(){			
 			return array(
 				'rss'
 			);
@@ -35,5 +35,28 @@
 
 		public function onListAvailableFeeds(){
 			return ClassRegistry::init('Feed.Feed')->listFeeds();
+		}
+
+		public function onSlugUrl(&$event, $data){
+			return array(
+				'html' => array(
+					'plugin' => 'feed',
+					'controller' => 'feeds',
+					'action' => 'view',
+					'slug' => $data['Feed']['slug']
+				),
+				'rss' => array(
+					'plugin' => 'feed',
+					'controller' => 'feeds',
+					'action' => 'view',
+					'slug' => $data['Feed']['slug'],
+					'ext' => 'rss'
+				)
+			);
+		}
+
+		public function onSetupRoutes(){
+			Router::connect('/feeds/subscribe/:slug', array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'view', 'ext' => 'rss'), array('pass' => 'slug'));
+			Router::connect('/feeds/view/:slug', array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'view', 'ext' => ''), array('pass' => 'slug'));
 		}
 	}

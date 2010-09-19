@@ -60,6 +60,7 @@
 
 				$DboMysql = Connectionmanager::getDataSource($Model->useDbConfig);
 
+
 				$sql = '';
 				foreach((array)$query['feed'] as $key => $feed){
 					$feed = array_merge($this->basicStatement, $feed);
@@ -73,7 +74,7 @@
 						array(
 							'fields' => implode(', ', array_merge($DboMysql->fields($currentModel, null, (array)$feed['fields']), $setup)),
 							'table' => $DboMysql->fullTableName($currentModel),
-							'alias' => $currentModel->alias,
+							'alias' => ' AS '.$currentModel->alias,
 							'joins' => '',
 							'conditions' => $DboMysql->conditions($feed['conditions']),
 							'group' => '',
@@ -84,13 +85,13 @@
 			   	}
 
 				$query = array_merge($this->basicStatement, $query);
-				$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($query['setup']), false, false)));
+				$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($query['setup']), false, false)));				
 				$sql = $DboMysql->renderStatement(
 					'select',
 					array(
 						'fields' => implode(', ', array_merge($DboMysql->fields($Model, null, (array)$query['fields']), $setup)),
 						'table' => $DboMysql->fullTableName($Model),
-						'alias' => $Model->alias,
+						'alias' => ' AS '.$Model->alias,
 						'joins' => '',
 						'conditions' => $DboMysql->conditions($query['conditions']),
 						'group' => $sql, // @todo slight hack
@@ -99,9 +100,9 @@
 					)
 				);
 
-				$_results = $Model->query( $sql );
+				$_results = $Model->query($sql);
 
-				foreach( $_results as $res ){
+				foreach($_results as $res){
 					$this->_results[]['Feed'] = $res[0];
 				}
 				

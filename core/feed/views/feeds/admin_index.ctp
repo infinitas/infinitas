@@ -47,20 +47,12 @@
 					$this->Paginator->sort('model') => array(
 						'style' => 'width:75px;'
 					),
-					$this->Paginator->sort('plugin') => array(
-						'style' => 'width:75px;'
-					),
-					$this->Paginator->sort('controller') => array(
-						'style' => 'width:75px;'
-					),
-					$this->Paginator->sort('action') => array(
-						'style' => 'width:75px;'
-					),
+					__('Links To', true),
 					$this->Paginator->sort('limit') => array(
-						'style' => 'width:75px;'
+						'style' => 'width:50px;'
 					),
-					$this->Paginator->sort('Group', 'Group.name') => array(
-						'style' => 'width:75px;'
+					$this->Paginator->sort('For', 'Group.name') => array(
+						'style' => 'width:50px;'
 					),
 					$this->Paginator->sort('active') => array(
 						'style' => 'width:50px;'
@@ -84,10 +76,20 @@
 							);
 						?>&nbsp;
 					</td>
-					<td><?php echo implode('.', array(ucfirst($feed['Feed']['plugin']), Inflector::singularize($feed['Feed']['controller']))); ?>&nbsp;</td>
-					<td><?php echo $feed['Feed']['plugin']; ?>&nbsp;</td>
-					<td><?php echo $feed['Feed']['controller']; ?>&nbsp;</td>
-					<td><?php echo $feed['Feed']['action']; ?>&nbsp;</td>
+					<td><?php echo implode('.', array(ucfirst($feed['Feed']['plugin']), Inflector::singularize($feed['Feed']['controller']))); ?>&nbsp;</td>				
+					<td>
+						<?php
+							echo Router::url(
+								array(
+									'plugin' => $feed['Feed']['plugin'],
+									'controller' => $feed['Feed']['controller'],
+									'action' => $feed['Feed']['action'],
+									'slug' => 'a-page',
+									'admin' => $feed['Group']['name'] == 'admin' ? true : false
+								)
+							);
+						?>&nbsp;
+					</td>
 					<td><?php echo $feed['Feed']['limit']; ?>&nbsp;</td>
 					<td>
 						<?php echo $this->Html->link($feed['Group']['name'], array('controller' => 'groups', 'action' => 'edit', $feed['Group']['id'])); ?>

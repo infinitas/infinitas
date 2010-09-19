@@ -37,17 +37,17 @@
 					'Group.id',
 					'Group.name'
 				)
-			),
+			)
 		);
 
 		public $hasMany = array(
 		);
 
 		public $hasAndBelongsToMany = array(
-			'FeedItem' => array(
-				'className'              => 'Feed.Feed',
+			'FeedsFeed' => array(
+				'className'              => 'Feed.FeedsFeed',
 				'joinTable'              => 'global_feeds_feeds',
-				'with'                   => 'Feed.Feed',
+				'with'                   => 'Feed.FeedsFeed',
 				'foreignKey'             => 'main_feed_id',
 				'associationForeignKey'  => 'sub_feed_id',
 				'unique'                 => true,
@@ -123,29 +123,58 @@
 			return $return;
 		}
 
-		public function getFeed($id = null, $group_id = 999){
-			if(!$id){
+		public function getFeed($slug = null, $group_id = 999){
+			if(!$slug){
 				return array();
 			}
 
-			$feed = $this->find(
+			$mainFeed = $this->find(
 				'first',
 				array(
 					'conditions' => array(
 						'Feed.active' => 1,
 						//'Feed.group_id > ' => $group_id,
-						'Feed.id' => $id
-					),
-					'contain' => array(
-						'FeedItem'
+						'Feed.slug' => $slug
 					)
 				)
 			);
-			if(empty($feed)){
-				return $feed;
+			
+			if(empty($mainFeed)){
+				return array();
+			}
+			
+			$items = ClassRegistry::init('Feed.FeedsFeed')->find(
+				'list',
+				array(
+					'conditions' => array('FeedsFeed.main_feed_id' => $mainFeed['Feed']['id']),
+					'fields' => array('FeedsFeed.sub_feed_id', 'FeedsFeed.sub_feed_id')
+				)
+			);
+			
+			if(empty($items)){
+				return array();
 			}
 
-			return $this->feedArrayFormat($this->getJsonRecursive($feed));
+			$items = $this->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Feed.id' => $items,
+						'Feed.active' => 1
+					)
+				)
+			);
+
+			
+			if(empty($items)){
+				return array();
+			}
+
+			foreach($items as $item){
+				$mainFeed['FeedItem'][] = $item['Feed'];
+			}
+
+			return $this->feedArrayFormat($this->getJsonRecursive($mainFeed));
 		}
 
 		public function feedArrayFormat($feed = array()){
@@ -164,7 +193,9 @@
 			);
 
 			foreach($feed['FeedItem'] as $item){
-				$query['feed'][ucfirst($item['plugin']).'.'.ucfirst(Inflector::singularize($item['controller']))] = array(
+				$plugin = Inflector::camelize($item['plugin']);
+				$controller = Inflector::camelize(Inflector::singularize($item['controller']));
+				$query['feed'][$plugin.'.'.$controller] = array(
 					'setup' => array(
 						'plugin' => $item['plugin'],
 						'controller' => $item['controller'],
@@ -176,7 +207,7 @@
 				);
 			}
 
-			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::singularize($feed['Feed']['controller']));
+			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::camelize(Inflector::singularize($feed['Feed']['controller'])));			
 
 			return $_Model->find('feed', $query);
 		}
