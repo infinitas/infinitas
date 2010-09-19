@@ -17,20 +17,6 @@
 					'conditions' => array(
 						'Feed.active' => 1,
 						//'Feed.group_id >= ' => $this->Session->read('Auth.User.group_id')
-					),
-					'contain' => array(
-						'FeedItem' => array(
-							'fields' => array(
-								'FeedItem.name',
-								'FeedItem.description',
-								'FeedItem.plugin',
-								'FeedItem.controller'
-							),
-							'conditions' => array(
-								'FeedItem.active' => 1,
-								//'FeedItem.group_id >= ' => $this->Session->read('Auth.User.group_id')
-							)
-						)
 					)
 				)
 			);
@@ -39,25 +25,21 @@
 		}
 
 		public function view(){
-			
-		}
-
-		public function get_feed(){
-			if(!$this->params['id']){
+			if(!$this->params['slug']){
 				$this->Session->setFlash(__('Invalid feed selected', true));
 				$this->redirect($this->referer());
 			}
 
-			$feed = $this->Feed->getFeed($this->params['id'], $this->Session->read('Auth.User.group_id'));
+			$feeds = $this->Feed->getFeed($this->params['slug'], $this->Session->read('Auth.User.group_id'));
 
-			if(empty($feed)){
+			if(empty($feeds)){
 				$this->Session->setFlash(__('The feed you have selected is not valid', true));
 				$this->redirect($this->referer());
 			}
 
-			$raw = $this->Feed->find('first', array('conditions' => array('Feed.id' => $this->params['id'])));
+			$raw = $this->Feed->find('first', array('conditions' => array('Feed.slug' => $this->params['slug'])));
 
-			$this->set(compact('feed', 'raw'));
+			$this->set(compact('feeds', 'raw'));
 		}
 
 		public function admin_index() {
@@ -80,8 +62,8 @@
 
 			$plugins = $this->Feed->getPlugins();
 			$groups = $this->Feed->Group->find('list');
-			$feedItems = $this->Feed->FeedItem->find('list');
-			$this->set(compact('plugins', 'groups', 'feedItems'));
+			$feedsFeeds = $this->Feed->FeedsFeed->find('list');
+			$this->set(compact('plugins', 'groups', 'feedsFeeds'));
 		}
 
 		public function admin_edit($id = null) {
@@ -90,9 +72,9 @@
 			$plugins     = $this->Feed->getPlugins();
 			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);
 			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
-			$feedItems   = $this->Feed->FeedItem->find('list');
+			$feedsFeeds = $this->Feed->FeedsFeed->find('list');
 			$groups      = $this->Feed->Group->find('list');
 
-			$this->set(compact('plugins', 'controllers', 'actions', 'feedItems', 'groups'));
+			$this->set(compact('plugins', 'controllers', 'actions', 'feedsFeeds', 'groups'));
 		}
 	}

@@ -76,13 +76,15 @@
 		}
 
 		public function beforeRedirect(){
-			if($this->Controller->params['form']['action'] == 'cancel'){				
-				$this->Controller->{$this->Controller->modelClass}->Lock->deleteAll(
-					array(
-						'Lock.class' => Inflector::camelize($this->Controller->plugin).'.'.$this->Controller->modelClass,
-						'Lock.foreign_key' => $this->Controller->params['data'][$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->primaryKey]
-					)
-				);
+			if(isset($this->Controller->{$this->Controller->modelClass}->lockable) && $this->Controller->{$this->Controller->modelClass}->lockable){
+				if($this->Controller->params['form']['action'] == 'cancel'){
+					$this->Controller->{$this->Controller->modelClass}->Lock->deleteAll(
+						array(
+							'Lock.class' => Inflector::camelize($this->Controller->plugin).'.'.$this->Controller->modelClass,
+							'Lock.foreign_key' => $this->Controller->params['data'][$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->primaryKey]
+						)
+					);
+				}
 			}
 		}
 	}
