@@ -45,11 +45,11 @@
 
 		public $hasAndBelongsToMany = array(
 			'FeedItem' => array(
-				'className'              => 'Feed.FeedItem',
-				'joinTable'              => 'core_feeds_feed_items',
-				'with'                   => 'Feed.FeedsFeedItem',
-				'foreignKey'             => 'feed_id',
-				'associationForeignKey'  => 'feed_item_id',
+				'className'              => 'Feed.Feed',
+				'joinTable'              => 'global_feeds_feeds',
+				'with'                   => 'Feed.Feed',
+				'foreignKey'             => 'main_feed_id',
+				'associationForeignKey'  => 'sub_feed_id',
 				'unique'                 => true,
 				'conditions'             => '',
 				'fields'                 => '',

@@ -12,8 +12,7 @@
 
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
-				'Feeds' => array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'index'),
-				'Feed Items' => array('plugin' => 'feed', 'controller' => 'feed_items', 'action' => 'index')
+				'Feeds' => array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'index')
 			);
 
 			return $menu;
@@ -23,11 +22,7 @@
 			return array(
 				'name' => 'feed',
 				'config' => array(
-					'duration' => 3600,
-					'probability' => 100,
-					'prefix' => 'core.feed.',
-					'lock' => false,
-					'serialize' => true
+					'prefix' => 'feed.',
 				)
 			);
 		}

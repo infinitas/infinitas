@@ -18,5 +18,5 @@
 	 */
 
 	class FeedAppModel extends AppModel {
-		var $tablePrefix = 'core_';
+		public $tablePrefix = 'global_';
 	}
