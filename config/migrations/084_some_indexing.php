@@ -94,7 +94,7 @@ class M4c929f79b9fc401e985f58ae6318cd70 extends CakeMigration {
 			'create_table' => array(				
 			),
 			'drop_field' => array(
-				'core_modules' => array('', 'indexes' => array('name')),
+				'core_modules' => array('indexes' => array('name')),
 			),
 		),
 		'down' => array(
