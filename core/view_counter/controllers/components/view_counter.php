@@ -40,7 +40,7 @@
 			$settings = array_merge($this->__settings, (array)$settings);
 
 			$check =
-				// dont tack admin views
+				// dont tack anything in admin
 				$settings['admin'] === false && 
 				isset($Controller->params['admin']) &&
 				$Controller->params['admin'] &&
@@ -48,8 +48,8 @@
 				// only track actions that are set
 				in_array($Controller->action, $settings['actions']);
 
-			if($check === false){
-				$Controller->{$Controller->modelClass}->Behaviors->detach('ViewCounter.Viewable');
+			if($check){
+				$Controller->{$Controller->modelClass}->Behaviors->attach('ViewCounter.Viewable');
 			}
 		}
 	}

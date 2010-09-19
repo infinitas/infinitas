@@ -51,6 +51,35 @@
 			}
 
 			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], ife(is_array($settings), $settings, array()));
+
+			$Model->bindModel(
+				array(
+					'hasMany' => array(
+						'ViewCount' => array(
+							'className' => 'ViewCounter.ViewCount',
+							'foreignKey' => 'foreign_key',
+							'conditions' => array(
+								'model' => $Model->plugin.'.'.$Model->alias
+							),
+							'limit' => 0
+						)
+					)
+				)
+			);
+
+			$Model->ViewCount->bindModel(
+				array(
+					'belongsTo' => array(
+						$Model->alias => array(
+							'className' => $Model->alias,
+							'foreignKey' => 'foreign_key',
+							'counterCache' => 'views',
+							'counterScope' => array(
+							)
+						)
+					)
+				)
+			);
 		}
 
 		/**
