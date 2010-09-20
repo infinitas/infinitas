@@ -39,14 +39,6 @@
 		private $__addJs  = array();
 
 		/**
-		 * after render is called after the page is rendered. output here will not
-		 * be in your html. this is used for cleanup / loggin etc.
-		 */
-		function afterRender(){
-			parent::afterRender();
-		}
-
-		/**
 		 * before render is called before the page is rendered, but after all the
 		 * processing is done.
 		 */

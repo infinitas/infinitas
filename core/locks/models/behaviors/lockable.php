@@ -83,14 +83,13 @@
 		 * @var bool $primary is it the main model doing the find
 		 */
 		public function afterFind(&$Model, $results, $primary){
-			// just doing a count
-			if(isset($results[0][0]['count']) || !$primary){
+			if($Model->findQueryType != 'first' || !$primary || empty($results)){
 				return $results;
 			}
 			
 			$class = Inflector::camelize($Model->plugin).'.'.$Model->alias;
 
-			if(!empty($results) && count($results) == 1 && isset($results[0][$Model->alias][$Model->primaryKey])){
+			if(isset($results[0][$Model->alias][$Model->primaryKey])){
 				$this->user_id = CakeSession::read('Auth.User.id');
 				$lock = $Model->Lock->find(
 					'all',
@@ -143,12 +142,16 @@
 		 * @return array the find query data
 		 */
 		public function beforeFind(&$Model, $query) {
+			if($Model->findQueryType == 'count'){
+				return $query;
+			}
+			
 			$query['contain'][$Model->Lock->alias] = array();
 			$query['contain']['Locker'] = array();
 			if(isset($query['recursive']) && $query['recursive'] == -1){
 				$query['recursive'] = 0;
 			}
-			
+
 			call_user_func(array($Model, 'contain'), $query['contain']);
 			return $query;
 		}
