@@ -1,5 +1,5 @@
 <?php
-	class EventHelper extends AppHelper{
+	class EventHelper extends InfinitasHelper{
 		/**
 		 * Trigger a event
 		 *
@@ -8,6 +8,6 @@
 		 * @return array:
 		 */
 		public function trigger($eventName, $data = array()){
-			return EventCore::trigger($this->Controller, $eventName, $data);
+			return EventCore::trigger($this, $eventName, $data);
 		}
 	}
