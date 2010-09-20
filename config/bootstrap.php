@@ -21,17 +21,15 @@
 			'plugins' => $paths
 		)
 	);
-	
-	if(App::import('Libs', 'Developer.Xhprof')){
-		Xhprof::start();
-	}
 
 	/**
 	 * Load plugin events
 	 */
-	App::import('Libs', 'Events.Events');
-	EventCore::getInstance();
+	if(!App::import('Libs', 'Events.Events')){
+		trigger_error('Could not load the Events Class', E_USER_ERROR);
+	}
 
+	EventCore::trigger(new StdClass(), 'requireLibs');
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
 	/**
@@ -83,8 +81,7 @@
 	 * @param string $str the stuff you want escaped
 	 * @return string the escaped string
 	 */
-	function regexEscape($str)
-	{
+	function regexEscape($str){
 		$patterns = array(
 			'/\//', '/\^/', '/\./', '/\$/', '/\|/',
 			'/\(/', '/\)/', '/\[/', '/\]/', '/\*/',

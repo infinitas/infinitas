@@ -34,3 +34,6 @@
 [submodule "plugins/backlinks"]
 	path = plugins/backlinks
 	url = git://github.com/Infinitas-Plugins/backlinks.git
+[submodule "developer"]
+	path = developer
+	url = git://github.com/Infinitas-Plugins/developer

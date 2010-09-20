@@ -81,6 +81,7 @@
 			
 			$return = array();
 			foreach($models as $model){
+				ClassRegistry::init($model)->Behaviors->attach('ViewCounter.Viewable');
 				$return[$model] = ClassRegistry::init($model)->getToalViews();
 			}
 
