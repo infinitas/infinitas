@@ -1,17 +1,10 @@
 <?php
 	/**
 	*/
-	class FilemanagerController extends AppController {
+	class FilemanagerController extends CoreAppController {
 		var $name = 'Filemanager';
 
 		var $uses = array('Filemanager.Files', 'Filemanager.Folders');
-
-		var $helpers = array(
-			'Libs.Image',
-			'Number',
-			'Management.Core',
-			'Filter.Filter'
-		);
 
 		function admin_index() {
 			$path = '/';

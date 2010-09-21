@@ -20,7 +20,7 @@
 
     echo $this->Form->create('FileManager', array('url' => array('action' => 'mass')));
 
-        $massActions = $this->Core->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'upload',
                 'view',
@@ -29,12 +29,12 @@
                 'delete'
             )
         );
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Infinitas->adminIndexHead(null, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Core->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
@@ -69,7 +69,7 @@
                 )
             );
             ?>
-            	<tr class="<?php echo $this->Core->rowClass(); ?>">
+            	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                     <td>&nbsp;</td>
                     <td><?php echo $this->Image->image( 'actions', 'arrow-left' ); ?></td>
                     <td>&nbsp;</td>
@@ -86,7 +86,7 @@
 
             foreach($folders as $folder){
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox('Folder.'.$folder['Folder']['path']); ?>&nbsp;</td>
                         <td>
                             <?php
@@ -133,7 +133,7 @@
 
             foreach ($files as $file){
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox('File.'.$file['File']['path']); ?>&nbsp;</td>
                         <td>
                             <?php
