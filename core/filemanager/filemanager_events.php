@@ -37,4 +37,17 @@
 
 			return $menu;
 		}
+
+		public function onSetupCache(){
+			return array(
+				'name' => 'filemanager',
+				'config' => array(
+					'prefix' => 'core.filemanager.',
+				)
+			);
+		}
+
+		public function onSetupConfig(){
+			return Configure::load('filemanager.config');
+		}
 	 }

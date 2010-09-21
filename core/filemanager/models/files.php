@@ -17,7 +17,7 @@
 		);
 
 		public function beforeFind($queryData) {
-			$this->basePath = APP; //Configure::read( 'FileManager.base_path' );
+			$this->basePath = Configure::read( 'Filemanager.base_path' );
 
 			if (empty($this->basePath)) {
 				$this->validationErrors[] = array(
@@ -60,9 +60,9 @@
 				return false;
 			}
 
-			$data = Cache::read('files_' . sha1($this->path . $conditions));
+			$data = Cache::read('files.' . sha1($this->path . $conditions), 'filemanager');
 			if ($data !== false) {
-				// return $data;
+				return $data;
 			}
 
 			return (array)$this->__read($findType, $conditions);
@@ -83,7 +83,7 @@
 			} // switch
 			$this->return;
 
-			Cache::write('files_' . sha1($this->path . $conditions), $this->return);
+			Cache::write('files.' . sha1($this->path . $conditions), $this->return, 'filemanager');
 
 			return $this->return;
 		}
