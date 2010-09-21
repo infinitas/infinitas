@@ -234,4 +234,12 @@
 		 * dependancies or configs, new records like pending comments etc.
 		 */
 		public function onRequireTodoList(&$event){}
+
+		/**
+		 * Last event to fire.
+		 *
+		 * Called after everything is done and finished. should not really be used
+		 * for output unless in debug mode. 
+		 */
+		public function onRequestDone(){}
 	}
