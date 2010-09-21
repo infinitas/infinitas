@@ -1,7 +1,9 @@
 <?php
 	class LibsEvents extends AppEvents{
 		public function onSetupConfig(){
-			return Configure::load('libs.config');
+			return
+			Configure::load('libs.images') &&
+			Configure::load('libs.config');
 		}
 
 		public function onSetupExtentions(){

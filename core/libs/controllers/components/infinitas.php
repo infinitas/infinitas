@@ -68,15 +68,6 @@
 		}
 
 		/**
-		* Load core images.
-		*
-		* This is where all the images for the site is loaded.
-		*/
-		public function loadCoreImages(){
-			Configure::load('images');
-		}
-
-		/**
 		* Change the Pagination dropdown.
 		*
 		* This is what allows you to view different number of records in the
