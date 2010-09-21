@@ -232,6 +232,11 @@
 			);
 		}
 
+		public function afterSave($created){
+			Cache::delete('global_configs');
+			return parent::afterSave($created);
+		}
+
 		/**
 		 * Just for generating code for the configs, can be used in the dev installer
 		 * plugin stuff to avoid typing out stuff.
