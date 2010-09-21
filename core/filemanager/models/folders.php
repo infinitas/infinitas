@@ -2,21 +2,21 @@
 	/**
 	*/
 	class Folders extends AppModel {
-		var $name = 'Folders';
+		public $name = 'Folders';
 
-		var $useTable = false;
+		public $useTable = false;
 
-		var $hasMany = array(
+		public $hasMany = array(
 			'Filemanager.Files'
 		);
 
-		var $ignore = array(
+		public $ignore = array(
 			'.htaccess',
 			'.htpasswd',
 			'.gitignore'
 		);
 
-		function beforeFind($queryData) {
+		public function beforeFind($queryData) {
 			$this->basePath = APP; //Configure::read( 'FileManager.base_path' );
 
 			if (empty($this->basePath)) {
@@ -55,7 +55,7 @@
 			return true;
 		}
 
-		function find($findType = 'all', $conditions = array()) {
+		public function find($findType = 'all', $conditions = array()) {
 			if (! $this->beforeFind($conditions)) {
 				return false;
 			}
@@ -68,10 +68,10 @@
 			return (array)$this->__read($findType, $conditions);
 		}
 
-		function chmod($path) {
+		public function chmod($path) {
 		}
 
-		function __read($findType, $conditions) {
+		private function __read($findType, $conditions) {
 			switch($findType) {
 				case 'all':
 					$this->__advancedFolderFind($conditions);
@@ -86,7 +86,7 @@
 			return $this->return;
 		}
 
-		function __advancedFolderFind($conditions) {
+		private function __advancedFolderFind($conditions) {
 			if (empty($this->fileList[0])) {
 				$this->return = array();
 				return true;
@@ -144,7 +144,7 @@
 			return true;
 		}
 
-		function __fileStatus($currentI, $stat) {
+		private function __fileStatus($currentI, $stat) {
 			$ts = array(0140000 => 'ssocket', 0120000 => 'llink', 0100000 => '-file',
 				0060000 => 'bblock', 0040000 => 'ddir', 0020000 => 'cchar',
 				0010000 => 'pfifo'
@@ -170,7 +170,7 @@
 			$this->return[$currentI]['Folder']['group_name'] = (function_exists('posix_getgrgid')) ? posix_getgrgid($this->return[$currentI]['Folder']['group']) : '';
 		}
 
-		function __simpleFolderFind($conditions) {
+		private function __simpleFolderFind($conditions) {
 			if (empty($this->fileList[0])) {
 				$this->return = array();
 				return true;
@@ -186,11 +186,11 @@
 			return true;
 		}
 
-		function __relativePath($path) {
+		private function __relativePath($path) {
 			return 'todo';
 		}
 
-		function __order($order = array('name' => 'ASC')) {
+		private function __order($order = array('name' => 'ASC')) {
 			if (!is_array($order)) {
 				$order = array($order);
 			}

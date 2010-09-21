@@ -2,11 +2,11 @@
 	/**
 	*/
 	class FilemanagerController extends CoreAppController {
-		var $name = 'Filemanager';
+		public $name = 'Filemanager';
 
-		var $uses = array('Filemanager.Files', 'Filemanager.Folders');
+		public $uses = array('Filemanager.Files', 'Filemanager.Folders');
 
-		function admin_index() {
+		public function admin_index() {
 			$path = '/';
 			if(!empty($this->params['pass'])){
 				$path = implode('/', $this->params['pass']);
@@ -45,7 +45,7 @@
 			$this->set(compact('files', 'folders'));
 		}
 
-		function admin_view() {
+		public function admin_view() {
 			if(!empty($this->params['pass'])){
 				$path = implode('/', $this->params['pass']);
 			}
@@ -58,7 +58,7 @@
 			$this->set('path', APP.$path);
 		}
 
-		function admin_download($file = null) {
+		public function admin_download($file = null) {
 			if (!$file) {
 				$this->Session->setFlash(__('Please select a file first', true));
 				$this->redirect($this->referer());
@@ -66,7 +66,7 @@
 			//  @todo mediaViews
 		}
 
-		function admin_delete($file = null) {
+		public function admin_delete($file = null) {
 			if (!$file) {
 				$this->Session->setFlash(__('Please select a file first', true));
 				$this->redirect($this->referer());
