@@ -44,8 +44,6 @@
 			$this->__checkBadLogins();
 			$this->__ipBlocker();
 
-			//$this->setupTheme();
-			$this->loadCoreImages();
 			$this->__paginationRecall();
 
 			if (Configure::read('Website.force_www')) {
@@ -55,8 +53,8 @@
 
 		private function __registerPlugins(){
 			/**
-			* wysiwyg editors
-			*/
+			 * wysiwyg editors
+			 */
 			$wysiwygEditors = Cache::read('wysiwyg_editors', 'core');
 			if($wysiwygEditors === false){
 				$eventData = $this->Controller->Event->trigger('registerWysiwyg');
@@ -68,14 +66,14 @@
 		}
 
 		/**
-		* Change the Pagination dropdown.
-		*
-		* This is what allows you to view different number of records in the
-		* index pages.
-		*
-		* @param array $options
-		* @return
-		*/
+		 * Change the Pagination dropdown.
+		 *
+		 * This is what allows you to view different number of records in the
+		 * index pages.
+		 *
+		 * @param array $options
+		 * @return
+		 */
 		public function changePaginationLimit($options=array(),$params=array()){
 			// remove the current / default value
 			if (isset($params['named']['limit'])) {
@@ -94,14 +92,14 @@
 		}
 
 		/**
-		* Set a hard limit on pagination.
-		*
-		* This will stop people requesting to many pages and slowing down the site.
-		* setting the Global.pagination_limit to 0 should turn this off
-		*
-		* @param int $limit the current limit that is being requested
-		* @return int site max if limit was to high :: the limit that was set if its not to high
-		*/
+		 * Set a hard limit on pagination.
+		 *
+		 * This will stop people requesting to many pages and slowing down the site.
+		 * setting the Global.pagination_limit to 0 should turn this off
+		 *
+		 * @param int $limit the current limit that is being requested
+		 * @return int site max if limit was to high :: the limit that was set if its not to high
+		 */
 		public function paginationHardLimit($limit = null, $return = false){
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
 				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
@@ -119,10 +117,10 @@
 		}
 
 		/**
-		* force the site to use www.
-		*
-		* this will force your site to use the sub domain www.
-		*/
+		 * force the site to use www.
+		 *
+		 * this will force your site to use the sub domain www.
+		 */
 		public function forceWwwUrl(){
 			// read the host from the server environment
 			$host = env('HTTP_HOST');
@@ -147,10 +145,10 @@
 		}
 
 		/**
-		* Get the users browser.
-		*
-		* return string the users browser name or Unknown.
-		*/
+		 * Get the users browser.
+		 *
+		 * return string the users browser name or Unknown.
+		 */
 		public function getBrowser(){
 			$event = $this->Controller->Event->trigger('findBrowser');
 			if (isset($event['findBrowser'][$this->Controller->plugin]) && is_string($event['findBrowser'][$this->Controller->plugin])) {
@@ -234,14 +232,14 @@
 
 
 		/**
-		* Block people.
-		*
-		* Will get a list of ip addresses that are saved to be blocked and
-		* if the user matches that address they will be black holed.
-		*
-		* If the user is allowed it is saved to their session so that the test
-		* is not done on every request.
-		*/
+		 * Block people.
+		 *
+		 * Will get a list of ip addresses that are saved to be blocked and
+		 * if the user matches that address they will be black holed.
+		 *
+		 * If the user is allowed it is saved to their session so that the test
+		 * is not done on every request.
+		 */
 		private function __ipBlocker(){
 			if ($this->Controller->Session->read('Infinitas.Security.ip_checked')) {
 				return true;
@@ -320,10 +318,10 @@
 		}
 
 		/**
-		* Set up Auth.
-		*
-		* Define some things that auth needs to work
-		*/
+		 * Set up Auth.
+		 *
+		 * Define some things that auth needs to work
+		 */
 		function _setupAuth(){
 			$this->Controller->Auth->allow('*');
 			//$this->Auth->allow('display');
@@ -405,8 +403,8 @@
 		}
 
 		/**
-		* Set some data for the infinitas js lib.
-		*/
+		 * Set some data for the infinitas js lib.
+		 */
 		function _setupJavascript(){
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
@@ -424,7 +422,7 @@
 			$infinitasJsData['data']	   = (isset($this->Controller->data) ? $this->Controller->data : '');
 			$infinitasJsData['model']	   = $this->Controller->modelClass;
 
-			$infinitasJsData['config']     = Configure::getInstance();
+			$infinitasJsData['config']     =& Configure::getInstance();
 
 			$this->Controller->set(compact('infinitasJsData'));
 		}
