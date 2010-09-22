@@ -27,9 +27,7 @@
 	/**
 	 * Cache configuration
 	 */
-	$__cache = function_exists('apc_cache_info') ? 'Apc' : 'Libs.NamespaceFile';
-	$__cache = 'Libs.NamespaceFile';
-	pr($__cache);
+	$__cache = function_exists('apc_cache_info') ? 'Apc' : 'Libs.NamespaceFile';	
 	Configure::write('Cache.engine', $__cache);
 	Cache::config('default', array('engine' => 'File', 'prefix' => 'infinitas_'));
 

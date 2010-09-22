@@ -48,13 +48,13 @@
 				$folder = 'plugins' . DS . $folder;
 			}
 			
-			if(Configure::read('Cache.engine' == 'Libs.NamespaceFile')){
+			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
 				if(!is_dir(CACHE.$folder)){
 					$Folder = new Folder(CACHE.$folder, true);
 				}
 			}
 			
-			if(function_exists('apc_cache_info')){				
+			else{
 				$cache['config']['prefix'] = str_replace(DS, '_', $folder);
 			}
 
