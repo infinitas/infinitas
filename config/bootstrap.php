@@ -54,8 +54,7 @@
 				}
 			}
 			
-			if(function_exists('apc_cache_info') && Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
-				Configure::write('Cache.engine', 'Apc');
+			if(function_exists('apc_cache_info')){				
 				$cache['config']['prefix'] = str_replace(DS, '_', $folder);
 			}
 
