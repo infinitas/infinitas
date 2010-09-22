@@ -22,7 +22,7 @@
 	Configure::write('debug', 2);
 	Configure::write('log', true);
 	define('LOG_ERROR', 2);
-	Cache::config('default', array('engine' => 'File'));
+	Cache::config('default', array('engine' => 'File', 'prefix' => 'infinitas_'));
 
 
 	//no home

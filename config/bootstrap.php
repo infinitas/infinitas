@@ -38,14 +38,14 @@
 	if(!defined('JSON_ERROR_NONE')){define('JSON_ERROR_NONE', 0);}
 	if(!defined('JSON_ERROR_DEPTH')){define('JSON_ERROR_DEPTH', 1);}
 	if(!defined('JSON_ERROR_CTRL_CHAR')){define('JSON_ERROR_CTRL_CHAR', 3);}
-	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}
-
+	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}	
+	
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
 			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';			
 			$folder = str_replace('.', DS, $cache['config']['prefix']);
-			if(!strstr($folder, 'core/')){
-				$folder = 'plugins'.DS.$folder;
+			if(!strstr($folder, 'core' . DS)){
+				$folder = 'plugins' . DS . $folder;
 			}
 			if(!is_dir(CACHE.$folder)){
 				$Folder = new Folder(CACHE.$folder, true);
@@ -53,10 +53,15 @@
 
 			$cache['config'] = array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']);
 
+
+			if(function_exists('apc_cache_info') && Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
+				$cache['config']['engine'] = 'Apc';
+				$cache['config']['prefix'] = str_replace(DS, '_', $folder);
+			}
 			// set a default and turn off if debug is on.
 			$cache['config']['duration'] = isset($cache['config']['duration']) ? $cache['config']['duration'] : '+ 999 days';
 			$cache['config']['duration'] = Configure::read('debug') > 0 ? '+ 10 seconds' : $cache['config']['duration'];
-
+			
 			if(!empty($cache['name']) && !empty($cache['config'])) {
 				Cache::config($cache['name'], $cache['config']);
 			}
