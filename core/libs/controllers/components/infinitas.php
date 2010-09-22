@@ -422,7 +422,7 @@
 			$infinitasJsData['data']	   = (isset($this->Controller->data) ? $this->Controller->data : '');
 			$infinitasJsData['model']	   = $this->Controller->modelClass;
 
-			$infinitasJsData['config']     =& Configure::getInstance();
+			$infinitasJsData['config']     = Configure::getInstance();
 
 			$this->Controller->set(compact('infinitasJsData'));
 		}
