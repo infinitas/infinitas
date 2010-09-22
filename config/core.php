@@ -28,8 +28,10 @@
 	 * Cache configuration
 	 */
 	$__cache = function_exists('apc_cache_info') ? 'Apc' : 'Libs.NamespaceFile';
+	$__cache = 'Libs.NamespaceFile';
+	pr($__cache);
 	Configure::write('Cache.engine', $__cache);
-	Cache::config('default', array('engine' => $__cache, 'prefix' => 'infinitas_'));	
+	Cache::config('default', array('engine' => 'File', 'prefix' => 'infinitas_'));
 
 	//no home
 	Configure::write('Rating.require_auth', true);
