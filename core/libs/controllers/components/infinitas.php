@@ -36,13 +36,13 @@
 		*/
 		public function initialize(&$controller, $settings = array()) {
 			Configure::write('CORE.current_route', Router::currentRoute());
-			$this->Controller = &$controller;
+			$this->Controller =& $controller;
 			$settings = array_merge(array(), (array)$settings);
 
 			$this->__registerPlugins();
 
 			$this->__checkBadLogins();
-			$this->__ipBlocker();
+			//$this->__ipBlocker();
 
 			$this->__paginationRecall();
 
