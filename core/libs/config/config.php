@@ -57,14 +57,6 @@
 	);
 
 	/**
-	 * Cache configuration
-	 */
-	$config['Cache'] = array(
-		'engine' => 'Libs.NamespaceFile',
-		//'disable' => false
-	);
-
-	/**
 	 * Core configuration
 	 */
 	$config['CORE'] = array(

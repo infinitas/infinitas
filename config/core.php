@@ -22,8 +22,14 @@
 	Configure::write('debug', 2);
 	Configure::write('log', true);
 	define('LOG_ERROR', 2);
-	Cache::config('default', array('engine' => 'File', 'prefix' => 'infinitas_'));
 
+
+	/**
+	 * Cache configuration
+	 */
+	$__cache = function_exists('apc_cache_info') ? 'Apc' : 'Libs.NamespaceFile';
+	Configure::write('Cache.engine', $__cache);
+	Cache::config('default', array('engine' => $__cache, 'prefix' => 'infinitas_'));	
 
 	//no home
 	Configure::write('Rating.require_auth', true);

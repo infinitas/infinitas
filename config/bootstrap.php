@@ -43,21 +43,24 @@
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
 			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';			
-			$folder = str_replace('.', DS, $cache['config']['prefix']);
+			$folder = str_replace('.', DS, $cache['config']['prefix']);			
 			if(!strstr($folder, 'core' . DS)){
 				$folder = 'plugins' . DS . $folder;
 			}
-			if(!is_dir(CACHE.$folder)){
-				$Folder = new Folder(CACHE.$folder, true);
+			
+			if(Configure::read('Cache.engine' == 'Libs.NamespaceFile')){
+				if(!is_dir(CACHE.$folder)){
+					$Folder = new Folder(CACHE.$folder, true);
+				}
+			}
+			
+			if(function_exists('apc_cache_info') && Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
+				Configure::write('Cache.engine', 'Apc');
+				$cache['config']['prefix'] = str_replace(DS, '_', $folder);
 			}
 
 			$cache['config'] = array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']);
 
-
-			if(function_exists('apc_cache_info') && Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
-				$cache['config']['engine'] = 'Apc';
-				$cache['config']['prefix'] = str_replace(DS, '_', $folder);
-			}
 			// set a default and turn off if debug is on.
 			$cache['config']['duration'] = isset($cache['config']['duration']) ? $cache['config']['duration'] : '+ 999 days';
 			$cache['config']['duration'] = Configure::read('debug') > 0 ? '+ 10 seconds' : $cache['config']['duration'];
