@@ -484,11 +484,15 @@ form .required input{
 form label{
 	margin-left: 10px;
 	display: block;
-	clear: right;
+	clear: both;
 }
 form .checkbox label{
 	clear: none;
 	display: inline;
+}
+form div.checkbox{
+	float:left;
+	width:23%;
 }
 form .required label{
 	font-weight: bold;
@@ -512,10 +516,12 @@ form select{
 		margin:2px;
 		padding-left:10px;
 	}
-	form .route select,
-	form .date select{
+	
+	form .date select,
+	form .smaller select{
 		width: 31%;
 	}
+	
 table.cake-sql-log{
 	display: none;
 }
