@@ -19,15 +19,10 @@
 	 */
 
     echo $this->Form->create('ModulePosition');
-        echo $this->Infinitas->adminEditHead();
-        echo $this->Design->niceBox();
-	        ?>
-				<div class="data">
-					<?php
-				        echo $this->Form->input('id');
-				        echo $this->Form->input('name');
-				    ?>
-				</div>
-			<?php
-        echo $this->Design->niceBoxEnd();
-    echo $this->Form->end( );
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Module Position', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('name'); ?>
+		</fieldset><?php
+    echo $this->Form->end();

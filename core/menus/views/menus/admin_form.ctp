@@ -18,17 +18,13 @@
      */
 
     echo $this->Form->create( 'Menu' );
-        echo $this->Infinitas->adminEditHead();
-    ?>
-		<div style="width:50%; float:left;">
-			<?php
-		        echo $this->Form->input( 'id' );
-		        echo $this->Form->input( 'name' );
-		        echo $this->Form->input( 'type' );
-		        echo $this->Form->input( 'active' );
-			?>
-		</div>
-		<div class="clr">&nbsp;</div>
-	<?php
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Menu', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('name');
+			echo $this->Form->input('type'); // @todo not needed ?
+			echo $this->Form->input('active'); ?>
+		</fieldset><?php
     echo $this->Form->end();
 ?>

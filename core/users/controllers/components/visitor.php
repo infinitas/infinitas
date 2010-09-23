@@ -20,10 +20,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-    echo $this->Form->create('Robot');
-        echo $this->Infinitas->adminEditHead(); ?>
-		<fieldset>
-			<h1><?php echo __('Robots File', true); ?></h1><?php
-			echo $this->Form->input('robots', array('title' => false, 'type' => 'textarea')); ?>
-		</fieldset>
-	<?php echo $this->Form->end();?>
+	class VisitorComponent extends InfinitasComponent{
+		
+	}

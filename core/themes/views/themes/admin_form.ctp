@@ -17,16 +17,20 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create( 'Theme' );
-        echo $this->Infinitas->adminEditHead();    
-        echo $this->Form->input( 'id' );
-        echo $this->Form->input( 'name' );
-        echo $this->Form->input( 'author' );
-        echo $this->Form->input( 'url' );
-        echo $this->Form->input( 'update_url' );
-        echo $this->Form->input( 'licence' );
-        echo $this->Form->input( 'active' );
-        echo $this->Form->input( 'core' );
-        echo $this->Core->wysiwyg( 'Theme.description' );
-    echo $this->Form->end();
- ?>
+    echo $this->Form->create('Theme');
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Theme', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('name', array('options' => $themes, 'type' => 'select', 'empty' => Configure::read('Website.empty_select')));
+			echo $this->Form->input('active'); ?>
+		</fieldset>
+		<fieldset>
+			<h1><?php echo __('Author', true); ?></h1><?php
+			echo $this->Form->input('author');
+			echo $this->Form->input('url');
+			echo $this->Form->input('update_url');
+			echo $this->Form->input('licence');
+			echo $this->Infinitas->wysiwyg('Theme.description'); ?>
+		</fieldset>
+    <?php echo $this->Form->end(); ?>

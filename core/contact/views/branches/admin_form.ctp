@@ -18,24 +18,17 @@
      */
 
     echo $this->Form->create('Branch', array('type' => 'file'));
-        echo $this->Infinitas->adminEditHead();
-    ?>
-		<div style="width:50%; float:left;">
-			<?php
-		        echo $this->Form->input('id');
-		        echo $this->Form->input('image', array('type' => 'file'));
-		        echo $this->Form->input('name');
-		        echo $this->Form->input('phone');
-		        echo $this->Form->input('fax');
-		        echo $this->Form->input('address');
-		        echo $this->Form->input('active');
-			?>
-		</div>
-		<div style="width:50%; float:left;">
-			<?php
-			?>
-		</div>
-		<div class="clr">&nbsp;</div>
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Branch', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('image', array('type' => 'file'));
+			echo $this->Form->input('name');
+			echo $this->Form->input('phone');
+			echo $this->Form->input('fax');
+			echo $this->Form->input('address', array('type' => 'textarea'));
+			echo $this->Form->input('active'); ?>
+		</fieldset>
 	<?php
     echo $this->Form->end( );
 ?>

@@ -17,6 +17,8 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+
+	$model = isset($model) ? $model : $this->params['models'][0];
 ?>
 <div class="input smaller">
 	<label for="'.$model.'Plugin"><?php echo __('Route', true); ?></label><?php

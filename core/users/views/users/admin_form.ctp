@@ -17,29 +17,20 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-	echo $this->Form->create( 'User' );
-        echo $this->Infinitas->adminEditHead();
-		echo $this->Design->niceBox();
-			?>
-			<div class="data">
-				<?php
-			        echo $this->Form->input('id');
-			        echo $this->Form->input('username');
-			        echo $this->Form->input('password', array('value' => ''));
-			        echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
-			        echo $this->Form->input('email');
-			        echo $this->Form->input('birthday');
-			    ?>
-			</div>
-			<div class="config">
-				<?php
-					echo $this->Design->niceBox();
-				        echo $this->Form->input('active');
-				        echo $this->Form->input('group_id');
-					echo $this->Design->niceBoxEnd();
-				?>
-			</div>
-			<?php
-		echo $this->Design->niceBoxEnd();
-	echo $this->Form->end();
-?>
+	echo $this->Form->create('User');
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('User', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('username');
+			echo $this->Form->input('email');
+			echo $this->Form->input('password', array('value' => ''));
+			echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
+			echo $this->Form->input('active');?>
+		</fieldset>
+		<fieldset>
+			<h1><?php echo __('Details', true); ?></h1><?php
+			echo $this->Form->input('birthday');
+			echo $this->Form->input('group_id'); ?>
+		</fieldset> 
+	<?php echo $this->Form->end(); ?>

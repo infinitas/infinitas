@@ -1,9 +1,6 @@
 <?php
     /**
-     * Management Config admin add configs.
-     *
-     * This page is to add configuration vars that will be loaded automaticaly
-     * on startup
+     * form to create new configuration values for infinitas
      *
      * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      *
@@ -11,43 +8,31 @@
      * Redistributions of files must retain the above copyright notice.
      *
      * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       management
-     * @subpackage    management.views.configs.admin_add
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+     * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+     * @link http://infinitas-cms.org
+     * @package Infinitas.configs
+     * @subpackage Infinitas.configs.admin_add
+     * @license http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since 0.5a
+	 *
+	 * @author dogmatic69
      */
 
 	echo $this->Form->create('Config');
-        echo $this->Infinitas->adminEditHead();
-        echo $this->Design->niceBox();
-	        ?>
-				<div class="data">
-					<?php
-				        echo $this->Form->input('id');
-				        echo $this->Form->input('key');
-				        echo $this->Form->input('value');
-				        echo $this->Form->input(
-				        	'type',
-				        	array(
-					        	'value' => $types,
-					        	'type' => 'select',
-					        	'selected' => isset($this->data['Config']['type']) ? $this->data['Config']['type'] : ''
-					        )
-					    );
-				        echo $this->Form->input('options', array('class' => 'title'));
-				        echo $this->Form->input('core');
-				    ?>
-				</div>
-				<div class="config">
-					<?php
-						echo $this->Design->niceBox();
-					        echo $this->Core->wysiwyg('Config.description');
-				        echo $this->Design->niceBoxEnd();
-				    ?>
-				</div>
-			<?php
-        echo $this->Design->niceBoxEnd();
-    echo $this->Form->end();
-?>
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Configuration', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('key');
+			echo $this->Form->input('value');
+			echo $this->Form->input(
+				'type',
+				array(
+					'value' => $types,
+					'type' => 'select',
+					'selected' => isset($this->data['Config']['type']) ? $this->data['Config']['type'] : ''
+				)
+			);
+			echo $this->Form->input('options', array('class' => 'title')); ?>
+		</fieldset>
+	<?php echo $this->Form->end(); ?>
