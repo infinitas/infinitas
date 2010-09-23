@@ -95,8 +95,7 @@ switch(Infinitas.params.prefix) {
 
 
 			Infinitas.base + "assets/js/3rd/rater.js",
-			Infinitas.base + "assets/js/3rd/moving_boxes.js",
-			Infinitas.base + "assets/js/3rd/side_bar.js"
+			Infinitas.base + "assets/js/3rd/moving_boxes.js"
 		],
 		function(require) {
 			$(document).ready(function(){
