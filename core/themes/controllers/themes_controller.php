@@ -24,7 +24,7 @@
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
-				'name',
+				'name' => $this->Theme->find('list'),
 				'licence',
 				'author',
 				'core' => Configure::read('CORE.core_options'),
@@ -32,6 +32,39 @@
 			);
 
 			$this->set(compact('themes', 'filterOptions'));
+		}
+
+		public function admin_add(){
+			parent::admin_add();
+			$themes = $this->__listThemes();
+			if(empty($themes)){
+				$this->Session->setFlash(__('You do not have any themes to add', true));
+				$this->redirect($this->referer());
+			}
+			$this->set(compact('themes'));
+		}
+
+		public function admin_edit($id){
+			parent::admin_edit($id);
+			$this->set('themes', $this->__listThemes());
+		}
+
+		private function __listThemes($return = false){
+			$Folder = new Folder(APP . 'views' . DS . 'themed');
+			$folders = $Folder->read();
+			unset($Folder);
+			
+			$themes = array();
+			$exsitingThemes = $this->Theme->find('list');
+			foreach($folders[0] as $theme){
+				if(in_array($theme, $exsitingThemes)){
+					continue;
+				}
+				
+				$themes[$theme] = Inflector::humanize($theme);
+			}
+
+			return $themes;
 		}
 
 
