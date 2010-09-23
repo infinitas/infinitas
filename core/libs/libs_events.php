@@ -34,7 +34,7 @@
 					$event->Handler->Behaviors->attach('Libs.Expandable');
 				}
 
-				if (array_key_exists('slug', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sluggable')) {
+				if ($event->Handler->hasField('slug') && !$event->Handler->Behaviors->enabled('Libs.Sluggable')) {
 					$event->Handler->Behaviors->attach(
 						'Libs.Sluggable',
 						array(
@@ -43,15 +43,15 @@
 					);
 				}
 
-				if (array_key_exists('ordering', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Sequence')) {
+				if ($event->Handler->hasField('ordering') && !$event->Handler->Behaviors->enabled('Libs.Sequence')) {
 					$event->Handler->Behaviors->attach('Libs.Sequence');
 				}
 
-				if (array_key_exists('rating', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
+				if ($event->Handler->hasField('rating') && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
 					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
 
-				if (array_key_exists('lft', $event->Handler->_schema) && array_key_exists('rght', $event->Handler->_schema) && !$event->Handler->Behaviors->enabled('Tree')) {
+				if ($event->Handler->hasField('lft') && $event->Handler->hasField('rght') && !$event->Handler->Behaviors->enabled('Tree')) {
 					$event->Handler->Behaviors->attach('Tree');
 				}
 
