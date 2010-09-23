@@ -20,6 +20,7 @@ img{
 	border-radius: 10px;
 	-moz-border-radius: 10px;
 }
+
 h1{
 	background: url("../img/header_bg.gif") repeat-x scroll center bottom transparent;
 	color: #004A7E;
@@ -310,6 +311,7 @@ table.listing td{
 /**
 	Dashboard
 */
+form fieldset,
 .dashboard{
 	background-color:#F9F9F9;
 	border:1px solid #AFAFAF;
@@ -466,6 +468,54 @@ ul.pagination{
 	margin: 0;
 }
 
+/**
+Forms
+*/
+fieldset{
+	padding:0;
+}
+fieldset legend{
+	width: 100%;
+}
+/** required fields */
+form .required input{
+	background-color: #FFDAAF;
+}
+form label{
+	margin-left: 10px;
+	display: block;
+	clear: right;
+}
+form .checkbox label{
+	clear: none;
+	display: inline;
+}
+form .required label{
+	font-weight: bold;
+}
+form input,
+form select,
+form textarea{
+	border:3px solid #CFCFCF;
+	color:#616161;
+	margin:10px;
+	width:96%;
+	padding:5px;
+}
+
+form select{
+	padding:2px;
+	background-color:#FFFFFF;
+	width: 98%;
+}
+	form select option{
+		margin:2px;
+		padding-left:10px;
+	}
+	form .route select,
+	form .date select{
+		width: 31%;
+	}
 table.cake-sql-log{
 	display: none;
 }
