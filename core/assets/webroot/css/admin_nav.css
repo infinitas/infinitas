@@ -478,7 +478,9 @@ fieldset legend{
 	width: 100%;
 }
 /** required fields */
-form .required input{
+form .required input,
+form .required textarea,
+form .required select{
 	background-color: #FFDAAF;
 }
 form label{
@@ -520,7 +522,25 @@ form select{
 	form .date select,
 	form .smaller select{
 		width: 31%;
+		margin-right: 9px;
 	}
+
+div.error{
+	border: 1px dotted #FFDAAF;
+	margin:10px;
+}
+div.error .error-message{
+	color: red;
+	margin-left: 20px;
+	margin-bottom:5px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+/** plugin specific stuff */
+form div.static{
+	display: none;
+}
 	
 table.cake-sql-log{
 	display: none;
