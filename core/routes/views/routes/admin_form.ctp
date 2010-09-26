@@ -22,10 +22,8 @@
 		<fieldset>
 			<h1><?php echo __('Route', true); ?></h1><?php
 			echo $this->Form->input('id');
-			echo $this->Form->input('name'); ?>
-			<div class="static"><?php
-				echo $this->Form->input('url'); ?>
-			</div>
+			echo $this->Form->input('name'); 
+			echo $this->Form->input('url'); ?>
 			<div class="dynamic"><?php
 				$options = Configure::read('Routing.prefixes');
 				$options = array_combine($options, $options);
