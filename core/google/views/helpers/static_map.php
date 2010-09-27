@@ -19,7 +19,7 @@
 			'visible' => null,
 			'size' => array(
 				'width' => 640,
-				'height' => 640
+				'height' => 480
 			),
 			'image_type' => 'png32', // png, png8, png32, jpg
 			'map_type' => 'roadmap', // roadmap, satellite, hybrid, terrain
@@ -35,21 +35,23 @@
 			)
 		);
 
-		public function draw($data = array(), $imageProperties = array()){
-			$cache = $this->_checkCache(array($data, $imageProperties));
-			if($cache !== false){
-				return $cache;
+		public function draw($data = array(), $imageProperties = array(), $linkOnly = false){
+			if(!$linkOnly){
+				$cache = $this->_checkCache(array($data, $imageProperties));
+				if($cache !== false){
+					return $cache;
+				}
 			}
 
 			$this->query = $data;
 
-			if(!isset($this->query['location']) || !$this->__getValidLocation($this->query['location'])){
+			if(!isset($this->query['location']) || !$this->__getValidLocation($this->query['location'])){				
 				if(!isset($this->query['markers']) || count($this->query['markers']) < 2){
 					$this->errors[] = 'Invalid location';
 					return false;
 				}
 			}
-
+			
 			if(isset($this->query['visible']) && empty($this->query['visable'])){
 				$this->query['visible'] = $this->__getValidLocation($this->query['visible']);
 			}
@@ -78,6 +80,10 @@
 			$this->query['markers'] = $this->__markersValid(isset($this->query['markers']) ? $this->query['markers'] : array());
 
 			$url = $this->__buildQuery();
+			if($linkOnly){
+				return $url;
+			}
+			
 			$this->_writeCache(array($data, $imageProperties), $url);
 			return $this->Html->image(
 				$url,
