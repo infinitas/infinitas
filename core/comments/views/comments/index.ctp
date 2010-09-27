@@ -32,7 +32,8 @@
 						}
 					?>
 					<?php echo $this->Gravatar->image($comment['Comment']['email'], array('size' => '50')); ?>
-					<p><?php echo $this->Text->truncate(strip_tags($comment['Comment']['comment']), 350); ?></p>
+					<p><?php echo str_replace('\\n', '', strip_tags($comment['Comment']['comment'])); ?></p>
+					<br/><small><?php echo $this->Time->timeAgoInWords($comment['Comment']['created']); ?></small>
 				</div>
 			<?php
 		}
