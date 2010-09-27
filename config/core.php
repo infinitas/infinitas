@@ -29,6 +29,11 @@
 	 */
 	$__cache = function_exists('apc_cache_info') ? 'Apc' : 'Libs.NamespaceFile';	
 	Configure::write('Cache.engine', $__cache);
+
+	if(Configure::read('debug') == 0){
+		Configure::write('Cache.check', true);
+	}
+	
 	Cache::config('default', array('engine' => 'File', 'prefix' => 'infinitas_'));
 
 	//no home
