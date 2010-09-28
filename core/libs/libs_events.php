@@ -73,7 +73,7 @@
 		public function onRequireHelpersToLoad(&$event){
 			return array(
 				'Html', 'Form', 'Javascript', 'Session', 'Time', // core general things from cake
-				'Libs.Infinitas'				
+				'Libs.Infinitas' => true
 			);
 		}
 
