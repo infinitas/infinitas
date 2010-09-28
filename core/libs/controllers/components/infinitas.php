@@ -360,26 +360,6 @@
 			$this->Controller->Security->validatePost = false;
 		}
 
-		/**
-		 * triggers an event to get all the helpers
-		 */
-		public function getPluginHelpers(){
-			$data = $this->Controller->Event->trigger('requireHelpersToLoad');
-			
-			if(isset($data['requireHelpersToLoad']['libs'])){
-				$libs['libs'] = $data['requireHelpersToLoad']['libs'];
-				$data['requireHelpersToLoad'] = $libs + $data['requireHelpersToLoad'];
-			}
-			
-			foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
-				if(!is_array($helpers)){
-					$helpers = array($helpers);
-				}
-
-				$this->Controller->helpers = array_merge($this->Controller->helpers, array_filter($helpers));
-			}
-		}
-
 		public function getPluginAssets(){
 			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
 			if(isset($event['requireJavascriptToLoad']['libs'])){

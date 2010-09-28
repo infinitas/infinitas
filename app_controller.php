@@ -26,6 +26,8 @@
 		 */
 		public $view = 'Libs.Infinitas';
 
+		public $_helpers = array();
+
 		/**
 		 * internal cache of css files to load
 		 * @access private
@@ -44,8 +46,7 @@
 		 */
 		function beforeRender(){
 			parent::beforeRender();
-			$this->Infinitas->getPluginAssets();
-			$this->Infinitas->getPluginHelpers();			
+			$this->Infinitas->getPluginAssets();		
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
 		}
