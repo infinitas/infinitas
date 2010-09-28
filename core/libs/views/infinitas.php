@@ -22,8 +22,9 @@
 	 */
 	App::import('Lib', 'Libs.Mustache');
 	App::import('View', 'Theme');
+	App::import('View', 'Libs.LazyHelper');
 
-	class InfinitasView extends ThemeView{
+	class InfinitasView extends LazyHelperView{
 		/**
 		 * place holder for the mustache templating engine.
 		 */
@@ -58,7 +59,7 @@
 		 * the template rendering. could be handy for debugging. if debug is off
 		 * this has no effect.
 		 */
-		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
+		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {			
 			$out = parent::_render($___viewFn, $___dataForView, $loadHelpers, $cached);
 			
 			// only on for admin or it renders the stuff in the editor which is pointless

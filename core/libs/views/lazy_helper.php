@@ -22,6 +22,18 @@
 		protected $_helpers = array();
 
 		/**
+		 * lazy Helpers
+		 */
+		protected $lazyHelpers = array();
+
+		private $__helperMap = array();
+		
+		public function __construct(&$controller, $register = true) {
+			parent::__construct(&$controller, $register);
+			$this->__registerHelpers();
+		}
+
+		/**
 		 * Called when a request for a non-existant member variable is caught.
 		 * If the requested $variable matches a known helper we will attempt to
 		 * load it up for the caller.
@@ -32,7 +44,13 @@
 		 */
 		public function __get($variable = '') {
 			// Is the $variable a known helper name? If so, load the helper
-			if (in_array($variable, $this->_getHelpers())) {
+			$this->_getHelpers();
+			if(isset($this->__helperMap[$variable])){
+				$this->_loadHelper($variable, $this->__helperMap[$variable]);
+			}
+			else if (in_array($variable, $this->_getHelpers())) {
+				pr($variable);
+				exit;
 				$this->_loadHelper($variable);
 			}
 
@@ -55,6 +73,10 @@
 			if (empty($this->_helpers) or !$cache) {
 				$this->_helpers = App::objects('helper');
 			}
+			$this->_helpers = array_merge($this->helpers, $this->_helpers, $this->lazyHelpers);
+
+			$this->__mapHelpers($this->_helpers);
+			
 
 			// Return the array of helpers
 			return $this->_helpers;
@@ -68,12 +90,11 @@
 		 * @return null
 		 * @access protected
 		 */
-		protected function _loadHelper($helper) {
-
+		protected function _loadHelper($helper, $class) {
 			// Load the variable up
 			$this->loaded = $this->_loadHelpers(
 				$this->loaded,
-				array($helper)
+				array($class)
 			);
 
 			// Assign the helper into a member variable
@@ -97,9 +118,6 @@
 		 */
 		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
 			$loadedHelpers = array();
-			pr($this->helpers);
-			pr($this->_helpers);
-			exit;
 			if ($this->helpers != false && $loadHelpers === true) {
 				$loadedHelpers = $this->_loadHelpers($loadedHelpers, $this->helpers);
 				$helpers = array_keys($loadedHelpers);
@@ -153,6 +171,72 @@
 				}
 			}
 			return $out;
+		}
+
+		/**
+		 * triggers an event to get all the helpers.
+		 *
+		 * @return bool if helpers are set;
+		 */
+		private function __registerHelpers(){
+			$data = EventCore::trigger($this, 'requireHelpersToLoad');
+
+			if(isset($data['requireHelpersToLoad']['libs'])){
+				$libs['libs'] = $data['requireHelpersToLoad']['libs'];
+				$data['requireHelpersToLoad'] = $libs + $data['requireHelpersToLoad'];
+			}
+
+			foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
+				if(!is_array($helpers)){
+					$helpers = array($helpers);
+				}
+				$helpers = array_filter($helpers);
+				if(empty($helpers)){
+					continue;
+				}
+				if(strstr($plugin, '.')){
+					$this->lazyHelpers[$plugin] = $helpers;
+					continue;
+				}
+				foreach($helpers as $helper => $config){
+					if(is_string($config) && is_int($helper)){
+						// be lazy
+						$this->lazyHelpers[] = $config;
+					}
+					// need to load
+					else if($config === true || (is_array($config) && !empty($config))){
+						$this->helpers[$helper] = $config;
+					}
+					else{
+						$this->lazyHelpers[$helper] = $config;
+					}
+				}
+			}
+
+			return !empty($this->lazyHelpers);
+		}
+
+		private function __mapHelpers($helpers){
+			if(empty($helpers)){
+				return true;
+			}
+
+			foreach($helpers as $id => $helper){
+				if(is_int($id)){
+					$parts = explode('.', $helper);
+				}
+				else{
+					$parts = explode('.', $id);
+					$helper = $id;
+				}
+
+				if(count($parts) == 1){
+					$this->__helperMap[$helper] = $helper;
+				}
+				else{
+					$this->__helperMap[$parts[1]] = $helper;
+				}
+			}
 		}
 
 	}
