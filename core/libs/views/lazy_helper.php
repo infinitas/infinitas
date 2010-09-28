@@ -1,11 +1,17 @@
 <?php
+
 	/**
 	 * AutoHelperView
-	 * Provides automatic helper loading for views.
+	 *
+	 * Provides automatic loading, or "lazy loading" of heleprs for the `View`
+	 * class.
+	 *
+	 * If a helper needs to be called prior to rendering or if it has any
+	 * settings you should keep it in your controller's `$helpers` array.
 	 *
 	 * @author Joe Beeson <jbeeson@gmail.com>
 	 */
-	class LazyHelperView extends View {
+	class LazyHelperView extends ThemeView {
 
 		/**
 		 * Stores our array of known helpers.
@@ -45,7 +51,6 @@
 		 * @access protected
 		 */
 		protected function _getHelpers($cache = true) {
-
 			// Check if we don't have the array of if we're told not to cache
 			if (empty($this->_helpers) or !$cache) {
 				$this->_helpers = App::objects('helper');
@@ -78,24 +83,23 @@
 
 		/**
 		 * Renders and returns output for given view filename with its
-		 * array of data. We override the View classes _render method because it
-		 * makes use of "pass by ref" which goes to hell with our __get function
+		 * array of data.
 		 *
-		 * @param string $___viewFn Filename of the view
-		 * @param array $___dataForView Data to include in rendered view
-		 * @param boolean $loadHelpers Boolean to indicate that helpers should be loaded.
-		 * @param boolean $cached Whether or not to trigger the creation of a cache file.
-		 * @return string Rendered output
-		 * @access protected (but actually public)
-		*/
+		 * We override the `View` method because the core uses a pass-by-ref in
+		 * its code, which causes our `__get` method to barf, everywhere.
+		 *
+		 * @param string $___viewFn
+		 * @param array $___dataForView
+		 * @param boolean $loadHelpers
+		 * @param boolean $cached
+		 * @return string
+		 * @access public
+		 */
 		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
 			$loadedHelpers = array();
-
-			/**
-			 * We still let the _render method load up any helpers that are
-			 * explicitly asked for, this is for any helpers that may have the
-			 * beforeRender callback implemented.
-			 */
+			pr($this->helpers);
+			pr($this->_helpers);
+			exit;
 			if ($this->helpers != false && $loadHelpers === true) {
 				$loadedHelpers = $this->_loadHelpers($loadedHelpers, $this->helpers);
 				$helpers = array_keys($loadedHelpers);
@@ -108,7 +112,7 @@
 					if (!isset($___dataForView[$name])) {
 						${$name} =& $helper;
 					}
-					$this->loaded[$helperNames[$i]] = $helper;
+					$this->loaded[$helperNames[$i]] =& $helper;
 					$this->{$helpers[$i]} = $helper;
 				}
 				$this->_triggerHelpers('beforeRender');
@@ -131,7 +135,8 @@
 			$out = ob_get_clean();
 			$caching = (
 				isset($this->loaded['cache']) &&
-				(($this->cacheAction != false)) && (Configure::read('Cache.check') === true)
+				$this->cacheAction != false &&
+				Configure::read('Cache.check') === true
 			);
 
 			if ($caching) {
@@ -149,4 +154,5 @@
 			}
 			return $out;
 		}
+
 	}
