@@ -23,6 +23,10 @@
 	Configure::write('log', true);
 	define('LOG_ERROR', 2);
 
+	if(phpversion() >= 5.3){
+		date_default_timezone_set(date_default_timezone_get());
+	}
+
 
 	/**
 	 * Cache configuration
