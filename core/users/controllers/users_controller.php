@@ -350,29 +350,15 @@
 		}
 
 		public function admin_logged_in(){
-			$Session = ClassRegistry::init('Session');
-			$sessions = $Session->find('all');
-
-			$counts['all'] = count($sessions);
-
-			foreach($sessions as &$session){
-				$session['User'] = explode('Auth|', $session['Session']['data']);
-				$session['User'] = unserialize($session['User'][1]);
-				if (isset($session['User']['User'])) {
-					$session['User'] = $session['User']['User'];
-				}
-				else {
-					$session['User'] = '';
-				}
-			}
-
-			$users = Set::extract('/User/id', $sessions);
-
-			$counts['loggedIn'] = count($users);
-			$counts['guests']    = $counts['all'] - $counts['loggedIn'];
-
-			$this->User->recursive = 0;
-			$users = $this->paginate(array('User.id' => $users), $this->Filter->filter);
+			$this->paginate =array(
+				'conditions' => array(
+					'User.last_login > ' => date('Y-m-d H:i:s', strtotime('-30 min'))
+				),
+				'order' => array(
+					'User.last_login' => 'desc'
+				)
+			);
+			$users = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
@@ -380,7 +366,7 @@
 				'email'
 			);
 
-			$this->set(compact('users','filterOptions', 'counts'));
+			$this->set(compact('users','filterOptions'));
 			$this->render('admin_index');
 		}
 
