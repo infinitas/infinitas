@@ -21,5 +21,15 @@
 	 */
 
 	class VisitorComponent extends InfinitasComponent{
-		
+		public function initialize(&$controller, $settings = array()){
+			$this->Controller =& $controller;
+
+			if($this->Controller->Session->read('Auth.User.id')){
+				$User = ClassRegistry::init('Users.User');
+				$User->updateAll(
+					array('User.last_login' => '\''.date('Y-m-d H:m:s').'\''),
+					array('User.id' => $this->Controller->Session->read('Auth.User.id'))
+				);
+			}
+		}
 	}
