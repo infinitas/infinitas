@@ -61,8 +61,7 @@
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
 
-			if($this->tablePrefix != '')
-			{
+			if($this->tablePrefix != ''){
 				$config = $this->getDataSource()->config;
 
 				if(isset($config['prefix'])) {
