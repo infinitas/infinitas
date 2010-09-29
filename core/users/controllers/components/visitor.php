@@ -26,8 +26,15 @@
 
 			if($this->Controller->Session->read('Auth.User.id')){
 				$User = ClassRegistry::init('Users.User');
+				$User->unbindModel(
+					array(
+						'belongsTo' => array_keys($User->belongsTo),
+						'hasOne' => array_keys($User->hasOne)
+					)
+				);
+				
 				$User->updateAll(
-					array('User.last_login' => '\''.date('Y-m-d H:m:s').'\''),
+					array('User.last_login' => '\''.date('Y-m-d H:i:s').'\''),
 					array('User.id' => $this->Controller->Session->read('Auth.User.id'))
 				);
 			}
