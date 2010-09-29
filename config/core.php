@@ -51,10 +51,14 @@
 		}
 		return true;
 	}
-	
-	App::import('Libs', 'Events.Events');
-	EventCore::getInstance();
 
+	/**
+	 * Load plugin events
+	 */
+	if(!App::import('Libs', 'Events.Events')){
+		trigger_error('Could not load the Events Class', E_USER_ERROR);
+	}
+	EventCore::getInstance();
 	EventCore::trigger(new StdClass(), 'setupConfig');
 
 	Cache::write('global_configs', Configure::getInstance());
