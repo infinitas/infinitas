@@ -31,6 +31,29 @@
 			);
 		}
 
+		public function view(){
+			if(!$this->Session->read('Auth.User.id')){
+				$this->Session->setFlash(__('You must be logged in to view your profile', true));
+				$this->redirect(array('action' => 'login'));
+			}
+
+			$user = $this->User->find(
+				'first',
+				array(
+					'conditions' => array(
+						'User.id' => $this->Session->read('Auth.User.id')
+					)
+				)
+			);
+
+			if(empty($user)){
+				$this->Session->setFlash(__('Please login to view your profile', true));
+				$this->redirect(array('action' => 'login'));
+			}
+
+			$this->set(compact('user'));
+		}
+
 		/**
 		 * Login method.
 		 *

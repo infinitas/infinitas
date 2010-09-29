@@ -38,6 +38,7 @@
 			/**
 			 * frontend urls
 			 */
+			Router::connect('/profile', array('plugin' => 'users', 'controller' => 'users', 'action' => 'view'));
 			Router::connect('/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			Router::connect('/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout'));
 			Router::connect('/register', array('plugin' => 'users', 'controller' => 'users', 'action' => 'register'));
