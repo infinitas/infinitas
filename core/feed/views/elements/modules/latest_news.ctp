@@ -9,8 +9,8 @@
 			$model = Inflector::camelize(Inflector::singularize($feed['Feed']['controller']));
 			$feed[$model] =& $feed['Feed'];
 
-			$eventData = $this->Event->trigger('feedBeforeContentRender', array('_this' => $this, 'feed' => $feed));
 			?><div class="beforeEvent"><?php
+				$eventData = $this->Event->trigger('feedBeforeContentRender', array('_this' => $this, 'feed' => $feed));
 				foreach((array)$eventData['feedBeforeContentRender'] as $_plugin => $_data){
 					echo '<div class="'.$_plugin.'">'.$_data.'</div>';
 				}
@@ -31,17 +31,6 @@
 							<?php echo $this->Text->truncate($feed['Feed']['body'], 350, array('html' => true)); ?>
 						</div>
 					</div>
-					<?php
-						echo $this->element(
-							'modules/comment',
-							array(
-								'plugin' => 'comments',
-								'content' => $feed,
-								'modelName' => $model,
-								'foreign_id' => $feed['Feed']['id']
-							)
-						);
-					?>
 				</div>
 				<div class="afterEvent">
 					<?php
