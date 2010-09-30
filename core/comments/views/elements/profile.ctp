@@ -19,22 +19,19 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	$comments = ClassRegistry::init('Comments.Comment')->getUsersComments($this->Session->read('Auth.User.id'));
+	if(!isset($comments)){
+		$comments = ClassRegistry::init('Comments.Comment')->getUsersComments($this->Session->read('Auth.User.id'));
+	}
 ?>
 <h3><?php echo __('Your Comments', true); ?></h3>
 <?php
 	if(count($comments) == 0){
 		echo '<p>', __('You have not made any comments yet.', true), '</p>';
+		return true;
 	}
-	else{
-		foreach($comments as $comment){
-			$_comments[] =
-				'<div class="comment">'.
-					$this->Gravatar->image($comment['email'], array('size' => '50')).
-					'<p>'.$this->Text->truncate(strip_tags($comment['comment']), 350).'</p>'.
-				'</div>';
-		}
 
-		echo implode('', $_comments);
+	foreach($comments as $comment){
+		$_comments[] = $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
 	}
+	echo implode('', $_comments);
 ?>
