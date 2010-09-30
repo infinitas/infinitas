@@ -27,11 +27,6 @@
 		);
 
 		/**
-		 * Makes the admin menu available in the view.
-		 */
-		public $adminMenuItems = array();
-
-		/**
 		 * base structure of admin links
 		 */
 		private $__adminMenuUrl = array(
@@ -40,14 +35,6 @@
 			'action' => false,
 			'admin' => true,
 			'prefix' => 'admin'
-		);
-
-		/**
-		 * Makes the plugins available in the view
-		 */
-		public $adminDashboard = array(
-			'core' => array(),
-			'plugin' => array()
 		);
 
 		/**
@@ -61,16 +48,6 @@
 
 			)
 		);
-
-		/**
-		 * generate some code and set properties before the page is rendered
-		 */
-		public function beforeRender(){			
-			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin'){				
-				$this->adminMenuItems = $this->builAdminMenu();
-				$this->adminDashboard = $this->builDashboardLinks();
-			}
-		}
 
 		/**
 		 * Build the main admin navigation for the current plugin.

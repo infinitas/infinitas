@@ -1,13 +1,14 @@
+<?php $icons = $this->Menu->builDashboardLinks(); ?>
 <div id="dock" class="plugins">
 	<div class="panel" style="display: none;">
 		<div class="dashboard">
-			<ul class="icons"><li><?php echo implode('</li><li>', $this->Menu->adminDashboard['core']); ?></li></ul>
+			<ul class="icons"><li><?php echo implode('</li><li>', $icons['core']); ?></li></ul>
 		</div>
 		<?php
-			if(isset($this->Menu->adminDashboard['plugin'])){
+			if(isset($icons['plugin'])){
 				?>
 					<div class="dashboard">
-						<ul class="icons"><li><?php echo implode('</li><li>', $this->Menu->adminDashboard['plugin']); ?></li></ul>
+						<ul class="icons"><li><?php echo implode('</li><li>', $icons['plugin']); ?></li></ul>
 					</div>
 				<?php
 			}
