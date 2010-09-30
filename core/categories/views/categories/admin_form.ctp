@@ -24,7 +24,7 @@
 			<h1><?php echo __('Category', true); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('title', array('class' => 'title'));
-			echo $this->Categories->wysiwyg('Category.description'); ?>
+			echo $this->Infinitas->wysiwyg('Category.description'); ?>
 		</fieldset>
 		<fieldset>
 			<h1><?php echo __('Config', true); ?></h1><?php
