@@ -23,19 +23,7 @@
 <div class="comments">
 	<?php
 		foreach($comments as $comment){
-			?>
-				<div class="comment">
-					<h3><?php echo $comment['Comment']['username']; ?></h3>
-					<?php
-						if(isset($comment['Comment']['website'])){
-							echo '<h4>'.$comment['Comment']['website'].'</h4>';
-						}
-					?>
-					<?php echo $this->Gravatar->image($comment['Comment']['email'], array('size' => '50')); ?>
-					<p><?php echo str_replace('\\n', '', strip_tags($comment['Comment']['comment'])); ?></p>
-					<br/><small><?php echo $this->Time->timeAgoInWords($comment['Comment']['created']); ?></small>
-				</div>
-			<?php
+			echo $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
 		}
 	?>
 </div>

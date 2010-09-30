@@ -48,11 +48,7 @@
 
 			$_comments = array();
 			foreach($comments as $comment){
-				$_comments[] =
-					'<div class="comment">'.
-						$this->Gravatar->image($comment['email'], array('size' => '50')).
-						'<p>'.$this->Text->truncate(strip_tags($comment['comment']), 350).'</p>'.
-					'</div>';
+				$_comments[] = $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
 			}
 
 			echo implode('', $_comments);
