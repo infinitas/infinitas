@@ -1,4 +1,5 @@
 <?php
+	App::import('Helper', 'Libs.Infinitas');
 	class EventHelper extends InfinitasHelper{
 		/**
 		 * Trigger a event
