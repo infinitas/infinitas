@@ -69,7 +69,7 @@
 		}
 
 		public function beforeRender(){
-			if(isset($this->Controller->data['Lock'])){
+			if(isset($this->Controller->data['Lock']['user_id']) && $this->Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
 				$this->Controller->Session->setFlash(sprintf(__('The %s you requested has been locked by %s', true), $this->Controller->prettyModelName, $this->Controller->data['Locker']['username']));
 				$this->Controller->redirect(array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked'));
 			}
