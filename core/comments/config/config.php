@@ -23,10 +23,6 @@
 	 $config['Comments'] = array(
 		 'auto_moderate' => true,
 		 'purge' => '4 weeks',
-		 'time_limit' => '4 weeks'
+		 'time_limit' => '4 weeks',
+		 'fields' => 'username,email,website,comment'
 	 );
-
-	/**
-	 * @todo should both be the same.
-	 */
-	Configure::write('Comments.fields', 'name,email,website,comment');

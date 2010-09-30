@@ -121,7 +121,6 @@
 						array(
 							'label' => false,
 							'div' => false,
-							'value' => __('Enter your comment...', true)
 						)
 					);
 					$submitOptions = array('div' => false, 'class' => 'submit');
