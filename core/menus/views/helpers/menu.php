@@ -176,9 +176,9 @@
 					array(
 						'title' => $info['name'],
 						'escape' => false,
-						'style' => 'background-image: url('.Router::url($info['icon']).');'
+						'style' => 'background-image: url(' . Router::url(DS . $name . DS . 'img' . DS . 'icon.png') . ');'
 					)
-				);				 
+				);
 			}
 			
 			Cache::write('dashboard_'.$type, $return, 'menus');
