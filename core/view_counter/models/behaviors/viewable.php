@@ -106,7 +106,7 @@
 				'model' => Inflector::camelize($Model->plugin).'.'.$Model->name,
 				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey]
 			);
-
+			
 			$Model->ViewCount->save($view);
 
 			return $data;
@@ -156,7 +156,7 @@
 		 * 
 		 * @return int the number of rows found
 		 */
-		public function getToalViews(&$Model){
-			return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias);
+		public function getToalViews(&$Model, $foreignKey = 0){
+			return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias, $foreignKey);
 		}
 	}

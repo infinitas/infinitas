@@ -28,11 +28,14 @@
 		 *
 		 * @return int the number of rows found
 		 */
-		public function getToalViews($class = null){
+		public function getToalViews($class = null, $foreignKey = 0){
 			$conditions = array();
 			
 			if($class){
 				$conditions = array('ViewCount.model' => $class);
+			}
+			if((int)$foreignKey > 0){
+				$conditions['ViewCount.foreign_key'] = $foreignKey;
 			}
 			
 			return $this->find(
