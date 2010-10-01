@@ -105,6 +105,31 @@
 			);
 		}
 
+		/**
+		 * contain the comments
+		 *
+		 * before a find is done, add the comments to contain so they are available
+		 * in the view.
+		 *
+		 * @param object $model referenced model
+		 * @param array $query the query being done
+		 *
+		 * @return array the find query data
+		 */
+		public function beforeFind(&$Model, $query) {
+			if($Model->findQueryType == 'count'){
+				return $query;
+			}
+
+			$query['contain'][$Model->alias.'Comment'] = array();
+			if(isset($query['recursive']) && $query['recursive'] == -1){
+				$query['recursive'] = 0;
+			}
+
+			call_user_func(array($Model, 'contain'), $query['contain']);
+			return $query;
+		}
+
 		public function createComment(&$model, $data = array()) {
 			if (empty($data[$this->__settings[$model->alias]['class']])) {
 				return false;
