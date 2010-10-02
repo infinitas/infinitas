@@ -54,8 +54,7 @@
 			echo implode('', $_comments);
 		}
 
-		if(!$this->Session->read('Auth.User.id')){
-
+		if(Configure::read('Comments.require_auth') === true && !$this->Session->read('Auth.User.id')){
 			?><div class="comment"><?php echo __('Please log in to leave a comment', true); ?></div><?php
 			echo '</div>'; // dont remove it keeps things even when exiting early
 			return;
