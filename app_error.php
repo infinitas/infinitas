@@ -40,6 +40,11 @@
 			$this->controller->render($template);
 			$this->controller->afterFilter();
 			echo $this->controller->output;
+
+			if(!Configure::read('debug')){
+				return;
+			}
+
 			$backtrace = debug_backtrace(false);
 			?>
 				<table width="80%" style="margin:auto;">
