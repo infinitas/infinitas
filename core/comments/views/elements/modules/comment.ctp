@@ -92,8 +92,10 @@
         }
 
 			echo $this->Form->hidden($modelName.'Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
-
+			
+			echo '<div class="comment">';
 			foreach($commentFields as $field){
+
 				if ($field != 'comment'){
 					$value = '';
 					$method = 'input';
@@ -118,18 +120,13 @@
 							'div' => false,
 						)
 					);
-					$submitOptions = array('div' => false, 'class' => 'submit');
-					echo '<div class="comment">';
+					$submitOptions = array('div' => false, 'class' => 'submit');					
 				}
 				
 				echo $this->Form->input($modelName.'Comment.comment', $options);
-
 				echo $this->Form->submit('Submit', $submitOptions);
-				
-				if($this->action != 'comment'){
-					echo '</div>';
-				}
-			}			
+			}
+			echo '</div>';
 		echo $this->Form->end();
 	?>
 </div>
