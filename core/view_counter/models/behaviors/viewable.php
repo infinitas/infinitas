@@ -101,8 +101,8 @@
 			}
 
 			$view['ViewCount'] = array(
-				'ip_address' => $this->Session->read('Auth.User.ip_address'),
-				'user_id' => $this->Session->read('Auth.User.id'),
+				'ip_address' => $this->Session->read('ip_address'),
+				'user_id' => $this->Session->read('Auth.User.id') > 0 ? $this->Session->read('Auth.User.id') : 0,
 				'model' => Inflector::camelize($Model->plugin).'.'.$Model->name,
 				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey]
 			);
