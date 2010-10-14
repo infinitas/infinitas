@@ -13,7 +13,6 @@
 					'template' => 'User - Registration'
 				)
 			);
-			exit;
 	 * @author dogmatic
 	 *
 	 */
@@ -25,7 +24,6 @@
 		* Controllers initialize function.
 		*/
 		function initialize(&$controller, $settings = array()) {
-			Configure::write('CORE.current_route', Router::currentRoute());
 			$this->Controller = &$controller;
 			$this->settings = array_merge($this->_default, (array)$settings);
 		}

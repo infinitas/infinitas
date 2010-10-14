@@ -25,9 +25,19 @@
 			return array(
 				'name' => 'Newsletter',
 				'description' => 'Keep in contact with your user base',
-				'icon' => '/newsletter/img/icon.png',
-				'author' => 'Infinitas'
+				'author' => 'Infinitas',
+				'dashboard' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard'),
 			);
+		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Campaigns' => array('plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index'),
+				'Templates' => array('plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'index'),
+				'Newsletters' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index')
+			);
+
+			return $menu;
 		}
 
 		public function onSetupConfig(){
@@ -35,6 +45,9 @@
 		}
 		 
 		public function onRequireComponentsToLoad(){
-			return 'Newsletter.Emailer';
+			return array(
+				'Email',
+				'Newsletter.Emailer'
+			);
 		}
 	 }

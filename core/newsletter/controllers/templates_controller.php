@@ -43,14 +43,8 @@
 				'fields' => array(
 					'Template.id',
 					'Template.name',
-					'Template.locked',
-					'Template.locked_by',
-					'Template.locked_since',
 					'Template.created',
 					'Template.modified',
-				),
-				'contain' => array(
-					'Locker'
 				)
 			);
 
@@ -62,40 +56,6 @@
 			);
 
 			$this->set(compact('templates','filterOptions'));
-		}
-
-		function admin_add() {
-			if (!empty($this->data)) {
-				$this->Template->create();
-				if ($this->Template->save($this->data)) {
-					$this->Session->setFlash(__('Your template has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-			}
-		}
-
-		function admin_edit($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('Please select a template', true));
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($this->data)) {
-				$this->Template->create();
-				if ($this->Template->save($this->data)) {
-					$this->Session->setFlash(__('Your template has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-			}
-
-			if ($id && empty($this->data)) {
-				$this->Template->recursive = - 1;
-				$this->data = $this->Template->lock(null, $id);
-				if ($this->data === false) {
-					$this->Session->setFlash(__('The template is currently locked', true));
-					$this->redirect($this->referer());
-				}
-			}
 		}
 
 		function admin_view($id = null) {

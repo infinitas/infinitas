@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Newsletter', array('action' => 'mass'));
-        $massActions = $this->Letter->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'view',
@@ -35,7 +35,7 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
     	<?php
-            echo $this->Letter->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
@@ -63,7 +63,7 @@
 
             foreach($newsletters as $newsletter){
                 ?>
-                    <tr class="<?php echo $this->Letter->rowClass(); ?>">
+                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($newsletter['Newsletter']['id']); ?>&nbsp;</td>
                         <td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
                         <td>
@@ -93,7 +93,7 @@
                                 }
 
                                 else{
-                                    echo $this->Letter->toggle($newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent']);
+                                    echo $this->Infinitas->toggle($newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent']);
                                 }
                             ?>
                         </td>
@@ -117,7 +117,7 @@
                                 }
 
                                 else{
-                                    echo $this->Letter->toggle($newsletter['Newsletter']['active'], $newsletter['Newsletter']['id']);
+                                    echo $this->Infinitas->toggle($newsletter['Newsletter']['active'], $newsletter['Newsletter']['id']);
                                 }
                             ?>
                         </td>

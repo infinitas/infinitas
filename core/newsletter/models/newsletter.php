@@ -1,37 +1,37 @@
 <?php
-/**
-	* Newsletter Newsletter Model class file.
-	*
-	* This is the main model for Newsletter Newsletters. There are a number of
-	* methods for getting the counts of all posts, active posts, pending
-	* posts etc.  It extends {@see NewsletterAppModel} for some all round
-	* functionality. look at {@see NewsletterAppModel::afterSave} for an example
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	*
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package newsletter
-	* @subpackage newsletter.models.newsletter
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	*/
+	/**
+	 * Newsletter Newsletter Model class file.
+	 *
+	 * This is the main model for Newsletter Newsletters. There are a number of
+	 * methods for getting the counts of all posts, active posts, pending
+	 * posts etc.  It extends {@see NewsletterAppModel} for some all round
+	 * functionality. look at {@see NewsletterAppModel::afterSave} for an example
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package newsletter
+	 * @subpackage newsletter.models.newsletter
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 */
 	class Newsletter extends NewsletterAppModel {
 		var $name = 'Newsletter';
 
 		/**
-		* always sort newsletters by the subject
-		*/
+		 * always sort newsletters by the subject
+		 */
 		var $order = array(
 			'Newsletter.subject' => 'ASC'
-			);
+		);
 
 		/**
-		* For generating lists due to not being convention of name|title
-		*/
+		 * For generating lists due to not being convention of name|title
+		 */
 		var $displayField = 'subject';
 
 		var $validate = array(
@@ -76,8 +76,7 @@
 		);
 
 		var $hasAndBelongsToMany = array(
-			'User' =>
-			array(
+			'User' => array(
 				'className' => 'Users.User',
 				'joinTable' => 'newsletters_users',
 				'foreignKey' => 'newsletter_id',
@@ -92,8 +91,8 @@
 				'finderQuery' => '',
 				'deleteQuery' => '',
 				'insertQuery' => ''
-				)
-			);
+			)
+		);
 
 		var $belongsTo = array(
 			'Campaign' => array(

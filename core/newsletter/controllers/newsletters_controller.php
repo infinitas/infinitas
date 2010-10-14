@@ -213,22 +213,6 @@
 			$this->set(compact('newsletters','filterOptions'));
 		}
 
-		function admin_add() {
-			if (!empty($this->data)) {
-				$this->Newsletter->create();
-				if ($this->Newsletter->save($this->data)) {
-					$this->Session->setFlash(__('Your newsletter has been saved.', true));
-					$this->redirect(array('action' => 'index'));
-				}
-			}
-
-			$campaigns = $this->Newsletter->Campaign->find('list');
-			$this->set(compact('campaigns'));
-		}
-
-		function admin_edit() {
-		}
-
 		function admin_view($id = null) {
 			if (!$id && empty($this->data)) {
 				$this->Session->setFlash(__('Please select a newsletter', true));
@@ -307,8 +291,7 @@
 			return false;
 		}
 
-		function __massActionDelete($ids)
-		{
+		function __massActionDelete($ids){
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
 

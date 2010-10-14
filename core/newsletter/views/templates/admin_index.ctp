@@ -20,7 +20,7 @@
 ?>
 <?php
         echo $this->Form->create('Template', array('action' => 'mass'));
-        $massActions = $this->Letter->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
@@ -35,7 +35,7 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Letter->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
@@ -57,7 +57,7 @@
 
             foreach($templates as $template){
                 ?>
-                    <tr class="<?php echo $this->Letter->rowClass(); ?>">
+                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($template['Template']['id']); ?>&nbsp;</td>
                         <td><?php echo $this->Html->link($template['Template']['name'], array('action' => 'edit', $template['Template']['id'])); ?>&nbsp;</td>
                         <td><?php echo $this->Time->niceShort($template['Template']['created']); ?>&nbsp;</td>

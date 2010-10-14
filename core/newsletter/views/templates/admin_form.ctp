@@ -22,7 +22,6 @@
         echo $this->Infinitas->adminEditHead();
         echo $this->Form->input('id');
         echo $this->Form->input('name', array('class' => 'title'));
-        echo $this->Letter->wysiwyg('Template.header');
-        echo $this->Letter->wysiwyg('Template.footer');
+        echo $this->Infinitas->wysiwyg('Template.header');
+        echo $this->Infinitas->wysiwyg('Template.footer');
     echo $this->Form->end();
-?>
