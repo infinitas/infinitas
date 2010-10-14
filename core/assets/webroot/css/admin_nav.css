@@ -62,6 +62,7 @@ table.listing{
 	padding:10px;
 	color:#202020;
 	width: 100%;
+	border-collapse: separate;
 }
 
 table.listing th,
