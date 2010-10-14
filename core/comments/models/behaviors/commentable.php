@@ -190,7 +190,7 @@
 			}
 
 			else if (Configure::read('Comments.auto_moderate') === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam') {
-				$data[$this->__settings[$model->alias]['class']]['active'] == 1;
+				$data[$this->__settings[$model->alias]['class']]['active'] = 1;
 			}
 
 			if ($this->__settings[$model->alias]['sanitize']) {
