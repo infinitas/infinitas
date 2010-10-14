@@ -19,22 +19,23 @@
 	 * @subpackage newsletter.models.newsletter
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
+
 	class Newsletter extends NewsletterAppModel {
-		var $name = 'Newsletter';
+		public $name = 'Newsletter';
 
 		/**
 		 * always sort newsletters by the subject
 		 */
-		var $order = array(
-			'Newsletter.subject' => 'ASC'
+		public $order = array(
+			'Newsletter.subject' => 'asc'
 		);
 
 		/**
 		 * For generating lists due to not being convention of name|title
 		 */
-		var $displayField = 'subject';
+		public $displayField = 'subject';
 
-		var $validate = array(
+		public $validate = array(
 			'campaign_id' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
@@ -75,7 +76,7 @@
 			)
 		);
 
-		var $hasAndBelongsToMany = array(
+		public $hasAndBelongsToMany = array(
 			'User' => array(
 				'className' => 'Users.User',
 				'joinTable' => 'newsletters_users',
@@ -94,7 +95,7 @@
 			)
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Campaign' => array(
 				'className' => 'Newsletter.Campaign',
 				'counterCache' => true,

@@ -1,5 +1,4 @@
 <?php
-class NewslettersUser extends NewsletterAppModel {
-	
-}
-?>
+	class NewslettersUser extends NewsletterAppModel {
+
+	}

@@ -1,5 +1,4 @@
 <?php
-	App::import('Component', 'Email');
 
 	/**
 	 * sample usage
@@ -18,21 +17,21 @@
 	 */
 
 	class EmailerComponent extends EmailComponent{
-		var $settings = null;
-		var $_default = array();
+		public $settings = null;
+		public $_default = array();
 		/**
 		* Controllers initialize function.
 		*/
-		function initialize(&$controller, $settings = array()) {
+		public function initialize(&$controller, $settings = array()) {
 			$this->Controller = &$controller;
 			$this->settings = array_merge($this->_default, (array)$settings);
 		}
 
-		function startup(&$controller){
+		public function startup(&$controller){
 			$this->settings();
 		}
 
-		function settings(){
+		public function settings(){
 			$this->reset();
 			$this->delivery = Configure::read('Newsletter.send_method');
 
@@ -68,7 +67,7 @@
 			$this->trackViews = Configure::read('Newsletter.track_views');
 		}
 
-		function sendDirectMail($userDetails, $email = array()){
+		public function sendDirectMail($userDetails, $email = array()){
 			$this->trackViews = false;
 			if(empty($userDetails)){
 				return false;

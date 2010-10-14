@@ -1,36 +1,26 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class CampaignsController extends NewsletterAppController {
-		var $name = 'Campaigns';
+		public $name = 'Campaigns';
 
-		/**
-		* Helpers.
-		*
-		* @access public
-		* @var array
-		*/
-		var $helpers = array(
-			'Filter.Filter'
-			);
-
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate = array(
 				'fields' => array(
 					'Campaign.id',
@@ -69,7 +59,7 @@
 			$this->set(compact('campaigns','filterOptions'));
 		}
 
-		function admin_add() {
+		public function admin_add() {
 			parent::admin_add();
 
 			$templates = $this->Campaign->Template->find('list');
@@ -77,7 +67,7 @@
 			$this->set(compact('templates', 'newsletters'));
 		}
 
-		function admin_edit($id) {
+		public function admin_edit($id) {
 			parent::admin_edit($id);
 
 			$templates = $this->Campaign->Template->find('list');
@@ -85,7 +75,7 @@
 			$this->set(compact('templates', 'newsletters'));
 		}
 
-		function admin_toggle($id = null) {
+		public function admin_toggle($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('Please select a campaign', true));
 				$this->redirect($this->referer());
@@ -119,19 +109,11 @@
 			return parent::admin_toggle($id);
 		}
 
-		/**
-		* * stop this being called
-		*/
-		function admin_delete($id = null) {
-			return false;
-		}
-
-		function __massActionDelete($ids)
-		{
+		public function __massActionDelete($ids){
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
 
-		function __canDelete($ids) {
+		private function __canDelete($ids) {
 			$newsletters = $this->Campaign->Newsletter->find(
 				'list',
 				array(
