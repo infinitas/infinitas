@@ -18,7 +18,7 @@
      * @since         0.8a
      */
 
-    echo $this->Form->create('Campaign', array('action' => 'mass'));
+    echo $this->Form->create('BouncedMail', array('action' => 'mass'));
         $massActions = $this->Infinitas->massActionButtons(
             array(
                 'view',
@@ -40,9 +40,9 @@
                     ),
                     $paginator->sort('from'),
                     $paginator->sort('subject'),
-                    __('Attachements', true) => array(
+                    $this->Letter->hasAttachment(true) => array(
                         'class' => 'actions',
-                        'width' => '50px'
+                        'width' => '20px'
                     ),
                     $paginator->sort('size'),
                     $paginator->sort('date'),
@@ -50,14 +50,20 @@
             );
 
             foreach($bouncedMails as $bouncedMail){
+				$class = $bouncedMail['BouncedMail']['unread'] === true ? 'unread' : '';
                 ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+                    <tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">
                         <td><?php echo $this->Form->checkbox($bouncedMail['BouncedMail']['id']); ?>&nbsp;</td>
-                        <td><?php echo htmlspecialchars($bouncedMail['BouncedMail']['from']['name']); ?></td>
-                        <td><?php echo htmlspecialchars($bouncedMail['BouncedMail']['subject']); ?></td>
-                        <td><?php echo var_dump($bouncedMail['BouncedMail']['attachments']); ?></td>
-                        <td><?php echo convert($bouncedMail['BouncedMail']['size']); ?></td>
-                        <td><?php echo $this->Time->timeAgoInWords($bouncedMail['BouncedMail']['created']); ?></td>
+                        <td>
+							<?php
+								echo $this->Letter->isFlagged($bouncedMail['BouncedMail']),
+									$this->Html->link($bouncedMail['BouncedMail']['from']['name'], array('action' => 'view', $bouncedMail['BouncedMail']['id']));
+							?>&nbsp;
+						</td>
+                        <td><?php echo $bouncedMail['BouncedMail']['subject']; ?>&nbsp;</td>
+                        <td><?php echo $this->Letter->hasAttachment($bouncedMail['BouncedMail']); ?>&nbsp;</td>
+                        <td><?php echo convert($bouncedMail['BouncedMail']['size']); ?>&nbsp;</td>
+                        <td><?php echo $this->Time->niceShort($bouncedMail['BouncedMail']['created']); ?>&nbsp;</td>
                     </tr>
                 <?php
             }
