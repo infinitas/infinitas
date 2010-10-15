@@ -31,7 +31,7 @@
 				'password' => false,
 				'email' => false,
 				'server' => 'localhost',
-				'type' => 'pop',
+				'type' => 'pop3',
 				'ssl' => false
 			),
 			'imap' => array(
@@ -116,23 +116,6 @@
 					return 'count';
 					break;
 			}
-		}
-
-		/**
-		 * Get the emails
-		 *
-		 * @param array $request the request details
-		 *
-		 * @return string the xml that is returned from the site.
-		 */
-		protected function _getData($request){
-			App::import('Lib', 'Libs.OauthSocket');
-			$this->OauthSocket = new OauthSocket();
-			$data = $this->OauthSocket->request($request);
-
-			unset($this->OauthSocket);
-
-			return $data;
 		}
 
 		/**
