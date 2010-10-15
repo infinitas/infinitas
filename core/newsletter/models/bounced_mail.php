@@ -32,7 +32,10 @@
 				'server' => Configure::read('Newsletter.smtp_host'),
 				'username' => Configure::read('Newsletter.smtp_username'),
 				'email' => Configure::read('Newsletter.smtp_username'),
-				'password' => Configure::read('Newsletter.smtp_password')
+				'password' => Configure::read('Newsletter.smtp_password'),
+				'ssl' => Configure::read('Newsletter.ssl'),
+				'port' => Configure::read('Newsletter.port'),
+				'type' => Configure::read('Newsletter.type')
 			);
 		}
 	}
