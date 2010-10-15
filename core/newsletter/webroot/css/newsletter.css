@@ -1,0 +1,6 @@
+table.listing tr.unread checkbox{
+	border-color: red;
+}
+table.listing tr.unread td{
+	font-weight: bold;
+}
