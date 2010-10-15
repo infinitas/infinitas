@@ -3,6 +3,12 @@
 		public $name = 'BouncedMails';
 
 		public function admin_index(){
+			$this->paginate = array(
+				'order' => array(
+					'date' => 'desc'
+				)
+			);
+			
 			$bouncedMails = $this->paginate();
 			
 			$filterOptions = $this->Filter->filterOptions;
