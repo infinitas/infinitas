@@ -57,7 +57,10 @@
                         <td>
 							<?php
 								echo $this->Letter->isFlagged($bouncedMail['BouncedMail']),
-									$this->Html->link($bouncedMail['From']['name'], array('action' => 'view', $bouncedMail['BouncedMail']['id']));
+									$this->Html->link(
+										sprintf('%s (%s)', $bouncedMail['From']['name'], $bouncedMail['BouncedMail']['thread_count']),
+										array('action' => 'view', $bouncedMail['BouncedMail']['id'])
+									);
 							?>&nbsp;
 						</td>
                         <td><?php echo $bouncedMail['BouncedMail']['subject']; ?>&nbsp;</td>
