@@ -100,4 +100,55 @@
 
 			return '<iframe frameborder="0" width="100%" height="500px" name="preview"src="' . $url . '" style="border:1px dotted gray;"></iframe>';
 		}
+
+		/**
+		 * generate an attachment icon for emails with an attachment
+		 *
+		 * @param mixed true to show, mail array to check
+		 * @return mixed false or html for attachment icon
+		 */
+		public function hasAttachment($mail = array(), $small = true){
+			if((isset($mail['attachments']) && $mail['attachments']) || $mail === true){
+				$size = $small === true ? 16 : 24;
+				return $this->Html->image(
+					'/newsletter/img/attachment.png',
+					array(
+						'alt' => __('Attachment', true),
+						'height' => $size.'px',
+						'width' => $size.'px',
+						'title' => __('This email has attachments', true)
+					)
+				);
+			}
+
+			return false;
+		}
+
+		/**
+		 * generate an icon for emails that are flagged
+		 *
+		 * @param mixed true to show, mail array to check
+		 * @return mixed false or html for attachment icon
+		 */
+		public function isFlagged($mail = array(), $image = '/newsletter/img/flagged.png', $small = true){			
+			$title = __('Flagged :: This email has been flagged', true);
+			$alt = __('Flagged', true);
+			if((isset($mail['flagged']) && $mail['flagged'] === false) || $mail === false){
+				$image = '/newsletter/img/flagged-not.png';
+				$title = __('Flagged :: Flag this email', true);
+				$alt = __('Not Flagged', true);
+			}
+			
+			$size = $small === true ? 16 : 24;
+
+			return $this->Html->image(
+				$image,
+				array(
+					'alt' => $alt,
+					'height' => $size.'px',
+					'width' => $size.'px',
+					'title' => $title
+				)
+			);
+		}
 	}
