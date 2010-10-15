@@ -26,6 +26,29 @@
 				$this-> redirect($this->referer());
 			}
 			
-			$this->set('bouncedMail', $this->BouncedMail->read(null, $id));
+			$bouncedMail = $this->BouncedMail->find(
+				'first',
+				array(
+					'conditions' => array(
+						'BouncedMail.id' => $id
+					)
+				)
+			);
+			
+			$this->set(compact('bouncedMail'));
+		}
+
+		public function admin_mass(){
+			$massAction = $this->MassAction->getAction($this->params['form']);
+
+			switch($massAction){
+				case 'back':
+					$this->redirect(array('action' => 'index'));
+					break;
+
+				default:
+					parent::admin_mass();
+					break;
+			}
 		}
 	}

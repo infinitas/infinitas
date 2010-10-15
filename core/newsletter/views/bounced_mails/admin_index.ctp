@@ -50,14 +50,14 @@
             );
 
             foreach($bouncedMails as $bouncedMail){
-				$class = $bouncedMail['BouncedMail']['unread'] === true ? 'unread' : '';
+				$class = $bouncedMail['BouncedMail']['unread'] ? 'unread' : '';
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">
                         <td><?php echo $this->Form->checkbox($bouncedMail['BouncedMail']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
 								echo $this->Letter->isFlagged($bouncedMail['BouncedMail']),
-									$this->Html->link($bouncedMail['BouncedMail']['from']['name'], array('action' => 'view', $bouncedMail['BouncedMail']['id']));
+									$this->Html->link($bouncedMail['From']['name'], array('action' => 'view', $bouncedMail['BouncedMail']['id']));
 							?>&nbsp;
 						</td>
                         <td><?php echo $bouncedMail['BouncedMail']['subject']; ?>&nbsp;</td>

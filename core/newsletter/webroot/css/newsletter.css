@@ -4,3 +4,15 @@ table.listing tr.unread checkbox{
 table.listing tr.unread td{
 	font-weight: bold;
 }
+
+.mail .email > *{
+	margin: auto;
+	clear: both;
+}
+
+.newsletter.bounced_mails.admin_view h1{
+	margin-bottom: 0;
+}
+.newsletter.bounced_mails.admin_view .mail{
+	margin: 5px;
+}

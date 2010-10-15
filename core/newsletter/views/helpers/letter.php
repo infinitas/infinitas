@@ -133,9 +133,10 @@
 		public function isFlagged($mail = array(), $image = '/newsletter/img/flagged.png', $small = true){			
 			$title = __('Flagged :: This email has been flagged', true);
 			$alt = __('Flagged', true);
-			if((isset($mail['flagged']) && $mail['flagged'] === false) || $mail === false){
+			
+			if((isset($mail['flagged']) && (bool)$mail['flagged'] === false) || $mail === false){
 				$image = '/newsletter/img/flagged-not.png';
-				$title = __('Flagged :: Flag this email', true);
+				$title = __('Not Flagged :: Flag this email', true);
 				$alt = __('Not Flagged', true);
 			}
 			
