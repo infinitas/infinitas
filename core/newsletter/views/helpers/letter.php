@@ -21,21 +21,21 @@
 	*/
 
 	class LetterHelper extends AppHelper {
-		var $helpers = array(
+		public $helpers = array(
 			// cake helpers
 			'Html',
 			// core helpers
 			'Libs.Wysiwyg', 'Libs.Design', 'Libs.Image', 'Form'
-			);
+		);
 
-		var $allowedPreviews = array(
+		public $allowedPreviews = array(
 			'newsletters',
 			'templates'
-			);
+		);
 
-		var $errors = array();
+		public $errors = array();
 
-		function toggle($id = null, $status = null, $method = 'toggleSend') {
+		public function toggle($id = null, $status = null, $method = 'toggleSend') {
 			if (!$id) {
 				$this->errors[] = 'No id passed for newsletter status';
 				return false;
@@ -77,7 +77,7 @@
 			} // switch
 		}
 
-		function preview($id = null, $controller = null) {
+		public function preview($id = null, $controller = null) {
 			if (!$id || !$controller) {
 				$this->errors[] = 'You need to pass the id and template|newsletter';
 				return false;
