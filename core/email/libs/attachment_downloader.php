@@ -2,7 +2,7 @@
 	class AttachmentDownloader extends Object{
 		public function  __construct($message_id) {
 			$this->attachmentPath = App::pluginPath('email') . 'attachments' . DS . $message_id;
-			$this->webrootPath = App::pluginPath('email') . 'webroot' . DS . 'img' . DS . $message_id;
+			$this->webrootPath = App::pluginPath('email') . 'webroot' . DS . 'img' . DS . 'images' . DS . $message_id;
 		}
 
 		public function save($attachment){
@@ -100,9 +100,9 @@
 			$this->File = new File($file, true);
 			if($this->File->write(base64_decode($attachment['attachment']))){				
 				return array(
-					'original' => sprintf('/email/img/%s/original_%s', $attachment['message_id'], urlencode($attachment['filename'])),
-					'thumbnail' => sprintf('/email/img/%s/thumbnail_%s', $attachment['message_id'], urlencode($attachment['filename'])), // resize here
-					'large' => sprintf('/email/img/%s/large_%s', $attachment['message_id'], urlencode($attachment['filename'])), // resize here
+					'original' => sprintf('/email/img/images/%s/original_%s', $attachment['message_id'], urlencode($attachment['filename'])),
+					'thumbnail' => sprintf('/email/img/images/%s/thumbnail_%s', $attachment['message_id'], urlencode($attachment['filename'])), // resize here
+					'large' => sprintf('/email/img/images/%s/large_%s', $attachment['message_id'], urlencode($attachment['filename'])), // resize here
 				);
 			}
 
