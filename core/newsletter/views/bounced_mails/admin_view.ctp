@@ -9,6 +9,7 @@
                 'back'
             )
         );
+		
 		echo $this->Infinitas->adminIndexHead(null, $massActions); ?>
 		<div class="dashboard">
 			<h1>
@@ -19,7 +20,7 @@
 				<div class="sender">
 					<span>
 						<?php
-							echo $this->Letter->isFlagged($bouncedMail['BouncedMail']),
+							echo $this->EmailAttachments->isFlagged($bouncedMail['BouncedMail']),
 								$this->Html->link($bouncedMail['From']['name'], 'mailto:'.$bouncedMail['From']['email']);
 						?>
 					</span>
@@ -38,6 +39,8 @@
 							}
 						}
 					?>
+					<hr>
+					<?php echo $this->EmailAttachments->listAttachments($bouncedMail['Attachment']); ?>
 				</div>
 			</div>
 		</div>

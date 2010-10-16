@@ -40,7 +40,7 @@
                     ),
                     $paginator->sort('from'),
                     $paginator->sort('subject'),
-                    $this->Letter->hasAttachment(true) => array(
+                    $this->EmailAttachments->hasAttachment(true) => array(
                         'class' => 'actions',
                         'width' => '20px'
                     ),
@@ -56,7 +56,7 @@
                         <td><?php echo $this->Form->checkbox($bouncedMail['BouncedMail']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
-								echo $this->Letter->isFlagged($bouncedMail['BouncedMail']),
+								echo $this->EmailAttachments->isFlagged($bouncedMail['BouncedMail']),
 									$this->Html->link(
 										sprintf('%s (%s)', $bouncedMail['From']['name'], $bouncedMail['BouncedMail']['thread_count']),
 										array('action' => 'view', $bouncedMail['BouncedMail']['id'])
@@ -64,7 +64,7 @@
 							?>&nbsp;
 						</td>
                         <td><?php echo $bouncedMail['BouncedMail']['subject']; ?>&nbsp;</td>
-                        <td><?php echo $this->Letter->hasAttachment($bouncedMail['BouncedMail']); ?>&nbsp;</td>
+                        <td><?php echo $this->EmailAttachments->hasAttachment($bouncedMail['BouncedMail']); ?>&nbsp;</td>
                         <td><?php echo convert($bouncedMail['BouncedMail']['size']); ?>&nbsp;</td>
                         <td><?php echo $this->Time->niceShort($bouncedMail['BouncedMail']['created']); ?>&nbsp;</td>
                     </tr>

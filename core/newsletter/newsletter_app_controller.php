@@ -35,6 +35,7 @@
 
 			$this->helpers[] = 'Filter.Filter';
 			$this->helpers[] = 'Newsletter.Letter';
+			$this->helpers[] = 'Email.EmailAttachments';
 
 			$this->addCss(array('/newsletter/css/newsletter'));
 			// $this->set( 'newsletterPending', ClassRegistry::init( 'Newsletter.Newsletter' )->getPending() );
