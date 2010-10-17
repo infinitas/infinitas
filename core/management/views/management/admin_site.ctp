@@ -29,6 +29,13 @@
 			'dashboard' => array('plugin' => 'menus', 'controller' => 'menus', 'action' => 'index')
 		),
 		array(
+			'name' => 'Short Urls',
+			'description' => 'Manage the short urls pointing to your site',
+			'icon' => '/short_urls/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
+		),
+		array(
 			'name' => 'Themes',
 			'description' => 'Theme your site',
 			'icon' => '/themes/img/icon.png',
