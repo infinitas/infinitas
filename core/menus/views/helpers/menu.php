@@ -151,7 +151,7 @@
 					$info['name'],
 					$info['dashboard'],
 					array(
-						'title' => $info['name'],
+						'title' => sprintf('%s :: %s', $info['name'], $info['description']),
 						'escape' => false,
 						'style' => 'background-image: url(' . Router::url(isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png') . ');'
 					)
