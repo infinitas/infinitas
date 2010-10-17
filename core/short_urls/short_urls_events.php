@@ -19,6 +19,14 @@
 	 */
 
 	 final class ShortUrlsEvents extends AppEvents{
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Short Urls' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
+			);
+
+			return $menu;
+		}
+
 		public function onSetupRoutes(){
 			// preview
 			Router::connect(

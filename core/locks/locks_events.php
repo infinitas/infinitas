@@ -14,7 +14,11 @@
 		}
 
 		public function onAdminMenu(&$event){
-			return array();
+			$menu['main'] = array(
+				'Locks' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
+			);
+
+			return $menu;
 		}
 
 		public function onRequireComponentsToLoad(&$event){
