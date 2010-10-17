@@ -28,6 +28,17 @@
 			$this->helpers[] = 'Google.Chart';
 		}
 
+		/**
+		 * This is the main admin dashboard when visiting admin/
+		 */
 		public function admin_dashboard() {
+		}
+
+		/**
+		 * This is a few of the smaller items that dont need to be directly on the
+		 * main dashboard as they will not be used all that often.
+		 */
+		public function admin_site(){
+
 		}
 	}
