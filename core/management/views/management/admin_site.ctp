@@ -79,6 +79,13 @@
 			'icon' => '/tags/img/icon.png',
 			'author' => 'CakeDC',
 			'dashboard' => array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')
+		),
+		array(
+			'name' => 'View Counts',
+			'description' => 'View your sites traffic',
+			'icon' => '/view_counter/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter', 'action' => 'dashboard')
 		)
 	);
 	$managementGeneral = $this->Menu->builDashboardLinks($managementGeneral, 'management_general');
