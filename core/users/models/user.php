@@ -227,4 +227,15 @@
 				$this->Aro->save($aro);
 			}
 		}
+
+		public function getSiteRelatedList(){
+			return $this->find(
+				'list',
+				array(
+					'conditions' => array(
+						'User.group_id' => 1
+					)
+				)
+			);
+		}
 	}
