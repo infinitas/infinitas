@@ -8,6 +8,12 @@
 		 */
 		public $name = 'Tags';
 
+		public function beforeFilter(){
+			parent::beforeFilter();
+
+			$this->helpers[] = 'Filter.Filter';
+		}
+
 		/**
 		 * Admin Index
 		 *
@@ -15,6 +21,15 @@
 		 * @access public
 		 */
 		public function admin_index() {
-			$this->set('tags', $this->paginate());
+			$tags = $this->paginate();
+
+			$filterOptions = $this->Filter->filterOptions;
+			$filterOptions['fields'] = array(
+				'name',
+				'identifier',
+				'keyname'
+			);
+
+			$this->set(compact('tags','filterOptions'));
 		}
 	}
