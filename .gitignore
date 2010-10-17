@@ -7,6 +7,8 @@ views/themed/*
 views/pages/*
 webroot/img/content/*
 webroot/*
+core/emails/attachments/*
+core/emails/webroot/img/images/*
 .gitignore
 
 # If you are using an ide other than below add ignores for the files it creates
