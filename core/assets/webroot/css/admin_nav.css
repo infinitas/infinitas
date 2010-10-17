@@ -542,7 +542,22 @@ div.error .error-message{
 form div.static{
 	display: none;
 }
-	
+
+.user-warning{
+	width: 930px;
+	margin: auto;
+	font-size: 140%;
+	text-align: center;
+	-moz-border-radius: 5px;
+	background-color: #F9F9F9;
+	border: 1px solid #AFAFAF;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+	.user-warning img{
+		margin-right: 10px;
+	}
+
 table.cake-sql-log{
 	display: none;
 }

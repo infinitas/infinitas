@@ -49,6 +49,14 @@
 			$this->Infinitas->getPluginAssets();		
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
+
+			$fields = array(
+				$this->params['plugin'],
+				$this->params['controller'],
+				$this->params['action']
+			);
+
+			$this->set('class_name_for_layout', implode(' ', $fields));
 		}
 
 		function redirect($url = null, $status = null, $exit = true){
@@ -222,6 +230,39 @@
 					),
 					$this->output
 				);
+			}
+		}
+
+		/**
+		 * Create a generic warning to display usefull information to the user
+		 *
+		 * The code passed can be used for linking to error pages with more information
+		 * eg: creating some pages on your site like /errors/<code> and then making it
+		 * a clickable link the user can get more detailed information.
+		 *
+		 * @param string $message the message to show to the user
+		 * @param int $code a code that can link to help
+		 * @param string $level something like notice/warning/error
+		 * @param string $plugin if you would like to use your own elements pass the name of the plugin here
+		 * 
+		 * @return string the markup for the error
+		 */
+		public function notice($message, $level = 'success', $code = 0, $plugin = null, $redirect = null){
+			if(!$plugin){
+				$plugin = 'assets';
+			}
+
+			$vars = array(
+				'code' => $code,
+				'plugin' => $plugin
+			);
+			
+			$this->Session->setFlash($message, 'messages/'.$level, $vars);
+			if($redirect){
+				if($redirect === true){
+					$redirect = $this->referer();
+				}
+				$this->redirect($redirect);
 			}
 		}
 	}
