@@ -18,7 +18,7 @@
      * @since         0.8a
      */
 
-    echo $this->Form->create('BouncedMail', array('action' => 'mass'));
+    echo $this->Form->create('MailSystem', array('action' => 'mass'));
         $massActions = $this->Infinitas->massActionButtons(
             array(
                 'view',
@@ -49,24 +49,25 @@
                 )
             );
 
-            foreach($bouncedMails as $bouncedMail){
-				$class = $bouncedMail['BouncedMail']['unread'] ? 'unread' : '';
+            foreach($mails as $mail){
+				$class = $mail['MailSystem']['unread'] ? 'unread' : '';
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">
-                        <td><?php echo $this->Form->checkbox($bouncedMail['BouncedMail']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($mail['MailSystem']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
-								echo $this->EmailAttachments->isFlagged($bouncedMail['BouncedMail']),
+								$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'view', 'data' => $mail));
+								echo $this->EmailAttachments->isFlagged($mail['MailSystem']),
 									$this->Html->link(
-										sprintf('%s (%s)', $bouncedMail['From']['name'], $bouncedMail['BouncedMail']['thread_count']),
-										array('action' => 'view', $bouncedMail['BouncedMail']['id'])
+										sprintf('%s (%s)', $mail['From']['name'], $mail['MailSystem']['thread_count']),
+										current($_url['slugUrl'])
 									);
 							?>&nbsp;
 						</td>
-                        <td><?php echo $bouncedMail['BouncedMail']['subject']; ?>&nbsp;</td>
-                        <td><?php echo $this->EmailAttachments->hasAttachment($bouncedMail['BouncedMail']); ?>&nbsp;</td>
-                        <td><?php echo convert($bouncedMail['BouncedMail']['size']); ?>&nbsp;</td>
-                        <td><?php echo $this->Time->niceShort($bouncedMail['BouncedMail']['created']); ?>&nbsp;</td>
+                        <td><?php echo $mail['MailSystem']['subject']; ?>&nbsp;</td>
+                        <td><?php echo $this->EmailAttachments->hasAttachment($mail['MailSystem']); ?>&nbsp;</td>
+                        <td><?php echo convert($mail['MailSystem']['size']); ?>&nbsp;</td>
+                        <td><?php echo $this->Time->niceShort($mail['MailSystem']['created']); ?>&nbsp;</td>
                     </tr>
                 <?php
             }

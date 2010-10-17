@@ -85,7 +85,7 @@
 		 * @return the data requested by the model
 		 */
 		public function read(&$Model, $query) {
-			if (!$this->__connectToServer($Model)) {
+			if (!$this->__connectToServer($Model, $query)) {
 				die('something wrong');
 				exit;
 			}
@@ -142,9 +142,20 @@
 		/**
 		 * connect to the mail server
 		 */
-		private function __connectToServer($Model) {
+		private function __connectToServer($Model, $query) {
 			if ($this->__isConnected) {
 				return true;
+			}
+			
+			if(!isset($query['conditions'][$Model->alias.'.account'])){
+				return false;
+			}
+
+			if(empty($Model->server)){
+				$Model->server = ClassRegistry::init('Emails.EmailAccount')->getConnectionDetails($query['conditions'][$Model->alias.'.account']);
+				if(empty($Model->server)){
+					return false;
+				}
 			}
 
 			$Model->server['type'] = isset($Model->server['type']) && !empty($Model->server['type']) ? $Model->server['type'] : 'pop3';
@@ -164,7 +175,7 @@
 						'{%s:%s%s}',
 						$config['server'],
 						$config['port'],
-						$config['ssl'] === true ? '/ssl' : ''
+						$config['ssl'] ? '/ssl' : ''
 					);
 					break;
 
@@ -173,7 +184,7 @@
 						'{%s:%s/pop3%s}',
 						$config['server'],
 						$config['port'],
-						$config['ssl'] === true ? '/ssl' : ''
+						$config['ssl'] ? '/ssl' : ''
 					);
 					break;
 			}
@@ -264,12 +275,18 @@
 				$mail->sender = $mail->from;
 				$mail->senderaddress = $mail->fromaddress;
 			}
+
+			$return['EmailAccount'] = array(
+				'id' => $Model->server['id'],
+				'slug' => $Model->server['slug']
+			);
 			
 			$return[$Model->alias] = array(
 				'id' => $this->__getId($mail->Msgno),
 				'message_id' => $mail->message_id,
 				'email_number' => $mail->Msgno,
 				'subject' => htmlspecialchars($mail->subject),
+				'slug' => Inflector::slug($mail->subject, '-'),
 				'size' => $mail->Size,
 				'recent' => $mail->Recent,
 				'unread' => (int)(bool)trim($mail->Unseen),
@@ -310,7 +327,7 @@
 				'text' => $this->_getPart($message_id, 'TEXT/PLAIN', $structure)
 			);
 
-			App::import('Lib', 'Email.AttachmentDownloader');
+			App::import('Lib', 'Emails.AttachmentDownloader');
 			$this->AttachmentDownloader = new AttachmentDownloader($message_id);
 			$return['Attachment'] = $this->_getAttachments($structure, $message_id);
 
@@ -537,7 +554,7 @@
 
 					$data = $this->_getPart($msg_number, $mime_type, $sub_structure, $prefix . ($index + 1));
 					if ($data) {
-						return $data;
+						return quoted_printable_decode($data);
 					}
 				}
 			}

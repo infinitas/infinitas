@@ -1,8 +1,8 @@
 <?php
 	class AttachmentDownloader extends Object{
 		public function  __construct($message_id) {
-			$this->attachmentPath = App::pluginPath('email') . 'attachments' . DS . $message_id;
-			$this->webrootPath = App::pluginPath('email') . 'webroot' . DS . 'img' . DS . 'images' . DS . $message_id;
+			$this->attachmentPath = App::pluginPath('emails') . 'attachments' . DS . $message_id;
+			$this->webrootPath = App::pluginPath('emails') . 'webroot' . DS . 'img' . DS . 'images' . DS . $message_id;
 		}
 
 		public function save($attachment){

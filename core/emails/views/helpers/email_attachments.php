@@ -2,8 +2,14 @@
 	class EmailAttachmentsHelper extends AppHelper{
 		public $helpers = array(
 			'Text',
-			'Html'
+			'Html',
+			'Events.Event'
 		);
+
+		public function outputBody($mail){
+			$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'mail', 'data' => $mail));
+			return '<iframe src="' . Router::url(current($_url['slugUrl'])) . '" height="100%" width="100%"></iframe>';
+		}
 
 		/**
 		 * generate an attachment icon for emails with an attachment
