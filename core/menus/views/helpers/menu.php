@@ -153,7 +153,7 @@
 					array(
 						'title' => $info['name'],
 						'escape' => false,
-						'style' => 'background-image: url(' . Router::url(DS . $name . DS . 'img' . DS . 'icon.png') . ');'
+						'style' => 'background-image: url(' . Router::url(isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png') . ');'
 					)
 				);
 			}
