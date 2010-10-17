@@ -21,15 +21,6 @@
 	 */
 
 	 class InstallerEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Installer',
-				'description' => 'Manage your Infinitas install',
-				'icon' => '/installer/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
-
 		public function onSetupRoutes(){
 			// infinitas is not installed
 			$databaseConfig = APP.'config'.DS.'database.php';

@@ -21,16 +21,6 @@
 	 */
 
 	class WebmasterEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Webmaster',
-				'description' => 'Manage your sites robots files and sitemaps',
-				'icon' => '/webmaster/img/icon.png',
-				'author' => 'Infinitas',
-				'dashboard' => array('plugin' => 'webmaster', 'controller' => 'webmaster', 'action' => 'dashboard')
-			);
-		}
-
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
 				'Edit Robots' => array('plugin' => 'webmaster', 'controller' => 'robots', 'action' => 'edit'),

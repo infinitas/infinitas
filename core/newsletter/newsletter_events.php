@@ -26,6 +26,7 @@
 				'name' => 'Newsletter',
 				'description' => 'Keep in contact with your user base',
 				'author' => 'Infinitas',
+				'icon' => '/newsletter/img/icon.png',
 				'dashboard' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard'),
 			);
 		}

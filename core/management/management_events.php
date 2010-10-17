@@ -5,7 +5,8 @@
 				'name' => 'Setup',
 				'description' => 'Configure Your site',
 				'icon' => '/management/img/icon.png',
-				'author' => 'Infinitas'
+				'author' => 'Infinitas',
+				'dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site')
 			);
 		}
 		

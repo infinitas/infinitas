@@ -1,14 +1,5 @@
 <?php
 	final class MenusEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Menus',
-				'description' => 'Build menus for your site',
-				'icon' => '/menus/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
-		
 		public function onSetupConfig(){
 			return array();
 		}
