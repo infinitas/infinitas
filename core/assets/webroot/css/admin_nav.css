@@ -558,6 +558,73 @@ form div.static{
 		margin-right: 10px;
 	}
 
+	.error-message{
+	color: #ff0000;
+}
+
+
+/* table container */
+div.table {
+	float:  left;
+	width:  100%;
+	margin: 0 0 5px 0;
+}
+
+table.listing {
+	width:               100%;
+	background-image:    url("../img/core/infinitas_med.png");
+	background-position: right 90%;
+	background-repeat:   no-repeat;
+}
+
+
+/* table styles */
+table.listing th {
+	padding:    5px;
+    text-align: left;
+}
+
+table.listing .highlightRowSelected td,
+table.listing .bg.highlightRowSelected td,
+table.listing .highlightRowSelected.highlightRowRelated td,
+table.listing .bg.highlightRowSelected.highlightRowRelated rt {
+	background:  none repeat scroll 0 0 #E1FFDF;
+	font-weight: bold;
+}
+
+table.listing .highlightRowRelated td,
+table.listing .bg.highlightRowRelated td,
+table.listing .highlightRowRelated.highlightRowSelected td,
+table.listing .bg.highlightRowRelated.highlightRowSelected td {
+	background:  none repeat scroll 0 0 #FFE2BF;
+	font-weight:bold;
+}
+
+table.listing tr:hover td{
+	background:  none repeat scroll 0 0 #FFFCDF;
+	text-decoration: italics;
+}
+
+.actions{
+    width: 100px;
+}
+
+table.listing td {
+	color:      #000000;
+	padding:    3px 5px;
+}
+
+table.listing td,
+table.listing th{
+	opacity:    0.95;
+	filter:     alpha(opacity=99);
+	background: #ffffff;
+}
+
+table.listing .bg td {
+	background: #ECECEC;
+}
+
 table.cake-sql-log{
 	display: none;
 }
