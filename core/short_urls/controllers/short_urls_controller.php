@@ -1,8 +1,8 @@
 <?php
 	class ShortUrlsController extends ShortUrlsAppController{
-		var $name = 'ShortUrls';
+		public $name = 'ShortUrls';
 
-		function go(){
+		public function go(){
 			if(!isset($this->params['code'])){
 				$this->redirect($this->referer());
 			}
