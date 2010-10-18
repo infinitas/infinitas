@@ -38,6 +38,18 @@
 			}
 
 			$menus   = $this->MenuItem->Menu->find('list');
+			if(empty($menus)){
+				$this->notice(
+					__('Please add a menu before adding items', true),
+					array(
+						'level' => 'notice',
+						'redirect' => array(
+							'controller' => 'menus'
+						)
+					)
+				);
+			}
+			
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
 			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => reset(array_keys($menus))));
 			$plugins = $this->MenuItem->getPlugins();
