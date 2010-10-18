@@ -154,6 +154,21 @@
 				$this->plugin = str_replace('AppModel', '', $parentName);
 			}
 		}
+
+
+		/**
+		 * general validation rules
+		 * can be moved to a validation behavior
+		 */
+		/**
+		 * This can either be empty or a valid json string.
+		 *
+		 * @param array $field the field being validated
+		 * @return bool is it valid?
+		 */
+		public function validateEmptyOrJson($field){
+			return strlen(current($field)) == 0 || $this->validateJson(current($field));
+		}
 	}
 
 	/**

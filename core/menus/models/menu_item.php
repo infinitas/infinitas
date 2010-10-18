@@ -46,13 +46,13 @@
 						'message' => __('Please only use external link or the route', true)
 					),
 					'validUrl' => array(
-						'rule' => 'validUrl',
+						'rule' => 'validateUrlOrAbsolute',
 						'message' => __('please use a valid url (absolute or full)', true)
 					)
 				),
 				'plugin' => array(
 					'onlyOneFilledIn' => array(
-						'rule' => 'onlyOneFilledIn',
+						'rule' => 'validateOnlyOneFilledIn',
 						'message' => __('Please use the external link or the route', true)
 					)
 				),
@@ -64,7 +64,7 @@
 				),
 				'force_backend' => array(
 					'forceOnlyOne' => array(
-						'rule' => 'forceOnlyOne',
+						'rule' => 'validateForceOnlyOne',
 						'message' => __('You can only force one area of the site', true)
 					)
 				),
@@ -76,13 +76,13 @@
 				),
 				'params' => array(
 					'emptyOrJson' => array(
-						'rule' => 'emptyOrJson',
+						'rule' => 'validateEmptyOrJson',
 						'message' => __('Please enter some valid json or leave empty', true)
 					)
 				),
 				'class' => array(
 					'emptyOrValidCssClass' => array(
-						'rule' => 'emptyOrValidCssClass',
+						'rule' => 'validateEmptyOrCssClass',
 						'message' => __('Please enter valid css classes', true)
 					)
 				),
@@ -107,19 +107,10 @@
 		 * @param array $field the field being validated
 		 * @return bool is it valid?
 		 */
-		public function emptyOrValidCssClass($field){
+		public function validateEmptyOrCssClass($field){
 			return strlen(current($field)) == 0 || preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', current($field));
 		}
-
-		/**
-		 * This can either be empty or a valid json string.
-		 *
-		 * @param array $field the field being validated
-		 * @return bool is it valid?
-		 */
-		public function emptyOrJson($field){			
-			return strlen(current($field)) == 0 || $this->validateJson(current($field));
-		}
+		
 		/**
 		 * Only allow forcing the frontend or the backend, not both. both being
 		 * empty for auto deciding by cake is fine also
@@ -127,7 +118,7 @@
 		 * @param array $field not used
 		 * @return bool is it valid?
 		 */
-		public function forceOnlyOne($field){
+		public function validateForceOnlyOne($field){
 			return
 				// both empty auto select
 				empty($this->data['MenuItem']['force_frontend']) && empty($this->data['MenuItem']['force_backedn']) ||
@@ -146,7 +137,7 @@
 		 * @param array $field not used
 		 * @return bool is it valid
 		 */
-		public function onlyOneFilledIn($field){
+		public function validateOnlyOneFilledIn($field){
 			return
 				// using routing
 				empty($this->data['MenuItem']['link']) &&
@@ -167,7 +158,7 @@
 		 * @param array $field the field being validated
 		 * @return bool is it valid
 		 */
-		public function validUrl($field){
+		public function validateUrlOrAbsolute($field){
 			return
 				// not in use
 				current($field) == '' ||
