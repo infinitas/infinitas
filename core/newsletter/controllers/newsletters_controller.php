@@ -203,6 +203,25 @@
 			$this->set(compact('newsletters','filterOptions'));
 		}
 
+		public function admin_add(){
+			parent::admin_add();
+
+			$campaigns = $this->Newsletter->Campaign->find('list');
+			if(empty($campaigns)){
+				$this->notice(
+					__('Please create a campaign before creating a newsletter', true),
+					array(
+						'level' => 'notice',
+						'redirect' => array(
+							'controller' => 'campaigns'
+						)
+					)
+				);
+			}
+			
+			$this->set(compact('campaigns'));
+		}
+
 		public function admin_view($id = null) {
 			if (!$id && empty($this->data)) {
 				$this->Session->setFlash(__('Please select a newsletter', true));

@@ -63,6 +63,18 @@
 			parent::admin_add();
 
 			$templates = $this->Campaign->Template->find('list');
+			if(empty($templates)){
+				$this->notice(
+					__('Please create a template before creating your campaigns', true),
+					array(
+						'level' => 'notice',
+						'redirect' => array(
+							'controller' => 'templates'
+						)
+					)
+				);
+			}
+			
 			$newsletters = $this->Campaign->Newsletter->find('list');
 			$this->set(compact('templates', 'newsletters'));
 		}

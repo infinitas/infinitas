@@ -19,14 +19,15 @@
      */
 
     echo $this->Form->create('Newsletter');
-        echo $this->Infinitas->adminEditHead();
-        echo $this->Infinitas->niceBox();
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Newsletter', true); ?></h1><?php
 	        echo $this->Form->input('id');
-	        echo $this->Form->input('campaign_id');
+	        echo $this->Form->input('campaign_id', array('empty' => Configure::read('Website.empty_select')));
 	        echo $this->Form->input('from', array('class' => 'title'));
 	        echo $this->Form->input('reply_to', array('class' => 'title'));
 	        echo $this->Form->input('subject', array('class' => 'title'));
 	        echo $this->Infinitas->wysiwyg('Newsletter.html', array('toolbar' => 'EmailHtml'));
-	        echo $this->Infinitas->wysiwyg('Newsletter.text', array('toolbar' => 'EmailText'));
-        echo $this->Infinitas->niceBoxEnd();
+	        echo $this->Infinitas->wysiwyg('Newsletter.text', array('toolbar' => 'EmailText')); ?>
+		</fieldset><?php
     echo $this->Form->end();
