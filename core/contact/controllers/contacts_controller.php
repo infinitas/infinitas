@@ -88,6 +88,9 @@
 			parent::admin_add();
 			
 			$branches = $this->Contact->Branch->find('list');
+			if(empty($branches)){
+				$this->notice(__('Please add a branch first', true), array('level' => 'notice','redirect' => array('controller' => 'branches')));
+			}
 			$this->set(compact('branches'));
 		}
 
