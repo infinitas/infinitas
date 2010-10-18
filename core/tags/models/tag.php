@@ -43,14 +43,20 @@
 			)
 		);
 
-		/**
-		 * Validation rules
-		 *
-		 * @var array
-		 * @access public
-		 */
-		public $validate = array(
-			'name' => array('rule' => 'notEmpty'),
-			'keyname' => array('rule' => 'notEmpty')
-		);
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter a tag', true)
+					)
+				),
+				'keyname' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter the key name', true)
+				)
+			);
+		}
 	}
