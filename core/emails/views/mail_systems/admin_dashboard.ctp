@@ -2,6 +2,7 @@
 	$dashboardIcons = array(
 		array(
 			'name' => 'Accounts',
+			'description' => 'Manage your email accounts',
 			'dashboard' => array(
 				'plugin' => 'emails',
 				'controller' => 'email_accounts',
@@ -16,6 +17,7 @@
 		$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'inbox', 'data' => $account));
 		$accountIcons[] = array(
 			'name' => $account['EmailAccount']['name'],
+			'description' => $account['EmailAccount']['email'],
 			'dashboard' => current($_url['slugUrl'])
 		);
 	}

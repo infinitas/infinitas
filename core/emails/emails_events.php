@@ -5,6 +5,7 @@
 				'name' => 'Emails',
 				'description' => 'Manage your mails',
 				'author' => 'Infinitas',
+				'icon' => '/emails/img/icon.png',
 				'dashboard' => array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'dashboard')
 			);
 		}

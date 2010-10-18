@@ -52,6 +52,7 @@
 						'EmailAccount.id',
 						'EmailAccount.name',
 						'EmailAccount.slug',
+						'EmailAccount.email',
 					),
 					'conditions' => array(
 						'or' => array(
