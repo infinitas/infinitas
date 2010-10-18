@@ -481,7 +481,8 @@ fieldset legend{
 /** required fields */
 form .required input,
 form .required textarea,
-form .required select{
+form .required select,
+form select.required{
 	background-color: #FFDAAF;
 }
 form label{
