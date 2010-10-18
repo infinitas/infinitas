@@ -247,22 +247,27 @@
 		 * 
 		 * @return string the markup for the error
 		 */
-		public function notice($message, $level = 'success', $code = 0, $plugin = null, $redirect = null){
-			if(!$plugin){
-				$plugin = 'assets';
-			}
+		public function notice($message, $config = array()){
+			$_default = array(
+				'level' => 'success',
+				'code' => 0,
+				'plugin' => 'assets',
+				'redirect' => false
+			);
+
+			$config = array_merge($_default, (array)$config);
 
 			$vars = array(
-				'code' => $code,
-				'plugin' => $plugin
+				'code' => $config['code'],
+				'plugin' => $config['plugin']
 			);
 			
-			$this->Session->setFlash($message, 'messages/'.$level, $vars);
-			if($redirect){
-				if($redirect === true){
-					$redirect = $this->referer();
+			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
+			if($config['redirect']){
+				if($config['redirect'] === true){
+					$config['redirect'] = $this->referer();
 				}
-				$this->redirect($redirect);
+				$this->redirect($config['redirect']);
 			}
 		}
 	}
