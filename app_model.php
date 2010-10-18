@@ -224,6 +224,20 @@
 				// valid url
 				Validation::url(current($field), true);
 		}
+
+		/**
+		 * compare 2 fields and make sure they are the same
+		 *
+		 * @param array $field not used
+		 * @param bool $fields the fields to compare
+		 */
+		public function validateCompareFields($field, $fields){
+			if($fields[0] == 'password'){
+				return Security::hash($this->data[$this->alias][$fields[1]], null, true) === $this->data[$this->alias][$fields[0]];
+			}
+
+			return $this->data[$this->alias][$fields[0]] === $this->data[$this->alias][$fields[1]];
+		}
 	}
 
 	/**
