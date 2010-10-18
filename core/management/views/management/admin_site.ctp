@@ -90,9 +90,9 @@
 		array(
 			'name' => 'View Counts',
 			'description' => 'View your sites traffic',
-			'icon' => '/view_counter/img/icon.png',
+			'icon' => '/view_couner/img/icon.png',
 			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter', 'action' => 'dashboard')
+			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'dashboard')
 		)
 	);
 	$managementGeneral = $this->Menu->builDashboardLinks($managementGeneral, 'management_general');
