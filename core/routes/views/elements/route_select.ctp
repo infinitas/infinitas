@@ -24,8 +24,8 @@
 ?>
 <div class="input smaller required <?php echo $errorClass; ?>">
 	<label for="'.$model.'Plugin"><?php echo __('Route', true); ?></label><?php
-	echo $this->Form->select('plugin', array('label' => false, 'class' => "pluginSelect {url:{action:'getControllers'}, target:'".$model."Controller'}"));
-	echo $this->Form->select('controller', array('label' => false, 'class' => "controllerSelect {url:{action:'getActions'}, target:'".$model."Action'}"));
-	echo $this->Form->select('action', array('label' => false));
+	echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "pluginSelect {url:{action:'getControllers'}, target:'".$model."Controller'}"));
+	echo $this->Form->input('controller', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "controllerSelect {url:{action:'getActions'}, target:'".$model."Action'}"));
+	echo $this->Form->input('action', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false));
 	echo $error; ?>
 </div>

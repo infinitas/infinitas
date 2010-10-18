@@ -34,6 +34,70 @@
 			)
 		);
 
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter a name for this route', true)
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => __('There is already a route with this name', true)
+					)
+				),
+				'url' => array(
+					'onlyOneFilledIn' => array(
+						'rule' => array('validateEitherOr', array('url', 'plugin')),
+						'message' => __('Please only use url or the route selection', true)
+					),
+					'validUrl' => array(
+						'rule' => 'validateUrlOrAbsolute',
+						'message' => __('please use a valid url (absolute or full)', true)
+					)
+				),
+				'plugin' => array(
+					'validateOnlyOneFilledIn' => array(
+						'rule' => array('validateEitherOr', array('url', 'plugin')),
+						'message' => __('Please use the external link or the route', true)
+					)
+				),
+				'values' => array(
+					'validateEmptyOrJson' => array(
+						'rule' => 'validateEmptyOrJson',
+						'message' => __('Please enter valid json for the values or leave blank', true)
+					)
+				),
+				'rules' => array(
+					'validateEmptyOrJson' => array(
+						'rule' => 'validateEmptyOrJson',
+						'message' => __('Please enter valid json for the rules or leave blank', true)
+					)
+				),
+				'force_frontend' => array(
+					'validateNothingEitherOr' => array(
+						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+						'message' => __('Please chose only one, or none', true)
+					)
+				),
+				'force_backend' => array(
+					'validateNothingEitherOr' => array(
+						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+						'message' => __('Please chose only one, or none', true)
+					)
+				),
+				'pass' => array(
+					'custom' => array(
+						'rule' => '/^([a-z]+|\b,\b)+$/',
+						'message' => __('Please enter a comma seperated list of variables to pass, no spaces', true),
+						'allowEmpty' => true
+					)
+				)
+			);
+		}
+
 		/**
 		 * Get all routes required for the app
 		 *
