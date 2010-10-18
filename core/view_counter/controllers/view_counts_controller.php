@@ -2,87 +2,31 @@
 	class ViewCountsController extends ViewCounterAppController{
 		public $name = 'ViewCounts';
 
-		public function admin_dashboard(){
-			$this->ViewCount->virtualFields = array(
-				'sub_total' => 'COUNT(ViewCount.id)'
-			);
-			
-			$models = $this->ViewCount->find(
-				'all',
-				array(
-					'fields' => array(
-						'ViewCount.id',
-						'ViewCount.model',
-						'sub_total'
-					),
-					'group' => array(
-						'ViewCount.model'
-					)
-				)
-			);
-
-			$this->set(compact('models'));
-		}
-
-		public function admin_index(){
+		public function admin_reports(){
 			$conditions = $this->Filter->filter;
-			$conditions['month >= '] = date('m') - 2;
+			$conditions['month >= '] = date('Y-m', mktime(0, 0, 0, date('m') - 12));
+			$byMonth = $this->ViewCount->reportByMonth($conditions);
 
-			$this->ViewCount->virtualFields = array(
-				'sub_total' => 'COUNT(ViewCount.id)',
-				'day' => 'DAYOFYEAR(ViewCount.created)',
-				'week' => 'WEEK(ViewCount.created)',
-				'month' => 'MONTH(ViewCount.created)'
-			);
-
-			$viewCountsByWeek = $this->ViewCount->find(
-				'all',
-				array(
-					'fields' => array(
-						'ViewCount.id',
-						'ViewCount.model',
-						'week',
-						'month',
-						'sub_total'
-					),
-					'conditions' => $conditions,
-					'group' => array(
-						'week'
-					)
-				)
-			);
-			$byWeek = array();
-			if(!empty($viewCountsByWeek)){
-				$byWeek['model'] = $viewCountsByWeek[0]['ViewCount']['model'];
-				$byWeek['totals'] = Set::extract('/ViewCount/sub_total', $viewCountsByWeek);
-				$byWeek['weeks'] = Set::extract('/ViewCount/week', $viewCountsByWeek);
-				unset($viewCountsByWeek);
-			}
-
-			$viewCountsByDay = $this->ViewCount->find(
-				'all',
-				array(
-					'fields' => array(
-						'ViewCount.id',
-						'ViewCount.model',
-						'day',
-						'month',
-						'sub_total'
-					),
-					'conditions' => $conditions,
-					'group' => array(
-						'day'
-					)
-				)
-			);
-			$byDay = array();
-			if(!empty($viewCountsByDay)){
-				$byDay['model'] = $viewCountsByDay[0]['ViewCount']['model'];
-				$byDay['totals'] = Set::extract('/ViewCount/sub_total', $viewCountsByDay);
-				$byDay['weeks'] = Set::extract('/ViewCount/week', $viewCountsByDay);
-				unset($viewCountsByDay);
-			}
+			$conditions['month >= '] = date('m') -3;
+			$byWeek = $this->ViewCount->reportByWeek($conditions);
+			$byDay  = $this->ViewCount->reportByDay($conditions);
 			
-			$this->set(compact('byWeek', 'byDay'));
+			$this->set(compact('byMonth', 'byWeek', 'byDay'));
+
+			if(!isset($this->params['named']['ViewCount.model']) && !isset($this->params['named']['ViewCount.foreign_key'])){
+				$allModels = $this->ViewCount->reportPopularModels();
+				$this->set(compact('allModels'));
+			}
+			else if(isset($this->params['named']['ViewCount.model']) && !isset($this->params['named']['ViewCount.foreign_key'])){
+				$foreignKeys = $this->ViewCount->reportPopularRows($conditions, $this->params['named']['ViewCount.model']);
+				$this->set(compact('foreignKeys'));
+			}
+			else if(isset($this->params['named']['ViewCount.model']) && isset($this->params['named']['ViewCount.foreign_key'])){
+				$relatedModel = $this->ViewCount->reportPopularRows($conditions, $this->params['named']['ViewCount.model']);
+				if(isset($relatedModel[0])){
+					$relatedModel = $relatedModel[0];
+				}
+				$this->set(compact('relatedModel'));
+			}
 		}
 	}
