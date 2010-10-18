@@ -64,8 +64,8 @@
 					)
 				),
 				'confirm_email' => array(
-					'matchEmail' => array(
-						'rule' => 'matchEmail',
+					'validateCompareFields' => array(
+						'rule' => array('validateCompareFields', array('email', 'compare_email')),
 						'message' => __('Your email address does not match', true)
 					)
 				),
@@ -84,29 +84,12 @@
 						'rule' => 'validPassword',
 						'message' => (!empty($message) ? $message : __('Please enter a stronger password', true))
 					),
-					'matchPassword' => array(
-						'rule' => 'matchPassword',
+					'validateCompareFields' => array(
+						'rule' => array('validateCompareFields', array('password', 'confirm_password')),
 						'message' => __('The passwords entered do not match', true)
 					)
 				)
 			);
-		}
-
-		/**
-		 * Check that passwords match.
-		 *
-		 * all this does is hash the confirm password and compare that to the already
-		 * hashed password and returns the result.
-		 *
-		 * @params array $field the array $field => $value from the form
-		 * @return bool true on match false on not.
-		 */
-		public function matchPassword($field = null){
-			return (Security::hash($field['confirm_password'], null, true) === $this->data['User']['password']);
-		}
-
-		public function matchEmail($field = null){
-			return $field['confirm_email'] === $this->data['User']['email'];
 		}
 
 		/**

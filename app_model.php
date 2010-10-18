@@ -154,6 +154,90 @@
 				$this->plugin = str_replace('AppModel', '', $parentName);
 			}
 		}
+
+
+		/**
+		 * general validation rules
+		 * can be moved to a validation behavior
+		 */
+		/**
+		 * This can either be empty or a valid json string.
+		 *
+		 * @param array $field the field being validated
+		 * @return bool is it valid?
+		 */
+		public function validateEmptyOrJson($field){
+			return strlen(current($field)) == 0 || $this->validateJson(current($field));
+		}
+
+		/**
+		 * allow the selection of one field or another or nothing
+		 *
+		 * @param array $field not used
+		 * @params array $fields list of 2 fields that should be checked
+		 * 
+		 * @return bool is it valid?
+		 */
+		public function validateNothingEitherOr($field, $fields = array()){
+			return
+				// nothing
+				empty($this->data[$this->alias][$fields[0]]) && empty($this->data[$this->alias][$fields[1]]) ||
+
+				// either or
+				$this->validateEitherOr($field, $fields);
+				
+		}
+
+		/**
+		 * allow the selection of one field or another
+		 *
+		 * @param array $field not used
+		 * @params array $fields list of 2 fields that should be checked
+		 *
+		 * @return bool is it valid?
+		 */
+		public function validateEitherOr($field, $fields){
+			return
+				// either
+				empty($this->data[$this->alias][$fields[0]]) && !empty($this->data[$this->alias][$fields[1]]) ||
+
+				// or
+				!empty($this->data[$this->alias][$fields[0]]) && empty($this->data[$this->alias][$fields[1]]);
+		}
+
+		/**
+		 * this can be a url relative to the site /my/page or full like
+		 * http://site.com/my/page it can also be empty for times when the selects
+		 * are used to build the url
+		 *
+		 * @param array $field the field being validated
+		 * @return bool is it valid
+		 */
+		public function validateUrlOrAbsolute($field){
+			return
+				// not in use
+				current($field) == '' ||
+
+				// aboulute url
+				substr(current($field), 0, 1) == '/' ||
+
+				// valid url
+				Validation::url(current($field), true);
+		}
+
+		/**
+		 * compare 2 fields and make sure they are the same
+		 *
+		 * @param array $field not used
+		 * @param bool $fields the fields to compare
+		 */
+		public function validateCompareFields($field, $fields){
+			if($fields[0] == 'password'){
+				return Security::hash($this->data[$this->alias][$fields[1]], null, true) === $this->data[$this->alias][$fields[0]];
+			}
+
+			return $this->data[$this->alias][$fields[0]] === $this->data[$this->alias][$fields[1]];
+		}
 	}
 
 	/**

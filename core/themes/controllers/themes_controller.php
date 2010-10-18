@@ -46,7 +46,9 @@
 
 		public function admin_edit($id){
 			parent::admin_edit($id);
-			$this->set('themes', $this->__listThemes());
+			$themes = $this->__listThemes();
+			$themes[$this->data['Theme']['name']] = $this->data['Theme']['name'];
+			$this->set(compact('themes'));
 		}
 
 		private function __listThemes($return = false){

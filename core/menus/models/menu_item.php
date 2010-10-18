@@ -30,6 +30,87 @@
 			'MenuItem.lft' => 'ASC'
 		);
 
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the name of the menu item, this is what users will see', true)
+					)
+				),
+				'link' => array(
+					'validateEitherOr' => array(
+						'rule' => array('validateEitherOr', array('link', 'plugin')),
+						'message' => __('Please only use external link or the route', true)
+					),
+					'validUrl' => array(
+						'rule' => 'validateUrlOrAbsolute',
+						'message' => __('please use a valid url (absolute or full)', true)
+					)
+				),
+				'plugin' => array(
+					'validateOnlyOneFilledIn' => array(
+						'rule' => array('validateEitherOr', array('link', 'plugin')),
+						'message' => __('Please use the external link or the route', true)
+					)
+				),
+				'force_frontend' => array(
+					'validateNothingEitherOr' => array(
+						'rule' => 'validateNothingEitherOr',
+						'message' => __('You can only force one area of the site', true)
+					)
+				),
+				'force_backend' => array(
+					'validateNothingEitherOr' => array(
+						'rule' => 'validateNothingEitherOr',
+						'message' => __('You can only force one area of the site', true)
+					)
+				),
+				'group_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select the group that can see this link', true)
+					)
+				),
+				'params' => array(
+					'emptyOrJson' => array(
+						'rule' => 'validateEmptyOrJson',
+						'message' => __('Please enter some valid json or leave empty', true)
+					)
+				),
+				'class' => array(
+					'emptyOrValidCssClass' => array(
+						'rule' => 'validateEmptyOrCssClass',
+						'message' => __('Please enter valid css classes', true)
+					)
+				),
+				'menu_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select the menu this item belongs to', true)
+					)
+				),
+				'parent_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select where in the menu this item belongs', true)
+					)
+				)
+			);
+		}
+
+		/**
+		 * Empty string or valid css class
+		 *
+		 * @param array $field the field being validated
+		 * @return bool is it valid?
+		 */
+		public function validateEmptyOrCssClass($field){
+			return strlen(current($field)) == 0 || preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', current($field));
+		}
+
 		/**
 		 * before saving
 		 *

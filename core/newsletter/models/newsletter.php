@@ -35,47 +35,6 @@
 		 */
 		public $displayField = 'subject';
 
-		public $validate = array(
-			'campaign_id' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => 'Please select the campaign this email belongs to'
-				)
-			),
-			'from' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => 'Please enter the from address'
-					),
-				'email' => array(
-					'rule' => array( 'email', true ),
-					'message' => 'Please enter a valid email addres'
-				)
-			),
-			'reply_to' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => 'Please enter the reply to email'
-					),
-				'email' => array(
-					'rule' => array('email', true),
-					'message' => 'Please enter a valid email addres'
-				)
-			),
-			'html' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => 'Please enter the html version of your email'
-				)
-			),
-			'text' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => 'Please enter the text version of your email'
-				)
-			)
-		);
-
 		public $hasAndBelongsToMany = array(
 			'User' => array(
 				'className' => 'Users.User',
@@ -102,4 +61,55 @@
 			),
 			'Newsletter.Template'
 		);
+
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'campaign_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select the campaign this email belongs to', true)
+					)
+				),
+				'from' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the from address', true)
+					),
+					'email' => array(
+						'rule' => array( 'email', true ),
+						'message' => __('Please enter a valid email addres', true)
+					)
+				),
+				'reply_to' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the reply to email', true)
+					),
+					'email' => array(
+						'rule' => array('email', true),
+						'message' => __('Please enter a valid email addres', true)
+					)
+				),
+				'subject' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the subject of this newsletter', true)
+					)
+				),
+				'html' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the html version of your email', true)
+					)
+				),
+				'text' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the text version of your email', true)
+					)
+				)
+			);
+		}
 	}

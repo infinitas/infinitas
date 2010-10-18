@@ -26,19 +26,27 @@
 			'Template.name' => 'asc'
 		);
 
-		public $validation = array(
-			'name' => array(
-				'isUnique' => array(
-					'rule' => 'isUnique',
-					'message' => 'A template with that name already exists.'
-				)
-			)
-		);
-
 		public $hasMany = array(
 			'Newsletter.Newsletter',
 			'Newsletter.Campaign'
 		);
+
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => 'Please enter the name for this template'
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => 'A template with that name already exists'
+					)
+				)
+			);
+		}
 
 		function getTemplate($data = null){
 			if($data){

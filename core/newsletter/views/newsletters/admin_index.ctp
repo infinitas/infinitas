@@ -93,7 +93,7 @@
                                 }
 
                                 else{
-                                    echo $this->Infinitas->toggle($newsletter['Newsletter']['id'], $newsletter['Newsletter']['sent']);
+                                    echo $this->Infinitas->status($newsletter['Newsletter']['sent']);
                                 }
                             ?>
                         </td>
@@ -117,7 +117,7 @@
                                 }
 
                                 else{
-                                    echo $this->Infinitas->toggle($newsletter['Newsletter']['active'], $newsletter['Newsletter']['id']);
+                                    echo $this->Infinitas->status($newsletter['Newsletter']['active']);
                                 }
                             ?>
                         </td>

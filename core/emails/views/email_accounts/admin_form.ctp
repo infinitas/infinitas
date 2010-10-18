@@ -37,7 +37,7 @@
 			echo $this->Form->input('ssl');?>
 			<div class="input select smaller">
 				<label for=""><?php echo __('Connection Type', true); ?></label><?php
-				echo $this->Form->input('type', array('type' => 'select', 'div' => false, 'label' => false, 'options' => $types, 'empty' => Configure::read('Website.empty_select')));
+				echo $this->Form->input('type', array('type' => 'select', 'class' => 'required', 'div' => false, 'label' => false, 'options' => $types, 'empty' => Configure::read('Website.empty_select')));
 				echo $this->Form->input('port');
 				echo $this->Form->input('readonly', array('options' => array(0 => 'Read and Write', 1 => 'Read only'), 'empty' => Configure::read('Website.empty_select'))); ?>
 			</div>

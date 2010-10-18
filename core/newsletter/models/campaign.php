@@ -33,4 +33,27 @@
 		public $belongsTo = array(
 			'Newsletter.Template'
 		);
+
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the name of this campaign', true)
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => __('There is already a campaign with that name', true)
+					)
+				),
+				'template_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select the default template for this campaign', true)
+					)
+				)
+			);
+		}
 	}

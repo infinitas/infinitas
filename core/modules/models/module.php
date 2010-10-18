@@ -82,6 +82,45 @@
 			parent::__construct($id, $table, $ds);
 
 			$this->subPath = 'views'.DS.'elements'.DS.'modules'.DS;
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter a name for this module', true)
+					)
+				),
+				'config' => array(
+					'validateEmptyOrJson' => array(
+						'rule' => 'validateEmptyOrJson',
+						'message' => __('Please enter a valid json config or leave blank', true)
+					)
+				),
+				'group_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select the group this module is for', true)
+					)
+				),
+				'position_id' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select the position this module will show in', true)
+					)
+				),
+				'author' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the author of this module', true)
+					)
+				),
+				'url' => array(
+					'notEmpty' => array(
+						'rule' => array('url', true),
+						'message' => __('Please enter the url of this module', true)
+					)
+				)
+			);
 		}
 
 		/**

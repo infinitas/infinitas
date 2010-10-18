@@ -1,5 +1,5 @@
 <?php
-class R4c94edcc06b44954803578d86318cd70 extends CakeRelease {
+class R4cbc74f64b40447e8a3420786318cd70 extends CakeRelease {
 
 /**
  * Migration description
@@ -26,50 +26,33 @@ class R4c94edcc06b44954803578d86318cd70 extends CakeRelease {
 	public $migration = array(
 		'up' => array(
 			'create_table' => array(
-				'feed_items' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 45),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-					'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'fields' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'conditions' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
 				'feeds' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
+					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'fields' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'conditions' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'order' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'fields' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'conditions' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'order' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'limit' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+					'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'feeds_feed_items' => array(
+				'feeds_feeds' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'feed_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'feed_item_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'main_feed_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+					'sub_feed_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
@@ -79,7 +62,7 @@ class R4c94edcc06b44954803578d86318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'feed_items', 'feeds', 'feeds_feed_items'
+				'feeds', 'feeds_feeds'
 			),
 		),
 	);
