@@ -19,10 +19,13 @@
 	 */
 
 	$model = isset($model) ? $model : $this->params['models'][0];
+	$error = $this->Form->error('plugin');
+	$errorClass = !empty($error) ? 'error' : '';
 ?>
-<div class="input smaller">
+<div class="input smaller required <?php echo $errorClass; ?>">
 	<label for="'.$model.'Plugin"><?php echo __('Route', true); ?></label><?php
-	echo $this->Form->input('plugin', array('type' => 'select', 'div' => false, 'label' => false, 'class' => "pluginSelect {url:{action:'getControllers'}, target:'".$model."Controller'}"));
-	echo $this->Form->input('controller', array('type' => 'select', 'div' => false, 'label' => false, 'class' => "controllerSelect {url:{action:'getActions'}, target:'".$model."Action'}"));
-	echo $this->Form->input('action', array('type' => 'select', 'div' => false, 'label' => false)); ?>
+	echo $this->Form->select('plugin', array('label' => false, 'class' => "pluginSelect {url:{action:'getControllers'}, target:'".$model."Controller'}"));
+	echo $this->Form->select('controller', array('label' => false, 'class' => "controllerSelect {url:{action:'getActions'}, target:'".$model."Action'}"));
+	echo $this->Form->select('action', array('label' => false));
+	echo $error; ?>
 </div>
