@@ -21,72 +21,41 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	if($this->plugin == 'view_counter' || $this->plugin == 'management'){
-		$viewStats = ClassRegistry::init('ViewCounter.ViewCount')->getGlobalStats();
+		$conditions['month >= '] = date('m') - 1;
+		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
+		$byWeek['model'] = pluginSplit($byWeek['model']);
+		$header = __('Popular content this month', true);
 	}
 	else{
-		$viewStats = ClassRegistry::init('ViewCounter.ViewCount')->getGlobalStats(null, $this->plugin);
-	}
-	
-	if(empty($viewStats)){
-		return;
-	}
+		$conditions['month >= '] = date('m') - 1;
+		$conditions[] = 'ViewCount.model LIKE %' . $this->plugin . '%';
+		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
+		$byWeek['model'] = pluginSplit($byWeek['model']);
+		$header = sprintf(__('Popular %s %s', true), $byWeek['model'][0], $byWeek['model'][1]);
+	} ?>
 
-	foreach($viewStats as $stats){
-		if(empty($stats['top_rows'])){
-			continue;
-		}
+	<div class="dashboard half">
 
-		?>
-			<div class="dashboard half">
-				<h1><?php echo sprintf(__('Popular %s %s', true), prettyName($stats['plugin']), prettyName($stats['model'])); ?></h1>
-				<?php
-					$counts = Set::extract('/'.$stats['model'].'/views', $stats['top_rows']);
-
-					$a = 'A';
-					$count_loop = count($counts);
-					$labels = array();
-					for($i = 0; $i < $count_loop; ++$i){
-						$labels[] = $a++;
-					}
-					$counts[] = $stats['total_views'] - array_sum($counts);
-					$labels[] = 'Z';
-					$this->Chart->cache = false;
-
-					echo $this->Chart->display(
-						'pie3d',
-						array(
-							'data' => $counts,
-							'labels' => $labels,
-							'size' => '250,130',
-							'html' => array(
-								'class' => 'chart'
-							)
-						)
-					);
-				?>
-				<ul class="info">
-					<?php
-						foreach($stats['top_rows'] as $i => $row){
-							?>
-								<li>
-									<b><?php echo $labels[$i]; ?>) </b>
-									<?php
-											$link = $this->Event->trigger(Inflector::underscore($stats['plugin']).'.slugUrl', $row);
-											echo $this->Html->link(
-												$row[$stats['model']][$stats['displayField']],
-												array_merge(array('admin' => 0, 'prefix' => false), $link['slugUrl'][Inflector::underscore($stats['plugin'])]),
-												array(
-													'title' => sprintf(__('%s views', true), $counts[$i])
-												)
-											);
-										?>
-								</li>
-							<?php
-						}
-					?>
-					<li><b>Z) </b><?php echo __('Others', true); ?></li>
-				</ul>
-			</div>
+		<h1><?php echo $header; ?></h1>
 		<?php
-	}
-?>
+			echo $this->Chart->display(
+				array(
+					'name' => 'bar',
+					'type' => 'vertical',
+					'bar' => 'vertical'
+				),
+				array(
+					'data' => $byWeek['totals'],
+					'labels' => $byWeek['weeks'],
+					'size' => '400,130',
+					'colors' => array(
+						'#001A4D',
+						'#4D81A8'
+					),
+					'html' => array(
+						'class' => 'chart'
+					)
+				)
+			);
+		?>
+	</div>
