@@ -41,8 +41,8 @@
 					)
 				),
 				'link' => array(
-					'onlyOneFilledIn' => array(
-						'rule' => 'onlyOneFilledIn',
+					'validateEitherOr' => array(
+						'rule' => array('validateEitherOr', array('link', 'plugin')),
 						'message' => __('Please only use external link or the route', true)
 					),
 					'validUrl' => array(
@@ -51,20 +51,20 @@
 					)
 				),
 				'plugin' => array(
-					'onlyOneFilledIn' => array(
-						'rule' => 'validateOnlyOneFilledIn',
+					'validateOnlyOneFilledIn' => array(
+						'rule' => array('validateEitherOr', array('link', 'plugin')),
 						'message' => __('Please use the external link or the route', true)
 					)
 				),
 				'force_frontend' => array(
-					'forceOnlyOne' => array(
-						'rule' => 'forceOnlyOne',
+					'validateNothingEitherOr' => array(
+						'rule' => 'validateNothingEitherOr',
 						'message' => __('You can only force one area of the site', true)
 					)
 				),
 				'force_backend' => array(
-					'forceOnlyOne' => array(
-						'rule' => 'validateForceOnlyOne',
+					'validateNothingEitherOr' => array(
+						'rule' => 'validateNothingEitherOr',
 						'message' => __('You can only force one area of the site', true)
 					)
 				),
@@ -109,65 +109,6 @@
 		 */
 		public function validateEmptyOrCssClass($field){
 			return strlen(current($field)) == 0 || preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', current($field));
-		}
-		
-		/**
-		 * Only allow forcing the frontend or the backend, not both. both being
-		 * empty for auto deciding by cake is fine also
-		 *
-		 * @param array $field not used
-		 * @return bool is it valid?
-		 */
-		public function validateForceOnlyOne($field){
-			return
-				// both empty auto select
-				empty($this->data['MenuItem']['force_frontend']) && empty($this->data['MenuItem']['force_backedn']) ||
-
-				// force frontend
-				empty($this->data['MenuItem']['force_frontend']) && !empty($this->data['MenuItem']['force_backend']) ||
-
-				// force backend
-				!empty($this->data['MenuItem']['force_frontend']) && empty($this->data['MenuItem']['force_frontend']);
-		}
-
-		/**
-		 * only allow the user to fill in either the url manually or select from
-		 * the dropdowns an internal link
-		 *
-		 * @param array $field not used
-		 * @return bool is it valid
-		 */
-		public function validateOnlyOneFilledIn($field){
-			return
-				// using routing
-				empty($this->data['MenuItem']['link']) &&
-				!empty($this->data['MenuItem']['plugin'])
-
-				||
-
-				// using a direct link
-				!empty($this->data['MenuItem']['link']) &&
-				empty($this->data['MenuItem']['plugin']);
-		}
-
-		/**
-		 * this can be a url relative to the site /my/page or full like
-		 * http://site.com/my/page it can also be empty for times when the selects
-		 * are used to build the url
-		 *
-		 * @param array $field the field being validated
-		 * @return bool is it valid
-		 */
-		public function validateUrlOrAbsolute($field){
-			return
-				// not in use
-				current($field) == '' ||
-
-				// aboulute url
-				substr(current($field), 0, 1) == '/' ||
-
-				// valid url
-				Validation::url(current($field), true);
 		}
 
 		/**
