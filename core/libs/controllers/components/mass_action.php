@@ -58,7 +58,7 @@
 
 			$ids = array();
 			foreach($data as $id => $selected) {
-				if ((is_int($id) || strlen($id) == 36) && $selected) {
+				if ((is_int($id) || strlen($id) == 36 || preg_match('/.*@.*/', base64_decode($id))) && $selected) {
 					$ids[] = $id;
 				}
 			}

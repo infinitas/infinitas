@@ -1,48 +1,38 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class NewslettersController extends NewsletterAppController {
 		/**
-		* Class name.
-		*
-		* @access public
-		* @var string
-		*/
-		var $name = 'Newsletters';
+		 * Class name.
+		 *
+		 * @access public
+		 * @var string
+		 */
+		public $name = 'Newsletters';
 
-		/**
-		* Helpers.
-		*
-		* @access public
-		* @var array
-		*/
-		var $helpers = array(
-			'Filter.Filter'
-		);
-
-		function beforeFilter() {
+		public function beforeFilter() {
 			parent::beforeFilter();
 			//  @todo make sure function track is allowed by all
 			$this->Auth->allow('track');
 		}
 
-		function track($id) {
+		public function track($id) {
 			Configure::write('debug', 0);
 			$this->autoRender = false;
 			$this->layout = 'ajax';
@@ -66,7 +56,7 @@
 			exit;
 		}
 
-		function sendEmail(){
+		public function sendEmail(){
 			$info = array_merge(
 				array(
 					'to' => array(),
@@ -90,7 +80,7 @@
 			$this->Emailer->send();
 		}
 
-		function sendNewsletters() {
+		public function sendNewsletters() {
 			$this->autoRender = false;
 			$this->layout = 'ajax';
 			Configure::write('debug', 0);
@@ -168,17 +158,17 @@
 			}
 		}
 
-		function admin_dashboard() {
+		public function admin_dashboard() {
 		}
 
-		function admin_report($id) {
+		public function admin_report($id) {
 			if (!$id) {
 				$this->Session->setFlash(__('Please select a newsletter', true));
 				$this->redirect($this->referer());
 			}
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate = array(
 				'fields' => array(
 					'Newsletter.id',
@@ -213,7 +203,7 @@
 			$this->set(compact('newsletters','filterOptions'));
 		}
 
-		function admin_view($id = null) {
+		public function admin_view($id = null) {
 			if (!$id && empty($this->data)) {
 				$this->Session->setFlash(__('Please select a newsletter', true));
 				$this->redirect($this->referer());
@@ -256,7 +246,7 @@
 			$this->set('newsletter', $this->Newsletter->read(null, $id));
 		}
 
-		function admin_preview($id = null) {
+		public function admin_preview($id = null) {
 			$this->layout = 'ajax';
 
 			if (!$id) {
@@ -287,15 +277,11 @@
 			}
 		}
 
-		function admin_delte() {
-			return false;
-		}
-
-		function __massActionDelete($ids){
+		public function __massActionDelete($ids){
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
 
-		function __canDelete($ids) {
+		private function __canDelete($ids) {
 			$newsletters = $this->Newsletter->find(
 				'list',
 				array(
@@ -318,7 +304,7 @@
 			return $newsletters;
 		}
 
-		function admin_toggleSend($id = null) {
+		public function admin_toggleSend($id = null) {
 			if (!$id) {
 				$this->Session->setFlash(__('Please select a newsletter', true));
 				$this->redirect($this->referer());
@@ -350,7 +336,7 @@
 			$this->redirect($this->referer());
 		}
 
-		function admin_stopAll() {
+		public function admin_stopAll() {
 			$runningNewsletters = $this->Newsletter->find(
 				'list',
 				array(

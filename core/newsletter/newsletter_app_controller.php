@@ -30,13 +30,18 @@
 		 * @param nothing $
 		 * @return nothing
 		 */
-		function beforeFilter() {
+		public function beforeFilter() {
 			parent::beforeFilter();
+
+			$this->helpers[] = 'Filter.Filter';
+			$this->helpers[] = 'Newsletter.Letter';
+
+			$this->addCss(array('/newsletter/css/newsletter'));
 			// $this->set( 'newsletterPending', ClassRegistry::init( 'Newsletter.Newsletter' )->getPending() );
 			// $this->set( 'newsletterSending', ClassRegistry::init( 'Newsletter.Newsletter' )->getSending() );
 		}
 
-		function beforeRender() {
+		public function beforeRender() {
 			parent::beforeRender();
 
 			if (strtolower(Configure::read('Newsletter.send_method')) == 'smtp' && $this->Email->smtpError) {
@@ -54,7 +59,7 @@
 		 * @param nothing $
 		 * @return nothing
 		 */
-		function afterFilter() {
+		public function afterFilter() {
 			parent::afterFilter();
 		}
 	}
