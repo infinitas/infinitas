@@ -527,7 +527,7 @@ form select{
 		margin-right: 9px;
 	}
 
-div.error{
+form div.error{
 	border: 1px dotted #FFDAAF;
 	margin:10px;
 }
@@ -551,17 +551,29 @@ form div.static{
 	text-align: center;
 	-moz-border-radius: 5px;
 	background-color: #F9F9F9;
-	border: 1px solid #AFAFAF;
 	padding: 5px;
 	margin-bottom: 10px;
 }
 	.user-warning img{
 		margin-right: 10px;
+		vertical-align:middle;
+	}
+
+	.user-warning.warning{
+		border: 2px solid #E3AD00;
+	}
+
+	.user-warning.error{
+		border: 2px solid #C10400;
+	}
+
+	.user-warning.success{
+		border: 2px solid #1BAE0C;
 	}
 
 	.error-message{
-	color: #ff0000;
-}
+		color: #ff0000;
+	}
 
 
 /* table container */
