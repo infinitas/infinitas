@@ -263,7 +263,7 @@
 			);
 			
 			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
-			if($config['redirect']){
+			if($config['redirect'] || $config['redirect'] === ''){
 				if($config['redirect'] === true){
 					$config['redirect'] = $this->referer();
 				}
@@ -651,11 +651,20 @@
 			if (!empty($this->data)) {
 				$this->{$this->modelName}->create();
 				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
-					$this->redirect();
+					$this->notice(
+						sprintf(__('Your %s was saved', true), $this->prettyModelName),
+						array(
+							'redirect' => true
+						)
+					);
 				}
 
-				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
+				$this->notice(
+					sprintf(__('There was a problem creating your %s', true), $this->prettyModelName),
+					array(
+						'level' => 'warning'
+					)
+				);
 			}
 
 			$lastPage = $this->Session->read('Infinitas.last_page');
@@ -678,24 +687,43 @@
 		 */
 		public function admin_edit($id = null){
 			if(empty($this->data) && !$id){
-				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName));
-				$this->redirect($this->referer());
+				$this->notice(
+					sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			if (!empty($this->data)) {
 				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
-					$this->redirect();
+					$this->notice(
+						sprintf(__('Your %s was updated', true), $this->prettyModelName),
+						array(
+							'redirect' => ''
+						)
+					);
 				}
 
-				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
+				$this->notice(
+					sprintf(__('There was a problem updating your %s', true), $this->prettyModelName),
+					array(
+						'level' => 'warning'
+					)
+				);
 			}
 
 			if(empty($this->data) && $id){
 				$this->data = $this->{$this->modelName}->read(null, $id);
 				if(empty($this->data)){
-					$this->Session->setFlash(sprintf(__('The %s you requested does not exist', true), $this->prettyModelName));
-					$this->redirect();
+					$this->notice(
+						sprintf(__('The %s you requested does not exist', true), $this->prettyModelName),
+						array(
+							'level' => 'error',
+							'redirect' => true
+						)
+					);
 				}
 			}
 
@@ -721,20 +749,35 @@
 			$model = $this->modelClass;
 
 			if (!$id) {
-				$this->Session->setFlash('That ' . $model . ' could not be found', true);
-				$this->redirect($this->referer());
+				$this->notice(
+					sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			$this->data[$model]['id'] = $id;
 
 			if (!isset($this->params['named']['position']) && isset($this->$model->actsAs['Libs.Sequence'])) {
-				$this->Session->setFlash(__('A problem occured moving the ordered record.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('A problem occured moving the ordered record.', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			if (!isset($this->params['named']['direction']) && isset($this->$model->actsAs['Tree'])) {
-				$this->Session->setFlash(__('A problem occured moving the MPTT record.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('A problem occured moving that MPTT record.', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			if (isset($this->params['named']['position'])) {
