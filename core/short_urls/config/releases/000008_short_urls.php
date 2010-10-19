@@ -1,5 +1,5 @@
 <?php
-class R4c94edce29e04898a39b78d86318cd70 extends CakeRelease {
+class R4cbd67db435c4099a94347b96318cd70 extends CakeRelease {
 
 /**
  * Migration description
@@ -28,7 +28,9 @@ class R4c94edce29e04898a39b78d86318cd70 extends CakeRelease {
 			'create_table' => array(
 				'short_urls' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-					'url' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'url' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'views' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 9),
+					'dead' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'indexes' => array(
