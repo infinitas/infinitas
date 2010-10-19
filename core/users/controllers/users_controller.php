@@ -394,13 +394,7 @@
 		}
 
 		public function admin_add(){
-			if (!empty($this->data)) {
-				$this->User->create();
-				if ($this->User->saveAll($this->data)) {
-					$this->Session->setFlash('The user has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+			parent::admin_add();
 
 			$groups = $this->User->Group->find('list');
 			$this->set(compact('groups'));
@@ -408,22 +402,20 @@
 
 		public function admin_edit($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('That user could not be found', true), true);
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (!empty($this->data)) {
-				if ( $this->data['User']['password'] == Security::hash('', null, true)) {
+				if ($this->data['User']['password'] == Security::hash('', null, true)) {
 					unset($this->data['User']['password']);
 					unset($this->data['User']['confirm_password']);
 				}
 
 				if ($this->User->saveAll($this->data)) {
-					$this->Session->setFlash(__('The user has been saved.', true));
-					$this->redirect(array('action' => 'index'));
+					$this->Infinitas->noticeSaved();
 				}
 
-				$this->Session->setFlash(__('The user could not be saved.', true));
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			if ($id && empty($this->data)) {

@@ -44,27 +44,24 @@
 				$this->data['Page']['file_name'] = low(Inflector::slug($this->data['Page']['name']));
 
 				if ($this->Page->save($this->data)){
-					$this->Session->setFlash(__('Your page has been saved.', true));
-					$this->redirect(array('action' => 'index'));
+					$this->Infinitas->noticeSaved();
 				}
 
-				$this->Session->setFlash(__('Your page could not be saved.', true));
+				$this->Infinitas->noticeNotSaved();
 			}
 		}
 
 		function admin_edit($filename){
 			if (!$filename){
-				$this->Session->setFlash(__('That page could not be found', true), true);
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (!empty($this->data)){
 				if ($this->Page->save($this->data)){
-					$this->Session->setFlash(__('Your page has been saved.', true));
-					$this->redirect(array('action' => 'index'));
+					$this->Infinitas->noticeSaved();
 				}
 
-				$this->Session->setFlash(__('Your page could not be saved.', true));
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			if ($filename && empty($this->data)){
@@ -85,8 +82,7 @@
 			}
 
 			if (empty($ids)) {
-				$this->Session->setFlash(__('Nothing was selected, please select something and try again.', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			return $ids;
@@ -99,12 +95,10 @@
 			}
 
 			if ($delete) {
-				$this->Session->setFlash(__('All pages were deleted', true));
+				$this->Infinitas->noticeDeleted();
 			}
 			else{
-				$this->Session->setFlash(__('Some pages could not be deleted', true));
+				$this->Infinitas->noticeNotDeleted();
 			}
-
-			$this->redirect($this->referer());
 		}
 	}

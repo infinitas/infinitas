@@ -89,8 +89,7 @@
 
 		public function admin_toggle($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('Please select a campaign', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$data = $this->Campaign->find(
@@ -114,8 +113,13 @@
 			);
 
 			if (!$data['Campaign']['active'] && empty($data['Newsletter'])) {
-				$this->Session->setFlash(__('You can not enable a campaign with no mails.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('You can not enable a campaign with no mails.', true),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
 			}
 
 			return parent::admin_toggle($id);
@@ -153,8 +157,13 @@
 			if (!empty($ids)) {
 				return $ids;
 			}
-
-			$this->Session->setFlash(__('None of the campaigns you selected are deletable.', true));
-			$this->redirect($this->referer());
+			
+			$this->notice(
+				__('None of the campaigns you selected are deletable.', true),
+				array(
+					'level' => 'warning',
+					'redirect' => true
+				)
+			);
 		}
 	}

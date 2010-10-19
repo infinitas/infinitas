@@ -163,8 +163,7 @@
 
 		public function admin_report($id) {
 			if (!$id) {
-				$this->Session->setFlash(__('Please select a newsletter', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 		}
 
@@ -224,8 +223,7 @@
 
 		public function admin_view($id = null) {
 			if (!$id && empty($this->data)) {
-				$this->Session->setFlash(__('Please select a newsletter', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$newsletter = $this->Newsletter->read(null, $id);
@@ -235,8 +233,13 @@
 
 				$addresses = explode(',', $this->data['Newsletter']['email_addresses']);
 				if (empty($addresses)) {
-					$this->Session->setFlash(__('Please input at least one email address for testing.', true));
-					$this->redirect($this->referer());
+					$this->notice(
+						__('Please input at least one email address for testing', true),
+						array(
+							'level' => 'warning',
+							'redirect' => true
+						)
+					);
 				}
 
 				$sent = 0;
@@ -255,7 +258,8 @@
 
 					$this->Email->reset();
 				}
-				$this->Session->setFlash(sprintf('%s %s' , $sent, __('mails were sent', true)));
+
+				$this->notice(sprintf(__('%s mails were sent', true), $sent));
 			}
 
 			if (empty($this->data) && $id) {
@@ -317,42 +321,65 @@
 			);
 
 			if (empty($newsletters)) {
-				$this->Session->setFlash(__('There are no newsletters to delete.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('There are no newsletters to delete.', true),
+					array(
+						'level' => 'warning',
+						'redirect' => 'true'
+					)
+				);
 			}
 			return $newsletters;
 		}
 
 		public function admin_toggleSend($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('Please select a newsletter', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->Newsletter->recursive = - 1;
 			$sent = $this->Newsletter->read(array('id', 'sent', 'active'), $id);
 
 			if (!isset($sent['Newsletter']['sent'])) {
-				$this->Session->setFlash(__('The newsletter was not found', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('The newsletter was not found', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			if ($sent['Newsletter']['sent']) {
-				$this->Session->setFlash(__('The newsletter has already been sent', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('The newsletter has already been sent', true),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
 			}
 
 			if (!$sent['Newsletter']['active']) {
 				$sent['Newsletter']['active'] = 1;
 
 				if (!$this->Newsletter->save($sent)) {
-					$this->Session->setFlash(__('Could not activate the newsletter', true));
-					$this->redirect($this->referer());
+					$this->notice(
+						__('Could not activate the newsletter', true),
+						array(
+							'level' => 'error',
+							'redirect' => true
+						)
+					);
 				}
 			}
-
-			$this->Session->setFlash(__('Newsletter is now sending.', true));
-			$this->redirect($this->referer());
+			
+			$this->notice(
+				__('Newsletter is now sending.', true),
+				array(
+					'redirect' => true
+				)
+			);
 		}
 
 		public function admin_stopAll() {
@@ -376,7 +403,11 @@
 				$this->Newsletter->saveField('active', 0);
 			}
 
-			$this->Session->setFlash(__('All newsletters have been stopped.', true));
-			$this->redirect($this->referer());
+			$this->notice(
+				__('All newsletters have been stopped.', true),
+				array(
+					'redirect' => true
+				)
+			);
 		}
 	}

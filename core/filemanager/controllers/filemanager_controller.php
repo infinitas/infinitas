@@ -51,8 +51,13 @@
 			}
 
 			if (!$path || !is_file(APP.$path)) {
-				$this->Session->setFlash(__('Please select a file first', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Please select a file first', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			$this->set('path', APP.$path);
@@ -60,24 +65,26 @@
 
 		public function admin_download($file = null) {
 			if (!$file) {
-				$this->Session->setFlash(__('Please select a file first', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Please select a file first', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 			//  @todo mediaViews
 		}
 
 		public function admin_delete($file = null) {
 			if (!$file) {
-				$this->Session->setFlash(__('Please select a file first', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if ($this->FileManager->delete($file)) {
-				$this->Session->setFlash(__('File deleted', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeDeleted();
 			}
 
-			$this->Session->setFlash(__('File could not be deleted', true));
-			$this->redirect($this->referer());
+			$this->Infinitas->noticeNotDeleted();
 		}
 	}
