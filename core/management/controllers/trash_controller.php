@@ -29,12 +29,21 @@ class TrashController extends ManagementAppController {
 
 	function __massActionRestore($ids) {
 		if($this->Trash->restore($ids)) {
-			$this->Session->setFlash(__('The items have been restored', true));
-			$this->redirect($this->referer());
+			$this->notice(
+				__('The items have been restored', true),
+				array(
+					'redirect' => true
+				)
+			);
 		}
 		else {
-			$this->Session->setFlash(__('The items could not be restored', true));
-			$this->redirect($this->referer());
+			$this->notice(
+				__('The items could not be restored', true),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
 		}
 	}
 }

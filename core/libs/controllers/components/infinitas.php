@@ -525,7 +525,79 @@
 			}
 		}
 
+		/**
+		 * lazy saved notice for very default saved flash notice
+		 *
+		 * see AppController::notice()
+		 */
+		public function noticeSaved(){
+			$this->Controller->notice(
+				sprintf(__('Your %s was saved', true), Inflector::singularize($this->prettyModelName)),
+				array(
+					'redirect' => ''
+				)
+			);
+		}
 
+		/**
+		 * lazy not saved notice for very default saved flash notice
+		 *
+		 * see AppController::notice()
+		 */
+		public function noticeNotSaved(){
+			$this->notice(
+				sprintf(__('There was a problem saving your %s', true), Inflector::singularize($this->prettyModelName)),
+				array(
+					'level' => 'warning'
+				)
+			);
+		}
+
+		/**
+		 * lazy not found notice for very default saved flash notice
+		 *
+		 * see AppController::notice()
+		 */
+		public function noticeInvalidRecord(){
+			$this->notice(
+				sprintf(__('Invalid %s selected, please try again', true), $this->prettyModelName),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
+		}
+
+
+		/**
+		 * lazy deleted notice for very default saved flash notice
+		 *
+		 * see AppController::notice()
+		 */
+		public function noticeDeleted(){
+			$this->Controller->notice(
+				sprintf(__('Your %s were deleted', true), $this->prettyModelName),
+				array(
+					'redirect' => true
+				)
+			);
+		}
+
+
+		/**
+		 * lazy not deleted notice for very default saved flash notice
+		 *
+		 * see AppController::notice()
+		 */
+		public function noticeNotDeleted(){
+			$this->Controller->notice(
+				sprintf(__('Your %s was not deleted', true), Inflector::singularize($this->prettyModelName)),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
+		}
 
 		/**
 		* Temp acl things

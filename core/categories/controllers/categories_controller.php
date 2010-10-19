@@ -87,13 +87,7 @@
 
 		public function admin_view($id = null) {
 			if (!$id) {
-				$this->notice(
-					sprintf(__('Invalid %s', true), $this->prettyModelName),
-					array(
-						'level' => 'error',
-						'redirect' => array('action' => 'index')
-					)
-				);
+				$this->Infinitas->noticeInvalidRecord();
 			}
 			$this->set('category', $this->Category->read(null, $id));
 		}
@@ -116,13 +110,7 @@
 
 		public function admin_delete($id = null) {
 			if (!$id) {
-				$this->notice(
-					sprintf(__('That %s could not be found', true), $this->prettyModelName),
-					array(
-						'level' => 'error',
-						'redirect' => true
-					)
-				);
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$count = $this->Category->find('count', array('conditions' => array('Category.parent_id' => $id)));

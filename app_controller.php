@@ -60,7 +60,7 @@
 		}
 
 		function redirect($url = null, $status = null, $exit = true){
-			if(!$url){
+			if(!$url || $url == ''){
 				$url = $this->Session->read('Infinitas.last_page');
 				$this->Session->delete('Infinitas.last_page');
 
@@ -263,6 +263,7 @@
 			);
 			
 			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
+			var_dump($config['redirect']);
 			if($config['redirect'] || $config['redirect'] === ''){
 				if($config['redirect'] === true){
 					$config['redirect'] = $this->referer();
@@ -651,20 +652,9 @@
 			if (!empty($this->data)) {
 				$this->{$this->modelName}->create();
 				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->notice(
-						sprintf(__('Your %s was saved', true), $this->prettyModelName),
-						array(
-							'redirect' => true
-						)
-					);
+					$this->Infinitas->noticeSaved();
 				}
-
-				$this->notice(
-					sprintf(__('There was a problem creating your %s', true), $this->prettyModelName),
-					array(
-						'level' => 'warning'
-					)
-				);
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			$lastPage = $this->Session->read('Infinitas.last_page');
@@ -687,43 +677,20 @@
 		 */
 		public function admin_edit($id = null){
 			if(empty($this->data) && !$id){
-				$this->notice(
-					sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName),
-					array(
-						'level' => 'error',
-						'redirect' => true
-					)
-				);
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (!empty($this->data)) {
 				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->notice(
-						sprintf(__('Your %s was updated', true), $this->prettyModelName),
-						array(
-							'redirect' => ''
-						)
-					);
+					$this->Infinitas->noticeSaved();
 				}
-
-				$this->notice(
-					sprintf(__('There was a problem updating your %s', true), $this->prettyModelName),
-					array(
-						'level' => 'warning'
-					)
-				);
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			if(empty($this->data) && $id){
 				$this->data = $this->{$this->modelName}->read(null, $id);
 				if(empty($this->data)){
-					$this->notice(
-						sprintf(__('The %s you requested does not exist', true), $this->prettyModelName),
-						array(
-							'level' => 'error',
-							'redirect' => true
-						)
-					);
+					$this->Infinitas->noticeInvalidRecord();
 				}
 			}
 
@@ -749,13 +716,7 @@
 			$model = $this->modelClass;
 
 			if (!$id) {
-				$this->notice(
-					sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName),
-					array(
-						'level' => 'error',
-						'redirect' => true
-					)
-				);
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->data[$model]['id'] = $id;

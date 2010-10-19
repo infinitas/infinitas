@@ -17,11 +17,20 @@
 
 			if(isset($this->data['Robot']['robots']) && !empty($this->data['Robot']['robots'])){
 				if($File->write(sprintf('Sitemap: %ssitemap.xml%s%s', Router::url('/', true), "\n", $this->data['Robot']['robots']))){
-					$this->Session->setFlash(__('Robots file updated', true));
-					$this->redirect(array('controller' => 'webmaster', 'action' => 'dashboard'));
+					$this->notice(
+						__('Robots file updated', true),
+						array(
+							'redirect' => array('controller' => 'webmaster', 'action' => 'dashboard')
+						)
+					);
 				}
 
-				$this->Session->write(__('There was a problem updating the robots file', true));
+				$this->notice(
+					__('There was a problem updating the robots file', true),
+					array(
+						'level' => 'error'
+					)
+				);
 			}
 			
 			if(!isset($this->data['Robot']['robots'])){
