@@ -534,7 +534,7 @@
 			$this->Controller->notice(
 				sprintf(__('Your %s was saved', true), Inflector::singularize($this->prettyModelName)),
 				array(
-					'redirect' => true
+					'redirect' => ''
 				)
 			);
 		}
