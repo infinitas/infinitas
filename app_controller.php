@@ -263,7 +263,6 @@
 			);
 			
 			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
-			var_dump($config['redirect']);
 			if($config['redirect'] || $config['redirect'] === ''){
 				if($config['redirect'] === true){
 					$config['redirect'] = $this->referer();
