@@ -118,6 +118,7 @@
 			}
 
 			$i = 0;
+			$result = array();
 			foreach ((array)$response as $key => $value) {
 				if (isset($query['limit']) && $i >= $query['limit']) {
 					return $result;
