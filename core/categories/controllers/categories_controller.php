@@ -87,8 +87,13 @@
 
 		public function admin_view($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('Invalid category', true));
-				$this->redirect(array('action' => 'index'));
+				$this->notice(
+					sprintf(__('Invalid %s', true), $this->prettyModelName),
+					array(
+						'level' => 'error',
+						'redirect' => array('action' => 'index')
+					)
+				);
 			}
 			$this->set('category', $this->Category->read(null, $id));
 		}
@@ -104,28 +109,43 @@
 		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
-			$parents = array(__('None', true)) + $this->Category->generatetreelist();
+			$parents = array(__('Top Level Category', true)) + $this->Category->generatetreelist();
 			$groups = $this->Category->Group->find('list');
 			$this->set(compact('parents', 'groups'));
 		}
 
 		public function admin_delete($id = null) {
 			if (!$id) {
-				$this->Session->setFlash('That Category could not be found', true);
-				$this->redirect($this->referer());
+				$this->notice(
+					sprintf(__('That %s could not be found', true), $this->prettyModelName),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			$count = $this->Category->find('count', array('conditions' => array('Category.parent_id' => $id)));
 			if ($count > 0) {
-				$this->Session->setFlash(__('This Category has sub-categories.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					sprintf(__('That %s has sub-categories', true), $this->prettyModelName),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
 			}
 
 			$category = $this->Category->read(null, $id);
 
 			if (!empty($category['Content'])) {
-				$this->Session->setFlash(__('There are still content itmes in this category. Remove them and try again.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					sprintf(__('That %s has content items, remove them before continuing', true), $this->prettyModelName),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
 			}
 
 			return parent::admin_delete($id);
