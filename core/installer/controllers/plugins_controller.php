@@ -6,6 +6,10 @@
 			'Filter.Filter'
 		);
 
+		public function admin_dashboard(){
+			
+		}
+
 		public function admin_index(){
 			$plugins = $this->paginate(null, $this->Filter->filter);
 
@@ -34,5 +38,13 @@
 
 		public function admin_edit(){
 			self::admin_add();
+		}
+
+		public function admin_install(){
+			
+		}
+
+		public function admin_update_infinitas(){
+			
 		}
 	}

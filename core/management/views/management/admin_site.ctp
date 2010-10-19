@@ -15,13 +15,6 @@
 			'dashboard' => array('plugin' => 'configs', 'controller' => 'configs', 'action' => 'index')
 		),
 		array(
-			'name' => 'Installer',
-			'description' => 'Manage your Infinitas install',
-			'author' => 'Infinitas',
-			'icon' => '/installer/img/icon.png',
-			'dashboard' => array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index')
-		),
-		array(
 			'name' => 'Menus',
 			'description' => 'Build menus for your site',
 			'icon' => '/menus/img/icon.png',

@@ -40,4 +40,25 @@
 
 			return true;
 		}
+
+		public function onPluginRollCall(){
+			return array(
+				'name' => 'Plugins',
+				'description' => 'Manage, install and remove plugins',
+				'icon' => '/installer/img/icon.png',
+				'author' => 'Infinitas',
+				'dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'dashboard'),
+			);
+		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'dashboard'),
+				'Plugins' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index'),
+				'Install' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'install'),
+				'Update' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'update_infinitas'),
+			);
+
+			return $menu;
+		}
 	 }
