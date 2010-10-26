@@ -4,6 +4,7 @@
 }
 .comments img{
 	vertical-align: top;
+	float:left;
 }
 .comments p{
 	float: right;
@@ -11,4 +12,17 @@
 }
 .comments .comment .submit{
 	display: none;
+}
+
+.comments form label{
+	clear:left;
+	float:left;
+	display:block;
+	padding-bottom:10px;
+	width:100px;
+}
+.comments form input{
+	float: left;
+	padding-bottom:3px;
+	margin: 3px;
 }

@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Campaign', array('action' => 'mass'));
-        $massActions = $this->Letter->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
@@ -34,7 +34,7 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Letter->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
@@ -61,7 +61,7 @@
 
             foreach($campaigns as $campaign){
                 ?>
-                    <tr class="<?php echo $this->Letter->rowClass(); ?>">
+                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox($campaign['Campaign']['id']); ?>&nbsp;</td>
                         <td><?php echo $campaign['Campaign']['name']; ?></td>
                         <td><?php echo $campaign['Campaign']['description']; ?></td>

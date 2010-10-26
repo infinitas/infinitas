@@ -185,7 +185,7 @@
 			$json = json_decode($config['config'], true);
 
 			if (!$json) {
-				$this->errors[] = 'module ('.$config['name'].'): '.$this->_json_errors[json_last_error()];
+				$this->errors[] = 'module ('.$config['name'].'): has no json';
 				return array();
 			}
 
@@ -194,7 +194,7 @@
 
 		private function __getViewClass(){
 			if(!$this->View){
-				$this->View = &ClassRegistry::getObject('view');
+				$this->View = ClassRegistry::getObject('view');
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<?php echo $this->Html->charset(); ?>
@@ -7,14 +7,13 @@
 		<?php
             echo $this->Html->meta('icon');
             echo $scripts_for_layout;
-
-			$css_for_layout = array(
+			$css = array(
 				'/assets/css/960gs/960',
 				'/assets/css/admin_nav',
 				'/assets/css/960gs/uncompressed/demo'
-			) + $css_for_layout;
-
-			echo $this->Html->css($css_for_layout);
+			);
+			
+			echo $this->Html->css(array_merge($css, $css_for_layout));
 		?>
 		<script type="text/javascript">
 			Infinitas = <?php echo json_encode(isset($infinitasJsData) ? $infinitasJsData : ''); ?>;
@@ -33,7 +32,7 @@
 				</div>
 				<div class="clear"></div>
 			</div>
-			<div class="container_16">
+			<div class="container_16 <?php echo $class_name_for_layout; ?>">
 				<!-- content -->
 				<?php echo $content_for_layout; ?>
 				<div class="clear"></div>

@@ -19,10 +19,12 @@
      */
 
     echo $this->Form->create('Template');
-        echo $this->Infinitas->adminEditHead();
-        echo $this->Form->input('id');
-        echo $this->Form->input('name', array('class' => 'title'));
-        echo $this->Letter->wysiwyg('Template.header');
-        echo $this->Letter->wysiwyg('Template.footer');
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Newsletter Template', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('name', array('class' => 'title'));
+			echo $this->Infinitas->wysiwyg('Template.header');
+			echo $this->Infinitas->wysiwyg('Template.footer'); ?>
+		</fieldset><?php
     echo $this->Form->end();
-?>

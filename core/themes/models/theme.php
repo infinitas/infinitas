@@ -24,6 +24,39 @@
 			'Routes.Route'
 		);
 
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the name of the them', true)
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => __('There is already a them with this name', true)
+					)
+				),
+				'author' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the name of the author', true)
+					)
+				),
+				'url' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter the url for this theme', true)
+					),
+					'url' => array(
+						'rule' => array('url', true),
+						'message' => __('Please enter a valid url', true)
+					)
+				)
+			);
+		}
+
 		/**
 		 * Get the current Theme
 		 *

@@ -107,7 +107,7 @@
 
 				if(isset($lock[0]['Lock']['user_id']) && $this->user_id == $lock[0]['Lock']['user_id']){
 					$Model->Lock->delete($lock[0]['Lock']['id']);
-					$lock = false;
+					$lock = array();
 				}
 				
 				if(!empty($lock)){

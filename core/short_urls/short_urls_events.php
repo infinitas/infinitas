@@ -19,18 +19,83 @@
 	 */
 
 	 final class ShortUrlsEvents extends AppEvents{
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Short Urls' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
+			);
+
+			return $menu;
+		}
+
 		public function onSetupRoutes(){
+			// preview
 			Router::connect(
-				'/s/:code',
+				'/s/p/*',
 				array(
+					'admin' => false,
+					'prefix' =>false,
 					'plugin' => 'short_urls',
 					'controller' => 'short_urls',
-					'action' => 'go'
-				),
+					'action' => 'preview'
+				)
+			);
+			
+			// redirect
+			Router::connect(
+				'/s/*',
 				array(
-					'pass' => array('code'),
-					'code' => '[0-9a-zA-Z]+'
+					'admin' => false,
+					'plugin' => 'short_urls',
+					'controller' => 'short_urls',
+					'action' => 'view'
 				)
 			);
 		}
-	 }
+
+		public function onShortenUrl($event, $url){
+			
+		}
+
+		public function onSlugUrl($event, $data){
+			$data['type'] = isset($data['type']) ? $data['type'] : '';
+			switch($data['type']){
+				case 'preview':
+					return array(
+						'admin' => false,
+						'plugin' => 'short_urls',
+						'controller' => 'short_urls',
+						'action' => 'preview',
+						$data['code']
+					);
+					break;
+
+				default:
+					return array(
+						'admin' => false,
+						'plugin' => 'short_urls',
+						'controller' => 'short_urls',
+						'action' => 'view',
+						$data['code']
+					);
+					break;
+			}
+		}
+
+		/**
+		 * event to create short urls from anywere in the code. show a preview 
+		 * link by setting type => preview or leave type out type to go direct to
+		 * the url
+		 * 
+		 * @param $event the event object
+		 * @param $data array of type and url
+		 * @return array a cake url array for the short url that was created
+		 */
+		public function onGetShortUrl($event, $data){
+			$data['code'] = ClassRegistry::init('ShortUrls.ShortUrl')->shorten($data['url']);
+			if(!$data['code']){
+				$this->cakeError('error404', __('That url seems invalid', true));
+			}
+
+			return $this->onSlugUrl($event, $data);
+		}
+	}

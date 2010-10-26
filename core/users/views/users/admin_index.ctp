@@ -33,11 +33,6 @@
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
-	<?php
-		if (isset($counts)) {
-			echo $this->Infinitas->loggedInUserText($counts);
-		}
-	?>
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(

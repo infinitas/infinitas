@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	$('.comment textarea').focus(function(){
-		$(this).css('height', '50px');
+		$(this).css('height', '125px');
 		$(this).siblings('input.submit').show();
 	});
 

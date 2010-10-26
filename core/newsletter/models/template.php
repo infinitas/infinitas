@@ -1,47 +1,52 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class Template extends NewsletterAppModel {
-		var $name = 'Template';
+		public $name = 'Template';
 
 		public $lockable = true;
 
-		var $order = array(
-			'Template.name' => 'ASC'
+		public $order = array(
+			'Template.name' => 'asc'
 		);
 
-		var $validation = array(
-			'name' => array(
-				'isUnique' => array(
-					'rule' => 'isUnique',
-					'message' => 'A template with that name already exists.'
-				)
-			)
-		);
-
-		var $hasMany = array(
+		public $hasMany = array(
 			'Newsletter.Newsletter',
 			'Newsletter.Campaign'
 		);
 
-		var $belongsTo = array(
-		);
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'name' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => 'Please enter the name for this template'
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => 'A template with that name already exists'
+					)
+				)
+			);
+		}
 
 		function getTemplate($data = null){
 			if($data){

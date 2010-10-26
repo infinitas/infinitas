@@ -19,10 +19,12 @@
      */
 
     echo $this->Form->create('Campaign');
-        echo $this->Infinitas->adminEditHead();
-        echo $this->Form->input('id');
-        echo $this->Form->input('name', array('class' => 'title'));
-        echo $this->Letter->wysiwyg('Campaign.description');
-        echo $this->Form->input('template_id');
+        echo $this->Infinitas->adminEditHead(); ?>
+		<fieldset>
+			<h1><?php echo __('Email Campaign', true); ?></h1><?php
+			echo $this->Form->input('id');
+			echo $this->Form->input('name', array('class' => 'title'));
+			echo $this->Infinitas->wysiwyg('Campaign.description');
+			echo $this->Form->input('template_id', array('empty' => Configure::read('Website.empty_select'))); ?>
+		</fieldset><?php
     echo $this->Form->end();
-?>

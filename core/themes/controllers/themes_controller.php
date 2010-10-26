@@ -38,15 +38,22 @@
 			parent::admin_add();
 			$themes = $this->__listThemes();
 			if(empty($themes)){
-				$this->Session->setFlash(__('You do not have any themes to add', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('You do not have any themes to add', true),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
 			}
 			$this->set(compact('themes'));
 		}
 
 		public function admin_edit($id){
 			parent::admin_edit($id);
-			$this->set('themes', $this->__listThemes());
+			$themes = $this->__listThemes();
+			$themes[$this->data['Theme']['name']] = $this->data['Theme']['name'];
+			$this->set(compact('themes'));
 		}
 
 		private function __listThemes($return = false){
@@ -78,15 +85,25 @@
 		 */
 		public function __massActionToggle($ids) {
 			if (count($ids) > 1) {
-				$this->Session->setFlash(__('Please select only one theme to be active', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Please select only one theme to be active', true),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
 			}
 
 			if ($this->Theme->deactivateAll()) {
 				return $this->MassAction->toggle($ids);
 			}
-
-			$this->Session->setFlash(__('There was a problem deactivating the other theme', true));
-			$this->redirect($this->referer());
+			
+			$this->notice(
+				__('There was a problem deactivating the other theme', true),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
 		}
 	}

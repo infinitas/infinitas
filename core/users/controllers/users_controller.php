@@ -31,6 +31,29 @@
 			);
 		}
 
+		public function view(){
+			if(!$this->Session->read('Auth.User.id')){
+				$this->Session->setFlash(__('You must be logged in to view your profile', true));
+				$this->redirect(array('action' => 'login'));
+			}
+
+			$user = $this->User->find(
+				'first',
+				array(
+					'conditions' => array(
+						'User.id' => $this->Session->read('Auth.User.id')
+					)
+				)
+			);
+
+			if(empty($user)){
+				$this->Session->setFlash(__('Please login to view your profile', true));
+				$this->redirect(array('action' => 'login'));
+			}
+
+			$this->set(compact('user'));
+		}
+
 		/**
 		 * Login method.
 		 *
@@ -350,29 +373,15 @@
 		}
 
 		public function admin_logged_in(){
-			$Session = ClassRegistry::init('Session');
-			$sessions = $Session->find('all');
-
-			$counts['all'] = count($sessions);
-
-			foreach($sessions as &$session){
-				$session['User'] = explode('Auth|', $session['Session']['data']);
-				$session['User'] = unserialize($session['User'][1]);
-				if (isset($session['User']['User'])) {
-					$session['User'] = $session['User']['User'];
-				}
-				else {
-					$session['User'] = '';
-				}
-			}
-
-			$users = Set::extract('/User/id', $sessions);
-
-			$counts['loggedIn'] = count($users);
-			$counts['guests']    = $counts['all'] - $counts['loggedIn'];
-
-			$this->User->recursive = 0;
-			$users = $this->paginate(array('User.id' => $users), $this->Filter->filter);
+			$this->paginate =array(
+				'conditions' => array(
+					'User.last_login > ' => date('Y-m-d H:i:s', strtotime('-30 min'))
+				),
+				'order' => array(
+					'User.last_login' => 'desc'
+				)
+			);
+			$users = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
@@ -380,18 +389,12 @@
 				'email'
 			);
 
-			$this->set(compact('users','filterOptions', 'counts'));
+			$this->set(compact('users','filterOptions'));
 			$this->render('admin_index');
 		}
 
 		public function admin_add(){
-			if (!empty($this->data)) {
-				$this->User->create();
-				if ($this->User->saveAll($this->data)) {
-					$this->Session->setFlash('The user has been saved.');
-					$this->redirect(array('action' => 'index'));
-				}
-			}
+			parent::admin_add();
 
 			$groups = $this->User->Group->find('list');
 			$this->set(compact('groups'));
@@ -399,22 +402,20 @@
 
 		public function admin_edit($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('That user could not be found', true), true);
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (!empty($this->data)) {
-				if ( $this->data['User']['password'] == Security::hash('', null, true)) {
+				if ($this->data['User']['password'] == Security::hash('', null, true)) {
 					unset($this->data['User']['password']);
 					unset($this->data['User']['confirm_password']);
 				}
 
 				if ($this->User->saveAll($this->data)) {
-					$this->Session->setFlash(__('The user has been saved.', true));
-					$this->redirect(array('action' => 'index'));
+					$this->Infinitas->noticeSaved();
 				}
 
-				$this->Session->setFlash(__('The user could not be saved.', true));
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			if ($id && empty($this->data)) {

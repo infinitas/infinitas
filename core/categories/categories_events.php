@@ -1,14 +1,5 @@
 <?php
 	final class CategoriesEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Categories',
-				'description' => 'Categorize your content',
-				'icon' => '/categories/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
-
 		public function onAdminMenu(&$event){
 			$menu['main'] = array(
 				'Categories' => array('controller' => false, 'action' => false),

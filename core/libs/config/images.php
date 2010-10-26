@@ -132,6 +132,7 @@
 			'message' => 'message.png',
 			'status' => 'status.png',
 			'stop' => 'stop.png',
+			'success' => 'success.png',
 			'warning' => 'warning.png',
 			'loading' => 'loading.gif'
 			),

@@ -1,14 +1,5 @@
 <?php
-	final class ThemesEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Themes',
-				'description' => 'Theme your site',
-				'icon' => '/themes/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
-		
+	final class ThemesEvents extends AppEvents{		
 		public function onSetupConfig(){
 			return array();
 		}

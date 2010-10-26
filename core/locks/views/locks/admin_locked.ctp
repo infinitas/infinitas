@@ -24,7 +24,7 @@
 	<p><?php
 		echo sprintf(
 			__('The record you are trying to view has been locked by anotehr user. %s to go back', true),
-			$this->Html->link(__('click here', true), $this->referer())
+			$this->Html->link(__('click here', true), env('HTTP_REFERER'))
 		);
 	?></p>
 </div>

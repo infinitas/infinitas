@@ -1,11 +1,17 @@
 <?php
+
 	/**
 	 * AutoHelperView
-	 * Provides automatic helper loading for views.
+	 *
+	 * Provides automatic loading, or "lazy loading" of heleprs for the `View`
+	 * class.
+	 *
+	 * If a helper needs to be called prior to rendering or if it has any
+	 * settings you should keep it in your controller's `$helpers` array.
 	 *
 	 * @author Joe Beeson <jbeeson@gmail.com>
 	 */
-	class LazyHelperView extends View {
+	class LazyHelperView extends ThemeView {
 
 		/**
 		 * Stores our array of known helpers.
@@ -14,6 +20,18 @@
 		 * @access protected
 		 */
 		protected $_helpers = array();
+
+		/**
+		 * lazy Helpers
+		 */
+		protected $lazyHelpers = array();
+
+		private $__helperMap = array();
+		
+		public function __construct(&$controller, $register = true) {
+			parent::__construct(&$controller, $register);
+			$this->__registerHelpers();
+		}
 
 		/**
 		 * Called when a request for a non-existant member variable is caught.
@@ -26,7 +44,13 @@
 		 */
 		public function __get($variable = '') {
 			// Is the $variable a known helper name? If so, load the helper
-			if (in_array($variable, $this->_getHelpers())) {
+			$this->_getHelpers();
+			if(isset($this->__helperMap[$variable])){
+				$this->_loadHelper($variable, $this->__helperMap[$variable]);
+			}
+			else if (in_array($variable, $this->_getHelpers())) {
+				pr($variable);
+				exit;
 				$this->_loadHelper($variable);
 			}
 
@@ -45,11 +69,14 @@
 		 * @access protected
 		 */
 		protected function _getHelpers($cache = true) {
-
 			// Check if we don't have the array of if we're told not to cache
 			if (empty($this->_helpers) or !$cache) {
 				$this->_helpers = App::objects('helper');
 			}
+			$this->_helpers = array_merge($this->helpers, $this->_helpers, $this->lazyHelpers);
+
+			$this->__mapHelpers($this->_helpers);
+			
 
 			// Return the array of helpers
 			return $this->_helpers;
@@ -63,12 +90,11 @@
 		 * @return null
 		 * @access protected
 		 */
-		protected function _loadHelper($helper) {
-
+		protected function _loadHelper($helper, $class) {
 			// Load the variable up
 			$this->loaded = $this->_loadHelpers(
 				$this->loaded,
-				array($helper)
+				array($class)
 			);
 
 			// Assign the helper into a member variable
@@ -78,24 +104,20 @@
 
 		/**
 		 * Renders and returns output for given view filename with its
-		 * array of data. We override the View classes _render method because it
-		 * makes use of "pass by ref" which goes to hell with our __get function
+		 * array of data.
 		 *
-		 * @param string $___viewFn Filename of the view
-		 * @param array $___dataForView Data to include in rendered view
-		 * @param boolean $loadHelpers Boolean to indicate that helpers should be loaded.
-		 * @param boolean $cached Whether or not to trigger the creation of a cache file.
-		 * @return string Rendered output
-		 * @access protected (but actually public)
-		*/
+		 * We override the `View` method because the core uses a pass-by-ref in
+		 * its code, which causes our `__get` method to barf, everywhere.
+		 *
+		 * @param string $___viewFn
+		 * @param array $___dataForView
+		 * @param boolean $loadHelpers
+		 * @param boolean $cached
+		 * @return string
+		 * @access public
+		 */
 		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
 			$loadedHelpers = array();
-
-			/**
-			 * We still let the _render method load up any helpers that are
-			 * explicitly asked for, this is for any helpers that may have the
-			 * beforeRender callback implemented.
-			 */
 			if ($this->helpers != false && $loadHelpers === true) {
 				$loadedHelpers = $this->_loadHelpers($loadedHelpers, $this->helpers);
 				$helpers = array_keys($loadedHelpers);
@@ -108,7 +130,7 @@
 					if (!isset($___dataForView[$name])) {
 						${$name} =& $helper;
 					}
-					$this->loaded[$helperNames[$i]] = $helper;
+					$this->loaded[$helperNames[$i]] =& $helper;
 					$this->{$helpers[$i]} = $helper;
 				}
 				$this->_triggerHelpers('beforeRender');
@@ -131,7 +153,8 @@
 			$out = ob_get_clean();
 			$caching = (
 				isset($this->loaded['cache']) &&
-				(($this->cacheAction != false)) && (Configure::read('Cache.check') === true)
+				$this->cacheAction != false &&
+				Configure::read('Cache.check') === true
 			);
 
 			if ($caching) {
@@ -149,4 +172,71 @@
 			}
 			return $out;
 		}
+
+		/**
+		 * triggers an event to get all the helpers.
+		 *
+		 * @return bool if helpers are set;
+		 */
+		private function __registerHelpers(){
+			$data = EventCore::trigger($this, 'requireHelpersToLoad');
+
+			if(isset($data['requireHelpersToLoad']['libs'])){
+				$libs['libs'] = $data['requireHelpersToLoad']['libs'];
+				$data['requireHelpersToLoad'] = $libs + $data['requireHelpersToLoad'];
+			}
+
+			foreach($data['requireHelpersToLoad'] as $plugin => $helpers){
+				if(!is_array($helpers)){
+					$helpers = array($helpers);
+				}
+				$helpers = array_filter($helpers);
+				if(empty($helpers)){
+					continue;
+				}
+				if(strstr($plugin, '.')){
+					$this->lazyHelpers[$plugin] = $helpers;
+					continue;
+				}
+				foreach($helpers as $helper => $config){
+					if(is_string($config) && is_int($helper)){
+						// be lazy
+						$this->lazyHelpers[] = $config;
+					}
+					// need to load
+					else if($config === true || (is_array($config) && !empty($config))){
+						$this->helpers[$helper] = $config;
+					}
+					else{
+						$this->lazyHelpers[$helper] = $config;
+					}
+				}
+			}
+
+			return !empty($this->lazyHelpers);
+		}
+
+		private function __mapHelpers($helpers){
+			if(empty($helpers)){
+				return true;
+			}
+
+			foreach($helpers as $id => $helper){
+				if(is_int($id)){
+					$parts = explode('.', $helper);
+				}
+				else{
+					$parts = explode('.', $id);
+					$helper = $id;
+				}
+
+				if(count($parts) == 1){
+					$this->__helperMap[$helper] = $helper;
+				}
+				else{
+					$this->__helperMap[$parts[1]] = $helper;
+				}
+			}
+		}
+
 	}

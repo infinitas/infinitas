@@ -1,15 +1,5 @@
 <?php
-	final class ModulesEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Modules',
-				'description' => 'Add sections of output to your site with ease',
-				'icon' => '/modules/img/icon.png',
-				'author' => 'Infinitas',
-				'dashboard' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0)
-			);
-		}
-		
+	final class ModulesEvents extends AppEvents{		
 		public function onSetupConfig(){
 		}
 

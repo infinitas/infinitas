@@ -1,7 +1,9 @@
 <?php
 	final class EventsEvents extends AppEvents {		
 		public function onRequireHelpersToLoad(){
-			return 'Events.Event';
+			return array(
+				'Events.Event' => true
+			);
 		}
 
 		public function onRequireComponentsToLoad(){

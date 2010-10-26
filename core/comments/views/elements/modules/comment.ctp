@@ -48,18 +48,13 @@
 
 			$_comments = array();
 			foreach($comments as $comment){
-				$_comments[] =
-					'<div class="comment">'.
-						$this->Gravatar->image($comment['email'], array('size' => '50')).
-						'<p>'.$this->Text->truncate(strip_tags($comment['comment']), 350).'</p>'.
-					'</div>';
+				$_comments[] = $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
 			}
 
 			echo implode('', $_comments);
 		}
 
-		if(!$this->Session->read('Auth.User.id')){
-
+		if(Configure::read('Comments.require_auth') === true && !$this->Session->read('Auth.User.id')){
 			?><div class="comment"><?php echo __('Please log in to leave a comment', true); ?></div><?php
 			echo '</div>'; // dont remove it keeps things even when exiting early
 			return;
@@ -97,8 +92,10 @@
         }
 
 			echo $this->Form->hidden($modelName.'Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
-
+			
+			echo '<div class="comment">';
 			foreach($commentFields as $field){
+
 				if ($field != 'comment'){
 					$value = '';
 					$method = 'input';
@@ -121,21 +118,15 @@
 						array(
 							'label' => false,
 							'div' => false,
-							'value' => __('Enter your comment...', true)
 						)
 					);
-					$submitOptions = array('div' => false, 'class' => 'submit');
-					echo '<div class="comment">';
+					$submitOptions = array('div' => false, 'class' => 'submit');					
 				}
 				
 				echo $this->Form->input($modelName.'Comment.comment', $options);
-
 				echo $this->Form->submit('Submit', $submitOptions);
-				
-				if($this->action != 'comment'){
-					echo '</div>';
-				}
-			}			
+			}
+			echo '</div>';
 		echo $this->Form->end();
 	?>
 </div>

@@ -38,6 +38,18 @@
 			}
 
 			$menus   = $this->MenuItem->Menu->find('list');
+			if(empty($menus)){
+				$this->notice(
+					__('Please add a menu before adding items', true),
+					array(
+						'level' => 'notice',
+						'redirect' => array(
+							'controller' => 'menus'
+						)
+					)
+				);
+			}
+			
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
 			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => reset(array_keys($menus))));
 			$plugins = $this->MenuItem->getPlugins();
@@ -50,7 +62,12 @@
 		 * Used for the ajax getting of parent menus items
 		 */
 		public function admin_getParents() {
-			$this->set('json', array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.menu_id' => $this->params['named']['plugin'])));
+			$conditions = array('MenuItem.menu_id' => $this->params['named']['plugin']);
+			$json = array_merge(
+				array(0 => __('Root', true)),
+				$this->MenuItem->generateTreeList($conditions)
+			);
+			$this->set(compact('json'));
 		}
 
 		public function admin_edit($id = null){

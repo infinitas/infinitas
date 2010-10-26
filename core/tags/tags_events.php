@@ -1,12 +1,11 @@
 <?php
 	final class TagsEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Tags',
-				'description' => 'Attach tags to records',
-				'icon' => '/tags/img/icon.png',
-				'author' => 'CakeDC'
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Tags' => array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')
 			);
+
+			return $menu;
 		}
 
 		public function onAttachBehaviors(&$event) {

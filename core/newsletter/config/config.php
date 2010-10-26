@@ -21,17 +21,16 @@
 	 */
 
 	$config['Newsletter'] = array(
-		'from_email' => '',
-		'from_name' => '',
-		'greeting' => 'ehlo',
+		'from_email' => 'test@dogmatic69.com',
+		'from_name' => 'dogmatic69 test',
 		'send_as' => 'both',
 		'send_count' => 200,
 		'send_interval' => 600,
-		'send_method' => 'php',
-		'smtp_username' => '',
-		'smtp_password' => '',
-		'smtp_host' => '',
-		'smtp_out_going_port' => '',
+		'send_method' => 'smtp',
+		'smtp_username' => 'test@dogmatic69.com',
+		'smtp_password' => 'test',
+		'smtp_host' => 'mail.dogmatic69.com',
+		'smtp_out_going_port' => 49,
 		'smtp_timeout' => 100,
 		'template' => 'default',
 		'track_views' => true

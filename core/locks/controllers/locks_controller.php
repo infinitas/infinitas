@@ -23,6 +23,11 @@
 	class LocksController extends LocksAppController{
 		public $name = 'Locks';
 
+		public function beforeFilter(){
+			parent::beforeFilter();
+			$this->helpers[] = 'Filter.Filter';
+		}
+
 		public function admin_index(){
 			$this->paginate = array(
 				'contain' => array(

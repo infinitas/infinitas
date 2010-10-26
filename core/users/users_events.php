@@ -38,6 +38,7 @@
 			/**
 			 * frontend urls
 			 */
+			Router::connect('/profile', array('plugin' => 'users', 'controller' => 'users', 'action' => 'view'));
 			Router::connect('/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			Router::connect('/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout'));
 			Router::connect('/register', array('plugin' => 'users', 'controller' => 'users', 'action' => 'register'));
@@ -50,5 +51,11 @@
 			 */
 			Router::connect('/admin/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'));
 			Router::connect('/admin/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
+		}
+
+		public function onRequireComponentsToLoad(&$events){
+			return array(
+				'Users.Visitor'
+			);
 		}
 	}

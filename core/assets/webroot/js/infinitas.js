@@ -100,7 +100,6 @@ switch(Infinitas.params.prefix) {
 		function(require) {
 			$(document).ready(function(){
 				$('.tabs').tabs();
-				$("#side_bar").show().jixedbar();
 				//setupStarRating();
 
 				$("#accordion").accordion({

@@ -62,6 +62,7 @@ table.listing{
 	padding:10px;
 	color:#202020;
 	width: 100%;
+	border-collapse: separate;
 }
 
 table.listing th,
@@ -359,12 +360,12 @@ form fieldset,
 	}
 
 	.dashboard ul.info{
-		float:left;
 		list-style:none outside none;
 		margin:0 0 0 10px;
 		padding-left:10px;
 		padding-top:10px;
 		width:auto;
+		padding-right:10px;
 	}
 
 .dashboard ul.icons{
@@ -480,7 +481,8 @@ fieldset legend{
 /** required fields */
 form .required input,
 form .required textarea,
-form .required select{
+form .required select,
+form select.required{
 	background-color: #FFDAAF;
 }
 form label{
@@ -525,7 +527,7 @@ form select{
 		margin-right: 9px;
 	}
 
-div.error{
+form div.error{
 	border: 1px dotted #FFDAAF;
 	margin:10px;
 }
@@ -541,7 +543,101 @@ div.error .error-message{
 form div.static{
 	display: none;
 }
-	
+
+.user-warning{
+	width: 930px;
+	margin: auto;
+	font-size: 140%;
+	text-align: center;
+	-moz-border-radius: 5px;
+	background-color: #F9F9F9;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+	.user-warning img{
+		margin-right: 10px;
+		vertical-align:middle;
+	}
+
+	.user-warning.warning{
+		border: 2px solid #E3AD00;
+	}
+
+	.user-warning.error{
+		border: 2px solid #C10400;
+	}
+
+	.user-warning.success{
+		border: 2px solid #1BAE0C;
+	}
+
+	.error-message{
+		color: #ff0000;
+	}
+
+
+/* table container */
+div.table {
+	float:  left;
+	width:  100%;
+	margin: 0 0 5px 0;
+}
+
+table.listing {
+	width:               100%;
+	background-image:    url("../img/core/infinitas_med.png");
+	background-position: right 90%;
+	background-repeat:   no-repeat;
+}
+
+
+/* table styles */
+table.listing th {
+	padding:    5px;
+    text-align: left;
+}
+
+table.listing .highlightRowSelected td,
+table.listing .bg.highlightRowSelected td,
+table.listing .highlightRowSelected.highlightRowRelated td,
+table.listing .bg.highlightRowSelected.highlightRowRelated rt {
+	background:  none repeat scroll 0 0 #E1FFDF;
+	font-weight: bold;
+}
+
+table.listing .highlightRowRelated td,
+table.listing .bg.highlightRowRelated td,
+table.listing .highlightRowRelated.highlightRowSelected td,
+table.listing .bg.highlightRowRelated.highlightRowSelected td {
+	background:  none repeat scroll 0 0 #FFE2BF;
+	font-weight:bold;
+}
+
+table.listing tr:hover td{
+	background:  none repeat scroll 0 0 #FFFCDF;
+	text-decoration: italics;
+}
+
+.actions{
+    width: 100px;
+}
+
+table.listing td {
+	color:      #000000;
+	padding:    3px 5px;
+}
+
+table.listing td,
+table.listing th{
+	opacity:    0.95;
+	filter:     alpha(opacity=99);
+	background: #ffffff;
+}
+
+table.listing .bg td {
+	background: #ECECEC;
+}
+
 table.cake-sql-log{
 	display: none;
 }

@@ -26,6 +26,8 @@
 		 */
 		public $view = 'Libs.Infinitas';
 
+		public $_helpers = array();
+
 		/**
 		 * internal cache of css files to load
 		 * @access private
@@ -44,14 +46,21 @@
 		 */
 		function beforeRender(){
 			parent::beforeRender();
-			$this->Infinitas->getPluginAssets();
-			$this->Infinitas->getPluginHelpers();			
+			$this->Infinitas->getPluginAssets();		
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
+
+			$fields = array(
+				$this->params['plugin'],
+				$this->params['controller'],
+				$this->params['action']
+			);
+
+			$this->set('class_name_for_layout', implode(' ', $fields));
 		}
 
 		function redirect($url = null, $status = null, $exit = true){
-			if(!$url){
+			if(!$url || $url == ''){
 				$url = $this->Session->read('Infinitas.last_page');
 				$this->Session->delete('Infinitas.last_page');
 
@@ -221,6 +230,44 @@
 					),
 					$this->output
 				);
+			}
+		}
+
+		/**
+		 * Create a generic warning to display usefull information to the user
+		 *
+		 * The code passed can be used for linking to error pages with more information
+		 * eg: creating some pages on your site like /errors/<code> and then making it
+		 * a clickable link the user can get more detailed information.
+		 *
+		 * @param string $message the message to show to the user
+		 * @param int $code a code that can link to help
+		 * @param string $level something like notice/warning/error
+		 * @param string $plugin if you would like to use your own elements pass the name of the plugin here
+		 * 
+		 * @return string the markup for the error
+		 */
+		public function notice($message, $config = array()){
+			$_default = array(
+				'level' => 'success',
+				'code' => 0,
+				'plugin' => 'assets',
+				'redirect' => false
+			);
+
+			$config = array_merge($_default, (array)$config);
+
+			$vars = array(
+				'code' => $config['code'],
+				'plugin' => $config['plugin']
+			);
+			
+			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
+			if($config['redirect'] || $config['redirect'] === ''){
+				if($config['redirect'] === true){
+					$config['redirect'] = $this->referer();
+				}
+				$this->redirect($config['redirect']);
 			}
 		}
 	}
@@ -604,11 +651,9 @@
 			if (!empty($this->data)) {
 				$this->{$this->modelName}->create();
 				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was saved', true), $this->prettyModelName));
-					$this->redirect();
+					$this->Infinitas->noticeSaved();
 				}
-
-				$this->Session->setFlash(sprintf(__('There was a problem creating your %s', true), $this->prettyModelName));
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			$lastPage = $this->Session->read('Infinitas.last_page');
@@ -631,24 +676,20 @@
 		 */
 		public function admin_edit($id = null){
 			if(empty($this->data) && !$id){
-				$this->Session->setFlash(sprintf(__('Invalid %s selected. Please try again', true), $this->prettyModelName));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (!empty($this->data)) {
 				if ($this->{$this->modelName}->saveAll($this->data)) {
-					$this->Session->setFlash(sprintf(__('Your %s was updated', true), $this->prettyModelName));
-					$this->redirect();
+					$this->Infinitas->noticeSaved();
 				}
-
-				$this->Session->setFlash(sprintf(__('There was a problem updating your %s', true), $this->prettyModelName));
+				$this->Infinitas->noticeNotSaved();
 			}
 
 			if(empty($this->data) && $id){
 				$this->data = $this->{$this->modelName}->read(null, $id);
 				if(empty($this->data)){
-					$this->Session->setFlash(sprintf(__('The %s you requested does not exist', true), $this->prettyModelName));
-					$this->redirect();
+					$this->Infinitas->noticeInvalidRecord();
 				}
 			}
 
@@ -674,20 +715,29 @@
 			$model = $this->modelClass;
 
 			if (!$id) {
-				$this->Session->setFlash('That ' . $model . ' could not be found', true);
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->data[$model]['id'] = $id;
 
 			if (!isset($this->params['named']['position']) && isset($this->$model->actsAs['Libs.Sequence'])) {
-				$this->Session->setFlash(__('A problem occured moving the ordered record.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('A problem occured moving the ordered record.', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			if (!isset($this->params['named']['direction']) && isset($this->$model->actsAs['Tree'])) {
-				$this->Session->setFlash(__('A problem occured moving the MPTT record.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('A problem occured moving that MPTT record.', true),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
 			}
 
 			if (isset($this->params['named']['position'])) {

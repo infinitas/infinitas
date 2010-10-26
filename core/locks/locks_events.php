@@ -1,14 +1,5 @@
 <?php
 	final class LocksEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Locks',
-				'description' => 'Stop others editing things you are working on',
-				'icon' => '/locks/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
-
 		public function onSetupCache(){
 			return array(
 				'name' => 'locks',
@@ -23,7 +14,11 @@
 		}
 
 		public function onAdminMenu(&$event){
-			return array();
+			$menu['main'] = array(
+				'Locks' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
+			);
+
+			return $menu;
 		}
 
 		public function onRequireComponentsToLoad(&$event){

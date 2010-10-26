@@ -55,7 +55,7 @@
 			}
 			
 			else{
-				$cache['config']['prefix'] = str_replace(DS, '_', $folder);
+				$cache['config']['prefix'] = Inflector::slug(APP_DIR) . '_' . str_replace(DS, '_', $folder);
 			}
 
 			$cache['config'] = array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']);

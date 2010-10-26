@@ -55,6 +55,22 @@
 			);
 		}
 
+		public function getUsersComments($user_id = null, $limit = 5){
+			$comments = $this->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Comment.user_id' => $user_id
+					),
+					'order' => array(
+						'Comment.created' => 'asc'
+					)
+				)
+			);
+
+			return $comments;
+		}
+
 		public function getCounts($class = null) {
 			if (!$class) {
 				return false;
