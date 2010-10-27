@@ -545,7 +545,7 @@
 		 * see AppController::notice()
 		 */
 		public function noticeNotSaved(){
-			$this->notice(
+			$this->Controller->notice(
 				sprintf(__('There was a problem saving your %s', true), Inflector::singularize($this->prettyModelName)),
 				array(
 					'level' => 'warning'
@@ -559,7 +559,7 @@
 		 * see AppController::notice()
 		 */
 		public function noticeInvalidRecord(){
-			$this->notice(
+			$this->Controller->notice(
 				sprintf(__('Invalid %s selected, please try again', true), $this->prettyModelName),
 				array(
 					'level' => 'error',
