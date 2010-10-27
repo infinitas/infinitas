@@ -86,13 +86,6 @@
 			$this->Infinitas->_setupAuth();
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
-			if(isset($this->params['prefix']) && $this->params['prefix'] == 'admin') {
-				$this->addCss(
-					array(
-						'admin'
-					)
-				);
-			}
 
 			if((isset($this->params['admin']) && $this->params['admin']) && $this->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
 				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
