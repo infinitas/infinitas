@@ -34,7 +34,7 @@
 				);
 				
 				$User->updateAll(
-					array('User.last_login' => '\''.date('Y-m-d H:i:s').'\''),
+					array('User.last_click' => '\''.date('Y-m-d H:i:s').'\''),
 					array('User.id' => $this->Controller->Session->read('Auth.User.id'))
 				);
 			}
