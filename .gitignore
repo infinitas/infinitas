@@ -30,3 +30,6 @@ core/emails/webroot/img/images/*
 
 # NetBeans project files
 nbproject/*
+
+# Geany
+*.geany
