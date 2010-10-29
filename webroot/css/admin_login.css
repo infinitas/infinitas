@@ -1,8 +1,4 @@
 @import url('reset.css');
-@import url('core.css');
-@import url('pagination.css');
-@import url('navigation.css');
-@import url('form.css');
 
 #header{
 	background:transparent url(../img/core/infinitas_small.png) no-repeat left top;
