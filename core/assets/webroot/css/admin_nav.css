@@ -526,6 +526,10 @@ form select{
 		width: 31%;
 		margin-right: 9px;
 	}
+	form .datetime select{
+		width: 14%;;
+		margin-right: 13px;
+	}
 
 form div.error{
 	border: 1px dotted #FFDAAF;
