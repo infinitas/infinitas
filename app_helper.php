@@ -167,6 +167,36 @@
 	        return $this->adminOtherHead($massActions);
 		}
 
+		/**
+		 * Generate a default edit link for use insde admin with no routing. just
+		 * pass the array like $row['Model'] to this method and if you want something
+		 * other than action => edit (maybe a different controller) pass that also
+		 *
+		 * @param array $row the row $row['Model'] data
+		 * @param array $url normal cake url array
+		 * @return string borked on error, html link when all is good
+		 */
+		public function adminEditLink($row = array(), $url = array('action' => 'edit')){
+			$id = $text = null;
+
+			if(isset($this->params['models'][0])){
+				$id   = $row[ClassRegistry::init($this->params['models'][0])->primaryKey];
+				$text = $row[ClassRegistry::init($this->params['models'][0])->displayField];
+			}
+
+			else{
+				$id   = isset($row['id']) ? $row['id'] : null;
+				$text = isset($row['name']) ? $row['name'] : null;
+				$text = !$text && isset($row['title']) ? $row['title'] : null;
+			}
+
+			if(!$id){
+				return __('Borked', true);
+			}
+
+			return $this->Html->link(!$text ? $id : $text, array_merge((array)$url, array($id)));
+		}
+
 		public function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
 			if (!$id) {
 				$this->errors[] = 'How will i know what to move?';
