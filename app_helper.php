@@ -176,7 +176,7 @@
 		 * @param array $url normal cake url array
 		 * @return string borked on error, html link when all is good
 		 */
-		public function adminEditLink($row = array(), $url = array('action' => 'edit')){
+		public function adminQucikLink($row = array(), $url = array('action' => 'edit')){
 			$id = $text = null;
 
 			if(isset($this->params['models'][0])){
@@ -194,7 +194,7 @@
 				return __('Borked', true);
 			}
 
-			return $this->Html->link(!$text ? $id : $text, array_merge((array)$url, array($id)));
+			return $this->Html->link(!$text ? $id : $text, array_merge((array)$url, array(0 => $id)));
 		}
 
 		public function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
