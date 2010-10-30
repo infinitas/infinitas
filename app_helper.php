@@ -173,15 +173,22 @@
 		 * other than action => edit (maybe a different controller) pass that also
 		 *
 		 * @param array $row the row $row['Model'] data
-		 * @param array $url normal cake url array
+		 * @param mixed $url normal cake url array/string
+		 * @param array $models if you want to link to a related model
 		 * @return string borked on error, html link when all is good
 		 */
-		public function adminQucikLink($row = array(), $url = array('action' => 'edit')){
+		public function adminQuickLink($row = array(), $url = array(), $model = ''){
 			$id = $text = null;
 
-			if(isset($this->params['models'][0])){
-				$id   = $row[ClassRegistry::init($this->params['models'][0])->primaryKey];
-				$text = $row[ClassRegistry::init($this->params['models'][0])->displayField];
+			if(is_array($url)){
+				$url = array_merge(array('action' => 'edit'), $url);
+			}
+
+			if(isset($this->params['models'][0]) || !empty($model)){
+				$model = !empty($model) ? $model : $this->params['models'][0];
+
+				$id   = $row[ClassRegistry::init($model)->primaryKey];
+				$text = $row[ClassRegistry::init($model)->displayField];
 			}
 
 			else{
@@ -194,7 +201,14 @@
 				return __('Borked', true);
 			}
 
-			return $this->Html->link(!$text ? $id : $text, array_merge((array)$url, array(0 => $id)));
+			if(is_array($url)){
+				$url = array_merge((array)$url, array(0 => $id));
+			}
+			else{
+				$url .= '/'.$id;
+			}
+
+			return $this->Html->link(!$text ? $id : $text, $url);
 		}
 
 		public function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
