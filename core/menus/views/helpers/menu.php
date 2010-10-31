@@ -105,7 +105,7 @@
 		 *
 		 * @return array the menu that was built
 		 */
-		public function builDashboardLinks($plugins = array(), $type = null){
+		public function builDashboardLinks($plugins = array(), $type = null, $cache = true){
 			if(!$type){
 				$type = $this->plugin;
 			}
@@ -118,9 +118,11 @@
 			
 			ksort($plugins);
 
-			$cache = Cache::read('dashboard_'.$type, 'menus');
-			if($cache !== false){
-				return $cache;
+			if($cache){
+				$cache = Cache::read('dashboard_'.$type, 'menus');
+				if($cache !== false){
+					return $cache;
+				}
 			}
 
 			$return = array();
@@ -157,8 +159,10 @@
 					)
 				);
 			}
-			
-			Cache::write('dashboard_'.$type, $return, 'menus');
+
+			if($cache){
+				Cache::write('dashboard_'.$type, $return, 'menus');
+			}
 			unset($plugins);
 
 			return $return;
