@@ -27,7 +27,7 @@
 	 * generate a select dropdown
 	 */
 	FormHelper.select = function(data, metaData) {
-		var options = '';
+		var options = '<option value="">' + $.Core.config('Website.empty_select') + '</option>';
 		$.each(data, function(index, name) {
 			if(($.Core.type(name) == 'plainObject') || ($.Core.type(name) == 'array')) {
 				options += '<optgroup label="' + index + '">';
