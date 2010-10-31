@@ -667,7 +667,7 @@
 		 *
 		 * @param mixed $id int | string (uuid) the id of the record to edit.
 		 */
-		public function admin_edit($id = null){
+		public function admin_edit($id = null, $query = array()){
 			if(empty($this->data) && !$id){
 				$this->Infinitas->noticeInvalidRecord();
 			}
@@ -680,7 +680,9 @@
 			}
 
 			if(empty($this->data) && $id){
-				$this->data = $this->{$this->modelName}->read(null, $id);
+				$query['conditions'][$this->{$this->modelName}->alias . '.' . $this->{$this->modelName}->primaryKey] = $id;
+
+				$this->data = $this->{$this->modelName}->find('first', $query);
 				if(empty($this->data)){
 					$this->Infinitas->noticeInvalidRecord();
 				}
