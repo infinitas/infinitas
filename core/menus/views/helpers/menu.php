@@ -44,9 +44,8 @@
 			'name' => '',
 			'icon' => 'core/infinitas_thumb.png',
 			'dashboard' => '',
-			'menus' => array(
-
-			)
+			'options' => array(),
+			'menus' => array()
 		);
 
 		/**
@@ -149,14 +148,16 @@
 					$var = 'core';
 				}				
 
+				$_options = array(
+					'title' => sprintf('%s :: %s', __($info['name'], true), __($info['description'], true)),
+					'escape' => false,
+					'style' => 'background-image: url(' . Router::url(isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png') . ');'
+				);
+
 				$return[$var][] = $this->Html->link(
 					$info['name'],
 					$info['dashboard'],
-					array(
-						'title' => sprintf('%s :: %s', __($info['name'], true), __($info['description'], true)),
-						'escape' => false,
-						'style' => 'background-image: url(' . Router::url(isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png') . ');'
-					)
+					array_merge($_options, $info['options'])
 				);
 			}
 
