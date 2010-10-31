@@ -45,6 +45,13 @@
 	};
 
 	/**
+	 * generate a select dropdown
+	 */
+	FormHelper.emptySelect = function(metaData) {
+		$('#' + metaData.target).empty();
+	};
+
+	/**
 	 * toggle checkboxes
 	 */
 	FormHelper.checkboxToggleAll = function() {

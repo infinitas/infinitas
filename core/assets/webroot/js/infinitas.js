@@ -124,8 +124,10 @@ function setupAjaxDropdowns(){
 	$pluginSelect = $('.pluginSelect');
 	$pluginSelect.change(function(){
 		var $this = $(this);
+		metaData = $.HtmlHelper.getParams($this);
+		$.FormHelper.emptySelect(metaData);
+
 		if ($this.val().length != 0) {
-			metaData = $.HtmlHelper.getParams($this);
 			metaData.params.plugin = $this.val();
 			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
 		}
@@ -136,8 +138,10 @@ function setupAjaxDropdowns(){
 	 */
 	$('.controllerSelect').change(function(){
 		var $this = $(this);
+		metaData = $.HtmlHelper.getParams($this);
+		$.FormHelper.emptySelect(metaData);
+
 		if ($this.val().length != 0) {
-			metaData = $.HtmlHelper.getParams($this);
 			metaData.params.plugin     = $pluginSelect.val();
 			metaData.params.controller = $this.val();
 			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
@@ -150,8 +154,10 @@ function setupAjaxDropdowns(){
 	$modulePuluginSelect = $('.modulePuluginSelect');
 	$modulePuluginSelect.change(function(){
 		var $this = $(this);
+		metaData = $.HtmlHelper.getParams($this);
+		$.FormHelper.emptySelect(metaData);
+
 		if ($this.val().length != 0) {
-			metaData = $.HtmlHelper.getParams($this);
 			metaData.params.plugin     = $('.modulePuluginSelect').val();
 			metaData.params.controller = $this.val();
 			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
