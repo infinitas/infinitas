@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class FilterEvents extends AppEvents{
+	final class FilterEvents extends AppEvents{
 		public function onRequireComponentsToLoad(&$event){
 			return array(
 				'Filter.Filter' => array(
@@ -32,6 +32,12 @@
 		public function onRequireHelpersToLoad(&$event){
 			return array(
 				'Filter.Filter'
+			);
+		}
+
+		public function  onRequireCssToLoad(&$event, $data = null) {
+			return array(
+				'/filter/css/filter'
 			);
 		}
 	}

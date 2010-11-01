@@ -1,12 +1,12 @@
 <?php
-    class FilterHelper extends Helper{
-    	var $helpers = array(
+    class FilterHelper extends AppHelper{
+    	public $helpers = array(
     	    'Form', 'Html'
     	);
 
-        var $count = 0;
+        public $count = 0;
 
-    	function form($model, $filter = array()){
+    	public function form($model, $filter = array()){
     		if (empty($filter) || !isset($filter['fields'])){
     			$this->errors[] = 'There is no filters';
     			return false;
@@ -86,7 +86,7 @@
          * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
          * @since         0.5a
          */
-        function clear($filter, $div = false){
+        public function clear($filter, $div = false){
             if (!isset($filter['url'][0]) || empty($filter['url'][0]) || $filter['url'][0] == '/'){
                 $filter['url'][0] = '/';
             }
@@ -127,4 +127,57 @@
 
             return $out;
         }
+
+		/**
+		 * bulid a list of leters and numbers with filtered links to rows that
+		 * start with that letter or number
+		 *
+		 * @return string ul->li list of things found
+		 */
+		public function alphabetFilter(){
+			if(empty($this->params['models'])){
+				return false;
+			}
+			$model = current($this->params['models']);
+			$letters = ClassRegistry::init($model)->getLetterList();
+			$return = array();
+			foreach($letters as $key => $value){
+				$url = $value == true ? $this->__filterLink($key) : $key;
+				if(is_array($url)){
+					$url = $this->Html->link(
+						$key,
+						Router::url($url),
+						array(
+							'title' => sprintf(__('Rows starting with "%s"', true), $key)
+						)
+					);
+				}
+				$return[] = sprintf('<li>%s</li>', $url);
+			}
+
+			$return[] = sprintf('<li>%s</li>', $this->Html->link('All', $this->cleanCurrentUrl()));
+
+			return '<div class="alphabet-filter"><ul>' . implode('', $return) . '</ul></div>';
+		}
+
+		/**
+		 * create a link for some text against the display field
+		 *
+		 * @param string $text the text to show/filter with
+		 * @return array the url cake style
+		 */
+		private function __filterLink($text = null){
+			if(!$text){
+				return false;
+			}
+			$model = current($this->params['models']);
+
+			$filter = array(
+				ClassRegistry::init($model)->alias . '.' . ClassRegistry::init($model)->displayField => $text
+			);
+
+			$params = array_merge(parent::cleanCurrentUrl(), $this->params['named'], $this->params['pass'], $filter);
+			
+			return $params;
+		}
     }

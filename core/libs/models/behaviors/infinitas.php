@@ -481,4 +481,54 @@
 
 			return $this->getJson($Model, current($data), array(), false);
 		}
+
+		/**
+		 * Generate a list of possible first characters to filter by. letters,
+		 * numbers and special chars
+		 * @param object $Model the model object
+		 * @return array key -> value array were a value of true means there is a row that matches
+		 */
+		public function getLetterList($Model){			
+			$Model->virtualFields['letters'] = sprintf('LOWER(LEFT(%s.%s, 1))', $Model->alias, $Model->displayField);
+
+			$found = $Model->find(
+				'list',
+				array(
+					'fields' => array(
+						'letters',
+						'letters'
+					),
+					'group' => array(
+						'letters'
+					)
+				)
+			);
+
+			$return['#'] = false;
+			$return['?'] = false;
+			$return = array_merge(
+				$return,
+				array_combine(range('a', 'z'), array_fill(0, 26, false))
+			);
+			
+			foreach($found as $value){
+				switch($value){
+					case is_int($value):
+						$return['#'] = 1;
+						break;
+
+					case isset($return[$value]):
+						$return[$value] = 1;
+						break;
+
+					default:
+						$return['?'] = 1;
+						break;
+				}				
+			}
+
+			unset($found);
+
+			return $return;
+		}
 	}

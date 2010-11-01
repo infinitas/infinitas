@@ -1,0 +1,35 @@
+div.alphabet-filter{
+	margin: auto;
+	width: 710px;
+	height: 40px;
+	clear: both;
+}
+	div.alphabet-filter ul{
+		list-style:none outside none;
+	}
+
+		div.alphabet-filter li {
+			-moz-border-radius:3px 3px 3px 3px;
+			border-radius:3px 3px 3px 3px;
+			background:none repeat-x scroll 50% 50% #F6F6F6;
+			border:1px solid #DDDDDD;
+			display:block;
+			float:left;
+			font-weight:bold;
+			list-style:none outside none;
+			margin:2px;
+			outline:medium none;
+			padding:3px 6px 2px;
+			position:relative;
+			text-decoration:none;
+		}
+
+			div.alphabet-filter li.current{
+				padding:8px 4px;
+				cursor:auto;
+			}
+
+			div.alphabet-filter li a{
+				cursor:pointer;
+				color:#0073EA;
+			}
