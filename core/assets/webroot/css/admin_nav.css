@@ -32,6 +32,15 @@ h1{
 	border-radius: 5px 5px 0 0;
 	margin-top:0;
 }
+	h1.no-gap{
+		margin-bottom: 0;
+	}
+
+	.listing.no-gap{
+		-moz-box-shadow: none;
+		-moz-border-radius: 0 0 5px 5px;
+	}
+	
 	h1 small{
 		float: right;
 		font-size:10px;
