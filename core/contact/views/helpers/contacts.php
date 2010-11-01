@@ -68,7 +68,7 @@
 			}
 
 			else if(!empty($details['company'])){
-				$name = sprintf('%s - %s', $details['user'], $details['company']);
+				$name = sprintf('%s - %s', $details['company'], $details['user']);
 			}
 			
 			else{
