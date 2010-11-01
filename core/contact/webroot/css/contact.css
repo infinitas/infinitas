@@ -7,3 +7,28 @@
 	-webkit-box-shadow: 0px 0px 15px #AFAFAF; /* Saf3.0+, Chrome */
 	box-shadow: 0px 0px 15px #AFAFAF; /* Opera 10.5, IE 9.0 */
 }
+
+.contact-card{
+	background:url('/contact/img/card.png') repeat scroll 0 0 transparent;
+	float:left;
+	height:152px;
+	margin-left:20px;
+	margin-top:10px;
+	width:290px;
+}
+
+	.contact-card h2{
+		font-size:110%;
+		margin-bottom:0;
+		padding-left:15px;
+		padding-top:5px;
+		text-align:left;
+	}
+	.contact-card h2 img{float: right; padding-right: 20px; padding-top:10px;}
+
+	.contact-card ul{margin-left: 85px}
+		.contact-card li.mobile{list-style-image:url('/contact/img/bullet-mobile.png')}
+		.contact-card li.landline{list-style-image:url('/contact/img/bullet-landline.png')}
+		.contact-card li.email{list-style-image:url('/contact/img/bullet-email.png')}
+		.contact-card li.address{list-style-image:url('/contact/img/bullet-address.png')}
+		.contact-card li.extra{list-style-image:url('/contact/img/bullet-extra.png')}
