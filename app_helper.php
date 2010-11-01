@@ -616,4 +616,25 @@
 
 			return $url;
 		}
+
+		/**
+		 * get the current url with no params
+		 *
+		 * @param bool $array return array (true) or string (false)
+		 * @return mixed the clean url
+		 */
+		public function cleanCurrentUrl($array = true){
+			$params = array(
+				'prefix' => $this->params['prefix'],
+				'plugin' => $this->params['plugin'],
+				'controller' => $this->params['controller'],
+				'action' => $this->params['action']
+			);
+
+			if($array){
+				return $params;
+			}
+
+			return Ruter::url($params);
+		}
 	}
