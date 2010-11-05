@@ -41,6 +41,7 @@ switch(Infinitas.params.prefix) {
 		function(require) {
 			$(document).ready(function(){
 				$('.tabs').tabs();
+				$('.accordions').accordion();
 				$.FormHelper.foucusOnFirst();
 				setupAjaxDropdowns();
 				setupRowSelecting();
