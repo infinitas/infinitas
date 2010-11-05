@@ -1,13 +1,17 @@
+div.field-sort,
 div.alphabet-filter{
 	margin: auto;
-	width: 710px;
-	height: 40px;
 	clear: both;
+	display:table;
 }
+
+	div.field-sort ul,
 	div.alphabet-filter ul{
 		list-style:none outside none;
+		display:inline-block;
 	}
 
+		div.field-sort li,
 		div.alphabet-filter li {
 			-moz-border-radius:3px 3px 3px 3px;
 			border-radius:3px 3px 3px 3px;
@@ -24,12 +28,20 @@ div.alphabet-filter{
 			text-decoration:none;
 		}
 
+			div.field-sort li.current,
 			div.alphabet-filter li.current{
 				padding:8px 4px;
 				cursor:auto;
 			}
 
+			div.field-sort li a,
 			div.alphabet-filter li a{
 				cursor:pointer;
 				color:#0073EA;
+			}
+
+			div.field-sort li input[type=checkbox],
+			div.alphabet-filter li input[type=checkbox]{
+				margin: 0;
+				padding: 0;
 			}
