@@ -83,6 +83,7 @@
 				'labels' => $byMonth['months'],
 				'axis_type' => array('x', 'y'),
 				'size' => '400,130',
+				'spacing' => array(26, 25),
 				'colors' => array(
 					'#001A4D',
 					'#4D81A8'
@@ -129,16 +130,13 @@
 	</h1>
 	<?php
 		echo $this->Chart->display(
-			array(
-				'name' => 'bar',
-				'type' => 'vertical',
-				'bar' => 'vertical'
-			),
+			'line',
 			array(
 				'data' => $byDay['totals'],
 				'labels' => $byDay['days'],
 				'axis_type' => array('x', 'y'),
-				'size' => '700,130',
+				'spacing' => array(20, 2),
+				'size' => '900,130',
 				'colors' => array(
 					'#101A4D',
 					'#4D81A8'
