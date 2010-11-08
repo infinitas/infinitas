@@ -13,7 +13,7 @@
     		}
 
     		$output = '<div class="filter-form"><h1>'.__('Search', true).'</h1>';
-       		foreach( $filter['fields'] as $field => $options){
+       		foreach($filter['fields'] as $field => $options){
        			if (is_array($options)){
 					switch($field){
 						case 'active':
@@ -44,7 +44,7 @@
 							'type' => 'text',
 							'div' => false,
 							'label' => false,
-							'value' => $options
+							'placeholder' => Inflector::humanize($options)
 						)
 					);
 				}
