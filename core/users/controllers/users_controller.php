@@ -393,6 +393,10 @@
 			$this->redirect($this->Auth->logout());
 		}
 
+		public function admin_dashboard(){
+			
+		}
+
 		public function admin_index(){
 			$this->User->recursive = 0;
 			$users = $this->paginate(null, $this->Filter->filter);
