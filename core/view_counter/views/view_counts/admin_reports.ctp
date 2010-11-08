@@ -82,10 +82,6 @@
 				'axis_type' => array('x', 'y'),
 				'size' => '400,130',
 				'spacing' => array(26, 25),
-				'colors' => array(
-					'#001A4D',
-					'#4D81A8'
-				),
 				'html' => array(
 					'class' => 'chart'
 				)
@@ -110,10 +106,6 @@
 				'labels' => $byWeek['weeks'],
 				'axis_type' => array('x', 'y'),
 				'size' => '400,130',
-				'colors' => array(
-					'#001A4D',
-					'#4D81A8'
-				),
 				'html' => array(
 					'class' => 'chart'
 				)
@@ -135,14 +127,41 @@
 				'axis_type' => array('x', 'y'),
 				'spacing' => array(20, 2),
 				'size' => '900,130',
+				'html' => array(
+					'class' => 'chart'
+				)
+			)
+		);
+	?>
+</div>
+<div class="dashboard grid_16">
+	<h1>
+		<?php echo __('Views by region', true); ?>
+		<small><?php echo $text; ?></small>
+	</h1>
+	<?php
+		echo $this->Chart->display(
+			'map',
+			array(
+				'data' => Set::extract('/total', $byRegion),
+				'places' => Set::extract('/country_code', $byRegion),
+				'size' => '600,400',
 				'colors' => array(
-					'#101A4D',
-					'#4D81A8'
+					'DBDBDB', // background
+					'BFF7AA', // from
+					'1A5903'  // to
 				),
 				'html' => array(
 					'class' => 'chart'
 				)
 			)
 		);
+
+		$list = array();
+		foreach($byRegion as $region){
+			$list[] = sprintf(__('%s - %s view(s)', true), __($region['country'], true), $region['total']);
+		}
+
+		echo $this->Design->arrayToList($list, 'country-data');
 	?>
 </div>

@@ -36,7 +36,8 @@
 
 			else if(isset($this->params['named']['ViewCount.model']) && !isset($this->params['named']['ViewCount.foreign_key'])){
 				$foreignKeys = $this->ViewCount->reportPopularRows($conditions, $this->params['named']['ViewCount.model']);
-				$this->set(compact('foreignKeys'));
+				$byRegion = $this->ViewCount->reportByRegion($conditions);
+				$this->set(compact('foreignKeys', 'byRegion'));
 			}
 			
 			else if(!isset($this->params['named']['ViewCount.model']) && !isset($this->params['named']['ViewCount.foreign_key'])){

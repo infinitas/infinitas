@@ -332,7 +332,7 @@
 			return $models;
 		}
 
-		public function reportByRegion($conditions = array()){
+		public function reportByRegion($conditions = array(), $limit = 24){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)',
 				'week'      => 'WEEK(ViewCount.created)',
@@ -363,7 +363,7 @@
 			$return = array();
 			foreach((array)$viewCounts as $viewCount){
 				$temp = $this->IpLocation->getCountryData($viewCount['ViewCount']['ip_address'], true);
-				if(strlen($temp['country_code']) > 2){
+				if(strlen($temp['country_code']) > 2 || count($return) >= $limit){
 					continue;
 				}
 

@@ -55,6 +55,12 @@
 			return $this->__views($views);
 		}
 
+		public function  onRequireCssToLoad(&$event, $data = null) {
+			return array(
+				'/view_counter/css/view_counter'
+			);
+		}
+
 		/**
 		 * generate some info for the number of views
 		 * 
