@@ -1,5 +1,5 @@
 <?php
-	if(isset($allModels)){
+	if(isset($allModels) && $allModels){
 		$icons = array();
 		foreach($allModels as $model){
 			$plugin = pluginSplit($model['ViewCount']['model']);
@@ -20,7 +20,7 @@
 			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
 		</div><?php
 	}
-	else if(isset($foreignKeys)){
+	else if(isset($foreignKeys) && $foreignKeys){
 		$icons = array();
 		foreach($foreignKeys as $foreignKey){
 			$model = str_replace('.', '', $foreignKey['ViewCount']['model']);
@@ -43,7 +43,7 @@
 			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
 		</div><?php
 	}
-	else if(isset($relatedModel)){ ?>
+	else if(isset($relatedModel) && $relatedModel){ ?>
 		<div class="dashboard grid_16">
 			<h1>
 				<?php
@@ -56,9 +56,7 @@
 			</h1>
 		</div><?php
 	}
-?>
-
-<?php
+	
 	$text = sprintf(
 		__('%d views from %s to %s', true),
 		array_sum($byMonth['totals']),
