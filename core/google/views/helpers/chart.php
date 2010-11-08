@@ -125,6 +125,7 @@
 					'labels' => true,
 					'position' => array('horizontal' => true, 'vertical' => true)
 				),
+				'spacing' => array(),
 				'orientation' => true,
 				'grid' => true,
 				'marker' => array(
@@ -267,6 +268,10 @@
 				'code' => 'chds=',
 				'seperator' => ','
 			),
+			'spacing' => array(
+				'code' => 'chbh=',
+				'seperator' => ','
+			),
 			'title' => array(//done
 				'code' => 'chtt=',
 				'seperator' => '+'
@@ -356,6 +361,13 @@
 			$this->cacheImagePath = $options['cacheImagePath'];
 		}
 
+		/**
+		 * method to access the errors.
+		 */
+		public function errors(){
+			pr($this->__errors);
+		}
+
 		public function test($name = 'pie3d') {
 			switch ($name) {
 				case 'pie3d':
@@ -403,13 +415,16 @@
 						$this->__errors[] = __('Param "' . $key . '" is not supported in chart type "' . $name . '"', true);
 						continue;
 					}
-				} else if (!isset($this->setup[$name][$key])) {
+				}
+
+				else if (!isset($this->setup[$name][$key])) {
 					$this->__errors[] = __('Param "' . $key . '" is not supported in chart type "' . $name . '"', true);
 					continue;
 				}
 
 				switch ($key) {
 					case 'data':
+					case 'spacing':
 					case 'labels':
 						$this->__setData($key, $value);
 						break;
@@ -433,7 +448,7 @@
 					case 'scale':
 						$this->__setScale($value);
 						break;
-
+					
 					case 'axis_type':
 					case 'axis_labels':
 					case 'axis_label_positions':
