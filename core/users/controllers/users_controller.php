@@ -105,6 +105,11 @@
 			}
 		}
 
+		/**
+		 * get some info about the user when they log in
+		 * 
+		 * @return array
+		 */
 		public function _getUserData(){
 			$data['User']['id']               = $this->Auth->user('id');
 			$data['User']['ip_address']       = $this->Session->read('GeoLocation.ip_address');
@@ -120,6 +125,9 @@
 			return $data;
 		}
 
+		/**
+		 * Check if there is a cookie to log the user in with
+		 */
 		public function _checkCookie(){
 			if (!empty($this->data)) {
 				$cookie = $this->Cookie->read('Auth.User');
@@ -131,6 +139,9 @@
 			}
 		}
 
+		/**
+		 * Create a remember me cookie
+		 */
 		public function _createCookie(){
 			if ($this->Auth->user()) {
 				if (!empty($this->data['User']['remember_me'])) {
@@ -159,6 +170,12 @@
 			$this->redirect($this->Auth->logout());
 		}
 
+		/**
+		 * register a new user
+		 *
+		 * Only works when you have allowed registrations. When the email validation
+		 * is on the user will be sent an email to confirm the registration
+		 */
 		public function register(){
 			if (!Configure::read('Website.allow_registration')) {
 				$this->Session->setFlash(__('Registration is disabled', true));
@@ -219,6 +236,15 @@
 			}
 		}
 
+		/**
+		 * Activate a registration
+		 *
+		 * When this was set in registration  the user needs to click the link
+		 * from an email. the code is then checked and if found it will activate
+		 * that user. aims to stop spam
+		 * 
+		 * @param string $hash
+		 */
 		public function activate($hash = null){
 	        if (!$hash){
 	            $this->Session->setFlash(__('Invalid address', true));
@@ -250,7 +276,11 @@
             }
 		}
 
-
+		/**
+		 * If the user has forgotten the pw they can reset it using this form.
+		 * An email will be sent if they supply the correct details which they
+		 * will need to click the link to be taken to the reset page.
+		 */
 	    public function forgot_password(){
 	        if (!empty($this->data)){
 	            $theUser = $this->User->find(
@@ -278,6 +308,13 @@
 	        }
 	    }
 
+		/**
+		 * After the forgot pw page and they have entered the correct details
+		 * they will recive an email with a link to this page. they can then
+		 * enter a new pw and it will be reset.
+		 * 
+		 * @param string $hash the hash of the reset request.
+		 */
 	    public function reset_password($hash = null){
 	        if (!$hash){
 	            $this->Session->setFlash(__('Reset request timed out, please try again', true));
@@ -314,7 +351,6 @@
 	        );
 	    }
 
-
 		public function admin_login(){
 			$this->layout = 'admin_login';
 
@@ -333,7 +369,7 @@
 					}
 
 					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
-					$this->Session->setFlash(
+					$this->notice(
 						sprintf(
 							__('Welcome back %s, your last login was from %s, %s on %s. (%s)', true),
 							$currentUser['username'],
@@ -426,6 +462,9 @@
 			$this->set(compact('groups'));
 		}
 
+		/**
+		 * for acl, should be removed.
+		 */
 		public function admin_initDB() {
 			$group =& $this->User->Group;
 			//Allow admins to everything
@@ -436,5 +475,4 @@
 			$group->id = 2;
 			//$this->Acl->deny($group, 'controllers');
 		}
-
 	}
