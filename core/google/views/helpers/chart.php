@@ -556,16 +556,15 @@
 		}
 
 		function __setAxis($type, $value) {
-			$data = '';
-
 			$isMultiDim = false;
-			foreach ($value as $values) {
+			foreach ((array)$value as $values) {
 				if (is_array($values)) {
 					$isMultiDim = true;
 					break;
 				}
 			}
 
+			$data = '';
 			if ($isMultiDim) {
 				foreach ($value as $index => $values) {
 					if (isset($this->map[$type]['index_title_seperator'])) {
