@@ -331,4 +331,55 @@
 
 			return $models;
 		}
+
+		public function reportByRegion($conditions = array()){
+			$this->virtualFields = array(
+				'sub_total' => 'COUNT(ViewCount.id)',
+				'week'      => 'WEEK(ViewCount.created)',
+				'month'     => 'MONTH(ViewCount.created)'
+			);
+
+			$viewCounts = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'ViewCount.id',
+						'ViewCount.model',
+						'ViewCount.ip_address',
+						'week',
+						'month',
+						'sub_total'
+					),
+					'conditions' => $conditions,
+					'group' => array(
+						'ViewCount.ip_address'
+					)
+				)
+			);
+
+			App::import('Lib', 'Libs.IpLocation');
+			$this->IpLocation = new IpLocation();
+
+			$return = array();
+			foreach((array)$viewCounts as $viewCount){
+				$temp = $this->IpLocation->getCountryData($viewCount['ViewCount']['ip_address'], true);
+				if(strlen($temp['country_code']) > 2){
+					continue;
+				}
+
+				if(!isset($return[$temp['country_code']])){
+					$return[$temp['country_code']]['total'] = $viewCount['ViewCount']['sub_total'];
+					$return[$temp['country_code']]['country'] = $temp['country'];
+					$return[$temp['country_code']]['country_code'] = $temp['country_code'];
+				}
+
+				else{
+					$return[$temp['country_code']]['total'] += $viewCount['ViewCount']['sub_total'];
+				}
+			}
+			unset($viewCounts);
+			rsort($return);
+
+			return $return;
+		}
 	}
