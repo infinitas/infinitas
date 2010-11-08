@@ -1,45 +1,45 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class ViewableBehavior extends ModelBehavior {
 		/**
-		* Contain settings indexed by model name.
-		*
-		* @var array
-		* @access private
-		*/
+		 * Contain settings indexed by model name.
+		 *
+		 * @var array
+		 * @access private
+		 */
 		public $__settings = array();
 
 		public $__session = array();
 
 		/**
-		* Initiate behavior for the model using specified settings.
-		* Available settings:
-		*
-		* - view_counter: string :: the field in the table that has the count
-		* - session_tracking false to disable, int for number of views to keep track of
-		* 	views are tracked by displayField and will do funny things if displayField is not a string.
-		*
-		* @param object $Model Model using the behaviour
-		* @param array $settings Settings to override for model.
-		* @access public
-		*/
+		 * Initiate behavior for the model using specified settings.
+		 * Available settings:
+		 *
+		 * - view_counter: string :: the field in the table that has the count
+		 * - session_tracking false to disable, int for number of views to keep track of
+		 * 	views are tracked by displayField and will do funny things if displayField is not a string.
+		 *
+		 * @param object $Model Model using the behaviour
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 */
 		public function setup(&$Model, $settings = array()) {
 			$default = array(
 				'view_counter' => 'views',

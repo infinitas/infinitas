@@ -2,6 +2,11 @@
 	class ViewCountsController extends ViewCounterAppController{
 		public $name = 'ViewCounts';
 
+		/**
+		 * Generate reports on views
+		 *
+		 * Create pretty graphs of all the data collected for the
+		 */
 		public function admin_reports(){
 			$conditions = $this->Filter->filter;
 			$conditions['month >= '] = date('Y-m', mktime(0, 0, 0, date('m') - 12));
@@ -17,11 +22,14 @@
 				$allModels = $this->ViewCount->reportPopularModels();
 				$this->set(compact('allModels'));
 			}
+
 			else if(isset($this->params['named']['ViewCount.model']) && !isset($this->params['named']['ViewCount.foreign_key'])){
 				$foreignKeys = $this->ViewCount->reportPopularRows($conditions, $this->params['named']['ViewCount.model']);
 				$this->set(compact('foreignKeys'));
 			}
+			
 			else if(isset($this->params['named']['ViewCount.model']) && isset($this->params['named']['ViewCount.foreign_key'])){
+				$conditions['ViewCount.foreign_key'] = $this->params['named']['ViewCount.foreign_key'];
 				$relatedModel = $this->ViewCount->reportPopularRows($conditions, $this->params['named']['ViewCount.model']);
 				if(isset($relatedModel[0])){
 					$relatedModel = $relatedModel[0];
