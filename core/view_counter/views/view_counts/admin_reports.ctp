@@ -81,6 +81,7 @@
 			array(
 				'data' => $byMonth['totals'],
 				'labels' => $byMonth['months'],
+				'axis_type' => array('x', 'y'),
 				'size' => '400,130',
 				'colors' => array(
 					'#001A4D',
@@ -108,6 +109,7 @@
 			array(
 				'data' => $byWeek['totals'],
 				'labels' => $byWeek['weeks'],
+				'axis_type' => array('x', 'y'),
 				'size' => '400,130',
 				'colors' => array(
 					'#001A4D',
@@ -135,6 +137,7 @@
 			array(
 				'data' => $byDay['totals'],
 				'labels' => $byDay['days'],
+				'axis_type' => array('x', 'y'),
 				'size' => '700,130',
 				'colors' => array(
 					'#101A4D',
