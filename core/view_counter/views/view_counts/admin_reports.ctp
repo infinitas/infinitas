@@ -66,7 +66,7 @@
 		date('M-d \'y', strtotime(sprintf('Y%sW%s', date('Y'), max($byWeek['weeks']) + 1)))
 	);
 ?>
-<div class="dashboard grid_16">
+<div class="dashboard half">
 	<h1>
 		<?php echo __('Views per Month', true); ?>
 		<small><?php echo $text; ?></small>
@@ -81,7 +81,7 @@
 			array(
 				'data' => $byMonth['totals'],
 				'labels' => $byMonth['months'],
-				'size' => '700,130',
+				'size' => '400,130',
 				'colors' => array(
 					'#001A4D',
 					'#4D81A8'
@@ -93,7 +93,7 @@
 		);
 	?>
 </div>
-<div class="dashboard grid_16">
+<div class="dashboard half">
 	<h1>
 		<?php echo __('Views per Week', true); ?>
 		<small><?php echo $text; ?></small>
@@ -108,7 +108,7 @@
 			array(
 				'data' => $byWeek['totals'],
 				'labels' => $byWeek['weeks'],
-				'size' => '700,130',
+				'size' => '400,130',
 				'colors' => array(
 					'#001A4D',
 					'#4D81A8'
