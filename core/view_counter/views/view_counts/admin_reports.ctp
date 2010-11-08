@@ -134,6 +134,11 @@
 		);
 	?>
 </div>
+<?php
+	if(!isset($byRegion)){
+		return;
+	}
+?>
 <div class="dashboard grid_16">
 	<h1>
 		<?php echo __('Views by region', true); ?>
