@@ -27,10 +27,37 @@
 		);
 
 		public $hasMany = array(
-			'CommentAttributes' => array(
-				'className' => 'Comments.CommentAttributes'
+			'CommentAttribute' => array(
+				'className' => 'Comments.CommentAttribute'
 			)
 		);
+
+		public function afterFind($results){
+			if(isset($results[0][0]['count'])){
+				return $results;
+			}
+
+			$base = array('schema' => $this->schema());
+			extract(
+				array_merge(
+					$base,
+					array('with' => 'CommentAttribute', 'foreignKey' => $this->hasMany['CommentAttribute']['foreignKey'])
+				)
+			);
+			
+			if (!Set::matches('/'.$with, $results)) {
+				return $results;
+			}
+
+			foreach ($results as $i => $item) {
+				foreach ($item[$with] as $field) {
+					$results[$i][$field['key']] = $field['val'];
+				}
+				unset($results[$i][$with]);
+			}
+
+			return $results;
+		}
 		
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);

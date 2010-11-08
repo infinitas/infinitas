@@ -36,7 +36,7 @@
 			$this->paginate = array(
 				'conditions' => $conditions,
 				'contain' => array(
-					'CommentAttributes'
+					'CommentAttribute'
 				)
 			);
 
@@ -58,7 +58,7 @@
 					'Comment.created',
 				),
 				'contain' => array(
-					//'CommentAttributes'
+					'CommentAttribute'
 				),
 				'order' => array(
 					'Comment.active' => 'ASC',
@@ -78,7 +78,7 @@
 				'active' => Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('comments','filterOptions'));
+			$this->set(compact('comments', 'filterOptions'));
 		}
 
 		function admin_reply(){

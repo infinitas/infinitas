@@ -55,7 +55,7 @@
             foreach($comments as $comment){
 				$rowClass = $this->Infinitas->rowClass();
                 ?>
-                    <tr class="<?php echo $rowClass; ?>">
+                    <tr class="<?php echo $rowClass; ?> multi-line">
                         <td rowspan="2"><?php echo $this->Form->checkbox($comment['Comment']['id']); ?>&nbsp;</td>
                         <td>
 							<?php
