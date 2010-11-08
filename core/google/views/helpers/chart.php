@@ -148,6 +148,12 @@
 				'data' => true, 'labels' => true, 'size' => true,
 				'axis_type' => true,
 				'axis_labels' => true,
+			),
+			'map' => array(
+				'data' => array(),
+				'size' => true,
+				'places' => array(),
+				'colors' => true,
 			)
 		);
 		/**
@@ -238,6 +244,10 @@
 				'code' => 'chd=t:',
 				'seperator' => ','
 			),
+			'places' => array(
+				'code' => 'chld=',
+				'seperator' => '|'
+			),
 			'labels' => array(//done
 				'code' => 'chl=',
 				'seperator' => '|'
@@ -247,8 +257,8 @@
 				'seperator' => 'x'
 			),
 			'colors' => array(
-				'code' => '',
-				'seperator' => ''
+				'code' => 'chco=',
+				'seperator' => ','
 			),
 			'solid_fill' => array(//done
 				'code' => 'chf=',
@@ -345,7 +355,7 @@
 			'venn' => 'cht=v',
 			// special
 			'meter' => 'cht=gom',
-			'map' => 'cht=t',
+			'map' => 'cht=map',
 			'qr_code' => 'cht=qr'
 		);
 
@@ -426,6 +436,8 @@
 					case 'data':
 					case 'spacing':
 					case 'labels':
+					case 'places':
+					case 'colors':
 						$this->__setData($key, $value);
 						break;
 
