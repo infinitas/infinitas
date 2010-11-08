@@ -19,6 +19,7 @@ img{
 	background-image: url('../img/transparent-30.png');
 	border-radius: 10px;
 	-moz-border-radius: 10px;
+	overflow: auto;
 }
 
 h1{
