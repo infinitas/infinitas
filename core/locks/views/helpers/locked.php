@@ -42,7 +42,7 @@
 						'alt' => __('Locked', true),
 						'width' => '16px',
 						'title' => sprintf(
-							__( 'This record was locked %s by %s', true ),
+							__('Locked :: This record was locked %s by %s', true ),
 							$this->Time->timeAgoInWords($row['Lock']['created']),
 							$row['Locker']['username']
 						)
@@ -55,7 +55,7 @@
 				array(
 					'alt' => __('Not Locked', true),
 					'width' => '16px',
-					'title' => __('This record is not locked', true)
+					'title' => __('Unlocked :: This record is not locked', true)
 				)
 			);
 		}
