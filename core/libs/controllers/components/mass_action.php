@@ -64,8 +64,15 @@
 			}
 
 			if (empty($ids)) {
-				$this->Controller->Session->setFlash(__('Nothing was selected, please select something and try again.', true));
-				$this->Controller->redirect(isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : $this->Controller->referer());
+				$this->Controller->notice(
+					__('Nothing was selected, please select something and try again.', true),
+					array(
+						'level' => 'warning',
+						'redirect' => isset($this->Controller->data['Confirm']['referer']) 
+							? $this->Controller->data['Confirm']['referer'] 
+							: true
+					)
+				);
 			}
 
 			return $ids;
@@ -85,8 +92,13 @@
 				return $form['action'];
 			}
 
-			$this->Controller->Session->setFlash(__('I dont know what to do.', true));
-			$this->Controller->redirect($this->Controller->referer());
+			$this->Controller->notice(
+				__('I dont know what to do.', true),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
 		}
 
 		/**
@@ -148,23 +160,26 @@
 		 */
 		public function __handleDeletes($ids) {
 			$conditions = array($this->__modelName . '.' . $this->Controller->{$this->__modelName}->primaryKey => $ids);
-			$result = $this->Controller->{$this->__modelName}->deleteAll($conditions, true, true);
-			$message = __('deleted', true);
-
-			if($result == true) {
-				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' have been', true) . ' ' . $message);
+			$params = array();
+			
+			if($this->Controller->{$this->__modelName}->deleteAll($conditions, true, true) == true) {
+				$params = array(
+					'message' => sprintf(__('The %s have been deleted', true), $this->__prettyModelName)
+				);
 			}
 
 			else {
-				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' could not be', true) . ' ' . $message);
+				$params = array(
+					'level' => 'error',
+					'message' => sprintf(__('The %s could not be deleted', true), $this->__prettyModelName)
+				);
 			}
 
-			if(isset($this->Controller->data['Confirm']['referer'])) {
-				$this->Controller->redirect($this->Controller->data['Confirm']['referer']);
-			}
-			else {
-				$this->Controller->redirect($this->Controller->referer());
-			}
+			$params['redirect'] = isset($this->Controller->data['Confirm']['referer'])
+				? $this->Controller->data['Confirm']['referer']
+				: true;
+
+			$this->Controller->notice($params['message'], $params);
 		}
 
 		/**
@@ -182,7 +197,7 @@
 			);
 
 			if($this->Controller->{$this->__modelName}->hasField('modified')){
-				$newValues[$this->__modelName . '.modified'] = '\''.date('Y-m-d H:m:s').'\'';
+				$newValues[$this->__modelName . '.modified'] = '\'' . date('Y-m-d H:m:s') . '\'';
 			}
 
 			// unbind things for the update. dont need all the models for this.
@@ -195,12 +210,22 @@
 
 			if ($this->Controller->{$this->__modelName}->updateAll($newValues, $conditions)) {
 				$this->Controller->{$this->__modelName}->afterSave(false);
-				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' were toggled', true));
-				$this->Controller->redirect($this->Controller->referer());
+
+				$this->Controller->notice(
+					sprintf(__('The %s were toggled', true), $this->__prettyModelName),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
-			$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' could not be toggled', true));
-			$this->Controller->redirect($this->Controller->referer());
+			$this->Controller->notice(
+				sprintf(__('The %s could not be toggled', true), $this->__prettyModelName),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
 		}
 
 		/**
@@ -226,25 +251,46 @@
 				}
 
 				$record[$this->__modelName]['active'] = 0;
-				unset( $record[$this->__modelName]['created'] );
-				unset( $record[$this->__modelName]['modified'] );
-				unset( $record[$this->__modelName]['lft'] );
-				unset( $record[$this->__modelName]['rght'] );
+				unset($record[$this->__modelName]['created']);
+				unset($record[$this->__modelName]['modified']);
+				unset($record[$this->__modelName]['lft']);
+				unset($record[$this->__modelName]['rght']);
+				unset($record[$this->__modelName]['ordering']);
+				unset($record[$this->__modelName]['order_id']);
+				unset($record[$this->__modelName]['views']);
+
+				/**
+				 * unset anything fields that are countercache
+				 */
+				foreach($record[$this->__modelName] as $field => $value){
+					if(strstr($field, '_count')){
+						unset($record[$this->__modelName][$field]);
+					}
+				}
 
 				$this->Controller->{$this->__modelName}->create();
 
 				if ($this->Controller->{$this->__modelName}->save($record)) {
 					$saves++;
-				} ;
+				}
 			}
 
 			if ($saves) {
-				$this->Controller->Session->setFlash(__($saves . ' copies of ' . $this->__prettyModelName . ' was made', true));
-				$this->Controller->redirect($this->Controller->referer());
+				$this->Controller->notice(
+					sprintf(__('%s copies of %s were made', true), $saves, $this->__prettyModelName),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
-			$this->Controller->Session->setFlash(__('No copies could be made.', true));
-			$this->Controller->redirect($this->Controller->referer());
+			$this->Controller->notice(
+				sprintf(__('No copies of %s could be made', true), $this->__prettyModelName),
+				array(
+					'level' => 'error',
+					'redirect' => true
+				)
+			);
 		}
 
 		/**
@@ -360,14 +406,21 @@
 			}
 
 			if($result == true) {
-				$this->Controller->Session->setFlash(__('The ' . $this->__prettyModelName . ' have been moved', true));
+				$params = array(
+					'message' => sprintf(__('The %s have been moved', true), $this->__prettyModelName)
+				);
 			}
 
 			else {
-				$this->Controller->Session->setFlash(__('Some of the ' . $this->__prettyModelName . ' could not be moved', true));
+				$params = array(
+					'level' => 'warning',
+					'message' => sprintf(__('Some of the %s could not be moved', true), $this->__prettyModelName)
+				);
 			}
 
-			$this->Controller->redirect($this->Controller->data['Move']['referer']);
+			$params['redirect'] = $this->Controller->data['Move']['referer'];
+
+			$this->Controller->notice($params['message'], $params);
 		}
 
 		/**
@@ -386,28 +439,5 @@
 			}
 
 			$this->Controller->redirect(array('action' => $action, $ids[0]));
-		}
-
-		/**
-		* Global Unlock.
-		*
-		* Finds all tables in the app that have locked fields and unlocks them.
-		*/
-		public function unlock($null = null) {
-			$tables = $this->Controller->_getLockableTables();
-			$this->db = ConnectionManager::getDataSource('default');
-
-			$status = true;
-
-			foreach($tables as $table){
-				$status = $status && $this->db->query('UPDATE `'.$table['table'].'` SET `locked` = 0, `locked_by` = null, `locked_since` = null;');
-			}
-			if ($status) {
-				$this->Controller->Session->setFlash(__('All records unlocked', true));
-			}
-			else{
-				$this->Controller->Session->setFlash(__('There was a problem unlocking some records', true));
-			}
-			$this->Controller->redirect($this->Controller->referer());
 		}
 	}
