@@ -1,3 +1,113 @@
+v0.8 alpha
+================================================================================
+Installer
+	- completely rewritten
+	- added some shell tasks to create releases for other developers
+
+View Counter
+	- track views on any model rows
+	- easy to use reporting methods
+	- modules for graphs
+
+Core Structure
+	- Huge structural changes to make the core more simmilar to user plugins
+	- All code broken down to be more loosly coupled
+
+Removed from the core (all available at http://github.com/infinitas-plugins)
+	- blog
+	- cms
+	- cart
+	- wysiwyg's
+	- debugkit
+
+Events
+	- now available in shells
+	- fixed passing the view when used in helpers
+
+Users
+	- Logging every request time to report logged in users when not using the DB
+
+Reader source
+	- split up xml source to be more generic
+	- used for the json source
+	- can now be used for just about anything
+
+Admin Interface
+	- Rewriten, nice and clean. Simple to use
+
+Menu Plugin
+	- Core admin menu items are no longer in the db, all done through events
+	- new methods for generating icons and admin menus
+	- related code refactored into the plugin
+
+Routes Plugin
+	- Core routes are no longer in the db, admin stuff is done through events
+	- Moved the routing code to some libs
+
+Geo Location
+	- refactored a bit out of the main component to be more modular
+
+Email plugin
+	- imap datasource
+	- save different email configs in the db
+	- more to come
+
+Comments
+	- few bugs fixed
+	- now auto binds and injects the contain
+
+Feeds
+	- No longer just a behaviour
+	- create endless feeds with condition, limits and any fields from the backend
+
+Locks
+	- no longer need to call other methods, all happens automagiacally
+
+Assets
+	- Moved all core js, css and images to an "assets plugin" so that its not poluting the /webroot folder
+
+JavaScript
+	- updated jquery
+	- added some more jquery ui plugins
+	- added some more js effects to the admin area
+
+Tags
+	- properly integrated into infinitas now
+
+Contacts
+	- added some methods for formatting that can be used elsewere
+	- fixed a few bugs
+
+Configs
+	- All configs moved to files and loaded with Configure::load()
+	- Can still be overloaded from the db, no need to change the defaults in the files
+	- All cached so there is no need to load the files each request.
+
+Short Urls
+	- Moved to a plugin
+	- Added events to shorten urls and "un-shorten" them
+
+Google
+	- added a few more things to the charting helper from the static api
+
+Filter
+	- added a method to build a letter index list like a | b | c | d .... x | y | z with links filter by that letter.
+
+Webmaster
+	- manage robots.txt from the backend
+	- create site maps (using events)
+
+Deep in the core
+	- APC is automatically used when available, falling back to the previous core name spaced cahce
+	- It is now possible to include any libs you may need right in the begining of a request (this is used for things like profiling etc, when you need to be at the start)
+	- any extra dirs in APP are assumed to be plugins, this allows you to have APP/my_plugins automatically be detected and bootstrapped
+	- It is now possible to include extra db connections without modifying the database.php file (using events)
+
+General
+	- Lots of refactoring, and bloat removal
+	- Removing duplicate code so that things are more DRY	
+
+
 v0.7 alpha
 ================================================================================
 Contacts us
