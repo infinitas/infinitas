@@ -19,6 +19,7 @@
 	 * @since CakePHP(tm) v 0.2.9
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
+
 	Configure::write('debug', 2);
 	Configure::write('log', true);
 	define('LOG_ERROR', 2);
