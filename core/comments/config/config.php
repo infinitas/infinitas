@@ -20,9 +20,19 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 $config['Comments'] = array(
-		 'auto_moderate' => true,
-		 'purge' => '4 weeks',
-		 'time_limit' => '4 weeks',
-		 'fields' => 'username,email,website,comment'
+	$config['Comments'] = array(
+		/**
+		 * configuration
+		 */
+		'auto_moderate' => true,
+		'purge' => '4 weeks',
+		'time_limit' => '4 weeks',
+		'fields' => 'username,email,website,comment',
+		 
+		/**
+		 * rating params
+		 */
+		'spam_threshold' => -30,
+		'maximum_links' => 2,
+		'minimum_length' => 20
 	 );

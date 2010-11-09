@@ -183,13 +183,15 @@
 			
 			$data[$this->__settings[$model->alias]['class']] = $this->__rateComment($model, $data[$this->__settings[$model->alias]['class']]);
 
-			$data[$this->__settings[$model->alias]['class']]['active'] = 0;
-			
-			if ($data[$this->__settings[$model->alias]['class']]['status'] == 'spam') {
-				$data[$this->__settings[$model->alias]['class']]['active'] == 0;
+			if($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_points']] < Configure::read('Comments.spam_threshold')){				
+				return false;
 			}
 
-			else if (Configure::read('Comments.auto_moderate') === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam') {
+			$data[$this->__settings[$model->alias]['class']]['active'] = 0;			
+			if (Configure::read('Comments.auto_moderate') === true &&
+				$data[$this->__settings[$model->alias]['class']]['status'] == 'pending' ||
+				$data[$this->__settings[$model->alias]['class']]['status'] == 'approved'
+			) {
 				$data[$this->__settings[$model->alias]['class']]['active'] = 1;
 			}
 
@@ -302,7 +304,7 @@
 			$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
 			// How many links are in the body
 			// -1 per link if over 2, otherwise +2 if less than 2
-			$maxLinks = Configure::read('Comment.maximum_links');
+			$maxLinks = Configure::read('Comments.maximum_links');
 			$maxLinks > 0 ? $maxLinks : 2;
 			
 			$points = $this->totalLinks > $maxLinks
@@ -342,8 +344,8 @@
 			// +2 if more then 20 chars and no links, -1 if less then 20
 			$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
 
-			$minLenght = Configure::read('Comment.minimum_length') > 0
-				? Configure::read('Comment.minimum_length')
+			$minLenght = Configure::read('Comments.minimum_length') > 0
+				? Configure::read('Comments.minimum_length')
 				: 20;
 
 			if ($length >= $minLenght && $this->totalLinks <= 0) {
@@ -364,12 +366,20 @@
 		 * active they get points added, if they are marked as spam points are
 		 * deducted.
 		 *
+		 * on dogmatic69.com 95% of the spam had a number as the email address,
+		 * There is hardly any people that have a number as the email address.
+		 *
 		 * @var $model object the model object
 		 * @var $data array the data from the form
 		 *
 		 * @return int the amout of points to deduct
 		 */
 		private function __rateEmail($model, $data) {
+			$parts = explode('@', $data[$this->__settings[$model->alias]['column_email']]);
+			if(is_int($parts[0])){
+				return -15;
+			}
+			
 			$points = 0;
 			$comments = $model->{$this->__settings[$model->alias]['class']}->find(
 				'all',
