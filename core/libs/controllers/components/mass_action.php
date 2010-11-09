@@ -239,8 +239,7 @@
 		* @param array $ids array of ids.
 		*/
 		public function copy($ids) {
-			$copyText = sprintf('- %s ( %s )', __('copy', true), date('Y-m-d'));
-
+			$copyText = sprintf(' - %s (%s)', __('copy', true), date('Y-m-d'));
 			$saves = 0;
 			foreach($ids as $id) {
 				$record = $this->Controller->{$this->__modelName}->read(null, $id);
@@ -269,8 +268,7 @@
 				}
 
 				$this->Controller->{$this->__modelName}->create();
-
-				if ($this->Controller->{$this->__modelName}->save($record)) {
+				if ($this->Controller->{$this->__modelName}->save($record, array('validate' => false))) {
 					$saves++;
 				}
 			}
