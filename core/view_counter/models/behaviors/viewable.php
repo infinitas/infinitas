@@ -51,35 +51,6 @@
 			}
 
 			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], ife(is_array($settings), $settings, array()));
-
-			$Model->bindModel(
-				array(
-					'hasMany' => array(
-						'ViewCount' => array(
-							'className' => 'ViewCounter.ViewCount',
-							'foreignKey' => 'foreign_key',
-							'conditions' => array(
-								'model' => $Model->plugin.'.'.$Model->alias
-							),
-							'limit' => 0
-						)
-					)
-				)
-			);
-
-			$Model->ViewCount->bindModel(
-				array(
-					'belongsTo' => array(
-						$Model->alias => array(
-							'className' => $Model->alias,
-							'foreignKey' => 'foreign_key',
-							'counterCache' => 'views',
-							'counterScope' => array(
-							)
-						)
-					)
-				)
-			);
 		}
 
 		/**
@@ -110,53 +81,5 @@
 			$Model->ViewCount->save($view);
 
 			return $data;
-		}
-
-		/**
-		 * Get the most viewed records for the table
-		 *
-		 * @param object $Model the model that is being used.
-		 * @param int $limit the number or records to return
-		 *
-		 * @return array the most viewed records
-		 */
-		public function getMostViewed(&$Model, $limit = 10){
-			$fields = array(
-				$Model->alias.'.id',
-				$Model->alias.'.'.$Model->displayField,
-				$Model->alias.'.views'
-			);
-
-			if($Model->hasField('slug')){
-				$fields[] = $Model->alias.'.slug';
-			}
-
-			$rows = $Model->find(
-				'all',
-				array(
-					'fields' => $fields,
-					'conditions' => array(
-						$Model->alias.'.views > ' => 0
-					),
-					'order' => array(
-						$Model->alias.'.views' => 'DESC'
-					),
-					'limit' => (int)$limit
-				)
-			);
-
-			return $rows;
-		}
-
-		/**
-		 * Get the total number of views for a selected model
-		 *
-		 * Short cut method for models using the viewable behavior to get the
-		 * total number of views for that model.
-		 * 
-		 * @return int the number of rows found
-		 */
-		public function getToalViews(&$Model, $foreignKey = 0){
-			return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias, $foreignKey);
 		}
 	}

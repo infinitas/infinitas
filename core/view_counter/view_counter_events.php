@@ -55,7 +55,10 @@
 			return $this->__views($views);
 		}
 
-		public function  onRequireCssToLoad(&$event, $data = null) {
+		/**
+		 * Include some css
+		 */
+		public function onRequireCssToLoad(&$event, $data = null) {
 			return array(
 				'/view_counter/css/view_counter'
 			);
@@ -68,19 +71,28 @@
 		 * @return string the view text
 		 */
 		private function __views($views = 0){
+			$text = sprintf(__('<span class="popular">%s view%s</span>', true), $views, $views < 2 ? '' : 's');
 			switch($views){
 				case 0:
 					$text = __('Go on, be the first to view this post', true);
 					break;
 
-				case $views > 100:
+				case $views < 100:
 					$text = sprintf(__('%s views', true), $views);
 					break;
-
-				default:
-					$text = sprintf(__('<span class="popular">%s view%s</span>', true), $views, $views < 2 ? '' : 's');
-					break;
 			}
+			
 			return $text;
+		}
+
+		/**
+		 * attach the reporting behavior for models with views
+		 */
+		public function onAttachBehaviors(&$event) {
+			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
+				if ($event->Handler->hasField('views')) {
+					$event->Handler->Behaviors->attach('ViewCounter.ViewableReporting');
+				}
+			}
 		}
 	}
