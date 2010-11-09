@@ -80,13 +80,12 @@
 				if(Configure::read('debug') < 1){
 					unset($this->params['url']['mustache']);
 				}
-
+				
 				if(!isset($this->params['url']['mustache']) || $this->params['url']['mustache'] != 'false'){
-					$out = $this->Mustache->render('{{%UNESCAPED}}{{%DOT-NOTATION}}' . $out, $this->__vars);
+					$out = $this->Mustache->render($out, $this->__vars['viewVars']);
 				}
 			}
 			
 			return $out;
 		}
-
 	}
