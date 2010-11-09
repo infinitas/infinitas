@@ -49,19 +49,15 @@
 					)
 				),
 				'url' => array(
-					'onlyOneFilledIn' => array(
-						'rule' => array('validateEitherOr', array('url', 'plugin')),
-						'message' => __('Please only use url or the route selection', true)
-					),
 					'validUrl' => array(
 						'rule' => 'validateUrlOrAbsolute',
 						'message' => __('please use a valid url (absolute or full)', true)
 					)
 				),
 				'plugin' => array(
-					'validateOnlyOneFilledIn' => array(
-						'rule' => array('validateEitherOr', array('url', 'plugin')),
-						'message' => __('Please use the external link or the route', true)
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select where this route will go', true)
 					)
 				),
 				'values' => array(
