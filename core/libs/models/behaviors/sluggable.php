@@ -63,7 +63,11 @@
 
 			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], ife(is_array($settings), $settings, array()));
 
-			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];	
+			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];
+
+			if($Model->_schema[$Model->displayField]['length'] > $Model->_schema[$this->__settings[$Model->alias]['slug']]['length']){
+				trigger_error(sprintf(__('%s slugs will be truncated, slug field too short', true), $Model->alias), E_USER_WARNING);
+			}
 		}
 
 		/**
