@@ -51,7 +51,7 @@
 					$this->settings[$Model->alias]['categoryAlias'] => array(
 						'className' => $this->settings[$Model->alias]['categoryClass'],
 						'foreignKey' => $this->settings[$Model->alias]['foreignKey'],
-						'counterCache' => $this->settings[$Model->alias]['counterCache'],
+						//'counterCache' => $this->settings[$Model->alias]['counterCache'],
 						'fields' => array(
 							'Category.id',
 							'Category.title',
@@ -73,5 +73,19 @@
 		public function generateCategoryList(&$Model) {
 			return $Model->Category->generatetreelist();
 			//return ClassRegistry::init('Categories.Category')->generatetreelist();
+		}
+
+		/**
+		 * @todo special counterCache that finds relations and counts them all
+		 *
+		 * find all models that are using the category plugin, count the rows in
+		 * each and then save that as the count.
+		 *
+		 * @param object $Model the model being worked with
+		 * @param bool $created if the row is new or updated
+		 * @return bool true
+		 */
+		public function afterSave($Model, $created) {
+			return parent::afterSave($Model, $created);
 		}
 	}
