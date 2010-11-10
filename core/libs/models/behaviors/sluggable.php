@@ -52,7 +52,7 @@
 		* @access public
 		*/
 		function setup(&$Model, $settings = array()) {
-			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'length' => 100, 'overwrite' => false, 'translation' => null);
+			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'overwrite' => false, 'translation' => null);
 			if (Configure::read('debug') > 0) {
 				$default['overwrite'] = true;
 			}
@@ -62,6 +62,8 @@
 			}
 
 			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], ife(is_array($settings), $settings, array()));
+
+			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];	
 		}
 
 		/**
