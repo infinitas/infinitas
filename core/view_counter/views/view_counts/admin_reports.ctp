@@ -20,6 +20,7 @@
 			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
 		</div><?php
 	}
+	
 	else if(isset($foreignKeys) && $foreignKeys){
 		$icons = array();
 		foreach($foreignKeys as $foreignKey){
@@ -43,6 +44,7 @@
 			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
 		</div><?php
 	}
+	
 	else if(isset($relatedModel) && $relatedModel){ ?>
 		<div class="dashboard grid_16">
 			<h1>
