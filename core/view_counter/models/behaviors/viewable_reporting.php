@@ -64,9 +64,7 @@
 						$Model->alias => array(
 							'className' => $Model->alias,
 							'foreignKey' => 'foreign_key',
-							'counterCache' => 'views',
-							'counterScope' => array(
-							)
+							'counterCache' => 'views'
 						)
 					)
 				)
