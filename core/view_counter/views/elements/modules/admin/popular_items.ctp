@@ -20,42 +20,53 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	$header = $link = '';
+	$byWeek = $conditions = array();
+	
 	if($this->plugin == 'view_counter' || $this->plugin == 'management'){
 		$conditions['month >= '] = date('m') - 1;
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
 		$byWeek['model'] = pluginSplit($byWeek['model']);
 		$header = __('Popular content this month', true);
 	}
+	
 	else{
-		$conditions['month >= '] = date('m') - 1;
-		$conditions[] = 'ViewCount.model LIKE %' . $this->plugin . '%';
+		$conditions['month >= '] = date('m') -3;
+		if(isset($model)){
+			$conditions['ViewCount.model'] = $model;
+		}
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
-		$byWeek['model'] = pluginSplit($byWeek['model']);
-		$header = sprintf(__('Popular %s %s', true), $byWeek['model'][0], $byWeek['model'][1]);
-	} ?>
+		$header = sprintf(__('Views for the last few weeks<small>Total: %s</small>', true), array_sum($byWeek['totals']));
+	}
+?>
+<div class="dashboard half">
+	<h1><?php echo $header; ?></h1>
+	<?php
+		echo $this->Chart->display(
+			'line',
+			array(
+				'data' => $byWeek['totals'],
+				'labels' => $byWeek['weeks'],
+				'size' => '430,130',
+				'html' => array(
+					'class' => 'chart'
+				)
+			)
+		);
 
-	<div class="dashboard half">
-
-		<h1><?php echo $header; ?></h1>
-		<?php
-			echo $this->Chart->display(
+		if($this->plugin != 'view_counter'){
+			echo $this->Html->link(
+				__('More reports', true),
 				array(
-					'name' => 'bar',
-					'type' => 'vertical',
-					'bar' => 'vertical'
+					'plugin' => 'view_counter',
+					'controller' => 'view_counts',
+					'action' => 'report',
+					'ViewCount.model' => isset($class) ? $class : ''
 				),
 				array(
-					'data' => $byWeek['totals'],
-					'labels' => $byWeek['weeks'],
-					'size' => '400,130',
-					'colors' => array(
-						'#001A4D',
-						'#4D81A8'
-					),
-					'html' => array(
-						'class' => 'chart'
-					)
+					'class' => 'chart'
 				)
 			);
-		?>
-	</div>
+		}
+	?>
+</div>
