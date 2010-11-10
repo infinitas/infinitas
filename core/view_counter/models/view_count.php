@@ -251,12 +251,18 @@
 
 		private function __bindRelation($model){
 			$Model = ClassRegistry::init($model);
-
+			$fields = array();
+			
 			$fields[str_replace('.', '', $model)] = array(
 				$Model->primaryKey,
 				$Model->displayField
 			);
 			unset($Model);
+
+			$_fields = array();
+			foreach(current($fields) as $field){
+				$_fields[] = current(array_keys($fields)) . '.' . $field;
+			}
 
 			$this->bindModel(
 				array(
@@ -264,7 +270,7 @@
 						current(array_keys($fields)) => array(
 							'className' => $model,
 							'foreignKey' => 'foreign_key',
-							'fields' => current($fields)
+							'fields' => $_fields
 						)
 					)
 				)
@@ -290,7 +296,9 @@
 						'sub_total'
 					),
 					'contain' => array(
-						current(array_keys($this->__bindRelation($model)))
+						current(array_keys($this->__bindRelation($model))) => array(
+							'fields' => $this->belongsTo[current(array_keys($this->__bindRelation($model)))]['fields']
+						)
 					),
 					'conditions' => $conditions,
 					'group' => array(

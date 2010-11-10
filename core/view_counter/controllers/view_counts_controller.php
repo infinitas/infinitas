@@ -16,6 +16,10 @@
 				$conditions['ViewCount.foreign_key'] = $this->params['named']['ViewCount.foreign_key'];
 			}
 
+			if(isset($this->params['named']['ViewCount.model'])){
+				$conditions['ViewCount.model'] = $this->params['named']['ViewCount.model'];
+			}
+
 			$byMonth = $this->ViewCount->reportByMonth($conditions);
 
 			$conditions['month >= '] = date('m') -3;

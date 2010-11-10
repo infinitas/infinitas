@@ -25,9 +25,10 @@
 		$icons = array();
 		foreach($foreignKeys as $foreignKey){
 			$model = str_replace('.', '', $foreignKey['ViewCount']['model']);
+			$plugin = pluginSplit($foreignKey['ViewCount']['model']);
 			$icons[] = array(
-				'name' => sprintf('%s #%d', $model, $foreignKey[$model]['id']),
-				'description' => sprintf('%d views for %s', $foreignKey['ViewCount']['sub_total'], $foreignKey[$model]['title']),
+				'name' => sprintf('%s #%d', $plugin[1], $foreignKey[$model]['id']),
+				'description' => sprintf('%d views for %s', $foreignKey['ViewCount']['sub_total'], $foreignKey[$model][ClassRegistry::init($model)->displayField]),
 				'icon' => '/view_counter/img/row.png',
 				'dashboard' => array(
 					'ViewCount.model' => $foreignKey['ViewCount']['model'],
@@ -121,19 +122,24 @@
 		<small><?php echo $text; ?></small>
 	</h1>
 	<?php
-		echo $this->Chart->display(
-			'line',
-			array(
-				'data' => $byDay['totals'],
-				'labels' => $byDay['days'],
-				'axis_type' => array('x', 'y'),
-				'spacing' => array(20, 2),
-				'size' => '900,130',
-				'html' => array(
-					'class' => 'chart'
+		if(count($byDay['days']) > 1){
+			echo $this->Chart->display(
+				'line',
+				array(
+					'data' => $byDay['totals'],
+					'labels' => $byDay['days'],
+					'axis_type' => array('x', 'y'),
+					'spacing' => array(20, 2),
+					'size' => '900,130',
+					'html' => array(
+						'class' => 'chart'
+					)
 				)
-			)
-		);
+			);
+		}
+		else{
+			?><span class="chart"><?php echo __('Not enough data collected', true); ?></span><?php
+		}
 	?>
 </div>
 <?php
@@ -147,28 +153,34 @@
 		<small><?php echo $text; ?></small>
 	</h1>
 	<?php
-		echo $this->Chart->display(
-			'map',
-			array(
-				'data' => Set::extract('/total', $byRegion),
-				'places' => Set::extract('/country_code', $byRegion),
-				'size' => '600,400',
-				'colors' => array(
-					'DBDBDB', // background
-					'BFF7AA', // from
-					'1A5903'  // to
-				),
-				'html' => array(
-					'class' => 'chart'
+		$countryCodes = Set::extract('/country_code', $byRegion);
+		if(!empty($countryCodes)){
+			echo $this->Chart->display(
+				'map',
+				array(
+					'data' => Set::extract('/total', $byRegion),
+					'places' => $countryCodes,
+					'size' => '600,400',
+					'colors' => array(
+						'DBDBDB', // background
+						'BFF7AA', // from
+						'1A5903'  // to
+					),
+					'html' => array(
+						'class' => 'chart'
+					)
 				)
-			)
-		);
+			);
 
-		$list = array();
-		foreach($byRegion as $region){
-			$list[] = sprintf(__('%s - %s view(s)', true), __($region['country'], true), $region['total']);
+			$list = array();
+			foreach($byRegion as $region){
+				$list[] = sprintf(__('%s - %s view(s)', true), __($region['country'], true), $region['total']);
+			}
+
+			echo $this->Design->arrayToList($list, 'country-data');
 		}
-
-		echo $this->Design->arrayToList($list, 'country-data');
+		else{
+			?><span class="chart"><?php echo __('Not enough data collected', true); ?></span><?php
+		}
 	?>
 </div>
