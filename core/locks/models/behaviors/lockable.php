@@ -66,7 +66,7 @@
 		 * so that things do not remain locked when its not needed.
 		 */
 		private function __gc(&$Model){
-			$Model->Lock->clearOldLocks();
+			ClassRegistry::init('Locks.Lock')->clearOldLocks();
 		}
 
 		/**
