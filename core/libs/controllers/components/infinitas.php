@@ -532,7 +532,7 @@
 		 */
 		public function noticeSaved(){
 			$this->Controller->notice(
-				sprintf(__('Your %s was saved', true), Inflector::singularize($this->prettyModelName)),
+				sprintf(__('Your %s was saved', true), Inflector::singularize($this->Controller->prettyModelName)),
 				array(
 					'redirect' => ''
 				)
@@ -546,7 +546,7 @@
 		 */
 		public function noticeNotSaved(){
 			$this->Controller->notice(
-				sprintf(__('There was a problem saving your %s', true), Inflector::singularize($this->prettyModelName)),
+				sprintf(__('There was a problem saving your %s', true), Inflector::singularize($this->Controller->prettyModelName)),
 				array(
 					'level' => 'warning'
 				)
@@ -560,7 +560,7 @@
 		 */
 		public function noticeInvalidRecord(){
 			$this->Controller->notice(
-				sprintf(__('Invalid %s selected, please try again', true), $this->prettyModelName),
+				sprintf(__('Invalid %s selected, please try again', true), $this->Controller->prettyModelName),
 				array(
 					'level' => 'error',
 					'redirect' => true
@@ -576,7 +576,7 @@
 		 */
 		public function noticeDeleted(){
 			$this->Controller->notice(
-				sprintf(__('Your %s were deleted', true), $this->prettyModelName),
+				sprintf(__('Your %s were deleted', true), $this->Controller->prettyModelName),
 				array(
 					'redirect' => true
 				)
@@ -591,7 +591,7 @@
 		 */
 		public function noticeNotDeleted(){
 			$this->Controller->notice(
-				sprintf(__('Your %s was not deleted', true), Inflector::singularize($this->prettyModelName)),
+				sprintf(__('Your %s was not deleted', true), Inflector::singularize($this->Controller->prettyModelName)),
 				array(
 					'level' => 'error',
 					'redirect' => true
