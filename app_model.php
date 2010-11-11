@@ -70,6 +70,11 @@
 			}
 
 			parent::__construct($id, $table, $ds);
+			
+			$thisClass = get_class($this);
+			if(($this->alias != 'Session') && $thisClass == 'AppModel' || $thisClass == 'Model'){
+				trigger_error(sprintf(__('%s is using AppModel, please create a model file', true), $this->alias), E_USER_WARNING);
+			}
 
 			if (isset($this->_schema) && is_array($this->_schema) && php_sapi_name() != 'cli') {
 				if($this->Behaviors->enabled('Event')) {
