@@ -38,9 +38,25 @@
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
 		$header = sprintf(__('Views for the last few weeks<small>Total: %s</small>', true), array_sum($byWeek['totals']));
 	}
+
+
+	if($this->plugin != 'view_counter'){
+		$link = $this->Html->link(
+			__('More reports', true),
+			array(
+				'plugin' => 'view_counter',
+				'controller' => 'view_counts',
+				'action' => 'reports',
+				'ViewCount.model' => isset($class) ? $class : ''
+			),
+			array(
+				'class' => 'chart'
+			)
+		);
+	}
 ?>
 <div class="dashboard half">
-	<h1><?php echo $header; ?></h1>
+	<h1><?php echo sprintf('%s<small>%s</small>', $header, $link); ?></h1>
 	<?php
 		echo $this->Chart->display(
 			'line',
@@ -53,20 +69,5 @@
 				)
 			)
 		);
-
-		if($this->plugin != 'view_counter'){
-			echo $this->Html->link(
-				__('More reports', true),
-				array(
-					'plugin' => 'view_counter',
-					'controller' => 'view_counts',
-					'action' => 'report',
-					'ViewCount.model' => isset($class) ? $class : ''
-				),
-				array(
-					'class' => 'chart'
-				)
-			);
-		}
 	?>
 </div>
