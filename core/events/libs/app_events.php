@@ -65,9 +65,18 @@
 			exit;
 		}
 
-		public function onPluginRollCall(){
-			
-		}
+		public function onPluginRollCall(){}
+
+		/**
+		 * Add database connections from your plugins with this trigger.
+		 * Its called in appModel before anything is created, even before default
+		 * (which is a reserved value)
+		 * 
+		 * Event should return in the format 'name' => array('configs')
+		 *
+		 * @param object $event
+		 */
+		public function onRequireDatabaseConfigs(&$event){}
 
 		/**
 		 * Load the default cache settings.
