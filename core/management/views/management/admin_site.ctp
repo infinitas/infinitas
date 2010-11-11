@@ -15,6 +15,13 @@
 			'dashboard' => array('plugin' => 'configs', 'controller' => 'configs', 'action' => 'index')
 		),
 		array(
+			'name' => 'Locks',
+			'description' => 'Stop others editing things you are working on',
+			'icon' => '/locks/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
+		),
+		array(
 			'name' => 'Menus',
 			'description' => 'Build menus for your site',
 			'icon' => '/menus/img/icon.png',
@@ -65,13 +72,6 @@
 			'icon' => '/contact/img/icon.png',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index')
-		),
-		array(
-			'name' => 'Locks',
-			'description' => 'Stop others editing things you are working on',
-			'icon' => '/locks/img/icon.png',
-			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
 		),
 		array(
 			'name' => 'Modules',
