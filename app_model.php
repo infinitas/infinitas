@@ -74,7 +74,7 @@
 			$this->__setupDatabaseConnections();
 			
 			$thisClass = get_class($this);
-			if(($this->alias != 'Session') && $thisClass == 'AppModel' || $thisClass == 'Model'){
+			if(php_sapi_name() != 'cli' && $this->alias != 'Session' && ($thisClass == 'AppModel' || $thisClass == 'Model')){
 				trigger_error(sprintf(__('%s is using AppModel, please create a model file', true), $this->alias), E_USER_WARNING);
 			}
 
