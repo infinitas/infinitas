@@ -46,7 +46,7 @@
 
 		public $helpers = array('Html', 'Form', 'Libs.Wizard', 'Text');
 
-		private $__phpVersion = '5.1';
+		private $__phpVersion = '5.0';
 
 		private $__supportedDatabases = array(
 			'mysql' => array(
