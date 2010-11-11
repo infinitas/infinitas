@@ -1,8 +1,6 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
+	* base database config file
 	*
 	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	*
@@ -11,8 +9,8 @@
 	* @filesource
 	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
+	* @package Infinitas.installer
+	* @subpackage Infinitas.installer.config
 	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	* @since 0.5a
 	*/
@@ -41,13 +39,4 @@
 			'port' => '{default_port}',
 			'encoding' => 'utf8'
 		);
-
-		public $xml = array(
-			'datasource' => 'Libs.Xml'
-		);
-
-		public $json = array(
-			'datasource' => 'Libs.Json'
-		);
 	}
-?>
