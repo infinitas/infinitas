@@ -38,7 +38,10 @@
 			$conditions['ViewCount.model'] = $model;
 		}
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
-		$header = sprintf(__('Views for the last few weeks<small>Total: %s</small>', true), array_sum($byWeek['totals']));
+		if(!isset($byWeek['totals'])){
+			$byWeek['totals'] = array();
+		}
+		$header = sprintf(__('Views for the last few weeks', true));
 	}
 
 
@@ -58,7 +61,7 @@
 	}
 ?>
 <div class="dashboard half">
-	<h1><?php echo sprintf('%s<small>%s</small>', $header, $link); ?></h1>
+	<h1><?php echo sprintf('%s<small>%s<br/>Total: %s</small>', $header, $link, array_sum($byWeek['totals'])); ?></h1>
 	<?php
 		if(!isset($byWeek['totals']) || empty($byWeek['totals'])){
 			?><span class="chart"><?php echo __('Not enough data collected'); ?></span><?php
