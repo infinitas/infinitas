@@ -12,4 +12,12 @@
 				}
 			}
 		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Trash' => array('controller' => 'trash', 'action' => 'index')
+			);
+
+			return $menu;
+		}
 	}
