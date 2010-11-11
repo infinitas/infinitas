@@ -42,11 +42,12 @@ h1{
 		-moz-box-shadow: none;
 		-moz-border-radius: 0 0 5px 5px;
 	}
-	
+
 	h1 small{
 		float: right;
 		font-size:10px;
 		line-height:20px;
+		text-align:right;
 	}
 
 	h1 a{
@@ -231,7 +232,7 @@ table.listing tr.multi-line td{
 #menucontainer{
 	height:50px;
 	color:#FFFFFF;
-	font-family:Helvetica,Arial,Verdana,sans-serif;	
+	font-family:Helvetica,Arial,Verdana,sans-serif;
 	margin-left:0;
 	width:980px;
 }
@@ -348,7 +349,7 @@ form fieldset,
 	.dashboard .info a{
 		color: #E4E7EA;
 	}
-	
+
 	.dashboard .info{
 		border-top:1px dotted #E4E7EA;
 		margin-left:10px;
@@ -414,7 +415,7 @@ form fieldset,
 		border:#dcdfe3 solid 1px;
 		border-color:#dcdfe3 #d0d4d8 #d0d4d8 #dcdfe3;
 	}
-	
+
 	.dashboard ul.icons li a:hover{
 		background-color:#e4e7ea;
 		border-color:#c3c9ce;
@@ -439,7 +440,7 @@ ul.pagination{
 		ul.pagination li.form{
 			padding-top: 5px;
 		}
-		
+
 		ul.pagination li.text{
 			padding-top: 5px;
 		}
@@ -535,7 +536,7 @@ form select{
 		margin:2px;
 		padding-left:10px;
 	}
-	
+
 	form .date select,
 	form .smaller select{
 		width: 31%;
