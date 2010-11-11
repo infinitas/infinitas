@@ -497,6 +497,18 @@
 		}
 
 		/**
+		 * get a list of all the models for the selected plugin
+		 */
+		public function admin_getModels(){
+			if (!isset($this->params['named']['plugin'])) {
+				$this->set('json', array('error'));
+				return;
+			}
+			
+			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getModels($this->params['named']['plugin']));
+		}
+
+		/**
 		 * get a list of all the actions for the selected plugin + controller
 		 */
 		public function admin_getActions(){
