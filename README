@@ -1,0 +1,15 @@
+Installation
+================================================================================
+1) cd into webroot
+2) git clone git://github.com/infinitas/infinitas.git infinitas/
+3) cd infinitas/
+
+4) If you would like the extra plugins (recomended)
+	4a) git submodule init
+	4b) git submodule update
+
+5) make config/ tmp/ writeable for the installation
+6) create a db (remember the name and login details for just now)
+7) visit the corresponding url to where you cloned it to (http://localhost/infinitas/ maybe)
+8) Follow the instructions
+9) pat yourself on the back
