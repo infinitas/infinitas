@@ -18,30 +18,25 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Trash', array( 'url' => array( 'controller' => 'trash', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('Trash', array('url' => array('controller' => 'trash', 'action' => 'mass')));
 
-        $massActions = $this->Core->massActionButtons(
-            array(
-                'restore',
-                'delete'
-            )
-        );
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+        $massActions = $this->Core->massActionButtons(array('restore', 'delete'));
+		echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'Type', 'model' ) => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('Type', 'model') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'deleted' ) => array(
+                    $this->Paginator->sort('deleted') => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort( 'Deleted By', 'Deleter.name' ) => array(
@@ -50,8 +45,7 @@
                 )
             );
 
-            foreach ( $trashed as $trash )
-            {
+            foreach ($trashed as $trash) {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
                         <td><?php echo $this->Form->checkbox( $trash['Trash']['id'] ); ?>&nbsp;</td>
@@ -59,13 +53,13 @@
                 			<?php echo Inflector::humanize($trash['Trash']['name']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php $type = explode('.', $trash['Trash']['model']); echo $type[0] . (isset($type[1]) ? ' ' . $type[1] : ''); ?>&nbsp;
+                			<?php $type = pluginSplit($trash['Trash']['model']); echo $type[0] . (isset($type[1]) ? ' ' . prettyName($type[1]) : ''); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $trash['Trash']['deleted']; ?>&nbsp;
+                			<?php echo $this->Time->timeAgoInWords($trash['Trash']['deleted']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $trash['Trash']['deleted_by']; ?>&nbsp;
+                			<?php echo $trash['User']['username']; ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

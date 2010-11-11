@@ -54,11 +54,6 @@
 				if ($event->Handler->hasField('lft') && $event->Handler->hasField('rght') && !$event->Handler->Behaviors->enabled('Tree')) {
 					$event->Handler->Behaviors->attach('Tree');
 				}
-
-				$noTrashModels = array('Session', 'SchemaMigration', 'Config', 'Aco', 'Aro', 'Trash');
-				if (!in_array($event->Handler->name, $noTrashModels) && !isset($event->Handler->noTrash) && !$event->Handler->Behaviors->enabled('Libs.Trashable')) {
-					$event->Handler->Behaviors->attach('Libs.Trashable');
-				}
 			}
 		}
 

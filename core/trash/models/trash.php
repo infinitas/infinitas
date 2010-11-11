@@ -1,7 +1,18 @@
 <?php
-	class Trash extends ManagementAppModel {
+	class Trash extends CoreAppModel {
 	    //put your code here
-		var $useTable = 'trash';
+		public $useTable = 'trash';
+
+		public $belongsTo = array(
+			'User' => array(
+				'className' => 'Users.User',
+				'foreignKey' => 'deleted_by',
+				'fields' => array(
+					'User.id',
+					'User.username'
+				)
+			)
+		);
 
 		public function restore($ids) {
 			$trashed = $this->find('all', array('conditions' => array('id' => $ids)));
