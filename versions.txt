@@ -97,6 +97,9 @@ Webmaster
 	- manage robots.txt from the backend
 	- create site maps (using events)
 
+Trash
+	- refactored to a plugin
+
 Deep in the core
 	- APC is automatically used when available, falling back to the previous core name spaced cahce
 	- It is now possible to include any libs you may need right in the begining of a request (this is used for things like profiling etc, when you need to be at the start)
