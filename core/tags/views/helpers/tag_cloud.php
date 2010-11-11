@@ -86,7 +86,7 @@ class TagCloudHelper extends AppHelper {
 			$size = $options['minSize'] + (($tag['Tag']['weight'] - $minWeight) * (($options['maxSize'] - $options['minSize']) / ($spread)));
 			$size = ceil($size);
 			
-			$cloud[] = $this->Html->link($tag['Tag']['name'], $options['url'], array('id' => 'tag-' . $tag['Tag']['id'])) . ' ';
+			$cloud[] = $this->Html->link($tag['Tag']['name'], $options['url'], array('class' => 'tag-' . $tag['Tag']['id'])) . ' ';
 		}
 
 		return implode($options['between'], $cloud);
