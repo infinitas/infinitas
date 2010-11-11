@@ -70,6 +70,8 @@
 			}
 
 			parent::__construct($id, $table, $ds);
+
+			$this->__setupDatabaseConnections();
 			
 			$thisClass = get_class($this);
 			if(($this->alias != 'Session') && $thisClass == 'AppModel' || $thisClass == 'Model'){
@@ -84,6 +86,32 @@
 			}
 			elseif(php_sapi_name() == 'cli') {
 				$this->actsAs = array();
+			}
+		}
+
+		/**
+		 * allow plugins to use their own db configs. If there is a conflict,
+		 * eg: a plugin tries to set a config that alreay exists an error will
+		 * be thrown and the connection will not be created.
+		 *
+		 * default is a reserved connection that can only be set in database.php
+		 * and not via the events.		 
+		 */
+		private function __setupDatabaseConnections(){
+			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));			
+
+			$existingConnections = ConnectionManager::getInstance()->config;			
+			
+			foreach($connections as $plugin => $connection){
+				$key = current(array_keys($connection));
+				$connection = current($connection);
+
+				if(strtolower($key) == 'default' || (isset($existingConnections->{$key}) && $existingConnections->{$key} !== $connection)){
+					trigger_error(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping', true), $key, $plugin), E_USER_WARNING);
+					continue;
+				}
+
+				ConnectionManager::create($key, $connection);
 			}
 		}
 
