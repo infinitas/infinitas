@@ -22,14 +22,16 @@
 	 */
 	$header = $link = '';
 	$byWeek = $conditions = array();
-	
+
 	if($this->plugin == 'view_counter' || $this->plugin == 'management'){
 		$conditions['month >= '] = date('m') - 1;
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCount')->reportByWeek($conditions);
-		$byWeek['model'] = pluginSplit($byWeek['model']);
+		if(isset($byWeek['model'])){
+			$byWeek['model'] = pluginSplit($byWeek['model']);
+		}
 		$header = __('Popular content this month', true);
 	}
-	
+
 	else{
 		$conditions['month >= '] = date('m') -3;
 		if(isset($model)){
@@ -58,16 +60,21 @@
 <div class="dashboard half">
 	<h1><?php echo sprintf('%s<small>%s</small>', $header, $link); ?></h1>
 	<?php
-		echo $this->Chart->display(
-			'line',
-			array(
-				'data' => $byWeek['totals'],
-				'labels' => $byWeek['weeks'],
-				'size' => '430,130',
-				'html' => array(
-					'class' => 'chart'
+		if(!isset($byWeek['totals']) || empty($byWeek['totals'])){
+			?><span class="chart"><?php echo __('Not enough data collected'); ?></span><?php
+		}
+		else{
+			echo $this->Chart->display(
+				'line',
+				array(
+					'data' => $byWeek['totals'],
+					'labels' => $byWeek['weeks'],
+					'size' => '430,130',
+					'html' => array(
+						'class' => 'chart'
+					)
 				)
-			)
-		);
+			);
+		}
 	?>
 </div>
