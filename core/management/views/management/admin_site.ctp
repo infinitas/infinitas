@@ -36,6 +36,13 @@
 			'dashboard' => array('plugin' => 'themes', 'controller' => 'themes', 'action' => 'index')
 		),
 		array(
+			'name' => 'Trash',
+			'description' => 'Manage the deleted content',
+			'icon' => '/trash/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'trash', 'controller' => 'trash', 'action' => 'index')
+		),
+		array(
 			'name' => 'Webmaster',
 			'description' => 'Manage your sites robots files and sitemaps',
 			'icon' => '/webmaster/img/icon.png',
