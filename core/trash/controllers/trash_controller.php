@@ -1,5 +1,5 @@
 <?php
-	class TrashController extends CoreAppController {
+	class TrashController extends TrashAppController {
 		var $name = 'Trash';
 
 		function beforeFilter(){

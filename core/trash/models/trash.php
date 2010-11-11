@@ -1,5 +1,5 @@
 <?php
-	class Trash extends CoreAppModel {
+	class Trash extends TrashAppModel {
 	    //put your code here
 		public $useTable = 'trash';
 

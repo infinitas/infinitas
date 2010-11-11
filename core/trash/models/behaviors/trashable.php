@@ -1,10 +1,10 @@
 <?php
 	class TrashableBehavior extends ModelBehavior {
-		var $Trash = null;
+		public $Trash = null;
 
 	    public function beforeDelete(&$Model, $cascade = true) {
 			if($this->Trash === null) {
-				$this->Trash = ClassRegistry::init('Management.Trash');
+				$this->Trash = ClassRegistry::init('Trash.Trash');
 			}
 
 			$user_id = 0; // shell
