@@ -7,7 +7,7 @@
 		 *
 		 * @var string
 		 */
-		public $useDbConfig = 'imap';
+		public $useDbConfig = 'emails';
 
 		/**
 		 * Behaviors to attach

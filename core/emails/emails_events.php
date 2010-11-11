@@ -1,5 +1,13 @@
 <?php
 	final class EmailsEvents extends AppEvents{
+		public function onRequireDatabaseConfigs(&$event){
+			return array(
+				'emails' => array(
+					'datasource' => 'Emails.Imap'
+				)
+			);
+		}
+
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Emails',
