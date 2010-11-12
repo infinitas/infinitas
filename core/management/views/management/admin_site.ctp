@@ -74,6 +74,13 @@
 			'dashboard' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index')
 		),
 		array(
+			'name' => 'Content',
+			'description' => 'Mange the way content works inside Infinitas',
+			'icon' => '/contents/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index')
+		),
+		array(
 			'name' => 'Modules',
 			'description' => 'Add sections of output to your site with ease',
 			'icon' => '/modules/img/icon.png',
