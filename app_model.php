@@ -130,6 +130,36 @@
 		}
 
 		/**
+		 * get a unique list of any model field, used in the search
+		 * 
+		 * @param string $displayField the field to search by
+		 * @return array the data from the find
+		 */
+		public function uniqueList($displayField = ''){
+			if(empty($displayField) || !is_string($displayField) || $this->hasField($displayField)){
+				return false;
+			}
+
+			$displayField = $this->alias . '.' . $displayField;
+
+			return $this->find(
+				'list',
+				array(
+					'fields' => array(
+						$displayField,
+						$displayField
+					),
+					'group' => array(
+						$displayField
+					),
+					'order' => array(
+						$displayField => 'asc'
+					)
+				)
+			);
+		}
+
+		/**
 		 * Delete all cahce for the plugin.
 		 *
 		 * Will automaticaly delete all the cache for a model that it can detect.
