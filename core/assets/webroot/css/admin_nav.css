@@ -550,6 +550,7 @@ form select{
 form div.error{
 	border: 1px dotted #FFDAAF;
 	margin:10px;
+	clear:both;
 }
 div.error .error-message{
 	color: red;
