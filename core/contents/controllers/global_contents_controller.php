@@ -74,6 +74,19 @@
 			$this->set(compact('plugins'));
 		}
 
+		/**
+		 * cant add from here
+		 */
+		public function admin_add(){
+			$this->notice(
+				__('Please do not add content from here', true),
+				array(
+					'level' => 'warning',
+					'redirect' => true
+				)
+			);
+		}
+
 		public function admin_edit($id = null, $query = null){
 			parent::admin_edit($id, $query);
 
