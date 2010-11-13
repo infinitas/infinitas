@@ -363,30 +363,6 @@
 			return $this->Gravatar->image($email, $options);
 		}
 
-		/**
-		 * @depreciated
-		 */
-		public function niceBox($class = '', $content = false) {
-			$out = '<div class="niceBox ' . $class . '"><div class="top"><div class="top"><div class="top"></div></div></div>';
-			$out .= '<div class="middle">';
-			if ($content) {
-				$out .= $content . '<div class="clr"></div>';
-			}
-			if ($content) {
-				$out .= $this->niceBoxEnd();
-			}
-			return $out;
-		}
-
-		/**
-		 * @depreciated
-		 */
-		public function niceBoxEnd() {
-			$out = '</div>';
-			$out .= '<div class="bottom"><div class="bottom"><div class="bottom"></div></div></div></div>';
-			return $out;
-		}
-
 		public function massActionButtons($buttons = null, $niceBox = false) {
 			if (!$buttons) {
 				$this->errors[] = 'No buttons set';
