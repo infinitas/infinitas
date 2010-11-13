@@ -177,7 +177,7 @@
 		 * @param array $models if you want to link to a related model
 		 * @return string borked on error, html link when all is good
 		 */
-		public function adminQuickLink($row = array(), $url = array(), $model = ''){
+		public function adminQuickLink($row = array(), $url = array(), $model = '', $urlOnly = false){
 			$id = $text = null;
 
 			if(is_array($url)){
@@ -206,6 +206,10 @@
 			}
 			else{
 				$url .= '/'.$id;
+			}
+
+			if($urlOnly){
+				return $url;
 			}
 
 			return $this->Html->link(!$text ? $id : $text, $url);
@@ -396,6 +400,36 @@
 			}
 
 			return '<div class="massActions"><div class="wrapper">' . $out . '</div><div class="clr">&nbsp;</div></div>';
+		}
+
+		public function adminPreview($row = array(), $url = array(), $model = ''){
+			if(empty($url)){
+				$url = array();
+			}
+			if(!is_array($url)){
+				return false;
+			}
+			
+			return $this->Html->link(
+				$this->Html->image(
+					$this->Image('actions', 'arrow-left'),
+					array(
+						'title' => __('Preview', true),
+						'alt' => __('Preview', true)
+					)
+				),
+				array_merge(
+					$this->adminQuickLink($row, $url, $model, true),
+					array(
+						'action' => 'preview',
+						'?' => 'TB_iframe=true&width=1000'
+					)
+				),
+				array(
+					'target' => '_blank',
+					'class' => 'thickbox'
+				)
+			);
 		}
 
 		/**
