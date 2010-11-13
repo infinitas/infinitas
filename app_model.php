@@ -133,27 +133,32 @@
 		 * get a unique list of any model field, used in the search
 		 * 
 		 * @param string $displayField the field to search by
+		 * @param bool $primaryKey if true will return array(id, field) else array(field, field)
 		 * @return array the data from the find
 		 */
-		public function uniqueList($displayField = ''){
-			if(empty($displayField) || !is_string($displayField) || $this->hasField($displayField)){
+		public function uniqueList($displayField = '', $primaryKey = false){
+			if(empty($displayField) || !is_string($displayField) || !$this->hasField($displayField)){
 				return false;
 			}
 
-			$displayField = $this->alias . '.' . $displayField;
+			$displayField = $displayField;
+
+			$primaryKey = $primaryKey
+				? $this->primaryKey
+				: $displayField;
 
 			return $this->find(
 				'list',
 				array(
 					'fields' => array(
-						$displayField,
-						$displayField
+						$this->alias . '.' . $primaryKey,
+						$this->alias . '.' . $displayField
 					),
 					'group' => array(
-						$displayField
+						$this->alias . '.' . $displayField
 					),
 					'order' => array(
-						$displayField => 'asc'
+						$this->alias . '.' . $displayField => 'asc'
 					)
 				)
 			);
