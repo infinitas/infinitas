@@ -36,9 +36,12 @@
 
 		public function admin_add(){
 			parent::admin_add();
+
+			$plugins = $this->GlobalLayout->getPlugins();
+			$this->set(compact('plugins'));
 		}
 
-		public function  admin_edit($id = null, $query = array()) {			
+		public function admin_edit($id = null, $query = array()) {			
 			parent::admin_edit($id, $query);
 
 			$plugins = $this->GlobalLayout->getPlugins();

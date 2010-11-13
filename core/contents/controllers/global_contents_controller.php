@@ -26,7 +26,7 @@
 			$this->set(compact('contents', 'filterOptions'));
 		}
 
-		public function admin_move(){
+		public function admin_transfer(){
 			if(!empty($this->data)){
 				if(isset($this->data['GlobalContent']['plugin']) && isset($this->data['GlobalContent']['model'])){
 					$model = sprintf('%s.%s', $this->data['GlobalContent']['plugin'], $this->data['GlobalContent']['model']);
@@ -78,7 +78,27 @@
 			parent::admin_edit($id, $query);
 
 			$groups = array(0 => __('Public', true)) + $this->GlobalContent->Group->find('list');
-			$layouts = $this->GlobalContent->GlobalLayout->find('list');
+			$layouts = $this->GlobalContent->GlobalLayout->find(
+				'list',
+				array(
+					'conditions' => array(
+						'GlobalLayout.model' => $this->data['GlobalContent']['model']
+					)
+				)
+			);
+
+			if(empty($layouts)){
+				$this->notice(
+					__('Please create a layout for this content type', true),
+					array(
+						'level' => 'warning',
+						'redirect' => array(
+							'controller' => 'global_layouts',
+							'action' => 'add'
+						)
+					)
+				);
+			}
 
 			$this->set(compact('groups', 'layouts'));
 		}

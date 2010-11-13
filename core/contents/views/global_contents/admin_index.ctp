@@ -20,7 +20,7 @@
      */
 
     echo $this->Form->create('GlobalContent', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(array('edit', 'delete'));
+        $massActions = $this->Infinitas->massActionButtons(array('edit', 'move', 'delete'));
 		echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">

@@ -78,7 +78,7 @@
 				'all',
 				array(
 					'conditions' => array(
-						$Model->alias . '.' . $Model->displayField . ' IS NULL'
+						$Model->alias . '.' . $Model->displayField . ' IS NOT NULL'
 					),
 					'contain' => false,
 					'limit' => $limit
@@ -86,11 +86,13 @@
 			);
 			
 			foreach($rows as $row){
+				$newContent = array();
 				$newContent[$this->alias] = $row[$Model->alias];
 				$newContent[$this->alias]['foreign_key'] = $row[$Model->alias][$Model->primaryKey];
 				$newContent[$this->alias]['model'] = $Model->plugin . '.' . $Model->alias;
 				
 				unset($newContent[$this->alias][$Model->primaryKey]);
+				$this->create();
 				if($this->save($newContent)){
 					$Model->id = $row[$Model->alias][$Model->primaryKey];
 					$Model->saveField($Model->displayField, '', false);
