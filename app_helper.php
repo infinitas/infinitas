@@ -29,7 +29,7 @@
 		public $helpers = array(
 			'Html', 'Form',
 			//'Libs.Design',
-			'Libs.Wysiwyg',
+			'Libs.Wysiwyg', 'Libs.Image'
 			//'Libs.Gravatar'
 		);
 
@@ -415,7 +415,7 @@
 			
 			return $this->Html->link(
 				$this->Html->image(
-					$this->Image('actions', 'arrow-left'),
+					$this->Image->getRelativePath('actions', 'new-window'),
 					array(
 						'title' => __('Preview', true),
 						'alt' => __('Preview', true)
@@ -425,12 +425,14 @@
 					$this->adminQuickLink($row, $url, $model, true),
 					array(
 						'action' => 'preview',
+						'admin' => false,
 						'?' => 'TB_iframe=true&width=1000'
 					)
 				),
 				array(
 					'target' => '_blank',
-					'class' => 'thickbox'
+					'class' => 'new-window thickbox',
+					'escape' => false
 				)
 			);
 		}
