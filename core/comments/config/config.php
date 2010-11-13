@@ -24,15 +24,15 @@
 		/**
 		 * configuration
 		 */
-		'auto_moderate' => true,
-		'purge' => '4 weeks',
-		'time_limit' => '4 weeks',
-		'fields' => 'username,email,website,comment',
+		'auto_moderate' => true,   // automatically accept and acticvate comments that are not spam
+		'purge' => '4 weeks',      // automatic spam purge
+		'time_limit' => '4 weeks', // after this time commets are closed
+		'fields' => 'username,email,website,comment', // fileds for the form
 		 
 		/**
 		 * rating params
 		 */
-		'spam_threshold' => -30,
-		'maximum_links' => 2,
-		'minimum_length' => 20
+		'spam_threshold' => -25, // below this things are just ignored
+		'maximum_links' => 2,    // number of links before things are considered spammy
+		'minimum_length' => 20   // below this its spammy
 	 );
