@@ -111,20 +111,16 @@
 	    if(in_array($alias, $ignore)){
 			continue;
 		}
-    	?><div class="info"><?php
-	    	echo $this->Design->niceBox(); ?>
-	        	<h3><?php echo __(prettyName($alias), true); ?></h3><?php
-	        	echo $this->Form->input('Move.'.$belongsTo['foreignKey'], array('label' => false, 'empty' => __(Configure::read('Website.empty_select'), true)));
-	        echo $this->Design->niceBoxEnd();
+    	?><div class="info">
+			<h3><?php echo __(prettyName($alias), true); ?></h3><?php
+			echo $this->Form->input('Move.'.$belongsTo['foreignKey'], array('label' => false, 'empty' => __(Configure::read('Website.empty_select'), true)));
         ?></div><?php
     }
 
     foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
-    	?><div class="info"><?php
-	    	echo $this->Design->niceBox(); ?>
-	        	<h3><?php echo __(prettyName(Inflector::pluralize($alias)), true); ?></h3><?php
-	        	echo $this->Form->input('Move.'.$alias, array('label' => false, 'multiple' => 'multiple', 'options' => ${strtolower($alias)}));
-	        echo $this->Design->niceBoxEnd();
+    	?><div class="info">
+			<h3><?php echo __(prettyName(Inflector::pluralize($alias)), true); ?></h3><?php
+			echo $this->Form->input('Move.'.$alias, array('label' => false, 'multiple' => 'multiple', 'options' => ${strtolower($alias)}));
         ?></div><?php
     }
 

@@ -81,8 +81,7 @@
 	}
 
 	echo "\techo \$this->Form->create('{$modelClass}'{$fileUpload});\n".
-        "\t\techo \$this->Infinitas->adminEditHead(\$this);\n".
-        "\t\techo \$this->Design->niceBox(); ?>\n";
+        "\t\techo \$this->Infinitas->adminEditHead(\$this);\n";
 		echo "\t\t\t<div class=\"data\">\n";
 			echo "\t\t\t\t<?php\n";
 				echo "\t\t\t\t\techo \$this->Form->input('$primaryKey');\n";
@@ -127,7 +126,6 @@
 
         echo "\t\t\t<div class=\"config\">\n";
 	        echo "\t\t\t\t<?php\n";
-		        echo "\t\t\t\t\techo \$this->Design->niceBox();\n";
 			        echo "\t\t\t\t\t\t?><h2><?php __('Configuration'); ?></h2><?php\n";
 					foreach ($fields as $field) {
 						if (in_array($field, $configs)) {
@@ -140,10 +138,8 @@
 							echo "\t\t\t\t\t\techo \$this->Form->input('{$assocName}');\n";
 						}
 					}
-		        echo "\t\t\t\t\techo \$this->Design->niceBoxEnd();\n";
 	        echo "\t\t\t\t?>\n";
         echo "\t\t\t</div><?php\n";
-        echo "\t\techo \$this->Design->niceBoxEnd();\n";
 	echo "\techo \$this->Form->end();\n";
 echo "?>\n";
 

@@ -18,36 +18,28 @@
      */
 
 
-	echo $this->Form->create( 'IpAddress' );
+	echo $this->Form->create('IpAddress');
         echo $this->Infinitas->adminEditHead();
-        echo $this->Design->niceBox();
 	        ?>
 				<div class="data">
 					<?php
 						echo $this->Form->input('id');
 						echo $this->Form->input('ip_address', array('style' => 'width:99%; clear:both;'));
 						echo $this->Form->input('active');
-						echo $this->Core->wysiwyg('IpAddress.description');
+						echo $this->Infinitas->wysiwyg('IpAddress.description');
 				    ?>
 				</div>
 				<div class="config">
-					<?php
-						echo $this->Design->niceBox();
-						?>
-							<p>
-								<?php
-									echo __('You can enter a normal ip addres here to '.
-										'block it. You can also use wild cards like '.
-										'123.25..*..* (the 2 dots is not a mistake) '.
-										'or you can enter a regex expresion that will '.
-										' be used in php\'s ereg() method to block ranges.', true);
-								?>
-							</p>
+					<p>
 						<?php
-				        echo $this->Design->niceBoxEnd();
-				    ?>
+							echo __('You can enter a normal ip addres here to '.
+								'block it. You can also use wild cards like '.
+								'123.25..*..* (the 2 dots is not a mistake) '.
+								'or you can enter a regex expresion that will '.
+								' be used in php\'s ereg() method to block ranges.', true);
+						?>
+					</p>
 				</div>
 			<?php
-        echo $this->Design->niceBoxEnd();
     echo $this->Form->end();
 ?>

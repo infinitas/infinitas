@@ -147,16 +147,20 @@
 				App::import('Helper', 'FilterHelper');
 			}
 
-			$filters = $this->Design->niceBox(
-				'filter',
+			return sprintf(
+				'<div class="adminTopBar">%s%s</div><div class="filters">%s</div>',
+				$this->adminPageHead(),
+				$massActions,
 				FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions)
 			);
-
-			return $this->Design->niceBox('adminTopBar', $this->adminPageHead() . $massActions) . $filters;
 		}
 
 		public function adminOtherHead($massActions = null) {
-			return $this->niceBox('adminTopBar', $this->adminPageHead() . $massActions);
+			return sprintf(
+				'<div class="adminTopBar">%s%s</div>',
+				$this->adminPageHead(),
+				$massActions
+			);
 		}
 
 		public function adminEditHead($actions = array('save', 'cancel')){
@@ -367,7 +371,7 @@
 			return $this->Gravatar->image($email, $options);
 		}
 
-		public function massActionButtons($buttons = null, $niceBox = false) {
+		public function massActionButtons($buttons = null) {
 			if (!$buttons) {
 				$this->errors[] = 'No buttons set';
 				return false;
@@ -395,11 +399,10 @@
 					);
 			}
 
-			if ($niceBox) {
-				return $this->Design->niceBox('massActions', $out);
-			}
-
-			return '<div class="massActions"><div class="wrapper">' . $out . '</div><div class="clr">&nbsp;</div></div>';
+			return sprintf(
+				'<div class="massActions"><div class="wrapper">%s</div></div>',
+				$out
+			);
 		}
 
 		public function adminPreview($row = array(), $url = array(), $model = ''){
