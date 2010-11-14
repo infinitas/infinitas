@@ -38,6 +38,5 @@
 			echo $this->Form->input('group_id'); 
 			echo $this->Form->input('FeedsFeed', array('title' => __('Sub-Feeds', true), 'type' => 'select', 'multiple' => 'checkbox')); ?>
 		</fieldset><?php
-		echo $this->Design->niceBoxEnd();
 	echo $this->Form->end();
 ?>

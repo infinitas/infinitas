@@ -1,7 +1,6 @@
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><?php
+<?php
     echo $this->Form->create('File');
         echo $this->Infinitas->adminEditHead();
-        echo $this->Design->niceBox();
 	        ?>
 				<div class="data">
 					<?php
@@ -26,13 +25,10 @@
 				</div>
 				<div class="config">
 					<?php
-						echo $this->Design->niceBox();
 							?><h2><?php __('File info'); ?></h2><?php
 							pr($info);
 							echo 'todo';
-				        echo $this->Design->niceBoxEnd();
 				    ?>
 				</div>
 			<?php
-        echo $this->Design->niceBoxEnd();
     echo $this->Form->end();

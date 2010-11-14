@@ -392,6 +392,32 @@
 		}
 
 		/**
+		* Get a list of models.
+		*
+		* Checks the passed plugin and returns all the models for that
+		* plugin, after formating the array to be used in a select box.
+		*
+		* @param object $Model the currect model
+		* @param string $plugin the plugin to search for models
+		*
+		* @return array a list of models that were found
+		*/
+		public function getModels(&$Model, $plugin){
+			$list = App::objects(
+				'model',
+				array(App::pluginPath($plugin).'models'.DS),
+				false
+			);
+
+			$models = array();
+			foreach($list as $model){
+				$models[$model] = $model;
+			}
+
+			return $models;
+		}
+
+		/**
 		 * Get a list of actions.
 		 *
 		 * Checks the passed plugin and controller and returns all the

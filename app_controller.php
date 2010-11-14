@@ -414,6 +414,35 @@
 		}
 
 		/**
+		 * method for admin to preview items without having them active, this
+		 * expects a few things from the code being previewed.
+		 *
+		 * you need a model method called getViewData for the view page that takes a conditions array
+		 * you should have a file named view.ctp
+		 * only admin can access this page
+		 * the page will be passed a variable named with Inflector::variable()
+		 *
+		 * @param mixed $id id of the record
+		 */
+		public function preview($id = null){
+			if(!$id || (int)$this->Session->read('Auth.User.group_id') !== 1){
+				$this->Session->setFlash('That page does not exist', true);
+				$this->redirect($this->referer());
+			}
+
+			$varName = Inflector::variable($this->modelClass);
+
+			$$varName = $this->{$this->modelClass}->getViewData(
+				array(
+					$this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $id
+				)
+			);
+
+			$this->set($varName, $$varName);
+			$this->render('view');
+		}
+
+		/**
 		 * Common method for rating.
 		 *
 		 * This is the default method for a rating, if you would like to change
@@ -494,6 +523,18 @@
 				return;
 			}
 			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getControllers($this->params['named']['plugin']));
+		}
+
+		/**
+		 * get a list of all the models for the selected plugin
+		 */
+		public function admin_getModels(){
+			if (!isset($this->params['named']['plugin'])) {
+				$this->set('json', array('error'));
+				return;
+			}
+			
+			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getModels($this->params['named']['plugin']));
 		}
 
 		/**

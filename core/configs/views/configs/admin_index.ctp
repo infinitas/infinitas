@@ -25,6 +25,7 @@
                 'add',
                 'edit',
                 'copy', // @todo -c Implement .should read the file populate $this->data and render add
+				'delete'
             )
         );
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
@@ -57,9 +58,9 @@
             foreach ($configs as $config){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $config['Config']['id'] ); ?>&nbsp;</td>
-                		<td title="<?php echo __('Description', true), ' :: ', $this->Text->Truncate($config['Config']['description'], 200, array('html' => true)); ?>">
-                			<?php echo $this->Html->link( $config['Config']['key'], array('controller' => 'configs', 'action' => 'edit', $config['Config']['id'])); ?>&nbsp;
+                        <td><?php echo $this->Form->checkbox($config['Config']['id']); ?>&nbsp;</td>
+                		<td>
+                			<?php echo $this->Html->adminQuickLink($config['Config']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $config['Config']['value']; ?>&nbsp;

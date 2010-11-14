@@ -22,6 +22,7 @@
 			'filter' => 'filter.png',
 			'-locked' => 'locked.png',
 			'move' => 'move.png',
+			'new-window' => 'new_window.png',
 			'order-asc' => 'order-asc.png',
 			'order-desc' => 'order-desc.png',
 			'preview' => 'preview.png',

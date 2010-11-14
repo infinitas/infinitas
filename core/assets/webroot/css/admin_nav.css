@@ -121,6 +121,11 @@ table.listing tr.multi-line td{
 /**
  * Mass actions
  */
+ a.new-window img{
+	 width: 15px;
+	 float: right;
+	 padding-right: 5px;
+}
 .massActions{
 	margin-right:10px;
 }
@@ -550,6 +555,7 @@ form select{
 form div.error{
 	border: 1px dotted #FFDAAF;
 	margin:10px;
+	clear:both;
 }
 div.error .error-message{
 	color: red;

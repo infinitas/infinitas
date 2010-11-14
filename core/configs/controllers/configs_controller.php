@@ -34,8 +34,42 @@
 			$this->set(compact('configs', 'filterOptions'));
 		}
 
+		public function admin_available(){			
+			$this->set('configs', $this->Config->availableConfigs());
+			$this->set('overloaded', $this->Config->find('list', array('fields' => array('Config.key', 'Config.value'))));
+		}
+
 		public function admin_add() {
 			parent::admin_add();
+
+			if(isset($this->params['named']['Config.key'])){
+				$this->data['Config']['key'] = $this->params['named']['Config.key'];
+				$value = Configure::read($this->params['named']['Config.key']);
+				switch(true){
+					case is_int($value):
+							$this->data['Config']['type'] = 'integer';
+						break;
+
+					case is_bool($value):
+						$this->data['Config']['type'] = 'bool';
+						break;
+
+					default:
+						$array = explode(',', $value);
+						if(count($array) > 1){
+							$this->data['Config']['type'] = 'array';
+							$this->data['Config']['value'] = $array[0];
+							$this->data['Config']['options'] = $value;
+						}
+						else{
+							$this->data['Config']['type'] = 'string';
+						}
+				}
+				
+				if(!isset($this->data['Config']['value'])){
+					$this->data['Config']['value'] = $value;
+				}
+			}
 
 			$this->set('types', $this->Config->_configTypes);
 		}

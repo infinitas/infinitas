@@ -20,7 +20,6 @@
 ?>
 <div class="clr">&nbsp;</div>
 <?php
-	echo $this->Design->niceBox( 'pagination' );
 
 	// show a message if nothing is found ( count == 0 or its not set )
 	if (
@@ -28,42 +27,40 @@
 		$this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count'] == 0 )
 	{
 		echo '<p class="empty">', __( Configure::read( 'Pagination.nothing_found_message' ), true ), '</p>';
-		echo $this->Design->niceBoxEnd();
 		return true;
 	}
 ?>
-    <div class="wrap">
-        <div class="button2-left">
-            <div class="prev">
-                <?php
-                    echo $paginator->prev(
-                        __( 'Older', true ),
-                        array(
-                            'escape' => false,
-                            'tag' => 'span',
-                            'class' => ''
-                        ),
-                        null,
-                        null
-                    );
-                ?>
-            </div>
-        </div>
-        <div class="button2-right">
-            <div class="next">
-                <?php
-                    echo $paginator->next(
-                        __( 'Newer', true ),
-                        array(
-                            'escape' => false,
-                            'tag' => 'span',
-                            'class' => ''
-                        ),
-                        null,
-                        null
-                    );
-                ?>
-            </div>
-        </div>
-    </div>
-<?php echo $this->Design->niceBoxEnd(); ?>
+<div class="wrap">
+	<div class="button2-left">
+		<div class="prev">
+			<?php
+				echo $paginator->prev(
+					__( 'Older', true ),
+					array(
+						'escape' => false,
+						'tag' => 'span',
+						'class' => ''
+					),
+					null,
+					null
+				);
+			?>
+		</div>
+	</div>
+	<div class="button2-right">
+		<div class="next">
+			<?php
+				echo $paginator->next(
+					__( 'Newer', true ),
+					array(
+						'escape' => false,
+						'tag' => 'span',
+						'class' => ''
+					),
+					null,
+					null
+				);
+			?>
+		</div>
+	</div>
+</div>
