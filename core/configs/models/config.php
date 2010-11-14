@@ -18,6 +18,8 @@
 	class Config extends ConfigsAppModel {
 		public $name = 'Config';
 
+		public $displayField = 'key';
+
 		public $order = array(
 			'Config.core' => 'DESC',
 			'Config.key' => 'ASC'
@@ -267,5 +269,17 @@
 			}
 
 			pr('Configure::write(\''.$config['Config']['key'].'\', '.$_config.');');
+		}
+
+		public function availableConfigs(){
+			$configs = Configure::getInstance();
+
+			unset(
+				$configs->CORE['current_route']
+			);
+			$configs = Set::flatten($configs);
+			ksort($configs);
+
+			return $configs;
 		}
 	}
