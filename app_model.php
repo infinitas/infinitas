@@ -90,32 +90,6 @@
 		}
 
 		/**
-		 * allow plugins to use their own db configs. If there is a conflict,
-		 * eg: a plugin tries to set a config that alreay exists an error will
-		 * be thrown and the connection will not be created.
-		 *
-		 * default is a reserved connection that can only be set in database.php
-		 * and not via the events.		 
-		 */
-		private function __setupDatabaseConnections(){
-			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));			
-
-			$existingConnections = ConnectionManager::getInstance()->config;			
-			
-			foreach($connections as $plugin => $connection){
-				$key = current(array_keys($connection));
-				$connection = current($connection);
-
-				if(strtolower($key) == 'default' || (isset($existingConnections->{$key}) && $existingConnections->{$key} !== $connection)){
-					trigger_error(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping', true), $key, $plugin), E_USER_WARNING);
-					continue;
-				}
-
-				ConnectionManager::create($key, $connection);
-			}
-		}
-
-		/**
 		 * called after something is saved
 		 */
 		public function afterSave($created){
@@ -165,6 +139,22 @@
 		}
 
 		/**
+		 * Get model name.
+		 *
+		 * Get a model name with the plugin prepended in the format used in
+		 * CR::init() and Usefull for polymorphic relations.
+		 *
+		 * @return string Name of the model in the form of Plugin.Name.
+		 */
+		public function modelName() {
+			if($this->plugin == null) {
+				$this->__getPlugin();
+			}
+
+			return $this->plugin == null ? $this->name : $this->plugin . '.' . $this->name;
+		}
+
+		/**
 		 * Delete all cahce for the plugin.
 		 *
 		 * Will automaticaly delete all the cache for a model that it can detect.
@@ -193,22 +183,6 @@
 		}
 
 		/**
-		 * Get model name.
-		 *
-		 * Get a model name with the plugin prepended in the format used in
-		 * CR::init() and Usefull for polymorphic relations.
-		 *
-		 * @return string Name of the model in the form of Plugin.Name.
-		 */
-		public function modelName() {
-			if($this->plugin == null) {
-				$this->__getPlugin();
-			}
-
-			return $this->plugin == null ? $this->name : $this->plugin . '.' . $this->name;
-		}
-
-		/**
 		 * Get the current plugin.
 		 *
 		 * try and get the name of the current plugin from the parent model class
@@ -220,6 +194,32 @@
 
 			if($parentName !== 'AppModel' && $parentName !== 'Model' && strpos($parentName, 'AppModel') !== false) {
 				$this->plugin = str_replace('AppModel', '', $parentName);
+			}
+		}
+
+		/**
+		 * allow plugins to use their own db configs. If there is a conflict,
+		 * eg: a plugin tries to set a config that alreay exists an error will
+		 * be thrown and the connection will not be created.
+		 *
+		 * default is a reserved connection that can only be set in database.php
+		 * and not via the events.
+		 */
+		private function __setupDatabaseConnections(){
+			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));
+
+			$existingConnections = ConnectionManager::getInstance()->config;
+
+			foreach($connections as $plugin => $connection){
+				$key = current(array_keys($connection));
+				$connection = current($connection);
+
+				if(strtolower($key) == 'default' || (isset($existingConnections->{$key}) && $existingConnections->{$key} !== $connection)){
+					trigger_error(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping', true), $key, $plugin), E_USER_WARNING);
+					continue;
+				}
+
+				ConnectionManager::create($key, $connection);
 			}
 		}
 
