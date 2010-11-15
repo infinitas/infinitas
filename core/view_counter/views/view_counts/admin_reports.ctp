@@ -20,7 +20,7 @@
 			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
 		</div><?php
 	}
-	
+
 	else if(isset($foreignKeys) && $foreignKeys){
 		$icons = array();
 		foreach($foreignKeys as $foreignKey){
@@ -45,7 +45,7 @@
 			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
 		</div><?php
 	}
-	
+
 	else if(isset($relatedModel) && $relatedModel){ ?>
 		<div class="dashboard grid_16">
 			<h1>
@@ -59,128 +59,12 @@
 			</h1>
 		</div><?php
 	}
-	
-	$text = sprintf(
-		__('%d views from %s to %s', true),
-		array_sum($byMonth['totals']),
-		date('M-d \'y', strtotime(sprintf('Y%sW%s', date('Y'), min($byWeek['weeks'])))),
-		date('M-d \'y', strtotime(sprintf('Y%sW%s', date('Y'), max($byWeek['weeks']) + 1)))
-	);
-?>
-<div class="dashboard half">
-	<h1>
-		<?php echo __('Views per Month', true); ?>
-		<small><?php echo $text; ?></small>
-	</h1>
-	<?php
-		echo $this->Chart->display(
-			array(
-				'name' => 'bar',
-				'type' => 'vertical',
-				'bar' => 'vertical'
-			),
-			array(
-				'data' => $byMonth['totals'],
-				'labels' => $byMonth['months'],
-				'axis_type' => array('x', 'y'),
-				'size' => '400,130',
-				'spacing' => array(26, 25),
-				'html' => array(
-					'class' => 'chart'
-				)
-			)
-		);
-	?>
-</div>
-<div class="dashboard half">
-	<h1>
-		<?php echo __('Views per Week', true); ?>
-		<small><?php echo $text; ?></small>
-	</h1>
-	<?php
-		echo $this->Chart->display(
-			array(
-				'name' => 'bar',
-				'type' => 'vertical',
-				'bar' => 'vertical'
-			),
-			array(
-				'data' => $byWeek['totals'],
-				'labels' => $byWeek['weeks'],
-				'axis_type' => array('x', 'y'),
-				'size' => '400,130',
-				'html' => array(
-					'class' => 'chart'
-				)
-			)
-		);
-	?>
-</div>
-<div class="dashboard grid_16">
-	<h1>
-		<?php echo __('Views per day', true); ?>
-		<small><?php echo $text; ?></small>
-	</h1>
-	<?php
-		if(count($byDay['days']) > 1){
-			echo $this->Chart->display(
-				'line',
-				array(
-					'data' => $byDay['totals'],
-					'labels' => $byDay['days'],
-					'axis_type' => array('x', 'y'),
-					'spacing' => array(20, 2),
-					'size' => '900,130',
-					'html' => array(
-						'class' => 'chart'
-					)
-				)
-			);
-		}
-		else{
-			?><span class="chart"><?php echo __('Not enough data collected', true); ?></span><?php
-		}
-	?>
-</div>
-<?php
-	if(!isset($byRegion)){
-		return;
-	}
-?>
-<div class="dashboard grid_16">
-	<h1>
-		<?php echo __('Views by region', true); ?>
-		<small><?php echo $text; ?></small>
-	</h1>
-	<?php
-		$countryCodes = Set::extract('/country_code', $byRegion);
-		if(!empty($countryCodes)){
-			echo $this->Chart->display(
-				'map',
-				array(
-					'data' => Set::extract('/total', $byRegion),
-					'places' => $countryCodes,
-					'size' => '600,400',
-					'colors' => array(
-						'DBDBDB', // background
-						'BFF7AA', // from
-						'1A5903'  // to
-					),
-					'html' => array(
-						'class' => 'chart'
-					)
-				)
-			);
 
-			$list = array();
-			foreach($byRegion as $region){
-				$list[] = sprintf(__('%s - %s view(s)', true), __($region['country'], true), $region['total']);
-			}
-
-			echo $this->Design->arrayToList($list, 'country-data');
-		}
-		else{
-			?><span class="chart"><?php echo __('Not enough data collected', true); ?></span><?php
-		}
-	?>
-</div>
+	echo $this->element('modules/admin/reports/year_on_year',   array('yearOnYear'   => $yearOnYear));
+	echo $this->element('modules/admin/reports/month_on_month', array('monthOnMonth' => $monthOnMonth));
+	echo $this->element('modules/admin/reports/week_on_week',   array('weekOnWeek'   => $weekOnWeek));
+	echo $this->element('modules/admin/reports/day_of_week',    array('dayOfWeek'    => $dayOfWeek));
+	echo $this->element('modules/admin/reports/hour_on_hour',   array('hourOnHour'   => $hourOnHour));
+	echo $this->element('modules/admin/reports/day_of_month',   array('byDay'        => $byDay));
+	$byRegion = isset($byRegion) ? $byRegion : array();
+	echo $this->element('modules/admin/reports/world_map',      array('byRegion'     => $byRegion));

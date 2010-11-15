@@ -25,6 +25,12 @@
 			);
 		}
 
+		public function onRequireHelpersToLoad(){
+			return array(
+				'ViewCounter.ViewCounter'
+			);
+		}
+
 		/**
 		 * Called before blog post is echo'ed
 		 */
@@ -53,6 +59,15 @@
 			$views = $Model->getToalViews($data['post']['Post']['id']);
 
 			return $this->__views($views);
+		}
+
+		public function onAdminMenu(&$event){
+			$menu['main'] = array(
+				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'report'),
+				'Custom' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'custom'),
+			);
+
+			return $menu;
 		}
 
 		/**
