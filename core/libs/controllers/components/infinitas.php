@@ -25,7 +25,6 @@
 		*/
 		public $components = array(
 			'Session',
-			'Libs.GeoLocation',
 			'Themes.Themes'
 		);
 
