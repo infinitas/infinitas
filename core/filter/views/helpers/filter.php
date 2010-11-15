@@ -37,6 +37,9 @@
 		    			)
 	    			);
 				}
+				else if(strstr($options, 'date')){
+					$output .= $this->Html->datePicker(array($options));
+				}
 				else{
 					$output .= $this->Form->input(
 						$options,
