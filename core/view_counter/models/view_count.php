@@ -458,12 +458,15 @@
 			}
 			
 			$return = array();
+			$return['totals'] = array();
+			$fieldName = isset($fields[0]) ? $fields[0] : '';
 			if(!empty($data)){
 				$return['model'] = __('All', true);
 				if(isset($data[0][$this->alias]['model'])){
 					$return['model'] = $data[0][$this->alias]['model'];
 				}
 				$return['totals'] = Set::extract('/' . $this->alias . '/sub_total', $data);
+				
 				foreach($fields as $field){
 					$fieldName = Inflector::pluralize($field);
 					$return[$fieldName] = Set::extract('/' . $this->alias . '/' . $field, $data);
@@ -472,8 +475,8 @@
 
 
 			$dates = Set::extract('/' . $this->alias . '/created', $data);
-			$return['start_date'] = min($dates);
-			$return['end_date'] = max($dates);
+			$return['start_date'] = !empty($dates) ? min($dates) : array();
+			$return['end_date'] = !empty($dates) ? max($dates) : array();
 
 			$return['total_views'] = array_sum((array)$return['totals']);
 			$return['total_rows']  = count($return['totals']);
