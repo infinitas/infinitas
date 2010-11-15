@@ -34,7 +34,7 @@
 					$header = __('Traffic by region', true);
 					break;
 			}
-			
+
 			return sprintf(
 				__('<h1>%s<small>%d views<br/>Between %s and %s</small></h1>', true),
 				$header,
@@ -42,5 +42,9 @@
 				$this->Time->niceShort($data['start_date']),
 				$this->Time->niceShort($data['end_date'])
 			);
+		}
+
+		public function noData(){
+			return __('There is not enough data to display this graph', true);
 		}
 	}
