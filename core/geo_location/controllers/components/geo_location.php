@@ -10,7 +10,8 @@
 		*/
 		public $components = array(
 			'Session',
-			'RequestHandler'
+			'RequestHandler',
+			'Event.Event',
 		);
 
 		/**
@@ -37,15 +38,8 @@
 
 		private function __autoUserLocation(){
 			if(!$this->Session->read('GeoLocation')){
-				$this->Session->write('GeoLocation.ip_address', $this->RequestHandler->getClientIP());
-
-				$country = $this->getCountryData();
-				$this->Session->write('GeoLocation.country', $country['country']);
-				$this->Session->write('GeoLocation.country_code', $country['country_code']);
-
-				if(is_file($this->cityDataFile)){
-					$city = $this->getCity();
-				}
+				$data = $this->Event->trigger('geoip.getLocation');
+				$this->Session->write('GeoLocation', current($data['getLocation']));
 			}
 		}
 

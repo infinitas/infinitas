@@ -10,7 +10,8 @@
 
 		private function __loadFile($type = 'country'){
 			$type = strtolower((string)$type);
-			App::import('Lib', 'Libs.Geoip/inc.php');
+			App::import('Lib', 'GeoLocation.Geoip/inc.php');
+					
 			switch($type){
 				case 'country':
 					if(!is_file($this->countryDataFile)){
@@ -21,8 +22,8 @@
 					break;
 				
 				case 'city':
-					App::import('Lib', 'Libs.Geoip/city.php');
-					App::import('Lib', 'Libs.Geoip/region_vars.php');
+					App::import('Lib', 'GeoLocation.Geoip/city.php');
+					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
 					if(!is_file($this->cityDataFile)){
 						trigger_error(sprintf(__('%s data file is missing', true), $type), E_USER_WARNING);
 						return false;
@@ -35,6 +36,15 @@
 					return false;
 					break;
 			}
+		}
+
+		private function __getIpAddress(){
+			App::import('Component', 'RequestHandler');
+			$RequestHandler = new RequestHandlerComponent();
+			$ipAddress = $RequestHandler->getClientIP();
+			unset($RequestHandler);
+
+			return $ipAddress;
 		}
 
 		/**
@@ -50,27 +60,25 @@
 		 */
 		public function getCountryData($ipAddress = null, $code = false){
 			if (!$ipAddress){
-				return $this->__emptyCountry;
+				$ipAddress = $this->__getIpAddress();
 			}
-
+			
 			$data = $this->__loadFile();
 			if(!$data){
 				return $this->__emptyCountry;
 			}
 
-			$country = geoip_country_name_by_addr($data, $ipAddress);
-			pr($country);
-			exit;
-			$country = empty($country) ? 'Unknown' : $country;
-
-			if ($code) {
-				$code = geoip_country_code_by_addr($data, $ipAddress);
-				$code = empty($code) ? 'Unknown' : $code;
-			}
+			$return = array(
+				'country' => geoip_country_name_by_addr($data, $ipAddress),
+				'country_code' => geoip_country_code_by_addr($data, $ipAddress),
+				'country_id' => geoip_country_id_by_addr($data, $ipAddress),
+				'ip_address' => $ipAddress
+			);
 
 			geoip_close($data);
+			unset($data);
 
-			return array('country' => $country, 'country_code' => $code);
+			return $return;
 		}
 
 		/**
@@ -86,16 +94,20 @@
 		 */
 		public function getCityData($ipAddress = null, $fields = array()){
 			if (!$ipAddress){
-				return $this->__emptyCity;
+				$ipAddress = $this->__getIpAddress();
 			}
 
 			$data = $this->__loadFile('city');
 			if(!$data){
-				return $this->__emptyCity;
+				return false;
 			}
 
 			$city = geoip_record_by_addr($data, $ipAddress);
+			if(!empty($city)){
+				$city['ip_address'] = $ipAddress;
+			}
 			geoip_close($data);
+			unset($data);
 
 			return (array)$city;
 		}
