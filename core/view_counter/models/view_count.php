@@ -1,9 +1,9 @@
 <?php
 	/**
 	 * Model responsible for saving page view data.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -11,9 +11,9 @@
 	 * @subpackage Infinitas.view_counter.model.view_count
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -30,14 +30,14 @@
 		 */
 		public function getToalViews($class = null, $foreignKey = 0){
 			$conditions = array();
-			
+
 			if($class){
 				$conditions = array('ViewCount.model' => $class);
 			}
 			if((int)$foreignKey > 0){
 				$conditions['ViewCount.foreign_key'] = $foreignKey;
 			}
-			
+
 			return $this->find(
 				'count',
 				array(
@@ -81,7 +81,7 @@
 		 */
 		public function getGlobalTotalCount(){
 			$models = $this->getUniqueModels();
-			
+
 			$return = array();
 			foreach($models as $model){
 				ClassRegistry::init($model)->Behaviors->attach('ViewCounter.Viewable');
@@ -105,7 +105,7 @@
 					'ViewCount.model LIKE' => Inflector::camelize($plugin).'%'
 				);
 			}
-			
+
 			$models = $this->find(
 				'list',
 				array(
@@ -244,7 +244,7 @@
 
 			$return = $this->__formatData($viewCountsByMonth, 'month');
 			$return = $this->__fillTheBlanks($return, range(1, 12), 'months');
-
+			$return['months'] = isset($return['months']) ? $return['months'] : array();
 			foreach($return['months'] as $k => $v){
 				switch($v){
 					case  1: $return['months'][$k] = __('Jan', true); break;
@@ -356,7 +356,7 @@
 					'limit' => (int)$limit
 				)
 			);
-			
+
 			return $this->__formatData($viewCountsByDay, 'day');
 		}
 
@@ -381,10 +381,10 @@
 					)
 				)
 			);
-			
+
 			$return = $this->__formatData($return, 'day_of_week');
 			$return = $this->__fillTheBlanks($return, range(1, 7), 'day_of_weeks');
-			
+			$return['day_of_weeks'] = isset($return['day_of_weeks']) ? $return['day_of_weeks'] : array();
 			foreach($return['day_of_weeks'] as $k => $v){
 				switch($v){
 					case 1: $return['day_of_weeks'][$k] = __('Sun', true); break;
@@ -429,6 +429,10 @@
 		}
 
 		private function __fillTheBlanks($data, $range, $field){
+			if(empty($data['totals'])){
+				return $data;
+			}
+
 			$data['totals'] = array_combine($data[$field], $data['totals']);
 			foreach($range as $v){
 				$data[$field][$v - 1] = $v;
@@ -456,17 +460,21 @@
 			if(!is_array($fields)){
 				$fields = array($fields);
 			}
-			
+
 			$return = array();
 			$return['totals'] = array();
-			$fieldName = isset($fields[0]) ? $fields[0] : '';
+			foreach($fields as $field){
+				$fieldName = $field;
+				$return[$field] = array();
+			}
+
 			if(!empty($data)){
 				$return['model'] = __('All', true);
 				if(isset($data[0][$this->alias]['model'])){
 					$return['model'] = $data[0][$this->alias]['model'];
 				}
 				$return['totals'] = Set::extract('/' . $this->alias . '/sub_total', $data);
-				
+
 				foreach($fields as $field){
 					$fieldName = Inflector::pluralize($field);
 					$return[$fieldName] = Set::extract('/' . $this->alias . '/' . $field, $data);
@@ -492,7 +500,7 @@
 		private function __bindRelation($model){
 			$Model = ClassRegistry::init($model);
 			$fields = array();
-			
+
 			$fields[str_replace('.', '', $model)] = array(
 				$Model->primaryKey,
 				$Model->displayField
@@ -610,7 +618,7 @@
 					)
 				)
 			);
-			
+
 			return $this->__formatData($return, array('country_code', 'country'));
 		}
 
@@ -620,7 +628,7 @@
 		 * available. Could be used to make saves faster and then run on a cron
 		 * before viewing the reports
 		 */
-		
+
 		public function getCountryForUnknown(){
 			$rows = $this->find(
 				'all',
@@ -670,7 +678,7 @@
 					$temp['continent_code'] = '-';
 				}
 
-				
+
 				$row['ViewCount'] = array_merge($row['ViewCount'], $temp);
 				$this->save($row);
 			}

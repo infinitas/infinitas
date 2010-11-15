@@ -1,7 +1,10 @@
 <div class="dashboard grid_16">
 	<?php
 		echo $this->ViewCounter->header('day_of_month', $byDay);
-		if(count($byDay['days']) > 1){
+		if(empty($byDay['totals'])){
+			echo $this->ViewCounter->noData();
+		}
+		else{
 			echo $this->Chart->display(
 				'line',
 				array(
@@ -14,9 +17,6 @@
 					)
 				)
 			);
-		}
-		else{
-			?><span class="chart"><?php echo __('Not enough data collected', true); ?></span><?php
 		}
 	?>
 </div>

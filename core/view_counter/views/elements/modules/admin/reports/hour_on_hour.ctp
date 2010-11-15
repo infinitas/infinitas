@@ -1,7 +1,10 @@
 <div class="dashboard half">
 	<?php
 		echo $this->ViewCounter->header('hour_on_hour', $hourOnHour);
-		if(count($hourOnHour['hours']) > 1){
+		if(empty($hourOnHour['totals'])){
+			echo $this->ViewCounter->noData();
+		}
+		else{
 			echo $this->Chart->display(
 				array(
 					'name' => 'bar',
@@ -19,9 +22,6 @@
 					)
 				)
 			);
-		}
-		else{
-			?><span class="chart"><?php echo __('Not enough data collected', true); ?></span><?php
 		}
 	?>
 </div>
