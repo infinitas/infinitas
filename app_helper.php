@@ -693,12 +693,20 @@
 		 * @return string the markup for the picker
 		 */
 		public function datePicker($classes, $model = null, $time = false){
-			$model = (!$model) ? Inflector::classify($this->params['controller']) : $model;
+			$model = !$model 
+				? Inflector::classify($this->params['controller'])
+				: $model;
 
 			$out = '';
 			foreach((array)$classes as $class){
-				$out .= '<div id="'.$model.'DatePicker'.ucfirst(Inflector::classify($class)).'"></div>';
-				$out .= $this->Form->input($model.'.'.$class, array('type' => 'text'));
+				$out .= sprintf(
+					'<div class="datePicker"><label>%s</label><div id="%sDatePicker%s"></div>%s</div>',
+					Inflector::humanize($class),
+					$model,
+					ucfirst(Inflector::classify($class)),
+					$this->Form->hidden($model.'.'.$class, array('type' => 'text'))
+				);
+				
 				if($time === true){
 					$out .= $this->Form->input($model.'.'.str_replace('date', 'time', $class), array('type' => 'time', 'class' => 'timePicker'));
 				}
