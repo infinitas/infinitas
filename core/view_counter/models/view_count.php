@@ -481,7 +481,7 @@
 			$return['total_views'] = array_sum((array)$return['totals']);
 			$return['total_rows']  = count($return['totals']);
 
-			if($return['total_rows'] != count($return[$fieldName])){
+			if(isset($return[$fieldName]) && $return['total_rows'] != count($return[$fieldName])){
 				trigger_error(sprintf(__('data mismach for model: %s fields: (%s)', true), $return['model'], implode(', ', $fields)), E_USER_WARNING);
 			}
 
