@@ -1,8 +1,6 @@
 <?php
     /**
-     * Management Config admin edit post.
-     *
-     * this page is for admin to manage the setup of the site
+     * add / edit routes for the site
      *
      * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      *
@@ -12,8 +10,8 @@
      * @filesource
      * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
      * @link          http://infinitas-cms.org
-     * @package       management
-     * @subpackage    management.views.configs.admin_edit
+     * @package       Infinitas.routes
+     * @subpackage    Infinitas.routes.views.admin_form
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 

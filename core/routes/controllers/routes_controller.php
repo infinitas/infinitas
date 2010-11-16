@@ -45,7 +45,6 @@
 				'url',
 				'plugin' => $this->Route->getPlugins(),
 				'theme_id' => array(null => __('All', true)) + $this->Route->Theme->find('list'),
-				'core' => Configure::read('CORE.core_options'),
 				'active' => Configure::read('CORE.active_options')
 			);
 
