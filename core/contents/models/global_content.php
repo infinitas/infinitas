@@ -7,11 +7,22 @@
 		public $belongsTo = array(
 			'GlobalLayout' => array(
 				'className' => 'Contents.GlobalLayout',
-				'foreignKey' => 'layout_id'
+				'foreignKey' => 'layout_id',
+				'fields' => array(
+					'GlobalLayout.id',
+					'GlobalLayout.name',
+					'GlobalLayout.model',
+					'GlobalLayout.css',
+					'GlobalLayout.html'
+				)
 			),
 			'Group' => array(
 				'className' => 'Users.Group',
-				'foreignKey' => 'group_id'
+				'foreignKey' => 'group_id',
+				'fields' => array(
+					'Group.id',
+					'Group.name'
+				)
 			)
 		);
 
