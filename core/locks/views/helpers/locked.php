@@ -44,7 +44,7 @@
 						'title' => sprintf(
 							__('Locked :: This record was locked %s by %s', true ),
 							$this->Time->timeAgoInWords($row['Lock']['created']),
-							$row['Locker']['username']
+							$row['Lock']['Locker']['username']
 						)
 					)
 				);

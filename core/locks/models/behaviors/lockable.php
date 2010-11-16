@@ -41,10 +41,31 @@
 		 * @access public
 		 * @return void
 		 */
-		public function setup(&$Model, $config = null) {
+		public function setup($Model, $config = null) {
 			if($Model->alias == 'Lock'){
 				return;
 			}
+
+			$Model->bindModel(
+				array(
+					'hasOne' => array(
+						'Lock' => array(
+							'className' => 'Locks.Lock',
+							'foreignKey' => 'foreign_key',
+							'conditions' => array(
+								'Lock.class' => $Model->plugin . '.' . $Model->alias
+							),
+							'fields' => array(
+								'Lock.id',
+								'Lock.created',
+								'Lock.user_id'
+							),
+							'dependent' => true
+						)
+					)
+				),
+				false
+			);
 
 			if(rand(0, 50) == 0){
 				$this->__gc($Model);
@@ -65,7 +86,7 @@
 		 * This will delete any locks that have expired (configured in Locks.timeout)
 		 * so that things do not remain locked when its not needed.
 		 */
-		private function __gc(&$Model){
+		private function __gc($Model){
 			ClassRegistry::init('Locks.Lock')->clearOldLocks();
 		}
 
@@ -82,7 +103,7 @@
 		 * @var array $results the data that was found
 		 * @var bool $primary is it the main model doing the find
 		 */
-		public function afterFind(&$Model, $results, $primary){
+		public function afterFind($Model, $results, $primary){
 			if($Model->findQueryType != 'first' || !$primary || empty($results)){
 				return $results;
 			}
@@ -141,13 +162,12 @@
 		 *
 		 * @return array the find query data
 		 */
-		public function beforeFind(&$Model, $query) {
+		public function beforeFind($Model, $query) {
 			if($Model->findQueryType == 'count'){
 				return $query;
 			}
-			
-			$query['contain'][$Model->Lock->alias] = array();
-			$query['contain']['Locker'] = array();
+
+			$query['contain'][$Model->Lock->alias] = array('Locker');
 			if(isset($query['recursive']) && $query['recursive'] == -1){
 				$query['recursive'] = 0;
 			}
@@ -167,7 +187,7 @@
 		 *
 		 * @return bool true on succsess false if not.
 		 */
-		public function afterSave(&$Model, $created){
+		public function afterSave($Model, $created){
 			if($created){
 				return parent::afterSave(&$Model, $created);
 			}

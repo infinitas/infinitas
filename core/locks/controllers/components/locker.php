@@ -21,51 +21,8 @@
 	 */
 
 	class LockerComponent extends InfinitasComponent{
-		public function initialize(&$Controller){
+		public function initialize($Controller){
 			$this->Controller = $Controller;
-
-			$lockable = strstr($this->Controller->action, 'admin') &&
-				isset($Controller->{$Controller->modelClass}->Behaviors) &&
-				isset($Controller->{$Controller->modelClass}->lockable) &&
-				$Controller->{$Controller->modelClass}->lockable === true;
-
-			if(!$lockable){
-				return false;
-			}
-
-			$Controller->{$Controller->modelClass}->Behaviors->attach('Locks.Lockable');
-			$Controller->{$Controller->modelClass}->bindModel(
-				array(
-					'hasOne' => array(
-						'Lock' => array(
-							'className' => 'Locks.Lock',
-							'foreignKey' => false,
-							'conditions' => array(
-								'Lock.class' => Inflector::camelize($Controller->{$Controller->modelClass}->plugin) . '.' . $Controller->{$Controller->modelClass}->alias,
-								'Lock.foreign_key = `'.$Controller->{$Controller->modelClass}->alias . '`.`' . $Controller->{$Controller->modelClass}->primaryKey.'`'
-							),
-							'fields' => array(
-								'Lock.id',
-								'Lock.created',
-								'Lock.user_id'						
-							),
-							'dependent' => true
-						),
-						'Locker' => array(
-							'className' => 'Users.User',
-							'foreignKey' => false,
-							'conditions' => array(
-								'Locker.id = `Lock`.`user_id'
-							),
-							'fields' => array(
-								'Locker.id',
-								'Locker.username'
-							)
-						)
-					)
-				),
-				false
-			);
 		}
 
 		public function beforeRender(){
