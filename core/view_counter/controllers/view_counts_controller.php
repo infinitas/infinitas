@@ -43,6 +43,8 @@
 				$conditions['ViewCount.model'] = $this->params['named']['ViewCount.model'];
 			}
 
+			$overview = $this->ViewCount->reportOverview($conditions);
+
 			$yearOnYear = $this->ViewCount->reportYearOnYear($conditions);
 			$monthOnMonth = $this->ViewCount->reportMonthOnMonth($conditions);
 			$weekOnWeek = $this->ViewCount->reportWeekOnWeek($conditions);
@@ -51,7 +53,7 @@
 			$hourOnHour = $this->ViewCount->reportHourOnHour($conditions);
 			$byRegion = $this->ViewCount->reportByRegion($conditions);
 			
-			$this->set(compact('yearOnYear', 'monthOnMonth', 'weekOnWeek', 'byWeek', 'byDay', 'dayOfWeek', 'hourOnHour', 'byRegion'));
+			$this->set(compact('overview', 'yearOnYear', 'monthOnMonth', 'weekOnWeek', 'byWeek', 'byDay', 'dayOfWeek', 'hourOnHour', 'byRegion'));
 
 			if(isset($this->params['named']['ViewCount.model']) && isset($this->params['named']['ViewCount.foreign_key'])){
 				$relatedModel = $this->ViewCount->reportPopularRows($conditions, $this->params['named']['ViewCount.model']);

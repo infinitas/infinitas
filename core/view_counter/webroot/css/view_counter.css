@@ -2,3 +2,16 @@
 	float:left;
 	list-style:none outside none;
 }
+
+.view_counter.admin_reports table.listing{
+	margin:auto;
+	width:96%;
+}
+
+.view_counter.admin_reports table.listing td.right{
+	text-align: right;
+}
+
+.view_counter.admin_reports table.listing a{
+	color: #CC871E;
+}

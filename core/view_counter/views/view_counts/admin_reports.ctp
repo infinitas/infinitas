@@ -60,6 +60,7 @@
 		</div><?php
 	}
 
+	echo $this->element('modules/admin/reports/overview',       array('overview'     => $overview));
 	echo $this->element('modules/admin/reports/year_on_year',   array('yearOnYear'   => $yearOnYear));
 	echo $this->element('modules/admin/reports/month_on_month', array('monthOnMonth' => $monthOnMonth));
 	echo $this->element('modules/admin/reports/week_on_week',   array('weekOnWeek'   => $weekOnWeek));

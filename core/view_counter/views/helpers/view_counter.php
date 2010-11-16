@@ -33,6 +33,14 @@
 				case 'world_map':
 					$header = __('Traffic by region', true);
 					break;
+
+				case 'overview':
+					$header = __('General Overview', true);
+					break;
+
+				default:
+					$header = __('Nothing selected', true);
+					break;
 			}
 
 			return sprintf(
