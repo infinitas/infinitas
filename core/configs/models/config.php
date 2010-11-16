@@ -21,7 +21,6 @@
 		public $displayField = 'key';
 
 		public $order = array(
-			'Config.core' => 'DESC',
 			'Config.key' => 'ASC'
 		);
 
@@ -90,12 +89,6 @@
 					'customOptionCheck' => array(
 						'rule' => 'customOptionCheck',
 						'message' => __('Please enter some valid options', true)
-					)
-				),
-				'description' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please enter a good description for this config', true)
 					)
 				)
 			);
@@ -169,6 +162,9 @@
 						'Config.key',
 						'Config.value',
 						'Config.type'
+					),
+					'conditions' => array(
+						'Config.key !=' => -1
 					)
 				)
 			);
