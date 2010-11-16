@@ -119,6 +119,77 @@
 			return $models;
 		}
 
+		public function reportOverview($conditions){
+			$this->virtualFields['unique_visits'] = 'CONCAT_WS(\'-\', `' .$this->alias . '`.`ip_address`, `' . $this->alias . '`.`user_id`)';
+			$this->virtualFields['sub_total'] = 'COUNT(ViewCount.id)';
+			$data['total_views'] = $this->find('count', array('conditions' => $conditions));
+			if(empty($data['total_views'])){
+				return false;
+			}
+			$data['global_total_views'] = $this->find('count');
+			$data['total_ratio'] = ($data['total_views'] / $data['global_total_views']) * 100;
+			
+			$data['unique_views']['visits'] = $this->find(
+				'all',
+				array(
+					'conditions' => $conditions,
+					'fields' => array(
+						$this->alias . '.ip_address',
+						$this->alias . '.user_id',
+						$this->alias . '.country_code',
+						$this->alias . '.country',
+						$this->alias . '.city',
+						$this->alias . '.created',
+						'sub_total'
+					),
+					'group'=> array(
+						'unique_visits'
+					)
+				)
+			);
+			
+			/**
+			 * unique visitors
+			 */
+			$data['unique_views']['total_views'] = count($data['unique_views']['visits']);
+			$data['unique_views']['country_codes'] = Set::extract('/' . $this->alias . '/country_code', $data['unique_views']['visits']);
+			$data['unique_views']['ratio'] = ($data['unique_views']['total_views'] / $data['total_views']) * 100;
+			$data['unique_views']['country_codes'] = array_flip(array_flip($data['unique_views']['country_codes']));
+			sort($data['unique_views']['country_codes']);
+			$dates = Set::extract('/' . $this->alias . '/created', $data['unique_views']['visits']);
+			$data['unique_views']['start_date'] = $data['start_date'] = min($dates);
+			$data['unique_views']['end_date'] = $data['end_date'] = max($dates);
+			$data['unique_views']['views_per_visit'] = $data['total_views'] / $data['unique_views']['total_views'];
+			unset($dates);
+
+
+			/**
+			 * new visitors
+			 */
+			$newVisitors = Set::extract('/' . $this->alias . '[sub_total<2]', $data['unique_views']['visits']);
+			$data['new_visitors']['country_codes'] = Set::extract('/' . $this->alias . '/country_code', $newVisitors);
+			$data['new_visitors']['country_codes'] = array_flip(array_flip($data['new_visitors']['country_codes']));
+			sort($data['new_visitors']['country_codes']);
+			$data['new_visitors']['total_views'] = count($newVisitors);
+			$data['new_visitors']['ratio'] = ($data['new_visitors']['total_views'] / $data['unique_views']['total_views']) * 100;
+			$dates = Set::extract('/' . $this->alias . '/created', $newVisitors);
+			$data['new_visitors']['start_date'] = min($dates);
+			$data['new_visitors']['end_date'] = max($dates);
+			$data['new_visitors']['views_per_visit'] = $data['total_views'] / $data['new_visitors']['total_views'];
+			unset($data['unique_views']['visits'], $newVisitors, $dates);
+
+			$conditions[$this->alias . '.user_id'] = 0;
+			$data['visitor_type']['public'] = $this->find('count', array('conditions' => $conditions));
+			unset($conditions[$this->alias . '.user_id']);
+			$conditions[$this->alias . '.user_id > '] = 0;
+			$data['visitor_type']['registered'] = $this->find('count', array('conditions' => $conditions));
+
+			$data['visitor_type']['public_percentage'] = ($data['visitor_type']['public'] / $data['total_views']) * 100;
+			$data['visitor_type']['registered_percentage'] = ($data['visitor_type']['registered'] / $data['total_views']) * 100;
+
+			return $data;
+		}
+
 		/**
 		 * all stats per conditions and grouped by year so you can compare
 		 * previous years to each other.
@@ -634,7 +705,7 @@
 				'all',
 				array(
 					'conditions' => array(
-						//'ViewCount.country' => 'Unknown'
+						'ViewCount.country' => 'Unknown'
 					),
 					'limit' => 500
 				)
@@ -663,10 +734,9 @@
 				)
 			);
 
-			App::import('Lib', 'Libs.IpLocation');
-			$this->IpLocation = new IpLocation();
 			foreach($rows as $row){
-				$temp = $this->IpLocation->getCityData($row['ViewCount']['ip_address'], true);
+				$temp = EventCore::trigger($this, 'getLocation', $row[$this->alias]['ip_address']);
+				$temp = current($temp['getLocation']);
 
 				if($temp['country_code'] == 'Unknown'){
 					$temp['country_code'] = '-';
@@ -678,22 +748,21 @@
 					$temp['continent_code'] = '-';
 				}
 
-
-				$row['ViewCount'] = array_merge($row['ViewCount'], $temp);
+				$row['ViewCount'] = array_merge(array_filter($row['ViewCount']), $temp);
 				$this->save($row);
 			}
 		}
 
 		public function getDatePartsFromCreated(){
 			/*
-			 * UPDATE `global_view_counts` set
-			 * `year` = YEAR(`created`),
-			 * `month` = MONTH(`created`),
-			 * `day` = DAYOFMONTH(`created`),
-			 * `day_of_year` = DAYOFYEAR(`created`),
-			 * `week_of_year` = WEEKOFYEAR(`created`),
-			 * `hour` = HOUR(`created`),
-			 * `day_of_week` = DAYOFWEEK(`created`)
+			 UPDATE `global_view_counts` set
+			 `year` = YEAR(`created`),
+			 `month` = MONTH(`created`),
+			 `day` = DAYOFMONTH(`created`),
+			 `day_of_year` = DAYOFYEAR(`created`),
+			 `week_of_year` = WEEKOFYEAR(`created`),
+			 `hour` = HOUR(`created`),
+			 `day_of_week` = DAYOFWEEK(`created`)
 			 */
 		}
 	}
