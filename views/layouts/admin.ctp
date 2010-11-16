@@ -6,7 +6,6 @@
 		<title><?php echo sprintf('Infinitas Admin :: %s', $title_for_layout); ?></title>
 		<?php
             echo $this->Html->meta('icon');
-            echo $scripts_for_layout;
 			$css = array(
 				'/assets/css/960gs/960',
 				'/assets/css/admin_nav',
@@ -44,6 +43,8 @@
 						echo $this->ModuleLoader->load('bottom', true),
 							 $this->ModuleLoader->load('hidden', true),
 							 $this->Html->script($js_for_layout);
+
+						echo $scripts_for_layout;
 					?>
 				</div>
 				<div class="clear"></div>
