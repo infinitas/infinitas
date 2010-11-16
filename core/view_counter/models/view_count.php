@@ -19,7 +19,7 @@
 	 */
 
 	class ViewCount extends ViewCounterAppModel{
-		 public $name = 'ViewCount';
+		public $name = 'ViewCount';
 
 		/**
 		 * Get the total number of views for a selected model
