@@ -301,7 +301,6 @@
 				array(
 					'fields' => array(
 						'ViewCount.id',
-						'ViewCount.model',
 						'ViewCount.month',
 						'sub_total',
 						'ViewCount.created'
@@ -404,7 +403,7 @@
 		 * @param int $limit the maximum number of rows to return
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportByDay($conditions = array(), $limit = 200){
+		public function reportByDay($conditions = array()){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
 			);
@@ -414,17 +413,14 @@
 				array(
 					'fields' => array(
 						'ViewCount.id',
-						'ViewCount.model',
 						'ViewCount.day',
-						'ViewCount.month',
 						'sub_total',
 						'ViewCount.created'
 					),
 					'conditions' => $conditions,
 					'group' => array(
 						'ViewCount.day'
-					),
-					'limit' => (int)$limit
+					)
 				)
 			);
 
@@ -441,7 +437,6 @@
 				array(
 					'fields' => array(
 						'ViewCount.id',
-						'ViewCount.model',
 						'ViewCount.day_of_week',
 						'sub_total',
 						'ViewCount.created'
@@ -481,7 +476,6 @@
 				array(
 					'fields' => array(
 						'ViewCount.id',
-						'ViewCount.model',
 						'ViewCount.hour',
 						'sub_total',
 						'ViewCount.created'
@@ -673,8 +667,6 @@
 				array(
 					'fields' => array(
 						'ViewCount.id',
-						'ViewCount.model',
-						'ViewCount.ip_address',
 						'ViewCount.country_code',
 						'ViewCount.country',
 						'sub_total',
