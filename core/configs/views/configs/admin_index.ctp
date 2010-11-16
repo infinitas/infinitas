@@ -49,8 +49,8 @@
                     $this->Paginator->sort('type') => array(
                         'style' => 'width:50px;'
                     ),
-                    __('Core', true) => array(
-                        'style' => 'width:50px;'
+                    $this->Paginator->sort('modifeid') => array(
+                        'style' => 'width:75px;'
                     )
                 )
             );
@@ -76,7 +76,7 @@
                 			<?php echo Inflector::humanize($config['Config']['type']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status($config['Config']['core']); ?>&nbsp;
+                			<?php echo $this->Time->niceShort($config['Config']['modified']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
