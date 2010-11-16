@@ -71,15 +71,33 @@
 				$this->__session[$Model->alias] = $this->Session->read('Viewable.'.$Model->alias);
 			}
 
+			$user_id = $this->Session->read('Auth.User.id');
 			$view['ViewCount'] = array(
-				'ip_address' => $this->Session->read('ip_address'),
-				'user_id' => $this->Session->read('Auth.User.id') > 0 ? $this->Session->read('Auth.User.id') : 0,
+				'user_id' => $user_id > 0 ? $user_id : 0,
 				'model' => Inflector::camelize($Model->plugin).'.'.$Model->name,
 				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey]
 			);
 			
-			$Model->ViewCount->save($view);
+			$location = EventCore::trigger($this, 'geolocation.getLocation');
+			$location = current($location['getLocation']);
 
+			foreach($location as $k => $v){
+				$view['ViewCount'][$k] = $v;
+			}
+			$view['ViewCount']['year'] = date('Y');
+			$view['ViewCount']['month'] = date('m');
+			$view['ViewCount']['day'] = date('j');
+			$view['ViewCount']['day_of_year'] = date('z');
+			$view['ViewCount']['week_of_year'] = date('W');
+			$view['ViewCount']['hour'] = date('G'); // no leading 0
+
+			/**
+			 * http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_dayofweek
+			 * sunday is 1, php uses 0
+			 */
+			$view['ViewCount']['day_of_week'] = date('w') + 1;
+			
+			$Model->ViewCount->save($view);
 			return $data;
 		}
 	}
