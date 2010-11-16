@@ -74,7 +74,7 @@
 				'country_id' => geoip_country_id_by_addr($data, $ipAddress),
 				'ip_address' => $ipAddress
 			);
-
+			
 			geoip_close($data);
 			unset($data);
 
@@ -102,8 +102,10 @@
 				return false;
 			}
 
-			$city = geoip_record_by_addr($data, $ipAddress);
+			$city = (array)geoip_record_by_addr($data, $ipAddress);
 			if(!empty($city)){
+				$city['country'] = $city['country_name'];
+				unset($city['country_name']);
 				$city['ip_address'] = $ipAddress;
 			}
 			geoip_close($data);
