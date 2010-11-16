@@ -27,8 +27,7 @@
 			$filterOptions['fields'] = array(
 				'key',
 				'value',
-				'type' => $this->Config->_configTypes,
-				'core' => Configure::read('CORE.core_options')
+				'type' => $this->Config->_configTypes
 			);
 
 			$this->set(compact('configs', 'filterOptions'));

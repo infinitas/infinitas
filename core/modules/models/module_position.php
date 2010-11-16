@@ -18,4 +18,19 @@
 				)
 			);
 		}
+
+		public function isPosition($position = null){
+			if(!$position){
+				return false;
+			}
+
+			return (bool)$this->find(
+				'count',
+				array(
+					'conditions' => array(
+						'ModulePosition.name' => $position
+					)
+				)
+			);
+		}
 	}

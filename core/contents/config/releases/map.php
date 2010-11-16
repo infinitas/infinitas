@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_contents' => 'R4ce16c7df03c42409f0222076318cd70'),
+		'000008_contents' => 'R4ce2a9e20b9c4ecd87d315fb6318cd70'),
 );
 ?>

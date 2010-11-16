@@ -67,7 +67,24 @@
 				return $query;
 			}
 
-			$query['contain']['GlobalContent'] = array('GlobalLayout', 'Group');
+			$query['contain']['GlobalContent'] = array(
+				'fields' => array(
+					'GlobalContent.id',
+					'GlobalContent.model',
+					'GlobalContent.foreign_key',
+					'GlobalContent.title',
+					'GlobalContent.slug',
+					'GlobalContent.body',
+					'GlobalContent.meta_keywords',
+					'GlobalContent.meta_description',
+					'GlobalContent.group_id',
+					'GlobalContent.layout_id',
+					'GlobalContent.created',
+					'GlobalContent.modified'
+				),
+				'GlobalLayout',
+				'Group'
+			);
 			if(isset($query['recursive']) && $query['recursive'] == -1){
 				$query['recursive'] = 0;
 			}
@@ -135,7 +152,10 @@
 					'conditions' => array(
 						'or' => array(
 							$Model->GlobalContent->alias . '.id' => $slug,
-							$Model->GlobalContent->alias . '.slug' => $slug
+							'and' => array(
+								$Model->GlobalContent->alias . '.model' => $Model->plugin . '.' . $Model->alias,
+								$Model->GlobalContent->alias . '.slug' => $slug
+							)
 						)
 					)
 				)

@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Configs schema generated on: 2010-09-18 18:09:20 : 1284828620*/
+/* Configs schema generated on: 2010-11-16 15:11:13 : 1289921593*/
 class ConfigsSchema extends CakeSchema {
 	var $name = 'Configs';
 
@@ -13,13 +13,13 @@ class ConfigsSchema extends CakeSchema {
 
 	var $configs = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
-		'value' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
-		'options' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
-		'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'config_key' => array('column' => 'key', 'unique' => 1)),
+		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'value' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'options' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'key' => array('column' => 'key', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 }
