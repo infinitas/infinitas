@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_configs' => 'R4c94edcc7ed441e58efd78d86318cd70'),
+		'000008_configs' => 'R4ce2a439e60c43688a73133c6318cd70'),
 );
 ?>
