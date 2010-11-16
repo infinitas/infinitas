@@ -77,7 +77,7 @@
 
 		public function beforeRedirect(){
 			if(isset($this->Controller->{$this->Controller->modelClass}->lockable) && $this->Controller->{$this->Controller->modelClass}->lockable){
-				if($this->Controller->params['form']['action'] == 'cancel'){
+				if(isset($this->Controller->params['form']['action']) && $this->Controller->params['form']['action'] == 'cancel'){
 					$this->Controller->{$this->Controller->modelClass}->Lock->deleteAll(
 						array(
 							'Lock.class' => Inflector::camelize($this->Controller->plugin).'.'.$this->Controller->modelClass,
