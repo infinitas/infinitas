@@ -30,6 +30,10 @@
 		 */
 		public $Mustache = null;
 
+		public function abc(){
+			pr(123);
+		}
+
 		/**
 		 * internal cache of template parts from the entire system
 		 */
@@ -59,9 +63,8 @@
 		 * the template rendering. could be handy for debugging. if debug is off
 		 * this has no effect.
 		 */
-		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {			
+		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
 			$out = parent::_render($___viewFn, $___dataForView, $loadHelpers, $cached);
-			
 			// only on for admin or it renders the stuff in the editor which is pointless
 			// could maybe just turn it off for edit or some other work around
 			if(!isset($this->params['admin'])){
@@ -70,10 +73,14 @@
 			
 			if($this->Mustache !== null && !$this->params['admin']){
 				if(empty($this->__mustacheTemplates)){
-					$this->__mustacheTemplates = $this->Event->trigger('requireGlobalTemplates');
+					$this->__mustacheTemplates = array_filter(current($this->Event->trigger('requireGlobalTemplates')));
+				}
+				
+				foreach($this->__mustacheTemplates as $plugin => $template){
+					$this->__vars['viewVars'][Inflector::classify($plugin) . 'Template'] = $template;
 				}
 
-				$this->__vars['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
+				//$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
 				$this->__vars['viewVars']  =& $this->viewVars;
 				$this->__vars['params']    =& $this->params;
 
@@ -81,7 +88,7 @@
 					unset($this->params['url']['mustache']);
 				}
 				
-				if(!isset($this->params['url']['mustache']) || $this->params['url']['mustache'] != 'false'){
+				if(!isset($this->params['url']['mustache']) || $this->params['url']['mustache'] != 'false' && strstr($___viewFn, 'front.ctp')){
 					$out = $this->Mustache->render($out, $this->__vars['viewVars']);
 				}
 			}
