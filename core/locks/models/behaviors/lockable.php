@@ -42,7 +42,7 @@
 		 * @return void
 		 */
 		public function setup($Model, $config = null) {
-			if($Model->alias == 'Lock'){
+			if($Model->alias == 'Lock' || !$Model->Behaviors->enabled('Locks.Lockable')){
 				return;
 			}
 
@@ -104,7 +104,7 @@
 		 * @var bool $primary is it the main model doing the find
 		 */
 		public function afterFind($Model, $results, $primary){
-			if($Model->findQueryType != 'first' || !$primary || empty($results)){
+			if($Model->findQueryType != 'first' || !$primary || empty($results) || !isset($Model->Lock)){
 				return $results;
 			}
 			
@@ -163,7 +163,7 @@
 		 * @return array the find query data
 		 */
 		public function beforeFind($Model, $query) {
-			if($Model->findQueryType == 'count'){
+			if($Model->findQueryType == 'count' || !isset($Model->Lock)){
 				return $query;
 			}
 
