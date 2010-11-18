@@ -23,6 +23,10 @@
 	class LockerComponent extends InfinitasComponent{
 		public function initialize($Controller){
 			$this->Controller = $Controller;
+			
+			if(!strstr($this->Controller->action, 'admin')){
+				$Controller->{$Controller->modelClass}->Behaviors->detach('Locks.Lockable');
+			}
 		}
 
 		public function beforeRender(){
