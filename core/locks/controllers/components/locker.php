@@ -25,7 +25,7 @@
 			$this->Controller = $Controller;
 			
 			if(!strstr($this->Controller->action, 'admin')){
-				$Controller->{$Controller->modelClass}->Behaviors->detach('Locks.Lockable');
+				$Controller->{$Controller->modelClass}->Behaviors->disable('Locks.Lockable');
 			}
 		}
 
