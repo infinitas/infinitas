@@ -21,28 +21,26 @@
 	 */
 
 	class LockerComponent extends InfinitasComponent{
-		public function initialize($Controller){
-			$this->Controller = $Controller;
-			
-			if(!strstr($this->Controller->action, 'admin')){
+		public function initialize($Controller){			
+			if(!strstr($Controller->action, 'admin')){
 				$Controller->{$Controller->modelClass}->Behaviors->disable('Locks.Lockable');
 			}
 		}
 
-		public function beforeRender(){
-			if(isset($this->Controller->data['Lock']['user_id']) && $this->Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
-				$this->Controller->Session->setFlash(sprintf(__('The %s you requested has been locked by %s', true), $this->Controller->prettyModelName, $this->Controller->data['Locker']['username']));
-				$this->Controller->redirect(array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked'));
+		public function beforeRender($Controller){
+			if(isset($Controller->data['Lock']['user_id']) && $Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
+				$Controller->Session->setFlash(sprintf(__('The %s you requested has been locked by %s', true), $Controller->prettyModelName, $Controller->data['Locker']['username']));
+				$Controller->redirect(array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked'));
 			}
 		}
 
-		public function beforeRedirect(){
-			if(isset($this->Controller->{$this->Controller->modelClass}->lockable) && $this->Controller->{$this->Controller->modelClass}->lockable){
-				if(isset($this->Controller->params['form']['action']) && $this->Controller->params['form']['action'] == 'cancel'){
-					$this->Controller->{$this->Controller->modelClass}->Lock->deleteAll(
+		public function beforeRedirect($Controller){
+			if(isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable){
+				if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel'){
+					$Controller->{$Controller->modelClass}->Lock->deleteAll(
 						array(
-							'Lock.class' => Inflector::camelize($this->Controller->plugin).'.'.$this->Controller->modelClass,
-							'Lock.foreign_key' => $this->Controller->params['data'][$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->primaryKey]
+							'Lock.class' => Inflector::camelize($Controller->plugin).'.'.$Controller->modelClass,
+							'Lock.foreign_key' => $Controller->params['data'][$Controller->modelClass][$Controller->{$Controller->modelClass}->primaryKey]
 						)
 					);
 				}
