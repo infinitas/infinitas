@@ -22,7 +22,7 @@
 
 	class LockerComponent extends InfinitasComponent{
 		public function initialize($Controller){			
-			if(!strstr($Controller->action, 'admin')){
+			if(!strstr($Controller->action, 'admin') && isset($Controller->{$Controller->modelClass}->Behaviors)){
 				$Controller->{$Controller->modelClass}->Behaviors->disable('Locks.Lockable');
 			}
 		}
