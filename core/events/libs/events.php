@@ -31,7 +31,6 @@
 
 			if (empty($instance)) {
 				$instance[0] = new EventCore();
-				$instance[0]->pluginNameCache = new stdClass();
 				$instance[0]->__loadEventHandlers();
 			}
 			return $instance[0];
@@ -114,29 +113,51 @@
 			return $return;
 		}
 
+		/**
+		 * takes the event name and breaks it down into the different parts setting
+		 * some defaults for gloabl events. results are cached to avoid importing
+		 * and alling the string class to much.
+		 * 
+		 * @param <type> $eventName
+		 * @return <type>
+		 */
 		private function __parseEventName($eventName){
-			App::import('Core', 'String');
+			$_this =& EventCore::getInstance();
+			
+			if(!isset($_this->eventNameCache->{$eventName})){
+				App::import('Core', 'String');
 
-
-			$eventTokens = String::tokenize($eventName, '.');
-			$scope = 'Global';
-			$event = $eventTokens[0];
-			if (count($eventTokens) > 1){
-				list($scope, $event) = $eventTokens;
+				$eventTokens = String::tokenize($eventName, '.');
+				$scope = 'Global';
+				$event = $eventTokens[0];
+				if (count($eventTokens) > 1){
+					list($scope, $event) = $eventTokens;
+				}
+				
+				$_this->eventNameCache->{$eventName}  = array(
+					'scope' => $scope,
+					'event' => $event
+				);
 			}
 
-			return compact('scope', 'event');
+			return $_this->eventNameCache->{$eventName};
 		}
 
 		/**
-		 * Converts event name into a handler method name
+		 * Converts event name into a handler method name and caches the result
+		 * so that there are less calls to the inflector method.
 		 *
 		 * @param string $eventName
 		 * @return string
 		 *
 		 */
 		private function __handlerMethodName($eventName){
-			return 'on'.Inflector::camelize($eventName);
+			$_this =& EventCore::getInstance();
+			if(!isset($_this->handlerNameCache->{$eventName})){
+				$_this->handlerNameCache->{$eventName} = 'on' . Inflector::camelize($eventName);
+			}
+			
+			return $_this->handlerNameCache->{$eventName};
 		}
 
 		/**
