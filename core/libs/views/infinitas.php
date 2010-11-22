@@ -30,10 +30,6 @@
 		 */
 		public $Mustache = null;
 
-		public function abc(){
-			pr(123);
-		}
-
 		/**
 		 * internal cache of template parts from the entire system
 		 */
@@ -47,9 +43,9 @@
 		/**
 		 * get the
 		 */
-		public function __construct(&$controller, $register = true) {
+		public function __construct($Controller, $register = true) {
 			$this->Mustache = new Mustache();
-			parent::__construct(&$controller, $register);
+			parent::__construct($Controller, $register);
 		}
 
 		/**
@@ -81,8 +77,8 @@
 				}
 
 				//$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
-				$this->__vars['viewVars']  =& $this->viewVars;
-				$this->__vars['params']    =& $this->params;
+				$this->__vars['viewVars']  = $this->viewVars;
+				$this->__vars['params']    = $this->params;
 
 				if(Configure::read('debug') < 1){
 					unset($this->params['url']['mustache']);
