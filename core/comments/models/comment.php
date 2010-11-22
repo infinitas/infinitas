@@ -32,28 +32,34 @@
 			)
 		);
 
-		public function afterFind($results){
+		public function afterFind($results, $primary){
 			if(isset($results[0][0]['count'])){
 				return $results;
 			}
-
-			$base = array('schema' => $this->schema());
-			extract(
-				array_merge(
-					$base,
-					array('with' => 'CommentAttribute', 'foreignKey' => $this->hasMany['CommentAttribute']['foreignKey'])
-				)
+	
+			$base = array_merge(
+				array('schema' => $this->schema()),
+				array('with' => 'CommentAttribute', 'foreignKey' => $this->hasMany['CommentAttribute']['foreignKey'])
 			);
 			
-			if (!Set::matches('/'.$with, $results)) {
+			if (!Set::matches('/' . $base['with'], $results)) {
 				return $results;
 			}
 
-			foreach ($results as $i => $item) {
-				foreach ($item[$with] as $field) {
-					$results[$i][$field['key']] = $field['val'];
+			if(isset($results[0]) || $primary){
+				foreach ($results as $k => $item) {
+					foreach ($item[$base['with']] as $field) {
+						$results[$k][$field['key']] = $field['val'];
+					}
+
+					unset($results[$k][$base['with']]);
 				}
-				unset($results[$i][$with]);
+			}
+
+			else{
+				foreach ($results[$base['with']] as $field) {
+					$results[$field['key']] = $field['val'];
+				}
 			}
 
 			return $results;
