@@ -17,6 +17,12 @@
 	 * @since 0.5a
 	 */
 	class AppController extends GlobalActions {
+		/**
+		 * class name
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'AppController';
 		
 		/**
@@ -57,8 +63,18 @@
 			);
 
 			$this->set('class_name_for_layout', implode(' ', $fields));
+			unset($fields);
 		}
 
+		/**
+		 * Redirect method, will remove the last_page session var that is stored
+		 * when adding/editing things in admin. makes redirect() default to /index
+		 * if there is no last page.
+		 * 
+		 * @param <type> $url
+		 * @param <type> $status
+		 * @param <type> $exit
+		 */
 		function redirect($url = null, $status = null, $exit = true){
 			if(!$url || $url == ''){
 				$url = $this->Session->read('Infinitas.last_page');
@@ -154,9 +170,17 @@
 			return $this->__loadAsset($js, __FUNCTION__);
 		}
 
-
+		/**
+		 * loads the assets into a var that will be sent to the view, used by
+		 * addCss / addJs. if false is passed in the var is reset, if true is passed
+		 * in you get back what is currently set.
+		 *
+		 * @param mixed $data takes bool for reseting, strings and arrays for adding
+		 * @param string $method where its going to store / remove
+		 * @return mixed true on success, arry if you pass true
+		 */
 		function __loadAsset($data, $method){
-			$property = '__'.$method;
+			$property = '__' . $method;
 			if($data === false){
 				$this->{$property} = array();
 				return true;
@@ -171,6 +195,7 @@
 					$this->{$method}($_data);
 					continue;
 				}
+
 				if(!in_array($_data, $this->{$property}) && !empty($_data)){
 					$this->{$property}[] = $_data;
 				}
@@ -179,6 +204,18 @@
 			return true;
 		}
 
+		/**
+		 * See http://api.cakephp.org/class/controller#method-Controllerrender
+		 *
+		 * Infinits uses this method to use admin_form.ctp for add and edit views
+		 * when there is no admin_add / admin_edit files available.
+		 * 
+		 * @param string $action Action name to render
+		 * @param string $layout Layout to use
+		 * @param string $file File to use for rendering
+		 *
+		 * @return Full output string of view contents
+		 */
 		function render($action = null, $layout = null, $file = null) {
 			if(($this->action == 'admin_edit' || $this->action == 'admin_add')) {
 				$viewPath = App::pluginPath($this->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->action . '.ctp';
@@ -186,6 +223,7 @@
 					$action = 'admin_form';
 				}
 			}
+
 			else if(($this->action == 'edit' || $this->action == 'add')) {
 				$viewPath = App::pluginPath($this->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->action . '.ctp';
 				if(!file_exists($viewPath)) {
@@ -200,7 +238,7 @@
 		 * this function is just here to stop wsod confusion. it will become more
 		 * usefull one day
 		 */
-		function blackHole(&$controller, $error){
+		function blackHole($controller, $error){
 			pr('you been blackHoled');
 			pr($error);
 			exit;
@@ -262,6 +300,8 @@
 				}
 				$this->redirect($config['redirect']);
 			}
+			
+			unset($_default, $config, $vars);
 		}
 	}
 
@@ -305,7 +345,10 @@
 			$this->modelName = $this->modelClass;
 			$this->prettyModelName = prettyName($this->modelName);
 			$this->{$this->modelName}->plugin = $this->plugin;
-			$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
+			
+			if(!$this->Session->read('ip_address')){
+				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
+			}
 		}
 
 		/**
@@ -317,7 +360,7 @@
 		 */
 		public function __construct(){
 			$this->__setupConfig();
-			$event = EventCore::trigger(new StdClass(), 'requireComponentsToLoad');
+			$event = EventCore::trigger($this, 'requireComponentsToLoad');
 
 			if(isset($event['requireComponentsToLoad']['libs'])){
 				$libs['libs'] = $event['requireComponentsToLoad']['libs'];
@@ -348,7 +391,7 @@
 		private function __setupConfig(){
 			$configs = ClassRegistry::init('Configs.Config')->getConfig();
 			
-			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigStart', $configs);
+			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigStart', $configs);
 			if (isset($eventData['setupConfigStart'][$this->plugin])){
 				$configs = (array)$eventData['setupConfigStart'][$this->plugin];
 
@@ -357,7 +400,7 @@
 				}
 			}
 
-			$eventData = EventCore::trigger(new StdClass(), $this->plugin.'.setupConfigEnd');
+			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigEnd');
 			if (isset($eventData['setupConfigEnd'][$this->plugin])){
 				$configs = $configs + (array)$eventData['setupConfigEnd'][$this->plugin];
 			}
@@ -386,6 +429,7 @@
 				Configure::write($config['Config']['key'], $config['Config']['value']);
 			}
 
+			unset($configs);
 			return true;
 		}
 
@@ -410,7 +454,7 @@
 				}
 			}
 
-			$this->render(null, null, App::pluginPath('Comment').'views'.DS.'comments'.DS.'add.ctp');
+			$this->render(null, null, App::pluginPath('Comment') . 'views' . DS . 'comments' . DS . 'add.ctp');
 		}
 
 		/**
@@ -522,6 +566,7 @@
 				$this->set('json', array('error'));
 				return;
 			}
+			
 			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getControllers($this->params['named']['plugin']));
 		}
 
@@ -566,7 +611,9 @@
 				$root = $aco->save();
 				$root['Aco']['id'] = $aco->id;
 				$log[] = 'Created Aco node for controllers';
-			} else {
+			}
+
+			else {
 				$root = $root[0];
 			}
 
