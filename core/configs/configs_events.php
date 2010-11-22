@@ -12,7 +12,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Configuration' => array('controller' => 'configs', 'action' => 'index'),
 				'Available' => array('controller' => 'configs', 'action' => 'available')

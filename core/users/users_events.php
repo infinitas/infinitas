@@ -23,7 +23,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),
 				'Users' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'index'),
@@ -53,7 +53,7 @@
 			Router::connect('/admin/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
 		}
 
-		public function onRequireComponentsToLoad(&$events){
+		public function onRequireComponentsToLoad($events){
 			return array(
 				'Users.Visitor'
 			);

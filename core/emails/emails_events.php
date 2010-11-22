@@ -1,6 +1,6 @@
 <?php
 	final class EmailsEvents extends AppEvents{
-		public function onRequireDatabaseConfigs(&$event){
+		public function onRequireDatabaseConfigs($event){
 			return array(
 				'emails' => array(
 					'datasource' => 'Emails.Imap'

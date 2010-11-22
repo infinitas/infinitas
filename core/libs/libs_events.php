@@ -12,7 +12,7 @@
 			);
 		}
 
-		public function onAttachBehaviors(&$event) {
+		public function onAttachBehaviors($event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				
 				// attach the expandable (eva) behavior if there is a table for it
@@ -57,7 +57,7 @@
 			}
 		}
 
-		public function onRequireComponentsToLoad(&$event){
+		public function onRequireComponentsToLoad($event){
 			return array(
 				'Libs.Infinitas',
 				'Session','RequestHandler', 'Auth', 'Acl', 'Security', // core general things from cake
@@ -65,7 +65,7 @@
 			);
 		}
 
-		public function onRequireHelpersToLoad(&$event){
+		public function onRequireHelpersToLoad($event){
 			return array(
 				'Html', 'Form', 'Javascript', 'Session', 'Time', // core general things from cake
 				'Libs.Infinitas' => true

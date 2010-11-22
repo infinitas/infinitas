@@ -1,6 +1,6 @@
 <?php
 	final class TagsEvents extends AppEvents{
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Tags' => array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')
 			);
@@ -8,7 +8,7 @@
 			return $menu;
 		}
 
-		public function onAttachBehaviors(&$event) {
+		public function onAttachBehaviors($event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				$Model = $event->Handler;
 				
@@ -22,14 +22,14 @@
 			return 'Tags.TagCloud';
 		}
 
-		public function onRequireJavascriptToLoad(&$event){
+		public function onRequireJavascriptToLoad($event){
 			return array(
 				'/tags/js/jq-tags',
 				'/tags/js/tags'
 			);
 		}
 
-		public function onRequireCssToLoad(&$event){
+		public function onRequireCssToLoad($event){
 			return array(
 				'/tags/css/tags'
 			);

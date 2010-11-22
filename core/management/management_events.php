@@ -23,11 +23,11 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			return array();
 		}
 
-		public function onSlugUrl(&$event, $data){
+		public function onSlugUrl($event, $data){
 			switch($data['type']){
 				case 'comments':
 					return array(

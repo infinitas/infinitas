@@ -36,7 +36,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'All' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index'),
 				'Frontend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0),
@@ -47,13 +47,13 @@
 			return $menu;
 		}
 
-		public function onRequireHelpersToLoad(&$event){
+		public function onRequireHelpersToLoad($event){
 			return array(
 				'Modules.ModuleLoader'
 			);
 		}
 
-		public function onRequireGlobalTemplates(&$event){
+		public function onRequireGlobalTemplates($event){
 			return array(
 				'ModuleLoader' => new ModuleTemplate()
 			);

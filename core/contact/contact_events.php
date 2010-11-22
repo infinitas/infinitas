@@ -21,7 +21,7 @@
 	 */
 
 	final class ContactEvents extends AppEvents{
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Branches' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index'),
 				'Contacts' => array('plugin' => 'contact', 'controller' => 'contacts', 'action' => 'index')
@@ -30,7 +30,7 @@
 			return $menu;
 		}
 		
-		public function onRequireCssToLoad(&$event){
+		public function onRequireCssToLoad($event){
 			return array(
 				'/contact/css/contact'
 			);
@@ -42,7 +42,7 @@
 			);
 		}
 
-		public function onSiteMapRebuild(&$event){
+		public function onSiteMapRebuild($event){
 			$newest = ClassRegistry::init('Contact.Branch')->getNewestRow();
 			$frequency = ClassRegistry::init('Contact.Contact')->getChangeFrequency();
 

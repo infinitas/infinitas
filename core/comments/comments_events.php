@@ -28,7 +28,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Comments' => array('controller' => false, 'action' => false),
 				'Active' => array('controller' => 'comments', 'action' => 'index', 'Comment.active' => 1),
@@ -43,7 +43,7 @@
 			return Configure::load('comments.config');
 		}
 		
-		public function onAttachBehaviors(&$event) {
+		public function onAttachBehaviors($event) {
 			if(is_subclass_of($event->Handler, 'Model')) {
 				if ($event->Handler->hasField('comment_count')) {					
 					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')){
@@ -53,19 +53,19 @@
 			}
 		}
 
-		public function onRequireCssToLoad(&$event){
+		public function onRequireCssToLoad($event){
 			return array(
 				'/comments/css/comment'
 			);
 		}
 
-		public function onRequireJavascriptToLoad(&$event){
+		public function onRequireJavascriptToLoad($event){
 			return array(
 				'/comments/js/comment'
 			);
 		}
 
-		public function onSiteMapRebuild(&$event){
+		public function onSiteMapRebuild($event){
 			return array(
 				array(
 					'url' => Router::url(array('plugin' => 'comments', 'controller' => 'comments', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
@@ -76,7 +76,7 @@
 			);
 		}
 
-		public function onUserProfile(&$event){
+		public function onUserProfile($event){
 			return array(
 				'element' => 'profile'
 			);
