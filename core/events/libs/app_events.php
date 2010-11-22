@@ -76,7 +76,7 @@
 		 *
 		 * @param object $event
 		 */
-		public function onRequireDatabaseConfigs(&$event){}
+		public function onRequireDatabaseConfigs($event){}
 
 		/**
 		 * Load the default cache settings.
@@ -88,7 +88,7 @@
 		 *
 		 * @return true
 		 */
-		public function onSetupCache(&$event, $data = null){}
+		public function onSetupCache($event, $data = null){}
 
 		/**
 		 * Load config vars from the db.
@@ -100,11 +100,11 @@
 		 *
 		 * @return true
 		 */
-		public function onSetupConfig(&$event, $data = null){}
+		public function onSetupConfig($event, $data = null){}
 
-		public function onSetupConfigStart(&$event, $data = null){}
+		public function onSetupConfigStart($event, $data = null){}
 		
-		public function onSetupConfigEnd(&$event, $data = null){}
+		public function onSetupConfigEnd($event, $data = null){}
 
 		/**
 		 * Adding routes
@@ -115,7 +115,7 @@
 		 * 
 		 * @return nothing, it wont do anything
 		 */
-		public function onSetupRoutes(&$event, $data = null){}
+		public function onSetupRoutes($event, $data = null){}
 
 		/**
 		 * parse extentions
@@ -124,7 +124,7 @@
 		 *
 		 * @return array of extentions that should be registered.
 		 */
-		public function onSetupExtentions(&$event){}
+		public function onSetupExtentions($event){}
 
 
 
@@ -134,28 +134,28 @@
 		/**
 		 *
 		 */
-		public function onAttachBehaviors(&$event = null){}
+		public function onAttachBehaviors($event = null){}
 
 
 
 
-		#public function onSetupThemeStart(&$event, $data = null){}
+		#public function onSetupThemeStart($event, $data = null){}
 
-		#public function onSetupThemeSelector(&$event, $data = null){}
+		#public function onSetupThemeSelector($event, $data = null){}
 
-		#public function onSetupThemeEnd(&$event, $data = null){}
+		#public function onSetupThemeEnd($event, $data = null){}
 
-		#public function onFindBrowser(&$event, $data = null){}
+		#public function onFindBrowser($event, $data = null){}
 
-		#public function onFindOperatingSystem(&$event, $data = null){}
+		#public function onFindOperatingSystem($event, $data = null){}
 
-		#public function onSetupThemeLayout(&$event, $data = null){}
+		#public function onSetupThemeLayout($event, $data = null){}
 
-		#public function onUserLogin(&$event, $data = null){}
+		#public function onUserLogin($event, $data = null){}
 
-		#public function onUserRegistration(&$event, $data = null){}
+		#public function onUserRegistration($event, $data = null){}
 
-		#public function onUserActivation(&$event, $data = null){}
+		#public function onUserActivation($event, $data = null){}
 
 		/**
 		 * Require Global templates used in page rendering.
@@ -168,7 +168,7 @@
 		 * you can use {{templates.foo.phone}} in your views to show your phone
 		 * number.
 		 */
-		public function onRequireGlobalTemplates(&$event){}
+		public function onRequireGlobalTemplates($event){}
 
 		/**
 		 * Load helpers.
@@ -180,7 +180,7 @@
 		 *
 		 * @return mixed string | array like you would use in Controller->helpers
 		 */
-		public function onRequireHelpersToLoad(&$event = null){
+		public function onRequireHelpersToLoad($event = null){
 			return array();
 		}
 
@@ -195,7 +195,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of javascript like HtmlHelper::script() takes
 		 */
-		public function onRequireJavascriptToLoad(&$event, $data = null){}
+		public function onRequireJavascriptToLoad($event, $data = null){}
 
 		/**
 		 * Get vcss files to include
@@ -208,7 +208,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
-		public function onRequireCssToLoad(&$event, $data = null){}
+		public function onRequireCssToLoad($event, $data = null){}
 
 		/**
 		 * Load components
@@ -221,7 +221,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
-		public function onRequireComponentsToLoad(&$event = null){
+		public function onRequireComponentsToLoad($event = null){
 			return array();
 		}
 
@@ -233,7 +233,7 @@
 		 * normally in the form of Model::find(first) that you can use.
 		 *
 		 */
-		public function onSlugUrl(&$event, $data = null){}
+		public function onSlugUrl($event, $data = null){}
 
 		/**
 		 * Todo list
@@ -242,7 +242,7 @@
 		 * the admin page. This can be anything like warnings about missing
 		 * dependancies or configs, new records like pending comments etc.
 		 */
-		public function onRequireTodoList(&$event){}
+		public function onRequireTodoList($event){}
 
 		/**
 		 * Last event to fire.

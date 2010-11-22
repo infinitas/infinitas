@@ -13,7 +13,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Menus' => array('controller' => false, 'action' => false),
 				'Menu Items' => array('controller' => 'menu_items', 'action' => 'index')
@@ -22,7 +22,7 @@
 			return $menu;
 		}
 
-		public function onRequireHelpersToLoad(&$event){
+		public function onRequireHelpersToLoad($event){
 			return array(
 				'Menus.Menu'
 			);

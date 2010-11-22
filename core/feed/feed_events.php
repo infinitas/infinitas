@@ -10,7 +10,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Feeds' => array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'index')
 			);
@@ -37,7 +37,7 @@
 			return ClassRegistry::init('Feed.Feed')->listFeeds();
 		}
 
-		public function onSlugUrl(&$event, $data){
+		public function onSlugUrl($event, $data){
 			return array(
 				'html' => array(
 					'plugin' => 'feed',

@@ -34,7 +34,7 @@
 		/**
 		 * Called before blog post is echo'ed
 		 */
-		public function onBlogBeforeContentRender(&$event, $data) {
+		public function onBlogBeforeContentRender($event, $data) {
 			if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))){
 				return false;
 			}
@@ -49,7 +49,7 @@
 		/**
 		 * Called after blog post is echo'ed
 		 */
-		public function onBlogAfterContentRender(&$event, $data) {
+		public function onBlogAfterContentRender($event, $data) {
 			if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))){
 				return false;
 			}
@@ -61,7 +61,7 @@
 			return $this->__views($views);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'report'),
 				'Custom' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'custom'),
@@ -73,7 +73,7 @@
 		/**
 		 * Include some css
 		 */
-		public function onRequireCssToLoad(&$event, $data = null) {
+		public function onRequireCssToLoad($event, $data = null) {
 			return array(
 				'/view_counter/css/view_counter'
 			);
@@ -103,7 +103,7 @@
 		/**
 		 * attach the reporting behavior for models with views
 		 */
-		public function onAttachBehaviors(&$event) {
+		public function onAttachBehaviors($event) {
 			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
 				if ($event->Handler->hasField('views')) {
 					$event->Handler->Behaviors->attach('ViewCounter.ViewableReporting');

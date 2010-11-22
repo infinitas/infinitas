@@ -18,6 +18,28 @@
 		 */
 		private $__eventHandlerCache = array();
 
+		/**
+		 * a cache of the event names
+		 *
+		 * @var object
+		 * @access public
+		 */
+		public $eventNameCache;
+
+		/**
+		 * a cache of the handler names
+		 *
+		 * @var object
+		 * @access public
+		 */
+		public $handlerNameCache;
+
+		/**
+		 * a cache of the plugin names
+		 * 
+		 * @var object
+		 * @access public
+		 */
 		public $pluginNameCache;
 
 		/**
@@ -102,11 +124,9 @@
 
 					if(($scope == 'Global' || $scope == $pluginName)){
 						EventCore::__loadEventClass($eventClass);
-
-						//$Event = new Event($eventName, $HandlerObject, $pluginName, $data);
 						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
-						$return[$pluginName] = call_user_func_array(array($_this->__eventClasses[$eventClass], $eventHandlerMethod), array(&$Event, $data));
+						$return[$pluginName] = call_user_func_array(array($_this->__eventClasses[$eventClass], $eventHandlerMethod), array($Event, $data));
 					}
 				}
 			}
@@ -118,8 +138,8 @@
 		 * some defaults for gloabl events. results are cached to avoid importing
 		 * and alling the string class to much.
 		 * 
-		 * @param <type> $eventName
-		 * @return <type>
+		 * @param string $eventName the name of the event
+		 * @return array the scope + event name
 		 */
 		private function __parseEventName($eventName){
 			$_this =& EventCore::getInstance();
@@ -148,7 +168,7 @@
 		 * so that there are less calls to the inflector method.
 		 *
 		 * @param string $eventName
-		 * @return string
+		 * @return string the method to be called
 		 *
 		 */
 		private function __handlerMethodName($eventName){
@@ -164,9 +184,9 @@
 		 * Loads list of available event handlers in a event object
 		 *
 		 * @param object $Event
-		 *
+		 * @access private
 		 */
-		private function __getAvailableHandlers(&$Event){
+		private function __getAvailableHandlers($Event){
 			if(is_object($Event)){
 				$_this =& EventCore::getInstance();
 
@@ -185,9 +205,9 @@
 		/**
 		 * Loads and initialises an event class
 		 *
-		 * @param string $className
-		 * @param string $filename
-		 *
+		 * @param string $className the event class to load
+		 * @param string $filename the file name of the event
+		 * @access private
 		 */
 		private function __loadEventClass($className, $filename = false){
 			$_this =& EventCore::getInstance();
@@ -218,9 +238,9 @@
 		 * so that the strtolower and other stuff does not need to be called
 		 * so many times.
 		 *
-		 * @param string $className
-		 * @return string
-		 *
+		 * @param string $className the name of the class being called
+		 * @return string the plugin being called.
+		 * @access private
 		 */
 		private function __extractPluginName($className){
 			$_this =& EventCore::getInstance();
@@ -252,29 +272,9 @@
 		 * @param string $eventName Name of the Event
 		 * @param array $data optional array with k/v data
 		 */
-		//public function __construct($eventName, &$HandlerObject, $pluginName, $data = array()) {
 		public function __construct($eventName, &$HandlerObject, $pluginName) {
 			$this->name = $eventName;
 			$this->Handler = $HandlerObject;
 			$this->plugin = $pluginName;
 		}
-
-		/**
-		 * Write to object
-		 *
-		 * @param string $name Key
-		 * @param mixed $value Value
-		 *
-		public function __set1($name, $value) {
-			$this->values['eventData'][$name] = $value;
-		}
-
-		/**
-		 * Read from object
-		 *
-		 * @param string $name Key
-		 *
-		public function __get1($name) {
-			return $this->values['eventData'][$name];
-		}*/
 	}
