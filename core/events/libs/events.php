@@ -18,17 +18,20 @@
 		 */
 		private $__eventHandlerCache = array();
 
+		public $pluginNameCache;
+
 		/**
 		 * Returns a singleton instance of the EventCore class.
 		 *
 		 * @return EventCore instance
 		 * @access public
 		 */
-		public function &getInstance(){
+		public function getInstance(){
 			static $instance = array();
 
 			if (empty($instance)) {
-				$instance[0] =& new EventCore();
+				$instance[0] = new EventCore();
+				$instance[0]->pluginNameCache = new stdClass();
 				$instance[0]->__loadEventHandlers();
 			}
 			return $instance[0];
@@ -96,7 +99,9 @@
 
 			if(isset($_this->__eventHandlerCache[$eventName])){
 				foreach($_this->__eventHandlerCache[$eventName] as $eventClass){
-					$pluginName = EventCore::__extractPluginName($eventClass);
+					$pluginName = isset($_this->pluginNameCache->{$eventClass})
+						? $_this->pluginNameCache->{$eventClass}
+						: EventCore::__extractPluginName($eventClass);
 
 					if(($scope == 'Global' || $scope == $pluginName)){
 						if(!isset($_this->__eventClasses[$eventClass]) || !is_object($_this->__eventClasses[$eventClass])) {
@@ -199,7 +204,9 @@
 		 *
 		 */
 		private function __extractPluginName($className){
-			return strtolower(substr($className, 0, strlen($className) - 6));
+			$_this =& EventCore::getInstance();
+			$_this->pluginNameCache->{$className} = strtolower(substr($className, 0, strlen($className) - 6));
+			return $_this->pluginNameCache->{$className};
 		}
 	}
 
