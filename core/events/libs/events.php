@@ -99,21 +99,15 @@
 
 			if(isset($_this->__eventHandlerCache[$eventName])){
 				foreach($_this->__eventHandlerCache[$eventName] as $eventClass){
-					$pluginName = isset($_this->pluginNameCache->{$eventClass})
-						? $_this->pluginNameCache->{$eventClass}
-						: EventCore::__extractPluginName($eventClass);
+					$pluginName = EventCore::__extractPluginName($eventClass);
 
 					if(($scope == 'Global' || $scope == $pluginName)){
-						if(!isset($_this->__eventClasses[$eventClass]) || !is_object($_this->__eventClasses[$eventClass])) {
-							EventCore::__loadEventClass($eventClass);
-						}
-
-						$EventObject = $_this->__eventClasses[$eventClass];
+						EventCore::__loadEventClass($eventClass);
 
 						//$Event = new Event($eventName, $HandlerObject, $pluginName, $data);
 						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
-						$return[$pluginName] = call_user_func_array(array(&$EventObject, $eventHandlerMethod), array(&$Event, $data));
+						$return[$pluginName] = call_user_func_array(array($_this->__eventClasses[$eventClass], $eventHandlerMethod), array(&$Event, $data));
 					}
 				}
 			}
@@ -175,18 +169,20 @@
 		 *
 		 */
 		private function __loadEventClass($className, $filename = false){
+			$_this =& EventCore::getInstance();
+			if(isset($_this->__eventClasses[$className]) && is_object($_this->__eventClasses[$className])) {
+				return true;
+			}
+			
 			if($filename === false) {
 				$baseName = Inflector::underscore($className) . '.php';
 				$pluginName = Inflector::camelize(preg_replace('/_events.php$/', '', $baseName));
 				$pluginPath = App::pluginPath($pluginName);
 				$filename = $pluginPath . $baseName;
 			}
-			
 			App::Import('file', $className, true, array(), $filename);
 
 			try{
-				$_this =& EventCore::getInstance();
-
 				$_this->__eventClasses[$className] =& new $className();
 				return true;
 			}
@@ -197,7 +193,9 @@
 		}
 
 		/**
-		 * Extracts the plugin name out of the class name
+		 * Extracts the plugin name out of the class name and caches the value
+		 * so that the strtolower and other stuff does not need to be called
+		 * so many times.
 		 *
 		 * @param string $className
 		 * @return string
@@ -205,7 +203,10 @@
 		 */
 		private function __extractPluginName($className){
 			$_this =& EventCore::getInstance();
-			$_this->pluginNameCache->{$className} = strtolower(substr($className, 0, strlen($className) - 6));
+			if(!isset($_this->pluginNameCache->{$className})){
+				$_this->pluginNameCache->{$className} = strtolower(substr($className, 0, strlen($className) - 6));
+			}
+			
 			return $_this->pluginNameCache->{$className};
 		}
 	}
