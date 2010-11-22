@@ -79,22 +79,22 @@
 							'foreignKey' => 'foreign_id',
 							'limit' => 5,
 							'order' => array(
-								$Model->alias.'Comment.created' => 'desc'
+								$Model->alias . 'Comment.created' => 'desc'
 							),
 							'fields' => array(
-								$Model->alias.'Comment.id',
-								$Model->alias.'Comment.class',
-								$Model->alias.'Comment.foreign_id',
-								$Model->alias.'Comment.user_id',
-								$Model->alias.'Comment.email',
-								$Model->alias.'Comment.comment',
-								$Model->alias.'Comment.active',
-								$Model->alias.'Comment.status',
-								$Model->alias.'Comment.created'
+								$Model->alias . 'Comment.id',
+								$Model->alias . 'Comment.class',
+								$Model->alias . 'Comment.foreign_id',
+								$Model->alias . 'Comment.user_id',
+								$Model->alias . 'Comment.email',
+								$Model->alias . 'Comment.comment',
+								$Model->alias . 'Comment.active',
+								$Model->alias . 'Comment.status',
+								$Model->alias . 'Comment.created'
 							),
 							'conditions' => array(
 								'or' => array(
-									$Model->alias.'Comment.active' => 1
+									$Model->alias . 'Comment.active' => 1
 								)
 							),
 							'dependent' => true
