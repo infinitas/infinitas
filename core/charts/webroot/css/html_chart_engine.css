@@ -1,0 +1,33 @@
+.dashboard{
+	overflow: hidden;
+}
+.html-chart{
+	float:left;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	clear: both;
+	margin: 5px;
+	padding-bottom: 10px;
+}
+
+.html-chart table{
+	width: 100%;
+}
+
+.html-chart table table{
+	float: left;
+}
+
+.html-chart .empty,
+.html-chart .fill{
+	clear: both;
+}
+
+.html-chart div.empty{
+	background-color: #F2F2F2;
+}
+
+.html-chart td.col{
+	padding-bottom:4px;
+}
