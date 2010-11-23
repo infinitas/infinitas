@@ -4,7 +4,7 @@
 			'Html'
 		);
 
-		private $__chartWrapper = '<div class="html-chart">%s %s</div>';
+		private $__chartWrapper = '<div class="html-chart bar verticle">%s %s</div>';
 
 		public function bar($data){
 			echo $this->Html->css('/charts/css/html_chart_engine');
@@ -15,47 +15,43 @@
 		}
 
 		private function __generateBarCss($data){
-			$totalColWidth = round($data['width'] / count($data['data'][0]));
 			$colWidth = (($data['width'] + $data['spacing']['padding']) / count($data['data'][0]) / $data['width']) * 100;
 			$margin = round($data['spacing']['padding'] / 2);
 			$colWidth -= $data['spacing']['padding'];
 
 			return <<<cssData
-	.html-chart{
+	.html-chart.bar.verticle{
 		width: {$data['width']}px;
 		height: {$data['height']}px;
 		background-color: #{$data['color']['background']};
 		color: #{$data['color']['text']};
-		border-left: 1px solid #{$data['color']['lines']};
 		border-bottom: 1px solid #{$data['color']['lines']};
 	}
-	.html-chart table{
+
+	.html-chart.bar.verticle .y-axis{
+		border-right: 1px solid #{$data['color']['lines']};
+	}
+
+	.html-chart.bar.verticle table{
 		height: {$data['height']}px;
-	}
-	.html-chart table table{
-		height: auto;
-	}
+	}	
 
-	.html-chart td.col{
-	}
-
-	.html-chart td.col div{
+	.html-chart.bar.verticle td.col div{
 		margin-left: {$margin}px;
 		margin-right: {$margin}px;
 	}
 
-	.html-chart .empty{
+	.html-chart.bar.verticle .empty{
 		background-color: #{$data['color']['background']};
 	}
 
-	.html-chart .fill{
+	.html-chart.bar.verticle .fill{
 		background-color: #{$data['color']['fill']};
 	}
 	
 cssData;
 
 		}
-
 
 		private function __generateBarHtml($data){
 			$legend = '';
@@ -72,8 +68,8 @@ cssData;
 
 			rsort($y);
 
-			$rows[] = '<tr><td class="y-axis"><table><tr><td>' . implode('</td></tr><tr><td>', $y) . '</td></tr></table></td>' . implode('', $cols) . '</tr>';
-			$rows[] = '<tr><td>&nbsp;</td><td>' . implode('</td><td>', $data['labels'][$data['axes'][0]]) . '</td><tr>';
+			$rows[] = '<tr class="data"><td class="y-axis"><table><tr><td>' . implode('</td></tr><tr><td>', $y) . '</td></tr></table></td>' . implode('', $cols) . '</tr>';
+			$rows[] = '<tr class="x-axis"><td>&nbsp;</td><td>' . implode('</td><td>', $data['labels'][$data['axes'][0]]) . '</td><tr>';
 			
 			$chart = sprintf(
 				'<table>%s</table><div class="legend">%s</div>',
@@ -87,7 +83,7 @@ cssData;
 		private function __css($data){
 			$css = array();
 			foreach(range(1, 100) as $num){
-				$css[] = '.html-chart .empty.e' . $num . ', .html-chart .fill.f' . $num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
+				$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' . $num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
 			}
 
 			return implode('', $css);

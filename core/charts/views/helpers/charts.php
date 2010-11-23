@@ -317,7 +317,7 @@
 			$this->data['scale'] = array(
 				'min' => 0,
 				'max' => 100,
-				'increments' => (int)$increments > 0 ? $increments : 10
+				'increments' => (int)$increments > 0 ? $increments : 6
 			);
 
 			return $this;
@@ -439,7 +439,7 @@
 			$min = $this->__getMinDataValue($data);
 			$average = $this->__getAverageDataValue($data);
 			
-			return range($min, $max, round(($max - $min) / 10));
+			return range($min, $max, round(($max - $min) / 6));
 		}
 
 		private function __getStats(){
