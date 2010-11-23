@@ -247,6 +247,11 @@
 			$this->loadModel('Management.User');
 
 			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
+			$this->data['User']['ip_address'] = env('REMOTE_ADDR');
+			$this->data['User']['browser'] = env('HTTP_USER_AGENT');
+			$this->data['User']['operating_system'] = '';
+			$this->data['User']['country'] = '';
+			$this->data['User']['city'] = '';
 			$this->data['User']['group_id'] = 1;
 			$this->data['User']['active'] = 1;
 
