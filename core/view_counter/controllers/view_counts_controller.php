@@ -3,7 +3,10 @@
 		public $name = 'ViewCounts';
 
 		public $helpers = array(
-			'Filter.Filter'
+			'Filter.Filter',
+			'Charts.Charts' => array(
+				'Charts.Html'
+			)
 		);
 
 		public function admin_custom(){
