@@ -117,8 +117,10 @@
 			$data['User']['browser']          = $this->Infinitas->getBrowser();
 			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
 
-			$data['User'] = array_merge($data['User'], $this->Session->read('GeoLocation'));
+			//$data['User'] = array_merge($data['User'], $this->Session->read('GeoLocation'));
 			$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
+			$location = $this->Event->trigger('getLocation');
+			$data['User'] = array_merge($data['User'], current($location['getLocation']));
 
 			return $data;
 		}
