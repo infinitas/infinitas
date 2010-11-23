@@ -17,7 +17,7 @@
 
 	class DATABASE_CONFIG {
 		public $default = array(
-			'driver' => 'mysql',
+			'driver' => '{default_driver}',
 			'persistent' => true,
 			'host' => '{default_host}',
 			'login' => '{default_login}',
@@ -29,7 +29,7 @@
 		);
 
 		public $test = array(
-			'driver' => 'mysql',
+			'driver' => '{default_driver}',
 			'persistent' => true,
 			'host' => '{default_host}',
 			'login' => '{default_login}',
