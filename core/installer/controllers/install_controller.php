@@ -55,6 +55,12 @@
 				'versionQuery' => 'select version();',
 			 	'function' => 'mysql_connect',
 			),
+			'mysqli' => array(
+				'name' => 'MySQLi',
+				'version' => '5.0',
+				'versionQuery' => 'select version();',
+				'function' => 'mysqli_connect',
+			),
 			'mssql' => array(
 				'name' => 'Microsoft SQL Server',
 				'version' => '8.0',
@@ -390,6 +396,7 @@
 			$content = $file->read();
 
 			$find = array(
+				'{default_driver}',
 				'{default_host}',
 				'{default_login}',
 				'{default_password}',
@@ -399,6 +406,7 @@
 			);
 
 			$replacements = array(
+				$dbConfig['driver'],
 				$dbConfig['host'],
 				$dbConfig['login'],
 				$dbConfig['password'],
