@@ -5,7 +5,7 @@
 		public $helpers = array(
 			'Filter.Filter',
 			'Charts.Charts' => array(
-				'Charts.Html'
+				'Google.GoogleStatic'
 			)
 		);
 
