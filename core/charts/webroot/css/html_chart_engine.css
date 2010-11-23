@@ -43,3 +43,36 @@
 	.html-chart.bar.verticle div.empty{
 		background-color: #F2F2F2;
 	}
+
+	.html-chart.treemap{
+	margin-bottom: 4px;
+}
+
+.html-chart.treemap .node{
+	float: left;
+	clear: none;
+	background-color: #CCCC00;
+}
+
+.html-chart.treemap a.textnode{
+	display: block;
+	font-size: 10px;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	display: block;
+	float: left;
+	color: #fff;
+	overflow: hidden;
+	background-color: #A4C088;
+	text-decoration: none;
+}
+
+.html-chart.treemap a.proper{
+	background-color: #DE9949;
+}
+
+.html-chart.treemap a.textnode img{
+	vertical-align: middle;
+	border: none;
+}
