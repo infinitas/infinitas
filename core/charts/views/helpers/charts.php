@@ -38,13 +38,14 @@
 			'height' => 480,
 			'type' => array(),
 			'color' => array(
-				'background' => '',
-				'fill' => '',
-				'text' => '',
-				'lines' => ''
+				'background' => 'FFFFFF',
+				'fill' => 'FFCC33',
+				'text' => '989898',
+				'lines' => '989898',
 			),
 			'labels' => array(),
-			'data' => array()
+			'data' => array(),
+			'tooltip' => 'Summary :: <b>%d%%</b> of highest<br/><b>%d</b> for this range<br/><b>%s</b> from last range'
 		);
 
 		public function __construct($settings = array()) {
@@ -339,6 +340,21 @@
 			return $this;
 		}
 
+		public function setTooltip($tooltip = null){
+			if(!$tooltip || !is_string($tooltip)){
+				$tooltip = $this->__originalData['tooltip'];
+			}
+
+			if($tooltip === true){
+				$this->data['tooltip'] = $this->__defaults['tooltip'];
+			}
+			else{
+				$this->data['tooltip'] = $tooltip;
+			}
+
+			return $this;
+		}
+
 		private function __buildChartData($type, $data){
 			$this->__originalData = $data;
 
@@ -355,6 +371,7 @@
 				->setAxes()
 				->setColors()
 				->setSpacing()
+				->setTooltip()
 				;
 		}
 

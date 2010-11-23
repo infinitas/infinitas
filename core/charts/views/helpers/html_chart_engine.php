@@ -58,8 +58,20 @@ cssData;
 			$chart = '';
 
 			$y = $rows = $cols = array();
+			$last = 0;
 			foreach($data['data'][0] as $key => $value){
-				$cols[] = sprintf('<td class="col"><div class="empty e%d"></div><div class="fill f%d"></div></td>', 100 - $value, $value);
+				$change = $value > $last ? __('up (%s%%)', true) : __('down (%s%%)', true);
+				$change = sprintf($change, abs($last - $value));
+				if($value == $last){
+					$change = __('no change', true);
+				}
+				$cols[] = sprintf(
+					'<td class="col" title="%s"><div class="empty e%d"></div><div class="fill f%d"></div></td>',
+					sprintf($data['tooltip'], $value, round($data['values']['max'] * ($value / 100)), $change),
+					100 - $value,
+					$value
+				);
+				$last = $value;
 			}
 
 			foreach($data['labels']['y'] as $label){
