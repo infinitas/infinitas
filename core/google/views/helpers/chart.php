@@ -361,11 +361,11 @@
 
 		public function __construct($options = array()) {
 			$default = array(
-				'cachePath' => APP . 'plugins' . DS . 'google' . DS . 'vendors' . DS . 'img' . DS . 'chart_cache' . DS,
+				'cachePath' => App::pluginPath('google') . 'vendors' . DS . 'img' . DS . 'chart_cache' . DS,
 				'cacheImagePath' => '/google/img/chart_cache/'
 			);
 
-			$options = array_merge($default, $options);
+			$options = array_merge($default, (array)$options);
 
 			$this->cachePath = $options['cachePath'];
 			$this->cacheImagePath = $options['cacheImagePath'];
