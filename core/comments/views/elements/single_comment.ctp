@@ -32,13 +32,13 @@
 <div class="comment">
 	<h4>
 		<?php
-			if(isset($comment['website'])){
+			if(isset($comment['website']) && isset($comment['username'])){
 				echo $this->Html->link(
 					$comment['username'],
 					$comment['website'], array('rel' => 'nofollow')
 				);
 			}
-			else{
+			else if(isset($comment['username'])){
 				echo $comment['username'];
 			}
 		?>
