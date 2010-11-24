@@ -55,6 +55,12 @@
 				'versionQuery' => 'select version();',
 			 	'function' => 'mysql_connect',
 			),
+			'mysqli' => array(
+				'name' => 'MySQLi',
+				'version' => '5.0',
+				'versionQuery' => 'select version();',
+				'function' => 'mysqli_connect',
+			),
 			'mssql' => array(
 				'name' => 'Microsoft SQL Server',
 				'version' => '8.0',
@@ -241,6 +247,11 @@
 			$this->loadModel('Management.User');
 
 			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
+			$this->data['User']['ip_address'] = env('REMOTE_ADDR');
+			$this->data['User']['browser'] = env('HTTP_USER_AGENT');
+			$this->data['User']['operating_system'] = '';
+			$this->data['User']['country'] = '';
+			$this->data['User']['city'] = '';
 			$this->data['User']['group_id'] = 1;
 			$this->data['User']['active'] = 1;
 
@@ -390,6 +401,7 @@
 			$content = $file->read();
 
 			$find = array(
+				'{default_driver}',
 				'{default_host}',
 				'{default_login}',
 				'{default_password}',
@@ -399,6 +411,7 @@
 			);
 
 			$replacements = array(
+				$dbConfig['driver'],
 				$dbConfig['host'],
 				$dbConfig['login'],
 				$dbConfig['password'],
