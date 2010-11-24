@@ -36,7 +36,8 @@
 		}
 
 		public function _outputMessage($template) {
-			$this->log(serialize($this->controller->viewVars), 'page_errors');
+			$this->log('Where: ' . serialize($this->controller->params['url']), 'page_errors');
+			$this->log('What:  ' . serialize($this->controller->viewVars), 'page_errors');
 			$this->controller->render($template);
 			$this->controller->afterFilter();
 			echo $this->controller->output;
