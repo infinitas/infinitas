@@ -72,6 +72,7 @@
 				'country' => geoip_country_name_by_addr($data, $ipAddress),
 				'country_code' => geoip_country_code_by_addr($data, $ipAddress),
 				'country_id' => geoip_country_id_by_addr($data, $ipAddress),
+				'city' => null,
 				'ip_address' => $ipAddress
 			);
 			
