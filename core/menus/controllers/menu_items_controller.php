@@ -1,9 +1,32 @@
 <?php
 	/**
+	 * The MenuItemsController
 	 *
+	 * Used to show and manage the items in a menu group.
 	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Menus
+	 * @subpackage Infinitas.Menus.controllers.MenusItemsController
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
 	 */
+
 	class MenuItemsController extends MenusAppController{
+		/**
+		 * The controller name
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'MenuItems';
 
 		public function admin_index(){
@@ -59,7 +82,10 @@
 		/**
 		 * Get parent menus
 		 *
-		 * Used for the ajax getting of parent menus items
+		 * Used for the ajax getting of parent menus items to populate the ajax
+		 * dropdown menus when building and editing menu items.
+		 *
+		 * @access public
 		 */
 		public function admin_getParents() {
 			$conditions = array('MenuItem.menu_id' => $this->params['named']['plugin']);
