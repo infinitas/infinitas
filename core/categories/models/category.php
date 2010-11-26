@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Category model.
+	 * Category model handles the CRUD for categories.
 	 *
 	 * Saving and editing categories are done here.
 	 *

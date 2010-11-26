@@ -1,8 +1,7 @@
 <?php
 	/**
-	 * Categorys controller.
-	 *
-	 * for the management and display of categories and related data.
+	 * CategoriesController for the management and display of categories and
+	 * related data.
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
