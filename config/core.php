@@ -45,8 +45,9 @@
 	if(Configure::read('debug') == 0){
 		Configure::write('Cache.check', true);
 	}
-	
-	Cache::config('default', array('engine' => 'File', 'prefix' => 'infinitas_'));
+
+	Cache::config('_cake_core_', array('engine' => $__cache));
+	Cache::config('default', array('engine' => $__cache, 'prefix' => 'infinitas_'));
 
 	//no home
 	Configure::write('Rating.require_auth', true);
