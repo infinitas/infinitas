@@ -50,7 +50,7 @@
 			
 			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
 				if(!is_dir(CACHE.$folder)){
-					$Folder = new Folder(CACHE.$folder, true);
+					$Folder = new Folder(CACHE . $folder, true);
 				}
 			}
 			
