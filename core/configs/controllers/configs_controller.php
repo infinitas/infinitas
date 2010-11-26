@@ -1,23 +1,37 @@
 <?php
 	/**
-	 * The configs controller for managing the site configs
+	 * The ConfigsController is for managing the site configs from the backend
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * 
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ 	 * @link http://infinitas-cms.org
+	 * @package Infinitas.Configs
+	 * @subpackage Infinitas.Configs.controllers.ConfigsController
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 *
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.configs
-	 * @subpackage Infinitas.configs.controllers
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
 	 */
 
 	class ConfigsController extends ConfigsAppController {
+		/**
+		 * the controllers name
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'Configs';
 
+		/**
+		 * dont see where this is used
+		 * 
+		 * @todo remove
+		 * @deprecated
+		 */
 		public $configOptions = array();
 
 		public function admin_index() {
