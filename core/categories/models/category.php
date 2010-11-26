@@ -8,30 +8,50 @@
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
+	 * 
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
+	 * @package Infinitas.Categories
+	 * @subpackage Infinitas.Categories.models.Category
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
+	 * @since 0.7a
 	 */
 
 	class Category extends CategoriesAppModel {
+		/**
+		 * The model name
+		 * 
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'Category';
 
+		/**
+		 * lockable enables the internal row locking while a row is being modified
+		 * preventing anyone from accessing that row.
+		 *
+		 * @var bool
+		 * @access public
+		 */
 		public $lockable = true;
 
+		/**
+		 * default order of the model is set to lft as its an mptt table
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $order = array(
 			'Category.lft' => 'asc'
 		);
 
-		public $validate = array(
-			'title' => array(
-				'notempty' => array('rule' => array('notempty')),
-			)
-		);
-
+		/**
+		 * the relations for the category model
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $belongsTo = array(
 			//'Parent' => array(
 			//	'className' => 'Categories.Category',
@@ -40,8 +60,30 @@
 			'Users.Group'
 		);
 
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->validate = array(
+				'title' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please enter a title for this category', true)
+					),
+					'isUnique' => array(
+						'rule' => 'isUnique',
+						'message' => __('There is already a category with this title', true)
+					)
+				)
+			);
+		}
+
 		/**
-		 * get active categories
+		 * get active ids of the categories for use in other finds where you only
+		 * want the active rows according to what categories are active.
+		 *
+		 * @access public 
+		 * 
+		 * @return array list of ids for categories that are active
 		 */
 		public function getActiveIds(){
 			$ids = $this->find(
@@ -61,6 +103,13 @@
 
 		/**
 		 * overwrite childern method to allow finding by slug or name
+		 * 
+		 * @param mixed $id the id of the parent
+		 * @param bool $direct direct children only or all like grandchildren
+		 * @access public
+		 *
+		 * @todo seems like a bug here with uuid's
+		 * 
 		 * @return TreeBehavior::children
 		 */
 		public function children($id = null, $direct = false){
