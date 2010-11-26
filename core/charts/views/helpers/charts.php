@@ -1,4 +1,36 @@
 <?php
+	/**
+	 * Charts helper is a charting abstraction that is extended by using different
+	 * engines.
+	 *
+	 * The charts helper uses the same sort of Engine pattern found in CakePHP's
+	 * Js helper. It takes a set of data and formats it to be easilly used by
+	 * any chart engines.
+	 *
+	 * Once the data has been formatted correctly and there are no errors its passed
+	 * along to the chart engine that was set, to be rendered.
+	 *
+	 * @todo add in some caching. If something is cached only the key should be passed
+	 * along to the engine. This means that the engine should use the same cache key
+	 * to store a chache of the actuall chart. It could be possible to just pass
+	 * back the cahce without even calling the engine.
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Charts
+	 * @subpackage Infinitas.Charts.helpers.ChartsHelper
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
 	class ChartsHelper extends AppHelper{
 		/**
 		 * the engine to use when rendering the chart
@@ -16,6 +48,14 @@
 		 */
 		public $data = array();
 
+		/**
+		 * should the data be normalized to a base 100, good for huge numbers
+		 * in the data set. look will still be the same as the y axis will use
+		 * the original data for display
+		 * 
+		 * @var bool
+		 * @access public
+		 */
 		public $normalize = true;
 
 		/**
@@ -48,6 +88,17 @@
 			'tooltip' => 'Summary :: <b>%d%%</b> of highest<br/><b>%d</b> for this range<br/><b>%s</b> from last range'
 		);
 
+		/**
+		 * Construct the charts object.
+		 *
+		 * This will take the settings passed to the helper and set the engine
+		 * to that value. A default of HtmlChartEngine is used when nothing matches
+		 *
+		 * The engine is then added to the helpers array so that it is available
+		 * for use later on in the request.
+		 * 
+		 * @param mixed $settings settings for the chart engines.
+		 */
 		public function __construct($settings = array()) {
 			$className = 'Html';
 			if (is_array($settings) && isset($settings[0])) {
@@ -230,6 +281,21 @@
 			return $this;
 		}
 
+		/**
+		 * set the axes available in the chart.
+		 *
+		 * the array passed should be a key => value array where the
+		 * keys are the axes, the values would be the lables for that axis
+		 * when the draw() method is passed all the data directly.
+		 *
+		 * This method should be called before setting labels as the labels are
+		 * per axis.
+		 *
+		 * @param <type> $axes
+		 * @access public
+		 * 
+		 * @return ChartsHelper method chaning
+		 */
 		public function setAxes($axes = null){
 			if(!$axes && isset($this->__originalData['axes'])){
 				$axes = $this->__originalData['axes'];
@@ -242,11 +308,25 @@
 			return $this;
 		}
 
+		/**
+		 * build the labels for each axis
+		 *
+		 * This method fills each axis with labels, they can either be passed in
+		 * or generated automaically.
+		 *
+		 * It should only be called after axes have been populated.
+		 *
+		 * @param <type> $data
+		 * @access public
+		 *
+		 * @return ChartsHelper method chaning
+		 */
 		public function setLabels($data){
 			if(!isset($this->data['axes'])){
 				trigger_error(__('Axes should be set before labels, skipping', true), E_USER_NOTICE);
 				return $this;
 			}
+			
 			if(!isset($this->data['data'])){
 				trigger_error(__('Data should be set before labels, skipping', true), E_USER_NOTICE);
 				return $this;
@@ -262,6 +342,17 @@
 			return $this;
 		}
 
+		/**
+		 * Set the chart data
+		 *
+		 * This method sets the actuall data for the chart. if the normalize key
+		 * is true the data will be converted to a % or 100.
+		 *
+		 * @param <type> $data
+		 * @access public
+		 *
+		 * @return ChartsHelper method chaning
+		 */
 		public function setData($data = null){
 			if(!$data){
 				$data = $this->data['data'];
@@ -324,6 +415,17 @@
 			return $this;
 		}
 
+		/**
+		 * set spacing.
+		 *
+		 * Adjust the spacing of values and elemnts in the chart passing the
+		 * options here.
+		 *
+		 * @param array $spacing key value array
+		 * @access public
+		 *
+		 * @return ChartsHelper method chaning
+		 */
 		public function setSpacing($spacing = null){
 			if(!$spacing){
 				$spacing = $this->__originalData['spacing'];
@@ -340,11 +442,24 @@
 			return $this;
 		}
 
+		/**
+		 * set the tool tip
+		 *
+		 * Used to set the tool tip pattern that will be applied where possible
+		 * to the elements in the chart to display some more detailed information
+		 * about that part of the chart.
+		 *
+		 * @param mixed $tooltip the string used through sprintf, pass true to use the default
+		 * @access public
+		 *
+		 * @return ChartsHelper method chaning
+		 */
 		public function setTooltip($tooltip = null){
 			if(!$tooltip || !is_string($tooltip)){
 				$tooltip = $this->__originalData['tooltip'];
 			}
 
+			$this->data['tooltip'] = isset($this->data['tooltip']) ? $this->data['tooltip'] : null;
 			if($tooltip === true){
 				$this->data['tooltip'] = $this->__defaults['tooltip'];
 			}
@@ -355,6 +470,19 @@
 			return $this;
 		}
 
+		/**
+		 * Build the data array to be passed to the engine selected
+		 *
+		 * This will take the data when it is passed to the main method (not using the
+		 * seperate methods) and call all the required methods to properly format the data
+		 * so that when passed to the engine its in a standard format.
+		 *
+		 * @param mixed $type string type, or array with type and configs
+		 * @param array $data the data to build the chart
+		 * @access private
+		 *
+		 * @return void
+		 */
 		private function __buildChartData($type, $data){
 			$this->__originalData = $data;
 
@@ -375,6 +503,16 @@
 				;
 		}
 
+		/**
+		 * validate the chart data.
+		 *
+		 * This makes sure that the data is in a std format and converts any
+		 * comma seperated lists of data into arrays.
+		 * 
+		 * @param array $data the data array for the charts
+		 *
+		 * @return ChartsHelper
+		 */
 		private function validateData($data = null){
 			if(!$data){
 				$data = $this->__originalData['data'];
@@ -405,6 +543,9 @@
 		 * 
 		 * @param array $data the data for the chart to be normalized
 		 * @param int $max used internally, do not pass things in here.
+		 * @access private
+		 *
+		 * @return array the new data array
 		 */
 		private function __normalizeData($data, $max = null){
 			if(!$this->normalize){
@@ -423,6 +564,20 @@
 			return $data;
 		}
 
+		/**
+		 * Convert strings to arrays.
+		 *
+		 * Defaults to comma seperated lists but could be anything like | for
+		 * example.
+		 *
+		 * @param string $field the field that should be set with this data
+		 * @param mixed $data the string to be exploded
+		 * @param string $delimiter what to explode on
+		 * @param bool $return to return the data or just set it in the data array
+		 * @access private
+		 *
+		 * @return mixed array or bool
+		 */
 		private function __anythingToArray($field, $data, $delimiter = ',', $return = false){
 			if(!$data && isset($this->__originalData[$field])){
 				$data = $this->__originalData[$field];
@@ -451,6 +606,19 @@
 			return isset($this->data[$field]);
 		}
 
+		/**
+		 * Generate labels for the chart.
+		 *
+		 * When there is no lables passed but there is a value set for an axis
+		 * this method is called to build that array of labels. normally used
+		 * for the y axis it will take the values from the data and build a list
+		 * in some increment depending on the size of the data values.
+		 *
+		 * @param array $data the data array to use for building the labels
+		 * @access private
+		 *
+		 * @return array lables for the axis
+		 */
 		private function __defaultLablesFromData($data){
 			$max = $this->__getMaxDataValue($data);
 			$min = $this->__getMinDataValue($data);
@@ -459,12 +627,32 @@
 			return range($min, $max, round(($max - $min) / 6));
 		}
 
+		/**
+		 * wrapper for stats.
+		 *
+		 * Lazy way to get the various averages, min max etx that is used to
+		 * workout things like labels, position siezes and build the chart later
+		 *
+		 * @access private
+		 *
+		 * @return void
+		 */
 		private function __getStats(){
 			$this->__getMaxDataValue();
 			$this->__getMinDataValue();
 			$this->__getAverageDataValue();
 		}
 
+		/**
+		 * Get the maximum value that is in the data array.
+		 *
+		 * The value is cached to the data array and just returned when its set.
+		 *
+		 * @param array $data the data array
+		 * @access private
+		 *
+		 * @return int the highest value
+		 */
 		private function __getMaxDataValue($data = null){
 			if(!$data){
 				$data = $this->data['data'];
@@ -478,6 +666,17 @@
 			return $this->data['values']['max'];
 		}
 
+
+		/**
+		 * Get the minimum value that is in the data array.
+		 *
+		 * The value is cached to the data array and just returned when its set.
+		 *
+		 * @param array $data the data array
+		 * @access private
+		 *
+		 * @return int the lowest value
+		 */
 		private function __getMinDataValue($data = null){
 			if(!$data){
 				$data = $this->data['data'];
@@ -492,10 +691,11 @@
 		}
 
 		/**
-		 * get the average amount for all the data that was passed for chart rendering
+		 * get the average amount for all the data that was passed for chart
+		 * rendering. 
 		 *
-		 * @param <type> $data
-		 * @access public
+		 * @param array $data the data used for the
+		 * @access private
 		 *
 		 * @return int the average
 		 */
@@ -514,8 +714,12 @@
 		}
 
 		/**
+		 * send the request to the engine specified.
+		 * 
 		 * do some final checks and then if all is good trigger the chart engine
 		 * that is needed and return the chart.
+		 * 
+		 * @access public
 		 *
 		 * @return string some html or what ever the chart engine sends back
 		 */
@@ -540,7 +744,23 @@
 	 * This just defines a few of the more common types that would be used, they
 	 * will just throw errors if used and the selected engine does not support the
 	 * chosen type.
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Charts
+	 * @subpackage Infinitas.Charts.helpers.ChartsHelper
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
 	 */
+	
 	class ChartsBaseEngineHelper extends AppHelper{
 		/**
 		 * An area chart or area graph displays graphically quantitive data. It
@@ -604,7 +824,8 @@
 		}
 
 		/**
-		 * 
+		 * Generate a meter type chart like the google-o-meter
+		 * http://code.google.com/apis/chart/docs/gallery/googleometer_chart.html
 		 *
 		 * @param array $data
 		 * @access public
