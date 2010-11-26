@@ -15,11 +15,33 @@
 
 
 	/**
-	 * Cache configuration
+	 * Cache configuration.
+	 *
+	 * Try apc or memcache, default to the namespaceFile cache.
 	 */
-	$__cache = function_exists('apc_cache_info') ? 'Apc' : 'Libs.NamespaceFile';	
+	switch(true){
+		case function_exists('apc_cache_info'):
+			$__cache = 'Apc';
+			break;
+
+		case function_exists('xcache_info'):
+			$__cache = 'Xcache';
+			break;
+
+		case class_exists('Memcache'):
+			$__cache = 'Memcache';
+			break;
+
+		default:
+			$__cache = 'Libs.NamespaceFile';
+			break;
+	}
+	
 	Configure::write('Cache.engine', $__cache);
 
+	/**
+	 * if debug is off check for view file cache
+	 */
 	if(Configure::read('debug') == 0){
 		Configure::write('Cache.check', true);
 	}
