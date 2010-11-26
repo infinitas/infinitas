@@ -1,8 +1,11 @@
 <?php
 	/**
-	 * Categories base controller
+	 * CategoriesAppController is the base controller for the %Categories plugin
 	 *
-	 * All the category related controllers extends from this controller
+	 * The categories plugin makes categorising records in your application easy
+	 * by automatically attaching and joing the related category information
+	 * to models that require it. All the category related controllers extends
+	 * from CategoriesAppController.
 	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
