@@ -1,51 +1,49 @@
 <?php
 	/**
-	 * Configs model for saving and editing site configurations.
+	 * Config model is for saving and editing site configurations.
 	 *
 	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.configs
-	 * @subpackage Infinitas.configs.models
+	 * @package Infinitas.Configs
+	 * @subpackage Infinitas.Configs.models.Config
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
 	 */
 
 	class Config extends ConfigsAppModel {
+		/**
+		 * the name of the model
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'Config';
 
+		/**
+		 * the display field
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $displayField = 'key';
 
+		/**
+		 * The default ordering for configs
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $order = array(
 			'Config.key' => 'ASC'
 		);
 
-		public $configuration = array(
-			'Revision' => array(
-				'Core.Revision' => array(
-					'active' => 'Config.Revision.active',
-					'limit' => 'Config.Revision.limit',
-					'auto' => 'Config.Revision.auto',
-					'ignore' => 'Config.Revision.ignore',
-					'useDbConfig' => 'Config.Revision.useDbConfig',
-					'model' => 'Config.Revision.model'
-				)
-			)
-		);
-
-		/**
-		 * Construct for validation.
-		 *
-		 * This is used to make the validation messages run through __()
-		 *
-		 * @param mixed $id
-		 * @param mixed $table
-		 * @param mixed $ds
-		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
@@ -96,9 +94,26 @@
 		}
 
 		/**
-		 * customOptionCheck
+		 * after saving something delete the main core_configs cache so that
+		 * the changes will take effect
 		 *
-		 * check the options based on what type is set.
+		 * @param bool $created is it new or not
+		 * @access public
+		 * 
+		 * @return parent method
+		 */
+		public function afterSave($created){
+			Cache::delete('global_configs');
+			return parent::afterSave($created);
+		}
+
+		/**
+		 * validate the options based on what type is set for the row
+		 *
+		 * @param array $data the field being validated
+		 * @access public
+		 *
+		 * @return bool is it valid or not
 		 */
 		public function customOptionCheck($data){
 			if (!isset($this->data['Config']['type']) || empty($this->data['Config']['type'])) {
@@ -143,6 +158,9 @@
 		 *
 		 * This gets and formats an array of config values for the app to use. it goes
 		 * through the list and formats the values to match the type that was passed.
+		 * 
+		 * @param bool $format should it be formated for configure::write or not.
+		 * @access public
 		 *
 		 * @return array all the config options set to the correct type
 		 */
@@ -198,6 +216,14 @@
 			return $configs;
 		}
 
+		/**
+		 * format the data into a key value array to be used in Configure::write
+		 *
+		 * @param array $configs the unformatted configs
+		 * @access private
+		 *
+		 * @return array the data that has been formatted
+		 */
 		private function __formatConfigs($configs = array()){
 			if (empty($configs)) {
 				return false;
@@ -217,6 +243,8 @@
 		 * This gets some config values that are used in the installer for the site
 		 * setup.
 		 *
+		 * @access private
+		 *
 		 * @return array of all the configs that are needed/able to be done in the installer
 		 */
 		public function getInstallSetupConfigs(){
@@ -230,14 +258,12 @@
 			);
 		}
 
-		public function afterSave($created){
-			Cache::delete('global_configs');
-			return parent::afterSave($created);
-		}
-
 		/**
 		 * Just for generating code for the configs, can be used in the dev installer
 		 * plugin stuff to avoid typing out stuff.
+		 *
+		 * @internal 
+		 * @access private
 		 */
 		private function __generateCode(){
 			if(is_bool($config['Config']['value'])){
@@ -267,6 +293,14 @@
 			pr('Configure::write(\''.$config['Config']['key'].'\', '.$_config.');');
 		}
 
+		/**
+		 * Get a list of config options that can be overloaded by an admin user.
+		 *
+		 * This gets a list of possible values that can be changed in the backend
+		 * unsetting a few options first that should not be fiddled with.
+		 * 
+		 * @return array the config options to be overloaded.
+		 */
 		public function availableConfigs(){
 			$configs = Configure::getInstance();
 
