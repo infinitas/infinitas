@@ -1,10 +1,7 @@
 <?php
 	/**
-	 * this is the base controller for the comments plugin
-	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Comments

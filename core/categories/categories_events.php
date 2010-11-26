@@ -1,17 +1,13 @@
 <?php
 	/**
-	 * Categories plugin events.
+	 * @brief Categories plugin events.
 	 *
 	 * The events for the menu plugin for setting up cache and the general
 	 * configuration of the plugin.
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Categories
-	 * @subpackage Infinitas.Categories.AppEvents
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
