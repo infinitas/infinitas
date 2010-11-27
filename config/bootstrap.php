@@ -38,7 +38,7 @@
 		$Folder = new Folder(APP);
 		$folders = $Folder->read();
 		$folders = array_flip($folders[0]);
-		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], $folders['nbproject'], $folders['tmp'], $folders['views'], $folders['webroot']);
+		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], $folders['nbproject'], $folders['tmp'], $folders['views'], $folders['webroot'], $folders['tests']);
 
 		$paths = array();
 		foreach(array_flip($folders) as $folder){
