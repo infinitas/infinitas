@@ -2,7 +2,7 @@
 	/**
 	 * @brief Categories plugin events.
 	 *
-	 * The events for the menu plugin for setting up cache and the general
+	 * The events for the Categories plugin for setting up cache and the general
 	 * configuration of the plugin.
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
