@@ -145,31 +145,39 @@
 
 		/**
 		 * @var AuthComponent
+		 * @access public
 		 */
 		public $Auth;
 
 		/**
 		 * @var RequestHandlerComponent
+		 * @access public
 		 */
 		public $RequestHandler;
 
 		/**
 		 * @var SessionComponent
+		 * @access public
 		 */
 		public $Session;
 
 		/**
 		 * @var SecurityComponent
+		 * @access public
 		 */
 		public $Security;
 
 		/**
+		 * The InfinitasComponent
+		 *
 		 * @var InfinitasComponent
+		 * @access public
 		 */
 		public $Infinitas;
 
 		/**
 		 * @var MassActionComponent
+		 * @access public
 		 */
 		public $MassAction;
 
