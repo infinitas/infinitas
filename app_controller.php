@@ -149,8 +149,6 @@
 		 * before render is called before the page is rendered, but after all the
 		 * processing is done.
 		 *
-		 * @li InfinitasComponent::getPluginAssets()
-		 *
 		 * @link http://api.cakephp.org/class/controller#method-ControllerbeforeRender
 		 *
 		 * @todo this could be moved to the InfinitasView class
@@ -205,11 +203,6 @@
 		 *
 		 * set up some variables and do a bit of pre processing before handing
 		 * over to the controller responsible for the request.
-		 *
-		 * @li InfinitasComponent::_setupAuth()
-		 * @li InfinitasComponent::_setupSecurity()
-		 * @li InfinitasComponent::_setupJavascript()
-		 * @li InfinitasComponent::paginationHardLimit()
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-ControllerbeforeFilter
 		 * 
@@ -278,8 +271,6 @@
 		 * way to inject css from plugins to the layout. call addCss(false) to
 		 * clear current stack, call addCss(true) to get a list back of what is there.
 		 *
-		 * @li AppController::__loadAsset()
-		 *
 		 * @param mixed $css array of paths like HtmlHelper::css or a string path
 		 * @access public
 		 *
@@ -294,8 +285,6 @@
 		 *
 		 * way to inject js from plugins to the layout. call addJs(false) to
 		 * clear current stack, call addJs(true) to get a list back of what is there.
-		 *
-		 * @li AppController::__loadAsset()
 		 *
 		 * @param mixed $js array of paths like HtmlHelper::css or a string path
 		 * @access public
@@ -312,9 +301,6 @@
 		 * loads the assets into a var that will be sent to the view, used by
 		 * addCss / addJs. if false is passed in the var is reset, if true is passed
 		 * in you get back what is currently set.
-		 *
-		 * @li AppController::addCss()
-		 * @li AppController::addJs()
 		 *
 		 * @param mixed $data takes bool for reseting, strings and arrays for adding
 		 * @param string $method where its going to store / remove
@@ -436,13 +422,6 @@
 		 * The code passed can be used for linking to error pages with more information
 		 * eg: creating some pages on your site like /errors/<code> and then making it
 		 * a clickable link the user can get more detailed information.
-		 *
-		 * @li InfinitasComponent::noticeSaved()
-		 * @li InfinitasComponent::noticeNotSaved()
-		 * @li InfinitasComponent::noticeInvalidRecord()
-		 * @li InfinitasComponent::noticeDeleted()
-		 * @li InfinitasComponent::noticeNotDeleted()
-		 * @li AppController::redirect()
 		 *
 		 * @param string $message the message to show to the user
 		 * @param int $code a code that can link to help
@@ -566,8 +545,6 @@
 		 * are then loaded into $components making them available to the entire
 		 * application.
 		 *
-		 * @li EventCore::trigger()
-		 *
 		 * @access public
 		 *
 		 * @return void
@@ -598,7 +575,6 @@
 		/**
 		 * @brief Set up some general variables that are used around the code.
 		 *
-		 * @see AppController::beforeFilter()
 		 * @access public
 		 *
 		 * @return void
@@ -620,8 +596,6 @@
 		 * Load the default configuration and check if there are any configs
 		 * to load from the current plugin. configurations can be completely rewriten
 		 * or just added to.
-		 *
-		 * @li EventCore::trigger()
 		 *
 		 * @access private
 		 *
@@ -681,8 +655,6 @@
 		 *
 		 * @todo this needs to be moved to the Comments plugin and is part of
 		 * the reason this code needs to be more extendable
-		 *
-		 * @li CommentableBehavior::createComment()
 		 *
 		 * @access public
 		 *
@@ -813,8 +785,6 @@
 		/**
 		 * @brief get a list of all the plugins in the app
 		 *
-		 * @li JsonView
-		 *
 		 * @access public
 		 *
 		 * @return void
@@ -825,8 +795,6 @@
 
 		/**
 		 * @brief get a list of all the controllers for the selected plugin
-		 *
-		 * @li JsonView
 		 *
 		 * @access public
 		 *
@@ -844,8 +812,6 @@
 		/**
 		 * @brief get a list of all the models for the selected plugin
 		 *
-		 * @li JsonView
-		 *
 		 * @access public
 		 *
 		 * @return void
@@ -861,8 +827,6 @@
 
 		/**
 		 * @brief get a list of all the actions for the selected plugin + controller
-		 *
-		 * @li JsonView
 		 *
 		 * @access public
 		 *
@@ -981,8 +945,6 @@
 		 *
 		 * Method to handle mass actions (Such as mass deletions, toggles, etc.)
 		 *
-		 * @li MassActionComponent
-		 *
 		 * @access public
 		 *
 		 * @return void
@@ -1016,8 +978,6 @@
 		 * it will fall back to this. It does the basics, saveAll with a
 		 * Session::setFlash() message.
 		 *
-		 * @li InfinitasComponent
-		 *
 		 * @todo sanitize input
 		 * @todo render generic view
 		 * 
@@ -1046,8 +1006,6 @@
 		 * If you need simple Edit method for your admin just dont create one and
 		 * it will fall back to this. It does the basics, saveAll with a
 		 * Session::setFlash() message.
-		 * 
-		 * @li InfinitasComponent
 		 *
 		 * @todo sanitize input
 		 * @todo render generic view
@@ -1092,8 +1050,6 @@
 		 *  - possition needs the new possition of the record
 		 *
 		 * - direction: for MPTT and only needs the record id.
-		 *
-		 * @li InfinitasComponent
 		 *
 		 * @param int $id the id of the record to move.
 		 *
