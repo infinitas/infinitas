@@ -7,37 +7,18 @@
 
 	Configure::write('debug', 2);
 	Configure::write('log', true);
+
+	/**
+	 * @brief Error logging level
+	 *
+	 * Same as the debug level, but will send errors to a file. Good to see
+	 * what is going on when the site's debug is off.
+	 */
 	define('LOG_ERROR', 2);
 
 	if(phpversion() >= 5.3){
 		date_default_timezone_set(date_default_timezone_get());
 	}
-
-
-	/**
-	 * Cache configuration.
-	 *
-	 * Try apc or memcache, default to the namespaceFile cache.
-	 */
-	switch(true){
-		case function_exists('apc_cache_info'):
-			$__cache = 'Apc';
-			break;
-
-		case function_exists('xcache_info'):
-			$__cache = 'Xcache';
-			break;
-
-		case class_exists('Memcache'):
-			$__cache = 'Memcache';
-			break;
-
-		default:
-			$__cache = 'Libs.NamespaceFile';
-			break;
-	}
-	
-	Configure::write('Cache.engine', $__cache);
 
 	/**
 	 * if debug is off check for view file cache
@@ -46,22 +27,51 @@
 		Configure::write('Cache.check', true);
 	}
 
-	Cache::config('_cake_core_', array('engine' => $__cache));
-	Cache::config('default', array('engine' => $__cache, 'prefix' => 'infinitas_'));
 
-	//no home
-	Configure::write('Rating.require_auth', true);
-	Configure::write('Rating.time_limit', '4 weeks');
+	/**
+	 * Cache configuration.
+	 *
+	 * Try apc or memcache, default to the namespaceFile cache.
+	 */
+	$cacheEngine = 'File';
+	switch(true){
+		case function_exists('apc_cache_info'):
+			$cacheEngine = 'Apc';
+			break;
 
-	Configure::write('Reviews.auto_moderate', true);
+		case function_exists('xcache_info'):
+			$cacheEngine = 'Xcache';
+			break;
+
+		case class_exists('Memcache'):
+			$cacheEngine = 'Memcache';
+			break;
+
+		default:
+			$cacheEngine = 'Libs.NamespaceFile';
+			break;
+	}
+	
+	Configure::write('Cache.engine', $cacheEngine);
+
+	Cache::config('_cake_core_', array('engine' => $cacheEngine));
+	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => 'infinitas_'));
+	unset($cacheEngine);
 
 	App::build(array('plugins' => array(APP . 'core' . DS)));
 
-	$configs = Cache::read('global_configs');
-	if($configs !== false){
-		foreach($configs as $k => $v){
+	/**
+	 * @brief get the configuration values from cache
+	 *
+	 * If they are available, set them to the Configure object else run the
+	 * Event to get the values from all the plugins and cache them
+	 */
+	$cachedConfigs = Cache::read('global_configs');
+	if($cachedConfigs !== false){
+		foreach($cachedConfigs as $k => $v){
 			Configure::write($k, $v);
 		}
+		unset($cachedConfigs);
 		return true;
 	}
 
@@ -73,5 +83,10 @@
 	}
 	EventCore::getInstance();
 	EventCore::trigger(new StdClass(), 'setupConfig');
+
+	//no home
+	Configure::write('Rating.require_auth', true);
+	Configure::write('Rating.time_limit', '4 weeks');
+	Configure::write('Reviews.auto_moderate', true);
 
 	Cache::write('global_configs', Configure::getInstance());
