@@ -1,14 +1,10 @@
 <?php
 	/**
-	 * Events for the comments plugin
+	 * @brief CommentsEvents for the comments plugin
 	 * 
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Comments
-	 * @subpackage Infinitas.Comments.AppEvents
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 * 
