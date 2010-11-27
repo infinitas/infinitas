@@ -144,6 +144,36 @@
 		private $__addJs  = array();
 
 		/**
+		 * @var AuthComponent
+		 */
+		public $Auth;
+
+		/**
+		 * @var RequestHandlerComponent
+		 */
+		public $RequestHandler;
+
+		/**
+		 * @var SessionComponent
+		 */
+		public $Session;
+
+		/**
+		 * @var SecurityComponent
+		 */
+		public $Security;
+
+		/**
+		 * @var InfinitasComponent
+		 */
+		public $Infinitas;
+
+		/**
+		 * @var MassActionComponent
+		 */
+		public $MassAction;
+
+		/**
 		 * @brief called before a page is loaded
 		 * 
 		 * before render is called before the page is rendered, but after all the
