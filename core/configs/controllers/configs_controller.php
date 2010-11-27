@@ -1,13 +1,10 @@
 <?php
 	/**
 	 * The ConfigsController is for managing the site configs from the backend
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * 
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Configs
-	 * @subpackage Infinitas.Configs.controllers.ConfigsController
+	 * @package Infinitas.Configs.controllers
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 *
@@ -29,7 +26,6 @@
 		/**
 		 * dont see where this is used
 		 * 
-		 * @todo remove
 		 * @deprecated
 		 */
 		public $configOptions = array();

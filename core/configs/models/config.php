@@ -1,13 +1,10 @@
 <?php
 	/**
-	 * Config model is for saving and editing site configurations.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @brief Config model is for saving and editing site configurations.
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Configs
-	 * @subpackage Infinitas.Configs.models.Config
+	 * @package Infinitas.Configs.models
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 *
@@ -94,6 +91,8 @@
 		}
 
 		/**
+		 * @brief delete config cache
+		 * 
 		 * after saving something delete the main core_configs cache so that
 		 * the changes will take effect
 		 *
@@ -108,7 +107,9 @@
 		}
 
 		/**
-		 * validate the options based on what type is set for the row
+		 * @brief validate the options based on what type is set for the row
+		 *
+		 * @todo this should be renamed to validateCustomOptionCheck
 		 *
 		 * @param array $data the field being validated
 		 * @access public
@@ -154,7 +155,7 @@
 		}
 
 		/**
-		 * Get configuration for the app.
+		 * @brief Get configuration for the app.
 		 *
 		 * This gets and formats an array of config values for the app to use. it goes
 		 * through the list and formats the values to match the type that was passed.
@@ -217,7 +218,7 @@
 		}
 
 		/**
-		 * format the data into a key value array to be used in Configure::write
+		 * @brief format the data into a key value array to be used in Configure::write
 		 *
 		 * @param array $configs the unformatted configs
 		 * @access private
@@ -238,12 +239,12 @@
 		}
 
 		/**
-		 * Installer setup.
+		 * @brief Installer setup.
 		 *
 		 * This gets some config values that are used in the installer for the site
 		 * setup.
 		 *
-		 * @access private
+		 * @access public
 		 *
 		 * @return array of all the configs that are needed/able to be done in the installer
 		 */
@@ -259,6 +260,8 @@
 		}
 
 		/**
+		 * @brief build up the code to see what is being used or to avoid typing
+		 *
 		 * Just for generating code for the configs, can be used in the dev installer
 		 * plugin stuff to avoid typing out stuff.
 		 *
@@ -294,7 +297,7 @@
 		}
 
 		/**
-		 * Get a list of config options that can be overloaded by an admin user.
+		 * @brief Get a list of config options that can be overloaded by an admin user.
 		 *
 		 * This gets a list of possible values that can be changed in the backend
 		 * unsetting a few options first that should not be fiddled with.
