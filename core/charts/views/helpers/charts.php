@@ -1,4 +1,6 @@
 <?php
+
+	App::import('Libs', 'Charts.BaseChartEngine');
 	/**
 	 * @base Charts helper is a charting abstraction that is extended by using different
 	 * engines.
