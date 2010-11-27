@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Comment Model class file.
+	 * @brief Comment Model class file handles comment CRUD.
 	 *
 	 * This is the model that handles comment saving and other CRUD actions, the
 	 * commentable behavior will auto relate and attach this model to the models
@@ -10,16 +10,9 @@
 	 * The model has a few methods for getting some data like new comments, pending
 	 * and other thigns that may be of use in an application
 	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Comments
-	 * @subpackage Infinitas.Comments.models.Comment
+	 * @package Infinitas.Comments.models
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -83,7 +76,8 @@
 		}
 
 		/**
-		 *
+		 * @brief hack to get the attributes for comments
+		 * 
 		 * @todo this is a hack to get the atributes in the comment, this should
 		 * be handled in the attributes behavior but cake does not do model callbacks
 		 * 3 relations deep
@@ -128,7 +122,7 @@
 		}
 
 		/**
-		 * get comments by user
+		 * @brief get comments by user
 		 *
 		 * Find all comments that a particulat user has created with a limit of
 		 * $limit
@@ -156,7 +150,7 @@
 		}
 
 		/**
-		 * get some stats for notices in admin
+		 * @brief get some stats for notices in admin
 		 *
 		 * Find the number of comments that are pending and active so admin will
 		 * be able to take action.
@@ -205,7 +199,7 @@
 		}
 
 		/**
-		 * get a list of all the models that have comments
+		 * @brief get a list of all the models that have comments
 		 *
 		 * @todo add cache
 		 * 
@@ -233,7 +227,7 @@
 		}
 
 		/**
-		 * get a list of the latest comments
+		 * @brief get a list of the latest comments
 		 *
 		 * used in things like comment wigets etc. will get a list of comments
 		 * from the site. 

@@ -1,19 +1,12 @@
 <?php
 	/**
-	 * the comments controller is used for the management of comments
+	 * @brief CommentsController is used for the management of comments
 	 *
-	 * allowing admins to view and delete as needed.
+	 * allowing admins to view, toggle and delete as needed.
 	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Comments
-	 * @subpackage Infinitas.Comments.controllers.Comments
+	 * @package Infinitas.Comments.controllers
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.6a
 	 *

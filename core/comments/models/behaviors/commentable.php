@@ -1,18 +1,17 @@
 <?php
 	/**
-	 * Commentable Model Behavior
+	 * @brief Commentable Model Behavior
 	 *
 	 * Allows you to attach a comment to any model in your application
 	 * Moderates/Validates comments to check for spam.
-	 * Validates comments based on a point system.High points is an automatic approval,
+	 * Validates comments based on a point system. High points is an automatic approval,
 	 * where as low points is marked as spam or deleted.
+	 *
 	 * Based on Jonathan Snooks outline.
 	 *
-	 * @filesource
 	 * @copyright Stoop Dev
 	 * @link http://github.com/josegonzalez/cakephp-commentable-behavior
-	 * @package Infinitas.Comments
-	 * @subpackage Infinitas.Comments.models.behaviors.commentable
+	 * @package Infinitas.Comments.models.behaviors
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.6a
 	 *
@@ -23,6 +22,8 @@
 	 * all over (eg: email contact forms) the comment model can just check in beforeSave
 	 * that it is not spam, could even be a validation rule.
 	 *
+	 * @todo add a rating method for amount of text with no links vs total amount of text
+	 * 
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -31,8 +32,8 @@
 		/**
 		 * Settings initialized with the behavior
 		 *
-		 * @access public
 		 * @var array
+		 * @access public
 		 */
 		public $defaults = array(
 			'plugin' => 'Comment',
@@ -59,7 +60,7 @@
 		private $__settings = array();
 
 		/**
-		 * Initiate behaviour for the model using settings.
+		 * @brief Initiate behaviour for the model using settings.
 		 *
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
@@ -115,7 +116,7 @@
 		}
 
 		/**
-		 * contain the comments
+		 * @brief contain the comments
 		 *
 		 * before a find is done, add the comments to contain so they are available
 		 * in the view.
@@ -141,7 +142,7 @@
 		}
 
 		/**
-		 * create a new comment calls the methods to do the spam checks
+		 * @brief create a new comment calls the methods to do the spam checks
 		 * 
 		 * @param object $Model the model object
 		 * @param array $data the comment being saved
@@ -232,7 +233,7 @@
 		}
 
 		/**
-		 * gets comments 
+		 * @brief gets comments
 		 *
 		 * @var $Model object the model object
 		 * @var $options array the data from the form
@@ -262,6 +263,8 @@
 		}
 
 		/**
+		 * @brief get the rating of a comment before its saved
+		 * 
 		 * the main method that calls all the comment rating code. after getting
 		 * the score it will set a staus for the comment.
 		 *
@@ -307,7 +310,7 @@
 		}
 
 		/**
-		 * adds points based on the amount and length of links in the comment
+		 * @brief adds points based on the amount and length of links in the comment
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
@@ -354,6 +357,8 @@
 		}
 
 		/**
+		 * @brief rate according to the lenght of the text
+		 * 
 		 * Rate the length of the comment. if the length is greater than the required
 		 * and there are no links then 2 points are added. with links only 1 point
 		 * is added. if the lenght is too short 1 point is deducted
@@ -387,6 +392,8 @@
 		}
 
 		/**
+		 * @brief rate according to past history
+		 *
 		 * Check previous comments by the same user. If they have been marked as
 		 * active they get points added, if they are marked as spam points are
 		 * deducted.
@@ -435,6 +442,8 @@
 		}
 
 		/**
+		 * @brief check for blacklisted words
+		 *
 		 * Checks the text to see if it contains any of the blacklisted words.
 		 * If there are, 1 point is deducted for each match.
 		 *
@@ -457,6 +466,8 @@
 		}
 
 		/**
+		 * @brief rate according to the start of the comment
+		 * 
 		 * Checks the first word against the blacklist keywords. if there is a
 		 * match then 10 points are deducted.
 		 *
@@ -479,7 +490,7 @@
 		}
 
 		/**
-		 * Deduct points if it is a copy of any other comments in the database.
+		 * @brief Deduct points if it is a copy of any other comments in the database.
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
@@ -504,6 +515,8 @@
 		}
 
 		/**
+		 * @brief rate according to the structure of words
+		 *
 		 * Rate according to the text. Generaly words do not contain more than
 		 * a few consecutive consonants. -1 point is given per 5 consecutive
 		 * consonants.
