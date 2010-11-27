@@ -9,6 +9,9 @@
 	 * When a category_id field is present the CategorisableBehavior is automatically
 	 * attached through the Event system.
 	 *
+	 * @todo this fits in with the Contents plugin, could possibly be moved there
+	 * together with the Content and Layout stuff
+	 *
 	 * @section categories-usage How to use it
 	 *
 	 * When you need to add categories to a row, after having added the category_id
