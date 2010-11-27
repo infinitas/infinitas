@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * The main contact's plugin model
+	 * @brief The main contact's plugin model
 	 *
 	 * this is extended by the other models in contact plugin
 	 *
@@ -10,7 +10,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
-	 * @author Carl Sutton ( dogmatic69 )
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.

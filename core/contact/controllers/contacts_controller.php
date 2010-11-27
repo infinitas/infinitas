@@ -1,20 +1,64 @@
 <?php
 	/**
-	 * Contacts controller
+	 * @page Contact-Plugin Contact plugin
 	 *
-	 * Used for managing contacts at the company of the site
+	 * @section contact-overview What is it
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * The Contact plugin provides a way to list and show all the contacts in the
+	 * company per branch. You are also able add and list the different branches or
+	 * departments.
 	 *
-	 * @filesource
+	 * The plugin can be configured to show contact forms that users will be able
+	 * to use to contact the inderviduals and/or branch that they need.
+	 *
+	 * @section contact-usage How to use it
+	 *
+	 * Set up a Route to the Contact plugin in the format that you wish. Branches
+	 * are by default routed to /contact/branches/index and contacts are in
+	 * /contact/contacts/index. Its recomened to create routes for each, something
+	 * like /contact for branches, /contact/:branch to show the branch and
+	 * /contact/:branch/:contact for the contacts.
+	 *
+	 * After you have created the Routes you can go ahead and start creating the
+	 * branches and contacts that you require. If you have a small company with
+	 * only one branch you still need to enter the basic information, users will
+	 * be automatically redirected to that branch when attempting to view the list
+	 * of branches.
+	 *
+	 * @section contact-code How it works
+	 *
+	 * Each Branch can have many Contac and the Contact belongs to a particular
+	 * Branch. The Contact form integrates with the EmailerComponent to send
+	 * emails from the contact forms to the Contact in question.
+	 *
+	 * There is the VcfHelper which generates vCards for users to download and
+	 * save to their favorite contacts application like outlook and gmail etc
+	 *
+	 * Other helpers include the ContactsHelper. This is used to generate card
+	 * like elements in the backend. All the helpers can be used throughout your
+	 * application should you need some of its functionality
+	 *
+	 * @image html sql_contact_plugin.png "Contact Plugin table structure"
+	 *
+	 * @section contact-see-also Also see
+	 * @ref ContactsHelper
+	 * @ref VcfHelper
+	 * @ref Contact
+	 * @ref Branch
+	 */
+
+	/**
+	 * @brief Contacts controller for managing contacts
+	 *
+	 * Used for managing contacts at the company of the application
+	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package contact
-	 * @subpackage contact.controllers.contacts
+	 * @package Infinitas.Contact.controllers
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
-	 * @author Carl Sutton ( dogmatic69 )
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
