@@ -56,6 +56,9 @@
 			'Users.Group'
 		);
 
+		/** 
+		 * @copydoc AppModel::__construct()
+		 */
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
