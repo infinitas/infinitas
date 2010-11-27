@@ -23,6 +23,8 @@
 	 * Configs plugin provides a number of things to manage configs, including
 	 * adding new ones from the backend, overloading options and seeing what has
 	 * changed from the defaults.
+	 * 
+	 * @image html sql_configs_plugin.png "Configs Plugin table structure"
 	 *
 	 * @section configs-see-also Also see
 	 * @ref AppEvents
