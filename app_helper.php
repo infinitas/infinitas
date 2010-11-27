@@ -1,50 +1,141 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	 * @page AppHelper AppHelper
+	 *
+	 * @section app_helper-overview What is it
+	 *
+	 * AppHelper is the base helper class that other helpers may extend to inherit
+	 * some methods and functionality. If for some reason you do not want to
+	 * inherit from this class just extend Helper.
+	 *
+	 * @section app_helper-usage How to use it
+	 *
+	 * Usage is simple, extend your SomethingHelper from this class Example below:
+	 *
+	 * @code
+	 *	// in APP/plugins/my_plugin/views/helpers/something.php create
+	 *	class SomethingHelper extends AppHelper{
+	 *		
+	 *	}
+	 * @endcode
+	 *
+	 * After that you will be able to directly access the public methods that
+	 * are available from this class as if they were in your helper. There are
+	 * two different ways that the methods can be accessed
+	 *
+	 * @code
+	 *	// from within the Something helper
+	 *	$this->someMethod();
+	 *
+	 *	// from a view file
+	 *	$this->Something->someMethod();
+	 * @endcode
+	 *
+	 * @section app_helper-see-also Also see
+	 * @li InfinitasHelper
+	 */
+
+
+	/**
+	 * @brief AppHelper is the base helper class that other helpers can extend
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 * 
+	 * Url Caching
+	 * Copyright (c) 2009 Matt Curry
+	 * @link http://github.com/mcurry/url_cache
+	 * @link http://www.pseudocoder.com/archives/how-to-save-half-a-second-on-every-cakephp-requestand-maintain-reverse-routing
+	 * @author      Matt Curry <matt@pseudocoder.com>
+	 * @since 0.7a
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
 
 	class AppHelper extends Helper {
+		/**
+		 * Internal counter of the row number to do zebra striped tables
+		 *
+		 * @var int
+		 * @access public
+		 */
 		public $rowClassCounter = 0;
 
+		/**
+		 * The pagination string
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $paginationCounterFormat = 'Page %page% of %pages%.';
 
+		/**
+		 * array of errors for debugging
+		 *
+		 * To keep track of what errors are happening you can add them to the
+		 * error stack from your helpers. Then you can use pr() to see what
+		 * error have happend up until that point.
+		 *
+		 * @code
+		 *	// add errors from the helper
+		 *	$this->errors[] = 'something bad happend ' . __LINE__;
+		 *
+		 *	// see errors in the helper
+		 *	pr($this->errors);
+		 *
+		 *	// see errors in the view
+		 *	pr($this->Something->errors);
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $errors = array();
 
+		/**
+		 * @deprecated
+		 *
+		 * @todo need to make a wysiwyg engine like ChartsHelper
+		 *
+		 * @var string
+		 */
 		public $wysiwyg = 'fck';
 
 		/**
 		 * Additional helpers to load
+		 *
 		 * @var array
 		 * @access public
 		 */
 		public $helpers = array(
 			'Html', 'Form',
-			//'Libs.Design',
 			'Libs.Wysiwyg', 'Libs.Image'
-			//'Libs.Gravatar'
 		);
 
 		/**
-		 * create some bread crumbs.
+		 * @deprecated
 		 *
-		 * Creates some bread crumbs.
+		 * this should be removed
+		 */
+		function niceBox($n = null){}
+
+		/**
+		 * @deprecated
 		 *
-		 * @todo -c"AppHelper" Implement AppHelper.
-		 * - generate some links
+		 * this should be removed
+		 */
+		function niceBoxEnd($n = null){}
+
+		/**
+		 * @brief create some bread crumbs
+		 *
+		 * This is used in the admin backend to generate bread crumbs of where
+		 * the user is in the site. Its no very smart so some of the links will
+		 * be wrong if you dont have what is expected.
+		 *
 		 * @param array $here is $this from the view.
 		 * @access public
 		 *
@@ -89,7 +180,10 @@
 		}
 
 		/**
-		 * get the current url with no params
+		 * @brief get the current url with no params
+		 *
+		 * This will give you an array or url of the current page with no params.
+		 * Good for resetting search fields and filters.
 		 *
 		 * @param bool $array return array (true) or string (false)
 		 * @access public
@@ -112,7 +206,13 @@
 		}
 
 		/**
-		 * switch the class for table rows
+		 * @brief switch the class for table rows
+		 *
+		 * Used to make the zebra striping in the admin backend. This should be
+		 * removed from admin in favour of CSS3 pesudo selectors but the
+		 * method can remain for frontend use.
+		 *
+		 * @todo remove usage from admin backend
 		 *
 		 * @param string $class1 class 1 highlight
 		 * @param string $class2 class 2 highlight
@@ -125,9 +225,10 @@
 		}
 
 		/**
-		 * Admin page heading
+		 * @brief Admin page heading
 		 *
 		 * Generates a heading based on the controller and adds a bread crumb
+		 *
 		 * @access public
 		 *
 		 * @return string the markup for the page header
@@ -137,9 +238,9 @@
 		}
 
 		/**
-		 * creates table headers for admin.
+		 * @brief Creates table headers for admin.
 		 *
-		 * if the format is just array( 'head1', 'head2' ... ) it will output a
+		 * If the format is just array( 'head1', 'head2' ... ) it will output a
 		 * normal table with TH that have no classes/styles applied.  you can
 		 * also pass things like array ( 'head1' => array( 'class' => 'something' ) )
 		 * to get out put like <th class="something">head1</th>
@@ -179,7 +280,7 @@
 		}
 
 		/**
-		 * lazy way to create the admin index page headers
+		 * @brief lazy way to create the admin index page headers
 		 * 
 		 * @param array $filterOptions the filters to show
 		 * @param array $massActions the mass actions to show
@@ -201,7 +302,7 @@
 		}
 
 		/**
-		 * lazy page for general admin pages with no mass actions
+		 * @brief lazy page for general admin pages with no mass actions
 		 * 
 		 * @param array $massActions the mass actions as generated by
 		 * @access public
@@ -217,7 +318,7 @@
 		}
 
 		/**
-		 * lazy method to create the admin head for editing pages
+		 * @brief lazy method to create the admin head for editing pages
 		 * 
 		 * @param array $actions the actions to create buttons for
 		 * @access public
@@ -231,9 +332,22 @@
 		}
 
 		/**
+		 * @brief generate links with little code
+		 *
 		 * Generate a default edit link for use insde admin with no routing. just
 		 * pass the array like $row['Model'] to this method and if you want something
 		 * other than action => edit (maybe a different controller) pass that also
+		 *
+		 * @code
+		 *	// for the current model
+		 *	$this->Html->adminQuickLink($user['User']);
+		 *
+		 *	// for related data
+		 *	$this->Html->adminQuickLink($user['Group'], array(), 'Group');
+		 * 
+		 *	// to a different page
+		 *	$this->Html->adminQuickLink($user['User'], array('action' => 'view'));
+		 * @endcode
 		 *
 		 * @param array $row the row $row['Model'] data
 		 * @param mixed $url normal cake url array/string
@@ -281,7 +395,12 @@
 		}
 
 		/**
-		 * generate links for ordering could be depreciated
+		 * @brief generate links for ordering normal tables
+		 *
+		 * creates links to the mass actions for ordering rows. This is for
+		 * models that use the SequenceBehavior.
+		 *
+		 * @see AppHelper::treeOrdering()
 		 *
 		 * @param string $id the id of the row
 		 * @param int $currentPosition the current order
@@ -352,12 +471,16 @@
 		}
 
 		/**
-		 * generate icons and links for ordering may be depreciated
+		 * @brief generate icons and links for ordering mptt tables
+		 *
+		 * Generates links for ordering mptt rows with the TreeBehavior
+		 *
+		 * @see AppHelper::ordering()
 		 *
 		 * @param array $data the row being ordered
 		 * @access public
 		 *
-		 * @return <type>
+		 * @return string the html markup for icons to order the rows
 		 */
 		public function treeOrdering($data = null){
 			if (!$data) {
@@ -410,7 +533,7 @@
 		}
 
 		/**
-		 * echo out the pagination counter text as set in the format
+		 * @brief return the pagination counter text as set in the format
 		 * 
 		 * @param object $pagintion the pagination helper object
 		 * @access public
@@ -427,6 +550,8 @@
 		}
 
 		/**
+		 * @deprecated
+		 * 
 		 * create a wysiwyg editor for the field that is passed in. If wysiwyg
 		 * is disabled or not installed it will render a textarea.
 		 *
@@ -457,9 +582,12 @@
 		}
 
 		/**
+		 * @deprecated
+		 *
 		 * show a gravitar
 		 *
-		 * @todo currently only supports gravitars, see the wysiwyg editor method to make it work with anything
+		 * @todo currently only supports gravitars, see the ChartsHelper to make it
+		 * more usable
 		 *
 		 * @param string $email email address
 		 * @param array $options the options for the gravitar
@@ -477,7 +605,7 @@
 		}
 
 		/**
-		 * create some mass action buttons like add, edit, delete etc.
+		 * @brief create some mass action buttons like add, edit, delete etc.
 		 *
 		 * @param array $buttons the buttons to create
 		 * @access public
@@ -519,11 +647,13 @@
 		}
 
 		/**
+		 * @brief Generate preview links
+		 *
 		 * create a preview link to a record, expects there to be a preview($id)
 		 * method and will use the thickbox plugin if available, or open in a new
 		 * window so you can see exactly how the coneten looks without making it active
 		 *
-		 * uses self::adminQuickLink to create the url and you must use array() urls
+		 * uses AppHelper::adminQuickLink to create the url and you must use array() urls
 		 *
 		 * @param array $row the row to make a preview of
 		 * @param array $url some params you want to add to the url
@@ -566,7 +696,7 @@
 		}
 
 		/**
-		 * Generate nice title text.
+		 * @brief Generate nice title text.
 		 *
 		 * This method is used to generate nice looking information title text
 		 * depending on what is displayed to the user.
@@ -675,6 +805,8 @@
 		}
 
 		/**
+		 * @todo implement this method or remove it
+		 * 
 		 * nothing to see, move along
 		 * @access public
 		 */
@@ -683,7 +815,7 @@
 		}
 
 		/**
-		 * Generate a date picker with the built in jquery datepicker widget.
+		 * @brief Generate a date picker with the built in jquery datepicker widget.
 		 *
 		 * @param array $classes
 		 * @param string $model the model the picker is for
@@ -722,21 +854,28 @@
 			return $out;
 		}
 
-		/*
-		 * Url Caching
-		 * Copyright (c) 2009 Matt Curry
-		 * www.PseudoCoder.com
-		 * http://github.com/mcurry/url_cache
-		 * http://www.pseudocoder.com/archives/how-to-save-half-a-second-on-every-cakephp-requestand-maintain-reverse-routing
-		 *
-		 * @author      Matt Curry <matt@pseudocoder.com>
-		 * @license     MIT
-		 *
+		/**
+		 * @todo make protected
+		 * @var array
 		 */
-
 		public $_cache = array();
+
+		/**
+		 * @todo make protected
+		 * @var string
+		 */
 		public $_key = '';
+
+		/**
+		 * @todo make protected
+		 * @var array
+		 */
 		public $_extras = array();
+
+		/**
+		 * @todo make protected
+		 * @var array
+		 */
 		public $_paramFields = array('controller', 'plugin', 'action', 'prefix');
 
 		public function __construct() {
@@ -755,12 +894,24 @@
 			$this->_cache = Cache::read($this->_key, 'core');
 		}
 
+		/**
+		 * @brief before a page is rendered
+		 *
+		 * @access public
+		 *
+		 * @link http://api.cakephp.org/class/helper#method-HelperbeforeRender
+		 *
+		 * @return void
+		 */
 		public function beforeRender() {
 			$this->_extras = array_intersect_key($this->params, array_combine($this->_paramFields, $this->_paramFields));
 		}
 
 		/**
-		 * write the new link cache after the page is done being rendered
+		 * @brief write the new link cache after the page is done being rendered
+		 *
+		 * @link http://api.cakephp.org/class/helper#method-HelperafterLayout
+		 *
 		 * @access public
 		 *
 		 * @return void
@@ -772,8 +923,12 @@
 		}
 
 		/**
+		 * @brief cache urls so router does less work
+		 *
 		 * cache urls when the method is called saves using the router doing all
 		 * the additional calculations.
+		 *
+		 * @link http://api.cakephp.org/class/helper#method-Helperurl
 		 *
 		 * @param mixed $url the url to generate
 		 * @param bool $full full url returned or just relative
