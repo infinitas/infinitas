@@ -34,6 +34,8 @@
 	 * Before any finds the CategorisableBehavior will automatically contain
 	 * the Category model so that the data will be available in the views.
 	 *
+	 * @image html sql_categories_plugin.png "Categories Plugin table structure"
+	 *
 	 * @section categories-see-also Also see
 	 * @ref EventCore
 	 */

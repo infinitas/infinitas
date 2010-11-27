@@ -1,5 +1,53 @@
 <?php
 	/**
+	 * @page Contact-Plugin Contact plugin
+	 *
+	 * @section contact-overview What is it
+	 *
+	 * The Contact plugin provides a way to list and show all the contacts in the
+	 * company per branch. You are also able add and list the different branches or
+	 * departments.
+	 *
+	 * The plugin can be configured to show contact forms that users will be able
+	 * to use to contact the inderviduals and/or branch that they need.
+	 *
+	 * @section contact-usage How to use it
+	 *
+	 * Set up a Route to the Contact plugin in the format that you wish. Branches
+	 * are by default routed to /contact/branches/index and contacts are in
+	 * /contact/contacts/index. Its recomened to create routes for each, something
+	 * like /contact for branches, /contact/:branch to show the branch and
+	 * /contact/:branch/:contact for the contacts.
+	 *
+	 * After you have created the Routes you can go ahead and start creating the
+	 * branches and contacts that you require. If you have a small company with
+	 * only one branch you still need to enter the basic information, users will
+	 * be automatically redirected to that branch when attempting to view the list
+	 * of branches.
+	 *
+	 * @section contact-code How it works
+	 *
+	 * Each Branch can have many Contac and the Contact belongs to a particular
+	 * Branch. The Contact form integrates with the EmailerComponent to send
+	 * emails from the contact forms to the Contact in question.
+	 *
+	 * There is the VcfHelper which generates vCards for users to download and
+	 * save to their favorite contacts application like outlook and gmail etc
+	 *
+	 * Other helpers include the ContactsHelper. This is used to generate card
+	 * like elements in the backend. All the helpers can be used throughout your
+	 * application should you need some of its functionality
+	 *
+	 * @image html sql_contact_plugin.png "Contact Plugin table structure"
+	 *
+	 * @section contact-see-also Also see
+	 * @ref ContactsHelper
+	 * @ref VcfHelper
+	 * @ref Contact
+	 * @ref Branch
+	 */
+
+	/**
 	 * @brief The main contact's plugin model
 	 *
 	 * this is extended by the other models in contact plugin

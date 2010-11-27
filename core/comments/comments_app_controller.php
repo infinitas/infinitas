@@ -76,6 +76,8 @@
 	 * automatically if it has passed, or if its edge case will be marked as pending
 	 * for admin to later activte it. Comments with very low scores can be set to
 	 * not save.
+	 * 
+	 * @image html sql_comments_plugin.png "Comments Plugin table structure"
 	 *
 	 * @todo record ip addresses of people repeatedly entering comments and block
 	 * them for a set time with the ip blocking stuff simmilar to the brute force
