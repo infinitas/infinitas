@@ -76,6 +76,20 @@
 		public $useDbConfig = 'default';
 
 		/**
+		 * @brief The prefix for the table this model is using
+		 *
+		 * This Should be the same throughout a plugin, and should be the same
+		 * as the plugins name with a trailing _ some my_plugin should have a
+		 * prefix of 'my_plugin_'
+		 *
+		 * @todo make this auto set in the constructor
+		 *
+		 * @var string
+		 * @access public
+		 */
+		public $tablePrefix;
+
+		/**
 		 * Behaviors to attach to the site.
 		 *
 		 * @var string
@@ -126,7 +140,7 @@
 		 * rules for models. See below if there is any thing else specific to the
 		 * model calling this method.
 		 *
-		 * @link http://api.cakephp.org/class/model#method-Model__construct
+		 * @link http://api13.cakephp.org/class/model#method-Model__construct
 		 *
 		 * @throw E_USER_WARNING if the model is using AppModel for a virtual model.
 		 * 
@@ -174,9 +188,24 @@
 		}
 
 		/**
+		 * @brief Called before each save operation, after validation. Return a non-true result
+		 * to halt the save.
+		 *
+		 * @link http://api13.cakephp.org/class/model#method-ModelbeforeSave
+		 *
+		 * @param $created True if this save created a new record
+		 * @access public
+		 *
+		 * @return boolean True if the operation should continue, false if it should abort
+		 */
+		public function  beforeSave($options = array()) {
+			parent::beforeSave($options);
+		}
+
+		/**
 		 * @brief called after something is saved
 		 *
-		 * @link http://api.cakephp.org/class/model#method-ModelafterSave
+		 * @link http://api13.cakephp.org/class/model#method-ModelafterSave
 		 *
 		 * @param $created True if this save created a new record
 		 * @access public
@@ -190,7 +219,7 @@
 		/**
 		 * @brief called after something is deleted.
 		 *
-		 * @link http://api.cakephp.org/class/model#method-ModelafterDelete
+		 * @link http://api13.cakephp.org/class/model#method-ModelafterDelete
 		 * 
 		 * @access public
 		 *
@@ -515,5 +544,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	class CoreAppModel extends AppModel{
+		/**
+		 * the table prefix for core models
+		 * 
+		 * @var string
+		 * @access public
+		 */
 		public $tablePrefix = 'core_';
 	}
