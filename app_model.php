@@ -120,7 +120,11 @@
 		public $autoCacheClear = true;
 
 		/**
-		 * @brief Constructor. Binds the model's database table to the object.
+		 * @brief Constructor for models
+		 *
+		 * Throughout Infinitas this method is mainly used to define the validation
+		 * rules for models. See below if there is any thing else specific to the
+		 * model calling this method.
 		 *
 		 * @link http://api.cakephp.org/class/model#method-Model__construct
 		 *
