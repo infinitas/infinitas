@@ -1,46 +1,120 @@
 <?php
 	App::import('Lib', 'Libs.LazyModel');
+	
+	/**
+	 * @page AppModel AppModel
+	 *
+	 * @section app_model-overview What is it
+	 *
+	 * AppModel is the main model class that all other models will eventually
+	 * extend. AppModel provides some methods through inheritance and also sets up
+	 * a few configurations that are used throughout the application.
+	 *
+	 * A lot of the code that is found here is to help make development simpler
+	 * but can easily be overloaded should you requre something a little bit
+	 * different. Take the cache clearing for example, the default is that after
+	 * a change in the database is detected any related cache will be deleted. Should
+	 * you want something else to happen just overload the method in your model
+	 * or the MyPluginAppModel.
+	 *
+	 * @section app_model-usage How to use it
+	 *
+	 * Usage is simple, extend your MyPluginAppModel from this class and then the
+	 * models in your plugin just extend MyPluginAppModel. Example below:
+	 *
+	 * @code
+	 *	// in APP/plugins/my_plugin/my_plugin_app_model.php create
+	 *	class MyPluginAppModel extends AppModel{
+	 *		// do not set the name in this model, there be gremlins
+	 *	}
+	 *
+	 *	// then in APP/plugins/my_plugin/models/something.php
+	 *	class Something extends MyPluginAppModel{
+	 *		public $name = 'Something';
+	 *		//...
+	 *	}
+	 * @endcode
+	 *
+	 * After that you will be able to directly access the public methods that
+	 * are available from this class as if they were in your model.
+	 *
+	 * @code
+	 *	$this->someMethod(); 
+	 * @endcode
+	 *
+	 * @section app_model-see-also Also see
+	 * @ref LazyModel
+	 * @ref InfinitasBehavior
+	 * @ref Event
+	 * @ref InfinitasBehavior
+	 */
 
 	/**
+	 * @brief main model class to extend
+	 * 
 	 * AppModel is the base Model that all models should extend, unless you are
 	 * doing something completely different.
 	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 * 
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
 	 */
 	class AppModel extends LazyModel {
 		/**
-		* The database configuration to use for the site.
-		*/
+		 * The database configuration to use for the site.
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $useDbConfig = 'default';
 
 		/**
-		* Behaviors to attach to the site.
-		*/
+		 * @brief The prefix for the table this model is using
+		 *
+		 * This Should be the same throughout a plugin, and should be the same
+		 * as the plugins name with a trailing _ some my_plugin should have a
+		 * prefix of 'my_plugin_'
+		 *
+		 * @todo make this auto set in the constructor
+		 *
+		 * @var string
+		 * @access public
+		 */
+		public $tablePrefix;
+
+		/**
+		 * Behaviors to attach to the site.
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $actsAs = array(			
 			'Libs.Infinitas',
-			'Events.Event'			
-			//'Libs.Logable',
-			//'DebugKit.Timed',
-
-			//'Libs.AutomaticAssociation'
+			'Events.Event'
 		);
-
+		/**
+		 * recursive level should always be -1
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $recursive = -1;
 
 		/**
-		* error messages in the model
+		 * error messages in the model
+		 *
+		 * @todo this should either be named $errors or made protected
+		 *
+		 * @var string
 		 * @access public
-		*/
+		 */
 		public $_errors = array();
 
 		/**
@@ -55,9 +129,28 @@
 		 * auto delete cache
 		 *
 		 * @var bool
+		 * @access public
 		 */
 		public $autoCacheClear = true;
 
+		/**
+		 * @brief Constructor for models
+		 *
+		 * Throughout Infinitas this method is mainly used to define the validation
+		 * rules for models. See below if there is any thing else specific to the
+		 * model calling this method.
+		 *
+		 * @link http://api13.cakephp.org/class/model#method-Model__construct
+		 *
+		 * @throw E_USER_WARNING if the model is using AppModel for a virtual model.
+		 * 
+		 * @param mixed $id Set this ID for this model on startup, can also be an array of options, see Model::__construct().
+		 * @param string $table Name of database table to use.
+		 * @param string $ds DataSource connection name.
+		 * @access public
+		 *
+		 * @return void
+		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
 
@@ -95,24 +188,86 @@
 		}
 
 		/**
-		 * called after something is saved
+		 * @brief Called before each save operation, after validation. Return a non-true result
+		 * to halt the save.
+		 *
+		 * @link http://api13.cakephp.org/class/model#method-ModelbeforeSave
+		 *
+		 * @param $created True if this save created a new record
+		 * @access public
+		 *
+		 * @return boolean True if the operation should continue, false if it should abort
+		 */
+		public function  beforeSave($options = array()) {
+			parent::beforeSave($options);
+		}
+
+		/**
+		 * @brief called after something is saved
+		 *
+		 * @link http://api13.cakephp.org/class/model#method-ModelafterSave
+		 *
+		 * @param $created True if this save created a new record
+		 * @access public
+		 *
+		 * @return void
 		 */
 		public function afterSave($created){
 			$this->__clearCache();
 		}
 
 		/**
-		 * called after something is deleted.
+		 * @brief called after something is deleted.
+		 *
+		 * @link http://api13.cakephp.org/class/model#method-ModelafterDelete
+		 * 
+		 * @access public
+		 *
+		 * @return void
 		 */
 		public function afterDelete(){
 			$this->__clearCache();
 		}
 
 		/**
-		 * get a unique list of any model field, used in the search
+		 * @brief Delete all cahce for the plugin.
+		 *
+		 * Will automaticaly delete all the cache for a model that it can detect.
+		 * you can overlaod after save/delete to stop this happening if you dont
+		 * want all your cache rebuilt after a save/delete.
+		 *
+		 * @todo should use the clear_cache plugin for this
+		 *
+		 * @access private
+		 *
+		 * @return void
+		 */
+		private function __clearCache(){
+			if(in_array($this->plugin, Cache::configured())){
+				$_cache = Cache::getInstance()->__config[$this->plugin];
+				$path = CACHE.str_replace('.', DS, $_cache['prefix']);
+				if(CACHE !== $path && is_dir($path)){
+					$Folder = new Folder($path);
+					if($Folder->delete()){
+						$this->log('deleted: '.$path, 'cache_clearing');
+					}
+					else{
+						$this->log('failed: '.$path, 'cache_clearing');
+					}
+				}
+				else{
+					$this->log('skip: '.$path, 'cache_clearing');
+				}
+			}
+		}
+
+		/**
+		 * @brief get a unique list of any model field, used in the search
 		 * 
 		 * @param string $displayField the field to search by
 		 * @param bool $primaryKey if true will return array(id, field) else array(field, field)
+		 * @access public
+		 *
 		 * @return array the data from the find
 		 */
 		public function uniqueList($displayField = '', $primaryKey = false){
@@ -144,7 +299,7 @@
 		}
 
 		/**
-		 * Get model name.
+		 * @brief Get the name of the plugin
 		 *
 		 * Get a model name with the plugin prepended in the format used in
 		 * CR::init() and Usefull for polymorphic relations.
@@ -160,39 +315,13 @@
 		}
 
 		/**
-		 * Delete all cahce for the plugin.
-		 *
-		 * Will automaticaly delete all the cache for a model that it can detect.
-		 * you can overlaod after save/delete to stop this happening if you dont
-		 * want all your cache rebuilt after a save/delete.
-		 */
-		private function __clearCache(){
-			if(in_array($this->plugin, Cache::configured())){
-				$_cache = Cache::getInstance()->__config[$this->plugin];
-				$path = CACHE.str_replace('.', DS, $_cache['prefix']);
-				if(CACHE !== $path && is_dir($path)){
-					$Folder = new Folder($path);
-					if($Folder->delete()){
-						$this->log('deleted: '.$path, 'cache_clearing');
-					}
-					else{
-						$this->log('failed: '.$path, 'cache_clearing');
-					}
-				}
-				else{
-					$this->log('skip: '.$path, 'cache_clearing');
-				}
-			}
-
-			return true;
-		}
-
-		/**
-		 * Get the current plugin.
+		 * @brief Get the current plugin.
 		 *
 		 * try and get the name of the current plugin from the parent model class
 		 *
-		 * @return the plugin name
+		 * @access private
+		 *
+		 * @return void
 		 */
 		private function __getPlugin() {
 			$parentName = get_parent_class($this);
@@ -203,12 +332,40 @@
 		}
 
 		/**
+		 * @brief add connection to the connection manager
+		 * 
 		 * allow plugins to use their own db configs. If there is a conflict,
 		 * eg: a plugin tries to set a config that alreay exists an error will
 		 * be thrown and the connection will not be created.
 		 *
 		 * default is a reserved connection that can only be set in database.php
 		 * and not via the events.
+		 *
+		 * @code
+		 *  // for databases
+		 *	array(
+		 *		'my_connection' => array(
+		 *			'driver' => 'mysqli',
+		 *			'persistent' => true,
+		 *			'host' => 'localhost',
+		 *			'login' => 'username',
+		 *			'password' => 'pw',
+		 *			'database' => 'db_name',
+		 *			'encoding' => 'utf8'
+		 *		)
+		 *	)
+		 *
+		 *	// or other datasources
+		 *	array(
+		 *		'my_connection' => array(
+		 *			'datasource' => 'Emails.Imap'
+		 *		)
+		 *	)
+		 * @endcode
+		 *
+		 * @access private
+		 *
+		 * @return void
 		 */
 		private function __setupDatabaseConnections(){
 			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));
@@ -234,20 +391,29 @@
 		 * can be moved to a validation behavior
 		 */
 		/**
-		 * This can either be empty or a valid json string.
+		 * @brief This can either be empty or a valid json string.
+		 *
+		 * @todo move to a validation behavior
+		 * @todo no point having empty as can use 'allowEmpty' in the rule
 		 *
 		 * @param array $field the field being validated
-		 * @return bool is it valid?
+		 * @access public
+		 *
+		 * @return bool is it valid
 		 */
 		public function validateEmptyOrJson($field){
 			return strlen(current($field)) == 0 || $this->validateJson(current($field));
 		}
 
 		/**
-		 * allow the selection of one field or another or nothing
+		 * @brief allow the selection of one field or another or nothing
+		 *
+		 * @todo move to a validation behavior
+		 * @todo no point having empty as can use 'allowEmpty' in the rule
 		 *
 		 * @param array $field not used
 		 * @params array $fields list of 2 fields that should be checked
+		 * @access public
 		 * 
 		 * @return bool is it valid?
 		 */
@@ -262,10 +428,16 @@
 		}
 
 		/**
-		 * allow the selection of one field or another
+		 * @brief allow the selection of one field or another
+		 *
+		 * This is used in times where one thing should be filled out and another
+		 * should be left empty. 
+		 *
+		 * @todo move to a validation behavior
 		 *
 		 * @param array $field not used
 		 * @params array $fields list of 2 fields that should be checked
+		 * @access public
 		 *
 		 * @return bool is it valid?
 		 */
@@ -279,11 +451,18 @@
 		}
 
 		/**
+		 * @brief check for urls either /something/here or full
+		 * 
 		 * this can be a url relative to the site /my/page or full like
 		 * http://site.com/my/page it can also be empty for times when the selects
 		 * are used to build the url
 		 *
+		 * @todo move to a validation behavior
+		 * @todo remove current($field) == '' || as 'notEmpty' works fine
+		 *
 		 * @param array $field the field being validated
+		 * @access public
+		 *
 		 * @return bool is it valid
 		 */
 		public function validateUrlOrAbsolute($field){
@@ -299,9 +478,41 @@
 		}
 
 		/**
-		 * compare 2 fields and make sure they are the same
+		 * @brief compare 2 fields and make sure they are the same
+		 *
+		 * This method can compare 2 fields, with password having a special meaning
+		 * as they will be hashed automatically.
+		 *
+		 * the order of password fields is important as you could end up hashing
+		 * the hashed password again and still having the other one as plain text
+		 * which will always fail.
+		 *
+		 * basic usage
+		 *
+		 * @code
+		 *	// random fields
+		 *	'rule' => array(
+		 *		'validateCompareFields', array('field1', 'field2')
+		 *	),
+		 *	'message' => 'fields do not match'
+		 *
+		 *	// real world
+		 *	'rule' => array(
+		 *		'validateCompareFields', array('email', 'compare_email')
+		 *	),
+		 *	'message' => 'The email addresses you entered do not match'
+		 *
+		 *	'rule' => array(
+		 *		'validateCompareFields', array('compare_password', 'password')
+		 *	),
+		 *	'message' => 'The email addresses you entered do not match'
+		 * @endcode
+		 *
+		 * @todo move to a validation behavior
 		 *
 		 * @param array $field not used
+		 * @access public
+		 * 
 		 * @param bool $fields the fields to compare
 		 */
 		public function validateCompareFields($field, $fields){
@@ -314,9 +525,30 @@
 	}
 
 	/**
+	 * @brief DRY model class to get the prefix in core models.
+	 * 
 	 * CoreAppModel is used by most of Infinitas core models. All this does is
 	 * Set the table prefix so it does not need to be set in every {Core}AppModel
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * @internal
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
 	 */
 	class CoreAppModel extends AppModel{
+		/**
+		 * the table prefix for core models
+		 * 
+		 * @var string
+		 * @access public
+		 */
 		public $tablePrefix = 'core_';
 	}

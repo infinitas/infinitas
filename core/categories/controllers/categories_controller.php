@@ -1,21 +1,18 @@
 <?php
 	/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	 * CategoriesController for the management and display of categories and
+	 * related data.
+	 * 
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas.Categories.controllers
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.7a
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
 
 	class CategoriesController extends CategoriesAppController {
 		public $name = 'Categories';

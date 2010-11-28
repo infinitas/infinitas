@@ -1,32 +1,41 @@
 <?php
 	/**
-	 * Contact branches controller.
+	 * @brief Contact plugin Branches controller.
 	 *
 	 * controller to manage branches in the company.
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package contact
-	 * @subpackage contact.controllers.branches
+	 * @package Infinitas.Contact.controllers
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
-	 * @author Carl Sutton ( dogmatic69 )
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
 	class BranchesController extends ContactAppController{
+		/**
+		 * The name of the class
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'Branches';
 
-		public $helpers = array(
-			'Filter.Filter'
-		);
+		/**
+		 * The Branch model
+		 * 
+		 * @var Branch
+		 * @access public
+		 */
+		public $Branch;
 
+		/**
+		 * @todo remove recursive 0
+		 */
 		public function index(){
 			$this->Branch->recursive = 0;
 

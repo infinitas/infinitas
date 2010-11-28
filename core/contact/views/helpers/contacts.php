@@ -1,4 +1,25 @@
 <?php
+	/**
+	 * @brief ContactsHelper is a collection of methods to help build up contact related
+	 * pages
+	 *
+	 * Currently can output a business card type markup for contacts.
+	 *
+	 * @todo contact forms. pass in a contact row and a form will be made using the
+	 * supplied email address etc.
+	 *
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Contact.helpers
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
 	class ContactsHelper extends AppHelper{
 		public $helpers = array(
 			'Text',
