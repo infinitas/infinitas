@@ -199,7 +199,7 @@
 		 * @return boolean True if the operation should continue, false if it should abort
 		 */
 		public function  beforeSave($options = array()) {
-			parent::beforeSave($options);
+			return parent::beforeSave($options);
 		}
 
 		/**
