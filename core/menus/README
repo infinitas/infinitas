@@ -1,0 +1,6 @@
+Menu plugin
+================================================================================
+
+This plugin allows you to create and manage menus for your application, it also
+has a number of helper methods for generating markup for displaying the menus to
+users.

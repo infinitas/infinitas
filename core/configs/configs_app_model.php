@@ -1,21 +1,22 @@
 <?php
 	/**
-	 * Comment Template.
+	 * @brief ConfigsAppModel is the main model class that all other configuration models
+	 * extend.
 	 *
-	 * @todo Implement .this needs to be sorted out.
+	 * The configs extends the CoreAppModel to inherit the prefix core_ so that
+	 * it does not need to be defined all around the code.
 	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Configs
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 *
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
 	 */
 
-	class ConfigsAppModel extends CoreAppModel {
+	class ConfigsAppModel extends CoreAppModel{
 	}

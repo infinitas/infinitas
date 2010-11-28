@@ -1,28 +1,36 @@
 <?php
 	/**
-	 * The Branch model.
+	 * @brief The Branch model.
 	 *
-	 * for database of contact branches.
+	 * CRUD for database of Contact branches
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package contact
-	 * @subpackage contact.models.app_model
+	 * @package Infinitas.Contact.models
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
-	 * @author Carl Sutton ( dogmatic69 )
+	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
 	class Branch extends ContactAppModel{
+		/**
+		 * the name of the class
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'Branch';
 
+		/**
+		 * behaviors that are attached to this model
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $actsAs = array(
 	        'MeioUpload.MeioUpload' => array(
 	        	'image' => array(
@@ -54,22 +62,44 @@
 			)
 	    );
 
+		/**
+		 * hasMany related models
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $hasMany = array(
 			'Contact.Contact'
 		);
 
+		/**
+		 * The Contact model
+		 *
+		 * @var Contact
+		 * @access public
+		 */
+		public $Contact;
+
+		/**
+		 * belongsTo related models
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $belongsTo = array(
 			'Management.Address'
 		);
 
 		/**
-		 * Construct for validation.
+		 * The Address model
 		 *
-		 * This is used to make the validation messages run through __()
-		 *
-		 * @param mixed $id
-		 * @param mixed $table
-		 * @param mixed $ds
+		 * @var Address
+		 * @access public
+		 */
+		public $Address;
+
+		/**
+		 * @copydoc AppModel::__construct()
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
@@ -113,15 +143,15 @@
 			);
 		}
 
+		/**
+		 * @todo list all the time zones so that the current time can be shown
+		 * of different branches.
+		 *
+		 * @param array $queryData the find data
+		 * 
+		 * @return bool
+		 */
 		public function beforeFind($queryData){
-			$this->bindModel(
-				array(
-					'belongsTo' => array(
-						//'Management.TimeZone'
-					)
-				)
-			);
-
 			return true;
 		}
 	}

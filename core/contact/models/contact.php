@@ -1,11 +1,32 @@
 <?php
 	/**
+	 * @brief The Contact model handles the CRUD for user details.
 	 *
+	 * @todo link up the contacts to users in the User table
 	 *
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Contact.models
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.7a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
 	 */
+
 	class Contact extends ContactAppModel{
+		/**
+		 * the models name
+		 * @var string
+		 */
 		public $name = 'Contact';
 
+		/**
+		 * Behaviors that are attached to this model
+		 * @var string
+		 */
 		public $actsAs = array(
 	        'MeioUpload.MeioUpload' => array(
 	        	'image' => array(
@@ -38,6 +59,10 @@
 			)
 		);
 
+		/**
+		 * Relations for this model
+		 * @var array
+		 */
 		public $belongsTo = array(
 			'Branch' => array(
 				'className' => 'Contact.Branch',
@@ -47,13 +72,14 @@
 		);
 
 		/**
-		 * Construct for validation.
-		 *
-		 * This is used to make the validation messages run through __()
-		 *
-		 * @param mixed $id
-		 * @param mixed $table
-		 * @param mixed $ds
+		 * The branch model
+		 * 
+		 * @var Branch
+		 */
+		public $Branch;
+
+		/**
+		 * @copydoc AppModel::__construct()
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);

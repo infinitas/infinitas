@@ -1,26 +1,31 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * @brief CommentsController is used for the management of comments
+	 *
+	 * allowing admins to view, toggle and delete as needed.
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas.Comments.controllers
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.6a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
 
 	class CommentsController extends CommentsAppController {
-		var $name = 'Comments';
+		/**
+		 * the name of the controller
+		 *
+		 * @var sting
+		 * @access public
+		 */
+		public $name = 'Comments';
 
-		function index(){
+		public function index(){
 			$conditions = array(
 				'Comment.active' => 1
 			);
@@ -43,7 +48,7 @@
 			$this->set('comments', $this->paginate());
 		}
 
-		function admin_index() {
+		public function admin_index() {
 			$this->paginate = array(
 				'fields' => array(
 					'Comment.id',
@@ -81,11 +86,11 @@
 			$this->set(compact('comments', 'filterOptions'));
 		}
 
-		function admin_reply(){
+		public function admin_reply(){
 			// @todo reply to the comment.
 		}
 
-		function admin_commentPurge($class = null) {
+		public function admin_commentPurge($class = null) {
 			if (!$class) {
 				$this->Session->setFlash(__('Nothing chosen to purge', true));
 				$this->redirect($this->referer());

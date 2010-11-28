@@ -1,21 +1,18 @@
 <?php
-	/* 
-	 * Short Description / title.
-	 * 
-	 * Overview of what the file does. About a paragraph or two
-	 * 
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
-	 * @filesource
+	/**
+	 * @brief Contact plugin events.
+	 *
+	 * The events for the Contact plugin for setting up cache and the general
+	 * configuration of the plugin.
+	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package {see_below}
-	 * @subpackage {see_below}
+	 * @package Infinitas.Contact
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
-	 * 
-	 * @author {your_name}
-	 * 
+	 * @since 0.7a
+	 *
+	 * @author dogmatic69
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */

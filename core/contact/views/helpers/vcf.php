@@ -1,16 +1,27 @@
 <?php
 	/**
-	 *
-	 * vCard Helper
+	 * @brief VcfHelper is used to generate vCards for the saved contacts
 	 *
 	 * Helps with the creation of vCard files
+	 *
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Contact.helpers
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.7a
+	 *
+	 * @author markstory
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
 	 */
 	class VcfHelper extends AppHelper {
 		/**
-		 * Element map
 		 * map element names to vcard elements
 		 *
 		 * @var array
+		 * @access protected
 		 */
 		protected $_elements = array(
 			'name' => 'N:%last%;%first%;%middle%;%title%',
@@ -33,7 +44,8 @@
 		 * Separator between values.
 		 *
 		 * @var string
-		 **/
+		 * @access protected
+		 */
 		protected $_separator = ':';
 
 		/**
@@ -47,16 +59,19 @@
 		 * End of attribute terminator.
 		 *
 		 * @var string
-		 **/
+		 * @access protected
+		 */
 		protected $_terminator = ';';
 
 		/**
-		 * Overloaded call method
+		 * @brief Overloaded call method
 		 *
 		 * @param string $method Name of method called
 		 * @param mixed $params Params for method.
+		 * @access public
+		 * 
 		 * @return mixed
-		 **/
+		 */
 		public function __call($method, $params) {
 			if (isset($this->_elements[$method])) {
 				array_unshift($params, $method);
@@ -66,7 +81,9 @@
 		}
 
 		/**
-		 * begin a vcard
+		 * @brief begin a vcard
+		 *
+		 * @access public
 		 *
 		 * @return string
 		 */
@@ -74,7 +91,9 @@
 			return "BEGIN:VCARD" . $this->_eol;
 		}
 		/**
-		 * End a vcard
+		 * @brief End a vcard
+		 *
+		 * @access public
 		 *
 		 * @return string
 		 */
@@ -83,10 +102,14 @@
 		}
 
 		/**
-		 * Create a new attribute for the vCard
+		 * @brief Create a new attribute for the vCard
+		 *
+		 * @see VcfHelper::__call()
 		 *
 		 * @param string $type Type of element to make
 		 * @param string $value Value to put into the card
+		 * @access public
+		 *
 		 * @return mixed False on non-existant type or empty values,  string on success
 		 */
 		public function attr($type, $values) {
@@ -111,7 +134,7 @@
 		}
 
 		/**
-		 * Create an Address element. Takes the following keys
+		 * @brief Create an Address element. Takes the following keys
 		 *
 		 * - street
 		 * - city
@@ -121,6 +144,9 @@
 		 *
 		 * @param string $type The type of address you are making
 		 * @param array $values Array of values for the address see above
+		 * @access public
+		 *
+		 * @return sting the address line
 		 */
 		public function address($type, $values = array()) {
 			$empty = array(
@@ -143,11 +169,13 @@
 		}
 
 		/**
-		 * Escape values for vcard
+		 * @brief Escape values for vcard
 		 *
 		 * @param mixed $values Values either string or array.
+		 * @access protected
+		 *
 		 * @return string Escaped string
-		 **/
+		 */
 		protected function _escape($values) {
 			$find = array(':');
 			$replace = array('\:');

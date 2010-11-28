@@ -1,10 +1,44 @@
 <?php
+	/**
+	 * @brief bootstrap defines a few global methods and triggers plugin integration
+	 *
+	 * This is the place where infinitas invokes plugins to start acting on the
+	 * core, alowing them to set cache configurations, import required lib files.
+	 *
+	 * Things like the Xhprof profiler needs to be attached as early as possible,
+	 * so using AppController::beforeFilter() is not good enough. For this reason
+	 * you can attach libs from here using the Events
+	 *
+	 * @li AppEvents::onRequireLibs()
+	 * @li AppEvents::onSetupCache()
+	 *
+	 * @throws E_USER_ERROR when Events is not available
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
+	/**
+	 * @brief the cached plugin paths
+	 *
+	 * Get the paths out of cache if there are any or get them with Folder::read
+	 * They are used with App::build() to make any extra folders  in APP be plugin
+	 * folders. This can help if you want to keep plugins outside of /plugins
+	 */
 	$paths = Cache::read('plugin_paths');
 	if($paths === false){
 		$Folder = new Folder(APP);
 		$folders = $Folder->read();
 		$folders = array_flip($folders[0]);
-		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], $folders['nbproject'], $folders['tmp'], $folders['views'], $folders['webroot']);
+		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], $folders['nbproject'], $folders['tmp'], $folders['views'], $folders['webroot'], $folders['tests']);
 
 		$paths = array();
 		foreach(array_flip($folders) as $folder){
@@ -12,6 +46,7 @@
 		}
 		
 		Cache::write('plugin_paths', $paths);
+		unset($Folder, $folders);
 
 		// @todo trigger event to get oter plugin paths
 	}
@@ -21,6 +56,7 @@
 			'plugins' => $paths
 		)
 	);
+	unset($paths);
 
 	/**
 	 * Load plugin events
@@ -68,6 +104,7 @@
 				Cache::config($cache['name'], $cache['config']);
 			}
 		}
+		unset($cacheDetails, $cache, $folder, $plugin);
 	}
 
 	/**
@@ -102,31 +139,44 @@
 	}
 
 	/**
-	 * generate a unique cache name for a file.
+	 * @brief generate a unique cache name for a file.
 	 *
 	 * uses an array of data or a string to generate a hash for the end of the cache
 	 * name so that you can cache finds etc
 	 *
 	 * @param string $prefix the normal name for cache
 	 * @param mixed $data your conditions in the find
+	 *
 	 * @return a nice unique name
 	 */
 	function cacheName($prefix = 'PleaseNameMe', $data = null){
 		$hash = '';
 
 		if ($data) {
-			$hash = '_'.sha1(serialize($data));
+			$hash = '_' . sha1(serialize($data));
 		}
 
-		return Inflector::underscore($prefix).$hash;
+		$data = Inflector::underscore($prefix) . $hash;
+		unset($hash);
+		
+		return $data;
 	}
 
 	/**
-	 * return a nice user friendly name.
+	 * @brief return a nice user friendly name.
 	 *
 	 * Takes a cake class like SomeModel and converts it to Some model
 	 *
+	 * @code
+	 *	prettyName(SomeModel);
+	 *	// Some models
+	 *
+	 *	prettyName(CateogryStuff);
+	 *	// Category stuffs
+	 * @endcode
+	 *
 	 * @param string $class the name to convert
+	 *
 	 * @return a nice name
 	 */
 	function prettyName($class = null){
@@ -142,11 +192,13 @@
 	}
 
 	/**
-	 * having issues with routes ?
+	 * @brief having issues with routes
 	 *
-	 * @todo this can be removed after stable.
+	 * @todo this should be moved to the routing plugin and a page added to admin
+	 * to view what is being generated.
 	 *
 	 * @param mixed $route
+	 *
 	 * @return null echo's out the route.
 	 */
 	function debugRoute($route){
@@ -167,8 +219,19 @@
 
 
 	/**
-	 * Quick method to conver byte -> anything.
-	 * @param $size
+	 * @brief Quick method to conver byte -> anything.
+	 *
+	 * @code
+	 *	// output 1 kb
+	 *	convert(1024);
+	 *
+	 *	// output 5.24 mb
+	 *	convert(5494237);
+	 * @endcode
+	 *
+	 * @param $size size in bytes
+	 *
+	 * @return string size in human readable
 	 */
 	function convert($size){
 		$unit=array('b','kb','mb','gb','tb','pb');
@@ -176,16 +239,35 @@
 	}
 
 	/**
-	 * get the current memory stats
+	 * @brief get the current memory stats
+	 *
+	 * @param $print true to pr() false to return
+	 *
+	 * @code
+	 *	// both output pr() data;
+	 *	memoryUsage();
+	 *	memoryUsage(true);
+	 *
+	 *	// set var with mem details
+	 *	$var = memoryUsage(false);
+	 * @endcode
+	 *
+	 * @return mixed true if $print, array if !$print
 	 */
-	function memoryUsage(){
-		pr(
-			array(
-				'current' => convert(memory_get_usage()),
-				'current_t' => convert(memory_get_usage(true)),
-				'max' => convert(memory_get_peak_usage()),
-				'max_' => convert(memory_get_peak_usage(true)),
-				'limit' => ini_get('memory_limit')
-			)
+	function memoryUsage($print = true){
+		$memory = array(
+			'current' => convert(memory_get_usage()),
+			'current_t' => convert(memory_get_usage(true)),
+			'max' => convert(memory_get_peak_usage()),
+			'max_' => convert(memory_get_peak_usage(true)),
+			'limit' => ini_get('memory_limit')
 		);
+
+		if((bool)$memory){
+			pr($memory);
+			unset($memory);
+			return true;
+		}
+
+		return $memory;
 	}

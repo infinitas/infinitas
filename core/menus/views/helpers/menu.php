@@ -1,16 +1,18 @@
 <?php
 	/**
-	 * Menu helper
-	 *
-	 * Used to generate different types of menus.
+	 * Helper for generating menu markup.
+	 * 
+	 * Menu helper is used for generating different types of menus. From the
+	 * dashboard icons found in the admin backend to nested lists for the
+	 * frontend.
 	 * 
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * 
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.menus
-	 * @subpackage Infinitas.menus.views.helpers.menu
+	 * @package Infinitas.Menus
+	 * @subpackage Infinitas.Menus.views.helpers.menu
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 * 

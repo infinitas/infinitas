@@ -1,14 +1,75 @@
 <?php
+
+	/**
+	 * Html chart engine
+	 *
+	 * This is an example of engine use, that will generate a range of html based
+	 * charts. It is automatically called via the ChartsHelper and should not be used
+	 * directly for generating charts.
+	 *
+	 * To use this set up your controller with something like the following:
+	 * <code>
+	 *	public $helpers = array(
+	 *		...
+	 *		'Charts.Charts' => array(
+	 *			'Charts.Html'
+	 *		)
+	 *	);
+	 * </code>
+	 *
+	 * Then in your code you will just call it in your views like below:
+	 * <code>
+	 *	<?php echo $this->Charts->draw('bar', $dataArray); ?>
+	 * </code>
+	 *
+	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 *
+	 * @filesource
+	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+	 * @link http://www.infinitas-cms.org
+	 * @package Infinitas.Charts
+	 * @subpackage Infinitas.Charts.helpers.HtmlChartEngineHelper
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.8a
+	 *
+	 * @author dogmatic69
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
 	class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
+		/**
+		 * Some helpers that are needed internally for this helper to function
+		 *
+		 * @var array
+		 * @access public
+		 */
 		public $helpers = array(
 			'Html'
 		);
 
+		/**
+		 * a small template for the charts.
+		 *
+		 * @todo expand to an array with keys for each chart type
+		 *
+		 * @var <type>
+		 * @access private
+		 */
 		private $__chartWrapper = '<div class="html-chart bar verticle">%s %s</div>';
 
+		/**
+		 * Generate a html markup based bar chart.
+		 *
+		 * @todo horizontal charts also needed
+		 *
+		 * @param array $data the formatted data from the ChartsHelper
+		 * @access public
+		 *
+		 * @return string the markup for the chart that was generated.
+		 */
 		public function bar($data){
-			echo $this->Html->css('/charts/css/html_chart_engine');
-
 			$legend = '';
 			$chart = '';
 
@@ -46,9 +107,23 @@
 
 			$html = sprintf($this->__chartWrapper, $data['title'], $chart);			
 
-			return sprintf('<style type=text/css>%s %s</style>%s', $this->__generateBarCss($data), $this->__css($data), $html);
+			return sprintf(
+				'%s<style type=text/css>%s %s</style>%s',
+				$this->Html->css('/charts/css/html_chart_engine'),
+				$this->__generateBarCss($data),
+				$this->__css($data),
+				$html
+			);
 		}
 
+		/**
+		 * build some on-the-fly css for the chart.
+		 *
+		 * @param array $data the data for the chart
+		 * @access private
+		 *
+		 * @return string some css
+		 */
 		private function __generateBarCss($data){
 			$colWidth = (($data['width'] + $data['spacing']['padding']) / count($data['data'][0]) / $data['width']) * 100;
 			$margin = round($data['spacing']['padding'] / 2);
