@@ -51,10 +51,13 @@
 			$cacheEngine = 'Libs.NamespaceFile';
 			break;
 	}
-	
+
 	Configure::write('Cache.engine', $cacheEngine);
 
-	Cache::config('_cake_core_', array('engine' => $cacheEngine));
+	/**
+	 * @todo when this is set to $cacheEngine the developer plugin is gone
+	 */
+	Cache::config('_cake_core_', array('engine' => 'File'));
 	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => 'infinitas_'));
 	unset($cacheEngine);
 
