@@ -34,6 +34,10 @@
 	 * folders. This can help if you want to keep plugins outside of /plugins
 	 */
 	$paths = Cache::read('plugin_paths');
+	if(!class_exists('Folder')){
+		App::import('Folder');
+	}
+	
 	if($paths === false){
 		$Folder = new Folder(APP);
 		$folders = $Folder->read();
