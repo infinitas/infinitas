@@ -66,7 +66,9 @@
 			$this->log('Where: ' . serialize($this->controller->params['url']), 'page_errors');
 			$this->log('What:  ' . serialize($this->controller->viewVars), 'page_errors');
 
-			parent::_outoutMessage($template);
+			$this->controller->render($template);
+			$this->controller->afterFilter();
+			echo $this->controller->output;
 
 			if(!Configure::read('debug')){
 				return;
