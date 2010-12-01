@@ -42,7 +42,7 @@
 		 * @var string
 		 * @access public
 		 */
-		public $useTable = 'layouts';
+		public $useTable = 'global_layouts';
 
 		/**
 		 * belongs to relations for the GlobalLayout model

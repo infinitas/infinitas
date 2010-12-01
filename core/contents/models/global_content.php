@@ -2,7 +2,7 @@
 	class GlobalContent extends ContentsAppModel{
 		public $name = 'GlobalContent';
 
-		public $useTable = 'contents';
+		public $useTable = 'global_contents';
 
 		public $belongsTo = array(
 			'GlobalLayout' => array(
