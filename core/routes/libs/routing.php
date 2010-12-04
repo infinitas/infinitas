@@ -22,7 +22,7 @@
 
 	class InfinitasRouting extends Object{
 		public function setup(){
-			InfinitasRouting::__registerExtentions();
+			InfinitasRouting::__registerExtensions();
 			InfinitasRouting::__buildRoutes();
 		}
 
@@ -53,25 +53,25 @@
 		}
 
 		/**
-		 * Register extentions that are used in the app
+		 * Register extensions that are used in the app
 		 *
-		 * Call all plugins and see what extentions are need, this is cached
+		 * Call all plugins and see what extensions are need, this is cached
 		 */
-		private function __registerExtentions(){
-			$extentions = Cache::read('extentions', 'routes');
-			if($extentions === false){
-				$extentions = EventCore::trigger(new StdClass(), 'setupExtentions');
+		private function __registerExtensions(){
+			$extensions = Cache::read('extensions', 'routes');
+			if($extensions === false){
+				$extensions = EventCore::trigger(new StdClass(), 'setupExtensions');
 
-				$_extentions = array();
-				foreach($extentions['setupExtentions'] as $plugin => $ext){
-					$_extentions = array_merge($_extentions, (array)$ext);
+				$_extensions = array();
+				foreach($extensions['setupExtensions'] as $plugin => $ext){
+					$_extensions = array_merge($_extensions, (array)$ext);
 				}
 
-				$extentions = array_flip(array_flip($_extentions));
-				Cache::write('extentions', $extentions, 'routes');
-				unset($_extentions);
+				$extensions = array_flip(array_flip($_extensions));
+				Cache::write('extentions', $extensions, 'routes');
+				unset($_extensions);
 			}
 			
-			call_user_func_array(array('Router', 'parseExtensions'), $extentions);
+			call_user_func_array(array('Router', 'parseExtensions'), $extensions);
 		}
 	 }

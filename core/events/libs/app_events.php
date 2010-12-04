@@ -118,13 +118,13 @@
 		public function onSetupRoutes($event, $data = null){}
 
 		/**
-		 * parse extentions
+		 * parse extensions
 		 *
-		 * This will allow your plugin to regiser extentions with parseExtentions
+		 * This will allow your plugin to regiser extensions with parseExtensions
 		 *
-		 * @return array of extentions that should be registered.
+		 * @return array of extensions that should be registered.
 		 */
-		public function onSetupExtentions($event){}
+		public function onSetupExtensions($event){}
 
 
 

@@ -6,7 +6,7 @@
 			Configure::load('libs.config');
 		}
 
-		public function onSetupExtentions(){
+		public function onSetupExtensions(){
 			return array(
 				'json'
 			);
