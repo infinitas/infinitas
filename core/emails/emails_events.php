@@ -8,6 +8,15 @@
 			);
 		}
 
+		public function onSetupCache(){
+			return array(
+				'name' => 'emails',
+				'config' => array(
+					'prefix' => 'emails.',
+				)
+			);
+		}
+
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Emails',
