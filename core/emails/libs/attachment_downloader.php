@@ -10,12 +10,16 @@
 			switch($attachment['type']){
 				case 'msword':
 				case 'pdf':
+				case 'vnd.oasis.opendocument.presentation': // odp openoffice presentation
+				case 'vnd.ms-powerpoint': // pps ms office presentation
+				case 'octet-stream': // executable
 					$attachment['_path'] = $this->attachmentPath;
 					return self::__fileDownload($attachment);
 					break;
 
 				case 'gif':
 				case 'jpeg':
+				case 'tiff':
 					$attachment['_path'] = $this->webrootPath;
 					$attachment['versions'] = self::__imageDownload($attachment);
 
