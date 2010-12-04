@@ -27,7 +27,7 @@
 			);
 		}
 
-		public function onSetupExtentions(){			
+		public function onSetupExtensions(){
 			return array(
 				'rss'
 			);

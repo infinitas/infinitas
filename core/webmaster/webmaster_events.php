@@ -48,7 +48,7 @@
 			Router::connect('/sitemap', array('plugin' => 'webmaster', 'controller' => 'site_maps', 'action' => 'index', 'admin' => false, 'prefix' => ''));
 		}
 
-		public function onSetupExtentions(){
+		public function onSetupExtensions(){
 			return array(
 				'xml'
 			);
