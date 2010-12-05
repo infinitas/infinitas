@@ -258,20 +258,72 @@
 	 *
 	 * @return mixed true if $print, array if !$print
 	 */
-	function memoryUsage($print = true){
+	function memoryUsage($print = true, $convert = true){
 		$memory = array(
-			'current' => convert(memory_get_usage()),
-			'current_t' => convert(memory_get_usage(true)),
-			'max' => convert(memory_get_peak_usage()),
-			'max_' => convert(memory_get_peak_usage(true)),
+			'current' => memory_get_usage(),
+			'current_t' => memory_get_usage(true),
+			'max' => memory_get_peak_usage(),
+			'max_' => memory_get_peak_usage(true),
 			'limit' => ini_get('memory_limit')
 		);
 
-		if((bool)$memory){
+		if($convert){
+			$memory['current']   = convert($memory['current']);
+			$memory['current_t'] = convert($memory['current_t']);
+			$memory['max']       = convert($memory['max']);
+			$memory['max_']      = convert($memory['max_']);
+		}
+
+		if((bool)$print){
 			pr($memory);
 			unset($memory);
 			return true;
 		}
 
 		return $memory;
+	}
+
+	/**
+	 * @brief attempt to get the current server load
+	 *
+	 * This will attempt a few methods to determin the server load, can be used
+	 * for reporting or keeping an eye on how things are running.
+	 *
+	 * @param <type> $print
+	 * @return <type>
+	 */
+	function serverLoad($print = true){
+		// try file method
+		$load = @file_get_contents('/proc/loadavg');
+		if($load){
+			$load = explode(' ', $load, 4);
+		}
+
+		// try exec
+		if(!$load){
+			$load = @exec('uptime');
+
+			// try shell_exec
+			if(!$load){
+				$load = @shell_exec('uptime');
+			}
+
+			if($load){
+				$load = explode(' ', $load);
+				$load[2] = trim(array_pop($load));
+				$load[1] = str_replace(',', '', array_pop($load));
+				$load[0] = str_replace(',', '', array_pop($load));
+			}
+			else{
+				$load[0] = $load[1] = $load[2] = -1;
+			}
+		}
+
+		if((bool)$print){
+			pr($load);
+			unset($load);
+			return true;
+		}
+
+		return $load;
 	}
