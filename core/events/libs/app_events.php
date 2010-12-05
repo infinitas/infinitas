@@ -251,4 +251,19 @@
 		 * for output unless in debug mode. 
 		 */
 		public function onRequestDone(){}
+
+		/**
+		 * @brief Called when the system crons are being run
+		 *
+		 * Use this method to do maintainence to you plugin like clearing logs,
+		 * populating db data or what ever. Normally the system is set to run
+		 * often so dont always run the job
+		 *
+		 * @param object $event the event object (this is normally the shell)
+		 *
+		 * @access public
+		 */
+		public function onRunCrons($event){
+			return false;
+		}
 	}
