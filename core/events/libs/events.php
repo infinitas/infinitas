@@ -82,6 +82,32 @@
 		}
 
 		/**
+		 * @brief Get a list of plugins that will be affected by running an event
+		 *
+		 * This will return all plugins that have an event class but sometimes if
+		 * you need to run a global trigger but want to do it one at a time this
+		 * list will help out.
+		 * 
+		 * @param string $eventName the name of the event to run
+		 * @access public
+		 *
+		 * @return array the array of plugins that will be run
+		 */
+		public function pluginsWith($eventName){
+			$_this =& EventCore::getInstance();
+			if(!isset($_this->__eventHandlerCache[$eventName])){
+				return array();
+			}
+
+			$return = array();
+			foreach($_this->__eventHandlerCache[$eventName] as $plugin){
+				$return[] = $_this->__extractPluginName($plugin);
+			}
+
+			return $return;
+		}
+
+		/**
 		 * Loads all available event handler classes for enabled plugins
 		 *
 		 */
