@@ -110,4 +110,17 @@
 				}
 			}
 		}
+
+		/**
+		 * @copydoc AppEvents::onRunCrons()
+		 *
+		 * The view counter crons clear out views from localhost.
+		 * 
+		 * @note You should disable crons if you want to test some functionality
+		 * on localhost.
+		 */
+		public function onRunCrons($event) {
+			ClassRegistry::init('ViewCounter.ViewCount')->clearLocalhost();
+			return true;
+		}
 	}
