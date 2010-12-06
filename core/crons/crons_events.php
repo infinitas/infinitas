@@ -43,4 +43,15 @@
 		public function onAreCronsSetup(){
 			return ClassRegistry::init('Crons.Cron')->getLastRun();
 		}
+
+		/**
+		 * @brief housekeeping, clear out old cron logs.
+		 * 
+		 * @param <type> $event
+		 * @return <type>
+		 */
+		public function onRunCrons($event) {
+			ClassRegistry::init('Crons.Cron')->clearOldLogs();
+			return true;
+		}
 	}

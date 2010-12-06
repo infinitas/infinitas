@@ -163,4 +163,24 @@
 				? $last['Cron']['created']
 				: false;
 		}
+
+		/**
+		 * @brief clear out old data
+		 *
+		 * This method is used to clear out old data, normally it is called via
+		 * crons to happen automatically, but could be used in other places.
+		 */
+		public function clearOldLogs($date = null){
+			if(!$date){
+				$date = Configure::read('Cron.clear_logs');
+			}
+
+			$date = date('Y-m-d H:i:s', strtotime('- ' . $date));
+
+			return $this->deleteAll(
+				array(
+					'created <= ' => $date
+				)
+			);
+		}
 	}
