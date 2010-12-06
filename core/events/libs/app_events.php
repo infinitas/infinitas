@@ -241,6 +241,13 @@
 		 * Gives plugins a chance to do some checks and generate a todo list for
 		 * the admin page. This can be anything like warnings about missing
 		 * dependancies or configs, new records like pending comments etc.
+		 *
+		 * @code
+		 *	// format should be 
+		 *	$return[0]['name'] = 'something';
+		 *	$return[0]['type'] = 'warning|error';
+		 *	$return[0]['url']  = array();
+		 * @endcode
 		 */
 		public function onRequireTodoList($event){}
 
