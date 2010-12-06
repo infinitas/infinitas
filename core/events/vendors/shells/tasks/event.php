@@ -10,4 +10,8 @@
 		public function trigger($eventName, $data = array()){
 			return EventCore::trigger($this->Controller, $eventName, $data);
 		}
+
+		public function pluginsWith($eventName){
+			return EventCore::pluginsWith($eventName);
+		}
 	}
