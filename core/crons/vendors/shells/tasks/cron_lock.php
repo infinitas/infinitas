@@ -25,4 +25,16 @@
 		public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0){
 			return $this->Cron->end($tasksRan, $memAverage, $loadAverage);
 		}
+
+		/**
+		 * @brief check if its time to do a run
+		 *
+		 * Make sure that enough time has passed since the last cron before running
+		 * the next one. This has nothing to do with if the cron is already
+		 * running and is only a tiny request if it fails.
+		 */
+		public function checkTimePassed(){
+			$date = strtotime('-' . Configure::read('Cron.run_every'));
+			return $this->Cron->countJobsAfter(date('Y-m-d H:i:s', $date)) ? false : true;
+		}
 	}

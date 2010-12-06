@@ -33,6 +33,20 @@
 		 */
 		public $Event;
 
+		/**
+		 * @brief the CronLockTask keeps the crons running the way they should
+		 *
+		 * @property CronLock
+		 */
+		public $CronLock;
+
+		/**
+		 * @brief the CronResourceTask makes sure the server does not get overloaded
+		 *
+		 * @property CronResource
+		 */
+		public $CronResource;
+
 		private $__verbose = false;
 
 		private $__start;
@@ -72,6 +86,11 @@
 		}
 
 		public function main(){
+			if(!$this->CronLock->checkTimePassed()){
+				$this->CronResource->log(sprintf('skipping (%s)', date('Y-m-d H:i:s')));
+				return false;
+			}
+			
 			$this->CronResource->start = microtime(true);			
 			if(!$this->_start()){
 				$this->_abort();
