@@ -136,4 +136,31 @@
 				)
 			);
 		}
+
+		/**
+		 * @brief get the last run job
+		 *
+		 * This gets the last time a cron ran, and can be used for checking if
+		 * the crons are setup or if they are running.
+		 *
+		 * @return string|bool false if not running, or datetime string of last run
+		 */
+		public function getLastRun(){
+			$last = $this->find(
+				'first',
+				array(
+					'fields' => array(
+						$this->alias . '.id',
+						'created'
+					),
+					'order' => array(
+						'created' => 'desc'
+					)
+				)
+			);
+
+			return isset($last['Cron']['created']) && !empty($last['Cron']['created'])
+				? $last['Cron']['created']
+				: false;
+		}
 	}
