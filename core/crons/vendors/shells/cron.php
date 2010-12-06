@@ -12,6 +12,7 @@
 	 */
 	class CronShell extends Shell{
 		public $tasks = array(
+			'Infinitas',
 			'Event',
 			'CronLock',
 			'CronResource'
@@ -60,27 +61,36 @@
 		}
 		
 		public function help(){
-			$this->out('Infinitas Cron');
-			$this->hr();
-			$this->out('The Infinitas cron shell is designed to be set up and run');
-			$this->out('every few minutes, and provides a method for running all sorts');
-			$this->out('of crons from one simple command. To get started determin');
-			$this->out('the frequency you would like to run the cron at and add the');
-			$this->out('following command to your cron tab');
-			$this->out('');
-			$this->out('*/1 * * * * /path/to/cake/cake cron');
-			$this->out('');
-			$this->out('The advantage of this system is that there is one point');
-			$this->out('of entry so you do not need to set up and manage many different');
-			$this->out('cron jobs. Every run will be passed off to each plugin and they');
-			$this->out('will determin if there are any jobs to run. The cron shell');
-			$this->out('is also able to detect heavy server loads and defer processing');
-			$this->out('till the server is less busy.');
-			$this->hr();
-			$this->out('If you want to run the cron manually you can do so by');
-			$this->out('running cake cron -v which will output all the information');
-			$this->out('to screen as well as the log files');
-			$this->out('');
+			$this->Infinitas->h1('Cron Help');
+			$this->Infinitas->p(
+				'The Infinitas cron shell is designed to be set up and run '.
+				'every minute or two, and provides a method for running all sorts '.
+				'of crons from the one crontab. To get started determin '.
+				'add the command below to your cron tab, then sit back and enjoy'
+			);
+			$this->Infinitas->p(
+				'The advantage of this system is that there is one point '.
+				'of entry so you do not need to set up and manage many different '.
+				'cron jobs. Every run will be passed off to each plugin and they '.
+				'will determin if there are any jobs to run. The cron shell '.
+				'is also able to detect heavy server loads and defer processing '.
+				'till the server is less busy.'
+			);
+
+			$this->Infinitas->p(
+				'If you want to run the cron manually you can do so by '.
+				'running cake cron -v which will output all the information '.
+				'to screen as well as the log files'
+			);
+			$this->Infinitas->h2('YOUR CRON CONFIG');
+			
+			$cron = sprintf(
+				'*/1 * * * * %svendors/cron_dispacher cron -console %s/cake/console -app %s',
+				App::pluginPath('crons'),
+				CAKE_CORE_INCLUDE_PATH,
+				APP
+			);
+			$this->out($cron);
 			$this->hr();
 			$this->out();
 		}
