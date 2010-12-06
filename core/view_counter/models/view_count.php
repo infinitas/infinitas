@@ -757,4 +757,12 @@
 			 `day_of_week` = DAYOFWEEK(`created`)
 			 */
 		}
+
+		public function clearLocalhost(){
+			return $this->deleteAll(
+				array(
+					$this->alias . '.ip_address' => '127.0.0.1'
+				)
+			);
+		}
 	}
