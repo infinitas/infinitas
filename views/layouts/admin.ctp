@@ -7,13 +7,15 @@
 		<?php
             echo $this->Html->meta('icon');
 			$css = array(
+				'/assets/css/960gs/reset',
+				'/assets/css/960gs/text',
 				'/assets/css/960gs/960',
 				'/assets/css/admin_nav',
 				'/assets/css/960gs/uncompressed/demo',
 				'/assets/css/3rd/date',
 			);
 			
-			echo $this->Html->css(array_merge($css, $css_for_layout));
+			echo $this->Compress->css(array_merge($css, $css_for_layout));
 		?>
 		<script type="text/javascript">
 			Infinitas = <?php echo json_encode(isset($infinitasJsData) ? $infinitasJsData : ''); ?>;
