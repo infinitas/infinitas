@@ -63,7 +63,7 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
-				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'report'),
+				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'reports'),
 				'Custom' => array('plugin' => 'view_counter', 'controller' => 'view_counts', 'action' => 'custom'),
 			);
 
