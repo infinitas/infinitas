@@ -7,6 +7,8 @@
 	 * @version 0.1
 	 */
 
+	Configure::write('Asset.timestamp', true);
+
 	/**
 	 * Indicates whether CSS files should be combined. Set to false to disable
 	 * CSS combination.

@@ -1,4 +1,4 @@
-(function($) {
+;(function($) {
 	var Core = $.Core = {};
 
 	/**
@@ -64,7 +64,7 @@
  * jQuery Tooltip plugin 1.3
  * http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
  * http://docs.jquery.com/Plugins/Tooltip
- * Copyright (c) 2006 - 2008 Jörn Zaefferer
+ * Copyright (c) 2006 - 2008 Jï¿½rn Zaefferer
  * Dual licensed under the MIT and GPL licenses: http://www.opensource.org/licenses/mit-license.php http://www.gnu.org/licenses/gpl.html
  */
 eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){r[e(c)]=k[c]||e(c);}k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--){
