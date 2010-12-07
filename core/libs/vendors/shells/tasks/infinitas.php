@@ -30,6 +30,15 @@
 		}
 
 		/**
+		 * @brief create a heading for infinitas shell stuff
+		 */
+		public function h3($title){
+			$this->out();
+			$this->center($title);
+			$this->hr();
+		}
+
+		/**
 		 * @brief create nice paragraphs
 		 */
 		public function p($text){
