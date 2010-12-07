@@ -9,6 +9,16 @@
 		 */
 		public function admin_apc(){
 			// Configure::write('debug', 0);
+			if(Configure::read('Cache.engine') != 'APC'){
+				$this->notice(
+					__('APC does not seem to be configured', true),
+					array(
+						'level' => 'warning',
+						'redirect' => true
+					)
+				);
+			}
+			
 			$this->layout = 'ajax';
 		}
 
