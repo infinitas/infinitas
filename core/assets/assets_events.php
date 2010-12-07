@@ -16,6 +16,7 @@
 				'/assets/js/3rd/jquery',
 				'/assets/js/3rd/jquery_ui',
 				'/assets/js/3rd/metadata',
+				'/assets/js/infinitas',
 				'/assets/js/libs/core',
 				'/assets/js/libs/form',
 				'/assets/js/libs/html',

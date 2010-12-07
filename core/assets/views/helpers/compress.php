@@ -4,7 +4,6 @@
 	 * @author Geoffrey Garbers
 	 * @version 0.1
 	 *
-	 * @property HtmlHelper $Html
 	 * @property JavascriptHelper $Javascript
 	 */
 	class CompressHelper extends Helper {
@@ -15,6 +14,11 @@
 		 * @var array
 		 */
 		public $helpers = array('Html', 'Javascript');
+
+		/**
+		 * @property HtmlHelper
+		 */
+		public $Html;
 
 		/**
 		 * The directory to which the combined CSS files will be cached.
@@ -117,17 +121,14 @@
 			// just return the URL to it straight away.
 
 			if ($this->isCacheFileValid($cacheFile)) {
-				return $this->Html->css($this->convertToUrl($cacheFile));
+				$cacheFile = $this->convertToUrl($cacheFile);
+				return $this->Html->css($cacheFile);
 			}
 
 			// Let's generate the HTML that would normally be returned, and strip
 			// out the URLs.
-			$urlMatches = $cssData = array();
-			$links = $this->Html->css($cssFiles, 'import');
-			preg_match_all('#\(([^\)]+)\)#i', $links, $urlMatches);
-			$urlMatches = isset($urlMatches[1]) ? $urlMatches[1] : array();
 
-			$cssData = $this->_getCssFiles($urlMatches);
+			$cssData = $this->_getCssFiles($cssFiles);
 
 			// If we can cache the file, then we can return the URL to the file.
 			if ($this->File->write($cssData)) {
@@ -140,7 +141,18 @@
 			return $this->Html->css($cssFiles);
 		}
 
-		protected function _getCssFiles($urlMatches){
+		protected function _getCssFiles($cssFiles){
+			$urlMatches = $cssData = array();
+
+			$_setting = Configure::read('Asset.timestamp');
+			Configure::write('Asset.timestamp', false);
+			$links = $this->Html->css($cssFiles, 'import');
+			Configure::write('Asset.timestamp', $_setting);
+
+			preg_match_all('#\(([^\)]+)\)#i', $links, $urlMatches);
+			$urlMatches = isset($urlMatches[1]) ? $urlMatches[1] : array();
+
+			$cssData = array();
 			foreach ($urlMatches as $urlMatch) {
 				$cssPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
 				if (is_file($cssPath)) {
@@ -154,11 +166,13 @@
 				}
 			}
 			
+			$cssData = implode(Configure::read('ScriptCombiner.fileSeparator'), $cssData);
+			
 			if (Configure::read('ScriptCombiner.compressCss')) {
 				$cssData = $this->compressCss($cssData);
 			}
 			
-			return implode("\r\n" . Configure::read('ScriptCombiner.fileSeparator') . "\r\n", $cssData);
+			return $cssData;
 		}
 
 		public function script() {	
@@ -204,30 +218,8 @@
 				return $this->Javascript->link($this->convertToUrl($cacheFile));
 			}
 
-			$jsData = array();
-			$jsLinks = $this->Javascript->link($jsFiles);
-			preg_match_all('/src="([^"]+)"/i', $jsLinks, $urlMatches);
-			if (isset($urlMatches[1])) {
-				$urlMatches = array_unique($urlMatches[1]);
-			} else {
-				$urlMatches = array();
-			}
+			$jsData = $this->_getJsFiles($jsFiles);
 
-			foreach ($urlMatches as $urlMatch) {
-				$jsPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
-				if (is_file($jsPath)) {
-					$jsData[] = file_get_contents($jsPath);
-				}
-			}
-
-			// Let's combine them.
-			$jsData = implode(Configure::read('ScriptCombiner.fileSeparator'), $jsData);
-
-			// Let's check whether we need to compress the Javascript. If so, we'll
-			// compress it before saving it.
-			if (Configure::read('ScriptCombiner.compressJs')) {
-				$jsData = $this->compressJs($jsData);
-			}
 
 			// If we can cache the file, then we can return the URL to the file.
 			if ($this->File->write($jsData)) {
@@ -238,6 +230,33 @@
 			// CSS files to the HTML Helper.
 			trigger_error("Cannot combine Javascript files to {$cacheFile}. Please ensure this directory is writable.", E_USER_WARNING);
 			return $this->Javascript->link($jsFiles);
+		}
+
+		protected function _getJsFiles($jsFiles){
+			$urlMatches = $jsData = array();
+			
+			$_setting = Configure::read('Asset.timestamp');
+			Configure::write('Asset.timestamp', false);
+			$jsLinks = $this->Javascript->link($jsFiles);
+			Configure::write('Asset.timestamp', $_setting);
+			
+			preg_match_all('/src="([^"]+)"/i', $jsLinks, $urlMatches);
+			$urlMatches = isset($urlMatches[1]) ? array_unique($urlMatches[1]) : array();
+
+			foreach ($urlMatches as $urlMatch) {
+				$jsPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
+				if (is_file($jsPath)) {
+					$jsData[] = file_get_contents($jsPath);
+				}
+			}
+			
+			$jsData = implode(Configure::read('ScriptCombiner.fileSeparator'), $jsData);
+			
+			if (Configure::read('ScriptCombiner.compressJs')) {
+				$jsData = $this->compressJs($jsData);
+			}
+
+			return $jsData;
 		}
 
 		/**

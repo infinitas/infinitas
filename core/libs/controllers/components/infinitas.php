@@ -361,8 +361,8 @@
 
 		public function getPluginAssets(){
 			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
-			if(isset($event['requireJavascriptToLoad']['libs'])){
-				$libs['libs'] = $event['requireJavascriptToLoad']['libs'];
+			if(isset($event['requireJavascriptToLoad']['assets'])){
+				$libs['assets'] = $event['requireJavascriptToLoad']['assets'];
 				$event['requireJavascriptToLoad'] = $libs + $event['requireJavascriptToLoad'];
 			}
 

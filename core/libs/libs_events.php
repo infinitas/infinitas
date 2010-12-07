@@ -72,14 +72,6 @@
 			);
 		}
 
-		public function onRequireJavascriptToLoad(){
-			return array(
-				'/assets/js/3rd/jquery',
-				'/assets/js/3rd/require',
-				'/assets/js/infinitas'
-			);
-		}
-
 		public function onRequireCssToLoad(){
 			return '/assets/css/jquery_ui';
 		}
