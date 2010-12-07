@@ -25,87 +25,55 @@ if(typeof Infinitas.params.prefix == 'undefined'){
 
 switch(Infinitas.params.prefix) {
 	case 'admin':
-		require([
-			"require",
-			Infinitas.base + "assets/js/libs/core.js",
-			Infinitas.base + "assets/js/libs/form.js",
-			Infinitas.base + "assets/js/libs/html.js",
-			Infinitas.base + "assets/js/libs/number.js",
+		$(document).ready(function(){
+			$('.tabs').tabs();
+			$('.accordions').accordion();
+			$.FormHelper.foucusOnFirst();
+			setupAjaxDropdowns();
+			setupRowSelecting();
+			setupDatePicker();
+			setupAjaxPagination();
 
-			Infinitas.base + "assets/js/3rd/metadata.js",
-			Infinitas.base + "assets/js/3rd/date.js",
-			Infinitas.base + "assets/js/3rd/image_drop_down.js",
+			$.FormHelper.checkboxToggleAll();
 
-			Infinitas.base + "assets/js/3rd/jquery_ui.js"
-		],
-		function(require) {
-			$(document).ready(function(){
-				$('.tabs').tabs();
-				$('.accordions').accordion();
-				$.FormHelper.foucusOnFirst();
-				setupAjaxDropdowns();
-				setupRowSelecting();
-				setupDatePicker();
-				setupAjaxPagination();
+			$(".trigger").click(function(){
+				$this = $(this);
+				$this.siblings(".panel").toggle("fast");
+				$(".trigger").removeClass('active').siblings(".panel").hide();
+				$this.toggleClass("active");
+				return false;
+			});
 
-				$.FormHelper.checkboxToggleAll();
+			$('#PaginationOptionsPaginationLimit').change(function(){
+				$('#PaginationOptions').submit();
+			});
 
-				$(".trigger").click(function(){
-					$this = $(this);
-					$this.siblings(".panel").toggle("fast");
-					$(".trigger").removeClass('active').siblings(".panel").hide();
-					$this.toggleClass("active");
+			if($('.filter-form').length > 0){
+				$('.massActions').prepend('<button id="searchForm" name="action" value="search" type="submit"><span><img alt="" src="' + Infinitas.base + 'img/core/icons/actions/search.png"><br>Search</span></button>');
+				$('#searchForm').click(function(){
+					$('.filter-form').toggle();
 					return false;
 				});
-
-				$('#PaginationOptionsPaginationLimit').change(function(){
-					$('#PaginationOptions').submit();
-				});
-
-				if($('.filter-form').length > 0){
-					$('.massActions').prepend('<button id="searchForm" name="action" value="search" type="submit"><span><img alt="" src="' + Infinitas.base + 'img/core/icons/actions/search.png"><br>Search</span></button>');
-					$('#searchForm').click(function(){
-						$('.filter-form').toggle();
-						return false;
-					});
-				}
+			}
 
 
-				$("[title]:not(.textarea *)").tooltip({
-				    track: true, delay: 0, showURL: false,
-				    fixPNG: true, showBody: " :: ",
-				    left: 5, top: -5
-				});
-
-				$('#' + Infinitas.model + 'ImageId').imageSelect();
-				$('#ProductImageProductImage').imageSelect();
+			$("[title]:not(.textarea *)").tooltip({
+				track: true, delay: 0, showURL: false,
+				fixPNG: true, showBody: " :: ",
+				left: 5, top: -5
 			});
+
+			$('#' + Infinitas.model + 'ImageId').imageSelect();
+			$('#ProductImageProductImage').imageSelect();
 		});
 		break;
 	default:
-		require([
-			"require",
-			Infinitas.base + "assets/js/3rd/jquery.js",
-			Infinitas.base + "assets/js/3rd/jquery_ui.js",
-			Infinitas.base + "assets/js/3rd/metadata.js",
+		$(document).ready(function(){
+			$('.tabs').tabs();
+			//setupStarRating();
 
-			Infinitas.base + "assets/js/libs/core.js",
-			Infinitas.base + "assets/js/libs/form.js",
-			Infinitas.base + "assets/js/libs/html.js",
-			Infinitas.base + "assets/js/libs/number.js",
-
-
-			Infinitas.base + "assets/js/3rd/rater.js",
-			Infinitas.base + "assets/js/3rd/moving_boxes.js"
-		],
-		function(require) {
-			$(document).ready(function(){
-				$('.tabs').tabs();
-				//setupStarRating();
-
-				$("#accordion").accordion({
-					collapsible: true
-				});
+			$("#accordion").accordion({
+				collapsible: true
 			});
 		});
 		break;
