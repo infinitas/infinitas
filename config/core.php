@@ -4,8 +4,13 @@
 	 *
 	 * Used to configure some base settings and load configs from all the plugins in the app.
 	 */
-
-	Configure::write('debug', 2);
+	if(env('SERVER_ADDR') == '127.0.0.1'){
+		Configure::write('debug', 2);
+	}
+	else{
+		Configure::write('debug', 0);
+	}
+	
 	Configure::write('log', true);
 
 	/**
