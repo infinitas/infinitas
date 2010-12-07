@@ -78,7 +78,7 @@
 				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey]
 			);
 			
-			$location = EventCore::trigger($this, 'geolocation.getLocation');
+			$location = EventCore::trigger($this, 'geo_location.getLocation');
 			$location = current($location['getLocation']);
 
 			foreach($location as $k => $v){
