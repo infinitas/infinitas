@@ -271,7 +271,7 @@
 		private function __extractPluginName($className){
 			$_this =& EventCore::getInstance();
 			if(!isset($_this->pluginNameCache->{$className})){
-				$_this->pluginNameCache->{$className} = strtolower(substr($className, 0, strlen($className) - 6));
+				$_this->pluginNameCache->{$className} = Inflector::underscore(substr($className, 0, strlen($className) - 6));
 			}
 			
 			return $_this->pluginNameCache->{$className};
