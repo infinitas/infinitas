@@ -56,14 +56,12 @@
 		 * @return mixed
 		 */
 		public function builAdminMenu(){
-			$return = Cache::read('admin_menu_'.$this->plugin, 'menus');
-			if($return !== false){
-				return $return;
-			}
 			$this->__adminMenuUrl['plugin'] = $this->plugin;
 			
 			$menus = $this->Event->trigger($this->plugin.'.adminMenu');
-			$items = isset($menus['adminMenu'][$this->plugin]['main']) ? $menus['adminMenu'][$this->plugin]['main'] : array();			
+			$items = isset($menus['adminMenu'][$this->plugin]['main']) 
+				? $menus['adminMenu'][$this->plugin]['main']
+				: array();
 
 			$items = array(
 				'Home' => '/admin'
@@ -90,7 +88,6 @@
 			}
 
 			unset($menus, $items);
-			Cache::write('admin_menu_'.$this->plugin, $return, 'menus');
 			return $return;
 		}
 
