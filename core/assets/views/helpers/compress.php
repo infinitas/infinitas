@@ -71,7 +71,9 @@
 				$this->cacheLength = (int)$cacheLength;
 			}
 
-			$this->enabled = true;
+			if(Configure::read('debug') != 2){
+				$this->enabled = true;
+			}
 		}
 
 		/**

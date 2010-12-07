@@ -33,7 +33,7 @@
 	 *
 	 * jsmin.php is very slow, adding 6 seconds to a page load (xhprof) and breaks debugkit
 	 */
-	$config['ScriptCombiner']['compressJs'] = false;
+	$config['ScriptCombiner']['compressJs'] = true;
 
 	/**
 	 * Indicates how long the combined cache files should exist for. If an integer is
