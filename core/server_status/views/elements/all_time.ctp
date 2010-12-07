@@ -12,11 +12,11 @@
 			<tr>
 				<th rowspan="2"><?php __('Memory'); ?>&nbsp</th>
 				<td><?php __('Agerage'); ?>&nbsp</td>
-				<td class="right"><?php echo $allTime['average_memory']; ?>&nbsp</td>
+				<td class="right"><?php echo convert($allTime['average_memory']); ?>&nbsp</td>
 			</tr>
 			<tr>
 				<td><?php echo __('Max'); ?>&nbsp</td>
-				<td class="right"><?php echo $allTime['max_memory']; ?>&nbsp</td>
+				<td class="right"><?php echo convert($allTime['max_memory']); ?>&nbsp</td>
 			</tr>
 			<tr>
 				<th rowspan="2"><?php __('Load'); ?>&nbsp</th>
