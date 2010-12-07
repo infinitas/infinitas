@@ -1,5 +1,5 @@
 <?php
-	class ServerStatusController extends AppController{
+	class ServerStatusController extends ServerStatusAppController{
 		public $name = 'ServerStatus';
 
 		public $helpers = array(
@@ -10,7 +10,7 @@
 			'ServerStatus.ServerStatus'
 		);
 
-		public function  __construct() {
+		public function __construct() {
 			$this->serverLoad = serverLoad(false);
 			$this->memoryUsage = memoryUsage(false, false);
 			parent::__construct();
@@ -64,13 +64,5 @@
 					)
 				);
 			}
-		}
-
-		/**
-		 * @brief Status pannel for apc
-		 */
-		public function admin_apc(){
-			// Configure::write('debug', 0);
-			$this->layout = 'ajax';
 		}
 	}
