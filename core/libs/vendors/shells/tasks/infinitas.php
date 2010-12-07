@@ -9,7 +9,7 @@
 		 * @brief create a heading for infinitas shell stuff
 		 */
 		public function h1($title){
-			$this->Dispatch->clear();
+			$this->clear();
 			$this->out("         _____        __ _       _ _");
 			$this->out("        |_   _|      / _(_)     (_) |");
 			$this->out("          | |  _ __ | |_ _ _ __  _| |_  __ _ ___");
@@ -43,5 +43,32 @@
 		public function center($text, $ends = ''){			
 			$space1 = $space2 = str_repeat(' ', intval(($this->wrap - strlen($text)) / 2) -4);
 			$this->out(sprintf('%s%s%s%s%s', $ends, $space1, $text, $space2, $ends));
+		}
+
+		/**
+		 * @brief generate a list of options
+		 */
+		public function li($options = array()){
+			if(!is_array($options)){
+				$options = array($options);
+			}
+
+			foreach($options as $option){
+				$this->out($option);
+			}
+		}
+
+		/**
+		 * @brief do a line break
+		 */
+		public function br(){
+			$this->out();
+		}
+
+		/**
+		 * @brief clear the page
+		 */
+		public function clear(){
+			$this->Dispatch->clear();
 		}
 	}
