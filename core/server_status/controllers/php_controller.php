@@ -9,9 +9,9 @@
 		 */
 		public function admin_apc(){
 			// Configure::write('debug', 0);
-			if(Configure::read('Cache.engine') != 'APC'){
+			if(!function_exists('apc_cache_info')){
 				$this->notice(
-					__('APC does not seem to be configured', true),
+					__('APC is not installed, or has been deactivated', true),
 					array(
 						'level' => 'warning',
 						'redirect' => true
