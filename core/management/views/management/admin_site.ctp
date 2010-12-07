@@ -29,6 +29,13 @@
 			'dashboard' => array('plugin' => 'menus', 'controller' => 'menus', 'action' => 'index')
 		),
 		array(
+			'name' => 'Server',
+			'description' => 'Track your servers health',
+			'icon' => '/server_status/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'server_status', 'controller' => 'server_status', 'action' => 'dashboard')
+		),
+		array(
 			'name' => 'Short Urls',
 			'description' => 'Manage the short urls pointing to your site',
 			'icon' => '/short_urls/img/icon.png',
