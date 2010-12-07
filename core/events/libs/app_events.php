@@ -171,6 +171,11 @@
 		public function onRequireGlobalTemplates($event){}
 
 		/**
+		 * @brief used to build the menus for the admin pages
+		 */
+		public function onAdminMenu(){}
+
+		/**
 		 * Load helpers.
 		 *
 		 * This event provides a way for you to attach your helper to the entire
