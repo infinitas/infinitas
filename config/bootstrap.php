@@ -297,6 +297,7 @@
 		$load = @file_get_contents('/proc/loadavg');
 		if($load){
 			$load = explode(' ', $load, 4);
+			unset($load[3]);
 		}
 
 		// try exec
@@ -326,4 +327,34 @@
 		}
 
 		return $load;
+	}
+
+	function systemInfo($extendedInfo = false){
+		$return = array();
+		$return['Server'] = array(
+			'name' => php_uname('n'),
+			'os' => php_uname('s'),
+			'type' => php_uname('s'),
+			'version' => php_uname('v'),
+			'release' => php_uname('r'),
+		);
+		$return['Php'] = array(
+			'version' => phpversion(),
+			'memory_limit' => ini_get('memory_limit'),
+			'sapi' => php_sapi_name()
+		);
+
+		if(!$extendedInfo){
+			return $return;
+		}
+
+		$extentions = get_loaded_extensions();
+		foreach($extentions as $extention){
+			$return['Php']['extentions'][] = array(
+				'name' => $extention,
+				'version' => phpversion($extention)
+			);
+		}
+
+		return $return;
 	}
