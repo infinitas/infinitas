@@ -69,6 +69,8 @@
 
 		/**
 		 * @brief do a line break
+		 *
+		 * create a line break
 		 */
 		public function br(){
 			$this->out();
@@ -76,8 +78,34 @@
 
 		/**
 		 * @brief clear the page
+		 *
+		 * clear the screen
 		 */
 		public function clear(){
 			$this->Dispatch->clear();
+		}
+
+		/**
+		 * @brief pause help text when called from running shel
+		 *
+		 * When the comand is 'cake something help' its ok to just exit, if
+		 * its 'cake something' and then the option [h] is used it should pause
+		 * or the text is scrolled off the screen.
+		 */
+		public function helpPause(){
+			if(!isset($this->Dispatch->shellCommand) || $this->Dispatch->shellCommand != 'help'){
+				$this->br();
+				$this->in('Press a key to continue');
+			}
+		}
+
+		/**
+		 * @brief exit the shell
+		 *
+		 * Clear the screen and exit
+		 */
+		public function quit(){
+			$this->clear();
+			exit(0);
 		}
 	}
