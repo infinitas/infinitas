@@ -44,7 +44,7 @@
 					<?php
 						echo $this->ModuleLoader->load('bottom', true),
 							 $this->ModuleLoader->load('hidden', true),
-							 $this->Html->script($js_for_layout);
+							 $this->Compress->script($js_for_layout);
 
 						echo $scripts_for_layout;
 					?>
