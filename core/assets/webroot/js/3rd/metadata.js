@@ -60,7 +60,7 @@
  * @see metadata()
  */
 
-(function($) {
+;(function($) {
 
 $.extend({
   metadata : {

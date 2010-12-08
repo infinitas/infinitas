@@ -265,7 +265,7 @@ function setupAjaxPagination() {
 	});
 }
 
-(function($) {
+;(function($) {
 	$.fn.imageSelect = function(options){
 		var opts = $.extend({}, $.fn.imageSelect.defaults, options);
 		return this.each(function() {

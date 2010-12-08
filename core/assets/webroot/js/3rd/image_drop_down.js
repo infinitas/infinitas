@@ -15,8 +15,7 @@
  * it under the terms of the either the MIT License or the Gnu General Public
  * License (GPL) Version 2
  */
-;
-(function($){
+;(function($){
 	var oldDiv = "";
 	$.fn.dd = function(options){
 		$this = this;
