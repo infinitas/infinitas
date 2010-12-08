@@ -188,7 +188,7 @@
 		 * @return bool true on succsess false if not.
 		 */
 		public function afterSave($Model, $created){
-			if($created){
+			if($created || !isset($Model->Lock) || !is_object($Model->Lock)){
 				return parent::afterSave(&$Model, $created);
 			}
 
