@@ -258,6 +258,8 @@
 				$jsData = $this->compressJs($jsData);
 			}
 
+			$jsData = "/** \r\n * Files included \r\n * " . implode("\r\n * ", $urlMatches) . "\r\n */ \r\n" . $jsData;
+
 			return $jsData;
 		}
 
