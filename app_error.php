@@ -63,8 +63,9 @@
 		 * @return mixed void
 		 */
 		public function _outputMessage($template) {
-			$this->log('Where: ' . serialize($this->controller->params['url']), 'page_errors');
-			$this->log('What:  ' . serialize($this->controller->viewVars), 'page_errors');
+			$this->log('Where:   ' . serialize($this->controller->params['url']), 'page_errors');
+			$this->log('What:    ' . serialize($this->controller->viewVars), 'page_errors');
+			$this->log('Referer: ' . $this->controller->referer(), 'page_errors');
 
 			$this->controller->render($template);
 			$this->controller->afterFilter();
