@@ -25,7 +25,7 @@ Note:
     This plugin wraps the following jQuery methods: $.fn.find, $.fn.bind and $.fn.unbind
 */
 
-(function (jQuery){
+;(function (jQuery){
     // keep reference to the original $.fn.bind, $.fn.unbind and $.fn.find
     jQuery.fn.__bind__ = jQuery.fn.bind;
     jQuery.fn.__unbind__ = jQuery.fn.unbind;

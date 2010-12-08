@@ -177,7 +177,7 @@
 			return $cssData;
 		}
 
-		public function script() {	
+		public function script() {
 			return call_user_func_array(array($this, 'js'), func_get_args());
 		}
 
