@@ -3,7 +3,7 @@
 		public function onRequireDatabaseConfigs($event){
 			return array(
 				'emails' => array(
-					'datasource' => 'Emails.Imap'
+					'datasource' => 'Emails.Email'
 				)
 			);
 		}
@@ -98,5 +98,28 @@
 				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'index', 'admin' => true),
 				array('pass' => array('slug', 'account'))
 			);
+		}
+
+		public function onRunCrons($event) {
+			$accounts = ClassRegistry::init('Emails.EmailAccount')->getCronAccounts();
+			
+			foreach($accounts as $account){
+				if(!isset($account['EmailAccount']) || empty($account['EmailAccount'])){
+					continue;
+				}
+
+				$this->_dispatchMails(
+					$event,
+					ClassRegistry::init('Emails.MailSystem')->checkNewMail($account['EmailAccount'])
+				);
+			}
+			
+			return true;
+		}
+
+		protected function _dispatchMails($event, $mails){
+			foreach($mails as $mail){
+				EventCore::trigger($event, 'receiveMails', $mail);
+			}
 		}
 	}

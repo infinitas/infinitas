@@ -139,6 +139,7 @@
 				if(count($parts) == 2 && $parts[0] > 0 && !empty($parts[1])){
 					$listItem = array(
 						'id' => null,
+						'message_number' => $parts[0],
 						'size' => $parts[1],
 						'sizeReadable' => convert($parts[1]),
 						'uid' => isset($uids[$parts[0]]) ? $uids[$parts[0]] : null

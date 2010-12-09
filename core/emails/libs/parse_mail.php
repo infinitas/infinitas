@@ -46,7 +46,7 @@
 		 * 
 		 * @param <type> $rawEmail
 		 */
-		function parse($rawEmail) {
+		public function parse($rawEmail) {
 			$_headers = $_body = null;
 			$return = $header = $body = array();
 
@@ -71,11 +71,21 @@
 			unset($_headers, $_header, $key, $value);
 			
 			$return['headers'] = array_merge($this->headers, $header);
-			$return['body'] = $_body;
+			$return['body'] = $this->_formatBody($_body);
 
 			unset($_body, $header);
 
 			return $return;
+		}
+
+		protected function _formatBody($body){
+			$return = array();
+			foreach($body as $k => $part){
+				$body[$k]['charset'] = isset($part['type']['extra']['charset']) ? $part['type']['extra']['charset'] : null;
+				$body[$k]['type'] = $part['type']['value'];
+			}
+			
+			return $body;
 		}
 
 		/**

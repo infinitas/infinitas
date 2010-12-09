@@ -38,4 +38,19 @@
 			$this->server = $details;
 			return $this->find('count');
 		}
+
+		public function checkNewMail($account){
+			$mails = $this->find(
+				'all',
+				array(
+					'conditions' => Set::flatten(array($this->alias => $account))
+				)
+			);
+
+			// @todo save to the db here
+
+			// @todo delete messages from server here
+
+			return $mails;
+		}
 	}
