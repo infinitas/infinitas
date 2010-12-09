@@ -32,9 +32,11 @@
 		 * Make sure that enough time has passed since the last cron before running
 		 * the next one. This has nothing to do with if the cron is already
 		 * running and is only a tiny request if it fails.
+		 *
+		 * @return bool true if time has passed, false if time has not passed
 		 */
 		public function checkTimePassed(){
 			$date = strtotime('-' . Configure::read('Cron.run_every'));
-			return $this->Cron->countJobsAfter(date('Y-m-d H:i:s', $date)) ? false : true;
+			return !(bool)$this->Cron->countJobsAfter(date('Y-m-d H:i:s', $date));
 		}
 	}
