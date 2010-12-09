@@ -52,7 +52,7 @@
 
 		private $__start;
 
-		public function  __construct(&$dispatch) {
+		public function __construct(&$dispatch) {
 			parent::__construct($dispatch);
 			$this->times['months'][date('m')]  = 1;
 			$this->times['days'][date('j')]    = 1;

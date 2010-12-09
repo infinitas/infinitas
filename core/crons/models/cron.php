@@ -127,7 +127,7 @@
 		 * @return bool are there jobs recently
 		 */
 		public function countJobsAfter($date){
-			return $this->find(
+			$data = $this->find(
 				'count',
 				array(
 					'conditions' => array(
@@ -135,6 +135,8 @@
 					)
 				)
 			);
+
+			return $data;
 		}
 
 		/**
