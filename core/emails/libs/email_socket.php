@@ -1,5 +1,6 @@
 <?php
-	App::import('Libs', 'Libs.BaseSocket');
+	//App::import('Libs', 'Libs.BaseSocket');
+	App::import('CakeSocket');
 	/**
 	 * @base Email socket is a low level class for communicating directly with mail servers
 	 *
@@ -46,10 +47,10 @@
 	 * @endcode
 	 */
 	
-	abstract class EmailSocket extends Object{
-		public $Socket;
+	abstract class EmailSocket extends CakeSocket{
+		public $ParseMail;
 		
-		protected $_config;
+		public $config;
 
 		public $eol;
 
@@ -61,6 +62,8 @@
 
 		public $mailList = array();
 
+		public $description = 'Email Socket Interface';
+
 		private $__connectionOptions = array(
 			'connection' => 'imap',
 			'host' => '',
@@ -68,6 +71,7 @@
 			'password' => '',
 			'port' => '',
 			'ssl' => true,
+			'request' => '',
 			'timeout' => 30,
 			'mail_box' => ''
 		);
@@ -77,7 +81,9 @@
 		 */
 		private $__cacheKey;
 
-		protected $_log = array();
+		private $__errors = array();
+
+		private $__logs = array();
 
 		protected $_response = array();
 
@@ -88,21 +94,13 @@
 		 */
 		protected $_capabilities = array();
 
-		protected $_isConnected = false;
-
 		protected $_mailboxes = array();
 
 		public function __construct($connection = array()){
+			parent::__construct($connection);
+			App::import('Libs', 'Emails.ParseMail');
+			$this->ParseMail = new ParseMail();
 			$this->eol = "\r\n";
-			$this->Socket = new BaseSocket();
-		}
-
-		/**
-		 * @brief Clean up after a request
-		 */
-		public function __destruct() {
-			$this->logout();
-			$this->Socket->close();
 		}
 
 		/**
@@ -143,7 +141,7 @@
 		 * @return bool true if connected, false if not
 		 */
 		public function isConnected(){
-			return $this->_isConnected;
+			return $this->connected;
 		}
 
 		/**
@@ -155,10 +153,10 @@
 		 * 
 		 * @return bool was the login correct of not
 		 */
-		public function login($connection){
-			$this->Socket->open($connection);
+		public function login(){
+			parent::connect();
 
-			if(!$this->read(null, 'isOk')){
+			if(!parent::read(1024, 'isOk')){
 				$this->error('Server not responding, exiting');
 				return false;
 			}
@@ -166,8 +164,6 @@
 			if(!$this->_getCapabilities()){
 				$this->error('Unable to get the sockets capabilities');				
 			}
-
-			unset($connection['username'], $connection['password'], $connection['timeout']);
 			
 			return true;
 		}
@@ -194,9 +190,9 @@
 		 * @return bool|string|array false on fail, string for raw and
 		 * string|array depending on the callbacks
 		 */
-		public function read($size = 128, $method = false){
-			if($this->Socket->read($size)){
-				$data = trim($this->Socket->buffer);
+		public function read($size = 1024, $method = false){
+			$data = parent::read($size);
+			if($data){
 				if($method && is_callable(array($this, $method))){
 					$method = '_' . $method;
 					return $this->{$method}($data);					
@@ -209,34 +205,34 @@
 			return false;
 		}
 
-		public function write($data, $method = false){
-			$data .= $this->eol;
-
-			$didWrite = $this->Socket->write($data);
+		public function write($data, $method = false, $size = 1024){
+			$didWrite = parent::write($data . $this->eol);
 			
-			if($didWrite){
+			if($didWrite && $size > 0){
 				if($method && is_callable(array($this, '_' . $method))){
-					$data = $this->read(null, $method);
+					$data = parent::read($size, $method);
 					$method = '_' . $method;
 					return $this->{$method}($data);
 				}
 				
-				return $this->read();
+				return parent::read($size);
 			}
 
 			return $didWrite;
 		}
 
-		public function error($text){
-			$this->Socket->error($text);
-		}
-
-		public function errors(){
-			return $this->Socket->errors();
-		}
-
-		public function logs(){
-			return $this->Socket->logs();
+		protected function _getSize($data){
+			if(!$this->_isOk($data)){
+				return 0;
+			}
+			/*if(strstr($data, ' messages ')){
+				$data = explode('(', $data, 2);
+				$data = explode(' ', isset($data[1]) ? $data[1] : '');
+				return isset($data[0]) ? $data[0] : false;
+			}*/
+			$data = explode(' ', $data, 3);
+			
+			return isset($data[1]) && (int)$data[1] > 0 ? $data[1] : 0;
 		}
 
 		protected function _isOk($data){
@@ -255,34 +251,6 @@
 			}
 			
 			return $this->_response[$index];
-		}
-
-		/**
-		 * @brief check if the connection is valid before connecting
-		 *
-		 * The place to fill out any default details and make sure everything is
-		 * set that needs to be set. If false is returned here the connection will
-		 * not continue.
-		 *
-		 * @return bool is a valid connection or not
-		 */
-		protected function _isValidConnectionDetails(){
-			if(!isset($this->_config['timeout']) || empty($this->_config['timeout'])){
-				$this->_config['timeout'] = 60;
-			}
-
-			if(!isset($this->_config['ssl'])){
-				$this->_config['ssl'] = false;
-			}
-			else{
-				$this->_config['ssl'] = (bool)$this->_config['ssl'];
-			}
-			
-			return
-				isset($this->_config['username']) &&
-				isset($this->_config['password']) &&
-				isset($this->_config['host']) &&
-				isset($this->_config['port']);
 		}
 
 		/**
@@ -322,7 +290,7 @@
 		 */
 		private function __cacheKey(){
 			if(!$this->__cacheKey){
-				$this->__cacheKey = sha1(serialize(array($this->_config['host'], $this->_config['connection'], $this->_config['port'], $this->_config['ssl'])));
+				$this->__cacheKey = sha1(serialize(array($this->config['host'], $this->config['connection'], $this->config['port'], $this->config['ssl'])));
 			}
 
 			return $this->__cacheKey;
@@ -408,11 +376,11 @@
 		 *
 		 * @link http://www.apps.ietf.org/rfc/rfc1939.html#page-9
 		 *
-		 * @access abstract
+		 * @access public
 		 *
 		 * @return bool true if server is still available, false when connection is lost
 		 */
-		abstract protected function _getNoop();
+		abstract public function noop();
 
 		/**
 		 * @brief Sort of undelete
@@ -421,11 +389,11 @@
 		 *
 		 * @link http://www.apps.ietf.org/rfc/rfc1939.html#page-9
 		 *
-		 * @access abstract
+		 * @access public
 		 *
 		 * @return bool
 		 */
-		abstract protected function _getReset();
+		abstract public function undoDeletes();
 
 		/**
 		 * @brief set the connection details
@@ -455,6 +423,10 @@
 						$this->_errors[] = sprintf('SSL should be either true or false, "%s" is not valid', $value);
 						return false;
 					}
+					if($value){
+						$this->request = array('uri' => array('scheme' => 'https'));
+						return;
+					}
 					break;
 
 				case 'host':
@@ -470,6 +442,6 @@
 					break;
 			}
 
-			$this->_config[$name] = $value;
+			$this->config[$name] = $value;
 		}
 	}
