@@ -40,17 +40,17 @@
 		 * @copydoc EmailSocket::login()
 		 */
 		public function login(){
-			if(!parent::login($this->_config)){
+			if(!parent::login()){
 				return false;
 			}
 
-			if(!$this->write(sprintf('USER %s', $this->_config['username']), 'isOk')){
-				$this->error(sprintf('There seems to be a problem with the username (%s)', $this->_config['username']));
+			if(!$this->write(sprintf('USER %s', $this->config['username']), 'isOk')){
+				$this->error(sprintf('There seems to be a problem with the username (%s)', $this->config['username']));
 				return false;
 			}
 
-			if(!$this->write(sprintf('PASS %s', $this->_config['password']), 'isOk')){
-				$this->error(sprintf('The password seems invalid for this user (%s)', $this->_config['username']));
+			if(!$this->write(sprintf('PASS %s', $this->config['password']), 'isOk')){
+				$this->error(sprintf('The password seems invalid for this user (%s)', $this->config['username']));
 				return false;
 			}
 			
@@ -81,7 +81,8 @@
 		 * @copydoc EmailSocket::_getStats()
 		 */
 		protected function _getStats(){
-			$stats = $this->write('STAT');
+			$stats = $this->write('STAT', 'cleanData');
+			$stats =  explode(' ', current(array_keys($stats)));
 			if($stats[0] != '+OK'){
 				$this->_errors[] = 'Could not get stats';
 			}
@@ -107,29 +108,65 @@
 		 * @copydoc EmailSocket::_getList()
 		 */
 		protected function _getList(){
-			$list  = null;
-			if($this->write('LIST', 'isOk')){
-				$list = $this->read();
+			$list = $this->write('LIST ', 'cleanData', 1024);
+			
+			/**
+			 * @todo getting big lists causes problems
+			 * 
+
+			$mailSize = parent::_getSize($list) || parent::_isOk($list);
+
+			if(!$mailSize){
+				unset($list);
+				return array();
 			}
 
-			if(!$list){
+			$mailSize = is_int($mailSize) ? $mailSize : 1024;
+
+			$list = $list . $this->write('LIST ', null, $mailSize);
+			
+			 */
+
+			if(!$list || empty($list)){
 				return false;
 			}
 
-			$list = explode("\r\n", str_replace('.' , '', $list));
+			$uids = $this->_getUid();
 
 			$this->mailList = array();
-			foreach($list as $item){
+			foreach($list[current(array_keys($list))] as $item){
 				$parts = explode(' ', $item);
 				if(count($parts) == 2 && $parts[0] > 0 && !empty($parts[1])){
-					$this->mailList[$parts[0]] = array(
+					$listItem = array(
+						'id' => null,
 						'size' => $parts[1],
-						'sizeReadable' => convert($parts[1])
+						'sizeReadable' => convert($parts[1]),
+						'uid' => isset($uids[$parts[0]]) ? $uids[$parts[0]] : null
 					);
+					$listItem['id'] = sha1(serialize($listItem));
+					$this->mailList[$parts[0]] = $listItem;
 				}
 			}
+			
 			unset($list, $parts);
 			return true;
+		}
+
+		protected function _getUid($message_id = null){
+			$return = array();
+
+			$data = $this->write('UIDL');
+			
+			if($this->_isOk($data)){
+				$data = current($this->_cleanData($data));
+				foreach($data as $_data){
+					$_data = explode(' ', $_data);
+					$return[$_data[0]] = $_data[1];
+				}
+			}
+			unset($data, $_data);
+
+			return $return;
 		}
 
 		/**
@@ -175,17 +212,36 @@
 		}
 
 		/**
-		 * @copydoc EmailSocket::_getNoop()
+		 * @copydoc EmailSocket::noop()
 		 */
-		protected function _getNoop(){
+		public function noop(){
 			return $this->write('NOOP', 'isOk');
 		}
 
 		/**
-		 * @copydoc EmailSocket::_getReset()
+		 * @copydoc EmailSocket::undoDeletes()
 		 */
-		protected function _getReset(){
-			return $this->write('RESET', 'isOk');
+		public function undoDeletes(){
+			return $this->write('RSET', 'isOk');
+		}
+
+		public function getMail($id){
+			$data = $this->write('RETR ' . $id, null, 50);
+			$mailSize = parent::_getSize($data);
+			if(!$mailSize){
+				unset($data);
+				return array();
+			}
+			
+			$mail = $data . $this->write('RETR ' . $id, null, $mailSize);
+			if(!parent::_isOk($mail)){
+				unset($mail);
+				return array();
+			}
+
+			$mail = array_merge($this->mailList[$id], $this->ParseMail->parse($mail));
+			
+			return $mail;
 		}
 
 		/**
