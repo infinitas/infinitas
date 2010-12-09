@@ -24,7 +24,8 @@
                 'add',
                 'edit',
                 'copy',
-                'toggle',
+                'cron_toggle',
+                'system_toggle',
                 'delete'
             )
         );
@@ -54,6 +55,9 @@
                     ),
                     $paginator->sort('system') => array(
                         'width' => '50px'
+                    ),
+                    $paginator->sort('cron') => array(
+                        'width' => '50px'
                     )
                 )
             );
@@ -78,6 +82,7 @@
                         <td><?php echo $emailAccount['EmailAccount']['port']; ?>&nbsp;</td>
                         <td><?php echo $this->Infinitas->status($emailAccount['EmailAccount']['ssl']); ?>&nbsp;</td>
                         <td><?php echo $this->Infinitas->status($emailAccount['EmailAccount']['system']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->status($emailAccount['EmailAccount']['cron']); ?>&nbsp;</td>
                     </tr>
                 <?php
             }

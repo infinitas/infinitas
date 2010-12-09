@@ -23,7 +23,7 @@
 			<h1><?php echo __('Outgoing', true); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name');
-			echo $this->Form->input('server');
+			echo $this->Form->input('host');
 			echo $this->Form->input('user_id', array('empty' => Configure::read('Website.empty_select')));
 			echo $this->Form->input('username', array('autocomplet' => false));
 			echo $this->Form->input('password', array('autocomplet' => false));
@@ -34,7 +34,8 @@
 			<h1><?php echo __('Configuration', true); ?></h1><?php
 			echo $this->Form->input('system');
 			echo $this->Form->input('outgoing');
-			echo $this->Form->input('ssl');?>
+			echo $this->Form->input('ssl');
+			echo $this->Form->input('cron');?>
 			<div class="input select smaller">
 				<label for=""><?php echo __('Connection Type', true); ?></label><?php
 				echo $this->Form->input('type', array('type' => 'select', 'class' => 'required', 'div' => false, 'label' => false, 'options' => $types, 'empty' => Configure::read('Website.empty_select')));
@@ -46,7 +47,7 @@
 					'plugin' => 'assets',
 					'message' => __('The following is only a guide, please check your server as it may be different', true)
 				);
-				echo $this->element('messages/notice', $params);
+				echo $this->element('messages/warning', $params);
 			?>
 			<table style="width: 300px; margin: auto;">
 				<tr><th><?php echo __('Port', true); ?></th><th><?php echo __('Use', true); ?></th></tr>
