@@ -65,7 +65,7 @@
 		public $description = 'Email Socket Interface';
 
 		private $__connectionOptions = array(
-			'connection' => 'imap',
+			'type' => 'imap',
 			'host' => '',
 			'username' => '',
 			'password' => '',
@@ -290,7 +290,7 @@
 		 */
 		private function __cacheKey(){
 			if(!$this->__cacheKey){
-				$this->__cacheKey = sha1(serialize(array($this->config['host'], $this->config['connection'], $this->config['port'], $this->config['ssl'])));
+				$this->__cacheKey = sha1(serialize(array($this->config['host'], $this->config['type'], $this->config['port'], $this->config['ssl'])));
 			}
 
 			return $this->__cacheKey;
@@ -394,6 +394,67 @@
 		 * @return bool
 		 */
 		abstract public function undoDeletes();
+		/**
+		 * @brief record an error
+		 *
+		 * @param string $text the error message
+		 * @access public
+		 *
+		 * @return bool true
+		 */
+		public function error($text){
+			$this->__errors[] = $text;
+			return true;
+		}
+
+		/**
+		 * @brief Log the raw data that the server is returning
+		 *
+		 * @param string $text the raw logs
+		 * @param integer $size the size of the packet
+		 * @access public
+		 *
+		 * @return bool true
+		 */
+		public function log($text, $size = 0){
+			$this->__logs[] = array(
+				'data' => substr($text, 0, -2),
+				'size' => $size ? $size : strlen($text)
+			);
+
+			unset($text, $size);
+			return true;
+		}
+
+		/**
+		 * @brief Get any errors that occured during the connection
+		 *
+		 * @access public
+		 *
+		 * @return array the errors
+		 */
+		public function errors(){
+			if(empty($this->__errors)){
+				return false;
+			}
+
+			return $this->__errors;
+		}
+
+		/**
+		 * @brief public method to get the raw logs
+		 *
+		 * @access public
+		 *
+		 * @return array the logs
+		 */
+		public function logs(){
+			if(empty($this->__logs)){
+				return false;
+			}
+
+			return $this->__logs;
+		}
 
 		/**
 		 * @brief set the connection details
@@ -412,17 +473,13 @@
 			
 			switch($name){
 				case 'port':
-					if(!is_int($value) || $value < 1){
+					if((int)$value == 0){
 						$this->_errors[] = sprintf('The port "%s" is not valid', $value);
 						return false;
 					}
 					break;
 
 				case 'ssl':
-					if(!is_bool($value)){
-						$this->_errors[] = sprintf('SSL should be either true or false, "%s" is not valid', $value);
-						return false;
-					}
 					if($value){
 						$this->request = array('uri' => array('scheme' => 'https'));
 						return;

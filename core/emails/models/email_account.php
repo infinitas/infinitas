@@ -97,7 +97,7 @@
 		 * @return bool were we able to connect?
 		 */
 		public function beforeSave(){
-			return is_int(ClassRegistry::init('Emails.MailSystem')->testConnection($this->data['EmailAccount']));
+			return true; //is_int(ClassRegistry::init('Emails.MailSystem')->testConnection($this->data['EmailAccount']));
 		}
 
 		/**
@@ -127,6 +127,31 @@
 			);
 
 			return $accounts;
+		}
+
+		/**
+		 * @brief get a list of mails that are set to download with crons
+		 */
+		public function getCronAccounts(){
+			return $this->find(
+				'all',
+				array(
+					'fields' => array(
+						$this->alias . '.id',
+						$this->alias . '.host',
+						$this->alias . '.username',
+						$this->alias . '.password',
+						$this->alias . '.email',
+						$this->alias . '.ssl',
+						$this->alias . '.port',
+						$this->alias . '.type',
+						$this->alias . '.readonly'
+					),
+					'conditions' => array(
+						$this->alias . '.cron' => 1
+					)
+				)
+			);
 		}
 
 		public function getConnectionDetails($id){
