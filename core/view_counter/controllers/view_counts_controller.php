@@ -34,7 +34,10 @@
 		 * Create pretty graphs of all the data collected for the
 		 */
 		public function admin_reports(){
-			$byYear = $byMonth = $byWeek = $byDay = $relatedModel = $byRegion = $foreignKeys = $allModels = null;
+			$overview = $yearOnYear = $monthOnMonth = $weekOnWeek = $byDay =
+			$dayOfWeek = $hourOnHour = $relatedModel = $byRegion = $foreignKeys =
+			$allModels = null;
+
 			$conditions = array();
 			
 			

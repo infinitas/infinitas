@@ -537,6 +537,7 @@
 					$data['totals'][$v - 1] = 0;
 				}
 			}
+			unset($data['totals'][0]);
 			ksort($data['totals']);
 
 			return $data;
