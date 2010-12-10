@@ -22,6 +22,17 @@
 		public $name = 'ViewCount';
 
 		/**
+		 * @property ChartDataManipulation
+		 */
+		public $ChartDataManipulation;
+
+		public function  __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+			
+			$this->ChartDataManipulation = new ChartDataManipulation();
+		}
+
+		/**
 		 * Get the total number of views for a selected model
 		 *
 		 * @param string $class the class to count
@@ -252,7 +263,7 @@
 				)
 			);
 
-			return $this->__formatData($viewCountsByYear, 'year');
+			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByYear, 'year');
 		}
 
 		public function reportYearOnYear($conditions){
@@ -278,7 +289,7 @@
 				)
 			);
 
-			return $this->__formatData($viewCountsByYear, 'year');
+			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByYear, 'year');
 		}
 
 		/**
@@ -314,7 +325,7 @@
 				)
 			);
 
-			return $this->__formatData($viewCountsByMonth, 'month');
+			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByMonth, 'month');
 		}
 		/**
 		 * Generate a report on the monthly visit counts
@@ -344,8 +355,8 @@
 				)
 			);
 
-			$return = $this->__formatData($viewCountsByMonth, 'month');
-			$return = $this->__fillTheBlanks($return, range(1, 12), 'months');
+			$return = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByMonth, 'month');
+			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 12), 'months');
 			$return['months'] = isset($return['months']) ? $return['months'] : array();
 			foreach($return['months'] as $k => $v){
 				switch($v){
@@ -398,7 +409,7 @@
 				)
 			);
 
-			return $this->__formatData($viewCountsByWeek, 'week_of_year');
+			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByWeek, 'week_of_year');
 		}
 
 		public function reportWeekOnWeek($conditions = array()){
@@ -423,8 +434,8 @@
 				)
 			);
 
-			$return = $this->__formatData($return, 'week_of_year');
-			$return = $this->__fillTheBlanks($return, range(1, 52), 'week_of_years');
+			$return = $this->ChartDataManipulation->formatData($this->alias, $return, 'week_of_year');
+			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 52), 'week_of_years');
 			return $return;
 		}
 
@@ -456,7 +467,7 @@
 				)
 			);
 
-			return $this->__formatData($viewCountsByDay, 'day');
+			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByDay, 'day');
 		}
 
 		public function reportDayOfWeek($conditions = array()){
@@ -480,8 +491,8 @@
 				)
 			);
 
-			$return = $this->__formatData($return, 'day_of_week');
-			$return = $this->__fillTheBlanks($return, range(1, 7), 'day_of_weeks');
+			$return = $this->ChartDataManipulation->formatData($this->alias, $return, 'day_of_week');
+			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 7), 'day_of_weeks');
 			$return['day_of_weeks'] = isset($return['day_of_weeks']) ? $return['day_of_weeks'] : array();
 			foreach($return['day_of_weeks'] as $k => $v){
 				switch($v){
@@ -519,79 +530,9 @@
 				)
 			);
 
-			$return = $this->__formatData($return, 'hour');
-			$return = $this->__fillTheBlanks($return, range(1, 24), 'hours');
+			$return = $this->ChartDataManipulation->formatData($this->alias, $return, 'hour');
+			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 24), 'hours');
 
-			return $return;
-		}
-
-		private function __fillTheBlanks($data, $range, $field){
-			if(empty($data['totals'])){
-				return $data;
-			}
-
-			$data['totals'] = array_combine($data[$field], $data['totals']);
-			foreach($range as $v){
-				$data[$field][$v - 1] = $v;
-				if(!isset($data['totals'][$v - 1])){
-					$data['totals'][$v - 1] = 0;
-				}
-			}
-			unset($data['totals'][0]);
-			ksort($data['totals']);
-
-			return $data;
-		}
-
-		/**
-		 * Format the data ready for the google charts helper by extracting the
-		 * sub_totals into one array and the 'value' field into another (for lables)
-		 *
-		 * Some other info is also added to the return array like totals and what
-		 * model its for.
-		 *
-		 * @param <type> $data
-		 * @param <type> $field
-		 * @return <type>
-		 */
-		private function __formatData($data, $fields){
-			if(!is_array($fields)){
-				$fields = array($fields);
-			}
-
-			$return = array();
-			$return['totals'] = array();
-			foreach($fields as $field){
-				$fieldName = $field;
-				$return[$field] = array();
-			}
-
-			if(!empty($data)){
-				$return['model'] = __('All', true);
-				if(isset($data[0][$this->alias]['model'])){
-					$return['model'] = $data[0][$this->alias]['model'];
-				}
-				$return['totals'] = Set::extract('/' . $this->alias . '/sub_total', $data);
-
-				foreach($fields as $field){
-					$fieldName = Inflector::pluralize($field);
-					$return[$fieldName] = Set::extract('/' . $this->alias . '/' . $field, $data);
-				}
-			}
-
-
-			$dates = Set::extract('/' . $this->alias . '/created', $data);
-			$return['start_date'] = !empty($dates) ? min($dates) : array();
-			$return['end_date'] = !empty($dates) ? max($dates) : array();
-
-			$return['total_views'] = array_sum((array)$return['totals']);
-			$return['total_rows']  = count($return['totals']);
-
-			if(isset($return[$fieldName]) && $return['total_rows'] != count($return[$fieldName])){
-				trigger_error(sprintf(__('data mismach for model: %s fields: (%s)', true), $return['model'], implode(', ', $fields)), E_USER_WARNING);
-			}
-
-			unset($data);
 			return $return;
 		}
 
@@ -715,7 +656,7 @@
 				)
 			);
 
-			return $this->__formatData($return, array('country_code', 'country'));
+			return $this->ChartDataManipulation->formatData($this->alias, $return, array('country_code', 'country'));
 		}
 
 

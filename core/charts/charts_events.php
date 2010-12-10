@@ -106,6 +106,8 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ChartsEvents extends AppEvents{
-		
+	final class ChartsEvents extends AppEvents{
+		public function onRequireLibs() {
+			App::import('Libs', 'Charts.ChartDataManipulation');
+		}
 	}
