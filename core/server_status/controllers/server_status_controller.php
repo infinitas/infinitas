@@ -3,7 +3,10 @@
 		public $name = 'ServerStatus';
 
 		public $helpers = array(
-			'ViewCounter.ViewCounter'
+			'ViewCounter.ViewCounter',
+			'Charts.Charts' => array(
+				'Google.GoogleStatic'
+			)
 		);
 
 		public $uses = array(
