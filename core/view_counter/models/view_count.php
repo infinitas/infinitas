@@ -91,6 +91,38 @@
 			return $return;
 		}
 
+		public function getAverage($model = null){
+			$this->virtualFields['views'] = 'COUNT(ViewCount.id)';
+			$conditions = $group = array();
+			if($model){
+				$conditions[$this->alias . '.model'] = (string)$model;
+				$group[] = $this->alias . '.foreign_key';
+			}
+
+			$cacheName = cacheName('view_average', array($conditions, $group));
+			$data = Cache::read($cacheName, 'view_counts');
+			if($data !== false){
+				return $data;
+			}
+
+			$data = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						'views'
+					),
+					'conditions' => $conditions,
+					'group' => $group
+				)
+			);
+			if(!empty($data)){
+				$data = Set::extract('/ViewCount/views', $data);
+				$data = round(array_sum($data) / count($data));
+				Cache::write($cacheName, $data, 'view_counts');
+			}
+			return $data;
+		}
+
 		/**
 		 * Get a list of unique models that are being tracked by the ViewCounter.
 		 *
