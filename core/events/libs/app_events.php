@@ -68,6 +68,11 @@
 		public function onPluginRollCall(){}
 
 		/**
+		 * @brief allow plugins to include libs early on in the request.
+		 */
+		public function onRequireLibs(){}
+
+		/**
 		 * Add database connections from your plugins with this trigger.
 		 * Its called in appModel before anything is created, even before default
 		 * (which is a reserved value)
