@@ -10,6 +10,8 @@
 			$this->virtualFields['sub_total'] = 'COUNT(' . $this->alias . '.id)';
 			$this->virtualFields['created']  = 'CONCAT(' . $this->alias . '.year, "-", '. $this->alias.'.month, "-", `'. $this->alias.'.day, " ", '. $this->alias.'.start_time)';
 			$this->virtualFields['hour']  = 'HOUR(' . $this->alias . '.start_time)';
+
+			$this->ChartDataManipulation = new ChartDataManipulation();
 		}
 
 		/**
@@ -74,7 +76,8 @@
 				$viewCountsByDay[$k][$this->alias]['day'] = (int)$viewCountsByDay[$k][$this->alias]['day'];
 			}
 
-			return $this->__fillTheBlanks($this->__formatData($viewCountsByDay, 'day'), range(1, 14), 'days');
+			$viewCountsByDay = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByDay, 'day');
+			return $this->ChartDataManipulation->fillBlanks($viewCountsByDay, range(1, 14), 'days');
 		}
 
 		/**
@@ -84,7 +87,7 @@
 		 * @return array array of data with model, totals and days
 		 */
 		public function reportLastSixMonths($conditions = array()){
-			$viewCountsByDay = $this->find(
+			$lastSixMonths = $this->find(
 				'all',
 				array(
 					'fields' => array(
@@ -102,11 +105,12 @@
 				)
 			);
 
-			foreach($viewCountsByDay as $k => $v){
-				$viewCountsByDay[$k][$this->alias]['month'] = (int)$viewCountsByDay[$k][$this->alias]['month'];
+			foreach($lastSixMonths as $k => $v){
+				$lastSixMonths[$k][$this->alias]['month'] = (int)$lastSixMonths[$k][$this->alias]['month'];
 			}
 
-			return $this->__fillTheBlanks($this->__formatData($viewCountsByDay, 'month'), range(1, 6), 'months');
+			$lastSixMonths = $this->ChartDataManipulation->formatData($this->alias, $lastSixMonths, 'month');
+			return $this->ChartDataManipulation->fillBlanks($lastSixMonths, range(1, 6), 'months');
 		}
 
 		/**
@@ -135,7 +139,8 @@
 				$viewCountsByDay[$k][$this->alias]['day'] = (int)$viewCountsByDay[$k][$this->alias]['day'];
 			}
 
-			return $this->__fillTheBlanks($this->__formatData($viewCountsByDay, 'day'), range(1, 31), 'days');
+			$viewCountsByDay = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByDay, 'day');
+			return $this->ChartDataManipulation->fillBlanks($viewCountsByDay, range(1, 31), 'days');
 		}
 
 		/**
@@ -167,70 +172,7 @@
 				$viewCountsByHour[$k][$this->alias]['hour'] = (int)$viewCountsByHour[$k][$this->alias]['hour'];
 			}
 
-			return $this->__fillTheBlanks($this->__formatData($viewCountsByHour, 'hour'), range(1, 24), 'hours');
-		}
-
-		/**
-		 * @brief this is copied from ViewCounter
-		 */
-		private function __formatData($data, $fields){
-			if(!is_array($fields)){
-				$fields = array($fields);
-			}
-
-			$return = array();
-			$return['totals'] = array();
-			foreach($fields as $field){
-				$fieldName = $field;
-				$return[$field] = array();
-			}
-
-			if(!empty($data)){
-				$return['model'] = __('All', true);
-				if(isset($data[0][$this->alias]['model'])){
-					$return['model'] = $data[0][$this->alias]['model'];
-				}
-				$return['totals'] = Set::extract('/' . $this->alias . '/sub_total', $data);
-
-				foreach($fields as $field){
-					$fieldName = Inflector::pluralize($field);
-					$return[$fieldName] = Set::extract('/' . $this->alias . '/' . $field, $data);
-				}
-			}
-
-
-			$dates = Set::extract('/' . $this->alias . '/created', $data);
-			$return['start_date'] = !empty($dates) ? min($dates) : array();
-			$return['end_date'] = !empty($dates) ? max($dates) : array();
-
-			$return['total_views'] = array_sum((array)$return['totals']);
-			$return['total_rows']  = count($return['totals']);
-
-			if(isset($return[$fieldName]) && $return['total_rows'] != count($return[$fieldName])){
-				trigger_error(sprintf(__('data mismach for model: %s fields: (%s)', true), $return['model'], implode(', ', $fields)), E_USER_WARNING);
-			}
-
-			unset($data);
-			return $return;
-		}
-
-		/**
-		 * @brief this is copied from ViewCounter
-		 */
-		private function __fillTheBlanks($data, $range, $field){
-			if(empty($data['totals'])){
-				return $data;
-			}
-
-			$data['totals'] = array_combine($data[$field], $data['totals']);
-			foreach($range as $v){
-				$data[$field][$v - 1] = $v;
-				if(!isset($data['totals'][$v - 1])){
-					$data['totals'][$v - 1] = 0;
-				}
-			}
-			ksort($data['totals']);
-
-			return $data;
+			$viewCountsByHour = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByHour, 'hour');
+			return $this->ChartDataManipulation->fillBlanks($viewCountsByHour, range(1, 24), 'hours');
 		}
 	}
