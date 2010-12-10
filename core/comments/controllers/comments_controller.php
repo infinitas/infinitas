@@ -66,8 +66,8 @@
 					'CommentAttribute'
 				),
 				'order' => array(
-					'Comment.active' => 'ASC',
-					'Comment.created' => 'ASC',
+					'Comment.active' => 'asc',
+					'Comment.created' => 'desc',
 				),
 				'limit' => 20
 			);
