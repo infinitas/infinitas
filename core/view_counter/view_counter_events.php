@@ -19,6 +19,15 @@
 	 */
 
 	final class ViewCounterEvents extends AppEvents{
+		public function  onSetupCache($event, $data = null) {
+			return array(
+				'name' => 'view_counts',
+				'config' => array(
+					'prefix' => 'view_counts.',
+				)
+			);
+		}
+
 		public function onRequireComponentsToLoad(){
 			return array(
 				'ViewCounter.ViewCounter'
@@ -58,7 +67,7 @@
 			$Model->Behaviors->attach('ViewCounter.Viewable');
 			$views = $Model->getToalViews($data['post']['Post']['id']);
 
-			return $this->__views($views);
+			return $this->__views($views, 'Blog.Post');
 		}
 
 		public function onAdminMenu($event){
@@ -85,15 +94,24 @@
 		 * @param int the number of views
 		 * @return string the view text
 		 */
-		private function __views($views = 0){
-			$text = sprintf(__('<span class="popular">%s view%s</span>', true), $views, $views < 2 ? '' : 's');
+		private function __views($views = 0, $model = null){
+			$average = ClassRegistry::init('ViewCounter.ViewCount')->getAverage($model);
+			
 			switch($views){
 				case 0:
 					$text = __('Go on, be the first to view this post', true);
 					break;
 
-				case $views < 100:
-					$text = sprintf(__('%s views', true), $views);
+				case $views < $average / 10:
+					$text = sprintf(__('%s views (new post)', true), $views);
+					break;
+
+				default:
+					$text = sprintf(
+						__('<span class="%s popular">%s views</span>', true),
+						$views > $average * 1.25 ? 'extra' : '',
+						$views
+					);
 					break;
 			}
 			
