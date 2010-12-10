@@ -42,7 +42,7 @@ $(function() {
 			.end()
 			.find("p")
 			.animate({ fontSize: regParSize });
-	};
+	}
 
 	function growBigger(element) {
 		$(element)
