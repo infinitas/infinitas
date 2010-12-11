@@ -22,12 +22,19 @@
 		 */
 		public function bar($data){
 			$this->_chartType = 'bar';
-			if(isset($data['config']['type'])){
-				$this->_chartType .= '_' . strtolower($data['config']['type']);
-			}
 
 			if(!isset($data['scale'])){
-				$data['scale'] = array($data['values']['min'], $data['values']['max']);
+				$data['scale'] = array(0, $data['values']['max']);
+			}
+
+			return $this->_buildChart($data);
+		}
+
+		public function line($data){
+			$this->_chartType = 'line';
+
+			if(!isset($data['scale'])){
+				$data['scale'] = array(0, $data['values']['max']);
 			}
 
 			return $this->_buildChart($data);
@@ -74,8 +81,9 @@
 				'labels',
 				'data',
 			),
-			'gauge' => array(
-				'_indicator' => 'cht=gom',
+			'bar' => array(
+				'spacing',
+				'scale'
 			),
 			'bar_horizontal' => array(
 				'_indicator' => 'cht=bhs'
@@ -92,8 +100,19 @@
 			'bar_vertical_overlay' => array(
 				'_indicator' => 'cht=bvo'
 			),
-			'bar' => array(
-				'spacing',
+			'gauge' => array(
+				'_indicator' => 'cht=gom',
+			),
+			'line' => array(
+				'_indicator' => 'cht=lc',
+				'scale'
+			),
+			'line_spark' => array(
+				'_indicator' => 'cht=ls',
+				'scale'
+			),
+			'line_xy' => array(
+				'_indicator' => 'cht=ls',
 				'scale'
 			)
 		);
@@ -113,6 +132,9 @@
 				'series'
 			),
 			'bar' => array(
+				'series'
+			),
+			'line' => array(
 				'series'
 			)
 		);
@@ -215,6 +237,10 @@
 		protected function _buildChart($data){
 			$this->_query = array();
 			
+			if(isset($data['config']['type'])){
+				$this->_chartType .= '_' . strtolower($data['config']['type']);
+			}
+			
 			if(!isset($this->_chartTypes[$this->_chartType])){
 				return false;
 			}
@@ -258,6 +284,10 @@
 		 * @brief convert the array data to a fragment to build up the query
 		 */
 		protected function _formatQueryParts($key, $value){
+			if(empty($value)){
+				return false;
+			}
+			
 			switch($key){				
 				case 'size':
 				case 'scale':
@@ -295,7 +325,7 @@
 		 * some examples 
 		 * @li array(array(Groovy),array(slow,faster,crazy)) becomes chxl=0:|Groovy|1:|slow|faster|crazy
 		 */
-		protected function _formatLabels($value){
+		protected function _formatLabels($value){			
 			$i = 0;
 			foreach($value as $k => $v){
 				$_part = $i . ':' . $this->_formats['labels']['separator'];
@@ -335,10 +365,6 @@
 		 * @return <type>
 		 */
 		protected function _formatSpacing($value){
-			if(empty($value)){
-				return false;
-			}
-
 			$return = array();
 
 			$value['type'] = isset($value['type'])
