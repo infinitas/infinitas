@@ -87,7 +87,10 @@
 		 * @return array array of data with model, totals and days
 		 */
 		public function reportLastSixMonths($conditions = array()){
-			$lastSixMonths = $this->find(
+			$lastSixMonths = array();
+			
+			$this->virtualFields['sub_total']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
+			$lastSixMonths['average'] = $this->find(
 				'all',
 				array(
 					'fields' => array(
@@ -105,12 +108,40 @@
 				)
 			);
 
-			foreach($lastSixMonths as $k => $v){
-				$lastSixMonths[$k][$this->alias]['month'] = (int)$lastSixMonths[$k][$this->alias]['month'];
+			$this->virtualFields['sub_total']   = 'ROUND(MAX(' . $this->alias . '.load_ave), 3)';
+			$lastSixMonths['max'] = $this->find(
+				'all',
+				array(
+					'fields' => array(
+						$this->alias . '.id',
+						$this->alias . '.month',
+						'sub_total',
+						'created'
+					),
+					'conditions' => array(
+						'created > ' => date('Y-m-d H:i:s', strtotime('- 6 weeks'))
+					),
+					'group' => array(
+						$this->alias . '.month'
+					)
+				)
+			);
+
+			foreach($lastSixMonths['average'] as $k => $v){
+				$lastSixMonths['average'][$k][$this->alias]['month'] = (int)$lastSixMonths['average'][$k][$this->alias]['month'];
 			}
 
-			$lastSixMonths = $this->ChartDataManipulation->formatData($this->alias, $lastSixMonths, 'month');
-			return $this->ChartDataManipulation->fillBlanks($lastSixMonths, range(1, 6), 'months');
+			foreach($lastSixMonths['max'] as $k => $v){
+				$lastSixMonths['max'][$k][$this->alias]['month'] = (int)$lastSixMonths['max'][$k][$this->alias]['month'];
+			}
+
+			$lastSixMonths['average'] = $this->ChartDataManipulation->formatData($this->alias, $lastSixMonths['average'], 'month');
+			$lastSixMonths['average'] = $this->ChartDataManipulation->fillBlanks($lastSixMonths['average'], range(1, 6), 'months');
+			
+			$lastSixMonths['max']     = $this->ChartDataManipulation->formatData($this->alias, $lastSixMonths['max'], 'month');
+			$lastSixMonths['max']     = $this->ChartDataManipulation->fillBlanks($lastSixMonths['max'], range(1, 6), 'months');
+
+			return $lastSixMonths;
 		}
 
 		/**
