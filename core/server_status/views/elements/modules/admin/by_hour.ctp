@@ -12,13 +12,18 @@
 		}
 		
 		else{
-			echo $this->Chart->display(
+			echo $this->Charts->draw(
 				'line',
 				array(
 					'data' => $byHour['totals'],
-					'labels' => $byHour['hours'],
-					'axis_type' => array('x', 'y'),
-					'size' => '930,130',
+					'axes' => array(
+						'x' => $byHour['hours'],
+						'y' => true
+					),
+					'size' => array(
+						'width' => 930,
+						'height' => 130
+					),
 					'html' => array(
 						'class' => 'chart'
 					)
