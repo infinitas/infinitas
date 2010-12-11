@@ -577,8 +577,7 @@
 				->setColors()
 				->setSpacing()
 				->setTooltip()
-				->setExtra()
-				;
+				->setExtra();
 		}
 
 		/**
@@ -828,7 +827,11 @@
 				trigger_error(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']), E_USER_WARNING);
 				return false;
 			}
+			
+			$chart = $this->{$this->__engineName}->{$this->data['type']}($this->data);
 
-			return $this->{$this->__engineName}->{$this->data['type']}($this->data);
+			$this->data = null;
+
+			return $chart;
 		}
 	}
