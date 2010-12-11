@@ -73,4 +73,8 @@
 			unset($data);
 			return $return;
 		}
+
+		public function normalize($data, $base = 100){
+			
+		}
 	}
