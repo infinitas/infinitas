@@ -82,6 +82,7 @@
 			$options = array(
 				'alias' => $this->alias,
 				'range' => range(1, 14),
+				'blanks' => false,
 				'blank_field' => 'day',
 				'insert' => 'before',
 				'fields' => array('max_load', 'ave_load')
