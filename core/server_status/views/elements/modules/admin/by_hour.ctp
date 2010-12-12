@@ -1,27 +1,31 @@
 <div class="dashboard grid_16">
 	<?php
 		echo sprintf(
-			__('<h1>%s<small>Data between %s and %s</small></h1>', true),
-			__('Server load average by hour', true),
+			__('<h1>Server load average by hour<small>Data between %s and %s</small></h1>', true),
 			$this->Time->niceShort($byHour['start_date']),
 			$this->Time->niceShort($byHour['end_date'])
 		);
 
-		if(empty($byHour['totals'])){
+		if(empty($byHour['hour'])){
 			echo $this->ViewCounter->noData();
 		}
 		
 		else{
-			echo $this->Chart->display(
+			echo $this->Charts->draw(
 				'line',
 				array(
-					'data' => $byHour['totals'],
-					'labels' => $byHour['hours'],
-					'axis_type' => array('x', 'y'),
-					'size' => '930,130',
-					'html' => array(
-						'class' => 'chart'
-					)
+					'data' => array($byHour['max_load'], $byHour['average_load']),
+					'axes' => array('x' => $byHour['hour'], 'y' => true),
+					'size' => array('width' => 930,'height' => 130),
+					'color' => array('series' => array('0d5c05', '03348a')),
+					'extra' => array('html' => array('class' => 'chart'), 'scale' => 'relative'),
+					'legend' => array(
+						'position' => 'top',
+						'labels' => array(
+							__('Max Load', true),
+							__('Ave Load', true)
+						)
+					),
 				)
 			);
 		}

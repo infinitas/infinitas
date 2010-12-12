@@ -1,5 +1,14 @@
 <?php
 	class ChartDataManipulation extends Object{
+		/**
+		 *
+		 * @deprecated
+		 *
+		 * @param <type> $data
+		 * @param <type> $range
+		 * @param <type> $field
+		 * @return int
+		 */
 		public function fillBlanks($data, $range, $field){
 			if(empty($data['totals']) || empty($range) || !is_array($range) || empty($field) || !is_string($field)){
 				return $data;
@@ -24,6 +33,8 @@
 		 *
 		 * Some other info is also added to the return array like totals and what
 		 * model its for.
+		 *
+		 * @deprecated
 		 *
 		 * @param <type> $data
 		 * @param <type> $field
@@ -72,5 +83,122 @@
 
 			unset($data);
 			return $return;
+		}
+
+		public function normalize($data, $base = 100){
+			
+		}
+
+		public function getFormatted($data, $options){
+			$_default = array(
+				'fields' => '',
+				'blanks' => true,
+				'alias' => null,
+				'range' => null,
+				'blank_field' => null,
+				'insert' => 'after',
+				'date_field' => 'created',
+				'extract' => null
+			);
+
+			$options = array_merge($_default, (array)$options);
+			
+			$return = array();
+			$return = $this->getDates($data, $options);
+			$return = array_merge($return, $this->getData($data, $options));
+			
+			$options['fields'] = $options['blank_field'];
+			$return = array_merge($return, $this->getData($data, $options));
+
+			unset($data, $options, $_default);
+
+			return $return;
+		}
+
+		/**
+		 * @brief extract the min and max date from the data
+		 *
+		 * @param array $data the array of data from the model
+		 * @param string $options options for the extraction
+		 *	@li date_field - where the dates are extracted from
+		 *	@li alias - the alias of the model where the dates are extracted from
+		 *	@li extract - if nothing is set a defult of /{alias}/{date_field} is used
+		 * @access public
+		 *
+		 * @return array the dates
+		 */
+		public function getDates($data, $options = array()){
+			if(!$options['extract'] && $options['alias']){
+				$options['extract'] = '/' . $options['alias'] . '/' . $options['date_field'];
+			}
+
+			if(!$options['extract']){
+				return array();
+			}
+
+			$return = array();
+			
+			$dates = Set::extract($options['extract'], $data);
+			$return['start_date'] = !empty($dates) ? min($dates) : '';
+			$return['end_date'] = !empty($dates) ? max($dates) : '';
+
+			unset($data, $options);
+			return $return;
+		}
+
+		public function getData($data, $options){
+			if(!$options['extract'] && $options['alias']){
+				$options['extract'] = '/' . $options['alias'] . '/%s';
+			}
+
+			if(!$options['extract']){
+				return array();
+			}
+
+			if(!is_array($options['fields'])){
+				$options['fields'] = array($options['fields']);
+			}
+
+			$return = array();
+			foreach($options['fields'] as $field){
+				$return[$field] = $this->getBlanks(
+					Set::extract(sprintf($options['extract'], $field), $data), $options
+				);
+			}
+
+			unset($data, $options);
+			return $return;
+		}
+
+		public function getBlanks($data, $options){
+			if(!$options['blanks']){
+				return $data;
+			}
+
+			if(!is_array($options['range'])){
+				return array();
+			}
+			
+			if(count($data) != count($options['range'])){
+				switch($options['insert']){
+					case 'before':
+						while(count($data) < count($options['range'])){
+							array_unshift($data, 0);
+						}
+						break;
+
+					case 'after':
+						while(count($data) < count($options['range'])){
+							array_push($data, 0);
+						}
+						break;
+
+					default:
+						return array($options['blank_field'] => array());
+						break;
+				}
+			}			
+
+			return $data;
 		}
 	}

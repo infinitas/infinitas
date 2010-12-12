@@ -80,6 +80,7 @@
 			'color' => array(
 				'background' => 'FFFFFF',
 				'fill' => 'FFCC33',
+				'series' => array(),
 				'text' => '989898',
 				'lines' => '989898',
 			),
@@ -234,9 +235,9 @@
 		 * @return ChartsHelper method chaning
 		 */
 		public function setWidth($width){
-			$this->data['width'] = $width;
-			if(!is_int($this->data['width']) || (int)$this->data['width'] < 1){
-				$this->data['width'] = $this->__defaults['width'];
+			$this->data['size']['width'] = $width;
+			if(!is_int($this->data['size']['width']) || (int)$this->data['size']['width'] < 1){
+				$this->data['size']['width'] = $this->__defaults['width'];
 				trigger_error(sprintf(__('Width (%s) is not an int or too small, using default', true), $width), E_USER_NOTICE);
 			}
 
@@ -253,9 +254,9 @@
 		 * @return ChartsHelper method chaning
 		 */
 		public function setHeight($height){
-			$this->data['height'] = $height;
-			if(!is_int($this->data['height']) || (int)$this->data['height'] < 1){
-				$this->data['height'] = $this->__defaults['height'];
+			$this->data['size']['height'] = $height;
+			if(!is_int($this->data['size']['height']) || (int)$this->data['size']['height'] < 1){
+				$this->data['size']['height'] = $this->__defaults['height'];
 				trigger_error(sprintf(__('Height (%s) is not an int or too small, using default', true), $height), E_USER_NOTICE);
 			}
 
@@ -299,7 +300,13 @@
 				$size = explode($delimiter, $size);
 			}
 
-			$count = count($size);			
+			$count = count($size);
+			if(isset($size['width'])){
+				$size[0] = $size['width'];
+			}
+			if(isset($size['height'])){
+				$size[1] = $size['height'];
+			}
 			switch($count){
 				case 1:
 					$this->setWidth((int)trim($size[0]));
@@ -337,7 +344,6 @@
 			if(!$axes && isset($this->__originalData['axes'])){
 				$axes = $this->__originalData['axes'];
 			}
-			
 			$this->data['axes'] = array_keys($axes);
 
 			$this->setLabels($axes);
@@ -369,17 +375,37 @@
 				trigger_error(__('Axes should be set before labels, skipping', true), E_USER_NOTICE);
 				return $this;
 			}
-			
+
 			if(!isset($this->data['data'])){
 				trigger_error(__('Data should be set before labels, skipping', true), E_USER_NOTICE);
 				return $this;
 			}
 
-			foreach((array)$this->data['axes'] as $axes){				
-				$this->data['labels'][$axes] = $this->__anythingToArray($axes, $data[$axes], (string)$delimiter, true);
-				if(empty($this->data['labels'][$axes])){
+			foreach((array)$this->data['axes'] as $axes){
+				if(!isset($this->__originalData['axes'][$axes]) || $this->__originalData['axes'][$axes] === true){
 					$this->data['labels'][$axes] = $this->__defaultLablesFromData($this->data['data']);
+					continue;
 				}
+
+				$this->data['labels'][$axes] = $this->__anythingToArray($axes, $data[$axes], (string)$delimiter, true);
+			}
+
+			return $this;
+		}
+
+		public function setLegend($data = null, $delimiter = ','){
+			if(!$data){
+				$data = isset($this->__originalData['legend']) ? $this->__originalData['legend'] : array();
+			}
+
+			if(!empty($data)){
+				$_defaults = array(
+					'position' => null,
+					'order' => null,
+					'labels' => array()
+				);
+
+				$this->data['legend'] = array_merge($_defaults, (array)$data);
 			}
 
 			return $this;
@@ -407,6 +433,9 @@
 			if(is_bool($normalize)){
 				$this->normalize = $normalize;
 			}
+			else if(isset($this->__originalData['normalize']) && is_bool($this->__originalData['normalize'])){
+				$this->normalize = $this->__originalData['normalize'];
+			}
 
 			$this->data['data'] = !$this->normalize
 				? $data
@@ -427,9 +456,9 @@
 		 */
 		public function setColors($colors = null){
 			if(!$colors){
-				$colors = $this->__originalData['color'];
+				$colors = isset($this->__originalData['color']) ? $this->__originalData['color'] : array();
 			}
-			
+
 			if(!is_array($colors) || empty($colors)){
 				$this->data['color'] = $this->__defaults['color'];
 			}
@@ -478,7 +507,7 @@
 		 */
 		public function setSpacing($spacing = null){
 			if(!$spacing){
-				$spacing = $this->__originalData['spacing'];
+				$spacing = isset($this->__originalData['spacing']) ? $this->__originalData['spacing'] : array();
 			}
 
 			$this->data['spacing'] = array_merge(
@@ -486,7 +515,7 @@
 					'padding' => 0,
 					'width' => 0,
 				),
-				$spacing
+				(array)$spacing
 			);
 
 			return $this;
@@ -506,7 +535,7 @@
 		 */
 		public function setTooltip($tooltip = null){
 			if(!$tooltip || !is_string($tooltip)){
-				$tooltip = $this->__originalData['tooltip'];
+				$tooltip = isset($this->__originalData['tooltip']) ? $this->__originalData['tooltip'] : false;
 			}
 
 			$this->data['tooltip'] = isset($this->data['tooltip']) ? $this->data['tooltip'] : null;
@@ -518,6 +547,22 @@
 			}
 
 			return $this;
+		}
+
+		/**
+		 * @brief set some extra data for the engine
+		 *
+		 * This is used to pass things like extra params to the engine building
+		 * the chart.
+		 * 
+		 * @param array|string $extra the extra data you would like to pass
+		 */
+		public function setExtra($extra = array()){
+			if(!$extra){
+				$extra = isset($this->__originalData['extra']) ? $this->__originalData['extra'] : array();
+			}
+
+			$this->data['extra'] = $extra;
 		}
 
 		/**
@@ -550,7 +595,8 @@
 				->setColors()
 				->setSpacing()
 				->setTooltip()
-				;
+				->setLegend()
+				->setExtra();
 		}
 
 		/**
@@ -683,7 +729,7 @@
 			$min = $this->__getMinDataValue($data);
 			$average = $this->__getAverageDataValue($data);
 			
-			return range($min, $max, round(($max - $min) / 6));
+			return range($min, $max, round(($max - $min) / 6, 2));
 		}
 
 		/**
@@ -800,7 +846,11 @@
 				trigger_error(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']), E_USER_WARNING);
 				return false;
 			}
+			
+			$chart = $this->{$this->__engineName}->{$this->data['type']}($this->data);
 
-			return $this->{$this->__engineName}->{$this->data['type']}($this->data);
+			$this->data = null;
+
+			return $chart;
 		}
 	}

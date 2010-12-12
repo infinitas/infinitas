@@ -56,4 +56,37 @@
 			</tr>
 		</tbody>
 	</table>
+	<?php
+		echo $this->Charts->draw(
+			'gauge',
+			array(
+				'data' => array(
+					$current['Load']['1 min'] * 50
+				),
+				'normalize' => false,
+				'axes' => array(
+					'x' => array($current['Load']['1 min']),
+					'y' => array(
+						'0.0 Low',
+						'Medium',
+						'High 2.0'
+					)
+				),
+				'color' => array(
+					'series' => array(
+						'00FF00',
+						'FFFF00',
+						'FF0000'
+					)
+				),
+				'size' => array(
+					'width' => 400,
+					'height' => 180
+				),
+				'extra' => array(
+					'class' => 'chart'
+				)
+			)
+		);
+	?>
 </div>
