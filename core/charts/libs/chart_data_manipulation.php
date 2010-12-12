@@ -1,5 +1,14 @@
 <?php
 	class ChartDataManipulation extends Object{
+		/**
+		 *
+		 * @deprecated
+		 *
+		 * @param <type> $data
+		 * @param <type> $range
+		 * @param <type> $field
+		 * @return int
+		 */
 		public function fillBlanks($data, $range, $field){
 			if(empty($data['totals']) || empty($range) || !is_array($range) || empty($field) || !is_string($field)){
 				return $data;
@@ -24,6 +33,8 @@
 		 *
 		 * Some other info is also added to the return array like totals and what
 		 * model its for.
+		 *
+		 * @deprecated
 		 *
 		 * @param <type> $data
 		 * @param <type> $field
@@ -81,6 +92,7 @@
 		public function getFormatted($data, $options){
 			$_default = array(
 				'fields' => '',
+				'blanks' => true,
 				'alias' => null,
 				'range' => null,
 				'blank_field' => null,
@@ -159,6 +171,10 @@
 		}
 
 		public function getBlanks($data, $options){
+			if(!$options['blanks']){
+				return $data;
+			}
+
 			if(!is_array($options['range'])){
 				return array();
 			}
