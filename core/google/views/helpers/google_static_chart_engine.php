@@ -1,5 +1,5 @@
 <?php
-	class GoogleStaticChartEngineHelper extends GoogleChartDataFormatter{
+	class GoogleStaticChartEngineHelper extends ChartsBaseEngineHelper{
 		/**
 		 * @brief google-o-meter
 		 *
@@ -38,19 +38,17 @@
 
 			return $this->_buildChart($data);
 		}
-	}
-
-	class GoogleChartDataFormatter extends ChartsBaseEngineHelper{
+		
 		/**
 		 * @brief an array of helpers that will be used within this class
 		 */
 		public $helpers = array(
 			'Html'
 		);
-		
+
 		/**
 		 * @brief the type of chart being rendered
-		 * 
+		 *
 		 * @property _chartType
 		 * @access protected
 		 */
@@ -58,11 +56,13 @@
 
 		/**
 		 * @brief the api url for the charts interface
-		 * 
+		 *
 		 * @property _apiUrl
 		 * @access protected
 		 */
-		protected $_apiUrl = 'http://chart.apis.google.com/';
+		protected $_apiUrl = 'http://%d.chart.apis.google.com/';
+
+		protected $_apiUrlIndex = 0;
 
 		/**
 		 * @brief a list of charts and valid params that can be passed
@@ -208,7 +208,7 @@
 		/**
 		 * @brief the size limit for the chart
 		 *
-		 * @link 
+		 * @link
 		 */
 		private $__sizeLimit = 300000;
 
@@ -246,10 +246,10 @@
 		 *
 		 * @param array $data one of the value arrays from the ChartsHelper data
 		 * @access protected
-		 * 
+		 *
 		 * @return string the chart requested
 		 */
-		protected function _buildChart($data){
+		public function _buildChart($data){
 			$this->_query = array();
 
 			if(isset($data['extra']['scale'])){
@@ -257,12 +257,13 @@
 					$data['scale'] = array(0, $data['values']['max']);
 				}
 			}
-			
+
 			if(isset($data['config']['type'])){
 				$this->_chartType .= '_' . strtolower($data['config']['type']);
 			}
-			
-			if(!isset($this->_chartTypes[$this->_chartType])){
+
+			if(!isset($this->_chartTypes[(string)$this->_chartType])){
+				trigger_error(sprintf(__('The chart type "%s" is invalid', true), (string)$this->_chartType), E_USER_ERROR);
 				return false;
 			}
 
@@ -270,26 +271,57 @@
 				if(!in_array($key, $this->_chartTypes[$this->_chartType])){
 					continue;
 				}
-				
+
 				$this->_query[] = $this->_formatQueryParts($key, $value);
 			}
-			
+
+			$url = $this->_generateFullUrl();
+
+			$data['extra']['return'] = isset($data['extra']['return']) ? $data['extra']['return'] : 'image';
+
+			switch($data['extra']['return']){
+				case 'url':
+					return $url;
+					break;
+
+				case 'image':
+					return $this->_image($url, $data['extra']);
+					break;
+			}
+		}
+
+		/**
+		 * @brief generate the final full url for rendering
+		 *
+		 * @return string the full url and query string
+		 */
+		public function _generateFullUrl(){
 			array_unshift($this->_query, $this->_chartTypes[$this->_chartType]['_indicator']);
 
-			$this->_query = $this->_apiUrl . $this->_formats['_global']['key'] . implode(
-				$this->_formats['_global']['separator'],
-				Set::flatten($this->_query)
-			);
+			$return = $this->_apiUrl() . $this->_formatGeneric('_global', Set::flatten($this->_query));
 
-			if(strlen($this->_query) > 2048){
-				trigger_error(sprintf(__('The query string is too long (%d chars)', true), strlen($this->_query)), E_USER_ERROR);
+			if(strlen($return) > 2048){
+				trigger_error(sprintf(__('The query string is too long (%d chars)', true), strlen($return)), E_USER_ERROR);
 			}
+			
+			$this->_query = null;
 
-			if(isset($data['extra']['return']) && $data['extra']['return'] = 'url'){
-				return $this->_query;
+			return $return;
+		}
+
+		/**
+		 * @brief generate different urls for downloading multi images at a time
+		 *
+		 * @link http://code.google.com/apis/chart/docs/making_charts.html#enhancements
+		 * 
+		 * @return string the domain to pull images from
+		 */
+		public function _apiUrl(){
+			if($this->_apiUrlIndex > 9){
+				$this->_apiUrlIndex = 0;
 			}
-
-			return $this->_image($this->_query, $data['extra']);
+			
+			return sprintf($this->_apiUrl, $this->_apiUrlIndex++);
 		}
 
 		/**
@@ -301,7 +333,7 @@
 		 *
 		 * @return string some html markup
 		 */
-		protected function _image($query, $extra){
+		public function _image($query, $extra){
 			return $this->Html->image($query);
 		}
 
@@ -310,12 +342,12 @@
 		 *
 		 * @access protected
 		 */
-		protected function _formatQueryParts($key, $value){
+		public function _formatQueryParts($key, $value){
 			if(empty($value)){
 				return false;
 			}
-			
-			switch($key){		
+
+			switch($key){
 				case 'scale':
 					return $this->_formatGeneric($key, $value);
 					break;
@@ -329,7 +361,7 @@
 					$method = '_format' . ucfirst(strtolower($key));
 					return call_user_func_array(array($this, $method), array($value));
 					break;
-				
+
 				default:
 					var_dump($key);
 					pr($value);
@@ -346,8 +378,8 @@
 		 *
 		 * @return string a piece of the query string
 		 */
-		protected function _formatData($value){
-			if(!is_array($value)){
+		public function _formatData($value){
+			if(!is_array($value[0])){
 				$value = array($value);
 			}
 
@@ -362,19 +394,20 @@
 		/**
 		 * @brief generate the query string for lables and axes
 		 *
-		 * some examples 
+		 * some examples
 		 * @li array(array(Groovy),array(slow,faster,crazy)) becomes chxl=0:|Groovy|1:|slow|faster|crazy
 		 *
 		 * @access protected
 		 */
-		protected function _formatLabels($value){			
+		public function _formatLabels($value){
 			$i = 0;
+			$return = array();
 			foreach($value as $k => $v){
 				$_part = $i . ':' . $this->_formats['labels']['separator'];
-				$return[] = $_part .implode($this->_formats['labels']['separator'], $v);
+				$return[] = $_part . implode($this->_formats['labels']['separator'], $v);
 				++$i;
 			}
-			
+
 			return array(
 				'labels' => $this->_formatGeneric('labels', $return),
 				'axes' => $this->_formatGeneric('axes', array_keys($value))
@@ -386,7 +419,7 @@
 		 *
 		 * @access protected
 		 */
-		protected function _formatColor($value){
+		public function _formatColor($value){
 			$return = array();
 			foreach($value as $k => $v){
 				if(!in_array($k, $this->_colorTypes[$this->_chartType])){
@@ -395,6 +428,11 @@
 				if(!is_array($v)){
 					$v = array($v);
 				}
+
+				if(empty($v)){
+					continue;
+				}
+
 				$return[] = $this->_colorFormats[$k]['key'] . implode($this->_colorFormats[$k]['separator'], $v);
 			}
 
@@ -404,29 +442,38 @@
 		/**
 		 *
 		 * @link http://code.google.com/apis/chart/docs/gallery/bar_charts.html#chbh
-		 * 
+		 *
 		 * @param array $value
 		 * @access protected
-		 * 
+		 *
 		 * @return <type>
 		 */
-		protected function _formatSpacing($value){
+		public function _formatSpacing($value){
 			$return = array();
 
-			$value['type'] = isset($value['type'])
-				? $value['type']
-				: 'absolute';
-			
-			$return[] = $value['type'] == 'absolute' ? 'a' : 'r';
+			$value['type'] = isset($value['type']) ? (string)$value['type'] : 'absolute';
+			switch($value['type']){
+				case isset($value['width']) && is_int($value['width']):
+					$return[] = $value['width'];
+					break;
+				
+				case 'relative':
+					$return[] = 'r';
+					$value['padding'] = is_float($value['padding']) ? $value['padding'] : $value['padding'] / 100;
+					break;
 
-			// dont need the a/r as there is a number
-			if(isset($value['width'])){
-				$return = array($value['width']);
+				case 'absolute':
+					$return[] = 'a';
+					break;
+
+				default:
+					trigger_error(sprintf(__('Spacing type should be absolute or relative, not %s', true), $value['type']), E_USER_WARNING);
+					break;
 			}
 
 			if(isset($value['padding'])){
 				$return[] = $value['padding'];
-				
+
 				// if its a group add some padding to the group too
 				if(strstr($this->_chartType, 'group')){
 					$return[] = $value['padding'];
@@ -443,20 +490,29 @@
 		 *
 		 * @access protected
 		 */
-		protected function _formatSize($value){
-			if(count($value) == 1){
-				$value[] = current($value);
+		public function _formatSize($value){
+			if(!is_array($value)){
+				$value = array('width' => $value);
 			}
-			if(count($value) >= 2){
-				$_value = $value;
-				sort($_value);
-				
-				if($_value[0] * $_value[1] > $this->__sizeLimit){
-					return false;
-				}
+			
+			if(!isset($value['width']) && !isset($value['height'])){
+				trigger_error(__('No size specified', true), E_USER_ERROR);
+				return false;
 			}
 
-			return $this->_formatGeneric('size', $value);
+			if(isset($value['width']) && !isset($value['height'])){
+				$value['height'] = $value['width'];
+			}
+			else if(isset($value['height']) && !isset($value['width'])){
+				$value['width'] = $value['height'];
+			}
+
+			if($value['width'] * $value['height'] > $this->__sizeLimit){
+				trigger_error(sprintf(__('Size of %dpx is greater than maximum allowed size %spx', true), $value['width'] * $value['height'], $this->__sizeLimit), E_USER_ERROR);
+				return false;
+			}
+
+			return $this->_formatGeneric('size', array($value['width'], $value['height']));
 		}
 
 		/**
@@ -469,7 +525,14 @@
 		 * @param <type> $value
 		 * @return <type>
 		 */
-		protected function _formatLegend($value){
+		public function _formatLegend($value){
+			if(!isset($value['labels']) || empty($value['labels'])){
+				trigger_error(__('Skipping legend, no lables specified', true), E_USER_WARNING);
+				return false;
+			}
+			$value['position'] = isset($value['position']) ? $value['position'] : 'default';
+			$value['order'] = isset($value['order']) ? $value['order'] : 'default';
+			
 			$position = array();
 			switch($value['position']){
 				case 'bottom_horizontal':
@@ -497,22 +560,28 @@
 
 				case 'right':
 				case 'right_vertical':
+				case 'default':
 				default:
 					$position[] = 'r';
 					break;
 			}
 
 			switch($value['order']){
+				case is_array($value['order']):
+					if(count($value['order']) != count($value['labels'])){
+						trigger_error(sprintf(__('Count of orders (%d) does not match count of lables (%d). Using default order ', true), count($value['order']), count($value['labels'])), E_USER_WARNING);
+						$position[] = 'l';
+						break;
+					}
+					$position[] = implode(',', $value['order']);
+					break;
+
 				case 'auto':
 					$position[] = 'a';
 					break;
-				
+
 				case 'reverse':
 					$position[] = 'r';
-					break;
-
-				case is_array($value['order']):
-					$position[] = implode(',', $value['order']);
 					break;
 
 				case 'default':
@@ -540,7 +609,12 @@
 		 *
 		 * @access protected
 		 */
-		protected function _formatGeneric($key, $value){
+		public function _formatGeneric($key, $value){
+			if(!is_array($value)){
+				trigger_error(sprintf(__('Value for %s is type %s and expecting array', true), $key, gettype($value)), E_USER_WARNING);
+				return false;
+			}
+			
 			return $this->_formats[$key]['key'] . $this->_implode($key, $value);
 		}
 
@@ -553,7 +627,21 @@
 		 *
 		 * @return string the imploded data
 		 */
-		protected function _implode($dataType, $value){
+		public function _implode($dataType, $value){
+			if(!is_array($value)){
+				trigger_error(sprintf(__('Value for %s is type %s and expecting array', true), $dataType, gettype($value)), E_USER_WARNING);
+				return false;
+			}
+
+			if(!isset($this->_formats[$dataType])){
+				trigger_error(sprintf(__('No format available for %s', true), $dataType), E_USER_WARNING);
+				return false;
+			}
+			
 			return implode($this->_formats[$dataType]['separator'], $value);
+		}
+
+		public function setType($type = ''){
+			$this->_chartType = $type;
 		}
 	}
