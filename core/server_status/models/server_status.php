@@ -54,14 +54,16 @@
 		 * @return array array of data with model, totals and days
 		 */
 		public function reportLastTwoWeeks($conditions = array()){
-			$this->virtualFields['sub_total']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
+			$this->virtualFields['ave_load']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
+			$this->virtualFields['max_load']   = 'ROUND(MAX(' . $this->alias . '.load_ave), 3)';
 			$viewCountsByDay = $this->find(
 				'all',
 				array(
 					'fields' => array(
 						$this->alias . '.id',
 						$this->alias . '.day',
-						'sub_total',
+						'ave_load',
+						'max_load',
 						'created'
 					),
 					'conditions' => array(
@@ -76,10 +78,15 @@
 			foreach($viewCountsByDay as $k => $v){
 				$viewCountsByDay[$k][$this->alias]['day'] = (int)$viewCountsByDay[$k][$this->alias]['day'];
 			}
-
-			$viewCountsByDay = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByDay, 'day');
-			$viewCountsByDay = $this->ChartDataManipulation->fillBlanks($viewCountsByDay, range(1, 14), 'days');
 			
+			$options = array(
+				'alias' => $this->alias,
+				'range' => range(1, 14),
+				'blank_field' => 'day',
+				'insert' => 'before',
+				'fields' => array('max_load', 'ave_load')
+			);
+			$viewCountsByDay = $this->ChartDataManipulation->getFormatted($viewCountsByDay, $options);
 			return $viewCountsByDay;
 		}
 
