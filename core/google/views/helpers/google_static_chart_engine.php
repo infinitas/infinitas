@@ -14,7 +14,7 @@
 		}
 
 		/**
-		 * @brief bar
+		 * @brief google bar chart
 		 *
 		 * @copydetails ChartsBaseEngineHelper::bar()
 		 *
@@ -26,6 +26,13 @@
 			return $this->_buildChart($data);
 		}
 
+		/**
+		 * @brief google line chart
+		 *
+		 * @copydetails ChartsBaseEngineHelper::line()
+		 *
+		 * @link http://code.google.com/apis/chart/docs/gallery/line_charts.html
+		 */
 		public function line($data){
 			$this->_chartType = 'line';		
 
@@ -189,6 +196,8 @@
 			)
 		);
 
+		private $__sizeLimit = 300000;
+
 		public function  __construct() {
 			parent::__construct();
 
@@ -280,18 +289,20 @@
 
 		/**
 		 * @brief convert the array data to a fragment to build up the query
+		 *
+		 * @access protected
 		 */
 		protected function _formatQueryParts($key, $value){
 			if(empty($value)){
 				return false;
 			}
 			
-			switch($key){				
-				case 'size':
+			switch($key){		
 				case 'scale':
 					return $this->_formatGeneric($key, $value);
 					break;
 
+				case 'size':
 				case 'data':
 				case 'labels':
 				case 'color':
@@ -308,6 +319,14 @@
 			}
 		}
 
+		/**
+		 * @brief format the data array into the query
+		 *
+		 * @param array $value the data array to be formatted
+		 * @access protected
+		 *
+		 * @return string a piece of the query string
+		 */
 		protected function _formatData($value){
 			if(count($value) == 1 && isset($value[0])){
 				return $this->_formatGeneric('data', $value[0]);
@@ -322,6 +341,8 @@
 		 *
 		 * some examples 
 		 * @li array(array(Groovy),array(slow,faster,crazy)) becomes chxl=0:|Groovy|1:|slow|faster|crazy
+		 *
+		 * @access protected
 		 */
 		protected function _formatLabels($value){			
 			$i = 0;
@@ -339,6 +360,8 @@
 
 		/**
 		 * @li labels chxl=0:|Groovy|1:|slow|faster|crazy
+		 *
+		 * @access protected
 		 */
 		protected function _formatColor($value){
 			$return = array();
@@ -360,6 +383,8 @@
 		 * @link http://code.google.com/apis/chart/docs/gallery/bar_charts.html#chbh
 		 * 
 		 * @param array $value
+		 * @access protected
+		 * 
 		 * @return <type>
 		 */
 		protected function _formatSpacing($value){
@@ -389,14 +414,42 @@
 		}
 
 		/**
-		 * @li data chd=t:20,40,60
-		 * @li size chs=200x125
+		 * @brief convert arrays into the parts of the query string
+		 *
+		 * This method does all the generic conversions of data to strings based
+		 * on the data types setup in the _formats property
+		 *
+		 * @link http://code.google.com/apis/chart/docs/data_formats.html
+		 *
+		 * @li data 'data' => array(20, 40, 60) -> chd=t:20,40,60
+		 * @li size 'size' => array('width' => 200, 'height' => 125)) -> chs=200x125
+		 *
+		 * @access protected
 		 */
 		protected function _formatGeneric($key, $value){
 			return $this->_formats[$key]['key'] . implode($this->_formats[$key]['separator'], $value);
 		}
 
-		protected function _formatSize(){
+		/**
+		 * @brief format a size array into part of the query string
+		 *
+		 * If only one param is passed then the image will be square.
+		 *
+		 * @access protected
+		 */
+		protected function _formatSize($value){
+			if(count($value) == 1){
+				$value[] = current($value);
+			}
+			if(count($value) >= 2){
+				$_value = $value;
+				sort($_value);
+				
+				if($_value[0] * $_value[1] > $this->__sizeLimit){
+					return false;
+				}
+			}
 
+			return $this->_formatGeneric('size', $value);
 		}
 	}
