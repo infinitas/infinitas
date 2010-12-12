@@ -23,19 +23,11 @@
 		public function bar($data){
 			$this->_chartType = 'bar';
 
-			if(!isset($data['scale'])){
-				$data['scale'] = array(0, $data['values']['max']);
-			}
-
 			return $this->_buildChart($data);
 		}
 
 		public function line($data){
-			$this->_chartType = 'line';
-
-			if(!isset($data['scale'])){
-				$data['scale'] = array(0, $data['values']['max']);
-			}
+			$this->_chartType = 'line';		
 
 			return $this->_buildChart($data);
 		}
@@ -236,6 +228,12 @@
 		 */
 		protected function _buildChart($data){
 			$this->_query = array();
+
+			if(isset($data['extra']['scale'])){
+				if($data['extra']['scale'] == 'relative'){
+					$data['scale'] = array(0, $data['values']['max']);
+				}
+			}
 			
 			if(isset($data['config']['type'])){
 				$this->_chartType .= '_' . strtolower($data['config']['type']);
