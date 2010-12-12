@@ -12,15 +12,21 @@
 		}
 
 		else{
-			echo $this->Chart->display(
+			echo $this->Charts->draw(
 				'line',
 				array(
 					'data' => $byDay['totals'],
-					'labels' => $byDay['days'],
-					'axis_type' => array('x', 'y'),
-					'size' => '930,130',
-					'html' => array(
-						'class' => 'chart'
+					'axes' => array(
+						'x' => $byDay['days'],
+						'y' => true
+					),
+					'size' => array(
+						'width' => 930,
+						'height' => 130
+					),
+					'extra' => array(
+						'class' => 'chart',
+						'scale' => 'relative'
 					)
 				)
 			);

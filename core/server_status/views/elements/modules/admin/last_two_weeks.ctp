@@ -12,14 +12,20 @@
 		}
 		
 		else{
-			echo $this->Chart->display(
+			echo $this->Charts->draw(
 				'line',
 				array(
 					'data' => $lastTwoWeeks['totals'],
-					'labels' => $lastTwoWeeks['days'],
-					'axis_type' => array('x', 'y'),
-					'size' => '450,130',
-					'html' => array(
+					'axes' => array(
+						'x' => $lastTwoWeeks['days'],
+						'y' => true
+					),
+					'size' => array(
+						'width' => 450,
+						'height' => 130
+					),
+					'extra' => array(
+						'scale' => 'relative',
 						'class' => 'chart'
 					)
 				)
