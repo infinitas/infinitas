@@ -9,7 +9,7 @@
 		 */
 		public function gauge($data){
 			$this->_chartType = 'gauge';
-
+			
 			return $this->_buildChart($data);
 		}
 
@@ -74,68 +74,93 @@
 		 * @access protected
 		 */
 		protected $_chartTypes = array(
-			'_global' => array(
+			'bar' => array(
+				'_indicator' => 'cht=bhs',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'bar_horizontal' => array(
+				'_indicator' => 'cht=bhs',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'bar_horizontal_group' => array(
+				'_indicator' => 'cht=bhg',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'bar_vertical' => array(
+				'_indicator' => 'cht=bvs',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'bar_vertical_group' => array(
+				'_indicator' => 'cht=bvg',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'bar_vertical_overlay' => array(
+				'_indicator' => 'cht=bvo',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'gauge' => array(
+				'_indicator' => 'cht=gom',
+				'legend',
+				'line_style',
 				'size',
 				'color',
 				'labels',
 				'data',
 			),
-			'bar' => array(
-				'spacing',
-				'scale'
-			),
-			'bar_horizontal' => array(
-				'_indicator' => 'cht=bhs'
-			),
-			'bar_horizontal_group' => array(
-				'_indicator' => 'cht=bhg'
-			),
-			'bar_vertical' => array(
-				'_indicator' => 'cht=bvs'
-			),
-			'bar_vertical_group' => array(
-				'_indicator' => 'cht=bvg'
-			),
-			'bar_vertical_overlay' => array(
-				'_indicator' => 'cht=bvo'
-			),
-			'gauge' => array(
-				'_indicator' => 'cht=gom',
-			),
 			'line' => array(
 				'_indicator' => 'cht=lc',
 				'scale',
-				'legend'
+				'legend',
+				'size',
+				'color',
+				'labels',
+				'data',
 			),
 			'line_spark' => array(
 				'_indicator' => 'cht=ls',
-				'scale'
+				'scale',
+				'size',
+				'color',
+				'labels',
+				'data',
 			),
 			'line_xy' => array(
 				'_indicator' => 'cht=ls',
-				'scale'
-			)
-		);
-
-		/**
-		 * @brief map of chart to allowed colors
-		 *
-		 * This is a list of the charts with the possible color values that can
-		 * be passed to them. Some charts are able to specify background colors
-		 * and others are not. This sorts the differences out
-		 *
-		 * @property _colorTypes
-		 * @access protected
-		 */
-		protected $_colorTypes = array(
-			'gauge' => array(
-				'series'
-			),
-			'bar' => array(
-				'series'
-			),
-			'line' => array(
-				'series'
+				'scale',
+				'size',
+				'color',
+				'labels',
+				'data',
 			)
 		);
 
@@ -185,6 +210,47 @@
 			'legend_position' => array(
 				'key' => 'chdlp=',
 				'separator' => '|'
+			),
+			'line_style' => array(
+				'key' => 'chls=',
+				'separator' => '|' // items ,
+			)
+		);
+
+		/**
+		 * @brief map of chart to allowed colors
+		 *
+		 * This is a list of the charts with the possible color values that can
+		 * be passed to them. Some charts are able to specify background colors
+		 * and others are not. This sorts the differences out
+		 *
+		 * @property _colorTypes
+		 * @access protected
+		 */
+		protected $_colorTypes = array(
+			'bar' => array(
+				'series'
+			),
+			'bar_horizontal' => array(
+				'series'
+			),
+			'bar_horizontal_group' => array(
+				'series'
+			),
+			'bar_vertical' => array(
+				'series'
+			),
+			'bar_vertical_group' => array(
+				'series'
+			),
+			'bar_vertical_overlay' => array(
+				'series'
+			),
+			'gauge' => array(
+				'series'
+			),
+			'line' => array(
+				'series'
 			)
 		);
 
@@ -214,26 +280,6 @@
 
 		public function  __construct() {
 			parent::__construct();
-
-			foreach($this->_chartTypes as $chartType => $data){
-				if($chartType == '_global'){
-					continue;
-				}
-
-				if(substr($chartType, 0, 3) == 'bar'){
-					$this->_chartTypes[$chartType] = array_merge(
-						$this->_chartTypes['bar'],
-						$this->_chartTypes[$chartType]
-					);
-
-					$this->_colorTypes[$chartType] = $this->_chartTypes['bar'];
-				}
-
-				$this->_chartTypes[$chartType] = array_merge(
-					$this->_chartTypes['_global'],
-					$this->_chartTypes[$chartType]
-				);
-			}
 		}
 
 		/**
@@ -273,6 +319,13 @@
 				}
 
 				$this->_query[] = $this->_formatQueryParts($key, $value);
+
+			}
+
+			switch($this->_chartTypes[$this->_chartType]){
+				case 'gauge' && isset($data['extra']['arrows']):
+					$this->_query[] = $this->_formatQueryParts('line_style', $data['extra']['arrows']);
+					break;
 			}
 
 			$url = $this->_generateFullUrl();
@@ -334,7 +387,8 @@
 		 * @return string some html markup
 		 */
 		public function _image($query, $extra){
-			return $this->Html->image($query);
+			$extra = isset($extra['image']) ? $extra['image'] : array();
+			return $this->Html->image($query, $extra);
 		}
 
 		/**
@@ -358,7 +412,8 @@
 				case 'color':
 				case 'spacing':
 				case 'legend':
-					$method = '_format' . ucfirst(strtolower($key));
+				case 'line_style':
+					$method = '_format' . Inflector::camelize($key);
 					return call_user_func_array(array($this, $method), array($value));
 					break;
 
@@ -433,10 +488,33 @@
 					continue;
 				}
 
+				if(isset($v[0]) && is_array($v[0])){
+					$colors = array();
+					foreach($v as $kk => $vv){
+						$colors[] = implode('|', $vv);
+					}
+
+					$v = $colors;
+				}
+
 				$return[] = $this->_colorFormats[$k]['key'] . implode($this->_colorFormats[$k]['separator'], $v);
 			}
 
 			return $return;
+		}
+
+		/**
+		 * @brief custom fill colors
+		 *
+		 * @todo this needs to be implemented
+		 *
+		 * @link http://code.google.com/apis/chart/docs/chart_params.html#gcharts_gradient_fills
+		 * @link http://code.google.com/apis/chart/docs/chart_params.html#gcharts_striped_fills
+		 * @link http://code.google.com/apis/chart/docs/chart_params.html#gcharts_solid_fills
+		 *
+		 */
+		public function _formatColorFill($value){
+
 		}
 
 		/**
@@ -476,7 +554,12 @@
 
 				// if its a group add some padding to the group too
 				if(strstr($this->_chartType, 'group')){
-					$return[] = $value['padding'];
+					if(isset($value['grouping'])){
+						$return[] = $value['grouping'];
+					}
+					else{
+						$return[] = $value['padding'] * 2;
+					}
 				}
 			}
 
@@ -597,6 +680,44 @@
 		}
 
 		/**
+		 * @brief build the query string for the line style
+		 *
+		 * This is a bit of a custom one for the gauge chart with the arrow size
+		 *
+		 * @link http://code.google.com/apis/chart/docs/chart_params.html#gcharts_line_styles
+		 *
+		 * @link http://code.google.com/apis/chart/docs/gallery/googleometer_chart.html#introduction
+		 *
+		 * @param <type> $value
+		 * @return <type>
+		 */
+		public function _formatLineStyle($value){
+			$return = $out = $arrows = array();
+			foreach($value as $k => $v){
+				$out[] = isset($v['thickness']) ? $v['thickness'] : null;
+				if(isset($v['dash'])){
+					if(!is_array($v['dash'])){
+						$v['dash'] = array((int)$v['dash']);
+					}
+					if(count($v['dash']) == 1){
+						$v['dash'][] = current($v['dash']);
+					}
+
+					$out = array_merge($out, array($v['dash'][0], $v['dash'][1]));
+				}
+				
+				if(isset($v['arrow'])){
+					$arrows[] = (int)$v['arrow'];
+				}
+				
+				$return[] = implode(',', $out);
+				$out = array();
+			}
+
+			return $this->_formatGeneric('line_style', array_merge($return, $arrows));
+		}
+
+		/**
 		 * @brief convert arrays into the parts of the query string
 		 *
 		 * This method does all the generic conversions of data to strings based
@@ -641,6 +762,9 @@
 			return implode($this->_formats[$dataType]['separator'], $value);
 		}
 
+		/**
+		 * @parma set the chart type
+		 */
 		public function setType($type = ''){
 			$this->_chartType = $type;
 		}
