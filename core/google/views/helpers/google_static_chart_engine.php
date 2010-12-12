@@ -34,7 +34,7 @@
 		 * @link http://code.google.com/apis/chart/docs/gallery/line_charts.html
 		 */
 		public function line($data){
-			$this->_chartType = 'line';		
+			$this->_chartType = 'line';
 
 			return $this->_buildChart($data);
 		}
@@ -262,13 +262,17 @@
 			
 			array_unshift($this->_query, $this->_chartTypes[$this->_chartType]['_indicator']);
 
-			$this->_query = $this->_formats['_global']['key'] . implode(
+			$this->_query = $this->_apiUrl . $this->_formats['_global']['key'] . implode(
 				$this->_formats['_global']['separator'],
 				Set::flatten($this->_query)
 			);
 
+			if(strlen($this->_query) > 2048){
+				trigger_error(sprintf(__('The query string is too long (%d chars)', true), strlen($this->_query)), E_USER_ERROR);
+			}
+
 			if(isset($data['extra']['return']) && $data['extra']['return'] = 'url'){
-				return $this->_apiUrl . $this->_query;
+				return $this->_query;
 			}
 
 			return $this->_image($this->_query, $data['extra']);
@@ -284,7 +288,7 @@
 		 * @return string some html markup
 		 */
 		protected function _image($query, $extra){
-			return $this->Html->image($this->_apiUrl . $query);
+			return $this->Html->image($query);
 		}
 
 		/**
@@ -328,12 +332,16 @@
 		 * @return string a piece of the query string
 		 */
 		protected function _formatData($value){
-			if(count($value) == 1 && isset($value[0])){
-				return $this->_formatGeneric('data', $value[0]);
+			if(!is_array($value)){
+				$value = array($value);
 			}
 
-			pr($value);
-			exit;
+			$return = array();
+			foreach($value as $_value){
+				$return[] = $this->_implode('data', $_value);
+			}
+
+			return $this->_formats['data']['key'] . implode('|', $return);
 		}
 
 		/**
@@ -414,23 +422,6 @@
 		}
 
 		/**
-		 * @brief convert arrays into the parts of the query string
-		 *
-		 * This method does all the generic conversions of data to strings based
-		 * on the data types setup in the _formats property
-		 *
-		 * @link http://code.google.com/apis/chart/docs/data_formats.html
-		 *
-		 * @li data 'data' => array(20, 40, 60) -> chd=t:20,40,60
-		 * @li size 'size' => array('width' => 200, 'height' => 125)) -> chs=200x125
-		 *
-		 * @access protected
-		 */
-		protected function _formatGeneric($key, $value){
-			return $this->_formats[$key]['key'] . implode($this->_formats[$key]['separator'], $value);
-		}
-
-		/**
 		 * @brief format a size array into part of the query string
 		 *
 		 * If only one param is passed then the image will be square.
@@ -451,5 +442,35 @@
 			}
 
 			return $this->_formatGeneric('size', $value);
+		}
+
+		/**
+		 * @brief convert arrays into the parts of the query string
+		 *
+		 * This method does all the generic conversions of data to strings based
+		 * on the data types setup in the _formats property
+		 *
+		 * @link http://code.google.com/apis/chart/docs/data_formats.html
+		 *
+		 * @li data 'data' => array(20, 40, 60) -> chd=t:20,40,60
+		 * @li size 'size' => array('width' => 200, 'height' => 125)) -> chs=200x125
+		 *
+		 * @access protected
+		 */
+		protected function _formatGeneric($key, $value){
+			return $this->_formats[$key]['key'] . $this->_implode($key, $value);
+		}
+
+		/**
+		 * @brief implode an array with the separator needed to form the correct query string
+		 *
+		 * @param string $dataType a key from _formats
+		 * @param array $data the data being exploded
+		 * @access protected
+		 *
+		 * @return string the imploded data
+		 */
+		protected function _implode($dataType, $value){
+			return implode($this->_formats[$dataType]['separator'], $value);
 		}
 	}
