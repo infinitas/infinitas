@@ -7,7 +7,7 @@
 			$this->Time->niceShort($lastTwoWeeks['end_date'])
 		);
 		
-		if(empty($lastTwoWeeks['totals'])){
+		if(empty($lastTwoWeeks['day'])){
 			echo $this->ViewCounter->noData();
 		}
 		
@@ -15,9 +15,12 @@
 			echo $this->Charts->draw(
 				'line',
 				array(
-					'data' => $lastTwoWeeks['totals'],
+					'data' => array(
+						$lastTwoWeeks['max_load'],
+						$lastTwoWeeks['ave_load']
+					),
 					'axes' => array(
-						'x' => $lastTwoWeeks['days'],
+						'x' => $lastTwoWeeks['day'],
 						'y' => true
 					),
 					'size' => array(
