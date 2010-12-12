@@ -1,13 +1,12 @@
 <div class="dashboard half">
 	<?php
 		echo sprintf(
-			__('<h1>%s<small>Data between %s and %s</small></h1>', true),
-			__('Load for the last six months', true),
-			$this->Time->niceShort($lastSixMonths['average']['start_date']),
-			$this->Time->niceShort($lastSixMonths['average']['end_date'])
+			__('<h1>Load for the last six months<small>Data between %s and %s</small></h1>', true),
+			$this->Time->niceShort($lastSixMonths['start_date']),
+			$this->Time->niceShort($lastSixMonths['end_date'])
 		);
 		
-		if(empty($lastSixMonths['average']['totals'])){
+		if(empty($lastSixMonths['month'])){
 			echo $this->ViewCounter->noData();
 		}
 		
@@ -15,73 +14,37 @@
 			echo $this->Charts->draw(
 				array(
 					'bar' => array(
-						'type' => 'vertical'
+						'type' => 'vertical_group'
 					)
 				),
 				array(
-					'data' => $lastSixMonths['average']['totals'],
+					'data' => array($lastSixMonths['max_load'], $lastSixMonths['average_load']),
 					'axes' => array(
-						'x' => $lastSixMonths['average']['months'],
+						'x' => $lastSixMonths['month'],
 						'y' => true
 					),
-					'size' => array(
-						'width' => 200,
-						'height' => 130
-					),
-					'extra' => array(
-						'class' => 'chart'
-					),
+					'size' => array('width' => 450, 'height' => 130),
+					'extra' => array('scale' => 'relative', 'html' => array('class' => 'chart')),
 					'spacing' => array(
-						'padding' => 5,
-						'width' => 15,
+						'padding' => 2,
+						'grouping' => 10,
+						'width' => 20,
 						'type' => 'absolute'
 					),
 					'color' => array(
 						'series' => array(
-							array('00FF00'),
-							array('FFFF00'),
-							array('FF0000')
+							array('0d5c05'),
+							array('03348a')
 						)
 					),
-				)
-			);
-
-			$average = round(array_sum($lastSixMonths['average']['totals']) / count($lastSixMonths['average']['totals']), 3);
-			$average = round(($average / 10) * 100);
-
-			$max = round(max($lastSixMonths['max']['totals']), 3);
-			$max = round(($max / 10) * 100);
-
-			echo $this->Charts->draw(
-				'gauge',
-				array(
-					'data' => array(
-						$average,
-						$max
-					),
-					'normalize' => false,
-					'axes' => array(
-						'x' => array('Average', 'Max'),
-						'y' => array(
-							'0.0 Low',
-							'Medium',
-							'High 10.0'
+					'legend' => array(
+						'position' => 'right',
+						'order' => 'default',
+						'labels' => array(
+							__('Max Load', true),
+							__('Ave Load', true)
 						)
 					),
-					'color' => array(
-						'series' => array(
-							'00FF00',
-							'FFFF00',
-							'FF0000'
-						)
-					),
-					'size' => array(
-						'width' => 250,
-						'height' => 100
-					),
-					'extra' => array(
-						'class' => 'chart'
-					)
 				)
 			);
 		}
