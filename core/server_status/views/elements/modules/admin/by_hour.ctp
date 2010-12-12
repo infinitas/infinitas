@@ -24,8 +24,9 @@
 						'width' => 930,
 						'height' => 130
 					),
-					'html' => array(
-						'class' => 'chart'
+					'extra' => array(
+						'class' => 'chart',
+						'scale' => 'relative'
 					)
 				)
 			);

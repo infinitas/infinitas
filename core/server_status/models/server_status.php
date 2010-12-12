@@ -54,6 +54,7 @@
 		 * @return array array of data with model, totals and days
 		 */
 		public function reportLastTwoWeeks($conditions = array()){
+			$this->virtualFields['sub_total']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
 			$viewCountsByDay = $this->find(
 				'all',
 				array(
@@ -77,7 +78,9 @@
 			}
 
 			$viewCountsByDay = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByDay, 'day');
-			return $this->ChartDataManipulation->fillBlanks($viewCountsByDay, range(1, 14), 'days');
+			$viewCountsByDay = $this->ChartDataManipulation->fillBlanks($viewCountsByDay, range(1, 14), 'days');
+			
+			return $viewCountsByDay;
 		}
 
 		/**
@@ -151,6 +154,7 @@
 		 * @return array array of data with model, totals and days
 		 */
 		public function reportByDay($conditions = array()){
+			$this->virtualFields['sub_total']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
 			$viewCountsByDay = $this->find(
 				'all',
 				array(
