@@ -148,6 +148,7 @@
 			),
 			'line_spark' => array(
 				'_indicator' => 'cht=ls',
+				'legend',
 				'scale',
 				'size',
 				'color',
@@ -155,12 +156,14 @@
 				'data',
 			),
 			'line_xy' => array(
-				'_indicator' => 'cht=ls',
+				'_indicator' => 'cht=lxy',
+				'legend',
 				'scale',
 				'size',
 				'color',
 				'labels',
 				'data',
+				'line_marker'
 			)
 		);
 
@@ -214,6 +217,10 @@
 			'line_style' => array(
 				'key' => 'chls=',
 				'separator' => '|' // items ,
+			),
+			'line_marker' => array(
+				'key' => 'chm=',
+				'separator' => ','
 			)
 		);
 
@@ -250,6 +257,12 @@
 				'series'
 			),
 			'line' => array(
+				'series'
+			),
+			'line_spark' => array(
+				'series'
+			),
+			'line_xy' => array(
 				'series'
 			)
 		);
@@ -313,6 +326,19 @@
 				return false;
 			}
 
+			if($this->_chartType == 'gauge' && isset($data['extra']['arrows'])){
+				$data['line_style'] = $data['extra']['arrows'];
+			}
+			if(strstr($this->_chartType, 'line')){
+				if(isset($data['extra']['line_style'])){
+					$data['line_style'] = $data['extra']['line_style'];
+				}
+
+				if(isset($data['extra']['line_marker'])){
+					$data['line_marker'] = $data['extra']['line_marker'];
+				}
+			}
+
 			foreach($data as $key => $value){
 				if(!in_array($key, $this->_chartTypes[$this->_chartType])){
 					continue;
@@ -320,12 +346,6 @@
 
 				$this->_query[] = $this->_formatQueryParts($key, $value);
 
-			}
-
-			switch($this->_chartTypes[$this->_chartType]){
-				case 'gauge' && isset($data['extra']['arrows']):
-					$this->_query[] = $this->_formatQueryParts('line_style', $data['extra']['arrows']);
-					break;
 			}
 
 			$url = $this->_generateFullUrl();
@@ -413,6 +433,7 @@
 				case 'spacing':
 				case 'legend':
 				case 'line_style':
+				case 'line_marker':
 					$method = '_format' . Inflector::camelize($key);
 					return call_user_func_array(array($this, $method), array($value));
 					break;
@@ -715,6 +736,10 @@
 			}
 
 			return $this->_formatGeneric('line_style', array_merge($return, $arrows));
+		}
+
+		public function _formatLineMarker($value){
+			pr($value);
 		}
 
 		/**

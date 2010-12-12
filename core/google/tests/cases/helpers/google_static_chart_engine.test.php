@@ -605,6 +605,9 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->gauge($chart));
 		}
 
+		/**
+		 * @brief test building bra charts
+		 */
 		public function testBuildBarCharts(){
 			$chart = array(
 				'data' => array(12, 23, 10, 40),
@@ -703,6 +706,9 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
 		}
 
+		/**
+		 * @brief test bar chart labels
+		 */
 		public function testBuildBarChartsLables(){
 			$chart = array(
 				'data' => array(12, 23, 10, 40, 69),
@@ -745,7 +751,44 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
 		}
 
+		/**
+		 * @brief test line charts
+		 */
 		public function testBuildLineCharts(){
-			$this->GoogleStaticChartEngine->setType('line');
+			$chart = array(
+				'data' => explode(',', '40,60,60,45,47,75,70,72'),
+				'size' => array('width' => 200, 'height' => 125),
+				'extra' => array('return' => 'url'),
+			);
+			$expected = 'http://0.chart.apis.google.com/chart?cht=lc&chd=t:40,60,60,45,47,75,70,72&chs=200x125';
+			$this->assertEqual($expected, $this->GoogleStaticChartEngine->line($chart));
+
+			$chart = array(
+				'data' => explode(',', '27,25,60,31,25,39,25,31,26,28,80,28,27,31,27,29,26,35,70,25'),
+				'size' => array('width' => 200, 'height' => 125),
+				'color' => array('series' => '0077CC'),
+				'config' => array('type' => 'spark'),
+				'extra' => array('return' => 'url'),
+			);
+			$expected = 'http://1.chart.apis.google.com/chart?cht=ls&chd=t:27,25,60,31,25,39,25,31,26,28,80,28,27,31,27,29,26,35,70,25&chs=200x125&chco=0077CC';
+			$this->assertEqual($expected, $this->GoogleStaticChartEngine->line($chart));
+
+			$chart = array(
+				'data' => array(explode(',', '10,20,40,80,90,95,99'), explode(',', '20,30,40,50,60,70,80'), array(-1), explode(',', '5,10,22,35,85')),
+				'size' => array('width' => 200, 'height' => 125),
+				'color' => array('series' => '0077CC'),
+				'config' => array('type' => 'xy'),
+				'color' => array('series' => explode(',', '3072F3,ff0000,00aaaa')),
+				'legend' => array(
+					'labels' => array('Ponies', 'Unicorns'),
+					'position' => 'top'
+				),
+				'extra' => array(
+					'return' => 'url',
+					'line_style' => array(array('thickness' => 2, 'dash' => array(4, 1)))
+				),
+			);
+			$expected = 'http://2.chart.apis.google.com/chart?cht=lxy&chd=t:10,20,40,80,90,95,99|20,30,40,50,60,70,80|-1|5,10,22,35,85&chs=200x125&chco=3072F3,ff0000,00aaaa&chdl=Ponies|Unicorns&chdlp=t|l';
+			$this->assertEqual($expected, $this->GoogleStaticChartEngine->line($chart));
 		}
 	}
