@@ -14,35 +14,18 @@
 			echo $this->Charts->draw(
 				'line',
 				array(
-					'data' => array(
-						$lastTwoWeeks['max_load'],
-						$lastTwoWeeks['ave_load']
-					),
-					'axes' => array(
-						'x' => $lastTwoWeeks['day'],
-						'y' => true
-					),
+					'data' => array($lastTwoWeeks['max_load'], $lastTwoWeeks['average_load']),
+					'axes' => array('x' => $lastTwoWeeks['day'], 'y' => true),
+					'size' => array('width' => 450, 'height' => 130),
+					'color' => array('series' => array('0d5c05', '03348a')),
+					'extra' => array('scale' => 'relative', 'html' => array('class' => 'chart')),
 					'legend' => array(
-						'position' => 'right',
+						'position' => 'top',
 						'order' => 'default',
 						'labels' => array(
 							__('Max Load', true),
 							__('Ave Load', true)
 						)
-					),
-					'size' => array(
-						'width' => 450,
-						'height' => 130
-					),
-					'color' => array(
-						'series' => array(
-							'0d5c05', // dark green
-							'03348a' // dark blue
-						)
-					),
-					'extra' => array(
-						'scale' => 'relative',
-						'class' => 'chart'
 					)
 				)
 			);
