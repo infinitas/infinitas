@@ -76,6 +76,7 @@
 		protected $_chartTypes = array(
 			'bar' => array(
 				'_indicator' => 'cht=bhs',
+				'legend',
 				'size',
 				'color',
 				'labels',
@@ -85,6 +86,7 @@
 			),
 			'bar_horizontal' => array(
 				'_indicator' => 'cht=bhs',
+				'legend',
 				'size',
 				'color',
 				'labels',
@@ -94,6 +96,7 @@
 			),
 			'bar_horizontal_group' => array(
 				'_indicator' => 'cht=bhg',
+				'legend',
 				'size',
 				'color',
 				'labels',
@@ -103,6 +106,7 @@
 			),
 			'bar_vertical' => array(
 				'_indicator' => 'cht=bvs',
+				'legend',
 				'size',
 				'color',
 				'labels',
@@ -112,6 +116,7 @@
 			),
 			'bar_vertical_group' => array(
 				'_indicator' => 'cht=bvg',
+				'legend',
 				'size',
 				'color',
 				'labels',
@@ -121,6 +126,7 @@
 			),
 			'bar_vertical_overlay' => array(
 				'_indicator' => 'cht=bvo',
+				'legend',
 				'size',
 				'color',
 				'labels',
