@@ -375,7 +375,7 @@
 				trigger_error(__('Axes should be set before labels, skipping', true), E_USER_NOTICE);
 				return $this;
 			}
-			
+
 			if(!isset($this->data['data'])){
 				trigger_error(__('Data should be set before labels, skipping', true), E_USER_NOTICE);
 				return $this;
@@ -386,8 +386,26 @@
 					$this->data['labels'][$axes] = $this->__defaultLablesFromData($this->data['data']);
 					continue;
 				}
-				
+
 				$this->data['labels'][$axes] = $this->__anythingToArray($axes, $data[$axes], (string)$delimiter, true);
+			}
+
+			return $this;
+		}
+
+		public function setLegend($data = null, $delimiter = ','){
+			if(!$data){
+				$data = isset($this->__originalData['legend']) ? $this->__originalData['legend'] : array();
+			}
+
+			if(!empty($data)){
+				$_defaults = array(
+					'position' => null,
+					'order' => null,
+					'labels' => array()
+				);
+
+				$this->data['legend'] = array_merge($_defaults, (array)$data);
 			}
 
 			return $this;
@@ -440,7 +458,7 @@
 			if(!$colors){
 				$colors = isset($this->__originalData['color']) ? $this->__originalData['color'] : array();
 			}
-			
+
 			if(!is_array($colors) || empty($colors)){
 				$this->data['color'] = $this->__defaults['color'];
 			}
@@ -577,6 +595,7 @@
 				->setColors()
 				->setSpacing()
 				->setTooltip()
+				->setLegend()
 				->setExtra();
 		}
 
