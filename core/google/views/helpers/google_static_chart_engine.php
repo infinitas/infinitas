@@ -104,7 +104,8 @@
 			),
 			'line' => array(
 				'_indicator' => 'cht=lc',
-				'scale'
+				'scale',
+				'legend'
 			),
 			'line_spark' => array(
 				'_indicator' => 'cht=ls',
@@ -176,6 +177,14 @@
 			'spacing' => array(
 				'key' => 'chbh=',
 				'separator' => ','
+			),
+			'legend' => array(
+				'key' => 'chdl=',  // the labels
+				'separator' => '|'
+			),
+			'legend_position' => array(
+				'key' => 'chdlp=',
+				'separator' => '|'
 			)
 		);
 
@@ -196,6 +205,11 @@
 			)
 		);
 
+		/**
+		 * @brief the size limit for the chart
+		 *
+		 * @link 
+		 */
 		private $__sizeLimit = 300000;
 
 		public function  __construct() {
@@ -311,6 +325,7 @@
 				case 'labels':
 				case 'color':
 				case 'spacing':
+				case 'legend':
 					$method = '_format' . ucfirst(strtolower($key));
 					return call_user_func_array(array($this, $method), array($value));
 					break;
@@ -442,6 +457,74 @@
 			}
 
 			return $this->_formatGeneric('size', $value);
+		}
+
+		/**
+		 * @brief generate query string for lengend
+		 *
+		 * 2 parts to the legend is the labels and the layout.
+		 *
+		 * @link http://code.google.com/apis/chart/docs/gallery/bar_charts.html#gcharts_legend
+		 *
+		 * @param <type> $value
+		 * @return <type>
+		 */
+		protected function _formatLegend($value){
+			$position = array();
+			switch($value['position']){
+				case 'bottom_horizontal':
+				case 'bottom':
+					$position[] = 'b';
+					break;
+
+				case 'bottom_vertical':
+					$position[] = 'bv';
+					break;
+
+				case 'top':
+				case 'top_horizontal':
+					$position[] = 't';
+					break;
+
+				case 'top_vertical':
+					$position[] = 'tv';
+					break;
+
+				case 'left':
+				case 'left_vertical':
+					$position[] = 'l';
+					break;
+
+				case 'right':
+				case 'right_vertical':
+				default:
+					$position[] = 'r';
+					break;
+			}
+
+			switch($value['order']){
+				case 'auto':
+					$position[] = 'a';
+					break;
+				
+				case 'reverse':
+					$position[] = 'r';
+					break;
+
+				case is_array($value['order']):
+					$position[] = implode(',', $value['order']);
+					break;
+
+				case 'default':
+				default:
+					$position[] = 'l';
+					break;
+			}
+
+			return array(
+				'legend_labels' => $this->_formatGeneric('legend', $value['labels']),
+				'legend_position' => $this->_formatGeneric('legend_position', $position)
+			);
 		}
 
 		/**
