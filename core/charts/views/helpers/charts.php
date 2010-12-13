@@ -52,6 +52,8 @@
 		 * should the data be normalized to a base 100, good for high numbers
 		 * in the data set. look will still be the same as the y axis will use
 		 * the original data for display
+		 *
+		 * @deprecated
 		 * 
 		 * @var bool
 		 * @access public
@@ -645,6 +647,8 @@
 		 * @param array $data the data for the chart to be normalized
 		 * @param int $max used internally, do not pass things in here.
 		 * @access private
+		 *
+		 * @deprecated
 		 *
 		 * @return array the new data array
 		 */
