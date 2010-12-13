@@ -1,7 +1,9 @@
 <?php
 /* CoreCountry Fixture generated on: 2010-08-17 14:08:17 : 1282055117 */
-class CoreCountryFixture extends CakeTestFixture {
-	var $name = 'CoreCountry';
+class CountryFixture extends CakeTestFixture {
+	var $name = 'Country';
+
+	var $table = 'contact_countries';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),

@@ -1,7 +1,9 @@
 <?php
 /* CoreAddress Fixture generated on: 2010-08-17 14:08:08 : 1282055108 */
-class CoreAddressFixture extends CakeTestFixture {
-	var $name = 'CoreAddress';
+class AddressFixture extends CakeTestFixture {
+	var $name = 'Address';
+
+	var $table = 'contact_addresses';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
