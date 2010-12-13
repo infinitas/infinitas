@@ -62,7 +62,7 @@
 
 			$plugins = $this->Feed->getPlugins();
 			$groups = $this->Feed->Group->find('list');
-			$feedsFeeds = $this->Feed->FeedsFeed->find('list');
+			$feedsFeeds = $this->Feed->find('list');
 			$this->set(compact('plugins', 'groups', 'feedsFeeds'));
 		}
 
@@ -72,7 +72,7 @@
 			$plugins     = $this->Feed->getPlugins();
 			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);
 			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
-			$feedsFeeds = $this->Feed->FeedsFeed->find('list');
+			$feedsFeeds = $this->Feed->find('list');
 			$groups      = $this->Feed->Group->find('list');
 
 			$this->set(compact('plugins', 'controllers', 'actions', 'feedsFeeds', 'groups'));
