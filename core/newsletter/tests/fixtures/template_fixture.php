@@ -1,7 +1,9 @@
 <?php
 /* NewsletterTemplate Fixture generated on: 2010-08-17 14:08:21 : 1282055181 */
-class NewsletterTemplateFixture extends CakeTestFixture {
-	var $name = 'NewsletterTemplate';
+class TemplateFixture extends CakeTestFixture {
+	var $name = 'Template';
+
+	var $table = 'newsletter_templates';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),

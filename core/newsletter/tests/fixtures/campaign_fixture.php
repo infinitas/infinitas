@@ -1,7 +1,9 @@
 <?php
 /* NewsletterCampaign Fixture generated on: 2010-08-17 14:08:11 : 1282055171 */
-class NewsletterCampaignFixture extends CakeTestFixture {
-	var $name = 'NewsletterCampaign';
+class CampaignFixture extends CakeTestFixture {
+	var $name = 'Campaign';
+
+	var $table = 'newsletter_campaigns';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
