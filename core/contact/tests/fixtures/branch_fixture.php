@@ -1,7 +1,9 @@
 <?php
 /* ContactBranch Fixture generated on: 2010-08-17 14:08:03 : 1282055103 */
-class ContactBranchFixture extends CakeTestFixture {
-	var $name = 'ContactBranch';
+class BranchFixture extends CakeTestFixture {
+	var $name = 'Branch';
+
+	var $table = 'contact_branch';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
