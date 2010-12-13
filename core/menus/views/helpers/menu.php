@@ -101,6 +101,8 @@
 		 * @var array $plugins this is the array of icons (could do with a better name)
 		 * @var string $type this is a name that is used for cache if not used funy things can happen
 		 *
+		 * @deprecated cache is causing loads of issues, and not enough speed.
+		 *
 		 * @return array the menu that was built
 		 */
 		public function builDashboardLinks($plugins = array(), $type = null, $cache = true){
@@ -115,13 +117,6 @@
 			}
 			
 			ksort($plugins);
-
-			if($cache){
-				$cache = Cache::read('dashboard_'.$type, 'menus');
-				if($cache !== false){
-					return $cache;
-				}
-			}
 
 			$return = array();
 			foreach($plugins as $name => $info) {
@@ -160,9 +155,6 @@
 				);
 			}
 
-			if($cache){
-				Cache::write('dashboard_'.$type, $return, 'menus');
-			}
 			unset($plugins);
 
 			return $return;
