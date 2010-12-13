@@ -1,7 +1,9 @@
 <?php
 /* NewsletterNewslettersUser Fixture generated on: 2010-08-17 14:08:16 : 1282055176 */
-class NewsletterNewslettersUserFixture extends CakeTestFixture {
-	var $name = 'NewsletterNewslettersUser';
+class NewslettersUserFixture extends CakeTestFixture {
+	var $name = 'NewslettersUser';
+
+	var $table = 'newsletter_newsletters_users';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
