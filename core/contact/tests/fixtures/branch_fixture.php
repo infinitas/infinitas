@@ -3,7 +3,7 @@
 class BranchFixture extends CakeTestFixture {
 	var $name = 'Branch';
 
-	var $table = 'contact_branch';
+	var $table = 'contact_branches';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
