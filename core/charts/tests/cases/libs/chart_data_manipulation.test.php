@@ -3,7 +3,7 @@
 	
 	class ChartDataManipulationTest extends CakeTestCase {
 		public $fixtures = array(
-			'core_cron'
+			'plugin.crons.cron'
 		);
 		
 		public function startTest(){

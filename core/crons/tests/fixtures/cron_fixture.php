@@ -1,7 +1,9 @@
 <?php
 /* CoreCron Fixture generated on: 2010-12-13 12:12:16 : 1292242636 */
-class CoreCronFixture extends CakeTestFixture {
-	var $name = 'CoreCron';
+class CronFixture extends CakeTestFixture {
+	var $name = 'Cron';
+
+	var $table = 'core_crons';
 
 	var $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
