@@ -12,7 +12,7 @@ class UserFixture extends CakeTestFixture {
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
 		'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
+		'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'ip_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'browser' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'operating_system' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
@@ -23,7 +23,7 @@ class UserFixture extends CakeTestFixture {
 		'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => array('username', 'email'), 'unique' => 1), 'user' => array('column' => array('id', 'username'), 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => array('username', 'email'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
