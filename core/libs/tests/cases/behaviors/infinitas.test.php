@@ -2,6 +2,7 @@
 	/* Infinitas Test cases generated on: 2010-03-13 14:03:31 : 1268484451*/
 	App::import('Behavior', 'libs.Infinitas');
 	App::import('Model', 'Routes.Route');
+	
 	class RouteTest1 extends Route{
 		public $useDbConfig = 'test';
 
@@ -9,6 +10,7 @@
 			return $this->find('list', array('conditions' => $conditions));
 		}
 	}
+
 	class RouteTest2 extends Route{
 		public $useDbConfig = 'test';
 
@@ -21,14 +23,15 @@
 
 		//need something to set with
 		var $fixtures = array(
-			'plugin.management.route',
-			'plugin.management.theme'
+			'plugin.routes.route',
+			'plugin.themes.theme'
 		);
 
 		function startTest() {
 			$this->Infinitas =& new InfinitasBehavior();
 
 			App::import('AppModel');
+			$this->expectError('AppModel is using AppModel, please create a model file');
 			$this->AppModel = new AppModel(array('table' => false));
 		}
 
@@ -114,7 +117,7 @@
 			);
 			$this->assertEqual($expected, $this->Infinitas->getTables($this->AppModel, 'test'));
 
-			$this->expectError();
+			$this->expectError('ConnectionManager::getDataSource - Non-existent data source this_is_not_a_connection');
 			$this->Infinitas->getTables($this->AppModel, 'this_is_not_a_connection');
 
 			// find tables with a id field

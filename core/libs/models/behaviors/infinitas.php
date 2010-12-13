@@ -41,7 +41,7 @@
 		 */
 		private $__jsonErrors = array();
 
-		public function setup(&$Model, $config = null) {
+		public function setup($Model, $config = null) {
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 			} else {
@@ -58,7 +58,7 @@
 		 *
 		 * @return the count of records
 		 */
-		public function getActive(&$Model, $active = true, $conditions = array()){
+		public function getActive($Model, $active = true, $conditions = array()){
 			$conditions = array_merge(
 				array($Model->alias.'.active' => (int)(bool)$active),
 				(array)$conditions
@@ -79,7 +79,7 @@
 		 *
 		 * @return array list of tables.
 		 */
-		function getTables(&$Model, $connection = 'default'){
+		function getTables($Model, $connection = 'default'){
 			$this->db = ConnectionManager::getDataSource($connection);
 			if(!$this->db){
 				return false;
@@ -111,7 +111,7 @@
 		 *
 		 * @return false when no field set, else array of tables with model/plugin.
 		 */
-		function getTablesByField(&$Model, $connection = 'default', $field = null){
+		function getTablesByField($Model, $connection = 'default', $field = null){
 			if (!$field) {
 				return false;
 			}
@@ -157,7 +157,7 @@
 			600 => 'always',
 		);
 
-		private function __getDateField(&$Model){
+		private function __getDateField($Model){
 			if($Model->hasField('created')){
 				return 'created';
 			}
@@ -174,7 +174,7 @@
 		 *
 		 * always, hourly, daily, weekly, monthly, yearly, never
 		 */
-		public function getChangeFrequency(&$Model){
+		public function getChangeFrequency($Model){
 			$field = $this->__getDateField($Model);
 
 			if(!$field){
@@ -220,7 +220,7 @@
 		/**
 		 * get the newest row from the selected model
 		 */
-		public function getNewestRow(&$Model){
+		public function getNewestRow($Model){
 			$field = $this->__getDateField($Model);
 			
 			if(!$field){
@@ -258,7 +258,7 @@
 		 * @params array $config the params to pass to json_decode (assoc && depth)
 		 * @params bool $return will return the array/object by default but can be set to false to just check its valid.
 		 */
-		function getJson(&$Model, $data = null, $config = array(), $return = true){
+		function getJson($Model, $data = null, $config = array(), $return = true){
 			if (!$data) {
 				$this->_errors[] = 'No data for json';
 				return false;
@@ -296,7 +296,7 @@
 		 * @param unknown_type $config
 		 * @param unknown_type $return
 		 */
-		function getJsonRecursive(&$Model, $data = array(), $config = array()){
+		function getJsonRecursive($Model, $data = array(), $config = array()){
 			if(!is_array($data)){
 				$data = (array)$data;
 			}
@@ -323,7 +323,7 @@
 		 *
 		 * @return empty array on error or single dimention array.
 		 */
-		function singleDimentionArray(&$Model, $array = array()){
+		function singleDimentionArray($Model, $array = array()){
 			if (empty($array) || !is_array($array)) {
 				$this->errors[] = 'Array must be passed to me';
 				return array();
@@ -376,7 +376,7 @@
 		*
 		* @return array a list of controllers that were found
 		*/
-		public function getControllers(&$Model, $plugin){
+		public function getControllers($Model, $plugin){
 			$list = App::objects(
 				'controller',
 				array(App::pluginPath($plugin).'controllers'.DS),
@@ -402,7 +402,7 @@
 		*
 		* @return array a list of models that were found
 		*/
-		public function getModels(&$Model, $plugin){
+		public function getModels($Model, $plugin){
 			$list = App::objects(
 				'model',
 				array(App::pluginPath($plugin).'models'.DS),
@@ -429,7 +429,7 @@
 		 * @param string $plugin the plugin to search with
 		 * @param string $controller the controller to search with
 		 */
-		public function getActions(&$Model, $plugin, $controller){
+		public function getActions($Model, $plugin, $controller){
 			App::import('Controller', $plugin.'.'.$controller);
 
 			$list = get_class_methods($controller.'Controller');
@@ -472,7 +472,7 @@
 		*
 		* seems like a method to call a function in a model via ajax mostly.
 		*/
-		function getList(&$Model, $plugin = null, $model = null, $method = null, $conditions = array()){
+		function getList($Model, $plugin = null, $model = null, $method = null, $conditions = array()){
 			$class = null;
 			if (!$plugin && $model) {
 				$class = Inflector::classify($model);
@@ -497,7 +497,7 @@
 			return $this->Model->find('list', array('conditions' => $conditions));
 		}
 
-		function validateJson(&$Model, $data = null, $field = null){
+		function validateJson($Model, $data = null, $field = null){
 			if (!$data) {
 				return false;
 			}
