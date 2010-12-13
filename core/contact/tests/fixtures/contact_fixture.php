@@ -1,7 +1,9 @@
 <?php
 /* ContactContact Fixture generated on: 2010-08-17 14:08:06 : 1282055106 */
-class ContactContactFixture extends CakeTestFixture {
-	var $name = 'ContactContact';
+class ContactFixture extends CakeTestFixture {
+	var $name = 'Contact';
+
+	var $table = 'contact_contacts';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
