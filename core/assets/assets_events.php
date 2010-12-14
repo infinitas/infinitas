@@ -1,5 +1,4 @@
 <?php
-
 	class AssetsEvents extends AppEvents{
 		public function onSetupConfig($event, $data = null) {
 			Configure::load('assets.config');
