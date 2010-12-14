@@ -2,22 +2,19 @@
 	/* Category Test cases generated on: 2010-08-16 23:08:27 : 1281999567*/
 	App::import('Model', 'Categories.Category');
 
-	/**
-	 *
-	 *
-	 */
-	class CategoryTest extends Category{
-		var $useDbConfig = 'test';
-		var $belongsTo = array();
-	}
-
 	class CategoryTestCase extends CakeTestCase {
 		var $fixtures = array(
-			'plugin.categories.global_category',
+			'plugin.configs.config',
+			'plugin.themes.theme',
+			'plugin.routes.route',
+			'plugin.view_counter.view_count',
+			
+			'plugin.categories.category',
+			'plugin.users.group',
 		);
 
 		function startTest() {
-			$this->Category =& new CategoryTest();
+			$this->Category = ClassRegistry::init('Categories.Category');
 		}
 
 		function testFindActive(){
