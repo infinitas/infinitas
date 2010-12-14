@@ -23,16 +23,18 @@
 				);
 			}
 			else if(date('Y-m-d H:i:s', strtotime('-' . Configure::read('Cron.run_every'))) > $crons){
+				App::import('Helper', 'Time');
+				$Time = new TimeHelper();
 				return array(
 					array(
-						'name' => sprintf(__('The crons are not running, last run was %s', true), $crons),
+						'name' => sprintf(__('The crons are not running, last run was %s', true), $Time->timeAgoInWords($crons)),
 						'type' => 'error',
 						'url' => '#'
 					)
 				);
 			}
 			
-			return false;
+			return true;
 		}
 
 		/**
@@ -41,7 +43,8 @@
 		 * @return string|bool false if not, or datetime of last run
 		 */
 		public function onAreCronsSetup(){
-			return ClassRegistry::init('Crons.Cron')->getLastRun();
+			$date = ClassRegistry::init('Crons.Cron')->getLastRun();
+			return $date ? date('Y-m-d H:i:s', strtotime($date)) : $date;
 		}
 
 		/**
