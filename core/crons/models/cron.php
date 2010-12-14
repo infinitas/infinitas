@@ -31,7 +31,7 @@
 		 * some stats befor the cron starts. This will enable infinitas to show
 		 * how much resources the crons are taking up.
 		 *
-		 * @return bool true if everything is cool, false if already running or could not start
+		 * @return bool|void true if everything is cool, null if already running or could not start
 		 */
 		public function start(){			
 			$data = null;
@@ -55,8 +55,6 @@
 				$this->_currentProcess = $this->id;
 				return $alreadyRunning === false;
 			}
-
-			return false;
 		}
 
 		/**
@@ -74,6 +72,11 @@
 		 * @return AppModel::save()
 		 */
 		public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0){
+			if(!$this->_currentProcess){
+				trigger_error(__('Cron not yet started', true), E_USER_WARNING);
+				return false;
+			}
+			
 			$data = null;
 			$memUsage = memoryUsage(false, false);
 			$serverLoad = serverLoad(false);
@@ -89,6 +92,8 @@
 				'done' => 1
 			);
 			unset($memUsage, $serverLoad);
+
+			$this->_currentProcess = null;
 
 			return $this->save($data);
 		}
@@ -131,7 +136,7 @@
 				'count',
 				array(
 					'conditions' => array(
-						'created > ' => $date
+						'Cron.created > ' => $date
 					)
 				)
 			);
@@ -181,8 +186,9 @@
 
 			return $this->deleteAll(
 				array(
-					'created <= ' => $date
-				)
+					'Cron.created <= ' => $date
+				),
+					false
 			);
 		}
 	}
