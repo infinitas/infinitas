@@ -11,7 +11,7 @@
 		public $components = array(
 			'Session',
 			'RequestHandler',
-			'Event.Event',
+			'Events.Event',
 		);
 
 		/**
