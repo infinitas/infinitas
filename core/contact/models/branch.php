@@ -87,7 +87,7 @@
 		 * @access public
 		 */
 		public $belongsTo = array(
-			'Management.Address'
+			'Contact.Address'
 		);
 
 		/**
