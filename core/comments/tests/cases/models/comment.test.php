@@ -22,4 +22,7 @@
 			ClassRegistry::flush();
 		}
 
+		function testStuff(){
+			$this->assertIsA($this->Comment, 'Comment');
+		}
 	}
