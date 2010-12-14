@@ -1,5 +1,5 @@
 <?php
-/* CoreComment Fixture generated on: 2010-08-17 14:08:13 : 1282055113 */
+/* GlobalComment Fixture generated on: 2010-12-13 17:12:34 : 1292259754 */
 class CommentFixture extends CakeTestFixture {
 	var $name = 'Comment';
 
@@ -7,35 +7,46 @@ class CommentFixture extends CakeTestFixture {
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128),
-		'foreign_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'website' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'comment' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
+		'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'foreign_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 8),
+		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'comment' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'rating' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'points' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
+		'status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active' => array('column' => 'active', 'unique' => 0), 'status' => array('column' => 'status', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
 	var $records = array(
 		array(
-			'id' => 1,
-			'class' => 'Content',
-			'foreign_id' => 6,
-			'name' => 'bob',
-			'email' => 'bob@bob.com',
-			'website' => 'www.something.com',
-			'comment' => 'asdjaksldj asldka ',
+			'id' => 3,
+			'class' => 'Blog.TestPost',
+			'foreign_id' => 1,
+			'user_id' => 0,
+			'email' => 'user1@user1.com',
+			'comment' => ' blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa some long comment user1 blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa',
 			'active' => 1,
-			'rating' => 2,
-			'points' => 5,
-			'status' => 'actvie',
-			'created' => '2010-04-02 22:25:01'
+			'rating' => 0,
+			'points' => 4,
+			'status' => 'approved',
+			'created' => '2010-10-04 01:19:32'
+		),
+		array(
+			'id' => 332,
+			'class' => 'Blog.TestPost',
+			'foreign_id' => 1,
+			'user_id' => 0,
+			'email' => 'user2@user2.com',
+			'comment' => ' blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa another long comment by user2 blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa blaa',
+			'active' => 1,
+			'rating' => 0,
+			'points' => 4,
+			'status' => 'approved',
+			'created' => '2010-12-08 16:43:09'
 		),
 	);
 }

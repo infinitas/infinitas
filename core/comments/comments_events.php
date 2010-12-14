@@ -62,11 +62,13 @@
 		}
 
 		public function onSiteMapRebuild($event){
+			pr(ClassRegistry::init('Comments.Comment')->getNewestRow());
+			exit;
 			return array(
 				array(
 					'url' => Router::url(array('plugin' => 'comments', 'controller' => 'comments', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
 					'last_modified' => ClassRegistry::init('Comments.Comment')->getNewestRow(),
-					'change_frequency' => ClassRegistry::init('Cms.Content')->getChangeFrequency(),
+					'change_frequency' => ClassRegistry::init('Comments.Comment')->getChangeFrequency(),
 					'priority' => 0.8
 				)
 			);

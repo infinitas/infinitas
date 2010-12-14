@@ -12,7 +12,7 @@
 
 	class CategoriesControllerTestCase extends CakeTestCase {
 		function startTest() {
-			$this->Categories =& new TestCategoriesController();
+			$this->Categories = new TestCategoriesController();
 			$this->Categories->constructClasses();
 		}
 
