@@ -5,8 +5,6 @@
 	class CategoryTestCase extends CakeTestCase {
 		var $fixtures = array(
 			'plugin.configs.config',
-			'plugin.themes.theme',
-			'plugin.routes.route',
 			'plugin.view_counter.view_count',
 			
 			'plugin.categories.category',
@@ -17,15 +15,15 @@
 			$this->Category = ClassRegistry::init('Categories.Category');
 		}
 
+		function endTest() {
+			unset($this->Category);
+			ClassRegistry::flush();
+		}
+
 		function testFindActive(){
 			$this->assertEqual(4, $this->Category->find('count'));
 
 			$expected = array(1 => 1, 2 => 2, 3 => 3);
 			$this->assertEqual($expected, $this->Category->getActiveIds());
-		}
-
-		function endTest() {
-			unset($this->Category);
-			ClassRegistry::flush();
 		}
 	}

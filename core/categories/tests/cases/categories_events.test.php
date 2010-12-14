@@ -5,7 +5,7 @@
 			'plugin.themes.theme',
 			'plugin.routes.route',
 			'plugin.view_counter.view_count',
-
+			
 			'plugin.categories.category',
 			'plugin.users.group',
 		);

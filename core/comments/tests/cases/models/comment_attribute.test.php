@@ -11,4 +11,8 @@
 			unset($this->CommentAttribute);
 			ClassRegistry::flush();
 		}
+
+		function testStuff(){
+			$this->assertIsA($this->CommentAttribute, 'CommentAttribute');
+		}
 	}
