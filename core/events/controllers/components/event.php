@@ -1,5 +1,5 @@
 <?php
-	class EventComponent extends Object{
+	class EventComponent extends Component{
 		/**
 		 * Controller Instance
 		 * @var object
@@ -12,8 +12,8 @@
 		 * @param object $controller
 		 *
 		 */
-	    public function initialize(&$Controller){
-			$this->Controller =& $Controller;
+	    public function initialize($Controller){
+			$this->Controller = $Controller;
 		}
 
 		/**

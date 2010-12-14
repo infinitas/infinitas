@@ -9,4 +9,8 @@
 		public function onRequireComponentsToLoad(){
 			return 'Events.Event';
 		}
+
+		public function onReturnEventForTest($event){
+			return $event;
+		}
 	}
