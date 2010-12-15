@@ -65,7 +65,7 @@
 				),
 				'confirm_email' => array(
 					'validateCompareFields' => array(
-						'rule' => array('validateCompareFields', array('email', 'compare_email')),
+						'rule' => array('validateCompareFields', array('email', 'confirm_email')),
 						'message' => __('Your email address does not match', true)
 					)
 				),
