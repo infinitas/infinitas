@@ -55,7 +55,9 @@
 					$event->Handler->Behaviors->attach('Tree');
 				}
 				
-				$event->Handler->Behaviors->attach('Validation');
+				if(!$event->Handler->Behaviors->enabled('Libs.Validation')){
+					$event->Handler->Behaviors->attach('Libs.Validation');
+				}
 			}
 		}
 
