@@ -81,12 +81,6 @@
 			$this->assertEqual($expected, $this->Infinitas->getJsonRecursive($this->AppModel, $data));
 			// string passed in
 			$this->assertEqual(array(array('abc')), $this->Infinitas->getJsonRecursive($this->AppModel, json_encode(array('abc'))));
-
-			$this->assertFalse($this->Infinitas->validateJson($this->AppModel));
-			$this->assertFalse($this->Infinitas->validateJson($this->AppModel, array('array')));
-			$this->assertFalse($this->Infinitas->validateJson($this->AppModel, 'string'));
-			$this->assertTrue($this->Infinitas->validateJson($this->AppModel, 123));
-			$this->assertTrue($this->Infinitas->validateJson($this->AppModel, json_encode(array(1,2,3,4,5,6))));
 		}
 
 		function testSingleDimentionArray(){
@@ -141,7 +135,6 @@
 		}
 
 		function testGetList(){
-			// wrong settings
 			$this->assertFalse($this->Infinitas->getList($this->AppModel));
 
 			$expected = array(
@@ -157,6 +150,7 @@
 				18 => 'Blog Test'
 			);
 			$this->assertEqual($expected, $this->Infinitas->getList($this->AppModel, 'Management', 'Route'));
+			echo 'this error is normal (and the tests cant catch it)';
 			$this->assertEqual($expected, $this->Infinitas->getList($this->AppModel, null, 'CoreRoute'));
 
 			// conditions
