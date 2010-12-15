@@ -95,18 +95,34 @@
 
 		/**
 		 * @brief delete config cache
-		 * 
+		 *
 		 * after saving something delete the main core_configs cache so that
 		 * the changes will take effect
 		 *
 		 * @param bool $created is it new or not
 		 * @access public
-		 * 
+		 *
 		 * @return parent method
 		 */
 		public function afterSave($created){
 			Cache::delete('global_configs');
 			return parent::afterSave($created);
+		}
+
+		/**
+		 * @brief delete config cache
+		 *
+		 * after saving something delete the main core_configs cache so that
+		 * the changes will take effect
+		 *
+		 * @param bool $created is it new or not
+		 * @access public
+		 *
+		 * @return parent method
+		 */
+		public function afterDelete($created){
+			Cache::delete('global_configs');
+			return parent::afterDelete($created);
 		}
 
 		/**
@@ -169,8 +185,8 @@
 		 * @return array all the config options set to the correct type
 		 */
 		public function getConfig($format = false) {
-			$configs = Cache::read('configs', 'configs');
-			if (!empty($configs)) {
+			$configs = Cache::read('global_configs');
+			if ($configs !== false) {
 				if ($format) {
 					return $this->__formatConfigs($configs);
 				}
@@ -211,7 +227,7 @@
 				} // switch
 			}
 
-			Cache::write('configs', $configs, 'configs');
+			Cache::write('global_configs', $configs);
 
 			if ($format) {
 				return $this->__formatConfigs($configs);
@@ -228,14 +244,16 @@
 		 *
 		 * @return array the data that has been formatted
 		 */
-		private function __formatConfigs($configs = array()){
+		private function __formatConfigs($configs = array(), $json = false){
 			if (empty($configs)) {
 				return false;
 			}
 
 			$format = array();
 			foreach($configs as $k => $config) {
-				$format[$configs[$k]['Config']['key']] = $configs[$k]['Config']['value'];
+				$format[$configs[$k]['Config']['key']] = $json 
+					? json_encode($configs[$k]['Config']['value'])
+					: $configs[$k]['Config']['value'];
 			}
 			
 			return $format;
@@ -269,9 +287,15 @@
 		 * plugin stuff to avoid typing out stuff.
 		 *
 		 * @internal 
-		 * @access private
+		 * @access public
 		 */
-		private function __generateCode(){
+		public function generateCode($config){
+			if(isset($config[0])){
+				foreach($config as $_config){
+					$return[] = self::generateCode($_config);
+				}
+			}
+			
 			if(is_bool($config['Config']['value'])){
 				if($config['Config']['value']){
 					$_config = 'true';
@@ -296,7 +320,7 @@
 				$_config = $config['Config']['value'];
 			}
 
-			pr('Configure::write(\''.$config['Config']['key'].'\', '.$_config.');');
+			return 'Configure::write(\''.$config['Config']['key'].'\', '.$_config.');';
 		}
 
 		/**
