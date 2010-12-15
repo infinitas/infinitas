@@ -34,6 +34,7 @@
 		* @access public
 		*/
 		function setup(&$model, $settings = array()) {
+			return;
 			$default = $this->defaults;
 			$default['conditions'] = array('Rating.class' => $model->alias);
 			$default['requre_auth'] = Configure::read('Rating.require_auth');
