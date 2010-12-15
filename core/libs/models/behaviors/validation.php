@@ -10,7 +10,7 @@
 		 *
 		 * @return bool is it valid
 		 */
-		public function validateEmptyOrJson($Model, $field){
+		public function validateEmptyOrJsonDeprecated($Model, $field){
 			return strlen(current($field)) == 0 || $Model->validateJson(current($field));
 		}
 		

@@ -24,7 +24,7 @@
 		}
 
 		
-		public function testValidateIsJson(){
+		public function testValidateJson(){
 			$this->User->validate = array(
 				'field_1' => array(
 					'validateJson' => array(
