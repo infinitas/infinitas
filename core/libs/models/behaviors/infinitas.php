@@ -497,7 +497,15 @@
 			return $this->Model->find('list', array('conditions' => $conditions));
 		}
 
-		function validateJson($Model, $data = null, $field = null){
+		/**
+		 * @deprecated
+		 * 
+		 * @param <type> $Model
+		 * @param <type> $data
+		 * @param <type> $field
+		 * @return <type>
+		 */
+		function validateJsonDepriciated($Model, $data = null, $field = null){
 			if (!$data) {
 				return false;
 			}
