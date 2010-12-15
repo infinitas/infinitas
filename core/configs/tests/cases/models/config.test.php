@@ -170,4 +170,35 @@
 			);
 			$this->assertEqual($this->Config->getInstallSetupConfigs(), $expected);
 		}
+
+		public function testCacheRelatedStuff(){
+			$this->assertTrue(Cache::read('global_configs'), 'Nothing in the cache %s');
+			$cacheConfigs = $this->Config->getConfig();
+			
+			$this->Config->afterSave(true);
+			$this->assertFalse(Cache::read('global_configs'));
+			$nonCacheConfigs = $this->Config->getConfig();
+			$this->assertTrue(Cache::read('global_configs'), 'Still nothing in the cache %s');
+
+			$this->assertEqual($cacheConfigs, $nonCacheConfigs);
+		}
+
+		public function testFormatting(){
+			$this->Config->afterSave(true);
+			$configs = $this->Config->getConfig(true);
+			$expect = array();
+			$expect['Test.bool_false'] = false;
+			$expect['Test.bool_true'] = true;
+			$expect['Test.int_normal'] = 123;
+			$expect['Test.int_string'] = 987;
+			$expect['Test.nested_array'] = array('abc1' => array('abc2' => array('abc3' => array('abc4' => array('abc5' => 'xyz')))));
+			$expect['Test.simple_array'] = array('abc' => 'xyz');
+			$expect['Test.string1'] = 'this is a string';
+			$expect['Website.description'] = 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.';
+			$expect['Website.name'] = 'Infinitas Cms';
+			$this->assertEqual($expect, $configs);
+			
+			$configs = $this->Config->getConfig(true);
+			$this->assertEqual($expect, $configs);
+		}
 	}
