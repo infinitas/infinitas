@@ -54,6 +54,8 @@
 				if ($event->Handler->hasField('lft') && $event->Handler->hasField('rght') && !$event->Handler->Behaviors->enabled('Tree')) {
 					$event->Handler->Behaviors->attach('Tree');
 				}
+				
+				$event->Handler->Behaviors->attach('Validation');
 			}
 		}
 
