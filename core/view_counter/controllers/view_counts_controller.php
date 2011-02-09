@@ -54,7 +54,7 @@
 			$yearOnYear = $this->ViewCount->reportYearOnYear($conditions);
 			$monthOnMonth = $this->ViewCount->reportMonthOnMonth($conditions);
 			$weekOnWeek = $this->ViewCount->reportWeekOnWeek($conditions);
-			$byDay  = $this->ViewCount->reportByDay($conditions);
+			$byDay  = $this->ViewCount->reportByDayOfMonth($conditions);
 			$dayOfWeek = $this->ViewCount->reportDayOfWeek($conditions);
 			$hourOnHour = $this->ViewCount->reportHourOnHour($conditions);
 			$byRegion = $this->ViewCount->reportByRegion($conditions);
