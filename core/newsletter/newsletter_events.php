@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Campaigns' => array('plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index'),
 				'Templates' => array('plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'index'),
