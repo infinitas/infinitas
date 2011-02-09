@@ -2,8 +2,6 @@
 	class EmailAccount extends EmailsAppModel{
 		public $name = 'EmailAccount';
 
-		public $useTable = 'accounts';
-
 		public $belongsTo = array(
 			'User' => array(
 				'className' => 'Users.User',
