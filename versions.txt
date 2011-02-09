@@ -1,5 +1,14 @@
 v0.8 alpha
 ================================================================================
+Tests
+	- loads added
+	- most fixures are included
+	- most test cases are set up, just need some tests now
+
+Comments
+	- most things are commented to a degree
+	- about 1/3 of code base is properly commented with DB diagrams and some usage instructions
+
 Installer
 	- completely rewritten
 	- added some shell tasks to create releases for other developers
@@ -8,6 +17,7 @@ View Counter
 	- track views on any model rows
 	- easy to use reporting methods
 	- modules for graphs
+	- moved to a plugin
 
 Core Structure
 	- Huge structural changes to make the core more simmilar to user plugins
