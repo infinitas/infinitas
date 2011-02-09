@@ -241,29 +241,7 @@
 		 * @return <type>
 		 */
 		public function reportByYear($conditions){
-			$this->virtualFields = array(
-				'sub_total' => 'COUNT(ViewCount.id)'
-			);
-
-			$viewCountsByYear = $this->find(
-				'all',
-				array(
-					'fields' => array(
-						'ViewCount.id',
-						isset($conditions['ViewCount.model']) ? 'ViewCount.model' : '',
-						isset($conditions['ViewCount.foreign_key']) ? 'ViewCount.foreign_key' : '',
-						'ViewCount.year',
-						'sub_total',
-						'ViewCount.created'
-					),
-					'conditions' => $conditions,
-					'group' => array(
-						'ViewCount.year'
-					)
-				)
-			);
-
-			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByYear, 'year');
+			return $this->reportYearOnYear($conditions);
 		}
 
 		public function reportYearOnYear($conditions){
@@ -295,38 +273,7 @@
 		/**
 		 * Reporting methods
 		 */
-		/**
-		 * Generate a report on the monthly visit counts
-		 *
-		 * @param array $conditions normal conditions for the find
-		 * @param int $limit the maximum number of rows to return
-		 * @return array array of data with model, totals and months
-		 */
-		public function reportByMonth($conditions = array(), $limit = 200){
-			$this->virtualFields = array(
-				'sub_total' => 'COUNT(ViewCount.id)'
-			);
 
-			$viewCountsByMonth = $this->find(
-				'all',
-				array(
-					'fields' => array(
-						'ViewCount.id',
-						'ViewCount.model',
-						'ViewCount.month',
-						'sub_total',
-						'ViewCount.created'
-					),
-					'conditions' => $conditions,
-					'group' => array(
-						'ViewCount.month'
-					),
-					'limit' => (int)$limit
-				)
-			);
-
-			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByMonth, 'month');
-		}
 		/**
 		 * Generate a report on the monthly visit counts
 		 *
@@ -355,27 +302,35 @@
 				)
 			);
 
-			$return = $this->ChartDataManipulation->formatData($this->alias, $viewCountsByMonth, 'month');
-			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 12), 'months');
-			$return['months'] = isset($return['months']) ? $return['months'] : array();
-			foreach($return['months'] as $k => $v){
+			$options = array(
+				'alias' => $this->alias,
+				'range' => range(1, 12),
+				'insert' => 'before',
+				'stats' => true,
+				'fields' => array('sub_total', 'month')
+			);
+
+			$viewCountsByMonth = $this->ChartDataManipulation->getFormatted($viewCountsByMonth, $options);
+
+			$viewCountsByMonth['month'] = isset($viewCountsByMonth['month']) ? $viewCountsByMonth['month'] : array();
+			foreach($viewCountsByMonth['month'] as $k => $v){
 				switch($v){
-					case  1: $return['months'][$k] = __('Jan', true); break;
-					case  2: $return['months'][$k] = __('Feb', true); break;
-					case  3: $return['months'][$k] = __('Mar', true); break;
-					case  4: $return['months'][$k] = __('Apr', true); break;
-					case  5: $return['months'][$k] = __('May', true); break;
-					case  6: $return['months'][$k] = __('Jun', true); break;
-					case  7: $return['months'][$k] = __('Jul', true); break;
-					case  8: $return['months'][$k] = __('Aug', true); break;
-					case  9: $return['months'][$k] = __('Sep', true); break;
-					case 10: $return['months'][$k] = __('Oct', true); break;
-					case 11: $return['months'][$k] = __('Nov', true); break;
-					case 12: $return['months'][$k] = __('Dev', true); break;
+					case  1: $viewCountsByMonth['month'][$k] = __('Jan', true); break;
+					case  2: $viewCountsByMonth['month'][$k] = __('Feb', true); break;
+					case  3: $viewCountsByMonth['month'][$k] = __('Mar', true); break;
+					case  4: $viewCountsByMonth['month'][$k] = __('Apr', true); break;
+					case  5: $viewCountsByMonth['month'][$k] = __('May', true); break;
+					case  6: $viewCountsByMonth['month'][$k] = __('Jun', true); break;
+					case  7: $viewCountsByMonth['month'][$k] = __('Jul', true); break;
+					case  8: $viewCountsByMonth['month'][$k] = __('Aug', true); break;
+					case  9: $viewCountsByMonth['month'][$k] = __('Sep', true); break;
+					case 10: $viewCountsByMonth['month'][$k] = __('Oct', true); break;
+					case 11: $viewCountsByMonth['month'][$k] = __('Nov', true); break;
+					case 12: $viewCountsByMonth['month'][$k] = __('Dev', true); break;
 				}
 			}
 
-			return $return;
+			return $viewCountsByMonth;
 		}
 
 		/**
@@ -384,8 +339,13 @@
 		 * @param array $conditions normal conditions for the find
 		 * @param int $limit the maximum number of rows to return
 		 * @return array array of data with model, totals and weeks
+		 *
+		 * @depriciated
 		 */
 		public function reportByWeek($conditions = array(), $limit = 200){
+			echo 'depriciated';
+			exit;
+			
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)',
 			);
@@ -434,8 +394,15 @@
 				)
 			);
 
-			$return = $this->ChartDataManipulation->formatData($this->alias, $return, 'week_of_year');
-			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 52), 'week_of_years');
+			$options = array(
+				'alias' => $this->alias,
+				'range' => range(1, 52),
+				'insert' => 'before',
+				'stats' => true,
+				'fields' => array('sub_total', 'week_of_year')
+			);
+
+			$return = $this->ChartDataManipulation->getFormatted($return, $options);
 			return $return;
 		}
 
@@ -446,12 +413,12 @@
 		 * @param int $limit the maximum number of rows to return
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportByDay($conditions = array()){
+		public function reportByDayOfMonth($conditions = array()){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
 			);
 
-			$viewCountsByDay = $this->find(
+			$return = $this->find(
 				'all',
 				array(
 					'fields' => array(
@@ -467,7 +434,16 @@
 				)
 			);
 
-			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByDay, 'day');
+			$options = array(
+				'alias' => $this->alias,
+				'range' => range(1, 31),
+				'insert' => 'before',
+				'stats' => true,
+				'fields' => array('sub_total', 'day')
+			);
+
+			$return = $this->ChartDataManipulation->getFormatted($return, $options);
+			return $return;
 		}
 
 		public function reportDayOfWeek($conditions = array()){
@@ -491,18 +467,26 @@
 				)
 			);
 
-			$return = $this->ChartDataManipulation->formatData($this->alias, $return, 'day_of_week');
-			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 7), 'day_of_weeks');
-			$return['day_of_weeks'] = isset($return['day_of_weeks']) ? $return['day_of_weeks'] : array();
-			foreach($return['day_of_weeks'] as $k => $v){
+			$options = array(
+				'alias' => $this->alias,
+				'range' => range(1, 7),
+				'insert' => 'before',
+				'stats' => true,
+				'fields' => array('sub_total', 'day_of_week')
+			);
+
+			$return = $this->ChartDataManipulation->getFormatted($return, $options);
+
+			$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
+			foreach($return['day_of_week'] as $k => $v){
 				switch($v){
-					case 1: $return['day_of_weeks'][$k] = __('Sun', true); break;
-					case 2: $return['day_of_weeks'][$k] = __('Mon', true); break;
-					case 3: $return['day_of_weeks'][$k] = __('Tue', true); break;
-					case 4: $return['day_of_weeks'][$k] = __('Wen', true); break;
-					case 5: $return['day_of_weeks'][$k] = __('Thu', true); break;
-					case 6: $return['day_of_weeks'][$k] = __('Fri', true); break;
-					case 7: $return['day_of_weeks'][$k] = __('Sat', true); break;
+					case 1: $return['day_of_week'][$k] = __('Sun', true); break;
+					case 2: $return['day_of_week'][$k] = __('Mon', true); break;
+					case 3: $return['day_of_week'][$k] = __('Tue', true); break;
+					case 4: $return['day_of_week'][$k] = __('Wen', true); break;
+					case 5: $return['day_of_week'][$k] = __('Thu', true); break;
+					case 6: $return['day_of_week'][$k] = __('Fri', true); break;
+					case 7: $return['day_of_week'][$k] = __('Sat', true); break;
 				}
 			}
 
@@ -530,9 +514,15 @@
 				)
 			);
 
-			$return = $this->ChartDataManipulation->formatData($this->alias, $return, 'hour');
-			$return = $this->ChartDataManipulation->fillBlanks($return, range(1, 24), 'hours');
+			$options = array(
+				'alias' => $this->alias,
+				'range' => range(0, 23),
+				'insert' => 'before',
+				'stats' => true,
+				'fields' => array('sub_total', 'hour')
+			);
 
+			$return = $this->ChartDataManipulation->getFormatted($return, $options);
 			return $return;
 		}
 
@@ -566,6 +556,7 @@
 			return $fields;
 		}
 
+		
 		public function reportPopularRows($conditions = array(), $model, $limit = 20){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
