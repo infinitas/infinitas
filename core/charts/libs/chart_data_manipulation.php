@@ -91,6 +91,7 @@
 			$return = array_merge($return, $this->getData($data, $options));
 			
 			$options['fields'] = $options['blank_field'];
+			$options['stats'] = false;
 			$return = array_merge($return, $this->getData($data, $options));
 
 			unset($data, $options);
@@ -136,7 +137,7 @@
 			}
 
 			$return = array('stats' => array());
-			foreach($data as $field => $values){				
+			foreach($data as $field => $values){
 				$return['stats'][$field]['max']     = max($values);
 				$return['stats'][$field]['min']     = min($values);
 				$return['stats'][$field]['total']   = array_sum($values);
