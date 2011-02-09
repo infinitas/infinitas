@@ -1,17 +1,41 @@
-Installation
+To get started running Infinitas, follow the steps below. Infinitas currently tested
+and working (with some bugs) on various 5.x php installations with MySQL and MySQLi.
+There is only  a web based installer option, although a shell option is planned.
+
+(A) Quick Start Guide
 ================================================================================
 0) If you dont have cake, download and set it up ( http://github.com/cakephp/cakephp )
-1) cd into your servers webroot directory
-2) git clone git://github.com/infinitas/infinitas.git infinitas/
-3) cd infinitas/
+	you can also get it with `git clone git://github.com/cakephp/cakephp`
 
-4) If you would like the extra plugins (recomended)
-	4a) git submodule init
-	4b) git submodule update
 
-5) make config/ tmp/ writeable for the installation
+(B) Manually
+================================================================================
+1) download the app from http://github.com/infinitas/infinitas
+2) extract the files to the app dir, not ../app/infinits/<files> but ../app/<files>
+3) If you would like the extra plugins (recomended)
+	3a) you will need to download them all manually and put them in the plugins folder. maybe its time to start using git
+4) see instructions below
+
+
+
+(B) Via Git
+================================================================================1) cd into your servers webroot directory
+1) git clone git://github.com/infinitas/infinitas.git infinitas/
+2) cd infinitas/
+
+3) If you would like the extra plugins (recomended)
+	3a) git submodule init
+	3b) git submodule update
+4) see instructions below
+
+
+(C) Installation
+================================================================================
+5) make APP/config/ and APP/tmp/ writeable for the installation
 6) create a db (remember the name and login details for just now)
 7) visit the corresponding url to where you cloned it to (http://localhost/infinitas/ maybe)
 8) Follow the instructions
-	8a) currently there is a bug that is not creating a few table correctly 
-9) pat yourself on the back
+	8a) Some enviroments throw a `504 Gateway timeout` error during install, if this happens hit refresh within a few seconds and it should install fine
+	8b) although there is a `sample data` option, it is not currently working. its coming
+9) If all has gone well you should be on a screen that asks you to enter the main administration details, fill this out and hit enter
+10) pat yourself on the back, infinitas is now running :)
