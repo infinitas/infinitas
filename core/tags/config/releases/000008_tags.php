@@ -40,7 +40,7 @@ class R4c94edcecc8c46e4bc7078d86318cd70 extends CakeRelease {
 						'INDEX_TAGGED' => array('column' => 'model', 'unique' => 0),
 						'INDEX_LANGUAGE' => array('column' => 'language', 'unique' => 0),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'tags' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
@@ -54,7 +54,7 @@ class R4c94edcecc8c46e4bc7078d86318cd70 extends CakeRelease {
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'UNIQUE_TAG' => array('column' => array('identifier', 'keyname'), 'unique' => 1),
 					),
-					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM'),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 			),
 		),
