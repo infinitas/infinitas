@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	Configure::write('App.encoding', 'UTF-8');
-	Configure::write('Infinitas.version', '0.8b');
+	Configure::write('Infinitas.version', '0.9b1');
 
 	$config['Routing'] = array(
 		'prefixes' => array('admin')
