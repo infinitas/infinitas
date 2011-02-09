@@ -37,3 +37,6 @@
 [submodule "developer"]
 	path = developer
 	url = git://github.com/Infinitas-Plugins/developer
+[submodule "plugins/view_counter"]
+	path = plugins/view_counter
+	url = git://github.com/Infinitas-Plugins/view_counter.git
