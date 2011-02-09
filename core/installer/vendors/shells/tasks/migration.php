@@ -165,8 +165,8 @@ class MigrationTask extends Shell {
 
 		if($this->type !== 'app' && !isset($this->params['f'])) {
 			$systemTables = array(
-						'aros', 'acos', 'aros_acos', Configure::read('Session.table'), 'i18n'
-					);
+				'aros', 'acos', 'aros_acos', Configure::read('Session.table'), 'i18n'
+			);
 
 			$read['tables'] = array_diff_key($read['tables'], array_fill_keys($systemTables, 1));
 		}
