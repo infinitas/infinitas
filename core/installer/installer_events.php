@@ -51,7 +51,7 @@
 			);
 		}
 
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'dashboard'),
 				'Plugins' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index'),
