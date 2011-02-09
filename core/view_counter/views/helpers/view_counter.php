@@ -43,10 +43,14 @@
 					break;
 			}
 
+			if(!isset($data['stats']['total'])){
+				$data['stats']['total'] = $data['total_views'];
+			}
+			
 			return sprintf(
 				__('<h1>%s<small>%d views<br/>Between %s and %s</small></h1>', true),
 				$header,
-				$data['total_views'],
+				$data['stats']['total'],
 				$this->Time->niceShort($data['start_date']),
 				$this->Time->niceShort($data['end_date'])
 			);
