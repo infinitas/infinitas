@@ -1,6 +1,6 @@
 <?php
 	class EmailsAppModel extends AppModel{
-		public $tablePrefix = 'email_';
+		public $tablePrefix = 'emails_';
 
 		public $types = array(
 			'smtp' => 'smtp',

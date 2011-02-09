@@ -26,7 +26,7 @@ class R4cbc4ef355dc49f1b73016836318cd70 extends CakeRelease {
 	public $migration = array(
 		'up' => array(
 			'create_table' => array(
-				'accounts' => array(
+				'email_accounts' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'name' => array('type' => 'string', 'null' => false, 'default' => 'My Account', 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -50,7 +50,7 @@ class R4cbc4ef355dc49f1b73016836318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'accounts'
+				'email_accounts'
 			),
 		),
 	);
