@@ -16,8 +16,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create('Route', array('url' => array('controller' => 'routes', 'action' => 'mass', 'admin' => 'true')));
-
+    echo $this->Form->create('Route', array('action' => 'mass'));
         $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
@@ -35,21 +34,21 @@
         <?php
             echo $this->Infinitas->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    __( 'Url', true ),
-                    __( 'Route', true ),
-                    __( 'Theme', true ) => array(
-                        'style' => 'width:75px;'
+                    $this->Paginator->sort('name'),
+                    __('Url', true ),
+                    __('Route', true ),
+                    __('Theme', true ) => array(
+						'style' => 'width:75px;'
                     ),
                     __( 'Order', true ) => array(
-                        'style' => 'width:50px;'
+						'style' => 'width:50px;'
                     ),
                     __( 'Active', true ) => array(
-                        'style' => 'width:50px;'
+						'style' => 'width:50px;'
                     )
                 )
             );
@@ -75,7 +74,13 @@
 	                		?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo Inflector::humanize($route['Theme']['name']); ?>&nbsp;
+                			<?php
+								$route['Theme']['name'] = !empty($route['Theme']['name'])
+									? $route['Theme']['name'] 
+									: 'default';
+								
+								echo Inflector::humanize($route['Theme']['name']);
+							?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Infinitas->ordering($route['Route']['id'], $route['Route']['ordering']); ?>&nbsp;
