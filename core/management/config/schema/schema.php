@@ -121,7 +121,7 @@ class ManagementSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
-	var $trash = array(
+	var $core_trash = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
