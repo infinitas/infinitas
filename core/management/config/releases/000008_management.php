@@ -154,7 +154,7 @@ class R4c94edcd27f04a8d95f078d86318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM'),
 				),
-				'trash' => array(
+				'core_trash' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 					'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
@@ -171,7 +171,7 @@ class R4c94edcd27f04a8d95f078d86318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'addresses', 'backups', 'countries', 'ip_addresses', 'logs', 'relation_types', 'relations', 'tickets', 'trash'
+				'addresses', 'backups', 'countries', 'ip_addresses', 'logs', 'relation_types', 'relations', 'tickets', 'core_trash'
 			),
 		),
 	);
