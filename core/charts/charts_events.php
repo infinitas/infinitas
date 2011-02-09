@@ -110,4 +110,8 @@
 		public function onRequireLibs() {
 			App::import('Libs', 'Charts.ChartDataManipulation');
 		}
+
+		public function  onRequireHelpersToLoad($event = null) {
+			return array('Charts.Charts' => array('Google.GoogleStatic'));
+		}
 	}
