@@ -26,6 +26,9 @@
 		 */
 		public $ChartDataManipulation;
 
+		/**
+		 * @copydoc AppModel::__construct()
+		 */
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 			
@@ -102,6 +105,13 @@
 			return $return;
 		}
 
+		/**
+		 * Get the average views in total or per model
+		 *
+		 * @param string $model the model to check against
+		 *
+		 * @return int the average views of the selected range.
+		 */
 		public function getAverage($model = null){
 			$this->virtualFields['views'] = 'COUNT(ViewCount.id)';
 			$conditions = $group = array();
@@ -126,6 +136,7 @@
 					'group' => $group
 				)
 			);
+			
 			if(!empty($data)){
 				$data = Set::extract('/ViewCount/views', $data);
 				$data = round(array_sum($data) / count($data));
@@ -136,6 +147,8 @@
 
 		/**
 		 * Get a list of unique models that are being tracked by the ViewCounter.
+		 *
+		 * @param string $plugin the name of a plugin to check for
 		 *
 		 * @return array list of id -> models that are being tracked
 		 */
@@ -162,6 +175,13 @@
 			return $models;
 		}
 
+		/**
+		 * Overview of data displayed
+		 *
+		 * @param array $conditions the conditions to limit the data
+		 *
+		 * @return array an overview of the data
+		 */
 		public function reportOverview($conditions){
 			$this->virtualFields['unique_visits'] = 'CONCAT_WS(\'-\', `' .$this->alias . '`.`ip_address`, `' . $this->alias . '`.`user_id`)';
 			$this->virtualFields['sub_total'] = 'COUNT(ViewCount.id)';
@@ -234,16 +254,12 @@
 		}
 
 		/**
-		 * all stats per conditions and grouped by year so you can compare
-		 * previous years to each other.
+		 * Report showing averages accross years
+		 * 
+		 * @param array $conditions the conditions to limit the data
 		 *
-		 * @param <type> $conditions
-		 * @return <type>
+		 * @return array the data for selected range
 		 */
-		public function reportByYear($conditions){
-			return $this->reportYearOnYear($conditions);
-		}
-
 		public function reportYearOnYear($conditions){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
@@ -271,14 +287,11 @@
 		}
 
 		/**
-		 * Reporting methods
-		 */
-
-		/**
 		 * Generate a report on the monthly visit counts
 		 *
 		 * @param array $conditions normal conditions for the find
 		 * @param int $limit the maximum number of rows to return
+		 *
 		 * @return array array of data with model, totals and months
 		 */
 		public function reportMonthOnMonth($conditions = array()){
@@ -334,44 +347,12 @@
 		}
 
 		/**
-		 * Generate a report on the weekly visit counts
+		 * Report comparing the weeks of data
 		 *
-		 * @param array $conditions normal conditions for the find
-		 * @param int $limit the maximum number of rows to return
-		 * @return array array of data with model, totals and weeks
+		 * @param array $conditions the conditions to limit the data
 		 *
-		 * @depriciated
+		 * @return array the data found for the conditions passed in
 		 */
-		public function reportByWeek($conditions = array(), $limit = 200){
-			echo 'depriciated';
-			exit;
-			
-			$this->virtualFields = array(
-				'sub_total' => 'COUNT(ViewCount.id)',
-			);
-
-			$viewCountsByWeek = $this->find(
-				'all',
-				array(
-					'fields' => array(
-						'ViewCount.id',
-						'ViewCount.model',
-						'ViewCount.week_of_year',
-						'ViewCount.month',
-						'sub_total',
-						'ViewCount.created'
-					),
-					'conditions' => $conditions,
-					'group' => array(
-						'ViewCount.week_of_year'
-					),
-					'limit' => (int)$limit
-				)
-			);
-
-			return $this->ChartDataManipulation->formatData($this->alias, $viewCountsByWeek, 'week_of_year');
-		}
-
 		public function reportWeekOnWeek($conditions = array()){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)',
@@ -411,6 +392,7 @@
 		 *
 		 * @param array $conditions normal conditions for the find
 		 * @param int $limit the maximum number of rows to return
+		 *
 		 * @return array array of data with model, totals and days
 		 */
 		public function reportByDayOfMonth($conditions = array()){
@@ -446,6 +428,14 @@
 			return $return;
 		}
 
+		/**
+		 * report of data broken up into the 7 days of the week for selected
+		 * range.
+		 *
+		 * @param array $conditions the conditions to limit the data
+		 *
+		 * @return array the data by week
+		 */
 		public function reportDayOfWeek($conditions = array()){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
@@ -493,6 +483,13 @@
 			return $return;
 		}
 
+		/**
+		 * report on the data per hour for the dates selected
+		 *
+		 * @param array $conditions the conditions to limit the data
+		 *
+		 * @return array the data per hour
+		 */
 		public function reportHourOnHour($conditions = array()){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)',
@@ -526,6 +523,14 @@
 			return $return;
 		}
 
+		/**
+		 * this method auto binds the data from the rows its displaying data for
+		 * title etc.
+		 *
+		 * @param string $model the model to join
+		 *
+		 * @return array the fields to be used in the find/join
+		 */
 		private function __bindRelation($model){
 			$Model = ClassRegistry::init($model);
 			$fields = array();
@@ -556,7 +561,15 @@
 			return $fields;
 		}
 
-		
+		/**
+		 * get a list of rows that are popular for the particular conditions passed in
+		 *
+		 * @param array $conditions conditions to check for
+		 * @param string $model the model being checked
+		 * @param int $limit the number of rows to limit the find to
+		 *
+		 * @return array the $limit most popular rows
+		 */
 		public function reportPopularRows($conditions = array(), $model, $limit = 20){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
@@ -591,6 +604,11 @@
 			return $model;
 		}
 
+		/**
+		 * simmilar to the popular rows, this returns the most popular models overal
+		 *
+		 * @return array of popular models
+		 */
 		public function reportPopularModels(){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)'
@@ -620,6 +638,14 @@
 			return $models;
 		}
 
+		/**
+		 * Generate a set of data shoing view by region
+		 *
+		 * @param array $conditions the conditions to limit the find
+		 * @param int $limit the max number of regions to find for
+		 * 
+		 * @return array of regions sorted by views
+		 */
 		public function reportByRegion($conditions = array(), $limit = 24){
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(ViewCount.id)',
@@ -655,6 +681,8 @@
 		 * Some methods for updating when there is only ip address data saved /
 		 * available. Could be used to make saves faster and then run on a cron
 		 * before viewing the reports
+		 *
+		 * below is not generally needed.
 		 */
 
 		public function getCountryForUnknown(){
