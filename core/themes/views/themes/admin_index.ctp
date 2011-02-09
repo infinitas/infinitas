@@ -18,8 +18,7 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create( 'Theme', array( 'url' => array( 'controller' => 'themes', 'action' => 'mass', 'admin' => 'true' ) ) );
-
+    echo $this->Form->create('Theme', array('action' => 'mass'));
         $massActions = $this->Core->massActionButtons(
             array(
                 'add',
@@ -35,21 +34,21 @@
         <?php
             echo $this->Core->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'licence', true ) => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('licence', true) => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'author', true ) => array(
+                    $this->Paginator->sort('author', true) => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'Core', true ) => array(
+                    $this->Paginator->sort('Core', true) => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort( 'active', true ) => array(
+                    $this->Paginator->sort('active', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
@@ -59,7 +58,7 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $theme['Theme']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Form->checkbox($theme['Theme']['id']); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($theme['Theme']['name']), array('action' => 'edit', $theme['Theme']['id'])); ?>&nbsp;
                 		</td>
@@ -71,17 +70,17 @@
                 				if (!empty($theme['Theme']['url'])) {
                 					echo $this->Html->link($theme['Theme']['author'], $theme['Theme']['url'], array('target' => '_blank'));
                 				}
-                				else
-								{
+								
+                				else {
 									echo $theme['Theme']['author'];
 								}
 							?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status( $theme['Theme']['core'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($theme['Theme']['core']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->status( $theme['Theme']['active'] ); ?>&nbsp;
+                			<?php echo $this->Infinitas->status($theme['Theme']['active']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php
