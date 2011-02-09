@@ -1,5 +1,7 @@
 <?php
 	class Trash extends TrashAppModel {
+		public $useTable = 'trash';
+		
 		public $belongsTo = array(
 			'User' => array(
 				'className' => 'Users.User',

@@ -21,7 +21,7 @@
 	 */
 
 	class WebmasterEvents extends AppEvents{
-		public function onAdminMenu(&$event){
+		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Edit Robots' => array('plugin' => 'webmaster', 'controller' => 'robots', 'action' => 'edit'),
 				'View Sitemap' => array('plugin' => 'webmaster', 'controller' => 'site_maps', 'action' => 'view'),
