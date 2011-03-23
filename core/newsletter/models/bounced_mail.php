@@ -34,7 +34,7 @@
 				'email' => Configure::read('Newsletter.smtp_username'),
 				'password' => Configure::read('Newsletter.smtp_password'),
 				'ssl' => Configure::read('Newsletter.ssl'),
-				'port' => Configure::read('Newsletter.port'),
+				'port' => !empty(Configure::read('Newsletter.port')) ? Configure::read('Newsletter.port') : null,
 				'type' => Configure::read('Newsletter.type')
 			);
 		}
