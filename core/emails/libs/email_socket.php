@@ -69,7 +69,7 @@
 			'host' => '',
 			'username' => '',
 			'password' => '',
-			'port' => '',
+			'port' => null,
 			'ssl' => true,
 			'request' => '',
 			'timeout' => 30,
