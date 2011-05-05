@@ -96,6 +96,13 @@
 		}
 
 		public function main(){
+			if(!isset($this->Dispatch->params['only'])){
+				$this->Dispatch->params['only'] = array();
+			}
+			else{
+				$this->Dispatch->params['only'] = explode(',', $this->Dispatch->params['only']);
+			}
+			
 			if(!$this->CronLock->checkTimePassed()){
 				$this->CronResource->log(sprintf('skipping (%s)', date('Y-m-d H:i:s')));
 				return false;
@@ -118,6 +125,10 @@
 			
 			$count = 0;
 			foreach($plugins as $plugin){
+				if(!empty($this->Dispatch->params['only']) && !in_array($plugin, $this->Dispatch->params['only'])){
+					continue;
+				}
+				
 				$data = $this->Event->trigger(sprintf('%s.runCrons', $plugin));
 
 				$jobRan = current($data['runCrons']);
