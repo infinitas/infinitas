@@ -33,7 +33,7 @@
 				'/s/p/*',
 				array(
 					'admin' => false,
-					'prefix' =>false,
+					'prefix' => false,
 					'plugin' => 'short_urls',
 					'controller' => 'short_urls',
 					'action' => 'preview'
