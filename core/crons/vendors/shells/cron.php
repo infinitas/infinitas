@@ -96,6 +96,8 @@
 		}
 
 		public function main(){
+			$this->__verbose = $this->CronResource->verbose = isset($this->params['v']) && $this->params['v'];
+			
 			if(!isset($this->Dispatch->params['only'])){
 				$this->Dispatch->params['only'] = array();
 			}
@@ -103,7 +105,7 @@
 				$this->Dispatch->params['only'] = explode(',', $this->Dispatch->params['only']);
 			}
 			
-			if(!$this->CronLock->checkTimePassed()){
+			if(!$this->__verbose && !$this->CronLock->checkTimePassed()){
 				$this->CronResource->log(sprintf('skipping (%s)', date('Y-m-d H:i:s')));
 				return false;
 			}
@@ -149,8 +151,6 @@
 		 * @access public
 		 */
 		protected function _start(){
-			$this->__verbose = $this->CronResource->verbose = isset($this->params['v']) && $this->params['v'];
-
 			if($this->__verbose){ $this->Dispatch->clear(); }
 			$this->CronResource->log('Infinitas Cron dispacher');
 			$this->CronResource->log(sprintf('Cron started       :: %s', date('Y-m-d H:i:s')));
@@ -162,6 +162,10 @@
 		}
 
 		protected function _abort(){
+			if($this->__verbose){
+				return true;
+			}
+			
 			$this->CronResource->log('Cron aborted, previous job still running');
 			exit;
 		}
