@@ -73,6 +73,17 @@
 		public function onRequireLibs(){}
 
 		/**
+		 * Load up some of your own 'AppControllers' so that you can create a base
+		 * class for a collection of plugins. Say you have a few plugins that all
+		 * use a specific database you can create 'CustomGlobalAppController' that
+		 * extends 'AppController' and then have all the 'PluginAppControllers'
+		 * extend your 'CustomGlobalAppController'
+		 *
+		 * They will be loaded when 'AppController' is included, before it runs.
+		 */
+		public function onLoadAppController(){}
+
+		/**
 		 * Add database connections from your plugins with this trigger.
 		 * Its called in appModel before anything is created, even before default
 		 * (which is a reserved value)
