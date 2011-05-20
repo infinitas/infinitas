@@ -103,6 +103,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	
 	class AppController extends GlobalActions {
 		/**
 		 * class name
@@ -1135,3 +1136,5 @@
 			$this->redirect($this->referer());
 		}
 	}
+
+	EventCore::trigger(new stdClass(), 'loadAppController');
