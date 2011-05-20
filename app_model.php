@@ -370,13 +370,11 @@
 		private function __setupDatabaseConnections(){
 			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));
 
-			$existingConnections = ConnectionManager::getInstance()->config;
-
-			foreach($connections as $plugin => $connection){
+			foreach($connections as $plugin => $connection){				
 				$key = current(array_keys($connection));
 				$connection = current($connection);
 
-				if(strtolower($key) == 'default' || (isset($existingConnections->{$key}) && $existingConnections->{$key} !== $connection)){
+				if(strtolower($key) == 'default' || (isset(ConnectionManager::getInstance()->config->{$key}) && ConnectionManager::getInstance()->config->{$key} !== $connection)){
 					trigger_error(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping', true), $key, $plugin), E_USER_WARNING);
 					continue;
 				}
