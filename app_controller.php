@@ -675,9 +675,13 @@
 		 */
 		private function __writeConfigs($configs){
 			foreach($configs as $config) {
+				if(empty($config) || !is_array($config)){
+					continue;
+				}
+				
 				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
 					$config['Config']['key'] = isset($config['Config']['key']) ? $config['Config']['key'] : 'NOT SET';
-					$config['Config']['value'] = isset($config['Config']['key']) ? $config['Config']['value'] : 'NOT SET';
+					$config['Config']['value'] = isset($config['Config']['value']) ? $config['Config']['value'] : 'NOT SET';
 					$this->log(serialize($config['Config']), 'configuration_error');
 					continue;
 				}
