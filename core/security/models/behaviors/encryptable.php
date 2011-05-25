@@ -74,14 +74,15 @@
 		 * Generate a hash secret key that can be used later for encryption and
 		 * decryption.
 		 *
+		 * It will generate a binary secret key 15 bytes in lenght. This should be
+		 * used in conjunction with Security.encryption_salt
+		 *
 		 * @param object $Model the model object the behavior is working with
 		 * @return binary a binary string.
 		 */
 		public function generateSecret($Model){
 			$string = Configure::read('Security.salt') . serialize($Model->data[$Model->alias]) . time();
-			pr(sha1($string, true));
-			exit;
-			return sha1($string, true);
+			return substr(sha1($string, true), 0, 15);
 		}
 
 		/**
@@ -133,6 +134,13 @@
 			return $results;
 		}
 
+		/**
+		 * before saving loop through any fields that need to be encrypted and
+		 * encrypt them
+		 *
+		 * @param object $Model the model being encrypted
+		 * @return bool true / false see parent::beforeSave()
+		 */
 		public function beforeSave($Model) {
 			if(is_array(current($Model->data[$Model->alias]))){
 				// saveall
