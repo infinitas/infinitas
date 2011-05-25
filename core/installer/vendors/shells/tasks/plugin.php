@@ -1,6 +1,6 @@
 <?php
 class PluginTask extends Shell {
-	public $tasks = array('Migration', 'Fixture');
+	public $tasks = array('Migration', 'InfinitasFixture');
 	private $__plugin = null;
 	private $__configPath = null;
 	private $__info = array();
@@ -146,7 +146,7 @@ class PluginTask extends Shell {
 
 			if(!file_exists(APP . 'config' . DS . 'releases' . DS . 'map.php')) {
 				$this->out('Generating fixtures...');
-				$fixtures = $this->Fixture->generate();
+				$fixtures = $this->InfinitasFixture->generate();
 			}
 
 			$this->__writeOutput(compact('schemaMigration', 'fixtures'), false);
@@ -162,7 +162,7 @@ class PluginTask extends Shell {
 
 		if(!empty($this->__models)) {
 			$this->out('Generating fixtures...');
-			$fixtures = $this->Fixture->generate($this->__models, $this->__plugin);
+			$fixtures = $this->InfinitasFixture->generate($this->__models, $this->__plugin);
 		}
 
 		$this->__writeOutput(compact('schemaMigration', 'fixtures'));
