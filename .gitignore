@@ -33,3 +33,6 @@ nbproject/*
 
 # Geany
 *.geany
+
+# PhpStorm
+.idea
