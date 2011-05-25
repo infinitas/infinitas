@@ -41,15 +41,6 @@
 	);
 
 	/**
-	 * Security Configuration
-	 */
-	$config['Security'] = array(
-		'level' => 'medium',
-		'salt' => 'dev-DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi',
-		'login_attempts' => 3
-	);
-
-	/**
 	 * Acl Configuration options
 	 */	
 	$config['Acl'] = array(
