@@ -33,7 +33,7 @@
 	 * They are used with App::build() to make any extra folders  in APP be plugin
 	 * folders. This can help if you want to keep plugins outside of /plugins
 	 */
-	$paths = Cache::read('plugin_paths');
+	$paths = false; Cache::read('plugin_paths');
 	if(!class_exists('Folder')){
 		App::import('Folder');
 	}
@@ -60,6 +60,7 @@
 			'plugins' => $paths
 		)
 	);
+
 	unset($paths);
 
 	/**
