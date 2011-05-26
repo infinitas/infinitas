@@ -2,19 +2,19 @@
 	/**
 	 *
 	 */
-	class Address extends ManagementAppModel{
-		var $name = 'Address';
+	class Address extends ContactAppModel{
+		public $name = 'Address';
 
-		var $virtualFields = array(
+		public $virtualFields = array(
 		    'address' => 'CONCAT(Address.street, ", ", Address.city, ", ", Address.province)'
 		);
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			'Management.Country',
 			//'Management.Continent'
 		);
 
-		function getAddressByUser($user_id = null, $type = 'list'){
+		public function getAddressByUser($user_id = null, $type = 'list'){
 			if(!$user_id){
 				return false;
 			}

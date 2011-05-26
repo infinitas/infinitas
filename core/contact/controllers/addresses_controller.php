@@ -1,8 +1,8 @@
 <?php
-	class AddressesController extends ManagementAppController{
-		var $name = 'Addresses';
+	class AddressesController extends ContactAppController{
+		public $name = 'Addresses';
 
-		function add(){
+		public function add(){
 			if($this->Session->read('Auth.User.id') < 1){
 				$this->Session->setFlash(__('You must be logged in to do that', true));
 				$this->redirect('/');
@@ -25,7 +25,7 @@
 			$this->set(compact('referer', 'countries', 'continents'));
 		}
 
-		function edit($id = null){
+		public function edit($id = null){
 			if (!$id) {
 				$this->Session->setFlash(__('That address could not be found', true), true);
 				$this->redirect($this->referer());
