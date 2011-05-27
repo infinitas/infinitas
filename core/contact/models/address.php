@@ -10,8 +10,7 @@
 		);
 
 		public $belongsTo = array(
-			'Management.Country',
-			//'Management.Continent'
+			'Contact.Country'
 		);
 
 		public function getAddressByUser($user_id = null, $type = 'list'){
