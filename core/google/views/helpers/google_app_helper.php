@@ -6,7 +6,7 @@
 				'cacheImagePath' => '/google/img/'.get_class($this).'/'
 			);
 
-			$options = array_merge($default, $options);
+			$options = array_merge($default, (array)$options);
 
 			$this->cachePath = $options['cachePath'];
 			$this->cacheImagePath = $options['cacheImagePath'];
