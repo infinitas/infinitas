@@ -11,5 +11,5 @@
 	echo $this->Form->input('Address.province');
 	echo $this->Form->input('Address.postal');
 	echo $this->Form->input('Address.country_id', array('empty' => Configure::read('Website.empty_select')));
-	echo $this->Form->input('Address.continent_id', array('empty' => Configure::read('Website.empty_select'))); ?>
+	echo $this->Form->input('Address.continent_id', array('empty' => Configure::read('Website.empty_select'), 'options' => Configure::read('Contact.continents'))); ?>
 </fieldset>
