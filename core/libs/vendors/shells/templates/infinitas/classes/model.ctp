@@ -13,46 +13,49 @@
 
 	$possibleFileFields = array('file', 'image');
 
-	echo "<?php\n".
-		"\t/**\n".
-		"\t * $name model\n".
-		"\t *\n".
-		"\t * Add some documentation for $name model.\n".
-		"\t *\n".
-		"\t * Copyright (c) {yourName}\n".
-		"\t *\n".
-		"\t * Licensed under The MIT License\n".
-		"\t * Redistributions of files must retain the above copyright notice.\n".
-		"\t *\n".
-		"\t * @filesource\n".
-		"\t * @copyright     Copyright (c) 2009 {yourName}\n".
-		"\t * @link          http://infinitas-cms.org\n".
-		"\t * @package       $plugin\n".
-		"\t * @subpackage    $plugin.models.$name\n".
-		"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
-		"\t */\n\n".
 
-		"\tclass $name extends {$plugin}AppModel {\n".
-		"\t\tvar \$name = '$name';\n";
+	$output = <<<COMMENT
+<?php
+	/**
+	 * $name model
+	 *
+	 * Add some documentation for $name model.
+	 *
+	 * Copyright (c) {yourName}
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * @filesource
+	 * @copyright     Copyright (c) 2009 {yourName}
+	 * @link          http://infinitas-cms.org
+	 * @package       $plugin.models.$name
+	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 */
 
+	class $name extends {$plugin}AppModel {
+		public \$name = '$name';
+
+COMMENT;
 		if ($useDbConfig != 'default'){
-			echo "\t\tvar \$useDbConfig = '$useDbConfig';\n";
+			$output .= "\t\tpublic \$useDbConfig = '$useDbConfig';\n";
 		}
 
 		if ($useTable && $useTable !== Inflector::tableize($name)){
-			echo "\t\tvar \$useTable = '$useTable';\n";
+			$output .= "\t\tpublic \$useTable = '$useTable';\n";
 		}
 
-
 		if ($primaryKey !== 'id'){
-			echo "\t\tvar \$primaryKey = '$primaryKey';\n";
+			$output .= "\t\tpublic \$primaryKey = '$primaryKey';\n";
 		}
 
 		if ($displayField){
-			echo "\t\tvar \$displayField = '$displayField';\n";
+			$output .= "\t\tpublic \$displayField = '$displayField';\n";
 		}
 
-		echo "\t\tvar \$actsAs = array(\n";
+		$output .= "\t\tpublic \$actsAs = array(\n";
+
+		echo $output;
 			foreach ($schema as $field => $data){
 				switch($field){
 					case 'ordering':
@@ -128,12 +131,12 @@
 				"\t\t\t// 'Libs.Rateable\n";
 		echo "\t\t);\n\n"; //end actsAs
 
-		echo "\t\tvar \$order = array(\n".
+		echo "\t\tpublic \$order = array(\n".
 			$_order.
 		"\t\t);\n\n";
 
 		foreach (array('hasOne', 'belongsTo') as $assocType){
-			echo "\t\tvar \$$assocType = array(\n";
+			echo "\t\tpublic \$$assocType = array(\n";
 				if ($assocType == 'belongsTo') {
 					echo $_belongsTo;
 				}
@@ -156,21 +159,26 @@
 								if (strstr($field, '_count')) {
 									$relatedCounterCache = true;
 								}
+
 								if ($field == 'active') {
 									$relatedActive = true;
 								}
+
 								else if ($field == 'active') {
 									$relatedDeleted = true;
 								}
 							}
+
 							if ($relatedCounterCache) {
 								$out .= "\t\t\t\t'counterCache' => true,\n";
 							}
+
 							if ($relatedActive || $relatedDeleted) {
 								$out .= "\t\t\t\t'counterScope' => array(\n";
 									if ($relatedActive) {
 										$out .= "\t\t\t\t\t'{$name}.active' => 1\n";
 									}
+
 									if ($relatedDeleted) {
 										$out .= "\t\t\t\t\t'{$name}.deleted' => 1\n";
 									}
@@ -178,19 +186,22 @@
 							}
 						}
 						$out .= "\t\t\t)";
+
 						if ($i + 1 < $typeCount) {
 							$out .= ",\n";
 						}
+
 						else{
 							$out .= "\n";
 						}
+						
 						echo $out;
 					}
 				}
 			echo "\t\t);\n\n";
 		}
 
-		echo "\t\tvar \$hasMany = array(\n";
+		echo "\t\tpublic \$hasMany = array(\n";
 			if (!empty($associations['hasMany'])){
 				$belongsToCount = count($associations['hasMany']);
 
@@ -219,7 +230,7 @@
 			}
 		echo "\t\t);\n\n";
 
-		echo "\t\tvar \$hasAndBelongsToMany = array(\n";
+		echo "\t\tpublic \$hasAndBelongsToMany = array(\n";
 			if (!empty($associations['hasAndBelongsToMany'])){
 				$habtmCount = count($associations['hasAndBelongsToMany']);
 
@@ -250,7 +261,7 @@
 			}
 		echo "\t\t);\n\n";
 
-		echo "\t\tfunction __construct(\$id = false, \$table = null, \$ds = null) {\n";
+		echo "\t\tpublic function __construct(\$id = false, \$table = null, \$ds = null) {\n";
 			echo "\t\t\tparent::__construct(\$id, \$table, \$ds);\n\n";
 
 			echo "\t\t\t\$this->validate = array(\n";
@@ -277,5 +288,4 @@
 		echo "\t\t}\n";
 
 		echo "\t}\n";
-	echo '?>';
 ?>
