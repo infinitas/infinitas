@@ -6,7 +6,7 @@
 			'Asia',
 			'Australia',
 			'Europe',
-			'Norht America',
+			'North America',
 			'South America'
 		)
 	);
