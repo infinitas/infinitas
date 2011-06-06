@@ -84,6 +84,7 @@
 						<th>Line</th>
 					</tr>
 					<?php
+						$rows = array();
 						foreach($backtrace as $_b){
 							$_b = array_merge(
 								array(
@@ -95,14 +96,16 @@
 								),
 								$_b
 							);
-							?>
+							$rows[] = '
 								<tr>
-									<td><?php echo $_b['file']; ?></td>
-									<td><?php echo $_b['class'], $_b['type'], $_b['function']; ?></td>
-									<td><?php echo $_b['line']; ?></td>
-								</tr>
-							<?php
+									<td>' . $_b['file'] . '</td>' .
+									'<td>' . $_b['class'] . $_b['type'] . $_b['function'] . '</td>' .
+									'<td>' . $_b['line'] . '</td>' .
+								'</tr>';
 						}
+
+						$rows = array_reverse($rows);
+						echo implode('', $rows);
 					?>
 				</table>
 			<?php
