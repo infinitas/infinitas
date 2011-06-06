@@ -66,8 +66,19 @@
 	/**
 	* generate the index code
 	*/
+	echo <<<COMMENT
+		/**
+		 * @brief the index method
+		 *
+		 * Show a paginated list of $currentModelName records.
+		 *
+		 * @todo update the documentation
+		 *
+		 * @return void
+		 */
+
+COMMENT;
 	echo "\t\tfunction {$admin}index() {\n";
-		echo "\t\t\t\$this->{$currentModelName}->recursive = 1;\n";
 		echo "\t\t\t\$$pluralName = \$this->paginate(null, \$this->Filter->filter);\n\n";
 
 		echo "\t\t\t\$filterOptions = \$this->Filter->filterOptions;\n";
@@ -93,19 +104,49 @@
 				// like 'layout_id' => $this->Content->Layout->find('list'),
 			}
 		echo "\t\t\t);\n\n";
-		echo "\t\t\t\$this->set(compact('$pluralName','filterOptions'));\n";
+		echo "\t\t\t\$this->set(compact('$pluralName','filterOptions'));";
 	echo "\t\t}\n\n";
 
 	/**
 	 * generate the view code
 	 */
-	echo "\t\tfunction {$admin}view(\$id = null) {\n";
-		echo "\t\t\tif(!\$slug){\n";
-			echo "\t\t\t\t\$this->Session->setFlash(sprintf(__('Invalid %s', true), '".strtolower($singularHumanName)."'));\n";
-			echo "\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
+	$idDocs = "\n\t\t * @param mixed \$id int or string uuid or the row to find\n";
+	echo <<<COMMENT
+		/**
+		 * @brief view method for a single row
+		 *
+		 * Show detailed information on a single $currentModelName
+		 *
+		 * @todo update the documentation $idDocs
+		 *
+		 * @return void
+		 */
+
+COMMENT;
+	if(!$admin && in_array('slug', array_keys($modelObj->_schema))){
+		// for tabels with slugs
+		echo "\t\tfunction {$admin}view() {\n";
+		echo "\t\t\tif(!isset(\$this->params['slug']) || !\$this->params['slug']){\n";
+			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t\t}\n\n";
 
-		echo "\t\t\t\${$pluralName} = \$this->{$currentModelName}->read(null, \$id);\n";
+		echo "\t\t\t\${$pluralName} = \$this->{$currentModelName}->getViewData(\n";
+			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.slug' => \$this->params['slug'])\n";
+		echo "\t\t\t);\n\n";
+	}
+
+	else{
+		// for admin and non-slugged tables
+		echo "\t\tfunction {$admin}view(\$id = null) {\n";
+		echo "\t\t\tif(!\$id){\n";
+			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
+		echo "\t\t\t}\n\n";
+
+		echo "\t\t\t\${$pluralName} = \$this->{$currentModelName}->getViewData(\n";
+			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.' . \$this->{$currentModelName}->primaryKey => \$id)\n";
+		echo "\t\t\t);\n\n";
+	}
+
 		echo "\t\t\t\$this->set(compact('$pluralName'));\n";
 	echo "\t\t}\n\n";
 
@@ -116,65 +157,57 @@
 		/**
 		 * generate the add code
 		 */
+		echo <<<COMMENT
+		/**
+		 * @brief admin create action
+		 *
+		 * Adding new $currentModelName records.
+		 *
+		 * @todo update the documentation
+		 *
+		 * @return void
+		 */
+
+COMMENT;
 		echo "\t\tfunction {$admin}add() {\n";
-			echo "\t\t\tif (!empty(\$this->data)) {\n";
-				echo "\t\t\t\t\$this->{$currentModelName}->create();\n";
-				echo "\t\t\t\tif(\$this->{$currentModelName}->saveAll(\$this->data)){\n";
-					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s has been saved', true), '".strtolower($singularHumanName)."'));\n";
-					echo "\t\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
-				echo "\t\t\t\t}\n"; // saveAll
-				echo "\t\t\t\telse {\n";
-					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
-				echo "\t\t\t\t}\n"; // else
-			echo "\t\t\t}\n"; // if empty
+			echo "\t\t\tparent::{$admin}add();\n\n";
 
-				$compact = array();
-				foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
-					foreach ($modelObj->{$assoc} as $associationName => $relation){
-						if (!empty($associationName) && $this->_modelName($associationName) != 'Locker'){
-							$otherModelName  = $this->_modelName($associationName);
-							$otherPluralName = $this->_pluralName($associationName);
+			$compact = array();
+			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
+				foreach ($modelObj->{$assoc} as $associationName => $relation){
+					if (!empty($associationName) && $this->_modelName($associationName) != 'Locker'){
+						$otherModelName  = $this->_modelName($associationName);
+						$otherPluralName = $this->_pluralName($associationName);
 
-							echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
-							$compact[] = "'{$otherPluralName}'";
-						}
+						echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
+						$compact[] = "'{$otherPluralName}'";
 					}
 				}
+			}
 
-				if (!empty($compact)){
-					echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
-				}
+			if (!empty($compact)){
+				echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
+			}
 		echo "\t\t}\n\n";
 
 		/**
 		 * generate the edit code
 		 */
+		echo <<<COMMENT
+		/**
+		 * @brief admin edit action
+		 *
+		 * Edit old $currentModelName records.
+		 *
+		 * @todo update the documentation
+		 * @param mixed \$id int or string uuid or the row to edit
+		 *
+		 * @return void
+		 */
+
+COMMENT;
 		echo "\t\tfunction {$admin}edit(\$id = null) {\n";
-			echo "\t\t\tif (!\$id && empty(\$this->data)) {\n";
-				echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('Invalid %s', true), '".strtolower($singularHumanName)."'));\n";
-			echo "\t\t\t}\n\n"; // if empty and !$id
-
-
-			echo "\t\t\tif (!empty(\$this->data)) {\n";
-				echo "\t\t\t\tif(\$this->{$currentModelName}->saveAll(\$this->data)){\n";
-					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s has been saved', true), '".strtolower($singularHumanName)."'));\n";
-					echo "\t\t\t\t\t\$this->redirect(array('action' => 'index'));\n";
-				echo "\t\t\t\t}\n"; // saveAll
-				echo "\t\t\t\telse {\n";
-					echo "\t\t\t\t\t\$this->Session->setFlash(sprintf(__('The %s could not be saved. Please, try again', true), '".strtolower($singularHumanName)."'));\n";
-				echo "\t\t\t\t}\n"; // else
-			echo "\t\t\t}\n\n"; // if empty
-
-			echo "\t\t\tif (empty(\$this->data)) {\n";
-				$__function = 'read';
-				foreach($omdelObj->_schema as $field => $data){
-					if ($field == 'locked') {
-						$__function = 'lock';
-					}
-				}
-				echo "\t\t\t\t\t\$this->data = \$this->{$currentModelName}->{$__function}(null, \$id);\n";
-			echo "\t\t\t}\n"; // if empty and !$id
-
+			echo "\t\t\tparent::{$admin}edit(\$id);\n\n";
 
 			$compact = array();
 			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
@@ -194,4 +227,3 @@
 			}
 		echo "\t\t}\n";
 	}
-?>

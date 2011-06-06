@@ -29,6 +29,7 @@
 	 * @brief Add some documentation for $name model.
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+	 *
 	 * @link          http://infinitas-cms.org/$plugin
 	 * @package       $plugin.models.$name
 	 * @license       http://infinitas-cms.org/mit-license The MIT License
@@ -389,6 +390,35 @@ COMMENT;
 					}
 				}
 			echo "\t\t\t);\n";
+		echo "\t\t}\n\n";
+
+		echo <<<COMMENT
+		/**
+		 * General method for the view pages. Gets the required data and relations
+		 * and can be used for the admin preview also.
+		 *
+		 * @param array \$conditions conditions for the find
+		 * @return array the data that was found
+		 */
+
+COMMENT;
+		echo "\t\tpublic function getViewData(\$conditions = array()){\n";
+			echo "\t\t\tif(!\$conditions){\n";
+				echo "\t\t\t\treturn false;\n";
+			echo "\t\t\t}\n\n";
+
+			echo "\t\t\t\$data = \$this->find(\n";
+				echo "\t\t\t\t'first',\n";
+				echo "\t\t\t\tarray(\n";
+					echo "\t\t\t\t\t'fields' => array(\n";
+					echo "\t\t\t\t\t),\n";
+					echo "\t\t\t\t\t'conditions' => \$conditions,\n";
+					echo "\t\t\t\t\t'contain' => array(\n";
+					echo "\t\t\t\t\t)\n";
+				echo "\t\t\t\t)\n";
+			echo "\t\t\t);\n\n";
+			
+			echo "\t\t\treturn \$data;\n";
 		echo "\t\t}\n";
 
 		echo "\t}\n";

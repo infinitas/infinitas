@@ -20,27 +20,77 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	echo "<?php\n";
-		echo "\tclass {$controllerName}Controller extends {$plugin}AppController {\n";
-			echo "\t\tvar \$name = '$controllerName';\n\n";
+	$parentController = $plugin . 'AppController';
+	$year = date('Y');
 
-			echo "\t\tvar \$helpers = array(\n";
-				echo "\t\t\t'Html', 'Form', 'Session',\n";
-				echo "\t\t\t'Filter.Filter',\n";
+	@$username = trim(`eval whoami`);
+	$username ? $username : '{username}';
+
+	$version = Configure::read('Infinitas.version');
+	
+	echo <<<COMMENT
+<?php
+	/**
+	 * $controllerName controller
+	 *
+	 * @brief Add some documentation for $controllerName controller.
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+	 *
+	 * @link          http://infinitas-cms.org/$plugin
+	 * @package       $plugin.controllers.$controllerName
+	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @since $version
+	 *
+	 * @author $username
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
+	class {$controllerName}Controller extends $parentController {
+		/**
+		 * The name of the controller
+		 *
+		 * @access public
+		 * @var string
+		 */
+		public \$name = '$controllerName';
+
+
+COMMENT;
+
+		echo <<<COMMENT
+		/**
+		 * The helpers linked to this controller
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+			echo "\t\tpublic \$helpers = array(\n";
 				if (count($helpers)){
 					for ($i = 0, $len = count($helpers); $i < $len; $i++){
 						echo "'" . Inflector::camelize($helpers[$i]) . "', ";
 					}
 				}
-				echo "\t\t\t'$plugin.$plugin',\n";
+				echo "\t\t\t//'$plugin.$plugin', // uncoment this for a custom plugin controller\n";
 				echo "\t\t\t//'Libs.Design',\n";
 				echo "\t\t\t//'Libs.Gravatar',\n";
-				echo "\t\t\t//'Libs.Infinitas',\n";
-				echo "\t\t\t//'Libs.Slug'\n";
 			echo "\t\t);\n\n";
 
 			if (count($components)){
-				echo "\t\tvar \$components = array(";
+		echo <<<COMMENT
+		/**
+		 * The components linked to this controller
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+				echo "\t\tpublic \$components = array(";
 				for ($i = 0, $len = count($components); $i < $len; $i++){
 					if ($i != $len - 1){
 						echo "\t\t\t'" . Inflector::camelize($components[$i]) . "',\n";
@@ -52,7 +102,10 @@
 				echo "\t\t);\n";
 			}
 
-			echo $actions;
-		echo "\t}\n";
-	echo "?>";
-?>
+			if(trim($actions) == 'scaffold'){
+				echo "\t\tpublic \$scaffold;\n";
+			}
+			else{
+				echo $actions;
+			}
+		echo "\t}";
