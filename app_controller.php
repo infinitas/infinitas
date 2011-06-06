@@ -746,6 +746,16 @@
 				$this->redirect($this->referer());
 			}
 
+			if(!is_callable(array($this->{$this->modelClass}, 'getViewData'))){
+				$this->notice(
+					__('There is no preview available', true),
+					array(
+						'level' => 'error',
+						'redirect' => Router::url('/')
+					)
+				);
+			}
+
 			$varName = Inflector::variable($this->modelClass);
 
 			$$varName = $this->{$this->modelClass}->getViewData(
