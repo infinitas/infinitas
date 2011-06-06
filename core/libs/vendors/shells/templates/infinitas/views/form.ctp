@@ -81,16 +81,16 @@
 	}
 
 	echo "\techo \$this->Form->create('{$modelClass}'{$fileUpload});\n".
-        "\t\techo \$this->Infinitas->adminEditHead(\$this);\n";
-		echo "\t\t\t<div class=\"data\">\n";
-			echo "\t\t\t\t<?php\n";
-				echo "\t\t\t\t\techo \$this->Form->input('$primaryKey');\n";
+        "\t\techo \$this->Infinitas->adminEditHead(); ?>\n";
+		echo "\t\t<fieldset>\n" .
+			"\t\t\t<h1><?php echo __('" . prettyName($modelClass) . "', true); ?></h1><?php\n";
+				echo "\t\t\t\techo \$this->Form->input('$primaryKey');\n";
 				$end = '';
 				foreach ($fields as $field) {
 					if (!empty($associations['belongsTo'])) {
 						foreach ($associations['belongsTo'] as $alias => $details) {
 							if ($field === $details['foreignKey']) {
-								if (in_array($field, array('locked_by'))) {
+								if (in_array($field, array('address_id'))) {
 									continue;
 								}
 								$configs[] = $field;
@@ -102,45 +102,41 @@
 					if (!in_array($field, $ignore) && (str_replace('_count', '', $field) == $field)) {
 						switch($schema[$field]['type']){
 							case 'text':
-								$end .= "\t\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
+								$end .= "\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
 
 							case $displayField == $field:
-								echo "\t\t\t\t\techo \$this->Form->input('{$field}', array('class' => 'title'));\n";
+								echo "\t\t\t\techo \$this->Form->input('{$field}', array('class' => 'title'));\n";
 								break;
 
 							case in_array($field, $possibleFileFields):
-								echo "\t\t\t\t\techo \$this->Form->input('{$field}'{$fileUpload});\n";
+								echo "\t\t\t\techo \$this->Form->input('{$field}'{$fileUpload});\n";
 								break;
 
 
 							default:
-								echo "\t\t\t\t\techo \$this->Form->input('{$field}');\n";
+								echo "\t\t\t\techo \$this->Form->input('{$field}');\n";
 								break;
 						} // switch
 					}
 				}
 				echo $end;
-			echo "\t\t\t\t?>\n";
-        echo "\t\t\t</div>\n\n";
+			echo "\t\t\t?>\n";
+        echo "\t\t</fieldset>\n\n";
 
-        echo "\t\t\t<div class=\"config\">\n";
-	        echo "\t\t\t\t<?php\n";
-			        echo "\t\t\t\t\t\t?><h2><?php __('Configuration'); ?></h2><?php\n";
-					foreach ($fields as $field) {
-						if (in_array($field, $configs)) {
-							echo "\t\t\t\t\t\techo \$this->Form->input('{$field}');\n";
-						}
+		echo "\t\t<fieldset>\n" .
+			"\t\t\t<h1><?php echo __('Configuration', true); ?></h1><?php\n";
+				foreach ($fields as $field) {
+					if (in_array($field, $configs)) {
+						echo "\t\t\t\techo \$this->Form->input('{$field}');\n";
 					}
+				}
 
-					if (!empty($associations['hasAndBelongsToMany'])) {
-						foreach ($associations['hasAndBelongsToMany'] as $assocName => $assocData) {
-							echo "\t\t\t\t\t\techo \$this->Form->input('{$assocName}');\n";
-						}
+				if (!empty($associations['hasAndBelongsToMany'])) {
+					foreach ($associations['hasAndBelongsToMany'] as $assocName => $assocData) {
+						echo "\t\t\t\techo \$this->Form->input('{$assocName}');\n";
 					}
-	        echo "\t\t\t\t?>\n";
-        echo "\t\t\t</div><?php\n";
+				}
+	        echo "\t\t?>\n";
+        echo "\t\t</fieldset><?php\n";
 	echo "\techo \$this->Form->end();\n";
-echo "?>\n";
-
-?>
