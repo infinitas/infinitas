@@ -1,6 +1,6 @@
 <?php
 	class InstallerTask extends Shell {
-		public $tasks = array('Infinitas', 'Installer', 'Plugin');
+		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
 
 		public $config = array(
 			'engine' => '',
