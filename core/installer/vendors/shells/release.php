@@ -44,7 +44,7 @@
 
 				switch ($input) {
 					case 'P':
-						$this->Plugin->execute();
+						$this->InfinitasPlugin->execute();
 						break;
 					
 					case 'M':

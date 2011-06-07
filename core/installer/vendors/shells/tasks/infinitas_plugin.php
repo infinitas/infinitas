@@ -1,5 +1,5 @@
 <?php
-class PluginTask extends Shell {
+class InfinitasPluginTask extends Shell {
 	public $tasks = array('Migration', 'InfinitasFixture');
 	private $__plugin = null;
 	private $__configPath = null;
