@@ -142,6 +142,15 @@
 		 * @return string the markup for the bread crumbs
 		 */
 		public function breadcrumbs($seperator = ' :: ') {
+			$action = '';
+			if(strstr($this->params['action'], 'mass') === false){
+				$action = str_replace('admin_', '', $this->params['action']);
+			}
+			
+			else{
+				$action = $this->params['form']['action'];
+			}
+			
 			$breadcrumbs = array(
 				$this->Html->link(
 					__($this->params['plugin'], true),
@@ -159,9 +168,7 @@
 						'action' => false
 					)
 				),
-				strstr($this->params['action'], 'mass') === false 
-					? str_replace('admin_', '', $this->params['action'])
-					: $this->params['form']['action']
+				$action
 			);
 
 			$_prefix = isset($this->params['prefix']) ? $this->params['prefix'] : false;
@@ -234,7 +241,7 @@
 		 * @return string the markup for the page header
 		 */
 		public function adminPageHead() {
-			return '<h1>' . sprintf(__('%s Manager', true), prettyName($this->_extras['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
+			return '<h1>' . sprintf(__('%s Manager', true), prettyName($this->urlExtras['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
 		}
 
 		/**
@@ -391,7 +398,14 @@
 				return $url;
 			}
 
-			return $this->Html->link(!$text ? $id : $text, $url);
+			$link = '';
+			if(!$text){
+				$link = $id;
+			}
+			else{
+				$link = $text;
+			}
+			return $this->Html->link($link, $url);
 		}
 
 		/**
@@ -717,7 +731,8 @@
 				case 'add':
 					$heading = sprintf('%s %s', __('Create a New', true), $controller);
 					$text = sprintf(
-						__('Click here to create a new %s. You do not need to tick any checkboxes to create a new %s.', true),
+						__('Click here to create a new %s. You do not need to '.
+							'tick any checkboxes to create a new %s.', true),
 						$controller, $controller
 					);
 					break;
@@ -725,7 +740,9 @@
 				case 'edit':
 					$heading = sprintf('%s %s', __('Edit the', true), $controller);
 					$text = sprintf(
-						__('Tick the checkbox next to the %s you want to edit then click here.<br/><br/>Currently you may only edit one %s at a time.', true),
+						__('Tick the checkbox next to the %s you want to edit '.
+							'then click here.<br/><br/>Currently you may only '.
+							'edit one %s at a time.', true),
 						$controller, $controller
 					);
 					break;
@@ -734,7 +751,9 @@
 					$controller = __($this->params['controller'], true);
 					$heading = sprintf('%s %s', __('Copy some', true), $controller);
 					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to copy then click here.<br/><br/>You may copy as many %s as you like.', true),
+						__('Tick the checkboxes next to the %s you want to copy '.
+							'then click here.<br/><br/>You may copy as many %s '.
+							'as you like.', true),
 						$controller, $controller
 					);
 					break;
@@ -743,7 +762,9 @@
 					$controller = __($this->params['controller'], true);
 					$heading = sprintf('%s %s', __('Toggle some', true), $controller);
 					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to toggle then click here.<br/><br/>Inactive %s will become active, and active %s will become inactive', true),
+						__('Tick the checkboxes next to the %s you want to toggle '.
+							'then click here.<br/><br/>Inactive %s will become '.
+							'active, and active %s will become inactive', true),
 						$controller, $controller, $controller
 					);
 					break;
@@ -751,7 +772,10 @@
 				case 'delete':
 					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
 					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to delete then click here.<br/><br/>If possible the %s will be moved to the trash can. If not they will be deleted permanently.', true),
+						__('Tick the checkboxes next to the %s you want to delete '.
+							'then click here.<br/><br/>If possible the %s will be '.
+							'moved to the trash can. If not they will be deleted '.
+							'permanently.', true),
 						$controller, $controller
 					);
 					break;
@@ -759,7 +783,8 @@
 				case 'disabled':
 					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
 					$text = sprintf(
-						__('This %s currently disabled, to enable it tick the check to the left and click toggle.', true),
+						__('This %s currently disabled, to enable it tick the '.
+							'check to the left and click toggle.', true),
 						$controller
 					);
 					break;
@@ -767,7 +792,8 @@
 				case 'active':
 					$heading = sprintf('%s %s', __('Delete some', true), $this->params['controller']);
 					$text = sprintf(
-						__('This %s currently active, to disable it tick the check to the left and click toggle.', true),
+						__('This %s currently active, to disable it tick the '.
+							'check to the left and click toggle.', true),
 						$controller
 					);
 					break;
@@ -775,7 +801,8 @@
 				case 'save':
 					$heading = sprintf('%s %s', __('Save the', true), $this->params['controller']);
 					$text = sprintf(
-						__('Click here to save your %s. This will save your current changes and take you back to the index list.', true),
+						__('Click here to save your %s. This will save your '.
+							'current changes and take you back to the index list.', true),
 						$controller
 					);
 					break;
@@ -783,7 +810,8 @@
 				case 'cancel':
 					$heading = sprintf('%s', __('Discard your changes', true));
 					$text = sprintf(
-						__('Click here to return to the index page without saving the changes you have made to the %s.', true),
+						__('Click here to return to the index page without saving '.
+							'the changes you have made to the %s.', true),
 						$controller
 					);
 					break;
@@ -791,7 +819,9 @@
 				case 'move':
 					$heading = sprintf('%s %s', __('Move the ', true), $this->params['controller']);
 					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to move then click here. You will be prompted with a page, asking how you would like to move the %s', true),
+						__('Tick the checkboxes next to the %s you want to move '.
+							'then click here. You will be prompted with a page, '.
+							'asking how you would like to move the %s', true),
 						$controller, $controller
 					);
 					break;
@@ -825,9 +855,7 @@
 		 * @return string the markup for the picker
 		 */
 		public function datePicker($classes, $model = null, $time = false){
-			$model = !$model 
-				? Inflector::classify($this->params['controller'])
-				: $model;
+			$model = (!$model) ? Inflector::classify($this->params['controller']) : $model;
 
 			$out = '';
 			foreach((array)$classes as $class){
@@ -858,25 +886,25 @@
 		 * @todo make protected
 		 * @var array
 		 */
-		public $_cache = array();
+		public $urlCache = array();
 
 		/**
 		 * @todo make protected
 		 * @var string
 		 */
-		public $_key = '';
+		public $urlKey = '';
 
 		/**
 		 * @todo make protected
 		 * @var array
 		 */
-		public $_extras = array();
+		public $urlExtras = array();
 
 		/**
 		 * @todo make protected
 		 * @var array
 		 */
-		public $_paramFields = array('controller', 'plugin', 'action', 'prefix');
+		public $urlParamFields = array('controller', 'plugin', 'action', 'prefix');
 
 		public function __construct() {
 			parent::__construct();
@@ -887,11 +915,11 @@
 				if ($this->here == '/') {
 					$path = 'home';
 				}
-				$this->_key = '_' . strtolower(Inflector::slug($path));
+				$this->urlKey = '_' . strtolower(Inflector::slug($path));
 			}
 
-			$this->_key = 'url_map' . $this->_key;
-			$this->_cache = Cache::read($this->_key, 'core');
+			$this->urlKey = 'url_map' . $this->urlKey;
+			$this->urlCache = Cache::read($this->urlKey, 'core');
 		}
 
 		/**
@@ -904,7 +932,7 @@
 		 * @return void
 		 */
 		public function beforeRender() {
-			$this->_extras = array_intersect_key($this->params, array_combine($this->_paramFields, $this->_paramFields));
+			$this->urlExtras = array_intersect_key($this->params, array_combine($this->urlParamFields, $this->urlParamFields));
 		}
 
 		/**
@@ -918,7 +946,7 @@
 		 */
 		public function afterLayout() {
 			if (is_a($this, 'HtmlHelper')) {
-				Cache::write($this->_key, $this->_cache, 'core');
+				Cache::write($this->urlKey, $this->urlCache, 'core');
 			}
 		}
 
@@ -939,18 +967,18 @@
 		public function url($url = null, $full = false) {
 			$keyUrl = $url;
 			if (is_array($keyUrl)) {
-				$keyUrl += $this->_extras;
+				$keyUrl += $this->urlExtras;
 			}
 
 			$key = md5(serialize($keyUrl) . $full);
 			$key .= md5_file(CONFIGS . DS . 'routes.php');
 
-			if (!empty($this->_cache[$key])) {
-				return $this->_cache[$key];
+			if (!empty($this->urlCache[$key])) {
+				return $this->urlCache[$key];
 			}
 
 			$url = parent::url($url, $full);
-			$this->_cache[$key] = $url;
+			$this->urlCache[$key] = $url;
 
 			return $url;
 		}
