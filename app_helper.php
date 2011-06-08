@@ -883,25 +883,21 @@
 		}
 
 		/**
-		 * @todo make protected
 		 * @var array
 		 */
 		public $urlCache = array();
 
 		/**
-		 * @todo make protected
 		 * @var string
 		 */
 		public $urlKey = '';
 
 		/**
-		 * @todo make protected
 		 * @var array
 		 */
 		public $urlExtras = array();
 
 		/**
-		 * @todo make protected
 		 * @var array
 		 */
 		public $urlParamFields = array('controller', 'plugin', 'action', 'prefix');
