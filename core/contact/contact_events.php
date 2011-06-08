@@ -16,9 +16,10 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	Configure::load('Contact.config');
 
 	final class ContactEvents extends AppEvents{
-		public function onAdminMenu($event){
+		public function onAdminMenu($event){			
 			$menu['main'] = array(
 				'Branches' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index'),
 				'Contacts' => array('plugin' => 'contact', 'controller' => 'contacts', 'action' => 'index')

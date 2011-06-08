@@ -2,19 +2,18 @@
 	/**
 	 *
 	 */
-	class Address extends ManagementAppModel{
-		var $name = 'Address';
+	class Address extends ContactAppModel{
+		public $name = 'Address';
 
-		var $virtualFields = array(
+		public $virtualFields = array(
 		    'address' => 'CONCAT(Address.street, ", ", Address.city, ", ", Address.province)'
 		);
 
-		var $belongsTo = array(
-			'Management.Country',
-			//'Management.Continent'
+		public $belongsTo = array(
+			'Contact.Country'
 		);
 
-		function getAddressByUser($user_id = null, $type = 'list'){
+		public function getAddressByUser($user_id = null, $type = 'list'){
 			if(!$user_id){
 				return false;
 			}
@@ -38,5 +37,21 @@
 			);
 
 			return $address;
+		}
+
+		/**
+		 * Find a list of addresses for the currently selected plugin that may
+		 * be related to what they user is looking for.
+		 *
+		 * @param array $conditions the conditions to search for
+		 * @return array list of addresses
+		 */
+		public function getAddressesByRelated($conditions = array()){
+			return $this->find(
+				'list',
+				array(
+					'conditions' => (array)$conditions
+				)
+			);
 		}
 	}

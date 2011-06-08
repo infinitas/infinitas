@@ -107,7 +107,7 @@
 								foreach ($associations['belongsTo'] as $alias => $details) {
 									if ($field === $details['foreignKey']) {
 										$isKey = true;
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$alias}, {$alias}.{$details['displayField']}'),\n";
+										echo "\t\t\t\t\t\$this->Paginator->sort('{$alias}', '{$alias}.{$details['displayField']}'),\n";
 										break;
 									}
 								}
