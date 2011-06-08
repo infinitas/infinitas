@@ -76,38 +76,30 @@
 			}
 
 			$backtrace = debug_backtrace(false);
-			?>
-				<table width="80%" style="margin:auto;">
-					<tr>
-						<th>File</th>
-						<th>Code</th>
-						<th>Line</th>
-					</tr>
-					<?php
-						$rows = array();
-						foreach($backtrace as $_b){
-							$_b = array_merge(
-								array(
-									'file' => '?',
-									'class' => '?',
-									'type' => '?',
-									'function' => '?',
-									'line' => '?'
-								),
-								$_b
-							);
-							$rows[] = '
-								<tr>
-									<td>' . $_b['file'] . '</td>' .
-									'<td>' . $_b['class'] . $_b['type'] . $_b['function'] . '</td>' .
-									'<td>' . $_b['line'] . '</td>' .
-								'</tr>';
-						}
+			
+			echo '<table width="80%" style="margin:auto;"><tr><th>File</th><th>Code</th><th>Line</th></tr>';
+			$rows = array();
 
-						$rows = array_reverse($rows);
-						echo implode('', $rows);
-					?>
-				</table>
-			<?php
+			foreach($backtrace as $_b){
+				$_b = array_merge(
+					array(
+						'file' => '?',
+						'class' => '?',
+						'type' => '?',
+						'function' => '?',
+						'line' => '?'
+					),
+					$_b
+				);
+				$rows[] = '
+					<tr>
+						<td>' . $_b['file'] . '</td>' .
+						'<td>' . $_b['class'] . $_b['type'] . $_b['function'] . '</td>' .
+						'<td>' . $_b['line'] . '</td>' .
+					'</tr>';
+			}
+
+			$rows = array_reverse($rows);
+			echo implode('', $rows), '</table>';
 		}
 	}
