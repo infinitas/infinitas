@@ -1025,6 +1025,40 @@
 		}
 
 		/**
+		 * @brief prg method to show the users documents
+		 *
+		 * redirects to the filtered url for the users own records
+		 */
+		public function admin_mine(){
+			if(!$this->{$this->modelName}->hasField('user_id')){
+				$this->notice(
+					__('Cant determin a user field', true),
+					array(
+						'redirect' => true,
+						'level' => 'error'
+					)
+				);
+			}
+
+			if(!$this->Auth->user('id')){
+				$this->notice(
+					__('You need to be logged in to do that', true),
+					array(
+						'redirect' => true,
+						'level' => 'error'
+					)
+				);
+			}
+			
+			$this->redirect(
+				array(
+					'action' => 'index',
+					$this->{$this->modelName}->alias . '.user_id' => $this->Auth->user('id')
+				)
+			);
+		}
+
+		/**
 		 * @brief Simple Admin add method.
 		 *
 		 * If you need simple Add method for your admin just dont create one and
