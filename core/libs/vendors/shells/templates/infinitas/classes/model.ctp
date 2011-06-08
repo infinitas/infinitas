@@ -11,84 +11,134 @@
 
 	$_order = $_belongsTo = null;
 
+	$parentModel = $plugin . 'AppModel';
+
 	$possibleFileFields = array('file', 'image');
+	$year = date('Y');
 
-	echo "<?php\n".
-		"\t/**\n".
-		"\t * $name model\n".
-		"\t *\n".
-		"\t * Add some documentation for $name model.\n".
-		"\t *\n".
-		"\t * Copyright (c) {yourName}\n".
-		"\t *\n".
-		"\t * Licensed under The MIT License\n".
-		"\t * Redistributions of files must retain the above copyright notice.\n".
-		"\t *\n".
-		"\t * @filesource\n".
-		"\t * @copyright     Copyright (c) 2009 {yourName}\n".
-		"\t * @link          http://infinitas-cms.org\n".
-		"\t * @package       $plugin\n".
-		"\t * @subpackage    $plugin.models.$name\n".
-		"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
-		"\t */\n\n".
+	@$username = trim(`eval whoami`);
+	$username ? $username : '{username}';
 
-		"\tclass $name extends {$plugin}AppModel {\n".
-		"\t\tvar \$name = '$name';\n";
+	$version = Configure::read('Infinitas.version');
 
+	$output = <<<COMMENT
+<?php
+	/**
+	 * $name model
+	 *
+	 * @brief Add some documentation for $name model.
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+	 *
+	 * @link          http://infinitas-cms.org/$plugin
+	 * @package       $plugin.models.$name
+	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @since $version
+	 *
+	 * @author $username
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
+	class $name extends $parentModel {
+		/**
+		 * The name of the model
+		 *
+		 * @access public
+		 * @var string
+		 */
+		public \$name = '$name';
+
+
+COMMENT;
 		if ($useDbConfig != 'default'){
-			echo "\t\tvar \$useDbConfig = '$useDbConfig';\n";
+		$output .= <<<COMMENT
+		/**
+		 * The database config to use
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+			$output .= "\t\tpublic \$useDbConfig = '$useDbConfig';\n\n";
 		}
 
 		if ($useTable && $useTable !== Inflector::tableize($name)){
-			echo "\t\tvar \$useTable = '$useTable';\n";
+		$output .= <<<COMMENT
+		/**
+		 * The table that the model is using
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+			$output .= "\t\tpublic \$useTable = '$useTable';\n\n";
 		}
 
-
 		if ($primaryKey !== 'id'){
-			echo "\t\tvar \$primaryKey = '$primaryKey';\n";
+		$output .= <<<COMMENT
+		/**
+		 * The primary key of the table
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+			$output .= "\t\tpublic \$primaryKey = '$primaryKey';\n\n";
 		}
 
 		if ($displayField){
-			echo "\t\tvar \$displayField = '$displayField';\n";
+		$output .= <<<COMMENT
+		/**
+		 * The display field for select boxes
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+			$output .= "\t\tpublic \$displayField = '$displayField';\n\n";
 		}
 
-		echo "\t\tvar \$actsAs = array(\n";
+		if(in_array('views', array_keys($schema))){
+		$output .= <<<COMMENT
+		/**
+		 * Set to true if you would like to track view counts
+		 *
+		 * @access public
+		 * @var string
+		 */
+
+COMMENT;
+			$output .= "\t\tpublic \$viewable = true;\n\n";
+		}
+
+		$output .= <<<COMMENT
+		/**
+		 * Additional behaviours that are attached to this model
+		 *
+		 * @access public
+		 * @var array
+		 */
+
+COMMENT;
+		$output .= "\t\tpublic \$actsAs = array(\n";
+
+		echo $output;
 			foreach ($schema as $field => $data){
 				switch($field){
-					case 'ordering':
-						echo
-							"\t\t\t'Libs.Sequence' => array(\n".
-								"\t\t\t\t'group_fields' => array(\n".
-									"\t\t\t\t\t/* Add parent field here */\n".
-								"\t\t\t\t)\n".
-							"\t\t\t),\n";
-						break;
-
-					case 'slug':
-						echo "\t\t\t'Libs.Sluggable' => array(\n";
-							if ($displayField) {
-								echo "\t\t\t\t'label' => array('$displayField')\n";
-							}
-						echo "\t\t\t),\n";
-						break;
-
 					case 'deleted':
 						echo "\t\t\t'Libs.SoftDeletable',\n";
-						break;
-
-					case 'views':
-						echo "\t\t\t'Libs.Viewable',\n";
-						break;
-
-					case 'lft':
-						echo "\t\t\t'Tree',\n";
-						$_order = "\t\t'{$name}.lft' => 'ASC'\n";
 						break;
 
 					case 'image':
 						echo "\t\t\t'MeioUpload.MeioUpload' => array(\n".
 							"\t\t\t\t'image' => array(\n".
-								"\t\t\t\t\t'dir' => 'img{DS}content{DS}thinkmoney{DS}creditcards{DS}{ModelName}',\n".
+								"\t\t\t\t\t'dir' => 'img{DS}content{DS}$plugin{DS}images{DS}{ModelName}',\n".
 								"\t\t\t\t\t'create_directory' => true,\n".
 								"\t\t\t\t\t'allowed_mime' => array(\n".
 									"\t\t\t\t\t\t'image/jpeg',\n".
@@ -107,7 +157,7 @@
 					case 'file':
 						echo "\t\t\t'MeioUpload.MeioUpload' => array(\n".
 							"\t\t\t\t'image' => array(\n".
-								"\t\t\t\t\t'dir' => 'img{DS}content{DS}thinkmoney{DS}creditcards{DS}{ModelName}',\n".
+								"\t\t\t\t\t'dir' => 'img{DS}content{DS}$plugin{DS}files{DS}{ModelName}',\n".
 								"\t\t\t\t\t'create_directory' => true,\n".
 								"\t\t\t\t\t'allowed_mime' => array(\n".
 									"\t\t\t\t\t\t/** add mime types */\n".
@@ -119,21 +169,42 @@
 						"\t\t\t),\n";
 						break;
 
+					case 'lft':
+						$_order = "\t\t'{$name}.lft' => 'ASC'\n";
+						break;
+
 				} // switch
 			} // end foreach
 
 			echo
 				"\t\t\t// 'Libs.Feedable',\n".
-				"\t\t\t// 'Libs.Commentable',\n".
-				"\t\t\t// 'Libs.Rateable\n";
+				"\t\t\t// 'Libs.Rateable'\n";
 		echo "\t\t);\n\n"; //end actsAs
 
-		echo "\t\tvar \$order = array(\n".
+		echo <<<COMMENT
+		/**
+		 * How the default ordering on this model is done
+		 *
+		 * @access public
+		 * @var array
+		 */
+
+COMMENT;
+		echo "\t\tpublic \$order = array(\n".
 			$_order.
 		"\t\t);\n\n";
 
 		foreach (array('hasOne', 'belongsTo') as $assocType){
-			echo "\t\tvar \$$assocType = array(\n";
+		echo <<<COMMENT
+		/**
+		 * $assocType relations for this model
+		 *
+		 * @access public
+		 * @var array
+		 */
+
+COMMENT;
+			echo "\t\tpublic \$$assocType = array(\n";
 				if ($assocType == 'belongsTo') {
 					echo $_belongsTo;
 				}
@@ -156,21 +227,26 @@
 								if (strstr($field, '_count')) {
 									$relatedCounterCache = true;
 								}
+
 								if ($field == 'active') {
 									$relatedActive = true;
 								}
+
 								else if ($field == 'active') {
 									$relatedDeleted = true;
 								}
 							}
+
 							if ($relatedCounterCache) {
 								$out .= "\t\t\t\t'counterCache' => true,\n";
 							}
+
 							if ($relatedActive || $relatedDeleted) {
 								$out .= "\t\t\t\t'counterScope' => array(\n";
 									if ($relatedActive) {
 										$out .= "\t\t\t\t\t'{$name}.active' => 1\n";
 									}
+
 									if ($relatedDeleted) {
 										$out .= "\t\t\t\t\t'{$name}.deleted' => 1\n";
 									}
@@ -178,19 +254,32 @@
 							}
 						}
 						$out .= "\t\t\t)";
+
 						if ($i + 1 < $typeCount) {
 							$out .= ",\n";
 						}
+
 						else{
 							$out .= "\n";
 						}
+						
 						echo $out;
 					}
 				}
 			echo "\t\t);\n\n";
 		}
 
-		echo "\t\tvar \$hasMany = array(\n";
+		echo <<<COMMENT
+		/**
+		 * hasMany relations for this model
+		 *
+		 * @access public
+		 * @var array
+		 */
+
+COMMENT;
+		
+		echo "\t\tpublic \$hasMany = array(\n";
 			if (!empty($associations['hasMany'])){
 				$belongsToCount = count($associations['hasMany']);
 
@@ -219,7 +308,18 @@
 			}
 		echo "\t\t);\n\n";
 
-		echo "\t\tvar \$hasAndBelongsToMany = array(\n";
+
+		echo <<<COMMENT
+		/**
+		 * hasAndBelongsToMany relations for this model
+		 *
+		 * @access public
+		 * @var array
+		 */
+
+COMMENT;
+		
+		echo "\t\tpublic \$hasAndBelongsToMany = array(\n";
 			if (!empty($associations['hasAndBelongsToMany'])){
 				$habtmCount = count($associations['hasAndBelongsToMany']);
 
@@ -250,7 +350,23 @@
 			}
 		echo "\t\t);\n\n";
 
-		echo "\t\tfunction __construct(\$id = false, \$table = null, \$ds = null) {\n";
+
+		echo <<<COMMENT
+		/**
+		 * overload the construct method so that you can use translated validation
+		 * messages.
+		 *
+		 * @access public
+		 *
+		 * @param mixed \$id string uuid or id
+		 * @param string \$table the table that the model is for
+		 * @param string \$ds the datasource being used
+		 *
+		 * @return void
+		 */
+
+COMMENT;
+		echo "\t\tpublic function __construct(\$id = false, \$table = null, \$ds = null) {\n";
 			echo "\t\t\tparent::__construct(\$id, \$table, \$ds);\n\n";
 
 			echo "\t\t\t\$this->validate = array(\n";
@@ -274,8 +390,35 @@
 					}
 				}
 			echo "\t\t\t);\n";
+		echo "\t\t}\n\n";
+
+		echo <<<COMMENT
+		/**
+		 * General method for the view pages. Gets the required data and relations
+		 * and can be used for the admin preview also.
+		 *
+		 * @param array \$conditions conditions for the find
+		 * @return array the data that was found
+		 */
+
+COMMENT;
+		echo "\t\tpublic function getViewData(\$conditions = array()){\n";
+			echo "\t\t\tif(!\$conditions){\n";
+				echo "\t\t\t\treturn false;\n";
+			echo "\t\t\t}\n\n";
+
+			echo "\t\t\t\$data = \$this->find(\n";
+				echo "\t\t\t\t'first',\n";
+				echo "\t\t\t\tarray(\n";
+					echo "\t\t\t\t\t'fields' => array(\n";
+					echo "\t\t\t\t\t),\n";
+					echo "\t\t\t\t\t'conditions' => \$conditions,\n";
+					echo "\t\t\t\t\t'contain' => array(\n";
+					echo "\t\t\t\t\t)\n";
+				echo "\t\t\t\t)\n";
+			echo "\t\t\t);\n\n";
+			
+			echo "\t\t\treturn \$data;\n";
 		echo "\t\t}\n";
 
 		echo "\t}\n";
-	echo '?>';
-?>

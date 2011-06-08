@@ -275,8 +275,6 @@
 				return false;
 			}
 
-			$displayField = $displayField;
-
 			$primaryKey = $primaryKey
 				? $this->primaryKey
 				: $displayField;

@@ -2,7 +2,7 @@
 	App::import('Lib', 'Installer.Installer');
 	
 	class InstallShell extends Shell {
-		public $tasks = array('Infinitas', 'Installer', 'Plugin');
+		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
         
         /**
          * help

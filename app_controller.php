@@ -746,6 +746,16 @@
 				$this->redirect($this->referer());
 			}
 
+			if(!is_callable(array($this->{$this->modelClass}, 'getViewData'))){
+				$this->notice(
+					__('There is no preview available', true),
+					array(
+						'level' => 'error',
+						'redirect' => Router::url('/')
+					)
+				);
+			}
+
 			$varName = Inflector::variable($this->modelClass);
 
 			$$varName = $this->{$this->modelClass}->getViewData(
@@ -1012,6 +1022,40 @@
 			else {
 				return $this->MassAction->generic($massAction, $ids);
 			}
+		}
+
+		/**
+		 * @brief prg method to show the users documents
+		 *
+		 * redirects to the filtered url for the users own records
+		 */
+		public function admin_mine(){
+			if(!$this->{$this->modelName}->hasField('user_id')){
+				$this->notice(
+					__('Cant determin a user field', true),
+					array(
+						'redirect' => true,
+						'level' => 'error'
+					)
+				);
+			}
+
+			if(!$this->Auth->user('id')){
+				$this->notice(
+					__('You need to be logged in to do that', true),
+					array(
+						'redirect' => true,
+						'level' => 'error'
+					)
+				);
+			}
+			
+			$this->redirect(
+				array(
+					'action' => 'index',
+					$this->{$this->modelName}->alias . '.user_id' => $this->Auth->user('id')
+				)
+			);
 		}
 
 		/**

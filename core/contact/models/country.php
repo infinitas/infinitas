@@ -1,5 +1,4 @@
 <?php
-class Country extends ManagementAppModel {
-	
-}
-?>
+	class Country extends ContactAppModel {
+		public $displayField = 'printable_name';
+	}
