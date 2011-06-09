@@ -69,11 +69,11 @@
 		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
-			$plugins     = $this->Feed->getPlugins();
+			$plugins	 = $this->Feed->getPlugins();
 			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);
-			$actions     = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
+			$actions	 = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
 			$feedsFeeds = $this->Feed->find('list');
-			$groups      = $this->Feed->Group->find('list');
+			$groups	  = $this->Feed->Group->find('list');
 
 			$this->set(compact('plugins', 'controllers', 'actions', 'feedsFeeds', 'groups'));
 		}

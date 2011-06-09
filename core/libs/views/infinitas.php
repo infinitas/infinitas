@@ -78,7 +78,7 @@
 
 				//$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
 				$this->__vars['viewVars']  = $this->viewVars;
-				$this->__vars['params']    = $this->params;
+				$this->__vars['params']	= $this->params;
 
 				if(Configure::read('debug') < 1){
 					unset($this->params['url']['mustache']);

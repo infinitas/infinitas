@@ -63,10 +63,10 @@
 		 */
 		function __generateNewVoucher(){
 			// get the size of the image
-			$this->voucherSize     = getimagesize($this->voucher);
+			$this->voucherSize	 = getimagesize($this->voucher);
 
 			// create a new blank image
-			$this->output          = imagecreatetruecolor($this->voucherSize[0], $this->voucherSize[1]);
+			$this->output		  = imagecreatetruecolor($this->voucherSize[0], $this->voucherSize[1]);
 
 			// load the voucher template
 			$this->voucherRecource = imagecreatefrompng($this->voucher);

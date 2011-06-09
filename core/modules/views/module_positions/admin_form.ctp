@@ -18,11 +18,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-    echo $this->Form->create('ModulePosition');
-        echo $this->Infinitas->adminEditHead(); ?>
+	echo $this->Form->create('ModulePosition');
+		echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
 			<h1><?php echo __('Module Position', true); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name'); ?>
 		</fieldset><?php
-    echo $this->Form->end();
+	echo $this->Form->end();
