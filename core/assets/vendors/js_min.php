@@ -1,290 +1,275 @@
 <?php
-/**
- * jsmin.php - PHP implementation of Douglas Crockford's JSMin.
- *
- * This is pretty much a direct port of jsmin.c to PHP with just a few
- * PHP-specific performance tweaks. Also, whereas jsmin.c reads from stdin and
- * outputs to stdout, this library accepts a string as input and returns another
- * string as output.
- *
- * PHP 5 or higher is required.
- *
- * Permission is hereby granted to use this version of the library under the
- * same terms as jsmin.c, which has the following license:
- *
- * --
- * Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * The Software shall be used for Good, not Evil.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- * --
- *
- * @package JSMin
- * @author Ryan Grove <ryan@wonko.com>
- * @copyright 2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
- * @copyright 2008 Ryan Grove <ryan@wonko.com> (PHP port)
- * @license http://opensource.org/licenses/mit-license.php MIT License
- * @version 1.1.1 (2008-03-02)
- * @link http://code.google.com/p/jsmin-php/
- */
+	/**
+	 * jsmin.php - PHP implementation of Douglas Crockford's JSMin.
+	 *
+	 * This is pretty much a direct port of jsmin.c to PHP with just a few
+	 * PHP-specific performance tweaks. Also, whereas jsmin.c reads from stdin and
+	 * outputs to stdout, this library accepts a string as input and returns another
+	 * string as output.
+	 *
+	 * PHP 5 or higher is required.
+	 *
+	 * Permission is hereby granted to use this version of the library under the
+	 * same terms as jsmin.c, which has the following license:
+	 *
+	 * --
+	 * Copyright (c) 2002 Douglas Crockford  (www.crockford.com)
+	 *
+	 * Permission is hereby granted, free of charge, to any person obtaining a copy of
+	 * this software and associated documentation files (the "Software"), to deal in
+	 * the Software without restriction, including without limitation the rights to
+	 * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+	 * of the Software, and to permit persons to whom the Software is furnished to do
+	 * so, subject to the following conditions:
+	 *
+	 * The above copyright notice and this permission notice shall be included in all
+	 * copies or substantial portions of the Software.
+	 *
+	 * The Software shall be used for Good, not Evil.
+	 *
+	 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	 * SOFTWARE.
+	 * --
+	 *
+	 * @package JSMin
+	 * @author Ryan Grove <ryan@wonko.com>
+	 * @copyright 2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
+	 * @copyright 2008 Ryan Grove <ryan@wonko.com> (PHP port)
+	 * @license http://opensource.org/licenses/mit-license.php MIT License
+	 * @version 1.1.1 (2008-03-02)
+	 * @link http://code.google.com/p/jsmin-php/
+	 */
+	class JSMin {
+		const ORD_LF = 10;
 
-class JSMin {
-  const ORD_LF    = 10;
-  const ORD_SPACE = 32;
+		const ORD_SPACE = 32;
 
-  protected $a           = '';
-  protected $b           = '';
-  protected $input       = '';
-  protected $inputIndex  = 0;
-  protected $inputLength = 0;
-  protected $lookAhead   = null;
-  protected $output      = '';
+		public $a = '';
 
-  // -- Public Static Methods --------------------------------------------------
+		public $b = '';
 
-  public static function minify($js) {
-    $jsmin = new JSMin($js);
-    return $jsmin->min();
-  }
+		public $input = '';
 
-  // -- Public Instance Methods ------------------------------------------------
+		public $inputIndex = 0;
 
-  public function __construct($input) {
-    $this->input       = str_replace("\r\n", "\n", $input);
-    $this->inputLength = strlen($this->input);
-  }
+		public $inputLength = 0;
+		
+		public $lookAhead = null;
 
-  // -- Protected Instance Methods ---------------------------------------------
+		public $output = '';
 
-  protected function action($d) {
-    switch($d) {
-      case 1:
-        $this->output .= $this->a;
+		// -- Public Static Methods --------------------------------------------------
+		public static function minify($js) {
+			$jsmin = new JSMin($js);
+			return $jsmin->min();
+		}
 
-      case 2:
-        $this->a = $this->b;
+		// -- Public Instance Methods ------------------------------------------------
+		public function __construct($input) {
+			$this->input = str_replace("\r\n", "\n", $input);
+			$this->inputLength = strlen($this->input);
+		}
 
-        if ($this->a === "'" || $this->a === '"') {
-          for (;;) {
-            $this->output .= $this->a;
-            $this->a       = $this->get();
+		// -- Protected Instance Methods ---------------------------------------------
+		protected function action($d) {
+			switch ($d) {
+				case 1:
+					$this->output .= $this->a;
 
-            if ($this->a === $this->b) {
-              break;
-            }
+				case 2:
+					$this->a = $this->b;
 
-            if (ord($this->a) <= self::ORD_LF) {
-              throw new JSMinException('Unterminated string literal.');
-            }
+					if ($this->a === "'" || $this->a === '"') {
+						for (;;) {
+							$this->output .= $this->a;
+							$this->a = $this->get();
 
-            if ($this->a === '\\') {
-              $this->output .= $this->a;
-              $this->a       = $this->get();
-            }
-          }
-        }
+							if ($this->a === $this->b) {
+								break;
+							}
 
-      case 3:
-        $this->b = $this->next();
+							if (ord($this->a) <= self::ORD_LF) {
+								throw new JSMinException('Unterminated string literal.');
+							}
 
-        if ($this->b === '/' && (
-            $this->a === '(' || $this->a === ',' || $this->a === '=' ||
-            $this->a === ':' || $this->a === '[' || $this->a === '!' ||
-            $this->a === '&' || $this->a === '|' || $this->a === '?')) {
+							if ($this->a === '\\') {
+								$this->output .= $this->a;
+								$this->a = $this->get();
+							}
+						}
+					}
 
-          $this->output .= $this->a . $this->b;
+				case 3:
+					$this->b = $this->next();
 
-          for (;;) {
-            $this->a = $this->get();
+					if ($this->b === '/' && (
+							$this->a === '(' || $this->a === ',' || $this->a === '=' ||
+							$this->a === ':' || $this->a === '[' || $this->a === '!' ||
+							$this->a === '&' || $this->a === '|' || $this->a === '?')) {
 
-            if ($this->a === '/') {
-              break;
-            } elseif ($this->a === '\\') {
-              $this->output .= $this->a;
-              $this->a       = $this->get();
-            } elseif (ord($this->a) <= self::ORD_LF) {
-              throw new JSMinException('Unterminated regular expression '.
-                  'literal.');
-            }
+						$this->output .= $this->a . $this->b;
 
-            $this->output .= $this->a;
-          }
+						for (;;) {
+							$this->a = $this->get();
 
-          $this->b = $this->next();
-        }
-    }
-  }
+							if ($this->a === '/') {
+								break;
+							} elseif ($this->a === '\\') {
+								$this->output .= $this->a;
+								$this->a = $this->get();
+							} elseif (ord($this->a) <= self::ORD_LF) {
+								throw new JSMinException('Unterminated regular expression ' .
+										'literal.');
+							}
 
-  protected function get() {
-    $c = $this->lookAhead;
-    $this->lookAhead = null;
+							$this->output .= $this->a;
+						}
 
-    if ($c === null) {
-      if ($this->inputIndex < $this->inputLength) {
-        $c = substr($this->input, $this->inputIndex, 1);
-        $this->inputIndex += 1;
-      } else {
-        $c = null;
-      }
-    }
+						$this->b = $this->next();
+					}
+			}
+		}
 
-    if ($c === "\r") {
-      return "\n";
-    }
+		protected function get() {
+			$c = $this->lookAhead;
+			$this->lookAhead = null;
 
-    if ($c === null || $c === "\n" || ord($c) >= self::ORD_SPACE) {
-      return $c;
-    }
+			if ($c === null) {
+				if ($this->inputIndex < $this->inputLength) {
+					$c = substr($this->input, $this->inputIndex, 1);
+					$this->inputIndex += 1;
+				} else {
+					$c = null;
+				}
+			}
 
-    return ' ';
-  }
+			if ($c === "\r") {
+				return "\n";
+			}
 
-  protected function isAlphaNum($c) {
-    return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
-  }
+			if ($c === null || $c === "\n" || ord($c) >= self::ORD_SPACE) {
+				return $c;
+			}
 
-  protected function min() {
-    $this->a = "\n";
-    $this->action(3);
+			return ' ';
+		}
 
-    while ($this->a !== null) {
-      switch ($this->a) {
-        case ' ':
-          if ($this->isAlphaNum($this->b)) {
-            $this->action(1);
-          } else {
-            $this->action(2);
-          }
-          break;
+		protected function isAlphaNum($c) {
+			return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
+		}
 
-        case "\n":
-          switch ($this->b) {
-            case '{':
-            case '[':
-            case '(':
-            case '+':
-            case '-':
-              $this->action(1);
-              break;
+		protected function min() {
+			$this->a = "\n";
+			$this->action(3);
 
-            case ' ':
-              $this->action(3);
-              break;
+			while ($this->a !== null) {
+				if($this->a == ' ' && $this->isAlphaNum($this->b)){
+					$this->action(1);
+				}
 
-            default:
-              if ($this->isAlphaNum($this->b)) {
-                $this->action(1);
-              }
-              else {
-                $this->action(2);
-              }
-          }
-          break;
+				else if($this->a == ' ' && !$this->isAlphaNum($this->b)){
+					$this->action(2);
+				}
 
-        default:
-          switch ($this->b) {
-            case ' ':
-              if ($this->isAlphaNum($this->a)) {
-                $this->action(1);
-                break;
-              }
+				else if($this->a == "\n"){
+					if(in_array($this->b, array('{', '[', '(', '+', '-'))){
+						$this->action(1);
+					}
 
-              $this->action(3);
-              break;
+					else if($this->b == ' '){
+						$this->action(3);
+					}
 
-            case "\n":
-              switch ($this->a) {
-                case '}':
-                case ']':
-                case ')':
-                case '+':
-                case '-':
-                case '"':
-                case "'":
-                  $this->action(1);
-                  break;
+					else if($this->isAlphaNum($this->b)){
+						$this->action(1);
+					}
 
-                default:
-                  if ($this->isAlphaNum($this->a)) {
-                    $this->action(1);
-                  }
-                  else {
-                    $this->action(3);
-                  }
-              }
-              break;
+					else{
+						$this->action(1);
+					}
+				}
+				
+				else if($this->b == ' ' && $this->isAlphaNum($this->a)){
+					$this->action(1);
+				}
 
-            default:
-              $this->action(1);
-              break;
-          }
-      }
-    }
+				else if($this->b == ' '){
+					$this->action(3);
+				}
 
-    return $this->output;
-  }
+				else if($this->b == "\n"){
+					if(in_array($this->a, array('}', ']', ')', '+', '-', '"', "'"))){
+						$this->action(1);
+					}
 
-  protected function next() {
-    $c = $this->get();
+					else if($this->isAlphaNum($this->a)){
+						$this->action(1);
+					}
 
-    if ($c === '/') {
-      switch($this->peek()) {
-        case '/':
-          for (;;) {
-            $c = $this->get();
+					else{
+						$this->action(3);
+					}
+				}
 
-            if (ord($c) <= self::ORD_LF) {
-              return $c;
-            }
-          }
+				else{
+					$this->action(1);
+				}
+			}
 
-        case '*':
-          $this->get();
+			return $this->output;
+		}
 
-          for (;;) {
-            switch($this->get()) {
-              case '*':
-                if ($this->peek() === '/') {
-                  $this->get();
-                  return ' ';
-                }
-                break;
+		protected function next() {
+			$c = $this->get();
 
-              case null:
-                throw new JSMinException('Unterminated comment.');
-            }
-          }
+			if ($c === '/') {
+				switch ($this->peek()) {
+					case '/':
+						for (;;) {
+							$c = $this->get();
 
-        default:
-          return $c;
-      }
-    }
+							if (ord($c) <= self::ORD_LF) {
+								return $c;
+							}
+						}
 
-    return $c;
-  }
+					case '*':
+						$this->get();
 
-  protected function peek() {
-    $this->lookAhead = $this->get();
-    return $this->lookAhead;
-  }
-}
+						for (;;) {
+							switch ($this->get()) {
+								case '*':
+									if ($this->peek() === '/') {
+										$this->get();
+										return ' ';
+									}
+									break;
 
-// -- Exceptions ---------------------------------------------------------------
-class JSMinException extends Exception {}
+								case null:
+									throw new JSMinException('Unterminated comment.');
+							}
+						}
+
+					default:
+						return $c;
+				}
+			}
+
+			return $c;
+		}
+
+		protected function peek() {
+			$this->lookAhead = $this->get();
+			return $this->lookAhead;
+		}
+	}
+
+	// -- Exceptions ---------------------------------------------------------------
+	class JSMinException extends Exception {
+
+	}

@@ -23,32 +23,34 @@
 		/**
 		 * The directory to which the combined CSS files will be cached.
 		 *
-		 * @access private
+		 * @access public
 		 * @var string
 		 */
-		private $cssCachePath;
+		public $cssCachePath;
 
 		/**
 		 * The directory to which the combined Javascript files will be cached.
 		 *
-		 * @access private
+		 * @access public
 		 * @var string
 		 */
-		private $jsCachePath;
+		public $jsCachePath;
 
 		/**
 		 * Indicates the time of expiry for the combined files.
-		 * @access private
+		 *
+		 * @access public
 		 * @var int
 		 */
-		private $cacheLength;
+		public $cacheLength;
 
 		/**
 		 * Indicates whether the class is active and is able to begin combining scripts.
-		 * @access private
+		 *
+		 * @access public
 		 * @var bool
 		 */
-		private $enabled = false;
+		public $enabled = false;
 
 		/**
 		 * Sets up the helper's properties, and determines whether the helper's environment
@@ -186,7 +188,8 @@
 		 * @param mixed [$url1,$url2,...] Either an array of files to combine, or multiple arguments of filenames.
 		 * @access public
 		 *
-		 * @return string The HTML &lt;script /&gt; to either the combined file, or to the multiple Javascript files if the combined file could not be cached.
+		 * @return string The HTML &lt;script /&gt; to either the combined file,
+		 *	or to the multiple Javascript files if the combined file could not be cached.
 		 */
 		public function js() {
 			// Get the javascript files.
