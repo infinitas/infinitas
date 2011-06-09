@@ -7,7 +7,7 @@
 		 * react for multiple fields.
 		 * So pretty much just best for `id` of a foreign key.
 		 * For HABTM, association condition should not be on the join table, but association. So if:
-		 *    User HABTM Interests, and searching for Users, should be Interest.id.
+		 *	User HABTM Interests, and searching for Users, should be Interest.id.
 		 * TODO: End result uses the 'IN' operator for the query, which is equivalent to 'OR', and will
 		 * eventually want 'AND' instead.
 		 * TODO: Test in conditions where no 'with'

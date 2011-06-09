@@ -37,9 +37,9 @@
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
-	 * @link          http://infinitas-cms.org/$plugin
-	 * @package       $plugin.controllers.$controllerName
-	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @link		  http://infinitas-cms.org/$plugin
+	 * @package	   $plugin.controllers.$controllerName
+	 * @license	   http://infinitas-cms.org/mit-license The MIT License
 	 * @since $version
 	 *
 	 * @author $username

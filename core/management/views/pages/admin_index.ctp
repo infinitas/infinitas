@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-    echo $this->Form->create( 'Page', array( 'url' => array( 'controller' => 'pages', 'action' => 'mass', 'admin' => 'true' ) ) );
+	echo $this->Form->create( 'Page', array( 'url' => array( 'controller' => 'pages', 'action' => 'mass', 'admin' => 'true' ) ) );
 
 	$massActions = $this->Core->massActionButtons(
 		array(
@@ -40,20 +40,20 @@
 	}
 ?>
 <div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Core->adminTableHeader(
-                array(
-                    $this->Form->checkbox( 'all' ) => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'file_name' )
-                )
-            );
+	<table class="listing" cellpadding="0" cellspacing="0">
+		<?php
+			echo $this->Core->adminTableHeader(
+				array(
+					$this->Form->checkbox( 'all' ) => array(
+						'class' => 'first',
+						'style' => 'width:25px;'
+					),
+					$this->Paginator->sort( 'name' ),
+					$this->Paginator->sort( 'file_name' )
+				)
+			);
 
-            $id = 0;
+			$id = 0;
 			foreach ( $pages as $page ){ ?>
 				<tr class="<?php echo $this->Core->rowClass(); ?>">
 					<td><?php echo $this->Form->checkbox( 'Page.'.$id.'.id', array('value' => $page['Page']['file_name']) ); ?>&nbsp;</td>
@@ -67,7 +67,7 @@
 				$id++;
 			}
 		?>
-    </table>
-    <?php echo $this->Form->end(); ?>
+	</table>
+	<?php echo $this->Form->end(); ?>
 </div>
 <?php echo $this->element('pagination/admin/navigation'); ?>

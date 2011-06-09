@@ -36,26 +36,26 @@
 	 * [wannaUseSession] => 1
 	 *
 	 * [modelObj] => CoreLog Object (
-	 *    [name] => ''
-	 *    [displayField] => ''
-	 *    [order] => Array()
-	 *    [hasOne] => Array()
-	 *    [belongsTo] => Array()
-	 *    [hasMany] => Array()
-	 *    [hasAndBelongsToMany] => Array()
-	 *    [useDbConfig] => ''
-	 *    [actsAs] => Array()
-	 *    [blockedPlugins] => Array()
-	 *    [useTable] => ''
-	 *    [id] => ''
-	 *    [data] => Array()
-	 *    [table] => ''
-	 *    [primaryKey] => ''
-	 *    [_schema] => Array()
-	 *    [validate] => Array()
-	 *    [validationErrors] => Array()
-	 *    [tablePrefix] => ''
-     *    [alias] => ''
+	 *	[name] => ''
+	 *	[displayField] => ''
+	 *	[order] => Array()
+	 *	[hasOne] => Array()
+	 *	[belongsTo] => Array()
+	 *	[hasMany] => Array()
+	 *	[hasAndBelongsToMany] => Array()
+	 *	[useDbConfig] => ''
+	 *	[actsAs] => Array()
+	 *	[blockedPlugins] => Array()
+	 *	[useTable] => ''
+	 *	[id] => ''
+	 *	[data] => Array()
+	 *	[table] => ''
+	 *	[primaryKey] => ''
+	 *	[_schema] => Array()
+	 *	[validate] => Array()
+	 *	[validationErrors] => Array()
+	 *	[tablePrefix] => ''
+	 *	[alias] => ''
 	 */
 
 	if (!function_exists('relatedFinds')) {

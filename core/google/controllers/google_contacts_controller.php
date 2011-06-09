@@ -22,12 +22,12 @@
 * Configuration in app/config/database.php:
 *
 * var $google_contacts = array(
-*      'datasource'  => 'google_contacts',
-*      'accounttype' => 'GOOGLE',
-*      'email'       => 'YOUR GOOGLE EMAIL',
-*      'passwd'      => 'YOUR PASSWORD',
-*      'source'      => 'companyName-applicationName-versionID',
-*      'database'    => ''
+*	  'datasource'  => 'google_contacts',
+*	  'accounttype' => 'GOOGLE',
+*	  'email'	   => 'YOUR GOOGLE EMAIL',
+*	  'passwd'	  => 'YOUR PASSWORD',
+*	  'source'	  => 'companyName-applicationName-versionID',
+*	  'database'	=> ''
 * );
 *
 * Find methods:
@@ -40,9 +40,9 @@
 * Available conditions:
 * - start-index -> For paging
 * - updated-min -> The lower bound on entry update dates.
-* - orderby     -> Sorting criterion. The only supported value is lastmodified.
+* - orderby	 -> Sorting criterion. The only supported value is lastmodified.
 * - showdeleted -> Include deleted contacts in the returned contacts feed.
-* - group       -> Value of this parameter specifies group ID
+* - group	   -> Value of this parameter specifies group ID
 *
 * Restult array keys:
 *

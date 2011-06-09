@@ -8,14 +8,14 @@
 	 *
 	 * public $helpers = array(
 	 *   'Analogue' => array(
-	 *     array(
-	 *       'helper' => 'MyHtml',
-	 *       'rename' => 'Html'
-	 *     ),
-	 *     array(
-	 *       'helper' => 'MyForm',
-	 *       'rename' => 'Form'
-	 *     )
+	 *	 array(
+	 *	   'helper' => 'MyHtml',
+	 *	   'rename' => 'Html'
+	 *	 ),
+	 *	 array(
+	 *	   'helper' => 'MyForm',
+	 *	   'rename' => 'Form'
+	 *	 )
 	 *   )
 	 * );
 	 */

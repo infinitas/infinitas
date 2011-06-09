@@ -2,7 +2,7 @@
 	class TrashableBehavior extends ModelBehavior {
 		public $Trash = null;
 
-	    public function beforeDelete(&$Model, $cascade = true) {
+		public function beforeDelete(&$Model, $cascade = true) {
 			if($this->Trash === null) {
 				$this->Trash = ClassRegistry::init('Trash.Trash');
 			}

@@ -278,8 +278,8 @@
 		 * valid map type
 		 *
 		 * roadmap (default) specifies a standard roadmap image, as is normally shown on the Google Maps website. If no maptype value is specified, the Static Maps API serves roadmap tiles by default.
-    	 * satellite specifies a satellite image.
-    	 * terrain specifies a physical relief map image, showing terrain and vegetation.
+		 * satellite specifies a satellite image.
+		 * terrain specifies a physical relief map image, showing terrain and vegetation.
    	 	 * hybrid specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
    	 	 *
 		 * @param string $mapType

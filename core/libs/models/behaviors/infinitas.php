@@ -27,10 +27,10 @@
 		 * @access protected
 		 */
 		protected  $_json_messages = array(
-		    JSON_ERROR_NONE      => 'No error',
-		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
-		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
-		    JSON_ERROR_SYNTAX    => 'Syntax error',
+			JSON_ERROR_NONE	  => 'No error',
+			JSON_ERROR_DEPTH	 => 'The maximum stack depth has been exceeded',
+			JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+			JSON_ERROR_SYNTAX	=> 'Syntax error',
 		);
 
 		/**
@@ -89,7 +89,7 @@
 				return $tables;
 			}
 
-			$tables      = $this->db->query('SHOW TABLES;');
+			$tables	  = $this->db->query('SHOW TABLES;');
 			$databseName = $this->db->config['database'];
 
 			unset($this->db);
@@ -119,7 +119,7 @@
 			$tableNames = $this->getTables($Model, $connection);
 			$return = array();
 
-			$this->db    = ConnectionManager::getDataSource($connection);
+			$this->db	= ConnectionManager::getDataSource($connection);
 
 			foreach($tableNames as $table ){
 				$fields = $this->db->query('DESCRIBE '.$table);

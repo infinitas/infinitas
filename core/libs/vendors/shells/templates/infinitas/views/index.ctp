@@ -10,11 +10,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 *
 	 * @filesource
-	 * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link          http://infinitas-cms.org
-	 * @package       Shell
-	 * @subpackage    Shell.templates.views.index
-	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link		  http://infinitas-cms.org
+	 * @package	   Shell
+	 * @subpackage	Shell.templates.views.index
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 *
 	 * Available vars
 	 * ============================
@@ -66,9 +66,9 @@
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
-	 * @link          http://infinitas-cms.org/$plugin
-	 * @package       $plugin.views.$action
-	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @link		  http://infinitas-cms.org/$plugin
+	 * @package	   $plugin.views.$action
+	 * @license	   http://infinitas-cms.org/mit-license The MIT License
 	 * @since $version
 	 *
 	 * @author $username
@@ -94,20 +94,20 @@ COMMENT;
 	"?>\n";
 ?>
 <div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
+	<table class="listing" cellpadding="0" cellspacing="0">
+		<?php
 			echo "<?php\n".
-	            "\t\t\techo \$this->Infinitas->adminTableHeader(\n".
-	                "\t\t\t\tarray(\n".
-	                    "\t\t\t\t\t\$this->Form->checkbox('all') => array(\n".
-	                        "\t\t\t\t\t\t'class' => 'first',\n".
-	                        "\t\t\t\t\t\t'style' => 'width:25px;'\n".
-	                    "\t\t\t\t\t),\n";
-		                $endFields = '';
-		                foreach($fields as $field ){
-		                	if (in_array($field, $ignore)) {
-		                		continue;
-		                	}
+				"\t\t\techo \$this->Infinitas->adminTableHeader(\n".
+					"\t\t\t\tarray(\n".
+						"\t\t\t\t\t\$this->Form->checkbox('all') => array(\n".
+							"\t\t\t\t\t\t'class' => 'first',\n".
+							"\t\t\t\t\t\t'style' => 'width:25px;'\n".
+						"\t\t\t\t\t),\n";
+						$endFields = '';
+						foreach($fields as $field ){
+							if (in_array($field, $ignore)) {
+								continue;
+							}
 
 							$isKey = false;
 							if (!empty($associations['belongsTo'])) {
@@ -123,33 +123,33 @@ COMMENT;
 								switch($field){
 									case 'created':
 									case 'modified':
-					                    $endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
-					                        "\t\t\t\t\t\t'style' => 'width:75px;'\n".
-					                    "\t\t\t\t\t),\n";
+										$endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
+											"\t\t\t\t\t\t'style' => 'width:75px;'\n".
+										"\t\t\t\t\t),\n";
 										break;
 
 									case 'active':
 									case 'locked':
 										$endFields = "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
-					                        "\t\t\t\t\t\t'style' => 'width:50px;'\n".
-					                    "\t\t\t\t\t),\n".$endFields;
+											"\t\t\t\t\t\t'style' => 'width:50px;'\n".
+										"\t\t\t\t\t),\n".$endFields;
 										break;
 
 									case str_replace('_count', '', $field) != $field:
 										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
 										echo "\t\t\t\t\t\$this->Paginator->sort('{$name}', '{$field}') => array(\n".
-					                        "\t\t\t\t\t\t'style' => 'width:50px;'\n".
-					                    "\t\t\t\t\t),\n";
+											"\t\t\t\t\t\t'style' => 'width:50px;'\n".
+										"\t\t\t\t\t),\n";
 										break;
 
 									default:
-					                    echo "\t\t\t\t\t\$this->Paginator->sort('{$field}'),\n";
+										echo "\t\t\t\t\t\$this->Paginator->sort('{$field}'),\n";
 								} // switch
 							}
-		                }
+						}
 						echo $endFields;
-	                echo "\t\t\t\t)\n".
-	            "\t\t\t);\n\n".
+					echo "\t\t\t\t)\n".
+				"\t\t\t);\n\n".
 
 				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}){ ?>\n".
 					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n".
@@ -157,9 +157,9 @@ COMMENT;
 
 						$endFields = '';
 						foreach ($fields as $field) {
-		                	if (in_array($field, $ignore)) {
-		                		continue;
-		                	}
+							if (in_array($field, $ignore)) {
+								continue;
+							}
 
 							$isKey = false;
 							if (!empty($associations['belongsTo'])) {

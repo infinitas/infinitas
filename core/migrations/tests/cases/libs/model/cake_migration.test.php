@@ -4,8 +4,8 @@ App::import('Model', 'Migrations.CakeMigration', false);
 /**
  * TestCakeMigration
  *
- * @package       migrations
- * @subpackage    migrations.tests.cases.libs
+ * @package	   migrations
+ * @subpackage	migrations.tests.cases.libs
  */
 class TestCakeMigration extends CakeMigration {
 
@@ -21,8 +21,8 @@ class TestCakeMigration extends CakeMigration {
 /**
  * TestCallbackCakeMigration
  *
- * @package       migrations
- * @subpackage    migrations.tests.cases.libs
+ * @package	   migrations
+ * @subpackage	migrations.tests.cases.libs
  */
 class TestCallbackCakeMigration {
 
@@ -78,8 +78,8 @@ class TestCallbackCakeMigration {
 /**
  * CakeMigrationTest
  *
- * @package       migration
- * @subpackage    migration.tests.cases.libs
+ * @package	   migration
+ * @subpackage	migration.tests.cases.libs
  */
 class CakeMigrationTest extends CakeTestCase {
 
