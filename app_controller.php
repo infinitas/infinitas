@@ -39,6 +39,7 @@
 	 * of what the project has to offer.
 	 */
 
+
 	/**
 	 * @page AppController AppController
 	 *
@@ -119,14 +120,6 @@
 		 * This changes when requests are json etc
 		 */
 		public $view = 'Libs.Infinitas';
-
-		/**
-		 * not sure if this is still used
-		 * 
-		 * @deprecated
-		 * @var array
-		 */
-		public $_helpers = array();
 
 		/**
 		 * internal cache of css files to load
@@ -261,7 +254,9 @@
 			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
 
-			if((isset($this->params['admin']) && $this->params['admin']) && $this->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
+			$this->params['admin'] = isset($this->params['admin']) ? $this->params['admin'] : false;
+			
+			if($this->params['admin'] && $this->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
 				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			}
 
@@ -790,14 +785,15 @@
 		public function rate($id = null) {
 			$this->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
 			$this->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
-			$this->data['Rating']['class'] = isset($this->data['Rating']['class']) ? $this->data['Rating']['class']: ucfirst($this->params['plugin']).'.'.$this->modelClass;
+			$tempClass = ucfirst($this->params['plugin']) . '.' . $this->modelClass;
+			$this->data['Rating']['class'] = isset($this->data['Rating']['class']) ? $this->data['Rating']['class'] : $tempClass;
 			$this->data['Rating']['foreign_id'] = isset($this->data['Rating']['foreign_id']) ? $this->data['Rating']['foreign_id'] : $id;
 			$this->data['Rating']['rating'] = isset($this->data['Rating']['rating']) ? $this->data['Rating']['rating'] : $this->params['named']['rating'];
 
 			$this->log(serialize($this->data['Rating']));
 
 			if (Configure::read('Rating.require_auth') === true && !$this->data['Rating']['user_id']) {
-				$this->Session->setFlash(__('You need to be logged in to rate this item',true));
+				$this->Session->setFlash(__('You need to be logged in to rate this item', true));
 				$this->redirect('/login');
 			}
 
@@ -890,7 +886,15 @@
 				$this->set('json', array('error'));
 				return;
 			}
-			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getActions($this->params['named']['plugin'], $this->params['named']['controller']));
+			$this->set(
+				'json',
+				array(
+					'' => __('Please select', true)
+				) + $this->{$this->modelClass}->getActions(
+					$this->params['named']['plugin'],
+					$this->params['named']['controller']
+				)
+			);
 		}
 
 		/**
@@ -958,17 +962,28 @@
 				if (!$controllerNode) {
 					if ($this->Infinitas->_isPlugin($ctrlName)){
 						$pluginNode = $aco->node('controllers/' . $this->Infinitas->_getPluginName($ctrlName));
-						$aco->create(array('parent_id' => $pluginNode['0']['Aco']['id'], 'model' => null, 'alias' => $this->Infinitas->_getPluginControllerName($ctrlName)));
+						$aco->create(
+							array(
+								'parent_id' => $pluginNode['0']['Aco']['id'],
+								'model' => null,
+								'alias' => $this->Infinitas->_getPluginControllerName($ctrlName)
+							)
+						);
 						$controllerNode = $aco->save();
 						$controllerNode['Aco']['id'] = $aco->id;
-						$log[] = 'Created Aco node for ' . $this->Infinitas->_getPluginControllerName($ctrlName) . ' ' . $this->Infinitas->_getPluginName($ctrlName) . ' Plugin Controller';
-					} else {
+						$log[] = 'Created Aco node for ' . $this->Infinitas->_getPluginControllerName($ctrlName) . ' ' .
+							$this->Infinitas->_getPluginName($ctrlName) . ' Plugin Controller';
+					}
+
+					else {
 						$aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $ctrlName));
 						$controllerNode = $aco->save();
 						$controllerNode['Aco']['id'] = $aco->id;
 						$log[] = 'Created Aco node for ' . $ctrlName;
 					}
-				} else {
+				}
+
+				else {
 					$controllerNode = $controllerNode[0];
 				}
 
@@ -1004,9 +1019,10 @@
 		 */
 		public function admin_mass() {
 			$massAction = $this->MassAction->getAction($this->params['form']);
+			$modelName = isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass;
 			$ids = $this->MassAction->getIds(
 				$massAction,
-				$this->data[isset($this->data['Confirm']['model']) ? $this->data['Confirm']['model'] : $this->modelClass]
+				$this->data[$modelName]
 			);
 
 			$massActionMethod = '__massAction' . ucfirst($massAction);

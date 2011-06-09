@@ -115,7 +115,7 @@
 		 * @var string
 		 * @access public
 		 */
-		public $_errors = array();
+		public $errors = array();
 
 		/**
 		 * Plugin that the model belongs to.
@@ -275,9 +275,7 @@
 				return false;
 			}
 
-			$primaryKey = $primaryKey
-				? $this->primaryKey
-				: $displayField;
+			$primaryKey = ($primaryKey) ? $this->primaryKey : $displayField;
 
 			return $this->find(
 				'list',
@@ -309,7 +307,7 @@
 				$this->__getPlugin();
 			}
 
-			return $this->plugin == null ? $this->name : $this->plugin . '.' . $this->name;
+			return ($this->plugin == null) ? $this->name : $this->plugin . '.' . $this->name;
 		}
 
 		/**
@@ -372,7 +370,10 @@
 				$key = current(array_keys($connection));
 				$connection = current($connection);
 
-				if(strtolower($key) == 'default' || (isset(ConnectionManager::getInstance()->config->{$key}) && ConnectionManager::getInstance()->config->{$key} !== $connection)){
+				$alreadyUsed = strtolower($key) == 'default' || 
+					(isset(ConnectionManager::getInstance()->config->{$key}) && ConnectionManager::getInstance()->config->{$key} !== $connection);
+					
+				if($alreadyUsed){
 					trigger_error(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping', true), $key, $plugin), E_USER_WARNING);
 					continue;
 				}
