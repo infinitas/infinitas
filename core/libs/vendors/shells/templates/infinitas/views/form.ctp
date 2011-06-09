@@ -41,8 +41,12 @@
 	$ignore = array(
 		$primaryKey,
 		'locked', 'locked_by', 'locked_since',
-		'deleted_date',
+		'deleted', 'deleted_date',
 		'created', 'modified', 'updated',
+
+		'views', 'slug',
+
+		'lft', 'rght', 
 
 		'active', 'deleted'
 	);
@@ -50,25 +54,33 @@
 	$configs = array(
 		'active'
 	);
+	
+	$year = date('Y');
 
-	echo "<?php\n".
-	"\t/**\n".
-	"\t * $modelClass view/edit\n".
-	"\t *\n".
-	"\t * Add some documentation for $modelClass.\n".
-	"\t *\n".
-	"\t * Copyright (c) {yourName}\n".
-	"\t *\n".
-	"\t * Licensed under The MIT License\n".
-	"\t * Redistributions of files must retain the above copyright notice.\n".
-	"\t *\n".
-	"\t * @filesource\n".
-	"\t * @copyright     Copyright (c) 2009 {yourName}\n".
-	"\t * @link          http://infinitas-cms.org\n".
-	"\t * @package       $modelClass\n".
-	"\t * @subpackage    $modelClass.views.$pluralVar.index\n".
-	"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
-	"\t */\n\n";
+	@$username = trim(`eval whoami`);
+	$username ? $username : '{username}';
+
+	$version = Configure::read('Infinitas.version');
+
+	echo<<<COMMENT
+<?php
+	/**
+	 * @brief Add some documentation for this $action form.
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+	 *
+	 * @link          http://infinitas-cms.org/$plugin
+	 * @package       $plugin.views.$action
+	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @since $version
+	 *
+	 * @author $username
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
+COMMENT;
 
 	$possibleFileFields = array('file', 'image');
 
@@ -99,23 +111,22 @@
 						}
 					}
 
-					if (!in_array($field, $ignore) && (str_replace('_count', '', $field) == $field)) {
+					if (!in_array($field, $ignore) && !in_array($field, $configs) && (str_replace('_count', '', $field) == $field)) {
+						$emptyOption = '';
 						switch($schema[$field]['type']){
 							case 'text':
-								$end .= "\t\t\t\techo \$this->".ucfirst($plugin)."->wysiwyg('{$modelClass}.{$field}');\n";
-								break;
-
-							case $displayField == $field:
-								echo "\t\t\t\techo \$this->Form->input('{$field}', array('class' => 'title'));\n";
+								$end .= "\t\t\t\techo \$this->Infinitas->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
 
 							case in_array($field, $possibleFileFields):
 								echo "\t\t\t\techo \$this->Form->input('{$field}'{$fileUpload});\n";
 								break;
 
-
 							default:
-								echo "\t\t\t\techo \$this->Form->input('{$field}');\n";
+								if(strstr($field, '_id')){
+									$emptyOption = ', array(\'empty\' => Configure::read(\'Website.empty_select\'))';
+								}
+								echo "\t\t\t\techo \$this->Form->input('{$field}'{$emptyOption});\n";
 								break;
 						} // switch
 					}
@@ -127,8 +138,12 @@
 		echo "\t\t<fieldset>\n" .
 			"\t\t\t<h1><?php echo __('Configuration', true); ?></h1><?php\n";
 				foreach ($fields as $field) {
+					$emptyOption = '';
 					if (in_array($field, $configs)) {
-						echo "\t\t\t\techo \$this->Form->input('{$field}');\n";
+						if(strstr($field, '_id')){
+							$emptyOption = ', array(\'empty\' => Configure::read(\'Website.empty_select\'))';
+						}
+						echo "\t\t\t\techo \$this->Form->input('{$field}'{$emptyOption});\n";
 					}
 				}
 

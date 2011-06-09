@@ -104,7 +104,7 @@ COMMENT;
 				// like 'layout_id' => $this->Content->Layout->find('list'),
 			}
 		echo "\t\t\t);\n\n";
-		echo "\t\t\t\$this->set(compact('$pluralName','filterOptions'));";
+		echo "\t\t\t\$this->set(compact('$pluralName','filterOptions'));\n";
 	echo "\t\t}\n\n";
 
 	/**

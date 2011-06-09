@@ -39,11 +39,11 @@
 	 */
 
 	$ignore = array(
-		'id',
-		'locked_by', 'locked_since',
-		'password',
-		'deleted', 'deleted_date',
-		'slug'
+		'id', 'slug', 'password', // general fields
+		'locked', 'locked_by', 'locked_since', // lockable
+		'deleted', 'deleted_date', // soft delete
+		'slug',
+		'lft', 'rght' // mptt fields
 	);
 
 	foreach($fields as $field){
@@ -52,25 +52,33 @@
 		}
 	}
 
-	echo "<?php\n".
-		"\t/**\n".
-		"\t * $modelClass index\n".
-		"\t *\n".
-		"\t * Add some documentation for $modelClass.\n".
-		"\t *\n".
-		"\t * Copyright (c) {yourName}\n".
-		"\t *\n".
-		"\t * Licensed under The MIT License\n".
-		"\t * Redistributions of files must retain the above copyright notice.\n".
-		"\t *\n".
-		"\t * @filesource\n".
-		"\t * @copyright     Copyright (c) 2009 {yourName}\n".
-		"\t * @link          http://infinitas-cms.org\n".
-		"\t * @package       $modelClass\n".
-		"\t * @subpackage    $modelClass.views.$pluralVar.index\n".
-		"\t * @license       http://www.opensource.org/licenses/mit-license.php The MIT License\n".
-		"\t */\n\n".
-		"\techo \$this->Form->create('$modelClass', array('url' => array('controller' => '".Inflector::pluralize(Inflector::underscore($modelClass))."', 'action' => 'mass', 'admin' => true)));\n\n".
+	$year = date('Y');
+
+	@$username = trim(`eval whoami`);
+	$username ? $username : '{username}';
+
+	$version = Configure::read('Infinitas.version');
+
+	echo<<<COMMENT
+<?php
+	/**
+	 * @brief Add some documentation for this $action form.
+	 *
+	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+	 *
+	 * @link          http://infinitas-cms.org/$plugin
+	 * @package       $plugin.views.$action
+	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @since $version
+	 *
+	 * @author $username
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 */
+
+COMMENT;
+	echo "\techo \$this->Form->create('$modelClass', array('action' => 'mass'));\n\n".
 		"\t\$massActions = \$this->Infinitas->massActionButtons(\n".
 			"\t\tarray(\n".
 				"\t\t\t'add',\n".
@@ -91,7 +99,6 @@
 			echo "<?php\n".
 	            "\t\t\techo \$this->Infinitas->adminTableHeader(\n".
 	                "\t\t\t\tarray(\n".
-
 	                    "\t\t\t\t\t\$this->Form->checkbox('all') => array(\n".
 	                        "\t\t\t\t\t\t'class' => 'first',\n".
 	                        "\t\t\t\t\t\t'style' => 'width:25px;'\n".
@@ -142,7 +149,7 @@
 		                }
 						echo $endFields;
 	                echo "\t\t\t\t)\n".
-	            "\t\t\t);\n".
+	            "\t\t\t);\n\n".
 
 				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}){ ?>\n".
 					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n".
