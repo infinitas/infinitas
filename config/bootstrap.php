@@ -42,7 +42,9 @@
 		$Folder = new Folder(APP);
 		$folders = $Folder->read();
 		$folders = array_flip($folders[0]);
-		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], $folders['nbproject'], $folders['tmp'], $folders['views'], $folders['webroot'], $folders['tests']);
+		unset($Folder, $folders['.git'], $folders['config'], $folders['locale'], 
+			$folders['nbproject'], $folders['tmp'], $folders['views'],
+			$folders['webroot'], $folders['tests']);
 
 		$paths = array();
 		foreach(array_flip($folders) as $folder){
@@ -103,7 +105,7 @@
 
 			// set a default and turn off if debug is on.
 			$cache['config']['duration'] = isset($cache['config']['duration']) ? $cache['config']['duration'] : '+ 999 days';
-			$cache['config']['duration'] = Configure::read('debug') > 0 ? '+ 10 seconds' : $cache['config']['duration'];
+			$cache['config']['duration'] = (Configure::read('debug') > 0) ? '+ 10 seconds' : $cache['config']['duration'];
 			
 			if(!empty($cache['name']) && !empty($cache['config'])) {
 				Cache::config($cache['name'], $cache['config']);
@@ -140,7 +142,7 @@
 		$replace = array('\/', '\^', '\.', '\$', '\|', '\(', '\)',
 		'\[', '\]', '\*', '\+', '\?', '\{', '\}', '\,');
 
-		return preg_replace($patterns,$replace, $str);
+		return preg_replace($patterns, $replace, $str);
 	}
 
 	/**
@@ -239,8 +241,8 @@
 	 * @return string size in human readable
 	 */
 	function convert($size){
-		$unit=array('b','kb','mb','gb','tb','pb');
-		return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+		$unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+		return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
 	}
 
 	/**
