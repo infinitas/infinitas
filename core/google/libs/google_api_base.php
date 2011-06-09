@@ -116,11 +116,11 @@ class GoogleApiBase {
 	*/
 	function sendRequest($url, $action, $content = null) {
 		/*
-      Could'nt find a way to do it via HttpSocket i got empty result
+	  Could'nt find a way to do it via HttpSocket i got empty result
 
-      $auth['header'] = "Authorization: GoogleLogin auth=" . $this->_auth_key;
-      $result = $HttpSocket->get("http://www.google.com/m8/feeds/contacts/jc.ekinox@gmail.com/full", array(), $auth);
-    */
+	  $auth['header'] = "Authorization: GoogleLogin auth=" . $this->_auth_key;
+	  $result = $HttpSocket->get("http://www.google.com/m8/feeds/contacts/jc.ekinox@gmail.com/full", array(), $auth);
+	*/
 		$header[] = "Authorization: GoogleLogin auth=" . $this->_auth_key;
 		$header[] = "GData-Version: 3.0";
 		switch ($action) {

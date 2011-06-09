@@ -23,9 +23,9 @@
 	   * Changelog:
 	   *
 	   * 2005-01-13   Andrew Hill, Awarez Ltd. (http://www.awarez.net)
-	   *              Formatted file according to PEAR library standards.
-	   *              Changed inclusion of geoip.inc file to require_once, so that
-	   *                  this library can be used in the same script as geoip.inc.
+	   *			  Formatted file according to PEAR library standards.
+	   *			  Changed inclusion of geoip.inc file to require_once, so that
+	   *				  this library can be used in the same script as geoip.inc.
 	*/
 
 	/**

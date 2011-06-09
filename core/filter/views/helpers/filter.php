@@ -1,20 +1,20 @@
 <?php
-    class FilterHelper extends AppHelper{
-    	public $helpers = array(
-    	    'Form', 'Html'
-    	);
+	class FilterHelper extends AppHelper{
+		public $helpers = array(
+			'Form', 'Html'
+		);
 
-        public $count = 0;
+		public $count = 0;
 
-    	public function form($model, $filter = array()){
-    		if (empty($filter) || !isset($filter['fields'])){
-    			$this->errors[] = 'There is no filters';
-    			return false;
-    		}
+		public function form($model, $filter = array()){
+			if (empty($filter) || !isset($filter['fields'])){
+				$this->errors[] = 'There is no filters';
+				return false;
+			}
 
-    		$output = '<div class="filter-form"><h1>'.__('Search', true).'</h1>';
-       		foreach($filter['fields'] as $field => $options){
-       			if (is_array($options)){
+			$output = '<div class="filter-form"><h1>'.__('Search', true).'</h1>';
+	   		foreach($filter['fields'] as $field => $options){
+	   			if (is_array($options)){
 					switch($field){
 						case 'active':
 							$emptyText = __('status', true);
@@ -28,14 +28,14 @@
 					$emptyText = sprintf(__('Select the %s', true), Inflector::humanize(str_replace('_id', '', $emptyText)));
 					$output .= $this->Form->input(
 						$field,
-	    				array(
-		    				'type' => 'select',
-		    				'div' => false,
-		    				'options' => $options,
-		    				'empty' => $emptyText,
+						array(
+							'type' => 'select',
+							'div' => false,
+							'options' => $options,
+							'empty' => $emptyText,
 							'label' => false
-		    			)
-	    			);
+						)
+					);
 				}
 				else if(strstr($options, 'date')){
 					$output .= $this->Html->datePicker(array($options));
@@ -51,7 +51,7 @@
 						)
 					);
 				}
-       		}
+	   		}
 
 			$output .= $this->Form->button(
 				$this->Html->image(
@@ -67,69 +67,69 @@
 					'div' => false
 				)
 			);
-    		$output .= '</div>';
-    		return $output;
-    	}
+			$output .= '</div>';
+			return $output;
+		}
 
-        /**
-         * Comment Template.
-         *
-         * @todo -c Implement .this needs to be sorted out.
-         *
-         * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-         *
-         * Licensed under The MIT License
-         * Redistributions of files must retain the above copyright notice.
-         *
-         * @filesource
-         * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-         * @link          http://infinitas-cms.org
-         * @package       sort
-         * @subpackage    sort.comments
-         * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-         * @since         0.5a
-         */
-        public function clear($filter, $div = false){
-            if (!isset($filter['url'][0]) || empty($filter['url'][0]) || $filter['url'][0] == '/'){
-                $filter['url'][0] = '/';
-            }
+		/**
+		 * Comment Template.
+		 *
+		 * @todo -c Implement .this needs to be sorted out.
+		 *
+		 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+		 *
+		 * Licensed under The MIT License
+		 * Redistributions of files must retain the above copyright notice.
+		 *
+		 * @filesource
+		 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+		 * @link		  http://infinitas-cms.org
+		 * @package	   sort
+		 * @subpackage	sort.comments
+		 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
+		 * @since		 0.5a
+		 */
+		public function clear($filter, $div = false){
+			if (!isset($filter['url'][0]) || empty($filter['url'][0]) || $filter['url'][0] == '/'){
+				$filter['url'][0] = '/';
+			}
 
-        	$out = '';
-            if ($div){
-                $out .= '<div class="filter">';
-            }
+			$out = '';
+			if ($div){
+				$out .= '<div class="filter">';
+			}
 
-            $out .= '<div class="wrap">';
-                $parts = explode( '/', $filter['url'][0] );
-                $done = array();
+			$out .= '<div class="wrap">';
+				$parts = explode( '/', $filter['url'][0] );
+				$done = array();
 
-                foreach($parts as $_f){
-                    if (empty($_f) || in_array($_f, $done)){
-                        continue;
-                    }
+				foreach($parts as $_f){
+					if (empty($_f) || in_array($_f, $done)){
+						continue;
+					}
 
-                    $done[] = $_f;
+					$done[] = $_f;
 
-                    $text = explode(':', $_f);
-                    $text = explode('.', $text[0]);
-                    $text = count($text ) > 1 ? $text[1] : $text[0];
+					$text = explode(':', $_f);
+					$text = explode('.', $text[0]);
+					$text = count($text ) > 1 ? $text[1] : $text[0];
 
-                    $out .= '<div class="left">'.
-                                '<div class="remove">'.
-                                        $this->Html->link(
-                                        Inflector::humanize($text),
-                                        str_replace($_f, '', '/' . $this->params['url']['url'])
-                                    ).
-                                '</div>'.
-                            '</div>';
-                }
-            $out .= '</div>';
-            if ($div){
-                $out .= '</div>';
-            }
+					$out .= '<div class="left">'.
+								'<div class="remove">'.
+										$this->Html->link(
+										Inflector::humanize($text),
+										str_replace($_f, '', '/' . $this->params['url']['url'])
+									).
+								'</div>'.
+							'</div>';
+				}
+			$out .= '</div>';
+			if ($div){
+				$out .= '</div>';
+			}
 
-            return $out;
-        }
+			return $out;
+		}
 
 		/**
 		 * bulid a list of leters and numbers with filtered links to rows that
@@ -183,4 +183,4 @@
 			
 			return $params;
 		}
-    }
+	}

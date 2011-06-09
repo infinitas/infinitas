@@ -10,11 +10,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 *
 	 * @filesource
-	 * @copyright     Copyright (c) 2009 {yourName}
-	 * @link          http://infinitas-cms.org
-	 * @package       Feed
-	 * @subpackage    Feed.views.feeds.index
-	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @copyright	 Copyright (c) 2009 {yourName}
+	 * @link		  http://infinitas-cms.org
+	 * @package	   Feed
+	 * @subpackage	Feed.views.feeds.index
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
 	echo $this->Form->create('Feed', array('url' => array('controller' => 'feeds', 'action' => 'mass', 'admin' => true)));
@@ -35,8 +35,8 @@
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
+	<table class="listing" cellpadding="0" cellspacing="0">
+		<?php
 			echo $this->Infinitas->adminTableHeader(
 				array(
 					$this->Form->checkbox('all') => array(

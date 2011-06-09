@@ -24,11 +24,11 @@
 	* The last line will call /emails/send every 15 minutes between 8am and 7pm on Monday to Friday.
 	*
 	* #comments start with '#'
-	* #mi  h    d    m    dow      job                       comment
-	* 0    5    *    *    Sun      /users/cleanup     # make user cleanu every sunday at 5 am
-	* 40   5    2    *    *        /posts/makeIndex   #build an index of your posts
+	* #mi  h	d	m	dow	  job					   comment
+	* 0	5	*	*	Sun	  /users/cleanup	 # make user cleanu every sunday at 5 am
+	* 40   5	2	*	*		/posts/makeIndex   #build an index of your posts
 	*/
-	// */15 8-19 *    *    Mon-Fri  /emails/send       # Send emails
+	// */15 8-19 *	*	Mon-Fri  /emails/send	   # Send emails
 	class CronComponent extends Object {
 		var $Controller;
 		var $components = array('RequestHandler');
@@ -352,7 +352,7 @@
 
 			if ($lastScheduled < time()) {
 				$this->_logMessage("Running 	" . $job[CRON_CRONLINE]);
-				$this->_logMessage("  Last run:       " . date("r", $lastActual));
+				$this->_logMessage("  Last run:	   " . date("r", $lastActual));
 				$this->_logMessage("  Last scheduled: " . date("r", $lastScheduled));
 				if ($this->debug) {
 					@$this->Controller->requestAction($job[CRON_CMD]);
@@ -369,7 +369,7 @@
 			}else {
 				if ($this->debug) {
 					$this->_logMessage("Skipping 	" . $job[CRON_CRONLINE]);
-					$this->_logMessage("  Last run:       " . date("r", $lastActual));
+					$this->_logMessage("  Last run:	   " . date("r", $lastActual));
 					$this->_logMessage("  Last scheduled: " . date("r", $lastScheduled));
 					$this->_logMessage("Completed	" . $job[CRON_CRONLINE]);
 				}

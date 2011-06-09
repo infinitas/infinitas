@@ -105,9 +105,9 @@
 
 				$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
 				$url = array(
-					'plugin'     => $this->Controller->params['plugin'],
+					'plugin'	 => $this->Controller->params['plugin'],
 					'controller' => $this->Controller->params['controller'],
-					'action'     => $this->Controller->params['action']
+					'action'	 => $this->Controller->params['action']
 				) + $this->Controller->params['named'];
 
 				$this->Controller->redirect($url);
@@ -192,7 +192,7 @@
 			else{
 				// Other
 				Configure::load('browsers');
-				$browsers      = Configure::read('Browsers');
+				$browsers	  = Configure::read('Browsers');
 				foreach ( $browsers as $key => $value){
 					if ( preg_match( '/'.regexEscape($value).'.?\/([\d\.]*)/i', $agent, $m ) ){
 						return $browsers[$key].' '.$m[1];
@@ -329,7 +329,7 @@
 				$this->Controller->Auth->allow('*');
 			}
 			$this->Controller->Auth->actionPath   = 'controllers/';
-			$this->Controller->Auth->authorize    = 'actions';
+			$this->Controller->Auth->authorize	= 'actions';
 			$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
 			if(Configure::read('Website.login_type') == 'email'){
@@ -391,17 +391,17 @@
 
 			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');
 			$infinitasJsData['here']	   = (isset($this->Controller->here) ? $this->Controller->here : '');
-			$infinitasJsData['plugin']     = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');
+			$infinitasJsData['plugin']	 = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');
 			$infinitasJsData['name']	   = (isset($this->Controller->name) ? $this->Controller->name : '');
-			$infinitasJsData['action']     = (isset($this->Controller->action) ? $this->Controller->action : '');
-			$params                        = (isset($this->Controller->params) ? $this->Controller->params : '');
+			$infinitasJsData['action']	 = (isset($this->Controller->action) ? $this->Controller->action : '');
+			$params						= (isset($this->Controller->params) ? $this->Controller->params : '');
 			unset($params['_Token']);
-			$infinitasJsData['params']     = $params;
+			$infinitasJsData['params']	 = $params;
 			$infinitasJsData['passedArgs'] = (isset($this->Controller->passedArgs) ? $this->Controller->passedArgs : '');
 			$infinitasJsData['data']	   = (isset($this->Controller->data) ? $this->Controller->data : '');
 			$infinitasJsData['model']	   = $this->Controller->modelClass;
 
-			$infinitasJsData['config']     = Configure::getInstance();
+			$infinitasJsData['config']	 = Configure::getInstance();
 
 			$this->Controller->set(compact('infinitasJsData'));
 		}
@@ -480,9 +480,9 @@
 		 * Copyright (c) 2008 Matt Curry
 		 * www.PseudoCoder.com
 		 *
-		 * @author      mattc <matt@pseudocoder.com>
-		 * @version     1.0
-		 * @license     MIT
+		 * @author	  mattc <matt@pseudocoder.com>
+		 * @version	 1.0
+		 * @license	 MIT
 		 */
 		private function __paginationRecall(){
 			$options = array_merge(

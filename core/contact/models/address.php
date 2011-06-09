@@ -6,7 +6,7 @@
 		public $name = 'Address';
 
 		public $virtualFields = array(
-		    'address' => 'CONCAT(Address.street, ", ", Address.city, ", ", Address.province)'
+			'address' => 'CONCAT(Address.street, ", ", Address.city, ", ", Address.province)'
 		);
 
 		public $belongsTo = array(
