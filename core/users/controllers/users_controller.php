@@ -111,14 +111,14 @@
 		 * @return array
 		 */
 		public function _getUserData(){
-			$data['User']['id']               = $this->Auth->user('id');
-			$data['User']['last_login']       = date('Y-m-d H:i:s');
-			$data['User']['modified']         = false;
-			$data['User']['browser']          = $this->Infinitas->getBrowser();
+			$data['User']['id']			   = $this->Auth->user('id');
+			$data['User']['last_login']	   = date('Y-m-d H:i:s');
+			$data['User']['modified']		 = false;
+			$data['User']['browser']		  = $this->Infinitas->getBrowser();
 			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
 
 			//$data['User'] = array_merge($data['User'], $this->Session->read('GeoLocation'));
-			$data['User']['is_mobile']        = $this->RequestHandler->isMobile();
+			$data['User']['is_mobile']		= $this->RequestHandler->isMobile();
 			$location = $this->Event->trigger('getLocation');
 			$data['User'] = array_merge($data['User'], current($location['getLocation']));
 
@@ -198,7 +198,7 @@
 
 						$urlToActivateUser = ClassRegistry::init('ShortUrlsShortUrl')->newUrl(
 							Router::url(array('action' => 'activate', $ticket), true)
-			            );
+						);
 
 						$this->Emailer->sendDirectMail(
 							array(
@@ -246,15 +246,15 @@
 		 * @param string $hash
 		 */
 		public function activate($hash = null){
-	        if (!$hash){
-	            $this->Session->setFlash(__('Invalid address', true));
-	            $this->redirect('/');
-	        }
+			if (!$hash){
+				$this->Session->setFlash(__('Invalid address', true));
+				$this->redirect('/');
+			}
 
-	        $this->User->id = $this->User->getTicket($hash);
+			$this->User->id = $this->User->getTicket($hash);
 
-            if ($this->User->saveField('active', 1, null, true)){
-            	$user = $this->User->read('email', $this->User->id);
+			if ($this->User->saveField('active', 1, null, true)){
+				$user = $this->User->read('email', $this->User->id);
 
 				$this->Emailer->sendDirectMail(
 					array(
@@ -267,13 +267,13 @@
 					)
 				);
 
-                $this->Session->setFlash(__('Your account is now active, you may log in', true));
-                $this->redirect(array('action' => 'login'));
-            }
-            else{
-                $this->Session->setFlash('There was a problem activating your account, please try again');
-                $this->redirect('/');
-            }
+				$this->Session->setFlash(__('Your account is now active, you may log in', true));
+				$this->redirect(array('action' => 'login'));
+			}
+			else{
+				$this->Session->setFlash('There was a problem activating your account, please try again');
+				$this->redirect('/');
+			}
 		}
 
 		/**
@@ -281,32 +281,32 @@
 		 * An email will be sent if they supply the correct details which they
 		 * will need to click the link to be taken to the reset page.
 		 */
-	    public function forgot_password(){
-	        if (!empty($this->data)){
-	            $theUser = $this->User->find(
-	            	'first',
-	            	array(
-	            		'conditions' => array(
-	            			'User.email' => $this->data['User']['email']
-	            		)
-	            	)
-	            );
+		public function forgot_password(){
+			if (!empty($this->data)){
+				$theUser = $this->User->find(
+					'first',
+					array(
+						'conditions' => array(
+							'User.email' => $this->data['User']['email']
+						)
+					)
+				);
 
-	            if (is_array( $theUser['User']) && ($ticket = $this->User->createTicket($theUser['User']['email']) !== false)){
-	            	$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
+				if (is_array( $theUser['User']) && ($ticket = $this->User->createTicket($theUser['User']['email']) !== false)){
+					$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
 						Router::url(array('action' => 'reset_password', $ticket), true)
-	            	);
+					);
 
-	            	// @todo send a email with a link to reset.
-                    $this->Session->setFlash(__('An email has been sent to your address with instructions to reset your password', true));
-	            }
+					// @todo send a email with a link to reset.
+					$this->Session->setFlash(__('An email has been sent to your address with instructions to reset your password', true));
+				}
 
-	            else{
-	                // no user found for adress
-	                $this->Session->setFlash(__('That does not seem to be a valid user', true));
-	            }
-	        }
-	    }
+				else{
+					// no user found for adress
+					$this->Session->setFlash(__('That does not seem to be a valid user', true));
+				}
+			}
+		}
 
 		/**
 		 * After the forgot pw page and they have entered the correct details
@@ -315,41 +315,41 @@
 		 * 
 		 * @param string $hash the hash of the reset request.
 		 */
-	    public function reset_password($hash = null){
-	        if (!$hash){
-	            $this->Session->setFlash(__('Reset request timed out, please try again', true));
-	            $this->redirect('/');
-	        }
+		public function reset_password($hash = null){
+			if (!$hash){
+				$this->Session->setFlash(__('Reset request timed out, please try again', true));
+				$this->redirect('/');
+			}
 
-	        if (!empty($this->data)){
-	            $this->User->id = $this->data['User']['id'];
+			if (!empty($this->data)){
+				$this->User->id = $this->data['User']['id'];
 
-	            if ( $this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))){
-	                $this->Session->setFlash(__('Your new password was saved. You may now login', true));
-	                $this->redirect(array('action' => 'login'));
-	            }
-	            else{
-	                $this->Session->setFlash('User could not be saved');
-	                $this->redirect(array('action' => 'forgot_password'));
-	            }
-	        }
+				if ( $this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))){
+					$this->Session->setFlash(__('Your new password was saved. You may now login', true));
+					$this->redirect(array('action' => 'login'));
+				}
+				else{
+					$this->Session->setFlash('User could not be saved');
+					$this->redirect(array('action' => 'forgot_password'));
+				}
+			}
 
-	        $email = $this->User->getTicket($hash);
+			$email = $this->User->getTicket($hash);
 
-	        if (!$email){
-	            $this->Session->setFlash(__('Your ticket has expired, please request a new password', true));
-	            $this->redirect(array('action' => 'forgot_password'));
-	        }
+			if (!$email){
+				$this->Session->setFlash(__('Your ticket has expired, please request a new password', true));
+				$this->redirect(array('action' => 'forgot_password'));
+			}
 
-	        $this->data = $this->User->find(
-	        	'first',
-	        	array(
-	        		'conditions' => array(
-	        			'User.email' => $email
-	        		)
-	        	)
-	        );
-	    }
+			$this->data = $this->User->find(
+				'first',
+				array(
+					'conditions' => array(
+						'User.email' => $email
+					)
+				)
+			);
+		}
 
 		public function admin_login(){
 			$this->layout = 'admin_login';

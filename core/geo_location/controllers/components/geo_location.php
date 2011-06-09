@@ -23,7 +23,7 @@
 
 		private $__emptyCity = array(
 			'latitude' => false, 'longitude' => false, 'region'   => false,
-			'city'     => false, 'postcode'  => false, 'areaCode' => false
+			'city'	 => false, 'postcode'  => false, 'areaCode' => false
 		);
 
 		public function initialize(&$controller, $settings = array()) {

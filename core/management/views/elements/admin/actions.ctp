@@ -1,23 +1,23 @@
 <?php
-    /**
-     * Comment Template.
-     *
-     * @todo -c Implement .this needs to be sorted out.
-     *
-     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     *
-     * Licensed under The MIT License
-     * Redistributions of files must retain the above copyright notice.
-     *
-     * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       sort
-     * @subpackage    sort.comments
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     * @since         0.5a
-     */
-    echo $this->Html->link( __( 'Dashboard', true ), array( 'plugin' => 'management' ), array( 'class' => 'link' ) );
+	/**
+	 * Comment Template.
+	 *
+	 * @todo -c Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * @filesource
+	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link		  http://infinitas-cms.org
+	 * @package	   sort
+	 * @subpackage	sort.comments
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since		 0.5a
+	 */
+	echo $this->Html->link( __( 'Dashboard', true ), array( 'plugin' => 'management' ), array( 'class' => 'link' ) );
 
 	echo $this->Html->link( __( 'Blog', true ), array( 'plugin' => 'blog', 'controller' => 'posts', 'action' => 'dashboard' ), array( 'class' => 'link' ) );
 	echo $this->Html->link( __( 'Newsletters', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard' ), array( 'class' => 'link' ) );

@@ -3,14 +3,14 @@
  * CakePHP Migrations
  *
  * Copyright 2009 - 2010, Cake Development Corporation
- *                        1785 E. Sahara Avenue, Suite 490-423
- *                        Las Vegas, Nevada 89104
+ *						1785 E. Sahara Avenue, Suite 490-423
+ *						Las Vegas, Nevada 89104
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright 2009 - 2010, Cake Development Corporation
- * @link      http://codaset.com/cakedc/migrations/
+ * @link	  http://codaset.com/cakedc/migrations/
  * @package   plugns.migrations
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
@@ -20,8 +20,8 @@ App::import('Lib', 'Migrations.MigrationVersion');
 /**
  * Migration shell.
  *
- * @package       migrations
- * @subpackage    migrations.vendors.shells
+ * @package	   migrations
+ * @subpackage	migrations.vendors.shells
  */
 class MigrationShell extends Shell {
 
@@ -403,7 +403,7 @@ TEXT;
 		foreach ($mapping as $version => $info) {
 			$this->out('  [' . number_format($version / 100, 2, '', '') . '] ' . $info['name']);
 
-			$this->out('        ', false);
+			$this->out('		', false);
 			if ($info['migrated'] !== null) {
 				$this->out(__d('migrations', 'applied', true) . ' ' . date('r', strtotime($info['migrated'])));
 			} else {
@@ -706,7 +706,7 @@ TEXT;
 	public function beforeAction(&$Migration, $type, $data) {
 		if (isset($this->__messages[$type])) {
 			$message = String::insert($this->__messages[$type], $data);
-			$this->out('      > ' . $message);
+			$this->out('	  > ' . $message);
 		}
 	}
 }

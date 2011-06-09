@@ -40,7 +40,7 @@
 	* Add the same fields as in the live table, with 3 important differences.
 	*   - The 'id' field should NOT be the primary key, nor auto increment
 	*   - Add the fields 'version_id' (int, primary key, autoincrement) and
-	*     'version_created' (datetime)
+	*	 'version_created' (datetime)
 	*   - Skipp fields that should not be saved in shadowtable (lft,right,weight for instance)
 	*
 	* Configuration :
@@ -79,18 +79,18 @@
 	* behavior (even if secondary model does not have a shadow table).
 	*
 	* 1.1.1 => 1.1.2 changelog
-	*    - revisions() got new paramter: $include_current
-	*      This now defaults to false, resulting in a change from 1.1.1. See tests
+	*	- revisions() got new paramter: $include_current
+	*	  This now defaults to false, resulting in a change from 1.1.1. See tests
 	*
 	* 1.1.6 => 1.2
-	*    - includes HABTM revision control (one way)
+	*	- includes HABTM revision control (one way)
 	*
 	* 1.2 => 1.2.1
-	*    - api change in revertToDate, added paramter for force delete if reverting to before earliest
+	*	- api change in revertToDate, added paramter for force delete if reverting to before earliest
 	*
 	* 1.2.6 => 1.2.7
 	* 	 - api change: removed shadow(), changed revertToDate() to only recurse into related models that
-	*      are dependent when cascade is true
+	*	  are dependent when cascade is true
 	*
 	* @author Ronny Vindenes
 	* @author Alexander 'alkemann' Morland

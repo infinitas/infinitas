@@ -8,38 +8,38 @@
 	 *
 	 * Consider the following simple example with no groups:
 	 * Record  Order
-	 * A       0
-	 * B       1
-	 * C       2
-	 * D       3
-	 * E       4
-	 * F       5
-	 * G       6
+	 * A	   0
+	 * B	   1
+	 * C	   2
+	 * D	   3
+	 * E	   4
+	 * F	   5
+	 * G	   6
 	 *   - Save
-	 *     - If adding new record
-	 *       - If order not specified e.g. Record H added:
-	 *           Inserts H at end of list i.e. highest order + 1
-	 *       - If order specified e.g. Record H added at position 3:
-	 *           Inserts at specified order
-	 *           Increments order of all other records whose order >= order of
-	 *            inserted record i.e. D, E, F & G get incremented
-	 *     - If editing existing record:
-	 *       - If order not specified and group not specified, or same
-	 *           No Action
-	 *       - If order not specified but group specified and different:
-	 *           Decrement order of all records whose order > old order in the old
-	 *            group, and change order to highest order of new groups + 1
-	 *       - If order specified:
-	 *         - If new order < old order e.g. record E moves from 4 to 2
-	 *             Increments order of all other records whose order >= new order and
-	 *              order < old order i.e. order of C & D get incremented
-	 *         - If new order > old order e.g. record C moves from 2 to 4
-	 *             Decrements order of all other records whose order > old order and
-	 *              <= new order i.e. order of D & E get decremented
-	 *         - If new order == old order
-	 *             No action
+	 *	 - If adding new record
+	 *	   - If order not specified e.g. Record H added:
+	 *		   Inserts H at end of list i.e. highest order + 1
+	 *	   - If order specified e.g. Record H added at position 3:
+	 *		   Inserts at specified order
+	 *		   Increments order of all other records whose order >= order of
+	 *			inserted record i.e. D, E, F & G get incremented
+	 *	 - If editing existing record:
+	 *	   - If order not specified and group not specified, or same
+	 *		   No Action
+	 *	   - If order not specified but group specified and different:
+	 *		   Decrement order of all records whose order > old order in the old
+	 *			group, and change order to highest order of new groups + 1
+	 *	   - If order specified:
+	 *		 - If new order < old order e.g. record E moves from 4 to 2
+	 *			 Increments order of all other records whose order >= new order and
+	 *			  order < old order i.e. order of C & D get incremented
+	 *		 - If new order > old order e.g. record C moves from 2 to 4
+	 *			 Decrements order of all other records whose order > old order and
+	 *			  <= new order i.e. order of D & E get decremented
+	 *		 - If new order == old order
+	 *			 No action
 	 *   - Delete
-	 *       Decrement order of all records whose order > order of deleted record
+	 *	   Decrement order of all records whose order > order of deleted record
 	 *
 	 * @author Neil Crookes <neil@neilcrookes.com>
 	 * @link http://www.neilcrookes.com
@@ -113,12 +113,12 @@
 		 * @param Model $model Model object that method is triggered on
 		 * @param array $config Configuration options include:
 		 * - order_field - The database field name that stores the sequence number.
-		 *    Default is order.
+		 *	Default is order.
 		 * - group_fields - Array of database field names that identify a single
-		 *    group of records that need to form a contiguous sequence. Default is
-		 *    false, i.e. no group fields
+		 *	group of records that need to form a contiguous sequence. Default is
+		 *	false, i.e. no group fields
 		 * - start_at - You can start your sequence numbers at 0 or 1 or any other.
-		 *    Default is 0
+		 *	Default is 0
 		 * @return void
 		 */
 		public function setup(&$model, $config = array())

@@ -32,14 +32,14 @@
 		 * @access public
 		 */
 		public $actsAs = array(
-	        'MeioUpload.MeioUpload' => array(
-	        	'image' => array(
-		        	'dir' => 'img{DS}content{DS}contact{DS}{ModelName}',
-		        	'create_directory' => true,
-		        	'allowed_mime' => array(
-			        	'image/jpeg',
-			        	'image/pjpeg',
-			        	'image/png'
+			'MeioUpload.MeioUpload' => array(
+				'image' => array(
+					'dir' => 'img{DS}content{DS}contact{DS}{ModelName}',
+					'create_directory' => true,
+					'allowed_mime' => array(
+						'image/jpeg',
+						'image/pjpeg',
+						'image/png'
 					),
 					'allowed_ext' => array(
 						'.jpg',
@@ -54,13 +54,13 @@
 						'Empty' => array(
 						)
 				)
-	        ),
+			),
 			'Libs.Sluggable' => array(
 				'label' => array(
 					'name'
 				)
 			)
-	    );
+		);
 
 		/**
 		 * hasMany related models

@@ -10,11 +10,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 *
 	 * @filesource
-	 * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link          http://infinitas-cms.org
-	 * @package       Shell
-	 * @subpackage    Shell.templates.views.index
-	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link		  http://infinitas-cms.org
+	 * @package	   Shell
+	 * @subpackage	Shell.templates.views.index
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 *
 	 * availabel vars
 	 * ===================
@@ -69,9 +69,9 @@
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
-	 * @link          http://infinitas-cms.org/$plugin
-	 * @package       $plugin.views.$action
-	 * @license       http://infinitas-cms.org/mit-license The MIT License
+	 * @link		  http://infinitas-cms.org/$plugin
+	 * @package	   $plugin.views.$action
+	 * @license	   http://infinitas-cms.org/mit-license The MIT License
 	 * @since $version
 	 *
 	 * @author $username
@@ -93,7 +93,7 @@ COMMENT;
 	}
 
 	echo "\techo \$this->Form->create('{$modelClass}'{$fileUpload});\n".
-        "\t\techo \$this->Infinitas->adminEditHead(); ?>\n";
+		"\t\techo \$this->Infinitas->adminEditHead(); ?>\n";
 		echo "\t\t<fieldset>\n" .
 			"\t\t\t<h1><?php echo __('" . prettyName($modelClass) . "', true); ?></h1><?php\n";
 				echo "\t\t\t\techo \$this->Form->input('$primaryKey');\n";
@@ -133,7 +133,7 @@ COMMENT;
 				}
 				echo $end;
 			echo "\t\t\t?>\n";
-        echo "\t\t</fieldset>\n\n";
+		echo "\t\t</fieldset>\n\n";
 
 		echo "\t\t<fieldset>\n" .
 			"\t\t\t<h1><?php echo __('Configuration', true); ?></h1><?php\n";
@@ -152,6 +152,6 @@ COMMENT;
 						echo "\t\t\t\techo \$this->Form->input('{$assocName}');\n";
 					}
 				}
-	        echo "\t\t?>\n";
-        echo "\t\t</fieldset><?php\n";
+			echo "\t\t?>\n";
+		echo "\t\t</fieldset><?php\n";
 	echo "\techo \$this->Form->end();\n";
