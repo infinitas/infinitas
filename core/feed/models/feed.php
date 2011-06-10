@@ -19,6 +19,7 @@
 
 	class Feed extends FeedAppModel {
 		public $name = 'Feed';
+		
 		public $actsAs = array(
 			// 'Libs.Commentable',
 			// 'Libs.Rateable
@@ -123,7 +124,7 @@
 			return $return;
 		}
 
-		public function getFeed($slug = null, $group_id = 999){
+		public function getFeed($slug = null, $grouId = 999){
 			if(!$slug){
 				return array();
 			}
@@ -133,7 +134,7 @@
 				array(
 					'conditions' => array(
 						'Feed.active' => 1,
-						//'Feed.group_id > ' => $group_id,
+						//'Feed.group_id > ' => $grouId,
 						'Feed.slug' => $slug
 					)
 				)
