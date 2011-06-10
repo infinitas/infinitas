@@ -43,7 +43,16 @@
 
 			$return = array();
 			$return[] = array(
-				'url' => Router::url(array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
+				'url' => Router::url(
+					array(
+						'plugin' => 'categories',
+						'controller' => 'categories',
+						'action' => 'index',
+						'admin' => false,
+						'prefix' => false
+					),
+					true
+				),
 				'last_modified' => $newest,
 				'change_frequency' => $frequency
 			);
@@ -51,7 +60,17 @@
 			$categories = $Category->find('list');
 			foreach($categories as $category){
 				$return[] = array(
-					'url' => Router::url(array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'view', 'slug' => $category, 'admin' => false, 'prefix' => false), true),
+					'url' => Router::url(
+						array(
+							'plugin' => 'categories',
+							'controller' => 'categories',
+							'action' => 'view',
+							'slug' => $category,
+							'admin' => false,
+							'prefix' => false
+						),
+						true
+					),
 					'last_modified' => $newest,
 					'change_frequency' => $frequency
 				);
