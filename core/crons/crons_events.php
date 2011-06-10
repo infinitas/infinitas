@@ -22,6 +22,7 @@
 					)
 				);
 			}
+			
 			else if(date('Y-m-d H:i:s', strtotime('-' . Configure::read('Cron.run_every'))) > $crons){
 				App::import('Helper', 'Time');
 				$Time = new TimeHelper();
@@ -44,7 +45,7 @@
 		 */
 		public function onAreCronsSetup(){
 			$date = ClassRegistry::init('Crons.Cron')->getLastRun();
-			return $date ? date('Y-m-d H:i:s', strtotime($date)) : $date;
+			return ($date) ? date('Y-m-d H:i:s', strtotime($date)) : $date;
 		}
 
 		/**
