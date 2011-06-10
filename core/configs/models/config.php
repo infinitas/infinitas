@@ -251,9 +251,7 @@
 
 			$format = array();
 			foreach($configs as $k => $config) {
-				$format[$configs[$k]['Config']['key']] = $json 
-					? json_encode($configs[$k]['Config']['value'])
-					: $configs[$k]['Config']['value'];
+				$format[$configs[$k]['Config']['key']] = ($json) ? json_encode($configs[$k]['Config']['value']) : $configs[$k]['Config']['value'];
 			}
 			
 			return $format;
@@ -307,10 +305,10 @@
 
 			else if(is_array($config['Config']['value'])){
 				$_config = 'array(';
-					foreach($config['Config']['value'] as $k => $v){
-						$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
-						$_config .= '=> \''.$v.'\',';
-					}
+				foreach($config['Config']['value'] as $k => $v){
+					$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
+					$_config .= '=> \''.$v.'\',';
+				}
 				$_config .= ')';
 			}
 			else if(is_string($config['Config']['value'])){
