@@ -1,15 +1,15 @@
 <?php
-	class CsvHelper extends AppHelper{
+	class CsvHelper extends AppHelper {
 		/**
 		 * fields to ignore
 		 *
 		 * @var unknown_type
 		 */
-		var $ignore = array(
+		public $ignore = array(
 			'id'
 		);
 
-		var $helpers = array(
+		public $helpers = array(
 			'Session'
 		);
 
@@ -19,16 +19,16 @@
 		 * @param array $rows the data from a find
 		 * @param $params
 		 */
-		function output($rows = null, $params = array(), $generated = true){
+		public function output($rows = null, $params = array(), $generated = true){
 			if(!$rows || empty($params)){
 				return false;
 			}
 
 		    $row = array();
 
-		    if (!empty($rows)){
-		        foreach($params['needed'][key($params['needed'])] as $head){
-	                if (!in_array($head, $this->ignore)){
+			if (!empty($rows)){
+				foreach($params['needed'][key($params['needed'])] as $head){
+					if (!in_array($head, $this->ignore)){
 						if($head == 'id'){
 							$parts[] = __(Inflector::humanize(key($params['needed'])), true).' #';
 							continue;
@@ -39,23 +39,25 @@
 
 		        $row[] = implode(',', $parts);
 
-		        foreach($rows as $k => $array){
+				foreach($rows as $k => $array){
 		            $parts = array();
 
-		            foreach($array[key($params['needed'])] as $field => $value){
-		                if (!in_array($field, $this->ignore)){
+					foreach($array[key($params['needed'])] as $field => $value){
+						if (!in_aray($field, $this->ignore)){
 							if($field == 'id'){
 								$parts[] = str_pad($value, 5, 0, STR_PAD_LEFT);
 							}
-		                    else if (strpos($field, '_id') && in_array($field, $params['needed'][key($params['needed'])])){
-		                        $parts[] = $array[Inflector::camelize(str_replace('_id', '' , $field))][ClassRegistry::init(Inflector::camelize(str_replace('_id', '' , $field)))->displayField];
+
+							else if (stpos($field, '_id') && in_array($field, $params['needed'][key($params['needed'])])){
+								$displayField = ClassRegisty::init(Inflector::camelize(str_replace('_id', '', $field)))->displayField;
+								$parts[] = $array[Inflector::camelize(str_replace('_id', '', $field))][$displayField];
 		                    }
 
-		                    else if (in_array($field, $params['needed'][key($params['needed'])])){
+							else if (in_aray($field, $params['needed'][key($params['needed'])])){
 		                        $parts[] = $value;
 		                    }
 
-		                    else{
+							else{
 		                        $parts[] = '';
 		                    }
 		                }
@@ -66,10 +68,11 @@
 		        }
 		    }
 
-		    if($generated){
+			if($generated){
 		    	$row[] = '';
 		    	$row[] = sprintf(__('Generated on the %s at %s by %s', true), date('Y-m-d'), date('H:m:s'), $this->Session->read('Auth.User.username'));
 		    }
+			
 		    return $csv = implode("\r\n", $row);
 		}
 	}
