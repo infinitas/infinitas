@@ -203,7 +203,8 @@
 			
 			$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
 
-			if($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_points']] < Configure::read('Comments.spam_threshold')){
+			$points = $data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_points']];
+			if($points < Configure::read('Comments.spam_threshold')){
 				return false;
 			}
 
@@ -332,25 +333,23 @@
 			// How many links are in the body
 			// -1 per link if over 2, otherwise +2 if less than 2
 			$maxLinks = Configure::read('Comments.maximum_links');
-			$maxLinks > 0 ? $maxLinks : 2;
+			$maxLinks = ($maxLinks > 0) ? $maxLinks : 2;
 			
-			$points = $this->totalLinks > $maxLinks
-				? $this->totalLinks * -1
-				: 2;
+			$points = ($this->totalLinks > $maxLinks) ? $this->totalLinks * -1 : 2;
 			// URLs that have certain words or characters in them
 			// -1 per blacklisted word
 			// URL length
 			// -1 if more then 30 chars
 			foreach ($links as $link) {
 				foreach ($this->__settings[$Model->alias]['blacklist_words'] as $word) {
-					$points = stripos($link, $word) !== false ? $points - 1 : $points;
+					$points = (stripos($link, $word) !== false) ? $points - 1 : $points;
 				}
 
 				foreach ($this->__settings[$Model->alias]['blacklist_keywords'] as $keyword) {
-					$points = stripos($link, $keyword) !== false ? $points - 1 : $points;
+					$points = (stripos($link, $keyword) !== false) ? $points - 1 : $points;
 				}
 
-				$points = strlen($link) >= 30 ? $points - 1 : $points;
+				$points = (strlen($link) >= 30) ? $points - 1 : $points;
 			}
 
 			return $points;
@@ -374,9 +373,7 @@
 			// +2 if more then 20 chars and no links, -1 if less then 20
 			$length = mb_strlen($data[$this->__settings[$Model->alias]['column_content']]);
 
-			$minLenght = Configure::read('Comments.minimum_length') > 0
-				? Configure::read('Comments.minimum_length')
-				: 20;
+			$minLenght = (Configure::read('Comments.minimum_length') > 0) ? Configure::read('Comments.minimum_length') : 20;
 
 			if ($length >= $minLenght && $this->totalLinks <= 0) {
 				return 2;
@@ -412,16 +409,22 @@
 			if(is_int($parts[0])){
 				return -15;
 			}
-			
+
+			$conditions = array(
+				$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_email'] =>
+					$data[$this->__settings[$Model->alias]['column_email']],
+				$this->__settings[$Model->alias]['class'] . '.active' => 1
+			);
+
 			$points = 0;
 			$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
 				'all',
 				array(
-					'fields' => array($this->__settings[$Model->alias]['class'].'.id', $this->__settings[$Model->alias]['class'].'.status'),
-					'conditions' => array(
-							$this->__settings[$Model->alias]['class'].'.' . $this->__settings[$Model->alias]['column_email'] => $data[$this->__settings[$Model->alias]['column_email']],
-							$this->__settings[$Model->alias]['class'].'.active' => 1
+					'fields' => array(
+						$this->__settings[$Model->alias]['class'] . '.id',
+						$this->__settings[$Model->alias]['class'] . '.status'
 					),
+					'conditions' => $conditions,
 					'contain' => false
 				)
 			);
@@ -484,9 +487,7 @@
 				stripos($data[$this->__settings[$Model->alias]['column_content']], ' ')
 			);
 
-			return in_array(mb_strtolower($firstWord), $this->__settings[$Model->alias]['blacklist_keywords'])
-				? - 10
-				: 0;
+			return (in_array(mb_strtolower($firstWord), $this->__settings[$Model->alias]['blacklist_keywords'])) ? - 10 : 0;
 		}
 
 		/**
@@ -505,7 +506,8 @@
 				'count',
 				array(
 					'conditions' => array(
-						$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_content'] => $data[$this->__settings[$Model->alias]['column_content']]
+						$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_content'] =>
+							$data[$this->__settings[$Model->alias]['column_content']]
 					),
 					'contain' => false
 				)
