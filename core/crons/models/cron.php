@@ -20,8 +20,10 @@
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
-			$this->virtualFields['created']  = 'CONCAT('. $this->alias.'.year, "-", '. $this->alias.'.month, "-", `'. $this->alias.'.day, " ", '. $this->alias.'.start_time)';
-			$this->virtualFields['modified'] = 'CONCAT('. $this->alias.'.year, "-", '. $this->alias.'.month, "-", `'. $this->alias.'.day, " ", '. $this->alias.'.end_time)';
+			$this->virtualFields['created']  = 'CONCAT(' . $this->alias . '.year, "-", ' . $this->alias . '.month, "-", `' . $this->alias.'.day, " ", ' .
+					$this->alias . '.start_time)';
+			$this->virtualFields['modified'] = 'CONCAT(' . $this->alias.'.year, "-", ' . $this->alias . '.month, "-", `' . $this->alias.'.day, " ", ' .
+					$this->alias.'.end_time)';
 		}
 
 		/**
@@ -37,7 +39,8 @@
 			$data = null;
 			$memUsage = memoryUsage(false, false);
 			$serverLoad = serverLoad(false);
-
+			$serverLoad[0] = ($serverLoad[0] >= 0) ? $serverLoad[0] : 0;
+			
 			$data['Cron'] = array(
 				'process_id' => @getmypid(),
 				'year'	=> date('Y'),
@@ -45,7 +48,7 @@
 				'day'   => date('d'),
 				'start_time' => date('H:i:s'),
 				'start_mem' => $memUsage['current'],
-				'start_load' => $serverLoad[0] >= 0 ? $serverLoad[0] : 0
+				'start_load' => $serverLoad[0]
 			);
 			unset($memUsage, $serverLoad);
 
@@ -80,12 +83,13 @@
 			$data = null;
 			$memUsage = memoryUsage(false, false);
 			$serverLoad = serverLoad(false);
+			$serverLoad[0] = ($serverLoad[0] >= 0) ? $serverLoad[0] : 0;
 
 			$data['Cron'] = array(
 				'id' => $this->_currentProcess,
 				'end_time' => date('H:i:s'),
 				'end_mem' => $memUsage['current'],
-				'end_load' => $serverLoad[0] >= 0 ? $serverLoad[0] : 0,
+				'end_load' => $serverLoad[0],
 				'mem_ave' => $memAverage,
 				'load_ave' => $loadAverage,
 				'tasks_ran' => $tasksRan,
@@ -166,9 +170,7 @@
 				)
 			);
 
-			return isset($last['Cron']['created']) && !empty($last['Cron']['created'])
-				? $last['Cron']['created']
-				: false;
+			return (isset($last['Cron']['created']) && !empty($last['Cron']['created'])) ? $last['Cron']['created'] : false;
 		}
 
 		/**
