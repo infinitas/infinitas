@@ -136,12 +136,12 @@
 		 *
 		 * @return array the comments that were found
 		 */
-		public function getUsersComments($user_id = null, $limit = 5){
+		public function getUsersComments($userId = null, $limit = 5){
 			$comments = $this->find(
 				'all',
 				array(
 					'conditions' => array(
-						'Comment.user_id' => $user_id
+						'Comment.user_id' => $userId
 					),
 					'order' => array(
 						'Comment.created' => 'asc'
