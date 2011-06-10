@@ -105,7 +105,7 @@
 		 * @param <type> $user_id the user requesting
 		 * @return <type> array of accounts
 		 */
-		public function getMyAccounts($user_id){
+		public function getMyAccounts($userId){
 			$accounts = $this->find(
 				'all',
 				array(
@@ -117,7 +117,7 @@
 					),
 					'conditions' => array(
 						'or' => array(
-							'EmailAccount.user_id' => $user_id,
+							'EmailAccount.user_id' => $userId,
 							'EmailAccount.system' => 1
 						)
 					)

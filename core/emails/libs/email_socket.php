@@ -232,7 +232,7 @@
 			}*/
 			$data = explode(' ', $data, 3);
 			
-			return isset($data[1]) && (int)$data[1] > 0 ? $data[1] : 0;
+			return (isset($data[1]) && (int)$data[1] > 0) ? $data[1] : 0;
 		}
 
 		protected function _isOk($data){
@@ -417,9 +417,10 @@
 		 * @return bool true
 		 */
 		public function log($text, $size = 0){
+			$size = ($size) ? $size : strlen($text);
 			$this->__logs[] = array(
 				'data' => substr($text, 0, -2),
-				'size' => $size ? $size : strlen($text)
+				'size' => $size
 			);
 
 			unset($text, $size);
