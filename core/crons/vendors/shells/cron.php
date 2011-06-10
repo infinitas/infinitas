@@ -138,7 +138,7 @@
 					++$this->jobsRun;
 				}
 
-				$this->CronResource->logMemoryUsage(sprintf('%s - %s', $jobRan ? '✔' : '☐', $plugin));
+				$this->CronResource->logMemoryUsage(sprintf('%s - %s', ($jobRan) ? '✔' : '☐', $plugin));
 			}
 			unset($plugins);
 

@@ -60,11 +60,11 @@
 					sprintf(
 						"Memory %s %s %s %s %s %s",
 						str_pad('Current:', 15, ' ', STR_PAD_RIGHT),
-						str_pad('Max:',	 15, ' ', STR_PAD_RIGHT),
-						str_pad('Ave:',	 15, ' ', STR_PAD_RIGHT),
-						str_pad('Load:',	15, ' ', STR_PAD_RIGHT),
-						str_pad('Taken:',   15, ' ', STR_PAD_RIGHT),
-						str_pad('Doing:',   15, ' ', STR_PAD_RIGHT)
+						str_pad('Max:',	15, ' ', STR_PAD_RIGHT),
+						str_pad('Ave:',	15, ' ', STR_PAD_RIGHT),
+						str_pad('Load:', 15, ' ', STR_PAD_RIGHT),
+						str_pad('Taken:', 15, ' ', STR_PAD_RIGHT),
+						str_pad('Doing:', 15, ' ', STR_PAD_RIGHT)
 					)
 				);
 				$this->log("---------------------------------------------------------------------------------------------------------------");
@@ -81,11 +81,11 @@
 				sprintf(
 					"	   %s %s %s %s %s %s",
 					str_pad($memoryUsage['current'], 15, ' ', STR_PAD_RIGHT),
-					str_pad($memoryUsage['max'],	 15, ' ', STR_PAD_RIGHT),
-					str_pad($average,				15, ' ', STR_PAD_RIGHT),
-					str_pad($load,				   15, ' ', STR_PAD_RIGHT),
-					str_pad($taken,				  15, ' ', STR_PAD_RIGHT),
-					str_pad($doing,				  15, ' ', STR_PAD_RIGHT)
+					str_pad($memoryUsage['max'], 15, ' ', STR_PAD_RIGHT),
+					str_pad($average, 15, ' ', STR_PAD_RIGHT),
+					str_pad($load, 15, ' ', STR_PAD_RIGHT),
+					str_pad($taken, 15, ' ', STR_PAD_RIGHT),
+					str_pad($doing, 15, ' ', STR_PAD_RIGHT)
 				)
 			);
 
