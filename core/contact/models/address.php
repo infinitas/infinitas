@@ -13,10 +13,11 @@
 			'Contact.Country'
 		);
 
-		public function getAddressByUser($user_id = null, $type = 'list'){
-			if(!$user_id){
+		public function getAddressByUser($userId = null, $type = 'list'){
+			if(!$userId){
 				return false;
 			}
+			
 			$contain = array();
 			if($type === 'all'){
 				$contain = array(
@@ -28,7 +29,7 @@
 				$type,
 				array(
 					'conditions' => array(
-						'Address.foreign_key' => $user_id,
+						'Address.foreign_key' => $userId,
 						'Address.plugin' => 'management',
 						'Address.model' => 'user'
 					),
