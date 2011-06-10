@@ -14,7 +14,7 @@
 				'type' => $this->EmailAccount->types
 			);
 
-			$this->set(compact('emailAccounts','filterOptions'));
+			$this->set(compact('emailAccounts', 'filterOptions'));
 		}
 
 		public function admin_add(){

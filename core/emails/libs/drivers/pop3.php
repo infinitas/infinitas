@@ -137,12 +137,13 @@
 			foreach($list[current(array_keys($list))] as $item){
 				$parts = explode(' ', $item);
 				if(count($parts) == 2 && $parts[0] > 0 && !empty($parts[1])){
+					$uuid = (isset($uids[$parts[0]])) ? $uids[$parts[0]] : null;
 					$listItem = array(
 						'id' => null,
 						'message_number' => $parts[0],
 						'size' => $parts[1],
 						'sizeReadable' => convert($parts[1]),
-						'uid' => isset($uids[$parts[0]]) ? $uids[$parts[0]] : null
+						'uid' => $uuid
 					);
 					$listItem['id'] = sha1(serialize($listItem));
 					$this->mailList[$parts[0]] = $listItem;
@@ -153,7 +154,7 @@
 			return true;
 		}
 
-		protected function _getUid($message_id = null){
+		protected function _getUid($messageId = null){
 			$return = array();
 
 			$data = $this->write('UIDL');
@@ -191,19 +192,42 @@
 			foreach(current($capabilities) as $capability){
 				$parts = explode(' ', $capability, 2);				
 				switch($capability){
-					case 'TOP':			// The TOP capability indicates the optional TOP command is available.
-					case 'USER':		// The USER capability indicates that the USER and PASS commands are supported, although they may not be available to all users.
-					case 'SASL':		// The SASL capability indicates that the AUTH command is available and that it supports an optional base64 encoded second argument for an initial client response as described in the SASL specification.
-					case 'RESP-CODES':	// any response text that begins with [ is an extended response code
-					case 'PIPELINING':	// The PIPELINING capability indicates the server is capable of accepting multiple commands at a time; the client does not have to wait for the response to a command before issuing a subsequent command.
-					case 'UIDL':		// The UIDL capability indicates that the optional UIDL command is supported.
+					// The TOP capability indicates the optional TOP command is available.
+					case 'TOP':
+
+					// The USER capability indicates that the USER and PASS commands are supported,
+					// although they may not be available to all users.
+					case 'USER':		
+
+					// The SASL capability indicates that the AUTH command is available and that it
+					// supports an optional base64 encoded second argument for an initial client
+					// response as described in the SASL specification.
+					case 'SASL':
+
+					// any response text that begins with [ is an extended response code
+					case 'RESP-CODES':	
+
+					// The PIPELINING capability indicates the server is capable of accepting multiple
+					// commands at a time; the client does not have to wait for the response to a command
+					// before issuing a subsequent command.
+					case 'PIPELINING':
+
+					// The UIDL capability indicates that the optional UIDL command is supported.
+					case 'UIDL':		
 					case 'STLS':
 						$this->_capabilities[$parts[0]] = 1;
 						break;
 
-					case 'LOGIN-DELAY':		// time to pass before re logging on
-					case 'EXPIRE':			// The argument to the EXPIRE capability indicates the minimum server retention period, in days, for messages on the server. EXPIRE 0 means you can not store on the server. EXPIRE NEVER asserts that the server does not delete messages.
-					case 'IMPLEMENTATION':	// It is often useful to identify an implementation of a particular server
+					// time to pass before re logging on
+					case 'LOGIN-DELAY':
+
+					// The argument to the EXPIRE capability indicates the minimum server retention period,
+					// in days, for messages on the server. EXPIRE 0 means you can not store on the server.
+					// EXPIRE NEVER asserts that the server does not delete messages.
+					case 'EXPIRE':
+
+					// It is often useful to identify an implementation of a particular server
+					case 'IMPLEMENTATION':	
 						$this->_capabilities[$parts[0]] = isset($parts[1]) && !empty($parts[1]) ? $parts[1] : 1;
 						break;
 				}
