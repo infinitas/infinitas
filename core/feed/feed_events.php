@@ -56,7 +56,30 @@
 		}
 
 		public function onSetupRoutes(){
-			Router::connect('/feeds/subscribe/:slug', array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'view', 'ext' => 'rss'), array('pass' => 'slug'));
-			Router::connect('/feeds/view/:slug', array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'view', 'ext' => ''), array('pass' => 'slug'));
+			Router::connect(
+				'/feeds/subscribe/:slug',
+				array(
+					'plugin' => 'feed',
+					'controller' => 'feeds',
+					'action' => 'view',
+					'ext' => 'rss'
+				),
+				array(
+					'pass' => 'slug'
+				)
+			);
+			
+			Router::connect(
+				'/feeds/view/:slug',
+				array(
+					'plugin' => 'feed',
+					'controller' => 'feeds',
+					'action' => 'view',
+					'ext' => ''
+				),
+				array(
+					'pass' => 'slug'
+				)
+			);
 		}
 	}
