@@ -19,7 +19,7 @@
 		 */
 		public function hasAttachment($mail = array(), $small = true){
 			if((isset($mail['attachments']) && $mail['attachments']) || $mail === true){
-				$size = $small === true ? 16 : 24;
+				$size = ($small === true) ? 16 : 24;
 				return $this->Html->image(
 					'/newsletter/img/attachment.png',
 					array(
@@ -50,7 +50,7 @@
 				$alt = __('Not Flagged', true);
 			}
 
-			$size = $small === true ? 16 : 24;
+			$size = ($small === true) ? 16 : 24;
 
 			return $this->Html->image(
 				$image,
