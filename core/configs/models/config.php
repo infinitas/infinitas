@@ -298,6 +298,7 @@
 				if($config['Config']['value']){
 					$_config = 'true';
 				}
+				
 				else{
 					$_config = 'false';
 				}
@@ -311,9 +312,11 @@
 				}
 				$_config .= ')';
 			}
+
 			else if(is_string($config['Config']['value'])){
 				$_config = '\''.$config['Config']['value'].'\'';
 			}
+
 			else{
 				$_config = $config['Config']['value'];
 			}
