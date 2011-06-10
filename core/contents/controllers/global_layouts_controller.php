@@ -31,7 +31,7 @@
 				'name'
 			);
 
-			$this->set(compact('layouts','filterOptions'));
+			$this->set(compact('layouts', 'filterOptions'));
 		}
 
 		public function admin_add(){
