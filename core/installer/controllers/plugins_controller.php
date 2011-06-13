@@ -23,7 +23,7 @@
 				'active' => Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('plugins','filterOptions'));
+			$this->set(compact('plugins', 'filterOptions'));
 		}
 
 		public function admin_add(){
