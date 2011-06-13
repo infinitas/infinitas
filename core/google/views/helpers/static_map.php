@@ -1,5 +1,6 @@
 <?php
 	App::import('Helper', 'Google.GoogleAppHelper');
+	
 	/**
 	 * http://code.google.com/apis/maps/documentation/staticmaps/#Usage
 	 * @author dogmatic69
@@ -96,6 +97,7 @@
 			if($this->query['visible']){
 				$return[] = 'visible='.$this->query['visible'];
 			}
+
 			else{
 				$return[] = 'center='.implode(',', (array)$this->query['location']);
 				$return[] = 'zoom='.$this->query['zoom'];
@@ -277,10 +279,14 @@
 		/**
 		 * valid map type
 		 *
-		 * roadmap (default) specifies a standard roadmap image, as is normally shown on the Google Maps website. If no maptype value is specified, the Static Maps API serves roadmap tiles by default.
+		 * roadmap (default) specifies a standard roadmap image, as is normally
+		 * shown on the Google Maps website. If no maptype value is specified,
+		 * the Static Maps API serves roadmap tiles by default.
+		 *
 		 * satellite specifies a satellite image.
 		 * terrain specifies a physical relief map image, showing terrain and vegetation.
-   	 	 * hybrid specifies a hybrid of the satellite and roadmap image, showing a transparent layer of major streets and place names on the satellite image.
+   	 	 * hybrid specifies a hybrid of the satellite and roadmap image, showing a
+		 * transparent layer of major streets and place names on the satellite image.
    	 	 *
 		 * @param string $mapType
 		 */
