@@ -98,7 +98,13 @@
 			$dbs = $this->InstallerLib->getSupportedDbs();
 
 			$this->Infinitas->br();
-			$this->config['connection']['driver'] = strtolower($this->in('Which database engine should be used?', array_keys($dbs), current(array_keys($dbs))));
+			$this->config['connection']['driver'] = strtolower(
+				$this->in(
+					'Which database engine should be used?',
+					array_keys($dbs),
+					current(array_keys($dbs))
+				)
+			);
 			return;
 		}
 
@@ -118,7 +124,7 @@
 			$this->config['connection']['login']    = $this->in('Username', null, $this->config['connection']['login']);
 			$this->config['connection']['password'] = $this->in('Password', null, $this->config['connection']['password']);
 			$this->config['connection']['database'] = $this->in('Database', null, $this->config['connection']['database']);
-			$this->config['connection']['prefix']   = $this->in('Prefix',   null, $this->config['connection']['prefix']);
+			$this->config['connection']['prefix']   = $this->in('Prefix', null, $this->config['connection']['prefix']);
 
 			$this->Infinitas->br();
 			$this->Infinitas->out('Would you like to use a root pw for the installer');

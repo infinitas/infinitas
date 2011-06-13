@@ -1,26 +1,29 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	class Install extends Model {
 		public $name = 'Install';
+
 		public $useTable = false;
+
 		public $useDbConfig = false;
+		
 		public $actsAs = false;
 
 		public function __construct($id = false, $table = null, $ds = null) {
@@ -46,10 +49,11 @@
 			);
 		}
 
-/**
- * Ucky hacks to make the model work without a datasource
- */
-		public $_schema = array();
+		/**
+		 * Ucky hacks to make the model work without a datasource
+		 */
+		protected $_schema = array();
+
 		public function find() {
 			return true;
 		}
