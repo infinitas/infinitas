@@ -7,7 +7,6 @@
 			);
 
 			$options = array_merge($default, (array)$options);
-
 			$this->cachePath = $options['cachePath'];
 			$this->cacheImagePath = $options['cacheImagePath'];
 		}
@@ -17,6 +16,7 @@
 			if (is_file($this->cachePath.$file)){
 				return $this->Html->image($this->cacheImagePath.$file );
 			}
+
 			return false;
 		}
 
