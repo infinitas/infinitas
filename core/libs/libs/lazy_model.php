@@ -34,7 +34,7 @@
 		 * @var array
 		 * @access private
 		 */
-		private $map = array();
+		private $__map = array();
 
 		/**
 		 * Overrides the Model constructor to make an inventory of models it can use lazy loading on.
@@ -71,7 +71,7 @@
 		 * @access public
 		 */
 		public function __constructLinkedModel($assoc, $className = null) {
-			if (!isset($this->map[$assoc])) {
+			if (!isset($this->__map[$assoc])) {
 				parent::__constructLinkedModel($assoc, $className);
 			}
 		}
@@ -83,7 +83,7 @@
 		 * @return boolean The property is set or will be set after lazy loading.
 		 */
 		public function __isset($alias) {
-			return property_exists($this, $alias) || isset($this->map[$alias]);
+			return property_exists($this, $alias) || isset($this->__map[$alias]);
 		}
 
 		/**
@@ -93,8 +93,8 @@
 		 * @return mixed Value of the property.
 		 */
 		public function &__get($alias) {
-			if (!property_exists($this, $alias) && isset($this->map[$alias])) {
-				$this->constructLazyLinkedModel($alias, $this->map[$alias]);
+			if (!property_exists($this, $alias) && isset($this->__map[$alias])) {
+				$this->constructLazyLinkedModel($alias, $this->__map[$alias]);
 			}
 			return $this->{$alias};
 		}
@@ -133,13 +133,13 @@
 		 */
 		private function map($key, $properties) {
 			list($alias, $properties) = $return = $this->properties($key, $properties);
-			if (isset($this->map[$alias])) {
-				list($plugin, $model) = $this->pluginSplit($this->map[$alias]);
+			if (isset($this->__map[$alias])) {
+				list($plugin, $model) = $this->pluginSplit($this->__map[$alias]);
 				if ($alias != $model) {
-					$this->map[$alias] = $properties['className'];
+					$this->__map[$alias] = $properties['className'];
 				}
 			} else {
-				$this->map[$alias] = $properties['className'];
+				$this->__map[$alias] = $properties['className'];
 			}
 			return $return;
 		}

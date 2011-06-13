@@ -1,12 +1,12 @@
 <?php
 	class RateableBehavior extends ModelBehavior {
 		/**
-		* Settings initialized with the behavior
-		*
-		* @access public
-		* @var array
-		*/
-		var $defaults = array(
+		 * Settings initialized with the behavior
+		 *
+		 * @access public
+		 * @var array
+		 */
+		public $defaults = array(
 			'plugin' => 'Management', // name of Rating model
 			'class' => 'Rating', // name of Rating model
 			'foreign_key' => 'foreign_id', // foreign key of Rating model
@@ -16,24 +16,24 @@
 			'conditions' => array(), // conditions for find method on Rating model
 			'auto_bind' => true, // automatically bind the model to the User model (default true),
 			'column_rating' => 'rating', // Column name for the rating counter
-			);
+		);
 
 		/**
-		* Contain settings indexed by model name.
-		*
-		* @var array
-		* @access private
-		*/
-		var $__settings = array();
+		 * Contain settings indexed by model name.
+		 *
+		 * @var array
+		 * @access private
+		 */
+		private $__settings = array();
 
 		/**
-		* Initiate behaviour for the model using settings.
-		*
-		* @param object $Model Model using the behaviour
-		* @param array $settings Settings to override for model.
-		* @access public
-		*/
-		function setup(&$model, $settings = array()) {
+		 * Initiate behaviour for the model using settings.
+		 *
+		 * @param object $Model Model using the behaviour
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 */
+		public function setup($model, $settings = array()) {
 			return;
 			$default = $this->defaults;
 			$default['conditions'] = array('Rating.class' => $model->alias);
@@ -55,21 +55,24 @@
 						'className' => $ratingClass,
 						'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
 						'dependent' => $this->__settings[$model->alias]['dependent'],
-						'conditions' => $this->__settings[$model->alias]['conditions']));
+						'conditions' => $this->__settings[$model->alias]['conditions']
+					)
+				);
 
-				$ratingBelongsTo = array($model->alias => array(
+				$ratingBelongsTo = array(
+					$model->alias => array(
 						'className' => $model->alias,
 						'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
 						'counterCache' => $this->__settings[$model->alias]['counter_cache']
-						)
-					);
+					)
+				);
 
 				$model->bindModel(array('hasMany' => $hasManyRating), false);
 				$model->Rating->bindModel(array('belongsTo' => $ratingBelongsTo), false);
 			}
 		}
 
-		function rateRecord(&$model, $data = array()) {
+		public function rateRecord($model, $data = array()) {
 			if (!empty($data[$this->__settings[$model->alias]['class']])) {
 				unset($data[$model->alias]);
 
@@ -105,7 +108,7 @@
 					);
 
 					$total = array_sum($ratings);
-					$rating = number_format($total/count($ratings),2,'.',',');
+					$rating = number_format($total/count($ratings), 2, '.', ',');
 
 					$model->id = $data['Rating']['foreign_id'];
 					$model->data[$model->name]['rating'] = $rating;
@@ -115,6 +118,7 @@
 					return true;
 				}
 			}
+
 			return false;
 		}
 	}

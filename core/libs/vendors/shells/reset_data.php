@@ -1,5 +1,5 @@
 <?php
-class ResetDataShell extends Shell {
+	class ResetDataShell extends Shell {
 		var $uses = array('Installer.Release');
 
 		function main() {
@@ -7,4 +7,4 @@ class ResetDataShell extends Shell {
 				$this->Release->installData(true);
 				$this->out('Done');
 		}
-}
+	}
