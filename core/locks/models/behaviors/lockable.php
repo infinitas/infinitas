@@ -31,7 +31,7 @@
 		 * @var array
 		 * @access protected
 		 */
-		public $_defaults = array(
+		protected $_defaults = array(
 		);
 
 		/**
@@ -111,7 +111,7 @@
 			$class = Inflector::camelize($Model->plugin).'.'.$Model->alias;
 
 			if(isset($results[0][$Model->alias][$Model->primaryKey])){
-				$this->user_id = CakeSession::read('Auth.User.id');
+				$this->userId = CakeSession::read('Auth.User.id');
 				$lock = $Model->Lock->find(
 					'all',
 					array(
@@ -126,7 +126,7 @@
 					)
 				);
 
-				if(isset($lock[0]['Lock']['user_id']) && $this->user_id == $lock[0]['Lock']['user_id']){
+				if(isset($lock[0]['Lock']['user_id']) && $this->userId == $lock[0]['Lock']['user_id']){
 					$Model->Lock->delete($lock[0]['Lock']['id']);
 					$lock = array();
 				}
@@ -138,7 +138,7 @@
 				$lock['Lock'] = array(
 					'foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
 					'class' => $class,
-					'user_id' => $this->user_id
+					'user_id' => $this->userId
 				);
 				
 				$Model->Lock->create();
