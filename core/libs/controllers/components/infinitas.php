@@ -79,7 +79,7 @@
 				unset($params['named']['limit']);
 			}
 
-			$params['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'],true);
+			$params['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'], true);
 
 			$this->Controller->redirect(
 				array(
@@ -101,7 +101,7 @@
 		 */
 		public function paginationHardLimit($limit = null, $return = false){
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
-				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
+				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum', true));
 
 				$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
 				$url = array(
@@ -138,8 +138,8 @@
 
 			// if the host is not starting with www. redirect the
 			// user to the same URL but with www :-)
-			if (!strpos($host,'www')){
-				$this->redirect('www'.$host);
+			if (!strpos($host, 'www')){
+				$this->redirect('www' . $host);
 			}
 		}
 
@@ -460,9 +460,13 @@
 		 */
 		function _orderedMove(){
 			$modelName = $this->Controller->modelClass;
+			
+			$orderable = isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) &&
+				!empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']);
 
-			if (isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) && !empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field'])) {
-				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['position'];
+			if ($orderable) {
+				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] =
+					$this->Controller->params['named']['position'];
 			}
 			else{
 				$this->Controller->data[$modelName]['ordering'] = $this->Controller->params['named']['position'];
@@ -613,7 +617,7 @@
 
 			// Add scaffold defaults if scaffolds are being used
 			$properties = get_class_vars($ctrlclass);
-			if (is_array($properties) && array_key_exists('scaffold',$properties)) {
+			if (is_array($properties) && array_key_exists('scaffold', $properties)) {
 				if($properties['scaffold'] == 'admin') {
 					$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
 				}

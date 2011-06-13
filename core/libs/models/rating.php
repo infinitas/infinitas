@@ -1,5 +1,4 @@
 <?php
-class Rating extends CoreAppModel {
-	
-}
-?>
+	class Rating extends CoreAppModel {
+
+	}

@@ -3,34 +3,36 @@
 		/**
 		 * components being used here
 		 */
-		var $components = array();
+		public $components = array();
 
 		/**
 		* The path to the voucher template
 		*/
-		var $path = '';
-		var $voucher = 'gift-voucher.png';
-		var $font = 'C:\xampp\php\extras\fonts\ttf\Vera.ttf';
+		public $path = '';
 
-		var $errors = null;
+		public $voucher = 'gift-voucher.png';
+		
+		public $font = 'C:\xampp\php\extras\fonts\ttf\Vera.ttf';
 
-		var $voucherUuidCode = null;
+		public $errors = null;
 
-		var $voucherSize = array();
+		public $voucherUuidCode = null;
 
-		var $voucherRecource = null;
+		public $voucherSize = array();
+
+		public $voucherRecource = null;
 
 		/**
 		 * Controllers initialize function.
 		 */
-		function initialize(&$controller, $settings = array()) {
+		public function initialize(&$controller, $settings = array()) {
 			$this->Controller = &$controller;
 			$settings = array_merge(array(), (array)$settings);
 			$this->path = APP.'extensions'.DS.'libs'.DS.'webroot'.DS.'img'.DS;
 			$this->voucher = $this->path.$this->voucher;
 		}
 
-		function getVoucher(){
+		public function getVoucher(){
 			if (!is_file($this->font)) {
 				$this->errors[] = 'Font file missing';
 				return false;
@@ -72,7 +74,16 @@
 			$this->voucherRecource = imagecreatefrompng($this->voucher);
 
 			// copy the voucher to the png
-			if (imagecopyresampled($this->output, $this->voucherRecource, 0, 0, 0, 0, $this->voucherSize[0], $this->voucherSize[1], $this->voucherSize[0], $this->voucherSize[1])) {
+			$copy = imagecopyresampled(
+				$this->output,
+				$this->voucherRecource,
+				0, 0, 0, 0,
+				$this->voucherSize[0],
+				$this->voucherSize[1],
+				$this->voucherSize[0],
+				$this->voucherSize[1]
+				);
+			if ($copy) {
 				return true;
 			}
 
@@ -142,7 +153,7 @@
 
 			if (!$date) {
 				$this->errors[] = 'No date passed. Using 1 week from now';
-				$date = date('D, j \o\f F Y', mktime(0,0,0,date('m'),date('d')+7,date('Y')));
+				$date = date('D, j \o\f F Y', mktime(0, 0, 0, date('m'), date('d') + 7, date('Y')));
 			}
 
 			imagettftext($this->output, 10, 0, 480, 32, imagecolorallocate($this->output, 0, 0, 0), $this->font, __('Expires:', true));

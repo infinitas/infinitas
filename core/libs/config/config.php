@@ -58,7 +58,8 @@
 
 	$config['Website'] = array(
 		'name' => 'Infinitas Cms',
-		'description' => 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.',
+		'description' => 'Infinitas Cms is a open source content management system ' .
+			'that is designed to be fast and user friendly, with all the features you need.',
 		'admin_quick_post' => 'blog',
 		'allow_login' => true,
 		'allow_registration' => true,

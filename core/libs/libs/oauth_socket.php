@@ -32,7 +32,7 @@
 		 *
 		 * @var array
 		 */
-		var $defaults = array(
+		public $defaults = array(
 				'oauth_version' => '1.0',
 				'oauth_signature_method' => 'HMAC-SHA1',
 		);
@@ -45,7 +45,7 @@
 		 *   THE ARRAY TYPE OF REQUEST IS SUPPORTED
 		 * @return array
 		 */
-		function request($request = array()) {
+		public function request($request = array()) {
 
 			// If the request does not need OAuth Authorization header, let the parent
 			// deal with it.
@@ -91,7 +91,7 @@
 		 *   THE ARRAY TYPE OF REQUEST IS SUPPORTED
 		 * @return String
 		 */
-		function authorizationHeader($request) {
+		public function authorizationHeader($request) {
 
 			$request['auth'] = array_merge($this->defaults, $request['auth']);
 
@@ -141,7 +141,9 @@
 
 			// Next add the body params if there are any and the content type header is
 			// not set, or it's application/x-www-form-urlencoded
-			if (isset($request['body']) && (!isset($request['header']['Content-Type']) || stristr($request['header']['Content-Type'], 'application/x-www-form-urlencoded'))) {
+			$check = isset($request['body']) && (!isset($request['header']['Content-Type']) ||
+				stristr($request['header']['Content-Type'], 'application/x-www-form-urlencoded'));
+			if ($check) {
 				$requestParams = array_merge($requestParams, $this->assocToNumericNameValue($request['body']));
 			}
 
@@ -234,7 +236,7 @@
 		 * @param string $value E.g. 'HMAC-SHA1'
 		 * @return string E.g. 'oauth_signature_method="HMAC-SHA1"'
 		 */
-		function authorizationHeaderParamEncode($name, $value) {
+		public function authorizationHeaderParamEncode($name, $value) {
 			return $this->parameterEncode($name) . '="' . $this->parameterEncode($value) . '"';
 		}
 
@@ -245,7 +247,7 @@
 		 * @param array $array Associative array
 		 * @return array
 		 */
-		function assocToNumericNameValue($array) {
+		public function assocToNumericNameValue($array) {
 			$return = array();
 			foreach ($array as $name => $value) {
 				$return[] = array(
@@ -266,7 +268,7 @@
 		 * @return integer 1, 0 or -1 depending on whether a greater than b, less than
 		 *  or the same.
 		 */
-		function sortByNameThenByValue($a, $b) {
+		public function sortByNameThenByValue($a, $b) {
 			if ($a['name'] == $b['name']) {
 				if ($a['value'] == $b['value']) {
 					return 0;
@@ -284,7 +286,7 @@
 		 * @param string $param
 		 * @return string
 		 */
-		function parameterEncode($param) {
+		public function parameterEncode($param) {
 			$encoding = mb_detect_encoding($param);
 			if ($encoding != 'UTF-8') {
 				$param = mb_convert_encoding($param, 'UTF-8', $encoding);

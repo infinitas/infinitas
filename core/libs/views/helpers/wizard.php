@@ -15,7 +15,10 @@
 	 * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 	class WizardHelper extends AppHelper {
-		public $helpers = array('Session','Html');
+		public $helpers = array(
+			'Session',
+			'Html'
+		);
 
 		public $output = null;
 		/**
@@ -35,9 +38,7 @@
 					return $wizardData;
 				}
 
-				else {
-					return null;
-				}
+				return null;
 			}
 		}
 		
@@ -55,6 +56,7 @@
 			if ($step == null) {
 				$step = $title;
 			}
+
 			$wizardAction = $this->config('wizardAction');
 
 			return $this->Html->link($title, $wizardAction.$step, $htmlAttributes, $confirmMessage, $escapeTitle);
@@ -77,10 +79,8 @@
 			if (in_array($step, (array)$steps)) {
 				return array_search($step, $steps) + $shiftIndex;
 			}
-
-			else {
-				return false;
-			}
+			
+			return false;
 		}
 
 		public function activeStep() {
@@ -97,7 +97,9 @@
 		 * @param string $escapeTitle
 		 * @return string
 		 */
-		public function progressMenu($titles = array(), $noLink = false, $attributes = array(), $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
+		public function progressMenu(
+				$titles = array(), $noLink = false, $attributes = array(),
+				$htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
 			$wizardConfig = $this->config();
 			extract((array)$wizardConfig);
 
@@ -113,19 +115,28 @@
 					if ($step == $expectedStep) {
 						$incomplete = true;
 						$class = 'expected';
-					} else {
+					}
+
+					else {
 						$class = 'complete';
 					}
+
 					if ($step == $activeStep) {
 						$class .= ' active';
 					}
+
 					if($noLink !== false) {
-						$this->output .= "<$wrap class='$class'>" . $this->Html->link($title, array('action' => $wizardAction, $step), $htmlAttributes, $confirmMessage, $escapeTitle) . "</$wrap>";
+						$this->output .= "<$wrap class='$class'>" . 
+							$this->Html->link($title, array('action' => $wizardAction, $step), $htmlAttributes, $confirmMessage, $escapeTitle) .
+						"</$wrap>";
 					}
+
 					else {
 						$this->output .= "<$wrap class='$class'>" . $title . "</$wrap>";
 					}
-				} else {
+				}
+
+				else {
 					$this->output .= "<$wrap class='incomplete'>" . $title . "</$wrap>";
 				}
 			}
