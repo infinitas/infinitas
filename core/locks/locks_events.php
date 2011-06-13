@@ -42,6 +42,15 @@
 		}
 
 		public function onSetupRoutes(){
-			Router::connect('/admin/content-locked', array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked', 'admin' => true, 'prefix' => 'admin'));
+			Router::connect(
+				'/admin/content-locked',
+				array(
+					'plugin' => 'locks',
+					'controller' => 'locks',
+					'action' => 'locked',
+					'admin' => true,
+					'prefix' => 'admin'
+				)
+			);
 		}
 	}

@@ -29,7 +29,14 @@
 
 		public function beforeRender($Controller){
 			if(isset($Controller->data['Lock']['user_id']) && $Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
-				$Controller->Session->setFlash(sprintf(__('The %s you requested has been locked by %s', true), $Controller->prettyModelName, $Controller->data['Locker']['username']));
+				$Controller->Session->setFlash(
+					sprintf(
+						__('The %s you requested has been locked by %s', true), 
+						$Controller->prettyModelName,
+						$Controller->data['Locker']['username']
+					)
+				);
+				
 				$Controller->redirect(array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked'));
 			}
 		}
