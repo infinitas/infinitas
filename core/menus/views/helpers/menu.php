@@ -59,13 +59,8 @@
 			$this->__adminMenuUrl['plugin'] = $this->plugin;
 			
 			$menus = $this->Event->trigger($this->plugin.'.adminMenu');
-			$items = isset($menus['adminMenu'][$this->plugin]['main']) 
-				? $menus['adminMenu'][$this->plugin]['main']
-				: array();
-
-			$items = array(
-				'Home' => '/admin'
-			) + $items;
+			$items = (isset($menus['adminMenu'][$this->plugin]['main'])) ? $menus['adminMenu'][$this->plugin]['main'] : array();
+			$items = array('Home' => '/admin') + $items;
 
 			$return = array();
 			foreach($items as $name => $url){
@@ -176,11 +171,12 @@
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;
 			}
+			
 			$this->_menuData = '<ul class="pureCssMenu pureCssMenum0">';
-				foreach( $data as $k => $v ){
-					$this->_menuLevel = 0;
-					$this->__buildDropdownMenu($v, 'MenuItem');
-				}
+			foreach( $data as $k => $v ){
+				$this->_menuLevel = 0;
+				$this->__buildDropdownMenu($v, 'MenuItem');
+			}
 			$this->_menuData .= '</ul>';
 
 			return str_replace('</a></a>', '</a>', $this->_menuData);
@@ -206,7 +202,7 @@
 				$suffix = '0';
 			}
 
-			$isSeperator = $array['MenuItem']['name'] == '--' ? true : false;
+			$isSeperator = ($array['MenuItem']['name'] == '--') ? true : false;
 
 			if($isSeperator) {
 				$array['MenuItem']['item'] = '';
@@ -229,11 +225,11 @@
 				if (empty($array['MenuItem']['link'])) {
 					$_items = $array['MenuItem'];
 
-					$menuLink['prefix']     = (!empty($array['MenuItem']['prefix'])     ? $array['MenuItem']['prefix']     : null);
-					$menuLink['plugin']     = (!empty($array['MenuItem']['plugin'])     ? $array['MenuItem']['plugin']     : null);
+					$menuLink['prefix'] = (!empty($array['MenuItem']['prefix']) ? $array['MenuItem']['prefix'] : null);
+					$menuLink['plugin'] = (!empty($array['MenuItem']['plugin']) ? $array['MenuItem']['plugin'] : null);
 					$menuLink['controller'] = (!empty($array['MenuItem']['controller']) ? $array['MenuItem']['controller'] : null);
-					$menuLink['action']     = (!empty($array['MenuItem']['action'])     ? $array['MenuItem']['action']     : 'index');
-					$menuLink[]             = (!empty($array['MenuItem']['params'])     ? $array['MenuItem']['params']     : null);
+					$menuLink['action'] = (!empty($array['MenuItem']['action']) ? $array['MenuItem']['action'] : 'index');
+					$menuLink[] = (!empty($array['MenuItem']['params']) ? $array['MenuItem']['params'] : null);
 
 					if($menuLink['controller'] == $this->params['controller'] || $menuLink['plugin'] == $this->params['plugin']){
 						$currentCss = ' current';
@@ -270,14 +266,16 @@
 
 				if (!empty($array['children'])) {
 					$this->_menuData .= '<ul class="pureCssMenum">';
-						foreach( $array['children'] as $k => $v ){
-							$this->_menuLevel = 1;
-							$this->__buildDropdownMenu($v, $model);
-						}
+					foreach($array['children'] as $k => $v){
+						$this->_menuLevel = 1;
+						$this->__buildDropdownMenu($v, $model);
+					}
 					$this->_menuData .= '</ul>';
 				}
+
 				$this->_menuData .= '</a>';
 			}
+			
 			else {
 				$this->_menuData .= $linkName;
 			}
