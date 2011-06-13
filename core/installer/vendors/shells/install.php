@@ -3,10 +3,10 @@
 	
 	class InstallShell extends Shell {
 		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
-        
-        /**
-         * help
-         */
+
+		/**
+		 * help
+		 */
 		public function help(){
 			$this->Infinitas->h1('Interactive Install Shell Help');
 			$this->Infinitas->p(
@@ -64,15 +64,15 @@
 						break;
 
 					case 'M':
-                        $this->module();
+						$this->module();
 						break;
 
 					case 'T':
-                        $this->theme();
+						$this->theme();
 						break;
 
 					case 'A':
-                        $this->addon();
+						$this->addon();
 						break;
 
 					case 'H':
@@ -138,4 +138,4 @@
 		public function license(){
 			$this->Installer->displayLicence(false);
 		}
-    }
+	}

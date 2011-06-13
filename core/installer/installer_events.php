@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class InstallerEvents extends AppEvents{
+	class InstallerEvents extends AppEvents{
 		public function onSetupRoutes(){
 			// infinitas is not installed
 			$databaseConfig = APP.'config'.DS.'database.php';
