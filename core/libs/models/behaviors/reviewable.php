@@ -1,32 +1,32 @@
 <?php
-/**
-	* Reviewable Model Behavior
-	*
-	* Allows you to attach a review to any model in your application
-	* Moderates/Validates reviews to check for spam.
-	* Validates reviews based on a point system. High points is an automatic approval,
-	* where as low points is marked as spam or deleted.
-	* Based on Jonathan Snooks outline.
-	* Based on Jose Diaz-Gonzalez Commentable behavior.
-	* @link http://github.com/josegonzalez/cakephp-commentable-behavior
-	*
-	* @filesource
-	* @copyright Stoop Dev
-	* @package core
-	* @subpackage core.models.behaviors.reviewable
-	* @modifiedby Jose Diaz-Gonzalez
-	* @modifiedby Carl Sutton
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	*/
+	/**
+	 * Reviewable Model Behavior
+	 *
+	 * Allows you to attach a review to any model in your application
+	 * Moderates/Validates reviews to check for spam.
+	 * Validates reviews based on a point system. High points is an automatic approval,
+	 * where as low points is marked as spam or deleted.
+	 * Based on Jonathan Snooks outline.
+	 * Based on Jose Diaz-Gonzalez Commentable behavior.
+	 * @link http://github.com/josegonzalez/cakephp-commentable-behavior
+	 *
+	 * @filesource
+	 * @copyright Stoop Dev
+	 * @package core
+	 * @subpackage core.models.behaviors.reviewable
+	 * @modifiedby Jose Diaz-Gonzalez
+	 * @modifiedby Carl Sutton
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 */
 
 	class ReviewableBehavior extends ModelBehavior {
 		/**
-		* Settings initialized with the behavior
-		*
-		* @access public
-		* @var array
-		*/
-		var $defaults = array(
+		 * Settings initialized with the behavior
+		 *
+		 * @access public
+		 * @var array
+		 */
+		public $defaults = array(
 			'plugin' => 'Core',
 			'class' => 'Review', // name of Review model
 			'foreign_key' => 'foreign_id', // foreign key of Review model
@@ -49,29 +49,29 @@
 			'blacklist_words' => array(),
 			// List of blacklisted words within URLs
 			'deletion' => - 10 // How many points till the Review is deleted (negative)
-			);
+		);
 
 		/**
-		* Contain settings indexed by model name.
-		*
-		* @var array
-		* @access private
-		*/
-		var $__settings = array();
+		 * Contain settings indexed by model name.
+		 *
+		 * @var array
+		 * @access private
+		 */
+		private $__settings = array();
 
 		/**
-		* Initiate behaviour for the model using settings.
-		*
-		* @param object $Model Model using the behaviour
-		* @param array $settings Settings to override for model.
-		* @access public
-		*/
-		function setup(&$model, $settings = array()) {
+		 * Initiate behaviour for the model using settings.
+		 *
+		 * @param object $Model Model using the behaviour
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 */
+		public function setup($model, $settings = array()) {
 			$default = $this->defaults;
 			$default['conditions'] = array('Review.class' => $model->alias);
 
-			$default['blcklist_keywords'] = explode(',',Configure::read('Website.blacklist_keywords'));
-			$default['blcklist_words'] = explode(',',Configure::read('Website.blacklist_words'));
+			$default['blcklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
+			$default['blcklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
 
 			$reviewClass = isset( $default['plugin'] ) ? $default['plugin'].'.'.$default['class'] : $default['class'];
 
@@ -88,66 +88,69 @@
 						'className' => $reviewClass,
 						'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
 						'dependent' => $this->__settings[$model->alias]['dependent'],
-						'conditions' => $this->__settings[$model->alias]['conditions']));
+						'conditions' => $this->__settings[$model->alias]['conditions']
+					)
+				);
 
 				$reviewBelongsTo = array($model->alias => array(
 						'className' => $model->alias,
 						'foreignKey' => $this->__settings[$model->alias]['foreign_key'],
 						'counterCache' => $this->__settings[$model->alias]['counter_cache'],
 						'counterScope' => $this->__settings[$model->alias]['counter_cache_scope']
-						)
-					);
+					)
+				);
+				
 				$model->bindModel(array('hasMany' => $hasManyReview), false);
 				$model->Review->bindModel(array('belongsTo' => $reviewBelongsTo), false);
 			}
 		}
 
-		function createReview(&$model, $id, $data = array()) {
+		public function createReview($model, $id, $data = array()) {
 			if (!empty($data[$this->__settings[$model->alias]['class']])) {
 				unset($data[$model->alias]);
 				$model->Review->validate = array($this->__settings[$model->alias]['column_author'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							)
-						),
+						)
+					),
 					$this->__settings[$model->alias]['column_content'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							)
-						),
+						)
+					),
 					$this->__settings[$model->alias]['column_email'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							),
+						),
 						'email' => array(
 							'rule' => array('email'),
 							'message' => 'Please enter a valid email address'
-							)
-						),
+						)
+					),
 					$this->__settings[$model->alias]['column_class'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							)
-						),
+						)
+					),
 					$this->__settings[$model->alias]['column_foreign_id'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							)
-						),
+						)
+					),
 					$this->__settings[$model->alias]['column_status'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							)
-						),
+						)
+					),
 					$this->__settings[$model->alias]['column_points'] => array(
 						'notempty' => array(
 							'rule' => array('notempty')
-							),
+						),
 						'numeric' => array(
 							'rule' => array('numeric'),
-							)
 						)
-					);
+					)
+				);
 
 				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_class']] = $model->alias;
 				$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_foreign_id']] = $id;
@@ -155,7 +158,9 @@
 
 				if ($data[$this->__settings[$model->alias]['class']]['status'] == 'spam') {
 					$data[$this->__settings[$model->alias]['class']]['active'] == 0;
-				}else if (Configure::read('Reviews.auto_moderate') === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam') {
+				}
+
+				else if (Configure::read('Reviews.auto_moderate') === true && $data[$this->__settings[$model->alias]['class']]['status'] != 'spam') {
 					$data[$this->__settings[$model->alias]['class']]['active'] == 1;
 				}
 
@@ -167,11 +172,17 @@
 					Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']]);
 					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] =
 					Sanitize::clean($data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']]);
-				}else {
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']] = $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']];
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']] = $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']];
-					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] = $data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']];
 				}
+
+				else {
+					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']] =
+						$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_author']];
+					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']] =
+						$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_email']];
+					$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']] =
+						$data[$this->__settings[$model->alias]['class']][$this->__settings[$model->alias]['column_content']];
+				}
+
 				if ($this->_checkForEmptyVal($data[$this->__settings[$model->alias]['class']]) == false) {
 					$model->Review->create();
 					if ($model->Review->save($data)) {
@@ -179,27 +190,33 @@
 					}
 				}
 			}
+			
 			return false;
 		}
 
-		function getReviews(&$model, $options = array()) {
+		public function getReviews($model, $options = array()) {
 			$options = array_merge(array('id' => $model->id, 'options' => array()), $options);
+
 			$parameters = array();
 			if (isset($options['id']) && is_numeric($options['id'])) {
 				$settings = $this->__settings[$model->alias];
 				$parameters = array_merge_recursive(
 					array('conditions' =>
-						array($settings['class'] . '.' . $settings['column_class'] => $model->alias,
+						array(
+							$settings['class'] . '.' . $settings['column_class'] => $model->alias,
 							$settings['class'] . '.' . $settings['foreign_key'] => $options['id'],
-							$settings['class'] . '.' . $settings['column_status'] => 'approved')),
+							$settings['class'] . '.' . $settings['column_status'] => 'approved'
+						)
+					),
 					$options['options']
-					);
+				);
 			}
+			
 			$parameters = (isset($parameters) && !$this->_checkForEmptyVal($parameters)) ? $parameters : array();
 			return $model->Review->find('all', $parameters);
 		}
 
-		function _rateReview($model, $data) {
+		protected function _rateReview($model, $data) {
 			if (!empty($data)) {
 				$points = $this->_rateLinks($model, $data);
 				$points += $this->_rateLength($model, $data);
@@ -212,21 +229,30 @@
 				$data[$this->__settings[$model->alias]['column_points']] = $points;
 				if ($points >= 1) {
 					$data[$this->__settings[$model->alias]['column_status']] = 'approved';
-				}else if ($points == 0) {
+				}
+
+				else if ($points == 0) {
 					$data[$this->__settings[$model->alias]['column_status']] = 'pending';
-				}else if ($points <= $this->__settings[$model->alias]['deletion']) {
+				}
+
+				else if ($points <= $this->__settings[$model->alias]['deletion']) {
 					$data[$this->__settings[$model->alias]['column_status']] = 'delete';
-				}else {
+				}
+
+				else {
 					$data[$this->__settings[$model->alias]['column_status']] = 'spam';
 				}
-			}else {
+			}
+
+			else {
 				$data[$this->__settings[$model->alias]['column_points']] = "-100";
 				$data[$this->__settings[$model->alias]['column_status']] = 'delete';
 			}
+
 			return $data;
 		}
 
-		function _rateLinks($model, $data) {
+		protected function _rateLinks($model, $data) {
 			$links = preg_match_all(
 				"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
 				$data[$this->__settings[$model->alias]['column_content']], $matches);
@@ -252,24 +278,29 @@
 
 				$points = (strlen($link) >= 30) ? $points - 1 : $points;
 			}
+
 			return $points;
 		}
 
-		function _rateLength($model, $data) {
+		protected function _rateLength($model, $data) {
 			// How long is the body
 			// +2 if more then 20 chars and no links, -1 if less then 20
 			$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
 
 			if ($length >= 20 && $this->totalLinks <= 0) {
 				return 2;
-			}elseif ($length >= 20 && $this->totalLinks == 1) {
+			}
+			
+			else if ($length >= 20 && $this->totalLinks == 1) {
 				return 1;
-			}elseif ($length < 20) {
+			}
+			
+			else if ($length < 20) {
 				return - 1;
 			}
 		}
 
-		function _rateEmail($model, $data) {
+		protected function _rateEmail($model, $data) {
 			$points = 0;
 			// Number of previous reviewss from email
 			// +1 per approved, -1 per spam
@@ -287,7 +318,9 @@
 				foreach ($reviews as $review) {
 					if ($review['Review']['status'] == 'spam') {
 						--$points;
-					}elseif ($reviews['Review']['status'] == 'approved') {
+					}
+					
+					else if ($reviews['Review']['status'] == 'approved') {
 						++$points;
 					}
 				}
@@ -295,7 +328,7 @@
 			return $points;
 		}
 
-		function _rateKeywords($model, $data) {
+		protected function _rateKeywords($model, $data) {
 			$points = 0;
 			// Keyword search
 			// -1 per blacklisted keyword
@@ -304,10 +337,11 @@
 					--$points;
 				}
 			}
+
 			return $points;
 		}
 
-		function _rateStartingWord($model, $data) {
+		protected function _rateStartingWord($model, $data) {
 			// Body starts with...
 			// -10 points
 			$firstWord = mb_substr($data[$this->__settings[$model->alias]['column_content']],
@@ -317,16 +351,17 @@
 			return (in_array(mb_strtolower($firstWord), $this->__settings[$model->alias]['blacklist_keywords'])) ? - 10 : 0;
 		}
 
-		function _rateAuthorName($model, $data) {
+		protected function _rateAuthorName($model, $data) {
 			// Author name has http:// in it
 			// -2 points
 			if (stripos($data[$this->__settings[$model->alias]['column_author']], 'http://') !== false) {
 				return - 2;
 			}
+
 			return 0;
 		}
 
-		function _rateByPreviousReview($model, $data) {
+		protected function _rateByPreviousReview($model, $data) {
 			// Body used in previous review
 			// -1 per exact review
 			$previousReviews = $model->Review->find('count', array(
@@ -339,26 +374,26 @@
 			return ($previousReviews > 0) ? - $previousReviews : 0;
 		}
 
-		function _rateBody($model, $data) {
+		protected function _rateBody($model, $data) {
 			// Random character match
 			// -1 point per 5 consecutive consonants
-			$consonants = preg_match_all(
-				'/[^aAeEiIoOuU\s]{5,}+/i',
-				$data[$this->__settings[$model->alias]['column_content']],
-				$matches);
+			$consonants = preg_match_all('/[^aAeEiIoOuU\s]{5,}+/i', $data[$this->__settings[$model->alias]['column_content']], $matches);
 			$totalConsonants = count($matches[0]);
 
 			return ($totalConsonants > 0) ? - $totalConsonants : 0;
 		}
 
-		function _checkForEmptyVal($array) {
+		protected function _checkForEmptyVal($array) {
 			$isEmpty = 0;
 			foreach ($array as $key => $item) {
 				if (is_numeric($item)) {
-				} elseif (empty($item)) {
+				} 
+				
+				else if (empty($item)) {
 					$isEmpty++;
 				}
 			}
+
 			return ($isEmpty > 0) ? true : false;
 		}
 	}

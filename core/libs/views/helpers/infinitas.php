@@ -36,26 +36,26 @@
 		* Set up some errors for json.
 		* @access public
 		*/
-		public $_json_errors = array(
+		public $jsonErrors = array(
 			JSON_ERROR_NONE	  => 'No error',
 			JSON_ERROR_DEPTH	 => 'The maximum stack depth has been exceeded',
 			JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
 			JSON_ERROR_SYNTAX	=> 'Syntax error',
 		);
 
-		var $_menuData = '';
+		protected $_menuData = '';
 
-		var $_menuLevel = 0;
+		protected $_menuLevel = 0;
 
 		public $external = true;
 
-		var $View = null;
+		public $View = null;
 
 		/**
 		 * Set to true when the menu has a current marker to avoid duplicates.
 		 * @var unknown_type
 		 */
-		var $_currentCssDone = false;
+		protected $_currentCssDone = false;
 
 		/**
 		* Create a status icon.

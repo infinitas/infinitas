@@ -12,6 +12,7 @@
  *
  * @author Justin Hileman {@link http://justinhileman.com}
  */
+// @codingStandardsIgnoreStart
 class Mustache {
 
 	public $_otag = '{{';
@@ -683,3 +684,4 @@ class MustacheException extends Exception {
 	const UNKNOWN_PRAGMA		   = 4;
 
 }
+// @codingStandardsIgnoreStart

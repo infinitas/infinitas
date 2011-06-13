@@ -26,7 +26,7 @@
 		 * Set up some errors for json.
 		 * @access protected
 		 */
-		protected  $_json_messages = array(
+		protected  $_jsonMessages = array(
 			JSON_ERROR_NONE	  => 'No error',
 			JSON_ERROR_DEPTH	 => 'The maximum stack depth has been exceeded',
 			JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
@@ -44,7 +44,9 @@
 		public function setup($Model, $config = null) {
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
-			} else {
+			}
+
+			else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
 		}
@@ -128,7 +130,7 @@
 				if (in_array($field, $fields)) {
 					$_table = explode('_', $table, 2);
 
-					$plugin = ucfirst(count($_table) == 2 ? $_table[0] : '');
+					$plugin = ucfirst((count($_table) == 2) ? $_table[0] : '');
 					$plugin = ($plugin == 'Core') ? 'Management' : $plugin;
 
 					$return[] = array(
@@ -270,7 +272,7 @@
 
 			if (!$json) {
 				if (function_exists('json_last_error')) {
-					$Model->__jsonErrors[] = $this->_json_messages[json_last_error()];
+					$Model->__jsonErrors[] = $this->_jsonMessages[json_last_error()];
 				}
 				else{
 					$Model->__jsonErrors[] = 'Json seems invalid';
