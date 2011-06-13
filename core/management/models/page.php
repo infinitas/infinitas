@@ -22,15 +22,15 @@
 	 */
 
 	class Page extends ManagementAppModel {
-		var $name = 'Page';
+		public $name = 'Page';
 
-		var $useTable = false;
+		public $useTable = false;
 
-		var $actsAs = false;
+		public $actsAs = false;
 
-		var $primaryKey = 'file_name';
+		public $primaryKey = 'file_name';
 
-		function __construct( $id = false, $table = null, $ds = null ){
+		public function __construct( $id = false, $table = null, $ds = null ){
 			parent::__construct($id, $table, $ds);
 
 			$this->_schema = array(
@@ -84,7 +84,7 @@
 			);
 		}
 
-		function schema($field = false){
+		public function schema($field = false){
 			if(is_string($field)){
 				return $this->_schema[$field];
 			}
@@ -92,7 +92,7 @@
 			return $this->_schema;
 		}
 
-		function paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array()){
+		public function paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array()){
 			App::import('Core', 'Folder');
 
 			$Folder = new Folder($this->__path());
@@ -106,7 +106,7 @@
 			foreach($pages as $page){
 				if(strpos($page, '.ctp') !== false){
 					$returnPage = array(
-						'name' => Inflector::humanize(substr($page,0,strlen($page)-4)),
+						'name' => Inflector::humanize(substr($page, 0, strlen($page) - 4)),
 						'file_name' => $page
 					);
 
@@ -117,7 +117,7 @@
 			return Set::sort($returnPages, '{n}.Page.file_name', 'asc');
 		}
 
-		function __path($id = null){
+		private function __path($id = null){
 			if ($id) {
 				$id = DS.$id;
 			}
@@ -125,7 +125,7 @@
 			return APP . str_replace(array('/', '\\'), DS, Configure::read('CORE.page_path')).$id;
 		}
 
-		function paginateCount($conditions = null, $recursive = 0, $extra = array()){
+		public function paginateCount($conditions = null, $recursive = 0, $extra = array()){
 			App::import('Core', 'Folder');
 
 			$Folder = new Folder($this->__path());
@@ -136,7 +136,7 @@
 			return count($pages[1]);
 		}
 
-		function read($fields = null, $filename = null){
+		public function read($fields = null, $filename = null){
 			if($filename === null){
 				$filename = $this->id;
 			}
@@ -152,7 +152,7 @@
 			return false;
 		}
 
-		function find($type, $options = array()){
+		public function find($type, $options = array()){
 			$Folder = new Folder($this->__path());
 
 			$conditions = '.*';
@@ -178,7 +178,7 @@
 			}
 		}
 
-		function save($data = null, $validate = true){
+		public function save($data = null, $validate = true){
 			if($data !== null)
 				$this->data['Page'] = $data['Page'];
 
@@ -200,7 +200,7 @@
 			return false;
 		}
 
-		function delete($id = null){
+		public function delete($id = null){
 			if (!$id) {
 				return false;
 			}
@@ -212,7 +212,7 @@
 			return false;
 		}
 
-		function __massActionCopy($ids) {
+		private function __massActionCopy($ids) {
 			// read file
 
 			// new name
