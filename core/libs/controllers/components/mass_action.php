@@ -64,13 +64,13 @@
 			}
 
 			if (empty($ids)) {
+				$redirect = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
+				
 				$this->Controller->notice(
 					__('Nothing was selected, please select something and try again.', true),
 					array(
 						'level' => 'warning',
-						'redirect' => isset($this->Controller->data['Confirm']['referer']) 
-							? $this->Controller->data['Confirm']['referer'] 
-							: true
+						'redirect' => $redirect
 					)
 				);
 			}
@@ -132,10 +132,13 @@
 		 * If there was no javascript confirmation a page is displayed with the confirmation
 		 */
 		public function delete($ids) {
-			if ((isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) || (isset($this->Controller->{$this->__modelName}->noConfirm))) {
+			$delete = (isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) ||
+					(isset($this->Controller->{$this->__modelName}->noConfirm));
+			if ($delete) {
 				if(method_exists($this->Controller, '__handleDeletes')) {
 					$this->Controller->__handleDeletes($ids);
 				}
+
 				else {
 					$this->__handleDeletes($ids);
 				}
@@ -175,9 +178,7 @@
 				);
 			}
 
-			$params['redirect'] = isset($this->Controller->data['Confirm']['referer'])
-				? $this->Controller->data['Confirm']['referer']
-				: true;
+			$params['redirect'] = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
 
 			$this->Controller->notice($params['message'], $params);
 		}
@@ -246,7 +247,8 @@
 				unset($record[$this->__modelName]['id']);
 
 				if ($record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] != $this->Controller->{$this->__modelName}->primaryKey) {
-					$record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] = $record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] . $copyText;
+					$record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] =
+								$record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] . $copyText;
 				}
 
 				$record[$this->__modelName]['active'] = 0;
@@ -324,15 +326,16 @@
 
 						case 'Parent Post':
 						case 'Parent':
-								$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->__modelName);
+							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->__modelName);
 
-								if(in_array('Tree', $_Model->Behaviors->_attached)){
-									$_Model->order = array();
-									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
-								}
-								else{
-									$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
-								}
+							if(in_array('Tree', $_Model->Behaviors->_attached)){
+								$_Model->order = array();
+								$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
+							}
+
+							else{
+								$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
+							}
 							break;
 
 						default:
@@ -431,7 +434,7 @@
 		* @param string $action the action to redirect to.
 		* @param int $id the id of the record that is selected.
 		*/
-		public function generic($action = 'add', $ids) {
+		public function generic($action = 'add', $ids = null) {
 			if (!$ids || !isset($ids[0])) {
 				$this->Controller->redirect(array('action' => $action));
 			}

@@ -1,56 +1,55 @@
 <?php
-	/* SVN FILE: $Id: sluggable.php 36 2007-11-26 15:10:14Z mgiglesias $ */
+	/**
+	 * Sluggable Behavior class file.
+	 *
+	 * @filesource
+	 * @author Mariano Iglesias
+	 * @link http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
+	 * @version $Revision: 36 $
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @package app
+	 * @subpackage app.models.behaviors
+	 */
 
 	/**
-	* Sluggable Behavior class file.
-	*
-	* @filesource
-	* @author Mariano Iglesias
-	* @link http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
-	* @version $Revision: 36 $
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @package app
-	* @subpackage app.models.behaviors
-	*/
-
-	/**
-	* Model behavior to support generation of slugs for models.
-	*
-	* @package app
-	* @subpackage app.models.behaviors
-	*/
+	 * Model behavior to support generation of slugs for models.
+	 *
+	 * @package app
+	 * @subpackage app.models.behaviors
+	 */
 	class SluggableBehavior extends ModelBehavior {
-		/**
-		* Contain settings indexed by model name.
-		*
-		* @var array
-		* @access private
-		*/
-		var $__settings = array();
 
 		/**
-		* Initiate behavior for the model using specified settings. Available settings:
-		*
-		* - label: 	(array | string, optional) set to the field name that contains the
-		* 				string from where to generate the slug, or a set of field names to
-		* 				concatenate for generating the slug. DEFAULTS TO: title
-		*
-		* - slug:		(string, optional) name of the field name that holds generated slugs.
-		* 				DEFAULTS TO: slug
-		*
-		* - separator:	(string, optional) separator character / string to use for replacing
-		* 				non alphabetic characters in generated slug. DEFAULTS TO: -
-		*
-		* - length:	(integer, optional) maximum length the generated slug can have.
-		* 				DEFAULTS TO: 100
-		*
-		* - overwrite: (boolean, optional) set to true if slugs should be re-generated when
-		* 				updating an existing record. DEFAULTS TO: false
-		*
-		* @param object $Model Model using the behaviour
-		* @param array $settings Settings to override for model.
-		* @access public
-		*/
+		 * Contain settings indexed by model name.
+		 *
+		 * @var array
+		 * @access private
+		 */
+		private $__settings = array();
+
+		/**
+		 * Initiate behavior for the model using specified settings. Available settings:
+		 *
+		 * - label: 	(array | string, optional) set to the field name that contains the
+		 * 				string from where to generate the slug, or a set of field names to
+		 * 				concatenate for generating the slug. DEFAULTS TO: title
+		 *
+		 * - slug:		(string, optional) name of the field name that holds generated slugs.
+		 * 				DEFAULTS TO: slug
+		 *
+		 * - separator:	(string, optional) separator character / string to use for replacing
+		 * 				non alphabetic characters in generated slug. DEFAULTS TO: -
+		 *
+		 * - length:	(integer, optional) maximum length the generated slug can have.
+		 * 				DEFAULTS TO: 100
+		 *
+		 * - overwrite: (boolean, optional) set to true if slugs should be re-generated when
+		 * 				updating an existing record. DEFAULTS TO: false
+		 *
+		 * @param object $Model Model using the behaviour
+		 * @param array $settings Settings to override for model.
+		 * @access public
+		 */
 		function setup(&$Model, $settings = array()) {
 			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'overwrite' => false, 'translation' => null);
 			if (Configure::read('debug') > 0) {
@@ -65,18 +64,18 @@
 
 			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];
 
-			if($Model->_schema[$Model->displayField]['length'] > $Model->_schema[$this->__settings[$Model->alias]['slug']]['length']){
+			if ($Model->_schema[$Model->displayField]['length'] > $Model->_schema[$this->__settings[$Model->alias]['slug']]['length']) {
 				trigger_error(sprintf(__('%s slugs will be truncated, slug field too short', true), $Model->alias), E_USER_WARNING);
 			}
 		}
 
 		/**
-		* Run before a model is saved, used to set up slug for model.
-		*
-		* @param object $Model Model about to be saved.
-		* @return boolean true if save should proceed, false otherwise
-		* @access public
-		*/
+		 * Run before a model is saved, used to set up slug for model.
+		 *
+		 * @param object $Model Model about to be saved.
+		 * @return boolean true if save should proceed, false otherwise
+		 * @access public
+		 */
 		function beforeSave(&$Model) {
 			$return = parent::beforeSave($Model);
 			// Make label fields an array
@@ -84,7 +83,7 @@
 				$this->__settings[$Model->alias]['label'] = array($this->__settings[$Model->alias]['label']);
 			}
 			// Make sure all label fields are available
-			foreach($this->__settings[$Model->alias]['label'] as $field) {
+			foreach ($this->__settings[$Model->alias]['label'] as $field) {
 				if (!$Model->hasField($field)) {
 					return $return;
 				}
@@ -94,7 +93,7 @@
 				// Build label out of data in label fields, if available, or using a default slug otherwise
 				$label = '';
 
-				foreach($this->__settings[$Model->alias]['label'] as $field) {
+				foreach ($this->__settings[$Model->alias]['label'] as $field) {
 					if (!empty($Model->data[$Model->alias][$field])) {
 						$label .= ife(!empty($label), ' ', '') . $Model->data[$Model->alias][$field];
 					}
@@ -110,18 +109,30 @@
 						$conditions[$Model->alias . '.' . $Model->primaryKey] = '!= ' . $Model->id;
 					}
 
-					$result = $Model->find('all', array('conditions' => $conditions, 'fields' => array($Model->primaryKey, $this->__settings[$Model->alias]['slug']), 'recursive' => - 1));
+					$result = $Model->find(
+						'all',
+						array(
+							'conditions' => $conditions,
+							'fields' => array(
+								$Model->primaryKey,
+								$this->__settings[$Model->alias]['slug']
+							),
+							'recursive' => - 1
+						)
+					);
+
 					$sameUrls = null;
 
 					if (!empty($result)) {
 						$sameUrls = Set::extract($result, '{n}.' . $Model->alias . '.' . $this->__settings[$Model->alias]['slug']);
 					}
+					
 					// If we have collissions
 					if (!empty($sameUrls)) {
 						$begginingSlug = $slug;
 						$index = 1;
 						// Attach an ending incremental number until we find a free slug
-						while($index > 0) {
+						while ($index > 0) {
 							if (!in_array($begginingSlug . $this->__settings[$Model->alias]['separator'] . $index, $sameUrls)) {
 								$slug = $begginingSlug . $this->__settings[$Model->alias]['separator'] . $index;
 								$index = - 1;
@@ -144,50 +155,57 @@
 		}
 
 		/**
-		* Generate a slug for the given string using specified settings.
-		*
-		* @param string $string String from where to generate slug
-		* @param array $settings Settings to use (looks for 'separator' and 'length')
-		* @return string Slug for given string
-		* @access private
-		*/
+		 * Generate a slug for the given string using specified settings.
+		 *
+		 * @param string $string String from where to generate slug
+		 * @param array $settings Settings to use (looks for 'separator' and 'length')
+		 * @return string Slug for given string
+		 * @access private
+		 */
 		function __slug($string, $settings) {
 			if (!empty($settings['translation']) && is_array($settings['translation'])) {
 				// Run user-defined translation tables
 				if (count($settings['translation']) >= 2 && count($settings['translation']) % 2 == 0) {
-					for($i = 0, $limiti = count($settings['translation']); $i < $limiti; $i += 2) {
+					for ($i = 0, $limiti = count($settings['translation']); $i < $limiti; $i += 2) {
 						$from = $settings['translation'][$i];
 						$to = $settings['translation'][$i + 1];
 
 						if (is_string($from) && is_string($to)) {
 							$string = strtr($string, $from, $to);
-						}else {
+						}
+
+						else {
 							$string = r($from, $to, $string);
 						}
 					}
-				}else if (count($settings['translation']) == 1) {
+				}
+
+				else if (count($settings['translation']) == 1) {
 					$string = strtr($string, $settings['translation'][0]);
 				}
 
 				$string = low($string);
-			}else if (!empty($settings['translation']) && is_string($settings['translation']) && in_array(low($settings['translation']), array('utf-8', 'iso-8859-1'))) {
+			}
+
+			else if (!empty($settings['translation']) && is_string($settings['translation']) &&
+				in_array(low($settings['translation']), array('utf-8', 'iso-8859-1'))) {
 				// Run pre-defined translation tables
 				$translations = array(
 					'iso-8859-1' => array(
 						chr(128) . chr(131) . chr(138) . chr(142) . chr(154) . chr(158)
-						 . chr(159) . chr(162) . chr(165) . chr(181) . chr(192) . chr(193) . chr(194)
-						 . chr(195) . chr(196) . chr(197) . chr(199) . chr(200) . chr(201) . chr(202)
-						 . chr(203) . chr(204) . chr(205) . chr(206) . chr(207) . chr(209) . chr(210)
-						 . chr(211) . chr(212) . chr(213) . chr(214) . chr(216) . chr(217) . chr(218)
-						 . chr(219) . chr(220) . chr(221) . chr(224) . chr(225) . chr(226) . chr(227)
-						 . chr(228) . chr(229) . chr(231) . chr(232) . chr(233) . chr(234) . chr(235)
-						 . chr(236) . chr(237) . chr(238) . chr(239) . chr(241) . chr(242) . chr(243)
-						 . chr(244) . chr(245) . chr(246) . chr(248) . chr(249) . chr(250) . chr(251)
-						 . chr(252) . chr(253) . chr(255),
+						. chr(159) . chr(162) . chr(165) . chr(181) . chr(192) . chr(193) . chr(194)
+						. chr(195) . chr(196) . chr(197) . chr(199) . chr(200) . chr(201) . chr(202)
+						. chr(203) . chr(204) . chr(205) . chr(206) . chr(207) . chr(209) . chr(210)
+						. chr(211) . chr(212) . chr(213) . chr(214) . chr(216) . chr(217) . chr(218)
+						. chr(219) . chr(220) . chr(221) . chr(224) . chr(225) . chr(226) . chr(227)
+						. chr(228) . chr(229) . chr(231) . chr(232) . chr(233) . chr(234) . chr(235)
+						. chr(236) . chr(237) . chr(238) . chr(239) . chr(241) . chr(242) . chr(243)
+						. chr(244) . chr(245) . chr(246) . chr(248) . chr(249) . chr(250) . chr(251)
+						. chr(252) . chr(253) . chr(255),
 						'EfSZsz' . 'YcYuAAA' . 'AAACEEE' . 'EIIIINO' . 'OOOOOUU' . 'UUYaaaa' . 'aaceeee' . 'iiiinoo' . 'oooouuu' . 'uyy',
 						array(chr(140), chr(156), chr(198), chr(208), chr(222), chr(223), chr(230), chr(240), chr(254)),
 						array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th')
-						),
+					),
 					'utf-8' => array(
 						array(
 							// Decompositions for Latin-1 Supplement
@@ -286,16 +304,20 @@
 							chr(197) . chr(190) => 'z', chr(197) . chr(191) => 's',
 							// Euro Sign
 							chr(226) . chr(130) . chr(172) => 'E'
-							)
 						)
-					);
+					)
+				);
 
 				return $this->__slug($string, am($settings, array('translation' => $translations[$settings['translation']])));
 			}
 
 			$string = low($string);
 			$string = preg_replace('/[^a-z0-9_]/i', $settings['separator'], $string);
-			$string = preg_replace('/' . preg_quote($settings['separator']) . '[' . preg_quote($settings['separator']) . ']*/', $settings['separator'], $string);
+			$string = preg_replace(
+				'/' . preg_quote($settings['separator']) . '[' . preg_quote($settings['separator']) . ']*/',
+				$settings['separator'],
+				$string
+			);
 
 			if (strlen($string) > $settings['length']) {
 				$string = substr($string, 0, $settings['length']);
