@@ -6,8 +6,12 @@
 					'Session', 'SchemaMigration', 'Config',
 					'Aco', 'Aro', 'Trash'
 				);
+
+				$check = !in_array($event->Handler->name, $noTrashModels) &&
+					!isset($event->Handler->noTrash) &&
+					!$event->Handler->Behaviors->enabled('Trash.Trashable');
 				
-				if (!in_array($event->Handler->name, $noTrashModels) && !isset($event->Handler->noTrash) && !$event->Handler->Behaviors->enabled('Trash.Trashable')) {
+				if ($check) {
 					$event->Handler->Behaviors->attach('Trash.Trashable');
 				}
 			}
