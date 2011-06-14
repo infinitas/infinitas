@@ -76,17 +76,25 @@
 			$this->settings[$Model->alias] = array_merge($this->settings[$Model->alias], $settings);
 			$this->settings[$Model->alias]['withModel'] = $this->settings[$Model->alias]['taggedClass'];
 
-			$Model->bindModel(array('hasAndBelongsToMany' => array(
-				'Tag' => array(
-					'className' => $this->settings[$Model->alias]['tagClass'],
-					'foreignKey' => $this->settings[$Model->alias]['foreignKey'],
-					'associationForeignKey' => $this->settings[$Model->alias]['associationForeignKey'],
-					'unique' => true,
-					'conditions' => array(
-						'Tagged.model' => $Model->modelName()),
-					'fields' => '',
-					'dependent' => true,
-					'with' => $this->settings[$Model->alias]['withModel']))),  $this->settings[$Model->alias]['resetBinding']);
+			$Model->bindModel(
+				array(
+					'hasAndBelongsToMany' => array(
+						'Tag' => array(
+							'className' => $this->settings[$Model->alias]['tagClass'],
+							'foreignKey' => $this->settings[$Model->alias]['foreignKey'],
+							'associationForeignKey' => $this->settings[$Model->alias]['associationForeignKey'],
+							'unique' => true,
+							'conditions' => array(
+								'Tagged.model' => $Model->modelName()
+							),
+							'fields' => '',
+							'dependent' => true,
+							'with' => $this->settings[$Model->alias]['withModel']
+						)
+					)
+				),
+				$this->settings[$Model->alias]['resetBinding']
+			);
 		}
 
 	/**

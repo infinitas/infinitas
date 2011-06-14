@@ -30,6 +30,6 @@
 				'keyname'
 			);
 
-			$this->set(compact('tags','filterOptions'));
+			$this->set(compact('tags', 'filterOptions'));
 		}
 	}

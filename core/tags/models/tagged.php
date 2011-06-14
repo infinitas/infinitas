@@ -24,59 +24,62 @@
 
 	class Tagged extends TagsAppModel {
 
-	/**
-	 * Name
-	 *
-	 * @var string
-	 * @access public
-	 */
+		/**
+		 * Name
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $name = 'Tagged';
 
-	/**
-	 * Table that is used
-	 *
-	 * @var string
-	 * @access public
-	 */
+		/**
+		 * Table that is used
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $useTable = 'tagged';
 
-	/**
-	 * Find methodes
-	 *
-	 * @var array
-	 * @access public
-	 */
-		public $_findMethods = array(
+		/**
+		 * Find methodes
+		 *
+		 * @var array
+		 * @access public
+		 */
+		protected $_findMethods = array(
 			'cloud' => true,
-			'tagged' => true);
+			'tagged' => true
+		);
 
-	/**
-	 * belongsTo associations
-	 *
-	 * @var string
-	 * @access public
-	 */
+		/**
+		 * belongsTo associations
+		 *
+		 * @var string
+		 * @access public
+		 */
 		public $belongsTo = array(
 			'Tag' => array(
-				'className' => 'Tags.Tag'));
+				'className' => 'Tags.Tag'
+			)
+		);
 
 		public $trashable = false;
 
-	/**
-	 * Returns a tag cloud
-	 *
-	 * The result contains a "weight" field which has a normalized size of the tag
-	 * occurrence set. The min and max size can be set by passing 'minSize" and
-	 * 'maxSize' to the query. This value can be used in the view to controll the
-	 * size of the tag font.
-	 *
-	 * @todo Ideas to improve this are welcome
-	 * @param string
-	 * @param array
-	 * @param array
-	 * @return array
-	 * @access public
-	 */
+		/**
+		 * Returns a tag cloud
+		 *
+		 * The result contains a "weight" field which has a normalized size of the tag
+		 * occurrence set. The min and max size can be set by passing 'minSize" and
+		 * 'maxSize' to the query. This value can be used in the view to controll the
+		 * size of the tag font.
+		 *
+		 * @todo Ideas to improve this are welcome
+		 * @param string
+		 * @param array
+		 * @param array
+		 * @return array
+		 * @access public
+		 */
 		public function _findCloud($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$options = array(
@@ -104,7 +107,9 @@
 				}
 
 				return $query;
-			} elseif ($state == 'after') {
+			}
+
+			elseif ($state == 'after') {
 				if (!empty($results) && isset($results[0][0]['occurrence'])) {
 					$weights = Set::extract($results, '{n}.0.occurrence');
 					$maxWeight = max($weights);
@@ -121,29 +126,31 @@
 						$results[$key]['Tag']['weight'] = ceil($size);
 					}
 				}
+
 				return $results;
 			}
 		}
 
-	/**
-	 * Find all the Model entries tagged with a given tag
-	 *
-	 * The query must contain a Model name, and can contain a 'by' key with the Tag keyname to filter the results
-	 * <code>
-	 * $this->Article->Tagged->find('tagged', array(
-	 *		'by' => 'cakephp',
-	 *		'model' => 'Article'));
-	 * </code>
-	 *
-	 * @TODO Find a way to populate the "magic" field Article.tags
-	 * @param string $state
-	 * @param array $query
-	 * @param array $results
-	 * @return mixed Query array if state is before, array of results or integer (count) if state is after
-	 */
+		/**
+		 * Find all the Model entries tagged with a given tag
+		 *
+		 * The query must contain a Model name, and can contain a 'by' key with the Tag keyname to filter the results
+		 * <code>
+		 * $this->Article->Tagged->find('tagged', array(
+		 *		'by' => 'cakephp',
+		 *		'model' => 'Article'));
+		 * </code>
+		 *
+		 * @TODO Find a way to populate the "magic" field Article.tags
+		 * @param string $state
+		 * @param array $query
+		 * @param array $results
+		 * @return mixed Query array if state is before, array of results or integer (count) if state is after
+		 */
 		public function _findTagged($state, $query, $results = array()) {
 			if ($state == 'before') {
-				if (isset($query['model']) && $Model = ClassRegistry::init($query['model'])) {
+				$Model = ClassRegistry::init($query['model']);
+				if (isset($query['model']) && is_a($Model, 'Model')) {
 					$belongsTo = array(
 						$Model->alias => array(
 							'className' => $Model->name,
@@ -153,12 +160,15 @@
 							),
 						)
 					);
+
 					$this->bindModel(compact('belongsTo'));
 
 					if (isset($query['operation']) && $query['operation'] == 'count') {
-						$query['fields'][] = "COUNT(DISTINCT $Model->alias.$Model->primaryKey)";
-					} else {
-						$query['fields'][] = "DISTINCT $Model->alias.*";
+						$query['fields'][] = 'COUNT(DISTINCT ' . $Model->alias . '.' . $Model->primaryKey . ')';
+					}
+
+					else {
+						$query['fields'][] = 'DISTINCT ' . $Model->alias . '.*';
 					}
 
 					if (!empty($query['by'])) {
@@ -166,13 +176,16 @@
 							$this->Tag->alias . '.keyname' => $query['by']);
 					}
 				}
+
 				return $query;
-			} elseif ($state == 'after') {
+			}
+
+			elseif ($state == 'after') {
 				if (isset($query['operation']) && $query['operation'] == 'count') {
 					return array_shift($results[0][0]);
 				}
+				
 				return $results;
 			}
 		}
-
 	}
