@@ -8,9 +8,9 @@
 			parent::__construct($id, $table, $ds);
 
 			$this->virtualFields['sub_total'] = 'COUNT(' . $this->alias . '.id)';
-			$this->virtualFields['created']   = 'CONCAT(' . $this->alias . '.year, "-", '. $this->alias.'.month, "-", `'. $this->alias.'.day, " ", '. $this->alias.'.start_time)';
+			$this->virtualFields['created']   = 'CONCAT(' . $this->alias . '.year, "-", ' . 
+				$this->alias . '.month, "-", `' . $this->alias.'.day, " ", '. $this->alias.'.start_time)';
 			$this->virtualFields['hour']      = 'HOUR(' . $this->alias . '.start_time)';
-
 			$this->virtualFields['average_load'] = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
 			$this->virtualFields['max_load']     = 'ROUND(MAX(' . $this->alias . '.load_ave), 3)';
 
