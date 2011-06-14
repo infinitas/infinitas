@@ -81,7 +81,7 @@
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
-			$this->subPath = 'views'.DS.'elements'.DS.'modules'.DS;
+			$this->subPath = 'views' . DS . 'elements' . DS . 'modules' . DS;
 
 			$this->validate = array(
 				'name' => array(
@@ -136,7 +136,7 @@
 				return array();
 			}
 
-			$modules = Cache::read($position . '.' . ($admin ? 'admin' : 'user'), 'modules');			
+			$modules = Cache::read($position . '.' . (($admin) ? 'admin' : 'user'), 'modules');
 			if($modules !== false){
 				return $modules;
 			}
@@ -161,7 +161,7 @@
 					'contain' => $this->__contain
 				)
 			);
-			Cache::write($position . '.' . ($admin ? 'admin' : 'user'), $modules, 'modules');
+			Cache::write($position . '.' . (($admin) ? 'admin' : 'user'), $modules, 'modules');
 
 			return $modules;
 		}
@@ -171,7 +171,7 @@
 				return array();
 			}
 
-			$_module = Cache::read('single.' . ($admin ? 'admin' : 'user'), 'modules');
+			$_module = Cache::read('single.' . (($admin) ? 'admin' : 'user'), 'modules');
 			if($_module !== false){
 				return $_module;
 			}
@@ -196,13 +196,13 @@
 					'contain' => $this->__contain
 				)
 			);
-			Cache::write('single.' . ($admin ? 'admin' : 'user'), $module, 'modules');
+			Cache::write('single.' . (($admin) ? 'admin' : 'user'), $module, 'modules');
 
 			return $module;
 		}
 
 		public function getModuleList($plugin = null){
-			$admin = $non_admin = array();
+			$admin = $nonAdmin = array();
 
 			$conditions = array();
 			$path = APP;
@@ -219,7 +219,7 @@
 
 			foreach($files[1] as $file){
 				$file = str_replace('.ctp', '', $file);
-				$non_admin[$file] = Inflector::humanize($file);
+				$nonAdmin[$file] = Inflector::humanize($file);
 			}
 
 			if(!empty($files[0]) && is_dir($path.$this->subPath.'admin')){
@@ -234,7 +234,7 @@
 
 			return array(
 				'admin' => $admin,
-				'user' => $non_admin
+				'user' => $nonAdmin
 			);
 		}
 	}
