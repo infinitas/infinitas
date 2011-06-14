@@ -13,8 +13,8 @@
 			}
 
 			$output = '<div class="filter-form"><h1>'.__('Search', true).'</h1>';
-	   		foreach($filter['fields'] as $field => $options){
-	   			if (is_array($options)){
+			foreach($filter['fields'] as $field => $options){
+				if (is_array($options)){
 					switch($field){
 						case 'active':
 							$emptyText = __('status', true);
@@ -100,29 +100,29 @@
 			}
 
 			$out .= '<div class="wrap">';
-				$parts = explode( '/', $filter['url'][0] );
-				$done = array();
+			$parts = explode( '/', $filter['url'][0] );
+			$done = array();
 
-				foreach($parts as $_f){
-					if (empty($_f) || in_array($_f, $done)){
-						continue;
-					}
-
-					$done[] = $_f;
-
-					$text = explode(':', $_f);
-					$text = explode('.', $text[0]);
-					$text = count($text ) > 1 ? $text[1] : $text[0];
-
-					$out .= '<div class="left">'.
-								'<div class="remove">'.
-										$this->Html->link(
-										Inflector::humanize($text),
-										str_replace($_f, '', '/' . $this->params['url']['url'])
-									).
-								'</div>'.
-							'</div>';
+			foreach($parts as $_f){
+				if (empty($_f) || in_array($_f, $done)){
+					continue;
 				}
+
+				$done[] = $_f;
+
+				$text = explode(':', $_f);
+				$text = explode('.', $text[0]);
+				$text = (count($text ) > 1) ? $text[1] : $text[0];
+
+				$out .= '<div class="left">'.
+							'<div class="remove">'.
+									$this->Html->link(
+									Inflector::humanize($text),
+									str_replace($_f, '', '/' . $this->params['url']['url'])
+								).
+							'</div>'.
+						'</div>';
+			}
 			$out .= '</div>';
 			if ($div){
 				$out .= '</div>';
@@ -141,11 +141,13 @@
 			if(empty($this->params['models'])){
 				return false;
 			}
+			
 			$model = current($this->params['models']);
 			$letters = ClassRegistry::init($model)->getLetterList();
+
 			$return = array();
 			foreach($letters as $key => $value){
-				$url = $value == true ? $this->__filterLink($key) : $key;
+				$url = ($value == true) ? $this->__filterLink($key) : $key;
 				if(is_array($url)){
 					$url = $this->Html->link(
 						$key,

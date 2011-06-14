@@ -15,7 +15,7 @@
 		 * @return array Modified queryData array
 		 */
 		function beforeFind(&$model, $queryData) {
-			$ret_queryData = $queryData;
+			$retQueryData = $queryData;
 
 			// See if we've got conditions
 			if (sizeof($queryData['conditions']) > 0) {
@@ -26,10 +26,10 @@
 					if(strpos($value, 'LIKE')){
 						$tmp = explode('LIKE', $value);
 						$field = $tmp['0'];
-						$search_value = 'LIKE ' . $tmp['1'];
+						$searchValue = 'LIKE ' . $tmp['1'];
 					} else {
 						$field = $key;
-						$search_value = $value;
+						$searchValue = $value;
 					}
 					// Period indicates that not controller's own model
 					if (strpos($field, '.')) {
@@ -43,7 +43,7 @@
 								$condition = $model->{$associatedModel}->find('all',
 																	array(
 																		'fields' => 'DISTINCT id',
-																		'conditions' => $field . ' ' . $search_value,
+																		'conditions' => $field . ' ' . $searchValue,
 																		'recursive' => -1,
 																		'callbacks' => false // because otherwise this `beforeFind` would be called again
 																	));
@@ -69,23 +69,23 @@
 																	'recursive' => -1,
 																	'callbacks' => false // because otherwise this `beforeFind` would be called again
 																));
-								$key_value = '{n}.'. $model->{$associatedModel}->{$assoc['with']}->name .'.'. $assoc['foreignKey'];
+								$keyValue = '{n}.'. $model->{$associatedModel}->{$assoc['with']}->name .'.'. $assoc['foreignKey'];
 
-								$result = Set::combine($result, $key_value, $key_value);
+								$result = Set::combine($result, $keyValue, $keyValue);
 
 								// TODO: somehow save this because some times (ex: pagination) we do a `SELECT COUNT(*)`, followed
 								// by the actually query itself, so would be nice to avoid an extra query.
 								$ids = array_keys($result);
 								// set it in our return array
-								$ret_queryData['conditions'][$model->name .'.id'] = $ids;
+								$retQueryData['conditions'][$model->name .'.id'] = $ids;
 								// and unset the old one, since different id field and such
-								unset($ret_queryData['conditions'][$key]);
+								unset($retQueryData['conditions'][$key]);
 							} else if ($associated[$associatedModel] == 'hasMany') {
 								$assoc = $model->hasMany[$associatedModel];
 								$condition = $model->{$associatedModel}->find('all',
 																	array(
 																		'fields' => 'DISTINCT id',
-																		'conditions' => $field . ' ' . $search_value,
+																		'conditions' => $field . ' ' . $searchValue,
 																		'recursive' => -1,
 																		'callbacks' => false // because otherwise this `beforeFind` would be called again
 																	));
@@ -111,23 +111,23 @@
 																		'recursive' => -1,
 																		'callbacks' => false // because otherwise this `beforeFind` would be called again
 																	));
-								$key_value = '{n}.'. $model->{$associatedModel}->name .'.'. $assoc['foreignKey'];
+								$keyValue = '{n}.'. $model->{$associatedModel}->name .'.'. $assoc['foreignKey'];
 
-								$result = Set::combine($result, $key_value, $key_value);
+								$result = Set::combine($result, $keyValue, $keyValue);
 
 								// TODO: somehow save this because some times (ex: pagination) we do a `SELECT COUNT(*)`, followed
 								// by the actually query itself, so would be nice to avoid an extra query.
 								$ids = array_keys($result);
 								// set it in our return array
-								$ret_queryData['conditions'][$model->name .'.id'] = $ids;
+								$retQueryData['conditions'][$model->name .'.id'] = $ids;
 								// and unset the old one, since different id field and such
-								unset($ret_queryData['conditions'][$key]);
+								unset($retQueryData['conditions'][$key]);
 							}
 						}
 					}
 				}
 			}
 
-			return $ret_queryData;
+			return $retQueryData;
 		}
 	}
