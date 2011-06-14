@@ -409,7 +409,7 @@
 				'active' => Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('users','filterOptions'));
+			$this->set(compact('users', 'filterOptions'));
 		}
 
 		public function admin_logged_in(){
@@ -429,7 +429,7 @@
 				'email'
 			);
 
-			$this->set(compact('users','filterOptions'));
+			$this->set(compact('users', 'filterOptions'));
 			$this->render('admin_index');
 		}
 

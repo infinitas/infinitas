@@ -112,11 +112,11 @@
 		 * Gets the details of the last login of the user so we can show the last
 		 * login and ipaddress to them.
 		 *
-		 * @param int $user_id the users id.
+		 * @param int $userId the users id.
 		 * @return array the data from the last login.
 		 */
-		public function getLastLogon($user_id = null){
-			if (!$user_id) {
+		public function getLastLogon($userId = null){
+			if (!$userId) {
 				return false;
 			}
 
@@ -127,7 +127,7 @@
 					'User.country',
 					'User.city'
 				),
-				(int)$user_id
+				(int)$userId
 			);
 		}
 
