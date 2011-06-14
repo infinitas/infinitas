@@ -169,6 +169,7 @@
 			return $datetime;
 		}
 
+// @codingStandardsIgnoreStart
 		/**
 		 * Function which will change controller->data array
 		 *
@@ -312,6 +313,7 @@
 			
 			return $ret;
 		}
+// @codingStandardsIgnoreEnd
 
 		/**
 		 * function which will take care of the storing the filter data and loading after this from the Session
