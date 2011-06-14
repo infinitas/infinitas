@@ -18,7 +18,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 final class ShortUrlsEvents extends AppEvents{
+	final class ShortUrlsEvents extends AppEvents{
 		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Short Urls' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
