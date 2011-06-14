@@ -40,11 +40,16 @@
 				$Controller->layout = 'admin';
 			}
 
-			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeLayout', array('layout' => $Controller->layout, 'params' => $Controller->params));
-			if (isset($event['setupThemeLayout'][$Controller->plugin])) {
-				if (is_string($event['setupThemeLayout'][$Controller->plugin])) {
-					$Controller->layout = $event['setupThemeLayout'][$Controller->plugin];
-				}
+			$event = $Controller->Event->trigger(
+				$Controller->plugin . '.setupThemeLayout',
+				array(
+					'layout' => $Controller->layout,
+					'params' => $Controller->params
+				)
+			);
+			
+			if (isset($event['setupThemeLayout'][$Controller->plugin]) && is_string($event['setupThemeLayout'][$Controller->plugin])) {
+				$Controller->layout = $event['setupThemeLayout'][$Controller->plugin];
 			}
 			
 			if(!$theme = Cache::read('currentTheme')) {
@@ -55,7 +60,14 @@
 				$theme['Theme'] = array('name' => null);
 			}
 			else {
-				$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeSelector', array('theme' => $theme['Theme'], 'params' => $Controller->params));
+				$event = $Controller->Event->trigger(
+					$Controller->plugin . '.setupThemeSelector',
+					array(
+						'theme' => $theme['Theme'],
+						'params' => $Controller->params
+					)
+				);
+				
 				if (isset($event['setupThemeSelector'][$Controller->plugin])) {
 					if (is_array($event['setupThemeSelector'][$Controller->plugin])) {
 						$theme['Theme'] = $event['setupThemeSelector'][$Controller->plugin];
