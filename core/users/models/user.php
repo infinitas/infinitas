@@ -221,4 +221,28 @@
 				)
 			);
 		}
+
+		/**
+		 * @brief check that the given user id is a valid user.
+		 *
+		 * @access public
+		 *
+		 * @param mixed $userId user id to check
+		 *
+		 * @return bool, true if valid, false if not
+		 */
+		public function validUserId($userId){
+			if(!$userId){
+				return false;
+			}
+			
+			return (bool)$this->find(
+				'count',
+				array(
+					'conditions' => array(
+						$this->alias . '.id' => $userId
+					)
+				)
+			);
+		}
 	}
