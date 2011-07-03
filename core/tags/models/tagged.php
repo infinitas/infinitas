@@ -46,7 +46,7 @@
 		 * @var array
 		 * @access public
 		 */
-		protected $_findMethods = array(
+		public $_findMethods = array(
 			'cloud' => true,
 			'tagged' => true
 		);
