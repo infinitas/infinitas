@@ -1,14 +1,14 @@
 <?php
-    echo $this->Form->create('MailSystem', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'reply',
-                'forward',
-                'unread',
-                'delete',
-                'back'
-            )
-        );
+	echo $this->Form->create('MailSystem', array('action' => 'mass'));
+		$massActions = $this->Infinitas->massActionButtons(
+			array(
+				'reply',
+				'forward',
+				'unread',
+				'delete',
+				'back'
+			)
+		);
 		
 		echo $this->Infinitas->adminIndexHead(null, $massActions); ?>
 		<div class="dashboard">

@@ -10,24 +10,28 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 *
 	 * @filesource
-	 * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link          http://www.dogmatic.co.za
-	 * @package       google
-	 * @subpackage    google.views.helpers.chart
-	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link		  http://www.dogmatic.co.za
+	 * @package	   google
+	 * @subpackage	google.views.helpers.chart
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 	class ChartHelper extends AppHelper {
-
-		var $helpers = array('Html', 'Session', 'Number');
+		public $helpers = array(
+			'Html',
+			'Session',
+			'Number'
+		);
+		
 		/**
 		 * Country codes by continent.
 		 *
 		 * This is used by the chart helper to generate maps.
 		 *
-		 * @var array
+		 * @public array
 		 * @access public
 		 */
-		var $country_to_continent = array(
+		public $countryToContinent = array(
 			'Africa' => array(
 				'KM', 'GW', 'KE', 'NA', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML',
 				'GN', 'GH', 'CG', 'CI', 'DJ', 'EG', 'GQ', 'ER', 'ET', 'GA',
@@ -81,10 +85,10 @@
 		 * not showing in your graph check Chart::debug as it alert you if you added something that is
 		 * not supported.
 		 *
-		 * @var array
+		 * @public array
 		 * @access public
 		 */
-		var $setup = array(
+		public $setup = array(
 			'pie3d' => array(
 				//required
 				'data' => true, 'labels' => true, 'size' => true,
@@ -159,87 +163,89 @@
 		/**
 		 * the query that is sent to the api to generate the chart.
 		 *
-		 * @var string
+		 * @public string
 		 * @access public
 		 */
-		var $return = null;
+		public $return = null;
 		/**
 		 * turn debug on or off.
 		 *
-		 * @var bool
+		 * @public bool
 		 * @access public
 		 */
-		var $debug = false;
+		public $debug = false;
 		/**
 		 * turn cache on or off.
 		 *
-		 * @var bool
+		 * @public bool
 		 * @access public
 		 */
-		var $cache = true;
+		public $cache = true;
 		/**
 		 * Path to store cached images
 		 *
-		 * @var string
+		 * @public string
 		 * @access public
 		 */
-		var $cachePath = '';
+		public $cachePath = '';
 		/**
 		 * Path to use when displaying cached images
 		 *
-		 * @var string
+		 * @public string
 		 * @access public
 		 */
-		var $cacheImagePath = '';
+		public $cacheImagePath = '';
 
-		/**
-		 * Do not modify these
-		 */
 		/**
 		 * the seperator between params in the url.
 		 *
-		 * @var string
+		 * @public string
 		 * @access public
 		 */
-		var $paramSeperator = '&';
+		public $paramSeperator = '&';
+
 		/**
 		 * the max size of the graph (height x width).
 		 *
-		 * @var int
+		 * @public int
 		 * @access private
 		 */
-		var $__maxSize = 300000;
+		private $__maxSize = 300000;
+
 		/**
 		 * the api address.
 		 *
-		 * @var string
+		 * @public string
 		 * @access private
 		 */
-		var $__apiUrl = 'http://chart.apis.google.com/chart?';
+		private $__apiUrl = 'http://chart.apis.google.com/chart?';
+
 		/**
 		 * array of errors.
 		 *
 		 * holds a list of errors / warnings that were generated while trying
 		 * generate the query string for the api
 		 *
-		 * @var array
+		 * @public array
 		 * @access private
 		 */
-		var $__errors = array();
+		private $__errors = array();
+
 		/**
 		 * internal to hold origional data for caching.
 		 */
-		var $input = array();
+		public $input = array();
+		
 		/**
 		 * Map names to code.
 		 *
 		 * this is used to conver the english names used in the helper to
 		 * the codes needed by google to create the graph.
 		 *
-		 * @var array
+		 * @public array
 		 * @access public
 		 */
-		var $map = array(
+		public $map = array(
 			'data' => array(//done
 				'code' => 'chd=t:',
 				'seperator' => ','
@@ -328,10 +334,10 @@
 		 *
 		 * This is used to generat the maps based on a friendly name.
 		 *
-		 * @var array
+		 * @public array
 		 * @access public
 		 */
-		var $chartTypes = array(
+		public $chartTypes = array(
 			//pie charts
 			'pie2d' => 'cht=p',
 			'pie3d' => 'cht=p3',
@@ -420,11 +426,9 @@
 			$this->__setChartType($name);
 
 			foreach ($data as $key => $value) {
-				if (is_array($name)) {
-					if (!isset($this->setup[$name['name']][$key])) {
-						$this->__errors[] = __('Param "' . $key . '" is not supported in chart type "' . $name . '"', true);
-						continue;
-					}
+				if (is_array($name) && !isset($this->setup[$name['name']][$key])) {
+					$this->__errors[] = __('Param "' . $key . '" is not supported in chart type "' . $name . '"', true);
+					continue;
 				}
 
 				else if (!isset($this->setup[$name][$key])) {
@@ -432,46 +436,56 @@
 					continue;
 				}
 
-				switch ($key) {
-					case 'data':
-					case 'spacing':
-					case 'labels':
-					case 'places':
-					case 'colors':
-						$this->__setData($key, $value);
-						break;
-
-					case 'orientation':
-						$this->__setOrientaion($value);
-						break;
-
-					case 'size':
-						$this->__setSize($value);
-						break;
-
-					case 'title':
-						$this->__setTitle($value);
-						break;
-
-					case 'fill':
-						$this->__setFill($key, $value);
-						break;
-
-					case 'scale':
-						$this->__setScale($value);
-						break;
-					
-					case 'axis_type':
-					case 'axis_labels':
-					case 'axis_label_positions':
-					case 'axis_range':
-					case 'axis_style':
-						$this->__setAxis($key, $value);
-						break;
-				} // switch
+				$this->_dispatch($key, $value);
 			}
 
 			return $this->__render($data);
+		}
+
+		/**
+		 * dispatch method based on the key / value options passed in
+		 * 
+		 * @param <type> $key
+		 * @param <type> $value
+		 */
+		protected function _dispatch($key, $value){
+			switch ($key) {
+				case 'data':
+				case 'spacing':
+				case 'labels':
+				case 'places':
+				case 'colors':
+					$this->__setData($key, $value);
+					break;
+
+				case 'orientation':
+					$this->__setOrientaion($value);
+					break;
+
+				case 'size':
+					$this->__setSize($value);
+					break;
+
+				case 'title':
+					$this->__setTitle($value);
+					break;
+
+				case 'fill':
+					$this->__setFill($key, $value);
+					break;
+
+				case 'scale':
+					$this->__setScale($value);
+					break;
+
+				case 'axis_type':
+				case 'axis_labels':
+				case 'axis_label_positions':
+				case 'axis_range':
+				case 'axis_style':
+					$this->__setAxis($key, $value);
+					break;
+			} // switch
 		}
 
 		function __checkCache() {
@@ -775,7 +789,7 @@
 		/**
 		 * legacy code below
 		 */
-		var $settings = array(
+		public $settings = array(
 			'api_address' => 'http://chart.apis.google.com/chart?',
 			'size' => array(
 				'width' => 300,
@@ -912,7 +926,7 @@
 			);
 		}
 
-		function sparkline($data = array(), $axis_label = array(), $size = array()) {
+		function sparkline($data = array(), $axisLabel = array(), $size = array()) {
 			$chart = $this->settings['charts']['sparkline'];
 
 			if (empty($data)) {
@@ -930,7 +944,7 @@
 			$max = 0;
 			foreach ($data as $k => $v) {
 				$data[$k] = (int) $v + 0;
-				$bottom_label[] = $k;
+				$bottomLabel[] = $k;
 
 				if ($v > $max) {
 					$max = $v;
@@ -938,7 +952,7 @@
 			}
 			$i = 0;
 			while ($i <= $max) {
-				$x_inc[$i] = $i;
+				$xInc[$i] = $i;
 				$i++;
 			} // while
 
@@ -949,8 +963,8 @@
 					$chart['data'] . implode(',', $data) . '&amp;' .
 					$chart['labels']['axis']['name'] . implode(',', $chart['labels']['axis']['where']) . '&amp;' .
 					$chart['labels']['label']['name'] .
-					'0:|' . implode('|', $bottom_label) . '|' .
-					'1:|' . implode('|', $x_inc) .
+					'0:|' . implode('|', $bottomLabel) . '|' .
+					'1:|' . implode('|', $xInc) .
 					'&amp;chds=0,' . $max;
 
 			return $this->Html->image(

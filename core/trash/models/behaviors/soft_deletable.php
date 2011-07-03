@@ -235,7 +235,7 @@
 		 */
 		public function beforeFind($model, $queryData) {
 			if ($this->settings[$model->alias]['find'] && $model->hasField($this->settings[$model->alias]['field'])) {
-				$Db =& ConnectionManager::getDataSource($model->useDbConfig);
+				$Db = ConnectionManager::getDataSource($model->useDbConfig);
 				$include = false;
 
 				if (!empty($queryData['conditions']) && is_string($queryData['conditions'])) {
@@ -249,12 +249,16 @@
 					);
 
 					foreach($fields as $field) {
-						if (preg_match('/^' . preg_quote($field) . '[\s=!]+/i', $queryData['conditions']) || preg_match('/\\x20+' . preg_quote($field) . '[\s=!]+/i', $queryData['conditions'])) {
+						$check = preg_match('/^' . preg_quote($field) . '[\s=!]+/i', $queryData['conditions']) ||
+								preg_match('/\\x20+' . preg_quote($field) . '[\s=!]+/i', $queryData['conditions']);
+						if ($check) {
 							$include = false;
 							break;
 						}
 					}
-				} else if (empty($queryData['conditions']) || (
+				}
+
+				else if (empty($queryData['conditions']) || (
 					!in_array($this->settings[$model->alias]['field'], array_keys($queryData['conditions']), true) &&
 					!in_array($model->alias . '.' . $this->settings[$model->alias]['field'], array_keys($queryData['conditions']), true)
 				)) {
@@ -267,8 +271,11 @@
 					}
 
 					if (is_string($queryData['conditions'])) {
-						$queryData['conditions'] = $Db->name($model->alias) . '.' . $Db->name($this->settings[$model->alias]['field']) . '!= 1 AND ' . $queryData['conditions'];
-					} else {
+						$queryData['conditions'] = $Db->name($model->alias) . '.' . 
+							$Db->name($this->settings[$model->alias]['field']) . ' != 1 AND ' . $queryData['conditions'];
+					}
+
+					else {
 						$queryData['conditions'][$model->alias . '.' . $this->settings[$model->alias]['field'] . ' !='] = '1';
 					}
 				}

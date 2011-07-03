@@ -104,7 +104,7 @@
 						)
 					);
 
-					$this->id = isset($id['ShortUrl']['id']) ?$id['ShortUrl']['id'] : false;
+					$this->id = isset($id['ShortUrl']['id']) ? $id['ShortUrl']['id'] : false;
 					
 					if(!$this->id){
 						return false;
@@ -164,7 +164,7 @@
 			$i = strlen($data);
 
 			for ($i; $i; $i--) {
-				$return += strpos($this->__codeSet, substr($data, (-1 * ($i - strlen($data))), 1)) * pow($this->__base,$i-1);
+				$return += strpos($this->__codeSet, substr($data, (-1 * ($i - strlen($data))), 1)) * pow($this->__base, $i - 1);
 			}
 
 			return $return;

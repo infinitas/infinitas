@@ -56,7 +56,7 @@
 				'description'
 			);
 
-			$this->set(compact('campaigns','filterOptions'));
+			$this->set(compact('campaigns', 'filterOptions'));
 		}
 
 		public function admin_add() {

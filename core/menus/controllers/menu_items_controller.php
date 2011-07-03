@@ -49,7 +49,7 @@
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('menuItems','filterOptions'));
+			$this->set(compact('menuItems', 'filterOptions'));
 		}
 
 		public function admin_add(){
@@ -74,9 +74,31 @@
 			}
 			
 			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
-			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => reset(array_keys($menus))));
+			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(
+				array(
+					'MenuItem.parent_id !=' => 0,
+					'MenuItem.menu_id' => reset(array_keys($menus))
+				)
+			);
 			$plugins = $this->MenuItem->getPlugins();
 			$this->set(compact('menus', 'groups', 'parents', 'plugins'));
+		}
+
+		public function admin_edit($id = null){
+			parent::admin_edit($id);
+
+			$menus   = $this->MenuItem->Menu->find('list');
+			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
+			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(
+				array(
+					'MenuItem.parent_id !=' => 0,
+					'MenuItem.menu_id' => $this->data['MenuItem']['menu_id']
+				)
+			);
+			$plugins = $this->MenuItem->getPlugins();
+			$controllers = $this->MenuItem->getControllers($this->data['MenuItem']['plugin']);
+			$actions = $this->MenuItem->getActions($this->data['MenuItem']['plugin'], $this->data['MenuItem']['controller']);
+			$this->set(compact('menus', 'groups', 'parents', 'plugins', 'controllers', 'actions'));
 		}
 
 		/**
@@ -94,17 +116,5 @@
 				$this->MenuItem->generateTreeList($conditions)
 			);
 			$this->set(compact('json'));
-		}
-
-		public function admin_edit($id = null){
-			parent::admin_edit($id);
-
-			$menus   = $this->MenuItem->Menu->find('list');
-			$groups  = array(0 => __('Public', true)) + $this->MenuItem->Group->find('list');
-			$parents = array(0 => __('Root', true)) + $this->MenuItem->generateTreeList(array('MenuItem.parent_id !=' => 0, 'MenuItem.menu_id' => $this->data['MenuItem']['menu_id']));
-			$plugins = $this->MenuItem->getPlugins();
-			$controllers = $this->MenuItem->getControllers($this->data['MenuItem']['plugin']);
-			$actions = $this->MenuItem->getActions($this->data['MenuItem']['plugin'], $this->data['MenuItem']['controller']);
-			$this->set(compact('menus', 'groups', 'parents', 'plugins', 'controllers', 'actions'));
 		}
 	}

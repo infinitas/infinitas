@@ -79,7 +79,7 @@
 				unset($params['named']['limit']);
 			}
 
-			$params['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'],true);
+			$params['named']['limit'] = $this->paginationHardLimit($options['pagination_limit'], true);
 
 			$this->Controller->redirect(
 				array(
@@ -101,13 +101,13 @@
 		 */
 		public function paginationHardLimit($limit = null, $return = false){
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
-				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum',true));
+				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum', true));
 
 				$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
 				$url = array(
-					'plugin'     => $this->Controller->params['plugin'],
+					'plugin'	 => $this->Controller->params['plugin'],
 					'controller' => $this->Controller->params['controller'],
-					'action'     => $this->Controller->params['action']
+					'action'	 => $this->Controller->params['action']
 				) + $this->Controller->params['named'];
 
 				$this->Controller->redirect($url);
@@ -138,8 +138,8 @@
 
 			// if the host is not starting with www. redirect the
 			// user to the same URL but with www :-)
-			if (!strpos($host,'www')){
-				$this->redirect('www'.$host);
+			if (!strpos($host, 'www')){
+				$this->redirect('www' . $host);
 			}
 		}
 
@@ -192,7 +192,7 @@
 			else{
 				// Other
 				Configure::load('browsers');
-				$browsers      = Configure::read('Browsers');
+				$browsers	  = Configure::read('Browsers');
 				foreach ( $browsers as $key => $value){
 					if ( preg_match( '/'.regexEscape($value).'.?\/([\d\.]*)/i', $agent, $m ) ){
 						return $browsers[$key].' '.$m[1];
@@ -329,7 +329,7 @@
 				$this->Controller->Auth->allow('*');
 			}
 			$this->Controller->Auth->actionPath   = 'controllers/';
-			$this->Controller->Auth->authorize    = 'actions';
+			$this->Controller->Auth->authorize	= 'actions';
 			$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
 			if(Configure::read('Website.login_type') == 'email'){
@@ -391,17 +391,17 @@
 
 			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');
 			$infinitasJsData['here']	   = (isset($this->Controller->here) ? $this->Controller->here : '');
-			$infinitasJsData['plugin']     = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');
+			$infinitasJsData['plugin']	 = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');
 			$infinitasJsData['name']	   = (isset($this->Controller->name) ? $this->Controller->name : '');
-			$infinitasJsData['action']     = (isset($this->Controller->action) ? $this->Controller->action : '');
-			$params                        = (isset($this->Controller->params) ? $this->Controller->params : '');
+			$infinitasJsData['action']	 = (isset($this->Controller->action) ? $this->Controller->action : '');
+			$params						= (isset($this->Controller->params) ? $this->Controller->params : '');
 			unset($params['_Token']);
-			$infinitasJsData['params']     = $params;
+			$infinitasJsData['params']	 = $params;
 			$infinitasJsData['passedArgs'] = (isset($this->Controller->passedArgs) ? $this->Controller->passedArgs : '');
 			$infinitasJsData['data']	   = (isset($this->Controller->data) ? $this->Controller->data : '');
 			$infinitasJsData['model']	   = $this->Controller->modelClass;
 
-			$infinitasJsData['config']     = Configure::getInstance();
+			$infinitasJsData['config']	 = Configure::getInstance();
 
 			$this->Controller->set(compact('infinitasJsData'));
 		}
@@ -460,9 +460,13 @@
 		 */
 		function _orderedMove(){
 			$modelName = $this->Controller->modelClass;
+			
+			$orderable = isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) &&
+				!empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']);
 
-			if (isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) && !empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field'])) {
-				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] = $this->Controller->params['named']['position'];
+			if ($orderable) {
+				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] =
+					$this->Controller->params['named']['position'];
 			}
 			else{
 				$this->Controller->data[$modelName]['ordering'] = $this->Controller->params['named']['position'];
@@ -480,9 +484,9 @@
 		 * Copyright (c) 2008 Matt Curry
 		 * www.PseudoCoder.com
 		 *
-		 * @author      mattc <matt@pseudocoder.com>
-		 * @version     1.0
-		 * @license     MIT
+		 * @author	  mattc <matt@pseudocoder.com>
+		 * @version	 1.0
+		 * @license	 MIT
 		 */
 		private function __paginationRecall(){
 			$options = array_merge(
@@ -613,7 +617,7 @@
 
 			// Add scaffold defaults if scaffolds are being used
 			$properties = get_class_vars($ctrlclass);
-			if (is_array($properties) && array_key_exists('scaffold',$properties)) {
+			if (is_array($properties) && array_key_exists('scaffold', $properties)) {
 				if($properties['scaffold'] == 'admin') {
 					$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
 				}

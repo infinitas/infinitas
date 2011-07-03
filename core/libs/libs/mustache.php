@@ -12,6 +12,7 @@
  *
  * @author Justin Hileman {@link http://justinhileman.com}
  */
+// @codingStandardsIgnoreStart
 class Mustache {
 
 	public $_otag = '{{';
@@ -23,11 +24,11 @@ class Mustache {
 	 * @see self::_throwsException()
 	 */
 	protected $_throwsExceptions = array(
-		MustacheException::UNKNOWN_VARIABLE         => false,
-		MustacheException::UNCLOSED_SECTION         => true,
+		MustacheException::UNKNOWN_VARIABLE		 => false,
+		MustacheException::UNCLOSED_SECTION		 => true,
 		MustacheException::UNEXPECTED_CLOSE_SECTION => true,
-		MustacheException::UNKNOWN_PARTIAL          => false,
-		MustacheException::UNKNOWN_PRAGMA           => true,
+		MustacheException::UNKNOWN_PARTIAL		  => false,
+		MustacheException::UNKNOWN_PRAGMA		   => true,
 	);
 
 	// Override charset passed to htmlentities() and htmlspecialchars(). Defaults to UTF-8.
@@ -44,32 +45,32 @@ class Mustache {
 	/**
 	 * The {{%DOT-NOTATION}} pragma allows context traversal via dots. Given the following context:
 	 *
-	 *     $context = array('foo' => array('bar' => array('baz' => 'qux')));
+	 *	 $context = array('foo' => array('bar' => array('baz' => 'qux')));
 	 *
 	 * One could access nested properties using dot notation:
 	 *
-	 *      {{%DOT-NOTATION}}{{foo.bar.baz}}
+	 *	  {{%DOT-NOTATION}}{{foo.bar.baz}}
 	 *
 	 * Which would render as `qux`.
 	 */
-	const PRAGMA_DOT_NOTATION      = 'DOT-NOTATION';
+	const PRAGMA_DOT_NOTATION	  = 'DOT-NOTATION';
 
 	/**
 	 * The {{%IMPLICIT-ITERATOR}} pragma allows access to non-associative array data in an
 	 * iterable section:
 	 *
-	 *     $context = array('items' => array('foo', 'bar', 'baz'));
+	 *	 $context = array('items' => array('foo', 'bar', 'baz'));
 	 *
 	 * With this template:
 	 *
-	 *     {{%IMPLICIT-ITERATOR}}{{#items}}{{.}}{{/items}}
+	 *	 {{%IMPLICIT-ITERATOR}}{{#items}}{{.}}{{/items}}
 	 *
 	 * Would render as `foobarbaz`.
 	 *
 	 * {{%IMPLICIT-ITERATOR}} accepts an optional 'iterator' argument which allows implicit
 	 * iterator tags other than {{.}} ...
 	 *
-	 *     {{%IMPLICIT-ITERATOR iterator=i}}{{#items}}{{i}}{{/items}}
+	 *	 {{%IMPLICIT-ITERATOR iterator=i}}{{#items}}{{i}}{{/items}}
 	 */
 	const PRAGMA_IMPLICIT_ITERATOR = 'IMPLICIT-ITERATOR';
 
@@ -83,7 +84,7 @@ class Mustache {
 	 *
 	 * This may be useful in non-HTML Mustache situations.
 	 */
-	const PRAGMA_UNESCAPED    = 'UNESCAPED';
+	const PRAGMA_UNESCAPED	= 'UNESCAPED';
 
 	protected $_tagRegEx;
 
@@ -115,7 +116,7 @@ class Mustache {
 	public function __construct($template = null, $view = null, $partials = null) {
 		if ($template !== null) $this->_template = $template;
 		if ($partials !== null) $this->_partials = $partials;
-		if ($view !== null)     $this->_context = array($view);
+		if ($view !== null)	 $this->_context = array($view);
 	}
 
 	/**
@@ -211,7 +212,7 @@ class Mustache {
 		while (preg_match($regex, $template, $matches, PREG_OFFSET_CAPTURE)) {
 			$section  = $matches[0][0];
 			$offset   = $matches[0][1];
-			$type     = $matches[1][0];
+			$type	 = $matches[1][0];
 			$tag_name = trim($matches[2][0]);
 			$content  = $matches[3][0];
 
@@ -297,8 +298,8 @@ class Mustache {
 	 * @throws MustacheException unknown pragma
 	 */
 	protected function _renderPragma($matches) {
-		$pragma         = $matches[0];
-		$pragma_name    = $matches[1];
+		$pragma		 = $matches[0];
+		$pragma_name	= $matches[1];
 		$options_string = $matches[2];
 
 		if (!in_array($pragma_name, $this->_pragmasImplemented)) {
@@ -390,7 +391,7 @@ class Mustache {
 		$html = '';
 		$matches = array();
 		while (preg_match($this->_tagRegEx, $template, $matches, PREG_OFFSET_CAPTURE)) {
-			$tag      = $matches[0][0];
+			$tag	  = $matches[0][0];
 			$offset   = $matches[0][1];
 			$modifier = $matches[1][0];
 			$tag_name = trim($matches[2][0]);
@@ -665,10 +666,10 @@ class MustacheException extends Exception {
 
 	// An UNKNOWN_VARIABLE exception is thrown when a {{variable}} is not found
 	// in the current context.
-	const UNKNOWN_VARIABLE         = 0;
+	const UNKNOWN_VARIABLE		 = 0;
 
 	// An UNCLOSED_SECTION exception is thrown when a {{#section}} is not closed.
-	const UNCLOSED_SECTION         = 1;
+	const UNCLOSED_SECTION		 = 1;
 
 	// An UNEXPECTED_CLOSE_SECTION exception is thrown when {{/section}} appears
 	// without a corresponding {{#section}} or {{^section}}.
@@ -676,10 +677,11 @@ class MustacheException extends Exception {
 
 	// An UNKNOWN_PARTIAL exception is thrown whenever a {{>partial}} tag appears
 	// with no associated partial.
-	const UNKNOWN_PARTIAL          = 3;
+	const UNKNOWN_PARTIAL		  = 3;
 
 	// An UNKNOWN_PRAGMA exception is thrown whenever a {{%PRAGMA}} tag appears
 	// which can't be handled by this Mustache instance.
-	const UNKNOWN_PRAGMA           = 4;
+	const UNKNOWN_PRAGMA		   = 4;
 
 }
+// @codingStandardsIgnoreStart

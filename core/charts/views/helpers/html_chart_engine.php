@@ -78,7 +78,7 @@
 			$y = $rows = $cols = array();
 			$last = 0;
 			foreach($data['data'][0] as $key => $value){
-				$change = $value > $last ? __('up (%s%%)', true) : __('down (%s%%)', true);
+				$change = ($value > $last) ? __('up (%s%%)', true) : __('down (%s%%)', true);
 				$change = sprintf($change, abs($last - $value));
 				if($value == $last){
 					$change = __('no change', true);
@@ -98,8 +98,11 @@
 
 			rsort($y);
 
-			$rows[] = '<tr class="data"><td class="y-axis"><table><tr><td>' . implode('</td></tr><tr><td>', $y) . '</td></tr></table></td>' . implode('', $cols) . '</tr>';
-			$rows[] = '<tr class="x-axis"><td>&nbsp;</td><td>' . implode('</td><td>', $data['labels'][$data['axes'][0]]) . '</td><tr>';
+			$rows[] = '<tr class="data"><td class="y-axis"><table><tr><td>' . 
+				implode('</td></tr><tr><td>', $y) . '</td></tr></table></td>' .
+				implode('', $cols) . '</tr>';
+			$rows[] = '<tr class="x-axis"><td>&nbsp;</td><td>' .
+				implode('</td><td>', $data['labels'][$data['axes'][0]]) . '</td><tr>';
 
 			$chart = sprintf(
 				'<table>%s</table><div class="legend">%s</div>',
@@ -168,7 +171,8 @@ cssData;
 		private function __css($data){
 			$css = array();
 			foreach(range(1, 100) as $num){
-				$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' . $num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
+				$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' .
+					$num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
 			}
 
 			return implode('', $css);

@@ -1,48 +1,48 @@
 <?php
-/**
-	* Comment Template.
-	*
-	* @todo Implement .this needs to be sorted out.
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+	/**
+	 * Comment Template.
+	 *
+	 * @todo Implement .this needs to be sorted out.
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 * @filesource
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package sort
+	 * @subpackage sort.comments
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
+	 */
 
 	Configure::write('Session.save', 'php');
 
 	class InstallController extends Controller {
 		/**
-		* Controller name
-		*
-		* @var string
-		* @access public
-		*/
-		var $name = 'Install';
+		 * Controller name
+		 *
+		 * @var string
+		 * @access public
+		 */
+		public $name = 'Install';
 
 		/**
-		* No models required
-		*
-		* @var array
-		* @access public
-		*/
-		var $uses = array();
+		 * No models required
+		 *
+		 * @var array
+		 * @access public
+		 */
+		public $uses = array();
 
 		/**
-		* No components required
-		*
-		* @var array
-		* @access public
-		*/
-		var $components = array('Libs.Wizard', 'Session');
+		 * No components required
+		 *
+		 * @var array
+		 * @access public
+		 */
+		public $components = array('Libs.Wizard', 'Session');
 
 		public $helpers = array('Html', 'Form', 'Libs.Wizard', 'Text');
 
@@ -74,63 +74,68 @@
 		);
 
 		private $__recommendedIniSettings = array (
-				array (
-					'setting' => 'safe_mode',
-					'recomendation' => 0,
-					'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0'
-					),
-				array (
-					'setting' => 'display_errors',
-					'recomendation' => 1,
-					'desc' => 'Infinitas will handle errors througout the app'
-					),
-				array (
-					'setting' => 'file_uploads',
-					'recomendation' => 1,
-					'desc' => 'File uploads are needed for the wysiwyg editors and system installers'
-					),
-				array (
-					'setting' => 'magic_quotes_runtime',
-					'recomendation' => 0,
-					'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
-					),
-				array (
-					'setting' => 'register_globals',
-					'recomendation' => 0,
-					'desc' => 'This feature has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
-					),
-				array (
-					'setting' => 'output_buffering',
-					'recomendation' => 0,
-					'desc' => 'Infinitas will handle output_buffering for you throughout the app'
-					),
-				array (
-					'setting' => 'session.auto_start',
-					'recomendation' => 0,
-					'desc' => 'Sessions are completly handled by Infinitas'
-					),
-				);
-
-		private $__paths = array(
-			'config/database.php' => array(
-				'type' => 'write',
-				'message' => 'The database configuration (%s) file should be writable during the installation process. It should be set to be read-only once Infinitas has been installed.'
+			array (
+				'setting' => 'safe_mode',
+				'recomendation' => 0,
+				'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0'
 			),
-			'tmp' => array(
-				'type' => 'write',
-				'message' => 'The temporary directory (%s) should be writable by Infinitas. Caching will not work otherwise and Infinitas will perform very poorly.',
-			)
+			array (
+				'setting' => 'display_errors',
+				'recomendation' => 1,
+				'desc' => 'Infinitas will handle errors througout the app'
+			),
+			array (
+				'setting' => 'file_uploads',
+				'recomendation' => 1,
+				'desc' => 'File uploads are needed for the wysiwyg editors and system installers'
+			),
+			array (
+				'setting' => 'magic_quotes_runtime',
+				'recomendation' => 0,
+				'desc' => 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
+			),
+			array (
+				'setting' => 'register_globals',
+				'recomendation' => 0,
+				'desc' => 'This feature has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0. Relying on this feature is highly discouraged.'
+			),
+			array (
+				'setting' => 'output_buffering',
+				'recomendation' => 0,
+				'desc' => 'Infinitas will handle output_buffering for you throughout the app'
+			),
+			array (
+				'setting' => 'session.auto_start',
+				'recomendation' => 0,
+				'desc' => 'Sessions are completly handled by Infinitas'
+			),
 		);
 
-		var $installerProgress = array();
+		private $__paths;
+
+		public $installerProgress = array();
 
 		/**
-		* beforeFilter
-		*
-		* @return void
-		*/
-		function beforeFilter() {
+		 * beforeFilter
+		 *
+		 * @return void
+		 */
+		public function beforeFilter() {
 			parent::beforeFilter();
+
+			$this->__paths = array(
+				'config/database.php' => array(
+					'type' => 'write',
+					'message' => 'The database configuration (%s) file should be writable during the ' .
+						'installation process. It should be set to be read-only once Infinitas has been installed.'
+				),
+				'tmp' => array(
+					'type' => 'write',
+					'message' => 'The temporary directory (%s) should be writable by Infinitas. Caching ' .
+						'will not work otherwise and Infinitas will perform very poorly.',
+				)
+			);
+
 			$this->layout = 'installer';
 
 			$this->view = 'View';
@@ -164,7 +169,7 @@
 			$this->set('installerProgress', $this->installerProgress);
 		}
 
-		function index($step = null) {
+		public function index($step = null) {
 			if(filesize(APP.'config'.DS.'database.php') > 0 && $this->Session->read('installing') == false) {
 				$this->notice(
 					__('Infinitas has already been installed', true),
@@ -173,23 +178,23 @@
 					)
 				);
 			}
-
+			
 			$this->Session->write('installing', true);
-			$this->set('title_for_layout', $this->installerProgress[$step == null ? 'welcome' : $step]);
+			$this->set('title_for_layout', $this->installerProgress[($step == null) ? 'welcome' : $step]);
 			$this->Wizard->process($step);
 		}
 
-		function finish() {
+		public function finish() {
 			$this->Session->write('installing', false);
 			$this->set('title_for_layout', 'Finished');
 			$this->set('hidePrevious', true);
 			$this->set('hideNext', true);
 		}
 
-/**
- * Wizard prepare steps methods
- */
-		function _prepareWelcome() {
+		/**
+		 * Wizard prepare steps methods
+		 */
+		protected function _prepareWelcome() {
 			$core = $this->__checkCore();
 			$paths = $this->__checkPaths();
 			$database = $this->__checkDatabases(true);
@@ -199,30 +204,29 @@
 			$this->set('supportedDb', $this->__supportedDatabases);
 		}
 
-		function _prepareDatabase() {
+		protected function _prepareDatabase() {
 			$this->loadModel('Installer.Install');
 			$database = $this->__checkDatabases();
 
 			$this->set(compact('database'));
 		}
 
-		function _prepareInstall() {
-		}
+		protected function _prepareInstall() {}
 
-		function _prepareAdminUser() {
+		protected function _prepareAdminUser() {
 			$this->loadModel('Management.User');
 
 			$this->set('hidePrevious', true);
 		}
 
-/**
- * Wizard process step methods
- */
-		function _processWelcome() {
+		/**
+		 * Wizard process step methods
+		 */
+		protected function _processWelcome() {
 			return true;
 		}
 
-		function _processDatabase() {
+		protected function _processDatabase() {
 			App::import('Model', 'Installer.Install');
 
 			$install = new Install(false, false, false);
@@ -235,7 +239,7 @@
 			return false;
 		}
 
-		function _processInstall() {
+		protected function _processInstall() {
 			if($this->__installPlugins() && $this->__writeDbConfig()) {
 				return true;
 			}
@@ -243,7 +247,7 @@
 			return false;
 		}
 
-		function _processAdminUser() {
+		protected function _processAdminUser() {
 			$this->loadModel('Management.User');
 
 			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
@@ -258,11 +262,12 @@
 			if($this->User->save($this->data)) {
 				return true;
 			}
+			
 			return false;
 		}
-/**
- * Private methods
- */
+		/**
+		 * Private methods
+		 */
 
 		/**
 		 *
@@ -320,7 +325,7 @@
 				}
 			}
 
-			return $databaseSupported == true ? !empty($availableDb) : $availableDb;
+			return ($databaseSupported == true) ? !empty($availableDb) : $availableDb;
 		}
 
 		/**
@@ -341,7 +346,7 @@
 			return $recomendations;
 		}
 
-		function __cleanConnectionDetails($adminUser = false) {
+		private function __cleanConnectionDetails($adminUser = false) {
 			$connectionDetails = $this->data['Install'];
 			unset($connectionDetails['step']);
 
@@ -361,7 +366,7 @@
 			return $connectionDetails;
 		}
 
-		function __testConnection() {
+		private function __testConnection() {
 			$connectionDetails = $this->__cleanConnectionDetails();
 			$adminConnectionDetails = $this->__cleanConnectionDetails(true);
 
@@ -369,6 +374,7 @@
 				$this->set('dbError', true);
 				return false;
 			}
+			
 			else {
 				if(trim($adminConnectionDetails['login']) != '') {
 					if(!@ConnectionManager::create('admin', $adminConnectionDetails)->isConnected()) {
@@ -376,6 +382,7 @@
 						return false;
 					}
 				}
+
 				$dbOptions = $this->__supportedDatabases[$connectionDetails['driver']];
 				$version = ConnectionManager::getDataSource('installer')->query($dbOptions['versionQuery']);
 				$version = $version[0][0]['version()'];
@@ -435,6 +442,7 @@
 			if($this->data['Admin']['username'] !== '') {
 				$dbConfig = $this->__cleanConnectionDetails(true);
 			}
+			
 			else {
 				$dbConfig = $this->__cleanConnectionDetails();
 			}
@@ -474,6 +482,7 @@
 				$configPath = $pluginPath . 'config' . DS;
 				$checkFile = $configPath . 'config.json';
 			}
+
 			else {
 				$configPath = APP . 'config' . DS;
 				$checkFile = $configPath . 'releases' . DS . 'map.php';
@@ -493,10 +502,12 @@
 							'sample' => $this->data['Sample']['sample'] == 1
 						));
 					}
+					
 					catch (Exception $e) {
 						return false;
 					}
 				}
+
 				else {
 					$versionResult = true;
 				}

@@ -8,14 +8,14 @@
 	 *
 	 * public $helpers = array(
 	 *   'Analogue' => array(
-	 *     array(
-	 *       'helper' => 'MyHtml',
-	 *       'rename' => 'Html'
-	 *     ),
-	 *     array(
-	 *       'helper' => 'MyForm',
-	 *       'rename' => 'Form'
-	 *     )
+	 *	 array(
+	 *	   'helper' => 'MyHtml',
+	 *	   'rename' => 'Html'
+	 *	 ),
+	 *	 array(
+	 *	   'helper' => 'MyForm',
+	 *	   'rename' => 'Form'
+	 *	 )
 	 *   )
 	 * );
 	 */
@@ -23,27 +23,30 @@
 
 		/**
 		 * Mappings
+		 * 
 		 * @var array
 		 * @access private
 		 */
-		private $mappings = array();
+		private $__mappings = array();
 
 		/**
 		 * View
-		 * @var View
+		 * 
+		 * @var __view
 		 * @access private
 		 */
-		private $view;
+		private $__view;
 
 		/**
 		 * Executed prior to rendering
+		 *
 		 * @return null
 		 * @access public
 		 */
 		public function beforeRender() {
 
 			// Loop through and call _mapHelper()
-			foreach ($this->mappings as $mapping) {
+			foreach ($this->__mappings as $mapping) {
 				$this->_mapHelper($mapping);
 			}
 		}
@@ -57,11 +60,11 @@
 		public function __construct($mappings = array()) {
 
 			// Grab our View object for use later...
-			$this->view = ClassRegistry::getObject('view');
+			$this->__view = ClassRegistry::getObject('view');
 
 			// Merge our mappings together...
-			$this->mappings = am(
-				$this->mappings,
+			$this->__mappings = am(
+				$this->__mappings,
 				$mappings
 			);
 		}
@@ -82,11 +85,10 @@
 
 			// Only continue if we have a valid, loaded helper
 			if (isset($helper)) {
-				if (isset($this->view->loaded[$helper]) and isset($rename)) {
-					$this->view->loaded[$rename] = $this->view->loaded[$helper];
+				if (isset($this->__view->loaded[$helper]) and isset($rename)) {
+					$this->__view->loaded[$rename] = $this->__view->loaded[$helper];
 				}
 			}
 		}
 
 	}
-?>

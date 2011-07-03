@@ -55,7 +55,7 @@
 		public function __construct(&$dispatch) {
 			parent::__construct($dispatch);
 			$this->times['months'][date('m')]  = 1;
-			$this->times['days'][date('j')]    = 1;
+			$this->times['days'][date('j')]	= 1;
 			$this->times['hours'][date('H')]   = 1;
 			$this->times['minutes'][date('i')] = 1;
 		}
@@ -138,7 +138,7 @@
 					++$this->jobsRun;
 				}
 
-				$this->CronResource->logMemoryUsage(sprintf('%s - %s', $jobRan ? '✔' : '☐', $plugin));
+				$this->CronResource->logMemoryUsage(sprintf('%s - %s', ($jobRan) ? '✔' : '☐', $plugin));
 			}
 			unset($plugins);
 
@@ -153,7 +153,7 @@
 		protected function _start(){
 			if($this->__verbose){ $this->Dispatch->clear(); }
 			$this->CronResource->log('Infinitas Cron dispacher');
-			$this->CronResource->log(sprintf('Cron started       :: %s', date('Y-m-d H:i:s')));
+			$this->CronResource->log(sprintf('Cron started	   :: %s', date('Y-m-d H:i:s')));
 			if($this->__verbose){ $this->CronResource->hr(); }
 
 			$this->CronResource->logMemoryUsage('startup');
@@ -178,7 +178,7 @@
 		protected function _end(){
 			$this->CronResource->logMemoryUsage();
 
-			$this->CronResource->log(sprintf('Cron Ended       :: %s', date('Y-m-d H:i:s')));
+			$this->CronResource->log(sprintf('Cron Ended	   :: %s', date('Y-m-d H:i:s')));
 
 			if($this->__verbose){
 				$this->CronResource->hr();

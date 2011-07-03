@@ -41,6 +41,6 @@
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('menus','filterOptions'));
+			$this->set(compact('menus', 'filterOptions'));
 		}
 	}

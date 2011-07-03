@@ -1,7 +1,7 @@
 <?php
-    echo $this->Form->create('File');
-        echo $this->Infinitas->adminEditHead();
-	        ?>
+	echo $this->Form->create('File');
+		echo $this->Infinitas->adminEditHead();
+			?>
 				<div class="data">
 					<?php
 						App::import('File');
@@ -21,14 +21,14 @@
 								break;
 
 						}
-				    ?>
+					?>
 				</div>
 				<div class="config">
 					<?php
 							?><h2><?php __('File info'); ?></h2><?php
 							pr($info);
 							echo 'todo';
-				    ?>
+					?>
 				</div>
 			<?php
-    echo $this->Form->end();
+	echo $this->Form->end();

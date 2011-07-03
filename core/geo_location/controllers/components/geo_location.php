@@ -23,15 +23,15 @@
 
 		private $__emptyCity = array(
 			'latitude' => false, 'longitude' => false, 'region'   => false,
-			'city'     => false, 'postcode'  => false, 'areaCode' => false
+			'city'	 => false, 'postcode'  => false, 'areaCode' => false
 		);
 
-		public function initialize(&$controller, $settings = array()) {
-			$this->Controller = &$controller;
+		public function initialize($controller, $settings = array()) {
+			$this->Controller = $controller;
 			$settings = array_merge(array(), (array)$settings);
 
-			$this->countryDataFile = dirname(dirname(dirname(__FILE__))).DS.'libs'.DS.'geoip'.DS.'country.dat';
-			$this->cityDataFile = dirname(dirname(dirname(__FILE__))).DS.'libs'.DS.'geoip'.DS.'city.dat';
+			$this->countryDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'libs' . DS . 'geoip' . DS . 'country.dat';
+			$this->cityDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'libs' . DS . 'geoip' . DS . 'city.dat';
 
 			$this->__autoUserLocation();
 		}
@@ -68,7 +68,7 @@
 			$country = empty($country) ? 'Unknown' : $country;
 
 			if ($code) {
-				$code = geoip_country_code_by_addr($data, $ip_address);
+				$code = geoip_country_code_by_addr($data, $ipAddress);
 				$code = empty($code) ? 'Unknown' : $code;
 			}
 
@@ -83,6 +83,7 @@
 		public function getCityData($ipAddress = null){
 			if (!$ipAddress){
 				$ipAddress = $this->RequestHandler->getClientIP();
+
 				if (!$ipAddress) {
 					return $this->__emptyCity;
 				}
@@ -96,7 +97,7 @@
 				return $this->__emptyCity;
 			}
 
-			$gi = geoip_open($this->cityDataFile ,GEOIP_STANDARD);
+			$gi = geoip_open($this->cityDataFile, GEOIP_STANDARD);
 
 			$data = geoip_record_by_addr($gi, $ipAddress);
 			geoip_close($gi);

@@ -26,11 +26,11 @@
 		 * Set up some errors for json.
 		 * @access protected
 		 */
-		protected  $_json_messages = array(
-		    JSON_ERROR_NONE      => 'No error',
-		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
-		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
-		    JSON_ERROR_SYNTAX    => 'Syntax error',
+		protected  $_jsonMessages = array(
+			JSON_ERROR_NONE	  => 'No error',
+			JSON_ERROR_DEPTH	 => 'The maximum stack depth has been exceeded',
+			JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+			JSON_ERROR_SYNTAX	=> 'Syntax error',
 		);
 
 		/**
@@ -44,7 +44,9 @@
 		public function setup($Model, $config = null) {
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
-			} else {
+			}
+
+			else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
 		}
@@ -89,7 +91,7 @@
 				return $tables;
 			}
 
-			$tables      = $this->db->query('SHOW TABLES;');
+			$tables	  = $this->db->query('SHOW TABLES;');
 			$databseName = $this->db->config['database'];
 
 			unset($this->db);
@@ -119,7 +121,7 @@
 			$tableNames = $this->getTables($Model, $connection);
 			$return = array();
 
-			$this->db    = ConnectionManager::getDataSource($connection);
+			$this->db	= ConnectionManager::getDataSource($connection);
 
 			foreach($tableNames as $table ){
 				$fields = $this->db->query('DESCRIBE '.$table);
@@ -128,7 +130,7 @@
 				if (in_array($field, $fields)) {
 					$_table = explode('_', $table, 2);
 
-					$plugin = ucfirst(count($_table) == 2 ? $_table[0] : '');
+					$plugin = ucfirst((count($_table) == 2) ? $_table[0] : '');
 					$plugin = ($plugin == 'Core') ? 'Management' : $plugin;
 
 					$return[] = array(
@@ -270,7 +272,7 @@
 
 			if (!$json) {
 				if (function_exists('json_last_error')) {
-					$Model->__jsonErrors[] = $this->_json_messages[json_last_error()];
+					$Model->__jsonErrors[] = $this->_jsonMessages[json_last_error()];
 				}
 				else{
 					$Model->__jsonErrors[] = 'Json seems invalid';

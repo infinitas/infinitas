@@ -20,9 +20,9 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-    echo $this->Form->create($model, array('url' => '/'.$this->params['url']['url']));
+	echo $this->Form->create($model, array('url' => '/'.$this->params['url']['url']));
 
-    $massActions = $this->Infinitas->massActionButtons(
+	$massActions = $this->Infinitas->massActionButtons(
 		array(
 			'move'
 		)
@@ -31,13 +31,13 @@
 	echo $this->Infinitas->adminIndexHead(null, $massActions);
 ?>
 <div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
-        	$ignore = array(
-        		'Locker'
-        	);
+	<table class="listing" cellpadding="0" cellspacing="0">
+		<?php
+			$ignore = array(
+				'Locker'
+			);
 
-        	$belongs = $habtm = array();
+			$belongs = $habtm = array();
 			foreach($relations['belongsTo'] as $alias => $belongsTo){
 				if(in_array($alias, $ignore)){
 					continue;
@@ -52,42 +52,42 @@
 				$habtm[] = __(prettyName(Inflector::pluralize($alias)), true);
 			}
 
-            echo $this->Infinitas->adminTableHeader(
-                array_merge(
-                	array(
-                    	'' => array(
-                        	'class' => 'first',
-                        	'style' => 'width:25px;'
-	                    ),
-	                    __('Record', true) => array(
-	                        'style' => 'width:150px;'
-	                    )
-	                ),
-	                $belongs,
-	                $habtm
-            	)
-            );
+			echo $this->Infinitas->adminTableHeader(
+				array_merge(
+					array(
+						'' => array(
+							'class' => 'first',
+							'style' => 'width:25px;'
+						),
+						__('Record', true) => array(
+							'style' => 'width:150px;'
+						)
+					),
+					$belongs,
+					$habtm
+				)
+			);
 
-            $i = 0;
-            foreach($rows as $row){
-                ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($model.'.'.$row[$model][$modelSetup['primaryKey']]); ?>&nbsp;</td>
-                        <td>
-                            <?php echo $row[$model][$modelSetup['displayField']]; ?>
-                        </td>
-		                <?php
-				            foreach($relations['belongsTo'] as $alias => $belongsTo){
-					            if(in_array($alias, $ignore)){
+			$i = 0;
+			foreach($rows as $row){
+				?>
+					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+						<td><?php echo $this->Form->checkbox($model.'.'.$row[$model][$modelSetup['primaryKey']]); ?>&nbsp;</td>
+						<td>
+							<?php echo $row[$model][$modelSetup['displayField']]; ?>
+						</td>
+						<?php
+							foreach($relations['belongsTo'] as $alias => $belongsTo){
+								if(in_array($alias, $ignore)){
 									continue;
 								}
 
-				            	if(isset(${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]])){
-				            		echo '<td>'.${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]].'</td>';
-				            	}
-				            	else{
-				            		echo '<td>'.__('Not set', true).'</td>';
-				            	}
+								if(isset(${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]])){
+									echo '<td>'.${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]].'</td>';
+								}
+								else{
+									echo '<td>'.__('Not set', true).'</td>';
+								}
 							}
 
 							foreach($relations['hasAndBelongsToMany'] as $alias => $hasAndBelongsToMany){
@@ -96,33 +96,33 @@
 
 							$i++;
 						?>
-                	</tr>
-               	<?php
-            }
+					</tr>
+			   	<?php
+			}
 		?>
-    </table>
+	</table>
 </div>
 <?php
-    echo $this->Form->hidden('Move.model', array('value' => $model));
+	echo $this->Form->hidden('Move.model', array('value' => $model));
 	echo $this->Form->hidden('Move.confirmed', array('value' => 1));
 	echo $this->Form->hidden('Move.referer', array('value' => $referer));
 
-    foreach($relations['belongsTo'] as $alias => $belongsTo){
-	    if(in_array($alias, $ignore)){
+	foreach($relations['belongsTo'] as $alias => $belongsTo){
+		if(in_array($alias, $ignore)){
 			continue;
 		}
-    	?><div class="info">
+		?><div class="info">
 			<h3><?php echo __(prettyName($alias), true); ?></h3><?php
 			echo $this->Form->input('Move.'.$belongsTo['foreignKey'], array('label' => false, 'empty' => __(Configure::read('Website.empty_select'), true)));
-        ?></div><?php
-    }
+		?></div><?php
+	}
 
-    foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
-    	?><div class="info">
+	foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
+		?><div class="info">
 			<h3><?php echo __(prettyName(Inflector::pluralize($alias)), true); ?></h3><?php
 			echo $this->Form->input('Move.'.$alias, array('label' => false, 'multiple' => 'multiple', 'options' => ${strtolower($alias)}));
-        ?></div><?php
-    }
+		?></div><?php
+	}
 
-    echo $this->Form->end();
+	echo $this->Form->end();
 ?>

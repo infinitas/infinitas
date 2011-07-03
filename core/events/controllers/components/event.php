@@ -12,7 +12,7 @@
 		 * @param object $controller
 		 *
 		 */
-	    public function initialize($Controller){
+		public function initialize($Controller){
 			$this->Controller = $Controller;
 		}
 

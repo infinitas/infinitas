@@ -18,9 +18,9 @@
 	*/
 
 	class FeedableBehavior extends ModelBehavior {
-		public $_defaults = array();
+		protected $_defaults = array();
 
-		public $_results = null;
+		protected $_results = null;
 
 		public $basicStatement = array(
 			'order' => array(),
@@ -43,9 +43,12 @@
 			$Model->_findMethods = array_merge($Model->_findMethods, array('feed'=>true));
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
-			} else {
+			}
+
+			else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
+			
 			$Model->Behaviors->__methods = array_merge(
 				$Model->Behaviors->__methods,
 				array('_findFeed' => array('_findFeed', 'Feedable'))
