@@ -27,6 +27,8 @@
 		public $actsAs = false;
 
 		public function __construct($id = false, $table = null, $ds = null) {
+			$this->_schema = array();
+
 			parent::__construct($id, $table, $ds);
 
 			$this->validate = array(
@@ -48,11 +50,6 @@
 				),
 			);
 		}
-
-		/**
-		 * Ucky hacks to make the model work without a datasource
-		 */
-		protected $_schema = array();
 
 		public function find() {
 			return true;
