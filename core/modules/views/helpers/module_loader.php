@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	 class ModuleLoaderHelper extends InfinitasHelper{
+	class ModuleLoaderHelper extends InfinitasHelper{
 		/**
 		 * Skip modules.
 		 *
@@ -56,35 +56,34 @@
 			$currentRoute = Configure::read('CORE.current_route');
 
 			$out = '<div class="modules '.$position.'">';
+			foreach($modules as $module){
+				if (
+					($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
+					in_array($module['Module']['module'], $this->moduleIgnoreOverload)
+				) {
+					//skip modules that are not for the current theme
+					continue;
+				}
+				$params = $this->__getModuleParams($module, $admin);
+				if($params === false){
+					continue; // from userland and its not active
+				}
 
-				foreach($modules as $module){
-					if (
-						($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
-						in_array($module['Module']['module'], $this->moduleIgnoreOverload)
-					) {
-						//skip modules that are not for the current theme
-						continue;
-					}
-					$params = $this->__getModuleParams($module, $admin);
-					if($params === false){
-						continue; // from userland and its not active
-					}
+				$moduleOut = $this->loadModule($module['Module']['module'], $params);
 
-					$moduleOut = $this->loadModule($module['Module']['module'], $params);
-
-					if (!empty($module['Route']) && is_object($currentRoute)){
-						foreach($module['Route'] as $route){
-							if ($route['url'] == $currentRoute->template) {
-								$out .= $moduleOut;
-							}
+				if (!empty($module['Route']) && is_object($currentRoute)){
+					foreach($module['Route'] as $route){
+						if ($route['url'] == $currentRoute->template) {
+							$out .= $moduleOut;
 						}
 					}
-
-					else if (empty($module['Route'])) {
-						$out .= $moduleOut;
-					}
-
 				}
+
+				else if (empty($module['Route'])) {
+					$out .= $moduleOut;
+				}
+
+			}
 			$out .= '</div>';
 
 			return $out;
@@ -111,25 +110,26 @@
 			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
 			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
 			$moduleOut = '<div class="module '.str_replace('/', '-', $module).' '.$class.'">';
-				if ($params['title']) {
-					$moduleOut .= '<h2><a id="'.$id.'" href="#">'.__($params['title'],true).'</a></h2>';
-				}
+			if ($params['title']) {
+				$moduleOut .= '<h2><a id="' . $id . '" href="#">'.__($params['title'], true).'</a></h2>';
+			}
 
-				if (!empty($module)) {
-					$path = 'modules/';
+			if (!empty($module)) {
+				$path = 'modules/';
 
-					$this->__getViewClass();
-					$moduleOut .= $this->View->element(
-						$path.$module,
-						$params,
-						true
-					);
+				$this->__getViewClass();
+				$moduleOut .= $this->View->element(
+					$path.$module,
+					$params,
+					true
+				);
 
 
-				}
-				else if ($params['content']) {
-					$moduleOut .= $params['content'];
-				}
+			}
+			
+			else if ($params['content']) {
+				$moduleOut .= $params['content'];
+			}
 			$moduleOut .= '</div>';
 
 			return $moduleOut;
@@ -158,11 +158,14 @@
 				}
 			}
 
+			$title = ($module['Module']['show_heading']) ? $module['Module']['name'] : false;
+			$content = (!empty($module['Module']['content'])) ? $module['Module']['content'] : false;
+
 			return array(
 				'plugin' => $module['Module']['plugin'],
-				'title' => $module['Module']['show_heading'] ? $module['Module']['name'] : false,
+				'title' => $title,
 				'config' => $this->__getModuleConfig($module['Module']),
-				'content' => !empty($module['Module']['content']) ? $module['Module']['content'] : false,
+				'content' => $content,
 				'admin' => $admin
 			);
 		}
@@ -197,16 +200,4 @@
 				$this->View = ClassRegistry::getObject('view');
 			}
 		}
-	}
-	
-	class ModuleTemplates{
-		public $parent = array(
-			'child' => 'child works',
-		);
-
-		public $grandparent = array(
-			'parent' => array(
-				'child' => 'grandchild works',
-			),
-		);
 	}

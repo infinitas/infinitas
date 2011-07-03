@@ -27,14 +27,14 @@
 
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-
+			
 			$this->server = array(
 				'server' => Configure::read('Newsletter.smtp_host'),
 				'username' => Configure::read('Newsletter.smtp_username'),
 				'email' => Configure::read('Newsletter.smtp_username'),
 				'password' => Configure::read('Newsletter.smtp_password'),
 				'ssl' => Configure::read('Newsletter.ssl'),
-				'port' => !empty(Configure::read('Newsletter.port')) ? Configure::read('Newsletter.port') : null,
+				'port' => Configure::read('Newsletter.port'),
 				'type' => Configure::read('Newsletter.type')
 			);
 		}

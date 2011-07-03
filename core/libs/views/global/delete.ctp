@@ -20,13 +20,13 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-    echo $this->Form->create( $model, array('url' => '/' . $this->params['url']['url']) );
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'delete',
-                'cancel'
-            )
-        );
+	echo $this->Form->create( $model, array('url' => '/' . $this->params['url']['url']) );
+		$massActions = $this->Infinitas->massActionButtons(
+			array(
+				'delete',
+				'cancel'
+			)
+		);
 	echo $this->Infinitas->adminIndexHead(null, $massActions);
 ?>
 	<div class="table">

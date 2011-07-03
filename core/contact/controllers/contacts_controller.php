@@ -53,9 +53,11 @@
 				$this->redirect($this->referer());
 			}
 
-			$title_for_layout = sprintf(__('Contact details for %s %s', true), $contact['Contact']['first_name'], $contact['Contact']['last_name']);
-
-			$this->set(compact('contact', 'title_for_layout'));
+			$this->set(
+				'title_for_layout',
+				sprintf(__('Contact details for %s %s', true), $contact['Contact']['first_name'], $contact['Contact']['last_name'])
+			);
+			$this->set(compact('contact'));
 		}
 
 		public function admin_index(){
@@ -77,7 +79,7 @@
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('contacts','filterOptions'));
+			$this->set(compact('contacts', 'filterOptions'));
 		}
 
 		public function admin_add(){

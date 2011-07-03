@@ -54,7 +54,17 @@
 			$branches = ClassRegistry::init('Contact.Branch')->find('list');
 			foreach($branches as $branch){
 				$return[] = array(
-					'url' => Router::url(array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'view', 'slug' => $branch, 'admin' => false, 'prefix' => false), true),
+					'url' => Router::url(
+						array(
+							'plugin' => 'contact',
+							'controller' => 'branches',
+							'action' => 'view',
+							'slug' => $branch,
+							'admin' => false,
+							'prefix' => false
+						),
+						true
+					),
 					'last_modified' => $newest,
 					'change_frequency' => $frequency
 				);

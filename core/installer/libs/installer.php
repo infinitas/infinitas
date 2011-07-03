@@ -77,16 +77,7 @@
 		 * paths that infinitas will need to install its self
 		 * @var <type>
 		 */
-		private $__paths = array(
-			'config/database.php' => array(
-				'type' => 'write',
-				'message' => 'The database configuration (%s) file should be writable during the installation process. It should be set to be read-only once Infinitas has been installed.'
-			),
-			'tmp' => array(
-				'type' => 'write',
-				'message' => 'The temporary directory (%s) should be writable by Infinitas. Caching will not work otherwise and Infinitas will perform very poorly.',
-			)
-		);
+		private $__paths;
 
 		/**
 		 * extentions that are required to run infinitas
@@ -146,15 +137,36 @@
 
 			$date = date('Y');
 			$this->__license['html'] = <<<LICENCE
-<blockquote><h2>MIT License</h2><p>Copyright &copy; 2009 - $date Infinitas</p><p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p><p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p><p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></blockquote>
+<blockquote><h2>MIT License</h2><p>Copyright &copy; 2009 - $date Infinitas</p><p>Permission is hereby granted, free of charge,
+to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p><p>The
+above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p><p>THE
+SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></blockquote>
 LICENCE;
-			$text = explode('</p><p>', str_replace('&copy;', '©', $this->__license['html']));
+			$text = explode('</p><p>', str_replace(array("\n", '&copy;'), array('', '©'), $this->__license['html']));
 			
 			$this->__license['text'] = '';
 			foreach($text as $t){
 				$this->__license['text'] .= wordwrap(strip_tags($t), 75, "\r\n");
 				$this->__license['text'] .= "\r\n";
 			}
+
+			$this->__paths = array(
+				'config/database.php' => array(
+					'type' => 'write',
+					'message' => 'The database configuration (%s) file should be writable during the ' .
+						'installation process. It should be set to be read-only once Infinitas has been installed.'
+				),
+				'tmp' => array(
+					'type' => 'write',
+					'message' => 'The temporary directory (%s) should be writable by Infinitas. Caching ' .
+						' will not work otherwise and Infinitas will perform very poorly.',
+				)
+			);
 		}
 
 		/**
@@ -186,7 +198,7 @@ LICENCE;
 				$type = 'html';
 			}
 
-			return $type == 'text' ? html_entity_decode($this->{$from}[$type]) : $this->{$from}[$type];
+			return ($type == 'text') ? html_entity_decode($this->{$from}[$type]) : $this->{$from}[$type];
 		}
 
 		/**
@@ -200,13 +212,15 @@ LICENCE;
 
 			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
 				if(function_exists($supportedDatabase['function'])) {
-					$this->__supportedDatabases[$cakeType] = sprintf(__('%s (Version %s or newer)', true), $supportedDatabase['name'], $supportedDatabase['version']);;
+					$this->__supportedDatabases[$cakeType] = sprintf(
+						__('%s (Version %s or newer)', true),
+						$supportedDatabase['name'],
+						$supportedDatabase['version']
+					);
 				}
 			}
 
-			return $databaseSupported == true 
-				? !empty($this->__supportedDatabases)
-				: $this->__supportedDatabases;
+			return ($databaseSupported == true) ? !empty($this->__supportedDatabases) : $this->__supportedDatabases;
 		}
 
 		/**
@@ -220,9 +234,7 @@ LICENCE;
 			$install->set($connection);
 			if($install->validates()) {
 				$connectionDetails = $connection;
-				$adminConnectionDetails = !isset($connection['root'])
-					? false
-					: array_merge($connection, $connection['root']);
+				$adminConnectionDetails = (!isset($connection['root'])) ? false : array_merge($connection, $connection['root']);
 
 				if(!@ConnectionManager::create('installer', $connectionDetails)->isConnected()) {
 					return 'dbError';

@@ -36,26 +36,26 @@
 		* Set up some errors for json.
 		* @access public
 		*/
-		public $_json_errors = array(
-		    JSON_ERROR_NONE      => 'No error',
-		    JSON_ERROR_DEPTH     => 'The maximum stack depth has been exceeded',
-		    JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
-		    JSON_ERROR_SYNTAX    => 'Syntax error',
+		public $jsonErrors = array(
+			JSON_ERROR_NONE	  => 'No error',
+			JSON_ERROR_DEPTH	 => 'The maximum stack depth has been exceeded',
+			JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+			JSON_ERROR_SYNTAX	=> 'Syntax error',
 		);
 
-		var $_menuData = '';
+		protected $_menuData = '';
 
-		var $_menuLevel = 0;
+		protected $_menuLevel = 0;
 
 		public $external = true;
 
-		var $View = null;
+		public $View = null;
 
 		/**
 		 * Set to true when the menu has a current marker to avoid duplicates.
 		 * @var unknown_type
 		 */
-		var $_currentCssDone = false;
+		protected $_currentCssDone = false;
 
 		/**
 		* Create a status icon.
@@ -80,11 +80,11 @@
 					}
 
 					$image = $this->Html->image(
-					    $this->Image->getRelativePath('status', 'active'),
-					    $params + array(
-					        'width' => '16px',
-					        'alt' => __('On', true)
-					    )
+						$this->Image->getRelativePath('status', 'active'),
+						$params + array(
+							'width' => '16px',
+							'alt' => __('On', true)
+						)
 					);
 					break;
 
@@ -96,11 +96,11 @@
 					}
 
 					$image = $this->Html->image(
-					    $this->Image->getRelativePath('status', 'inactive'),
-					    $params + array(
-					        'width' => '16px',
-					        'alt' => __('Off', true)
-					    )
+						$this->Image->getRelativePath('status', 'inactive'),
+						$params + array(
+							'width' => '16px',
+							'alt' => __('Off', true)
+						)
 					);
 					break;
 			}
@@ -123,30 +123,30 @@
 				$this->messages[] = 'This has no featured items.';
 
 				return $this->Html->image(
-				    $this->Image->getRelativePath('status', 'not-featured'),
-				    array(
-				        'alt'   => __('No', true),
-				        'title' => __('Not a featured item', true),
-				        'width' => '16px'
-				    )
+					$this->Image->getRelativePath('status', 'not-featured'),
+					array(
+						'alt'   => __('No', true),
+						'title' => __('Not a featured item', true),
+						'width' => '16px'
+					)
 				);
 			}
 
 			return $this->Html->image(
-			    $this->Image->getRelativePath('status', 'featured'),
-			    array(
-			        'alt'   => __('Yes', true),
-			        'title' => __('Featured Item', true),
-			        'width' => '16px'
-			    )
+				$this->Image->getRelativePath('status', 'featured'),
+				array(
+					'alt'   => __('Yes', true),
+					'title' => __('Featured Item', true),
+					'width' => '16px'
+				)
 			);
 		}
 
 		public function loggedInUserText($counts){
-			$allInIsAre    = ($counts['all'] > 1) ? __('are', true) : __('is', true);
+			$allInIsAre	= ($counts['all'] > 1) ? __('are', true) : __('is', true);
 			$loggedInIsAre = ($counts['loggedIn'] > 1) ? __('are', true) : __('is', true);
 			$guestsIsAre   = ($counts['guests'] > 1) ? __('are', true) : __('is', true);
-			$guests        = ($counts['guests'] > 1) ? __('guests', true) : __('a guest', true);
+			$guests		= ($counts['guests'] > 1) ? __('guests', true) : __('a guest', true);
 
 			return '<p>'.
 				sprintf(

@@ -8,7 +8,13 @@
 				),
 				array(
 					'subject' => 'this is a test email',
-					'body' => "This allows the requestAction call to bypass the usage of Router::url which can increase performance. The url based arrays are the same as the ones that HtmlHelper::link uses with one difference - if you are using named or passed parameters, you must put them in a second array and wrap them with the correct key. This is because requestAction only merges the named args array into the Controller::params member array and does not place the named args in the key 'named'.",
+					'body' => "This allows the requestAction call to bypass the usage of
+	 					Router::url which can increase performance. The url based arrays are the
+	 					same as the ones that HtmlHelper::link uses with one difference - if you
+	 					are using named or passed parameters, you must put them in a second array
+	 					and wrap them with the correct key. This is because requestAction only merges
+	 					the named args array into the Controller::params member array and does
+	 					not place the named args in the key 'named'.",
 					'template' => 'User - Registration'
 				)
 			);
@@ -18,7 +24,8 @@
 
 	class EmailerComponent extends EmailComponent{
 		public $settings = null;
-		public $_default = array();
+		
+		protected $_default = array();
 		/**
 		* Controllers initialize function.
 		*/

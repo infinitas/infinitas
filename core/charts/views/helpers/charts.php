@@ -66,7 +66,7 @@
 		 * @var string
 		 * @access private
 		 */
-		public $__engineName = null;
+		private $__engineName = null;
 
 		/**
 		 * @brief Defaults for the charts
@@ -439,9 +439,7 @@
 				$this->normalize = $this->__originalData['normalize'];
 			}
 
-			$this->data['data'] = !$this->normalize
-				? $data
-				: $this->__normalizeData($data);
+			$this->data['data'] = (!$this->normalize) ? $data : $this->__normalizeData($data);
 
 			unset($data);
 			
@@ -487,10 +485,12 @@
 			// could be nested data sets
 			// get min or 0
 			// get max
+			$increments = ((int)$increments > 0) ? $increments : 6;
+
 			$this->data['scale'] = array(
 				'min' => 0,
 				'max' => 100,
-				'increments' => (int)$increments > 0 ? $increments : 6
+				'increments' => $increments
 			);
 
 			return $this;

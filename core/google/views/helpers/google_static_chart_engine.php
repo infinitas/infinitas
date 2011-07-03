@@ -618,7 +618,15 @@
 			}
 
 			if($value['width'] * $value['height'] > $this->__sizeLimit){
-				trigger_error(sprintf(__('Size of %dpx is greater than maximum allowed size %spx', true), $value['width'] * $value['height'], $this->__sizeLimit), E_USER_ERROR);
+				trigger_error(
+					sprintf(
+						__('Size of %dpx is greater than maximum allowed size %spx', true),
+						$value['width'] * $value['height'],
+						$this->__sizeLimit
+					),
+					E_USER_ERROR
+				);
+
 				return false;
 			}
 
@@ -679,7 +687,14 @@
 			switch($value['order']){
 				case is_array($value['order']):
 					if(count($value['order']) != count($value['labels'])){
-						trigger_error(sprintf(__('Count of orders (%d) does not match count of lables (%d). Using default order ', true), count($value['order']), count($value['labels'])), E_USER_WARNING);
+						trigger_error(
+							sprintf(
+								__('Count of orders (%d) does not match count of lables (%d). Using default order ', true),
+								count($value['order']),
+								count($value['labels'])
+							),
+							E_USER_WARNING
+						);
 						$position[] = 'l';
 						break;
 					}

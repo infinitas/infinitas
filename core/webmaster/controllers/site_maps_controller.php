@@ -24,13 +24,17 @@
 					if(!isset($link['url'])){
 						continue;
 					}
-					
+
+					$time = strtotime(isset($link['last_modified']) ? $link['last_modified'] : Configure::read('Webmaster.last_modified'));
+					$lastModified = date('Y-m-d\Th:mP', $time);
+					$changeFreq = isset($link['change_frequency']) ? $link['change_frequency'] : Configure::read('Webmaster.change_frequency');
+					$priority = isset($link['priority']) ? $link['priority'] : Configure::read('Webmaster.priority');
 					$map['urlset'][] = array(
 						'url' => array(
 							'loc' => $link['url'],
-							'lastmod' => date('Y-m-d\Th:mP', strtotime(isset($link['last_modified']) ? $link['last_modified'] : Configure::read('Webmaster.last_modified'))),
-							'changefreq' => isset($link['change_frequency']) ? $link['change_frequency'] : Configure::read('Webmaster.change_frequency'),
-							'priority' => isset($link['priority']) ? $link['priority'] : Configure::read('Webmaster.priority')
+							'lastmod' => $lastModified,
+							'changefreq' => $changeFreq,
+							'priority' => $priority
 						)
 					);
 				}

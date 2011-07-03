@@ -60,11 +60,11 @@
 					sprintf(
 						"Memory %s %s %s %s %s %s",
 						str_pad('Current:', 15, ' ', STR_PAD_RIGHT),
-						str_pad('Max:',     15, ' ', STR_PAD_RIGHT),
-						str_pad('Ave:',     15, ' ', STR_PAD_RIGHT),
-						str_pad('Load:',    15, ' ', STR_PAD_RIGHT),
-						str_pad('Taken:',   15, ' ', STR_PAD_RIGHT),
-						str_pad('Doing:',   15, ' ', STR_PAD_RIGHT)
+						str_pad('Max:',	15, ' ', STR_PAD_RIGHT),
+						str_pad('Ave:',	15, ' ', STR_PAD_RIGHT),
+						str_pad('Load:', 15, ' ', STR_PAD_RIGHT),
+						str_pad('Taken:', 15, ' ', STR_PAD_RIGHT),
+						str_pad('Doing:', 15, ' ', STR_PAD_RIGHT)
 					)
 				);
 				$this->log("---------------------------------------------------------------------------------------------------------------");
@@ -79,13 +79,13 @@
 			$taken = round(microtime(true) - $this->lastTime, 4);
 			$this->log(
 				sprintf(
-					"       %s %s %s %s %s %s",
+					"	   %s %s %s %s %s %s",
 					str_pad($memoryUsage['current'], 15, ' ', STR_PAD_RIGHT),
-					str_pad($memoryUsage['max'],     15, ' ', STR_PAD_RIGHT),
-					str_pad($average,                15, ' ', STR_PAD_RIGHT),
-					str_pad($load,                   15, ' ', STR_PAD_RIGHT),
-					str_pad($taken,                  15, ' ', STR_PAD_RIGHT),
-					str_pad($doing,                  15, ' ', STR_PAD_RIGHT)
+					str_pad($memoryUsage['max'], 15, ' ', STR_PAD_RIGHT),
+					str_pad($average, 15, ' ', STR_PAD_RIGHT),
+					str_pad($load, 15, ' ', STR_PAD_RIGHT),
+					str_pad($taken, 15, ' ', STR_PAD_RIGHT),
+					str_pad($doing, 15, ' ', STR_PAD_RIGHT)
 				)
 			);
 
@@ -149,12 +149,12 @@
 
 			$this->log(sprintf('Total time taken :: %s sec', $this->elapsedTime()));
 
-			$this->log(sprintf('Load max         :: %s', max($this->_loadLog)));
-			$this->log(sprintf('Load average     :: %s', $this->averageLoad()));
+			$this->log(sprintf('Load max		 :: %s', max($this->_loadLog)));
+			$this->log(sprintf('Load average	 :: %s', $this->averageLoad()));
 
-			$this->log(sprintf('Memory max       :: %s', $memoryUsage['max']));
+			$this->log(sprintf('Memory max	   :: %s', $memoryUsage['max']));
 			$this->log(sprintf('Memory current   :: %s', $memoryUsage['current']));
 			$this->log(sprintf('Memory average   :: %s mb', $this->averageMemoryUsage()));
-			$this->log(sprintf('Memory used      :: %s mb', $totalMemoryUsed));
+			$this->log(sprintf('Memory used	  :: %s mb', $totalMemoryUsed));
 		}
 	}

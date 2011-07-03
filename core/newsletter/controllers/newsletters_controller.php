@@ -199,7 +199,7 @@
 				'reply_to'
 			);
 
-			$this->set(compact('newsletters','filterOptions'));
+			$this->set(compact('newsletters', 'filterOptions'));
 		}
 
 		public function admin_add(){

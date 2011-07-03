@@ -45,7 +45,7 @@
 				'name'
 			);
 
-			$this->set(compact('templates','filterOptions'));
+			$this->set(compact('templates', 'filterOptions'));
 		}
 
 		public function admin_view($id = null) {
@@ -84,14 +84,13 @@
 
 			$File = new File($path . DS . 'template.xml', true, 0777);
 
-			$image_files = array();
-
+			$imageFiles = array();
 			if (!empty($images[1])) {
 				foreach($images[1] as $img) {
 					$img = str_replace('/', $slash, $img);
 					$img = str_replace('\\', $slash . $slash, $img);
 
-					$image_files[] = $img;
+					$imageFiles[] = $img;
 
 					if (is_file(APP . 'webroot' . $img)) {
 						$Folder->create(dirname($path . $img), 0777);
@@ -109,15 +108,13 @@
 			$xml['template']['author'] = $template['Template']['author'];
 			$xml['data']['header'] = $template['Template']['header'];
 			$xml['data']['footer'] = $template['Template']['footer'];
-			$xml['files']['images'] = $image_files;
+			$xml['files']['images'] = $imageFiles;
 
 			App::Import('Helper', 'Xml');
 			$Xml = new XmlHelper();
-
-			$xml_string = $Xml->serialize($xml);
-
+			
 			$File->path = $path . DS . 'template.xml';
-			$File->write($xml_string);
+			$File->write($Xml->serialize($xml));
 
 			App::import('Vendor', 'Zip', array('file' => 'zip.php'));
 

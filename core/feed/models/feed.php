@@ -10,15 +10,16 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 *
 	 * @filesource
-	 * @copyright     Copyright (c) 2009 {yourName}
-	 * @link          http://infinitas-cms.org
-	 * @package       Management
-	 * @subpackage    Management.models.Feed
-	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @copyright	 Copyright (c) 2009 {yourName}
+	 * @link		  http://infinitas-cms.org
+	 * @package	   Management
+	 * @subpackage	Management.models.Feed
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
 	class Feed extends FeedAppModel {
 		public $name = 'Feed';
+		
 		public $actsAs = array(
 			// 'Libs.Commentable',
 			// 'Libs.Rateable
@@ -45,20 +46,20 @@
 
 		public $hasAndBelongsToMany = array(
 			'FeedsFeed' => array(
-				'className'              => 'Feed.FeedsFeed',
-				'joinTable'              => 'global_feeds_feeds',
-				'with'                   => 'Feed.FeedsFeed',
-				'foreignKey'             => 'main_feed_id',
+				'className'			  => 'Feed.FeedsFeed',
+				'joinTable'			  => 'global_feeds_feeds',
+				'with'				   => 'Feed.FeedsFeed',
+				'foreignKey'			 => 'main_feed_id',
 				'associationForeignKey'  => 'sub_feed_id',
-				'unique'                 => true,
-				'conditions'             => '',
-				'fields'                 => '',
-				'order'                  => '',
-				'limit'                  => '',
-				'offset'                 => '',
-				'finderQuery'            => '',
-				'deleteQuery'            => '',
-				'insertQuery'            => ''
+				'unique'				 => true,
+				'conditions'			 => '',
+				'fields'				 => '',
+				'order'				  => '',
+				'limit'				  => '',
+				'offset'				 => '',
+				'finderQuery'			=> '',
+				'deleteQuery'			=> '',
+				'insertQuery'			=> ''
 			)
 		);
 
@@ -123,7 +124,7 @@
 			return $return;
 		}
 
-		public function getFeed($slug = null, $group_id = 999){
+		public function getFeed($slug = null, $grouId = 999){
 			if(!$slug){
 				return array();
 			}
@@ -133,7 +134,7 @@
 				array(
 					'conditions' => array(
 						'Feed.active' => 1,
-						//'Feed.group_id > ' => $group_id,
+						//'Feed.group_id > ' => $grouId,
 						'Feed.slug' => $slug
 					)
 				)
@@ -182,11 +183,11 @@
 				return array();
 			}
 
-			$query['fields']     = $feed['Feed']['fields'];
+			$query['fields']	 = $feed['Feed']['fields'];
 			//$query['conditions'] = $feed['Feed']['conditions'];
-			//$query['order']      = $feed['Feed']['order'];
-			$query['limit']      = $feed['Feed']['limit'];
-			$query['setup']      = array(
+			//$query['order']	  = $feed['Feed']['order'];
+			$query['limit']	  = $feed['Feed']['limit'];
+			$query['setup']	  = array(
 				'plugin' => $feed['Feed']['plugin'],
 				'controller' => $feed['Feed']['controller'],
 				'action' => $feed['Feed']['action']
@@ -201,9 +202,9 @@
 						'controller' => $item['controller'],
 						'action' => $item['action']
 					),
-					'fields'     => $item['fields'],
+					'fields'	 => $item['fields'],
 					//'conditions' => $item['conditions'],
-					//'limit'      => $item['limit']
+					//'limit'	  => $item['limit']
 				);
 			}
 

@@ -21,9 +21,9 @@
 	 */
 
 	class IpAddress extends ManagementAppModel{
-		var $name = 'IpAddress';
+		public $name = 'IpAddress';
 
-		var $displayField = 'ip_address';
+		public $displayField = 'ip_address';
 
 		/**
 		 * Get the blocked ip addresses / ranges.
@@ -33,13 +33,13 @@
 		 *
 		 * @return array of blocked ip addresses and blocked ranges.
 		 */
-		function getBlockedIpAddresses(){
-			$ip_addresses = Cache::read('blocked_ips', 'core');
-			if ($ip_addresses) {
-				return $ip_addresses;
+		public function getBlockedIpAddresses(){
+			$ipAddresses = Cache::read('blocked_ips', 'core');
+			if ($ipAddresses) {
+				return $ipAddresses;
 			}
 
-			$ip_addresses = $this->find(
+			$ipAddresses = $this->find(
 				'list',
 				array(
 					'conditions' => array(
@@ -48,9 +48,9 @@
 				)
 			);
 
-			Cache::write('blocked_ips', $ip_addresses, 'core');
+			Cache::write('blocked_ips', $ipAddresses, 'core');
 
-			return $ip_addresses;
+			return $ipAddresses;
 		}
 
 		/**
@@ -73,7 +73,7 @@
 		 *
 		 * @return int the risk of the failed login.
 		 */
-		function findSimmilarAttempts($ipAddress = null, $username = ''){
+		public function findSimmilarAttempts($ipAddress = null, $username = ''){
 			if (!$ipAddress) {
 				exit;
 			}
@@ -161,7 +161,7 @@
 		 *
 		 * @return bool true on succes. or exit
 		 */
-		function blockIp($ipAddress = null, $data = null, $risk = 0){
+		public function blockIp($ipAddress = null, $data = null, $risk = 0){
 			if (!$ipAddress) {
 				exit;
 			}
@@ -192,6 +192,7 @@
 				case 'low':
 					$time = $save['IpAddress']['times_blocked'] * 5;
 					break;
+				
 				case 'medium':
 					$time = $save['IpAddress']['times_blocked'] * 10;
 					break;
@@ -207,6 +208,7 @@
 			if ($this->save($save)) {
 				return true;
 			}
+			
 			exit;
 		}
 	}

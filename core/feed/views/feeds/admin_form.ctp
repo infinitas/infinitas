@@ -10,11 +10,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 *
 	 * @filesource
-	 * @copyright     Copyright (c) 2009 {yourName}
-	 * @link          http://infinitas-cms.org
-	 * @package       Feed
-	 * @subpackage    Feed.views.feeds.index
-	 * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @copyright	 Copyright (c) 2009 {yourName}
+	 * @link		  http://infinitas-cms.org
+	 * @package	   Feed
+	 * @subpackage	Feed.views.feeds.index
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
 	echo $this->Form->create('Feed');

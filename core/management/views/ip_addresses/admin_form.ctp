@@ -1,33 +1,33 @@
 <?php
-    /**
-     * Management Modules admin edit post.
-     *
-     * this page is for admin to manage the menu items on the site
-     *
-     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     *
-     * Licensed under The MIT License
-     * Redistributions of files must retain the above copyright notice.
-     *
-     * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       management
-     * @subpackage    management.views.menuItems.admin_add
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     */
+	/**
+	 * Management Modules admin edit post.
+	 *
+	 * this page is for admin to manage the menu items on the site
+	 *
+	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 *
+	 * Licensed under The MIT License
+	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 * @filesource
+	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link		  http://infinitas-cms.org
+	 * @package	   management
+	 * @subpackage	management.views.menuItems.admin_add
+	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
+	 */
 
 
 	echo $this->Form->create('IpAddress');
-        echo $this->Infinitas->adminEditHead();
-	        ?>
+		echo $this->Infinitas->adminEditHead();
+			?>
 				<div class="data">
 					<?php
 						echo $this->Form->input('id');
 						echo $this->Form->input('ip_address', array('style' => 'width:99%; clear:both;'));
 						echo $this->Form->input('active');
 						echo $this->Infinitas->wysiwyg('IpAddress.description');
-				    ?>
+					?>
 				</div>
 				<div class="config">
 					<p>
@@ -41,5 +41,5 @@
 					</p>
 				</div>
 			<?php
-    echo $this->Form->end();
+	echo $this->Form->end();
 ?>

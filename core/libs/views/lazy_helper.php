@@ -24,7 +24,7 @@
 		/**
 		 * lazy Helpers
 		 */
-		protected $lazyHelpers = array();
+		protected $_lazyHelpers = array();
 
 		private $__helperMap = array();
 		
@@ -73,7 +73,7 @@
 			if (empty($this->_helpers) or !$cache) {
 				$this->_helpers = App::objects('helper');
 			}
-			$this->_helpers = array_merge($this->helpers, $this->_helpers, $this->lazyHelpers);
+			$this->_helpers = array_merge($this->helpers, $this->_helpers, $this->_lazyHelpers);
 
 			$this->__mapHelpers($this->_helpers);
 			
@@ -195,25 +195,25 @@
 					continue;
 				}
 				if(strstr($plugin, '.')){
-					$this->lazyHelpers[$plugin] = $helpers;
+					$this->_lazyHelpers[$plugin] = $helpers;
 					continue;
 				}
 				foreach($helpers as $helper => $config){
 					if(is_string($config) && is_int($helper)){
 						// be lazy
-						$this->lazyHelpers[] = $config;
+						$this->_lazyHelpers[] = $config;
 					}
 					// need to load
 					else if($config === true || (is_array($config) && !empty($config))){
 						$this->helpers[$helper] = $config;
 					}
 					else{
-						$this->lazyHelpers[$helper] = $config;
+						$this->_lazyHelpers[$helper] = $config;
 					}
 				}
 			}
 
-			return !empty($this->lazyHelpers);
+			return !empty($this->_lazyHelpers);
 		}
 
 		private function __mapHelpers($helpers){

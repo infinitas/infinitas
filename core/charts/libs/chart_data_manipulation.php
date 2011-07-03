@@ -177,9 +177,7 @@
 			$count = count($values);
 			$mid = intval($count / 2);
 			
-			return $count % 2 == 0
-				? ($values[$mid] + $values[$mid - 1]) / 2
-				: $values[$mid];
+			return ($count % 2 == 0) ? ($values[$mid] + $values[$mid - 1]) / 2 : $values[$mid];
 		}
 
 		/**

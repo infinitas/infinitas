@@ -2,7 +2,7 @@
 	/**
 	 * CategoriesController for the management and display of categories and
 	 * related data.
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
@@ -59,7 +59,7 @@
 					)
 				);
 			}
-			
+
 			else if(empty($category)){
 				$this->Session->setFlash(__('Invalid category', true));
 				$this->redirect($this->referer());
@@ -79,7 +79,8 @@
 				'group_id' => array(null => __('Public', true)) + $this->Category->Group->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
 			);
-			$this->set(compact('filterOptions','categories'));
+
+			$this->set(compact('filterOptions', 'categories'));
 		}
 
 		public function admin_view($id = null) {

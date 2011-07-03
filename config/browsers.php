@@ -1,5 +1,5 @@
 <?php
-    $config['Browsers'] = array (
+	$config['Browsers'] = array (
 		// Common web browsers text (IE and Netscape must not be in this list)
 		'icab' 			=> 'iCab',
 		'go!zilla' 		=> 'Go!Zilla',

@@ -58,7 +58,7 @@
 				'name'
 			);
 
-			$this->set(compact('branches','filterOptions'));
+			$this->set(compact('branches', 'filterOptions'));
 		}
 
 		public function view(){
@@ -95,9 +95,8 @@
 				$this->redirect($this->referer());
 			}
 
-			$title_for_layout = sprintf(__('Contact us at %s', true), $branch['Branch']['name']);
-
-			$this->set(compact('branch', 'title_for_layout'));
+			$this->set('title_for_layout', sprintf(__('Contact us at %s', true), $branch['Branch']['name']));
+			$this->set(compact('branch'));
 		}
 
 		public function admin_index(){
@@ -112,7 +111,7 @@
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('branches','filterOptions'));
+			$this->set(compact('branches', 'filterOptions'));
 		}
 
 		public function admin_add(){

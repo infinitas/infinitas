@@ -152,22 +152,48 @@
 			$p = $stat['mode'];
 			$t = decoct($stat['mode'] &0170000);
 
-			$str = (array_key_exists(octdec($t), $ts))?$ts[octdec($t)] {
-				0}
-			:'u';
-			$str .= (($p&0x0100)?'r':'-') . (($p&0x0080)?'w':'-');
-			$str .= (($p&0x0040)?(($p&0x0800)?'s':'x'):(($p&0x0800)?'S':'-'));
-			$str .= (($p&0x0020)?'r':'-') . (($p&0x0010)?'w':'-');
-			$str .= (($p&0x0008)?(($p&0x0400)?'s':'x'):(($p&0x0400)?'S':'-'));
-			$str .= (($p&0x0004)?'r':'-') . (($p&0x0002)?'w':'-');
-			$str .= (($p&0x0001)?(($p&0x0200)?'t':'x'):(($p&0x0200)?'T':'-'));
+			$str = (array_key_exists(octdec($t), $ts)) ? $ts[octdec($t)]{0} : 'u';
+			$str .= ($p&0x0100) ? 'r' : '-';
+			$str .= ($p&0x0080) ? 'w' : '-';
+
+			if($p&0x0040){
+				$str .= ($p&0x0800) ? 's' : 'x';
+			}
+			
+			else{
+				$str .= ($p&0x0800) ? 'S' : '-';
+			}
+
+			$str .= ($p&0x0020) ? 'r' : '-';
+			$str .= ($p&0x0010) ? 'w' : '-';
+
+			if($p&0x0008){
+				$str .= ($p&0x0400) ? 's' : 'x';
+			}
+			
+			else{
+				$str .= ($p&0x0400) ? 'S' : '-';
+			}
+
+			$str .= ($p&0x0004) ? 'r' : '-';
+			$str .= ($p&0x0002) ? 'w' : '-';
+
+			if($p&0x0001){
+				$str .= ($p&0x0200) ? 't' : 'x';
+			}
+
+			else{
+				$str .= ($p&0x0200) ? 'T' : '-';
+			}
 
 			$this->return[$currentI]['Folder']['permission'] = $str;
 			$this->return[$currentI]['Folder']['octal'] = sprintf("0%o", 0777 &$p);
 			$this->return[$currentI]['Folder']['owner'] = $stat['uid'];
 			$this->return[$currentI]['Folder']['group'] = $stat['gid'];
-			$this->return[$currentI]['Folder']['owner_name'] = (function_exists('posix_getpwuid')) ? posix_getpwuid($this->return[$currentI]['Folder']['owner']) : '';
-			$this->return[$currentI]['Folder']['group_name'] = (function_exists('posix_getgrgid')) ? posix_getgrgid($this->return[$currentI]['Folder']['group']) : '';
+			$this->return[$currentI]['Folder']['owner_name'] =
+				(function_exists('posix_getpwuid')) ? posix_getpwuid($this->return[$currentI]['Folder']['owner']) : '';
+			$this->return[$currentI]['Folder']['group_name'] =
+				(function_exists('posix_getgrgid')) ? posix_getgrgid($this->return[$currentI]['Folder']['group']) : '';
 		}
 
 		private function __simpleFolderFind($conditions) {

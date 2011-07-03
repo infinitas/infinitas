@@ -1,4 +1,4 @@
 <?php
-class ModulesRoute extends ModulesAppModel{
-	
-}
+	class ModulesRoute extends ModulesAppModel{
+
+	}

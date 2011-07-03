@@ -68,6 +68,6 @@
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
-			$this->set(compact('addresses','filterOptions'));
+			$this->set(compact('addresses', 'filterOptions'));
 		}
 	}

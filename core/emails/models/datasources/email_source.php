@@ -102,7 +102,7 @@
 					break;
 
 				case 'all':
-					$query['limit'] = $query['limit'] >= 1 ? $query['limit'] : 20;
+					$query['limit'] = ($query['limit'] >= 1) ? $query['limit'] : 20;
 					return $this->__getMails($Model, $query);
 					break;
 
@@ -223,12 +223,12 @@
 		/**
 		 * get the basic details like sender and reciver with flags like attatchments etc
 		 *
-		 * @param int $message_id the id of the message
+		 * @param int $messageId the id of the message
 		 * @return array empty on error/nothing or array of formatted details
 		 */
-		private function __getFormattedMail($Model, $message_id) {
+		private function __getFormattedMail($Model, $messageId) {
 			$return = array();			
-			$message = $this->Server->getMail($message_id);
+			$message = $this->Server->getMail($messageId);
 
 			if(!$message){
 				return false;
@@ -264,8 +264,8 @@
 			// @todo sort out attaachments
 
 			App::import('Lib', 'Emails.AttachmentDownloader');
-			$this->AttachmentDownloader = new AttachmentDownloader($message_id);
-			$return['Attachment'] = $this->_getAttachments($structure, $message_id);
+			$this->AttachmentDownloader = new AttachmentDownloader($messageId);
+			$return['Attachment'] = $this->_getAttachments($structure, $messageId);
 
 			return $return;
 		}
@@ -274,16 +274,16 @@
 		 * Get any attachments for the current message, images, documents etc
 		 * 
 		 * @param <type> $structure
-		 * @param <type> $message_id
+		 * @param <type> $messageId
 		 * @return <type>
 		 */
-		protected function _getAttachments($structure, $message_id){
+		protected function _getAttachments($structure, $messageId){
 			$attachments = array();
 			if(isset($structure->parts) && count($structure->parts)) {
 				for($i = 0; $i < count($structure->parts); $i++) {
 
 					$attachment = array(
-						'message_id' => $message_id,
+						'message_id' => $messageId,
 						'is_attachment' => false,
 						'filename' => '',
 						'mime_type' => '',
@@ -318,7 +318,7 @@
 							continue;
 						}
 						
-						$attachment['attachment'] = imap_fetchbody($this->MailServer, $message_id, $i+1);
+						$attachment['attachment'] = imap_fetchbody($this->MailServer, $messageId, $i+1);
 						if($structure->parts[$i]->encoding == 3) { // 3 = BASE64
 							$attachment['format'] = 'base64';
 						}
@@ -382,17 +382,17 @@
 		 *
 		 * @return mixed, int for check (number of attachements) / array of attachements
 		 */
-		protected function _attachement($message_id, $structure, $count = true) {
+		protected function _attachement($messageId, $structure, $count = true) {
 			$has = 0;
 			$attachments = array();
 			if (isset($structure->parts)) {
 				foreach ($structure->parts as $partOfPart) {
 					if ($count) {
-						$has += $this->_attachement($message_id, $partOfPart, $count) == true ? 1 : 0;
+						$has += ($this->_attachement($messageId, $partOfPart, $count) == true) ? 1 : 0;
 					}
 
 					else {
-						$attachment = $this->_attachement($message_id, $partOfPart, $count);
+						$attachment = $this->_attachement($messageId, $partOfPart, $count);
 						if(!empty($attachment)){
 							$attachments[] = $attachment;
 						}
@@ -436,19 +436,15 @@
 		protected function _figurePagination($query) {
 			$count = $this->_mailCount($query); // total mails
 			$pages = ceil($count / $query['limit']); // total pages
-			$query['page'] = $query['page'] <= $pages ? $query['page'] : $pages; // dont let the page be more than available pages
+			$query['page'] = ($query['page'] <= $pages) ? $query['page'] : $pages; // dont let the page be more than available pages
 
-			$return = array(
-				'start' => $query['page'] == 1
-					? $count	// start at the end
-					: ($pages - $query['page'] + 1) * $query['limit'], // start at the end - x pages
-			);
+			if($query['page'] != 1){
+				$count = ($pages - $query['page'] + 1) * $query['limit']; // start at the end - x pages
+			}
+			$return = array('start' =>  $count);
 
-			$return['end'] = $query['limit'] >= $count
-				? 0
-				: $return['start'] - $query['limit'];
-
-			$return['end'] = $return['end'] >= 0 ? $return['end'] : 0;
+			$return['end'] = ($query['limit'] >= $count) ? 0 : $return['start'] - $query['limit'];
+			$return['end'] = ($return['end'] >= 0) ? $return['end'] : 0;
 
 			if (isset($query['order']['date']) && $query['order']['date'] == 'asc') {
 				return array(
@@ -461,34 +457,34 @@
 		}
 
 		protected function _getMimeType($structure) {
-			$primary_mime_type = array('TEXT', 'MULTIPART', 'MESSAGE', 'APPLICATION', 'AUDIO', 'IMAGE', 'VIDEO', 'OTHER');
+			$primaryMimeType = array('TEXT', 'MULTIPART', 'MESSAGE', 'APPLICATION', 'AUDIO', 'IMAGE', 'VIDEO', 'OTHER');
 			if ($structure->subtype) {
-				return $primary_mime_type[(int) $structure->type] . '/' . $structure->subtype;
+				return $primaryMimeType[(int) $structure->type] . '/' . $structure->subtype;
 			}
 			
 			return 'TEXT/PLAIN';
 		}
 
-		protected function _getPart($msg_number, $mime_type, $structure = null, $part_number = false) {
+		protected function _getPart($msgNumber, $mimeType, $structure = null, $partNumber = false) {
 			$prefix = null;
 			if (!$structure) {
 				return false;
 			}
 
-			if ($mime_type == $this->_getMimeType($structure)) {
-				$part_number = $part_number > 0 ? $part_number : 1;
+			if ($mimeType == $this->_getMimeType($structure)) {
+				$partNumber = ($partNumber > 0) ? $partNumber : 1;
 
-				return imap_fetchbody($this->MailServer, $msg_number, $part_number);
+				return imap_fetchbody($this->MailServer, $msgNumber, $partNumber);
 			}
 			
 			/* multipart */
 			if ($structure->type == 1) {
-				foreach($structure->parts as $index => $sub_structure){
-					if ($part_number) {
-						$prefix = $part_number . '.';
+				foreach($structure->parts as $index => $subStructure){
+					if ($partNumber) {
+						$prefix = $partNumber . '.';
 					}
 
-					$data = $this->_getPart($msg_number, $mime_type, $sub_structure, $prefix . ($index + 1));
+					$data = $this->_getPart($msgNumber, $mimeType, $subStructure, $prefix . ($index + 1));
 					if ($data) {
 						return quoted_printable_decode($data);
 					}

@@ -2,14 +2,14 @@
 	class TrashableBehavior extends ModelBehavior {
 		public $Trash = null;
 
-	    public function beforeDelete(&$Model, $cascade = true) {
+		public function beforeDelete($Model, $cascade = true) {
 			if($this->Trash === null) {
 				$this->Trash = ClassRegistry::init('Trash.Trash');
 			}
 
-			$user_id = 0; // shell
+			$userId = 0; // shell
 			if(class_exists('CakeSession')){
-				$user_id = CakeSession::read('Auth.User.id');
+				$userId = CakeSession::read('Auth.User.id');
 			}
 
 			$Model->contain();
@@ -20,7 +20,7 @@
 				'name' => $item[$Model->alias][$Model->displayField],
 				'data' => serialize($Model->data),
 				'deleted' => date('Y-m-d H:i:s'),
-				'deleted_by' => $user_id
+				'deleted_by' => $userId
 			);
 
 			$this->Trash->create();
