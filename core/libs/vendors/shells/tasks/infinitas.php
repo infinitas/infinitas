@@ -10,12 +10,12 @@
 		 */
 		public function h1($title){
 			$this->clear();
-			$this->out("		 _____		__ _	   _ _");
-			$this->out("		|_   _|	  / _(_)	 (_) |");
-			$this->out("		  | |  _ __ | |_ _ _ __  _| |_  __ _ ___");
-			$this->out("		  | | | '_ \|  _| | '_ \| | __|/ _` / __|");
-			$this->out("		 _| |_| | | | | | | | | | | |_| (_| \__ \ ");
-			$this->out("		|_____|_| |_|_| |_|_| |_|_|\__|\__,_|___/ " . Configure::read('Infinitas.version'));
+			$this->out("         _____        __ _       _ _");
+			$this->out("        |_   _|	     / _(_)     (_) |");
+			$this->out("          | |  _ __ | |_ _ _ __  _| |_  __ _ ___");
+			$this->out("          | | | '_ \|  _| | '_ \| | __|/ _` / __|");
+			$this->out("          | |_| | | | | | | | | | | |_| (_| \__ \ ");
+			$this->out("        |_____|_| |_|_| |_|_| |_|_|\__|\__,_|___/ " . Configure::read('Infinitas.version'));
 			$this->h2($title);
 		}
 
@@ -97,6 +97,36 @@
 				$this->br();
 				$this->in('Press a key to continue');
 			}
+		}
+
+		public function color($text, $color){
+			$_colors = array(
+				'light_red' => "[1;31m",
+				'light_green' => "[1;32m",
+				'yellow' => "[1;33m",
+				'light_blue' => "[1;34m",
+				'magenta' => "[1;35m",
+				'light_cyan' => "[1;36m",
+				'white' => "[1;37m",
+				'normal' => "[0m",
+				'black' => "[0;30m",
+				'red' => "[0;31m",
+				'green' => "[0;32m",
+				'brown' => "[0;33m",
+				'blue' => "[0;34m",
+				'cyan' => "[0;36m",
+				'bold' => "[1m",
+				'underscore' => "[4m",
+				'reverse'=> "[7m",
+
+			);
+
+			$out = "[0m";
+			if(isset($_colors[$color])){
+				$out = $_colors[$color];
+			}
+
+			return chr(27). $out . $text . chr(27) . "[0m";
 		}
 
 		/**
