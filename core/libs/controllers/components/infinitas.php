@@ -489,9 +489,11 @@
 		 * @license	 MIT
 		 */
 		private function __paginationRecall(){
+			$paramsUrl = isset($this->Controller->params['url']) ? $this->Controller->params['url'] : array();
+			
 			$options = array_merge(
 				$this->Controller->params,
-				$this->Controller->params['url'],
+				$paramsUrl,
 				$this->Controller->passedArgs
 			);
 
