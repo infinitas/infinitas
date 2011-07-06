@@ -18,7 +18,7 @@ class AddressFixture extends CakeTestFixture {
 		'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
