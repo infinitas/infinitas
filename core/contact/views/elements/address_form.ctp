@@ -1,5 +1,5 @@
-<?php
-	if(!isset($plugin) || !$plugin){
+<?php		
+	if(!isset($plugin) || !$plugin || $plugin == 'contact'){
 		$plugin = $this->plugin;
 	}
 	if(!isset($model) || !$model){
