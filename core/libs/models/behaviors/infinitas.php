@@ -567,4 +567,40 @@
 
 			return $return;
 		}
+
+		/**
+		 * @brief get the root node of a model according to some condition
+		 *
+		 * This method is handy if you use a wrapper for the MPTT data that acts
+		 * as the sole root record.
+		 *
+		 * @access public
+		 *
+		 * @param object $Model the model doing the find
+		 * @param array $conditions any conditions for the find
+		 *
+		 * @return mixed the string/int id of the root record or false on error
+		 */
+		public function getRootNode($Model, $conditions = array()){
+			if(!is_callable(array($Model, 'generatetreelist'))){
+				return false;
+			}
+
+			$data = $Model->generatetreelist($conditions, null, null, '@', -1);
+
+			$roots = array();
+			foreach($data as $id => $name){
+				if(substr($name, 0, 1) != '@'){
+					$roots[] = $id;
+				}
+			}
+
+			unset($data);
+
+			if(count($roots) != 1){
+				return false;
+			}
+
+			return $roots[0];
+		}
 	}
