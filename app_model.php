@@ -381,6 +381,49 @@
 				ConnectionManager::create($key, $connection);
 			}
 		}
+
+		/**
+		 * @brief wrapper for transactions
+		 *
+		 * Allow you to easily call transactions manually if you need to do saving
+		 * of lots of data, or just nested relations etc.
+		 *
+		 * @code
+		 *	// start a transaction
+		 *	$this->transaction();
+		 *
+		 *	// rollback if things are wrong (undo)
+		 *	$this->transaction(false);
+		 *
+		 *	// commit the sql if all is good
+		 *	$this->transaction(true);
+		 * @endcode
+		 * 
+		 * @access public
+		 *
+		 * @param mixed $action what the command should do
+		 *
+		 * @return see the methods for tranasactions in cakephp dbo
+		 */
+		public function transaction($action = null){
+			$this->__dataSource = $this->getDataSource();
+			
+			$return = false;
+
+			if($action === null){
+				$return = $this->__dataSource->begin($this);
+			}
+
+			else if($action === true){
+				$return = $this->__dataSource->commit($this);
+			}
+
+			else if($action === false){
+				$return = $this->__dataSource->rollback($this);
+			}
+
+			return $return;
+		}
 	}
 
 	/**
