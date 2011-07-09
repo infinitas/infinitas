@@ -191,8 +191,12 @@
 		 *
 		 * @param array $ids array of ids.
 		 */
-		public function toggle($ids) {			
-			$conditions = array($this->__modelName . '.id IN (' . implode(',', array_merge(array(0=>0), $ids)) . ')');
+		public function toggle($ids) {
+			if(empty($ids)) {
+				return false;
+			}
+			
+			$conditions = array($this->__modelName . '.id' => $ids);
 			$newValues = array(
 				$this->__modelName . '.active' => '1 - `' . $this->__modelName . '`.`active`'
 			);

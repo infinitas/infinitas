@@ -10,7 +10,9 @@
 
 		private function __loadFile($type = 'country'){
 			$type = strtolower((string)$type);
-			App::import('Lib', 'GeoLocation.Geoip/inc.php');
+			if(!class_exists('GeoIP')){
+				App::import('Lib', 'GeoLocation.Geoip/inc.php');
+			}
 					
 			switch($type){
 				case 'country':
