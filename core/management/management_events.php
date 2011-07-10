@@ -53,4 +53,10 @@
 				)
 			);
 		}
+
+		public function onGetRequiredFixtures($event){
+			return array(
+				'Management.Ticket',
+			);
+		}
 	}
