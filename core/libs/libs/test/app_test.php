@@ -526,5 +526,10 @@
 	 * @brief Exception class for AppTest
 	 */
 	class AppTestException extends Exception {
-		
+		public function error(){
+			pr('Error:' . $this->message);
+			pr(sprintf('[%d] %s', $this->line, $this->file));
+
+			pr($this);
+		}
 	}
