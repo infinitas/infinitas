@@ -520,6 +520,14 @@
 			$this->__testObject->data[$method]['ended'] = microtime(true);
 			$this->__testObject->data[$method]['total'] = round($this->__testObject->data[$method]['ended'] - $this->__testObject->data[$method]['started'], 3);
 		}
+
+		public function prettyTestClass(){
+			return Inflector::humanize(Inflector::underscore(str_replace('TestCase', '', get_class($this->__testObject))));
+		}
+
+		public function prettyTestMethod($method){
+			return Inflector::humanize(Inflector::underscore(substr($method, 4)));
+		}
 	}
 
 	/**
