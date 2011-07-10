@@ -129,25 +129,6 @@
 			$this->AppTest->startTest($method);
 			$this->AppTest->loadFixtures(null, true);
 
-			if(!$this->fistTestRun){
-				$this->fistTestRun = true;
-
-				$autoLoaded = $this->AppTest->getAutoloaded();
-				ksort($autoLoaded);
-				if($autoLoaded){
-					$auto = array();
-					foreach($autoLoaded as $plugin => $fixtures){
-						$auto[] = sprintf('<li><span style="width:150px;">%s:</span> %s</li>', Inflector::humanize($plugin), implode(', ', $fixtures));
-					}
-
-					echo sprintf(
-						'<div style="background-color: green; color: #ffffff;">%s<ul>%s</ul></br></div>',
-						'<h3>The following fixtures have been automatically loaded</h3>',
-						implode('', $auto)
-					);
-				}
-			}
-
 			echo '<div style="border: 2px solid #d6ab00; padding: 5px; margin-top:5px; margin-bottom:5px">';
 			
 			list($plugin, $model) = pluginSplit($this->setup[$this->setup['type']]);
@@ -170,8 +151,7 @@
 
 			$this->AppTest->endTest($method);
 			echo sprintf(
-				'<div style="padding: 8px; background-color: green; color: white;">%s :: %s [%s]</div>',
-				$this->AppTest->prettyTestClass(),
+				'<div style="padding: 8px; background-color: green; color: white;">%s <span style="color:#ffdd00;">[%ss]</span></div>',
 				$this->AppTest->prettyTestMethod($method),
 				$this->data[$method]['total']
 			);
@@ -180,8 +160,14 @@
 			if($this->stop === true){
 				debug('Skipping further tests', false, false);
 
-				$this->endTest();
+				$this->AppTest->endTest();
 				exit;
+			}
+		}
+
+		public function startCase() {
+			if(is_subclass_of($this, 'AppModelTestCase')) {
+				$this->AppTest->startCase();
 			}
 		}
 
@@ -198,12 +184,6 @@
 		public function endCase(){
 			if(is_subclass_of($this, 'AppModelTestCase')) {
 				$this->AppTest->endCase();
-
-				$total = 0;
-				foreach($this->data as $data){
-					$total += $data['total'];
-				}
-				echo sprintf('<div style="padding: 8px; margin: 1em 0; background-color: green; color: white;">Total time on tests: [%s]</div>', $total);
 			}
 		}
 

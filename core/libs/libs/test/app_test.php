@@ -483,6 +483,50 @@
 			return $this->__fixtureDbLog;
 		}
 
+		public function startCase(){
+			echo sprintf('<div style="border: 2px solid #003D4C; padding: 5px; margin-top:5px; margin-bottom:5px">', $this->prettyTestClass());
+
+			$autoLoaded = $this->getAutoloaded();
+			if($autoLoaded){
+				ksort($autoLoaded);
+
+				$allFixtures = array_flip($this->__testObject->_fixtureClassMap);
+				
+				$autoEvents = array();
+				foreach($autoLoaded as $plugin => $fixtures){
+					foreach($fixtures as $f){
+						if(isset($allFixtures[$this->__modelNameToFixtureName($f)])){
+							unset($allFixtures[$this->__modelNameToFixtureName($f)]);
+						}
+					}
+					
+					$autoEvents[] = sprintf('<li><span style="width:150px;">%s:</span> %s</li>', Inflector::humanize($plugin), implode(', ', $fixtures));
+				}
+
+				$lazy = array();
+				foreach($allFixtures as $fixture => $model){
+					list($plugin, $model) = pluginSplit(str_replace('plugin.', '', $fixture));
+					$lazy[Inflector::classify($plugin)][] = Inflector::classify($model);
+				}
+
+				$autoLazy = array();
+				foreach($lazy as $plugin => $fixtures){
+					$autoLazy[] = sprintf('<li><span style="width:150px;">%s:</span> %s</li>', Inflector::humanize($plugin), implode(', ', $fixtures));
+				}
+
+				$autoEvents = sprintf('<h3>Event Loaded:</h3><ul>%s</ul>', implode('', $autoEvents));
+				$autoLazy = sprintf('<h3>Lazy Loaded:</h3><ul>%s</ul>', implode('', $autoLazy));
+				
+				echo sprintf(
+					'<div style="background-color: green; color: #ffffff; clear:both; overflow:auto;">'.
+						'<div style="width:49%%; float:left;">%s</div>'.
+						'<div style="width:49%%; float:left;">%s</div></br></div>',
+					$autoEvents,
+					$autoLazy
+				);
+			}
+		}
+
 		/**
 		 * @brief called at the end of a tests, manipulate some sql queries
 		 *
@@ -509,6 +553,17 @@
 
 			$this->__testObject->db->_queriesLog = array_merge($this->getFixtureInsertsLog(), array_values($this->__testObject->db->_queriesLog));
 			$this->__testObject->db->_queriesLog = array_merge($this->__testObject->db->_queriesLog, $this->getFixtureDbLog());
+
+			$total = 0;
+			foreach($this->__testObject->data as $data){
+				$total += $data['total'];
+			}
+
+			echo sprintf(
+				'<div style="padding: 8px; margin: 1em 0; background-color: green; color: white;">'.
+					'Total time on tests: <span style="color:#ffdd00;">[%ss]</span></div></div>',
+				$total
+			);
 		}
 
 		public function startTest($method){
