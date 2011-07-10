@@ -147,6 +147,8 @@
 					);
 				}
 			}
+
+			echo '<div style="border: 2px solid #d6ab00; padding: 5px; margin-top:5px; margin-bottom:5px">';
 			
 			list($plugin, $model) = pluginSplit($this->setup[$this->setup['type']]);
 			$this->{$model} = ClassRegistry::init($this->setup[$this->setup['type']]);
@@ -167,8 +169,14 @@
 			ClassRegistry::flush();
 
 			$this->AppTest->endTest($method);
-			echo sprintf('<div style="padding: 8px; margin: 1em 0; background-color: green; color: white;">%s: [%s]</div>', Inflector::humanize(Inflector::underscore(substr($method, 4))), $this->data[$method]['total']);
+			echo sprintf(
+				'<div style="padding: 8px; background-color: green; color: white;">%s :: %s [%s]</div>',
+				$this->AppTest->prettyTestClass(),
+				$this->AppTest->prettyTestMethod($method),
+				$this->data[$method]['total']
+			);
 
+			echo '</div>';
 			if($this->stop === true){
 				debug('Skipping further tests', false, false);
 
