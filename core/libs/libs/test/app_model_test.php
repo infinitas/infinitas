@@ -67,7 +67,7 @@
 				}
 
 				catch (AppTestException $e){
-					pr($e);
+					pr($e->error());
 					exit;
 				}
 			}
@@ -133,6 +133,7 @@
 				$this->fistTestRun = true;
 
 				$autoLoaded = $this->AppTest->getAutoloaded();
+				ksort($autoLoaded);
 				if($autoLoaded){
 					$auto = array();
 					foreach($autoLoaded as $plugin => $fixtures){
