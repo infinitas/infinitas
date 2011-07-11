@@ -144,4 +144,29 @@
 
 			return $Model->data[$Model->alias][$fields[0]] === $Model->data[$Model->alias][$fields[1]];
 		}
+
+		/**
+		 * @brief check if a given foreign key exists
+		 *
+		 * This is used in to validate foreign keys while saving or updating
+		 * records
+		 *
+		 * @param array $field contains the field / data to be validated
+		 * @params array $alias optional the alias on the association to test
+		 * @access public
+		 *
+		 * @return bool is it valid?
+		 */
+		public function validateRecordExists($Model, $field){
+			$aliases = array_flip(array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo));
+
+			$alias = $aliases[key($field)];
+	
+			return $Model->{$alias}->find('count', array(
+				'conditions' => array(
+					$alias . '.' . $Model->{$alias}->primaryKey => current($field)
+				),
+				'recursive' => -1
+			)) == 1;
+		}
 	}
