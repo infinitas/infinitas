@@ -454,3 +454,5 @@
 		 */
 		public $tablePrefix = 'core_';
 	}
+	
+	EventCore::trigger(new stdClass(), 'loadAppModel');
