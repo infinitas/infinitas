@@ -82,6 +82,18 @@
 		 * They will be loaded when 'AppController' is included, before it runs.
 		 */
 		public function onLoadAppController(){}
+		
+
+		/**
+		 * Load up some of your own 'AppModels' so that you can create a base
+		 * class for a collection of plugins. Say you have a few plugins that all
+		 * use a specific database you can create 'CustomGlobalAppModel' that
+		 * extends 'AppModel' and then have all the 'PluginAppModels'
+		 * extend your 'CustomGlobalAppModel'
+		 *
+		 * They will be loaded when 'AppModel' is included, before it runs.
+		 */
+		public function onLoadAppModel(){}
 
 		/**
 		 * Add database connections from your plugins with this trigger.
