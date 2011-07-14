@@ -293,6 +293,10 @@
 		 * @return true or blackHole;
 		 */
 		private function __checkBadLogins(){
+			if($this->Controller->Auth->user('id')) {
+				return true;
+			}
+			
 			$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 
 			if (count($old) > 0) {
