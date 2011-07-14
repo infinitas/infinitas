@@ -7,7 +7,7 @@
 	}
 
 	if(!isset($countries) || !$countries){
-		$countries = ClassRegistry::init('Address')->Country->find('list');
+		$countries = ClassRegistry::init('Contact.Address')->Country->find('list');
 	}
 
 	$addressSelect = (isset($addressSelect)) ?(bool)$addressSelect : false;
@@ -16,7 +16,7 @@
 	<h1><?php echo __('Address', true); ?></h1><?php
 	echo $this->Form->hidden('Address.id');
 
-	$options = ClassRegistry::init('Address')->getAddressesByRelated(
+	$options = ClassRegistry::init('Contact.Address')->getAddressesByRelated(
 		array(
 			'Address.plugin' => $plugin,
 			'Address.model' => $model
