@@ -104,17 +104,21 @@
 		/**
 		 * Filter records.
 		 *
+		 * This will auto filter out the InfinitasComponent::massActionCheckBox() fields
+		 *
 		 * Checks the data posted from the form and redirects to the url with the params
 		 * for the filter component to catch.
 		 */
 		public function filter($null = null) {
 			$data = array();
 			foreach( $this->Controller->data[$this->Controller->modelClass] as $k => $field ){
-				if ( is_int( $k ) || $k == 'all' ){
+				if (is_int( $k ) || $k == 'all' || $k == 'massCheckBox'){
 					continue;
 				}
+				
 				$data[$this->Controller->modelClass.'.'.$k] = $field;
 			}
+			
 			$this->Controller->redirect(array(
 					'plugin' => $this->Controller->params['plugin'],
 					'controller' => $this->Controller->params['controller'],
