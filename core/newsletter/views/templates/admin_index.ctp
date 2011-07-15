@@ -58,7 +58,7 @@
             foreach($templates as $template){
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($template['Template']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($template); ?>&nbsp;</td>
                         <td><?php echo $this->Html->link($template['Template']['name'], array('action' => 'edit', $template['Template']['id'])); ?>&nbsp;</td>
                         <td><?php echo $this->Time->niceShort($template['Template']['created']); ?>&nbsp;</td>
                         <td><?php echo $this->Time->niceShort($template['Template']['modified']); ?>&nbsp;</td>

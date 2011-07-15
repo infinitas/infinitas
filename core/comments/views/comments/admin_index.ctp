@@ -56,7 +56,7 @@
 				$rowClass = $this->Infinitas->rowClass();
                 ?>
                     <tr class="<?php echo $rowClass; ?> multi-line">
-                        <td rowspan="2"><?php echo $this->Form->checkbox($comment['Comment']['id']); ?>&nbsp;</td>
+                        <td rowspan="2"><?php echo $this->Infinitas->massActionCheckBox($comment); ?>&nbsp;</td>
                         <td>
 							<?php
 								echo $this->Html->link(

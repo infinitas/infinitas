@@ -52,7 +52,7 @@
 			foreach ($modulePositions as $modulePosition){
 				?>
 					<tr class="<?php echo $this->Core->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($modulePosition['ModulePosition']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($modulePosition); ?>&nbsp;</td>
 						<td>
 							<?php echo $this->Html->link(Inflector::humanize($modulePosition['ModulePosition']['name']), array('action' => 'edit', $modulePosition['ModulePosition']['id'])); ?>&nbsp;
 						</td>

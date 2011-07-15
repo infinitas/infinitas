@@ -65,7 +65,7 @@
             foreach ($menuItems as $menuItem){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($menuItem['MenuItem']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($menuItem); ?>&nbsp;</td>
                 		<td>
                 			<?php
                 				$paths = count($MenuItem->getPath($menuItem['MenuItem']['id']))-1;
