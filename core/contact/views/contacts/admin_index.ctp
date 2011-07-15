@@ -74,7 +74,7 @@
 			foreach ($contacts as $contact){
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($contact['Contact']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($contact); ?>&nbsp;</td>
 						<td>
 							<?php
 								echo $this->Html->image(

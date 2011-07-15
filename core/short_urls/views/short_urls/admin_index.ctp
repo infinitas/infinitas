@@ -50,7 +50,7 @@
             foreach ($shortUrls as $shortUrl){
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($shortUrl['ShortUrl']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($shortUrl); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link($shortUrl['ShortUrl']['url'], array('action' => 'edit', $shortUrl['ShortUrl']['id'])); ?>&nbsp;
                 		</td>

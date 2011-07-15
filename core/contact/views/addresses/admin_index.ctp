@@ -64,7 +64,7 @@
 			foreach ($addresses as $address){
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($address['Address']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($address); ?>&nbsp;</td>
 						<td>
 							<?php echo sprintf('%s.%s', $address['Address']['plugin'], $address['Address']['model']); ?>&nbsp;
 						</td>

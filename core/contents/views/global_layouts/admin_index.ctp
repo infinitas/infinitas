@@ -58,7 +58,7 @@
             foreach ($layouts as $layout){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($layout['GlobalLayout']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($layout); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->adminQuickLink($layout['GlobalLayout']); ?>&nbsp;
                 		</td>
