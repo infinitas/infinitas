@@ -270,12 +270,20 @@
 		 *
 		 * @return array the data from the find
 		 */
-		public function uniqueList($displayField = '', $primaryKey = false){
+		public function uniqueList($displayField = '', $primaryKey = false, $order = null){
 			if(empty($displayField) || !is_string($displayField) || !$this->hasField($displayField)){
-				return false;
+				$displayField = $this->displayField;
 			}
 
-			$primaryKey = ($primaryKey) ? $this->primaryKey : $displayField;
+			if(empty($primaryKey) || !is_string($primaryKey) || !$this->hasField($primaryKey)){
+				$primaryKey = $this->primaryKey;
+			}
+
+			if(empty($order)){
+				$order = array(
+					$this->alias . '.' . $displayField => 'asc'
+				);
+			}
 
 			return $this->find(
 				'list',
@@ -287,9 +295,7 @@
 					'group' => array(
 						$this->alias . '.' . $displayField
 					),
-					'order' => array(
-						$this->alias . '.' . $displayField => 'asc'
-					)
+					'order' => $order
 				)
 			);
 		}
