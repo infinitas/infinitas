@@ -53,6 +53,8 @@
 
 		private $__rowCount = 0;
 
+		private $__massActionCheckBoxCounter = 0;
+
 		/**
 		 * Set to true when the menu has a current marker to avoid duplicates.
 		 * @var unknown_type
@@ -176,7 +178,7 @@
 		public function massActionCheckBox($data = array(), $options = array()){
 			$model = isset($this->params['models'][0]) ? $this->params['models'][0] : null;
 			$options = array_merge(
-				array('model' => $model, 'primaryKey' => ClassRegistry::init($model)->primaryKey),
+				array('model' => $model, 'primaryKey' => ClassRegistry::init($model)->primaryKey, 'hidden' => false, 'checked' => false),
 				$options
 			);
 
@@ -184,11 +186,17 @@
 				return false;
 			}
 
-			return $this->Form->checkbox(
-				$options['model'] . '.' . $this->__massActionCheckBoxCounter++ . '.' . 'massCheckBox',
+			$checkbox = $this->Form->checkbox(
+				$options['model'] . '.' . $this->__massActionCheckBoxCounter . '.' . 'massCheckBox',
 				array(
-					'value' => $data[$options['model']][$options['primaryKey']]
+					'value' => $data[$options['model']][$options['primaryKey']],
+					'hidden' => $options['hidden'],
+					'checked' => $options['checked']
 				)
 			);
+
+			$this->__massActionCheckBoxCounter++;
+
+			return $checkbox;
 		}
 	}

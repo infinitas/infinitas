@@ -56,13 +56,8 @@
 				return null;
 			}
 
-			$ids = array();
-			foreach($data as $id => $selected) {
-				if ((is_int($id) || strlen($id) == 36 || (is_string($id) && $id != 'all')) && $selected) {
-					$ids[] = $id;
-				}
-			}
 
+			$ids = array_filter(Set::extract('/massCheckBox', $data));
 			if (empty($ids)) {
 				$redirect = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
 				
