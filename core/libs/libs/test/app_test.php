@@ -55,7 +55,8 @@
 			'fixtures' => array(
 				'ignore' => array(),
 				'do' => array()
-			)
+			),
+			'mock' => array()
 		);
 
 		/**
@@ -148,7 +149,7 @@
 		 *
 		 * @param string $model the model to test
 		 *
-		 * @return 
+		 * @return
 		 */
 		public function model($model = null){
 			if(!App::import('Model', $model)){
@@ -158,6 +159,25 @@
 
 			$this->__testObject->autoFixtures = false;
 			$this->getFixtures($model, false);
+		}
+
+		/**
+		 * @brief the setup method for model tests
+		 *
+		 * This will load up all the fixtures that are requrired
+		 *
+		 * @param string $model the model to test
+		 *
+		 * @return
+		 */
+		public function controller($controller = null){
+			if(!App::import('Controller', $controller)){
+				throw new AppTestException(sprintf('Unable to load model: %s', $controller));
+				return false;
+			}
+
+			$this->__testObject->autoFixtures = false;
+			$this->getFixtures(Inflector::classify($controller), false);
 		}
 
 		/**

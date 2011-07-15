@@ -2,7 +2,7 @@
 	App::import('lib', 'libs.test/app_test.php');
 
 	/**
-	 * @brief AppModelTestCase is the class that model tests should extend
+	 * @brief AppControllerTestCase is the class that model tests should extend
 	 *
 	 * This class uses AppTest for autoloading fixtures, classes and all dependencies
 	 *
@@ -17,8 +17,8 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	
-	class AppModelTestCase extends CakeTestCase {
+
+	class AppControllerTestCase extends CakeTestCase {
 		/**
 		 * @brief if set to stop, testing will stop before the next testCase starts
 		 *
@@ -47,7 +47,7 @@
 		public function __construct(){
 			parent::__construct();
 
-			if(is_subclass_of($this, 'AppModelTestCase')){
+			if(is_subclass_of($this, 'AppControllerTestCase')){
 				try{
 					$this->AppTest = new AppTest($this);
 				}
@@ -61,7 +61,7 @@
 
 		/**
 		 * @brief call only when its not set
-		 * 
+		 *
 		 * overload the _initDb method and make sure its only called when the db
 		 * object does not exist
 		 *
@@ -76,10 +76,10 @@
 
 			return true;
 		}
-		
+
 		/**
 		 * @brief allow running only some of the tests in the test case
-		 * 
+		 *
 		 * Overrides parent method to allow selecting tests to run in the current test case
 		 * It is useful when working on one particular test
 		 *
@@ -112,13 +112,75 @@
 		 * @return void
 		 */
 		public function startTest($method) {
+			if(!is_subclass_of($this, 'AppControllerTestCase')) {
+				return;
+			}
+			
 			$this->AppTest->startTest($method);
 			$this->AppTest->loadFixtures(null, true);
 
 			echo '<div style="border: 2px solid #d6ab00; padding: 5px; margin-top:5px; margin-bottom:5px">';
-			
-			list($plugin, $model) = pluginSplit($this->setup[$this->setup['type']]);
-			$this->{$model} = ClassRegistry::init($this->setup[$this->setup['type']]);
+
+			$this->mockEntireController($controller . 'Controller');
+
+			list($plugin, $controller) = pluginSplit($this->setup[$this->setup['type']]);
+
+			$testControllerClass = sprintf('TestController%sController', $controller);
+			$this->{$controller} = new $testControllerClass();
+			$this->{$controller}->constructClasses();
+			$this->{$controller}->Component->initialize($this->{$controller});
+			$this->{$controller}->Session->write('Message.flash', array());
+		}
+
+		public function mockEntireController($controller) {
+			$this->__classVarCache = get_class_vars($controller);
+			$this->__classVarCache = array_merge(array('helpers' => array(), 'components' => array(), 'uses' => array()), $this->__classVarCache);
+
+			$this->setup['mock']['helpers'] = isset($this->setup['mock']['helpers']) ? $this->setup['mock']['helpers'] : $this->__classVarCache['helpers'];
+			$this->setup['mock']['components'] = isset($this->setup['mock']['components']) ? $this->setup['mock']['components'] : $this->__classVarCache['components'];
+			$this->setup['mock']['uses'] = isset($this->setup['mock']['uses']) ? $this->setup['mock']['uses'] : $this->__classVarCache['uses'];
+
+			$this->mockHelpers($this->setup['mock']['helpers']);
+			$this->mockComponents($this->setup['mock']['components']);
+			$this->mockUses($this->setup['mock']['uses']);
+		}
+
+		public function mockHelpers($helpers) {
+			foreach($helpers as $helper => $config) {
+				if(is_int($helper)) {
+					$helper = $config;
+				}
+
+				if(isset($this->__mockCache['helpers'][$helper]) || !App::import('Helper', $helper)){
+					continue;
+				}
+
+				$methods = '*';
+				if(isset($this->setup['mock']['helpers'][$helper]) && !empty($this->setup['mock']['helpers'][$helper])){
+					$methods = $this->setup['mock']['helpers'][$helper];
+				}
+
+				$mockClass = 'Mock' . $helper . 'Helper';
+
+				if(class_exists($mockClass)){
+					continue;
+				}
+				
+				$params = array($helper . 'Helper');
+				if($methods !== '*'){
+					$params[] = null;
+					$params[] = $this->setup['mock']['helpers'][$helper];
+				}
+				
+				if(count($params) == 1){
+					forward_static_call_array(array('Mock', 'generate'), $params);
+				}
+				else{
+					forward_static_call_array(array('Mock', 'generatePartial'), $params);
+				}
+
+				$this->__mockCache['helpers'][$helper] = new $mockClass();
+			}
 		}
 
 		/**
@@ -131,8 +193,12 @@
 		 * @return void
 		 */
 		public function endTest($method) {
-			list($plugin, $model) = pluginSplit($this->setup[$this->setup['type']]);
-			unset($this->{$model});
+			if(!is_subclass_of($this, 'AppControllerTestCase')) {
+				return;
+			}
+			
+			list($plugin, $controller) = pluginSplit($this->setup[$this->setup['type']]);
+			unset($this->{$controller});
 			ClassRegistry::flush();
 
 			$this->AppTest->endTest($method);
@@ -152,9 +218,11 @@
 		}
 
 		public function startCase() {
-			if(is_subclass_of($this, 'AppModelTestCase')) {
-				$this->AppTest->startCase();
+			if(!is_subclass_of($this, 'AppControllerTestCase')) {
+				return;
 			}
+
+			$this->AppTest->startCase();
 		}
 
 		/**
@@ -168,9 +236,11 @@
 		 * @return void
 		 */
 		public function endCase(){
-			if(is_subclass_of($this, 'AppModelTestCase')) {
-				$this->AppTest->endCase();
+			if(!is_subclass_of($this, 'AppControllerTestCase')) {
+				return;
 			}
+
+			$this->AppTest->endCase();
 		}
 
 		/**
@@ -188,7 +258,7 @@
 
 		/**
 		 * @brief asset that data is valid
-		 * 
+		 *
 		 * Asserts that data are valid given Model validation rules
 		 * Calls the Model::validate() method and asserts the result
 		 *
@@ -209,7 +279,7 @@
 
 		/**
 		 * @brief assert that data is not valid
-		 * 
+		 *
 		 * Asserts that data are invalid given Model validation rules
 		 * Calls the Model::validate() method and asserts the result
 		 *
@@ -221,7 +291,7 @@
 		 *
 		 * @param Model $Model Model being tested
 		 * @param array $data Data to validate
-		 * 
+		 *
 		 * @return void
 		 */
 		public function assertInvalid(Model $Model, $data) {
@@ -230,7 +300,7 @@
 
 		/**
 		 * @brief check validation errors are correct
-		 * 
+		 *
 		 * Asserts that data are validation errors match an expected value when
 		 * validation given data for the Model
 		 * Calls the Model::validate() method and asserts validationErrors
@@ -263,7 +333,7 @@
 		 * @param Model $Model Model being tested
 		 * @param array $data Profile data
 		 * @param array $validationErrors Validation errors: this variable will be updated with validationErrors (sorted by key) in case of validation fail
-		 * 
+		 *
 		 * @return boolean Return value of Model::validate()
 		 */
 		protected function _validData(Model $Model, $data, &$validationErrors = array()) {
@@ -278,7 +348,7 @@
 			else {
 				$validationErrors = array();
 			}
-			
+
 			return $valid;
 		}
 	}
