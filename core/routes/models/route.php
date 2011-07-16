@@ -142,6 +142,7 @@
 			);
 
 
+			$config = array();
 			foreach( $routes as $array ){
 				$vaules = $regex = array();
 				$routingRules[]['Route'] = array(
