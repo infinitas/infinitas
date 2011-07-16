@@ -52,7 +52,7 @@
 			foreach ($tags as $tag){
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($tag['Tag']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($tag); ?>&nbsp;</td>
 						<td><?php echo $tag['Tag']['identifier']; ?></td>
 						<td><?php echo $tag['Tag']['name']; ?></td>
 						<td><?php echo $tag['Tag']['keyname']; ?></td>

@@ -53,7 +53,7 @@
 			{
 				?>
 					<tr class="<?php echo $this->Core->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($ipAddress['IpAddress']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($ipAddress); ?>&nbsp;</td>
 						<td>
 							<?php
 								echo $this->Html->link(

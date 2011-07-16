@@ -56,13 +56,8 @@
 				return null;
 			}
 
-			$ids = array();
-			foreach($data as $id => $selected) {
-				if ((is_int($id) || strlen($id) == 36 || (is_string($id) && $id != 'all')) && $selected) {
-					$ids[] = $id;
-				}
-			}
 
+			$ids = array_filter(Set::extract('/massCheckBox', $data));
 			if (empty($ids)) {
 				$redirect = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
 				
@@ -104,17 +99,21 @@
 		/**
 		 * Filter records.
 		 *
+		 * This will auto filter out the InfinitasComponent::massActionCheckBox() fields
+		 *
 		 * Checks the data posted from the form and redirects to the url with the params
 		 * for the filter component to catch.
 		 */
 		public function filter($null = null) {
 			$data = array();
 			foreach( $this->Controller->data[$this->Controller->modelClass] as $k => $field ){
-				if ( is_int( $k ) || $k == 'all' ){
+				if (is_int( $k ) || $k == 'all' || $k == 'massCheckBox'){
 					continue;
 				}
+				
 				$data[$this->Controller->modelClass.'.'.$k] = $field;
 			}
+			
 			$this->Controller->redirect(array(
 					'plugin' => $this->Controller->params['plugin'],
 					'controller' => $this->Controller->params['controller'],
@@ -191,8 +190,12 @@
 		 *
 		 * @param array $ids array of ids.
 		 */
-		public function toggle($ids) {			
-			$conditions = array($this->__modelName . '.id IN (' . implode(',', array_merge(array(0=>0), $ids)) . ')');
+		public function toggle($ids) {
+			if(empty($ids)) {
+				return false;
+			}
+			
+			$conditions = array($this->__modelName . '.id' => $ids);
 			$newValues = array(
 				$this->__modelName . '.active' => '1 - `' . $this->__modelName . '`.`active`'
 			);

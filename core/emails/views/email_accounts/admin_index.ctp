@@ -65,7 +65,7 @@
 			foreach($emailAccounts as $emailAccount){
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($emailAccount['EmailAccount']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($emailAccount); ?>&nbsp;</td>
 						<td>
 							<?php
 								echo $this->Html->link(

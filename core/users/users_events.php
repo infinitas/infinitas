@@ -58,4 +58,11 @@
 				'Users.Visitor'
 			);
 		}
+
+		public function onGetRequiredFixtures($event){
+			return array(
+				'Users.User',
+				'Users.Group',
+			);
+		}
 	}

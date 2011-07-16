@@ -45,7 +45,7 @@
             foreach ($locks as $lock){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($lock['Lock']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($lock); ?>&nbsp;</td>
                 		<td>
 							<?php
 								echo $this->Html->link(

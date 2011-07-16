@@ -35,4 +35,10 @@
 
 			return $menu;
 		}
+
+		public function onGetRequiredFixtures($event){
+			return array(
+				'Configs.Config',
+			);
+		}
 	}

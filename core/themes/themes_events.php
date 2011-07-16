@@ -21,4 +21,10 @@
 
 			return $menu;
 		}
+
+		public function onGetRequiredFixtures($event){
+			return array(
+				'Themes.Theme',
+			);
+		}
 	}

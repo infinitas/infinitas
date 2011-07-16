@@ -201,4 +201,33 @@
 			$this->User->set($data); $this->User->validates();
 			$this->assertEqual($this->User->validationErrors, array());
 		}
+
+		public function testValidateRecordExists() {
+			//Add validation rule for the user record
+			$this->User->validate['group_id'] = array(
+				'rule' => 'validateRecordExists',
+				'message' => 'Invalid group',
+				'required' => true
+			);
+
+			// Test for an non existing group
+			$data = array(
+				'User' => array(
+					'username' => 'test-user',
+					'group_id' => 'non-existing-group-id'
+				)
+			);
+
+			$this->User->set($data);
+			$this->assertFalse($this->User->validates());
+			$expected = array('group_id' => 'Invalid group');
+			$this->assertEqual($this->User->validationErrors, $expected);
+
+			//Test for an existing group
+			$data['User']['group_id'] = 1;
+			$this->User->set($data);
+			$this->assertTrue($this->User->validates());
+			$expected = array();
+			$this->assertEqual($this->User->validationErrors, $expected);
+		}
 	}

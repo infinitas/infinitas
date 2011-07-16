@@ -1,6 +1,6 @@
 <?php
 	class ReleaseShell extends Shell {
-		public $tasks = array('Infinitas', 'Plugin');
+		public $tasks = array('Infinitas', 'InfinitasPlugin');
 
 		public function help(){
 			$this->Infinitas->h1('Interactive Release Shell Help');

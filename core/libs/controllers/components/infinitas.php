@@ -293,6 +293,10 @@
 		 * @return true or blackHole;
 		 */
 		private function __checkBadLogins(){
+			if($this->Controller->Auth->user('id')) {
+				return true;
+			}
+			
 			$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 
 			if (count($old) > 0) {
@@ -489,9 +493,11 @@
 		 * @license	 MIT
 		 */
 		private function __paginationRecall(){
+			$paramsUrl = isset($this->Controller->params['url']) ? $this->Controller->params['url'] : array();
+			
 			$options = array_merge(
 				$this->Controller->params,
-				$this->Controller->params['url'],
+				$paramsUrl,
 				$this->Controller->passedArgs
 			);
 

@@ -64,7 +64,7 @@
             foreach($newsletters as $newsletter){
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($newsletter['Newsletter']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>
                         <td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
                         <td>
                             <?php
