@@ -58,7 +58,7 @@
             {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($theme['Theme']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($theme); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($theme['Theme']['name']), array('action' => 'edit', $theme['Theme']['id'])); ?>&nbsp;
                 		</td>

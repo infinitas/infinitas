@@ -64,7 +64,7 @@
 			);
 			foreach ($feeds as $feed){ ?>
 				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-					<td><?php echo $this->Form->checkbox($feed['Feed']['id']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->massActionCheckBox($feed); ?>&nbsp;</td>
 					<td>
 						<?php
 							echo $this->Html->link(

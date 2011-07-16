@@ -49,7 +49,7 @@
             foreach ($contents as $content){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($content['GlobalContent']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($content); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $content['GlobalContent']['model']; ?>&nbsp;
                 		</td>

@@ -93,6 +93,23 @@
 		}
 
 		/**
+		 * @brief auto hash passwords when other plugins use the model with a different alias
+		 *
+		 * Auth does not auto has the pw field when the alias is not User, so we 
+		 * have to do it here so that it seems auto for other plugins.
+		 *
+		 * @param array $options see parent::beforeValidate
+		 * @return parent::beforeValidate
+		 */
+		public function beforeValidate($options){
+			if($this->alias != 'User' && isset($this->data[$this->alias]['password'])){
+				$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
+			}
+
+			return parent::beforeValidate($options);
+		}
+
+		/**
 		 * Valid password.
 		 *
 		 * This method uses the regex saved in the config to check that the

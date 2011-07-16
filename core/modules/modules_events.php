@@ -56,4 +56,12 @@
 				'ModuleLoader' => new ModuleTemplate()
 			);
 		}
+
+		public function onGetRequiredFixtures($event){
+			return array(
+				'Modules.Module',
+				'Modules.ModulePosition',
+				'Modules.ModulesRoute',
+			);
+		}
 	}

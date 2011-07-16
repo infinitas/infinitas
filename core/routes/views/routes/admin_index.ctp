@@ -56,7 +56,7 @@
 			foreach ($routes as $route){
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($route['Route']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($route); ?>&nbsp;</td>
 						<td>
 							<?php echo $this->Html->adminQuickLink($route['Route']); ?>&nbsp;
 						</td>

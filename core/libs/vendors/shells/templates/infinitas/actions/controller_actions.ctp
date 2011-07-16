@@ -130,7 +130,7 @@ COMMENT;
 			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t\t}\n\n";
 
-		echo "\t\t\t\${$pluralName} = \$this->{$currentModelName}->getViewData(\n";
+		echo "\t\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
 			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.slug' => \$this->params['slug'])\n";
 		echo "\t\t\t);\n\n";
 	}
@@ -142,12 +142,12 @@ COMMENT;
 			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t\t}\n\n";
 
-		echo "\t\t\t\${$pluralName} = \$this->{$currentModelName}->getViewData(\n";
+		echo "\t\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
 			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.' . \$this->{$currentModelName}->primaryKey => \$id)\n";
 		echo "\t\t\t);\n\n";
 	}
 
-		echo "\t\t\t\$this->set(compact('$pluralName'));\n";
+		echo "\t\t\t\$this->set(compact('$singularName'));\n";
 	echo "\t\t}\n\n";
 
 	/**

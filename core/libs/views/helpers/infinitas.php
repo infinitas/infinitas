@@ -51,6 +51,10 @@
 
 		public $View = null;
 
+		private $__rowCount = 0;
+
+		private $__massActionCheckBoxCounter = 0;
+
 		/**
 		 * Set to true when the menu has a current marker to avoid duplicates.
 		 * @var unknown_type
@@ -158,5 +162,41 @@
 				).
 			'</p><p>&nbsp;</p>';
 		}
+
+		/**
+		 * @brief generate a checkbox for rows that use mass_action stuff
+		 *
+		 * it will keep track of the $i for the checkbox number so there are no duplicates.
+		 * MassActionComponent::filter() will remove these fields from the searches so there
+		 * are no sql errors.
+		 *
+		 * @param array $data the row from find either find('first') or find('all')[x]
+		 * @param array $options set the fk or model manually
+		 *
+		 * @return a checkbox
+		 */
+		public function massActionCheckBox($data = array(), $options = array()){
+			$model = isset($this->params['models'][0]) ? $this->params['models'][0] : null;
+			$options = array_merge(
+				array('model' => $model, 'primaryKey' => ClassRegistry::init($model)->primaryKey, 'hidden' => false, 'checked' => false),
+				$options
+			);
+
+			if(!$data || !isset($data[$options['model']])){
+				return false;
+			}
+
+			$checkbox = $this->Form->checkbox(
+				$options['model'] . '.' . $this->__massActionCheckBoxCounter . '.' . 'massCheckBox',
+				array(
+					'value' => $data[$options['model']][$options['primaryKey']],
+					'hidden' => $options['hidden'],
+					'checked' => $options['checked']
+				)
+			);
+
+			$this->__massActionCheckBoxCounter++;
+
+			return $checkbox;
+		}
 	}
-?>

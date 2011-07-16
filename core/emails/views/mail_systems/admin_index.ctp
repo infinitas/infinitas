@@ -53,7 +53,7 @@
 				$class = $mail['MailSystem']['unread'] ? 'unread' : '';
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">
-						<td><?php echo $this->Form->checkbox($mail['MailSystem']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($mail); ?>&nbsp;</td>
 						<td>
 							<?php
 								$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'view', 'data' => $mail));

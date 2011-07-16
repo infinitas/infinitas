@@ -58,7 +58,7 @@
             foreach ($configs as $config){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox($config['Config']['id']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($config); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->adminQuickLink($config['Config']); ?>&nbsp;
                 		</td>

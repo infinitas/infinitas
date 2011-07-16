@@ -44,21 +44,27 @@
 					)
 				);
 
-				$i = 0;
-				foreach($rows as $key => $value){
+				foreach($rows as $id => $value){
 					?>
 						<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-							<td><?php echo $this->Form->checkbox($key); ?>&nbsp;</td>
+							<td>
+								<?php
+									echo $this->Infinitas->massActionCheckBox(
+										array($model => array('id' => $id)),
+										array('checked' => true, 'model' => $model, 'primaryKey' => 'id')
+									);
+								?>&nbsp;
+							</td>
 							<td>
 								<?php echo $value; ?>
 							</td>
 						</tr>
 					<?php
-					echo $this->Form->hidden('Confirm.model', array('value' => $model));
-					echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
-					echo $this->Form->hidden('Confirm.referer', array('value' => $referer));
-					$i++;
 				}
+				
+				echo $this->Form->hidden('Confirm.model', array('value' => $model));
+				echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
+				echo $this->Form->hidden('Confirm.referer', array('value' => $referer));
 			?>
 		</table>
 		<?php echo $this->Form->end(); ?>

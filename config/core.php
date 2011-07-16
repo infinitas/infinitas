@@ -75,7 +75,7 @@
 	 * Event to get the values from all the plugins and cache them
 	 */
 	$cachedConfigs = Cache::read('global_configs');
-	if($cachedConfigs !== false){
+	if(!empty($cachedConfigs)){
 		foreach($cachedConfigs as $k => $v){
 			Configure::write($k, $v);
 		}
