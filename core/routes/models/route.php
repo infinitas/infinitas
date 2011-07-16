@@ -100,6 +100,10 @@
 		 * Gets and formats the routes data and returns it ready for Router::connect()
 		 * only active routes are needed.
 		 *
+		 * A cache is also created of the params needed in to build a url so that
+		 * the onSlugUrl events are able to detect the type of url that is needed
+		 * and build them automatically.
+		 *
 		 * @return array the formatted routes
 		 */
 		public function getRoutes(){
@@ -146,11 +150,39 @@
 					'regex' => $this->__getRegex($array['Route']['rules'], $array['Route']['pass']),
 					'theme' => $array['Theme']['name']
 				);
+
+				if(!strstr($array['Route']['url'], ':')){
+					continue;
+				}
+
+				$array = $array['Route'];
+
+				$params = array();
+				foreach(explode('/', $array['url']) as $param){
+					if(!strstr($param, ':')){
+						continue;
+					}
+
+					foreach(array_filter(explode(':', $param)) as $part){
+						$params[] = trim($part, ' -');
+					}
+				}
+
+
+				$array['plugin'] = !empty($array['plugin']) ? $array['plugin'] : '__APP__';
+				if($array['prefix']){
+					$config[Inflector::camelize($array['plugin'])][$array['controller']][$array['prefix']][$array['action']][$array['url']] = $params;
+				}
+				else{
+					$config[Inflector::camelize($array['plugin'])][$array['controller']][$array['action']][$array['url']] = $params;
+				}
 			}
+
 
 			unset($routes);
 
 			Cache::write('routes', $routingRules, 'routes');
+			Configure::write('Routing.lookup', $config);
 
 			return $routingRules;
 		}
