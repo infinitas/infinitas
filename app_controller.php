@@ -219,8 +219,8 @@
 		 */
 		public function redirect($url = null, $status = null, $exit = true){
 			if(!$url || $url == ''){
-				$url = $this->Session->read('Infinitas.last_page');
-				$this->Session->delete('Infinitas.last_page');
+				$url = $this->Session->read('Infinitas.last_page.' . $this->here);
+				$this->Session->delete('Infinitas.last_page.' . $this->here);
 
 				if(!$url){
 					$url = array('action' => 'index');
@@ -1097,9 +1097,9 @@
 				$this->Infinitas->noticeNotSaved();
 			}
 
-			$lastPage = $this->Session->read('Infinitas.last_page');
+			$lastPage = $this->Session->read('Infinitas.last_page.' . $this->here);
 			if(!$lastPage){
-				$this->Session->write('Infinitas.last_page', $this->referer());
+				$this->Session->write('Infinitas.last_page.' . $this->here, $this->referer());
 			}
 		}
 

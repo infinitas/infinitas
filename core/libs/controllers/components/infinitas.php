@@ -607,6 +607,21 @@
 				)
 			);
 		}
+		
+		/**
+		 * lazy invalid action for times when the user should not be doing that
+		 *
+		 * see AppController::notice()
+		 */
+		public function noticeDisabledAction(){
+			$this->Controller->notice(
+				__('That action has been disabled.', true),
+				array(
+					'level' => 'warning',
+					'redirect' => true
+				)
+			);
+		}
 
 		/**
 		* Temp acl things
