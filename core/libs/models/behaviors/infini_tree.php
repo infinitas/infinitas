@@ -30,8 +30,10 @@ class InfiniTreeBehavior extends TreeBehavior {
 	}
 	
 	public function beforeSave($Model) {
-		if(!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
-			return false;
+		if(!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
+			if(!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
+				return false;
+			}
 		}
 
 		return parent::beforeSave($Model);
