@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Menus schema generated on: 2010-09-18 18:09:21 : 1284828621*/
+/* Menus schema generated on: 2011-07-20 22:07:18 : 1311196518*/
 class MenusSchema extends CakeSchema {
 	var $name = 'Menus';
 
@@ -13,17 +13,17 @@ class MenusSchema extends CakeSchema {
 
 	var $menu_items = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
-		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200),
-		'link' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'prefix' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'params' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 200, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'link' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'prefix' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'action' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'params' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'class' => array('type' => 'string', 'null' => false, 'default' => NULL),
+		'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'menu_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
@@ -37,8 +37,8 @@ class MenusSchema extends CakeSchema {
 	);
 	var $menus = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'index'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
