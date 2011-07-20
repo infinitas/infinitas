@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Categories schema generated on: 2010-09-18 18:09:19 : 1284828619*/
+/* Categories schema generated on: 2011-07-20 22:07:08 : 1311195668*/
 class CategoriesSchema extends CakeSchema {
 	var $name = 'Categories';
 
@@ -13,9 +13,9 @@ class CategoriesSchema extends CakeSchema {
 
 	var $categories = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'title' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
+		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 3, 'key' => 'index'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
