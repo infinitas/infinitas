@@ -12,9 +12,7 @@
 				'to use the plugin via the installer.'
 			);
 
-			$this->Infinitas->h2(
-				'Available Options'
-			);
+			$this->Infinitas->h2('Available Options');
 
 			$this->Infinitas->li(
 				array(
