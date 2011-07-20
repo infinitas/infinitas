@@ -1,6 +1,6 @@
 <?php
 	class ReleaseShell extends Shell {
-		public $tasks = array('Infinitas', 'InfinitasPlugin');
+		public $tasks = array('Infinitas', 'InfinitasPlugin', 'InfinitasReleaseStatus');
 
 		public function help(){
 			$this->Infinitas->h1('Interactive Release Shell Help');
@@ -38,6 +38,7 @@
 						'[M]odule',
 						'[T]heme',
 						'Plugin [A]dd-on',
+						'[S]tatus',
 						'[H]elp',
 						'[Q]uit'
 					)
@@ -57,6 +58,10 @@
 						break;
 
 					case 'A':
+						break;
+
+					case 'S':
+						$this->InfinitasReleaseStatus->execute();
 						break;
 
 					case 'H':
