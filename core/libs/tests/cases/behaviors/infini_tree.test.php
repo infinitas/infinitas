@@ -19,6 +19,8 @@
 		public function testFixtureIntegrity() {
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
 			$this->assertIdentical($validTree, true);
+			$validTree = $this->ScopedNumberTree->verify('cat-b');
+			$this->assertIdentical($validTree, true);
 		}
 		
 		public function testSaveTree() {
@@ -59,11 +61,70 @@
 				)
 			));
 			$expected = array('United Kingdom', '_Sales', '_Marketing', '_R&D', 'Belgium', '_Sales', '_Marketing', '_R&D');
-			$this->assertTrue($this->ScopedNumberTree->treeSave($data, array('scope' => 'cat-b')));
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-b'))));			
+			$this->assertTrue($this->ScopedNumberTree->treeSave($data, array('scope' => 'cat-new')));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-new'))));			
+		
+			//Check if the trees got corrupt
+			$validTree = $this->ScopedNumberTree->verify('cat-a');
+			$this->assertIdentical($validTree, true);
+			$validTree = $this->ScopedNumberTree->verify('cat-b');
+			$this->assertIdentical($validTree, true);
+			$validTree = $this->ScopedNumberTree->verify('cat-new');
+			$this->assertIdentical($validTree, true);
 		}
 		
-		public function testScopedCounts() {
+		public function testAddingNodes() {
+			/**
+			 * Root nodes
+			 */
+			
+			//Try adding a root node without specifying the scope field
+			//should fail because we cant get the scope
+			$data = array(
+				'name' => '3 root',
+				'parent_id' => null
+			);
+			$this->ScopedNumberTree->create();
+			$this->assertFalse($this->ScopedNumberTree->save($data));
+			
+			//should work with the scope
+			$data = array(
+				'name' => '3 root',
+				'category_id' => 'cat-a',
+				'parent_id' => null
+			);
+			$this->ScopedNumberTree->create();
+			$this->assertTrue($this->ScopedNumberTree->save($data));
+			
+			
+			//With the scope variable
+			$data = array(
+				'name' => '1.3.1 node',
+				'parent_id' => 'cat-a-1-3',
+				'category_id' => 'cat-a'
+			);
+			$this->ScopedNumberTree->create();
+			$this->assertTrue($this->ScopedNumberTree->save($data));
+			
+			//Without the scope variable
+			$data = array(
+				'name' => '1.3.2 node',
+				'parent_id' => 'cat-a-1-3'
+			);
+			$this->ScopedNumberTree->create();
+			$this->assertTrue($this->ScopedNumberTree->save($data));			
+			
+			//Verify trees after saving a bunch of new nodes
+			$validTree = $this->ScopedNumberTree->verify('cat-a');
+			$this->assertIdentical($validTree, true);
+			$validTree = $this->ScopedNumberTree->verify('cat-b');
+			$this->assertIdentical($validTree, true);
+		}
+		
+		public function testFinds() {
+			/**
+			 * childcount()
+			 */
 			$this->assertFalse($this->ScopedNumberTree->childcount());
 			
 			//Count all children from a node
@@ -76,5 +137,20 @@
 			$this->assertEqual(8, $this->ScopedNumberTree->childCount(array('scope' => 'cat-a')));
 			//Count all root nodes in a scope
 			$this->assertEqual(2, $this->ScopedNumberTree->childCount(array('scope' => 'cat-a'), true));
+			
+			/**
+			 * children()
+			 */
+			$this->assertFalse($this->ScopedNumberTree->children());
+			
+			//Get all the children from one scope
+			$expected = array('cat-a-1', 'cat-a-1-1', 'cat-a-1-2', 'cat-a-1-2-1', 'cat-a-1-2-2', 'cat-a-1-2-3', 'cat-a-1-3', 'cat-a-2');
+			$children = $this->ScopedNumberTree->children(array('scope' => 'cat-a'));
+			$this->assertEqual($expected, Set::extract('/ScopedNumberTree/id', $children));
+			
+			//Get all the children under a specific node
+			$expected = array('cat-a-1-2-1', 'cat-a-1-2-2', 'cat-a-1-2-3');
+			$children = $this->ScopedNumberTree->children('cat-a-1-2');
+			$this->assertEqual($expected, Set::extract('/ScopedNumberTree/id', $children));
 		}
 	}
