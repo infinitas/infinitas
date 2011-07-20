@@ -53,6 +53,50 @@
 		}
 
 		/**
+		 * @brief check if there has been any changes in the schema for a plugin
+		 *
+		 * Run through all the models comparing any existing schema file to the
+		 * current database that is being used. Will report back any errors like
+		 * plugins that are missing a schema file or had any changes to the structure
+		 *
+		 * @access public
+		 *
+		 * @param string $plugin the name of the plugin to check.
+		 *
+		 * @return mixed false if there are no changes, array with error if anything was found
+		 */
+		public function checkForChanges($plugin){
+			$this->type = Inflector::underscore($plugin);
+			$this->path = $this->__getPath() . 'config' . DS . 'releases' . DS;
+
+			$fromSchema = false;
+			$this->Schema = $this->_getSchema();
+			$migration = array('up' => array(), 'down' => array());
+
+			$oldSchema = $this->_getSchema($this->type);
+			if($oldSchema === false){
+				return array(
+					'error' => 'No schema found'
+				);
+			}
+			else if ($oldSchema !== false) {
+				if ($this->type !== 'migrations') {
+					unset($oldSchema->tables['schema_migrations']);
+				}
+
+				$schema = $newSchema = $this->_readSchema();
+				$comparison = $this->Schema->compare($oldSchema, $newSchema);
+				if(!empty($comparison)){
+					return array(
+						'error' => 'There are changes to the plugins database(s)'
+					);
+				}
+			}
+
+			return false;
+		}
+
+		/**
 		 * Return the path used
 		 *
 		 * @param string $type Can be 'app' or a plugin name
