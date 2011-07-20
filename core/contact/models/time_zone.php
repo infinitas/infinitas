@@ -1,5 +1,5 @@
 <?php
-	class TimeZone extends ManagementAppModel{
+	class TimeZone extends ContactAppModel{
 		var $name = 'TimeZone';
 
 		var $tablePrefix = '';
