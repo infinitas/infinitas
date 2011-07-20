@@ -11,6 +11,11 @@
 				'questions all the necesery files will be generated to allow others '.
 				'to use the plugin via the installer.'
 			);
+			$this->Infinitas->p(
+				'This shell is also used for creating updates to your plugins by the' .
+				'same method as creating the initial release. The release shell will ' .
+				'provide you with update options if a previous release has been found.'
+			);
 
 			$this->Infinitas->h2('Available Options');
 
