@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Modules schema generated on: 2010-09-18 18:09:21 : 1284828621*/
+/* Modules schema generated on: 2011-07-20 22:07:46 : 1311196606*/
 class ModulesSchema extends CakeSchema {
 	var $name = 'Modules';
 
@@ -13,7 +13,7 @@ class ModulesSchema extends CakeSchema {
 
 	var $module_positions = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'module_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 5),
@@ -22,11 +22,11 @@ class ModulesSchema extends CakeSchema {
 	);
 	var $modules = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'content' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'config' => array('type' => 'text', 'null' => true, 'default' => NULL),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'content' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'plugin' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'module' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'config' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'theme_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'position_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -35,10 +35,10 @@ class ModulesSchema extends CakeSchema {
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'show_heading' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'author' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75),
-		'url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-		'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL),
+		'author' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'module_loader_by_position' => array('column' => array('position_id', 'admin', 'active', 'ordering'), 'unique' => 0)),
