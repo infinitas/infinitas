@@ -1,6 +1,6 @@
 <?php
 class ScopedNumberTreeFixture extends CakeTestFixture {
-	var $name = 'NumberTree';
+	var $name = 'ScopedNumberTree';
 	var $table = 'scoped_number_trees';
 
 	var $fields = array(

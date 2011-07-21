@@ -5,8 +5,13 @@
 		public $name = 'ScopedNumberTree';
 		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
 	}
+	
+	class ScopedCounterNumberTree extends CakeTestModel {
+		public $name = 'ScopedCounterNumberTree';
+		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id', /*'counterCache' => true*/));
+	}
 
-	class NumberTreeTest extends AppModelTestCase {
+	class ScopedNumberTreeTest extends AppModelTestCase {
 		public $setup = array(
 			'model' => 'Libs.ScopedNumberTree',
 			'fixtures' => array(
@@ -16,7 +21,7 @@
 			)
 		);
 		
-		//public $tests = array('testOther');
+		public $tests = array('testFixtureIntegrity');
 		
 		public function testFixtureIntegrity() {
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
@@ -291,6 +296,35 @@
 			$validTree = $this->ScopedNumberTree->verify('cat-b');
 			$this->assertIdentical($validTree, true);
 			$validTree = $this->ScopedNumberTree->verify('cat-letters');
+			$this->assertIdentical($validTree, true);
+		}
+	}
+	
+	class ScopedCounterCacheTest extends AppModelTestCase {
+		public $setup = array(
+			'model' => 'Libs.ScopedCounterNumberTree',
+			'fixtures' => array(
+				'do' => array(
+					'Libs.ScopedCounterNumberTree'
+				)
+			)
+		);
+		
+		function testTreeSave() {
+			$tree = array('ScopedCounterNumberTree' => array(
+				array('name' => 'Root A', 'ScopedCounterNumberTree' => array(
+					array('name' => 'Category A - 1'),
+					array('name' => 'Category A - 2')
+				)),
+				array('name' => 'Root B'),
+				array('name' => 'Root C')
+			));
+			
+			$expected = array('Root A', '_Category A - 1', '_Category A - 2', 'Root B', 'Root C');
+			$this->assertTrue($this->ScopedCounterNumberTree->treeSave($tree, array('scope' => 'test-cat')));
+			$this->assertEqual($expected, array_values($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id', 'test-cat'))));
+			
+			$validTree = $this->ScopedCounterNumberTree->verify('test-cat');
 			$this->assertIdentical($validTree, true);
 		}
 	}
