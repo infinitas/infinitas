@@ -39,6 +39,24 @@
 			);
 		}
 
+		/**
+		 * @brief install a plugin
+		 *
+		 * This method is used to install a plugin and record the details in the
+		 * plugin table. There are options that can be used for installing your
+		 * own created plugin or a plugin you have downloaded.
+		 *
+		 * $options can be the following
+		 *  - sampleData true/false to install any sample data
+		 *  - installRelease true/fase (true will run the fixtures, false will only save the details so it is officially installed)
+		 *
+		 * @access public
+		 *
+		 * @param string $pluginName the name of the plugin being installed
+		 * @param array $options the options for the install
+		 *
+		 * @return bool true if installed, false if not.
+		 */
 		public function installPlugin($pluginName, $options = array()) {
 			$options = array_merge(
 				array(
@@ -48,8 +66,6 @@
 				$options
 			);
 
-			extract($options);
-
 			$pluginDetails = $this->__loadPluginDetails($pluginName);
 
 			if($pluginDetails !== false && isset($pluginDetails['id'])) {
@@ -58,19 +74,17 @@
 				$pluginDetails['enabled'] = true;
 				$pluginDetails['core'] = strpos(App::pluginPath($pluginName), APP . 'core' . DS) !== false;
 
-				if($this->save($pluginDetails)) {
-					if($installRelease === true) {
-						$installed = $this->__processRelease($pluginName, $sampleData);
-					}
-					else {
-						$installed = true;
-					}
 
-					return $installed;
+				$installed = false;
+				$this->create();
+				if($this->save($pluginDetails)) {
+					$installed = true;
+					if($options['installRelease'] === true) {
+						$installed = $this->__processRelease($pluginName, $options['sampleData']);
+					}
 				}
-				else {
-					return false;
-				}
+
+				return $installed;
 			}
 		}
 
