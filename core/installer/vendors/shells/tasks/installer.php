@@ -178,4 +178,52 @@
 					break;
 			}
 		}
+
+		public function updatePlugin(){
+			$plugins = $this->__getPluginToUpdate();
+			if(!$plugins){
+				return false;
+			}
+
+			if(!is_array($plugins)){
+				$plugins = array($plugins);
+			}
+
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+
+			foreach($plugins as $plugin){
+				$update = $Plugin->installPlugin($plugin);
+				if($update){
+					$this->Infinitas->out(sprintf('%s Plugin updated', $plugin));
+				}
+				else{
+					$this->Infinitas->out(sprintf('Update for %s has failed :(', $plugin));
+				}
+			}
+			$this->Infinitas->pause();
+		}
+
+		private function __getPluginToUpdate(){
+			$plugins = ClassRegistry::init('Installer.Plugin')->getInstalledPlugins();
+			sort($plugins);
+
+			do {
+				$this->Infinitas->h1('Interactive Install Shell');
+				foreach($plugins as $i => $plugin){
+					$this->Infinitas->out($i + 1 . ') ' . $plugin);
+				}
+				$this->Infinitas->out('A)ll');
+				
+				$this->Infinitas->br();
+				$input = strtoupper($this->in('Which plugin do you want to update?'));
+
+				if(isset($plugins[$input - 1])){
+					return $plugins[$input - 1];
+				}
+
+				if($input == 'A'){
+					return $plugins;
+				}
+			} while($input != 'Q');
+		}
 	}
