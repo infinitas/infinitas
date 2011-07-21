@@ -24,9 +24,7 @@
 		 */
 		protected function _outputUninstalled(){
 			$this->Infinitas->h2('Uninstalled plugins');
-			$allPlugins = ClassRegistry::init('Installer.Plugin')->getAllPlugins();
-			$uninstalled = array_diff($allPlugins, array_values(ClassRegistry::init('Installer.Plugin')->getInstalledPlugins()));
-			sort($uninstalled);
+			$uninstalled = ClassRegistry::init('Installer.Plugin')->getNonInstalledPlugins();
 
 			$out = array();
 			foreach($uninstalled as $i => $plugin){
@@ -39,7 +37,13 @@
 			}
 			
 			$this->Infinitas->out(implode('', $out));
-			$this->Infinitas->out(sprintf('Total Plugins: %d Not yet installed: %d', count($allPlugins), count($uninstalled)));
+			$this->Infinitas->out(
+				sprintf(
+					'Total Plugins: %d Not yet installed: %d',
+					ClassRegistry::init('Installer.Plugin')->getAllPlugins('count'),
+					count($uninstalled)
+				)
+			);
 			$this->Infinitas->out();
 		}
 
