@@ -19,6 +19,7 @@
 			}
 
 			$this->_output($return);
+			$this->Infinitas->pause();
 		}
 
 		protected function _output($data){
