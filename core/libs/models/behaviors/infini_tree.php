@@ -8,10 +8,12 @@ class InfiniTreeBehavior extends TreeBehavior {
 	public function setup($Model, $config = array()) {
 		
 		$defaults = array(
-			'scopeField' => false
+			'scopeField' => false,
+			'counterCache' => false,
+			'directCounterCache' => false
 		);
 		
-		$config = array_merge(array('scopeField' => false), $config);
+		$config = array_merge(array('scopeField' => false, 'counterCache' => false), $config);
 		
 		return parent::setup($Model, $config);
 	}
@@ -21,7 +23,13 @@ class InfiniTreeBehavior extends TreeBehavior {
 			$this->__setScope($Model, $Model->data[$Model->alias]);
 		}
 		
-		return parent::afterSave($Model, $created);
+		$return = parent::afterSave($Model, $created);
+		
+		if($this->settings[$Model->alias]['counterCache']) {
+			$parent_id = $Model->field($this->settings[$Model->alias]['parent']);
+			$this->looper = 1;
+			$this->updateTreeCounterCache($Model, $parent_id);
+		}
 	}
 	
 	public function beforeDelete($Model) {
@@ -167,26 +175,21 @@ class InfiniTreeBehavior extends TreeBehavior {
 		}
 		
 		if($this->scoped($Model)) {
-			
 			if(empty($options['scope'])) {
 				return false;
 			}
-			
+
 			$this->__setScope($Model, $options['scope']);
 		}
-		
+
 		if(!$data || !is_array($data)){
 			return false;
 		}
 
-		//$Model->transaction();
-		
 		if($this->__doTreeSave($Model, $data, array('scope' => $options['scope'], 'parent' => null, 'depth' => 0))) {
-			//$Model->transaction(true);
 			return true;
 		}
-		
-		//$Model->transaction(false);
+
 		return false;
 	}
 	
@@ -301,5 +304,71 @@ class InfiniTreeBehavior extends TreeBehavior {
 	
 	public function scoped($Model) {
 		return !empty($this->settings[$Model->alias]['scopeField']);
+	}
+	
+	
+	public function updateTreeCounterCache($Model, $id=null) {$this->looper++;
+		if(is_null($id)) {
+			$id = $Model->id;
+		}
+		if(!$id) {
+			return false;
+		}
+
+		//Get meta data for this node
+		$node = $this->__getNodeInfo($Model, $id);
+
+		//Take a shortcut if we dont do any extra conditions
+		if(empty($this->settings[$Model->alias]['conditions'])) {
+			$childrenCount = ($node[$Model->alias][$this->settings[$Model->alias]['right']] - $node[$Model->alias][$this->settings[$Model->alias]['left']] - 1) / 2;
+		} else {
+			$childrenCount = $Model->find('count', array(
+				'conditions' => array(
+					array_merge(array(), array(
+						$Model->alias . '.' . $this->settings[$Model->alias]['left'] . ' >' => $node[$Model->alias][$this->settings[$Model->alias]['left']],
+						$Model->alias . '.' . $this->settings[$Model->alias]['right'] . ' <' => $node[$Model->alias][$this->settings[$Model->alias]['right']],
+						$this->settings[$Model->alias]['scope']
+					))
+				),
+				'contain' => false
+			));
+		}
+
+		$result = $Model->save(array($Model->alias => array(
+			$Model->primaryKey => $id,
+			$this->settings[$Model->alias]['counterCache'] => $childrenCount	
+		)), array('validate' => false, 'callbacks' => false));
+
+		if(!empty($node[$Model->alias][$this->settings[$Model->alias]['parent']])) {
+		//	$this->updateTreeCounterCache($Model, $node[$Model->alias][$this->settings[$Model->alias]['parent']]);
+		}
+
+		return true;
+	}
+	
+	/**
+	 * Return the needed data to calculate the number of children for a specific node
+	 *
+	 * @access private
+	 *
+	 * @param object $Model the model that is doing the save
+	 * @param bool $id The row to fetch
+	 * 
+	 * @return Array model data
+	 */
+	private function __getNodeInfo($Model, $id) {
+		$node = $Model->find('first', array(
+			'conditions' => array(
+				$Model->alias . '.' . $Model->primaryKey => $id
+			),
+			'fields' => array(
+				$Model->alias . '.' . $this->settings[$Model->alias]['parent'],
+				$Model->alias . '.' . $this->settings[$Model->alias]['left'],
+				$Model->alias . '.' . $this->settings[$Model->alias]['right']
+			),
+			'contain' => false
+		));
+
+		return $node;
 	}
 }
