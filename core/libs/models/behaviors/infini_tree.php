@@ -17,22 +17,27 @@ class InfiniTreeBehavior extends TreeBehavior {
 	}
 
 	public function afterSave($Model, $created) {
-		if(!$this->__setScope($Model, $Model->data[$Model->alias])) {
-			return false;
+		if($this->scoped($Model)) {
+			$this->__setScope($Model, $Model->data[$Model->alias]);
 		}
 		
-		$return = parent::afterSave($Model, $created);
-		return $return;
+		return parent::afterSave($Model, $created);
 	}
 	
 	public function beforeDelete($Model) {
+		if($this->scoped($Model)) {
+			$this->__setScope($Model);
+		}
+		
 		return parent::beforeDelete($Model);
 	}
 	
 	public function beforeSave($Model) {
-		if(!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
-			if(!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
-				return false;
+		if($this->scoped($Model)) {
+			if(!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
+				if(!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
+					return false;
+				}
 			}
 		}
 
@@ -59,34 +64,24 @@ class InfiniTreeBehavior extends TreeBehavior {
 			
 			$id = $this->__setScopeFromId($Model, $id);
 		}
-		
+
 		return parent::children($Model, $id, $direct, $fields, $order, $limit, $page, $recursive);
 	}
 	
 	public function generatetreelist($Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
-		$this->__setScope($Model, $conditions);
-		return parent::generatetreelist($Model, $conditions, $keyPath, $valuePath, $spacer, $recursive);
-	}
-
-	public function getparentnode($Model, $id = null, $fields = null, $recursive = null) {
 		if($this->scoped($Model)) {
-			if(empty($id)) {
-				return false;
-			}
-			
-			$id = $this->__setScopeFromId($Model, $id);
+			$this->__setScope($Model, $conditions);		
 		}
-		
-		return parent::getparentnode($Model, $id, $fields, $recursive);
+		return parent::generatetreelist($Model, $conditions, $keyPath, $valuePath, $spacer, $recursive);
 	}
 	
 	public function getpath($Model, $id = null, $fields = null, $recursive = null) {
 		if($this->scoped($Model)) {
+			$id = $this->__setScopeFromId($Model, $id);
+			
 			if(empty($id)) {
 				return false;
 			}
-			
-			$id = $this->__setScopeFromId($Model, $id);
 		}
 		
 		return parent::getpath($Model, $id, $fields, $recursive);
@@ -94,11 +89,11 @@ class InfiniTreeBehavior extends TreeBehavior {
 	
 	public function movedown($Model, $id = null, $number = 1) {
 		if($this->scoped($Model)) {
+			$id = $this->__setScopeFromId($Model, $id);
+			
 			if(empty($id)) {
 				return false;
 			}
-			
-			$id = $this->__setScopeFromId($Model, $id);
 		}
 		
 		return parent::movedown($Model, $id, $number);
@@ -116,28 +111,52 @@ class InfiniTreeBehavior extends TreeBehavior {
 		return parent::moveup($Model, $id, $number);
 	}
 
-	public function recover($Model, $mode = 'parent', $missingParentAction = null) {
+	public function recover($Model, $mode = 'parent', $missingParentAction = null, $scope = null) {
+		if($this->scoped($Model)) {
+			if(empty($scope)) {
+				return false;
+			}
+			
+			$this->__setScope($Model, $scope);
+		}
+		
 		return parent::recover($Model, $mode, $missingParentAction);
 	}
 	
 	public function reorder($Model, $options = array()) {
-		return parent::reorder($Model, $options);
-	}
-
-	public function removefromtree($Model, $id = null, $delete = false) {
 		if($this->scoped($Model)) {
-			if(empty($id)) {
+			if(empty($options[$Model->primaryKey]) && empty($options['scope'])) {
 				return false;
 			}
 			
+			if(!empty($options[$Model->primaryKey])) {
+				$scope = $this->__getScopeFromid($Model, $options[$Model->primaryKey]);
+			} else {
+				$scope = $options['scope'];
+			}
+			
+			$this->__setScope($Model, $scope);
+		}
+		
+		return parent::reorder($Model, $options);
+	}
+
+	public function removefromtree($Model, $id = null, $delete = false, $scopeField = null) {
+		if($this->scoped($Model)) {
 			$id = $this->__setScopeFromId($Model, $id);
+			
+			if(empty($id)) {
+				return false;
+			}
 		}
 		
 		return parent::removefromtree($Model, $id, $delete);
 	}
 
 	public function verify($Model, $scope = null) {
-		$this->__setScope($Model, $scope);
+		if($this->scoped($Model)) {
+			$this->__setScope($Model, $scope);
+		}
 		
 		return parent::verify($Model);
 	}
@@ -156,7 +175,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 			$this->__setScope($Model, $options['scope']);
 		}
 		
-		if(!$data){
+		if(!$data || !is_array($data)){
 			return false;
 		}
 
@@ -178,8 +197,6 @@ class InfiniTreeBehavior extends TreeBehavior {
 		if($options['depth'] > 0) {
 			$Model->create();
 			if(!$Model->save(array_diff_key(array_merge(array($this->settings[$Model->alias]['scopeField']  => $options['scope'], $this->settings[$Model->alias]['parent'] => $options['parent']), $data), array($Model->alias => $Model->alias)))) {
-				debug($Model->validationErrors);
-				debug('fail');
 				return false;
 			}
 			
@@ -205,20 +222,29 @@ class InfiniTreeBehavior extends TreeBehavior {
 	
 	private function __setScopeFromId($Model, $id) {
 		if($this->scoped($Model)) {
-			if(empty($id)) {
-				return false;
+			$scope = false;
+			
+			if(is_array($id)) {
+				if(array_key_exists($Model->primaryKey, $id)) {
+					$_id = $id[$Model->primaryKey];
+				} else {
+					$_id = null;
+				}
+				
+				if(array_key_exists('scope', $id)) {
+					$scope = $id['scope'];
+				}
+				
+				$id = $_id;
 			}
 			
-			if(!is_array($id)) {
-				//Fetch scope from row id given
+			//Scope still not given, load it from the id
+			if(!$scope) {
 				$scope = $this->__getScopeFromId($Model, $id);
-				
-				if(!$scope) {
-					return false;
-				}
-			} else {
-				$scope = $id['scope'];
-				$id = null;
+			}
+			
+			if(!$scope) {
+				return $id;
 			}
 			
 			$this->__setScope($Model, $scope);
@@ -227,31 +253,26 @@ class InfiniTreeBehavior extends TreeBehavior {
 		return $id;
 	}
 	
-	private function __setScope($Model, $data, $beforeSave = false) {
-		//See if autoscoping is enabled
-		if(!$this->scoped($Model)) {
-			return true;
-		}
-		
+	private function __setScope($Model, $data = null, $beforeSave = false) {
 		$scope = null;
 		
 		//Is the scope given as an id?
-		if(!is_array($data)) {
+		if(!empty($data) && !is_array($data)) {
 			$scope = $data;
 			
 		//Is the scopeField given in the data array?
-		} elseif(array_key_exists($this->settings[$Model->alias]['scopeField'], $data)) {
+		} elseif(!empty($data) && array_key_exists($this->settings[$Model->alias]['scopeField'], $data)) {
 			$scope = $data[$this->settings[$Model->alias]['scopeField']];
 			
 		//Is the scopeField given in the conditions for a find?
-		} elseif(array_key_exists($Model->alias . '.' . $this->settings[$Model->alias]['scopeField'], $data)) {
+		} elseif(!empty($data) && array_key_exists($Model->alias . '.' . $this->settings[$Model->alias]['scopeField'], $data)) {
 			$scope = $data[$Model->alias . '.' . $this->settings[$Model->alias]['scopeField']];
 			
 		//Is the parent_id given in the data array?
-		} elseif(array_key_exists($this->settings[$Model->alias]['parent'], $data) && !empty($data[$this->settings[$Model->alias]['parent']])) {
+		} elseif(!empty($data) && array_key_exists($this->settings[$Model->alias]['parent'], $data) && !empty($data[$this->settings[$Model->alias]['parent']])) {
 			$scope = $this->__getScopeFromId($Model, $data[$this->settings[$Model->alias]['parent']]);
-		} else {
-			
+		} elseif($Model->id) {
+			$scope = $this->__getScopeFromId($Model, $Model->id);
 		}
 		
 		if($scope) {
