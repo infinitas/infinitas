@@ -187,7 +187,7 @@
 
 				return $Version->run(
 					array(
-						'type' => $plugin,
+						'type' => $pluginName,
 						'version' => $latest['version'],
 						'sample' => $sampleData
 					)
