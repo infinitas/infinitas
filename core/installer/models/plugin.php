@@ -20,6 +20,25 @@
 			);
 		}
 
+		/**
+		 * @brief get a list of plugins that have been installed on Infinitas
+		 *
+		 * @access public
+		 *
+		 * @return array list of all the installed plugins
+		 */
+		public function getInstalledPlugins(){
+			return $this->find(
+				'list',
+				array(
+					'fields' => array(
+						$this->alias . '.id',
+						$this->alias . '.internal_name'
+					)
+				)
+			);
+		}
+
 		public function installPlugin($pluginName, $options = array()) {
 			$options = array_merge(
 				array(
