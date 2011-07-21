@@ -94,9 +94,23 @@
 		 */
 		public function helpPause(){
 			if(!isset($this->Dispatch->shellCommand) || $this->Dispatch->shellCommand != 'help'){
-				$this->br();
-				$this->in('Press a key to continue');
+				$this->pause();
 			}
+		}
+
+		/**
+		 * @brief pause the page and wait for some input before carrying on
+		 *
+		 * Useful for stopping the page so the user can see what the output is
+		 * before returing to the main menu.
+		 *
+		 * @access public
+		 *
+		 * @param string $text the text to output when pausing.
+		 */
+		public function pause($text = 'Press a key to continue'){
+			$this->br();
+			$this->in($text);
 		}
 
 		public function color($text, $color){
