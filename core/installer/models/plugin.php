@@ -21,6 +21,23 @@
 		}
 
 		/**
+		 * @brief get a list of all the plugins that are in the system
+		 *
+		 * This will not check plugins that are installed, but anything within
+		 * any of the defined plugin directories.
+		 *
+		 * @access public
+		 *
+		 * @return array all plugins in alphabetical order
+		 */
+		public function getAllPlugins(){
+			$plugins = App::objects('plugin');
+			natsort($plugins);
+
+			return $plugins;
+		}
+
+		/**
 		 * @brief get a list of plugins that have been installed on Infinitas
 		 *
 		 * @access public
