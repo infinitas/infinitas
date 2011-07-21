@@ -76,7 +76,6 @@
 
 
 				$installed = false;
-				$this->create();
 				if($this->save($pluginDetails)) {
 					$installed = true;
 					if($options['installRelease'] === true) {
@@ -88,28 +87,55 @@
 			}
 		}
 
+		/**
+		 * @brief load up the details from the plugins config file
+		 *
+		 * This will attempt to get the plugins details so that they can be saved
+		 * to the database.
+		 * 
+		 * If the plugin has not had a release created then it will return false
+		 * and will not be able to be saved.
+		 *
+		 * @param string $pluginName the name of the plugin to load
+		 *
+		 * @return array the details found or false if not found
+		 */
 		private function __loadPluginDetails($pluginName) {
 			$configFile = App::pluginPath($pluginName) . 'config' . DS . 'config.json';
 
 			return file_exists($configFile) ? Set::reverse(json_decode(file_get_contents($configFile))) : false;
 		}
 
+		/**
+		 * @brief run a plugins release (create tables, update schema etc)
+		 *
+		 * This runs the migrations part of a plugin install. It will run all
+		 * the migrations found. If something goes wrong it will return false
+		 *
+		 * @access public
+		 *
+		 * @param string $pluginName the name of the plugin to process
+		 * @param bool $sampleData true to install sample data, false if not
+		 *
+		 * @return mixed false on fail, true on success
+		 */
 		private function __processRelease($pluginName, $sampleData = false) {
 			App::import('Lib', 'Installer.ReleaseVersion');
 
 			try {
 				$Version = new ReleaseVersion();
-
 				$mapping = $Version->getMapping($pluginName);
-
 				$latest = array_pop($mapping);
 
-				return $Version->run(array(
-					'type' => $plugin,
-					'version' => $latest['version'],
-					'sample' => $sampleData
-				));
+				return $Version->run(
+					array(
+						'type' => $plugin,
+						'version' => $latest['version'],
+						'sample' => $sampleData
+					)
+				);
 			}
+			
 			catch(Exception $e) {
 				return false;
 			}
