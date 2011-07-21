@@ -18,11 +18,11 @@
 				}
 			}
 
-			$this->_output($return);
+			$this->_outputChanges($return);
 			$this->Infinitas->pause();
 		}
 
-		protected function _output($data){
+		protected function _outputChanges($data){
 			$allPlugins = array_flip($this->__getPluginList());
 			$pluginCount = count($allPlugins);
 			$count = 0;
