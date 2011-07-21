@@ -28,11 +28,17 @@
 		 *
 		 * @access public
 		 *
+		 * @param string $type list / count
+		 *
 		 * @return array all plugins in alphabetical order
 		 */
-		public function getAllPlugins(){
+		public function getAllPlugins($type = 'list'){
 			$plugins = App::objects('plugin');
 			natsort($plugins);
+
+			if($type == 'count'){
+				return count($plugins);
+			}
 
 			return $plugins;
 		}
@@ -42,18 +48,53 @@
 		 *
 		 * @access public
 		 *
+		 * @param string $type list / count / all
+		 *
 		 * @return array list of all the installed plugins
 		 */
-		public function getInstalledPlugins(){
+		public function getInstalledPlugins($type = 'list'){
+			if(!in_array($type, array('list', 'count', 'all'))){
+				$type = 'list';
+			}
+
+			$fields = array(
+				$this->alias . '.id',
+				$this->alias . '.internal_name'
+			);
+			
+			if($type == 'all'){
+				$fields = array();
+			}
+			
 			return $this->find(
-				'list',
+				$type,
 				array(
-					'fields' => array(
-						$this->alias . '.id',
-						$this->alias . '.internal_name'
-					)
+					'fields' => $fields
 				)
 			);
+		}
+
+		/**
+		 * @brief method to find a list of plugins not yet installed
+		 *
+		 * This uses the getAllPlugins() method and getInstalledPlugins() method
+		 * with array_diff to show a list of plugins that have not yet been installed
+		 *
+		 * @access public
+		 *
+		 * @param string $type list / count
+		 *
+		 * @return array list of plugins not yet installed
+		 */
+		public function getNonInstalledPlugins($type = 'list'){
+			$nonInstalled = array_diff($this->getAllPlugins(), array_values($this->getInstalledPlugins()));
+			natsort($nonInstalled);
+
+			if($type == 'count'){
+				return count($nonInstalled);
+			}
+			
+			return $nonInstalled;
 		}
 
 		/**
