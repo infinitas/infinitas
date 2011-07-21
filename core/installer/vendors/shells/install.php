@@ -114,6 +114,7 @@
 					array(
 						'[U]pdate a plugin',
 						'[Z]ip file install',
+						'[O]ver the air',
 						'[L]ocal install',
 						'[H]elp',
 						'[Q]uit'
@@ -140,6 +141,8 @@
 							'need to update the plugin use [U]pdate');
 						$this->Infinitas->p('If you have downloaded a file and ' .
 							'need to install from the zip file use [Z]ip file');
+						$this->Infinitas->p('If you would like infinitas to downlad ' .
+							'and install the plugin use [O]ver the air');
 						$this->Infinitas->p('If you have writen a custom plugin ' .
 							'and would like it installed use [L]ocal install');
 						$this->Infinitas->helpPause();
