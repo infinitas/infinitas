@@ -108,6 +108,48 @@
 		 * install a plugin
 		 */
 		public function plugin(){
+			do {
+				$this->Infinitas->h1('Interactive Install Shell');
+				$this->Infinitas->li(
+					array(
+						'[U]pdate a plugin',
+						'[Z]ip file install',
+						'[L]ocal install',
+						'[H]elp',
+						'[Q]uit'
+					)
+				);
+				$this->Infinitas->br();
+				$input = strtoupper($this->in('What do you wish to release?'));
+
+				switch ($input) {
+					case 'U':
+						$this->Installer->updatePlugin();
+						break;
+
+					case 'Z':
+						$this->Installer->installFromZipFile();
+						break;
+
+					case 'L':
+						$this->Installer->installFromZipFile();
+						break;
+
+					case 'H':
+						$this->Infinitas->p('If you have updated your code and ' .
+							'need to update the plugin use [U]pdate');
+						$this->Infinitas->p('If you have downloaded a file and ' .
+							'need to install from the zip file use [Z]ip file');
+						$this->Infinitas->p('If you have writen a custom plugin ' .
+							'and would like it installed use [L]ocal install');
+						$this->Infinitas->helpPause();
+						break;
+
+					default:
+						$this->Infinitas->p('Invalid option');
+						break;
+				}
+			} while($input != 'Q');
 
 		}
 
