@@ -8,7 +8,7 @@
 	
 	class ScopedCounterNumberTree extends CakeTestModel {
 		public $name = 'ScopedCounterNumberTree';
-		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id', /*'counterCache' => true*/));
+		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id', 'counterCache' => true, 'directCounterCache' => true));
 	}
 
 	class ScopedNumberTreeTest extends AppModelTestCase {
@@ -17,11 +17,10 @@
 			'fixtures' => array(
 				'do' => array(
 					'Libs.ScopedNumberTree',
+					'Libs.ScopedCounterNumberTree'
 				)
 			)
 		);
-		
-		public $tests = array('testFixtureIntegrity');
 		
 		public function testFixtureIntegrity() {
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
@@ -298,31 +297,76 @@
 			$validTree = $this->ScopedNumberTree->verify('cat-letters');
 			$this->assertIdentical($validTree, true);
 		}
-	}
-	
-	class ScopedCounterCacheTest extends AppModelTestCase {
-		public $setup = array(
-			'model' => 'Libs.ScopedCounterNumberTree',
-			'fixtures' => array(
-				'do' => array(
-					'Libs.ScopedCounterNumberTree'
-				)
-			)
-		);
 		
-		function testTreeSave() {
+		function testCounterCache() {
+			$this->ScopedCounterNumberTree = new ScopedCounterNumberTree();
+			
 			$tree = array('ScopedCounterNumberTree' => array(
 				array('name' => 'Root A', 'ScopedCounterNumberTree' => array(
 					array('name' => 'Category A - 1'),
 					array('name' => 'Category A - 2')
 				)),
 				array('name' => 'Root B'),
-				array('name' => 'Root C')
+				array('name' => 'Root C', 'ScopedCounterNumberTree' => array(
+					array('name' => 'Category C - 1'),
+					array('name' => 'Category C - 2', 'ScopedCounterNumberTree' => array(
+						array('name' => 'Category C - 2 - 1'),
+						array('name' => 'Category C - 2 - 2')
+					)),
+					array('name' => 'Category C - 3', 'ScopedCounterNumberTree' => array(
+						array('name' => 'Category C - 3 - 1')
+					))
+				))
 			));
-			
-			$expected = array('Root A', '_Category A - 1', '_Category A - 2', 'Root B', 'Root C');
+			$expected = array(
+				'Root A',
+				'_Category A - 1',
+				'_Category A - 2',
+				'Root B',
+				'Root C',
+				'_Category C - 1',
+				'_Category C - 2',
+				'__Category C - 2 - 1',
+				'__Category C - 2 - 2',
+				'_Category C - 3',
+				'__Category C - 3 - 1'
+			);
 			$this->assertTrue($this->ScopedCounterNumberTree->treeSave($tree, array('scope' => 'test-cat')));
-			$this->assertEqual($expected, array_values($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id', 'test-cat'))));
+			$this->assertEqual($expected, array_values($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id' => 'test-cat'))));
+			
+			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('name', 'children_count', 'direct_children_count'));
+			
+			//Check children counts
+			$expected = array(
+				'Root A' => 2,
+				'Category A - 1' => 0,
+				'Category A - 2' => 0,
+				'Root B' => 0,
+				'Root C' => 6,
+				'Category C - 1' => 0,
+				'Category C - 2' => 2,
+				'Category C - 2 - 1' => 0,
+				'Category C - 2 - 2' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0
+			);
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/children_count'));
+			
+			//Check direct children counts
+			$expected = array(
+				'Root A' => 2,
+				'Category A - 1' => 0,
+				'Category A - 2' => 0,
+				'Root B' => 0,
+				'Root C' => 3,
+				'Category C - 1' => 0,
+				'Category C - 2' => 2,
+				'Category C - 2 - 1' => 0,
+				'Category C - 2 - 2' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0
+			);
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/direct_children_count'));
 			
 			$validTree = $this->ScopedCounterNumberTree->verify('test-cat');
 			$this->assertIdentical($validTree, true);

@@ -10,7 +10,8 @@ class ScopedCounterNumberTreeFixture extends CakeTestFixture {
 		'category_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'lft'	=> array('type' => 'integer','null' => false),
 		'rght'	=> array('type' => 'integer','null' => false),
-		'children_count' => array('type' => 'integer', 'null' => false, 'default' => 0)
+		'children_count' => array('type' => 'integer', 'null' => false, 'default' => 0),
+		'direct_children_count' => array('type' => 'integer', 'null' => false, 'default' => 0)
 	);
 	
 	public $records = array(
