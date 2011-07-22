@@ -424,11 +424,12 @@
 			$started = $this->__testObject->db->begin($this);
 				
 			$table = $this->__testObject->db->config['prefix'] . $fixture->table;
-			if (in_array($table, $this->__testObject->db->listSources())) {
-				$fixture->drop($this->__testObject->db);
+			
+			if(!in_array($table, $this->__testObject->db->listSources())) {
+				$fixture->create($this->__testObject->db);
 			}
-
-			$fixture->create($this->__testObject->db);
+			
+			$fixture->truncate($this->__testObject->db);
 			$fixture->insert($this->__testObject->db);
 
 			if($started){
