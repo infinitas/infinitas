@@ -30,7 +30,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 		if($this->scoped($Model)) {
 			$this->__setScope($Model, $Model->data[$Model->alias]);
 		}
-		
+
 		//Pass on to TreeBehavior to do stuff that trees like to do
 		$return = parent::afterSave($Model, $created);
 		
@@ -53,7 +53,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 		if($this->scoped($Model)) {
 			$this->__setScope($Model);
 		}
-		
+
 		if($this->counterCacheEnabled($Model)) {
 			$this->__parentId = $Model->field($this->settings[$Model->alias]['parent']);
 		}
@@ -68,7 +68,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 		
 		return parent::afterDelete($Model);
 	}
-	
+
 	public function beforeSave($Model) {
 		if($this->scoped($Model)) {
 			if(!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
@@ -77,7 +77,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 				}
 			}
 		}
-		
+
 		if($this->counterCacheEnabled($Model) && $Model->id) {
 			$this->__oldParentId = $Model->field($this->settings[$Model->alias]['parent']);
 		}
@@ -347,7 +347,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 		if(!$id) {
 			return false;
 		}
-		
+
 		$_id = $Model->id;
 		$_data = $Model->data;
 		
@@ -403,7 +403,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 		//Restore the original id and data so other behaviors dont flip out and roll over and die
 		$Model->id = $_id;
 		$Model->data = $_data;
-		
+
 		return true;
 	}
 	
@@ -423,7 +423,6 @@ class InfiniTreeBehavior extends TreeBehavior {
 				$Model->alias . '.' . $Model->primaryKey => $id
 			),
 			'fields' => array(
-				$Model->alias . '.name',
 				$Model->alias . '.' . $this->settings[$Model->alias]['parent'],
 				$Model->alias . '.' . $this->settings[$Model->alias]['left'],
 				$Model->alias . '.' . $this->settings[$Model->alias]['right']
@@ -433,7 +432,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 
 		return $node;
 	}
-	
+
 	public function counterCacheEnabled($Model) {
 		return $this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache'];
 	}

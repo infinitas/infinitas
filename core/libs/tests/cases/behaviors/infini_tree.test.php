@@ -21,9 +21,7 @@
 				)
 			)
 		);
-		
-		//var $tests = array('testCounterCache');
-		
+	
 		public function testFixtureIntegrity() {
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
 			$this->assertIdentical($validTree, true);
@@ -299,10 +297,10 @@
 			$validTree = $this->ScopedNumberTree->verify('cat-letters');
 			$this->assertIdentical($validTree, true);
 		}
-		
+
 		function testCounterCache() {
 			$this->ScopedCounterNumberTree = new ScopedCounterNumberTree();
-			
+
 			$tree = array('ScopedCounterNumberTree' => array(
 				array('name' => 'Root A', 'ScopedCounterNumberTree' => array(
 					array('name' => 'Category A - 1'),
