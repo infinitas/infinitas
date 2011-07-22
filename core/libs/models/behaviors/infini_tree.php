@@ -12,9 +12,17 @@ class InfiniTreeBehavior extends TreeBehavior {
 			'counterCache' => false,
 			'directCounterCache' => false
 		);
-		
-		$config = array_merge(array('scopeField' => false, 'counterCache' => false), $config);
-		
+
+		$config = array_merge(array('scopeField' => false, 'counterCache' => false, 'directCounterCache' => false), $config);
+
+		//Set default counterCache fieldnames if none specified
+		if($config['counterCache'] === true) {
+			$config['counterCache'] = 'children_count';
+		}
+		if($config['directCounterCache'] === true) {
+			$config['directCounterCache'] = 'direct_children_count';
+		}
+
 		return parent::setup($Model, $config);
 	}
 
@@ -23,12 +31,16 @@ class InfiniTreeBehavior extends TreeBehavior {
 			$this->__setScope($Model, $Model->data[$Model->alias]);
 		}
 		
+		//Pass on to TreeBehavior to do stuff that trees like to do
 		$return = parent::afterSave($Model, $created);
 		
-		if($this->settings[$Model->alias]['counterCache']) {
+		//Handle counterCaches if used
+		if($this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache']) {
 			$parent_id = $Model->field($this->settings[$Model->alias]['parent']);
-			$this->looper = 1;
-			$this->updateTreeCounterCache($Model, $parent_id);
+			
+			if($parent_id) {
+				$this->updateTreeCounterCache($Model, $parent_id);
+			}
 		}
 	}
 	
@@ -314,35 +326,63 @@ class InfiniTreeBehavior extends TreeBehavior {
 		if(!$id) {
 			return false;
 		}
+		
+		$_id = $Model->id;
+		$_data = $Model->data;
+		
+		$Model->data = array();
 
-		//Get meta data for this node
 		$node = $this->__getNodeInfo($Model, $id);
+		
+		$counts = array();
+		
+		//Calculate children count
+		if($this->settings[$Model->alias]['counterCache']) {
+			//Take a shortcut if we dont do any extra conditions
+			if(empty($this->settings[$Model->alias]['conditions'])) {
+				$childrenCount = ($node[$Model->alias][$this->settings[$Model->alias]['right']] - $node[$Model->alias][$this->settings[$Model->alias]['left']] - 1) / 2;
+			} else {
+				$childrenCount = $Model->find('count', array(
+					'conditions' => array(
+						array_merge(array(), array(
+							$Model->alias . '.' . $this->settings[$Model->alias]['left'] . ' >' => $node[$Model->alias][$this->settings[$Model->alias]['left']],
+							$Model->alias . '.' . $this->settings[$Model->alias]['right'] . ' <' => $node[$Model->alias][$this->settings[$Model->alias]['right']],
+							$this->settings[$Model->alias]['scope']
+						))
+					),
+					'contain' => false
+				));
+			}
+			
+			$counts[$this->settings[$Model->alias]['counterCache']] = $childrenCount;
+		}
 
-		//Take a shortcut if we dont do any extra conditions
-		if(empty($this->settings[$Model->alias]['conditions'])) {
-			$childrenCount = ($node[$Model->alias][$this->settings[$Model->alias]['right']] - $node[$Model->alias][$this->settings[$Model->alias]['left']] - 1) / 2;
-		} else {
-			$childrenCount = $Model->find('count', array(
+		//Calculate direct children count
+		if($this->settings[$Model->alias]['directCounterCache']) {
+			$directChildrenCount = $Model->find('count', array(
 				'conditions' => array(
 					array_merge(array(), array(
-						$Model->alias . '.' . $this->settings[$Model->alias]['left'] . ' >' => $node[$Model->alias][$this->settings[$Model->alias]['left']],
-						$Model->alias . '.' . $this->settings[$Model->alias]['right'] . ' <' => $node[$Model->alias][$this->settings[$Model->alias]['right']],
+						$Model->alias . '.' . $this->settings[$Model->alias]['parent'] => $id,
 						$this->settings[$Model->alias]['scope']
 					))
 				),
 				'contain' => false
 			));
+
+			$counts[$this->settings[$Model->alias]['directCounterCache']] = $directChildrenCount;
 		}
 
-		$result = $Model->save(array($Model->alias => array(
-			$Model->primaryKey => $id,
-			$this->settings[$Model->alias]['counterCache'] => $childrenCount	
-		)), array('validate' => false, 'callbacks' => false));
+		$Model->id = $id;
+		$result = $Model->save(array($Model->alias => $counts), array('validate' => false, 'callbacks' => false));
 
 		if(!empty($node[$Model->alias][$this->settings[$Model->alias]['parent']])) {
-		//	$this->updateTreeCounterCache($Model, $node[$Model->alias][$this->settings[$Model->alias]['parent']]);
+			$this->updateTreeCounterCache($Model, $node[$Model->alias][$this->settings[$Model->alias]['parent']]);
 		}
 
+		//Restore the original id and data so other behaviors dont flip out and roll over and die
+		$Model->id = $_id;
+		$Model->data = $_data;
+		
 		return true;
 	}
 	
