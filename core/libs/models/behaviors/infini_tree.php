@@ -34,12 +34,17 @@ class InfiniTreeBehavior extends TreeBehavior {
 		//Pass on to TreeBehavior to do stuff that trees like to do
 		$return = parent::afterSave($Model, $created);
 		
-		//Handle counterCaches if used
-		if($this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache']) {
+		if($this->counterCacheEnabled($Model)) {
 			$parent_id = $Model->field($this->settings[$Model->alias]['parent']);
-			
 			if($parent_id) {
 				$this->updateTreeCounterCache($Model, $parent_id);
+			}
+			
+			if($this->counterCacheEnabled($Model) && isset($this->__oldParentId) && !empty($this->__oldParentId)) {
+				debug($this->__oldParentId);
+				$this->updateTreeCounterCache($Model, $this->__oldParentId);
+				
+				$this->__oldParentId = null;
 			}
 		}
 	}
@@ -49,7 +54,19 @@ class InfiniTreeBehavior extends TreeBehavior {
 			$this->__setScope($Model);
 		}
 		
+		if($this->counterCacheEnabled($Model)) {
+			$this->__parentId = $Model->field($this->settings[$Model->alias]['parent']);
+		}
+		
 		return parent::beforeDelete($Model);
+	}
+	
+	public function afterDelete($Model) {
+		if($this->counterCacheEnabled($Model) && $this->__parentId) {
+			$this->updateTreeCounterCache($Model, $this->__parentId);
+		}
+		
+		return parent::afterDelete($Model);
 	}
 	
 	public function beforeSave($Model) {
@@ -59,6 +76,10 @@ class InfiniTreeBehavior extends TreeBehavior {
 					return false;
 				}
 			}
+		}
+		
+		if($this->counterCacheEnabled($Model) && $Model->id) {
+			$this->__oldParentId = $Model->field($this->settings[$Model->alias]['parent']);
 		}
 
 		return parent::beforeSave($Model);
@@ -402,6 +423,7 @@ class InfiniTreeBehavior extends TreeBehavior {
 				$Model->alias . '.' . $Model->primaryKey => $id
 			),
 			'fields' => array(
+				$Model->alias . '.name',
 				$Model->alias . '.' . $this->settings[$Model->alias]['parent'],
 				$Model->alias . '.' . $this->settings[$Model->alias]['left'],
 				$Model->alias . '.' . $this->settings[$Model->alias]['right']
@@ -410,5 +432,9 @@ class InfiniTreeBehavior extends TreeBehavior {
 		));
 
 		return $node;
+	}
+	
+	public function counterCacheEnabled($Model) {
+		return $this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache'];
 	}
 }

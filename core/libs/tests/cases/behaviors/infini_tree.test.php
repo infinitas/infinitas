@@ -22,6 +22,8 @@
 			)
 		);
 		
+		//var $tests = array('testCounterCache');
+		
 		public function testFixtureIntegrity() {
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
 			$this->assertIdentical($validTree, true);
@@ -334,7 +336,8 @@
 			$this->assertTrue($this->ScopedCounterNumberTree->treeSave($tree, array('scope' => 'test-cat')));
 			$this->assertEqual($expected, array_values($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id' => 'test-cat'))));
 			
-			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('name', 'children_count', 'direct_children_count'));
+			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count'));
+			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');
 			
 			//Check children counts
 			$expected = array(
@@ -370,5 +373,152 @@
 			
 			$validTree = $this->ScopedCounterNumberTree->verify('test-cat');
 			$this->assertIdentical($validTree, true);
+			
+			/**
+			 * Adding nodes
+			 */
+			
+			$data = array('name' => 'Root D', 'category_id' => 'test-cat');
+			$this->ScopedCounterNumberTree->create();
+			$this->assertTrue($this->ScopedCounterNumberTree->save($data));
+			
+			$data = array('name' => 'Category B - 1', 'parent_id' => $childrenIds['Root B']);
+			$this->ScopedCounterNumberTree->create();
+			$this->assertTrue($this->ScopedCounterNumberTree->save($data));
+			
+			$data = array('name' => 'Category C - 2 - 2 - 1', 'parent_id' => $childrenIds['Category C - 2 - 2']);;
+			$this->ScopedCounterNumberTree->create();
+			$this->assertTrue($this->ScopedCounterNumberTree->save($data));
+			
+			$validTree = $this->ScopedCounterNumberTree->verify('test-cat');
+			$this->assertIdentical($validTree, true);
+			
+			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count'));
+			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');
+			
+			//Check children counts
+			$expected = array(
+				'Root A' => 2,
+				'Category A - 1' => 0,
+				'Category A - 2' => 0,
+				'Root B' => 1,
+				'Category B - 1' => 0,
+				'Root C' => 7,
+				'Category C - 1' => 0,
+				'Category C - 2' => 3,
+				'Category C - 2 - 1' => 0,
+				'Category C - 2 - 2' => 1,
+				'Category C - 2 - 2 - 1' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0,
+				'Root D' => 0
+			);
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/children_count'));
+			
+			//Check direct children counts
+			$expected = array(
+				'Root A' => 2,
+				'Category A - 1' => 0,
+				'Category A - 2' => 0,
+				'Root B' => 1,
+				'Category B - 1' => 0,
+				'Root C' => 3,
+				'Category C - 1' => 0,
+				'Category C - 2' => 2,
+				'Category C - 2 - 1' => 0,
+				'Category C - 2 - 2' => 1,
+				'Category C - 2 - 2 - 1' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0,
+				'Root D' => 0
+			);
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/direct_children_count'));
+			
+			/**
+			 * Deleting nodes
+			 */
+			
+			//Delete a leaf
+			$this->assertTrue($this->ScopedCounterNumberTree->delete($childrenIds['Category A - 2']));
+			
+			//Delete a root
+			$this->assertTrue($this->ScopedCounterNumberTree->delete($childrenIds['Root D']));
+			
+			//Delete an entire subtree
+			$this->assertTrue($this->ScopedCounterNumberTree->delete($childrenIds['Category C - 2']));
+			
+			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count'));
+			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');
+			
+			//Check children counts
+			$expected = array(
+				'Root A' => 1,
+				'Category A - 1' => 0,
+				'Root B' => 1,
+				'Category B - 1' => 0,
+				'Root C' => 3,
+				'Category C - 1' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0
+			);
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/children_count'));
+			
+			//Check direct children counts
+			$expected = array(
+				'Root A' => 1,
+				'Category A - 1' => 0,
+				'Root B' => 1,
+				'Category B - 1' => 0,
+				'Root C' => 2,
+				'Category C - 1' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0
+			);
+			
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/direct_children_count'));
+			
+			/**
+			 * Moving nodes around
+			 */
+			
+			//Move C - 3 into Root B
+			$this->ScopedCounterNumberTree->id = $childrenIds['Category C - 3'];
+			$this->assertTrue($this->ScopedCounterNumberTree->saveField('parent_id', $childrenIds['Root B']));
+			
+			
+			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count', 'lft', 'rght'));
+			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');
+			
+			//Check children counts
+			$expected = array(
+				'Root A' => 1,
+				'Category A - 1' => 0,
+				'Root B' => 3,
+				'Category B - 1' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0,
+				'Root C' => 1,
+				'Category C - 1' => 0
+			);
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/children_count'));
+			
+			//Check direct children counts
+			$expected = array(
+				'Root A' => 1,
+				'Category A - 1' => 0,
+				'Root B' => 2,
+				'Category B - 1' => 0,
+				'Category C - 3' => 1,
+				'Category C - 3 - 1' => 0,
+				'Root C' => 1,
+				'Category C - 1' => 0
+			);
+			
+			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/direct_children_count'));
+			
+			debug($children);
+			
+			debug($childrenIds);
+			debug($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id' => 'test-cat')));
 		}
 	}
