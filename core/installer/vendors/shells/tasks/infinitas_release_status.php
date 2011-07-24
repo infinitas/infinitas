@@ -2,37 +2,33 @@
 	class InfinitasReleaseStatusTask extends Shell {
 		public $tasks = array('Migration', 'InfinitasFixture', 'Infinitas');
 
+		/**
+		 * @brief list of plugins with the data that relates to them
+		 * 
+		 * @var array
+		 */
 		private $__plugins = array();
 
+		/**
+		 * @brief get the data and output the status
+		 */
 		public function execute() {
-			Configure::write('debug', 2);
-
 			$this->Infinitas->h1('Plugin Schema status');
-
 			$this->__getStatus();
-
 			$this->_output();
-
 			$this->Infinitas->pause();
 		}
 
-		private function __getStatus(){
-			$Plugin = ClassRegistry::init('Installer.Plugin');
-			$allPlugins = $Plugin->getAllPlugins();
-
-			foreach($allPlugins as $plugin){
-				if(in_array($plugin, array('Newsletter'))){
-					continue;
-				}
-				$this->__plugins[$plugin] = $Plugin->getMigrationStatus($plugin);
-
-				$this->__plugins[$plugin]['changes'] = false;
-				if($this->__plugins[$plugin]['installed'] && $this->__plugins[$plugin]['migrations_behind'] == 0){
-					$this->__plugins[$plugin]['changes'] = $this->Migration->checkForChanges($plugin);
-				}
-			}
-		}
-
+		/**
+		 * @breif display the data for all plugins
+		 *
+		 * Shows the status of plugins schema grouped by not installed, behind origin,
+		 * installed with local changes and upto date
+		 *
+		 * @access protected
+		 *
+		 * @return void, outputs to terminal
+		 */
 		protected function _output(){
 			$out = array('not-installed' => array(), 'behind' => array(), 'changes' => array(), 'ok' => array());
 			foreach($this->__plugins as $plugin => $status){
@@ -92,6 +88,37 @@
 			}
 		}
 
+		/**
+		 * @brief sort out data into something manageable
+		 *
+		 * @access protected
+		 *
+		 * @return void
+		 */
+		private function __getStatus(){
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+			$allPlugins = $Plugin->getAllPlugins();
+
+			foreach($allPlugins as $plugin){
+				if(in_array($plugin, array('Newsletter'))){
+					continue;
+				}
+				$this->__plugins[$plugin] = $Plugin->getMigrationStatus($plugin);
+
+				$this->__plugins[$plugin]['changes'] = false;
+				if($this->__plugins[$plugin]['installed'] && $this->__plugins[$plugin]['migrations_behind'] == 0){
+					$this->__plugins[$plugin]['changes'] = $this->Migration->checkForChanges($plugin);
+				}
+			}
+		}
+
+		/**
+		 * @breif output list of things in cols
+		 *
+		 * generates cols of data based on the array that was passed in
+		 *
+		 * @param array $list array of data
+		 */
 		private function __outputList($list){
 			$data = array();
 			foreach($list as $row){
