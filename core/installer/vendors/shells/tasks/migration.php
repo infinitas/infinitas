@@ -63,33 +63,23 @@
 		 *
 		 * @param string $plugin the name of the plugin to check.
 		 *
-		 * @return mixed false if there are no changes, array with error if anything was found
+		 * @return mixed false if there are no changes, array with changes if any were found
 		 */
 		public function checkForChanges($plugin){
 			$this->type = Inflector::underscore($plugin);
 			$this->path = $this->__getPath() . 'config' . DS . 'releases' . DS;
 
-			$fromSchema = false;
 			$this->Schema = $this->_getSchema();
-			$migration = array('up' => array(), 'down' => array());
 
 			$oldSchema = $this->_getSchema($this->type);
-			if($oldSchema === false){
-				return array(
-					'error' => 'No schema found'
-				);
-			}
-			else if ($oldSchema !== false) {
+			if ($oldSchema !== false) {
 				if ($this->type !== 'migrations') {
 					unset($oldSchema->tables['schema_migrations']);
 				}
 
-				$schema = $newSchema = $this->_readSchema();
-				$comparison = $this->Schema->compare($oldSchema, $newSchema);
+				$comparison = $this->Schema->compare($oldSchema, $this->_readSchema());
 				if(!empty($comparison)){
-					return array(
-						'error' => 'There are changes to the plugins database(s)'
-					);
+					return $comparison;
 				}
 			}
 
