@@ -65,23 +65,31 @@
 				}
 			}
 
-			$this->Infinitas->h2('Not Installed');
-			$this->__outputList($out['not-installed']);
-
-			$this->Infinitas->h2('Schema Behind');
-			$this->Infinitas->out("Plugin		Installed	Migrations");
-			foreach($out['behind'] as $row){
-				$this->Infinitas->out($row);
+			if(!empty($out['not-installed'])){
+				$this->Infinitas->h2('Not Installed');
+				$this->__outputList($out['not-installed']);
 			}
 
-			$this->Infinitas->h2('Local Changes');
-			$this->Infinitas->out("Plugin		Table		Fields");
-			foreach($out['changes'] as $row){
-				$this->Infinitas->out($row);
+			if(!empty($out['behind'])){
+				$this->Infinitas->h2('Schema Behind');
+				$this->Infinitas->out("Plugin		Installed	Migrations");
+				foreach($out['behind'] as $row){
+					$this->Infinitas->out($row);
+				}
 			}
 
-			$this->Infinitas->h2('All Ok');
-			$this->__outputList($out['ok']);
+			if(!empty($out['changes'])){
+				$this->Infinitas->h2('Local Changes');
+				$this->Infinitas->out("Plugin		Table		Fields");
+				foreach($out['changes'] as $row){
+					$this->Infinitas->out($row);
+				}
+			}
+
+			if(!empty($out['ok'])){
+				$this->Infinitas->h2('All Ok');
+				$this->__outputList($out['ok']);
+			}
 		}
 
 		private function __outputList($list){
