@@ -200,4 +200,97 @@
 
 			return true;
 		}
+
+		/**
+		 * @breif get the current installed version of the migration
+		 *
+		 * @access public
+		 *
+		 * @param string $plugin the name of the plugin to check
+		 *
+		 * @return mixed false on error, null if not found or int as version number
+		 */
+		public function getMigrationVersion($plugin = null){
+			if(!$plugin){
+				return false;
+			}
+
+			$migration = ClassRegistry::init('SchemaMigration')->find(
+				'first',
+				array(
+					'conditions' => array(
+						'SchemaMigration.type' => $plugin
+					)
+				)
+			);
+
+			return (isset($migration['SchemaMigration']['version'])) ? $migration['SchemaMigration']['version'] : null;
+		}
+
+		/**
+		 * @breif get the current version for the passed in plugin
+		 *
+		 * @access public
+		 *
+		 * @param string $plugin the name of the plugin
+		 *
+		 * @return mixed false on error, null if not found int of migrations available
+		 */
+		public function getAvailableMigrationsCount($plugin = null){
+			if(!$plugin){
+				return false;
+			}
+
+			$path = App::pluginPath($plugin) . 'config' . DS . 'releases';
+			$Folder = new Folder($path);
+
+			$data = $Folder->read();
+			unset($Folder, $plugin, $path);
+			
+			if(in_array('map.php', $data[1])){
+				return count($data[1]) - 1;
+			}
+
+			return null;
+		}
+
+		/**
+		 * @brief get migrations / installed count for a specific plugin
+		 *
+		 * @access public
+		 *
+		 * @param string $plugin the name of the plugin.
+		 *
+		 * @return mixed array of data or false
+		 */
+		public function getMigrationStatus($plugin = null){
+			if(!$plugin){
+				return false;
+			}
+
+			$return = array();
+			$return['migrations_available'] = $this->getAvailableMigrationsCount($plugin);
+			$return['migrations_installed'] = $this->getMigrationVersion($plugin);
+			$return['migrations_behind'] = $return['migrations_available'] - $return['migrations_installed'];
+			$return['installed'] = $this->isInstalled($plugin);
+
+			return $return;
+		}
+
+		/**
+		 * @brief check if a plugin is installed
+		 *
+		 * @access public
+		 *
+		 * @param string $plugin the name of the plugin
+		 *
+		 * @return bool true if its installed, false if not
+		 */
+		public function isInstalled($plugin = null){
+			if(!$plugin){
+				return false;
+			}
+
+			return (bool)$this->find('count', array('conditions' => array($this->alias . '.internal_name' => $plugin)));
+		}
 	}
