@@ -132,14 +132,19 @@
 				$pluginDetails['enabled'] = true;
 				$pluginDetails['core'] = strpos(App::pluginPath($pluginName), APP . 'core' . DS) !== false;
 
+				$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';
 
 				$installed = false;
-				if($this->save($pluginDetails)) {
+				$this->create();
+				if($this->save(array($this->alias => $pluginDetails))) {
 					$installed = true;
+					
 					if($options['installRelease'] === true) {
 						$installed = $this->__processRelease($pluginName, $options['sampleData']);
 					}
 				}
+
+				print_r($this->validationErrors);
 
 				return $installed;
 			}
