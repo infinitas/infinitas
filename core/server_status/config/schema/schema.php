@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* ServerStatus schema generated on: 2011-07-20 22:07:25 : 1311196705*/
+/* ServerStatus schema generated on: 2011-07-25 14:07:14 : 1311602294*/
 class ServerStatusSchema extends CakeSchema {
 	var $name = 'ServerStatus';
 
@@ -14,7 +14,7 @@ class ServerStatusSchema extends CakeSchema {
 	var $crons = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'process_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8),
-		'year' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'year' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'month' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 2),
 		'day' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 2),
 		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
