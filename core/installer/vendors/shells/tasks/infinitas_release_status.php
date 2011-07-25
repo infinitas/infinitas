@@ -1,5 +1,7 @@
 <?php
-	class InfinitasReleaseStatusTask extends Shell {
+	App::import('lib', 'Libs.InfinitasAppShell');
+	
+	class InfinitasReleaseStatusTask extends InfinitasAppShell {
 		public $tasks = array('Migration', 'InfinitasFixture', 'Infinitas');
 
 		/**
@@ -100,16 +102,22 @@
 			$allPlugins = $Plugin->getAllPlugins();
 
 			foreach($allPlugins as $plugin){
+				$this->interactive(sprintf('Checking %s', $plugin));
 				if(in_array($plugin, array('Newsletter'))){
 					continue;
 				}
+
 				$this->__plugins[$plugin] = $Plugin->getMigrationStatus($plugin);
+				$this->interactive('.', true);
 
 				$this->__plugins[$plugin]['changes'] = false;
 				if($this->__plugins[$plugin]['installed'] && $this->__plugins[$plugin]['migrations_behind'] == 0){
 					$this->__plugins[$plugin]['changes'] = $this->Migration->checkForChanges($plugin);
+					$this->interactive('.', true);
 				}
 			}
+
+			$this->interactiveClear();
 		}
 
 		/**
