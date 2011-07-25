@@ -59,7 +59,7 @@
 					)
 				)
 			));
-			debug($data);
+
 			$expected = array('United Kingdom', '_Sales', '_Marketing', '_R&D', 'Belgium', '_Sales', '_Marketing', '_R&D');
 			$this->assertTrue($this->ScopedNumberTree->treeSave($data, array('scope' => 'cat-new')));
 			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-new'))));			
