@@ -225,6 +225,9 @@
 				array(
 					'conditions' => array(
 						'SchemaMigration.type' => $plugin
+					),
+					'order' => array(
+						'SchemaMigration.version' => 'desc'
 					)
 				)
 			);
