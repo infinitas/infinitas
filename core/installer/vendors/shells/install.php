@@ -1,7 +1,8 @@
 <?php
+	App::import('Lib', 'Libs.InfinitasAppShell');
 	App::import('Lib', 'Installer.Installer');
 	
-	class InstallShell extends Shell {
+	class InstallShell extends InfinitasAppShell {
 		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
 
 		/**
@@ -133,7 +134,7 @@
 						break;
 
 					case 'L':
-						$this->Installer->installFromZipFile();
+						$this->Installer->installLocalPlugin();
 						break;
 
 					case 'H':
