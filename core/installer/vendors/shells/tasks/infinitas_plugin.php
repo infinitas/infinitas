@@ -369,8 +369,39 @@
 
 			$content = $this->__generateTemplate('release', $vars);
 
+			$this->__makeInstalled($this->__plugin);
+
 			$File = new File($this->__configPath . 'releases' . DS . $name . '.php', true);
 			return $File->write($content);
+		}
+
+		/**
+		 * @brief update the version in the database
+		 *
+		 * When creating migrations localy obviously your table is upto date so
+		 * it should be marked as such in the schema_migrations table so that there
+		 * are no errors later on with updates.
+		 *
+		 * This will also update/create the plugin details in the plugins table.
+		 *
+		 * @param string $plugin the name of the plugin
+		 *
+		 * @return bool, true on save, false on error
+		 */
+		private function __makeInstalled($plugin){
+			$SchemaMigration = ClassRegistry::init('SchemaMigration');
+
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+			$Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
+			
+			$migration = $SchemaMigration->find('first', array('conditions' => array('SchemaMigration.type' => $plugin)));
+			if(!empty($migration)){
+				$migration['SchemaMigration']['version'] += 1;
+				return (bool)$SchemaMigration->save($migration);
+			}
+
+			$SchemaMigration->create();
+			return (bool)$SchemaMigration->save(array('SchemaMigration' => array('type' => $plugin, 'version' => 1)));
 		}
 
 		/**
