@@ -69,4 +69,27 @@
 
 			unset($paths);
 		}
+
+		/**
+		 * setTerminalWidth method
+		 *
+		 * Ask the terminal, and default to min 80 chars.
+		 *
+		 * @TODO can you get windows to tell you the size of the terminal?
+		 * @param mixed $width null
+		 * @return void
+		 * @access protected
+		 */
+		protected function setTerminalWidth($width = null) {
+			if ($width === null) {
+				if (DS === '/') {
+					$width = `tput cols`;
+				}
+				if ($width < 80) {
+					$width = 80;
+				}
+			}
+			$this->size = min(max(4, $width / 10), $this->size);
+			$this->terminalWidth = $width;
+		}
 	}
