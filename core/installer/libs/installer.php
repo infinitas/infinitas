@@ -298,10 +298,8 @@ LICENCE;
 			}
 
 			$this->Plugin = ClassRegistry::init('Installer.Plugin');
-			print_r($this->_saved);
-			exit;
-			foreach($this->_saved as $pluginName => $options){
-				$this->Plugin->installPlugin($pluginName, $options);
+			foreach($this->_saved as $pluginName => $options) {
+				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
 			}
 
 			return $result;
