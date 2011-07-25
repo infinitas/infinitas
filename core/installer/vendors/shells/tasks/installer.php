@@ -1,5 +1,7 @@
 <?php
-	class InstallerTask extends Shell {
+	App::import('lib', 'Libs.InfinitasAppShell');
+	
+	class InstallerTask extends InfinitasAppShell {
 		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
 
 		public $config = array(
@@ -76,10 +78,106 @@
 			foreach($this->config['connection'] as $k => $v){
 				echo $k . ' :: ' . $v . "\r\n";
 			}
-
+			Configure::write('default', 2);
 			$this->_getSampleDataOption();
 
-			$this->InstallerLib->populateDatabase($this->config);
+
+			App::import('Core', 'ConnectionManager');
+
+			$dbConfig = $this->InstallerLib->cleanConnectionDetails($this->config);
+			$this->InstallerLib->config = $this->config;
+
+			$db = ConnectionManager::create('default', $dbConfig);
+
+			$plugins = App::objects('plugin');
+			natsort($plugins);
+
+			App::import('Lib', 'Installer.ReleaseVersion');
+			$Version = new ReleaseVersion();
+
+			//Install app tables first
+			$this->interactive('Installing: App data');
+			$result = $this->InstallerLib->installPlugin($Version, $dbConfig, 'app');
+
+			$result = true;
+			if($result) {
+				$this->interactive('Installing: Installer');
+				$result = $result && $this->InstallerLib->installPlugin($Version, $dbConfig, 'Installer');
+			}
+
+			if($result) {
+				//Then install all other plugins
+				foreach($plugins as $plugin) {
+					if($plugin == 'Installer') {
+						continue;
+					}
+
+					$this->interactive(sprintf('Installing: %s', $plugin));
+					$result = $result && $this->InstallerLib->installPlugin($Version, $dbConfig, $plugin);
+					var_dump($result);
+				}
+				
+				$this->interactiveClear();
+			}
+
+			$this->Plugin = ClassRegistry::init('Installer.Plugin');
+			foreach($plugins as $pluginName) {
+				$this->interactive(sprintf('Updating: %s', $plugin));
+				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
+			}
+
+			$this->interactiveClear();
+
+			return $result;
+		}
+
+		public function installLocalPlugin(){
+			$plugins = $this->__getPluginToInstall();
+			if(!$plugins){
+				return false;
+			}
+
+			if(!is_array($plugins)){
+				$plugins = array($plugins);
+			}
+
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+
+			foreach($plugins as $plugin){
+				$output = sprintf('Update for %s has failed :(', $plugin);
+				if($Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false))){
+					$output = sprintf('%s Plugin updated', $plugin);
+				}
+
+				$this->Infinitas->out($output);
+			}
+
+			$this->Infinitas->pause();
+		}
+
+		public function updatePlugin(){
+			$plugins = $this->__getPluginToUpdate();
+			if(!$plugins){
+				return false;
+			}
+
+			if(!is_array($plugins)){
+				$plugins = array($plugins);
+			}
+
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+
+			foreach($plugins as $plugin){
+				$output = sprintf('Update for %s has failed :(', $plugin);
+				if($Plugin->installPlugin($plugin)){
+					$output = sprintf('%s Plugin updated', $plugin);
+				}
+
+				$this->Infinitas->out($output);
+			}
+
+			$this->Infinitas->pause();
+			$this->updatePlugin();
 		}
 
 
@@ -177,55 +275,6 @@
 					$this->welcome();
 					break;
 			}
-		}
-
-		public function installLocalPlugin(){
-			$plugins = $this->__getPluginToInstall();
-			if(!$plugins){
-				return false;
-			}
-
-			if(!is_array($plugins)){
-				$plugins = array($plugins);
-			}
-
-			$Plugin = ClassRegistry::init('Installer.Plugin');
-
-			foreach($plugins as $plugin){
-				$output = sprintf('Update for %s has failed :(', $plugin);
-				if($Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false))){
-					$output = sprintf('%s Plugin updated', $plugin);
-				}
-
-				$this->Infinitas->out($output);
-			}
-			
-			$this->Infinitas->pause();
-		}
-
-		public function updatePlugin(){
-			$plugins = $this->__getPluginToUpdate();
-			if(!$plugins){
-				return false;
-			}
-
-			if(!is_array($plugins)){
-				$plugins = array($plugins);
-			}
-
-			$Plugin = ClassRegistry::init('Installer.Plugin');
-
-			foreach($plugins as $plugin){
-				$output = sprintf('Update for %s has failed :(', $plugin);
-				if($Plugin->installPlugin($plugin)){
-					$output = sprintf('%s Plugin updated', $plugin);
-				}
-
-				$this->Infinitas->out($output);
-			}
-			
-			$this->Infinitas->pause();
-			$this->updatePlugin();
 		}
 
 		private function __getPluginToUpdate(){

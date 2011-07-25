@@ -167,6 +167,11 @@ LICENCE;
 						' will not work otherwise and Infinitas will perform very poorly.',
 				)
 			);
+
+			App::import('Libs', 'ClearCache.ClearCache');
+			$ClearCache = new ClearCache();
+
+			$ClearCache->run();
 		}
 
 		/**
@@ -265,102 +270,43 @@ LICENCE;
 			return false;
 		}
 
-		public function populateDatabase($config){
-			App::import('Core', 'ConnectionManager');
-			$this->config = $config;
+		public function installPlugin($Version, $dbConfig, $plugin = 'app') {
+			$configPath = APP . 'config' . DS;
+			$checkFile = $configPath . 'releases' . DS . 'map.php';
 
-			$dbConfig = $this->__cleanConnectionDetails($config);
-
-			$db = ConnectionManager::create('default', $dbConfig);
-
-			$plugins = App::objects('plugin');
-			natsort($plugins);
-
-			App::import('Lib', 'Installer.ReleaseVersion');
-			$Version = new ReleaseVersion();
-
-			//Install app tables first
-			$result = $this->__installPlugin($Version, $dbConfig, 'app');
-
-			$result = true;
-			if($result) {
-				//Then install the Installer plugin
-				$result = $result && $this->__installPlugin($Version, $dbConfig, 'Installer');
-
-				if($result) {
-					//Then install all other plugins
-					foreach($plugins as $plugin) {
-						if($plugin != 'Installer') {
-							$result = $result && $this->__installPlugin($Version, $dbConfig, $plugin);
-						}
-					}
-				}
-			}
-
-			$this->Plugin = ClassRegistry::init('Installer.Plugin');
-			foreach($this->_saved as $pluginName => $options) {
-				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
-			}
-
-			return $result;
-		}
-
-		private function __installPlugin($Version, $dbConfig, $plugin = 'app') {		
-			echo sprintf('Installing :: %s' . "\r\n", $plugin);
-			
 			if($plugin !== 'app') {
 				$pluginPath = App::pluginPath($plugin);
 				$configPath = $pluginPath . 'config' . DS;
 				$checkFile = $configPath . 'config.json';
 			}
-			else {
-				$configPath = APP . 'config' . DS;
-				$checkFile = $configPath . 'releases' . DS . 'map.php';
-			}
 
-			if(file_exists($checkFile)) {
-				if(file_exists($configPath . 'releases' . DS . 'map.php')) {
-					try {
-						echo sprintf('%sFixtures%s', "\t", "\r\n");
-						$mapping = $Version->getMapping($plugin);
-
-						$latest = array_pop($mapping);
-
-						echo sprintf('%sStructure%s', "\t", "\r\n");
-						$versionResult = $Version->run(array(
+			$versionResult = false;
+			if(file_exists($checkFile) && file_exists($configPath . 'releases' . DS . 'map.php')) {
+				try {
+					$latest = array_pop($Version->getMapping($plugin));
+					$versionResult = $Version->run(
+						array(
 							'type' => $plugin,
 							'version' => $latest['version'],
 							'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
 							'sample' => (bool)$this->config['sample_data']
-						));
-					}
-					catch (Exception $e) {
-						return false;
-					}
-				}
-				else {
-					$versionResult = true;
-				}
-
-				if($versionResult && $plugin !== 'app') {
-					echo sprintf('%sSave%s', "\t", "\r\n");
-					$this->_saved[] = array(
-						$plugin,
-						array('installRelease' => false)
+						)
 					);
 				}
-
-				return $versionResult;
+				
+				catch (Exception $e) {
+					return false;
+				}
 			}
 
-			return true;
+			return $versionResult;
 		}
 
 		/**
 		 * remove unused details from the supplied connection and set the root
 		 * username / password if there is one provided.
 		 */
-		function __cleanConnectionDetails($connectionDetails = array()) {
+		public function cleanConnectionDetails($connectionDetails = array()) {
 			$config = $connectionDetails['connection'];
 			unset($config['step']);
 

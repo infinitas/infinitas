@@ -22,7 +22,7 @@
 		}
 
 		public function interactiveClear() {
-			$this->Dispatch->stdout(str_repeat(' ', $this->terminalWidth - 2) . "\r", false);
+			$this->Dispatch->stdout("\r" . str_repeat(' ', $this->terminalWidth - 2), false);
 			$this->__interactiveBuffer = null;
 		}
 
@@ -34,7 +34,7 @@
 				$this->__interactiveBuffer = $text;
 			}
 
-			$this->Dispatch->stdout(str_pad($this->__interactiveBuffer, $this->terminalWidth - 1) . "\r", false);
+			$this->Dispatch->stdout("\r" . str_pad($this->__interactiveBuffer, $this->terminalWidth - 2), false);
 		}
 
 		private function __bootstrapPlugins() {
