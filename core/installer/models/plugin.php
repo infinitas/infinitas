@@ -144,8 +144,6 @@
 					}
 				}
 
-				print_r($this->validationErrors);
-
 				return $installed;
 			}
 		}
