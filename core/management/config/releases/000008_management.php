@@ -26,25 +26,6 @@ class R4c94edcd27f04a8d95f078d86318cd70 extends CakeRelease {
 	public $migration = array(
 		'up' => array(
 			'create_table' => array(
-				'addresses' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'street' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'province' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'postal' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10),
-					'country_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
 				'backups' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
@@ -52,16 +33,6 @@ class R4c94edcd27f04a8d95f078d86318cd70 extends CakeRelease {
 					'last_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'data' => array('type' => 'text', 'null' => false, 'default' => NULL),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'countries' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 5),
-					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'indexes' => array(
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
