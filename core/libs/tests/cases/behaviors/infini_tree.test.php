@@ -21,7 +21,7 @@
 				)
 			)
 		);
-	
+
 		public function testFixtureIntegrity() {
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
 			$this->assertIdentical($validTree, true);
@@ -59,6 +59,7 @@
 					)
 				)
 			));
+			debug($data);
 			$expected = array('United Kingdom', '_Sales', '_Marketing', '_R&D', 'Belgium', '_Sales', '_Marketing', '_R&D');
 			$this->assertTrue($this->ScopedNumberTree->treeSave($data, array('scope' => 'cat-new')));
 			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-new'))));			
@@ -445,7 +446,7 @@
 			//Delete an entire subtree
 			$this->assertTrue($this->ScopedCounterNumberTree->delete($childrenIds['Category C - 2']));
 			
-			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count'));
+			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count', 'lft', 'rght', 'parent_id'));
 			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');
 			
 			//Check children counts
@@ -482,11 +483,10 @@
 			//Move C - 3 into Root B
 			$this->ScopedCounterNumberTree->id = $childrenIds['Category C - 3'];
 			$this->assertTrue($this->ScopedCounterNumberTree->saveField('parent_id', $childrenIds['Root B']));
-			
-			
+
 			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count', 'lft', 'rght'));
 			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');
-			
+
 			//Check children counts
 			$expected = array(
 				'Root A' => 1,
@@ -514,9 +514,7 @@
 			
 			$this->assertEqual($expected, Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/direct_children_count'));
 			
-			debug($children);
-			
-			debug($childrenIds);
-			debug($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id' => 'test-cat')));
+			$validTree = $this->ScopedNumberTree->verify('test-cat');
+			$this->assertIdentical($validTree, true);
 		}
 	}
