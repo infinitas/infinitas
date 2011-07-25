@@ -2,9 +2,11 @@
 	class ServerStatus extends CoreAppModel{
 		public $name = 'ServerStatus';
 
-		public $useTable = 'crons';
+		public $useTable = false;
 
 		public function  __construct($id = false, $table = null, $ds = null) {
+			$this->useTable = 'crons';
+			
 			parent::__construct($id, $table, $ds);
 
 			$this->virtualFields['sub_total'] = 'COUNT(' . $this->alias . '.id)';

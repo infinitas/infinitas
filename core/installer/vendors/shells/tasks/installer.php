@@ -192,15 +192,14 @@
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 
 			foreach($plugins as $plugin){
-				$update = $Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
-				var_dump($update);
-				if($update){
-					$this->Infinitas->out(sprintf('%s Plugin updated', $plugin));
+				$output = sprintf('Update for %s has failed :(', $plugin);
+				if($Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false))){
+					$output = sprintf('%s Plugin updated', $plugin);
 				}
-				else{
-					$this->Infinitas->out(sprintf('Update for %s has failed :(', $plugin));
-				}
+
+				$this->Infinitas->out($output);
 			}
+			
 			$this->Infinitas->pause();
 		}
 
@@ -217,20 +216,29 @@
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 
 			foreach($plugins as $plugin){
-				$update = $Plugin->installPlugin($plugin);
-				if($update){
-					$this->Infinitas->out(sprintf('%s Plugin updated', $plugin));
+				$output = sprintf('Update for %s has failed :(', $plugin);
+				if($Plugin->installPlugin($plugin)){
+					$output = sprintf('%s Plugin updated', $plugin);
 				}
-				else{
-					$this->Infinitas->out(sprintf('Update for %s has failed :(', $plugin));
-				}
+
+				$this->Infinitas->out($output);
 			}
+			
 			$this->Infinitas->pause();
+			$this->updatePlugin();
 		}
 
 		private function __getPluginToUpdate(){
-			$plugins = ClassRegistry::init('Installer.Plugin')->getInstalledPlugins();
-			sort($plugins);
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+			Configure::write('debug', 2);
+			$plugins = array();
+			foreach($Plugin->getInstalledPlugins() as $plugin){
+				$status = $Plugin->getMigrationStatus($plugin);
+				
+				if($status['migrations_behind']){
+					$plugins[] = $plugin;
+				}
+			}
 
 			do {
 				$this->Infinitas->h1('Interactive Install Shell');

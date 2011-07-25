@@ -395,12 +395,15 @@
 			$Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
 			
 			$migration = $SchemaMigration->find('first', array('conditions' => array('SchemaMigration.type' => $plugin)));
+
+			$SchemaMigration->create();
+
 			if(!empty($migration)){
+				unset($migration['SchemaMigration']['id']);
 				$migration['SchemaMigration']['version'] += 1;
 				return (bool)$SchemaMigration->save($migration);
 			}
 
-			$SchemaMigration->create();
 			return (bool)$SchemaMigration->save(array('SchemaMigration' => array('type' => $plugin, 'version' => 1)));
 		}
 
