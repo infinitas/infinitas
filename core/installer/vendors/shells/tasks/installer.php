@@ -78,9 +78,8 @@
 			foreach($this->config['connection'] as $k => $v){
 				echo $k . ' :: ' . $v . "\r\n";
 			}
-			Configure::write('default', 2);
+			
 			$this->_getSampleDataOption();
-
 
 			App::import('Core', 'ConnectionManager');
 
