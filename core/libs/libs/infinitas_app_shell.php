@@ -1,9 +1,40 @@
 <?php
 	class InfinitasAppShell extends Shell {
+		public $tasks = array(
+			'ProgressBar'
+		);
+
+		/**
+		 * @brief the width of the terminal
+		 * 
+		 * @var int
+		 */
+		public $terminalWidth = null;
+
+		private $__interactiveBuffer = null;
+
 		public function __construct($dispatch){
 			$this->__bootstrapPlugins();
 
+			$this->setTerminalWidth();
+
 			parent::__construct($dispatch);
+		}
+
+		public function interactiveClear() {
+			$this->Dispatch->stdout(str_repeat(' ', $this->terminalWidth - 2) . "\r", false);
+			$this->__interactiveBuffer = null;
+		}
+
+		public function interactive($text = null, $append = false) {
+			if($append === true){
+				$this->__interactiveBuffer .=  $text;
+			}
+			else{
+				$this->__interactiveBuffer = $text;
+			}
+
+			$this->Dispatch->stdout(str_pad($this->__interactiveBuffer, $this->terminalWidth - 1) . "\r", false);
 		}
 
 		private function __bootstrapPlugins() {
