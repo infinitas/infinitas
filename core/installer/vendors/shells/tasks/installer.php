@@ -179,6 +179,31 @@
 			}
 		}
 
+		public function installLocalPlugin(){
+			$plugins = $this->__getPluginToInstall();
+			if(!$plugins){
+				return false;
+			}
+
+			if(!is_array($plugins)){
+				$plugins = array($plugins);
+			}
+
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+
+			foreach($plugins as $plugin){
+				$update = $Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
+				var_dump($update);
+				if($update){
+					$this->Infinitas->out(sprintf('%s Plugin updated', $plugin));
+				}
+				else{
+					$this->Infinitas->out(sprintf('Update for %s has failed :(', $plugin));
+				}
+			}
+			$this->Infinitas->pause();
+		}
+
 		public function updatePlugin(){
 			$plugins = $this->__getPluginToUpdate();
 			if(!$plugins){
@@ -213,9 +238,33 @@
 					$this->Infinitas->out($i + 1 . ') ' . $plugin);
 				}
 				$this->Infinitas->out('A)ll');
-				
+
 				$this->Infinitas->br();
 				$input = strtoupper($this->in('Which plugin do you want to update?'));
+
+				if(isset($plugins[$input - 1])){
+					return $plugins[$input - 1];
+				}
+
+				if($input == 'A'){
+					return $plugins;
+				}
+			} while($input != 'Q');
+		}
+
+		private function __getPluginToInstall(){
+			$plugins = ClassRegistry::init('Installer.Plugin')->getNonInstalledPlugins();
+			sort($plugins);
+
+			do {
+				$this->Infinitas->h1('Interactive Install Shell');
+				foreach($plugins as $i => $plugin){
+					$this->Infinitas->out($i + 1 . ') ' . $plugin);
+				}
+				$this->Infinitas->out('A)ll');
+
+				$this->Infinitas->br();
+				$input = strtoupper($this->in('Which plugin do you want to install?'));
 
 				if(isset($plugins[$input - 1])){
 					return $plugins[$input - 1];
