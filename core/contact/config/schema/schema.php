@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Contact schema generated on: 2011-07-20 22:07:31 : 1311195811*/
+/* Contact schema generated on: 2011-07-25 14:07:40 : 1311602080*/
 class ContactSchema extends CakeSchema {
 	var $name = 'Contact';
 
@@ -69,7 +69,7 @@ class ContactSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $countries = array(
-		'id' => array('type' => 'string', 'null' => false, 'default' => '`UUID()`', 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1', 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1', 'key' => 'primary'),
 		'iso' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 2, 'key' => 'primary', 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 80, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'printable_name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 80, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
