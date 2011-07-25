@@ -15,8 +15,9 @@
 
 		public function __construct($dispatch){
 			$this->__bootstrapPlugins();
-
 			$this->setTerminalWidth();
+
+			App::import('Core', 'Router');
 
 			parent::__construct($dispatch);
 		}
