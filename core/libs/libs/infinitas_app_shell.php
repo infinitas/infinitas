@@ -9,7 +9,7 @@
 		 * 
 		 * @var int
 		 */
-		public $terminalWidth = null;
+		public $terminalWidth = 25;
 
 		private $__interactiveBuffer = null;
 
@@ -86,6 +86,9 @@
 					$width = 80;
 				}
 			}
+
+			$this->size = isset($this->size) ? $this->size : 25;
+
 			$this->size = min(max(4, $width / 10), $this->size);
 			$this->terminalWidth = $width;
 		}
