@@ -489,59 +489,71 @@
 		 *
 		 * Generates links for ordering mptt rows with the TreeBehavior
 		 *
+		 * options:
+		 * - firstChild: Pass true if this node is the first child
+		 * - lastChild: Pass true if this node is the last child
+		 * 
 		 * @see AppHelper::ordering()
 		 *
 		 * @param array $data the row being ordered
+		 * @param array $options see above
 		 * @access public
 		 *
 		 * @return string the html markup for icons to order the rows
 		 */
-		public function treeOrdering($data = null){
+		public function treeOrdering($data = null, $options = array()){
+			$options = array_merge(array('firstChild' => false, 'lastChild' => false), $options);
+			
 			if (!$data) {
 				$this->errors[] = 'There is no data to build reorder links';
 				return false;
 			}
 
-
-			$out = $this->Html->link(
-				$this->Html->image(
-					$this->Image->getRelativePath('actions', 'arrow-up'),
+			$out = '';
+			
+			if(!$options['firstChild']) {
+				$out .= $this->Html->link(
+					$this->Html->image(
+						$this->Image->getRelativePath('actions', 'arrow-up'),
+						array(
+							'alt' => __('Up', true),
+							'title' => __('Move up', true),
+							'width' => '16px',
+							'class' => 'arrow-up'
+						)
+					),
 					array(
-						'alt' => __('Up', true),
-						'title' => __('Move up', true),
-						'width' => '16px',
-						'class' => 'arrow-up'
-					)
-				),
-				array(
-					'action' => 'reorder',
-					'direction' => 'up',
-					$data['id']
-				),
-				array(
-					'escape' => false,
-				)
-			);
-
-			$out .= $this->Html->link(
-				$this->Html->image(
-					$this->Image->getRelativePath('actions', 'arrow-down'),
+						'action' => 'reorder',
+						'direction' => 'up',
+						$data['id']
+					),
 					array(
-						'alt' => __('Down', true),
-						'title' => __('Move down', true),
-						'width' => '16px',
-						'class' => 'arrow-down'
+						'escape' => false,
 					)
-				),
-				array(
-					'action' => 'reorder',
-					'direction' => 'down',
-					$data['id']
-				),
-				array(
-					'escape' => false,
-				)
-			);
+				);
+			}
+
+			if(!$options['lastChild']) {
+				$out .= $this->Html->link(
+					$this->Html->image(
+						$this->Image->getRelativePath('actions', 'arrow-down'),
+						array(
+							'alt' => __('Down', true),
+							'title' => __('Move down', true),
+							'width' => '16px',
+							'class' => 'arrow-down'
+						)
+					),
+					array(
+						'action' => 'reorder',
+						'direction' => 'down',
+						$data['id']
+					),
+					array(
+						'escape' => false,
+					)
+				);
+			}
 
 			return $out;
 		}
