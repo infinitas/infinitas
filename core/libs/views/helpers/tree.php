@@ -17,7 +17,6 @@
 		 * @var array
 		 */
 		public $defaults = array(
-			'data' => array(),
 			'model' => false,
 			'left'=> 'lft',
 			'right' => 'rght',
@@ -81,9 +80,12 @@
 		 * @return void
 		 */
 		public function settings($settings) {
-			$this->settings = array_merge($this->defaults, $settings);
-			
 			$this->__resetData();
+			
+			$this->data = $settings['data'];
+			unset($settings['data']);
+			
+			$this->settings = array_merge($this->defaults, $settings);
 		}
 		
 		/**
