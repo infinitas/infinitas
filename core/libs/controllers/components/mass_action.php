@@ -438,6 +438,8 @@
 		* @param int $id the id of the record that is selected.
 		*/
 		public function generic($action = 'add', $ids = null) {
+			$ids = array_values($ids);
+
 			if (!$ids || !isset($ids[0])) {
 				$this->Controller->redirect(array('action' => $action));
 			}
