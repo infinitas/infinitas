@@ -33,7 +33,8 @@
 	 * They are used with App::build() to make any extra folders  in APP be plugin
 	 * folders. This can help if you want to keep plugins outside of /plugins
 	 */
-	$paths = false; Cache::read('plugin_paths');
+	$paths = Cache::read('plugin_paths');
+
 	if(!class_exists('Folder')){
 		App::import('Folder');
 	}
@@ -72,6 +73,7 @@
 		trigger_error('Could not load the Events Class', E_USER_ERROR);
 	}
 
+	EventCore::trigger(new StdClass(), 'setupConfig');
 	EventCore::trigger(new StdClass(), 'requireLibs');
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
