@@ -18,40 +18,65 @@
  * @since		 CakePHP(tm) v 1.3
  * @license	   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo "<?php\n";
-echo "/* ". $className ." Test cases generated on: " . date('Y-m-d H:m:s') . " : ". time() . "*/\n";
-?>
-App::import('<?php echo $type; ?>', '<?php echo $plugin . $className;?>');
+$extraSetup = array();
+$extraSetupOut = '';
 
-<?php if ($mock and strtolower($type) == 'controller'): ?>
-class Test<?php echo $fullClassName; ?> extends <?php echo $fullClassName; ?> {
-	var $autoRender = false;
+$extraMethods = array();
+$extraMethodsOut = '';
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
+$methodTemplate = <<<METHOD
+		public function test%s() {
+			
+		}
+METHOD;
+
+$fixturesTemplate = <<<FIXTURES
+			'fixtures' => array(
+				'do' => array(
+					%s
+				)
+			)
+FIXTURES;
+
+if(!empty($fixtures)) {
+	foreach($fixtures as $fixture) {
+		$parts = explode('.', $fixture);
+		
+		if($parts[0] == 'plugin' && count($parts) == 3) {
+			$extraSetup['fixtures'][] = Inflector::classify($parts[1]) . '.' . Inflector::classify($parts[2]);
+		}
 	}
 }
 
-<?php endif; ?>
-class <?php echo $fullClassName; ?>TestCase extends CakeTestCase {
-<?php if (!empty($fixtures)): ?>
-	var $fixtures = array('<?php echo join("', '", $fixtures); ?>');
-
-<?php endif; ?>
-	function startTest() {
-		$this-><?php echo $className . ' =& ' . $construction; ?>
-	}
-
-	function endTest() {
-		unset($this-><?php echo $className;?>);
-		ClassRegistry::flush();
-	}
-
-<?php foreach ($methods as $method): ?>
-	function test<?php echo Inflector::classify($method); ?>() {
-
-	}
-
-<?php endforeach;?>
+if($type == 'Model') {
+	$extraMethods[] = sprintf($methodTemplate, 'Validation');
 }
-<?php echo '?>'; ?>
+
+if(!empty($methods)) {	
+	foreach($methods as $method) {
+		$extraMethods[] = sprintf($methodTemplate, Inflector::classify($method));
+	}
+}
+
+$testCase = <<<TESTCASE
+<?php
+	App::import('lib', 'App%sTestCase');
+	
+	class Test$fullClassName extends App%sTestCase {
+		public \$setup = array(
+			'%s' => '$plugin$className'%s
+		);%s
+	}
+TESTCASE;
+
+if(!empty($extraMethods)) {
+	$extraMethodsOut = "\n\n" . implode("\n\n", $extraMethods);
+}
+
+if(!empty($extraSetup['fixtures'])) {
+	$out = sprintf($fixturesTemplate, implode(",\n\t\t\t\t\t", array_map(create_function('$v', 'return "\'" . $v."\'";'), $extraSetup['fixtures'])));
+	
+	$extraSetupOut .= ",\n" . $out;
+}
+
+echo sprintf($testCase, $type, $type, strtolower($type), $extraSetupOut, $extraMethodsOut);
