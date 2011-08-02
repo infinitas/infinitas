@@ -619,7 +619,7 @@
 			parent::beforeFilter();
 			$this->modelName = $this->modelClass;
 			$this->prettyModelName = prettyName($this->modelName);
-			$this->{$this->modelName}->plugin = $this->plugin;
+		
 			
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
