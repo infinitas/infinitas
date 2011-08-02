@@ -48,6 +48,7 @@
 			'plugin' => null,
 			'model' => null,
 			'behavior' => null,
+			'models' => array(),
 			'datasource' => null,
 			'controller' => null,
 			'component' => null,
@@ -153,12 +154,36 @@
 		 */
 		public function model($model = null){
 			if(!App::import('Model', $model)){
-				throw new AppTestException(sprintf('Unable to load model: %s', $model));
-				return false;
+				list($plugin, $model) = pluginSplit($model);
+
+				if(!class_exists($model)){
+					throw new AppTestException(sprintf('Unable to load model: %s', implode('.', array($plugin, $model))));
+					return false;
+				}
 			}
 
 			$this->__testObject->autoFixtures = false;
 			$this->getFixtures($model, false);
+		}
+
+		/**
+		 * @brief the setup method for model tests
+		 *
+		 * This will load up all the fixtures that are requrired
+		 *
+		 * @param string $model the model to test
+		 *
+		 * @return
+		 */
+		public function behavior($model = null){
+			if(!App::import('Behavior', $model)){
+				throw new AppTestException(sprintf('Unable to load behavior: %s', $model));
+				return false;
+			}
+
+			foreach($this->__testObject->setup['models'] as $model){
+				$this->model($model);
+			}
 		}
 
 		/**
