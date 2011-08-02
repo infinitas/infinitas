@@ -1,23 +1,20 @@
 <?php
 /**
- * Test Case bake template
+ * @brief Test case bake template
  *
+ * @copyright Copyright (c) 2010 Jelle Henkens
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Libs
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.9
  *
- * PHP versions 4 and 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @author jellehenkens
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
- * @copyright	 Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link		  http://cakephp.org CakePHP(tm) Project
- * @package	   cake
- * @subpackage	cake.console.libs.templates.objects
- * @since		 CakePHP(tm) v 1.3
- * @license	   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
+//Setup variables and templates
 $extraSetup = array();
 $extraSetupOut = '';
 
@@ -38,26 +35,6 @@ $fixturesTemplate = <<<FIXTURES
 			)
 FIXTURES;
 
-if(!empty($fixtures)) {
-	foreach($fixtures as $fixture) {
-		$parts = explode('.', $fixture);
-		
-		if($parts[0] == 'plugin' && count($parts) == 3) {
-			$extraSetup['fixtures'][] = Inflector::classify($parts[1]) . '.' . Inflector::classify($parts[2]);
-		}
-	}
-}
-
-if($type == 'Model') {
-	$extraMethods[] = sprintf($methodTemplate, 'Validation');
-}
-
-if(!empty($methods)) {	
-	foreach($methods as $method) {
-		$extraMethods[] = sprintf($methodTemplate, Inflector::classify($method));
-	}
-}
-
 $testCase = <<<TESTCASE
 <?php
 	App::import('lib', 'App%sTestCase');
@@ -69,6 +46,46 @@ $testCase = <<<TESTCASE
 	}
 TESTCASE;
 
+if($type == 'Behavior') {
+	App::import('Core', 'ModelBehavior');
+}
+
+//Get the class methods
+if(in_array($type, array('Helper', 'Controller', 'Component', 'Behavior'))) {
+	$excluded = array('initialize', 'startup', 'beforeFilter', 'afterFilter', 'beforeSave', 'afterSave',
+		'beforeValidate', 'beforeDelete', 'afterDelete', 'beforeFind', 'afterFind');
+	App::import($type, $plugin.$className);
+	
+	$reflection = new ReflectionClass($fullClassName);
+	$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class == "'.$fullClassName.'" && substr($v->name, 0, 1) != "_";'));
+	$classMethods = array_map(create_function('$v', 'return $v->name;'), $classMethods);
+	$classMethods = array_diff($classMethods, $excluded);
+}
+
+//Add fixtures
+if(!empty($fixtures)) {
+	foreach($fixtures as $fixture) {
+		$parts = explode('.', $fixture);
+		
+		if($parts[0] == 'plugin' && count($parts) == 3) {
+			$extraSetup['fixtures'][] = Inflector::classify($parts[1]) . '.' . Inflector::classify($parts[2]);
+		}
+	}
+}
+
+//Add default methods
+if($type == 'Model') {
+	$extraMethods[] = sprintf($methodTemplate, 'Validation');
+}
+
+//Add auto added methods
+if(isset($classMethods) && !empty($classMethods)) {	
+	foreach($classMethods as $method) {
+		$extraMethods[] = sprintf($methodTemplate, Inflector::classify($method));
+	}
+}
+
+//Build templates
 if(!empty($extraMethods)) {
 	$extraMethodsOut = "\n\n" . implode("\n\n", $extraMethods);
 }
