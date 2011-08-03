@@ -1,7 +1,8 @@
 <?php
 	class InfinitasAppShell extends Shell {
 		public $tasks = array(
-			'ProgressBar'
+			'ProgressBar',
+			'Infinitas'
 		);
 
 		/**
@@ -91,5 +92,169 @@
 
 			$this->size = min(max(4, $width / 10), $this->size);
 			$this->terminalWidth = $width;
+		}
+
+		/**
+		 * @brief clear the page
+		 *
+		 * clear the screen
+		 */
+		public function clear(){
+			$this->Dispatch->clear();
+		}
+
+		/**
+		 * @brief exit the shell
+		 *
+		 * Clear the screen and exit with an optional message that will be shown
+		 * after the screen is cleared.
+		 *
+		 * @return void
+		 */
+		public function quit($message = 'Bye :)'){
+			$this->clear();
+
+			if($message){
+				$this->out($message);
+			}
+
+			exit(0);
+		}
+
+		/**
+		 * @brief generate a list of possible plugins with various filters
+		 *
+		 * This will generate a list of plugins based on the filter passed. See
+		 * InfinitasAppShell::__getPlugins() for a list of possible filters
+		 *
+		 * @param bool $allowAll allow selecting all (mass updates etc)
+		 * @param string $filter see InfinitasAppShell::__getPlugins()
+		 *
+		 * @return the list of plugins found
+		 */
+		protected function _selectPlugins($allowAll = false, $filter = 'all'){
+			$this->Infinitas->h1('Select a plugin');
+			$filter = Inflector::underscore((string)$filter);
+			if(!$filter){
+				$filter = 'all';
+			}
+			
+			$plugins = $this->__getPlugins($filter);
+
+			if($allowAll){
+				$plugins['A'] = 'all';
+				$plugins['B'] = 'back';
+			}
+			$this->tabbedList($plugins);
+			$availableOptions = array_keys($plugins);
+
+			$option = null;
+			while(!$option){
+				$option = strtoupper($this->in(__('Which plugin should be used?', true)));
+			}
+
+			if($option == 'B'){
+				return array();
+			}
+			
+			else if($allowAll && $option == 'A'){
+				return $plugins;
+			}
+			
+			else if(isset($plugins[$option])) {
+				return array($plugins[$option]);
+			}
+			else{
+				$options = explode(',', $option);
+				$return = array();
+				foreach($options as $option){
+					if(isset($plugins[$option])){
+						$return[] = $plugins[$option];
+					}
+				}
+
+				if(!empty($return)){
+					return $return;
+				}
+			}
+
+			$this->_selectPlugins($allowAll, $filter);
+		}
+
+
+		/**
+		 * @brief get plugins based on the filter
+		 *
+		 * This will generate a list of plugins based on the filter passed. The
+		 * filter can be one of the following
+		 * - all: will use App::objects('plugin')
+		 * - installed: will check with the system for things that are installed
+		 * - not_installed: the difference between installed and all
+		 * - changed: get changed plugins only (installed but updated)
+		 *
+		 * @param string $filter as above
+		 *
+		 * @return array of plugins found
+		 */
+		private function __getPlugins($filter){
+			$Plugin = ClassRegistry::init('Installer.Plugin');
+			$plugins = array();
+			
+			switch($filter){
+				case 'all':
+					$plugins = $Plugin->getAllPlugins();
+					break;
+
+				case 'installed':
+					$plugins = $Plugin->getInstalledPlugins();
+					break;
+
+				case 'not_installed':
+					$plugins = $Plugin->getNonInstalledPlugins();
+					break;
+
+				case 'changed':
+					$plugins = $Plugin->getNonInstalledPlugins();
+					break;
+
+				case 'core':
+					break;
+
+				case 'non_core':
+					break;
+			}
+
+			unset($Plugin, $filter);
+			natsort($plugins);
+
+			return array_combine(range(1, count($plugins)), $plugins);
+		}
+
+		public function tabbedList($items = array()) {
+			if(!$items || !array($items)){
+				return false;
+			}
+
+			$longestItem = max(array_map('strlen', $items)) + 6;
+
+			$perLine = round($this->terminalWidth / $longestItem) - 1;
+			
+			$out = array();
+			foreach($items as $k => $item) {
+				$k = str_pad($k, 3, ' ', STR_PAD_LEFT);
+				$item = Inflector::humanize(Inflector::underscore($item));
+				$out[] = str_pad(sprintf('%s] %s', $k, $item), $longestItem, ' ', STR_PAD_RIGHT);
+
+				if(count($out) >= $perLine) {
+					$this->Infinitas->out(implode('', $out));
+					$out = array();
+				}
+			}
+
+			if(!empty($out)) {
+				$this->Infinitas->out(implode('', $out));
+			}
+
+			$this->Infinitas->out('');
 		}
 	}
