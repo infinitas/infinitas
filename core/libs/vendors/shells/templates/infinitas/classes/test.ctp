@@ -1,57 +1,133 @@
 <?php
 /**
- * Test Case bake template
+ * @brief Test case bake template
  *
+ * @copyright Copyright (c) 2010 Jelle Henkens
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Libs
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.9
  *
- * PHP versions 4 and 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @author jellehenkens
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
- * @copyright	 Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link		  http://cakephp.org CakePHP(tm) Project
- * @package	   cake
- * @subpackage	cake.console.libs.templates.objects
- * @since		 CakePHP(tm) v 1.3
- * @license	   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-echo "<?php\n";
-echo "/* ". $className ." Test cases generated on: " . date('Y-m-d H:m:s') . " : ". time() . "*/\n";
-?>
-App::import('<?php echo $type; ?>', '<?php echo $plugin . $className;?>');
 
-<?php if ($mock and strtolower($type) == 'controller'): ?>
-class Test<?php echo $fullClassName; ?> extends <?php echo $fullClassName; ?> {
-	var $autoRender = false;
+//Setup variables and templates
+$extraSetup = array();
+$extraSetupOut = '';
 
-	function redirect($url, $status = null, $exit = true) {
-		$this->redirectUrl = $url;
+$extraMethods = array();
+$extraMethodsOut = '';
+
+$methodTemplate = <<<METHOD
+		/**
+		 * @brief Tests %s
+		 *
+		 * @test Enter description here
+		 */
+		public function test%s() {
+			
+		}
+METHOD;
+
+$fixturesTemplate = <<<FIXTURES
+			'fixtures' => array(
+				'do' => array(
+					%s
+				)
+			)
+FIXTURES;
+
+$testCase = <<<TESTCASE
+<?php
+	App::import('lib', 'App%sTestCase');
+	
+	class Test$fullClassName extends App%sTestCase {
+
+		/**
+		 * @brief Configuration for the test case
+		 *
+		 * Loading fixtures:
+		 * 
+		 * List all the needed fixtures in the do part of the fixture array.
+		 * In replace you can overwrite fixtures of other plugins by your own.
+		 *
+		 * 'fixtures' => array(
+		 *		'do' => array(
+		 *			'SomePlugin.SomeModel
+		 *		),
+		 *		'replace' => array(
+		 *			'Core.User' => 'SomePlugin.User
+		 *		)
+		 * )
+		 * @var array 
+		 */
+		public \$setup = array(
+			'%s' => '$plugin$className'%s
+		);
+		
+		/**
+		 * @brief Contains a list of test methods to run
+		 *
+		 * If it is set to false all the methods will run. Otherwise pass in an array
+		 * with a list of tests to run.
+		 *
+		 * @var mixed 
+		 */
+		public \$tests = false;%s
+	}
+TESTCASE;
+
+if($type == 'Behavior') {
+	App::import('Core', 'ModelBehavior');
+}
+
+//Get the class methods
+if(in_array($type, array('Helper', 'Controller', 'Component', 'Behavior'))) {
+	$excluded = array('initialize', 'startup', 'beforeFilter', 'afterFilter', 'beforeSave', 'afterSave',
+		'beforeValidate', 'beforeDelete', 'afterDelete', 'beforeFind', 'afterFind');
+	App::import($type, $plugin.$className);
+	
+	$reflection = new ReflectionClass($fullClassName);
+	$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class == "'.$fullClassName.'" && substr($v->name, 0, 1) != "_";'));
+	$classMethods = array_map(create_function('$v', 'return $v->name;'), $classMethods);
+	$classMethods = array_diff($classMethods, $excluded);
+}
+
+//Add fixtures
+if(!empty($fixtures)) {
+	foreach($fixtures as $fixture) {
+		$parts = explode('.', $fixture);
+		
+		if($parts[0] == 'plugin' && count($parts) == 3) {
+			$extraSetup['fixtures'][] = Inflector::classify($parts[1]) . '.' . Inflector::classify($parts[2]);
+		}
 	}
 }
 
-<?php endif; ?>
-class <?php echo $fullClassName; ?>TestCase extends CakeTestCase {
-<?php if (!empty($fixtures)): ?>
-	var $fixtures = array('<?php echo join("', '", $fixtures); ?>');
-
-<?php endif; ?>
-	function startTest() {
-		$this-><?php echo $className . ' =& ' . $construction; ?>
-	}
-
-	function endTest() {
-		unset($this-><?php echo $className;?>);
-		ClassRegistry::flush();
-	}
-
-<?php foreach ($methods as $method): ?>
-	function test<?php echo Inflector::classify($method); ?>() {
-
-	}
-
-<?php endforeach;?>
+//Add default methods
+if($type == 'Model') {
+	$extraMethods[] = sprintf($methodTemplate, 'Validation', 'Validation');
 }
-<?php echo '?>'; ?>
+
+//Add auto added methods
+if(isset($classMethods) && !empty($classMethods)) {	
+	foreach($classMethods as $method) {
+		$extraMethods[] = sprintf($methodTemplate, $method, Inflector::classify($method));
+	}
+}
+
+//Build templates
+if(!empty($extraMethods)) {
+	$extraMethodsOut = "\n\n" . implode("\n\n", $extraMethods);
+}
+
+if(!empty($extraSetup['fixtures'])) {
+	$out = sprintf($fixturesTemplate, implode(",\n\t\t\t\t\t", array_map(create_function('$v', 'return "\'" . $v."\'";'), $extraSetup['fixtures'])));
+	
+	$extraSetupOut .= ",\n" . $out;
+}
+
+echo sprintf($testCase, $type, $type, strtolower($type), $extraSetupOut, $extraMethodsOut);
