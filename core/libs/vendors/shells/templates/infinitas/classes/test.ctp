@@ -42,7 +42,7 @@ FIXTURES;
 
 $testCase = <<<TESTCASE
 <?php
-	App::import('lib', 'App%sTestCase');
+	App::import('lib', 'libs.test/App%sTest');
 	
 	class Test$fullClassName extends App%sTestCase {
 
