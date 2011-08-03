@@ -187,6 +187,41 @@
 		}
 
 		/**
+		 * @brief Disables a behavior in tests
+		 *
+		 * This function will overwrite the given behavior to a clean
+		 * instance of the ModelBehavior class so the behavior will act like it never
+		 * existed.
+		 *
+		 * @param mixed $behaviors Single behavior name or an array of names
+		 *
+		 * @return void
+		 */
+		public function disableBehavior($behaviors) {
+			if(!is_array($behaviors)) {
+				$behaviors = array($behaviors);
+			}
+
+			foreach($behaviors as $behavior) {
+				list($plugin, $name) = pluginSplit($behavior);
+				$class = $name . 'Behavior';
+
+				$ModelBehavior = new ModelBehavior();
+				if(ClassRegistry::isKeySet($class)) {
+					ClassRegistry::getInstance()->__objects[Inflector::underscore($class)] = $ModelBehavior;
+					if(!empty($plugin)) {
+						ClassRegistry::getInstance()->__objects[Inflector::underscore($plugin) . '.' . Inflector::underscore($class)] = $ModelBehavior;
+					}
+				} else {
+					ClassRegistry::addObject($class, $ModelBehavior);
+					if(!empty($plugin)) {
+						ClassRegistry::addObject(Inflector::underscore($plugin).'.' . $class, $ModelBehavior);
+					}
+				}
+			}
+		}
+
+		/**
 		 * @brief asset that data is valid
 		 * 
 		 * Asserts that data are valid given Model validation rules
