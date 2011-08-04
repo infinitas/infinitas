@@ -106,7 +106,7 @@
 					'contain' => $this->contain
 				)
 			);
-
+			
 			if (empty($this->record)) {
 				return false;
 			}
@@ -187,6 +187,7 @@
 				if (isset($record[$key][0])) {
 					foreach ($record[$key] as $innerKey => $innerVal) {
 						$record[$key][$innerKey] = $this->__stripFields($Model, $innerVal);
+						
 						if (array_key_exists($val['foreignKey'], $innerVal)) {
 							unset($record[$key][$innerKey][$val['foreignKey']]);
 						}
@@ -221,9 +222,27 @@
 		 */
 		private function __convertData($Model) {
 			$this->record[$Model->alias] = $this->__stripFields($Model, $this->record[$Model->alias]);
+
 			$this->record = $this->__convertHabtm($Model, $this->record);
 			$this->record = $this->__convertChildren($Model, $this->record);
 			return $this->record;
+		}
+
+		private function __renameUniqueFields($Model, $record){
+			foreach(array_keys($record) as $field){
+				if(isset($Model->validate[$field]['isUnique'])){
+					$record[$field] = sprintf('%s - coppied %s', $record[$field], date('Y-m-d H:i:s'));
+					continue;
+				}
+
+				$this->db = ConnectionManager::getDataSource($Model->useDbConfig);
+				$index = $this->db->index($Model);
+				if(isset($index[$field]['unique']) && $index[$field]['unique']){
+					$record[$field] = sprintf('%s - coppied %s', $record[$field], date('Y-m-d H:i:s'));
+				}
+			}
+
+			return $record;
 		}
 
 		/**
@@ -328,11 +347,13 @@
 		 * @return array
 		 */
 		private function __stripFields($Model, $record) {
-			foreach ($this->settings[$Model->alias]['stripFields'] as $field) {
-				if (array_key_exists($field, $record)) {
+			foreach($record as $field => $value) {
+				if(in_array($field, $this->settings[$Model->alias]['stripFields'])) {
 					unset($record[$field]);
 				}
 			}
+			
+			$record = $this->__renameUniqueFields($Model, $record);
 
 			return $record;
 		}

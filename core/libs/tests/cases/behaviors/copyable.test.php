@@ -45,7 +45,7 @@
 		 *
 		 * @var mixed 
 		 */
-		public $tests = array('testCopy');
+		public $tests = false;
 
 		/**
 		 * @brief Tests setup
@@ -157,5 +157,46 @@
 		 * @test Enter description here
 		 */
 		public function testCopy() {
+			foreach($this->ModulePosition->Behaviors->attached() as $attached){
+				if(!in_array($attached, array('Containable', 'Infinitas'))){
+					$this->ModulePosition->Behaviors->detach($attached);
+				}
+			}
+			$this->ModulePosition->Behaviors->attach('Libs.Copyable');
+
+			$positions = $this->ModulePosition->find(
+				'all',
+				array(
+					'fields' => array(
+						'ModulePosition.id',
+						'ModulePosition.name'
+					),
+					'contain' => array(
+						'Module' => array(
+							'fields' => array(
+								'Module.id',
+								'Module.name'
+							)
+						)
+					)
+				)
+			);
+
+			$positionCount = $this->ModulePosition->find('count');
+			$moduleCount = $this->ModulePosition->Module->find('count');
+
+			$this->assertEqual(11, $positionCount);
+			$this->assertEqual(10, $moduleCount);
+
+
+			// copy the bottom module position that has no modules
+			$this->assertTrue($this->ModulePosition->copy(2));
+			$this->assertEqual(12, $this->ModulePosition->find('count'));
+			$this->assertEqual(10, $this->ModulePosition->Module->find('count'));
+
+			// copy the bottom module position that has no modules
+			$this->assertTrue($this->ModulePosition->copy(5));
+			$this->assertEqual(13, $this->ModulePosition->find('count'));
+			$this->assertEqual(12, $this->ModulePosition->Module->find('count'));
 		}
 	}
