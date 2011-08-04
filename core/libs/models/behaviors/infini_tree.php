@@ -761,8 +761,7 @@
 			}
 
 			if($scope) {
-				$this->settings[$Model->alias]['scope'] = $Model->alias . '.' . $this->settings[$Model->alias]['scopeField'] . " = '" . $scope . "'";
-
+				$this->settings[$Model->alias]['scope'] = array($Model->alias . '.' . $this->settings[$Model->alias]['scopeField'] => $scope);
 				if($beforeSave) {
 					$Model->data[$Model->alias][$this->settings[$Model->alias]['scopeField']] = $scope;
 				}
