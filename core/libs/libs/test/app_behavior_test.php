@@ -164,6 +164,21 @@
 			}
 		}
 
+		/**
+		 * @brief Disables a behavior in tests
+		 *
+		 * This function will overwrite the given behavior to a clean
+		 * instance of the ModelBehavior class so the behavior will act like it never
+		 * existed.
+		 *
+		 * @param mixed $behaviors Single behavior name or an array of names
+		 *
+		 * @return void
+		 */
+		public function disableBehavior($behaviors) {
+			$this->AppTest->disableBehavior($behaviors);
+		}
+
 		public function startCase() {
 			if(is_subclass_of($this, 'AppBehaviorTestCase')) {
 				$this->AppTest->startCase();
