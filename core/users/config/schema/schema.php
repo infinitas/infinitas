@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Users schema generated on: 2011-07-20 22:07:58 : 1311196858*/
+/* Users schema generated on: 2011-08-04 17:08:06 : 1312475526*/
 class UsersSchema extends CakeSchema {
 	var $name = 'Users';
 
@@ -25,7 +25,7 @@ class UsersSchema extends CakeSchema {
 	);
 	var $users = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'username' => array('type' => 'string', 'null' => false, 'length' => 50, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'facebook_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 20),
