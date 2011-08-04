@@ -132,8 +132,8 @@
 			if (!$this->__verifyContainable($Model)) {
 				return false;
 			}
-
-			$this->contain = array_merge($this->__recursiveChildContain($Model), array_keys($Model->hasAndBelongsToMany));
+			
+			$this->contain = array_merge($this->__recursiveChildContain($Model, $Model->alias), array_keys($Model->hasAndBelongsToMany));
 			$this->__removeIgnored($Model);
 			return $this->contain;
 		}
@@ -148,7 +148,7 @@
 		 *
 		 * @return boolean
 		 */
-		private function __removeIgnored($Model) {
+		private function __removeIgnored($Model) {			
 			if (!$this->settings[$Model->alias]['ignore']) {
 				return true;
 			}
@@ -280,8 +280,7 @@
 		 */
 		private function __copyRecord($Model) {
 			$Model->create();
-			$Model->set($this->record);
-			return $Model->saveAll(null, array('validate' => false));
+			return $Model->saveAll($this->record, array('validate' => false));
 		}
 
 		/**
@@ -295,7 +294,11 @@
 		 *
 		 * @return array
 		 */
-		private function __recursiveChildContain($Model) {
+		private function __recursiveChildContain($Model, $mainModelAlias = null) {
+			if(!isset($this->settings[$Model->alias])){
+				$this->settings[$Model->alias] = $this->settings[$mainModelAlias];
+			}
+			
 			$contain = array();
 			if (!$this->settings[$Model->alias]['recursive']) {
 				return $contain;
@@ -307,7 +310,7 @@
 					continue;
 				}
 				
-				$contain[$child] = $this->__recursiveChildContain($Model->{$child});
+				$contain[$child] = $this->__recursiveChildContain($Model->{$child}, $Model->alias);
 			}
 
 			return $contain;
