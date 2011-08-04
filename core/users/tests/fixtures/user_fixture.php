@@ -7,7 +7,7 @@ class UserFixture extends CakeTestFixture {
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'key' => 'index'),
+		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
 		'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
