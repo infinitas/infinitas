@@ -104,6 +104,12 @@
 			if(!$id){
 				return false;
 			}
+
+			if(is_array($id)){
+				foreach($id as $_id){
+					$this->copy($Model, $_id);
+				}
+			}
 			
 			$this->generateContain($Model);
 
@@ -194,7 +200,7 @@
 
 				if (isset($record[$key][0])) {
 					foreach ($record[$key] as $innerKey => $innerVal) {
-						$record[$key][$innerKey] = $this->__stripFields($Model, $innerVal);
+						$record[$key][$innerKey] = $this->__stripFields($Model->{$key}, $innerVal);
 						
 						if (array_key_exists($val['foreignKey'], $innerVal)) {
 							unset($record[$key][$innerKey][$val['foreignKey']]);
@@ -205,7 +211,7 @@
 				}
 
 				else {
-					$record[$key] = $this->__stripFields($Model, $record[$key]);
+					$record[$key] = $this->__stripFields($Model->{$key}, $record[$key]);
 
 					if (isset($record[$key][$val['foreignKey']])) {
 						unset($record[$key][$val['foreignKey']]);
@@ -236,17 +242,34 @@
 			return $this->record;
 		}
 
+		/**
+		 * @brief rename any fields that have a unique index on them
+		 *
+		 * @access private
+		 *
+		 * @param object $Model the model being copied
+		 * @param array $record the data being copied
+		 *
+		 * @return array of the modified data
+		 */
 		private function __renameUniqueFields($Model, $record){
 			foreach(array_keys($record) as $field){
+				$modified = false;
 				if(isset($Model->validate[$field]['isUnique'])){
-					$record[$field] = sprintf('%s - coppied %s', $record[$field], date('Y-m-d H:i:s'));
-					continue;
+					$record[$field] = sprintf('%s - coppied %s 123123123', $record[$field], date('Ymd H:i:s'));
+					$modified = true;
+				}
+				else{
+					$index = ConnectionManager::getDataSource($Model->useDbConfig)->index($Model);
+					if(isset($index[$field]['unique']) && $index[$field]['unique']){
+						$record[$field] = sprintf('%s - coppied %s 123123123', $record[$field], date('Ymd H:i:s'));
+						$modified = true;
+					}
 				}
 
-				$this->db = ConnectionManager::getDataSource($Model->useDbConfig);
-				$index = $this->db->index($Model);
-				if(isset($index[$field]['unique']) && $index[$field]['unique']){
-					$record[$field] = sprintf('%s - coppied %s', $record[$field], date('Y-m-d H:i:s'));
+				$count = $Model->find('count', array('conditions' => array($Model->alias . '.' . $field => $record[$field])));
+				if($modified === true && $count > 0){
+					$record[$field] = $record[$field] . sprintf(' (%s)', $count);
 				}
 			}
 
@@ -307,7 +330,9 @@
 		 */
 		private function __copyRecord($Model) {
 			$Model->create();
-			return $Model->saveAll($this->record, array('validate' => false));
+			$saved = $Model->saveAll($this->record, array('validate' => false));
+			$this->record = null;
+			return $saved;
 		}
 
 		/**

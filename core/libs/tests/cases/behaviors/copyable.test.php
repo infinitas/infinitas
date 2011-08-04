@@ -164,29 +164,11 @@
 			}
 			$this->ModulePosition->Behaviors->attach('Libs.Copyable');
 
-			$positions = $this->ModulePosition->find(
-				'all',
-				array(
-					'fields' => array(
-						'ModulePosition.id',
-						'ModulePosition.name'
-					),
-					'contain' => array(
-						'Module' => array(
-							'fields' => array(
-								'Module.id',
-								'Module.name'
-							)
-						)
-					)
-				)
-			);
-
 			$positionCount = $this->ModulePosition->find('count');
 			$moduleCount = $this->ModulePosition->Module->find('count');
 
-			$this->assertEqual(11, $positionCount);
-			$this->assertEqual(10, $moduleCount);
+			$this->assertIdentical(11, $positionCount);
+			$this->assertIdentical(10, $moduleCount);
 
 			/**
 			 * test some fails
@@ -194,14 +176,25 @@
 			$this->assertFalse($this->ModulePosition->copy());
 			$this->assertFalse($this->ModulePosition->copy('fake-record'));
 
-			// copy the bottom module position that has no modules
+			/**
+			 * copy the bottom module position that has no modules
+			 */
 			$this->assertTrue($this->ModulePosition->copy(2));
-			$this->assertEqual(12, $this->ModulePosition->find('count'));
-			$this->assertEqual(10, $this->ModulePosition->Module->find('count'));
+			$this->assertIdentical(12, $this->ModulePosition->find('count'));
+			$this->assertIdentical(10, $this->ModulePosition->Module->find('count'));
 
-			// copy the bottom module position that has no modules
+			/**
+			 * copy the bottom module position that has no modules
+			 */
 			$this->assertTrue($this->ModulePosition->copy(5));
-			$this->assertEqual(13, $this->ModulePosition->find('count'));
-			$this->assertEqual(12, $this->ModulePosition->Module->find('count'));
+			$this->assertIdentical(13, $this->ModulePosition->find('count'));
+			$this->assertIdentical(12, $this->ModulePosition->Module->find('count'));
+
+			/**
+			 * copy multi rows at a time
+			 */
+			$this->assertTrue($this->ModulePosition->copy(array(4, 1)));
+			$this->assertIdentical(15, $this->ModulePosition->find('count'));
+			$this->assertIdentical(18, $this->ModulePosition->Module->find('count'));
 		}
 	}
