@@ -24,7 +24,16 @@
 		public $setup = array(
 			'behavior' => 'libs.Copyable',
 			'models' => array(
-				'Users.User'
+				'Users.User',
+				'Modules.Module',
+				'Modules.ModulePosition',
+				'Routes.Route'
+			),
+			'fixtures' => array(
+				'do' => array(
+					'Tags.Tag',
+					'Tags.Tagged'
+				)
 			)
 		);
 		
@@ -36,7 +45,7 @@
 		 *
 		 * @var mixed 
 		 */
-		public $tests = false;
+		public $tests = array('testCopy');
 
 		/**
 		 * @brief Tests setup
@@ -109,20 +118,44 @@
 		}
 
 		/**
+		 * @brief Tests generateContain
+		 *
+		 * @test test that getting contains fetches the correct stuff.
+		 */
+		public function testGenerateContain() {
+			if($this->User->Behaviors->attached('Copyable')){
+				$this->User->Behaviors->detach('Copyable');
+			}
+
+			$this->User->Behaviors->detach('Containable');
+			$this->User->Behaviors->attach('Libs.Copyable');
+
+			$this->assertFalse($this->User->Behaviors->attached('Containable'));
+			$this->assertEqual(array(), $this->User->Behaviors->Copyable->contain);
+			$this->assertEqual(array(), $this->User->generateContain());
+			$this->assertTrue($this->User->Behaviors->attached('Containable'));
+
+			$this->Module->Behaviors->attach('Libs.Copyable');
+			$expected = array(0 => 'Route');
+			$this->assertEqual($expected, $this->Module->generateContain());
+			$this->assertEqual($expected, $this->Module->Behaviors->Copyable->contain);
+
+			$this->ModulePosition->Behaviors->attach('Libs.Copyable');
+			$expected = array('Module' => array());
+			$this->assertEqual($expected, $this->ModulePosition->generateContain());
+			$this->assertEqual($expected, $this->ModulePosition->Behaviors->Copyable->contain);
+
+			$this->expectError(); // its gonna use AppModel for the join here.
+			$this->assertTrue($this->Module->bindModel(array('hasAndBelongsToMany' => array('Tag' => array('className' => 'Tags.Tag', 'with' => 'global_tags'))), false));
+			$expected = array(0 => 'Route', 1 => 'Tag');
+			$this->assertEqual($expected, $this->Module->generateContain());
+		}
+
+		/**
 		 * @brief Tests copy
 		 *
 		 * @test Enter description here
 		 */
 		public function testCopy() {
-			
-		}
-
-		/**
-		 * @brief Tests generateContain
-		 *
-		 * @test Enter description here
-		 */
-		public function testGenerateContain() {
-			
 		}
 	}
