@@ -188,6 +188,10 @@
 			$this->assertEqual(11, $positionCount);
 			$this->assertEqual(10, $moduleCount);
 
+			/**
+			 * fake records
+			 */
+			$this->assertFalse($this->ModulePosition->copy());
 
 			// copy the bottom module position that has no modules
 			$this->assertTrue($this->ModulePosition->copy(2));

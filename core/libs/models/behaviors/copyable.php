@@ -96,7 +96,15 @@
 		 *
 		 * @return boolean
 		 */
-		public function copy($Model, $id) {
+		public function copy($Model, $id = null) {
+			if(!$id){
+				$id = $Model->id;
+			}
+			
+			if(!$id){
+				return false;
+			}
+			
 			$this->generateContain($Model);
 
 			$this->record = $Model->find(
