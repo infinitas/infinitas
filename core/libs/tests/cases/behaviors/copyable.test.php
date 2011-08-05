@@ -45,7 +45,7 @@
 		 *
 		 * @var mixed 
 		 */
-		public $tests = array('testCopy');
+		public $tests = false;
 
 		/**
 		 * @brief Tests setup
