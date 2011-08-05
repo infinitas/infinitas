@@ -221,15 +221,11 @@
 				$_this =& EventCore::getInstance();
 
 				$reflection = new ReflectionClass($Event);
-				$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class != "'.get_class($Event).'" && substr($v->name, 0, 2) == "on";'));
-				$availableMethods = array_map(create_function('$v', 'return $v->name;'), $classMethods);
+				$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class == "'.get_class($Event).'" && substr($v->name, 0, 2) == "on";'));
+				$handlers = array_map(create_function('$v', 'return lcfirst(substr($v->name, 2));'), $classMethods);
 
-				foreach($availableMethods as $availableMethod){
-					if(strpos($availableMethod, 'on') === 0){
-						$handlerName = substr($availableMethod, 2);
-						$handlerName{0} = strtolower($handlerName{0});
+				foreach($handlers as $handlerName){
 						$_this->_eventHandlerCache[$handlerName][] = get_class($Event);
-					}
 				}
 			}
 		}
