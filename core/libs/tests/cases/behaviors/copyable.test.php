@@ -45,7 +45,7 @@
 		 *
 		 * @var mixed 
 		 */
-		public $tests = false;
+		public $tests = array('testCopy');
 
 		/**
 		 * @brief Tests setup
@@ -175,26 +175,60 @@
 			 */
 			$this->assertFalse($this->ModulePosition->copy());
 			$this->assertFalse($this->ModulePosition->copy('fake-record'));
+			$this->assertFalse($this->ModulePosition->copy(array()));
+			$this->assertFalse($this->ModulePosition->copy(array('fake-record')));
 
 			/**
 			 * copy the bottom module position that has no modules
 			 */
-			$this->assertTrue($this->ModulePosition->copy(2));
+			$this->assertTrue($id = $this->ModulePosition->copy('module-position-bottom'));
 			$this->assertIdentical(12, $this->ModulePosition->find('count'));
 			$this->assertIdentical(10, $this->ModulePosition->Module->find('count'));
 
+			$actual = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => 'module-position-bottom'), 'contain' => array('Module')));
+			$copy = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => $id), 'contain' => array('Module')));
+			$this->assertIdentical($actual['Module'], $copy['Module']);
+			$this->assertTrue(strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
+
 			/**
 			 * copy the bottom module position that has no modules
 			 */
-			$this->assertTrue($this->ModulePosition->copy(5));
+			$this->assertTrue($id = $this->ModulePosition->copy('module-position-custom1'));
 			$this->assertIdentical(13, $this->ModulePosition->find('count'));
 			$this->assertIdentical(12, $this->ModulePosition->Module->find('count'));
+
+			$actual = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => 'module-position-custom1'), 'contain' => array('Module')));
+			$copy = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => $id), 'contain' => array('Module')));
+			$this->assertIdentical(count($actual['Module']), count($copy['Module']));
+			$this->assertTrue(strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
+			foreach($copy['Module'] as $k => $module){
+				$this->assertTrue(strstr($module['name'], $actual['Module'][$k]['name'] . ' - copied ' . date('Ymd')));
+			}
 
 			/**
 			 * copy multi rows at a time
 			 */
-			$this->assertTrue($this->ModulePosition->copy(array(4, 1)));
+			$idsToCopy = array('module-position-right', 'module-position-top');
+			$result = $this->ModulePosition->copy($idsToCopy);
+			$this->assertIdentical($idsToCopy, array_keys($result));
 			$this->assertIdentical(15, $this->ModulePosition->find('count'));
 			$this->assertIdentical(18, $this->ModulePosition->Module->find('count'));
+
+			/**
+			 * test transactions externally
+			 */
+			$this->assertTrue($this->ModulePosition->transaction());
+			$this->assertTrue($this->ModulePosition->copy('module-position-custom4'));
+			$this->assertTrue($this->ModulePosition->transaction(true));
+			$this->assertIdentical(16, $this->ModulePosition->find('count'));
+
+			/**
+			 * test saving another copy of the same thing
+			 */
+			$this->assertTrue($id = $this->ModulePosition->copy('module-position-custom4'));
+			$this->assertIdentical(17, $this->ModulePosition->find('count'));
+
+			$this->assertTrue($id = $this->ModulePosition->copy('module-position-custom4'));
+			$this->assertIdentical(18, $this->ModulePosition->find('count'));
 		}
 	}

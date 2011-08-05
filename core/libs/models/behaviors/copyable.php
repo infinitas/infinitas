@@ -106,9 +106,7 @@
 			}
 
 			if(is_array($id)){
-				foreach($id as $_id){
-					$this->copy($Model, $_id);
-				}
+				return $this->__multiCopy($Model, $id);
 			}
 			
 			$this->generateContain($Model);
@@ -129,7 +127,63 @@
 				return false;
 			}
 
-			return $this->__copyRecord($Model);
+			$transaction = $Model->transaction();
+			$saved = $this->__copyRecord($Model);
+
+			if($transaction){
+				if($saved){
+					$Model->transaction(true);
+				}
+
+				else{
+					$Model->transaction(false);
+				}
+			}
+
+			return $saved;
+		}
+
+		/**
+		 * @brief copy many rows at a time
+		 *
+		 * This method is called by copy() when you pass an array of id's to it.
+		 * After doing a filter on the passed id's to get only valid ones, it will
+		 * start the copying within a transaction if possible.
+		 *
+		 * The transaction will not be started in copy() if this one is started. Also
+		 * transactions will not be started if they were started within the model calling
+		 * copy()
+		 *
+		 * @access private
+		 *
+		 * @param object $Model the model being copied
+		 * @param array $ids array of id's being copied
+		 *
+		 * @return mixed array of old_id => new_id or false
+		 */
+		private function __multiCopy($Model, $ids){
+			$ids = array_keys($Model->find('list', array('conditions' => array($Model->alias . '.' . $Model->primaryKey => array_filter((array)$ids)))));
+			
+			if(empty($ids)){
+				return false;
+			}
+			
+			$transaction = $Model->transaction();
+			
+			$multiSave = array();
+			foreach($ids as $id){
+				$multiSave[] = $this->copy($Model, $id);
+			}
+
+			if($transaction && count(array_filter($multiSave)) == count($ids)) {
+				$Model->transaction(true);
+				return array_combine($ids, $multiSave);
+			}
+			
+			else if($transaction) {
+				$Model->transaction(false);
+				return false;
+			}
 		}
 
 		/**
@@ -256,13 +310,13 @@
 			foreach(array_keys($record) as $field){
 				$modified = false;
 				if(isset($Model->validate[$field]['isUnique'])){
-					$record[$field] = sprintf('%s - coppied %s 123123123', $record[$field], date('Ymd H:i:s'));
+					$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
 					$modified = true;
 				}
 				else{
 					$index = ConnectionManager::getDataSource($Model->useDbConfig)->index($Model);
 					if(isset($index[$field]['unique']) && $index[$field]['unique']){
-						$record[$field] = sprintf('%s - coppied %s 123123123', $record[$field], date('Ymd H:i:s'));
+						$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
 						$modified = true;
 					}
 				}
@@ -331,8 +385,9 @@
 		private function __copyRecord($Model) {
 			$Model->create();
 			$saved = $Model->saveAll($this->record, array('validate' => false));
+
 			$this->record = null;
-			return $saved;
+			return $Model->id;
 		}
 
 		/**
