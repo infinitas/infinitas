@@ -220,7 +220,9 @@
 			if(is_object($Event)){
 				$_this =& EventCore::getInstance();
 
-				$availableMethods = get_class_methods($Event);
+				$reflection = new ReflectionClass($Event);
+				$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class != "'.get_class($Event).'" && substr($v->name, 0, 2) == "on";'));
+				$availableMethods = array_map(create_function('$v', 'return $v->name;'), $classMethods);
 
 				foreach($availableMethods as $availableMethod){
 					if(strpos($availableMethod, 'on') === 0){
