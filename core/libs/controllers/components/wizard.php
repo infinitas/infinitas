@@ -156,12 +156,12 @@
 		 * @param object $Controller A reference to the instantiating controller object
 		 * @access public
 		 */
-		function initialize($Controller, $settings = array()) {
-			$this->Controller = $Controller;
+		function initialize($controller, $settings = array()) {
+			$this->controller = $controller;
 
-			$this->_sessionKey = $this->Session->check('Wizard.complete') ? 'Wizard.complete' : 'Wizard.' . $this->Controller->name;
+			$this->_sessionKey = $this->Session->check('Wizard.complete') ? 'Wizard.complete' : 'Wizard.' . $this->controller->name;
 			$this->_configKey = 'Wizard.config';
-			$this->_branchKey = 'Wizard.branches.' . $this->Controller->name;
+			$this->_branchKey = 'Wizard.branches.' . $this->controller->name;
 
 			$this->_set($settings);
 		}
