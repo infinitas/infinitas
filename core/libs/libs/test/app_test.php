@@ -364,18 +364,25 @@
 			foreach($behaviors as $behavior) {
 				list($plugin, $name) = pluginSplit($behavior);
 				$class = $name . 'Behavior';
-
 				$ModelBehavior = new ModelBehavior();
 				if(ClassRegistry::isKeySet($class)) {
-					ClassRegistry::getInstance()->__objects[Inflector::underscore($class)] = $ModelBehavior;
+					ClassRegistry::removeObject($class);
 					if(!empty($plugin)) {
-						ClassRegistry::getInstance()->__objects[Inflector::underscore($plugin) . '.' . Inflector::underscore($class)] = $ModelBehavior;
+						ClassRegistry::removeObject($plugin . '.' . $class);
 					}
-				} else {
-					ClassRegistry::addObject($class, $ModelBehavior);
-					if(!empty($plugin)) {
-						ClassRegistry::addObject(Inflector::underscore($plugin).'.' . $class, $ModelBehavior);
+
+					foreach(ClassRegistry::keys() as $key) {
+						$instance = ClassRegistry::getObject($key);
+
+						if(property_exists($instance, 'Behaviors')) {
+							$instance->Behaviors->{$name} = $ModelBehavior;
+						}
 					}
+				}
+
+				ClassRegistry::addObject($class, $ModelBehavior);
+				if(!empty($plugin)) {
+					ClassRegistry::addObject($plugin . '.' . $class, $ModelBehavior);
 				}
 			}
 		}
