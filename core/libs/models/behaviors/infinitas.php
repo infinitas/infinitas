@@ -603,4 +603,31 @@
 
 			return $roots[0];
 		}
+
+		/**
+		 * @brief Returns the minimum of fields required to generate a link
+		 *
+		 * This method is handy to generate links for data in table rows
+		 *
+		 * @access public
+		 *
+		 * @param object $Model the model doing the find
+		 * @param array $conditions any conditions for the find
+		 *
+		 * @return mixed the string/int id of the root record or false on error
+		 */
+		public function getLinkData($Model, $id = null) {
+			if(is_null($id)) {
+				$id = $Model->id;
+			}
+
+			$options = array(
+				'conditions' => array(
+					$Model->alias . '.' . $Model->primaryKey => $id
+				),
+				'fields' =>	array($Model->primaryKey, $Model->displayField)
+			);
+
+			return $Model->find('first', $options);
+		}
 	}
