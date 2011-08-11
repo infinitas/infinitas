@@ -156,7 +156,7 @@
 					empty($queryData['order'][0])
 				);
 			if ($check) {
-				$queryData['order'] = $this->settings[$model->alias]['escaped_orderField'];
+				$queryData['order'] = (array)$this->settings[$model->alias]['escaped_orderField'];
 			}
 
 			return $queryData;
