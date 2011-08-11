@@ -57,6 +57,7 @@
 		public function onGetRequiredFixtures($event){
 			return array(
 				'Management.Ticket',
+				'Management.Session'
 			);
 		}
 	}
