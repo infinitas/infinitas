@@ -105,7 +105,7 @@
 
 			//Setting usefull data			
 			$this->node['depth'] = count($this->__stack);
-			$this->node['root'] = !$this->__field('parent') ? true : false;
+			$this->node['root'] = empty($this->__stack) ? true : false;
 			$this->node['hasChildren'] = $this->__field('left') != $this->__field('right') - 1;
 			$this->node['firstChild'] = $this->isFirstChild();
 			$this->node['lastChild'] = $this->isLastChild();
