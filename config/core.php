@@ -83,15 +83,6 @@
 		return true;
 	}
 
-	/**
-	 * Load plugin events
-	 */
-	if(!App::import('Libs', 'Events.Events')){
-		trigger_error('Could not load the Events Class', E_USER_ERROR);
-	}
-	EventCore::getInstance();
-	EventCore::trigger(new StdClass(), 'setupConfig');
-
 	//no home
 	Configure::write('Rating.require_auth', true);
 	Configure::write('Rating.time_limit', '4 weeks');

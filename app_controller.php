@@ -219,8 +219,10 @@
 		 */
 		public function redirect($url = null, $status = null, $exit = true){
 			if(!$url || $url == ''){
-				$url = $this->Session->read('Infinitas.last_page.' . $this->here);
-				$this->Session->delete('Infinitas.last_page.' . $this->here);
+				if($this->Session->check('Infinitas.last_page' . $this->here)) {
+					$url = $this->Session->read('Infinitas.last_page.' . $this->here);
+					$this->Session->delete('Infinitas.last_page.' . $this->here);
+				}
 
 				if(!$url){
 					$url = array('action' => 'index');
@@ -617,7 +619,7 @@
 			parent::beforeFilter();
 			$this->modelName = $this->modelClass;
 			$this->prettyModelName = prettyName($this->modelName);
-			$this->{$this->modelName}->plugin = $this->plugin;
+		
 			
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());

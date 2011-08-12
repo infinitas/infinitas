@@ -48,6 +48,7 @@
 			'plugin' => null,
 			'model' => null,
 			'behavior' => null,
+			'models' => array(),
 			'datasource' => null,
 			'controller' => null,
 			'component' => null,
@@ -153,12 +154,36 @@
 		 */
 		public function model($model = null){
 			if(!App::import('Model', $model)){
-				throw new AppTestException(sprintf('Unable to load model: %s', $model));
-				return false;
+				list($plugin, $model) = pluginSplit($model);
+
+				if(!class_exists($model)){
+					throw new AppTestException(sprintf('Unable to load model: %s', implode('.', array($plugin, $model))));
+					return false;
+				}
 			}
 
 			$this->__testObject->autoFixtures = false;
 			$this->getFixtures($model, false);
+		}
+
+		/**
+		 * @brief the setup method for model tests
+		 *
+		 * This will load up all the fixtures that are requrired
+		 *
+		 * @param string $model the model to test
+		 *
+		 * @return
+		 */
+		public function behavior($model = null){
+			if(!App::import('Behavior', $model)){
+				throw new AppTestException(sprintf('Unable to load behavior: %s', $model));
+				return false;
+			}
+
+			foreach($this->__testObject->setup['models'] as $model){
+				$this->model($model);
+			}
 		}
 
 		/**
@@ -318,6 +343,48 @@
 			}
 
 			return true;
+		}
+
+		/**
+		 * @brief Disables a behavior in tests
+		 *
+		 * This function will overwrite the given behavior to a clean
+		 * instance of the ModelBehavior class so the behavior will act like it never
+		 * existed.
+		 *
+		 * @param mixed $behaviors Single behavior name or an array of names
+		 *
+		 * @return void
+		 */
+		public function disableBehavior($behaviors) {
+			if(!is_array($behaviors)) {
+				$behaviors = array($behaviors);
+			}
+
+			foreach($behaviors as $behavior) {
+				list($plugin, $name) = pluginSplit($behavior);
+				$class = $name . 'Behavior';
+				$ModelBehavior = new ModelBehavior();
+				if(ClassRegistry::isKeySet($class)) {
+					ClassRegistry::removeObject($class);
+					if(!empty($plugin)) {
+						ClassRegistry::removeObject($plugin . '.' . $class);
+					}
+
+					foreach(ClassRegistry::keys() as $key) {
+						$instance = ClassRegistry::getObject($key);
+
+						if(property_exists($instance, 'Behaviors')) {
+							$instance->Behaviors->{$name} = $ModelBehavior;
+						}
+					}
+				}
+
+				ClassRegistry::addObject($class, $ModelBehavior);
+				if(!empty($plugin)) {
+					ClassRegistry::addObject($plugin . '.' . $class, $ModelBehavior);
+				}
+			}
 		}
 
 		/**

@@ -57,7 +57,7 @@
 			}
 
 
-			$ids = array_filter(Set::extract('/massCheckBox', $data));
+			$ids = array_values(array_filter(Set::extract('/massCheckBox', $data)));
 			if (empty($ids)) {
 				$redirect = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
 				

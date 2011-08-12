@@ -1,5 +1,5 @@
 <?php
-	class Cron extends CoreAppModel{
+	class Cron extends CronsAppModel{
 		/**
 		 * @copydoc AppModel::name
 		 */
