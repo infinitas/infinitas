@@ -75,6 +75,41 @@
 		}
 
 		/**
+		 * @brief get a list of active installed plugins
+		 *
+		 * This is used in things like the EventCore to know where to trigger
+		 * events
+		 *
+		 * @param string $type the type of find to do
+		 *
+		 * @return mixed depends on the type passed in could be int, array list or full find
+		 */
+		public function getActiveInstalledPlugins($type = 'list'){
+			if(!in_array($type, array('list', 'count', 'all'))){
+				$type = 'list';
+			}
+
+			$fields = array(
+				$this->alias . '.id',
+				$this->alias . '.internal_name'
+			);
+
+			if($type == 'all'){
+				$fields = array();
+			}
+
+			return $this->find(
+				$type,
+				array(
+					'fields' => $fields,
+					'conditions' => array(
+						$this->alias . '.active' => 1
+					)
+				)
+			);
+		}
+
+		/**
 		 * @brief method to find a list of plugins not yet installed
 		 *
 		 * This uses the getAllPlugins() method and getInstalledPlugins() method
