@@ -241,6 +241,9 @@
 	 * @return string size in human readable
 	 */
 	function convert($size){
+		if(!$size){
+			return '0 b';
+		}
 		$unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
 		return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
 	}
