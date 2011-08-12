@@ -1,67 +1,61 @@
 <?php
-	/* CoreModulesRoute Fixture generated on: 2010-08-17 12:08:51 : 1282046151 */
 	class ModulesRouteFixture extends CakeTestFixture {
-		var $name = 'ModulesRoute';
-
-		var $table = 'core_modules_routes';
-
-		var $fields = array(
-			'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-			'module_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
-			'route_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
+		public $name = 'ModulesRoute';
+		
+		public $table = 'core_modules_routes';
+		
+		public $fields = 	array(
+			'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+			'module_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'index', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+			'route_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'key' => 'index', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 			'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'habtm' => array('column' => array('route_id', 'module_id'), 'unique' => 1), 'route' => array('column' => 'route_id', 'unique' => 0), 'module' => array('column' => 'module_id', 'unique' => 0)),
 			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 		);
-
-		var $records = array(
+	
+		public $records = 	array(
 			array(
 				'id' => 65,
-				'module_id' => 2,
+				'module_id' => 'module-login',
 				'route_id' => 0
 			),
 			array(
 				'id' => 56,
-				'module_id' => 4,
+				'module_id' => 'module-popular-posts',
 				'route_id' => 0
 			),
 			array(
 				'id' => 66,
-				'module_id' => 5,
+				'module_id' => 'module-search',
 				'route_id' => 0
 			),
 			array(
 				'id' => 39,
-				'module_id' => 12,
+				'module_id' => 'module-admin-menu',
 				'route_id' => 0
 			),
 			array(
 				'id' => 60,
-				'module_id' => 13,
+				'module_id' => 'module-frontend-menu',
 				'route_id' => 0
 			),
 			array(
 				'id' => 40,
-				'module_id' => 14,
+				'module_id' => 'module-tags',
 				'route_id' => 0
 			),
 			array(
 				'id' => 41,
-				'module_id' => 15,
+				'module_id' => 'module-post-dates',
 				'route_id' => 0
 			),
 			array(
 				'id' => 77,
-				'module_id' => 16,
+				'module_id' => 'module-google-analytics',
 				'route_id' => 0
 			),
 			array(
 				'id' => 68,
-				'module_id' => 25,
-				'route_id' => 0
-			),
-			array(
-				'id' => 95,
-				'module_id' => 26,
+				'module_id' => 'module-ratings',
 				'route_id' => 0
 			),
 		);

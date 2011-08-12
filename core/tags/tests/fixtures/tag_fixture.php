@@ -38,7 +38,7 @@ class TagFixture extends CakeTestFixture {
  * @var string $table
  * @access public
  */
-	public $table = 'tags';
+	public $table = 'global_tags';
 
 /**
  * Fields
