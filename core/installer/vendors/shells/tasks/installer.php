@@ -171,6 +171,9 @@
 				if($Plugin->installPlugin($plugin)){
 					$output = sprintf('%s Plugin updated', $plugin);
 				}
+				else{
+					pr($Plugin->installError);
+				}
 
 				$this->Infinitas->out($output);
 			}

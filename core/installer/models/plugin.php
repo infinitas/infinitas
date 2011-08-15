@@ -1,5 +1,7 @@
 <?php
 	class Plugin extends InstallerAppModel {
+		public $installError = array();
+		
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
@@ -233,6 +235,11 @@
 			}
 			
 			catch(Exception $e) {
+				$this->installError[] = array(
+					'version' => $e->migration['info']['version'],
+					'message' => $e->xdebug_message
+				);
+				
 				return false;
 			}
 
