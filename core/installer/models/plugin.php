@@ -1,5 +1,7 @@
 <?php
 	class Plugin extends InstallerAppModel {
+		public $installError = array();
+		
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
@@ -70,6 +72,41 @@
 				$type,
 				array(
 					'fields' => $fields
+				)
+			);
+		}
+
+		/**
+		 * @brief get a list of active installed plugins
+		 *
+		 * This is used in things like the EventCore to know where to trigger
+		 * events
+		 *
+		 * @param string $type the type of find to do
+		 *
+		 * @return mixed depends on the type passed in could be int, array list or full find
+		 */
+		public function getActiveInstalledPlugins($type = 'list'){
+			if(!in_array($type, array('list', 'count', 'all'))){
+				$type = 'list';
+			}
+
+			$fields = array(
+				$this->alias . '.id',
+				$this->alias . '.internal_name'
+			);
+
+			if($type == 'all'){
+				$fields = array();
+			}
+
+			return $this->find(
+				$type,
+				array(
+					'fields' => $fields,
+					'conditions' => array(
+						$this->alias . '.active' => 1
+					)
 				)
 			);
 		}
@@ -198,6 +235,11 @@
 			}
 			
 			catch(Exception $e) {
+				$this->installError[] = array(
+					'version' => $e->migration['info']['version'],
+					'message' => $e->xdebug_message
+				);
+				
 				return false;
 			}
 
