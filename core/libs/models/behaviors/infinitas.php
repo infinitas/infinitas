@@ -102,6 +102,23 @@
 			return $tables;
 		}
 
+		public function getTablesAdvanced($Model, $connection = 'default'){
+			$this->db = ConnectionManager::getDataSource($connection);
+			if(!$this->db){
+				return false;
+			}
+
+			$tables = Cache::read($connection.'_tables_advanced', 'core');
+			if($tables != false){
+				return $tables;
+			}
+
+			$tables = $this->db->listDetailedSources();
+			sort($tables);
+
+			return $tables;
+		}
+
 		/**
 		 * Get tables with a certain field.
 		 *

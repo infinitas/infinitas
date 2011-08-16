@@ -62,6 +62,10 @@
 		 * @access public
 		 */
 		public function login(){
+			if($this->theme && file_exists(VIEWS . 'themed' . DS . $this->theme . DS . 'layouts' . DS . 'front_login.ctp')) {
+				$this->layout = 'front_login';
+			}
+
 			if (!Configure::read('Website.allow_login')) {
 				$this->Session->setFlash(__('Login is disabled', true));
 				$this->redirect('/');
@@ -102,6 +106,7 @@
 			}
 			if (!(empty($this->data)) && !$this->Auth->user()) {
 				$this->Infinitas->badLoginAttempt($this->data['User']);
+				$this->notice(__('Your login details have not been recognised'), array('level' => 'warning'));
 			}
 		}
 
