@@ -424,7 +424,7 @@
 		 * 
 		 * @return string markup for the links to order them
 		 */
-		public function ordering($id = null, $currentPosition = null, $modelName = null, $results = null) {
+		public function ordering($id = null, $currentPosition = null, $modelName = null, $results = null, $url = array()) {
 			if (!$id) {
 				$this->errors[] = 'How will i know what to move?';
 			}
@@ -436,6 +436,12 @@
 			if($results != null && $modelName) {
 				$maxPosition = max(Set::extract('/' . $modelName . '/ordering', $results));
 			}
+
+			if(!is_array($url)){
+				$url = array();
+			}
+			$url['action'] = 'reorder';
+			$url = array_merge($this->urlExtras, (array)$url);
 
 			$out = '';
 
@@ -450,11 +456,7 @@
 							'class' => 'arrow-up'
 						)
 					),
-					array(
-						'action' => 'reorder',
-						'position' => $currentPosition - 1,
-						$id
-					),
+					$url + array('position' => $currentPosition - 1, $id),
 					array(
 						'escape' => false,
 					)
@@ -470,11 +472,7 @@
 							'class' => 'arrow-down'
 						)
 					),
-					array(
-						'action' => 'reorder',
-						'position' => $currentPosition + 1,
-						$id
-					),
+					$url + array('position' => $currentPosition + 1, $id),
 					array(
 						'escape' => false,
 					)
