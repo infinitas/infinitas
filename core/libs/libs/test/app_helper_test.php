@@ -18,7 +18,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	
-	class AppBehaviorTestCase extends CakeTestCase {
+	class AppHelperTestCase extends CakeTestCase {
 		/**
 		 * @brief if set to stop, testing will stop before the next testCase starts
 		 *
@@ -47,7 +47,7 @@
 		public function __construct(){
 			parent::__construct();
 
-			if(is_subclass_of($this, 'AppBehaviorTestCase')){
+			if(is_subclass_of($this, 'AppHelperTestCase')){
 				try{
 					$this->AppTest = new AppTest($this);
 				}
@@ -93,7 +93,7 @@
 		 */
 		public function getTests() {
 			if (!empty($this->tests)) {
-				debug('Only the following tests will be executed: ' . join(', ', (array) $this->tests), false, false);
+				echo '<pre class="cake-debug">Only the following tests will be executed: ' . join(', ', (array) $this->tests) . '</pre>';
 				return array_merge(array('start', 'startCase'), (array) $this->tests, array('endCase', 'end'));
 			}
 
@@ -117,9 +117,9 @@
 
 			echo '<div style="border: 2px solid #d6ab00; padding: 5px; margin-top:5px; margin-bottom:5px">';
 			
-			list($plugin, $behavior) = pluginSplit($this->setup[$this->setup['type']]);
-			$behaviorClass = $behavior . 'Behavior';
-			$this->{$behaviorClass} = new $behaviorClass();
+			list($plugin, $helper) = pluginSplit($this->setup[$this->setup['type']]);
+			$helperClass = $helper . 'Helper';
+			$this->{$helper} = new $helperClass();
 
 			foreach($this->setup['models'] as $modelToLoad){
 				list($plugin, $model) = pluginSplit($modelToLoad);
@@ -137,9 +137,9 @@
 		 * @return void
 		 */
 		public function endTest($method) {
-			list($plugin, $behavior) = pluginSplit($this->setup[$this->setup['type']]);
-			$behaviorClass = $behavior . 'Behavior';
-			unset($this->{$behaviorClass});
+			list($plugin, $helper) = pluginSplit($this->setup[$this->setup['type']]);
+			$helperClass = $helper . 'Helper';
+			unset($this->{$helper});
 
 			foreach($this->setup['models'] as $modelToLoad){
 				list($plugin, $model) = pluginSplit($modelToLoad);
@@ -157,7 +157,7 @@
 
 			echo '</div>';
 			if($this->stop === true){
-				debug('Skipping further tests', false, false);
+				echo '<pre class="cake-debug">Skipping further tests</pre>';
 
 				$this->AppTest->endTest();
 				exit;
@@ -168,10 +168,10 @@
 		 * @brief Disables a behavior in tests
 		 *
 		 * This function will overwrite the given behavior to a clean
-		 * instance of the ModelBehavior class so the behavior will act like it never
+		 * instance of the ModelHelper class so the behavior will act like it never
 		 * existed.
 		 *
-		 * @param mixed $behaviors Single behavior name or an array of names
+		 * @param mixed $helpers Single behavior name or an array of names
 		 *
 		 * @return void
 		 */
@@ -180,7 +180,7 @@
 		}
 
 		public function startCase() {
-			if(is_subclass_of($this, 'AppBehaviorTestCase')) {
+			if(is_subclass_of($this, 'AppHelperTestCase')) {
 				$this->AppTest->startCase();
 			}
 		}
@@ -196,7 +196,7 @@
 		 * @return void
 		 */
 		public function endCase(){
-			if(is_subclass_of($this, 'AppBehaviorTestCase')) {
+			if(is_subclass_of($this, 'AppHelperTestCase')) {
 				$this->AppTest->endCase();
 			}
 		}
