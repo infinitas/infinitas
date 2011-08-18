@@ -201,7 +201,18 @@ class InfiniTimeHelper extends TimeHelper {
  * @link http://book.cakephp.org/view/1471/Formatting
  */
 	function toRSS($dateString, $userOffset = null) {
-		return parent::toRSS($dateString, $this->__userOffset($dateString, $userOffset));
+		$userOffset = $this->__userOffset($dateString, $userOffset);
+		
+		if($userOffset == 0) {
+			$timeZoneString = '+0000';
+		} else {
+			$hours = (int) floor(abs($userOffset));
+			$minutes = (int) (fmod(abs($userOffset), $hours) * 60);
+			$timeZoneString = ($userOffset < 0 ? '-' : '+') . str_pad($hours, 2, '0', STR_PAD_LEFT) . str_pad($minutes, 2, '0', STR_PAD_LEFT);
+		}
+
+		$date = parent::fromString($dateString, $userOffset);
+		return date('D, d M Y H:i:s', $date) . ' ' . $timeZoneString;
 	}
 
 /**
@@ -278,7 +289,7 @@ class InfiniTimeHelper extends TimeHelper {
  * @access public
  */
 	function format($format, $date = null, $invalid = false, $userOffset = null) {
-		return format($format, $date, $invalid, $this->__userOffset($date, $userOffset));
+		return parent::format($format, $date, $invalid, $this->__userOffset($date, $userOffset));
 	}
 
 /**
@@ -293,7 +304,7 @@ class InfiniTimeHelper extends TimeHelper {
  * @access public
  */
 	function i18nFormat($date, $format = null, $invalid = false, $userOffset = null) {
-		return i18nFormat($data, $format, $invalid, $this->__userOffset($date, $userOffset));
+		return parent::i18nFormat($date, $format, $invalid, $this->__userOffset($date, $userOffset));
 	}
 
 	private function __userOffset($dateString, $userOffset = null) {
@@ -310,6 +321,9 @@ class InfiniTimeHelper extends TimeHelper {
 			$timeZone = $this->Session->read('Auth.User.time_zone');
 
 			if(phpversion() >= 5.2) {
+				if(is_int($dateString)) {
+					$dateString = '@' . $dateString;
+				}
 				$date = new DateTime($dateString, new DateTimeZone('UTC'));
 				$date->setTimezone(new DateTimeZone($timeZone));
 				$userOffset = $date->getOffset() / 3600;
