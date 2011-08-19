@@ -200,4 +200,8 @@
 				$this->AppTest->endCase();
 			}
 		}
+
+		public function outputArray($array, $level = 1){
+			$this->AppTest->outputArray($array, $level);
+		}
 	}
