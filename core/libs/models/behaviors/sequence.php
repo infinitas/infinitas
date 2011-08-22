@@ -187,7 +187,7 @@
 			$this->_setNewGroups($Model);
 
 			$orderField = $this->settings[$Model->alias]['orderField'];
-
+			
 			$highestPossible = $this->getHighestOrder($Model, $this->_newGroups[$Model->alias]);
 
 			if (!$Model->id) {
@@ -261,16 +261,15 @@
 				$Model->data[$Model->alias][$orderField] = $highestPossible;
 			}
 			
+			$this->_setOldOrder($Model);
+			$this->_setOldGroups($Model);
+	  
 			if (!isset($this->_newOrder[$Model->alias]) && !isset($this->_newGroups[$Model->alias])) {
 				return true;
 			}
 
-			$this->_setOldOrder($Model);
-			$this->_setOldGroups($Model);
 			// No action if new and old group and order same
-			$check = ($this->_newOrder[$Model->alias] == $this->_oldOrder[$Model->alias]) &&
-					($this->_newGroups[$Model->alias] == $this->_oldGroups[$Model->alias]);
-			if ($check) {
+			if (($this->_newOrder[$Model->alias] == $this->_oldOrder[$Model->alias]) && ($this->_newGroups[$Model->alias] == $this->_oldGroups[$Model->alias])) {
 				return true;
 			}
 
@@ -403,23 +402,18 @@
 		 *
 		 * @return integer Value of order field of last record in set
 		 */
-		public function getHighestOrder($Model, $groupValues = false) {
-			$orderField = $this->settings[$Model->alias]['orderField'];
-			$escapedOrderField = $this->settings[$Model->alias]['escaped_orderField'];
-			$conditions = $this->_conditionsForGroups($Model, $groupValues);
-			$last = $Model->find(
-				'first',
+		public function getHighestOrder($Model, $groupValues = false) {	
+			$count = $Model->find(
+				'count',
 				array(
-					'conditions' => $conditions,
-					'order' => array(
-						$escapedOrderField => 'desc'
-					),
+					'conditions' => $this->_conditionsForGroups($Model, $groupValues),
 					'contain' => false
 				)
 			);
+			
 			// If there is a last record (i.e. any) in the set, return the it's order
-			if ($last) {
-				return $last[$Model->alias][$orderField];
+			if ($count) {
+				return $count;
 			}
 			// If there isn't any records in the set, return the start number minus 1
 			return (int)$this->settings[$Model->alias]['startAt'] - 1;
@@ -503,15 +497,15 @@
 		protected function _setNewGroups($Model) {
 			$this->_newGroups[$Model->alias] = null;
 
-			$groupFields = $this->settings[$Model->alias]['groupFields'];
-			// Return if this model has not group fields
-			if ($groupFields === false) {
+			if ($this->settings[$Model->alias]['groupFields'] === false) {
 				return;
 			}
 
-			foreach ($groupFields as $groupField => $escapedGroupField) {
-				if (isset($Model->data[$Model->alias][$groupField])) {
-					$this->_newGroups[$Model->alias][$groupField] = $Model->data[$Model->alias][$groupField];
+			foreach(array_keys($Model->data[$Model->alias]) as $key) {
+				$escapedField = $Model->escapeField($key);
+				
+				if(in_array($escapedField, $this->settings[$Model->alias]['groupFields'])) {
+					$this->_newGroups[$Model->alias][$escapedField] = $Model->data[$Model->alias][$key];
 				}
 			}
 		}
@@ -528,29 +522,25 @@
 		 * @return array Array of escaped group field => group value pairs
 		 */
 		protected function _conditionsForGroups($Model, $groupValues = false) {
+			if ($this->settings[$Model->alias]['groupFields'] === false) {
+				return array();
+			}
+			
+			$groupValues = ($groupValues !== false) ? $groupValues : $this->_oldGroups[$Model->alias];
+
 			$conditions = array();
-
-			$groupFields = $this->settings[$Model->alias]['groupFields'];
-			// Return if this model has not group fields
-			if ($groupFields === false) {
-				return $conditions;
-			}
-			// By default, if group values are not specified, use the old group fields
-			if ($groupValues === false) {
-				$groupValues = $this->_oldGroups[$Model->alias];
-			}
-			// Set up conditions for each group field
-			foreach ($groupFields as $groupField => $escapedGroupField) {
+			foreach($this->settings[$Model->alias]['groupFields'] as $groupField => $escapedGroupField) {
 				$groupValue = null;
-
-				if (isset($groupValues[$groupField])) {
+				if (isset($groupValues[$escapedGroupField])) {
+					$groupValue = $groupValues[$escapedGroupField];
+				}
+				else if(isset($groupValues[$groupField])){
 					$groupValue = $groupValues[$groupField];
 				}
 
-				$conditions[] = array($escapedGroupField => $groupValue,
-				);
+				$conditions[] = array($escapedGroupField => $groupValue);
 			}
-
+			
 			return $conditions;
 		}
 
@@ -579,31 +569,29 @@
 		 * @return boolean
 		 */
 		protected function _updateAll($Model) {
-			// If there's no update to do
 			if (empty($this->_update[$Model->alias])) {
 				return true;
 			}
 
 			$return = true;
-
 			foreach ($this->_update[$Model->alias] as $update) {
 				$groupValues = false;
 
 				if (isset($update['group_values'])) {
 					$groupValues = $update['group_values'];
 				}
+				
 				// Actual conditions for the update are a combination of what's derived in
 				// the beforeSave or beforeDelete, and conditions to not the record we've
 				// just modified/inserted and conditions to make sure only records in the
 				// current record's groups
-				$conditions = array_merge($this->_conditionsForGroups($Model, $groupValues),
+				$conditions = array_merge(
+					$this->_conditionsForGroups($Model, $groupValues),
 					$this->_conditionsNotCurrent($Model),
 					$update['conditions']
 				);
 
-				$success = $Model->updateAll($update['action'], $conditions);
-
-				$return = $return && $success;
+				$return = $return && $Model->updateAll($update['action'], $conditions);
 			}
 
 			return $return;
