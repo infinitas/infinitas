@@ -107,7 +107,7 @@
 			if($Model->findQueryType != 'first' || !$primary || empty($results) || !isset($Model->Lock)){
 				return $results;
 			}
-			
+
 			$class = Inflector::camelize($Model->plugin).'.'.$Model->alias;
 
 			if(isset($results[0][$Model->alias][$Model->primaryKey])){
@@ -130,7 +130,7 @@
 					$Model->Lock->delete($lock[0]['Lock']['id']);
 					$lock = array();
 				}
-				
+
 				if(!empty($lock)){
 					return $lock;
 				}
@@ -140,13 +140,13 @@
 					'class' => $class,
 					'user_id' => $this->userId
 				);
-				
+
 				$Model->Lock->create();
 				if($Model->Lock->save($lock)){
 					return $results;
 				}
 			}
-			
+
 			return $results;
 		}
 
