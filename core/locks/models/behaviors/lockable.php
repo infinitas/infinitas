@@ -187,9 +187,9 @@
 		 *
 		 * @return bool true on succsess false if not.
 		 */
-		public function afterSave($Model, $created){
+		public function afterSave(&$Model, $created){
 			if($created || !isset($Model->Lock) || !is_object($Model->Lock)){
-				return parent::afterSave(&$Model, $created);
+				return parent::afterSave($Model, $created);
 			}
 
 			$Model->Lock->deleteAll(
@@ -200,6 +200,6 @@
 				)
 			);
 
-			parent::afterSave(&$Model, $created);
+			parent::afterSave($Model, $created);
 		}
 	}
