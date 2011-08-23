@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Users schema generated on: 2011-08-04 17:08:06 : 1312475526*/
+/* Users schema generated on: 2011-08-17 13:08:14 : 1313582594*/
 class UsersSchema extends CakeSchema {
 	var $name = 'Users';
 
@@ -41,6 +41,7 @@ class UsersSchema extends CakeSchema {
 		'country' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'time_zone' => array('type' => 'string', 'null' => false, 'default' => 'UTC', 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => 'username', 'unique' => 1), 'email' => array('column' => 'email', 'unique' => 1), 'twitter_id' => array('column' => 'twitter_id', 'unique' => 0)),
