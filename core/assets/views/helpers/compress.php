@@ -180,7 +180,13 @@
 		}
 
 		public function script() {
-			return call_user_func_array(array($this, 'js'), func_get_args());
+			$args = func_get_args();
+			if(!empty($args)) {
+				return call_user_func_array(array($this, 'js'), $args);
+			}
+			else {
+				return $this->js();
+			}
 		}
 
 		/**
