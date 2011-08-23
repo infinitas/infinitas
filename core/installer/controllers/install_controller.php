@@ -194,7 +194,7 @@
 		/**
 		 * Wizard prepare steps methods
 		 */
-		protected function _prepareWelcome() {
+		public function _prepareWelcome() {
 			$core = $this->__checkCore();
 			$paths = $this->__checkPaths();
 			$database = $this->__checkDatabases(true);
@@ -204,16 +204,16 @@
 			$this->set('supportedDb', $this->__supportedDatabases);
 		}
 
-		protected function _prepareDatabase() {
+		public function _prepareDatabase() {
 			$this->loadModel('Installer.Install');
 			$database = $this->__checkDatabases();
 
 			$this->set(compact('database'));
 		}
 
-		protected function _prepareInstall() {}
+		public function _prepareInstall() {}
 
-		protected function _prepareAdminUser() {
+		public function _prepareAdminUser() {
 			$this->loadModel('Management.User');
 
 			$this->set('hidePrevious', true);
@@ -222,11 +222,11 @@
 		/**
 		 * Wizard process step methods
 		 */
-		protected function _processWelcome() {
+		public function _processWelcome() {
 			return true;
 		}
 
-		protected function _processDatabase() {
+		public function _processDatabase() {
 			App::import('Model', 'Installer.Install');
 
 			$install = new Install(false, false, false);
@@ -239,7 +239,7 @@
 			return false;
 		}
 
-		protected function _processInstall() {
+		public function _processInstall() {
 			if($this->__installPlugins() && $this->__writeDbConfig()) {
 				return true;
 			}
@@ -247,7 +247,7 @@
 			return false;
 		}
 
-		protected function _processAdminUser() {
+		public function _processAdminUser() {
 			$this->loadModel('Management.User');
 
 			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
