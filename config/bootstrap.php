@@ -24,7 +24,7 @@
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
-	 */
+	 */ 
 
 	/**
 	 * @brief the cached plugin paths
@@ -33,6 +33,7 @@
 	 * They are used with App::build() to make any extra folders  in APP be plugin
 	 * folders. This can help if you want to keep plugins outside of /plugins
 	 */
+
 	$paths = Cache::read('plugin_paths');
 
 	if(!class_exists('Folder')){

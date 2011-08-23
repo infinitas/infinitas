@@ -76,7 +76,7 @@
 			$this->_helpers = array_merge($this->helpers, $this->_helpers, $this->_lazyHelpers);
 
 			$this->__mapHelpers($this->_helpers);
-			
+
 
 			// Return the array of helpers
 			return $this->_helpers;
