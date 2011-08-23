@@ -76,29 +76,6 @@
 
 			return true;
 		}
-
-		public function outputArray($array, $level = 1){
-			$out = "array(\n";
-				foreach($array as $k => $v){
-					$out .= str_repeat("\t", $level);
-					if(is_array($v)){
-						$value = $this->outputArray($v, $level + 1);
-						$out .= "'$k' => $value)";
-					}
-					else if(is_int($v)) {
-						$out .= "'$k' => $v";
-					}
-					else {
-						$out .= "'$k' => '$v'";
-					}
-					$out .= ",\n";
-				}
-			if($level == 1){
-				$out .= ");\n";
-			}
-
-			pr($out);
-		}
 		
 		/**
 		 * @brief allow running only some of the tests in the test case
@@ -318,5 +295,9 @@
 			}
 			
 			return $valid;
+		}
+
+		public function outputArray($array, $level = 1){
+			$this->AppTest->outputArray($array, $level);
 		}
 	}

@@ -671,6 +671,29 @@
 		public function prettyTestMethod($method){
 			return Inflector::humanize(Inflector::underscore(substr($method, 4)));
 		}
+
+		public function outputArray($array, $level = 1){
+			$out = "array(\n";
+				foreach($array as $k => $v){
+					$out .= str_repeat("\t", $level);
+					if(is_array($v)){
+						$value = $this->outputArray($v, $level + 1);
+						$out .= "'$k' => $value)";
+					}
+					else if(is_int($v)) {
+						$out .= "'$k' => $v";
+					}
+					else {
+						$out .= "'$k' => '$v'";
+					}
+					$out .= ",\n";
+				}
+			if($level == 1){
+				$out .= ");\n";
+			}
+
+			pr($out);
+		}
 	}
 
 	/**
