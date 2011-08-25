@@ -24,8 +24,7 @@ There is only  a web based installer option, although a shell option is planned.
 2) cd infinitas/
 
 3) If you would like the extra plugins (recomended)
-	3a) git submodule init
-	3b) git submodule update
+	git submodule update --init --recursive
 4) see instructions below
 
 

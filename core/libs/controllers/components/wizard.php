@@ -178,8 +178,8 @@
 			$this->config('wizardAction', $this->wizardAction);
 			$this->config('steps', $this->steps);
 
-			if (!in_array('Libs.Wizard', $this->controller->helpers) && !array_key_exists('Libs.Wizard', $this->controller->helpers)) {
-				$this->controller->helpers[] = 'Libs.Wizard';
+			if (!in_array('Libs.Wizard', $this->Controller->helpers) && !array_key_exists('Libs.Wizard', $this->Controller->helpers)) {
+				$this->Controller->helpers[] = 'Libs.Wizard';
 			}
 		}
 
@@ -190,23 +190,23 @@
 		 * @access public
 		 */
 		function process($step) {
-			if (isset($this->controller->params['form']['Cancel'])) {
-				if (method_exists($this->controller, '_beforeCancel')) {
-					$this->controller->_beforeCancel($this->_getExpectedStep());
+			if (isset($this->Controller->params['form']['Cancel'])) {
+				if (method_exists($this->Controller, '_beforeCancel')) {
+					$this->Controller->_beforeCancel($this->_getExpectedStep());
 				}
 
 				$this->reset();
-				$this->controller->redirect($this->cancelUrl);
+				$this->Controller->redirect($this->cancelUrl);
 			}
 
 			if (empty($step)) {
 				if ($this->Session->check('Wizard.complete')) {
-					if (method_exists($this->controller, '_afterComplete')) {
-						$this->controller->_afterComplete();
+					if (method_exists($this->Controller, '_afterComplete')) {
+						$this->Controller->_afterComplete();
 					}
 
 					$this->reset();
-					$this->controller->redirect($this->completeUrl);
+					$this->Controller->redirect($this->completeUrl);
 				}
 
 				$this->autoReset = false;
@@ -222,12 +222,12 @@
 				if ($this->_validStep($step)) {
 					$this->_setCurrentStep($step);
 
-					if (!empty($this->controller->data) && !isset($this->controller->params['form']['Previous'])) {
+					if (!empty($this->Controller->data) && !isset($this->Controller->params['form']['Previous'])) {
 						$proceed = false;
 
 						$processCallback = '_' . Inflector::variable('process_' . $this->_currentStep);
-						if (method_exists($this->controller, $processCallback)) {
-							$proceed = $this->controller->$processCallback();
+						if (method_exists($this->Controller, $processCallback)) {
+							$proceed = $this->Controller->$processCallback();
 						} 
 						
 						else if ($this->autoValidate) {
@@ -252,26 +252,26 @@
 								$this->Session->write('Wizard.complete', $this->read());
 								$this->reset();
 
-								$this->controller->redirect($this->wizardAction);
+								$this->Controller->redirect($this->wizardAction);
 							}
 						}
 					} 
 					
-					else if (isset($this->controller->params['form']['Previous']) && prev($this->steps)) {
+					else if (isset($this->Controller->params['form']['Previous']) && prev($this->steps)) {
 						$this->redirect(current($this->steps));
 					}
 					
 					else if ($this->Session->check("$this->_sessionKey.$this->_currentStep")) {
-						$this->controller->data = $this->read($this->_currentStep);
+						$this->Controller->data = $this->read($this->_currentStep);
 					}
 
 					$prepareCallback = '_' . Inflector::variable('prepare_' . $this->_currentStep);
-					if (method_exists($this->controller, $prepareCallback)) {
-						$this->controller->$prepareCallback();
+					if (method_exists($this->Controller, $prepareCallback)) {
+						$this->Controller->$prepareCallback();
 					}
 
 					$this->config('activeStep', $this->_currentStep);
-					return ($this->controller->autoRender) ? $this->controller->render($this->_currentStep) : true;
+					return ($this->Controller->autoRender) ? $this->Controller->render($this->_currentStep) : true;
 				}
 
 				else {
@@ -362,8 +362,8 @@
 				$step = $this->_getExpectedStep();
 			}
 			
-			$url = array('controller' => strtolower($this->controller->name), 'action' => $this->wizardAction, 'step' => $step);
-			$this->controller->redirect($url, $status, $exit);
+			$url = array('controller' => strtolower($this->Controller->name), 'action' => $this->wizardAction, 'step' => $step);
+			$this->Controller->redirect($url, $status, $exit);
 		}
 
 		/**
@@ -394,7 +394,7 @@
 		 * @access public
 		 */
 		function save() {
-			$this->Session->write($this->_sessionKey . '.' . $this->_currentStep, $this->controller->data);
+			$this->Session->write($this->_sessionKey . '.' . $this->_currentStep, $this->Controller->data);
 		}
 
 		/**
@@ -506,7 +506,7 @@
 		 * @access protected
 		 */
 		function _validateData() {
-			$controller = $this->controller;
+			$controller = $this->Controller;
 
 			foreach ($controller->data as $model => $data) {
 				if (in_array($model, $controller->uses)) {
