@@ -111,7 +111,7 @@
 			if (is_array($cssFiles[0])) {
 				$cssFiles = $cssFiles[0];
 			}
-			
+
 			$cacheKey = md5(serialize($cssFiles));
 
 			// Let's generate the path to the cache file.
@@ -169,18 +169,24 @@
 					unset($parts, $css);
 				}
 			}
-			
+
 			$cssData = implode(Configure::read('ScriptCombiner.fileSeparator'), $cssData);
-			
+
 			if (Configure::read('ScriptCombiner.compressCss')) {
 				$cssData = $this->compressCss($cssData);
 			}
-			
+
 			return $cssData;
 		}
 
 		public function script() {
-			return call_user_func_array(array($this, 'js'), func_get_args());
+			$args = func_get_args();
+			if(!empty($args)) {
+				return call_user_func_array(array($this, 'js'), $args);
+			}
+			else {
+				return $this->js();
+			}
 		}
 
 		/**
@@ -239,12 +245,12 @@
 
 		protected function _getJsFiles($jsFiles){
 			$urlMatches = $jsData = array();
-			
+
 			$_setting = Configure::read('Asset.timestamp');
 			Configure::write('Asset.timestamp', false);
 			$jsLinks = $this->Javascript->link($jsFiles);
 			Configure::write('Asset.timestamp', $_setting);
-			
+
 			preg_match_all('/src="([^"]+)"/i', $jsLinks, $urlMatches);
 			$urlMatches = isset($urlMatches[1]) ? array_unique($urlMatches[1]) : array();
 
@@ -254,9 +260,9 @@
 					$jsData[] = file_get_contents($jsPath);
 				}
 			}
-			
+
 			$jsData = implode(Configure::read('ScriptCombiner.fileSeparator'), $jsData);
-			
+
 			if (Configure::read('ScriptCombiner.compressJs')) {
 				$jsData = $this->compressJs($jsData);
 			}
@@ -275,7 +281,7 @@
 		 *
 		 * @return bool Flag indicating whether the file has expired or not.
 		 */
-		private function isCacheFileValid($cacheFile) {			
+		private function isCacheFileValid($cacheFile) {
 			if (is_file($cacheFile) && $this->cacheLength > 0) {
 				$lastModified = filemtime($cacheFile);
 				$timeNow = time();

@@ -165,7 +165,7 @@
 			);
 
 			$this->Wizard->completeUrl = array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish');
-			
+
 			$this->set('installerProgress', $this->installerProgress);
 		}
 
@@ -178,7 +178,7 @@
 					)
 				);
 			}
-			
+
 			$this->Session->write('installing', true);
 			$this->set('title_for_layout', $this->installerProgress[($step == null) ? 'welcome' : $step]);
 			$this->Wizard->process($step);
@@ -194,7 +194,7 @@
 		/**
 		 * Wizard prepare steps methods
 		 */
-		protected function _prepareWelcome() {
+		public function _prepareWelcome() {
 			$core = $this->__checkCore();
 			$paths = $this->__checkPaths();
 			$database = $this->__checkDatabases(true);
@@ -204,16 +204,23 @@
 			$this->set('supportedDb', $this->__supportedDatabases);
 		}
 
-		protected function _prepareDatabase() {
+		public function _prepareDatabase() {
 			$this->loadModel('Installer.Install');
 			$database = $this->__checkDatabases();
 
 			$this->set(compact('database'));
 		}
 
-		protected function _prepareInstall() {}
+		public function _prepareInstall() {}
 
-		protected function _prepareAdminUser() {
+		public function _prepareAdminUser() {
+			if(!is_readable(APP . 'config' . DS . 'database.php') || filesize(APP . 'config' . DS . 'database.php') == 0) {
+				$this->Session->delete('Wizard');
+				$this->Session->setFlash(__('There was an unrecoverable error configuring your database. Unfortunately you need to restart the installation process. You may need to clear any tables that have been created', true));
+				$this->redirect('/');
+				exit;
+			}
+
 			$this->loadModel('Management.User');
 
 			$this->set('hidePrevious', true);
@@ -222,15 +229,15 @@
 		/**
 		 * Wizard process step methods
 		 */
-		protected function _processWelcome() {
+		public function _processWelcome() {
 			return true;
 		}
 
-		protected function _processDatabase() {
+		public function _processDatabase() {
 			App::import('Model', 'Installer.Install');
 
 			$install = new Install(false, false, false);
-			
+
 			$install->set($this->data);
 			if($install->validates() && $this->__testConnection()) {
 				return true;
@@ -239,7 +246,7 @@
 			return false;
 		}
 
-		protected function _processInstall() {
+		public function _processInstall() {
 			if($this->__installPlugins() && $this->__writeDbConfig()) {
 				return true;
 			}
@@ -247,7 +254,7 @@
 			return false;
 		}
 
-		protected function _processAdminUser() {
+		public function _processAdminUser() {
 			$this->loadModel('Management.User');
 
 			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
@@ -262,7 +269,7 @@
 			if($this->User->save($this->data)) {
 				return true;
 			}
-			
+
 			return false;
 		}
 		/**
@@ -374,7 +381,7 @@
 				$this->set('dbError', true);
 				return false;
 			}
-			
+
 			else {
 				if(trim($adminConnectionDetails['login']) != '') {
 					if(!@ConnectionManager::create('admin', $adminConnectionDetails)->isConnected()) {
@@ -442,7 +449,7 @@
 			if($this->data['Admin']['username'] !== '') {
 				$dbConfig = $this->__cleanConnectionDetails(true);
 			}
-			
+
 			else {
 				$dbConfig = $this->__cleanConnectionDetails();
 			}
@@ -487,7 +494,7 @@
 				$configPath = APP . 'config' . DS;
 				$checkFile = $configPath . 'releases' . DS . 'map.php';
 			}
-			
+
 			if(file_exists($checkFile)) {
 				if(file_exists($configPath . 'releases' . DS . 'map.php')) {
 					try {
@@ -502,7 +509,7 @@
 							'sample' => $this->data['Sample']['sample'] == 1
 						));
 					}
-					
+
 					catch (Exception $e) {
 						return false;
 					}

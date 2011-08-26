@@ -27,9 +27,9 @@
 		protected $_lazyHelpers = array();
 
 		private $__helperMap = array();
-		
+
 		public function __construct(&$controller, $register = true) {
-			parent::__construct(&$controller, $register);
+			parent::__construct($controller, $register);
 			$this->__registerHelpers();
 		}
 
@@ -76,7 +76,7 @@
 			$this->_helpers = array_merge($this->helpers, $this->_helpers, $this->_lazyHelpers);
 
 			$this->__mapHelpers($this->_helpers);
-			
+
 
 			// Return the array of helpers
 			return $this->_helpers;
