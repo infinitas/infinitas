@@ -265,4 +265,26 @@
 			
 			$this->assertEqual('Thickbox', current(array_diff($notInstalled2, $notInstalled)));
 		}
+		
+		/**
+		 * @test checking if a plugin is installed
+		 */
+		public function testIsInstalled() {
+			$this->disableBehavior('Trashable');
+			
+			$this->assertFalse($this->Plugin->isInstalled());
+			$this->assertFalse($this->Plugin->isInstalled(false));
+			$this->assertFalse($this->Plugin->isInstalled('fake-plugin'));
+			
+			$this->assertTrue($this->Plugin->isInstalled('Trash'));
+			$this->assertTrue($this->Plugin->isInstalled('trash'));
+			
+			$this->assertTrue($this->Plugin->isInstalled('ClearCache'));
+			$this->assertTrue($this->Plugin->isInstalled('clear_cache'));
+			
+			$this->Plugin->delete('4e286eaa-0364-49b2-b6f2-18876318cd70');	
+			
+			$this->assertFalse($this->Plugin->isInstalled('ClearCache'));
+			$this->assertFalse($this->Plugin->isInstalled('clear_cache'));		
+		}
 	}

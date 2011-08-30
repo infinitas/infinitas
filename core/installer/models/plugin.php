@@ -339,6 +339,6 @@
 				return false;
 			}
 
-			return (bool)$this->find('count', array('conditions' => array($this->alias . '.internal_name' => $plugin)));
+			return (bool)$this->find('count', array('conditions' => array($this->alias . '.internal_name' => Inflector::camelize($plugin))));
 		}
 	}
