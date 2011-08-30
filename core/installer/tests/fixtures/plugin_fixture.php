@@ -723,7 +723,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'enabled' => 0,
 				'core' => 1,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -739,8 +739,8 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
-				'core' => 1,
+				'enabled' => 0,
+				'core' => 0,
 				'created' => '2011-07-25 14:00:22',
 				'modified' => '2011-07-25 14:00:22'
 			),
@@ -755,7 +755,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'enabled' => 0,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:22',
 				'modified' => '2011-07-25 14:00:22'
