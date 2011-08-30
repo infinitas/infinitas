@@ -7,12 +7,20 @@
     	</title>
         <?php
             echo $this->Html->meta('icon');
-			$css = array(
-				'/assets/css/960gs/960',
-				'/assets/css/admin_nav',
-				'/assets/css/960gs/uncompressed/demo'
+			
+			foreach($css_for_layout as $i => $css) {
+				if(strstr($css, '/assets/')){
+					unset($css_for_layout[$i]);
+				}
+			}
+			echo $this->Html->css(
+				array(
+					'/assets/css/960gs/960',
+					'/assets/css/admin_nav',
+					'/assets/css/960gs/uncompressed/demo'
+				) + 
+				$css_for_layout
 			);
-			echo $this->Html->css($css);
     		echo $scripts_for_layout;
         ?>
 	</head>
