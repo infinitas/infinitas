@@ -67,15 +67,16 @@
 
 	unset($paths);
 
-	if ( false === function_exists('lcfirst') ) {
-		function lcfirst( $str ) 
-		{ return (string)(strtolower(substr($str,0,1)).substr($str,1));} 
+	if (false === function_exists('lcfirst')) {
+		function lcfirst($str) { 
+			return (string)(strtolower(substr($str, 0, 1)) . substr($str, 1));
+		} 
 	}
 	
 	/**
 	 * Load plugin events
 	 */
-	if(!App::import('Libs', 'Events.Events')){
+	if(!App::import('Libs', 'Events.Events')) {
 		trigger_error('Could not load the Events Class', E_USER_ERROR);
 	}
 
