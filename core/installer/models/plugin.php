@@ -64,7 +64,7 @@
 				$this->alias . '.internal_name'
 			);
 			
-			if($type == 'all'){
+			if($type !== 'list'){
 				$fields = array();
 			}
 			
@@ -96,7 +96,7 @@
 				$this->alias . '.internal_name'
 			);
 
-			if($type == 'all'){
+			if($type !== 'list'){
 				$fields = array();
 			}
 
@@ -105,7 +105,7 @@
 				array(
 					'fields' => $fields,
 					'conditions' => array(
-						$this->alias . '.active' => 1
+						$this->alias . '.enabled' => 1
 					)
 				)
 			);
