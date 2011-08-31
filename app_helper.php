@@ -971,6 +971,20 @@
 		 * @return string the generated url
 		 */
 		public function url($url = null, $full = false) {
+			$persistedNamedParameters = Configure::read('AppHelper.persistParameters');
+
+			if(!empty($persistedNamedParameters) && is_array($url)) {
+				foreach($persistedNamedParameters as $parameter) {
+					if(!array_key_exists($parameter, $url) && !empty($this->params['named'][$parameter])) {
+						$url[$parameter] = $this->params['named'][$parameter];
+					}
+
+					if(array_key_exists($parameter, $url) && $url[$parameter] === false) {
+						unset($url[$parameter]);
+					}
+				}
+			}
+
 			$keyUrl = $url;
 			if (is_array($keyUrl)) {
 				$keyUrl += $this->urlExtras;
