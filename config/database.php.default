@@ -19,26 +19,26 @@
 
 	class DATABASE_CONFIG {
 		var $default = array(
-			'driver' => 'mysql',
+			'driver' => 'mysqli',
 			'persistent' => true,
 			'host' => 'localhost',
 			'login' => 'infinitas',
 			'password' => 'infinitas',
 			'database' => 'infinitas',
 			'prefix' => '',
-			'port' => '',
+			'port' => null,
 			'encoding' => 'utf8'
 		);
 
 		var $test = array(
-			'driver' => 'mysql',
+			'driver' => 'mysqli',
 			'persistent' => true,
 			'host' => 'localhost',
 			'login' => 'infinitas',
 			'password' => 'infinitas',
 			'database' => 'test_infinitas',
 			'prefix' => '',
-			'port' => '',
+			'port' => null,
 			'encoding' => 'utf8'
 		);
 	}
