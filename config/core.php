@@ -4,7 +4,7 @@
 	 *
 	 * Used to configure some base settings and load configs from all the plugins in the app.
 	 */
-	if(env('SERVER_ADDR') == '127.0.0.1'){
+	if(substr(env('SERVER_ADDR'), 0, 3) == 127){
 		Configure::write('debug', 2);
 	}
 	else{
