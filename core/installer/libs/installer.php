@@ -168,7 +168,7 @@ LICENCE;
 				)
 			);
 
-			App::import('Libs', 'ClearCache.ClearCache');
+			App::import('lib', 'ClearCache.ClearCache');
 			$ClearCache = new ClearCache();
 
 			$ClearCache->run();
