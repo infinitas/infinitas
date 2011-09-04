@@ -62,7 +62,8 @@
 	/**
 	 * @todo when this is set to $cacheEngine the developer plugin is gone
 	 */
-	Cache::config('_cake_core_', array('engine' => 'File'));
+	Cache::config('_cake_core_', array('engine' => $cacheEngine));
+	Cache::config('_cake_model_', array('engine' => $cacheEngine));
 	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => 'infinitas_'));
 	unset($cacheEngine);
 
