@@ -104,7 +104,7 @@
 							?>
 						</td>
 						<td>
-							<?php echo $folder['Folder']['path']; ?>
+							<?php echo str_replace(array(APP, '//'), array('APP', '/'), $folder['Folder']['path']); ?>
 						</td>
 						<td>
 							<?php echo $this->Number->toReadableSize($folder['Folder']['size']); ?>

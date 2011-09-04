@@ -117,7 +117,7 @@
 						$info = $File->info();
 						$this->return[$i]['File']['dirname'] = $info['dirname'];
 						$this->return[$i]['File']['name'] = $info['basename'];
-						$this->return[$i]['File']['extension'] = $info['extension'];
+						$this->return[$i]['File']['extension'] = isset($info['extension']) ? $info['extension'] : null;
 						$this->return[$i]['File']['filename'] = $info['filename'];
 						$this->return[$i]['File']['writable'] = $File->writable();
 
