@@ -28,11 +28,37 @@
 	</blockquote>
 	<br />
 	<?php
-		echo $this->Form->input('Sample.sample', array(
-			'type' => 'radio',
-			'options' => array(1 => 'Yes', 0 => 'No'),
-			'value' => 0,
-			'legend' => 'Do you wish to install some sample data (Which is recommended for new Infinitas users)?',
-		))
+		echo $this->Form->input(
+			'Sample.sample', 
+			array(
+				'type' => 'radio',
+				'options' => array(1 => 'Yes', 0 => 'No'),
+				'value' => 0,
+				'legend' => 'Do you wish to install some sample data (Which is recommended for new Infinitas users)?',
+			)
+		);
 	?>
 </div>
+	<h4 class="field-heading">Plugins included for installation.</h4>
+	<table width="100%">
+		<thead>
+			<th>Plugin</th>
+			<th>Version</th>
+			<th>Author</th>
+			<th>License</th>
+		</thead>
+		<tbody>
+			<?php 
+				foreach($plugins as $plugin => $data) {
+					?>
+						<tr>
+							<td title="<?php echo $data['description']; ?>"><?php echo Inflector::humanize($data['name']); ?>&nbsp;</td>
+							<td><?php echo $data['version']; ?>&nbsp;</td>
+							<td><?php echo $data['author']; ?>&nbsp;</td>
+							<td><?php echo $data['license']; ?>&nbsp;</td>
+						</tr>
+					<?php
+				}
+			?>
+		</tbody>
+	</table>

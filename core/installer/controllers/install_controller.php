@@ -211,7 +211,20 @@
 			$this->set(compact('database'));
 		}
 
-		public function _prepareInstall() {}
+		public function _prepareInstall() {
+			$_plugins = App::objects('plugin');
+			natsort($_plugins);
+			
+			$plugins = array();
+			foreach($_plugins as $_plugin) {
+				$configFile = App::pluginPath($_plugin) . 'config' . DS . 'config.json';
+				if(file_exists($configFile)) {
+					$plugins[$_plugin] = Set::reverse(json_decode(file_get_contents($configFile)));
+				}
+			}
+			
+			$this->set('plugins', $plugins);
+		}
 
 		public function _prepareAdminUser() {
 			if(!is_readable(APP . 'config' . DS . 'database.php') || filesize(APP . 'config' . DS . 'database.php') == 0) {
