@@ -32,6 +32,8 @@
 		Configure::write('Cache.check', true);
 	}
 
+	App::build(array('plugins' => array(APP . 'core' . DS)));
+
 
 	/**
 	 * Cache configuration.
@@ -40,7 +42,7 @@
 	 */
 	$cacheEngine = 'File';
 	switch(true){
-		case function_exists('apc_cache_info'):
+		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
 			$cacheEngine = 'Apc';
 			break;
 
@@ -56,7 +58,7 @@
 			$cacheEngine = 'Libs.NamespaceFile';
 			break;
 	}
-
+	
 	Configure::write('Cache.engine', $cacheEngine);
 
 	/**
@@ -66,8 +68,6 @@
 	Cache::config('_cake_model_', array('engine' => $cacheEngine));
 	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => 'infinitas_'));
 	unset($cacheEngine);
-
-	App::build(array('plugins' => array(APP . 'core' . DS)));
 
 	/**
 	 * @brief get the configuration values from cache
