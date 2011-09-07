@@ -96,28 +96,23 @@
 
 			//Install app tables first
 			$this->interactive('Installing: App data');
-			$result = $this->InstallerLib->installPlugin($Version, $dbConfig, 'app');
+			$result['app'] = $this->InstallerLib->installPlugin($Version, $dbConfig, 'app');
 
-			$result = true;
-			if($result) {
-				$this->interactive('Installing: Installer');
-				$result = $result && $this->InstallerLib->installPlugin($Version, $dbConfig, 'Installer');
-			}
+			$this->interactive('Installing: Installer');
+			$result['Installer'] = $this->InstallerLib->installPlugin($Version, $dbConfig, 'Installer');
 
-			if($result) {
-				//Then install all other plugins
-				foreach($plugins as $plugin) {
-					if($plugin == 'Installer') {
-						continue;
-					}
-
-					$this->interactive(sprintf('Installing: %s', $plugin));
-					$result = $result && $this->InstallerLib->installPlugin($Version, $dbConfig, $plugin);
-					var_dump($result);
+			//Then install all other plugins
+			foreach($plugins as $plugin) {
+				if($plugin == 'Installer') {
+					continue;
 				}
-				
-				$this->interactiveClear();
+
+				$this->interactive(sprintf('Installing: %s', $plugin));
+				$result[$plugin] = $this->InstallerLib->installPlugin($Version, $dbConfig, $plugin);
 			}
+
+			$this->interactiveClear();
+			pr($result);
 
 			$this->Plugin = ClassRegistry::init('Installer.Plugin');
 			foreach($plugins as $pluginName) {
