@@ -22,7 +22,10 @@
 		 * @var array 
 		 */
 		public $setup = array(
-			'model' => 'Installer.Plugin'
+			'model' => 'Installer.Plugin',
+			'fixtures' => array(
+				'do' => 'Migrations.SchemaMigration'
+			)
 		);
 		
 		/**
@@ -286,5 +289,26 @@
 			
 			$this->assertFalse($this->Plugin->isInstalled('ClearCache'));
 			$this->assertFalse($this->Plugin->isInstalled('clear_cache'));		
+		}
+		
+		/**
+		 * @brief you should have all the supported plugins available for testing plugins
+		 * @test installing a plugin
+		 */
+		public function testInstallPlugin() {
+			$SchemaMigration = ClassRegistry::init('SchemaMigration');
+					
+			$this->assertTrue($this->Plugin->installPlugin('Twitter'));
+			$this->assertEqual('Twitter', $this->Plugin->field('name'));
+			
+			$this->assertTrue($this->Plugin->installPlugin('Blog'));
+			$this->assertEqual('Blog', $this->Plugin->field('name'));
+			
+			$count = $SchemaMigration->find('count');
+			$this->assertTrue($this->Plugin->installPlugin('Blog'));
+			$this->assertEqual('Blog', $this->Plugin->field('name'));
+			$this->assertIdentical($count, $SchemaMigration->find('count'));
+			
+			$this->assertTrue($this->Plugin->installPlugin('Locks'));
 		}
 	}
