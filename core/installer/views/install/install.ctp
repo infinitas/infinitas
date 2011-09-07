@@ -39,7 +39,7 @@
 		);
 	?>
 </div>
-	<h4 class="field-heading">Plugins included for installation.</h4>
+	<h4 class="field-heading"><?php echo sprintf(__('Plugins included for installation (%d)', true), count($plugins)); ?></h4>
 	<table width="100%">
 		<thead>
 			<th>Plugin</th>
