@@ -100,9 +100,12 @@
 		public function setVersion($version, $type, $migrated = true) {
 			if ($migrated) {
 				$this->Version->create();
-				return $this->Version->save(
-					array('version' => $version, 'type' => $type)
+				$saved = $this->Version->save(
+					array('version' => $version, 'type' => $type),
+					array('callbacks' => false)
 				);
+				
+				return $saved;
 			}
 
 			else {
@@ -266,16 +269,17 @@
 
 				list($name, $class) = each($map[1]);
 				$migration = $this->getMigration($name, $class, 'migrations');
-				$migration->run('up');
-
-				$this->Version = ClassRegistry::init($options);
-				$this->setVersion(1, 'migrations');
+				
+				if($migration->run('up')) {
+					$this->Version = ClassRegistry::init($options);
+					$this->setVersion(1, 'migrations');
+				}
 			}
 
 			else {
 				$this->Version = ClassRegistry::init($options);
 			}
-
+					
 			$mapping = $this->getMapping('migrations');
 			if (count($mapping) > 1) {
 				end($mapping);
