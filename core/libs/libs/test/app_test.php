@@ -605,12 +605,22 @@
 				$autoEvents = sprintf('<h3>Event Loaded:</h3><ul>%s</ul>', implode('', $autoEvents));
 				$autoLazy = sprintf('<h3>Lazy Loaded:</h3><ul>%s</ul>', implode('', $autoLazy));
 				
+				$dbConfig = new DATABASE_CONFIG();
+				$connectionDiff = array_diff($this->__testObject->db->config, $dbConfig->default);
+				$connection = sprintf('<div>%s</div>', $this->__testObject->db->configKeyName);
+				
+				$class = '';
+				if(array_merge(array('login' => '', 'password' => '', 'database' => ''), $connectionDiff) !== $connectionDiff) {
+					$connection = sprintf('<pre class="cake-debug">%s Seems to be using your production database</pre>', $this->__testObject->db->configKeyName);
+				}
+				
 				echo sprintf(
 					'<div style="background-color: green; color: #ffffff; clear:both; overflow:auto;">'.
 						'<div style="width:49%%; float:left;">%s</div>'.
-						'<div style="width:49%%; float:left;">%s</div></br></div>',
+						'<div style="width:49%%; float:left;">%s</div></br>%s</div>',
 					$autoEvents,
-					$autoLazy
+					$autoLazy,
+					sprintf('<h3>DB Config</h3>%s', $connection)
 				);
 			}
 		}
