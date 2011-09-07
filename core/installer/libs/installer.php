@@ -1,5 +1,5 @@
 <?php
-	class InstallerLib{
+	class InstallerLib {
 		/**
 		 * minimum php version number required to run infinitas
 		 * @var <type>
@@ -92,6 +92,8 @@
 		 * @var <type>
 		 */
 		public $sql = array();
+		
+		public $config = array();
 
 		private $__licence = array();
 
@@ -211,13 +213,9 @@ LICENCE;
 		 * @return array
 		 */
 		public function getSupportedDbs($databaseSupported = false) {
-			if(!empty($this->__supportedDatabases)){
-				return $this->__supportedDatabases;
-			}
-
 			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
 				if(function_exists($supportedDatabase['function'])) {
-					$this->__supportedDatabases[$cakeType] = sprintf(
+					$this->__supportedDatabases[$cakeType]['has'] = sprintf(
 						__('%s (Version %s or newer)', true),
 						$supportedDatabase['name'],
 						$supportedDatabase['version']
@@ -241,32 +239,29 @@ LICENCE;
 				$connectionDetails = $connection;
 				$adminConnectionDetails = (!isset($connection['root'])) ? false : array_merge($connection, $connection['root']);
 
-				if(!@ConnectionManager::create('installer', $connectionDetails)->isConnected()) {
-					return 'dbError';
+				$InstallerConnection = ConnectionManager::create('installer', $connectionDetails);
+				if(!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
+					return false;
 				}
-				else {
-					if(trim($adminConnectionDetails['login']) != '') {
-						if(!@ConnectionManager::create('admin', $adminConnectionDetails)->isConnected()) {
-							$this->set('adminDbError', true);
-							return false;
-						}
-					}
-
-					$version = $this->__databaseVersion($connectionDetails);
-
-					if(version_compare($version, $version) >= 0) {
-						return true;
-					}
-					
-					else {
-						return array(
-							'versionError' => $version,
-							'requiredDb' => $this->__supportedDatabases[$connection['driver']]['version']
-						);
+				
+				if(isset($adminConnectionDetails['login']) && trim($adminConnectionDetails['login']) != '') {
+					$InstallerRootConnection = ConnectionManager::create('admin', $adminConnectionDetails);
+					if(!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
+						return false;
 					}
 				}
+
+				$version = $this->__databaseVersion($connectionDetails);
+				if(version_compare($version, $this->__supportedDatabases[$connectionDetails['driver']]['version']) >= 0) {
+					return true;
+				}
+				
+				return array(
+					'versionError' => $version,
+					'requiredDb' => $this->__supportedDatabases[$connection['driver']]['version']
+				);
 			}
-
+			
 			return false;
 		}
 
@@ -283,6 +278,10 @@ LICENCE;
 			$versionResult = false;
 			if(file_exists($checkFile) && file_exists($configPath . 'releases' . DS . 'map.php')) {
 				try {
+					$this->config = array_merge(
+						array('sample_data' => false),
+						$this->config
+					);
 					$latest = array_pop($Version->getMapping($plugin));
 					$versionResult = $Version->run(
 						array(
@@ -310,16 +309,21 @@ LICENCE;
 			$config = $connectionDetails['connection'];
 			unset($config['step']);
 
-			if(trim($config['port']) == '') {
+			if(empty($config['port']) || trim($config['port']) == '') {
 				unset($config['port']);
 			}
 
-			if(trim($config['prefix']) == '') {
+			if(empty($config['prefix']) || trim($config['prefix']) == '') {
 				unset($config['prefix']);
 			}
 
-			if($connectionDetails['root']['username'] != false) {
-				$config['login'] = $connectionDetails['root']['username'];
+			$connectionDetails['root'] = array_merge(
+				array('login' => false, 'password' => false),
+				isset($connectionDetails['root']) ? (array)$connectionDetails['root'] : array()
+			);
+			
+			if($connectionDetails['root']['login'] && $connectionDetails['root']['password']) {
+				$config['login'] = $connectionDetails['root']['login'];
 				$config['password'] = $connectionDetails['root']['password'];
 			}
 
@@ -333,8 +337,8 @@ LICENCE;
 		 * @return <type>
 		 */
 		public function __databaseVersion($connectionDetails){
-			$dbOptions = $this->__supportedDatabases[$connectionDetails['driver']];
-			$version = ConnectionManager::getDataSource('installer')->query($dbOptions['versionQuery']);
+			$requiredVersion = $this->__supportedDatabases[$connectionDetails['driver']];
+			$version = ConnectionManager::getDataSource('installer')->query($requiredVersion['versionQuery']);
 			$version = isset($version[0][0]['version()']) ? $version[0][0]['version()'] : false;
 
 			$version = explode('-', $version);
