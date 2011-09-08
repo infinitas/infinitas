@@ -151,4 +151,29 @@
 			
 			ClassRegistry::flush();
 		}
+		
+		/**
+		 * @brief check that the installed version matches the supplied releases
+		 */
+		private function __checkVersionCount($plugin) {
+			$path = App::pluginPath($plugin) . 'config' . DS . 'releases';
+			$Folder = new Folder($path);
+			$data = $Folder->read();
+			$data = array_flip($data[1]);
+			
+			unset($data['map.php']);
+			
+			$installedVersions = ClassRegistry::init('Migrations.SchemaMigration')->find(
+				'count',
+				array(
+					'conditions' => array(
+						'SchemaMigration.type' => array(
+							$plugin, strtolower($plugin)
+						)
+					)
+				)
+			);
+			
+			$this->assertIdentical(count($data), $installedVersions, sprintf('%s has %d releases but only installed %d of them', $plugin, count($data), $installedVersions));
+		}
 	}
