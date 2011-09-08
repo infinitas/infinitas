@@ -92,7 +92,8 @@
 			$Installer = new InstallerLib();
 			$Version = new ReleaseVersion(array('connection' => 'test_suite'));
 			
-			$this->assertTrue($Installer->installPlugin($Version, $Installer->cleanConnectionDetails(array('connection' => $this->db->config))));
+			$connectionDetails = $Installer->cleanConnectionDetails(array('connection' => $this->db->config));
+			$this->assertTrue($Installer->installPlugin($Version, $connectionDetails));
 			$expected = array(
 				'0' => 'acos',
 				'1' => 'aros',
@@ -102,7 +103,7 @@
 			);
 			$this->assertEqual($expected, $this->db->listSources());
 			
-			$this->assertTrue($Installer->installPlugin($Version, $Installer->cleanConnectionDetails(array('connection' => $this->db->config)), 'Installer'));
+			$this->assertTrue($Installer->installPlugin($Version, $connectionDetails, 'Installer'));
 			$expected = array(
 				'0' => 'acos',
 				'1' => 'aros',
