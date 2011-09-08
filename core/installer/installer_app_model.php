@@ -17,6 +17,6 @@
 	* @since 0.5a
 	*/
 
-	class InstallerAppModel extends AppModel {
+	class InstallerAppModel extends Model {
 		public $tablePrefix = 'core_';
 	}
