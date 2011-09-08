@@ -113,20 +113,28 @@
 				'5' => 'sessions',
 			);
 			$this->assertEqual($expected, $this->db->listSources());
-			$this->assertTrue($Installer->installPlugin($Version, $Installer->cleanConnectionDetails(array('connection' => $this->db->config)), 'Configs'));
-			$this->assertTrue($Installer->installPlugin($Version, $Installer->cleanConnectionDetails(array('connection' => $this->db->config)), 'Themes'));
-			$this->assertTrue($Installer->installPlugin($Version, $Installer->cleanConnectionDetails(array('connection' => $this->db->config)), 'Routes'));
 			
 			$pluginsToInstall = App::objects('plugin');
 			natsort($pluginsToInstall);
 			foreach($pluginsToInstall as $k => $pluginToInstall) {
-				if(in_array($pluginToInstall, array('Management', 'Migrations', 'Configs', 'Themes', 'Routes'))) {
+				if(in_array($pluginToInstall, array('Migrations'))) {
 					continue;
 				}
-				$this->assertTrue($Installer->installPlugin($Version, $Installer->cleanConnectionDetails(array('connection' => $this->db->config)), $pluginToInstall), sprintf('%s could not be installed', $pluginToInstall));
+				
+				$this->assertTrue(
+					$Installer->installPlugin($Version, $connectionDetails, $pluginToInstall),
+					sprintf('%s could not be installed', $pluginToInstall)
+				);
+			}
+			
+			foreach($pluginsToInstall as $pluginToInstall) {
+				$this->__checkVersionCount($pluginToInstall);
 			}
 		}
 		
+		/**
+		 * @brief drop all tables for testing the installer
+		 */
 		private function __cleanSystem($all = true) {
 			if(!isset($this->__oldTables)) {
 				$this->__oldTables = $this->db->listSources();
