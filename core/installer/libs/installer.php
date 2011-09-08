@@ -291,8 +291,14 @@ LICENCE;
 				}
 				
 				catch (Exception $e) {
+					throw $e;
 					return false;
 				}
+			}
+			
+			else if(file_exists($checkFile)) {
+				// databaseless plugin, but it has a config file
+				return true;
 			}
 
 			return $versionResult;
