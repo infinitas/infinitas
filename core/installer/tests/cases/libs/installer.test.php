@@ -26,6 +26,9 @@
 		
 		public $tests = array('testInstaller');
 		
+		/**
+		 * @test some random methods in the install lib
+		 */
 		public function testInstallerMethods() {
 			$this->assertTrue(App::import('lib', 'Installer.Installer'), 'Could not import the insatller lib');
 			$Installer = new InstallerLib();
@@ -77,6 +80,9 @@
 			$this->assertFalse($Installer->testConnection($connection), 'Should not connect');
 		}
 		
+		/**
+		 * @test installing plugins
+		 */
 		public function testInstaller() {
 			$this->__cleanSystem();
 			
