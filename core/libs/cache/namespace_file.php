@@ -86,7 +86,7 @@
 
 			if (!isset($this->File)) {
 				if (!class_exists('File')) {
-					require LIBS . 'file.php';
+					App::import('File');
 				}
 				$this->File = new File($this->settings['path']);
 			}
