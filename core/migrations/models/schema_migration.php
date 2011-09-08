@@ -96,12 +96,6 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-
-			foreach($this->Behaviors->attached() as $attached) {
-				$this->Behaviors->detach($attached);
-			}
-			
-			$this->hasOne = $this->hasMany = $this->belongsTo = $this->hasAndBelongsToMany = array();
 			
 			$this->validate = array(
 			);

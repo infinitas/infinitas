@@ -16,6 +16,6 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	class MigrationsAppModel extends AppModel {
+	class MigrationsAppModel extends Model {
 		
 	}
