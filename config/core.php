@@ -42,6 +42,10 @@
 	 */
 	$cacheEngine = 'File';
 	switch(true){
+		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
+			$cacheEngine = 'Apc';
+			break;
+		
 		case function_exists('xcache_info'):
 			$cacheEngine = 'Xcache';
 			break;
@@ -54,7 +58,6 @@
 			$cacheEngine = 'Libs.NamespaceFile';
 			break;
 	}
-	
 	Configure::write('Cache.engine', $cacheEngine);
 
 	/**
