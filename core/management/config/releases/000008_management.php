@@ -142,27 +142,8 @@ class R4c94edcd27f04a8d95f078d86318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'addresses', 'backups', 'countries', 'ip_addresses', 'logs', 'relation_types', 'relations', 'tickets', 'core_trash'
+				'backups', 'ip_addresses', 'logs', 'relation_types', 'relations', 'tickets', 'core_trash'
 			),
-		),
-	);
-
-/**
- * Fixtures for data
- *
- * @var array $fixtures
- * @access public
- */
-	public $fixtures = array(
-	'core' => array(
-		'Country' => array(
-			array(
-				'id' => 1,
-				'name' => 'South Africa',
-				'code' => 'ZAF',
-				'continent_id' => 0
-			),
-		),
 		),
 	);
 	

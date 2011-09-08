@@ -70,7 +70,7 @@ class R4e2744fa04e44659942b49266318cd70 extends CakeRelease {
 				),
 			),
 			'drop_table' => array(
-				'addresses', 'countries', 'core_trash'
+				'core_trash'
 			),
 		),
 		'down' => array(
@@ -119,35 +119,6 @@ class R4e2744fa04e44659942b49266318cd70 extends CakeRelease {
 				),
 			),
 			'create_table' => array(
-				'addresses' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'street' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'province' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'postal' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10),
-					'country_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'model' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
-				'countries' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 5),
-					'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1),
-					),
-					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
-				),
 				'core_trash' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
