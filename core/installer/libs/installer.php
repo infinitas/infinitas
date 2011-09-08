@@ -278,10 +278,7 @@ LICENCE;
 			$versionResult = false;
 			if(file_exists($checkFile) && file_exists($configPath . 'releases' . DS . 'map.php')) {
 				try {
-					$this->config = array_merge(
-						array('sample_data' => false),
-						$this->config
-					);
+					$this->config = array_merge(array('sample_data' => false), $this->config);
 					$latest = array_pop($Version->getMapping($plugin));
 					$versionResult = $Version->run(
 						array(
