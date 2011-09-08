@@ -159,7 +159,6 @@
 			$this->db->cacheSources = false;
 			$this->db->begin($null);
 			$this->Schema = new CakeSchema(array('connection' => $this->connection));
-
 			try {
 				$this->__rewriteMigrations($basePrefix);
 				$this->_invokeCallbacks('beforeMigration', $direction);
@@ -179,7 +178,7 @@
 
 		protected function __installData($basePrefix = '', $sample = false) {
 			if (isset($this->fixtures)) {
-				$Model = new Model(false, false);
+				$Model = new Model(false, false, $this->connection);
 
 				foreach ($this->fixtures as $type => $fixtures) {
 					if ($type != 'sample' || ($type == 'sample' && $sample == true)) {
@@ -189,7 +188,6 @@
 
 								$Model->tablePrefix = $this->__getTablePrefix($tableName, $basePrefix);
 								$Model->setSource($tableName);
-
 								$Model->saveAll($data, array('validate' => false));
 							}
 						}
@@ -292,7 +290,7 @@
 							E_USER_NOTICE
 						);
 				}
-
+				
 				$this->{$methodName}($type, $info);
 			}
 		}
