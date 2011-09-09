@@ -391,6 +391,10 @@
 			if(!empty($this->data) && !$this->Auth->user()){
 				unset($this->data['User']['password']);
 			}
+			
+			if($this->Auth->user()) {
+				$this->redirect('/admin');
+			}
 		}
 
 		public function admin_logout(){
