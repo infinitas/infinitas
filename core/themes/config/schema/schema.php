@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Themes schema generated on: 2011-07-20 22:07:24 : 1311196824*/
+/* Themes schema generated on: 2011-09-09 13:09:43 : 1315570783*/
 class ThemesSchema extends CakeSchema {
 	var $name = 'Themes';
 
@@ -12,7 +12,7 @@ class ThemesSchema extends CakeSchema {
 	}
 
 	var $themes = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'author' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),

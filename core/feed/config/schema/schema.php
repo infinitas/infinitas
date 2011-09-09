@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Feed schema generated on: 2010-10-18 17:10:26 : 1287419126*/
+/* Feed schema generated on: 2011-09-09 13:09:18 : 1315570698*/
 class FeedSchema extends CakeSchema {
 	var $name = 'Feed';
 
@@ -12,7 +12,7 @@ class FeedSchema extends CakeSchema {
 	}
 
 	var $feeds = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),

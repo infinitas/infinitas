@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Configs schema generated on: 2010-11-16 15:11:13 : 1289921593*/
+/* Configs schema generated on: 2011-09-09 13:09:22 : 1315570642*/
 class ConfigsSchema extends CakeSchema {
 	var $name = 'Configs';
 
@@ -12,7 +12,7 @@ class ConfigsSchema extends CakeSchema {
 	}
 
 	var $configs = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'value' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),

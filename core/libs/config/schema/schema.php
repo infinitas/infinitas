@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Libs schema generated on: 2011-07-20 22:07:18 : 1311196038*/
+/* Libs schema generated on: 2011-09-09 13:09:30 : 1315570710*/
 class LibsSchema extends CakeSchema {
 	var $name = 'Libs';
 
@@ -12,7 +12,7 @@ class LibsSchema extends CakeSchema {
 	}
 
 	var $ratings = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'class' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'foreign_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'rating' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 3),
