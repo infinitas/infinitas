@@ -358,29 +358,30 @@
 		 *
 		 * settings for security
 		 */
-		function _setupSecurity(){
+		function _setupSecurity() {
 			$this->Controller->Security->blackHoleCallback = 'blackHole';
 			$this->Controller->Security->validatePost = false;
 		}
 
-		public function getPluginAssets(){
+		public function getPluginAssets() {
 			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
 			if(isset($event['requireJavascriptToLoad']['assets'])){
 				$libs['assets'] = $event['requireJavascriptToLoad']['assets'];
 				$event['requireJavascriptToLoad'] = $libs + $event['requireJavascriptToLoad'];
 			}
 
-			if(is_array($event) && !empty($event)){
+			if(is_array($event) && !empty($event)) {
 				$this->Controller->addJs(current($event));
 			}
 			
+			$libs = array();
 			$event = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
-			if(isset($event['requireCssToLoad']['libs'])){
+			if(isset($event['requireCssToLoad']['libs'])) {
 				$libs['libs'] = $event['requireCssToLoad']['libs'];
 				$event['requireCssToLoad'] = $libs + $event['requireCssToLoad'];
 			}
 
-			if(is_array($event) && !empty($event)){
+			if(is_array($event) && !empty($event)) {
 				$this->Controller->addCss(current($event));
 			}
 		}
@@ -388,7 +389,7 @@
 		/**
 		 * Set some data for the infinitas js lib.
 		 */
-		function _setupJavascript(){
+		function _setupJavascript() {
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
 			}
