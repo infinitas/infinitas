@@ -27,13 +27,14 @@ class R4c94edcdbdd44dd9a88c78d86318cd70 extends CakeRelease {
 		'up' => array(
 			'create_table' => array(
 				'schema_migrations' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'version' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
+					'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 					'indexes' => array(
-						'PRIMARY' => array('column' => 'id', 'unique' => 1)
-					)
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				)
 			)
 		),
