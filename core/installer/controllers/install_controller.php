@@ -114,6 +114,21 @@
 		private $__paths;
 
 		public $installerProgress = array();
+		
+		/**
+		 * @brief load up the installer lib
+		 * 
+		 * The installer uses a lib that is shared between the frontend and shell
+		 * installer.
+		 * 
+		 * @access public
+		 */
+		public function __construct() {
+			parent::__construct();
+			
+			App::import('lib', 'Installer.Installer');
+			$this->InstallerLib = new InstallerLib();
+		}
 
 		/**
 		 * beforeFilter
@@ -123,33 +138,11 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 
-			$this->__paths = array(
-				'config/database.php' => array(
-					'type' => 'write',
-					'message' => 'The database configuration (%s) file should be writable during the ' .
-						'installation process. It should be set to be read-only once Infinitas has been installed.'
-				),
-				'tmp' => array(
-					'type' => 'write',
-					'message' => 'The temporary directory (%s) should be writable by Infinitas. Caching ' .
-						'will not work otherwise and Infinitas will perform very poorly.',
-				)
-			);
-
 			$this->layout = 'installer';
-
 			$this->view = 'View';
-
 			$this->helpers[] = 'Html';
 
-			$this->sql = array(
-				'core_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_core_data.sql',
-				'core_sample_data' => APP . 'infinitas' . DS . 'installer' . DS . 'config' . DS . 'schema' . DS . 'infinitas_sample_data.sql',
-			);
-
-
 			$this->Wizard->wizardAction = 'index';
-
 			$this->Wizard->steps = array(
 				'welcome',
 				'database',
@@ -192,25 +185,86 @@
 		}
 
 		/**
-		 * Wizard prepare steps methods
+		 * @brief welcome page
+		 * 
+		 * Does a few system checks to make sure that the server is setup to run 
+		 * Infinitas. Check things like paths, extentions and version are correct.
+		 * 
+		 * @access public
 		 */
 		public function _prepareWelcome() {
-			$core = $this->__checkCore();
-			$paths = $this->__checkPaths();
-			$database = $this->__checkDatabases(true);
-			$recomendations = $this->__checkIniSettings();
+			$core = $this->InstallerLib->checkCore();
+			$paths = $this->InstallerLib->checkPaths();
+			$database = $this->InstallerLib->getSupportedDbs(true);
+			$recomendations = $this->InstallerLib->checkIniSettings();
 
 			$this->set(compact('core', 'database', 'paths', 'recomendations'));
 			$this->set('supportedDb', $this->__supportedDatabases);
 		}
 
+		/**
+		 * @brief process welcome
+		 * 
+		 * There is nothing to do at this stage
+		 */
+		public function _processWelcome() {
+			return true;
+		}
+
+		/**
+		 * @brief get database connection details
+		 * 
+		 * Get the supported databases that are installed on the server and show
+		 * a form to enter connection details.
+		 * 
+		 * @access public
+		 */
 		public function _prepareDatabase() {
 			$this->loadModel('Installer.Install');
-			$database = $this->__checkDatabases();
+			
+			$database = array();
+			foreach($this->InstallerLib->getSupportedDbs() as $databaseType => $config){
+				if(isset($config['has'])) {
+					$database[$databaseType] = $config['has'];
+				}
+			}
 
 			$this->set(compact('database'));
 		}
 
+		/**
+		 * @brief process the details for the databse
+		 * 
+		 * Check that the details passed in were correct and that the installer 
+		 * is able to connect to the database.
+		 * 
+		 * @access public
+		 * 
+		 * @return type 
+		 */
+		public function _processDatabase() {
+			$valid = $this->InstallerLib->testConnection($this->data);
+			if($valid === true) {
+				$this->Session->write('Install.database_config', $this->data);
+				return true;
+			}
+			
+			if(is_array($valid)) {
+				pr($valid);
+				exit;
+			}
+
+			return false;
+		}
+
+		/**
+		 * @brief prepare to install
+		 * 
+		 * Get a list of plugins that will be installed and ask the user if they
+		 * would like to install some sample data.
+		 * 
+		 * @access public
+		 */
 		public function _prepareInstall() {
 			$_plugins = App::objects('plugin');
 			natsort($_plugins);
@@ -226,6 +280,28 @@
 			$this->set('plugins', $plugins);
 		}
 
+		/**
+		 * @brief install Infinitas and plugins
+		 * 
+		 * @todo in prepare make checkboxes next to plugin list and allow users to select plugins to install
+		 * 
+		 * @return type 
+		 */
+		public function _processInstall() {
+			if($this->InstallerLib->installPlugins($this->Session->read('Install.database_config'))) {
+				if($this->InstallerLib->writeDbConfig($this->Session->read('Install.database_config'))) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+
+		/**
+		 * @brief get the details of the administrator
+		 * 
+		 * @access public
+		 */
 		public function _prepareAdminUser() {
 			if(!is_readable(APP . 'config' . DS . 'database.php') || filesize(APP . 'config' . DS . 'database.php') == 0) {
 				$this->Session->delete('Wizard');
@@ -238,35 +314,12 @@
 
 			$this->set('hidePrevious', true);
 		}
-
+		
 		/**
-		 * Wizard process step methods
+		 * @brief save the administrator details
+		 * 
+		 * @access public
 		 */
-		public function _processWelcome() {
-			return true;
-		}
-
-		public function _processDatabase() {
-			App::import('Model', 'Installer.Install');
-
-			$install = new Install(false, false, false);
-
-			$install->set($this->data);
-			if($install->validates() && $this->__testConnection()) {
-				return true;
-			}
-
-			return false;
-		}
-
-		public function _processInstall() {
-			if($this->__installPlugins() && $this->__writeDbConfig()) {
-				return true;
-			}
-
-			return false;
-		}
-
 		public function _processAdminUser() {
 			$this->loadModel('Management.User');
 
@@ -284,263 +337,5 @@
 			}
 
 			return false;
-		}
-		/**
-		 * Private methods
-		 */
-
-		/**
-		 *
-		 * @return array
-		 */
-		private function __checkCore() {
-			$core = array();
-
-			if(phpversion() < $this->__phpVersion) {
-				$core[] = sprintf(__('PHP version %s detected, %s needs at least version %s.', true), phpversion(), 'Infinitas', $this->__phpVersion.'.x');
-			}
-
-			foreach($this->__requiredExtensions as $extension => $message) {
-				if(!extension_loaded($extension)) {
-					$core[] = __($message);
-				}
-			}
-
-			return $core;
-		}
-
-		/**
-		 *
-		 * @return array
-		 */
-		private function __checkPaths() {
-			$paths = array();
-
-			foreach($this->__paths as $path => $options) {
-				switch($options['type']) {
-					case 'write':
-						$function = 'is_writable';
-						break;
-					default:
-						$function = 'is_readable';
-				}
-				if(!$function(APP.$path)) {
-					$paths[] = sprintf(__($options['message'], true), APP.$path);
-				}
-			}
-
-			return $paths;
-		}
-
-		/**
-		 *
-		 * @return array
-		 */
-		private function __checkDatabases($databaseSupported = false) {
-			$availableDb = array();
-
-			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
-				if(function_exists($supportedDatabase['function'])) {
-					$availableDb[$cakeType] = sprintf(__('%s (Version %s or newer)', true), $supportedDatabase['name'], $supportedDatabase['version']);;
-				}
-			}
-
-			return ($databaseSupported == true) ? !empty($availableDb) : $availableDb;
-		}
-
-		/**
-		 *
-		 * @return array
-		 */
-		private function __checkIniSettings() {
-			$recomendations = array();
-
-			foreach($this->__recommendedIniSettings as $k => $setting) {
-				if((int)ini_get($setting['setting']) !== $setting['recomendation']) {
-					$setting['current'] = (int)ini_get($setting['setting']);
-					$setting['desc'] = __($setting['desc'], true);
-					$recomendations[] = $setting;
-				}
-			}
-
-			return $recomendations;
-		}
-
-		private function __cleanConnectionDetails($adminUser = false) {
-			$connectionDetails = $this->data['Install'];
-			unset($connectionDetails['step']);
-
-			if(trim($connectionDetails['port']) == '') {
-				unset($connectionDetails['port']);
-			}
-
-			if(trim($connectionDetails['prefix']) == '') {
-				unset($connectionDetails['prefix']);
-			}
-
-			if($adminUser == true) {
-				$connectionDetails['login'] = $this->data['Admin']['username'];
-				$connectionDetails['password'] = $this->data['Admin']['password'];
-			}
-
-			return $connectionDetails;
-		}
-
-		private function __testConnection() {
-			$connectionDetails = $this->__cleanConnectionDetails();
-			$adminConnectionDetails = $this->__cleanConnectionDetails(true);
-
-			if(!@ConnectionManager::create('installer', $connectionDetails)->isConnected()) {
-				$this->set('dbError', true);
-				return false;
-			}
-
-			else {
-				if(trim($adminConnectionDetails['login']) != '') {
-					if(!@ConnectionManager::create('admin', $adminConnectionDetails)->isConnected()) {
-						$this->set('adminDbError', true);
-						return false;
-					}
-				}
-
-				$dbOptions = $this->__supportedDatabases[$connectionDetails['driver']];
-				$version = ConnectionManager::getDataSource('installer')->query($dbOptions['versionQuery']);
-				$version = $version[0][0]['version()'];
-
-				if(version_compare($version, $dbOptions['version']) >= 0) {
-					return true;
-				}
-				else {
-					$this->set('versionError', $version);
-					$this->set('requiredDb', $dbOptions);
-					return false;
-				}
-			}
-		}
-
-		private function __writeDbConfig() {
-			$dbConfig = $this->Wizard->read('database.Install');
-
-			copy(App::pluginPath('Installer') . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
-
-			App::import('Core', 'File');
-			$file = new File(APP . 'config' . DS . 'database.php', true);
-			$content = $file->read();
-
-			$find = array(
-				'{default_driver}',
-				'{default_host}',
-				'{default_login}',
-				'{default_password}',
-				'{default_database}',
-				'{default_prefix}',
-				'{default_port}',
-			);
-
-			$replacements = array(
-				$dbConfig['driver'],
-				$dbConfig['host'],
-				$dbConfig['login'],
-				$dbConfig['password'],
-				$dbConfig['database'],
-				$dbConfig['prefix'],
-				$dbConfig['port'],
-			);
-
-			$content = str_replace($find, $replacements, $content);
-
-			if ($file->write($content)) {
-				return true;
-			}
-			return false;
-		}
-
-		private function __installPlugins() {
-			$this->data = array_merge($this->data, $this->Wizard->read('database'));
-
-			App::import('Core', 'ConnectionManager');
-			if($this->data['Admin']['username'] !== '') {
-				$dbConfig = $this->__cleanConnectionDetails(true);
-			}
-
-			else {
-				$dbConfig = $this->__cleanConnectionDetails();
-			}
-
-			$db = ConnectionManager::create('default', $dbConfig);
-
-			$plugins = App::objects('plugin');
-			natsort($plugins);
-
-			App::import('Lib', 'Installer.ReleaseVersion');
-			$Version = new ReleaseVersion();
-
-			//Install app tables first
-			$result = $this->__installPlugin($Version, $dbConfig, 'app');
-
-			$result = true;
-			if($result) {
-				//Then install the Installer plugin
-				$result = $result && $this->__installPlugin($Version, $dbConfig, 'Installer');
-
-				if($result) {
-					//Then install all other plugins
-					foreach($plugins as $plugin) {
-						if($plugin != 'Installer') {
-							$result = $result && $this->__installPlugin($Version, $dbConfig, $plugin);
-						}
-					}
-				}
-			}
-
-			return $result;
-		}
-
-		private function __installPlugin(&$Version, $dbConfig, $plugin = 'app') {
-			if($plugin !== 'app') {
-				$pluginPath = App::pluginPath($plugin);
-				$configPath = $pluginPath . 'config' . DS;
-				$checkFile = $configPath . 'config.json';
-			}
-
-			else {
-				$configPath = APP . 'config' . DS;
-				$checkFile = $configPath . 'releases' . DS . 'map.php';
-			}
-
-			if(file_exists($checkFile)) {
-				if(file_exists($configPath . 'releases' . DS . 'map.php')) {
-					try {
-						$mapping = $Version->getMapping($plugin);
-
-						$latest = array_pop($mapping);
-
-						$versionResult = $Version->run(array(
-							'type' => $plugin,
-							'version' => $latest['version'],
-							'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
-							'sample' => $this->data['Sample']['sample'] == 1
-						));
-					}
-
-					catch (Exception $e) {
-						return false;
-					}
-				}
-
-				else {
-					$versionResult = true;
-				}
-
-				if($versionResult && $plugin !== 'app') {
-					$this->loadModel('Installer.Plugin');
-
-					return $this->Plugin->installPlugin($plugin, array('installRelease' => false));
-				}
-
-				return $versionResult;
-			}
-
-			return true;
 		}
 	}

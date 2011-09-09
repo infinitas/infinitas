@@ -50,6 +50,16 @@
 				),
 			);
 		}
+		
+		public function beforeValidate() {
+			$this->data[$this->alias] = array_merge(
+				array('driver' => null, 'host' => null, 'login' => null, 'password' => null, 'database' => null, 'port' => null, 'prefix' => null),
+				array_filter($this->data[$this->alias])
+			);
+			
+			$this->data[$this->alias]['port'] = !empty($this->data[$this->alias]['port']) ? $this->data[$this->alias]['port'] : null;
+			$this->data[$this->alias]['prefix'] = !empty($this->data[$this->alias]['prefix']) ? $this->data[$this->alias]['prefix'] : null;
+		}
 
 		public function find() {
 			return true;
