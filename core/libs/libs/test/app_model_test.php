@@ -154,6 +154,10 @@
 		public function startCase() {
 			if(is_subclass_of($this, 'AppModelTestCase')) {
 				$this->AppTest->startCase();
+
+				$this->startTest('testFixtureIntegrityCheck');
+				$this->doFixtureIntegrityCheck();
+				$this->endTest('testFixtureIntegrityCheck');
 			}
 		}
 
@@ -299,5 +303,26 @@
 
 		public function outputArray($array, $level = 1){
 			$this->AppTest->outputArray($array, $level);
+		}
+
+		public function doFixtureIntegrityCheck() {
+			list($plugin, $className) = pluginSplit($this->setup['model']);
+
+			$this->{$className}->Behaviors->disable($this->{$className}->Behaviors->enabled());
+			$records = $this->{$className}->find('all');
+
+			$schema = $this->{$className}->schema();
+			foreach($records as $record) {
+				foreach($this->{$className}->belongsTo as $alias => $relation) {
+					if($schema[$relation['foreignKey']]['null'] == true && $record[$className][$relation['foreignKey']] === null) {
+						continue;
+					}
+					$conditions = array($alias . '.' . $this->{$className}->{$alias}->primaryKey => $record[$className][$relation['foreignKey']]);
+					$this->{$className}->{$alias}->Behaviors->disable($this->{$className}->{$alias}->Behaviors->enabled());
+					$exists = $this->{$className}->{$alias}->find('count', array('conditions' => $conditions, 'callbacks' => false));
+					$message = sprintf('Invalid value in field %s (value: %s) for %s (id: %s), the associated %s does not exist.', $relation['foreignKey'], $record[$className][$relation['foreignKey']], $className, $record[$className][$this->{$className}->primaryKey], $relation['className']);
+					$this->assertTrue($exists, $message);
+				}
+			}
 		}
 	}
