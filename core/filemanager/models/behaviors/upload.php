@@ -167,7 +167,10 @@ class UploadBehavior extends ModelBehavior {
 			$path = ROOT . DS . APP_DIR . DS . $this->settings[$model->alias][$field]['path'] . $tempPath . DS;
 			$tmp = $this->runtime[$model->alias][$field]['tmp_name'];
 			$filePath = $path . $model->data[$model->alias][$field];
-			if (!$this->handleUploadedFile($tmp, $filePath)) {
+			if(!is_dir($path)) {
+				mkdir($path);
+			}
+			if (!is_dir($path) || !$this->handleUploadedFile($tmp, $filePath)) {
 				$model->invalidate($field, 'moveUploadedFile');
 			}
 			$this->_createThumbnails($model, $field, $path);
@@ -188,9 +191,11 @@ class UploadBehavior extends ModelBehavior {
 		}
 		return $result;
 	}
+
 	function handleUploadedFile($tmp, $filePath) {
-		return !is_uploaded_file($tmp) || !@move_uploaded_file($tmp, $filePath);
+		return !is_uploaded_file($tmp) || !move_uploaded_file($tmp, $filePath);
 	}
+
 	function unlink($file) {
 		return @unlink($file);
 	}
@@ -679,26 +684,14 @@ class UploadBehavior extends ModelBehavior {
 		$path = $this->settings[$model->alias][$field]['path'];
 		$pathMethod = $this->settings[$model->alias][$field]['pathMethod'];
 
-		if (PHP5) {
-			if ($pathMethod == '_getPathFlat') {
-				return $this->_getPathFlat($model, $path);
-			}
-			if ($pathMethod == '_getPathRandom') {
-				return $this->_getPathRandom($model->data[$model->alias][$field], $path);
-			}
-			if ($pathMethod == '_getPathPrimaryKey') {
-				return $this->_getPathPrimaryKey($model, $path);
-			}
-		} else {
-			if ($pathMethod == '_getPathFlat') {
-				return $this->_getPathFlat($model, $path);
-			}
-			if ($pathMethod == '_getPathRandom') {
-				return $this->_getPathRandom($model->data[$model->alias][$field], $path);
-			}
-			if ($pathMethod == '_getPathPrimaryKey') {
-				return $this->_getPathPrimaryKey($model, $path);
-			}
+		if ($pathMethod == '_getPathFlat') {
+			return $this->_getPathFlat($model, $path);
+		}
+		if ($pathMethod == '_getPathRandom') {
+			return $this->_getPathRandom($model->data[$model->alias][$field], $path);
+		}
+		if ($pathMethod == '_getPathPrimaryKey') {
+			return $this->_getPathPrimaryKey($model, $path);
 		}
 	}
 
@@ -803,5 +796,22 @@ class UploadBehavior extends ModelBehavior {
 		}
 		return $pathinfo;
 	}
-
+	
+	/**
+	 * @brief get the upload path the model is set to use
+	 * 
+	 * @access public
+	 * 
+	 * @param object $Model the model being used
+	 * @param string $field the field to check for
+	 * 
+	 * @return mixed false if not found, string path if found
+	 */
+	public function uploadFilePath($Model, $field = '') {
+		if(isset($this->settings[$Model->alias][$field]['path'])) {
+			return str_replace('webroot/img/', '', $this->settings[$Model->alias][$field]['path']);
+		}
+		
+		return false;
+	}
 }
