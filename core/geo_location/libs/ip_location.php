@@ -27,7 +27,6 @@
 					App::import('Lib', 'GeoLocation.Geoip/city.php');
 					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
 					if(!is_file($this->cityDataFile)){
-						trigger_error(sprintf(__('%s data file is missing', true), $type), E_USER_WARNING);
 						return false;
 					}
 					return geoip_open($this->cityDataFile, GEOIP_STANDARD);
