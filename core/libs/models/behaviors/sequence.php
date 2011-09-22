@@ -107,10 +107,18 @@
 		 * @access protected
 		 */
 		protected $_update;
+		
+		/**
+		 * @brief internal cache of the settings per model
+		 * 
+		 * @access private
+		 * @var array
+		 */
+		private $__settings = array();
 
 		/**
 		 * Merges the passed config array defined in the model's actsAs property with
-		 * the behavior's defaults and stores the resultant array in this->settings
+		 * the behavior's defaults and stores the resultant array in this->__settings
 		 * for the current model.
 		 *
 		 * @access public
@@ -132,17 +140,17 @@
 				$config = array('orderField' => $config);
 			}
 
-			$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
-			$this->settings[$Model->alias]['escaped_orderField'] = $Model->escapeField($this->settings[$Model->alias]['orderField']);
+			$this->__settings[$Model->alias] = array_merge($this->_defaults, $config);
+			$this->__settings[$Model->alias]['escaped_orderField'] = $Model->escapeField($this->__settings[$Model->alias]['orderField']);
 			
-			if (!empty($this->settings[$Model->alias]['groupFields'])) {
-				if (is_string($this->settings[$Model->alias]['groupFields'])) {
-					$this->settings[$Model->alias]['groupFields'] = array($this->settings[$Model->alias]['groupFields']);
+			if (!empty($this->__settings[$Model->alias]['groupFields'])) {
+				if (is_string($this->__settings[$Model->alias]['groupFields'])) {
+					$this->__settings[$Model->alias]['groupFields'] = array($this->__settings[$Model->alias]['groupFields']);
 				}
 				
-				$this->settings[$Model->alias]['groupFields'] = array_flip($this->settings[$Model->alias]['groupFields']);
-				foreach ($this->settings[$Model->alias]['groupFields'] as $groupField => $null) {
-					$this->settings[$Model->alias]['groupFields'][$groupField] = $Model->escapeField($groupField);
+				$this->__settings[$Model->alias]['groupFields'] = array_flip($this->__settings[$Model->alias]['groupFields']);
+				foreach ($this->__settings[$Model->alias]['groupFields'] as $groupField => $null) {
+					$this->__settings[$Model->alias]['groupFields'][$groupField] = $Model->escapeField($groupField);
 				}
 			}
 		}
@@ -164,7 +172,7 @@
 				(is_array($queryData['order']) && count($queryData['order']) == 1 && empty($queryData['order'][0]));
 			
 			if ($check) {
-				$queryData['order'] = (array)$this->settings[$Model->alias]['escaped_orderField'];
+				$queryData['order'] = (array)$this->__settings[$Model->alias]['escaped_orderField'];
 			}
 
 			return $queryData;
@@ -186,7 +194,7 @@
 			$this->_setNewOrder($Model);
 			$this->_setNewGroups($Model);
 
-			$orderField = $this->settings[$Model->alias]['orderField'];
+			$orderField = $this->__settings[$Model->alias]['orderField'];
 			
 			$highestPossible = $this->getHighestOrder($Model, $this->_newGroups[$Model->alias]);
 
@@ -214,7 +222,7 @@
 		 * @return void
 		 */
 		protected function _beforeSaveCreate($Model, $highestPossible) {
-			$orderField = $this->settings[$Model->alias]['orderField'];
+			$orderField = $this->__settings[$Model->alias]['orderField'];
 			
 			if(isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
 				$Model->data[$Model->alias][$orderField] = $highestPossible;
@@ -228,10 +236,10 @@
 			$this->_oldGroups[$Model->alias] = $this->_newGroups[$Model->alias];
 			$this->_update[$Model->alias][] = array(
 				'action' => array(
-					$this->settings[$Model->alias]['escaped_orderField'] => $this->settings[$Model->alias]['escaped_orderField'] . ' + 1'
+					$this->__settings[$Model->alias]['escaped_orderField'] => $this->__settings[$Model->alias]['escaped_orderField'] . ' + 1'
 				),
 				'conditions' => array(
-					$this->settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_newOrder[$Model->alias]
+					$this->__settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_newOrder[$Model->alias]
 				),
 			);
 
@@ -251,7 +259,7 @@
 		 * @return void
 		 */
 		protected function _beforeSaveUpdate($Model, $highestPossible) {
-			$orderField = $this->settings[$Model->alias]['orderField'];
+			$orderField = $this->__settings[$Model->alias]['orderField'];
 			
 			if(!empty($this->_newGroups[$Model->alias])) {
 				$highestPossible++;
@@ -278,10 +286,10 @@
 				// Decrement records in old group with higher order than moved record old order
 				$this->_update[$Model->alias][] = array(
 					'action' => array(
-						$this->settings[$Model->alias]['escaped_orderField'] => $this->settings[$Model->alias]['escaped_orderField'] . ' - 1'
+						$this->__settings[$Model->alias]['escaped_orderField'] => $this->__settings[$Model->alias]['escaped_orderField'] . ' - 1'
 					),
 					'conditions' => array(
-						$this->settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_oldOrder[$Model->alias]
+						$this->__settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_oldOrder[$Model->alias]
 					),
 				);
 
@@ -293,10 +301,10 @@
 					// Increment records in new group with higher order than moved record new order
 					$this->_update[$Model->alias][] = array(
 						'action' => array(
-							$this->settings[$Model->alias]['escaped_orderField'] => $this->settings[$Model->alias]['escaped_orderField'] . ' + 1'
+							$this->__settings[$Model->alias]['escaped_orderField'] => $this->__settings[$Model->alias]['escaped_orderField'] . ' + 1'
 						),
 						'conditions' => array(
-							$this->settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_newOrder[$Model->alias],
+							$this->__settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_newOrder[$Model->alias],
 						),
 						'group_values' => $this->_newGroups[$Model->alias],
 					);
@@ -310,11 +318,11 @@
 					// Increment order of those in between
 					$this->_update[$Model->alias][] = array(
 						'action' => array(
-							$this->settings[$Model->alias]['escaped_orderField'] => $this->settings[$Model->alias]['escaped_orderField'] . ' + 1'
+							$this->__settings[$Model->alias]['escaped_orderField'] => $this->__settings[$Model->alias]['escaped_orderField'] . ' + 1'
 						),
 						'conditions' => array(
-							array($this->settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_newOrder[$Model->alias]),
-							array($this->settings[$Model->alias]['escaped_orderField'] . ' <' => $this->_oldOrder[$Model->alias]),
+							array($this->__settings[$Model->alias]['escaped_orderField'] . ' >=' => $this->_newOrder[$Model->alias]),
+							array($this->__settings[$Model->alias]['escaped_orderField'] . ' <' => $this->_oldOrder[$Model->alias]),
 						),
 					);
 					// Moving down
@@ -324,11 +332,11 @@
 					// Decrement order of those in between
 					$this->_update[$Model->alias][] = array(
 						'action' => array(
-							$this->settings[$Model->alias]['escaped_orderField'] => $this->settings[$Model->alias]['escaped_orderField'] . ' - 1'
+							$this->__settings[$Model->alias]['escaped_orderField'] => $this->__settings[$Model->alias]['escaped_orderField'] . ' - 1'
 						),
 						'conditions' => array(
-							array($this->settings[$Model->alias]['escaped_orderField'] . ' >' => $this->_oldOrder[$Model->alias]),
-							array($this->settings[$Model->alias]['escaped_orderField'] . ' <=' => $this->_newOrder[$Model->alias]),
+							array($this->__settings[$Model->alias]['escaped_orderField'] . ' >' => $this->_oldOrder[$Model->alias]),
+							array($this->__settings[$Model->alias]['escaped_orderField'] . ' <=' => $this->_newOrder[$Model->alias]),
 						),
 					);
 				}
@@ -367,7 +375,7 @@
 			$this->_setOldOrder($Model);
 			$this->_setOldGroups($Model);
 
-			$escapedOrderField = $this->settings[$Model->alias]['escaped_orderField'];
+			$escapedOrderField = $this->__settings[$Model->alias]['escaped_orderField'];
 
 			$this->_update[$Model->alias][] = array(
 				'action' => array($escapedOrderField => $escapedOrderField . ' - 1'),
@@ -416,7 +424,7 @@
 				return $count;
 			}
 			// If there isn't any records in the set, return the start number minus 1
-			return (int)$this->settings[$Model->alias]['startAt'] - 1;
+			return (int)$this->__settings[$Model->alias]['startAt'] - 1;
 		}
 
 		/**
@@ -431,7 +439,7 @@
 		protected function _setOldOrder($Model) {
 			$this->_oldOrder[$Model->alias] = null;
 
-			$orderField = $this->settings[$Model->alias]['orderField'];
+			$orderField = $this->__settings[$Model->alias]['orderField'];
 			// Set old order to record's current order in database
 			$this->_oldOrder[$Model->alias] = $Model->field($orderField);
 		}
@@ -449,7 +457,7 @@
 		protected function _setOldGroups($Model) {
 			$this->_oldGroups[$Model->alias] = null;
 
-			$groupFields = $this->settings[$Model->alias]['groupFields'];
+			$groupFields = $this->__settings[$Model->alias]['groupFields'];
 			// If this model does not have any groups, return
 			if ($groupFields === false) {
 				return;
@@ -473,8 +481,8 @@
 		protected function _setNewOrder($Model) {
 			$this->_newOrder[$Model->alias] = null;
 
-			$orderField = $this->settings[$Model->alias]['orderField'];
-			$startAt = $this->settings[$Model->alias]['startAt'];
+			$orderField = $this->__settings[$Model->alias]['orderField'];
+			$startAt = $this->__settings[$Model->alias]['startAt'];
 			
 			if (!isset($Model->data[$Model->alias][$orderField]) || $Model->data[$Model->alias][$orderField] < $startAt) {
 				return;
@@ -497,14 +505,14 @@
 		protected function _setNewGroups($Model) {
 			$this->_newGroups[$Model->alias] = null;
 
-			if ($this->settings[$Model->alias]['groupFields'] === false) {
+			if ($this->__settings[$Model->alias]['groupFields'] === false) {
 				return;
 			}
 
 			foreach(array_keys($Model->data[$Model->alias]) as $key) {
 				$escapedField = $Model->escapeField($key);
 				
-				if(in_array($escapedField, $this->settings[$Model->alias]['groupFields'])) {
+				if(in_array($escapedField, $this->__settings[$Model->alias]['groupFields'])) {
 					$this->_newGroups[$Model->alias][$escapedField] = $Model->data[$Model->alias][$key];
 				}
 			}
@@ -522,14 +530,14 @@
 		 * @return array Array of escaped group field => group value pairs
 		 */
 		protected function _conditionsForGroups($Model, $groupValues = false) {
-			if ($this->settings[$Model->alias]['groupFields'] === false) {
+			if ($this->__settings[$Model->alias]['groupFields'] === false) {
 				return array();
 			}
 			
 			$groupValues = ($groupValues !== false) ? $groupValues : $this->_oldGroups[$Model->alias];
 
 			$conditions = array();
-			foreach($this->settings[$Model->alias]['groupFields'] as $groupField => $escapedGroupField) {
+			foreach($this->__settings[$Model->alias]['groupFields'] as $groupField => $escapedGroupField) {
 				$groupValue = null;
 				if (isset($groupValues[$escapedGroupField])) {
 					$groupValue = $groupValues[$escapedGroupField];
