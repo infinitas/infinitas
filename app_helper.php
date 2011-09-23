@@ -648,7 +648,7 @@
 
 				$buttonCaption = '<span>';
 				if ($imagePath) {
-					$buttonCaption .= $this->Html->image($imagePath) . '<br>';
+					$buttonCaption .= $this->Html->image($imagePath) . '<br/>';
 				}
 
 				$buttonCaption .= __(Inflector::humanize($button), true) . '</span>';
