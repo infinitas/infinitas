@@ -99,6 +99,13 @@
 
 			return parent::getTests();
 		}
+		
+		/**
+		 * set up the session and fill it with any data passed
+		 */
+		public function session($data = array(), $engine = 'php') {
+			$this->AppTest->session($data, $engine);
+		}
 
 		/**
 		 * @brief before a model test starts

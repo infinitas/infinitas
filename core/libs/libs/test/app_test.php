@@ -439,6 +439,27 @@
 			$this->__testObject->db->_queriesLog = $fixtureQueries;
 			unset($fixtures, $fixture);
 		}
+		
+		/**
+		 * set up the session and fill it with any data passed
+		 */
+		public function session($data = array(), $engine = 'php') {
+			Configure::write('Session.save', $engine);
+			
+			if(!isset($this->Session)) {
+				if(!class_exists('CakeSession')) {
+					App::import('Core', 'CakeSession');
+				}
+				
+				$this->Session = new CakeSession();
+			}
+			
+			if(!empty($data)) {
+				foreach($data as $k => $v) {
+					$this->Session->write($k, $v);
+				}
+			}
+		}
 
 		/**
 		 * @brief load up a specific fixture

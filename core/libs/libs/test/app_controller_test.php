@@ -76,6 +76,13 @@
 
 			return true;
 		}
+		
+		/**
+		 * set up the session and fill it with any data passed
+		 */
+		public function session($data = array(), $engine = 'php') {
+			$this->AppTest->session($data, $engine);
+		}
 
 		/**
 		 * @brief allow running only some of the tests in the test case
