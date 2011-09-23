@@ -666,6 +666,6 @@ table.listing .bg td {
 	background: #ECECEC;
 }
 
-table.cake-sql-log{
+.cake-sql-log {
 	display: none;
 }
