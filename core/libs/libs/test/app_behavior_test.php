@@ -78,6 +78,13 @@
 		}
 		
 		/**
+		 * set up the session and fill it with any data passed
+		 */
+		public function session($data = array(), $engine = 'php') {
+			$this->AppTest->session($data, $engine);
+		}
+		
+		/**
 		 * @brief allow running only some of the tests in the test case
 		 * 
 		 * Overrides parent method to allow selecting tests to run in the current test case
