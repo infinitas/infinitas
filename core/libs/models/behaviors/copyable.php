@@ -320,9 +320,8 @@
 						$modified = true;
 					}
 				}
-
 				$count = $Model->find('count', array('conditions' => array($Model->alias . '.' . $field => $record[$field])));
-				if($modified === true && $count > 0){
+				if($modified === true && $count > 0) {
 					$record[$field] = $record[$field] . sprintf(' (%s)', $count);
 				}
 			}
