@@ -101,7 +101,7 @@
 		public function getTests() {
 			if (!empty($this->tests)) {
 				debug('Only the following tests will be executed: ' . join(', ', (array) $this->tests), false, false);
-				return array_merge(array('start', 'startCase'), (array) $this->tests, array('endCase', 'end'));
+				return array_merge(array('start', 'startCase'), (array)$this->tests, array('endCase', 'end'));
 			}
 
 			return parent::getTests();
@@ -162,9 +162,11 @@
 			if(is_subclass_of($this, 'AppModelTestCase')) {
 				$this->AppTest->startCase();
 
-				$this->startTest('testFixtureIntegrityCheck');
-				$this->doFixtureIntegrityCheck();
-				$this->endTest('testFixtureIntegrityCheck');
+				if(empty($this->tests)){
+					$this->startTest('testFixtureIntegrityCheck');
+					$this->doFixtureIntegrityCheck();
+					$this->endTest('testFixtureIntegrityCheck');
+				}
 			}
 		}
 
