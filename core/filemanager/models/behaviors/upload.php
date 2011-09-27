@@ -815,4 +815,18 @@ class UploadBehavior extends ModelBehavior {
 		
 		return false;
 	}
+	
+	/**
+	 * @brief get the full path for images
+	 * 
+	 * @access public
+	 * 
+	 * @param Model $Model the model the check is being done on
+	 * @param string $field name to use 
+	 * 
+	 * @return type 
+	 */
+	public function fullPath($Model, $field = '') {
+		return APP . WEBROOT_DIR . DS . 'img' . DS . $this->uploadFilePath($Model, $field);
+	}
 }
