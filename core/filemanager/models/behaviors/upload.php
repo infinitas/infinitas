@@ -573,7 +573,7 @@ class UploadBehavior extends ModelBehavior {
 			$destW = 0;
 			$destH = 0;
 			$destW = ($width > $height) ? (int)$geometry-1 : 0;
-			$destH = ($width > $height) ? (int)$geometry-1 : 0; 
+			$destH = ($width > $height) ? (int)$geometry-1 : 0;
 
 			$image->thumbnailImage($destW, $destH, true);
 		}
@@ -794,6 +794,7 @@ class UploadBehavior extends ModelBehavior {
 		// PHP < 5.2.0 doesn't include 'filename' key in pathinfo. Let's try to fix this.
 		if (empty($pathinfo['filename'])) {
 			$pathinfo['filename'] = basename($pathinfo['basename'], '.' . $pathinfo['extension']);
+<<<<<<< HEAD
 		}
 		return $pathinfo;
 	}
@@ -828,5 +829,27 @@ class UploadBehavior extends ModelBehavior {
 	 */
 	public function fullPath($Model, $field = '') {
 		return APP . WEBROOT_DIR . DS . 'img' . DS . $this->uploadFilePath($Model, $field);
+=======
+		}
+		return $pathinfo;
+	}
+	
+	/**
+	 * @brief get the upload path the model is set to use
+	 * 
+	 * @access public
+	 * 
+	 * @param object $Model the model being used
+	 * @param string $field the field to check for
+	 * 
+	 * @return mixed false if not found, string path if found
+	 */
+	public function uploadFilePath($Model, $field = '') {
+		if(isset($this->settings[$Model->alias][$field]['path'])) {
+			return str_replace('webroot/img/', '', $this->settings[$Model->alias][$field]['path']);
+		}
+		
+		return false;
+>>>>>>> b625ed898fd98fdf54d7092ed103a69d168abb9e
 	}
 }
