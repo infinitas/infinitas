@@ -78,10 +78,41 @@
 		}
 		
 		/**
-		 * set up the session and fill it with any data passed
+		 * @brief set up the session and fill it with any data passed
+		 * 
+		 * Set up some basic session data
+		 * 
+		 * @access public
+		 * 
+		 * @see AppTest::session()
+		 * 
+		 * @return void
 		 */
 		public function session($data = array(), $engine = 'php') {
 			$this->AppTest->session($data, $engine);
+		}
+		
+		/**
+		 * @brief called when a test is started
+		 * 
+		 * This is overloaded to auto call the fixture checks when a test case
+		 * if started. It is only run once per test case and only runs when running
+		 * all the tests in the test case
+		 * 
+		 * @access public
+		 * 
+		 * @return void
+		 */
+		public function startCase() {
+			if(is_subclass_of($this, 'AppModelTestCase')) {
+				$this->AppTest->startCase();
+
+				if(empty($this->tests)){
+					$this->startTest('testFixtureIntegrityCheck');
+					$this->doFixtureIntegrityCheck();
+					$this->endTest('testFixtureIntegrityCheck');
+				}
+			}
 		}
 		
 		/**
@@ -155,18 +186,6 @@
 
 				$this->AppTest->endTest();
 				exit;
-			}
-		}
-
-		public function startCase() {
-			if(is_subclass_of($this, 'AppModelTestCase')) {
-				$this->AppTest->startCase();
-
-				if(empty($this->tests)){
-					$this->startTest('testFixtureIntegrityCheck');
-					$this->doFixtureIntegrityCheck();
-					$this->endTest('testFixtureIntegrityCheck');
-				}
 			}
 		}
 
@@ -297,23 +316,51 @@
 		protected function _validData(Model $Model, $data, &$validationErrors = array()) {
 			$valid = true;
 			$Model->create($data);
+			
+			$validationErrors = array();
 			if (!$Model->validates()) {
 				$validationErrors = $Model->validationErrors;
 				ksort($validationErrors);
 				$valid = false;
 			}
-
-			else {
-				$validationErrors = array();
-			}
 			
 			return $valid;
 		}
 
+		/**
+		 * @brief convert an array to the actual php code for an array
+		 * 
+		 * Makes building your $expected arrays easy as you can do something like
+		 * below, then copy and paste the output.
+		 * 
+		 * @access public
+		 * 
+		 * @todo make it work properly with nested arrays
+		 * 
+		 * @code
+		 *	$this->outputArray($this->Model->find('list'));
+		 *	$this->outputArray(Set::extract('/Model/name', $this->Model->find('all'));
+		 * @endcode
+		 * 
+		 * @param array $array the array to output
+		 * @param integer $level the current level of nesting
+		 * 
+		 * @return void
+		 */
 		public function outputArray($array, $level = 1){
 			$this->AppTest->outputArray($array, $level);
 		}
 
+		/**
+		 * @brief check the fixture data is correct
+		 * 
+		 * This will check the belongsTo relation to make sure that all the data 
+		 * is correct and linked up properly
+		 * 
+		 * @access public
+		 * 
+		 * @return void
+		 */
 		public function doFixtureIntegrityCheck() {
 			list($plugin, $className) = pluginSplit($this->setup['model']);
 
