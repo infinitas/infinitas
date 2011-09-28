@@ -13,10 +13,10 @@
 		}
 
 		public function onAttachBehaviors($event) {
-			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
+			if($event->Handler->shouldAutoAttachBehavior()) {
 				
 				// attach the expandable (eva) behavior if there is a table for it
-				$attributesTable = Inflector::singularize($event->Handler->tablePrefix.$event->Handler->table).'_attributes';
+				$attributesTable = Inflector::singularize($event->Handler->tablePrefix.$event->Handler->table) . '_attributes';
 				if(in_array($attributesTable, $event->Handler->getTables($event->Handler->useDbConfig))){
 					$event->Handler->bindModel(
 						array(
@@ -34,7 +34,7 @@
 					$event->Handler->Behaviors->attach('Libs.Expandable');
 				}
 
-				if ($event->Handler->hasField('slug') && !$event->Handler->Behaviors->enabled('Libs.Sluggable')) {
+				if ($event->Handler->shouldAutoAttachBehavior('Libs.Sluggable', array('slug'))) {
 					$event->Handler->Behaviors->attach(
 						'Libs.Sluggable',
 						array(
@@ -42,20 +42,20 @@
 						)
 					);
 				}
-
-				if ($event->Handler->hasField('ordering') && !$event->Handler->Behaviors->enabled('Libs.Sequence')) {
+				
+				if ($event->Handler->shouldAutoAttachBehavior('Libs.Sequence', array('ordering'))) {
 					$event->Handler->Behaviors->attach('Libs.Sequence');
 				}
 
-				if ($event->Handler->hasField('rating') && !$event->Handler->Behaviors->enabled('Libs.Rateable')) {
+				if ($event->Handler->shouldAutoAttachBehavior('Libs.Rateable', array('rating'))) {
 					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
 
-				if ($event->Handler->hasField('lft') && $event->Handler->hasField('rght') && !$event->Handler->Behaviors->enabled('Tree') && !$event->Handler->Behaviors->enabled('InfiniTree')) {
+				if($event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))){
 					$event->Handler->Behaviors->attach('Tree');
 				}
 				
-				if(!$event->Handler->Behaviors->enabled('Libs.Validation')){
+				if($event->Handler->shouldAutoAttachBehavior('Libs.Validation')) {
 					$event->Handler->Behaviors->attach('Libs.Validation');
 				}
 			}
