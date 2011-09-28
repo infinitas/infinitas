@@ -33,8 +33,13 @@
 
 		public function view(){
 			if(!$this->Session->read('Auth.User.id')){
-				$this->Session->setFlash(__('You must be logged in to view your profile', true));
-				$this->redirect(array('action' => 'login'));
+				$this->notice(
+					__('You must be logged in to view your profile', true), 
+					array(
+						'redirect' => array('action' => 'login'),
+						'level' => 'warning'
+					)
+				);
 			}
 
 			$user = $this->User->find(
@@ -47,8 +52,13 @@
 			);
 
 			if(empty($user)){
-				$this->Session->setFlash(__('Please login to view your profile', true));
-				$this->redirect(array('action' => 'login'));
+				$this->notice(
+					__('Please login to view your profile', true), 
+					array(
+						'redirect' => array('action' => 'login'),
+						'level' => 'warning'
+					)
+				);
 			}
 
 			$this->set(compact('user'));
@@ -67,8 +77,13 @@
 			}
 
 			if (!Configure::read('Website.allow_login')) {
-				$this->Session->setFlash(__('Login is disabled', true));
-				$this->redirect('/');
+				$this->notice(
+					__('Login is disabled', true), 
+					array(
+						'redirect' => '/',
+						'level' => 'warning'
+					)
+				);
 			}
 
 			$this->_createCookie();
@@ -89,7 +104,7 @@
 					}
 
 					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
-					$this->Session->setFlash(
+					$this->notice(
 						sprintf(
 							__('Welcome back %s, your last login was from %s, %s on %s. (%s)', true),
 							$currentUser['username'],
@@ -100,13 +115,15 @@
 						)
 					);
 				}
+				
 				$this->Event->trigger('userLogin', $currentUser);
 				unset($lastLogon, $data);
 				$this->redirect($this->Auth->redirect());
 			}
+			
 			if (!(empty($this->data)) && !$this->Auth->user()) {
 				$this->Infinitas->badLoginAttempt($this->data['User']);
-				$this->notice(__('Your login details have not been recognised'), array('level' => 'warning'));
+				$this->notice(__('Your login details have not been recognised', true), array('level' => 'warning'));
 			}
 		}
 
@@ -183,8 +200,13 @@
 		 */
 		public function register(){
 			if (!Configure::read('Website.allow_registration')) {
-				$this->Session->setFlash(__('Registration is disabled', true));
-				$this->redirect('/');
+				$this->notice(
+					__('Registration is disabled', true), 
+					array(
+						'redirect' => '/',
+						'level' => 'warning'
+					)
+				);
 			}
 
 			if (!empty($this->data)) {
@@ -229,14 +251,12 @@
 						);
 					}
 
+					$flashMessage = __('Thank you, your registration was completed', true);
 					if (Configure::read('Website.email_validation') === true) {
-						$this->Session->setFlash(__('Thank you, please check your email to complete your registration', true));
-					}
-					else{
-						$this->Session->setFlash(__('Thank you, your registration was completed', true));
+						$flashMessage = __('Thank you, please check your email to complete your registration', true);
 					}
 
-					$this->redirect('/');
+					$this->notice($flashMessage, array('redirect' => '/'));
 				}
 			}
 		}
@@ -250,7 +270,7 @@
 		 * 
 		 * @param string $hash
 		 */
-		public function activate($hash = null){
+		public function activate($hash = null) {
 			if (!$hash){
 				$this->Session->setFlash(__('Invalid address', true));
 				$this->redirect('/');
@@ -266,19 +286,27 @@
 						$user['User']['email']
 					),
 					array(
-						'subject' => __('Welcome to ', true).' '.Configure::read('Website.name'),
+						'subject' => __('Welcome to ', true) .' '. Configure::read('Website.name'),
 						'body' => '',
 						'template' => 'User - Registration'
 					)
 				);
 
-				$this->Session->setFlash(__('Your account is now active, you may log in', true));
-				$this->redirect(array('action' => 'login'));
+				$this->notice(
+					__('Your account is now active, you may log in', true),
+					array(
+						'redirect' => array('action' => 'login')
+					)
+				);
 			}
-			else{
-				$this->Session->setFlash('There was a problem activating your account, please try again');
-				$this->redirect('/');
-			}
+			
+			$this->notice(
+				__('There was a problem activating your account, please try again', true),
+				array(
+					'level' => 'error',
+					'redirect' => '/'
+				)
+			);
 		}
 
 		/**
@@ -303,12 +331,22 @@
 					);
 
 					// @todo send a email with a link to reset.
-					$this->Session->setFlash(__('An email has been sent to your address with instructions to reset your password', true));
+					$this->notice(
+						__('An email has been sent to your address with instructions to reset your password', true),
+						array(
+							'redirect' => '/'
+						)
+					);
 				}
 
 				else{
-					// no user found for adress
-					$this->Session->setFlash(__('That does not seem to be a valid user', true));
+					$this->notice(
+						__('That does not seem to be a valid user', true),
+						array(
+							'level' => 'warning',
+							'redirect' => '/'
+						)
+					);
 				}
 			}
 		}
@@ -320,30 +358,56 @@
 		 * 
 		 * @param string $hash the hash of the reset request.
 		 */
-		public function reset_password($hash = null){
+		public function reset_password($hash = null) {
 			if (!$hash){
-				$this->Session->setFlash(__('Reset request timed out, please try again', true));
-				$this->redirect('/');
+				$this->notice(
+					__('Reset request timed out, please try again', true),
+					array(
+						'level' => 'warning',
+						'redirect' => '/'
+					)
+				);
 			}
 
 			if (!empty($this->data)){
 				$this->User->id = $this->data['User']['id'];
 
-				if ( $this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))){
-					$this->Session->setFlash(__('Your new password was saved. You may now login', true));
-					$this->redirect(array('action' => 'login'));
+				if ($this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))) {
+					$this->notice(
+						__('Your new password was saved. You may now login', true),
+						array(
+							'redirect' => array(
+								'action' => 'login'
+							)
+						)
+					);
 				}
-				else{
-					$this->Session->setFlash('User could not be saved');
-					$this->redirect(array('action' => 'forgot_password'));
+				
+				else {
+					$this->notice(
+						__('User could not be saved', true),
+						array(
+							'level' => 'warning',
+							'redirect' => array(
+								'action' => 'forgot_password'
+							)
+						)
+					);
 				}
 			}
 
 			$email = $this->User->getTicket($hash);
 
 			if (!$email){
-				$this->Session->setFlash(__('Your ticket has expired, please request a new password', true));
-				$this->redirect(array('action' => 'forgot_password'));
+				$this->notice(
+					__('Your ticket has expired, please request a new password', true),
+					array(
+						'level' => 'error',
+						'redirect' => array(
+							'action' => 'forgot_password'
+						)
+					)
+				);
 			}
 
 			$this->data = $this->User->find(
