@@ -647,4 +647,55 @@
 
 			return $Model->find('first', $options);
 		}
+		
+		/**
+		 * @brief check if behaviors should / can be auto attached
+		 * 
+		 * Adding a behavior to the actsAs will stop the behavior from auto loading 
+		 * if it is setup to autoload in the events. There are some issues with 
+		 * re attaching behaviors when they are already attached
+		 * 
+		 * @code 
+		 * // auto load FooBehavior to any model if its not attached or in actsAs
+		 *	if($Model->shouldAutoAttachBehavior('Foo')) {
+		 *		$Model->Behaviors->attach('Foo');
+		 *	}
+		 * 
+		 * // auto load FooBehavior to any model with the `bar` field if its not attached or in actsAs
+		 *	if($Model->shouldAutoAttachBehavior('Foo', array('bar'))) {
+		 *		$Model->Behaviors->attach('Foo');
+		 *	}
+		 * @endcode
+		 * 
+		 * @access public
+		 * 
+		 * @param Model $Model the model the check is being done on
+		 * @param string $behavior the name of the beahvior to check
+		 * @param array $onlyWithFields a list of fields that should be in the table for it to auto attach
+		 * 
+		 * @return type 
+		 */
+		public function shouldAutoAttachBehavior($Model, $behavior = null, $onlyWithFields = array()) {
+			if(!(is_subclass_of($Model, 'Model') && isset($Model->_schema) && is_array($Model->_schema))) {
+				return false;
+			}
+			
+			if($behavior === null) {
+				return true;
+			}
+			
+			
+			if(!isset($Model->actsAs[$behavior]) && !in_array($behavior, $Model->actsAs) && !$Model->Behaviors->enabled($behavior)) {
+				$should = true;
+				if(!empty($onlyWithFields)) {
+					foreach((array)$onlyWithFields as $field) {
+						$should = $should && $Model->hasField($field);
+					}
+				}
+				
+				return $should;
+			}
+			
+			return false;
+		}
 	}

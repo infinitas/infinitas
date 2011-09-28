@@ -139,7 +139,11 @@
 			if (is_string($config)) {
 				$config = array('orderField' => $config);
 			}
-
+			
+			pr($Model->alias);
+			pr($config);
+			
+			
 			$this->__settings[$Model->alias] = array_merge($this->_defaults, $config);
 			$this->__settings[$Model->alias]['escaped_orderField'] = $Model->escapeField($this->__settings[$Model->alias]['orderField']);
 			
