@@ -95,12 +95,17 @@
 		 * @brief set available plugins that are accepting events
 		 */
 		public function setAvailablePlugins() {
-			if(!empty($this->__availablePlugins)) {
+			$_this = EventCore::getInstance();
+			if(!empty($_this->__availablePlugins)) {
 				return false;
 			}
 			
-			$_this = EventCore::getInstance();
 			$_this->__availablePlugins = array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins());
+		}
+
+		public function getAvailablePlugins() {
+			$_this = EventCore::getInstance();
+			return $_this->__availablePlugins;
 		}
 
 
