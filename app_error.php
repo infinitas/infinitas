@@ -63,6 +63,7 @@
 		 * @return mixed void
 		 */
 		public function _outputMessage($template) {
+			$this->controller->params['url'] = isset($this->controller->params['url']) ? $this->controller->params['url'] : array('unknown');
 			$this->log('Where:   ' . serialize($this->controller->params['url']), 'page_errors');
 			$this->log('What:    ' . serialize($this->controller->viewVars), 'page_errors');
 			$this->log('Referer: ' . $this->controller->referer(), 'page_errors');
