@@ -76,6 +76,9 @@
 		 */
 		static public function trigger(&$HandlerObject, $eventName, $data = array()){
 			$_this = EventCore::getInstance();
+			if(!$_this->__availablePlugins && is_callable(array('ClassRegistry', 'init'))) {
+				EventCore::setAvailablePlugins();
+			}
 
 			if(!is_array($eventName)){
 				$eventName = array($eventName);
