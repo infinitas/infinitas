@@ -105,7 +105,10 @@
 				array(
 					'fields' => $fields,
 					'conditions' => array(
-						$this->alias . '.enabled' => 1
+						'or' => array(
+							$this->alias . '.enabled' => 1,
+							$this->alias . '.core' => 1
+						)
 					)
 				)
 			);

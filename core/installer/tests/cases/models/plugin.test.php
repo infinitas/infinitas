@@ -24,7 +24,9 @@
 		public $setup = array(
 			'model' => 'Installer.Plugin',
 			'fixtures' => array(
-				'do' => 'Migrations.SchemaMigration'
+				'do' => array(
+					'Migrations.SchemaMigration',
+				)
 			)
 		);
 		
@@ -237,12 +239,12 @@
 				'4e286f53-c380-4930-8c94-18876318cd70' => 'Dev',
 				'4e286fd1-2a3c-4775-9a87-18876318cd70' => 'Facebook',
 				'4e2871cd-90c0-431c-9eee-18876318cd70' => 'Geshi',
+				'4e287521-1b64-4feb-9e16-21136318cd70' => 'Security',
 			);
-			
 			$this->assertEqual($expected, $this->Plugin->getActiveInstalledPlugins());
 			$this->assertEqual($expected, $this->Plugin->getActiveInstalledPlugins('list'));
 			$this->assertEqual($expected, $this->Plugin->getActiveInstalledPlugins('whatever'));
-			$this->assertEqual(43, $this->Plugin->getActiveInstalledPlugins('count'));
+			$this->assertEqual(44, $this->Plugin->getActiveInstalledPlugins('count'));
 			
 			$this->assertTrue(
 				$this->Plugin->updateAll(
@@ -250,7 +252,7 @@
 					array('Plugin.id' => array('4c94edcc-9b50-49e6-9af3-78d86318cd70', '4e286fd1-2a3c-4775-9a87-18876318cd70', '4cbc74a9-8fe8-43da-aaa4-20786318cd70', '4c94edcc-aa7c-4509-9c18-78d86318cd70'))
 				)
 			);
-			$this->assertEqual(39, $this->Plugin->getActiveInstalledPlugins('count'));
+			$this->assertEqual(43, $this->Plugin->getActiveInstalledPlugins('count'));
 		}
 		
 		/**
