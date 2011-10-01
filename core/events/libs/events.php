@@ -188,7 +188,8 @@
 		 * @return bool true if its active, false if not
 		 */
 		public function isPluginActive($plugin) {
-			if(!$plugin || !in_array($plugin, $this->__availablePlugins)) {
+			$_this = EventCore::getInstance();
+			if(!$plugin || !in_array(Inflector::camelize($plugin), $_this->__availablePlugins)) {
 				return false;
 			}
 
