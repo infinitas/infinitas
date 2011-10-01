@@ -106,7 +106,7 @@
 					'fields' => $fields,
 					'conditions' => array(
 						'or' => array(
-							$this->alias . '.enabled' => 1,
+							$this->alias . '.active' => 1,
 							$this->alias . '.core' => 1
 						)
 					)
@@ -169,7 +169,7 @@
 			if($pluginDetails !== false && isset($pluginDetails['id'])) {
 				$pluginDetails['dependancies'] = json_encode($pluginDetails['dependancies']);
 				$pluginDetails['internal_name'] = $pluginName;
-				$pluginDetails['enabled'] = true;
+				$pluginDetails['active'] = true;
 				$pluginDetails['core'] = strpos(App::pluginPath($pluginName), APP . 'core' . DS) !== false;
 
 				$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';

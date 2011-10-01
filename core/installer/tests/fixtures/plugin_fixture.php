@@ -15,7 +15,7 @@
 			'license' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 			'dependancies' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 			'version' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-			'enabled' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+			'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 			'core' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 			'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 			'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -35,7 +35,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-07-25 14:06:06',
 				'modified' => '2011-07-25 14:22:36'
@@ -51,7 +51,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:54',
 				'modified' => '2011-07-25 13:49:41'
@@ -67,7 +67,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:55',
 				'modified' => '2011-07-25 13:49:41'
@@ -83,7 +83,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.2',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:55',
 				'modified' => '2011-07-25 14:54:40'
@@ -99,7 +99,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:57',
 				'modified' => '2011-07-25 13:49:41'
@@ -115,7 +115,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:56',
 				'modified' => '2011-07-25 13:49:41'
@@ -131,7 +131,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:57',
 				'modified' => '2011-07-25 13:49:41'
@@ -147,7 +147,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:56',
 				'modified' => '2011-07-25 13:49:41'
@@ -163,7 +163,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:54',
 				'modified' => '2011-07-25 13:49:42'
@@ -179,7 +179,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:00',
 				'modified' => '2011-07-25 13:49:42'
@@ -195,7 +195,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:58',
 				'modified' => '2011-07-25 13:49:42'
@@ -211,7 +211,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:58',
 				'modified' => '2011-07-25 13:49:42'
@@ -227,7 +227,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:00',
 				'modified' => '2011-07-25 13:49:42'
@@ -243,7 +243,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:00',
 				'modified' => '2011-07-25 13:49:42'
@@ -259,7 +259,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:00',
 				'modified' => '2011-07-25 13:49:42'
@@ -275,7 +275,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.2',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:02',
 				'modified' => '2011-08-05 12:15:31'
@@ -291,7 +291,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:04',
 				'modified' => '2011-07-25 13:49:43'
@@ -307,7 +307,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:04',
 				'modified' => '2011-07-25 13:49:42'
@@ -323,7 +323,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:03',
 				'modified' => '2011-07-25 13:49:42'
@@ -339,7 +339,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:05',
 				'modified' => '2011-07-25 13:49:43'
@@ -355,7 +355,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:03',
 				'modified' => '2011-08-09 14:40:59'
@@ -371,7 +371,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.2',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:04',
 				'modified' => '2011-08-09 14:45:35'
@@ -387,7 +387,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '1.0',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:56',
 				'modified' => '2011-07-25 13:49:41'
@@ -403,7 +403,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:57',
 				'modified' => '2011-07-25 13:49:41'
@@ -419,7 +419,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:03',
 				'modified' => '2011-07-25 13:49:42'
@@ -435,7 +435,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:15:54',
 				'modified' => '2011-07-25 13:49:41'
@@ -451,7 +451,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:16:04',
 				'modified' => '2011-07-25 13:49:43'
@@ -467,7 +467,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:16:05',
 				'modified' => '2011-07-25 13:49:43'
@@ -483,7 +483,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:16:05',
 				'modified' => '2011-07-25 13:49:43'
@@ -499,7 +499,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:15:56',
 				'modified' => '2011-07-25 13:49:41'
@@ -515,7 +515,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:15:58',
 				'modified' => '2011-07-25 13:49:42'
@@ -531,7 +531,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.2',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:15:54',
 				'modified' => '2011-07-25 14:36:38'
@@ -547,7 +547,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:15:55',
 				'modified' => '2011-07-25 13:49:41'
@@ -563,7 +563,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-05-25 11:16:04',
 				'modified' => '2011-08-09 14:41:00'
@@ -579,7 +579,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:55',
 				'modified' => '2011-07-25 13:49:41'
@@ -595,7 +595,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:56',
 				'modified' => '2011-07-25 13:49:41'
@@ -611,7 +611,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.1',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:15:56',
 				'modified' => '2011-07-25 13:49:41'
@@ -627,7 +627,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8.2',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-05-25 11:16:03',
 				'modified' => '2011-08-09 14:40:59'
@@ -643,7 +643,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 1,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -659,7 +659,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -675,7 +675,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -691,7 +691,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -707,7 +707,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 1,
+				'active' => 1,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -723,7 +723,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 0,
+				'active' => 0,
 				'core' => 1,
 				'created' => '2011-07-25 14:00:21',
 				'modified' => '2011-07-25 14:00:21'
@@ -739,7 +739,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 0,
+				'active' => 0,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:22',
 				'modified' => '2011-07-25 14:00:22'
@@ -755,7 +755,7 @@
 				'license' => 'MIT',
 				'dependancies' => '[]',
 				'version' => '0.8',
-				'enabled' => 0,
+				'active' => 0,
 				'core' => 0,
 				'created' => '2011-07-25 14:00:22',
 				'modified' => '2011-07-25 14:00:22'

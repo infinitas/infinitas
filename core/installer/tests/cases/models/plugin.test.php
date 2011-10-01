@@ -248,7 +248,7 @@
 			
 			$this->assertTrue(
 				$this->Plugin->updateAll(
-					array('enabled' => 0),
+					array('active' => 0),
 					array('Plugin.id' => array('4c94edcc-9b50-49e6-9af3-78d86318cd70', '4e286fd1-2a3c-4775-9a87-18876318cd70', '4cbc74a9-8fe8-43da-aaa4-20786318cd70', '4c94edcc-aa7c-4509-9c18-78d86318cd70'))
 				)
 			);

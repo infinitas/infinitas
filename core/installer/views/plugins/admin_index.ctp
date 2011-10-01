@@ -42,7 +42,7 @@
                     $this->Paginator->sort('license'),
                     $this->Paginator->sort('dependancies'),
                     $this->Paginator->sort('version'),
-                    $this->Paginator->sort('enabled'),
+                    $this->Paginator->sort('active'),
                     $this->Paginator->sort('core'),
                     $this->Paginator->sort('Installed', 'created'),
                     $this->Paginator->sort('Updated', 'modified'),
@@ -58,7 +58,7 @@
                 		<td><?php echo $plugin['Plugin']['license']; ?>&nbsp;</td>
                 		<td><?php echo $plugin['Plugin']['dependancies']; ?>&nbsp;</td>
                 		<td><?php echo $plugin['Plugin']['version']; ?>&nbsp;</td>
-                		<td><?php echo $this->Infinitas->status($plugin['Plugin']['enabled']); ?>&nbsp;</td>
+                		<td><?php echo $this->Infinitas->status($plugin['Plugin']['active']); ?>&nbsp;</td>
                 		<td><?php echo $this->Infinitas->status($plugin['Plugin']['core']); ?>&nbsp;</td>
                 		<td><?php echo $this->Time->timeAgoInWords($plugin['Plugin']['created']); ?>&nbsp;</td>
                 		<td>

@@ -1,6 +1,6 @@
 <?php 
 /* SVN FILE: $Id$ */
-/* Installer schema generated on: 2011-07-20 22:07:31 : 1311195991*/
+/* Installer schema generated on: 2011-10-01 01:10:49 : 1317428509*/
 class InstallerSchema extends CakeSchema {
 	var $name = 'Installer';
 
@@ -22,7 +22,7 @@ class InstallerSchema extends CakeSchema {
 		'license' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 75, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'dependancies' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'version' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'enabled' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
