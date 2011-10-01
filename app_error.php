@@ -48,6 +48,16 @@
 			$this->_outputMessage('event_error');
 		}
 
+		public function pluginDisabledError($params){
+			extract($params, EXTR_OVERWRITE);
+			$this->error(array(
+				'code' => $code,
+				'name' => 'Disabled Plugin',
+				'message' => sprintf(__("The plugin (%s) requested has been disabled, you can enable it in the backend", true), $plugin)
+			));
+			$this->_stop(1);
+		}
+
 		/**
 		 * @brief overload to show a stack trace and log some data
 		 *

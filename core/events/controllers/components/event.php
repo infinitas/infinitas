@@ -14,6 +14,15 @@
 		 */
 		public function initialize($Controller){
 			$this->Controller = $Controller;
+			if(!EventCore::isPluginActive($Controller->params['plugin'])){
+				$this->cakeError(
+					'pluginDisabledError',
+					array(
+						'plugin' => $Controller->params['plugin'], 
+						'code' => 404
+					)
+				);
+			}
 		}
 
 		/**
