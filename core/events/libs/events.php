@@ -3,7 +3,7 @@
 
 	EventCore::getInstance();
 
-	class EventCore{
+	class EventCore {
 		/**
 		 * Event objects
 		 *
@@ -42,6 +42,10 @@
 		 */
 		public $pluginNameCache;
 
+		private $__availablePlugins = array();
+
+		private $__installedPlugins = array();
+
 		private function __construct(){}
 
 		private function __clone(){}
@@ -70,20 +74,43 @@
 		 * @return array
 		 *
 		 */
-		public function trigger(&$HandlerObject, $eventName, $data = array()){
+		static public function trigger(&$HandlerObject, $eventName, $data = array()){
+			$_this = EventCore::getInstance();
+			if(!$_this->__availablePlugins && is_callable(array('ClassRegistry', 'init'))) {
+				EventCore::setAvailablePlugins();
+			}
+
 			if(!is_array($eventName)){
 				$eventName = array($eventName);
 			}
 
 			$eventNames = Set::filter($eventName);
+			$return = array();
 			foreach($eventNames as $eventName){
 				$eventData = EventCore::_parseEventName($eventName);
-
 				$return[$eventData['event']] = EventCore::_dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
 
 			return $return;
 		}
+
+		/**
+		 * @brief set available plugins that are accepting events
+		 */
+		public function setAvailablePlugins() {
+			$_this = EventCore::getInstance();
+			if(!empty($_this->__availablePlugins)) {
+				return false;
+			}
+			
+			$_this->__availablePlugins = array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins());
+		}
+
+		public function getAvailablePlugins() {
+			$_this = EventCore::getInstance();
+			return $_this->__availablePlugins;
+		}
+
 
 		/**
 		 * @brief Get a list of plugins that will be affected by running an event
@@ -109,6 +136,64 @@
 			}
 
 			return $return;
+		}
+
+		/**
+		 * @brief dynamically turn plugins on during a request.
+		 *
+		 * This can be used to turn a plugin on programatically.
+		 *
+		 * @param mixed $plugins single / list of plugins to turn on
+		 * @param bool $allowUninstalled allow turning on a plugin that is not installed (not recommended)
+		 *
+		 * @return bool true if they were added, false if not
+		 */
+		public function activatePlugins($plugins = array(), $allowUninstalled = false) {
+			if(!is_array($plugins)) {
+				$plugins = array($plugins);
+			}
+
+			if(empty($plugins)) {
+				return false;
+			}
+
+			if($allowUninstalled) {
+				$this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getAllPlugins());
+			}
+			else {
+				$this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getInstalledPlugins());
+			}
+			
+			foreach($plugins as $plugin) {
+				if(in_array($plugin, $this->__installedPlugins) && !in_array($plugin, $this->__availablePlugins)) {
+					$_this->__availablePlugins[] = $plugin;
+				}
+			}
+
+			return true;
+		}
+
+		/**
+		 * @brief check if a plugin is active for the current request
+		 *
+		 * This method is used within the core to stop people accessing the controllers
+		 * and actions directly. It can also be used to see if plugins are active
+		 * for the request. Even if something is installed and active, it may have
+		 * been dynamically turned off (or the other way round)
+		 *
+		 * @access public
+		 *
+		 * @param string $plugin the name of the plugin to check
+		 * 
+		 * @return bool true if its active, false if not
+		 */
+		public function isPluginActive($plugin) {
+			$_this = EventCore::getInstance();
+			if(!$plugin || !in_array(Inflector::camelize($plugin), $_this->__availablePlugins)) {
+				return false;
+			}
+
+			return true;
 		}
 
 		/**
@@ -142,7 +227,7 @@
 		 * @return array
 		 *
 		 */
-		protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()){
+		static protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()){
 			$eventHandlerMethod = EventCore::_handlerMethodName($eventName);
 			$_this =& EventCore::getInstance();
 
@@ -151,6 +236,9 @@
 			if(isset($_this->_eventHandlerCache[$eventName])){
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass){
 					$pluginName = EventCore::_extractPluginName($eventClass);
+					if(!empty($_this->__availablePlugins) && !in_array(Inflector::camelize($pluginName), $_this->__availablePlugins)) {
+						continue;
+					}
 
 					if(($scope == 'Global' || $scope == $pluginName)){
 						EventCore::_loadEventClass($eventClass);

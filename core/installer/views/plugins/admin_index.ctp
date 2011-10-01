@@ -52,7 +52,7 @@
             foreach ($plugins as $plugin){
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $plugin['Plugin']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($plugin); ?>&nbsp;</td>
                 		<td><?php echo $plugin['Plugin']['name']; ?>&nbsp;</td>
                 		<td><?php echo $this->Html->link($plugin['Plugin']['author'], $plugin['Plugin']['website']); ?>&nbsp;</td>
                 		<td><?php echo $plugin['Plugin']['license']; ?>&nbsp;</td>
