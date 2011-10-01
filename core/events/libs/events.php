@@ -148,7 +148,9 @@
 		 *
 		 * @return bool true if they were added, false if not
 		 */
-		public function activatePlugins($plugins = array(), $allowUninstalled = false) {
+		static public function activatePlugins($plugins = array(), $allowUninstalled = false) {
+			$_this = EventCore::getInstance();
+
 			if(!is_array($plugins)) {
 				$plugins = array($plugins);
 			}
@@ -158,14 +160,14 @@
 			}
 
 			if($allowUninstalled) {
-				$this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getAllPlugins());
+				$_this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getAllPlugins());
 			}
 			else {
-				$this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getInstalledPlugins());
+				$_this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getInstalledPlugins());
 			}
 			
 			foreach($plugins as $plugin) {
-				if(in_array($plugin, $this->__installedPlugins) && !in_array($plugin, $this->__availablePlugins)) {
+				if(in_array($plugin, $_this->__installedPlugins) && !in_array($plugin, $_this->__availablePlugins)) {
 					$_this->__availablePlugins[] = $plugin;
 				}
 			}
