@@ -191,6 +191,10 @@
 		 * @param array $ids array of ids.
 		 */
 		public function toggle($ids) {
+			if(!$this->Controller->{$this->__modelName}->hasField('active')) {
+				trigger_error(sprintf('The model "%s" does not have an active field', $this->__modelName), E_USER_ERROR);
+			}
+			
 			if(empty($ids)) {
 				return false;
 			}
