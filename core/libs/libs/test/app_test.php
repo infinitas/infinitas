@@ -110,6 +110,7 @@
 		 * @return <type>
 		 */
 		public function __construct($testObject) {
+			EventCore::activatePlugins(App::objects('plugin'), true);
 			$this->__testObject = $testObject;
 
 			$this->__testObject->_initDb();
