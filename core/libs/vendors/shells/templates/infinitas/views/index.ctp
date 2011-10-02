@@ -153,7 +153,7 @@ COMMENT;
 
 				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}){ ?>\n".
 					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n".
-						"\t\t\t\t\t<td><?php echo \$this->Form->checkbox(\${$singularVar}['{$modelClass}']['id']); ?>&nbsp;</td>\n";
+						"\t\t\t\t\t<td><?php echo \$this->Infinitas->massActionCheckBox(\${$singularVar}); ?>&nbsp;</td>\n";
 
 						$endFields = '';
 						foreach ($fields as $field) {
