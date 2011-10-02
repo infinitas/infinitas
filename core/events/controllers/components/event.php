@@ -14,7 +14,7 @@
 		 */
 		public function initialize($Controller){
 			$this->Controller = $Controller;
-			if(!EventCore::isPluginActive($Controller->params['plugin'])){
+			if(!empty($Controller->params['plugin']) && !EventCore::isPluginActive($Controller->params['plugin'])){
 				$this->cakeError(
 					'pluginDisabledError',
 					array(
