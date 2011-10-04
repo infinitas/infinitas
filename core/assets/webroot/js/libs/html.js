@@ -9,17 +9,20 @@
 		var returnUrl = [];
 
 		returnUrl = Infinitas.base + [
-			opts.prefix,
 			opts.plugin,
 			opts.controller,
 			opts.action
 		].join('/');
+		
+		if(opts.prefix) {
+			returnUrl = opts.prefix + '/' + returnUrl;
+		}
 
 		end = '/';
 		$.each(options.params, function(key, value){
 			end += key + ':' + value + '/';
 		});
-
+		
 		return returnUrl + end;
 	};
 
@@ -74,14 +77,14 @@
 	 * Requests data from the server and when the data is not
 	 */
 	HtmlHelper.requestAction = function(metaData, callback) {
-		HtmlHelper.loading(metaData.target, true);
-		var getUrl = HtmlHelper.url(metaData);
+		//HtmlHelper.loading(metaData.target, true);
+		var getUrl = HtmlHelper.url(metaData) + metaData.param + '.json';
 		$.getJSON(
-			getUrl + metaData.param + '.json',
+			getUrl,
 			function(returnData) {
 				if(returnData !== null) {
 					callback(returnData['json'], metaData);
-					HtmlHelper.loading(metaData.target, false);
+					//HtmlHelper.loading(metaData.target, false);
 				}
 			}
 		);

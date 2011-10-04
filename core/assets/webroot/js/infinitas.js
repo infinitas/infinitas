@@ -20,7 +20,7 @@ function debug(data){
 }
 
 if(typeof Infinitas.params.prefix == 'undefined'){
-	Infinitas.params.prefix = 'frontend';
+	Infinitas.params.prefix = '';
 }
 
 switch(Infinitas.params.prefix) {
@@ -69,6 +69,18 @@ switch(Infinitas.params.prefix) {
 		break;
 	default:
 		$(document).ready(function(){
+			$ajaxSelectPopulate = $('.ajaxSelectPopulate');
+			$ajaxSelectPopulate.change(function(){
+				var $this = $(this);
+				metaData = $.HtmlHelper.getParams($this);
+				$.FormHelper.emptySelect(metaData);
+
+				if ($this.val().length != 0) {
+					metaData.params.data = $this.val();
+					$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
+				}
+			});
+			
 			$('.tabs').tabs();
 			//setupStarRating();
 
