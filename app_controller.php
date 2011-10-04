@@ -219,7 +219,7 @@
 		 */
 		public function redirect($url = null, $status = null, $exit = true){
 			if(!$url || $url == ''){
-				if($this->Session->check('Infinitas.last_page' . $this->here)) {
+				if($this->Session->check('Infinitas.last_page.' . $this->here)) {
 					$url = $this->Session->read('Infinitas.last_page.' . $this->here);
 					$this->Session->delete('Infinitas.last_page.' . $this->here);
 				}
