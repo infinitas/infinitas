@@ -161,12 +161,15 @@
 			$aliases = array_flip(array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo));
 
 			$alias = $aliases[key($field)];
-	
-			return $Model->{$alias}->find('count', array(
-				'conditions' => array(
-					$alias . '.' . $Model->{$alias}->primaryKey => current($field)
-				),
-				'recursive' => -1
-			)) == 1;
+			$count = $Model->{$alias}->find(
+				'count', 
+				array(
+					'conditions' => array(
+						$alias . '.' . $Model->{$alias}->primaryKey => current($field)
+					)
+				)
+			);
+
+			return $count > 0;
 		}
 	}
