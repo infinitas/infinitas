@@ -207,29 +207,83 @@
 		 * Redirect method, will remove the last_page session var that is stored
 		 * when adding/editing things in admin. makes redirect() default to /index
 		 * if there is no last page.
+		 * 
+		 * @access public
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-Controllerredirect
 		 * 
 		 * @param mixed $url string or array url
 		 * @param int $status the code for the redirect 301 / 302 etc
 		 * @param bool $exit should the script exit after the redirect
-		 * @access public
 		 *
 		 * @return void
 		 */
 		public function redirect($url = null, $status = null, $exit = true){
 			if(!$url || $url == ''){
-				if($this->Session->check('Infinitas.last_page.' . $this->here)) {
-					$url = $this->Session->read('Infinitas.last_page.' . $this->here);
-					$this->Session->delete('Infinitas.last_page.' . $this->here);
-				}
-
+				$url = $this->getPageRedirectVar();
+				
 				if(!$url){
 					$url = array('action' => 'index');
 				}
 			}
 			
 			parent::redirect($url, $status, $exit);
+		}
+		
+		/**
+		 * @brief get the variable for the last page saved.
+		 * 
+		 * Making this a bit more dry so that its less error prone
+		 * 
+		 * @access public
+		 * 
+		 * @return string the session key used for lookups
+		 */
+		public function lastPageRedirectVar() {
+			return 'Infinitas.last_page.' . $this->here;
+		}
+		
+		/**
+		 * @brief save a maker for a later redirect
+		 * 
+		 * @access public
+		 * 
+		 * This will set a session var for the current page
+		 * 
+		 * @return void
+		 */
+		public function saveRedirectMarker() {
+			$var = $this->lastPageRedirectVar();
+			
+			$lastPage = $this->Session->read($var);
+			if(!$lastPage){
+				$this->Session->write($var, $this->referer());
+			}
+		}
+		
+		/**
+		 * @brief get the page redirect value
+		 * 
+		 * This will get the correct place to redirect to if there is a value
+		 * saved for the current location, if there is nothing false is returned
+		 * 
+		 * @param bool $delete should the value be removed from session
+		 * 
+		 * @return mixed, false for nothing, string url if available
+		 */
+		public function getPageRedirectVar($delete = true) {
+			$var = $this->lastPageRedirectVar();
+			
+			$url = false;
+			if($this->Session->check($var)) {
+				$url = $this->Session->read($var);
+				
+				if($delete === true) {
+					$this->Session->delete($var);
+				}
+			}
+			
+			return $url;
 		}
 
 		/**
@@ -1099,10 +1153,7 @@
 				$this->Infinitas->noticeNotSaved();
 			}
 
-			$lastPage = $this->Session->read('Infinitas.last_page.' . $this->here);
-			if(!$lastPage){
-				$this->Session->write('Infinitas.last_page.' . $this->here, $this->referer());
-			}
+			$this->saveRedirectMarker();
 		}
 
 		/**
@@ -1141,10 +1192,7 @@
 				}
 			}
 
-			$lastPage = $this->Session->read('Infinitas.last_page');
-			if(!$lastPage){
-				$this->Session->write('Infinitas.last_page', $this->referer());
-			}
+			$this->saveRedirectMarker();
 		}
 
 		/**
