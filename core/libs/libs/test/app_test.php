@@ -482,8 +482,11 @@
 			if(is_array($fixture)){
 				$this->loadFixtures($fixture);
 			}
-
-			$file = App::pluginPath(current(pluginSplit($fixture))) . 'tests' . DS . 'fixtures' . DS . $this->__modelNameToFixtureFile($fixture);
+			$plugin = current(pluginSplit($fixture));
+			if(!$plugin) {
+				return false;
+			}
+			$file = App::pluginPath($plugin) . 'tests' . DS . 'fixtures' . DS . $this->__modelNameToFixtureFile($fixture);
 			if(!is_readable($file)){
 				if(!empty($this->__testObject->setup['behavior']) && $fixture == $this->__testObject->setup['behavior']) {
 					$__fixtures = array_flip($this->__fixturesToLoad);
