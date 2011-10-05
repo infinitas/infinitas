@@ -10,5 +10,7 @@ $map = array(
 		'000083_users' => 'R4e4bae0245a04b06b6231fa66318cd70'),
 	5 => array(
 		'000084_users' => 'R4e6a1ea25cd84044a4d925a56318cd70'),
+	6 => array(
+		'000085_users' => 'R4e8ce187f7b440a0acdc55666318cd70'),
 );
 ?>
