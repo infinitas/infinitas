@@ -87,6 +87,7 @@ switch(Infinitas.params.prefix) {
 			$("#accordion").accordion({
 				collapsible: true
 			});
+			setupAjaxDropdowns();
 		});
 		break;
 }
@@ -99,49 +100,16 @@ switch(Infinitas.params.prefix) {
  * @return void
  **/
 function setupAjaxDropdowns(){
-	/**
-	 * Check for plugin dropdown changes
-	 */
-	$pluginSelect = $('.pluginSelect');
-	$pluginSelect.change(function(){
+	$selectMulti = $('.ajaxSelectPopulate');
+	$selectMulti.change(function(){
 		var $this = $(this);
+		var $formId = '#' + $(this).closest('form').attr('id');
 		metaData = $.HtmlHelper.getParams($this);
+		
 		$.FormHelper.emptySelect(metaData);
-
 		if ($this.val().length != 0) {
-			metaData.params.plugin = $this.val();
-			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
-		}
-	});
-
-	/**
-	 * Check for controller dropdown changes
-	 */
-	$('.controllerSelect').change(function(){
-		var $this = $(this);
-		metaData = $.HtmlHelper.getParams($this);
-		$.FormHelper.emptySelect(metaData);
-
-		if ($this.val().length != 0) {
-			metaData.params.plugin     = $pluginSelect.val();
-			metaData.params.controller = $this.val();
-			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
-		}
-	});
-
-	/**
-	 * Check for module changes
-	 */
-	$modulePuluginSelect = $('.modulePuluginSelect');
-	$modulePuluginSelect.change(function(){
-		var $this = $(this);
-		metaData = $.HtmlHelper.getParams($this);
-		$.FormHelper.emptySelect(metaData);
-
-		if ($this.val().length != 0) {
-			metaData.params.plugin     = $('.modulePuluginSelect').val();
-			metaData.params.controller = $this.val();
-			$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
+			metaData.postData = $($formId).serialize();
+			$.HtmlHelper.submit(metaData, $.FormHelper.input);
 		}
 	});
 }

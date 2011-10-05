@@ -89,6 +89,26 @@
 			}
 		);
 	};
+	
+	/**
+	 * @breif submit some POST data to a url
+	 * 
+	 */
+	HtmlHelper.submit = function(metaData, callback) {
+		//HtmlHelper.loading(metaData.target, true);
+		var submitUrl = HtmlHelper.url(metaData) + '.json';
+		$.post(
+			submitUrl,
+			metaData.postData,
+			function(returnData) {
+				debug(returnData);
+				if(returnData !== null) {
+					callback(returnData['json'], metaData);
+					//HtmlHelper.loading(metaData.target, false);
+				}
+			}
+		);
+	};
 
 	HtmlHelper.slideshow = function(selector, callback){
 		var currentPosition = 0;
