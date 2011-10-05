@@ -430,6 +430,55 @@
 
 			return $return;
 		}
+		
+		/**
+		 * @auto bind models that can be contained
+		 * 
+		 * This is used for polymorphic type relations and will auto bind the relations
+		 * to the model. you can then contain any of them in the finds so that the
+		 * related data is availble in your views
+		 * 
+		 * the field saving the models should be plugin.model format in the 
+		 * database so they can be loaded correctly
+		 * 
+		 * @access public
+		 *  
+		 * @param string $field the field that holds the model name
+		 * @param sting $foreignKey the field used to hold the foreign key for the join
+		 * @param array $conditions optional conditions for the join
+		 * 
+		 * @return array list of available contains that you can now use
+		 */
+		public function buildContainsFromData($field = 'model', $foreignKey = 'foreign_key', $conditions = array()) {
+			if(!$this->hasField($field)) {
+				return false;
+			}
+			
+			$this->possibleContains = array('');
+			
+			$models = $this->uniqueList($field);
+			foreach($models as $model) {
+				list($pluginName, $modelName) = pluginSplit($model);
+				$this->bindModel(
+					array(
+						'belongsTo' => array(
+							$modelName => array(
+								'className' => $model,
+								'foreignKey' => $foreignKey,
+								'conditions' => $conditions
+							)
+						)
+					),
+					false
+				);
+				
+				$this->possibleContains[] = $modelName;
+			}
+			
+			$this->possibleContains = array_filter($this->possibleContains);
+			
+			return $this->possibleContains;
+		}
 	}
 
 	/**
