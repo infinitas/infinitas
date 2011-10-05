@@ -185,6 +185,9 @@
 			foreach($this->__testObject->setup['models'] as $model){
 				$this->model($model);
 			}
+
+			$this->__testObject->autoFixtures = false;
+			$this->getFixtures($model, false);
 		}
 
 		/**
@@ -283,18 +286,16 @@
 
 			list($plugin, $model) = pluginSplit($pluginModel);
 
-			App::import('Model', $pluginModel);
-
-			if(!class_exists($model)){
-				throw new AppTestException(sprintf('Unable to load model: %s', $model));
-				return false;
-			}
-
 			if($as){
 				$this->__fixturesToLoad[] = $as;
 			}
 			else{
 				$this->__fixturesToLoad[] = $pluginModel;
+			}
+			
+			if(!class_exists($model) && !App::import('Model', $pluginModel)){
+				//throw new AppTestException(sprintf('Unable to load model: %s', $model));
+				return false;
 			}
 
 			$relations = array('hasOne', 'hasMany', 'belongsTo', 'hasAndBelongsToMany');
@@ -484,6 +485,13 @@
 
 			$file = App::pluginPath(current(pluginSplit($fixture))) . 'tests' . DS . 'fixtures' . DS . $this->__modelNameToFixtureFile($fixture);
 			if(!is_readable($file)){
+				if(!empty($this->__testObject->setup['behavior']) && $fixture == $this->__testObject->setup['behavior']) {
+					$__fixtures = array_flip($this->__fixturesToLoad);
+					unset($__fixtures[$fixture]);
+					$this->__fixturesToLoad = array_flip($__fixtures);
+					return true;
+				}
+				
 				throw new AppTestException(sprintf('Fixture "%s" was not found (%s)', $fixture, $file));
 				return false;
 			}
@@ -510,6 +518,9 @@
 		 * @param object $fixture the fixture object to run
 		 */
 		private function __runInserts($fixture){
+			if(!$fixture) {
+				return;
+			}
 			$started = $this->__testObject->db->begin($this);
 				
 			$table = $this->__testObject->db->config['prefix'] . $fixture->table;
