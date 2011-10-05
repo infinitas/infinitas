@@ -122,10 +122,49 @@
 		}
 
 		/**
+		 * @brief generate a pretty list for output in the shell
+		 *
+		 * @access public
+		 *
+		 * @param array $items list of items to output
+		 *
+		 * @return void
+		 */
+		public function tabbedList($items = array()) {
+			if(!$items || !array($items)){
+				return false;
+			}
+
+			$longestItem = max(array_map('strlen', $items)) + 6;
+
+			$perLine = round($this->terminalWidth / $longestItem) - 1;
+
+			$out = array();
+			foreach($items as $k => $item) {
+				$k = str_pad($k, 3, ' ', STR_PAD_LEFT);
+				$item = Inflector::humanize(Inflector::underscore($item));
+				$out[] = str_pad(sprintf('%s] %s', $k, $item), $longestItem, ' ', STR_PAD_RIGHT);
+
+				if(count($out) >= $perLine) {
+					$this->Infinitas->out(implode('', $out));
+					$out = array();
+				}
+			}
+
+			if(!empty($out)) {
+				$this->Infinitas->out(implode('', $out));
+			}
+
+			$this->Infinitas->out('');
+		}
+
+		/**
 		 * @brief generate a list of possible plugins with various filters
 		 *
 		 * This will generate a list of plugins based on the filter passed. See
 		 * InfinitasAppShell::__getPlugins() for a list of possible filters
+		 *
+		 * @access protected
 		 *
 		 * @param bool $allowAll allow selecting all (mass updates etc)
 		 * @param string $filter see InfinitasAppShell::__getPlugins()
@@ -181,6 +220,61 @@
 			$this->_selectPlugins($allowAll, $filter);
 		}
 
+		/**
+		 * @brief get a list of models for a specific plugin
+		 *
+		 * @access protected
+		 *
+		 * @param string $plugin the name of the plugin to get models from
+		 * @param bool $allowAll true for allow selecting all, false for only selecting one
+		 *
+		 * @return array list of models (even if only allow selecting one)
+		 */
+		protected function _selectModels($plugin, $allowAll = false){
+			$this->Infinitas->h1('Select a model');
+
+			$models = $this->__getModels($plugin);
+
+			if($allowAll){
+				$models['A'] = 'all';
+				$models['B'] = 'back';
+			}
+			$this->tabbedList($models);
+			$availableOptions = array_keys($models);
+
+			$option = null;
+			while(!$option){
+				$option = strtoupper($this->in(__('Which model should be used?', true)));
+			}
+
+			if($option == 'B'){
+				return array();
+			}
+
+			else if($allowAll && $option == 'A'){
+				return $models;
+			}
+
+			else if(isset($models[$option])) {
+				return array($models[$option]);
+			}
+			else{
+				$options = explode(',', $option);
+				$return = array();
+				foreach($options as $option){
+					if(isset($models[$option])){
+						$return[] = $models[$option];
+					}
+				}
+
+				if(!empty($return)){
+					return $return;
+				}
+			}
+
+			$this->_selectModels($plugin, $allowAll);
+		}
+
 
 		/**
 		 * @brief get plugins based on the filter
@@ -230,31 +324,18 @@
 			return array_combine(range(1, count($plugins)), $plugins);
 		}
 
-		public function tabbedList($items = array()) {
-			if(!$items || !array($items)){
-				return false;
-			}
-
-			$longestItem = max(array_map('strlen', $items)) + 6;
-
-			$perLine = round($this->terminalWidth / $longestItem) - 1;
-			
-			$out = array();
-			foreach($items as $k => $item) {
-				$k = str_pad($k, 3, ' ', STR_PAD_LEFT);
-				$item = Inflector::humanize(Inflector::underscore($item));
-				$out[] = str_pad(sprintf('%s] %s', $k, $item), $longestItem, ' ', STR_PAD_RIGHT);
-
-				if(count($out) >= $perLine) {
-					$this->Infinitas->out(implode('', $out));
-					$out = array();
-				}
-			}
-
-			if(!empty($out)) {
-				$this->Infinitas->out(implode('', $out));
-			}
-
-			$this->Infinitas->out('');
+		/**
+		 * @brief find a list of models for a specified plugin
+		 *
+		 * @access private
+		 *
+		 * @param string $plugin the name of the plugin
+		 *
+		 * @return array the list of models
+		 */
+		private function __getModels($plugin) {
+			$models = App::objects('model', App::pluginPath($plugin) . 'models');
+			natsort($models);
+			return array_combine(range(1, count($models)), $models);
 		}
 	}
