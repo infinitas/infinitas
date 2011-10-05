@@ -218,7 +218,7 @@
 		 *
 		 * @return void
 		 */
-		public function redirect($url = null, $status = null, $exit = true){
+		public function redirect($url = null, $status = null, $exit = true) {
 			if(!$url || $url == ''){
 				$url = $this->getPageRedirectVar();
 				
