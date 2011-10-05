@@ -160,7 +160,18 @@
 		public function validateRecordExists($Model, $field){
 			$aliases = array_flip(array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo));
 
-			$alias = $aliases[key($field)];
+			$alias = !empty($aliases[key($field)]) ? $aliases[key($field)] : null;
+			if(!$alias) {
+				if(key($field) == 'foreign_key' && in_array('model', array_keys($Model->data[$Model->alias])) && !empty($Model->data[$Model->alias]['model'])) {
+					list(, $alias) = pluginSplit($Model->data[$Model->alias]['model']);
+					$Model->{$alias} = ClassRegistry::init($Model->data[$Model->alias]['model']);
+				}
+				
+				if(!$alias) {
+					return false;
+				}
+			}
+			
 			$count = $Model->{$alias}->find(
 				'count', 
 				array(
