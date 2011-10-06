@@ -446,17 +446,18 @@
 		 * @param string $field the field that holds the model name
 		 * @param sting $foreignKey the field used to hold the foreign key for the join
 		 * @param array $conditions optional conditions for the join
+		 * @param array $defaultContains optional array of default contains to use
 		 * 
 		 * @return array list of available contains that you can now use
 		 */
-		public function buildContainsFromData($field = 'model', $foreignKey = 'foreign_key', $conditions = array()) {
+		public function buildContainsFromData($field = 'model', $foreignKey = 'foreign_key', $conditions = array(), $defaultContains = array()) {
 			if(!$this->hasField($field)) {
 				return false;
 			}
 			
-			$this->possibleContains = array('');
+			$models = array_unique(array_merge($defaultContains, array_filter($this->uniqueList($field))));
 			
-			$models = $this->uniqueList($field);
+			$this->possibleContains = array('');
 			foreach($models as $model) {
 				list($pluginName, $modelName) = pluginSplit($model);
 				$this->bindModel(
