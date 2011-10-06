@@ -197,6 +197,7 @@
 			}
 			
 			else if($allowAll && $option == 'A'){
+				unset($plugins['A'], $plugins['B']);
 				return $plugins;
 			}
 			
@@ -252,6 +253,7 @@
 			}
 
 			else if($allowAll && $option == 'A'){
+				unset($models['A'], $models['B']);
 				return $models;
 			}
 
