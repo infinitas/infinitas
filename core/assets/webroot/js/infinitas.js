@@ -68,19 +68,7 @@ switch(Infinitas.params.prefix) {
 		});
 		break;
 	default:
-		$(document).ready(function(){
-			$ajaxSelectPopulate = $('.ajaxSelectPopulate');
-			$ajaxSelectPopulate.change(function(){
-				var $this = $(this);
-				metaData = $.HtmlHelper.getParams($this);
-				$.FormHelper.emptySelect(metaData);
-
-				if ($this.val().length != 0) {
-					metaData.params.data = $this.val();
-					$.HtmlHelper.requestAction(metaData, $.FormHelper.input);
-				}
-			});
-			
+		$(document).ready(function(){			
 			$('.tabs').tabs();
 			//setupStarRating();
 
