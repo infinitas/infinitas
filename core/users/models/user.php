@@ -191,6 +191,7 @@
 		}
 
 		public function parentNode() {
+				return null;
 			if (!$this->id && empty($this->data)) {
 				return null;
 			}
