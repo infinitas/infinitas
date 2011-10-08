@@ -47,6 +47,7 @@
 						}
 
 						call_user_func_array(array('Router', 'connect'), $route['Route']);
+						define('INFINITAS_ROUTE_HASH', md5(serialize($route['Route'])));
 					}
 				}
 			}

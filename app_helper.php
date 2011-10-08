@@ -991,7 +991,7 @@
 			}
 
 			$key = md5(serialize($keyUrl) . $full);
-			$key .= md5_file(CONFIGS . DS . 'routes.php');
+			$key .= INFINITAS_ROUTE_HASH;
 
 			if (!empty($this->urlCache[$key])) {
 				return $this->urlCache[$key];
