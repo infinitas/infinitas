@@ -570,11 +570,26 @@ class UploadBehavior extends ModelBehavior {
 		} elseif (preg_match('/^[\\d]+l$/', $geometry)) {
 			// calculate shortest side according to aspect ratio
 			$geometry = str_replace('l', '', $geometry);
-			$destW = 0;
-			$destH = 0;
 			$destW = ($width > $height) ? (int)$geometry-1 : 0;
-			$destH = ($width > $height) ? (int)$geometry-1 : 0;
-
+			$destH = ($width > $height) ? 0 : (int)$geometry-1;
+			if(!$destW || !$destH) {
+				if($width === $height) {
+					if(!$destW) {
+						$destW = $destH;
+					}
+					else{
+						$destH = $destW;
+					}
+				}
+				else if($width > $height) {
+					$destW = $geometry;
+					$destH = $height * ($width / $height);
+				}
+				else {
+					$destH = $geometry;
+					$destW = $width * ($height / $width);
+				}
+			}
 			$image->thumbnailImage($destW, $destH, true);
 		}
 
