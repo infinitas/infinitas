@@ -97,12 +97,6 @@
 				if ($this->User->save($data)) {
 					$currentUser = $this->Session->read('Auth.User');
 
-
-					// there is something wrong
-					if ($lastLogon === false) {
-						$this->redirect('/logout');
-					}
-
 					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
 					$this->notice(
 						sprintf(
