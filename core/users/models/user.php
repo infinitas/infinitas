@@ -25,7 +25,7 @@
 		public $displayField = 'username';
 
 		public $actsAs = array(
-			'Acl' => 'requester',
+			//'Acl' => 'requester',
 			'Libs.Ticketable'
 		);
 
@@ -191,7 +191,6 @@
 		}
 
 		public function parentNode() {
-				return null;
 			if (!$this->id && empty($this->data)) {
 				return null;
 			}
@@ -219,9 +218,8 @@
 		 * @return void
 		 */
 		public function afterSave($created) {
-			if (!$created) {
-				$parent = $this->parentNode();
-				$parent = $this->node($parent);
+			if (!$created && is_a('Model', $this->Aro)) {
+				$parent = $this->node($this->parentNode());
 				$node = $this->node();
 				$aro = $node[0];
 				$aro['Aro']['parent_id'] = $parent[0]['Aro']['id'];
