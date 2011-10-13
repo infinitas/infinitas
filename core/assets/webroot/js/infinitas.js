@@ -89,7 +89,7 @@ switch(Infinitas.params.prefix) {
  **/
 function setupAjaxDropdowns(){
 	$selectMulti = $('.ajaxSelectPopulate');
-	$selectMulti.change(function(){
+	$selectMulti.live('change', function(){
 		var $this = $(this);
 		var $formId = '#' + $(this).closest('form').attr('id');
 		metaData = $.HtmlHelper.getParams($this);
