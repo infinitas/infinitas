@@ -88,7 +88,13 @@
 						'rule' => array('validateCompareFields', array('password', 'confirm_password')),
 						'message' => __('The passwords entered do not match', true)
 					)
-				)
+				),
+				'time_zone' => array(
+					'notEmpty' => array(
+						'rule' => 'notEmpty',
+						'message' => __('Please select a time zone', true)
+					)
+				),
 			);
 		}
 
