@@ -491,7 +491,7 @@
 		 * @link http://api.cakephp.org/class/controller#method-ControllerafterFilter
 		 */
 		public function afterFilter(){
-			if(Configure::read('debug') === 0){
+			if(Configure::read('debug') === 0 && $this->params['url']['ext'] == 'html'){
 				$this->output = preg_replace(
 					array(
 						'/ {2,}/',
