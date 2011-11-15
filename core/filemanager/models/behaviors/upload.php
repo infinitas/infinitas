@@ -98,6 +98,35 @@ class UploadBehavior extends ModelBehavior {
 				$this->settings[$model->alias][$field] = $options;
 			}
 		}
+		
+		$this->__setupConfiguration($model);
+	}
+	
+	/**
+	 * @brief set up some configurations that can be used for the view to show what users can upload
+	 * 
+	 * @access private
+	 * 
+	 * @return void
+	 */
+	private function __setupConfiguration($model) {
+		$config = array(
+			'php_max_upload' => (int)ini_get('upload_max_filesize'),
+			'php_max_post' => (int)ini_get('post_max_size'),
+			'php_max_memory' => (int)ini_get('memory_limit'),
+		);
+		
+		foreach($this->settings[$model->alias] as $field => $behaviorConfig) {
+			$config['upload_max_upload'] = (int)convert($behaviorConfig['maxSize']);
+			$config['determined_max_upload'] = min($config);
+			
+			$config['extensions'] = array();
+			foreach($behaviorConfig['extensions'] as $ext) {
+				$config['extensions'][] = strtoupper(str_replace('.', '', $ext));
+			}
+			
+			Configure::write('Filemanager.UploadConfig.' . $field, $config);
+		}
 	}
 
 /**
