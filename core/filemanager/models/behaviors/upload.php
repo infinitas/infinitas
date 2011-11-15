@@ -70,6 +70,13 @@ class UploadBehavior extends ModelBehavior {
  * @author Jose Diaz-Gonzalez
  **/
 	function setup(&$model, $settings = array()) {
+		$sizes = array(
+			'php_max_upload' => (int)ini_get('upload_max_filesize'),
+			'php_max_post' => (int)ini_get('post_max_size'),
+			'php_max_memory' => (int)ini_get('memory_limit'),
+		);
+		$this->defaults['maxSize'] = min($sizes) * 1024 * 1024;
+		
 		if (isset($this->settings[$model->alias])) return;
 		$this->settings[$model->alias] = array();
 
