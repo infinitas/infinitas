@@ -106,14 +106,28 @@
 		 */
 		public function filter($null = null) {
 			$data = array();
-			foreach( $this->Controller->data[$this->Controller->modelClass] as $k => $field ){
-				if (is_int( $k ) || $k == 'all' || $k == 'massCheckBox'){
+			foreach($this->Controller->data[$this->Controller->modelClass] as $k => $field ){
+				if (is_int($k) || $k == 'all' || $k == 'massCheckBox'){
 					continue;
 				}
-				
+
 				$data[$this->Controller->modelClass.'.'.$k] = $field;
 			}
-			
+
+			foreach($this->Controller->{$this->Controller->modelClass}->belongsTo as $model => $options) {
+				if(empty($this->Controller->data[$model])) {
+					continue;
+				}  
+
+				foreach((array)$this->Controller->data[$model] as $k => $field) {
+					if (is_int($k) || $k == 'all' || $k == 'massCheckBox'){
+						continue;
+					}
+
+					$data[$model.'.'.$k] = $field;
+				}
+			}
+
 			$this->Controller->redirect(array(
 					'plugin' => $this->Controller->params['plugin'],
 					'controller' => $this->Controller->params['controller'],
