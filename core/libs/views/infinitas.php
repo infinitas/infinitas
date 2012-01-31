@@ -24,7 +24,7 @@
 	App::import('View', 'Theme');
 	App::import('View', 'Libs.LazyHelper');
 
-	class InfinitasView extends LazyHelperView{
+	class InfinitasView extends LazyHelperView {
 		/**
 		 * place holder for the mustache templating engine.
 		 */
