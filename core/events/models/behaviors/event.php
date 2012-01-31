@@ -22,8 +22,8 @@
 			}
 			
 			if($Model->hasField('class')) {
-				pr('asd');
-				exit;
+				//pr('not sure what is going on here :/ ');
+				//exit;
 			}
 			
 			return $query;
@@ -44,7 +44,7 @@
 		private function __getPossiblePlugins($Model, $field) {
 			$camelCasePlugins = EventCore::getAvailablePlugins();
 
-			$mixedCasePlugins = array();
+			$mixedCasePlugins = array('');
 			foreach($camelCasePlugins as $plugin) {
 				$mixedCasePlugins[] = $plugin;
 				$mixedCasePlugins[] = Inflector::underscore($plugin);
@@ -53,7 +53,7 @@
 			return array(
 				'and' => array(
 					'or' => array(
-						$Model->alias . '.' . $field => $mixedCasePlugins
+						$Model->alias . '.' . $field => $mixedCasePlugins,
 					)
 				)
 			);
