@@ -34,6 +34,13 @@ switch(Infinitas.params.prefix) {
 			setupDatePicker();
 			setupAjaxPagination();
 
+			$(document).bind('keydown', 'ctrl+s', function(event) {
+				if(event.which == 83) { // ctrl+s
+					$(':button[value="save"]').click();
+					return false;
+				}
+			});
+
 			$.FormHelper.checkboxToggleAll();
 
 			$(".trigger").click(function(){
@@ -80,7 +87,8 @@ switch(Infinitas.params.prefix) {
 		break;
 }
 
-
+function setupKeyboardShortcuts() {
+}
 /** core code */
 /**
  *
