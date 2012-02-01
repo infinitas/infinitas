@@ -62,13 +62,15 @@
 				),
 				'values' => array(
 					'validateEmptyOrJson' => array(
-						'rule' => 'validateEmptyOrJson',
+						'rule' => 'validateJson',
+						'allowEmpty' => true,
 						'message' => __('Please enter valid json for the values or leave blank', true)
 					)
 				),
 				'rules' => array(
 					'validateEmptyOrJson' => array(
-						'rule' => 'validateEmptyOrJson',
+						'rule' => 'validateJson',
+						'allowEmpty' => true,
 						'message' => __('Please enter valid json for the rules or leave blank', true)
 					)
 				),
