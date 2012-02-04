@@ -763,7 +763,14 @@
 
 				$this->data[$this->modelClass.'Comment']['class'] = Inflector::camelize($this->params['plugin']).'.'.$this->modelClass;
 				
-				if ($this->{$this->modelClass}->createComment($this->data)) {
+				if(!empty($this->data[$this->modelClass.'Comment']['om_non_nom'])) {
+					$this->Session->write('Spam.bot', true);
+					$this->Session->write('Spam.detected', time());
+					
+					$this->Session->setFlash(__('Not so fast spam bot.', true));
+					$this->redirect('/');
+				}
+				else if ($this->{$this->modelClass}->createComment($this->data)) {
 					$this->Session->setFlash(__($message, true));
 					$this->redirect($this->referer());
 				}
