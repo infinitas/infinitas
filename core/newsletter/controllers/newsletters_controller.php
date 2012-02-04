@@ -32,6 +32,41 @@
 			$this->Auth->allow('track');
 		}
 
+		public function contact() {
+			if(!empty($this->data)) {
+				$body = '<p>A new email has been sent from your site. The details are below</p>';
+				$body .= sprintf('<p>The sender: %s <%>s</p>', h($this->data['Newsletter']['name']), $this->data['Newsletter']['email']);
+				$body .= sprintf('<p>IP address: %s</p>', $this->Session->read('Auth.User.ip_address'));
+				$body .= '<p>=====================================================</p>';
+				$body .= htmlspecialchars($this->data['Newsletter']['query']);
+
+				$subject = sprintf('New email from %s', Configure::read('Website.name'));
+				
+				foreach(ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
+					$this->Emailer->sendDirectMail(
+						sprintf('%s <%>s', $username, $email),
+						array(
+							'subject' => $subject,
+							'body' => $body
+						)
+					);
+				}
+
+				$this->notice(
+					'Your message has been sent',
+					array(
+						'redirect' => '/'
+					)
+				);
+			}
+
+			$user = $this->Session->read('Auth.User');
+			if($user) {
+				$this->data['Newsletter']['name'] = $user['username'];
+				$this->data['Newsletter']['email'] = $user['email'];
+			}
+		}
+
 		public function track($id) {
 			Configure::write('debug', 0);
 			$this->autoRender = false;

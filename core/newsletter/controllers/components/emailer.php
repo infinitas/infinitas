@@ -22,7 +22,7 @@
 	 *
 	 */
 
-	class EmailerComponent extends EmailComponent{
+	class EmailerComponent extends EmailComponent {
 		public $settings = null;
 		
 		protected $_default = array();
@@ -32,6 +32,7 @@
 		public function initialize(&$controller, $settings = array()) {
 			$this->Controller = &$controller;
 			$this->settings = array_merge($this->_default, (array)$settings);
+			$this->settings();
 		}
 
 		public function startup(&$controller){
@@ -93,7 +94,7 @@
 
 			if(empty($template)){
 				$this->Controller->Session->setFlash(__('System error: Email not setup', true));
-				$this->redirect('/');
+				$this->Controller->redirect('/');
 			}
 
 			$html = $template['Template']['header'] . $email['body'] . $template['Template']['footer'];

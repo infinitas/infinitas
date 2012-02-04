@@ -16,3 +16,17 @@ table.listing tr.unread td{
 .newsletter.bounced_mails.admin_view .mail{
 	margin: 5px;
 }
+
+.newsletter.newsletters.contact label {
+	width: 100px;
+	display: block;
+	float: left;
+}
+
+.newsletter.newsletters.contact input {
+	width: 200px;
+}
+.newsletter.newsletters.contact textarea{
+	width: 100%;
+	height: 200px;
+}
