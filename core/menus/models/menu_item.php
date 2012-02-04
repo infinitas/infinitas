@@ -112,7 +112,8 @@
 				),
 				'params' => array(
 					'emptyOrJson' => array(
-						'rule' => 'validateEmptyOrJson',
+						'rule' => 'validateJson',
+						'allowEmpty' => true,
 						'message' => __('Please enter some valid json or leave empty', true)
 					)
 				),
