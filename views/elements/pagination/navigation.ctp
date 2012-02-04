@@ -35,7 +35,7 @@
 		<div class="prev">
 			<?php
 				echo $paginator->prev(
-					__( 'Older', true ),
+					__( 'Newer', true ),
 					array(
 						'escape' => false,
 						'tag' => 'span',
@@ -51,7 +51,7 @@
 		<div class="next">
 			<?php
 				echo $paginator->next(
-					__( 'Newer', true ),
+					__( 'Older', true ),
 					array(
 						'escape' => false,
 						'tag' => 'span',
