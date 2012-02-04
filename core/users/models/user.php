@@ -267,4 +267,19 @@
 				)
 			);
 		}
+
+		public function getAdmins() {
+			return $this->find(
+				'list',
+				array(
+					'fields' => array(
+						$this->alias . '.username',
+						$this->alias . '.email'
+					),
+					'conditions' => array(
+						$this->alias . '.group_id' => 1
+					)
+				)
+			);
+		}
 	}
