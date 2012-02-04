@@ -35,8 +35,17 @@ switch(Infinitas.params.prefix) {
 			setupAjaxPagination();
 
 			$(document).bind('keydown', 'ctrl+s', function(event) {
-				if(event.which == 83) { // ctrl+s
-					$(':button[value="save"]').click();
+				if(event.ctrlKey && event.which == 83) { // ctrl+s
+					$form = $('form').first();
+					$.ajax({
+						type: $form.attr('method'),
+						url: $form.attr('href'),
+						data: $form.serialize(),
+						success: function() {
+							alert('saved');
+						}
+					});
+					//$(':button[value="save"]').click();
 					return false;
 				}
 			});
