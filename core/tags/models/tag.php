@@ -59,4 +59,18 @@
 				)
 			);
 		}
+
+		public function getViewData($tag = null) {
+			$return = $this->find(
+				'first',
+				array(
+					'conditions' => array(
+						$this->alias . '.keyname' => str_replace(' ', '', strtolower($tag))
+					)
+				)
+			);
+
+			return $return;
+		}
+
 	}
