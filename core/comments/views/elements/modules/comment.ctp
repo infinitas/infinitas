@@ -122,8 +122,9 @@
 					);
 					$submitOptions = array('div' => false, 'class' => 'submit');					
 				}
-				
+
 				echo $this->Form->input($modelName.'Comment.comment', $options);
+				echo $this->Form->hidden($modelName.'Comment.om_non_nom');
 				echo $this->Form->submit('Submit', $submitOptions);
 			}
 			echo '</div>';
