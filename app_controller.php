@@ -330,6 +330,17 @@
 				}
 				$this->redirect(array('action' => 'index'));
 			}
+			
+			if(!empty($this->data[$this->modelClass]['om_nom_nom'])) {
+				$this->Session->write('Spam.bot', true);
+				$this->Session->write('Spam.detected', time());
+			}
+			
+			else if($this->Session->read('Spam.bot')) {
+				if((time() - 3600) > $this->Session->read('Spam.detected')) {
+					$this->Session->write('Spam', null);
+				}
+			}
 
 			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 				$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
