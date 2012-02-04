@@ -132,7 +132,12 @@
 				return $query;
 			}
 
-			$query['contain'][$Model->alias.'Comment'] = array('CommentAttribute');
+			$query['contain'][$Model->alias.'Comment'] = array(
+				'order' => array(
+					$Model->alias . 'Comment.created' => 'asc'
+				),
+				'CommentAttribute'
+			);
 			if(isset($query['recursive']) && $query['recursive'] == -1){
 				$query['recursive'] = 0;
 			}
