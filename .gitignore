@@ -9,6 +9,7 @@ webroot/img/content/*
 webroot/*
 core/emails/attachments/*
 core/emails/webroot/img/images/*
+core/newsletter/config/config.php
 .gitignore
 
 # Ignore Mac system files
