@@ -22,7 +22,7 @@
 		return false;
 	}
 ?>
-<div class="comments">
+<div id="comment" class="comments">
 	<?php       
         $commentFields = explode(',',Configure::read('Comments.fields'));
 
