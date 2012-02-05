@@ -79,6 +79,11 @@
 		}
 
 		public function onSetupRoutes($event){
+			// dashboard
+			Router::connect(
+				'/admin/mail',
+				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'dashboard', 'admin' => true)
+			);
 			// mail render
 			Router::connect(
 				'/admin/mail/:slug/:account/:email',
