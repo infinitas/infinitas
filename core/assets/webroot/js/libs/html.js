@@ -7,8 +7,8 @@
 	HtmlHelper.url = function(options) {
 		var opts = $.extend({}, HtmlHelper.url.defaults, options.url);
 		var returnUrl = [];
-
-		returnUrl = Infinitas.base + [
+		
+		returnUrl = [
 			opts.plugin,
 			opts.controller,
 			opts.action
@@ -17,6 +17,8 @@
 		if(opts.prefix) {
 			returnUrl = opts.prefix + '/' + returnUrl;
 		}
+
+		returnUrl = Infinitas.base + returnUrl;
 
 		end = '/';
 		$.each(options.params, function(key, value){
@@ -97,6 +99,7 @@
 	HtmlHelper.submit = function(metaData, callback) {
 		//HtmlHelper.loading(metaData.target, true);
 		var submitUrl = HtmlHelper.url(metaData) + '.json';
+		
 		$.post(
 			submitUrl,
 			metaData.postData,
