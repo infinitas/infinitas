@@ -1,4 +1,0 @@
-Sitemap: http://thinkmoney.dev/sitemap.xml
-User-agent: *
-Disallow: /admin/
-# Sitemap: @todo
