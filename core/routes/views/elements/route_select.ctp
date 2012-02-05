@@ -23,9 +23,9 @@
 	$errorClass = !empty($error) ? 'error' : '';
 ?>
 <div class="input smaller required <?php echo $errorClass; ?>">
-	<label for="'.$model.'Plugin"><?php echo __('Route', true); ?></label><?php
-	echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "pluginSelect {url:{action:'getControllers'}, target:'".$model."Controller'}"));
-	echo $this->Form->input('controller', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "controllerSelect {url:{action:'getActions'}, target:'".$model."Action'}"));
+	<label for="<?php echo $model; ?>Plugin"><?php echo __('Route', true); ?></label><?php
+	echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getControllers'}, target:'" . $model . "Controller'}"));
+	echo $this->Form->input('controller', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getActions'}, target:'" . $model . "Action'}"));
 	echo $this->Form->input('action', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false));
 	echo $error; ?>
 </div>
