@@ -199,4 +199,8 @@
 
 			return $checkbox;
 		}
+
+		public function hasPlugin($plugin = null) {
+			return ClassRegistry::init('Installer.Plugin')->isInstalled($plugin);
+		}
 	}
