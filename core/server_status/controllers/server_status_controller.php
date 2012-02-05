@@ -1,5 +1,5 @@
 <?php
-	class ServerStatusController extends ServerStatusAppController{
+	class ServerStatusController extends ServerStatusAppController {
 		public $name = 'ServerStatus';
 
 		public $helpers = array(
@@ -19,11 +19,11 @@
 			parent::__construct();
 		}
 
-		public function admin_dashboard(){
+		public function admin_dashboard() {
 			
 		}
 
-		public function admin_status(){
+		public function admin_status() {
 			$current = $current['Load'] = $allTime = array();
 			
 			if(count($this->serverLoad) >= 3){

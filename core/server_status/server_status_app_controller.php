@@ -1,4 +1,4 @@
 <?php
-	class ServerStatusAppController extends AppController{
+	class ServerStatusAppController extends AppController {
 		
 	}
