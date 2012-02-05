@@ -59,7 +59,8 @@
 		 */
 		public $belongsTo = array(
 			'GlobalTag' => array(
-				'className' => 'Contents.GlobalTag'
+				'className' => 'Contents.GlobalTag',
+				'foreignKey' => 'tag_id'
 			)
 		);
 
