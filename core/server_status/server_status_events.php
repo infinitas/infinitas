@@ -17,4 +17,17 @@
 
 			return $menu;
 		}
+
+		public function onSetupRoutes() {
+			Router::connect(
+				'/admin/server_status',
+				array(
+					'plugin' => 'server_status',
+					'controller' => 'server_status',
+					'action' => 'dashboard',
+					'admin' => true,
+					'prefix' => 'admin'
+				)
+			);
+		}
 	}
