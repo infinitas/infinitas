@@ -33,6 +33,7 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
+				'Dashboard' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard'),
 				'Campaigns' => array('plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index'),
 				'Templates' => array('plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'index'),
 				'Newsletters' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index')
@@ -49,6 +50,19 @@
 			return array(
 				'Email',
 				'Newsletter.Emailer'
+			);
+		}
+
+		public function onSetupRoutes($event, $data = null) {
+			Router::connect(
+				'/admin/newsletter',
+				array(
+					'admin' => true,
+					'prefix' => 'admin',
+					'plugin' => 'newsletter',
+					'controller' => 'newsletters',
+					'action' => 'dashboard'
+				)
 			);
 		}
 	 }
