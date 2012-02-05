@@ -173,6 +173,11 @@
 			unset($this->{$model});
 			ClassRegistry::flush();
 
+			if(class_exists('CakeSession')) {
+				$CakeSession = new CakeSession();
+				$CakeSession->destroy();
+			}
+
 			$this->AppTest->endTest($method);
 			echo sprintf(
 				'<div style="padding: 8px; background-color: green; color: white;">%s <span style="color:#ffdd00;">[%ss]</span></div>',
