@@ -57,7 +57,7 @@
 				'change_frequency' => $frequency
 			);
 
-			$categories = $Category->find('list');
+			$categories = $Category->find('list', array('fields' => array('Category.id', 'Category.slug')));
 			foreach($categories as $category){
 				$return[] = array(
 					'url' => Router::url(
