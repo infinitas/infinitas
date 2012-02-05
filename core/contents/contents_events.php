@@ -18,7 +18,7 @@
 	 */
 
 	final class ContentsEvents extends AppEvents{
-		public function  onPluginRollCall() {
+		public function onPluginRollCall() {
 			return array(
 				'name' => 'Content',
 				'description' => 'Mange the way content works inside Infinitas',
@@ -27,11 +27,13 @@
 				'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index')
 			);
 		}
-		public function onAdminMenu($event){
+		
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
-				'Contents' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index'),
 				'Layouts' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index'),
+				'Contents' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index'),
 				'Categories' => array('plugin' => 'contents', 'controller' => 'global_categories', 'action' => 'index'),
+				'Tags' => array('plugin' => 'contents', 'controller' => 'global_tags', 'action' => 'index')
 			);
 
 			return $menu;
@@ -42,13 +44,32 @@
 				if (isset($event->Handler->contentable) && $event->Handler->contentable && !$event->Handler->Behaviors->enabled('Contents.Contentable')) {					
 					$event->Handler->Behaviors->attach('Contents.Contentable');
 				}
-			}
-			
-			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
-				if (array_key_exists('category_id', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Categories.Categorisable')) {
-					$event->Handler->Behaviors->attach('Categories.Categorisable');
+
+				if (array_key_exists('category_id', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Contents.Categorisable')) {
+					$event->Handler->Behaviors->attach('Contents.Categorisable');
+				}
+
+				if (array_key_exists('tags', $event->Handler->_schema)) {
+					$event->Handler->Behaviors->attach('Contents.Taggable');
 				}
 			}
+		}
+
+		public function onRequireHelpersToLoad(){
+			return 'Contents.TagCloud';
+		}
+
+		public function onRequireJavascriptToLoad($event){
+			return array(
+				'/contents/js/jq-tags',
+				'/contents/js/tags'
+			);
+		}
+
+		public function onRequireCssToLoad($event){
+			return array(
+				'/contents/css/tags'
+			);
 		}
 
 		public function onSiteMapRebuild($event){

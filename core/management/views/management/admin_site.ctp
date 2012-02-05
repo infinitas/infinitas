@@ -79,13 +79,6 @@
 			'icon' => '/modules/img/icon.png',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0)
-		),
-		array(
-			'name' => 'Tags',
-			'description' => 'Attach tags to records',
-			'icon' => '/tags/img/icon.png',
-			'author' => 'CakeDC',
-			'dashboard' => array('plugin' => 'tags', 'controller' => 'tags', 'action' => 'index')
 		)
 	);
 	$managementGeneral = $this->Menu->builDashboardLinks($managementGeneral, 'management_general');

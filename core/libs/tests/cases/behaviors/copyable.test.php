@@ -31,8 +31,8 @@
 			),
 			'fixtures' => array(
 				'do' => array(
-					'Tags.Tag',
-					'Tags.Tagged'
+					'Contents.GlobalTag',
+					'Contents.GlobalTagged'
 				)
 			)
 		);
@@ -146,8 +146,8 @@
 			$this->assertEqual($expected, $this->ModulePosition->Behaviors->Copyable->contain);
 
 			$this->expectError(); // its gonna use AppModel for the join here.
-			$this->assertTrue($this->Module->bindModel(array('hasAndBelongsToMany' => array('Tag' => array('className' => 'Tags.Tag', 'with' => 'global_tags'))), false));
-			$expected = array(0 => 'Route', 1 => 'Tag');
+			$this->assertTrue($this->Module->bindModel(array('hasAndBelongsToMany' => array('GlobalTag' => array('className' => 'Contents.GlobalTag', 'with' => 'global_tags'))), false));
+			$expected = array(0 => 'Route', 1 => 'GlobalTag');
 			$this->assertEqual($expected, $this->Module->generateContain());
 		}
 
