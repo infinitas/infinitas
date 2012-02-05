@@ -8,7 +8,14 @@
 			?>
 			<li><?php echo implode('</li><li>', $this->Menu->builAdminMenu()); ?></li>
 		</ul>
-		<?php echo $this->Html->image('/users/img/logout.png', array('url' => '/admin/logout', 'class' => 'logout-link')); ?>
+		<?php
+			echo $this->Html->image('/assets/img/logout.png', array('url' => '/admin/logout', 'class' => 'logout-link'));
+			echo $this->Html->link(
+				$this->Html->image('/assets/img/home.png', array('class' => 'logout-link')),
+				'/',
+				array('target' => '_blank', 'escape' => false)
+			);
+		?>
 	</div>
 </div>
 <div class="clear"></div>
