@@ -913,7 +913,7 @@
 		 * @return void
 		 */
 		public function admin_getPlugins(){
-			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getPlugins());
+			$this->set('json', $this->{$this->modelClass}->getPlugins());
 		}
 
 		/**
@@ -924,12 +924,12 @@
 		 * @return void
 		 */
 		public function admin_getControllers(){
-			if (!isset($this->params['named']['plugin'])) {
+			if (!isset($this->data[$this->modelClass]['plugin'])) {
 				$this->set('json', array('error'));
 				return;
 			}
 			
-			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getControllers($this->params['named']['plugin']));
+			$this->set('json', $this->{$this->modelClass}->getControllers($this->data[$this->modelClass]['plugin']));
 		}
 
 		/**
@@ -940,12 +940,12 @@
 		 * @return void
 		 */
 		public function admin_getModels(){
-			if (!isset($this->params['named']['plugin'])) {
+			if (!isset($this->data[$this->modelClass]['plugin'])) {
 				$this->set('json', array('error'));
 				return;
 			}
 			
-			$this->set('json', array('' => __('Please select', true)) + $this->{$this->modelClass}->getModels($this->params['named']['plugin']));
+			$this->set('json', $this->{$this->modelClass}->getModels($this->data[$this->modelClass]['plugin']));
 		}
 
 		/**
@@ -956,17 +956,15 @@
 		 * @return void
 		 */
 		public function admin_getActions(){
-			if (!(isset($this->params['named']['plugin']) && isset($this->params['named']['controller'] ))) {
+			if (!(isset($this->data[$this->modelClass]['plugin']) && isset($this->data[$this->modelClass]['controller'] ))) {
 				$this->set('json', array('error'));
 				return;
 			}
 			$this->set(
 				'json',
-				array(
-					'' => __('Please select', true)
-				) + $this->{$this->modelClass}->getActions(
-					$this->params['named']['plugin'],
-					$this->params['named']['controller']
+				$this->{$this->modelClass}->getActions(
+					$this->data[$this->modelClass]['plugin'],
+					$this->data[$this->modelClass]['controller']
 				)
 			);
 		}
