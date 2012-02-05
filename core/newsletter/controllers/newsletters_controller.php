@@ -194,6 +194,11 @@
 		}
 
 		public function admin_dashboard() {
+			$hasCampaign = $this->Newsletter->Campaign->find('count') >= 1;
+			$hasTemplate = $this->Newsletter->Template->find('count') >= 1;
+			$hasNewsletter = $this->Newsletter->find('count') >= 1;
+
+			$this->set(compact('hasCampaign', 'hasTemplate', 'hasNewsletter'));
 		}
 
 		public function admin_report($id) {
