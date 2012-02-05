@@ -60,6 +60,8 @@
 		public function admin_add() {
 			parent::admin_add();
 
+			Configure::write('Wysiwyg.editor', 'text');
+
 			$plugins = $this->Feed->getPlugins();
 			$groups = $this->Feed->Group->find('list');
 			$feedsFeeds = $this->Feed->find('list');
