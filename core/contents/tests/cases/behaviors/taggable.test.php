@@ -30,7 +30,7 @@ class Article extends Model {
 	public $hasAndBelongsToMany = array();
 	public $hasMany = array();
 	public $hasOne = array();
-	public $actsAs = array('Contents.GlobalTaggable');
+	public $actsAs = array('Contents.Taggable');
 }
 
 class TaggableTest extends CakeTestCase {
@@ -70,7 +70,7 @@ class TaggableTest extends CakeTestCase {
  */
 	public function startTest() {
 		$this->Article = ClassRegistry::init('Article');
-		$this->Article->Behaviors->attach('Contents.GlobalTaggable', array());
+		$this->Article->Behaviors->attach('Contents.Taggable', array());
 	}
 
 /**
@@ -176,7 +176,7 @@ class TaggableTest extends CakeTestCase {
 				'id' => 1)));
 		$this->assertTrue(isset($result['Tag']));
 
-		$this->Article->Behaviors->GlobalTaggable->settings['Article']['unsetInAfterFind'] = true;
+		$this->Article->Behaviors->Taggable->settings['Article']['unsetInAfterFind'] = true;
 		$result = $this->Article->find('first', array(
 			'conditions' => array(
 				'id' => 1)));

@@ -92,10 +92,10 @@
 				'list',
 				array(
 					'fields' => array(
-						'Category.id', 'Category.id'
+						$this->alias . '.id', $this->alias . '.id'
 					),
 					'conditions' => array(
-						'Category.active' => 1
+						$this->alias . '.active' => 1
 					)
 				)
 			);
