@@ -221,6 +221,9 @@
 			}
 
 			$data = $data[0][0];
+			if($data['count'] == 0)  {
+				$data['count'] = 1;
+			}
 
 			$seconds = strtotime($data['newest']) - strtotime($data['oldest']);
 			$timeBetweenChanges = $seconds / $data['count'];
