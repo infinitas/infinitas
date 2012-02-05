@@ -41,13 +41,23 @@
 			} // switch
 		}
 
-		public function onSetupRoutes(){		
+		public function onSetupRoutes() {
 			Router::connect(
 				'/admin',
 				array(
 					'plugin' => 'management',
 					'controller' => 'management',
 					'action' => 'dashboard',
+					'admin' => true,
+					'prefix' => 'admin'
+				)
+			);
+			Router::connect(
+				'/admin/management',
+				array(
+					'plugin' => 'management',
+					'controller' => 'management',
+					'action' => 'site',
 					'admin' => true,
 					'prefix' => 'admin'
 				)
