@@ -1,7 +1,7 @@
 <?php
 	/* GlobalCategory Fixture generated on: 2010-08-16 23:08:56 : 1281999416 */
-	class CategoryFixture extends CakeTestFixture {
-		var $name = 'Category';
+	class GlobalCategoryFixture extends CakeTestFixture {
+		var $name = 'GlobalCategory';
 
 		var $table = 'global_categories';
 

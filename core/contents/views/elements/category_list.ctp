@@ -1,5 +1,5 @@
 <?php
-	$categories = ClassRegistry::init('Categories.Category')->generateTreeList();
+	$categories = ClassRegistry::init('Contents.GlobalCategory')->generateTreeList();
 
 	if(!isset($options)) {
 		$options = array();

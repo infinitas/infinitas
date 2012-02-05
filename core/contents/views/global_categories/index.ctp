@@ -58,63 +58,63 @@ foreach ($categories as $category):
 ?>
 	<tr<?php echo $class;?>>
 		<td>
-			<?php echo $category['Category']['id']; ?>
+			<?php echo $category['GlobalCategory']['id']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['title']; ?>
+			<?php echo $category['GlobalCategory']['title']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['image']; ?>
+			<?php echo $category['GlobalCategory']['image']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['image_position']; ?>
+			<?php echo $category['GlobalCategory']['image_position']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['description']; ?>
+			<?php echo $category['GlobalCategory']['description']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['active']; ?>
+			<?php echo $category['GlobalCategory']['active']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['locked']; ?>
+			<?php echo $category['GlobalCategory']['locked']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['locked_since']; ?>
+			<?php echo $category['GlobalCategory']['locked_since']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['locked_by']; ?>
+			<?php echo $category['GlobalCategory']['locked_by']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['ordering']; ?>
+			<?php echo $category['GlobalCategory']['ordering']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['group_id']; ?>
+			<?php echo $category['GlobalCategory']['group_id']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['content_count']; ?>
+			<?php echo $category['GlobalCategory']['content_count']; ?>
 		</td>
 		<td>
 			<?php echo $this->Html->link($category['Section']['title'], array('controller' => 'sections', 'action' => 'view', $category['Section']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['views']; ?>
+			<?php echo $category['GlobalCategory']['views']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['created']; ?>
+			<?php echo $category['GlobalCategory']['created']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['modified']; ?>
+			<?php echo $category['GlobalCategory']['modified']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['created_by']; ?>
+			<?php echo $category['GlobalCategory']['created_by']; ?>
 		</td>
 		<td>
-			<?php echo $category['Category']['modified_by']; ?>
+			<?php echo $category['GlobalCategory']['modified_by']; ?>
 		</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $category['Category']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['Category']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $category['Category']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $category['GlobalCategory']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['GlobalCategory']['id'])); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $category['GlobalCategory']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $category['GlobalCategory']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -127,7 +127,7 @@ foreach ($categories as $category):
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Category', true)), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('GlobalCategory', true)), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Sections', true)), array('controller' => 'sections', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('New %s', true), __('Section', true)), array('controller' => 'sections', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(sprintf(__('List %s', true), __('Contents', true)), array('controller' => 'contents', 'action' => 'index')); ?> </li>

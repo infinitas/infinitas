@@ -1,1 +1,0 @@
-<?php echo $category['Category']['description']; ?>

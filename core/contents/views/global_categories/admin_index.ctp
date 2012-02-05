@@ -17,7 +17,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      * @since         0.5a
      */
-    echo $this->Form->create( 'Category', array( 'url' => array( 'controller' => 'categories', 'action' => 'mass', 'admin' => 'true' ) ) );
+    echo $this->Form->create('GlobalCategory', array('action' => 'mass'));
         $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
@@ -69,7 +69,7 @@
                         <td><?php echo $this->Infinitas->massActionCheckBox($category); ?>&nbsp;</td>
                 		<td>
                 			<?php
-                				$paths = ClassRegistry::init('Cms.Category')->getPath($category['Category']['id']);
+                				$paths = ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
                 				$links = array();
 
                 				if (count($paths) > 1) {
@@ -77,8 +77,8 @@
                 				}
 
 	                			echo $this->Html->link(
-                					Inflector::humanize($category['Category']['title']),
-                					array('action' => 'edit', $category['Category']['id'])
+                					Inflector::humanize($category['GlobalCategory']['title']),
+                					array('action' => 'edit', $category['GlobalCategory']['id'])
 	                			);
 							?>
                 		</td>
@@ -93,20 +93,20 @@
                 			?>
                 		</td>
                 		<td style="text-align:center;">
-                			<?php echo $category['Category']['item_count']; ?>
+                			<?php echo $category['GlobalCategory']['item_count']; ?>
                 		</td>
                 		<td style="text-align:center;">
-                			<?php echo $category['Category']['views']; ?>
+                			<?php echo $category['GlobalCategory']['views']; ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort($category['Category']['modified']); ?>
+                			<?php echo $this->Time->niceShort($category['GlobalCategory']['modified']); ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Infinitas->treeOrdering($category['Category']); ?>&nbsp;
+                			<?php echo $this->Infinitas->treeOrdering($category['GlobalCategory']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Infinitas->status($category['Category']['active'], $category['Category']['id']),
+                			    echo $this->Infinitas->status($category['GlobalCategory']['active'], $category['GlobalCategory']['id']),
                     			    $this->Locked->display($category);
                 			?>
                 		</td>

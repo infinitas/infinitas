@@ -6,7 +6,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Categories.controllers
+	 * @package Infinitas.Contents.controllers
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
@@ -14,12 +14,12 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class CategoriesController extends CategoriesAppController {
-		public $name = 'Categories';
+	class GlobalCategoriesController extends ContentsAppController {
+		public $name = 'GlobalCategories';
 
 		public function index() {
 			if(isset($this->params['category'])){
-				$this->paginate['Category']['conditions']['Category.slug'] = $this->params['category'];
+				$this->paginate['GlobalCategory']['conditions']['GlobalCategory.slug'] = $this->params['category'];
 			}
 
 			$categories = $this->paginate();
@@ -29,7 +29,7 @@
 					array(
 						'controller' => 'categories',
 						'action' => 'view',
-						$categories[0]['Category']['id']
+						$categories[0]['GlobalCategory']['id']
 					)
 				);
 			}
@@ -39,10 +39,10 @@
 
 		public function view() {
 			if(isset($this->params['category'])){
-				$conditions['Category.slug'] = $this->params['category'];
+				$conditions['GlobalCategory.slug'] = $this->params['category'];
 			}
 
-			$category = $this->Category->find(
+			$category = $this->GlobalCategory->find(
 				'first',
 				array(
 					'conditions' => $conditions
@@ -65,7 +65,7 @@
 				$this->redirect($this->referer());
 			}
 
-			$this->set('title_for_layout', $category['Category']['title']);
+			$this->set('title_for_layout', $category['GlobalCategory']['title']);
 			$this->set('category', $category);
 		}
 
@@ -75,8 +75,8 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'title',
-				'parent_id' => array(null => __('All', true), 0 => __('Top Level Categories', true)) + $this->Category->generatetreelist(),
-				'group_id' => array(null => __('Public', true)) + $this->Category->Group->find('list'),
+				'parent_id' => array(null => __('All', true), 0 => __('Top Level Categories', true)) + $this->GlobalCategory->generatetreelist(),
+				'group_id' => array(null => __('Public', true)) + $this->GlobalCategory->Group->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
@@ -87,22 +87,22 @@
 			if (!$id) {
 				$this->Infinitas->noticeInvalidRecord();
 			}
-			$this->set('category', $this->Category->read(null, $id));
+			$this->set('category', $this->GlobalCategory->read(null, $id));
 		}
 
 		public function admin_add() {
 			parent::admin_add();
 
-			$parents = array(__('Top Level Category', true)) + $this->Category->generatetreelist();
-			$groups = $this->Category->Group->find('list');
+			$parents = array(__('Top Level Category', true)) + $this->GlobalCategory->generatetreelist();
+			$groups = $this->GlobalCategory->Group->find('list');
 			$this->set(compact('parents', 'groups'));
 		}
 
 		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
-			$parents = array(__('Top Level Category', true)) + $this->Category->generatetreelist();
-			$groups = $this->Category->Group->find('list');
+			$parents = array(__('Top Level Category', true)) + $this->GlobalCategory->generatetreelist();
+			$groups = $this->GlobalCategory->Group->find('list');
 			$this->set(compact('parents', 'groups'));
 		}
 
@@ -111,7 +111,7 @@
 				$this->Infinitas->noticeInvalidRecord();
 			}
 
-			$count = $this->Category->find('count', array('conditions' => array('Category.parent_id' => $id)));
+			$count = $this->GlobalCategory->find('count', array('conditions' => array('Category.parent_id' => $id)));
 			if ($count > 0) {
 				$this->notice(
 					sprintf(__('That %s has sub-categories', true), $this->prettyModelName),
@@ -122,7 +122,7 @@
 				);
 			}
 
-			$category = $this->Category->read(null, $id);
+			$category = $this->GlobalCategory->read(null, $id);
 
 			if (!empty($category['Content'])) {
 				$this->notice(

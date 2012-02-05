@@ -32,8 +32,8 @@
 		 * @access protected
 		 */
 		protected $_defaults = array(
-			'categoryAlias' => 'Category',
-			'categoryClass' => 'Categories.Category',
+			'categoryAlias' => 'GlobalCategory',
+			'categoryClass' => 'Contents.GlobalCategory',
 			'foreignKey' => 'category_id',
 			'counterCache' => 'item_count',
 			'unsetInAfterFind' => false,
@@ -83,7 +83,7 @@
 		 * @return array nested list of categories. TreeBehavior::generatetreelist
 		 */
 		public function generateCategoryList($Model) {
-			return $Model->Category->generatetreelist();
+			return $Model->GlobalCategory->generatetreelist();
 		}
 
 		/**

@@ -22,6 +22,7 @@
 			$menu['main'] = array(
 				'Contents' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index'),
 				'Layouts' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index'),
+				'Categories' => array('plugin' => 'contents', 'controller' => 'global_categories', 'action' => 'index'),
 			);
 
 			return $menu;
@@ -33,5 +34,54 @@
 					$event->Handler->Behaviors->attach('Contents.Contentable');
 				}
 			}
+			
+			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
+				if (array_key_exists('category_id', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Categories.Categorisable')) {
+					$event->Handler->Behaviors->attach('Categories.Categorisable');
+				}
+			}
+		}
+
+		public function onSiteMapRebuild($event){
+			$Category = ClassRegistry::init('Contents.GlobalCategory');
+			$newest = $Category->getNewestRow();
+			$frequency = $Category->getChangeFrequency();
+
+			$return = array();
+			$return[] = array(
+				'url' => Router::url(
+					array(
+						'plugin' => 'contents',
+						'controller' => 'categories',
+						'action' => 'index',
+						'admin' => false,
+						'prefix' => false
+					),
+					true
+				),
+				'last_modified' => $newest,
+				'change_frequency' => $frequency
+			);
+
+			$categories = $Category->find('list', array('fields' => array('GlobalCategory.id', 'GlobalCategory.slug')));
+			foreach($categories as $category){
+				$return[] = array(
+					'url' => Router::url(
+						array(
+							'plugin' => 'contents',
+							'controller' => 'categories',
+							'action' => 'view',
+							'slug' => $category,
+							'admin' => false,
+							'prefix' => false
+						),
+						true
+					),
+					'last_modified' => $newest,
+					'change_frequency' => $frequency
+				);
+			}
+
+			return $return;
 		}
 	}

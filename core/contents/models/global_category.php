@@ -6,7 +6,7 @@
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Categories.models
+	 * @package Infinitas.Contents.models
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 * 
@@ -14,14 +14,14 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class Category extends CategoriesAppModel {
+	class GlobalCategory extends ContentsAppModel {
 		/**
 		 * The model name
 		 * 
 		 * @var string
 		 * @access public
 		 */
-		public $name = 'Category';
+		public $name = 'GlobalCategory';
 
 		/**
 		 * lockable enables the internal row locking while a row is being modified
@@ -39,7 +39,6 @@
 		 * @access public
 		 */
 		public $order = array(
-			'Category.lft' => 'asc'
 		);
 
 		/**
@@ -61,6 +60,10 @@
 		 */
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
+
+			$this->order = array(
+				$this->alias . '.lft' => 'asc'
+			);
 
 			$this->validate = array(
 				'title' => array(
@@ -121,15 +124,15 @@
 				array(
 					'conditions' => array(
 						'or' => array(
-							'Category.slug' => $id,
-							'Category.title' => $id
+							'GlobalCategory.slug' => $id,
+							'GlobalCategory.title' => $id
 						),
 					)
 				)
 			);
 
-			if(isset($id['Category']['id']) && !empty($id['Category']['id'])){
-				$id = $id['Category']['id'];
+			if(isset($id['GlobalCategory']['id']) && !empty($id['GlobalCategory']['id'])){
+				$id = $id['GlobalCategory']['id'];
 			}
 
 			return parent::children($id, $direct);
