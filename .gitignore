@@ -10,6 +10,7 @@ webroot/*
 core/emails/attachments/*
 core/emails/webroot/img/images/*
 core/newsletter/config/config.php
+webroot/robots.txt
 .gitignore
 
 # Ignore Mac system files
