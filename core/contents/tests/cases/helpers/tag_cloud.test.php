@@ -22,7 +22,7 @@
  * @subpackage	plugins.tags.tests.cases.helpers
  */
 
-App::import('Helper', array('Html', 'Contents.GlobalTagCloud'));
+App::import('Helper', array('Html', 'Contents.TagCloud'));
 
 class TagCloudHelperTestCase extends CakeTestCase {
 
