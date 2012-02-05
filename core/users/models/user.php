@@ -282,4 +282,41 @@
 				)
 			);
 		}
+
+		/**
+		 * @brief get a count of registrations per month for the last two years
+		 *
+		 * @access public
+		 *
+		 * @return array, list of (year_month => count)
+		 */
+		public function getRegistrationChartData() {
+			$this->virtualFields['join_date'] = 'CONCAT_WS("/", YEAR(`' . $this->alias . '`.`created`), LPAD(MONTH(`' . $this->alias . '`.`created`), 2, 0))';
+			$this->virtualFields['count_joins'] = 'COUNT(`' . $this->alias . '`.`id`)';
+
+			$i = - 24;
+			$dates = array();
+			while($i <= 0) {
+				$dates[date('Y/m', mktime(0, 0, 0, date('m') + $i, 1, date('Y')))] = null;
+				$i++;
+			}
+
+			$data = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						'join_date',
+						'count_joins',
+					),
+					'conditions' => array(
+						$this->alias . '.created >= ' => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m') - 24, date('d'), date('Y')))
+					),
+					'group' => array(
+						'join_date'
+					)
+				)
+			);
+
+			return array_merge($dates, $data);
+		}
 	}
