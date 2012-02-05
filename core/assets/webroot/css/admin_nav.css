@@ -349,8 +349,10 @@ form fieldset,
 		color: #666666;
 	}
 	.dashboard:hover .info a{
-		color: #666666;
+		color: #2450ff;
+		font-weight: bold;
 	}
+	
 	.dashboard .info a{
 		color: #E4E7EA;
 	}
