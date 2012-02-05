@@ -33,3 +33,5 @@
 	<h1><?php __('Email Manager', true); ?></h1>
 	<ul class="icons"><li><?php echo implode('</li><li>', current((array)$dashboardIcons)); ?></li></ul>
 </div>
+<?php
+	echo $this->element('modules/admin/registrations', array('plugin' => 'users'));
