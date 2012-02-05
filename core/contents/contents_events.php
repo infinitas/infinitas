@@ -18,6 +18,15 @@
 	 */
 
 	final class ContentsEvents extends AppEvents{
+		public function  onPluginRollCall() {
+			return array(
+				'name' => 'Content',
+				'description' => 'Mange the way content works inside Infinitas',
+				'icon' => '/contents/img/icon.png',
+				'author' => 'Infinitas',
+				'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index')
+			);
+		}
 		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Contents' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index'),

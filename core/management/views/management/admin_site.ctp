@@ -67,25 +67,11 @@
 
 	$managementContent = array(
 		array(
-			'name' => 'Categories',
-			'description' => 'Categorize your content',
-			'icon' => '/categories/img/icon.png',
-			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'categories', 'controller' => 'categories', 'action' => 'index')
-		),
-		array(
 			'name' => 'Contact',
 			'description' => 'Display your contact details and allow users to contact you',
 			'icon' => '/contact/img/icon.png',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index')
-		),
-		array(
-			'name' => 'Content',
-			'description' => 'Mange the way content works inside Infinitas',
-			'icon' => '/contents/img/icon.png',
-			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index')
 		),
 		array(
 			'name' => 'Modules',
