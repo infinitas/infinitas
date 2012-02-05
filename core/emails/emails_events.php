@@ -1,6 +1,6 @@
 <?php
 	final class EmailsEvents extends AppEvents{
-		public function onRequireDatabaseConfigs($event){
+		public function onRequireDatabaseConfigs($event) {
 			return array(
 				'emails' => array(
 					'datasource' => 'Emails.Email'
@@ -8,7 +8,7 @@
 			);
 		}
 
-		public function onSetupCache(){
+		public function onSetupCache() {
 			return array(
 				'name' => 'emails',
 				'config' => array(
@@ -16,8 +16,12 @@
 				)
 			);
 		}
+		
+		public function onSetupConfig() {
+			return Configure::load('email.config');
+		}
 
-		public function onPluginRollCall(){
+		public function onPluginRollCall() {
 			return array(
 				'name' => 'Emails',
 				'description' => 'Manage your mails',
@@ -27,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Dashboard' => array('controller' => 'mail_systems', 'action' => 'dashboard'),
 				'Accounts' => array('controller' => 'email_accounts', 'action' => 'index'),
@@ -36,8 +40,8 @@
 			return $menu;
 		}
 
-		public function onSlugUrl($event, $data){
-			switch($data['type']){
+		public function onSlugUrl($event, $data) {
+			switch($data['type']) {
 				case 'inbox':
 					return array(
 						'plugin' => 'emails',
@@ -78,7 +82,7 @@
 			}
 		}
 
-		public function onSetupRoutes($event){
+		public function onSetupRoutes($event) {
 			// dashboard
 			Router::connect(
 				'/admin/mail',
@@ -122,7 +126,7 @@
 			return true;
 		}
 
-		protected function _dispatchMails($event, $mails){
+		protected function _dispatchMails($event, $mails) {
 			foreach($mails as $mail){
 				EventCore::trigger($event, 'receiveMails', $mail);
 			}
