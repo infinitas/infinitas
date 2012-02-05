@@ -24,8 +24,7 @@
 		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Edit Robots' => array('plugin' => 'webmaster', 'controller' => 'robots', 'action' => 'edit'),
-				'View Sitemap' => array('plugin' => 'webmaster', 'controller' => 'site_maps', 'action' => 'view'),
-				'Rebuild Sitemap' => array('plugin' => 'webmaster', 'controller' => 'site_maps', 'action' => 'rebuild')
+				'View Sitemap' => '/sitemap.xml'
 			);
 
 			return $menu;
@@ -45,7 +44,15 @@
 		}
 		
 		public function onSetupRoutes(){
-			Router::connect('/sitemap', array('plugin' => 'webmaster', 'controller' => 'site_maps', 'action' => 'index', 'admin' => false, 'prefix' => ''));
+			Router::connect(
+				'/sitemap',
+				array(
+					'plugin' => 'webmaster',
+					'controller' => 'site_maps',
+					'action' => 'index',
+					'ext' => 'xml'
+				)
+			);
 		}
 
 		public function onSetupExtensions(){

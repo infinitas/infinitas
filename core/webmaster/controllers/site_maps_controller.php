@@ -8,19 +8,19 @@
 
 		public $uses = array();
 
-		public function admin_index(){
+		public function index(){
 			Configure::write('debug', 0);
 			$this->helpers[] = 'Xml';
 
-			$map = $this->admin_rebuild();
+			$map = $this->__rebuild();
 			$this->set('map', $map['urlset']);
 		}
 
-		public function admin_rebuild(){
+		private function __rebuild(){
 			$siteMaps = $this->Event->trigger('siteMapRebuild');
 			$map = array();
-			foreach($siteMaps['siteMapRebuild'] as $plugin){
-				foreach($plugin as $link){
+			foreach((array)$siteMaps['siteMapRebuild'] as $plugin){
+				foreach((array)$plugin as $link){
 					if(!isset($link['url'])){
 						continue;
 					}
