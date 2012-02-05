@@ -1,13 +1,6 @@
 <?php
 	final class ManagementEvents extends AppEvents{
-		public function onPluginRollCall(){
-			return array(
-				'name' => 'Setup',
-				'description' => 'Configure Your site',
-				'icon' => '/management/img/icon.png',
-				'author' => 'Infinitas',
-				'dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site')
-			);
+		public function onPluginRollCall() {
 		}
 		
 		public function onSetupConfig(){
@@ -24,7 +17,11 @@
 		}
 
 		public function onAdminMenu($event){
-			return array();
+			$menu['main'] = array(
+				'Configuration' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'index')
+			);
+
+			return $menu;
 		}
 
 		public function onSlugUrl($event, $data){
