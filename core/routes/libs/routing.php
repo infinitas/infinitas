@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class InfinitasRouting extends Object{
+	class InfinitasRouting extends Object {
 		public function setup(){
 			InfinitasRouting::__registerExtensions();
 			InfinitasRouting::__buildRoutes();
