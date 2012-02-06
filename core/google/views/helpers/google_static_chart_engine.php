@@ -9,7 +9,13 @@
 		 */
 		public function gauge($data){
 			$this->_chartType = 'gauge';
-			
+
+			return $this->_buildChart($data);
+		}
+
+		public function pie($data){
+			$this->_chartType = 'pie';
+
 			return $this->_buildChart($data);
 		}
 
@@ -242,34 +248,97 @@
 		 */
 		protected $_colorTypes = array(
 			'bar' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'bar_horizontal' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'bar_horizontal_group' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'bar_vertical' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'bar_vertical_group' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'bar_vertical_overlay' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'gauge' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'line' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'line_spark' => array(
-				'series'
+				'series',
+				'fill'
 			),
 			'line_xy' => array(
-				'series'
+				'series',
+				'fill'
+			)
+		);
+
+		protected $_fillTypes = array(
+			'bar' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'bar_horizontal' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'bar_horizontal_group' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'bar_vertical' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'bar_vertical_group' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'bar_vertical_overlay' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'gauge' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'line' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'line_spark' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
+			),
+			'line_xy' => array(
+				'solid' => 's',
+				'gradient' => 'lg',
+				'striped' => 'ls'
 			)
 		);
 
@@ -286,6 +355,10 @@
 		protected $_colorFormats = array(
 			'series' => array(
 				'key' => 'chco=',
+				'separator' => ','
+			),
+			'fill' => array(
+				'key' => 'chf=',
 				'separator' => ','
 			)
 		);
@@ -513,12 +586,29 @@
 				if(!in_array($k, $this->_colorTypes[$this->_chartType])){
 					continue;
 				}
+				
 				if(!is_array($v)){
 					$v = array($v);
 				}
 
 				if(empty($v)){
 					continue;
+				}
+
+
+				if($k == 'fill') {
+					if(strstr($this->_chartType, 'bar')) {
+						$__data = array();
+						foreach($v as $dataSet => $fillData) {
+							$fillData['type'] = isset($fillData['type']) ? $fillData['type'] : 'solid';
+							$tmp = array('b' . $dataSet, $this->_fillTypes[$this->_chartType][$fillData['type']], $fillData['color']);
+							
+							$__data[] = implode($this->_colorFormats[$k]['separator'], $tmp);
+						}
+
+						$return[] = $this->_colorFormats[$k]['key'] . implode('|', $__data);
+						continue;
+					}
 				}
 
 				if(isset($v[0]) && is_array($v[0])){
@@ -529,6 +619,7 @@
 
 					$v = $colors;
 				}
+				
 
 				$return[] = $this->_colorFormats[$k]['key'] . implode($this->_colorFormats[$k]['separator'], $v);
 			}
