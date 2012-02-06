@@ -54,7 +54,9 @@
 			//	'className' => 'Categories.Category',
 			//	'counterCache' => true
 			//),
-			'Users.Group'
+			'Group' => array(
+				'className' => 'Users.Group'
+			)
 		);
 
 		/** 
