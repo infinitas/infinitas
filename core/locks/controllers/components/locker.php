@@ -44,7 +44,7 @@
 		public function beforeRedirect($Controller){
 			if(isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable){
 				if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel'){
-					$Controller->{$Controller->modelClass}->Lock->deleteAll(
+					ClassRegistry::init('Locks.Lock')->deleteAll(
 						array(
 							'Lock.class' => Inflector::camelize($Controller->plugin).'.'.$Controller->modelClass,
 							'Lock.foreign_key' => $Controller->params['data'][$Controller->modelClass][$Controller->{$Controller->modelClass}->primaryKey]
