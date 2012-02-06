@@ -370,7 +370,7 @@
 				$url = array_merge(array('action' => 'edit'), $url);
 			}
 
-			if(isset($this->params['models'][0]) || !empty($model)){
+			if(!empty($model) && isset($this->params['models'][0])){
 				$model = !empty($model) ? $model : $this->params['models'][0];
 
 				$id   = $row[ClassRegistry::init($model)->primaryKey];
@@ -380,11 +380,11 @@
 			else{
 				$id   = isset($row['id']) ? $row['id'] : null;
 				$text = isset($row['name']) ? $row['name'] : null;
-				$text = !$text && isset($row['title']) ? $row['title'] : null;
+				$text = (!$text && isset($row['title'])) ? $row['title'] : null;
 			}
 
 			if(!$id){
-				return __('Borked', true);
+				return __('Undefined', true);
 			}
 
 			if(is_array($url)){
