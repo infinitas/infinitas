@@ -174,6 +174,11 @@
 				return $query;
 			}
 
+			if(!is_array($query['fields'])) {
+				$query['fields'] = array($query['fields']);
+			}
+
+
 			$query['fields'] = array_merge(
 				$query['fields'],
 				array(
