@@ -56,6 +56,12 @@
 			}
 		}
 
+		public function  onRequireComponentsToLoad($event = null) {
+			return array(
+				'Contents.GlobalContent'
+			);
+		}
+
 		public function onRequireHelpersToLoad(){
 			return 'Contents.TagCloud';
 		}
