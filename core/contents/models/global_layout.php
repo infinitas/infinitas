@@ -32,6 +32,7 @@
 		 * @access public
 		 */
 		public $lockable = true;
+		public $contentable = true;
 
 		/**
 		 * The table to use for layouts
