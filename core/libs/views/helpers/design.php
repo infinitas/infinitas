@@ -13,7 +13,7 @@
 			return sprintf($base, sprintf('<ul class="%s"><li>%s</li></ul>', $class, implode('</li><li>', (array)$array)));
 		}
 
-		function infoBox($info = array(), $truncate = 24) {
+		public function infoBox($info = array(), $truncate = 24) {
 			list($heading, $data, $link, $image) = $info;
 
 			if (empty($data)) {
@@ -66,7 +66,7 @@
 			return $out;
 		}
 
-		function quickLink($info = array(), $truncate = 24) {
+		public function quickLink($info = array(), $truncate = 24) {
 			if (count($info) < 2 || empty($info)) {
 				$this->errors[] = 'No data to generate links';
 				return false;
@@ -87,7 +87,7 @@
 			);
 		}
 
-		function __createUrl($url = null, $id = 0) {
+		private function __createUrl($url = null, $id = 0) {
 			if (!$url) {
 				$this->errors[] = 'No url passed, returning root';
 				return '/';
@@ -105,7 +105,7 @@
 			return $url;
 		}
 
-		function __niceText($text = '', $truncate = false) {
+		private function __niceText($text = '', $truncate = false) {
 			$text = Inflector::humanize($text);
 			if ($truncate) {
 				$text = $this->Text->truncate($text, $truncate);
@@ -114,7 +114,7 @@
 			return $text;
 		}
 
-		function __adjustTruncate($truncate = false, $image = false, $link = false) {
+		private function __adjustTruncate($truncate = false, $image = false, $link = false) {
 			if (!$truncate) {
 				return $truncate;
 			}
