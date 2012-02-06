@@ -1187,7 +1187,7 @@
 		 *
 		 * @return void
 		 */
-		public function admin_edit($id = null, $query = array()){
+		public function admin_edit($id = null, $query = array()) {
 			if(empty($this->data) && !$id){
 				$this->Infinitas->noticeInvalidRecord();
 			}
