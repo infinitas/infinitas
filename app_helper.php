@@ -370,17 +370,19 @@
 				$url = array_merge(array('action' => 'edit'), $url);
 			}
 
-			if(!empty($model) && isset($this->params['models'][0])){
-				$model = !empty($model) ? $model : $this->params['models'][0];
 
-				$id   = $row[ClassRegistry::init($model)->primaryKey];
+			$id   = isset($row['id']) ? $row['id'] : null;
+			$text = isset($row['name']) ? $row['name'] : null;
+			$text = (!$text && isset($row['title'])) ? $row['title'] : null;
+			
+			$model = !empty($model) ? $model : $this->params['models'][0];
+
+			if(!$id) {
 				$text = $row[ClassRegistry::init($model)->displayField];
 			}
 
-			else{
-				$id   = isset($row['id']) ? $row['id'] : null;
-				$text = isset($row['name']) ? $row['name'] : null;
-				$text = (!$text && isset($row['title'])) ? $row['title'] : null;
+			if(!$text){
+				$text = $row[ClassRegistry::init($model)->displayField];
 			}
 
 			if(!$id){
