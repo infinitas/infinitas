@@ -24,12 +24,13 @@
 				'description' => 'Mange the way content works inside Infinitas',
 				'icon' => '/contents/img/icon.png',
 				'author' => 'Infinitas',
-				'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index')
+				'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'dashboard')
 			);
 		}
 		
 		public function onAdminMenu($event) {
 			$menu['main'] = array(
+				'Dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'dashboard'),
 				'Layouts' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index'),
 				'Contents' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'index'),
 				'Categories' => array('plugin' => 'contents', 'controller' => 'global_categories', 'action' => 'index'),
@@ -113,5 +114,29 @@
 			}
 
 			return $return;
+		}
+
+		public function onSetupRoutes($event, $data = null) {
+
+			Router::connect(
+				'/admin/contents',
+				array(
+					'plugin' => 'contents',
+					'controller' => 'global_contents',
+					'action' => 'dashboard',
+					'admin' => true,
+					'prefix' => 'admin'
+				)
+			);
+			Router::connect(
+				'/admin/contents/contents/index',
+				array(
+					'plugin' => 'contents',
+					'controller' => 'global_contents',
+					'action' => 'index',
+					'admin' => true,
+					'prefix' => 'admin'
+				)
+			);
 		}
 	}

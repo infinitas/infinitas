@@ -6,6 +6,10 @@
 			'Filter.Filter'
 		);
 
+		public function admin_dashboard() {
+			
+		}
+
 		public function admin_index(){
 			$this->paginate = array(
 				'contain' => array(
