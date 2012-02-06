@@ -2,14 +2,6 @@
 	$model = isset($model) ? $model : $this->params['models'][0];
 	$model = ClassRegistry::init($model)->plugin . '.' . ClassRegistry::init($model)->alias;
 
-	$layouts = ClassRegistry::init($model)->GlobalContent->GlobalLayout->find(
-		'list',
-		array(
-			'conditions' => array(
-				'model' => $model
-			)
-		)
-	);
 	$groups = array(0 => __('Public', true)) + ClassRegistry::init($model)->GlobalContent->Group->find('list');
 ?>
 <fieldset>
@@ -17,8 +9,9 @@
 	echo $this->Form->input('GlobalContent.id');
 	echo $this->Form->hidden('GlobalContent.model', array('value' => $model));
 	echo $this->Form->input('GlobalContent.title');
-	echo $this->Form->input('GlobalContent.layout_id', array('options' => $layouts, 'empty' => Configure::read('Website.empty_select')));
-	echo $this->Form->input('GlobalContent.group_id', array('options' => $groups, 'label' => __('Min Group', true)));
+	echo $this->Form->input('GlobalContent.layout_id', array('options' => $contentLayouts, 'empty' => Configure::read('Website.empty_select')));
+	echo $this->Form->input('GlobalContent.group_id', array('options' => $contentGroups, 'label' => __('Min Group', true), 'empty' => __d('contents', 'Public', true)));
+	echo $this->element('category_list', array('plugin' => 'contents'));
 	echo $this->Infinitas->wysiwyg('GlobalContent.body'); ?>
 </fieldset>
 <fieldset>
