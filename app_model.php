@@ -480,6 +480,17 @@
 			
 			return $this->possibleContains;
 		}
+
+		/**
+		 * @brief Get the full model name, opposit of plugin split
+		 *
+		 * @access public
+		 *
+		 * @return string the models full plugin.model name
+		 */
+		public function fullModelName() {
+			return $this->plugin . '.' . $this->alias;
+		}
 	}
 
 	/**
