@@ -166,6 +166,28 @@
 				)
 			);
 
+
+			$Trash = ClassRegistry::init('Trash.Trash');
+			$Trash->virtualFields['post_date'] = 'CONCAT_WS("/", YEAR(`' . $Trash->alias . '`.`deleted`), LPAD(MONTH(`' . $Trash->alias . '`.`deleted`), 2, 0))';
+			$Trash->virtualFields['count_joins'] = 'COUNT(`' . $Trash->alias . '`.`id`)';
+
+			$deleted = $Trash->find(
+				'list',
+				array(
+					'fields' => array(
+						'post_date',
+						'count_joins',
+					),
+					'conditions' => array(
+						$Trash->alias . '.model LIKE ' => 'Contents%',
+						$Trash->alias . '.deleted >= ' => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m') - $months, date('d'), date('Y')))
+					),
+					'group' => array(
+						'post_date'
+					)
+				)
+			);
+
 			$labels = array();
 			foreach(array_keys($dates) as $k => $v) {
 				if($k % 2 == 0) {
@@ -180,7 +202,8 @@
 			return array(
 				'labels' => $labels,
 				'new' => array_merge($dates, $new),
-				'updated' => array_merge($dates, $updated)
+				'updated' => array_merge($dates, $updated),
+				'deleted' => array_merge($dates, $deleted)
 			);
 		}
 	}

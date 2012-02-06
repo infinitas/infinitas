@@ -15,7 +15,8 @@
 			array(
 				'data' => array(
 					$newContent['new'],
-					$newContent['updated']
+					$newContent['updated'],
+					$newContent['deleted']
 				),
 				'axes' => array(
 					'x' => $newContent['labels'],
@@ -26,25 +27,28 @@
 				'spacing' => array(
 					'padding' => 2,
 					'grouping' => 4,
-					'width' => 13,
+					'width' => 9,
 					'type' => 'absolute'
 				),
 				'color' => array(
 					'series' => array(
 						'0d5c05',
-						'ffea00'
+						'ffea00',
+						'ff0000'
 					),
 					'fill' => array(
 						array('color' => '0d5c05', 'type' => 'solid'),
-						array('color' => 'ffea00', 'type' => 'solid')
+						array('color' => 'ffea00', 'type' => 'solid'),
+						array('color' => 'ff0000', 'type' => 'solid')
 					)
 				),
 				'legend' => array(
-					'position' => 'right',
+					'position' => 'top',
 					'order' => 'default',
 					'labels' => array(
 						__('New', true),
 						__('Updated', true),
+						__('Deleted', true),
 					)
 				)
 			)
