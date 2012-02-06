@@ -80,13 +80,15 @@
 					$displayField = $Model->alias . '.' . $Model->displayField;
 				}
 
-				$query['fields'] = array(
-					$Model->alias . '.' . $Model->primaryKey,
-					$displayField
-				);
+				if(empty($query['fields'])) {
+					$query['fields'] = array(
+						$Model->alias . '.' . $Model->primaryKey,
+						$displayField
+					);
+				}
 				
-				$query['list']['keyPath'] = '{n}.' . $Model->alias . '.' . $Model->primaryKey;
-				$query['list']['valuePath'] = '{n}.' . $displayField;
+				$query['list']['keyPath'] = '{n}.' . $query['fields'][0];
+				$query['list']['valuePath'] = '{n}.' . $query['fields'][1];
 			}
 			else {
 				$query['fields'] = array_merge(
