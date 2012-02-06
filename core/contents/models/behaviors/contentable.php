@@ -74,20 +74,12 @@
 			$query['fields'] = array_merge(
 				$query['fields'],
 				array(
-					'GlobalContent.id',
-					'GlobalContent.model',
-					'GlobalContent.foreign_key',
-					'GlobalContent.title',
-					'GlobalContent.slug',
-					'GlobalContent.body',
-					'GlobalContent.meta_keywords',
-					'GlobalContent.meta_description',
-					'GlobalContent.group_id',
-					'GlobalContent.layout_id',
-					'GlobalContent.created',
-					'GlobalContent.modified',
+					'GlobalContent.*',
 					'Layout.*',
 					'GlobalCategory.*',
+					'GlobalCategoryContent.id',
+					'GlobalCategoryContent.title',
+					'GlobalCategoryContent.slug',
 					'Group.id',
 					'Group.name',
 				)
@@ -98,7 +90,7 @@
 				'alias' => 'GlobalContent',
 				'type' => 'LEFT',
 				'conditions' => array(
-					'GlobalContent.model' => $Model->plugin . '.' . $Model->alias,
+					'GlobalContent.model' => $Model->fullModelName(),
 					'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
 				)
 			);
@@ -122,6 +114,16 @@
 					)
 				);
 			}
+			
+			$query['joins'][] = array(
+				'table' => 'global_contents',
+				'alias' => 'GlobalCategoryContent',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'GlobalCategoryContent.model' => 'Contents.GlobalCategory',
+					'GlobalCategoryContent.foreign_key = GlobalCategory.id',
+				)
+			);
 
 			$query['joins'][] = array(
 				'table' => 'global_layouts',
@@ -152,6 +154,12 @@
 			}
 			
 			foreach($results as $k => $result){
+				if(isset($results[$k]['GlobalCategoryContent'])) {
+					$results[$k]['GlobalCategory'] = array_merge(
+						$results[$k]['GlobalCategoryContent'],
+						$results[$k]['GlobalCategory']
+					);
+				}
 				if(isset($results[$k]['GlobalContent']['GlobalLayout'])){
 					$results[$k]['Layout'] = $results[$k]['GlobalContent']['GlobalLayout'];
 				}
