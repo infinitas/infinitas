@@ -117,4 +117,66 @@
 
 			return $return;
 		}
+
+		public function getNewContentByMonth($months = 24) {
+			$this->virtualFields['post_date'] = 'CONCAT_WS("/", YEAR(`' . $this->alias . '`.`created`), LPAD(MONTH(`' . $this->alias . '`.`created`), 2, 0))';
+			$this->virtualFields['count_joins'] = 'COUNT(`' . $this->alias . '`.`id`)';
+
+			$i = - $months;
+			$dates = array();
+			while($i <= 0) {
+				$dates[date('Y/m', mktime(0, 0, 0, date('m') + $i, 1, date('Y')))] = null;
+				$i++;
+			}
+
+			$new = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						'post_date',
+						'count_joins',
+					),
+					'conditions' => array(
+						$this->alias . '.created >= ' => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m') - $months, date('d'), date('Y')))
+					),
+					'group' => array(
+						'post_date'
+					)
+				)
+			);
+
+			$updated = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						'post_date',
+						'count_joins',
+					),
+					'conditions' => array(
+						$this->alias . '.created >= ' => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m') - $months, date('d'), date('Y'))),
+						$this->alias . '.created != ' . $this->alias . '.modified'
+					),
+					'group' => array(
+						'post_date'
+					)
+				)
+			);
+
+			$labels = array();
+			foreach(array_keys($dates) as $k => $v) {
+				if($k % 2 == 0) {
+					$labels[] = $v;
+				}
+				else {
+					$labels[] = '';
+				}
+			}
+			$dates = array_fill_keys(array_keys($dates), 0);
+			
+			return array(
+				'labels' => $labels,
+				'new' => array_merge($dates, $new),
+				'updated' => array_merge($dates, $updated)
+			);
+		}
 	}
