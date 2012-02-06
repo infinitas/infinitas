@@ -38,6 +38,7 @@
 		}
 
 		public function view() {
+			$conditions = array();
 			if(isset($this->params['category'])){
 				$conditions['GlobalCategory.slug'] = $this->params['category'];
 			}
