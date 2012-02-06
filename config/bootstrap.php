@@ -199,6 +199,8 @@
 			if(!class_exists('Inflector')){
 				App::import('Inflector');
 			}
+
+			$class = preg_replace('/global|core/i', '', $class);
 			
 			return ucfirst(low(Inflector::humanize(Inflector::underscore(Inflector::pluralize((string)$class)))));
 		}
