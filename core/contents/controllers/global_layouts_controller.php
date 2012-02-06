@@ -41,7 +41,8 @@
 			$this->set(compact('plugins'));
 		}
 
-		public function admin_edit($id = null, $query = array()) {			
+		public function admin_edit($id = null, $query = array()) {
+			$this->GlobalLayout->GlobalContent->hasField('id');
 			parent::admin_edit($id, $query);
 
 			$plugins = $this->GlobalLayout->getPlugins();
