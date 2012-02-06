@@ -75,13 +75,18 @@
 			}
 
 			if($Model->findQueryType == 'list') {
+				$displayField = 'GlobalContent.title';
+				if($Model->displayField != $Model->primaryKey) {
+					$displayField = $Model->alias . '.' . $Model->displayField;
+				}
+
 				$query['fields'] = array(
 					$Model->alias . '.' . $Model->primaryKey,
-					'GlobalContent.title'
+					$displayField
 				);
 				
 				$query['list']['keyPath'] = '{n}.' . $Model->alias . '.' . $Model->primaryKey;
-				$query['list']['valuePath'] = '{n}.GlobalContent.title';
+				$query['list']['valuePath'] = '{n}.' . $displayField;
 			}
 			else {
 				$query['fields'] = array_merge(
