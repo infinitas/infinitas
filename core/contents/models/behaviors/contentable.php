@@ -237,4 +237,8 @@
 		private function __getModel($Model){
 			return Inflector::camelize($Model->plugin) . '.' . $Model->alias;
 		}
+
+		public function hasLayouts($Model) {
+			return ClassRegistry::init('Contents.GlobalLayout')->hasLayouts($Model->fullModelName());
+		}
 	}

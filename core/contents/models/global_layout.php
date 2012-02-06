@@ -128,4 +128,15 @@
 			
 			return $results;
 		}
+
+		public function hasLayouts($model) {
+			return $this->find(
+				'count',
+				array(
+					'conditions' => array(
+						$this->alias . '.model' => $model
+					)
+				)
+			) > 0;
+		}
 	}
