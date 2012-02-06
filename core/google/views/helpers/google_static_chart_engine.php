@@ -1,5 +1,5 @@
 <?php
-	class GoogleStaticChartEngineHelper extends ChartsBaseEngineHelper{
+	class GoogleStaticChartEngineHelper extends ChartsBaseEngineHelper {
 		/**
 		 * @brief google-o-meter
 		 *
@@ -13,6 +13,13 @@
 			return $this->_buildChart($data);
 		}
 
+		/**
+		 * @brief pie
+		 *
+		 * @copydetails ChartsBaseEngineHelper::pie()
+		 *
+		 * @link http://code.google.com/apis/chart/docs/gallery/googleometer_chart.html
+		 */
 		public function pie($data){
 			$this->_chartType = 'pie';
 
@@ -176,7 +183,17 @@
 				'labels',
 				'data',
 				'line_marker'
-			)
+			),
+			'pie' => array(
+				'_indicator' => 'cht=p3',
+				'legend',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
 		);
 
 		/**
@@ -286,6 +303,9 @@
 			'line_xy' => array(
 				'series',
 				'fill'
+			),
+			'pie' => array(
+				'series'
 			)
 		);
 
