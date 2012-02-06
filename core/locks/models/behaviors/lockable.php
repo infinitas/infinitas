@@ -104,20 +104,29 @@
 		 * @var bool $primary is it the main model doing the find
 		 */
 		public function afterFind($Model, $results, $primary){
-			if($Model->findQueryType != 'first' || !$primary || empty($results) || !isset($Model->Lock)){
+			if($Model->findQueryType != 'first' || !$primary || empty($results)){
+				if($Model->findQueryType != 'all') {
+					return $results;
+				}
+
+				foreach($results as $k => &$result) {
+					$result['Lock']['Locker'] = $result['LockLocker'];
+					unset($result['LockLocker']);
+				}
+
 				return $results;
 			}
 
-			$class = Inflector::camelize($Model->plugin).'.'.$Model->alias;
+			if(isset($results[0][$Model->alias][$Model->primaryKey])) {
+				$Lock = ClassRegistry::init('Locks.Lock');
 
-			if(isset($results[0][$Model->alias][$Model->primaryKey])){
 				$this->userId = CakeSession::read('Auth.User.id');
-				$lock = $Model->Lock->find(
+				$lock = $Lock->find(
 					'all',
 					array(
 						'conditions' => array(
 							'Lock.foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
-							'Lock.class' => $class,
+							'Lock.class' => $Model->fullModelName(),
 							'Lock.created > ' => date('Y-m-d H:m:s', strtotime(Configure::read('Locks.timeout')))
 						),
 						'contain' => array(
@@ -127,7 +136,7 @@
 				);
 
 				if(isset($lock[0]['Lock']['user_id']) && $this->userId == $lock[0]['Lock']['user_id']){
-					$Model->Lock->delete($lock[0]['Lock']['id']);
+					$Lock->delete($lock[0]['Lock']['id']);
 					$lock = array();
 				}
 
@@ -137,14 +146,12 @@
 
 				$lock['Lock'] = array(
 					'foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
-					'class' => $class,
+					'class' => $Model->fullModelName(),
 					'user_id' => $this->userId
 				);
 
-				$Model->Lock->create();
-				if($Model->Lock->save($lock)){
-					return $results;
-				}
+				$Lock->create();
+				$Lock->save($lock);
 			}
 
 			return $results;
@@ -163,16 +170,38 @@
 		 * @return array the find query data
 		 */
 		public function beforeFind($Model, $query) {
-			if($Model->findQueryType == 'count' || !isset($Model->Lock)){
+			if($Model->findQueryType == 'count'){
 				return $query;
 			}
 
-			$query['contain'][$Model->Lock->alias] = array('Locker');
-			if(isset($query['recursive']) && $query['recursive'] == -1){
-				$query['recursive'] = 0;
-			}
+			$query['fields'] = array_merge(
+				$query['fields'],
+				array(
+					'Lock.*',
+					'LockLocker.id',
+					'LockLocker.username',
+				)
+			);
 
-			call_user_func(array($Model, 'contain'), $query['contain']);
+			$query['joins'][] = array(
+				'table' => 'global_locks',
+				'alias' => 'Lock',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'Lock.class' => $Model->fullModelName(),
+					'Lock.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
+				)
+			);
+
+			$query['joins'][] = array(
+				'table' => 'core_users',
+				'alias' => 'LockLocker',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'LockLocker.id = Lock.user_id',
+				)
+			);
+			
 			return $query;
 		}
 

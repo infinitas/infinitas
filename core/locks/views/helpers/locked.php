@@ -34,8 +34,9 @@
 		 *
 		 * @return sstring some html with the image
 		 */
-		public function display($row = array()){
-			if(!empty($row) && isset($row['Lock']['id']) && $row['Lock']['id'] > 0){
+		public function display($row = array(), $model = 'Lock'){
+			$row = array_filter($row[$model]);
+			if(!empty($row['id'])) {
 				return $this->Html->image(
 					$this->Image->getRelativePath('status', 'locked'),
 					array(
@@ -43,8 +44,8 @@
 						'width' => '16px',
 						'title' => sprintf(
 							__('Locked :: This record was locked %s by %s', true ),
-							$this->Time->timeAgoInWords($row['Lock']['created']),
-							$row['Lock']['Locker']['username']
+							$this->Time->timeAgoInWords($row['created']),
+							$row['Locker']['username']
 						)
 					)
 				);
