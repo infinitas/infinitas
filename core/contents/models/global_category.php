@@ -23,6 +23,8 @@
 		 */
 		public $name = 'GlobalCategory';
 
+		public $contentable = true;
+
 		/**
 		 * lockable enables the internal row locking while a row is being modified
 		 * preventing anyone from accessing that row.
