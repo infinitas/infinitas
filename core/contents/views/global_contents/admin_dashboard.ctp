@@ -33,7 +33,7 @@
 		array(
 			'name' => 'Tags',
 			'description' => 'Manage the tags for your content',
-			'icon' => '/contents/img/categories.png',
+			'icon' => '/contents/img/tags.png',
 			'dashboard' => array(
 				'plugin' => 'contents',
 				'controller' => 'global_tags',
