@@ -17,7 +17,6 @@
 	 */
 
 	class ContentsAppModel extends AppModel {
-		
 		public function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
 			$parameters = compact('conditions');
 			if ($recursive != $this->recursive) {

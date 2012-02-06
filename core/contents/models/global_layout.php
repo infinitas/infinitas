@@ -14,7 +14,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class GlobalLayout extends ContentsAppModel{
+	class GlobalLayout extends ContentsAppModel {
 		/**
 		 * the model name
 		 *
@@ -56,14 +56,6 @@
 				'counterCache' => true
 			)
 		);
-
-		/**
-		 * The GlobalContent model
-		 *
-		 * @var GlobalContent
-		 * @access public
-		 */
-		public $GlobalContent;
 
 		/**
 		 * @copydoc AppModel::__construct()
