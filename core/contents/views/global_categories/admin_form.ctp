@@ -19,17 +19,12 @@
      */
 
 	echo $this->Form->create('GlobalCategory', array('action' => 'edit'));
-		echo $this->Infinitas->adminEditHead(); ?>
-		<fieldset>
-			<h1><?php echo __('Category', true); ?></h1><?php
-			echo $this->Form->input('id');
-			echo $this->Form->input('title', array('class' => 'title'));
-			echo $this->Infinitas->wysiwyg('GlobalCategory.description'); ?>
-		</fieldset>
+		echo $this->Infinitas->adminEditHead();
+		echo $this->element('content_form', array('plugin' => 'Contents')); ?>
 		<fieldset>
 			<h1><?php echo __('Config', true); ?></h1><?php
-			echo $this->Form->input('parent_id');
-			echo $this->Form->input('group_id', array('label' => __('Min Group', true), 'empty' => __('Public', true)));
+			echo $this->Form->input('id');
+			echo $this->Form->input('parent_id', array('options' => $contentCategories, 'empty' => __d('contents', 'Root Category', true)));
 			echo $this->Form->input('active'); ?>
 		</fieldset>
 		<?php

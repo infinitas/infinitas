@@ -37,7 +37,7 @@
                     $this->Paginator->sort('Layout', 'GlobalLayout.name') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('Group', 'Group.name') => array(
+                    $this->Paginator->sort('Group', 'ContentGroup.name') => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('modified') => array(
@@ -66,7 +66,7 @@
 							?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $content['Group']['name'] ? $content['Group']['name'] : __('Public', true); ?>&nbsp;
+                			<?php echo $content['ContentGroup']['name'] ? $content['ContentGroup']['name'] : __('Public', true); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Time->niceShort($content['GlobalContent']['modified']); ?>&nbsp;

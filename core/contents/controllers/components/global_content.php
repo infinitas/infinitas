@@ -11,10 +11,21 @@
 				return;
 			}
 
-			$Controller->set('contentGroups', $Controller->Content->Group->generatetreelist());
-			$Controller->set('contentLayouts', $Controller->Content->Layout->find('list'));
+			if(isset($Controller->{$Controller->modelClass}->GlobalContent)) {
+				$Model = $Controller->{$Controller->modelClass}->GlobalContent;
+			}
+			else if(isset($Controller->GlobalContent)) {
+				$Model = $Controller->GlobalContent;
+			}
 
-			$contentCategories = $Controller->Content->GlobalCategory->generatetreelist(
+			else {
+				throw new Exception('Could not find the Content model');
+			}
+
+			$Controller->set('contentGroups', $Model->Group->generatetreelist());
+			$Controller->set('contentLayouts', $Model->GlobalLayout->find('list'));
+
+			$contentCategories = $Model->GlobalCategory->generatetreelist(
 				array(),
 				'{n}.GlobalCategory.id',
 				'{n}.GlobalCategory.title'

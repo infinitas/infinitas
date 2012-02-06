@@ -93,18 +93,12 @@
 
 		public function admin_add() {
 			parent::admin_add();
-
-			$parents = array(__('Top Level Category', true)) + $this->GlobalCategory->generatetreelist();
-			$groups = $this->GlobalCategory->Group->find('list');
-			$this->set(compact('parents', 'groups'));
 		}
 
 		public function admin_edit($id = null) {
+			unset($this->data['GlobalContent']['global_category_id']);
+			
 			parent::admin_edit($id);
-
-			$parents = array(__('Top Level Category', true)) + $this->GlobalCategory->generatetreelist();
-			$groups = $this->GlobalCategory->Group->find('list');
-			$this->set(compact('parents', 'groups'));
 		}
 
 		public function admin_delete($id = null) {

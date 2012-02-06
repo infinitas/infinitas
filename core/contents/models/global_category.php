@@ -59,6 +59,17 @@
 			)
 		);
 
+		public $hasOne = array(
+			'GlobalContent' => array(
+				'className' => 'Contents.GlobalContent',
+				'foreignKey' => 'foreign_key',
+				'conditions' => array(
+					'GlobalContent.foreign_key = GlobalCategory.id',
+					'GlobalContent.model' => 'Contents.GlobalCategory'
+				)
+			)
+		);
+
 		/** 
 		 * @copydoc AppModel::__construct()
 		 */
@@ -68,19 +79,13 @@
 			$this->order = array(
 				$this->alias . '.lft' => 'asc'
 			);
+		}
 
-			$this->validate = array(
-				'title' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please enter a title for this category', true)
-					),
-					'isUnique' => array(
-						'rule' => 'isUnique',
-						'message' => __('There is already a category with this title', true)
-					)
-				)
-			);
+		public function beforeValidate($options = array()) {
+			if(empty($this->data[$this->alias]['parent_id'])) {
+				$this->data[$this->alias]['parent_id'] = 0;
+			}
+			return parent::beforeValidate($options);
 		}
 
 		/**
