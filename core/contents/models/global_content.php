@@ -101,6 +101,10 @@
 				$newContent[$this->alias] = $row[$Model->alias];
 				$newContent[$this->alias]['foreign_key'] = $row[$Model->alias][$Model->primaryKey];
 				$newContent[$this->alias]['model'] = $Model->plugin . '.' . $Model->alias;
+
+				if(!isset($newContent[$this->alias]['group_id'])) {
+					$newContent[$this->alias]['group_id'] = 2;
+				}
 				
 				unset($newContent[$this->alias][$Model->primaryKey]);
 				$this->create();
