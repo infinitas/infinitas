@@ -16,6 +16,14 @@
 					'GlobalLayout.html'
 				)
 			),
+			'GlobalCategory' => array(
+				'className' => 'Contents.GlobalCategory',
+				'foreignKey' => 'global_category_id',
+				'fields' => array(
+					'GlobalCategory.id',
+					'GlobalCategory.title',
+				)
+			),
 			'Group' => array(
 				'className' => 'Users.Group',
 				'foreignKey' => 'group_id',
@@ -40,12 +48,6 @@
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
 						'message' => __('Please select the layout for this content item', true)
-					)
-				),
-				'group_id' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please select the lowest group that will have access', true)
 					)
 				),
 				'body' => array(
