@@ -662,6 +662,12 @@
 
 			foreach($data as $k => $_data){
 				foreach($_data as $kk => $__data){
+					if(is_array($__data)) {
+						foreach($__data as $kkk => $___data) {
+							$data[$k][$kk][$kkk] = round(($___data / $this->data['values']['max']) * 100);
+						}
+						continue;
+					}
 					$data[$k][$kk] = round(($__data / $this->data['values']['max']) * 100);
 				}
 			}

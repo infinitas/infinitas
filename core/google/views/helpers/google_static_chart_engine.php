@@ -18,7 +18,7 @@
 		 *
 		 * @copydetails ChartsBaseEngineHelper::bar()
 		 *
-		 * @link http://code.google.com/apis/chart/docs/gallery/googleometer_chart.html
+		 * @link http://code.google.com/apis/chart/image/docs/gallery/bar_charts.html
 		 */
 		public function bar($data){
 			$this->_chartType = 'bar';
@@ -467,9 +467,15 @@
 
 			$return = array();
 			foreach($value as $_value){
+				if(is_array(current($_value))) {
+					foreach($_value as $__value) {
+						$return[] = $this->_implode('data', $__value);
+					}
+					continue;
+				}
 				$return[] = $this->_implode('data', $_value);
 			}
-
+			
 			return $this->_formats['data']['key'] . implode('|', $return);
 		}
 
