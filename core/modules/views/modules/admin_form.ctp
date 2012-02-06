@@ -26,7 +26,7 @@
 			<div class="dynamic">
 				<div class="input select smaller">
 					<label for="ModulePlugin"><?php echo __('Module File', true); ?></label><?php
-					echo $this->Form->input('plugin', array('label' => false, 'div' => false, 'class' => "modulePuluginSelect {url:{action:'getModules'}, target:'ModuleModule'}"));
+					echo $this->Form->input('plugin', array('label' => false, 'div' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModules'}, target:'ModuleModule'}"));
 					echo $this->Form->input('module', array('label' => false, 'div' => false, 'empty' => __(Configure::read('Website.empty_select'), true))); ?>
 				</div><?php
 				echo $this->Form->input('config', array('class' => 'title'));

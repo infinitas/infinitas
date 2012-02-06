@@ -91,8 +91,9 @@
 					)
 				),
 				'config' => array(
-					'validateEmptyOrJson' => array(
+					'validateJson' => array(
 						'rule' => 'validateEmptyOrJson',
+						'allowEmpty' => true,
 						'message' => __('Please enter a valid json config or leave blank', true)
 					)
 				),

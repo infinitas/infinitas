@@ -62,11 +62,11 @@
 		 * Gets the plugin name from POST data to find the required modules.
 		 */
 		public function admin_getModules(){
-			if (!isset($this->params['named']['plugin'])) {
+			if (!isset($this->data[$this->modelClass]['plugin'])) {
 				$this->set('json', array('error'));
 				return;
 			}
 
-			$this->set('json', $this->{$this->modelClass}->getModuleList($this->params['named']['plugin']));
+			$this->set('json', $this->{$this->modelClass}->getModuleList($this->data[$this->modelClass]['plugin']));
 		}
 	}
