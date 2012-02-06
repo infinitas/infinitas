@@ -1,6 +1,6 @@
 <?php
 
-	class ContentableBehavior extends ModelBehavior{
+	class ContentableBehavior extends ModelBehavior {
 		/**
 		 * Settings initialized with the behavior
 		 *
@@ -67,8 +67,13 @@
 				return $query;
 			}
 
-			$query['contain']['GlobalContent'] = array(
-				'fields' => array(
+			if(empty($query['fields'])) {
+				$query['fields'] = array($Model->alias . '.*');
+			}
+			
+			$query['fields'] = array_merge(
+				$query['fields'],
+				array(
 					'GlobalContent.id',
 					'GlobalContent.model',
 					'GlobalContent.foreign_key',
@@ -80,16 +85,53 @@
 					'GlobalContent.group_id',
 					'GlobalContent.layout_id',
 					'GlobalContent.created',
-					'GlobalContent.modified'
-				),
-				'GlobalLayout',
-				'Group'
+					'GlobalContent.modified',
+					'Layout.*',
+					'GlobalCategory.*',
+					'Group.id',
+					'Group.name',
+				)
 			);
-			if(isset($query['recursive']) && $query['recursive'] == -1){
-				$query['recursive'] = 0;
+
+			$query['joins'][] = array(
+				'table' => 'global_contents',
+				'alias' => 'GlobalContent',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'GlobalContent.model' => $Model->plugin . '.' . $Model->alias,
+					'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
+				)
+			);
+
+			$query['joins'][] = array(
+				'table' => 'core_groups',
+				'alias' => 'Group',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'Group.id = GlobalContent.group_id'
+				)
+			);
+
+			if($Model->alias != 'GlobalCategory') {
+				$query['joins'][] = array(
+					'table' => 'global_categories',
+					'alias' => 'GlobalCategory',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'GlobalCategory.id = GlobalContent.global_category_id'
+					)
+				);
 			}
 
-			call_user_func(array($Model, 'contain'), $query['contain']);
+			$query['joins'][] = array(
+				'table' => 'global_layouts',
+				'alias' => 'Layout',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'Layout.id = GlobalContent.layout_id',
+				)
+			);
+
 			return $query;
 		}
 
