@@ -52,7 +52,7 @@
 			);
 
 			$Model->Group = $Model->GlobalContent->Group;
-			$Model->Layout = $Model->GlobalContent->GlobalLayout;
+			$Model->Layout = $Model->GlobalContent->Layout;
 		}
 
 		/**
@@ -85,15 +85,17 @@
 				)
 			);
 
-			$query['joins'][] = array(
-				'table' => 'global_contents',
-				'alias' => 'GlobalContent',
-				'type' => 'LEFT',
-				'conditions' => array(
-					'GlobalContent.model' => $Model->fullModelName(),
-					'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
-				)
-			);
+			if($Model->alias != 'GlobalContent') {
+				$query['joins'][] = array(
+					'table' => 'global_contents',
+					'alias' => 'GlobalContent',
+					'type' => 'LEFT',
+					'conditions' => array(
+						//'GlobalContent.model' => $Model->fullModelName(),
+						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
+					)
+				);
+			}
 
 			$query['joins'][] = array(
 				'table' => 'core_groups',

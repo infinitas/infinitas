@@ -10,14 +10,7 @@
 			
 		}
 
-		public function admin_index(){
-			$this->paginate = array(
-				'contain' => array(
-					'GlobalLayout',
-					'Group'
-				)
-			);
-			
+		public function admin_index() {
 			$contents = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;

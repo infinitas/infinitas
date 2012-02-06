@@ -4,6 +4,8 @@
 
 		public $useTable = 'global_contents';
 
+		public $contentable = true;
+
 		public $belongsTo = array(
 			'GlobalLayout' => array(
 				'className' => 'Contents.GlobalLayout',

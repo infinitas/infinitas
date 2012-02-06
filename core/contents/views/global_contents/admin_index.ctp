@@ -59,7 +59,7 @@
                 		<td>
                 			<?php 
 								echo $this->Html->adminQuickLink(
-									$content['GlobalLayout'],
+									$content['Layout'],
 									array('controller' => 'global_layouts'),
 									'GlobalLayout'
 								);
