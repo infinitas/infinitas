@@ -158,12 +158,19 @@
 			}
 
 			$referer = $this->Controller->referer();
-			$rows = $this->Controller->{$this->__modelName}->find('list', array('conditions' => array($this->__modelName.'.id' => $ids)));
+			$rows = $this->Controller->{$this->__modelName}->find(
+				'list',
+				array(
+					'conditions' => array(
+						$this->__modelName . '.id' => $ids
+					)
+				)
+			);
 
 			$this->Controller->set('model', $this->__modelName);
 			$this->Controller->set(compact('referer', 'rows'));
-			
-			$pluginOverload = App::pluginPath($this->plugin) . 'views' . DS . 'global' . DS . 'delete.ctp';
+
+			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'views' . DS . 'global' . DS . 'delete.ctp';
 			if(is_file($pluginOverload)) {
 				$this->Controller->render('delete', null, $pluginOverload);
 				return;
@@ -182,16 +189,22 @@
 		 * @param array $ids the ids to delete.
 		 */
 		public function __handleDeletes($ids) {
-			$conditions = array($this->__modelName . '.' . $this->Controller->{$this->__modelName}->primaryKey => $ids);
+			$this->Controller->{$this->__modelName}->transaction();
+			$deleted = true;
+			foreach($ids as $id) {
+				$deleted = $deleted && $this->Controller->{$this->__modelName}->delete($id);
+			}
+
 			$params = array();
-			
-			if($this->Controller->{$this->__modelName}->deleteAll($conditions, true, true) == true) {
+			if($deleted) {
+				$this->Controller->{$this->__modelName}->transaction(true);
 				$params = array(
-					'message' => sprintf(__('The %s have been deleted', true), $this->__prettyModelName)
+					'message' => sprintf(__('%d %s have been deleted', true), count($ids), $this->__prettyModelName)
 				);
 			}
 
 			else {
+				$this->Controller->{$this->__modelName}->transaction(false);
 				$params = array(
 					'level' => 'error',
 					'message' => sprintf(__('The %s could not be deleted', true), $this->__prettyModelName)

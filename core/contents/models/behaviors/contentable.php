@@ -70,20 +70,34 @@
 			if(empty($query['fields'])) {
 				$query['fields'] = array($Model->alias . '.*');
 			}
-			
-			$query['fields'] = array_merge(
-				$query['fields'],
-				array(
-					'GlobalContent.*',
-					'Layout.*',
-					'GlobalCategory.*',
-					'GlobalCategoryContent.id',
-					'GlobalCategoryContent.title',
-					'GlobalCategoryContent.slug',
-					'Group.id',
-					'Group.name',
-				)
-			);
+			if(!is_array($query['fields'])) {
+				$query['fields'] = array($query['fields']);
+			}
+
+			if($Model->findQueryType == 'list') {
+				$query['fields'] = array(
+					$Model->alias . '.' . $Model->primaryKey,
+					'GlobalContent.title'
+				);
+				
+				$query['list']['keyPath'] = '{n}.' . $Model->alias . '.' . $Model->primaryKey;
+				$query['list']['valuePath'] = '{n}.GlobalContent.title';
+			}
+			else {
+				$query['fields'] = array_merge(
+					$query['fields'],
+					array(
+						'GlobalContent.*',
+						'Layout.*',
+						'GlobalCategory.*',
+						'GlobalCategoryContent.id',
+						'GlobalCategoryContent.title',
+						'GlobalCategoryContent.slug',
+						'ContentGroup.id',
+						'ContentGroup.name',
+					)
+				);
+			}
 
 			if($Model->alias != 'GlobalContent') {
 				$query['joins'][] = array(
@@ -91,7 +105,6 @@
 					'alias' => 'GlobalContent',
 					'type' => 'LEFT',
 					'conditions' => array(
-						//'GlobalContent.model' => $Model->fullModelName(),
 						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
 					)
 				);
@@ -99,10 +112,10 @@
 
 			$query['joins'][] = array(
 				'table' => 'core_groups',
-				'alias' => 'Group',
+				'alias' => 'ContentGroup',
 				'type' => 'LEFT',
 				'conditions' => array(
-					'Group.id = GlobalContent.group_id'
+					'ContentGroup.id = GlobalContent.group_id'
 				)
 			);
 
@@ -151,7 +164,7 @@
 		public function afterFind($Model, $results, $primary = false) {
 			parent::afterFind($Model, $results, $primary);
 
-			if($Model->findQueryType == 'list' || $Model->findQueryType == 'count' || empty($results)){
+			if($Model->findQueryType == 'list' || $Model->findQueryType == 'count' || empty($results)) {
 				return $results;
 			}
 			
