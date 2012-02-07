@@ -42,9 +42,8 @@
 			$this->_Editor = new $helper;
 			$fields = explode('.', $field);
 
-			$heading = '<h3>'.__(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
-
-			return $this->input($field, array('label' => false)).$this->_Editor->editor($field, $config);
+			$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0]), true).'</h3>';
+			return $heading . $this->input($field, array('label' => false)) . $this->_Editor->editor($field, $config) . '</div>';
 		}
 
 		function text($id = null){
