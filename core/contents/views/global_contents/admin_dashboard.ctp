@@ -41,11 +41,50 @@
 			)
 		)
 	);
-	$dashboardIcons = $this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard');
+	
+	$reportIcons = array(
+		array(
+			'name' => 'Missing',
+			'description' => 'Find out what content is missing meta data',
+			'icon' => '/contents/img/report-missing.png',
+			'dashboard' => array(
+				'plugin' => 'contents',
+				'controller' => 'global_contents',
+				'action' => 'missing_meta'
+			)
+		),
+		array(
+			'name' => 'Short',
+			'description' => 'See what content has short meta data',
+			'icon' => '/contents/img/report-short.png',
+			'dashboard' => array(
+				'plugin' => 'contents',
+				'controller' => 'global_contents',
+				'action' => 'short_meta'
+			)
+		),
+		array(
+			'name' => 'duplicate',
+			'description' => 'See what content has duplicate meta data',
+			'icon' => '/contents/img/report-duplicate.png',
+			'dashboard' => array(
+				'plugin' => 'contents',
+				'controller' => 'global_contents',
+				'action' => 'duplicate_meta'
+			)
+		)
+	);
+	
+	$dashboardIcons = $this->Menu->builDashboardLinks($dashboardIcons, 'contents_dashboard_icon');
+	$reportIcons = $this->Menu->builDashboardLinks($reportIcons, 'contents_reports_icon');
 ?>
-<div class="dashboard grid_16">
-	<h1><?php __('Email Manager', true); ?></h1>
-	<ul class="icons"><li><?php echo implode('</li><li>', current((array)$dashboardIcons)); ?></li></ul>
+<div class="dashboard grid_8 half">
+	<h1><?php echo __('Content Management', true); ?></h1>
+	<?php echo $this->Design->arrayToList(current((array)$dashboardIcons), 'icons'); ?>
+</div>
+<div class="dashboard grid_8 half">
+	<h1><?php echo __('Reports', true); ?></h1>
+	<?php echo $this->Design->arrayToList(current((array)$reportIcons), 'icons'); ?>
 </div>
 <?php
 	echo $this->element('modules/admin/new_content', array('plugin' => 'contents'));
