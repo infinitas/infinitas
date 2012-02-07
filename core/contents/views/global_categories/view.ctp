@@ -18,8 +18,8 @@
 	 * @since         0.5a
 	 */
 
-	$eventData = $this->Event->trigger('contentsBeforeContentRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsBeforeContentRender'] as $_plugin => $_data){
+	$eventData = $this->Event->trigger('contentsBeforeCategoryRender', array('_this' => $this, 'content' => $category));
+	foreach((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data){
 		echo '<div class="before '.$_plugin.'">'.$_data.'</div>';
 	}
 	if(isset($category['GlobalCategory']['created'])){
@@ -28,6 +28,18 @@
 	if(isset($category['GlobalCategory']['modified'])){
 		$category['GlobalCategory']['modified'] = $this->Time->niceShort($category['GlobalCategory']['modified']);
 	}
+
+	$category['GlobalCategory']['item_count'] = sprintf(__d('contents', '%d items', true), $category['GlobalCategory']['item_count']);
+
+	$category['GlobalCategory']['author'] = $this->Html->link(
+		!empty($category['GlobalCategory']['author_alias']) ? $category['GlobalCategory']['author_alias'] : $category['ContentAuthor']['username'],
+		array(
+			'plugin' => 'users',
+			'controller' => 'users',
+			'action' => 'view',
+			$category['ContentAuthor']['id']
+		)
+	);
 
 	// need to overwrite the stuff in the viewVars for mustache
 	$this->set('category', $category);
@@ -40,7 +52,7 @@
 	echo $category['Layout']['html'];
 
 
-	$eventData = $this->Event->trigger('contentsAfterContentRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsAfterContentRender'] as $_plugin => $_data){
+	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('_this' => $this, 'content' => $category));
+	foreach((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data){
 		echo '<div class="after '.$_plugin.'">'.$_data.'</div>';
 	}
