@@ -547,9 +547,22 @@ form select{
 	}
 
 	form .date select,
+	form .smaller div.select,
 	form .smaller select{
 		width: 31%;
 		margin-right: 9px;
+	}
+
+	form .smaller {
+
+		overflow: auto;
+}
+	form .smaller div.select {
+		float: left;
+	}
+
+	form .smaller div.select select {
+		width: 100%;
 	}
 	form .datetime select{
 		width: 14%;;
@@ -670,4 +683,9 @@ table.listing .bg td {
 
 .cake-sql-log {
 	display: none;
+}
+
+
+.tabs>div {
+	overflow: auto;
 }
