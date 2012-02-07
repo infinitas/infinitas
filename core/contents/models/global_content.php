@@ -67,8 +67,211 @@
 					)
 				)
 			);
+
+			$this->_findMethods['duplicateData'] = true;
+			$this->_findMethods['missingData'] = true;
+			$this->_findMethods['shortData'] = true;
 		}
 
+		/**
+		 * @brief find row with duplicate keywords and descriptions
+		 *
+		 * To help with SEO one needs to know if there are pages with duplicate
+		 * descriptions and keywords. This method finds such rows so that the user
+		 * can correct any issues.
+		 *
+		 * It is a custom find and can be called using pagination.
+		 *
+		 * @access public
+		 *
+		 * @code
+		 *	$this->paginate = array('duplicateData');
+		 *	$this->set('data', $this->paginate());
+		 * @endcode
+		 *
+		 * @param string $state before or after (the find)
+		 * @param array $query the qurey being done
+		 * @param array $results the results from the find
+		 *
+		 * @return array in before its a query, in after its the data
+		 */
+		function _findDuplicateData($state, $query, $results = array()) {
+			if ($state === 'before') {
+				if(!is_array($query['fields'])) {
+					$query['fields'] = array($query['fields']);
+				}
+
+				$query['fields'] = array_merge(
+					$query['fields'],
+					array(
+						$this->alias . '.*',
+						'GlobalContentDuplicate.id',
+						'GlobalContentDuplicate.model',
+						'GlobalContentDuplicate.title',
+						'GlobalContentDuplicate.meta_keywords',
+						'GlobalContentDuplicate.meta_description',
+					)
+				);
+				$query['fields'] = array_unique($query['fields']);
+
+				$query['joins'][] = array(
+					'table' => 'global_contents',
+					'alias' => 'GlobalContentDuplicate',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'GlobalContentDuplicate.id != GlobalContent.id',
+						'and' => array(
+							'or' => array(
+								'GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords',
+								'GlobalContentDuplicate.meta_description = ' . $this->alias . '.meta_description',
+							)
+						)
+					)
+				);
+				$query['group'][] = $this->alias . '.id';
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			return $results;
+		}
+
+		/**
+		 * @brief find row with missing keywords, descriptions, layouts or categories
+		 *
+		 * This method finds rows with missing important data and can help identify
+		 * content that would not be displayed properly (missing layouts) etc
+		 *
+		 * It is a custom find and can be called using pagination.
+		 *
+		 * @access public
+		 *
+		 * @code
+		 *	$this->paginate = array('missingData');
+		 *	$this->set('data', $this->paginate());
+		 * @endcode
+		 *
+		 * @param string $state before or after (the find)
+		 * @param array $query the qurey being done
+		 * @param array $results the results from the find
+		 *
+		 * @return array in before its a query, in after its the data
+		 */
+		function _findMissingData($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['conditions'] = array_merge(
+					(array)$query['conditions'],
+					array(
+						'or' => array(
+							array(
+								'or' => array(
+									$this->alias . '.meta_keywords IS NULL',
+									$this->alias . '.meta_keywords' => ''
+								),
+							),
+							array(
+								'or' => array(
+									$this->alias . '.meta_description IS NULL',
+									$this->alias . '.meta_description' => ''
+								),
+							),
+							array(
+								'or' => array(
+									$this->alias . '.global_category_id IS NULL',
+									$this->alias . '.global_category_id' => ''
+								),
+							),
+							array(
+								'or' => array(
+									$this->alias . '.layout_id IS NULL',
+									$this->alias . '.layout_id' => ''
+								)
+							)
+						)
+					)
+				);
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			return $results;
+		}
+
+		/**
+		 * @brief find rows with short content lenght.
+		 *
+		 * With regards to SEO it could be better to have content with good
+		 * keywords and description in the meta data. This method helps pinpoint
+		 * content with short description / keyword fields that can then be improved
+		 *
+		 * It is a custom find and can be called using pagination.
+		 *
+		 * @access public
+		 *
+		 * @code
+		 *	$this->paginate = array('shortData');
+		 *	$this->set('data', $this->paginate());
+		 * @endcode
+		 *
+		 * @param string $state before or after (the find)
+		 * @param array $query the qurey being done
+		 * @param array $results the results from the find
+		 *
+		 * @return array in before its a query, in after its the data
+		 */
+		function _findShortData($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['conditions'] = array_merge(
+					(array)$query['conditions'],
+					array(
+						'or' => array(
+							array(
+								'and' => array(
+									'LENGTH(' . $this->alias . '.meta_keywords) <= 10',
+									'LENGTH(' . $this->alias . '.meta_keywords) >= 1'
+								),
+							),
+							array(
+								'and' => array(
+									'LENGTH(' . $this->alias . '.meta_description) <= 10',
+									'LENGTH(' . $this->alias . '.meta_description) >= 1'
+								)
+							)
+						)
+					)
+				);
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			return $results;
+		}
+
+		/**
+		 * @brief migrate data from a normal model setup to the contents plugin
+		 *
+		 * This will try and match data from your tables to the content plugin and
+		 * move it over.
+		 *
+		 * @access public
+		 *
+		 * @param string $model the name of the plugin.model to move
+		 * @param int $limit the number of rows to move
+		 *
+		 * @return array with how many items were found and how many were moved
+		 */
 		public function moveContent($model = null, $limit = 500){
 			if(!$model){
 				trigger_error(__('No model selected to move', true), E_USER_WARNING);
@@ -130,6 +333,15 @@
 			return $return;
 		}
 
+		/**
+		 * @brief get counts of new content vs deleted content vs edited content
+		 *
+		 * @access public
+		 *
+		 * @param int $months the number of months back to look
+		 * 
+		 * @return array the data found
+		 */
 		public function getNewContentByMonth($months = 24) {
 			$this->virtualFields['post_date'] = 'CONCAT_WS("/", YEAR(`' . $this->alias . '`.`created`), LPAD(MONTH(`' . $this->alias . '`.`created`), 2, 0))';
 			$this->virtualFields['count_joins'] = 'COUNT(`' . $this->alias . '`.`id`)';

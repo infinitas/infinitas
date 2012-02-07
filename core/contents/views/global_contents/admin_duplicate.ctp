@@ -28,16 +28,11 @@
         <?php
             echo $this->Infinitas->adminTableHeader(
                 array(
-                    $this->Form->checkbox('all') => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
-                    $this->Paginator->sort('model'),
-                    $this->Paginator->sort('title'),
-					__d('contents', 'Missing Data', true),
-                    $this->Paginator->sort('modified') => array(
-                        'style' => 'width:100px;'
-                    )
+                    $this->Paginator->sort(__d('contents', 'Original', true), 'title') => array('colspan' => 2),
+                    $this->Paginator->sort(__d('contents', 'Duplicate', true), 'GlobalContentDuplicate.title') => array('colspan' => 2),
+					
+					__d('contents', 'Duplicate Data', true),
+                    $this->Paginator->sort('modified') => array('style' => 'width:100px;')
                 )
             );
 
@@ -45,28 +40,37 @@
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($content); ?>&nbsp;</td>
-                		<td>
-                			<?php echo $content['GlobalContent']['model']; ?>&nbsp;
-                		</td>
-                		<td>
+                		<td title="<?php echo __d('contents', 'Model Info :: '), $content['GlobalContent']['model']; ?>">
                 			<?php echo $content['GlobalContent']['title']; ?>&nbsp;
                 		</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($content, array('model' => 'GlobalContentDuplicate')); ?>&nbsp;</td>
+                		<td title="<?php echo __d('contents', 'Model Info :: '), $content['GlobalContentDuplicate']['model']; ?>">
+                			<?php echo $content['GlobalContentDuplicate']['title']; ?>&nbsp;
+                		</td>
                 		<td>
-                			<?php 
+                			<?php
 								$missing = array();
-								if(!$content['GlobalContent']['meta_keywords']) {
+								$data = __d('contents', 'Duplicate :: ', true);
+								if($content['GlobalContent']['meta_keywords'] == $content['GlobalContentDuplicate']['meta_keywords']) {
+									$data .= sprintf(
+										'<b>%s</b><br/>%s',
+										__d('contents', 'Keywords', true),
+										$content['GlobalContent']['meta_keywords'] ? $content['GlobalContent']['meta_keywords'] : __d('contents', '<i>NULL</i>', true)
+									);
 									$missing[] = __d('contents', 'Keywords', true);
 								}
-								if(!$content['GlobalContent']['meta_description']) {
+
+								if($content['GlobalContent']['meta_description'] == $content['GlobalContentDuplicate']['meta_description']) {
+									$data .= sprintf(
+										'<b>%s</b><br/>%s',
+										__d('contents', 'Description', true),
+										$content['GlobalContent']['meta_description'] ? $content['GlobalContent']['meta_description'] : __d('contents', '<i>NULL</i>', true)
+									);
 									$missing[] = __d('contents', 'Description', true);
 								}
-								if(!$content['GlobalContent']['global_category_id']) {
-									$missing[] = __d('contents', 'Category', true);
-								}
-								if(!$content['GlobalContent']['layout_id']) {
-									$missing[] = __d('contents', 'Layout', true);
-								}
+								
 								echo $this->Text->toList($missing);
+								echo sprintf('<span title="%s"> ( ? ) </span>', $data);
 							?>&nbsp;
                 		</td>
                 		<td>

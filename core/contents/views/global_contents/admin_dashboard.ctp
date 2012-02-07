@@ -70,7 +70,7 @@
 			'dashboard' => array(
 				'plugin' => 'contents',
 				'controller' => 'global_contents',
-				'action' => 'duplicate_meta'
+				'action' => 'duplicate'
 			)
 		)
 	);

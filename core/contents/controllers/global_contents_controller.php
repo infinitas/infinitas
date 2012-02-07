@@ -11,51 +11,49 @@
 		}
 
 		public function admin_index() {
-			$contents = $this->paginate(null, $this->Filter->filter);
+			$this->__filter();
+			$this->set('contents', $this->paginate(null, $this->Filter->filter));
+		}
 
+		public function admin_missing_meta() {
+			$this->__filter();
+			$this->paginate = array(
+				'missingData',
+				array('conditions' => $this->Filter->filter)
+			);
+
+			$this->set('contents', $this->paginate());
+		}
+
+		public function admin_short_meta() {
+			$this->__filter();
+			$this->paginate = array(
+				'shortData',
+				array('conditions' => $this->Filter->filter)
+			);
+
+			$this->set('contents', $this->paginate());
+		}
+
+		public function admin_duplicate() {
+			$this->__filter();
+			$this->paginate = array(
+				'duplicateData',
+				array('conditions' => $this->Filter->filter)
+			);
+			
+			$this->set('contents', $this->paginate());
+		}
+
+		private function __filter() {
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'model' => $this->GlobalContent->uniqueList('model'),
 				'title',
 				'layout_id' => $this->GlobalContent->GlobalLayout->find('list')
 			);
-
-			$this->set(compact('contents', 'filterOptions'));
-		}
-
-		public function admin_missing_meta() {
-			$this->paginate = array(
-				'conditions' => array(
-					'or' => array(
-						array(
-							'or' => array(
-								'GlobalContent.meta_keywords IS NULL',
-								'GlobalContent.meta_keywords' => ''
-							),
-						),
-						array(
-							'or' => array(
-								'GlobalContent.meta_description IS NULL',
-								'GlobalContent.meta_description' => ''
-							),
-						),
-						array(
-							'or' => array(
-								'GlobalContent.global_category_id IS NULL',
-								'GlobalContent.global_category_id' => ''
-							),
-						),
-						array(
-							'or' => array(
-								'GlobalContent.layout_id IS NULL',
-								'GlobalContent.layout_id' => ''
-							),
-						)
-					)
-				)
-			);
-
-			$this->admin_index();
+			
+			$this->set(compact('filterOptions'));
 		}
 
 		public function admin_transfer(){

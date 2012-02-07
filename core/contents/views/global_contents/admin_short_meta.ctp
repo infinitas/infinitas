@@ -34,7 +34,7 @@
                     ),
                     $this->Paginator->sort('model'),
                     $this->Paginator->sort('title'),
-					__d('contents', 'Missing Data', true),
+					__d('contents', 'Short Data', true),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     )
@@ -54,17 +54,11 @@
                 		<td>
                 			<?php 
 								$missing = array();
-								if(!$content['GlobalContent']['meta_keywords']) {
+								if(strlen($content['GlobalContent']['meta_keywords']) < 30) {
 									$missing[] = __d('contents', 'Keywords', true);
 								}
-								if(!$content['GlobalContent']['meta_description']) {
+								if(strlen($content['GlobalContent']['meta_description']) < 30) {
 									$missing[] = __d('contents', 'Description', true);
-								}
-								if(!$content['GlobalContent']['global_category_id']) {
-									$missing[] = __d('contents', 'Category', true);
-								}
-								if(!$content['GlobalContent']['layout_id']) {
-									$missing[] = __d('contents', 'Layout', true);
 								}
 								echo $this->Text->toList($missing);
 							?>&nbsp;
