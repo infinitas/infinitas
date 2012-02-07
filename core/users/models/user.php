@@ -268,14 +268,18 @@
 			);
 		}
 
-		public function getAdmins() {
+		public function getAdmins($fields = array()) {
+			if(!$fields) {
+				$fields = array(
+					$this->alias . '.username',
+					$this->alias . '.email'
+				);
+			}
+			
 			return $this->find(
 				'list',
 				array(
-					'fields' => array(
-						$this->alias . '.username',
-						$this->alias . '.email'
-					),
+					'fields' => $fields,
 					'conditions' => array(
 						$this->alias . '.group_id' => 1
 					)
