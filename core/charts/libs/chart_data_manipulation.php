@@ -136,8 +136,16 @@
 				return $data;
 			}
 
-			$return = array('stats' => array());
-			foreach($data as $field => $values){
+			$empty = array('max' => 0, 'min' => 0, 'total' => 0, 'average' => 0, 'median' => 0);
+			$return = array('stats' => $empty);
+			
+			foreach($data as $field => $values) {
+				
+				if(empty($values)) {
+					$return['stats'][$field] = $empty;
+					continue;
+				}
+				
 				$return['stats'][$field]['max']     = max($values);
 				$return['stats'][$field]['min']     = min($values);
 				$return['stats'][$field]['total']   = array_sum($values);
@@ -146,11 +154,14 @@
 			}
 			
 			$values = Set::flatten($data);
-			$return['stats']['max']     = max($values);
-			$return['stats']['min']     = min($values);
-			$return['stats']['total']   = array_sum($values);
-			$return['stats']['average'] = $this->_average($values);
-			$return['stats']['median']  = $this->_median($values);
+
+			if($values) {
+				$return['stats']['max']     = max($values);
+				$return['stats']['min']     = min($values);
+				$return['stats']['total']   = array_sum($values);
+				$return['stats']['average'] = $this->_average($values);
+				$return['stats']['median']  = $this->_median($values);
+			}
 
 			unset($data, $values);
 			return $return;

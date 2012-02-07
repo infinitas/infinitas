@@ -668,7 +668,11 @@
 						}
 						continue;
 					}
-					$data[$k][$kk] = round(($__data / $this->data['values']['max']) * 100);
+
+					$data[$k][$kk] = 0;
+					if($this->data['values']['max']) {
+						$data[$k][$kk] = round(($__data / $this->data['values']['max']) * 100);
+					}
 				}
 			}
 
