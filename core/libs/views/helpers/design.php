@@ -87,6 +87,41 @@
 			);
 		}
 
+		public function tabs($tabs, $content) {
+			if(count($tabs) != count($content)) {
+				throw new Exception('Tab count does not match content');
+			}
+
+			$uuid = String::uuid();
+			$i = 0;
+			foreach($tabs as $k => $tab) {
+				if(!is_array($tab)) {
+					$tab = array('text' => $tab);
+				}
+				
+				$tab = array_merge(
+					array('text' => 'Missing', 'url' => '', 'config' => array()),
+					$tab
+				);
+
+				$tabs[$k] = $this->Html->link(
+					$tab['text'],
+					$tab['url'] . sprintf('#%s-%d', $uuid, $i),
+					$tab['config']
+				);
+
+				$content[$k] = sprintf('<div id="%s-%d">%s</div>', $uuid, $i, $content[$k]);
+				
+				$i++;
+			}
+
+			return sprintf(
+				'<div class="tabs">%s%s</div>',
+				$this->arrayToList($tabs),
+				implode('', $content)
+			);
+		}
+
 		private function __createUrl($url = null, $id = 0) {
 			if (!$url) {
 				$this->errors[] = 'No url passed, returning root';
