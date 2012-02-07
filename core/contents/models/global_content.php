@@ -33,6 +33,14 @@
 					'Group.id',
 					'Group.name'
 				)
+			),
+			'ContentAuthor' => array(
+				'className' => 'Users.User',
+				'foreignKey' => 'author_id'
+			),
+			'ContentEditor' => array(
+				'className' => 'Users.User',
+				'foreignKey' => 'editor_id'
 			)
 		);
 
