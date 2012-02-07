@@ -22,7 +22,14 @@
 				throw new Exception('Could not find the Content model');
 			}
 
+			$authors = $Model->ContentAuthor->getAdmins(
+				array(
+					$Model->ContentAuthor->alias . '.' . $Model->ContentAuthor->primaryKey,
+					$Model->ContentAuthor->alias . '.' . $Model->ContentAuthor->displayField,
+				)
+			);
 			$Controller->set('contentGroups', $Model->Group->generatetreelist());
+			$Controller->set('contentAuthors', $authors);
 			$Controller->set('contentLayouts', $Model->GlobalLayout->find('list'));
 
 			$contentCategories = $Model->GlobalCategory->generatetreelist(
