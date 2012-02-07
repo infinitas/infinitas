@@ -603,7 +603,7 @@
 			if (!empty($_editor)) {
 				$editor = $_editor;
 			}
-
+			
 			return $this->Wysiwyg->load($editor, $id, $config);
 		}
 
@@ -869,10 +869,10 @@
 		public function datePicker($classes, $model = null, $time = false){
 			$model = (!$model) ? Inflector::classify($this->params['controller']) : $model;
 
-			$out = '';
+			$out = '<div class="datePicker">';
 			foreach((array)$classes as $class){
 				$out .= sprintf(
-					'<div class="datePicker"><label>%s</label><div id="%sDatePicker%s"></div>%s</div>',
+					'<div class="date"><label>%s</label><div id="%sDatePicker%s"></div>%s</div>',
 					Inflector::humanize($class),
 					$model,
 					ucfirst(Inflector::classify($class)),
@@ -880,7 +880,9 @@
 				);
 				
 				if($time === true){
+					$out .= '<div class="time">';
 					$out .= $this->Form->input($model.'.'.str_replace('date', 'time', $class), array('type' => 'time', 'class' => 'timePicker'));
+					$out .= '</div>';
 				}
 
 				else if(is_array($time)){
@@ -891,7 +893,7 @@
 				$out .= "\n";
 			}
 
-			return $out;
+			return $out . '</div>';
 		}
 
 		/**
