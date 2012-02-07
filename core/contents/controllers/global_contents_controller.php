@@ -23,6 +23,41 @@
 			$this->set(compact('contents', 'filterOptions'));
 		}
 
+		public function admin_missing_meta() {
+			$this->paginate = array(
+				'conditions' => array(
+					'or' => array(
+						array(
+							'or' => array(
+								'GlobalContent.meta_keywords IS NULL',
+								'GlobalContent.meta_keywords' => ''
+							),
+						),
+						array(
+							'or' => array(
+								'GlobalContent.meta_description IS NULL',
+								'GlobalContent.meta_description' => ''
+							),
+						),
+						array(
+							'or' => array(
+								'GlobalContent.global_category_id IS NULL',
+								'GlobalContent.global_category_id' => ''
+							),
+						),
+						array(
+							'or' => array(
+								'GlobalContent.layout_id IS NULL',
+								'GlobalContent.layout_id' => ''
+							),
+						)
+					)
+				)
+			);
+
+			$this->admin_index();
+		}
+
 		public function admin_transfer(){
 			if(!empty($this->data)){
 				if(isset($this->data['GlobalContent']['plugin']) && isset($this->data['GlobalContent']['model'])){
