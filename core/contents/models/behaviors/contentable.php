@@ -102,6 +102,10 @@
 						'GlobalCategoryContent.slug',
 						'ContentGroup.id',
 						'ContentGroup.name',
+						'ContentEditor.id',
+						'ContentEditor.username',
+						'ContentAuthor.id',
+						'ContentAuthor.username'
 					)
 				);
 			}
@@ -153,6 +157,24 @@
 				'type' => 'LEFT',
 				'conditions' => array(
 					'Layout.id = GlobalContent.layout_id',
+				)
+			);
+
+			$query['joins'][] = array(
+				'table' => 'core_users',
+				'alias' => 'ContentAuthor',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'ContentAuthor.id = GlobalContent.author_id',
+				)
+			);
+
+			$query['joins'][] = array(
+				'table' => 'core_users',
+				'alias' => 'ContentEditor',
+				'type' => 'LEFT',
+				'conditions' => array(
+					'ContentEditor.id = GlobalContent.editor_id',
 				)
 			);
 

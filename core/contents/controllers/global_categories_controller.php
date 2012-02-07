@@ -40,7 +40,7 @@
 		public function view() {
 			$conditions = array();
 			if(isset($this->params['category'])){
-				$conditions['GlobalCategory.slug'] = $this->params['category'];
+				$conditions['GlobalContent.slug'] = $this->params['category'];
 			}
 
 			$category = $this->GlobalCategory->find(
