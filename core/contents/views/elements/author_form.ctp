@@ -5,12 +5,19 @@
 	 */
 	$options = array('options' => $contentAuthors, 'selected' => $this->Session->read('Auth.User.id'));
 	if(strstr($this->params['action'], 'edit')) {
-		$options = array('readonly' => true);
+		$options = false;
 	}
 
-	$fields = $this->Form->input('GlobalContent.author_id', $options);
-	unset($options['options'], $options['selected']);
-	$fields .= $this->Form->input('GlobalContent.author_alias', $options);
+	if($options) {
+		$fields = $this->Form->input('GlobalContent.author_id', $options);
+		unset($options['options'], $options['selected']);
+		$fields .= $this->Form->input('GlobalContent.author_alias', $options);
+	}
+	else {
+		$value = isset($contentAuthors[$this->data['GlobalContent']['author_id']]) ? $contentAuthors[$this->data['GlobalContent']['author_id']] : '';
+		$fields = $this->Form->input('created_by', array('label' => 'author', 'value' => $value, 'readonly' => true, 'type' => 'text'));
+		$fields .= $this->Form->input('GlobalContent.author_alias', array('label' => 'author', 'value' => $this->data['GlobalContent']['author_alias'], 'readonly' => true, 'type' => 'text'));
+	}
 
 	$template = '%s';
 	if(!empty($metaFieldSet) && $metaFieldSet === true) {
@@ -28,7 +35,7 @@
 
 	$options = array('options' => $contentAuthors, 'selected' => $this->Session->read('Auth.User.id'));
 	if(strstr($this->params['action'], 'add')) {
-		$options = array('readonly' => true);
+		$options['readonly'] = true;
 	}
 
 	$fields = $this->Form->input('GlobalContent.editor_id', $options);
