@@ -25,6 +25,7 @@
 			echo $this->Form->input('id');
 			echo $this->Form->input('title', array('readonly' => true));
 			echo $this->Form->input('group_id');
+			echo $this->element('category_list', array('plugin' => 'contents'));
 			echo $this->Form->input('layout_id'); ?>
 		</fieldset><?php
 	echo $this->Form->end();
