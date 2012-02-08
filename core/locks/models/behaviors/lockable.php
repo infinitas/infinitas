@@ -222,11 +222,11 @@
 		 * @return bool true on succsess false if not.
 		 */
 		public function afterSave(&$Model, $created){
-			if($created || !isset($Model->Lock) || !is_object($Model->Lock)){
+			if($created){
 				return parent::afterSave($Model, $created);
 			}
 
-			$Model->Lock->deleteAll(
+			ClassRegistry::init('Locks.Lock')->deleteAll(
 				array(
 					'Lock.foreign_key' => $Model->data[$Model->alias][$Model->primaryKey],
 					'Lock.class' => $Model->plugin.'.'.$Model->alias,
@@ -234,6 +234,6 @@
 				)
 			);
 
-			parent::afterSave($Model, $created);
+			return parent::afterSave($Model, $created);
 		}
 	}
