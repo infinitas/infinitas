@@ -13,7 +13,8 @@
 		public function seoMetaTags() {
 			$View = ClassRegistry::getObject('view');
 
-			$contentIndex = $contentFollow = $canonicalUrl = null;
+			$contentIndex = $contentFollow = true;
+			$canonicalUrl = null;
 			if(!empty($View->viewVars['seoContentIndex'])) {
 				$contentIndex = $View->viewVars['seoContentIndex'];
 			}
@@ -71,6 +72,7 @@
 		public function metaRobotTag($contentIndex = true, $contentFollow = true) {
 			$robot = array('all');
 			if(!$contentIndex || !$contentFollow) {
+				$robot = array();
 				$robot['index'] = 'noindex';
 				if($contentIndex !== false) {
 					$robot['index'] = 'index';
