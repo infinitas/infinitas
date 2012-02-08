@@ -29,7 +29,7 @@
 		 * @var public $helpers
 		 * @access public
 		 */
-		public $helpers = array('Html');
+		public $helpers = array('Html', 'Text');
 
 		/**
 		 * Method to output a tag-cloud formatted based on the weight of the tags
@@ -89,6 +89,31 @@
 			}
 
 			return implode($options['between'], $cloud);
+		}
+
+		/**
+		 * @brief convert an array of tags to a list of tags with links
+		 *
+		 * @access public
+		 *
+		 * @param array $data the row of data from find
+		 *
+		 * @return string html list of tags as links
+		 */
+		public function tagList($data) {
+			if(empty($data['GlobalTagged'])) {
+				return __d('contents', 'No tags', true);
+			}
+
+			$return = array();
+			foreach($data['GlobalTagged'] as $tagged) {
+				$return[] = $this->Html->link(
+					$tagged['GlobalTag']['name'],
+					$this->here . '#'
+				);
+			}
+
+			return $this->Text->toList($return);
 		}
 
 		/**
