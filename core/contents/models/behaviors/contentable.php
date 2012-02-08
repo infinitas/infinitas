@@ -60,7 +60,11 @@
 		 * @return array the modified query
 		 */
 		public function beforeFind($Model, $query) {
-			if($Model->findQueryType == 'count'){
+			$ignore = array(
+				'count',
+				'getRelationsCategory'
+			);
+			if(in_array($Model->findQueryType, $ignore)) {
 				return $query;
 			}
 

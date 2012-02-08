@@ -43,22 +43,11 @@
 				$conditions['GlobalContent.slug'] = $this->params['category'];
 			}
 
-			$category = $this->GlobalCategory->find(
-				'first',
-				array(
-					'conditions' => $conditions
-				)
-			);
+			$category = $this->GlobalCategory->find('getCategory', array('conditions' => $conditions));
 
 			// redirect if there is only one content item.
 			if ((isset($category['Content']) && count($category['Content']) == 1) && Configure::read('Cms.auto_redirect')) {
-				$this->redirect(
-					array(
-						'controller' => 'contents',
-						'action' => 'view',
-						$category['Content'][0]['id']
-					)
-				);
+				
 			}
 
 			else if(empty($category)){

@@ -79,6 +79,8 @@
 			$this->order = array(
 				$this->alias . '.lft' => 'asc'
 			);
+
+			$this->_findMethods['getCategory'] = true;
 		}
 
 		public function beforeValidate($options = array()) {
@@ -145,5 +147,24 @@
 			}
 
 			return parent::children($id, $direct);
+		}
+
+		public function _findGetCategory($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['limit'] = 1;
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			$results = current($results);
+
+			if(!empty($results[$this->alias][$this->primaryKey])) {
+				$results['CategoryContent'] = $this->GlobalContent->find('getRelationsCategory', $results[$this->alias][$this->primaryKey]);
+			}
+
+			return $results;
 		}
 	}

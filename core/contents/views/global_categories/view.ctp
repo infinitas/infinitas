@@ -42,6 +42,44 @@
 	);
 
 	// need to overwrite the stuff in the viewVars for mustache
+	if(!empty($category['CategoryContent'])) {
+		$_relatedOut = array(
+			'<div class="section related">',
+			sprintf('<h3>%s</h3>', __d('contents', 'Related Content', true))
+		);
+		$currentCategory = current(array_shift($category['CategoryContent']));
+		
+		foreach($category['CategoryContent'] as $model => $relatedContents) {
+			$model = pluginSplit($model);
+
+			foreach($relatedContents as $relatedContent) {
+				$relatedContent['GlobalCategory'] = $currentCategory;
+
+				$tmp = $this->Event->trigger(strtolower($model[0]) . '.slugUrl', $relatedContent);
+				$tmp = current($tmp['slugUrl']);
+
+				
+				if(!empty($tmp)) {
+					$relatedContent['link'] = Router::url($tmp, true);
+
+					$_relatedOut[] = $this->element(
+						'related_content',
+						array(
+							'plugin' => 'contents',
+							'data' => $relatedContent,
+							'pluginName' => $model[0]
+						)
+					);
+				}
+			}
+		}
+		$_relatedOut[] = '</div>';
+		$this->set('relatedContent', implode('', $_relatedOut));
+	}
+	
+	if(!empty($category['CategoryContent']['Contents.SubCategory'])) {
+		$this->set('subCategory', $category['CategoryContent']['Contents.SubCategory']);
+	}
 	$this->set('category', $category);
 
 	if(!empty($category['Layout']['css'])){

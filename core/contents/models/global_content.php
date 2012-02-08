@@ -88,6 +88,7 @@
 			$this->_findMethods['missingData'] = true;
 			$this->_findMethods['shortData'] = true;
 			$this->_findMethods['categoryList'] = true;
+			$this->_findMethods['getRelationsCategory'] = true;
 		}
 
 		/**
@@ -315,6 +316,76 @@
 			}
 			$query['list']['groupPath'] = '';
 			return $this->_findList($state, $query, $results);
+		}
+		
+		public function _findGetRelationsCategory($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['fields'] = array(
+					'GlobalContent.id',
+					'GlobalContent.model',
+					'GlobalContent.foreign_key',
+					'GlobalContent.title',
+					'GlobalContent.slug',
+					'GlobalContent.introduction',
+					'GlobalContent.canonical_url',
+					'GlobalContent.global_category_id',
+					'SubCategory.*',
+					'SubCategoryData.id',
+					'SubCategoryData.model',
+					'SubCategoryData.foreign_key',
+					'SubCategoryData.title',
+					'SubCategoryData.slug',
+					'SubCategoryData.introduction',
+					'SubCategoryData.canonical_url',
+					'SubCategoryData.global_category_id'
+				);
+				$query['conditions'] = array(
+					'or' => array(
+						'GlobalContent.foreign_key' => $query[0],
+						'GlobalContent.global_category_id' => $query[0]
+					)
+				);
+				$query['joins'][] = array(
+					'table' => 'global_categories',
+					'alias' => 'SubCategory',
+					'type' => 'LEFT',
+					'foreignKey' => false,
+					'conditions' => array(
+						'SubCategory.parent_id = GlobalContent.global_category_id'
+					)
+				);
+				$query['joins'][] = array(
+					'table' => 'global_contents',
+					'alias' => 'SubCategoryData',
+					'type' => 'LEFT',
+					'foreignKey' => false,
+					'conditions' => array(
+						'SubCategoryData.foreign_key = SubCategory.id'
+					)
+				);
+
+				unset($query[0]);
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+			
+			$return = array();
+			foreach($results as &$result) {
+				$result['GlobalContent']['id'] = $result['GlobalContent']['foreign_key'];
+				$model = $result['GlobalContent']['model'];
+				unset($result['GlobalContent']['foreign_key'], $result['GlobalContent']['model']);
+
+				$return[$model][] = $result['GlobalContent'];
+				
+				if(!empty($result['SubCategoryData']['id'])) {
+					$return['Contents.SubCategory'][] = $result['SubCategoryData'];
+				}
+			}
+
+			return $return;
 		}
 
 		/**
