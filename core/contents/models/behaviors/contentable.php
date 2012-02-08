@@ -197,8 +197,44 @@
 			if($Model->findQueryType == 'list' || $Model->findQueryType == 'count' || empty($results)) {
 				return $results;
 			}
+
+			$globalContentIds = Set::extract('{n}.' . $Model->GlobalContent->alias . '.' . $Model->GlobalContent->primaryKey, $results);
+			$globalTags = $Model->GlobalContent->GlobalTagged->find(
+				'all',
+				array(
+					'fields' => array(
+						'GlobalTagged.*',
+						'GlobalTag.*',
+					),
+					'conditions' => array(
+						'GlobalTagged.foreign_key' => $globalContentIds
+					),
+					'joins' => array(
+						array(
+							'table' => 'global_tags',
+							'alias' => 'GlobalTag',
+							'type' => 'LEFT',
+							'foreignKey' => false,
+							'conditions' => array(
+								'GlobalTag.id = GlobalTagged.tag_id',
+							)
+						)
+					)
+				)
+			);
 			
-			foreach($results as $k => $result){
+			foreach($globalTags as &$tag) {
+				$tag['GlobalTagged']['GlobalTag'] = $tag['GlobalTag'];
+				unset($tag['GlobalTag']);
+			}
+			
+			foreach($results as $k => $result) {
+				$template = sprintf(
+					'/GlobalTagged[foreign_key=/%s/i]',
+					$results[$k]['GlobalContent'][$Model->GlobalContent->primaryKey]
+				);
+				$results[$k]['GlobalTagged'] = Set::extract('{n}.GlobalTagged', Set::extract($template, $globalTags));
+				
 				if(isset($results[$k]['GlobalCategoryContent'])) {
 					$results[$k]['GlobalCategory'] = array_merge(
 						$results[$k]['GlobalCategoryContent'],
@@ -234,6 +270,28 @@
 			}
 			
 			return isset($Model->data['GlobalContent']['model']) && !empty($Model->data['GlobalContent']['model']);
+		}
+
+		/**
+		 * @brief trigger the tag save
+		 *
+		 * As cake does not trigger events down deep relations we need to trigger
+		 * the tag save here. The model being saved is the one using GlobalContent
+		 * model.
+		 *
+		 * If there are tags, it will be called
+		 *
+		 * @access public
+		 *
+		 * @param <type> $Model
+		 * @param <type> $created
+		 *
+		 * @return void
+		 */
+		public function afterSave($Model, $created) {
+			if (!empty($Model->data['GlobalContent']['tags'])) {
+				$Model->GlobalContent->saveTags($Model->data['GlobalContent']['tags'], $Model->GlobalContent->id);
+			}
 		}
 
 		public function getContentId($Model, $slug){
