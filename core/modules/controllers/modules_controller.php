@@ -8,9 +8,28 @@
 
 		public function admin_index() {
 			$this->paginate = array(
-				'contain' => array(
-					'Position',
-					'Group'
+				'fields' => array(
+					'Module.*',
+					'Position.*',
+					'Group.*',
+				),
+				'joins' => array(
+					array(
+						'table' => 'core_module_positions',
+						'alias' => 'Position',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'Position.id = Module.position_id'
+						)
+					),
+					array(
+						'table' => 'core_groups',
+						'alias' => 'Group',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'Group.id = Module.group_id'
+						)
+					)
 				)
 			);
 
