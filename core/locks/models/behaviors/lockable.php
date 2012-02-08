@@ -120,7 +120,8 @@
 			if(isset($results[0][$Model->alias][$Model->primaryKey])) {
 				$Lock = ClassRegistry::init('Locks.Lock');
 
-				$this->userId = CakeSession::read('Auth.User.id');
+				$Session = new CakeSession();
+				$this->userId = $Session->read('Auth.User.id');
 				$lock = $Lock->find(
 					'all',
 					array(
