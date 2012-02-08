@@ -30,6 +30,12 @@
 			return $menu;
 		}
 
+		public function onRequireHelpersToLoad($event = null) {
+			return array(
+				'Webmaster.Webmaster'
+			);
+		}
+
 		public function onSetupConfig(){
 			return Configure::load('webmaster.config');
 		}
