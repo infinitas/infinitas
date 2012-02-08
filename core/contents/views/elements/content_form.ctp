@@ -18,7 +18,8 @@
 			$this->Form->input('GlobalContent.layout_id', array('options' => $contentLayouts, 'empty' => Configure::read('Website.empty_select'), 'class' => 'smaller')) .
 			$this->Form->input('GlobalContent.group_id', array('options' => $contentGroups, 'label' => __('Min Group', true), 'empty' => __d('contents', 'Public', true))) .
 			$this->element('category_list', array('plugin' => 'contents')) .
-		'</div>';
+		'</div>' .
+		$this->Form->input('GlobalContent.tags');
 
 
 	$template = '%s';
