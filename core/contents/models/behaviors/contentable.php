@@ -142,6 +142,7 @@
 				'table' => 'global_contents',
 				'alias' => 'GlobalCategoryContent',
 				'type' => 'LEFT',
+				'foreignKey' => false,
 				'conditions' => array(
 					'GlobalCategoryContent.model' => 'Contents.GlobalCategory',
 					'GlobalCategoryContent.foreign_key = GlobalCategory.id',
@@ -152,6 +153,7 @@
 				'table' => 'global_layouts',
 				'alias' => 'Layout',
 				'type' => 'LEFT',
+				'foreignKey' => false,
 				'conditions' => array(
 					'Layout.id = GlobalContent.layout_id',
 				)
@@ -161,6 +163,7 @@
 				'table' => 'core_users',
 				'alias' => 'ContentAuthor',
 				'type' => 'LEFT',
+				'foreignKey' => false,
 				'conditions' => array(
 					'ContentAuthor.id = GlobalContent.author_id',
 				)
@@ -170,6 +173,7 @@
 				'table' => 'core_users',
 				'alias' => 'ContentEditor',
 				'type' => 'LEFT',
+				'foreignKey' => false,
 				'conditions' => array(
 					'ContentEditor.id = GlobalContent.editor_id',
 				)
