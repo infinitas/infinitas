@@ -59,7 +59,8 @@
 			'cacheWeight' => true,
 			'automaticTagging' => true,
 			'unsetInAfterFind' => false,
-			'resetBinding' => false);
+			'resetBinding' => false
+		);
 
 	/**
 	 * Setup
