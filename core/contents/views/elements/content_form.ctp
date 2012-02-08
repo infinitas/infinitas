@@ -7,9 +7,13 @@
 	$fields =
 		$this->Form->input('GlobalContent.id') .
 		$this->Form->hidden('GlobalContent.model', array('value' => $model)) .
-		$this->Form->input('GlobalContent.title') .
-		$this->Infinitas->wysiwyg('GlobalContent.introduction') .
-		$this->Infinitas->wysiwyg('GlobalContent.body') .
+		$this->Form->input('GlobalContent.title');
+
+	if(!isset($intro) || $intro !== false) {
+		$fields .= $this->Infinitas->wysiwyg('GlobalContent.introduction');
+	}
+
+	$fields .= $this->Infinitas->wysiwyg('GlobalContent.body') .
 		'<div class="input smaller required">' .
 			$this->Form->input('GlobalContent.layout_id', array('options' => $contentLayouts, 'empty' => Configure::read('Website.empty_select'), 'class' => 'smaller')) .
 			$this->Form->input('GlobalContent.group_id', array('options' => $contentGroups, 'label' => __('Min Group', true), 'empty' => __d('contents', 'Public', true))) .
