@@ -50,9 +50,6 @@
 				),
 				false
 			);
-
-			$Model->Group = $Model->GlobalContent->Group;
-			$Model->Layout = $Model->GlobalContent->Layout;
 		}
 
 		/**
