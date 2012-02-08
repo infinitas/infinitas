@@ -4,13 +4,26 @@
 	class DesignHelper extends AppHelper {
 		public $helpers = array('Text', 'Html');
 
-		public function arrayToList($array = array(), $class = null, $div = false){
+		public function arrayToList($array = array(), $class = null, $div = false) {
+			if(!empty($class['div'])) {
+				$div = true;
+			}
+			if(!is_array($class)) {
+				$class = array(
+					'div' => $class,
+					'ul' => $class
+				);
+			}
+			$class = array_merge(
+				array('div' => null, 'ul' => null),
+				$class
+			);
 			$base = '%s';
 			if($div){
-				$base = sprintf('<div class="%s">%%s</div>', $class);
+				$base = sprintf('<div class="%s">%%s</div>', $class['div']);
 			}
 
-			return sprintf($base, sprintf('<ul class="%s"><li>%s</li></ul>', $class, implode('</li><li>', (array)$array)));
+			return sprintf($base, sprintf('<ul class="%s"><li>%s</li></ul>', $class['ul'], implode('</li><li>', (array)$array)));
 		}
 
 		public function infoBox($info = array(), $truncate = 24) {
