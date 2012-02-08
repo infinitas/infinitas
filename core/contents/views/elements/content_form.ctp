@@ -7,7 +7,8 @@
 	$fields =
 		$this->Form->input('GlobalContent.id') .
 		$this->Form->hidden('GlobalContent.model', array('value' => $model)) .
-		$this->Form->input('GlobalContent.title');
+		$this->Form->input('GlobalContent.title') .
+		$this->Form->input('GlobalContent.slug', array('label' => __d('contents', 'Url Slug', true)));
 
 	if(!isset($intro) || $intro !== false) {
 		$fields .= $this->Infinitas->wysiwyg('GlobalContent.introduction');
