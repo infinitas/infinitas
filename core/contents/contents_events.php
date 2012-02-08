@@ -59,7 +59,10 @@
 		}
 
 		public function onRequireHelpersToLoad(){
-			return 'Contents.TagCloud';
+			return array(
+				'Contents.TagCloud',
+				'Contents.GlobalContents'
+			);
 		}
 
 		public function onRequireJavascriptToLoad($event){
