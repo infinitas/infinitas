@@ -76,9 +76,12 @@
 		$_relatedOut[] = '</div>';
 		$this->set('relatedContent', implode('', $_relatedOut));
 	}
-	
+
 	if(!empty($category['CategoryContent']['Contents.SubCategory'])) {
 		$this->set('subCategory', $category['CategoryContent']['Contents.SubCategory']);
+	}
+	if(!empty($category['ParentCategory']['id'])) {
+		$this->set('parentCategory', $category['ParentCategory']);
 	}
 	$this->set('category', $category);
 

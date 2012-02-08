@@ -152,6 +152,40 @@
 		public function _findGetCategory($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['limit'] = 1;
+
+				$query['fields'] = array_merge(
+					(array)$query['fields'],
+					array(
+						'ParentCategory.*',
+						'ParentCategoryData.id',
+						'ParentCategoryData.model',
+						'ParentCategoryData.foreign_key',
+						'ParentCategoryData.title',
+						'ParentCategoryData.slug',
+						'ParentCategoryData.introduction',
+						'ParentCategoryData.canonical_url',
+						'ParentCategoryData.global_category_id'
+					)
+				);
+
+				$query['joins'][] = array(
+					'table' => 'global_categories',
+					'alias' => 'ParentCategory',
+					'type' => 'LEFT',
+					'foreignKey' => false,
+					'conditions' => array(
+						'ParentCategory.id = GlobalCategory.parent_id'
+					)
+				);
+				$query['joins'][] = array(
+					'table' => 'global_contents',
+					'alias' => 'ParentCategoryData',
+					'type' => 'LEFT',
+					'foreignKey' => false,
+					'conditions' => array(
+						'ParentCategoryData.foreign_key = ParentCategory.id'
+					)
+				);
 				return $query;
 			}
 
@@ -162,6 +196,13 @@
 			$results = current($results);
 
 			if(!empty($results[$this->alias][$this->primaryKey])) {
+				if(!empty($results['ParentCategory'][$this->primaryKey])) {
+					$results['ParentCategory']['title'] = $results['ParentCategoryData']['title'];
+					$results['ParentCategory']['slug'] = $results['ParentCategoryData']['slug'];
+					$results['ParentCategory']['canonical_url'] = $results['ParentCategoryData']['canonical_url'];
+					unset($results['ParentCategoryData']);
+				}
+				
 				$results['CategoryContent'] = $this->GlobalContent->find('getRelationsCategory', $results[$this->alias][$this->primaryKey]);
 			}
 
