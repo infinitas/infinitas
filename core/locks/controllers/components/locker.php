@@ -28,6 +28,10 @@
 		}
 
 		public function beforeRender($Controller){
+			if(empty($Controller->params['admin']) || !$Controller->params['admin']) {
+				return;
+			}
+			
 			if(isset($Controller->data['Lock']['user_id']) && $Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
 				$Controller->Session->setFlash(
 					sprintf(
