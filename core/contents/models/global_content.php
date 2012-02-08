@@ -87,6 +87,7 @@
 			$this->_findMethods['duplicateData'] = true;
 			$this->_findMethods['missingData'] = true;
 			$this->_findMethods['shortData'] = true;
+			$this->_findMethods['categoryList'] = true;
 		}
 
 		/**
@@ -273,6 +274,47 @@
 			}
 
 			return $results;
+		}
+
+		/**
+		 * @brief get a list of categories
+		 *
+		 * @access public
+		 *
+		 * @code
+		 *	$this->GlobalContent->find('categoryList');
+		 * @endcode
+		 *
+		 * @param string $state before or after (the find)
+		 * @param array $query the qurey being done
+		 * @param array $results the results from the find
+		 *
+		 * @return array in before its a query, in after its the data
+		 */
+		function _findCategoryList($state, $query, $results = array()) {
+			$this->findQueryType = 'list';
+			
+			if ($state === 'before') {
+				$query['conditions'] = array_merge(
+					(array)$query['conditions'],
+					array(
+						'GlobalContent.model' => 'Contents.GlobalCategory'
+					)
+				);
+
+				$query['fields'] = array(
+					'GlobalContent.foreign_key',
+					'GlobalContent.title',
+				);
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+			$query['list']['groupPath'] = '';
+			return $this->_findList($state, $query, $results);
 		}
 
 		/**
