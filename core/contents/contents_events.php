@@ -49,14 +49,10 @@
 				if (array_key_exists('category_id', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Contents.Categorisable')) {
 					$event->Handler->Behaviors->attach('Contents.Categorisable');
 				}
-
-				if (array_key_exists('tags', $event->Handler->_schema)) {
-					$event->Handler->Behaviors->attach('Contents.Taggable');
-				}
 			}
 		}
 
-		public function  onRequireComponentsToLoad($event = null) {
+		public function onRequireComponentsToLoad($event = null) {
 			return array(
 				'Contents.GlobalContent'
 			);

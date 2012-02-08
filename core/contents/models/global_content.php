@@ -4,6 +4,10 @@
 
 		public $useTable = 'global_contents';
 
+		public $actsAs = array(
+			'Contents.Taggable'
+		);
+
 		public $contentable = true;
 
 		public $belongsTo = array(
@@ -42,6 +46,18 @@
 				'className' => 'Users.User',
 				'foreignKey' => 'editor_id'
 			)
+		);
+
+		public $hasMany = array(
+			'Tagged' => array(
+				'className' => 'Contents.GlobalTagged',
+				'foreignKey' => 'foreign_key',
+				array(
+					'conditions' => array(
+						'Tagged.model' => 'Contents.Content'
+					)
+				)
+			),
 		);
 
 		public function __construct($id = false, $table = null, $ds = null) {
