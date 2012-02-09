@@ -56,13 +56,21 @@
                 )
             );
 
-            foreach ( $menus as $menu )
-            {
+            foreach ($menus as $menu) {
                 ?>
                 	<tr class="<?php echo $this->Core->rowClass(); ?>">
-                        <td><?php echo $this->Form->checkbox( $menu['Menu']['id'] ); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($menu); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( Inflector::humanize($menu['Menu']['name']), array('controller' => 'menuItems', 'action' => 'index', 'menu_id' => $menu['Menu']['id'])); ?>&nbsp;
+                			<?php
+								echo $this->Html->link(
+									$menu['Menu']['name'],
+									array(
+										'controller' => 'menu_items',
+										'action' => 'index',
+										'menu_id' => $menu['Menu']['id']
+									)
+								);
+							?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $menu['Menu']['type']; ?>&nbsp;
