@@ -11,19 +11,29 @@
 			if(!is_array($class)) {
 				$class = array(
 					'div' => $class,
-					'ul' => $class
+					'div-id' => null,
+					'ul' => $class,
+					'li' => null
 				);
 			}
 			$class = array_merge(
-				array('div' => null, 'ul' => null),
+				array('div' => null, 'div_id' => null, 'ul' => null, 'li' => null),
 				$class
 			);
 			$base = '%s';
 			if($div){
-				$base = sprintf('<div class="%s">%%s</div>', $class['div']);
+				$base = '<div id=":div_id" class=":div">%s</div>';
 			}
 
-			return sprintf($base, sprintf('<ul class="%s"><li>%s</li></ul>', $class['ul'], implode('</li><li>', (array)$array)));
+			$base = sprintf(
+				$base,
+				sprintf(
+					'<ul class=":ul"><li class=":li">%s</li></ul>',
+					implode('</li><li class=":li">', (array)$array)
+				)
+			);
+
+			return String::insert($base, $class);
 		}
 
 		public function infoBox($info = array(), $truncate = 24) {
