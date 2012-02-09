@@ -16,7 +16,7 @@
 		public function beforeFind($Model, $query) {
 			if($Model->hasField('plugin')) {
 				$query['conditions'] = array_merge(
-					!empty($query['conditions']) ? $query['conditions'] : array(),
+					!empty($query['conditions']) ? (array)$query['conditions'] : array(),
 					$this->__getPossiblePlugins($Model, 'plugin')
 				);
 			}
