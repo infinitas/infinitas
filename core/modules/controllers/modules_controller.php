@@ -64,13 +64,14 @@
 		}
 
 		public function admin_edit($id = null) {
-			parent::admin_edit($id);
+			parent::admin_edit($id, array('fields' => array('Module.*')));
 			
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
 			$routes = array(0 => __('All Pages', true)) + $this->Module->Route->find('list');
 			$themes = array(0 => __('All Themes', true)) + $this->Module->Theme->find('list');
 			$plugins = $this->Module->getPlugins();
+			
 			$modules = $this->Module->getModuleList($this->data['Module']['plugin']);
 			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins', 'modules'));
 		}
