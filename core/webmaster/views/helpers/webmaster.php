@@ -15,15 +15,15 @@
 
 			$contentIndex = $contentFollow = true;
 			$canonicalUrl = null;
-			if(!empty($View->viewVars['seoContentIndex'])) {
+			if(isset($View->viewVars['seoContentIndex'])) {
 				$contentIndex = $View->viewVars['seoContentIndex'];
 			}
 
-			if(!empty($View->viewVars['seoContentFollow'])) {
+			if(isset($View->viewVars['seoContentFollow'])) {
 				$contentFollow = $View->viewVars['seoContentFollow'];
 			}
 
-			if(!empty($View->viewVars['seoCanonicalUrl'])) {
+			if(isset($View->viewVars['seoCanonicalUrl'])) {
 				$canonicalUrl = $View->viewVars['seoCanonicalUrl'];
 			}
 
@@ -145,7 +145,7 @@
 		 *
 		 * @return string the meta canonical url
 		 */
-		public function metaCanonicalUrl($url = null) {
+		public function metaCanonicalUrl($canonicalUrl = null) {
 			if(empty($canonicalUrl)) {
 				return false;
 			}
