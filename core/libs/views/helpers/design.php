@@ -13,11 +13,12 @@
 					'div' => $class,
 					'div-id' => null,
 					'ul' => $class,
+					'ul-id' => null,
 					'li' => null
 				);
 			}
 			$class = array_merge(
-				array('div' => null, 'div_id' => null, 'ul' => null, 'li' => null),
+				array('div' => null, 'div_id' => null, 'ul' => null, 'ul_id' => null, 'li' => null),
 				$class
 			);
 			$base = '%s';
@@ -28,7 +29,7 @@
 			$base = sprintf(
 				$base,
 				sprintf(
-					'<ul class=":ul"><li class=":li">%s</li></ul>',
+					'<ul id=":ul_id" class=":ul"><li class=":li">%s</li></ul>',
 					implode('</li><li class=":li">', (array)$array)
 				)
 			);
