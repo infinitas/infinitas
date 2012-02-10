@@ -1,27 +1,27 @@
-.comments .comment textarea{
+#comments .comments .comment textarea{
 	width: 98%;
 	height: 15px;
 }
-.comments img{
+#comments .comments img{
 	vertical-align: top;
 	float:left;
 }
-.comments p{
+#comments .comments p{
 	float: right;
 	width: 90%;
 }
-.comments .comment .submit{
+#comments .comments .comment .submit{
 	display: none;
 }
 
-.comments form label{
+#comments .comments form label{
 	clear:left;
 	float:left;
 	display:block;
 	padding-bottom:10px;
 	width:100px;
 }
-.comments form input{
+#comments .comments form input{
 	float: left;
 	padding-bottom:3px;
 	margin: 3px;
