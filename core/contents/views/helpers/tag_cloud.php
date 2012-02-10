@@ -97,23 +97,34 @@
 		 * @access public
 		 *
 		 * @param array $data the row of data from find
+		 * @param string $seperator what to seperate with
+		 * @param integer $limit max number of tags to show
 		 *
 		 * @return string html list of tags as links
 		 */
-		public function tagList($data) {
+		public function tagList($data, $seperator = 'and', $limit = 5) {
 			if(empty($data['GlobalTagged'])) {
 				return __d('contents', 'No tags', true);
 			}
 
 			$return = array();
 			foreach($data['GlobalTagged'] as $tagged) {
+				if($limit <= 0) {
+					continue;
+				}
+
 				$return[] = $this->Html->link(
 					$tagged['GlobalTag']['name'],
 					$this->here . '#'
 				);
+				
+				$limit--;
+			}
+			if($seperator == ',') {
+				return implode(', ', $return);
 			}
 
-			return $this->Text->toList($return);
+			return $this->Text->toList($return, $seperator);
 		}
 
 		/**
