@@ -81,12 +81,16 @@
 		 * @access public
 		 */
 		public function image($email, $options = array()) {
+			if(!empty($options['image'])) {
+				$imageOptions = $options['image'];
+				unset($options['image']);
+			}
 			$options = $this->__cleanOptions(array_merge($this->__default, $options));
 
 			$imageUrl = $this->url($email, $options);
 
 			unset($options['default'], $options['size'], $options['rating'], $options['ext']);
-			return $this->Html->image($imageUrl, $options);
+			return $this->Html->image($imageUrl, $imageOptions);
 		}
 
 		/**
