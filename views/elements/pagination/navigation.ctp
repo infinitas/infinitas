@@ -23,11 +23,17 @@
 
 	// show a message if nothing is found ( count == 0 or its not set )
 	if (
-		!isset($this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count']) ||
-		$this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count'] == 0 )
+		!isset($this->Paginator->params['paging'][key($this->Paginator->params['paging'] )]['count']) ||
+		$this->Paginator->params['paging'][key($this->Paginator->params['paging'] )]['count'] == 0 )
 	{
-		echo '<p class="empty">', __( Configure::read( 'Pagination.nothing_found_message' ), true ), '</p>';
+		echo sprintf('<p class="empty">%s</p>', __d('blog', Configure::read('Pagination.nothing_found_message' ), true));
 		return true;
+	}
+
+	$count = current($this->Paginator->params['paging']);
+	if($count['count'] <= $count['defaults']['limit']) {
+		echo sprintf('<p>%s</p>', __d('blog', 'No more posts', true));
+		return;
 	}
 ?>
 <div class="wrap">
