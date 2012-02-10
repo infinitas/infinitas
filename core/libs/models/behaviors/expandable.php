@@ -50,6 +50,18 @@
 			}
 
 			foreach ($results as $i => $item) {
+				$done = false;
+				$keys = array_keys($item);
+				foreach($keys as $key) {
+					if(strstr($key, 'Attribute')) {
+						$item[$Model->alias][$item[$key]['key']] = $item[$key]['val'];
+						$done = true;
+					}
+				}
+				if($done) {
+					continue;
+				}
+
 				foreach ($item[$with] as $field) {
 					$results[$i][$Model->alias][$field['key']] = $field['val'];
 				}
