@@ -6,11 +6,26 @@
 		);
 		
 		public function beforeRender($Controller) {
-			$should = isset($Controller->{$Controller->modelClass}) && $Controller->{$Controller->modelClass}->contentable;
-			if(!$should || !in_array($Controller->params['action'], $this->__methods)) {
+			if(empty($Controller->{$Controller->modelClass})) {
 				return;
 			}
+			
+			$isContentable = isset($Controller->{$Controller->modelClass}->contentable) && $Controller->{$Controller->modelClass}->contentable;
+			if($isContentable && in_array($Controller->params['action'], $this->__methods)) {
+				$this->__setFormVariables($Controller);
+			}
 
+			$this->__loadLayout(
+				$Controller,
+				array(
+					'plugin' => $Controller->{$Controller->modelClass}->plugin,
+					'model' => $Controller->{$Controller->modelClass}->alias,
+					'action' => $Controller->params['action']
+				)
+			);
+		}
+
+		private function __setFormVariables($Controller) {
 			if(isset($Controller->{$Controller->modelClass}->GlobalContent)) {
 				$Model = $Controller->{$Controller->modelClass}->GlobalContent;
 			}
@@ -37,7 +52,17 @@
 				'{n}.GlobalCategory.id',
 				'{n}.GlobalCategory.title'
 			);
-			
+
 			$Controller->set('contentCategories', $contentCategories);
+		}
+
+		private function __loadLayout($Controller, $options) {
+			$layout = ClassRegistry::init('Contents.GlobalLayout')->find(
+				'autoLoadLayout', $options
+			);
+
+			if($layout) {
+				$Controller->set('globalLayoutTemplate', $layout);
+			}
 		}
 	}

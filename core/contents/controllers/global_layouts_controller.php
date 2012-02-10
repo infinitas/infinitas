@@ -24,6 +24,12 @@
 		}
 
 		public function admin_index() {
+			$this->paginate = array(
+				'order' => array(
+					'GlobalLayout.model',
+					'GlobalLayout.name'
+				)
+			);
 			$layouts = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;

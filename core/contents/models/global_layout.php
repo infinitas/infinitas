@@ -94,6 +94,8 @@
 					)
 				)
 			);
+
+			$this->_findMethods['autoLoadLayout'] = true;
 		}
 
 		/**
@@ -127,6 +129,33 @@
 			}
 			
 			return $results;
+		}
+
+		public function _findAutoLoadLayout($state, $query, $results = array()) {
+			if ($state === 'before') {
+				if(empty($query['plugin']) || empty($query['model']) || empty($query['action'])) {
+					throw new Exception('Missing some params for auto loading templates');
+				}
+
+				$query['conditions'] = array();
+				$query['conditions'][$this->alias . '.model'] = $query['plugin'];
+				$query['conditions'][$this->alias . '.model'] .= '.' . $query['model'];
+				$query['conditions'][$this->alias . '.auto_load'] = $query['action'];
+
+				$query['fields'] = array(
+					'GlobalLayout.*'
+				);
+				
+				unset($query['model'], $query['plugin'], $query['action']);
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			return current($results);
 		}
 
 		public function hasLayouts($model) {
