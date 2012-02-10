@@ -61,7 +61,7 @@
 		 */
 		public function beforeFind($Model, $query) {
 			$ignore = array(
-				'count',
+				//'count',
 				'getRelationsCategory'
 			);
 			if(in_array($Model->findQueryType, $ignore)) {
@@ -91,7 +91,7 @@
 				$query['list']['keyPath'] = '{n}.' . $query['fields'][0];
 				$query['list']['valuePath'] = '{n}.' . $query['fields'][1];
 			}
-			else {
+			else if($Model->findQueryType != 'count') {
 				$query['fields'] = array_merge(
 					$query['fields'],
 					array(
