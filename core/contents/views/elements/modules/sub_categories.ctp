@@ -32,16 +32,31 @@
 				)
 			);
 		}
-		else {
+
+		$exploreLink = !empty($this->params['category']) && 
+			(($this->params['controller'] == 'global_categories' && $this->params['action'] != 'view') ||
+			$this->params['controller'] != 'global_categories');
+
+		if($exploreLink) {
 			$links[] = $this->Html->link(
-				__d('contents', 'View all categories', true),
+				__d('contents', 'Explore this category', true),
 				array(
 					'plugin' => 'contents',
 					'controller' => 'global_categories',
-					'action' => 'index'
+					'action' => 'view',
+					'category' => $this->params['category']
 				)
 			);
 		}
+
+		$links[] = $this->Html->link(
+			__d('contents', 'View all categories', true),
+			array(
+				'plugin' => 'contents',
+				'controller' => 'global_categories',
+				'action' => 'index'
+			)
+		);
 
 		echo $this->Design->arrayToList($links, array('div' => 'widget-content', 'ul' => 'arrow-list'));
 	?>
