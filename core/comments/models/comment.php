@@ -76,7 +76,82 @@
 					)
 				)
 			);
+
+			$this->_findMethods['linkedComments'] = true;
 		}
+
+		public function _findLinkedComments($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['fields'] = array_merge(
+					(array)$query['fields'],
+					array(
+						$this->alias . '.id',
+						$this->alias . '.user_id',
+						$this->alias . '.email',
+						$this->alias . '.foreign_id',
+						$this->alias . '.comment',
+						$this->alias . '.created',
+						'CommentAttribute.id',
+						'CommentAttribute.key',
+						'CommentAttribute.val',
+						'CommentAttribute.comment_id',
+					)
+				);
+
+				$query['conditions'][$this->alias . '.active'] = 1;
+
+				$query['order'] = array(
+					$this->alias . '.created' => 'asc'
+				);
+
+				$query['joins'][] = array(
+					'table' => 'global_comment_attributes',
+					'alias' => 'CommentAttribute',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'CommentAttribute.comment_id = ' . $this->alias . '.id'
+					)
+				);
+
+				$query['joins'][] = array(
+					'table' => 'core_users',
+					'alias' => 'CommentUser',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'CommentUser.id = ' . $this->alias . '.user_id'
+					)
+				);
+				
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			$return = $map = array();
+			$i = 0;
+			foreach($results as $result) {
+				$index = $result[$this->alias][$this->primaryKey];
+
+				if(!isset($map[$index])) {
+					$map[$index] = $i++;
+				}
+				$mapIndex = $map[$index];
+
+				if(empty($return[$mapIndex][$this->alias])) {
+					$return[$mapIndex][$this->alias] = array_merge(
+						array_fill_keys(explode(',', Configure::read('Comments.fields')), null),
+						$result[$this->alias]
+					);
+				}
+				
+				$return[$mapIndex][$this->alias][$result['CommentAttribute']['key']] = $result['CommentAttribute']['val'];
+			}
+
+			return $return;
+		}
+
 
 		/**
 		 * @brief hack to get the attributes for comments
@@ -92,6 +167,10 @@
 		 * @return array the results after bing formatted
 		 */
 		public function afterFind($results, $primary){
+			if($this->findQueryType == 'linkedComments') {
+				return $results;
+			}
+			
 			if(isset($results[0][0]['count'])){
 				return $results;
 			}

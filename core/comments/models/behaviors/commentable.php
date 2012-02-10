@@ -114,36 +114,27 @@
 				false
 			);
 		}
-
-		/**
-		 * @brief contain the comments
-		 *
-		 * before a find is done, add the comments to contain so they are available
-		 * in the view.
-		 *
-		 * @param object $Model referenced model
-		 * @param array $query the query being done
-		 * @access public
-		 *
-		 * @return array the find query data
-		 */
-		public function beforeFind($Model, $query) {
-			if($Model->findQueryType == 'count'){
-				return $query;
-			}
-
-			$query['contain'][$Model->alias.'Comment'] = array(
-				'order' => array(
-					$Model->alias . 'Comment.created' => 'asc'
-				),
-				'CommentAttribute'
+		
+		public function attachComments($Model, $results) {
+			$ids = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
+			$comments = $Model->{$Model->alias . 'Comment'}->find(
+				'linkedComments',
+				array(
+					'conditions' => array(
+						$Model->alias . 'Comment.foreign_id' => $ids
+					)
+				)
 			);
-			if(isset($query['recursive']) && $query['recursive'] == -1){
-				$query['recursive'] = 0;
+			
+			foreach($results as &$result) {
+				$result[$Model->alias . 'Comment'] = Set::extract(
+					sprintf('/%sComment[foreign_id=%s]', $Model->alias, $result[$Model->alias][$Model->primaryKey]),
+					$comments
+				);
+				$result[$Model->alias . 'Comment'] = Set::extract('{n}.' . $Model->alias . 'Comment', $result[$Model->alias . 'Comment']);
 			}
 
-			call_user_func(array($Model, 'contain'), $query['contain']);
-			return $query;
+			return $results;
 		}
 
 		/**
