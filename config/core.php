@@ -59,13 +59,11 @@
 			break;
 	}
 	Configure::write('Cache.engine', $cacheEngine);
-
-	/**
-	 * @todo when this is set to $cacheEngine the developer plugin is gone
-	 */
-	Cache::config('_cake_core_', array('engine' => $cacheEngine));
-	Cache::config('_cake_model_', array('engine' => $cacheEngine));
-	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => 'infinitas_'));
+	
+	$cachePrefix = substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10);
+	Cache::config('_cake_core_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
+	Cache::config('_cake_model_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
+	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
 	unset($cacheEngine);
 
 	/**
