@@ -147,7 +147,17 @@
 		}
 
 		public function onSlugUrl($event, $data = null) {
+			if(empty($data['type'])) {
+				if(!empty($data['model'])) {
+					$data = array('type' => $data['model'], 'data' => array('GlobalCategory' => $data));
+				}
+				if(!empty($data['GlobalCategory'])) {
+					$data = array('type' => 'GlobalCategory', 'data' => array('GlobalCategory' => $data));
+				}
+			}
+			
 			switch($data['type']) {
+				case 'Contents.GlobalCategory':
 				case 'category':
 					return array(
 						'plugin' => 'contents',

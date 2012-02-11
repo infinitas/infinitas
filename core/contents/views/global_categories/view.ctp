@@ -18,10 +18,18 @@
 	 * @since         0.5a
 	 */
 
+	$category['GlobalCategory']['before_event'] = '';
 	$eventData = $this->Event->trigger('contentsBeforeCategoryRender', array('_this' => $this, 'content' => $category));
 	foreach((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data){
-		echo '<div class="before '.$_plugin.'">'.$_data.'</div>';
+		$category['GlobalCategory']['before_event'] .= '<div class="before '.$_plugin.'">'.$_data.'</div>';
 	}
+
+	$category['GlobalCategory']['after_event'] = '';
+	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('_this' => $this, 'content' => $category));
+	foreach((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data){
+		$category['GlobalCategory']['after_event'] .= '<div class="after '.$_plugin.'">'.$_data.'</div>';
+	}
+
 	if(isset($category['GlobalCategory']['created'])){
 		$category['GlobalCategory']['created'] = $this->Time->niceShort($category['GlobalCategory']['created']);
 	}
@@ -30,16 +38,7 @@
 	}
 
 	$category['GlobalCategory']['item_count'] = sprintf(__d('contents', '%d items', true), $category['GlobalCategory']['item_count']);
-
-	$category['GlobalCategory']['author'] = $this->Html->link(
-		!empty($category['GlobalCategory']['author_alias']) ? $category['GlobalCategory']['author_alias'] : $category['ContentAuthor']['username'],
-		array(
-			'plugin' => 'users',
-			'controller' => 'users',
-			'action' => 'view',
-			$category['ContentAuthor']['id']
-		)
-	);
+	$category['GlobalCategory']['author'] = $this->GlobalContents->author($category);
 
 	// need to overwrite the stuff in the viewVars for mustache
 	if(!empty($category['CategoryContent'])) {
@@ -84,16 +83,4 @@
 		$this->set('parentCategory', $category['ParentCategory']);
 	}
 	$this->set('category', $category);
-
-	if(!empty($category['Layout']['css'])){
-		?><style type="text/css"><?php echo $category['Layout']['css']; ?></style><?php
-	}
-
-	// render the content template
-	echo $category['Layout']['html'];
-
-
-	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data){
-		echo '<div class="after '.$_plugin.'">'.$_data.'</div>';
-	}
+	echo $this->GlobalContents->renderTemplate($category);
