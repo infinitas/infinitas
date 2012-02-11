@@ -53,6 +53,7 @@
 		}
 
 		public function onRequireComponentsToLoad($event = null) {
+			Configure::load('contents.config');
 			return array(
 				'Contents.GlobalContent'
 			);
@@ -143,5 +144,18 @@
 					'prefix' => 'admin'
 				)
 			);
+		}
+
+		public function onSlugUrl($event, $data = null) {
+			switch($data['type']) {
+				case 'category':
+					return array(
+						'plugin' => 'contents',
+						'controller' => 'global_categories',
+						'action' => 'view',
+						'category' => $data['data']['GlobalCategory']['slug']
+					);
+					break;
+			}
 		}
 	}
