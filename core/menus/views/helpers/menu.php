@@ -182,6 +182,44 @@
 			return str_replace('</a></a>', '</a>', $this->_menuData);
 		}
 
+		public function link($data) {
+			$url = Router::url($this->url($data), true);
+
+			return $this->Html->link(
+				$data['MenuItem']['name'],
+				$url,
+				array(
+					'class' => $data['MenuItem']['class']
+				)
+			);
+		}
+
+		public function url($data) {
+			if(empty($data['MenuItem'])) {
+				throw new Exception('Menu item is not valid');
+			}
+
+			$url = array_merge(
+				array(
+					'plugin' => $data['MenuItem']['plugin'],
+					'controller' => $data['MenuItem']['controller'],
+					'action' => $data['MenuItem']['action'],
+					'prefix' => $data['MenuItem']['prefix'],
+				),
+				(array)json_decode($data['MenuItem']['params'], true)
+			);
+
+			if($data['MenuItem']['force_backend']) {
+				$url['admin'] = 1;
+			}
+
+			else if($data['MenuItem']['force_frontend']) {
+				$url['admin'] = 0;
+			}
+
+			return $url;
+		}
+
 		/**
 		 * create the items in the list.
 		 *
