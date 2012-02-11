@@ -69,7 +69,7 @@
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
-			$this->validate = array(
+			$this->validate1 = array(
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',

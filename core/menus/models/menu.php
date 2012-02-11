@@ -79,21 +79,6 @@
 		}
 
 		/**
-		 * Before saving there needs to be a container item for the menu, hasContainer
-		 * will check and create one if needed. If something goes wrong the method will
-		 * return false and the save will abort.
-		 *
-		 * @param array $options the options for the save
-		 * @access public
-		 *
-		 * @return bool true if all is well, false to abort
-		 */
-		public function beforeSave($options){
-			parent::beforeSave($options);
-			return $this->MenuItem->hasContainer($this->id, $this->data['Menu']['name']);
-		}
-
-		/**
 		 * If the menu is deleted, the menu items should also be deleted. As its a
 		 * mptt tree deleting the root node will cause cake to delete everything
 		 * within the tree and the whole thing will be gone
