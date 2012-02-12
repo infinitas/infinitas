@@ -77,13 +77,16 @@
 		foreach($cachedConfigs as $k => $v){
 			Configure::write($k, $v);
 		}
-		unset($cachedConfigs);
-		return true;
 	}
 
 	//no home
 	Configure::write('Rating.require_auth', true);
 	Configure::write('Rating.time_limit', '4 weeks');
 	Configure::write('Reviews.auto_moderate', true);
+
+	if(!empty($cachedConfigs)) {
+		unset($cachedConfigs);
+		return true;
+	}
 
 	Cache::write('global_configs', Configure::getInstance());
