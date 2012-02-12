@@ -69,7 +69,7 @@
                         <td><?php echo $this->Infinitas->massActionCheckBox($category); ?>&nbsp;</td>
                 		<td>
                 			<?php
-                				$paths = ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
+                				$paths = array(); //ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
                 				$links = array();
 
                 				if (count($paths) > 1) {
@@ -106,7 +106,9 @@
                 		</td>
                 		<td>
                 			<?php
-                			    echo $this->Infinitas->status($category['GlobalCategory']['active'], $category['GlobalCategory']['id']),
+                			    echo
+									$this->Infinitas->status($category['GlobalCategory']['hide'], $category['GlobalCategory']['id']),
+									$this->Infinitas->status($category['GlobalCategory']['active'], $category['GlobalCategory']['id']),
                     			    $this->Locked->display($category);
                 			?>
                 		</td>
