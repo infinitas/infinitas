@@ -25,7 +25,8 @@
 			<h1><?php echo __('Config', true); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('parent_id', array('options' => $contentCategories, 'empty' => __d('contents', 'Root Category', true)));
-			echo $this->Form->input('active'); ?>
+			echo $this->Form->input('active');
+			echo $this->Form->input('hide'); ?>
 		</fieldset>
 		<?php
 	echo $this->Form->end();

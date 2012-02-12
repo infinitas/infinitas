@@ -18,6 +18,7 @@
 		public $name = 'GlobalCategories';
 
 		public function index() {
+			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.hide'] = 0;
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.parent_id'] = null;
 			if(isset($this->params['category'])){
 				$this->paginate['GlobalCategory']['conditions']['GlobalCategory.slug'] = $this->params['category'];
