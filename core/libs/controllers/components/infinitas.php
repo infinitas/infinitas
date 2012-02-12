@@ -546,7 +546,7 @@
 			}
 
 			//recall previous options
-			if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
+			if ($this->Controller->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
 				$options = $this->Session->read("Pagination.{$this->Controller->modelClass}.options");
 				$this->Controller->passedArgs = array_merge($this->Controller->passedArgs, $options);
 			}
