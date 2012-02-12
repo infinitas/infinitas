@@ -26,6 +26,12 @@
 		'prefixes' => array('admin')
 	);
 
+
+	$cookieName = 'INFINITAS';
+	if(substr(env('REQUEST_URI'), 0, 6) == '/admin') {
+		$cookieName .= '_ADMIN';
+	}
+
 	/**
 	 * Session Configuration
 	 */
@@ -34,7 +40,7 @@
 		'model' => 'Session',
 		'table' => 'sessions',
 		'database' => 'default',
-		'cookie' => 'CAKEPHP',
+		'cookie' => $cookieName,
 		'timeout' => '120',
 		'start' => true,
 		'checkAgent' => true
