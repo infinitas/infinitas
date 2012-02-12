@@ -24,7 +24,6 @@
 		* components being used here
 		*/
 		public $components = array(
-			'Session',
 			'Themes.Themes'
 		);
 
@@ -101,17 +100,20 @@
 		 */
 		public function paginationHardLimit($limit = null, $return = false){
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
-				$this->Session->setFlash(__('You requested to many records, defaulting to site maximum', true));
-
 				$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
-				$url = array(
-					'plugin'	 => $this->Controller->params['plugin'],
-					'controller' => $this->Controller->params['controller'],
-					'action'	 => $this->Controller->params['action']
-				) + $this->Controller->params['named'];
 
-				$this->Controller->redirect($url);
+				$this->Controller->notice(
+					__('You requested to many records, defaulting to site maximum', true),
+					array(
+						'redirect' => array(
+							'plugin'	 => $this->Controller->params['plugin'],
+							'controller' => $this->Controller->params['controller'],
+							'action'	 => $this->Controller->params['action']
+						) + (array)$this->Controller->params['named']
+					)
+				);
 			}
+			
 			return (int)$limit;
 		}
 
@@ -428,33 +430,43 @@
 			);
 
 			if (empty($check)) {
-				$this->Controller->Session->setFlash(__('Nothing found to move', true));
+				$this->Controller->notice(
+					__('Nothing found to move', true),
+					array(
+						'redirect' => false
+					)
+				);
 				return false;
 			}
 
-			switch($this->Controller->params['named']['direction']){
+			$message = false;
+
+			switch($this->Controller->params['named']['direction']) {
 				case 'up':
-					$this->Controller->Session->setFlash(__('The record was moved up', true));
+					$message = __('The record was moved up', true);
 					if (!$this->Controller->{$model}->moveUp($this->Controller->{$model}->id, abs(1))) {
-						$this->Controller->Session->setFlash(__('Unable to move the record up', true));
+						$message = __('Unable to move the record up', true);
 					}
 					else {
 						$this->Controller->{$model}->afterSave(false);
 					}
 					break;
 				case 'down':
-					$this->Controller->Session->setFlash(__('The record was moved down', true));
+					$message = __('The record was moved down', true);
 					if (!$this->Controller->{$model}->moveDown($this->Controller->{$model}->id, abs(1))) {
-						$this->Controller->Session->setFlash(__('Unable to move the record down', true));
+						$message = __('Unable to move the record down', true);
 					}
 					else {
 						$this->Controller->{$model}->afterSave(false);
 					}
 					break;
 				default:
-					$this->Controller->Session->setFlash(__('Error occured reordering the records', true));
+					$message = __('Error occured reordering the records', true);
 					break;
 			} // switch
+			
+			$this->Controller->notice($message, array('redirect' => false));
+
 			return true;
 		}
 
@@ -478,7 +490,12 @@
 			}
 
 			if (!$this->Controller->{$modelName}->save($this->Controller->data)) {
-				$this->Controller->Session->setFlash(__('The record could not be moved', true));
+				$this->Controller->notice(
+					__('The record could not be moved', true),
+					array(
+						'redirect' => false
+					)
+				);
 			}
 
 			return true;

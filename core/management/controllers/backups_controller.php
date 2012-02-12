@@ -22,8 +22,7 @@
 
 		function admin_backup() {
 			if (!isset($this->params['named']['m'])) {
-				$this->Session->setFlash(__('No model to backup.', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$fullModel = $model = Inflector::classify($this->params['named']['m']);
@@ -72,13 +71,16 @@
 				);
 
 			if (empty($newLastId)) {
-				$this->Session->setFlash(__('Nothing to backup', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (isset($newLastId[$Model->name]['id']) && $this->Backup->last_id >= $newLastId[$Model->name]['id']) {
-				$this->Session->setFlash(__('Nothing new to backup', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Nothing new to backup', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			return $newLastId[$Model->name]['id'];
@@ -104,11 +106,9 @@
 
 			$this->Backup->create();
 			if ($this->Backup->save($data)) {
-				$this->Session->setFlash(sprintf(__('Your %s are backed up', true), Inflector::pluralize(Inflector::humanize($data['Backup']['model']))));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeSaved();
 			}
 
-			$this->Session->setFlash(__('There was a problem with the backup, please try again.', true));
-			$this->redirect($this->referer());
+			$this->Infinitas->noticeNotSaved();
 		}
 	}

@@ -4,14 +4,18 @@
 
 		public function add(){
 			if($this->Session->read('Auth.User.id') < 1){
-				$this->Session->setFlash(__('You must be logged in to do that', true));
-				$this->redirect('/');
+				$this->notice(
+					__('You must be logged in to do that', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			if (!empty($this->data)) {
 				$this->Address->create();
 				if ($this->Address->saveAll($this->data)) {
-					$this->Session->setFlash('Your address has been saved.');
+					$this->Infintias->noticeSaved();
 					$this->redirect('/');
 				}
 			}
@@ -27,14 +31,12 @@
 
 		public function edit($id = null){
 			if (!$id) {
-				$this->Session->setFlash(__('That address could not be found', true), true);
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			if (!empty($this->data)) {
 				if ($this->Address->save($this->data)) {
-					$this->Session->setFlash('Your address has been saved.');
-					$this->redirect(array('action' => 'index'));
+					$this->Infinitas->noticeSaved();
 				}
 			}
 

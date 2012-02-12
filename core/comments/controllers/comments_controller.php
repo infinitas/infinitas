@@ -92,13 +92,21 @@
 
 		public function admin_commentPurge($class = null) {
 			if (!$class) {
-				$this->Session->setFlash(__('Nothing chosen to purge', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Nothing chosen to purge', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			if (!Configure::read('Comments.purge')) {
-				$this->Session->setFlash(__('Purge is disabled', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Purge is disabled', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$ids = ClassRegistry::init('Comment.Comment')->find(
@@ -117,8 +125,12 @@
 			);
 
 			if (empty($ids)) {
-				$this->Session->setFlash(__('Nothing to purge', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Nothing to purge', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$counter = 0;
@@ -129,7 +141,11 @@
 				}
 			}
 
-			$this->Session->setFlash(sprintf(__('%s comments were purged.', true), $counter));
-			$this->redirect($this->referer());
+			$this->notice(
+				sprintf(__('%s comments were purged.', true), $counter),
+				array(
+					'redirect' => true
+				)
+			);
 		}
 	}

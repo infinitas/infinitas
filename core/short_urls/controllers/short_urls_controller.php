@@ -10,8 +10,12 @@
 			$url = $this->ShortUrl->getUrl($this->params['pass'][0]);
 
 			if(empty($url)){
-				$this->Session->setFlash(__('Page not found', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Page not found', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$this->redirect($url);
@@ -25,8 +29,12 @@
 			$url = $this->ShortUrl->getUrl($this->params['pass'][0]);
 
 			if(empty($url)){
-				$this->Session->setFlash(__('Page not found', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Page not found', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$shortUrl = $this->ShortUrl->find(

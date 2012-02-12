@@ -266,8 +266,7 @@
 		 */
 		public function activate($hash = null) {
 			if (!$hash){
-				$this->Session->setFlash(__('Invalid address', true));
-				$this->redirect('/');
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->User->id = $this->User->getTicket($hash);

@@ -45,8 +45,12 @@
 			);
 
 			if (empty($branches)) {
-				$this->Session->setFlash(__('There are no contact details available', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('There are no contact details available', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			if (count($branches) == 1) {
@@ -63,8 +67,7 @@
 
 		public function view(){
 			if (!isset($this->params['slug'])) {
-				$this->Session->setFlash( __('A problem occured', true) );
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$branch = $this->Branch->find(
@@ -91,8 +94,12 @@
 			);
 
 			if (empty($branch)) {
-				$this->Session->setFlash( __('The branch does not exsit', true) );
-				$this->redirect($this->referer());
+				$this->notice(
+					__('The branch does not exsit', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$this->set('title_for_layout', sprintf(__('Contact us at %s', true), $branch['Branch']['name']));

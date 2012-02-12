@@ -53,8 +53,7 @@
 			}
 
 			else if(empty($category)){
-				$this->Session->setFlash(__('Invalid category', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->set('title_for_layout', $category['GlobalCategory']['title']);

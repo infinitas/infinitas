@@ -50,8 +50,7 @@
 
 		public function admin_view($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('Please select a template', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->set('template', $this->Template->read(null, $id));
@@ -59,16 +58,14 @@
 
 		public function admin_export($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('Please select a template', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->Template->recursive = - 1;
 			$template = $this->Template->read(array('name', 'description', 'author', 'header', 'footer'), $id);
 
 			if (empty($template)) {
-				$this->Session->setFlash(__('The template does not exist.', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$pattern = "/src=[\\\"']?([^\\\"']?.*(png|jpg|gif|jpeg))[\\\"']?/i";
@@ -149,27 +146,6 @@
 			}
 		}
 
-		public function admin_delete($id = null) {
-			if (!$id) {
-				$this->Session->setFlash(__('That template could not be found', true));
-				$this->redirect($this->referer());
-			}
-
-			$template = $this->Template->read(null, $id);
-
-			if (!empty($template['Campaign'])) {
-				$this->Session->setFlash(__('There are some campaigns using that template', true));
-				$this->redirect($this->referer());
-			}
-
-			if (!empty($template['Newsletter'])) {
-				$this->Session->setFlash(__('There are some newsletters using that template', true));
-				$this->redirect($this->referer());
-			}
-
-			parent::admin_delete($id);
-		}
-
 		public function __massActionDelete($ids){
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
@@ -195,8 +171,12 @@
 			}
 
 			if (empty($ids)) {
-				$this->Session->setFlash(__('There are some newsletters using that template.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('There are some newsletters using that template.', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$campaigns = $this->Template->Campaign->find(
@@ -219,8 +199,12 @@
 			}
 
 			if (empty($ids)) {
-				$this->Session->setFlash(__('There are some campaigns using that template.', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('There are some campaigns using that template.', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			return $ids;

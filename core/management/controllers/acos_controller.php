@@ -35,25 +35,14 @@
 
 		function admin_view($id = null) {
 			if (!$id) {
-				$this->Session->setFlash(__('Invalid aco', true));
-				$this->redirect(array('action' => 'index'));
+				$this->Infinitas->noticeInvalidRecord();
 			}
 			
 			$this->set('aco', $this->Aco->read(null, $id));
 		}
 
 		function admin_add() {
-			if (!empty($this->data)) {
-				$this->Aco->create();
-				if ($this->Aco->save($this->data)) {
-					$this->Session->setFlash(__('The aco has been saved', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				else {
-					$this->Session->setFlash(__('The aco could not be saved. Please, try again.', true));
-				}
-			}
+			parent::admin_add();
 
 			$parentAcos = $this->Aco->ParentAco->find('list');
 			$aros = $this->Aco->Aro->find('list');
@@ -61,25 +50,7 @@
 		}
 
 		function admin_edit($id = null) {
-			if (!$id && empty($this->data)) {
-				$this->Session->setFlash(__('Invalid aco', true));
-				$this->redirect(array('action' => 'index'));
-			}
-
-			if (!empty($this->data)) {
-				if ($this->Aco->save($this->data)) {
-					$this->Session->setFlash(__('The aco has been saved', true));
-					$this->redirect(array('action' => 'index'));
-				}
-
-				else {
-					$this->Session->setFlash(__('The aco could not be saved. Please, try again.', true));
-				}
-			}
-
-			if (empty($this->data)) {
-				$this->data = $this->Aco->read(null, $id);
-			}
+			parent::admin_edit($id);
 
 			$parentAcos = $this->Aco->ParentAco->find('list');
 			$aros = $this->Aco->Aro->find('list');

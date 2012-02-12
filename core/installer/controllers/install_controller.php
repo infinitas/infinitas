@@ -305,9 +305,15 @@
 		public function _prepareAdminUser() {
 			if(!is_readable(APP . 'config' . DS . 'database.php') || filesize(APP . 'config' . DS . 'database.php') == 0) {
 				$this->Session->delete('Wizard');
-				$this->Session->setFlash(__('There was an unrecoverable error configuring your database. Unfortunately you need to restart the installation process. You may need to clear any tables that have been created', true));
-				$this->redirect('/');
-				exit;
+				$this->notice(
+					__('There was an unrecoverable error configuring your database. '.
+							'Unfortunately you need to restart the installation process. '.
+							'You may need to clear any tables that have been created', true),
+					array(
+						'level' => 'error',
+						'redirect' => '/'
+					)
+				);
 			}
 
 			$this->loadModel('Management.User');

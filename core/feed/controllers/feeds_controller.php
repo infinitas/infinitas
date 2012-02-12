@@ -26,15 +26,23 @@
 
 		public function view(){
 			if(!$this->params['slug']){
-				$this->Session->setFlash(__('Invalid feed selected', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('Invalid feed selected', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$feeds = $this->Feed->getFeed($this->params['slug'], $this->Session->read('Auth.User.group_id'));
 
 			if(empty($feeds)){
-				$this->Session->setFlash(__('The feed you have selected is not valid', true));
-				$this->redirect($this->referer());
+				$this->notice(
+					__('The feed you have selected is not valid', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$raw = $this->Feed->find('first', array('conditions' => array('Feed.slug' => $this->params['slug'])));

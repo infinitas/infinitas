@@ -778,12 +778,18 @@
 					$this->Session->write('Spam.bot', true);
 					$this->Session->write('Spam.detected', time());
 					
-					$this->Session->setFlash(__('Not so fast spam bot.', true));
-					$this->redirect('/');
+					$this->notice(
+						__('Not so fast spam bot.', true),
+						array(
+							'redirect' => '/?bot=true'
+						)
+					);
 				}
 				else if ($this->{$this->modelClass}->createComment($this->data)) {
-					$this->Session->setFlash(__($message, true));
-					$this->redirect($this->referer());
+					$this->notice(
+						__($message, true),
+						array('redirect' => true)
+					);
 				}
 				else {
 					$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again', true));
@@ -811,8 +817,12 @@
 		 */
 		public function preview($id = null){
 			if(!$id || (int)$this->Session->read('Auth.User.group_id') !== 1){
-				$this->Session->setFlash('That page does not exist', true);
-				$this->redirect($this->referer());
+				$this->notice(
+					__('That page does not exist', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			if(!is_callable(array($this->{$this->modelClass}, 'getViewData'))){
@@ -867,11 +877,17 @@
 			$this->log(serialize($this->data['Rating']));
 
 			if (Configure::read('Rating.require_auth') === true && !$this->data['Rating']['user_id']) {
-				$this->Session->setFlash(__('You need to be logged in to rate this item', true));
-				$this->redirect('/login');
+				$this->notice(
+					__('You need to be logged in to rate this item', true),
+					array(
+						'redirect' => '/login'
+					)
+				);
 			}
 
 			if (!empty($this->data['Rating']['rating'])) {
+				$message = __('It seems you have already voted for this item.', true);
+				
 				if ($this->{$this->modelClass}->rateRecord($this->data)) {
 					$data = $this->{$this->modelClass}->find(
 						'first',
@@ -887,18 +903,18 @@
 					);
 					$message = sprintf(__('Saved! new rating %s (out of %s)', true), $data[$this->modelClass]['rating'], $data[$this->modelClass]['rating_count']);
 				}
-				else {
-					$message = __('It seems you have already voted for this item.', true);
-				}
 
-				if(!$this->RequestHandler->isAjax()){
-					$this->Session->setFlash($message);
-					$this->redirect($this->referer());
-				}
-				else{
+				if($this->RequestHandler->isAjax()){
 					Configure::write('debug', 0);
 					$this->set('json', array('message' => $message));
 				}
+
+				$this->notice(
+					$message,
+					array(
+						'redirect' => true
+					)
+				);
 			}
 		}
 

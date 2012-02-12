@@ -21,8 +21,7 @@
 
 		public function view(){
 			if (!isset($this->params['slug'])) {
-				$this->Session->setFlash( __('A problem occured', true) );
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$contact = $this->Contact->find(
@@ -49,8 +48,7 @@
 			);
 
 			if (!$contact['Branch']['active']) {
-				$this->Session->setFlash(__('No contact found', true));
-				$this->redirect($this->referer());
+				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$this->set(

@@ -363,6 +363,7 @@
 						'SubCategoryData.foreign_key = SubCategory.id'
 					)
 				);
+				$query['group'] = '`GlobalContent`.`id`';
 
 				unset($query[0]);
 				return $query;

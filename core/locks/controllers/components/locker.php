@@ -35,15 +35,16 @@
 			}
 			
 			if(isset($Controller->data['Lock']['user_id']) && $Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
-				$Controller->Session->setFlash(
+				$Controller->notice(
 					sprintf(
 						__('The %s you requested has been locked by %s', true), 
 						$Controller->prettyModelName,
 						$Controller->data['Locker']['username']
+					),
+					array(
+						'redirect' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked')
 					)
 				);
-				
-				$Controller->redirect(array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked'));
 			}
 		}
 

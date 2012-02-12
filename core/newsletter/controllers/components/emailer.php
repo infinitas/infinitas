@@ -93,8 +93,12 @@
 			$template = ClassRegistry::init('Newsletter.Template')->getTemplate($email['template']);
 
 			if(empty($template)){
-				$this->Controller->Session->setFlash(__('System error: Email not setup', true));
-				$this->Controller->redirect('/');
+				$this->Controller->notice(
+					__('System error: Email not setup', true),
+					array(
+						'redirect' => true
+					)
+				);
 			}
 
 			$html = $template['Template']['header'] . $email['body'] . $template['Template']['footer'];
