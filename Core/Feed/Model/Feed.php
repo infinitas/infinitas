@@ -17,9 +17,7 @@
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
-	class Feed extends FeedAppModel {
-		public $name = 'Feed';
-		
+	class Feed extends FeedAppModel {		
 		public $actsAs = array(
 			// 'Libs.Commentable',
 			// 'Libs.Rateable

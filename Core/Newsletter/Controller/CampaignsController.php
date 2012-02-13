@@ -18,8 +18,6 @@
 	 */
 
 	class CampaignsController extends NewsletterAppController {
-		public $name = 'Campaigns';
-
 		public function admin_index() {
 			$this->paginate = array(
 				'fields' => array(

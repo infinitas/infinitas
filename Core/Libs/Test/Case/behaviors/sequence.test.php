@@ -1,16 +1,13 @@
 <?php
 	class Item extends CakeTestModel {
-		public $name = 'Item';
 		public $actsAs = array('Libs.Sequence');
 	}
 
 	class GroupedItem extends CakeTestModel {
-		public $name = 'GroupedItem';
 		public $actsAs = array('Libs.Sequence' => array('group_fields' => 'group_field'));
 	}
 
 	class MultiGroupedItem extends CakeTestModel {
-		public $name = 'MultiGroupedItem';
 		public $actsAs = array('Libs.Sequence' => array('group_fields' => array('group_field_1', 'group_field_2')));
 	}
 

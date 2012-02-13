@@ -21,14 +21,6 @@
 
 	class InstallController extends Controller {
 		/**
-		 * Controller name
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Install';
-
-		/**
 		 * No models required
 		 *
 		 * @var array

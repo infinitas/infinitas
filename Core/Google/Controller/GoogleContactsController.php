@@ -49,8 +49,6 @@
 	 * Use debug($this->GoogleContacts->_schema); to get structured array
 	 */
 	class GoogleContactsController extends AppController {
-		public $name = 'GoogleContacts';
-
 		public $uses = array(
 			'GoogleContacts',
 			'Users'

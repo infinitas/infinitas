@@ -39,6 +39,7 @@
 			$databaseConfig = APP.'config'.DS.'database.php';
 			if(file_exists($databaseConfig) && filesize($databaseConfig) > 0) {
 				$routes = Classregistry::init('Routes.Route')->getRoutes();
+				
 				if (!empty($routes)) {
 					foreach($routes as $route ){
 						if (false) {

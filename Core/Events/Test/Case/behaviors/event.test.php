@@ -1,8 +1,7 @@
 <?php
 	/* Event Test cases generated on: 2010-12-14 22:12:32 : 1292364992*/
 
-	class DummyModel extends Model{
-		public $name = 'DummyModel';
+	class DummyModel extends Model {
 		public $useTable = false;
 	}
 

@@ -13,6 +13,8 @@
 	 * @writtenby		jaredhoyt
 	 * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
+	App::uses('InfinitasComponent', 'Libs/Component');
+
 	class WizardComponent extends InfinitasComponent {
 		/**
 		 * The Component will redirect to the "expected step" after a step has been successfully

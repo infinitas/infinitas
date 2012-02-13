@@ -1,7 +1,5 @@
 <?php
-	class MailSystem extends EmailsAppModel{
-		public $name = 'MailSystem';
-
+	class MailSystem extends EmailsAppModel {
 		/**
 		 * database configuration to use
 		 *

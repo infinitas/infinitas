@@ -14,6 +14,8 @@
 	 * @package	app
 	 * @subpackage app.controller.components
 	 */
+	App::uses('InfinitasComponent', 'Libs/Component');
+	
 	class FilterComponent extends InfinitasComponent {
 		/**
 		 * Fields which will replace the regular syntax in where i.e. field = 'value'

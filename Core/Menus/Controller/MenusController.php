@@ -19,15 +19,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class MenusController extends MenusAppController{
-		/**
-		 * The controller name
-		 * 
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Menus';
-		
+	class MenusController extends MenusAppController {
 		public function admin_index(){
 			$menus = $this->paginate(
 				null,

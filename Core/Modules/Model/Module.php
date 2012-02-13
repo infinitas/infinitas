@@ -3,9 +3,7 @@
 	 *
 	 *
 	 */
-	class Module extends ModulesAppModel{
-		public $name = 'Module';
-
+	class Module extends ModulesAppModel {
 		public $lockable = true;
 
 		public $virtualFields = array(

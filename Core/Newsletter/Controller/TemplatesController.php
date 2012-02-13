@@ -18,8 +18,6 @@
 	 */
 
 	class TemplatesController extends NewsletterAppController {
-		public $name = 'Templates';
-
 		public $version = '0.5';
 
 		public $sampleText = '<p>This is some sample text to test your template</p>';

@@ -16,8 +16,6 @@
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	class GoogleContacts extends AppModel {
-		public $name = 'GoogleContacts';
-
 		public $useDbConfig = 'google_contacts';
 		
 		public $primaryKey = 'id';

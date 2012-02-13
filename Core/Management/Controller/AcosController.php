@@ -1,7 +1,5 @@
 <?php
 	class AcosController extends ManagementAppController {
-		public $name = 'Acos';
-
 		function admin_index() {
 			$acos = $this->Aco->find(
 				'all',

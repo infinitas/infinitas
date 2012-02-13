@@ -19,14 +19,6 @@
 
 	class SchemaMigration extends MigrationsAppModel {
 		/**
-		 * The name of the model
-		 *
-		 * @access public
-		 * @var string
-		 */
-		public $name = 'SchemaMigration';
-
-		/**
 		 * Additional behaviours that are attached to this model
 		 *
 		 * @access public

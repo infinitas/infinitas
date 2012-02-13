@@ -1,7 +1,5 @@
 <?php
-	class MailSystemsController extends EmailsAppController{
-		public $name = 'MailSystems';
-
+	class MailSystemsController extends EmailsAppController {
 		public function beforeFilter(){
 			parent::beforeFilter();
 

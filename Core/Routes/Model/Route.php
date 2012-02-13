@@ -18,8 +18,6 @@
 	 */
 
 	class Route extends RoutesAppModel {
-		public $name = 'Route';
-
 		public $order = array(
 			'Route.ordering' => 'ASC'
 		);

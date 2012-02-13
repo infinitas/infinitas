@@ -23,14 +23,6 @@
 	 */
 	class Comment extends CommentsAppModel {
 		/**
-		 * the model name
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Comment';
-
-		/**
 		 * behaviors that are attached to the model.
 		 *
 		 * @var array
@@ -77,10 +69,10 @@
 				)
 			);
 
-			$this->_findMethods['linkedComments'] = true;
+			$this->findMethods['linkedComments'] = true;
 		}
 
-		public function _findLinkedComments($state, $query, $results = array()) {
+		public function findLinkedComments($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['fields'] = array_merge(
 					(array)$query['fields'],
@@ -126,7 +118,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 
 			$return = $map = array();

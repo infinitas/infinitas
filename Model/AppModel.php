@@ -499,7 +499,7 @@
 		 * @brief find a count for pagination
 		 *
 		 * Removes 'fields' key from count query on custom finds when it is an array,
-		 * as it will completely break the Model::_findCount() call
+		 * as it will completely break the Model::findCount() call
 		 *
 		 * @param string $state Either "before" or "after"
 		 * @param array $query
@@ -508,7 +508,7 @@
 		 * @access protected
 		 * @see Model::find()
 		 */
-		function _findPaginatecount($state, $query, $results = array()) {
+		function findPaginatecount($state, $query, $results = array()) {
 			if ($state == 'before' && isset($query['operation'])) {
 				if (!empty($query['fields']) && is_array($query['fields'])) {
 					if (!preg_match('/^count/i', $query['fields'][0])) {
@@ -517,7 +517,7 @@
 				}
 			}
 
-			return parent::_findCount($state, $query, $results);
+			return parent::findCount($state, $query, $results);
 		}
 
 		/**

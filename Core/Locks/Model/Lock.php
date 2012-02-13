@@ -20,9 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class Lock extends LocksAppModel{
-		public $name = 'Lock';
-
+	class Lock extends LocksAppModel {
 		public $belongsTo = array(
 			'Locker' => array(
 				'className' => 'Users.User',

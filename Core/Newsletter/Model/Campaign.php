@@ -18,8 +18,6 @@
 	 */
 
 	class Campaign extends NewsletterAppModel {
-		public $name = 'Campaign';
-
 		public $lockable = true;
 
 		public $order = array(

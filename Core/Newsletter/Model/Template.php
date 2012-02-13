@@ -18,8 +18,6 @@
 	 */
 
 	class Template extends NewsletterAppModel {
-		public $name = 'Template';
-
 		public $lockable = true;
 
 		public $order = array(

@@ -15,8 +15,6 @@
 	 */
 
 	class GlobalCategoriesController extends ContentsAppController {
-		public $name = 'GlobalCategories';
-
 		public function index() {
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.hide'] = 0;
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.parent_id'] = null;

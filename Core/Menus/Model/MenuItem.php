@@ -21,15 +21,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class MenuItem extends MenusAppModel{
-		/**
-		 * The name of the class
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'MenuItem';
-
+	class MenuItem extends MenusAppModel {
 		/**
 		 * The relations for menu items
 		 * @var array

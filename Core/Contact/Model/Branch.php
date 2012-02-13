@@ -16,15 +16,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class Branch extends ContactAppModel{
-		/**
-		 * the name of the class
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Branch';
-
+	class Branch extends ContactAppModel {
 		/**
 		 * behaviors that are attached to this model
 		 *

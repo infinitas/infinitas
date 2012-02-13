@@ -18,14 +18,6 @@
 	 */
 
 	class NewslettersController extends NewsletterAppController {
-		/**
-		 * Class name.
-		 *
-		 * @access public
-		 * @var string
-		 */
-		public $name = 'Newsletters';
-
 		public function beforeFilter() {
 			parent::beforeFilter();
 			//  @todo make sure function track is allowed by all

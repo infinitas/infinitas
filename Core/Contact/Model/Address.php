@@ -2,9 +2,7 @@
 	/**
 	 *
 	 */
-	class Address extends ContactAppModel{
-		public $name = 'Address';
-
+	class Address extends ContactAppModel {
 		public $virtualFields = array(
 			'address' => 'CONCAT(Address.street, ", ", Address.city, ", ", Address.province)'
 		);

@@ -19,9 +19,9 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('UsersAppModel', 'Users.Model');
+	 
 	class User extends UsersAppModel{
-		public $name = 'User';
-
 		public $useTable = 'users';
 
 		public $displayField = 'username';

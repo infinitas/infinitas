@@ -17,9 +17,7 @@
 	 * @since 0.5a
 	 */
 
-	class RoutesController extends RoutesAppController{
-		public $name = 'Routes';
-
+	class RoutesController extends RoutesAppController {
 		public $listThemes = array(0 => 'Default');
 
 		public function beforeFilter() {

@@ -15,11 +15,5 @@
 	 */
 
 	class CommentAttribute extends CommentsAppModel {
-		/**
-		 * The model name
-		 * 
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'CommentAttribute';
+		
 	}

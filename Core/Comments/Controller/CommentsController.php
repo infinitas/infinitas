@@ -17,14 +17,6 @@
 	 */
 
 	class CommentsController extends CommentsAppController {
-		/**
-		 * the name of the controller
-		 *
-		 * @var sting
-		 * @access public
-		 */
-		public $name = 'Comments';
-
 		public function index(){
 			$conditions = array(
 				'Comment.active' => 1

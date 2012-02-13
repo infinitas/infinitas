@@ -3,9 +3,7 @@
 	 *
 	 *
 	 */
-	class ModulesController extends ModulesAppController{
-		public $name = 'Modules';
-
+	class ModulesController extends ModulesAppController {
 		public function admin_index() {
 			$this->paginate = array(
 				'fields' => array(

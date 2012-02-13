@@ -2,12 +2,10 @@
 	App::import('lib', 'libs.test/app_model_test.php');
 	
 	class ScopedNumberTree extends CakeTestModel {
-		public $name = 'ScopedNumberTree';
 		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
 	}
 	
 	class ScopedCounterNumberTree extends CakeTestModel {
-		public $name = 'ScopedCounterNumberTree';
 		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id', 'counterCache' => true, 'directCounterCache' => true));
 	}
 

@@ -21,8 +21,6 @@
 	 */
 
 	class Newsletter extends NewsletterAppModel {
-		public $name = 'Newsletter';
-
 		/**
 		 * always sort newsletters by the subject
 		 */

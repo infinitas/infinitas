@@ -94,7 +94,7 @@
 		 *
 		 * @return void
 		 */
-		public function __construct($request = null, $response = null){
+		public function __construct($request = null, $response = null) {
 			$this->__setupConfig();
 			$event = EventCore::trigger($this, 'requireComponentsToLoad');
 
@@ -126,10 +126,9 @@
 		 */
 		public function beforeFilter(){
 			parent::beforeFilter();
+			
 			$this->modelName = $this->modelClass;
 			$this->prettyModelName = prettyName($this->modelName);
-
-
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
 			}
@@ -324,7 +323,11 @@
 				$this->notice(
 					__('You need to be logged in to rate this item'),
 					array(
-						'redirect' => '/login'
+						'redirect' => array(
+							'plugin' => 'Users',
+							'controller' => 'Users',
+							'login'
+						)
 					)
 				);
 			}
@@ -792,15 +795,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	
-	class AppController extends GlobalActions {
-		/**
-		 * class name
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'AppController';
-		
+	class AppController extends GlobalActions {		
 		/**
 		 * the View Class that will load by defaul is the Infinitas View to take
 		 * advantage which extends the ThemeView and auto loads the Mustache class.
@@ -823,44 +818,6 @@
 		 * @access private
 		 */
 		private $__addJs  = array();
-
-		/**
-		 * @var AuthComponent
-		 * @access public
-		 */
-		public $Auth;
-
-		/**
-		 * @var RequestHandlerComponent
-		 * @access public
-		 */
-		public $RequestHandler;
-
-		/**
-		 * @var SessionComponent
-		 * @access public
-		 */
-		public $Session;
-
-		/**
-		 * @var SecurityComponent
-		 * @access public
-		 */
-		public $Security;
-
-		/**
-		 * The InfinitasComponent
-		 *
-		 * @var InfinitasComponent
-		 * @access public
-		 */
-		public $Infinitas;
-
-		/**
-		 * @var MassActionComponent
-		 * @access public
-		 */
-		public $MassAction;
 
 		/**
 		 * @brief called before a page is loaded
@@ -998,7 +955,7 @@
 			$this->Infinitas->_setupJavascript();
 
 			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
-			
+
 			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
 				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			}
@@ -1126,17 +1083,17 @@
 		 *
 		 * Infinits uses this method to use admin_form.ctp for add and edit views
 		 * when there is no admin_add / admin_edit files available.
+		 * 
+		 * @access public
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-Controllerrender
 		 *
-		 * @param string $action Action name to render
+		 * @param string $view View to use for rendering
 		 * @param string $layout Layout to use
-		 * @param string $file File to use for rendering
-		 * @access public
 		 *
 		 * @return Full output string of view contents
 		 */
-		public function render($action = null, $layout = null, $file = null) {
+		public function render($view = null, $layout = null) {
 			if(($this->request->action == 'admin_edit' || $this->request->action == 'admin_add')) {
 				$viewPath = App::pluginPath($this->request->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
 				if(!file_exists($viewPath)) {
@@ -1151,7 +1108,7 @@
 				}
 			}
 
-			return parent::render($action, $layout, $file);
+			return parent::render($view, $layout);
 		}
 
 		/**

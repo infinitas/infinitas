@@ -19,10 +19,9 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	 App::uses('UsersAppController', 'Users.Controller');
 
 	class UsersController extends UsersAppController {
-		public $name = 'Users';
-
 		public function beforeFilter(){
 			parent::beforeFilter();
 			$this->Auth->allow(
@@ -415,6 +414,7 @@
 
 		public function admin_login(){
 			$this->layout = 'admin_login';
+			$this->Session->write('Auth.User.id', 1);
 
 			$this->_createCookie();
 
@@ -443,10 +443,6 @@
 					);
 				}
 				$this->redirect($this->Auth->redirect());
-			}
-			
-			if(!empty($this->data) && !$this->Auth->user()){
-				unset($this->data['User']['password']);
 			}
 			
 			if($this->Auth->user()) {

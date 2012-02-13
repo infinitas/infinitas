@@ -15,14 +15,6 @@
 	 */
 
 	class GlobalCategory extends ContentsAppModel {
-		/**
-		 * The model name
-		 * 
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'GlobalCategory';
-
 		public $contentable = true;
 
 		/**
@@ -80,7 +72,7 @@
 				$this->alias . '.lft' => 'asc'
 			);
 
-			$this->_findMethods['getCategory'] = true;
+			$this->findMethods['getCategory'] = true;
 		}
 
 		public function beforeValidate($options = array()) {
@@ -149,7 +141,7 @@
 			return parent::children($id, $direct);
 		}
 
-		public function _findGetCategory($state, $query, $results = array()) {
+		public function findGetCategory($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['limit'] = 1;
 
@@ -190,7 +182,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 
 			$results = current($results);

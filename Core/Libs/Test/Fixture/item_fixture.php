@@ -1,7 +1,5 @@
 <?php
 	class ItemFixture extends CakeTestFixture {
-		public $name = 'Item';
-
 		public $table = 'items';
 
 		public $fields = array(

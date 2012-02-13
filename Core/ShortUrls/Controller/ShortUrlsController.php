@@ -1,7 +1,5 @@
 <?php
-	class ShortUrlsController extends ShortUrlsAppController{
-		public $name = 'ShortUrls';
-
+	class ShortUrlsController extends ShortUrlsAppController {
 		public function view(){
 			if(!isset($this->params['pass'][0])){
 				$this->redirect($this->referer());

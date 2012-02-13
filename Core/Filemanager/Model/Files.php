@@ -2,8 +2,6 @@
 	/**
 	*/
 	class Files extends AppModel {
-		public $name = 'Files';
-
 		public $useTable = false;
 
 		public $belongsTo = array(

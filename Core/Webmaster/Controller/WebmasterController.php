@@ -20,9 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class WebmasterController extends WebmasterAppController{
-		public $name = 'Webmaster';
-
+	class WebmasterController extends WebmasterAppController {
 		public $uses = array();
 		
 		public function admin_dashboard(){

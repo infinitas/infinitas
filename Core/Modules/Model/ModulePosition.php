@@ -1,7 +1,5 @@
 <?php
-	class ModulePosition extends CoreAppModel{
-		public $name = 'ModulePosition';
-
+	class ModulePosition extends CoreAppModel {
 		public $hasMany = array(
 			'Module' => array(
 				'className' => 'Modules.Module',

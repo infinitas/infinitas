@@ -9,8 +9,6 @@
 	 * @access public
 	 */
 	class InfinitasComponent extends Component {
-		public $name = 'Infinitas';
-
 		public $defaultLayout = 'default';
 
 		/**
@@ -29,6 +27,8 @@
 		);
 
 		public $configs = array();
+
+		public $Controller = null;
 
 		/**
 		* Controllers initialize function.
@@ -329,7 +329,6 @@
 		 * Define some things that auth needs to work
 		 */
 		function _setupAuth() {
-			return;
 			$this->Controller->Auth->allow('*');
 			//$this->Auth->allow('display');
 

@@ -16,13 +16,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class Contact extends ContactAppModel{
-		/**
-		 * the models name
-		 * @var string
-		 */
-		public $name = 'Contact';
-
+	class Contact extends ContactAppModel {
 		/**
 		 * Behaviors that are attached to this model
 		 * @var string

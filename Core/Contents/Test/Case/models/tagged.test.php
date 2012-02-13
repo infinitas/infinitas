@@ -99,7 +99,7 @@ class TaggedTestCase extends CakeTestCase {
 	}
 	
 /**
- * Test custom _findTagged method
+ * Test custom findTagged method
  * 
  * @return void
  */

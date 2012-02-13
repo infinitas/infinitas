@@ -1,7 +1,5 @@
 <?php
 	class ServerStatusController extends ServerStatusAppController {
-		public $name = 'ServerStatus';
-
 		public $helpers = array(
 			'ViewCounter.ViewCounter',
 			'Charts.Charts' => array(

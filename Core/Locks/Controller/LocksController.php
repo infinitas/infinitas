@@ -20,9 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class LocksController extends LocksAppController{
-		public $name = 'Locks';
-
+	class LocksController extends LocksAppController {
 		public function beforeFilter(){
 			parent::beforeFilter();
 			$this->helpers[] = 'Filter.Filter';

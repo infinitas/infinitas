@@ -18,8 +18,6 @@
 	 */
 
 	class Install extends Model {
-		public $name = 'Install';
-
 		public $useTable = false;
 
 		public $useDbConfig = false;

@@ -1,8 +1,6 @@
 <?php
-	/**
-	 *
-	 *
-	 */
+	App::uses('InfinitasComponent', 'Libs/Component');
+	
 	class GeoLocationComponent extends InfinitasComponent {
 
 		/**

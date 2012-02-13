@@ -1,7 +1,5 @@
 <?php
-	class DatabasesController extends ServerStatusAppController{
-		public $name = 'Databases';
-
+	class DatabasesController extends ServerStatusAppController {
 		public $uses = array();
 
 		public function admin_dashboard(){

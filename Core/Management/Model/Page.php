@@ -22,8 +22,6 @@
 	 */
 
 	class Page extends ManagementAppModel {
-		public $name = 'Page';
-
 		public $useTable = false;
 
 		public $actsAs = false;

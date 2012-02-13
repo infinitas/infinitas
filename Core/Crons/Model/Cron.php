@@ -1,10 +1,5 @@
 <?php
-	class Cron extends CronsAppModel{
-		/**
-		 * @copydoc AppModel::name
-		 */
-		public $name = 'Cron';
-
+	class Cron extends CronsAppModel {
 		/**
 		 * @brief The process that is currently running
 		 * 

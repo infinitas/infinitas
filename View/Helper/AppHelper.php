@@ -55,6 +55,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('Helper', 'View');
 
 	class AppHelper extends Helper {
 		/**
@@ -916,8 +917,8 @@
 		 */
 		public $urlParamFields = array('controller', 'plugin', 'action', 'prefix');
 
-		public function __construct() {
-			parent::__construct();
+		public function __construct(View $View, $settings) {
+			parent::__construct($View, $settings);
 
 			if (Configure::read('UrlCache.pageFiles')) {
 				$view =& ClassRegistry::getObject('view');

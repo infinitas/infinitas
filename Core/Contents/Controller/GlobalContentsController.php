@@ -1,7 +1,5 @@
 <?php
-	class GlobalContentsController extends ContentsAppController{
-		public $name = 'GlobalContents';
-
+	class GlobalContentsController extends ContentsAppController {
 		public $helpers = array(
 			'Filter.Filter'
 		);

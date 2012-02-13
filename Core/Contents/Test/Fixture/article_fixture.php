@@ -23,15 +23,6 @@
  */
 
 class ArticleFixture extends CakeTestFixture {
-
-/**
- * name property
- *
- * @var string 'AnotherArticle'
- * @access public
- */
-	public $name = 'Article';
-
 /**
  * fields property
  *

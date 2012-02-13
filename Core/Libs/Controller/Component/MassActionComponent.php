@@ -21,10 +21,9 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class MassActionComponent extends InfinitasComponent {
-		public $name = 'MassAction';
-
 		private $__modelName = null;
 
 		private $__prettyModelName = null;

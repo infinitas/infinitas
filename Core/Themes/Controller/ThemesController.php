@@ -15,9 +15,7 @@
 	 * @since 0.5a
 	 */
 
-	class ThemesController extends ThemesAppController{
-		public $name = 'Themes';
-
+	class ThemesController extends ThemesAppController {
 		public function admin_index() {
 			$this->Theme->recursive = 1;
 			$themes = $this->paginate(null, $this->Filter->filter);

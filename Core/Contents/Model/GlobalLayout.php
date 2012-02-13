@@ -16,14 +16,6 @@
 
 	class GlobalLayout extends ContentsAppModel {
 		/**
-		 * the model name
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'GlobalLayout';
-
-		/**
 		 * enable the row locking for layouts
 		 *
 		 * @ref LockableBehavior
@@ -95,7 +87,7 @@
 				)
 			);
 
-			$this->_findMethods['autoLoadLayout'] = true;
+			$this->findMethods['autoLoadLayout'] = true;
 		}
 
 		/**
@@ -134,7 +126,7 @@
 		public function _findAutoLoadLayout($state, $query, $results = array()) {
 			if ($state === 'before') {
 				if(empty($query['plugin']) || empty($query['model']) || empty($query['action'])) {
-					throw new Exception('Missing some params for auto loading templates');
+					return $query;
 				}
 
 				$query['conditions'] = array();
@@ -147,12 +139,11 @@
 				);
 				
 				unset($query['model'], $query['plugin'], $query['action']);
-
 				return $query;
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 
 			return current($results);

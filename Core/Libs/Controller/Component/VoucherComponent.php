@@ -1,4 +1,6 @@
 <?php
+	App::uses('InfinitasComponent', 'Libs/Component');
+	
 	class VoucherComponent extends InfinitasComponent {
 		/**
 		 * components being used here

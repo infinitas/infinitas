@@ -1,7 +1,5 @@
 <?php
-	class BouncedMail extends NewsletterAppModel{
-		public $name = 'BouncedMail';
-		
+	class BouncedMail extends NewsletterAppModel {
 		/**
 		 * database configuration to use
 		 *

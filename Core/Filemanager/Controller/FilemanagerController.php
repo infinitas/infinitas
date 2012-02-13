@@ -2,8 +2,6 @@
 	/**
 	*/
 	class FilemanagerController extends CoreAppController {
-		public $name = 'Filemanager';
-
 		public $uses = array('Filemanager.Files', 'Filemanager.Folders');
 
 		public function admin_index() {

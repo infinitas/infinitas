@@ -1,7 +1,5 @@
 <?php
 	class PhpController extends ServerStatusAppController {
-		public $name = 'Php';
-
 		public $uses = array();
 
 		/**

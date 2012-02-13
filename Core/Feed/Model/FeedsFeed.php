@@ -20,8 +20,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class FeedsFeed extends FeedAppModel{
-		public $name = 'FeedsFeed';
-
+	class FeedsFeed extends FeedAppModel {
 		public $useTable = 'feeds_feeds';
 	}

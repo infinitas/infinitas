@@ -1,4 +1,4 @@
 <?php
-	class BouncedMailsController extends NewsletterAppController{
-		public $name = 'BouncedMails';
+	class BouncedMailsController extends NewsletterAppController {
+		
 	}

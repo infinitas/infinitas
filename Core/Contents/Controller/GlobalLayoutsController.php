@@ -3,9 +3,7 @@
 	 *
 	 *
 	 */
-	class GlobalLayoutsController extends ContentsAppController{
-		public $name = 'GlobalLayouts';
-
+	class GlobalLayoutsController extends ContentsAppController {
 		/**
 		 * Helpers.
 		 *

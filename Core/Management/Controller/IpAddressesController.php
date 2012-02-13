@@ -3,10 +3,7 @@
 	 *
 	 *
 	 */
-	class IpAddressesController extends ManagementAppController{
-		public $name = 'IpAddresses';
-
-
+	class IpAddressesController extends ManagementAppController {
 		public function admin_index() {
 			$this->IpAddress->recursive = 1;
 			$ipAddresses = $this->paginate(null, $this->Filter->filter);

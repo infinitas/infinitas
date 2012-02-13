@@ -2,8 +2,6 @@
 	/**
 	*/
 	class Folders extends AppModel {
-		public $name = 'Folders';
-
 		public $useTable = false;
 
 		public $hasMany = array(

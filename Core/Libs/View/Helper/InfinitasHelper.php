@@ -20,6 +20,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('AppHelper', 'View/Helper');
 
 	class InfinitasHelper extends AppHelper{
 		public $helpers = array(

@@ -19,15 +19,11 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('InfinitasComponent', 'Libs/Component');
 
-	class VisitorComponent extends InfinitasComponent {
-		public $components = array(
-			'Session'
-		);
-		
+	class VisitorComponent extends InfinitasComponent {		
 		public function initialize($Controller, $settings = array()) {
-
-			if($this->Session->read('Auth.User.id')){
+			if($Controller->Session->read('Auth.User.id')){
 				$User = ClassRegistry::init('Users.User');
 				$User->unbindModel(
 					array(
@@ -38,7 +34,7 @@
 				
 				$User->updateAll(
 					array('User.last_click' => '\''.date('Y-m-d H:i:s').'\''),
-					array('User.id' => $this->_Controller->Session->read('Auth.User.id'))
+					array('User.id' => $Controller->Session->read('Auth.User.id'))
 				);
 			}
 		}

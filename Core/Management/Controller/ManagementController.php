@@ -18,8 +18,6 @@
 	 */
 
 	class ManagementController extends ManagementAppController {
-		public $name = 'Management';
-
 		public $uses = array();
 
 		public function beforeFilter(){

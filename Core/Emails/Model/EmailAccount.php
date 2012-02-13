@@ -1,7 +1,5 @@
 <?php
-	class EmailAccount extends EmailsAppModel{
-		public $name = 'EmailAccount';
-
+	class EmailAccount extends EmailsAppModel {
 		public $belongsTo = array(
 			'User' => array(
 				'className' => 'Users.User',

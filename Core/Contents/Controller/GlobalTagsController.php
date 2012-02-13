@@ -1,13 +1,5 @@
 <?php
 	class GlobalTagsController extends ContentsAppController {
-		/**
-		 * Name
-		 *
-		 * @var string $name
-		 * @access public
-		 */
-		public $name = 'GlobalTags';
-
 		public function beforeFilter(){
 			parent::beforeFilter();
 

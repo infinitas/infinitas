@@ -36,6 +36,7 @@
 
 	App::uses('Folder', 'Utility');
 	App::uses('String', 'Utility');
+	App::uses('Sanitize', 'Utility');
 	
 	$paths = false; //Cache::read('plugin_paths');
 	if($paths === false){

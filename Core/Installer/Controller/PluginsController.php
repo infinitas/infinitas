@@ -1,7 +1,5 @@
 <?php
-	class PluginsController extends InstallerAppController{
-		public $name = 'Plugins';
-
+	class PluginsController extends InstallerAppController {
 		public $helpers = array(
 			'Filter.Filter'
 		);

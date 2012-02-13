@@ -1,7 +1,5 @@
 <?php
-	class PluginFixture extends CakeTestFixture {
-		public $name = 'Plugin';
-		
+	class PluginFixture extends CakeTestFixture {		
 		public $table = 'core_plugins';
 		
 		public $fields = array(

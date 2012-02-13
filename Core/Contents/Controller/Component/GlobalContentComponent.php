@@ -1,4 +1,6 @@
 <?php
+	App::uses('InfinitasComponent', 'Libs/Component');
+	
 	class GlobalContentComponent extends InfinitasComponent {
 		private $__methods = array(
 			'admin_edit',

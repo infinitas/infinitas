@@ -18,8 +18,6 @@
 	 * @since 0.5a
 	 */
 	class Theme extends ThemesAppModel {
-		public $name = 'Theme';
-
 		public $hasMay = array(
 			'Routes.Route'
 		);

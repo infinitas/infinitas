@@ -1,7 +1,5 @@
 <?php
-	class ModulePositionFixture extends CakeTestFixture {
-		public $name = 'ModulePosition';
-		
+	class ModulePositionFixture extends CakeTestFixture {		
 		public $table = 'core_module_positions';
 		
 		public $fields = 	array(

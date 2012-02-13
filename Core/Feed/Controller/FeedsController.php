@@ -1,7 +1,5 @@
 <?php
 	class FeedsController extends FeedAppController {
-		public $name = 'Feeds';
-
 		public function index(){
 			$feeds = $this->Feed->find(
 				'all',

@@ -23,15 +23,6 @@
  */
 
 class GlobalTagFixture extends CakeTestFixture {
-
-/**
- * Name
- *
- * @var string $name
- * @access public
- */
-	public $name = 'GlobalTag';
-
 /**
  * Table
  *

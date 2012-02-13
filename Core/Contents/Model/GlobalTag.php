@@ -21,15 +21,6 @@
 	 */
 
 	class GlobalTag extends ContentsAppModel {
-
-		/**
-		 * Name
-		 *
-		 * @var string $name
-		 * @access public
-		 */
-		public $name = 'GlobalTag';
-
 		/**
 		 * hasMany associations
 		 *

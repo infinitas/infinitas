@@ -1,7 +1,5 @@
 <?php
-	class ModulesRouteFixture extends CakeTestFixture {
-		public $name = 'ModulesRoute';
-		
+	class ModulesRouteFixture extends CakeTestFixture {		
 		public $table = 'core_modules_routes';
 		
 		public $fields = 	array(

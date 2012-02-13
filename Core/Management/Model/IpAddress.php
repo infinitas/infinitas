@@ -20,9 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class IpAddress extends ManagementAppModel{
-		public $name = 'IpAddress';
-
+	class IpAddress extends ManagementAppModel {
 		public $displayField = 'ip_address';
 
 		/**

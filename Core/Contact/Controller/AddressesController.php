@@ -1,7 +1,5 @@
 <?php
-	class AddressesController extends ContactAppController{
-		public $name = 'Addresses';
-
+	class AddressesController extends ContactAppController {
 		public function add(){
 			if($this->Session->read('Auth.User.id') < 1){
 				$this->notice(

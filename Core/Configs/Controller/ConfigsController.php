@@ -16,14 +16,6 @@
 
 	class ConfigsController extends ConfigsAppController {
 		/**
-		 * the controllers name
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Configs';
-
-		/**
 		 * dont see where this is used
 		 * 
 		 * @deprecated

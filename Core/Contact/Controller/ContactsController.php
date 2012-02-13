@@ -16,9 +16,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ContactsController extends ContactAppController{
-		public $name = 'Contacts';
-
+	class ContactsController extends ContactAppController {
 		public function view(){
 			if (!isset($this->params['slug'])) {
 				$this->Infinitas->noticeInvalidRecord();

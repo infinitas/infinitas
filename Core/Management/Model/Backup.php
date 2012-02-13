@@ -18,8 +18,6 @@
 	 */
 
 	class Backup extends ManagementAppModel {
-		public $name = 'Backup';
-
 		public $lastId = 0;
 		
 		/**

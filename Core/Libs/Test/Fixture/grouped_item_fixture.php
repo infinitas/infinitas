@@ -1,7 +1,5 @@
 <?php
 	class GroupedItemFixture extends CakeTestFixture {
-		public $name = 'GroupedItem';
-
 		public $table = 'grouped_items';
 
 		public $fields = array(

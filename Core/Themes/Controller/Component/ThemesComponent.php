@@ -19,6 +19,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class ThemesComponent extends InfinitasComponent {
 		public function initialize(&$Controller, $settings = array()){

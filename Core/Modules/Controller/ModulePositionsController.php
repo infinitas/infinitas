@@ -20,9 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ModulePositionsController extends CoreAppController{
-		public $name = 'ModulePositions';
-
+	class ModulePositionsController extends CoreAppController {
 		public function admin_index(){
 			$modules = $this->paginate(null, $this->Filter->filter);
 

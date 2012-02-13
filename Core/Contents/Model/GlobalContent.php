@@ -1,7 +1,5 @@
 <?php
-	class GlobalContent extends ContentsAppModel{
-		public $name = 'GlobalContent';
-
+	class GlobalContent extends ContentsAppModel {
 		public $useTable = 'global_contents';
 
 		public $actsAs = array(
@@ -84,11 +82,11 @@
 				)
 			);
 
-			$this->_findMethods['duplicateData'] = true;
-			$this->_findMethods['missingData'] = true;
-			$this->_findMethods['shortData'] = true;
-			$this->_findMethods['categoryList'] = true;
-			$this->_findMethods['getRelationsCategory'] = true;
+			$this->findMethods['duplicateData'] = true;
+			$this->findMethods['missingData'] = true;
+			$this->findMethods['shortData'] = true;
+			$this->findMethods['categoryList'] = true;
+			$this->findMethods['getRelationsCategory'] = true;
 		}
 
 		/**
@@ -113,7 +111,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function _findDuplicateData($state, $query, $results = array()) {
+		function findDuplicateData($state, $query, $results = array()) {
 			if ($state === 'before') {
 				if(!is_array($query['fields'])) {
 					$query['fields'] = array($query['fields']);
@@ -152,7 +150,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 
 			return $results;
@@ -179,7 +177,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function _findMissingData($state, $query, $results = array()) {
+		function findMissingData($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['conditions'] = array_merge(
 					(array)$query['conditions'],
@@ -217,7 +215,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 
 			return $results;
@@ -245,7 +243,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function _findShortData($state, $query, $results = array()) {
+		function findShortData($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['conditions'] = array_merge(
 					(array)$query['conditions'],
@@ -271,7 +269,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 
 			return $results;
@@ -292,7 +290,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function _findCategoryList($state, $query, $results = array()) {
+		function findCategoryList($state, $query, $results = array()) {
 			$this->findQueryType = 'list';
 			
 			if ($state === 'before') {
@@ -312,13 +310,13 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 			$query['list']['groupPath'] = '';
-			return $this->_findList($state, $query, $results);
+			return $this->findList($state, $query, $results);
 		}
 		
-		public function _findGetRelationsCategory($state, $query, $results = array()) {
+		public function findGetRelationsCategory($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['fields'] = array(
 					'GlobalContent.id',
@@ -370,7 +368,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
+				return $this->findPaginatecount($state, $query, $results);
 			}
 			
 			$return = array();

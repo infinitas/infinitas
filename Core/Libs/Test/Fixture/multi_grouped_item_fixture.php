@@ -1,7 +1,5 @@
 <?php
 	class MultiGroupedItemFixture extends CakeTestFixture {
-		public $name = 'MultiGroupedItem';
-
 		public $table = 'multi_grouped_items';
 
 		public $fields = array(

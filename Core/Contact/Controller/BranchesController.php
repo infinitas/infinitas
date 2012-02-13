@@ -16,15 +16,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class BranchesController extends ContactAppController{
-		/**
-		 * The name of the class
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Branches';
-
+	class BranchesController extends ContactAppController {
 		/**
 		 * The Branch model
 		 * 

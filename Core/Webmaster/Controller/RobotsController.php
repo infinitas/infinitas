@@ -3,9 +3,7 @@
 	 *
 	 *
 	 */
-	class RobotsController extends WebmasterAppController{
-		public $name = 'Robots';
-
+	class RobotsController extends WebmasterAppController {
 		public $uses = array();
 
 		/**

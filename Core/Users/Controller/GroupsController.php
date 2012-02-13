@@ -19,14 +19,6 @@
 
 	class GroupsController extends UsersAppController {
 		/**
-		 * The name of the controller
-		 *
-		 * @access public
-		 * @var string
-		 */
-		public $name = 'Groups';
-
-		/**
 		 * The helpers linked to this controller
 		 *
 		 * @access public

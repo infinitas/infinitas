@@ -1,7 +1,5 @@
 <?php
-	class SchemaMigrationFixture extends CakeTestFixture {
-		public $name = 'SchemaMigration';
-		
+	class SchemaMigrationFixture extends CakeTestFixture {		
 		public $table = 'schema_migrations';
 		
 		public $fields = array(

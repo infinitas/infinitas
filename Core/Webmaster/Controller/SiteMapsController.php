@@ -3,9 +3,7 @@
 	 *
 	 *
 	 */
-	class SiteMapsController extends WebmasterAppController{
-		public $name = 'SiteMaps';
-
+	class SiteMapsController extends WebmasterAppController {
 		public $uses = array();
 
 		public function index(){

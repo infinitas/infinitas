@@ -4,7 +4,6 @@
 	App::import('Helper', 'Libs.Tree');
 
 	class ScopedNumberTree extends CakeTestModel {
-		public $name = 'ScopedNumberTree';
 		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
 	}
 

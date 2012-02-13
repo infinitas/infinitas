@@ -21,15 +21,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class Menu extends MenusAppModel{
-		/**
-		 * The model name
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $name = 'Menu';
-
+	class Menu extends MenusAppModel {
 		/**
 		 * The relations for the menu
 		 *

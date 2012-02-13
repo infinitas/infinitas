@@ -2,8 +2,6 @@
 	App::import('Behavior', 'Tree');
 
 	class InfiniTreeBehavior extends TreeBehavior {
-		public $name = 'ScopedTree';
-
 		/**
 		 * The old parent id that will be updated with countercache
 		 * when moving nodes

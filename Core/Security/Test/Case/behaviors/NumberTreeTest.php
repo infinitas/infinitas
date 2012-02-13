@@ -7,8 +7,6 @@
 	 * @package       infinitas.test.encrypted_category
 	 */
 	class CategoryEncrypted extends CakeTestModel {
-		public $name = 'CategoryEncrypted';
-
 		public $actsAs = array(
 			'Security.Encryptable'
 		);
