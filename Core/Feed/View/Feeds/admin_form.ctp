@@ -34,7 +34,7 @@
 		<fieldset>
 			<h1><?php echo __('Configuration'); ?></h1><?php
 			echo $this->Form->input('active');
-			echo $this->element('route_select', array('plugin' => 'routes'));
+			echo $this->element('route_select', array('plugin' => 'Routes'));
 			echo $this->Form->input('group_id'); 
 			echo $this->Form->input('FeedsFeed', array('title' => __('Sub-Feeds'), 'type' => 'select', 'multiple' => 'checkbox')); ?>
 		</fieldset><?php

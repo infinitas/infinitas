@@ -26,7 +26,7 @@
 				$options = Configure::read('Routing.prefixes');
 				$options = array_combine($options, $options);
 				echo $this->Form->input('prefix', array('options' => $options, 'type' => 'select', 'empty' => __('None')));
-				echo $this->element('route_select', array('plugin' => 'routes')); ?>
+				echo $this->element('route_select', array('plugin' => 'Routes')); ?>
 			</div><?php
 			echo $this->Form->input('values');
 			echo $this->Form->input('rules'); ?>

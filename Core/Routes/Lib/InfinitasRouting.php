@@ -33,13 +33,13 @@
 		 * the routes from the database.
 		 */
 		private function __buildRoutes(){
+			App::uses('ClassRegistry', 'Utility');
 			EventCore::trigger(new StdClass(), 'setupRoutes');
 
 			//TODO: Figure out cleaner way of doing this. If infinitas is not installed, this throws a datasource error.
-			$databaseConfig = APP.'config'.DS.'database.php';
+			$databaseConfig = APP.'Config'.DS.'database.php';
 			if(file_exists($databaseConfig) && filesize($databaseConfig) > 0) {
-				$routes = Classregistry::init('Routes.Route')->getRoutes();
-				
+				$routes = ClassRegistry::init('Routes.Route')->getRoutes();
 				if (!empty($routes)) {
 					foreach($routes as $route ){
 						if (false) {
@@ -48,11 +48,11 @@
 						}
 
 						call_user_func_array(array('Router', 'connect'), $route['Route']);
-						
-						if(!defined('INFINITAS_ROUTE_HASH')) {
-							define('INFINITAS_ROUTE_HASH', md5(serialize($route['Route'])));
-						}
 					}
+				}
+
+				if(!defined('INFINITAS_ROUTE_HASH')) {
+					define('INFINITAS_ROUTE_HASH', md5(serialize($routes)));
 				}
 			}
 		}

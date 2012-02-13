@@ -15,7 +15,7 @@
 		 * @return array the details requested
 		 */
 		public function onGetLocation($event, $ipAddress = null){
-			App::import('GeoIp', 'GeoIp.IpLocation');
+			App::uses('IpLocation', 'GeoIp.Lib');
 			$IpLocation = new IpLocation();
 
 			$return = $IpLocation->getCityData($ipAddress);

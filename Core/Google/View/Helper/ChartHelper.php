@@ -367,7 +367,7 @@
 
 		public function __construct($options = array()) {
 			$default = array(
-				'cachePath' => App::pluginPath('google') . 'vendors' . DS . 'img' . DS . 'chart_cache' . DS,
+				'cachePath' => App::pluginPath('Google') . 'vendors' . DS . 'img' . DS . 'chart_cache' . DS,
 				'cacheImagePath' => '/google/img/chart_cache/'
 			);
 

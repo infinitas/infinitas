@@ -22,7 +22,7 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class ThemesComponent extends InfinitasComponent {
-		public function initialize(&$Controller, $settings = array()){
+		public function initialize($Controller, $settings = array()) {
 			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeStart');
 			if (isset($event['setupThemeStart'][$Controller->plugin])) {
 				if (is_string($event['setupThemeStart'][$Controller->plugin])) {

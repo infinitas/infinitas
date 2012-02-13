@@ -22,7 +22,7 @@
 		var $helpers = array(
 			'Form',
 			'Html',
-			'Javascript'
+			'Js'
 		);
 
 		function load($editor = null, $field = null, $config = array()){

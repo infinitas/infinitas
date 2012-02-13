@@ -22,6 +22,12 @@
 			return $menu;
 		}
 
+		public function onRequireComponentsToLoad($event = null) {
+			return array(
+				'Themes.Themes'
+			);
+		}
+
 		public function onGetRequiredFixtures($event){
 			return array(
 				'Themes.Theme',

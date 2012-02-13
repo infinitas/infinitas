@@ -372,7 +372,7 @@
 		 * @return array all the plugins in infinitas.
 		 */
 		public function getPlugins($skipBlocked = true){
-			$plugins = Configure::listObjects('plugin');
+			$plugins = App::objects('plugin');
 
 			if ($skipBlocked === false) {
 				return $plugins;

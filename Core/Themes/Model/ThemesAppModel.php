@@ -17,5 +17,6 @@
 	 * @since 0.5a
 	 */
 
-	class ThemesAppModel extends CoreAppModel {
+	class ThemesAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

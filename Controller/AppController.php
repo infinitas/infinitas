@@ -801,7 +801,7 @@
 		 * advantage which extends the ThemeView and auto loads the Mustache class.
 		 * This changes when requests are json etc
 		 */
-		public $view = 'Libs.Infinitas';
+		public $viewClass = 'Libs.Infinitas';
 
 		/**
 		 * internal cache of css files to load
@@ -1128,9 +1128,9 @@
 		 * 
 		 * @return it ends the script
 		 */
-		public function blackHole($Controller, $error){
+		public function blackHole($Controller) {
+			var_dump($Controller);
 			pr('you been blackHoled');
-			pr($error);
 			exit;
 		}
 

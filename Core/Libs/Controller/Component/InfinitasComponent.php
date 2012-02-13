@@ -296,6 +296,8 @@
 		 * @return true or blackHole;
 		 */
 		private function __checkBadLogins(){
+			return true;
+			
 			if($this->Controller->Auth->user('id')) {
 				return true;
 			}
@@ -329,6 +331,7 @@
 		 * Define some things that auth needs to work
 		 */
 		function _setupAuth() {
+			return true;
 			$this->Controller->Auth->allow('*');
 			//$this->Auth->allow('display');
 

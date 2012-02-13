@@ -22,8 +22,11 @@
 	 App::uses('UsersAppController', 'Users.Controller');
 
 	class UsersController extends UsersAppController {
-		public function beforeFilter(){
+		public function beforeFilter() {
+			//$this->Auth->authenticate = array('Form');
+			//$this->Auth->csrfCheck = false;
 			parent::beforeFilter();
+			return;
 			$this->Auth->allow(
 				'login', 'logout', 'register',
 				'forgot_password', 'reset_password'
@@ -414,11 +417,10 @@
 
 		public function admin_login(){
 			$this->layout = 'admin_login';
-			$this->Session->write('Auth.User.id', 1);
 
 			$this->_createCookie();
 
-			if(!(empty($this->data)) && $this->Auth->user()){
+			if(!(empty($this->request->data)) && $this->Auth->login()){
 				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 

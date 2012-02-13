@@ -39,7 +39,7 @@
 		 * @access public
 		 * @return void
 		 */
-		public function setup(&$Model, $config = null) {
+		public function setup($Model, $config = null) {
 			$Model->findMethods = array_merge($Model->findMethods, array('feed'=>true));
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
@@ -49,13 +49,10 @@
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
 			
-			$Model->Behaviors->__methods = array_merge(
-				$Model->Behaviors->__methods,
-				array('findFeed' => array('findFeed', 'Feedable'))
-			);
+			$Model->findMethods['findFeed'] = true;
 		}
 
-		protected function findFeed(&$Model, $state, $query, $results = array()){
+		protected function findFeed($Model, $state, $query, $results = array()){
 			if($state == 'before') {
 				if (!isset($query['feed'])){
 					return $query;

@@ -22,7 +22,7 @@
 	 */
 	App::uses('AppHelper', 'View/Helper');
 
-	class InfinitasHelper extends AppHelper{
+	class InfinitasHelper extends AppHelper {
 		public $helpers = array(
 			'Html',
 			'Form',
@@ -178,9 +178,10 @@
 		 * @return a checkbox
 		 */
 		public function massActionCheckBox($data = array(), $options = array()){
-			$model = isset($this->params['models'][0]) ? $this->params['models'][0] : null;
+			$model = current(array_keys($this->request->params['models']));
+			$modelClass = implode('.', $this->request->params['models'][$model]);
 			$options = array_merge(
-				array('model' => $model, 'primaryKey' => ClassRegistry::init($model)->primaryKey, 'hidden' => false, 'checked' => false),
+				array('model' => $model, 'primaryKey' => ClassRegistry::init($modelClass)->primaryKey, 'hidden' => false, 'checked' => false),
 				$options
 			);
 

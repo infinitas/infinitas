@@ -4,6 +4,8 @@
 	 *
 	 */
 	class Group extends UsersAppModel {
+		public $useTable = 'groups';
+		
 		public $actsAs1 = array('Tree', 'Acl' => array('requester'));
 
 		public function  __construct($id = false, $table = null, $ds = null) {

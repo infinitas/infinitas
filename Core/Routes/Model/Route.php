@@ -18,6 +18,8 @@
 	 */
 
 	class Route extends RoutesAppModel {
+		public $useTable = 'routes';
+		
 		public $order = array(
 			'Route.ordering' => 'ASC'
 		);
@@ -108,7 +110,6 @@
 		 */
 		public function getRoutes(){
 			$routes = Cache::read('routes', 'routes');
-
 			if ($routes !== false) {
 				return $routes;
 			}
@@ -127,7 +128,8 @@
 						'Route.rules',
 						'Route.force_backend',
 						'Route.force_frontend',
-						'Route.theme_id'
+						'Route.theme_id',
+						'Theme.*'
 					),
 					'conditions' => array(
 						'Route.active' => 1
@@ -135,8 +137,15 @@
 					'order' => array(
 						'Route.ordering' => 'ASC'
 					),
-					'contain' => array(
-						'Theme'
+					'joins' => array(
+						array(
+							'table' => 'core_themes',
+							'alias' => 'Theme',
+							'type' => 'LEFT',
+							'conditions' => array(
+								'Route.theme_id = Theme.id'
+							)
+						)
 					)
 				)
 			);

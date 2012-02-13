@@ -34,8 +34,8 @@
 
 	// show a message if nothing is found ( count == 0 or its not set )
 	if (
-		!isset($this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count']) ||
-		$this->Paginator->params['paging'][key( $this->Paginator->params['paging'] )]['count'] == 0 )
+		!isset($this->request->params['paging'][key($this->request->params['paging'] )]['count']) ||
+		$this->request->params['paging'][key($this->request->params['paging'])]['count'] == 0 )
 	{
 		echo '<p class="empty">', __( Configure::read( 'Pagination.nothing_found_message' ), true ), '</p>';
 		return true;
@@ -70,5 +70,5 @@
 			echo $this->Form->end();
 		?>
 	</li>
-	<li class="text"><?php echo $this->Design->paginationCounter($paginator); ?></li>
+	<li class="text"><?php echo $this->Design->paginationCounter($this->Paginator); ?></li>
 </ul>

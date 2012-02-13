@@ -20,11 +20,10 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	App::import('Lib', 'Libs.Mustache');
-	App::import('View', 'Theme');
-	App::import('View', 'Libs.LazyHelper');
+	App::uses('Mustache', 'Libs.Mustache');
+	App::uses('ThemeView', 'View');
 
-	class InfinitasView extends LazyHelperView {
+	class InfinitasView extends ThemeView {
 		/**
 		 * place holder for the mustache templating engine.
 		 */
@@ -59,8 +58,9 @@
 		 * the template rendering. could be handy for debugging. if debug is off
 		 * this has no effect.
 		 */
-		public function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
-			$out = parent::_render($___viewFn, $___dataForView, $loadHelpers, $cached);
+		public function _render($viewFile, $data = array()) {
+			$this->__loadHelpers();
+			$out = parent::_render($viewFile, $data);
 			// only on for admin or it renders the stuff in the editor which is pointless
 			// could maybe just turn it off for edit or some other work around
 			if(!isset($this->params['admin'])){
@@ -90,5 +90,19 @@
 			}
 			
 			return $out;
+		}
+
+		private function __loadHelpers() {
+			$helpers = EventCore::trigger($this, 'requireHelpersToLoad');
+			foreach($helpers['requireHelpersToLoad'] as $plugin) {
+				foreach((array)$plugin as $helper => $config) {
+					if(is_int($helper) && is_string($config)) {
+						$helper = $config;
+						$config = array();
+					}
+
+					$this->Helpers->load($helper, $config);
+				}
+			}
 		}
 	}

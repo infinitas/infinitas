@@ -18,8 +18,12 @@
 	 * @since 0.5a
 	 */
 	class Theme extends ThemesAppModel {
+		public $useTable = 'themes';
+		
 		public $hasMay = array(
-			'Routes.Route'
+			'Route' => array(
+				'className' => 'Routes.Route'
+			)
 		);
 
 		public function  __construct($id = false, $table = null, $ds = null) {
@@ -61,7 +65,7 @@
 		 * @param array $conditions
 		 * @return array $theme the current theme.
 		 */
-		public function getCurrentTheme(){
+		public function getCurrentTheme() {
 			$theme = Cache::read('current_theme', 'core');
 
 			if ($theme !== false) {

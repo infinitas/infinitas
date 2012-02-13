@@ -17,5 +17,6 @@
 	 * @since 0.5a
 	 */
 
-	class RoutesAppModel extends CoreAppModel {
+	class RoutesAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

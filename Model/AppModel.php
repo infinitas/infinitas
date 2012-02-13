@@ -88,6 +88,8 @@
 		 */
 		public $tablePrefix;
 
+		public $__jsonErrors = array();
+
 		/**
 		 * Behaviors to attach to the site.
 		 *

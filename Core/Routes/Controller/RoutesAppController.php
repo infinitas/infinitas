@@ -17,5 +17,6 @@
 	* @since 0.5a
 	*/
 
-	class RoutesAppController extends CoreAppController {
+	class RoutesAppController extends AppController {
+		
 	}

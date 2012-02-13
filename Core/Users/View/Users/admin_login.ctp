@@ -1,6 +1,6 @@
 <?php
 	$this->Session->flash('auth');
-	echo $this->Form->create('User');
+	echo $this->Form->create('User', array('url' => $this->here));
 		if(Configure::read('Website.login_type') == 'email'){
 			echo $this->Form->input('email');
 		}

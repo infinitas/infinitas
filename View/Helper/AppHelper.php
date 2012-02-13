@@ -242,7 +242,7 @@
 		 * @return string the markup for the page header
 		 */
 		public function adminPageHead() {
-			return '<h1>' . sprintf(__('%s Manager'), prettyName($this->urlExtras['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
+			return '<h1>' . sprintf(__('%s Manager'), prettyName($this->request->params['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
 		}
 
 		/**
@@ -376,7 +376,7 @@
 			$text = isset($row['name']) ? $row['name'] : null;
 			$text = (!$text && isset($row['title'])) ? $row['title'] : null;
 			
-			$model = !empty($model) ? $model : $this->request->params['models'][0];
+			$model = !empty($model) ? $model : current(array_keys($this->request->params['models']));
 
 			if(!$id) {
 				$text = $row[ClassRegistry::init($model)->displayField];

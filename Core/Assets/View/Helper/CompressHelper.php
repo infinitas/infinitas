@@ -6,20 +6,10 @@
 	 *
 	 * @property JavascriptHelper $Javascript
 	 */
-	class CompressHelper extends Helper {
-		/**
-		 * Array containing additional helpers to be used in this helper.
-		 *
-		 * @access public
-		 * @var array
-		 */
-		public $helpers = array('Html', 'Javascript');
 
-		/**
-		 * @property HtmlHelper
-		 */
-		public $Html;
-
+	App::uses('InfinitasHelper', 'Libs.View/Helpers');
+	
+	class CompressHelper extends InfinitasHelper {
 		/**
 		 * The directory to which the combined CSS files will be cached.
 		 *
@@ -60,8 +50,8 @@
 		 *
 		 * @return void
 		 */
-		public function __construct() {
-			parent::__construct();
+		public function __construct(View $View, $settings = array()) {
+			parent::__construct($View, $settings);
 
 			$this->cssCachePath = CSS;
 			$this->jsCachePath  = JS;
@@ -103,7 +93,7 @@
 			// in trying to set up the class. Either way, we can't process the files,
 			// so we'll need to handle this through the parent.
 			if (!$this->enabled) {
-				return $this->Html->css($cssFiles);
+				return $this->_View->Helpers->load('Html')->css($cssFiles);
 			}
 
 			// Let's generate the cache hash, and ensure we have all the files that
