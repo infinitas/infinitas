@@ -22,6 +22,8 @@
 	 */
 
 	class Menu extends MenusAppModel {
+		public $useTable = 'menus';
+
 		/**
 		 * The relations for the menu
 		 *

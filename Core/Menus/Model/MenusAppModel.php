@@ -22,6 +22,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class MenusAppModel extends CoreAppModel {
-		
+	class MenusAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

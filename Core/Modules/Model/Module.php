@@ -4,6 +4,8 @@
 	 *
 	 */
 	class Module extends ModulesAppModel {
+		public $useTable = 'modules';
+		
 		public $lockable = true;
 
 		public $virtualFields = array(
@@ -150,16 +152,51 @@
 						'Module.content',
 						'Module.module',
 						'Module.config',
-						'Module.show_heading'
+						'Module.show_heading',
+						'Position.id',
+						'Position.name',
+						'Group.id',
+						'Group.name',
+						'Theme.id',
+						'Theme.name',
 					),
 					'conditions' => array(
 						'Position.name' => $position,
 						'Module.admin' => $admin,
 						'Module.active' => 1
 					),
-					'contain' => $this->__contain
+					'joins' => array(
+						array(
+							'table' => 'core_module_positions',
+							'alias' => 'Position',
+							'type' => 'LEFT',
+							'conditions' => array(
+								'Module.position_id = Position.id'
+							)
+						),
+						array(
+							'table' => 'core_groups',
+							'alias' => 'Group',
+							'type' => 'LEFT',
+							'conditions' => array(
+								'Module.group_id = Group.id'
+							)
+						),
+						array(
+							'table' => 'core_themes',
+							'alias' => 'Theme',
+							'type' => 'LEFT',
+							'conditions' => array(
+								'Module.theme_id = Theme.id'
+							)
+						)
+						/**
+						 * @todo join Routes on
+						 */
+					)
 				)
 			);
+			
 			Cache::write($position . '.' . (($admin) ? 'admin' : 'user'), $modules, 'modules');
 
 			return $modules;

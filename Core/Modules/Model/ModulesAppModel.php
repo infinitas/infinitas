@@ -17,5 +17,6 @@
 	 * @since 0.5a
 	 */
 
-	class ModulesAppModel extends CoreAppModel {
+	class ModulesAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

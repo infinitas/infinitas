@@ -115,11 +115,15 @@
 			}
 
 			if (!empty($module)) {
+				$plugin = null;
+				if(!empty($params['plugin'])) {
+					$plugin = $params['plugin'];
+					unset($params['plugin']);
+				}
+				
 				$path = 'modules/';
-
-				$this->__getViewClass();
-				$moduleOut .= $this->View->element(
-					$path.$module,
+				$moduleOut .= $this->_View->element(
+					implode('.', array($plugin, $path.$module)),
 					$params,
 					true
 				);
@@ -193,11 +197,5 @@
 			}
 
 			return $json;
-		}
-
-		private function __getViewClass(){
-			if(!$this->View){
-				$this->View = ClassRegistry::getObject('view');
-			}
 		}
 	}

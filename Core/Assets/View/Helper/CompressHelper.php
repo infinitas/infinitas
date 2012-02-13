@@ -7,7 +7,7 @@
 	 * @property JavascriptHelper $Javascript
 	 */
 
-	App::uses('InfinitasHelper', 'Libs.View/Helpers');
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
 	
 	class CompressHelper extends InfinitasHelper {
 		/**

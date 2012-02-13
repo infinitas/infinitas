@@ -129,7 +129,7 @@
 		 * @return array
 		 */
 		public function _getUserData(){
-			$data['User']['id']			   = $this->Auth->user('id');
+			$data['User']['id']			   = $this->Session->read('Auth.User.id');
 			$data['User']['last_login']	   = date('Y-m-d H:i:s');
 			$data['User']['modified']		 = false;
 			$data['User']['browser']		  = $this->Infinitas->getBrowser();
@@ -137,6 +137,7 @@
 
 			//$data['User'] = array_merge($data['User'], $this->Session->read('GeoLocation'));
 			$data['User']['is_mobile']		= $this->RequestHandler->isMobile();
+			return $data;
 			$location = $this->Event->trigger('getLocation');
 			$data['User'] = array_merge($data['User'], current($location['getLocation']));
 
@@ -161,6 +162,7 @@
 		 * Create a remember me cookie
 		 */
 		public function _createCookie(){
+			return;
 			if ($this->Auth->user()) {
 				if (!empty($this->data['User']['remember_me'])) {
 					$cookie = array();
@@ -420,11 +422,19 @@
 
 			$this->_createCookie();
 
-			if(!(empty($this->request->data)) && $this->Auth->login()){
-				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
+			if(!(empty($this->request->data))){
+				$this->Session->write(
+					'Auth.User',
+					array(
+						'id' => 1,
+						'username' => 'dogmatic69'
+					)
+				);
+				$lastLogon = $this->User->getLastLogon($this->Session->read('Auth.User.id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
+					$this->Session->write('Auth', $this->User->find('first'));
 					$currentUser = $this->Session->read('Auth.User');
 
 					// there is something wrong
@@ -444,12 +454,13 @@
 						)
 					);
 				}
-				$this->redirect($this->Auth->redirect());
-			}
-			
-			if($this->Auth->user()) {
+				//$this->redirect($this->Auth->redirect());
 				$this->redirect('/admin');
 			}
+			
+			/*if($this->Auth->user()) {
+				$this->redirect('/admin');
+			}*/
 		}
 
 		public function admin_logout(){

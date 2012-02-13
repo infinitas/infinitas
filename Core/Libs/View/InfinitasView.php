@@ -21,9 +21,8 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	App::uses('Mustache', 'Libs.Mustache');
-	App::uses('ThemeView', 'View');
 
-	class InfinitasView extends ThemeView {
+	class InfinitasView extends View {
 		/**
 		 * place holder for the mustache templating engine.
 		 */
@@ -43,7 +42,7 @@
 		 * get the
 		 */
 		public function __construct($Controller, $register = true) {
-			$this->Mustache = new Mustache();
+			//$this->Mustache = new Mustache();
 			parent::__construct($Controller, $register);
 		}
 

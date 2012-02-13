@@ -115,6 +115,7 @@
 
 			$return = array();
 			foreach($plugins as $name => $info) {
+				$name = Inflector::camelize($name);
 				$info = array_merge($this->__adminDashboardIcon, $info);
 				if(empty($info['name'])){
 					$info['name'] = __(prettyName($name));
@@ -126,14 +127,14 @@
 						'controller' => strtolower($name),
 						'action' => 'index'
 					);
-				}				
+				}
 
 				$var = 'plugin';
 				if($type !== 'all'){
 					$var = $type;
 				}
 				
-				else if(strstr(App::pluginPath($name), APP.'core'.DS)){
+				else if(strstr(App::pluginPath($name), APP . 'Core' . DS)){
 					$var = 'core';
 				}				
 

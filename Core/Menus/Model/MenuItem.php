@@ -22,6 +22,8 @@
 	 */
 
 	class MenuItem extends MenusAppModel {
+		public $useTable = 'menu_items';
+		
 		/**
 		 * The relations for menu items
 		 * @var array
@@ -221,8 +223,15 @@
 						'MenuItem.active' => 1,
 						'MenuItem.parent_id !=' => 0
 					),
-					'contain' => array(
-						'Menu'
+					'joins' => array(
+						array(
+							'table' => 'core_menus',
+							'alias' => 'Menu',
+							'type' => 'LEFT',
+							'conditions' => array(
+								'MenuItem.menu_id = Menu.id'
+							)
+						)
 					)
 				)
 			);

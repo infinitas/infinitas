@@ -64,9 +64,11 @@
 		public function onRequireComponentsToLoad($event){
 			return array(
 				'Libs.Infinitas',
-				'Session','RequestHandler', 
-				//'Auth', 'Acl',
-				'Security', // core general things from cake
+				'Session',
+				'RequestHandler',
+				//'Auth',
+				//'Acl',
+				'Security',
 				'Libs.MassAction'
 			);
 		}
@@ -75,7 +77,7 @@
 			return array(
 				'Html', 'Form', 'Js', 'Session', 'Time', // core general things from cake
 				'Libs.Infinitas',
-				'Libs.Design'
+				'Libs.Image', 'Libs.Design'
 			);
 		}
 

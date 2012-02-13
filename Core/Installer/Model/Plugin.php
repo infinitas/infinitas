@@ -1,5 +1,6 @@
 <?php
 	class Plugin extends InstallerAppModel {
+		public $useTable = 'plugins';
 		public $installError = array();
 		
 		public function __construct($id = false, $table = null, $ds = null) {
