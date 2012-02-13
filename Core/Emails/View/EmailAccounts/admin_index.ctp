@@ -40,23 +40,23 @@
 						'class' => 'first',
 						'style' => 'width:25px;'
 					),
-					$paginator->sort('name') => array(
+					$this->Paginator->sort('name') => array(
 						'style' => '100px;'
 					),
-					$paginator->sort('username'),
-					$paginator->sort('type') => array(
+					$this->Paginator->sort('username'),
+					$this->Paginator->sort('type') => array(
 						'width' => '50px'
 					),
-					$paginator->sort('port') => array(
+					$this->Paginator->sort('port') => array(
 						'width' => '50px'
 					),
-					$paginator->sort('ssl') => array(
+					$this->Paginator->sort('ssl') => array(
 						'width' => '50px'
 					),
-					$paginator->sort('system') => array(
+					$this->Paginator->sort('system') => array(
 						'width' => '50px'
 					),
-					$paginator->sort('cron') => array(
+					$this->Paginator->sort('cron') => array(
 						'width' => '50px'
 					)
 				)

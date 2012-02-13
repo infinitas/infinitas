@@ -1,5 +1,7 @@
 <?php
 	class Cron extends CronsAppModel {
+		public $useTable = 'crons';
+		
 		/**
 		 * @brief The process that is currently running
 		 * 

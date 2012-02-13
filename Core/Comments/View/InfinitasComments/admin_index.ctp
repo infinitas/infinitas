@@ -18,7 +18,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create('Comment', array('url' => array('action' => 'mass')));
+    echo $this->Form->create('InfinitasComment', array('url' => array('action' => 'mass')));
         $massActions = $this->Infinitas->massActionButtons(
             array(
                 'toggle',
@@ -36,14 +36,14 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $paginator->sort(__('Where'), 'class'),
-                    $paginator->sort('email') => array(
+                    $this->Paginator->sort(__('Where'), 'class'),
+                    $this->Paginator->sort('email') => array(
                         'style' => '50px;'
                     ),
-                    $paginator->sort('created') => array(
+                    $this->Paginator->sort('created') => array(
                         'width' => '100px'
                     ),
-                    $paginator->sort('points') => array(
+                    $this->Paginator->sort('points') => array(
                         'width' => '50px'
                     ),
                     __('Status') => array(
@@ -60,28 +60,28 @@
                         <td>
 							<?php
 								echo $this->Html->link(
-									$comment['Comment']['class'],
+									$comment['InfinitasComment']['class'],
 									array(
-										'Comment.class' => $comment['Comment']['class']
+										'Comment.class' => $comment['InfinitasComment']['class']
 									)
 								);
 							?>&nbsp;
 						</td>
-                        <td><?php echo $this->Text->autoLinkEmails($comment['Comment']['email']); ?>&nbsp;</td>
-                        <td><?php echo $this->Time->timeAgoInWords($comment['Comment']['created']); ?>&nbsp;</td>
-                        <td><?php echo $comment['Comment']['points']; ?>&nbsp;</td>
+                        <td><?php echo $this->Text->autoLinkEmails($comment['InfinitasComment']['email']); ?>&nbsp;</td>
+                        <td><?php echo $this->Time->timeAgoInWords($comment['InfinitasComment']['created']); ?>&nbsp;</td>
+                        <td><?php echo $comment['InfinitasComment']['points']; ?>&nbsp;</td>
                         <td rowspan="2">
                             <?php
-								echo $this->Infinitas->status($comment['Comment']['active'], $comment['Comment']['id']);
-                            	if(!$comment['Comment']['active']){
-                            		echo ' ', Inflector::humanize($comment['Comment']['status']);
+								echo $this->Infinitas->status($comment['InfinitasComment']['active'], $comment['InfinitasComment']['id']);
+                            	if(!$comment['InfinitasComment']['active']){
+                            		echo ' ', Inflector::humanize($comment['InfinitasComment']['status']);
                             	}
                             ?>
                         </td>
                     </tr>
 					<tr class="<?php echo $rowClass; ?>">
 						<td colspan="4">
-							<?php echo strip_tags($comment['Comment']['comment']); ?>
+							<?php echo strip_tags($comment['InfinitasComment']['comment']); ?>
 						</td>
 					</tr>
                 <?php

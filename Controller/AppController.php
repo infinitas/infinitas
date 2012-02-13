@@ -239,7 +239,7 @@
 				}
 			}
 
-			$this->render(null, null, App::pluginPath('Comment') . 'views' . DS . 'comments' . DS . 'add.ctp');
+			$this->render(null, null, App::pluginPath('Comment') . 'View' . DS . 'InfinitasComments' . DS . 'add.ctp');
 		}
 
 		/**

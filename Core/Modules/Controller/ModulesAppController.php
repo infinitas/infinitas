@@ -17,5 +17,6 @@
 	* @since 0.5a
 	*/
 
-	class ModulesAppController extends CoreAppController {
+	class ModulesAppController extends AppController {
+		
 	}

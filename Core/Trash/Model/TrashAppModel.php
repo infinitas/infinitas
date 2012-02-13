@@ -1,4 +1,4 @@
 <?php
-	class TrashAppModel extends CoreAppModel{
-		
+	class TrashAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

@@ -29,7 +29,7 @@
 				case 'comments':
 					return array(
 						'plugin' => 'management',
-						'controller' => 'comments',
+						'controller' => 'infinitas_comments',
 						'action' => $data['data']['action'],
 						'id' => $data['data']['id'],
 						'category' => 'user-feedback'

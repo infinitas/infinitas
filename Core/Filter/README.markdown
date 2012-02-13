@@ -40,7 +40,7 @@ If you don't want to filter a particular field pass null in that spot.
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
-				<th><?php echo $paginator->sort('Name', 'name', $filter_options);?></th>
+				<th><?php echo $this->Paginator->sort('Name', 'name', $filter_options);?></th>
 				<th class="actions">Actions</th>
 			</tr>
 			<tr>
@@ -57,9 +57,9 @@ If you don't want to filter a particular field pass null in that spot.
 	</table>
 	<?php echo $form->end(); ?>
 	<div class="paging">
-		<?php echo $paginator->prev('<< '.__('previous', true), $filter_options, null, array('class' => 'disabled'));?>
-		<?php echo $paginator->numbers($filter_options);?>
-		<?php echo $paginator->next(__('next', true).' >>', $filter_options, null, array('class' =>' disabled'));?>
+		<?php echo $this->Paginator->prev('<< '.__('previous', true), $filter_options, null, array('class' => 'disabled'));?>
+		<?php echo $this->Paginator->numbers($filter_options);?>
+		<?php echo $this->Paginator->next(__('next', true).' >>', $filter_options, null, array('class' =>' disabled'));?>
 	</div>
 	
 4. Add Behavior to model (only necessary for HABTM and HasMany):

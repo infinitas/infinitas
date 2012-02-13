@@ -134,6 +134,8 @@
 		 */
 		public $autoCacheClear = true;
 
+		public $queryLimit = 20;
+
 		/**
 		 * @brief Constructor for models
 		 *
@@ -154,6 +156,10 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
+			
+			if(empty($this->useTable)) {
+				$this->useTable = Inflector::tableize(get_class($this));
+			}
 
 			if($this->tablePrefix != ''){
 				$config = $this->getDataSource()->config;
@@ -510,7 +516,7 @@
 		 * @access protected
 		 * @see Model::find()
 		 */
-		function findPaginatecount($state, $query, $results = array()) {
+		protected function _findPaginatecount($state, $query, $results = array()) {
 			if ($state == 'before' && isset($query['operation'])) {
 				if (!empty($query['fields']) && is_array($query['fields'])) {
 					if (!preg_match('/^count/i', $query['fields'][0])) {
@@ -519,7 +525,7 @@
 				}
 			}
 
-			return parent::findCount($state, $query, $results);
+			return parent::_findCount($state, $query, $results);
 		}
 
 		/**

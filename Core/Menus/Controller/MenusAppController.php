@@ -20,5 +20,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class MenusAppController extends CoreAppController {
+	class MenusAppController extends AppController {
+		
 	}

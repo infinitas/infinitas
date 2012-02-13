@@ -31,7 +31,7 @@
 	}
 
 	foreach($comments as $comment){
-		$_comments[] = $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
+		$_comments[] = $this->element('Comments.single_comment', array('comment' => $comment));
 	}
 	echo implode('', $_comments);
 ?>

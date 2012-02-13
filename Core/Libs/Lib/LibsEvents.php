@@ -75,7 +75,7 @@
 
 		public function onRequireHelpersToLoad($event) {
 			return array(
-				'Html', 'Form', 'Js', 'Session', 'Time', // core general things from cake
+				'Html', 'Form', 'Js', 'Session', 'Time', 'Text', // core general things from cake
 				'Libs.Infinitas',
 				'Libs.Image', 'Libs.Design'
 			);

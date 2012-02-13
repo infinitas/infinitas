@@ -199,7 +199,7 @@
 			// If the helper hasn't been set up correctly, then there's no point in
 			// combining scripts. We'll pass it off to the parent to handle.
 			if (!$this->enabled) {
-				return $this->Javascript->link($jsFiles);
+				return $this->Html->script($jsFiles);
 			}
 
 			// Let's make sure we have the array of files correct. And we'll generate
@@ -216,7 +216,7 @@
 			// If we can determine that the current cache file is still valid, then
 			// we can just return the URL to that file.
 			if ($this->isCacheFileValid($cacheFile)) {
-				return $this->Javascript->link($this->convertToUrl($cacheFile));
+				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
 
 			$jsData = $this->_getJsFiles($jsFiles);
@@ -224,13 +224,13 @@
 
 			// If we can cache the file, then we can return the URL to the file.
 			if ($this->File->write($jsData)) {
-				return $this->Javascript->link($this->convertToUrl($cacheFile));
+				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
 
 			// Otherwise, we'll have to trigger an error, and pass the handling of the
 			// CSS files to the HTML Helper.
 			trigger_error("Cannot combine Javascript files to {$cacheFile}. Please ensure this directory is writable.", E_USER_WARNING);
-			return $this->Javascript->link($jsFiles);
+			return $this->Html->script($jsFiles);
 		}
 
 		protected function _getJsFiles($jsFiles){
@@ -238,7 +238,7 @@
 
 			$_setting = Configure::read('Asset.timestamp');
 			Configure::write('Asset.timestamp', false);
-			$jsLinks = $this->Javascript->link($jsFiles);
+			$jsLinks = $this->Html->script($jsFiles);
 			Configure::write('Asset.timestamp', $_setting);
 
 			preg_match_all('/src="([^"]+)"/i', $jsLinks, $urlMatches);

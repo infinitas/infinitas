@@ -16,7 +16,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class CommentsController extends CommentsAppController {
+	class InfinitasCommentsController extends CommentsAppController {
 		public function index(){
 			$conditions = array(
 				'Comment.active' => 1
@@ -41,35 +41,13 @@
 		}
 
 		public function admin_index() {
-			$this->paginate = array(
-				'fields' => array(
-					'Comment.id',
-					'Comment.class',
-					'Comment.email',
-					'Comment.user_id',
-					'Comment.comment',
-					'Comment.active',
-					'Comment.status',
-					'Comment.points',
-					'Comment.foreign_id',
-					'Comment.created',
-				),
-				'contain' => array(
-					'CommentAttribute'
-				),
-				'order' => array(
-					'Comment.active' => 'asc',
-					'Comment.created' => 'desc',
-				),
-				'limit' => 20
-			);
-
+			$this->paginate = array('adminIndex');
 			$comments = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 
 			$filterOptions['fields'] = array(
-				'class' => $this->Comment->getUniqueClassList(),
+				'class' => $this->InfinitasComment->getUniqueClassList(),
 				'email',
 				'comment',
 				'active' => Configure::read('CORE.active_options')

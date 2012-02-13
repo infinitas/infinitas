@@ -17,5 +17,6 @@
 	 * @since 0.5a
 	 */
 
-	class ShortUrlsAppModel extends CoreAppModel {
+	class ShortUrlsAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

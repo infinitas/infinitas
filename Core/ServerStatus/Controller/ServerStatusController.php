@@ -11,10 +11,10 @@
 			'ServerStatus.ServerStatus'
 		);
 
-		public function __construct() {
+		public function __construct($request = null, $response = null) {
 			$this->serverLoad = serverLoad(false);
 			$this->memoryUsage = memoryUsage(false, false);
-			parent::__construct();
+			parent::__construct($request, $response);
 		}
 
 		public function admin_dashboard() {

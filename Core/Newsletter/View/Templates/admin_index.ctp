@@ -41,11 +41,11 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $paginator->sort('name'),
-                    $paginator->sort('created') => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('created') => array(
                         'style' => 'width:100px;'
                     ),
-                    $paginator->sort('modified') => array(
+                    $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     ),
                     __('Status') => array(

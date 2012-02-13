@@ -18,7 +18,7 @@
 
     echo $this->Form->create('ShortUrl', array('action' => 'mass'));
 
-        $massActions = $this->Core->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
@@ -30,7 +30,7 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Core->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
@@ -49,7 +49,7 @@
 
             foreach ($shortUrls as $shortUrl){
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($shortUrl); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link($shortUrl['ShortUrl']['url'], array('action' => 'edit', $shortUrl['ShortUrl']['id'])); ?>&nbsp;

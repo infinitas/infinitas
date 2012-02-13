@@ -3,5 +3,5 @@
 	 *
 	 *
 	 */
-	class WebmasterAppController extends CoreAppController{
+	class WebmasterAppController extends AppController{
 	}

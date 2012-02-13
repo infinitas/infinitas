@@ -39,7 +39,7 @@
 				__('View all comments'),
 				array(
 					'plugin' => 'comments',
-					'controller' => 'comments',
+					'controller' => 'infinitas_comments',
 					'action' => 'index',
 					'Comment.class' => Inflector::camelize($this->params['plugin']).'.'.$modelName,
 					'Comment.foreign_id' => $foreign_id
@@ -48,7 +48,7 @@
 
 			$_comments = array();
 			foreach($comments as $comment){
-				$_comments[] = $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
+				$_comments[] = $this->element('Comments.single_comment', array('comment' => $comment));
 			}
 
 			echo implode('', $_comments);

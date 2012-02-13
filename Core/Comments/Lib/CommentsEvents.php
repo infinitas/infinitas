@@ -20,16 +20,21 @@
 				'name' => 'Comments',
 				'description' => 'See what your users have to say',
 				'icon' => '/comments/img/icon.png',
-				'author' => 'Infinitas'
+				'author' => 'Infinitas',
+				'dashboard' => array(
+					'plugin' => 'comments',
+					'controller' => 'infinitas_comments',
+					'action' => 'index'
+				)
 			);
 		}
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
 				'Comments' => array('controller' => false, 'action' => false),
-				'Active' => array('controller' => 'comments', 'action' => 'index', 'Comment.active' => 1),
-				'Pending' => array('controller' => 'comments', 'action' => 'index', 'Comment.active' => 0, 'Comment.status' => 'approved'),
-				'Spam' => array('controller' => 'comments', 'action' => 'index', 'Comment.status' => 'spam')
+				'Active' => array('controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
+				'Pending' => array('controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 0, 'Comment.status' => 'approved'),
+				'Spam' => array('controller' => 'infinitas_comments', 'action' => 'index', 'Comment.status' => 'spam')
 			);
 
 			return $menu;
@@ -70,9 +75,9 @@
 			
 			return array(
 				array(
-					'url' => Router::url(array('plugin' => 'comments', 'controller' => 'comments', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
+					'url' => Router::url(array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'admin' => false, 'prefix' => false), true),
 					'last_modified' => $newestRow,
-					'change_frequency' => ClassRegistry::init('Comments.Comment')->getChangeFrequency(),
+					'change_frequency' => ClassRegistry::init('Comments.InfinitasComment')->getChangeFrequency(),
 					'priority' => 0.8
 				)
 			);

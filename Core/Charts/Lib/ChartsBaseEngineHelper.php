@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ChartsBaseEngineHelper extends AppHelper{
+	class ChartsBaseEngineHelper extends AppHelper {
 		/**
 		 * @brief draw an area chart
 		 *

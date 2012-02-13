@@ -79,10 +79,6 @@
 			$this->set('category', $this->GlobalCategory->read(null, $id));
 		}
 
-		public function admin_add() {
-			parent::admin_add();
-		}
-
 		public function admin_edit($id = null) {
 			unset($this->data['GlobalContent']['global_category_id']);
 			

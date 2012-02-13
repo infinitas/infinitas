@@ -23,12 +23,10 @@
 				);
 			}
 			
-			else if(date('Y-m-d H:i:s', strtotime('-' . Configure::read('Cron.run_every'))) > $crons){
-				App::import('Helper', 'Time');
-				$Time = new TimeHelper();
+			else if(date('Y-m-d H:i:s', strtotime('-' . Configure::read('Cron.run_every'))) > $crons) {
 				return array(
 					array(
-						'name' => sprintf(__('The crons are not running, last run was %s'), $Time->timeAgoInWords($crons)),
+						'name' => sprintf(__('The crons are not running, last run was %s'), $crons),
 						'type' => 'error',
 						'url' => '#'
 					)

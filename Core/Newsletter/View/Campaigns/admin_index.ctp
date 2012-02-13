@@ -40,16 +40,16 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $paginator->sort('name'),
-                    $paginator->sort('description'),
-                    $paginator->sort('Template', 'Template.name'),
-                    $paginator->sort(__( 'Newsletters'), 'newsletter_count') => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('description'),
+                    $this->Paginator->sort('Template', 'Template.name'),
+                    $this->Paginator->sort(__( 'Newsletters'), 'newsletter_count') => array(
                         'width' => '50px'
                     ),
-                    $paginator->sort('created') => array(
+                    $this->Paginator->sort('created') => array(
                         'style' => 'width:100px;'
                     ),
-                    $paginator->sort('modified') => array(
+                    $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     ),
                     __('Status') => array(

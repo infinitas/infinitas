@@ -22,10 +22,10 @@
 	if(!isset($comment)){
 		return false;
 	}
-	$comment = isset($comment['Comment']) ? $comment['Comment'] : $comment;
+	$comment = isset($comment['InfinitasComment']) ? $comment['InfinitasComment'] : $comment;
 
 	$comment['comment'] = str_replace('\\n', '', strip_tags($comment['comment']));
-	if($this->plugin != 'comments'){
+	if($this->plugin != 'Comments'){
 		$comment['comment'] = $this->Text->truncate($comment['comment'], 350);
 	}
 ?>

@@ -19,7 +19,7 @@
 	 */
 
 	echo $this->Form->create('Module', array('url' => array('controller' => 'modules', 'action' => 'mass', 'admin' => 'true')));
-		$massActions = $this->Core->massActionButtons(
+		$massActions = $this->Infinitas->massActionButtons(
 			array(
 				'add',
 				'edit',
@@ -34,7 +34,7 @@
 <div class="table">
 	<table class="listing" cellpadding="0" cellspacing="0">
 		<?php
-			echo $this->Core->adminTableHeader(
+			echo $this->Infinitas->adminTableHeader(
 				array(
 					$this->Form->checkbox('all') => array(
 						'class' => 'first',
@@ -66,7 +66,7 @@
 			$i = 0;
 			foreach ($modules as $module){
 				?>
-					<tr class="<?php echo $this->Core->rowClass(); ?>">
+					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($module); ?>&nbsp;</td>
 						<td>
 							<?php echo $this->Html->link(Inflector::humanize($module['Module']['name']), array('action' => 'edit', $module['Module']['id'])); ?>&nbsp;
@@ -111,7 +111,7 @@
 							<?php echo $module['Group']['name']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Core->ordering($module['Module']['id'], $module['Module']['ordering'], 'Modules.Module'); ?>&nbsp;
+							<?php echo $this->Infinitas->ordering($module['Module']['id'], $module['Module']['ordering'], 'Modules.Module'); ?>&nbsp;
 						</td>
 						<td>
 							<?php echo $this->Infinitas->status($module['Module']['core']); ?>&nbsp;

@@ -29,7 +29,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ChartsHelper extends AppHelper{
+	class ChartsHelper extends AppHelper {
 		/**
 		 * @brief the engine to use when rendering the chart
 		 * 
@@ -102,7 +102,7 @@
 		 * 
 		 * @param mixed $settings settings for the chart engines.
 		 */
-		public function __construct($settings = array()) {
+		public function __construct(View $View, $settings = array()) {
 			$className = 'Html';
 			if (is_array($settings) && isset($settings[0])) {
 				$className = $settings[0];
@@ -117,7 +117,7 @@
 
 			$this->__engineName = $className . 'ChartEngine';
 			$this->helpers[] = $engineName . 'ChartEngine';
-			parent::__construct();
+			parent::__construct($View, $settings);
 		}
 
 		/**

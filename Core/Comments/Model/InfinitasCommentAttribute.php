@@ -14,6 +14,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class CommentAttribute extends CommentsAppModel {
+	class InfinitasCommentAttribute extends CommentsAppModel {
+		public $useTable = 'comment_attributes';
 		
 	}

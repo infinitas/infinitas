@@ -20,5 +20,5 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class WebmasterAppModel extends CoreAppModel{		
+	class WebmasterAppModel extends AppModel {
 	}

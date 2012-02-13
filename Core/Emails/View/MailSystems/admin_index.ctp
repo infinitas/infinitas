@@ -38,14 +38,14 @@
 						'class' => 'first',
 						'style' => 'width:25px;'
 					),
-					$paginator->sort('from'),
-					$paginator->sort('subject'),
+					$this->Paginator->sort('from'),
+					$this->Paginator->sort('subject'),
 					$this->EmailAttachments->hasAttachment(true) => array(
 						'class' => 'actions',
 						'width' => '20px'
 					),
-					$paginator->sort('size'),
-					$paginator->sort('date'),
+					$this->Paginator->sort('size'),
+					$this->Paginator->sort('date'),
 				)
 			);
 

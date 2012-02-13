@@ -19,7 +19,7 @@
      */
 
     echo $this->Form->create('Theme', array('action' => 'mass'));
-        $massActions = $this->Core->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
@@ -32,32 +32,31 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Core->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort('name'),
-                    $this->Paginator->sort('licence', true) => array(
+                    $this->Paginator->sort('licence') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('author', true) => array(
+                    $this->Paginator->sort('author') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('Core', true) => array(
+                    $this->Paginator->sort('core') => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort('active', true) => array(
+                    $this->Paginator->sort('active') => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
 
-            foreach ( $themes as $theme )
-            {
+            foreach($themes as $theme) {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($theme); ?>&nbsp;</td>
                 		<td>
                 			<?php echo $this->Html->link( Inflector::humanize($theme['Theme']['name']), array('action' => 'edit', $theme['Theme']['id'])); ?>&nbsp;

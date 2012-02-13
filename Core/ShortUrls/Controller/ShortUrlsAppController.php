@@ -17,5 +17,6 @@
 	* @since 0.5a
 	*/
 
-	class ShortUrlsAppController extends CoreAppController {
+	class ShortUrlsAppController extends AppController {
+
 	}

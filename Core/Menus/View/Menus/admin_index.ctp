@@ -20,7 +20,7 @@
 
     echo $this->Form->create( 'Menu', array( 'url' => array( 'controller' => 'menus', 'action' => 'mass', 'admin' => 'true' ) ) );
 
-        $massActions = $this->Core->massActionButtons(
+        $massActions = $this->Infinitas->massActionButtons(
             array(
                 'add',
                 'edit',
@@ -34,23 +34,23 @@
 <div class="table">
     <table class="listing" cellpadding="0" cellspacing="0">
         <?php
-            echo $this->Core->adminTableHeader(
+            echo $this->Infinitas->adminTableHeader(
                 array(
-                    $this->Form->checkbox( 'all' ) => array(
+                    $this->Form->checkbox('all') => array(
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort( 'name' ),
-                    $this->Paginator->sort( 'type' ) => array(
+                    $this->Paginator->sort('name'),
+                    $this->Paginator->sort('type') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort( 'Active Items', true ) => array(
+                    $this->Paginator->sort('active', 'Active Items') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'Inactive Items', true ) => array(
+                    $this->Paginator->sort('count') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort( 'active', true ) => array(
+                    $this->Paginator->sort('active', true) => array(
                         'style' => 'width:50px;'
                     )
                 )
@@ -58,7 +58,7 @@
 
             foreach ($menus as $menu) {
                 ?>
-                	<tr class="<?php echo $this->Core->rowClass(); ?>">
+                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($menu); ?>&nbsp;</td>
                 		<td>
                 			<?php

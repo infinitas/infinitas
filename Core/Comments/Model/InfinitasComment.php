@@ -21,7 +21,14 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	class Comment extends CommentsAppModel {
+	class InfinitasComment extends CommentsAppModel {
+		public $useTable = 'comments';
+
+		public $findMethods = array(
+			'linkedComments' =>  true,
+			'adminIndex' => true
+		);
+
 		/**
 		 * behaviors that are attached to the model.
 		 *
@@ -39,8 +46,8 @@
 		 * @access public
 		 */
 		public $hasMany = array(
-			'CommentAttribute' => array(
-				'className' => 'Comments.CommentAttribute'
+			'InfinitasCommentAttribute' => array(
+				'className' => 'Comments.InfinitasCommentAttribute'
 			)
 		);
 
@@ -68,11 +75,9 @@
 					)
 				)
 			);
-
-			$this->findMethods['linkedComments'] = true;
 		}
 
-		public function findLinkedComments($state, $query, $results = array()) {
+		protected function _findLinkedComments($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['fields'] = array_merge(
 					(array)$query['fields'],
@@ -83,10 +88,10 @@
 						$this->alias . '.foreign_id',
 						$this->alias . '.comment',
 						$this->alias . '.created',
-						'CommentAttribute.id',
-						'CommentAttribute.key',
-						'CommentAttribute.val',
-						'CommentAttribute.comment_id',
+						'InfinitasCommentAttribute.id',
+						'InfinitasCommentAttribute.key',
+						'InfinitasCommentAttribute.val',
+						'InfinitasCommentAttribute.comment_id',
 					)
 				);
 
@@ -98,10 +103,10 @@
 
 				$query['joins'][] = array(
 					'table' => 'global_comment_attributes',
-					'alias' => 'CommentAttribute',
+					'alias' => 'InfinitasCommentAttribute',
 					'type' => 'LEFT',
 					'conditions' => array(
-						'CommentAttribute.comment_id = ' . $this->alias . '.id'
+						'InfinitasCommentAttribute.comment_id = ' . $this->alias . '.id'
 					)
 				);
 
@@ -138,7 +143,7 @@
 					);
 				}
 				
-				$return[$mapIndex][$this->alias][$result['CommentAttribute']['key']] = $result['CommentAttribute']['val'];
+				$return[$mapIndex][$this->alias][$result['InfinitasCommentAttribute']['key']] = $result['InfinitasCommentAttribute']['val'];
 			}
 
 			return $return;
@@ -169,7 +174,7 @@
 
 			$base = array_merge(
 				array('schema' => $this->schema()),
-				array('with' => 'CommentAttribute', 'foreignKey' => $this->hasMany['CommentAttribute']['foreignKey'])
+				array('with' => 'InfinitasCommentAttribute', 'foreignKey' => $this->hasMany['InfinitasCommentAttribute']['foreignKey'])
 			);
 
 			if (!Set::matches('/' . $base['with'], $results)) {
@@ -212,10 +217,10 @@
 				'all',
 				array(
 					'conditions' => array(
-						'Comment.user_id' => $userId
+						$this->alias . '.user_id' => $userId
 					),
 					'order' => array(
-						'Comment.created' => 'asc'
+						$this->alias . '.created' => 'asc'
 					)
 				)
 			);
@@ -249,8 +254,8 @@
 				'count',
 				array(
 					'conditions' => array(
-						'Comment.active' => 1,
-						'Comment.class' => $class
+						$this->alias . '.active' => 1,
+						$this->alias . '.class' => $class
 					),
 					'contain' => false
 				)
@@ -260,8 +265,8 @@
 				'count',
 				array(
 					'conditions' => array(
-						'Comment.active' => 0,
-						'Comment.class' => $class
+						$this->alias . '.active' => 0,
+						$this->alias . '.class' => $class
 					),
 					'contain' => false
 				)
@@ -285,10 +290,10 @@
 				'list',
 				array(
 					'group' => array(
-						'Comment.class'
+						$this->alias . '.class'
 					),
 					'order' => array(
-						'Comment.class' => 'asc'
+						$this->alias . '.class' => 'asc'
 					)
 				)
 			);
@@ -321,7 +326,7 @@
 
 			$conditions = array();
 			if (!$all) {
-				$conditions = array('Comment.active' => 1);
+				$conditions = array($this->alias . '.active' => 1);
 			}
 
 			$comments = $this->find(
@@ -330,7 +335,7 @@
 					'conditions' => $conditions,
 					'limit' => (int)$limit,
 					'order' => array(
-						'Comment.created' => 'DESC'
+						$this->alias . '.created' => 'DESC'
 					)
 				)
 			);
@@ -338,5 +343,57 @@
 			Cache::write($cacheName, $comments, 'core');
 
 			return $comments;
+		}
+
+		protected function _findAdminIndex($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['fields'] = array_merge(
+					(array)$query['fields'],
+					array(
+						$this->alias . '.id',
+						$this->alias . '.class',
+						$this->alias . '.email',
+						$this->alias . '.user_id',
+						$this->alias . '.comment',
+						$this->alias . '.active',
+						$this->alias . '.status',
+						$this->alias . '.points',
+						$this->alias . '.foreign_id',
+						$this->alias . '.created',
+					)
+				);
+
+				if(empty($query['order'])) {
+					$query['order'] = array(
+						$this->alias . '.active' => 'asc',
+						$this->alias . '.created' => 'desc',
+					);
+				}
+				
+				if(empty($query['limit'])) {
+					$query['limit'] = $this->queryLimit;
+				}
+
+				$joins = array(
+					array(
+						'table' => 'infinitas_comment_attributes',
+						'alias' => 'InfinitasCommentAttribute',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'InfinitasCommentAttribute.comment_id = ' . $this->alias . '.' . $this->primaryKey
+						)
+					)
+				);
+				
+				$query['joins'] = array_merge((array)$query['joins'], $joins);
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			return $results;
 		}
 	}

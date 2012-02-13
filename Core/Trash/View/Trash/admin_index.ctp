@@ -20,13 +20,13 @@
 
 	echo $this->Form->create('Trash', array('url' => array('controller' => 'trash', 'action' => 'mass')));
 
-		$massActions = $this->Core->massActionButtons(array('restore', 'delete'));
+		$massActions = $this->Infinitas->massActionButtons(array('restore', 'delete'));
 		echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
 	<table class="listing" cellpadding="0" cellspacing="0">
 		<?php
-			echo $this->Core->adminTableHeader(
+			echo $this->Infinitas->adminTableHeader(
 				array(
 					$this->Form->checkbox('all') => array(
 						'class' => 'first',
@@ -47,7 +47,7 @@
 
 			foreach ($trashed as $trash) {
 				?>
-					<tr class="<?php echo $this->Core->rowClass(); ?>">
+					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Form->checkbox( $trash['Trash']['id'] ); ?>&nbsp;</td>
 						<td>
 							<?php echo Inflector::humanize($trash['Trash']['name']); ?>&nbsp;

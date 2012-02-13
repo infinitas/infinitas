@@ -21,5 +21,5 @@
 		 * @var string
 		 * @access public
 		 */
-		public $tablePrefix = 'global_';
+		public $tablePrefix = 'infinitas_';
 	}

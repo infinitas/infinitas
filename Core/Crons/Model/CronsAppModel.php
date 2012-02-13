@@ -17,5 +17,6 @@
 	 * @since 0.5a
 	 */
 
-	class CronsAppModel extends CoreAppModel {
+	class CronsAppModel extends AppModel {
+		public $tablePrefix = 'core_';
 	}

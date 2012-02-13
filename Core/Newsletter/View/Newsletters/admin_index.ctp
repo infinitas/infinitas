@@ -41,17 +41,17 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $paginator->sort('subject'),
-                    $paginator->sort('Campaign', 'Campaign.name') => array(
+                    $this->Paginator->sort('subject'),
+                    $this->Paginator->sort('Campaign', 'Campaign.name') => array(
                         'style' => 'width:150px;'
                     ),
-                    $paginator->sort('from') => array(
+                    $this->Paginator->sort('from') => array(
                         'style' => 'width:100px;'
                     ),
-                    $paginator->sort('reply_to') => array(
+                    $this->Paginator->sort('reply_to') => array(
                         'style' => 'width:100px;'
                     ),
-                    $paginator->sort('sent') => array(
+                    $this->Paginator->sort('sent') => array(
                         'style' => 'width:100px;'
                     ),
                     __('Status') => array(
@@ -68,7 +68,7 @@
                         <td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
                         <td>
                             <?php
-                                echo $html->link(
+                                echo $this->Html->link(
                                     $newsletter['Campaign']['name'],
                                     array(
                                         'controller' => 'campaign',

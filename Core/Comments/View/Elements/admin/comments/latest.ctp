@@ -2,36 +2,36 @@
 	foreach($comments as $comment){
 		?>
 			<div class="comment">
-				<div class="gravitar"><?php echo $this->Gravatar->image($comment['Comment']['email'], array('size' => '50')); ?></div>
+				<div class="gravitar"><?php echo $this->Gravatar->image($comment['InfinitasComment']['email'], array('size' => '50')); ?></div>
 				<div class="text">
-					<p><?php echo $this->Text->truncate($comment['Comment']['comment'], 200); ?></p>
+					<p><?php echo $this->Text->truncate($comment['InfinitasComment']['comment'], 200); ?></p>
 					<div class="actions">
 						<?php
-							$toggleText = $comment['Comment']['active'] ? 'Deactivate' : 'Activate';
+							$toggleText = $comment['InfinitasComment']['active'] ? 'Deactivate' : 'Activate';
 							echo $this->Html->link(
 								__($toggleText),
 								array(
-									'controller' => 'comments',
+									'controller' => 'infinitas_comments',
 									'action' => 'toggle',
-									$comment['Comment']['id']
+									$comment['InfinitasComment']['id']
 								),
 								array('class' => 'accept')
 							), ' | ',
 							$this->Html->link(
 								__('Reply'),
 								array(
-									'controller' => 'comments',
+									'controller' => 'infinitas_comments',
 									'action' => 'reply',
-									$comment['Comment']['id']
+									$comment['InfinitasComment']['id']
 								),
 								array('class' => 'reply')
 							), ' | ',
 							$this->Html->link(
 								__('Delete'),
 								array(
-									'controller' => 'comments',
+									'controller' => 'infinitas_comments',
 									'action' => 'delete',
-									$comment['Comment']['id']
+									$comment['InfinitasComment']['id']
 								),
 								array('class' => 'delete')
 							);

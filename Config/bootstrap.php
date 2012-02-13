@@ -58,7 +58,6 @@
 
 		// @todo trigger event to get oter plugin paths
 	}
-	
 
 	App::build(
 		array(

@@ -36,8 +36,8 @@
 		 * @access public
 		 */
 		public $defaults = array(
-			'plugin' => 'Comment',
-			'class' => 'Comment',				// name of Comment model
+			'plugin' => 'Comments',
+			'class' => 'InfinitasComment',				// name of Comment model
 			'auto_bind' => true,				// automatically bind the model to the User model (default true),
 			'sanitize' => true,					// whether to sanitize incoming comments
 			'column_author' => 'name',			// Column name for the authors name
@@ -84,27 +84,27 @@
 			$Model->bindModel(
 				array(
 					'hasMany' => array(
-						$Model->alias.'Comment' => array(
-							'className' => 'Comments.Comment',
+						$this->__settings[$Model->alias]['class'] => array(
+							'className' => 'Comments.InfinitasComment',
 							'foreignKey' => 'foreign_id',
 							'limit' => 5,
 							'order' => array(
-								$Model->alias . 'Comment.created' => 'desc'
+								$this->__settings[$Model->alias]['class'] . '.created' => 'desc'
 							),
 							'fields' => array(
-								$Model->alias . 'Comment.id',
-								$Model->alias . 'Comment.class',
-								$Model->alias . 'Comment.foreign_id',
-								$Model->alias . 'Comment.user_id',
-								$Model->alias . 'Comment.email',
-								$Model->alias . 'Comment.comment',
-								$Model->alias . 'Comment.active',
-								$Model->alias . 'Comment.status',
-								$Model->alias . 'Comment.created'
+								$this->__settings[$Model->alias]['class'] . '.id',
+								$this->__settings[$Model->alias]['class'] . '.class',
+								$this->__settings[$Model->alias]['class'] . '.foreign_id',
+								$this->__settings[$Model->alias]['class'] . '.user_id',
+								$this->__settings[$Model->alias]['class'] . '.email',
+								$this->__settings[$Model->alias]['class'] . '.comment',
+								$this->__settings[$Model->alias]['class'] . '.active',
+								$this->__settings[$Model->alias]['class'] . '.status',
+								$this->__settings[$Model->alias]['class'] . '.created'
 							),
 							'conditions' => array(
 								'or' => array(
-									$Model->alias . 'Comment.active' => 1
+									$this->__settings[$Model->alias]['class'] . '.active' => 1
 								)
 							),
 							'dependent' => true
@@ -117,21 +117,21 @@
 		
 		public function attachComments($Model, $results) {
 			$ids = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
-			$comments = $Model->{$Model->alias . 'Comment'}->find(
+			$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
 				'linkedComments',
 				array(
 					'conditions' => array(
-						$Model->alias . 'Comment.foreign_id' => $ids
+						$this->__settings[$Model->alias]['class'] . '.foreign_id' => $ids
 					)
 				)
 			);
 			
 			foreach($results as &$result) {
-				$result[$Model->alias . 'Comment'] = Set::extract(
-					sprintf('/%sComment[foreign_id=%s]', $Model->alias, $result[$Model->alias][$Model->primaryKey]),
+				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract(
+					sprintf('/%s[foreign_id=%s]', $this->__settings[$Model->alias]['class'], $result[$Model->alias][$Model->primaryKey]),
 					$comments
 				);
-				$result[$Model->alias . 'Comment'] = Set::extract('{n}.' . $Model->alias . 'Comment', $result[$Model->alias . 'Comment']);
+				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract('{n}.' . $this->__settings[$Model->alias]['class'] . '', $result[$this->__settings[$Model->alias]['class'] . '']);
 			}
 
 			return $results;
@@ -256,7 +256,7 @@
 				);
 			}
 			
-			return $Model->Comment->find('all', $parameters);
+			return $Model->{$this->__settings[$Model->alias]['class']}->find('all', $parameters);
 		}
 
 		/**

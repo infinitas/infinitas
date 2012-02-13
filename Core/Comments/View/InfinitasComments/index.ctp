@@ -23,7 +23,7 @@
 <div class="comments">
 	<?php
 		foreach($comments as $comment){
-			echo $this->element('single_comment', array('plugin' => 'comments', 'comment' => $comment));
+			echo $this->element('Comments.single_comment', array('comment' => $comment));
 		}
 	?>
 </div>

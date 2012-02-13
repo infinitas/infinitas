@@ -21,7 +21,7 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 			//  @todo make sure function track is allowed by all
-			$this->Auth->allow('track');
+			//$this->Auth->allow('track');
 		}
 
 		public function contact() {

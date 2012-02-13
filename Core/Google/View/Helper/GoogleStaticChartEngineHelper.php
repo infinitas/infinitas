@@ -1,5 +1,10 @@
 <?php
+	App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
+	
 	class GoogleStaticChartEngineHelper extends ChartsBaseEngineHelper {
+		public function map($data) {
+
+		}
 		/**
 		 * @brief google-o-meter
 		 *
@@ -390,8 +395,8 @@
 		 */
 		private $__sizeLimit = 300000;
 
-		public function  __construct() {
-			parent::__construct();
+		public function  __construct(View $View, $settings) {
+			parent::__construct($View, $settings);
 		}
 
 		/**

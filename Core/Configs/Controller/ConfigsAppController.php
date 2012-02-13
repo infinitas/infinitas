@@ -47,5 +47,5 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ConfigsAppController extends CoreAppController {
+	class ConfigsAppController extends AppController {
 	}
