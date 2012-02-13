@@ -1,15 +1,15 @@
 # Infinitas ignores
-config/database.php
-libs/cronjobs
-plugins/*
+Config/Database.php
+Libs/Cronjobs
+Plugin/*
 tmp/*
 views/themed/*
-views/pages/*
+View/Pages/*
 webroot/img/content/*
 webroot/*
-core/emails/attachments/*
-core/emails/webroot/img/images/*
-core/newsletter/config/config.php
+Core/Emails/attachments/*
+Core/Emails/webroot/img/images/*
+Core/Newsletter/Config/Config.php
 webroot/robots.txt
 .gitignore
 
