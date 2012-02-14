@@ -40,11 +40,13 @@
 
 		public function onSetupRoutes() {
 			Router::connect(
-				'/admin/',
+				'/admin',
 				array(
 					'plugin' => 'management',
 					'controller' => 'management',
 					'action' => 'dashboard',
+					'prefix' => 'admin',
+					'admin' => 1,
 				)
 			);
 
