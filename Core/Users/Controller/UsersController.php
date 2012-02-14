@@ -424,7 +424,6 @@
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
-					$this->Session->write('Auth', $this->User->find('first'));
 					$currentUser = $this->Session->read('Auth.User');
 
 					// there is something wrong
