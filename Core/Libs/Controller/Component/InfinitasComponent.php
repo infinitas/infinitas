@@ -35,6 +35,7 @@
 		*/
 		public function initialize($Controller, $settings = array()) {
 			$this->Controller = $Controller;
+			
 			Configure::write('CORE.current_route', Router::currentRoute());
 			$settings = array_merge(array(), (array)$settings);
 

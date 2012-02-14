@@ -553,7 +553,7 @@
 		 * @return void
 		 */
 		public function admin_mass() {
-			$massAction = $this->MassAction->getAction($this->request->params['form']);
+			$massAction = $this->MassAction->getAction();
 			$modelName = isset($this->request->data['Confirm']['model']) ? $this->request->data['Confirm']['model'] : $this->modelClass;
 			$ids = $this->MassAction->getIds(
 				$massAction,
@@ -1095,16 +1095,16 @@
 		 */
 		public function render($view = null, $layout = null) {
 			if(($this->request->action == 'admin_edit' || $this->request->action == 'admin_add')) {
-				$viewPath = App::pluginPath($this->request->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
+				$viewPath = App::pluginPath($this->plugin) . 'View' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
 				if(!file_exists($viewPath)) {
-					$action = 'admin_form';
+					$view = 'admin_form';
 				}
 			}
 
 			else if(($this->request->action == 'edit' || $this->request->action == 'add')) {
-				$viewPath = App::pluginPath($this->request->params['plugin']) . 'views' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
+				$viewPath = App::pluginPath($this->plugin) . 'View' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
 				if(!file_exists($viewPath)) {
-					$action = 'form';
+					$view = 'form';
 				}
 			}
 

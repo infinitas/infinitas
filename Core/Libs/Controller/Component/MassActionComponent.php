@@ -31,10 +31,12 @@
 		/**
 		 * Controllers initialize function.
 		 */
-		public function initialize($controller, $settings = array()) {
+		public function initialize($Controller, $settings = array()) {
+			parent::initialize($Controller);
+			
 			$settings = array_merge(array(), (array)$settings);
 			
-			$this->__modelName = $controller->modelClass;
+			$this->__modelName = $this->Controller->modelClass;
 			$this->__prettyModelName = prettyName($this->__modelName);
 		}
 
@@ -80,9 +82,9 @@
 		 *
 		 * @return string the action selected, or redirect to referer if no action found.
 		 */
-		public function getAction($form) {
-			if (isset($form['action'])) {
-				return $form['action'];
+		public function getAction() {
+			if (!empty($_POST['action'])) {
+				return Sanitize::paranoid($_POST['action']);
 			}
 
 			$this->Controller->notice(

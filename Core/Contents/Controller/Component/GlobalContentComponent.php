@@ -45,15 +45,12 @@
 					$Model->ContentAuthor->alias . '.' . $Model->ContentAuthor->displayField,
 				)
 			);
-			$Controller->set('contentGroups', $Model->Group->generatetreelist());
+			
+			$Controller->set('contentGroups', $Model->Group->find('list'));
 			$Controller->set('contentAuthors', $authors);
 			$Controller->set('contentLayouts', $Model->GlobalLayout->find('list'));
 
-			$contentCategories = $Model->GlobalCategory->generatetreelist(
-				array(),
-				'{n}.GlobalCategory.id',
-				'{n}.GlobalCategory.title'
-			);
+			$contentCategories = $Model->GlobalCategory->find('list');
 
 			$Controller->set('contentCategories', $contentCategories);
 		}
