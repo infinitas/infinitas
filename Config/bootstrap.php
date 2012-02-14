@@ -219,7 +219,7 @@
 	 *
 	 * @return null echo's out the route.
 	 */
-	function debugRoute($route){
+	function debugRoute($route) {
 		echo 'Router::connect(\''.$route['Route']['url'].'\', array(';
 		$parts = array();
 		foreach($route['Route']['values'] as $k => $v){

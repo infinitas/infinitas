@@ -76,9 +76,7 @@
 		 */
 		static public function trigger(&$HandlerObject, $eventName, $data = array()) {
 			$_this = EventCore::getInstance();
-			if(!$_this->__availablePlugins && is_callable(array('ClassRegistry', 'init'))) {
-				EventCore::setAvailablePlugins();
-			}
+			EventCore::setAvailablePlugins();
 
 			if(!is_array($eventName)){
 				$eventName = array($eventName);
@@ -104,7 +102,7 @@
 				return false;
 			}
 			
-			$_this->__availablePlugins = array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins());
+			$_this->__availablePlugins = CakePlugin::loaded();
 		}
 
 		public function getAvailablePlugins() {
@@ -161,10 +159,10 @@
 			}
 
 			if($allowUninstalled) {
-				$_this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getAllPlugins());
+				$_this->__installedPlugins = App::objects('plugin');
 			}
 			else {
-				$_this->__installedPlugins = array_values(ClassRegistry::init('Installer.Plugin')->getInstalledPlugins());
+				$_this->__installedPlugins = CakePlugin::loaded();
 			}
 			
 			foreach($plugins as $plugin) {
@@ -238,7 +236,7 @@
 			$eventHandlerMethod = $_this->_handlerMethodName($eventName);
 			
 			$return = array();
-			if(isset($_this->_eventHandlerCache[$eventName])){
+			if(isset($_this->_eventHandlerCache[$eventName])) {
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
 					$pluginName = EventCore::_extractPluginName($eventClass);
 					$_this->__availablePlugins = App::objects('Plugin');
@@ -372,7 +370,7 @@
 		protected function _extractPluginName($className){
 			$_this =& EventCore::getInstance();
 			if(!isset($_this->pluginNameCache->{$className})){
-				$_this->pluginNameCache->{$className} = Inflector::underscore(substr($className, 0, strlen($className) - 6));
+				$_this->pluginNameCache->{$className} = substr($className, 0, strlen($className) - 6);
 			}
 			
 			return $_this->pluginNameCache->{$className};

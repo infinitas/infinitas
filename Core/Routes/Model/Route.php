@@ -109,7 +109,7 @@
 		 * @return array the formatted routes
 		 */
 		public function getRoutes(){
-			$routes = Cache::read('routes', 'routes');
+			$routes = false; //Cache::read('routes', 'routes');
 			if ($routes !== false) {
 				return $routes;
 			}
@@ -152,7 +152,7 @@
 
 			$config = array();
 			$routingRules = array();
-			foreach( $routes as $array ){
+			foreach($routes as $array){
 				$vaules = $regex = array();
 				$routingRules[]['Route'] = array(
 					'url' => $array['Route']['url'],
@@ -178,9 +178,8 @@
 					}
 				}
 
-
 				$array['plugin'] = !empty($array['plugin']) ? $array['plugin'] : '__APP__';
-				if($array['prefix']){
+				if($array['prefix']) {
 					$config[Inflector::camelize($array['plugin'])][$array['controller']][$array['prefix']][$array['action']][$array['url']] = $params;
 				}
 				else{
@@ -190,7 +189,6 @@
 
 
 			unset($routes);
-
 			Cache::write('routes', $routingRules, 'routes');
 			Configure::write('Routing.lookup', $config);
 
@@ -262,8 +260,7 @@
 			}
 
 			if ($pass) {
-				$_values = explode( ',', $pass);
-				$values = array_merge((array)$values, (array)$_values);
+				$values['pass'] = explode( ',', $pass);
 			}
 
 			return $values;
