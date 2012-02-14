@@ -32,7 +32,7 @@
 			$errorMessage = !empty($errorMenu) || !empty($errorParent) ? 'error' : ''; ?>
 			<div class="input select smaller <?php echo $errorMessage; ?>">
 				<label for=""><?php echo __('Menu / Parent Item'); ?></label><?php
-				echo $this->Form->input('menu_id', array('error' => false, 'type' => 'select', 'div' => false, 'label' => false, 'class' => "pluginSelect {url:{action:'getParents'}, target:'MenuItemParentId'}", 'empty' => Configure::read('Website.empty_select')));
+				echo $this->Form->input('menu_id', array('error' => false, 'type' => 'select', 'div' => false, 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getParents'}, target:'MenuItemParentId'}", 'empty' => Configure::read('Website.empty_select')));
 				echo $this->Form->input('parent_id', array('error' => false, 'type' => 'select', 'div' => false, 'label' => false));
 				echo $errorMenu, $errorParent; ?>
 			</div>

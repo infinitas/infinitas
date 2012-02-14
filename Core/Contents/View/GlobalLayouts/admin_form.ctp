@@ -28,7 +28,7 @@
 			$errorClass = !empty($error) ? 'error' : ''; ?>
 			<div class="input smaller required <?php echo $errorClass; ?>">
 				<label for="GlobalLayoutPlugin"><?php echo __('Route'); ?></label><?php
-				echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "pluginSelect {url:{action:'getModels'}, target:'GlobalLayoutModel'}"));
+				echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModels'}, target:'GlobalLayoutModel'}"));
 				echo $this->Form->input('model', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false));
 				echo $error; ?>
 			</div><?php
