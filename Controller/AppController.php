@@ -1210,39 +1210,4 @@
 		}
 	}
 
-	/**
-	 * @brief keep the core code dry
-	 *
-	 * CoreAppController is a base clas for most of infinitas Core Controllers.
-	 * It makes the code more DRY.
-	 *
-	 * Externally developed plugins should never inherit from this class. It is
-	 * only for Infinitas and could change at any point. Extending this could
-	 * break your application in later versions.
-	 *
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.8a
-	 *
-	 * @author dogmatic69
-	 *
-	 * @internal
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
-	class CoreAppController extends AppController {
-		/**
-		 * Some helpers for the core controllers
-		 *
-		 * @var array
-		 * @access public
-		 */
-		public $helpers = array(
-			'Filter.Filter'
-		);
-	}
-
 	EventCore::trigger(new stdClass(), 'loadAppController');

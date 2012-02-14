@@ -554,34 +554,5 @@
 			}
 		}
 	}
-
-	/**
-	 * @brief DRY model class to get the prefix in core models.
-	 * 
-	 * CoreAppModel is used by most of Infinitas core models. All this does is
-	 * Set the table prefix so it does not need to be set in every {Core}AppModel
-	 *
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.8a
-	 *
-	 * @author dogmatic69
-	 *
-	 * @internal
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
-	class CoreAppModel extends AppModel{
-		/**
-		 * the table prefix for core models
-		 * 
-		 * @var string
-		 * @access public
-		 */
-		public $tablePrefix = 'core_';
-	}
 	
 	EventCore::trigger(new stdClass(), 'loadAppModel');

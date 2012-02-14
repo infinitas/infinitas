@@ -1,7 +1,7 @@
 <?php
 	/**
 	*/
-	class FilemanagerController extends CoreAppController {
+	class FilemanagerController extends AppController {
 		public $uses = array('Filemanager.Files', 'Filemanager.Folders');
 
 		public function admin_index() {

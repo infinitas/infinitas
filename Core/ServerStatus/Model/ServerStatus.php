@@ -1,5 +1,5 @@
 <?php	
-	class ServerStatus extends CoreAppModel {
+	class ServerStatus extends AppModel {
 		public $useTable = false;
 
 		public function  __construct($id = false, $table = null, $ds = null) {

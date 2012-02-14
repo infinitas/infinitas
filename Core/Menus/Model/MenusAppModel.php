@@ -1,10 +1,6 @@
 <?php
 	/**
 	 * Base menu model class.
-	 * 
-	 * Base class for the menu related models to extend. This extends CoreAppModel
-	 * so that the table prefix does not need to be set again, making it a bit more
-	 * DRY
 	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
