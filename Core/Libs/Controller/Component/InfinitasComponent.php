@@ -403,16 +403,14 @@
 				return false;
 			}
 			
-			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');
-			$infinitasJsData['here']	   = (isset($this->Controller->here) ? $this->Controller->here : '');
-			$infinitasJsData['plugin']	 = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');
-			$infinitasJsData['name']	   = (isset($this->Controller->name) ? $this->Controller->name : '');
-			$infinitasJsData['action']	 = (isset($this->Controller->action) ? $this->Controller->action : '');
-			$params						= (isset($this->Controller->params) ? $this->Controller->params : '');
-			unset($params['_Token']);
-			$infinitasJsData['params']	 = $params;
-			$infinitasJsData['passedArgs'] = (isset($this->Controller->passedArgs) ? $this->Controller->passedArgs : '');
-			$infinitasJsData['data']	   = (isset($this->Controller->data) ? $this->Controller->data : '');
+			$infinitasJsData['base']	= $this->Controller->request->base;
+			$infinitasJsData['here']	= $this->Controller->request->here;
+			$infinitasJsData['plugin']	= $this->Controller->request->params['plugin'];
+			$infinitasJsData['name']	= $this->Controller->name;
+			$infinitasJsData['action']	= $this->Controller->request->params['action'];
+			$infinitasJsData['params']	= $this->Controller->request->params;
+			$infinitasJsData['passedArgs'] = $this->Controller->request->params['pass'];
+			$infinitasJsData['data']	   = $this->Controller->request->data;
 			$infinitasJsData['model']	   = $this->Controller->modelClass;
 
 			$infinitasJsData['config']	 = Configure::read();
