@@ -24,7 +24,7 @@
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
-	 */ 
+	 */
 
 	/**
 	 * @brief the cached plugin paths
@@ -37,7 +37,7 @@
 	App::uses('Folder', 'Utility');
 	App::uses('String', 'Utility');
 	App::uses('Sanitize', 'Utility');
-	
+
 	$paths = false; //Cache::read('plugin_paths');
 	if($paths === false){
 		$Folder = new Folder(APP);
@@ -52,7 +52,7 @@
 		foreach(array_flip($folders) as $folder){
 			$paths[] = APP . $folder . DS;
 		}
-		
+
 		Cache::write('plugin_paths', $paths);
 		unset($Folder, $folders);
 
@@ -64,17 +64,17 @@
 			'Plugin' => $paths
 		)
 	);
-
-	CakePlugin::loadAll();
+	$plugins = App::objects('plugins', $paths, false);
+	CakePlugin::load($plugins);
 
 	unset($paths);
 
 	if (false === function_exists('lcfirst')) {
-		function lcfirst($str) { 
+		function lcfirst($str) {
 			return (string)(strtolower(substr($str, 0, 1)) . substr($str, 1));
-		} 
+		}
 	}
-	
+
 	/**
 	 * Load plugin events
 	 */
@@ -90,22 +90,22 @@
 	if(!defined('JSON_ERROR_NONE')){define('JSON_ERROR_NONE', 0);}
 	if(!defined('JSON_ERROR_DEPTH')){define('JSON_ERROR_DEPTH', 1);}
 	if(!defined('JSON_ERROR_CTRL_CHAR')){define('JSON_ERROR_CTRL_CHAR', 3);}
-	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}	
-	
+	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}
+
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
-			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';			
-			$folder = str_replace('.', DS, $cache['config']['prefix']);			
+			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';
+			$folder = str_replace('.', DS, $cache['config']['prefix']);
 			if(!strstr($folder, 'core' . DS)){
 				$folder = 'plugins' . DS . $folder;
 			}
-			
+
 			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
 				if(!is_dir(CACHE.$folder)){
 					$Folder = new Folder(CACHE . $folder, true);
 				}
 			}
-			
+
 			else{
 				$cache['config']['prefix'] = Inflector::slug(APP_DIR) . '_' . str_replace(DS, '_', $folder);
 			}
@@ -115,7 +115,7 @@
 			// set a default and turn off if debug is on.
 			$cache['config']['duration'] = isset($cache['config']['duration']) ? $cache['config']['duration'] : '+ 999 days';
 			$cache['config']['duration'] = (Configure::read('debug') > 0) ? '+ 10 seconds' : $cache['config']['duration'];
-			
+
 			if(!empty($cache['name']) && !empty($cache['config'])) {
 				Cache::config($cache['name'], $cache['config']);
 			}
@@ -174,7 +174,7 @@
 
 		$data = Inflector::underscore($prefix) . $hash;
 		unset($hash);
-		
+
 		return $data;
 	}
 
@@ -202,7 +202,7 @@
 			}
 
 			$class = preg_replace('/global|core/i', '', $class);
-			
+
 			return ucfirst(strtolower(Inflector::humanize(Inflector::underscore(Inflector::pluralize((string)$class)))));
 		}
 
