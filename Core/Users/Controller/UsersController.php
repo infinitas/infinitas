@@ -23,10 +23,7 @@
 
 	class UsersController extends UsersAppController {
 		public function beforeFilter() {
-			//$this->Auth->authenticate = array('Form');
-			//$this->Auth->csrfCheck = false;
 			parent::beforeFilter();
-			return true;
 			$this->Auth->allow(
 				'login', 'logout', 'register',
 				'forgot_password', 'reset_password'
@@ -36,7 +33,7 @@
 		public function view(){
 			if(!$this->Session->read('Auth.User.id')){
 				$this->notice(
-					__('You must be logged in to view your profile'), 
+					__('You must be logged in to view your profile'),
 					array(
 						'redirect' => array('action' => 'login'),
 						'level' => 'warning'
@@ -55,7 +52,7 @@
 
 			if(empty($user)){
 				$this->notice(
-					__('Please login to view your profile'), 
+					__('Please login to view your profile'),
 					array(
 						'redirect' => array('action' => 'login'),
 						'level' => 'warning'
@@ -80,7 +77,7 @@
 
 			if (!Configure::read('Website.allow_login')) {
 				$this->notice(
-					__('Login is disabled'), 
+					__('Login is disabled'),
 					array(
 						'redirect' => '/',
 						'level' => 'warning'
@@ -90,14 +87,14 @@
 
 			$this->_createCookie();
 
-			if(!(empty($this->data)) && $this->Auth->user()){
+			if($this->Auth->login()){
 				$this->User->recursive = -1;
 
 				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
-					$currentUser = $this->Session->read('Auth.User');
+					$currentUser = $this->Auth->user();
 
 					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
 					$this->notice(
@@ -111,25 +108,25 @@
 						)
 					);
 				}
-				
+
 				$this->Event->trigger('userLogin', $currentUser);
 				unset($lastLogon, $data);
 				$this->redirect($this->Auth->redirect());
 			}
-			
-			if (!(empty($this->data)) && !$this->Auth->user()) {
-				$this->Infinitas->badLoginAttempt($this->data['User']);
+
+			if (!(empty($this->request->data)) && !$this->Auth->user()) {
+				$this->Infinitas->badLoginAttempt($this->request->data['User']);
 				$this->notice(__('Your login details have not been recognised'), array('level' => 'warning'));
 			}
 		}
 
 		/**
 		 * get some info about the user when they log in
-		 * 
+		 *
 		 * @return array
 		 */
 		public function _getUserData(){
-			$data['User']['id']			   = $this->Session->read('Auth.User.id');
+			$data['User']['id']			   = $this->Auth->user('id');
 			$data['User']['last_login']	   = date('Y-m-d H:i:s');
 			$data['User']['modified']		 = false;
 			$data['User']['browser']		  = $this->Infinitas->getBrowser();
@@ -199,7 +196,7 @@
 		public function register(){
 			if (!Configure::read('Website.allow_registration')) {
 				$this->notice(
-					__('Registration is disabled'), 
+					__('Registration is disabled'),
 					array(
 						'redirect' => '/',
 						'level' => 'warning'
@@ -265,7 +262,7 @@
 		 * When this was set in registration  the user needs to click the link
 		 * from an email. the code is then checked and if found it will activate
 		 * that user. aims to stop spam
-		 * 
+		 *
 		 * @param string $hash
 		 */
 		public function activate($hash = null) {
@@ -296,7 +293,7 @@
 					)
 				);
 			}
-			
+
 			$this->notice(
 				__('There was a problem activating your account, please try again'),
 				array(
@@ -352,7 +349,7 @@
 		 * After the forgot pw page and they have entered the correct details
 		 * they will recive an email with a link to this page. they can then
 		 * enter a new pw and it will be reset.
-		 * 
+		 *
 		 * @param string $hash the hash of the reset request.
 		 */
 		public function reset_password($hash = null) {
@@ -379,7 +376,7 @@
 						)
 					);
 				}
-				
+
 				else {
 					$this->notice(
 						__('User could not be saved'),
@@ -422,15 +419,8 @@
 
 			$this->_createCookie();
 
-			if(!(empty($this->request->data))){
-				$this->Session->write(
-					'Auth.User',
-					array(
-						'id' => 1,
-						'username' => 'dogmatic69'
-					)
-				);
-				$lastLogon = $this->User->getLastLogon($this->Session->read('Auth.User.id'));
+			if($this->Auth->login()){
+				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
 				if ($this->User->save($data)) {
@@ -454,22 +444,21 @@
 						)
 					);
 				}
-				//$this->redirect($this->Auth->redirect());
+				$this->redirect($this->Auth->redirect());
+			}
+
+			if($this->Auth->user()) {
 				$this->redirect('/admin');
 			}
-			
-			/*if($this->Auth->user()) {
-				$this->redirect('/admin');
-			}*/
 		}
 
 		public function admin_logout(){
 			$this->Session->destroy();
-			$this->redirect($this->Auth->logout());
+			$this->redirect(array('action' => 'login'));
 		}
 
 		public function admin_dashboard(){
-			
+
 		}
 
 		public function admin_index(){
@@ -521,12 +510,12 @@
 			}
 
 			if (!empty($this->data)) {
-				if ($this->data['User']['password'] == Security::hash('', null, true)) {
-					unset($this->data['User']['password']);
-					unset($this->data['User']['confirm_password']);
+				if ($this->request->data['User']['password'] == Security::hash('', null, true)) {
+					unset($this->request->data['User']['password']);
+					unset($this->request->data['User']['confirm_password']);
 				}
 
-				if ($this->User->saveAll($this->data)) {
+				if ($this->User->saveAll($this->request->data)) {
 					$this->Infinitas->noticeSaved();
 				}
 
