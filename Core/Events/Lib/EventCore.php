@@ -36,7 +36,7 @@
 
 		/**
 		 * a cache of the plugin names
-		 * 
+		 *
 		 * @var object
 		 * @access public
 		 */
@@ -83,7 +83,7 @@
 			}
 
 			$eventNames = Set::filter($eventName);
-			
+
 			$return = array();
 			foreach($eventNames as $eventName){
 				$eventData = EventCore::_parseEventName($eventName);
@@ -101,7 +101,7 @@
 			if(!empty($_this->__availablePlugins)) {
 				return false;
 			}
-			
+
 			$_this->__availablePlugins = CakePlugin::loaded();
 		}
 
@@ -117,7 +117,7 @@
 		 * This will return all plugins that have an event class but sometimes if
 		 * you need to run a global trigger but want to do it one at a time this
 		 * list will help out.
-		 * 
+		 *
 		 * @param string $eventName the name of the event to run
 		 * @access public
 		 *
@@ -164,7 +164,7 @@
 			else {
 				$_this->__installedPlugins = CakePlugin::loaded();
 			}
-			
+
 			foreach($plugins as $plugin) {
 				if(in_array($plugin, $_this->__installedPlugins) && !in_array($plugin, $_this->__availablePlugins)) {
 					$_this->__availablePlugins[] = $plugin;
@@ -185,7 +185,7 @@
 		 * @access public
 		 *
 		 * @param string $plugin the name of the plugin to check
-		 * 
+		 *
 		 * @return bool true if its active, false if not
 		 */
 		public function isPluginActive($plugin) {
@@ -208,7 +208,7 @@
 				return;
 			}
 
-			$plugins = App::objects('plugin');
+			$plugins = CakePlugin::loaded();
 			foreach((array)$plugins as $pluginName) {
 				$filename = App::pluginPath($pluginName) . 'Lib' . DS . $pluginName . 'Events.php';
 				$className = $pluginName . 'Events';
@@ -234,13 +234,13 @@
 		static protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()){
 			$_this =& EventCore::getInstance();
 			$eventHandlerMethod = $_this->_handlerMethodName($eventName);
-			
+
 			$return = array();
 			if(isset($_this->_eventHandlerCache[$eventName])) {
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
 					$pluginName = EventCore::_extractPluginName($eventClass);
 					$_this->__availablePlugins = App::objects('Plugin');
-					
+
 					if(!empty($_this->__availablePlugins) && !in_array(Inflector::camelize($pluginName), $_this->__availablePlugins)) {
 						continue;
 					}
@@ -253,7 +253,7 @@
 					}
 				}
 			}
-			
+
 			return $return;
 		}
 
@@ -261,13 +261,13 @@
 		 * takes the event name and breaks it down into the different parts setting
 		 * some defaults for gloabl events. results are cached to avoid importing
 		 * and alling the string class to much.
-		 * 
+		 *
 		 * @param string $eventName the name of the event
 		 * @return array the scope + event name
 		 */
 		protected function _parseEventName($eventName){
 			$_this =& EventCore::getInstance();
-			
+
 			if(!isset($_this->eventNameCache->{$eventName})){
 				$eventTokens = String::tokenize($eventName, '.');
 				$scope = 'Global';
@@ -275,7 +275,7 @@
 				if (count($eventTokens) > 1){
 					list($scope, $event) = $eventTokens;
 				}
-				
+
 				$_this->eventNameCache->{$eventName}  = array(
 					'scope' => $scope,
 					'event' => $event
@@ -298,7 +298,7 @@
 			if(!isset($_this->handlerNameCache->{$eventName})){
 				$_this->handlerNameCache->{$eventName} = 'on' . Inflector::camelize($eventName);
 			}
-			
+
 			return $_this->handlerNameCache->{$eventName};
 		}
 
@@ -334,7 +334,7 @@
 			if(isset($_this->_eventClasses[$className]) && is_object($_this->_eventClasses[$className])) {
 				return true;
 			}
-			
+
 			if($filename === false) {
 				$baseName = Inflector::underscore($className) . '.php';
 				$pluginName = Inflector::camelize(preg_replace('/events.php$/i', '', $baseName));
@@ -372,7 +372,7 @@
 			if(!isset($_this->pluginNameCache->{$className})){
 				$_this->pluginNameCache->{$className} = substr($className, 0, strlen($className) - 6);
 			}
-			
+
 			return $_this->pluginNameCache->{$className};
 		}
 	}
