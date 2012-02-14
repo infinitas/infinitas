@@ -31,10 +31,10 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
-				'Comments' => array('controller' => false, 'action' => false),
-				'Active' => array('controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
-				'Pending' => array('controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 0, 'Comment.status' => 'approved'),
-				'Spam' => array('controller' => 'infinitas_comments', 'action' => 'index', 'Comment.status' => 'spam')
+				'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index'),
+				'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
+				'Pending' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 0, 'Comment.status' => 'approved'),
+				'Spam' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.status' => 'spam')
 			);
 
 			return $menu;

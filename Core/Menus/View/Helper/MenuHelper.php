@@ -59,7 +59,7 @@
 			$this->__adminMenuUrl['plugin'] = $this->plugin;
 			$menus = $this->Event->trigger($this->plugin . '.adminMenu');
 			$items = (isset($menus['adminMenu'][$this->plugin]['main'])) ? $menus['adminMenu'][$this->plugin]['main'] : array();
-			$items = array('Home' => '/admin') + $items;
+			$items = array('Home' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'dashboard')) + $items;
 
 			$return = array();
 			foreach($items as $name => $url){
