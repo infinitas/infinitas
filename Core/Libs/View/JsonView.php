@@ -1,8 +1,8 @@
 <?php
-	class JsonView extends View{
-		function render($action = null, $layout = null, $file = null){
-			if (strtolower($this->params['url']['ext']) != 'json'){
-				return parent::render($action, $layout, $file);
+	class JsonView extends View {
+		public function _render($view = null, $layout = null) {
+			if (strtolower($this->params['url']['ext']) != 'json') {
+				return parent::render($view, $layout);
 			}
 
 			$vars = $this->viewVars;

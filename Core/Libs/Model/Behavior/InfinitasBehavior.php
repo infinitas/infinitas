@@ -380,7 +380,7 @@
 
 			foreach($plugins as $plugin){
 				if (!in_array($plugin, $this->blockedPlugins)){
-					$return[Inflector::underscore($plugin)] = $plugin;
+					$return[$plugin] = $plugin;
 				}
 			}
 
@@ -401,13 +401,13 @@
 		public function getControllers($Model, $plugin){
 			$list = App::objects(
 				'controller',
-				array(App::pluginPath($plugin).'controllers'.DS),
+				array(App::pluginPath($plugin) . 'Controller' . DS),
 				false
 			);
 
 			$controllers = array();
 			foreach($list as $controller){
-				$controllers[Inflector::underscore($controller)] = $controller;
+				$controllers[$controller] = $controller;
 			}
 
 			return $controllers;

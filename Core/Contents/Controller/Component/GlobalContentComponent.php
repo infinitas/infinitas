@@ -9,7 +9,7 @@
 		
 		public function beforeRender($Controller) {
 			if(empty($Controller->{$Controller->modelClass})) {
-				return;
+				return true;
 			}
 			
 			$isContentable = isset($Controller->{$Controller->modelClass}->contentable) && $Controller->{$Controller->modelClass}->contentable;

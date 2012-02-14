@@ -412,7 +412,7 @@
 				$this->set('json', array('error'));
 				return;
 			}
-
+			
 			$this->set('json', $this->{$this->modelClass}->getModels($this->request->data[$this->modelClass]['plugin']));
 		}
 
@@ -842,6 +842,27 @@
 		 */
 		public function beforeRender(){
 			parent::beforeRender();
+
+			switch(true){
+				case (!empty($this->request->params['ext']) && $this->request->params['ext'] == 'json'):
+					$this->viewVars['json'] = array('json' => $this->viewVars['json']);
+					$this->set('_serialize', 'json');
+					//Configure::write('debug', 0);
+					break;
+
+				case $this->request->is('ajax'):
+
+					break;
+
+				case $this->RequestHandler->prefers('rss'):
+					;
+					break;
+
+				case $this->RequestHandler->prefers('vcf'):
+					;
+					break;
+			}
+			
 			$this->Infinitas->getPluginAssets();		
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
@@ -1001,25 +1022,6 @@
 
 			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 				$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
-			}
-
-			if(isset($this->RequestHandler)){
-				switch(true){
-					case $this->RequestHandler->prefers('json'):
-						$this->view = 'Libs.Json';
-						Configure::write('debug', 0);
-						break;
-
-					case $this->RequestHandler->prefers('rss'):
-						;
-						break;
-
-					case $this->RequestHandler->prefers('vcf'):
-						;
-						break;
-
-				} // switch
-				// $this->theme = null;
 			}
 
 			$this->__callBacks[__FUNCTION__] = true;
