@@ -199,7 +199,7 @@
 			if(!$field){
 				return 'weekly';
 			}
-			
+
 			$data = $Model->find(
 				'all',
 				array(
@@ -244,7 +244,7 @@
 		 */
 		public function getNewestRow($Model){
 			$field = $this->__getDateField($Model);
-			
+
 			if(!$field){
 				return false;
 			}
@@ -372,7 +372,7 @@
 		 * @return array all the plugins in infinitas.
 		 */
 		public function getPlugins($skipBlocked = true){
-			$plugins = App::objects('plugin');
+			$plugins = CakePlugin::loaded();
 
 			if ($skipBlocked === false) {
 				return $plugins;
@@ -436,7 +436,7 @@
 				if($model == $plugin . 'AppModel') {
 					continue;
 				}
-				
+
 				$models[$model] = $model;
 			}
 
@@ -525,7 +525,7 @@
 
 		/**
 		 * @deprecated
-		 * 
+		 *
 		 * @param <type> $Model
 		 * @param <type> $data
 		 * @param <type> $field
@@ -548,7 +548,7 @@
 		 * @param object $Model the model object
 		 * @return array key -> value array were a value of true means there is a row that matches
 		 */
-		public function getLetterList($Model){			
+		public function getLetterList($Model){
 			$Model->virtualFields['letters'] = sprintf('LOWER(LEFT(%s.%s, 1))', $Model->alias, $Model->displayField);
 
 			$found = $Model->find(
@@ -570,7 +570,7 @@
 				$return,
 				array_combine(range('a', 'z'), array_fill(0, 26, false))
 			);
-			
+
 			foreach($found as $value){
 				switch($value){
 					case is_int($value):
@@ -584,7 +584,7 @@
 					default:
 						$return['?'] = 1;
 						break;
-				}				
+				}
 			}
 
 			unset($found);
@@ -654,44 +654,44 @@
 
 			return $Model->find('first', $options);
 		}
-		
+
 		/**
 		 * @brief check if behaviors should / can be auto attached
-		 * 
-		 * Adding a behavior to the actsAs will stop the behavior from auto loading 
-		 * if it is setup to autoload in the events. There are some issues with 
+		 *
+		 * Adding a behavior to the actsAs will stop the behavior from auto loading
+		 * if it is setup to autoload in the events. There are some issues with
 		 * re attaching behaviors when they are already attached
-		 * 
-		 * @code 
+		 *
+		 * @code
 		 * // auto load FooBehavior to any model if its not attached or in actsAs
 		 *	if($Model->shouldAutoAttachBehavior('Foo')) {
 		 *		$Model->Behaviors->attach('Foo');
 		 *	}
-		 * 
+		 *
 		 * // auto load FooBehavior to any model with the `bar` field if its not attached or in actsAs
 		 *	if($Model->shouldAutoAttachBehavior('Foo', array('bar'))) {
 		 *		$Model->Behaviors->attach('Foo');
 		 *	}
 		 * @endcode
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param Model $Model the model the check is being done on
 		 * @param string $behavior the name of the beahvior to check
 		 * @param array $onlyWithFields a list of fields that should be in the table for it to auto attach
-		 * 
-		 * @return type 
+		 *
+		 * @return type
 		 */
 		public function shouldAutoAttachBehavior($Model, $behavior = null, $onlyWithFields = array()) {
 			if(!(is_subclass_of($Model, 'Model') && isset($Model->_schema) && is_array($Model->_schema))) {
 				return false;
 			}
-			
+
 			if($behavior === null) {
 				return true;
 			}
-			
-			
+
+
 			if(!isset($Model->actsAs[$behavior]) && !in_array($behavior, $Model->actsAs) && !$Model->Behaviors->enabled($behavior)) {
 				$should = true;
 				if(!empty($onlyWithFields)) {
@@ -699,10 +699,10 @@
 						$should = $should && $Model->hasField($field);
 					}
 				}
-				
+
 				return $should;
 			}
-			
+
 			return false;
 		}
 	}
