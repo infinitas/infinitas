@@ -68,7 +68,9 @@
 				'RequestHandler',
 				//'Auth',
 				//'Acl',
-				'Security',
+				'Security' => array(
+					'csrfCheck' => false
+				),
 				'Libs.MassAction'
 			);
 		}
