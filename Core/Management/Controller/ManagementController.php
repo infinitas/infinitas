@@ -20,15 +20,6 @@
 	class ManagementController extends ManagementAppController {
 		public $uses = array();
 
-		public function beforeFilter(){
-			parent::beforeFilter();
-
-			/**
-			 * @todo cake2.0
-			 * $this->helpers[] = 'Google.Chart';
-			 */
-		}
-
 		/**
 		 * This is the main admin dashboard when visiting admin/
 		 */

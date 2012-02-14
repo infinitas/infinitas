@@ -115,8 +115,8 @@
 		 * 
 		 * @access public
 		 */
-		public function __construct() {
-			parent::__construct();
+		public function __construct($request = null, $response = null) {
+			parent::__construct($request, $response);
 			
 			App::import('lib', 'Installer.Installer');
 			$this->InstallerLib = new InstallerLib();

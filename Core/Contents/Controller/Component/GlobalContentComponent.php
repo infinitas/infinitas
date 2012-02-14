@@ -1,5 +1,5 @@
 <?php
-	App::uses('InfinitasComponent', 'Libs/Component');
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	
 	class GlobalContentComponent extends InfinitasComponent {
 		private $__methods = array(

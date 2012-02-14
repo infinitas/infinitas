@@ -181,7 +181,7 @@
 				'SchemaMigration',
 				'Session'
 			);
-			if(php_sapi_name() != 'cli' && !in_array($this->alias, $ignore) && ($thisClass == 'AppModel' || $thisClass == 'Model')){
+			if(php_sapi_name() != 'cli' && !in_array($this->alias, $ignore) && ($thisClass == 'AppModel' || $thisClass == 'Model')) {
 				trigger_error(sprintf(__('%s is using AppModel, please create a model file'), $this->alias), E_USER_WARNING);
 			}
 

@@ -397,10 +397,13 @@
 		 * Set some data for the infinitas js lib.
 		 */
 		function _setupJavascript() {
+			pr($this->Controller);
+			exit;
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
 			}
-
+pr($this->Controller);
+exit;
 			$infinitasJsData['base']	   = (isset($this->Controller->base) ? $this->Controller->base : '');
 			$infinitasJsData['here']	   = (isset($this->Controller->here) ? $this->Controller->here : '');
 			$infinitasJsData['plugin']	 = (isset($this->Controller->plugin) ? $this->Controller->plugin : '');

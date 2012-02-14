@@ -424,15 +424,19 @@
 		*
 		* @return array a list of models that were found
 		*/
-		public function getModels($Model, $plugin){
+		public function getModels($Model, $plugin) {
 			$list = App::objects(
 				'model',
-				array(App::pluginPath($plugin).'models'.DS),
+				array(App::pluginPath($plugin) . 'Model' . DS),
 				false
 			);
 
 			$models = array();
 			foreach($list as $model){
+				if($model == $plugin . 'AppModel') {
+					continue;
+				}
+				
 				$models[$model] = $model;
 			}
 

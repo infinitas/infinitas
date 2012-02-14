@@ -58,6 +58,9 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
+	
 	class GlobalActions extends Controller {
 		/**
 		 * components should not be included here
@@ -124,7 +127,7 @@
 		 *
 		 * @return void
 		 */
-		public function beforeFilter(){
+		public function beforeFilter() {
 			parent::beforeFilter();
 			
 			$this->modelName = $this->modelClass;
