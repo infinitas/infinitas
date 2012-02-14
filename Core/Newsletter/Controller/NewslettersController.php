@@ -26,15 +26,15 @@
 		}
 
 		public function contact() {
-			if(!empty($this->data)) {
+			if(!empty($this->request->data)) {
 				$body = '<p>A new email has been sent from your site. The details are below</p>';
-				$body .= sprintf('<p>The sender: %s <%>s</p>', h($this->data['Newsletter']['name']), $this->data['Newsletter']['email']);
+				$body .= sprintf('<p>The sender: %s <%>s</p>', h($this->request->data['Newsletter']['name']), $this->request->data['Newsletter']['email']);
 				$body .= sprintf('<p>IP address: %s</p>', $this->Session->read('Auth.User.ip_address'));
 				$body .= '<p>=====================================================</p>';
-				$body .= htmlspecialchars($this->data['Newsletter']['query']);
+				$body .= htmlspecialchars($this->request->data['Newsletter']['query']);
 
 				$subject = sprintf('New email from %s', Configure::read('Website.name'));
-				
+
 				foreach(ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
 					$this->Emailer->sendDirectMail(
 						sprintf('%s <%>s', $username, $email),
@@ -55,8 +55,8 @@
 
 			$user = $this->Session->read('Auth.User');
 			if($user) {
-				$this->data['Newsletter']['name'] = $user['username'];
-				$this->data['Newsletter']['email'] = $user['email'];
+				$this->request->data['Newsletter']['name'] = $user['username'];
+				$this->request->data['Newsletter']['email'] = $user['email'];
 			}
 		}
 
@@ -250,21 +250,21 @@
 					)
 				);
 			}
-			
+
 			$this->set(compact('campaigns'));
 		}
 
 		public function admin_view($id = null) {
-			if (!$id && empty($this->data)) {
+			if (!$id && empty($this->request->data)) {
 				$this->Infinitas->noticeInvalidRecord();
 			}
 
 			$newsletter = $this->Newsletter->read(null, $id);
 
-			if (!empty($this->data)) {
-				$id = $this->data['Newsletter']['id'];
+			if (!empty($this->request->data)) {
+				$id = $this->request->data['Newsletter']['id'];
 
-				$addresses = explode(',', $this->data['Newsletter']['email_addresses']);
+				$addresses = explode(',', $this->request->data['Newsletter']['email_addresses']);
 				if (empty($addresses)) {
 					$this->notice(
 						__('Please input at least one email address for testing'),
@@ -295,8 +295,8 @@
 				$this->notice(sprintf(__('%s mails were sent'), $sent));
 			}
 
-			if (empty($this->data) && $id) {
-				$this->data = $newsletter;
+			if (empty($this->request->data) && $id) {
+				$this->request->data = $newsletter;
 			}
 
 			$this->set('newsletter', $this->Newsletter->read(null, $id));
@@ -406,7 +406,7 @@
 					);
 				}
 			}
-			
+
 			$this->notice(
 				__('Newsletter is now sending.'),
 				array(

@@ -145,7 +145,7 @@
 		 * Check if there is a cookie to log the user in with
 		 */
 		public function _checkCookie(){
-			if (!empty($this->data)) {
+			if (!empty($this->request->data)) {
 				$cookie = $this->Cookie->read('Auth.User');
 				if (!is_null($cookie)) {
 					if ($this->Auth->login($cookie)) {
@@ -161,12 +161,12 @@
 		public function _createCookie(){
 			return;
 			if ($this->Auth->user()) {
-				if (!empty($this->data['User']['remember_me'])) {
+				if (!empty($this->request->data['User']['remember_me'])) {
 					$cookie = array();
-					$cookie['username'] = $this->data['User']['username'];
-					$cookie['password'] = $this->data['User']['password'];
+					$cookie['username'] = $this->request->data['User']['username'];
+					$cookie['password'] = $this->request->data['User']['password'];
 					$this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-					unset($this->data['User']['remember_me']);
+					unset($this->request->data['User']['remember_me']);
 				}
 			}
 		}
@@ -204,18 +204,18 @@
 				);
 			}
 
-			if (!empty($this->data)) {
-				$this->data['User']['active'] = 1;
+			if (!empty($this->request->data)) {
+				$this->request->data['User']['active'] = 1;
 
 				if (Configure::read('Website.email_validation') === true) {
-					$this->data['User']['active'] = 0;
+					$this->request->data['User']['active'] = 0;
 				}
-				$this->data['User']['group_id'] = 2;
+				$this->request->data['User']['group_id'] = 2;
 
 				$this->User->create();
 
-				if ($this->User->saveAll($this->data)) {
-					if (!$this->data['User']['active']) {
+				if ($this->User->saveAll($this->request->data)) {
+					if (!$this->request->data['User']['active']) {
 						$ticket = $this->User->createTicket($this->User->id);
 
 						$urlToActivateUser = ClassRegistry::init('ShortUrlsShortUrl')->newUrl(
@@ -224,7 +224,7 @@
 
 						$this->Emailer->sendDirectMail(
 							array(
-								$this->data['User']['email']
+								$this->request->data['User']['email']
 							),
 							array(
 								'subject' => Configure::read('Website.name').' '.__('Confirm your registration'),
@@ -236,7 +236,7 @@
 					else{
 						$this->Emailer->sendDirectMail(
 							array(
-								$this->data['User']['email']
+								$this->request->data['User']['email']
 							),
 							array(
 								'subject' => __('Welcome to ').' '.Configure::read('Website.name'),
@@ -309,12 +309,12 @@
 		 * will need to click the link to be taken to the reset page.
 		 */
 		public function forgot_password(){
-			if (!empty($this->data)){
+			if (!empty($this->request->data)){
 				$theUser = $this->User->find(
 					'first',
 					array(
 						'conditions' => array(
-							'User.email' => $this->data['User']['email']
+							'User.email' => $this->request->data['User']['email']
 						)
 					)
 				);
@@ -363,10 +363,10 @@
 				);
 			}
 
-			if (!empty($this->data)){
-				$this->User->id = $this->data['User']['id'];
+			if (!empty($this->request->data)){
+				$this->User->id = $this->request->data['User']['id'];
 
-				if ($this->User->saveField('password', Security::hash($this->data['User']['new_password'], null, true))) {
+				if ($this->User->saveField('password', Security::hash($this->request->data['User']['new_password'], null, true))) {
 					$this->notice(
 						__('Your new password was saved. You may now login'),
 						array(
@@ -404,7 +404,7 @@
 				);
 			}
 
-			$this->data = $this->User->find(
+			$this->request->data = $this->User->find(
 				'first',
 				array(
 					'conditions' => array(
@@ -509,7 +509,7 @@
 				$this->Infinitas->noticeInvalidRecord();
 			}
 
-			if (!empty($this->data)) {
+			if (!empty($this->request->data)) {
 				if ($this->request->data['User']['password'] == Security::hash('', null, true)) {
 					unset($this->request->data['User']['password']);
 					unset($this->request->data['User']['confirm_password']);
@@ -522,8 +522,8 @@
 				$this->Infinitas->noticeNotSaved();
 			}
 
-			if ($id && empty($this->data)) {
-				$this->data = $this->User->read(null, $id);
+			if ($id && empty($this->request->data)) {
+				$this->request->data = $this->User->read(null, $id);
 			}
 
 			$groups = $this->User->Group->find('list');

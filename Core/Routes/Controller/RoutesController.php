@@ -35,7 +35,7 @@
 					'Theme'
 				)
 			);
-			
+
 			$routes = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -61,8 +61,8 @@
 			parent::admin_edit($id);
 
 			$plugins = $this->Route->getPlugins();
-			$controllers = $this->Route->getControllers($this->data['Route']['plugin']);
-			$actions = $this->Route->getActions($this->data['Route']['plugin'], $this->data['Route']['controller']);
+			$controllers = $this->Route->getControllers($this->request->data['Route']['plugin']);
+			$actions = $this->Route->getActions($this->request->data['Route']['plugin'], $this->request->data['Route']['controller']);
 			$themes = $this->listThemes;
 
 			$this->set(compact('plugins', 'controllers', 'actions', 'themes'));
