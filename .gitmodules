@@ -1,42 +1,42 @@
 [submodule "Plugin/WysiwygTinyMce"]
 	path = Plugin/WysiwygTinyMce
-	url = git://github.com/Infinitas-Plugin/wysiwyg_tiny_mce.git
+	url = git://github.com/Infinitas-Plugins/wysiwyg_tiny_mce.git
 [submodule "Plugin/WysiwygCkEditor"]
 	path = Plugin/WysiwygCkEditor
-	url = git://github.com/Infinitas-Plugin/wysiwyg_ck_editor.git
+	url = git://github.com/Infinitas-Plugins/wysiwyg_ck_editor.git
 [submodule "Plugin/Geshi"]
 	path = Plugin/Geshi
-	url = git://github.com/Infinitas-Plugin/geshi.git
+	url = git://github.com/Infinitas-Plugins/geshi.git
 [submodule "Plugin/Facebook"]
 	path = Plugin/Facebook
-	url = git://github.com/Infinitas-Plugin/facebook.git
+	url = git://github.com/Infinitas-Plugins/facebook.git
 [submodule "Plugin/Gallery"]
 	path = Plugin/Gallery
-	url = git://github.com/Infinitas-Plugin/gallery.git
+	url = git://github.com/Infinitas-Plugins/gallery.git
 [submodule "Plugin/Thickbox"]
 	path = Plugin/Thickbox
-	url = git://github.com/Infinitas-Plugin/thickbox.git
+	url = git://github.com/Infinitas-Plugins/thickbox.git
 [submodule "Plugin/Twitter"]
 	path = Plugin/Twitter
-	url = git://github.com/Infinitas-Plugin/twitter.git
+	url = git://github.com/Infinitas-Plugins/twitter.git
 [submodule "Plugin/DebugKit"]
 	path = Plugin/DebugKit
-	url = git://github.com/Infinitas-Plugin/debug_kit.git
+	url = git://github.com/Infinitas-Plugins/debug_kit.git
 [submodule "Plugin/Cms"]
 	path = Plugin/Cms
-	url = git://github.com/Infinitas-Plugin/cms.git
+	url = git://github.com/Infinitas-Plugins/cms.git
 [submodule "Plugin/Blog"]
 	path = Plugin/Blog
-	url = git://github.com/Infinitas-Plugin/blog.git
+	url = git://github.com/Infinitas-Plugins/blog.git
 [submodule "Plugin/Shop"]
 	path = Plugin/Shop
-	url = git://github.com/Infinitas-Plugin/shop.git
+	url = git://github.com/Infinitas-Plugins/shop.git
 [submodule "Plugin/Backlinks"]
 	path = Plugin/Backlinks
-	url = git://github.com/Infinitas-Plugin/backlinks.git
+	url = git://github.com/Infinitas-Plugins/backlinks.git
 [submodule "Developer"]
 	path = Developer
-	url = git://github.com/Infinitas-Plugin/developer
+	url = git://github.com/Infinitas-Plugins/developer
 [submodule "Plugin/ViewCounter"]
 	path = Plugin/ViewCounter
-	url = git://github.com/Infinitas-Plugin/view_counter.git
+	url = git://github.com/Infinitas-Plugins/view_counter.git
