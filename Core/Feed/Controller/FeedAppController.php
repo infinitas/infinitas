@@ -19,7 +19,6 @@
 
 	class FeedAppController extends AppController {
 		var $helpers = array(
-			'Management.Core',
 			'Filter.Filter'
 		);
 	}

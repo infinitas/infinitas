@@ -23,6 +23,6 @@
 	echo $this->Form->create('Page');
 		echo $this->Infinitas->adminEditHead(); 
 		echo $this->Form->input('Page.file_name');
-		echo $this->Core->wysiwyg('Page.body');
+		echo $this->Infinitas->wysiwyg('Page.body');
 	echo $this->Form->end();
 ?>

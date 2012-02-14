@@ -23,7 +23,7 @@
 			<h1><?php echo __('RSS Feed'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name', array('class' => 'title'));
-			echo $this->Core->wysiwyg('Feed.description');
+			echo $this->Infinitas->wysiwyg('Feed.description');
 			echo $this->Form->input('Feed.fields');
 			echo $this->Form->input('Feed.conditions');
 			echo $this->Form->input('Feed.order');

@@ -1241,7 +1241,6 @@
 		 * @access public
 		 */
 		public $helpers = array(
-			'Management.Core',
 			'Filter.Filter'
 		);
 	}
