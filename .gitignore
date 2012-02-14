@@ -1,5 +1,5 @@
 # Infinitas ignores
-Config/Database.php
+Config/database.php
 Libs/Cronjobs
 Plugin/*
 tmp/*
