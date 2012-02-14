@@ -824,6 +824,12 @@
 		 */
 		private $__addJs  = array();
 
+		private $__callBacks = array(
+			'beforeFilter' => false,
+			'beforeRender' => false,
+			'afterFilter' => false
+		);
+
 		/**
 		 * @brief called before a page is loaded
 		 * 
@@ -848,6 +854,8 @@
 
 			$this->set('class_name_for_layout', implode(' ', $fields));
 			unset($fields);
+
+			$this->__callBacks[__FUNCTION__] = true;
 		}
 
 		/**
@@ -1014,7 +1022,7 @@
 				// $this->theme = null;
 			}
 
-			return true;
+			$this->__callBacks[__FUNCTION__] = true;
 		}
 
 		/**
@@ -1165,6 +1173,19 @@
 					),
 					$this->output
 				);
+			}
+
+			$this->__callBacks[__FUNCTION__] = true;
+		}
+
+		/**
+		 * @brief make sure everything is running or throw an error
+		 */
+		public function __destruct() {
+			$check = array_unique($this->__callBacks);
+			
+			if(count($check) != 1 || current($check) != true) {
+				user_error('Some callbacks were not triggered, check for methods returning false', E_USER_NOTICE);
 			}
 		}
 
