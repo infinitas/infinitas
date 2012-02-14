@@ -333,11 +333,11 @@
 		 * Define some things that auth needs to work
 		 */
 		function _setupAuth() {
-			//$this->Controller->Auth->allow('*');
+			//$this->Controller->Auth->allow();
 			$this->Controller->Auth->allow('display');
 
 			if (!isset($this->Controller->request->params['prefix']) || $this->Controller->request->params['prefix'] != 'admin') {
-				$this->Controller->Auth->allow('*');
+				$this->Controller->Auth->allow();
 			}
 
 			//$this->Controller->Auth->authorize	= array('Actions' => array('actionPath' => 'controllers/'));
