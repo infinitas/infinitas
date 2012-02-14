@@ -4,6 +4,7 @@
 			parent::beforeFilter();
 
 			$this->helpers[] = 'Emails.EmailAttachments';
+			return true;
 		}
 
 		public function admin_dashboard(){

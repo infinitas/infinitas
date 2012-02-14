@@ -152,6 +152,7 @@
 			$this->Wizard->completeUrl = array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish');
 
 			$this->set('installerProgress', $this->installerProgress);
+			return true;
 		}
 
 		public function index($step = null) {

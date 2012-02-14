@@ -28,5 +28,6 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 			$GoogleConfig = new GoogleConfig();
+			return true;
 		}
 	}

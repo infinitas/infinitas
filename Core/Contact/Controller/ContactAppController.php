@@ -85,5 +85,7 @@
 			parent::beforeFilter();
 
 			$this->RequestHandler->setContent('vcf', 'text/x-vcard');
+			
+			return true;
 		}
 	}

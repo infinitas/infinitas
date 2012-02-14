@@ -20,7 +20,7 @@
 
 	echo $this->Form->create( 'User', array( 'url' => array( 'controller' => 'users', 'action' => 'mass', 'admin' => 'true' ) ) );
 
-		$massActions = $this->Core->massActionButtons(
+		$massActions = $this->Infinitas->massActionButtons(
 			array(
 				'add',
 				'edit',
@@ -35,7 +35,7 @@
 <div class="table">
 	<table class="listing" cellpadding="0" cellspacing="0">
 		<?php
-			echo $this->Core->adminTableHeader(
+			echo $this->Infinitas->adminTableHeader(
 				array(
 					$this->Form->checkbox('all') => array(
 						'class' => 'first',
@@ -73,7 +73,7 @@
 			foreach ( $users as $user )
 			{
 				?>
-					<tr class="<?php echo $this->Core->rowClass(); ?>">
+					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Form->checkbox( $user['User']['id'] ); ?>&nbsp;</td>
 						<td>
 							<?php echo $this->Html->link( $user['User']['username'], array('action' => 'edit', $user['User']['id'])); ?>&nbsp;

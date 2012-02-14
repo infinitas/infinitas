@@ -102,6 +102,8 @@
 			foreach ($actions as $action){
 				$this->processAction($controller, $action);
 			}
+
+			return true;
 		}
 
 		public function processAction($controller, $controllerAction){

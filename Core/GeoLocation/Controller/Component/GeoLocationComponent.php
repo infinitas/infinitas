@@ -31,6 +31,8 @@
 			$this->cityDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'libs' . DS . 'geoip' . DS . 'city.dat';
 
 			$this->__autoUserLocation();
+
+			return true;
 		}
 
 		private function __autoUserLocation() {

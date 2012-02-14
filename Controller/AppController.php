@@ -135,6 +135,8 @@
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
 			}
+
+			return true;
 		}
 
 		/**
@@ -1011,6 +1013,8 @@
 				} // switch
 				// $this->theme = null;
 			}
+
+			return true;
 		}
 
 		/**

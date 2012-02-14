@@ -4,6 +4,7 @@
 			parent::beforeFilter();
 
 			$this->helpers[] = 'Filter.Filter';
+			return true;
 		}
 
 		/**

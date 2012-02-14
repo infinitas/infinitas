@@ -28,11 +28,13 @@
 			if($disable && isset($Controller->{$Controller->modelClass}->Behaviors)){
 				$Controller->{$Controller->modelClass}->Behaviors->detach('Locks.Lockable');
 			}
+
+			return true;
 		}
 
 		public function beforeRender($Controller){
 			if(empty($Controller->params['admin']) || !$Controller->params['admin']) {
-				return;
+				return true;
 			}
 			
 			if(isset($Controller->data['Lock']['user_id']) && $Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
@@ -47,6 +49,8 @@
 					)
 				);
 			}
+
+			return true;
 		}
 
 		public function beforeRedirect($Controller){

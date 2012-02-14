@@ -22,10 +22,6 @@
 
 		public $sampleText = '<p>This is some sample text to test your template</p>';
 
-		public function beforeFilter() {
-			parent::beforeFilter();
-		}
-
 		public function admin_index() {
 			$this->paginate = array(
 				'fields' => array(

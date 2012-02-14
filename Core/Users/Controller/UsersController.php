@@ -26,7 +26,7 @@
 			//$this->Auth->authenticate = array('Form');
 			//$this->Auth->csrfCheck = false;
 			parent::beforeFilter();
-			return;
+			return true;
 			$this->Auth->allow(
 				'login', 'logout', 'register',
 				'forgot_password', 'reset_password'

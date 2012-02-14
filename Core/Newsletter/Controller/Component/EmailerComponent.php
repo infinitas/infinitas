@@ -32,10 +32,14 @@
 		public function initialize($controller, $settings = array()) {
 			$this->settings = array_merge($this->_default, (array)$settings);
 			$this->settings();
+			
+			return true;
 		}
 
-		public function startup(&$controller){
+		public function startup($controller){
 			$this->settings();
+
+			return true;
 		}
 
 		public function settings(){

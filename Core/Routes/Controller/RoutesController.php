@@ -26,6 +26,7 @@
 			$this->listThemes = array(
 				0 => __('Default')
 			) + $this->Route->Theme->find('list');
+			return true;
 		}
 
 		public function admin_index() {
