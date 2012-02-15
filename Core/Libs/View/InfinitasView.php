@@ -44,6 +44,8 @@
 		public function __construct($Controller, $register = true) {
 			//$this->Mustache = new Mustache();
 			parent::__construct($Controller, $register);
+
+			$this->__setJsVariables();
 		}
 
 		/**
@@ -103,5 +105,29 @@
 					$this->Helpers->load($helper, $config);
 				}
 			}
+		}
+
+		/**
+		 * Set some data for the infinitas js lib.
+		 */
+		private function __setJsVariables() {
+			if($this->request->is('ajax')){
+				return false;
+			}
+
+			$infinitasJsData['base']	= $this->request->base;
+			$infinitasJsData['here']	= $this->request->here;
+			$infinitasJsData['plugin']	= $this->request->params['plugin'];
+			$infinitasJsData['name']	= $this->name;
+			$infinitasJsData['action']	= $this->request->params['action'];
+			$infinitasJsData['params']	= $this->request->params;
+			$infinitasJsData['passedArgs'] = $this->request->params['pass'];
+			$infinitasJsData['data']	   = $this->request->data;
+
+			//$infinitasJsData['model']	   = $this->Controller->modelClass;
+
+			$infinitasJsData['config']	 = Configure::read();
+
+			$this->set(compact('infinitasJsData'));
 		}
 	}

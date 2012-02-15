@@ -1032,8 +1032,6 @@
 				unset($this->request->data['Image']);
 			}
 
-			$this->Infinitas->_setupJavascript();
-
 			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
 
 			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){

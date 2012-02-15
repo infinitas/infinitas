@@ -351,29 +351,6 @@
 		}
 
 		/**
-		 * Set some data for the infinitas js lib.
-		 */
-		protected function _setupJavascript() {
-			if($this->Controller->RequestHandler->isAjax()){
-				return false;
-			}
-
-			$infinitasJsData['base']	= $this->Controller->request->base;
-			$infinitasJsData['here']	= $this->Controller->request->here;
-			$infinitasJsData['plugin']	= $this->Controller->request->params['plugin'];
-			$infinitasJsData['name']	= $this->Controller->name;
-			$infinitasJsData['action']	= $this->Controller->request->params['action'];
-			$infinitasJsData['params']	= $this->Controller->request->params;
-			$infinitasJsData['passedArgs'] = $this->Controller->request->params['pass'];
-			$infinitasJsData['data']	   = $this->Controller->request->data;
-			$infinitasJsData['model']	   = $this->Controller->modelClass;
-
-			$infinitasJsData['config']	 = Configure::read();
-
-			$this->Controller->set(compact('infinitasJsData'));
-		}
-
-		/**
 		 * Moving MPTT records
 		 *
 		 * This is used for moving mptt records and is called by admin_reorder.
