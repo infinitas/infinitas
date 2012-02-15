@@ -118,7 +118,7 @@
 			'name' => __d('newsletter', 'Views'),
 			'description' => __d('newsletter', 'Track content popularity'),
 			'icon' => '/view_counter/img/icon.png',
-			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports', 'ViewCount.model' => 'Newsletter')
+			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports', 'ViewCounterView.model' => 'Newsletter')
 		);
 	}
 ?>

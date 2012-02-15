@@ -1,7 +1,7 @@
 <?php
 	class ServerStatusController extends ServerStatusAppController {
 		public $helpers = array(
-			'ViewCounter.ViewCounter',
+			'ViewCounter.ViewCounterView',
 			'Charts.Charts' => array(
 				'Google.GoogleStatic'
 			)

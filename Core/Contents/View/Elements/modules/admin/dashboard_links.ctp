@@ -49,7 +49,7 @@
 			'name' => __d('view_counter', 'Views'),
 			'description' => __d('blog', 'Track content popularity'),
 			'icon' => '/view_counter/img/icon.png',
-			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports', 'ViewCount.model' => $this->params['plugin'])
+			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports', 'ViewCounterView.model' => $this->params['plugin'])
 		);
 	}
 
