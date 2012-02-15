@@ -140,6 +140,55 @@
 		}
 
 		/**
+		 * @brief load modules directly
+		 *
+		 * This is basically a short cut method to using ->element() but does
+		 * all the checking link is the plugin available, does the module exist
+		 * etc.
+		 *
+		 * @param string $module the module to load
+		 * @param string $params the params to pass to element() call
+		 *
+		 * @return string
+		 */
+		public function loadDirect($module, $params = array()) {
+			list($plugin, $module) = pluginSplit($module);
+
+			// @check plugin is loaded
+			// if not plugin return 'plugin foobar is not loaded / does not exist'
+
+			$admin = $this->request->params['admin'] || (isset($params['admin']) && $params['admin']);
+			if($admin && (isset($params['admin']) && $params['admin'] == false)) {
+				$admin = false;
+			}
+
+			if($admin) {
+				$module = sprintf('admin/%s', $module);
+			}
+
+			$module = sprintf('modules/%s', $module);
+
+			$pluginDir = App::pluginPath($plugin) . 'View' . DS  . 'Elements' . DS . $module . '.ctp';
+			$themeDir = App::themePath($this->theme) . $plugin . 'Elements' . DS . $module . '.ctp';
+
+			if(!is_file($pluginDir)) {
+				if(!is_file($themeDir)) {
+					if(Configure::read('debug')) {
+						return sprintf(
+							'Could not find the module, looking in: <br/>%s<br/>%s',
+							str_replace(APP, 'APP' . DS, $pluginDir),
+							str_replace(APP, 'APP' . DS, $themeDir)
+						);
+					}
+				}
+			}
+			
+			$module = sprintf('%s.%s', $plugin, $module);
+
+			return $this->_View->element($module, $params);
+		}
+
+		/**
 		 * Get the params for the module being loaded, If loadModule is called
 		 * from user land, they will not have the details of the module for it
 		 * to load properly, and instead of making them do the db call manualy,
