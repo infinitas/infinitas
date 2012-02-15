@@ -196,7 +196,7 @@
 
 		public function admin_report($id) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 		}
 
@@ -256,7 +256,7 @@
 
 		public function admin_view($id = null) {
 			if (!$id && empty($this->request->data)) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$newsletter = $this->Newsletter->read(null, $id);
@@ -367,7 +367,7 @@
 
 		public function admin_toggleSend($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->Newsletter->recursive = - 1;

@@ -59,7 +59,7 @@
 
 		public function view(){
 			if (!isset($this->params['slug'])) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$branch = $this->Branch->find(

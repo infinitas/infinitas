@@ -282,7 +282,7 @@
 		 * @param array $data the username and password form the login atempt.
 		 * @return true
 		 */
-		function badLoginAttempt($data){
+		public function badLoginAttempt($data){
 			$old = (array)$this->Controller->Session->read('Infinitas.Security.loginAttempts');
 			$old[] = $data;
 			$this->Controller->Session->write('Infinitas.Security.loginAttempts', $old);
@@ -332,7 +332,7 @@
 		 *
 		 * Define some things that auth needs to work
 		 */
-		function _setupAuth() {
+		protected function _setupAuth() {
 			//$this->Controller->Auth->allow();
 			$this->Controller->Auth->allow('display');
 
@@ -364,7 +364,7 @@
 		 *
 		 * settings for security
 		 */
-		function _setupSecurity() {
+		protected function _setupSecurity() {
 			$this->Controller->Security->blackHoleCallback = 'blackHole';
 			$this->Controller->Security->validatePost = false;
 		}
@@ -395,7 +395,7 @@
 		/**
 		 * Set some data for the infinitas js lib.
 		 */
-		function _setupJavascript() {
+		protected function _setupJavascript() {
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
 			}
@@ -420,7 +420,7 @@
 		 *
 		 * This is used for moving mptt records and is called by admin_reorder.
 		 */
-		function _treeMove(){
+		protected function _treeMove(){
 			$model = $this->Controller->modelClass;
 			$check = $this->Controller->{$model}->find(
 				'first',
@@ -477,7 +477,7 @@
 		 *
 		 * This is used for moving sequenced records and is called by admin_reorder.
 		 */
-		function _orderedMove(){
+		protected function _orderedMove(){
 			$modelName = $this->Controller->modelClass;
 
 			$orderable = isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) &&
@@ -552,65 +552,9 @@
 		}
 
 		/**
-		 * lazy saved notice for very default saved flash notice
-		 *
-		 * see AppController::notice()
-		 */
-		public function noticeSaved() {
-			throw new Exception('Depreciated, use $this->notice(saved);');
-		}
-
-		/**
-		 * lazy not saved notice for very default saved flash notice
-		 *
-		 * see AppController::notice()
-		 */
-		public function noticeNotSaved() {
-			throw new Exception('Depreciated, use $this->notice(not_saved);');
-		}
-
-		/**
-		 * lazy not found notice for very default saved flash notice
-		 *
-		 * see AppController::notice()
-		 */
-		public function noticeInvalidRecord() {
-			throw new Exception('Depreciated, use $this->notice(invalid);');
-		}
-
-
-		/**
-		 * lazy deleted notice for very default saved flash notice
-		 *
-		 * see AppController::notice()
-		 */
-		public function noticeDeleted(){
-			throw new Exception('Depreciated, use $this->notice(deleted);');
-		}
-
-
-		/**
-		 * lazy not deleted notice for very default saved flash notice
-		 *
-		 * see AppController::notice()
-		 */
-		public function noticeNotDeleted(){
-			throw new Exception('Depreciated, use $this->notice(not_deleted);');
-		}
-
-		/**
-		 * lazy invalid action for times when the user should not be doing that
-		 *
-		 * see AppController::notice()
-		 */
-		public function noticeDisabledAction() {
-			throw new Exception('Depreciated, use $this->notice(disabled);');
-		}
-
-		/**
 		* Temp acl things
 		 */
-		function _getClassMethods($ctrlName = null) {
+		protected function _getClassMethods($ctrlName = null) {
 			App::import('Controller', $ctrlName);
 			if (strlen(strstr($ctrlName, '.')) > 0) {
 				// plugin's controller
@@ -634,7 +578,7 @@
 			return $methods;
 		}
 
-		function _isPlugin($ctrlName = null) {
+		protected function _isPlugin($ctrlName = null) {
 			$arr = String::tokenize($ctrlName, '/');
 			if (count($arr) > 1) {
 				return true;
@@ -643,7 +587,7 @@
 			}
 		}
 
-		function _getPluginControllerPath($ctrlName = null) {
+		protected function _getPluginControllerPath($ctrlName = null) {
 			$arr = String::tokenize($ctrlName, '/');
 			if (count($arr) == 2) {
 				return $arr[0] . '.' . $arr[1];
@@ -652,7 +596,7 @@
 			}
 		}
 
-		function _getPluginName($ctrlName = null) {
+		protected function _getPluginName($ctrlName = null) {
 			$arr = String::tokenize($ctrlName, '/');
 			if (count($arr) == 2) {
 				return $arr[0];
@@ -661,7 +605,7 @@
 			}
 		}
 
-		function _getPluginControllerName($ctrlName = null) {
+		protected function _getPluginControllerName($ctrlName = null) {
 			$arr = String::tokenize($ctrlName, '/');
 			if (count($arr) == 2) {
 				return $arr[1];
@@ -670,7 +614,7 @@
 			}
 		}
 
-		function __getClassName() {
+		private function __getClassName() {
 			if (isset($this->params['plugin'])) {
 				return Inflector::classify($this->params['plugin']) . '.' . Inflector::classify($this->Controller->name);
 			} else {
@@ -678,7 +622,7 @@
 			}
 		}
 
-		function _getPlugins(){
+		protected function _getPlugins(){
 			$plugins = array(
 				'infinitas',
 				'extentions',
@@ -692,7 +636,7 @@
 			return $return;
 		}
 
-		function _getPluginControllerNames($plugin) {
+		protected function _getPluginControllerNames($plugin) {
 			App::import('Core', 'File', 'Folder');
 			$paths = Configure::getInstance();
 			$folder =& new Folder();
@@ -732,7 +676,7 @@
 			return $arr;
 		}
 
-		function checkDbVersion() {
+		public function checkDbVersion() {
 			App::import('Lib', 'Migrations.MigrationVersion');
 
 			$Version = new MigrationVersion();

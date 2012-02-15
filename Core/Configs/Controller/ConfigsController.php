@@ -77,7 +77,7 @@
 
 		public function admin_edit($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if (!empty($this->request->data)) {
@@ -94,10 +94,10 @@
 						break;
 				} // switch
 				if ($this->Config->save($this->request->data)) {
-					$this->Infinitas->noticeSaved();
+					$this->notice('saved');
 				}
 
-				$this->Infinitas->noticeNotSaved();
+				$this->notice('not_saved');
 			}
 
 			if ($id && empty($this->request->data)) {

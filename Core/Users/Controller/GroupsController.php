@@ -63,7 +63,7 @@
 		 */
 		function admin_view($id = null) {
 			if(!$id){
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$group = $this->Group->getViewData(

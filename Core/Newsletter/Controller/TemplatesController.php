@@ -44,7 +44,7 @@
 
 		public function admin_view($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->set('template', $this->Template->read(null, $id));
@@ -52,14 +52,14 @@
 
 		public function admin_export($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->Template->recursive = - 1;
 			$template = $this->Template->read(array('name', 'description', 'author', 'header', 'footer'), $id);
 
 			if (empty($template)) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$pattern = "/src=[\\\"']?([^\\\"']?.*(png|jpg|gif|jpeg))[\\\"']?/i";

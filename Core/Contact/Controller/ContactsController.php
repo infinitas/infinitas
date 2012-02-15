@@ -19,7 +19,7 @@
 	class ContactsController extends ContactAppController {
 		public function view(){
 			if (!isset($this->params['slug'])) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$contact = $this->Contact->find(
@@ -46,7 +46,7 @@
 			);
 
 			if (!$contact['Branch']['active']) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->set(

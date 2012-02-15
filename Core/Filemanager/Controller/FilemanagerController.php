@@ -76,13 +76,13 @@
 
 		public function admin_delete($file = null) {
 			if (!$file) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if ($this->FileManager->delete($file)) {
-				$this->Infinitas->noticeDeleted();
+				$this->notice('deleted');
 			}
 
-			$this->Infinitas->noticeNotDeleted();
+			$this->notice('not_deleted');
 		}
 	}

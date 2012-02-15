@@ -33,7 +33,7 @@
 
 		function admin_view($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 			
 			$this->set('aco', $this->Aco->read(null, $id));

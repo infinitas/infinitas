@@ -51,7 +51,7 @@
 			}
 
 			else if(empty($category)){
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->set('title_for_layout', $category['GlobalCategory']['title']);
@@ -74,7 +74,7 @@
 
 		public function admin_view($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 			$this->set('category', $this->GlobalCategory->read(null, $id));
 		}
@@ -87,7 +87,7 @@
 
 		public function admin_delete($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$count = $this->GlobalCategory->find('count', array('conditions' => array('Category.parent_id' => $id)));

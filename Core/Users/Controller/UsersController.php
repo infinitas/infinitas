@@ -267,7 +267,7 @@
 		 */
 		public function activate($hash = null) {
 			if (!$hash){
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->User->id = $this->User->getTicket($hash);
@@ -505,7 +505,7 @@
 
 		public function admin_edit($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if (!empty($this->request->data)) {
@@ -515,10 +515,10 @@
 				}
 
 				if ($this->User->saveAll($this->request->data)) {
-					$this->Infinitas->noticeSaved();
+					$this->notice('saved');
 				}
 
-				$this->Infinitas->noticeNotSaved();
+				$this->notice('not_saved');
 			}
 
 			if ($id && empty($this->request->data)) {

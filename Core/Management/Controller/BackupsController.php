@@ -22,7 +22,7 @@
 
 		function admin_backup() {
 			if (!isset($this->params['named']['m'])) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$fullModel = $model = Inflector::classify($this->params['named']['m']);
@@ -71,7 +71,7 @@
 				);
 
 			if (empty($newLastId)) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if (isset($newLastId[$Model->name]['id']) && $this->Backup->last_id >= $newLastId[$Model->name]['id']) {
@@ -106,9 +106,9 @@
 
 			$this->Backup->create();
 			if ($this->Backup->save($data)) {
-				$this->Infinitas->noticeSaved();
+				$this->notice('saved');
 			}
 
-			$this->Infinitas->noticeNotSaved();
+			$this->notice('not_saved');
 		}
 	}

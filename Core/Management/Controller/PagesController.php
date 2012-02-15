@@ -42,24 +42,24 @@
 				$this->request->data['Page']['file_name'] = strtolower(Inflector::slug($this->request->data['Page']['name']));
 
 				if ($this->Page->save($this->request->data)){
-					$this->Infinitas->noticeSaved();
+					$this->notice('saved');
 				}
 
-				$this->Infinitas->noticeNotSaved();
+				$this->notice('not_saved');
 			}
 		}
 
 		public function admin_edit($filename){
 			if (!$filename){
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if (!empty($this->request->data)){
 				if ($this->Page->save($this->request->data)){
-					$this->Infinitas->noticeSaved();
+					$this->notice('saved');
 				}
 
-				$this->Infinitas->noticeNotSaved();
+				$this->notice('not_saved');
 			}
 
 			if ($filename && empty($this->request->data)){
@@ -80,7 +80,7 @@
 			}
 
 			if (empty($ids)) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			return $ids;
@@ -93,10 +93,10 @@
 			}
 
 			if ($delete) {
-				$this->Infinitas->noticeDeleted();
+				$this->notice('deleted');
 			}
 			else{
-				$this->Infinitas->noticeNotDeleted();
+				$this->notice('not_deleted');
 			}
 		}
 	}

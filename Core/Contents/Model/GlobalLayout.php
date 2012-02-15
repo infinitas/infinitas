@@ -24,6 +24,7 @@
 		 * @access public
 		 */
 		public $lockable = true;
+		
 		public $contentable = true;
 
 		/**
@@ -96,10 +97,12 @@
 		 * Before saving the record make sure that the model is set to the correct
 		 * value so that it will be linked up properly to the related rows.
 		 */
-		public function beforeSave($options){
-			$this->data['GlobalLayout']['model'] =
-				$this->data['GlobalLayout']['plugin'] . '.' . $this->data['GlobalLayout']['model'];
-			return true;
+		public function beforeSave($options) {
+			if(!empty($this->data['GlobalLayout']['model'])) {
+				$this->data['GlobalLayout']['model'] =
+					$this->data['GlobalLayout']['plugin'] . '.' . $this->data['GlobalLayout']['model'];
+				return true;
+			}
 		}
 
 		/**

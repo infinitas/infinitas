@@ -87,7 +87,7 @@
 
 		public function admin_toggle($id = null) {
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$data = $this->Campaign->find(

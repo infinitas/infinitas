@@ -29,12 +29,12 @@
 
 		public function edit($id = null){
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if (!empty($this->request->data)) {
 				if ($this->Address->save($this->request->data)) {
-					$this->Infinitas->noticeSaved();
+					$this->notice('saved');
 				}
 			}
 
