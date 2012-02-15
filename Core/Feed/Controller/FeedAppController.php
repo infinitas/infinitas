@@ -18,7 +18,5 @@
 	*/
 
 	class FeedAppController extends AppController {
-		var $helpers = array(
-			'Filter.Filter'
-		);
+		
 	}

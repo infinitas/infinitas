@@ -53,17 +53,7 @@
 	 */
 
 	class ContentsAppController extends AppController {
-		/**
-		 * before anything starts processing this fires to include the filter
-		 * helper
-		 *
-		 * @access public
-		 */
-		public function beforeFilter(){
-			parent::beforeFilter();
-			$this->helpers[] = 'Filter.Filter';
-			return true;
-		}
+		
 	}
 
 	/**

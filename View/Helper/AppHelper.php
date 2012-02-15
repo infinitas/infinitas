@@ -298,7 +298,7 @@
 		 */
 		public function adminIndexHead($filterOptions = array(), $massActions = null) {
 			if(!class_exists('FilterHelper')){
-				App::import('Helper', 'Filter.Filter');
+				App::uses('FilterHelper', 'Filter.View/Helper');
 			}
 
 			return sprintf(

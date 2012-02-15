@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class FilterEvents extends AppEvents{
+	final class FilterEvents extends AppEvents {
 		public function onRequireComponentsToLoad($event){
 			return array(
 				'Filter.Filter' => array(

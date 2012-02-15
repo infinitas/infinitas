@@ -20,6 +20,10 @@
 	 */
 
 	class NewsletterAppController extends AppController {
+		public $helpers = array(
+			'Newsletter.Letter'
+		);
+		
 		/**
 		 * beforeFilter callback
 		 *
@@ -33,13 +37,8 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 
-			$this->helpers[] = 'Filter.Filter';
-			$this->helpers[] = 'Newsletter.Letter';
-
-			$this->addCss(array('/newsletter/css/newsletter'));
 			// $this->set( 'newsletterPending', ClassRegistry::init( 'Newsletter.Newsletter' )->getPending() );
 			// $this->set( 'newsletterSending', ClassRegistry::init( 'Newsletter.Newsletter' )->getSending() );
-			return true;
 		}
 
 		public function beforeRender() {

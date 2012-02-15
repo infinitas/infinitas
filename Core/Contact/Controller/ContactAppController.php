@@ -75,13 +75,12 @@
 		 * @access public
 		 */
 		public $helpers = array(
-			'Filter.Filter',
 			'Contact.Vcf',
 			'Html',
 			'Google.StaticMap'
 		);
 
-		function beforeFilter(){
+		public function beforeFilter(){
 			parent::beforeFilter();
 
 			$this->RequestHandler->setContent('vcf', 'text/x-vcard');

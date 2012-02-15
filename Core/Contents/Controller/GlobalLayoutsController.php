@@ -5,14 +5,6 @@
 	 */
 	class GlobalLayoutsController extends ContentsAppController {
 		/**
-		 * Helpers.
-		 *
-		 * @access public
-		 * @var array
-		 */
-		public $helpers = array('Filter.Filter');
-
-		/**
 		 * Its pointless trying to use a wysiwyg here, so we will just put if off
 		 * completely for the layouts.
 		 */

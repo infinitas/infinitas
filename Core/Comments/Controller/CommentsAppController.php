@@ -116,7 +116,6 @@
 		 * @access public
 		 */
 		public $helpers = array(
-			'Filter.Filter',
 			'Libs.Gravatar'
 		);
 	}

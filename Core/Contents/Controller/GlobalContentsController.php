@@ -1,9 +1,5 @@
 <?php
 	class GlobalContentsController extends ContentsAppController {
-		public $helpers = array(
-			'Filter.Filter'
-		);
-
 		public function admin_dashboard() {
 
 		}

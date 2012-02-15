@@ -1,9 +1,5 @@
 <?php
 	class PluginsController extends InstallerAppController {
-		public $helpers = array(
-			'Filter.Filter'
-		);
-
 		public function admin_dashboard(){
 			
 		}
