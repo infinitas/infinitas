@@ -18,8 +18,8 @@
 		public function admin_add(){
 			parent::admin_add();
 
-			if(empty($this->data)){
-				$this->data['EmailAccount'] = array(
+			if(empty($this->request->data)){
+				$this->request->data['EmailAccount'] = array(
 					'name' => sprintf(__('%s\'s mail'), $this->Session->read('Auth.User.username')),
 					'server' => sprintf('mail.%s', env('HTTP_HOST')),
 					'username' => sprintf('%s@%s', $this->Session->read('Auth.User.username'), env('HTTP_HOST')),

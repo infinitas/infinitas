@@ -5,7 +5,7 @@
 		);
 
 		public function admin_dashboard() {
-			
+
 		}
 
 		public function admin_index() {
@@ -39,7 +39,7 @@
 				'duplicateData',
 				array('conditions' => $this->Filter->filter)
 			);
-			
+
 			$this->set('contents', $this->paginate());
 		}
 
@@ -50,15 +50,15 @@
 				'title',
 				'layout_id' => $this->GlobalContent->GlobalLayout->find('list')
 			);
-			
+
 			$this->set(compact('filterOptions'));
 		}
 
 		public function admin_transfer(){
-			if(!empty($this->data)){
-				if(isset($this->data['GlobalContent']['plugin']) && isset($this->data['GlobalContent']['model'])){
-					$model = sprintf('%s.%s', $this->data['GlobalContent']['plugin'], $this->data['GlobalContent']['model']);
-					$return = $this->GlobalContent->moveContent($model, $this->data['GlobalContent']['rows_to_move']);
+			if(!empty($this->request->data)){
+				if(isset($this->request->data['GlobalContent']['plugin']) && isset($this->request->data['GlobalContent']['model'])){
+					$model = sprintf('%s.%s', $this->request->data['GlobalContent']['plugin'], $this->request->data['GlobalContent']['model']);
+					$return = $this->GlobalContent->moveContent($model, $this->request->data['GlobalContent']['rows_to_move']);
 					if($return){
 						if($return['moved'] == 0  && $return['total'] == 0){
 							$this->notice(
@@ -123,7 +123,7 @@
 				'list',
 				array(
 					'conditions' => array(
-						'GlobalLayout.model' => $this->data['GlobalContent']['model']
+						'GlobalLayout.model' => $this->request->data['GlobalContent']['model']
 					)
 				)
 			);

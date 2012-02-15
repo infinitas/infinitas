@@ -50,7 +50,7 @@
 		public function admin_edit($id){
 			parent::admin_edit($id);
 			$themes = $this->__listThemes();
-			$themes[$this->data['Theme']['name']] = $this->data['Theme']['name'];
+			$themes[$this->request->data['Theme']['name']] = $this->request->data['Theme']['name'];
 			$this->set(compact('themes'));
 		}
 
@@ -58,14 +58,14 @@
 			$Folder = new Folder(APP . 'views' . DS . 'themed');
 			$folders = $Folder->read();
 			unset($Folder);
-			
+
 			$themes = array();
 			$exsitingThemes = $this->Theme->find('list');
 			foreach($folders[0] as $theme){
 				if(in_array($theme, $exsitingThemes)){
 					continue;
 				}
-				
+
 				$themes[$theme] = Inflector::humanize($theme);
 			}
 
@@ -95,7 +95,7 @@
 			if ($this->Theme->deactivateAll()) {
 				return $this->MassAction->toggle($ids);
 			}
-			
+
 			$this->notice(
 				__('There was a problem deactivating the other theme'),
 				array(

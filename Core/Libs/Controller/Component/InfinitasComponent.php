@@ -33,11 +33,10 @@
 		/**
 		* Controllers initialize function.
 		*/
-		public function initialize($Controller, $settings = array()) {
+		public function initialize($Controller) {
 			$this->Controller = $Controller;
-			
+
 			Configure::write('CORE.current_route', Router::currentRoute());
-			$settings = array_merge(array(), (array)$settings);
 
 			$this->__registerPlugins();
 
@@ -104,20 +103,20 @@
 		 */
 		public function paginationHardLimit($limit = null, $return = false){
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
-				$this->Controller->params['named']['limit'] = Configure::read('Global.pagination_limit');
+				$this->Controller->request->params['limit'] = Configure::read('Global.pagination_limit');
 
 				$this->Controller->notice(
 					__('You requested to many records, defaulting to site maximum'),
 					array(
 						'redirect' => array(
-							'plugin'	 => $this->Controller->params['plugin'],
-							'controller' => $this->Controller->params['controller'],
-							'action'	 => $this->Controller->params['action']
+							'plugin'	 => $this->Controller->request->params['plugin'],
+							'controller' => $this->Controller->request->params['controller'],
+							'action'	 => $this->Controller->request->params['action']
 						) + (array)$this->Controller->params['named']
 					)
 				);
 			}
-			
+
 			return (int)$limit;
 		}
 
@@ -300,11 +299,11 @@
 		 */
 		private function __checkBadLogins(){
 			return true;
-			
+
 			if($this->Controller->Auth->user('id')) {
 				return true;
 			}
-			
+
 			$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 
 			if (count($old) > 0) {
@@ -334,22 +333,20 @@
 		 * Define some things that auth needs to work
 		 */
 		function _setupAuth() {
-			return true;
-			$this->Controller->Auth->allow('*');
-			//$this->Auth->allow('display');
+			//$this->Controller->Auth->allow();
+			$this->Controller->Auth->allow('display');
 
-			if (!isset($this->Controller->params['prefix']) || $this->Controller->params['prefix'] != 'admin') {
-				$this->Controller->Auth->allow('*');
+			if (!isset($this->Controller->request->params['prefix']) || $this->Controller->request->params['prefix'] != 'admin') {
+				$this->Controller->Auth->allow();
 			}
-			$this->Controller->Auth->actionPath   = 'controllers/';
-			$this->Controller->Auth->authorize	= 'actions';
+
+			//$this->Controller->Auth->authorize	= array('Actions' => array('actionPath' => 'controllers/'));
 			$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
 			if(Configure::read('Website.login_type') == 'email'){
 				$this->Controller->fields = array('username' => 'email', 'password' => 'password');
 			}
 
-			$this->Controller->Auth->autoRedirect = false;
 			$this->Controller->Auth->loginRedirect = '/';
 
 			if (isset($this->Controller->params['prefix']) && $this->Controller->params['prefix'] == 'admin') {
@@ -382,7 +379,7 @@
 			if(is_array($event) && !empty($event)) {
 				$this->Controller->addJs(current($event));
 			}
-			
+
 			$libs = array();
 			$event = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
 			if(isset($event['requireCssToLoad']['libs'])) {
@@ -402,7 +399,7 @@
 			if($this->Controller->RequestHandler->isAjax()){
 				return false;
 			}
-			
+
 			$infinitasJsData['base']	= $this->Controller->request->base;
 			$infinitasJsData['here']	= $this->Controller->request->here;
 			$infinitasJsData['plugin']	= $this->Controller->request->params['plugin'];
@@ -446,7 +443,7 @@
 
 			$message = false;
 
-			switch($this->Controller->params['named']['direction']) {
+			switch($this->Controller->request->params['direction']) {
 				case 'up':
 					$message = __('The record was moved up');
 					if (!$this->Controller->{$model}->moveUp($this->Controller->{$model}->id, abs(1))) {
@@ -469,7 +466,7 @@
 					$message = __('Error occured reordering the records');
 					break;
 			} // switch
-			
+
 			$this->Controller->notice($message, array('redirect' => false));
 
 			return true;
@@ -482,19 +479,19 @@
 		 */
 		function _orderedMove(){
 			$modelName = $this->Controller->modelClass;
-			
+
 			$orderable = isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) &&
 				!empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']);
 
 			if ($orderable) {
-				$this->Controller->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] =
+				$this->Controller->request->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] =
 					$this->Controller->params['named']['position'];
 			}
 			else{
-				$this->Controller->data[$modelName]['ordering'] = $this->Controller->params['named']['position'];
+				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->params['position'];
 			}
 
-			if (!$this->Controller->{$modelName}->save($this->Controller->data)) {
+			if (!$this->Controller->{$modelName}->save($this->Controller->request->data)) {
 				$this->Controller->notice(
 					__('The record could not be moved'),
 					array(
@@ -627,7 +624,7 @@
 				)
 			);
 		}
-		
+
 		/**
 		 * lazy invalid action for times when the user should not be doing that
 		 *

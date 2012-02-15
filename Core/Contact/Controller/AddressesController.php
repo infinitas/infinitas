@@ -10,17 +10,17 @@
 				);
 			}
 
-			if (!empty($this->data)) {
+			if (!empty($this->request->data)) {
 				$this->Address->create();
-				if ($this->Address->saveAll($this->data)) {
+				if ($this->Address->saveAll($this->request->data)) {
 					$this->Infintias->noticeSaved();
 					$this->redirect('/');
 				}
 			}
 
-			$this->data['Address']['plugin'] = 'management';
-			$this->data['Address']['model'] = 'user';
-			$this->data['Address']['foreign_key'] = $this->Session->read('Auth.User.id');
+			$this->request->data['Address']['plugin'] = 'management';
+			$this->request->data['Address']['model'] = 'user';
+			$this->request->data['Address']['foreign_key'] = $this->Session->read('Auth.User.id');
 
 			$countries = $this->Address->Country->find('list');
 			$continents = array(0 => 'Other', 1 => 'Africa');
@@ -32,14 +32,14 @@
 				$this->Infinitas->noticeInvalidRecord();
 			}
 
-			if (!empty($this->data)) {
-				if ($this->Address->save($this->data)) {
+			if (!empty($this->request->data)) {
+				if ($this->Address->save($this->request->data)) {
 					$this->Infinitas->noticeSaved();
 				}
 			}
 
-			if ($id && empty($this->data)) {
-				$this->data = $this->Address->read(null, $id);
+			if ($id && empty($this->request->data)) {
+				$this->request->data = $this->Address->read(null, $id);
 			}
 
 			$countries = $this->Address->Country->find('list');
@@ -53,7 +53,7 @@
 					'Country'
 				)
 			);
-			
+
 			$addresses = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
