@@ -60,7 +60,7 @@
 
 			$expected = array('United Kingdom', '_Sales', '_Marketing', '_R&D', 'Belgium', '_Sales', '_Marketing', '_R&D');
 			$this->assertTrue($this->ScopedNumberTree->treeSave($data, array('scope' => 'cat-new')));
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-new'))));			
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-new'))));			
 			
 			//This shouldnt have changed
 			$this->assertEqual($numChildrenCatA, count($this->ScopedNumberTree->children(array('id' => false, 'scope' => 'cat-a'))));
@@ -132,7 +132,7 @@
 			
 			//Check the structure after all the changes
 			$expected = array('1 Root', '_1.1 Node', '__1.1.1 Node (edited)', '_1.2 Node (edited)', '__1.2.1 Node', '__1.2.2 Node', '_1.3 Node', '__1.3.1 node', '__1.3.2 node', '2 Root', '3 Root');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			//Verify trees after saving a bunch of new nodes
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
@@ -146,13 +146,13 @@
 			$this->ScopedNumberTree->id = 'cat-a-1-2-1';
 			$this->assertTrue($this->ScopedNumberTree->delete());
 			$expected = array('1 Root', '_1.1 Node', '_1.2 Node', '__1.2.2 Node', '__1.2.3 Node', '_1.3 Node', '2 Root');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			//Try to delete a node with children
 			$this->ScopedNumberTree->id = 'cat-a-1-2';
 			$this->assertTrue($this->ScopedNumberTree->delete());
 			$expected = array('1 Root', '_1.1 Node', '_1.3 Node', '2 Root');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			
 			//Verify trees after deleting a bunch of new nodes
@@ -180,22 +180,22 @@
 			//Move node down
 			$this->assertTrue($this->ScopedNumberTree->movedown('cat-a-1-2', 1));
 			$expected = array('1 Root', '_1.1 Node', '_1.3 Node', '_1.2 Node', '__1.2.1 Node', '__1.2.2 Node', '__1.2.3 Node', '2 Root');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			//Move it back up
 			$this->assertTrue($this->ScopedNumberTree->moveup('cat-a-1-2', 1));
 			$expected = array('1 Root', '_1.1 Node', '_1.2 Node', '__1.2.1 Node', '__1.2.2 Node', '__1.2.3 Node', '_1.3 Node', '2 Root');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			//Remove a node to the root level
 			$this->assertTrue($this->ScopedNumberTree->removefromtree('cat-a-1-2-3'));
 			$expected = array('1 Root', '_1.1 Node', '_1.2 Node', '__1.2.1 Node', '__1.2.2 Node', '_1.3 Node', '2 Root', '1.2.3 Node');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			//Remove a node completely
 			$this->assertTrue($this->ScopedNumberTree->removefromtree('cat-a-1-2-2', true));
 			$expected = array('1 Root', '_1.1 Node', '_1.2 Node', '__1.2.1 Node', '_1.3 Node', '2 Root', '1.2.3 Node');
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-a'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-a'))));
 			
 			
 			//Verify trees after deleting a bunch of new nodes
@@ -281,12 +281,12 @@
 
 			$expected = array('A', 'D', 'C', 'B', '_BC', '__BCB', '__BCA', '_BA', '_BB');
 			$this->assertTrue($this->ScopedNumberTree->treeSave($tree, array('scope' => 'cat-letters')));
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-letters'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-letters'))));
 	
 			//Reorder on name	
 			$expected = array('A', 'B', '_BA', '_BB', '_BC', '__BCA', '__BCB', 'C', 'D');
 			$this->assertTrue($this->ScopedNumberTree->reorder(array('scope' => 'cat-letters', 'field' => 'name', 'id' => array('id' => false, 'scope' => 'cat-letters'))));
-			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generatetreelist(array('ScopedNumberTree.category_id' => 'cat-letters'))));
+			$this->assertEqual($expected, array_values($this->ScopedNumberTree->generateTreeList(array('ScopedNumberTree.category_id' => 'cat-letters'))));
 
 			//Verify trees after doing lookups
 			$validTree = $this->ScopedNumberTree->verify('cat-a');
@@ -331,7 +331,7 @@
 				'__Category C - 3 - 1'
 			);
 			$this->assertTrue($this->ScopedCounterNumberTree->treeSave($tree, array('scope' => 'test-cat')));
-			$this->assertEqual($expected, array_values($this->ScopedCounterNumberTree->generatetreelist(array('ScopedCounterNumberTree.category_id' => 'test-cat'))));
+			$this->assertEqual($expected, array_values($this->ScopedCounterNumberTree->generateTreeList(array('ScopedCounterNumberTree.category_id' => 'test-cat'))));
 			
 			$children = $this->ScopedCounterNumberTree->children(array('id' => false, 'scope' => 'test-cat'), false, array('id', 'name', 'children_count', 'direct_children_count'));
 			$childrenIds = Set::combine($children, '/ScopedCounterNumberTree/name', '/ScopedCounterNumberTree/id');

@@ -51,7 +51,7 @@
 					$event->Handler->Behaviors->attach('Libs.Rateable');
 				}
 
-				if($event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))){
+				if($event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))) {
 					$event->Handler->Behaviors->attach('Tree');
 				}
 

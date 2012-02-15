@@ -64,7 +64,7 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'title',
-				'parent_id' => array(null => __('All'), 0 => __('Top Level Categories')) + $this->GlobalCategory->generatetreelist(),
+				'parent_id' => array(null => __('All'), 0 => __('Top Level Categories')) + $this->GlobalCategory->generateTreeList(),
 				'group_id' => array(null => __('Public')) + $this->GlobalCategory->Group->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
 			);

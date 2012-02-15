@@ -80,10 +80,10 @@
 		 * @param object $Model the model that the behavior is affecting
 		 * @access public
 		 *
-		 * @return array nested list of categories. TreeBehavior::generatetreelist
+		 * @return array nested list of categories. TreeBehavior::generateTreeList
 		 */
 		public function generateCategoryList($Model) {
-			return $Model->GlobalCategory->generatetreelist();
+			return $Model->GlobalCategory->generateTreeList();
 		}
 
 		/**

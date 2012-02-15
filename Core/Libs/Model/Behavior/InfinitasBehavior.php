@@ -606,11 +606,11 @@
 		 * @return mixed the string/int id of the root record or false on error
 		 */
 		public function getRootNode($Model, $conditions = array()){
-			if(!is_callable(array($Model, 'generatetreelist'))){
+			if(!is_callable(array($Model, 'generateTreeList'))){
 				return false;
 			}
 
-			$data = $Model->generatetreelist($conditions, null, null, '@', -1);
+			$data = $Model->generateTreeList($conditions, null, null, '@', -1);
 
 			$roots = array();
 			foreach($data as $id => $name){

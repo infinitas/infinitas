@@ -221,13 +221,13 @@
 		 * @param integer $recursive The number of levels deep to fetch associated records
 		 * @return array An associative array of records, where the id is the key, and the display field is the value
 		 * @access public
-		 * @link http://book.cakephp.org/view/1348/generatetreelist
+		 * @link http://book.cakephp.org/view/1348/generateTreeList
 		 */
-		public function generatetreelist($Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
+		public function generateTreeList($Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model, $conditions);		
 			}
-			return parent::generatetreelist($Model, $conditions, $keyPath, $valuePath, $spacer, $recursive);
+			return parent::generateTreeList($Model, $conditions, $keyPath, $valuePath, $spacer, $recursive);
 		}
 
 		/**
