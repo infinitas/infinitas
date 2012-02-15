@@ -20,7 +20,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	App::uses('Mustache', 'Libs.Mustache');
+	App::uses('Mustache', 'Libs.Lib');
 
 	class InfinitasView extends View {
 		/**
@@ -42,7 +42,7 @@
 		 * get the
 		 */
 		public function __construct($Controller, $register = true) {
-			//$this->Mustache = new Mustache();
+			$this->Mustache = new Mustache();
 			parent::__construct($Controller, $register);
 
 			$this->__setJsVariables();
@@ -62,35 +62,44 @@
 		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
 			$out = parent::_render($viewFile, $data);
-			// only on for admin or it renders the stuff in the editor which is pointless
-			// could maybe just turn it off for edit or some other work around
-			if(!isset($this->params['admin'])){
-				$this->params['admin'] = false;
-			}
-			
-			if($this->Mustache !== null && !$this->params['admin']){
-				if(empty($this->__mustacheTemplates)){
-					$this->__mustacheTemplates = array_filter(current($this->Event->trigger('requireGlobalTemplates')));
-				}
-				
-				foreach($this->__mustacheTemplates as $plugin => $template){
-					$this->__vars['viewVars'][Inflector::classify($plugin) . 'Template'] = $template;
-				}
-
-				//$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
-				$this->__vars['viewVars']  = $this->viewVars;
-				$this->__vars['params']	= $this->params;
-
-				if(Configure::read('debug') < 1){
-					unset($this->params['url']['mustache']);
-				}
-				
-				if(!isset($this->params['url']['mustache']) || $this->params['url']['mustache'] != 'false' && strstr($___viewFn, 'front.ctp')){
-					$out = $this->Mustache->render($out, $this->__vars['viewVars']);
-				}
-			}
+			$this->__renderMustache($out);
 			
 			return $out;
+		}
+
+		private function __renderMustache(&$out) {
+			if(Configure::read('debug') < 1){
+				unset($this->request['url']['mustache']);
+			}
+
+			
+			if($this->__skipMustacheRender()) {
+				return;
+			}
+			
+			if(empty($this->__mustacheTemplates)){
+				$this->__mustacheTemplates = array_filter(current($this->Event->trigger('requireGlobalTemplates')));
+			}
+
+			foreach($this->__mustacheTemplates as $plugin => $template) {
+				$this->__vars['viewVars'][Inflector::classify($plugin) . 'Template'] = $template;
+			}
+
+			$this->__vars['viewVars']  = &$this->viewVars;
+			$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
+			$this->__vars['params']	= &$this->params;
+
+			$out = $this->Mustache->render($out, $this->__vars['viewVars']);
+		}
+
+
+		/**
+		 * only on for admin or it renders the stuff in the editor which is pointless
+		 * could maybe just turn it off for edit or some other work around
+		 */
+		private function __skipMustacheRender() {
+			return !($this->request->params['admin'] || !($this->Mustache instanceof Mustache) ||
+				(isset($this->request['url']['mustache']) && $this->request['url']['mustache'] == 'false'));
 		}
 
 		private function __loadHelpers() {
