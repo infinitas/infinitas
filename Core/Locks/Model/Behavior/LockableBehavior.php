@@ -103,9 +103,11 @@
 		 * @var array $results the data that was found
 		 * @var bool $primary is it the main model doing the find
 		 */
-		public function afterFind($Model, $results, $primary){
-			if($Model->findQueryType != 'first' || !$primary || empty($results)){
-				if($Model->findQueryType != 'all') {
+		public function afterFind($Model, $results, $primary) {
+			$Session = new CakeSession();
+			$this->userId = $Session->read('Auth.User.id');
+			if(!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)){
+				if($this->userId || $Model->findQueryType != 'all') {
 					return $results;
 				}
 
@@ -119,9 +121,6 @@
 
 			if(isset($results[0][$Model->alias][$Model->primaryKey])) {
 				$Lock = ClassRegistry::init('Locks.Lock');
-
-				$Session = new CakeSession();
-				$this->userId = $Session->read('Auth.User.id');
 				$lock = $Lock->find(
 					'all',
 					array(
