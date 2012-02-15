@@ -20,4 +20,4 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	echo $this->element('modules/latest_news', array('plugin' => 'feed', 'feeds' => $feeds));
+	echo $this->ModuleLoader->loadDirect('Feed.latest_news', array('feeds' => $feeds));

@@ -87,4 +87,4 @@
 	<?php echo $this->Design->arrayToList(current((array)$reportIcons), 'icons'); ?>
 </div>
 <?php
-	echo $this->element('modules/admin/new_content', array('plugin' => 'contents'));
+	echo $this->ModuleLoader->loadDirect('Contents.new_content');

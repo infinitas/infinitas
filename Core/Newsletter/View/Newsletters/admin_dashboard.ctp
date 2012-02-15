@@ -133,10 +133,9 @@
 	<p class="info"><?php echo Configure::read('Newsletter.info.config'); ?></p>
 </div>
 <?php
-	echo $this->element(
-		'modules/admin/popular_items',
+	echo $this->ModuleLoader->loadDirect(
+		'ViewCounter.popular_items',
 		array(
-			'plugin' => 'view_counter',
 			'model' => 'Newsletter.Newsletter'
 		)
 	);

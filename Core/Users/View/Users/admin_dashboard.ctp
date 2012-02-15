@@ -34,4 +34,4 @@
 	<ul class="icons"><li><?php echo implode('</li><li>', current((array)$dashboardIcons)); ?></li></ul>
 </div>
 <?php
-	echo $this->element('modules/admin/registrations', array('plugin' => 'users'));
+	echo $this->ModuleLoader->loadDirect('Users.registrations');

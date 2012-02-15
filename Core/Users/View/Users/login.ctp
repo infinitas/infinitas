@@ -1,2 +1,2 @@
 <?php
-	echo $this->element('modules/login');
+	echo $this->ModuleLoader->loadDirect('Users.login');
