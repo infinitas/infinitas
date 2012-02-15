@@ -19,6 +19,7 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
+				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Trash' => array('controller' => 'trash', 'action' => 'index')
 			);
 

@@ -15,6 +15,7 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
+				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Themes' => array('controller' => false, 'action' => false),
 				'Default Theme' => array('controller' => 'themes', 'action' => 'index', 'Theme.active' => 1)
 			);

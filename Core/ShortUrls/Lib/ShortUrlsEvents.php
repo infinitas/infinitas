@@ -21,6 +21,7 @@
 	final class ShortUrlsEvents extends AppEvents{
 		public function onAdminMenu($event){
 			$menu['main'] = array(
+				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Short Urls' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
 			);
 

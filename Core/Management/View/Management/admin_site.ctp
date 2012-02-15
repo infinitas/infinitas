@@ -55,13 +55,6 @@
 			'icon' => '/trash/img/icon.png',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'trash', 'controller' => 'trash', 'action' => 'index')
-		),
-		array(
-			'name' => 'Webmaster',
-			'description' => 'Manage your sites robots files and sitemaps',
-			'icon' => '/webmaster/img/icon.png',
-			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'webmaster', 'controller' => 'webmaster', 'action' => 'dashboard')
 		)
 	);
 
