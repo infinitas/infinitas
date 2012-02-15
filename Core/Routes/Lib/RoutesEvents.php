@@ -8,7 +8,7 @@
 				'author' => 'Infinitas'
 			);
 		}
-		
+
 		public function onSetupConfig(){
 		}
 
@@ -23,9 +23,9 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
-				'Routes' => array('controller' => 'routes', 'action' => 'index'),
-				'Active' => array('controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
-				'Disabled' => array('controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
+				'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index'),
+				'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
+				'Disabled' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
 			);
 
 			return $menu;
