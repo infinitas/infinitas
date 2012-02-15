@@ -21,6 +21,8 @@
 	 */
 
 	class IpAddress extends ManagementAppModel {
+		public $useTable = 'core_ip_addresses';
+
 		public $displayField = 'ip_address';
 
 		/**

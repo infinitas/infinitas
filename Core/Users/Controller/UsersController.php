@@ -115,7 +115,7 @@
 			}
 
 			if (!(empty($this->request->data)) && !$this->Auth->user()) {
-				$this->Infinitas->badLoginAttempt($this->request->data['User']);
+				$this->InfinitasSecurity->badLoginAttempt($this->request->data['User']);
 				$this->notice(__('Your login details have not been recognised'), array('level' => 'warning'));
 			}
 		}
@@ -419,31 +419,36 @@
 
 			$this->_createCookie();
 
-			if($this->Auth->login()){
-				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
-				$data = $this->_getUserData();
+			if($this->request->data) {
+				if($this->Auth->login()) {
+					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
+					$data = $this->_getUserData();
 
-				if ($this->User->save($data)) {
-					$currentUser = $this->Session->read('Auth.User');
+					if ($this->User->save($data)) {
+						$currentUser = $this->Session->read('Auth.User');
 
-					// there is something wrong
-					if ($lastLogon === false) {
-						$this->redirect('/logout');
+						// there is something wrong
+						if ($lastLogon === false) {
+							$this->redirect('/logout');
+						}
+
+						$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
+						$this->notice(
+							sprintf(
+								__('Welcome back %s, your last login was from %s, %s on %s. (%s)'),
+								$currentUser['username'],
+								$lastLogon['User']['country'],
+								$lastLogon['User']['city'],
+								$lastLogon['User']['last_login'],
+								$lastLogon['User']['ip_address']
+							)
+						);
 					}
-
-					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
-					$this->notice(
-						sprintf(
-							__('Welcome back %s, your last login was from %s, %s on %s. (%s)'),
-							$currentUser['username'],
-							$lastLogon['User']['country'],
-							$lastLogon['User']['city'],
-							$lastLogon['User']['last_login'],
-							$lastLogon['User']['ip_address']
-						)
-					);
+					$this->redirect($this->Auth->redirect());
 				}
-				$this->redirect($this->Auth->redirect());
+
+				// bad login
+				$this->InfinitasSecurity->badLoginAttempt($this->request->data['User']);
 			}
 
 			if($this->Auth->user()) {
