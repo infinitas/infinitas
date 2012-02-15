@@ -1,17 +1,17 @@
 <?php
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
-	
+
 	class GlobalContentsComponent extends InfinitasComponent {
 		private $__methods = array(
 			'admin_edit',
 			'admin_add'
 		);
-		
+
 		public function beforeRender($Controller) {
-			if(empty($Controller->{$Controller->modelClass})) {
+			if(empty($Controller->uses)) {
 				return true;
 			}
-			
+
 			$isContentable = isset($Controller->{$Controller->modelClass}->contentable) && $Controller->{$Controller->modelClass}->contentable;
 			if($isContentable && in_array($Controller->params['action'], $this->__methods)) {
 				$this->__setFormVariables($Controller);
@@ -45,7 +45,7 @@
 					$Model->ContentAuthor->alias . '.' . $Model->ContentAuthor->displayField,
 				)
 			);
-			
+
 			$Controller->set('contentGroups', $Model->Group->find('list'));
 			$Controller->set('contentAuthors', $authors);
 			$Controller->set('contentLayouts', $Model->GlobalLayout->find('list'));

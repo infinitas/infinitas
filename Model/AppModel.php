@@ -1,5 +1,5 @@
 <?php
-	
+
 	/**
 	 * @page AppModel AppModel
 	 *
@@ -38,7 +38,7 @@
 	 * are available from this class as if they were in your model.
 	 *
 	 * @code
-	 *	$this->someMethod(); 
+	 *	$this->someMethod();
 	 * @endcode
 	 *
 	 * @section app_model-see-also Also see
@@ -50,7 +50,7 @@
 
 	/**
 	 * @brief main model class to extend
-	 * 
+	 *
 	 * AppModel is the base Model that all models should extend, unless you are
 	 * doing something completely different.
 	 *
@@ -59,7 +59,7 @@
 	 * @package Infinitas
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
-	 * 
+	 *
 	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
@@ -96,7 +96,7 @@
 		 * @var string
 		 * @access public
 		 */
-		public $actsAs = array(			
+		public $actsAs = array(
 			'Libs.Infinitas',
 			'Events.Event'
 		);
@@ -120,7 +120,7 @@
 
 		/**
 		 * Plugin that the model belongs to.
-		 * 
+		 *
 		 * @var string
 		 * @access public
 		 */
@@ -146,7 +146,7 @@
 		 * @link http://api13.cakephp.org/class/model#method-Model__construct
 		 *
 		 * @throw E_USER_WARNING if the model is using AppModel for a virtual model.
-		 * 
+		 *
 		 * @param mixed $id Set this ID for this model on startup, can also be an array of options, see Model::__construct().
 		 * @param string $table Name of database table to use.
 		 * @param string $ds DataSource connection name.
@@ -156,11 +156,8 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
-			
-			if(empty($this->useTable)) {
-				$this->useTable = Inflector::tableize(get_class($this));
-			}
 
+			parent::__construct($id, $table, $ds);
 			if($this->tablePrefix != ''){
 				$config = $this->getDataSource()->config;
 
@@ -169,12 +166,10 @@
 				}
 			}
 
-			parent::__construct($id, $table, $ds);
-
 			$this->findMethods['paginatecount'] = true;
 
 			$this->__setupDatabaseConnections();
-			
+
 			$thisClass = get_class($this);
 
 			$ignore = array(
@@ -230,7 +225,7 @@
 		 * @brief called after something is deleted.
 		 *
 		 * @link http://api13.cakephp.org/class/model#method-ModelafterDelete
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @return void
@@ -273,7 +268,7 @@
 
 		/**
 		 * @brief get a unique list of any model field, used in the search
-		 * 
+		 *
 		 * @param string $displayField the field to search by
 		 * @param bool $primaryKey if true will return array(id, field) else array(field, field)
 		 * @access public
@@ -345,7 +340,7 @@
 
 		/**
 		 * @brief add connection to the connection manager
-		 * 
+		 *
 		 * allow plugins to use their own db configs. If there is a conflict,
 		 * eg: a plugin tries to set a config that alreay exists an error will
 		 * be thrown and the connection will not be created.
@@ -387,7 +382,7 @@
 				$connection = current($connection);
 
 				$alreadyUsed = strtolower($key) == 'default' || in_array($key, ConnectionManager::sourceList());
-					
+
 				if($alreadyUsed){
 					throw new Exception(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping'), $key, $plugin));
 					continue;
@@ -416,7 +411,7 @@
 		 *	// commit the sql if all is good
 		 *	$this->transaction(true);
 		 * @endcode
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @param mixed $action what the command should do
@@ -425,7 +420,7 @@
 		 */
 		public function transaction($action = null){
 			$this->__dataSource = $this->getDataSource();
-			
+
 			$return = false;
 
 			if($action === null){
@@ -442,33 +437,33 @@
 
 			return $return;
 		}
-		
+
 		/**
 		 * @auto bind models that can be contained
-		 * 
+		 *
 		 * This is used for polymorphic type relations and will auto bind the relations
 		 * to the model. you can then contain any of them in the finds so that the
 		 * related data is availble in your views
-		 * 
-		 * the field saving the models should be plugin.model format in the 
+		 *
+		 * the field saving the models should be plugin.model format in the
 		 * database so they can be loaded correctly
-		 * 
+		 *
 		 * @access public
-		 *  
+		 *
 		 * @param string $field the field that holds the model name
 		 * @param sting $foreignKey the field used to hold the foreign key for the join
 		 * @param array $conditions optional conditions for the join
 		 * @param array $defaultContains optional array of default contains to use
-		 * 
+		 *
 		 * @return array list of available contains that you can now use
 		 */
 		public function buildContainsFromData($field = 'model', $foreignKey = 'foreign_key', $conditions = array(), $defaultContains = array()) {
 			if(!$this->hasField($field)) {
 				return false;
 			}
-			
+
 			$models = array_unique(array_merge($defaultContains, array_filter($this->uniqueList($field))));
-			
+
 			$this->possibleContains = array('');
 			foreach($models as $model) {
 				list($pluginName, $modelName) = pluginSplit($model);
@@ -484,12 +479,12 @@
 					),
 					false
 				);
-				
+
 				$this->possibleContains[] = $modelName;
 			}
-			
+
 			$this->possibleContains = array_filter($this->possibleContains);
-			
+
 			return $this->possibleContains;
 		}
 
@@ -555,5 +550,5 @@
 			}
 		}
 	}
-	
+
 	EventCore::trigger(new stdClass(), 'loadAppModel');
