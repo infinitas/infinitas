@@ -37,12 +37,12 @@
 				return true;
 			}
 			
-			if(isset($Controller->data['Lock']['user_id']) && $Controller->data['Lock']['user_id'] != $this->Session->read('Auth.User.id')){
+			if(isset($Controller->request->data['Lock']['user_id']) && $Controller->request->data['Lock']['user_id'] != $Controller->Session->read('Auth.User.id')){
 				$Controller->notice(
 					sprintf(
 						__('The %s you requested has been locked by %s'), 
 						$Controller->prettyModelName,
-						$Controller->data['Locker']['username']
+						$Controller->request->data['Locker']['username']
 					),
 					array(
 						'redirect' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'locked')
