@@ -126,8 +126,6 @@
 		public function featured($record = array(), $model = 'Feature'){
 			$record = array_filter($record[$model]);
 			if (empty($record)){
-				$this->messages[] = 'This has no featured items.';
-
 				return $this->Html->image(
 					$this->Image->getRelativePath('status', 'not-featured'),
 					array(
