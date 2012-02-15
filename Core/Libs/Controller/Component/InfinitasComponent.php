@@ -556,13 +556,8 @@
 		 *
 		 * see AppController::notice()
 		 */
-		public function noticeSaved(){
-			$this->Controller->notice(
-				sprintf(__('Your %s was saved'), Inflector::singularize($this->Controller->prettyModelName)),
-				array(
-					'redirect' => ''
-				)
-			);
+		public function noticeSaved() {
+			throw new Exception('Depreciated, use $this->notice(saved);');
 		}
 
 		/**
@@ -570,13 +565,8 @@
 		 *
 		 * see AppController::notice()
 		 */
-		public function noticeNotSaved(){
-			$this->Controller->notice(
-				sprintf(__('There was a problem saving your %s'), Inflector::singularize($this->Controller->prettyModelName)),
-				array(
-					'level' => 'warning'
-				)
-			);
+		public function noticeNotSaved() {
+			throw new Exception('Depreciated, use $this->notice(not_saved);');
 		}
 
 		/**
@@ -584,14 +574,8 @@
 		 *
 		 * see AppController::notice()
 		 */
-		public function noticeInvalidRecord(){
-			$this->Controller->notice(
-				sprintf(__('Invalid %s selected, please try again'), $this->Controller->prettyModelName),
-				array(
-					'level' => 'error',
-					'redirect' => true
-				)
-			);
+		public function noticeInvalidRecord() {
+			throw new Exception('Depreciated, use $this->notice(invalid);');
 		}
 
 
@@ -601,12 +585,7 @@
 		 * see AppController::notice()
 		 */
 		public function noticeDeleted(){
-			$this->Controller->notice(
-				sprintf(__('Your %s were deleted'), $this->Controller->prettyModelName),
-				array(
-					'redirect' => true
-				)
-			);
+			throw new Exception('Depreciated, use $this->notice(deleted);');
 		}
 
 
@@ -616,13 +595,7 @@
 		 * see AppController::notice()
 		 */
 		public function noticeNotDeleted(){
-			$this->Controller->notice(
-				sprintf(__('Your %s was not deleted'), Inflector::singularize($this->Controller->prettyModelName)),
-				array(
-					'level' => 'error',
-					'redirect' => true
-				)
-			);
+			throw new Exception('Depreciated, use $this->notice(not_deleted);');
 		}
 
 		/**
@@ -630,14 +603,8 @@
 		 *
 		 * see AppController::notice()
 		 */
-		public function noticeDisabledAction(){
-			$this->Controller->notice(
-				__('That action has been disabled.'),
-				array(
-					'level' => 'warning',
-					'redirect' => true
-				)
-			);
+		public function noticeDisabledAction() {
+			throw new Exception('Depreciated, use $this->notice(disabled);');
 		}
 
 		/**

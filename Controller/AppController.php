@@ -87,6 +87,41 @@
 		public $prettyModelName;
 
 		/**
+		 * @brief defaults for AppController::notice()
+		 * @var array
+		 */
+		public $notice = array(
+			'saved' => array(
+				'message' => 'Your %s was saved',
+				'redirect' => ''
+			),
+			'not_saved' => array(
+				'message' => 'There was a problem saving your %s',
+				'level' => 'warning'
+			),
+			'invalid' => array(
+				'message' => 'Invalid %s selected, please try again',
+				'level' => 'error',
+				'redirect' => true
+			),
+			'deleted' => array(
+				'message' => 'Your %s was deleted',
+				'redirect' => true
+			),
+			'not_deleted' => array(
+				'message' => 'Your %s was not deleted',
+				'level' => 'error',
+				'redirect' => true
+			),
+			'disabled' => array(
+				'message' => 'That action has been disabled',
+				'level' => 'error',
+				'redirect' => true
+			),
+			'auth' => null
+		);
+
+		/**
 		 * @brief Construct the Controller
 		 *
 		 * Currently getting components that are needed by the application. they
@@ -115,8 +150,6 @@
 				}
 			}
 
-			unset($event);
-
 			parent::__construct($request, $response);
 		}
 
@@ -130,10 +163,23 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 			
-			$this->modelName = $this->modelClass;
-			$this->prettyModelName = prettyName($this->modelName);
+			$this->modelClass = $this->modelClass;
+			$this->prettyModelName = prettyName($this->modelClass);
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
+			}
+			
+			$modelName = !empty($this->prettyModelName) ? $this->prettyModelName : prettyName($this->name);
+			$modelName = Inflector::singularize($modelName);
+			foreach($this->notice as $type => &$config) {
+				if(empty($config['message'])) {
+					continue;
+				}
+
+				if(strstr($config['message'], '%s')) {
+					$plugin = Inflector::underscore($this->plugin);
+					$config['message'] = __d($plugin, $config['message'], $modelName);
+				}
 			}
 
 			return true;
@@ -242,7 +288,7 @@
 				}
 				
 				else {
-					$this->notice(__d('comments', 'Your comment was not saved. Please check for errors and try again'));
+					$this->notice('not_saved');
 				}
 			}
 
@@ -588,7 +634,7 @@
 		 * redirects to the filtered url for the users own records
 		 */
 		public function admin_mine(){
-			if(!$this->{$this->modelName}->hasField('user_id')){
+			if(!$this->{$this->modelClass}->hasField('user_id')){
 				$this->notice(
 					__('Cant determin a user field'),
 					array(
@@ -611,7 +657,7 @@
 			$this->redirect(
 				array(
 					'action' => 'index',
-					$this->{$this->modelName}->alias . '.user_id' => $this->Auth->user('id')
+					$this->{$this->modelClass}->alias . '.user_id' => $this->Auth->user('id')
 				)
 			);
 		}
@@ -632,11 +678,11 @@
 		 */
 		public function admin_add(){
 			if (!empty($this->request->data)) {
-				$this->{$this->modelName}->create();
-				if ($this->{$this->modelName}->saveAll($this->request->data)) {
-					$this->Infinitas->noticeSaved();
+				$this->{$this->modelClass}->create();
+				if ($this->{$this->modelClass}->saveAll($this->request->data)) {
+					$this->notice('saved');
 				}
-				$this->Infinitas->noticeNotSaved();
+				$this->notice('not_saved');
 			}
 
 			$this->saveRedirectMarker();
@@ -659,22 +705,22 @@
 		 */
 		public function admin_edit($id = null, $query = array()) {
 			if(empty($this->request->data) && !$id){
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			if (!empty($this->request->data)) {
-				if ($this->{$this->modelName}->saveAll($this->request->data)) {
-					$this->Infinitas->noticeSaved();
+				if ($this->{$this->modelClass}->saveAll($this->request->data)) {
+					$this->notice('saved');
 				}
-				$this->Infinitas->noticeNotSaved();
+				$this->notice('not_saved');
 			}
 
 			if(empty($this->request->data) && $id){
-				$query['conditions'][$this->{$this->modelName}->alias . '.' . $this->{$this->modelName}->primaryKey] = $id;
+				$query['conditions'][$this->{$this->modelClass}->alias . '.' . $this->{$this->modelClass}->primaryKey] = $id;
 
-				$this->request->data = $this->{$this->modelName}->find('first', $query);
+				$this->request->data = $this->{$this->modelClass}->find('first', $query);
 				if(empty($this->request->data)){
-					$this->Infinitas->noticeInvalidRecord();
+					$this-->notice('invalid');
 				}
 			}
 
@@ -700,7 +746,7 @@
 			$model = $this->modelClass;
 
 			if (!$id) {
-				$this->Infinitas->noticeInvalidRecord();
+				$this->notice('invalid');
 			}
 
 			$this->request->data[$model]['id'] = $id;
@@ -1196,25 +1242,64 @@
 		/**
 		 * @brief Create a generic warning to display usefull information to the user
 		 *
+		 * The method can be used in two ways, using the $this->notice param and setting
+		 * up some defaults or direclty passing the message and config.
+		 *
+		 * @code
+		 *	// manual
+		 *	$this->notice(__d('plugin', 'foo bar'), array('redirect' => true, 'level' => 'warning'));
+		 *
+		 *	// pre set
+		 *	$this->notice['my_message'] = array(
+		 *		'message' => 'foo bar',
+		 *		'redirect' => true, // false, '', array() '/url'
+		 *		'level' => 'warning', // success, error etc
+		 *	);
+		 *
+		 *	$this->notice('my_message');
+		 *
+		 *	// custom pre set uses config from ->notice['my_message'] but will
+		 *	// have level of success
+		 *	$this->notice('my_message', array('level' => 'success'));
+		 * @endcode
+		 *
+		 * Infintias sets up a number of defaults for notices including saved, not_saved,
+		 * invalid, deleted, not_deleted, disabled, auth. See $this->notice for more
+		 * on what they are.
+		 *
+		 * You can overwrite the defaults by creating them in your __construct() or any time
+		 * before calling Controller::notice().
+		 * 
 		 * The code passed can be used for linking to error pages with more information
 		 * eg: creating some pages on your site like /errors/<code> and then making it
 		 * a clickable link the user can get more detailed information.
 		 *
-		 * @param string $message the message to show to the user
-		 * @param int $code a code that can link to help
-		 * @param string $level something like notice/warning/error
-		 * @param string $plugin if you would like to use your own elements pass the name of the plugin here
 		 * @access public
+		 *
+		 * @param string $message the message to show to the user
+		 * @param array $config array of options for the redirect and message
 		 * 
 		 * @return string the markup for the error
 		 */
-		public function notice($message, $config = array()){
+		public function notice($message, $config = array()) {
 			$_default = array(
 				'level' => 'success',
 				'code' => 0,
 				'plugin' => 'assets',
 				'redirect' => false
 			);
+
+			if(!empty($this->notice[$message])) {
+				if(!is_array($this->notice[$message])) {
+					$message = $this->notice[$message];
+				}
+				
+				else if(!empty($this->notice[$message]['message'])) {
+					$config = array_merge($this->notice[$message], $config);
+					$message = $config['message'];
+					unset($config['message']);
+				}
+			}
 
 			$config = array_merge($_default, (array)$config);
 
