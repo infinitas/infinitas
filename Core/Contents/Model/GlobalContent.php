@@ -111,7 +111,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function findDuplicateData($state, $query, $results = array()) {
+		protected function _findDuplicateData($state, $query, $results = array()) {
 			if ($state === 'before') {
 				if(!is_array($query['fields'])) {
 					$query['fields'] = array($query['fields']);
@@ -177,7 +177,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function findMissingData($state, $query, $results = array()) {
+		protected function _findMissingData($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['conditions'] = array_merge(
 					(array)$query['conditions'],
@@ -243,7 +243,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function findShortData($state, $query, $results = array()) {
+		protected function _findShortData($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['conditions'] = array_merge(
 					(array)$query['conditions'],
@@ -290,7 +290,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		function findCategoryList($state, $query, $results = array()) {
+		protected function _findCategoryList($state, $query, $results = array()) {
 			$this->findQueryType = 'list';
 			
 			if ($state === 'before') {
@@ -316,7 +316,7 @@
 			return $this->findList($state, $query, $results);
 		}
 		
-		public function findGetRelationsCategory($state, $query, $results = array()) {
+		protected function _findGetRelationsCategory($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['fields'] = array(
 					'GlobalContent.id',

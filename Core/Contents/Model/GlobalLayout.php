@@ -43,7 +43,7 @@
 		 * @var array
 		 * @access public
 		 */
-		public $belongsTo = array(
+		public $hasMany = array(
 			'GlobalContent' => array(
 				'className' => 'Contents.GlobalContent',
 				'counterCache' => true

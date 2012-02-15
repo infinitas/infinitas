@@ -57,7 +57,7 @@
 		 * the template rendering. could be handy for debugging. if debug is off
 		 * this has no effect.
 		 */
-		public function _render($viewFile, $data = array()) {
+		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
 			$out = parent::_render($viewFile, $data);
 			// only on for admin or it renders the stuff in the editor which is pointless

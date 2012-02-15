@@ -185,7 +185,8 @@
 				trigger_error(sprintf(__('%s is using AppModel, please create a model file'), $this->alias), E_USER_WARNING);
 			}
 
-			if (isset($this->_schema) && is_array($this->_schema) && php_sapi_name() != 'cli') {
+			$schema = $this->schema();
+			if (!empty($schema) && php_sapi_name() != 'cli') {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
 					$this->Behaviors->attach('Containable');

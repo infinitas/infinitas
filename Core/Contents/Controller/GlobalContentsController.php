@@ -46,7 +46,7 @@
 		private function __filter() {
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
-				'model' => $this->GlobalContent->uniqueList('model'),
+				//'model' => $this->GlobalContent->uniqueList('model'),
 				'title',
 				'layout_id' => $this->GlobalContent->GlobalLayout->find('list')
 			);

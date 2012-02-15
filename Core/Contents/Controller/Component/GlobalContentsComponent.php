@@ -1,7 +1,7 @@
 <?php
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	
-	class GlobalContentComponent extends InfinitasComponent {
+	class GlobalContentsComponent extends InfinitasComponent {
 		private $__methods = array(
 			'admin_edit',
 			'admin_add'

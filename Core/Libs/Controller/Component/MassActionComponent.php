@@ -170,13 +170,13 @@
 			$this->Controller->set('model', $this->__modelName);
 			$this->Controller->set(compact('referer', 'rows'));
 
-			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'views' . DS . 'global' . DS . 'delete.ctp';
+			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'delete.ctp';
 			if(is_file($pluginOverload)) {
-				$this->Controller->render('delete', null, $pluginOverload);
+				$this->Controller->render($this->Controller->plugin . '.Global/delete');
 				return;
 			}
 			
-			$this->Controller->render('delete', null, App::pluginPath('libs') . 'views' . DS . 'global' . DS . 'delete.ctp');
+			$this->Controller->render('Libs.Global/delete');
 		}
 
 		/**

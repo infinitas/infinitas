@@ -149,7 +149,7 @@
 			}
 			
 			else{
-				$action = $this->request->params['form']['action'];
+				$action = $_POST['action'];
 			}
 			
 			$breadcrumbs = array(

@@ -4,5 +4,5 @@
 	 *
 	 */
 	class Ticket extends ManagementAppModel{
-		var $name = 'Ticket';
+		public $useTable = 'core_tickets';
 	}

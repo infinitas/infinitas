@@ -60,7 +60,7 @@
 				$this->__settings[$Model->alias] = $default;
 			}
 
-			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], !empty(is_array($settings)) ? $settings : array());
+			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], $settings);
 
 			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];
 
@@ -95,7 +95,7 @@
 
 				foreach ($this->__settings[$Model->alias]['label'] as $field) {
 					if (!empty($Model->data[$Model->alias][$field])) {
-						$label .= !empty(!empty($label)) ? ' ' : '' . $Model->data[$Model->alias][$field];
+						$label .= !empty($label) ? ' ' : '' . $Model->data[$Model->alias][$field];
 					}
 				}
 				// Keep on going only if we've got something to slug

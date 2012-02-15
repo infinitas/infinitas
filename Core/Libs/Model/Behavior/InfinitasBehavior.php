@@ -683,7 +683,12 @@
 		 * @return type
 		 */
 		public function shouldAutoAttachBehavior($Model, $behavior = null, $onlyWithFields = array()) {
-			if(!(is_subclass_of($Model, 'Model') && isset($Model->_schema) && is_array($Model->_schema))) {
+			if(!is_subclass_of($Model, 'Model')) {
+				return false;
+			}
+			
+			$schema = $Model->schema();
+			if(empty($schema)) {
 				return false;
 			}
 
