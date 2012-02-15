@@ -106,18 +106,18 @@
 		private $__paths;
 
 		public $installerProgress = array();
-		
+
 		/**
 		 * @brief load up the installer lib
-		 * 
+		 *
 		 * The installer uses a lib that is shared between the frontend and shell
 		 * installer.
-		 * 
+		 *
 		 * @access public
 		 */
 		public function __construct($request = null, $response = null) {
 			parent::__construct($request, $response);
-			
+
 			App::import('lib', 'Installer.Installer');
 			$this->InstallerLib = new InstallerLib();
 		}
@@ -179,10 +179,10 @@
 
 		/**
 		 * @brief welcome page
-		 * 
-		 * Does a few system checks to make sure that the server is setup to run 
+		 *
+		 * Does a few system checks to make sure that the server is setup to run
 		 * Infinitas. Check things like paths, extentions and version are correct.
-		 * 
+		 *
 		 * @access public
 		 */
 		public function _prepareWelcome() {
@@ -197,7 +197,7 @@
 
 		/**
 		 * @brief process welcome
-		 * 
+		 *
 		 * There is nothing to do at this stage
 		 */
 		public function _processWelcome() {
@@ -206,15 +206,15 @@
 
 		/**
 		 * @brief get database connection details
-		 * 
+		 *
 		 * Get the supported databases that are installed on the server and show
 		 * a form to enter connection details.
-		 * 
+		 *
 		 * @access public
 		 */
 		public function _prepareDatabase() {
 			$this->loadModel('Installer.Install');
-			
+
 			$database = array();
 			foreach($this->InstallerLib->getSupportedDbs() as $databaseType => $config){
 				if(isset($config['has'])) {
@@ -227,21 +227,21 @@
 
 		/**
 		 * @brief process the details for the databse
-		 * 
-		 * Check that the details passed in were correct and that the installer 
+		 *
+		 * Check that the details passed in were correct and that the installer
 		 * is able to connect to the database.
-		 * 
+		 *
 		 * @access public
-		 * 
-		 * @return type 
+		 *
+		 * @return type
 		 */
 		public function _processDatabase() {
-			$valid = $this->InstallerLib->testConnection($this->data);
+			$valid = $this->InstallerLib->testConnection($this->request->data);
 			if($valid === true) {
-				$this->Session->write('Install.database_config', $this->data);
+				$this->Session->write('Install.database_config', $this->request->data);
 				return true;
 			}
-			
+
 			if(is_array($valid)) {
 				pr($valid);
 				exit;
@@ -252,16 +252,16 @@
 
 		/**
 		 * @brief prepare to install
-		 * 
+		 *
 		 * Get a list of plugins that will be installed and ask the user if they
 		 * would like to install some sample data.
-		 * 
+		 *
 		 * @access public
 		 */
 		public function _prepareInstall() {
 			$_plugins = App::objects('plugin');
 			natsort($_plugins);
-			
+
 			$plugins = array();
 			foreach($_plugins as $_plugin) {
 				$configFile = App::pluginPath($_plugin) . 'config' . DS . 'config.json';
@@ -269,16 +269,16 @@
 					$plugins[$_plugin] = Set::reverse(json_decode(file_get_contents($configFile)));
 				}
 			}
-			
+
 			$this->set('plugins', $plugins);
 		}
 
 		/**
 		 * @brief install Infinitas and plugins
-		 * 
+		 *
 		 * @todo in prepare make checkboxes next to plugin list and allow users to select plugins to install
-		 * 
-		 * @return type 
+		 *
+		 * @return type
 		 */
 		public function _processInstall() {
 			if($this->InstallerLib->installPlugins($this->Session->read('Install.database_config'))) {
@@ -286,13 +286,13 @@
 					return true;
 				}
 			}
-			
+
 			return false;
 		}
 
 		/**
 		 * @brief get the details of the administrator
-		 * 
+		 *
 		 * @access public
 		 */
 		public function _prepareAdminUser() {
@@ -313,25 +313,25 @@
 
 			$this->set('hidePrevious', true);
 		}
-		
+
 		/**
 		 * @brief save the administrator details
-		 * 
+		 *
 		 * @access public
 		 */
 		public function _processAdminUser() {
 			$this->loadModel('Management.User');
 
-			$this->data['User']['password'] = Security::hash($this->data['User']['password'], null, true);
-			$this->data['User']['ip_address'] = env('REMOTE_ADDR');
-			$this->data['User']['browser'] = env('HTTP_USER_AGENT');
-			$this->data['User']['operating_system'] = '';
-			$this->data['User']['country'] = '';
-			$this->data['User']['city'] = '';
-			$this->data['User']['group_id'] = 1;
-			$this->data['User']['active'] = 1;
+			$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
+			$this->request->data['User']['ip_address'] = env('REMOTE_ADDR');
+			$this->request->data['User']['browser'] = env('HTTP_USER_AGENT');
+			$this->request->data['User']['operating_system'] = '';
+			$this->request->data['User']['country'] = '';
+			$this->request->data['User']['city'] = '';
+			$this->request->data['User']['group_id'] = 1;
+			$this->request->data['User']['active'] = 1;
 
-			if($this->User->save($this->data)) {
+			if($this->User->save($this->request->data)) {
 				return true;
 			}
 

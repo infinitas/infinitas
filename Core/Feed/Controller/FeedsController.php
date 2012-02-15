@@ -78,8 +78,8 @@
 			parent::admin_edit($id);
 
 			$plugins	 = $this->Feed->getPlugins();
-			$controllers = $this->Feed->getControllers($this->data['Feed']['plugin']);
-			$actions	 = $this->Feed->getActions($this->data['Feed']['plugin'], $this->data['Feed']['controller']);
+			$controllers = $this->Feed->getControllers($this->request->data['Feed']['plugin']);
+			$actions	 = $this->Feed->getActions($this->request->data['Feed']['plugin'], $this->request->data['Feed']['controller']);
 			$feedsFeeds = $this->Feed->find('list');
 			$groups	  = $this->Feed->Group->find('list');
 

@@ -40,10 +40,10 @@
 		}
 
 		function admin_add(){
-			if (!empty($this->data)){
-				$this->data['Page']['file_name'] = strtolower(Inflector::slug($this->data['Page']['name']));
+			if (!empty($this->request->data)){
+				$this->request->data['Page']['file_name'] = strtolower(Inflector::slug($this->request->data['Page']['name']));
 
-				if ($this->Page->save($this->data)){
+				if ($this->Page->save($this->request->data)){
 					$this->Infinitas->noticeSaved();
 				}
 
@@ -56,16 +56,16 @@
 				$this->Infinitas->noticeInvalidRecord();
 			}
 
-			if (!empty($this->data)){
-				if ($this->Page->save($this->data)){
+			if (!empty($this->request->data)){
+				if ($this->Page->save($this->request->data)){
 					$this->Infinitas->noticeSaved();
 				}
 
 				$this->Infinitas->noticeNotSaved();
 			}
 
-			if ($filename && empty($this->data)){
-				$this->data = $this->Page->read(null, $filename);
+			if ($filename && empty($this->request->data)){
+				$this->request->data = $this->Page->read(null, $filename);
 			}
 		}
 

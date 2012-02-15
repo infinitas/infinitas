@@ -32,7 +32,7 @@
 				null,
 				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)
 			);
-			
+
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
@@ -49,7 +49,7 @@
 
 			// auto select parent when the + button is used
 			if (isset($this->params['named']['parent_id'])) {
-				$this->data['MenuItem']['parent_id'] = $this->params['named']['parent_id'];
+				$this->request->data['MenuItem']['parent_id'] = $this->params['named']['parent_id'];
 			}
 
 			$menus   = $this->MenuItem->Menu->find('list');
@@ -64,7 +64,7 @@
 					)
 				);
 			}
-			
+
 			$groups  = array(0 => __('Public')) + $this->MenuItem->Group->find('list');
 			$parents = array(0 => __('Root')) + $this->MenuItem->generateTreeList(
 				array(
@@ -84,12 +84,12 @@
 			$parents = array(0 => __('Root')) + $this->MenuItem->generateTreeList(
 				array(
 					'MenuItem.parent_id !=' => 0,
-					'MenuItem.menu_id' => $this->data['MenuItem']['menu_id']
+					'MenuItem.menu_id' => $this->request->data['MenuItem']['menu_id']
 				)
 			);
 			$plugins = $this->MenuItem->getPlugins();
-			$controllers = $this->MenuItem->getControllers($this->data['MenuItem']['plugin']);
-			$actions = $this->MenuItem->getActions($this->data['MenuItem']['plugin'], $this->data['MenuItem']['controller']);
+			$controllers = $this->MenuItem->getControllers($this->request->data['MenuItem']['plugin']);
+			$actions = $this->MenuItem->getActions($this->request->data['MenuItem']['plugin'], $this->request->data['MenuItem']['controller']);
 			$this->set(compact('menus', 'groups', 'parents', 'plugins', 'controllers', 'actions'));
 		}
 

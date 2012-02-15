@@ -63,14 +63,14 @@
 
 		public function admin_edit($id = null) {
 			parent::admin_edit($id, array('fields' => array('Module.*')));
-			
+
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
 			$routes = array(0 => __('All Pages')) + $this->Module->Route->find('list');
 			$themes = array(0 => __('All Themes')) + $this->Module->Theme->find('list');
 			$plugins = $this->Module->getPlugins();
-			
-			$modules = $this->Module->getModuleList($this->data['Module']['plugin']);
+
+			$modules = $this->Module->getModuleList($this->request->data['Module']['plugin']);
 			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins', 'modules'));
 		}
 
@@ -80,11 +80,11 @@
 		 * Gets the plugin name from POST data to find the required modules.
 		 */
 		public function admin_getModules(){
-			if (!isset($this->data[$this->modelClass]['plugin'])) {
+			if (!isset($this->request->data[$this->modelClass]['plugin'])) {
 				$this->set('json', array('error'));
 				return;
 			}
 
-			$this->set('json', $this->{$this->modelClass}->getModuleList($this->data[$this->modelClass]['plugin']));
+			$this->set('json', $this->{$this->modelClass}->getModuleList($this->request->data[$this->modelClass]['plugin']));
 		}
 	}

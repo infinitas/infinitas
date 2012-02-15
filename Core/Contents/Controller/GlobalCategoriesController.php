@@ -47,7 +47,7 @@
 
 			// redirect if there is only one content item.
 			if ((isset($category['Content']) && count($category['Content']) == 1) && Configure::read('Cms.auto_redirect')) {
-				
+
 			}
 
 			else if(empty($category)){
@@ -80,8 +80,8 @@
 		}
 
 		public function admin_edit($id = null) {
-			unset($this->data['GlobalContent']['global_category_id']);
-			
+			unset($this->request->data['GlobalContent']['global_category_id']);
+
 			parent::admin_edit($id);
 		}
 

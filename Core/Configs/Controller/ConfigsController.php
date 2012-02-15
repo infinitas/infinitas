@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * The ConfigsController is for managing the site configs from the backend
-	 * 
+	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  	 * @link http://infinitas-cms.org
 	 * @package Infinitas.Configs.controllers
@@ -17,7 +17,7 @@
 	class ConfigsController extends ConfigsAppController {
 		/**
 		 * dont see where this is used
-		 * 
+		 *
 		 * @deprecated
 		 */
 		public $configOptions = array();
@@ -35,7 +35,7 @@
 			$this->set(compact('configs', 'filterOptions'));
 		}
 
-		public function admin_available(){			
+		public function admin_available(){
 			$this->set('configs', $this->Config->availableConfigs());
 			$this->set('overloaded', $this->Config->find('list', array('fields' => array('Config.key', 'Config.value'))));
 		}
@@ -44,31 +44,31 @@
 			parent::admin_add();
 
 			if(isset($this->params['named']['Config.key'])){
-				$this->data['Config']['key'] = $this->params['named']['Config.key'];
+				$this->request->data['Config']['key'] = $this->params['named']['Config.key'];
 				$value = Configure::read($this->params['named']['Config.key']);
 				switch(true){
 					case is_int($value):
-							$this->data['Config']['type'] = 'integer';
+							$this->request->data['Config']['type'] = 'integer';
 						break;
 
 					case is_bool($value):
-						$this->data['Config']['type'] = 'bool';
+						$this->request->data['Config']['type'] = 'bool';
 						break;
 
 					default:
 						$array = explode(',', $value);
 						if(count($array) > 1){
-							$this->data['Config']['type'] = 'array';
-							$this->data['Config']['value'] = $array[0];
-							$this->data['Config']['options'] = $value;
+							$this->request->data['Config']['type'] = 'array';
+							$this->request->data['Config']['value'] = $array[0];
+							$this->request->data['Config']['options'] = $value;
 						}
 						else{
-							$this->data['Config']['type'] = 'string';
+							$this->request->data['Config']['type'] = 'string';
 						}
 				}
-				
-				if(!isset($this->data['Config']['value'])){
-					$this->data['Config']['value'] = $value;
+
+				if(!isset($this->request->data['Config']['value'])){
+					$this->request->data['Config']['value'] = $value;
 				}
 			}
 
@@ -80,28 +80,28 @@
 				$this->Infinitas->noticeInvalidRecord();
 			}
 
-			if (!empty($this->data)) {
-				switch($this->data['Config']['type']) {
+			if (!empty($this->request->data)) {
+				switch($this->request->data['Config']['type']) {
 					case 'bool':
-						switch($this->data['Config']['value']) {
+						switch($this->request->data['Config']['value']) {
 							case 1:
-								$this->data['Config']['value'] = 'true';
+								$this->request->data['Config']['value'] = 'true';
 								break;
 
 							default:
-								$this->data['Config']['value'] = 'false';
+								$this->request->data['Config']['value'] = 'false';
 						} // switch
 						break;
 				} // switch
-				if ($this->Config->save($this->data)) {
+				if ($this->Config->save($this->request->data)) {
 					$this->Infinitas->noticeSaved();
 				}
 
 				$this->Infinitas->noticeNotSaved();
 			}
 
-			if ($id && empty($this->data)) {
-				$this->data = $this->Config->read(null, $id);
+			if ($id && empty($this->request->data)) {
+				$this->request->data = $this->Config->read(null, $id);
 			}
 		}
 	}

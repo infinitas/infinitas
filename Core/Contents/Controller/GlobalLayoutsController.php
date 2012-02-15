@@ -50,7 +50,7 @@
 			parent::admin_edit($id, $query);
 
 			$plugins = $this->GlobalLayout->getPlugins();
-			$models = $this->GlobalLayout->getModels($this->data['GlobalLayout']['plugin']);
+			$models = $this->GlobalLayout->getModels($this->request->data['GlobalLayout']['plugin']);
 			$this->set(compact('plugins', 'models'));
 		}
 	}
