@@ -399,17 +399,20 @@
 		* @return array a list of controllers that were found
 		*/
 		public function getControllers($Model, $plugin){
+			$plugin = Inflector::camelize($plugin);
 			$list = App::objects(
-				'controller',
-				array(App::pluginPath($plugin) . 'Controller' . DS),
+				'Controller',
+				array(CakePlugin::path($plugin) . 'Controller' . DS),
 				false
 			);
-
 			$controllers = array();
 			foreach($list as $controller){
+				if($controller == $plugin . 'AppController') {
+					continue;
+				}
+
 				$controllers[$controller] = $controller;
 			}
-
 			return $controllers;
 		}
 
@@ -425,8 +428,9 @@
 		* @return array a list of models that were found
 		*/
 		public function getModels($Model, $plugin) {
+			$plugin = Inflector::camelize($plugin);
 			$list = App::objects(
-				'model',
+				'Model',
 				array(App::pluginPath($plugin) . 'Model' . DS),
 				false
 			);
@@ -456,14 +460,16 @@
 		 * @param string $controller the controller to search with
 		 */
 		public function getActions($Model, $plugin, $controller){
-			App::import('Controller', $plugin.'.'.$controller);
+			$package = Inflector::camelize($plugin) . '.Controller';
+			$controller = Inflector::camelize($controller) . 'Controller';
+			App::uses($controller, $package);
 
-			$list = get_class_methods($controller.'Controller');
+			$list = get_class_methods($controller);
 			$ignore = $this->_filterMethods();
 
 			$actions = array();
 			foreach((array)$list as $action){
-				if (in_array($action, $ignore) || substr($action, 0, 1) == '_'){
+				if (in_array($action, $ignore) || strpos($action, '_') === 0) {
 					continue;
 				}
 				else{
@@ -505,7 +511,7 @@
 			}
 
 			if (!$class && ($plugin && $model)) {
-				$class = Inflector::classify($plugin).'.'.Inflector::classify($model);
+				$class = Inflector::camelize($plugin).'.'.Inflector::classify($model);
 			}
 			$this->Model = !empty($class) ? ClassRegistry::init($class) : $Model;
 			if(get_class($this->Model) == 'AppModel' && !$this->Model->useTable){
@@ -686,7 +692,7 @@
 			if(!is_subclass_of($Model, 'Model')) {
 				return false;
 			}
-			
+
 			$schema = $Model->schema();
 			if(empty($schema)) {
 				return false;
