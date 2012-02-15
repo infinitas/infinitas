@@ -34,7 +34,7 @@
 		}
 
 		public function onAttachBehaviors($event = null) {
-			if(is_subclass_of($event->Handler, 'Model') && isset($event->Handler->_schema) && is_array($event->Handler->_schema)) {
+			if($event->Handler->shouldAutoAttachBehavior()) {
 				if (isset($event->Handler->lockable) && $event->Handler->lockable && !$event->Handler->Behaviors->enabled('Locks.Lockable')) {
 					$event->Handler->Behaviors->attach('Locks.Lockable');
 				}

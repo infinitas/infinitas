@@ -46,7 +46,7 @@
 					$event->Handler->Behaviors->attach('Contents.Contentable');
 				}
 
-				if (array_key_exists('category_id', $event->Handler->_schema)  && !$event->Handler->Behaviors->enabled('Contents.Categorisable')) {
+				if (array_key_exists('category_id', $event->Handler->schema())  && !$event->Handler->Behaviors->enabled('Contents.Categorisable')) {
 					$event->Handler->Behaviors->attach('Contents.Categorisable');
 				}
 			}

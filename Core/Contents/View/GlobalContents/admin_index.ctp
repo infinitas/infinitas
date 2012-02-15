@@ -32,12 +32,12 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort('model'),
                     $this->Paginator->sort('title'),
-                    $this->Paginator->sort('Layout', 'GlobalLayout.name') => array(
+                    $this->Paginator->sort('model'),
+                    $this->Paginator->sort('GlobalLayout.name', 'Layout') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('Group', 'ContentGroup.name') => array(
+                    $this->Paginator->sort('ContentGroup.name', 'Group') => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('modified') => array(
@@ -51,10 +51,10 @@
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($content); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $content['GlobalContent']['model']; ?>&nbsp;
+                			<?php echo $this->Infinitas->adminQuickLink($content['GlobalContent']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $content['GlobalContent']['title']; ?>&nbsp;
+                			<?php echo $content['GlobalContent']['model']; ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php 
