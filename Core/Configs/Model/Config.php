@@ -326,11 +326,8 @@
 		 * @return array the config options to be overloaded.
 		 */
 		public function availableConfigs(){
-			$configs = Configure::getInstance();
-
-			unset(
-				$configs->CORE['current_route']
-			);
+			$configs = Configure::read();
+			unset($configs['CORE']['current_route']);
 			$configs = Set::flatten($configs);
 			ksort($configs);
 

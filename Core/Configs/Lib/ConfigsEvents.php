@@ -29,8 +29,9 @@
 
 		public function onAdminMenu($event){
 			$menu['main'] = array(
-				'Configuration' => array('controller' => 'configs', 'action' => 'index'),
-				'Available' => array('controller' => 'configs', 'action' => 'available')
+				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
+				'Configuration' => array('plugin' => 'configs', 'controller' => 'configs', 'action' => 'index'),
+				'Available' => array('plugin' => 'configs', 'controller' => 'configs', 'action' => 'available')
 			);
 
 			return $menu;
