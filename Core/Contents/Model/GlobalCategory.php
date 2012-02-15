@@ -141,7 +141,7 @@
 			return parent::children($id, $direct);
 		}
 
-		public function findGetCategory($state, $query, $results = array()) {
+		public function _findGetCategory($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['limit'] = 1;
 

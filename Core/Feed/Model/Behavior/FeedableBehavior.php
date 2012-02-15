@@ -52,7 +52,7 @@
 			$Model->findMethods['findFeed'] = true;
 		}
 
-		protected function findFeed($Model, $state, $query, $results = array()){
+		protected function _findFeed($Model, $state, $query, $results = array()){
 			if($state == 'before') {
 				if (!isset($query['feed'])){
 					return $query;

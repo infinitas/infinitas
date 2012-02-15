@@ -72,7 +72,7 @@
 		 * @return array
 		 * @access public
 		 */
-		public function findCloud($state, $query, $results = array()) {
+		public function _findCloud($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$options = array(
 					'minSize' => 10,
@@ -139,7 +139,7 @@
 		 * @param array $results
 		 * @return mixed Query array if state is before, array of results or integer (count) if state is after
 		 */
-		public function findTagged($state, $query, $results = array()) {
+		public function _findTagged($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$Model = ClassRegistry::init($query['model']);
 				if (isset($query['model']) && is_a($Model, 'Model')) {
