@@ -1,6 +1,11 @@
 <?php
-	$model = isset($model) ? $model : $this->params['models'][0];
-	$model = ClassRegistry::init($model)->plugin . '.' . ClassRegistry::init($model)->alias;
+	if(empty($model)) {
+		$model = implode('.', $this->request->models[current(array_keys($this->request->models))]);
+	}
+	
+	else if(!strstr($model, '.')) {
+		$model = ClassRegistry::init($model)->plugin . '.' . ClassRegistry::init($model)->alias;
+	}
 
 	$groups = array(0 => __('Public')) + ClassRegistry::init($model)->GlobalContent->Group->find('list');
 
