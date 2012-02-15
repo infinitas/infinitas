@@ -1,11 +1,11 @@
 <?php
-	/* 
+	/*
 	 * Short Description / title.
-	 * 
+	 *
 	 * Overview of what the file does. About a paragraph or two
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -13,9 +13,9 @@
 	 * @subpackage {see_below}
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since {check_current_milestone_in_lighthouse}
-	 * 
+	 *
 	 * @author {your_name}
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -24,8 +24,8 @@
 	class LockerComponent extends InfinitasComponent {
 		public function initialize($Controller){
 			$disable = !strstr($Controller->action, 'admin');
-			
-			if($disable && isset($Controller->{$Controller->modelClass}->Behaviors)){
+
+			if($disable && !empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->Behaviors)){
 				$Controller->{$Controller->modelClass}->Behaviors->detach('Locks.Lockable');
 			}
 
@@ -36,11 +36,11 @@
 			if(empty($Controller->params['admin']) || !$Controller->params['admin']) {
 				return true;
 			}
-			
+
 			if(isset($Controller->request->data['Lock']['user_id']) && $Controller->request->data['Lock']['user_id'] != $Controller->Session->read('Auth.User.id')){
 				$Controller->notice(
 					sprintf(
-						__('The %s you requested has been locked by %s'), 
+						__('The %s you requested has been locked by %s'),
 						$Controller->prettyModelName,
 						$Controller->request->data['Locker']['username']
 					),
@@ -54,7 +54,7 @@
 		}
 
 		public function beforeRedirect($Controller){
-			if(isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable){
+			if(!empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable){
 				if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel'){
 					ClassRegistry::init('Locks.Lock')->deleteAll(
 						array(
