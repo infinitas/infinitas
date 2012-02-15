@@ -227,20 +227,22 @@
 					$this->Session->write('Spam.detected', time());
 
 					$this->notice(
-						__('Not so fast spam bot.'),
+						__d('comments', 'Not so fast spam bot.'),
 						array(
 							'redirect' => '/?bot=true'
 						)
 					);
 				}
+
 				else if ($this->{$this->modelClass}->createComment($this->request->data)) {
 					$this->notice(
-						__($message),
+						__d('comments', $message),
 						array('redirect' => true)
 					);
 				}
+				
 				else {
-					$this->Session->setFlash(__('Your comment was not saved. Please check for errors and try again'));
+					$this->notice(__d('comments', 'Your comment was not saved. Please check for errors and try again'));
 				}
 			}
 
