@@ -18,7 +18,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class LockedHelper extends InfinitasHelper{
+	class LockedHelper extends InfinitasHelper {
 		public $helpers = array(
 			'Time', 'Html',
 			'Libs.Image'
@@ -40,10 +40,10 @@
 				return $this->Html->image(
 					$this->Image->getRelativePath('status', 'locked'),
 					array(
-						'alt' => __('Locked'),
+						'alt' => __d('locks', 'Locked'),
 						'width' => '16px',
 						'title' => sprintf(
-							__('Locked :: This record was locked %s by %s', true ),
+							__d('locks', 'Locked :: This record was locked %s by %s'),
 							$this->Time->timeAgoInWords($row['created']),
 							$row['Locker']['username']
 						)
@@ -54,9 +54,9 @@
 			return $this->Html->image(
 				$this->Image->getRelativePath('status', 'not-locked'),
 				array(
-					'alt' => __('Not Locked'),
+					'alt' => __d('locks', 'Not Locked'),
 					'width' => '16px',
-					'title' => __('Unlocked :: This record is not locked')
+					'title' => __d('locks', 'Unlocked :: This record is not locked')
 				)
 			);
 		}

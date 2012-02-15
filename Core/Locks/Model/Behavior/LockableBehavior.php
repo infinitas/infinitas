@@ -127,8 +127,7 @@
 					array(
 						'conditions' => array(
 							'Lock.foreign_key' => $results[0][$Model->alias][$Model->primaryKey],
-							'Lock.class' => $Model->fullModelName(),
-							'Lock.created > ' => date('Y-m-d H:m:s', strtotime(Configure::read('Locks.timeout')))
+							'Lock.class' => $Model->fullModelName()
 						),
 						'contain' => array(
 							'Locker'
