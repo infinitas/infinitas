@@ -122,23 +122,12 @@
 		}
 
 		public function onSetupRoutes($event, $data = null) {
-
 			Router::connect(
 				'/admin/contents',
 				array(
 					'plugin' => 'contents',
 					'controller' => 'global_contents',
 					'action' => 'dashboard',
-					'admin' => true,
-					'prefix' => 'admin'
-				)
-			);
-			Router::connect(
-				'/admin/contents/contents/index',
-				array(
-					'plugin' => 'contents',
-					'controller' => 'global_contents',
-					'action' => 'index',
 					'admin' => true,
 					'prefix' => 'admin'
 				)
