@@ -18,14 +18,14 @@
 	 * @since		 0.5a
 	 */
 
-	class WysiwygHelper extends AppHelper{
+	class WysiwygHelper extends InfinitasHelper {
 		var $helpers = array(
 			'Form',
 			'Html',
 			'Js'
 		);
 
-		function load($editor = null, $field = null, $config = array()){
+		public function load($editor = null, $field = null, $config = array()){
 			switch($editor){
 				case 'text':
 					return $this->text($field);
@@ -33,24 +33,22 @@
 			} // switch
 
 			$editor = 'Wysiwyg'.Inflector::Classify($editor);
-
-			if (!App::import('Helper', $editor.'.'.$editor)) {
+			$this->Editor = $this->_View->Helpers->load($editor);
+			if (!$this->Editor instanceof Helper) {
 				return $this->input($field, array('style' => 'width:98%; height:500px;', 'value' => sprintf(__('%s was not found'), $editor)));
 			}
 
-			$helper = $editor.'Helper';
-			$this->_Editor = new $helper;
 			$fields = explode('.', $field);
 
 			$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
-			return $heading . $this->input($field, array('label' => false)) . $this->_Editor->editor($field, $config) . '</div>';
+			return $heading . $this->input($field, array('label' => false)) . $this->Editor->editor($field, $config) . '</div>';
 		}
 
-		function text($id = null){
+		public function text($id = null){
 			return $this->input($id, array('type' => 'textarea'));
 		}
 
-		function input($id, $params = array('style' => 'width:98%; height:500px;')){
+		public function input($id, $params = array('style' => 'width:98%; height:500px;')){
 			return $this->Form->input($id, $params);
 		}
 	}
