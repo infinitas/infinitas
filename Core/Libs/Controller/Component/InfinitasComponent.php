@@ -531,23 +531,23 @@
 			//$this->addToPaginationRecall($options);
 		}
 
-		public function addToPaginationRecall($options = array(), $controller = null){
-			//save the options into the session
-			if($controller){
-				$this->Controller = &$controller;
+		public function addToPaginationRecall($options = array(), $controller = null) {
+			if(!$controller) {
+				$controller = $this->Controller;
 			}
+			
 			if ($options) {
-				if ($this->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
-					$options = array_merge($this->Session->read("Pagination.{$this->Controller->modelClass}.options"), $options);
+				if ($controller->Session->check("Pagination.{$controller->modelClass}.options")) {
+					$options = array_merge($controller->Session->read("Pagination.{$controller->modelClass}.options"), $options);
 				}
 
-				$this->Session->write("Pagination.{$this->Controller->modelClass}.options", $options);
+				$controller->Session->write("Pagination.{$controller->modelClass}.options", $options);
 			}
 
 			//recall previous options
-			if ($this->Controller->Session->check("Pagination.{$this->Controller->modelClass}.options")) {
-				$options = $this->Session->read("Pagination.{$this->Controller->modelClass}.options");
-				$this->Controller->passedArgs = array_merge($this->Controller->passedArgs, $options);
+			if ($controller->Session->check("Pagination.{$controller->modelClass}.options")) {
+				$options = $controller->Session->read("Pagination.{$controller->modelClass}.options");
+				$controller->passedArgs = array_merge($controller->passedArgs, $options);
 			}
 		}
 

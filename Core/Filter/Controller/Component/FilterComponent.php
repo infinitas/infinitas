@@ -72,6 +72,10 @@
 
 		public $filterOptions = array();
 
+		public function __construct(ComponentCollection $collection, $settings = array()) {
+			parent::__construct($collection, $settings);
+		}
+
 		/**
 		 * Before any Controller action
 		 *
@@ -79,37 +83,29 @@
 		 * @param array settings['redirect'] is whether after filtering is completed it should redirect and put the filters in the url,
 		 * @param array settings['useTime'] is whether to filter date times with date in addition to time
 		 */
-		public function initialize(&$controller, $settings = array()) {
-			// If no action(s) is/are specified, defaults to 'index'
-			if (!isset($settings['actions']) || empty($settings['actions'])) {
-				$actions = array('index');
-			} else {
-				$actions = $settings['actions'];
+		public function initialize($Controller) {
+			$actions = !empty($this->settings['actions']) ? $this->settings['actions'] : array('index');
+
+
+			$this->redirect = false;
+			if (isset($this->settings['redirect']) && $this->settings['redirect']) {
+				$this->redirect = $this->settings['redirect'];
 			}
 
-			if (!isset($settings['redirect']) || empty($settings['redirect'])) {
-				$this->redirect = false;
-			} else {
-				$this->redirect = $settings['redirect'];
+			$this->useTime = false;
+			if (isset($this->settings['useTime']) && $this->settings['useTime']) {
+				$this->useTime = $this->settings['useTime'];
 			}
 
-			if (!isset($settings['useTime']) || empty($settings['useTime'])) {
-				$this->useTime = false;
-			} else {
-				$this->useTime = $settings['useTime'];
+			foreach($actions as $action){
+				$this->processAction($Controller, $action);
 			}
-
-			foreach ($actions as $action){
-				$this->processAction($controller, $action);
-			}
-
-			return true;
 		}
 
-		public function processAction($controller, $controllerAction){
-			if ($controller->action == $controllerAction) {
-				$this->filter = $this->processFilters($controller);
-				$this->_paginationRecall($controller);
+		public function processAction($Controller, $controllerAction) {
+			if ($Controller->request->params['action'] == $controllerAction) {
+				$this->filter = $this->processFilters($Controller);
+				$this->_paginationRecall($Controller);
 				$url = (empty($this->url)) ? '/' : $this->url;
 
 				$this->filterOptions = array('url' => array($url));
@@ -120,11 +116,11 @@
 					'minYear' => date("Y")-2,
 					'type' => 'date');
 
-				if (isset($controller->data['reset']) || isset($controller->data['cancel'])) {
+				if (isset($Controller->request->data['reset']) || isset($Controller->request->data['cancel'])) {
 					$this->filter = array();
 					$this->url = '/';
 					$this->filterOptions = array();
-					$controller->redirect("/{$controller->name}/{$controllerAction}");
+					$Controller->redirect("/{$Controller->name}/{$controllerAction}");
 				}
 			}
 		}
@@ -175,7 +171,7 @@
 
 // @codingStandardsIgnoreStart
 		/**
-		 * Function which will change controller->data array
+		 * Function which will change controller->request->data array
 		 *
 		 * @param object $controller the class of the controller which call this component
 		 * @param array $whiteList contains list of allowed filter attributes
@@ -185,8 +181,8 @@
 			$controller = $this->_prepareFilter($controller);
 			$ret = array();
 
-			if (isset($controller->data)) {
-				foreach ($controller->data as $model => $fields) {
+			if (isset($controller->request->data)) {
+				foreach ($controller->request->data as $model => $fields) {
 					$modelFieldNames = array();
 					if (isset($controller->{$model})) {
 						$modelFieldNames = $controller->{$model}->getColumnTypes();
@@ -304,7 +300,7 @@
 					}
 					// Unset empty model data
 					if (count($fields) == 0){
-						unset($controller->data[$model]);
+						unset($controller->request->data[$model]);
 					}
 				}
 			}
@@ -327,12 +323,12 @@
 		 */
 		function _prepareFilter($controller) {
 			$filter = array();
-			if (isset($controller->data)) {
-				foreach ($controller->data as $model => $fields) {
+			if (isset($controller->request->data)) {
+				foreach ($controller->request->data as $model => $fields) {
 					if (is_array($fields)) {
 						foreach ($fields as $key => $field) {
 							if ($field == '') {
-								unset($controller->data[$model][$key]);
+								unset($controller->request->data[$model][$key]);
 							}
 						}
 					}
@@ -340,15 +336,15 @@
 
 				App::import('Sanitize');
 				$sanitize = new Sanitize();
-				$controller->data = $sanitize->clean($controller->data, array('encode' => false));
-				$filter = $controller->data;
+				$controller->request->data = $sanitize->clean($controller->request->data, array('encode' => false));
+				$filter = $controller->request->data;
 			}
 
 			if (empty($filter)) {
 				$filter = $this->_checkParams($controller);
 			}
 
-			$controller->data = $filter;
+			$controller->request->data = $filter;
 			return $controller;
 		}
 

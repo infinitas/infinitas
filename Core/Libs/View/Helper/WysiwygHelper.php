@@ -32,10 +32,18 @@
 					break;
 			} // switch
 
-			$editor = 'Wysiwyg'.Inflector::Classify($editor);
-			$this->Editor = $this->_View->Helpers->load($editor);
+			$helperName = sprintf('Wysiwyg%s', Inflector::Classify($editor));
+			//App::uses($helperName . 'Helper', $helperName . '.View');
+			App::uses('WysiwygTinyMceHelper', 'WysiwygTinyMce.View/Helper');
+			try{
+				$this->Editor = $this->_View->Helpers->load('WysiwygTinyMce');
+			}
+			catch(MissingHelperException $e) {
+				
+			}
+
 			if (!$this->Editor instanceof Helper) {
-				return $this->input($field, array('style' => 'width:98%; height:500px;', 'value' => sprintf(__('%s was not found'), $editor)));
+				return $this->input($field, array('style' => 'width:98%; height:500px;', 'value' => $e->getMessage()));
 			}
 
 			$fields = explode('.', $field);
@@ -52,4 +60,3 @@
 			return $this->Form->input($id, $params);
 		}
 	}
-?>
