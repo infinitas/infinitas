@@ -1032,8 +1032,6 @@
 				unset($this->request->data['Image']);
 			}
 
-			$this->Infinitas->_setupAuth();
-			$this->Infinitas->_setupSecurity();
 			$this->Infinitas->_setupJavascript();
 
 			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;

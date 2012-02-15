@@ -327,48 +327,6 @@
 			return true;
 		}
 
-		/**
-		 * Set up Auth.
-		 *
-		 * Define some things that auth needs to work
-		 */
-		protected function _setupAuth() {
-			//$this->Controller->Auth->allow();
-			$this->Controller->Auth->allow('display');
-
-			if (!isset($this->Controller->request->params['prefix']) || $this->Controller->request->params['prefix'] != 'admin') {
-				$this->Controller->Auth->allow();
-			}
-
-			//$this->Controller->Auth->authorize	= array('Actions' => array('actionPath' => 'controllers/'));
-			$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
-
-			if(Configure::read('Website.login_type') == 'email'){
-				$this->Controller->fields = array('username' => 'email', 'password' => 'password');
-			}
-
-			$this->Controller->Auth->loginRedirect = '/';
-
-			if (isset($this->Controller->params['prefix']) && $this->Controller->params['prefix'] == 'admin') {
-				$this->Controller->Auth->loginRedirect = '/admin';
-			}
-
-			$this->Controller->Auth->logoutRedirect = '/';
-			$this->Controller->Auth->userModel = 'Users.User';
-
-			$this->Controller->Auth->userScope = array('User.active' => 1);
-		}
-
-		/**
-		 * setup Security
-		 *
-		 * settings for security
-		 */
-		protected function _setupSecurity() {
-			$this->Controller->Security->blackHoleCallback = 'blackHole';
-			$this->Controller->Security->validatePost = false;
-		}
-
 		public function getPluginAssets() {
 			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
 			if(isset($event['requireJavascriptToLoad']['assets'])){
