@@ -313,7 +313,7 @@
 				return $this->_findPaginatecount($state, $query, $results);
 			}
 			$query['list']['groupPath'] = '';
-			return $this->findList($state, $query, $results);
+			return $this->_findList($state, $query, $results);
 		}
 		
 		protected function _findGetRelationsCategory($state, $query, $results = array()) {
