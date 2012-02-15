@@ -46,7 +46,7 @@
 				$this->__settings[$model->alias] = $default;
 			}
 
-			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], !empty(is_array($settings)) ? $settings : array());
+			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], is_array($settings) ? $settings : array());
 			// handles model binding to the model
 			// according to the auto_bind settings (default true)
 			if ($this->__settings[$model->alias]['auto_bind']) {
