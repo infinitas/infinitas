@@ -3,7 +3,6 @@
 	 *
 	 *
 	 */
-	class RelationType extends ManagementAppModel{
-		var $name = 'RelationType';
-		var $tablePrefix = 'relation_';
+	class RelationType extends ManagementAppModel {
+		public $tablePrefix = 'relation_';
 	}

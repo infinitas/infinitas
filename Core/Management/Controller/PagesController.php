@@ -20,10 +20,8 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class PagesController extends ManagementAppController{
-		var $name = 'Pages';
-
-		function admin_index(){
+	class PagesController extends ManagementAppController {
+		public function admin_index(){
 			$pages = $this->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -39,7 +37,7 @@
 			$this->set(compact('pages', 'filterOptions', 'writable', 'path'));
 		}
 
-		function admin_add(){
+		public function admin_add(){
 			if (!empty($this->request->data)){
 				$this->request->data['Page']['file_name'] = strtolower(Inflector::slug($this->request->data['Page']['name']));
 
@@ -51,7 +49,7 @@
 			}
 		}
 
-		function admin_edit($filename){
+		public function admin_edit($filename){
 			if (!$filename){
 				$this->Infinitas->noticeInvalidRecord();
 			}
@@ -69,7 +67,7 @@
 			}
 		}
 
-		function __massGetIds($data) {
+		public function __massGetIds($data) {
 			if (in_array($this->__massGetAction($this->params['form']), array('add','filter'))) {
 				return null;
 			}
@@ -88,7 +86,7 @@
 			return $ids;
 		}
 
-		function __massActionDelete($ids) {
+		public function __massActionDelete($ids) {
 			$deleted = true;
 			foreach($ids as $id){
 				$deleted = $deleted && $this->Page->delete($id);

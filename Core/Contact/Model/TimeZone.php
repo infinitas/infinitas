@@ -1,11 +1,10 @@
 <?php
-	class TimeZone extends ContactAppModel{
-		var $name = 'TimeZone';
+	class TimeZone extends ContactAppModel {
+		public $tablePrefix = '';
 
-		var $tablePrefix = '';
-		var $useTable = false;
+		public $useTable = false;
 
-		function find($type){
+		public function find($type){
 			$return = timezone_identifiers_list();
 
 			switch($type){

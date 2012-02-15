@@ -1,8 +1,6 @@
 <?php
 	class Log extends ManagementAppModel {
-		var $name = 'Log';
-
-		var $order = array(
+		public $order = array(
 			'created' => 'DESC'
 		);
 	}

@@ -1,7 +1,5 @@
 <?php
 	class EventBehavior extends ModelBehavior {
-		var $name = 'Events';
-
 		/**
 		 * Trigger a event
 		 *

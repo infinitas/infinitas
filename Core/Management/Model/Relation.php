@@ -3,15 +3,14 @@
 	 *
 	 *
 	 */
-	class Relation extends ManagementAppModel{
-		var $name = 'Relation';
-		var $tablePrefix = 'relation_';
+	class Relation extends ManagementAppModel {
+		public $tablePrefix = 'relation_';
 
-		var $belongsTo = array(
+		public $belongsTo = array(
 			//'Management.RelationType'
 		);
 
-		function getRelations($bind = true){
+		public function getRelations($bind = true){
 			$return =  $this->find(
 				'all',
 				array(
