@@ -49,15 +49,17 @@
 		}
 
 		/**
-		 * render views
+		 * @brief render views
 		 *
-		 * Lets cake do its thing, then takes the output and runs it through
-		 * mustache, doing all the template rendering things, and then returns
-		 * the final output to where ever its going.
+		 * Let cake render the view as per normal, then pass the data to Mustache
+		 * to render the data into any templates
 		 *
-		 * you can pass ?mustache=false in the url to see the raw output skipping
-		 * the template rendering. could be handy for debugging. if debug is off
-		 * this has no effect.
+		 * @access protected
+		 *
+		 * @param string $viewFile the file that is being rendered
+		 * @param array $data see cake docs
+		 *
+		 * @return string the rendered output
 		 */
 		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
@@ -67,6 +69,19 @@
 			return $out;
 		}
 
+		/**
+		 * @brief render any mustache templates with the viewVars
+		 * 
+		 * you can pass ?mustache=false in the url to see the raw output skipping
+		 * the template rendering. could be handy for debugging. if debug is off
+		 * this has no effect.
+		 *
+		 * @access protected
+		 *
+		 * @param string $out the output for the browser
+		 *
+		 * @return void
+		 */
 		private function __renderMustache(&$out) {
 			if(Configure::read('debug') < 1){
 				unset($this->request['url']['mustache']);
@@ -94,12 +109,16 @@
 
 
 		/**
+		 * @brief check if mustache should be used to render a template
+		 * 
 		 * only on for admin or it renders the stuff in the editor which is pointless
 		 * could maybe just turn it off for edit or some other work around
+		 *
+		 * @access protected
 		 */
 		private function __skipMustacheRender() {
-			return !($this->request->params['admin'] || !($this->Mustache instanceof Mustache) ||
-				(isset($this->request['url']['mustache']) && $this->request['url']['mustache'] == 'false'));
+			return $this->request->params['admin'] || !($this->Mustache instanceof Mustache) ||
+				(isset($this->request['url']['mustache']) && $this->request['url']['mustache'] == 'false');
 		}
 
 		private function __loadHelpers() {
