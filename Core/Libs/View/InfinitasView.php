@@ -63,6 +63,7 @@
 		 */
 		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
+			
 			$out = parent::_render($viewFile, $data);
 			$this->__renderMustache($out);
 			

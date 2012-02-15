@@ -3,7 +3,7 @@ Config/database.php
 Libs/Cronjobs
 Plugin/*
 tmp/*
-views/themed/*
+View/Themed/*
 View/Pages/*
 webroot/img/content/*
 webroot/*

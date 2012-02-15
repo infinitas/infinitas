@@ -22,7 +22,7 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class ThemesComponent extends InfinitasComponent {
-		public function initialize($Controller, $settings = array()) {
+		public function beforeRender($Controller) {
 			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeStart');
 			if (isset($event['setupThemeStart'][$Controller->plugin])) {
 				if (is_string($event['setupThemeStart'][$Controller->plugin])) {
@@ -37,7 +37,7 @@
 
 			$Controller->layout = 'front';
 
-			if (isset($Controller->params['admin'] ) && $Controller->params['admin']){
+			if (isset($Controller->request->params['admin']) && $Controller->request->params['admin']){
 				$Controller->layout = 'admin';
 			}
 
@@ -45,7 +45,7 @@
 				$Controller->plugin . '.setupThemeLayout',
 				array(
 					'layout' => $Controller->layout,
-					'params' => $Controller->params
+					'params' => $Controller->request->params
 				)
 			);
 			
@@ -65,7 +65,7 @@
 					$Controller->plugin . '.setupThemeSelector',
 					array(
 						'theme' => $theme['Theme'],
-						'params' => $Controller->params
+						'params' => $Controller->request->params
 					)
 				);
 				
@@ -78,29 +78,29 @@
 					}
 				}
 			}
+			
 			$Controller->theme = $theme['Theme']['name'];
 			Configure::write('Theme', $theme['Theme']);
 
-			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeRoutes', array('params' => $Controller->params));
+			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeRoutes', array('params' => $Controller->request->params));
 			if (isset($event['setupThemeRoutes'][$Controller->plugin]) && !$event['setupThemeRoutes'][$Controller->plugin]) {
 				return false;
 			}
 
-			$routes = Cache::read('routes', 'core');
 			if (empty($routes)) {
 				$routes = Classregistry::init('Routes.Route')->getRoutes();
 			}
 
 			$currentRoute = Router::currentRoute(Configure::read('CORE.current_route'));
 			if (!empty($routes) && is_object($currentRoute)) {
-				foreach( $routes as $route ){
-					if ( $route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {
+				foreach($routes as $route ){
+					if ($route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {
 						$Controller->theme = $route['Route']['theme'];
 					}
 				}
 			}
 
-			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeEnd', array('theme' => $Controller->theme, 'params' => $Controller->params));
+			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeEnd', array('theme' => $Controller->theme, 'params' => $Controller->request->params));
 			if (isset($event['setupThemeEnd'][$Controller->plugin])) {
 				if (is_string($event['setupThemeEnd'][$Controller->plugin])) {
 					$Controller->theme = $event['setupThemeEnd'][$Controller->plugin];
