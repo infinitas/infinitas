@@ -258,7 +258,7 @@
 		 *
 		 * This is used for moving mptt records and is called by admin_reorder.
 		 */
-		protected function _treeMove(){
+		public function treeMove(){
 			$model = $this->Controller->modelClass;
 			$check = $this->Controller->{$model}->find(
 				'first',
@@ -315,7 +315,7 @@
 		 *
 		 * This is used for moving sequenced records and is called by admin_reorder.
 		 */
-		protected function _orderedMove(){
+		public function orderedMove(){
 			$modelName = $this->Controller->modelClass;
 
 			$orderable = isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) &&
