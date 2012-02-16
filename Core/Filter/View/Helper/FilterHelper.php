@@ -19,7 +19,7 @@
 						case 'active':
 							$emptyText = __('status');
 							break;
-						
+
 						default:
 							$emptyText = __($field);
 							break;
@@ -118,7 +118,7 @@
 							'<div class="remove">'.
 									$this->Html->link(
 									Inflector::humanize($text),
-									str_replace($_f, '', '/' . $this->params['url']['url'])
+									str_replace($_f, '', '/' . $this->request->url)
 								).
 							'</div>'.
 						'</div>';
@@ -138,11 +138,11 @@
 		 * @return string ul->li list of things found
 		 */
 		public function alphabetFilter(){
-			if(empty($this->params['models'])){
+			if(empty($this->request->params['models'])){
 				return false;
 			}
-			
-			$model = current($this->params['models']);
+
+			$model = current($this->request->params['models']);
 			$letters = ClassRegistry::init($model)->getLetterList();
 
 			$return = array();
@@ -175,14 +175,14 @@
 			if(!$text){
 				return false;
 			}
-			$model = current($this->params['models']);
+			$model = current($this->request->params['models']);
 
 			$filter = array(
 				ClassRegistry::init($model)->alias . '.' . ClassRegistry::init($model)->displayField => $text
 			);
 
-			$params = array_merge(parent::cleanCurrentUrl(), $this->params['named'], $this->params['pass'], $filter);
-			
+			$params = array_merge(parent::cleanCurrentUrl(), $this->request->params['named'], $this->request->params['pass'], $filter);
+
 			return $params;
 		}
 	}
