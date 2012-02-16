@@ -1046,22 +1046,12 @@
 				$this->request->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->request->params['named']['limit']);
 			}
 
-			if(isset($this->request->params['form']['action']) && $this->request->params['form']['action'] == 'cancel'){
-				if(isset($this->{$this->modelClass}) && $this->{$this->modelClass}->hasField('locked') && isset($this->request->data[$this->modelClass]['id'])){
-					$this->{$this->modelClass}->unlock($this->request->data[$this->modelClass]['id']);
-				}
-				$this->redirect(array('action' => 'index'));
-			}
-			
-			if(!empty($this->request->data[$this->modelClass]['om_nom_nom'])) {
-				$this->Session->write('Spam.bot', true);
-				$this->Session->write('Spam.detected', time());
-			}
-			
-			else if($this->Session->read('Spam.bot')) {
-				if((time() - 3600) > $this->Session->read('Spam.detected')) {
-					$this->Session->write('Spam', null);
-				}
+			if($this->MassAction->getAction(false) == 'cancel') {
+				$this->Event->trigger(
+					'editCanceled',
+					!empty($this->request->data[$this->modelClass]['id']) ? $this->request->data[$this->modelClass]['id'] : null
+				);
+				$this->redirect($this->getPageRedirectVar());
 			}
 
 			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {

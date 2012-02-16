@@ -221,19 +221,55 @@
 		 *
 		 * @return bool true on succsess false if not.
 		 */
-		public function afterSave(&$Model, $created){
-			if($created){
-				return parent::afterSave($Model, $created);
+		public function afterSave($Model, $created){
+			if(!$created) {
+				$this->__deleteLock($Model, $Model->data[$Model->alias][$Model->primaryKey]);
 			}
 
-			ClassRegistry::init('Locks.Lock')->deleteAll(
+			return parent::afterSave($Model, $created);
+		}
+
+		/**
+		 * @brife Unlock a row
+		 *
+		 * This method is for use when afterSave is not used eg: cancel pushed
+		 * or some other reason for manual unlock
+		 *
+		 * @access public
+		 *
+		 * @param Model $Model the model being unlocked
+		 * @param string $id the id of the record being unlocked
+		 *
+		 * @return bool true if unlocked, false if not
+		 */
+		public function unlock($Model, $id = null) {
+			return $this->__deleteLock($Model, $id);
+		}
+
+		/**
+		 * @brief internal private method for deleting locks
+		 *
+		 * This will delete locks for records only when there is a user_id
+		 * in the session. It deletes based on model, pk and user_id.
+		 *
+		 * @access private
+		 *
+		 * @param Model $Model the model being unlocked
+		 * @param string $id the id of the record being unlocked
+		 *
+		 * @return bool false on error, true if removed
+		 */
+		private function __deleteLock($Model, $id = null) {
+			if(!AuthComponent::user('id') || !$id) {
+				return true;
+			}
+			
+			return ClassRegistry::init('Locks.Lock')->deleteAll(
 				array(
-					'Lock.foreign_key' => $Model->data[$Model->alias][$Model->primaryKey],
-					'Lock.class' => $Model->plugin.'.'.$Model->alias,
-					'Lock.user_id' => CakeSession::read('Auth.User.id')
+					'Lock.foreign_key' => $id,
+					'Lock.class' => $Model->plugin . '.' . $Model->alias,
+					'Lock.user_id' => AuthComponent::user('id')
 				)
 			);
-
-			return parent::afterSave($Model, $created);
 		}
 	}

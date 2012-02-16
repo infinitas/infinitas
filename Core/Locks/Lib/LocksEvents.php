@@ -54,4 +54,14 @@
 				)
 			);
 		}
+
+		public function onEditCanceled($event, $id = null) {
+			if(!$id) {
+				return false;
+			}
+			
+			if(is_callable(array($event->Handler->{$event->Handler->modelClass}, 'unlock'))) {
+				$event->Handler->{$event->Handler->modelClass}->unlock($id);
+			}
+		}
 	}
