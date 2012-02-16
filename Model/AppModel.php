@@ -384,14 +384,11 @@
 				$alreadyUsed = strtolower($key) == 'default' || in_array($key, ConnectionManager::sourceList());
 
 				if($alreadyUsed){
-					throw new Exception(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping'), $key, $plugin));
 					continue;
+					throw new Exception(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping'), $key, $plugin));
 				}
 
-				/**
-				 * @todo cake2.0
-				 * ConnectionManager::create($key, $connection);
-				 */
+				ConnectionManager::create($key, $connection);
 			}
 		}
 
