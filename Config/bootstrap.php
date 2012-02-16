@@ -87,6 +87,42 @@
 
 	EventCore::trigger(new StdClass(), 'setupConfig');
 	EventCore::trigger(new StdClass(), 'requireLibs');
+
+
+	$cachePrefix = substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10);
+	Cache::config('_cake_core_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
+	Cache::config('_cake_model_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
+	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
+	unset($cacheEngine);
+
+	/**
+	 * @brief get the configuration values from cache
+	 *
+	 * If they are available, set them to the Configure object else run the
+	 * Event to get the values from all the plugins and cache them
+	 */
+	$cachedConfigs = Cache::read('global_configs');
+	if(!empty($cachedConfigs)){
+		foreach($cachedConfigs as $k => $v){
+			Configure::write($k, $v);
+		}
+	}
+
+	//no home
+	Configure::write('Rating.require_auth', true);
+	Configure::write('Rating.time_limit', '4 weeks');
+	Configure::write('Reviews.auto_moderate', true);
+
+	if(!empty($cachedConfigs)) {
+		unset($cachedConfigs);
+		return true;
+	}
+
+	/**
+	 * @todo cake2.0
+	 * Cache::write('global_configs', Configure::getInstance());
+	 */
+	
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
 	/**
@@ -105,8 +141,8 @@
 				$folder = 'plugins' . DS . $folder;
 			}
 
-			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile'){
-				if(!is_dir(CACHE.$folder)){
+			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile') {
+				if(!is_dir(CACHE . $folder)){
 					$Folder = new Folder(CACHE . $folder, true);
 				}
 			}

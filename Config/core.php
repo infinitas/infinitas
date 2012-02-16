@@ -55,41 +55,7 @@
 			break;
 
 		default:
-			$cacheEngine = 'Libs.NamespaceFile';
+			//$cacheEngine = 'Libs.NamespaceFileCache';
 			break;
 	}
 	Configure::write('Cache.engine', $cacheEngine);
-	
-	$cachePrefix = substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10);
-	Cache::config('_cake_core_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
-	Cache::config('_cake_model_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
-	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
-	unset($cacheEngine);
-
-	/**
-	 * @brief get the configuration values from cache
-	 *
-	 * If they are available, set them to the Configure object else run the
-	 * Event to get the values from all the plugins and cache them
-	 */
-	$cachedConfigs = Cache::read('global_configs');
-	if(!empty($cachedConfigs)){
-		foreach($cachedConfigs as $k => $v){
-			Configure::write($k, $v);
-		}
-	}
-
-	//no home
-	Configure::write('Rating.require_auth', true);
-	Configure::write('Rating.time_limit', '4 weeks');
-	Configure::write('Reviews.auto_moderate', true);
-
-	if(!empty($cachedConfigs)) {
-		unset($cachedConfigs);
-		return true;
-	}
-
-	/**
-	 * @todo cake2.0
-	 * Cache::write('global_configs', Configure::getInstance());
-	 */

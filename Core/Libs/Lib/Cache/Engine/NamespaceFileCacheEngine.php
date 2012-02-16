@@ -117,7 +117,7 @@
 		 * @return boolean True if the data was succesfully cached, false on failure
 		 * @access public
 		 */
-		function write($key, &$data, $duration) {
+		public function write($key, $value, $duration) {
 			$writable = $this->__setKey($key);
 			if (!is_a($writable, 'File') || !$this->__init || $data === '') {
 				return false;
@@ -152,6 +152,28 @@
 			$success = $writable->write($contents);
 			$writable->close();
 			return $success;
+		}
+
+		/**
+		 * Increment a number under the key and return incremented value
+		 *
+		 * @param string $key Identifier for the data
+		 * @param integer $offset How much to add
+		 * @return New incremented value, false otherwise
+		 */
+		public function increment($key, $offset = 1) {
+			throw new CacheException(__d('cake_dev', 'Files cannot be atomically incremented.'));
+		}
+
+		/**
+		 * Decrement a number under the key and return decremented value
+		 *
+		 * @param string $key Identifier for the data
+		 * @param integer $offset How much to subtract
+		 * @return New incremented value, false otherwise
+		 */
+		public function decrement($key, $offset = 1) {
+			throw new CacheException(__d('cake_dev', 'Files cannot be atomically decremented.'));
 		}
 
 		/**
