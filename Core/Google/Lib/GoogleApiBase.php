@@ -81,8 +81,7 @@
 
 			$this->HttpSocket = new HttpSocket();
 			// Initializing Cake Session
-			$session = new CakeSession();
-			$session->start();
+			CakeSession::start();
 
 			// Validating if curl is available
 			if (function_exists('curl_init')) {
@@ -94,7 +93,7 @@
 			}
 
 			// Looking for auth key in cookie of google api client login
-			$cookieKey = $session->read('GoogleClientLogin' . $_toPost['service'] . '._authKey');
+			$cookieKey = CakeSession::read('GoogleClientLogin' . $_toPost['service'] . '._authKey');
 			if ($cookieKey == null || $cookieKey == '') {
 				// Geting auth key via HttpSocket
 				$results = $this->HttpSocket->post($this->_loginUri, $_toPost);
@@ -107,7 +106,7 @@
 					}
 				}
 
-				$session->write('GoogleClientLogin' . $_toPost['service'] . '._authKey', $this->_authKey);
+				CakeSession::write('GoogleClientLogin' . $_toPost['service'] . '._authKey', $this->_authKey);
 			}
 
 			else {

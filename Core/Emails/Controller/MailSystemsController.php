@@ -8,7 +8,7 @@
 		}
 
 		public function admin_dashboard(){
-			$accounts = ClassRegistry::init('Emails.EmailAccount')->getMyAccounts($this->Session->read('Auth.User.id'));
+			$accounts = ClassRegistry::init('Emails.EmailAccount')->getMyAccounts($this->Auth->user('id'));
 
 			if(empty($accounts)){
 				$this->notice('You do not have any accounts set up', 'notice');

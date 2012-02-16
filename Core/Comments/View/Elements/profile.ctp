@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	if(!isset($comments)){
-		$comments = ClassRegistry::init('Comments.Comment')->getUsersComments($this->Session->read('Auth.User.id'));
+		$comments = ClassRegistry::init('Comments.Comment')->getUsersComments(AuthComponent::user('id'));
 	}
 ?>
 <h3><?php echo __('Your Comments'); ?></h3>

@@ -29,10 +29,10 @@
 		$data = &${strtolower($modelName)};
 
 		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){
-			$this->data[$modelName] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName]);
+			$this->data[$modelName] = array_merge((array)AuthComponent::user(), $this->data[$modelName]);
 		}
 		else{
-			$this->data[$modelName] = $this->Session->read('Auth.User');
+			$this->data[$modelName] = AuthComponent::user();
 		}
 
         if (isset($urlParams)){

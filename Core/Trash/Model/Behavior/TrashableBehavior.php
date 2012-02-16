@@ -7,10 +7,7 @@
 				$this->Trash = ClassRegistry::init('Trash.Trash');
 			}
 
-			$userId = 0; // shell
-			if(class_exists('CakeSession')){
-				$userId = CakeSession::read('Auth.User.id');
-			}
+			$userId = AuthComponent::user('id');
 
 			$Model->contain();
 			$item = $Model->read();

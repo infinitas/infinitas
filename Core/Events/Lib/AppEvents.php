@@ -154,10 +154,17 @@
 		 */
 		public function onSetupExtensions($event){}
 
-
-
-
-
+		/**
+		 * @brief called when editing a row is canceled
+		 *
+		 * If id is null it is because it was a new row not something being updated
+		 *
+		 * @access public
+		 *
+		 * @param Event $event the event being called
+		 * @param string $id
+		 */
+		public function onEditCanceled($event, $id) {}
 
 		/**
 		 *

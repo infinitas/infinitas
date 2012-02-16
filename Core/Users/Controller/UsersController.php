@@ -31,7 +31,7 @@
 		}
 
 		public function view(){
-			if(!$this->Session->read('Auth.User.id')){
+			if(!$this->Auth->user('id')){
 				$this->notice(
 					__('You must be logged in to view your profile'),
 					array(
@@ -45,7 +45,7 @@
 				'first',
 				array(
 					'conditions' => array(
-						'User.id' => $this->Session->read('Auth.User.id')
+						'User.id' => $this->Auth->user('id')
 					)
 				)
 			);
@@ -179,7 +179,7 @@
 		 * @access public
 		 */
 		public function logout(){
-			$this->Event->trigger('beforeUserLogout', array('user' => $this->Session->read('Auth.User')));
+			$this->Event->trigger('beforeUserLogout', array('user' => $this->Auth->user()));
 			//@todo if this is false dont logout.
 
 			$this->Session->destroy();
@@ -425,7 +425,7 @@
 					$data = $this->_getUserData();
 
 					if ($this->User->save($data)) {
-						$currentUser = $this->Session->read('Auth.User');
+						$currentUser = $this->Auth->user();
 
 						// there is something wrong
 						if ($lastLogon === false) {

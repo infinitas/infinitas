@@ -29,7 +29,7 @@
 			if(!empty($this->request->data)) {
 				$body = '<p>A new email has been sent from your site. The details are below</p>';
 				$body .= sprintf('<p>The sender: %s <%>s</p>', h($this->request->data['Newsletter']['name']), $this->request->data['Newsletter']['email']);
-				$body .= sprintf('<p>IP address: %s</p>', $this->Session->read('Auth.User.ip_address'));
+				$body .= sprintf('<p>IP address: %s</p>', $this->Auth->user('ip_address'));
 				$body .= '<p>=====================================================</p>';
 				$body .= htmlspecialchars($this->request->data['Newsletter']['query']);
 
@@ -53,11 +53,8 @@
 				);
 			}
 
-			$user = $this->Session->read('Auth.User');
-			if($user) {
-				$this->request->data['Newsletter']['name'] = $user['username'];
-				$this->request->data['Newsletter']['email'] = $user['email'];
-			}
+			$this->request->data['Newsletter']['name'] = $this->Auth->user('username');
+			$this->request->data['Newsletter']['email'] = $this->Auth->user('email');
 		}
 
 		public function track($id) {

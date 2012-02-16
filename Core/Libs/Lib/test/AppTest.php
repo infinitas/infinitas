@@ -447,18 +447,14 @@
 		 */
 		public function session($data = array(), $engine = 'php') {
 			Configure::write('Session.save', $engine);
-			
-			if(!isset($this->Session)) {
-				if(!class_exists('CakeSession')) {
-					App::import('Core', 'CakeSession');
-				}
-				
-				$this->Session = new CakeSession();
+
+			if(!class_exists('CakeSession')) {
+				App::uses('CakeSession', 'Session');
 			}
 			
 			if(!empty($data)) {
 				foreach($data as $k => $v) {
-					$this->Session->write($k, $v);
+					CakeSession::write($k, $v);
 				}
 			}
 		}

@@ -24,22 +24,6 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class MassActionComponent extends InfinitasComponent {
-		private $__modelName = null;
-
-		private $__prettyModelName = null;
-
-		/**
-		 * Controllers initialize function.
-		 */
-		public function initialize($Controller, $settings = array()) {
-			parent::initialize($Controller);
-			
-			$settings = array_merge(array(), (array)$settings);
-			
-			$this->__modelName = $this->Controller->modelClass;
-			$this->__prettyModelName = prettyName($this->__modelName);
-		}
-
 		/**
 		 * Get submitted ids.
 		 *
@@ -55,7 +39,6 @@
 			if (in_array($massAction, array('add','filter'))) {
 				return null;
 			}
-
 
 			$ids = array_values(array_filter(Set::extract('/massCheckBox', $data)));
 			if (empty($ids)) {
@@ -82,18 +65,20 @@
 		 *
 		 * @return string the action selected, or redirect to referer if no action found.
 		 */
-		public function getAction() {
+		public function getAction($redirect = true) {
 			if (!empty($_POST['action'])) {
 				return Sanitize::paranoid($_POST['action']);
 			}
 
-			$this->Controller->notice(
-				__('I dont know what to do.'),
-				array(
-					'level' => 'error',
-					'redirect' => true
-				)
-			);
+			if($redirect) {
+				$this->Controller->notice(
+					__('I dont know what to do.'),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
+			}
 		}
 
 		/**
@@ -146,7 +131,7 @@
 		 */
 		public function delete($ids) {
 			$delete = (isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) ||
-					(isset($this->Controller->{$this->__modelName}->noConfirm));
+					(isset($this->Controller->{$this->Controller->modelClass}->noConfirm));
 			if ($delete) {
 				if(method_exists($this->Controller, '__handleDeletes')) {
 					$this->Controller->__handleDeletes($ids);
@@ -158,16 +143,16 @@
 			}
 
 			$referer = $this->Controller->referer();
-			$rows = $this->Controller->{$this->__modelName}->find(
+			$rows = $this->Controller->{$this->Controller->modelClass}->find(
 				'list',
 				array(
 					'conditions' => array(
-						$this->__modelName . '.id' => $ids
+						$this->Controller->modelClass . '.id' => $ids
 					)
 				)
 			);
 
-			$this->Controller->set('model', $this->__modelName);
+			$this->Controller->set('model', $this->Controller->modelClass);
 			$this->Controller->set(compact('referer', 'rows'));
 
 			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'delete.ctp';
@@ -189,25 +174,25 @@
 		 * @param array $ids the ids to delete.
 		 */
 		public function __handleDeletes($ids) {
-			$this->Controller->{$this->__modelName}->transaction();
+			$this->Controller->{$this->Controller->modelClass}->transaction();
 			$deleted = true;
 			foreach($ids as $id) {
-				$deleted = $deleted && $this->Controller->{$this->__modelName}->delete($id);
+				$deleted = $deleted && $this->Controller->{$this->Controller->modelClass}->delete($id);
 			}
 
 			$params = array();
 			if($deleted) {
-				$this->Controller->{$this->__modelName}->transaction(true);
+				$this->Controller->{$this->Controller->modelClass}->transaction(true);
 				$params = array(
-					'message' => sprintf(__('%d %s have been deleted'), count($ids), $this->__prettyModelName)
+					'message' => sprintf(__('%d %s have been deleted'), count($ids), $this->Controller->prettyModelName)
 				);
 			}
 
 			else {
-				$this->Controller->{$this->__modelName}->transaction(false);
+				$this->Controller->{$this->Controller->modelClass}->transaction(false);
 				$params = array(
 					'level' => 'error',
-					'message' => sprintf(__('The %s could not be deleted'), $this->__prettyModelName)
+					'message' => sprintf(__('The %s could not be deleted'), $this->Controller->prettyModelName)
 				);
 			}
 
@@ -225,36 +210,36 @@
 		 * @param array $ids array of ids.
 		 */
 		public function toggle($ids) {
-			if(!$this->Controller->{$this->__modelName}->hasField('active')) {
-				trigger_error(sprintf('The model "%s" does not have an active field', $this->__modelName), E_USER_ERROR);
+			if(!$this->Controller->{$this->Controller->modelClass}->hasField('active')) {
+				trigger_error(sprintf('The model "%s" does not have an active field', $this->Controller->modelClass), E_USER_ERROR);
 			}
 			
 			if(empty($ids)) {
 				return false;
 			}
 			
-			$conditions = array($this->__modelName . '.id' => $ids);
+			$conditions = array($this->Controller->modelClass . '.id' => $ids);
 			$newValues = array(
-				$this->__modelName . '.active' => '1 - `' . $this->__modelName . '`.`active`'
+				$this->Controller->modelClass . '.active' => '1 - `' . $this->Controller->modelClass . '`.`active`'
 			);
 
-			if($this->Controller->{$this->__modelName}->hasField('modified')){
-				$newValues[$this->__modelName . '.modified'] = '\'' . date('Y-m-d H:m:s') . '\'';
+			if($this->Controller->{$this->Controller->modelClass}->hasField('modified')){
+				$newValues[$this->Controller->modelClass . '.modified'] = '\'' . date('Y-m-d H:m:s') . '\'';
 			}
 
 			// unbind things for the update. dont need all the models for this.
-			$this->Controller->{$this->__modelName}->unbindModel(
+			$this->Controller->{$this->Controller->modelClass}->unbindModel(
 				array(
-					'belongsTo' => array_keys($this->Controller->{$this->__modelName}->belongsTo),
-					'hasOne' => array_keys($this->Controller->{$this->__modelName}->hasOne)
+					'belongsTo' => array_keys($this->Controller->{$this->Controller->modelClass}->belongsTo),
+					'hasOne' => array_keys($this->Controller->{$this->Controller->modelClass}->hasOne)
 				)
 			);
 
-			if ($this->Controller->{$this->__modelName}->updateAll($newValues, $conditions)) {
-				$this->Controller->{$this->__modelName}->afterSave(false);
+			if ($this->Controller->{$this->Controller->modelClass}->updateAll($newValues, $conditions)) {
+				$this->Controller->{$this->Controller->modelClass}->afterSave(false);
 
 				$this->Controller->notice(
-					sprintf(__('The %s were toggled'), $this->__prettyModelName),
+					sprintf(__('The %s were toggled'), $this->Controller->prettyModelName),
 					array(
 						'redirect' => true
 					)
@@ -262,7 +247,7 @@
 			}
 
 			$this->Controller->notice(
-				sprintf(__('The %s could not be toggled'), $this->__prettyModelName),
+				sprintf(__('The %s could not be toggled'), $this->Controller->prettyModelName),
 				array(
 					'level' => 'error',
 					'redirect' => true
@@ -284,41 +269,41 @@
 			$copyText = sprintf(' - %s (%s)', __('copy'), date('Y-m-d'));
 			$saves = 0;
 			foreach($ids as $id) {
-				$record = $this->Controller->{$this->__modelName}->read(null, $id);
-				unset($record[$this->__modelName]['id']);
+				$record = $this->Controller->{$this->Controller->modelClass}->read(null, $id);
+				unset($record[$this->Controller->modelClass]['id']);
 
-				if ($record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] != $this->Controller->{$this->__modelName}->primaryKey) {
-					$record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] =
-								$record[$this->__modelName][$this->Controller->{$this->__modelName}->displayField] . $copyText;
+				if ($record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] != $this->Controller->{$this->Controller->modelClass}->primaryKey) {
+					$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] =
+								$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] . $copyText;
 				}
 
-				$record[$this->__modelName]['active'] = 0;
-				unset($record[$this->__modelName]['created']);
-				unset($record[$this->__modelName]['modified']);
-				unset($record[$this->__modelName]['lft']);
-				unset($record[$this->__modelName]['rght']);
-				unset($record[$this->__modelName]['ordering']);
-				unset($record[$this->__modelName]['order_id']);
-				unset($record[$this->__modelName]['views']);
+				$record[$this->Controller->modelClass]['active'] = 0;
+				unset($record[$this->Controller->modelClass]['created']);
+				unset($record[$this->Controller->modelClass]['modified']);
+				unset($record[$this->Controller->modelClass]['lft']);
+				unset($record[$this->Controller->modelClass]['rght']);
+				unset($record[$this->Controller->modelClass]['ordering']);
+				unset($record[$this->Controller->modelClass]['order_id']);
+				unset($record[$this->Controller->modelClass]['views']);
 
 				/**
 				 * unset anything fields that are countercache
 				 */
-				foreach($record[$this->__modelName] as $field => $value){
+				foreach($record[$this->Controller->modelClass] as $field => $value){
 					if(strstr($field, '_count')){
-						unset($record[$this->__modelName][$field]);
+						unset($record[$this->Controller->modelClass][$field]);
 					}
 				}
 
-				$this->Controller->{$this->__modelName}->create();
-				if ($this->Controller->{$this->__modelName}->save($record, array('validate' => false))) {
+				$this->Controller->{$this->Controller->modelClass}->create();
+				if ($this->Controller->{$this->Controller->modelClass}->save($record, array('validate' => false))) {
 					$saves++;
 				}
 			}
 
 			if ($saves) {
 				$this->Controller->notice(
-					sprintf(__('%s copies of %s were made'), $saves, $this->__prettyModelName),
+					sprintf(__('%s copies of %s were made'), $saves, $this->Controller->prettyModelName),
 					array(
 						'redirect' => true
 					)
@@ -326,7 +311,7 @@
 			}
 
 			$this->Controller->notice(
-				sprintf(__('No copies of %s could be made'), $this->__prettyModelName),
+				sprintf(__('No copies of %s could be made'), $this->Controller->prettyModelName),
 				array(
 					'level' => 'error',
 					'redirect' => true
@@ -353,12 +338,12 @@
 			}
 
 			$referer = $this->Controller->referer();
-			$rows = $this->Controller->{$this->__modelName}->find('all', array('conditions' => array($this->__modelName.'.id' => $ids), 'contain' => false));
-			$model = $this->__modelName;
+			$rows = $this->Controller->{$this->Controller->modelClass}->find('all', array('conditions' => array($this->Controller->modelClass.'.id' => $ids), 'contain' => false));
+			$model = $this->Controller->modelClass;
 
 			$relations['belongsTo'] = array();
-			if (isset($this->Controller->{$this->__modelName}->belongsTo)) {
-				$relations['belongsTo'] = $this->Controller->{$this->__modelName}->belongsTo;
+			if (isset($this->Controller->{$this->Controller->modelClass}->belongsTo)) {
+				$relations['belongsTo'] = $this->Controller->{$this->Controller->modelClass}->belongsTo;
 
 				foreach($relations['belongsTo'] as $alias => $belongsTo){
 					switch($alias){
@@ -367,7 +352,7 @@
 
 						case 'Parent Post':
 						case 'Parent':
-							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->__modelName);
+							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->Controller->modelClass);
 
 							if(in_array('Tree', $_Model->Behaviors->_attached)){
 								$_Model->order = array();
@@ -389,8 +374,8 @@
 			}
 
 			$relations['hasAndBelongsToMany'] = array();
-			if (isset($this->Controller->{$this->__modelName}->hasAndBelongsToMany)) {
-				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->__modelName}->hasAndBelongsToMany;
+			if (isset($this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany)) {
+				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany;
 
 				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
 					$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
@@ -398,8 +383,8 @@
 				}
 			}
 
-			$modelSetup['displayField'] = $this->Controller->{$this->__modelName}->displayField;
-			$modelSetup['primaryKey'] = $this->Controller->{$this->__modelName}->primaryKey;
+			$modelSetup['displayField'] = $this->Controller->{$this->Controller->modelClass}->displayField;
+			$modelSetup['primaryKey'] = $this->Controller->{$this->Controller->modelClass}->primaryKey;
 			$this->Controller->set(compact('referer', 'rows', 'model', 'modelSetup', 'relations'));
 			$this->Controller->render('move', null, App::pluginPath('libs').'views'.DS.'global'.DS.'move.ctp');
 		}
@@ -424,7 +409,7 @@
 				$row = array('id' => $id);
 				$_data = array_merge(array_filter($movedTo), $row);
 
-				$_mn = $this->__modelName;
+				$_mn = $this->Controller->modelClass;
 				foreach($_data as $key => $value){
 					if(is_array($value)){
 						$save[$key][$key] = $value;
@@ -434,29 +419,29 @@
 					}
 				}
 
-				$data = $this->Controller->{$this->__modelName}->read(null, $id);
-				unset($data[$this->__modelName]['lft']);
-				unset($data[$this->__modelName]['rght']);
-				$save[$this->__modelName] = array_merge($data[$this->__modelName], $save[$this->__modelName]);
+				$data = $this->Controller->{$this->Controller->modelClass}->read(null, $id);
+				unset($data[$this->Controller->modelClass]['lft']);
+				unset($data[$this->Controller->modelClass]['rght']);
+				$save[$this->Controller->modelClass] = array_merge($data[$this->Controller->modelClass], $save[$this->Controller->modelClass]);
 				// @todo this is messing up trees, need to see why the lft and rght is not updating.
-				$result = $result && $this->Controller->{$this->__modelName}->saveAll($save);
+				$result = $result && $this->Controller->{$this->Controller->modelClass}->saveAll($save);
 				unset($save);
 			}
 
-			if(in_array('Tree', $this->Controller->{$this->__modelName}->Behaviors->_attached)){
-				//$this->Controller->{$this->__modelName}->recover('parent');
+			if(in_array('Tree', $this->Controller->{$this->Controller->modelClass}->Behaviors->_attached)){
+				//$this->Controller->{$this->Controller->modelClass}->recover('parent');
 			}
 
 			if($result == true) {
 				$params = array(
-					'message' => sprintf(__('The %s have been moved'), $this->__prettyModelName)
+					'message' => sprintf(__('The %s have been moved'), $this->Controller->prettyModelName)
 				);
 			}
 
 			else {
 				$params = array(
 					'level' => 'warning',
-					'message' => sprintf(__('Some of the %s could not be moved'), $this->__prettyModelName)
+					'message' => sprintf(__('Some of the %s could not be moved'), $this->Controller->prettyModelName)
 				);
 			}
 

@@ -976,9 +976,8 @@
 		 * @return string the generated url
 		 */
 		public function url($url = null, $full = false) {
-			$Session = new CakeSession();
-			if($Session->read('Spam.bot')) {
-				return Router::url('/', true);
+			if(CakeSession::read('Spam.bot') || $this->request->url == '/?spam=true') {
+				return Router::url('/?spam=true', true);
 			}
 			
 			$persistedNamedParameters = Configure::read('AppHelper.persistParameters');
