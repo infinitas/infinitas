@@ -2,7 +2,7 @@
 	<?php
 		if(!isset($feeds)){
 			$config['feed'] = isset($config['feed']) ? $config['feed'] : '';
-			$feeds = ClassRegistry::init('Feed.Feed')->getFeed($config['feed'], $this->Session->read('Auth.User.group_id'));
+			$feeds = ClassRegistry::init('Feed.Feed')->getFeed($config['feed'], AuthComponent::user('group_id'));
 		}
 
 		foreach($feeds as $feed){

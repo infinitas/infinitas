@@ -3,7 +3,7 @@
 	/**
 	 * creators
 	 */
-	$options = array('options' => $contentAuthors, 'selected' => $this->Session->read('Auth.User.id'));
+	$options = array('options' => $contentAuthors, 'selected' => AuthComponent::user('id'));
 	if(strstr($this->request->params['action'], 'edit')) {
 		$options = false;
 	}
@@ -33,7 +33,7 @@
 	 * editors
 	 */
 
-	$options = array('options' => $contentAuthors, 'selected' => $this->Session->read('Auth.User.id'));
+	$options = array('options' => $contentAuthors, 'selected' => AuthComponent::user('id'));
 	if(strstr($this->request->params['action'], 'add')) {
 		$options['readonly'] = true;
 	}

@@ -46,7 +46,6 @@
 		public function startCase() {
 			parent::startCase();
 			App::import('Lib', 'CakeSession');
-			$this->Session = new CakeSession();
 		}
 
 		public function startTest($method) {
@@ -68,7 +67,7 @@
 		 * @test Enter description here
 		 */
 		public function testFromString() {
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 
 			$result = $this->InfiniTime->fromString('');
 			$this->assertFalse($result);
@@ -99,9 +98,9 @@
 
 			$dateString = '2011-08-17 16:39:00';
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$this->assertEqual('Wed, Aug 17th 2011, 16:39', $this->InfiniTime->nice($dateString));
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 			$this->assertEqual('Wed, Aug 17th 2011, 17:39', $this->InfiniTime->nice($dateString));
 
 			/**
@@ -112,32 +111,32 @@
 			//Test timezones in DST
 			$dateString = '2011-08-17 16:00:00';
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$this->assertEqual('Wed, Aug 17th 2011, 17:00', $this->InfiniTime->nice($dateString));
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 			$this->assertEqual('Wed, Aug 17th 2011, 18:00', $this->InfiniTime->nice($dateString));
-			$this->Session->write('Auth.User.time_zone', 'America/Mexico_City');
+			CakeSession::write('Auth.User.time_zone', 'America/Mexico_City');
 			$this->assertEqual('Wed, Aug 17th 2011, 11:00', $this->InfiniTime->nice($dateString));
 			
 			//Test timezones currently not in DST
 			$dateString = '2011-01-10 12:00:00';
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$this->assertEqual('Mon, Jan 10th 2011, 12:00', $this->InfiniTime->nice($dateString));
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 			$this->assertEqual('Mon, Jan 10th 2011, 13:00', $this->InfiniTime->nice($dateString));
-			$this->Session->write('Auth.User.time_zone', 'America/Mexico_City');
+			CakeSession::write('Auth.User.time_zone', 'America/Mexico_City');
 			$this->assertEqual('Mon, Jan 10th 2011, 06:00', $this->InfiniTime->nice($dateString));
 			//Test a non hour offset
-			$this->Session->write('Auth.User.time_zone', 'America/Caracas');
+			CakeSession::write('Auth.User.time_zone', 'America/Caracas');
 			$this->assertEqual('Mon, Jan 10th 2011, 07:30', $this->InfiniTime->nice($dateString));
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$this->assertEqual('Jul 17th 2004, 17:00', $this->InfiniTime->niceShort('2004-07-17 16:00:00'));
 		}
 
 		public function testRelativeTimeFunctions() {
-			$this->Session->write('Auth.User.time_zone', 'America/New_York');
+			CakeSession::write('Auth.User.time_zone', 'America/New_York');
 
 			$this->assertFalse($this->InfiniTime->isToday('01:00:00'));
 			$this->assertTrue($this->InfiniTime->isToday('10:00:00'));
@@ -162,7 +161,7 @@
 		}
 
 		public function testOutputFormats() {
-			$this->Session->write('Auth.User.time_zone', 'America/New_York');
+			CakeSession::write('Auth.User.time_zone', 'America/New_York');
 
 			$timestamp = $this->InfiniTime->toUnix('2011-08-18 10:42:00');
 			$this->assertEqual('2011-08-18 06:42:00', date('Y-m-d H:i:s', $timestamp));
@@ -171,11 +170,11 @@
 
 			$this->assertEqual('Thu, 18 Aug 2011 06:42:00 -0400', $this->InfiniTime->toRSS('2011-08-18 10:42:00'));
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$this->assertEqual('Thu, 18 Aug 2011 11:42:00 +0100', $this->InfiniTime->toRSS('2011-08-18 10:42:00'));
 			$this->assertEqual('Thu, 20 Jan 2011 18:00:15 +0000', $this->InfiniTime->toRSS('2011-01-20 18:00:15'));
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 			$this->assertEqual('Thu, 18 Aug 2011 12:42:00 +0200', $this->InfiniTime->toRSS('2011-08-18 10:42:00'));
 		}
 
@@ -185,7 +184,7 @@
 		 * @test Enter description here
 		 */
 		public function testTimeAgoInWord() {
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 
 			$result = $this->InfiniTime->timeAgoInWords(strtotime('-2 hours'));
 			$this->AssertEqual('2 hours ago', $result);
@@ -203,7 +202,7 @@
 
 
 		public function testVarious() {
-			$this->Session->write('Auth.User.time_zone', 'Europe/London');
+			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$result = $this->InfiniTime->dayAsSql('2009-10-30', 'Item.created');
 			$this->assertEqual("(Item.created >= '2009-10-30 00:00:00') AND (Item.created <= '2009-10-30 23:59:59')", $result);
 			
@@ -212,7 +211,7 @@
 
 			$this->assertTrue($this->InfiniTime->wasWithinLast('5 hours', strtotime('-2 hours')));
 
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 			setlocale(LC_TIME, 'nl_NL');
 			$result = $this->InfiniTime->i18nFormat('2010-11-15 15:14:00', '%A, %e %B %Y %H:%M');
 			$this->assertEqual('maandag, 15 november 2010 16:14', $result);
@@ -224,7 +223,7 @@
 		 * @test Enter description here
 		 */
 		public function testRelativeTime() {
-			$this->Session->write('Auth.User.time_zone', 'Europe/Brussels');
+			CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
 			$result = $this->InfiniTime->relativeTime('1998-05-20 10:00:00', array('format' => 'Y-m-d H:i:s'));
 			$this->assertEqual('on 1998-05-20 12:00:00', $result);
 		}

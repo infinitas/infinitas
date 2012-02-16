@@ -312,7 +312,7 @@
 		 * @return void
 		 */
 		public function preview($id = null){
-			if(!$id || (int)$this->Session->read('Auth.User.group_id') !== 1){
+			if(!$id || $this->Auth->user('group_id') !== 1){
 				$this->notice(
 					__('That page does not exist'),
 					array(
@@ -364,7 +364,7 @@
 		 */
 		public function rate($id = null) {
 			$this->request->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
-			$this->request->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
+			$this->request->data['Rating']['user_id'] = $this->Auth->user('id');
 			$tempClass = $this->request->plugin . '.' . $this->modelClass;
 			$this->request->data['Rating']['class'] = isset($this->request->data['Rating']['class']) ? $this->request->data['Rating']['class'] : $tempClass;
 			$this->request->data['Rating']['foreign_id'] = isset($this->request->data['Rating']['foreign_id']) ? $this->request->data['Rating']['foreign_id'] : $id;
@@ -1034,7 +1034,7 @@
 
 			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
 
-			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Session->read('Auth.User.group_id') != 1){
+			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Auth->user('group_id') != 1){
 				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			}
 
@@ -1055,7 +1055,7 @@
 			}
 
 			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
-				$this->{$this->modelClass}->setUserData($this->Session->read('Auth'));
+				$this->{$this->modelClass}->setUserData($this->Auth->user());
 			}
 
 			$this->__callBacks[__FUNCTION__] = true;

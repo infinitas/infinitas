@@ -14,7 +14,7 @@
 					),
 					'conditions' => array(
 						'Feed.active' => 1,
-						//'Feed.group_id >= ' => $this->Session->read('Auth.User.group_id')
+						//'Feed.group_id >= ' => $this->Auth->user('group_id')
 					)
 				)
 			);
@@ -32,7 +32,7 @@
 				);
 			}
 
-			$feeds = $this->Feed->getFeed($this->request->params['slug'], $this->Session->read('Auth.User.group_id'));
+			$feeds = $this->Feed->getFeed($this->request->params['slug'], $this->Auth->user('group_id'));
 
 			if(empty($feeds)){
 				$this->notice(

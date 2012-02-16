@@ -209,8 +209,7 @@
 			ClassRegistry::flush();
 
 			if(class_exists('CakeSession')) {
-				$CakeSession = new CakeSession();
-				$CakeSession->destroy();
+				CakeSession::destroy();
 			}
 
 			$this->AppTest->endTest($method);

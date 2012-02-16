@@ -22,6 +22,6 @@
 
 	echo __('Join our mailing list');
 	echo $this->Form->create('Newsletter', array('action' => 'subscribe'));
-		echo $this->Form->input('email', array('value' => $this->Session->read('Auth.User.email'), 'label' => false));
+		echo $this->Form->input('email', array('value' => AuthComponent::user('email'), 'label' => false));
 		echo $this->Form->submit('Go');
 	echo $this->Form->end();

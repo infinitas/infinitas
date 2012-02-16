@@ -23,7 +23,7 @@
 			);
 		}
 
-		$accountIcons = $this->Menu->builDashboardLinks($accountIcons, 'accounts_' . $this->Session->read('Auth.User.id'));
+		$accountIcons = $this->Menu->builDashboardLinks($accountIcons, 'accounts_' . AuthComponent::user('id'));
 	}
 ?>
 <div class="dashboard grid_16">

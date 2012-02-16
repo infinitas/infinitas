@@ -47,7 +47,7 @@
 					'plugin' => 'users',
 					'controller' => 'users',
 					'action' => 'view',
-					$this->Session->read('Auth.User.id')
+					AuthComponent::user('id')
 				)
 			), '<br/>',
 			$this->Html->link(

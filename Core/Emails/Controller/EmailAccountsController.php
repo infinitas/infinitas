@@ -20,14 +20,14 @@
 
 			if(empty($this->request->data)){
 				$this->request->data['EmailAccount'] = array(
-					'name' => sprintf(__('%s\'s mail'), $this->Session->read('Auth.User.username')),
+					'name' => sprintf(__('%s\'s mail'), $this->Auth->user('username')),
 					'server' => sprintf('mail.%s', env('HTTP_HOST')),
-					'username' => sprintf('%s@%s', $this->Session->read('Auth.User.username'), env('HTTP_HOST')),
-					'email' => $this->Session->read('Auth.User.email'),
+					'username' => sprintf('%s@%s', $this->Auth->user('username'), env('HTTP_HOST')),
+					'email' => $this->Auth->user('email'),
 					'type' => 'imap',
 					'port' => 143,
 					'readonly' => 0,
-					'user_id' => $this->Session->read('Auth.User.id')
+					'user_id' => $this->Auth->user('id')
 				);
 			}
 

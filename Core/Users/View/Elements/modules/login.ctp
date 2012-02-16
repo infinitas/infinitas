@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	if($this->Session->read('Auth.User.id')) {
+	if(AuthComponent::user('id')) {
 		echo $this->element('logout', array('plugin' => 'users'));
 	}
 	else{

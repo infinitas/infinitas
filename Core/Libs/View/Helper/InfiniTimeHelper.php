@@ -316,9 +316,8 @@ class InfiniTimeHelper extends TimeHelper {
 			return $userOffset;
 		}
 
-		$this->Session = new CakeSession();
-		if(is_null($userOffset) && $this->Session->check('Auth.User.time_zone')) {
-			$timeZone = $this->Session->read('Auth.User.time_zone');
+		if(is_null($userOffset) && CakeSession::check('Auth.User.time_zone')) {
+			$timeZone = CakeSession::read('Auth.User.time_zone');
 
 			if(phpversion() >= 5.2) {
 				if(is_int($dateString)) {

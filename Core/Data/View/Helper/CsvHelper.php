@@ -70,7 +70,7 @@
 
 			if($generated){
 		    	$row[] = '';
-		    	$row[] = sprintf(__('Generated on the %s at %s by %s'), date('Y-m-d'), date('H:m:s'), $this->Session->read('Auth.User.username'));
+		    	$row[] = sprintf(__('Generated on the %s at %s by %s'), date('Y-m-d'), date('H:m:s'), AuthComponent::user('username'));
 		    }
 			
 		    return $csv = implode("\r\n", $row);

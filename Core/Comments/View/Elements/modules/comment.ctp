@@ -54,18 +54,18 @@
 			echo implode('', $_comments);
 		}
 
-		if(Configure::read('Comments.require_auth') === true && !$this->Session->read('Auth.User.id')){
+		if(Configure::read('Comments.require_auth') === true && !AuthComponent::user('id')){
 			?><div class="comment"><?php echo __('Please log in to leave a comment'); ?></div><?php
 			echo '</div>'; // dont remove it keeps things even when exiting early
 			return;
 		}
 
 		if(isset($this->data[$modelName.'Comment']) && is_array($this->data[$modelName.'Comment'])){
-			$this->data[$modelName.'Comment'] = array_merge((array)$this->Session->read('Auth.User'), $this->data[$modelName.'Comment']);
+			$this->data[$modelName.'Comment'] = array_merge((array)AuthComponent::user(), $this->data[$modelName.'Comment']);
 		}
 		
 		else{
-			$this->data[$modelName.'Comment'] = $this->Session->read('Auth.User');
+			$this->data[$modelName.'Comment'] = AuthComponent::user();
 		}
 
         if (isset($urlParams)){

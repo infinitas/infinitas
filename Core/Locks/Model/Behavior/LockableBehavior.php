@@ -104,8 +104,7 @@
 		 * @var bool $primary is it the main model doing the find
 		 */
 		public function afterFind($Model, $results, $primary) {
-			$Session = new CakeSession();
-			$this->userId = $Session->read('Auth.User.id');
+			$this->userId = CakeSession::read('Auth.User.id');
 			
 			if(!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)){
 				if(!$this->userId || $Model->findQueryType != 'all') {

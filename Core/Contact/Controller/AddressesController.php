@@ -1,7 +1,7 @@
 <?php
 	class AddressesController extends ContactAppController {
 		public function add(){
-			if($this->Session->read('Auth.User.id') < 1){
+			if(!$this->Auth->user('id')) {
 				$this->notice(
 					__('You must be logged in to do that'),
 					array(
@@ -20,7 +20,7 @@
 
 			$this->request->data['Address']['plugin'] = 'management';
 			$this->request->data['Address']['model'] = 'user';
-			$this->request->data['Address']['foreign_key'] = $this->Session->read('Auth.User.id');
+			$this->request->data['Address']['foreign_key'] = $this->Auth->user('id');
 
 			$countries = $this->Address->Country->find('list');
 			$continents = array(0 => 'Other', 1 => 'Africa');
