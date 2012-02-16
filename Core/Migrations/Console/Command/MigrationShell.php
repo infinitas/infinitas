@@ -72,11 +72,11 @@
 			$this->out(__d('migrations', 'Cake Migration Shell'));
 			$this->hr();
 
-			if (!empty($this->request->params['connection'])) {
-				$this->connection = $this->request->params['connection'];
+			if (!empty($this->params['connection'])) {
+				$this->connection = $this->params['connection'];
 			}
-			if (!empty($this->request->params['plugin'])) {
-				$this->type = Inflector::underscore($this->request->params['plugin']);
+			if (!empty($this->params['plugin'])) {
+				$this->type = Inflector::underscore($this->params['plugin']);
 			}
 			$this->path = $this->__getPath() . 'config' . DS . 'migrations' . DS;
 
@@ -493,7 +493,7 @@ TEXT;
 
 			$name = Inflector::camelize($type) . 'Schema';
 			if ($type == 'app' && !class_exists($name)) {
-				$name = Inflector::camelize($this->request->params['app']) . 'Schema';
+				$name = Inflector::camelize($this->params['app']) . 'Schema';
 			}
 
 			$plugin = ($type === 'app') ? null : $type;
@@ -508,12 +508,12 @@ TEXT;
 		 * @access protected
 		 */
 		protected function _readSchema() {
-			$read = $this->Schema->read(array('models' => !isset($this->request->params['f'])));
+			$read = $this->Schema->read(array('models' => !isset($this->params['f'])));
 			if ($this->type !== 'migrations') {
 				unset($read['tables']['schema_migrations']);
 			}
 
-			if ($this->type !== 'app' && !isset($this->request->params['f'])) {
+			if ($this->type !== 'app' && !isset($this->params['f'])) {
 				$systemTables = array(
 					'aros', 'acos', 'aros_acos', Configure::read('Session.table'), 'i18n'
 				);

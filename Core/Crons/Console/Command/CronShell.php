@@ -96,7 +96,7 @@
 		}
 
 		public function main(){
-			$this->__verbose = $this->CronResource->verbose = isset($this->request->params['v']) && $this->request->params['v'];
+			$this->__verbose = $this->CronResource->verbose = isset($this->params['v']) && $this->params['v'];
 			
 			if(!isset($this->Dispatch->params['only'])){
 				$this->Dispatch->params['only'] = array();
