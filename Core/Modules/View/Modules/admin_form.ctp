@@ -25,7 +25,6 @@
 			'toggle' => __d('modules', 'Toggle'),
 			'module' => __d('modules', 'Module File'),
 			'where' => __d('modules', 'Where Module should show'),
-			'selected' => isset($this->data['Route']) ? $this->data['Route'] : 0,
 			'licence' => __d('module', 'Licence Details')
 		);
 		
@@ -57,7 +56,7 @@ TAB1;
 		$content[1] = $this->Form->input('group_id', array('empty' => Configure::read('Website.empty_select'))) .
 			$this->Form->input('theme_id', array('empty' => __('All Themes'))) .
 			$this->Form->input('position_id', array('empty' => Configure::read('Website.empty_select'))) .
-			$this->Form->input('Route', array('type' => 'select', 'multiple' => 'checkbox', 'selected' => $parts['selected']));
+			$this->Form->input('Route', array('type' => 'select', 'multiple' => 'checkbox', 'value' => Set::extract('/ModuleRoute/route_id', $this->request->data)));
 
 		$content[2] = $this->Form->input('author') . $this->Form->input('url') .
 			$this->Form->input('update_url') . $this->Form->input('licence');

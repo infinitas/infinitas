@@ -40,6 +40,13 @@
 			),
 		);
 
+		public $hasMany = array(
+			'ModuleRoute' => array(
+				'className' => 'Modules.ModulesRoute',
+				'foreignKey' => 'module_id'
+			)
+		);
+
 		public $hasAndBelongsToMany = array(
 			'Route' => array(
 				'className' => 'Routes.Route',
@@ -122,6 +129,29 @@
 					)
 				)
 			);
+		}
+
+		public function beforeFind($queryData) {
+			if($this->findQueryType == 'count') {
+				return parent::beforeFind($queryData);
+			}
+			
+			return parent::beforeFind($queryData);
+		}
+
+		public function afterFind($results, $primary = false) {
+			if($this->findQueryType == 'first' && !empty($results[0]['Module']['id'])) {
+				$results[0]['ModuleRoute'] = $this->ModuleRoute->find(
+					'all',
+					array(
+						'conditions' => array(
+							'ModuleRoute.module_id' => $results[0]['Module']['id']
+						)
+					)
+				);
+				$results[0]['ModuleRoute'] = Set::extract('{n}.ModuleRoute', $results[0]['ModuleRoute']);
+			}
+			return parent::afterFind($results, $primary);
 		}
 
 		/**
