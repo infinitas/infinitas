@@ -16,7 +16,7 @@
 				$old = $path . DS . $folder;
 				$new = $path . DS . Inflector::camelize($folder);
 				if($folder != Inflector::camelize($folder)) {
-					echo "moving $old to $new \n";
+					`mv $old $new`;
 				}
 
 				$this->__moveFolders($new);
@@ -36,9 +36,8 @@
 					$file[1] = '.' . $file[1];
 				}
 				$new = $path . DS . Inflector::camelize($file[0]) . ucfirst($file[1]);
-				var_dump($file);
 				if($old != $new) {
-					echo "moving $old to $new \n";
+					`mv $old $new`;
 				}
 			}
 		}
