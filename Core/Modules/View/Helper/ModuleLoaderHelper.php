@@ -65,6 +65,7 @@
 					continue;
 				}
 				$params = $this->__getModuleParams($module, $admin);
+				
 				if($params === false){
 					continue; // from userland and its not active
 				}
@@ -123,7 +124,7 @@
 				
 				$path = 'modules/';
 				$moduleOut .= $this->_View->element(
-					implode('.', array($plugin, $path.$module)),
+					implode('.', array($plugin, $path . $module)),
 					$params,
 					true
 				);
@@ -157,7 +158,7 @@
 			// @check plugin is loaded
 			// if not plugin return 'plugin foobar is not loaded / does not exist'
 
-			$admin = $this->request->params['admin'] || (isset($params['admin']) && $params['admin']);
+			$admin = $this->_View->request->params['admin'] || (isset($params['admin']) && $params['admin']);
 			if($admin && (isset($params['admin']) && $params['admin'] == false)) {
 				$admin = false;
 			}
@@ -201,19 +202,19 @@
 		 */
 		private function __getModuleParams($module, $admin = null){
 			if(!$admin){
-				$admin = isset($this->params['admin']) ? $this->params['admin'] : false;
+				$admin = isset($this->_View->request->params['admin']) ? $this->_View->request->params['admin'] : false;
 			}
 
-			if(is_string($module)){
+			if(is_string($module)) {
 				$module = ClassRegistry::init('Modules.Module')->getModule($module, $admin);
 				if(empty($module)){
 					return false;
 				}
 			}
 
-			$title = ($module['Module']['show_heading']) ? $module['Module']['name'] : false;
+			$title = ($module['Module']['show_heading']) ?  : false;
 			$content = (!empty($module['Module']['content'])) ? $module['Module']['content'] : false;
-
+			
 			return array(
 				'plugin' => $module['Module']['plugin'],
 				'title' => $title,
