@@ -274,6 +274,11 @@
 				$event = $eventTokens[0];
 				if (count($eventTokens) > 1){
 					list($scope, $event) = $eventTokens;
+
+					if($scope != Inflector::camelize($scope)) {
+						user_error('Need to update the events calls');
+						$scope = Inflector::camelize($scope, E_USER_NOTICE);
+					}
 				}
 
 				$_this->eventNameCache->{$eventName}  = array(
