@@ -24,7 +24,7 @@
 	 * @license MIT License - http://www.opensource.org/licenses/mit-license.php
 	 */
 
-	App::import('Core', 'HttpSocket');
+	App::uses('HttpSocket', 'Network/Http');
 	class OauthSocket extends HttpSocket {
 
 		/**
