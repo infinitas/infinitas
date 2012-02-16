@@ -25,7 +25,7 @@
 			echo $this->Form->input('name');
 			echo $this->Form->input('link', array('label' => __('External Link')));
 			echo $this->Form->input('prefix');
-			echo $this->element('route_select', array('plugin' => 'Routes'));
+			echo $this->element('Routes.route_select');
 
 			$errorMenu = $this->Form->error('menu_id');
 			$errorParent = $this->Form->error('parent_id');
