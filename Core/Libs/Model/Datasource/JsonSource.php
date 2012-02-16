@@ -18,7 +18,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	App::import('Datasource', 'Libs.ReaderSource');
+	App::uses('ReaderSource', 'Libs.Model/Datasource');
 	class JsonSource extends ReaderSource {
 
 		/**
@@ -39,7 +39,7 @@
 			if(!empty($_response)){
 				$response = $_response;
 			}
-			
+
 			// @todo app::import modeless AppModel and use the Infinitas->getJson() method.
 			return $response;
 		}

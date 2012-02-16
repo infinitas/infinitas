@@ -3,6 +3,7 @@
 	 *
 	 *
 	 */
+	App::uses('File', 'Utility');
 	class RobotsController extends WebmasterAppController {
 		public $uses = array();
 
@@ -11,10 +12,15 @@
 		 */
 		public function admin_edit(){
 			Configure::write('Wysiwyg.editor', 'text');
-			$File = new File(APP . 'webroot' . DS . 'robots.txt');
+			$File = new File(APP . 'webroot' . DS . 'robots.txt', true);
 
-			if(isset($this->request->data['Robot']['robots']) && !empty($this->request->data['Robot']['robots'])){
-				if($File->write(sprintf('Sitemap: %ssitemap.xml%s%s', Router::url('/', true), "\n", $this->request->data['Robot']['robots']))){
+			if(isset($this->request->data['robots']) && !empty($this->request->data['robots'])){
+				$content = $this->request->data['robots'];
+				$sitemap = sprintf('Sitemap: %ssitemap.xml', Router::url('/', true));
+				if (strpos($content, $sitemap) === false) {
+					$content = $sitemap . "\n" . $content;
+				}
+				if($File->write($content)){
 					$this->notice(
 						__('Robots file updated'),
 						array(
@@ -31,8 +37,8 @@
 				);
 			}
 
-			if(!isset($this->request->data['Robot']['robots'])){
-				$this->request->data['Robot']['robots'] = $File->read();
+			if(!isset($this->request->data['robots'])){
+				$this->request->data['robots'] = $File->read();
 			}
 		}
 	}
