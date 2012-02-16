@@ -1,13 +1,13 @@
 <?php
 	/**
 	 * Helper for generating menu markup.
-	 * 
+	 *
 	 * Menu helper is used for generating different types of menus. From the
 	 * dashboard icons found in the admin backend to nested lists for the
 	 * frontend.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -15,9 +15,9 @@
 	 * @subpackage Infinitas.Menus.views.helpers.menu
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -52,11 +52,11 @@
 
 		/**
 		 * Build the main admin navigation for the current plugin.
-		 * 
+		 *
 		 * @return mixed
 		 */
 		public function builAdminMenu(){
-			$this->__adminMenuUrl['plugin'] = $this->plugin;
+			$this->__adminMenuUrl['plugin'] = $this->request->plugin;
 			$menus = $this->Event->trigger($this->plugin . '.adminMenu');
 			$items = (isset($menus['adminMenu'][$this->plugin]['main'])) ? $menus['adminMenu'][$this->plugin]['main'] : array();
 			$items = array('Home' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'dashboard')) + $items;
@@ -103,13 +103,13 @@
 			if(!$type){
 				$type = $this->plugin;
 			}
-			
+
 			if(empty($plugins)){
 				$plugins = $this->Event->trigger('pluginRollCall');
 				$plugins = array_filter($plugins['pluginRollCall']);
 				$type = 'all';
 			}
-			
+
 			ksort($plugins);
 
 			$return = array();
@@ -132,10 +132,10 @@
 				if($type !== 'all'){
 					$var = $type;
 				}
-				
+
 				else if(strstr(App::pluginPath($name), APP . 'Core' . DS)){
 					$var = 'core';
-				}				
+				}
 
 				$_options = array(
 					'title' => sprintf('%s :: %s', __($info['name']), __($info['description'])),
@@ -154,7 +154,7 @@
 
 			return $return;
 		}
-		
+
 		/**
 		 * Create nested list menu.
 		 *
@@ -171,7 +171,7 @@
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;
 			}
-			
+
 			$this->_menuData = '<ul class="pureCssMenu pureCssMenum0">';
 			foreach( $data as $k => $v ){
 				$this->_menuLevel = 0;
@@ -313,7 +313,7 @@
 
 				$this->_menuData .= '</a>';
 			}
-			
+
 			else {
 				$this->_menuData .= $linkName;
 			}

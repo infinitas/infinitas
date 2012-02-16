@@ -1,9 +1,9 @@
 <?php
-	/* 
+	/*
 	 * Generic data fetcher.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -14,11 +14,11 @@
 	 *
 	 * @author dogmatic69
 	 * @author Ceeram
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('OauthSocket', 'Libs.Lib');
 	abstract class ReaderSource extends DataSource {
 		/**
 		 * __construct()
@@ -94,7 +94,7 @@
 		 * @return the data requested by the model
 		 */
 		public function read(&$model, $query){
-			$this->request = array_merge($this->request, $model->request);			
+			$this->request = array_merge($this->request, $model->request);
 			$response = $this->_process(
 				$this->_getData($this->request)
 			);
@@ -150,11 +150,10 @@
 		 * @return string the xml that is returned from the site.
 		 */
 		protected function _getData($request){
-			App::import('Lib', 'Libs.OauthSocket');
-			$this->OauthSocket = new OauthSocket();
-			$data = $this->OauthSocket->request($request);
+			$OauthSocket = new OauthSocket();
+			$data = $OauthSocket->request($request);
 
-			unset($this->OauthSocket);
+			unset($OauthSocket);
 
 			return $data;
 		}
@@ -162,7 +161,7 @@
 		/**
 		 * This method shoud be over-ridden and used to format your data how you
 		 * would like it to be.
-		 * 
+		 *
 		 * @param string $response the data to be formatted
 		 * @return mixed
 		 */
