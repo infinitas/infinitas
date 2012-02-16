@@ -20,7 +20,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	echo $this->Form->create($model, array('url' => '/'.$this->params['url']['url']));
+	echo $this->Form->create($model, array('url' => '/' . $this->request->url));
 
 	$massActions = $this->Infinitas->massActionButtons(
 		array(
