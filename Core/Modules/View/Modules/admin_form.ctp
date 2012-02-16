@@ -18,39 +18,49 @@
 	 */
 
 	echo $this->Form->create('Module');
-		echo $this->Infinitas->adminEditHead(); ?>
-		<fieldset>
-			<h1><?php echo __('Menu Item'); ?><a href="#" onlcick="$('.dynamic').toggle(); $('.static').toggle();">Toggle</a></h1><?php
-			echo $this->Form->input('id');
-			echo $this->Form->input('name'); ?>
+		echo $this->Infinitas->adminEditHead();
+
+		$parts = array(
+			'heading' => __d('modules', 'Menu Item'),
+			'toggle' => __d('modules', 'Toggle'),
+			'module' => __d('modules', 'Module File'),
+			'where' => __d('modules', 'Where Module should show'),
+			'selected' => isset($this->data['Route']) ? $this->data['Route'] : 0,
+			'licence' => __d('module', 'Licence Details')
+		);
+		
+		$tabs = array(
+			__d('modules', 'Module Config'),
+			__d('modules', 'Display To'),
+			__d('modules', 'License Info')
+		);
+
+		$content = array();
+		$content[0] = <<<TAB1
+			{$this->Form->input('id')}
+			{$this->Form->input('name')}
 			<div class="dynamic">
 				<div class="input select smaller">
-					<label for="ModulePlugin"><?php echo __('Module File'); ?></label><?php
-					echo $this->Form->input('plugin', array('label' => false, 'div' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModules'}, target:'ModuleModule'}"));
-					echo $this->Form->input('module', array('label' => false, 'div' => false, 'empty' => __(Configure::read('Website.empty_select')))); ?>
-				</div><?php
-				echo $this->Form->input('config', array('class' => 'title'));
-				echo $this->Form->input('active');?>
+					<label for="ModulePlugin">{$parts['module']}</label>
+					{$this->Form->input('plugin', array('label' => false, 'div' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModules'}, target:'ModuleModule'}"))}
+					{$this->Form->input('module', array('label' => false, 'div' => false, 'empty' => __(Configure::read('Website.empty_select'))))}
+				</div>
+				{$this->Form->input('config', array('class' => 'title'))}
+				{$this->Form->input('active')}
 			</div>
-			<div class="static"><?php
-				echo $this->Form->input('show_heading');
-				echo $this->Form->input('content', array('class' => 'title'));?>
+			<div class="static">
+				{$this->Form->input('show_heading')}
+				{$this->Form->input('content', array('class' => 'title'))}
 			</div>
-		</fieldset>
-		<fieldset>
-			<h1><?php echo __('Where Module should show'); ?></h1><?php
-			echo $this->Form->input('group_id', array('empty' => Configure::read('Website.empty_select')));
-			echo $this->Form->input('theme_id', array('empty' => __('All Themes')));
-			echo $this->Form->input('position_id', array('empty' => Configure::read('Website.empty_select')));
-			$selected = isset($this->data['Route']) ? $this->data['Route'] : 0;
-			echo $this->Form->input('Route', array('type' => 'select', 'multiple' => 'checkbox', 'selected' => $selected)); ?>
-		</fieldset>
-		<fieldset>
-			<h1><?php echo __('Author Details'); ?></h1><?php
-			echo $this->Form->input('author');
-			echo $this->Form->input('url');
-			echo $this->Form->input('update_url');
-			echo $this->Form->input('licence'); ?>
-		</fieldset><?php
+TAB1;
+
+		$content[1] = $this->Form->input('group_id', array('empty' => Configure::read('Website.empty_select'))) .
+			$this->Form->input('theme_id', array('empty' => __('All Themes'))) .
+			$this->Form->input('position_id', array('empty' => Configure::read('Website.empty_select'))) .
+			$this->Form->input('Route', array('type' => 'select', 'multiple' => 'checkbox', 'selected' => $parts['selected']));
+
+		$content[2] = $this->Form->input('author') . $this->Form->input('url') .
+			$this->Form->input('update_url') . $this->Form->input('licence');
+		
+		echo $this->Design->tabs($tabs, $content);
 	echo $this->Form->end();
-?>

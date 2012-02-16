@@ -46,7 +46,7 @@
                     $this->Paginator->sort('model') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('Contents', 'content_count') => array(
+                    $this->Paginator->sort('content_count', __d('contents', 'Contents')) => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('modified') => array(

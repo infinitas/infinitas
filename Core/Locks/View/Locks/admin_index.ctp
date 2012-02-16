@@ -35,14 +35,14 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-					$this->Paginator->sort('User', 'User.username'),
+					$this->Paginator->sort('User.username', __d('locks', 'User')),
 					$this->Paginator->sort('class'),
 					$this->Paginator->sort('foreign_key'),
 					$this->Paginator->sort('created'),
                 )
             );
 
-            foreach ($locks as $lock){
+            foreach ($locks as $lock) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($lock); ?>&nbsp;</td>

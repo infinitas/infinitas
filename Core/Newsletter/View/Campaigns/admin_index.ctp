@@ -42,8 +42,8 @@
                     ),
                     $this->Paginator->sort('name'),
                     $this->Paginator->sort('description'),
-                    $this->Paginator->sort('Template', 'Template.name'),
-                    $this->Paginator->sort(__( 'Newsletters'), 'newsletter_count') => array(
+                    $this->Paginator->sort('Template.name', __d('newsletter', 'Template')),
+                    $this->Paginator->sort('newsletter_count', __d('newsletter', 'Newsletters')) => array(
                         'width' => '50px'
                     ),
                     $this->Paginator->sort('created') => array(
@@ -52,7 +52,7 @@
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     ),
-                    __('Status') => array(
+                    __d('newsletter', 'Status') => array(
                         'class' => 'actions',
                         'width' => '50px'
                     )

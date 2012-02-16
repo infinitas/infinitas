@@ -41,14 +41,14 @@
 						'style' => 'width:25px;'
 					),
 					$this->Paginator->sort('name'),
-					$this->Paginator->sort('Theme', 'Theme.name'),
+					$this->Paginator->sort('Theme.name', __d('modules', 'Theme')),
 					$this->Paginator->sort('plugin'),
-					$this->Paginator->sort('Position', 'Position.name'),
+					$this->Paginator->sort('Position.name', __d('modules', 'Position')),
 					$this->Paginator->sort('author'),
 					$this->Paginator->sort('licence') => array(
 						'style' => 'width:90px;'
 					),
-					$this->Paginator->sort('Display to', 'Group.name') => array(
+					$this->Paginator->sort('Group.name', __d('modules', 'Display to')) => array(
 						'style' => 'width:75px;'
 					),
 					$this->Paginator->sort('Order') => array(
@@ -57,14 +57,14 @@
 					$this->Paginator->sort('core') => array(
 						'style' => 'width:50px;'
 					),
-					$this->Paginator->sort('Status', 'active') => array(
+					$this->Paginator->sort('active', __d('modules', 'Status')) => array(
 						'style' => 'width:50px;'
 					)
 				)
 			);
 
 			$i = 0;
-			foreach ($modules as $module){
+			foreach ($modules as $module) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($module); ?>&nbsp;</td>

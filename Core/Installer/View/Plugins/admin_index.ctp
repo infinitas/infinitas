@@ -44,12 +44,12 @@
                     $this->Paginator->sort('version'),
                     $this->Paginator->sort('active'),
                     $this->Paginator->sort('core'),
-                    $this->Paginator->sort('Installed', 'created'),
-                    $this->Paginator->sort('Updated', 'modified'),
+                    $this->Paginator->sort('created', __d('installer', 'Installed')),
+                    $this->Paginator->sort('modified', __d('installer', 'Updated')),
                 )
             );
 
-            foreach ($plugins as $plugin){
+            foreach ($plugins as $plugin) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($plugin); ?>&nbsp;</td>

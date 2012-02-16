@@ -44,7 +44,7 @@
                     $this->Paginator->sort('type') => array(
                         'style' => 'width:75px;'
                     ),
-                    $this->Paginator->sort('active', 'Active Items') => array(
+                    $this->Paginator->sort('active', __d('menus', 'Active Menus')) => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('count') => array(

@@ -33,13 +33,13 @@
 						'style' => 'width:25px;'
 					),
 					$this->Paginator->sort('name'),
-					$this->Paginator->sort('Type', 'model') => array(
+					$this->Paginator->sort('model', __d('trash', 'Type')) => array(
 						'style' => 'width:100px;'
 					),
 					$this->Paginator->sort('deleted') => array(
 						'style' => 'width:100px;'
 					),
-					$this->Paginator->sort( 'Deleted By', 'Deleter.name' ) => array(
+					$this->Paginator->sort('Deleter.name', __d('trash', 'Deleted By')) => array(
 						'style' => 'width:100px;'
 					)
 				)
@@ -48,7 +48,7 @@
 			foreach ($trashed as $trash) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox( $trash['Trash']['id'] ); ?>&nbsp;</td>
+						<td><?php echo $this->Form->checkbox($trash['Trash']['id']); ?>&nbsp;</td>
 						<td>
 							<?php echo Inflector::humanize($trash['Trash']['name']); ?>&nbsp;
 						</td>

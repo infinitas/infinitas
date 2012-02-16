@@ -34,10 +34,10 @@
                     ),
                     $this->Paginator->sort('title'),
                     $this->Paginator->sort('model'),
-                    $this->Paginator->sort('GlobalLayout.name', 'Layout') => array(
+                    $this->Paginator->sort('GlobalLayout.name', __d('contents', 'Layout')) => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('ContentGroup.name', 'Group') => array(
+                    $this->Paginator->sort('ContentGroup.name', __d('contents', 'Group')) => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('modified') => array(

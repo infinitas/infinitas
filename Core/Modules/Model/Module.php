@@ -15,7 +15,7 @@
 
 		public $actsAs = array(
 			'Libs.Sequence' => array(
-				'group_fields' => array(
+				'groupFields' => array(
 					'position_id'
 				)
 			)
@@ -81,7 +81,7 @@
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
-			$this->subPath = 'views' . DS . 'elements' . DS . 'modules' . DS;
+			$this->subPath = 'View' . DS . 'Elements' . DS . 'modules' . DS;
 
 			$this->validate = array(
 				'name' => array(
@@ -92,7 +92,7 @@
 				),
 				'config' => array(
 					'validateJson' => array(
-						'rule' => 'validateEmptyOrJson',
+						'rule' => 'validateJson',
 						'allowEmpty' => true,
 						'message' => __('Please enter a valid json config or leave blank')
 					)
@@ -243,7 +243,6 @@
 			$conditions = array();
 			$path = APP;
 			if ($plugin) {
-				$plugin = strtolower($plugin);
 				$path   = App::pluginPath($plugin);
 				$conditions = array('Module.plugin' => $plugin);
 			}

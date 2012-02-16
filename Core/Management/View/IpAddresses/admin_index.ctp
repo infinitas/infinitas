@@ -43,14 +43,13 @@
 					$this->Paginator->sort('modified') => array(
 						'style' => 'width:125px;'
 					),
-					$this->Paginator->sort('Status', 'active') => array(
+					$this->Paginator->sort('active', __d('management', 'Status')) => array(
 						'style' => 'width:50px;'
 					)
 				)
 			);
 
-			foreach ($ipAddresses as $ipAddress)
-			{
+			foreach ($ipAddresses as $ipAddress) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($ipAddress); ?>&nbsp;</td>

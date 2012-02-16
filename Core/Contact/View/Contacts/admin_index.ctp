@@ -44,9 +44,9 @@
 					$this->Paginator->sort('image') => array(
 						'style' => 'width:100px;'
 					),
-					$this->Paginator->sort(__('Name'), 'last_name'),
+					$this->Paginator->sort('last_name', __d('contact', 'Name')),
 					$this->Paginator->sort('email'),
-					$this->Paginator->sort('Branch', 'Branch.name') => array(
+					$this->Paginator->sort('Branch.name', __d('contact', 'Branch')) => array(
 						'style' => 'width:75px;'
 					),
 					$this->Paginator->sort('position') => array(
@@ -71,7 +71,7 @@
 			);
 
 			$i = 0;
-			foreach ($contacts as $contact){
+			foreach ($contacts as $contact) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($contact); ?>&nbsp;</td>

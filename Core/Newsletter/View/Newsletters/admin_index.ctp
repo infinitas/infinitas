@@ -42,7 +42,7 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort('subject'),
-                    $this->Paginator->sort('Campaign', 'Campaign.name') => array(
+                    $this->Paginator->sort('Campaign.name', __d('newsletter', 'Campaign')) => array(
                         'style' => 'width:150px;'
                     ),
                     $this->Paginator->sort('from') => array(
@@ -54,7 +54,7 @@
                     $this->Paginator->sort('sent') => array(
                         'style' => 'width:100px;'
                     ),
-                    __('Status') => array(
+                    __d('newsletter', 'Status') => array(
                         'class' => 'actions',
                         'width' => '50px'
                     )

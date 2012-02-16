@@ -39,7 +39,7 @@
 						'style' => 'width:25px;'
 					),
 					$this->Paginator->sort('name'),
-					$this->Paginator->sort('Modules', 'module_count') => array(
+					$this->Paginator->sort('module_count', __d('modules', 'Modules')) => array(
 						'style' => 'width:100px'
 					),
 					$this->Paginator->sort('modified') => array(
@@ -49,7 +49,7 @@
 			);
 
 			$i = 0;
-			foreach ($modulePositions as $modulePosition){
+			foreach ($modulePositions as $modulePosition) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($modulePosition); ?>&nbsp;</td>

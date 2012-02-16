@@ -41,10 +41,10 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort('title'),
-                    $this->Paginator->sort('Group', 'Group.name') => array(
+                    $this->Paginator->sort('Group.name', __d('contents', 'Group')) => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('Items', 'content_count') => array(
+                    $this->Paginator->sort('content_count', __d('contents', 'Items')) => array(
                         'style' => 'width:35px;'
                     ),
                     $this->Paginator->sort('views') => array(
@@ -56,7 +56,7 @@
                     $this->Paginator->sort('ordering') => array(
                         'style' => 'width:50px;'
                     ),
-                    __('Status') => array(
+                    __d('contents', 'Status') => array(
                         'style' => 'width:50px;'
                     )
                 )

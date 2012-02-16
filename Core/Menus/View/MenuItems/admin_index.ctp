@@ -46,23 +46,23 @@
                     $this->Paginator->sort('Menu') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('Access', 'Group.name') => array(
+                    $this->Paginator->sort('Group.name', __d('menus', 'Access')) => array(
                         'style' => 'width:90px;'
                     ),
-                    __('Order') => array(
+                    __d('menus', 'Order') => array(
                         'style' => 'width:50px;'
                     ),
-                    $this->Paginator->sort('Status', 'active') => array(
+                    $this->Paginator->sort('active', __d('menus', 'Status')) => array(
                         'style' => 'width:50px;'
                     ),
-                    __('Actions') => array(
+                    __d('menus', 'Actions') => array(
                         'style' => 'width:50px;'
                     )
                 )
             );
             $MenuItem = ClassRegistry::init('Menu.MenuItem');
 
-            foreach ($menuItems as $menuItem){
+            foreach ($menuItems as $menuItem) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($menuItem); ?>&nbsp;</td>

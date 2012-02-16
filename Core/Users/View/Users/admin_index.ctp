@@ -46,7 +46,7 @@
 					$this->Paginator->sort('browser') => array(
 						'style' => 'width:75px;'
 					),
-					$this->Paginator->sort('OS', 'operating_system') => array(
+					$this->Paginator->sort('operating_system', __d('users', 'OS')) => array(
 						'style' => 'width:75px;'
 					),
 					$this->Paginator->sort('country') => array(
@@ -64,14 +64,13 @@
 					$this->Paginator->sort('last_login') => array(
 						'style' => 'width:75px;'
 					),
-					__('Active') => array(
+					__d('users', 'Active') => array(
 						'style' => 'width:50px;'
 					)
 				)
 			);
 
-			foreach ( $users as $user )
-			{
+			foreach ($users as $user) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Form->checkbox( $user['User']['id'] ); ?>&nbsp;</td>

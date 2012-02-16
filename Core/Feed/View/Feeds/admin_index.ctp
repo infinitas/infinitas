@@ -51,7 +51,7 @@
 					$this->Paginator->sort('limit') => array(
 						'style' => 'width:50px;'
 					),
-					$this->Paginator->sort('For', 'Group.name') => array(
+					$this->Paginator->sort('Group.name', __d('feed', 'For')) => array(
 						'style' => 'width:50px;'
 					),
 					$this->Paginator->sort('active') => array(

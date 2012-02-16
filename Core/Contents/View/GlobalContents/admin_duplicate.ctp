@@ -28,8 +28,8 @@
         <?php
             echo $this->Infinitas->adminTableHeader(
                 array(
-                    $this->Paginator->sort(__d('contents', 'Original'), 'title') => array('colspan' => 2),
-                    $this->Paginator->sort(__d('contents', 'Duplicate'), 'GlobalContentDuplicate.title') => array('colspan' => 2),
+                    $this->Paginator->sort('title', __d('contents', 'Original')) => array('colspan' => 2),
+                    $this->Paginator->sort('GlobalContentDuplicate.title', __d('contents', 'Duplicate')) => array('colspan' => 2),
 					
 					__d('contents', 'Duplicate Data'),
                     $this->Paginator->sort('modified') => array('style' => 'width:100px;')

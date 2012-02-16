@@ -50,7 +50,7 @@
 					$this->Paginator->sort('fax') => array(
 						'style' => 'width:75px;'
 					),
-					$this->Paginator->sort('Contacts', 'user_count') => array(
+					$this->Paginator->sort('user_count', __d('contact', 'Contacts')) => array(
 						'style' => 'width:75px;'
 					),
 					$this->Paginator->sort('ordering') => array(
@@ -66,7 +66,7 @@
 			);
 
 			$i = 0;
-			foreach ($branches as $branch){
+			foreach ($branches as $branch) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($branch); ?>&nbsp;</td>
