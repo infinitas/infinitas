@@ -90,9 +90,9 @@
 
 
 	$cachePrefix = substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10);
-	Cache::config('_cake_core_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
-	Cache::config('_cake_model_', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
-	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => $cachePrefix));
+	Cache::config('_cake_core_', array('engine' => Configure::read('Cache.engine'), 'prefix' => $cachePrefix));
+	Cache::config('_cake_model_', array('engine' => Configure::read('Cache.engine'), 'prefix' => $cachePrefix));
+	Cache::config('default', array('engine' => Configure::read('Cache.engine'), 'prefix' => $cachePrefix));
 	unset($cacheEngine);
 
 	/**
