@@ -68,7 +68,7 @@
 		}
 
 		public function __massGetIds($data) {
-			if (in_array($this->__massGetAction($this->params['form']), array('add','filter'))) {
+			if (in_array($this->__massGetAction($this->request->params['form']), array('add','filter'))) {
 				return null;
 			}
 

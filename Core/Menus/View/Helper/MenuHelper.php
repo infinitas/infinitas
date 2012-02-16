@@ -269,7 +269,7 @@
 					$menuLink['action'] = (!empty($array['MenuItem']['action']) ? $array['MenuItem']['action'] : 'index');
 					$menuLink[] = (!empty($array['MenuItem']['params']) ? $array['MenuItem']['params'] : null);
 
-					if($menuLink['controller'] == $this->params['controller'] || $menuLink['plugin'] == $this->params['plugin']){
+					if($menuLink['controller'] == $this->request->params['controller'] || $menuLink['plugin'] == $this->request->params['plugin']){
 						$currentCss = ' current';
 						$this->_currentCssDone = true;
 					}

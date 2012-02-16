@@ -126,12 +126,12 @@ COMMENT;
 	if(!$admin && in_array('slug', array_keys($modelObj->_schema))){
 		// for tabels with slugs
 		echo "\t\tfunction {$admin}view() {\n";
-		echo "\t\t\tif(!isset(\$this->params['slug']) || !\$this->params['slug']){\n";
+		echo "\t\t\tif(!isset(\$this->request->params['slug']) || !\$this->request->params['slug']){\n";
 			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t\t}\n\n";
 
 		echo "\t\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
-			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.slug' => \$this->params['slug'])\n";
+			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.slug' => \$this->request->params['slug'])\n";
 		echo "\t\t\t);\n\n";
 	}
 

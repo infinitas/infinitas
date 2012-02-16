@@ -33,9 +33,9 @@
 			);
 		}
 
-		$exploreLink = !empty($this->params['category']) && 
-			(($this->params['controller'] == 'global_categories' && $this->params['action'] != 'view') ||
-			$this->params['controller'] != 'global_categories');
+		$exploreLink = !empty($this->request->params['category']) && 
+			(($this->request->params['controller'] == 'global_categories' && $this->request->params['action'] != 'view') ||
+			$this->request->params['controller'] != 'global_categories');
 
 		if($exploreLink) {
 			$links[] = $this->Html->link(
@@ -44,7 +44,7 @@
 					'plugin' => 'contents',
 					'controller' => 'global_categories',
 					'action' => 'view',
-					'category' => $this->params['category']
+					'category' => $this->request->params['category']
 				)
 			);
 		}

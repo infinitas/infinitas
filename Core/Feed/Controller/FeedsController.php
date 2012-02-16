@@ -23,7 +23,7 @@
 		}
 
 		public function view(){
-			if(!$this->params['slug']){
+			if(!$this->request->params['slug']){
 				$this->notice(
 					__('Invalid feed selected'),
 					array(
@@ -32,7 +32,7 @@
 				);
 			}
 
-			$feeds = $this->Feed->getFeed($this->params['slug'], $this->Session->read('Auth.User.group_id'));
+			$feeds = $this->Feed->getFeed($this->request->params['slug'], $this->Session->read('Auth.User.group_id'));
 
 			if(empty($feeds)){
 				$this->notice(
@@ -43,7 +43,7 @@
 				);
 			}
 
-			$raw = $this->Feed->find('first', array('conditions' => array('Feed.slug' => $this->params['slug'])));
+			$raw = $this->Feed->find('first', array('conditions' => array('Feed.slug' => $this->request->params['slug'])));
 
 			$this->set(compact('feeds', 'raw'));
 		}

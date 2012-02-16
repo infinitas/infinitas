@@ -58,7 +58,7 @@
 		}
 
 		public function view(){
-			if (!isset($this->params['slug'])) {
+			if (!isset($this->request->params['slug'])) {
 				$this->notice('invalid');
 			}
 
@@ -66,7 +66,7 @@
 				'first',
 				array(
 					'conditions' => array(
-						'Branch.slug' => $this->params['slug'],
+						'Branch.slug' => $this->request->params['slug'],
 						'Branch.active' => 1
 					),
 					'contain' => array(

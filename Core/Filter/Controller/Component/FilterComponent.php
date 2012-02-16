@@ -156,8 +156,8 @@
 		public function processDatetime($fieldname) {
 			$datetime = null;
 
-			if (isset($this->params['named'][$fieldname])) {
-				$exploded = explode('-', $this->params['named'][$fieldname]);
+			if (isset($this->request->params['named'][$fieldname])) {
+				$exploded = explode('-', $this->request->params['named'][$fieldname]);
 				if (!empty($exploded)) {
 					$datetime = '';
 					foreach ($exploded as $k => $e) {

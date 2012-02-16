@@ -22,12 +22,12 @@
 				'Comment.active' => 1
 			);
 
-			if(isset($this->params['named']['Comment.class'])){
-				$conditions['Comment.class'] = $this->params['named']['Comment.class'];
+			if(isset($this->request->params['named']['Comment.class'])){
+				$conditions['Comment.class'] = $this->request->params['named']['Comment.class'];
 			}
 
-			if(isset($this->params['named']['Comment.foreign_id'])){
-				$conditions['Comment.foreign_id'] = $this->params['named']['Comment.foreign_id'];
+			if(isset($this->request->params['named']['Comment.foreign_id'])){
+				$conditions['Comment.foreign_id'] = $this->request->params['named']['Comment.foreign_id'];
 			}
 
 			$this->paginate = array(

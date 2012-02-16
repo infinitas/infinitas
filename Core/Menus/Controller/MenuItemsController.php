@@ -48,8 +48,8 @@
 			parent::admin_add();
 
 			// auto select parent when the + button is used
-			if (isset($this->params['named']['parent_id'])) {
-				$this->request->data['MenuItem']['parent_id'] = $this->params['named']['parent_id'];
+			if (isset($this->request->params['named']['parent_id'])) {
+				$this->request->data['MenuItem']['parent_id'] = $this->request->params['named']['parent_id'];
 			}
 
 			$menus   = $this->MenuItem->Menu->find('list');
@@ -102,7 +102,7 @@
 		 * @access public
 		 */
 		public function admin_getParents() {
-			$conditions = array('MenuItem.menu_id' => $this->params['named']['plugin']);
+			$conditions = array('MenuItem.menu_id' => $this->request->params['named']['plugin']);
 			$json = array_merge(
 				array(0 => __('Root')),
 				$this->MenuItem->generateTreeList($conditions)

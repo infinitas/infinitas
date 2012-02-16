@@ -1,8 +1,8 @@
 <?php
 	$modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
-	$Model	 = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
+	$Model	 = ClassRegistry::init($this->request->params['plugin'].'.'.$modelName);
 	$data = &${strtolower($modelName)};
-	$allow = Configure::read(ucfirst($this->params['plugin']).'.allow_ratings');
+	$allow = Configure::read(ucfirst($this->request->params['plugin']).'.allow_ratings');
 
 	if(Configure::read('Rating.time_limit')){
 		$allow &= date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $data[$modelName]['modified'];
@@ -31,15 +31,15 @@
 				$modelName,
 				array(
 					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => $this->params['controller'],
+						'plugin' => $this->request->params['plugin'],
+						'controller' => $this->request->params['controller'],
 						'action' => 'rate'
 					)
 				)
 			);
 
 			echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
-			echo $this->Form->hidden('Rating.class', array('value' => ucfirst($this->params['plugin']).'.'.$modelName));
+			echo $this->Form->hidden('Rating.class', array('value' => ucfirst($this->request->params['plugin']).'.'.$modelName));
 			echo $this->Form->hidden('Rating.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 
 			echo $this->Form->input(

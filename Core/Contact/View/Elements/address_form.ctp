@@ -3,7 +3,7 @@
 		$plugin = $this->plugin;
 	}
 	if(!isset($model) || !$model){
-		$model = $this->params['models'][0];
+		$model = $this->request->params['models'][0];
 	}
 
 	if(!isset($countries) || !$countries){

@@ -637,7 +637,7 @@
 				}
 			}
 
-			$this->output = $this->__apiUrl . implode($this->paramSeperator, $this->return);
+			$this->output = $this->__apiUrl . implode($this->request->paramseperator, $this->return);
 
 			$graph = $this->Html->image(
 							$this->output,

@@ -25,7 +25,7 @@
         $commentFields = explode(',',Configure::read('Comment.fields'));
 
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
-    	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
+    	$Model     = ClassRegistry::init($this->request->params['plugin'].'.'.$modelName);
 		$data = &${strtolower($modelName)};
 
 		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){

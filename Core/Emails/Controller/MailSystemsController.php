@@ -18,13 +18,13 @@
 		}
 
 		public function admin_index(){
-			if(!$this->params['account']){
+			if(!$this->request->params['account']){
 				$this->notice(__('Please select an account'), 'notice', 0, null, true);
 			}
 
 			$this->paginate = array(
 				'conditions' => array(
-					'MailSystem.account' => $this->params['account']
+					'MailSystem.account' => $this->request->params['account']
 				),
 				'order' => array(
 					'date' => 'desc'
@@ -43,7 +43,7 @@
 		}
 
 		public function admin_view(){
-			if(!$this->params['email']){
+			if(!$this->request->params['email']){
 				$this->notice(__('Please select an email to view'), 'error', 0, true);
 			}
 
@@ -51,8 +51,8 @@
 				'first',
 				array(
 					'conditions' => array(
-						'MailSystem.account' => $this->params['account'],
-						'MailSystem.id' => $this->params['email']
+						'MailSystem.account' => $this->request->params['account'],
+						'MailSystem.id' => $this->request->params['email']
 					)
 				)
 			);
@@ -61,7 +61,7 @@
 		}
 
 		public function admin_get_mail(){
-			if(!$this->params['email']){
+			if(!$this->request->params['email']){
 				$this->notice(__('Please select an email to view'), 'error', 0, true);
 			}
 
@@ -72,8 +72,8 @@
 				'first',
 				array(
 					'conditions' => array(
-						'MailSystem.account' => $this->params['account'],
-						'MailSystem.id' => $this->params['email']
+						'MailSystem.account' => $this->request->params['account'],
+						'MailSystem.id' => $this->request->params['email']
 					)
 				)
 			);
@@ -82,7 +82,7 @@
 		}
 
 		public function admin_mass(){
-			$massAction = $this->MassAction->getAction($this->params['form']);
+			$massAction = $this->MassAction->getAction($this->request->params['form']);
 
 			switch($massAction){
 				case 'back':

@@ -1,7 +1,7 @@
 <?php
 	class JsonView extends View {
 		public function _render($view = null, $layout = null) {
-			if (strtolower($this->params['url']['ext']) != 'json') {
+			if (strtolower($this->request->params['url']['ext']) != 'json') {
 				return parent::render($view, $layout);
 			}
 

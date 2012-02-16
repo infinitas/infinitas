@@ -192,7 +192,7 @@
 
 			$name = Inflector::camelize($type) . 'Schema';
 			if ($type == 'app' && !class_exists($name)) {
-				$name = Inflector::camelize($this->params['app']) . 'Schema';
+				$name = Inflector::camelize($this->request->params['app']) . 'Schema';
 			}
 
 			$plugin = ($type === 'app') ? null : $type;
@@ -207,13 +207,13 @@
 		 * @access protected
 		 */
 		protected function _readSchema() {
-			$read = $this->Schema->read(array('models' => !isset($this->params['f']), 'ignoreRelations' => true, 'ignorePrefix' => true));
+			$read = $this->Schema->read(array('models' => !isset($this->request->params['f']), 'ignoreRelations' => true, 'ignorePrefix' => true));
 
 			if ($this->type !== 'migrations') {
 				unset($read['tables']['schema_migrations']);
 			}
 
-			if ($this->type !== 'app' && !isset($this->params['f'])) {
+			if ($this->type !== 'app' && !isset($this->request->params['f'])) {
 				$systemTables = array('aros', 'acos', 'aros_acos', Configure::read('Session.table'), 'i18n');
 				$read['tables'] = array_diff_key($read['tables'], array_fill_keys($systemTables, 1));
 			}

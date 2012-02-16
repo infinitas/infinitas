@@ -21,14 +21,14 @@
 		var $name = 'Backups';
 
 		function admin_backup() {
-			if (!isset($this->params['named']['m'])) {
+			if (!isset($this->request->params['named']['m'])) {
 				$this->notice('invalid');
 			}
 
-			$fullModel = $model = Inflector::classify($this->params['named']['m']);
+			$fullModel = $model = Inflector::classify($this->request->params['named']['m']);
 			$plugin = '';
-			if (isset($this->params['named']['p']) && $this->params['named']['p'] != '') {
-				$plugin = Inflector::classify($this->params['named']['p']);
+			if (isset($this->request->params['named']['p']) && $this->request->params['named']['p'] != '') {
+				$plugin = Inflector::classify($this->request->params['named']['p']);
 				$fullModel = $plugin . '.' . $fullModel;
 			}
 

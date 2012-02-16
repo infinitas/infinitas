@@ -18,8 +18,8 @@
 		public function index() {
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.hide'] = 0;
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.parent_id'] = null;
-			if(isset($this->params['category'])){
-				$this->paginate['GlobalCategory']['conditions']['GlobalCategory.slug'] = $this->params['category'];
+			if(isset($this->request->params['category'])){
+				$this->paginate['GlobalCategory']['conditions']['GlobalCategory.slug'] = $this->request->params['category'];
 			}
 
 			$categories = $this->paginate();
@@ -39,8 +39,8 @@
 
 		public function view() {
 			$conditions = array();
-			if(isset($this->params['category'])){
-				$conditions['GlobalContent.slug'] = $this->params['category'];
+			if(isset($this->request->params['category'])){
+				$conditions['GlobalContent.slug'] = $this->request->params['category'];
 			}
 
 			$category = $this->GlobalCategory->find('getCategory', array('conditions' => $conditions));

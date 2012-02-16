@@ -6,8 +6,8 @@
 
 		public function admin_index() {
 			$path = '/';
-			if(!empty($this->params['pass'])){
-				$path = implode('/', $this->params['pass']);
+			if(!empty($this->request->params['pass'])){
+				$path = implode('/', $this->request->params['pass']);
 			}
 
 			$this->Folders->recursive = 2;
@@ -44,8 +44,8 @@
 		}
 
 		public function admin_view() {
-			if(!empty($this->params['pass'])){
-				$path = implode('/', $this->params['pass']);
+			if(!empty($this->request->params['pass'])){
+				$path = implode('/', $this->request->params['pass']);
 			}
 
 			if (!$path || !is_file(APP.$path)) {

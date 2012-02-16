@@ -104,9 +104,9 @@
 			</div>
 			<div id="content">
 				<div id="right">
-					<div class="<?php echo isset($this->params['plugin'])?$this->params['plugin']:''; ?>">
-						<div class="<?php echo isset($this->params['controller'])?$this->params['controller']:''; ?>">
-							<div class="<?php echo isset($this->params['action'])?$this->params['action']:''; ?>">
+					<div class="<?php echo isset($this->request->params['plugin'])?$this->request->params['plugin']:''; ?>">
+						<div class="<?php echo isset($this->request->params['controller'])?$this->request->params['controller']:''; ?>">
+							<div class="<?php echo isset($this->request->params['action'])?$this->request->params['action']:''; ?>">
 								<?php
 									//echo $this->Session->flash();
 									echo $content_for_layout;

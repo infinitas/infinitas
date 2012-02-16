@@ -21,7 +21,7 @@
 		);
 
 		public function execute() {
-			$plugins = $this->__getPluginList(isset($this->params['all']) || !empty($this->args) ? 'all' : 'plugins');
+			$plugins = $this->__getPluginList(isset($this->request->params['all']) || !empty($this->args) ? 'all' : 'plugins');
 
 			if (!empty($this->args)) {
 				if (strtolower($this->args[0]) == 'all-core') {
@@ -102,7 +102,7 @@
 				$this->__initializeDependancies();
 				$this->__initializeModels();
 
-				if (!isset($this->params['silent'])) {
+				if (!isset($this->request->params['silent'])) {
 					$this->out("Initial release for " . $this->__plugin);
 					$this->out("It looks like this is the first time you are generating\nan Infinitas release for this plugin.");
 
@@ -139,14 +139,14 @@
 
 				else {
 					foreach ($this->__options as $option => $question) {
-						$this->__info[$option] = isset($this->params[$option]) ? $this->params[$option] : (isset($this->__info[$option]) ? $this->__info[$option] : '');
+						$this->__info[$option] = isset($this->request->params[$option]) ? $this->request->params[$option] : (isset($this->__info[$option]) ? $this->__info[$option] : '');
 					}
 
 					if ($this->__info['version'] == '') {
 						$this->__info['version'] = '1.0';
 					}
 
-					if (isset($this->params['models']) && $this->params['models'] === true) {
+					if (isset($this->request->params['models']) && $this->request->params['models'] === true) {
 						$this->__configureModels();
 					}
 
@@ -155,7 +155,7 @@
 			}
 
 			else {
-				$this->__info['version'] = isset($this->params['version']) ? $this->params['version'] : '1.0';
+				$this->__info['version'] = isset($this->request->params['version']) ? $this->request->params['version'] : '1.0';
 
 				$this->out('Generating app release');
 
@@ -187,9 +187,9 @@
 		}
 
 		private function __initializeDependancies() {
-			if (isset($this->params['dep'])) {
+			if (isset($this->request->params['dep'])) {
 				$nonCorePlugins = $this->__getPluginList();
-				$dependancies = explode(',', $this->params['dep']);
+				$dependancies = explode(',', $this->request->params['dep']);
 
 				foreach ($dependancies as $dependancy) {
 					$dependancy = Inflector::camelize($dependancy);
@@ -201,8 +201,8 @@
 		}
 
 		private function __initializeModels() {
-			if (isset($this->params['models']) && $this->params['models'] !== true) {
-				$modelSetups = explode(',', $this->params['models']);
+			if (isset($this->request->params['models']) && $this->request->params['models'] !== true) {
+				$modelSetups = explode(',', $this->request->params['models']);
 
 				$models = App::objects('model', App::pluginPath($this->__plugin) . 'models' . DS, false);
 
@@ -588,7 +588,7 @@
 
 		private function __initialInfo() {
 			foreach ($this->__options as $option => $question) {
-				$default = isset($this->__info[$option]) ? $this->__info[$option] : (isset($this->params[$option]) ? $this->params[$option] : null);
+				$default = isset($this->__info[$option]) ? $this->__info[$option] : (isset($this->request->params[$option]) ? $this->request->params[$option] : null);
 
 				if (is_numeric($option)) {
 					$question = 'Enter the plugin ' . $option;

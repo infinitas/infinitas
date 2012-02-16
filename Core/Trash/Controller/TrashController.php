@@ -2,9 +2,9 @@
 	class TrashController extends TrashAppController {
 		public function beforeFilter(){
 			parent::beforeFilter();
-			if(isset($this->params['form']['action']) && $this->params['form']['action'] == 'cancel'){
-				unset($this->params['form']['action']);
-				$this->redirect(array_merge(array('action' => 'list_items'), $this->params['named']));
+			if(isset($this->request->params['form']['action']) && $this->request->params['form']['action'] == 'cancel'){
+				unset($this->request->params['form']['action']);
+				$this->redirect(array_merge(array('action' => 'list_items'), $this->request->params['named']));
 			}
 			return true;
 		}

@@ -453,8 +453,8 @@
 		}
 
 		private function __getClassName() {
-			if (isset($this->params['plugin'])) {
-				return Inflector::classify($this->params['plugin']) . '.' . Inflector::classify($this->Controller->name);
+			if (isset($this->request->params['plugin'])) {
+				return Inflector::classify($this->request->params['plugin']) . '.' . Inflector::classify($this->Controller->name);
 			} else {
 				return Inflector::classify($this->Controller->name);
 			}

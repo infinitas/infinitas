@@ -78,7 +78,7 @@
 		 *
 		 * Gets the action that was selected from the form.
 		 *
-		 * @param array $form the data from the form submition $this->params['form']
+		 * @param array $form the data from the form submition $this->request->params['form']
 		 *
 		 * @return string the action selected, or redirect to referer if no action found.
 		 */

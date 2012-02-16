@@ -18,7 +18,7 @@
 
 	class ContactsController extends ContactAppController {
 		public function view(){
-			if (!isset($this->params['slug'])) {
+			if (!isset($this->request->params['slug'])) {
 				$this->notice('invalid');
 			}
 
@@ -26,7 +26,7 @@
 				'first',
 				array(
 					'conditions' => array(
-						'Contact.slug' => $this->params['slug'],
+						'Contact.slug' => $this->request->params['slug'],
 						'Contact.active' => 1
 					),
 					'contain' => array(

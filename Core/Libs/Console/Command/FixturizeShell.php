@@ -25,9 +25,9 @@
 				'reindex' => false,
 				'all' => false,
 			);
-			foreach ($this->params as $key => $val) {
+			foreach ($this->request->params as $key => $val) {
 				foreach ($options as $name => $option) {
-					if (isset($this->params[$name]) || isset($this->params['-'.$name]) || isset($this->params[$name{0}])) {
+					if (isset($this->request->params[$name]) || isset($this->request->params['-'.$name]) || isset($this->request->params[$name{0}])) {
 						$options[$name] = true;
 					}
 				}

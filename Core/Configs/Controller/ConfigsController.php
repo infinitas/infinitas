@@ -43,9 +43,9 @@
 		public function admin_add() {
 			parent::admin_add();
 
-			if(isset($this->params['named']['Config.key'])){
-				$this->request->data['Config']['key'] = $this->params['named']['Config.key'];
-				$value = Configure::read($this->params['named']['Config.key']);
+			if(isset($this->request->params['named']['Config.key'])){
+				$this->request->data['Config']['key'] = $this->request->params['named']['Config.key'];
+				$value = Configure::read($this->request->params['named']['Config.key']);
 				switch(true){
 					case is_int($value):
 							$this->request->data['Config']['type'] = 'integer';

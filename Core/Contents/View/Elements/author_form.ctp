@@ -4,7 +4,7 @@
 	 * creators
 	 */
 	$options = array('options' => $contentAuthors, 'selected' => $this->Session->read('Auth.User.id'));
-	if(strstr($this->params['action'], 'edit')) {
+	if(strstr($this->request->params['action'], 'edit')) {
 		$options = false;
 	}
 
@@ -34,7 +34,7 @@
 	 */
 
 	$options = array('options' => $contentAuthors, 'selected' => $this->Session->read('Auth.User.id'));
-	if(strstr($this->params['action'], 'add')) {
+	if(strstr($this->request->params['action'], 'add')) {
 		$options['readonly'] = true;
 	}
 

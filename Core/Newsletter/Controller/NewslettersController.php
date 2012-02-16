@@ -94,7 +94,7 @@
 					'html' => null,
 					'text' => null
 				),
-				$this->params['named']['email']
+				$this->request->params['named']['email']
 			);
 
 			$this->Emailer->to  = $info['to'];

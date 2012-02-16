@@ -1,11 +1,11 @@
 <?php
 	class ShortUrlsController extends ShortUrlsAppController {
 		public function view(){
-			if(!isset($this->params['pass'][0])){
+			if(!isset($this->request->params['pass'][0])){
 				$this->redirect($this->referer());
 			}
 
-			$url = $this->ShortUrl->getUrl($this->params['pass'][0]);
+			$url = $this->ShortUrl->getUrl($this->request->params['pass'][0]);
 
 			if(empty($url)){
 				$this->notice(
@@ -20,11 +20,11 @@
 		}
 
 		public function preview(){
-			if(!isset($this->params['pass'][0])){
+			if(!isset($this->request->params['pass'][0])){
 				$this->redirect($this->referer());
 			}
 
-			$url = $this->ShortUrl->getUrl($this->params['pass'][0]);
+			$url = $this->ShortUrl->getUrl($this->request->params['pass'][0]);
 
 			if(empty($url)){
 				$this->notice(

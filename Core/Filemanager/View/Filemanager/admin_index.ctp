@@ -99,7 +99,7 @@
 									$folder['Folder']['name'],
 									array(
 										'action' => 'index',
-									) + array_merge((array)$this->params['pass'], (array)$folder['Folder']['name'])
+									) + array_merge((array)$this->request->params['pass'], (array)$folder['Folder']['name'])
 								);
 							?>
 						</td>
@@ -146,7 +146,7 @@
 									$file['File']['name'],
 									array(
 										'action' => 'view',
-									) + array_merge((array)$this->params['pass'], (array)$file['File']['name'])
+									) + array_merge((array)$this->request->params['pass'], (array)$file['File']['name'])
 								);
 							?>
 						</td>

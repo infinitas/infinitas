@@ -27,7 +27,7 @@
         $commentFields = explode(',',Configure::read('Comments.fields'));
 
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
-    	$Model     = ClassRegistry::init($this->params['plugin'].'.'.$modelName);
+    	$Model     = ClassRegistry::init($this->request->params['plugin'].'.'.$modelName);
 		$data = &${strtolower($modelName)};
 
 		$comments = isset($data[$modelName][$modelName.'Comment'])
@@ -41,7 +41,7 @@
 					'plugin' => 'comments',
 					'controller' => 'infinitas_comments',
 					'action' => 'index',
-					'Comment.class' => Inflector::camelize($this->params['plugin']).'.'.$modelName,
+					'Comment.class' => Inflector::camelize($this->request->params['plugin']).'.'.$modelName,
 					'Comment.foreign_id' => $foreign_id
 				)
 			);
