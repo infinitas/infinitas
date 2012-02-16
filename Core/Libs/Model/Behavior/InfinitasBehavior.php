@@ -461,7 +461,7 @@
 		 */
 		public function getActions($Model, $plugin, $controller){
 			$package = Inflector::camelize($plugin) . '.Controller';
-			$controller = Inflector::camelize($controller) . 'Controller';
+			$controller = Inflector::camelize($controller);
 			App::uses($controller, $package);
 
 			$list = get_class_methods($controller);
