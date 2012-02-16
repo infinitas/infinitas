@@ -1,51 +1,49 @@
 <?php
-	Class IpLocation extends Object{
+	App::uses('GeoIP', 'GeoLocation.Lib/GeoIP');
+	
+	Class IpLocation extends Object {
 		private $__emptyCountry = array('country' => false, 'country_code' => false);
 		private $__emptyCity = array('country' => false, 'country_code' => false);
 		
 		public function __construct(){
-			$this->countryDataFile = dirname(dirname(__FILE__)).DS.'libs'.DS.'geoip'.DS.'country.dat';
-			$this->cityDataFile = dirname(dirname(__FILE__)).DS.'libs'.DS.'geoip'.DS.'city.dat';
+			$this->countryDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'country.dat';
+			$this->cityDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'city.dat';
 		}
 
-		private function __loadFile($type = 'country'){
+		private function __loadFile($type = 'country') {
 			$type = strtolower((string)$type);
-			if(!class_exists('GeoIP')){
-				App::import('Lib', 'GeoLocation.Geoip/inc.php');
-			}
-					
+
+			new GeoIP();
+			
 			switch($type){
 				case 'country':
 					if(!is_file($this->countryDataFile)){
-						trigger_error(sprintf(__('%s data file is missing'), $type), E_USER_WARNING);
+						throw new Exception(sprintf(__('%s data file is missing'), $type));
 						return false;
 					}
+					
 					return geoip_open($this->countryDataFile, GEOIP_STANDARD);
 					break;
 				
 				case 'city':
-					App::import('Lib', 'GeoLocation.Geoip/city.php');
-					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
 					if(!is_file($this->cityDataFile)){
 						return false;
 					}
+
+					App::import('Lib', 'GeoLocation.Geoip/city.php');
+					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
+					
 					return geoip_open($this->cityDataFile, GEOIP_STANDARD);
 					break;
 
 				default:
-					trigger_error(sprintf(__('%s is not a valid data file'), $type), E_USER_WARNING);
-					return false;
+					throw new Exception(sprintf(__('%s is not a valid data file'), $type));
 					break;
 			}
 		}
 
 		private function __getIpAddress(){
-			App::import('Component', 'RequestHandler');
-			$RequestHandler = new RequestHandlerComponent();
-			$ipAddress = $RequestHandler->getClientIP();
-			unset($RequestHandler);
-
-			return $ipAddress;
+			return CakeRequest::clientIp();
 		}
 
 		/**
@@ -76,6 +74,11 @@
 				'city' => null,
 				'ip_address' => $ipAddress
 			);
+
+			if(empty($return['country']) && $ipAddress == '127.0.0.1') {
+				$return['country'] = 'localhost';
+				$return['city'] = 'localhost';
+			}
 			
 			geoip_close($data);
 			unset($data);
@@ -110,6 +113,12 @@
 				unset($city['country_name']);
 				$city['ip_address'] = $ipAddress;
 			}
+
+			if(empty($return['country']) && $ipAddress == '127.0.0.1') {
+				$city['country'] = 'localhost';
+				$city['city'] = 'localhost';
+			}
+			
 			geoip_close($data);
 			unset($data);
 

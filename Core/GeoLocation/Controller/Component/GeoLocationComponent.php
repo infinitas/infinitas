@@ -2,18 +2,9 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 	
 	class GeoLocationComponent extends InfinitasComponent {
-
 		/**
-		* components being used here
-		*/
-		public $components = array(
-			'RequestHandler',
-			'Events.Event',
-		);
-
-		/**
-		* default configuration
-		*/
+		 * default configuration
+		 */
 		public $configs = array();
 
 		private $__emptyCountry = array('country' => false, 'country_code' => false);
@@ -23,12 +14,11 @@
 			'city'	 => false, 'postcode'  => false, 'areaCode' => false
 		);
 
-		public function initialize($controller, $settings = array()) {
-			$this->Controller = $controller;
-			$settings = array_merge(array(), (array)$settings);
-
-			$this->countryDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'libs' . DS . 'geoip' . DS . 'country.dat';
-			$this->cityDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'libs' . DS . 'geoip' . DS . 'city.dat';
+		public function initialize(Controller $Controller) {
+			parent::initialize($Controller);
+			
+			$this->countryDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'Lib' . DS . 'geoip' . DS . 'country.dat';
+			$this->cityDataFile = dirname(dirname(dirname(__FILE__))) . DS . 'Lib' . DS . 'geoip' . DS . 'city.dat';
 
 			$this->__autoUserLocation();
 
@@ -37,7 +27,7 @@
 
 		private function __autoUserLocation() {
 			if(!$this->Controller->Session->read('GeoLocation')){
-				$data = $this->Controller->Event->trigger('geoip.getLocation');
+				$data = $this->Controller->Event->trigger('GeoLocation.getLocation');
 				$this->Controller->Session->write('GeoLocation', current($data['getLocation']));
 			}
 		}

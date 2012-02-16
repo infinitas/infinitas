@@ -772,11 +772,11 @@
 			}
 
 			if (isset($this->request->params['named']['position'])) {
-				$this->Infinitas->_orderedMove();
+				$this->Infinitas->orderedMove();
 			}
 
 			if (isset($this->request->params['named']['direction'])) {
-				$this->Infinitas->_treeMove();
+				$this->Infinitas->treeMove();
 			}
 
 			$this->redirect($this->referer());
