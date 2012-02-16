@@ -266,7 +266,7 @@
 					$message = 'Your comment has been saved and is active.';
 				}
 
-				$this->request->data[$this->modelClass.'Comment']['class'] = Inflector::camelize($this->request->params['plugin']).'.'.$this->modelClass;
+				$this->request->data[$this->modelClass.'Comment']['class'] = $this->request->plugin . '.' . $this->modelClass;
 
 				if(!empty($this->request->data[$this->modelClass.'Comment']['om_non_nom'])) {
 					$this->Session->write('Spam.bot', true);
@@ -365,7 +365,7 @@
 		public function rate($id = null) {
 			$this->request->data['Rating']['ip'] = $this->RequestHandler->getClientIP();
 			$this->request->data['Rating']['user_id'] = $this->Session->read('Auth.User.id');
-			$tempClass = ucfirst($this->request->params['plugin']) . '.' . $this->modelClass;
+			$tempClass = $this->request->plugin . '.' . $this->modelClass;
 			$this->request->data['Rating']['class'] = isset($this->request->data['Rating']['class']) ? $this->request->data['Rating']['class'] : $tempClass;
 			$this->request->data['Rating']['foreign_id'] = isset($this->request->data['Rating']['foreign_id']) ? $this->request->data['Rating']['foreign_id'] : $id;
 			$this->request->data['Rating']['rating'] = isset($this->request->data['Rating']['rating']) ? $this->request->data['Rating']['rating'] : $this->request->params['named']['rating'];

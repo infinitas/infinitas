@@ -454,9 +454,9 @@
 
 		private function __getClassName() {
 			if (isset($this->request->params['plugin'])) {
-				return Inflector::classify($this->request->params['plugin']) . '.' . Inflector::classify($this->Controller->name);
+				return $this->request->plugin . '.' . $this->Controller->modelClass;
 			} else {
-				return Inflector::classify($this->Controller->name);
+				return $this->Controller->modelClass;
 			}
 		}
 

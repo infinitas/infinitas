@@ -1,10 +1,10 @@
 <?php
 	$modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
-	$Model	 = ClassRegistry::init($this->request->params['plugin'].'.'.$modelName);
+	$Model	 = ClassRegistry::init($this->request->plugin . '.' . $modelName);
 	$data = &${strtolower($modelName)};
-	$allow = Configure::read(ucfirst($this->request->params['plugin']).'.allow_ratings');
+	$allow = Configure::read($this->request->plugin . '.allow_ratings');
 
-	if(Configure::read('Rating.time_limit')){
+	if(Configure::read('Rating.time_limit')) {
 		$allow &= date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $data[$modelName]['modified'];
 	}
 
@@ -39,7 +39,7 @@
 			);
 
 			echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
-			echo $this->Form->hidden('Rating.class', array('value' => ucfirst($this->request->params['plugin']).'.'.$modelName));
+			echo $this->Form->hidden('Rating.class', array('value' => $this->request->plugin . '.' . $modelName));
 			echo $this->Form->hidden('Rating.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 
 			echo $this->Form->input(

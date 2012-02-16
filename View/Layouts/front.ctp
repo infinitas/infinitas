@@ -29,7 +29,7 @@
                     echo $this->Session->flash();
                 ?>
 				<div id="primarycontent">
-					<div class="<?php echo isset($this->request->params['plugin'])?$this->request->params['plugin']:''; ?>">
+					<div class="<?php echo isset($this->request->params['plugin']) ? $this->request->params['plugin'] : ''; ?>">
 						<div class="<?php echo isset($this->request->params['controller'])?$this->request->params['controller']:''; ?>">
 							<div class="<?php echo isset($this->request->params['action'])?$this->request->params['action']:''; ?>">
 								<div id="content">
