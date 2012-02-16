@@ -63,8 +63,10 @@
 		 */
 		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
+			
 			$out = parent::_render($viewFile, $data);
 			$this->__renderMustache($out);
+			$this->__parseSnips($out);
 			
 			return $out;
 		}
@@ -157,5 +159,55 @@
 			$infinitasJsData['config']	 = Configure::read();
 
 			$this->set(compact('infinitasJsData'));
+		}
+
+		/**
+		 * @brief look for and insert dynamic snips
+		 *
+		 * @access private
+		 *
+		 * @param string $out the data for output by reference
+		 *
+		 * @return void
+		 */
+		private function __parseSnips(&$out) {
+			preg_match_all('/\[(snip|module):([A-Za-z0-9_\-\.\#]*)(.*?)\]/i', $out, $snips);
+			$snips = array_unique($snips[0]);
+
+			if(empty($snips)) {
+				return;
+			}
+			
+			foreach($snips as $key => $match) {
+				$out = str_replace($match, $this->__parseSnipParams($match), $out);
+			}
+		}
+
+		/**
+		 * @brief figure out what was requested and load the module
+		 * 
+		 * @param <type> $match
+		 * @return <type>
+		 */
+		private function __parseSnipParams($match) {
+			if(empty($match)) {
+				return false;
+			}
+			
+			$params = array();
+			
+			list($params['modelClass'], $params['id']) = explode('#', str_replace(array('[', ']'), '', $match));
+			list($params['type'], $params['modelClass']) = explode(':', $params['modelClass']);
+			list($params['plugin'], $params['model']) = pluginSplit($params['modelClass']);
+			
+			switch($params['type']) {
+				case 'snip':
+					return $this->ModuleLoader->loadDirect($params['plugin'] . '.snip', $params);
+					break;
+
+				case 'module':
+					return $this->ModuleLoader->loadDirect($params['plugin'] . '.' . $params['model'], $params);
+					break;
+			}
 		}
 	}

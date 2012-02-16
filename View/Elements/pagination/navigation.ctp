@@ -20,19 +20,16 @@
 ?>
 <div class="clr">&nbsp;</div>
 <?php
-
-	// show a message if nothing is found ( count == 0 or its not set )
-	if (
-		!isset($this->Paginator->params['paging'][key($this->Paginator->params['paging'] )]['count']) ||
-		$this->Paginator->params['paging'][key($this->Paginator->params['paging'] )]['count'] == 0 )
-	{
-		echo sprintf('<p class="empty">%s</p>', __d('blog', Configure::read('Pagination.nothing_found_message' )));
+	$hasPrev = $this->Paginator->hasPrev();
+	$hasNext = $this->Paginator->hasNext();
+	
+	if (!$this->Paginator->request->params['paging'][$this->Paginator->defaultModel()]['current']) {
+		echo sprintf('<p class="pagination empty">%s</p>', __d(Inflector::underscore($this->plugin), Configure::read('Pagination.nothing_found_message' )));
 		return true;
 	}
 
-	$count = current($this->Paginator->params['paging']);
-	if($count['count'] <= $count['defaults']['limit']) {
-		echo sprintf('<p>%s</p>', __d('blog', 'No more posts'));
+	if(!$hasPrev && !$hasNext) {
+		echo sprintf('<p class="pagination low">%s</p>', __d(Inflector::underscore($this->plugin), 'No more posts'));
 		return;
 	}
 ?>

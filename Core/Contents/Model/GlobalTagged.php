@@ -80,12 +80,19 @@
 					'page' => null,
 					'limit' => null,
 					'order' => null,
-					'joins' => null,
+					'joins' => array(),
 					'offset' => null,
 					'contain' => 'GlobalTag',
 					'conditions' => array(),
-					'fields' => 'GlobalTag.*, GlobalTagged.tag_id, COUNT(*) AS occurrence',
-					'group' => 'GlobalTagged.tag_id');
+					'fields' => array(
+						'GlobalTag.*',
+						'GlobalTagged.tag_id',
+						'COUNT(*) AS occurrence'
+					),
+					'group' => array(
+						'GlobalTagged.tag_id'
+					)
+				);
 
 				foreach ($query as $key => $value) {
 					if (!empty($value)) {

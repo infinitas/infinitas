@@ -102,7 +102,7 @@
 				);
 
 				$query['joins'][] = array(
-					'table' => 'global_comment_attributes',
+					'table' => 'infinitas_comment_attributes',
 					'alias' => 'InfinitasCommentAttribute',
 					'type' => 'LEFT',
 					'conditions' => array(
@@ -123,7 +123,7 @@
 			}
 
 			if (!empty($query['operation'])) {
-				return $this->findPaginatecount($state, $query, $results);
+				return $this->_findPaginatecount($state, $query, $results);
 			}
 
 			$return = $map = array();
