@@ -45,8 +45,6 @@
 			if (Configure::read('Website.force_www')) {
 				$this->forceWwwUrl();
 			}
-
-			return true;
 		}
 
 		private function __registerPlugins() {
