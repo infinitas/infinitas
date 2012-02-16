@@ -67,6 +67,11 @@
 	$plugins = App::objects('plugins', $paths, false);
 	CakePlugin::load($plugins);
 
+	foreach(CakePlugin::loaded() as $plugin) {
+		App::uses($plugin . 'AppModel', $plugin . '.Model');
+		App::uses($plugin . 'AppController', $plugin . '.Controller');
+	}
+
 	unset($paths);
 
 	if (false === function_exists('lcfirst')) {
