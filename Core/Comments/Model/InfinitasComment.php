@@ -102,7 +102,7 @@
 				);
 
 				$query['joins'][] = array(
-					'table' => 'global_comment_attributes',
+					'table' => 'infinitas_comment_attributes',
 					'alias' => 'InfinitasCommentAttribute',
 					'type' => 'LEFT',
 					'conditions' => array(
