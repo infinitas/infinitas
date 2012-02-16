@@ -1,5 +1,7 @@
 <?php
-	final class GeoLocationEvents extends AppEvents{
+	App::uses('IpLocation', 'GeoLocation.Lib');
+
+	final class GeoLocationEvents extends AppEvents {
 		public function onRequireComponentsToLoad($event = null) {			
 			return array(
 				'GeoLocation.GeoLocation'
@@ -14,8 +16,7 @@
 		 * @param string $ipAddress the ip address
 		 * @return array the details requested
 		 */
-		public function onGetLocation($event, $ipAddress = null){
-			App::uses('IpLocation', 'GeoIp.Lib');
+		public function onGetLocation($event, $ipAddress = null) {
 			$IpLocation = new IpLocation();
 
 			$return = $IpLocation->getCityData($ipAddress);
@@ -34,8 +35,7 @@
 		 * @param string $ipAddress the ip address
 		 * @return array the details requested
 		 */
-		public function onGetCountry($event, $ipAddress = null){
-			App::import('GeoIp', 'GeoIp.IpLocation');
+		public function onGetCountry($event, $ipAddress = null) {
 			$IpLocation = new IpLocation();
 
 			$return = $IpLocation->getCountryData($ipAddress);
@@ -51,8 +51,7 @@
 		 * @param string $ipAddress the ip address
 		 * @return array the details requested
 		 */
-		public function onGetCity($event, $ipAddress = null){			
-			App::import('GeoIp', 'GeoIp.IpLocation');
+		public function onGetCity($event, $ipAddress = null) {
 			$IpLocation = new IpLocation();
 
 			$return = $IpLocation->getCityData($ipAddress);

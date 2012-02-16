@@ -1,14 +1,14 @@
 <?php
-	Class IpLocation extends Object{
+	Class IpLocation extends Object {
 		private $__emptyCountry = array('country' => false, 'country_code' => false);
 		private $__emptyCity = array('country' => false, 'country_code' => false);
 		
 		public function __construct(){
-			$this->countryDataFile = dirname(dirname(__FILE__)).DS.'libs'.DS.'geoip'.DS.'country.dat';
-			$this->cityDataFile = dirname(dirname(__FILE__)).DS.'libs'.DS.'geoip'.DS.'city.dat';
+			$this->countryDataFile = dirname(dirname(__FILE__)) . DS . 'Lib' . DS . 'geoip'.DS.'country.dat';
+			$this->cityDataFile = dirname(dirname(__FILE__)) . DS . 'Lib' . DS . 'geoip' . DS . 'city.dat';
 		}
 
-		private function __loadFile($type = 'country'){
+		private function __loadFile($type = 'country') {
 			$type = strtolower((string)$type);
 			if(!class_exists('GeoIP')){
 				App::import('Lib', 'GeoLocation.Geoip/inc.php');
@@ -20,15 +20,18 @@
 						trigger_error(sprintf(__('%s data file is missing'), $type), E_USER_WARNING);
 						return false;
 					}
+					
 					return geoip_open($this->countryDataFile, GEOIP_STANDARD);
 					break;
 				
 				case 'city':
-					App::import('Lib', 'GeoLocation.Geoip/city.php');
-					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
 					if(!is_file($this->cityDataFile)){
 						return false;
 					}
+
+					App::import('Lib', 'GeoLocation.Geoip/city.php');
+					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
+					
 					return geoip_open($this->cityDataFile, GEOIP_STANDARD);
 					break;
 
@@ -40,12 +43,7 @@
 		}
 
 		private function __getIpAddress(){
-			App::import('Component', 'RequestHandler');
-			$RequestHandler = new RequestHandlerComponent();
-			$ipAddress = $RequestHandler->getClientIP();
-			unset($RequestHandler);
-
-			return $ipAddress;
+			return CakeRequest::clientIp();
 		}
 
 		/**
