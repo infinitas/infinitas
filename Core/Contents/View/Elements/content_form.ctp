@@ -23,7 +23,7 @@
 		'<div class="input smaller required">' .
 			$this->Form->input('GlobalContent.layout_id', array('options' => $contentLayouts, 'empty' => Configure::read('Website.empty_select'), 'class' => 'smaller')) .
 			$this->Form->input('GlobalContent.group_id', array('options' => $contentGroups, 'label' => __('Min Group'), 'empty' => __d('contents', 'Public'))) .
-			$this->element('category_list', array('plugin' => 'contents')) .
+			$this->element('Contents.category_list') .
 		'</div>' .
 		$this->Form->input('GlobalContent.tags');
 
