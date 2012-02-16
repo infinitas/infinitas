@@ -56,7 +56,7 @@
 						<td><?php echo $this->Infinitas->massActionCheckBox($mail); ?>&nbsp;</td>
 						<td>
 							<?php
-								$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'view', 'data' => $mail));
+								$_url = $this->Event->trigger('Emails.slugUrl', array('type' => 'view', 'data' => $mail));
 								echo $this->EmailAttachments->isFlagged($mail['MailSystem']),
 									$this->Html->link(
 										sprintf('%s (%s)', $mail['From']['name'], $mail['MailSystem']['thread_count']),

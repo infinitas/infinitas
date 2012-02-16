@@ -56,7 +56,7 @@
                 		</td>
                 		<td>
                 			<?php
-								$short = $this->Event->trigger('shorturls.getShortUrl', array('type' => 'preview', 'url' => $shortUrl['ShortUrl']['url']));
+								$short = $this->Event->trigger('ShortUrls.getShortUrl', array('type' => 'preview', 'url' => $shortUrl['ShortUrl']['url']));
 								$short = Router::url(current($short['getShortUrl']));
 								echo $this->Html->link($short, $short, array('target' => '_blank'));
 							?>&nbsp;

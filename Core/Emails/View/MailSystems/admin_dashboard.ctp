@@ -15,7 +15,7 @@
 	if($accounts) {
 		$accountIcons = array();
 		foreach($accounts as $account){
-			$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'inbox', 'data' => $account));
+			$_url = $this->Event->trigger('Emails.slugUrl', array('type' => 'inbox', 'data' => $account));
 			$accountIcons[] = array(
 				'name' => $account['EmailAccount']['name'],
 				'description' => $account['EmailAccount']['email'],
