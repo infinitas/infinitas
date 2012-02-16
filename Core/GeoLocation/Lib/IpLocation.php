@@ -12,7 +12,9 @@
 
 		private function __loadFile($type = 'country') {
 			$type = strtolower((string)$type);
-					
+
+			new GeoIP();
+			
 			switch($type){
 				case 'country':
 					if(!is_file($this->countryDataFile)){
@@ -72,6 +74,11 @@
 				'city' => null,
 				'ip_address' => $ipAddress
 			);
+
+			if(empty($return['country']) && $ipAddress == '127.0.0.1') {
+				$return['country'] = 'localhost';
+				$return['city'] = 'localhost';
+			}
 			
 			geoip_close($data);
 			unset($data);
@@ -106,6 +113,12 @@
 				unset($city['country_name']);
 				$city['ip_address'] = $ipAddress;
 			}
+
+			if(empty($return['country']) && $ipAddress == '127.0.0.1') {
+				$city['country'] = 'localhost';
+				$city['city'] = 'localhost';
+			}
+			
 			geoip_close($data);
 			unset($data);
 
