@@ -1,23 +1,22 @@
 <?php
+	App::uses('GeoIP', 'GeoLocation.Lib/GeoIP');
+	
 	Class IpLocation extends Object {
 		private $__emptyCountry = array('country' => false, 'country_code' => false);
 		private $__emptyCity = array('country' => false, 'country_code' => false);
 		
 		public function __construct(){
-			$this->countryDataFile = dirname(dirname(__FILE__)) . DS . 'Lib' . DS . 'geoip'.DS.'country.dat';
-			$this->cityDataFile = dirname(dirname(__FILE__)) . DS . 'Lib' . DS . 'geoip' . DS . 'city.dat';
+			$this->countryDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'country.dat';
+			$this->cityDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'city.dat';
 		}
 
 		private function __loadFile($type = 'country') {
 			$type = strtolower((string)$type);
-			if(!class_exists('GeoIP')){
-				App::import('Lib', 'GeoLocation.Geoip/inc.php');
-			}
 					
 			switch($type){
 				case 'country':
 					if(!is_file($this->countryDataFile)){
-						trigger_error(sprintf(__('%s data file is missing'), $type), E_USER_WARNING);
+						throw new Exception(sprintf(__('%s data file is missing'), $type));
 						return false;
 					}
 					
@@ -36,8 +35,7 @@
 					break;
 
 				default:
-					trigger_error(sprintf(__('%s is not a valid data file'), $type), E_USER_WARNING);
-					return false;
+					throw new Exception(sprintf(__('%s is not a valid data file'), $type));
 					break;
 			}
 		}
