@@ -13,6 +13,29 @@
 		}
 
 		/**
+		 * @brief look for bots fillilng out honey traps and stop them from being a pain
+		 *
+		 * Bots are redirected to /?spam=true in which case you can use your web
+		 * server to block them or redirect them to another site.
+		 *
+		 * should look into this http://www.projecthoneypot.org/httpbl_implementations.php
+		 */
+		private function __detectBot() {
+			if(!empty($this->Controller->request->data[$this->Controller->modelClass]['om_nom_nom'])) {
+				$this->Controller->Session->write('Spam.bot', true);
+				$this->Controller->Session->write('Spam.detected', time());
+
+				$this->redirect('/?spam=true');
+			}
+
+			else if($this->Controller->Session->read('Spam.bot')) {
+				if((time() - 3600) > $this->Controller->Session->read('Spam.detected')) {
+					$this->Controller->Session->write('Spam', null);
+				}
+			}
+		}
+
+		/**
 		 * Set up Auth.
 		 *
 		 * Define some things that auth needs to work
