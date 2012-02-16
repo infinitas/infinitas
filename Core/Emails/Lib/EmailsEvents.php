@@ -3,7 +3,7 @@
 		public function onRequireDatabaseConfigs($event) {
 			return array(
 				'emails' => array(
-					'datasource' => 'Emails.Email'
+					'datasource' => 'Emails.EmailSource'
 				)
 			);
 		}
@@ -16,7 +16,7 @@
 				)
 			);
 		}
-		
+
 		public function onSetupConfig() {
 			return Configure::load('Emails.config');
 		}
@@ -100,7 +100,7 @@
 				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'view', 'admin' => true),
 				array('pass' => array('slug', 'account', 'email'))
 			);
-			
+
 			// inbox
 			Router::connect(
 				'/admin/inbox/:slug/:account',
@@ -111,7 +111,7 @@
 
 		public function onRunCrons($event) {
 			$accounts = ClassRegistry::init('Emails.EmailAccount')->getCronAccounts();
-			
+
 			foreach($accounts as $account){
 				if(!isset($account['EmailAccount']) || empty($account['EmailAccount'])){
 					continue;
@@ -122,7 +122,7 @@
 					ClassRegistry::init('Emails.MailSystem')->checkNewMail($account['EmailAccount'])
 				);
 			}
-			
+
 			return true;
 		}
 

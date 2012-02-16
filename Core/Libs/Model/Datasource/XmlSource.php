@@ -17,7 +17,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	App::import('Datasource', 'Libs.ReaderSource');
+	App::uses('ReaderSource', 'Libs.Model/Datasource');
 	class XmlSource extends ReaderSource {
 
 		/**
