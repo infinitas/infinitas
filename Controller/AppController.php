@@ -368,10 +368,12 @@
 		/**
 		 * Dispatches the controller action.  Checks that the action
 		 * exists and isn't private.
-		 *
-		 * @param CakeRequest $request
-		 * @return mixed The resulting response.
+		 * 
 		 * @throws PrivateActionException, MissingActionException
+		 *
+		 * @param CakeRequest $request the current request
+		 * 
+		 * @return mixed The resulting response.
 		 */
 		public function invokeAction(CakeRequest $request) {
 			try {
@@ -383,15 +385,29 @@
 			}
 		}
 
+		/**
+		 * @brief catch calls to parent::missing_action() and see if a component can handle it
+		 *
+		 * @throws MissingActionException
+		 *
+		 * @param string $method the method being called
+		 * @param CakeRequest $args
+		 *
+		 * @return mixed The resulting response.
+		 */
 		public function __call($method, $args) {
 			return $this->invokeComponentAction($this->request);
 		}
 
 		/**
-		 * Check that a method is in the controller
+		 * @brief Try invoke an action through a component
 		 *
-		 * @param string $method The method to be called.
-		 * @return boolean True on method being callable.
+		 * @throws MissingActionException
+		 *
+		 * @param CakeRequest $request $the request object
+		 * @param Exception $e any exceptions that were caught before
+		 *
+		 * @return mixed The resulting response.
 		 */
 		public function invokeComponentAction($request, $e = null) {
 			$action = 'action' . Inflector::camelize($request->params['action']);
@@ -401,7 +417,7 @@
 				}
 			}
 
-			if($e instanceof Exception) {
+			if($e instanceof MissingActionException) {
 				throw $e;
 			}
 
