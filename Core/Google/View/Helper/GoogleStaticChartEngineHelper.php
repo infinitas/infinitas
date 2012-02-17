@@ -190,6 +190,16 @@
 				'line_marker'
 			),
 			'pie' => array(
+				'_indicator' => 'cht=p',
+				'legend',
+				'size',
+				'color',
+				'labels',
+				'data',
+				'spacing',
+				'scale'
+			),
+			'pie_3d' => array(
 				'_indicator' => 'cht=p3',
 				'legend',
 				'size',
@@ -310,6 +320,9 @@
 				'fill'
 			),
 			'pie' => array(
+				'series'
+			),
+			'pie_3d' => array(
 				'series'
 			)
 		);
@@ -625,6 +638,10 @@
 					if(strstr($this->_chartType, 'bar')) {
 						$__data = array();
 						foreach($v as $dataSet => $fillData) {
+							if(!is_array($fillData)) {
+								$fillData = array('color' => $fillData);
+							}
+							
 							$fillData['type'] = isset($fillData['type']) ? $fillData['type'] : 'solid';
 							$tmp = array('b' . $dataSet, $this->_fillTypes[$this->_chartType][$fillData['type']], $fillData['color']);
 							
