@@ -1,11 +1,13 @@
 <?php
 /* Contact Test cases generated on: 2010-12-14 13:12:18 : 1292334978*/
-App::import('Model', 'contact.Contact');
+App::uses('Contact', 'Contact.Model');
 
-class ContactTestCase extends CakeTestCase {
+class ContactTest extends CakeTestCase {
 	function startTest() {
-		$this->Contact =& ClassRegistry::init('Contact');
+		$this->Contact =& ClassRegistry::init('Contact.Contact');
 	}
+
+	function testDummy() {}
 
 	function endTest() {
 		unset($this->Contact);

@@ -16,6 +16,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('AppHelper', 'View/Helper');
 	class VcfHelper extends AppHelper {
 		/**
 		 * map element names to vcard elements
@@ -69,7 +70,7 @@
 		 * @param string $method Name of method called
 		 * @param mixed $params Params for method.
 		 * @access public
-		 * 
+		 *
 		 * @return mixed
 		 */
 		public function __call($method, $params) {
