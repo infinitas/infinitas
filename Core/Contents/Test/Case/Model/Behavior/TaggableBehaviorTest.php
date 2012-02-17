@@ -22,25 +22,25 @@
  * @subpackage	plugins.tags.tests.cases.behaviors
  */
 
-App::import('Core', 'Model');
+App::uses('Model', 'Model');
 
-class Article extends Model {
+class Article extends AppModel {
 	public $useTable = 'articles';
 	public $belongsTo = array();
 	public $hasAndBelongsToMany = array();
 	public $hasMany = array();
 	public $hasOne = array();
-	public $actsAs = array('Contents.Taggable');
+	public $actsAs = array('Contents.Taggable', 'Containable');
 }
 
-class TaggableTest extends CakeTestCase {
+class TaggableBehaviorTest extends CakeTestCase {
 /**
  * Plugin name used for fixtures loading
  *
  * @var string
  * @access public
  */
-	public $plugin = 'tags';
+	public $plugin = 'contents';
 
 /**
  * Holds the instance of the model
@@ -58,9 +58,9 @@ class TaggableTest extends CakeTestCase {
  * @access public
  */
 	public $fixtures = array(
-		'plugin.tags.tagged',
-		'plugin.tags.tag',
-		'plugin.tags.article');
+		'plugin.contents.global_tagged',
+		'plugin.contents.global_tag',
+		'plugin.contents.article');
 
 /**
  * Method executed before each test
@@ -70,7 +70,6 @@ class TaggableTest extends CakeTestCase {
  */
 	public function startTest() {
 		$this->Article = ClassRegistry::init('Article');
-		$this->Article->Behaviors->attach('Contents.Taggable', array());
 	}
 
 /**
@@ -95,14 +94,15 @@ class TaggableTest extends CakeTestCase {
 		$data['tags'] = 'foo, bar, test';
 		$this->Article->save($data, false);
 		$result = $this->Article->find('first', array(
-			'conditions' => array(
-			'id' => 1)));
+			'conditions' => array('id' => 1),
+			'contain' => array('GlobalTag')
+		));
 		$this->assertTrue(!empty($result['Article']['tags']));
 
 		$data['tags'] = 'foo, developer, developer, php';
 		$this->Article->save($data, false);
 		$result = $this->Article->find('first', array(
-			'contain' => array('Tag'),
+			'contain' => array('GlobalTag'),
 			'conditions' => array(
 				'id' => 1)));
 		$this->assertTrue(!empty($result['Article']['tags']));
@@ -112,7 +112,7 @@ class TaggableTest extends CakeTestCase {
 		$this->Article->save($data, false);
 		$result = $this->Article->GlobalTag->find('all', array(
 			'recursive' => -1,
-			'order' => 'GlobalTag.identifier DESC',
+			'order' => 'GlobalTag.name ASC',
 			'conditions' => array(
 				'GlobalTag.identifier' => 'cakephp')));
 		$result = Set::extract($result, '{n}.GlobalTag.keyname');
@@ -135,15 +135,16 @@ class TaggableTest extends CakeTestCase {
 		$data['tags'] = 'foo, bar, test';
 		$this->Article->save($data, false);
 		$result = $this->Article->find('first', array(
+			'contain' => array('GlobalTag'),
 			'conditions' => array(
 				'id' => 1)));
-		$result = $this->Article->tagArrayToString($result['Tag']);
+		$result = $this->Article->tagArrayToString($result['GlobalTag']);
 		$this->assertTrue(!empty($result));
-		$this->assertIsA($result, 'string');
+		$this->assertInternalType('string', $result);
 
 		$result = $this->Article->tagArrayToString();
 		$this->assertTrue(empty($result));
-		$this->assertIsA($result, 'string');
+		$this->assertInternalType('string',  $result);
 	}
 
 /**
@@ -172,15 +173,17 @@ class TaggableTest extends CakeTestCase {
 		$this->Article->save($data, false);
 
 		$result = $this->Article->find('first', array(
-			'conditions' => array(
-				'id' => 1)));
-		$this->assertTrue(isset($result['Tag']));
+			'conditions' => array('id' => 1),
+			'contain' => array('GlobalTag')
+		));
+		$this->assertTrue(isset($result['GlobalTag']));
 
 		$this->Article->Behaviors->Taggable->settings['Article']['unsetInAfterFind'] = true;
 		$result = $this->Article->find('first', array(
-			'conditions' => array(
-				'id' => 1)));
-		$this->assertTrue(!isset($result['Tag']));
+			'conditions' => array('id' => 1),
+			'contain' => array('GlobalTag')
+		));
+		$this->assertTrue(!isset($result['GlobalTag']));
 	}
 
 }

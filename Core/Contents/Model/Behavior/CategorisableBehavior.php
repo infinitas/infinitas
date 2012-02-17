@@ -10,11 +10,11 @@
 	 * @package Infinitas.Categories.models.behaviors
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('ModelBehavior', 'Model');
 	class CategorisableBehavior extends ModelBehavior {
 		/**
 		 * Contain settings indexed by model name.
@@ -69,7 +69,7 @@
 							)
 						)
 					),
-				), 
+				),
 				$this->settings[$Model->alias]['resetBinding']
 			);
 		}
