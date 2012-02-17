@@ -1,9 +1,11 @@
 <?php
 	App::uses('CompressHelper', 'Assets.View/Helper');
+	App::uses('View', 'View');
+	App::uses('Controller', 'Controller');
 
 	class CompressHelperTestCase extends CakeTestCase {
 		public function startTest() {
-			$this->Compress =& new CompressHelper();
+			$this->Compress =& new CompressHelper(new View(new Controller()));
 		}
 
 		public function endTest() {
