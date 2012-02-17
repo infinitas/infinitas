@@ -10,8 +10,7 @@ class AllAssetsTestsTest extends PHPUnit_Framework_TestSuite {
 		$suite = new CakeTestSuite('All Assets test');
 
 		$path = CakePlugin::path('Assets') . 'Test' . DS . 'Case' . DS;
-		$suite->addTestDirectory($path . 'Lib');
-		$suite->addTestDirectory($path . 'View' . DS . 'Helper');
+		$suite->addTestDirectoryRecursive($path);
 
 		return $suite;
 	}
