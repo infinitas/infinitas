@@ -273,7 +273,31 @@
 		 * normally in the form of Model::find(first) that you can use.
 		 *
 		 */
-		public function onSlugUrl($event, $data = null){}
+		public function onSlugUrl($event, $data = null, $type = null) {
+			if($data == null && $type == null) {
+				return false;
+			}
+			
+			$plugin = str_replace('Events', '', get_class($this));
+			$data = Set::flatten($data);
+
+			$urlConfig = Configure::read($plugin . '.slugUrl.' . $type);
+			if(!$urlConfig) {
+				throw new Exception(sprintf('Configuration for url types "%s.%s" not found', $plugin, $type));
+			}
+
+			$url = !empty($urlConfig['url']) ? $urlConfig['url'] : array();
+			unset($urlConfig['url']);
+
+			$url['plugin'] = Inflector::underscore($plugin);
+
+			$urlParams = array();
+			foreach($urlConfig as $key => $value) {
+				$urlParams[$value] = $data[$key];
+			}
+
+			return InfinitasRouter::bestMatch($url, $urlParams);
+		}
 
 		/**
 		 * Todo list
