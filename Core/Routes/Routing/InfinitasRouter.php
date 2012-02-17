@@ -20,10 +20,59 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class InfinitasRouting extends Object {
+	class InfinitasRouter extends Router {
+		protected static $_reverseLookup = array();
+		
 		public function setup() {
-			InfinitasRouting::__registerExtensions();
-			InfinitasRouting::__buildRoutes();
+			self::__registerExtensions();
+			self::__buildRoutes();
+		}
+
+		public static function bestMatch($request, $params = array(), $bestMatch = true) {
+			$hash = md5(serialize($request + array_keys($params)));
+			if(!empty(self::$_reverseLookup[$hash])) {
+				return self::$_reverseLookup[$hash];
+			}
+			
+			foreach(parent::$routes as &$route) {
+				if($route->defaults !== $request || !strstr($route->template, ':')) {
+					continue;
+				}
+
+				$templateParams = self::__reverseRoute($route->template);
+				$intersect = array_intersect($templateParams, array_keys($params));
+
+				if($templateParams == $intersect) {
+					foreach($templateParams as $v) {
+						$request[$v] = $params[$v];
+					}
+					$bestMatch = false;
+				}
+			}
+
+			if($bestMatch && !empty($params['id'])) {
+				$request = array_merge($request, array('id' => $params['id']));
+			}
+
+			self::$_reverseLookup[$hash] = $request;
+
+			return $request;
+		}
+
+		private static function __reverseRoute($template) {
+			$fragments = array_filter((array)explode('/', $template));
+			foreach($fragments as $k => $fragment) {
+				if(!strstr($fragment, ':')) {
+					unset($fragments[$k]);
+				}
+			}
+
+			$fragments = array_filter(explode(':', implode('', $fragments)));
+			foreach($fragments as &$param) {
+				$param = str_replace(array('-'), '', $param);
+			}
+
+			return $fragments;
 		}
 
 		/**
@@ -32,7 +81,7 @@
 		 * Allows other plugins to register routes to be used in the app and builds
 		 * the routes from the database.
 		 */
-		private function __buildRoutes(){
+		private static function __buildRoutes(){
 			App::uses('ClassRegistry', 'Utility');
 			EventCore::trigger(new StdClass(), 'setupRoutes');
 
@@ -62,7 +111,7 @@
 		 *
 		 * Call all plugins and see what extensions are need, this is cached
 		 */
-		private function __registerExtensions(){
+		private static function __registerExtensions(){
 			$extensions = Cache::read('extensions', 'routes');
 			if($extensions === false){
 				$extensions = EventCore::trigger(new StdClass(), 'setupExtensions');
