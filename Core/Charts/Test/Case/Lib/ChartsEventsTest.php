@@ -1,5 +1,5 @@
-<?php	
-	class ChartsEventsTestCase extends CakeTestCase {		
+<?php
+	class ChartsEventsTest extends CakeTestCase {
 		public function startTest() {
 			$this->Event = EventCore::getInstance();
 		}

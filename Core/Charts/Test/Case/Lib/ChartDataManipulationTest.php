@@ -1,16 +1,16 @@
 <?php
-	App::import('Libs', 'Charts.ChartDataManipulation');
-	
+	App::uses('ChartDataManipulation', 'Charts.Lib');
+
 	class ChartDataManipulationTest extends CakeTestCase {
 		public $fixtures = array(
 			'plugin.configs.config',
 			'plugin.themes.theme',
 			'plugin.routes.route',
 			'plugin.view_counter.view_count',
-			
+
 			'plugin.crons.cron'
 		);
-		
+
 		public function startTest(){
 			$this->ChartManipulation = new ChartDataManipulation();
 			$this->Cron = ClassRegistry::init('Crons.Cron');
@@ -125,7 +125,7 @@
 				'average_load' => explode(',', '2,1.11,0.245,0.103,0.181,0.426,0.155,0.284,0.206,0.077,0.219,0.439,0'),
 				'max_load'     => explode(',', '2,1.667,0.5,0.222,0.222,1.167,0.278,0.778,0.444,0.222,0.333,0.556,0')
 			);
-			
+
 			$format = $this->ChartManipulation->getFormatted($crons, $options);
 			$this->assertEqual($expected['average_load'], $format['average_load']);
 			$this->assertEqual($expected['max_load'], $format['max_load']);
@@ -247,7 +247,7 @@
 					'group' => array('hour')
 				)
 			);
-			
+
 			$options = array('alias' => $this->Cron->alias, 'fields' => array('average_load', 'max_load'), 'blanks' => false);
 			$expected = array(
 				'start_date' => '2010-12-07 02:29:02',

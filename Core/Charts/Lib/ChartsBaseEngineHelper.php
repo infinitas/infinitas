@@ -19,7 +19,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('AppHelper', 'View/Helper');
 	class ChartsBaseEngineHelper extends AppHelper {
 		/**
 		 * @brief draw an area chart
