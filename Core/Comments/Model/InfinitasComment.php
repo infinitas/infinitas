@@ -118,7 +118,7 @@
 						'CommentUser.id = ' . $this->alias . '.user_id'
 					)
 				);
-				
+
 				return $query;
 			}
 
@@ -142,7 +142,7 @@
 						$result[$this->alias]
 					);
 				}
-				
+
 				$return[$mapIndex][$this->alias][$result['InfinitasCommentAttribute']['key']] = $result['InfinitasCommentAttribute']['val'];
 			}
 
@@ -152,7 +152,7 @@
 
 		/**
 		 * @brief hack to get the attributes for comments
-		 * 
+		 *
 		 * @todo this is a hack to get the atributes in the comment, this should
 		 * be handled in the attributes behavior but cake does not do model callbacks
 		 * 3 relations deep
@@ -160,14 +160,14 @@
 		 * @param array $results the data found
 		 * @param bool $primary is this the primary model doing the find
 		 * @access public
-		 * 
+		 *
 		 * @return array the results after bing formatted
 		 */
 		public function afterFind($results, $primary){
 			if($this->findQueryType == 'linkedComments') {
 				return $results;
 			}
-			
+
 			if(isset($results[0][0]['count'])){
 				return $results;
 			}
@@ -281,7 +281,7 @@
 		 * @brief get a list of all the models that have comments
 		 *
 		 * @todo add cache
-		 * 
+		 *
 		 * @return array list of model classes
 		 */
 		public function getUniqueClassList(){
@@ -301,7 +301,7 @@
 			if(empty($classes)){
 				return array();
 			}
-			
+
 			return array_combine($classes, $classes);
 		}
 
@@ -309,7 +309,7 @@
 		 * @brief get a list of the latest comments
 		 *
 		 * used in things like comment wigets etc. will get a list of comments
-		 * from the site. 
+		 * from the site.
 		 *
 		 * @param bool $all all or just active
 		 * @param int $limit the msx number of comments to get
@@ -369,7 +369,7 @@
 						$this->alias . '.created' => 'desc',
 					);
 				}
-				
+
 				if(empty($query['limit'])) {
 					$query['limit'] = $this->queryLimit;
 				}
@@ -384,7 +384,7 @@
 						)
 					)
 				);
-				
+
 				$query['joins'] = array_merge((array)$query['joins'], $joins);
 
 				return $query;
