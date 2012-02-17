@@ -46,7 +46,7 @@
 		 * @access public
 		 */
 		public $hasMany = array(
-			'InfinitasCommentAttribute' => array(
+			'CommentAttribute' => array(
 				'className' => 'Comments.InfinitasCommentAttribute'
 			)
 		);
@@ -88,10 +88,10 @@
 						$this->alias . '.foreign_id',
 						$this->alias . '.comment',
 						$this->alias . '.created',
-						'InfinitasCommentAttribute.id',
-						'InfinitasCommentAttribute.key',
-						'InfinitasCommentAttribute.val',
-						'InfinitasCommentAttribute.comment_id',
+						'CommentAttribute.id',
+						'CommentAttribute.key',
+						'CommentAttribute.val',
+						'CommentAttribute.comment_id',
 					)
 				);
 
@@ -103,10 +103,10 @@
 
 				$query['joins'][] = array(
 					'table' => 'infinitas_comment_attributes',
-					'alias' => 'InfinitasCommentAttribute',
+					'alias' => 'CommentAttribute',
 					'type' => 'LEFT',
 					'conditions' => array(
-						'InfinitasCommentAttribute.comment_id = ' . $this->alias . '.id'
+						'CommentAttribute.comment_id = ' . $this->alias . '.id'
 					)
 				);
 
@@ -143,7 +143,7 @@
 					);
 				}
 
-				$return[$mapIndex][$this->alias][$result['InfinitasCommentAttribute']['key']] = $result['InfinitasCommentAttribute']['val'];
+				$return[$mapIndex][$this->alias][$result['CommentAttribute']['key']] = $result['CommentAttribute']['val'];
 			}
 
 			return $return;
