@@ -346,7 +346,7 @@
 			if(!$axes && isset($this->__originalData['axes'])){
 				$axes = $this->__originalData['axes'];
 			}
-			$this->data['axes'] = array_keys($axes);
+			$this->data['axes'] = array_keys((array)$axes);
 
 			$this->setLabels($axes);
 			
