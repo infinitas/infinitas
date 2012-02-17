@@ -23,11 +23,11 @@
 	 * that it is not spam, could even be a validation rule.
 	 *
 	 * @todo add a rating method for amount of text with no links vs total amount of text
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('ModelBehavior', 'Model');
 	class CommentableBehavior extends ModelBehavior{
 		/**
 		 * Settings initialized with the behavior
@@ -114,7 +114,7 @@
 				false
 			);
 		}
-		
+
 		public function attachComments($Model, $results) {
 			$ids = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
 			$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
@@ -125,7 +125,7 @@
 					)
 				)
 			);
-			
+
 			foreach($results as &$result) {
 				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract(
 					sprintf('/%s[foreign_id=%s]', $this->__settings[$Model->alias]['class'], $result[$Model->alias][$Model->primaryKey]),
@@ -139,7 +139,7 @@
 
 		/**
 		 * @brief create a new comment calls the methods to do the spam checks
-		 * 
+		 *
 		 * @param object $Model the model object
 		 * @param array $data the comment being saved
 		 * @access public
@@ -186,7 +186,7 @@
 						'rule' => array('notempty')
 					)
 				),
-				
+
 				$this->__settings[$Model->alias]['column_points'] => array(
 					'notempty' => array(
 						'rule' => array('notempty')
@@ -196,7 +196,7 @@
 					)
 				)
 			);
-			
+
 			$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
 
 			$points = $data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_points']];
@@ -216,11 +216,11 @@
 				App::import('Sanitize');
 				$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_email']] =
 						Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_email']]);
-				
+
 				$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']] =
 						Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']]);
 			}
-			
+
 			$Model->{$this->__settings[$Model->alias]['class']}->create();
 			if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
 				return true;
@@ -255,13 +255,13 @@
 					$options['options']
 				);
 			}
-			
+
 			return $Model->{$this->__settings[$Model->alias]['class']}->find('all', $parameters);
 		}
 
 		/**
 		 * @brief get the rating of a comment before its saved
-		 * 
+		 *
 		 * the main method that calls all the comment rating code. after getting
 		 * the score it will set a staus for the comment.
 		 *
@@ -302,7 +302,7 @@
 			else {
 				$data[$this->__settings[$Model->alias]['column_status']] = 'spam';
 			}
-			
+
 			return $data;
 		}
 
@@ -330,7 +330,7 @@
 			// -1 per link if over 2, otherwise +2 if less than 2
 			$maxLinks = Configure::read('Comments.maximum_links');
 			$maxLinks = ($maxLinks > 0) ? $maxLinks : 2;
-			
+
 			$points = ($this->totalLinks > $maxLinks) ? $this->totalLinks * -1 : 2;
 			// URLs that have certain words or characters in them
 			// -1 per blacklisted word
@@ -353,7 +353,7 @@
 
 		/**
 		 * @brief rate according to the lenght of the text
-		 * 
+		 *
 		 * Rate the length of the comment. if the length is greater than the required
 		 * and there are no links then 2 points are added. with links only 1 point
 		 * is added. if the lenght is too short 1 point is deducted
@@ -436,7 +436,7 @@
 						break;
 				}
 			}
-			
+
 			return $points;
 		}
 
@@ -466,7 +466,7 @@
 
 		/**
 		 * @brief rate according to the start of the comment
-		 * 
+		 *
 		 * Checks the first word against the blacklist keywords. if there is a
 		 * match then 10 points are deducted.
 		 *
@@ -518,7 +518,7 @@
 		 * Rate according to the text. Generaly words do not contain more than
 		 * a few consecutive consonants. -1 point is given per 5 consecutive
 		 * consonants.
-		 * 
+		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
 		 * @access private

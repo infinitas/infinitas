@@ -1,9 +1,9 @@
 <?php
 /* GlobalComment Fixture generated on: 2010-12-13 17:12:34 : 1292259754 */
-class CommentFixture extends CakeTestFixture {
-	var $name = 'Comment';
+class InfinitasCommentFixture extends CakeTestFixture {
+	var $name = 'InfinitasComment';
 
-	var $table = 'global_comments';
+	var $table = 'infinitas_comments';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),

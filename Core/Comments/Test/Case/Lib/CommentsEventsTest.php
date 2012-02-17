@@ -1,5 +1,5 @@
 <?php
-	class CommentsEventsTestCase extends CakeTestCase {
+	class CommentsEventsTest extends CakeTestCase {
 		var $fixtures = array(
 			'plugin.configs.config',
 			'plugin.themes.theme',
