@@ -34,6 +34,8 @@
 		* Controllers initialize function.
 		*/
 		public function initialize($Controller) {
+			parent::initialize($Controller);
+			
 			$this->Controller = $Controller;
 
 			Configure::write('CORE.current_route', Router::currentRoute());
