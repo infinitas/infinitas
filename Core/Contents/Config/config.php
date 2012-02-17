@@ -1,4 +1,4 @@
 <?php
 	$config['Contents'] = array(
-		'truncate_category' => 200
+		'truncate_category' => 100
 	);
