@@ -23,7 +23,7 @@
 	 * Configs plugin provides a number of things to manage configs, including
 	 * adding new ones from the backend, overloading options and seeing what has
 	 * changed from the defaults.
-	 * 
+	 *
 	 * @image html sql_configs_plugin.png "Configs Plugin table structure"
 	 *
 	 * @section configs-see-also Also see
@@ -34,7 +34,7 @@
 	/**
 	 * @brief ConfigsAppController is the main controller class that all other
 	 * configuration related controllers extend.
-	 * 
+	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Configs
@@ -46,6 +46,6 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('AppController', 'Controller');
 	class ConfigsAppController extends AppController {
 	}

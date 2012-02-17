@@ -1,6 +1,6 @@
 <?php
 	/* Configs Test cases generated on: 2010-12-14 12:12:49 : 1292330689*/
-	App::import('Controller', 'Configs.Configs');
+	App::uses('ConfigsController', 'Configs.Controller');
 
 	class TestConfigsController extends ConfigsController {
 		var $autoRender = false;
@@ -10,11 +10,13 @@
 		}
 	}
 
-	class ConfigsControllerTestCase extends CakeTestCase {
+	class ConfigsControllerTest extends CakeTestCase {
 		function startTest() {
 			$this->Configs = new TestConfigsController();
 			$this->Configs->constructClasses();
 		}
+
+		function testDummy() {}
 
 		function endTest() {
 			unset($this->Configs);
