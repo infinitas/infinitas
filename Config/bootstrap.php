@@ -67,6 +67,10 @@
 	$plugins = App::objects('plugins', $paths, false);
 	CakePlugin::load($plugins);
 
+	App::uses('AppModel', 'Model');
+	App::uses('AppController', 'Controller');
+	App::uses('AppHelper', 'View/Helper');
+
 	foreach(CakePlugin::loaded() as $plugin) {
 		App::uses($plugin . 'AppModel', $plugin . '.Model');
 		App::uses($plugin . 'AppController', $plugin . '.Controller');

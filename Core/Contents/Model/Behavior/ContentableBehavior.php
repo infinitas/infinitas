@@ -1,5 +1,5 @@
 <?php
-
+	App::uses('ModelBehavior', 'Model');
 	class ContentableBehavior extends ModelBehavior {
 		/**
 		 * Settings initialized with the behavior
@@ -54,7 +54,7 @@
 
 		/**
 		 * Auto contain the needed relations to the find
-		 * 
+		 *
 		 * @param object $Model the model doing the find
 		 * @param array $query the conditions of the find
 		 * @return array the modified query
@@ -87,7 +87,7 @@
 						$displayField
 					);
 				}
-				
+
 				$query['list']['keyPath'] = '{n}.' . $query['fields'][0];
 				$query['list']['valuePath'] = '{n}.' . $query['fields'][1];
 			}
@@ -141,7 +141,7 @@
 					)
 				);
 			}
-			
+
 			$query['joins'][] = array(
 				'table' => 'global_contents',
 				'alias' => 'GlobalCategoryContent',
@@ -192,7 +192,7 @@
 		 * @param object $Model the model that did the find
 		 * @param array $results the data from the find
 		 * @param bool $primary is it this model doing the query
-		 * 
+		 *
 		 * @return array the modified data from the find
 		 */
 		public function afterFind($Model, $results, $primary = false) {
@@ -226,19 +226,19 @@
 					)
 				)
 			);
-			
+
 			foreach($globalTags as &$tag) {
 				$tag['GlobalTagged']['GlobalTag'] = $tag['GlobalTag'];
 				unset($tag['GlobalTag']);
 			}
-			
+
 			foreach($results as $k => $result) {
 				$template = sprintf(
 					'/GlobalTagged[foreign_key=/%s/i]',
 					$results[$k]['GlobalContent'][$Model->GlobalContent->primaryKey]
 				);
 				$results[$k]['GlobalTagged'] = Set::extract('{n}.GlobalTagged', Set::extract($template, $globalTags));
-				
+
 				if(isset($results[$k]['GlobalCategoryContent'])) {
 					$results[$k]['GlobalCategory'] = array_merge(
 						$results[$k]['GlobalCategoryContent'],
@@ -264,7 +264,7 @@
 
 		/**
 		 * make sure the model is set for the record to be able to link
-		 * 
+		 *
 		 * @param object $Model the model that is doing the save
 		 * @return bool true to save, false to skip
 		 */
@@ -272,7 +272,7 @@
 			if(!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])){
 				$Model->data['GlobalContent']['model'] = $this->__getModel($Model);
 			}
-			
+
 			return isset($Model->data['GlobalContent']['model']) && !empty($Model->data['GlobalContent']['model']);
 		}
 
@@ -317,7 +317,7 @@
 					)
 				)
 			);
-			
+
 			return current(Set::extract('/' . $Model->GlobalContent->alias . '/foreign_key', $id));
 		}
 

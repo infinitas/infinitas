@@ -1,11 +1,13 @@
 <?php
 	/* Categorisable Test cases generated on: 2010-12-14 01:12:28 : 1292289928*/
-	App::import('behavior', 'Categories.Categorisable');
+	App::uses('CategorisableBehavior', 'Contents.Model/Behavior');
 
-	class CategorisablebehaviorTestCase extends CakeTestCase {
+	class CategorisableBehaviorTest extends CakeTestCase {
 		function startTest() {
-			$this->Categorisable = new Categorisablebehavior();
+			$this->Categorisable = new CategorisableBehavior();
 		}
+
+		function testDummy() {}
 
 		function endTest() {
 			unset($this->Categorisable);

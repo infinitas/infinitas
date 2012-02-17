@@ -1,18 +1,17 @@
 <?php
 	/* Category Test cases generated on: 2010-08-16 23:08:27 : 1281999567*/
-	App::import('Model', 'Categories.Category');
+	App::uses('GlobalCategory', 'Contents.Model');
 
-	class CategoryTestCase extends CakeTestCase {
+	class GlobalCategoryTest extends CakeTestCase {
 		var $fixtures = array(
 			'plugin.configs.config',
 			'plugin.view_counter.view_count',
-			
-			'plugin.categories.category',
+			'plugin.contents.global_category',
 			'plugin.users.group',
 		);
 
 		function startTest() {
-			$this->Category = ClassRegistry::init('Categories.Category');
+			$this->Category = ClassRegistry::init('Contents.GlobalCategory');
 		}
 
 		function endTest() {
