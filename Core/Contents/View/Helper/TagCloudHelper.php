@@ -82,10 +82,18 @@
 			foreach ($tags as $tag) {
 				$options['url'][$options['named']] = $tag['GlobalTag']['keyname'];
 
+				$url = EventCore::trigger($this, Inflector::classify($options['url']['plugin']) . '.slugUrl', array('type' => 'tag', 'data' => $options['url']));
+
 				$size = $options['minSize'] + (($tag['GlobalTag']['weight'] - $minWeight) * (($options['maxSize'] - $options['minSize']) / ($spread)));
 				$size = ceil($size);
 
-				$cloud[] = $this->Html->link($tag['GlobalTag']['name'], $options['url'], array('class' => 'tag-' . $tag['GlobalTag']['id'])) . ' ';
+				$cloud[] = $this->Html->link(
+					$tag['GlobalTag']['name'],
+					current($url['slugUrl']),
+					array(
+						'class' => 'tag-' . $tag['GlobalTag']['id']
+					)
+				) . ' ';
 			}
 
 			return implode($options['between'], $cloud);
