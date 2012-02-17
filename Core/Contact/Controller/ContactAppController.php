@@ -66,11 +66,11 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('AppController', 'Controller');
 	class ContactAppController extends AppController {
 		/**
 		 * Helpers used within this plugin
-		 * 
+		 *
 		 * @var array
 		 * @access public
 		 */
@@ -84,7 +84,7 @@
 			parent::beforeFilter();
 
 			$this->RequestHandler->setContent('vcf', 'text/x-vcard');
-			
+
 			return true;
 		}
 	}

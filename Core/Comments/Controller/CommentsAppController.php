@@ -76,7 +76,7 @@
 	 * automatically if it has passed, or if its edge case will be marked as pending
 	 * for admin to later activte it. Comments with very low scores can be set to
 	 * not save.
-	 * 
+	 *
 	 * @image html sql_comments_plugin.png "Comments Plugin table structure"
 	 *
 	 * @todo record ip addresses of people repeatedly entering comments and block
@@ -95,7 +95,7 @@
 
 	/**
 	 * @brief CommentsAppController is the base class that all comments controllers extend
-	 * 
+	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Comments
@@ -107,11 +107,11 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('AppController', 'Controller');
 	class CommentsAppController extends AppController{
 		/**
 		 * some helpers to load for this plugin
-		 * 
+		 *
 		 * @var array
 		 * @access public
 		 */

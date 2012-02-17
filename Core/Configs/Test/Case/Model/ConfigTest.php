@@ -1,6 +1,6 @@
 <?php
 	/* Config Test cases generated on: 2010-03-13 11:03:23 : 1268471123*/
-	App::import('Model', 'Configs.Config');
+	App::uses('Config', 'Configs.Model');
 
 	/**
 	 * ConfigTestCase
@@ -174,7 +174,7 @@
 		public function testCacheRelatedStuff(){
 			$this->assertTrue(Cache::read('global_configs'), 'Nothing in the cache %s');
 			$cacheConfigs = $this->Config->getConfig();
-			
+
 			$this->Config->afterSave(true);
 			$this->assertFalse(Cache::read('global_configs'));
 			$nonCacheConfigs = $this->Config->getConfig();
@@ -197,7 +197,7 @@
 			$expect['Website.description'] = 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.';
 			$expect['Website.name'] = 'Infinitas Cms';
 			$this->assertEqual($expect, $configs);
-			
+
 			$configs = $this->Config->getConfig(true);
 			$this->assertEqual($expect, $configs);
 		}

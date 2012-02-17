@@ -60,7 +60,8 @@
 	 */
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	App::uses('InfinitasHelper', 'Libs.View/Helper');
-	
+	App::uses('Controller', 'Controller');
+
 	class GlobalActions extends Controller {
 		/**
 		 * components should not be included here
@@ -167,13 +168,13 @@
 		 */
 		public function beforeFilter() {
 			parent::beforeFilter();
-			
+
 			$this->modelClass = $this->modelClass;
 			$this->prettyModelName = prettyName($this->modelClass);
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
 			}
-			
+
 			$modelName = !empty($this->prettyModelName) ? $this->prettyModelName : prettyName($this->name);
 			$modelName = Inflector::singularize($modelName);
 			foreach($this->notice as $type => &$config) {
@@ -201,7 +202,7 @@
 		 *
 		 * @return void
 		 */
-		private function __setupConfig(){
+		protected function __setupConfig(){
 			$configs = ClassRegistry::init('Configs.Config')->getConfig();
 
 			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigStart', $configs);
@@ -476,8 +477,8 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	
-	class AppController extends GlobalActions {		
+
+	class AppController extends GlobalActions {
 		/**
 		 * the View Class that will load by defaul is the Infinitas View to take
 		 * advantage which extends the ThemeView and auto loads the Mustache class.
@@ -509,7 +510,7 @@
 
 		/**
 		 * @brief called before a page is loaded
-		 * 
+		 *
 		 * before render is called before the page is rendered, but after all the
 		 * processing is done.
 		 *
@@ -539,8 +540,8 @@
 					;
 					break;
 			}
-			
-			$this->Infinitas->getPluginAssets();		
+
+			$this->Infinitas->getPluginAssets();
 			$this->set('css_for_layout', array_filter($this->__addCss));
 			$this->set('js_for_layout', array_filter($this->__addJs));
 
@@ -558,15 +559,15 @@
 
 		/**
 		 * @brief redirect pages
-		 * 
+		 *
 		 * Redirect method, will remove the last_page session var that is stored
 		 * when adding/editing things in admin. makes redirect() default to /index
 		 * if there is no last page.
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-Controllerredirect
-		 * 
+		 *
 		 * @param mixed $url string or array url
 		 * @param int $status the code for the redirect 301 / 302 etc
 		 * @param bool $exit should the script exit after the redirect
@@ -576,68 +577,68 @@
 		public function redirect($url = null, $status = null, $exit = true) {
 			if(!$url || $url == ''){
 				$url = $this->getPageRedirectVar();
-				
+
 				if(!$url){
 					$url = array('action' => 'index');
 				}
 			}
-			
+
 			parent::redirect($url, $status, $exit);
 		}
-		
+
 		/**
 		 * @brief get the variable for the last page saved.
-		 * 
+		 *
 		 * Making this a bit more dry so that its less error prone
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return string the session key used for lookups
 		 */
 		public function lastPageRedirectVar() {
 			return 'Infinitas.last_page.' . $this->request->here;
 		}
-		
+
 		/**
 		 * @brief save a maker for a later redirect
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * This will set a session var for the current page
-		 * 
+		 *
 		 * @return void
 		 */
 		public function saveRedirectMarker() {
 			$var = $this->lastPageRedirectVar();
-			
+
 			$lastPage = $this->Session->read($var);
 			if(!$lastPage){
 				$this->Session->write($var, $this->referer());
 			}
 		}
-		
+
 		/**
 		 * @brief get the page redirect value
-		 * 
+		 *
 		 * This will get the correct place to redirect to if there is a value
 		 * saved for the current location, if there is nothing false is returned
-		 * 
+		 *
 		 * @param bool $delete should the value be removed from session
-		 * 
+		 *
 		 * @return mixed, false for nothing, string url if available
 		 */
 		public function getPageRedirectVar($delete = true) {
 			$var = $this->lastPageRedirectVar();
-			
+
 			$url = false;
 			if($this->Session->check($var)) {
 				$url = $this->Session->read($var);
-				
+
 				if($delete === true) {
 					$this->Session->delete($var);
 				}
 			}
-			
+
 			return $url;
 		}
 
@@ -648,7 +649,7 @@
 		 * over to the controller responsible for the request.
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-ControllerbeforeFilter
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @return void
@@ -730,7 +731,7 @@
 		 * @param mixed $data takes bool for reseting, strings and arrays for adding
 		 * @param string $method where its going to store / remove
 		 * @access private
-		 * 
+		 *
 		 * @return mixed true on success, arry if you pass true
 		 */
 		private function __loadAsset($data, $method){
@@ -763,7 +764,7 @@
 		 *
 		 * Infinits uses this method to use admin_form.ctp for add and edit views
 		 * when there is no admin_add / admin_edit files available.
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-Controllerrender
@@ -793,7 +794,7 @@
 
 		/**
 		 * @brief blackHole callback for security component
-		 * 
+		 *
 		 * this function is just here to stop wsod confusion. it will become more
 		 * usefull one day
 		 *
@@ -805,7 +806,7 @@
 		 * @param object $Controller the controller object that triggered the blackHole
 		 * @param string $error the error message
 		 * @access public
-		 * 
+		 *
 		 * @return it ends the script
 		 */
 		public function blackHole($Controller) {
@@ -816,11 +817,11 @@
 
 		/**
 		 * @brief after all processing is done and the page is ready to show
-		 * 
+		 *
 		 * after filter is called after your html is put together, and just before
 		 * it is rendered to the user. here we are removing any white space from
 		 * the html before its output.
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @link http://api.cakephp.org/class/controller#method-ControllerafterFilter
@@ -848,9 +849,9 @@
 		 */
 		public function __destruct() {
 			$check = array_unique($this->__callBacks);
-			
+
 			if(count($check) != 1 || current($check) != true) {
-				user_error('Some callbacks were not triggered, check for methods returning false', E_USER_NOTICE);
+				//user_error('Some callbacks were not triggered, check for methods returning false', E_USER_NOTICE);
 			}
 		}
 
@@ -884,7 +885,7 @@
 		 *
 		 * You can overwrite the defaults by creating them in your __construct() or any time
 		 * before calling Controller::notice().
-		 * 
+		 *
 		 * The code passed can be used for linking to error pages with more information
 		 * eg: creating some pages on your site like /errors/<code> and then making it
 		 * a clickable link the user can get more detailed information.
@@ -893,7 +894,7 @@
 		 *
 		 * @param string $message the message to show to the user
 		 * @param array $config array of options for the redirect and message
-		 * 
+		 *
 		 * @return string the markup for the error
 		 */
 		public function notice($message, $config = array()) {
@@ -908,7 +909,7 @@
 				if(!is_array($this->notice[$message])) {
 					$message = $this->notice[$message];
 				}
-				
+
 				else if(!empty($this->notice[$message]['message'])) {
 					$config = array_merge($this->notice[$message], $config);
 					$message = $config['message'];
@@ -922,7 +923,7 @@
 				'code' => $config['code'],
 				'plugin' => $config['plugin']
 			);
-			
+
 			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
 			if($config['redirect'] || $config['redirect'] === ''){
 				if($config['redirect'] === true){
@@ -930,7 +931,7 @@
 				}
 				$this->redirect($config['redirect']);
 			}
-			
+
 			unset($_default, $config, $vars);
 		}
 	}

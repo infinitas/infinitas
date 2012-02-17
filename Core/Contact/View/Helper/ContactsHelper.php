@@ -19,7 +19,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
+	App::uses('AppHelper', 'View/Helper');
 	class ContactsHelper extends AppHelper{
 		public $helpers = array(
 			'Text',
@@ -91,7 +91,7 @@
 			else if(!empty($details['company'])){
 				$name = sprintf('%s - %s', $details['company'], $details['user']);
 			}
-			
+
 			else{
 				$name = $details['user'];
 			}
