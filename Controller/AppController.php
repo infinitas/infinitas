@@ -408,7 +408,7 @@
 				throw $e;
 			}
 
-			new Exception('Missing component action "%s"', $this->componentActionMethod());
+			throw new MissingActionException(sprintf('Tried to dispatch "%s()" to a component as "%s(). No component found to handle the request"', $this->request->params['action'], $this->componentActionMethod()));
 		}
 	}
 
