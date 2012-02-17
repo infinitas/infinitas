@@ -43,6 +43,12 @@
 		public function onSetupConfig(){
 			return Configure::load('Comments.config');
 		}
+
+		public function  onRequireComponentsToLoad($event = null) {
+			return array(
+				'Comments.Comments'
+			);
+		}
 		
 		public function onAttachBehaviors($event) {
 			if(is_subclass_of($event->Handler, 'Model')) {
