@@ -1,6 +1,6 @@
 <?php
 /* Contacts Test cases generated on: 2010-12-14 13:12:41 : 1292334941*/
-App::import('Controller', 'contact.Contacts');
+App::uses('ContactsController', 'Contact.Controller');
 
 class TestContactsController extends ContactsController {
 	var $autoRender = false;
@@ -10,11 +10,16 @@ class TestContactsController extends ContactsController {
 	}
 }
 
-class ContactsControllerTestCase extends CakeTestCase {
+class ContactsControllerTest extends CakeTestCase {
+
+	public $fixtures = array('plugin.configs.config');
+
 	function startTest() {
 		$this->Contacts =& new TestContactsController();
 		$this->Contacts->constructClasses();
 	}
+
+	function testDummy() {}
 
 	function endTest() {
 		unset($this->Contacts);

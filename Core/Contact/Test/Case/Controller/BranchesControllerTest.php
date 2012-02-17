@@ -1,6 +1,6 @@
 <?php
 	/* Branches Test cases generated on: 2010-12-14 13:12:47 : 1292334947*/
-	App::import('Controller', 'Contact.Branches');
+	App::uses('BranchesController', 'Contact.Controller');
 
 	class TestBranchesController extends BranchesController {
 		var $autoRender = false;
@@ -10,7 +10,7 @@
 		}
 	}
 
-	class BranchesControllerTestCase extends CakeTestCase {
+	class BranchesControllerTest extends CakeTestCase {
 		var $fixtures = array(
 			'plugin.configs.config',
 			'plugin.themes.theme',
@@ -41,6 +41,6 @@
 		}
 
 		function testStuff(){
-			//$this->assertIsA($this->Branches, 'BranchesController');
+			$this->assertIsA($this->Branches, 'BranchesController');
 		}
 	}
