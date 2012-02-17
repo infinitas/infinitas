@@ -1,4 +1,4 @@
-<?php	
+<?php
 	class AssetsEventsTestCase extends CakeTestCase {
 		public function startTest() {
 			$this->Event = EventCore::getInstance();
@@ -12,7 +12,7 @@
 		public function testStuff(){
 			$this->assertIsA($this->Event, 'EventCore');
 
-			$expected = array('requireHelpersToLoad' => array('assets' => array('Assets.Compress')));
-			$this->assertEqual($expected, $this->Event->trigger(new Object(), 'assets.requireHelpersToLoad'));
+			$expected = array('requireHelpersToLoad' => array('Assets' => array('Assets.Compress')));
+			$this->assertEqual($expected, $this->Event->trigger(new Object(), 'Assets.requireHelpersToLoad'));
 		}
 	}

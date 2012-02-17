@@ -1,5 +1,5 @@
 <?php
-	App::import('Helper', 'Assets.Compress');
+	App::uses('CompressHelper', 'Assets.View/Helper');
 
 	class CompressHelperTestCase extends CakeTestCase {
 		public function startTest() {
