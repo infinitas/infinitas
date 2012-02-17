@@ -1,6 +1,7 @@
 <?php
-	App::import('Libs', 'Charts.BaseChartEngine');
-	
+	App::uses('BaseChartEngine', 'Charts.Lib');
+	App::uses('AppHelper', 'View/Helper');
+
 	/**
 	 * @brief Charts helper is a charting abstraction that is extended by using different
 	 * engines.
@@ -16,7 +17,7 @@
 	 * along to the engine. This means that the engine should use the same cache key
 	 * to store a chache of the actuall chart. It could be possible to just pass
 	 * back the cahce without even calling the engine.
-	 * 
+	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Charts.helpers
@@ -32,7 +33,7 @@
 	class ChartsHelper extends AppHelper {
 		/**
 		 * @brief the engine to use when rendering the chart
-		 * 
+		 *
 		 * @var string
 		 * @access public
 		 */
@@ -48,13 +49,13 @@
 
 		/**
 		 * @brief normalize data to a percentage
-		 * 
+		 *
 		 * should the data be normalized to a base 100, good for high numbers
 		 * in the data set. look will still be the same as the y axis will use
 		 * the original data for display
 		 *
 		 * @deprecated
-		 * 
+		 *
 		 * @var bool
 		 * @access public
 		 */
@@ -99,7 +100,7 @@
 		 *
 		 * The engine is then added to the helpers array so that it is available
 		 * for use later on in the request.
-		 * 
+		 *
 		 * @param mixed $settings settings for the chart engines.
 		 */
 		public function __construct(View $View, $settings = array()) {
@@ -131,7 +132,7 @@
 		 * is passed to draw. Shown in alphabetical order, but need to be called
 		 * in a specific order as some methods rely on the data from others. See
 		 * each method for specifics.
-		 * 
+		 *
 		 * @li ChartsHelper::setAxes()
 		 * @li ChartsHelper::setColors()
 		 * @li ChartsHelper::setHeight()
@@ -158,7 +159,7 @@
 				trigger_error(__('Please specify the chart type'), E_USER_WARNING);
 				return false;
 			}
-			
+
 			$engine = (string)$engine;
 			$this->__engineName = !empty($engine) ? $engine : $this->__engineName;
 			if(!$this->__engineName){
@@ -175,7 +176,7 @@
 
 		/**
 		 * @brief set the type of chart to draw
-		 * 
+		 *
 		 * set the type of chart. $type is the method that will be called in the
 		 * selected engine. if an array is passed the extra details will be sent
 		 * to data['config'] where the engine will have access to it.
@@ -196,13 +197,13 @@
 				$this->data['type'] = 'nothing';
 				trigger_error(__('Could not detect the type of chart'), E_USER_NOTICE);
 			}
-			
+
 			return $this;
 		}
 
 		/**
 		 * @brief set the title of the chart
-		 * 
+		 *
 		 * @param string $title a title for the chart
 		 * @access public
 		 *
@@ -213,7 +214,7 @@
 			if((!isset($this->data['title']) || empty($this->data['title'])) && isset($this->__originalData['title'])){
 				$this->data['title'] = $this->__originalData['title'];
 			}
-			
+
 			// something was passed.
 			if($title){
 				$this->data['title'] = $title;
@@ -285,7 +286,7 @@
 			if(!$size && isset($this->__originalData['size'])){
 				$size = $this->__originalData['size'];
 			}
-			
+
 			if(!$size && isset($this->__originalData['width'])){
 				$size = $this->__originalData['width'];
 				if(isset($this->__originalData['height'])){
@@ -297,7 +298,7 @@
 				trigger_error(__('Size could not be determined, using default'), E_USER_NOTICE);
 				$size = $this->__defaults['width'] . $delimiter . $this->__defaults['height'];
 			}
-			
+
 			if(!is_array($size)){
 				$size = explode($delimiter, $size);
 			}
@@ -313,12 +314,12 @@
 				case 1:
 					$this->setWidth((int)trim($size[0]));
 					break;
-				
+
 				case 2:
 					$this->setWidth((int)trim($size[0]));
 					$this->setHeight((int)trim($size[1]));
 					break;
-				
+
 				default:
 					trigger_error(sprintf(__('Size should be an array of either one or two values, you passed %s'), $count), E_USER_NOTICE);
 					break;
@@ -339,7 +340,7 @@
 		 *
 		 * @param array $axes the array of axes to set
 		 * @access public
-		 * 
+		 *
 		 * @return ChartsHelper method chaning
 		 */
 		public function setAxes($axes = null){
@@ -349,7 +350,7 @@
 			$this->data['axes'] = array_keys($axes);
 
 			$this->setLabels($axes);
-			
+
 			return $this;
 		}
 
@@ -442,7 +443,7 @@
 			$this->data['data'] = (!$this->normalize) ? $data : $this->__normalizeData($data);
 
 			unset($data);
-			
+
 			return $this;
 		}
 
@@ -474,7 +475,7 @@
 
 		/**
 		 * @brief set the scale and increments for the graph.
-		 * 
+		 *
 		 * @param array $data the data for the chart
 		 * @param int $increments the number of steps in the axis defaults to 6
 		 * @access public
@@ -556,7 +557,7 @@
 		 *
 		 * This is used to pass things like extra params to the engine building
 		 * the chart.
-		 * 
+		 *
 		 * @param array|string $extra the extra data you would like to pass
 		 */
 		public function setExtra($extra = array()){
@@ -609,7 +610,7 @@
 		 *
 		 * @li ChartsHelper::__anythingToArray()
 		 * @li ChartsHelper::__getStats()
-		 * 
+		 *
 		 * @param array $data the data array for the charts
 		 *
 		 * @return ChartsHelper
@@ -618,7 +619,7 @@
 			if(!$data){
 				$data = $this->__originalData['data'];
 			}
-			
+
 			if(!isset($data[0][0])){
 				if(!is_array($data)){
 					$data = array($data);
@@ -632,7 +633,7 @@
 			}
 
 			unset($data);
-			
+
 			$this->__getStats();
 
 			return $this;
@@ -640,10 +641,10 @@
 
 		/**
 		 * @brief normalize data to percentage values
-		 * 
+		 *
 		 * convert large values to % values so that the data being manipulated
 		 * is much smaller. There is no difference in the presentation
-		 * 
+		 *
 		 * @param array $data the data for the chart to be normalized
 		 * @param int $max used internally, do not pass things in here.
 		 * @access private
@@ -706,7 +707,7 @@
 				if($return){
 					return false;
 				}
-				
+
 				$this->data[$field] = false;
 			}
 			else{
@@ -742,7 +743,7 @@
 			$max = $this->__getMaxDataValue($data);
 			$min = $this->__getMinDataValue($data);
 			$average = $this->__getAverageDataValue($data);
-			
+
 			return range($min, $max, round(($max - $min) / 6, 2));
 		}
 
@@ -755,7 +756,7 @@
 		 * @li ChartsHelper::__getMaxDataValue()
 		 * @li ChartsHelper::__getMinDataValue()
 		 * @li ChartsHelper::__getAverageDataValue()
-		 * 
+		 *
 		 * @access private
 		 *
 		 * @return void
@@ -815,9 +816,9 @@
 
 		/**
 		 * @brief get the average of all data values
-		 * 
+		 *
 		 * get the average amount for all the data that was passed for chart
-		 * rendering. 
+		 * rendering.
 		 *
 		 * @param array $data the data used for the
 		 * @access private
@@ -833,17 +834,17 @@
 				$flat = Set::flatten($data);
 				$this->data['values']['average'] = round(array_sum($flat) / count($flat));
 			}
-			
-			unset($data, $flat);			
+
+			unset($data, $flat);
 			return $this->data['values']['average'];
 		}
 
 		/**
 		 * @brief send the request to the engine specified.
-		 * 
+		 *
 		 * do some final checks and then if all is good trigger the chart engine
 		 * that is needed and return the chart.
-		 * 
+		 *
 		 * @access public
 		 * @throws E_USER_WARNING when no data is passed
 		 * @throws E_USER_WARNING when the engine is not available
@@ -860,7 +861,7 @@
 				trigger_error(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']), E_USER_WARNING);
 				return false;
 			}
-			
+
 			$chart = $this->{$this->__engineName}->{$this->data['type']}($this->data);
 
 			$this->data = null;

@@ -3,7 +3,7 @@
 	App::uses('View', 'View');
 	App::uses('Controller', 'Controller');
 
-	class CompressHelperTestCase extends CakeTestCase {
+	class CompressHelperTest extends CakeTestCase {
 		public function startTest() {
 			$this->Compress =& new CompressHelper(new View(new Controller()));
 		}
