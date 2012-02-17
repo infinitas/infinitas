@@ -25,6 +25,38 @@
 
 	class MassActionComponent extends InfinitasComponent {
 		/**
+		 * Mass actions
+		 *
+		 * Method to handle mass actions (Such as mass deletions, toggles, etc.)
+		 *
+		 * @access public
+		 *
+		 * @return void
+		 */
+		public function actionAdminMass() {
+			$massAction = $this->getAction();
+			$modelName = isset($this->Controller->request->data['Confirm']['model']) ? $this->Controller->request->data['Confirm']['model'] : $this->Controller->modelClass;
+			$ids = $this->Controller->getIds(
+				$massAction,
+				$this->Controller->request->data[$modelName]
+			);
+
+			$massActionMethod = '__massAction' . ucfirst($massAction);
+
+			if(method_exists($this->Controller, $massActionMethod)){
+				return $this->Controller->{$massActionMethod}($ids);
+			}
+
+			elseif(method_exists($this, $massAction)) {
+				return $this->{$massAction}($ids);
+			}
+
+			else {
+				return $this->generic($massAction, $ids);
+			}
+		}
+		
+		/**
 		 * Get submitted ids.
 		 *
 		 * Checks the form data and returns an array of all the ids found for that
