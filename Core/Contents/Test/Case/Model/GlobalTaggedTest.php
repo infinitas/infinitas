@@ -22,24 +22,24 @@
  * @subpackage	plugins.tags.tests.cases.models
  */
 
-App::import('Model', 'Contents.GlobalTagged');
+App::uses('GlobalTagged', 'Contents.Model');
 
-class TaggedTestCase extends CakeTestCase {
+class GlobalTaggedTest extends CakeTestCase {
 /**
  *
  */
-	public $Tagged = null;
+	public $GlobalTagged = null;
 
 /**
  *
  */
 	public $fixtures = array(
-		'plugin.tags.tagged',
-		'plugin.tags.tag',
-		'plugin.tags.article');
+		'plugin.contents.global_tagged',
+		'plugin.contents.global_tag',
+		'plugin.contents.article');
 
 /**
- * 
+ *
  *
  * @return void
  * @access public
@@ -49,21 +49,21 @@ class TaggedTestCase extends CakeTestCase {
 	}
 
 /**
- * 
+ *
  *
  * @return void
  * @access public
  */
 	public function endTest() {
 		unset($this->GlobalTagged);
-		ClassRegistry::flush(); 
+		ClassRegistry::flush();
 	}
 
 /**
  *
  */
 	function testTaggedInstance() {
-		$this->assertTrue(is_a($this->GlobalTagged, 'GlobalTagged'));
+		$this->assertInstanceOf('GlobalTagged', $this->GlobalTagged);
 	}
 
 /**
@@ -97,10 +97,10 @@ class TaggedTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result[0][0]['occurrence']));
 		$this->assertEqual($result[0][0]['occurrence'], 1);
 	}
-	
+
 /**
  * Test custom findTagged method
- * 
+ *
  * @return void
  */
 	public function testFindTagged() {
@@ -109,11 +109,11 @@ class TaggedTestCase extends CakeTestCase {
 			'model' => 'Article'));
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual($result[0]['Article']['id'], 1);
-		
+
 		$result = $this->GlobalTagged->find('tagged', array(
 			'model' => 'Article'));
 		$this->assertEqual(count($result), 2);
-		
+
 		// Test call to paginateCount by Controller::pagination()
 		$result = $this->GlobalTagged->paginateCount(array(), 1, array(
 			'model' => 'Article',

@@ -22,10 +22,14 @@
  * @subpackage	plugins.tags.tests.cases.controllers
  */
 
-App::import('Controller', 'Contents.GlobalTags');
-App::import('Model', 'Contents.GlobalTag');
+App::uses('GlobalTagsController', 'Contents.Controller');
+App::uses('GlobalTag', 'Contents.Model');
 
-class TestTagsController extends TagsController {
+class TestTagsController extends GlobalTagsController {
+
+	public $uses = array('Contents.GlobalTag');
+
+	public $components = array('Paginator');
 /**
  * Auto render
  *
@@ -45,8 +49,9 @@ class TestTagsController extends TagsController {
 /**
  * Override controller method for testing
  */
-	public function redirect($url, $status = null, $exit = true) {
+	public function beforeRedirect($url, $status = null, $exit = true) {
 		$this->redirectUrl = $url;
+		return false;
 	}
 
 /**
@@ -57,14 +62,15 @@ class TestTagsController extends TagsController {
 	}
 }
 
-class TagsControllerTest extends CakeTestCase {
+class GlobalTagsControllerTest extends CakeTestCase {
 
 /**
  *
  */
 	public $fixtures = array(
-		'plugin.tags.tagged',
-		'plugin.tags.tag');
+		'plugin.contents.global_tagged',
+		'plugin.contents.global_tag',
+		'plugin.configs.config');
 /**
  * Tags Controller Instance
  *
@@ -80,7 +86,7 @@ class TagsControllerTest extends CakeTestCase {
  * @access public
  */
 	public function startTest() {
-		$this->GlobalTags = new TestTagsController();
+		$this->GlobalTags = new TestTagsController(new CakeRequest('controller_posts/admin_index'));
 		$this->GlobalTags->params = array(
 			'named' => array(),
 			'url' => array());
@@ -104,48 +110,7 @@ class TagsControllerTest extends CakeTestCase {
  * @access public
  */
 	public function testTagsControllerInstance() {
-		$this->assertTrue(is_a($this->GlobalTags, 'TagsController'));
-	}
-
-/**
- * testIndex
- *
- * @return void
- * @access public
- */
-	public function testIndex() {
-		$this->GlobalTags->index();
-		$this->assertTrue(!empty($this->GlobalTags->viewVars['tags']));
-	}
-
-/**
- * testIndex
- *
- * @return void
- * @access public
- */
-	public function testView() {
-		$this->GlobalTags->view('cakephp');
-		$this->assertTrue(!empty($this->GlobalTags->viewVars['tag']));
-		$this->assertEqual($this->GlobalTags->viewVars['tag']['Tag']['keyname'], 'cakephp');
-
-		$this->GlobalTags->view('invalid-key-name!');
-		$this->assertEqual($this->GlobalTags->redirectUrl, '/');
-	}
-
-/**
- * testIndex
- *
- * @return void
- * @access public
- */
-	public function testAdminView() {
-		$this->GlobalTags->admin_view('cakephp');
-		$this->assertTrue(!empty($this->GlobalTags->viewVars['tag']));
-		$this->assertEqual($this->GlobalTags->viewVars['tag']['Tag']['keyname'], 'cakephp');
-
-		$this->GlobalTags->admin_view('invalid-key-name!');
-		$this->assertEqual($this->GlobalTags->redirectUrl, '/');
+		$this->assertTrue(is_a($this->GlobalTags, 'GlobalTagsController'));
 	}
 
 /**
@@ -160,29 +125,13 @@ class TagsControllerTest extends CakeTestCase {
 	}
 
 /**
- * testAdminDelete
- *
- * @return void
- * @access public
- */
-	public function testAdminDelete() {
-		$this->GlobalTags->admin_delete('WRONG-ID');
-		$this->assertEqual($this->GlobalTags->redirectUrl, array('action' => 'index'));
-		$this->assertEqual($_SESSION['Message']['flash']['message'], 'Invalid Tag.');
-
-		$this->GlobalTags->admin_delete(1);
-		$this->assertEqual($this->GlobalTags->redirectUrl, array('action' => 'index'));
-		$this->assertEqual($_SESSION['Message']['flash']['message'], 'Tag deleted.');
-	}
-
-/**
  * testAdminAdd
  *
  * @return void
  * @access public
  */
 	public function testAdminAdd() {
-		$this->GlobalTags->data = array(
+		$this->GlobalTags->request->data = array(
 			'Tag' => array(
 				'tags' => 'tag1, tag2, tag3'));
 		$this->GlobalTags->admin_add();
@@ -198,19 +147,20 @@ class TagsControllerTest extends CakeTestCase {
 	public function testAdminEdit() {
 		$this->GlobalTags->admin_edit(1);
 		$tag = array(
-			'Tag' => array(
-				'id'  => 1,
+			'GlobalTag' => array(
+				'id'  => '1',
 				'identifier'  => null,
 				'name'  => 'CakePHP',
 				'keyname'  => 'cakephp',
-				'weight' => 2,
+				'weight' => '2',
 				'created'  => '2008-06-02 18:18:11',
 				'modified'  => '2008-06-02 18:18:37',
-				'tags' => null));
-		$this->assertEqual($this->GlobalTags->data, $tag);
+				'tags' => null
+		));
+		$this->assertEqual($this->GlobalTags->request->data, $tag);
 
-		$this->GlobalTags->data = array(
-			'Tag' => array(
+		$this->GlobalTags->request->data = array(
+			'GlobalTag' => array(
 				'id' => 1,
 				'name' => 'CAKEPHP'));
 		$this->GlobalTags->admin_edit(1);

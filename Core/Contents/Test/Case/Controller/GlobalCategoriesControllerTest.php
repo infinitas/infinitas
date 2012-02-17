@@ -1,8 +1,8 @@
 <?php
 	/* Categories Test cases generated on: 2010-12-14 01:12:59 : 1292289659*/
-	App::import('Controller', 'Categories.Categories');
+	App::uses('GlobalCategoriesController', 'Contents.Controller');
 
-	class TestCategoriesController extends CategoriesController {
+	class TestCategoriesController extends GlobalCategoriesController {
 		var $autoRender = false;
 
 		function redirect($url, $status = null, $exit = true) {
@@ -10,11 +10,13 @@
 		}
 	}
 
-	class CategoriesControllerTestCase extends CakeTestCase {
+	class GlobalCategoriesControllerTest extends CakeTestCase {
 		function startTest() {
 			$this->Categories = new TestCategoriesController();
 			$this->Categories->constructClasses();
 		}
+
+		function testDummy() {}
 
 		function endTest() {
 			unset($this->Categories);
