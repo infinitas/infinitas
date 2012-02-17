@@ -786,6 +786,53 @@
 
 			$this->redirect($this->referer());
 		}
+		
+		/**
+		 * Dispatches the controller action.  Checks that the action
+		 * exists and isn't private.
+		 *
+		 * @param CakeRequest $request
+		 * @return mixed The resulting response.
+		 * @throws PrivateActionException, MissingActionException
+		 */
+		public function invokeAction(CakeRequest $request) {
+			try {
+				parent::invokeAction($request);
+			}
+
+			catch (MissingActionException $e) {
+				return $this->{$this->getComponentWithAction($e)}->dispatchMethod($this->componentActionMethod(), $this->request->params['pass']);
+			}
+		}
+
+		public function __call($method, $args) {
+			return $this->{$this->getComponentWithAction()}->dispatchMethod($this->componentActionMethod(), $this->request->params['pass']);
+		}
+
+		public function componentActionMethod() {
+			return 'action' . Inflector::camelize($this->request->params['action']);
+		}
+
+
+		/**
+		 * Check that a method is in the controller
+		 *
+		 * @param string $method The method to be called.
+		 * @return boolean True on method being callable.
+		 */
+		public function getComponentWithAction($e = null) {
+			foreach($this->Components->enabled() as $component) {
+				if(method_exists($this->{$component}, $this->componentActionMethod())) {
+					return $component;
+				}
+			}
+
+			if($e instanceof Exception) {
+				throw $e;
+			}
+
+			new Exception('Missing component action "%s"', $this->componentActionMethod());
+		}
 	}
 
 	/**
