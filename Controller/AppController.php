@@ -40,29 +40,82 @@
 	 */
 
 	/**
-	 * @brief global methods so the AppController is a bit cleaner.
+	 * @page AppController AppController
 	 *
-	 * basicaly all the methods like _something should be moved to a component
+	 * @section app_controller-overview What is it
 	 *
-	 * @todo this needs to be more extendable, something like the ChartsHelper
-	 * could work.
+	 * AppController is the main controller method that all other countrollers
+	 * should normally extend. This gives you a lot of power through inheritance
+	 * allowing things like mass deletion, copying, moving and editing with absolutly
+	 * no code.
+	 *
+	 * AppController also does a lot of basic configuration for the application
+	 * to run like automatically putting components in to load, compressing output
+	 * setting up some security and more.
+	 *
+	 * @section app_controller-usage How to use it
+	 *
+	 * Usage is simple, extend your MyPluginAppController from this class and then the
+	 * controllers in your plugin just extend MyPluginAppController. Example below:
+	 *
+	 * @code
+	 *	// in APP/plugins/my_plugin/my_plugin_app_controller.php create
+	 *	class MyPluginAppController extends AppModel{
+	 *		// do not set the name in this controller class, there be gremlins
+	 *	}
+	 *
+	 *	// then in APP/plugins/my_plugin/controllers/something.php
+	 *	class SomethingsController extends MyPluginAppController{
+	 *		public $name = 'Somethings';
+	 *		//...
+	 *	}
+	 * @endcode
+	 *
+	 * After that you will be able to directly access the public methods that
+	 * are available from this class as if they were in your controller.
+	 *
+	 * @code
+	 *	$this->someMethod();
+	 * @endcode
+	 *
+	 * @section app_controller-see-also Also see
+	 * @ref GlobalActions
+	 * @ref InfinitasComponent
+	 * @ref Event
+	 * @ref MassActionComponent
+	 * @ref InfinitasView
+	 */
+
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
+	App::uses('Controller', 'Controller');
+
+	/**
+	 * @brief AppController is the main controller class that all plugins should extend
+	 *
+	 * This class offers a lot of methods that should be inherited to other controllers
+	 * as it is what allows you to build plugins with minimal code.
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
 	 * @package Infinitas
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.8a
+	 * @since 0.5a
 	 *
 	 * @author dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	App::uses('InfinitasComponent', 'Libs.Controller/Component');
-	App::uses('InfinitasHelper', 'Libs.View/Helper');
-	App::uses('Controller', 'Controller');
 
-	class GlobalActions extends Controller {
+	class AppController extends Controller {
+		/**
+		 * the View Class that will load by defaul is the Infinitas View to take
+		 * advantage which extends the ThemeView and auto loads the Mustache class.
+		 * This changes when requests are json etc
+		 */
+		public $viewClass = 'Libs.Infinitas';
+
 		/**
 		 * components should not be included here
 		 *
@@ -70,14 +123,6 @@
 		 * @access public
 		 */
 		public $components = array();
-
-		/**
-		 * reference to the model name of the current controller
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $modelName;
 
 		/**
 		 * reference to the model name for user output
@@ -128,6 +173,28 @@
 		);
 
 		/**
+		 * internal cache of css files to load
+		 *
+		 * @var array
+		 * @access private
+		 */
+		private $__addCss = array();
+
+		/**
+		 * internal cache of javascript files to load
+		 *
+		 * @var array
+		 * @access private
+		 */
+		private $__addJs  = array();
+
+		private $__callBacks = array(
+			'beforeFilter' => false,
+			'beforeRender' => false,
+			'afterFilter' => false
+		);
+
+		/**
 		 * @brief Construct the Controller
 		 *
 		 * Currently getting components that are needed by the application. they
@@ -160,7 +227,12 @@
 		}
 
 		/**
-		 * @brief Set up some general variables that are used around the code.
+		 * @brief normal before filter.
+		 *
+		 * set up some variables and do a bit of pre processing before handing
+		 * over to the controller responsible for the request.
+		 *
+		 * @link http://api.cakephp.org/class/controller#method-ControllerbeforeFilter
 		 *
 		 * @access public
 		 *
@@ -169,7 +241,39 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 
-			$this->modelClass = $this->modelClass;
+			// @todo it meio upload is updated.
+			if(isset($this->request->data['Image']['image']['name']) && empty($this->request->data['Image']['image']['name'])){
+				unset($this->request->data['Image']);
+			}
+
+			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
+
+			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Auth->user('group_id') != 1){
+				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
+			}
+
+			if (isset($this->request->data['PaginationOptions']['pagination_limit'])) {
+				$this->Infinitas->changePaginationLimit( $this->request->data['PaginationOptions'], $this->request->params );
+			}
+
+			if (isset($this->request->params['named']['limit'])) {
+				$this->request->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->request->params['named']['limit']);
+			}
+
+			if($this->MassAction->getAction(false) == 'cancel') {
+				$this->Event->trigger(
+					'editCanceled',
+					!empty($this->request->data[$this->modelClass]['id']) ? $this->request->data[$this->modelClass]['id'] : null
+				);
+				$this->redirect($this->getPageRedirectVar());
+			}
+
+			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
+				$this->{$this->modelClass}->setUserData($this->Auth->user());
+			}
+
+			$this->__callBacks[__FUNCTION__] = true;
+			
 			$this->prettyModelName = prettyName($this->modelClass);
 			if(!$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
@@ -187,344 +291,7 @@
 					$config['message'] = __d($plugin, $config['message'], $modelName);
 				}
 			}
-
-			return true;
 		}
-
-		/**
-		 * @brief Set up system configuration.
-		 *
-		 * Load the default configuration and check if there are any configs
-		 * to load from the current plugin. configurations can be completely rewriten
-		 * or just added to.
-		 *
-		 * @access private
-		 *
-		 * @return void
-		 */
-		protected function __setupConfig(){
-			$configs = ClassRegistry::init('Configs.Config')->getConfig();
-
-			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigStart', $configs);
-			if (isset($eventData['setupConfigStart'][$this->plugin])){
-				$configs = (array)$eventData['setupConfigStart'][$this->plugin];
-
-				if (!array($configs)) {
-					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
-				}
-			}
-
-			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigEnd');
-			if (isset($eventData['setupConfigEnd'][$this->plugin])){
-				$configs = $configs + (array)$eventData['setupConfigEnd'][$this->plugin];
-			}
-
-			if (!$this->__writeConfigs($configs)) {
-				$this->cakeError('configError', array('message' => 'Config was not written'));
-			}
-
-			unset($configs, $eventData);
-		}
-
-		/**
-		 * Write the configuration.
-		 *
-		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
-		 *
-		 * @access private
-		 *
-		 * @return bool
-		 */
-		private function __writeConfigs($configs){
-			foreach($configs as $config) {
-				if(empty($config) || !is_array($config)){
-					continue;
-				}
-
-				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
-					$config['Config']['key'] = isset($config['Config']['key']) ? $config['Config']['key'] : 'NOT SET';
-					$config['Config']['value'] = isset($config['Config']['value']) ? $config['Config']['value'] : 'NOT SET';
-					$this->log(serialize($config['Config']), 'configuration_error');
-					continue;
-				}
-
-				Configure::write($config['Config']['key'], $config['Config']['value']);
-			}
-
-			unset($configs);
-			return true;
-		}
-
-		/**
-		 * Create ACO's automaticaly
-		 *
-		 * http://book.cakephp.org/view/647/An-Automated-tool-for-creating-ACOs
-		 *
-		 * @deprecated
-		 */
-		public function admin_buildAcl() {
-			if (!Configure::read('debug')) {
-				return $this->_stop();
-			}
-			$log = array();
-
-			$aco =& $this->Acl->Aco;
-			$root = $aco->node('controllers');
-			if (!$root) {
-				$aco->create(array('parent_id' => null, 'model' => null, 'alias' => 'controllers'));
-				$root = $aco->save();
-				$root['Aco']['id'] = $aco->id;
-				$log[] = 'Created Aco node for controllers';
-			}
-
-			else {
-				$root = $root[0];
-			}
-
-			App::import('Core', 'File');
-			$Controllers = Configure::listObjects('controller');
-			$appIndex = array_search('App', $Controllers);
-			if ($appIndex !== false ) {
-				unset($Controllers[$appIndex]);
-			}
-			$baseMethods = get_class_methods('Controller');
-			$baseMethods[] = 'admin_buildAcl';
-			$baseMethods[] = 'blackHole';
-			$baseMethods[] = 'comment';
-			$baseMethods[] = 'rate';
-			$baseMethods[] = 'blackHole';
-			$baseMethods[] = 'addCss';
-			$baseMethods[] = 'addJs';
-			$baseMethods[] = 'admin_delete';
-
-			$Plugins = $this->Infinitas->_getPlugins();
-
-			$Controllers = array_merge($Controllers, $Plugins);
-
-			// look at each controller in app/controllers
-			foreach ($Controllers as $ctrlName) {
-				$methods = $this->Infinitas->_getClassMethods($this->Infinitas->_getPluginControllerPath($ctrlName));
-
-				// Do all Plugins First
-				if ($this->Infinitas->_isPlugin($ctrlName)){
-					$pluginNode = $aco->node('controllers/'.$this->Infinitas->_getPluginName($ctrlName));
-					if (!$pluginNode) {
-						$aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $this->Infinitas->_getPluginName($ctrlName)));
-						$pluginNode = $aco->save();
-						$pluginNode['Aco']['id'] = $aco->id;
-						$log[] = 'Created Aco node for ' . $this->Infinitas->_getPluginName($ctrlName) . ' Plugin';
-					}
-				}
-				// find / make controller node
-				$controllerNode = $aco->node('controllers/'.$ctrlName);
-				if (!$controllerNode) {
-					if ($this->Infinitas->_isPlugin($ctrlName)){
-						$pluginNode = $aco->node('controllers/' . $this->Infinitas->_getPluginName($ctrlName));
-						$aco->create(
-							array(
-								'parent_id' => $pluginNode['0']['Aco']['id'],
-								'model' => null,
-								'alias' => $this->Infinitas->_getPluginControllerName($ctrlName)
-							)
-						);
-						$controllerNode = $aco->save();
-						$controllerNode['Aco']['id'] = $aco->id;
-						$log[] = 'Created Aco node for ' . $this->Infinitas->_getPluginControllerName($ctrlName) . ' ' .
-							$this->Infinitas->_getPluginName($ctrlName) . ' Plugin Controller';
-					}
-
-					else {
-						$aco->create(array('parent_id' => $root['Aco']['id'], 'model' => null, 'alias' => $ctrlName));
-						$controllerNode = $aco->save();
-						$controllerNode['Aco']['id'] = $aco->id;
-						$log[] = 'Created Aco node for ' . $ctrlName;
-					}
-				}
-
-				else {
-					$controllerNode = $controllerNode[0];
-				}
-
-				//clean the methods. to remove those in Controller and private actions.
-				foreach ((array)$methods as $k => $method) {
-					if (strpos($method, '_', 0) === 0 || in_array($method, $baseMethods)) {
-						unset($methods[$k]);
-						continue;
-					}
-
-					$methodNode = $aco->node('controllers/'.$ctrlName.'/'.$method);
-					if (!$methodNode) {
-						$aco->create(array('parent_id' => $controllerNode['Aco']['id'], 'model' => null, 'alias' => $method));
-						$methodNode = $aco->save();
-						$log[] = 'Created Aco node for '. $method;
-					}
-				}
-			}
-			if(count($log)>0) {
-				debug($log);
-			}
-		}
-		
-		/**
-		 * Dispatches the controller action.  Checks that the action
-		 * exists and isn't private.
-		 * 
-		 * @throws PrivateActionException, MissingActionException
-		 *
-		 * @param CakeRequest $request the current request
-		 * 
-		 * @return mixed The resulting response.
-		 */
-		public function invokeAction(CakeRequest $request) {
-			try {
-				parent::invokeAction($request);
-			}
-
-			catch (MissingActionException $e) {
-				return $this->invokeComponentAction($request, $e);
-			}
-		}
-
-		/**
-		 * @brief catch calls to parent::missing_action() and see if a component can handle it
-		 *
-		 * @throws MissingActionException
-		 *
-		 * @param string $method the method being called
-		 * @param CakeRequest $args
-		 *
-		 * @return mixed The resulting response.
-		 */
-		public function __call($method, $args) {
-			return $this->invokeComponentAction($this->request);
-		}
-
-		/**
-		 * @brief Try invoke an action through a component
-		 *
-		 * @throws MissingActionException
-		 *
-		 * @param CakeRequest $request $the request object
-		 * @param Exception $e any exceptions that were caught before
-		 *
-		 * @return mixed The resulting response.
-		 */
-		public function invokeComponentAction($request, $e = null) {
-			$action = 'action' . Inflector::camelize($request->params['action']);
-			foreach($this->Components->enabled() as $component) {
-				if(method_exists($this->{$component}, $action)) {
-					return $this->{$component}->dispatchMethod($action, $request->params['pass']);
-				}
-			}
-
-			if($e instanceof MissingActionException) {
-				throw $e;
-			}
-
-			throw new MissingActionException(
-				sprintf(
-					'Tried to dispatch "%s()" to a component as "%s(). No component found to handle the request"',
-					$this->request->params['action'],
-					$action
-				)
-			);
-		}
-	}
-
-	/**
-	 * @page AppController AppController
-	 *
-	 * @section app_controller-overview What is it
-	 *
-	 * AppController is the main controller method that all other countrollers
-	 * should normally extend. This gives you a lot of power through inheritance
-	 * allowing things like mass deletion, copying, moving and editing with absolutly
-	 * no code.
-	 *
-	 * AppController also does a lot of basic configuration for the application
-	 * to run like automatically putting components in to load, compressing output
-	 * setting up some security and more.
-	 *
-	 * @section app_controller-usage How to use it
-	 *
-	 * Usage is simple, extend your MyPluginAppController from this class and then the
-	 * controllers in your plugin just extend MyPluginAppController. Example below:
-	 *
-	 * @code
-	 *	// in APP/plugins/my_plugin/my_plugin_app_controller.php create
-	 *	class MyPluginAppController extends AppModel{
-	 *		// do not set the name in this controller class, there be gremlins
-	 *	}
-	 *
-	 *	// then in APP/plugins/my_plugin/controllers/something.php
-	 *	class SomethingsController extends MyPluginAppController{
-	 *		public $name = 'Somethings';
-	 *		//...
-	 *	}
-	 * @endcode
-	 *
-	 * After that you will be able to directly access the public methods that
-	 * are available from this class as if they were in your controller.
-	 *
-	 * @code
-	 *	$this->someMethod();
-	 * @endcode
-	 *
-	 * @section app_controller-see-also Also see
-	 * @ref GlobalActions
-	 * @ref InfinitasComponent
-	 * @ref Event
-	 * @ref MassActionComponent
-	 * @ref InfinitasView
-	 */
-
-	/**
-	 * @brief AppController is the main controller class that all plugins should extend
-	 *
-	 * This class offers a lot of methods that should be inherited to other controllers
-	 * as it is what allows you to build plugins with minimal code.
-	 *
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
-	 *
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
-
-	class AppController extends GlobalActions {
-		/**
-		 * the View Class that will load by defaul is the Infinitas View to take
-		 * advantage which extends the ThemeView and auto loads the Mustache class.
-		 * This changes when requests are json etc
-		 */
-		public $viewClass = 'Libs.Infinitas';
-
-		/**
-		 * internal cache of css files to load
-		 *
-		 * @var array
-		 * @access private
-		 */
-		private $__addCss = array();
-
-		/**
-		 * internal cache of javascript files to load
-		 *
-		 * @var array
-		 * @access private
-		 */
-		private $__addJs  = array();
-
-		private $__callBacks = array(
-			'beforeFilter' => false,
-			'beforeRender' => false,
-			'afterFilter' => false
-		);
 
 		/**
 		 * @brief called before a page is loaded
@@ -658,55 +425,6 @@
 			}
 
 			return $url;
-		}
-
-		/**
-		 * @brief normal before filter.
-		 *
-		 * set up some variables and do a bit of pre processing before handing
-		 * over to the controller responsible for the request.
-		 *
-		 * @link http://api.cakephp.org/class/controller#method-ControllerbeforeFilter
-		 *
-		 * @access public
-		 *
-		 * @return void
-		 */
-		public function beforeFilter() {
-			parent::beforeFilter();
-
-			// @todo it meio upload is updated.
-			if(isset($this->request->data['Image']['image']['name']) && empty($this->request->data['Image']['image']['name'])){
-				unset($this->request->data['Image']);
-			}
-
-			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
-
-			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Auth->user('group_id') != 1){
-				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
-			}
-
-			if (isset($this->request->data['PaginationOptions']['pagination_limit'])) {
-				$this->Infinitas->changePaginationLimit( $this->request->data['PaginationOptions'], $this->request->params );
-			}
-
-			if (isset($this->request->params['named']['limit'])) {
-				$this->request->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->request->params['named']['limit']);
-			}
-
-			if($this->MassAction->getAction(false) == 'cancel') {
-				$this->Event->trigger(
-					'editCanceled',
-					!empty($this->request->data[$this->modelClass]['id']) ? $this->request->data[$this->modelClass]['id'] : null
-				);
-				$this->redirect($this->getPageRedirectVar());
-			}
-
-			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
-				$this->{$this->modelClass}->setUserData($this->Auth->user());
-			}
-
-			$this->__callBacks[__FUNCTION__] = true;
 		}
 
 		/**
@@ -863,17 +581,6 @@
 		}
 
 		/**
-		 * @brief make sure everything is running or throw an error
-		 */
-		public function __destruct() {
-			$check = array_unique($this->__callBacks);
-
-			if(count($check) != 1 || current($check) != true) {
-				//user_error('Some callbacks were not triggered, check for methods returning false', E_USER_NOTICE);
-			}
-		}
-
-		/**
 		 * @brief Create a generic warning to display usefull information to the user
 		 *
 		 * The method can be used in two ways, using the $this->notice param and setting
@@ -951,6 +658,146 @@
 			}
 
 			unset($_default, $config, $vars);
+		}
+
+		/**
+		 * @brief Set up system configuration.
+		 *
+		 * Load the default configuration and check if there are any configs
+		 * to load from the current plugin. configurations can be completely rewriten
+		 * or just added to.
+		 *
+		 * @access private
+		 *
+		 * @return void
+		 */
+		protected function __setupConfig(){
+			$configs = ClassRegistry::init('Configs.Config')->getConfig();
+
+			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigStart', $configs);
+			if (isset($eventData['setupConfigStart'][$this->plugin])){
+				$configs = (array)$eventData['setupConfigStart'][$this->plugin];
+
+				if (!array($configs)) {
+					$this->cakeError('eventError', array('message' => 'Your config is wrong.', 'event' => $eventData));
+				}
+			}
+
+			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigEnd');
+			if (isset($eventData['setupConfigEnd'][$this->plugin])){
+				$configs = $configs + (array)$eventData['setupConfigEnd'][$this->plugin];
+			}
+
+			if (!$this->__writeConfigs($configs)) {
+				$this->cakeError('configError', array('message' => 'Config was not written'));
+			}
+
+			unset($configs, $eventData);
+		}
+
+		/**
+		 * Write the configuration.
+		 *
+		 * Write all the config values that have been called found in InfinitasComponent::setupConfig()
+		 *
+		 * @access private
+		 *
+		 * @return bool
+		 */
+		private function __writeConfigs($configs){
+			foreach($configs as $config) {
+				if(empty($config) || !is_array($config)){
+					continue;
+				}
+
+				if (!(isset($config['Config']['key']) || isset($config['Config']['value']))) {
+					$config['Config']['key'] = isset($config['Config']['key']) ? $config['Config']['key'] : 'NOT SET';
+					$config['Config']['value'] = isset($config['Config']['value']) ? $config['Config']['value'] : 'NOT SET';
+					$this->log(serialize($config['Config']), 'configuration_error');
+					continue;
+				}
+
+				Configure::write($config['Config']['key'], $config['Config']['value']);
+			}
+
+			unset($configs);
+			return true;
+		}
+
+		/**
+		 * Dispatches the controller action.  Checks that the action
+		 * exists and isn't private.
+		 *
+		 * @throws PrivateActionException, MissingActionException
+		 *
+		 * @param CakeRequest $request the current request
+		 *
+		 * @return mixed The resulting response.
+		 */
+		public function invokeAction(CakeRequest $request) {
+			try {
+				parent::invokeAction($request);
+			}
+
+			catch (MissingActionException $e) {
+				return $this->invokeComponentAction($request, $e);
+			}
+		}
+
+		/**
+		 * @brief catch calls to parent::missing_action() and see if a component can handle it
+		 *
+		 * @throws MissingActionException
+		 *
+		 * @param string $method the method being called
+		 * @param CakeRequest $args
+		 *
+		 * @return mixed The resulting response.
+		 */
+		public function __call($method, $args) {
+			return $this->invokeComponentAction($this->request);
+		}
+
+		/**
+		 * @brief Try invoke an action through a component
+		 *
+		 * @throws MissingActionException
+		 *
+		 * @param CakeRequest $request $the request object
+		 * @param Exception $e any exceptions that were caught before
+		 *
+		 * @return mixed The resulting response.
+		 */
+		public function invokeComponentAction($request, $e = null) {
+			$action = 'action' . Inflector::camelize($request->params['action']);
+			foreach($this->Components->enabled() as $component) {
+				if(method_exists($this->{$component}, $action)) {
+					return $this->{$component}->dispatchMethod($action, $request->params['pass']);
+				}
+			}
+
+			if($e instanceof MissingActionException) {
+				throw $e;
+			}
+
+			throw new MissingActionException(
+				sprintf(
+					'Tried to dispatch "%s()" to a component as "%s(). No component found to handle the request"',
+					$this->request->params['action'],
+					$action
+				)
+			);
+		}
+
+		/**
+		 * @brief make sure everything is running or throw an error
+		 */
+		public function __destruct() {
+			$check = array_unique($this->__callBacks);
+
+			if(count($check) != 1 || current($check) != true) {
+				//user_error('Some callbacks were not triggered, check for methods returning false', E_USER_NOTICE);
+			}
 		}
 	}
 
