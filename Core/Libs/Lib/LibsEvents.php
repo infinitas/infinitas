@@ -71,7 +71,8 @@
 				'Security' => array(
 					'csrfCheck' => false
 				),
-				'Libs.MassAction'
+				'Libs.MassAction',
+				'Libs.InfinitasActions'
 			);
 		}
 
