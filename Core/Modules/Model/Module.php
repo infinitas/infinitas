@@ -145,6 +145,10 @@
 			}
 
 			foreach($results as &$result) {
+				if(empty($result['Module']['id'])) {
+					$result['ModuleRoute'] = array();
+					continue;
+				}
 				$result['ModuleRoute'] = $this->ModuleRoute->find(
 					'all',
 					array(
