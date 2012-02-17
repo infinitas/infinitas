@@ -36,7 +36,7 @@
 		public function actionAdminMass() {
 			$massAction = $this->getAction();
 			$modelName = isset($this->Controller->request->data['Confirm']['model']) ? $this->Controller->request->data['Confirm']['model'] : $this->Controller->modelClass;
-			$ids = $this->Controller->getIds(
+			$ids = $this->getIds(
 				$massAction,
 				$this->Controller->request->data[$modelName]
 			);
