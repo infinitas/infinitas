@@ -66,8 +66,8 @@
 		 * @return string the action selected, or redirect to referer if no action found.
 		 */
 		public function getAction($redirect = true) {
-			if (!empty($_POST['action'])) {
-				return Sanitize::paranoid($_POST['action']);
+			if (!empty($this->Controller->request->data['action'])) {
+				return $this->Controller->request->data['action'];
 			}
 
 			if($redirect) {
