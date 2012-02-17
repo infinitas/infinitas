@@ -56,7 +56,7 @@
 			$currentRoute = Configure::read('CORE.current_route');
 
 			$out = '<div class="modules '.$position.'">';
-			foreach($modules as $module){
+			foreach($modules as $module) {
 				if (
 					($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
 					in_array($module['Module']['module'], $this->moduleIgnoreOverload)
@@ -72,18 +72,17 @@
 
 				$moduleOut = $this->loadModule($module['Module']['module'], $params);
 
-				if (!empty($module['Route']) && is_object($currentRoute)){
-					foreach($module['Route'] as $route){
-						if ($route['url'] == $currentRoute->template) {
+				if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute){
+					foreach($module['ModuleRoute'] as $route) {
+						if (empty($route['Route']['url']) || $route['Route']['url'] == $currentRoute->template) {
 							$out .= $moduleOut;
 						}
 					}
 				}
 
-				else if (empty($module['Route'])) {
+				else if (empty($module['ModuleRoute'])) {
 					$out .= $moduleOut;
 				}
-
 			}
 			$out .= '</div>';
 

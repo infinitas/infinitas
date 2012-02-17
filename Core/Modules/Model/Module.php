@@ -140,17 +140,38 @@
 		}
 
 		public function afterFind($results, $primary = false) {
-			if($this->findQueryType == 'first' && !empty($results[0]['Module']['id'])) {
-				$results[0]['ModuleRoute'] = $this->ModuleRoute->find(
+			if($this->findQueryType == 'count') {
+				return parent::afterFind($results, $primary);
+			}
+
+			foreach($results as &$result) {
+				$result['ModuleRoute'] = $this->ModuleRoute->find(
 					'all',
 					array(
+						'fields' => array(
+							'ModuleRoute.*',
+							'Route.id',
+							'Route.url',
+						),
 						'conditions' => array(
-							'ModuleRoute.module_id' => $results[0]['Module']['id']
+							'ModuleRoute.module_id' => $result['Module']['id']
+						),
+						'joins' => array(
+							array(
+								'table' => 'core_routes',
+								'alias' => 'Route',
+								'type' => 'LEFT',
+								'conditions' => array(
+									'ModuleRoute.route_id = Route.id'
+								)
+							),
 						)
 					)
 				);
-				$results[0]['ModuleRoute'] = Set::extract('{n}.ModuleRoute', $results[0]['ModuleRoute']);
+				
+				$result['ModuleRoute'] = Set::extract('/', $result['ModuleRoute']);
 			}
+
 			return parent::afterFind($results, $primary);
 		}
 
