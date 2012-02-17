@@ -33,13 +33,15 @@
 			if(!empty(self::$_reverseLookup[$hash])) {
 				return self::$_reverseLookup[$hash];
 			}
-			
 			foreach(parent::$routes as &$route) {
+				ksort($route->defaults);
+				ksort($request);
+				
 				if($route->defaults !== $request || !strstr($route->template, ':')) {
 					continue;
 				}
 
-				$templateParams = self::__reverseRoute($route->template);
+				$templateParams = self::__getTemplateParams($route->template);
 				$intersect = array_intersect($templateParams, array_keys($params));
 
 				if($templateParams == $intersect) {
@@ -54,12 +56,12 @@
 				$request = array_merge($request, array('id' => $params['id']));
 			}
 
-			self::$_reverseLookup[$hash] = $request;
+			self::$_reverseLookup[$hash] = array_filter($request);
 
-			return $request;
+			return self::$_reverseLookup[$hash];
 		}
 
-		private static function __reverseRoute($template) {
+		private static function __getTemplateParams($template) {
 			$fragments = array_filter((array)explode('/', $template));
 			foreach($fragments as $k => $fragment) {
 				if(!strstr($fragment, ':')) {
@@ -73,6 +75,10 @@
 			}
 
 			return $fragments;
+		}
+
+		public static function url($url = null, $full = true) {
+			parent::url($url, $full);
 		}
 
 		/**
@@ -128,4 +134,8 @@
 			
 			call_user_func_array(array('Router', 'parseExtensions'), $extensions);
 		}
+	 }
+
+	 class IRouter extends InfinitasRouter {
+		 
 	 }
