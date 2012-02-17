@@ -23,6 +23,7 @@
 		InfinitasRouter::connect("/{$prefix}/:plugin/:controller/dashboard", $params + array('action' => 'dashboard'), $match);
 		InfinitasRouter::connect("/{$prefix}/:plugin/:controller/:action/*", $params, $match);
 	}
+	
 	InfinitasRouter::connect('/:plugin', array('action' => 'index'), $shortParams);
 	InfinitasRouter::connect('/:plugin/:controller', array('action' => 'index'), $match);
 	InfinitasRouter::connect('/:plugin/:controller/:action/*', array(), $match);
@@ -34,6 +35,3 @@
 
 	unset($namedConfig, $params, $indexParams, $prefix, $prefixes, $shortParams, $match,
 		$pluginPattern, $plugins, $key, $value);
-
-	$request = array('plugin' => 'blog', 'controller' => 'blog_posts', 'action' => 'view');
-	$params = array('category' => 'seo', 'slug' => 'seo', 'foo' => 'bar', 'id' => 1);
