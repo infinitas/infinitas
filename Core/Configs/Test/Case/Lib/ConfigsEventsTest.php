@@ -1,5 +1,5 @@
-<?php	
-	class ConfigsEventsTestCase extends CakeTestCase {
+<?php
+	class ConfigsEventsTest extends CakeTestCase {
 		var $fixturesasd = array(
 			'plugin.configs.config',
 			'plugin.themes.theme',
@@ -9,7 +9,7 @@
 			'plugin.categories.category',
 			'plugin.users.group',
 		);
-		
+
 		public function startTest() {
 			$this->Event = EventCore::getInstance();
 		}
