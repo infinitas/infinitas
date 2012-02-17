@@ -379,18 +379,13 @@
 			}
 
 			catch (MissingActionException $e) {
-				return $this->{$this->getComponentWithAction($e)}->dispatchMethod($this->componentActionMethod(), $this->request->params['pass']);
+				return $this->invokeComponentAction($request, $e);
 			}
 		}
 
 		public function __call($method, $args) {
-			return $this->{$this->getComponentWithAction()}->dispatchMethod($this->componentActionMethod(), $this->request->params['pass']);
+			return $this->invokeComponentAction($this->request);
 		}
-
-		public function componentActionMethod() {
-			return 'action' . Inflector::camelize($this->request->params['action']);
-		}
-
 
 		/**
 		 * Check that a method is in the controller
@@ -398,10 +393,11 @@
 		 * @param string $method The method to be called.
 		 * @return boolean True on method being callable.
 		 */
-		public function getComponentWithAction($e = null) {
+		public function invokeComponentAction($request, $e = null) {
+			$action = 'action' . Inflector::camelize($request->params['action']);
 			foreach($this->Components->enabled() as $component) {
-				if(method_exists($this->{$component}, $this->componentActionMethod())) {
-					return $component;
+				if(method_exists($this->{$component}, $action)) {
+					return $this->{$component}->dispatchMethod($action, $request->params['pass']);
 				}
 			}
 
@@ -409,7 +405,13 @@
 				throw $e;
 			}
 
-			throw new MissingActionException(sprintf('Tried to dispatch "%s()" to a component as "%s(). No component found to handle the request"', $this->request->params['action'], $this->componentActionMethod()));
+			throw new MissingActionException(
+				sprintf(
+					'Tried to dispatch "%s()" to a component as "%s(). No component found to handle the request"',
+					$this->request->params['action'],
+					$action
+				)
+			);
 		}
 	}
 
