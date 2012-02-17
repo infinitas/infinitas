@@ -87,6 +87,11 @@
 		public $prettyModelName;
 
 		/**
+		 * empty paginate option.
+		 */
+		public $paginate = array();
+
+		/**
 		 * @brief defaults for AppController::notice()
 		 * @var array
 		 */
