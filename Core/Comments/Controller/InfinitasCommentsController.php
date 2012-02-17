@@ -15,7 +15,6 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
 	class InfinitasCommentsController extends CommentsAppController {
 		public function index(){
 			$conditions = array(
