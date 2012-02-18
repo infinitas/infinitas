@@ -692,3 +692,8 @@ table.listing .bg td {
 .tabs>div {
 	overflow: auto;
 }
+
+.tabs div.dashboard.half {
+	width: 441px;
+	overflow: hidden;
+}
