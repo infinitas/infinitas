@@ -30,6 +30,22 @@
 			);
 		}
 
+		public function beforeRender() {
+			parent::beforeRender();
+
+			if(!strstr($this->request->params['action'], 'login')) {
+				return;
+			}
+
+			if($this->request->params['admin']) {
+				$this->layout = 'admin_login';
+			}
+
+			else if($this->theme && file_exists(APP . 'View' . DS . 'themed' . DS . $this->theme . DS . 'layouts' . DS . 'front_login.ctp')) {
+				$this->layout = 'front_login';
+			}
+		}
+
 		public function view(){
 			if(!$this->Auth->user('id')){
 				$this->notice(
@@ -70,11 +86,7 @@
 		 *
 		 * @access public
 		 */
-		public function login(){
-			if($this->theme && file_exists(APP . 'View' . DS . 'themed' . DS . $this->theme . DS . 'layouts' . DS . 'front_login.ctp')) {
-				$this->layout = 'front_login';
-			}
-
+		public function login() {
 			if (!Configure::read('Website.allow_login')) {
 				$this->notice(
 					__('Login is disabled'),
