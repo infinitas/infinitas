@@ -54,7 +54,7 @@
 			foreach($relatedContents as $relatedContent) {
 				$relatedContent['GlobalCategory'] = $currentCategory;
 
-				$tmp = $this->Event->trigger($model[0] . '.slugUrl', $relatedContent);
+				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => array($model[1] => $relatedContent)));
 				$tmp = current($tmp['slugUrl']);
 
 				

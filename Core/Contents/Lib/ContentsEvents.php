@@ -18,6 +18,10 @@
 	 */
 
 	final class ContentsEvents extends AppEvents {
+		public function onSetupConfig($event) {
+			Configure::load('Contents.config');
+		}
+
 		public function onPluginRollCall() {
 			return array(
 				'name' => 'Content',
@@ -136,24 +140,23 @@
 
 		public function onSlugUrl($event, $data = null) {
 			if(empty($data['type'])) {
-				if(!empty($data['model'])) {
-					$data = array('type' => $data['model'], 'data' => array('GlobalCategory' => $data));
-				}
-				if(!empty($data['GlobalCategory'])) {
-					$data = array('type' => 'GlobalCategory', 'data' => array('GlobalCategory' => $data));
-				}
+				$data['type'] = 'category';
+			}
+
+			if(!empty($data['model'])) {
+				$data = array('type' => $data['model'], 'data' => array('GlobalCategory' => $data));
+			}
+			
+			if(!empty($data['GlobalCategory'])) {
+				$data = array('type' => 'GlobalCategory', 'data' => array('GlobalCategory' => $data));
 			}
 			
 			switch($data['type']) {
 				case 'Contents.GlobalCategory':
-				case 'category':
-					return array(
-						'plugin' => 'contents',
-						'controller' => 'global_categories',
-						'action' => 'view',
-						'category' => $data['data']['GlobalCategory']['slug']
-					);
+					$data['type'] = 'category';
 					break;
 			}
+			
+			return parent::onSlugUrl($event, $data['data'], $data['type']);
 		}
 	}
