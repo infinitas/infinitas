@@ -489,7 +489,7 @@
 		*/
 		function _filterMethods(){
 			$ignores = get_class_methods('AppController');
-			$dontIgnores = get_class_methods('GlobalActions');
+			$dontIgnores = get_class_methods('Controller');
 
 			foreach($ignores as &$ignore){
 				if (in_array($ignore, $dontIgnores)) {
