@@ -293,7 +293,9 @@
 
 			$urlParams = array();
 			foreach($urlConfig as $key => $value) {
-				$urlParams[$value] = $data[$key];
+				if(!empty($data[$key])) {
+					$urlParams[$value] = $data[$key];
+				}
 			}
 
 			return InfinitasRouter::bestMatch($url, $urlParams);
