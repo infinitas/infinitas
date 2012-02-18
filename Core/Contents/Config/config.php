@@ -13,6 +13,16 @@
 			 ),
 		 ),
 		'GlobalCagegories' => array(
-			'auto_redirect' => true
+			'auto_redirect' => true,
+			'robots' => array(
+				'index' => array(
+					'index' => false,
+					'follow' => true
+				),
+				'view' => array(
+					'index' => true,
+					'follow' => true
+				)
+			)
 		)
 	);

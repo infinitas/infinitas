@@ -15,6 +15,29 @@
 	 */
 
 	class GlobalCategoriesController extends ContentsAppController {
+		public function  beforeRender() {
+			parent::beforeRender();
+
+			if($this->request->params['admin']) {
+				return;
+			}
+
+			if(!empty($this->viewVars['category'])) {
+				$this->set('title_for_layout', $this->viewVars['category']['GlobalCategory']['title']);
+				
+				$canonicalUrl = $this->Event->trigger('Contents.slugUrl', array('type' => 'category', 'data' => array('GlobalCategory' => $this->viewVars['category']['GlobalCategory'])));
+				$this->set('seoCanonicalUrl', $canonicalUrl['slugUrl']['Contents']);
+
+				Configure::write('Website.description', $this->viewVars['category']['GlobalCategory']['meta_description']);
+				Configure::write('Website.keywords', $this->viewVars['category']['GlobalCategory']['meta_keywords']);
+			}
+
+			$this->set('title_for_layout', __d('contents', 'Content Categories'));
+
+			$this->set('seoContentIndex', Configure::read(sprintf('Contents.GlobalCagegories.robots.%s.index', $this->request->params['action'])));
+			$this->set('seoContentFollow', Configure::read(sprintf('Contents.GlobalCagegories.robots.%s.follow', $this->request->params['action'])));
+		}
+
 		public function index() {
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.hide'] = 0;
 			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.parent_id'] = null;
@@ -35,6 +58,11 @@
 			}
 
 			$this->set('categories', $categories);
+
+			$this->set('seoCanonicalUrl', Router::url(array('action' => 'index')));
+
+			$this->set('seoContentIndex', Configure::read('Contents.GlobalCagegories.robots.index.index'));
+			$this->set('seoContentFollow', Configure::read('Contents.GlobalCagegories.robots.index.follow'));
 		}
 
 		public function view() {
@@ -57,7 +85,6 @@
 
 			}
 
-			$this->set('title_for_layout', $category['GlobalCategory']['title']);
 			$this->set('category', $category);
 		}
 
