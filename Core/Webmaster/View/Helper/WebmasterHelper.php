@@ -11,28 +11,25 @@
 		 * @return string of html tags describing the site
 		 */
 		public function seoMetaTags() {
-			$View = ClassRegistry::getObject('view');
-
 			$contentIndex = $contentFollow = true;
 			$canonicalUrl = null;
-			if(isset($View->viewVars['seoContentIndex'])) {
-				$contentIndex = $View->viewVars['seoContentIndex'];
+			if(isset($this->_View->viewVars['seoContentIndex'])) {
+				$contentIndex = $this->_View->viewVars['seoContentIndex'];
 			}
 
-			if(isset($View->viewVars['seoContentFollow'])) {
-				$contentFollow = $View->viewVars['seoContentFollow'];
+			if(isset($this->_View->viewVars['seoContentFollow'])) {
+				$contentFollow = $this->_View->viewVars['seoContentFollow'];
 			}
 
-			if(isset($View->viewVars['seoCanonicalUrl'])) {
-				$canonicalUrl = $View->viewVars['seoCanonicalUrl'];
+			if(isset($this->_View->viewVars['seoCanonicalUrl'])) {
+				$canonicalUrl = $this->_View->viewVars['seoCanonicalUrl'];
 			}
 
 			$contentTitle = Configure::read('Website.name');
-			if(!empty($View->viewVars['title_for_layout'])) {
+			if(!empty($this->_View->viewVars['title_for_layout'])) {
 				$siteName = Configure::read('Website.name');
-				$contentTitle = sprintf('%s :: %s', substr($View->viewVars['title_for_layout'], 0, 66 - strlen($siteName)), $siteName);
+				$contentTitle = sprintf('%s :: %s', substr($this->_View->viewVars['title_for_layout'], 0, 66 - strlen($siteName)), $siteName);
 			}
-			unset($View);
 			
 			return implode('', array(
 				$this->metaIcon(),
