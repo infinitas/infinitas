@@ -56,6 +56,10 @@
 		}
 
 		private function __loadLayout($Controller, $options) {
+			if($this->Controller->request->params['admin']) {
+				return;
+			}
+			
 			$layout = ClassRegistry::init('Contents.GlobalLayout')->find(
 				'autoLoadLayout', $options
 			);
