@@ -81,7 +81,7 @@
                     </tr>
 					<tr class="<?php echo $rowClass; ?>">
 						<td colspan="4">
-							<?php echo strip_tags($comment['InfinitasComment']['comment']); ?>
+							<?php echo str_replace('\n', ' ', strip_tags($comment['InfinitasComment']['comment'])); ?>
 						</td>
 					</tr>
                 <?php
