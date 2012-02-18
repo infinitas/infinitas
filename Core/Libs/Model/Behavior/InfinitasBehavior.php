@@ -411,7 +411,15 @@
 					continue;
 				}
 
-				$controllers[$controller] = $controller;
+				$name = str_replace(array($plugin, 'Controller'), '', $controller);
+				if(empty($name)) {
+					$name = sprintf('%s - %s', str_replace(array('Controller'), '', $controller), __d(Inflector::underscore($plugin), 'main'));
+
+					$controllers = array_merge(array($controller => $name), $controllers);
+					continue;
+				}
+
+				$controllers[$controller] = $name;
 			}
 			return $controllers;
 		}
@@ -473,7 +481,11 @@
 					continue;
 				}
 				else{
-					$actions[$action] = $action;
+					if(strstr($action, 'admin')) {
+						$actions[__d('infinitas', 'Admin')][$action] = str_replace('admin_', '', $action);
+						continue;
+					}
+					$actions[__d('infinitas', 'Frontend')][$action] = $action;
 				}
 			}
 
