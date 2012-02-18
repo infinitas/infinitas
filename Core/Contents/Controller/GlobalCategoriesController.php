@@ -30,6 +30,12 @@
 
 				Configure::write('Website.description', $this->viewVars['category']['GlobalCategory']['meta_description']);
 				Configure::write('Website.keywords', $this->viewVars['category']['GlobalCategory']['meta_keywords']);
+				return;
+			}
+
+			if(Configure::read('Contents.GlobalCagegories')) {
+				Configure::write('Website.description', Configure::read('Contents.GlobalCagegories.description'));
+				Configure::write('Website.keywords', Configure::read('Contents.GlobalCagegories.keywords'));
 			}
 
 			$this->set('title_for_layout', __d('contents', 'Content Categories'));
