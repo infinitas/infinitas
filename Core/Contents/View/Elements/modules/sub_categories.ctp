@@ -5,15 +5,8 @@
 		if(!empty($subCategory)) {
 			$links = array();
 			foreach($subCategory as $category) {
-				$links[] = $this->Html->link(
-					$category['title'],
-					array(
-						'plugin' => 'contents',
-						'controller' => 'global_categories',
-						'action' => 'view',
-						'category' => $category['slug']
-					)
-				);
+				$url = $this->Event->trigger('Contents.slugUrl', array('type' => 'category', 'data' => array('GlobalCategory' => $category)));
+				$links[] = $this->Html->link($category['title'], current($url['slugUrl']));
 			}
 		}
 		
@@ -22,14 +15,10 @@
 		}
 
 		if(!empty($parentCategory['id'])) {
+			$url = $this->Event->trigger('Contents.slugUrl', array('type' => 'category', 'data' => array('GlobalCategory' => $parentCategory)));
 			$links[] = $this->Html->link(
 				sprintf(__d('contents', 'Back to %s'), $parentCategory['title']),
-				array(
-					'plugin' => 'contents',
-					'controller' => 'global_categories',
-					'action' => 'view',
-					'category' => $parentCategory['slug']
-				)
+				current($url['slugUrl'])
 			);
 		}
 
@@ -38,14 +27,10 @@
 			$this->request->params['controller'] != 'global_categories');
 
 		if($exploreLink) {
+			$url = $this->Event->trigger('Contents.slugUrl', array('type' => 'category', 'data' => array('GlobalCategory' => array('slug' => $this->request->params['slug']))));
 			$links[] = $this->Html->link(
 				__d('contents', 'Explore this category'),
-				array(
-					'plugin' => 'contents',
-					'controller' => 'global_categories',
-					'action' => 'view',
-					'category' => $this->request->params['category']
-				)
+				current($url['slugUrl'])
 			);
 		}
 

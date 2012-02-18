@@ -52,12 +52,13 @@
 			$model = pluginSplit($model);
 
 			foreach($relatedContents as $relatedContent) {
+				$relatedContent[$model[1]] = $relatedContent;
 				$relatedContent['GlobalCategory'] = $currentCategory;
 
-				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => array($model[1] => $relatedContent)));
+				pr($relatedContent);
+				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => $relatedContent));
 				$tmp = current($tmp['slugUrl']);
 
-				
 				if(!empty($tmp)) {
 					$relatedContent['link'] = Router::url($tmp, true);
 
