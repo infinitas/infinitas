@@ -29,7 +29,7 @@
 		}
 
 		public static function bestMatch($request, $params = array(), $bestMatch = true) {
-			$hash = md5(serialize($request + array_keys($params)));
+			$hash = md5(serialize($request + $params + array($bestMatch)));
 			if(!empty(self::$_reverseLookup[$hash])) {
 				return self::$_reverseLookup[$hash];
 			}
