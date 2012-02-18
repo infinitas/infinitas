@@ -10,7 +10,7 @@
 		 *
 		 * @return void
 		 */
-		public function adminGetPlugins(){
+		public function actionAdminGetPlugins(){
 			$this->Controller->set('json', $this->Controller->{$this->Controller->modelClass}->getPlugins());
 		}
 
@@ -21,7 +21,7 @@
 		 *
 		 * @return void
 		 */
-		public function adminGetControllers(){
+		public function actionAdminGetControllers(){
 			if (!isset($this->Controller->request->data[$this->Controller->modelClass]['plugin'])) {
 				$this->Controller->set('json', array('error'));
 				return;
@@ -42,7 +42,7 @@
 		 *
 		 * @return void
 		 */
-		public function adminGetModels(){
+		public function actionAdminGetModels(){
 			if (!isset($this->Controller->request->data[$this->Controller->modelClass]['plugin'])) {
 				$this->Controller->set('json', array('error'));
 				return;
@@ -63,7 +63,7 @@
 		 *
 		 * @return void
 		 */
-		public function adminGetActions(){
+		public function actionAdminGetActions(){
 			if (!(isset($this->Controller->request->data[$this->Controller->modelClass]['plugin']) &&
 					isset($this->Controller->request->data[$this->Controller->modelClass]['controller'] ))) {
 				$this->Controller->set('json', array('error'));
