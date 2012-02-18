@@ -82,7 +82,7 @@
 			'name' => __d('newsletter', 'Subscribers'),
 			'description' => __d('newsletter', 'View and manage your list of subscribers'),
 			'icon' => '/newsletter/img/icon/subscribers.png',
-			'dashboard' => array('controller' => 'subscribers', 'action' => 'index')
+			'dashboard' => array('controller' => 'newsletter_subscribers', 'action' => 'index')
 		),
 		array(
 			'name' => __d('newsletter', 'Bounced Mail'),
