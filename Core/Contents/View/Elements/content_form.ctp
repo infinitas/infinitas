@@ -12,21 +12,21 @@
 	$fields =
 		$this->Form->input('GlobalContent.id') .
 		$this->Form->hidden('GlobalContent.model', array('value' => $model)) .
-		$this->Form->input('GlobalContent.title') .
-		$this->Form->input('GlobalContent.slug', array('label' => __d('contents', 'Url Slug')));
+		$this->Form->input('GlobalContent.title', array('div' => array('style' => 'width:500px; float:left;'))) .
+		$this->Form->input('GlobalContent.slug', array('label' => __d('contents', 'Url Slug'), 'div' => array('style' => 'width:360px; float:left; padding-left: 10px;')));
 
-	if(!isset($intro) || $intro !== false) {
-		$fields .= $this->Infinitas->wysiwyg('GlobalContent.introduction');
-	}
-
-	$fields .= $this->Infinitas->wysiwyg('GlobalContent.body') .
-		'<div class="input smaller required">' .
+	$fields .= 
+		'<div class="input smaller required" style="clear: both;">' .
 			$this->Form->input('GlobalContent.layout_id', array('options' => $contentLayouts, 'empty' => Configure::read('Website.empty_select'), 'class' => 'smaller')) .
 			$this->Form->input('GlobalContent.group_id', array('options' => $contentGroups, 'label' => __('Min Group'), 'empty' => __d('contents', 'Public'))) .
 			$this->element('Contents.category_list') .
 		'</div>' .
 		$this->Form->input('GlobalContent.tags');
 
+	if(!isset($intro) || $intro !== false) {
+		$fields .= $this->Infinitas->wysiwyg('GlobalContent.introduction');
+	}
+	$fields .= $this->Infinitas->wysiwyg('GlobalContent.body');
 
 	$template = '%s';
 	if(!empty($metaFieldSet) && $metaFieldSet === true) {

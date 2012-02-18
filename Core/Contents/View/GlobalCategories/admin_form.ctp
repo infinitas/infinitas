@@ -17,17 +17,26 @@
 	 * 
 	 * @author dogmatic69
      */
+	$edit = strstr($this->request->params['action'], 'edit');
 
 	echo $this->Form->create('GlobalCategory', array('action' => 'edit'));
 		echo $this->Infinitas->adminEditHead();
-		echo $this->element('content_form', array('plugin' => 'Contents')); ?>
-		<fieldset>
-			<h1><?php echo __('Config'); ?></h1><?php
-			echo $this->Form->input('id');
-			echo $this->Form->input('parent_id', array('options' => $contentCategories, 'empty' => __d('contents', 'Root Category')));
-			echo $this->Form->input('active');
-			echo $this->Form->input('hide'); ?>
-		</fieldset>
-		<?php
+		$headings = array(
+			__d('contents', 'Details'),
+			__d('contents', 'Configuration'),
+		);
+		
+		$tabs = array(
+			$this->element('Contents.content_form'),
+			$this->Form->input('id').
+					$this->Form->input('parent_id', array('options' => $contentCategories, 'empty' => __d('contents', 'Root Category'))) .
+				$this->Form->input('active') . $this->Form->input('hide') . $this->element('Contents.meta_form')
+		);
+
+		if($edit) {
+			$headings[] = __d('contents', 'Statistics');
+			$tabs[] = $this->element('ViewCounter.modules/admin/overall') . $this->element('ViewCounter.modules/admin/popular_items');
+		}
+
+		echo $this->Design->tabs($headings, $tabs);
 	echo $this->Form->end();
-?>
