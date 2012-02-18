@@ -71,14 +71,14 @@
 
 		public function onRequireJavascriptToLoad($event){
 			return array(
-				'/contents/js/jq-tags',
-				'/contents/js/tags'
+				'Contents.jq-tags',
+				'Contents.tags'
 			);
 		}
 
 		public function onRequireCssToLoad($event){
 			return array(
-				'/contents/css/tags'
+				'Contents.tags'
 			);
 		}
 

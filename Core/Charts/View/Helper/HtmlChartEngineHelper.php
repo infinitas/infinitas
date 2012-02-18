@@ -114,7 +114,7 @@
 
 			return sprintf(
 				'%s<style type=text/css>%s %s</style>%s',
-				$this->Html->css('/charts/css/html_chart_engine'),
+				$this->Html->css('Charts.html_chart_engine'),
 				$this->__generateBarCss($data),
 				$this->__css($data),
 				$html

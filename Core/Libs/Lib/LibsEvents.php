@@ -85,6 +85,8 @@
 		}
 
 		public function onRequireCssToLoad(){
-			return '/assets/css/jquery_ui';
+			return array(
+				'Assets.jquery_ui'
+			);
 		}
 	}

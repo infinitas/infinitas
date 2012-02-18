@@ -37,7 +37,7 @@
 
 		public function onRequireCssToLoad($event, $data = null) {
 			return array(
-				'/filter/css/filter'
+				'Filter.filter'
 			);
 		}
 	}

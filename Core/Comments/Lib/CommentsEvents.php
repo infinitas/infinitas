@@ -62,13 +62,13 @@
 
 		public function onRequireCssToLoad($event){
 			return array(
-				'/comments/css/comment'
+				'Comments.comment'
 			);
 		}
 
 		public function onRequireJavascriptToLoad($event){
 			return array(
-				'/comments/js/comment'
+				'Comments.comment'
 			);
 		}
 

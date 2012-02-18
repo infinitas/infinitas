@@ -12,24 +12,24 @@
 
 		public function onRequireJavascriptToLoad($event, $data = null) {
 			$return = array(
-				'/assets/js/3rd/jquery',
-				'/assets/js/3rd/jquery_ui',
-				'/assets/js/3rd/metadata',
-				'/assets/js/infinitas',
-				'/assets/js/libs/core',
-				'/assets/js/libs/form',
-				'/assets/js/libs/html',
-				'/assets/js/libs/number'
+				'Assets.3rd/jquery',
+				'Assets.3rd/jquery_ui',
+				'Assets.3rd/metadata',
+				'Assets.infinitas',
+				'Assets.libs/core',
+				'Assets.libs/form',
+				'Assets.libs/html',
+				'Assets.libs/number'
 			);
 			
 			if(isset($event->Handler->params['admin']) && $event->Handler->params['admin']){
-				$return[] = '/assets/js/3rd/date';
-				$return[] = '/assets/js/3rd/image_drop_down';
+				$return[] = 'Assets.3rd/date';
+				$return[] = 'Assets.3rd/image_drop_down';
 			}
 			
 			else{
-				$return[] = '/assets/js/3rd/rater';
-				$return[] = '/assets/js/3rd/moving_boxes';
+				$return[] = 'Assets.3rd/rater';
+				$return[] = 'Assets.3rd/moving_boxes';
 			}
 
 			return $return;

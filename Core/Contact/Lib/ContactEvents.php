@@ -30,7 +30,7 @@
 		
 		public function onRequireCssToLoad($event){
 			return array(
-				'/contact/css/contact'
+				'Contact.contact'
 			);
 		}
 
