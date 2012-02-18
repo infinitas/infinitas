@@ -19,31 +19,27 @@
 	 */
 
 	class WysiwygHelper extends InfinitasHelper {
-		var $helpers = array(
-			'Form',
-			'Html',
-			'Js'
+		public $helpers = array(
+			'Form'
 		);
 
-		public function load($editor = null, $field = null, $config = array()){
-			switch($editor){
+		public function load($editor = null, $field = null, $config = array()) {
+			$helperName = sprintf('Wysiwyg%s', Inflector::Classify($editor));
+			
+			switch($editor) {
 				case 'text':
+				case CakePlugin::loaded($helperName) == false:
 					return $this->text($field);
 					break;
 			} // switch
 
-			$helperName = sprintf('Wysiwyg%s', Inflector::Classify($editor));
-			//App::uses($helperName . 'Helper', $helperName . '.View');
-			App::uses('WysiwygTinyMceHelper', 'WysiwygTinyMce.View/Helper');
 			try{
-				$this->Editor = $this->_View->Helpers->load('WysiwygTinyMce');
+				App::uses($helperName . 'Helper', $helperName . '.View/Helper');
+				$this->Editor = $this->_View->Helpers->load($helperName . '.' . $helperName);
 			}
+			
 			catch(MissingHelperException $e) {
-				
-			}
-
-			if (!$this->Editor instanceof Helper) {
-				return $this->input($field, array('style' => 'width:98%; height:500px;', 'value' => $e->getMessage()));
+				return $this->input($field, array('style' => 'width:98%; height:500px;')) . $e->getMessage();
 			}
 
 			$fields = explode('.', $field);
