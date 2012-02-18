@@ -11,5 +11,8 @@
 					 'action' => 'view'
 				 )
 			 ),
-		 )
+		 ),
+		'GlobalCagegories' => array(
+			'auto_redirect' => true
+		)
 	);

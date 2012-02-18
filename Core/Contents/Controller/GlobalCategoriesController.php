@@ -38,20 +38,23 @@
 		}
 
 		public function view() {
-			$conditions = array();
-			if(isset($this->request->params['category'])){
-				$conditions['GlobalContent.slug'] = $this->request->params['category'];
+			if(empty($this->request->params['slug'])) {
+				$this->notice('invalid');
 			}
+
+			$conditions = array(
+				'GlobalContent.slug' => $this->request->params['slug']
+			);
 
 			$category = $this->GlobalCategory->find('getCategory', array('conditions' => $conditions));
-
-			// redirect if there is only one content item.
-			if ((isset($category['Content']) && count($category['Content']) == 1) && Configure::read('Cms.auto_redirect')) {
-
+			
+			if(empty($category)){
+				$this->notice('invalid');
 			}
 
-			else if(empty($category)){
-				$this->notice('invalid');
+			// redirect if there is only one content item.
+			if ((isset($category['Content']) && count($category['Content']) == 1) && Configure::read('Contents.GlobalCagegories.auto_redirect')) {
+
 			}
 
 			$this->set('title_for_layout', $category['GlobalCategory']['title']);
