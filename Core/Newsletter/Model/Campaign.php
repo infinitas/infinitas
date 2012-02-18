@@ -32,6 +32,10 @@
 			'Newsletter.Template'
 		);
 
+		public $findMethods = array(
+			'paginated' => true
+		);
+
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
 
@@ -53,5 +57,55 @@
 					)
 				)
 			);
+		}
+
+		/**
+		 * @brief custom paginated find for campaigns
+		 *
+		 * @param string $state before or after the find
+		 * @param array $query the find query
+		 * @param array $results rows found
+		 *
+		 * @return string
+		 */
+		protected function _findPaginated($state, $query, $results = array()) {
+			if ($state === 'before') {
+				if(!is_array($query['fields'])) {
+					$query['fields'] = array($query['fields']);
+				}
+
+				$query['fields'] = array_merge(
+					$query['fields'],
+					array(
+						'Campaign.id',
+						'Campaign.name',
+						'Campaign.description',
+						'Campaign.newsletter_count',
+						'Campaign.active',
+						'Campaign.created',
+						'Campaign.modified',
+						'Template.id',
+						'Template.name',
+					)
+				);
+
+				$query['joins'][] = array(
+					'table' => 'newsletter_templates',
+					'alias' => 'Template',
+					'type' => 'LEFT',
+					'foreignKey' => false,
+					'conditions' => array(
+						'Template.id = Campaign.template_id'
+					)
+				);
+
+				return $query;
+			}
+
+			if (!empty($query['operation'])) {
+				return $this->_findPaginatecount($state, $query, $results);
+			}
+
+			return $results;
 		}
 	}

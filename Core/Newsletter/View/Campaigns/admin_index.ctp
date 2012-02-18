@@ -59,7 +59,7 @@
                 )
             );
 
-            foreach($campaigns as $campaign){
+            foreach($campaigns as $campaign) {
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($campaign); ?>&nbsp;</td>
