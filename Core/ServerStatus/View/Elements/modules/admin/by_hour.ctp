@@ -1,5 +1,9 @@
 <div class="dashboard grid_16">
 	<?php
+		if(empty($byHour)) {
+			$byHour = ClassRegistry::init('ServerStatus.ServerStatus')->reportByHour();
+		}
+		
 		echo sprintf(
 			__('<h1>Server load average by hour<small>Data between %s and %s</small></h1>'),
 			$this->Time->niceShort($byHour['start_date']),
