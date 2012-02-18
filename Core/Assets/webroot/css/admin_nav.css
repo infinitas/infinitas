@@ -533,6 +533,9 @@ form textarea{
 	width:96%;
 	padding:5px;
 }
+form textarea {
+	height: 500px;
+}
 input[type="checkbox"]{
 	width:10px;
 }
