@@ -116,6 +116,8 @@
 		 */
 		public $viewClass = 'Libs.Infinitas';
 
+		public $modelClass;
+
 		/**
 		 * components should not be included here
 		 *
