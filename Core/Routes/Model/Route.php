@@ -96,6 +96,26 @@
 			);
 		}
 
+		public function beforeSave($options = array()) {
+			parent::beforeSave($options);
+
+			$this->data[$this->alias]['plugin'] = Inflector::underscore($this->data[$this->alias]['plugin']);
+			$this->data[$this->alias]['controller'] = str_replace('_controller', '', Inflector::underscore($this->data[$this->alias]['controller']));
+
+			return true;
+		}
+
+		public function afterFind($results, $primary = false) {
+			$results = parent::afterFind($results, $primary);
+
+			if($this->findQueryType == 'first' && !empty($results[0][$this->alias][$this->primaryKey])) {
+				$results[0][$this->alias]['plugin'] = Inflector::camelize($results[0][$this->alias]['plugin']);
+				$results[0][$this->alias]['controller'] = Inflector::camelize($results[0][$this->alias]['controller']) . 'Controller';
+			}
+
+			return $results;
+		}
+
 		/**
 		 * Get all routes required for the app
 		 *
