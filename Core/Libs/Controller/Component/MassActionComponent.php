@@ -47,13 +47,11 @@
 				return $this->Controller->{$massActionMethod}($ids);
 			}
 
-			elseif(method_exists($this, $massAction)) {
+			else if(method_exists($this, $massAction)) {
 				return $this->{$massAction}($ids);
 			}
 
-			else {
-				return $this->generic($massAction, $ids);
-			}
+			return $this->generic($massAction, $ids);
 		}
 		
 		/**
@@ -128,6 +126,10 @@
 					continue;
 				}
 
+				if(empty($field) && $field !== 0) {
+					continue;
+				}
+
 				$data[$this->Controller->modelClass.'.'.$k] = $field;
 			}
 
@@ -137,7 +139,11 @@
 				}  
 
 				foreach((array)$this->Controller->data[$model] as $k => $field) {
-					if (is_int($k) || $k == 'all' || $k == 'massCheckBox'){
+					if ((empty($field) && $field !== 0) || is_int($k) || $k == 'all' || $k == 'massCheckBox'){
+						continue;
+					}
+
+					if(empty($field) && $field !== 0) {
 						continue;
 					}
 
