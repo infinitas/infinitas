@@ -18,7 +18,7 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create('InfinitasComment', array('url' => array('action' => 'mass')));
+    echo $this->Form->create('InfinitasComment', array('action' => 'mass'));
         $massActions = $this->Infinitas->massActionButtons(
             array(
                 'toggle',
