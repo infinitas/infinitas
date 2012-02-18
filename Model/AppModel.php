@@ -65,6 +65,7 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
+	App::uses('Model', 'Model');
 	class AppModel extends Model {
 		/**
 		 * The database configuration to use for the site.

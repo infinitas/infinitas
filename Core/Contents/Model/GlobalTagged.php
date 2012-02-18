@@ -183,7 +183,7 @@
 				if (isset($query['operation']) && $query['operation'] == 'count') {
 					return array_shift($results[0][0]);
 				}
-				
+
 				return $results;
 			}
 		}
