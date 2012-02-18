@@ -163,11 +163,7 @@
 		 *
 		 * @return void
 		 */
-		public function actionPreview($id = null){
-			if(!$id || $this->Controller->Auth->user('group_id') !== 1){
-				throw new MissingActionException('That page does not exist');
-			}
-
+		public function actionAdminPreview($id = null) {
 			if(!is_callable(array($this->Controller->{$this->Controller->modelClass}, 'getViewData'))){
 				$this->Controller->notice(
 					__('There is no preview available'),
@@ -187,6 +183,9 @@
 			);
 
 			$this->Controller->set($varName, $$varName);
+			$this->Controller->request->params['admin'] = false;
+			$this->Controller->layout = 'front';
+			
 			$this->Controller->render('view');
 		}
 

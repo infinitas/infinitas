@@ -356,13 +356,15 @@
 		 *	// to a different page
 		 *	$this->Html->adminQuickLink($user['User'], array('action' => 'view'));
 		 * @endcode
+		 * 
+		 * @access public
 		 *
 		 * @param array $row the row $row['Model'] data
 		 * @param mixed $url normal cake url array/string
 		 * @param array $models if you want to link to a related model
-		 * @access public
+		 * @param bool $urlOnly if you just want the url back
 		 *
-		 * @return string borked on error, html link when all is good
+		 * @return string Undefined on error, html link when all is good
 		 */
 		public function adminQuickLink($row = array(), $url = array(), $model = '', $urlOnly = false){
 			$id = $text = null;
@@ -387,11 +389,11 @@
 			}
 
 			if(!$id){
-				return __('Undefined');
+				return __d($this->request->params['plugin'], 'Undefined');
 			}
 
 			if(is_array($url)){
-				$url = array_merge((array)$url, array(0 => $id));
+				$url = array_merge($url, array(0 => $id));
 			}
 			else{
 				$url .= '/'.$id;
@@ -709,7 +711,6 @@
 					$this->adminQuickLink($row, $url, $model, true),
 					array(
 						'action' => 'preview',
-						'admin' => false,
 						'?' => 'TB_iframe=true&width=1000'
 					)
 				),
