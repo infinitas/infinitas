@@ -1,7 +1,7 @@
 <?php
 	class ServerStatusController extends ServerStatusAppController {
 		public $helpers = array(
-			'ViewCounter.ViewCounterView',
+			'ViewCounter.ViewCounter',
 			'Charts.Charts' => array(
 				'Google.GoogleStatic'
 			)
@@ -40,7 +40,7 @@
 			unset($this->serverLoad, $this->memoryUsage);
 			$this->set('current', array_merge(systemInfo(), $current));
 
-			$data = $this->Event->trigger('crons.areCronsSetup');			
+			$data = $this->Event->trigger('Crons.areCronsSetup');
 			if(!current($data['areCronsSetup'])){
 				$this->notice(
 					__('Crons are not currently running, reporting is disabled'),

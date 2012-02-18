@@ -1,9 +1,11 @@
-<?php	
+<?php
+	App::uses('ChartDataManipulation', 'Charts.Lib');
+	
 	class ServerStatus extends AppModel {
 		public $useTable = false;
 
 		public function  __construct($id = false, $table = null, $ds = null) {
-			$this->useTable = 'crons';
+			$this->useTable = 'core_crons';
 			
 			parent::__construct($id, $table, $ds);
 
