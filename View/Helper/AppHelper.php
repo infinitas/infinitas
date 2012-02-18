@@ -149,7 +149,7 @@
 			}
 
 			else{
-				$action = $this->Controller->request->data['action'];
+				$action = $this->request->data['action'];
 			}
 
 			$breadcrumbs = array(
