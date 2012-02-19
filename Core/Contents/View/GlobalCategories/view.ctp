@@ -55,7 +55,6 @@
 				$relatedContent[$model[1]] = $relatedContent;
 				$relatedContent['GlobalCategory'] = $currentCategory;
 
-				pr($relatedContent);
 				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => $relatedContent));
 				$tmp = current($tmp['slugUrl']);
 
