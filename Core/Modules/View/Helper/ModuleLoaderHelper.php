@@ -123,7 +123,7 @@
 				
 				$path = 'modules/';
 				$moduleOut .= $this->_View->element(
-					implode('.', array($plugin, $path . $module)),
+					implode('.', array(Inflector::camelize($plugin), $path . $module)),
 					$params,
 					true
 				);
