@@ -78,7 +78,7 @@
 		}
 
 		public static function url($url = null, $full = true) {
-			parent::url($url, $full);
+			return parent::url($url, $full);
 		}
 
 		/**
