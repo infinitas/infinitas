@@ -64,6 +64,7 @@
 				//'count',
 				'getRelationsCategory'
 			);
+			
 			if(in_array($Model->findQueryType, $ignore)) {
 				return $query;
 			}
@@ -71,6 +72,7 @@
 			if(empty($query['fields'])) {
 				$query['fields'] = array($Model->alias . '.*');
 			}
+			
 			if(!is_array($query['fields'])) {
 				$query['fields'] = array($query['fields']);
 			}
@@ -90,6 +92,27 @@
 
 				$query['list']['keyPath'] = '{n}.' . $query['fields'][0];
 				$query['list']['valuePath'] = '{n}.' . $query['fields'][1];
+			}
+			
+			else if($Model->findQueryType == 'neighbors') {
+				
+				$query['fields'] = array_merge(
+					$query['fields'],
+					array('GlobalContent.id', 'GlobalContent.title', 'GlobalContent.slug')
+				);
+				
+				$gc = array(
+					'table' => 'global_contents',
+					'alias' => 'GlobalContent',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
+					)
+				);
+				
+				array_unshift($query['joins'], $gc);
+				
+				return $query;
 			}
 			else if($Model->findQueryType != 'count') {
 				$query['fields'] = array_merge(
@@ -112,7 +135,7 @@
 			}
 
 			if($Model->alias != 'GlobalContent') {
-				$query['joins'][] = array(
+				$gc = array(
 					'table' => 'global_contents',
 					'alias' => 'GlobalContent',
 					'type' => 'LEFT',
@@ -120,6 +143,17 @@
 						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
 					)
 				);
+				
+				$done = false;
+				foreach($query['joins'] as $join) {
+					if($join == $gc) {
+						$done = true;
+					}
+				}
+				
+				if(!$done) {
+					array_unshift($query['joins'], $gc);
+				}
 			}
 
 			$query['joins'][] = array(
