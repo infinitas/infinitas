@@ -33,8 +33,9 @@
 					implode('</li><li class=":li">', (array)$array)
 				)
 			);
+			
 
-			return String::insert($base, $class);
+			return str_replace(array('id=""', 'class=""'), '', String::insert($base, $class));
 		}
 
 		public function infoBox($info = array(), $truncate = 24) {
