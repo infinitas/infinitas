@@ -1,5 +1,5 @@
 <?php
-	App::import('lib', 'libs.test/app_test.php');
+	App::uses('AppTest', 'Libs.Lib/test');
 
 	/**
 	 * @brief AppControllerTestCase is the class that model tests should extend
@@ -76,7 +76,7 @@
 
 			return true;
 		}
-		
+
 		/**
 		 * set up the session and fill it with any data passed
 		 */
@@ -122,7 +122,7 @@
 			if(!is_subclass_of($this, 'AppControllerTestCase')) {
 				return;
 			}
-			
+
 			$this->AppTest->startTest($method);
 			$this->AppTest->loadFixtures(null, true);
 
@@ -172,13 +172,13 @@
 				if(class_exists($mockClass)){
 					continue;
 				}
-				
+
 				$params = array($helper . 'Helper');
 				if($methods !== '*'){
 					$params[] = null;
 					$params[] = $this->setup['mock']['helpers'][$helper];
 				}
-				
+
 				if(count($params) == 1){
 					forward_static_call_array(array('Mock', 'generate'), $params);
 				}
@@ -203,7 +203,7 @@
 			if(!is_subclass_of($this, 'AppControllerTestCase')) {
 				return;
 			}
-			
+
 			list($plugin, $controller) = pluginSplit($this->setup[$this->setup['type']]);
 			unset($this->{$controller});
 			ClassRegistry::flush();
