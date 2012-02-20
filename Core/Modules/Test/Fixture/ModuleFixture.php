@@ -1,7 +1,7 @@
 <?php
 	class ModuleFixture extends CakeTestFixture {
 			public $table = 'core_modules';
-		
+
 			public $fields = 	array(
 			'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 			'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -26,7 +26,7 @@
 			'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'name' => array('column' => 'name', 'unique' => 1), 'active' => array('column' => array('admin', 'active'), 'unique' => 0), 'ordering' => array('column' => 'ordering', 'unique' => 0), 'module_loader_by_position' => array('column' => array('position_id', 'admin', 'active', 'ordering'), 'unique' => 0)),
 			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 		);
-	
+
 			public $records = 	array(
 			array(
 				'id' => 'module-login',

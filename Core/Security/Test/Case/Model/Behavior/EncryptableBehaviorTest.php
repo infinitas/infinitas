@@ -1,5 +1,4 @@
 <?php
-	App::import('Model', array('AppModel', 'Model'));
 
 	/**
 	 * NumberTree class
@@ -17,23 +16,32 @@
 	}
 
 	/**
-	 * NumberTreeTest class
+	 * EncryptableBehaviorTest class
 	 *
 	 * @package       cake
 	 * @subpackage    cake.tests.cases.libs.model.behaviors
 	 */
-	class NumberTreeTest extends CakeTestCase {
+	class EncryptableBehaviorTest extends CakeTestCase {
 		public $settings = array(
 			'modelClass' => 'CategoryEncrypted'
 		);
-		
+
 		public $fixtures = array(
 			'plugin.configs.config',
 			'plugin.view_counter.view_count',
 
-			'plugin.categories.category',
+			'plugin.contents.global_category',
 			'plugin.users.group',
 		);
+
+		public function setUp() {
+			$this->Category =& new $this->settings['modelClass']();
+		}
+
+		public function tearDown() {
+			unset($this->Category);
+			ClassRegistry::flush();
+		}
 
 		public function testInitialize() {
 			$this->Category =& new $this->settings['modelClass']();
@@ -56,7 +64,7 @@
 			$this->assertEqual($this->Category->encrypt('hello'), 'Gcav7FmvCHLJZj41u6pQXgAmvm2GKG6O0QPxaqYfRoQ=');
 			$this->assertEqual($this->Category->encrypt('tests'), '/hIRJvaeVIZo49hudjj04W+KnO+H5R7eNBdXTQ1Fdk4=');
 			$this->assertEqual($this->Category->encrypt('12345'), '5oeh2eKAeEOYjdCHCJgXPlkBHzam7kKyQTqcZuDnYag=');
-			
+
 			Configure::write('Security.encryption_secret', '­sç„¢˜4m™¤ÀšžË');
 			$this->assertEqual($this->Category->encrypt('hello'), 'Wn0RBbCXOvfC6awXazk4MMtukIR9MdFjMhw748izFHc=');
 			$this->assertEqual($this->Category->encrypt('tests'), '2EnJ7XZ24dDITrer+7w1vDsZLu2KOqPmuyLDpUFJ9ug=');
@@ -137,7 +145,7 @@
 				array('title' => 'encrypted2', 'description' => 'encrypted 2'),
 				array('title' => 'encrypted3', 'description' => 'encrypted 3')
 			);
-			
+
 			$this->assertTrue($this->Category->create() && $this->Category->saveAll($categories));
 			$this->Category->Behaviors->detach('Encryptable');
 
@@ -151,7 +159,7 @@
 				'FIQVzMDwlMaW8T/AeRUOxUYO21VW4dW2anjq2NAv85E='
 			);
 			$this->assertEqual(Set::extract('/' . $this->Category->alias . '/description', $categories), $expected);
-			
+
 			/**
 			 * testing updateAll is not possible at this time. do not use
 			 *

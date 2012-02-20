@@ -1,6 +1,6 @@
 <?php
 	App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
-	
+
 	class GoogleStaticChartEngineHelper extends ChartsBaseEngineHelper {
 		public function map($data) {
 
@@ -56,7 +56,7 @@
 
 			return $this->_buildChart($data);
 		}
-		
+
 		/**
 		 * @brief an array of helpers that will be used within this class
 		 */
@@ -408,7 +408,7 @@
 		 */
 		private $__sizeLimit = 300000;
 
-		public function  __construct(View $View, $settings) {
+		public function  __construct(View $View, $settings = array()) {
 			parent::__construct($View, $settings);
 		}
 
@@ -493,7 +493,7 @@
 			if(strlen($return) > 2048){
 				trigger_error(sprintf(__('The query string is too long (%d chars)'), strlen($return)), E_USER_ERROR);
 			}
-			
+
 			$this->_query = null;
 
 			return $return;
@@ -503,14 +503,14 @@
 		 * @brief generate different urls for downloading multi images at a time
 		 *
 		 * @link http://code.google.com/apis/chart/docs/making_charts.html#enhancements
-		 * 
+		 *
 		 * @return string the domain to pull images from
 		 */
 		public function _apiUrl(){
 			if($this->_apiUrlIndex > 9){
 				$this->_apiUrlIndex = 0;
 			}
-			
+
 			return sprintf($this->_apiUrl, $this->_apiUrlIndex++);
 		}
 
@@ -586,7 +586,7 @@
 				}
 				$return[] = $this->_implode('data', $_value);
 			}
-			
+
 			return $this->_formats['data']['key'] . implode('|', $return);
 		}
 
@@ -624,7 +624,7 @@
 				if(!in_array($k, $this->_colorTypes[$this->_chartType])){
 					continue;
 				}
-				
+
 				if(!is_array($v)){
 					$v = array($v);
 				}
@@ -641,10 +641,10 @@
 							if(!is_array($fillData)) {
 								$fillData = array('color' => $fillData);
 							}
-							
+
 							$fillData['type'] = isset($fillData['type']) ? $fillData['type'] : 'solid';
 							$tmp = array('b' . $dataSet, $this->_fillTypes[$this->_chartType][$fillData['type']], $fillData['color']);
-							
+
 							$__data[] = implode($this->_colorFormats[$k]['separator'], $tmp);
 						}
 
@@ -661,7 +661,7 @@
 
 					$v = $colors;
 				}
-				
+
 
 				$return[] = $this->_colorFormats[$k]['key'] . implode($this->_colorFormats[$k]['separator'], $v);
 			}
@@ -700,7 +700,7 @@
 				case isset($value['width']) && is_int($value['width']):
 					$return[] = $value['width'];
 					break;
-				
+
 				case 'relative':
 					$return[] = 'r';
 					$value['padding'] = is_float($value['padding']) ? $value['padding'] : $value['padding'] / 100;
@@ -743,7 +743,7 @@
 			if(!is_array($value)){
 				$value = array('width' => $value);
 			}
-			
+
 			if(!isset($value['width']) && !isset($value['height'])){
 				trigger_error(__('No size specified'), E_USER_ERROR);
 				return false;
@@ -789,7 +789,7 @@
 			}
 			$value['position'] = isset($value['position']) ? $value['position'] : 'default';
 			$value['order'] = isset($value['order']) ? $value['order'] : 'default';
-			
+
 			$position = array();
 			switch($value['position']){
 				case 'bottom_horizontal':
@@ -886,11 +886,11 @@
 
 					$out = array_merge($out, array($v['dash'][0], $v['dash'][1]));
 				}
-				
+
 				if(isset($v['arrow'])){
 					$arrows[] = (int)$v['arrow'];
 				}
-				
+
 				$return[] = implode(',', $out);
 				$out = array();
 			}
@@ -920,7 +920,7 @@
 				trigger_error(sprintf(__('Value for %s is type %s and expecting array'), $key, gettype($value)), E_USER_WARNING);
 				return false;
 			}
-			
+
 			return $this->_formats[$key]['key'] . $this->_implode($key, $value);
 		}
 
@@ -943,7 +943,7 @@
 				trigger_error(sprintf(__('No format available for %s'), $dataType), E_USER_WARNING);
 				return false;
 			}
-			
+
 			return implode($this->_formats[$dataType]['separator'], $value);
 		}
 

@@ -1,10 +1,10 @@
 <?php
-	App::import('Behavior', 'Filemanager.Upload');
+	App::uses('UploadBehavior', 'Filemanager.Model/Behavior');
 
 	class TestUpload extends CakeTestModel {
 		public $useTable = 'uploads';
 		public $actsAs = array(
-			'Upload.Upload' => array(
+			'Filemanager.Upload' => array(
 				'photo' => array()
 			)
 		);
@@ -58,7 +58,7 @@
 			Mock::GeneratePartial('UploadBehavior', $mockName, $methods);
 			$this->MockUpload = new $mockName();
 
-			$this->MockUpload->setup($this->TestUpload, $this->TestUpload->actsAs['Upload.Upload']);
+			$this->MockUpload->setup($this->TestUpload, $this->TestUpload->actsAs['Filemanager.Upload']);
 			$this->TestUpload->Behaviors->Upload = $this->MockUpload;
 		}
 
@@ -100,7 +100,7 @@
 		}
 
 		public function testDeleteOnUpdate() {
-			$this->TestUpload->actsAs['Upload.Upload']['photo']['deleteOnUpdate'] = true;
+			$this->TestUpload->actsAs['Filemanager.Upload']['photo']['deleteOnUpdate'] = true;
 			$this->mockUpload(array('handleUploadedFile', 'unlink'));
 			$this->MockUpload->setReturnValue('handleUploadedFile', true);
 			$this->MockUpload->setReturnValue('unlink', true);
@@ -112,7 +112,7 @@
 		}
 
 		public function testDeleteOnUpdateWithoutNewUpload() {
-			$this->TestUpload->actsAs['Upload.Upload']['photo']['deleteOnUpdate'] = true;
+			$this->TestUpload->actsAs['Filemanager.Upload']['photo']['deleteOnUpdate'] = true;
 			$this->mockUpload(array('handleUploadedFile', 'unlink'));
 			$this->MockUpload->expectNever('unlink');
 			$this->MockUpload->expectNever('handleUploadedFile');
@@ -346,8 +346,8 @@
 		}
 
 		public function testIsValidMimeType() {
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'mimetypes' => array('image/bmp', 'image/jpeg')
 				)
@@ -367,8 +367,8 @@
 			$this->assertEqual(1, count($this->TestUpload->validationErrors));
 			$this->assertEqual('isValidMimeType', current($this->TestUpload->validationErrors));
 
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'mimetypes' => array('image/png', 'image/jpeg')
 				)
@@ -380,8 +380,8 @@
 		}
 
 		public function testIsValidExtension() {
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'extensions' => array('jpeg', 'bmp')
 				)
@@ -407,8 +407,8 @@
 			$this->assertTrue($this->TestUpload->validates());
 			$this->assertEqual(0, count($this->TestUpload->validationErrors));
 
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo'
 			));
 
@@ -476,8 +476,8 @@
 			$this->assertEqual(1, count($this->TestUpload->validationErrors));
 			$this->assertEqual('isWritable', current($this->TestUpload->validationErrors));
 
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'path' => TMP
 				)
@@ -513,8 +513,8 @@
 			$this->assertEqual(1, count($this->TestUpload->validationErrors));
 			$this->assertEqual('isValidDir', current($this->TestUpload->validationErrors));
 
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'path' => TMP
 				)
@@ -535,8 +535,8 @@
 		}
 
 		public function testIsImage() {
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'mimetypes' => array('image/bmp', 'image/jpeg')
 				)
@@ -568,8 +568,8 @@
 		}
 
 		public function testPrepareFilesForDeletion() {
-			$this->TestUpload->Behaviors->detach('Upload.Upload');
-			$this->TestUpload->Behaviors->attach('Upload.Upload', array(
+			$this->TestUpload->Behaviors->detach('Upload');
+			$this->TestUpload->Behaviors->attach('Filemanager.Upload', array(
 				'photo' => array(
 					'thumbsizes' => array(
 						'xvga' => '1024x768',
