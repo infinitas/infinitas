@@ -8,6 +8,7 @@
 	 */
 
 	App::uses('InfinitasHelper', 'Libs.View/Helper');
+	App::uses('File', 'Utility');
 	
 	class CompressHelper extends InfinitasHelper {
 		/**
