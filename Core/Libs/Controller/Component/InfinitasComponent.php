@@ -8,6 +8,7 @@
 	 * @version $Id$
 	 * @access public
 	 */
+	App::uses('Router', 'Routing');
 	class InfinitasComponent extends Component {
 		public $defaultLayout = 'default';
 
@@ -35,7 +36,7 @@
 		*/
 		public function initialize($Controller) {
 			parent::initialize($Controller);
-			
+
 			$this->Controller = $Controller;
 
 			Configure::write('CORE.current_route', Router::currentRoute());
@@ -373,7 +374,7 @@
 			if(!$controller) {
 				$controller = $this->Controller;
 			}
-			
+
 			if ($options) {
 				if ($controller->Session->check("Pagination.{$controller->modelClass}.options")) {
 					$options = array_merge($controller->Session->read("Pagination.{$controller->modelClass}.options"), $options);
