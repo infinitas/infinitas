@@ -1,7 +1,12 @@
 <?php
-	App::import('Core', array('Helper', 'AppHelper', 'ClassRegistry', 'Controller', 'Model'));
-	App::import('Libs', array('Charts.BaseChartEngine'));
-	App::import('Helper', array('Html', 'Google.GoogleStaticChartEngine'));
+	App::uses('Model', 'Model');
+	App::uses('Controller', 'Controller');
+	App::uses('ClassRegistry', 'Utility');
+	App::uses('Helper', 'View/Helper');
+	App::uses('AppHelper', 'View/Helper');
+	App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
+	App::uses('HtmlHelper', 'View/Helper');
+	App::uses('GoogleStaticChartEngineHelper', 'Google.View/Helper');
 
 	/**
 	 * TheGoogleStaticChartEngineTestController class
@@ -25,7 +30,7 @@
 		var $uses = null;
 	}
 
-	Mock::generate('View', 'HtmlHelperMockView');
+	//Mock::generate('View', 'HtmlHelperMockView');
 
 	/**
 	 * HtmlHelperTest class
@@ -49,9 +54,9 @@
 		 * @return void
 		 */
 		function startTest() {
-			$this->GoogleStaticChartEngine = new GoogleStaticChartEngineHelper();
-			$this->GoogleStaticChartEngine->Html = new HtmlHelper();
 			$view =& new View(new TheGoogleStaticChartEngineTestController());
+			$this->GoogleStaticChartEngine = new GoogleStaticChartEngineHelper($view);
+			$this->GoogleStaticChartEngine->Html = new HtmlHelper($view);
 			ClassRegistry::addObject('view', $view);
 		}
 
@@ -80,19 +85,31 @@
 
 			$expected = '1x2x3x4x5';
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_implode('size', array(1,2,3,4,5)));
+		}
 
-			$this->expectError('Value for size is type string and expecting array');
+		/**
+		 * @brief test the implod method
+		 *
+		 */
+		public function testFormatImplodeError(){
+			$this->GoogleStaticChartEngine->setType('line');
+
+			//$this->expectError('Value for size is type string and expecting array');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_implode('size', 'string');
 
-			$this->expectError('No format available for foo');
+			//$this->expectError('No format available for foo');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_implode('foo', array(1,2,3));
 
-			$this->expectError('Array to string conversion');
+			//$this->expectError('Array to string conversion');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_implode('size', array(array(1,2,3)));
 		}
 
 		/**
 		 * @brief test the generic query string builder
+		 * @expectedException PHPUnit_Framework_Error
 		 */
 		public function testFormatGeneric(){
 			$this->GoogleStaticChartEngine->setType('line');
@@ -106,10 +123,15 @@
 			$expected = 'chs=100x200';
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatGeneric('size', array(100,200)));
 
-			$this->expectError();
 			$this->GoogleStaticChartEngine->_formatGeneric('data', 'string');
+		}
 
-			$this->expectError();
+		/**
+		 * @brief test the generic query string builder
+		 * @expectedException PHPUnit_Framework_Error
+		 */
+		public function testFormatGenericFail(){
+			$this->GoogleStaticChartEngine->setType('line');
 			$this->GoogleStaticChartEngine->_formatGeneric('data', false);
 		}
 
@@ -186,10 +208,10 @@
 		}
 
 		/**
-		 * @todo 
+		 * @todo
 		 */
 		public function testFormatColorFill(){
-			
+
 		}
 
 		/**
@@ -219,7 +241,8 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
 
 			$data = array('type' => 'foo', 'padding' => 10);
-			$this->expectError('Spacing type should be absolute or relative, not foo');
+			//$this->expectError('Spacing type should be absolute or relative, not foo');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_formatSpacing($data);
 		}
 
@@ -265,7 +288,8 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
 
 			$data = array('width' => 600, 'height' => 600);
-			$this->expectError('Size of 360000px is greater than maximum allowed size 300000px');
+			//$this->expectError('Size of 360000px is greater than maximum allowed size 300000px');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_formatSize($data);
 
 			$data = array('width' => 300000, 'height' => 1);
@@ -273,7 +297,8 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
 
 			$data = array('width' => 300001, 'height' => 1);
-			$this->expectError('Size of 300001px is greater than maximum allowed size 300000px');
+			//$this->expectError('Size of 300001px is greater than maximum allowed size 300000px');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_formatSize($data);
 		}
 
@@ -288,7 +313,8 @@
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
 
 			$data = array('position' => 'top', 'order' => 'auto');
-			$this->expectError('Skipping legend, no lables specified');
+			//$this->expectError('Skipping legend, no lables specified');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_formatLegend($data);
 
 			$data = array('labels' => array('abc', 'xyz'));
@@ -312,7 +338,8 @@
 
 			$data = array('order' => array(1,0), 'labels' => array('abc', 'xyz', 'foo'));
 			$expected = array('legend_labels' => 'chdl=abc|xyz|foo','legend_position' => 'chdlp=r|l');
-			$this->expectError();
+			//$this->expectError();
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
 
 			/**
@@ -321,10 +348,10 @@
 			$data = array('position' => 'bottom_horizontal', 'labels' => array('abc', 'xyz'));
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=b|l');
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
-			
+
 			$data = array('position' => 'bottom', 'labels' => array('abc', 'xyz'));
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
-			
+
 			$data = array('position' => 'bottom_vertical', 'labels' => array('abc', 'xyz'));
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=bv|l');
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
@@ -518,7 +545,8 @@
 				'size' => array('width' => 123, 'height' => 321),
 				'extra' => array('return' => 'url')
 			);
-			$this->expectError('The query string is too long (2809 chars)');
+			//$this->expectError('The query string is too long (2809 chars)');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_buildChart($chart);
 
 			$this->GoogleStaticChartEngine->setType('foo');
@@ -527,7 +555,8 @@
 				'color' => array('series' => array('123123')),
 				'size' => array('width' => 123, 'height' => 321)
 			);
-			$this->expectError('The chart type "foo" is invalid');
+			//$this->expectError('The chart type "foo" is invalid');
+			$this->setExpectedException('PHPUnit_Framework_Error');
 			$this->GoogleStaticChartEngine->_buildChart($chart);
 		}
 
@@ -720,7 +749,7 @@
 					'y' => range(0,100, 20)
 				)
 			);
-			$expected = 'http://0.chart.apis.google.com/chart?cht=bvs&chd=t:12,23,10,40,69&chs=200x125&chxl=0:|0|1|2|3|4|1:|0|20|40|60|80|100&chxt=x,y';			
+			$expected = 'http://0.chart.apis.google.com/chart?cht=bvs&chd=t:12,23,10,40,69&chs=200x125&chxl=0:|0|1|2|3|4|1:|0|20|40|60|80|100&chxt=x,y';
 			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
 
 			$chart = array(
