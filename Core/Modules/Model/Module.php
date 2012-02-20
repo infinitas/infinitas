@@ -5,7 +5,7 @@
 	 */
 	class Module extends ModulesAppModel {
 		public $useTable = 'modules';
-		
+
 		public $lockable = true;
 
 		public $virtualFields = array(
@@ -135,7 +135,7 @@
 			if($this->findQueryType == 'count') {
 				return parent::beforeFind($queryData);
 			}
-			
+
 			return parent::beforeFind($queryData);
 		}
 
@@ -172,7 +172,7 @@
 						)
 					)
 				);
-				
+
 				$result['ModuleRoute'] = Set::extract('/', $result['ModuleRoute']);
 			}
 
@@ -251,7 +251,7 @@
 					)
 				)
 			);
-			
+
 			Cache::write($position . '.' . (($admin) ? 'admin' : 'user'), $modules, 'modules');
 
 			return $modules;
