@@ -1,20 +1,20 @@
 <?php
 	/* Theme Test cases generated on: 2010-03-13 11:03:20 : 1268471240*/
-	App::import('Model', 'management.Theme');
+	App::uses('Theme', 'Themes.Model');
 
-	class ThemeTest extends Theme{
+	class TestTheme extends Theme{
+		public $alias = 'Theme';
 		public $useDbConfig = 'test';
 		public $hasMany = array();
 	}
 
-	class ThemeTestCase extends CakeTestCase {
+	class ThemeTest extends CakeTestCase {
 		public $fixtures = array(
-			'plugin.management.theme',
-			'plugin.management.trash'
+			'plugin.themes.theme',
 		);
 
 		function startTest() {
-			$this->Theme = new ThemeTest();
+			$this->Theme = new TestTheme();
 		}
 
 		function testGetting(){

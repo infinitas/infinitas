@@ -1,18 +1,21 @@
 <?php
 	/* Route Test cases generated on: 2010-03-13 11:03:13 : 1268471233*/
-	App::import('Model', 'management.Route');
+	App::uses('Route', 'Routes.Model');
 
-	class RouteTestCase extends CakeTestCase {
+	class RouteTest extends CakeTestCase {
 		var $fixtures = array(
-			'plugin.management.route',
-			'plugin.management.theme'
+			'plugin.routes.route',
+			'plugin.themes.theme'
 		);
 
 		function startTest() {
-			$this->Route =& ClassRegistry::init('Route');
+			$this->Route =& ClassRegistry::init('Routes.Route');
 		}
 
-		function testGetRoutes(){
+		function testGetValues(){
+			$this->assertEquals('__getValues', '_getValues');
+			//cant test private Route::__getValues() like this
+
 			$this->assertFalse($this->Route->_getValues(array()));
 			$this->assertFalse($this->Route->_getValues(null));
 
@@ -117,9 +120,9 @@
 			$route['rules'] = '';
 			$route['pass'] = 'id';
 			$this->assertEqual($this->Route->_getRegex($route['rules'], $route['pass']), array(0 => 'id'));
+		}
 
-
-
+		public function testGetRoutes() {
 			//basic find
 			$routes = $this->Route->getRoutes();
 

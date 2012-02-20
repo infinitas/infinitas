@@ -1,23 +1,24 @@
 <?php
 	/* Module Test cases generated on: 2010-03-13 11:03:28 : 1268471188*/
-	App::import('Model', 'management.Module');
+	App::uses('Module', 'Modules.Model');
 
 	/**
 	 *
 	 *
 	 */
-	class ModuleTest extends Module{
+	class ModuleTest extends Module {
+		public $alias = 'Module';
 		public $useDbConfig = 'test';
 	}
 
 	class ModuleTestCase extends CakeTestCase {
 		public $fixtures = array(
-			'plugin.management.module_position',
-			'plugin.management.module',
-			'plugin.management.theme',
-			'plugin.management.group',
-			'plugin.management.route',
-			'plugin.management.modules_route',
+			'plugin.modules.module_position',
+			'plugin.modules.module',
+			'plugin.themes.theme',
+			'plugin.users.group',
+			'plugin.routes.route',
+			'plugin.modules.modules_route',
 		);
 
 		public function startTest() {
