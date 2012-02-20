@@ -1,7 +1,7 @@
 <?php
-	App::import('Libs', 'Events.Event');
-	
-	class EventsTest extends CakeTestCase {
+	App::uses('EventCore', 'Events.Lib');
+
+	class EventCoreTest extends CakeTestCase {
 		public function startTest(){
 			$this->Events = EventCore::getInstance();
 		}
@@ -23,33 +23,33 @@
 
 		public function testPluginsWith(){
 			$this->assertEqual(array(), $this->Events->pluginsWith('foo'));
-			$this->assertEqual(array('events'), $this->Events->pluginsWith('returnEventForTest'));
+			$this->assertEqual(array('Events'), $this->Events->pluginsWith('returnEventForTest'));
 		}
 
 		public function testEventClass(){
-			$Event = new Event('someEvent', $this, 'myPlugin');
+			$Event = new Event('someEvent', $this, 'MyPlugin');
 			$this->assertIdentical($this, $Event->Handler);
 			$this->assertEqual('someEvent', $Event->name);
-			$this->assertEqual('myPlugin', $Event->plugin);
+			$this->assertEqual('MyPlugin', $Event->plugin);
 		}
 
 		public function testEvents(){
 			$expected = array('foo'=> array());
 			$this->assertEqual($expected, $this->Events->trigger($this, 'foo'));
-			$this->assertEqual($expected, $this->Events->trigger($this, 'plugin.foo'));
-			
+			$this->assertEqual($expected, $this->Events->trigger($this, 'Plugin.foo'));
+
 			$global = $this->Events->trigger($this, 'returnEventForTest');
-			$plugin = $this->Events->trigger($this, 'events.returnEventForTest');
-			
+			$plugin = $this->Events->trigger($this, 'Events.returnEventForTest');
+
 			/**
 			 * test calling the plugin method vs global returns the same format.
 			 */
 			$this->assertIdentical(
-				$global['returnEventForTest']['events']->Handler,
-				$plugin['returnEventForTest']['events']->Handler
+				$global['returnEventForTest']['Events']->Handler,
+				$plugin['returnEventForTest']['Events']->Handler
 			);
-			$this->assertIdentical($global['returnEventForTest']['events']->Handler, $this);
-			$this->assertIdentical($plugin['returnEventForTest']['events']->Handler, $this);
+			$this->assertIdentical($global['returnEventForTest']['Events']->Handler, $this);
+			$this->assertIdentical($plugin['returnEventForTest']['Events']->Handler, $this);
 		}
 
 		public function testLoadEventClass(){

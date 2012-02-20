@@ -1,6 +1,6 @@
 <?php
-	App::uses('InfinitasComponent', 'Libs/Component');
-	
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
+
 	class EventComponent extends InfinitasComponent {
 		/**
 		 * Trigger a event
