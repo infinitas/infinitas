@@ -204,7 +204,7 @@
 					'plugin' => $data['MenuItem']['plugin'],
 					'controller' => $data['MenuItem']['controller'],
 					'action' => $data['MenuItem']['action'],
-					'prefix' => $data['MenuItem']['prefix'],
+					//'prefix' => $data['MenuItem']['prefix'],
 				),
 				(array)json_decode($data['MenuItem']['params'], true)
 			);
