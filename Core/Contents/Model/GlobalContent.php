@@ -179,36 +179,51 @@
 		 */
 		protected function _findMissingData($state, $query, $results = array()) {
 			if ($state === 'before') {
-				$query['conditions'] = array_merge(
-					(array)$query['conditions'],
+				$this->virtualFields['first_keyword'] = "SUBSTRING_INDEX(`" . $this->alias . "`.`meta_keywords`, ',', 1)";
+				$this->virtualFields['keyword_in_description'] = 'LOWER(' . $this->alias . '.meta_description) LIKE CONCAT("%", LOWER(SUBSTRING_INDEX(`' . $this->alias . '`.`meta_keywords`, ",", 1)), "%")';
+				$this->virtualFields['keywords_missing'] = '(' . $this->alias . '.meta_keywords IS NULL OR ' . $this->alias . '.meta_keywords)';
+				$this->virtualFields['keywords_short'] = '(LENGTH(' . $this->alias . '.meta_keywords) <= 10 AND LENGTH(' . $this->alias . '.meta_keywords) >= 1)';
+				$this->virtualFields['keywords_duplicate'] = '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords)';
+				
+				$this->virtualFields['description_missing'] = '(' . $this->alias . '.meta_description IS NULL OR ' . $this->alias . '.meta_description)';
+				$this->virtualFields['description_short'] = '(LENGTH(' . $this->alias . '.meta_description) <= 10 AND LENGTH(' . $this->alias . '.meta_description) >= 1)';
+				$this->virtualFields['description_duplicate'] = '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.meta_description = ' . $this->alias . '.meta_description)';
+				$this->virtualFields['description_too_long'] = 'LENGTH(' . $this->alias . '.meta_description) >= 153';
+				
+				$this->virtualFields['missing_category'] = '(' . $this->alias . '.model <> "Contents.GlobalCategory" AND (' . $this->alias . '.global_category_id IS NULL OR ' . $this->alias . '.global_category_id = ""))';
+				
+				$this->virtualFields['missing_layout'] = '(' . $this->alias . '.layout_id IS NULL OR ' . $this->alias . '.layout_id = "" )';
+				$this->virtualFields['missmatched_layout'] = '(Layout.model <> '. $this->alias . '.model)';
+				
+				$query['fields'] = array_merge(
+					(array)$query['fields'],
 					array(
-						'or' => array(
-							array(
-								'or' => array(
-									$this->alias . '.meta_keywords IS NULL',
-									$this->alias . '.meta_keywords' => ''
-								),
-							),
-							array(
-								'or' => array(
-									$this->alias . '.meta_description IS NULL',
-									$this->alias . '.meta_description' => ''
-								),
-							),
-							array(
-								'or' => array(
-									$this->alias . '.global_category_id IS NULL',
-									$this->alias . '.global_category_id' => ''
-								),
-							),
-							array(
-								'or' => array(
-									$this->alias . '.layout_id IS NULL',
-									$this->alias . '.layout_id' => ''
-								)
+						'first_keyword', 'keywords_missing', 'keywords_short', 'keywords_duplicate',
+						'description_missing', 'description_short', 'description_duplicate', 'description_too_long',
+						'missing_category',
+						'missing_layout', 'missmatched_layout'
+					)
+				);
+				
+				$query['joins'][] = array(
+					'table' => 'global_contents',
+					'alias' => 'GlobalContentDuplicate',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'GlobalContentDuplicate.id != GlobalContent.id',
+						'and' => array(
+							'or' => array(
+								'GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords',
+								'GlobalContentDuplicate.meta_description = ' . $this->alias . '.meta_description',
 							)
 						)
 					)
+				);
+				
+				$query['order'] = array(
+					'GlobalCategoryContent.title',
+					'GlobalContent.model',
+					'GlobalContent.title'
 				);
 
 				return $query;

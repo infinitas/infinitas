@@ -32,10 +32,11 @@
                         'class' => 'first',
                         'style' => 'width:25px;'
                     ),
-                    $this->Paginator->sort('model'),
+                    $this->Paginator->sort('GlobalCategory.title', __d('contents', 'Category')),
+                    $this->Paginator->sort('GlobalContent.model', __d('contents', 'Type')),
                     $this->Paginator->sort('title'),
 					__d('contents', 'Missing Data'),
-                    $this->Paginator->sort('modified') => array(
+                    $this->Paginator->sort('modified', __d('contents', 'Updated')) => array(
                         'style' => 'width:100px;'
                     )
                 )
@@ -46,27 +47,101 @@
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($content); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $content['GlobalContent']['model']; ?>&nbsp;
+                			<?php 
+								if(!empty($content['GlobalCategory']['title'])) {
+									echo $content['GlobalCategory']['title'];
+								}
+								else if($content['GlobalContent']['model'] != 'Contents.GlobalCategory') {
+									echo __d('contents', 'Uncatgorised');
+								}
+								else {
+									echo '-';
+								}
+							?>&nbsp;
                 		</td>
-                		<td>
-                			<?php echo $content['GlobalContent']['title']; ?>&nbsp;
-                		</td>
+                        <td>
+							<?php 
+								list($plugin, $model) = pluginSplit($content['GlobalContent']['model']);
+								echo sprintf('%s %s', $plugin, prettyName(str_replace($plugin, '', $model))); 
+							?>&nbsp;
+						</td>
                 		<td>
                 			<?php 
-								$missing = array();
-								if(!$content['GlobalContent']['meta_keywords']) {
-									$missing[] = __d('contents', 'Keywords');
+								echo $this->Html->link(
+									$content['GlobalContent']['title'],
+									array(
+										'plugin' => Inflector::underscore($plugin),
+										'controller' => Inflector::pluralize(Inflector::underscore($model)),
+										'action' => 'edit',
+										$content['GlobalContent']['foreign_key']
+									)
+								);
+							?>&nbsp;
+                		</td>
+						<?php 
+							$issues = array();
+							if(empty($content['GlobalContent']['first_keyword']) || !strstr(strtolower($content['GlobalContent']['meta_description']), strtolower($content['GlobalContent']['first_keyword']))) {
+								$issues[] = __d('contents', 'Main keyword not in description');
+							}
+
+							if($content['GlobalContent']['keywords_missing']) {
+								$issues[] = __d('contents', 'No meta keywords');
+							}
+
+							if($content['GlobalContent']['keywords_short']) {
+								$issues[] = __d('contents', 'Short meta keywords');
+							}
+
+							if($content['GlobalContent']['keywords_duplicate']) {
+								$issues[] = __d('contents', 'Duplicate keywords');
+							}
+
+							if(!$content['GlobalContent']['keyword_in_description']) {
+								$issues[] = __d('contents', 'Main keyword missing from description');
+							}
+
+							if($content['GlobalContent']['description_missing']) {
+								$issues[] = __d('contents', 'No meta description');
+							}
+
+							if($content['GlobalContent']['description_short']) {
+								$issues[] = __d('contents', 'Short meta description');
+							}
+
+							if($content['GlobalContent']['description_duplicate']) {
+								$issues[] = __d('contents', 'Duplicate description');
+							}
+
+							if($content['GlobalContent']['description_too_long']) {
+								$issues[] = __d('contents', 'Description too long for SERP');
+							}
+
+							if($content['GlobalContent']['missing_category']) {
+								$issues[] = __d('contents', 'Not linked to a category');
+							}
+
+							if($content['GlobalContent']['missing_layout']) {
+								$issues[] = __d('contents', 'No layout found');
+							}
+
+							if($content['GlobalContent']['missmatched_layout']) {
+								$issues[] = __d('contents', 'Layout linked from another model');
+							}
+							
+							$issueCount = 0;
+							if($issues) {
+								$issueCount = count($issues);
+								$issues = __d('contents', 'Possible Issues :: %s', $this->Design->arrayToList($issues));
+							}
+						?>
+                		<td title="<?php echo $issueCount ? $issues : ''; ?>">
+                			<?php 
+								if($issueCount) {
+									echo __dn('contents', '%d issue', '%d issues', $issueCount, $issueCount, $issueCount);
 								}
-								if(!$content['GlobalContent']['meta_description']) {
-									$missing[] = __d('contents', 'Description');
+								else {
+									echo '-';
 								}
-								if(!$content['GlobalContent']['global_category_id']) {
-									$missing[] = __d('contents', 'Category');
-								}
-								if(!$content['GlobalContent']['layout_id']) {
-									$missing[] = __d('contents', 'Layout');
-								}
-								echo $this->Text->toList($missing);
 							?>&nbsp;
                 		</td>
                 		<td>
