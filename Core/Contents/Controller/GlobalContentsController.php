@@ -9,30 +9,10 @@
 			$this->set('contents', $this->paginate(null, $this->Filter->filter));
 		}
 
-		public function admin_missing_meta() {
+		public function admin_content_issues() {
 			$this->__filter();
 			$this->paginate = array(
 				'missingData',
-				array('conditions' => $this->Filter->filter)
-			);
-
-			$this->set('contents', $this->paginate());
-		}
-
-		public function admin_short_meta() {
-			$this->__filter();
-			$this->paginate = array(
-				'shortData',
-				array('conditions' => $this->Filter->filter)
-			);
-
-			$this->set('contents', $this->paginate());
-		}
-
-		public function admin_duplicate() {
-			$this->__filter();
-			$this->paginate = array(
-				'duplicateData',
 				array('conditions' => $this->Filter->filter)
 			);
 
@@ -50,13 +30,13 @@
 			$this->set(compact('filterOptions'));
 		}
 
-		public function admin_transfer(){
-			if(!empty($this->request->data)){
-				if(isset($this->request->data['GlobalContent']['plugin']) && isset($this->request->data['GlobalContent']['model'])){
+		public function admin_transfer() {
+			if(!empty($this->request->data)) {
+				if(isset($this->request->data['GlobalContent']['plugin']) && isset($this->request->data['GlobalContent']['model'])) {
 					$model = sprintf('%s.%s', $this->request->data['GlobalContent']['plugin'], $this->request->data['GlobalContent']['model']);
 					$return = $this->GlobalContent->moveContent($model, $this->request->data['GlobalContent']['rows_to_move']);
 					if($return){
-						if($return['moved'] == 0  && $return['total'] == 0){
+						if($return['moved'] == 0  && $return['total'] == 0) {
 							$this->notice(
 								sprintf(__('There are no more items to move'), $return['moved'], $return['total']),
 								array(
@@ -101,7 +81,7 @@
 		/**
 		 * cant add from here
 		 */
-		public function admin_add(){
+		public function admin_add() {
 			$this->notice(
 				__('Please do not add content from here'),
 				array(
@@ -111,7 +91,7 @@
 			);
 		}
 
-		public function admin_edit($id = null, $query = null){
+		public function admin_edit($id = null, $query = null) {
 			parent::admin_edit($id, $query);
 
 			$groups = array(0 => __('Public')) + $this->GlobalContent->Group->find('list');
@@ -124,7 +104,7 @@
 				)
 			);
 
-			if(empty($layouts)){
+			if(empty($layouts)) {
 				$this->notice(
 					__('Please create a layout for this content type'),
 					array(

@@ -44,33 +44,13 @@
 	
 	$reportIcons = array(
 		array(
-			'name' => 'Missing',
+			'name' => 'Issues',
 			'description' => 'Find out what content is missing meta data',
 			'icon' => '/contents/img/report-missing.png',
 			'dashboard' => array(
 				'plugin' => 'contents',
 				'controller' => 'global_contents',
-				'action' => 'missing_meta'
-			)
-		),
-		array(
-			'name' => 'Short',
-			'description' => 'See what content has short meta data',
-			'icon' => '/contents/img/report-short.png',
-			'dashboard' => array(
-				'plugin' => 'contents',
-				'controller' => 'global_contents',
-				'action' => 'short_meta'
-			)
-		),
-		array(
-			'name' => 'duplicate',
-			'description' => 'See what content has duplicate meta data',
-			'icon' => '/contents/img/report-duplicate.png',
-			'dashboard' => array(
-				'plugin' => 'contents',
-				'controller' => 'global_contents',
-				'action' => 'duplicate'
+				'action' => 'content_issues'
 			)
 		)
 	);
