@@ -80,7 +80,7 @@
                 		</td>
 						<?php 
 							$issues = array();
-							if(empty($content['GlobalContent']['first_keyword']) || !strstr(strtolower($content['GlobalContent']['meta_description']), strtolower($content['GlobalContent']['first_keyword']))) {
+							if($content['GlobalContent']['keyword_not_in_description']) {
 								$issues[] = __d('contents', 'Main keyword not in description');
 							}
 
@@ -94,10 +94,6 @@
 
 							if($content['GlobalContent']['keywords_duplicate']) {
 								$issues[] = __d('contents', 'Duplicate keywords');
-							}
-
-							if(!$content['GlobalContent']['keyword_in_description']) {
-								$issues[] = __d('contents', 'Main keyword missing from description');
 							}
 
 							if($content['GlobalContent']['description_missing']) {
