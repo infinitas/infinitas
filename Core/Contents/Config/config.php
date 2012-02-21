@@ -3,6 +3,7 @@
 		'truncate_category' => 100,
 		 'slugUrl' => array(
 			 'category' => array(
+				 'SubCategory.slug' => 'category',
 				 'GlobalCategory.id' => 'id',
 				 'GlobalCategory.slug' => 'slug',
 				 'url' => array(

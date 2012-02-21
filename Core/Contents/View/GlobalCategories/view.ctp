@@ -53,7 +53,11 @@
 
 			foreach($relatedContents as $relatedContent) {
 				$relatedContent[$model[1]] = $relatedContent;
-				$relatedContent['GlobalCategory'] = $currentCategory;
+				$relatedContent['ParentCategory'] = $currentCategory;
+				
+				if(!empty($relatedContent['SubCategory'])) {
+					$relatedContent['GlobalCategory'] = $relatedContent['SubCategory'];
+				}
 
 				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => $relatedContent));
 				$tmp = current($tmp['slugUrl']);
