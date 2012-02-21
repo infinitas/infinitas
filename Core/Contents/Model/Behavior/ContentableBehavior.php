@@ -107,6 +107,7 @@
 					'type' => 'LEFT',
 					'conditions' => array(
 						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
+						'GlobalContent.model' => $Model->modelName(),
 					)
 				);
 				
@@ -141,6 +142,7 @@
 					'type' => 'LEFT',
 					'conditions' => array(
 						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey,
+						'GlobalContent.model' => $Model->modelName(),
 					)
 				);
 				
