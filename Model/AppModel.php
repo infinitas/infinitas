@@ -167,8 +167,6 @@
 				}
 			}
 
-			$this->findMethods['paginatecount'] = true;
-
 			$this->__setupDatabaseConnections();
 
 			$thisClass = get_class($this);
@@ -497,56 +495,17 @@
 			return $this->plugin . '.' . $this->alias;
 		}
 
-		/**
-		 * @brief find a count for pagination
-		 *
-		 * Removes 'fields' key from count query on custom finds when it is an array,
-		 * as it will completely break the Model::findCount() call
-		 *
-		 * @param string $state Either "before" or "after"
-		 * @param array $query
-		 * @param array $data
-		 * @return int The number of records found, or false
-		 * @access protected
-		 * @see Model::find()
-		 */
-		protected function _findPaginatecount($state, $query, $results = array()) {
-			if ($state == 'before' && isset($query['operation'])) {
+		protected function _findCount($state, $query, $results = array()) {
+			if (isset($query['type']) && isset($this->findMethods[$query['type']])) {
 				if (!empty($query['fields']) && is_array($query['fields'])) {
 					if (!preg_match('/^count/i', $query['fields'][0])) {
 						unset($query['fields']);
 					}
 				}
 			}
-
 			return parent::_findCount($state, $query, $results);
 		}
 
-		/**
-		 * @brief Custom Model::paginateCount() method to support custom model find pagination
-		 *
-		 * @param array $conditions
-		 * @param int $recursive
-		 * @param array $extra
-		 *
-		 * @return array
-		 */
-		function paginateCount($conditions = array(), $recursive = 0, $extra = array()) {
-			$parameters = compact('conditions');
-
-			if ($recursive != $this->recursive) {
-				$parameters['recursive'] = $recursive;
-			}
-
-			if (isset($extra['type']) && isset($this->findMethods[$extra['type']])) {
-				$extra['operation'] = 'count';
-				return $this->find($extra['type'], array_merge($parameters, $extra));
-			}
-
-			else {
-				return $this->find('count', array_merge($parameters, $extra));
-			}
-		}
 	}
 
 	EventCore::trigger(new stdClass(), 'loadAppModel');
