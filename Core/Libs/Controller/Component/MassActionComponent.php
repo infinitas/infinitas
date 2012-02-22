@@ -221,22 +221,11 @@
 			$params = array();
 			if($deleted) {
 				$this->Controller->{$this->Controller->modelClass}->transaction(true);
-				$params = array(
-					'message' => sprintf(__('%d %s have been deleted'), count($ids), $this->Controller->prettyModelName)
-				);
+				$this->Controller->notice('deleted');
 			}
-
-			else {
-				$this->Controller->{$this->Controller->modelClass}->transaction(false);
-				$params = array(
-					'level' => 'error',
-					'message' => sprintf(__('The %s could not be deleted'), $this->Controller->prettyModelName)
-				);
-			}
-
-			$params['redirect'] = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
-
-			$this->Controller->notice($params['message'], $params);
+			
+			$this->Controller->{$this->Controller->modelClass}->transaction(false);
+			$this->Controller->notice('not_deleted');
 		}
 
 		/**
