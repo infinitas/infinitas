@@ -198,7 +198,7 @@
 		}
 
 		public function admin_index() {
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'fields' => array(
 					'Newsletter.id',
 					'Newsletter.campaign_id',
@@ -219,7 +219,7 @@
 				)
 			);
 
-			$newsletters = $this->paginate('Newsletter', $this->Filter->filter);
+			$newsletters = $this->Paginator->paginate('Newsletter', $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

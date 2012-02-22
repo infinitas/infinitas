@@ -30,13 +30,13 @@
 		}
 
 		public function admin_index() {
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'contain' => array(
 					'Theme'
 				)
 			);
 
-			$routes = $this->paginate(null, $this->Filter->filter);
+			$routes = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

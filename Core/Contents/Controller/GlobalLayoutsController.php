@@ -14,13 +14,13 @@
 		}
 
 		public function admin_index() {
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'order' => array(
 					'GlobalLayout.model',
 					'GlobalLayout.name'
 				)
 			);
-			$layouts = $this->paginate(null, $this->Filter->filter);
+			$layouts = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

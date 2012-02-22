@@ -22,14 +22,14 @@
 
 	class ModulePositionsController extends ModulesAppController {
 		public function admin_index(){
-			$modules = $this->paginate(null, $this->Filter->filter);
+			$modules = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name'
 			);
 
-			$modulePositions = $this->paginate();
+			$modulePositions = $this->Paginator->paginate();
 			$this->set(compact('modulePositions', 'filterOptions'));
 		}
 	}

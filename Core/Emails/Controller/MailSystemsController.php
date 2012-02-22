@@ -22,7 +22,7 @@
 				$this->notice(__('Please select an account'), 'notice', 0, null, true);
 			}
 
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'conditions' => array(
 					'MailSystem.account' => $this->request->params['account']
 				),
@@ -31,7 +31,7 @@
 				)
 			);
 
-			$mails = $this->paginate();
+			$mails = $this->Paginator->paginate();
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

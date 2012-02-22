@@ -5,7 +5,7 @@
 		}
 
 		public function admin_index(){
-			$plugins = $this->paginate(null, $this->Filter->filter);
+			$plugins = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 

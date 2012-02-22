@@ -19,9 +19,9 @@
 
 	class NewsletterSubscribersController extends NewsletterAppController {
 		public function admin_index() {
-			$this->paginate = array('paginated');
+			$this->Paginator->settings = array('paginated');
 
-			$newsletterSubscribers = $this->paginate('NewsletterSubscriber', $this->Filter->filter);
+			$newsletterSubscribers = $this->Paginator->paginate('NewsletterSubscriber', $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

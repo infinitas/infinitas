@@ -479,7 +479,7 @@
 
 		public function admin_index(){
 			$this->User->recursive = 0;
-			$users = $this->paginate(null, $this->Filter->filter);
+			$users = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
@@ -493,7 +493,7 @@
 		}
 
 		public function admin_logged_in(){
-			$this->paginate =array(
+			$this->Paginator->settings =array(
 				'conditions' => array(
 					'User.last_login > ' => date('Y-m-d H:i:s', strtotime('-30 min'))
 				),
@@ -501,7 +501,7 @@
 					'User.last_login' => 'desc'
 				)
 			);
-			$users = $this->paginate(null, $this->Filter->filter);
+			$users = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

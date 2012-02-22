@@ -13,12 +13,12 @@
 		 * List all table with deleted in the schema
 		 */
 		public function admin_index(){
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'contain' => array(
 					'User'
 				)
 			);			
-			$trashed = $this->paginate(null, $this->Filter->filter);
+			$trashed = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

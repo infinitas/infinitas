@@ -57,13 +57,13 @@
 		}
 
 		public function admin_index(){
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'contain' => array(
 					'Branch'
 				)
 			);
 			
-			$contacts = $this->paginate(
+			$contacts = $this->Paginator->paginate(
 				null,
 				$this->Filter->filter
 			);

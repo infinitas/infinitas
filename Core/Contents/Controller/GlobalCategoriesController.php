@@ -51,7 +51,7 @@
 				$this->paginate['GlobalCategory']['conditions']['GlobalCategory.slug'] = $this->request->params['category'];
 			}
 
-			$categories = $this->paginate();
+			$categories = $this->Paginator->paginate();
 			// redirect if there is only one category.
 			if (count($categories) == 1 && Configure::read('Cms.auto_redirect')) {
 				$this->redirect(
@@ -95,7 +95,7 @@
 		}
 
 		public function admin_index() {
-			$categories = $this->paginate(null, $this->Filter->filter);
+			$categories = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

@@ -5,7 +5,7 @@
 	 */
 	class ModulesController extends ModulesAppController {
 		public function admin_index() {
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'fields' => array(
 					'Module.*',
 					'Position.*',
@@ -31,7 +31,7 @@
 				)
 			);
 
-			$modules = $this->paginate(null, $this->Filter->filter);
+			$modules = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

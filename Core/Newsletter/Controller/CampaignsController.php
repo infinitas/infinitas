@@ -19,9 +19,9 @@
 
 	class CampaignsController extends NewsletterAppController {
 		public function admin_index() {
-			$this->paginate = array('paginated');
+			$this->Paginator->settings = array('paginated');
 
-			$campaigns = $this->paginate('Campaign', $this->Filter->filter);
+			$campaigns = $this->Paginator->paginate('Campaign', $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

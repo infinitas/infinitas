@@ -6,7 +6,7 @@
 
 		public function admin_index() {
 			$this->__filter();
-			$this->set('contents', $this->paginate(null, $this->Filter->filter));
+			$this->set('contents', $this->Paginator->paginate(null, $this->Filter->filter));
 		}
 
 		public function admin_content_issues() {

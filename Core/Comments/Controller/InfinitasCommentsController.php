@@ -29,19 +29,19 @@
 				$conditions['Comment.foreign_id'] = $this->request->params['named']['Comment.foreign_id'];
 			}
 
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'conditions' => $conditions,
 				'contain' => array(
 					'CommentAttribute'
 				)
 			);
 
-			$this->set('comments', $this->paginate());
+			$this->set('comments', $this->Paginator->paginate());
 		}
 
 		public function admin_index() {
-			$this->paginate = array('adminIndex');
-			$comments = $this->paginate(null, $this->Filter->filter);
+			$this->Paginator->settings = array('adminIndex');
+			$comments = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 

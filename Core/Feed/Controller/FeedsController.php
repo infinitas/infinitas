@@ -49,9 +49,9 @@
 		}
 
 		public function admin_index() {
-			$this->paginate = array('contain' => array('Group'));
+			$this->Paginator->settings = array('contain' => array('Group'));
 
-			$feeds = $this->paginate(null, $this->Filter->filter);
+			$feeds = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

@@ -7,7 +7,7 @@
 		 * @access public
 		 */
 		public function admin_index() {
-			$tags = $this->paginate();
+			$tags = $this->Paginator->paginate();
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

@@ -23,7 +23,7 @@
 		public $sampleText = '<p>This is some sample text to test your template</p>';
 
 		public function admin_index() {
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'fields' => array(
 					'Template.id',
 					'Template.name',
@@ -32,7 +32,7 @@
 				)
 			);
 
-			$templates = $this->paginate(null, $this->Filter->filter);
+			$templates = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

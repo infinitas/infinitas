@@ -1,7 +1,7 @@
 <?php
 	class EmailAccountsController extends EmailsAppController {
 		public function admin_index(){
-			$emailAccounts = $this->paginate(null, $this->Filter->filter);
+			$emailAccounts = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 

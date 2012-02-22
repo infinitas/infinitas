@@ -18,7 +18,7 @@
 	class ThemesController extends ThemesAppController {
 		public function admin_index() {
 			$this->Theme->recursive = 1;
-			$themes = $this->paginate(null, $this->Filter->filter);
+			$themes = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

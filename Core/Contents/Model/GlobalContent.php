@@ -100,8 +100,8 @@
 		 * @access public
 		 *
 		 * @code
-		 *	$this->paginate = array('missingData');
-		 *	$this->set('data', $this->paginate());
+		 *	$this->Paginator->settings = array('missingData');
+		 *	$this->set('data', $this->Paginator->paginate());
 		 * @endcode
 		 *
 		 * @param string $state before or after (the find)

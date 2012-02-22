@@ -22,7 +22,7 @@
 
 	class PagesController extends ManagementAppController {
 		public function admin_index(){
-			$pages = $this->paginate(null, $this->Filter->filter);
+			$pages = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

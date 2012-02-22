@@ -22,13 +22,13 @@
 
 	class MenuItemsController extends MenusAppController {
 		public function admin_index(){
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'contain' => array(
 					'Menu'
 				)
 			);
 
-			$menuItems = $this->paginate(
+			$menuItems = $this->Paginator->paginate(
 				null,
 				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)
 			);

@@ -31,7 +31,7 @@
 		public function index(){
 			$this->Branch->recursive = 0;
 
-			$branches = $this->paginate(
+			$branches = $this->Paginator->paginate(
 				null,
 				$this->Filter->filter
 			);
@@ -99,7 +99,7 @@
 		}
 
 		public function admin_index(){
-			$branches = $this->paginate(
+			$branches = $this->Paginator->paginate(
 				null,
 				$this->Filter->filter
 			);

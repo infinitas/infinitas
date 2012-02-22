@@ -40,7 +40,7 @@
 		 * @return void
 		 */
 		function admin_index() {
-			$groups = $this->paginate(null, $this->Filter->filter);
+			$groups = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

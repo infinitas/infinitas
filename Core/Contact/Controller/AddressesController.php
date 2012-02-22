@@ -48,13 +48,13 @@
 		}
 
 		public function admin_index(){
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'contain' => array(
 					'Country'
 				)
 			);
 
-			$addresses = $this->paginate(null, $this->Filter->filter);
+			$addresses = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

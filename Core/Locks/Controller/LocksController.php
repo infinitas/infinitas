@@ -25,12 +25,12 @@
 		 * 
 		 */
 		public function admin_index(){
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'contain' => array(
 					'Locker'
 				)
 			);
-			$locks = $this->paginate();
+			$locks = $this->Paginator->paginate();
 			$this->set(compact('locks'));
 		}
 

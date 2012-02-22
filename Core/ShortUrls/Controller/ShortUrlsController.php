@@ -48,7 +48,7 @@
 		}
 
 		public function admin_index(){
-			$shortUrls = $this->paginate(null, $this->Filter->filter);
+			$shortUrls = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(

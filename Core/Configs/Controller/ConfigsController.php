@@ -23,7 +23,7 @@
 		public $configOptions = array();
 
 		public function admin_index() {
-			$configs = $this->paginate(null, $this->Filter->filter);
+			$configs = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
