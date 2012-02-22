@@ -96,6 +96,22 @@
 	 * This class offers a lot of methods that should be inherited to other controllers
 	 * as it is what allows you to build plugins with minimal code.
 	 *
+	 * @property      InfinitasComponent $Infinitas
+	 * @property      InfinitasActionsComponent $InfinitasActions
+	 * @property      MassActionComponent $MassAction
+	 * @property      WizardComponent $Wizard
+	 * @property      CommentsComponent $Comments
+	 * @property      GlobalContentsComponent $GlobalContents
+	 * @property      EventComponent $Event
+	 * @property      FileUploadComponent $FileUpload
+	 * @property      FilterComponent $Filter
+	 * @property      GeoLocationComponent $GeoLocation
+	 * @property      LockerComponent $Locker
+	 * @property      EmailerComponent $Emailer
+	 * @property      InfinitasSecurityComponent $InfinitasSecurity
+	 * @property      ThemesComponent $Themes
+	 * @property      VisitorComponent $Visitor
+	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
 	 * @package Infinitas
