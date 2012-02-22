@@ -21,6 +21,13 @@
 	 */
 
 	class LocksController extends LocksAppController {
+		public $notice = array(
+			'deleted' => array(
+				'message' => 'The selected records have been unlocked',
+				'redirect' => true
+			),
+		);
+		
 		/**
 		 * 
 		 */
@@ -37,7 +44,7 @@
 		/**
 		 * unlock the rows by deleting them.
 		 */
-		public function __massActionUnlock($ids = array()){
+		public function __massActionUnlock($ids = array()) {
 			return $this->MassAction->__handleDeletes($ids);
 		}
 
