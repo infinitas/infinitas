@@ -494,6 +494,33 @@
 		public function fullModelName() {
 			return $this->plugin . '.' . $this->alias;
 		}
+		
+		/**
+		 * Removes 'fields' key from count query on custom finds when it is an array,
+		 * as it will completely break the Model::_findCount() call
+		 * 
+		 * @access protected
+		 * 
+		 * @see Model::find()
+		 *
+		 * @param string $state Either "before" or "after"
+		 * @param array $query
+		 * @param array $results
+		 * 
+		 * @return int The number of records found, or false
+		 */
+		protected function _findCount($state, $query, $results = array()) {
+			if (isset($query['type']) && isset($this->findMethods[$query['type']])) {
+				if (!empty($query['fields']) && is_array($query['fields'])) {
+					if (!preg_match('/^count/i', $query['fields'][0])) {
+						unset($query['fields']);
+					}
+				}
+			}
+			
+			return parent::_findCount($state, $query, $results);
+		}
+
 	}
 
 	EventCore::trigger(new stdClass(), 'loadAppModel');
