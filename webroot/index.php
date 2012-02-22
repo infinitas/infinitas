@@ -94,3 +94,5 @@
 
 	$Dispatcher = new Dispatcher();
 	$Dispatcher->dispatch(new CakeRequest(), new CakeResponse(array('charset' => Configure::read('App.encoding'))));
+
+	EventCore::trigger(new stdClass(), 'requestDone');
