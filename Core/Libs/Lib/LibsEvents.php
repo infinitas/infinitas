@@ -64,6 +64,7 @@
 		public function onRequireComponentsToLoad($event){
 			return array(
 				'Libs.Infinitas',
+				'Paginator',
 				'Session',
 				'RequestHandler',
 				'Auth',
