@@ -102,10 +102,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
-
 			return $results;
 		}
 	}

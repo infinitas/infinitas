@@ -494,18 +494,6 @@
 		public function fullModelName() {
 			return $this->plugin . '.' . $this->alias;
 		}
-
-		protected function _findCount($state, $query, $results = array()) {
-			if (isset($query['type']) && isset($this->findMethods[$query['type']])) {
-				if (!empty($query['fields']) && is_array($query['fields'])) {
-					if (!preg_match('/^count/i', $query['fields'][0])) {
-						unset($query['fields']);
-					}
-				}
-			}
-			return parent::_findCount($state, $query, $results);
-		}
-
 	}
 
 	EventCore::trigger(new stdClass(), 'loadAppModel');

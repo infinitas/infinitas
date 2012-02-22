@@ -181,10 +181,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
-
 			$results = current($results);
 
 			if(!empty($results[$this->alias][$this->primaryKey])) {

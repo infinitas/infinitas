@@ -122,10 +122,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
-
 			$return = $map = array();
 			$i = 0;
 			foreach($results as $result) {
@@ -388,10 +384,6 @@
 				$query['joins'] = array_merge((array)$query['joins'], $joins);
 
 				return $query;
-			}
-
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
 			}
 
 			return $results;

@@ -149,10 +149,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
-
 			return $results;
 		}
 
@@ -246,10 +242,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
-
 			return $results;
 		}
 
@@ -300,10 +292,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
-
 			return $results;
 		}
 
@@ -341,9 +329,6 @@
 				return $query;
 			}
 
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
-			}
 			$query['list']['groupPath'] = '';
 			return $this->_findList($state, $query, $results);
 		}
@@ -397,10 +382,6 @@
 
 				unset($query[0]);
 				return $query;
-			}
-
-			if (!empty($query['operation'])) {
-				return $this->_findPaginatecount($state, $query, $results);
 			}
 			
 			$return = array();
