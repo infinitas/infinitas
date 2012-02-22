@@ -57,6 +57,12 @@
 				)
 			),
 		);
+		
+		public $findMethods = array(
+			'contentIssues' => true,
+			'categoryList' => true,
+			'getRelationsCategory' => true,
+		);
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
@@ -81,75 +87,6 @@
 					)
 				)
 			);
-
-			$this->findMethods['duplicateData'] = true;
-			$this->findMethods['missingData'] = true;
-			$this->findMethods['shortData'] = true;
-			$this->findMethods['categoryList'] = true;
-			$this->findMethods['getRelationsCategory'] = true;
-		}
-
-		/**
-		 * @brief find row with duplicate keywords and descriptions
-		 *
-		 * To help with SEO one needs to know if there are pages with duplicate
-		 * descriptions and keywords. This method finds such rows so that the user
-		 * can correct any issues.
-		 *
-		 * It is a custom find and can be called using pagination.
-		 *
-		 * @access public
-		 *
-		 * @code
-		 *	$this->paginate = array('duplicateData');
-		 *	$this->set('data', $this->paginate());
-		 * @endcode
-		 *
-		 * @param string $state before or after (the find)
-		 * @param array $query the qurey being done
-		 * @param array $results the results from the find
-		 *
-		 * @return array in before its a query, in after its the data
-		 */
-		protected function _findDuplicateData($state, $query, $results = array()) {
-			if ($state === 'before') {
-				if(!is_array($query['fields'])) {
-					$query['fields'] = array($query['fields']);
-				}
-
-				$query['fields'] = array_merge(
-					$query['fields'],
-					array(
-						$this->alias . '.*',
-						'GlobalContentDuplicate.id',
-						'GlobalContentDuplicate.model',
-						'GlobalContentDuplicate.title',
-						'GlobalContentDuplicate.meta_keywords',
-						'GlobalContentDuplicate.meta_description',
-					)
-				);
-				$query['fields'] = array_unique($query['fields']);
-
-				$query['joins'][] = array(
-					'table' => 'global_contents',
-					'alias' => 'GlobalContentDuplicate',
-					'type' => 'LEFT',
-					'conditions' => array(
-						'GlobalContentDuplicate.id != GlobalContent.id',
-						'and' => array(
-							'or' => array(
-								'GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords',
-								'GlobalContentDuplicate.meta_description = ' . $this->alias . '.meta_description',
-							)
-						)
-					)
-				);
-				$query['group'][] = $this->alias . '.id';
-
-				return $query;
-			}
-
-			return $results;
 		}
 
 		/**
@@ -173,7 +110,7 @@
 		 *
 		 * @return array in before its a query, in after its the data
 		 */
-		protected function _findMissingData($state, $query, $results = array()) {
+		protected function _findContentIssues($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$this->virtualFields['keyword_not_in_description']	= '!LOWER(' . $this->alias . '.meta_description) LIKE CONCAT("%", LOWER(SUBSTRING_INDEX(`' . $this->alias . '`.`meta_keywords`, ",", 1)), "%")';
 				$this->virtualFields['keywords_missing']		= '(' . $this->alias . '.meta_keywords IS NULL OR ' . $this->alias . '.meta_keywords)';
@@ -237,56 +174,6 @@
 					'GlobalCategoryContent.title',
 					'GlobalContent.model',
 					'GlobalContent.title'
-				);
-
-				return $query;
-			}
-
-			return $results;
-		}
-
-		/**
-		 * @brief find rows with short content lenght.
-		 *
-		 * With regards to SEO it could be better to have content with good
-		 * keywords and description in the meta data. This method helps pinpoint
-		 * content with short description / keyword fields that can then be improved
-		 *
-		 * It is a custom find and can be called using pagination.
-		 *
-		 * @access public
-		 *
-		 * @code
-		 *	$this->paginate = array('shortData');
-		 *	$this->set('data', $this->paginate());
-		 * @endcode
-		 *
-		 * @param string $state before or after (the find)
-		 * @param array $query the qurey being done
-		 * @param array $results the results from the find
-		 *
-		 * @return array in before its a query, in after its the data
-		 */
-		protected function _findShortData($state, $query, $results = array()) {
-			if ($state === 'before') {
-				$query['conditions'] = array_merge(
-					(array)$query['conditions'],
-					array(
-						'or' => array(
-							array(
-								'and' => array(
-									'LENGTH(' . $this->alias . '.meta_keywords) <= 10',
-									'LENGTH(' . $this->alias . '.meta_keywords) >= 1'
-								),
-							),
-							array(
-								'and' => array(
-									'LENGTH(' . $this->alias . '.meta_description) <= 10',
-									'LENGTH(' . $this->alias . '.meta_description) >= 1'
-								)
-							)
-						)
-					)
 				);
 
 				return $query;

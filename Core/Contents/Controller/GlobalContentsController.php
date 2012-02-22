@@ -12,7 +12,7 @@
 		public function admin_content_issues() {
 			$this->__filter();
 			$this->Paginator->settings = array(
-				'missingData',
+				'contentIssues',
 				array('conditions' => $this->Filter->filter)
 			);
 
