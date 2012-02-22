@@ -127,13 +127,19 @@
 				$this->virtualFields['missing_layout']			= '(' . $this->alias . '.layout_id IS NULL OR ' . $this->alias . '.layout_id = "" )';
 				$this->virtualFields['missmatched_layout']		= '(Layout.model <> '. $this->alias . '.model)';
 				
+				
+				$this->virtualFields['introduction_duplicate']	= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.introduction = ' . $this->alias . '.introduction)';
+				$this->virtualFields['body_duplicate']	= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.body = ' . $this->alias . '.body)';
+				$this->virtualFields['body_word_count'] = 'SUM(LENGTH(' . $this->alias . '.body) - LENGTH(REPLACE(' . $this->alias . '.body, " ", "")) + 1)';
+				
 				$query['fields'] = array_merge(
 					(array)$query['fields'],
 					array(
 						'keyword_not_in_description', 'keywords_missing', 'keywords_short', 'keywords_duplicate',
 						'description_missing', 'description_short', 'description_duplicate', 'description_too_long',
 						'missing_category',
-						'missing_layout', 'missmatched_layout'
+						'missing_layout', 'missmatched_layout',
+						'introduction_duplicate', 'body_duplicate', 'body_word_count'
 					)
 				);
 				
@@ -152,7 +158,10 @@
 						$this->alias . '__missing_category = 1 OR '   .
 					
 						$this->alias . '__missing_layout = 1 OR '   .
-						$this->alias . '__missmatched_layout = 1)' 
+						$this->alias . '__missmatched_layout = 1 OR '   .
+						$this->alias . '__introduction_duplicate = 1 OR '   .
+						$this->alias . '__body_duplicate = 1 OR '   .
+						$this->alias . '__body_word_count < 300)' 
 				);
 								
 				$query['joins'][] = array(

@@ -20,7 +20,7 @@
      */
 
     echo $this->Form->create('GlobalContent', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(array('edit'));
+        $massActions = $this->Infinitas->massActionButtons(array('edit', 'delete'));
 		echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
@@ -123,9 +123,21 @@
 							if($content['GlobalContent']['missmatched_layout']) {
 								$issues[] = __d('contents', 'Layout linked from another model');
 							}
+
+							if(count(explode(' ', strip_tags($content['GlobalContent']['body']))) < 300) {
+								$issues[] = __d('contents', 'Content body is short');
+							}
+
+							if($content['GlobalContent']['introduction_duplicate']) {
+								$issues[] = __d('contents', 'Two or more content share this intro');
+							}
+
+							if($content['GlobalContent']['body_duplicate']) {
+								$issues[] = __d('contents', 'Two or more content share this body');
+							}
 							
 							$issueCount = 0;
-							if($issues) {
+							if($content['GlobalContent']['foreign_key'] && $issues) {
 								$issueCount = count($issues);
 								$issues = __d('contents', 'Possible Issues :: %s', $this->Design->arrayToList($issues));
 							}
@@ -134,6 +146,9 @@
                 			<?php 
 								if($issueCount) {
 									echo __dn('contents', '%d issue', '%d issues', $issueCount, $issueCount, $issueCount);
+								}
+								else if(!$content['GlobalContent']['foreign_key']) {
+									echo 'Orphan';
 								}
 								else {
 									echo '-';
