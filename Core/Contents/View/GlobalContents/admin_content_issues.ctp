@@ -78,7 +78,7 @@
 								);
 							?>&nbsp;
                 		</td>
-						<?php 
+						<?php
 							$issues = array();
 							if($content['GlobalContent']['keyword_not_in_description']) {
 								$issues[] = __d('contents', 'Main keyword not in description');

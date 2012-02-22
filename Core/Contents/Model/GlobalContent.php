@@ -174,7 +174,7 @@
 		 * @return array in before its a query, in after its the data
 		 */
 		protected function _findMissingData($state, $query, $results = array()) {
-			if ($state === 'before') {				
+			if ($state === 'before') {
 				$this->virtualFields['keyword_not_in_description']	= '!LOWER(' . $this->alias . '.meta_description) LIKE CONCAT("%", LOWER(SUBSTRING_INDEX(`' . $this->alias . '`.`meta_keywords`, ",", 1)), "%")';
 				$this->virtualFields['keywords_missing']		= '(' . $this->alias . '.meta_keywords IS NULL OR ' . $this->alias . '.meta_keywords)';
 				$this->virtualFields['keywords_short']			= '(LENGTH(' . $this->alias . '.meta_keywords) <= 10 AND LENGTH(' . $this->alias . '.meta_keywords) >= 1)';

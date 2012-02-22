@@ -11,12 +11,12 @@
 
 		public function admin_content_issues() {
 			$this->__filter();
-			$this->paginate = array(
+			$this->Paginator->settings = array(
 				'missingData',
 				array('conditions' => $this->Filter->filter)
 			);
 
-			$this->set('contents', $this->paginate());
+			$this->set('contents', $this->Paginator->paginate());
 		}
 
 		private function __filter() {
