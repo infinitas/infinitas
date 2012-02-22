@@ -40,6 +40,7 @@
                     $this->Paginator->sort('ContentGroup.name', __d('contents', 'Group')) => array(
                         'style' => 'width:100px;'
                     ),
+                    $this->Paginator->sort('keyword_density'),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
                     )
@@ -67,6 +68,9 @@
                 		</td>
                 		<td>
                 			<?php echo $content['ContentGroup']['name'] ? $content['ContentGroup']['name'] : __('Public'); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $content['GlobalContent']['keyword_density']; ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php echo $this->Time->niceShort($content['GlobalContent']['modified']); ?>&nbsp;
