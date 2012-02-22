@@ -116,6 +116,7 @@
 				$this->virtualFields['keywords_missing']		= '(' . $this->alias . '.meta_keywords IS NULL OR ' . $this->alias . '.meta_keywords)';
 				$this->virtualFields['keywords_short']			= '(LENGTH(' . $this->alias . '.meta_keywords) <= 10 AND LENGTH(' . $this->alias . '.meta_keywords) >= 1)';
 				$this->virtualFields['keywords_duplicate']		= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords)';
+				$this->virtualFields['keyword_density_problem']	= '(' . $this->alias . '.keyword_density < 2 OR ' . $this->alias . '.keyword_density > 5)';
 				
 				$this->virtualFields['description_missing']		= '(' . $this->alias . '.meta_description IS NULL OR ' . $this->alias . '.meta_description)';
 				$this->virtualFields['description_short']		= '(LENGTH(' . $this->alias . '.meta_description) <= 10 AND LENGTH(' . $this->alias . '.meta_description) >= 1)';
@@ -135,7 +136,7 @@
 				$query['fields'] = array_merge(
 					(array)$query['fields'],
 					array(
-						'keyword_not_in_description', 'keywords_missing', 'keywords_short', 'keywords_duplicate',
+						'keyword_not_in_description', 'keywords_missing', 'keywords_short', 'keywords_duplicate', 'keyword_density_problem',
 						'description_missing', 'description_short', 'description_duplicate', 'description_too_long',
 						'missing_category',
 						'missing_layout', 'missmatched_layout',
@@ -149,6 +150,7 @@
 						$this->alias . '__keywords_missing = 1 OR ' .
 						$this->alias . '__keywords_short = 1 OR ' .
 						$this->alias . '__keywords_duplicate = 1 OR ' .
+						$this->alias . '__keyword_density_problem = 1 OR ' .
 					
 						$this->alias . '__description_missing = 1 OR ' .
 						$this->alias . '__description_short = 1 OR ' .

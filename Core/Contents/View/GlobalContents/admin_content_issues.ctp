@@ -135,6 +135,11 @@
 							if($content['GlobalContent']['body_duplicate']) {
 								$issues[] = __d('contents', 'Two or more content share this body');
 							}
+
+							if($content['GlobalContent']['keyword_density_problem']) {
+								$highLow = $content['GlobalContent']['keyword_density'] < 5 ? __d('contents', 'Low') : __d('contents', 'High');
+								$issues[] = __d('contents', 'Keyword density <b>%s</b> too %s', $content['GlobalContent']['keyword_density'], $highLow);
+							}
 							
 							$issueCount = 0;
 							if($content['GlobalContent']['foreign_key'] && $issues) {
