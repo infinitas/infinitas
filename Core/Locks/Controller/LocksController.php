@@ -37,7 +37,7 @@
 		/**
 		 * unlock the rows by deleting them.
 		 */
-		protected function __massActionUnlock($ids = array()){
+		public function __massActionUnlock($ids = array()){
 			return $this->MassAction->__handleDeletes($ids);
 		}
 
