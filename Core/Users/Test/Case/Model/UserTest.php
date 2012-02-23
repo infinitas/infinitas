@@ -44,16 +44,24 @@
 			// pw regex simple
 			Configure::write('Website.password_regex', '[a-z]');
 			$field['confirm_password'] = 'simplepw';
-			$this->assertTrue($this->User->validPassword($field) === 1);
+			$result = $this->User->validPassword($field);
+			$expected = 1;
+			$this->assertSame($expected, $result);
 			$field['confirm_password'] = '�^%&^%*^&�$%�';
-			$this->assertTrue($this->User->validPassword($field) === 0);
+			$result = $this->User->validPassword($field);
+			$expected = 0;
+			$this->assertSame($expected);
 
 			// pw regex advanced
 			Configure::write('Website.password_regex', '^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,8}$');
 			$field['confirm_password'] = 'aBcD123';
-			$this->assertTrue($this->User->validPassword($field) === 1);
+			$result = $this->User->validPassword($field);
+			$expected = 1;
+			$this->assertSame($expected, $result);
 			$field['confirm_password'] = 'something';
-			$this->assertTrue($this->User->validPassword($field) === 0);
+			$result = $this->User->validPassword($field);
+			$expected = 0;
+			$this->assertSame($expected, $result);
 
 			// email should match
 			$field['confirm_email'] = $this->data['User']['email'];
@@ -68,13 +76,14 @@
 		* Test the other methods
 		*/
 		public function testMethods(){
+			$result = $this->User->getLastLogon(1);
 			$expected['User'] = array(
 				'ip_address' => '127.0.0.1',
 				'last_login' => '2010-08-16 10:49:19',
 				'country' => 'Unknown',
 				'city' => '',
 			);
-			$this->assertEqual($expected, $this->User->getLastLogon(1));
+			$this->assertEquals($expected, $result);
 		}
 
 		public function endTest() {

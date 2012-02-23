@@ -21,9 +21,12 @@
 		}
 
 		function testEvents(){
+			$result = $this->DummyController->Event->trigger('foo');
 			$expected = array('foo'=> array());
-			$this->assertEqual($expected, $this->DummyController->Event->trigger('foo'));
-			$this->assertEqual($expected, $this->DummyController->Event->trigger('Plugin.foo'));
+			$this->assertEquals($expected, $result);
+
+			$result = $this->DummyController->Event->trigger('Plugin.foo');
+			$this->assertEquals($expected, $result);
 
 			$global = $this->DummyController->Event->trigger('returnEventForTest');
 			$plugin = $this->DummyController->Event->trigger('Events.returnEventForTest');
@@ -31,7 +34,7 @@
 			/**
 			 * test calling the plugin method vs global returns the same format.
 			 */
-			$this->assertIsA($global['returnEventForTest']['Events']->Handler, 'DummyController');
-			$this->assertIsA($plugin['returnEventForTest']['Events']->Handler, 'DummyController');
+			$this->assertInstanceOf('DummyController', $global['returnEventForTest']['Events']->Handler);
+			$this->assertInstanceOf('DummyController', $plugin['returnEventForTest']['Events']->Handler);
 		}
 	}

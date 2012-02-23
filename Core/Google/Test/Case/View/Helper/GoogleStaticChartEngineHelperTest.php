@@ -77,14 +77,17 @@
 		public function testFormatImplode(){
 			$this->GoogleStaticChartEngine->setType('line');
 
+			$result = $this->GoogleStaticChartEngine->_implode('data', array(1,2,3,4,5));
 			$expected = '1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_implode('data', array(1,2,3,4,5)));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_implode('labels', array(1,2,3,4,5));
 			$expected = '1|2|3|4|5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_implode('labels', array(1,2,3,4,5)));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_implode('size', array(1,2,3,4,5));
 			$expected = '1x2x3x4x5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_implode('size', array(1,2,3,4,5)));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -114,14 +117,17 @@
 		public function testFormatGeneric(){
 			$this->GoogleStaticChartEngine->setType('line');
 
+			$result = $this->GoogleStaticChartEngine->_formatGeneric('data', array(1,2,3,4,5));
 			$expected = 'chd=t:1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatGeneric('data', array(1,2,3,4,5)));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_formatGeneric('data', array());
 			$expected = 'chd=t:';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatGeneric('data', array()));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_formatGeneric('size', array(100,200));
 			$expected = 'chs=100x200';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatGeneric('size', array(100,200)));
+			$this->assertEquals($expected, $result);
 
 			$this->GoogleStaticChartEngine->_formatGeneric('data', 'string');
 		}
@@ -141,17 +147,21 @@
 		public function testFormatData(){
 			$this->GoogleStaticChartEngine->setType('line');
 
+			$result = $this->GoogleStaticChartEngine->_formatData(array(1,2,3,4,5));
 			$expected = 'chd=t:1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatData(array(1,2,3,4,5)));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_formatData(array(array(1,2,3,4,5)));
 			$expected = 'chd=t:1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatData(array(array(1,2,3,4,5))));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_formatData(array(array(1,2,3,4,5), array(1,2,3,4,5)));
 			$expected = 'chd=t:1,2,3,4,5|1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatData(array(array(1,2,3,4,5), array(1,2,3,4,5))));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_formatData(array(array(1,2,3,4,5), array(1,2,3,4,5), array(1,2,3,4,5)));
 			$expected = 'chd=t:1,2,3,4,5|1,2,3,4,5|1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatData(array(array(1,2,3,4,5), array(1,2,3,4,5), array(1,2,3,4,5))));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -160,15 +170,16 @@
 		public function testFormatLabels(){
 			$this->GoogleStaticChartEngine->setType('line');
 
-			$expected = array(
-				'labels' => 'chxl=0:|abc|xyz|1:|1|2|3|4|5|6',
-				'axes' => 'chxt=x,y'
-			);
 			$data = array(
 				'x' => array('abc', 'xyz'),
 				'y' => array(1,2,3,4,5,6)
 			);
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLabels($data));
+			$result = $this->GoogleStaticChartEngine->_formatLabels($data);
+			$expected = array(
+				'labels' => 'chxl=0:|abc|xyz|1:|1|2|3|4|5|6',
+				'axes' => 'chxt=x,y'
+			);
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -178,8 +189,9 @@
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('series' => '03348a');
+			$result = $this->GoogleStaticChartEngine->_formatColor($data);
 			$expected = array('chco=03348a');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatColor($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array(
 				'series' => array(
@@ -187,9 +199,9 @@
 					'03348a' // dark blue
 				)
 			);
+			$result = $this->GoogleStaticChartEngine->_formatColor($data);
 			$expected = array('chco=0d5c05,03348a');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatColor($data));
-
+			$this->assertEquals($expected, $result);
 			$data = array(
 				'foo' => 'bar',
 				'series' => array(
@@ -197,14 +209,18 @@
 					'03348a' // dark blue
 				)
 			);
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatColor($data));
+			$result = $this->GoogleStaticChartEngine->_formatColor($data);
+			$this->assertEquals($expected, $result);
 
 			$data = array('series' => array());
-			$this->assertEqual(array(), $this->GoogleStaticChartEngine->_formatColor($data));
+			$result = $this->GoogleStaticChartEngine->_formatColor($data);
+			$expected = array();
+			$this->assertEquals($expected, $result);
 
 			$data = array('series' => array(array('000000'), array('FF0000', '00FF00', '0000FF')));
+			$result = $this->GoogleStaticChartEngine->_formatColor($data);
 			$expected = array('chco=000000,FF0000|00FF00|0000FF');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatColor($data));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -221,24 +237,29 @@
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('type' => 'absolute', 'width' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=10';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('type' => 'relative', 'width' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=10';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('type' => 'absolute', 'padding' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=a,10';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('type' => 'relative', 'padding' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=r,0.1';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('type' => 'absolute');
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=a';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('type' => 'foo', 'padding' => 10);
 			//$this->expectError('Spacing type should be absolute or relative, not foo');
@@ -253,16 +274,19 @@
 			$this->GoogleStaticChartEngine->setType('bar_group');
 
 			$data = array('type' => 'absolute', 'padding' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=a,10,20';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('padding' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=a,10,20';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('type' => 'relative', 'padding' => 10);
+			$result = $this->GoogleStaticChartEngine->_formatSpacing($data);
 			$expected = 'chbh=r,0.1,0.2';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSpacing($data));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -272,20 +296,24 @@
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('width' => 200, 'height' => 400);
+			$result = $this->GoogleStaticChartEngine->_formatSize($data);
 			$expected = 'chs=200x400';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('width' => 400, 'height' => 200);
+			$result = $this->GoogleStaticChartEngine->_formatSize($data);
 			$expected = 'chs=400x200';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('width' => 200);
+			$result = $this->GoogleStaticChartEngine->_formatSize($data);
 			$expected = 'chs=200x200';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('width' => 600, 'height' => 200, 'foo' => 123);
+			$result = $this->GoogleStaticChartEngine->_formatSize($data);
 			$expected = 'chs=600x200';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('width' => 600, 'height' => 600);
 			//$this->expectError('Size of 360000px is greater than maximum allowed size 300000px');
@@ -293,8 +321,9 @@
 			$this->GoogleStaticChartEngine->_formatSize($data);
 
 			$data = array('width' => 300000, 'height' => 1);
+			$result = $this->GoogleStaticChartEngine->_formatSize($data);
 			$expected = 'chs=300000x1';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatSize($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('width' => 300001, 'height' => 1);
 			//$this->expectError('Size of 300001px is greater than maximum allowed size 300000px');
@@ -309,8 +338,9 @@
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('position' => 'top', 'order' => 'auto', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=t|a');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'top', 'order' => 'auto');
 			//$this->expectError('Skipping legend, no lables specified');
@@ -318,61 +348,73 @@
 			$this->GoogleStaticChartEngine->_formatLegend($data);
 
 			$data = array('labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=r|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			/**
 			 * Test the ordering
 			 */
 			$data = array('order' => 'default', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=r|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('order' => 'reverse', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=r|r');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('order' => array(1,0), 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=r|1,0');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('order' => array(1,0), 'labels' => array('abc', 'xyz', 'foo'));
 			$expected = array('legend_labels' => 'chdl=abc|xyz|foo','legend_position' => 'chdlp=r|l');
 			//$this->expectError();
 			$this->setExpectedException('PHPUnit_Framework_Error');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->GoogleStaticChartEngine->_formatLegend($data);
 
 			/**
 			 * test the position
 			 */
 			$data = array('position' => 'bottom_horizontal', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=b|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'bottom', 'labels' => array('abc', 'xyz'));
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'bottom_vertical', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=bv|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'top', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=t|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'top_horizontal', 'labels' => array('abc', 'xyz'));
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'top_vertical', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=tv|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'left', 'labels' => array('abc', 'xyz'));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
 			$expected = array('legend_labels' => 'chdl=abc|xyz','legend_position' => 'chdlp=l|l');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array('position' => 'left_vertical', 'labels' => array('abc', 'xyz'));
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLegend($data));
+			$result = $this->GoogleStaticChartEngine->_formatLegend($data);
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -385,43 +427,49 @@
 				array('thickness' => 3,'arrow' => 15),
 				array('thickness' => 3,'dash' => array(5, 5),'arrow' => 10)
 			);
+			$result = $this->GoogleStaticChartEngine->_formatLineStyle($data);
 			$expected = 'chls=3|3,5,5|15|10';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLineStyle($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array(
 				array('thickness' => 3),
 				array('thickness' => 3,'dash' => array(5, 5))
 			);
+			$result = $this->GoogleStaticChartEngine->_formatLineStyle($data);
 			$expected = 'chls=3|3,5,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLineStyle($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array(
 				array('thickness' => 3),
 				array('thickness' => 3,'dash' => array(5))
 			);
+			$result = $this->GoogleStaticChartEngine->_formatLineStyle($data);
 			$expected = 'chls=3|3,5,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLineStyle($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array(
 				array('thickness' => 3),
 				array('thickness' => 3,'dash' => 5)
 			);
+			$result = $this->GoogleStaticChartEngine->_formatLineStyle($data);
 			$expected = 'chls=3|3,5,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLineStyle($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array(
 				array('thickness' => 3),
 				array('thickness' => 3,'dash' => array(5, 5, 5, 5, 5))
 			);
+			$result = $this->GoogleStaticChartEngine->_formatLineStyle($data);
 			$expected = 'chls=3|3,5,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLineStyle($data));
+			$this->assertEquals($expected, $result);
 
 			$data = array(
 				array('thickness' => 3, 'dash' => array(5, 5)),
 				array('thickness' => 3, 'dash' => array(5, 5))
 			);
+			$result = $this->GoogleStaticChartEngine->_formatLineStyle($data);
 			$expected = 'chls=3,5,5|3,5,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatLineStyle($data));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -432,22 +480,27 @@
 			$data = array();
 
 			$data['data'] = array(array(1,2,3,4,5), array(1,2,3,4,5));
+			$result = $this->GoogleStaticChartEngine->_formatQueryParts('data', $data['data']);
 			$expected = 'chd=t:1,2,3,4,5|1,2,3,4,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatQueryParts('data', $data['data']));
+			$this->assertEquals($expected, $result);
 
 			$data['size'] = array('width' => 123, 'height' => 321);
+			$result = $this->GoogleStaticChartEngine->_formatQueryParts('size', $data['size']);
 			$expected = 'chs=123x321';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatQueryParts('size', $data['size']));
+			$this->assertEquals($expected, $result);
 
 			$data['color'] = array('series' => array('0000ff'));
+			$result = $this->GoogleStaticChartEngine->_formatQueryParts('color', $data['color']);
 			$expected = array(0 => 'chco=0000ff');
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatQueryParts('color', $data['color']));
+			$this->assertEquals($expected, $result);
 
 			$data['scale'] = array(0, 300);
+			$result = $this->GoogleStaticChartEngine->_formatQueryParts('scale', $data['scale']);
 			$expected = 'chds=0,300';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_formatQueryParts('scale', $data['scale']));
+			$this->assertEquals($expected, $result);
 
-			$this->assertFalse($this->GoogleStaticChartEngine->_formatQueryParts('data', array()));
+			$result = $this->GoogleStaticChartEngine->_formatQueryParts('data', array());
+			$this->assertFalse($result);
 		}
 
 		/**
@@ -466,8 +519,9 @@
 			/**
 			 * test building a query
 			 */
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = 'http://0.chart.apis.google.com/chart?cht=lc&chd=t:1,2,3,4,5&chco=123123&chs=123x321';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 
 			/**
 			 * check that the urls are correct for using downloading many images at once
@@ -481,11 +535,13 @@
 			$this->GoogleStaticChartEngine->_buildChart($chart);
 			$this->GoogleStaticChartEngine->_buildChart($chart);
 
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = 'http://9.chart.apis.google.com/chart?cht=lc&chd=t:1,2,3,4,5&chco=123123&chs=123x321';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = 'http://0.chart.apis.google.com/chart?cht=lc&chd=t:1,2,3,4,5&chco=123123&chs=123x321';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(1,2,3,4,5),
@@ -494,8 +550,9 @@
 				'size' => array('width' => 123, 'height' => 321),
 				'extra' => array('return' => 'url', 'scale' => 'relative')
 			);
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = 'http://1.chart.apis.google.com/chart?cht=lc&chd=t:1,2,3,4,5&chco=123123&chs=123x321&chds=0,5';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 
 			$this->GoogleStaticChartEngine->setType('bar');
 			$chart = array(
@@ -505,8 +562,9 @@
 				'config' => array('type' => 'horizontal_group'),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = 'http://2.chart.apis.google.com/chart?cht=bhg&chd=t:1,2,3,4,5&chco=123123&chs=123x321';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -571,8 +629,9 @@
 				'color' => array('series' => array('123123')),
 				'size' => array('width' => 123, 'height' => 321)
 			);
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = '<img src="http://0.chart.apis.google.com/chart?cht=lc&chd=t:1,2,3,4,5&chco=123123&chs=123x321" alt="" />';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(1,2,3,4,5),
@@ -585,8 +644,9 @@
 					)
 				)
 			);
+			$result = $this->GoogleStaticChartEngine->_buildChart($chart);
 			$expected = '<img src="http://1.chart.apis.google.com/chart?cht=lc&chd=t:1,2,3,4,5&chco=123123&chs=123x321" class="something" alt="some chart" />';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->_buildChart($chart));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -607,8 +667,9 @@
 				'size' => array('width' => 200, 'height' => 125),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->gauge($chart);
 			$expected = 'http://0.chart.apis.google.com/chart?cht=gom&chd=t:70&chxl=0:|Groovy|1:|slow|faster|crazy&chxt=0,1&chco=FF0000,FF8040,FFFF00,00FF00,00FFFF,0000FF,800080&chs=200x125';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->gauge($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(20, 40, 60),
@@ -616,8 +677,9 @@
 				'size' => array('width' => 150, 'height' => 100),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->gauge($chart);
 			$expected = 'http://1.chart.apis.google.com/chart?cht=gom&chd=t:20,40,60&chdl=1|2|3&chdlp=b|l&chs=150x100';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->gauge($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(array(20, 40), array(60)),
@@ -630,8 +692,9 @@
 					)
 				)
 			);
+			$result = $this->GoogleStaticChartEngine->gauge($chart);
 			$expected = 'http://2.chart.apis.google.com/chart?cht=gom&chd=t:20,40|60&chs=150x100&chls=3|3,5,5|15|10';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->gauge($chart));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -644,8 +707,9 @@
 				'config' => array('type' => 'horizontal'),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://0.chart.apis.google.com/chart?cht=bhs&chd=t:12,23,10,40&chs=200x125';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '10,50,60,80,40'), explode(',', '50,60,100,40,20')),
@@ -656,8 +720,9 @@
 				'scale' => array(0, 160),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://1.chart.apis.google.com/chart?cht=bhs&chd=t:10,50,60,80,40|50,60,100,40,20&chs=200x125&chco=4d89f9,c6d9fd&chbh=20&chds=0,160';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '10,50,60,80,40'), explode(',', '50,60,100,40,20')),
@@ -668,8 +733,9 @@
 				'scale' => array(0, 160),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://2.chart.apis.google.com/chart?cht=bvs&chd=t:10,50,60,80,40|50,60,100,40,20&chs=200x125&chco=4d89f9,c6d9fd&chbh=20&chds=0,160';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '10,50,60,80,40'), explode(',', '50,60,100,40,20'), explode(',', '30,30,75,20,60')),
@@ -680,8 +746,9 @@
 				'spacing' => array('width' => 20),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://3.chart.apis.google.com/chart?cht=bvo&chd=t:10,50,60,80,40|50,60,100,40,20|30,30,75,20,60&chs=200x125&chco=4d89f9,c6d9fd,0000FF&chxl=0:|0|20|40|60|80|100&chxt=y&chbh=20';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '60,74'), explode(',', '80,86')),
@@ -690,8 +757,9 @@
 				'color' => array('series' => array('4d89f9', 'c6d9fd')),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://4.chart.apis.google.com/chart?cht=bhg&chd=t:60,74|80,86&chs=200x125&chco=4d89f9,c6d9fd';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '60,74'), explode(',', '80,86')),
@@ -701,8 +769,9 @@
 				'spacing' => array('width' => 10, 'padding' => 5, 'grouping' => 20),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://5.chart.apis.google.com/chart?cht=bhg&chd=t:60,74|80,86&chs=200x125&chco=4d89f9,c6d9fd&chbh=10,5,20';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '60,74,123,23,45')),
@@ -711,8 +780,9 @@
 				'color' => array('series' => array(explode('|', 'FFC6A5|FFFF42|DEF3BD|00A5C6|DEBDDE'))),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://6.chart.apis.google.com/chart?cht=bvs&chd=t:60,74,123,23,45&chs=200x125&chco=FFC6A5|FFFF42|DEF3BD|00A5C6|DEBDDE';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '40,13,35'), explode(',', '60,23,45')),
@@ -721,8 +791,9 @@
 				'color' => array('series' => array(array('000000'), explode('|', 'FF0000|00FF00|0000FF'))),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://7.chart.apis.google.com/chart?cht=bhs&chd=t:40,13,35|60,23,45&chs=200x125&chco=000000,FF0000|00FF00|0000FF';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '40,13,35'), explode(',', '60,23,45')),
@@ -731,8 +802,9 @@
 				'color' => array('series' => array(explode('|', '0000FF|FF0000|00FF00'), explode('|', 'FF0000|00FF00|0000FF'))),
 				'extra' => array('return' => 'url')
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://8.chart.apis.google.com/chart?cht=bhs&chd=t:40,13,35|60,23,45&chs=200x125&chco=0000FF|FF0000|00FF00,FF0000|00FF00|0000FF';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -749,8 +821,9 @@
 					'y' => range(0,100, 20)
 				)
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://0.chart.apis.google.com/chart?cht=bvs&chd=t:12,23,10,40,69&chs=200x125&chxl=0:|0|1|2|3|4|1:|0|20|40|60|80|100&chxt=x,y';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(12, 23, 10, 40, 69),
@@ -762,8 +835,9 @@
 					'y' => range(0,100, 20)
 				)
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://1.chart.apis.google.com/chart?cht=bvs&chd=t:12,23,10,40,69&chs=200x125&chxl=0:|a|b|c|d|e|1:|0|20|40|60|80|100&chxt=x,y';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(12, 23, -50, 40, -15),
@@ -776,8 +850,9 @@
 				),
 				'scale' => array(-50, 80)
 			);
+			$result = $this->GoogleStaticChartEngine->bar($chart);
 			$expected = 'http://2.chart.apis.google.com/chart?cht=bvs&chd=t:12,23,-50,40,-15&chs=200x125&chxl=0:|a|b|c|d|e|1:|-30|-10|10|30|50|70&chxt=x,y&chds=-50,80';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->bar($chart));
+			$this->assertEquals($expected, $result);
 		}
 
 		/**
@@ -789,8 +864,9 @@
 				'size' => array('width' => 200, 'height' => 125),
 				'extra' => array('return' => 'url'),
 			);
+			$result = $this->GoogleStaticChartEngine->line($chart);
 			$expected = 'http://0.chart.apis.google.com/chart?cht=lc&chd=t:40,60,60,45,47,75,70,72&chs=200x125';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->line($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => explode(',', '27,25,60,31,25,39,25,31,26,28,80,28,27,31,27,29,26,35,70,25'),
@@ -799,8 +875,9 @@
 				'config' => array('type' => 'spark'),
 				'extra' => array('return' => 'url'),
 			);
+			$result = $this->GoogleStaticChartEngine->line($chart);
 			$expected = 'http://1.chart.apis.google.com/chart?cht=ls&chd=t:27,25,60,31,25,39,25,31,26,28,80,28,27,31,27,29,26,35,70,25&chs=200x125&chco=0077CC';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->line($chart));
+			$this->assertEquals($expected, $result);
 
 			$chart = array(
 				'data' => array(explode(',', '10,20,40,80,90,95,99'), explode(',', '20,30,40,50,60,70,80'), array(-1), explode(',', '5,10,22,35,85')),
@@ -817,7 +894,8 @@
 					'line_style' => array(array('thickness' => 2, 'dash' => array(4, 1)))
 				),
 			);
+			$result = $this->GoogleStaticChartEngine->line($chart);
 			$expected = 'http://2.chart.apis.google.com/chart?cht=lxy&chd=t:10,20,40,80,90,95,99|20,30,40,50,60,70,80|-1|5,10,22,35,85&chs=200x125&chco=3072F3,ff0000,00aaaa&chdl=Ponies|Unicorns&chdlp=t|l';
-			$this->assertEqual($expected, $this->GoogleStaticChartEngine->line($chart));
+			$this->assertEquals($expected, $result);
 		}
 	}

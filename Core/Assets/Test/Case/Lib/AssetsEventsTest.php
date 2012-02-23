@@ -10,9 +10,10 @@
 		}
 
 		public function testStuff(){
-			$this->assertIsA($this->Event, 'EventCore');
+			$this->assertInstanceOf('EventCore', $this->Event);
 
 			$expected = array('requireHelpersToLoad' => array('Assets' => array('Assets.Compress')));
-			$this->assertEqual($expected, $this->Event->trigger(new Object(), 'Assets.requireHelpersToLoad'));
+			$result = $this->Event->trigger(new Object(), 'Assets.requireHelpersToLoad');
+			$this->assertEquals($expected, $result);
 		}
 	}

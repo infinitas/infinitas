@@ -72,7 +72,7 @@ class GlobalTaggedTest extends CakeTestCase {
 	function testTaggedFind() {
 		$this->GlobalTagged->recursive = -1;
 		$result = $this->GlobalTagged->find('first');
-		$this->assertTrue(!empty($result));
+		$this->assertNotEmpty($result);
 
 		$expected = array(
 			'GlobalTagged' => array(
@@ -84,7 +84,7 @@ class GlobalTaggedTest extends CakeTestCase {
 				'created' => '2008-12-02 12:32:31',
 				'modified' => '2008-12-02 12:32:31'));
 
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -93,9 +93,9 @@ class GlobalTaggedTest extends CakeTestCase {
 	public function testFindCloud() {
 		$result = $this->GlobalTagged->find('cloud', array(
 			'model' => 'Article'));
-		$this->assertEqual(count($result), 3);
+		$this->assertCount(3, $result);
 		$this->assertTrue(isset($result[0][0]['occurrence']));
-		$this->assertEqual($result[0][0]['occurrence'], 1);
+		$this->assertEquals(1, $result[0][0]['occurrence']);
 	}
 
 /**
@@ -107,19 +107,18 @@ class GlobalTaggedTest extends CakeTestCase {
 		$result = $this->GlobalTagged->find('tagged', array(
 			'by' => 'cakephp',
 			'model' => 'Article'));
-		$this->assertEqual(count($result), 1);
-		$this->assertEqual($result[0]['Article']['id'], 1);
+		$this->assertCount(1, $result);
+		$this->assertEquals(1, $result[0]['Article']['id']);
 
 		$result = $this->GlobalTagged->find('tagged', array(
 			'model' => 'Article'));
-		$this->assertEqual(count($result), 2);
+		$this->assertCount(2, $result);
 
 		// Test call to paginateCount by Controller::pagination()
 		$result = $this->GlobalTagged->paginateCount(array(), 1, array(
 			'model' => 'Article',
 			'type' => 'tagged'));
-		$this->assertEqual($result, 2);
+		$this->assertEquals(2, $result);
 	}
 
 }
-?>

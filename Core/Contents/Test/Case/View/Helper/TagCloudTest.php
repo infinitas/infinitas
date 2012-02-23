@@ -47,7 +47,9 @@ class TagCloudHelperTestCase extends CakeTestCase {
  * @return void
  */
 	public function testDisplay() {
-		$this->assertEqual($this->TagCloud->display(), '');
+		$result = $this->TagCloud->display();
+		$expected = '';
+		$this->assertEquals($expected, $result);
 		$tags = array(
 			array(
 				'Tag' => array(
@@ -78,13 +80,13 @@ class TagCloudHelperTestCase extends CakeTestCase {
 			$i--;
 			$result = $this->TagCloud->display($tags, $options);
 		} while($result == $expected && $i > 0);
-		$this->assertNotEqual($result, $expected);
+		$this->assertNotEquals($expected, $result);
 
 		// Test normal display
 		$options = array(
 			'shuffle' => false);
 		$result = $this->TagCloud->display($tags, $options);
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		// Test options
 		$options = array_merge($options, array(
@@ -98,13 +100,13 @@ class TagCloudHelperTestCase extends CakeTestCase {
 		$result = $this->TagCloud->display($tags, $options);
 		$expected = '<span size="1"><a href="/search/index/from:twitter/query:cakephp" id="tag-1">CakePHP</a> </span><!-- size: 1 -->'.
 			'<span size="1"><a href="/search/index/from:twitter/query:cakedc" id="tag-2">CakeDC</a> </span><!-- size: 1 -->';
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($expected, $result);
 
 		$tags[1]['Tag']['weight'] = 1;
 		$result = $this->TagCloud->display($tags, $options);
 		$expected = '<span size="100"><a href="/search/index/from:twitter/query:cakephp" id="tag-1">CakePHP</a> </span><!-- size: 100 -->'.
 			'<span size="1"><a href="/search/index/from:twitter/query:cakedc" id="tag-2">CakeDC</a> </span><!-- size: 1 -->';
-		$this->assertEqual($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 /**

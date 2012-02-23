@@ -32,76 +32,95 @@
 		 */
 		function testValidationRules(){
 			$data = array();
-			$this->assertTrue($this->Config->customOptionCheck(array('options' => 'no type set yet so dont validate')));
+			$result = $this->Config->customOptionCheck(array('options' => 'no type set yet so dont validate'));
+			$this->assertTrue($result);
 			/**
 			 * test string inputs
 			 */
 			$this->Config->data['Config']['type'] = 'string';
 			$data['options'] = 'abc';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 123;
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = null;
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			/**
 			 * test integer inputs
 			 */
 			$this->Config->data['Config']['type'] = 'integer';
 			$data['options'] = null;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 'text';
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 123;
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			/**
 			 * test dropdowns inputs
 			 */
 			$this->Config->data['Config']['type'] = 'dropdown';
 			$data['options'] = null;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			$data['options'] = 'text';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 'option1,option2,option3,option4';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 'option1, option2, option3, option4';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 'option1 ,option2 ,option3 ,option4';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 'option1 ,option2, option3 ,option4';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 123;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			/**
 			 * test bool
 			 */
 			$this->Config->data['Config']['type'] = 'bool';
 			$data['options'] = null;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			$data['options'] = true;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			$data['options'] = false;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			$data['options'] = 'true,false';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			$data['options'] = 'false,true';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 
 			/**
 			 * test array
@@ -110,17 +129,21 @@
 			$data = array();
 
 			$this->Config->data['Config']['value'] = null;
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			$this->Config->data['Config']['value'] = '{}';
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			$this->Config->data['Config']['value'] = 'some text';
-			$this->assertFalse($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertFalse($result);
 
 			// see more tests for checking json in the app model tests
 			$this->Config->data['Config']['value'] = '{"hello":"world"}';
-			$this->assertTrue($this->Config->customOptionCheck($data));
+			$result = $this->Config->customOptionCheck($data);
+			$this->assertTrue($result);
 		}
 
 		/**
@@ -132,6 +155,7 @@
 		 */
 		function testGetConfigs(){
 			// value format
+			$result = $this->Config->getConfig();
 			$expected = array(
 				array('Config' => array('key' => 'Test.bool_false', 'value' => false, 'type' => 'bool')),
 				array('Config' => array('key' => 'Test.bool_true', 'value' => true, 'type' => 'bool')),
@@ -147,9 +171,10 @@
 						'value' => 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.',
 						'type' => 'string')),
 				array('Config' => array('key' => 'Website.name', 'value' => 'Infinitas Cms', 'type' => 'string')));
-			$this->assertEqual($this->Config->getConfig(), $expected);
+			$this->assertEquals($expected, $result);
 
 			// getting website configs for installer
+			$result = $this->Config->getInstallSetupConfigs();
 			$expected = array(
 				array(
 					'Config' => array(
@@ -168,19 +193,23 @@
 					)
 				)
 			);
-			$this->assertEqual($this->Config->getInstallSetupConfigs(), $expected);
+			$this->assertEquals($expected, $result);
 		}
 
 		public function testCacheRelatedStuff(){
-			$this->assertTrue(Cache::read('global_configs'), 'Nothing in the cache %s');
+			$result = Cache::read('global_configs');
+			$this->assertTrue($result, 'Nothing in the cache %s');
 			$cacheConfigs = $this->Config->getConfig();
 
 			$this->Config->afterSave(true);
-			$this->assertFalse(Cache::read('global_configs'));
-			$nonCacheConfigs = $this->Config->getConfig();
-			$this->assertTrue(Cache::read('global_configs'), 'Still nothing in the cache %s');
+			$result = Cache::read('global_configs');
+			$this->assertFalse($result);
 
-			$this->assertEqual($cacheConfigs, $nonCacheConfigs);
+			$nonCacheConfigs = $this->Config->getConfig();
+			$result = Cache::read('global_configs');
+			$this->assertTrue($result, 'Still nothing in the cache %s');
+
+			$this->assertEquals($cacheConfigs, $nonCacheConfigs);
 		}
 
 		public function testFormatting(){
@@ -196,9 +225,9 @@
 			$expect['Test.string1'] = 'this is a string';
 			$expect['Website.description'] = 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.';
 			$expect['Website.name'] = 'Infinitas Cms';
-			$this->assertEqual($expect, $configs);
+			$this->assertEquals($expect, $configs);
 
 			$configs = $this->Config->getConfig(true);
-			$this->assertEqual($expect, $configs);
+			$this->assertEquals($expect, $configs);
 		}
 	}

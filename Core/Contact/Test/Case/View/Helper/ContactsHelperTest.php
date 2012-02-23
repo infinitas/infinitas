@@ -17,4 +17,3 @@ class ContactsHelperTest extends CakeTestCase {
 	}
 
 }
-?>
