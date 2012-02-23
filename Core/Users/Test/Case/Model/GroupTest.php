@@ -15,4 +15,3 @@ class GroupTestCase extends CakeTestCase {
 	}
 
 }
-?>

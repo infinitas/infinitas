@@ -20,6 +20,6 @@
 		}
 
 		public function testGenerateSiteMapData(){
-			$this->assertIsA($this->Event, 'EventCore');
+			$this->assertInstanceOf('EventCore', $this->Event);
 		}
 	}

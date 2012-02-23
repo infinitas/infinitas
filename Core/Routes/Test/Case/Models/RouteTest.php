@@ -128,7 +128,7 @@
 
 			//random checks
 			$this->assertTrue(isset($routes[7]));
-			$this->assertTrue(!empty($routes[5]));
+			$this->assertNotEmpty($routes[5]);
 
 			// advanced route
 			$expected = array(

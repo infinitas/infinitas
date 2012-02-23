@@ -110,7 +110,7 @@ class GlobalTagsControllerTest extends CakeTestCase {
  * @access public
  */
 	public function testTagsControllerInstance() {
-		$this->assertTrue(is_a($this->GlobalTags, 'GlobalTagsController'));
+		$this->assertInstanceOf('GlobalTagsController', $this->GlobalTags);
 	}
 
 /**
@@ -121,7 +121,8 @@ class GlobalTagsControllerTest extends CakeTestCase {
  */
 	public function testAdminIndex() {
 		$this->GlobalTags->admin_index();
-		$this->assertTrue(!empty($this->GlobalTags->viewVars['tags']));
+		$result = $this->GlobalTags->viewVars['tags'];
+		$this->assertNotEmpty($result);
 	}
 
 /**
@@ -135,7 +136,9 @@ class GlobalTagsControllerTest extends CakeTestCase {
 			'Tag' => array(
 				'tags' => 'tag1, tag2, tag3'));
 		$this->GlobalTags->admin_add();
-		$this->assertEqual($this->GlobalTags->redirectUrl, array('action' => 'index'));
+		$result = $this->GlobalTags->redirectUrl;
+		$expected = array('action' => 'index');
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -146,7 +149,8 @@ class GlobalTagsControllerTest extends CakeTestCase {
  */
 	public function testAdminEdit() {
 		$this->GlobalTags->admin_edit(1);
-		$tag = array(
+		$result = $this->GlobalTags->request->data;
+		$expected = array(
 			'GlobalTag' => array(
 				'id'  => '1',
 				'identifier'  => null,
@@ -157,14 +161,15 @@ class GlobalTagsControllerTest extends CakeTestCase {
 				'modified'  => '2008-06-02 18:18:37',
 				'tags' => null
 		));
-		$this->assertEqual($this->GlobalTags->request->data, $tag);
+		$this->assertEquals($expected, $result);
 
 		$this->GlobalTags->request->data = array(
 			'GlobalTag' => array(
 				'id' => 1,
 				'name' => 'CAKEPHP'));
 		$this->GlobalTags->admin_edit(1);
-		$this->assertEqual($this->GlobalTags->redirectUrl, array('action' => 'index'));
+		$result = $this->GlobalTags->redirectUrl;
+		$expected = array('action' => 'index');
+		$this->assertEquals($expected, $result);
 	}
 }
-?>

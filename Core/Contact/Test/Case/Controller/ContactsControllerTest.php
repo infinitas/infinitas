@@ -27,4 +27,3 @@ class ContactsControllerTest extends CakeTestCase {
 	}
 
 }
-?>

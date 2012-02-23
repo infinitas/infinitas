@@ -33,17 +33,23 @@
 			$theme['Theme']['active'] = 1;
 			$theme['Theme']['name'] = 'some new theme';
 			$this->Theme->save($theme);
-			$this->assertEqual(1, $this->Theme->find('count', array('conditions' => array('Theme.active' => 1))));
+			$result = $this->Theme->find('count', array('conditions' => array('Theme.active' => 1)));
+			$expected = 1;
+			$this->assertEquals($expected, $result);
 
 			// making a theme active should be the only active one
 			$theme = $this->Theme->find('first', array('conditions' => array('Theme.active' => 0)));
 			$theme['Theme']['active'] = 1;
 			$this->Theme->save($theme);
-			$this->assertEqual(1, $this->Theme->find('count', array('conditions' => array('Theme.active' => 1))));
+			$result = $this->Theme->find('count', array('conditions' => array('Theme.active' => 1)));
+			$expected = 1;
+			$this->assertEquals($expected, $result);
 
 			// deleteing an active theme should set another to active
 			$this->Theme->delete($theme['Theme']['id']);
-			$this->assertEqual(1, $this->Theme->find('count', array('conditions' => array('Theme.active' => 1))));
+			$result = $this->Theme->find('count', array('conditions' => array('Theme.active' => 1)));
+			$expected = 1;
+			$this->assertEquals($expected, $result);
 		}
 
 		function endTest() {
