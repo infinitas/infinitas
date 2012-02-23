@@ -15,4 +15,3 @@ class ModulePositionTestCase extends CakeTestCase {
 	}
 
 }
-?>

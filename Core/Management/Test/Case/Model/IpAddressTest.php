@@ -18,4 +18,3 @@ class IpAddressTest extends CakeTestCase {
 	}
 
 }
-?>

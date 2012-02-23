@@ -18,4 +18,3 @@ class LogTestCase extends CakeTestCase {
 	}
 
 }
-?>

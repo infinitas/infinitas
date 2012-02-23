@@ -22,29 +22,38 @@
 		 * @expectedException PHPUnit_Framework_Error_Warning
 		 */
 		public function testStartAndStop(){
-			$this->assertIsA($this->Cron, 'Cron');
+			$this->assertInstanceOf('Cron', $this->Cron);
 
 			/**
 			 * clear everything out
 			 */
 			$this->Cron->deleteAll(array('Cron.id != 1'));
-			$this->assertEqual(array(), $this->Cron->find('all'));
+
+			$result = $this->Cron->find('all');
+			$expected = array();
+			$this->assertEquals($expected, $result);
 
 			/**
 			 * start a cron and check all the values are correct
 			 */
-			$this->assertTrue($this->Cron->start());
+			$result = $this->Cron->start();
+			$this->assertTrue($result);
 
 			$data = $this->Cron->find('all');
-			$this->assertEqual(count($data), 1);
-			$this->assertTrue(!empty($data[0]['Cron']));
-			$this->assertTrue(is_array($data[0]['Cron']));
-			$this->assertEqual($data[0]['Cron']['id'], $this->Cron->_currentProcess);
-			$this->assertEqual($data[0]['Cron']['year'], date('Y'));
-			$this->assertEqual($data[0]['Cron']['month'], date('m'));
-			$this->assertEqual($data[0]['Cron']['day'], date('d'));
+			$this->assertCount(1, $data);
+			$this->assertNotEmpty($data[0]['Cron']);
+			$this->assertInternalType('array', $data[0]['Cron']);
+			$expected = $this->Cron->_currentProcess;
+			$this->assertEquals($expected, $data[0]['Cron']['id']);
+			$expected = date('Y');
+			$this->assertEquals($expected, $data[0]['Cron']['year']);
+			$expected = date('m');
+			$this->assertEquals($expected, $data[0]['Cron']['month']);
+			$expected = date('d');
+			$this->assertEquals($expected, $data[0]['Cron']['day']);
 
-			$this->assertEqual($data[0]['Cron']['created'], date('Y-n-d ') . $data[0]['Cron']['start_time']);
+			$expected = date('Y-n-d ') . $data[0]['Cron']['start_time'];
+			$this->assertEquals($expected, $data[0]['Cron']['created']);
 
 			$this->assertNull($data[0]['Cron']['end_time']);
 			$this->assertNull($data[0]['Cron']['end_mem']);
@@ -59,14 +68,18 @@
 			 * test ending the cron
 			 */
 			$data = $this->Cron->end(5, 1024, 0.04);
-			$this->assertTrue($data['Cron']['done'] === 1);
-			$this->assertEqual($data['Cron']['mem_ave'],   1024);
-			$this->assertEqual($data['Cron']['load_ave'],  0.04);
-			$this->assertEqual($data['Cron']['tasks_ran'], 5);
+			$this->assertSame(1, $data['Cron']['done']);
+			$expected = 1024;
+			$this->assertEquals($expected, $data['Cron']['mem_ave']);
+			$expected = 0.04;
+			$this->assertEquals($expected, $data['Cron']['load_ave']);
+			$expected = 5;
+			$this->assertEquals($expected, $data['Cron']['tasks_ran']);
 
-			$this->assertEqual(date('Y-n-d ') . $data['Cron']['end_time'], $this->Cron->getLastRun(), 'Not serious if 1 sec diff, just depends how the jobs runs');
+			$this->assertEquals(date('Y-n-d ') . $data['Cron']['end_time'], $this->Cron->getLastRun(), 'Not serious if 1 sec diff, just depends how the jobs runs');
 
-			$this->assertEqual($this->Cron->countJobsAfter(date('Y-n-d ') . $data['Cron']['end_time']), 0);
+			$expected = 0;
+			$this->assertEquals($expected , $this->Cron->countJobsAfter(date('Y-n-d ') . $data['Cron']['end_time']));
 
 			//expects error
 			$this->Cron->end(1, 1, 1);
@@ -76,13 +89,22 @@
 		 * test clearing out the old logs
 		 */
 		public function testClearOutOldLogs(){
-			$this->assertEqual($this->Cron->countJobsAfter('2010-12-7 06:47:06'), 89);
+			$result = $this->Cron->countJobsAfter('2010-12-7 06:47:06');
+			$expected = 89;
+			$this->assertEquals($expected, $result);
 
-			$this->assertEqual('2010-12-7 14:21:01', $this->Cron->getLastRun());
-			$this->assertEqual(139, $this->Cron->find('count'));
+			$result = $this->Cron->getLastRun();
+			$expected = '2010-12-7 14:21:01';
+			$this->assertEquals($expected, $result);
+
+			$result = $this->Cron->find('count');
+			$expected = 139;
+			$this->assertEquals($expected, $result);
 			Configure::write('Cron.clear_logs', '1 minute');
 
 			$this->Cron->clearOldLogs();
-			$this->assertEqual(0, $this->Cron->find('count'), 'Crons not cleared %s');
+			$result = $this->Cron->find('count');
+			$expected = 0;
+			$this->assertEquals($expected, $result, 'Crons not cleared %s');
 		}
 	}

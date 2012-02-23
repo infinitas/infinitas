@@ -20,9 +20,12 @@
 		}
 
 		function testFindActive(){
-			$this->assertEqual(4, $this->Category->find('count'));
+			$result = $this->Category->find('count');
+			$expected = 4;
+			$this->assertEquals($expected, $result);
 
+			$result = $this->Category->getActiveIds();
 			$expected = array(1 => 1, 2 => 2, 3 => 3);
-			$this->assertEqual($expected, $this->Category->getActiveIds());
+			$this->assertEquals($expected, $result);
 		}
 	}

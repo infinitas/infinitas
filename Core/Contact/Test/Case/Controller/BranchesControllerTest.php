@@ -41,6 +41,6 @@
 		}
 
 		function testStuff(){
-			$this->assertIsA($this->Branches, 'BranchesController');
+			$this->assertInstanceOf('BranchesController', $this->Branches);
 		}
 	}

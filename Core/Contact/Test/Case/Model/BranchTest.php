@@ -18,4 +18,3 @@ class BranchTest extends CakeTestCase {
 	}
 
 }
-?>
