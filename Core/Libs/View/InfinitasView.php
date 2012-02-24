@@ -154,7 +154,7 @@
 			$infinitasJsData['passedArgs'] = $this->request->params['pass'];
 			$infinitasJsData['data']	   = $this->request->data;
 
-			//$infinitasJsData['model']	   = $this->Controller->modelClass;
+			$infinitasJsData['model']	   = Inflector::classify($this->request->params['controller']);
 
 			$infinitasJsData['config']	 = Configure::read();
 
