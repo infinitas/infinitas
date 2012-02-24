@@ -311,6 +311,10 @@
 				$Model->data['GlobalContent']['model'] = $this->__getModel($Model);
 			}
 			
+			if(!isset($Model->data['GlobalContent']['introduction'])) {
+				$Model->data['GlobalContent']['introduction'] = '';
+			}
+			
 			$this->__fullTextSave($Model);
 
 			return isset($Model->data['GlobalContent']['model']) && !empty($Model->data['GlobalContent']['model']);
