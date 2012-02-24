@@ -49,8 +49,8 @@ switch(Infinitas.params.prefix) {
 					return false;
 				}
 			});
-
-			$.FormHelper.checkboxToggleAll();
+			
+			$.FormHelper.checkboxToggleAll('#' + Infinitas.model + 'All');
 
 			$(".trigger").click(function(){
 				$this = $(this);
