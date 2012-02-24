@@ -45,20 +45,28 @@
 		}
 
 		public function index() {
-			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.hide'] = 0;
-			$this->paginate['GlobalCategory']['conditions']['GlobalCategory.parent_id'] = null;
+			$this->Paginator->settings = array(
+				$this->modelClass => array(
+					'conditions' => array(
+						$this->modelClass . '.active' => 1,
+						$this->modelClass . '.hide' => 0,
+						$this->modelClass . '.parent_id' => null
+					)
+				)
+			);
+			
 			if(isset($this->request->params['category'])){
-				$this->paginate['GlobalCategory']['conditions']['GlobalCategory.slug'] = $this->request->params['category'];
+				$this->Paginator->settings[$this->modelClass]['conditions'][$this->modelClass . '.slug'] = $this->request->params['category'];
 			}
 
 			$categories = $this->Paginator->paginate();
 			// redirect if there is only one category.
-			if (count($categories) == 1 && Configure::read('Cms.auto_redirect')) {
+			if (count($categories) == 1 && Configure::read('Contents.GlobalCategory.auto_redirect')) {
 				$this->redirect(
 					array(
 						'controller' => 'categories',
 						'action' => 'view',
-						$categories[0]['GlobalCategory']['id']
+						$categories[0][$this->modelClass]['id']
 					)
 				);
 			}
