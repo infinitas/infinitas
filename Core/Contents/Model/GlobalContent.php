@@ -256,7 +256,8 @@
 					'or' => array(
 						'GlobalContent.foreign_key' => $query[0],
 						'GlobalContent.global_category_id' => $query[0]
-					)
+					),
+					'GlobalContent.model <> ' => 'Contents.GlobalContent'
 				);
 				$query['joins'][] = array(
 					'table' => 'global_categories',
