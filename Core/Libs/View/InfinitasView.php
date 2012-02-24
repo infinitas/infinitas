@@ -144,6 +144,8 @@
 			if($this->request->is('ajax')){
 				return false;
 			}
+			
+			$model = current($this->request->params['models']);
 
 			$infinitasJsData['base']	= $this->request->base;
 			$infinitasJsData['here']	= $this->request->here;
@@ -154,7 +156,7 @@
 			$infinitasJsData['passedArgs'] = $this->request->params['pass'];
 			$infinitasJsData['data']	   = $this->request->data;
 
-			$infinitasJsData['model']	   = Inflector::classify($this->request->params['controller']);
+			$infinitasJsData['model']	   = isset($model['className']) ? $model['className'] : null;
 
 			$infinitasJsData['config']	 = Configure::read();
 
