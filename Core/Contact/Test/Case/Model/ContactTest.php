@@ -15,4 +15,3 @@ class ContactTest extends CakeTestCase {
 	}
 
 }
-?>

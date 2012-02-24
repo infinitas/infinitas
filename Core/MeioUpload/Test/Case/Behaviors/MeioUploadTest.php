@@ -1,6 +1,6 @@
-<?php  
-class Upload extends CakeTestModel { 
-    
+<?php
+class Upload extends CakeTestModel {
+
     var $validate = array(
 		'first_file' => array(
 			'Empty' => array(
@@ -18,29 +18,28 @@ class Upload extends CakeTestModel {
 			),
 		),
 	);
-	
-	var $actsAs = array(  
-		'MeioUpload.MeioUpload' => array(  
+
+	var $actsAs = array(
+		'MeioUpload.MeioUpload' => array(
 			'first_file',
 			'second_file',
 			'third_file'
-		) 
-	); 
+		)
+	);
 
-} 
+}
 
-class MultipleOptionalCase extends CakeTestCase { 
-    var $fixtures = array( 'article_test' ); 
-     
-    function testMultipleOptional() { 
-        $this->Upload =& new Upload(); 
-         
+class MultipleOptionalCase extends CakeTestCase {
+    var $fixtures = array( 'article_test' );
+
+    function testMultipleOptional() {
+        $this->Upload =& new Upload();
+
         $result = $this->Upload->save(
         	//array('id', 'title')
         	// @TODO Needs to have 1 file being uploaded, other 2 slots empty (with file input array however)
         );
-         
-        $this->assertEqual($result, true); 
-    } 
-} 
-?>
+
+        $this->assertTrue($result);
+    }
+}

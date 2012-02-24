@@ -92,7 +92,7 @@ class GlobalTagTestCase extends CakeTestCase {
 	public function testTagFind() {
 		$this->GlobalTag->recursive = -1;
 		$results = $this->GlobalTag->find('first');
-		$this->assertTrue(!empty($results));
+		$this->assertNotEmpty($results);
 
 		$expected = array(
 			'GlobalTag' => array(
@@ -104,7 +104,7 @@ class GlobalTagTestCase extends CakeTestCase {
 				'created'  => '2008-06-02 18:18:11',
 				'modified'  => '2008-06-02 18:18:37',
 				'description' => 'nice'));
-		$this->assertEqual($results, $expected);
+		$this->assertEquals($expected, $results);
 	}
 
 /**
@@ -115,11 +115,13 @@ class GlobalTagTestCase extends CakeTestCase {
  */
 	public function testView() {
 		$result = $this->GlobalTag->getViewData('cakephp');
-		$this->assertTrue(is_array($result));
-		$this->assertEqual($result['GlobalTag']['keyname'], 'cakephp');
+		$this->assertInternalType('array', $result);
+
+		$expected = 'cakephp';
+		$this->assertEquals($expected, $result['GlobalTag']['keyname']);
 
 		$result = $this->GlobalTag->getViewData('invalid-key!!!');
-		$this->assertTrue(empty($result));
+		$this->assertEmpty($result);
 	}
 
 //methods below are not found(removed?) in infinitas, tests derive from tags plugin
@@ -140,9 +142,9 @@ class GlobalTagTestCase extends CakeTestCase {
 //			'fields' => array(
 //				'GlobalTag.name')));
 //		$result = Set::extract($result, '{n}.GlobalTag.name');
-//		$this->assertTrue(in_array('tag1', $result));
-//		$this->assertTrue(in_array('tag2', $result));
-//		$this->assertTrue(in_array('tag3', $result));
+//		$this->assertContains('tag1', $result);
+//		$this->assertContains('tag2', $result);
+//		$this->assertContains('tag3', $result);
 	}
 
 /**
@@ -153,31 +155,35 @@ class GlobalTagTestCase extends CakeTestCase {
  */
 	public function testEdit() {
 //		$this->assertNull($this->GlobalTag->edit(1));
-//		$this->assertEqual($this->GlobalTag->data['Tag']['id'], 1);
+//
+//		$result = $this->GlobalTag->data['Tag']['id'];
+//		$expected = 1;
+//		$this->assertEquals($expected , $result);
 //
 //		$data = array(
 //			'Tag' => array(
 //				'id' => 1,
 //				'name' => 'CAKEPHP'));
-//		$this->assertTrue($this->GlobalTag->edit(1, $data));
+//		$result = $this->GlobalTag->edit(1, $data);
+//		$this->assertTrue($result);
 //
 //		$data = array(
 //			'Tag' => array(
 //				'id' => 1,
 //				'name' => 'CAKEPHP111'));
-//		$this->assertFalse($this->GlobalTag->edit(1, $data));
+//		$result = $this->GlobalTag->edit(1, $data);
+//		$this->assertFalse($result);
 //
 //		$data = array(
 //			'Tag' => array(
 //				'id' => 1,
 //				'name' => 'CAKEPHP',
 //				'keyname' => ''));
-//		$this->assertEqual($this->GlobalTag->edit(1, $data), $data);
+//		$result = $this->GlobalTag->edit(1, $data);
+//		$this->assertEquals($data, $result);
 //
-//		$this->expectException('Exception');
-//		$this->assertTrue($this->GlobalTag->edit('invalid-id', array()));
+//		$this->setExpectedException('Exception');
+//		$this->GlobalTag->edit('invalid-id', array());
 	}
 
 }
-
-?>

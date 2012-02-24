@@ -21,8 +21,9 @@
 		}
 
 		public function testGenerateSiteMapData(){
-			$this->assertIsA($this->Event, 'EventCore');
+			$this->assertInstanceOf('EventCore', $this->Event);
 
+			$result = $this->Event->trigger(new Object(), 'Contents.siteMapRebuild');
 			$expected = array('siteMapRebuild' => array('Contents' => array(
 				array(
 					'url' => Router::url('/', true) . 'contents/categories',
@@ -50,6 +51,6 @@
 					'change_frequency' => 'monthly'
 				),
 			)));
-			$this->assertEqual($expected, $this->Event->trigger(new Object(), 'Contents.siteMapRebuild'));
+			$this->assertEqual($expected, $result);
 		}
 	}

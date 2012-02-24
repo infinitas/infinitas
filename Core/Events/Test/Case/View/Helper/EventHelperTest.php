@@ -15,9 +15,12 @@
 		}
 
 		public function testEvents(){
+			$result = $this->Event->trigger('foo');
 			$expected = array('foo'=> array());
-			$this->assertEqual($expected, $this->Event->trigger('foo'));
-			$this->assertEqual($expected, $this->Event->trigger('Plugin.foo'));
+			$this->assertEquals($expected, $result);
+
+			$result = $this->Event->trigger('Plugin.foo');
+			$this->assertEquals($expected, $result);
 
 			$global = $this->Event->trigger('returnEventForTest');
 			$plugin = $this->Event->trigger('Events.returnEventForTest');
@@ -25,11 +28,11 @@
 			/**
 			 * test calling the plugin method vs global returns the same format.
 			 */
-			$this->assertIdentical(
+			$this->assertSame(
 				$global['returnEventForTest']['Events']->Handler,
 				$plugin['returnEventForTest']['Events']->Handler
 			);
-			$this->assertIdentical($global['returnEventForTest']['Events']->Handler, $this->Event);
-			$this->assertIdentical($plugin['returnEventForTest']['Events']->Handler, $this->Event);
+			$this->assertSame($global['returnEventForTest']['Events']->Handler, $this->Event);
+			$this->assertSame($plugin['returnEventForTest']['Events']->Handler, $this->Event);
 		}
 	}

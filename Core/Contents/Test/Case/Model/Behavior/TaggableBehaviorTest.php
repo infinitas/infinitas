@@ -97,7 +97,7 @@ class TaggableBehaviorTest extends CakeTestCase {
 			'conditions' => array('id' => 1),
 			'contain' => array('GlobalTag')
 		));
-		$this->assertTrue(!empty($result['Article']['tags']));
+		$this->assertNotEmpty($result['Article']['tags']);
 
 		$data['tags'] = 'foo, developer, developer, php';
 		$this->Article->save($data, false);
@@ -105,7 +105,7 @@ class TaggableBehaviorTest extends CakeTestCase {
 			'contain' => array('GlobalTag'),
 			'conditions' => array(
 				'id' => 1)));
-		$this->assertTrue(!empty($result['Article']['tags']));
+		$this->assertNotEmpty($result['Article']['tags']);
 
 
 		$data['tags'] = 'cakephp:foo, developer, cakephp:developer, cakephp:php';
@@ -116,12 +116,14 @@ class TaggableBehaviorTest extends CakeTestCase {
 			'conditions' => array(
 				'GlobalTag.identifier' => 'cakephp')));
 		$result = Set::extract($result, '{n}.GlobalTag.keyname');
-		$this->assertEqual($result, array(
-			'developer', 'foo', 'php'));
+		$expected = array('developer', 'foo', 'php');
+		$this->assertEquals($expected, $result);
 
+		$result = $this->Article->saveTags('foo, bar', null);
+		$this->assertFalse($result);
 
-		$this->assertFalse($this->Article->saveTags('foo, bar', null));
-		$this->assertFalse($this->Article->saveTags(array('foo', 'bar'), 'something'));
+		$result = $this->Article->saveTags(array('foo', 'bar'), 'something');
+		$this->assertFalse($result);
 	}
 
 /**
@@ -139,11 +141,11 @@ class TaggableBehaviorTest extends CakeTestCase {
 			'conditions' => array(
 				'id' => 1)));
 		$result = $this->Article->tagArrayToString($result['GlobalTag']);
-		$this->assertTrue(!empty($result));
+		$this->assertNotEmpty($result);
 		$this->assertInternalType('string', $result);
 
 		$result = $this->Article->tagArrayToString();
-		$this->assertTrue(empty($result));
+		$this->assertEmpty($result);
 		$this->assertInternalType('string',  $result);
 	}
 
@@ -155,10 +157,12 @@ class TaggableBehaviorTest extends CakeTestCase {
  */
 	public function testMultibyteKey() {
 		$result = $this->Article->multibyteKey('this is _ a Nice ! - _ key!');
-		$this->assertEqual('thisisanicekey', $result);
+		$expected = 'thisisanicekey';
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Article->multibyteKey('Äü-Ü_ß');
-		$this->assertEqual('äüüß', $result);
+		$expected = 'äüüß';
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -183,9 +187,7 @@ class TaggableBehaviorTest extends CakeTestCase {
 			'conditions' => array('id' => 1),
 			'contain' => array('GlobalTag')
 		));
-		$this->assertTrue(!isset($result['GlobalTag']));
+		$this->assertFalse(isset($result['GlobalTag']));
 	}
 
 }
-
-?>
