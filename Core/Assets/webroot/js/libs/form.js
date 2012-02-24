@@ -54,9 +54,8 @@
 	/**
 	 * toggle checkboxes
 	 */
-	FormHelper.checkboxToggleAll = function() {
+	FormHelper.checkboxToggleAll = function(toggleId) {
 		var tog = false;
-		var toggleId = '#' + Infinitas.model + 'All';
 		$(toggleId).click(function(){
 			$("input:checkbox[not:"+toggleId+"]").attr("checked",!tog).change();
 			tog = !tog;
