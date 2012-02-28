@@ -3,7 +3,18 @@
 		public $useTable = 'global_contents';
 
 		public $actsAs = array(
-			'Contents.Taggable'
+			'Contents.Taggable',
+			'Filemanager.Upload' => array(
+				'image' => array(
+					'thumbnailSizes' => array(
+						'jumbo' => '1600l',
+						'large' => '1000l',
+						'medium' => '600l',
+						'small' => '300l',
+						'thumb' => '50l'
+					)
+				)
+			)
 		);
 
 		public $contentable = true;

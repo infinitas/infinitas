@@ -52,6 +52,11 @@
 				),
 				false
 			);
+		
+			$Model->virtualFields['content_image_path_full'] = 'IF((GlobalContent.image = "" OR GlobalContent.image = NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", GlobalContent.image))';
+			foreach($Model->GlobalContent->actsAs['Filemanager.Upload']['image']['thumbnailSizes'] as $name => $size) {
+				$Model->virtualFields['content_image_path_' . $name] = 'IF((GlobalContent.image = "" OR GlobalContent.image = NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", "' . $name . '_", GlobalContent.image))';
+			}
 		}
 
 		/**
@@ -78,7 +83,7 @@
 			if(!is_array($query['fields'])) {
 				$query['fields'] = array($query['fields']);
 			}
-
+			
 			if($Model->findQueryType == 'list') {
 				$displayField = 'GlobalContent.title';
 				if($Model->displayField != $Model->primaryKey) {

@@ -19,7 +19,7 @@
      */
 	$edit = strstr($this->request->params['action'], 'edit');
 
-	echo $this->Form->create('GlobalCategory', array('action' => 'edit'));
+	echo $this->Form->create('GlobalCategory', array('action' => 'edit', 'type' => 'file'));
 		echo $this->Infinitas->adminEditHead();
 		$headings = array(
 			__d('contents', 'Details'),
@@ -29,7 +29,7 @@
 		$tabs = array(
 			$this->element('Contents.content_form'),
 			$this->Form->input('id').
-					$this->Form->input('parent_id', array('options' => $contentCategories, 'empty' => __d('contents', 'Root Category'))) .
+				$this->Form->input('parent_id', array('options' => $contentCategories, 'empty' => __d('contents', 'Root Category'))) .
 				$this->Form->input('active') . $this->Form->input('hide') . $this->element('Contents.meta_form')
 		);
 

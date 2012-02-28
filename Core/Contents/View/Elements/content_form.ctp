@@ -22,6 +22,10 @@
 			$this->element('Contents.category_list') .
 		'</div>' .
 		$this->Form->input('GlobalContent.tags');
+	
+	if(!isset($image) || $image !== false) {
+		$fields .= $this->element('Filemanager.file_upload', array('fieldName' => 'GlobalContent.image', 'inputOptions' => array('label' => __d('contents', 'Content Image'))));
+	} 
 
 	if(!isset($intro) || $intro !== false) {
 		$fields .= $this->Infinitas->wysiwyg('GlobalContent.introduction');
