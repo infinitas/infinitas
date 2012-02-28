@@ -106,9 +106,22 @@
 			$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
 			$this->__vars['params']	= &$this->request->params;
 
-			$out = $this->Mustache->render($out, $this->__vars['viewVars']);
+			$out = $this->renderTemplate($out, $this->__vars['viewVars']);
 		}
 
+		/**
+		 * @breif render a mustache template with the passed in variables 
+		 * 
+		 * @access public
+		 * 
+		 * @param string $template the mustache template
+		 * @param array $variables variables that will be instered into the template
+		 * 
+		 * @return string the rendered template with variables inserted
+		 */
+		public function renderTemplate($template, array $variables = array()) {
+			return $this->Mustache->render($template, $variables);
+		}
 
 		/**
 		 * @brief check if mustache should be used to render a template
