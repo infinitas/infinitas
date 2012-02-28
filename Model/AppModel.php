@@ -157,6 +157,9 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
+			
+			$this->findMethods['active'] = true;
+			$this->findMethods['inactive'] = true;
 
 			parent::__construct($id, $table, $ds);
 			if($this->tablePrefix != ''){
@@ -514,6 +517,54 @@
 				$query = $this->{'_find' . ucfirst($query['type'])}('before', $query);
 			}
 			return parent::_findCount($state, $query, $results);
+		}
+		
+		/**
+		 * @brief find active rows
+		 * 
+		 * @throws CakeException 
+		 *
+		 * @param string $state Either "before" or "after"
+		 * @param array $query
+		 * @param array $results
+		 *
+		 * @return int The active rows
+		 */
+		protected function _findActive($state, $query, $results = array()) {
+			if ($state === 'before') {
+				if(!$this->hasField('active')) {
+					throw new CakeException('Missing active field in model ' . $this->name);
+				}
+				
+				$query['conditions'][$this->alias . '.active'] = 1;
+				return $query;
+			}
+			
+			return $results;
+		}
+		
+		/**
+		 * @brief find inactive rows
+		 * 
+		 * @throws CakeException 
+		 *
+		 * @param string $state Either "before" or "after"
+		 * @param array $query
+		 * @param array $results
+		 *
+		 * @return int The active rows
+		 */
+		protected function _findInactive($state, $query, $results = array()) {
+			if ($state === 'before') {
+				if(!$this->hasField('active')) {
+					throw new CakeException('Missing active field in model ' . $this->name);
+				}
+				
+				$query['conditions'][$this->alias . '.active'] = 0;
+				return $query;
+			}
+			
+			return $results;
 		}
 
 	}
