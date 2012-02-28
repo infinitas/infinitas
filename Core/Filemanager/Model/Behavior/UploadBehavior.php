@@ -207,8 +207,9 @@ class UploadBehavior extends ModelBehavior {
 	public function beforeSave(&$model) {
 		$this->_removingOnly = array();
 		foreach ($this->settings[$model->alias] as $field => $options) {
-			if (!isset($model->data[$model->alias][$field])) continue;
-			if (!is_array($model->data[$model->alias][$field])) continue;
+			if (!isset($model->data[$model->alias][$field]) || !is_array($model->data[$model->alias][$field])) {
+				continue;
+			}
 
 			$this->runtime[$model->alias][$field] = $model->data[$model->alias][$field];
 
@@ -285,21 +286,22 @@ class UploadBehavior extends ModelBehavior {
 			if ($model->hasField($options['fields']['dir'])) {
 				if ($created && $options['pathMethod'] == '_getPathFlat') {
 				} else if ($options['saveDir']) {
-					$temp[$model->alias][$options['fields']['dir']] = "\"{$tempPath}\"";
+					$temp[$model->alias][$model->alias . '.' . $options['fields']['dir']] = "\"{$tempPath}\"";
 				}
 			}
 		}
 
 		if (!empty($temp[$model->alias])) {
-			$model->updateAll($temp[$model->alias], array(
-				$model->alias.'.'.$model->primaryKey => $model->id
-			));
+			foreach($temp[$model->alias] as $field => $value) {
+				$model->saveField($field, $value);
+			}
 		}
 
 		if (empty($this->__filesToRemove[$model->alias])) return true;
 		foreach ($this->__filesToRemove[$model->alias] as $file) {
 			$result[] = $this->unlink($file);
 		}
+		
 		return $result;
 	}
 
