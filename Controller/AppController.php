@@ -259,11 +259,6 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 
-			// @todo it meio upload is updated.
-			if(isset($this->request->data['Image']['image']['name']) && empty($this->request->data['Image']['image']['name'])){
-				unset($this->request->data['Image']);
-			}
-
 			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
 
 			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Auth->user('group_id') != 1){
