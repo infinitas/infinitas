@@ -100,6 +100,7 @@ switch(Infinitas.params.prefix) {
 function setupRowDetails() {
 	$('tr.parent .toggle').click(function() {
 		$(this).parent().parent().next().toggle();
+		return false;
 	});
 }
 
