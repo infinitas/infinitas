@@ -33,6 +33,7 @@ switch(Infinitas.params.prefix) {
 			setupRowSelecting();
 			setupDatePicker();
 			setupAjaxPagination();
+			setupRowDetails();
 
 			$(document).bind('keydown', 'ctrl+s', function(event) {
 				if(event.ctrlKey && event.which == 83) { // ctrl+s
@@ -94,6 +95,12 @@ switch(Infinitas.params.prefix) {
 			setupAjaxDropdowns();
 		});
 		break;
+}
+
+function setupRowDetails() {
+	$('tr.parent .toggle').click(function() {
+		$(this).parent().parent().next().toggle();
+	});
 }
 
 function setupKeyboardShortcuts() {
