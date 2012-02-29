@@ -727,7 +727,7 @@ table.listing tr.details div {
 	background-color: white;
 	border: 1px solid #cccccc;
 	float: left;
-	height: 105px;
+	height: 125px;
 	overflow: hidden;
 	margin-right: 15px;
 }
@@ -743,11 +743,14 @@ table.listing tr.details div.text p {
 table.listing tr.details div.seo {
 	width: 255px;
 }
-table.listing tr.details div.seo table {
+table.listing tr.details table {
 	width: 100%;
 }
-table.listing tr.details div.seo table td {
+table.listing tr.details table td {
 	text-align: left;
+}
+table.listing tr.details table td:hover {
+	background-color: none;
 }
 
 table.listing tr.details div.image p,
