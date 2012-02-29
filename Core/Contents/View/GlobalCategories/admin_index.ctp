@@ -63,10 +63,16 @@
             );
 
             $i = 0;
-            foreach ($categories as $category){
+            foreach ($categories as $category) {
+				$rowClass = $this->Infinitas->rowClass();
                 ?>
-                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Infinitas->massActionCheckBox($category); ?>&nbsp;</td>
+                	<tr class="parent <?php echo $rowClass; ?>">
+                        <td>
+							<?php 
+								echo '<span class="toggle"><a href="#">+</a></span>';
+								echo $this->Infinitas->massActionCheckBox($category); 
+							?>&nbsp;
+						</td>
                 		<td>
                 			<?php
                 				$paths = array(); //ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
@@ -113,6 +119,61 @@
                 			?>
                 		</td>
                 	</tr>
+					<tr class="details <?php echo $rowClass; ?>">
+						<td colspan="100">
+							<div class="text">
+								<?php 
+									echo sprintf('<span>%s</span>', __d('contents', 'Body')),
+									sprintf('<p>%s</p>', $this->Text->truncate(strip_tags($category['GlobalCategory']['body']), 200)); 
+								?>
+							</div>
+							<div class="seo">
+								<?php echo sprintf('<span>%s</span>', __d('contents', 'SEO')); ?>
+								<table>
+									<tr>
+										<th><?php echo __d('contents', 'Key'); ?></th>
+										<th><?php echo __d('contents', 'Value'); ?></th>
+									</tr>
+									<tr>
+										<td><?php echo __d('contents', 'KW densitty'); ?>&nbsp;</td>
+										<td><?php echo sprintf('%s %%', $category['GlobalCategory']['keyword_density']); ?>&nbsp;</td>
+									</tr>
+									<tr>
+										<td><?php echo __d('contents', 'Word Count'); ?>&nbsp;</td>
+										<td><?php echo count(explode(' ', strip_tags($category['GlobalCategory']['body']))); ?>&nbsp;</td>
+									</tr>
+								</table>
+							</div>
+							<div class="image">
+								<?php
+									echo sprintf('<span>%s</span>', __d('contents', 'Image')),
+									$this->Html->link(
+										$this->Html->image(
+											$category['GlobalCategory']['content_image_path_small'],
+											array(
+												'width' => '150px'
+											)
+										),
+										$category['GlobalCategory']['content_image_path_full'],
+										array(
+											'class' => 'thickbox',
+											'escape' => false
+										)
+									),
+									sprintf('<p>%s</p>', $category['GlobalCategory']['image']);
+								?>
+							</div>
+							<div class="chart">
+								<?php 
+									echo sprintf('<span>%s</span>', __d('contents', 'Views')),
+									$this->ModuleLoader->loadDirect(
+										'ViewCounter.quick_view', 
+										array('model' => 'Contents.GlobalCategory', 'foreignKey' => $category['GlobalCategory']['id'])
+									); 
+								?>
+							</div>
+						</td>
+					</tr>
                 <?php
             }
         ?>
