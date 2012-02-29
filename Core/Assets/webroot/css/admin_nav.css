@@ -697,3 +697,69 @@ table.listing .bg td {
 	width: 441px;
 	overflow: hidden;
 }
+
+tr.parent span.toggle {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+table.listing tr.details {
+	margin-bottom: 20px;
+	display: none;
+}
+
+table.listing tr.details td {
+	margin-bottom: 20px;
+}
+
+table.listing tr.details img {
+	clear: both;
+	display: block;
+	margin: auto;
+	padding-top: 5px;
+}
+
+table.listing tr.details div {
+	text-align: center;
+	width: 165px;
+	border-radius: 10px;
+	text-align: center;
+	background-color: white;
+	border: 1px solid #cccccc;
+	float: left;
+	height: 105px;
+	overflow: hidden;
+	margin-right: 15px;
+}
+
+table.listing tr.details div.text {
+	width: 275px;
+}
+table.listing tr.details div.text p {
+	text-align: left;
+	padding: 5px;
+}
+
+table.listing tr.details div.seo {
+	width: 255px;
+}
+table.listing tr.details div.seo table {
+	width: 100%;
+}
+table.listing tr.details div.seo table td {
+	text-align: left;
+}
+
+table.listing tr.details div.image p,
+table.listing tr.details div.chart p {
+	padding: 0;
+	margin: 0;
+}
+
+table.listing tr.details div span {
+	text-align: left;
+	display: block;
+	border-bottom: 1px solid gray;
+	background-color: #cccccc;
+	padding-left: 10px;
+}
