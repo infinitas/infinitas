@@ -601,10 +601,18 @@
 		public function _formatLabels($value){
 			$i = 0;
 			$return = array();
-			foreach($value as $k => $v){
+			foreach($value as $k => $v) {
+				if($v === false) {
+					continue;
+				}
+				
 				$_part = $i . ':' . $this->_formats['labels']['separator'];
 				$return[] = $_part . implode($this->_formats['labels']['separator'], $v);
 				++$i;
+			}
+			
+			if(empty($return)) {
+				return false;
 			}
 
 			return array(
