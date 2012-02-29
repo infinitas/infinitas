@@ -47,7 +47,7 @@
                 )
             );
 
-            foreach ($contents as $content){
+            foreach ($contents as $content) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($content); ?>&nbsp;</td>
