@@ -15,7 +15,7 @@
 	 */
 
 	class GlobalCategoriesController extends ContentsAppController {
-		public function  beforeRender() {
+		public function beforeRender() {
 			parent::beforeRender();
 
 			if($this->request->params['admin']) {
