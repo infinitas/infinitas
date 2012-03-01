@@ -50,12 +50,11 @@
 			__d('installer',
 				'Since you are on the %s installer you probably know a bit about %s.
 				Before you go to the next step, make sure that you have create a database and you have the database details at hand.
-				If you are unsure how to create a database, contact your web host support.', true),
+				If you are unsure how to create a database, contact your web host support.'),
 			__d('installer',
 				'%s uses the MIT License, the full license is shown below for your information.
-				Unless you plan on modifiying and redistributing %s you do not need to worry about the license. 
-				Note that this license only applies to the %s core code, some extensions may have other licenses.',
-				true)
+				Unless you plan on modifiying and redistributing %s you do not need to worry about the license.
+				Note that this license only applies to the %s core code, some extensions may have other licenses.')
 		);
 
 		$siteName = '<b>Infinitas</b>';

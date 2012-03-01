@@ -35,14 +35,14 @@
 	<p>
         <?php
 			echo __('Frontend: ');
-            echo $html->link(
+            echo $this->Html->link(
                 Router::url( '/', true),
                 Router::url( '/', true )
             );
         ?><br />
         <?php
 			echo __('Administration panel: ');
-            echo $html->link(
+            echo $this->Html->link(
                 Router::url( '/admin', true),
                 Router::url( '/admin', true)
             );

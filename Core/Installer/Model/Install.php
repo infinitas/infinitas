@@ -16,12 +16,12 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
-
+	App::uses('Model', 'Model');
 	class Install extends Model {
 		public $useTable = false;
 
 		public $useDbConfig = false;
-		
+
 		public $actsAs = false;
 
 		public function __construct($id = false, $table = null, $ds = null) {
@@ -48,13 +48,13 @@
 				),
 			);
 		}
-		
+
 		public function beforeValidate() {
 			$this->data[$this->alias] = array_merge(
 				array('driver' => null, 'host' => null, 'login' => null, 'password' => null, 'database' => null, 'port' => null, 'prefix' => null),
 				array_filter($this->data[$this->alias])
 			);
-			
+
 			$this->data[$this->alias]['port'] = !empty($this->data[$this->alias]['port']) ? $this->data[$this->alias]['port'] : null;
 			$this->data[$this->alias]['prefix'] = !empty($this->data[$this->alias]['prefix']) ? $this->data[$this->alias]['prefix'] : null;
 		}

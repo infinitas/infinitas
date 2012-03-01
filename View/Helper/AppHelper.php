@@ -356,7 +356,7 @@
 		 *	// to a different page
 		 *	$this->Html->adminQuickLink($user['User'], array('action' => 'view'));
 		 * @endcode
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @param array $row the row $row['Model'] data
@@ -1001,8 +1001,9 @@
 			}
 
 			$key = md5(serialize($keyUrl) . $full);
-			$key .= INFINITAS_ROUTE_HASH;
-
+			if (defined('INFINITAS_ROUTE_HASH')) {
+				$key .= INFINITAS_ROUTE_HASH;
+			}
 			if (!empty($this->urlCache[$key])) {
 				return $this->urlCache[$key];
 			}
