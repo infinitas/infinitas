@@ -13,7 +13,7 @@
 	 * @writtenby		jaredhoyt
 	 * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
-	App::uses('InfinitasComponent', 'Libs/Component');
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
 	class WizardComponent extends InfinitasComponent {
 		/**
@@ -212,8 +212,8 @@
 				}
 
 				$this->autoReset = false;
-			} 
-			
+			}
+
 			else if ($step == 'reset') {
 				if (!$this->lockdown) {
 					$this->reset();
@@ -230,8 +230,8 @@
 						$processCallback = '_' . Inflector::variable('process_' . $this->_currentStep);
 						if (method_exists($this->Controller, $processCallback)) {
 							$proceed = $this->Controller->$processCallback();
-						} 
-						
+						}
+
 						else if ($this->autoValidate) {
 							$proceed = $this->_validateData();
 						}
@@ -257,12 +257,12 @@
 								$this->Controller->redirect($this->wizardAction);
 							}
 						}
-					} 
-					
+					}
+
 					else if (isset($this->Controller->params['form']['Previous']) && prev($this->steps)) {
 						$this->redirect(current($this->steps));
 					}
-					
+
 					else if ($this->Session->check("$this->_sessionKey.$this->_currentStep")) {
 						$this->Controller->data = $this->read($this->_currentStep);
 					}
@@ -363,7 +363,7 @@
 			if ($step == null) {
 				$step = $this->_getExpectedStep();
 			}
-			
+
 			$url = array('controller' => strtolower($this->Controller->name), 'action' => $this->wizardAction, 'step' => $step);
 			$this->Controller->redirect($url, $status, $exit);
 		}
@@ -460,8 +460,8 @@
 							if ($branchType !== 'skip') {
 								$branch = $branchName;
 							}
-						} 
-						
+						}
+
 						else if (empty($branch) && $this->defaultBranch) {
 							$branch = $branchName;
 						}

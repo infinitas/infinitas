@@ -21,7 +21,7 @@
 <h2><?php echo __('Set up your administrator user'); ?></h2>
 	<p><?php echo __('Infinitas is now sucessfully installed. Before using Infinitas you should first setup an administrative user. This will be the user that is responsible for maintaining and administrating your website.'); ?></p>
 <?php
-	echo $form->input( 'User.username');
-	echo $form->input( 'User.email');
-	echo $form->input( 'User.password');
+	echo $this->Form->input( 'User.username');
+	echo $this->Form->input( 'User.email');
+	echo $this->Form->input( 'User.password');
 ?>
