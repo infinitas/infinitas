@@ -1,17 +1,14 @@
-<?php 
-/* SVN FILE: $Id$ */
-/* Crons schema generated on: 2011-09-03 23:09:25 : 1315090165*/
+<?php
 class CronsSchema extends CakeSchema {
-	var $name = 'Crons';
 
-	function before($event = array()) {
+	public function before($event = array()) {
 		return true;
 	}
 
-	function after($event = array()) {
+	public function after($event = array()) {
 	}
 
-	var $crons = array(
+	public $core_crons = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'process_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8),
 		'year' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -31,4 +28,3 @@ class CronsSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 }
-?>

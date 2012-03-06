@@ -1,35 +1,41 @@
 <?php
-class R4cfe4011f4784cd9aef31bbd6318cd70 extends CakeRelease {
+	/**
+	 * Infinitas Releas
+	 *
+	 * Auto generated database update
+	 */
+	 
+	class R4f56329cf3704420925841436318cd70 extends CakeRelease {
 
-/**
- * Migration description
- *
- * @var string
- * @access public
- */
-	public $description = 'Migration for Crons version 0.8';
+	/**
+	* Migration description
+	*
+	* @var string
+	* @access public
+	*/
+		public $description = 'Migration for Crons version 0.9';
 
-/**
- * Plugin name
- *
- * @var string
- * @access public
- */
-	public $plugin = 'Crons';
+	/**
+	* Plugin name
+	*
+	* @var string
+	* @access public
+	*/
+		public $plugin = 'Crons';
 
-/**
- * Actions to be performed
- *
- * @var array $migration
- * @access public
- */
-	public $migration = array(
-		'up' => array(
+	/**
+	* Actions to be performed
+	*
+	* @var array $migration
+	* @access public
+	*/
+		public $migration = array(
+			'up' => array(
 			'create_table' => array(
-				'crons' => array(
+				'core_crons' => array(
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'process_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8),
-					'year' => array('type' => 'text', 'null' => false, 'default' => NULL, 'length' => 4),
+					'year' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'month' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 2),
 					'day' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 2),
 					'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
@@ -51,32 +57,31 @@ class R4cfe4011f4784cd9aef31bbd6318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'crons'
+				'core_crons'
 			),
 		),
-	);
+		);
 
 	
-/**
- * Before migration callback
- *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
- * @access public
- */
-	public function before($direction) {
-		return true;
-	}
+	/**
+	* Before migration callback
+	*
+	* @param string $direction, up or down direction of migration process
+	* @return boolean Should process continue
+	* @access public
+	*/
+		public function before($direction) {
+			return true;
+		}
 
-/**
- * After migration callback
- *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
- * @access public
- */
-	public function after($direction) {
-		return true;
+	/**
+	* After migration callback
+	*
+	* @param string $direction, up or down direction of migration process
+	* @return boolean Should process continue
+	* @access public
+	*/
+		public function after($direction) {
+			return true;
+		}
 	}
-}
-?>
