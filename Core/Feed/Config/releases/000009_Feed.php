@@ -1,33 +1,39 @@
 <?php
-class R4cbc74f64b40447e8a3420786318cd70 extends CakeRelease {
+	/**
+	 * Infinitas Releas
+	 *
+	 * Auto generated database update
+	 */
+	 
+	class R4f56342fab9c4c2c9a6743556318cd70 extends CakeRelease {
 
-/**
- * Migration description
- *
- * @var string
- * @access public
- */
-	public $description = 'Migration for Feed version 0.8';
+	/**
+	* Migration description
+	*
+	* @var string
+	* @access public
+	*/
+		public $description = 'Migration for Feed version 0.9';
 
-/**
- * Plugin name
- *
- * @var string
- * @access public
- */
-	public $plugin = 'Feed';
+	/**
+	* Plugin name
+	*
+	* @var string
+	* @access public
+	*/
+		public $plugin = 'Feed';
 
-/**
- * Actions to be performed
- *
- * @var array $migration
- * @access public
- */
-	public $migration = array(
-		'up' => array(
+	/**
+	* Actions to be performed
+	*
+	* @var array $migration
+	* @access public
+	*/
+		public $migration = array(
+			'up' => array(
 			'create_table' => array(
-				'feeds' => array(
-					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+				'global_feeds' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'controller' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -49,7 +55,7 @@ class R4cbc74f64b40447e8a3420786318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'feeds_feeds' => array(
+				'global_feeds_feeds' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 					'main_feed_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'sub_feed_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -62,32 +68,31 @@ class R4cbc74f64b40447e8a3420786318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'feeds', 'feeds_feeds'
+				'global_feeds', 'global_feeds_feeds'
 			),
 		),
-	);
+		);
 
 	
-/**
- * Before migration callback
- *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
- * @access public
- */
-	public function before($direction) {
-		return true;
-	}
+	/**
+	* Before migration callback
+	*
+	* @param string $direction, up or down direction of migration process
+	* @return boolean Should process continue
+	* @access public
+	*/
+		public function before($direction) {
+			return true;
+		}
 
-/**
- * After migration callback
- *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
- * @access public
- */
-	public function after($direction) {
-		return true;
+	/**
+	* After migration callback
+	*
+	* @param string $direction, up or down direction of migration process
+	* @return boolean Should process continue
+	* @access public
+	*/
+		public function after($direction) {
+			return true;
+		}
 	}
-}
-?>
