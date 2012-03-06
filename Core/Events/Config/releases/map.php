@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_events' => 'R4c94edcc56e8492aa06b78d86318cd70'),
+		'000009_Events' => 'R4f56333be9cc4d69892e428c6318cd70'),
 );
 ?>
