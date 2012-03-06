@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_filter' => 'R4c94edcc54904167a8cc78d86318cd70'),
+		'000009_Filter' => 'R4f56344572e44a3299d543556318cd70'),
 );
 ?>
