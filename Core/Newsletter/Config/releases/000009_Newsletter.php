@@ -1,35 +1,41 @@
 <?php
-class R4c94edceb66c49d38c8678d86318cd70 extends CakeRelease {
+	/**
+	 * Infinitas Releas
+	 *
+	 * Auto generated database update
+	 */
+	 
+	class R4f5634b6f9e04917b3f943556318cd70 extends CakeRelease {
 
-/**
- * Migration description
- *
- * @var string
- * @access public
- */
-	public $description = 'Migration for Newsletter version 0.8';
+	/**
+	* Migration description
+	*
+	* @var string
+	* @access public
+	*/
+		public $description = 'Migration for Newsletter version 0.9';
 
-/**
- * Plugin name
- *
- * @var string
- * @access public
- */
-	public $plugin = 'Newsletter';
+	/**
+	* Plugin name
+	*
+	* @var string
+	* @access public
+	*/
+		public $plugin = 'Newsletter';
 
-/**
- * Actions to be performed
- *
- * @var array $migration
- * @access public
- */
-	public $migration = array(
-		'up' => array(
+	/**
+	* Actions to be performed
+	*
+	* @var array $migration
+	* @access public
+	*/
+		public $migration = array(
+			'up' => array(
 			'create_table' => array(
-				'campaigns' => array(
+				'newsletter_campaigns' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-					'description' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 					'newsletter_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 					'template_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
@@ -42,15 +48,15 @@ class R4c94edceb66c49d38c8678d86318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'newsletters' => array(
+				'newsletter_newsletters' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'campaign_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'key' => 'index'),
 					'template_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-					'from' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'reply_to' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-					'subject' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-					'html' => array('type' => 'text', 'null' => false, 'default' => NULL),
-					'text' => array('type' => 'text', 'null' => false, 'default' => NULL),
+					'from' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'reply_to' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'subject' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'html' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'text' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 					'sent' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 					'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -66,7 +72,7 @@ class R4c94edceb66c49d38c8678d86318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'newsletters_users' => array(
+				'newsletter_newsletters_users' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
 					'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 					'newsletter_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
@@ -80,11 +86,25 @@ class R4c94edceb66c49d38c8678d86318cd70 extends CakeRelease {
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
-				'templates' => array(
+				'newsletter_subscribers' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'user_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'prefered_name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'active' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
+					'subscription_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'newsletter_templates' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'unique'),
-					'header' => array('type' => 'text', 'null' => true, 'default' => NULL),
-					'footer' => array('type' => 'text', 'null' => true, 'default' => NULL),
+					'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'header' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'footer' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'delete' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 					'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -99,64 +119,31 @@ class R4c94edceb66c49d38c8678d86318cd70 extends CakeRelease {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'campaigns', 'newsletters', 'newsletters_users', 'templates'
+				'newsletter_campaigns', 'newsletter_newsletters', 'newsletter_newsletters_users', 'newsletter_subscribers', 'newsletter_templates'
 			),
 		),
-	);
+		);
 
-/**
- * Fixtures for data
- *
- * @var array $fixtures
- * @access public
- */
-	public $fixtures = array(
-	'core' => array(
-		'Template' => array(
-			array(
-				'id' => 3,
-				'name' => 'User - Activate',
-				'header' => '<p>\\r\\n	Thank you for registering, please click the link below to activate your account.</p>\\r\\n<p>\\r\\n	&nbsp;</p>\\r\\n<div firebugversion=\\\"1.5.4\\\" id=\\\"_firebugConsole\\\" style=\\\"display: none;\\\">\\r\\n	&nbsp;</div>',
-				'footer' => '<p>\\r\\n	&nbsp;</p>\\r\\n<p>\\r\\n	Once your account is activated you will be able to login.</p>\\r\\n<div firebugversion=\\\"1.5.4\\\" id=\\\"_firebugConsole\\\" style=\\\"display: none;\\\">\\r\\n	&nbsp;</div>',
-				'delete' => 0,
-				'deleted_date' => '0000-00-00 00:00:00',
-				'created' => '2010-05-15 13:30:46',
-				'modified' => '2010-05-15 13:30:46'
-			),
-			array(
-				'id' => 2,
-				'name' => 'User - Registration',
-				'header' => '<p>\\r\\n	Thank-you for joining us, your account is active and you may login at www.site.com</p>',
-				'footer' => '<p>\\r\\n	&nbsp;</p>\\r\\n<div firebugversion=\\\"1.5.4\\\" id=\\\"_firebugConsole\\\" style=\\\"display: none;\\\">\\r\\n	&nbsp;</div>',
-				'delete' => 0,
-				'deleted_date' => '0000-00-00 00:00:00',
-				'created' => '2010-05-14 16:32:42',
-				'modified' => '2010-05-15 13:33:45'
-			),
-		),
-		),
-	);
 	
-/**
- * Before migration callback
- *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
- * @access public
- */
-	public function before($direction) {
-		return true;
-	}
+	/**
+	* Before migration callback
+	*
+	* @param string $direction, up or down direction of migration process
+	* @return boolean Should process continue
+	* @access public
+	*/
+		public function before($direction) {
+			return true;
+		}
 
-/**
- * After migration callback
- *
- * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
- * @access public
- */
-	public function after($direction) {
-		return true;
+	/**
+	* After migration callback
+	*
+	* @param string $direction, up or down direction of migration process
+	* @return boolean Should process continue
+	* @access public
+	*/
+		public function after($direction) {
+			return true;
+		}
 	}
-}
-?>
