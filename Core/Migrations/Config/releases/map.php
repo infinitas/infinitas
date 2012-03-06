@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_migrations' => 'R4c94edcdbdd44dd9a88c78d86318cd70'),
+		'000009_Migrations' => 'R4f5634a4512448c28cb043556318cd70'),
 );
 ?>
