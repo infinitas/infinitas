@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_filemanager' => 'R4c94edcc6b0844ec9d7d78d86318cd70'),
+		'000009_Filemanager' => 'R4f56343bf19c4635884243556318cd70'),
 );
 ?>
