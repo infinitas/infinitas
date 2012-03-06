@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_geo_location' => 'R4e2df363be544c018625412e6318cd70'),
+		'000009_GeoLocation' => 'R4f56344eba2c42bf81ca43556318cd70'),
 );
 ?>
