@@ -14,7 +14,7 @@
 	 * @package   plugns.migrations
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
-	App::import('Model', 'Installer.CakeRelease', false);
+	App::uses('CakeRelease', 'Installer.Model');
 
 	/**
 	 * Migration version management.
@@ -38,7 +38,7 @@
 		 * @access public
 		 */
 		public $Version;
-		
+
 		/**
 		 * Mapping cache
 		 *
@@ -104,7 +104,7 @@
 					array('version' => $version, 'type' => $type),
 					array('callbacks' => false)
 				);
-				
+
 				return $saved;
 			}
 
@@ -182,7 +182,7 @@
 			$defaults = array(
 				'connection' => $this->connection
 			);
-			
+
 			$options = array_merge($defaults, $options);
 			return new $class($options);
 		}
@@ -238,8 +238,8 @@
 			foreach ($mapping as $version => $info) {
 				if (($direction == 'up' && $version > $targetVersion) || ($direction == 'down' && $version < $targetVersion)) {
 					break;
-				} 
-				
+				}
+
 				else if (($direction == 'up' && $info['migrated'] === null) || ($direction == 'down' && $info['migrated'] !== null)) {
 					$migration = $this->getMigration($info['name'], $info['class'], $info['type'], $options);
 					$migration->info = $info;
@@ -269,7 +269,7 @@
 
 				list($name, $class) = each($map[1]);
 				$migration = $this->getMigration($name, $class, 'migrations');
-				
+
 				if($migration->run('up')) {
 					$this->Version = ClassRegistry::init($options);
 					$this->setVersion(1, 'migrations');
@@ -279,7 +279,7 @@
 			else {
 				$this->Version = ClassRegistry::init($options);
 			}
-					
+
 			$mapping = $this->getMapping('migrations');
 			if (count($mapping) > 1) {
 				end($mapping);
@@ -305,7 +305,7 @@
 				throw new MigrationVersionException(
 					sprintf(
 						__d('migrations', 'File `%1$s` not found in the %2$s. Path: %3$s'),
-						$name . '.php', (($type == 'app') ? 'Application' : Inflector::camelize($type) . ' Plugin'), $path . $name . '.php'
+						$name . '.php', (($type == 'app') ? 'Application' : $type . ' Plugin'), $path . $name . '.php'
 					)
 				);
 			}
@@ -320,7 +320,7 @@
 				throw new MigrationVersionException(
 					sprintf(
 						__d('migrations', '%2$s does not contain a proper map.php file.'),
-						(($type == 'app') ? 'Application' : Inflector::camelize($type) . ' Plugin')
+						(($type == 'app') ? 'Application' : $type . ' Plugin')
 					)
 				);
 			}

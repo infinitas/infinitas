@@ -1,4 +1,6 @@
 <?php
+	App::uses('ConnectionManager', 'Model');
+	App::uses('File', 'Utility');
 	class InstallerLib {
 		/**
 		 * minimum php version number required to run infinitas
@@ -11,7 +13,7 @@
 		 * @var <type>
 		 */
 		private $__supportedDatabases = array(
-			'mysql' => array(
+			'Mysql' => array(
 				'name' => 'MySQL',
 				'version' => '5.0',
 				'versionQuery' => 'select version();',
@@ -92,7 +94,7 @@
 		 * @var <type>
 		 */
 		public $sql = array();
-		
+
 		public $config = array();
 
 		private $__licence = array();
@@ -109,20 +111,19 @@
 		public function __construct(){
 			$message = array(
 				__d('installer',
-					'Thank-you for choosing %s to power your website.', true),
+					'Thank-you for choosing %s to power your website.'),
 				__d('installer',
 					'Since you are on the %s installer you probably know a bit about %s. '. "\n" .
 					'Before you go to the next step, make sure that you have create '. "\n" .
 					'a database and you have the database details at hand. '. "\n" .
 					'If you are unsure how to create a database, contact your web '. "\n" .
-					'host support.', true),
+					'host support.'),
 				__d('installer',
 					'%s uses the MIT License, the full license is shown below for '. "\n" .
 					'your information. Unless you plan on modifiying and '. "\n" .
 					'redistributing %s you do not need to worry about the license. '. "\n" .
 					'Note that this license only applies to the %s core code, some '. "\n" .
-					'extensions may have other licenses.',
-					true)
+					'extensions may have other licenses.')
 			);
 
 
@@ -145,7 +146,7 @@ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></blockquote>
 LICENCE;
 			$text = explode('</p><p>', str_replace(array("\n", '&copy;'), array('', '©'), $this->__license['html']));
-			
+
 			$this->__license['text'] = '';
 			foreach($text as $t){
 				$this->__license['text'] .= wordwrap(strip_tags($t), 75, "\r\n");
@@ -153,7 +154,7 @@ LICENCE;
 			}
 
 			$this->__paths = array(
-				'config/database.php' => array(
+				'Config/database.php' => array(
 					'type' => 'write',
 					'message' => 'The database configuration (%s) file should be writable during the ' .
 						'installation process. It should be set to be read-only once Infinitas has been installed.'
@@ -192,12 +193,12 @@ LICENCE;
 		public function getWelcome($type = 'html'){
 			return $this->__getData($type, '__welcome');
 		}
-		
+
 		/**
 		 * @brief check if the server has correct support for infinitas
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return array
 		 */
 		public function checkCore() {
@@ -217,10 +218,10 @@ LICENCE;
 		}
 
 		/**
-		 * @brief check the paths have the correct permissions 
-		 * 
+		 * @brief check the paths have the correct permissions
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return array
 		 */
 		public function checkPaths() {
@@ -241,15 +242,15 @@ LICENCE;
 
 			return $paths;
 		}
-		
+
 		/**
-		 * @brief check the settings of php 
-		 * 
+		 * @brief check the settings of php
+		 *
 		 * Check that everything is configured properly for infinitas to run
-		 * 
+		 *
 		 * @access public
-		 * 
-		 * @return type 
+		 *
+		 * @return type
 		 */
 		public function checkIniSettings() {
 			$recomendations = array();
@@ -290,29 +291,29 @@ LICENCE;
 
 			return ($databaseSupported == true) ? !empty($this->__supportedDatabases) : $this->__supportedDatabases;
 		}
-		
+
 		/**
 		 * @brief check if connection details are valid
-		 * 
+		 *
 		 * @access private
-		 * 
+		 *
 		 * @param array $connection the database config to check
-		 * 
+		 *
 		 * @return bool true if valid, else false
 		 */
 		private function __validDbConfig($connection, $return = false) {
 			App::import('Model', 'Installer.Install');
 			$Install = new Install(false, false, false);
 			$Install->set($connection);
-			
+
 			if(!$Install->validates()) {
 				return false;
 			}
-			
+
 			if($return) {
 				return $Install->data;
 			}
-			
+
 			return true;
 		}
 
@@ -324,11 +325,12 @@ LICENCE;
 			if($connection) {
 				$adminConnectionDetails = (!isset($connection['Admin'])) ? false : array_merge($connection['Install'], $connection['Admin']);
 
+				$connection['Install']['datasource'] = 'Database/' . $connection['Install']['driver'];
 				$InstallerConnection = ConnectionManager::create('installer', $connection['Install']);
 				if(!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
 					return false;
 				}
-				
+
 				if(isset($connection['Admin']['login']) && trim($connection['Admin']['login']) != '') {
 					$InstallerRootConnection = ConnectionManager::create('admin', $adminConnectionDetails);
 					if(!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
@@ -340,31 +342,27 @@ LICENCE;
 				if(version_compare($version, $this->__supportedDatabases[$connection['Install']['driver']]['version']) >= 0) {
 					return true;
 				}
-				
+
 				return array(
 					'versionError' => $version,
 					'requiredDb' => $this->__supportedDatabases[$connection['driver']]['version']
 				);
 			}
-			
+
 			return false;
 		}
-		
+
 		public function installPlugins($dbConfig) {
-			if(!class_exists('ConnectionManager')){
-				App::import('core', 'ConnectionManager');
-			}
-			
 			$dbConfig = $this->__validDbConfig($dbConfig, true);
-			
+			$dbConfig['Install']['datasource'] = 'Database/' . $dbConfig['Install']['driver'];
 			$db = ConnectionManager::create('default', $dbConfig['Install']);
 
-			$plugins = App::objects('plugin');
+			$plugins = CakePlugin::loaded();
 			natsort($plugins);
-			
-			App::import('Lib', 'Installer.ReleaseVersion');
+
+			App::uses('ReleaseVersion', 'Installer.Lib');
 			$Version = new ReleaseVersion();
-			
+
 			$result['app'] = $this->installPlugin($Version, $dbConfig, 'app');
 
 			//Then install all other plugins
@@ -376,7 +374,7 @@ LICENCE;
 			foreach($plugins as $pluginName) {
 				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
 			}
-			
+
 			return $result;
 		}
 
@@ -404,13 +402,13 @@ LICENCE;
 						)
 					);
 				}
-				
+
 				catch (Exception $e) {
 					throw $e;
 					return false;
 				}
 			}
-			
+
 			else if(file_exists($checkFile)) {
 				// databaseless plugin, but it has a config file
 				return true;
@@ -421,24 +419,21 @@ LICENCE;
 
 		/**
 		 * @brief write the database.php file
-		 * 
+		 *
 		 * take the connection details that were passed in and write the file to disk
-		 * 
+		 *
 		 * @access public
-		 * 
-		 * @return type 
+		 *
+		 * @return type
 		 */
 		public function writeDbConfig($dbConfig = array()) {
 			copy(CakePlugin::path('Installer') . 'Config' . DS . 'database.install', APP . 'Config' . DS . 'database.php');
 
-			if(!class_exists('File')){
-				App::import('Core', 'File');
-			}
 			$File = new File(APP . 'Config' . DS . 'database.php', true);
 			$content = $File->read();
 
 			$find = array(
-				'{default_driver}',
+				'{default_datasource}',
 				'{default_host}',
 				'{default_login}',
 				'{default_password}',
@@ -449,7 +444,7 @@ LICENCE;
 			);
 
 			$replacements = array(
-				$dbConfig['Install']['driver'],
+				'Database/' . $dbConfig['Install']['driver'],
 				$dbConfig['Install']['host'],
 				$dbConfig['Install']['login'],
 				$dbConfig['Install']['password'],
@@ -464,7 +459,7 @@ LICENCE;
 			if ($File->write($content)) {
 				return true;
 			}
-			
+
 			return false;
 		}
 
@@ -488,7 +483,7 @@ LICENCE;
 				array('login' => false, 'password' => false),
 				isset($connectionDetails['root']) ? (array)$connectionDetails['root'] : array()
 			);
-			
+
 			if($connectionDetails['root']['login'] && $connectionDetails['root']['password']) {
 				$config['login'] = $connectionDetails['root']['login'];
 				$config['password'] = $connectionDetails['root']['password'];
@@ -499,7 +494,7 @@ LICENCE;
 
 		/**
 		 * get the version of the currently selected database engine.
-		 * 
+		 *
 		 * @param <type> $connectionDetails
 		 * @return <type>
 		 */

@@ -41,7 +41,7 @@
 		private $__phpVersion = '5.0';
 
 		private $__supportedDatabases = array(
-			'mysql' => array(
+			'Mysql' => array(
 				'name' => 'MySQL',
 				'version' => '5.0',
 				'versionQuery' => 'select version();',
@@ -118,7 +118,7 @@
 		public function __construct($request = null, $response = null) {
 			parent::__construct($request, $response);
 
-			App::import('lib', 'Installer.Installer');
+			App::uses('InstallerLib', 'Installer.Lib');
 			$this->InstallerLib = new InstallerLib();
 		}
 
@@ -131,7 +131,7 @@
 			parent::beforeFilter();
 
 			$this->layout = 'installer';
-			$this->view = 'View';
+			$this->viewClass = 'View';
 			$this->helpers[] = 'Html';
 
 			$this->Wizard->wizardAction = 'index';
@@ -156,7 +156,7 @@
 		}
 
 		public function index($step = null) {
-			if(filesize(APP.'Config'.DS.'database.php') > 0 && $this->Session->read('installing') == false) {
+			if(filesize(APP . 'Config' . DS . 'database.php') > 0 && $this->Session->read('installing') == false) {
 				$this->notice(
 					__('Infinitas has already been installed'),
 					array(
@@ -259,7 +259,7 @@
 		 * @access public
 		 */
 		public function _prepareInstall() {
-			$_plugins = App::objects('plugin');
+			$_plugins = CakePlugin::loaded();
 			natsort($_plugins);
 
 			$plugins = array();
@@ -309,7 +309,7 @@
 				);
 			}
 
-			$this->loadModel('Management.User');
+			$this->loadModel('Users.User');
 
 			$this->set('hidePrevious', true);
 		}
@@ -320,7 +320,7 @@
 		 * @access public
 		 */
 		public function _processAdminUser() {
-			$this->loadModel('Management.User');
+			$this->loadModel('Users.User');
 
 			$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
 			$this->request->data['User']['ip_address'] = env('REMOTE_ADDR');
