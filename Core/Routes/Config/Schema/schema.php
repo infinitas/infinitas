@@ -1,17 +1,14 @@
-<?php 
-/* SVN FILE: $Id$ */
-/* Routes schema generated on: 2011-07-20 22:07:46 : 1311196666*/
+<?php
 class RoutesSchema extends CakeSchema {
-	var $name = 'Routes';
 
-	function before($event = array()) {
+	public function before($event = array()) {
 		return true;
 	}
 
-	function after($event = array()) {
+	public function after($event = array()) {
 	}
 
-	var $routes = array(
+	public $core_routes = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -35,4 +32,3 @@ class RoutesSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 }
-?>
