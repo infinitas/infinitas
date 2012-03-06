@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_charts' => 'R4e286e26eba04355929118876318cd70'),
+		'000009_Charts' => 'R4f5630ea3f3c4e629ef93de06318cd70'),
 );
 ?>
