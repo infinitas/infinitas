@@ -1,17 +1,14 @@
-<?php 
-/* SVN FILE: $Id$ */
-/* ShortUrls schema generated on: 2010-10-19 10:10:47 : 1287481307*/
+<?php
 class ShortUrlsSchema extends CakeSchema {
-	var $name = 'ShortUrls';
 
-	function before($event = array()) {
+	public function before($event = array()) {
 		return true;
 	}
 
-	function after($event = array()) {
+	public function after($event = array()) {
 	}
 
-	var $short_urls = array(
+	public $core_short_urls = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'url' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 9),
@@ -22,4 +19,3 @@ class ShortUrlsSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 }
-?>

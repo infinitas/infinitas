@@ -1,6 +1,6 @@
 <?php
 $map = array(
 	1 => array(
-		'000008_short_urls' => 'R4cbd67db435c4099a94347b96318cd70'),
+		'000009_ShortUrls' => 'R4f5634f6cb4c40019e1e43556318cd70'),
 );
 ?>
