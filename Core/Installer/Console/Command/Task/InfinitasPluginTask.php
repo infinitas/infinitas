@@ -1,6 +1,6 @@
 <?php
-	class InfinitasPluginTask extends Shell {
-		public $tasks = array('Migration', 'InfinitasFixture');
+	class InfinitasPluginTask extends AppShell {
+		public $tasks = array('Installer.Migration', 'Installer.InfinitasFixture');
 		
 		private $__plugin = null;
 
@@ -21,7 +21,7 @@
 		);
 
 		public function execute() {
-			$plugins = $this->__getPluginList(isset($this->request->params['all']) || !empty($this->args) ? 'all' : 'plugins');
+			$plugins = $this->__getPluginList('all');
 
 			if (!empty($this->args)) {
 				if (strtolower($this->args[0]) == 'all-core') {
@@ -42,25 +42,8 @@
 
 				exit(0);
 			}
-
-			do {
-				$this->out("Select plugin");
-				$this->hr();
-
-				foreach ($plugins as $key => $plugin) {
-					$this->out($key + 1 . '. ' . $plugin);
-				}
-
-				$plugin = $this->in('Which plugin do you want to create a new release for (nothing to return)?') - 1;
-
-				if ($plugin < 0) {
-					return;
-				}
-				
-				else if (isset($plugins[$plugin])) {
-					$this->generate($plugins[$plugin]);
-				}
-			} while ($plugin > 0);
+			
+			$this->generate(current(parent::_selectPlugins()));
 		}
 
 		/**
@@ -69,27 +52,18 @@
 		 * @return Nothing
 		 */
 		public function generate($plugin) {
-			if ($plugin != 'App') {
-				$pluginPath = App::pluginPath($plugin);
-				$this->__configPath = $pluginPath . 'config' . DS;
-			}
-
-			else {
-				$this->__configPath = APP . 'config' . DS;
-			}
-
 			$this->__plugin = $plugin;
+			$this->__configPath = CakePlugin::path($this->__plugin) . 'Config' . DS;
 			$this->__info = $this->__models = array();
 
 
-			if ($plugin != 'App' && file_exists($this->__configPath . 'config.json')) {
+			if (file_exists($this->__configPath . 'config.json')) {
 				$configFile = new File($this->__configPath . 'config.json');
 				$this->__info = Set::reverse(json_decode($configFile->read()));
 				$this->__update();
 			}
 			
-			else if ($plugin != 'App') {
-
+			else {
 				App::import('core', 'String');
 				$this->__info = array(
 					'id' => String::uuid(),
@@ -102,72 +76,38 @@
 				$this->__initializeDependancies();
 				$this->__initializeModels();
 
-				if (!isset($this->request->params['silent'])) {
-					$this->out("Initial release for " . $this->__plugin);
-					$this->out("It looks like this is the first time you are generating\nan Infinitas release for this plugin.");
+				$this->out("Initial release for " . $this->__plugin);
+				$this->out("It looks like this is the first time you are generating\nan Infinitas release for this plugin.");
 
-					do {
-						$this->hr();
+				do {
+					$this->hr();
 
-						$this->__initialInfo();
-						
-						$hasDependancies = !empty($this->__info['dependancies']) ? 'Y' : 'N';
-						$dependancies = $this->in(
-							'Does this plugin have any non-core dependancies?',
-							array('Y', 'N'),
-							$hasDependancies
-						);
-						if (strtoupper($dependancies) == 'Y') {
-							$this->__configureDependancies();
-						}
+					$this->__initialInfo();
 
-						$this->hr();
-						$this->out($this->__info['name'] . ' (Version ' . $this->__info['version'] . ')');
-
-						$this->__configureModels();
-						$correct = $this->__reviewInformation();
-					} while (strtoupper($correct) == 'N');
-
-					if (strtoupper($correct) == 'Q') {
-						return;
+					$hasDependancies = !empty($this->__info['dependancies']) ? 'Y' : 'N';
+					$dependancies = $this->in(
+						'Does this plugin have any non-core dependancies?',
+						array('Y', 'N'),
+						$hasDependancies
+					);
+					if (strtoupper($dependancies) == 'Y') {
+						$this->__configureDependancies();
 					}
 
-					else {
-						$this->__writeOut();
-					}
+					$this->hr();
+					$this->out($this->__info['name'] . ' (Version ' . $this->__info['version'] . ')');
+
+					$this->__configureModels();
+					$correct = $this->__reviewInformation();
+				} while (strtoupper($correct) == 'N');
+
+				if (strtoupper($correct) == 'Q') {
+					return;
 				}
 
 				else {
-					foreach ($this->__options as $option => $question) {
-						$this->__info[$option] = isset($this->request->params[$option]) ? $this->request->params[$option] : (isset($this->__info[$option]) ? $this->__info[$option] : '');
-					}
-
-					if ($this->__info['version'] == '') {
-						$this->__info['version'] = '1.0';
-					}
-
-					if (isset($this->request->params['models']) && $this->request->params['models'] === true) {
-						$this->__configureModels();
-					}
-
 					$this->__writeOut();
 				}
-			}
-
-			else {
-				$this->__info['version'] = isset($this->request->params['version']) ? $this->request->params['version'] : '1.0';
-
-				$this->out('Generating app release');
-
-				$this->out('Generating migration...');
-				$schemaMigration = $this->Migration->generate();
-
-				if (!file_exists(APP . 'config' . DS . 'releases' . DS . 'map.php')) {
-					$this->out('Generating fixtures...');
-					$fixtures = $this->InfinitasFixture->generate();
-				}
-
-				$this->__writeOutput(compact('schemaMigration', 'fixtures'), false);
 			}
 		}
 
@@ -187,9 +127,9 @@
 		}
 
 		private function __initializeDependancies() {
-			if (isset($this->request->params['dep'])) {
+			if (isset($this->params['dep'])) {
 				$nonCorePlugins = $this->__getPluginList();
-				$dependancies = explode(',', $this->request->params['dep']);
+				$dependancies = explode(',', $this->params['dep']);
 
 				foreach ($dependancies as $dependancy) {
 					$dependancy = Inflector::camelize($dependancy);
@@ -201,10 +141,10 @@
 		}
 
 		private function __initializeModels() {
-			if (isset($this->request->params['models']) && $this->request->params['models'] !== true) {
-				$modelSetups = explode(',', $this->request->params['models']);
+			if (isset($this->params['models']) && $this->params['models'] !== true) {
+				$modelSetups = explode(',', $this->params['models']);
 
-				$models = App::objects('model', App::pluginPath($this->__plugin) . 'models' . DS, false);
+				$models = App::objects('model', CakePlugin::path($this->__plugin) . 'Model' . DS, false);
 
 				$defaultSetup = array(
 					'where' => '1=1',
@@ -258,7 +198,7 @@
 
 			$infinitasPlugins = array();
 			foreach ($plugins as $plugin) {
-				$pluginPath = str_replace(APP, '', App::pluginPath($plugin));
+				$pluginPath = str_replace(APP, '', CakePlugin::path($plugin));
 
 				if (strpos($pluginPath, $searchType) === 0) {
 					$infinitasPlugins[] = $plugin;
@@ -272,7 +212,7 @@
 			extract($options);
 			$class = 'R' . str_replace('-', '', String::uuid());
 			$name = str_pad(intval(preg_replace('/[a-zA-Z._-]/', '', $this->__info['version'])), 6, '0', STR_PAD_LEFT) .
-					'_' . Inflector::underscore($this->__plugin);
+					'_' . $this->__plugin;
 
 			if ($writeConfig) {
 				$this->out('Writing config...');
@@ -443,14 +383,14 @@
 			extract($vars);
 			ob_start();
 			ob_implicit_flush(0);
-			include(dirname(dirname(__FILE__)) . DS . 'templates' . DS . $template . '.ctp');
+			include(dirname(dirname(dirname(__FILE__))) . DS . 'Templates' . DS . $template . '.ctp');
 			$content = ob_get_clean();
 
 			return $content;
 		}
 
 		private function __configureModels() {
-			$models = App::objects('model', App::pluginPath($this->__plugin) . 'models' . DS, false);
+			$models = App::objects('model', CakePlugin::path($this->__plugin) . 'Model' . DS, false);
 
 			if (empty($this->__models)) {
 				$this->__models = array_fill_keys($models, array());
@@ -588,7 +528,7 @@
 
 		private function __initialInfo() {
 			foreach ($this->__options as $option => $question) {
-				$default = isset($this->__info[$option]) ? $this->__info[$option] : (isset($this->request->params[$option]) ? $this->request->params[$option] : null);
+				$default = isset($this->__info[$option]) ? $this->__info[$option] : null;
 
 				if (is_numeric($option)) {
 					$question = 'Enter the plugin ' . $option;
@@ -597,5 +537,4 @@
 				$this->__info[$option] = $this->in($question, null, $default);
 			}
 		}
-
 	}

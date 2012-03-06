@@ -298,7 +298,7 @@
 		private function __loadFile($name, $type) {
 			$path = APP . 'Config' . DS . 'releases' . DS;
 			if ($type != 'app') {
-				$path = App::pluginPath($type) . 'config' . DS . 'releases' . DS;
+				$path = CakePlugin::path($type) . 'Config' . DS . 'releases' . DS;
 			}
 
 			if (!file_exists($path . $name . '.php')) {

@@ -171,7 +171,7 @@
 				$pluginDetails['dependancies'] = json_encode($pluginDetails['dependancies']);
 				$pluginDetails['internal_name'] = $pluginName;
 				$pluginDetails['active'] = true;
-				$pluginDetails['core'] = strpos(App::pluginPath($pluginName), APP . 'core' . DS) !== false;
+				$pluginDetails['core'] = strpos(CakePlugin::path($pluginName), APP . 'core' . DS) !== false;
 
 				$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';
 
@@ -203,7 +203,7 @@
 		 * @return array the details found or false if not found
 		 */
 		private function __loadPluginDetails($pluginName) {
-			$configFile = App::pluginPath($pluginName) . 'config' . DS . 'config.json';
+			$configFile = CakePlugin::path($pluginName) . 'Config' . DS . 'config.json';
 
 			return file_exists($configFile) ? Set::reverse(json_decode(file_get_contents($configFile))) : false;
 		}
@@ -293,7 +293,7 @@
 				return false;
 			}
 
-			$path = App::pluginPath($plugin) . 'config' . DS . 'releases';
+			$path = CakePlugin::path($plugin) . 'Config' . DS . 'releases';
 			$Folder = new Folder($path);
 
 			$data = $Folder->read();

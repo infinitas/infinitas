@@ -1,8 +1,8 @@
 <?php
 	App::import('lib', 'Libs.InfinitasAppShell');
 	
-	class InfinitasReleaseStatusTask extends InfinitasAppShell {
-		public $tasks = array('Migration', 'InfinitasFixture', 'Infinitas');
+	class InfinitasReleaseStatusTask extends AppShell {
+		public $tasks = array('Installer.Migration', 'Installer.InfinitasFixture');
 
 		/**
 		 * @brief list of plugins with the data that relates to them
@@ -15,10 +15,10 @@
 		 * @brief get the data and output the status
 		 */
 		public function execute() {
-			$this->Infinitas->h1('Plugin Schema status');
+			$this->h1('Plugin Schema status');
 			$this->__getStatus();
 			$this->_output();
-			$this->Infinitas->pause();
+			$this->pause();
 		}
 
 		/**
@@ -64,28 +64,28 @@
 			}
 
 			if(!empty($out['not-installed'])){
-				$this->Infinitas->h2('Not Installed');
+				$this->h2('Not Installed');
 				$this->__outputList($out['not-installed']);
 			}
 
 			if(!empty($out['behind'])){
-				$this->Infinitas->h2('Schema Behind');
-				$this->Infinitas->out("Plugin		Installed	Migrations");
+				$this->h2('Schema Behind');
+				$this->out("Plugin		Installed	Migrations");
 				foreach($out['behind'] as $row){
-					$this->Infinitas->out($row);
+					$this->out($row);
 				}
 			}
 
 			if(!empty($out['changes'])){
-				$this->Infinitas->h2('Local Changes');
-				$this->Infinitas->out("Plugin		Table		Fields");
+				$this->h2('Local Changes');
+				$this->out("Plugin		Table		Fields");
 				foreach($out['changes'] as $row){
 					$this->Infinitas->out($row);
 				}
 			}
 
 			if(!empty($out['ok'])){
-				$this->Infinitas->h2('All Ok');
+				$this->h2('All Ok');
 				$this->__outputList($out['ok']);
 			}
 		}
@@ -133,10 +133,11 @@
 				$data[] = str_pad($row, 15);
 
 				if(count($data) >= 4){
-					$this->Infinitas->out(implode('', $data));
+					$this->out(implode('', $data));
 					$data = array();
 				}
 			}
-			$this->Infinitas->out(implode('', $data));
+			
+			$this->out(implode('', $data));
 		}
 	}

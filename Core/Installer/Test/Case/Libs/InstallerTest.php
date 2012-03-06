@@ -156,7 +156,7 @@
 		 * @brief check that the installed version matches the supplied releases
 		 */
 		private function __checkVersionCount($plugin) {
-			$path = App::pluginPath($plugin) . 'config' . DS . 'releases';
+			$path = CakePlugin::path($plugin) . 'Config' . DS . 'releases';
 			$Folder = new Folder($path);
 			$data = $Folder->read();
 			$data = array_flip($data[1]);

@@ -1,38 +1,38 @@
 <?php
-	class ReleaseShell extends Shell {
-		public $tasks = array('Infinitas', 'InfinitasPlugin', 'InfinitasReleaseStatus');
+	class ReleaseShell extends AppShell {
+		public $tasks = array('Installer.InfinitasPlugin', 'Installer.InfinitasReleaseStatus');
 
 		public function help(){
-			$this->Infinitas->h1('Interactive Release Shell Help');
-			$this->Infinitas->p(
+			$this->h1('Interactive Release Shell Help');
+			$this->p(
 				'The interactive shell is for generating a release for your Infinitas '.
 				'powered plugin. It will allow you to enter the description and name '.
 				'along with setting any dependencies. After you have answered some '.
 				'questions all the necesery files will be generated to allow others '.
 				'to use the plugin via the installer.'
 			);
-			$this->Infinitas->p(
+			$this->p(
 				'This shell is also used for creating updates to your plugins by the' .
 				'same method as creating the initial release. The release shell will ' .
 				'provide you with update options if a previous release has been found.'
 			);
 
-			$this->Infinitas->h2('Available Options');
+			$this->h2('Available Options');
 
-			$this->Infinitas->li(
+			$this->li(
 				array(
 					'cake release - For normal plugins',
 					'cake release all - If you are creating a core plugin'
 				)
 			);
 
-			$this->Infinitas->helpPause();
+			$this->helpPause();
 		}
 
 		public function main() {
 			do {
-				$this->Infinitas->h1('Interactive Release Shell');
-				$this->Infinitas->li(
+				$this->h1('Interactive Release Shell');
+				$this->li(
 					array(
 						'[P]lugin',
 						'[M]odule',
@@ -43,7 +43,7 @@
 						'[Q]uit'
 					)
 				);
-				$this->Infinitas->br();
+				$this->br();
 				$input = strtoupper($this->in('What do you wish to release?'));
 
 				switch ($input) {
@@ -69,7 +69,7 @@
 						break;
 
 					case 'Q':
-						$this->Infinitas->quit();
+						$this->quit();
 						break;
 
 					default:

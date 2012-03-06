@@ -1,7 +1,7 @@
 <?php
 	App::import('Model', 'Installer.CakeSchema', false);
 
-	class MigrationTask extends Shell {
+	class MigrationTask extends AppShell {
 		public $connection = 'default';
 
 		public $type = 'app';
@@ -13,14 +13,19 @@
 		 * @access public
 		 */
 		public function generate($plugin = 'app') {
-			$this->type = Inflector::underscore($plugin);
-			$this->path = $this->__getPath() . 'config' . DS . 'releases' . DS;
+			$this->type = $plugin;
+			$this->path = $this->__getPath() . 'Config' . DS . 'releases' . DS;
+			
+			if(!is_dir($this->__getPath() . 'Config' . DS . 'Schema')) {
+				new Folder($this->__getPath() . 'Config' . DS . 'Schema', true);
+			}
 
 			$fromSchema = false;
 			$this->Schema = $this->_getSchema();
 			$migration = array('up' => array(), 'down' => array());
 
 			$oldSchema = $this->_getSchema($this->type);
+			
 			if ($oldSchema !== false) {
 				if ($this->type !== 'migrations') {
 					unset($oldSchema->tables['schema_migrations']);
@@ -46,7 +51,12 @@
 
 			if (isset($schema)) {
 				$schema['name'] = $plugin;
-				$this->Schema->write($schema);
+				try{
+					$this->Schema->write($schema);
+				}
+				catch(Exception $e) {
+					throw $e;
+				}
 			}
 
 			return $this->_makeMigrationString($migration);
@@ -66,8 +76,8 @@
 		 * @return mixed false if there are no changes, array with changes if any were found
 		 */
 		public function checkForChanges($plugin){
-			$this->type = Inflector::underscore($plugin);
-			$this->path = $this->__getPath() . 'config' . DS . 'releases' . DS;
+			$this->type = $plugin;
+			$this->path = $this->__getPath() . 'Config' . DS . 'releases' . DS;
 
 			$this->Schema = $this->_getSchema();
 
@@ -99,8 +109,9 @@
 			}
 
 			if ($type != 'app') {
-				return App::pluginPath($type);
+				return CakePlugin::path($type);
 			}
+			
 			return APP;
 		}
 
@@ -178,21 +189,21 @@
 					array(
 						'connection' => $this->connection,
 						'plugin' => $plugin,
-						'path' => $this->__getPath($type) . 'config' . DS . 'schema' . DS
+						'path' => $this->__getPath($type) . 'Config' . DS . 'Schema' . DS
 					)
 				);
 			}
 
-			$file = $this->__getPath($type) . 'config' . DS . 'schema' . DS . 'schema.php';
+			$file = $this->__getPath($type) . 'Config' . DS . 'Schema' . DS . 'schema.php';
 			if (!file_exists($file)) {
 				return false;
 			}
 
 			require_once $file;
 
-			$name = Inflector::camelize($type) . 'Schema';
+			$name = $type . 'Schema';
 			if ($type == 'app' && !class_exists($name)) {
-				$name = Inflector::camelize($this->request->params['app']) . 'Schema';
+				$name = 'AppSchema';
 			}
 
 			$plugin = ($type === 'app') ? null : $type;
@@ -207,13 +218,13 @@
 		 * @access protected
 		 */
 		protected function _readSchema() {
-			$read = $this->Schema->read(array('models' => !isset($this->request->params['f']), 'ignoreRelations' => true, 'ignorePrefix' => true));
+			$read = $this->Schema->read(array('models' => !isset($this->params['f']), 'ignoreRelations' => true, 'ignorePrefix' => true));
 
 			if ($this->type !== 'migrations') {
 				unset($read['tables']['schema_migrations']);
 			}
 
-			if ($this->type !== 'app' && !isset($this->request->params['f'])) {
+			if ($this->type !== 'app' && !isset($this->params['f'])) {
 				$systemTables = array('aros', 'acos', 'aros_acos', Configure::read('Session.table'), 'i18n');
 				$read['tables'] = array_diff_key($read['tables'], array_fill_keys($systemTables, 1));
 			}

@@ -156,7 +156,7 @@
 		}
 
 		public function index($step = null) {
-			if(filesize(APP.'config'.DS.'database.php') > 0 && $this->Session->read('installing') == false) {
+			if(filesize(APP.'Config'.DS.'database.php') > 0 && $this->Session->read('installing') == false) {
 				$this->notice(
 					__('Infinitas has already been installed'),
 					array(
@@ -264,7 +264,7 @@
 
 			$plugins = array();
 			foreach($_plugins as $_plugin) {
-				$configFile = App::pluginPath($_plugin) . 'config' . DS . 'config.json';
+				$configFile = CakePlugin::path($_plugin) . 'Config' . DS . 'config.json';
 				if(file_exists($configFile)) {
 					$plugins[$_plugin] = Set::reverse(json_decode(file_get_contents($configFile)));
 				}
@@ -296,7 +296,7 @@
 		 * @access public
 		 */
 		public function _prepareAdminUser() {
-			if(!is_readable(APP . 'config' . DS . 'database.php') || filesize(APP . 'config' . DS . 'database.php') == 0) {
+			if(!is_readable(APP . 'Config' . DS . 'database.php') || filesize(APP . 'Config' . DS . 'database.php') == 0) {
 				$this->Session->delete('Wizard');
 				$this->notice(
 					__('There was an unrecoverable error configuring your database. '.

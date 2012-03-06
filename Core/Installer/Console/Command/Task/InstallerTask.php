@@ -2,7 +2,7 @@
 	App::import('lib', 'Libs.InfinitasAppShell');
 	
 	class InstallerTask extends InfinitasAppShell {
-		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
+		public $tasks = array('Installer.Installer', 'Installer.InfinitasPlugin');
 
 		public $config = array(
 			'engine' => '',
@@ -34,20 +34,20 @@
 		 * @return mixed bool true, accepted
 		 */
 		public function welcome($confirm = true){
-			$this->Infinitas->h1('Welcome to Infinitas');
-			$this->Infinitas->out($this->InstallerLib->getWelcome('text'));
-			$this->Infinitas->h2('MIT Licence');
-			$this->Infinitas->out($this->InstallerLib->getLicense('text'));
+			$this->h1('Welcome to Infinitas');
+			$this->out($this->InstallerLib->getWelcome('text'));
+			$this->h2('MIT Licence');
+			$this->out($this->InstallerLib->getLicense('text'));
 			
 			if($confirm){
-				$this->Infinitas->li(
+				$this->li(
 					array(
 						'[Y]es',
 						'[N]o',
 						'[Q]uit'
 					)
 				);
-				$this->Infinitas->br();
+				$this->br();
 				$input = strtoupper($this->in('Do you accept the MIT license?', array('Y', 'N', 'Q')));
 
 				switch ($input) {
@@ -56,7 +56,7 @@
 						break;
 
 					default:
-						$this->Infinitas->quit();
+						$this->quit();
 						break;
 				}
 			}
@@ -74,7 +74,7 @@
 		}
 
 		public function install(){
-			$this->Infinitas->h1(__('Installing'));
+			$this->h1(__('Installing'));
 			foreach($this->config['connection'] as $k => $v){
 				echo $k . ' :: ' . $v . "\r\n";
 			}
@@ -143,10 +143,10 @@
 					$output = sprintf('%s Plugin updated', $plugin);
 				}
 
-				$this->Infinitas->out($output);
+				$this->out($output);
 			}
 
-			$this->Infinitas->pause();
+			$this->pause();
 		}
 
 		public function updatePlugin(){
@@ -170,10 +170,10 @@
 					pr($Plugin->installError);
 				}
 
-				$this->Infinitas->out($output);
+				$this->out($output);
 			}
 
-			$this->Infinitas->pause();
+			$this->pause();
 			$this->updatePlugin();
 		}
 
@@ -182,17 +182,17 @@
 		 * get the users database engine preference
 		 */
 		public function _getDbEngine($validationFailed){
-			$this->Infinitas->h1(__('Database configuration'));
+			$this->h1(__('Database configuration'));
 
 			if($validationFailed){
-				$this->Infinitas->p(__('The connection test failed to connect to '.
+				$this->p(__('The connection test failed to connect to '.
 				'your database engine, please ensure the details provided are '.
 				'correct', true));
 			}
 			
 			$dbs = $this->InstallerLib->getSupportedDbs();
 
-			$this->Infinitas->br();
+			$this->br();
 			$this->config['connection']['driver'] = strtolower(
 				$this->in(
 					'Which database engine should be used?',
@@ -207,10 +207,10 @@
 		 * get the connection details for the selected database engine
 		 */
 		public function _getDbConnection($validationFailed){
-			$this->Infinitas->h1(sprintf('%s (%s)', __('Database configuration'), $this->config['connection']['driver']));
+			$this->h1(sprintf('%s (%s)', __('Database configuration'), $this->config['connection']['driver']));
 
 			if($validationFailed){
-				$this->Infinitas->p(__('The connection test failed to connect to '.
+				$this->p(__('The connection test failed to connect to '.
 				'your database engine, please ensure the details provided are '.
 				'correct', true));
 			}
@@ -221,10 +221,10 @@
 			$this->config['connection']['database'] = $this->in('Database', null, $this->config['connection']['database']);
 			$this->config['connection']['prefix']   = $this->in('Prefix', null, $this->config['connection']['prefix']);
 
-			$this->Infinitas->br();
-			$this->Infinitas->out('Would you like to use a root pw for the installer');
-			$this->Infinitas->out('Root logins will not be saved');
-			$this->Infinitas->out('[Y]es, [N]o or [B]ack');
+			$this->br();
+			$this->out('Would you like to use a root pw for the installer');
+			$this->out('Root logins will not be saved');
+			$this->out('[Y]es, [N]o or [B]ack');
 			$input = strtoupper($this->in('Use Root password', array('Y', 'N', 'B'), 'N'));
 
 			$databaseEngine = null;
@@ -251,15 +251,15 @@
 		 * check that the details for the database given are correct.
 		 */
 		public function _validateDbConnection(){
-			$this->Infinitas->h1(sprintf(__('Testing %s connection'), $this->config['connection']['driver']));
+			$this->h1(sprintf(__('Testing %s connection'), $this->config['connection']['driver']));
 			if(!$this->InstallerLib->testConnection($this->config['connection'])){
 				$this->database(false);
 			}
 		}
 
 		public function _getSampleDataOption(){
-			$this->Infinitas->out('Would you like to install sample data');
-			$this->Infinitas->out('[Y]es, [N]o or [B]ack');
+			$this->out('Would you like to install sample data');
+			$this->out('[Y]es, [N]o or [B]ack');
 			$input = strtoupper($this->in('Sample Data', array('Y', 'N', 'B'), 'N'));
 
 			$this->config['sample_data'] = false;
@@ -287,13 +287,13 @@
 			}
 
 			do {
-				$this->Infinitas->h1('Interactive Install Shell');
+				$this->h1('Interactive Install Shell');
 				foreach($plugins as $i => $plugin){
-					$this->Infinitas->out($i + 1 . ') ' . $plugin);
+					$this->out($i + 1 . ') ' . $plugin);
 				}
-				$this->Infinitas->out('A)ll');
+				$this->out('A)ll');
 
-				$this->Infinitas->br();
+				$this->br();
 				$input = strtoupper($this->in('Which plugin do you want to update?'));
 
 				if(isset($plugins[$input - 1])){
@@ -311,13 +311,13 @@
 			sort($plugins);
 
 			do {
-				$this->Infinitas->h1('Interactive Install Shell');
+				$this->h1('Interactive Install Shell');
 				foreach($plugins as $i => $plugin){
-					$this->Infinitas->out($i + 1 . ') ' . $plugin);
+					$this->out($i + 1 . ') ' . $plugin);
 				}
-				$this->Infinitas->out('A)ll');
+				$this->out('A)ll');
 
-				$this->Infinitas->br();
+				$this->br();
 				$input = strtoupper($this->in('Which plugin do you want to install?'));
 
 				if(isset($plugins[$input - 1])){

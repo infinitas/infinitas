@@ -381,12 +381,12 @@ LICENCE;
 		}
 
 		public function installPlugin($Version, $dbConfig, $plugin = 'app') {
-			$configPath = APP . 'config' . DS;
+			$configPath = APP . 'Config' . DS;
 			$checkFile = $configPath . 'releases' . DS . 'map.php';
 
 			if($plugin !== 'app') {
-				$pluginPath = App::pluginPath($plugin);
-				$configPath = $pluginPath . 'config' . DS;
+				$pluginPath = CakePlugin::path($plugin);
+				$configPath = $pluginPath . 'Config' . DS;
 				$checkFile = $configPath . 'config.json';
 			}
 
@@ -429,12 +429,12 @@ LICENCE;
 		 * @return type 
 		 */
 		public function writeDbConfig($dbConfig = array()) {
-			copy(App::pluginPath('Installer') . 'config' . DS . 'database.install', APP . 'config' . DS . 'database.php');
+			copy(CakePlugin::path('Installer') . 'Config' . DS . 'database.install', APP . 'Config' . DS . 'database.php');
 
 			if(!class_exists('File')){
 				App::import('Core', 'File');
 			}
-			$File = new File(APP . 'config' . DS . 'database.php', true);
+			$File = new File(APP . 'Config' . DS . 'database.php', true);
 			$content = $File->read();
 
 			$find = array(
