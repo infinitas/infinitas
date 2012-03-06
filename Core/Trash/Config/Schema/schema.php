@@ -1,17 +1,14 @@
-<?php 
-/* SVN FILE: $Id$ */
-/* Trash schema generated on: 2011-07-21 19:07:51 : 1311274671*/
+<?php
 class TrashSchema extends CakeSchema {
-	var $name = 'Trash';
 
-	function before($event = array()) {
+	public function before($event = array()) {
 		return true;
 	}
 
-	function after($event = array()) {
+	public function after($event = array()) {
 	}
 
-	var $trash = array(
+	public $core_trash = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -23,4 +20,3 @@ class TrashSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 }
-?>
