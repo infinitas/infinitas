@@ -15,11 +15,5 @@
 	 */
 
 	class CommentsAppModel extends AppModel{
-		/**
-		 * the table prefix used in this plugin
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $tablePrefix = 'infinitas_';
+		
 	}

@@ -22,7 +22,6 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	class InfinitasComment extends CommentsAppModel {
-		public $useTable = 'comments';
 
 		public $findMethods = array(
 			'linkedComments' =>  true,

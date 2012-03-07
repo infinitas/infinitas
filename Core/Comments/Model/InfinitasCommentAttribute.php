@@ -15,6 +15,5 @@
 	 */
 
 	class InfinitasCommentAttribute extends CommentsAppModel {
-		public $useTable = 'comment_attributes';
 		
 	}
