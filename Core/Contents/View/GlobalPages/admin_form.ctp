@@ -22,7 +22,20 @@
 
 	echo $this->Form->create('GlobalPage');
 		echo $this->Infinitas->adminEditHead(); 
-		echo $this->Form->input('GlobalPage.file_name');
-		echo $this->Infinitas->wysiwyg('GlobalPage.body');
+		$tabs = array(
+			__d('contents', 'Content')
+		);
+		
+		$options = array('type' => 'text');
+		if(strstr($this->request->params['action'], 'edit')) {
+			$options['readonly'] = true;
+		}
+		
+		$body = array(
+			$this->Form->input('GlobalPage.name', $options) . $this->Infinitas->wysiwyg('GlobalPage.body')
+		);
+		
+		echo $this->Design->tabs($tabs, $body);
+			
 	echo $this->Form->end();
 ?>
