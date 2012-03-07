@@ -171,7 +171,7 @@
 				$pluginDetails['dependancies'] = json_encode($pluginDetails['dependancies']);
 				$pluginDetails['internal_name'] = $pluginName;
 				$pluginDetails['active'] = true;
-				$pluginDetails['core'] = strpos(CakePlugin::path($pluginName), APP . 'core' . DS) !== false;
+				$pluginDetails['core'] = strpos(CakePlugin::path($pluginName), APP . 'Core' . DS) !== false;
 
 				$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';
 

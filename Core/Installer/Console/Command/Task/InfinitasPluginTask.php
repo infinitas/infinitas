@@ -21,11 +21,11 @@
 		);
 
 		public function execute() {
-			$plugins = $this->__getPluginList('all');
+			$plugins = $this->__getPluginList('All');
 
 			if (!empty($this->args)) {
 				if (strtolower($this->args[0]) == 'all-core') {
-					$this->args = $this->__getPluginList('core');
+					$this->args = $this->__getPluginList('Core');
 				}
 
 				foreach ($this->args as $plugin) {
@@ -188,11 +188,11 @@
 		 * @param boolean $searchAll True if we should return all plugins, false for only plugins in /plugins and plugin plugins.
 		 * @return array Array of available plugins
 		 */
-		private function __getPluginList($searchType = 'plugins') {
+		private function __getPluginList($searchType = 'Plugin') {
 			$plugins = App::objects('plugin');
 			natsort($plugins);
 
-			if ($searchType == 'all') {
+			if ($searchType == 'All') {
 				return $plugins;
 			}
 

@@ -265,14 +265,14 @@
 
 			$db = ConnectionManager::getDataSource($this->connection);
 			if (!in_array($db->fullTableName('schema_migrations', false), $db->listSources())) {
-				$map = $this->__loadFile('map', 'migrations');
+				$map = $this->__loadFile('map', 'Migrations');
 
 				list($name, $class) = each($map[1]);
-				$migration = $this->getMigration($name, $class, 'migrations');
+				$migration = $this->getMigration($name, $class, 'Migrations');
 
 				if($migration->run('up')) {
 					$this->Version = ClassRegistry::init($options);
-					$this->setVersion(1, 'migrations');
+					$this->setVersion(1, 'Migrations');
 				}
 			}
 
@@ -298,6 +298,7 @@
 		private function __loadFile($name, $type) {
 			$path = APP . 'Config' . DS . 'releases' . DS;
 			if ($type != 'app') {
+				$type = Inflector::camelize($type);
 				$path = CakePlugin::path($type) . 'Config' . DS . 'releases' . DS;
 			}
 

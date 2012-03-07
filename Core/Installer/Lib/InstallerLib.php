@@ -19,12 +19,6 @@
 				'versionQuery' => 'select version();',
 			 	'function' => 'mysql_connect',
 			),
-			'mysqli' => array(
-				'name' => 'MySQLi',
-				'version' => '5.0',
-				'versionQuery' => 'select version();',
-				'function' => 'mysqli_connect',
-			),
 			'mssql' => array(
 				'name' => 'Microsoft SQL Server',
 				'version' => '8.0',
