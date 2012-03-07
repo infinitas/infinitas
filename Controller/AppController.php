@@ -768,7 +768,7 @@
 		 * @return mixed The resulting response.
 		 */
 		public function __call($method, $args) {
-			return $this->invokeComponentAction($this->request);
+			return $this->invokeComponentAction($this->request, $args);
 		}
 
 		/**
@@ -785,7 +785,15 @@
 			$action = 'action' . Inflector::camelize($request->params['action']);
 			foreach($this->Components->enabled() as $component) {
 				if(method_exists($this->{$component}, $action)) {
-					return $this->{$component}->dispatchMethod($action, $request->params['pass']);
+					if($e instanceof MissingActionException) {
+						$e = null;
+					}
+					
+					if(empty($e)) {
+						$e = $request->params['pass'];
+					}
+					
+					return $this->{$component}->dispatchMethod($action, $e);
 				}
 			}
 
