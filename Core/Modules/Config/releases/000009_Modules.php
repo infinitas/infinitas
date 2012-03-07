@@ -300,7 +300,7 @@
 						'config' => '',
 						'theme_id' => 0,
 						'position_id' => '00000000-3394-4e47-0001-000000000005',
-						'group_id' => 2,
+						'group_id' => 1,
 						'ordering' => 4,
 						'admin' => 1,
 						'active' => 1,
