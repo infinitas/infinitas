@@ -54,9 +54,9 @@
 			);
 
 			$id = 0;
-			foreach ( $pages as $page ){ ?>
+			foreach ($pages as $page) { ?>
 				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-					<td><?php echo $this->Form->checkbox( 'Page.'.$id.'.id', array('value' => $page['Page']['file_name']) ); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->massActionCheckBox($page); ?>&nbsp;</td>
 					<td>
 						<?php echo $this->Html->link( Inflector::humanize($page['Page']['name']), array('controller' => 'pages', 'action' => 'edit', $page['Page']['file_name'])); ?>&nbsp;
 					</td>

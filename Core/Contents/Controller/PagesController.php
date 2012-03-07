@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class PagesController extends ManagementAppController {
+	class PagesController extends ContentsAppController {
 		public function admin_index() {
 			$pages = $this->Paginator->paginate(null, $this->Filter->filter);
 
@@ -95,8 +95,7 @@
 			if ($delete) {
 				$this->notice('deleted');
 			}
-			else{
-				$this->notice('not_deleted');
-			}
+			
+			$this->notice('not_deleted');
 		}
 	}

@@ -23,7 +23,7 @@
 
 	App::uses('File', 'Utility');
 
-	class Page extends ManagementAppModel {
+	class Page extends ContentsAppModel {
 		public $useTable = false;
 
 		public $actsAs = false;
