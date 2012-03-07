@@ -182,8 +182,11 @@
 		/**
 		 * decide if its an admin module or not.
 		 */
-		public function beforeSave($options = array()){
-			$this->data['Module']['admin'] = strstr($this->data['Module']['module'], 'admin/') ? 1 : 0;
+		public function beforeSave($options = array()) {
+			if(!empty($this->data['Module']['module'])) {
+				$this->data['Module']['admin'] = strstr($this->data['Module']['module'], 'admin/') ? 1 : 0;
+			}
+			
 			return true;
 		}
 
