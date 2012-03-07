@@ -25,5 +25,6 @@
 					'follow' => true
 				)
 			)
-		)
+		),
+		'page_path' => CakePlugin::path('Contents') . 'webroot' . DS . 'pages'
 	);

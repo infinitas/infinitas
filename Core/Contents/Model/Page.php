@@ -21,6 +21,8 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
+	App::uses('File', 'Utility');
+
 	class Page extends ManagementAppModel {
 		public $useTable = false;
 
@@ -62,24 +64,29 @@
 				'file_name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter a filename for this item')
+						'message' => __d('contents', 'Please enter a filename for this item')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('The page name must be unique')
+						'message' => __d('contents', 'The page name must be unique'),
+						'on' => 'create'
 					),
 					'validFileName' => array(
 						'rule' => '/^[A-Za-z0-9_]*\.ctp$/',
-						'message' => __('The filename can only be alphanumeric or _ (underscore)')
+						'message' => __d('contents', 'The filename can only be alphanumeric or _ (underscore)')
 					)
 				),
 				'body' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('The page can not be empty')
+						'message' => __d('contents', 'The page can not be empty')
 					)
 				)
 			);
+		}
+		
+		public function isUnique($field = array()) {
+			return !is_file($this->__path($this->data[$this->alias]['file_name']));
 		}
 
 		public function schema($field = false){
@@ -111,16 +118,26 @@
 					$returnPages[]['Page'] = $returnPage;
 				}
 			}
+			
+			if(empty($returnPages)) {
+				return array();
+			}
 
 			return Set::sort($returnPages, '{n}.Page.file_name', 'asc');
 		}
 
 		private function __path($id = null){
 			if ($id) {
-				$id = DS.$id;
+				$id = DS . $id;
 			}
 
-			return APP . str_replace(array('/', '\\'), DS, Configure::read('CORE.page_path')).$id;
+			$path = str_replace(array('/', '\\'), DS, Configure::read('Contents.page_path')) . $id;
+			
+			if(!is_dir($path) && !strstr($path, '.ctp')) {
+				new Folder($path, true);
+			}
+			
+			return $path;
 		}
 
 		public function paginateCount($conditions = null, $recursive = 0, $extra = array()){
@@ -177,8 +194,9 @@
 		}
 
 		public function save($data = null, $validate = true){
-			if($data !== null)
+			if(!empty($data['Page'])) {
 				$this->data['Page'] = $data['Page'];
+			}
 
 			if(empty($this->data)){
 				return false;
@@ -190,11 +208,11 @@
 
 			$this->id = $this->data['Page']['file_name'];
 
-			$pageFile = $this->__path($this->id);
-
-			if($validate === false || $this->validates()){
-				return file_put_contents($pageFile, $this->data['Page']['body']);
+			if($validate === false || $this->validates()) {
+				$File = new File($this->__path($this->id), true);
+				return $File->write($this->data['Page']['body']);
 			}
+			
 			return false;
 		}
 

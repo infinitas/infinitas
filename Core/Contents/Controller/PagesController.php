@@ -21,7 +21,7 @@
 	 */
 
 	class PagesController extends ManagementAppController {
-		public function admin_index(){
+		public function admin_index() {
 			$pages = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -31,7 +31,7 @@
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
-			$path = APP . str_replace(array('/', '\\'), DS, Configure::read('CORE.page_path'));
+			$path = APP . str_replace(array('/', '\\'), DS, Configure::read('Contents.page_path'));
 			$writable = is_writable($path);
 
 			$this->set(compact('pages', 'filterOptions', 'writable', 'path'));
