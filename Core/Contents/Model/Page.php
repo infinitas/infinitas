@@ -110,12 +110,7 @@
 			$returnPages = array();
 			foreach($pages as $page){
 				if(strpos($page, '.ctp') !== false){
-					$returnPage = array(
-						'name' => Inflector::humanize(substr($page, 0, strlen($page) - 4)),
-						'file_name' => $page
-					);
-
-					$returnPages[]['Page'] = $returnPage;
+					$returnPages[]['Page'] = $this->__getPageData(basename($page));
 				}
 			}
 			
@@ -139,6 +134,16 @@
 			
 			return $path;
 		}
+		
+		private function __getPageData($page) {
+			return array(
+				'name' => Inflector::humanize(substr($page, 0, strlen($page) - 4)),
+				'file_name' => $page,
+				'size' => filesize($this->__path($page)),
+				'created' => date('Y-m-d H:i:s', filectime($this->__path($page))),
+				'modified' => date('Y-m-d H:i:s', filemtime($this->__path($page)))
+			);
+		}
 
 		public function paginateCount($conditions = null, $recursive = 0, $extra = array()){
 			App::import('Core', 'Folder');
@@ -155,13 +160,16 @@
 			if($filename === null){
 				$filename = $this->id;
 			}
-
+			$filename .= '.ctp';
 			$pageFile = $this->__path($filename);
 
 			$this->id = null;
-			if(file_exists($pageFile)){
+			if(file_exists($pageFile)) {
 				$this->id = $filename;
-				return array('Page' => array('body' => file_get_contents($pageFile), 'file_name' => $filename, 'slug' => Inflector::underscore($filename)));
+				return array('Page' => array_merge(
+					array('body' => file_get_contents($pageFile)),
+					$this->__getPageData(basename($pageFile))
+				));
 			}
 
 			return false;

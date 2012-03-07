@@ -21,6 +21,22 @@
 	 */
 
 	class PagesController extends ContentsAppController {
+		public function display($page = null) {
+			if (!$page) {
+				$this->notice('invalid');
+			}
+			
+			$page = $this->Page->read(null, $page);
+			
+			if (empty($page)) {
+				$this->notice('invalid');
+			}
+			
+			$title_for_layout = $page['Page']['name'];
+			
+			$this->set(compact('page', 'title_for_layout'));
+		}
+
 		public function admin_index() {
 			$pages = $this->Paginator->paginate(null, $this->Filter->filter);
 

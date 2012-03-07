@@ -48,8 +48,10 @@
 						'class' => 'first',
 						'style' => 'width:25px;'
 					),
-					$this->Paginator->sort( 'name' ),
-					$this->Paginator->sort( 'file_name' )
+					$this->Paginator->sort('name'),
+					$this->Paginator->sort('file_name'),
+					__d('contents', 'Size'),
+					__d('contents', 'Modified'),
 				)
 			);
 
@@ -58,11 +60,19 @@
 				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 					<td><?php echo $this->Infinitas->massActionCheckBox($page); ?>&nbsp;</td>
 					<td>
-						<?php echo $this->Html->link( Inflector::humanize($page['Page']['name']), array('controller' => 'pages', 'action' => 'edit', $page['Page']['file_name'])); ?>&nbsp;
+						<?php 
+							echo $this->Html->link(
+								Inflector::humanize($page['Page']['name']), 
+								array(
+									'action' => 'edit', 
+									$page['Page']['file_name']
+								)
+							); 
+						?>&nbsp;
 					</td>
-					<td>
-						<?php echo $page['Page']['file_name']; ?>&nbsp;
-					</td>
+					<td><?php echo $page['Page']['file_name']; ?>&nbsp;</td>
+					<td><?php echo convert($page['Page']['size']); ?>&nbsp;</td>
+					<td><?php echo CakeTime::niceShort($page['Page']['modified']); ?>&nbsp;</td>
 				</tr><?php
 				$id++;
 			}
