@@ -23,7 +23,7 @@
 
 	App::uses('File', 'Utility');
 
-	class Page extends ContentsAppModel {
+	class GlobalPage extends ContentsAppModel {
 		public $useTable = false;
 
 		public $actsAs = false;
@@ -110,7 +110,7 @@
 			$returnPages = array();
 			foreach($pages as $page){
 				if(strpos($page, '.ctp') !== false){
-					$returnPages[]['Page'] = $this->__getPageData(basename($page));
+					$returnPages[][$this->alias] = $this->__getPageData(basename($page));
 				}
 			}
 			
@@ -118,7 +118,7 @@
 				return array();
 			}
 
-			return Set::sort($returnPages, '{n}.Page.file_name', 'asc');
+			return Set::sort($returnPages, '{n}.' . $this->alias . '.file_name', 'asc');
 		}
 
 		private function __path($id = null){
@@ -160,13 +160,17 @@
 			if($filename === null){
 				$filename = $this->id;
 			}
-			$filename .= '.ctp';
+			
+			if(!strstr($filename, '.ctp')) {
+				$filename .= '.ctp';
+			}
+			
 			$pageFile = $this->__path($filename);
 
 			$this->id = null;
 			if(file_exists($pageFile)) {
 				$this->id = $filename;
-				return array('Page' => array_merge(
+				return array($this->alias => array_merge(
 					array('body' => file_get_contents($pageFile)),
 					$this->__getPageData(basename($pageFile))
 				));
@@ -179,8 +183,8 @@
 			$Folder = new Folder($this->__path());
 
 			$conditions = '.*';
-			if(isset($options['conditions']['Page.file_name'])){
-				$conditions = regexEscape($options['conditions']['Page.file_name']);
+			if(isset($options['conditions'][$this->alias . '.file_name'])){
+				$conditions = regexEscape($options['conditions'][$this->alias . '.file_name']);
 			}
 
 			$results = $Folder->find($conditions);
@@ -202,23 +206,23 @@
 		}
 
 		public function save($data = null, $validate = true){
-			if(!empty($data['Page'])) {
-				$this->data['Page'] = $data['Page'];
+			if(!empty($data[$this->alias])) {
+				$this->data[$this->alias] = $data[$this->alias];
 			}
 
 			if(empty($this->data)){
 				return false;
 			}
 
-			if(strpos($this->data['Page']['file_name'], '.ctp') === false){
-				$this->data['Page']['file_name'] .= '.ctp';
+			if(strpos($this->data[$this->alias]['file_name'], '.ctp') === false){
+				$this->data[$this->alias]['file_name'] .= '.ctp';
 			}
 
-			$this->id = $this->data['Page']['file_name'];
+			$this->id = $this->data[$this->alias]['file_name'];
 
 			if($validate === false || $this->validates()) {
 				$File = new File($this->__path($this->id), true);
-				return $File->write($this->data['Page']['body']);
+				return $File->write($this->data[$this->alias]['body']);
 			}
 			
 			return false;

@@ -9,8 +9,8 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package management
-	 * @subpackage management.controllers.pages
+	 * @package Contents
+	 * @subpackage Contents.Controllers
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
@@ -20,19 +20,19 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class PagesController extends ContentsAppController {
+	class GlobalPagesController extends ContentsAppController {
 		public function display($page = null) {
 			if (!$page) {
 				$this->notice('invalid');
 			}
 			
-			$page = $this->Page->read(null, $page);
+			$page = $this->{$this->modelClass}->read(null, $page);
 			
 			if (empty($page)) {
 				$this->notice('invalid');
 			}
 			
-			$title_for_layout = $page['Page']['name'];
+			$title_for_layout = $page[$this->modelClass]['name'];
 			
 			$this->set(compact('page', 'title_for_layout'));
 		}
@@ -53,11 +53,11 @@
 			$this->set(compact('pages', 'filterOptions', 'writable', 'path'));
 		}
 
-		public function admin_add(){
-			if (!empty($this->request->data)){
-				$this->request->data['Page']['file_name'] = strtolower(Inflector::slug($this->request->data['Page']['name']));
+		public function admin_add() {
+			if (!empty($this->request->data)) {
+				$this->request->data[$this->modelClass]['file_name'] = strtolower(Inflector::slug($this->request->data[$this->modelClass]['name']));
 
-				if ($this->Page->save($this->request->data)){
+				if ($this->{$this->modelClass}->save($this->request->data)) {
 					$this->notice('saved');
 				}
 
@@ -65,21 +65,21 @@
 			}
 		}
 
-		public function admin_edit($filename){
+		public function admin_edit($filename) {
 			if (!$filename){
 				$this->notice('invalid');
 			}
 
-			if (!empty($this->request->data)){
-				if ($this->Page->save($this->request->data)){
+			if (!empty($this->request->data)) {
+				if ($this->{$this->modelClass}->save($this->request->data)) {
 					$this->notice('saved');
 				}
 
 				$this->notice('not_saved');
 			}
 
-			if ($filename && empty($this->request->data)){
-				$this->request->data = $this->Page->read(null, $filename);
+			if ($filename && empty($this->request->data)) {
+				$this->request->data = $this->{$this->modelClass}->read(null, $filename);
 			}
 		}
 
@@ -104,8 +104,8 @@
 
 		public function __massActionDelete($ids) {
 			$deleted = true;
-			foreach($ids as $id){
-				$deleted = $deleted && $this->Page->delete($id);
+			foreach($ids as $id) {
+				$deleted = $deleted && $this->{$this->modelClass}->delete($id);
 			}
 
 			if ($delete) {

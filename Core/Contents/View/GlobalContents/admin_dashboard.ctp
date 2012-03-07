@@ -46,7 +46,7 @@
 			'icon' => '/contents/img/static.png',
 			'dashboard' => array(
 				'plugin' => 'contents',
-				'controller' => 'pages',
+				'controller' => 'global_pages',
 				'action' => 'index'
 			)
 		)

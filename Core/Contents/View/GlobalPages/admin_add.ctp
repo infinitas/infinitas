@@ -20,9 +20,9 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	echo $this->Form->create('Page');
+	echo $this->Form->create('GlobalPage');
 		echo $this->Infinitas->adminEditHead();  
-		echo $this->Form->input('Page.name', array('type' => 'text'));
-		echo $this->Infinitas->wysiwyg('Page.body');
+		echo $this->Form->input('GlobalPage.name', array('type' => 'text'));
+		echo $this->Infinitas->wysiwyg('GlobalPage.body');
 	echo $this->Form->end( );
 ?>

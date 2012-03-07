@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	echo $this->Form->create( 'Page', array( 'url' => array( 'controller' => 'pages', 'action' => 'mass', 'admin' => 'true' ) ) );
+	echo $this->Form->create('GlobalPage', array('action' => 'mass'));
 
 	$massActions = $this->Infinitas->massActionButtons(
 		array(
@@ -62,17 +62,17 @@
 					<td>
 						<?php 
 							echo $this->Html->link(
-								Inflector::humanize($page['Page']['name']), 
+								Inflector::humanize($page['GlobalPage']['name']), 
 								array(
 									'action' => 'edit', 
-									$page['Page']['file_name']
+									$page['GlobalPage']['file_name']
 								)
 							); 
 						?>&nbsp;
 					</td>
-					<td><?php echo $page['Page']['file_name']; ?>&nbsp;</td>
-					<td><?php echo convert($page['Page']['size']); ?>&nbsp;</td>
-					<td><?php echo CakeTime::niceShort($page['Page']['modified']); ?>&nbsp;</td>
+					<td><?php echo $page['GlobalPage']['file_name']; ?>&nbsp;</td>
+					<td><?php echo convert($page['GlobalPage']['size']); ?>&nbsp;</td>
+					<td><?php echo CakeTime::niceShort($page['GlobalPage']['modified']); ?>&nbsp;</td>
 				</tr><?php
 				$id++;
 			}
