@@ -39,6 +39,16 @@
 				'controller' => 'global_tags',
 				'action' => 'index'
 			)
+		),
+		array(
+			'name' => 'Static',
+			'description' => 'Create and manage static content for your site',
+			'icon' => '/contents/img/static.png',
+			'dashboard' => array(
+				'plugin' => 'contents',
+				'controller' => 'pages',
+				'action' => 'index'
+			)
 		)
 	);
 	
