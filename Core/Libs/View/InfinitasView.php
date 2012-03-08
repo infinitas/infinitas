@@ -4,9 +4,9 @@
 	 *
 	 * makes the mustache templating class available in the views, and extends
 	 * the Theme View to allow the use of themes.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -14,9 +14,9 @@
 	 * @subpackage infinitas.extentions.views.infinitas
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -63,17 +63,17 @@
 		 */
 		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
-			
+
 			$out = parent::_render($viewFile, $data);
 			$this->__renderMustache($out);
 			$this->__parseSnips($out);
-			
+
 			return $out;
 		}
 
 		/**
 		 * @brief render any mustache templates with the viewVars
-		 * 
+		 *
 		 * you can pass ?mustache=false in the url to see the raw output skipping
 		 * the template rendering. could be handy for debugging. if debug is off
 		 * this has no effect.
@@ -89,11 +89,11 @@
 				unset($this->request['url']['mustache']);
 			}
 
-			
+
 			if($this->__skipMustacheRender()) {
 				return;
 			}
-			
+
 			if(empty($this->__mustacheTemplates)){
 				$this->__mustacheTemplates = array_filter(current($this->Event->trigger('requireGlobalTemplates')));
 			}
@@ -110,13 +110,13 @@
 		}
 
 		/**
-		 * @breif render a mustache template with the passed in variables 
-		 * 
+		 * @breif render a mustache template with the passed in variables
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param string $template the mustache template
 		 * @param array $variables variables that will be instered into the template
-		 * 
+		 *
 		 * @return string the rendered template with variables inserted
 		 */
 		public function renderTemplate($template, array $variables = array()) {
@@ -125,7 +125,7 @@
 
 		/**
 		 * @brief check if mustache should be used to render a template
-		 * 
+		 *
 		 * only on for admin or it renders the stuff in the editor which is pointless
 		 * could maybe just turn it off for edit or some other work around
 		 *
@@ -157,9 +157,9 @@
 			if($this->request->is('ajax')){
 				return false;
 			}
-			
-			$model = current($this->request->params['models']);
-
+			if (!empty($this->request->params['models'])) {
+				$model = current($this->request->params['models']);
+			}
 			$infinitasJsData['base']	= $this->request->base;
 			$infinitasJsData['here']	= $this->request->here;
 			$infinitasJsData['plugin']	= $this->request->params['plugin'];
@@ -169,7 +169,7 @@
 			$infinitasJsData['passedArgs'] = $this->request->params['pass'];
 			$infinitasJsData['data']	   = $this->request->data;
 
-			$infinitasJsData['model']	   = isset($model['className']) ? $model['className'] : null;
+			$infinitasJsData['model']	   = isset($model) ? $model['className'] : null;
 
 			$infinitasJsData['config']	 = Configure::read();
 
@@ -192,7 +192,7 @@
 			if(empty($snips)) {
 				return;
 			}
-			
+
 			foreach($snips as $key => $match) {
 				$out = str_replace($match, $this->__parseSnipParams($match), $out);
 			}
@@ -200,7 +200,7 @@
 
 		/**
 		 * @brief figure out what was requested and load the module
-		 * 
+		 *
 		 * @param <type> $match
 		 * @return <type>
 		 */
@@ -208,13 +208,13 @@
 			if(empty($match)) {
 				return false;
 			}
-			
+
 			$params = array();
-			
+
 			list($params['modelClass'], $params['id']) = explode('#', str_replace(array('[', ']'), '', $match));
 			list($params['type'], $params['modelClass']) = explode(':', $params['modelClass']);
 			list($params['plugin'], $params['model']) = pluginSplit($params['modelClass']);
-			
+
 			switch($params['type']) {
 				case 'snip':
 					return $this->ModuleLoader->loadDirect($params['plugin'] . '.snip', $params);
