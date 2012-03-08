@@ -330,6 +330,7 @@
 			$this->request->data['User']['city'] = '';
 			$this->request->data['User']['group_id'] = 1;
 			$this->request->data['User']['active'] = 1;
+			$this->request->data['User']['last_login'] = date('Y-m-d H:i:s');
 
 			if($this->User->save($this->request->data)) {
 				return true;
