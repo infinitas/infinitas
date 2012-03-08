@@ -428,6 +428,10 @@ form fieldset,
 		border-color:#c3c9ce;
 		color:#333;
 	}
+	
+.dashboard.full {
+	clear: both;
+}
 
 /**
 	pagination
