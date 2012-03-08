@@ -106,12 +106,16 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class ChartsEvents extends AppEvents{
+	final class ChartsEvents extends AppEvents {
 		public function onRequireLibs() {
-			App::import('Libs', 'Charts.ChartDataManipulation');
+			App::uses('ChartDataManipulation', 'Charts.Lib');
 		}
 
-		public function  onRequireHelpersToLoad($event = null) {
-			return array('Charts.Charts' => array('Google.GoogleStatic'));
+		public function onRequireHelpersToLoad($event = null) {
+			return array(
+				'Charts.Charts' => array(
+					Configure::read('Charts.default_engine')
+				)
+			);
 		}
 	}
