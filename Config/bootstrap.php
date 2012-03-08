@@ -35,6 +35,8 @@
 	App::uses('AppModel', 'Model');
 	App::uses('AppController', 'Controller');
 	App::uses('AppHelper', 'View/Helper');
+	
+	App::uses('ClearCache', 'Data.Lib');
 	App::uses('EventCore', 'Events.Lib');
 	
 	/**
