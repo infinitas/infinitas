@@ -1,0 +1,24 @@
+.view_counter ul.country-data{
+	float:left;
+	list-style:none outside none;
+}
+
+.view_counter.admin_reports table.listing{
+	margin:auto;
+	width:96%;
+}
+
+.view_counter.admin_reports table.listing td.right{
+	text-align: right;
+}
+
+.view_counter.admin_reports table.listing a{
+	color: #CC871E;
+}
+
+.extra.popular{
+	padding-left: 20px;
+	background-color: transparent;
+	background-image: url(../img/popular-small.png);
+	background-repeat: no-repeat;
+}
