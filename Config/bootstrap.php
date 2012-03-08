@@ -26,78 +26,50 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	/**
-	 * @brief the cached plugin paths
-	 *
-	 * Get the paths out of cache if there are any or get them with Folder::read
-	 * They are used with App::build() to make any extra folders  in APP be plugin
-	 * folders. This can help if you want to keep plugins outside of /plugins
-	 */
-
 	App::uses('Folder', 'Utility');
 	App::uses('String', 'Utility');
 	App::uses('Sanitize', 'Utility');
-
-	$paths = false; //Cache::read('plugin_paths');
-	if($paths === false){
-		$Folder = new Folder(APP);
-		$folders = $Folder->read();
-		$folders = array_flip($folders[0]);
-		unset($Folder, $folders['.git'], $folders['Config'], $folders['locale'],
-			$folders['nbproject'], $folders['Console'], $folders['tmp'], $folders['View'],
-			$folders['Controller'],  $folders['Lib'], $folders['webroot'], $folders['Test'],
-			$folders['Model']);
-
-		$paths = array();
-		foreach(array_flip($folders) as $folder){
-			$paths[] = APP . $folder . DS;
-		}
-
-		Cache::write('plugin_paths', $paths);
-		unset($Folder, $folders);
-
-		// @todo trigger event to get oter plugin paths
-	}
-
-	App::build(
-		array(
-			'Plugin' => $paths
-		)
-	);
-	$plugins = App::objects('plugins', $paths, false);
-	CakePlugin::load($plugins);
+	App::uses('InfinitasPlugin', 'Lib');
+	App::uses('CakeLog', 'Log');
 
 	App::uses('AppModel', 'Model');
 	App::uses('AppController', 'Controller');
 	App::uses('AppHelper', 'View/Helper');
-
-	foreach(CakePlugin::loaded() as $plugin) {
-		App::uses($plugin . 'AppModel', $plugin . '.Model');
-		App::uses($plugin . 'AppController', $plugin . '.Controller');
-	}
-
-	unset($paths);
-
-	if (false === function_exists('lcfirst')) {
-		function lcfirst($str) {
-			return (string)(strtolower(substr($str, 0, 1)) . substr($str, 1));
-		}
-	}
-
-	/**
-	 * Load plugin events
-	 */
 	App::uses('EventCore', 'Events.Lib');
+	
+	/**
+	 * Cache configuration.
+	 *
+	 * Try apc or memcache, default to the namespaceFile cache.
+	 */
+	$cacheEngine = 'File';
+	switch(true){
+		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
+			$cacheEngine = 'Apc';
+			break;
+		
+		case function_exists('xcache_info'):
+			$cacheEngine = 'Xcache';
+			break;
 
-	EventCore::trigger(new StdClass(), 'setupConfig');
-	EventCore::trigger(new StdClass(), 'requireLibs');
+		case class_exists('Memcache'):
+			$cacheEngine = 'Memcache';
+			break;
 
+		default:
+			//$cacheEngine = 'Libs.NamespaceFileCache';
+			break;
+	}
+	Configure::write('Cache.engine', $cacheEngine);
 
-	$cachePrefix = substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10);
-	Cache::config('_cake_core_', array('engine' => Configure::read('Cache.engine'), 'prefix' => $cachePrefix, 'mask' => 0664));
-	Cache::config('_cake_model_', array('engine' => Configure::read('Cache.engine'), 'prefix' => $cachePrefix, 'mask' => 0664));
-	Cache::config('default', array('engine' => Configure::read('Cache.engine'), 'prefix' => $cachePrefix, 'mask' => 0644));
-	unset($cacheEngine);
+	Cache::config('_cake_core_', array('engine' => $cacheEngine, 'prefix' => cachePrefix(), 'mask' => 0664));
+	Cache::config('_cake_model_', array('engine' => $cacheEngine, 'prefix' => cachePrefix(), 'mask' => 0664));
+	Cache::config('default', array('engine' => $cacheEngine, 'prefix' => cachePrefix(), 'mask' => 0644));
+
+	//no home
+	Configure::write('Rating.require_auth', true);
+	Configure::write('Rating.time_limit', '4 weeks');
+	Configure::write('Reviews.auto_moderate', true);
 
 	/**
 	 * @brief get the configuration values from cache
@@ -112,15 +84,10 @@
 		}
 	}
 
-	//no home
-	Configure::write('Rating.require_auth', true);
-	Configure::write('Rating.time_limit', '4 weeks');
-	Configure::write('Reviews.auto_moderate', true);
-
-	if(!empty($cachedConfigs)) {
-		unset($cachedConfigs);
-		return true;
-	}
+	unset($cacheEngine, $cachedConfigs);
+	
+	InfinitasPlugin::loadCore();
+	EventCore::trigger(new StdClass(), 'requireLibs');
 
 	/**
 	 * @todo cake2.0
@@ -136,6 +103,12 @@
 	if(!defined('JSON_ERROR_DEPTH')){define('JSON_ERROR_DEPTH', 1);}
 	if(!defined('JSON_ERROR_CTRL_CHAR')){define('JSON_ERROR_CTRL_CHAR', 3);}
 	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}
+
+	if (!function_exists('lcfirst')) {
+		function lcfirst($str) {
+			return (string)(strtolower(substr($str, 0, 1)) . substr($str, 1));
+		}
+	}
 
 	function configureCache($cacheDetails) {
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
@@ -154,6 +127,8 @@
 			else{
 				$cache['config']['prefix'] = Inflector::slug(APP_DIR) . '_' . str_replace(DS, '_', $folder);
 			}
+			
+			$cache['config']['prefix'] = cachePrefix() . $cache['config']['prefix'];
 
 			$cache['config'] = array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']);
 
@@ -166,6 +141,14 @@
 			}
 		}
 		unset($cacheDetails, $cache, $folder, $plugin);
+	}
+	
+	function cachePrefix() {
+		if(!defined('INFINITAS_CACHE_PREFIX')) {
+			define('INFINITAS_CACHE_PREFIX', substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10));
+		}
+		
+		return INFINITAS_CACHE_PREFIX;
 	}
 
 	/**

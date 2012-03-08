@@ -31,31 +31,3 @@
 	if(Configure::read('debug') == 0){
 		Configure::write('Cache.check', true);
 	}
-
-	App::build(array('Plugin' => array(APP . 'Core' . DS)));
-
-
-	/**
-	 * Cache configuration.
-	 *
-	 * Try apc or memcache, default to the namespaceFile cache.
-	 */
-	$cacheEngine = 'File';
-	switch(true){
-		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
-			$cacheEngine = 'Apc';
-			break;
-		
-		case function_exists('xcache_info'):
-			$cacheEngine = 'Xcache';
-			break;
-
-		case class_exists('Memcache'):
-			$cacheEngine = 'Memcache';
-			break;
-
-		default:
-			//$cacheEngine = 'Libs.NamespaceFileCache';
-			break;
-	}
-	Configure::write('Cache.engine', $cacheEngine);
