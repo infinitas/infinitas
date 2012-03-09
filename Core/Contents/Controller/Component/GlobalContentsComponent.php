@@ -49,10 +49,7 @@
 			$Controller->set('contentGroups', $Model->Group->find('list'));
 			$Controller->set('contentAuthors', $authors);
 			$Controller->set('contentLayouts', $Model->GlobalLayout->find('list'));
-
-			$contentCategories = $Model->GlobalCategory->find('list');
-
-			$Controller->set('contentCategories', $contentCategories);
+			$Controller->set('contentCategories', $Model->GlobalCategory->find('categoryList'));
 		}
 
 		private function __loadLayout($Controller, $options) {

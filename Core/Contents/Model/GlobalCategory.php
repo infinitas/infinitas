@@ -73,6 +73,7 @@
 			);
 
 			$this->findMethods['getCategory'] = true;
+			$this->findMethods['categoryList'] = true;
 		}
 
 		public function beforeValidate($options = array()) {
@@ -195,5 +196,31 @@
 			}
 
 			return $results;
+		}
+		
+		public function _findCategoryList($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['fields'] = array_merge(
+					(array)$query['fields'],
+					array(
+						'GlobalCategory.id',
+					)
+				);
+				return $query;
+			}
+			$return = array(
+				__d('contents', 'Active') => array(),
+				__d('contents', 'Inactive') => array()
+			);
+			foreach($results as $result) {
+				if($result['GlobalCategory']['active']) {
+					$return[__d('contents', 'Active')][$result['GlobalCategory']['id']] = $result['GlobalCategory']['title'];
+					continue;
+				}
+				
+				$return[__d('contents', 'Inactive')][$result['GlobalCategory']['id']] = $result['GlobalCategory']['title'];
+			}
+
+			return $return;
 		}
 	}
