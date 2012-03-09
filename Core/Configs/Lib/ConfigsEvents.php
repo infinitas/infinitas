@@ -14,9 +14,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class ConfigsEvents extends AppEvents{		
-		public function onSetupConfig(){
-		}
+	final class ConfigsEvents extends AppEvents {
 
 		public function onSetupCache(){
 			return array(

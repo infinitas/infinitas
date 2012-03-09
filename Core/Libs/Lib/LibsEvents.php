@@ -1,11 +1,5 @@
 <?php
-	class LibsEvents extends AppEvents{
-		public function onSetupConfig(){
-			return
-			Configure::load('Libs.images') &&
-			Configure::load('Libs.config');
-		}
-
+	class LibsEvents extends AppEvents {
 		public function onSetupExtensions(){
 			return array(
 				'json'

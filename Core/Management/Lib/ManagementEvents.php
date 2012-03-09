@@ -1,10 +1,6 @@
 <?php
-	final class ManagementEvents extends AppEvents{
+	final class ManagementEvents extends AppEvents {
 		public function onPluginRollCall() {
-		}
-		
-		public function onSetupConfig(){
-			return Configure::load('Management.config');
 		}
 
 		public function onSetupCache(){

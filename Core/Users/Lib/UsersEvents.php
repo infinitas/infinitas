@@ -1,5 +1,5 @@
 <?php
-	final class UsersEvents extends AppEvents{
+	final class UsersEvents extends AppEvents {
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Users',
@@ -8,10 +8,6 @@
 				'author' => 'Infinitas',
 				'dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),
 			);
-		}
-		
-		public function onSetupConfig(){
-			return Configure::load('Users.config');
 		}
 
 		public function onSetupCache(){

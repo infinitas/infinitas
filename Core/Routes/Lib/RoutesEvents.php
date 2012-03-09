@@ -1,5 +1,5 @@
 <?php
-	final class RoutesEvents extends AppEvents{
+	final class RoutesEvents extends AppEvents {
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Routes',
@@ -7,9 +7,6 @@
 				'icon' => '/routes/img/icon.png',
 				'author' => 'Infinitas'
 			);
-		}
-
-		public function onSetupConfig(){
 		}
 
 		public function onSetupCache(){

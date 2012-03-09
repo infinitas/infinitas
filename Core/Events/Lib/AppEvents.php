@@ -118,18 +118,6 @@
 		 */
 		public function onSetupCache($event, $data = null){}
 
-		/**
-		 * Load config vars from the db.
-		 *
-		 * This gets all the config vars from the database and loads them in to the
-		 * {#see Configure} class to be used later in the app
-		 *
-		 * Called in InfinitasComponent::initialize
-		 *
-		 * @return true
-		 */
-		public function onSetupConfig($event, $data = null){}
-
 		public function onSetupConfigStart($event, $data = null){}
 		
 		public function onSetupConfigEnd($event, $data = null){}

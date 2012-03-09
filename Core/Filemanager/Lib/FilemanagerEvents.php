@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class FilemanagerEvents extends AppEvents{
+	final class FilemanagerEvents extends AppEvents {
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Files',
@@ -46,8 +46,4 @@
 				)
 			);
 		}
-
-		public function onSetupConfig(){
-			return Configure::load('Filemanager.config');
-		}
-	 }
+	}

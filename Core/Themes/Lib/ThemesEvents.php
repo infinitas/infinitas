@@ -1,9 +1,5 @@
 <?php
-	final class ThemesEvents extends AppEvents{		
-		public function onSetupConfig(){
-			return array();
-		}
-
+	final class ThemesEvents extends AppEvents {
 		public function onSetupCache(){
 			return array(
 				'name' => 'themes',

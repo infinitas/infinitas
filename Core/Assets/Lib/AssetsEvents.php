@@ -1,9 +1,5 @@
 <?php
-	class AssetsEvents extends AppEvents{
-		public function onSetupConfig($event, $data = null) {
-			Configure::load('Assets.config');
-		}
-
+	class AssetsEvents extends AppEvents {
 		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'Assets.Compress'

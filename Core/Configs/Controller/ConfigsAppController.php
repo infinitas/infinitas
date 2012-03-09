@@ -17,8 +17,7 @@
 	 * You can use all the normal Configure methods within the code including
 	 * Configure::load(), Configure::read('debug') and Configure::write(). There are some
 	 * Event callbacks that are triggered early on in the request so if you would
-	 * like the data to be cached it should be loaded in these calls. See
-	 * AppEvents::onSetupConfig() for more information.
+	 * like the data to be cached it should be loaded in these calls. 
 	 *
 	 * Configs plugin provides a number of things to manage configs, including
 	 * adding new ones from the backend, overloading options and seeing what has

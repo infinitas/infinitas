@@ -14,7 +14,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class CommentsEvents extends AppEvents{
+	final class CommentsEvents extends AppEvents {
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Comments',
@@ -38,10 +38,6 @@
 			);
 
 			return $menu;
-		}
-		
-		public function onSetupConfig(){
-			return Configure::load('Comments.config');
 		}
 
 		public function  onRequireComponentsToLoad($event = null) {

@@ -46,10 +46,6 @@
 			);
 		}
 
-		public function onSetupConfig(){
-			return Configure::load('Webmaster.config');
-		}
-
 		public function onSetupCache(){
 			return array(
 				'name' => 'webmaster',

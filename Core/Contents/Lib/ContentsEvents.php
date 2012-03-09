@@ -18,10 +18,6 @@
 	 */
 
 	final class ContentsEvents extends AppEvents {
-		public function onSetupConfig($event) {
-			Configure::load('Contents.config');
-		}
-
 		public function onPluginRollCall() {
 			return array(
 				'name' => 'Content',

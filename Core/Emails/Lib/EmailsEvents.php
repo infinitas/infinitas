@@ -1,5 +1,5 @@
 <?php
-	final class EmailsEvents extends AppEvents{
+	final class EmailsEvents extends AppEvents {
 		public function onRequireDatabaseConfigs($event) {
 			return array(
 				'emails' => array(
@@ -15,10 +15,6 @@
 					'prefix' => 'emails.',
 				)
 			);
-		}
-
-		public function onSetupConfig() {
-			return Configure::load('Emails.config');
 		}
 
 		public function onPluginRollCall() {

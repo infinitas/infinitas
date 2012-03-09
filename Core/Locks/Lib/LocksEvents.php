@@ -1,5 +1,5 @@
 <?php
-	final class LocksEvents extends AppEvents{
+	final class LocksEvents extends AppEvents {
 		public function onSetupCache(){
 			return array(
 				'name' => 'locks',
@@ -7,10 +7,6 @@
 					'prefix' => 'locks.'
 				)
 			);
-		}
-		
-		public function onSetupConfig(){
-			return Configure::load('Locks.config');
 		}
 
 		public function onAdminMenu($event){

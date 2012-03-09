@@ -21,11 +21,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class MenusEvents extends AppEvents{
-		public function onSetupConfig(){
-			return array();
-		}
-
+	final class MenusEvents extends AppEvents {
 		public function onSetupCache(){
 			return array(
 				'name' => 'menus',

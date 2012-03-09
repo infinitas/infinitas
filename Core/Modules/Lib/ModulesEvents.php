@@ -21,10 +21,7 @@
 		}
 	}
 	
-	final class ModulesEvents extends AppEvents{		
-		public function onSetupConfig(){
-		}
-
+	final class ModulesEvents extends AppEvents {
 		public function onSetupCache(){
 			return array(
 				'name' => 'modules',

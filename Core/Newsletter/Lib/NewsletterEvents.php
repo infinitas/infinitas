@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	final class NewsletterEvents extends AppEvents{
+	final class NewsletterEvents extends AppEvents {
 		public function onPluginRollCall(){
 			return array(
 				'name' => 'Newsletter',
@@ -40,10 +40,6 @@
 			);
 
 			return $menu;
-		}
-
-		public function onSetupConfig(){
-			return Configure::load('Newsletter.config');
 		}
 		 
 		public function onRequireComponentsToLoad(){
