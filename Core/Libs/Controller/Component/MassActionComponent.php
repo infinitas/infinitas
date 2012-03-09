@@ -36,6 +36,7 @@
 		public function actionAdminMass() {
 			$massAction = $this->getAction();
 			$modelName = isset($this->Controller->request->data['Confirm']['model']) ? $this->Controller->request->data['Confirm']['model'] : $this->Controller->modelClass;
+			
 			$ids = $this->getIds(
 				$massAction,
 				$this->Controller->request->data[$modelName]
@@ -66,7 +67,7 @@
 		 * @return array $ids the array of ids for the model that was selected.
 		 */
 		public function getIds($massAction, $data) {
-			if (in_array($massAction, array('add','filter'))) {
+			if (in_array($massAction, array('add', 'filter', 'install'))) {
 				return null;
 			}
 
