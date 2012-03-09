@@ -1,5 +1,10 @@
 <?php
 	class InfinitasPlugin extends CakePlugin {
+		/**
+		 * @brief internal list of various plugins by the current state
+		 * 
+		 * @var array
+		 */
 		private static $__plugins = array(
 			'all' => null,
 			'core' => null,
@@ -10,14 +15,32 @@
 			'notLoaded' => null
 		);
 		
-		private static $__corePath = null;
-		
+		/**
+		 * @brief the paths where plugins can be found
+		 * @var type 
+		 */
 		private static $__pluginPaths = false;
 		
+		/**
+		 * @brief get the core path
+		 * 
+		 * @access public
+		 * 
+		 * @return string
+		 */
 		public static function corePath() {
 			return APP . 'Core';
 		}
 		
+		/**
+		 * @brief load core plugins
+		 * 
+		 * This loads up plugins that are part of the infinitas core
+		 * 
+		 * @access public
+		 * 
+		 * @return void 
+		 */
 		public static function loadCore() {
 			self::__findPlugins();
 			
@@ -26,6 +49,16 @@
 			}
 		}
 		
+		/**
+		 * @brief load the user plugins
+		 * 
+		 * This loads up plugins that are installed and active but not part of 
+		 * the core.
+		 * 
+		 * @access public
+		 * 
+		 * @return void 
+		 */
 		public static function loadInstalled() {
 			$object = new StdClass();
 			
@@ -38,6 +71,16 @@
 			}
 		}
 		
+		/**
+		 * @brief load plugins for the installer
+		 * 
+		 * The installer needs to know about everything in the system but there
+		 * are no routes loaded or configs
+		 * 
+		 * @access public
+		 * 
+		 * @return void 
+		 */
 		public static function loadForInstaller() {
 			self::__findPlugins();
 			
@@ -174,6 +217,13 @@
 			return self::$__plugins[$type];
 		}
 		
+		/**
+		 * @brief check if infinitas has been installed yet
+		 * 
+		 * @access public
+		 * 
+		 * @return bool false if not, true if it has been
+		 */
 		public static function infinitasInstalled() {
 			$databaseConfig = APP . 'Config' . DS . 'database.php';
 			
