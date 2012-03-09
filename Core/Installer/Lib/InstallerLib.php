@@ -500,18 +500,22 @@ LICENCE;
 			return $version[0];
 		}
 		
+		/**
+		 * @brief install a local theme
+		 * 
+		 * Theme names are 'Plugin.theme' for plugin based themes and just 'theme' 
+		 * for app based themes.
+		 * 
+		 * @exception Exception
+		 * 
+		 * @access public
+		 * 
+		 * @param string $theme the theme to install
+		 * 
+		 * @return bool true on save, other methods will throw exceptions 
+		 */
 		public static function localTheme($theme) {
-			list($plugin, $theme) = pluginSplit($theme);
-			
-			$path = self::themePath($plugin, $theme);
-			$targetSymlink = self::themePath(null, $theme);
-			if(is_dir($path) && !is_dir($targetSymlink)) {
-				if(symlink($path, $targetSymlink)) {
-					return true;
-				}
-			}
-			
-			throw new Exception(__d('installer', 'Could not symlink theme "%s"', $theme));
+			return ClassRegistry::init('Themes.Theme')->install($theme);
 		}
 		
 		/**

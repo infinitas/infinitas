@@ -143,6 +143,36 @@
 			);
 		}
 		
+		public function install($theme) {
+			list($plugin, $theme) = pluginSplit($theme);
+			$path = InstallerLib::themePath($plugin, $theme);
+			$targetSymlink = InstallerLib::themePath(null, $theme);
+			
+			if(is_dir($path) && !is_dir($targetSymlink)) {
+				if(symlink($path, $targetSymlink)) {
+					if($this->save($this->__parseThemeConfig($path))) {
+						return true;
+					}
+					
+					unlink($targetSymlink);
+					throw new Exception(__d('themes', 'Could not install the "%s" theme', $theme));
+				}
+				
+				throw new Exception(__d('themes', 'Could not symlink the theme directory'));
+			}
+			
+			throw new Exception(__d('themes', 'Path error installing the "%s" theme', $theme));
+		}
+		
+		private function __parseThemeConfig($path) {
+			if(!is_file($path . DS . 'config.json')) {
+				throw new Exception('Missing configuration for selected theme');
+			}
+			
+			$File = new File($path . DS . 'config.json');
+			return array($this->alias => json_decode($File->read(), true));
+		}
+		
 		/**
 		 * @brief get a list of themes that are already installed 
 		 * 
@@ -176,6 +206,7 @@
 		 * @return array list of themes that are not installed
 		 */
 		public function notInstalled() {
+			App::uses('InstallerLib', 'Installer.Lib');
 			$installed = $this->installed();
 			
 			$notInstalled = array();
@@ -188,7 +219,7 @@
 			}
 			
 			foreach(InstallerLib::findThemes() as $theme) {
-				if(!linkinfo($path) && !array_key_exists($theme, $installed)) {
+				if(!linkinfo(InstallerLib::themePath(null, $theme)) && !array_key_exists($theme, $installed)) {
 					$notInstalled[$theme] = Inflector::humanize(Inflector::underscore($theme));
 				}
 			}

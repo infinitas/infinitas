@@ -34,8 +34,8 @@
 
 		public function admin_add(){
 			parent::admin_add();
-			$themes = $this->__listThemes();
-			if(empty($themes)){
+			
+			if(!$themes = $this->Theme->notInstalled()){
 				$this->notice(
 					__('You do not have any themes to add'),
 					array(
@@ -44,32 +44,15 @@
 					)
 				);
 			}
+			
 			$this->set(compact('themes'));
 		}
 
 		public function admin_edit($id){
 			parent::admin_edit($id);
-			$themes = $this->__listThemes();
+			$themes = $this->Theme->notInstalled();
 			$themes[$this->request->data['Theme']['name']] = $this->request->data['Theme']['name'];
 			$this->set(compact('themes'));
-		}
-
-		private function __listThemes($return = false){
-			$Folder = new Folder(APP . 'views' . DS . 'themed');
-			$folders = $Folder->read();
-			unset($Folder);
-
-			$themes = array();
-			$exsitingThemes = $this->Theme->find('list');
-			foreach($folders[0] as $theme){
-				if(in_array($theme, $exsitingThemes)){
-					continue;
-				}
-
-				$themes[$theme] = Inflector::humanize($theme);
-			}
-
-			return $themes;
 		}
 
 		/**

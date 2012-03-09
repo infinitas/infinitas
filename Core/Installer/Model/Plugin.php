@@ -362,7 +362,7 @@
 			
 			switch(current(array_keys($data))) {
 				case 'Theme.local':
-					InstallerLib::localTheme(current($data));
+					return InstallerLib::localTheme(current($data));
 					break;
 			}
 			

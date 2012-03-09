@@ -36,13 +36,16 @@
 
 		public function admin_install() {
 			$this->notice['saved'] = array(
-				'message' => 'Your %s was installed successfully',
+				'message' => 'The selected items were installed successfully',
 				'redirect' => ''
 			);
+			
 			if($this->request->data) {
 				try{
 					unset($this->request->data['action']);
 					$this->Plugin->processInstall($this->request->data);
+					
+					$this->notice('saved');
 				}
 				catch(Exception $e) {
 					$this->notice(
@@ -52,11 +55,10 @@
 						)
 					);
 				}
-				
-				$this->notice('saved');
 			}
 			
 			$this->set('possibleThemes', ClassRegistry::init('Themes.Theme')->notInstalled());
+			$this->saveRedirectMarker();
 		}
 
 		public function admin_update_infinitas(){
