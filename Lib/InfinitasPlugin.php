@@ -147,7 +147,7 @@
 					if(self::$__plugins[$type] === null) {
 						self::$__plugins[$type] = array_diff(
 							self::listPlugins('all'), 
-							array_values(self::__listPlugins('installed'))
+							array_values(self::listPlugins('installed'))
 						);
 						natsort(self::$__plugins[$type]);
 					}
