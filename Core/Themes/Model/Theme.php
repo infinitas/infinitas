@@ -60,9 +60,10 @@
 		}
 
 		/**
-		 * Get the current Theme
-		 *
-		 * @param array $conditions
+		 * @brief Get the current Theme
+		 * 
+		 * @access public
+		 * 
 		 * @return array $theme the current theme.
 		 */
 		public function getCurrentTheme() {
@@ -92,9 +93,11 @@
 		}
 
 		/**
-		 * before saving
+		 * @brief before saving
 		 *
 		 * if the new / edited theme is active deactivte everything.
+		 * 
+		 * @access public
 		 * 
 		 * @return bool
 		 */
@@ -107,11 +110,14 @@
 		}
 
 		/**
-		 * before deleteing
+		 * @brief before deleteing
 		 *
 		 * If the theme is active do not let it be deleted.
 		 * 
+		 * @access public
+		 * 
 		 * @param $cascade bool
+		 * 
 		 * @return bool true to delete, false to stop
 		 */
 		public function beforeDelete($cascade){
@@ -120,10 +126,12 @@
 		}
 
 		/**
-		 * deactivate all themes.
+		 * @brief deactivate all themes.
 		 *
 		 * This is used before activating a theme to make sure that there is only
 		 * ever one theme active.
+		 * 
+		 * @access public
 		 *
 		 * @return bool true on sucsess false if not.
 		 */
@@ -133,5 +141,58 @@
 					'Theme.active' => '0'
 				)
 			);
+		}
+		
+		/**
+		 * @brief get a list of themes that are already installed 
+		 * 
+		 * @access public
+		 * 
+		 * @return array list of installed themes
+		 */
+		public function installed() {
+			$themes = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						$this->alias . '.name',
+						$this->alias . '.name'
+					)
+				)
+			);
+			
+			foreach($themes as &$theme) {
+				$theme = Inflector::humanize($theme);
+			}
+			
+			return $themes;
+		}
+		
+		/**
+		 * @brief get a list of themes that are not yet installed
+		 * 
+		 * @access public
+		 * 
+		 * @return array list of themes that are not installed
+		 */
+		public function notInstalled() {
+			$installed = $this->installed();
+			
+			$notInstalled = array();
+			foreach(InfinitasPlugin::listPlugins('loaded') as $plugin) {
+				foreach(InstallerLib::findThemes($plugin) as $theme) {
+					if(!array_key_exists($theme, $installed)) {
+						$notInstalled[$plugin . '.' . $theme] = Inflector::humanize(Inflector::underscore($plugin . Inflector::camelize($theme)));
+					}
+				}
+			}
+			
+			foreach(InstallerLib::findThemes() as $theme) {
+				if(!linkinfo($path) && !array_key_exists($theme, $installed)) {
+					$notInstalled[$theme] = Inflector::humanize(Inflector::underscore($theme));
+				}
+			}
+			
+			return $notInstalled;
 		}
 	}

@@ -21,6 +21,7 @@
     echo $this->Form->create('Theme', array('action' => 'mass'));
         $massActions = $this->Infinitas->massActionButtons(
             array(
+                'install',
                 'add',
                 'edit',
                 'toggle',

@@ -72,7 +72,6 @@
 			return $themes;
 		}
 
-
 		/**
 		 * Mass toggle action.
 		 *
@@ -101,6 +100,21 @@
 				array(
 					'level' => 'error',
 					'redirect' => true
+				)
+			);
+		}
+		
+		/**
+		 * @brief redirect to the installer to add a new theme.
+		 * 
+		 * @param null $ids not used
+		 */
+		public function __massActionInstall($ids) {
+			$this->redirect(
+				array(
+					'plugin' => 'installer',
+					'controller' => 'plugins',
+					'action' => 'install'
 				)
 			);
 		}
