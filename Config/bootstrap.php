@@ -29,6 +29,7 @@
 	App::uses('Folder', 'Utility');
 	App::uses('String', 'Utility');
 	App::uses('Sanitize', 'Utility');
+	App::uses('ClassRegistry', 'Utility');
 	App::uses('InfinitasPlugin', 'Lib');
 	App::uses('CakeLog', 'Log');
 
@@ -38,6 +39,7 @@
 	
 	App::uses('ClearCache', 'Data.Lib');
 	App::uses('EventCore', 'Events.Lib');
+	
 	
 	/**
 	 * Cache configuration.
@@ -97,6 +99,8 @@
 	 */
 
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
+	
+	InfinitasPlugin::loadInstalled();
 
 	/**
 	* Make sure the json defines are loaded.

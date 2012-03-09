@@ -26,6 +26,26 @@
 			}
 		}
 		
+		public static function loadInstalled() {
+			$object = new StdClass();
+			
+			foreach((array)self::listPlugins('notLoaded') as $plugin) {
+				self::load($plugin);
+				EventCore::trigger($object, $plugin . '.requireLibs');
+				configureCache(EventCore::trigger($object, $plugin . '.setupCache'));
+				
+				EventCore::loadEventHandler($plugin);
+			}
+		}
+		
+		public static function loadForInstaller() {
+			self::__findPlugins();
+			
+			foreach(self::listPlugins('all') as $plugin) {
+				parent::load($plugin);
+			}
+		}
+		
 		/**
 		 * @brief load a plugin
 		 * 
@@ -62,12 +82,22 @@
 			
 			App::uses($plugin . 'AppModel', $plugin . '.Model');
 			App::uses($plugin . 'AppController', $plugin . '.Controller');
+			
+			self::$__plugins['loaded'][] = $plugin;
 		}
 
 		/**
 		 * @brief find plugins by the various statuses that they can have.
 		 * 
 		 * see self::$__plugins for the different states plugins can be in
+		 * 
+		 * - all: all plugins that are on disk
+		 * - core: core plugins, in APP . 'Core'
+		 * - nonCore: user added plugins
+		 * - installed: plugins tha are installed and usable
+		 * - notInstalled: On disk but not available for use
+		 * - loaded: installed and loaded
+		 * - notLoaded: installed but not loaded
 		 * 
 		 * @param string $type the plugin type/status to get
 		 * 
@@ -107,7 +137,7 @@
 					break;
 					
 				case 'installed':
-					if(self::$__plugins[$type] === null) {
+					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
 						self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getInstalledPlugins();
 						natsort(self::$__plugins[$type]);
 					}
@@ -116,7 +146,7 @@
 				case 'notInstalled':
 					if(self::$__plugins[$type] === null) {
 						self::$__plugins[$type] = array_diff(
-							self::__listPlugins('all'), 
+							self::listPlugins('all'), 
 							array_values(self::__listPlugins('installed'))
 						);
 						natsort(self::$__plugins[$type]);
@@ -124,17 +154,17 @@
 					break;
 					
 				case 'loaded':
-					if(self::$__plugins[$type] === null) {
+					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
 						self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins();
 						natsort(self::$__plugins[$type]);
 					}
 					break;
 					
-				case 'nonLoaded':
-					if(self::$__plugins[$type] === null) {
+				case 'notLoaded':
+					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
 						self::$__plugins[$type] = array_diff(
-							self::__listPlugins('loaded'), 
-							array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins())
+							array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins()),
+							parent::loaded()
 						);
 						natsort(self::$__plugins[$type]);
 					}
@@ -144,6 +174,11 @@
 			return self::$__plugins[$type];
 		}
 		
+		public static function infinitasInstalled() {
+			$databaseConfig = APP . 'Config' . DS . 'database.php';
+			
+			return file_exists($databaseConfig) && filesize($databaseConfig) > 0;
+		}
 
 		/**
 		* @brief get all the places plugins are found and tell cake about them

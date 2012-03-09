@@ -117,6 +117,8 @@
 		 */
 		public function __construct($request = null, $response = null) {
 			parent::__construct($request, $response);
+			
+			InfinitasPlugin::loadForInstaller();
 
 			App::uses('InstallerLib', 'Installer.Lib');
 			$this->InstallerLib = new InstallerLib();

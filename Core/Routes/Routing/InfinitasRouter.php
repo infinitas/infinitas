@@ -91,9 +91,7 @@
 			App::uses('ClassRegistry', 'Utility');
 			EventCore::trigger(new StdClass(), 'setupRoutes');
 
-			//TODO: Figure out cleaner way of doing this. If infinitas is not installed, this throws a datasource error.
-			$databaseConfig = APP.'Config'.DS.'database.php';
-			if(file_exists($databaseConfig) && filesize($databaseConfig) > 0) {
+			if(InfinitasPlugin::infinitasInstalled()) {
 				$routes = ClassRegistry::init('Routes.Route')->getRoutes();
 				if (!empty($routes)) {
 					foreach($routes as $route ){
@@ -119,7 +117,7 @@
 		 */
 		private static function __registerExtensions(){
 			$extensions = Cache::read('extensions', 'routes');
-			if($extensions === false){
+			if($extensions === false) {
 				$extensions = EventCore::trigger(new StdClass(), 'setupExtensions');
 
 				$_extensions = array();

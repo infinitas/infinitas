@@ -45,6 +45,12 @@
 		private $__availablePlugins = array();
 
 		private $__installedPlugins = array();
+		
+		private $__pluginsMap = array(
+			'testEvent' => 'all',
+			'setupRoutes' => 'all',
+			'setupExtensions' => 'all'
+		);
 
 		private function __construct(){}
 
@@ -76,7 +82,6 @@
 		 */
 		static public function trigger(&$HandlerObject, $eventName, $data = array()) {
 			$_this = EventCore::getInstance();
-			EventCore::setAvailablePlugins();
 
 			if(!is_array($eventName)){
 				$eventName = array($eventName);
@@ -91,23 +96,6 @@
 			}
 
 			return $return;
-		}
-
-		/**
-		 * @brief set available plugins that are accepting events
-		 */
-		public function setAvailablePlugins() {
-			$_this = EventCore::getInstance();
-			if(!empty($_this->__availablePlugins)) {
-				return false;
-			}
-
-			$_this->__availablePlugins = CakePlugin::loaded();
-		}
-
-		public function getAvailablePlugins() {
-			$_this = EventCore::getInstance();
-			return $_this->__availablePlugins;
 		}
 
 
@@ -210,17 +198,22 @@
 
 			$plugins = CakePlugin::loaded();
 			foreach((array)$plugins as $pluginName) {
-				$filename = App::pluginPath($pluginName) . 'Lib' . DS . $pluginName . 'Events.php';
-				$className = $pluginName . 'Events';
-
-				if(file_exists($filename)) {
-					if(EventCore::_loadEventClass($className, $filename)) {
-						EventCore::_getAvailableHandlers($this->_eventClasses[$className]);
-					}
-				}
+				self::loadEventHandler($pluginName);
 			}
 
 			Cache::write('event_handlers', $this->_eventHandlerCache, 'core');
+		}
+		
+		public static function loadEventHandler($plugin) {
+			$_this = self::getInstance();
+			$filename = App::pluginPath($plugin) . 'Lib' . DS . $plugin . 'Events.php';
+			$className = $plugin . 'Events';
+
+			if(file_exists($filename)) {
+				if(EventCore::_loadEventClass($className, $filename)) {
+					EventCore::_getAvailableHandlers($_this->_eventClasses[$className]);
+				}
+			}
 		}
 
 		/**
@@ -239,9 +232,13 @@
 			if(isset($_this->_eventHandlerCache[$eventName])) {
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
 					$pluginName = EventCore::_extractPluginName($eventClass);
-					$_this->__availablePlugins = App::objects('Plugin');
-
-					if(!empty($_this->__availablePlugins) && !in_array(Inflector::camelize($pluginName), $_this->__availablePlugins)) {
+					
+					$pluginType = 'loaded';
+					if(isset($_this->__pluginsMap[$eventName])) {
+						$pluginType = $_this->__pluginsMap[$eventName];
+					}
+					
+					if(!in_array(Inflector::camelize($pluginName), (array)InfinitasPlugin::listPlugins($pluginType))) {
 						continue;
 					}
 
