@@ -34,8 +34,29 @@
 			self::admin_add();
 		}
 
-		public function admin_install(){
+		public function admin_install() {
+			$this->notice['saved'] = array(
+				'message' => 'Your %s was installed successfully',
+				'redirect' => ''
+			);
+			if($this->request->data) {
+				try{
+					unset($this->request->data['action']);
+					$this->Plugin->processInstall($this->request->data);
+				}
+				catch(Exception $e) {
+					$this->notice(
+						$e->getMessage(),
+						array(
+							'level' => 'warning'
+						)
+					);
+				}
+				
+				$this->notice('saved');
+			}
 			
+			$this->set('possibleThemes', ClassRegistry::init('Themes.Theme')->notInstalled());
 		}
 
 		public function admin_update_infinitas(){

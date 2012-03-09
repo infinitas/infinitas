@@ -345,4 +345,27 @@
 
 			return (bool)$this->find('count', array('conditions' => array($this->alias . '.internal_name' => Inflector::camelize($plugin))));
 		}
+		
+		public function processInstall($data) {
+			if(empty($data['Plugin']['file']['name'])) {
+				unset($data['Plugin']['file']);
+			}
+			
+			if(empty($data['Theme']['file']['name'])) {
+				unset($data['Theme']['file']);
+			}
+			$data = array_filter(Set::flatten($data));
+			
+			if(!$data) {
+				throw new Exception(__d('installer', 'Nothing selected to install'));
+			}
+			
+			switch(current(array_keys($data))) {
+				case 'Theme.local':
+					InstallerLib::localTheme(current($data));
+					break;
+			}
+			
+			throw new Exception(__d('installer', 'Could not complete installation'));
+		}
 	}

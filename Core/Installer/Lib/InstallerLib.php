@@ -499,4 +499,70 @@ LICENCE;
 			$version = explode('-', $version);
 			return $version[0];
 		}
+		
+		public static function localTheme($theme) {
+			list($plugin, $theme) = pluginSplit($theme);
+			
+			$path = self::themePath($plugin, $theme);
+			$targetSymlink = self::themePath(null, $theme);
+			if(is_dir($path) && !is_dir($targetSymlink)) {
+				if(symlink($path, $targetSymlink)) {
+					return true;
+				}
+			}
+			
+			throw new Exception(__d('installer', 'Could not symlink theme "%s"', $theme));
+		}
+		
+		/**
+		 * @brief generate the path to a plugins theme dir
+		 * 
+		 * If the specific theme is available it will return the path to the 
+		 * theme, if not it will return the path to where the themes for that plugin 
+		 * are kept
+		 * 
+		 * If no plugin is null, it is assumed that the path for app themes are required
+		 * 
+		 * @access public
+		 * 
+		 * @param string $plugin the name of the plugin
+		 * @param string $theme the name of the theme
+		 * 
+		 * @return string the path that is requested 
+		 */
+		public static function themePath($plugin = null, $theme = null) {
+			if(!$plugin) {
+				if(!$theme) {
+					return APP . 'View' . DS . 'Themed';
+				}
+				
+				return APP . 'View' . DS . 'Themed' . DS . $theme;
+			}
+			
+			if(!$theme) {
+				return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed';
+			}
+			
+			return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed' . DS . $theme;
+		}
+		
+		/**
+		 * @brief find theme dirs for the plugin passed or in the app dir
+		 * 
+		 * @access public
+		 * 
+		 * @param string $plugin the plugin to check in
+		 * 
+		 * @return type 
+		 */
+		public static function findThemes($plugin = null) {
+			$path = self::themePath($plugin);
+			
+			if(!is_dir($path)) {
+				return array();
+			}
+			
+			$Folder = new Folder($path);
+			return current($Folder->read());
+		}
 	}

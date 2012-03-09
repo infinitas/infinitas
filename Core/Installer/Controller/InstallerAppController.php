@@ -18,6 +18,7 @@
 	*/
 
 	set_time_limit(0);
+	App::uses('InstallerLib', 'Installer.Lib');
 	
 	class InstallerAppController extends AppController {
 		
