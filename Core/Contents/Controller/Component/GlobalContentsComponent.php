@@ -48,7 +48,16 @@
 
 			$Controller->set('contentGroups', $Model->Group->find('list'));
 			$Controller->set('contentAuthors', $authors);
-			$Controller->set('contentLayouts', $Model->GlobalLayout->find('list'));
+			$Controller->set(
+				'contentLayouts', 
+				$Model->GlobalLayout->find(
+					'layoutList', 
+					array(
+						'plugin' => $this->Controller->plugin,
+						'model' => $this->Controller->modelClass
+					)
+				)
+			);
 			$Controller->set('contentCategories', $Model->GlobalCategory->find('categoryList'));
 		}
 

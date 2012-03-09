@@ -122,6 +122,9 @@
 				
 				return $query;
 			}
+			else if($Model->findQueryType == 'layoutList') {
+				return $query;
+			}
 			else if($Model->findQueryType != 'count') {
 				$query['fields'] = array_merge(
 					$query['fields'],
@@ -241,7 +244,13 @@
 		public function afterFind($Model, $results, $primary = false) {
 			parent::afterFind($Model, $results, $primary);
 
-			if($Model->findQueryType == 'list' || $Model->findQueryType == 'count' || empty($results)) {
+			$ignore = array(
+				'list',
+				'count',
+				'layoutList'
+			);
+			
+			if(in_array($Model->findQueryType, $ignore) || empty($results)) {
 				return $results;
 			}
 

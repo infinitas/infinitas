@@ -89,6 +89,7 @@
 			);
 
 			$this->findMethods['autoLoadLayout'] = true;
+			$this->findMethods['layoutList'] = true;
 		}
 
 		/**
@@ -146,6 +147,46 @@
 			}
 
 			return current($results);
+		}
+
+		public function _findLayoutList($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$data = array();
+				if(isset($query['plugin'])) {
+					$data[] = $query['plugin'];
+				}
+				
+				if(isset($query['model'])) {
+					$data[] = $query['model'];
+				}
+				
+				$query['_data'] = implode('.', $data);
+				
+				$query['fields'] = array(
+					$this->alias . '.id',
+					$this->alias . '.name',
+					$this->alias . '.model'
+				);
+				
+				unset($query['model'], $query['plugin']);
+				return $query;
+			}
+
+			$return = array(
+				__d('contents', 'Related') => array(),
+				__d('contents', 'Other') => array()
+			);
+			
+			foreach($results as $result) {				
+				if(strstr($result[$this->alias]['model_class'], $query['_data'])) {
+					$return[__d('contents', 'Related')][$result[$this->alias][$this->primaryKey]] = $result[$this->alias]['name'];
+					continue;
+				}
+				
+				$return[__d('contents', 'Other')][$result[$this->alias][$this->primaryKey]] = $result[$this->alias]['name'];
+			}
+			
+			return $return;
 		}
 
 		public function hasLayouts($model) {
