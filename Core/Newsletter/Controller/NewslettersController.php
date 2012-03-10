@@ -33,7 +33,10 @@
 				$body .= '<p>=====================================================</p>';
 				$body .= htmlspecialchars($this->request->data['Newsletter']['query']);
 
-				$subject = sprintf('New email from %s', Configure::read('Website.name'));
+				$subject = strip_tags($this->request->data['Newsletter']['subject']);
+				if(empty($subject)) {
+					$subject = sprintf('New email from %s', Configure::read('Website.name'));
+				}
 
 				foreach(ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
 					$this->Emailer->sendDirectMail(
