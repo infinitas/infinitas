@@ -28,7 +28,7 @@
 			return $menu;
 		}
 
-		public function onSetupRoutes(){
+		public function onSetupRoutes() {
 			// preview
 			Router::connect(
 				'/s/p/*',
@@ -91,7 +91,7 @@
 		public function onGetShortUrl($event, $data){
 			$data['code'] = ClassRegistry::init('ShortUrls.ShortUrl')->shorten($data['url']);
 			if(!$data['code']){
-				$this->cakeError('error404', __('That url seems invalid'));
+				throw new Exception('Could not find the url');
 			}
 
 			return $this->onSlugUrl($event, $data);

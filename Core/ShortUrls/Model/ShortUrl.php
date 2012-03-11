@@ -62,9 +62,9 @@
 		 * @param array the field being validated
 		 * @return bool if it is valid or not
 		 */
-		public function someTypeOfUrl($field){
+		public function someTypeOfUrl($field) {
 			// absolute url
-			if(substr(current($field), 0, 1) == '/'){
+			if(substr(current($field), 0, 1) == '/') {
 				return true;
 			}
 			
@@ -73,7 +73,7 @@
 				return true;
 			}
 
-			else if(false){
+			else if(false) {
 				// validate json so that you can use a cake url that can change with routing.
 			}
 			
@@ -86,15 +86,15 @@
 		 * @param string $url the url to shroten
 		 * @return string the code of the short url to be used with slugUrl event
 		 */
-		public function shorten($url = null){
+		public function shorten($url = null) {
 			if(!$url){
 				return false;
 			}
 
 			$data['ShortUrl']['url'] = $url;
 			$this->create();
-			if(!$this->save($data)){
-				if(current($this->validationErrors) == $this->validate['url']['isUnique']['message']){
+			if(!$this->save($data)) {
+				if(current($this->validationErrors['url']) == $this->validate['url']['isUnique']['message']) {
 					$id = $this->find(
 						'first',
 						array(
@@ -121,7 +121,7 @@
 		 * @param string $code the code from the short url
 		 * @return mixed false on fail, string url on true
 		 */
-		public function getUrl($code = null){
+		public function getUrl($code = null) {
 			if(!$code){
 				return false;
 			}
@@ -141,7 +141,7 @@
 		 * @param int $id
 		 * @return string the code for the short url
 		 */
-		private function __encode($id){
+		private function __encode($id) {
 			$return = '';
 
 			while ($id > 0) {
@@ -159,7 +159,7 @@
 		 * @param string $data the code from the short url
 		 * @return int the id of the record that has the url
 		 */
-		private function __decode($data){
+		private function __decode($data) {
 			$return = '';
 			$i = strlen($data);
 
