@@ -141,7 +141,7 @@
 
 		public function afterFind($results, $primary = false) {
 			if($this->findQueryType == 'count') {
-				return parent::afterFind($results, $primary);
+				//return parent::afterFind($results, $primary);
 			}
 
 			foreach($results as &$result) {
@@ -156,6 +156,7 @@
 							'ModuleRoute.*',
 							'Route.id',
 							'Route.url',
+							'Route.name',
 						),
 						'conditions' => array(
 							'ModuleRoute.module_id' => $result['Module']['id']
