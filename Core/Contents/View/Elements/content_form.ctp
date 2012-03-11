@@ -21,7 +21,7 @@
 			$this->Form->input('GlobalContent.group_id', array('options' => $contentGroups, 'label' => __('Min Group'), 'empty' => __d('contents', 'Public'))) .
 			$this->element('Contents.category_list') .
 		'</div>' .
-		$this->Form->input('GlobalContent.tags');
+		$this->Form->input('GlobalContent.tags', array('value' => implode(',', (array)Set::extract('/GlobalTagged/GlobalTag/name', $this->request->data))));
 	
 	if(!isset($image) || $image !== false) {
 		$fields .= $this->element('Filemanager.file_upload', array('fieldName' => 'GlobalContent.image', 'inputOptions' => array('label' => __d('contents', 'Content Image'))));
