@@ -113,6 +113,8 @@
 				),
 				false
 			);
+			
+			$Model->Comment = $Model->{$this->__settings[$Model->alias]['class']};
 		}
 
 		public function attachComments($Model, $results) {

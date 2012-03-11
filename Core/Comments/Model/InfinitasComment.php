@@ -90,7 +90,7 @@
 						'CommentAttribute.id',
 						'CommentAttribute.key',
 						'CommentAttribute.val',
-						'CommentAttribute.comment_id',
+						'CommentAttribute.infinitas_comment_id',
 					)
 				);
 
@@ -105,7 +105,7 @@
 					'alias' => 'CommentAttribute',
 					'type' => 'LEFT',
 					'conditions' => array(
-						'CommentAttribute.comment_id = ' . $this->alias . '.id'
+						'CommentAttribute.infinitas_comment_id = ' . $this->alias . '.id'
 					)
 				);
 
@@ -375,7 +375,7 @@
 						'alias' => 'InfinitasCommentAttribute',
 						'type' => 'LEFT',
 						'conditions' => array(
-							'InfinitasCommentAttribute.comment_id = ' . $this->alias . '.' . $this->primaryKey
+							'InfinitasCommentAttribute.infinitas_comment_id = ' . $this->alias . '.' . $this->primaryKey
 						)
 					)
 				);
