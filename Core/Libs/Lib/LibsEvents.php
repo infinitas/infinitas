@@ -75,7 +75,7 @@
 			return array(
 				'Html', 'Form', 'Js', 'Session', 'Time', 'Text', // core general things from cake
 				'Libs.Infinitas',
-				'Libs.Image', 'Libs.Design'
+				'Libs.Image', 'Libs.Design', 'Libs.Gravatar'
 			);
 		}
 
