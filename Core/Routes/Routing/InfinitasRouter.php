@@ -33,17 +33,17 @@
 			if(!empty(self::$_reverseLookup[$hash])) {
 				return self::$_reverseLookup[$hash];
 			}
+			
 			foreach(parent::$routes as &$route) {
 				ksort($route->defaults);
 				ksort($request);
 				
-				if($route->defaults !== $request || !strstr($route->template, ':')) {
+				if(array_filter($route->defaults) !== array_filter($request) || !strstr($route->template, ':')) {
 					continue;
 				}
 
 				$templateParams = self::__getTemplateParams($route->template);
 				$intersect = array_intersect($templateParams, array_keys($params));
-
 				if($templateParams == $intersect) {
 					foreach($templateParams as $v) {
 						$request[$v] = $params[$v];
