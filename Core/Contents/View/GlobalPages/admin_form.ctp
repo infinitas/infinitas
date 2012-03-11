@@ -22,6 +22,8 @@
 
 	echo $this->Form->create('GlobalPage');
 		echo $this->Infinitas->adminEditHead(); 
+		
+		echo $this->Form->hidden('GlobalPage.file_name');
 		$tabs = array(
 			__d('contents', 'Content')
 		);

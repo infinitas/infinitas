@@ -213,7 +213,7 @@
 			if(empty($this->data)){
 				return false;
 			}
-
+			
 			if(strpos($this->data[$this->alias]['file_name'], '.ctp') === false){
 				$this->data[$this->alias]['file_name'] .= '.ctp';
 			}
