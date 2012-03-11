@@ -9,6 +9,7 @@ webroot/img/content/*
 webroot/*
 Core/Emails/attachments/*
 Core/Emails/webroot/img/images/*
+Core/Contents/webroot/pages/*
 Core/Newsletter/Config/Config.php
 webroot/robots.txt
 .gitignore
