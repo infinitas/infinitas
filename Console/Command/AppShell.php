@@ -31,6 +31,7 @@
 			$this->setTerminalWidth();
 
 			App::import('Core', 'Router');
+			InfinitasPlugin::loadForInstaller();
 
 			parent::__construct($stdout, $stderr, $stdin);
 		}
