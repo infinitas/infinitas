@@ -52,10 +52,10 @@
 				),
 				false
 			);
-		
-			$Model->virtualFields['content_image_path_full'] = 'IF((GlobalContent.image = "" OR GlobalContent.image = NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", GlobalContent.image))';
+
+			$Model->virtualFields['content_image_path_full'] = 'IF((GlobalContent.image = \'\' OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", GlobalContent.image))';
 			foreach($Model->GlobalContent->actsAs['Filemanager.Upload']['image']['thumbnailSizes'] as $name => $size) {
-				$Model->virtualFields['content_image_path_' . $name] = 'IF((GlobalContent.image = "" OR GlobalContent.image = NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", "' . $name . '_", GlobalContent.image))';
+				$Model->virtualFields['content_image_path_' . $name] = 'IF((GlobalContent.image = "" OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", "' . $name . '_", GlobalContent.image))';
 			}
 		}
 
@@ -84,6 +84,14 @@
 				$query['fields'] = array($query['fields']);
 			}
 			
+			
+			$imageFields = array('content_image_path_full', 'GlobalContent.dir');
+			foreach($Model->virtualFields as $k => $v) {
+				if(strstr($k, 'content_image_path')) {
+					$imageFields[] = $k;
+				}
+			}
+			
 			if($Model->findQueryType == 'list') {
 				$displayField = 'GlobalContent.title';
 				if($Model->displayField != $Model->primaryKey) {
@@ -105,6 +113,7 @@
 				
 				$query['fields'] = array_merge(
 					$query['fields'],
+					$imageFields,
 					array('GlobalContent.id', 'GlobalContent.title', 'GlobalContent.slug')
 				);
 				
@@ -144,6 +153,11 @@
 					)
 				);
 			}
+			
+			$query['fields'] = array_merge(
+				$query['fields'],
+				$imageFields
+			);
 
 			if($Model->alias != 'GlobalContent') {
 				$gc = array(
