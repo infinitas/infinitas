@@ -40,3 +40,6 @@
 [submodule "Plugin/ViewCounter"]
 	path = Plugin/ViewCounter
 	url = git://github.com/Infinitas-Plugins/view_counter.git
+[submodule "Plugin/InfinitasFaq"]
+	path = Plugin/InfinitasFaq
+	url = git://github.com/Infinitas-Plugins/InfinitasFaq.git
