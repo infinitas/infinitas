@@ -47,7 +47,13 @@
 			$this->set(compact('shortUrl'));
 		}
 
-		public function admin_index(){
+		public function admin_index() {
+			$this->Paginator->settings = array(
+				'order' => array(
+					$this->modelClass . '.modified' => 'desc'
+				)
+			);
+			
 			$shortUrls = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;

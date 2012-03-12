@@ -17,14 +17,13 @@
      */
 
     echo $this->Form->create('ShortUrl', array('action' => 'mass'));
-
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'add',
-                'edit',
-                'delete'
-            )
-        );
+	$massActions = $this->Infinitas->massActionButtons(
+		array(
+			'add',
+			'edit',
+			'delete'
+		)
+	);
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
@@ -37,8 +36,8 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort('url'),
-                    $this->Paginator->sort(__('Short Url'), 'id'),
-                    $this->Paginator->sort('views') => array(
+                    $this->Paginator->sort('id', __d('short_urls', 'Short Url')),
+                    $this->Paginator->sort('views', __d('short_urls', 'Clicks')) => array(
                         'style' => 'width:75px;'
                     ),
                     $this->Paginator->sort('dead') => array(
@@ -51,8 +50,16 @@
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($shortUrl); ?>&nbsp;</td>
-                		<td>
-                			<?php echo $this->Html->link($shortUrl['ShortUrl']['url'], array('action' => 'edit', $shortUrl['ShortUrl']['id'])); ?>&nbsp;
+                		<td title="<?php echo __d('short_urls', 'URL :: %s', $shortUrl['ShortUrl']['url']); ?>">
+                			<?php 
+								echo $this->Html->link(
+									String::truncate($shortUrl['ShortUrl']['url'], 100), 
+									array(
+										'action' => 'edit', 
+										$shortUrl['ShortUrl']['id']
+									)
+								); 
+							?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
