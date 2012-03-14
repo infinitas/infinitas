@@ -109,11 +109,8 @@
 
 			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
 			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
-			$moduleOut = '<div class="module '.str_replace('/', '-', $module).' '.$class.'">';
-			if ($params['title']) {
-				$moduleOut .= '<h2><a id="' . $id . '" href="#">'.__($params['title']).'</a></h2>';
-			}
-
+			
+			$moduleOut = $params['content'];
 			if (!empty($module)) {
 				$plugin = null;
 				if(!empty($params['plugin'])) {
@@ -122,7 +119,7 @@
 				}
 				
 				$path = 'modules/';
-				$moduleOut .= $this->_View->element(
+				$moduleOut = $this->_View->element(
 					implode('.', array(Inflector::camelize($plugin), $path . $module)),
 					$params,
 					true
@@ -131,10 +128,7 @@
 
 			}
 			
-			else if ($params['content']) {
-				$moduleOut .= $params['content'];
-			}
-			$moduleOut .= '</div>';
+			return sprintf('<div class="module %s %s">%s</div>', str_replace('/', '-', $module), $class, $moduleOut);
 
 			return $moduleOut;
 		}
