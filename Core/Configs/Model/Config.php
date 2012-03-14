@@ -59,7 +59,7 @@
 						'message' => __('Please enter the name of this config')
 					),
 					'validKeyName' => array(
-						'rule' => '/^[A-Z][A-Za-z]*\.[a-z_]+$/',
+						'rule' => '/^[A-Z][A-Za-z]*\.[a-z_\.]+$/',
 						'message' => __('The key must be in the format "Plugin.config_name"'),
 						'on' => 'create'
 					)
