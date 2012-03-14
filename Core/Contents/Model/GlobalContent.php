@@ -157,28 +157,6 @@
 					)
 				);
 				
-				$query['group'] = array(
-					$this->alias . '.' . $this->primaryKey .' HAVING (' . $this->alias . '__description_too_long = 1 OR ' . 
-						$this->alias . '__keyword_not_in_description = 1 OR ' .
-						$this->alias . '__keywords_missing = 1 OR ' .
-						$this->alias . '__keywords_short = 1 OR ' .
-						$this->alias . '__keywords_duplicate = 1 OR ' .
-						$this->alias . '__keyword_density_problem = 1 OR ' .
-					
-						$this->alias . '__description_missing = 1 OR ' .
-						$this->alias . '__description_short = 1 OR ' .
-						$this->alias . '__description_duplicate = 1 OR '  .
-						$this->alias . '__description_too_long = 1 OR '   .
-					
-						$this->alias . '__missing_category = 1 OR '   .
-					
-						$this->alias . '__missing_layout = 1 OR '   .
-						$this->alias . '__missmatched_layout = 1 OR '   .
-						$this->alias . '__introduction_duplicate = 1 OR '   .
-						$this->alias . '__body_duplicate = 1 OR '   .
-						$this->alias . '__body_word_count < 300)' 
-				);
-								
 				$query['joins'][] = array(
 					'table' => 'global_contents',
 					'alias' => 'GlobalContentDuplicate',
@@ -193,7 +171,32 @@
 						)
 					)
 				);
-				
+				if($this->findQueryType != 'count') {
+					$query['group'] = array(
+						$this->alias . '.' . $this->primaryKey .' HAVING (' . 
+							$this->alias . '__description_too_long = 1 OR ' . 
+							$this->alias . '__keyword_not_in_description = 1 OR ' .
+							$this->alias . '__keywords_missing = 1 OR ' .
+							$this->alias . '__keywords_short = 1 OR ' .
+							$this->alias . '__keywords_duplicate = 1 OR ' .
+							$this->alias . '__keyword_density_problem = 1 OR ' .
+
+							$this->alias . '__description_missing = 1 OR ' .
+							$this->alias . '__description_short = 1 OR ' .
+							$this->alias . '__description_duplicate = 1 OR '  .
+							$this->alias . '__description_too_long = 1 OR '   .
+
+							$this->alias . '__missing_category = 1 OR '   .
+
+							$this->alias . '__missing_layout = 1 OR '   .
+							$this->alias . '__missmatched_layout = 1 OR '   .
+							$this->alias . '__introduction_duplicate = 1 OR '   .
+							$this->alias . '__body_duplicate = 1 OR '   .
+							$this->alias . '__body_word_count < 300)' 
+					);
+				}
+
+				$query['joins'] = array_unique($query['joins']);
 				$query['order'] = array(
 					'GlobalCategoryContent.title',
 					'GlobalContent.model',
