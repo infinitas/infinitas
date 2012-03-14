@@ -11,16 +11,25 @@
 		 * @return string of html tags describing the site
 		 */
 		public function seoMetaTags() {
-			$contentIndex = $contentFollow = true;
-			$canonicalUrl = null;
+			$contentIndex = Configure::read($this->plugin . '.robots.' . $this->request->params['action'] . '.index');
 			if(isset($this->_View->viewVars['seoContentIndex'])) {
 				$contentIndex = $this->_View->viewVars['seoContentIndex'];
 			}
+			
+			if(!is_bool($contentIndex)) {
+				$contentIndex = true;
+			}
 
+			$contentFollow = Configure::read($this->plugin . '.robots.' . $this->request->params['action'] . '.follow');
 			if(isset($this->_View->viewVars['seoContentFollow'])) {
 				$contentFollow = $this->_View->viewVars['seoContentFollow'];
 			}
+			
+			if(!is_bool($contentFollow)) {
+				$contentFollow = true;
+			}
 
+			$canonicalUrl = null;
 			if(isset($this->_View->viewVars['seoCanonicalUrl'])) {
 				$canonicalUrl = $this->_View->viewVars['seoCanonicalUrl'];
 			}
