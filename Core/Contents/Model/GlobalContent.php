@@ -259,6 +259,9 @@
 			if ($state === 'before') {
 				$Model = ClassRegistry::init($query['model']);
 				$query = $this->__getListQuery($query);
+				if(!$Model->useTable) {
+					return $query;
+				}
 				
 				$query['joins'][] = array(
 					'table' => $Model->useTable,
