@@ -109,7 +109,7 @@
 							}
 
 							if($content['GlobalContent']['description_too_long']) {
-								$issues[] = __d('contents', 'Description too long for SERP');
+								$issues[] = __d('contents', 'Description too long for SERP (%s chars)', strlen($content['GlobalContent']['meta_description']));
 							}
 
 							if($content['GlobalContent']['missing_category']) {
