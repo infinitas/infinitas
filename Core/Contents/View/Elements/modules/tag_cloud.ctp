@@ -1,6 +1,12 @@
 <?php
-	if(!empty($config['category']) && (empty($this->request->params['category']) || $this->request->params['category'] != $config['category'])) {
-		return false;
+	if(!empty($config['model'])) {
+		list($plugin,) = pluginSplit($config['model']);
+		if($plugin != $this->request->plugin) {
+			return;
+		}
+	}
+	if(isset($config['category']) && $config['category'] && !empty($this->request->params['category'])) {
+		$config['category'] = $this->request->params['category'];
 	}
 	
 	if(!isset($tags)){
