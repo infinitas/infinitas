@@ -82,7 +82,7 @@
 			foreach ($tags as $tag) {
 				$options['url'][$options['named']] = $tag['GlobalTag']['keyname'];
 
-				$url = EventCore::trigger($this, Inflector::classify($options['url']['plugin']) . '.slugUrl', array('type' => 'tag', 'data' => $options['url']));
+				$url = EventCore::trigger($this, Inflector::camelize($options['url']['plugin']) . '.slugUrl', array('type' => 'tag', 'data' => $options['url']));
 
 				$size = $options['minSize'] + (($tag['GlobalTag']['weight'] - $minWeight) * (($options['maxSize'] - $options['minSize']) / ($spread)));
 				$size = ceil($size);

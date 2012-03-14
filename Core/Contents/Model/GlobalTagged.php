@@ -101,10 +101,54 @@
 				}
 				$query = $options;
 
-				if (isset($query['model'])) {
-					$query['conditions'] = Set::merge($query['conditions'], array('GlobalTagged.model' => $query['model']));
+				if(!empty($query['model']) || !empty($query['category'])) {
+					$query['joins'][] = array(
+						'table' => 'global_contents',
+						'alias' => 'GlobalContent',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'GlobalContent.id = GlobalTagged.foreign_key'
+						)
+					);
+				}
+				
+				if (!empty($query['model'])) {
+					$query['conditions'] = Set::merge(
+						$query['conditions'], 
+						array(
+							'or' => array(
+								'GlobalTagged.model' => $query['model'], 
+								'GlobalContent.model' => $query['model']
+							)
+						)
+					);
 				}
 
+				if (!empty($query['category'])) {
+					$query['joins'][] = array(
+						'table' => 'global_categories',
+						'alias' => 'GlobalContentCategory',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'GlobalContentCategory.id = GlobalContent.global_category_id'
+						)
+					);
+					$query['joins'][] = array(
+						'table' => 'global_contents',
+						'alias' => 'GlobalContentCategoryData',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'GlobalContentCategoryData.foreign_key = GlobalContentCategory.id'
+						)
+					);
+					$query['conditions'] = Set::merge(
+						$query['conditions'], 
+						array(
+							'GlobalContentCategoryData.slug' => $query['category']
+						)
+					);
+				}
+				unset($query['model'], $query['category']);
 				return $query;
 			}
 
