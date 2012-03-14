@@ -35,8 +35,8 @@
 				$this->metaIcon(),
 				$this->metaCharset(),
 				$this->metaRobotTag($contentIndex, $contentFollow),
-				$this->metaDescription(Configure::read('Website.description')),
-				$this->metaKeywords(Configure::read('Website.keywords')),
+				$this->metaDescription(),
+				$this->metaKeywords(),
 				$this->metaTitle($contentTitle),
 				$this->metaCanonicalUrl($canonicalUrl),
 				$this->metaAuthor(),
@@ -98,10 +98,22 @@
 		 * @return string meta description tag
 		 */
 		public function metaDescription($description = null) {
+			if(!$description && !empty($this->_View->viewVars['seoMetaDescription'])) {
+				$description = $this->_View->viewVars['seoMetaDescription'];
+			}
+			
+			if(!$description) {
+				$description = Configure::read($this->plugin . '.meta.description');
+			}
+			
+			if(!$description) {
+				$description = Configure::read('Website.description');
+			}
+			
 			if(!$description) {
 				return false;
 			}
-
+			
 			return $this->Html->meta('description', $this->Text->truncate($description, 255));
 		}
 
@@ -117,6 +129,18 @@
 		 * @return string meta keywords
 		 */
 		public function metaKeywords($keywords = null) {
+			if(!$keywords && !empty($this->_View->viewVars['seoMetaKeywords'])) {
+				$keywords = $this->_View->viewVars['seoMetaKeywords'];
+			}
+			
+			if(!$keywords) {
+				$keywords = Configure::read($this->plugin . '.meta.keywords');
+			}
+			
+			if(!$keywords) {
+				$keywords = Configure::read('Website.keywords');
+			}
+			
 			if(is_array($keywords)) {
 				$keywords = implode(',', $keywords);
 			}
