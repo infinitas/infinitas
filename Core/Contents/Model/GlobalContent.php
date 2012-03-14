@@ -98,6 +98,8 @@
 					)
 				)
 			);
+			
+			$this->findMethods['latestList'] = true;
 		}
 
 		/**
@@ -240,6 +242,43 @@
 
 			$query['list']['groupPath'] = '';
 			return $this->_findList($state, $query, $results);
+		}
+		
+		protected function _findLatestList($state, $query, $results = array()) {			
+			if ($state === 'before') {
+				if(!empty($query['model'])) {
+					$query['conditions'][$this->alias . '.model'] = $query['model'];
+				}
+				
+				if(!empty($query['category']) && is_string($query['category'])) {
+					$query['joins'][] = array(
+						'table' => 'global_categories',
+						'alias' => 'GlobalContentCategory',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'GlobalContentCategory.id = GlobalContent.global_category_id'
+						)
+					);
+					$query['joins'][] = array(
+						'table' => 'global_contents',
+						'alias' => 'GlobalContentCategoryData',
+						'type' => 'LEFT',
+						'conditions' => array(
+							'GlobalContentCategoryData.foreign_key = GlobalContentCategory.id'
+						)
+					);
+					$query['conditions']['GlobalContentCategoryData.slug'] = $query['category'];
+				}
+				
+				$query['order'] = array(
+					$this->alias . '.created' => 'desc'
+				);
+				
+				unset($query['model'], $query['category']);
+				return $query;
+			}
+			
+			return $results;
 		}
 		
 		protected function _findGetRelationsCategory($state, $query, $results = array()) {
