@@ -129,7 +129,7 @@
 				$this->virtualFields['keywords_missing']		= '(' . $this->alias . '.meta_keywords IS NULL OR ' . $this->alias . '.meta_keywords)';
 				$this->virtualFields['keywords_short']			= '(LENGTH(' . $this->alias . '.meta_keywords) <= 10 AND LENGTH(' . $this->alias . '.meta_keywords) >= 1)';
 				$this->virtualFields['keywords_duplicate']		= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords)';
-				$this->virtualFields['keyword_density_problem']	= '(' . $this->alias . '.keyword_density < 2 OR ' . $this->alias . '.keyword_density > 5)';
+				$this->virtualFields['keyword_density_problem']	= '(' . $this->alias . '.keyword_density < 1 OR ' . $this->alias . '.keyword_density > 4)';
 				
 				$this->virtualFields['description_missing']		= '(' . $this->alias . '.meta_description IS NULL OR ' . $this->alias . '.meta_description)';
 				$this->virtualFields['description_short']		= '(LENGTH(' . $this->alias . '.meta_description) <= 10 AND LENGTH(' . $this->alias . '.meta_description) >= 1)';
