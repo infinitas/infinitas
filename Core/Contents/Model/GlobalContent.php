@@ -267,7 +267,7 @@
 				}
 				
 				$query['joins'][] = array(
-					'table' => $Model->useTable,
+					'table' => $Model->tablePrefix . $Model->useTable,
 					'alias' => $Model->alias,
 					'type' => 'LEFT',
 					'conditions' => array(
