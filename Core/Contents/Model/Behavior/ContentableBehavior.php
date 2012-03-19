@@ -58,6 +58,10 @@
 				$Model->virtualFields['content_image_path_' . $name] = 'IF((GlobalContent.image = "" OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", "' . $name . '_", GlobalContent.image))';
 			}
 		}
+		
+		public function contentStopWords() {
+			return $this->__stopwords;
+		}
 
 		/**
 		 * Auto contain the needed relations to the find
@@ -396,7 +400,7 @@
 			
 			$Model->data['GlobalContent']['keyword_density'] = $this->__calculateKeywordDensity(
 				$Model->data['GlobalContent']['full_text_search'],
-				$this->mainKeywords($Model->data['GlobalContent']['full_text_search'], 1)
+				$this->mainKeywords($Model, $Model->data['GlobalContent']['full_text_search'], 1)
 			);
 		}
 		
@@ -405,7 +409,7 @@
 					count(explode(' ', $fullText))) * 100, 3);
 		}
 		
-		public function mainKeywords($fullText = null, $keywordCount = 10) {
+		public function mainKeywords($Model, $fullText = null, $keywordCount = 10) {
 			if(empty($fullText)) {
 				return array();
 			}
