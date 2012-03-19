@@ -734,6 +734,8 @@ table.listing tr.details div {
 	height: 125px;
 	overflow: hidden;
 	margin-right: 15px;
+	margin-top: 5px;
+	margin-bottom: 10px;
 }
 
 table.listing tr.details div.text {
