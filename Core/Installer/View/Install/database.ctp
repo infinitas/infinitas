@@ -51,6 +51,8 @@
 		<h4 class="field-heading">Basic database settings</h4>
 		<div>
 			<?php
+				$serverName = pathinfo(env('SERVER_NAME'));
+				$serverName = $serverName['filename'];
 				echo $this->Form->input( 'Install.driver', array(
 					'label' => 'Database driver',
 					'options' => $database,
@@ -66,20 +68,20 @@
 
 				echo $this->Form->input( 'Install.login', array(
 					'label' => 'Database username',
-					'value' => isset($this->data['Install']) ? $this->data['Install']['login'] : 'username',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['login'] : $serverName,
 					'after' => '<div>'.__('The username to access the database').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.password', array(
 					'type' => 'text',
 					'label' => 'Database password',
-					'value' => isset($this->data['Install']) ? $this->data['Install']['password'] : 'password',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['password'] : $serverName,
 					'after' =>'<div>'. __('The password to your database').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.database', array(
 					'label' => 'Database name',
-					'value' => isset($this->data['Install']) ? $this->data['Install']['database'] : 'infinitas',
+					'value' => isset($this->data['Install']) ? $this->data['Install']['database'] : $serverName,
 					'after' => '<div>'.__('This is the name of the database Infinitas will use').'</div>'
 				));
 			?>
