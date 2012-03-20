@@ -41,7 +41,7 @@
 				$this->layout = 'admin_login';
 			}
 
-			else if($this->theme && file_exists(APP . 'View' . DS . 'themed' . DS . $this->theme . DS . 'layouts' . DS . 'front_login.ctp')) {
+			else if($this->theme && file_exists(APP . 'View' . DS . 'Themed' . DS . $this->theme . DS . 'Layouts' . DS . 'front_login.ctp')) {
 				$this->layout = 'front_login';
 			}
 		}
