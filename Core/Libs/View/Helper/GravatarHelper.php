@@ -103,6 +103,10 @@
 		 * @access public
 		 */
 		public function url($email, $options = array()) {
+			$options = array_merge(
+				array('ext' => 'png'),
+				$options
+			);
 			$ext = $options['ext'];
 			unset($options['ext']);
 
