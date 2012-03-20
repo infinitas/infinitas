@@ -33,7 +33,7 @@
 		public function beforeRender() {
 			parent::beforeRender();
 
-			if(!strstr($this->request->params['action'], 'login')) {
+			if(!strstr($this->request->params['action'], 'login') && !strstr($this->request->params['action'], 'register')) {
 				return;
 			}
 
