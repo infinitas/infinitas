@@ -38,9 +38,6 @@
 			}
 
 			if(isset($Controller->request->data['Lock']['user_id']) && $Controller->request->data['Lock']['user_id'] != $Controller->Session->read('Auth.User.id')) {
-			pr($Controller->Session->read('Auth.User.id'));
-			pr($Controller->request->data['Lock']);
-			exit;
 				$Controller->notice(
 					sprintf(
 						__('The %s you requested has been locked by %s'),
