@@ -238,17 +238,16 @@
 		* folders. This can help if you want to keep plugins outside of /plugins
 		*/
 		private static function __findPlugins() {
-			if(is_array(self::$__pluginPaths)) {
+			if(!empty(self::$__pluginPaths)) {
 				return true;
 			}
 			
 			self::$__pluginPaths = Cache::read('plugin_paths');
-			
 			if(self::$__pluginPaths === false) {
 				$Folder = new Folder(APP);
 				$folders = $Folder->read();
 				$folders = array_flip($folders[0]);
-				unset($Folder, $folders['.git'], $folders['Config'], $folders['locale'],
+				unset($Folder, $folders['.git'], $folders['Config'], $folders['Locale'],
 					$folders['nbproject'], $folders['Console'], $folders['tmp'], $folders['View'],
 					$folders['Controller'],  $folders['Lib'], $folders['webroot'], $folders['Test'],
 					$folders['Model']);
@@ -263,7 +262,7 @@
 
 				// @todo trigger event to get oter plugin paths
 			}
-
+			
 			return App::build(array('Plugin' => self::$__pluginPaths));
 		}
 	}
