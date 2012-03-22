@@ -309,14 +309,22 @@
 			return (bool)$this->save($data, array('validate' => false));
 		}
 		
+		/**
+		 * @brief get the menus for the ajax select in the backend
+		 * 
+		 * @access public
+		 * 
+		 * @throws Exception 
+		 * 
+		 * @param string $menuId the menu to look up
+		 * 
+		 * @return array
+		 */
 		public function getParents($menuId = null) {
 			if(!$menuId) {
 				throw new Exception('No menu selected');
 			}
 			
-			return array_merge(
-				array(null => __d('menus', 'Root')),
-				$this->generateTreeList(array('MenuItem.menu_id' => $menuId))
-			);
+			return $this->generateTreeList(array('MenuItem.menu_id' => $menuId));
 		}
 	}

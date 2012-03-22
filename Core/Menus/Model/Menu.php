@@ -72,6 +72,19 @@
 			);
 		}
 		
+		/**
+		 * @brief create a container for the menus if none exists
+		 * 
+		 * @access public
+		 * 
+		 * @see Model::save()
+		 * 
+		 * @param array $data
+		 * @param mixed $validate
+		 * @param array $fieldList
+		 * 
+		 * @return mixed 
+		 */
 		public function save($data = null, $validate = true, $fieldList = array()) {
 			$this->transaction();
 			
