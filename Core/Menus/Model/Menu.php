@@ -32,12 +32,12 @@
 		 */
 		public $hasMany = array(
 			'MenuItem' => array(
-	            'className'  => 'Menus.MenuItem',
-	            'foreignKey' => 'menu_id',
-	            'conditions' => array(
-	            	'MenuItem.active' => 1
-	            ),
-	            'dependent'  => true
+				'className'  => 'Menus.MenuItem',
+				'foreignKey' => 'menu_id',
+				'conditions' => array(
+					'MenuItem.active' => 1
+				),
+				'dependent'  => true
 	        )
 		);
 
@@ -82,11 +82,13 @@
 		 * @return mixed what ever the parent returns
 		 */
 		public function afterDelete() {
-			$menuItem = $this->MenuItem->find('first', array('conditions' => array('menu_id' => $this->id, 'parent_id' => 0)));
+			$menuItem = $this->MenuItem->find('first', array('conditions' => array('menu_id' => $this->id, 'parent_id' => null)));
 
-			$this->MenuItem->Behaviors->disable('Trashable');
-			$this->MenuItem->delete($menuItem['MenuItem']['id']);
-			$this->MenuItem->Behaviors->enable('Trashable');
+			if(!empty($menuItem['MenuItem']['id'])) {
+				$this->MenuItem->Behaviors->disable('Trashable');
+				$this->MenuItem->delete($menuItem['MenuItem']['id']);
+				$this->MenuItem->Behaviors->enable('Trashable');
+			}
 
 			return parent::afterDelete();
 		}
