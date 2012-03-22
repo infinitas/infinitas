@@ -89,9 +89,7 @@ switch(Infinitas.params.prefix) {
 			$('.tabs').tabs();
 			//setupStarRating();
 
-			$("#accordion").accordion({
-				collapsible: true
-			});
+			///$("#accordion").accordion({collapsible: true});
 			setupAjaxDropdowns();
 		});
 		break;
