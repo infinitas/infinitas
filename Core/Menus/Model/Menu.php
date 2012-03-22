@@ -71,6 +71,22 @@
 				)
 			);
 		}
+		
+		public function save($data = null, $validate = true, $fieldList = array()) {
+			$this->transaction();
+			
+			$saved = parent::save($data, $validate, $fieldList);
+			
+			if($saved && $this->MenuItem->hasContainer($this->id)) {
+				$this->transaction(true);
+			}
+			
+			else {
+				$this->transaction(false);
+			}
+			
+			return $saved;
+		}
 
 		/**
 		 * If the menu is deleted, the menu items should also be deleted. As its a

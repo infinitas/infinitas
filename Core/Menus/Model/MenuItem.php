@@ -279,7 +279,7 @@
 		 *
 		 * @return bool if there is a container, or sone was created.
 		 */
-		public function hasContainer($menuId, $name = null){
+		public function hasContainer($menuId, $name = null) {
 			$count = $this->find(
 				'count',
 				array(
@@ -299,7 +299,6 @@
 					'name' => $name ? $name : 'ROOT',
 					'menu_id' => $menuId,
 					'parent_id' => null,
-					'active' => null,
 					'link' => '/',
 					'group_id' => 0,
 					'fake_item' => true
@@ -307,6 +306,6 @@
 			);
 
 			$this->create();
-			return (bool)$this->save($data);
+			return (bool)$this->save($data, array('validate' => false));
 		}
 	}
