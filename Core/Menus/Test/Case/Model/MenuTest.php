@@ -13,7 +13,7 @@
 		*/
 		public $fixtures = array(
 			'plugin.menus.core_menu', 
-			'plugin.menus.menu_item', 
+			'plugin.menus.core_menu_item', 
 			'plugin.users.group'
 		);
 

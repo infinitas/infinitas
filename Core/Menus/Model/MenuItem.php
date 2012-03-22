@@ -55,15 +55,17 @@
 		 * @var array
 		 * @access public
 		 */
-		public $order = array(
-			'MenuItem.menu_id' => 'ASC',
-			'MenuItem.lft' => 'ASC'
-		);
+		public $order = array();
 
-		public function  __construct($id = false, $table = null, $ds = null) {
+		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
+			
+			$this->order = array(
+				$this->alias . '.menu_id' => 'ASC',
+				$this->alias . '.lft' => 'ASC'
+			);
 
-			$this->validate1 = array(
+			$this->validate = array(
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
@@ -154,23 +156,27 @@
 		 *
 		 * @return the parent method
 		 */
-		public function beforeSave($cascade){
-			if($this->data['MenuItem']['parent_id'] == 0) {
+		public function beforeValidate($options = array()){
+			$foreignKey = $this->belongsTo[$this->Menu->alias]['foreignKey'];
+			
+			if(empty($this->data['MenuItem']['parent_id']) && !empty($this->data[$this->alais][$foreignKey])) {
 				$menuItem = $this->find(
 					'first',
 					array(
-						'fields' => array('id'),
+						'fields' => array(
+							$this->alias . '.' . $this->primaryKey
+						),
 						'conditions' => array(
-							'parent_id' => 0,
-							'menu_id' => $this->data['MenuItem']['menu_id']
+							$this->alias . '.parent_id' => null,
+							$this->alias . '.' . $foreignKey => $this->data[$this->alais][$foreignKey]
 						)
 					)
 				);
 				
-				$this->data['MenuItem']['parent_id'] = $menuItem['MenuItem']['id'];
+				$this->data[$this->alias]['parent_id'] = $menuItem[$this->alias]['id'];
 			}
 
-			return parent::beforeSave($cascade);
+			return parent::beforeValidate($options);
 		}
 
 		/**
@@ -196,40 +202,44 @@
 			$menus = $this->find(
 				'threaded',
 				array(
-					'fields' => array(
-						'MenuItem.id',
-						'MenuItem.name',
-						'MenuItem.link',
+					'fields' => array(						
+						$this->alias . '.id',
+						$this->alias . '.name',
+						$this->alias . '.link',
 
-						'MenuItem.prefix',
-						'MenuItem.plugin',
-						'MenuItem.controller',
-						'MenuItem.action',
-						'MenuItem.params',
-						'MenuItem.force_backend',
-						'MenuItem.force_frontend',
+						$this->alias . '.prefix',
+						$this->alias . '.plugin',
+						$this->alias . '.controller',
+						$this->alias . '.action',
+						$this->alias . '.params',
+						$this->alias . '.force_backend',
+						$this->alias . '.force_frontend',
 
-						'MenuItem.class',
-						'MenuItem.active',
-						'MenuItem.menu_id',
-						'MenuItem.parent_id',
-						'MenuItem.lft',
-						'MenuItem.rght',
-						'MenuItem.group_id',
+						$this->alias . '.class',
+						$this->alias . '.active',
+						$this->alias . '.menu_id',
+						$this->alias . '.parent_id',
+						$this->alias . '.lft',
+						$this->alias . '.rght',
+						$this->alias . '.group_id',
 					),
 					'conditions' => array(
-						'Menu.type' => $type,
-						'Menu.active' => 1,
-						'MenuItem.active' => 1,
-						'MenuItem.parent_id !=' => 0
+						$this->alias . '.active' => 1,
+						$this->alias . '.parent_id != ' => NULL,
+						$this->Menu->alias . '.active' => 1,
+						$this->Menu->alias . '.type' => $type,
 					),
 					'joins' => array(
 						array(
-							'table' => 'core_menus',
-							'alias' => 'Menu',
+							'table' => $this->Menu->tablePrefix . $this->Menu->useTable,
+							'alias' => $this->Menu->alias,
 							'type' => 'LEFT',
 							'conditions' => array(
-								'MenuItem.menu_id = Menu.id'
+								sprintf(
+									'%s.%s = %s.%s',
+									$this->alias, $this->belongsTo[$this->Menu->alias]['foreignKey'],
+									$this->Menu->alias, $this->Menu->primaryKey
+								)
 							)
 						)
 					)
@@ -271,8 +281,8 @@
 				'MenuItem' => array(
 					'name' => $name,
 					'menu_id' => $this->id,
-					'parent_id' => 0,
-					'active' => 0,
+					'parent_id' => null,
+					'active' => null,
 					'fake_item' => true
 				)
 			);

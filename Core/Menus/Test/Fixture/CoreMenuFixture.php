@@ -29,7 +29,7 @@ class CoreMenuFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
+			'id' => 'public-menu',
 			'name' => 'Public Users',
 			'type' => 'main_menu',
 			'item_count' => 0,
@@ -38,7 +38,7 @@ class CoreMenuFixture extends CakeTestFixture {
 			'modified' => '2010-02-01 00:35:47'
 		),
 		array(
-			'id' => 2,
+			'id' => 'registered-menu',
 			'name' => 'Registered Users',
 			'type' => 'registered_users',
 			'item_count' => 0,
