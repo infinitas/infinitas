@@ -392,7 +392,6 @@
 
 		/**
 		* Temp acl things
-		 */
 		protected function _getClassMethods($ctrlName = null) {
 			App::import('Controller', $ctrlName);
 			if (strlen(strstr($ctrlName, '.')) > 0) {
@@ -409,9 +408,6 @@
 				if($properties['scaffold'] == 'admin') {
 					$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
 				}
-				/*else {
-				   $methods = array_merge($methods, array('add', 'edit', 'index', 'view', 'delete'));
-				   }*/
 			}
 
 			return $methods;
@@ -478,7 +474,7 @@
 		protected function _getPluginControllerNames($plugin) {
 			App::import('Core', 'File', 'Folder');
 			$paths = Configure::getInstance();
-			$folder =& new Folder();
+			$folder = new Folder();
 			$folder->cd(APP . $plugin);
 
 			$Plugins = $folder->read();
@@ -514,6 +510,7 @@
 			}
 			return $arr;
 		}
+		 */
 
 		public function checkDbVersion() {
 			App::import('Lib', 'Migrations.MigrationVersion');
