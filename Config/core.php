@@ -31,3 +31,21 @@
 	if(Configure::read('debug') == 0){
 		Configure::write('Cache.check', true);
 	}
+	
+	Configure::write(
+		'Error', 
+		array(
+			'handler' => 'ErrorHandler::handleError',
+			'level' => E_ALL,
+			'trace' => true,
+		)
+	);
+
+	Configure::write(
+		'Exception', 
+		array(
+			'handler' => 'ErrorHandler::handleException',
+			'renderer' => 'ExceptionRenderer',
+			'log' => true,
+		)
+	);
