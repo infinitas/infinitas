@@ -79,6 +79,72 @@
 			$this->set(compact('user'));
 		}
 
+		public function profile(){
+			if(!$this->Auth->user('id')){
+				$this->notice(
+					__('You must be logged in to edit your profile'),
+					array(
+						'redirect' => array('action' => 'login'),
+						'level' => 'warning'
+					)
+				);
+			}
+			
+			if(!empty($this->request->data)) {
+				if($this->request->data[$this->modelClass]['id'] == $this->Auth->user('id')) {
+					if(isset($this->request->data[$this->modelClass]['prefered_name']) && empty($this->request->data[$this->modelClass]['prefered_name'])) {
+						$this->request->data[$this->modelClass]['prefered_name'] = $this->request->data[$this->modelClass]['username'];
+					}
+					
+					if(empty($this->request->data[$this->modelClass]['password'])) {
+						unset($this->request->data[$this->modelClass]['password'], $this->request->data[$this->modelClass]['confirm_password']);
+					}
+					try{
+						if($this->{$this->modelClass}->save($this->request->data)) {
+							$this->notice('saved');
+						}
+						
+						$this->notice('not_saved');
+					}
+					
+					catch(Exception $e) {
+						$this->notice(
+							$e->getMessage(),
+							array(
+								'redirect' => '',
+								'level' => 'warning'
+							)
+						);
+					}
+				}
+			}
+
+			if($this->Auth->user('id') && !$this->request->data) {
+				$this->request->data = $this->User->find(
+					'first',
+					array(
+						'conditions' => array(
+							'User.id' => $this->Auth->user('id'),
+							'User.active' => 1
+						)
+					)
+				);
+			}
+
+			if(empty($this->request->data)){
+				$this->notice(
+					__('Please login to edit your profile'),
+					array(
+						'redirect' => array('action' => 'login'),
+						'level' => 'warning'
+					)
+				);
+			}
+
+			$this->set(compact('user'));
+			$this->saveRedirectMarker();
+		}
+
 		/**
 		 * Login method.
 		 *

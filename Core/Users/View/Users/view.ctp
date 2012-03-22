@@ -20,7 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	$parts = $this->Event->trigger('userProfile');	
+	$parts = $this->Event->trigger('userProfile');
 ?>
 <h3><?php echo $user['User']['username']; ?></h3>
 <?php
