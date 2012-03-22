@@ -145,14 +145,19 @@
 				return false;
 			}
 
-			return $this->read(
+			return $this->find(
+				'first',
 				array(
-					'User.ip_address',
-					'User.last_login',
-					'User.country',
-					'User.city'
-				),
-				(int)$userId
+					'fields' => array(
+						$this->alias . '.ip_address',
+						$this->alias . '.last_login',
+						$this->alias . '.country',
+						$this->alias . '.city'
+					),
+					'conditions' => array(
+						$this->alias . '.' . $this->primaryKey => $userId
+					)
+				)
 			);
 		}
 

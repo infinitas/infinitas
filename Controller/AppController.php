@@ -373,10 +373,10 @@
 		 * @return void
 		 */
 		public function redirect($url = null, $status = null, $exit = true) {
-			if(!$url || $url == ''){
+			if(!$url || $url == '') {
 				$url = $this->getPageRedirectVar();
 
-				if(!$url){
+				if(!$url) {
 					$url = array('action' => 'index');
 				}
 			}
