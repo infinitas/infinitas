@@ -69,67 +69,73 @@
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of the menu item, this is what users will see')
+						'message' => __d('menus', 'Please enter the name of the menu item, this is what users will see'),
+						'required' => true
 					)
 				),
 				'link' => array(
 					'validateEitherOr' => array(
 						'rule' => array('validateEitherOr', array('link', 'plugin')),
-						'message' => __('Please only use external link or the route')
+						'message' => __d('menus', 'Please only use external link or the route'),
+						'required' => true
 					),
 					'validUrl' => array(
 						'rule' => 'validateUrlOrAbsolute',
-						'message' => __('please use a valid url (absolute or full)')
+						'message' => __d('menus', 'please use a valid url (absolute or full)')
 					)
 				),
 				'plugin' => array(
-					'validateOnlyOneFilledIn' => array(
+					'validateEitherOr' => array(
 						'rule' => array('validateEitherOr', array('link', 'plugin')),
-						'message' => __('Please use the external link or the route')
+						'message' => __d('menus', 'Please use the external link or the route')
 					)
 				),
 				'force_frontend' => array(
 					'validateNothingEitherOr' => array(
-						'rule' => 'validateNothingEitherOr',
-						'message' => __('You can only force one area of the site')
+						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+						'allowEmpty' => true,
+						'message' => __d('menus', 'You can only force one area of the site')
 					)
 				),
 				'force_backend' => array(
 					'validateNothingEitherOr' => array(
-						'rule' => 'validateNothingEitherOr',
-						'message' => __('You can only force one area of the site')
+						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+						'allowEmpty' => true,
+						'message' => __d('menus', 'You can only force one area of the site')
 					)
 				),
 				'group_id' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select the group that can see this link')
+						'message' => __d('menus', 'Please select the group that can see this link'),
+						'required' => true
 					)
 				),
 				'params' => array(
 					'emptyOrJson' => array(
 						'rule' => 'validateJson',
 						'allowEmpty' => true,
-						'message' => __('Please enter some valid json or leave empty')
+						'message' => __d('menus', 'Please enter some valid json or leave empty')
 					)
 				),
 				'class' => array(
 					'emptyOrValidCssClass' => array(
 						'rule' => 'validateEmptyOrCssClass',
-						'message' => __('Please enter valid css classes')
+						'message' => __d('menus', 'Please enter valid css classes')
 					)
 				),
 				'menu_id' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select the menu this item belongs to')
+						'message' => __d('menus', 'Please select the menu this item belongs to'),
+						'required' => true
 					)
 				),
 				'parent_id' => array(
-					'notEmpty' => array(
+					/*'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select where in the menu this item belongs')
-					)
+						'message' => __d('menus', 'Please select where in the menu this item belongs')
+					)*/
 				)
 			);
 		}
@@ -143,7 +149,14 @@
 		 * @return bool is it valid?
 		 */
 		public function validateEmptyOrCssClass($field){
-			return strlen(current($field)) == 0 || preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', current($field));
+			$field = current($field);
+			if(empty($field) && $field !== 0) {
+				return true;
+			}
+			
+			preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', $field, $matches);
+			
+			return current($matches) === $field;
 		}
 
 		/**
@@ -158,8 +171,8 @@
 		 */
 		public function beforeValidate($options = array()){
 			$foreignKey = $this->belongsTo[$this->Menu->alias]['foreignKey'];
-			
-			if(empty($this->data['MenuItem']['parent_id']) && !empty($this->data[$this->alais][$foreignKey])) {
+				
+			if(!empty($this->data[$this->alias][$foreignKey]) && empty($this->data[$this->alias]['parent_id'])) {
 				$menuItem = $this->find(
 					'first',
 					array(
@@ -168,10 +181,14 @@
 						),
 						'conditions' => array(
 							$this->alias . '.parent_id' => null,
-							$this->alias . '.' . $foreignKey => $this->data[$this->alais][$foreignKey]
+							$this->alias . '.' . $foreignKey => $this->data[$this->alias][$foreignKey]
 						)
 					)
 				);
+				
+				if(empty($menuItem[$this->alias]['id'])) {
+					return false;
+				}
 				
 				$this->data[$this->alias]['parent_id'] = $menuItem[$this->alias]['id'];
 			}
@@ -262,13 +279,13 @@
 		 *
 		 * @return bool if there is a container, or sone was created.
 		 */
-		public function hasContainer($id, $name){
+		public function hasContainer($menuId, $name = null){
 			$count = $this->find(
 				'count',
 				array(
 					'conditions' => array(
-						'menu_id' => $id,
-						'parent_id' => 0
+						'menu_id' => $menuId,
+						'parent_id' => null
 					)
 				)
 			);
@@ -279,10 +296,12 @@
 
 			$data = array(
 				'MenuItem' => array(
-					'name' => $name,
-					'menu_id' => $this->id,
+					'name' => $name ? $name : 'ROOT',
+					'menu_id' => $menuId,
 					'parent_id' => null,
 					'active' => null,
+					'link' => '/',
+					'group_id' => 0,
 					'fake_item' => true
 				)
 			);

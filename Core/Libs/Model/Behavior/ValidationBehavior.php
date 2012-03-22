@@ -31,15 +31,13 @@
 		/**
 		 * @brief allow the selection of one field or another or nothing
 		 *
-		 * @deprecated
-		 *
 		 * @param array $field not used
 		 * @params array $fields list of 2 fields that should be checked
 		 * @access public
 		 *
 		 * @return bool is it valid?
 		 */
-		public function validateNothingEitherOr($Model, $field, $fields = array()){
+		public function validateNothingEitherOr($Model, $field, $fields = array()) {
 			return
 				// nothing
 				empty($Model->data[$Model->alias][$fields[0]]) && empty($Model->data[$Model->alias][$fields[1]]) ||
@@ -61,7 +59,7 @@
 		 *
 		 * @return bool is it valid?
 		 */
-		public function validateEitherOr($Model, $field, $fields){
+		public function validateEitherOr($Model, $field, $fields) {
 			return
 				// either
 				empty($Model->data[$Model->alias][$fields[0]]) && !empty($Model->data[$Model->alias][$fields[1]]) ||
