@@ -1,12 +1,17 @@
 <?php
-/* CoreMenu Fixture generated on: 2010-03-13 11:03:36 : 1268472216 */
-class MenuFixture extends CakeTestFixture {
-	var $name = 'Menu';
+/**
+ * CoreMenuFixture
+ *
+ */
+class CoreMenuFixture extends CakeTestFixture {
 
-	var $table = 'core_menus';
-
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
+/**
+ * Fields
+ *
+ * @var array
+ */
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -17,7 +22,12 @@ class MenuFixture extends CakeTestFixture {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+/**
+ * Records
+ *
+ * @var array
+ */
+	public $records = array(
 		array(
 			'id' => 1,
 			'name' => 'Public Users',
@@ -38,4 +48,3 @@ class MenuFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
