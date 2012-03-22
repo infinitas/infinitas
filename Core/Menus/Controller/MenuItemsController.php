@@ -102,11 +102,16 @@
 		 * @access public
 		 */
 		public function admin_getParents() {
-			$conditions = array('MenuItem.menu_id' => $this->request->params['named']['plugin']);
-			$json = array_merge(
-				array(0 => __('Root')),
-				$this->MenuItem->generateTreeList($conditions)
-			);
-			$this->set(compact('json'));
+			if(empty($this->request->data[$this->modelClass]['menu_id'])) {
+				return false;
+			}
+			
+			try {
+				$this->set('json', $this->MenuItem->getParents($this->request->data[$this->modelClass]['menu_id']));
+			}
+			
+			catch(Exception $e) {
+				throw $e;
+			}
 		}
 	}

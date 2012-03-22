@@ -308,4 +308,15 @@
 			$this->create();
 			return (bool)$this->save($data, array('validate' => false));
 		}
+		
+		public function getParents($menuId = null) {
+			if(!$menuId) {
+				throw new Exception('No menu selected');
+			}
+			
+			return array_merge(
+				array(null => __d('menus', 'Root')),
+				$this->generateTreeList(array('MenuItem.menu_id' => $menuId))
+			);
+		}
 	}
