@@ -18,7 +18,12 @@
  */
 
 $(document).ready(function() {
-	$('#' + Infinitas.model + 'GlobalTags').tagEditor({
+	var tags = $('#' + Infinitas.model + 'GlobalTags');
+	if(typeof tags.tagEditor != 'function') {
+		return;
+	}
+		
+	tags.tagEditor({
 		confirmRemoval: false,
 		completeOnSeparator: true,
 		completeOnBlur: true,
