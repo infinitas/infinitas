@@ -40,7 +40,7 @@
 			return $menu;
 		}
 
-		public function  onRequireComponentsToLoad($event = null) {
+		public function onRequireComponentsToLoad($event = null) {
 			return array(
 				'Comments.Comments'
 			);
