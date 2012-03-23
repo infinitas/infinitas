@@ -1,5 +1,5 @@
 <?php
-	App::import('lib', 'libs.test/app_test.php');
+	App::uses('AppTest', 'Libs.Lib/test');
 
 	/**
 	 * @brief AppModelTestCase is the class that model tests should extend
@@ -70,10 +70,6 @@
 		 * @return true
 		 */
 		public function _initDb() {
-			if(!isset($this->db) || !$this->db){
-				parent::_initDb();
-			}
-
 			return true;
 		}
 		
@@ -120,9 +116,7 @@
 		 */
 		public function startTest($method) {
 			$this->AppTest->startTest($method);
-			$this->AppTest->loadFixtures(null, true);
-
-			echo '<div style="border: 2px solid #d6ab00; padding: 5px; margin-top:5px; margin-bottom:5px">';
+			return;
 			
 			list($plugin, $behavior) = pluginSplit($this->setup[$this->setup['type']]);
 			$behaviorClass = $behavior . 'Behavior';
@@ -161,6 +155,7 @@
 			}
 
 			$this->AppTest->endTest($method);
+			return true;
 			echo sprintf(
 				'<div style="padding: 8px; background-color: green; color: white;">%s <span style="color:#ffdd00;">[%ss]</span></div>',
 				$this->AppTest->prettyTestMethod($method),

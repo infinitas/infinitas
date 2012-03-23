@@ -113,14 +113,15 @@
 			EventCore::activatePlugins(App::objects('plugin'), true);
 			$this->__testObject = $testObject;
 
-			$this->__testObject->_initDb();
+			//$this->__testObject->_initDb();
 			$this->__testObject->db->_queriesLogMax = 1000;
 
 			$this->__testObject->setup = (isset($this->__testObject->setup)) ? array_merge_recursive($this->__setup, $this->__testObject->setup) : $this->__setup;
 			$this->__testObject->setup['type'] = empty($this->__testObject->setup['type']) ? $this->__testType() : $this->__testObject->setup['type'];
+			return true;
 
 			if(is_callable(array($this, $this->__testObject->setup['type']))){
-				$this->{$this->__testObject->setup['type']}($this->__testObject->setup[$this->__testObject->setup['type']]);
+				//$this->{$this->__testObject->setup['type']}($this->__testObject->setup[$this->__testObject->setup['type']]);
 			}
 
 			return true;
@@ -404,6 +405,7 @@
 		 * @return void
 		 */
 		public function loadFixtures($fixtures = array(), $load = false){
+			return;
 			$start = microtime(true);
 			$fixtureQueries = $this->__testObject->db->_queriesLog;
 
@@ -604,6 +606,7 @@
 		}
 
 		public function startCase(){
+			return;
 			echo sprintf('<div style="border: 2px solid #003D4C; padding: 5px; margin-top:5px; margin-bottom:5px">', $this->prettyTestClass());
 
 			$autoLoaded = $this->getAutoloaded();
@@ -673,6 +676,7 @@
 		 * @return void
 		 */
 		public function endCase(){
+			return;
 			foreach($this->__testObject->db->_queriesLog as $i => $query){
 				$unset = strstr($query['query'], 'SHOW ') ||
 						strstr($query['query'], 'SELECT CHARACTER_SET_NAME');
@@ -697,11 +701,13 @@
 		}
 
 		public function startTest($method){
+			return;
 			$this->__testObject->data[$method] = array();
 			$this->__testObject->data[$method]['started'] = microtime(true);
 		}
 
 		public function endTest($method){
+			return;
 			$this->__testObject->data[$method]['ended'] = microtime(true);
 			$this->__testObject->data[$method]['total'] = round($this->__testObject->data[$method]['ended'] - $this->__testObject->data[$method]['started'], 3);
 		}
