@@ -369,19 +369,6 @@
 					$query['limit'] = $this->queryLimit;
 				}
 
-				$joins = array(
-					array(
-						'table' => 'infinitas_comment_attributes',
-						'alias' => 'InfinitasCommentAttribute',
-						'type' => 'LEFT',
-						'conditions' => array(
-							'InfinitasCommentAttribute.infinitas_comment_id = ' . $this->alias . '.' . $this->primaryKey
-						)
-					)
-				);
-
-				$query['joins'] = array_merge((array)$query['joins'], $joins);
-
 				return $query;
 			}
 
