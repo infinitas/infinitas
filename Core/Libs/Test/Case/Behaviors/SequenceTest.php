@@ -41,6 +41,12 @@
 			$this->MultiGroupedItem->Behaviors->detach('Libs.Sequence');
 			$this->MultiGroupedItem->Behaviors->attach('Libs.Sequence', array('groupFields' => array('group_field_1', 'group_field_2')));
 		}
+		
+		public function tearDown() {
+			parent::tearDown();
+			
+			unset($this->Item, $this->GroupedItem, $this->MultiGroupedItem);
+		}
 
 		/**
 		 * @test getting the current order counts based on any conditions

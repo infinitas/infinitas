@@ -1,9 +1,9 @@
 	<?php
 	/* Infinitas Test cases generated on: 2010-03-13 14:03:31 : 1268484451*/
-	App::import('Behavior', 'libs.Infinitas');
-	App::import('Model', 'Routes.Route');
+	App::uses('InfinitasBehavior', 'Libs.Model/Behavior');
+	App::uses('Route', 'Routes.Model');
 	
-	class RouteTest1 extends Route{
+	class RouteTest1 extends Route {
 		public $useDbConfig = 'test';
 
 		public function someMethod($conditions = array()){
@@ -11,7 +11,7 @@
 		}
 	}
 
-	class RouteTest2 extends Route{
+	class RouteTest2 extends Route {
 		public $useDbConfig = 'test';
 
 		function _getList($conditions = array()){
@@ -22,20 +22,28 @@
 	class InfinitasBehaviorTestCase extends CakeTestCase {
 
 		//need something to set with
-		var $fixtures = array(
+		public $fixtures = array(
 			'plugin.routes.route',
 			'plugin.themes.theme'
 		);
-
-		function startTest() {
-			$this->Infinitas =& new InfinitasBehavior();
+		/**
+		 * @expectedException PHPUNIT_FRAMEWORK_ERROR_WARNING
+		 */
+		public function setUp() {
+			parent::setUp();
 
 			App::import('AppModel');
-			$this->expectError('AppModel is using AppModel, please create a model file');
+			$this->expectError(true);
 			$this->AppModel = new AppModel(array('table' => false));
 		}
+		
+		public function tearDown() {
+			parent::tearDown();
+			
+			unset($this->Infinitas);
+		}
 
-		function testGetJson(){
+		public function testGetJson(){
 			// test wrong usage
 			$this->expectError();
 			$this->assertFalse($this->Infinitas->getJson());
@@ -83,7 +91,7 @@
 			$this->assertEqual(array(array('abc')), $this->Infinitas->getJsonRecursive($this->AppModel, json_encode(array('abc'))));
 		}
 
-		function testSingleDimentionArray(){
+		public function testSingleDimentionArray(){
 			//test wrong usage
 			$this->assertEqual($this->Infinitas->singleDimentionArray($this->AppModel, ''), array());
 			$this->assertEqual($this->Infinitas->singleDimentionArray($this->AppModel, array()), array());
@@ -93,8 +101,8 @@
 			$this->assertEqual($this->Infinitas->singleDimentionArray($this->AppModel, array('one' => array('abc' => 123), 'two' => 2)), array('two' => 2));
 		}
 
-		function testGetPlugins(){
-			$_allPlugins = Configure::listObjects('plugin');
+		public function testGetPlugins(){
+			$_allPlugins = InfinitasPlugin::listPlugins('all');
 			$allPlugins = array() + array('' => 'None');
 			foreach($_allPlugins as $k => $v){
 				$allPlugins[Inflector::underscore($v)] = $v;
@@ -103,7 +111,7 @@
 			//$this->assertEqual(count($this->Infinitas->getPlugins($this->AppModel, true)), count($allPlugins));
 		}
 
-		function testGettingTableThings(){
+		public function testGettingTableThings(){
 			// find all the tables
 			$expected = array(
 				'core_routes',
@@ -134,7 +142,7 @@
 			$this->assertFalse($this->Infinitas->getTablesByField($this->AppModel, 'test'));
 		}
 
-		function testGetList(){
+		public function testGetList(){
 			$this->assertFalse($this->Infinitas->getList($this->AppModel));
 
 			$expected = array(
@@ -163,10 +171,5 @@
 			// _getList method tests
 			$this->assertEqual($expected, $this->Infinitas->getList(new RouteTest2()));
 			$this->assertEqual(array(), $this->Infinitas->getList(new RouteTest2(), null, null, null, array('Route.id' => 999)));
-		}
-
-		function endTest() {
-			unset($this->Infinitas);
-			ClassRegistry::flush();
 		}
 	}
