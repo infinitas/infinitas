@@ -31,16 +31,14 @@
 					);
 				}
 
-				else if ($this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data)) {
+				if ($this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data)) {
 					$this->Controller->notice(
 						__d('comments', $message),
 						array('redirect' => true)
 					);
 				}
 
-				else {
-					$this->Controller->notice('not_saved');
-				}
+				$this->Controller->notice('not_saved');
 			}
 
 			return $this->Controller->render(null, null, App::pluginPath('Comments') . 'View' . DS . 'InfinitasComments' . DS . 'add.ctp');
