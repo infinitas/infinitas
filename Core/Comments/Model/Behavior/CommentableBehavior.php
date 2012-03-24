@@ -133,7 +133,8 @@
 					sprintf('/%s[foreign_id=%s]', $this->__settings[$Model->alias]['class'], $result[$Model->alias][$Model->primaryKey]),
 					$comments
 				);
-				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract('{n}.' . $this->__settings[$Model->alias]['class'] . '', $result[$this->__settings[$Model->alias]['class'] . '']);
+				
+				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract('{n}.' . $this->__settings[$Model->alias]['class'], $comments);
 			}
 
 			return $results;
@@ -222,7 +223,7 @@
 				$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']] =
 						Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']]);
 			}
-
+			
 			$Model->{$this->__settings[$Model->alias]['class']}->create();
 			if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
 				return true;
