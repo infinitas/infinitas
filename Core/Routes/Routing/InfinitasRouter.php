@@ -20,8 +20,24 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
+	App::uses('InfinitasRoute', 'Routes.Lib');
+	
 	class InfinitasRouter extends Router {
 		protected static $_reverseLookup = array();
+		
+		public static function connect($route, $defaults = array(), $options = array()) {
+			if(empty($options['routeClass'])) {
+				$options['routeClass'] = 'InfinitasRoute';
+			}
+			else {
+				if($options['routeClass'] != 'PluginShortRoute') {
+					var_dump($options);
+					exit;
+				}
+			}
+			
+			parent::connect($route, $defaults, $options);
+		}
 		
 		public function setup() {
 			self::__registerExtensions();
@@ -100,7 +116,7 @@
 							continue;
 						}
 
-						call_user_func_array(array('Router', 'connect'), $route['Route']);
+						call_user_func_array(array('InfinitasRouter', 'connect'), $route['Route']);
 					}
 				}
 
