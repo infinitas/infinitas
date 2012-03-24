@@ -1,6 +1,8 @@
 <?php	
 	App::uses('InfinitasRouter', 'Routes.Routing');
 	App::uses('Router', 'Routing');
+	
+	InfinitasRouter::connect('/comment/*', array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'comments'));
 
 	InfinitasRouter::setup();
 

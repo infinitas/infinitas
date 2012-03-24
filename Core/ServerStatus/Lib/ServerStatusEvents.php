@@ -13,7 +13,7 @@
 		}
 
 		public function onSetupRoutes() {
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/server_status',
 				array(
 					'plugin' => 'server_status',

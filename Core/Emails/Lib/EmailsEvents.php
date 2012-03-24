@@ -80,25 +80,25 @@
 
 		public function onSetupRoutes($event) {
 			// dashboard
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/mail',
 				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'dashboard', 'admin' => true)
 			);
 			// mail render
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/mail/:slug/:account/:email',
 				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'get_mail', 'admin' => true),
 				array('pass' => array('slug', 'account', 'email'))
 			);
 			// view
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/inbox/:slug/:account/:email/:subject',
 				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'view', 'admin' => true),
 				array('pass' => array('slug', 'account', 'email'))
 			);
 
 			// inbox
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/inbox/:slug/:account',
 				array('plugin' => 'emails', 'controller' => 'mail_systems', 'action' => 'index', 'admin' => true),
 				array('pass' => array('slug', 'account'))

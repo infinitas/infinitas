@@ -56,7 +56,7 @@
 		}
 		
 		public function onSetupRoutes(){
-			Router::connect(
+			InfinitasRouter::connect(
 				'/sitemap',
 				array(
 					'plugin' => 'webmaster',

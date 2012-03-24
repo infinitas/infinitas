@@ -254,7 +254,7 @@
 	 * @return null echo's out the route.
 	 */
 	function debugRoute($route) {
-		echo 'Router::connect(\''.$route['Route']['url'].'\', array(';
+		echo 'InfinitasRouter::connect(\''.$route['Route']['url'].'\', array(';
 		$parts = array();
 		foreach($route['Route']['values'] as $k => $v){
 			$parts[] = "'$k' => '$v'";

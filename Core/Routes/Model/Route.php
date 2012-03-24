@@ -119,7 +119,7 @@
 		/**
 		 * Get all routes required for the app
 		 *
-		 * Gets and formats the routes data and returns it ready for Router::connect()
+		 * Gets and formats the routes data and returns it ready for InfinitasRouter::connect()
 		 * only active routes are needed.
 		 *
 		 * A cache is also created of the params needed in to build a url so that

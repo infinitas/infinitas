@@ -39,7 +39,7 @@
 		}
 
 		public function onSetupRoutes(){
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/content-locked',
 				array(
 					'plugin' => 'locks',

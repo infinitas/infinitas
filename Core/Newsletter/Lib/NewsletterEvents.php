@@ -50,7 +50,7 @@
 		}
 
 		public function onSetupRoutes($event, $data = null) {
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/newsletter',
 				array(
 					'admin' => true,

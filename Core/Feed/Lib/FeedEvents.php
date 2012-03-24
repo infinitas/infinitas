@@ -56,7 +56,7 @@
 		}
 
 		public function onSetupRoutes(){
-			Router::connect(
+			InfinitasRouter::connect(
 				'/feeds/subscribe/:slug',
 				array(
 					'plugin' => 'feed',
@@ -69,7 +69,7 @@
 				)
 			);
 			
-			Router::connect(
+			InfinitasRouter::connect(
 				'/feeds/view/:slug',
 				array(
 					'plugin' => 'feed',

@@ -35,7 +35,7 @@
 		}
 
 		public function onSetupRoutes() {
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin',
 				array(
 					'plugin' => 'management',
@@ -46,7 +46,7 @@
 				)
 			);
 
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/management',
 				array(
 					'plugin' => 'management',

@@ -30,7 +30,7 @@
 
 		public function onSetupRoutes() {
 			// preview
-			Router::connect(
+			InfinitasRouter::connect(
 				'/s/p/*',
 				array(
 					'plugin' => 'short_urls',
@@ -40,7 +40,7 @@
 			);
 			
 			// redirect
-			Router::connect(
+			InfinitasRouter::connect(
 				'/s/*',
 				array(
 					'plugin' => 'short_urls',

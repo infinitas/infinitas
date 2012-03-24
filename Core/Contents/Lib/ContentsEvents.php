@@ -122,7 +122,7 @@
 		}
 
 		public function onSetupRoutes($event, $data = null) {
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/contents',
 				array(
 					'plugin' => 'contents',

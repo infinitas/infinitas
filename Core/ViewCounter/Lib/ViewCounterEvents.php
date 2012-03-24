@@ -91,7 +91,7 @@
 		}
 		
 		public function onSetupRoutes($event, $data = null) {
-			Router::connect(
+			InfinitasRouter::connect(
 				'/admin/view_counter', 
 				array(
 					'plugin' => 'view_counter', 
