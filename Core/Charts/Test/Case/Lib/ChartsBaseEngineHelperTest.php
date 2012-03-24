@@ -6,7 +6,7 @@
 
 	class ChartsBaseEngineHelperTest extends CakeTestCase {
 		function startTest() {
-			$this->BaseEngine =& new ChartsBaseEngineHelper(new View(new Controller()));
+			$this->BaseEngine = new ChartsBaseEngineHelper(new View(new Controller()));
 		}
 
 		function testDummy() {}

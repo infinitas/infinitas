@@ -230,7 +230,7 @@
 				'ds' => $this->connection
 			);
 
-			$db = & ConnectionManager::getDataSource($this->connection);
+			$db = ConnectionManager::getDataSource($this->connection);
 			if (!in_array($db->fullTableName('schema_migrations', false), $db->listSources())) {
 				$map = $this->__loadFile('map', 'migrations');
 
@@ -238,10 +238,10 @@
 				$migration = $this->getMigration($name, $class, 'migrations');
 				$migration->run('up');
 
-				$this->Version = & ClassRegistry::init($options);
+				$this->Version = ClassRegistry::init($options);
 				$this->setVersion(1, 'migrations');
 			} else {
-				$this->Version = & ClassRegistry::init($options);
+				$this->Version = ClassRegistry::init($options);
 			}
 
 			$mapping = $this->getMapping('migrations');

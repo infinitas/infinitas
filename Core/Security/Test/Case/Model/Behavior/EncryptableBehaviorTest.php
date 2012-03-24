@@ -35,7 +35,7 @@
 		);
 
 		public function setUp() {
-			$this->Category =& new $this->settings['modelClass']();
+			$this->Category = new $this->settings['modelClass']();
 		}
 
 		public function tearDown() {
@@ -44,7 +44,7 @@
 		}
 
 		public function testInitialize() {
-			$this->Category =& new $this->settings['modelClass']();
+			$this->Category = new $this->settings['modelClass']();
 			$result = $this->Category->find('count');
 			$this->assertEquals(4, $result);
 		}

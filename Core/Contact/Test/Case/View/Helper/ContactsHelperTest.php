@@ -6,7 +6,7 @@ App::uses('Controller', 'Controller');
 
 class ContactsHelperTest extends CakeTestCase {
 	function startTest() {
-		$this->Contacts =& new ContactsHelper(new View(new Controller()));
+		$this->Contacts = new ContactsHelper(new View(new Controller()));
 	}
 
 	function testDummy() {}

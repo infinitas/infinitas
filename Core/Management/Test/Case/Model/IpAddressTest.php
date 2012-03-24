@@ -7,7 +7,7 @@ class IpAddressTest extends CakeTestCase {
 	public $fixtures = array('plugin.management.ip_address');
 
 	function startTest() {
-		$this->IpAddress =& ClassRegistry::init('Management.IpAddress');
+		$this->IpAddress = ClassRegistry::init('Management.IpAddress');
 	}
 
 	function testDummy() {}

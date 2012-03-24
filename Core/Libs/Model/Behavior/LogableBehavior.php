@@ -111,7 +111,7 @@
 
 			$this->Log = ClassRegistry::init($this->settings[$Model->alias]['logModel']);
 			if ($this->settings[$Model->alias]['userModel'] != $Model->alias) {
-				$this->UserModel = &ClassRegistry::init($this->settings[$Model->alias]['userModel']);
+				$this->UserModel = ClassRegistry::init($this->settings[$Model->alias]['userModel']);
 			}
 
 			else {

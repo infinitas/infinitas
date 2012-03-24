@@ -360,7 +360,14 @@ LICENCE;
 
 			//Then install all other plugins
 			foreach($plugins as $plugin) {
-				$result[$plugin] = $this->installPlugin($Version, $dbConfig, $plugin);
+				try{
+					$result[$plugin] = $this->installPlugin($Version, $dbConfig, $plugin);
+				}
+				
+				catch(Exception $e) {
+					pr($plugin);
+					pr($e->getMessage());
+				}
 			}
 
 			$this->Plugin = ClassRegistry::init('Installer.Plugin');

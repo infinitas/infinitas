@@ -616,7 +616,7 @@
 		 * for acl, should be removed.
 		 */
 		public function admin_initDB() {
-			$group =& $this->User->Group;
+			$group = $this->User->Group;
 			//Allow admins to everything
 			$group->id = 1;
 			$this->Acl->allow($group, 'controllers');

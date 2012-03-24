@@ -194,9 +194,9 @@ class MigrationShellTest extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->Dispatcher =& new TestMigrationShellMockShellDispatcher();
-		$this->Shell =& new TestMigrationShell($this->Dispatcher);
-		$this->Shell->Version =& new MigrationVersion(array('connection' => 'test_suite'));
+		$this->Dispatcher = new TestMigrationShellMockShellDispatcher();
+		$this->Shell = new TestMigrationShell($this->Dispatcher);
+		$this->Shell->Version = new MigrationVersion(array('connection' => 'test_suite'));
 		$this->Shell->type = 'test_migration_plugin';
 		$this->Shell->path = TMP . 'tests' . DS;
 		$this->Shell->connection = 'test_suite';
@@ -222,7 +222,7 @@ class MigrationShellTest extends CakeTestCase {
  * @return void
  **/
 	function testStartup() {
-		$Shell =& new TestMigrationShell($this->Dispatcher);
+		$Shell = new TestMigrationShell($this->Dispatcher);
 		$Shell->startup();
 		$this->assertEqual($Shell->connection, 'default');
 		$this->assertEqual($Shell->type, 'app');
@@ -244,7 +244,7 @@ class MigrationShellTest extends CakeTestCase {
 	function testRun() {
 		$back = $this->Shell->Version;
 
-		$Version =& new TestMigrationShellMockMigrationVersion(array('connection' => 'test_suite'));
+		$Version = new TestMigrationShellMockMigrationVersion(array('connection' => 'test_suite'));
 		$this->Shell->Version = $Version;
 		$this->Shell->setReturnValue('_stop', false);
 
@@ -352,7 +352,7 @@ class MigrationShellTest extends CakeTestCase {
 	function testRunWithFailures() {
 		$back = $this->Shell->Version;
 
-		$Version =& new TestMigrationShellMockedRunMigrationVersion(array('connection' => 'test_suite'));
+		$Version = new TestMigrationShellMockedRunMigrationVersion(array('connection' => 'test_suite'));
 		$this->Shell->Version = $Version;
 		$this->Shell->setReturnValue('_stop', false);
 

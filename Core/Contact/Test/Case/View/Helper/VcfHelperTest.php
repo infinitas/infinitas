@@ -6,7 +6,7 @@ App::uses('Controller', 'Controller');
 
 class VcfHelperTest extends CakeTestCase {
 	function startTest() {
-		$this->Vcf =& new VcfHelper(new View(new Controller()));
+		$this->Vcf = new VcfHelper(new View(new Controller()));
 	}
 
 	function testDummy() {}

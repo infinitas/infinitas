@@ -922,7 +922,7 @@
 			parent::__construct($View, $settings);
 
 			if (Configure::read('UrlCache.pageFiles')) {
-				$view =& ClassRegistry::getObject('view');
+				$view = ClassRegistry::getObject('view');
 				$path = $view->here;
 				if ($this->request->here == '/') {
 					$path = 'home';

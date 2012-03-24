@@ -97,7 +97,7 @@
 				}
 
 				if ($this->recursive > - 2) {
-					$Folder = &new Folder($this->path . DS . $folder);
+					$Folder = new Folder($this->path . DS . $folder);
 
 					$this->return[$i]['Folder']['path'] = $Folder->path;
 					$this->return[$i]['Folder']['name'] = basename($this->return[$i]['Folder']['path']);

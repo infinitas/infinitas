@@ -80,7 +80,7 @@
 			}
 			$this->path = $this->__getPath() . 'config' . DS . 'migrations' . DS;
 
-			$this->Version = & new MigrationVersion(array(
+			$this->Version = new MigrationVersion(array(
 						'connection' => $this->connection
 					));
 

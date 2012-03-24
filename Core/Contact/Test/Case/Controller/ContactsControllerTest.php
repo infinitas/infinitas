@@ -15,7 +15,7 @@ class ContactsControllerTest extends CakeTestCase {
 	public $fixtures = array('plugin.configs.config');
 
 	function startTest() {
-		$this->Contacts =& new TestContactsController();
+		$this->Contacts = new TestContactsController();
 		$this->Contacts->constructClasses();
 	}
 

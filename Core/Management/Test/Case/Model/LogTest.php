@@ -7,7 +7,7 @@ class LogTestCase extends CakeTestCase {
 	public $fixtures = array('plugin.management.log');
 
 	function startTest() {
-		$this->Log =& ClassRegistry::init('Management.Log');
+		$this->Log = ClassRegistry::init('Management.Log');
 	}
 
 	function testDummy() {}

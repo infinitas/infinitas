@@ -4,7 +4,7 @@ App::uses('Contact', 'Contact.Model');
 
 class ContactTest extends CakeTestCase {
 	function startTest() {
-		$this->Contact =& ClassRegistry::init('Contact.Contact');
+		$this->Contact = ClassRegistry::init('Contact.Contact');
 	}
 
 	function testDummy() {}

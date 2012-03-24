@@ -7,7 +7,7 @@ class BranchTest extends CakeTestCase {
 	public $fixtures = array('plugin.contact.branch');
 
 	function startTest() {
-		$this->Branch =& ClassRegistry::init('Contact.Branch');
+		$this->Branch = ClassRegistry::init('Contact.Branch');
 	}
 
 	function testDummy() {}

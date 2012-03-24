@@ -28,7 +28,7 @@ class MigrationVersionTest extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->Version =& new MigrationVersion(array(
+		$this->Version = new MigrationVersion(array(
 			'connection' => 'test_suite'
 		));
 
@@ -53,13 +53,13 @@ class MigrationVersionTest extends CakeTestCase {
  * @return void
  */
 	function testInitialTableCreation() {
-		$db =& ConnectionManager::getDataSource('test_suite');
-		$Schema =& new CakeSchema(array('connection' => 'test_suite'));
+		$db = ConnectionManager::getDataSource('test_suite');
+		$Schema = new CakeSchema(array('connection' => 'test_suite'));
 		$Schema->tables = array('schema_migrations' => array());
 		$db->execute($db->dropSchema($Schema));
 		$this->assertFalse(in_array($db->fullTableName('schema_migrations', false), $db->listSources()));
 
-		$this->Version =& new MigrationVersion(array(
+		$this->Version = new MigrationVersion(array(
 			'connection' => 'test_suite'
 		));
 		$this->assertTrue(in_array($db->fullTableName('schema_migrations', false), $db->listSources()));
@@ -168,10 +168,10 @@ class MigrationVersionTest extends CakeTestCase {
 		$back = $this->Version;
 		$options = array('connection' => 'test_suite');
 
-		$Version =& new TestMigrationVersionMockMigrationVersion($options);
+		$Version = new TestMigrationVersionMockMigrationVersion($options);
 		$this->Version = $Version;
 		$this->Version->setReturnValue('getMigration', new CakeMigration($options));
-		$this->Version->Version =& ClassRegistry::init(array(
+		$this->Version->Version = ClassRegistry::init(array(
 			'class' => 'schema_migrations', 'ds' => 'test_suite'));
 
 		// Variable used on setReturValueAt method

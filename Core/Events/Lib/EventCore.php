@@ -112,7 +112,7 @@
 		 * @return array the array of plugins that will be run
 		 */
 		public function pluginsWith($eventName){
-			$_this =& EventCore::getInstance();
+			$_this = EventCore::getInstance();
 			if(!isset($_this->_eventHandlerCache[$eventName])){
 				return array();
 			}
@@ -225,7 +225,7 @@
 		 *
 		 */
 		static protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()){
-			$_this =& EventCore::getInstance();
+			$_this = EventCore::getInstance();
 			$eventHandlerMethod = $_this->_handlerMethodName($eventName);
 
 			$return = array();
@@ -263,7 +263,7 @@
 		 * @return array the scope + event name
 		 */
 		protected function _parseEventName($eventName){
-			$_this =& EventCore::getInstance();
+			$_this = EventCore::getInstance();
 
 			if(!isset($_this->eventNameCache->{$eventName})){
 				$eventTokens = String::tokenize($eventName, '.');
@@ -296,7 +296,7 @@
 		 *
 		 */
 		protected function _handlerMethodName($eventName){
-			$_this =& EventCore::getInstance();
+			$_this = EventCore::getInstance();
 			if(!isset($_this->handlerNameCache->{$eventName})){
 				$_this->handlerNameCache->{$eventName} = 'on' . Inflector::camelize($eventName);
 			}
@@ -312,7 +312,7 @@
 		 */
 		protected function _getAvailableHandlers($Event){
 			if(is_object($Event)){
-				$_this =& EventCore::getInstance();
+				$_this = EventCore::getInstance();
 
 				$reflection = new ReflectionClass($Event);
 				$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class == "'.get_class($Event).'" && substr($v->name, 0, 2) == "on";'));
@@ -332,7 +332,7 @@
 		 * @access private
 		 */
 		protected function _loadEventClass($className, $filename = false){
-			$_this =& EventCore::getInstance();
+			$_this = EventCore::getInstance();
 			if(isset($_this->_eventClasses[$className]) && is_object($_this->_eventClasses[$className])) {
 				return true;
 			}
@@ -351,7 +351,7 @@
 			require $filename;
 
 			try{
-				$_this->_eventClasses[$className] =& new $className();
+				$_this->_eventClasses[$className] = new $className();
 				return true;
 			}
 			catch(Exception $e){
@@ -370,7 +370,7 @@
 		 * @access private
 		 */
 		protected function _extractPluginName($className){
-			$_this =& EventCore::getInstance();
+			$_this = EventCore::getInstance();
 			if(!isset($_this->pluginNameCache->{$className})){
 				$_this->pluginNameCache->{$className} = substr($className, 0, strlen($className) - 6);
 			}

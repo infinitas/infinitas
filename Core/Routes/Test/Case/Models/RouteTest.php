@@ -9,7 +9,7 @@
 		);
 
 		function startTest() {
-			$this->Route =& ClassRegistry::init('Routes.Route');
+			$this->Route = ClassRegistry::init('Routes.Route');
 		}
 
 		function testGetValues(){

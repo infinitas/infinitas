@@ -5,7 +5,7 @@
 
 	class CompressHelperTest extends CakeTestCase {
 		public function startTest() {
-			$this->Compress =& new CompressHelper(new View(new Controller()));
+			$this->Compress = new CompressHelper(new View(new Controller()));
 		}
 
 		public function endTest() {

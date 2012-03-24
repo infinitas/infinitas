@@ -4,7 +4,7 @@ App::uses('ModulePosition', 'Modules.Model');
 
 class ModulePositionTestCase extends CakeTestCase {
 	function startTest() {
-		$this->ModulePosition =& ClassRegistry::init('Modules.ModulePosition');
+		$this->ModulePosition = ClassRegistry::init('Modules.ModulePosition');
 	}
 
 	function testDummy() {}

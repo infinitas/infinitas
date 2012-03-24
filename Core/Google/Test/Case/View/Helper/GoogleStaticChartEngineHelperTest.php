@@ -54,7 +54,7 @@
 		 * @return void
 		 */
 		function startTest() {
-			$view =& new View(new TheGoogleStaticChartEngineTestController());
+			$view = new View(new TheGoogleStaticChartEngineTestController());
 			$this->GoogleStaticChartEngine = new GoogleStaticChartEngineHelper($view);
 			$this->GoogleStaticChartEngine->Html = new HtmlHelper($view);
 			ClassRegistry::addObject('view', $view);

@@ -4,7 +4,7 @@ App::uses('Group', 'Users.Model');
 
 class GroupTestCase extends CakeTestCase {
 	function startTest() {
-		$this->Group =& ClassRegistry::init('Users.Group');
+		$this->Group = ClassRegistry::init('Users.Group');
 	}
 
 	function testDummy() {}

@@ -21,7 +21,7 @@
 		);
 
 		public function startTest() {
-			$this->User =& new UserTest();
+			$this->User = new UserTest();
 		}
 
 		/**

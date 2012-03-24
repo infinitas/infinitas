@@ -152,7 +152,7 @@
 			$this->direction = $direction;
 
 			$null = null;
-			$this->db = & ConnectionManager::getDataSource($this->connection);
+			$this->db = ConnectionManager::getDataSource($this->connection);
 			$this->db->cacheSources = false;
 			$this->db->begin($null);
 			$this->Schema = new CakeSchema(array('connection' => $this->connection));
