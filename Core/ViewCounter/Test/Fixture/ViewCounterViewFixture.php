@@ -1,33 +1,43 @@
 <?php
-/* GlobalViewCount Fixture generated on: 2010-12-14 00:12:35 : 1292285375 */
-class ViewCountFixture extends CakeTestFixture {
-	var $name = 'ViewCount';
+/**
+ * ViewCounterViewFixture
+ */
+class ViewCounterViewFixture extends CakeTestFixture {
 
-	var $table = 'global_view_counter_views';
-
-	var $fields = array(
+/**
+ * Fields
+ *
+ * @var array
+ */
+	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
+		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'user_id' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'ip_address' => array('type' => 'string', 'null' => false, 'default' => '?', 'length' => 15, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'year' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 4, 'key' => 'index'),
-		'month' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4, 'key' => 'index'),
-		'day' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4, 'key' => 'index'),
-		'hour' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4, 'key' => 'index'),
-		'week_of_year' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4, 'key' => 'index'),
+		'year' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'month' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'day' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'hour' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
+		'week_of_year' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
 		'day_of_year' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 4),
-		'day_of_week' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 1, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'day_of_week' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 1, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'continent_code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 5, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'country_code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 2, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'country' => array('type' => 'string', 'null' => false, 'default' => 'Unknown', 'length' => 100, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'city' => array('type' => 'string', 'null' => false, 'default' => 'Unknown', 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'country_code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 2, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'country' => array('type' => 'string', 'null' => false, 'default' => 'Unknown', 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'referer' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'ip_address' => array('column' => 'ip_address', 'unique' => 0), 'week_of_year' => array('column' => 'week_of_year', 'unique' => 0), 'day_of_month' => array('column' => 'day', 'unique' => 0), 'month_of_year' => array('column' => 'month', 'unique' => 0), 'day_of_week' => array('column' => 'day_of_week', 'unique' => 0), 'hour_of_day' => array('column' => 'hour', 'unique' => 0), 'country_code' => array('column' => 'country_code', 'unique' => 0), 'country' => array('column' => 'country', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'ip_address' => array('column' => 'ip_address', 'unique' => 0), 'foreign_key' => array('column' => 'foreign_key', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+/**
+ * Records
+ *
+ * @var array
+ */
+	public $records = array(
 		array(
 			'id' => '4ca682b2-dae8-4420-89d4-44205fd7e115',
 			'model' => 'Blog.BlogPost',
@@ -45,6 +55,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-02 01:54:10'
 		),
 		array(
@@ -64,6 +75,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-02 01:54:11'
 		),
 		array(
@@ -83,6 +95,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-02 01:54:14'
 		),
 		array(
@@ -102,6 +115,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-02 01:54:16'
 		),
 		array(
@@ -121,6 +135,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-02 01:56:32'
 		),
 		array(
@@ -140,6 +155,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 20:02:56'
 		),
 		array(
@@ -159,6 +175,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 22:34:52'
 		),
 		array(
@@ -178,6 +195,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 22:50:11'
 		),
 		array(
@@ -197,6 +215,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 23:04:08'
 		),
 		array(
@@ -216,6 +235,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 23:07:24'
 		),
 		array(
@@ -235,6 +255,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 23:11:17'
 		),
 		array(
@@ -254,6 +275,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 23:38:40'
 		),
 		array(
@@ -273,6 +295,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-03 23:47:10'
 		),
 		array(
@@ -292,6 +315,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-04 00:00:17'
 		),
 		array(
@@ -311,6 +335,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-04 07:59:51'
 		),
 		array(
@@ -330,6 +355,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 08:01:21'
 		),
 		array(
@@ -349,6 +375,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-04 08:02:23'
 		),
 		array(
@@ -368,6 +395,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-04 08:05:08'
 		),
 		array(
@@ -387,6 +415,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Leicester',
+			'referer' => '/',
 			'created' => '2010-10-04 08:14:10'
 		),
 		array(
@@ -406,6 +435,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Newcastle',
+			'referer' => '/',
 			'created' => '2010-10-04 09:09:10'
 		),
 		array(
@@ -425,6 +455,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Newcastle',
+			'referer' => '/',
 			'created' => '2010-10-04 09:36:27'
 		),
 		array(
@@ -444,6 +475,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Newcastle',
+			'referer' => '/',
 			'created' => '2010-10-04 10:22:32'
 		),
 		array(
@@ -463,6 +495,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:34:37'
 		),
 		array(
@@ -482,6 +515,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:34:52'
 		),
 		array(
@@ -501,6 +535,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:34:55'
 		),
 		array(
@@ -520,6 +555,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:35:05'
 		),
 		array(
@@ -539,6 +575,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:35:23'
 		),
 		array(
@@ -558,6 +595,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:35:46'
 		),
 		array(
@@ -577,6 +615,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:36:12'
 		),
 		array(
@@ -596,6 +635,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:36:16'
 		),
 		array(
@@ -615,6 +655,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:37:05'
 		),
 		array(
@@ -634,6 +675,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:37:09'
 		),
 		array(
@@ -653,6 +695,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:37:22'
 		),
 		array(
@@ -672,6 +715,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-04 11:37:35'
 		),
 		array(
@@ -691,6 +735,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-04 14:57:02'
 		),
 		array(
@@ -710,6 +755,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-04 16:46:00'
 		),
 		array(
@@ -729,6 +775,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:14'
 		),
 		array(
@@ -748,6 +795,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:17'
 		),
 		array(
@@ -767,6 +815,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:19'
 		),
 		array(
@@ -786,6 +835,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:21'
 		),
 		array(
@@ -805,6 +855,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:23'
 		),
 		array(
@@ -824,6 +875,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:26'
 		),
 		array(
@@ -843,6 +895,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:27'
 		),
 		array(
@@ -862,6 +915,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:30'
 		),
 		array(
@@ -881,6 +935,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'ES',
 			'country' => 'Spain',
 			'city' => 'Alicante',
+			'referer' => '/',
 			'created' => '2010-10-04 19:16:32'
 		),
 		array(
@@ -900,6 +955,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-04 20:29:50'
 		),
 		array(
@@ -919,6 +975,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'NL',
 			'country' => 'Netherlands',
 			'city' => 'Wageningen',
+			'referer' => '/',
 			'created' => '2010-10-04 20:37:39'
 		),
 		array(
@@ -938,6 +995,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'NL',
 			'country' => 'Netherlands',
 			'city' => 'Wageningen',
+			'referer' => '/',
 			'created' => '2010-10-04 20:38:15'
 		),
 		array(
@@ -957,6 +1015,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-04 23:02:13'
 		),
 		array(
@@ -976,6 +1035,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'GB',
 			'country' => 'United Kingdom',
 			'city' => 'Walton',
+			'referer' => '/',
 			'created' => '2010-10-05 00:05:02'
 		),
 		array(
@@ -995,6 +1055,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:08:07'
 		),
 		array(
@@ -1014,6 +1075,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:08:19'
 		),
 		array(
@@ -1033,6 +1095,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:08:23'
 		),
 		array(
@@ -1052,6 +1115,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:08:41'
 		),
 		array(
@@ -1071,6 +1135,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:08:51'
 		),
 		array(
@@ -1090,6 +1155,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:03'
 		),
 		array(
@@ -1109,6 +1175,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:12'
 		),
 		array(
@@ -1128,6 +1195,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:16'
 		),
 		array(
@@ -1147,6 +1215,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:39'
 		),
 		array(
@@ -1166,6 +1235,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:46'
 		),
 		array(
@@ -1185,6 +1255,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:50'
 		),
 		array(
@@ -1204,6 +1275,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'RU',
 			'country' => 'Russian Federation',
 			'city' => 'Unknown',
+			'referer' => '/',
 			'created' => '2010-10-05 00:09:54'
 		),
 		array(
@@ -1223,6 +1295,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-05 00:19:08'
 		),
 		array(
@@ -1242,6 +1315,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-05 03:05:18'
 		),
 		array(
@@ -1261,6 +1335,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-05 06:50:16'
 		),
 		array(
@@ -1280,6 +1355,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Mountain View',
+			'referer' => '/',
 			'created' => '2010-10-05 07:22:40'
 		),
 		array(
@@ -1299,6 +1375,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:36:01'
 		),
 		array(
@@ -1318,6 +1395,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:37:06'
 		),
 		array(
@@ -1337,6 +1415,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:37:15'
 		),
 		array(
@@ -1356,6 +1435,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:38:46'
 		),
 		array(
@@ -1375,6 +1455,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:39:38'
 		),
 		array(
@@ -1394,6 +1475,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:41:47'
 		),
 		array(
@@ -1413,6 +1495,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 07:45:00'
 		),
 		array(
@@ -1432,6 +1515,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'US',
 			'country' => 'United States',
 			'city' => 'Sunnyvale',
+			'referer' => '/',
 			'created' => '2010-10-05 10:26:32'
 		),
 		array(
@@ -1451,6 +1535,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'NL',
 			'country' => 'Netherlands',
 			'city' => 'Haarlem',
+			'referer' => '/',
 			'created' => '2010-10-05 12:41:00'
 		),
 		array(
@@ -1470,6 +1555,7 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'NL',
 			'country' => 'Netherlands',
 			'city' => 'Haarlem',
+			'referer' => '/',
 			'created' => '2010-10-05 12:41:02'
 		),
 		array(
@@ -1489,8 +1575,8 @@ class ViewCountFixture extends CakeTestFixture {
 			'country_code' => 'NL',
 			'country' => 'Netherlands',
 			'city' => 'Haarlem',
+			'referer' => '/',
 			'created' => '2010-10-05 12:41:04'
 		),
 	);
 }
-?>
