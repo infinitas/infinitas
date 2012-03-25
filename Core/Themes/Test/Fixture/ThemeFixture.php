@@ -1,27 +1,39 @@
 <?php
-	/* CoreTheme Fixture generated on: 2010-03-13 11:03:21 : 1268472621 */
-	class ThemeFixture extends CakeTestFixture {
-		var $name = 'Theme';
+/**
+ * CoreThemeFixture
+ *
+ */
+class ThemeFixture extends CakeTestFixture {
+	public $table = 'core_themes';
 
-		var $table = 'core_themes';
+/**
+ * Fields
+ *
+ * @var array
+ */
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'author' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'default_layout' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
+		'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active' => array('column' => 'active', 'unique' => 0)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
 
-		var $fields = array(
-			'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-			'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-			'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
-			'author' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-			'url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-			'update_url' => array('type' => 'string', 'null' => true, 'default' => NULL),
-			'licence' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-			'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-			'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-			'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-			'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-			'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-		);
-
-		var $records = array(
+/**
+ * Records
+ *
+ * @var array
+ */
+	public $records = array(
 			array(
 				'id' => 1,
 				'name' => 'default',
@@ -30,6 +42,7 @@
 				'url' => '',
 				'update_url' => '',
 				'licence' => '',
+				'default_layout' => null,
 				'active' => 0,
 				'core' => 1,
 				'created' => '2010-01-14 01:39:54',
@@ -43,6 +56,7 @@
 				'url' => '',
 				'update_url' => '',
 				'licence' => '',
+				'default_layout' => null,
 				'active' => 0,
 				'core' => 0,
 				'created' => '0000-00-00 00:00:00',
@@ -56,6 +70,7 @@
 				'url' => '',
 				'update_url' => '',
 				'licence' => '',
+				'default_layout' => null,
 				'active' => 0,
 				'core' => 0,
 				'created' => '0000-00-00 00:00:00',
@@ -69,10 +84,11 @@
 				'url' => '',
 				'update_url' => '',
 				'licence' => '',
+				'default_layout' => null,
 				'active' => 1,
 				'core' => 0,
 				'created' => '0000-00-00 00:00:00',
 				'modified' => '0000-00-00 00:00:00'
 			),
-		);
-	}
+	);
+}

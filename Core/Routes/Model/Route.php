@@ -20,22 +20,25 @@
 	class Route extends RoutesAppModel {
 		public $useTable = 'routes';
 		
-		public $order = array(
-			'Route.ordering' => 'ASC'
-		);
+		public $order = array();
 
 		public $belongsTo = array(
 			'Theme' => array(
 				'className' => 'Themes.Theme',
 				'fields' => array(
 					'Theme.id',
-					'Theme.name'
+					'Theme.name',
+					'Theme.default_layout'
 				)
 			)
 		);
 
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
+			
+			$this->order = array(
+				$this->alias . '.ordering' => 'ASC'
+			);
 
 			$this->validate = array(
 				'name' => array(
@@ -138,32 +141,39 @@
 				'all',
 				array(
 					'fields' => array(
-						'Route.url',
-						'Route.prefix',
-						'Route.plugin',
-						'Route.controller',
-						'Route.action',
-						'Route.values',
-						'Route.pass',
-						'Route.rules',
-						'Route.force_backend',
-						'Route.force_frontend',
-						'Route.theme_id',
-						'Theme.*'
+						$this->alias . '.url',
+						$this->alias . '.prefix',
+						$this->alias . '.plugin',
+						$this->alias . '.controller',
+						$this->alias . '.action',
+						$this->alias . '.values',
+						$this->alias . '.pass',
+						$this->alias . '.rules',
+						$this->alias . '.force_backend',
+						$this->alias . '.force_frontend',
+						$this->alias . '.theme_id',
+						$this->alias . '.layout',
+						$this->Theme->alias . '.' . $this->Theme->primaryKey,
+						$this->Theme->alias . '.' . $this->Theme->displayField,
+						$this->Theme->alias . '.default_layout',
 					),
 					'conditions' => array(
-						'Route.active' => 1
+						$this->alias . '.active' => 1
 					),
 					'order' => array(
-						'Route.ordering' => 'ASC'
+						$this->alias . '.ordering' => 'ASC'
 					),
 					'joins' => array(
 						array(
-							'table' => 'core_themes',
-							'alias' => 'Theme',
+							'table' => $this->Theme->tablePrefix . $this->Theme->useTable,
+							'alias' => $this->Theme->alias,
 							'type' => 'LEFT',
 							'conditions' => array(
-								'Route.theme_id = Theme.id'
+								sprintf(
+									'%s.%s = %s.%s',
+									$this->alias, $this->belongsTo[$this->Theme->alias]['foreignKey'],
+									$this->Theme->alias, $this->Theme->primaryKey
+								)
 							)
 						)
 					)
@@ -174,18 +184,19 @@
 			$routingRules = array();
 			foreach($routes as $array){
 				$vaules = $regex = array();
-				$routingRules[]['Route'] = array(
-					'url' => $array['Route']['url'],
-					'values' => $this->getValues($array['Route']),
-					'regex' => $this->getRegex($array['Route']['rules'], $array['Route']['pass']),
-					'theme' => $array['Theme']['name']
+				$routingRules[][$this->alias] = array(
+					'url' => $array[$this->alias]['url'],
+					'values' => $this->getValues($array[$this->alias]),
+					'regex' => $this->getRegex($array[$this->alias]['rules'], $array[$this->alias]['pass']),
+					'theme' => $array[$this->Theme->alias]['name'],
+					'layout' => !empty($array[$this->alias]['layout']) ? $array[$this->alias]['layout'] : $array[$this->Theme->alias]['default_layout'],
 				);
 
-				if(!strstr($array['Route']['url'], ':')){
+				if(!strstr($array[$this->alias]['url'], ':')){
 					continue;
 				}
 
-				$array = $array['Route'];
+				$array = $array[$this->alias];
 
 				$params = array();
 				foreach(explode('/', $array['url']) as $param){

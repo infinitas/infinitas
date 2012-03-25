@@ -1,37 +1,49 @@
 <?php
-/* CoreRoute Fixture generated on: 2010-03-13 11:03:06 : 1268472606 */
+/**
+ * CoreRouteFixture
+ *
+ */
 class RouteFixture extends CakeTestFixture {
-	var $name = 'Route';
+	public $name = 'Route';
+	
+	public $table = 'core_routes';
 
-	var $table = 'core_routes';
-
-	var $fields = array(
+/**
+ * Fields
+ *
+ * @var array
+ */
+	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'url' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'prefix' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-		'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'controller' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'values' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'pass' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-		'rules' => array('type' => 'text', 'null' => false, 'default' => NULL),
+		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'url' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'prefix' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'controller' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'values' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'pass' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'rules' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'layout' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'order_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'deleted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'deleted_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active_routes' => array('column' => array('ordering', 'active', 'theme_id'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+/**
+ * Records
+ *
+ * @var array
+ */
+	public $records = array(
 		array(
 			'id' => 7,
 			'core' => 0,
@@ -46,14 +58,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 0,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 2,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 16:50:39',
-			'modified' => '2010-01-20 17:45:43',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-20 17:45:43'
 		),
 		array(
 			'id' => 8,
@@ -69,14 +80,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 0,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 3,
 			'theme_id' => 4,
 			'active' => 1,
 			'created' => '2010-01-13 18:26:36',
-			'modified' => '2010-01-14 00:38:53',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-14 00:38:53'
 		),
 		array(
 			'id' => 9,
@@ -92,14 +102,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 1,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 4,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 18:36:50',
-			'modified' => '2010-01-13 18:36:50',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-13 18:36:50'
 		),
 		array(
 			'id' => 11,
@@ -115,14 +124,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 1,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 6,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 18:40:23',
-			'modified' => '2010-01-13 18:42:53',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-13 18:42:53'
 		),
 		array(
 			'id' => 12,
@@ -138,14 +146,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 1,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 7,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 18:45:23',
-			'modified' => '2010-01-13 19:02:17',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-13 19:02:17'
 		),
 		array(
 			'id' => 13,
@@ -161,14 +168,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 0,
 			'force_frontend' => 1,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 8,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 18:47:07',
-			'modified' => '2010-01-13 19:10:00',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-13 19:10:00'
 		),
 		array(
 			'id' => 14,
@@ -184,14 +190,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 1,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 9,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 19:01:14',
-			'modified' => '2010-01-13 19:04:59',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-13 19:04:59'
 		),
 		array(
 			'id' => 15,
@@ -207,14 +212,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 0,
 			'force_frontend' => 1,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 10,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 19:05:28',
-			'modified' => '2010-01-18 01:40:23',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-18 01:40:23'
 		),
 		array(
 			'id' => 16,
@@ -230,14 +234,13 @@ class RouteFixture extends CakeTestFixture {
 			'rules' => '',
 			'force_backend' => 1,
 			'force_frontend' => 0,
+			'layout' => null,
 			'order_id' => 1,
 			'ordering' => 12,
 			'theme_id' => 0,
 			'active' => 1,
 			'created' => '2010-01-13 19:18:16',
-			'modified' => '2010-01-18 01:35:56',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-18 01:35:56'
 		),
 		array(
 			'id' => 18,
@@ -249,19 +252,17 @@ class RouteFixture extends CakeTestFixture {
 			'controller' => 'posts',
 			'action' => '',
 			'values' => 'day:null',
-			'pass' => '',
+			'pass' => 'year,month,day',
 			'rules' => 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n',
 			'force_backend' => 0,
 			'force_frontend' => 1,
+			'layout' => 'front',
 			'order_id' => 1,
 			'ordering' => 13,
 			'theme_id' => 1,
 			'active' => 1,
 			'created' => '2010-01-13 19:36:31',
-			'modified' => '2010-01-18 01:35:41',
-			'deleted' => 0,
-			'deleted_date' => '0000-00-00 00:00:00'
+			'modified' => '2010-01-18 01:35:41'
 		),
 	);
 }
-?>

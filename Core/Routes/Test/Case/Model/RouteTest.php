@@ -3,16 +3,16 @@
 	App::uses('Route', 'Routes.Model');
 
 	class RouteTest extends CakeTestCase {
-		var $fixtures = array(
+		public $fixtures = array(
 			'plugin.routes.route',
 			'plugin.themes.theme'
 		);
 
-		function startTest() {
+		public function startTest() {
 			$this->Route = ClassRegistry::init('Routes.Route');
 		}
 
-		function testGetValues(){
+		public function testGetValues(){
 			//$this->assertEquals('_getValues', 'getValues');
 			//cant test private Route::_getValues() like this
 
@@ -139,8 +139,15 @@
 						'controller' => 'posts',
 						'admin' => false
 					),
-					'regex' => array(),
-					'theme' => 'default'
+					'regex' => array(
+						'pass' => array(
+							'year',
+							'month',
+							'day'
+						)
+					),
+					'theme' => 'default',
+					'layout' => 'front',
 				)
 			);
 			$this->assertEqual($routes[9], $expected);
@@ -157,15 +164,15 @@
 						'admin' => true
 					),
 					'regex' => array(),
-					'theme' => null
+					'theme' => null,
+					'layout' => null,
 				)
 			);
 			$this->assertEqual($routes[2], $expected);
 		}
 
-		function endTest() {
+		public function endTest() {
 			unset($this->Route);
 			ClassRegistry::flush();
 		}
-
 	}
