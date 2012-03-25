@@ -33,27 +33,27 @@
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of the them')
+						'message' => __d('themes', 'Please enter the name of the them')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('There is already a them with this name')
+						'message' => __d('themes', 'There is already a them with this name')
 					)
 				),
 				'author' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of the author')
+						'message' => __d('themes', 'Please enter the name of the author')
 					)
 				),
 				'url' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the url for this theme')
+						'message' => __d('themes', 'Please enter the url for this theme')
 					),
 					'url' => array(
 						'rule' => array('url', true),
-						'message' => __('Please enter a valid url')
+						'message' => __d('themes', 'Please enter a valid url')
 					)
 				)
 			);
@@ -77,12 +77,13 @@
 				'first',
 				array(
 					'fields' => array(
-						'Theme.id',
-						'Theme.name',
-						'Theme.core'
+						$this->alias . '.' . $this->primaryKey,
+						$this->alias . '.' . $this->displayField,
+						$this->alias . '.default_layout',
+						$this->alias . '.core'
 					),
 					'conditions' => array(
-						'Theme.active' => 1
+						$this->alias . '.active' => true
 					)
 				)
 			);
@@ -102,7 +103,7 @@
 		 * @return bool
 		 */
 		public function beforeSave(){
-			if(isset($this->data['Theme']['active']) && $this->data['Theme']['active']){
+			if(isset($this->data[$this->alias]['active']) && $this->data[$this->alias]['active']){
 				return $this->deactivateAll();
 			}
 
@@ -122,7 +123,7 @@
 		 */
 		public function beforeDelete($cascade){
 			$active = $this->read('active');
-			return isset($active['Theme']['active']) && !$active['Theme']['active'];
+			return isset($active[$this->alias]['active']) && !$active[$this->alias]['active'];
 		}
 
 		/**
@@ -138,7 +139,7 @@
 		public function deactivateAll(){
 			return $this->updateAll(
 				array(
-					'Theme.active' => '0'
+					$this->alias . '.active' => false
 				)
 			);
 		}
@@ -185,8 +186,8 @@
 				'list',
 				array(
 					'fields' => array(
-						$this->alias . '.name',
-						$this->alias . '.name'
+						$this->alias . '.' . $this->displayField,
+						$this->alias . '.' . $this->displayField
 					)
 				)
 			);

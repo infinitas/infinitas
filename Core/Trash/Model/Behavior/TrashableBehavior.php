@@ -1,4 +1,6 @@
 <?php
+	App::uses('AuthComponent', 'Controller/Component');
+	
 	class TrashableBehavior extends ModelBehavior {
 		public $Trash = null;
 
@@ -6,8 +8,12 @@
 			if($this->Trash === null) {
 				$this->Trash = ClassRegistry::init('Trash.Trash');
 			}
-
+			
 			$userId = AuthComponent::user('id');
+			
+			if(!$userId) {
+				return false;
+			}
 
 			$Model->contain();
 			$item = $Model->read();
