@@ -121,4 +121,12 @@
 
 			return true;
 		 }
-	 }
+	
+		public function actionAdminGetThemeLayouts() {
+			if(empty($this->Controller->request->data[$this->Controller->modelClass]['theme'])) {
+				$this->Controller->set('json', false);
+			}
+			
+			$this->Controller->set('json', InfinitasTheme::layouts($this->Controller->request->data[$this->Controller->modelClass]['theme']));
+		}
+	}

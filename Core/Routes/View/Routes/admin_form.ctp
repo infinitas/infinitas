@@ -26,7 +26,7 @@
 				$options = Configure::read('Routing.prefixes');
 				$options = array_combine($options, $options);
 				echo $this->Form->input('prefix', array('options' => $options, 'type' => 'select', 'empty' => __('None')));
-				echo $this->element('route_select', array('plugin' => 'Routes')); ?>
+				echo $this->element('Routes.route_select'); ?>
 			</div><?php
 			echo $this->Form->input('values');
 			echo $this->Form->input('rules'); ?>
@@ -39,7 +39,7 @@
 				echo $this->Form->input('force_frontend'); ?>
 			</div><?php
 			echo $this->Form->input('active');
-			echo $this->Form->input('theme_id');
+			echo $this->element('Themes.theme_select');
 			echo $this->Form->hidden('order_id', array('value' => 1)); ?>
 		</fieldset>
 	<?php echo $this->Form->end(); ?>

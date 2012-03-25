@@ -1,4 +1,6 @@
 <?php
+	App::uses('InfinitasTheme', 'Themes.Lib');
+	
 	final class ThemesEvents extends AppEvents {
 		public function onSetupCache(){
 			return array(

@@ -42,7 +42,7 @@
 					__('Url', true ),
 					__('Route', true ),
 					__('Theme', true ) => array(
-						'style' => 'width:75px;'
+						'style' => 'width:95px;'
 					),
 					__( 'Order', true ) => array(
 						'style' => 'width:50px;'
@@ -79,7 +79,15 @@
 									? $route['Theme']['name'] 
 									: 'default';
 								
-								echo Inflector::humanize($route['Theme']['name']);
+								$route['Route']['layout'] = !empty($route['Route']['layout'])
+									? $route['Route']['layout']
+									: $route['Theme']['default_layout'];
+								
+								$route['Route']['layout'] = !empty($route['Route']['layout'])
+									? $route['Route']['layout']
+									: 'front';
+								
+								echo sprintf('%s - %s', Inflector::humanize($route['Theme']['name']), Inflector::humanize($route['Route']['layout']));
 							?>&nbsp;
 						</td>
 						<td>
