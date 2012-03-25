@@ -176,8 +176,8 @@
 				$vaules = $regex = array();
 				$routingRules[]['Route'] = array(
 					'url' => $array['Route']['url'],
-					'values' => $this->__getValues($array['Route']),
-					'regex' => $this->__getRegex($array['Route']['rules'], $array['Route']['pass']),
+					'values' => $this->getValues($array['Route']),
+					'regex' => $this->getRegex($array['Route']['rules'], $array['Route']['pass']),
 					'theme' => $array['Theme']['name']
 				);
 
@@ -225,7 +225,7 @@
 		 *
 		 * @return formatted array for Router::connect
 		 */
-		private function __getValues($route = array()){
+		public function getValues($route = array()){
 			if (!$route) {
 				return false;
 			}
@@ -273,7 +273,7 @@
 		 *
 		 * @return array the data for Router::connect
 		 */
-		private function __getRegex($field, $pass = null){
+		public function getRegex($field, $pass = null){
 			$values = array();
 			if (!empty($field)) {
 				$values = $this->singleDimentionArray($this->getJson($field));
