@@ -15,20 +15,26 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+$pluginDot = empty($plugin) ? null : $plugin . '.';
 ?>
-<h2><?php echo __d('cake_dev', 'Missing Database Connection'); ?></h2>
+<h2><?php echo __d('cake_dev', 'Missing Component'); ?></h2>
 <p class="error">
 	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
-	<?php echo __d('cake_dev', '%s requires a database connection', $class); ?>
+	<?php echo __d('cake_dev', '%s could not be found.', '<em>' . $pluginDot . $class . '</em>'); ?>
 </p>
 <p class="error">
 	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
-	<?php echo __d('cake_dev', 'Confirm you have created the file : %s.', APP_DIR . DS . 'Config' . DS . 'database.php'); ?>
+	<?php echo __d('cake_dev', 'Create the class %s below in file: %s', '<em>' . $class . '</em>', (empty($plugin) ? APP_DIR . DS : CakePlugin::path($plugin)) . 'Controller' . DS . 'Component' . DS . $class . '.php'); ?>
 </p>
+<pre>
+&lt;?php
+class <?php echo $class; ?> extends Component {
+
+}
+</pre>
 <p class="notice">
 	<strong><?php echo __d('cake_dev', 'Notice'); ?>: </strong>
-	<?php echo __d('cake_dev', 'If you want to customize this error message, create %s.', APP_DIR . DS . 'View' . DS . 'Errors' . DS . basename(__FILE__)); ?>
+	<?php echo __d('cake_dev', 'If you want to customize this error message, create %s', APP_DIR . DS . 'View' . DS . 'Errors' . DS . 'missing_component.ctp'); ?>
 </p>
 
-<?php
-echo $this->element('exception_stack_trace');
+<?php echo $this->element('exception_stack_trace'); ?>
