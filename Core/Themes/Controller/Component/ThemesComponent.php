@@ -38,6 +38,14 @@
 			}
 
 			$Controller->layout = 'front';
+			$theme = Cache::read('currentTheme');
+			if($theme === false) {
+				$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
+			}
+			
+			if(!empty($theme['Theme']['default_layout'])) {
+				$Controller->layout = $theme['Theme']['default_layout'];
+			}
 
 			if (isset($Controller->request->params['admin']) && $Controller->request->params['admin']){
 				$Controller->layout = 'admin';
@@ -53,10 +61,6 @@
 			
 			if (isset($event['setupThemeLayout'][$Controller->plugin]) && is_string($event['setupThemeLayout'][$Controller->plugin])) {
 				$Controller->layout = $event['setupThemeLayout'][$Controller->plugin];
-			}
-			
-			if(!$theme = Cache::read('currentTheme')) {
-				$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
 			}
 
 			if (!isset($theme['Theme']['name'])) {
@@ -95,9 +99,15 @@
 
 			$currentRoute = Router::currentRoute(Configure::read('CORE.current_route'));
 			if (!empty($routes) && is_object($currentRoute)) {
-				foreach($routes as $route ){
-					if ($route['Route']['url'] == $currentRoute->template && !empty($route['Route']['theme'])) {
-						$Controller->theme = $route['Route']['theme'];
+				foreach($routes as $route) {
+					if ($route['Route']['url'] == $currentRoute->template) {
+						if(!empty($route['Route']['theme'])) {
+							$Controller->theme = $route['Route']['theme'];
+						}
+						
+						if(!empty($route['Route']['layout'])) {
+							$Controller->layout = $route['Route']['layout'];
+						}
 					}
 				}
 			}

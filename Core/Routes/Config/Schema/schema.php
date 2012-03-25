@@ -22,6 +22,7 @@ class RoutesSchema extends CakeSchema {
 		'rules' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'layout' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'order_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
