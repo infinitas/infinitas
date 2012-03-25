@@ -132,7 +132,7 @@
 		 * @access protected
 		 */
 		private function __skipMustacheRender() {
-			return $this->request->params['admin'] || !($this->Mustache instanceof Mustache) ||
+			return (isset($this->request->params['admin']) && $this->request->params['admin']) || !($this->Mustache instanceof Mustache) ||
 				(isset($this->request['url']['mustache']) && $this->request['url']['mustache'] == 'false');
 		}
 
@@ -166,7 +166,7 @@
 			$infinitasJsData['name']	= $this->name;
 			$infinitasJsData['action']	= $this->request->params['action'];
 			$infinitasJsData['params']	= $this->request->params;
-			$infinitasJsData['passedArgs'] = $this->request->params['pass'];
+			$infinitasJsData['passedArgs'] = !empty($this->request->params['pass']) ? $this->request->params['pass'] : array();
 			$infinitasJsData['data']	   = $this->request->data;
 
 			$infinitasJsData['model']	   = isset($model) ? $model['className'] : null;
