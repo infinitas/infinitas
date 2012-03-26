@@ -1,6 +1,9 @@
 <?php
 	class InfinitasPluginTask extends AppShell {
-		public $tasks = array('Installer.Migration', 'Installer.InfinitasFixture');
+		public $tasks = array(
+			'Installer.Migration', 
+			'Installer.InfinitasFixture'
+		);
 		
 		private $__plugin = null;
 

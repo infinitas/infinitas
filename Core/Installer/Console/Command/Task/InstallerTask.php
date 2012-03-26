@@ -1,8 +1,9 @@
-<?php
-	App::import('lib', 'Libs.InfinitasAppShell');
-	
-	class InstallerTask extends InfinitasAppShell {
-		public $tasks = array('Installer.Installer', 'Installer.InfinitasPlugin');
+<?php	
+	class InstallerTask extends AppShell {
+		public $tasks = array(
+			'Installer.Installer', 
+			'Installer.InfinitasPlugin'
+		);
 
 		public $config = array(
 			'engine' => '',
@@ -138,9 +139,13 @@
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 
 			foreach($plugins as $plugin){
-				$output = sprintf('Update for %s has failed :(', $plugin);
-				if($Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false))){
+				try {
+					$Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
 					$output = sprintf('%s Plugin updated', $plugin);
+				}
+				
+				catch(Exception $e) {
+					$output = sprintf('Update for %s has failed (%s)', $plugin, $e->getMessage());
 				}
 
 				$this->out($output);
@@ -162,12 +167,15 @@
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 
 			foreach($plugins as $plugin){
-				$output = sprintf('Update for %s has failed :(', $plugin);
-				if($Plugin->installPlugin($plugin)){
+				try{
+					$Plugin->installPlugin($plugin);
 					$output = sprintf('%s Plugin updated', $plugin);
 				}
-				else{
-					pr($Plugin->installError);
+				
+				catch(Exception $e) {
+					$this->out(sprintf('Update for %s has failed (%s)', $plugin, $e->getMessage()));
+					$e->getTrace();
+					continue;
 				}
 
 				$this->out($output);

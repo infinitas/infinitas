@@ -264,7 +264,9 @@
 			);
 
 			$db = ConnectionManager::getDataSource($this->connection);
-			if (!in_array($db->fullTableName('schema_migrations', false), $db->listSources())) {
+			list(,$tableName) = pluginSplit($db->fullTableName('schema_migrations', false));
+			
+			if (!in_array($tableName, $db->listSources())) {
 				$map = $this->__loadFile('map', 'Migrations');
 
 				list($name, $class) = each($map[1]);

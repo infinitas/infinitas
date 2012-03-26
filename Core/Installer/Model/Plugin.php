@@ -222,7 +222,7 @@
 		 * @return mixed false on fail, true on success
 		 */
 		private function __processRelease($pluginName, $sampleData = false) {
-			App::import('Lib', 'Installer.ReleaseVersion');
+			App::uses('ReleaseVersion', 'Installer.Lib');
 
 			try {
 				$Version = new ReleaseVersion();
@@ -239,12 +239,7 @@
 			}
 			
 			catch(Exception $e) {
-				$this->installError[] = array(
-					'version' => $e->migration['info']['version'],
-					'message' => $e->xdebug_message
-				);
-				
-				return false;
+				throw $e;
 			}
 
 			return true;

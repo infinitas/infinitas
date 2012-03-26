@@ -1,25 +1,27 @@
 <?php
-	App::import('Lib', 'Installer.Installer');
+	App::uses('InstallerLib', 'Installer.Lib');
 	
 	class InstallShell extends AppShell {
-		public $tasks = array('Infinitas', 'Installer', 'InfinitasPlugin');
+		public $tasks = array(
+			'Installer.Installer', 'Installer.InfinitasPlugin'
+			);
 
 		/**
 		 * help
 		 */
 		public function help(){
-			$this->Infinitas->h1('Interactive Install Shell Help');
-			$this->Infinitas->p(
+			$this->h1('Interactive Install Shell Help');
+			$this->p(
 				'The interactive shell is for installing / deploying Infinitas '.
 				'powered plugins. You will be asked to enter your database credentials '.
 				'and then attempt to install the application. '
 			);
 
-			$this->Infinitas->h2(
+			$this->h2(
 				'Available Options'
 			);
 
-			$this->Infinitas->li(
+			$this->li(
 				array(
 					'cake install - interactive installer',
 					'cake install all - full installation',
@@ -27,7 +29,7 @@
 				)
 			);
 
-			$this->Infinitas->helpPause();
+			$this->helpPause();
 		}
 
 		public function  __construct(&$dispatch) {
@@ -38,8 +40,8 @@
 
 		public function main() {			
 			do {
-				$this->Infinitas->h1('Interactive Install Shell');
-				$this->Infinitas->li(
+				$this->h1('Interactive Install Shell');
+				$this->li(
 					array(
 						'[E]verything',
 						'[P]lugin',
@@ -51,7 +53,7 @@
 						'[Q]uit'
 					)
 				);
-				$this->Infinitas->br();
+				$this->br();
 				$input = strtoupper($this->in('What do you wish to release?'));
 
 				switch ($input) {
@@ -81,15 +83,15 @@
 
 					case 'L':
 						$this->license();
-						$this->Infinitas->helpPause();
+						$this->helpPause();
 						break;
 
 					case 'Q':
-						$this->Infinitas->quit();
+						$this->quit();
 						break;
 
 					default:
-						$this->Infinitas->p('Invalid option');
+						$this->p('Invalid option');
 						break;
 				}
 			} while($input != 'Q');
@@ -109,8 +111,8 @@
 		 */
 		public function plugin(){
 			do {
-				$this->Infinitas->h1('Interactive Install Shell');
-				$this->Infinitas->li(
+				$this->h1('Interactive Install Shell');
+				$this->li(
 					array(
 						'[U]pdate a plugin',
 						'[Z]ip file install',
@@ -120,7 +122,7 @@
 						'[Q]uit'
 					)
 				);
-				$this->Infinitas->br();
+				$this->br();
 				$input = strtoupper($this->in('What do you wish to release?'));
 
 				switch ($input) {
@@ -137,19 +139,19 @@
 						break;
 
 					case 'H':
-						$this->Infinitas->p('If you have updated your code and ' .
+						$this->p('If you have updated your code and ' .
 							'need to update the plugin use [U]pdate');
-						$this->Infinitas->p('If you have downloaded a file and ' .
+						$this->p('If you have downloaded a file and ' .
 							'need to install from the zip file use [Z]ip file');
-						$this->Infinitas->p('If you would like infinitas to downlad ' .
+						$this->p('If you would like infinitas to downlad ' .
 							'and install the plugin use [O]ver the air');
-						$this->Infinitas->p('If you have writen a custom plugin ' .
+						$this->p('If you have writen a custom plugin ' .
 							'and would like it installed use [L]ocal install');
-						$this->Infinitas->helpPause();
+						$this->helpPause();
 						break;
 
 					default:
-						$this->Infinitas->p('Invalid option');
+						$this->p('Invalid option');
 						break;
 				}
 			} while($input != 'Q');
