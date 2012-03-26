@@ -178,8 +178,20 @@
 			}
 			
 			$module = sprintf('%s.%s', $plugin, $module);
-
-			return $this->_View->element($module, array('config' => $params));
+			
+			try{
+				return $this->_View->element($module, array('config' => $params));
+			}
+			
+			catch(Exception $e) {
+				$message = sprintf(
+					'Error: Could not load module "%s" (%s)',
+					$module,
+					$e->getMessage()
+				);
+				
+				throw new Exception($message);
+			}
 		}
 
 		/**
