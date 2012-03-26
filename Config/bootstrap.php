@@ -39,6 +39,7 @@
 	
 	App::uses('ClearCache', 'Data.Lib');
 	App::uses('EventCore', 'Events.Lib');
+	App::uses('InfinitasRouter', 'Routes.Routing');
 	
 	
 	/**
