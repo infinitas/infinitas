@@ -1,4 +1,8 @@
 <?php
+	if(!empty($config)) {
+		extract($config);
+	}
+	
 	if(empty($chartData)) {
 		if(empty($model) || empty($foreignKey)) {
 			throw new CakeException('Missing model or foreignKey');
