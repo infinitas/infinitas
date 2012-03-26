@@ -179,7 +179,7 @@
 			
 			$module = sprintf('%s.%s', $plugin, $module);
 
-			return $this->_View->element($module, $params);
+			return $this->_View->element($module, array('config' => $params));
 		}
 
 		/**
