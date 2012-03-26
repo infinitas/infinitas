@@ -224,6 +224,10 @@
 			if(empty($data['MenuItem'])) {
 				throw new Exception('Menu item is not valid');
 			}
+			
+			if(!empty($data['MenuItem']['link'])) {
+				return $data['MenuItem']['link'];
+			}
 
 			$url = array_merge(
 				array(
