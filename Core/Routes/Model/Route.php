@@ -102,8 +102,13 @@
 		public function beforeSave($options = array()) {
 			parent::beforeSave($options);
 
-			$this->data[$this->alias]['plugin'] = Inflector::underscore($this->data[$this->alias]['plugin']);
-			$this->data[$this->alias]['controller'] = str_replace('_controller', '', Inflector::underscore($this->data[$this->alias]['controller']));
+			if(!empty($this->data[$this->alias]['plugin'])) {
+				$this->data[$this->alias]['plugin'] = Inflector::underscore($this->data[$this->alias]['plugin']);
+			}
+			
+			if(!empty($this->data[$this->alias]['controller'])) {
+				$this->data[$this->alias]['controller'] = str_replace('_controller', '', Inflector::underscore($this->data[$this->alias]['controller']));
+			}
 
 			return true;
 		}
