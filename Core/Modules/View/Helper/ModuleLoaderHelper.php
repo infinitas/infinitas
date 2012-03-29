@@ -151,7 +151,7 @@
 			// @check plugin is loaded
 			// if not plugin return 'plugin foobar is not loaded / does not exist'
 
-			$admin = $this->_View->request->params['admin'] || (isset($params['admin']) && $params['admin']);
+			$admin = (isset($this->_View->request->params['admin']) && $this->_View->request->params['admin']) || (isset($params['admin']) && $params['admin']);
 			if($admin && (isset($params['admin']) && $params['admin'] == false)) {
 				$admin = false;
 			}
