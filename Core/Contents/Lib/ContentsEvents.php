@@ -144,7 +144,7 @@
 			}
 			
 			if(!empty($data['GlobalCategory'])) {
-				$data = array('type' => 'GlobalCategory', 'data' => array('GlobalCategory' => $data));
+				$data = array('type' => 'category', 'data' => array('GlobalCategory' => $data));
 			}
 			
 			switch($data['type']) {
@@ -152,7 +152,6 @@
 					$data['type'] = 'category';
 					break;
 			}
-			
 			return parent::onSlugUrl($event, $data['data'], $data['type']);
 		}
 	}

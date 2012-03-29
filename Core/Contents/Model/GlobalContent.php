@@ -74,7 +74,8 @@
 			'categoryList' => true,
 			'getRelationsCategory' => true,
 			'latestList' => true,
-			'popularList' => true
+			'popularList' => true,
+			'search' => true
 		);
 
 		public function __construct($id = false, $table = null, $ds = null) {
@@ -231,13 +232,13 @@
 				$query['conditions'] = array_merge(
 					(array)$query['conditions'],
 					array(
-						'GlobalContent.model' => 'Contents.GlobalCategory'
+						$this->alias . '.model' => 'Contents.' . $this->GlobalCategory->alias,
 					)
 				);
 
 				$query['fields'] = array(
-					'GlobalContent.foreign_key',
-					'GlobalContent.title',
+					$this->alias . '.foreign_key',
+					$this->alias . '.' . $this->displayField,
 				);
 
 				return $query;
@@ -278,6 +279,23 @@
 				if($Model->hasField('views')) {
 					$query['order'] = array($Model->alias. '.views' => 'desc');
 				}
+				
+				return $query;
+			}
+			
+			return $results;
+		}
+		
+		protected function _findSearch($state, $query, $results = array()) {				
+			if ($state === 'before') {
+				if(empty($query[0])) {
+					throw new Exception('No search term defined');
+				}
+				
+				$query['conditions'] = array(
+					sprintf('%s.title LIKE \'%%%s%%\'', $this->alias, Sanitize::paranoid($query[0])),
+					sprintf('%s.full_text_search LIKE \'%%%s%%\'', $this->alias, Sanitize::paranoid($query[0]))
+				);
 				
 				return $query;
 			}
