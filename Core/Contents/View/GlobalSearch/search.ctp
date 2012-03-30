@@ -22,11 +22,11 @@
 		);
 	}
 	
+	$search = $this->Form->create(null, array('inputDefaults' => array('label' => false, 'div' => false)));
+		$search .= $this->Form->input('search', array('value' => $this->request->pass[0]));
+		$search .= $this->Form->input('global_category_id', array('options' => $globalCategories));
+		$search .= $this->Form->submit(__d('contents', 'Search'), array('class' => 'submit'));
+	$search .= $this->Form->end();
 	
-	echo $this->Form->create(null, array('inputDefaults' => array('label' => false, 'div' => false)));
-		echo $this->Form->input('search', array('value' => $this->request->pass[0]));
-		echo $this->Form->input('global_category_id', array('options' => $globalCategories));
-		echo $this->Form->submit();
-	echo $this->Form->end();
-	
-	echo implode('', $results);
+	echo sprintf('<div class="search">%s</div>', $search) . implode('', $results);
+        echo $this->element('pagination/navigation');
