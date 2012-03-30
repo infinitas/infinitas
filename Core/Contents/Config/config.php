@@ -6,6 +6,8 @@
 				 'SubCategory.slug' => 'category',
 				 'GlobalCategory.id' => 'id',
 				 'GlobalCategory.slug' => 'slug',
+				 'GlobalCategory.GlobalContent.foreign_key' => 'id',
+				 'GlobalCategory.GlobalContent.slug' => 'slug',
 				 'url' => array(
 					 'plugin' => 'contents',
 					 'controller' => 'global_categories',

@@ -1,5 +1,10 @@
 <?php
 	class GlobalContentsHelper extends AppHelper {
+		public $helpers = array(
+			'Events.Event',
+			'Html'
+		);
+		
 		/**
 		 * @brief generate a link to view an author
 		 * 
@@ -31,6 +36,14 @@
 
 			$return = $this->__renderCss($data);
 			$return .= $this->__renderHtml($data);
+		}
+		
+		public function url($data) {
+			list($plugin, $model) = pluginSplit($data['GlobalContent']['model']);
+			
+			$event = $this->Event->trigger($plugin . '.slugUrl', $data);
+			
+			return current($event['slugUrl']);
 		}
 
 		private function __renderCss($data) {
