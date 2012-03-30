@@ -1,7 +1,8 @@
 <?php
 	class GlobalContentsHelper extends AppHelper {
 		public $helpers = array(
-			'Events.Event'
+			'Events.Event',
+			'Html'
 		);
 		
 		/**
