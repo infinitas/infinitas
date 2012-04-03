@@ -132,11 +132,12 @@
 		 *
 		 * @param bool $fields the fields to compare
 		 */
-		public function validateCompareFields($Model, $field, $fields){
+		public function validateCompareFields($Model, $field, $fields) {
 			if($fields[0] == 'password'){
 				if(!class_exists('Security')){
 					App::import('Security');
 				}
+				
 				return Security::hash($Model->data[$Model->alias][$fields[1]], null, true) === $Model->data[$Model->alias][$fields[0]];
 			}
 

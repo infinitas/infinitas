@@ -75,7 +75,7 @@
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Form->checkbox( $user['User']['id'] ); ?>&nbsp;</td>
 						<td>
-							<?php echo $this->Html->link( $user['User']['username'], array('action' => 'edit', $user['User']['id'])); ?>&nbsp;
+							<?php echo $this->Infinitas->adminQuickLink($user['User']); ?>&nbsp;
 						</td>
 						<td>
 							<?php echo $this->Text->autoLinkEmails($user['User']['email']); ?>&nbsp;

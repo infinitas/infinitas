@@ -44,57 +44,57 @@
 				'username' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter your username')
+						'message' => __d('users', 'Please enter your username')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('That username is taken, sorry')
+						'message' => __d('users', 'That username is taken, sorry')
 					)
 				),
 				'email' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter your email address')
+						'message' => __d('users', 'Please enter your email address')
 					),
 					'email' => array(
 						'rule' => array('email', true),
-						'message' => __('That email address does not seem to be valid')
+						'message' => __d('users', 'That email address does not seem to be valid')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('It seems you are already registered, please use the forgot password option')
+						'message' => __d('users', 'It seems you are already registered, please use the forgot password option')
 					)
 				),
 				'confirm_email' => array(
 					'validateCompareFields' => array(
 						'rule' => array('validateCompareFields', array('email', 'confirm_email')),
-						'message' => __('Your email address does not match')
+						'message' => __d('users', 'Your email address does not match')
 					)
 				),
 				'password' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter a password')
+						'message' => __d('users', 'Please enter a password')
 					)
 				),
 				'confirm_password' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please re-enter your password')
+						'message' => __d('users', 'Please re-enter your password')
 					),
 					'validPassword' => array(
 						'rule' => 'validPassword',
-						'message' => (!empty($message) ? $message : __('Please enter a stronger password'))
+						'message' => (!empty($message) ? $message : __d('users', 'Please enter a stronger password'))
 					),
 					'validateCompareFields' => array(
 						'rule' => array('validateCompareFields', array('password', 'confirm_password')),
-						'message' => __('The passwords entered do not match')
+						'message' => __d('users', 'The passwords entered do not match')
 					)
 				),
 				'time_zone' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select a time zone')
+						'message' => __d('users', 'Please select a time zone')
 					)
 				),
 			);
@@ -109,10 +109,8 @@
 		 * @param array $options see parent::beforeValidate
 		 * @return parent::beforeValidate
 		 */
-		public function beforeValidate($options){
-			if($this->alias != 'User' && isset($this->data[$this->alias]['password'])){
-				$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
-			}
+		public function beforeValidate($options) {
+			$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
 
 			return parent::beforeValidate($options);
 		}
