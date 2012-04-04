@@ -4,7 +4,8 @@
 	 *
 	 * Used to configure some base settings and load configs from all the plugins in the app.
 	 */
-	if(substr(env('SERVER_ADDR'), 0, 3) == 127){
+
+	if(substr(env('SERVER_ADDR'), 0, 3) == 127 || substr(env('HTTP_HOST'), -3) == 'dev'){
 		Configure::write('debug', 2);
 	}
 	else{
