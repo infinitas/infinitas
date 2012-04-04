@@ -318,13 +318,12 @@
 		 */
 		public function orderedMove(){
 			$modelName = $this->Controller->modelClass;
-
-			$orderable = isset($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']) &&
-				!empty($this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']);
+			
+			$orderable = isset($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']) &&
+				!empty($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']);
 
 			if ($orderable) {
-				$this->Controller->request->data[$modelName][$this->Controller->$modelName->actsAs['Libs.Sequence']['order_field']] =
-					$this->Controller->params['named']['position'];
+				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
 			}
 			else{
 				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->params['position'];
