@@ -110,7 +110,9 @@
 		 * @return parent::beforeValidate
 		 */
 		public function beforeValidate($options) {
-			$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
+			if(!empty($this->data[$this->alias]['confirm_password'])) {
+				$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
+			}
 
 			return parent::beforeValidate($options);
 		}
