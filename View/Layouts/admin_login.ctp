@@ -23,6 +23,13 @@
 			);
     		echo $scripts_for_layout;
         ?>
+		<script type="text/javascript">
+			Infinitas = {};
+			Infinitas.params.prefix = 'admin';
+			if (Infinitas.base != '/') {
+				Infinitas.base = Infinitas.base + '/';
+			}
+		</script>
 	</head>
 	<body>
 		<div id="wrap">
@@ -43,6 +50,8 @@
 					<h1><?php echo __('Infinitas Cms'); ?></h1>
 					<?php
 						echo $content_for_layout;
+						echo $this->Compress->script($js_for_layout);
+						echo $scripts_for_layout;
 					?>
 				</div>
 				<div class="powered-by">Powered By: <?php echo $this->Html->link('Infinitas', 'http://infinitas-cms.org');?></div>
