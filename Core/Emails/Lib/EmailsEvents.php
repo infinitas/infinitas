@@ -106,6 +106,7 @@
 		}
 
 		public function onRunCrons($event) {
+			return false;
 			$accounts = ClassRegistry::init('Emails.EmailAccount')->getCronAccounts();
 
 			foreach($accounts as $account){

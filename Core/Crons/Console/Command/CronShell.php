@@ -9,13 +9,16 @@
 	 * @todo figure out the heavy load jobs
 	 *
 	 * @todo fun heavy jobs in quite times
+	 *
+	 * @property EventCore EventCoreTask
+	 * @property CronLock CronLockTask
+	 * @property CronResource CronResourceTask
 	 */
-	class CronShell extends Shell{
+	class CronShell extends AppShell {
 		public $tasks = array(
-			'Infinitas',
-			'Event',
-			'CronLock',
-			'CronResource'
+			'Events.Event',
+			'Crons.CronLock',
+			'Crons.CronResource'
 		);
 
 		public $times = array(
@@ -27,33 +30,11 @@
 
 		public $jobsRun = 0;
 
-		/**
-		 * @breif the EventCore object
-		 *
-		 * @property EventCore
-		 */
-		public $Event;
-
-		/**
-		 * @brief the CronLockTask keeps the crons running the way they should
-		 *
-		 * @property CronLock
-		 */
-		public $CronLock;
-
-		/**
-		 * @brief the CronResourceTask makes sure the server does not get overloaded
-		 *
-		 * @property CronResource
-		 */
-		public $CronResource;
-
-		private $__verbose = false;
-
 		private $__start;
 
-		public function __construct(&$dispatch) {
-			parent::__construct($dispatch);
+		public function __construct($stdout = null, $stderr = null, $stdin = null) {
+			parent::__construct($stdout, $stderr, $stdin);
+			
 			$this->times['months'][date('m')]  = 1;
 			$this->times['days'][date('j')]	= 1;
 			$this->times['hours'][date('H')]   = 1;
@@ -61,14 +42,14 @@
 		}
 		
 		public function help(){
-			$this->Infinitas->h1('Cron Help');
-			$this->Infinitas->p(
+			$this->h1('Cron Help');
+			$this->p(
 				'The Infinitas cron shell is designed to be set up and run '.
 				'every minute or two, and provides a method for running all sorts '.
 				'of crons from the one crontab. To get started determin '.
 				'add the command below to your cron tab, then sit back and enjoy'
 			);
-			$this->Infinitas->p(
+			$this->p(
 				'The advantage of this system is that there is one point '.
 				'of entry so you do not need to set up and manage many different '.
 				'cron jobs. Every run will be passed off to each plugin and they '.
@@ -77,12 +58,12 @@
 				'till the server is less busy.'
 			);
 
-			$this->Infinitas->p(
+			$this->p(
 				'If you want to run the cron manually you can do so by '.
 				'running cake cron -v which will output all the information '.
 				'to screen as well as the log files'
 			);
-			$this->Infinitas->h2('YOUR CRON CONFIG');
+			$this->h2('YOUR CRON CONFIG');
 			
 			$cron = sprintf(
 				'*/1 * * * * %svendors/cron_dispacher cron -console %s/cake/console -app %s',
@@ -95,17 +76,14 @@
 			$this->out();
 		}
 
-		public function main(){
-			$this->__verbose = $this->CronResource->verbose = isset($this->params['v']) && $this->params['v'];
+		public function main() {
+			$this->params['only'] = isset($this->params['only']) ? $this->params['only'] : array();
 			
-			if(!isset($this->Dispatch->params['only'])){
-				$this->Dispatch->params['only'] = array();
-			}
-			else{
-				$this->Dispatch->params['only'] = explode(',', $this->Dispatch->params['only']);
+			if(!is_array($this->params['only'])) {
+				$this->params['only'] = explode(',', (array)$this->params['only']);
 			}
 			
-			if(!$this->__verbose && !$this->CronLock->checkTimePassed()){
+			if(!$this->params['verbose'] && !$this->CronLock->checkTimePassed()){
 				$this->CronResource->log(sprintf('skipping (%s)', date('Y-m-d H:i:s')));
 				return false;
 			}
@@ -127,7 +105,7 @@
 			
 			$count = 0;
 			foreach($plugins as $plugin){
-				if(!empty($this->Dispatch->params['only']) && !in_array($plugin, $this->Dispatch->params['only'])){
+				if(!empty($this->params['only']) && !in_array($plugin, $this->params['only'])){
 					continue;
 				}
 				
@@ -150,19 +128,20 @@
 		 *
 		 * @access public
 		 */
-		protected function _start(){
-			if($this->__verbose){ $this->Dispatch->clear(); }
+		protected function _start() {
+			$this->clear(); 
+			
 			$this->CronResource->log('Infinitas Cron dispacher');
 			$this->CronResource->log(sprintf('Cron started	   :: %s', date('Y-m-d H:i:s')));
-			if($this->__verbose){ $this->CronResource->hr(); }
+			$this->hr();
 
 			$this->CronResource->logMemoryUsage('startup');
 
 			return $this->CronLock->start();
 		}
 
-		protected function _abort(){
-			if($this->__verbose){
+		protected function _abort() {
+			if($this->params['verbose']) {
 				return true;
 			}
 			
@@ -180,9 +159,7 @@
 
 			$this->CronResource->log(sprintf('Cron Ended	   :: %s', date('Y-m-d H:i:s')));
 
-			if($this->__verbose){
-				$this->CronResource->hr();
-			}
+			$this->hr();
 			
 			$this->CronResource->stats();
 

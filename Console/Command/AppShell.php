@@ -34,12 +34,14 @@
 			InfinitasPlugin::loadForInstaller();
 
 			parent::__construct($stdout, $stderr, $stdin);
+			
+			$this->__verbose = isset($this->params['verbose']) && $this->params['verbose'];
 		}
 		
 		/**
 		 * @brief create a heading for infinitas shell stuff
 		 */
-		public function h1($title){
+		public function h1($title) {			
 			$this->clear();
 			$this->out("         _____        __ _       _ _");
 			$this->out("        |_   _|	     / _(_)     (_) |");

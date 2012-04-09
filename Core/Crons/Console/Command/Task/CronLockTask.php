@@ -1,5 +1,5 @@
 <?php
-	class CronLockTask extends Shell {
+	class CronLockTask extends AppShell {
 		public $uses = array(
 			'Crons.Cron'
 		);

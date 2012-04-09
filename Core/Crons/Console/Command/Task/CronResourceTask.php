@@ -26,10 +26,8 @@
 		 *
 		 * @return boolean Success of log write
 		 */
-		public function log($message){
-			if($this->verbose){
-				$this->out($message);
-			}
+		public function log($message) {
+			$this->out($message);
 
 			return parent::log($message, 'cron_jobs');
 		}

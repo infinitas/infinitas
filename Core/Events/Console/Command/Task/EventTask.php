@@ -1,5 +1,5 @@
 <?php
-	class EventTask extends Shell{
+	class EventTask extends AppShell {
 		/**
 		 * Trigger a event
 		 *
@@ -8,7 +8,7 @@
 		 * @return array:
 		 */
 		public function trigger($eventName, $data = array()){
-			return EventCore::trigger($this->Controller, $eventName, $data);
+			return EventCore::trigger($this, $eventName, $data);
 		}
 
 		public function pluginsWith($eventName){
