@@ -132,12 +132,15 @@
 		 * 
 		 * @return bool are there jobs recently
 		 */
-		public function countJobsAfter($date){
+		public function countJobsAfter($date) {
 			$data = $this->find(
 				'count',
 				array(
 					'conditions' => array(
-						'Cron.created > ' => $date
+						$this->alias . '.year' => date('Y', strtotime($date)),
+						$this->alias . '.month' => (int)date('m', strtotime($date)),
+						$this->alias . '.day' => (int)date('d', strtotime($date)),
+						$this->alias . '.start_time >' => date('H:i:s', strtotime($date)),
 					)
 				)
 			);
