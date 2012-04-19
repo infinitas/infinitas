@@ -262,7 +262,7 @@
 		 *
 		 */
 		public function onSlugUrl($event, $data = null, $type = null) {
-			if($data == null && $type == null) {
+			if(empty($data) || $type == null) {
 				return false;
 			}
 			
