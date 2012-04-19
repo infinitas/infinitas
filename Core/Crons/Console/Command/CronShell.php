@@ -39,6 +39,8 @@
 			$this->times['days'][date('j')]	= 1;
 			$this->times['hours'][date('H')]   = 1;
 			$this->times['minutes'][date('i')] = 1;
+			
+			Configure::write('debug', 2);
 		}
 		
 		public function help(){
@@ -109,15 +111,21 @@
 					continue;
 				}
 				
-				$data = $this->Event->trigger(sprintf('%s.runCrons', $plugin));
+				try{
+					$data = $this->Event->trigger(sprintf('%s.runCrons', $plugin));
+				}
+				catch(Exception $e) {
+					$this->out($e->getMessage());
+				}
 
-				$jobRan = current($data['runCrons']);
+				$jobRan = isset($data['runCrons']) && current($data['runCrons']);
 				if($jobRan){
 					++$this->jobsRun;
 				}
 
 				$this->CronResource->logMemoryUsage(sprintf('%s - %s', ($jobRan) ? '✔' : '☐', $plugin));
 			}
+			
 			unset($plugins);
 
 			return true;
