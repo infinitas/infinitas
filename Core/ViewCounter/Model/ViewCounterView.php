@@ -811,4 +811,9 @@
 				)
 			);
 		}
+		
+		public function beforeSave($options = array()) {
+			unset($this->belongsTo['Image']);
+			return parent::beforeSave($options);
+		}
 	}

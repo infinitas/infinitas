@@ -40,7 +40,7 @@
 		 * @param array $settings Settings to override for model.
 		 * @access public
 		 */
-		public function setup(&$Model, $settings = array()) {
+		public function setup($Model, $settings = array()) {
 			$default = array(
 				'view_counter' => 'views',
 				'session_tracking' => 20
@@ -74,7 +74,7 @@
 				array(
 					'belongsTo' => array(
 						$Model->alias => array(
-							'className' => $Model->alias,
+							'className' => $Model->plugin . '.' .$Model->alias,
 							'foreignKey' => 'foreign_key',
 							'counterCache' => 'views'
 						)
