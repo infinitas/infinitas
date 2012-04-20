@@ -142,48 +142,54 @@
 				return $routes;
 			}
 
-			$routes = $this->find(
-				'all',
-				array(
-					'fields' => array(
-						$this->alias . '.url',
-						$this->alias . '.prefix',
-						$this->alias . '.plugin',
-						$this->alias . '.controller',
-						$this->alias . '.action',
-						$this->alias . '.values',
-						$this->alias . '.pass',
-						$this->alias . '.rules',
-						$this->alias . '.force_backend',
-						$this->alias . '.force_frontend',
-						$this->alias . '.theme_id',
-						$this->alias . '.layout',
-						$this->Theme->alias . '.' . $this->Theme->primaryKey,
-						$this->Theme->alias . '.' . $this->Theme->displayField,
-						$this->Theme->alias . '.default_layout',
-					),
-					'conditions' => array(
-						$this->alias . '.active' => 1
-					),
-					'order' => array(
-						$this->alias . '.ordering' => 'ASC'
-					),
-					'joins' => array(
-						array(
-							'table' => $this->Theme->tablePrefix . $this->Theme->useTable,
-							'alias' => $this->Theme->alias,
-							'type' => 'LEFT',
-							'conditions' => array(
-								sprintf(
-									'%s.%s = %s.%s',
-									$this->alias, $this->belongsTo[$this->Theme->alias]['foreignKey'],
-									$this->Theme->alias, $this->Theme->primaryKey
-								)
+			$config = array(
+				'fields' => array(
+					$this->alias . '.url',
+					$this->alias . '.prefix',
+					$this->alias . '.plugin',
+					$this->alias . '.controller',
+					$this->alias . '.action',
+					$this->alias . '.values',
+					$this->alias . '.pass',
+					$this->alias . '.rules',
+					$this->alias . '.force_backend',
+					$this->alias . '.force_frontend',
+					$this->alias . '.theme_id',
+					$this->alias . '.layout',
+					$this->Theme->alias . '.' . $this->Theme->primaryKey,
+					$this->Theme->alias . '.' . $this->Theme->displayField,
+					$this->Theme->alias . '.default_layout',
+				),
+				'conditions' => array(
+					$this->alias . '.active' => 1
+				),
+				'order' => array(
+					$this->alias . '.ordering' => 'ASC'
+				),
+				'joins' => array(
+					array(
+						'table' => $this->Theme->tablePrefix . $this->Theme->useTable,
+						'alias' => $this->Theme->alias,
+						'type' => 'LEFT',
+						'conditions' => array(
+							sprintf(
+								'%s.%s = %s.%s',
+								$this->alias, $this->belongsTo[$this->Theme->alias]['foreignKey'],
+								$this->Theme->alias, $this->Theme->primaryKey
 							)
 						)
 					)
 				)
 			);
+			
+			try {
+				$routes = $this->find('all', $config);
+			}
+			
+			catch(Exception $e) {
+				CakeLog::write('core', $e->getMessage());
+				$routes = array();
+			}
 
 			$config = array();
 			$routingRules = array();

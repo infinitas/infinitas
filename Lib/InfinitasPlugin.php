@@ -113,20 +113,27 @@
 				}
 			}
 			
-			CakePlugin::load($plugin, $config);
+			if(!in_array($plugin, App::objects('plugin'))) {
+				return false;
+			}
+			
 			try {
+				CakePlugin::load($plugin, $config);
 				if(Configure::read($plugin) === null) {
 					Configure::load($plugin . '.config');
 				}
 			}
+			
 			catch(ConfigureException $e) {
 				CakeLog::write('exception', $e->getMessage());
 			}
 			
 			App::uses($plugin . 'AppModel', $plugin . '.Model');
 			App::uses($plugin . 'AppController', $plugin . '.Controller');
-			
+
 			self::$__plugins['loaded'][] = $plugin;
+			
+			return true;
 		}
 
 		/**

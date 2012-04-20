@@ -72,23 +72,30 @@
 			if ($theme !== false) {
 				return $theme;
 			}
-
-			$theme = $this->find(
-				'first',
-				array(
-					'fields' => array(
-						$this->alias . '.' . $this->primaryKey,
-						$this->alias . '.' . $this->displayField,
-						$this->alias . '.default_layout',
-						$this->alias . '.core'
-					),
-					'conditions' => array(
-						$this->alias . '.active' => true
+			
+			try {
+				$theme = $this->find(
+					'first',
+					array(
+						'fields' => array(
+							$this->alias . '.' . $this->primaryKey,
+							$this->alias . '.' . $this->displayField,
+							$this->alias . '.default_layout',
+							$this->alias . '.core'
+						),
+						'conditions' => array(
+							$this->alias . '.active' => true
+						)
 					)
-				)
-			);
+				);
 
-			Cache::write('current_theme', $theme, 'core');
+				Cache::write('current_theme', $theme, 'core');
+			}
+			
+			catch(Exception $e) {
+				CakeLog::write('core', $e->getMessage());
+				$theme = array();
+			}
 
 			return $theme;
 		}
