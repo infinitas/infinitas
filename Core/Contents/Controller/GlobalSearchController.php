@@ -29,7 +29,11 @@
 					)
 				);
 			}
-			$this->request->data[$this->modelClass]['global_category_id'] = $this->request->params['named']['global_category_id'];
+			
+			if(!empty($this->request->params['named']['global_category_id'])) {
+				$this->request->data[$this->modelClass]['global_category_id'] = $this->request->params['named']['global_category_id'];
+			}
+			
 			$this->set(
 				'globalCategories', 
 				array_merge(array(null => __d('contents', 'All')), $this->{$this->modelClass}->find('categoryList'))
