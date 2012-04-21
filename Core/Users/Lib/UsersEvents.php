@@ -34,21 +34,21 @@
 			/**
 			 * frontend urls
 			 */
-			InfinitasRouter::connect('/profile', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'view'));
-			InfinitasRouter::connect('/login', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'login'));
-			InfinitasRouter::connect('/logout', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'logout'));
-			InfinitasRouter::connect('/register', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'register'));
-			InfinitasRouter::connect('/activate-account', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'activate'));
-			InfinitasRouter::connect('/forgot-password', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'forgot_password'));
-			InfinitasRouter::connect('/reset-password', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'reset_password'));
+			InfinitasRouter::connect('/profile', array('plugin' => 'users', 'controller' => 'users', 'action' => 'view'));
+			InfinitasRouter::connect('/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
+			InfinitasRouter::connect('/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout'));
+			InfinitasRouter::connect('/register', array('plugin' => 'users', 'controller' => 'users', 'action' => 'register'));
+			InfinitasRouter::connect('/activate-account', array('plugin' => 'users', 'controller' => 'users', 'action' => 'activate'));
+			InfinitasRouter::connect('/forgot-password', array('plugin' => 'users', 'controller' => 'users', 'action' => 'forgot_password'));
+			InfinitasRouter::connect('/reset-password', array('plugin' => 'users', 'controller' => 'users', 'action' => 'reset_password'));
 
 			/**
 			 * admin urls
 			 */
-			InfinitasRouter::connect('/admin/users', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'dashboard', 'admin' => true, 'prefix' => 'admin'));
-			InfinitasRouter::connect('/admin/users/users/index', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'index', 'admin' => true, 'prefix' => 'admin'));
-			InfinitasRouter::connect('/admin/login', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'));
-			InfinitasRouter::connect('/admin/logout', array('plugin' => 'Users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
+			InfinitasRouter::connect('/admin/users/users/index', array('plugin' => 'users', 'controller' => 'users', 'action' => 'index', 'admin' => true, 'prefix' => 'admin'));
+			InfinitasRouter::connect('/admin/users', array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard', 'admin' => true, 'prefix' => 'admin'));
+			InfinitasRouter::connect('/admin/login', array('plugin' => 'users', 'controller' => 'users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'));
+			InfinitasRouter::connect('/admin/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
 		}
 
 		public function onRequireComponentsToLoad($events){
