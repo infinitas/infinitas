@@ -396,20 +396,18 @@
 				$url = array_merge($url, array(0 => $id));
 			}
 			else{
-				$url .= '/'.$id;
+				$url .= '/' . $id;
 			}
 
 			if($urlOnly){
 				return $url;
 			}
 
-			$link = '';
+			$link = $text;
 			if(!$text){
 				$link = $id;
 			}
-			else{
-				$link = $text;
-			}
+			
 			return $this->Html->link($link, $url);
 		}
 
