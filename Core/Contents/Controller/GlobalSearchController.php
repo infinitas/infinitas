@@ -15,8 +15,9 @@
 				$this->redirect($url);
 			}
 			
+			$category = !empty($this->request->params['named']['global_category_id']) ? $this->request->params['named']['global_category_id'] : null;
 			try {
-				$this->Paginator->settings = array('search', Sanitize::paranoid($term), $this->request->params['named']['global_category_id']);
+				$this->Paginator->settings = array('search', Sanitize::paranoid($term), $category);
 				$this->set('search', $this->Paginator->paginate());
 			}
 			
@@ -30,9 +31,7 @@
 				);
 			}
 			
-			if(!empty($this->request->params['named']['global_category_id'])) {
-				$this->request->data[$this->modelClass]['global_category_id'] = $this->request->params['named']['global_category_id'];
-			}
+			$this->request->data[$this->modelClass]['global_category_id'] = $category;
 			
 			$this->set(
 				'globalCategories', 
