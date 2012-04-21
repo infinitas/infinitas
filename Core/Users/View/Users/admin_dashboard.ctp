@@ -5,6 +5,7 @@
 			'description' => 'Manage your sites users',
 			'icon' => '/users/img/icon.png',
 			'dashboard' => array(
+				'controller' => 'users',
 				'action' => 'index'
 			)
 		),
@@ -27,6 +28,7 @@
 			)
 		)
 	);
+	
 	$dashboardIcons = $this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard');
 ?>
 <div class="dashboard grid_16">

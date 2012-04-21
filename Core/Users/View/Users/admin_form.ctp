@@ -30,7 +30,7 @@
 		</fieldset>
 		<fieldset>
 			<h1><?php echo __('Details'); ?></h1><?php
-			echo $this->Form->input('birthday');
+			echo $this->Form->input('birthday', array('empty' => false, 'minYear' => date('Y') - 110, 'maxYear' => date('Y') - 13));
 			echo $this->Form->input('group_id'); ?>
 		</fieldset> 
 	<?php echo $this->Form->end(); ?>
