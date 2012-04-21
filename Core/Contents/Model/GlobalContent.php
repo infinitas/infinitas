@@ -293,8 +293,17 @@
 				}
 				
 				$query['conditions'] = array(
-					sprintf('%s.title LIKE \'%%%s%%\'', $this->alias, Sanitize::paranoid($query[0])),
-					sprintf('%s.full_text_search LIKE \'%%%s%%\'', $this->alias, Sanitize::paranoid($query[0]))
+					sprintf('%s.full_text_search LIKE \'%%%s%%\'', $this->alias, $query[0]),
+					$this->alias . '.model NOT LIKE' => '%Category%'
+				);
+				
+				if(!empty($query[1])) {
+					$query['conditions']['GlobalCategory.id'] = $query[1];
+					unset($query[1]);
+				}
+				
+				$query['order'] = array(
+					$this->alias . '.modified' => 'desc',
 				);
 				
 				return $query;
