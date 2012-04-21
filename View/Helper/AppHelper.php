@@ -734,108 +734,66 @@
 		 *
 		 * @return string the text for the title.
 		 */
-		public function niceTitleText($switch = null){
-			$switch = prettyName($switch);
-
+		public function niceTitleText($switch = null) {
 			$controller = __(Inflector::singularize($this->request->params['controller']));
-
+			$controller = str_replace(array('global', $this->request->params['plugin']), '', $controller);
+			$controller = str_replace('_', ' ', $controller);
+			$pluralController = Inflector::pluralize($controller);
+			
 			switch(strtolower($switch)){
 				case 'add':
 					$heading = sprintf('%s %s', __('Create a New'), $controller);
-					$text = sprintf(
-						__('Click here to create a new %s. You do not need to '.
-							'tick any checkboxes to create a new %s.', true),
-						$controller, $controller
-					);
+					$text = __('Click here to create a new %s. You do not need to tick any checkboxes <br/>to create a new %s.', $controller, $controller);
 					break;
 
 				case 'edit':
 					$heading = sprintf('%s %s', __('Edit the'), $controller);
-					$text = sprintf(
-						__('Tick the checkbox next to the %s you want to edit '.
-							'then click here.<br/><br/>Currently you may only '.
-							'edit one %s at a time.', true),
-						$controller, $controller
-					);
+					$text = __('Tick the checkbox next to the %s you want to edit then click here.<br/>Currently you may only edit one %s at a time.', $controller, $controller);
 					break;
 
 				case 'copy':
-					$controller = __($this->request->params['controller']);
-					$heading = sprintf('%s %s', __('Copy some'), $controller);
-					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to copy '.
-							'then click here.<br/><br/>You may copy as many %s '.
-							'as you like.', true),
-						$controller, $controller
-					);
+					$heading = sprintf('%s %s', __('Copy some'), $pluralController);
+					$text = __('Tick the checkboxes next to the %s you want to copy then click here.<br/>You may copy as many %s as you like.', $controller, $controller);
 					break;
 
 				case 'toggle':
-					$controller = __($this->request->params['controller']);
-					$heading = sprintf('%s %s', __('Toggle some'), $controller);
-					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to toggle '.
-							'then click here.<br/><br/>Inactive %s will become '.
-							'active, and active %s will become inactive', true),
-						$controller, $controller, $controller
-					);
+					$heading = sprintf('%s %s', __('Toggle some'), $pluralController);
+					$text = __('Tick the checkboxes next to the %s you want to toggle then click here.<br/>Inactive %s will become active, and active %s will become inactive', $controller, $controller, $controller);
 					break;
 
 				case 'delete':
-					$heading = sprintf('%s %s', __('Delete some'), $this->request->params['controller']);
-					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to delete '.
-							'then click here.<br/><br/>If possible the %s will be '.
-							'moved to the trash can. If not they will be deleted '.
-							'permanently.', true),
-						$controller, $controller
-					);
+					$heading = sprintf('%s %s', __('Delete some'), $pluralController);
+					$text = __('Tick the checkboxes next to the %s you want to delete then click here.<br/>If possible the %s will be moved to the trash can. If not they will be deleted permanently.', $controller, $controller);
 					break;
 
 				case 'disabled':
-					$heading = sprintf('%s %s', __('Delete some'), $this->request->params['controller']);
-					$text = sprintf(
-						__('This %s currently disabled, to enable it tick the '.
-							'check to the left and click toggle.', true),
-						$controller
-					);
+					$heading = sprintf('%s %s', __('Activate some'), $pluralController);
+					$text = __('This %s currently disabled, to enable it tick the check to the left and <br/>click toggle.', $controller);
 					break;
 
 				case 'active':
-					$heading = sprintf('%s %s', __('Delete some'), $this->request->params['controller']);
-					$text = sprintf(
-						__('This %s currently active, to disable it tick the '.
-							'check to the left and click toggle.', true),
-						$controller
-					);
+					$heading = sprintf('%s %s', __('Disable some'), $pluralController);
+					$text = __('This %s currently active, to disable it tick the check to the left and <br/>click toggle.', $controller);
 					break;
 
 				case 'save':
-					$heading = sprintf('%s %s', __('Save the'), $this->request->params['controller']);
-					$text = sprintf(
-						__('Click here to save your %s. This will save your '.
-							'current changes and take you back to the index list.', true),
-						$controller
-					);
+					$heading = sprintf('%s %s', __('Save the'), $controller);
+					$text = __('Click here to save your %s. This will save your current changes and take <br/>you back to the index list.', $controller);
 					break;
 
 				case 'cancel':
 					$heading = sprintf('%s', __('Discard your changes'));
-					$text = sprintf(
-						__('Click here to return to the index page without saving '.
-							'the changes you have made to the %s.', true),
-						$controller
-					);
+					$text = __('Click here to return to the index page without saving the changes you <br/>have made to the %s.', $controller);
 					break;
 
 				case 'move':
-					$heading = sprintf('%s %s', __('Move the '), $this->request->params['controller']);
-					$text = sprintf(
-						__('Tick the checkboxes next to the %s you want to move '.
-							'then click here. You will be prompted with a page, '.
-							'asking how you would like to move the %s', true),
-						$controller, $controller
-					);
+					$heading = sprintf('%s %s', __('Move the '), $pluralController);
+					$text = __('Tick the checkboxes next to the %s you want to move then click here. <br/>You will be prompted with a page, asking how you would like to move the %s', $controller, $controller);
+					break;
+
+				case 'preview':
+					$heading = sprintf('%s %s', __('Preview the '), $controller);
+					$text = __('Tick the checkbox next to the %s you want to preview then click here. <br/>This will normally open in a popup and not affect your view counts', $controller, $controller);
 					break;
 
 				default:
