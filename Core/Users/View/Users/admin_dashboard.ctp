@@ -32,8 +32,8 @@
 	$dashboardIcons = $this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard');
 ?>
 <div class="dashboard grid_16">
-	<h1><?php echo __('Email Manager'); ?></h1>
-	<ul class="icons"><li><?php echo implode('</li><li>', current((array)$dashboardIcons)); ?></li></ul>
+	<h1><?php echo __('User Manager'); ?></h1>
+	<?php echo $this->Design->arrayToList(current((array)$dashboardIcons), array('ul' => 'icons')); ?>
 </div>
 <?php
 	echo $this->ModuleLoader->loadDirect('Users.registrations');
