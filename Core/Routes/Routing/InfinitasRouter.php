@@ -59,10 +59,23 @@
 				}
 
 				$templateParams = self::__getTemplateParams($route->template);
+				
 				$intersect = array_intersect($templateParams, array_keys($params));
+				
 				if($templateParams == $intersect) {
 					foreach($templateParams as $v) {
 						$request[$v] = $params[$v];
+					}
+					
+					if(substr($route->template, -2) == '/*') {
+						$add = $params;
+						foreach($intersect as $k => $v) {
+							if(isset($params[$v])) {
+								unset($add[$v]);
+							}
+						}
+						
+						$request = array_merge(array_values($add), $request);
 					}
 					$bestMatch = false;
 				}
