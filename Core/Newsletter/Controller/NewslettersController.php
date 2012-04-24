@@ -33,20 +33,25 @@
 				$body .= '<p>=====================================================</p>';
 				$body .= htmlspecialchars($this->request->data['Newsletter']['query']);
 
-				$subject = strip_tags($this->request->data['Newsletter']['subject']);
-				if(empty($subject)) {
+				if(empty($this->request->data['Newsletter']['subject'])) {
 					$subject = sprintf('New email from %s', Configure::read('Website.name'));
+				}
+				
+				else {
+					$subject = strip_tags($this->request->data['Newsletter']['subject']);
 				}
 
 				foreach(ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
 					$this->Emailer->sendDirectMail(
-						sprintf('%s <%>s', $username, $email),
+						sprintf('%s <%s>', $username, $email),
 						array(
 							'subject' => $subject,
 							'body' => $body
 						)
 					);
 				}
+				pr(ClassRegistry::init('Users.User')->getAdmins());
+				exit;
 
 				$this->notice(
 					'Your message has been sent',
@@ -84,7 +89,8 @@
 			exit;
 		}
 
-		public function sendEmail(){
+		public function sendEmail() {
+			$this->autoRender = false;
 			$info = array_merge(
 				array(
 					'to' => array(),
@@ -96,6 +102,7 @@
 				),
 				$this->request->params['named']['email']
 			);
+			var_dump($info);
 
 			$this->Emailer->to  = $info['to'];
 			$this->Emailer->bcc = $info['bcc'];
@@ -104,8 +111,9 @@
 			$this->set('info', $info);
 
 		    $this->Emailer->delivery = 'smtp';
-
-			$this->Emailer->send();
+			
+			var_dump($this->Emailer->send($info['html']));
+			exit;
 		}
 
 		public function sendNewsletters() {

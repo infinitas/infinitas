@@ -36,7 +36,8 @@
 			return true;
 		}
 
-		public function startup($controller){
+		public function startup($controller) {
+			$this->Controller = $controller;
 			$this->settings();
 
 			return true;
@@ -93,14 +94,14 @@
 				$email
 			);
 
-			$template = ClassRegistry::init('Newsletter.Template')->getTemplate($email['template']);
-
-			if(empty($template)){
+			try {
+				$template = ClassRegistry::init('Newsletter.Template')->getTemplate($email['template']);
+			}
+			
+			catch(Exception $e) {
 				$this->Controller->notice(
-					__('System error: Email not setup'),
-					array(
-						'redirect' => true
-					)
+					$e->getMessage(), 
+					array('redirect' => true)
 				);
 			}
 

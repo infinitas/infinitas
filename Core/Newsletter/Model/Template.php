@@ -18,7 +18,7 @@
 	 */
 
 	class Template extends NewsletterAppModel {
-		public $lockable = true;
+		//public $lockable = true;
 
 		public $order = array(
 			'Template.name' => 'asc'
@@ -46,15 +46,23 @@
 			);
 		}
 
-		function getTemplate($data = null){
+		function getTemplate($data = null) {
+			$fields = array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.' . $this->displayField,
+				$this->alias . '.header',
+				$this->alias . '.footer',
+			);
+					
 			if($data){
 				$template = $this->find(
 					'first',
 					array(
+						'fields' => $fields,
 						'conditions' => array(
 							'or' => array(
-								'Template.id' => $data,
-								'Template.name' => $data
+								$this->alias . '.id' => $data,
+								$this->alias . '.name' => $data
 							)
 						)
 					)
@@ -65,13 +73,20 @@
 				}
 			}
 
-			return $this->find(
+			$template = $this->find(
 				'first',
 				array(
+					'fields' => $fields,
 					'conditions' => array(
-						'Template.name' => Configure::read('Newsletter.template')
+						$this->alias . '.name' => Configure::read('Newsletter.template')
 					)
 				)
 			);
+			
+			if(empty($template)) {
+				throw new Exception(sprintf('No template found for %s', $data));
+			}
+			
+			return $template;
 		}
 	}
