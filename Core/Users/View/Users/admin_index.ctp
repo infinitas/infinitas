@@ -73,22 +73,12 @@
 			foreach ($users as $user) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox( $user['User']['id'] ); ?>&nbsp;</td>
-						<td>
-							<?php echo $this->Infinitas->adminQuickLink($user['User']); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $this->Text->autoLinkEmails($user['User']['email']); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $user['User']['browser']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $user['User']['operating_system']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $user['User']['country']; ?>&nbsp;
-						</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($user); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->adminQuickLink($user['User']); ?>&nbsp;</td>
+						<td><?php echo $this->Text->autoLinkEmails($user['User']['email']); ?>&nbsp;</td>
+						<td><?php echo $user['User']['browser']; ?>&nbsp;</td>
+						<td><?php echo $user['User']['operating_system']; ?>&nbsp;</td>
+						<td><?php echo $user['User']['country']; ?>&nbsp;</td>
 						<td>
 							<?php
 								if ($user['User']['birthday']) {
@@ -99,18 +89,10 @@
 								}
 							?>&nbsp;
 						</td>
-						<td>
-							<?php echo $this->Time->niceShort($user['User']['created']); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $this->Time->niceShort($user['User']['modified']); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $this->Time->niceShort($user['User']['last_login']); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;
-						</td>
+						<td><?php echo $this->Time->niceShort($user['User']['created']); ?>&nbsp;</td>
+						<td><?php echo $this->Time->niceShort($user['User']['modified']); ?>&nbsp;</td>
+						<td><?php echo $this->Time->niceShort($user['User']['last_login']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;</td>
 					</tr>
 				<?php
 			}
