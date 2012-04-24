@@ -67,6 +67,40 @@
 
 			parent::tearDown();
 		}
+
+		/**
+		 * testBeforeFindWithNonExistingBinding method
+		 *
+		 * @expectedException PHPUnit_Framework_Error
+		 * @return void
+		 */
+		public function testBeforeFindWithNonExistingBinding() {
+			$r = $this->Article->find('all', array('contain' => array('Comment' => 'NonExistingBinding')));
+		}
+
+		/**
+		 * testFindEmbeddedNoBindings method
+		 *
+		 * @return void
+		 */
+		public function testFindEmbeddedNoBindings() {
+			$result = $this->Article->find('all', array('contain' => false));
+			$expected = array(
+				array('Article' => array(
+					'id' => 1, 'user_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body',
+					'published' => 'Y', 'created' => '2007-03-18 10:39:23', 'updated' => '2007-03-18 10:41:31'
+				)),
+				array('Article' => array(
+					'id' => 2, 'user_id' => 3, 'title' => 'Second Article', 'body' => 'Second Article Body',
+					'published' => 'Y', 'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'
+				)),
+				array('Article' => array(
+					'id' => 3, 'user_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body',
+					'published' => 'Y', 'created' => '2007-03-18 10:43:23', 'updated' => '2007-03-18 10:45:31'
+				))
+			);
+			$this->assertEquals($expected, $result);
+		}
 		
 		public function testBelongsToFind() {
 			$result = $this->Article->find('all', array('contain' => array('User')));
@@ -175,5 +209,45 @@
 			);
 			
 			$this->assertEqual($result, $expected);
+			
+			$expected = array(array(
+				'User' => array(
+					'id' => '3', 'user' => 'larry', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:20:23', 'updated' => '2007-03-17 01:22:31'), 
+					'Article' => array()));
+			$result = $this->User->find(
+				'all',
+				array(
+					'conditions' => array(
+						'User.id' => 3
+					),
+					'contain' => array(
+						'Article' => array(
+							'conditions' => array(
+								'Article.id' => 25
+							)
+						)
+					)
+				)
+			);
+			
+			$this->assertEqual($result, $expected);
+		}
+		
+		public function testHasOneFind() {
+			$this->Article->unbindModel(array('hasMany' => array('Comment')), true);
+			unset($this->Article->Comment);
+			$this->Article->bindModel(array('hasOne' => array('Comment')));
+
+			$result = $this->Article->find('all', array(
+				'fields' => array('title', 'body'),
+				'contain' => array(
+					'Comment' => array('fields' => array('Comment.comment')),
+					'User' => array('fields' => array('User.user')))));
+			$this->assertTrue(isset($result[0]['Article']['title']), 'title missing %s');
+			$this->assertTrue(isset($result[0]['Article']['body']), 'body missing %s');
+			$this->assertTrue(isset($result[0]['Comment']['comment']), 'comment missing %s');
+			$this->assertTrue(isset($result[0]['User']['user']), 'body missing %s');
+			$this->assertFalse(isset($result[0]['Comment']['published']), 'published found %s');
+			$this->assertFalse(isset($result[0]['User']['password']), 'password found %s');
 		}
 	}

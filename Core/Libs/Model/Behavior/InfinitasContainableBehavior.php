@@ -173,6 +173,23 @@
 			return $this->__cache[$Model->alias]['joins'][$hash];
 		}
 		
+		private function __hasOneJoin($Model, $join, $config) {
+			$hash = md5(serialize(array($join) + $config));
+			if(!empty($this->__cache[$Model->alias]['joins'][$hash])) {
+				return $this->__cache[$Model->alias]['joins'][$hash];
+			}
+			
+			$joinConfig = $this->__defaultConfig($Model, $join, __METHOD__);
+			
+			if(!empty($config['conditions'])) {
+				$joinConfig['conditions'] = $config['conditions'];
+			}
+			
+			$this->__cache[$Model->alias]['joins'][$hash] = $joinConfig;
+			
+			return $this->__cache[$Model->alias]['joins'][$hash];
+		}
+		
 		private function __hasManyJoin($Model, $join, $config) {
 			if(empty($config['conditions'])) {
 				$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = array();
@@ -191,6 +208,14 @@
 		}
 		
 		private function __belongsToFields($Model, $join, $config) {
+			if(empty($config['fields'])) {
+				$config['fields'] = array(sprintf('%s.*', $Model->{$join}->alias));
+			}
+			
+			return (array)$config['fields'];
+		}
+		
+		private function __hasOneFields($Model, $join, $config) {
 			if(empty($config['fields'])) {
 				$config['fields'] = array(sprintf('%s.*', $Model->{$join}->alias));
 			}
