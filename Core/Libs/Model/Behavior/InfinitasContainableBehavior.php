@@ -62,13 +62,7 @@
 				$joinConditions = array(
 					$Model->{$relation}->alias . '.' . $Model->hasMany[$relation]['foreignKey'] => $joinConditions
 				);
-					
-				if(empty($data['conditions'])) {
-					$data['conditions'] = $joinConditions;
-				}
-				else {
-					$data['conditions'] = array_merge($data['conditions'], $joinConditions);
-				}
+				$data['conditions'] = array_merge($data['conditions'], $joinConditions);
 				
 				$hasManyData = $Model->{$relation}->find('all', $data);
 				
@@ -80,7 +74,7 @@
 						$results[$k][$Model->alias][$Model->{$relation}->primaryKey]
 					);
 						
-					$results[$k][$Model->{$relation}->alias] = Set::extract(
+					$results[$k][$Model->{$relation}->alias] = (array)Set::extract(
 						'{n}.' . $Model->{$relation}->alias, 
 						Set::extract($template, $hasManyData)
 					);
@@ -180,20 +174,19 @@
 		}
 		
 		private function __hasManyJoin($Model, $join, $config) {
-			if(!empty($config['conditions'])) {
-				if(isset($this->__afterFind[$Model->alias]['hasMany'][$join])) {
-					$this->__afterFind[$Model->alias]['hasMany'][$join] = array_merge(
-						$this->__afterFind[$Model->alias]['hasMany'][$join],
-						$config['conditions']
-					);
-					return array();
-				}
-				
-				$this->__afterFind[$Model->alias]['hasMany'][$join] = $config['conditions'];
+			if(empty($config['conditions'])) {
+				$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = array();
 				return array();
 			}
 			
-			$this->__afterFind[$Model->alias]['hasMany'][$join] = array();
+			if(isset($this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'])) {
+				$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = array_merge(
+					$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'],
+					$config['conditions']
+				);
+				return array();
+			}
+			$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = $config['conditions'];
 			return array();
 		}
 		

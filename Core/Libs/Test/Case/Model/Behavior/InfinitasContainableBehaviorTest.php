@@ -68,7 +68,7 @@
 			parent::tearDown();
 		}
 		
-		public function atestBelongsToFind() {
+		public function testBelongsToFind() {
 			$result = $this->Article->find('all', array('contain' => array('User')));
 			
 			$this->assertEqual(count($result), 3);
@@ -102,6 +102,20 @@
 		}
 		
 		public function testHasManyFind() {
+			$expected = array(array(
+				'User' => array(
+					'id' => '1', 'user' => 'mariano', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:16:23', 'updated' => '2007-03-17 01:18:31'), 
+					'Article' => array(array(
+						'id' => '1', 'user_id' => '1', 'title' => 'First Article', 'body' => 'First Article Body', 'published' => 'Y', 'created' => '2007-03-18 10:39:23', 'updated' => '2007-03-18 10:41:31'), array(
+						'id' => '3', 'user_id' => '1', 'title' => 'Third Article', 'body' => 'Third Article Body', 'published' => 'Y', 'created' => '2007-03-18 10:43:23', 'updated' => '2007-03-18 10:45:31'))), array(
+				'User' => array('id' => '2', 'user' => 'nate', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:18:23', 'updated' => '2007-03-17 01:20:31'), 
+							'Article' => array()), array(
+				'User' => array(
+					'id' => '3', 'user' => 'larry', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:20:23', 'updated' => '2007-03-17 01:22:31'), 
+					'Article' => array(array(
+						'id' => '2', 'user_id' => '3', 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y', 'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'))),array(
+				'User' => array('id' => '4', 'user' => 'garrett', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:22:23', 'updated' => '2007-03-17 01:24:31'), 
+					'Article' => array()));
 			$result = $this->User->find(
 				'all',
 				array(
@@ -110,6 +124,56 @@
 					)
 				)
 			);
-			pr($result);
+			
+			$this->assertEqual($result, $expected);
+			$expected = array(array(
+				'User' => array(
+					'id' => '1', 'user' => 'mariano', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:16:23', 'updated' => '2007-03-17 01:18:31'), 
+					'Article' => array()), array(
+				'User' => array('id' => '2', 'user' => 'nate', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:18:23', 'updated' => '2007-03-17 01:20:31'), 
+							'Article' => array()), array(
+				'User' => array(
+					'id' => '3', 'user' => 'larry', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:20:23', 'updated' => '2007-03-17 01:22:31'), 
+					'Article' => array(array(
+						'id' => '2', 'user_id' => '3', 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y', 'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'))),array(
+				'User' => array('id' => '4', 'user' => 'garrett', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:22:23', 'updated' => '2007-03-17 01:24:31'), 
+					'Article' => array()));
+			$result = $this->User->find(
+				'all',
+				array(
+					'contain' => array(
+						'Article' => array(
+							'conditions' => array(
+								'Article.id' => 2
+							)
+						)
+					)
+				)
+			);
+			
+			$this->assertEqual($result, $expected);
+			
+			$expected = array(array(
+				'User' => array(
+					'id' => '3', 'user' => 'larry', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99', 'created' => '2007-03-17 01:20:23', 'updated' => '2007-03-17 01:22:31'), 
+					'Article' => array(array(
+						'id' => '2', 'user_id' => '3', 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y', 'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'))));
+			$result = $this->User->find(
+				'all',
+				array(
+					'conditions' => array(
+						'User.id' => 3
+					),
+					'contain' => array(
+						'Article' => array(
+							'conditions' => array(
+								'Article.id' => 2
+							)
+						)
+					)
+				)
+			);
+			
+			$this->assertEqual($result, $expected);
 		}
 	}
