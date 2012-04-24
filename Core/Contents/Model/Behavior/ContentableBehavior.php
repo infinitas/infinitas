@@ -383,7 +383,7 @@
 			}
 			
 			$Model->data['GlobalContent']['full_text_search'] = strip_tags(
-				str_replace(array($Model->data['GlobalContent']['introduction'], "\r", "\n", "\t", '  '), ' ', $Model->data['GlobalContent']['body'])
+				str_replace(array("\r", "\n", "\t", '  '), ' ', $Model->data['GlobalContent']['body'])
 			);
 			
 			$Model->data['GlobalContent']['full_text_search'] = preg_replace(

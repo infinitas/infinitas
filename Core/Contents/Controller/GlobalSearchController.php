@@ -6,16 +6,18 @@
 		
 		public function search($term = null) {
 			if(!empty($this->data[$this->modelClass]['search'])) {
-				$this->redirect(
-					array(
-						'action' => 'search',
-						$this->data[$this->modelClass]['search']
-					)
+				$url = array(
+					'action' => 'search',
+					Sanitize::paranoid($this->data[$this->modelClass]['search']),
+					'global_category_id' => !empty($this->data[$this->modelClass]['global_category_id']) ? $this->data[$this->modelClass]['global_category_id'] : null
 				);
+				
+				$this->redirect($url);
 			}
 			
+			$category = !empty($this->request->params['named']['global_category_id']) ? $this->request->params['named']['global_category_id'] : null;
 			try {
-				$this->Paginator->settings = array('search', $term);
+				$this->Paginator->settings = array('search', Sanitize::paranoid($term), $category);
 				$this->set('search', $this->Paginator->paginate());
 			}
 			
@@ -28,6 +30,8 @@
 					)
 				);
 			}
+			
+			$this->request->data[$this->modelClass]['global_category_id'] = $category;
 			
 			$this->set(
 				'globalCategories', 
