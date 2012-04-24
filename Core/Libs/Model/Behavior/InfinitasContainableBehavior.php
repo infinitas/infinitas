@@ -35,6 +35,8 @@
 					$join = $config;
 					$config = array();
 				}
+					
+				$this->__normaliseContainConfig($config);
 				
 				$joins[] = $this->__getJoin($Model, $join, $config);
 				$fields = array_merge($fields, $this->__getFields($Model, $join, $config));
@@ -42,10 +44,32 @@
 			
 			$query['joins'] = array_filter(array_merge(array_filter($joins), $query['joins']));
 			$query['fields'] = array_merge(array_filter($fields), $query['fields']);
-			
+			$query['recursive'] = -1;
 			unset($query['contain']);
 			
 			return $query;
+		}
+		
+		private function __normaliseContainConfig(&$config) {
+			if(empty($config)) {
+				return;
+			}
+			
+			if(!is_array($config)) {
+				$config = array($config);
+			}
+			
+			$options = array(
+				'fields' => array(),
+				'conditions' => array(),
+				'order' => array(),
+				'group' => array()
+			);
+			
+			$diff = (array)array_intersect_key($config, $options);
+			
+			$diff['contain'] = array_diff($config, $diff);
+			$config = $diff;
 		}
 		
 		public function afterFind(Model $Model, $results, $primary) {
@@ -54,6 +78,7 @@
 			}
 			
 			foreach($this->__afterFind[$Model->alias]['hasMany'] as $relation => $data) {
+				$data = array_merge(array('conditions' => array(), 'fields' => array(), 'order' => array()), $data);
 				$joinConditions = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
 				if(empty($joinConditions)) {
 					continue;
@@ -63,8 +88,8 @@
 					$Model->{$relation}->alias . '.' . $Model->hasMany[$relation]['foreignKey'] => $joinConditions
 				);
 				$data['conditions'] = array_merge($data['conditions'], $joinConditions);
-				
 				$hasManyData = $Model->{$relation}->find('all', $data);
+				$this->__sortContain($Model->{$relation}, $hasManyData);
 				
 				foreach($results as $k => $result) {
 					$template = sprintf(
@@ -81,7 +106,30 @@
 				}
 			}
 			
+			unset($this->__afterFind[$Model->alias]);
 			return $results;
+		}
+		
+		private function __sortContain($Relation, &$hasManyData) {
+			if(empty($hasManyData)) {
+				return;
+			}
+			
+			if(!in_array($Relation->alias, array_keys(current($hasManyData)))) {
+				return;
+			}
+			
+			
+			foreach($hasManyData as $k => &$v) {
+				foreach($v as $kk => &$vv) {
+					if($kk == $Relation->alias) {
+						continue;
+					}
+					
+					$v[$Relation->alias][$kk] = $vv;
+					unset($v[$kk]);
+				}
+			}
 		}
 		
 		private function __normaliseQuery(&$query) {
@@ -89,8 +137,16 @@
 				$query['fields'] = array();
 			}
 			
-			if(is_string($query['fields'])) {
+			if(!is_array($query['fields'])) {
 				$query['fields'] = array($query['fields']);
+			}
+			
+			if(empty($query['conditions'])) {
+				$query['conditions'] = array();
+			}
+			
+			if(!is_array($query['conditions'])) {
+				$query['conditions'] = array($query['conditions']);
 			}
 		}
 		
@@ -191,19 +247,16 @@
 		}
 		
 		private function __hasManyJoin($Model, $join, $config) {
-			if(empty($config['conditions'])) {
-				$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = array();
+			if(empty($this->__afterFind[$Model->alias]['hasMany'][$join])) {
+				$this->__afterFind[$Model->alias]['hasMany'][$join] = $config;
 				return array();
 			}
 			
-			if(isset($this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'])) {
-				$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = array_merge(
-					$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'],
-					$config['conditions']
-				);
-				return array();
-			}
-			$this->__afterFind[$Model->alias]['hasMany'][$join]['conditions'] = $config['conditions'];
+			
+			$this->__afterFind[$Model->alias]['hasMany'][$join] = array_merge(
+				$this->__afterFind[$Model->alias]['hasMany'][$join],
+				$config
+			);
 			return array();
 		}
 		
