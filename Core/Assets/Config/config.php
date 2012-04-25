@@ -96,6 +96,7 @@
 			'print' => 'print.png',
 			'reload' => 'reload.png',
 			'remove' => 'remove.png',
+			'restore' => 'restore.png',
 			'save' => 'save.png',
 			'search' => 'search.png',
 			'send' => 'send.png',
