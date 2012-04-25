@@ -40,6 +40,7 @@
 		if(isset($model)){
 			$conditions['ViewCounterView.model'] = $model;
 		}
+		
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCounterView')->reportByDayOfMonth($conditions);
 		if(!isset($byWeek['totals'])){
 			$byWeek['totals'] = array();
