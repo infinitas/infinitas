@@ -326,19 +326,25 @@
 				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
 			}
 			else{
-				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->params['position'];
+				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->params['named']['position'];
 			}
 
-			if (!$this->Controller->{$modelName}->save($this->Controller->request->data)) {
+			$this->Controller->{$modelName}->transaction();
+			try {
+				$this->Controller->{$modelName}->save($this->Controller->request->data);
+				$this->Controller->{$modelName}->transaction(true);
+				return true;
+			}
+			catch(Exception $e) {
+				$this->Controller->{$modelName}->transaction(false);
 				$this->Controller->notice(
-					__('The record could not be moved'),
+					$e->getMessage(),
 					array(
+						'level' => 'error',
 						'redirect' => false
 					)
 				);
 			}
-
-			return true;
 		}
 
 		/**
