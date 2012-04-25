@@ -188,6 +188,16 @@
 			
 			$this->Controller->render('view');
 		}
+		
+		public function actionAdminExport($id = null) {
+			$this->Controller->notice(
+				__d($this->Controller->request->params['plugin'], 'Export is currently disabled'),
+				array(
+					'redirect' => true,
+					'level' => 'warning'
+				)
+			);
+		}
 
 		/**
 		 * @brief prg method to show the users documents
