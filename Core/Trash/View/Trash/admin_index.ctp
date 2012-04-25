@@ -48,7 +48,7 @@
 			foreach ($trashed as $trash) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($trash['Trash']['id']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($trash); ?>&nbsp;</td>
 						<td>
 							<?php echo Inflector::humanize($trash['Trash']['name']); ?>&nbsp;
 						</td>
