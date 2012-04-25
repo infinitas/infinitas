@@ -181,7 +181,6 @@
 				}
 			}
 
-			$referer = $this->Controller->referer();
 			$rows = $this->Controller->{$this->Controller->modelClass}->find(
 				'list',
 				array(
@@ -192,7 +191,7 @@
 			);
 
 			$this->Controller->set('model', $this->Controller->modelClass);
-			$this->Controller->set(compact('referer', 'rows'));
+			$this->Controller->set(compact('rows'));
 
 			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'delete.ctp';
 			if(is_file($pluginOverload)) {
@@ -201,6 +200,7 @@
 			}
 			
 			$this->Controller->render('Libs.Global/delete');
+			$this->Controller->saveRedirectMarker();
 		}
 
 		/**
@@ -365,7 +365,6 @@
 				}
 			}
 
-			$referer = $this->Controller->referer();
 			$rows = $this->Controller->{$this->Controller->modelClass}->find('all', array('conditions' => array($this->Controller->modelClass.'.id' => $ids), 'contain' => false));
 			$model = $this->Controller->modelClass;
 
@@ -413,8 +412,17 @@
 
 			$modelSetup['displayField'] = $this->Controller->{$this->Controller->modelClass}->displayField;
 			$modelSetup['primaryKey'] = $this->Controller->{$this->Controller->modelClass}->primaryKey;
-			$this->Controller->set(compact('referer', 'rows', 'model', 'modelSetup', 'relations'));
-			$this->Controller->render('move', null, App::pluginPath('libs').'views'.DS.'global'.DS.'move.ctp');
+			$this->Controller->set(compact('rows', 'model', 'modelSetup', 'relations'));
+			
+			$this->Controller->saveRedirectMarker();
+			
+			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'move.ctp';
+			if(is_file($pluginOverload)) {
+				$this->Controller->render($this->Controller->plugin . '.Global/move');
+				return;
+			}
+			
+			$this->Controller->render('Libs.Global/move');
 		}
 
 		/**
@@ -427,9 +435,7 @@
 		*/
 		private function __handleMove($ids) {
 			$movedTo = $this->Controller->data['Move'];
-			unset($movedTo['model']);
-			unset($movedTo['confirmed']);
-			unset($movedTo['referer']);
+			unset($movedTo['model'], $movedTo['confirmed']);
 
 			$result = true;
 
@@ -473,7 +479,7 @@
 				);
 			}
 
-			$params['redirect'] = $this->Controller->data['Move']['referer'];
+			$params['redirect'] = '';
 
 			$this->Controller->notice($params['message'], $params);
 		}
