@@ -105,7 +105,6 @@
 <?php
 	echo $this->Form->hidden('Move.model', array('value' => $model));
 	echo $this->Form->hidden('Move.confirmed', array('value' => 1));
-	echo $this->Form->hidden('Move.referer', array('value' => $referer));
 
 	foreach($relations['belongsTo'] as $alias => $belongsTo){
 		if(in_array($alias, $ignore)){

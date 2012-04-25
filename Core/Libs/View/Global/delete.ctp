@@ -64,7 +64,6 @@
 				
 				echo $this->Form->hidden('Confirm.model', array('value' => $model));
 				echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
-				echo $this->Form->hidden('Confirm.referer', array('value' => $referer));
 			?>
 		</table>
 		<?php echo $this->Form->end(); ?>
