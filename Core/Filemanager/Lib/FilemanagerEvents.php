@@ -46,4 +46,16 @@
 				)
 			);
 		}
+		
+		public function onRequireCssToLoad($event, $data = null) {
+			return array(
+				'Filemanager.jquery_file_tree'
+			);
+		}
+		
+		public function onRequireJavascriptToLoad($event, $data = null) {
+			return array(
+				'Filemanager.jquery_file_tree'
+			);
+		}
 	}
