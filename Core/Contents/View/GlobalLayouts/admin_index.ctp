@@ -24,10 +24,10 @@
             array(
                 'add',
                 'edit',
-                'preview',
+                //'preview',
                 'toggle',
                 'copy',
-                'export',
+                //'export',
                 'delete'
             )
         );
