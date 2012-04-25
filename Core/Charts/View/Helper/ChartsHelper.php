@@ -436,6 +436,7 @@
 			if(is_bool($normalize)){
 				$this->normalize = $normalize;
 			}
+			
 			else if(isset($this->__originalData['normalize']) && is_bool($this->__originalData['normalize'])){
 				$this->normalize = $this->__originalData['normalize'];
 			}
@@ -862,14 +863,12 @@
 		 * @return string some html or what ever the chart engine sends back
 		 */
 		private function __dispatch(){
-			if(empty($this->data)){
-				trigger_error(__('You need to pass data, or use the methods to set data'), E_USER_WARNING);
-				return false;
+			if(empty($this->data)) {
+				throw new Exception(__('You need to pass data, or use the methods to set data'));
 			}
 
 			if(!is_callable(array($this->{$this->__engineName}, $this->data['type']))){
-				trigger_error(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']), E_USER_WARNING);
-				return false;
+				throw new Exception(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']));
 			}
 
 			$chart = $this->{$this->__engineName}->{$this->data['type']}($this->data);
