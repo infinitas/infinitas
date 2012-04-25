@@ -48,14 +48,19 @@
 	}
 
 	if($this->plugin != 'view_counter'){
+		$url = array(
+			'plugin' => 'view_counter',
+			'controller' => 'view_counter_views',
+			'action' => 'reports'
+		);
+		
+		if(!empty($class)) {
+			$url['ViewCounterView.model'] = $class;
+		}
+		
 		$link = $this->Html->link(
-			__('More reports'),
-			array(
-				'plugin' => 'view_counter',
-				'controller' => 'view_counter_views',
-				'action' => 'reports',
-				'ViewCounterView.model' => isset($class) ? $class : ''
-			),
+			__d('view_counter', 'More reports'),
+			$url,
 			array(
 				'class' => 'chart'
 			)
