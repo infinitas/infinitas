@@ -36,8 +36,8 @@
 					return false;
 				}
 			}
-
-			$Controller->layout = 'front';
+			
+			$Controller->layout = Configure::read('Themes.default_layout');
 			$theme = Cache::read('currentTheme');
 			if($theme === false) {
 				$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
@@ -48,7 +48,7 @@
 			}
 
 			if (isset($Controller->request->params['admin']) && $Controller->request->params['admin']){
-				$Controller->layout = 'admin';
+				$Controller->layout = Configure::read('Themes.default_layout_admin');
 			}
 
 			$event = $Controller->Event->trigger(
