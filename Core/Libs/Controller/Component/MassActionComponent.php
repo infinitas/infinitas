@@ -239,7 +239,7 @@
 		 */
 		public function toggle($ids) {
 			if(!$this->Controller->{$this->Controller->modelClass}->hasField('active')) {
-				trigger_error(sprintf('The model "%s" does not have an active field', $this->Controller->modelClass), E_USER_ERROR);
+				throw new Exception(sprintf('The model "%s" does not have an active field', $this->Controller->modelClass));
 			}
 			
 			if(empty($ids)) {
@@ -379,7 +379,7 @@
 
 						case 'Parent Post':
 						case 'Parent':
-							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$this->Controller->modelClass);
+							$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $this->Controller->modelClass);
 
 							if(in_array('Tree', $_Model->Behaviors->_attached)){
 								$_Model->order = array();
@@ -392,7 +392,7 @@
 							break;
 
 						default:
-							$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
+							$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $alias);
 							$_Model->order = array();
 							$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
 							break;
