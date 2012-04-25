@@ -3,7 +3,9 @@
 
 	class GoogleStaticChartEngineHelper extends ChartsBaseEngineHelper {
 		public function map($data) {
+			$this->_chartType = 'map';
 
+			return $this->_buildChart($data);
 		}
 		/**
 		 * @brief google-o-meter
@@ -12,7 +14,7 @@
 		 *
 		 * @link http://code.google.com/apis/chart/docs/gallery/googleometer_chart.html
 		 */
-		public function gauge($data){
+		public function gauge($data) {
 			$this->_chartType = 'gauge';
 
 			return $this->_buildChart($data);
@@ -157,6 +159,16 @@
 				'legend',
 				'line_style',
 				'size',
+				'color',
+				'labels',
+				'data',
+			),
+			'map' => array(
+				'_indicator' => 'cht=map',
+				'size',
+				
+				'legend',
+				'line_style',
 				'color',
 				'labels',
 				'data',
