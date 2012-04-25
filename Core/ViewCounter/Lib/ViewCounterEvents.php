@@ -23,7 +23,8 @@
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'dashboard'),
 				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports'),
-				'Custom' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'custom'),
+				'Referers' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'referers'),
+				//'Custom' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'custom'),
 			);
 
 			return $menu;
