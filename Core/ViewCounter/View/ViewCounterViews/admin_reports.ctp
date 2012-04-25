@@ -68,4 +68,4 @@
 	echo $this->ModuleLoader->loadDirect('ViewCounter.reports/hour_on_hour',   array('hourOnHour'   => $hourOnHour));
 	echo $this->ModuleLoader->loadDirect('ViewCounter.reports/day_of_month',   array('byDay'        => $byDay));
 	$byRegion = isset($byRegion) ? $byRegion : array();
-	echo $this->ModuleLoader->loadDirect('ViewCounter.reports/world_map',      array('byRegion'     => $byRegion));
+	//echo $this->ModuleLoader->loadDirect('ViewCounter.reports/world_map',      array('byRegion'     => $byRegion));
