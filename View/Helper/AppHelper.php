@@ -764,6 +764,10 @@
 				case 'delete':
 					$heading = sprintf('%s %s', __('Delete some'), $pluralController);
 					$text = __('Tick the checkboxes next to the %s you want to delete then click here.<br/>If possible the %s will be moved to the trash can. If not they will be deleted permanently.', $controller, $controller);
+					if($this->request->params['action'] == 'admin_index' && $this->request->params['plugin'] == 'trash') {
+						$heading = __('Delete records');
+						$text = __('Deleting these records can not be undone, <br/>please make sure you check the correct records');
+					}
 					break;
 
 				case 'disabled':
@@ -794,6 +798,11 @@
 				case 'preview':
 					$heading = sprintf('%s %s', __('Preview the '), $controller);
 					$text = __('Tick the checkbox next to the %s you want to preview then click here. <br/>This will normally open in a popup and not affect your view counts', $controller, $controller);
+					break;
+
+				case 'restore':
+					$heading = sprintf('%s %s', __('Restore records'), $controller);
+					$text = __('Tick the checkboxes next to the rows you would like to restore then click here.');
 					break;
 
 				default:
