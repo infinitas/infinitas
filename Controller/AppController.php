@@ -175,7 +175,7 @@
 			),
 			'deleted' => array(
 				'message' => 'Your %s was deleted',
-				'redirect' => true
+				'redirect' => ''
 			),
 			'not_deleted' => array(
 				'message' => 'Your %s was not deleted',
