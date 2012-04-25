@@ -549,7 +549,8 @@
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
-				'name',
+				'full_name',
+				'username',
 				'email',
 				'group_id' => $this->User->Group->find('list'),
 				'active' => Configure::read('CORE.active_options')
