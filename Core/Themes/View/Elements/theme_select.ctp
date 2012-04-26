@@ -24,16 +24,40 @@
 	}
 	$themes = InfinitasTheme::themes();
 	
-	if($this->request->data[$model]['theme_id']) {
-		$layouts = InfinitasTheme::layouts($theme);
+	$layouts = array();
+	if(!empty($this->request->data[$model]['theme_id'])) {
+		$layouts = InfinitasTheme::layouts($this->request->data[$model]['theme_id']);
 	}
 	
 	$error = $this->Form->error('plugin');
 	$errorClass = !empty($error) ? 'error' : '';
 ?>
 <div class="input smaller <?php echo $errorClass; ?>">
-	<label for="<?php echo $model; ?>Plugin"><?php echo __('Route'); ?></label><?php
-	echo $this->Form->input('theme', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getThemeLayouts'}, target:'" . $model . "Layout'}"));
-	echo $this->Form->input('layout', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false));
+	<label for="<?php echo $model; ?>Plugin"><?php echo __('Layout'); ?></label><?php
+	echo $this->Form->input(
+		'theme_id', 
+		array(
+			'error' => false,
+			'div' => false,
+			'label' => false,
+			'type' => 'select',
+			'empty' => __d('themes', 'Use default'),
+			'options' => $themes,
+			'selected' => !empty($this->request->data[$model]['theme_id']) ? $this->request->data[$model]['theme_id'] : null,
+			'class' => "ajaxSelectPopulate {url:{action:'getThemeLayouts'}, target:'" . $model . "Layout'}"
+		)
+	);
+	echo $this->Form->input(
+		'layout',
+		array(
+			'error' => false,
+			'div' => false,
+			'label' => false,
+			'type' => 'select',
+			'empty' => __d('themes', 'Use default'),
+			'options' => $layouts,
+			'selected' => !empty($this->request->data[$model]['layout']) ? $this->request->data[$model]['layout'] : null,
+		)
+	);
 	echo $error; ?>
 </div>

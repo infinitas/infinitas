@@ -193,7 +193,7 @@
 				'list',
 				array(
 					'fields' => array(
-						$this->alias . '.' . $this->displayField,
+						$this->alias . '.' . $this->primaryKey,
 						$this->alias . '.' . $this->displayField
 					)
 				)
