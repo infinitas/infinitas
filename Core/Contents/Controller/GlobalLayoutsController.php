@@ -15,9 +15,23 @@
 
 		public function admin_index() {
 			$this->Paginator->settings = array(
+				'fields' => array(
+					$this->{$this->modelClass}->alias .'.*',
+					'Theme.*'
+				),
+				'joins' => array(
+					array(
+						'table' => 'core_themes',
+						'alias' => 'Theme',
+						'type' => 'LEFT',
+						'conditions' => array(
+							$this->{$this->modelClass}->alias . '.theme_id = Theme.id'
+						)
+					)
+				),
 				'order' => array(
-					'GlobalLayout.model',
-					'GlobalLayout.name'
+					$this->{$this->modelClass}->alias . '.model',
+					$this->{$this->modelClass}->alias . '.name'
 				)
 			);
 			$layouts = $this->Paginator->paginate(null, $this->Filter->filter);

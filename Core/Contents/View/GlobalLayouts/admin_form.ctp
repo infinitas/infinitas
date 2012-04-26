@@ -34,7 +34,8 @@
 				$this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModels'}, target:'GlobalLayoutModel'}")) .
 				$this->Form->input('model', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false)) .
 				$this->Form->input('auto_load', array('error' => false, 'div' => false, 'label' => false, 'style' => 'width: 30%', 'placeholder' => __d('contents', 'Auto Load'))) .
-				$error . $this->Form->input('id') .
+				$error . 
+				$this->element('Themes.theme_select') . $this->Form->input('id') .
 			'</div>' .
 				$this->Form->input('name', array('class' => 'title')) . $this->Form->input('GlobalLayout.html'),
 			$this->Form->input('css', array('class' => 'title'))

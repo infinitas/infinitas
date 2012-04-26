@@ -50,6 +50,12 @@
 				'counterCache' => true
 			)
 		);
+		
+		public $belongsTo = array(
+			'Theme' => array(
+				'className' => 'Themes.Theme'
+			)
+		);
 
 		/**
 		 * @copydoc AppModel::__construct()
