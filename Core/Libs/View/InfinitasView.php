@@ -186,6 +186,14 @@
 		 * @return void
 		 */
 		private function __parseSnips(&$out) {
+			$ignore = array(
+				'admin_add',
+				'admin_edit'
+			);
+			if($this->request->params['admin'] && in_array($this->request->params['action'], $ignore)) {
+				return;
+			}
+			
 			preg_match_all('/\[(snip|module):([A-Za-z0-9_\-\.\#]*)(.*?)\]/i', $out, $snips);
 			$snips = array_unique($snips[0]);
 
