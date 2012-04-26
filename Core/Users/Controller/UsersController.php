@@ -61,7 +61,7 @@
 				'first',
 				array(
 					'conditions' => array(
-						'User.id' => $this->Auth->user('id')
+						$this->{$this->modelClass}->alias . '.id' => $this->Auth->user('id')
 					)
 				)
 			);
@@ -124,8 +124,8 @@
 					'first',
 					array(
 						'conditions' => array(
-							'User.id' => $this->Auth->user('id'),
-							'User.active' => 1
+							$this->{$this->modelClass}->alias . '.id' => $this->Auth->user('id'),
+							$this->{$this->modelClass}->alias . '.active' => 1
 						)
 					)
 				);
@@ -392,7 +392,7 @@
 					'first',
 					array(
 						'conditions' => array(
-							'User.email' => $this->request->data[$this->modelClass]['email']
+							$this->{$this->modelClass}->alias . '.email' => $this->request->data[$this->modelClass]['email']
 						)
 					)
 				);
@@ -486,7 +486,7 @@
 				'first',
 				array(
 					'conditions' => array(
-						'User.email' => $email
+						$this->{$this->modelClass}->alias . '.email' => $email
 					)
 				)
 			);
@@ -562,10 +562,10 @@
 		public function admin_logged_in(){
 			$this->Paginator->settings =array(
 				'conditions' => array(
-					'User.last_login > ' => date('Y-m-d H:i:s', strtotime('-30 min'))
+					$this->{$this->modelClass}->alias . '.last_login > ' => date('Y-m-d H:i:s', strtotime('-30 min'))
 				),
 				'order' => array(
-					'User.last_login' => 'desc'
+					$this->{$this->modelClass}->alias . '.last_login' => 'desc'
 				)
 			);
 			$users = $this->Paginator->paginate(null, $this->Filter->filter);
