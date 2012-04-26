@@ -49,7 +49,7 @@
 		public function view(){
 			if(!$this->Auth->user('id')){
 				$this->notice(
-					__('You must be logged in to view your profile'),
+					__d('users', 'You must be logged in to view your profile'),
 					array(
 						'redirect' => array('action' => 'login'),
 						'level' => 'warning'
@@ -68,7 +68,7 @@
 
 			if(empty($user)){
 				$this->notice(
-					__('Please login to view your profile'),
+					__d('users', 'Please login to view your profile'),
 					array(
 						'redirect' => array('action' => 'login'),
 						'level' => 'warning'
@@ -82,7 +82,7 @@
 		public function profile(){
 			if(!$this->Auth->user('id')){
 				$this->notice(
-					__('You must be logged in to edit your profile'),
+					__d('users', 'You must be logged in to edit your profile'),
 					array(
 						'redirect' => array('action' => 'login'),
 						'level' => 'warning'
@@ -133,7 +133,7 @@
 
 			if(empty($this->request->data)){
 				$this->notice(
-					__('Please login to edit your profile'),
+					__d('users', 'Please login to edit your profile'),
 					array(
 						'redirect' => array('action' => 'login'),
 						'level' => 'warning'
@@ -155,7 +155,7 @@
 		public function login() {
 			if (!Configure::read('Website.allow_login')) {
 				$this->notice(
-					__('Login is disabled'),
+					__d('users', 'Login is disabled'),
 					array(
 						'redirect' => '/',
 						'level' => 'warning'
@@ -177,7 +177,7 @@
 					$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
 					$this->notice(
 						sprintf(
-							__('Welcome back %s, your last login was from %s, %s on %s. (%s)'),
+							__d('users', 'Welcome back %s, your last login was from %s, %s on %s. (%s)'),
 							$currentUser['username'],
 							$lastLogon[$this->modelClass]['country'],
 							$lastLogon[$this->modelClass]['city'],
@@ -194,7 +194,7 @@
 
 			if (!(empty($this->request->data)) && !$this->Auth->user()) {
 				$this->InfinitasSecurity->badLoginAttempt($this->request->data[$this->modelClass]);
-				$this->notice(__('Your login details have not been recognised'), array('level' => 'warning'));
+				$this->notice(__d('users', 'Your login details have not been recognised'), array('level' => 'warning'));
 			}
 		}
 
@@ -274,7 +274,7 @@
 		public function register(){
 			if (!Configure::read('Website.allow_registration')) {
 				$this->notice(
-					__('Registration is disabled'),
+					__d('users', 'Registration is disabled'),
 					array(
 						'redirect' => '/',
 						'level' => 'warning'
@@ -305,7 +305,7 @@
 								$this->request->data[$this->modelClass]['email']
 							),
 							array(
-								'subject' => Configure::read('Website.name').' '.__('Confirm your registration'),
+								'subject' => Configure::read('Website.name').' '.__d('users', 'Confirm your registration'),
 								'body' => $urlToActivateUser,
 								'template' => 'User - Activate'
 							)
@@ -317,16 +317,16 @@
 								$this->request->data[$this->modelClass]['email']
 							),
 							array(
-								'subject' => __('Welcome to ').' '.Configure::read('Website.name'),
+								'subject' => __d('users', 'Welcome to ').' '.Configure::read('Website.name'),
 								'body' => '',
 								'template' => 'User - Registration'
 							)
 						);
 					}
 
-					$flashMessage = __('Thank you, your registration was completed');
+					$flashMessage = __d('users', 'Thank you, your registration was completed');
 					if (Configure::read('Website.email_validation') === true) {
-						$flashMessage = __('Thank you, please check your email to complete your registration');
+						$flashMessage = __d('users', 'Thank you, please check your email to complete your registration');
 					}
 
 					$this->notice($flashMessage, array('redirect' => '/'));
@@ -358,14 +358,14 @@
 						$user[$this->modelClass]['email']
 					),
 					array(
-						'subject' => __('Welcome to ') .' '. Configure::read('Website.name'),
+						'subject' => __d('users', 'Welcome to ') .' '. Configure::read('Website.name'),
 						'body' => '',
 						'template' => 'User - Registration'
 					)
 				);
 
 				$this->notice(
-					__('Your account is now active, you may log in'),
+					__d('users', 'Your account is now active, you may log in'),
 					array(
 						'redirect' => array('action' => 'login')
 					)
@@ -373,7 +373,7 @@
 			}
 
 			$this->notice(
-				__('There was a problem activating your account, please try again'),
+				__d('users', 'There was a problem activating your account, please try again'),
 				array(
 					'level' => 'error',
 					'redirect' => '/'
@@ -404,7 +404,7 @@
 
 					// @todo send a email with a link to reset.
 					$this->notice(
-						__('An email has been sent to your address with instructions to reset your password'),
+						__d('users', 'An email has been sent to your address with instructions to reset your password'),
 						array(
 							'redirect' => '/'
 						)
@@ -413,7 +413,7 @@
 
 				else{
 					$this->notice(
-						__('That does not seem to be a valid user'),
+						__d('users', 'That does not seem to be a valid user'),
 						array(
 							'level' => 'warning',
 							'redirect' => '/'
@@ -433,7 +433,7 @@
 		public function reset_password($hash = null) {
 			if (!$hash){
 				$this->notice(
-					__('Reset request timed out, please try again'),
+					__d('users', 'Reset request timed out, please try again'),
 					array(
 						'level' => 'warning',
 						'redirect' => '/'
@@ -446,7 +446,7 @@
 
 				if ($this->User->saveField('password', Security::hash($this->request->data[$this->modelClass]['new_password'], null, true))) {
 					$this->notice(
-						__('Your new password was saved. You may now login'),
+						__d('users', 'Your new password was saved. You may now login'),
 						array(
 							'redirect' => array(
 								'action' => 'login'
@@ -457,7 +457,7 @@
 
 				else {
 					$this->notice(
-						__('User could not be saved'),
+						__d('users', 'User could not be saved'),
 						array(
 							'level' => 'warning',
 							'redirect' => array(
@@ -472,7 +472,7 @@
 
 			if (!$email){
 				$this->notice(
-					__('Your ticket has expired, please request a new password'),
+					__d('users', 'Your ticket has expired, please request a new password'),
 					array(
 						'level' => 'error',
 						'redirect' => array(
@@ -513,7 +513,7 @@
 						$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
 						$this->notice(
 							sprintf(
-								__('Welcome back %s, your last login was from %s, %s on %s. (%s)'),
+								__d('users', 'Welcome back %s, your last login was from %s, %s on %s. (%s)'),
 								$currentUser['username'],
 								$lastLogon[$this->modelClass]['country'],
 								$lastLogon[$this->modelClass]['city'],
