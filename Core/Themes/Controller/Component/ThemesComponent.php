@@ -25,7 +25,16 @@
 		public function beforeRender(Controller $Controller) {
 			parent::beforeRender($Controller);
 			
-			$event = $Controller->Event->trigger($Controller->plugin.'.setupThemeStart');
+			//pr(array_values($Controller->viewVars));
+			$layout = array_values($Controller->viewVars);
+			$theme = current(Set::extract('/Layout/theme_id', $layout));
+			$layout = current(Set::extract('/Layout/layout', $layout));
+			
+			if($layout) {
+				Configure::write('Themes.default_layout', $layout);
+			}
+			
+			$event = $Controller->Event->trigger($Controller->plugin . '.setupThemeStart');
 			if (isset($event['setupThemeStart'][$Controller->plugin])) {
 				if (is_string($event['setupThemeStart'][$Controller->plugin])) {
 					$Controller->theme = $event['setupThemeStart'][$Controller->plugin];
@@ -123,10 +132,10 @@
 		 }
 	
 		public function actionAdminGetThemeLayouts() {
-			if(empty($this->Controller->request->data[$this->Controller->modelClass]['theme'])) {
+			if(empty($this->Controller->request->data[$this->Controller->modelClass]['theme_id'])) {
 				$this->Controller->set('json', false);
 			}
 			
-			$this->Controller->set('json', InfinitasTheme::layouts($this->Controller->request->data[$this->Controller->modelClass]['theme']));
+			$this->Controller->set('json', InfinitasTheme::layouts($this->Controller->request->data[$this->Controller->modelClass]['theme_id']));
 		}
 	}
