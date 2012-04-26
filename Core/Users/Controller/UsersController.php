@@ -57,7 +57,7 @@
 				);
 			}
 
-			$user = $this->User->find(
+			$user = $this->{$this->modelClass}->find(
 				'first',
 				array(
 					'conditions' => array(
@@ -120,7 +120,7 @@
 			}
 
 			if($this->Auth->user('id') && !$this->request->data) {
-				$this->request->data = $this->User->find(
+				$this->request->data = $this->{$this->modelClass}->find(
 					'first',
 					array(
 						'conditions' => array(
@@ -166,12 +166,12 @@
 			$this->_createCookie();
 
 			if($this->Auth->login()){
-				$this->User->recursive = -1;
+				$this->{$this->modelClass}->recursive = -1;
 
-				$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
+				$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
 				$data = $this->_getUserData();
 
-				if ($this->User->save($data)) {
+				if ($this->{$this->modelClass}->save($data)) {
 					$currentUser = $this->Auth->user();
 
 					$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
@@ -290,11 +290,10 @@
 				}
 				$this->request->data[$this->modelClass]['group_id'] = 2;
 
-				$this->User->create();
-
-				if ($this->User->saveAll($this->request->data)) {
+				$this->{$this->modelClass}->create();
+				if ($this->{$this->modelClass}->saveAll($this->request->data)) {
 					if (!$this->request->data[$this->modelClass]['active']) {
-						$ticket = $this->User->createTicket($this->User->id);
+						$ticket = $this->{$this->modelClass}->createTicket($this->{$this->modelClass}->id);
 
 						$urlToActivateUser = ClassRegistry::init('ShortUrlsShortUrl')->newUrl(
 							Router::url(array('action' => 'activate', $ticket), true)
@@ -348,10 +347,10 @@
 				$this->notice('invalid');
 			}
 
-			$this->User->id = $this->User->getTicket($hash);
+			$this->{$this->modelClass}->id = $this->{$this->modelClass}->getTicket($hash);
 
-			if ($this->User->saveField('active', 1, null, true)){
-				$user = $this->User->read('email', $this->User->id);
+			if ($this->{$this->modelClass}->saveField('active', 1, null, true)){
+				$user = $this->{$this->modelClass}->read('email', $this->{$this->modelClass}->id);
 
 				$this->Emailer->sendDirectMail(
 					array(
@@ -388,7 +387,7 @@
 		 */
 		public function forgot_password(){
 			if (!empty($this->request->data)){
-				$theUser = $this->User->find(
+				$theUser = $this->{$this->modelClass}->find(
 					'first',
 					array(
 						'conditions' => array(
@@ -397,7 +396,7 @@
 					)
 				);
 
-				if (is_array( $theUser[$this->modelClass]) && ($ticket = $this->User->createTicket($theUser[$this->modelClass]['email']) !== false)){
+				if (is_array( $theUser[$this->modelClass]) && ($ticket = $this->{$this->modelClass}->createTicket($theUser[$this->modelClass]['email']) !== false)){
 					$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
 						Router::url(array('action' => 'reset_password', $ticket), true)
 					);
@@ -442,9 +441,9 @@
 			}
 
 			if (!empty($this->request->data)){
-				$this->User->id = $this->request->data[$this->modelClass]['id'];
+				$this->{$this->modelClass}->id = $this->request->data[$this->modelClass]['id'];
 
-				if ($this->User->saveField('password', Security::hash($this->request->data[$this->modelClass]['new_password'], null, true))) {
+				if ($this->{$this->modelClass}->saveField('password', Security::hash($this->request->data[$this->modelClass]['new_password'], null, true))) {
 					$this->notice(
 						__d('users', 'Your new password was saved. You may now login'),
 						array(
@@ -468,7 +467,7 @@
 				}
 			}
 
-			$email = $this->User->getTicket($hash);
+			$email = $this->{$this->modelClass}->getTicket($hash);
 
 			if (!$email){
 				$this->notice(
@@ -482,7 +481,7 @@
 				);
 			}
 
-			$this->request->data = $this->User->find(
+			$this->request->data = $this->{$this->modelClass}->find(
 				'first',
 				array(
 					'conditions' => array(
@@ -499,10 +498,10 @@
 
 			if($this->request->data) {
 				if($this->Auth->login()) {
-					$lastLogon = $this->User->getLastLogon($this->Auth->user('id'));
+					$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
 					$data = $this->_getUserData();
 
-					if ($this->User->save($data)) {
+					if ($this->{$this->modelClass}->save($data)) {
 						$currentUser = $this->Auth->user();
 
 						// there is something wrong
@@ -544,7 +543,7 @@
 		}
 
 		public function admin_index(){
-			$this->User->recursive = 0;
+			$this->{$this->modelClass}->recursive = 0;
 			$users = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -552,7 +551,7 @@
 				'full_name',
 				'username',
 				'email',
-				'group_id' => $this->User->Group->find('list'),
+				'group_id' => $this->{$this->modelClass}->Group->find('list'),
 				'active' => Configure::read('CORE.active_options')
 			);
 
@@ -583,7 +582,7 @@
 		public function admin_add(){
 			parent::admin_add();
 
-			$groups = $this->User->Group->find('list');
+			$groups = $this->{$this->modelClass}->Group->find('list');
 			$this->set(compact('groups'));
 		}
 
@@ -598,7 +597,7 @@
 					unset($this->request->data[$this->modelClass]['confirm_password']);
 				}
 
-				if ($this->User->saveAll($this->request->data)) {
+				if ($this->{$this->modelClass}->saveAll($this->request->data)) {
 					$this->notice('saved');
 				}
 
@@ -606,10 +605,10 @@
 			}
 
 			if ($id && empty($this->request->data)) {
-				$this->request->data = $this->User->read(null, $id);
+				$this->request->data = $this->{$this->modelClass}->read(null, $id);
 			}
 
-			$groups = $this->User->Group->find('list');
+			$groups = $this->{$this->modelClass}->Group->find('list');
 			$this->set(compact('groups'));
 		}
 
@@ -617,7 +616,7 @@
 		 * for acl, should be removed.
 		 */
 		public function admin_initDB() {
-			$group = $this->User->Group;
+			$group = $this->{$this->modelClass}->Group;
 			//Allow admins to everything
 			$group->id = 1;
 			$this->Acl->allow($group, 'controllers');
