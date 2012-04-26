@@ -593,7 +593,7 @@
 			}
 
 			if (!empty($this->request->data)) {
-				if ($this->request->data['User']['password'] == Security::hash('', null, true)) {
+				if (empty($this->request->data['User']['password'])) {
 					unset($this->request->data['User']['password']);
 					unset($this->request->data['User']['confirm_password']);
 				}
