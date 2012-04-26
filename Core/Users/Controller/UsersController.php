@@ -174,15 +174,15 @@
 				if ($this->User->save($data)) {
 					$currentUser = $this->Auth->user();
 
-					$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
+					$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
 					$this->notice(
 						sprintf(
 							__('Welcome back %s, your last login was from %s, %s on %s. (%s)'),
 							$currentUser['username'],
-							$lastLogon['User']['country'],
-							$lastLogon['User']['city'],
-							$lastLogon['User']['last_login'],
-							$lastLogon['User']['ip_address']
+							$lastLogon[$this->modelClass]['country'],
+							$lastLogon[$this->modelClass]['city'],
+							$lastLogon[$this->modelClass]['last_login'],
+							$lastLogon[$this->modelClass]['ip_address']
 						)
 					);
 				}
@@ -193,7 +193,7 @@
 			}
 
 			if (!(empty($this->request->data)) && !$this->Auth->user()) {
-				$this->InfinitasSecurity->badLoginAttempt($this->request->data['User']);
+				$this->InfinitasSecurity->badLoginAttempt($this->request->data[$this->modelClass]);
 				$this->notice(__('Your login details have not been recognised'), array('level' => 'warning'));
 			}
 		}
@@ -204,17 +204,17 @@
 		 * @return array
 		 */
 		public function _getUserData(){
-			$data['User']['id']			   = $this->Auth->user('id');
-			$data['User']['last_login']	   = date('Y-m-d H:i:s');
-			$data['User']['modified']		 = false;
-			$data['User']['browser']		  = $this->Infinitas->getBrowser();
-			$data['User']['operating_system'] = $this->Infinitas->getOperatingSystem();
+			$data[$this->modelClass]['id']			   = $this->Auth->user('id');
+			$data[$this->modelClass]['last_login']	   = date('Y-m-d H:i:s');
+			$data[$this->modelClass]['modified']		 = false;
+			$data[$this->modelClass]['browser']		  = $this->Infinitas->getBrowser();
+			$data[$this->modelClass]['operating_system'] = $this->Infinitas->getOperatingSystem();
 
-			//$data['User'] = array_merge($data['User'], $this->Session->read('GeoLocation'));
-			$data['User']['is_mobile']		= $this->RequestHandler->isMobile();
+			//$data[$this->modelClass] = array_merge($data[$this->modelClass], $this->Session->read('GeoLocation'));
+			$data[$this->modelClass]['is_mobile']		= $this->RequestHandler->isMobile();
 			return $data;
 			$location = $this->Event->trigger('getLocation');
-			$data['User'] = array_merge($data['User'], current($location['getLocation']));
+			$data[$this->modelClass] = array_merge($data[$this->modelClass], current($location['getLocation']));
 
 			return $data;
 		}
@@ -239,12 +239,12 @@
 		public function _createCookie(){
 			return;
 			if ($this->Auth->user()) {
-				if (!empty($this->request->data['User']['remember_me'])) {
+				if (!empty($this->request->data[$this->modelClass]['remember_me'])) {
 					$cookie = array();
-					$cookie['username'] = $this->request->data['User']['username'];
-					$cookie['password'] = $this->request->data['User']['password'];
+					$cookie['username'] = $this->request->data[$this->modelClass]['username'];
+					$cookie['password'] = $this->request->data[$this->modelClass]['password'];
 					$this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-					unset($this->request->data['User']['remember_me']);
+					unset($this->request->data[$this->modelClass]['remember_me']);
 				}
 			}
 		}
@@ -283,17 +283,17 @@
 			}
 
 			if (!empty($this->request->data)) {
-				$this->request->data['User']['active'] = 1;
+				$this->request->data[$this->modelClass]['active'] = 1;
 
 				if (Configure::read('Website.email_validation') === true) {
-					$this->request->data['User']['active'] = 0;
+					$this->request->data[$this->modelClass]['active'] = 0;
 				}
-				$this->request->data['User']['group_id'] = 2;
+				$this->request->data[$this->modelClass]['group_id'] = 2;
 
 				$this->User->create();
 
 				if ($this->User->saveAll($this->request->data)) {
-					if (!$this->request->data['User']['active']) {
+					if (!$this->request->data[$this->modelClass]['active']) {
 						$ticket = $this->User->createTicket($this->User->id);
 
 						$urlToActivateUser = ClassRegistry::init('ShortUrlsShortUrl')->newUrl(
@@ -302,7 +302,7 @@
 
 						$this->Emailer->sendDirectMail(
 							array(
-								$this->request->data['User']['email']
+								$this->request->data[$this->modelClass]['email']
 							),
 							array(
 								'subject' => Configure::read('Website.name').' '.__('Confirm your registration'),
@@ -314,7 +314,7 @@
 					else{
 						$this->Emailer->sendDirectMail(
 							array(
-								$this->request->data['User']['email']
+								$this->request->data[$this->modelClass]['email']
 							),
 							array(
 								'subject' => __('Welcome to ').' '.Configure::read('Website.name'),
@@ -355,7 +355,7 @@
 
 				$this->Emailer->sendDirectMail(
 					array(
-						$user['User']['email']
+						$user[$this->modelClass]['email']
 					),
 					array(
 						'subject' => __('Welcome to ') .' '. Configure::read('Website.name'),
@@ -392,12 +392,12 @@
 					'first',
 					array(
 						'conditions' => array(
-							'User.email' => $this->request->data['User']['email']
+							'User.email' => $this->request->data[$this->modelClass]['email']
 						)
 					)
 				);
 
-				if (is_array( $theUser['User']) && ($ticket = $this->User->createTicket($theUser['User']['email']) !== false)){
+				if (is_array( $theUser[$this->modelClass]) && ($ticket = $this->User->createTicket($theUser[$this->modelClass]['email']) !== false)){
 					$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
 						Router::url(array('action' => 'reset_password', $ticket), true)
 					);
@@ -442,9 +442,9 @@
 			}
 
 			if (!empty($this->request->data)){
-				$this->User->id = $this->request->data['User']['id'];
+				$this->User->id = $this->request->data[$this->modelClass]['id'];
 
-				if ($this->User->saveField('password', Security::hash($this->request->data['User']['new_password'], null, true))) {
+				if ($this->User->saveField('password', Security::hash($this->request->data[$this->modelClass]['new_password'], null, true))) {
 					$this->notice(
 						__('Your new password was saved. You may now login'),
 						array(
@@ -510,15 +510,15 @@
 							$this->redirect('/logout');
 						}
 
-						$this->Session->write('Auth.User', array_merge($data['User'], $currentUser));
+						$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
 						$this->notice(
 							sprintf(
 								__('Welcome back %s, your last login was from %s, %s on %s. (%s)'),
 								$currentUser['username'],
-								$lastLogon['User']['country'],
-								$lastLogon['User']['city'],
-								$lastLogon['User']['last_login'],
-								$lastLogon['User']['ip_address']
+								$lastLogon[$this->modelClass]['country'],
+								$lastLogon[$this->modelClass]['city'],
+								$lastLogon[$this->modelClass]['last_login'],
+								$lastLogon[$this->modelClass]['ip_address']
 							)
 						);
 					}
@@ -526,7 +526,7 @@
 				}
 
 				// bad login
-				$this->InfinitasSecurity->badLoginAttempt($this->request->data['User']);
+				$this->InfinitasSecurity->badLoginAttempt($this->request->data[$this->modelClass]);
 			}
 
 			if($this->Auth->user()) {
@@ -593,9 +593,9 @@
 			}
 
 			if (!empty($this->request->data)) {
-				if (empty($this->request->data['User']['password'])) {
-					unset($this->request->data['User']['password']);
-					unset($this->request->data['User']['confirm_password']);
+				if (empty($this->request->data[$this->modelClass]['password'])) {
+					unset($this->request->data[$this->modelClass]['password']);
+					unset($this->request->data[$this->modelClass]['confirm_password']);
 				}
 
 				if ($this->User->saveAll($this->request->data)) {
