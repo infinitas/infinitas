@@ -73,13 +73,11 @@
 
 			$ids = array_values(array_filter(Set::extract('/massCheckBox', $data)));
 			if (empty($ids)) {
-				$redirect = isset($this->Controller->data['Confirm']['referer']) ? $this->Controller->data['Confirm']['referer'] : true;
-				
 				$this->Controller->notice(
 					__('Nothing was selected, please select something and try again.'),
 					array(
 						'level' => 'warning',
-						'redirect' => $redirect
+						'redirect' => ''
 					)
 				);
 			}
@@ -405,7 +403,7 @@
 				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany;
 
 				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
-					$_Model = ClassRegistry::init($this->Controller->plugin.'.'.$alias);
+					$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $alias);
 					$this->Controller->set(strtolower($alias), $_Model->find('list'));
 				}
 			}
@@ -462,7 +460,7 @@
 				unset($save);
 			}
 
-			if(in_array('Tree', $this->Controller->{$this->Controller->modelClass}->Behaviors->_attached)){
+			if(in_array('Tree', $this->Controller->{$this->Controller->modelClass}->Behaviors->attached())) {
 				//$this->Controller->{$this->Controller->modelClass}->recover('parent');
 			}
 

@@ -72,7 +72,7 @@
 			foreach($rows as $row){
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Form->checkbox($model.'.'.$row[$model][$modelSetup['primaryKey']]); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->massActionCheckBox($row); ?>&nbsp;</td>
 						<td>
 							<?php echo $row[$model][$modelSetup['displayField']]; ?>
 						</td>
