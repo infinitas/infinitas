@@ -23,7 +23,7 @@
 <div class="dashboard">
 	<p><?php
 		echo sprintf(
-			__('The record you are trying to view has been locked by anotehr user. %s to go back'),
+			__('The record you are trying to view has been locked by another user. %s to go back'),
 			$this->Html->link(__('click here'), env('HTTP_REFERER'))
 		);
 	?></p>
