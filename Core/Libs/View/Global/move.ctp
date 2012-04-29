@@ -69,7 +69,7 @@
 			);
 
 			$i = 0;
-			foreach($rows as $row){
+			foreach($rows as $row) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($row); ?>&nbsp;</td>

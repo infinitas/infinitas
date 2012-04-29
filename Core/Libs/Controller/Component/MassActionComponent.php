@@ -407,6 +407,15 @@
 					$this->Controller->set(strtolower($alias), $_Model->find('list'));
 				}
 			}
+			
+			if(array_filter(Set::flatten($relations)) == array()) {
+				$this->Controller->notice(
+					__d($this->Controller->request->params['plugin'], 'There is nothing to move for these records'),
+					array(
+						'redirect' => true
+					)
+				);
+			}
 
 			$modelSetup['displayField'] = $this->Controller->{$this->Controller->modelClass}->displayField;
 			$modelSetup['primaryKey'] = $this->Controller->{$this->Controller->modelClass}->primaryKey;

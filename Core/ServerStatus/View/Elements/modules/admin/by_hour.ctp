@@ -1,3 +1,8 @@
+<?php
+	if(!isset($byHour) || empty($byHour)) {
+		return false;
+	}
+?>
 <div class="dashboard grid_16">
 	<?php
 		if(empty($byHour)) {

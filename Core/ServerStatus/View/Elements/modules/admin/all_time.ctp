@@ -1,3 +1,8 @@
+<?php
+	if(!isset($allTime) || empty($allTime)) {
+		return false;
+	}
+?>
 <div class="dashboard half">
 	<?php
 		echo sprintf(__('<h1>%s</h1>'), __('Overall usage statistics'));

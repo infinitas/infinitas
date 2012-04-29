@@ -1,3 +1,8 @@
+<?php
+	if(!isset($lastTwoWeeks) || empty($lastTwoWeeks)) {
+		return false;
+	}
+?>
 <div class="dashboard half">
 	<?php
 		echo sprintf(

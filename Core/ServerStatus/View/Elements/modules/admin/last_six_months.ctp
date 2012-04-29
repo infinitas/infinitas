@@ -1,3 +1,8 @@
+<?php
+	if(!isset($lastSixMonths) || empty($lastSixMonths)) {
+		return false;
+	}
+?>
 <div class="dashboard half">
 	<?php
 		echo sprintf(

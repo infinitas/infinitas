@@ -50,7 +50,7 @@
 					'conditions' => array(
 						$this->modelClass . '.active' => 1,
 						$this->modelClass . '.hide' => 0,
-						$this->modelClass . '.parent_id' => null
+						$this->modelClass . '.parent_id IS NULL'
 					)
 				)
 			);

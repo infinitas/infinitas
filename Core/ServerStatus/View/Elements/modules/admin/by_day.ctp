@@ -1,3 +1,8 @@
+<?php
+	if(!isset($byDay) || empty($byDay)) {
+		return false;
+	}
+?>
 <div class="dashboard grid_16">
 	<?php
 		echo sprintf(

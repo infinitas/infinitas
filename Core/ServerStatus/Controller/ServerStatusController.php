@@ -45,17 +45,21 @@
 				$this->notice(
 					__('Crons are not currently running, reporting is disabled'),
 					array(
-						'level' => 'error'
+						'level' => 'error',
 					)
 				);
+				
+				$allTime = $lastTwoWeeks = $lastSixMonths = $byHour = $byDay = array();
 			}
 			else{
-				$this->set('allTime', $this->ServerStatus->reportAllTime());
-				$this->set('lastTwoWeeks', $this->ServerStatus->reportLastTwoWeeks());
-				$this->set('lastSixMonths', $this->ServerStatus->reportLastSixMonths());
-				$this->set('byHour', $this->ServerStatus->reportByHour());
-				$this->set('byDay', $this->ServerStatus->reportByDay());
+				$allTime = $this->ServerStatus->reportAllTime();
+				$lastTwoWeeks = $this->ServerStatus->reportLastTwoWeeks();
+				$lastSixMonths = $this->ServerStatus->reportLastSixMonths();
+				$byHour = $this->ServerStatus->reportByHour();
+				$byDay = $this->ServerStatus->reportByDay();
 			}
+			
+			$this->set(compact('allTime', 'lastTwoWeeks', 'lastSixMonths', 'byHour', 'byDay'));
 			
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$this->notice(

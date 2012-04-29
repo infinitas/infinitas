@@ -75,8 +75,7 @@
 						</td>
                 		<td>
                 			<?php
-                				$paths = array(); //ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
-                				$links = array();
+                				$paths = ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
 
                 				if (count($paths) > 1) {
                 					echo '<b>', str_repeat('- ', count($paths)-1), ' |</b> ';
