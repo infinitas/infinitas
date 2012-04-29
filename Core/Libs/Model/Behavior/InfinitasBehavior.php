@@ -398,7 +398,11 @@
 		*
 		* @return array a list of controllers that were found
 		*/
-		public function getControllers($Model, $plugin){
+		public function getControllers($Model, $plugin) {
+			if(empty($plugin)) {
+				return false;
+			}
+			
 			$plugin = Inflector::camelize($plugin);
 			$list = App::objects(
 				'Controller',
@@ -406,7 +410,7 @@
 				false
 			);
 			$controllers = array();
-			foreach($list as $controller){
+			foreach($list as $controller) {
 				if($controller == $plugin . 'AppController') {
 					continue;
 				}
@@ -421,6 +425,7 @@
 
 				$controllers[$controller] = $name;
 			}
+			
 			return $controllers;
 		}
 
