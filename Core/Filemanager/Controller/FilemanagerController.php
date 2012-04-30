@@ -139,7 +139,7 @@
 		}
 		
 		private function __getPlugins() {
-			$plugins = InfinitasPlugin::listPlugins();
+			$plugins = InfinitasPlugin::listPlugins('loaded');
 			natcasesort($plugins);
 			
 			foreach($plugins as &$plugin) {
