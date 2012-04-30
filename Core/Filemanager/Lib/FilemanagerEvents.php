@@ -21,7 +21,8 @@
 	 */
 
 	final class FilemanagerEvents extends AppEvents {
-		public function onPluginRollCall(){
+		public function onPluginRollCall() {
+			return;
 			return array(
 				'name' => 'Files',
 				'description' => 'Allow you to manage files from the backend',
