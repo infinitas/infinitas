@@ -172,6 +172,7 @@
 
 		public function script() {
 			$args = func_get_args();
+			
 			if(!empty($args)) {
 				return call_user_func_array(array($this, 'js'), $args);
 			}
@@ -189,10 +190,8 @@
 		 *	or to the multiple Javascript files if the combined file could not be cached.
 		 */
 		public function js() {
-			// Get the javascript files.
 			$jsFiles = func_get_args();
 
-			// Whoops. No files! We'll have to return an empty string then.
 			if (empty($jsFiles)) {
 				return '';
 			}
@@ -222,16 +221,11 @@
 
 			$jsData = $this->_getJsFiles($jsFiles);
 
-
-			// If we can cache the file, then we can return the URL to the file.
 			if ($this->File->write($jsData)) {
 				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
-
-			// Otherwise, we'll have to trigger an error, and pass the handling of the
-			// CSS files to the HTML Helper.
-			trigger_error("Cannot combine Javascript files to {$cacheFile}. Please ensure this directory is writable.", E_USER_WARNING);
-			return $this->Html->script($jsFiles);
+			
+			$this->Html->script($jsFiles);
 		}
 
 		protected function _getJsFiles($jsFiles){
