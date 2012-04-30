@@ -5,7 +5,7 @@
 	
 	$title = empty($title) ? __d('contents', 'Image') : $title;
 	$imageOptions = empty($imageOptions) ? array('width' => '150px') : $imageOptions;
-	$linkOptions = empty($linkOptions) ? array('class' => 'thickbox', 'escape' => false) : $linkOptions;
+	$linkOptions = empty($linkOptions) ? array('class' => 'thickbox') : $linkOptions;
 ?>
 <div class="image">
 	<?php
@@ -16,7 +16,7 @@
 				$imageOptions
 			),
 			$data['content_image_path_full'],
-			$linkOptions
+			array_merge(array('escape' => false), $linkOptions)
 		),
 		sprintf('<p>%s</p>', $data['image']);
 	?>

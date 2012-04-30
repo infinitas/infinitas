@@ -410,7 +410,7 @@
 			$var = $this->lastPageRedirectVar();
 
 			$lastPage = $this->Session->read($var);
-			if(!$lastPage){
+			if(!$lastPage && InfinitasRouter::url($lastPage) != $this->referer()) {
 				$this->Session->write($var, $this->referer());
 			}
 		}
