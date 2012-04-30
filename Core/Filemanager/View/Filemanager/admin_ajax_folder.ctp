@@ -30,7 +30,7 @@
 			
 			$image = $this->Html->link(
 				$image,
-				$this->Html->assetUrl($plugin. '.' . $path, array('pathPrefix' => IMAGES_URL)) . '&width=640',
+				$this->Html->assetUrl($plugin. '.' . $path, array('pathPrefix' => IMAGES_URL)) . '?width=640',
 				array(
 					'escape' => false,
 					'class' => 'thickbox zoom',
