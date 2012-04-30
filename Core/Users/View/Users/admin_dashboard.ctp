@@ -12,7 +12,7 @@
 		array(
 			'name' => 'Groups',
 			'description' => 'Manage the different groups on your site',
-			'icon' => '/users/img/groups.png',
+			'icon' => '/users/img/group.png',
 			'dashboard' => array(
 				'controller' => 'groups',
 				'action' => 'index'
@@ -22,10 +22,7 @@
 			'name' => 'Access - ACL',
 			'description' => 'Manage who can view what',
 			'icon' => '/users/img/groups.png',
-			'dashboard' => array(
-				'controller' => 'access',
-				'action' => 'index'
-			)
+			'dashboard' => $this->here . '#'
 		)
 	);
 	
