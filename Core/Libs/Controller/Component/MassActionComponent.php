@@ -35,7 +35,14 @@
 		 */
 		public function actionAdminMass() {
 			$massAction = $this->getAction();
-			$modelName = isset($this->Controller->request->data['Confirm']['model']) ? $this->Controller->request->data['Confirm']['model'] : $this->Controller->modelClass;
+			
+			if(isset($this->Controller->modelClass)) {
+				$modelName = $this->Controller->modelClass;
+			}
+			
+			if(!empty($this->Controller->request->data['Confirm']['model'])) {
+				$modelName = $this->Controller->request->data['Confirm']['model'];
+			}
 			
 			if(empty($this->Controller->request->data[$modelName])) {
 				$this->Controller->setAction('admin_index');
