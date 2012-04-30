@@ -4,7 +4,7 @@
 			if($event->Handler->shouldAutoAttachBehavior()) {
 				$noTrashModels = array(
 					'Session', 'SchemaMigration', 'Config',
-					'Aco', 'Aro', 'Trash'
+					'Aco', 'Aro', 'Trash', 'Lock'
 				);
 
 				$check = !in_array($event->Handler->name, $noTrashModels) &&
