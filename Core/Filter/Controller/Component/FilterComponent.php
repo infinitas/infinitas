@@ -179,12 +179,23 @@
 		 */
 		public function processFilters($controller, $whiteList = null){
 			$controller = $this->_prepareFilter($controller);
+			$data = $controller->request->data;
+			unset($data[$controller->{$controller->modelClass}->alias]['all']);
+			if(empty($data[$controller->{$controller->modelClass}->alias])) {
+				$data[$controller->{$controller->modelClass}->alias] = array();
+			}
+			
+			foreach($data[$controller->{$controller->modelClass}->alias] as $k => $v) {
+				if(is_array($v) && current(array_keys($v)) == 'massCheckBox') {
+					unset($data[$controller->{$controller->modelClass}->alias][$k]);
+				}
+			}
 			$ret = array();
 
 			if (isset($controller->request->data)) {
-				foreach ($controller->request->data as $model => $fields) {
+				foreach ($data as $model => $fields) {
 					$modelFieldNames = array();
-					if (isset($controller->{$model})) {
+					if (!empty($controller->{$model}) && $controller->{$model} instanceof Model) {
 						$modelFieldNames = $controller->{$model}->getColumnTypes();
 					}
 
@@ -194,7 +205,7 @@
 					
 					if (!empty($modelFieldNames)) {
 						foreach ($fields as $filteredFieldName => $filteredFieldData) {
-							if (is_array($filteredFieldData) && $modelFieldNames[$filteredFieldName] == 'datetime') {
+							if (is_array($filteredFieldData) && !empty($modelFieldNames[$filteredFieldName]) && $modelFieldNames[$filteredFieldName] == 'datetime') {
 								$filteredFieldData = $this->_prepareDatetime($filteredFieldData);
 							}
 
@@ -306,7 +317,7 @@
 			}
 			
 			//If redirect has been set true, and the data had not been parsed before and put into the url, does it now
-			if (!$this->parsed && $this->redirect){
+			if (!$this->parsed && $this->redirect) {
 				$this->url = "/Filter.parsed:true{$this->url}";
 				$controller->redirect("/{$controller->name}/index{$this->url}/");
 			}
