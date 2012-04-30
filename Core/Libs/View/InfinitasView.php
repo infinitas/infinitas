@@ -186,11 +186,7 @@
 		 * @return void
 		 */
 		private function __parseSnips(&$out) {
-			$ignore = array(
-				'admin_add',
-				'admin_edit'
-			);
-			if($this->request->params['admin'] && in_array($this->request->params['action'], $ignore)) {
+			if(substr($this->request->params['action'], 0, 5) == 'admin') {
 				return;
 			}
 			
@@ -200,7 +196,7 @@
 			if(empty($snips)) {
 				return;
 			}
-
+			
 			foreach($snips as $key => $match) {
 				$out = str_replace($match, $this->__parseSnipParams($match), $out);
 			}

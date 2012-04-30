@@ -262,10 +262,30 @@
 					)
 				)
 			);
+			
+			foreach($menus as &$menu) {
+				$this->__underscore($menu);
+			}
 
 			Cache::write($type, $menus, 'menus');
 
 			return $menus;
+		}
+		
+		/**
+		 * convert the camelcase stuff to underscored so links work properly
+		 * 
+		 * @param array $menu the row of menu data
+		 */
+		private function __underscore(&$menu) {
+			$menu[$this->alias]['plugin'] = Inflector::underscore($menu[$this->alias]['plugin']);
+			$menu[$this->alias]['controller'] = substr(Inflector::underscore($menu[$this->alias]['controller']), 0, -11);
+			
+			if(!empty($menu['children'])) {
+				foreach($menu['children'] as &$child) {
+					$this->__underscore($child);
+				}
+			}
 		}
 
 		/**

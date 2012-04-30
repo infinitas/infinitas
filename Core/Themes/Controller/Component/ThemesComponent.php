@@ -26,6 +26,10 @@
 			parent::beforeRender($Controller);
 			
 			//pr(array_values($Controller->viewVars));
+			if(!empty($Controller->viewVars['error']) && $Controller->viewVars['error'] instanceof Exception) {
+				return false;
+			}
+			
 			$layout = array_values($Controller->viewVars);
 			$theme = current(Set::extract('/Layout/theme_id', $layout));
 			$layout = current(Set::extract('/Layout/layout', $layout));

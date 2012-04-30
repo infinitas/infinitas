@@ -294,6 +294,17 @@
 		public function copy($ids) {
 			$copyText = sprintf(' - %s (%s)', __('copy'), date('Y-m-d'));
 			$saves = 0;
+			
+			if($this->Controller->{$this->Controller->modelClass}->Behaviors->attached('Contentable')) {
+				$this->Controller->notice(
+					__d('content', 'Copy is not currently supported for this data'),
+					array(
+						'redirect' => '',
+						'level' => 'warning'
+					)
+				);
+			}
+			
 			foreach($ids as $id) {
 				$record = $this->Controller->{$this->Controller->modelClass}->read(null, $id);
 				unset($record[$this->Controller->modelClass]['id']);
@@ -315,7 +326,12 @@
 				/**
 				 * unset anything fields that are countercache
 				 */
-				foreach($record[$this->Controller->modelClass] as $field => $value){
+				foreach($record[$this->Controller->modelClass] as $field => $value) {
+					$schema = $this->Controller->{$this->Controller->modelClass}->schema($field);
+					if(!empty($schema['key']) && $schema['key'] == 'unique') {
+						$record[$this->Controller->modelClass][$field] .= ' - ' . time();
+					}
+					
 					if(strstr($field, '_count')){
 						unset($record[$this->Controller->modelClass][$field]);
 					}

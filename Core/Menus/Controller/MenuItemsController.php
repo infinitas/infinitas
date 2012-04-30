@@ -30,14 +30,14 @@
 
 			$menuItems = $this->Paginator->paginate(
 				null,
-				array_merge(array('MenuItem.parent_id !=' => 0), $this->Filter->filter)
+				array_merge(array($this->modelClass . '.parent_id !=' => 0), $this->Filter->filter)
 			);
 
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'menu_id' => array(null => __('All')) + $this->MenuItem->Menu->find('list'),
-				'group_id' => array(null => __('Public')) + $this->MenuItem->Group->find('list'),
+				'menu_id' => array(null => __('All')) + $this->{$this->modelClass}->Menu->find('list'),
+				'group_id' => array(null => __('Public')) + $this->{$this->modelClass}->Group->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
@@ -49,10 +49,10 @@
 
 			// auto select parent when the + button is used
 			if (isset($this->request->params['named']['parent_id'])) {
-				$this->request->data['MenuItem']['parent_id'] = $this->request->params['named']['parent_id'];
+				$this->request->data[$this->modelClass]['parent_id'] = $this->request->params['named']['parent_id'];
 			}
 
-			$menus   = $this->MenuItem->Menu->find('list');
+			$menus   = $this->{$this->modelClass}->Menu->find('list');
 			if(empty($menus)){
 				$this->notice(
 					__('Please add a menu before adding items'),
@@ -65,31 +65,31 @@
 				);
 			}
 
-			$groups  = array(0 => __('Public')) + $this->MenuItem->Group->find('list');
-			$parents = array(0 => __('Root')) + $this->MenuItem->generateTreeList(
+			$groups  = array(0 => __('Public')) + $this->{$this->modelClass}->Group->find('list');
+			$parents = array(0 => __('Root')) + $this->{$this->modelClass}->generateTreeList(
 				array(
-					'MenuItem.parent_id !=' => 0,
-					'MenuItem.menu_id' => reset(array_keys($menus))
+					$this->modelClass . '.parent_id !=' => 0,
+					$this->modelClass . '.menu_id' => reset(array_keys($menus))
 				)
 			);
-			$plugins = $this->MenuItem->getPlugins();
+			$plugins = $this->{$this->modelClass}->getPlugins();
 			$this->set(compact('menus', 'groups', 'parents', 'plugins'));
 		}
 
 		public function admin_edit($id = null){
 			parent::admin_edit($id);
 
-			$menus   = $this->MenuItem->Menu->find('list');
-			$groups  = array(0 => __('Public')) + $this->MenuItem->Group->find('list');
-			$parents = array(0 => __('Root')) + $this->MenuItem->generateTreeList(
+			$menus   = $this->{$this->modelClass}->Menu->find('list');
+			$groups  = array(0 => __('Public')) + $this->{$this->modelClass}->Group->find('list');
+			$parents = array(0 => __('Root')) + $this->{$this->modelClass}->generateTreeList(
 				array(
-					'MenuItem.parent_id !=' => 0,
-					'MenuItem.menu_id' => $this->request->data['MenuItem']['menu_id']
+					$this->modelClass . '.parent_id !=' => 0,
+					$this->modelClass . '.menu_id' => $this->request->data[$this->modelClass]['menu_id']
 				)
 			);
-			$plugins = $this->MenuItem->getPlugins();
-			$controllers = $this->MenuItem->getControllers($this->request->data['MenuItem']['plugin']);
-			$actions = $this->MenuItem->getActions($this->request->data['MenuItem']['plugin'], $this->request->data['MenuItem']['controller']);
+			$plugins = $this->{$this->modelClass}->getPlugins();
+			$controllers = $this->{$this->modelClass}->getControllers($this->request->data[$this->modelClass]['plugin']);
+			$actions = $this->{$this->modelClass}->getActions($this->request->data[$this->modelClass]['plugin'], $this->request->data[$this->modelClass]['controller']);
 			$this->set(compact('menus', 'groups', 'parents', 'plugins', 'controllers', 'actions'));
 		}
 
@@ -107,7 +107,7 @@
 			}
 			
 			try {
-				$this->set('json', $this->MenuItem->getParents($this->request->data[$this->modelClass]['menu_id']));
+				$this->set('json', $this->{$this->modelClass}->getParents($this->request->data[$this->modelClass]['menu_id']));
 			}
 			
 			catch(Exception $e) {
