@@ -326,7 +326,12 @@
 				/**
 				 * unset anything fields that are countercache
 				 */
-				foreach($record[$this->Controller->modelClass] as $field => $value){
+				foreach($record[$this->Controller->modelClass] as $field => $value) {
+					$schema = $this->Controller->{$this->Controller->modelClass}->schema($field);
+					if(!empty($schema['key']) && $schema['key'] == 'unique') {
+						$record[$this->Controller->modelClass][$field] .= ' - ' . time();
+					}
+					
 					if(strstr($field, '_count')){
 						unset($record[$this->Controller->modelClass][$field]);
 					}
