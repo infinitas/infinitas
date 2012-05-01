@@ -173,10 +173,10 @@
 			}
 
 			$this->_menuData = '<ul class="pureCssMenu pureCssMenum0">';
-			foreach( $data as $k => $v ){
-				$this->_menuLevel = 0;
-				$this->__buildDropdownMenu($v, 'MenuItem');
-			}
+				foreach( $data as $k => $v ) {
+					$this->_menuLevel = 0;
+					$this->__buildDropdownMenu($v, 'MenuItem');
+				}
 			$this->_menuData .= '</ul>';
 
 			return str_replace('</a></a>', '</a>', $this->_menuData);
@@ -289,33 +289,11 @@
 
 			$this->_menuData .= '<li class="'.$class.'">';
 			if(!$isSeperator) {
-				$menuLink = $array['MenuItem']['link'];
-				if (empty($array['MenuItem']['link'])) {
-					$_items = $array['MenuItem'];
+				$menuLink = $this->url($array);
 
-					$menuLink['prefix'] = (!empty($array['MenuItem']['prefix']) ? $array['MenuItem']['prefix'] : null);
-					$menuLink['plugin'] = (!empty($array['MenuItem']['plugin']) ? $array['MenuItem']['plugin'] : null);
-					$menuLink['controller'] = (!empty($array['MenuItem']['controller']) ? $array['MenuItem']['controller'] : null);
-					$menuLink['action'] = (!empty($array['MenuItem']['action']) ? $array['MenuItem']['action'] : 'index');
-					$menuLink[] = (!empty($array['MenuItem']['params']) ? $array['MenuItem']['params'] : null);
-
-					if($menuLink['controller'] == $this->request->params['controller'] || $menuLink['plugin'] == $this->request->params['plugin']){
-						$currentCss = ' current';
-						$this->_currentCssDone = true;
-					}
-
-					foreach($menuLink as $key => $value ){
-						if (empty($value)) {
-							unset($menuLink[$key]);
-						}
-					}
-
-					if ($array['MenuItem']['force_backend']) {
-						$menuLink['admin'] = true;
-					}
-					else if ($array['MenuItem']['force_frontend']) {
-						$menuLink['admin'] = false;
-					}
+				if($menuLink == $this->here || (is_array($menuLink) && ($menuLink['controller'] == $this->request->params['controller'] || $menuLink['plugin'] == $this->request->params['plugin']))) {
+					$currentCss = ' current';
+					$this->_currentCssDone = true;
 				}
 
 				if(!empty($currentCss) && $this->_currentCssDone === false && Router::url($menuLink) == $this->here){
@@ -325,7 +303,7 @@
 
 				$this->_menuData .= $this->Html->link(
 					$linkName,
-					$menuLink,
+					InfinitasRouter::url($menuLink),
 					array(
 						'class' => 'pureCssMenui'.$suffix.$currentCss,
 						'escape' => false
