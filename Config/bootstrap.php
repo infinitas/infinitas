@@ -270,6 +270,85 @@
 		echo ')); </br>';
 	}
 
+	function debugBacktrace($backtrace) {
+		$count = 0;
+		foreach($backtrace as $k => $v) {
+			$default = array(
+				'line' => null,
+				'file' => null,
+				'function' => null,
+				//'args' => null,
+			);
+			$line = $v;
+			
+			$pass = array();
+			foreach($line['args'] as $k => &$v) {
+				if(empty($v)) {
+					continue;
+				}
+				
+				if(is_object($v)) {
+					$pass[] = $v = sprintf('$%s', get_class($v));
+					continue;
+				}
+				
+				if(is_array($v)) {
+					$pass[] = 'array()';
+					continue;
+				}
+				
+				if(is_int($v)) {
+					$pass[] = $v;
+					continue;
+				}
+				
+				if($v === null) {
+					$pass[] = '<i>null</i>';
+					continue;
+				}
+				
+				$pass[] = sprintf("'%s'", $v);
+			}
+			
+			$line['function'] = sprintf(
+				'%s(%s)',
+				implode($line['type'], array($line['class'], $line['function'])),
+				implode(', ', $pass)
+			);
+			array_walk($line['args'], function(&$line) {
+				$line = print_r($line, true);
+			});
+			$line['function'] = sprintf(
+				'<span onclick="debugToggle(%s)">%s</span><pre id="backtrace-%s" style="display:none;">%s</pre>',
+				$count,
+				$line['function'],
+				$count++,
+				sprintf('<pre>%s</pre>', implode('</pre><pre>', $line['args']))
+			);
+			unset($line['object'], $line['class'], $line['type'], $line['args']);
+			$line = array_merge($default, $line);
+			
+			$line['file'] = str_replace(
+				array(APP . 'Core' . DS, APP, CAKE), 
+				array('INFINTIAS/', 'APP/', 'CAKE/'), 
+				$line['file']
+			);
+			
+			$lines[] = sprintf(
+				'<td>%s<td>',
+				implode('</td><td>', $line)
+			);
+		}
+		
+		$lines = sprintf(
+			'<script type="text/javascript">function debugToggle(id){var e = document.getElementById(\'backtrace-\' + id);if(e.style.display == \'block\') {e.style.display = \'none\';}else {e.style.display = \'block\';}}</script>'.
+			'<table style="width:80%%; margin:auto;"><tr><th>%s</th></tr><tr>%s</tr></table>', 
+			implode('</th><th>', array('Line', 'File', 'Function')),
+			implode('</tr><tr>', array_reverse($lines))
+		);
+		
+		echo $lines;
+	}
 
 	/**
 	 * @brief Quick method to conver byte -> anything.
