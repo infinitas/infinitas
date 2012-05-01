@@ -57,7 +57,13 @@
 			}
 			
 			if(is_callable(array($event->Handler->{$event->Handler->modelClass}, 'unlock'))) {
-				$event->Handler->{$event->Handler->modelClass}->unlock($id);
+				try {
+					$event->Handler->{$event->Handler->modelClass}->unlock($id);
+				}
+				
+				catch(Exception $e) {
+					return false;
+				}
 			}
 		}
 	}
