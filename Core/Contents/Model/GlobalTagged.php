@@ -123,6 +123,12 @@
 						)
 					);
 				}
+				
+				if (!empty($query['foreign_key'])) {
+					$query['conditions'][] = array(
+						$this->alias . '.foreign_key' => $query['foreign_key']
+					);
+				}
 
 				if (!empty($query['category'])) {
 					$query['joins'][] = array(
@@ -148,7 +154,7 @@
 						)
 					);
 				}
-				unset($query['model'], $query['category']);
+				unset($query['model'], $query['category'], $query['foreign_key']);
 				return $query;
 			}
 

@@ -10,13 +10,14 @@
 		$config['category'] = $this->request->params['category'];
 	}
 	
-	if(!isset($tags)) {
+	if(empty($tags)) {
 		$tags = ClassRegistry::init('Blog.BlogPost')->GlobalTagged->find(
 			'cloud',
 			array(
 				'limit' => !empty($config['limit']) ? $config['limit'] : 50,
 				'model' => !empty($config['model']) ? $config['model'] : null,
 				'category' => !empty($config['category']) ? $config['category'] : null,
+				'foreign_key' => !empty($config['id']) ? $config['id'] : null,
 			)
 		);
 	}
