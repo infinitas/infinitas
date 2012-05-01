@@ -44,10 +44,6 @@
 				$modelName = $this->Controller->request->data['Confirm']['model'];
 			}
 			
-			if(empty($this->Controller->request->data[$modelName])) {
-				$this->Controller->setAction('admin_index');
-				return false;
-			}
 			$ids = $this->getIds(
 				$massAction,
 				$this->Controller->request->data[$modelName]
@@ -162,10 +158,10 @@
 			}
 
 			$this->Controller->redirect(array(
-					'plugin' => $this->Controller->params['plugin'],
-					'controller' => $this->Controller->params['controller'],
+					'plugin' => $this->Controller->request->params['plugin'],
+					'controller' => $this->Controller->request->params['controller'],
 					'action' => 'index'
-				) + $this->Controller->params['named'] + $data
+				) + $this->Controller->request->params['named'] + $data
 			);
 		}
 

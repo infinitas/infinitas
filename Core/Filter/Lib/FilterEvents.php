@@ -24,7 +24,7 @@
 		public function onRequireComponentsToLoad($event){
 			return array(
 				'Filter.Filter' => array(
-					'actions' => array('admin_index', 'admin_mass', 'index')
+					'actions' => array('admin_index', 'index')
 				)
 			);
 		}

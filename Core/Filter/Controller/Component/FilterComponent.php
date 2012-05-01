@@ -186,144 +186,158 @@
 				$data[$controller->{$controller->modelClass}->alias] = array();
 			}
 			
-			foreach($data[$controller->{$controller->modelClass}->alias] as $k => $v) {
-				if(is_array($v) && current(array_keys($v)) == 'massCheckBox') {
-					unset($data[$controller->{$controller->modelClass}->alias][$k]);
-				}
-			}
 			$ret = array();
+			if (empty($controller->request->data)) {
+				$this->__checkRedirect();
+				
+				return $ret;
+			}
+			
+			foreach($data as $model => $fields) {
+				$modelFieldNames = array();
+				if (!empty($controller->{$model}) && $controller->{$model} instanceof Model) {
+					$modelFieldNames = $controller->{$model}->getColumnTypes();
+				}
 
-			if (isset($controller->request->data)) {
-				foreach ($data as $model => $fields) {
-					$modelFieldNames = array();
-					if (!empty($controller->{$model}) && $controller->{$model} instanceof Model) {
-						$modelFieldNames = $controller->{$model}->getColumnTypes();
-					}
+				else if (isset($controller->{$controller->modelClass}->belongsTo[$model]) || isset($controller->{$controller->modelClass}->hasOne[$model])) {
+					$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
+				}
+				
+				if (!empty($modelFieldNames)) {
+					foreach($fields as $filteredFieldName => $filteredFieldData) {
+						if(isset($controller->{$model}) && $controller->{$model} instanceof Model && !$controller->{$model}->hasField($filteredFieldName)) {
+							continue;
+						}
 
-					else if (isset($controller->{$controller->modelClass}->belongsTo[$model]) || isset($controller->{$controller->modelClass}->hasOne[$model])) {
-						$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
-					}
-					
-					if (!empty($modelFieldNames)) {
-						foreach ($fields as $filteredFieldName => $filteredFieldData) {
-							if (is_array($filteredFieldData) && !empty($modelFieldNames[$filteredFieldName]) && $modelFieldNames[$filteredFieldName] == 'datetime') {
-								$filteredFieldData = $this->_prepareDatetime($filteredFieldData);
+						if (is_array($filteredFieldData) && !empty($modelFieldNames[$filteredFieldName]) && $modelFieldNames[$filteredFieldName] == 'datetime') {
+							$filteredFieldData = $this->_prepareDatetime($filteredFieldData);
+						}
+
+						if ($filteredFieldData != '') {
+							if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
+								continue;
 							}
 
-							if ($filteredFieldData != '') {
-								if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
-									continue;
-								}
-
-								if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
-									// insert value into fieldFormatting
-									$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
-									// don't put key.fieldname as array key if a LIKE clause
-									if (substr($tmp, 0, 4) == 'LIKE') {
-										$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
-									}
-
-									else {
-										$ret["{$model}.{$filteredFieldName}"] = $tmp;
-									}
+							if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
+								// insert value into fieldFormatting
+								$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
+								// don't put key.fieldname as array key if a LIKE clause
+								if (substr($tmp, 0, 4) == 'LIKE') {
+									$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
 								}
 
 								else {
-									// build up where clause with field and value
-									$ret["{$model}.{$filteredFieldName}"] = $filteredFieldData;
+									$ret["{$model}.{$filteredFieldName}"] = $tmp;
 								}
-								// save the filter data for the url
-								$this->url .= "/{$model}.{$filteredFieldName}:{$filteredFieldData}";
 							}
+
+							else {
+								// build up where clause with field and value
+								$ret["{$model}.{$filteredFieldName}"] = $filteredFieldData;
+							}
+							// save the filter data for the url
+							$this->url .= "/{$model}.{$filteredFieldName}:{$filteredFieldData}";
 						}
 					}
+				}
 
-					else {
-						if (isset($controller->{$controller->modelClass}->hasMany[$model])) {
-							$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
-							if (!empty($modelFieldNames)) {
-								foreach ($fields as $filteredFieldName => $filteredFieldData) {
-									if (is_array($filteredFieldData) && $modelFieldNames[$filteredFieldName] == 'datetime') {
-										$filteredFieldData = $this->_prepare_datetime($filteredFieldData);
+				else {
+					if (isset($controller->{$controller->modelClass}->hasMany[$model])) {
+						$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
+						if (!empty($modelFieldNames)) {
+							foreach ($fields as $filteredFieldName => $filteredFieldData) {
+								if (is_array($filteredFieldData) && $modelFieldNames[$filteredFieldName] == 'datetime') {
+									$filteredFieldData = $this->_prepare_datetime($filteredFieldData);
+								}
+								if ($filteredFieldData != '') {
+									if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
+										continue;
 									}
-									if ($filteredFieldData != '') {
-										if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
-											continue;
-										}
-										
-										// check if there are some fieldFormatting set
-										if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
-											// insert value into fieldFormatting
-											$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
-											// don't put key.fieldname as array key if a LIKE clause
-											if (substr($tmp, 0, 4) == 'LIKE') {
-												$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
-											}
 
-											else {
-												$ret["{$model}.{$filteredFieldName}"] = $tmp;
-											}
+									// check if there are some fieldFormatting set
+									if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
+										// insert value into fieldFormatting
+										$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
+										// don't put key.fieldname as array key if a LIKE clause
+										if (substr($tmp, 0, 4) == 'LIKE') {
+											$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
 										}
 
 										else {
-											$ret["{$model}.{$filteredFieldName}"] = $filteredFieldData;
+											$ret["{$model}.{$filteredFieldName}"] = $tmp;
 										}
-
-										$this->url .= "/{$model}.{$filteredFieldName}:{$filteredFieldData}";
 									}
+
+									else {
+										$ret["{$model}.{$filteredFieldName}"] = $filteredFieldData;
+									}
+
+									$this->url .= "/{$model}.{$filteredFieldName}:{$filteredFieldData}";
 								}
 							}
 						}
+					}
 
-						else if (isset($controller->{$controller->modelClass}->hasAndBelongsToMany[$model])) {
-							$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
-							if (!empty($modelFieldNames)) {
-								foreach ($fields as $filteredFieldName => $filteredFieldData) {
-									if (is_array($filteredFieldData) && $modelFieldNames[$filteredFieldName] == 'datetime') {
-										$filteredFieldData = $this->_prepare_datetime($filteredFieldData);
+					else if (isset($controller->{$controller->modelClass}->hasAndBelongsToMany[$model])) {
+						$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
+						if (!empty($modelFieldNames)) {
+							foreach ($fields as $filteredFieldName => $filteredFieldData) {
+								if (is_array($filteredFieldData) && $modelFieldNames[$filteredFieldName] == 'datetime') {
+									$filteredFieldData = $this->_prepare_datetime($filteredFieldData);
+								}
+								if ($filteredFieldData != '') {
+									// if filter is in whitelist
+									if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
+										continue;
 									}
-									if ($filteredFieldData != '') {
-										// if filter is in whitelist
-										if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
-											continue;
-										}
-										// check if there are some fieldFormatting set
-										if (isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
-											// insert value into fieldFormatting
-											$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
-											// don't put key.fieldname as array key if a LIKE clause
-											if (substr($tmp, 0, 4) == 'LIKE') {
-												$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
-											}
-
-											else {
-												$ret["{$model}.{$filteredFieldName}"] = $tmp;
-											}
+									// check if there are some fieldFormatting set
+									if (isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
+										// insert value into fieldFormatting
+										$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
+										// don't put key.fieldname as array key if a LIKE clause
+										if (substr($tmp, 0, 4) == 'LIKE') {
+											$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
 										}
 
 										else {
-											$ret["{$model}.{$filteredFieldName}"] = $filteredFieldData;
+											$ret["{$model}.{$filteredFieldName}"] = $tmp;
 										}
-										$this->url .= "/{$model}.{$filteredFieldName}:{$filteredFieldData}";
 									}
+
+									else {
+										$ret["{$model}.{$filteredFieldName}"] = $filteredFieldData;
+									}
+									$this->url .= "/{$model}.{$filteredFieldName}:{$filteredFieldData}";
 								}
 							}
 						}
 					}
-					// Unset empty model data
-					if (count($fields) == 0){
-						unset($controller->request->data[$model]);
-					}
+				}
+
+				// Unset empty model data
+				if (count($fields) == 0){
+					unset($controller->request->data[$model]);
 				}
 			}
 			
-			//If redirect has been set true, and the data had not been parsed before and put into the url, does it now
+			$this->__checkRedirect();
+			
+			return $ret;
+		}
+		
+		/**
+		 * If redirect has been set true, and the data had not been parsed before 
+		 * and put into the url, does it now 
+		 */
+		private function __checkRedirect() {
 			if (!$this->parsed && $this->redirect) {
+				var_dump($this->parsed);
+				var_dump($this->redirect);
+				var_dump($this->url);
+				exit;
 				$this->url = "/Filter.parsed:true{$this->url}";
 				$controller->redirect("/{$controller->name}/index{$this->url}/");
 			}
-			
-			return $ret;
 		}
 // @codingStandardsIgnoreEnd
 
