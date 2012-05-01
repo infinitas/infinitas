@@ -316,7 +316,7 @@
 		 *
 		 * @todo this could be moved to the InfinitasView class
 		 */
-		public function beforeRender(){
+		public function beforeRender() {
 			parent::beforeRender();
 
 			switch(true){

@@ -105,6 +105,7 @@
 		public function processAction($Controller, $controllerAction) {
 			if ($Controller->request->params['action'] == $controllerAction) {
 				$this->filter = $this->processFilters($Controller);
+				
 				$this->_paginationRecall($Controller);
 				$url = (empty($this->url)) ? '/' : $this->url;
 
@@ -177,7 +178,7 @@
 		 * @param array $whiteList contains list of allowed filter attributes
 		 * @access public
 		 */
-		public function processFilters($controller, $whiteList = null){
+		public function processFilters($controller, $whiteList = null) {
 			$controller = $this->_prepareFilter($controller);
 			$data = $controller->request->data;
 			unset($data[$controller->{$controller->modelClass}->alias]['all']);
