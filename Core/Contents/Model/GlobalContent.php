@@ -363,11 +363,7 @@
 					'SubCategoryData.global_category_id'
 				);
 				$query['conditions'] = array(
-					'or' => array(
-						'GlobalContent.foreign_key' => $query[0],
-						'GlobalContent.global_category_id' => $query[0]
-					),
-					'GlobalContent.model <> ' => 'Contents.GlobalContent'
+					'GlobalContent.global_category_id' => $query[0]
 				);
 				$query['joins'][] = array(
 					'table' => 'global_categories',
@@ -387,7 +383,6 @@
 						'SubCategoryData.foreign_key = SubCategory.id'
 					)
 				);
-				$query['group'] = '`GlobalContent`.`id`';
 
 				unset($query[0]);
 				return $query;

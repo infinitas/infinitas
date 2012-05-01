@@ -46,7 +46,7 @@
 			'<div class="section related">',
 			sprintf('<h3>%s</h3>', __d('contents', 'Related Content'))
 		);
-		$currentCategory = current(array_shift($category['CategoryContent']));
+		$currentCategory = array_shift($category['CategoryContent'][current(array_keys($category['CategoryContent']))]);
 		
 		foreach($category['CategoryContent'] as $model => $relatedContents) {
 			$model = pluginSplit($model);
@@ -58,7 +58,7 @@
 				if(!empty($relatedContent['SubCategory'])) {
 					$relatedContent['GlobalCategory'] = $relatedContent['SubCategory'];
 				}
-
+				
 				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => $relatedContent));
 				$tmp = current($tmp['slugUrl']);
 

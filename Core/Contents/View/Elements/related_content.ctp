@@ -11,7 +11,7 @@
 			echo sprintf('<h3>%s</h3>', $data['title']);
 		?>
 	</div>
-	<p class="no-pad"><?php echo strip_tags($data['introduction']); ?></p>
+	<p class="no-pad"><?php echo String::truncate($data['introduction'], 200); ?></p>
 	<?php
 		echo $this->Html->link(
 			Configure::read('Website.read_more'),
