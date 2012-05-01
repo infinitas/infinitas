@@ -52,8 +52,8 @@
 			$model = pluginSplit($model);
 
 			foreach($relatedContents as $relatedContent) {
+				$relatedContent['GlobalCategory'] = $category['GlobalCategory'];
 				$relatedContent[$model[1]] = $relatedContent;
-				$relatedContent['ParentCategory'] = $currentCategory;
 				
 				if(!empty($relatedContent['SubCategory'])) {
 					$relatedContent['GlobalCategory'] = $relatedContent['SubCategory'];
@@ -63,7 +63,7 @@
 				$tmp = current($tmp['slugUrl']);
 
 				if(!empty($tmp)) {
-					$relatedContent['link'] = Router::url($tmp, true);
+					$relatedContent['link'] = InfinitasRouter::url($tmp);
 
 					$_relatedOut[] = $this->element(
 						'related_content',
