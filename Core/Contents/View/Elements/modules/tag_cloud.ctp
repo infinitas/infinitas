@@ -1,15 +1,16 @@
 <?php
 	if(!empty($config['model'])) {
 		list($plugin,) = pluginSplit($config['model']);
-		if($plugin != $this->request->plugin) {
+		if(Inflector::underscore($plugin) != $this->request->plugin) {
 			return;
 		}
 	}
+	
 	if(isset($config['category']) && $config['category'] && !empty($this->request->params['category'])) {
 		$config['category'] = $this->request->params['category'];
 	}
 	
-	if(!isset($tags)){
+	if(!isset($tags)) {
 		$tags = ClassRegistry::init('Blog.BlogPost')->GlobalTagged->find(
 			'cloud',
 			array(
