@@ -50,7 +50,7 @@
 		 * @param array $settings Settings to override for model.
 		 * @access public
 		 */
-		function setup(&$Model, $settings = array()) {
+		public function setup($Model, $settings = array()) {
 			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'overwrite' => false, 'translation' => null);
 			if (Configure::read('debug') > 0) {
 				$default['overwrite'] = true;
@@ -65,7 +65,7 @@
 			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];
 
 			if ($Model->_schema[$Model->displayField]['length'] > $Model->_schema[$this->__settings[$Model->alias]['slug']]['length']) {
-				trigger_error(sprintf(__('%s slugs will be truncated, slug field too short'), $Model->alias), E_USER_WARNING);
+				throw new Exception(sprintf(__('%s slugs will be truncated, slug field too short'), $Model->alias));
 			}
 		}
 
@@ -76,33 +76,29 @@
 		 * @return boolean true if save should proceed, false otherwise
 		 * @access public
 		 */
-		function beforeSave(&$Model) {
+		public function beforeSave($Model) {
 			$return = parent::beforeSave($Model);
-			// Make label fields an array
+			
 			if (!is_array($this->__settings[$Model->alias]['label'])) {
 				$this->__settings[$Model->alias]['label'] = array($this->__settings[$Model->alias]['label']);
 			}
-			// Make sure all label fields are available
+			
 			foreach ($this->__settings[$Model->alias]['label'] as $field) {
 				if (!$Model->hasField($field)) {
 					return $return;
 				}
 			}
-			// See if we should be generating a slug
+			
 			if ($Model->hasField($this->__settings[$Model->alias]['slug']) && ($this->__settings[$Model->alias]['overwrite'] || empty($Model->id))) {
-				// Build label out of data in label fields, if available, or using a default slug otherwise
 				$label = '';
-
 				foreach ($this->__settings[$Model->alias]['label'] as $field) {
 					if (!empty($Model->data[$Model->alias][$field])) {
 						$label .= !empty($label) ? ' ' : '' . $Model->data[$Model->alias][$field];
 					}
 				}
-				// Keep on going only if we've got something to slug
+				
 				if (!empty($label)) {
-					// Get the slug
 					$slug = $this->__slug($label, $this->__settings[$Model->alias]);
-					// Look for slugs that start with the same slug we've just generated
 					$conditions = array($Model->alias . '.' . $this->__settings[$Model->alias]['slug'] => 'LIKE ' . $slug . '%');
 
 					if (!empty($Model->id)) {
@@ -127,11 +123,9 @@
 						$sameUrls = Set::extract($result, '{n}.' . $Model->alias . '.' . $this->__settings[$Model->alias]['slug']);
 					}
 					
-					// If we have collissions
 					if (!empty($sameUrls)) {
 						$begginingSlug = $slug;
 						$index = 1;
-						// Attach an ending incremental number until we find a free slug
 						while ($index > 0) {
 							if (!in_array($begginingSlug . $this->__settings[$Model->alias]['separator'] . $index, $sameUrls)) {
 								$slug = $begginingSlug . $this->__settings[$Model->alias]['separator'] . $index;
@@ -141,8 +135,7 @@
 							$index++;
 						}
 					}
-					// Now set the slug as part of the model data to be saved, making sure that
-					// we are on the white list of fields to be saved
+					
 					if (!empty($Model->whitelist) && !in_array($this->__settings[$Model->alias]['slug'], $Model->whitelist)) {
 						$Model->whitelist[] = $this->__settings[$Model->alias]['slug'];
 					}
@@ -162,9 +155,8 @@
 		 * @return string Slug for given string
 		 * @access private
 		 */
-		function __slug($string, $settings) {
+		public function __slug($string, $settings) {
 			if (!empty($settings['translation']) && is_array($settings['translation'])) {
-				// Run user-defined translation tables
 				if (count($settings['translation']) >= 2 && count($settings['translation']) % 2 == 0) {
 					for ($i = 0, $limiti = count($settings['translation']); $i < $limiti; $i += 2) {
 						$from = $settings['translation'][$i];
@@ -189,7 +181,6 @@
 
 			else if (!empty($settings['translation']) && is_string($settings['translation']) &&
 				in_array(strtolower($settings['translation']), array('utf-8', 'iso-8859-1'))) {
-				// Run pre-defined translation tables
 				$translations = array(
 					'iso-8859-1' => array(
 						chr(128) . chr(131) . chr(138) . chr(142) . chr(154) . chr(158)
