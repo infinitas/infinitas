@@ -85,10 +85,9 @@
 		 * @return void
 		 */
 		private function __renderMustache(&$out) {
-			if(Configure::read('debug') < 1){
+			if(Configure::read('debug') < 1 && isset($this->request['url']['mustache'])) {
 				unset($this->request['url']['mustache']);
 			}
-
 
 			if($this->__skipMustacheRender()) {
 				return;
