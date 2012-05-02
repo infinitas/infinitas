@@ -52,9 +52,6 @@
 		 */
 		public function setup($Model, $settings = array()) {
 			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'overwrite' => false, 'translation' => null);
-			if (Configure::read('debug') > 0) {
-				$default['overwrite'] = true;
-			}
 
 			if (!isset($this->__settings[$Model->alias])) {
 				$this->__settings[$Model->alias] = $default;
@@ -89,60 +86,75 @@
 				}
 			}
 			
-			if ($Model->hasField($this->__settings[$Model->alias]['slug']) && ($this->__settings[$Model->alias]['overwrite'] || empty($Model->id))) {
-				$label = '';
-				foreach ($this->__settings[$Model->alias]['label'] as $field) {
-					if (!empty($Model->data[$Model->alias][$field])) {
-						$label .= !empty($label) ? ' ' : '' . $Model->data[$Model->alias][$field];
-					}
-				}
-				
-				if (!empty($label)) {
-					$slug = $this->__slug($label, $this->__settings[$Model->alias]);
-					$conditions = array($Model->alias . '.' . $this->__settings[$Model->alias]['slug'] => 'LIKE ' . $slug . '%');
-
-					if (!empty($Model->id)) {
-						$conditions[$Model->alias . '.' . $Model->primaryKey] = '!= ' . $Model->id;
-					}
-
-					$result = $Model->find(
-						'all',
-						array(
-							'conditions' => $conditions,
-							'fields' => array(
-								$Model->primaryKey,
-								$this->__settings[$Model->alias]['slug']
-							),
-							'recursive' => - 1
-						)
-					);
-
-					$sameUrls = null;
-
-					if (!empty($result)) {
-						$sameUrls = Set::extract($result, '{n}.' . $Model->alias . '.' . $this->__settings[$Model->alias]['slug']);
-					}
-					
-					if (!empty($sameUrls)) {
-						$begginingSlug = $slug;
-						$index = 1;
-						while ($index > 0) {
-							if (!in_array($begginingSlug . $this->__settings[$Model->alias]['separator'] . $index, $sameUrls)) {
-								$slug = $begginingSlug . $this->__settings[$Model->alias]['separator'] . $index;
-								$index = - 1;
-							}
-
-							$index++;
-						}
-					}
-					
-					if (!empty($Model->whitelist) && !in_array($this->__settings[$Model->alias]['slug'], $Model->whitelist)) {
-						$Model->whitelist[] = $this->__settings[$Model->alias]['slug'];
-					}
-
-					$Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']] = $slug;
+			$isBlank = false;
+			if(isset($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']]) && empty($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']])) {
+				$isBlank = true;
+			}
+			
+			$shouldSlug = $Model->hasField($this->__settings[$Model->alias]['slug']) && (
+				$isBlank || 
+				$this->__settings[$Model->alias]['overwrite'] || 
+				empty($Model->id)
+			);
+			
+			if(!$shouldSlug) {
+				return $return;
+			}
+			
+			$label = '';
+			foreach ($this->__settings[$Model->alias]['label'] as $field) {
+				if (!empty($Model->data[$Model->alias][$field])) {
+					$label .= !empty($label) ? ' ' : '' . $Model->data[$Model->alias][$field];
 				}
 			}
+
+			if (empty($label)) {
+				return $return;
+			}
+			
+			$slug = $this->__slug($label, $this->__settings[$Model->alias]);
+			$conditions = array($Model->alias . '.' . $this->__settings[$Model->alias]['slug'] => 'LIKE ' . $slug . '%');
+
+			if (!empty($Model->id)) {
+				$conditions[$Model->alias . '.' . $Model->primaryKey] = '!= ' . $Model->id;
+			}
+
+			$result = $Model->find(
+				'all',
+				array(
+					'conditions' => $conditions,
+					'fields' => array(
+						$Model->primaryKey,
+						$this->__settings[$Model->alias]['slug']
+					),
+					'recursive' => - 1
+				)
+			);
+
+			$sameUrls = null;
+
+			if (!empty($result)) {
+				$sameUrls = Set::extract($result, '{n}.' . $Model->alias . '.' . $this->__settings[$Model->alias]['slug']);
+			}
+
+			if (!empty($sameUrls)) {
+				$begginingSlug = $slug;
+				$index = 1;
+				while ($index > 0) {
+					if (!in_array($begginingSlug . $this->__settings[$Model->alias]['separator'] . $index, $sameUrls)) {
+						$slug = $begginingSlug . $this->__settings[$Model->alias]['separator'] . $index;
+						$index = - 1;
+					}
+
+					$index++;
+				}
+			}
+
+			if (!empty($Model->whitelist) && !in_array($this->__settings[$Model->alias]['slug'], $Model->whitelist)) {
+				$Model->whitelist[] = $this->__settings[$Model->alias]['slug'];
+			}
+
+			$Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']] = $slug;
 
 			return $return;
 		}
