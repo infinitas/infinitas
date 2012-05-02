@@ -46,7 +46,7 @@
 							 $this->ModuleLoader->load('hidden', true),
 							 $this->Compress->script($js_for_layout);
 
-						echo $scripts_for_layout;
+						echo $this->fetch('scripts_for_layout');
 					?>
 				</div>
 				<div class="clear"></div>
