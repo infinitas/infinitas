@@ -343,13 +343,8 @@
 		 * @return string The compressed Javascript data.
 		 */
 		private function compressJs($jsData) {
-			if (!class_exists('JSMin')) {
-				App::import('Vendor', 'assets.js_min');
-			}
-			if (!class_exists('JSMin')) {
-				trigger_error('JavaScript not compressed -- cannot locate JSMin class.', E_USER_WARNING);
-				return $jsData;
-			}
+			App::uses('JSMin', 'Assets.Lib');
+			
 			return JSMin::minify($jsData);
 		}
 	}
