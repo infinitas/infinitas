@@ -59,7 +59,26 @@
 
 			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], $settings);
 
-			$this->__settings[$Model->alias]['length'] = $Model->_schema[$this->__settings[$Model->alias]['slug']]['length'];
+			$field = $Model->schema($this->__settings[$Model->alias]['slug']);
+			$this->__settings[$Model->alias]['length'] = $field['length'];
+			
+			if (!is_array($this->__settings[$Model->alias]['label'])) {
+				$this->__settings[$Model->alias]['label'] = array($this->__settings[$Model->alias]['label']);
+			}
+			
+			foreach ($this->__settings[$Model->alias]['label'] as $k => $field) {
+				if (!$Model->hasField($field)) {
+					unset($this->__settings[$Model->alias]['label'][$k]);
+				}
+				
+				if($field == $this->__settings[$Model->alias]['slug']) {
+					throw new Exception(sprintf('Model "%s" can not slug its slug field "%s"', $Model->alias, $this->__settings[$Model->alias]['slug']));
+				}
+			}
+			
+			if(empty($this->__settings[$Model->alias]['label'])) {
+				throw new Exception(sprintf('Model "%s" has no sluggable fields', $Model->alias));
+			}
 
 			if ($Model->_schema[$Model->displayField]['length'] > $Model->_schema[$this->__settings[$Model->alias]['slug']]['length']) {
 				throw new Exception(sprintf(__('%s slugs will be truncated, slug field too short'), $Model->alias));
@@ -75,16 +94,6 @@
 		 */
 		public function beforeSave($Model) {
 			$return = parent::beforeSave($Model);
-			
-			if (!is_array($this->__settings[$Model->alias]['label'])) {
-				$this->__settings[$Model->alias]['label'] = array($this->__settings[$Model->alias]['label']);
-			}
-			
-			foreach ($this->__settings[$Model->alias]['label'] as $field) {
-				if (!$Model->hasField($field)) {
-					return $return;
-				}
-			}
 			
 			$isBlank = false;
 			if(isset($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']]) && empty($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']])) {
