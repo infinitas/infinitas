@@ -225,6 +225,8 @@
 				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
 			
+			CakeLog::write('asset', 'Unable to write combined js file');
+			
 			$this->Html->script($jsFiles);
 		}
 
