@@ -565,35 +565,6 @@
 		}
 
 		/**
-		 * @brief after all processing is done and the page is ready to show
-		 *
-		 * after filter is called after your html is put together, and just before
-		 * it is rendered to the user. here we are removing any white space from
-		 * the html before its output.
-		 *
-		 * @access public
-		 *
-		 * @link http://api.cakephp.org/class/controller#method-ControllerafterFilter
-		 */
-		public function afterFilter(){
-			if(Configure::read('debug') === 0 && $this->request->params['url']['ext'] == 'html'){
-				$this->output = preg_replace(
-					array(
-						'/ {2,}/',
-						'/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s'
-					),
-					array(
-						' ',
-						''
-					),
-					$this->output
-				);
-			}
-
-			$this->__callBacks[__FUNCTION__] = true;
-		}
-
-		/**
 		 * @brief Create a generic warning to display usefull information to the user
 		 *
 		 * The method can be used in two ways, using the $this->notice param and setting
