@@ -196,14 +196,10 @@
 				return '';
 			}
 
-			// If the helper hasn't been set up correctly, then there's no point in
-			// combining scripts. We'll pass it off to the parent to handle.
 			if (!$this->enabled) {
 				return $this->Html->script($jsFiles);
 			}
 
-			// Let's make sure we have the array of files correct. And we'll generate
-			// a key for the cache based on the files supplied.
 			if (is_array($jsFiles[0])) {
 				$jsFiles = $jsFiles[0];
 			}
@@ -220,7 +216,6 @@
 			}
 
 			$jsData = $this->_getJsFiles($jsFiles);
-
 			if ($this->File->write($jsData)) {
 				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
