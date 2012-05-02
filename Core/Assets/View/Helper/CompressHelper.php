@@ -57,10 +57,12 @@
 			$this->cssCachePath = CSS;
 			$this->jsCachePath  = JS;
 
-			$cacheLength = Configure::read('ScriptCombiner.cacheLength');
+			$cacheLength = Configure::read('Assets.cacheLength');
 			if (is_string($cacheLength)) {
 				$this->cacheLength = strtotime($cacheLength) - time();
-			} else {
+			} 
+			
+			else {
 				$this->cacheLength = (int)$cacheLength;
 			}
 
@@ -139,10 +141,10 @@
 		protected function _getCssFiles($cssFiles){
 			$urlMatches = $cssData = array();
 
-			$_setting = Configure::read('Asset.timestamp');
-			Configure::write('Asset.timestamp', false);
+			$_setting = Configure::read('Assets.timestamp');
+			Configure::write('Assets.timestamp', false);
 			$links = $this->Html->css($cssFiles, 'import');
-			Configure::write('Asset.timestamp', $_setting);
+			Configure::write('Assets.timestamp', $_setting);
 
 			preg_match_all('#\(([^\)]+)\)#i', $links, $urlMatches);
 			$urlMatches = isset($urlMatches[1]) ? $urlMatches[1] : array();
@@ -156,14 +158,15 @@
 						$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
 						$css = str_replace('../', '/' .$parts[0] . '/', $css);
 					}
+					
 					$cssData[] = $css;
 					unset($parts, $css);
 				}
 			}
 
-			$cssData = implode(Configure::read('ScriptCombiner.fileSeparator'), $cssData);
+			$cssData = implode(Configure::read('Assets.fileSeparator'), $cssData);
 
-			if (Configure::read('ScriptCombiner.compressCss')) {
+			if (Configure::read('Assets.compressCss')) {
 				$cssData = $this->compressCss($cssData);
 			}
 
@@ -176,6 +179,7 @@
 			if(!empty($args)) {
 				return call_user_func_array(array($this, 'js'), $args);
 			}
+			
 			else {
 				return $this->js();
 			}
@@ -205,12 +209,9 @@
 			}
 			$cacheKey = md5(serialize($jsFiles));
 
-			// And we'll generate the absolute path to the cache file.
 			$cacheFile = $this->jsCachePath . 'combined.' . $cacheKey . '.js';
 			$this->File = new File($cacheFile);
 
-			// If we can determine that the current cache file is still valid, then
-			// we can just return the URL to that file.
 			if ($this->isCacheFileValid($cacheFile)) {
 				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
@@ -220,7 +221,7 @@
 				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
 			
-			CakeLog::write('asset', 'Unable to write combined js file');
+			CakeLog::write('assets', 'Unable to write combined js file');
 			
 			$this->Html->script($jsFiles);
 		}
@@ -229,9 +230,9 @@
 			$urlMatches = $jsData = array();
 
 			$_setting = Configure::read('Asset.timestamp');
-			Configure::write('Asset.timestamp', false);
+			Configure::read('Assets.timestamp', false);
 			$jsLinks = $this->Html->script($jsFiles);
-			Configure::write('Asset.timestamp', $_setting);
+			Configure::read('Assets.timestamp', $_setting);
 
 			preg_match_all('/src="([^"]+)"/i', $jsLinks, $urlMatches);
 			$urlMatches = isset($urlMatches[1]) ? array_unique($urlMatches[1]) : array();
@@ -243,9 +244,9 @@
 				}
 			}
 
-			$jsData = implode(Configure::read('ScriptCombiner.fileSeparator'), $jsData);
+			$jsData = implode(Configure::read('Assets.fileSeparator'), $jsData);
 
-			if (Configure::read('ScriptCombiner.compressJs')) {
+			if (Configure::read('Assets.compressJs')) {
 				$jsData = $this->compressJs($jsData);
 			}
 
