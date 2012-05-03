@@ -41,7 +41,7 @@
 			catch(MissingHelperException $e) {
 				return $this->input($field, array('style' => 'width:98%; height:500px;')) . $e->getMessage();
 			}
-
+			
 			$fields = explode('.', $field);
 
 			$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
@@ -52,7 +52,7 @@
 			return $this->input($id, array('type' => 'textarea'));
 		}
 
-		public function input($id, $params = array('style' => 'width:98%; height:500px;')){
+		public function input($id, $params = array('style' => 'width:98%; height:500px;')) {
 			return $this->Form->input($id, $params);
 		}
 	}
