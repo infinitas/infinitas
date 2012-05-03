@@ -223,4 +223,16 @@
 
 			return $return;
 		}
+		
+		public function afterSave($created) {
+			$this->saveField(
+				'path_depth', 
+				count($this->getPath($this->id)) - 1,
+				array(
+					'callbacks' => false
+				)
+			);
+			
+			return parent::afterSave($created);
+		}
 	}

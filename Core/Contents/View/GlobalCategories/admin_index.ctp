@@ -75,10 +75,8 @@
 						</td>
                 		<td>
                 			<?php
-                				$paths = ClassRegistry::init('Contents.GlobalCategory')->getPath($category['GlobalCategory']['id']);
-
-                				if (count($paths) > 1) {
-                					echo '<b>', str_repeat('- ', count($paths)-1), ' |</b> ';
+                				if ($category['GlobalCategory']['path_depth'] >= 1) {
+                					echo '<b>', str_repeat('- ', $category['GlobalCategory']['path_depth']), ' |</b> ';
                 				}
 
 	                			echo $this->Html->link(

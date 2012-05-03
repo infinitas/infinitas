@@ -17,6 +17,7 @@ class ContentsSchema extends CakeSchema {
 		'parent_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'rght' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'path_depth' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 5),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
