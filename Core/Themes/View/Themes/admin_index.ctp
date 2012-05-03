@@ -40,6 +40,7 @@
                         'style' => 'width:25px;'
                     ),
                     $this->Paginator->sort('name'),
+                    $this->Paginator->sort('default_layout'),
                     $this->Paginator->sort('licence') => array(
                         'style' => 'width:100px;'
                     ),
@@ -60,20 +61,22 @@
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($theme); ?>&nbsp;</td>
                 		<td>
-                			<?php echo $this->Html->link( Inflector::humanize($theme['Theme']['name']), array('action' => 'edit', $theme['Theme']['id'])); ?>&nbsp;
+                			<?php echo $this->Html->link(Inflector::humanize($theme['Theme']['name']), array('action' => 'edit', $theme['Theme']['id'])); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $theme['Theme']['licence']; ?>&nbsp;
+                			<?php echo Inflector::humanize($theme['Theme']['default_layout']); ?>&nbsp;
+                		</td>
+                		<td>
+                			<?php echo $theme['Theme']['licence'] ? $theme['Theme']['licence'] : sprintf('&copy; %s', $theme['Theme']['author']); ?>&nbsp;
                 		</td>
                 		<td>
                 			<?php
+								$auth = $theme['Theme']['author'];
                 				if (!empty($theme['Theme']['url'])) {
-                					echo $this->Html->link($theme['Theme']['author'], $theme['Theme']['url'], array('target' => '_blank'));
+                					$auth = $this->Html->link($theme['Theme']['author'], $theme['Theme']['url'], array('target' => '_blank'));
                 				}
 								
-                				else {
-									echo $theme['Theme']['author'];
-								}
+								echo $auth;
 							?>&nbsp;
                 		</td>
                 		<td>

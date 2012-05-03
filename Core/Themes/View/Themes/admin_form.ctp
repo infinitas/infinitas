@@ -23,6 +23,11 @@
 			<h1><?php echo __('Theme'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name', array('options' => $themes, 'type' => 'select', 'empty' => Configure::read('Website.empty_select')));
+			
+			if($this->request->params['action'] == 'admin_edit') {
+				echo $this->Form->input('default_layout', array('options' => InfinitasTheme::layouts($this->request->data['Theme']['id'])));
+			}
+			
 			echo $this->Form->input('active'); ?>
 		</fieldset>
 		<fieldset>
