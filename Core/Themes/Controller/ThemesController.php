@@ -54,6 +54,13 @@
 			$themes[$this->request->data['Theme']['name']] = $this->request->data['Theme']['name'];
 			$this->set(compact('themes'));
 		}
+		
+		public function frontend_css() {
+			$this->layout = 'ajax';
+			$this->response->type('css');
+			$css = $this->Event->trigger('requireCssToLoad');
+			$this->set('css', array_filter(array_values(Set::flatten($css))));
+		}
 
 		/**
 		 * Mass toggle action.

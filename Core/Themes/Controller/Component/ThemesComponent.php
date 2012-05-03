@@ -25,7 +25,10 @@
 		public function beforeRender(Controller $Controller) {
 			parent::beforeRender($Controller);
 			
-			//pr(array_values($Controller->viewVars));
+			if($Controller->layout == 'ajax') {
+				return;
+			}
+			
 			if(!empty($Controller->viewVars['error']) && $Controller->viewVars['error'] instanceof Exception) {
 				return false;
 			}
