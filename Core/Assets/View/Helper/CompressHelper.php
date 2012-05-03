@@ -177,7 +177,16 @@
 			$args = func_get_args();
 			
 			if(!empty($args)) {
-				return call_user_func_array(array($this, 'js'), $args);
+				$tmp = array();
+				foreach($args[0] as $k => &$v) {
+					if(strstr(strtolower($v), 'wysiwyg')) {
+						$tmp[] = $v;
+						unset($args[0][$k]);
+					}
+				}
+				return call_user_func_array(array($this, 'js'), $args) .
+					$this->Html->script($tmp);
+				
 			}
 			
 			else {
