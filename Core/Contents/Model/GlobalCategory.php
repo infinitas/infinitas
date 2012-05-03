@@ -198,6 +198,15 @@
 			return $results;
 		}
 		
+		/**
+		 * @brief generate a category drop down tree
+		 * 
+		 * @param string $state
+		 * @param array $query
+		 * @param array $results
+		 * 
+		 * @return array category list with active / inactive rows
+		 */
 		public function _findCategoryList($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['fields'] = array_merge(
@@ -208,17 +217,22 @@
 				);
 				return $query;
 			}
-			$return = array(
-				__d('contents', 'Active') => array(),
-				__d('contents', 'Inactive') => array()
-			);
+			$_active = __d('contents', 'Active');
+			$_inactive = __d('contents', 'Inactive');
+			
+			$return = array($_active => array(), $_inactive => array());
 			foreach($results as $result) {
+				$title = $result['GlobalCategory']['title'];
+				if($result['GlobalCategory']['path_depth']) {
+					$title = sprintf('%s %s', str_repeat('-', $result['GlobalCategory']['path_depth']), $title);
+				}
+				
 				if($result['GlobalCategory']['active']) {
-					$return[__d('contents', 'Active')][$result['GlobalCategory']['id']] = $result['GlobalCategory']['title'];
+					$return[$_active][$result['GlobalCategory']['id']] = $title;
 					continue;
 				}
 				
-				$return[__d('contents', 'Inactive')][$result['GlobalCategory']['id']] = $result['GlobalCategory']['title'];
+				$return[$_inactive][$result['GlobalCategory']['id']] = $title;
 			}
 
 			return $return;
