@@ -164,6 +164,18 @@ LICENCE;
 
 			$ClearCache->run();
 		}
+		
+		/**
+		 * @brief create symlinks for all the plugins.
+		 * 
+		 * retrun symlinks created or not
+		 */
+		public function symlink() {
+			App::uses('DevLib', 'Dev.Lib');
+			$Dev = new DevLib();
+			
+			return $Dev->autoAssetLinks();
+		}
 
 		/**
 		 * get the licence to display on the installler.
@@ -374,6 +386,8 @@ LICENCE;
 			foreach($plugins as $pluginName) {
 				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
 			}
+			
+			$this->symlink();
 
 			return $result;
 		}
