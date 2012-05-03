@@ -25,7 +25,7 @@
             echo $this->Infinitas->adminTableHeader(
                 array(
                     $this->Paginator->sort('referer'),
-                    $this->Paginator->sort('ViewCounterView__referer_count', __d('blog', 'Referals')) => array(
+                    $this->Paginator->sort('ViewCounterView.referer_count', __d('blog', 'Referals')) => array(
                         'style' => 'width:130px;'
                     ),
                     $this->Paginator->sort('external') => array(
