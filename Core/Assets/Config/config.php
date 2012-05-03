@@ -62,6 +62,7 @@
 			'system_toggle' => 'system.png',
 			'toggle' => 'toggle.png',
 			'trash' => 'trash.png',
+			'uninstall' => 'uninstall.png',
 			'unlock' => 'reload.png',
 			'unlocked' => 'unlocked.png',
 			'unzip' => 'unzip.png',
