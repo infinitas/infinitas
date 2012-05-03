@@ -104,7 +104,6 @@
 			submitUrl,
 			metaData.postData,
 			function(returnData) {
-				debug(returnData);
 				if(returnData !== null) {
 					callback(returnData['json'], metaData);
 					//HtmlHelper.loading(metaData.target, false);

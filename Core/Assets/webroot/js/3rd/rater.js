@@ -81,7 +81,7 @@ jQuery.fn.rater = function(url, options){
 	container.find('.star-rating').append(listitems); // i am using find here, because the span wrapped in the small style would break children()
 
 	var stars = jQuery(container).find('.star-rating').children('.star');
-	debug(container.url);
+	
 	stars.click(function(){
 		if(settings.maxvalue == 1){ // on / off
 			settings.curvalue = (settings.curvalue == 0) ? 1 : 0;
