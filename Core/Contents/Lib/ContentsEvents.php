@@ -152,6 +152,7 @@
 					$data['type'] = 'category';
 					break;
 			}
+			
 			return parent::onSlugUrl($event, $data['data'], $data['type']);
 		}
 	}

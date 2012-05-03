@@ -56,7 +56,7 @@
 			);
 			
 			if(isset($this->request->params['category'])){
-				$this->Paginator->settings[$this->modelClass]['conditions'][$this->modelClass . '.slug'] = $this->request->params['category'];
+				$this->Paginator->settings[$this->modelClass]['conditions']['GlobalContent.slug'] = $this->request->params['category'];
 			}
 
 			$categories = $this->Paginator->paginate();
