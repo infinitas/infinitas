@@ -39,14 +39,18 @@
 
 	$category['GlobalCategory']['item_count'] = sprintf(__d('contents', '%d items'), $category['GlobalCategory']['item_count']);
 	$category['GlobalCategory']['author'] = $this->GlobalContents->author($category);
-
+	
 	// need to overwrite the stuff in the viewVars for mustache
 	if(!empty($category['CategoryContent'])) {
+		if(!empty($category['CategoryContent']['Contents.GlobalCategory'])) {
+			$currentCategory = array_shift($category['CategoryContent']['Contents.GlobalCategory']);
+			unset($category['CategoryContent']['Contents.GlobalCategory']);
+		}
+		
 		$_relatedOut = array(
 			'<div class="section related">',
 			sprintf('<h3>%s</h3>', __d('contents', 'Related Content'))
 		);
-		$currentCategory = array_shift($category['CategoryContent'][current(array_keys($category['CategoryContent']))]);
 		
 		foreach($category['CategoryContent'] as $model => $relatedContents) {
 			$model = pluginSplit($model);
