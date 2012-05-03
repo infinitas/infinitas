@@ -34,6 +34,7 @@
 			'arrow-up' => 'arrow-up.png',
 			'cancel' => 'cancel.png',
 			'copy' => 'copy.png',
+			'cron_toggle' => 'cronjob.png',
 			'date' => 'date.png',
 			'delete' => 'trash.png',
 			'download' => 'download.png',
@@ -58,6 +59,7 @@
 			'send' => 'send.png',
 			'sinc' => 'sinc.png',
 			'stats' => 'stats.png',
+			'system_toggle' => 'system.png',
 			'toggle' => 'toggle.png',
 			'trash' => 'trash.png',
 			'unlock' => 'reload.png',
@@ -69,7 +71,7 @@
 			'zip' => 'zip.png',
 			'zoom-in' => 'zoom-in.png',
 			'zoom-out' => 'zoom-out.png'
-			),
+		),
 	
 		'applications' => array(
 			'ai' => '',
@@ -89,7 +91,7 @@
 			'txt' => 'txt.png',
 			'xls' => 'sxl.png',
 			'xlsx' => 'xlsx.png'
-			),
+		),
 	
 		'archives' => array(
 			'7z' => '7z.png',
@@ -100,7 +102,7 @@
 			'rar' => 'win-rar.png',
 			'tar' => 'tar.png',
 			'zip' => '',
-			),
+		),
 	
 		'folders' => array(
 			'config' => 'config.png',
@@ -113,7 +115,7 @@
 			'sys-win' => 'systemWin.png',
 			'video' => 'video.png',
 			'web' => 'web.png'
-			),
+		),
 	
 		'images' => array(
 			'bmp' => 'bmp.png',
@@ -128,7 +130,7 @@
 			'tga' => 'tga/png',
 			'tif' => 'tiff.png',
 			'tiff' => 'tiff.png'
-			),
+		),
 	
 		'multiMedia' => array(
 			'3gp' => '3gp.png',
@@ -148,7 +150,7 @@
 			'vlc' => 'vlc.png',
 			'wav' => 'wav.png',
 			'wma' => 'wma.png'
-			),
+		),
 	
 		'notifications' => array(
 			'forbidden' => 'forbidden.png',
@@ -160,7 +162,7 @@
 			'success' => 'success.png',
 			'warning' => 'warning.png',
 			'loading' => 'loading.gif'
-			),
+		),
 	
 		'social' => array(
 			'badoo' => '',
@@ -176,7 +178,7 @@
 			'twitter' => '',
 			'vcf' => 'vcf.png',
 			'yahoo' => 'yahoo-messanger.png'
-			),
+		),
 	
 		'status' => array(
 			'active' => 'active.png',
@@ -187,13 +189,13 @@
 			'not-locked' => 'not-locked.png',
 			'featured' => 'featured.png',
 			'not-featured' => 'not-featured.png',
-			),
+		),
 	
 		'unknown' => array(
 			'unknown' => 'unknown.png',
 			'readme' => 'readme.png',
 			'' => 'readme.png'
-			),
+		),
 	
 		'weather' => array(
 			'clear' => 'clear.png',
@@ -205,7 +207,7 @@
 			'showers' => 'showers.png',
 			'snow' => 'snow.png',
 			'storm' => 'storm.png'
-			),
+		),
 	
 		'web' => array(
 			'asx' => 'asx.png',
@@ -225,5 +227,5 @@
 			'sql' => 'sql.png',
 			'swf' => 'flv.png',
 			'xml' => 'xml.png'
-			)
-		);
+		)
+	);
