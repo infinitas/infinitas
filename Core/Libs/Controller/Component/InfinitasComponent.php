@@ -305,6 +305,9 @@
 					}
 					break;
 			}
+			$this->Controller->{$model}->Behaviors->disable('Lockable');
+			$this->Controller->{$model}->Behaviors->disable('Contentable');
+			$this->Controller->{$model}->recover();
 
 			$this->Controller->notice($message, array('redirect' => false));
 
