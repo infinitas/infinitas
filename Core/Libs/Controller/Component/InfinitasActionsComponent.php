@@ -255,34 +255,32 @@
 				$this->Controller->notice('invalid');
 			}
 
+			$redirectConfig = array(
+				'level' => 'error',
+				'redirect' => true
+			);
 			$this->Controller->request->data[$model]['id'] = $id;
 
-			if (!isset($this->Controller->request->params['named']['position']) && isset($this->Controller->{$model}->actsAs['Libs.Sequence'])) {
-				$this->Controller->notice(
-					__('A problem occured moving the ordered record.'),
-					array(
-						'level' => 'error',
-						'redirect' => true
-					)
-				);
-			}
-
-			if (!isset($this->Controller->request->params['named']['direction']) && isset($this->Controller->{$model}->actsAs['Tree'])) {
-				$this->Controller->notice(
-					__('A problem occured moving that MPTT record.'),
-					array(
-						'level' => 'error',
-						'redirect' => true
-					)
-				);
-			}
-
-			if (isset($this->Controller->request->params['named']['position'])) {
+			if (!empty($this->Controller->request->params['named']['position'])) {
+				if(!$this->Controller->{$model}->Behaviors->attached('Sequence')) {
+					$this->Controller->notice(
+						__('A problem occured moving the ordered record.'),
+						$redirectConfig
+					);
+				}
+				
 				$this->Controller->Infinitas->orderedMove();
 			}
 
-			if (isset($this->Controller->request->params['named']['direction'])) {
-				$this->Controller->Infinitas->treeMove();
+			if (!empty($this->Controller->request->params['named']['direction'])) {
+				if(!$this->Controller->{$model}->Behaviors->attached('Tree')) {
+					$this->Controller->notice(
+						__('A problem occured moving that MPTT record.'),
+						$redirectConfig
+					);
+				}
+				
+				$this->Controller->Infinitas->treeMove($this->Controller->request->params['named']['direction']);
 			}
 
 			$this->Controller->redirect($this->Controller->referer());

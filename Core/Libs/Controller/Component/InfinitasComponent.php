@@ -259,18 +259,19 @@
 		 *
 		 * This is used for moving mptt records and is called by admin_reorder.
 		 */
-		public function treeMove(){
+		public function treeMove($direction) {
 			$model = $this->Controller->modelClass;
 			$check = $this->Controller->{$model}->find(
 				'first',
 				array(
-					'fields' => array($model.'.id'),
-					'conditions' => array($model.'.id' => $this->Controller->$model->id),
-					'recursive' => -1
+					'fields' => array($model . '.id'),
+					'conditions' => array($model . '.id' => $this->Controller->data[$model]['id']),
+					'recursive' => -1,
+					'callbacks' => false
 				)
 			);
 
-			if (empty($check)) {
+			if (empty($check[$model]['id'])) {
 				$this->Controller->notice(
 					__('Nothing found to move'),
 					array(
@@ -280,31 +281,30 @@
 				return false;
 			}
 
-			$message = false;
-
-			switch($this->Controller->request->params['direction']) {
+			$message = __('Error occured reordering the records');
+			switch($direction) {
 				case 'up':
 					$message = __('The record was moved up');
-					if (!$this->Controller->{$model}->moveUp($this->Controller->{$model}->id, abs(1))) {
+					if (!$this->Controller->{$model}->moveUp($check[$model]['id'], abs(1))) {
 						$message = __('Unable to move the record up');
 					}
+					
 					else {
 						$this->Controller->{$model}->afterSave(false);
 					}
 					break;
+					
 				case 'down':
 					$message = __('The record was moved down');
-					if (!$this->Controller->{$model}->moveDown($this->Controller->{$model}->id, abs(1))) {
+					if (!$this->Controller->{$model}->moveDown($check[$model]['id'], abs(1))) {
 						$message = __('Unable to move the record down');
 					}
+					
 					else {
 						$this->Controller->{$model}->afterSave(false);
 					}
 					break;
-				default:
-					$message = __('Error occured reordering the records');
-					break;
-			} // switch
+			}
 
 			$this->Controller->notice($message, array('redirect' => false));
 
