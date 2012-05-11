@@ -212,12 +212,20 @@
 				return false;
 			}
 
-			$params = array();
+			$params = array(
+				'modelClass' => null,
+				'id' => null
+			);
 
-			list($params['modelClass'], $params['id']) = explode('#', str_replace(array('[', ']'), '', $match));
+			$match = str_replace(array('[', ']'), '', $match);
+			if(strstr($match, '#') === false) {
+				$match .= '#';
+			}
+			
+			list($params['modelClass'], $params['id']) = explode('#', $match);
 			list($params['type'], $params['modelClass']) = explode(':', $params['modelClass']);
 			list($params['plugin'], $params['model']) = pluginSplit($params['modelClass']);
-
+			
 			switch($params['type']) {
 				case 'snip':
 					return $this->ModuleLoader->loadDirect($params['plugin'] . '.snip', $params);
