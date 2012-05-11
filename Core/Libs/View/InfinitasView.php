@@ -197,7 +197,14 @@
 			}
 			
 			foreach($snips as $key => $match) {
-				$out = str_replace($match, $this->__parseSnipParams($match), $out);
+				try {
+					$out = str_replace($match, $this->__parseSnipParams($match), $out);
+				}
+
+				catch(Exception $e) {
+					$out = str_replace($match, $e->getMessage(), $out);
+					continue;
+				}
 			}
 		}
 
