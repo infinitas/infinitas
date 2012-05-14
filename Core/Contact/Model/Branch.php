@@ -18,43 +18,6 @@
 
 	class Branch extends ContactAppModel {
 		/**
-		 * behaviors that are attached to this model
-		 *
-		 * @var array
-		 * @access public
-		 */
-		public $actsAs = array(
-			'MeioUpload.MeioUpload' => array(
-				'image' => array(
-					'dir' => 'img{DS}content{DS}contact{DS}{ModelName}',
-					'create_directory' => true,
-					'allowed_mime' => array(
-						'image/jpeg',
-						'image/pjpeg',
-						'image/png'
-					),
-					'allowed_ext' => array(
-						'.jpg',
-						'.jpeg',
-						'.png'
-					),
-					'validations' => array(
-						'Empty' => array(
-						)
-					),
-
-						'Empty' => array(
-						)
-				)
-			),
-			'Libs.Sluggable' => array(
-				'label' => array(
-					'name'
-				)
-			)
-		);
-
-		/**
 		 * hasMany related models
 		 *
 		 * @var array
@@ -65,14 +28,6 @@
 		);
 
 		/**
-		 * The Contact model
-		 *
-		 * @var Contact
-		 * @access public
-		 */
-		public $Contact;
-
-		/**
 		 * belongsTo related models
 		 *
 		 * @var array
@@ -81,14 +36,6 @@
 		public $belongsTo = array(
 			'Contact.Address'
 		);
-
-		/**
-		 * The Address model
-		 *
-		 * @var Address
-		 * @access public
-		 */
-		public $Address;
 
 		/**
 		 * @copydoc AppModel::__construct()
