@@ -13,6 +13,18 @@
 	*/
 	
 	class AppShell extends Shell {
+		public function main($title = null) {
+			if($title === null) {
+				$title = Inflector::humanize(Inflector::underscore(str_replace('Shell', '', get_class($this))));
+			}
+			
+			if(!$title) {
+				return;
+			}
+			
+			$this->h1($title);
+		}
+		
 		/**
 		 * @brief width to wrap text to
 		 */
