@@ -198,7 +198,10 @@
 			
 			foreach($snips as $key => $match) {
 				try {
-					$out = str_replace($match, $this->__parseSnipParams($match), $out);
+					$pos = strpos($out, $match); 
+					if ($pos !== false) {
+						$out = substr_replace($out, $this->__parseSnipParams($match), $pos, strlen($match));
+					}
 				}
 
 				catch(Exception $e) {
