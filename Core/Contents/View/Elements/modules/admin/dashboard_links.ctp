@@ -25,12 +25,6 @@
 			'dashboard' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.plugin' => $this->request->plugin)
 		),
 		array(
-			'name' => __d('filemanager', 'Assets'),
-			'description' => __d('blog', 'Manage content assets'),
-			'icon' => '/filemanager/img/icon.png',
-			'dashboard' => array('plugin' => 'filemanager', 'controller' => 'filemanager', 'action' => 'index', 'webroot', 'img')
-		),
-		array(
 			'name' => __d('locks', 'Locked'),
 			'description' => __d('blog', 'Manage locked content'),
 			'icon' => '/locks/img/icon.png',
