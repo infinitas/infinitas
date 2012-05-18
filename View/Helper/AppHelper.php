@@ -56,6 +56,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	App::uses('Helper', 'View');
+	App::uses('CakeSession', 'Model/Datasource');
 
 	class AppHelper extends Helper {
 		/**
