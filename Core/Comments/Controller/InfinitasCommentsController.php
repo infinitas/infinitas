@@ -42,6 +42,33 @@
 		public function admin_index() {
 			$this->Paginator->settings = array('adminIndex');
 			$comments = $this->Paginator->paginate(null, $this->Filter->filter);
+			
+			foreach($comments as &$comment) {
+				$class = ClassRegistry::init(ucfirst($comment[$this->modelClass]['class']));
+				if(isset($class->contentable) && $class->contentable) {
+					$class = ClassRegistry::init('Contents.GlobalContent');
+					$list = $class->find(
+						'list',
+						array(
+							'fields' => array(
+								$class->alias . '.id',
+								$class->alias . '.title'
+							),
+							'conditions' => array(
+								$class->alias . '.foreign_key' => $comment[$this->modelClass]['foreign_id']
+							)
+						)
+					);
+					if(empty($list)) {
+						$list = array(__d('comments', 'Invalid Record'));
+					}
+					$comment[$this->modelClass]['post'] = current($list);
+				}
+				else {
+					$class->id = $comment[$this->modelClass]['foreign_id'];
+					$comment[$this->modelClass]['post'] = $class->field($class->displayField);
+				}
+			}
 
 			$filterOptions = $this->Filter->filterOptions;
 
