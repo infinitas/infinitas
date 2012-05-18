@@ -18,13 +18,14 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create('InfinitasComment', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'toggle',
-                'delete'
-            )
-        );
+	echo $this->Form->create('InfinitasComment', array('action' => 'mass'));
+		$massActions = $this->Infinitas->massActionButtons(
+			array(
+				'toggle',
+				'spam',
+				'delete'
+			)
+		);
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">

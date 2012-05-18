@@ -38,6 +38,15 @@
 
 			$this->set('comments', $this->Paginator->paginate());
 		}
+		
+		public function admin_mass() {
+			$action = $this->MassAction->getAction();
+			if($action == 'spam') {
+				$this->__removeSpam();
+			}
+			
+			parent::admin_mass();
+		}
 
 		public function admin_index() {
 			$this->Paginator->settings = array('adminIndex');
@@ -141,6 +150,25 @@
 				sprintf(__('%s comments were purged.'), $counter),
 				array(
 					'redirect' => true
+				)
+			);
+		}
+		
+		private function __removeSpam() {
+			if($this->{$this->modelClass}->deleteAll(array($this->modelClass . '.status' => 'spam'))) {
+				$this->notice(
+					__d('comments', 'Spam comments have been removed'),
+					array(
+						'redirect' => true
+					)
+				);
+			}
+			
+			$this->notice(
+				__d('comments', 'Spam comments could not be removed'),
+				array(
+					'redirect' => true,
+					'level' => 'warning'
 				)
 			);
 		}
