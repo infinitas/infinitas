@@ -18,13 +18,14 @@
      * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
      */
 
-    echo $this->Form->create('InfinitasComment', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'toggle',
-                'delete'
-            )
-        );
+	echo $this->Form->create('InfinitasComment', array('action' => 'mass'));
+		$massActions = $this->Infinitas->massActionButtons(
+			array(
+				'toggle',
+				'spam',
+				'delete'
+			)
+		);
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 ?>
 <div class="table">
@@ -56,7 +57,7 @@
 				$rowClass = $this->Infinitas->rowClass();
                 ?>
                     <tr class="<?php echo $rowClass; ?> multi-line">
-                        <td rowspan="2"><?php echo $this->Infinitas->massActionCheckBox($comment); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->massActionCheckBox($comment); ?>&nbsp;</td>
                         <td>
 							<?php
 								echo $this->Html->link(
@@ -80,7 +81,8 @@
                         </td>
                     </tr>
 					<tr class="<?php echo $rowClass; ?>">
-						<td colspan="4">
+						<td colspan="2"><?php echo $comment['InfinitasComment']['post']; ?></td>
+						<td colspan="100">
 							<?php echo str_replace('\n', ' ', strip_tags($comment['InfinitasComment']['comment'])); ?>
 						</td>
 					</tr>
