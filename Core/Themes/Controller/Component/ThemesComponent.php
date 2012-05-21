@@ -40,6 +40,7 @@
 			
 			if(!empty($error)) {
 				$Controller->viewVars['error'] = $error;
+				$layout = 'error';
 			}
 			
 			if($layout) {
