@@ -82,7 +82,7 @@
                         </td>
                     </tr>
 					<tr class="<?php echo $rowClass; ?>">
-						<td colspan="2"><?php echo $comment['InfinitasComment']['post']; ?></td>
+						<td colspan="2"><?php echo $this->Html->link($comment['InfinitasComment']['post'], array('action' => 'edit'. $comment['InfinitasComment']['id'])); ?></td>
 						<td colspan="100">
 							<?php echo str_replace('\n', ' ', strip_tags($comment['InfinitasComment']['comment'])); ?>
 						</td>
