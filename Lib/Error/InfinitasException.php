@@ -1,5 +1,21 @@
 <?php
-	class InfinitasException extends CakeException {
+	class InfinitasException extends RuntimeException {
+
+		/**
+		 * Array of attributes that are passed in from the constructor, and
+		 * made available in the view when a development error is displayed.
+		 *
+		 * @var array
+		 */
+		protected $_attributes = array();
+
+		/**
+		 * Template string that has attributes sprintf()'ed into it.
+		 *
+		 * @var string
+		 */
+		protected $_messageTemplate = '';
+	
 		/**
 		 * @brief the name of the plugin that raised the exception
 		 * 
@@ -16,11 +32,16 @@
 		 * @param type $code 
 		 */
 		public function __construct($message, $code = null) {
-			parent::__construct($message, $code);
-			
 			if($this instanceof InfinitasException) {
 				$this->_plugin = str_replace('Exception', '', get_parent_class($this));
 			}
+			
+			if (is_array($message)) {
+				$this->_attributes = $message;
+				$message = __d($this->_plugin ? $this->_plugin : 'infinitas', $this->_messageTemplate, $message);
+			}
+			
+			parent::__construct($message, $code);
 		}
 		
 		/**
@@ -33,5 +54,14 @@
 		 */
 		public function plugin() {
 			return $this->_plugin;
+		}
+
+		/**
+		 * Get the passed in attributes
+		 *
+		 * @return array
+		 */
+		public function getAttributes() {
+			return $this->_attributes;
 		}
 	}

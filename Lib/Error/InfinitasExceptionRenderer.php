@@ -71,6 +71,7 @@
 				$path = InfinitasPlugin::path($plugin) . 'View' . DS . 'Errors' . DS . $view . '.ctp';
 				
 				if(is_file($path)) {
+					$this->method  = '_infinitasError';
 					$this->template = sprintf('%s.%s', $plugin, $view);
 				}
 			}
@@ -79,7 +80,24 @@
 			
 			$path = APP . 'View' . DS . 'Errors' . DS . $view . '.ctp';
 			if(is_file($path)) {
+				$this->method  = '_infinitasError';
 				$this->template = $view;
 			}
+		}
+		
+		protected function _infinitasError($error) {
+			$message = $error->getMessage();
+			$code = $error->getCode();
+			$url = $this->controller->request->here();
+			$this->controller->response->statusCode($code);
+			$this->controller->set(array(
+				'code' => $code,
+				'url' => h($url),
+				'name' => $error->getMessage(),
+				'error' => $error,
+				'_serialize' => array('code', 'url', 'name')
+			));
+			$this->controller->set($error->getAttributes());
+			$this->_outputMessage($this->template);
 		}
 	}
