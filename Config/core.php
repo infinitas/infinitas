@@ -33,11 +33,14 @@
 		Configure::write('Cache.check', true);
 	}
 	
+	App::uses('AppError', 'Lib');
+	App::uses('InfinitasException', 'Lib/Error');
 	Configure::write(
 		'Error', 
 		array(
-			'handler' => 'ErrorHandler::handleError',
+			'handler' => 'AppError::handleError',
 			'level' => E_ALL,
+			'renderer' => 'InfinitasErrorRenderer',
 			'trace' => true,
 		)
 	);
@@ -45,8 +48,8 @@
 	Configure::write(
 		'Exception', 
 		array(
-			'handler' => 'ErrorHandler::handleException',
-			'renderer' => 'ExceptionRenderer',
+			'handler' => 'AppError::handleException',
+			'renderer' => 'InfinitasExceptionRenderer',
 			'log' => true,
 		)
 	);
