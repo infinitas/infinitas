@@ -30,12 +30,17 @@
 			}
 			
 			if(!empty($Controller->viewVars['error']) && $Controller->viewVars['error'] instanceof Exception) {
-				return false;
+				$error = $Controller->viewVars['error'];
+				unset($Controller->viewVars['error']);
 			}
 			
 			$layout = array_values($Controller->viewVars);
 			$theme = current(Set::extract('/Layout/theme_id', $layout));
 			$layout = current(Set::extract('/Layout/layout', $layout));
+			
+			if(!empty($error)) {
+				$Controller->viewVars['error'] = $error;
+			}
 			
 			if($layout) {
 				Configure::write('Themes.default_layout', $layout);
