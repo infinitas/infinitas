@@ -224,6 +224,11 @@
 		 * @return void
 		 */
 		public function __construct($request = null, $response = null) {
+			if(get_class($this) == 'InfinitasErrorController') {
+				parent::__construct($request, $response);
+				return;
+			}
+			
 			$this->__setupConfig();
 			$event = EventCore::trigger($this, 'requireComponentsToLoad');
 
@@ -273,14 +278,6 @@
 				$this->request->params['named']['limit'] = $this->Infinitas->paginationHardLimit($this->request->params['named']['limit']);
 			}
 
-			if($this->MassAction->getAction(false) == 'cancel') {
-				$this->Event->trigger(
-					'editCanceled',
-					!empty($this->request->data[$this->modelClass]['id']) ? $this->request->data[$this->modelClass]['id'] : null
-				);
-				$this->redirect($this->getPageRedirectVar());
-			}
-
 			if (sizeof($this->uses) && (isset($this->{$this->modelClass}->Behaviors) && $this->{$this->modelClass}->Behaviors->attached('Logable'))) {
 				$this->{$this->modelClass}->setUserData($this->Auth->user());
 			}
@@ -288,8 +285,8 @@
 			$this->__callBacks[__FUNCTION__] = true;
 			
 			$this->prettyModelName = prettyName($this->modelClass);
-			if(!$this->Session->read('ip_address')){
-				$this->Session->write('ip_address', $this->RequestHandler->getClientIp());
+			if(!empty($this->Session) && !$this->Session->read('ip_address')){
+				$this->Session->write('ip_address', $this->request->clientIp());
 			}
 
 			$modelName = !empty($this->prettyModelName) ? $this->prettyModelName : prettyName($this->name);

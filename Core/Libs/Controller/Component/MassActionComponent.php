@@ -24,6 +24,16 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class MassActionComponent extends InfinitasComponent {
+		public function initialize($Controller) {
+			if($this->getAction(false) == 'cancel') {
+				$Controller->Event->trigger(
+					'editCanceled',
+					!empty($Controller->request->data[$Controller->modelClass]['id']) ? $Controller->request->data[$Controller->modelClass]['id'] : null
+				);
+				$Controller->redirect($Controller->getPageRedirectVar());
+			}
+		}
+		
 		/**
 		 * Mass actions
 		 *
