@@ -94,6 +94,24 @@
 		public function admin_reply(){
 			// @todo reply to the comment.
 		}
+		
+		public function admin_ban($ip) {
+			$message = __d('comments', 'Commenters have been banned');
+			$config = array(
+				'redirect' => true
+			);
+			
+			try {
+				$this->InfinitasComment->blockIp($ip);
+			}
+			
+			catch(Exception $e) {
+				$message = $e->getMessage();
+				$config['level'] = 'warning';
+			}
+			
+			$this->notice($message, $config);
+		}
 
 		public function admin_commentPurge($class = null) {
 			if (!$class) {

@@ -199,6 +199,8 @@
 					)
 				)
 			);
+			
+			$data[$this->__settings[$Model->alias]['class']]['mx_record'] = $this->__mxRecord($data[$this->__settings[$Model->alias]['class']]['email']);
 
 			$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
 
@@ -230,6 +232,29 @@
 			}
 
 			return false;
+		}
+		
+		private function __mxRecord($email) {
+			preg_match(
+				'/@((?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel))$/i', 
+				$email, 
+				$host
+			);
+
+			if(empty($host[1])) {
+				return false;
+				continue;
+			}
+
+			if (function_exists('getmxrr')) {
+				return getmxrr($host[1], $mxhosts);
+			}
+
+			else if (function_exists('checkdnsrr')) {
+				return checkdnsrr($host[1], 'MX');
+			}
+
+			return gethostbynamel($host[1]);
 		}
 
 		/**

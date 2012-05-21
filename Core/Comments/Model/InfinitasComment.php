@@ -339,6 +339,30 @@
 
 			return $comments;
 		}
+		
+		public function blockIp($ipAddresses) {
+			$IpAddress = ClassRegistry::init('Security.IpAddress');
+			if(!is_array($ipAddresses)) {
+				$ipAddresses = array($ipAddresses);
+			}
+			
+			$ipAddresses = $this->find(
+				'list',
+				array(
+					'fields' => array(
+						$this->alias . '.ip_address',
+						$this->alias . '.ip_address'
+					),
+					'conditions' => array(
+						$this->alias . '.' . $this->primaryKey => $ipAddresses
+					)
+				)
+			);
+			
+			foreach($ipAddresses as $ip) {
+				$IpAddress->blockIp($ip, 'Blocked for spam comments');
+			}
+		}
 
 		protected function _findAdminIndex($state, $query, $results = array()) {
 			if ($state === 'before') {
@@ -354,6 +378,8 @@
 						$this->alias . '.status',
 						$this->alias . '.points',
 						$this->alias . '.foreign_id',
+						$this->alias . '.mx_record',
+						$this->alias . '.ip_address',
 						$this->alias . '.created',
 					)
 				);

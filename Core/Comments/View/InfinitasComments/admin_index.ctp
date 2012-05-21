@@ -24,6 +24,7 @@
 				'edit',
 				'toggle',
 				'spam',
+				'ban',
 				'delete'
 			)
 		);
@@ -42,6 +43,7 @@
                     $this->Paginator->sort('email') => array(
                         'style' => '50px;'
                     ),
+                    $this->Paginator->sort('ip_address'),
                     $this->Paginator->sort('created') => array(
                         'width' => '100px'
                     ),
@@ -70,6 +72,7 @@
 							?>&nbsp;
 						</td>
                         <td><?php echo $this->Text->autoLinkEmails($comment['InfinitasComment']['email']); ?>&nbsp;</td>
+                        <td><?php echo $comment['InfinitasComment']['ip_address']; ?>&nbsp;</td>
                         <td><?php echo $this->Time->timeAgoInWords($comment['InfinitasComment']['created']); ?>&nbsp;</td>
                         <td><?php echo $comment['InfinitasComment']['points']; ?>&nbsp;</td>
                         <td rowspan="2">
@@ -78,6 +81,13 @@
                             	if(!$comment['InfinitasComment']['active']){
                             		echo ' ', Inflector::humanize($comment['InfinitasComment']['status']);
                             	}
+								echo $this->Infinitas->status(
+									$comment['InfinitasComment']['mx_record'],
+									array(
+										'title_yes' => __d('comments', 'MX Record :: The email address seems valid'),
+										'title_no' => __d('comments', 'MX Record :: This email address could be fake'),
+									)
+								);
                             ?>
                         </td>
                     </tr>
