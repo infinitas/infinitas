@@ -21,6 +21,7 @@
 	echo $this->Form->create('InfinitasComment', array('action' => 'mass'));
 		$massActions = $this->Infinitas->massActionButtons(
 			array(
+				'edit',
 				'toggle',
 				'spam',
 				'delete'
