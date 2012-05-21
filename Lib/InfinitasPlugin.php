@@ -128,6 +128,14 @@
 				CakeLog::write('exception', $e->getMessage());
 			}
 			
+			$exceptions = self::path($plugin) . 'Lib' . DS . 'Error' . DS . 'exceptions.php';
+			if(!is_file($exceptions)) {
+				CakeLog::write('exceptions', 'No exceptions file found for plugin ' . $plugin);
+			}
+			else {
+				require $exceptions;
+			}
+			
 			App::uses($plugin . 'AppModel', $plugin . '.Model');
 			App::uses($plugin . 'AppController', $plugin . '.Controller');
 
