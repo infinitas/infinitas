@@ -72,23 +72,31 @@
 		*
 		* @return string some html for the generated image.
 		*/
-		public function status($status = null){
+		public function status($status = null, $options = array()) {
 			$image = false;
 			$params = array();
+			
+			$options = array_merge(
+				array(
+					'title_yes' => __d('infinitas', 'Status :: This record is active'),
+					'title_no' => __d('infinitas', 'Status :: This record is disabled'),
+				),
+				(array)$options
+			);
 
 			switch (strtolower($status)){
 				case 1:
 				case 'yes':
 				case 'on':
 					if ($this->external){
-						$params['title'] = __( 'Active', true );
+						$params['title'] = $options['title_yes'];
 					}
 
 					$image = $this->Html->image(
 						$this->Image->getRelativePath('status', 'active'),
 						$params + array(
 							'width' => '16px',
-							'alt' => __('On')
+							'alt' => __d('infinitas', 'On')
 						)
 					);
 					break;
@@ -97,14 +105,14 @@
 				case 'no':
 				case 'off':
 					if ($this->external){
-						$params['title'] = __('Disabled');
+						$params['title'] = $options['title_no'];
 					}
 
 					$image = $this->Html->image(
 						$this->Image->getRelativePath('status', 'inactive'),
 						$params + array(
 							'width' => '16px',
-							'alt' => __('Off')
+							'alt' => __d('infinitas', 'Off')
 						)
 					);
 					break;
