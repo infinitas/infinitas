@@ -43,7 +43,7 @@
 				'list',
 				array(
 					'conditions' => array(
-						'IpAddress.active' => 1
+						$this->alias . '.active' => 1
 					)
 				)
 			);
@@ -82,7 +82,7 @@
 				'count',
 				array(
 					'conditions' => array(
-						'IpAddress.description LIKE ' => '%'.$username.'%'
+						$this->alias . '.description LIKE ' => '%'.$username.'%'
 					)
 				)
 			);
@@ -170,45 +170,44 @@
 				'first',
 				array(
 					'conditions' => array(
-						'IpAddress.ip_address' => $ipAddress
+						$this->alias . '.ip_address' => $ipAddress
 					),
 					'contain' => false
 				)
 			);
-
-			$save['IpAddress']['ip_address'] = $ipAddress;
-			$save['IpAddress']['active'] = 1;
-			$save['IpAddress']['description'] = serialize($data);
-			$save['IpAddress']['times_blocked'] = 1;
-			$save['IpAddress']['risk'] = $risk;
-
-			if (!empty($old)) {
-				$save['IpAddress']['id'] = $old['IpAddress']['id'];
-				$save['IpAddress']['times_blocked'] = $old['IpAddress']['times_blocked'] + 1;
+			
+			if(!(is_string($data) || is_int($data))) {
+				$data = serialize($data);
 			}
 
-			$time = $save['IpAddress']['times_blocked'] * 20;
+			$save[$this->alias]['ip_address'] = $ipAddress;
+			$save[$this->alias]['active'] = 1;
+			$save[$this->alias]['description'] = $data;
+			$save[$this->alias]['times_blocked'] = 1;
+			$save[$this->alias]['risk'] = $risk;
+			$save[$this->alias]['unlock_at'] = time();
+
+			if (!empty($old)) {
+				$save[$this->alias]['id'] = $old[$this->alias]['id'];
+				$save[$this->alias]['times_blocked'] = $old[$this->alias]['times_blocked'] + 1;
+				$save[$this->alias]['unlock_at'] = strtotime($old[$this->alias]['unlock_at']);
+			}
+
+			$time = $save[$this->alias]['times_blocked'] * 20;
 			switch(Configure::read('Security.level')){
 				case 'low':
-					$time = $save['IpAddress']['times_blocked'] * 5;
+					$time = $save[$this->alias]['times_blocked'] * 5;
 					break;
 				
 				case 'medium':
-					$time = $save['IpAddress']['times_blocked'] * 10;
+					$time = $save[$this->alias]['times_blocked'] * 10;
 					break;
 			} // switch
-
-			$save['IpAddress']['unlock_at'] =
-				$time // blocked times * the security level
-				* 5 // minutes
-				* ($risk + 1);
-
-			$save['IpAddress']['unlock_at'] = date('Y-m-d H:i:s', mktime(0, date('i') + $save['IpAddress']['unlock_at'], 0, date('m'), date('d'), date('Y')));
+			
+			$save[$this->alias]['unlock_at'] = date('Y-m-d H:i:s', ($time * 5 * 60 * ($risk + 1)) + $save[$this->alias]['unlock_at']);
 
 			if ($this->save($save)) {
 				return true;
 			}
-			
-			exit;
 		}
 	}

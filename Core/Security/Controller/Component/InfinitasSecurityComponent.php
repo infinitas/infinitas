@@ -95,10 +95,10 @@
 
 			$ips = Cache::read('blocked_ips', 'core');
 			if (!$ips) {
-				$ips = ClassRegistry::init('Management.IpAddress')->getBlockedIpAddresses();
+				$ips = ClassRegistry::init('Security.IpAddress')->getBlockedIpAddresses();
 			}
 
-			$currentIp = $this->Controller->RequestHandler->getClientIp();
+			$currentIp = $this->Controller->request->clientIp();
 
 			if(in_array($currentIp, $ips)) {
 				$this->Controller->Security->blackHole($this->Controller, 'ipAddressBlocked');
@@ -151,7 +151,7 @@
 			$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 
 			if (count($old) > 0) {
-				$this->risk = ClassRegistry::init('Management.IpAddress')->findSimmilarAttempts(
+				$this->risk = ClassRegistry::init('Security.IpAddress')->findSimmilarAttempts(
 					$this->Controller->RequestHandler->getClientIp(),
 					$this->Controller->data['User']['username']
 				);
@@ -159,8 +159,8 @@
 
 			if (count($old) >= Configure::read('Security.login_attempts')) {
 
-				ClassRegistry::init('Management.IpAddress')->blockIp(
-					$this->Controller->RequestHandler->getClientIp(),
+				ClassRegistry::init('Security.IpAddress')->blockIp(
+					$this->Controller->request->clientIp(),
 					$this->Controller->Session->read('Infinitas.Security.loginAttempts'),
 					$this->risk
 				);
