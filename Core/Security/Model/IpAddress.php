@@ -33,24 +33,16 @@
 		 *
 		 * @return array of blocked ip addresses and blocked ranges.
 		 */
-		public function getBlockedIpAddresses(){
-			$ipAddresses = Cache::read('blocked_ips', 'core');
-			if ($ipAddresses) {
-				return $ipAddresses;
-			}
-
-			$ipAddresses = $this->find(
-				'list',
+		public function getBlockedIpAddresses($ipAddress) {
+			return $this->find(
+				'count',
 				array(
 					'conditions' => array(
-						$this->alias . '.active' => 1
+						$this->alias . '.active' => 1,
+						$this->alias . '.ip_address' => $ipAddress
 					)
 				)
 			);
-
-			Cache::write('blocked_ips', $ipAddresses, 'core');
-
-			return $ipAddresses;
 		}
 
 		/**

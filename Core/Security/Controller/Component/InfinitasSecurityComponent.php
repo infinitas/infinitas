@@ -6,7 +6,7 @@
 			parent::initialize($Controller);
 
 			$this->__checkBadLogins();
-			$this->__ipBlocker();
+			$this->__blockByIp();
 			
 			$this->__setupAuth();
 			$this->__setupSecurity();
@@ -88,28 +88,11 @@
 		 * If the user is allowed it is saved to their session so that the test
 		 * is not done on every request.
 		 */
-		private function __ipBlocker(){
-			if ($this->Controller->Session->read('Infinitas.Security.ip_checked')) {
-				return true;
-			}
-
-			$ips = Cache::read('blocked_ips', 'core');
-			if (!$ips) {
-				$ips = ClassRegistry::init('Security.IpAddress')->getBlockedIpAddresses();
-			}
-
+		private function __blockByIp() {
 			$currentIp = $this->Controller->request->clientIp();
 
-			if(in_array($currentIp, $ips)) {
-				$this->Controller->Security->blackHole($this->Controller, 'ipAddressBlocked');
-			}
-
-			else {
-				foreach($ips as $ip) {
-					if(eregi($ip, $currentIp)) {
-						$this->Controller->Security->blackHole($this->Controller, 'ipAddressBlocked');
-					}
-				}
+			if(ClassRegistry::init('Security.IpAddress')->getBlockedIpAddresses($currentIp)) {
+				throw new SecurityIpAddressBlockedException(array($currentIp));
 			}
 
 			$this->Controller->Session->write('Infinitas.Security.ip_checked', true);
@@ -141,9 +124,7 @@
 		 *
 		 * @return true or blackHole;
 		 */
-		private function __checkBadLogins(){
-			return true;
-
+		private function __checkBadLogins() {
 			if($this->Controller->Auth->user('id')) {
 				return true;
 			}
@@ -170,4 +151,8 @@
 
 			return true;
 		}
+	}
+	
+	class InfinitasSecurityBlockedException extends Exception {
+		
 	}
