@@ -25,6 +25,8 @@
 
 	class MassActionComponent extends InfinitasComponent {
 		public function initialize($Controller) {
+			parent::initialize($Controller);
+			
 			if($this->getAction(false) == 'cancel') {
 				$Controller->Event->trigger(
 					'editCanceled',
