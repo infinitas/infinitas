@@ -496,6 +496,33 @@
 
 			return $actions;
 		}
+		
+		public function getRecords($Model, $plugin, $model) {
+			try {
+				$_Model = ClassRegistry::init($plugin . '.' . $model);
+				
+				if(!isset($_Model->contentable) || !$_Model->contentable) {
+					return $_Model->find('list');
+				}
+				
+				return $_Model->GlobalContent->find(
+					'list',
+					array(
+						'fields' => array(
+							$_Model->GlobalContent->alias . '.foreign_key',
+							'GlobalContent.title'
+						),
+						'conditions' => array(
+							$_Model->GlobalContent->alias . '.model' => $plugin . '.' . $model
+						)
+					)
+				);
+			}
+			
+			catch(Exception $e) {
+				return array($e->getMessage());
+			}
+		}
 
 		/**
 		* actions to filter out

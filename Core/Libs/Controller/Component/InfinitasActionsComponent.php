@@ -78,6 +78,29 @@
 				)
 			);
 		}
+
+		/**
+		 * @brief get a list of all the actions for the selected plugin + controller
+		 *
+		 * @access public
+		 *
+		 * @return void
+		 */
+		public function actionAdminGetRecords(){
+			if (!(isset($this->Controller->request->data[$this->Controller->modelClass]['plugin']) &&
+					isset($this->Controller->request->data[$this->Controller->modelClass]['model'] ))) {
+				$this->Controller->set('json', array('error'));
+				return;
+			}
+			
+			$this->Controller->set(
+				'json',
+				$this->Controller->{$this->Controller->modelClass}->getRecords(
+					$this->Controller->request->data[$this->Controller->modelClass]['plugin'],
+					$this->Controller->request->data[$this->Controller->modelClass]['model']
+				)
+			);
+		}
 		
 		/**
 		 * @brief Simple Admin add method.
