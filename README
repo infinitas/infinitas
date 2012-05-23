@@ -1,11 +1,15 @@
-To get started running Infinitas, follow the steps below. Infinitas currently tested
-and working (with some bugs) on various 5.x php installations with MySQL and MySQLi.
-There is only  a web based installer option, although a shell option is planned.
+To get started running Infinitas, follow the steps below. Infinitas is currently 
+tested and working (with some bugs) on various 5.2+ php installations with MySQL.
+
+The web installer makes for easy installation, there is also a shell version but 
+has not been finalised just yet.
 
 (A) Quick Start Guide
 ================================================================================
-0) If you dont have cake, download and set it up ( http://github.com/cakephp/cakephp )
+0) If you don't have cake, download and set it up ( http://github.com/cakephp/cakephp )
 	you can also get it with `git clone git://github.com/cakephp/cakephp`
+	
+	Make sure to use the latest version of 2.1 (2.2 has some backwards breaking changes in controllers)
 
 
 (B) Manually
@@ -14,7 +18,7 @@ There is only  a web based installer option, although a shell option is planned.
 2) extract the files to the app dir, not ../app/infinits/<files> but ../app/<files>
 3) If you would like the extra plugins (recomended)
 	3a) you will need to download them all manually and put them in the plugins folder. maybe its time to start using git
-4) see instructions below
+4) see instructions (C) below
 
 
 
@@ -25,16 +29,19 @@ There is only  a web based installer option, although a shell option is planned.
 
 3) If you would like the extra plugins (recomended)
 	git submodule update --init --recursive
-4) see instructions below
+4) see instructions (C) below
 
 
 (C) Installation
 ================================================================================
-5) make APP/config/ and APP/tmp/ writeable for the installation
+5) make APP/config/ and APP/tmp/ writeable for the installation 
+	(or just make the entire app owned by the web server `sudo chown www-data:www-data -R ./`)
 6) create a db (remember the name and login details for just now)
-7) visit the corresponding url to where you cloned it to (http://localhost/infinitas/ maybe)
+7) visit the corresponding url to where you cloned it to (http://localhost/ or infinitas/ maybe)
 8) Follow the instructions
-	8a) Some enviroments throw a `504 Gateway timeout` error during install, if this happens hit refresh within a few seconds and it should install fine
-	8b) although there is a `sample data` option, it is not currently working. its coming
+	8a) although there is a `sample data` option, it will install sample data regardless.
 9) If all has gone well you should be on a screen that asks you to enter the main administration details, fill this out and hit enter
 10) pat yourself on the back, infinitas is now running :)
+
+Please let us know if you have any issues trying to run Infinitas. There is a bug tracker 
+at http://infinitas.lighthouseapp.com or #infinitas on IRC (freenode.net)
