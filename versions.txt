@@ -1,3 +1,31 @@
+v0.9 beta
+================================================================================
+Upgrade CakePHP version
+	- 2.1
+
+Core plugins
+	- Code moved into the respective plugins making the core less dependent on that code
+	- Overloading CakePHP controller startup to allow plugins to use components as controller methods 
+	- Removed code from AppController and moved to the MassActionsComponent / InfinitasActions
+
+Contents plugin
+	- handles general content for plugins such as blog / cms etc making code more dry
+
+Errors
+	- Re-implemented for Cake 2.x with some exception additions
+	- Custom handlers and error renderers
+
+Assets
+	- Update jQuery and jQuery UI
+	- Fixed css compress
+
+Bugs
+	- Fixed loads of bugs
+	- Updated tests for 2.x and making sure they work
+
+
+
+
 v0.8 alpha
 ================================================================================
 Tests
