@@ -114,6 +114,38 @@
 				)
 			);
 		}
+		
+		public function getInactiveInstalledPlugins($type = 'list') {
+			return $this->__installedPluginsByState(0);
+		}
+		
+		private function __installedPluginsByState($active = 1, $type = 'list') {
+			if(!in_array($type, array('list', 'count', 'all'))){
+				$type = 'list';
+			}
+
+			$fields = array(
+				$this->alias . '.id',
+				$this->alias . '.internal_name'
+			);
+
+			if($type !== 'list'){
+				$fields = array();
+			}
+
+			return $this->find(
+				$type,
+				array(
+					'fields' => $fields,
+					'conditions' => array(
+						'or' => array(
+							$this->alias . '.active' => $active,
+							$this->alias . '.core' => 1
+						)
+					)
+				)
+			);
+		}
 
 		/**
 		 * @brief method to find a list of plugins not yet installed
