@@ -57,7 +57,8 @@
                     ),
                     $this->Paginator->sort('modified') => array(
                         'style' => 'width:100px;'
-                    )
+                    ),
+					__d('contents', 'Status')
                 )
             );
 
@@ -72,18 +73,16 @@
 								if(!$layout['GlobalLayout']['theme_id']) {
 									$layout['Theme']['name'] = __d('themes', 'Global');
 								}
+							
 								if(!$layout['GlobalLayout']['layout']) {
 									$layout['GlobalLayout']['layout'] = __d('themes', 'Global');
 								}
 								echo implode('<b>.</b>', array($layout['Theme']['name'], $layout['GlobalLayout']['layout']));
 							?>&nbsp;
                 		</td>
-                		<td>
-                			<?php echo $layout['GlobalLayout']['content_count']; ?>&nbsp;
-                		</td>
-                		<td>
-                			<?php echo $this->Time->niceShort($layout['GlobalLayout']['modified']); ?>&nbsp;
-                		</td>
+                		<td><?php echo $layout['GlobalLayout']['content_count']; ?>&nbsp;</td>
+                		<td><?php echo $this->Time->niceShort($layout['GlobalLayout']['modified']); ?>&nbsp;</td>
+                		<td><?php echo $this->Locked->display($layout); ?>&nbsp;</td>
                 	</tr>
                 <?php
             }
