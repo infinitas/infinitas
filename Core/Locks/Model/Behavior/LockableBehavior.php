@@ -24,7 +24,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class LockableBehavior extends ModelBehavior {
+	class LockableBehavior extends ModelBehavior {		
 		/**
 		 * Contain default settings.
 		 *
@@ -33,6 +33,12 @@
 		 */
 		protected $_defaults = array(
 		);
+		
+		public function __construct() {
+			parent::__construct();
+			
+			ClassRegistry::init('Locks.Lock')->clearOldLocks();
+		}
 
 		/**
 		 *
@@ -67,10 +73,6 @@
 				false
 			);
 
-			if(rand(0, 50) == 0){
-				$this->__gc($Model);
-			}
-
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 			}
@@ -78,16 +80,6 @@
 			else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
-		}
-
-		/**
-		 * Clear out old locks
-		 *
-		 * This will delete any locks that have expired (configured in Locks.timeout)
-		 * so that things do not remain locked when its not needed.
-		 */
-		private function __gc($Model){
-			ClassRegistry::init('Locks.Lock')->clearOldLocks();
 		}
 
 		/**

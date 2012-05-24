@@ -33,12 +33,12 @@
 			)
 		);
 
-		public function beforeDelete($cascade){
+		public function beforeDelete($cascade) {
 			$this->Behaviors->detach('Trashable');
 			return parent::beforeDelete($cascade);
 		}
 
-		public function clearOldLocks(){
+		public function clearOldLocks() {
 			return $this->deleteAll(
 				array(
 					'Lock.created < ' => date('Y-m-d H:m:s', strtotime(Configure::read('Locks.timeout')))
