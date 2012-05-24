@@ -33,11 +33,24 @@
 			)
 		);
 
+		/**
+		 * @brief disable the trash behavior as it is not required for this data
+		 * 
+		 * @param bool $cascade if the delete should cascade
+		 * @return AppModel::beforeSave()
+		 */
 		public function beforeDelete($cascade) {
 			$this->Behaviors->detach('Trashable');
 			return parent::beforeDelete($cascade);
 		}
 
+		/**
+		 * @brief method to clear out locks that are stale
+		 * 
+		 * The time can be configured via the configs plugin in the backend
+		 * 
+		 * @return bool deleted or not, see Model::deleteAll()
+		 */
 		public function clearOldLocks() {
 			return $this->deleteAll(
 				array(
