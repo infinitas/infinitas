@@ -12,11 +12,14 @@
 		}
 
 		public function beforeFind($Model, $query) {
-			if(false && $Model->hasField('plugin')) {
-				$query['conditions'] = array_merge(
-					!empty($query['conditions']) ? (array)$query['conditions'] : array(),
-					$this->__getPossiblePlugins($Model, 'plugin')
-				);
+			$query['conditions'] = !empty($query['conditions']) ? (array)$query['conditions'] : array();
+			
+			if($Model->hasField('plugin')) {
+				//$this->__getPossiblePlugins($Model, 'plugin', $query['conditions']);
+			}
+			
+			if($Model->hasField('model')) {
+				$this->__getPossiblePlugins($Model, 'model', $query['conditions']);
 			}
 			
 			if($Model->hasField('class')) {
@@ -39,21 +42,14 @@
 		 *
 		 * @return array conditions to add to a find
 		 */
-		private function __getPossiblePlugins($Model, $field) {
-			$camelCasePlugins = EventCore::getAvailablePlugins();
+		private function __getPossiblePlugins($Model, $field, &$conditions) {
+			$toIgnore = ClassRegistry::init('Installer.Plugin')->getInactiveInstalledPlugins();
 
-			$mixedCasePlugins = array('');
-			foreach($camelCasePlugins as $plugin) {
-				$mixedCasePlugins[] = $plugin;
-				$mixedCasePlugins[] = Inflector::underscore($plugin);
+			$return = array();
+			foreach($toIgnore as $plugin) {
+				$conditions[] = array(
+					sprintf('%s.%s NOT LIKE ', $Model->alias, $field) => sprintf('%%%s%%', $plugin) 
+				);
 			}
-
-			return array(
-				'and' => array(
-					'or' => array(
-						$Model->alias . '.' . $field => $mixedCasePlugins,
-					)
-				)
-			);
 		}
 	}
