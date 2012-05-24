@@ -85,44 +85,39 @@
 		 *
 		 * @param string $type the type of find to do
 		 *
-		 * @return mixed depends on the type passed in could be int, array list or full find
+		 * @return mixed see Plugin::__installedPluginsByState()
 		 */
 		public function getActiveInstalledPlugins($type = 'list'){
-			if(!in_array($type, array('list', 'count', 'all'))){
-				$type = 'list';
-			}
-
-			$fields = array(
-				$this->alias . '.id',
-				$this->alias . '.internal_name'
-			);
-
-			if($type !== 'list'){
-				$fields = array();
-			}
-
-			return $this->find(
-				$type,
-				array(
-					'fields' => $fields,
-					'conditions' => array(
-						'or' => array(
-							$this->alias . '.active' => 1,
-							$this->alias . '.core' => 1
-						)
-					)
-				)
-			);
+			return $this->__installedPluginsByState(1, $type);
 		}
 		
+		/**
+		 * @brief get a list of installed plugins that are not active
+		 * 
+		 * @param type $type
+		 * 
+		 * @return mixed see Plugin::__installedPluginsByState()
+		 */
 		public function getInactiveInstalledPlugins($type = 'list') {
-			return $this->__installedPluginsByState(0);
+			return $this->__installedPluginsByState(0, $type);
 		}
 		
+		/**
+		 * @brief DRY code to find plugins by state.
+		 * 
+		 * Inactive plugins are non-code disabled plugins
+		 * Active plugins are all core and any other installed + enabled pluings
+		 * 
+		 * @param bool $active active or inactive
+		 * @param string $type the find type to return
+		 * 
+		 * @return mixed depends on the type passed in could be int, array list or full find
+		 */
 		private function __installedPluginsByState($active = 1, $type = 'list') {
 			if(!in_array($type, array('list', 'count', 'all'))){
 				$type = 'list';
 			}
+			$active = (bool)$active;
 
 			$fields = array(
 				$this->alias . '.id',
@@ -132,17 +127,22 @@
 			if($type !== 'list'){
 				$fields = array();
 			}
-
+			
+			$conditionType = 'or';
+			if(!$active) {
+				$conditionType = 'and';
+			}
+			
+			$conditions[$conditionType] = array(
+				$this->alias . '.active' => $active,
+				$this->alias . '.core' => $active
+			);
+			
 			return $this->find(
 				$type,
 				array(
 					'fields' => $fields,
-					'conditions' => array(
-						'or' => array(
-							$this->alias . '.active' => $active,
-							$this->alias . '.core' => 1
-						)
-					)
+					'conditions' => $conditions
 				)
 			);
 		}
