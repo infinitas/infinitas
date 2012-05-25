@@ -20,7 +20,7 @@
 			$data = array(
 				'model' => $Model->modelName(),
 				'foreign_key' => $Model->id,
-				'name' => $item[$Model->alias][$Model->displayField],
+				'name' => !empty($item[$Model->alias][$Model->displayField]) ? $item[$Model->alias][$Model->displayField] : __d('trash', 'Unknown'),
 				'data' => serialize($Model->data),
 				'deleted' => date('Y-m-d H:i:s'),
 				'deleted_by' => $userId
