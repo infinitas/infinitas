@@ -23,10 +23,13 @@
 
 	class LockerComponent extends InfinitasComponent {
 		public function initialize($Controller){
-			$disable = !strstr($Controller->action, 'admin');
+			$disable = !strstr($Controller->action, 'admin') && 
+				!empty($Controller->uses) && 
+				isset($Controller->{$Controller->modelClass}->Behaviors);
 
-			if($disable && !empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->Behaviors)){
-				$Controller->{$Controller->modelClass}->Behaviors->detach('Locks.Lockable');
+			$disable = $disable || (!empty($Controller->request->data['action']) && $Controller->request->data['action'] == 'copy');
+			if($disable){
+				$Controller->{$Controller->modelClass}->Behaviors->detach('Lockable');
 			}
 
 			return true;
