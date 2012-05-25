@@ -15,7 +15,7 @@
 			$query['conditions'] = !empty($query['conditions']) ? (array)$query['conditions'] : array();
 			
 			if($Model->hasField('plugin')) {
-				//$this->__getPossiblePlugins($Model, 'plugin', $query['conditions']);
+				$this->__getPossiblePlugins($Model, 'plugin', $query['conditions']);
 			}
 			
 			if($Model->hasField('model')) {
