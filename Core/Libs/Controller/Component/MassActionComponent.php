@@ -326,9 +326,12 @@
 			
 			foreach($ids as $id) {
 				$record = $this->Controller->{$this->Controller->modelClass}->read(null, $id);
+				
 				unset($record[$this->Controller->modelClass]['id']);
-
-				if ($record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] != $this->Controller->{$this->Controller->modelClass}->primaryKey) {
+				
+				$check = $record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] != $this->Controller->{$this->Controller->modelClass}->primaryKey;
+				
+				if ($check) {
 					$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] =
 								$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] . $copyText;
 				}
