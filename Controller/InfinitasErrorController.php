@@ -7,8 +7,7 @@
 			'Auth',
 			'Libs.Infinitas',
 			'Events.Event',
-			'Themes.Themes',
-			'Modules.ModuleLoader'
+			'Themes.Themes'
 		);
 		
 		public $uses = array();
