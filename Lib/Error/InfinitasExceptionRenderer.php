@@ -11,9 +11,12 @@
 		public function __construct(Exception $exception) {
 			parent::__construct($exception);
 			
+			$plugin = null;
 			if($exception instanceof InfinitasException) {
-				$this->__changeTemplate(get_class($exception), $exception->plugin());
+				$plugin = $exception->plugin();
 			}
+			
+			$this->__changeTemplate(get_class($exception), $plugin);
 		}
 		
 		/**
@@ -65,8 +68,9 @@
 		 * @param string $exceptionClass The name of the exception class
 		 * @param string $plugin The plugin the exception belongs to
 		 */
-		private function __changeTemplate($exceptionClass, $plugin) {
+		private function __changeTemplate($exceptionClass, $plugin = null) {
 			$view = Inflector::underscore(str_replace(array('Exception', $plugin), '', $exceptionClass));
+			
 			try {
 				$path = InfinitasPlugin::path($plugin) . 'View' . DS . 'Errors' . DS . $view . '.ctp';
 				
