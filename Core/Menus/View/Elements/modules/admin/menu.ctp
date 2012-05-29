@@ -25,7 +25,7 @@
 			echo $this->Html->link(
 				$this->Html->image('/assets/img/home.png', array('class' => 'logout-link')),
 				'/',
-				array('target' => '_blank', 'escape' => false, 'title' => __d('libs', 'Frontent :: Visit the frontend of the site'))
+				array('target' => '_blank', 'escape' => false, 'title' => __d('libs', 'Frontend :: Visit the frontend of the site'))
 			);
 			echo $this->Html->link(
 				$this->Html->image('/filemanager/img/icon.png', array('class' => 'logout-link')),
