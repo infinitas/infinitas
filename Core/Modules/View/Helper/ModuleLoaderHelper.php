@@ -71,6 +71,8 @@
 				}
 
 				$moduleOut = $this->loadModule($module['Module']['module'], $params);
+				
+				$error = !empty($this->_View->viewVars['error']) && $this->_View->viewVars['error'] instanceof Exception;
 
 				if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute){
 					foreach($module['ModuleRoute'] as $route) {
@@ -80,7 +82,7 @@
 					}
 				}
 
-				else if (empty($module['ModuleRoute'])) {
+				else if (empty($module['ModuleRoute']) || $error) {
 					$out .= $moduleOut;
 				}
 			}

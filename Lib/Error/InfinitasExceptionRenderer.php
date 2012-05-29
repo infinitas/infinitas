@@ -11,9 +11,12 @@
 		public function __construct(Exception $exception) {
 			parent::__construct($exception);
 			
+			$plugin = 'Libs';
 			if($exception instanceof InfinitasException) {
-				$this->__changeTemplate(get_class($exception), $exception->plugin());
+				$plugin = $exception->plugin();
 			}
+			
+			$this->__changeTemplate(get_class($exception), $plugin);
 		}
 		
 		/**
@@ -21,7 +24,6 @@
 		 */
 		public function render() {
 			$this->controller->layout = 'error';
-			
 			if(isset($this->controller->request['params']['admin']) && $this->controller->request['params']['admin']) {
 				$this->controller->layout = 'admin_error';
 			}
@@ -67,20 +69,23 @@
 		 */
 		private function __changeTemplate($exceptionClass, $plugin) {
 			$view = Inflector::underscore(str_replace(array('Exception', $plugin), '', $exceptionClass));
+			
 			try {
 				$path = InfinitasPlugin::path($plugin) . 'View' . DS . 'Errors' . DS . $view . '.ctp';
 				
 				if(is_file($path)) {
-					$this->method  = '_infinitasError';
+					$this->method  = 'error400';
 					$this->template = sprintf('%s.%s', $plugin, $view);
 				}
+				
+				return;
 			}
 			
 			catch(Exception $e) {}
 			
 			$path = APP . 'View' . DS . 'Errors' . DS . $view . '.ctp';
 			if(is_file($path)) {
-				$this->method  = '_infinitasError';
+				$this->method  = 'error400';
 				$this->template = $view;
 			}
 		}
