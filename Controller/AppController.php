@@ -327,13 +327,13 @@
 
 					break;
 
-				case $this->RequestHandler->prefers('rss'):
+				/*case $this->RequestHandler->prefers('rss'):
 					;
 					break;
 
 				case $this->RequestHandler->prefers('vcf'):
 					;
-					break;
+					break;*/
 			}
 
 			$this->Infinitas->getPluginAssets();
