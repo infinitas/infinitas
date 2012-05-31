@@ -159,12 +159,8 @@
 
 		public function index($step = null) {
 			if(filesize(APP . 'Config' . DS . 'database.php') > 0 && $this->Session->read('installing') == false) {
-				$this->notice(
-					__('Infinitas has already been installed'),
-					array(
-						'redirect' => true
-					)
-				);
+				$this->Session->setFlash(__d('installer', 'Infinitas has already been installed'));
+				$this->redirect('/');
 			}
 
 			$this->Session->write('installing', true);
