@@ -11,7 +11,7 @@
 	else{
 		Configure::write('debug', 0);
 	}
-	
+
 	Configure::write('log', true);
 
 	/**
@@ -32,11 +32,11 @@
 	if(Configure::read('debug') == 0){
 		Configure::write('Cache.check', true);
 	}
-	
+
 	App::uses('AppError', 'Lib');
 	App::uses('InfinitasException', 'Lib/Error');
 	Configure::write(
-		'Error', 
+		'Error',
 		array(
 			'handler' => 'AppError::handleError',
 			'level' => E_ALL,
@@ -46,10 +46,16 @@
 	);
 
 	Configure::write(
-		'Exception', 
+		'Exception',
 		array(
 			'handler' => 'AppError::handleException',
 			'renderer' => 'InfinitasExceptionRenderer',
 			'log' => true,
 		)
 	);
+
+	Configure::write('Dispatcher.filters', array(
+	    'AssetDispatcher',
+		'CacheDispatcher'
+	));
+
