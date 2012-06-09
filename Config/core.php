@@ -55,7 +55,7 @@
 	);
 
 	Configure::write('Dispatcher.filters', array(
-	    'AssetDispatcher',
-		'CacheDispatcher'
+		'AssetDispatcher',
+		'CacheDispatcher',
 	));
 
