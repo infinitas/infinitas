@@ -6,7 +6,7 @@
 	class RouteTest1 extends Route {
 		public $useDbConfig = 'test';
 
-		public function someMethod($conditions = array()){
+		public function someMethod($conditions = array()) {
 			return $this->find('list', array('conditions' => $conditions));
 		}
 	}
@@ -14,7 +14,7 @@
 	class RouteTest2 extends Route {
 		public $useDbConfig = 'test';
 
-		function _getList($conditions = array()){
+		function _getList($conditions = array()) {
 			return $this->find('list', array('conditions' => $conditions));
 		}
 	}
@@ -43,7 +43,7 @@
 			unset($this->Infinitas);
 		}
 
-		public function testGetJson(){
+		public function testGetJson() {
 			// test wrong usage
 			$this->expectError();
 			$this->assertFalse($this->Infinitas->getJson());
@@ -91,7 +91,7 @@
 			$this->assertEqual(array(array('abc')), $this->Infinitas->getJsonRecursive($this->AppModel, json_encode(array('abc'))));
 		}
 
-		public function testSingleDimentionArray(){
+		public function testSingleDimentionArray() {
 			//test wrong usage
 			$this->assertEqual($this->Infinitas->singleDimentionArray($this->AppModel, ''), array());
 			$this->assertEqual($this->Infinitas->singleDimentionArray($this->AppModel, array()), array());
@@ -101,17 +101,17 @@
 			$this->assertEqual($this->Infinitas->singleDimentionArray($this->AppModel, array('one' => array('abc' => 123), 'two' => 2)), array('two' => 2));
 		}
 
-		public function testGetPlugins(){
+		public function testGetPlugins() {
 			$_allPlugins = InfinitasPlugin::listPlugins('all');
 			$allPlugins = array() + array('' => 'None');
-			foreach($_allPlugins as $k => $v){
+			foreach($_allPlugins as $k => $v) {
 				$allPlugins[Inflector::underscore($v)] = $v;
 			}
 			// need to see how to do this
 			//$this->assertEqual(count($this->Infinitas->getPlugins($this->AppModel, true)), count($allPlugins));
 		}
 
-		public function testGettingTableThings(){
+		public function testGettingTableThings() {
 			// find all the tables
 			$expected = array(
 				'core_routes',
@@ -142,7 +142,7 @@
 			$this->assertFalse($this->Infinitas->getTablesByField($this->AppModel, 'test'));
 		}
 
-		public function testGetList(){
+		public function testGetList() {
 			$this->assertFalse($this->Infinitas->getList($this->AppModel));
 
 			$expected = array(

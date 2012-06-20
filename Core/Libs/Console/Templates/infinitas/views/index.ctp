@@ -46,7 +46,7 @@
 		'lft', 'rght' // mptt fields
 	);
 
-	foreach($fields as $field){
+	foreach($fields as $field) {
 		if ($schema[$field]['type'] == 'text') {
 			$ignore[] = $field;
 		}
@@ -104,7 +104,7 @@ COMMENT;
 							"\t\t\t\t\t\t'style' => 'width:25px;'\n".
 						"\t\t\t\t\t),\n";
 						$endFields = '';
-						foreach($fields as $field ){
+						foreach($fields as $field ) {
 							if (in_array($field, $ignore)) {
 								continue;
 							}
@@ -120,7 +120,7 @@ COMMENT;
 								}
 							}
 							if ($isKey !== true) {
-								switch($field){
+								switch($field) {
 									case 'created':
 									case 'modified':
 										$endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
@@ -151,7 +151,7 @@ COMMENT;
 					echo "\t\t\t\t)\n".
 				"\t\t\t);\n\n".
 
-				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}){ ?>\n".
+				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}) { ?>\n".
 					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n".
 						"\t\t\t\t\t<td><?php echo \$this->Infinitas->massActionCheckBox(\${$singularVar}); ?>&nbsp;</td>\n";
 
@@ -172,7 +172,7 @@ COMMENT;
 								}
 							}
 							if ($isKey !== true) {
-								switch($field){
+								switch($field) {
 									case 'created':
 									case 'modified':
 										$endFields .= "\t\t\t\t\t<td><?php echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
@@ -197,7 +197,7 @@ COMMENT;
 
 									case $displayField:
 										$title = '';
-										switch(in_array('slug', $fields)){
+										switch(in_array('slug', $fields)) {
 											case true:
 												$title = " title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
 

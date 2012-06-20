@@ -2,7 +2,7 @@
 	class ReleaseShell extends AppShell {
 		public $tasks = array('Installer.InfinitasPlugin', 'Installer.InfinitasReleaseStatus');
 
-		public function help(){
+		public function help() {
 			$this->h1('Interactive Release Shell Help');
 			$this->p(
 				'The interactive shell is for generating a release for your Infinitas '.

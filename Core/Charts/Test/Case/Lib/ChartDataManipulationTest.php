@@ -11,7 +11,7 @@
 			'plugin.crons.cron'
 		);
 
-		public function startTest(){
+		public function startTest() {
 			$this->ChartManipulation = new ChartDataManipulation();
 			$this->Cron = ClassRegistry::init('Crons.Cron');
 		}
@@ -24,7 +24,7 @@
 		/**
 		 * test getting the min / max date
 		 */
-		public function testGetDates(){
+		public function testGetDates() {
 			$crons = $this->Cron->find('all');
 			$result = $this->ChartManipulation->getDates($crons, array());
 			$expected = array();
@@ -49,7 +49,7 @@
 		/**
 		 * test getting the stats for the data
 		 */
-		public function testGetStats(){
+		public function testGetStats() {
 			$this->Cron->virtualFields['average_load'] = 'ROUND(AVG(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['max_load']     = 'ROUND(MAX(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['hour']         = 'HOUR(' . $this->Cron->alias . '.start_time)';
@@ -78,7 +78,7 @@
 		/**
 		 * test normalizing the data
 		 */
-		public function testGetNormalized(){
+		public function testGetNormalized() {
 			$this->Cron->virtualFields['average_load'] = 'ROUND(AVG(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['max_load']     = 'ROUND(MAX(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['hour']         = 'HOUR(' . $this->Cron->alias . '.start_time)';
@@ -130,7 +130,7 @@
 		/**
 		 * test extracting the data
 		 */
-		public function testGetData(){
+		public function testGetData() {
 			$this->Cron->virtualFields['average_load'] = 'ROUND(AVG(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['max_load']     = 'ROUND(MAX(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['hour']         = 'HOUR(' . $this->Cron->alias . '.start_time)';
@@ -244,7 +244,7 @@
 			$this->assertEquals($expected, $result);
 		}
 
-		public function testGetFormatted(){
+		public function testGetFormatted() {
 			$this->Cron->virtualFields['average_load'] = 'ROUND(AVG(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['max_load']     = 'ROUND(MAX(' . $this->Cron->alias . '.load_ave), 3)';
 			$this->Cron->virtualFields['hour']         = 'HOUR(' . $this->Cron->alias . '.start_time)';

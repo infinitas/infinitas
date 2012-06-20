@@ -30,7 +30,7 @@ class ConfigTestCase extends CakeTestCase {
  *
  * Check that the correct options use the corect values.
  */
-	public function testValidationRules(){
+	public function testValidationRules() {
 		$data = array();
 		$result = $this->Config->customOptionCheck(array('options' => 'no type set yet so dont validate'));
 		$this->assertTrue($result);
@@ -153,7 +153,7 @@ class ConfigTestCase extends CakeTestCase {
  *
  * Need to bypass cache.
  */
-	public function testGetConfigs(){
+	public function testGetConfigs() {
 		// value format
 		$result = $this->Config->getConfig();
 		$expected = array(
@@ -218,7 +218,7 @@ class ConfigTestCase extends CakeTestCase {
 /**
  * @brief test formatting of values for configuration
  */
-	public function testFormatting(){
+	public function testFormatting() {
 		$this->Config->afterSave(true);
 		$configs = $this->Config->getConfig(true);
 		$expect = array();

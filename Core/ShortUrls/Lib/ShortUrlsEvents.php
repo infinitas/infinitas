@@ -19,7 +19,7 @@
 	 */
 
 	final class ShortUrlsEvents extends AppEvents{
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Short Urls' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
@@ -50,13 +50,13 @@
 			);
 		}
 
-		public function onShortenUrl($event, $url){
+		public function onShortenUrl($event, $url) {
 			
 		}
 
-		public function onSlugUrl($event, $data){
+		public function onSlugUrl($event, $data) {
 			$data['type'] = isset($data['type']) ? $data['type'] : '';
-			switch($data['type']){
+			switch($data['type']) {
 				case 'preview':
 					return array(
 						'admin' => false,
@@ -88,9 +88,9 @@
 		 * @param $data array of type and url
 		 * @return array a cake url array for the short url that was created
 		 */
-		public function onGetShortUrl($event, $data){
+		public function onGetShortUrl($event, $data) {
 			$data['code'] = ClassRegistry::init('ShortUrls.ShortUrl')->shorten($data['url']);
-			if(!$data['code']){
+			if(!$data['code']) {
 				throw new Exception('Could not find the url');
 			}
 

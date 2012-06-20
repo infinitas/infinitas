@@ -26,8 +26,8 @@
 			);
 		}
 
-		public function isPosition($position = null){
-			if(!$position){
+		public function isPosition($position = null) {
+			if(!$position) {
 				return false;
 			}
 

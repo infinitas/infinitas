@@ -4,16 +4,16 @@
 
 		public $useTable = false;
 
-		public function find($type){
+		public function find($type) {
 			$return = timezone_identifiers_list();
 
-			switch($type){
+			switch($type) {
 				case 'list':
 					return $return;
 					break;
 
 				case 'all':
-					foreach($return as $key => $value){
+					foreach($return as $key => $value) {
 						$data[] = array(
 							'TimeZone' => array(
 								'id' => $key,

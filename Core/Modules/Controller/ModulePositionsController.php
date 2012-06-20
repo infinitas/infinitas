@@ -21,7 +21,7 @@
 	 */
 
 	class ModulePositionsController extends ModulesAppController {
-		public function admin_index(){
+		public function admin_index() {
 			$modules = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;

@@ -84,11 +84,11 @@
 				(array)$options
 			);
 
-			switch (strtolower($status)){
+			switch (strtolower($status)) {
 				case 1:
 				case 'yes':
 				case 'on':
-					if ($this->external){
+					if ($this->external) {
 						$params['title'] = $options['title_yes'];
 					}
 
@@ -104,7 +104,7 @@
 				case 0:
 				case 'no':
 				case 'off':
-					if ($this->external){
+					if ($this->external) {
 						$params['title'] = $options['title_no'];
 					}
 
@@ -131,9 +131,9 @@
 		 *
 		 * @return string html of the icon.
 		 */
-		public function featured($record = array(), $model = 'Feature'){
+		public function featured($record = array(), $model = 'Feature') {
 			$record = array_filter($record[$model]);
-			if (empty($record)){
+			if (empty($record)) {
 				return $this->Html->image(
 					$this->Image->getRelativePath('status', 'not-featured'),
 					array(
@@ -154,7 +154,7 @@
 			);
 		}
 
-		public function loggedInUserText($counts){
+		public function loggedInUserText($counts) {
 			$allInIsAre	= ($counts['all'] > 1) ? __('are') : __('is');
 			$loggedInIsAre = ($counts['loggedIn'] > 1) ? __('are') : __('is');
 			$guestsIsAre   = ($counts['guests'] > 1) ? __('are') : __('is');
@@ -183,7 +183,7 @@
 		 *
 		 * @return a checkbox
 		 */
-		public function massActionCheckBox($data = array(), $options = array()){
+		public function massActionCheckBox($data = array(), $options = array()) {
 			$model = current(array_keys($this->request->params['models']));
 			$modelClass = implode('.', $this->request->params['models'][$model]);
 			$options = array_merge(
@@ -191,7 +191,7 @@
 				$options
 			);
 
-			if(!$data || !isset($data[$options['model']])){
+			if(!$data || !isset($data[$options['model']])) {
 				return false;
 			}
 

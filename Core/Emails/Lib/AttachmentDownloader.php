@@ -5,9 +5,9 @@
 			$this->webrootPath = App::pluginPath('emails') . 'webroot' . DS . 'img' . DS . 'images' . DS . $messageId;
 		}
 
-		public function save($attachment){
+		public function save($attachment) {
 			$attachment['download_url'] = self::__getDownloadUrl($attachment);
-			switch($attachment['type']){
+			switch($attachment['type']) {
 				case 'msword':
 				case 'pdf':
 				case 'vnd.oasis.opendocument.presentation': // odp openoffice presentation
@@ -40,7 +40,7 @@
 		 * @param <type> $attachment
 		 * @return <type>
 		 */
-		private function __getDownloadUrl($attachment){
+		private function __getDownloadUrl($attachment) {
 			return array(
 				'message' => $attachment['message_id'],
 				'file' => self::__getCachedName($attachment, 'data')
@@ -53,9 +53,9 @@
 		 * @param <type> $attachment
 		 * @return <type>
 		 */
-		public function alreadySaved($attachment){
+		public function alreadySaved($attachment) {
 			$filename = self::__getCachedName($attachment);
-			if(is_file($this->attachmentPath . DS . $filename)){
+			if(is_file($this->attachmentPath . DS . $filename)) {
 				$this->File = new File($this->attachmentPath . DS . $filename);
 				return unserialize($this->File->read());
 			}
@@ -70,20 +70,20 @@
 		 * @param <type> $attachment
 		 * @return <type>
 		 */
-		private function __fileDownload($attachment){
+		private function __fileDownload($attachment) {
 			$this->AttachmentFolder = new Folder($this->attachmentPath, true);
 
 			$filename = self::__getCachedName($attachment, 'data');
 			$name = $this->attachmentPath . DS . $filename;
 
 			$this->File = new File($name, true);
-			if($this->File->write(base64_decode($attachment['attachment']))){
+			if($this->File->write(base64_decode($attachment['attachment']))) {
 
 				unset($attachment['attachment']);
 				$filename = self::__getCachedName($attachment);
 				$name = $this->attachmentPath . DS . $filename;
 				$this->File = new File($name, true);
-				if($this->File->write(serialize($attachment))){
+				if($this->File->write(serialize($attachment))) {
 					return $attachment;
 				}
 			}
@@ -97,12 +97,12 @@
 		 * 
 		 * @param <type> $attachment
 		 */
-		private function __imageDownload($attachment){
+		private function __imageDownload($attachment) {
 			$this->WebrootFolder = new Folder($this->webrootPath, true);
 			$file = $this->webrootPath . DS .'original_' . $attachment['filename'];
 
 			$this->File = new File($file, true);
-			if($this->File->write(base64_decode($attachment['attachment']))){				
+			if($this->File->write(base64_decode($attachment['attachment']))) {				
 				return array(
 					'original' => sprintf('/email/img/images/%s/original_%s', $attachment['message_id'], urlencode($attachment['filename'])),
 					'thumbnail' => sprintf('/email/img/images/%s/thumbnail_%s', $attachment['message_id'], urlencode($attachment['filename'])), // resize here
@@ -121,7 +121,7 @@
 		 * @param <type> $type
 		 * @return <type>
 		 */
-		private function __getCachedName($attachment, $type = 'info'){		
+		private function __getCachedName($attachment, $type = 'info') {		
 			return cacheName(
 				$type,
 				array(

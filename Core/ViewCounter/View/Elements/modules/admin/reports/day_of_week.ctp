@@ -1,7 +1,7 @@
 <div class="dashboard half">
 	<?php
 		echo $this->ViewCounter->header('day_of_week', $dayOfWeek);
-		if(empty($dayOfWeek['sub_total'])){
+		if(empty($dayOfWeek['sub_total'])) {
 			echo $this->ViewCounter->noData();
 		}
 		else{

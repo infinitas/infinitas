@@ -60,7 +60,7 @@
 		 *
 		 * @return the count of records
 		 */
-		public function getActive($Model, $active = true, $conditions = array()){
+		public function getActive($Model, $active = true, $conditions = array()) {
 			$conditions = array_merge(
 				array($Model->alias.'.active' => (int)(bool)$active),
 				(array)$conditions
@@ -81,13 +81,13 @@
 		 *
 		 * @return array list of tables.
 		 */
-		function getTables($Model, $connection = 'default'){
+		function getTables($Model, $connection = 'default') {
 			$this->db = ConnectionManager::getDataSource($connection);
-			if(!$this->db){
+			if(!$this->db) {
 				return false;
 			}
 			$tables = Cache::read($connection.'_tables', 'core');
-			if($tables != false){
+			if($tables != false) {
 				return $tables;
 			}
 
@@ -102,14 +102,14 @@
 			return $tables;
 		}
 
-		public function getTablesAdvanced($Model, $connection = 'default'){
+		public function getTablesAdvanced($Model, $connection = 'default') {
 			$this->db = ConnectionManager::getDataSource($connection);
-			if(!$this->db){
+			if(!$this->db) {
 				return false;
 			}
 
 			$tables = Cache::read($connection.'_tables_advanced', 'core');
-			if($tables != false){
+			if($tables != false) {
 				return $tables;
 			}
 
@@ -130,7 +130,7 @@
 		 *
 		 * @return false when no field set, else array of tables with model/plugin.
 		 */
-		function getTablesByField($Model, $connection = 'default', $field = null){
+		function getTablesByField($Model, $connection = 'default', $field = null) {
 			if (!$field) {
 				return false;
 			}
@@ -140,7 +140,7 @@
 
 			$this->db	= ConnectionManager::getDataSource($connection);
 
-			foreach($tableNames as $table ){
+			foreach($tableNames as $table ) {
 				$fields = $this->db->query('DESCRIBE '.$table);
 				$fields = Set::extract('/COLUMNS/Field', $fields);
 
@@ -176,12 +176,12 @@
 			600 => 'always',
 		);
 
-		private function __getDateField($Model){
-			if($Model->hasField('created')){
+		private function __getDateField($Model) {
+			if($Model->hasField('created')) {
 				return 'created';
 			}
 
-			else if($Model->hasField('modified')){
+			else if($Model->hasField('modified')) {
 				return 'modified';
 			}
 
@@ -193,10 +193,10 @@
 		 *
 		 * always, hourly, daily, weekly, monthly, yearly, never
 		 */
-		public function getChangeFrequency($Model){
+		public function getChangeFrequency($Model) {
 			$field = $this->__getDateField($Model);
 
-			if(!$field){
+			if(!$field) {
 				return 'weekly';
 			}
 
@@ -216,7 +216,7 @@
 				)
 			);
 
-			if(!isset($data[0][0])){
+			if(!isset($data[0][0])) {
 				return 'weekly';
 			}
 
@@ -231,9 +231,9 @@
 
 			$average = ($timeSinceLast + $timeBetweenChanges) / 2;
 
-			foreach($this->__frequency as $time => $frequency){
+			foreach($this->__frequency as $time => $frequency) {
 				//pr($time);
-				if($average > $time){
+				if($average > $time) {
 					return $frequency;
 				}
 			}
@@ -242,10 +242,10 @@
 		/**
 		 * get the newest row from the selected model
 		 */
-		public function getNewestRow($Model){
+		public function getNewestRow($Model) {
 			$field = $this->__getDateField($Model);
 
-			if(!$field){
+			if(!$field) {
 				return false;
 			}
 
@@ -263,7 +263,7 @@
 					)
 			);
 
-			if(empty($row)){
+			if(empty($row)) {
 				return false;
 			}
 
@@ -280,7 +280,7 @@
 		 * @params array $config the params to pass to json_decode (assoc && depth)
 		 * @params bool $return will return the array/object by default but can be set to false to just check its valid.
 		 */
-		function getJson($Model, $data = null, $config = array(), $return = true){
+		function getJson($Model, $data = null, $config = array(), $return = true) {
 			if (!$data) {
 				$this->_errors[] = 'No data for json';
 				return false;
@@ -318,17 +318,17 @@
 		 * @param unknown_type $config
 		 * @param unknown_type $return
 		 */
-		function getJsonRecursive($Model, $data = array(), $config = array()){
-			if(!is_array($data)){
+		function getJsonRecursive($Model, $data = array(), $config = array()) {
+			if(!is_array($data)) {
 				$data = (array)$data;
 			}
 
-			foreach($data as $k => $v){
-				if(is_array($v)){
+			foreach($data as $k => $v) {
+				if(is_array($v)) {
 					$data[$k] = $this->getJsonRecursive($Model, $v, $config, true);
 				}
 
-				if(self::getJson($Model, $v, $config, false)){
+				if(self::getJson($Model, $v, $config, false)) {
 					$data[$k] = $this->getJson($Model, $v, $config, true);
 				}
 			}
@@ -345,7 +345,7 @@
 		 *
 		 * @return empty array on error or single dimention array.
 		 */
-		function singleDimentionArray($Model, $array = array()){
+		function singleDimentionArray($Model, $array = array()) {
 			if (empty($array) || !is_array($array)) {
 				$this->errors[] = 'Array must be passed to me';
 				return array();
@@ -353,7 +353,7 @@
 
 			$return = array();
 
-			foreach($array as $k => $v){
+			foreach($array as $k => $v) {
 				if (is_array($v)) {
 					continue;
 				}
@@ -371,15 +371,15 @@
 		 *
 		 * @return array all the plugins in infinitas.
 		 */
-		public function getPlugins($skipBlocked = true){
+		public function getPlugins($skipBlocked = true) {
 			$plugins = CakePlugin::loaded();
 
 			if ($skipBlocked === false) {
 				return $plugins;
 			}
 
-			foreach($plugins as $plugin){
-				if (!in_array($plugin, $this->blockedPlugins)){
+			foreach($plugins as $plugin) {
+				if (!in_array($plugin, $this->blockedPlugins)) {
 					$return[$plugin] = $plugin;
 				}
 			}
@@ -449,7 +449,7 @@
 			);
 
 			$models = array();
-			foreach($list as $model){
+			foreach($list as $model) {
 				if($model == $plugin . 'AppModel') {
 					continue;
 				}
@@ -472,7 +472,7 @@
 		 * @param string $plugin the plugin to search with
 		 * @param string $controller the controller to search with
 		 */
-		public function getActions($Model, $plugin, $controller){
+		public function getActions($Model, $plugin, $controller) {
 			$package = Inflector::camelize($plugin) . '.Controller';
 			$controller = Inflector::camelize($controller);
 			App::uses($controller, $package);
@@ -481,7 +481,7 @@
 			$ignore = $this->_filterMethods();
 
 			$actions = array();
-			foreach((array)$list as $action){
+			foreach((array)$list as $action) {
 				if (in_array($action, $ignore) || strpos($action, '_') === 0) {
 					continue;
 				}
@@ -531,11 +531,11 @@
 		*
 		* @return array the stuff that can be ignored
 		*/
-		function _filterMethods(){
+		function _filterMethods() {
 			$ignores = get_class_methods('AppController');
 			$dontIgnores = get_class_methods('Controller');
 
-			foreach($ignores as &$ignore){
+			foreach($ignores as &$ignore) {
 				if (in_array($ignore, $dontIgnores)) {
 					unset($ignore);
 				}
@@ -548,7 +548,7 @@
 		*
 		* seems like a method to call a function in a model via ajax mostly.
 		*/
-		function getList($Model, $plugin = null, $model = null, $method = null, $conditions = array()){
+		function getList($Model, $plugin = null, $model = null, $method = null, $conditions = array()) {
 			$class = null;
 			if (!$plugin && $model) {
 				$class = Inflector::classify($model);
@@ -558,7 +558,7 @@
 				$class = Inflector::camelize($plugin).'.'.Inflector::classify($model);
 			}
 			$this->Model = !empty($class) ? ClassRegistry::init($class) : $Model;
-			if(get_class($this->Model) == 'AppModel' && !$this->Model->useTable){
+			if(get_class($this->Model) == 'AppModel' && !$this->Model->useTable) {
 				return false;
 			}
 
@@ -581,11 +581,11 @@
 		 * @param <type> $field
 		 * @return <type>
 		 */
-		function validateJsonDepriciated($Model, $data = null, $field = null){
+		function validateJsonDepriciated($Model, $data = null, $field = null) {
 			if (!$data) {
 				return false;
 			}
-			if(!is_array($data)){
+			if(!is_array($data)) {
 				$data = array($data);
 			}
 
@@ -598,7 +598,7 @@
 		 * @param object $Model the model object
 		 * @return array key -> value array were a value of true means there is a row that matches
 		 */
-		public function getLetterList($Model){
+		public function getLetterList($Model) {
 			$Model->virtualFields['letters'] = sprintf('LOWER(LEFT(%s.%s, 1))', $Model->alias, $Model->displayField);
 
 			$found = $Model->find(
@@ -621,8 +621,8 @@
 				array_combine(range('a', 'z'), array_fill(0, 26, false))
 			);
 
-			foreach($found as $value){
-				switch($value){
+			foreach($found as $value) {
+				switch($value) {
 					case is_int($value):
 						$return['#'] = 1;
 						break;
@@ -655,23 +655,23 @@
 		 *
 		 * @return mixed the string/int id of the root record or false on error
 		 */
-		public function getRootNode($Model, $conditions = array()){
-			if(!is_callable(array($Model, 'generateTreeList'))){
+		public function getRootNode($Model, $conditions = array()) {
+			if(!is_callable(array($Model, 'generateTreeList'))) {
 				return false;
 			}
 
 			$data = $Model->generateTreeList($conditions, null, null, '@', -1);
 
 			$roots = array();
-			foreach($data as $id => $name){
-				if(substr($name, 0, 1) != '@'){
+			foreach($data as $id => $name) {
+				if(substr($name, 0, 1) != '@') {
 					$roots[] = $id;
 				}
 			}
 
 			unset($data);
 
-			if(count($roots) != 1){
+			if(count($roots) != 1) {
 				return false;
 			}
 

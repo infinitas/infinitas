@@ -158,12 +158,12 @@
 		 *
 		 * @return array the results after bing formatted
 		 */
-		public function afterFind($results, $primary){
+		public function afterFind($results, $primary) {
 			if($this->findQueryType == 'linkedComments') {
 				return $results;
 			}
 
-			if(isset($results[0][0]['count'])){
+			if(isset($results[0][0]['count'])) {
 				return $results;
 			}
 
@@ -176,7 +176,7 @@
 				return $results;
 			}
 
-			if(isset($results[0]) || $primary){
+			if(isset($results[0]) || $primary) {
 				foreach ($results as $k => $item) {
 					foreach ($item[$base['with']] as $field) {
 						$results[$k][$field['key']] = $field['val'];
@@ -207,7 +207,7 @@
 		 *
 		 * @return array the comments that were found
 		 */
-		public function getUsersComments($userId = null, $limit = 5){
+		public function getUsersComments($userId = null, $limit = 5) {
 			$comments = $this->find(
 				'all',
 				array(
@@ -279,7 +279,7 @@
 		 *
 		 * @return array list of model classes
 		 */
-		public function getUniqueClassList(){
+		public function getUniqueClassList() {
 			$this->displayField = 'class';
 			$classes = $this->find(
 				'list',
@@ -293,7 +293,7 @@
 				)
 			);
 
-			if(empty($classes)){
+			if(empty($classes)) {
 				return array();
 			}
 
@@ -312,7 +312,7 @@
 		 *
 		 * @return array the comments found
 		 */
-		public function latestComments($all = true, $limit = 10){
+		public function latestComments($all = true, $limit = 10) {
 			$cacheName = cacheName('latest_comments_', array($all, $limit));
 			$comments = Cache::read($cacheName, 'core');
 			if (!empty($comments)) {

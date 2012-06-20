@@ -19,7 +19,7 @@
 			ClassRegistry::flush();
 		}
 
-		function testFindActive(){
+		function testFindActive() {
 			$result = $this->Category->find('count');
 			$expected = 4;
 			$this->assertEquals($expected, $result);

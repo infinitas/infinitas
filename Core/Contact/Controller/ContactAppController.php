@@ -80,7 +80,7 @@
 			'Google.StaticMap'
 		);
 
-		public function beforeFilter(){
+		public function beforeFilter() {
 			parent::beforeFilter();
 
 			$this->RequestHandler->setContent('vcf', 'text/x-vcard');

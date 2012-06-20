@@ -1,7 +1,7 @@
 <h1><?php echo sprintf('Feeds available on %s', Configure::read('Website.name')); ?></h1>
 <div>
 	<?php
-		foreach($feeds as $feed){
+		foreach($feeds as $feed) {
 			$rss = $this->Event->Trigger('feed.slugUrl', $feed);
 			$rssLink = $this->Html->link(
 				__('Subscribe'),

@@ -9,7 +9,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testStuff(){
+		public function testStuff() {
 			$this->assertInstanceOf('EventCore', $this->Event);
 
 			$expected = array('requireHelpersToLoad' => array('Assets' => array('Assets.Compress')));

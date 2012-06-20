@@ -67,7 +67,7 @@
 		/**
 		 * @brief create a heading for infinitas shell stuff
 		 */
-		public function h2($title){
+		public function h2($title) {
 			$this->out();
 			$this->hr();
 			$this->center($title, '|');
@@ -77,7 +77,7 @@
 		/**
 		 * @brief create a heading for infinitas shell stuff
 		 */
-		public function h3($title){
+		public function h3($title) {
 			$this->out();
 			$this->center($title);
 			$this->hr();
@@ -86,7 +86,7 @@
 		/**
 		 * @brief create nice paragraphs
 		 */
-		public function p($text){
+		public function p($text) {
 			$this->out(wordwrap($text, 64));
 			$this->out();
 		}
@@ -94,7 +94,7 @@
 		/**
 		 * @brief center text
 		 */
-		public function center($text, $ends = ''){			
+		public function center($text, $ends = '') {			
 			$space1 = $space2 = str_repeat(' ', intval(($this->wrap - strlen($text)) / 2) -4);
 			$this->out(sprintf('%s%s%s%s%s', $ends, $space1, $text, $space2, $ends));
 		}
@@ -102,12 +102,12 @@
 		/**
 		 * @brief generate a list of options
 		 */
-		public function li($options = array()){
-			if(!is_array($options)){
+		public function li($options = array()) {
+			if(!is_array($options)) {
 				$options = array($options);
 			}
 
-			foreach($options as $option){
+			foreach($options as $option) {
 				$this->out($option);
 			}
 		}
@@ -117,7 +117,7 @@
 		 *
 		 * create a line break
 		 */
-		public function br(){
+		public function br() {
 			$this->out();
 		}
 
@@ -128,8 +128,8 @@
 		 * its 'cake something' and then the option [h] is used it should pause
 		 * or the text is scrolled off the screen.
 		 */
-		public function helpPause(){
-			if(!isset($this->Dispatch->shellCommand) || $this->Dispatch->shellCommand != 'help'){
+		public function helpPause() {
+			if(!isset($this->Dispatch->shellCommand) || $this->Dispatch->shellCommand != 'help') {
 				$this->pause();
 			}
 		}
@@ -144,12 +144,12 @@
 		 *
 		 * @param string $text the text to output when pausing.
 		 */
-		public function pause($text = 'Press a key to continue'){
+		public function pause($text = 'Press a key to continue') {
 			$this->br();
 			$this->in($text);
 		}
 
-		public function color($text, $color){
+		public function color($text, $color) {
 			$_colors = array(
 				'light_red' => "[1;31m",
 				'light_green' => "[1;32m",
@@ -172,7 +172,7 @@
 			);
 
 			$out = "[0m";
-			if(isset($_colors[$color])){
+			if(isset($_colors[$color])) {
 				$out = $_colors[$color];
 			}
 
@@ -185,7 +185,7 @@
 		}
 
 		public function interactive($text = null, $append = false) {
-			if($append === true){
+			if($append === true) {
 				$this->__interactiveBuffer .=  $text;
 			}
 			else{
@@ -229,10 +229,10 @@
 		 *
 		 * @return void
 		 */
-		public function quit($message = 'Bye :)'){
+		public function quit($message = 'Bye :)') {
 			self::clear();
 
-			if($message){
+			if($message) {
 				self::out($message);
 			}
 
@@ -249,7 +249,7 @@
 		 * @return void
 		 */
 		public function tabbedList($items = array()) {
-			if(!$items || !array($items)){
+			if(!$items || !array($items)) {
 				return false;
 			}
 
@@ -289,16 +289,16 @@
 		 *
 		 * @return the list of plugins found
 		 */
-		protected function _selectPlugins($allowAll = false, $filter = 'all'){
+		protected function _selectPlugins($allowAll = false, $filter = 'all') {
 			self::h1('Select a plugin');
 			$filter = Inflector::underscore((string)$filter);
-			if(!$filter){
+			if(!$filter) {
 				$filter = 'all';
 			}
 			
 			$plugins = $this->__getPlugins($filter);
 
-			if($allowAll){
+			if($allowAll) {
 				$plugins['A'] = 'all';
 				$plugins['B'] = 'back';
 			}
@@ -307,15 +307,15 @@
 			$availableOptions = array_keys($plugins);
 
 			$option = null;
-			while(!$option){
+			while(!$option) {
 				$option = strtoupper($this->in(__('Which plugin should be used?')));
 			}
 
-			if($option == 'B'){
+			if($option == 'B') {
 				return array();
 			}
 			
-			else if($allowAll && $option == 'A'){
+			else if($allowAll && $option == 'A') {
 				unset($plugins['A'], $plugins['B']);
 				return $plugins;
 			}
@@ -326,13 +326,13 @@
 			else{
 				$options = explode(',', $option);
 				$return = array();
-				foreach($options as $option){
-					if(isset($plugins[$option])){
+				foreach($options as $option) {
+					if(isset($plugins[$option])) {
 						$return[] = $plugins[$option];
 					}
 				}
 
-				if(!empty($return)){
+				if(!empty($return)) {
 					return $return;
 				}
 			}
@@ -350,12 +350,12 @@
 		 *
 		 * @return array list of models (even if only allow selecting one)
 		 */
-		protected function _selectModels($plugin, $allowAll = false){
+		protected function _selectModels($plugin, $allowAll = false) {
 			self::h1('Select a model');
 
 			$models = $this->__getModels($plugin);
 
-			if($allowAll){
+			if($allowAll) {
 				$models['A'] = 'all';
 				$models['B'] = 'back';
 			}
@@ -363,15 +363,15 @@
 			$availableOptions = array_keys($models);
 
 			$option = null;
-			while(!$option){
+			while(!$option) {
 				$option = strtoupper($this->in(__('Which model should be used?')));
 			}
 
-			if($option == 'B'){
+			if($option == 'B') {
 				return array();
 			}
 
-			else if($allowAll && $option == 'A'){
+			else if($allowAll && $option == 'A') {
 				unset($models['A'], $models['B']);
 				return $models;
 			}
@@ -382,13 +382,13 @@
 			else{
 				$options = explode(',', $option);
 				$return = array();
-				foreach($options as $option){
-					if(isset($models[$option])){
+				foreach($options as $option) {
+					if(isset($models[$option])) {
 						$return[] = $models[$option];
 					}
 				}
 
-				if(!empty($return)){
+				if(!empty($return)) {
 					return $return;
 				}
 			}
@@ -411,11 +411,11 @@
 		 *
 		 * @return array of plugins found
 		 */
-		private function __getPlugins($filter){
+		private function __getPlugins($filter) {
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 			$plugins = array();
 			
-			switch($filter){
+			switch($filter) {
 				case 'all':
 					$plugins = $Plugin->getAllPlugins();
 					break;

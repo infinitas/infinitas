@@ -62,7 +62,7 @@
                 )
             );
 
-            foreach ($layouts as $layout){
+            foreach ($layouts as $layout) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($layout); ?>&nbsp;</td>

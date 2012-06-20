@@ -26,8 +26,8 @@
 			'Html'
 		);
 
-		public function drawCard($details){
-			if(is_array(current($details))){
+		public function drawCard($details) {
+			if(is_array(current($details))) {
 				$this->drawCards($details);
 			}
 
@@ -38,7 +38,7 @@
 			return $out;
 		}
 
-		private function __output($details){
+		private function __output($details) {
 			$default = array(
 				'checkbox' => '',
 				'avitar' => '',
@@ -54,7 +54,7 @@
 
 			$details = array_merge($default, $details);
 
-			if(!empty($details['avitar'])){
+			if(!empty($details['avitar'])) {
 				$return[] = $this->Html->image(
 					$details['avitar'],
 					array(
@@ -64,31 +64,31 @@
 				);
 			}
 
-			if(!empty($details['mobile'])){
+			if(!empty($details['mobile'])) {
 				$return[] = sprintf('<li class="mobile">%s</li>', $details['mobile']);
 			}
 
-			if(!empty($details['landline'])){
+			if(!empty($details['landline'])) {
 				$return[] = sprintf('<li class="landline">%s</li>', $details['landline']);
 			}
 
-			if(!empty($details['email'])){
+			if(!empty($details['email'])) {
 				$return[] = sprintf('<li class="email">%s</li>', $this->Text->autoLinkEmails($details['email']));
 			}
 
-			if(!empty($details['address'])){
+			if(!empty($details['address'])) {
 				$return[] = sprintf('<li class="address">%s</li>', $details['address']);
 			}
 
-			if(!empty($details['extra'])){
+			if(!empty($details['extra'])) {
 				$return[] = sprintf('<li class="extra">%s</li>', $details['extra']);
 			}
 
-			if(empty($details['user']) && !empty($details['company'])){
+			if(empty($details['user']) && !empty($details['company'])) {
 				$name = $details['company'];
 			}
 
-			else if(!empty($details['company'])){
+			else if(!empty($details['company'])) {
 				$name = sprintf('%s - %s', $details['company'], $details['user']);
 			}
 

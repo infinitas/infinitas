@@ -7,7 +7,7 @@
 		 * @param array $data Data to pass to event handler
 		 * @return array:
 		 */
-		public function triggerEvent($Model, $eventName, $data = array()){
+		public function triggerEvent($Model, $eventName, $data = array()) {
 			return EventCore::trigger($Model, $eventName, $data);
 		}
 

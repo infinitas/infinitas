@@ -33,7 +33,7 @@
 			$this->voucher = $this->path.$this->voucher;
 		}
 
-		public function getVoucher(){
+		public function getVoucher() {
 			if (!is_file($this->font)) {
 				$this->errors[] = 'Font file missing';
 				return false;
@@ -48,7 +48,7 @@
 					$this->__writeTerms() &&
 					$this->__writeVoucherTitle() &&
 					$this->__writeVoucherDescription()
-				){
+				) {
 					$this->__saveVoucher();
 				}
 			}
@@ -64,7 +64,7 @@
 		 *
 		 * @return bool true if image is created false if not
 		 */
-		function __generateNewVoucher(){
+		function __generateNewVoucher() {
 			// get the size of the image
 			$this->voucherSize	 = getimagesize($this->voucher);
 
@@ -96,7 +96,7 @@
 		 *
 		 * @return bool true if text added false if not
 		 */
-		function __writeVoucherCode($color = array(255, 255, 0)){
+		function __writeVoucherCode($color = array(255, 255, 0)) {
 			$yellow = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 			$this->voucherUuidCode = md5(time());
 
@@ -113,7 +113,7 @@
 		 *
 		 * @return bool true if text added false if not
 		 */
-		function __writeUserName($userName = null, $color = array(255, 255, 0), $shadow = true){
+		function __writeUserName($userName = null, $color = array(255, 255, 0), $shadow = true) {
 			if (!$userName) {
 				$this->error[] = 'No User name passed. Using session name';
 				$userName = $this->Controller->Session->read('Auth.User.username');
@@ -147,7 +147,7 @@
 		 *
 		 * @return bool true if text added false if not
 		 */
-		function __writeExpiryDate($date = null, $color = array(255, 255, 0)){
+		function __writeExpiryDate($date = null, $color = array(255, 255, 0)) {
 			if ($date && $date < date('Y-m-d H:i:s')) {
 				$this->__voidVoucher();
 			}
@@ -174,7 +174,7 @@
 		 * @param array $color the text collor for terms, defaults to black
 		 * @return bool true if terms are created
 		 */
-		function __writeTerms($color = array(0, 0, 0)){
+		function __writeTerms($color = array(0, 0, 0)) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 
 			$text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, '.
@@ -196,7 +196,7 @@
 		 * @param array $color the text collor for terms, defaults to black
 		 * @return bool true if text written, false if not
 		 */
-		function __writeVoucherTitle($color = array(0, 146, 63), $shadow = true){
+		function __writeVoucherTitle($color = array(0, 146, 63), $shadow = true) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 
 			$heading = __('One free some product');
@@ -214,7 +214,7 @@
 		 * @param array $color the text collor for terms, defaults to black
 		 * @return bool true if text written, false if not
 		 */
-		function __writeVoucherDescription($color = array(0, 0, 0)){
+		function __writeVoucherDescription($color = array(0, 0, 0)) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 
 			$text = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, '.
@@ -238,7 +238,7 @@
 		 * @param array $color the rgb color of the text
 		 * @return true if text is added, false if not.
 		 */
-		function __voidVoucher($text = 'Expired', $color = array(128, 128, 128)){
+		function __voidVoucher($text = 'Expired', $color = array(128, 128, 128)) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 			$text = __($text);
 
@@ -260,7 +260,7 @@
 		 *
 		 * @return mixed $return the raw image data.
 		 */
-		function __getImageData(){
+		function __getImageData() {
 			ob_start();
 				imagepng($this->output);
 			$return = ob_get_contents();
@@ -276,7 +276,7 @@
 		 *
 		 * @return bool true if file writes, false if not
 		 */
-		function __saveVoucher(){
+		function __saveVoucher() {
 			$newVoucher = $this->path.'test.png';
 
 			App::import('File');

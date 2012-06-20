@@ -2,7 +2,7 @@
 	<div id="menunav">
 		<ul>
 			<?php
-				if(isset($pluginInfo['pluginRollCall'][$this->plugin]['icon'])){
+				if(isset($pluginInfo['pluginRollCall'][$this->plugin]['icon'])) {
 					echo '<li class="icon">'.$this->Html->image(DS . $this->plugin . DS . 'img' . DS . 'icon.png').'</li>';
 				}
 			?>

@@ -162,7 +162,7 @@
 			$this->findMethods['inactive'] = true;
 
 			parent::__construct($id, $table, $ds);
-			if($this->tablePrefix != ''){
+			if($this->tablePrefix != '') {
 				$config = $this->getDataSource()->config;
 
 				if(isset($config['prefix'])) {
@@ -262,16 +262,16 @@
 		 *
 		 * @return array the data from the find
 		 */
-		public function uniqueList($displayField = '', $primaryKey = false, $order = null){
-			if(empty($displayField) || !is_string($displayField) || !$this->hasField($displayField)){
+		public function uniqueList($displayField = '', $primaryKey = false, $order = null) {
+			if(empty($displayField) || !is_string($displayField) || !$this->hasField($displayField)) {
 				$displayField = $this->displayField;
 			}
 
-			if(empty($primaryKey) || !is_string($primaryKey) || !$this->hasField($primaryKey)){
+			if(empty($primaryKey) || !is_string($primaryKey) || !$this->hasField($primaryKey)) {
 				$primaryKey = $this->primaryKey;
 			}
 
-			if(empty($order)){
+			if(empty($order)) {
 				$order = array(
 					$this->alias . '.' . $displayField => 'asc'
 				);
@@ -361,7 +361,7 @@
 		 *
 		 * @return void
 		 */
-		private function __setupDatabaseConnections(){
+		private function __setupDatabaseConnections() {
 			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));
 
 			foreach($connections as $plugin => $connection) {
@@ -370,7 +370,7 @@
 
 				$alreadyUsed = strtolower($key) == 'default' || in_array($key, ConnectionManager::sourceList());
 
-				if($alreadyUsed){
+				if($alreadyUsed) {
 					continue;
 					throw new Exception(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping'), $key, $plugin));
 				}
@@ -402,20 +402,20 @@
 		 *
 		 * @return see the methods for tranasactions in cakephp dbo
 		 */
-		public function transaction($action = null){
+		public function transaction($action = null) {
 			$this->__dataSource = $this->getDataSource();
 
 			$return = false;
 
-			if($action === null){
+			if($action === null) {
 				$return = $this->__dataSource->begin($this);
 			}
 
-			else if($action === true){
+			else if($action === true) {
 				$return = $this->__dataSource->commit($this);
 			}
 
-			else if($action === false){
+			else if($action === false) {
 				$return = $this->__dataSource->rollback($this);
 			}
 

@@ -52,14 +52,14 @@
 		/**
 		 * empty the table so its like a new model etc.
 		 */
-		public function truncate(){
+		public function truncate() {
 			$this->Category->deleteAll(array($this->Category->alias . '.id >' => 0));
 		}
 
 		/**
 		 * test encrypting data
 		 */
-		public function testEncrypt(){
+		public function testEncrypt() {
 			$this->skipIf(!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
 
 			Configure::write('Security.encryption_salt', '');
@@ -127,7 +127,7 @@
 		/**
 		 * test finding and saving encrypted data
 		 */
-		public function testSaveAndFind(){
+		public function testSaveAndFind() {
 			$this->skipIf(!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
 			
 			$this->truncate();

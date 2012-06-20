@@ -63,7 +63,7 @@
                 		<td><?php echo $this->Time->timeAgoInWords($plugin['Plugin']['created']); ?>&nbsp;</td>
                 		<td>
 							<?php
-								if($plugin['Plugin']['created'] == $plugin['Plugin']['modified']){
+								if($plugin['Plugin']['created'] == $plugin['Plugin']['modified']) {
 									echo __('Never');
 								}
 								else{

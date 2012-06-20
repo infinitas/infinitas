@@ -23,7 +23,7 @@
 				$associated = $model->getAssociated();
 
 				foreach ($queryData['conditions'] AS $key => $value) {
-					if(strpos($value, 'LIKE')){
+					if(strpos($value, 'LIKE')) {
 						$tmp = explode('LIKE', $value);
 						$field = $tmp['0'];
 						$searchValue = 'LIKE ' . $tmp['1'];
@@ -55,9 +55,9 @@
 								// for the database (arguably, what we're doing here could make up for that, so it's
 								// really a preference thing). Maybe do some testing if it's a big issue.
 								$i = 0;
-								foreach($condition AS $k => $v){
-									foreach($v AS $w => $x){
-										foreach($x AS $y => $z){
+								foreach($condition AS $k => $v) {
+									foreach($v AS $w => $x) {
+										foreach($x AS $y => $z) {
 											$conditions[$i++] = $w . '_' . $y . '=' . $z;
 										}
 									}
@@ -97,9 +97,9 @@
 								// for the database (arguably, what we're doing here could make up for that, so it's
 								// really a preference thing). Maybe do some testing if it's a big issue.
 								$i = 0;
-								foreach($condition AS $k => $v){
-									foreach($v AS $w => $x){
-										foreach($x AS $y => $z){
+								foreach($condition AS $k => $v) {
+									foreach($v AS $w => $x) {
+										foreach($x AS $y => $z) {
 											$conditions[$i++] = $y . '=' . $z;
 										}
 									}

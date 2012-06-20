@@ -20,7 +20,7 @@
 			$IpLocation = new IpLocation();
 
 			$return = $IpLocation->getCityData($ipAddress);
-			if(!$return){
+			if(!$return) {
 				$return = $IpLocation->getCountryData($ipAddress);
 			}
 

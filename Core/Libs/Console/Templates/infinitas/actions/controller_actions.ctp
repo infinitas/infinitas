@@ -59,7 +59,7 @@
 	 */
 
 	if (!function_exists('relatedFinds')) {
-		function relatedFinds($modelObj){
+		function relatedFinds($modelObj) {
 		}
 	}
 
@@ -83,8 +83,8 @@ COMMENT;
 
 		echo "\t\t\t\$filterOptions = \$this->Filter->filterOptions;\n";
 		echo "\t\t\t\$filterOptions['fields'] = array(\n";
-			foreach ($modelObj->_schema as $field => $data){
-				switch($field){
+			foreach ($modelObj->_schema as $field => $data) {
+				switch($field) {
 					case $modelObj->displayField:
 						echo "\t\t\t\t'{$modelObj->displayField}',\n";
 						break;
@@ -123,10 +123,10 @@ COMMENT;
 		 */
 
 COMMENT;
-	if(!$admin && in_array('slug', array_keys($modelObj->_schema))){
+	if(!$admin && in_array('slug', array_keys($modelObj->_schema))) {
 		// for tabels with slugs
 		echo "\t\tfunction {$admin}view() {\n";
-		echo "\t\t\tif(!isset(\$this->request->params['slug']) || !\$this->request->params['slug']){\n";
+		echo "\t\t\tif(!isset(\$this->request->params['slug']) || !\$this->request->params['slug']) {\n";
 			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t\t}\n\n";
 
@@ -138,7 +138,7 @@ COMMENT;
 	else{
 		// for admin and non-slugged tables
 		echo "\t\tfunction {$admin}view(\$id = null) {\n";
-		echo "\t\t\tif(!\$id){\n";
+		echo "\t\t\tif(!\$id) {\n";
 			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t\t}\n\n";
 
@@ -173,9 +173,9 @@ COMMENT;
 			echo "\t\t\tparent::{$admin}add();\n\n";
 
 			$compact = array();
-			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
-				foreach ($modelObj->{$assoc} as $associationName => $relation){
-					if (!empty($associationName) && $this->_modelName($associationName) != 'Locker'){
+			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc) {
+				foreach ($modelObj->{$assoc} as $associationName => $relation) {
+					if (!empty($associationName) && $this->_modelName($associationName) != 'Locker') {
 						$otherModelName  = $this->_modelName($associationName);
 						$otherPluralName = $this->_pluralName($associationName);
 
@@ -185,7 +185,7 @@ COMMENT;
 				}
 			}
 
-			if (!empty($compact)){
+			if (!empty($compact)) {
 				echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 			}
 		echo "\t\t}\n\n";
@@ -210,9 +210,9 @@ COMMENT;
 			echo "\t\t\tparent::{$admin}edit(\$id);\n\n";
 
 			$compact = array();
-			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc){
-				foreach ($modelObj->{$assoc} as $associationName => $relation){
-					if (!empty($associationName) && $this->_modelName($associationName) != 'Locker'){
+			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc) {
+				foreach ($modelObj->{$assoc} as $associationName => $relation) {
+					if (!empty($associationName) && $this->_modelName($associationName) != 'Locker') {
 						$otherModelName  = $this->_modelName($associationName);
 						$otherPluralName = $this->_pluralName($associationName);
 
@@ -222,7 +222,7 @@ COMMENT;
 				}
 			}
 
-			if (!empty($compact)){
+			if (!empty($compact)) {
 				echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 			}
 		echo "\t\t}\n";

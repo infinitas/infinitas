@@ -44,7 +44,7 @@
 					)
 				);
 
-				foreach($rows as $id => $value){
+				foreach($rows as $id => $value) {
 					?>
 						<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 							<td>

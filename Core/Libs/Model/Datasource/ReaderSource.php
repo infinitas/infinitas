@@ -67,7 +67,7 @@
 		 * @param mixed $model
 		 * @return array the shcema of the model
 		 */
-		public function describe(&$model){
+		public function describe(&$model) {
 			return $model->schema;
 		}
 
@@ -78,7 +78,7 @@
 		 *
 		 * @return array sources
 		 */
-		public function listSources(){
+		public function listSources() {
 			return array('listSources');
 		}
 
@@ -93,7 +93,7 @@
 		 *
 		 * @return the data requested by the model
 		 */
-		public function read(&$model, $query){
+		public function read(&$model, $query) {
 			$this->request = array_merge($this->request, $model->request);
 			$response = $this->_process(
 				$this->_getData($this->request)
@@ -149,7 +149,7 @@
 		 *
 		 * @return string the xml that is returned from the site.
 		 */
-		protected function _getData($request){
+		protected function _getData($request) {
 			$OauthSocket = new OauthSocket();
 			$data = $OauthSocket->request($request);
 

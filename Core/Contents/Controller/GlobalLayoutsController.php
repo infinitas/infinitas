@@ -8,7 +8,7 @@
 		 * Its pointless trying to use a wysiwyg here, so we will just put if off
 		 * completely for the layouts.
 		 */
-		public function beforeRender(){
+		public function beforeRender() {
 			parent::beforeRender();
 			Configure::write('Wysiwyg.editor', 'text');
 		}
@@ -44,7 +44,7 @@
 			$this->set(compact('layouts', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
 			$plugins = $this->GlobalLayout->getPlugins();

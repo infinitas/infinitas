@@ -48,7 +48,7 @@
 			return $heading . $this->input($field, array('label' => false)) . $this->Editor->editor($field, $config) . '</div>';
 		}
 
-		public function text($id = null){
+		public function text($id = null) {
 			return $this->input($id, array('type' => 'textarea'));
 		}
 

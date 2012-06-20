@@ -96,7 +96,7 @@
 
 		protected $_mailboxes = array();
 
-		public function __construct($connection = array()){
+		public function __construct($connection = array()) {
 			parent::__construct($connection);
 			App::import('Libs', 'Emails.ParseMail');
 			$this->ParseMail = new ParseMail();
@@ -120,12 +120,12 @@
 		 * @param <type> $value
 		 * @return ImapSocket
 		 */
-		public function set($name, $value = false){
-			if(!is_array($name)){
+		public function set($name, $value = false) {
+			if(!is_array($name)) {
 				$this->{$name} = $value;
 			}
 			else{
-				foreach($name as $key => $value){
+				foreach($name as $key => $value) {
 					$this->set($key, $value);
 				}
 			}
@@ -140,7 +140,7 @@
 		 *
 		 * @return bool true if connected, false if not
 		 */
-		public function isConnected(){
+		public function isConnected() {
 			return $this->connected;
 		}
 
@@ -153,15 +153,15 @@
 		 * 
 		 * @return bool was the login correct of not
 		 */
-		public function login(){
+		public function login() {
 			parent::connect();
 
-			if(!parent::read(1024, 'isOk')){
+			if(!parent::read(1024, 'isOk')) {
 				$this->error('Server not responding, exiting');
 				return false;
 			}
 
-			if(!$this->_getCapabilities()){
+			if(!$this->_getCapabilities()) {
 				$this->error('Unable to get the sockets capabilities');				
 			}
 			
@@ -190,10 +190,10 @@
 		 * @return bool|string|array false on fail, string for raw and
 		 * string|array depending on the callbacks
 		 */
-		public function read($size = 1024, $method = false){
+		public function read($size = 1024, $method = false) {
 			$data = parent::read($size);
-			if($data){
-				if($method && is_callable(array($this, $method))){
+			if($data) {
+				if($method && is_callable(array($this, $method))) {
 					$method = '_' . $method;
 					return $this->{$method}($data);					
 				}
@@ -205,11 +205,11 @@
 			return false;
 		}
 
-		public function write($data, $method = false, $size = 1024){
+		public function write($data, $method = false, $size = 1024) {
 			$didWrite = parent::write($data . $this->eol);
 			
-			if($didWrite && $size > 0){
-				if($method && is_callable(array($this, '_' . $method))){
+			if($didWrite && $size > 0) {
+				if($method && is_callable(array($this, '_' . $method))) {
 					$data = parent::read($size, $method);
 					$method = '_' . $method;
 					return $this->{$method}($data);
@@ -221,11 +221,11 @@
 			return $didWrite;
 		}
 
-		protected function _getSize($data){
-			if(!$this->_isOk($data)){
+		protected function _getSize($data) {
+			if(!$this->_isOk($data)) {
 				return 0;
 			}
-			/*if(strstr($data, ' messages ')){
+			/*if(strstr($data, ' messages ')) {
 				$data = explode('(', $data, 2);
 				$data = explode(' ', isset($data[1]) ? $data[1] : '');
 				return isset($data[0]) ? $data[0] : false;
@@ -235,7 +235,7 @@
 			return (isset($data[1]) && (int)$data[1] > 0) ? $data[1] : 0;
 		}
 
-		protected function _isOk($data){
+		protected function _isOk($data) {
 			return substr($data, 1, 2) == 'OK';
 		}
 
@@ -244,9 +244,9 @@
 		 * 
 		 * @return <type>
 		 */
-		public function lastResponse(){
+		public function lastResponse() {
 			$index = count($this->_response) - 1;
-			if($index < 0 || !isset($this->_response[$index])){
+			if($index < 0 || !isset($this->_response[$index])) {
 				return false;
 			}
 			
@@ -260,7 +260,7 @@
 		 * 
 		 * @return bool it does or does not
 		 */
-		public function hasCapability($capability){
+		public function hasCapability($capability) {
 			return isset($this->_capabilities[$capability]);
 		}
 
@@ -272,8 +272,8 @@
 		 * @param string $data the data from the read
 		 * @return array formatted data without the response
 		 */
-		public function _cleanData($data){
-			if($data === false || empty($data)){
+		public function _cleanData($data) {
+			if($data === false || empty($data)) {
 				return false;
 			}
 			
@@ -288,8 +288,8 @@
 		/**
 		 * @brief Generate a unique cache key for the server that is being used.
 		 */
-		private function __cacheKey(){
-			if(!$this->__cacheKey){
+		private function __cacheKey() {
+			if(!$this->__cacheKey) {
 				$this->__cacheKey = sha1(serialize(array($this->config['host'], $this->config['type'], $this->config['port'], $this->config['ssl'])));
 			}
 
@@ -307,7 +307,7 @@
 		 * 
 		 * @return mixed false for nothing, any data if there was
 		 */
-		public function readCache($key, $config = 'emails'){
+		public function readCache($key, $config = 'emails') {
 			return Cache::read($this->__cacheKey() . '.' . $key, $config);
 		}
 
@@ -323,7 +323,7 @@
 		 *
 		 * @return bool true on write, false for error.
 		 */
-		public function writeCache($key, $data, $config = 'emails'){
+		public function writeCache($key, $data, $config = 'emails') {
 			return Cache::write($this->__cacheKey() . '.' . $key, $data, $config);
 		}
 
@@ -402,7 +402,7 @@
 		 *
 		 * @return bool true
 		 */
-		public function error($text){
+		public function error($text) {
 			$this->__errors[] = $text;
 			return true;
 		}
@@ -416,7 +416,7 @@
 		 *
 		 * @return bool true
 		 */
-		public function log($text, $size = 0){
+		public function log($text, $size = 0) {
 			$size = ($size) ? $size : strlen($text);
 			$this->__logs[] = array(
 				'data' => substr($text, 0, -2),
@@ -434,8 +434,8 @@
 		 *
 		 * @return array the errors
 		 */
-		public function errors(){
-			if(empty($this->__errors)){
+		public function errors() {
+			if(empty($this->__errors)) {
 				return false;
 			}
 
@@ -449,8 +449,8 @@
 		 *
 		 * @return array the logs
 		 */
-		public function logs(){
-			if(empty($this->__logs)){
+		public function logs() {
+			if(empty($this->__logs)) {
 				return false;
 			}
 
@@ -466,22 +466,22 @@
 		 *
 		 * @return ImapInterface
 		 */
-		public function __set($name, $value = null){			
-			if(!in_array($name, $this->__connectionOptions)){
+		public function __set($name, $value = null) {			
+			if(!in_array($name, $this->__connectionOptions)) {
 				$this->_errors[] = sprintf('You may not set the %s property', $name);
 				return false;
 			}
 			
-			switch($name){
+			switch($name) {
 				case 'port':
-					if((int)$value == 0){
+					if((int)$value == 0) {
 						$this->_errors[] = sprintf('The port "%s" is not valid', $value);
 						return false;
 					}
 					break;
 
 				case 'ssl':
-					if($value){
+					if($value) {
 						$this->request = array('uri' => array('scheme' => 'https'));
 						return;
 					}
@@ -489,11 +489,11 @@
 
 				case 'host':
 				case 'username':
-					if(!is_string($value)){
+					if(!is_string($value)) {
 						$this->_errors[] = sprintf('%s should be a string, "%s" is not valid', $name, gettype($value));
 						return false;
 					}
-					if(empty($value)){
+					if(empty($value)) {
 						$this->_errors[] = '%s should not be empty';
 						return false;
 					}

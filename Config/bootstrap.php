@@ -48,7 +48,7 @@
 	 * Try apc or memcache, default to the namespaceFile cache.
 	 */
 	$cacheEngine = 'File';
-	switch(true){
+	switch(true) {
 		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
 			$cacheEngine = 'Apc';
 			break;
@@ -83,8 +83,8 @@
 	 * Event to get the values from all the plugins and cache them
 	 */
 	$cachedConfigs = Cache::read('global_configs');
-	if(!empty($cachedConfigs)){
-		foreach($cachedConfigs as $k => $v){
+	if(!empty($cachedConfigs)) {
+		foreach($cachedConfigs as $k => $v) {
 			Configure::write($k, $v);
 		}
 	}
@@ -106,10 +106,10 @@
 	/**
 	* Make sure the json defines are loaded.
 	*/
-	if(!defined('JSON_ERROR_NONE')){define('JSON_ERROR_NONE', 0);}
-	if(!defined('JSON_ERROR_DEPTH')){define('JSON_ERROR_DEPTH', 1);}
-	if(!defined('JSON_ERROR_CTRL_CHAR')){define('JSON_ERROR_CTRL_CHAR', 3);}
-	if(!defined('JSON_ERROR_SYNTAX')){define('JSON_ERROR_SYNTAX', 4);}
+	if(!defined('JSON_ERROR_NONE')) {define('JSON_ERROR_NONE', 0);}
+	if(!defined('JSON_ERROR_DEPTH')) {define('JSON_ERROR_DEPTH', 1);}
+	if(!defined('JSON_ERROR_CTRL_CHAR')) {define('JSON_ERROR_CTRL_CHAR', 3);}
+	if(!defined('JSON_ERROR_SYNTAX')) {define('JSON_ERROR_SYNTAX', 4);}
 
 	if (!function_exists('lcfirst')) {
 		function lcfirst($str) {
@@ -121,12 +121,12 @@
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
 			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';
 			$folder = str_replace('.', DS, $cache['config']['prefix']);
-			if(!strstr($folder, 'core' . DS)){
+			if(!strstr($folder, 'core' . DS)) {
 				$folder = 'plugins' . DS . $folder;
 			}
 
 			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile') {
-				if(!is_dir(CACHE . $folder)){
+				if(!is_dir(CACHE . $folder)) {
 					$Folder = new Folder(CACHE . $folder, true);
 				}
 			}
@@ -176,7 +176,7 @@
 	 * @param string $str the stuff you want escaped
 	 * @return string the escaped string
 	 */
-	function regexEscape($str){
+	function regexEscape($str) {
 		$patterns = array(
 			'/\//', '/\^/', '/\./', '/\$/', '/\|/',
 			'/\(/', '/\)/', '/\[/', '/\]/', '/\*/',
@@ -200,7 +200,7 @@
 	 *
 	 * @return a nice unique name
 	 */
-	function cacheName($prefix = 'PleaseNameMe', $data = null){
+	function cacheName($prefix = 'PleaseNameMe', $data = null) {
 		$hash = '';
 
 		if ($data) {
@@ -230,9 +230,9 @@
 	 *
 	 * @return a nice name
 	 */
-	function prettyName($class = null){
-		if($class !== null){
-			if(!class_exists('Inflector')){
+	function prettyName($class = null) {
+		if($class !== null) {
+			if(!class_exists('Inflector')) {
 				App::import('Inflector');
 			}
 
@@ -257,13 +257,13 @@
 	function debugRoute($route) {
 		echo 'InfinitasRouter::connect(\''.$route['Route']['url'].'\', array(';
 		$parts = array();
-		foreach($route['Route']['values'] as $k => $v){
+		foreach($route['Route']['values'] as $k => $v) {
 			$parts[] = "'$k' => '$v'";
 		}
 		echo implode(', ', $parts);
 		echo '), array(';
 		$parts = array();
-		foreach($route['Route']['regex'] as $k => $v){
+		foreach($route['Route']['regex'] as $k => $v) {
 			$parts[] = "'$k' => '$v'";
 		}
 		echo implode(', ', $parts);
@@ -341,7 +341,7 @@
 		}
 		
 		$lines = sprintf(
-			'<script type="text/javascript">function debugToggle(id){var e = document.getElementById(\'backtrace-\' + id);if(e.style.display == \'block\') {e.style.display = \'none\';}else {e.style.display = \'block\';}}</script>'.
+			'<script type="text/javascript">function debugToggle(id) {var e = document.getElementById(\'backtrace-\' + id);if(e.style.display == \'block\') {e.style.display = \'none\';}else {e.style.display = \'block\';}}</script>'.
 			'<table style="width:80%%; margin:auto;"><tr><th>%s</th></tr><tr>%s</tr></table>', 
 			implode('</th><th>', array('Line', 'File', 'Function')),
 			implode('</tr><tr>', array_reverse($lines))
@@ -365,8 +365,8 @@
 	 *
 	 * @return string size in human readable
 	 */
-	function convert($size){
-		if(!$size){
+	function convert($size) {
+		if(!$size) {
 			return '0 b';
 		}
 		$unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
@@ -389,7 +389,7 @@
 	 *
 	 * @return mixed true if $print, array if !$print
 	 */
-	function memoryUsage($print = true, $convert = true){
+	function memoryUsage($print = true, $convert = true) {
 		$memory = array(
 			'current' => memory_get_usage(),
 			'current_t' => memory_get_usage(true),
@@ -398,14 +398,14 @@
 			'limit' => ini_get('memory_limit')
 		);
 
-		if($convert){
+		if($convert) {
 			$memory['current']   = convert($memory['current']);
 			$memory['current_t'] = convert($memory['current_t']);
 			$memory['max']       = convert($memory['max']);
 			$memory['max_']      = convert($memory['max_']);
 		}
 
-		if((bool)$print){
+		if((bool)$print) {
 			pr($memory);
 			unset($memory);
 			return true;
@@ -423,24 +423,24 @@
 	 * @param <type> $print
 	 * @return <type>
 	 */
-	function serverLoad($print = true){
+	function serverLoad($print = true) {
 		// try file method
 		$load = @file_get_contents('/proc/loadavg');
-		if($load){
+		if($load) {
 			$load = explode(' ', $load, 4);
 			unset($load[3]);
 		}
 
 		// try exec
-		if(!$load){
+		if(!$load) {
 			$load = @exec('uptime');
 
 			// try shell_exec
-			if(!$load){
+			if(!$load) {
 				$load = @shell_exec('uptime');
 			}
 
-			if($load){
+			if($load) {
 				$load = explode(' ', $load);
 				$load[2] = trim(array_pop($load));
 				$load[1] = str_replace(',', '', array_pop($load));
@@ -451,7 +451,7 @@
 			}
 		}
 
-		if((bool)$print){
+		if((bool)$print) {
 			pr($load);
 			unset($load);
 			return true;
@@ -460,7 +460,7 @@
 		return $load;
 	}
 
-	function systemInfo($extendedInfo = false){
+	function systemInfo($extendedInfo = false) {
 		$return = array();
 		$return['Server'] = array(
 			'name' => php_uname('n'),
@@ -475,12 +475,12 @@
 			'sapi' => php_sapi_name()
 		);
 
-		if(!$extendedInfo){
+		if(!$extendedInfo) {
 			return $return;
 		}
 
 		$extentions = get_loaded_extensions();
-		foreach($extentions as $extention){
+		foreach($extentions as $extention) {
 			$return['Php']['extentions'][] = array(
 				'name' => $extention,
 				'version' => phpversion($extention)

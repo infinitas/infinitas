@@ -80,10 +80,10 @@
 		}
 
 		function isPublished($Model, $id = '') {
-			if (empty($id)){
+			if (empty($id)) {
 				$id = $Model->id;
 			}
-			if (empty($id)){
+			if (empty($id)) {
 				return false;
 			}
 
@@ -118,14 +118,14 @@
 
 		function _publishing($Model, $id = array(), $publish = true) {
 			if (empty($id)) {
-				if (!empty($Model->id)){
+				if (!empty($Model->id)) {
 					$id = $Model->id;
 				}
 
 				return false;
 			}
 
-			if (is_scalar($id)){
+			if (is_scalar($id)) {
 				$id = array($id);
 			}
 

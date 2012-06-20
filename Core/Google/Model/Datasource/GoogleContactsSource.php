@@ -220,13 +220,13 @@
 		 * @todo public function column( $real ) {}
 		 * @todo public function commit( $model ) { debug("commit"); }
 		 * @todo public function begin( $model ) { debug("begin"); }
-		 * @todo public function __cacheDescription( $object, $data = NULL ){}
-		 * @todo public function __destruct(){}
-		 * @todo public function isInterfaceSupported( $interface ){ debug("interface"); }
-		 * @todo public function lastAffected( $source = NULL ){}
-		 * @todo public function lastInsertId( $source = NULL ){}
-		 * @todo public function lastNumRows( $source = NULL ){}
-		 * @todo public function cakeError( $method, $messages = array ( ) ){ debug("Error"); }
-		 * @todo public function dispatchMethod( $method, $params = array ( ) ){ debug("method" . $method); }
+		 * @todo public function __cacheDescription( $object, $data = NULL ) {}
+		 * @todo public function __destruct() {}
+		 * @todo public function isInterfaceSupported( $interface ) { debug("interface"); }
+		 * @todo public function lastAffected( $source = NULL ) {}
+		 * @todo public function lastInsertId( $source = NULL ) {}
+		 * @todo public function lastNumRows( $source = NULL ) {}
+		 * @todo public function cakeError( $method, $messages = array ( ) ) { debug("Error"); }
+		 * @todo public function dispatchMethod( $method, $params = array ( ) ) { debug("method" . $method); }
 		 */
 	}

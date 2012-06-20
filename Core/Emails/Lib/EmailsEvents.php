@@ -109,8 +109,8 @@
 			return false;
 			$accounts = ClassRegistry::init('Emails.EmailAccount')->getCronAccounts();
 
-			foreach($accounts as $account){
-				if(!isset($account['EmailAccount']) || empty($account['EmailAccount'])){
+			foreach($accounts as $account) {
+				if(!isset($account['EmailAccount']) || empty($account['EmailAccount'])) {
 					continue;
 				}
 
@@ -124,7 +124,7 @@
 		}
 
 		protected function _dispatchMails($event, $mails) {
-			foreach($mails as $mail){
+			foreach($mails as $mail) {
 				EventCore::trigger($event, 'receiveMails', $mail);
 			}
 		}

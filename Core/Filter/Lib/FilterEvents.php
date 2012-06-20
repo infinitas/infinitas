@@ -21,7 +21,7 @@
 	 */
 
 	final class FilterEvents extends AppEvents {
-		public function onRequireComponentsToLoad($event){
+		public function onRequireComponentsToLoad($event) {
 			return array(
 				'Filter.Filter' => array(
 					'actions' => array('admin_index', 'index')
@@ -29,7 +29,7 @@
 			);
 		}
 
-		public function onRequireHelpersToLoad($event){
+		public function onRequireHelpersToLoad($event) {
 			return array(
 				'Filter.Filter'
 			);

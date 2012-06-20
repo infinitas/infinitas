@@ -16,16 +16,16 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	class InfinitasCommentsController extends CommentsAppController {
-		public function index(){
+		public function index() {
 			$conditions = array(
 				'Comment.active' => 1
 			);
 
-			if(isset($this->request->params['named']['Comment.class'])){
+			if(isset($this->request->params['named']['Comment.class'])) {
 				$conditions['Comment.class'] = $this->request->params['named']['Comment.class'];
 			}
 
-			if(isset($this->request->params['named']['Comment.foreign_id'])){
+			if(isset($this->request->params['named']['Comment.foreign_id'])) {
 				$conditions['Comment.foreign_id'] = $this->request->params['named']['Comment.foreign_id'];
 			}
 
@@ -91,7 +91,7 @@
 			$this->set(compact('comments', 'filterOptions'));
 		}
 
-		public function admin_reply(){
+		public function admin_reply() {
 			// @todo reply to the comment.
 		}
 		

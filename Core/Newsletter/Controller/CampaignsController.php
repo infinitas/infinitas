@@ -37,7 +37,7 @@
 			parent::admin_add();
 
 			$templates = $this->Campaign->Template->find('list');
-			if(empty($templates)){
+			if(empty($templates)) {
 				$this->notice(
 					__('Please create a template before creating your campaigns'),
 					array(
@@ -99,7 +99,7 @@
 			return parent::admin_toggle($id);
 		}
 
-		public function __massActionDelete($ids){
+		public function __massActionDelete($ids) {
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
 

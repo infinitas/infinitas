@@ -91,7 +91,7 @@
 			$out .= "\t" . 'var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");' . "\n";
 			$out .= "\t" . 'document.write(unescape("%3Cscript src=\'" + gaJsHost + ' .
 				'"google-analytics.com/ga.js\' type=\'text/javascript\'%3E%3C/script%3E"));' . "\n";
-			$out .= "\t" . '$(document).ready(function(){' . "\n";
+			$out .= "\t" . '$(document).ready(function() {' . "\n";
 			$out .= "\t" . 'var pageTracker = _gat._getTracker("UA-' . Configure::read('Google.Analytics.profile_id') . '");' . "\n";
 			$out .= "\t" . 'pageTracker._trackPageview( ' . $params . ' );' . "\n";
 			$out .= "\t" . '});' . "\n";

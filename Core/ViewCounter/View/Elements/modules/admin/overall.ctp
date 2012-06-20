@@ -31,7 +31,7 @@
 		$a = 'A';
 		$labels = array();
 		$count = count($viewStats);
-		for($i = 0; $i < $count; $i++){
+		for($i = 0; $i < $count; $i++) {
 			$labels[] = $a++;
 		}
 

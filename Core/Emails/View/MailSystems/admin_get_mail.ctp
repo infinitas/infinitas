@@ -1,9 +1,9 @@
 <?php
-	if(!empty($mail['Email']['html'])){
+	if(!empty($mail['Email']['html'])) {
 		echo $mail['Email']['html'];
 	}
 	else{
-		if(!empty($mail['Email']['text'])){
+		if(!empty($mail['Email']['text'])) {
 			echo $mail['Email']['text'];
 		}
 		else {

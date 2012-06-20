@@ -19,7 +19,7 @@
 
 	echo $this->Form->create( 'User' );
 		echo $this->Form->input('id');
-		if(Configure::read('Website.login_type') == 'username'){
+		if(Configure::read('Website.login_type') == 'username') {
 			echo $this->Form->input('username');
 		}
 		echo $this->Form->input('email');

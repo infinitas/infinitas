@@ -1,7 +1,7 @@
 <div class="dashboard grid_16">
 	<?php
 		echo $this->ViewCounter->header('world_map', $byRegion);
-		if(!empty($byRegion['country_codes'])){
+		if(!empty($byRegion['country_codes'])) {
 			echo $this->Charts->draw(
 				'map',
 				array(
@@ -20,8 +20,8 @@
 			);
 
 			$list = array();
-			foreach($byRegion['countries'] as $k => $country){
-				if(count($list) > 24){
+			foreach($byRegion['countries'] as $k => $country) {
+				if(count($list) > 24) {
 					break;
 				}
 				$list[] = sprintf(__('%s - %s view(s)'), __($country), $byRegion['totals'][$k]);

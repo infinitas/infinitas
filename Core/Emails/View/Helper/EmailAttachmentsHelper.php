@@ -6,7 +6,7 @@
 			'Events.Event'
 		);
 
-		public function outputBody($mail){
+		public function outputBody($mail) {
 			$_url = $this->Event->trigger('emails.slugUrl', array('type' => 'mail', 'data' => $mail));
 			return '<iframe src="' . Router::url(current($_url['slugUrl'])) . '" height="100%" width="100%"></iframe>';
 		}
@@ -17,8 +17,8 @@
 		 * @param mixed true to show, mail array to check
 		 * @return mixed false or html for attachment icon
 		 */
-		public function hasAttachment($mail = array(), $small = true){
-			if((isset($mail['attachments']) && $mail['attachments']) || $mail === true){
+		public function hasAttachment($mail = array(), $small = true) {
+			if((isset($mail['attachments']) && $mail['attachments']) || $mail === true) {
 				$size = ($small === true) ? 16 : 24;
 				return $this->Html->image(
 					'/newsletter/img/attachment.png',
@@ -40,11 +40,11 @@
 		 * @param mixed true to show, mail array to check
 		 * @return mixed false or html for attachment icon
 		 */
-		public function isFlagged($mail = array(), $image = '/newsletter/img/flagged.png', $small = true){
+		public function isFlagged($mail = array(), $image = '/newsletter/img/flagged.png', $small = true) {
 			$title = __('Flagged :: This email has been flagged');
 			$alt = __('Flagged');
 
-			if((isset($mail['flagged']) && (bool)$mail['flagged'] === false) || $mail === false){
+			if((isset($mail['flagged']) && (bool)$mail['flagged'] === false) || $mail === false) {
 				$image = '/newsletter/img/flagged-not.png';
 				$title = __('Not Flagged :: Flag this email');
 				$alt = __('Not Flagged');
@@ -68,14 +68,14 @@
 		 * @param <type> $attachments
 		 * @return string html block of attachments
 		 */
-		public function listAttachments($attachments = array()){
-			if(empty($attachments) || !is_array($attachments)){
+		public function listAttachments($attachments = array()) {
+			if(empty($attachments) || !is_array($attachments)) {
 				return false;
 			}
 
 			$return = array();
-			foreach($attachments as $attachment){
-				switch($attachment['type']){
+			foreach($attachments as $attachment) {
+				switch($attachment['type']) {
 					case 'jpeg':
 					case 'gif':
 						$data = $this->__imageAttachment($attachment);
@@ -95,14 +95,14 @@
 				$return[] = $this->__addAttachment($attachment, $data);
 			}
 
-			if(!empty($return)){
+			if(!empty($return)) {
 				return sprintf('<ul class="attachments"><li>%s</li></ul>', implode('</li><li>', $return));
 			}
 
 			return false;
 		}
 
-		private function __addAttachment($attachment, $data){
+		private function __addAttachment($attachment, $data) {
 			return sprintf('<h4>%s</h4>%s', $attachment['name'], $data);
 		}
 
@@ -110,7 +110,7 @@
 		 * Show an image attachment
 		 * @param <type> $attachment
 		 */
-		private function __imageAttachment($attachment){
+		private function __imageAttachment($attachment) {
 			return $this->Html->link(
 				$this->Html->image(
 					$attachment['versions']['thumbnail'],
@@ -130,7 +130,7 @@
 		 * Show a file attachment
 		 * @param <type> $attachment
 		 */
-		private function __fileAttachment($attachment){
+		private function __fileAttachment($attachment) {
 			return $this->Html->link(
 				sprintf('%s (%s)', $this->Text->truncate($attachment['filename'], 50), convert($attachment['size'])),
 				$attachment['download_url']

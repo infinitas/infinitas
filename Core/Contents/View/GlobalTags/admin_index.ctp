@@ -49,7 +49,7 @@
 				)
 			);
 
-			foreach ($tags as $tag){
+			foreach ($tags as $tag) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($tag); ?>&nbsp;</td>

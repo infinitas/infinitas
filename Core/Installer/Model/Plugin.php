@@ -35,11 +35,11 @@
 		 *
 		 * @return array all plugins in alphabetical order
 		 */
-		public function getAllPlugins($type = 'list'){
+		public function getAllPlugins($type = 'list') {
 			$plugins = App::objects('plugin');
 			natsort($plugins);
 
-			if($type == 'count'){
+			if($type == 'count') {
 				return count($plugins);
 			}
 
@@ -55,8 +55,8 @@
 		 *
 		 * @return array list of all the installed plugins
 		 */
-		public function getInstalledPlugins($type = 'list'){
-			if(!in_array($type, array('list', 'count', 'all'))){
+		public function getInstalledPlugins($type = 'list') {
+			if(!in_array($type, array('list', 'count', 'all'))) {
 				$type = 'list';
 			}
 
@@ -65,7 +65,7 @@
 				$this->alias . '.internal_name'
 			);
 			
-			if($type !== 'list'){
+			if($type !== 'list') {
 				$fields = array();
 			}
 			
@@ -87,7 +87,7 @@
 		 *
 		 * @return mixed see Plugin::__installedPluginsByState()
 		 */
-		public function getActiveInstalledPlugins($type = 'list'){
+		public function getActiveInstalledPlugins($type = 'list') {
 			return $this->__installedPluginsByState(1, $type);
 		}
 		
@@ -114,7 +114,7 @@
 		 * @return mixed depends on the type passed in could be int, array list or full find
 		 */
 		private function __installedPluginsByState($active = 1, $type = 'list') {
-			if(!in_array($type, array('list', 'count', 'all'))){
+			if(!in_array($type, array('list', 'count', 'all'))) {
 				$type = 'list';
 			}
 			$active = (bool)$active;
@@ -124,7 +124,7 @@
 				$this->alias . '.internal_name'
 			);
 
-			if($type !== 'list'){
+			if($type !== 'list') {
 				$fields = array();
 			}
 			
@@ -159,11 +159,11 @@
 		 *
 		 * @return array list of plugins not yet installed
 		 */
-		public function getNonInstalledPlugins($type = 'list'){
+		public function getNonInstalledPlugins($type = 'list') {
 			$nonInstalled = array_diff($this->getAllPlugins(), array_values($this->getInstalledPlugins()));
 			natsort($nonInstalled);
 
-			if($type == 'count'){
+			if($type == 'count') {
 				return count($nonInstalled);
 			}
 			
@@ -286,8 +286,8 @@
 		 *
 		 * @return mixed false on error, null if not found or int as version number
 		 */
-		public function getMigrationVersion($plugin = null){
-			if(!$plugin){
+		public function getMigrationVersion($plugin = null) {
+			if(!$plugin) {
 				return false;
 			}
 
@@ -315,8 +315,8 @@
 		 *
 		 * @return mixed false on error, null if not found int of migrations available
 		 */
-		public function getAvailableMigrationsCount($plugin = null){
-			if(!$plugin){
+		public function getAvailableMigrationsCount($plugin = null) {
+			if(!$plugin) {
 				return false;
 			}
 
@@ -326,7 +326,7 @@
 			$data = $Folder->read();
 			unset($Folder, $plugin, $path);
 			
-			if(in_array('map.php', $data[1])){
+			if(in_array('map.php', $data[1])) {
 				return count($data[1]) - 1;
 			}
 
@@ -342,8 +342,8 @@
 		 *
 		 * @return mixed array of data or false
 		 */
-		public function getMigrationStatus($plugin = null){
-			if(!$plugin){
+		public function getMigrationStatus($plugin = null) {
+			if(!$plugin) {
 				return false;
 			}
 
@@ -365,8 +365,8 @@
 		 *
 		 * @return bool true if its installed, false if not
 		 */
-		public function isInstalled($plugin = null){
-			if(!$plugin){
+		public function isInstalled($plugin = null) {
+			if(!$plugin) {
 				return false;
 			}
 

@@ -54,7 +54,7 @@
 				$this->alias . '.footer',
 			);
 					
-			if($data){
+			if($data) {
 				$template = $this->find(
 					'first',
 					array(
@@ -68,7 +68,7 @@
 					)
 				);
 
-				if(!empty($template)){
+				if(!empty($template)) {
 					return $template;
 				}
 			}

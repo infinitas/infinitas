@@ -268,7 +268,7 @@
 					$folders['Model']);
 
 				self::$__pluginPaths = array();
-				foreach(array_flip($folders) as $folder){
+				foreach(array_flip($folders) as $folder) {
 					self::$__pluginPaths[] = APP . $folder . DS;
 				}
 

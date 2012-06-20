@@ -1,7 +1,7 @@
 <?php
-	if(isset($allModels) && $allModels){
+	if(isset($allModels) && $allModels) {
 		$icons = array();
-		foreach($allModels as $model){
+		foreach($allModels as $model) {
 			$plugin = pluginSplit($model['ViewCounterView']['model']);
 			$icons[] = array(
 				'name' => __(Inflector::pluralize(implode(' ', $plugin))),
@@ -21,9 +21,9 @@
 		</div><?php
 	}
 
-	else if(isset($foreignKeys) && $foreignKeys){
+	else if(isset($foreignKeys) && $foreignKeys) {
 		$icons = array();
-		foreach($foreignKeys as $foreignKey){
+		foreach($foreignKeys as $foreignKey) {
 			$model = str_replace('.', '', $foreignKey['ViewCounterView']['model']);
 			$plugin = pluginSplit($foreignKey['ViewCounterView']['model']);
 			$icons[] = array(
@@ -46,7 +46,7 @@
 		</div><?php
 	}
 
-	else if(isset($relatedModel) && $relatedModel){ ?>
+	else if(isset($relatedModel) && $relatedModel) { ?>
 		<div class="dashboard grid_16">
 			<h1>
 				<?php

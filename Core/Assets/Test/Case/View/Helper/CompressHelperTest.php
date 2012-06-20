@@ -13,7 +13,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testStuff(){
+		public function testStuff() {
 			$this->assertIsA($this->Compress, 'CompressHelper');
 		}
 	}

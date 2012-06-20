@@ -74,7 +74,7 @@
 		/**
 		 * @brief test the implod method
 		 */
-		public function testFormatImplode(){
+		public function testFormatImplode() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$result = $this->GoogleStaticChartEngine->_implode('data', array(1,2,3,4,5));
@@ -94,7 +94,7 @@
 		 * @brief test the implod method
 		 *
 		 */
-		public function testFormatImplodeError(){
+		public function testFormatImplodeError() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			//$this->expectError('Value for size is type string and expecting array');
@@ -114,7 +114,7 @@
 		 * @brief test the generic query string builder
 		 * @expectedException PHPUnit_Framework_Error
 		 */
-		public function testFormatGeneric(){
+		public function testFormatGeneric() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$result = $this->GoogleStaticChartEngine->_formatGeneric('data', array(1,2,3,4,5));
@@ -136,7 +136,7 @@
 		 * @brief test the generic query string builder
 		 * @expectedException PHPUnit_Framework_Error
 		 */
-		public function testFormatGenericFail(){
+		public function testFormatGenericFail() {
 			$this->GoogleStaticChartEngine->setType('line');
 			$this->GoogleStaticChartEngine->_formatGeneric('data', false);
 		}
@@ -144,7 +144,7 @@
 		/**
 		 * @brief test building the query data for the chart data
 		 */
-		public function testFormatData(){
+		public function testFormatData() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$result = $this->GoogleStaticChartEngine->_formatData(array(1,2,3,4,5));
@@ -167,7 +167,7 @@
 		/**
 		 * @brief test building the query string for chart axes lables
 		 */
-		public function testFormatLabels(){
+		public function testFormatLabels() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array(
@@ -185,7 +185,7 @@
 		/**
 		 * @brief check building the query string for coloring charts
 		 */
-		public function testFormatColor(){
+		public function testFormatColor() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('series' => '03348a');
@@ -226,14 +226,14 @@
 		/**
 		 * @todo
 		 */
-		public function testFormatColorFill(){
+		public function testFormatColorFill() {
 
 		}
 
 		/**
 		 * @brief check building the query string for spacing on charts
 		 */
-		public function testFormatSpacing(){
+		public function testFormatSpacing() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('type' => 'absolute', 'width' => 10);
@@ -270,7 +270,7 @@
 		/**
 		 * @brief test building the spacing on group type charts
 		 */
-		public function testFormatSpacingForGroupCharts(){
+		public function testFormatSpacingForGroupCharts() {
 			$this->GoogleStaticChartEngine->setType('bar_group');
 
 			$data = array('type' => 'absolute', 'padding' => 10);
@@ -292,7 +292,7 @@
 		/**
 		 * @brief test building the size query string
 		 */
-		public function testFormatSize(){
+		public function testFormatSize() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('width' => 200, 'height' => 400);
@@ -334,7 +334,7 @@
 		/**
 		 * @brief test generating a legend
 		 */
-		public function testFormatLegend(){
+		public function testFormatLegend() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$data = array('position' => 'top', 'order' => 'auto', 'labels' => array('abc', 'xyz'));
@@ -420,7 +420,7 @@
 		/**
 		 * @brief test building the query string for line styles
 		 */
-		public function testFormatLineStyle(){
+		public function testFormatLineStyle() {
 			$this->GoogleStaticChartEngine->setType('gauge');
 
 			$data = array(
@@ -475,7 +475,7 @@
 		/**
 		 * @brief test building the different parts of a query
 		 */
-		public function testFormatFormatQueryParts(){
+		public function testFormatFormatQueryParts() {
 			$this->GoogleStaticChartEngine->setType('line');
 			$data = array();
 
@@ -506,7 +506,7 @@
 		/**
 		 * @brief test for charts that will work
 		 */
-		public function testFormatBuildChart(){
+		public function testFormatBuildChart() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$chart = array(
@@ -570,7 +570,7 @@
 		/**
 		 * @brief tests for charts that will not work
 		 */
-		public function testBrokenCharts(){
+		public function testBrokenCharts() {
 			$this->GoogleStaticChartEngine->setType('line');
 			$chart = array(
 				'data' => array(
@@ -621,7 +621,7 @@
 		/**
 		 * @brief test building image markup for charts
 		 */
-		public function testFormatImage(){
+		public function testFormatImage() {
 			$this->GoogleStaticChartEngine->setType('line');
 
 			$chart = array(
@@ -652,7 +652,7 @@
 		/**
 		 * @brief test building different types of gauge charts
 		 */
-		public function testBuildGaugeCharts(){
+		public function testBuildGaugeCharts() {
 			$chart = array(
 				'data' => array(70),
 				'axes' => array(
@@ -700,7 +700,7 @@
 		/**
 		 * @brief test building bra charts
 		 */
-		public function testBuildBarCharts(){
+		public function testBuildBarCharts() {
 			$chart = array(
 				'data' => array(12, 23, 10, 40),
 				'size' => array('width' => 200, 'height' => 125),
@@ -810,7 +810,7 @@
 		/**
 		 * @brief test bar chart labels
 		 */
-		public function testBuildBarChartsLables(){
+		public function testBuildBarChartsLables() {
 			$chart = array(
 				'data' => array(12, 23, 10, 40, 69),
 				'size' => array('width' => 200, 'height' => 125),
@@ -858,7 +858,7 @@
 		/**
 		 * @brief test line charts
 		 */
-		public function testBuildLineCharts(){
+		public function testBuildLineCharts() {
 			$chart = array(
 				'data' => explode(',', '40,60,60,45,47,75,70,72'),
 				'size' => array('width' => 200, 'height' => 125),

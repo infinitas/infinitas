@@ -1,7 +1,7 @@
 <div class="dashboard grid_16">
 	<?php
 		echo $this->ViewCounter->header('week_on_week', $weekOnWeek);
-		if(empty($weekOnWeek['sub_total'])){
+		if(empty($weekOnWeek['sub_total'])) {
 			echo $this->ViewCounter->noData();
 		}
 		else{

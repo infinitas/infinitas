@@ -53,7 +53,7 @@
 				)
 			);
 
-			foreach ($routes as $route){
+			foreach ($routes as $route) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($route); ?>&nbsp;</td>

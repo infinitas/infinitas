@@ -52,7 +52,7 @@
 			<th><?php echo __('Updated'); ?></th>
 		</tr>
 		<?php
-			foreach ($branch['Contact'] as $contact){ ?>
+			foreach ($branch['Contact'] as $contact) { ?>
 				<tr<?php echo $class;?>>
 					<td>
 						<?php

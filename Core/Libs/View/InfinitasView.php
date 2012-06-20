@@ -93,7 +93,7 @@
 				return;
 			}
 
-			if(empty($this->__mustacheTemplates)){
+			if(empty($this->__mustacheTemplates)) {
 				$this->__mustacheTemplates = array_filter(current($this->Event->trigger('requireGlobalTemplates')));
 			}
 
@@ -153,7 +153,7 @@
 		 * Set some data for the infinitas js lib.
 		 */
 		private function __setJsVariables() {
-			if($this->request->is('ajax')){
+			if($this->request->is('ajax')) {
 				return false;
 			}
 			if (!empty($this->request->params['models'])) {

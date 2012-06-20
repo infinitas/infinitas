@@ -31,7 +31,7 @@
 		/**
 		 * 
 		 */
-		public function admin_index(){
+		public function admin_index() {
 			$this->Paginator->settings = array(
 				'contain' => array(
 					'Locker'
@@ -51,7 +51,7 @@
 		/**
 		 * Action to show when attemptying to edit a record that is locked.
 		 */
-		public function admin_locked(){
+		public function admin_locked() {
 			$this->set('title_for_layout', __('This content is currently locked'));
 		}
 	}

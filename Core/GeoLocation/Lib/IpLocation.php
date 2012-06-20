@@ -5,7 +5,7 @@
 		private $__emptyCountry = array('country' => false, 'country_code' => false);
 		private $__emptyCity = array('country' => false, 'country_code' => false);
 		
-		public function __construct(){
+		public function __construct() {
 			$this->countryDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'country.dat';
 			$this->cityDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'city.dat';
 		}
@@ -15,9 +15,9 @@
 
 			new GeoIP();
 			
-			switch($type){
+			switch($type) {
 				case 'country':
-					if(!is_file($this->countryDataFile)){
+					if(!is_file($this->countryDataFile)) {
 						throw new Exception(sprintf(__('%s data file is missing'), $type));
 						return false;
 					}
@@ -26,7 +26,7 @@
 					break;
 				
 				case 'city':
-					if(!is_file($this->cityDataFile)){
+					if(!is_file($this->cityDataFile)) {
 						return false;
 					}
 
@@ -42,7 +42,7 @@
 			}
 		}
 
-		private function __getIpAddress(){
+		private function __getIpAddress() {
 			return CakeRequest::clientIp();
 		}
 
@@ -57,13 +57,13 @@
 		 *
 		 * @return array the data requested
 		 */
-		public function getCountryData($ipAddress = null, $code = false){
-			if (!$ipAddress){
+		public function getCountryData($ipAddress = null, $code = false) {
+			if (!$ipAddress) {
 				$ipAddress = $this->__getIpAddress();
 			}
 			
 			$data = $this->__loadFile();
-			if(!$data){
+			if(!$data) {
 				return $this->__emptyCountry;
 			}
 
@@ -97,18 +97,18 @@
 		 *
 		 * @return array the data requested
 		 */
-		public function getCityData($ipAddress = null, $fields = array()){
-			if (!$ipAddress){
+		public function getCityData($ipAddress = null, $fields = array()) {
+			if (!$ipAddress) {
 				$ipAddress = $this->__getIpAddress();
 			}
 
 			$data = $this->__loadFile('city');
-			if(!$data){
+			if(!$data) {
 				return false;
 			}
 
 			$city = (array)geoip_record_by_addr($data, $ipAddress);
-			if(!empty($city)){
+			if(!empty($city)) {
 				$city['country'] = $city['country_name'];
 				unset($city['country_name']);
 				$city['ip_address'] = $ipAddress;

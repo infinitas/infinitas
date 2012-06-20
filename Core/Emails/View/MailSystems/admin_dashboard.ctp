@@ -14,7 +14,7 @@
 
 	if($accounts) {
 		$accountIcons = array();
-		foreach($accounts as $account){
+		foreach($accounts as $account) {
 			$_url = $this->Event->trigger('Emails.slugUrl', array('type' => 'inbox', 'data' => $account));
 			$accountIcons[] = array(
 				'name' => $account['EmailAccount']['name'],
@@ -35,7 +35,7 @@
 <div class="dashboard grid_8 half">
 	<h1><?php echo __('Your Accounts'); ?></h1>
 	<?php
-		if(!empty($accountIcons)){
+		if(!empty($accountIcons)) {
 			echo $this->Design->arrayToList(current((array)$accountIcons), 'icons');
 		}
 	?>

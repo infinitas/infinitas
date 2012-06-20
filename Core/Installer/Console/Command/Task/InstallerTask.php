@@ -34,13 +34,13 @@
 		 * @param bool $confirm should the user confirm
 		 * @return mixed bool true, accepted
 		 */
-		public function welcome($confirm = true){
+		public function welcome($confirm = true) {
 			$this->h1('Welcome to Infinitas');
 			$this->out($this->InstallerLib->getWelcome('text'));
 			$this->h2('MIT Licence');
 			$this->out($this->InstallerLib->getLicense('text'));
 			
-			if($confirm){
+			if($confirm) {
 				$this->li(
 					array(
 						'[Y]es',
@@ -68,15 +68,15 @@
 		 * collect database related configurations and validate them so the installer
 		 * can later
 		 */
-		public function database($validationFailed = false){
+		public function database($validationFailed = false) {
 			$this->_getDbEngine($validationFailed);
 			$this->_getDbConnection($validationFailed);
 			$this->_validateDbConnection();
 		}
 
-		public function install(){
+		public function install() {
 			$this->h1(__('Installing'));
-			foreach($this->config['connection'] as $k => $v){
+			foreach($this->config['connection'] as $k => $v) {
 				echo $k . ' :: ' . $v . "\r\n";
 			}
 			
@@ -126,19 +126,19 @@
 			return $result;
 		}
 
-		public function installLocalPlugin(){
+		public function installLocalPlugin() {
 			$plugins = $this->__getPluginToInstall();
-			if(!$plugins){
+			if(!$plugins) {
 				return false;
 			}
 
-			if(!is_array($plugins)){
+			if(!is_array($plugins)) {
 				$plugins = array($plugins);
 			}
 
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 
-			foreach($plugins as $plugin){
+			foreach($plugins as $plugin) {
 				try {
 					$Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
 					$output = sprintf('%s Plugin updated', $plugin);
@@ -154,19 +154,19 @@
 			$this->pause();
 		}
 
-		public function updatePlugin(){
+		public function updatePlugin() {
 			$plugins = $this->__getPluginToUpdate();
-			if(!$plugins){
+			if(!$plugins) {
 				return false;
 			}
 
-			if(!is_array($plugins)){
+			if(!is_array($plugins)) {
 				$plugins = array($plugins);
 			}
 
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 
-			foreach($plugins as $plugin){
+			foreach($plugins as $plugin) {
 				try{
 					$Plugin->installPlugin($plugin);
 					$output = sprintf('%s Plugin updated', $plugin);
@@ -189,10 +189,10 @@
 		/**
 		 * get the users database engine preference
 		 */
-		public function _getDbEngine($validationFailed){
+		public function _getDbEngine($validationFailed) {
 			$this->h1(__('Database configuration'));
 
-			if($validationFailed){
+			if($validationFailed) {
 				$this->p(__('The connection test failed to connect to '.
 				'your database engine, please ensure the details provided are '.
 				'correct', true));
@@ -214,10 +214,10 @@
 		/**
 		 * get the connection details for the selected database engine
 		 */
-		public function _getDbConnection($validationFailed){
+		public function _getDbConnection($validationFailed) {
 			$this->h1(sprintf('%s (%s)', __('Database configuration'), $this->config['connection']['driver']));
 
-			if($validationFailed){
+			if($validationFailed) {
 				$this->p(__('The connection test failed to connect to '.
 				'your database engine, please ensure the details provided are '.
 				'correct', true));
@@ -258,14 +258,14 @@
 		/**
 		 * check that the details for the database given are correct.
 		 */
-		public function _validateDbConnection(){
+		public function _validateDbConnection() {
 			$this->h1(sprintf(__('Testing %s connection'), $this->config['connection']['driver']));
-			if(!$this->InstallerLib->testConnection($this->config['connection'])){
+			if(!$this->InstallerLib->testConnection($this->config['connection'])) {
 				$this->database(false);
 			}
 		}
 
-		public function _getSampleDataOption(){
+		public function _getSampleDataOption() {
 			$this->out('Would you like to install sample data');
 			$this->out('[Y]es, [N]o or [B]ack');
 			$input = strtoupper($this->in('Sample Data', array('Y', 'N', 'B'), 'N'));
@@ -282,21 +282,21 @@
 			}
 		}
 
-		private function __getPluginToUpdate(){
+		private function __getPluginToUpdate() {
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 			Configure::write('debug', 2);
 			$plugins = array();
-			foreach($Plugin->getInstalledPlugins() as $plugin){
+			foreach($Plugin->getInstalledPlugins() as $plugin) {
 				$status = $Plugin->getMigrationStatus($plugin);
 				
-				if($status['migrations_behind']){
+				if($status['migrations_behind']) {
 					$plugins[] = $plugin;
 				}
 			}
 
 			do {
 				$this->h1('Interactive Install Shell');
-				foreach($plugins as $i => $plugin){
+				foreach($plugins as $i => $plugin) {
 					$this->out($i + 1 . ') ' . $plugin);
 				}
 				$this->out('A)ll');
@@ -304,23 +304,23 @@
 				$this->br();
 				$input = strtoupper($this->in('Which plugin do you want to update?'));
 
-				if(isset($plugins[$input - 1])){
+				if(isset($plugins[$input - 1])) {
 					return $plugins[$input - 1];
 				}
 
-				if($input == 'A'){
+				if($input == 'A') {
 					return $plugins;
 				}
 			} while($input != 'Q');
 		}
 
-		private function __getPluginToInstall(){
+		private function __getPluginToInstall() {
 			$plugins = ClassRegistry::init('Installer.Plugin')->getNonInstalledPlugins();
 			sort($plugins);
 
 			do {
 				$this->h1('Interactive Install Shell');
-				foreach($plugins as $i => $plugin){
+				foreach($plugins as $i => $plugin) {
 					$this->out($i + 1 . ') ' . $plugin);
 				}
 				$this->out('A)ll');
@@ -328,11 +328,11 @@
 				$this->br();
 				$input = strtoupper($this->in('Which plugin do you want to install?'));
 
-				if(isset($plugins[$input - 1])){
+				if(isset($plugins[$input - 1])) {
 					return $plugins[$input - 1];
 				}
 
-				if($input == 'A'){
+				if($input == 'A') {
 					return $plugins;
 				}
 			} while($input != 'Q');

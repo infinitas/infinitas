@@ -20,7 +20,7 @@
 	 */
 
 	class MenusController extends MenusAppController {
-		public function admin_index(){
+		public function admin_index() {
 			$menus = $this->Paginator->paginate(
 				null,
 				$this->Filter->filter

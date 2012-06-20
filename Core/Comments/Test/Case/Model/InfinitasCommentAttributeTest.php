@@ -16,7 +16,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testStuff(){
+		public function testStuff() {
 			$this->assertInstanceOf('InfinitasCommentAttribute', $this->CommentAttribute);
 		}
 	}

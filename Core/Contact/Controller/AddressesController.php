@@ -1,6 +1,6 @@
 <?php
 	class ContactAddressesController extends ContactAppController {
-		public function add(){
+		public function add() {
 			if(!$this->Auth->user('id')) {
 				$this->notice(
 					__('You must be logged in to do that'),
@@ -27,7 +27,7 @@
 			$this->set(compact('referer', 'countries', 'continents'));
 		}
 
-		public function edit($id = null){
+		public function edit($id = null) {
 			if (!$id) {
 				$this->notice('invalid');
 			}
@@ -47,7 +47,7 @@
 			$this->set(compact('countries', 'continents'));
 		}
 
-		public function admin_index(){
+		public function admin_index() {
 			$this->Paginator->settings = array(
 				'contain' => array(
 					'Country'

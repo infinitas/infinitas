@@ -380,7 +380,7 @@
 		/**
 		 * method to access the errors.
 		 */
-		public function errors(){
+		public function errors() {
 			pr($this->__errors);
 		}
 
@@ -448,7 +448,7 @@
 		 * @param <type> $key
 		 * @param <type> $value
 		 */
-		protected function _dispatch($key, $value){
+		protected function _dispatch($key, $value) {
 			switch ($key) {
 				case 'data':
 				case 'spacing':
@@ -693,7 +693,7 @@
 				$data = explode(',', $data);
 			}
 
-			switch($key){
+			switch($key) {
 				case 'data':
 					return $this->__setReturn($key, $this->__numbersToPercentage($data));
 					break;
@@ -704,10 +704,10 @@
 			}
 		}
 
-		private function __numbersToPercentage($array){
+		private function __numbersToPercentage($array) {
 			$max = max($array);
 			$percentages = array();
-			foreach($array as $part){
+			foreach($array as $part) {
 				$percentages[] = round(($part / $max) * 100);
 			}
 

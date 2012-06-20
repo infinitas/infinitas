@@ -1,16 +1,16 @@
 <?php
 	final class EventsEvents extends AppEvents {		
-		public function onRequireHelpersToLoad(){
+		public function onRequireHelpersToLoad() {
 			return array(
 				'Events.Event' => true
 			);
 		}
 
-		public function onRequireComponentsToLoad(){
+		public function onRequireComponentsToLoad() {
 			return 'Events.Event';
 		}
 
-		public function onReturnEventForTest($event){
+		public function onReturnEventForTest($event) {
 			return $event;
 		}
 	}

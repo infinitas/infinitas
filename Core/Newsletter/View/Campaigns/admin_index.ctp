@@ -85,7 +85,7 @@
                                 $newsletterStatuses = Set::extract('/Newsletter/sent', $campaign);
                                 $campaignSentStatus = true;
 
-                                if (empty($newsletterStatuses)){
+                                if (empty($newsletterStatuses)) {
                                     echo $this->Html->link(
                                         $this->Html->image(
                                             'core/icons/actions/16/warning.png',
@@ -106,11 +106,11 @@
                                 }
 
                                 else{
-                                    foreach($newsletterStatuses as $newsletterStatus){
+                                    foreach($newsletterStatuses as $newsletterStatus) {
                                         $campaignSentStatus = $campaignSentStatus && $newsletterStatus;
                                     }
 
-                                    if ($campaignSentStatus){
+                                    if ($campaignSentStatus) {
                                         echo __('All Sent');
                                     }
 

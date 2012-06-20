@@ -35,7 +35,7 @@
 				if(isset($this->request->data['GlobalContent']['plugin']) && isset($this->request->data['GlobalContent']['model'])) {
 					$model = sprintf('%s.%s', $this->request->data['GlobalContent']['plugin'], $this->request->data['GlobalContent']['model']);
 					$return = $this->GlobalContent->moveContent($model, $this->request->data['GlobalContent']['rows_to_move']);
-					if($return){
+					if($return) {
 						if($return['moved'] == 0  && $return['total'] == 0) {
 							$this->notice(
 								sprintf(__('There are no more items to move'), $return['moved'], $return['total']),

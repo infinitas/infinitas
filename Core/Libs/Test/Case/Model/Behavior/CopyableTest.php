@@ -53,7 +53,7 @@
 		 * @test check that you can configure the behavior how you like
 		 */
 		public function testSetup() {
-			if($this->User->Behaviors->attached('Copyable')){
+			if($this->User->Behaviors->attached('Copyable')) {
 				$this->User->Behaviors->detach('Copyable');
 			}
 
@@ -123,7 +123,7 @@
 		 * @test test that getting contains fetches the correct stuff.
 		 */
 		public function testGenerateContain() {
-			if($this->User->Behaviors->attached('Copyable')){
+			if($this->User->Behaviors->attached('Copyable')) {
 				$this->User->Behaviors->detach('Copyable');
 			}
 
@@ -157,8 +157,8 @@
 		 * @test Enter description here
 		 */
 		public function testCopy() {
-			foreach($this->ModulePosition->Behaviors->attached() as $attached){
-				if(!in_array($attached, array('Containable', 'Infinitas'))){
+			foreach($this->ModulePosition->Behaviors->attached() as $attached) {
+				if(!in_array($attached, array('Containable', 'Infinitas'))) {
 					$this->ModulePosition->Behaviors->detach($attached);
 				}
 			}
@@ -201,7 +201,7 @@
 			$copy = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => $id), 'contain' => array('Module')));
 			$this->assertIdentical(count($actual['Module']), count($copy['Module']));
 			$this->assertTrue(strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
-			foreach($copy['Module'] as $k => $module){
+			foreach($copy['Module'] as $k => $module) {
 				$this->assertTrue(strstr($module['name'], $actual['Module'][$k]['name'] . ' - copied ' . date('Ymd')));
 			}
 

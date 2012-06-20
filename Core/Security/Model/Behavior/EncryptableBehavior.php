@@ -61,9 +61,9 @@
 		public function setup($Model, $settings = array()) {
 			$this->settings[$Model->alias] = array_merge($this->_defaults, $settings);
 
-			if(empty($this->settings[$Model->alias]['fields']) && is_array($this->settings[$Model->alias]['fields'])){
-				foreach($Model->schema() as $key => $value){
-					if($value['type'] == 'text'){
+			if(empty($this->settings[$Model->alias]['fields']) && is_array($this->settings[$Model->alias]['fields'])) {
+				foreach($Model->schema() as $key => $value) {
+					if($value['type'] == 'text') {
 						$this->settings[$Model->alias]['fields'][] = $key;
 					}
 				}
@@ -80,7 +80,7 @@
 		 * @param object $Model the model object the behavior is working with
 		 * @return binary a binary string.
 		 */
-		public function generateSecret($Model){
+		public function generateSecret($Model) {
 			$string = Configure::read('Security.salt') . serialize($Model->data[$Model->alias]) . time();
 			return substr(sha1($string, true), 0, 15);
 		}
@@ -142,9 +142,9 @@
 		 * @return bool true / false see parent::beforeSave()
 		 */
 		public function beforeSave($Model) {
-			if(is_array(current($Model->data[$Model->alias]))){
+			if(is_array(current($Model->data[$Model->alias]))) {
 				// saveall
-				foreach($Model->data[$Model->alias] as $k => $row){
+				foreach($Model->data[$Model->alias] as $k => $row) {
 					foreach ($this->settings[$Model->alias]['fields'] AS $field) {
 						if (isset($Model->data[$Model->alias][$k][$field])) {
 							$Model->data[$Model->alias][$k][$field . '_search'] = $this->searchFieldData($Model->alias, $Model->data[$Model->alias][$k][$field]);
@@ -191,7 +191,7 @@
 			);
 		}
 
-		protected function _secret(){
+		protected function _secret() {
 			return Configure::read('Security.encryption_secret') . Configure::read('Security.encryption_salt');
 		}
 
@@ -201,7 +201,7 @@
 				$data = $data2;
 			}
 
-			if(empty($data)){
+			if(empty($data)) {
 				return '';
 			}
 
@@ -233,13 +233,13 @@
 		 *
 		 * @return the cleaned up, mixed up string
 		 */
-		public function searchFieldData($alias, $string){
-			if(empty($string) || strlen($string) < $this->settings[$alias]['searchWordMinLenght']){
+		public function searchFieldData($alias, $string) {
+			if(empty($string) || strlen($string) < $this->settings[$alias]['searchWordMinLenght']) {
 				return '';
 			}
 
-			foreach(explode(' ', (string)$string) as $k => $v){
-				if(strlen($v) > $this->settings[$alias]['searchWordLength']){
+			foreach(explode(' ', (string)$string) as $k => $v) {
+				if(strlen($v) > $this->settings[$alias]['searchWordLength']) {
 					$words[] = $v;
 				}
 			}
@@ -254,7 +254,7 @@
 		 *
 		 * @param object $Model the model being used
 		 */
-		public function initializeEncryption($Model){
+		public function initializeEncryption($Model) {
 		
 		}
 	}

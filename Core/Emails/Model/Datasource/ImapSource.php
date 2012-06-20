@@ -147,13 +147,13 @@
 				return true;
 			}
 			
-			if(!isset($query['conditions'][$Model->alias.'.account'])){
+			if(!isset($query['conditions'][$Model->alias.'.account'])) {
 				return false;
 			}
 
-			if(empty($Model->server)){
+			if(empty($Model->server)) {
 				$Model->server = ClassRegistry::init('Emails.EmailAccount')->getConnectionDetails($query['conditions'][$Model->alias.'.account']);
-				if(empty($Model->server)){
+				if(empty($Model->server)) {
 					return false;
 				}
 			}
@@ -345,7 +345,7 @@
 		 * @param <type> $messageId
 		 * @return <type>
 		 */
-		protected function _getAttachments($structure, $messageId){
+		protected function _getAttachments($structure, $messageId) {
 			$attachments = array();
 			if(isset($structure->parts) && count($structure->parts)) {
 				for($i = 0; $i < count($structure->parts); $i++) {
@@ -381,7 +381,7 @@
 					if($attachment['is_attachment']) {
 
 						$cachedAttachment = $this->AttachmentDownloader->alreadySaved($attachment);
-						if($cachedAttachment !== false){
+						if($cachedAttachment !== false) {
 							$attachments[] = $cachedAttachment;
 							continue;
 						}
@@ -417,8 +417,8 @@
 		 *
 		 * @return mixed on imap its the unique id (int) and for others its a base64_encoded string
 		 */
-		private function __getId($uuid){
-			switch($this->__connectionType){
+		private function __getId($uuid) {
+			switch($this->__connectionType) {
 				case 'imap':
 					return imap_uid($this->MailServer, $uuid);
 					break;
@@ -461,7 +461,7 @@
 
 					else {
 						$attachment = $this->_attachement($messageId, $partOfPart, $count);
-						if(!empty($attachment)){
+						if(!empty($attachment)) {
 							$attachments[] = $attachment;
 						}
 					}
@@ -506,7 +506,7 @@
 			$pages = ceil($count / $query['limit']); // total pages
 			$query['page'] = ($query['page'] <= $pages) ? $query['page'] : $pages; // dont let the page be more than available pages
 
-			if($query['page'] == 1){
+			if($query['page'] == 1) {
 				// start at the end - x pages
 				$count = ($pages - $query['page'] + 1) * $query['limit'];
 			}
@@ -549,7 +549,7 @@
 			
 			/* multipart */
 			if ($structure->type == 1) {
-				foreach($structure->parts as $index => $subStructure){
+				foreach($structure->parts as $index => $subStructure) {
 					if ($partNumber) {
 						$prefix = $partNumber . '.';
 					}
@@ -568,8 +568,8 @@
 		 * @param object $mail the imap header of the mail
 		 * @return int the number of mails in the thred
 		 */
-		protected function _getThreadCount($mail){
-			if(isset($mail->reference) || isset($mail->in_reply_to)){
+		protected function _getThreadCount($mail) {
+			if(isset($mail->reference) || isset($mail->in_reply_to)) {
 				return '?';
 			}
 			

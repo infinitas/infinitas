@@ -16,7 +16,7 @@
 
 	final class ConfigsEvents extends AppEvents {
 
-		public function onSetupCache(){
+		public function onSetupCache() {
 			return array(
 				'name' => 'configs',
 				'config' => array(
@@ -25,7 +25,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Configuration' => array('plugin' => 'configs', 'controller' => 'configs', 'action' => 'index'),
@@ -35,7 +35,7 @@
 			return $menu;
 		}
 
-		public function onGetRequiredFixtures($event){
+		public function onGetRequiredFixtures($event) {
 			return array(
 				'Configs.Config',
 			);

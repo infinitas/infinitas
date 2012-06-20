@@ -318,16 +318,16 @@
 						$results[$k]['GlobalCategory']
 					);
 				}
-				if(isset($results[$k]['GlobalContent']['GlobalLayout'])){
+				if(isset($results[$k]['GlobalContent']['GlobalLayout'])) {
 					$results[$k]['Layout'] = $results[$k]['GlobalContent']['GlobalLayout'];
 				}
 
-				if(isset($results[$k]['GlobalContent']['Group'])){
+				if(isset($results[$k]['GlobalContent']['Group'])) {
 					$results[$k]['Group'] = $results[$k]['GlobalContent']['Group'];
 				}
 				unset($results[$k]['GlobalContent']['GlobalLayout'], $results[$k]['GlobalContent']['Group']);
 
-				if(isset($results[$k]['GlobalContent'])){
+				if(isset($results[$k]['GlobalContent'])) {
 					$results[$k][$Model->alias] = array_merge($results[$k]['GlobalContent'], $results[$k][$Model->alias]);
 				}
 			}
@@ -342,7 +342,7 @@
 		 * @return bool true to save, false to skip
 		 */
 		public function beforeSave($Model) {
-			if(!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])){
+			if(!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])) {
 				$Model->data['GlobalContent']['model'] = $this->__getModel($Model);
 			}
 			
@@ -492,7 +492,7 @@
 			return current(array_chunk(array_reverse($phraseMap), $keywordCount, true));
 		}
 
-		public function getContentId($Model, $slug){
+		public function getContentId($Model, $slug) {
 			$id = array();
 			$id = $Model->GlobalContent->find(
 				'first',
@@ -515,7 +515,7 @@
 			return current(Set::extract('/' . $Model->GlobalContent->alias . '/foreign_key', $id));
 		}
 
-		private function __getModel($Model){
+		private function __getModel($Model) {
 			return Inflector::camelize($Model->plugin) . '.' . $Model->alias;
 		}
 

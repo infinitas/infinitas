@@ -63,7 +63,7 @@
 
 			$massActionMethod = '__massAction' . ucfirst($massAction);
 
-			if(method_exists($this->Controller, $massActionMethod)){
+			if(method_exists($this->Controller, $massActionMethod)) {
 				return $this->Controller->{$massActionMethod}($ids);
 			}
 
@@ -139,8 +139,8 @@
 		 */
 		public function filter($null = null) {
 			$data = array();
-			foreach($this->Controller->data[$this->Controller->modelClass] as $k => $field ){
-				if (is_int($k) || $k == 'all' || $k == 'massCheckBox'){
+			foreach($this->Controller->data[$this->Controller->modelClass] as $k => $field ) {
+				if (is_int($k) || $k == 'all' || $k == 'massCheckBox') {
 					continue;
 				}
 
@@ -157,7 +157,7 @@
 				}  
 
 				foreach((array)$this->Controller->data[$model] as $k => $field) {
-					if ((empty($field) && $field !== 0) || is_int($k) || $k == 'all' || $k == 'massCheckBox'){
+					if ((empty($field) && $field !== 0) || is_int($k) || $k == 'all' || $k == 'massCheckBox') {
 						continue;
 					}
 
@@ -268,7 +268,7 @@
 				$this->Controller->modelClass . '.active' => '1 - `' . $this->Controller->modelClass . '`.`active`'
 			);
 
-			if($this->Controller->{$this->Controller->modelClass}->hasField('modified')){
+			if($this->Controller->{$this->Controller->modelClass}->hasField('modified')) {
 				$newValues[$this->Controller->modelClass . '.modified'] = '\'' . date('Y-m-d H:m:s') . '\'';
 			}
 
@@ -354,7 +354,7 @@
 						$record[$this->Controller->modelClass][$field] .= ' - ' . time();
 					}
 					
-					if(strstr($field, '_count')){
+					if(strstr($field, '_count')) {
 						unset($record[$this->Controller->modelClass][$field]);
 					}
 				}
@@ -408,8 +408,8 @@
 			if (isset($this->Controller->{$this->Controller->modelClass}->belongsTo)) {
 				$relations['belongsTo'] = $this->Controller->{$this->Controller->modelClass}->belongsTo;
 
-				foreach($relations['belongsTo'] as $alias => $belongsTo){
-					switch($alias){
+				foreach($relations['belongsTo'] as $alias => $belongsTo) {
+					switch($alias) {
 						case 'Locker':
 							break;
 
@@ -417,7 +417,7 @@
 						case 'Parent':
 							$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $this->Controller->modelClass);
 
-							if(in_array('Tree', $_Model->Behaviors->_attached)){
+							if(in_array('Tree', $_Model->Behaviors->_attached)) {
 								$_Model->order = array();
 								$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
 							}
@@ -440,7 +440,7 @@
 			if (isset($this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany)) {
 				$relations['hasAndBelongsToMany'] = $this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany;
 
-				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo){
+				foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo) {
 					$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $alias);
 					$this->Controller->set(strtolower($alias), $_Model->find('list'));
 				}
@@ -484,13 +484,13 @@
 
 			$result = true;
 
-			foreach ($ids as $id){
+			foreach ($ids as $id) {
 				$row = array('id' => $id);
 				$_data = array_merge(array_filter($movedTo), $row);
 
 				$_mn = $this->Controller->modelClass;
-				foreach($_data as $key => $value){
-					if(is_array($value)){
+				foreach($_data as $key => $value) {
+					if(is_array($value)) {
 						$save[$key][$key] = $value;
 					}
 					else{

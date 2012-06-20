@@ -127,12 +127,12 @@
 		 *
 		 * @return bool is it valid or not
 		 */
-		public function customOptionCheck($data){
+		public function customOptionCheck($data) {
 			if (!isset($this->data[$this->alias]['type']) || empty($this->data[$this->alias]['type'])) {
 				return true;
 			}
 
-			switch($this->data[$this->alias]['type']){
+			switch($this->data[$this->alias]['type']) {
 				case 'string':
 					return true;
 					break;
@@ -235,7 +235,7 @@
 		 *
 		 * @return array the data that has been formatted
 		 */
-		private function __formatConfigs($configs = array(), $json = false){
+		private function __formatConfigs($configs = array(), $json = false) {
 			if (empty($configs)) {
 				return false;
 			}
@@ -258,7 +258,7 @@
 		 *
 		 * @return array of all the configs that are needed/able to be done in the installer
 		 */
-		public function getInstallSetupConfigs(){
+		public function getInstallSetupConfigs() {
 			return $this->find(
 				'all',
 				array(
@@ -278,15 +278,15 @@
 		 * @internal
 		 * @access public
 		 */
-		public function generateCode($config){
-			if(isset($config[0])){
-				foreach($config as $_config){
+		public function generateCode($config) {
+			if(isset($config[0])) {
+				foreach($config as $_config) {
 					$return[] = self::generateCode($_config);
 				}
 			}
 
-			if(is_bool($config[$this->alias]['value'])){
-				if($config[$this->alias]['value']){
+			if(is_bool($config[$this->alias]['value'])) {
+				if($config[$this->alias]['value']) {
 					$_config = 'true';
 				}
 
@@ -295,16 +295,16 @@
 				}
 			}
 
-			else if(is_array($config[$this->alias]['value'])){
+			else if(is_array($config[$this->alias]['value'])) {
 				$_config = 'array(';
-				foreach($config[$this->alias]['value'] as $k => $v){
+				foreach($config[$this->alias]['value'] as $k => $v) {
 					$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
 					$_config .= '=> \''.$v.'\',';
 				}
 				$_config .= ')';
 			}
 
-			else if(is_string($config[$this->alias]['value'])){
+			else if(is_string($config[$this->alias]['value'])) {
 				$_config = '\''.$config[$this->alias]['value'].'\'';
 			}
 
@@ -323,7 +323,7 @@
 		 *
 		 * @return array the config options to be overloaded.
 		 */
-		public function availableConfigs(){
+		public function availableConfigs() {
 			$configs = Configure::read();
 			unset($configs['CORE']['current_route']);
 			$configs = Set::flatten($configs);

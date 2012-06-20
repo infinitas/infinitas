@@ -21,7 +21,7 @@
                 )
             );
 
-            foreach ($overloaded as $key => $value){
+            foreach ($overloaded as $key => $value) {
 				unset($configs[$key]);
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
@@ -65,7 +65,7 @@
                 )
             );
 
-            foreach ($configs as $key => $value){
+            foreach ($configs as $key => $value) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                 		<td>

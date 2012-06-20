@@ -9,7 +9,7 @@
 		/**
 		 * help
 		 */
-		public function help(){
+		public function help() {
 			$this->h1('Interactive Install Shell Help');
 			$this->p(
 				'The interactive shell is for installing / deploying Infinitas '.
@@ -100,8 +100,8 @@
 		/**
 		 * install a clean app
 		 */
-		public function everything(){
-			foreach($this->InstallerLib->steps as $step){
+		public function everything() {
+			foreach($this->InstallerLib->steps as $step) {
 				print_r($this->Installer->{$step}());
 			}
 		}
@@ -109,7 +109,7 @@
 		/**
 		 * install a plugin
 		 */
-		public function plugin(){
+		public function plugin() {
 			do {
 				$this->h1('Interactive Install Shell');
 				$this->li(
@@ -161,28 +161,28 @@
 		/**
 		 * install a module
 		 */
-		public function module(){
+		public function module() {
 
 		}
 
 		/**
 		 * install a theme
 		 */
-		public function theme(){
+		public function theme() {
 
 		}
 
 		/**
 		 * install an addon
 		 */
-		public function addon(){
+		public function addon() {
 
 		}
 
 		/**
 		 * display the license
 		 */
-		public function license(){
+		public function license() {
 			$this->Installer->displayLicence(false);
 		}
 	}

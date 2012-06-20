@@ -136,7 +136,7 @@
 		 *
 		 * @return array the formatted routes
 		 */
-		public function getRoutes(){
+		public function getRoutes() {
 			$routes = false; //Cache::read('routes', 'routes');
 			if ($routes !== false) {
 				return $routes;
@@ -193,7 +193,7 @@
 
 			$config = array();
 			$routingRules = array();
-			foreach($routes as $array){
+			foreach($routes as $array) {
 				$vaules = $regex = array();
 				$routingRules[][$this->alias] = array(
 					'url' => $array[$this->alias]['url'],
@@ -203,19 +203,19 @@
 					'layout' => !empty($array[$this->alias]['layout']) ? $array[$this->alias]['layout'] : $array[$this->Theme->alias]['default_layout'],
 				);
 
-				if(!strstr($array[$this->alias]['url'], ':')){
+				if(!strstr($array[$this->alias]['url'], ':')) {
 					continue;
 				}
 
 				$array = $array[$this->alias];
 
 				$params = array();
-				foreach(explode('/', $array['url']) as $param){
-					if(!strstr($param, ':')){
+				foreach(explode('/', $array['url']) as $param) {
+					if(!strstr($param, ':')) {
 						continue;
 					}
 
-					foreach(array_filter(explode(':', $param)) as $part){
+					foreach(array_filter(explode(':', $param)) as $part) {
 						$params[] = trim($part, ' -');
 					}
 				}
@@ -247,7 +247,7 @@
 		 *
 		 * @return formatted array for Router::connect
 		 */
-		public function getValues($route = array()){
+		public function getValues($route = array()) {
 			if (!$route) {
 				return false;
 			}
@@ -295,7 +295,7 @@
 		 *
 		 * @return array the data for Router::connect
 		 */
-		public function getRegex($field, $pass = null){
+		public function getRegex($field, $pass = null) {
 			$values = array();
 			if (!empty($field)) {
 				$values = $this->singleDimentionArray($this->getJson($field));

@@ -51,7 +51,7 @@
 				)
 			);
 
-			foreach ($groups as $group){ ?>
+			foreach ($groups as $group) { ?>
 				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 					<td><?php echo $this->Infinitas->massActionCheckBox($group); ?>&nbsp;</td>
 					<td>

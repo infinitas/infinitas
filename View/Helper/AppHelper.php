@@ -122,14 +122,14 @@
 		 *
 		 * this should be removed
 		 */
-		function niceBox($n = null){}
+		function niceBox($n = null) {}
 
 		/**
 		 * @deprecated
 		 *
 		 * this should be removed
 		 */
-		function niceBoxEnd($n = null){}
+		function niceBoxEnd($n = null) {}
 
 		/**
 		 * @brief create some bread crumbs
@@ -145,7 +145,7 @@
 		 */
 		public function breadcrumbs($seperator = ' :: ') {
 			$action = '';
-			if(strstr($this->request->params['action'], 'mass') === false){
+			if(strstr($this->request->params['action'], 'mass') === false) {
 				$action = str_replace('admin_', '', $this->request->params['action']);
 			}
 
@@ -199,7 +199,7 @@
 		 *
 		 * @return mixed the clean url
 		 */
-		public function cleanCurrentUrl($array = true){
+		public function cleanCurrentUrl($array = true) {
 			$params = array(
 				'prefix' => $this->request->params['prefix'],
 				'plugin' => $this->request->params['plugin'],
@@ -207,7 +207,7 @@
 				'action' => $this->request->params['action']
 			);
 
-			if($array){
+			if($array) {
 				return $params;
 			}
 
@@ -298,7 +298,7 @@
 		 * @return string the markup generated
 		 */
 		public function adminIndexHead($filterOptions = array(), $massActions = null) {
-			if(!class_exists('FilterHelper')){
+			if(!class_exists('FilterHelper')) {
 				App::uses('FilterHelper', 'Filter.View/Helper');
 			}
 
@@ -334,7 +334,7 @@
 		 *
 		 * @return string the markup for the page
 		 */
-		public function adminEditHead($actions = array('save', 'cancel')){
+		public function adminEditHead($actions = array('save', 'cancel')) {
 	        return $this->adminOtherHead(
 				$this->massActionButtons($actions)
 	        );
@@ -367,10 +367,10 @@
 		 *
 		 * @return string Undefined on error, html link when all is good
 		 */
-		public function adminQuickLink($row = array(), $url = array(), $model = '', $urlOnly = false){
+		public function adminQuickLink($row = array(), $url = array(), $model = '', $urlOnly = false) {
 			$id = $text = null;
 
-			if(is_array($url)){
+			if(is_array($url)) {
 				$url = array_merge(array('action' => 'edit'), $url);
 			}
 
@@ -385,27 +385,27 @@
 				$text = $row[ClassRegistry::init($model)->displayField];
 			}
 
-			if(!$text){
+			if(!$text) {
 				$text = $row[ClassRegistry::init($model)->displayField];
 			}
 
-			if(!$id){
+			if(!$id) {
 				return __d($this->request->params['plugin'], 'Undefined');
 			}
 
-			if(is_array($url)){
+			if(is_array($url)) {
 				$url = array_merge($url, array(0 => $id));
 			}
 			else{
 				$url .= '/' . $id;
 			}
 
-			if($urlOnly){
+			if($urlOnly) {
 				return $url;
 			}
 
 			$link = $text;
-			if(!$text){
+			if(!$text) {
 				$link = $id;
 			}
 			
@@ -441,7 +441,7 @@
 				$maxPosition = max(Set::extract('/' . $modelName . '/ordering', $results));
 			}
 
-			if(!is_array($url)){
+			if(!is_array($url)) {
 				$url = array();
 			}
 			$url['action'] = 'reorder';
@@ -503,7 +503,7 @@
 		 *
 		 * @return string the html markup for icons to order the rows
 		 */
-		public function treeOrdering($data = null, $options = array()){
+		public function treeOrdering($data = null, $options = array()) {
 			$options = array_merge(array('firstChild' => false, 'lastChild' => false), $options);
 
 			if (!$data) {
@@ -690,11 +690,11 @@
 		 *
 		 * @return string some html for the preview link
 		 */
-		public function adminPreview($row = array(), $url = array(), $model = ''){
-			if(empty($url)){
+		public function adminPreview($row = array(), $url = array(), $model = '') {
+			if(empty($url)) {
 				$url = array();
 			}
-			if(!is_array($url)){
+			if(!is_array($url)) {
 				return false;
 			}
 
@@ -741,7 +741,7 @@
 			$controller = str_replace('_', ' ', $controller);
 			$pluralController = Inflector::pluralize($controller);
 			
-			switch(strtolower($switch)){
+			switch(strtolower($switch)) {
 				case 'add':
 					$heading = sprintf('%s %s', __('Create a New'), $controller);
 					$text = __('Click here to create a new %s. You do not need to tick any checkboxes <br/>to create a new %s.', $controller, $controller);
@@ -820,7 +820,7 @@
 		 * nothing to see, move along
 		 * @access public
 		 */
-		public function niceAltText($text){
+		public function niceAltText($text) {
 			return $text;
 		}
 
@@ -834,11 +834,11 @@
 		 *
 		 * @return string the markup for the picker
 		 */
-		public function datePicker($classes, $model = null, $time = false){
+		public function datePicker($classes, $model = null, $time = false) {
 			$model = (!$model) ? Inflector::classify($this->request->params['controller']) : $model;
 
 			$out = '<div class="datePicker">';
-			foreach((array)$classes as $class){
+			foreach((array)$classes as $class) {
 				$out .= sprintf(
 					'<div class="date"><label>%s</label><div id="%sDatePicker%s"></div>%s</div>',
 					Inflector::humanize($class),
@@ -847,14 +847,14 @@
 					$this->Form->hidden($model.'.'.$class, array('type' => 'text'))
 				);
 
-				if($time === true){
+				if($time === true) {
 					$out .= '<div class="time">';
 					$out .= $this->Form->input($model.'.'.str_replace('date', 'time', $class), array('type' => 'time', 'class' => 'timePicker'));
 					$out .= '</div>';
 				}
 
-				else if(is_array($time)){
-					foreach($time as $t){
+				else if(is_array($time)) {
+					foreach($time as $t) {
 						$out .= $this->Form->input($model.'.'.$t, array('type' => 'time', 'class' => 'timePicker'));
 					}
 				}

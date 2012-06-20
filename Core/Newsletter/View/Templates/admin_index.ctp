@@ -55,7 +55,7 @@
                 )
             );
 
-            foreach($templates as $template){
+            foreach($templates as $template) {
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($template); ?>&nbsp;</td>

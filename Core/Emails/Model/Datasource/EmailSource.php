@@ -147,11 +147,11 @@
 				return true;
 			}
 			
-			if(!isset($query['conditions']) || empty($query['conditions'])){
+			if(!isset($query['conditions']) || empty($query['conditions'])) {
 				return false;
 			}
 
-			switch($query['conditions'][$Model->alias . '.type']){
+			switch($query['conditions'][$Model->alias . '.type']) {
 				case 'pop3':
 					App::import('Libs', 'Emails.drivers/' . $query['conditions'][$Model->alias . '.type']);
 					$server = ucfirst(strtolower($query['conditions'][$Model->alias . '.type'])) . 'Socket';
@@ -164,7 +164,7 @@
 			}
 			
 			$connection = array();
-			foreach($query['conditions'] as $k => $v){
+			foreach($query['conditions'] as $k => $v) {
 				$connection[str_replace($Model->alias . '.', '', $k)] = $v;
 			}
 			$query['conditions'] = $connection;
@@ -230,7 +230,7 @@
 			$return = array();			
 			$message = $this->Server->getMail($messageId);
 
-			if(!$message){
+			if(!$message) {
 				return false;
 			}
 			
@@ -277,7 +277,7 @@
 		 * @param <type> $messageId
 		 * @return <type>
 		 */
-		protected function _getAttachments($structure, $messageId){
+		protected function _getAttachments($structure, $messageId) {
 			$attachments = array();
 			if(isset($structure->parts) && count($structure->parts)) {
 				for($i = 0; $i < count($structure->parts); $i++) {
@@ -313,7 +313,7 @@
 					if($attachment['is_attachment']) {
 
 						$cachedAttachment = $this->AttachmentDownloader->alreadySaved($attachment);
-						if($cachedAttachment !== false){
+						if($cachedAttachment !== false) {
 							$attachments[] = $cachedAttachment;
 							continue;
 						}
@@ -349,8 +349,8 @@
 		 *
 		 * @return mixed on imap its the unique id (int) and for others its a base64_encoded string
 		 */
-		private function __getId($uuid){
-			switch($this->__connectionType){
+		private function __getId($uuid) {
+			switch($this->__connectionType) {
 				case 'imap':
 					return imap_uid($this->MailServer, $uuid);
 					break;
@@ -393,7 +393,7 @@
 
 					else {
 						$attachment = $this->_attachement($messageId, $partOfPart, $count);
-						if(!empty($attachment)){
+						if(!empty($attachment)) {
 							$attachments[] = $attachment;
 						}
 					}
@@ -438,7 +438,7 @@
 			$pages = ceil($count / $query['limit']); // total pages
 			$query['page'] = ($query['page'] <= $pages) ? $query['page'] : $pages; // dont let the page be more than available pages
 
-			if($query['page'] != 1){
+			if($query['page'] != 1) {
 				$count = ($pages - $query['page'] + 1) * $query['limit']; // start at the end - x pages
 			}
 			$return = array('start' =>  $count);
@@ -479,7 +479,7 @@
 			
 			/* multipart */
 			if ($structure->type == 1) {
-				foreach($structure->parts as $index => $subStructure){
+				foreach($structure->parts as $index => $subStructure) {
 					if ($partNumber) {
 						$prefix = $partNumber . '.';
 					}
@@ -498,8 +498,8 @@
 		 * @param object $mail the imap header of the mail
 		 * @return int the number of mails in the thred
 		 */
-		protected function _getThreadCount($mail){
-			if(isset($mail->reference) || isset($mail->in_reply_to)){
+		protected function _getThreadCount($mail) {
+			if(isset($mail->reference) || isset($mail->in_reply_to)) {
 				return '?';
 			}
 			

@@ -8,7 +8,7 @@
 						$File = new File($path);
 						$data = $File->read();
 						$info = $File->info();
-						switch($info['extension']){
+						switch($info['extension']) {
 							case 'php':
 							case 'ctp':
 							case 'css':

@@ -22,7 +22,7 @@
 				$class
 			);
 			$base = '%s';
-			if($div){
+			if($div) {
 				$base = '<div id=":div_id" class=":div">%s</div>';
 			}
 

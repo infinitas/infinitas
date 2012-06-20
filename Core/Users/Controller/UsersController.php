@@ -46,8 +46,8 @@
 			}
 		}
 
-		public function view(){
-			if(!$this->Auth->user('id')){
+		public function view() {
+			if(!$this->Auth->user('id')) {
 				$this->notice(
 					__d('users', 'You must be logged in to view your profile'),
 					array(
@@ -66,7 +66,7 @@
 				)
 			);
 
-			if(empty($user)){
+			if(empty($user)) {
 				$this->notice(
 					__d('users', 'Please login to view your profile'),
 					array(
@@ -79,8 +79,8 @@
 			$this->set(compact('user'));
 		}
 
-		public function profile(){
-			if(!$this->Auth->user('id')){
+		public function profile() {
+			if(!$this->Auth->user('id')) {
 				$this->notice(
 					__d('users', 'You must be logged in to edit your profile'),
 					array(
@@ -131,7 +131,7 @@
 				);
 			}
 
-			if(empty($this->request->data)){
+			if(empty($this->request->data)) {
 				$this->notice(
 					__d('users', 'Please login to edit your profile'),
 					array(
@@ -165,7 +165,7 @@
 
 			$this->_createCookie();
 
-			if($this->Auth->login()){
+			if($this->Auth->login()) {
 				$this->{$this->modelClass}->recursive = -1;
 
 				$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
@@ -203,7 +203,7 @@
 		 *
 		 * @return array
 		 */
-		public function _getUserData(){
+		public function _getUserData() {
 			$data[$this->modelClass]['id']			   = $this->Auth->user('id');
 			$data[$this->modelClass]['last_login']	   = date('Y-m-d H:i:s');
 			$data[$this->modelClass]['modified']		 = false;
@@ -222,7 +222,7 @@
 		/**
 		 * Check if there is a cookie to log the user in with
 		 */
-		public function _checkCookie(){
+		public function _checkCookie() {
 			if (!empty($this->request->data)) {
 				$cookie = $this->Cookie->read('Auth.User');
 				if (!is_null($cookie)) {
@@ -236,7 +236,7 @@
 		/**
 		 * Create a remember me cookie
 		 */
-		public function _createCookie(){
+		public function _createCookie() {
 			return;
 			if ($this->Auth->user()) {
 				if (!empty($this->request->data[$this->modelClass]['remember_me'])) {
@@ -256,7 +256,7 @@
 		 *
 		 * @access public
 		 */
-		public function logout(){
+		public function logout() {
 			$this->Event->trigger('beforeUserLogout', array('user' => $this->Auth->user()));
 			//@todo if this is false dont logout.
 
@@ -271,7 +271,7 @@
 		 * Only works when you have allowed registrations. When the email validation
 		 * is on the user will be sent an email to confirm the registration
 		 */
-		public function register(){
+		public function register() {
 			if (!Configure::read('Website.allow_registration')) {
 				$this->notice(
 					__d('users', 'Registration is disabled'),
@@ -343,13 +343,13 @@
 		 * @param string $hash
 		 */
 		public function activate($hash = null) {
-			if (!$hash){
+			if (!$hash) {
 				$this->notice('invalid');
 			}
 
 			$this->{$this->modelClass}->id = $this->{$this->modelClass}->getTicket($hash);
 
-			if ($this->{$this->modelClass}->saveField('active', 1, null, true)){
+			if ($this->{$this->modelClass}->saveField('active', 1, null, true)) {
 				$user = $this->{$this->modelClass}->read('email', $this->{$this->modelClass}->id);
 
 				$this->Emailer->sendDirectMail(
@@ -385,8 +385,8 @@
 		 * An email will be sent if they supply the correct details which they
 		 * will need to click the link to be taken to the reset page.
 		 */
-		public function forgot_password(){
-			if (!empty($this->request->data)){
+		public function forgot_password() {
+			if (!empty($this->request->data)) {
 				$theUser = $this->{$this->modelClass}->find(
 					'first',
 					array(
@@ -396,7 +396,7 @@
 					)
 				);
 
-				if (is_array( $theUser[$this->modelClass]) && ($ticket = $this->{$this->modelClass}->createTicket($theUser[$this->modelClass]['email']) !== false)){
+				if (is_array( $theUser[$this->modelClass]) && ($ticket = $this->{$this->modelClass}->createTicket($theUser[$this->modelClass]['email']) !== false)) {
 					$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
 						Router::url(array('action' => 'reset_password', $ticket), true)
 					);
@@ -430,7 +430,7 @@
 		 * @param string $hash the hash of the reset request.
 		 */
 		public function reset_password($hash = null) {
-			if (!$hash){
+			if (!$hash) {
 				$this->notice(
 					__d('users', 'Reset request timed out, please try again'),
 					array(
@@ -440,7 +440,7 @@
 				);
 			}
 
-			if (!empty($this->request->data)){
+			if (!empty($this->request->data)) {
 				$this->{$this->modelClass}->id = $this->request->data[$this->modelClass]['id'];
 
 				if ($this->{$this->modelClass}->saveField('password', Security::hash($this->request->data[$this->modelClass]['new_password'], null, true))) {
@@ -469,7 +469,7 @@
 
 			$email = $this->{$this->modelClass}->getTicket($hash);
 
-			if (!$email){
+			if (!$email) {
 				$this->notice(
 					__d('users', 'Your ticket has expired, please request a new password'),
 					array(
@@ -491,7 +491,7 @@
 			);
 		}
 
-		public function admin_login(){
+		public function admin_login() {
 			$this->layout = 'admin_login';
 
 			$this->_createCookie();
@@ -533,16 +533,16 @@
 			}
 		}
 
-		public function admin_logout(){
+		public function admin_logout() {
 			$this->Session->destroy();
 			$this->redirect(array('action' => 'login'));
 		}
 
-		public function admin_dashboard(){
+		public function admin_dashboard() {
 
 		}
 
-		public function admin_index(){
+		public function admin_index() {
 			$this->{$this->modelClass}->recursive = 0;
 			$users = $this->Paginator->paginate(null, $this->Filter->filter);
 
@@ -558,7 +558,7 @@
 			$this->set(compact('users', 'filterOptions'));
 		}
 
-		public function admin_logged_in(){
+		public function admin_logged_in() {
 			$this->Paginator->settings =array(
 				'conditions' => array(
 					$this->{$this->modelClass}->alias . '.last_login > ' => date('Y-m-d H:i:s', strtotime('-30 min'))
@@ -579,7 +579,7 @@
 			$this->render('admin_index');
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
 			$groups = $this->{$this->modelClass}->Group->find('list');

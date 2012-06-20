@@ -91,7 +91,7 @@
 		 * 
 		 * @return array list of ids for categories that are active
 		 */
-		public function getActiveIds(){
+		public function getActiveIds() {
 			$ids = $this->find(
 				'list',
 				array(
@@ -118,8 +118,8 @@
 		 * 
 		 * @return TreeBehavior::children
 		 */
-		public function children($id = null, $direct = false){
-			if(!$id || is_int($id)){
+		public function children($id = null, $direct = false) {
+			if(!$id || is_int($id)) {
 				return parent::children($id, $direct);
 			}
 
@@ -135,7 +135,7 @@
 				)
 			);
 
-			if(isset($id['GlobalCategory']['id']) && !empty($id['GlobalCategory']['id'])){
+			if(isset($id['GlobalCategory']['id']) && !empty($id['GlobalCategory']['id'])) {
 				$id = $id['GlobalCategory']['id'];
 			}
 

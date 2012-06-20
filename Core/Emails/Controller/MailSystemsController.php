@@ -1,24 +1,24 @@
 <?php
 	class MailSystemsController extends EmailsAppController {
-		public function beforeFilter(){
+		public function beforeFilter() {
 			parent::beforeFilter();
 
 			$this->helpers[] = 'Emails.EmailAttachments';
 			return true;
 		}
 
-		public function admin_dashboard(){
+		public function admin_dashboard() {
 			$accounts = ClassRegistry::init('Emails.EmailAccount')->getMyAccounts($this->Auth->user('id'));
 
-			if(empty($accounts)){
+			if(empty($accounts)) {
 				$this->notice('You do not have any accounts set up', 'notice');
 			}
 			
 			$this->set(compact('accounts'));
 		}
 
-		public function admin_index(){
-			if(!$this->request->params['account']){
+		public function admin_index() {
+			if(!$this->request->params['account']) {
 				$this->notice(__('Please select an account'), 'notice', 0, null, true);
 			}
 
@@ -42,8 +42,8 @@
 			$this->set(compact('mails', 'filterOptions'));
 		}
 
-		public function admin_view(){
-			if(!$this->request->params['email']){
+		public function admin_view() {
+			if(!$this->request->params['email']) {
 				$this->notice(__('Please select an email to view'), 'error', 0, true);
 			}
 
@@ -60,8 +60,8 @@
 			$this->set(compact('mail'));
 		}
 
-		public function admin_get_mail(){
-			if(!$this->request->params['email']){
+		public function admin_get_mail() {
+			if(!$this->request->params['email']) {
 				$this->notice(__('Please select an email to view'), 'error', 0, true);
 			}
 
@@ -81,10 +81,10 @@
 			$this->set(compact('mail'));
 		}
 
-		public function admin_mass(){
+		public function admin_mass() {
 			$massAction = $this->MassAction->getAction($this->request->params['form']);
 
-			switch($massAction){
+			switch($massAction) {
 				case 'back':
 					$this->redirect(array('action' => 'index'));
 					break;

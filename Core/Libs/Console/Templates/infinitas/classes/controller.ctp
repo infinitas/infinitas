@@ -70,8 +70,8 @@ COMMENT;
 
 COMMENT;
 			echo "\t\tpublic \$helpers = array(\n";
-				if (count($helpers)){
-					for ($i = 0, $len = count($helpers); $i < $len; $i++){
+				if (count($helpers)) {
+					for ($i = 0, $len = count($helpers); $i < $len; $i++) {
 						echo "'" . Inflector::camelize($helpers[$i]) . "', ";
 					}
 				}
@@ -80,7 +80,7 @@ COMMENT;
 				echo "\t\t\t//'Libs.Gravatar',\n";
 			echo "\t\t);\n\n";
 
-			if (count($components)){
+			if (count($components)) {
 		echo <<<COMMENT
 		/**
 		 * The components linked to this controller
@@ -91,8 +91,8 @@ COMMENT;
 
 COMMENT;
 				echo "\t\tpublic \$components = array(";
-				for ($i = 0, $len = count($components); $i < $len; $i++){
-					if ($i != $len - 1){
+				for ($i = 0, $len = count($components); $i < $len; $i++) {
+					if ($i != $len - 1) {
 						echo "\t\t\t'" . Inflector::camelize($components[$i]) . "',\n";
 					}
 					else{
@@ -102,7 +102,7 @@ COMMENT;
 				echo "\t\t);\n";
 			}
 
-			if(trim($actions) == 'scaffold'){
+			if(trim($actions) == 'scaffold') {
 				echo "\t\tpublic \$scaffold;\n";
 			}
 			else{

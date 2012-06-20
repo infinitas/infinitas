@@ -69,7 +69,7 @@
 				$Controller->layout = $theme['Theme']['default_layout'];
 			}
 
-			if (isset($Controller->request->params['admin']) && $Controller->request->params['admin']){
+			if (isset($Controller->request->params['admin']) && $Controller->request->params['admin']) {
 				$Controller->layout = Configure::read('Themes.default_layout_admin');
 			}
 

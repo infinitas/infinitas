@@ -75,7 +75,7 @@
 		 *
 		 * @return mixed false if there are no changes, array with changes if any were found
 		 */
-		public function checkForChanges($plugin){
+		public function checkForChanges($plugin) {
 			$this->type = $plugin;
 			$this->path = $this->__getPath() . 'Config' . DS . 'releases' . DS;
 
@@ -88,7 +88,7 @@
 				}
 
 				$comparison = $this->Schema->compare($oldSchema, $this->_readSchema());
-				if(!empty($comparison)){
+				if(!empty($comparison)) {
 					return $comparison;
 				}
 			}

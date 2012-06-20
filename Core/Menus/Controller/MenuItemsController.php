@@ -21,7 +21,7 @@
 	 */
 
 	class MenuItemsController extends MenusAppController {
-		public function admin_index(){
+		public function admin_index() {
 			$this->Paginator->settings = array(
 				'contain' => array(
 					'Menu'
@@ -44,7 +44,7 @@
 			$this->set(compact('menuItems', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
 			// auto select parent when the + button is used
@@ -53,7 +53,7 @@
 			}
 
 			$menus   = $this->{$this->modelClass}->Menu->find('list');
-			if(empty($menus)){
+			if(empty($menus)) {
 				$this->notice(
 					__('Please add a menu before adding items'),
 					array(
@@ -76,7 +76,7 @@
 			$this->set(compact('menus', 'groups', 'parents', 'plugins'));
 		}
 
-		public function admin_edit($id = null){
+		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
 			$menus   = $this->{$this->modelClass}->Menu->find('list');

@@ -1,10 +1,10 @@
 <?php
 	class PluginsController extends InstallerAppController {
-		public function admin_dashboard(){
+		public function admin_dashboard() {
 			
 		}
 
-		public function admin_index(){
+		public function admin_index() {
 			$plugins = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -20,7 +20,7 @@
 			$this->set(compact('plugins', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			$this->notice(
 				__('Nothing to see, move along'),
 				array(
@@ -30,7 +30,7 @@
 			);
 		}
 
-		public function admin_edit(){
+		public function admin_edit() {
 			self::admin_add();
 		}
 
@@ -61,7 +61,7 @@
 			$this->saveRedirectMarker();
 		}
 
-		public function admin_update_infinitas(){
+		public function admin_update_infinitas() {
 			
 		}
 	}

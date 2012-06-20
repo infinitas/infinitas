@@ -121,8 +121,8 @@
 		public function afterFind($results, $primary = false) {
 			parent::afterFind($results, $primary);
 
-			if(isset($results[0][$this->alias]['model'])){
-				foreach($results as $k => $result){
+			if(isset($results[0][$this->alias]['model'])) {
+				foreach($results as $k => $result) {
 					$parts = pluginSplit($results[$k][$this->alias]['model']);
 					$results[$k][$this->alias]['model_class'] = $results[$k][$this->alias]['model'];
 					$results[$k][$this->alias]['plugin'] = $parts[0];

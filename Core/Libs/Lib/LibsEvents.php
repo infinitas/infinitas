@@ -1,6 +1,6 @@
 <?php
 	class LibsEvents extends AppEvents {
-		public function onSetupExtensions(){
+		public function onSetupExtensions() {
 			return array(
 				'json'
 			);
@@ -11,7 +11,7 @@
 
 				// attach the expandable (eva) behavior if there is a table for it
 				$attributesTable = Inflector::singularize($event->Handler->tablePrefix.$event->Handler->table) . '_attributes';
-				if(in_array($attributesTable, $event->Handler->getTables($event->Handler->useDbConfig))){
+				if(in_array($attributesTable, $event->Handler->getTables($event->Handler->useDbConfig))) {
 					$event->Handler->bindModel(
 						array(
 							'hasMany' => array(
@@ -55,7 +55,7 @@
 			}
 		}
 
-		public function onRequireComponentsToLoad($event){
+		public function onRequireComponentsToLoad($event) {
 			return array(
 				'Libs.Infinitas',
 				'Paginator',
@@ -79,7 +79,7 @@
 			);
 		}
 
-		public function onRequireCssToLoad(){
+		public function onRequireCssToLoad() {
 			return array(
 				'Assets.jquery_ui'
 			);

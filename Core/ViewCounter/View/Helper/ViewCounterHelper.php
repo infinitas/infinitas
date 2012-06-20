@@ -4,8 +4,8 @@
 			'Time'
 		);
 
-		public function header($type = null, $data = null){
-			switch($type){
+		public function header($type = null, $data = null) {
+			switch($type) {
 				case 'year_on_year':
 					$header = __('Traffic year on year');
 					break;
@@ -43,7 +43,7 @@
 					break;
 			}
 
-			if(!isset($data['stats']['total'])){
+			if(!isset($data['stats']['total'])) {
 				$data['stats']['total'] = $data['total_views'];
 			}
 			
@@ -56,7 +56,7 @@
 			);
 		}
 
-		public function noData(){
+		public function noData() {
 			return __('There is not enough data to display this graph');
 		}
 	}

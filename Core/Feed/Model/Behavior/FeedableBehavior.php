@@ -52,9 +52,9 @@
 			$Model->findMethods['findFeed'] = true;
 		}
 
-		protected function _findFeed($Model, $state, $query, $results = array()){
+		protected function _findFeed($Model, $state, $query, $results = array()) {
 			if($state == 'before') {
-				if (!isset($query['feed'])){
+				if (!isset($query['feed'])) {
 					return $query;
 				}
 
@@ -62,7 +62,7 @@
 
 
 				$sql = '';
-				foreach((array)$query['feed'] as $key => $feed){
+				foreach((array)$query['feed'] as $key => $feed) {
 					$feed = array_merge($this->basicStatement, $feed);
 					$sql .= ' UNION ';
 
@@ -102,7 +102,7 @@
 
 				$_results = $Model->query($sql);
 
-				foreach($_results as $res){
+				foreach($_results as $res) {
 					$this->_results[]['Feed'] = $res[0];
 				}
 				

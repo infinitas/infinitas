@@ -18,6 +18,6 @@
 			ClassRegistry::flush();
 		}
 
-		public function testStuff(){
+		public function testStuff() {
 		}
 	}

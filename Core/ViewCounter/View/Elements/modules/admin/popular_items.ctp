@@ -22,14 +22,14 @@
 	 */
 	$header = $link = '';
 	$byWeek = $conditions = array();
-	if(ClassRegistry::init('ViewCounter.ViewCounterView')->find('count') == 0){
+	if(ClassRegistry::init('ViewCounter.ViewCounterView')->find('count') == 0) {
 		return;
 	}
 	
-	if($this->plugin == 'view_counter' || $this->plugin == 'management'){
+	if($this->plugin == 'view_counter' || $this->plugin == 'management') {
 		$conditions['month >= '] = date('m') - 1;
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCounterView')->reportByDayOfMonth($conditions);
-		if(isset($byWeek['model'])){
+		if(isset($byWeek['model'])) {
 			$byWeek['model'] = pluginSplit($byWeek['model']);
 		}
 		$header = __('Popular content this month');
@@ -37,18 +37,18 @@
 
 	else{
 		$conditions['month >= '] = date('m') -3;
-		if(isset($model)){
+		if(isset($model)) {
 			$conditions['ViewCounterView.model'] = $model;
 		}
 		
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCounterView')->reportByDayOfMonth($conditions);
-		if(!isset($byWeek['totals'])){
+		if(!isset($byWeek['totals'])) {
 			$byWeek['totals'] = array();
 		}
 		$header = sprintf(__('Views for the last few weeks'));
 	}
 
-	if($this->plugin != 'view_counter'){
+	if($this->plugin != 'view_counter') {
 		$url = array(
 			'plugin' => 'view_counter',
 			'controller' => 'view_counter_views',
@@ -71,7 +71,7 @@
 <div class="dashboard half">
 	<h1><?php echo sprintf('%s<small>%s<br/>Total: %s</small>', $header, $link, $byWeek['stats']['total']); ?></h1>
 	<?php
-		if(!isset($byWeek['sub_total']) || empty($byWeek['sub_total'])){
+		if(!isset($byWeek['sub_total']) || empty($byWeek['sub_total'])) {
 			?><span class="chart"><?php echo __('Not enough data collected'); ?></span><?php
 		}
 		else{

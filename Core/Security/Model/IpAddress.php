@@ -65,7 +65,7 @@
 		 *
 		 * @return int the risk of the failed login.
 		 */
-		public function findSimmilarAttempts($ipAddress = null, $username = ''){
+		public function findSimmilarAttempts($ipAddress = null, $username = '') {
 			if (!$ipAddress) {
 				exit;
 			}
@@ -92,7 +92,7 @@
 
 			$risk = (($badCount/$factor) / $totalCount)*100;
 
-			switch($risk){
+			switch($risk) {
 				case ($risk < .5):
 					return 2;
 					break;
@@ -153,7 +153,7 @@
 		 *
 		 * @return bool true on succes. or exit
 		 */
-		public function blockIp($ipAddress = null, $data = null, $risk = 0){
+		public function blockIp($ipAddress = null, $data = null, $risk = 0) {
 			if (!$ipAddress) {
 				exit;
 			}
@@ -186,7 +186,7 @@
 			}
 
 			$time = $save[$this->alias]['times_blocked'] * 20;
-			switch(Configure::read('Security.level')){
+			switch(Configure::read('Security.level')) {
 				case 'low':
 					$time = $save[$this->alias]['times_blocked'] * 5;
 					break;

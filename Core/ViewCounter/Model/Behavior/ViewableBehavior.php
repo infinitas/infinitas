@@ -99,7 +99,7 @@
 				return $data;
 			}
 			
-			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']){
+			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']) {
 				$this->__session[$Model->alias] = CakeSession::read('Viewable.'.$Model->alias);
 			}
 
@@ -114,7 +114,7 @@
 			$location = EventCore::trigger($this, 'GeoLocation.getLocation');
 			$location = current($location['getLocation']);
 
-			foreach($location as $k => $v){
+			foreach($location as $k => $v) {
 				$view['ViewCount'][$k] = $v;
 			}
 			$view['ViewCount']['year'] = date('Y');

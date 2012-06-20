@@ -5,7 +5,7 @@
 	 * Used to configure some base settings and load configs from all the plugins in the app.
 	 */
 
-	if(substr(env('SERVER_ADDR'), 0, 3) == 127 || substr(env('HTTP_HOST'), -3) == 'dev'){
+	if(substr(env('SERVER_ADDR'), 0, 3) == 127 || substr(env('HTTP_HOST'), -3) == 'dev') {
 		Configure::write('debug', 2);
 	}
 	else{
@@ -22,14 +22,14 @@
 	 */
 	define('LOG_ERROR', 2);
 
-	if(phpversion() >= 5.3){
+	if(phpversion() >= 5.3) {
 		date_default_timezone_set(date_default_timezone_get());
 	}
 
 	/**
 	 * if debug is off check for view file cache
 	 */
-	if(Configure::read('debug') == 0){
+	if(Configure::read('debug') == 0) {
 		Configure::write('Cache.check', true);
 	}
 

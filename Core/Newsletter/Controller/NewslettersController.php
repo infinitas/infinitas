@@ -243,11 +243,11 @@
 			$this->set(compact('newsletters', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
 			$campaigns = $this->Newsletter->Campaign->find('list');
-			if(empty($campaigns)){
+			if(empty($campaigns)) {
 				$this->notice(
 					__('Please create a campaign before creating a newsletter'),
 					array(
@@ -341,7 +341,7 @@
 			}
 		}
 
-		public function __massActionDelete($ids){
+		public function __massActionDelete($ids) {
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
 

@@ -30,7 +30,7 @@
 			</tr>
 		</thead>
 		<?php
-			foreach($localVars as $name => $value){
+			foreach($localVars as $name => $value) {
 				$globalVars[$name] = sprintf('<b style="color:red;">%s</b>', $globalVars[$name]);
 				?>
 					<tr>
@@ -53,7 +53,7 @@
 			</tr>
 		</thead>
 		<?php
-			foreach($globalVars as $name => $value){
+			foreach($globalVars as $name => $value) {
 				?>
 					<tr>
 						<td><?php echo $name; ?></td>

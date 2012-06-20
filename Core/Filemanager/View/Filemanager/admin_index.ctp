@@ -84,7 +84,7 @@
 				</tr>
 			<?php
 
-			foreach($folders as $folder){
+			foreach($folders as $folder) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Form->checkbox('Folder.'.$folder['Folder']['path']); ?>&nbsp;</td>
@@ -131,7 +131,7 @@
 				<?php
 			}
 
-			foreach ($files as $file){
+			foreach ($files as $file) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Form->checkbox('File.'.$file['File']['path']); ?>&nbsp;</td>

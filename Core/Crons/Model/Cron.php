@@ -32,7 +32,7 @@
 		 *
 		 * @return bool|void true if everything is cool, null if already running or could not start
 		 */
-		public function start(){			
+		public function start() {			
 			$data = null;
 			$memUsage = memoryUsage(false, false);
 			$serverLoad = serverLoad(false);
@@ -51,7 +51,7 @@
 
 			$this->create();
 			$alreadyRunning = $this->_isRunning();
-			if($this->save($data)){
+			if($this->save($data)) {
 				$this->_currentProcess = $this->id;
 				return $alreadyRunning === false;
 			}
@@ -71,8 +71,8 @@
 		 *
 		 * @return AppModel::save()
 		 */
-		public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0){
-			if(!$this->_currentProcess){
+		public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0) {
+			if(!$this->_currentProcess) {
 				trigger_error(__('Cron not yet started'), E_USER_WARNING);
 				return false;
 			}
@@ -110,7 +110,7 @@
 		 *
 		 * @return <type>
 		 */
-		protected function _isRunning(){
+		protected function _isRunning() {
 			return (bool)$this->find(
 				'count',
 				array(
@@ -156,7 +156,7 @@
 		 *
 		 * @return string|bool false if not running, or datetime string of last run
 		 */
-		public function getLastRun(){
+		public function getLastRun() {
 			$last = $this->find(
 				'first',
 				array(
@@ -179,8 +179,8 @@
 		 * This method is used to clear out old data, normally it is called via
 		 * crons to happen automatically, but could be used in other places.
 		 */
-		public function clearOldLogs($date = null){
-			if(!$date){
+		public function clearOldLogs($date = null) {
+			if(!$date) {
 				$date = Configure::read('Cron.clear_logs');
 			}
 

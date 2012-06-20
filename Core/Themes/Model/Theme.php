@@ -109,8 +109,8 @@
 		 * 
 		 * @return bool
 		 */
-		public function beforeSave(){
-			if(isset($this->data[$this->alias]['active']) && $this->data[$this->alias]['active']){
+		public function beforeSave() {
+			if(isset($this->data[$this->alias]['active']) && $this->data[$this->alias]['active']) {
 				return $this->deactivateAll();
 			}
 
@@ -128,7 +128,7 @@
 		 * 
 		 * @return bool true to delete, false to stop
 		 */
-		public function beforeDelete($cascade){
+		public function beforeDelete($cascade) {
 			$active = $this->read('active');
 			return isset($active[$this->alias]['active']) && !$active[$this->alias]['active'];
 		}
@@ -143,7 +143,7 @@
 		 *
 		 * @return bool true on sucsess false if not.
 		 */
-		public function deactivateAll(){
+		public function deactivateAll() {
 			return $this->updateAll(
 				array(
 					$this->alias . '.active' => false

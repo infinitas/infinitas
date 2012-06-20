@@ -24,7 +24,7 @@
 ?>
 <h3><?php echo $user['User']['username']; ?></h3>
 <?php
-	foreach($parts['userProfile'] as $plugin => $profile){
+	foreach($parts['userProfile'] as $plugin => $profile) {
 		echo sprintf('<div class="profile %s">%s</div>', $plugin, $this->element($profile['element'], array('plugin' => $plugin)));
 	}
 ?>

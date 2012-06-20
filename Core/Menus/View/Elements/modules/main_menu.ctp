@@ -1,5 +1,5 @@
 <?php
-	if(!isset($config['menu'])){
+	if(!isset($config['menu'])) {
 		//trow error
 		return false;
 	}

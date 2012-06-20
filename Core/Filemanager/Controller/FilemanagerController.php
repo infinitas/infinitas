@@ -6,7 +6,7 @@
 
 		public function admin_index() {
 			$path = '/';
-			if(!empty($this->request->params['pass'])){
+			if(!empty($this->request->params['pass'])) {
 				$path = implode('/', $this->request->params['pass']);
 			}
 
@@ -44,7 +44,7 @@
 		}
 
 		public function admin_view() {
-			if(!empty($this->request->params['pass'])){
+			if(!empty($this->request->params['pass'])) {
 				$path = implode('/', $this->request->params['pass']);
 			}
 

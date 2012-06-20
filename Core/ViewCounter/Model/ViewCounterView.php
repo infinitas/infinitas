@@ -41,13 +41,13 @@
 		 *
 		 * @return int the number of rows found
 		 */
-		public function getToalViews($class = null, $foreignKey = 0){
+		public function getToalViews($class = null, $foreignKey = 0) {
 			$conditions = array();
 
-			if($class){
+			if($class) {
 				$conditions = array($this->alias . '.model' => $class);
 			}
-			if((int)$foreignKey > 0){
+			if((int)$foreignKey > 0) {
 				$conditions[$this->alias . '.foreign_key'] = $foreignKey;
 			}
 
@@ -67,11 +67,11 @@
 		 *
 		 * @return array of data
 		 */
-		public function getGlobalStats($limit = 5, $plugin = null){
+		public function getGlobalStats($limit = 5, $plugin = null) {
 			$models = $this->getUniqueModels($plugin);
 
 			$return = array();
-			foreach($models as $model){
+			foreach($models as $model) {
 				$Model = ClassRegistry::init($model);
 				$return[] = array(
 					'class' => $model,
@@ -92,11 +92,11 @@
 		 *
 		 * @return array list of models and counts
 		 */
-		public function getGlobalTotalCount(){
+		public function getGlobalTotalCount() {
 			$models = $this->getUniqueModels();
 
 			$return = array();
-			foreach($models as $model){
+			foreach($models as $model) {
 				ClassRegistry::init($model)->Behaviors->attach('ViewCounter.Viewable');
 				$return[$model] = $this->getToalViews($model);
 			}
@@ -111,17 +111,17 @@
 		 *
 		 * @return int the average views of the selected range.
 		 */
-		public function getAverage($model = null){
+		public function getAverage($model = null) {
 			$this->virtualFields['views'] = 'COUNT(' . $this->alias . '.id)';
 			$conditions = $group = array();
-			if($model){
+			if($model) {
 				$conditions[$this->alias . '.model'] = (string)$model;
 				$group[] = $this->alias . '.foreign_key';
 			}
 
 			$cacheName = cacheName('view_average', array($conditions, $group));
 			$data = Cache::read($cacheName, 'view_counts');
-			if($data !== false){
+			if($data !== false) {
 				return $data;
 			}
 
@@ -136,7 +136,7 @@
 				)
 			);
 			
-			if(!empty($data)){
+			if(!empty($data)) {
 				$data = Set::extract('/' . $this->alias . '/views', $data);
 				$data = round(array_sum($data) / count($data));
 				Cache::write($cacheName, $data, 'view_counts');
@@ -151,11 +151,11 @@
 		 *
 		 * @return array list of id -> models that are being tracked
 		 */
-		public function getUniqueModels($plugin = null){
+		public function getUniqueModels($plugin = null) {
 			$this->displayField = 'model';
 
 			$conditions = array();
-			if($plugin){
+			if($plugin) {
 				$conditions = array(
 					$this->alias . '.model LIKE' => Inflector::camelize($plugin).'%'
 				);
@@ -181,11 +181,11 @@
 		 *
 		 * @return array an overview of the data
 		 */
-		public function reportOverview($conditions){
+		public function reportOverview($conditions) {
 			$this->virtualFields['unique_visits'] = 'CONCAT_WS(\'-\', `' .$this->alias . '`.`ip_address`, `' . $this->alias . '`.`user_id`)';
 			$this->virtualFields['sub_total'] = 'COUNT(' . $this->alias . '.id)';
 			$data['total_views'] = $this->find('count', array('conditions' => $conditions));
-			if(empty($data['total_views'])){
+			if(empty($data['total_views'])) {
 				return false;
 			}
 			$data['global_total_views'] = $this->find('count');
@@ -259,7 +259,7 @@
 		 *
 		 * @return array the data for selected range
 		 */
-		public function reportYearOnYear($conditions){
+		public function reportYearOnYear($conditions) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -293,7 +293,7 @@
 		 *
 		 * @return array array of data with model, totals and months
 		 */
-		public function reportMonthOnMonth($conditions = array()){
+		public function reportMonthOnMonth($conditions = array()) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -325,8 +325,8 @@
 			$viewCountsByMonth = $this->ChartDataManipulation->getFormatted($viewCountsByMonth, $options);
 
 			$viewCountsByMonth['month'] = isset($viewCountsByMonth['month']) ? $viewCountsByMonth['month'] : array();
-			foreach($viewCountsByMonth['month'] as $k => $v){
-				switch($v){
+			foreach($viewCountsByMonth['month'] as $k => $v) {
+				switch($v) {
 					case  1: $viewCountsByMonth['month'][$k] = __('Jan'); break;
 					case  2: $viewCountsByMonth['month'][$k] = __('Feb'); break;
 					case  3: $viewCountsByMonth['month'][$k] = __('Mar'); break;
@@ -352,7 +352,7 @@
 		 *
 		 * @return array the data found for the conditions passed in
 		 */
-		public function reportWeekOnWeek($conditions = array()){
+		public function reportWeekOnWeek($conditions = array()) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)',
 			);
@@ -394,7 +394,7 @@
 		 *
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportByDayOfMonth($conditions = array()){
+		public function reportByDayOfMonth($conditions = array()) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -435,7 +435,7 @@
 		 *
 		 * @return array the data by week
 		 */
-		public function reportDayOfWeek($conditions = array()){
+		public function reportDayOfWeek($conditions = array()) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -467,8 +467,8 @@
 			$return = $this->ChartDataManipulation->getFormatted($return, $options);
 
 			$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
-			foreach($return['day_of_week'] as $k => $v){
-				switch($v){
+			foreach($return['day_of_week'] as $k => $v) {
+				switch($v) {
 					case 1: $return['day_of_week'][$k] = __('Sun'); break;
 					case 2: $return['day_of_week'][$k] = __('Mon'); break;
 					case 3: $return['day_of_week'][$k] = __('Tue'); break;
@@ -490,7 +490,7 @@
 		 *
 		 * @return array the data by week
 		 */
-		public function reportLastTwoWeeks($conditions = array()){
+		public function reportLastTwoWeeks($conditions = array()) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -522,8 +522,8 @@
 			$return = $this->ChartDataManipulation->getFormatted($return, $options);
 
 			$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
-			foreach($return['day_of_week'] as $k => $v){
-				switch($v){
+			foreach($return['day_of_week'] as $k => $v) {
+				switch($v) {
 					case 1: $return['day_of_week'][$k] = __('Sun'); break;
 					case 2: $return['day_of_week'][$k] = __('Mon'); break;
 					case 3: $return['day_of_week'][$k] = __('Tue'); break;
@@ -544,7 +544,7 @@
 		 *
 		 * @return array the data per hour
 		 */
-		public function reportHourOnHour($conditions = array()){
+		public function reportHourOnHour($conditions = array()) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)',
 			);
@@ -585,7 +585,7 @@
 		 *
 		 * @return array the fields to be used in the find/join
 		 */
-		private function __bindRelation($model){
+		private function __bindRelation($model) {
 			$Model = ClassRegistry::init($model);
 			$fields = array();
 
@@ -596,7 +596,7 @@
 			unset($Model);
 
 			$_fields = array();
-			foreach(current($fields) as $field){
+			foreach(current($fields) as $field) {
 				$_fields[] = current(array_keys($fields)) . '.' . $field;
 			}
 
@@ -624,7 +624,7 @@
 		 *
 		 * @return array the $limit most popular rows
 		 */
-		public function reportPopularRows($conditions = array(), $model, $limit = 20){
+		public function reportPopularRows($conditions = array(), $model, $limit = 20) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -663,7 +663,7 @@
 		 *
 		 * @return array of popular models
 		 */
-		public function reportPopularModels(){
+		public function reportPopularModels() {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)'
 			);
@@ -700,7 +700,7 @@
 		 * 
 		 * @return array of regions sorted by views
 		 */
-		public function reportByRegion($conditions = array(), $limit = 24){
+		public function reportByRegion($conditions = array(), $limit = 24) {
 			$this->virtualFields = array(
 				'sub_total' => 'COUNT(' . $this->alias . '.id)',
 			);
@@ -738,7 +738,7 @@
 		 * below is not generally needed.
 		 */
 
-		public function getCountryForUnknown(){
+		public function getCountryForUnknown() {
 			$rows = $this->find(
 				'all',
 				array(
@@ -751,9 +751,9 @@
 
 			App::import('Lib', 'Libs.IpLocation');
 			$this->IpLocation = new IpLocation();
-			foreach($rows as $row){
+			foreach($rows as $row) {
 				$temp = $this->IpLocation->getCountryData($row[$this->alias]['ip_address'], true);
-				if($temp['country_code'] == 'Unknown'){
+				if($temp['country_code'] == 'Unknown') {
 					$temp['country_code'] = '-';
 				}
 				$row[$this->alias] = array_merge($row[$this->alias], $temp);
@@ -761,7 +761,7 @@
 			}
 		}
 
-		public function getCityForUnknown(){
+		public function getCityForUnknown() {
 			$rows = $this->find(
 				'all',
 				array(
@@ -772,17 +772,17 @@
 				)
 			);
 
-			foreach($rows as $row){
+			foreach($rows as $row) {
 				$temp = EventCore::trigger($this, 'getLocation', $row[$this->alias]['ip_address']);
 				$temp = current($temp['getLocation']);
 
-				if($temp['country_code'] == 'Unknown'){
+				if($temp['country_code'] == 'Unknown') {
 					$temp['country_code'] = '-';
 				}
-				if(empty($temp['city'])){
+				if(empty($temp['city'])) {
 					unset($temp['city']);
 				}
-				if(empty($temp['continent_code'])){
+				if(empty($temp['continent_code'])) {
 					$temp['continent_code'] = '-';
 				}
 
@@ -791,7 +791,7 @@
 			}
 		}
 
-		public function getDatePartsFromCreated(){
+		public function getDatePartsFromCreated() {
 			/*
 			 UPDATE `global_view_counter_views` set
 			 `year` = YEAR(`created`),
@@ -804,7 +804,7 @@
 			 */
 		}
 
-		public function clearLocalhost(){
+		public function clearLocalhost() {
 			return $this->deleteAll(
 				array(
 					$this->alias . '.ip_address' => '127.0.0.1'

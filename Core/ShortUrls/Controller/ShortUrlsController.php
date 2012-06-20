@@ -1,13 +1,13 @@
 <?php
 	class ShortUrlsController extends ShortUrlsAppController {
-		public function view(){
-			if(!isset($this->request->params['pass'][0])){
+		public function view() {
+			if(!isset($this->request->params['pass'][0])) {
 				$this->redirect($this->referer());
 			}
 
 			$url = $this->ShortUrl->getUrl($this->request->params['pass'][0]);
 
-			if(empty($url)){
+			if(empty($url)) {
 				$this->notice(
 					__('Page not found'),
 					array(
@@ -19,14 +19,14 @@
 			$this->redirect($url);
 		}
 
-		public function preview(){
-			if(!isset($this->request->params['pass'][0])){
+		public function preview() {
+			if(!isset($this->request->params['pass'][0])) {
 				$this->redirect($this->referer());
 			}
 
 			$url = $this->ShortUrl->getUrl($this->request->params['pass'][0]);
 
-			if(empty($url)){
+			if(empty($url)) {
 				$this->notice(
 					__('Page not found'),
 					array(

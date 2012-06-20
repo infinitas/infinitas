@@ -101,7 +101,7 @@
 				foreach ($firstSplit as $string) {
 					$arr = split('=', $string);
 
-					if ($arr[0] == 'Auth'){
+					if ($arr[0] == 'Auth') {
 						$this->_authKey = $arr[1];
 					}
 				}

@@ -22,20 +22,20 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class LockerComponent extends InfinitasComponent {
-		public function initialize($Controller){
+		public function initialize($Controller) {
 			$disable = !strstr($Controller->action, 'admin') && 
 				!empty($Controller->uses) && 
 				isset($Controller->{$Controller->modelClass}->Behaviors);
 
 			$disable = $disable || (!empty($Controller->request->data['action']) && $Controller->request->data['action'] == 'copy');
-			if($disable){
+			if($disable) {
 				$Controller->{$Controller->modelClass}->Behaviors->detach('Lockable');
 			}
 
 			return true;
 		}
 
-		public function beforeRender($Controller){
+		public function beforeRender($Controller) {
 			if(empty($Controller->params['admin']) || !$Controller->params['admin']) {
 				return true;
 			}
@@ -56,9 +56,9 @@
 			return true;
 		}
 
-		public function beforeRedirect($Controller){
-			if(!empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable){
-				if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel'){
+		public function beforeRedirect($Controller) {
+			if(!empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable) {
+				if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel') {
 					ClassRegistry::init('Locks.Lock')->deleteAll(
 						array(
 							'Lock.class' => Inflector::camelize($Controller->plugin).'.'.$Controller->modelClass,

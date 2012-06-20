@@ -71,16 +71,16 @@
 		 *
 		 * @return string the markup for the chart that was generated.
 		 */
-		public function bar($data){
+		public function bar($data) {
 			$legend = '';
 			$chart = '';
 
 			$y = $rows = $cols = array();
 			$last = 0;
-			foreach($data['data'][0] as $key => $value){
+			foreach($data['data'][0] as $key => $value) {
 				$change = ($value > $last) ? __('up (%s%%)') : __('down (%s%%)');
 				$change = sprintf($change, abs($last - $value));
-				if($value == $last){
+				if($value == $last) {
 					$change = __('no change');
 				}
 				$cols[] = sprintf(
@@ -92,7 +92,7 @@
 				$last = $value;
 			}
 
-			foreach($data['labels']['y'] as $label){
+			foreach($data['labels']['y'] as $label) {
 				$y[] = $label;
 			}
 
@@ -129,7 +129,7 @@
 		 *
 		 * @return string some css
 		 */
-		private function __generateBarCss($data){
+		private function __generateBarCss($data) {
 			$colWidth = (($data['width'] + $data['spacing']['padding']) / count($data['data'][0]) / $data['width']) * 100;
 			$margin = round($data['spacing']['padding'] / 2);
 			$colWidth -= $data['spacing']['padding'];
@@ -168,9 +168,9 @@ cssData;
 
 		}
 
-		private function __css($data){
+		private function __css($data) {
 			$css = array();
-			foreach(range(1, 100) as $num){
+			foreach(range(1, 100) as $num) {
 				$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' .
 					$num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
 			}

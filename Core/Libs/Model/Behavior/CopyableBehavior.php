@@ -97,15 +97,15 @@
 		 * @return boolean
 		 */
 		public function copy($Model, $id = null) {
-			if(!$id){
+			if(!$id) {
 				$id = $Model->id;
 			}
 			
-			if(!$id){
+			if(!$id) {
 				return false;
 			}
 
-			if(is_array($id)){
+			if(is_array($id)) {
 				return $this->__multiCopy($Model, $id);
 			}
 			
@@ -130,8 +130,8 @@
 			$transaction = $Model->transaction();
 			$saved = $this->__copyRecord($Model);
 
-			if($transaction){
-				if($saved){
+			if($transaction) {
+				if($saved) {
 					$Model->transaction(true);
 				}
 
@@ -161,17 +161,17 @@
 		 *
 		 * @return mixed array of old_id => new_id or false
 		 */
-		private function __multiCopy($Model, $ids){
+		private function __multiCopy($Model, $ids) {
 			$ids = array_keys($Model->find('list', array('conditions' => array($Model->alias . '.' . $Model->primaryKey => array_filter((array)$ids)))));
 			
-			if(empty($ids)){
+			if(empty($ids)) {
 				return false;
 			}
 			
 			$transaction = $Model->transaction();
 			
 			$multiSave = array();
-			foreach($ids as $id){
+			foreach($ids as $id) {
 				$multiSave[] = $this->copy($Model, $id);
 			}
 
@@ -306,16 +306,16 @@
 		 *
 		 * @return array of the modified data
 		 */
-		private function __renameUniqueFields($Model, $record){
-			foreach(array_keys($record) as $field){
+		private function __renameUniqueFields($Model, $record) {
+			foreach(array_keys($record) as $field) {
 				$modified = false;
-				if(isset($Model->validate[$field]['isUnique'])){
+				if(isset($Model->validate[$field]['isUnique'])) {
 					$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
 					$modified = true;
 				}
 				else{
 					$index = ConnectionManager::getDataSource($Model->useDbConfig)->index($Model);
-					if(isset($index[$field]['unique']) && $index[$field]['unique']){
+					if(isset($index[$field]['unique']) && $index[$field]['unique']) {
 						$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
 						$modified = true;
 					}
@@ -401,7 +401,7 @@
 		 * @return array
 		 */
 		private function __recursiveChildContain($Model, $mainModelAlias = null) {
-			if(!isset($this->settings[$Model->alias])){
+			if(!isset($this->settings[$Model->alias])) {
 				$this->settings[$Model->alias] = $this->settings[$mainModelAlias];
 			}
 			

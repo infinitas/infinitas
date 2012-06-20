@@ -22,7 +22,7 @@
 		/**
 		 * @brief get some average overall stats
 		 */
-		public function reportAllTime(){
+		public function reportAllTime() {
 			$this->virtualFields['average_memory'] = 'ROUND(AVG(' . $this->alias . '.start_mem), 3)';
 			$this->virtualFields['max_memory'] = 'ROUND(MAX(' . $this->alias . '.start_mem), 3)';
 
@@ -38,7 +38,7 @@
 				)
 			);
 			
-			if(empty($return)){
+			if(empty($return)) {
 				return $return;
 			}
 
@@ -56,7 +56,7 @@
 		 * @param array $conditions normal conditions for the find
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportLastTwoWeeks($conditions = array()){
+		public function reportLastTwoWeeks($conditions = array()) {
 			$viewCountsByDay = $this->find(
 				'all',
 				array(
@@ -95,7 +95,7 @@
 		 * @param array $conditions normal conditions for the find
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportLastSixMonths($conditions = array()){
+		public function reportLastSixMonths($conditions = array()) {
 			$lastSixMonths = $this->find(
 				'all',
 				array(
@@ -134,7 +134,7 @@
 		 * @param int $limit the maximum number of rows to return
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportByHour($conditions = array()){
+		public function reportByHour($conditions = array()) {
 			$viewCountsByHour = $this->find(
 				'all',
 				array(
@@ -170,7 +170,7 @@
 		 * @param array $conditions normal conditions for the find
 		 * @return array array of data with model, totals and days
 		 */
-		public function reportByDay($conditions = array()){
+		public function reportByDay($conditions = array()) {
 			$this->virtualFields['sub_total']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';
 			$viewCountsByDay = $this->find(
 				'all',

@@ -32,10 +32,10 @@
 			$this->set(compact('themes', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 			
-			if(!$themes = $this->Theme->notInstalled()){
+			if(!$themes = $this->Theme->notInstalled()) {
 				$this->notice(
 					__('You do not have any themes to add'),
 					array(
@@ -48,7 +48,7 @@
 			$this->set(compact('themes'));
 		}
 
-		public function admin_edit($id){
+		public function admin_edit($id) {
 			parent::admin_edit($id);
 			$themes = $this->Theme->notInstalled();
 			$themes[$this->request->data['Theme']['name']] = $this->request->data['Theme']['name'];

@@ -113,7 +113,7 @@ COMMENT;
 
 					if (!in_array($field, $ignore) && !in_array($field, $configs) && (str_replace('_count', '', $field) == $field)) {
 						$emptyOption = '';
-						switch($schema[$field]['type']){
+						switch($schema[$field]['type']) {
 							case 'text':
 								$end .= "\t\t\t\techo \$this->Infinitas->wysiwyg('{$modelClass}.{$field}');\n";
 								break;
@@ -123,7 +123,7 @@ COMMENT;
 								break;
 
 							default:
-								if(strstr($field, '_id')){
+								if(strstr($field, '_id')) {
 									$emptyOption = ', array(\'empty\' => Configure::read(\'Website.empty_select\'))';
 								}
 								echo "\t\t\t\techo \$this->Form->input('{$field}'{$emptyOption});\n";
@@ -140,7 +140,7 @@ COMMENT;
 				foreach ($fields as $field) {
 					$emptyOption = '';
 					if (in_array($field, $configs)) {
-						if(strstr($field, '_id')){
+						if(strstr($field, '_id')) {
 							$emptyOption = ', array(\'empty\' => Configure::read(\'Website.empty_select\'))';
 						}
 						echo "\t\t\t\techo \$this->Form->input('{$field}'{$emptyOption});\n";

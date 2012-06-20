@@ -2,7 +2,7 @@
 	App::uses('EventCore', 'Events.Lib');
 
 	class EventCoreTest extends CakeTestCase {
-		public function startTest(){
+		public function startTest() {
 			$this->Events = EventCore::getInstance();
 		}
 
@@ -11,7 +11,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testGetEventInstance(){
+		public function testGetEventInstance() {
 			$this->Events->something = 'foo';
 			$Event = EventCore::getInstance();
 			$this->assertTrue(isset($Event->something));
@@ -24,7 +24,7 @@
 			$this->assertFalse(isset($this->Event));
 		}
 
-		public function testPluginsWith(){
+		public function testPluginsWith() {
 			$result = $this->Events->pluginsWith('foo');
 			$expected = array();
 			$this->assertEquals($expected, $result);
@@ -34,7 +34,7 @@
 			$this->assertEquals($expected, $result);
 		}
 
-		public function testEventClass(){
+		public function testEventClass() {
 			$Event = new Event('someEvent', $this, 'MyPlugin');
 			$result = $Event->Handler;
 			$this->assertSame($this, $result);
@@ -48,7 +48,7 @@
 			$this->assertEquals($expected, $result);
 		}
 
-		public function testEvents(){
+		public function testEvents() {
 			$result = $this->Events->trigger($this, 'foo');
 			$expected = array('foo'=> array());
 			$this->assertEquals($expected, $result);
@@ -74,6 +74,6 @@
 			$this->assertSame($this, $result);
 		}
 
-		public function testLoadEventClass(){
+		public function testLoadEventClass() {
 		}
 	}

@@ -15,7 +15,7 @@
 	 */
 
 	final class CommentsEvents extends AppEvents {
-		public function onPluginRollCall(){
+		public function onPluginRollCall() {
 			return array(
 				'name' => 'Comments',
 				'description' => 'See what your users have to say',
@@ -29,7 +29,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index'),
 				'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
@@ -49,26 +49,26 @@
 		public function onAttachBehaviors($event) {
 			if(is_subclass_of($event->Handler, 'Model')) {
 				if ($event->Handler->hasField('comment_count')) {					
-					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')){
+					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')) {
 						$event->Handler->Behaviors->attach('Comments.Commentable');
 					}
 				}
 			}
 		}
 
-		public function onRequireCssToLoad($event){
+		public function onRequireCssToLoad($event) {
 			return array(
 				'Comments.comment'
 			);
 		}
 
-		public function onRequireJavascriptToLoad($event){
+		public function onRequireJavascriptToLoad($event) {
 			return array(
 				'Comments.comment'
 			);
 		}
 
-		public function onSiteMapRebuild($event){
+		public function onSiteMapRebuild($event) {
 			$newestRow = ClassRegistry::init('Comments.Comment')->getNewestRow();
 
 			if(!$newestRow) {
@@ -85,7 +85,7 @@
 			);
 		}
 
-		public function onUserProfile($event){
+		public function onUserProfile($event) {
 			return array(
 				'element' => 'profile'
 			);

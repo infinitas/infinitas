@@ -6,16 +6,16 @@
 
 		public $count = 0;
 
-		public function form($model, $filter = array()){
-			if (empty($filter) || !isset($filter['fields'])){
+		public function form($model, $filter = array()) {
+			if (empty($filter) || !isset($filter['fields'])) {
 				$this->errors[] = 'There is no filters';
 				return false;
 			}
 
 			$output = '<div class="filter-form"><h1>'.__('Search').'</h1>';
-			foreach($filter['fields'] as $field => $options){
-				if (is_array($options)){
-					switch($field){
+			foreach($filter['fields'] as $field => $options) {
+				if (is_array($options)) {
+					switch($field) {
 						case 'active':
 							$emptyText = __('status');
 							break;
@@ -37,7 +37,7 @@
 						)
 					);
 				}
-				else if(strstr($options, 'date')){
+				else if(strstr($options, 'date')) {
 					$output .= $this->Html->datePicker(array($options));
 				}
 				else{
@@ -89,13 +89,13 @@
 		 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 		 * @since		 0.5a
 		 */
-		public function clear($filter, $div = false){
-			if (!isset($filter['url'][0]) || empty($filter['url'][0]) || $filter['url'][0] == '/'){
+		public function clear($filter, $div = false) {
+			if (!isset($filter['url'][0]) || empty($filter['url'][0]) || $filter['url'][0] == '/') {
 				$filter['url'][0] = '/';
 			}
 
 			$out = '';
-			if ($div){
+			if ($div) {
 				$out .= '<div class="filter">';
 			}
 
@@ -103,8 +103,8 @@
 			$parts = explode( '/', $filter['url'][0] );
 			$done = array();
 
-			foreach($parts as $_f){
-				if (empty($_f) || in_array($_f, $done)){
+			foreach($parts as $_f) {
+				if (empty($_f) || in_array($_f, $done)) {
 					continue;
 				}
 
@@ -124,7 +124,7 @@
 						'</div>';
 			}
 			$out .= '</div>';
-			if ($div){
+			if ($div) {
 				$out .= '</div>';
 			}
 
@@ -137,8 +137,8 @@
 		 *
 		 * @return string ul->li list of things found
 		 */
-		public function alphabetFilter(){
-			if(empty($this->request->params['models'])){
+		public function alphabetFilter() {
+			if(empty($this->request->params['models'])) {
 				return false;
 			}
 
@@ -146,9 +146,9 @@
 			$letters = ClassRegistry::init($model)->getLetterList();
 
 			$return = array();
-			foreach($letters as $key => $value){
+			foreach($letters as $key => $value) {
 				$url = ($value == true) ? $this->__filterLink($key) : $key;
-				if(is_array($url)){
+				if(is_array($url)) {
 					$url = $this->Html->link(
 						$key,
 						Router::url($url),
@@ -171,8 +171,8 @@
 		 * @param string $text the text to show/filter with
 		 * @return array the url cake style
 		 */
-		private function __filterLink($text = null){
-			if(!$text){
+		private function __filterLink($text = null) {
+			if(!$text) {
 				return false;
 			}
 			$model = current($this->request->params['models']);

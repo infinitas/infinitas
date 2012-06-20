@@ -1,8 +1,8 @@
 <?php
 	class TrashController extends TrashAppController {
-		public function beforeFilter(){
+		public function beforeFilter() {
 			parent::beforeFilter();
-			if(isset($this->request->params['form']['action']) && $this->request->params['form']['action'] == 'cancel'){
+			if(isset($this->request->params['form']['action']) && $this->request->params['form']['action'] == 'cancel') {
 				unset($this->request->params['form']['action']);
 				$this->redirect(array_merge(array('action' => 'list_items'), $this->request->params['named']));
 			}
@@ -12,7 +12,7 @@
 		/**
 		 * List all table with deleted in the schema
 		 */
-		public function admin_index(){
+		public function admin_index() {
 			$this->Paginator->settings = array(
 				'contain' => array(
 					'User'

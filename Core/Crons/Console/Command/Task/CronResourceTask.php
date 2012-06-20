@@ -35,7 +35,7 @@
 		/**
 		 * @brief overload the hr method so the logs are more readable
 		 */
-		public function hr(){
+		public function hr() {
 			$this->log('');
 			$this->log('---------------------------------------------------------------');
 			$this->log('');
@@ -51,9 +51,9 @@
 		 *
 		 * @return float the average memory usage
 		 */
-		public function logMemoryUsage($doing = 'running', $prefix = ''){
+		public function logMemoryUsage($doing = 'running', $prefix = '') {
 			$memoryUsage = memoryUsage(false);
-			if(empty($this->memoryUsage['start'])){
+			if(empty($this->memoryUsage['start'])) {
 				$this->log(
 					sprintf(
 						"Memory %s %s %s %s %s %s",
@@ -99,9 +99,9 @@
 		 *
 		 * @return float the 1 min load average if found, -1 if not
 		 */
-		public function logServerLoad(){
+		public function logServerLoad() {
 			$load = serverLoad(false);
-			if(!isset($this->memoryUsage['start']['load'])){
+			if(!isset($this->memoryUsage['start']['load'])) {
 				$this->memoryUsage['start']['load'] = $load[0];
 			}
 
@@ -113,29 +113,29 @@
 		/**
 		 * @brief Get the current average memory usage
 		 */
-		public function averageMemoryUsage(){
+		public function averageMemoryUsage() {
 			return round(array_sum($this->_memoryLog) / count($this->_memoryLog), 3);
 		}
 
 		/**
 		 * @brief Get the current average memory usage
 		 */
-		public function averageLoad(){
+		public function averageLoad() {
 			return array_sum($this->_loadLog) / count($this->_loadLog);
 		}
 
 		/**
 		 * @brief Get the time elapsed since the start
 		 */
-		public function elapsedTime(){
+		public function elapsedTime() {
 			return round(microtime(true) - $this->start, 3);
 		}
 
 		/**
 		 * @brief output some stats for the cron that just ran
 		 */
-		public function stats(){
-			if($this->verbose){
+		public function stats() {
+			if($this->verbose) {
 				$this->log('Below are the stats for the run');
 				$this->hr();
 			}

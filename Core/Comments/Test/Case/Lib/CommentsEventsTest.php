@@ -19,7 +19,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testGenerateSiteMapData(){
+		public function testGenerateSiteMapData() {
 			$this->assertInstanceOf('EventCore', $this->Event);
 		}
 	}

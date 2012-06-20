@@ -53,14 +53,14 @@
 			MIME5::split_mail($rawEmail, $_headers, $_body);
 			unset($rawEmail);
 
-			foreach($_headers as $_header){
+			foreach($_headers as $_header) {
 				$key = $this->_key($_header['name']);
 				$vaule = $this->_value($_header['value'], $key);
-				if(!isset($header[$key])){
+				if(!isset($header[$key])) {
 					$header[$key] = $vaule;
 				}
 				else{
-					if(!is_array($header[$key])){
+					if(!is_array($header[$key])) {
 						$tmp = $header[$key];
 						$header[$key] = array($tmp);
 					}
@@ -78,9 +78,9 @@
 			return $return;
 		}
 
-		protected function _formatBody($body){
+		protected function _formatBody($body) {
 			$return = array();
-			foreach($body as $k => $part){
+			foreach($body as $k => $part) {
 				$body[$k]['charset'] = isset($part['type']['extra']['charset']) ? $part['type']['extra']['charset'] : null;
 				$body[$k]['type'] = $part['type']['value'];
 			}
@@ -97,9 +97,9 @@
 		 *
 		 * @return string|array the formatted data
 		 */
-		protected function _value($value, $key){
+		protected function _value($value, $key) {
 			$explode = ' ';
-			switch($key){
+			switch($key) {
 				/**
 				 * format dates into usable dates
 				 */
@@ -124,7 +124,7 @@
 				case 'spam_status':
 					$value = explode($explode, $value);
 					$return = array();
-					foreach($value as $_value){
+					foreach($value as $_value) {
 						$_value = explode('=', trim($_value));
 						$return[$_value[0]] = preg_replace('/\s+/', '', $_value[1]);
 					}
@@ -141,9 +141,9 @@
 			}
 		}
 
-		protected function _key($name){
+		protected function _key($name) {
 			$name = Inflector::slug(strtolower($name));
-			switch($name){
+			switch($name) {
 				case substr($name, 0, 2) == 'x_':
 					return substr($name, 2);
 					break;
@@ -639,13 +639,13 @@
 			if (!(is_string($str) && $str != '')) FUNC5::trace($debug, 'invalid message value');
 			else {
 				$ret = false;
-				if (strpos($str, "\r\n\r\n")){
+				if (strpos($str, "\r\n\r\n")) {
 					$ret = explode("\r\n\r\n", $str, 2);
 				}
-				else if (strpos($str, "\n\n")){
+				else if (strpos($str, "\n\n")) {
 					$ret = explode("\n\n", $str, 2);
 				}
-				if ($ret){
+				if ($ret) {
 					return array('header' => trim($ret[0]), 'content' => $ret[1]);
 				}
 
