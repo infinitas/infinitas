@@ -6,13 +6,13 @@
 		echo $this->Vcf->attr('url', env('SERVER_NAME'));
 		echo $this->Vcf->attr('image', $this->Html->url('/img/content/contact/branch/'.$branch['Branch']['image'], true));
 		echo $this->Vcf->address(
-			$branch['Address']['name'],
+			$branch['ContactAddress']['name'],
 			array(
-				'country' => $branch['Address']['Country']['name'],
-				'province' => $branch['Address']['province'],
-				'postal' => $branch['Address']['postal'],
-				'city' => $branch['Address']['city'],
-				'street' => $branch['Address']['street']
+				'country' => $branch['ContactAddress']['Country']['name'],
+				'province' => $branch['ContactAddress']['province'],
+				'postal' => $branch['ContactAddress']['postal'],
+				'city' => $branch['ContactAddress']['city'],
+				'street' => $branch['ContactAddress']['street']
 			)
 		);
 	echo $this->Vcf->end();

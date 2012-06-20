@@ -2,9 +2,9 @@
 	/**
 	 *
 	 */
-	class Address extends ContactAppModel {
+	class ContactAddress extends ContactAppModel {
 		public $virtualFields = array(
-			'address' => 'CONCAT(Address.street, ", ", Address.city, ", ", Address.province)'
+			'address' => 'CONCAT(ContactAddress.street, ", ", ContactAddress.city, ", ", ContactAddress.province)'
 		);
 
 		public $belongsTo = array(
@@ -15,7 +15,7 @@
 			if(!$userId){
 				return false;
 			}
-			
+
 			$contain = array();
 			if($type === 'all'){
 				$contain = array(
@@ -27,9 +27,9 @@
 				$type,
 				array(
 					'conditions' => array(
-						'Address.foreign_key' => $userId,
-						'Address.plugin' => 'management',
-						'Address.model' => 'user'
+						'ContactAddress.foreign_key' => $userId,
+						'ContactAddress.plugin' => 'management',
+						'ContactAddress.model' => 'user'
 					),
 					'contain' => $contain
 				)

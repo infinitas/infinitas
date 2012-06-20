@@ -18,7 +18,7 @@
 	 * @since		 0.5a
 	 */
 
-	echo $this->Form->create('Address', array('action' => 'mass'));
+	echo $this->Form->create(null, array('action' => 'mass'));
 		$massActions = $this->Infinitas->massActionButtons(
 			array(
 				'add',
@@ -66,31 +66,31 @@
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($address); ?>&nbsp;</td>
 						<td>
-							<?php echo sprintf('%s.%s', $address['Address']['plugin'], $address['Address']['model']); ?>&nbsp;
+							<?php echo sprintf('%s.%s', $address['ContactAddress']['plugin'], $address['ContactAddress']['model']); ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Html->link($address['Address']['name'], array('action' => 'edit', $address['Address']['id'])); ?>&nbsp;
+							<?php echo $this->Html->link($address['ContactAddress']['name'], array('action' => 'edit', $address['ContactAddress']['id'])); ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $address['Address']['street']; ?>&nbsp;
+							<?php echo $address['ContactAddress']['street']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $address['Address']['city']; ?>&nbsp;
+							<?php echo $address['ContactAddress']['city']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $address['Address']['province']; ?>&nbsp;
+							<?php echo $address['ContactAddress']['province']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $address['Address']['postal']; ?>&nbsp;
+							<?php echo $address['ContactAddress']['postal']; ?>&nbsp;
 						</td>
 						<td>
 							<?php echo $address['Country']['name']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo __(Configure::read('Contact.continents.' . $address['Address']['continent_id'])); ?>&nbsp;
+							<?php echo __(Configure::read('Contact.continents.' . $address['ContactAddress']['continent_id'])); ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($address['Address']['modified']); ?>&nbsp;
+							<?php echo $this->Time->niceShort($address['ContactAddress']['modified']); ?>&nbsp;
 						</td>
 					</tr>
 				<?php

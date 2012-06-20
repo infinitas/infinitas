@@ -108,7 +108,7 @@
 	<?php
 		echo $this->StaticMap->draw(
 			array(
-				'location' => $branch['Address']['address'],
+				'location' => $branch['ContactAddress']['address'],
 				'size' => array(
 					'width' => '600',
 					'height' => '200'
@@ -119,7 +119,7 @@
 						'size' => 'normal',
 						'color' => 'ff0000',
 						'label' => 'A',
-						'location' => $branch['Address']['address']
+						'location' => $branch['ContactAddress']['address']
 					)
 				)
 			),

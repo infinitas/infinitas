@@ -23,7 +23,7 @@
 
 			'plugin.contact.branch',
 			'plugin.contact.contact',
-			'plugin.contact.address',
+			'plugin.contact.contact_address',
 			'plugin.users.user',
 			'plugin.users.group',
 			'plugin.management.ticket',

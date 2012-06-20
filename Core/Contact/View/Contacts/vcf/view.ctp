@@ -8,13 +8,13 @@
 		echo $this->Vcf->attr('cellPhone', $contact['Contact']['mobile']);
 		echo $this->Vcf->attr('image', $this->Html->url('/img/content/contact/contact/'.$branch['Branch']['image'], true));
 		echo $this->Vcf->address(
-			$contact['Branch']['Address']['name'],
+			$contact['Branch']['ContactAddress']['name'],
 			array(
-				'country' => $contact['Branch']['Address']['Country']['name'],
-				'province' => $branch['Address']['province'],
-				'postal' => $branch['Address']['postal'],
-				'city' => $branch['Address']['city'],
-				'street' => $branch['Address']['street']
+				'country' => $contact['Branch']['ContactAddress']['Country']['name'],
+				'province' => $branch['ContactAddress']['province'],
+				'postal' => $branch['ContactAddress']['postal'],
+				'city' => $branch['ContactAddress']['city'],
+				'street' => $branch['ContactAddress']['street']
 			)
 		);
 	echo $this->Vcf->end();

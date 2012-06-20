@@ -34,7 +34,7 @@
 		 * @access public
 		 */
 		public $belongsTo = array(
-			'Contact.Address'
+			'Contact.ContactAddress'
 		);
 
 		/**

@@ -19,7 +19,7 @@
 	class BranchesController extends ContactAppController {
 		/**
 		 * The Branch model
-		 * 
+		 *
 		 * @var Branch
 		 * @access public
 		 */
@@ -70,9 +70,9 @@
 						'Branch.active' => 1
 					),
 					'contain' => array(
-						'Address' => array(
+						'ContactAddress' => array(
 							'fields' => array(
-								'Address.address'
+								'ContactAddress.address'
 							),
 							'Country' => array(
 								'fields' => array(

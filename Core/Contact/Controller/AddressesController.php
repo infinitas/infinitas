@@ -1,5 +1,5 @@
 <?php
-	class AddressesController extends ContactAppController {
+	class ContactAddressesController extends ContactAppController {
 		public function add(){
 			if(!$this->Auth->user('id')) {
 				$this->notice(
@@ -11,18 +11,18 @@
 			}
 
 			if (!empty($this->request->data)) {
-				$this->Address->create();
-				if ($this->Address->saveAll($this->request->data)) {
+				$this->{$this->modelClass}->create();
+				if ($this->{$this->modelClass}->saveAll($this->request->data)) {
 					$this->Infintias->noticeSaved();
 					$this->redirect('/');
 				}
 			}
 
-			$this->request->data['Address']['plugin'] = 'management';
-			$this->request->data['Address']['model'] = 'user';
-			$this->request->data['Address']['foreign_key'] = $this->Auth->user('id');
+			$this->request->data[$this->modelClass]['plugin'] = 'management';
+			$this->request->data[$this->modelClass]['model'] = 'user';
+			$this->request->data[$this->modelClass]['foreign_key'] = $this->Auth->user('id');
 
-			$countries = $this->Address->Country->find('list');
+			$countries = $this->{$this->modelClass}->Country->find('list');
 			$continents = array(0 => 'Other', 1 => 'Africa');
 			$this->set(compact('referer', 'countries', 'continents'));
 		}
@@ -33,16 +33,16 @@
 			}
 
 			if (!empty($this->request->data)) {
-				if ($this->Address->save($this->request->data)) {
+				if ($this->{$this->modelClass}->save($this->request->data)) {
 					$this->notice('saved');
 				}
 			}
 
 			if ($id && empty($this->request->data)) {
-				$this->request->data = $this->Address->read(null, $id);
+				$this->request->data = $this->{$this->modelClass}->read(null, $id);
 			}
 
-			$countries = $this->Address->Country->find('list');
+			$countries = $this->{$this->modelClass}->Country->find('list');
 			$continents = array(0 => 'Other', 1 => 'Africa');
 			$this->set(compact('countries', 'continents'));
 		}
@@ -63,7 +63,7 @@
 				'city',
 				'province',
 				'postal',
-				'country_id' => $this->Address->Country->find('list'),
+				'country_id' => $this->{$this->modelClass}->Country->find('list'),
 				'continent' => Configure::read('Contact.continents'),
 				'active' => (array)Configure::read('CORE.active_options')
 			);

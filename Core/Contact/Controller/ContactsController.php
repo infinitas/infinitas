@@ -37,7 +37,7 @@
 								'slug',
 								'active'
 							),
-							'Address' => array(
+							'ContactAddress' => array(
 								'Country'
 							)
 						)
@@ -62,7 +62,7 @@
 					'Branch'
 				)
 			);
-			
+
 			$contacts = $this->Paginator->paginate(
 				null,
 				$this->Filter->filter
@@ -80,7 +80,7 @@
 
 		public function admin_add(){
 			parent::admin_add();
-			
+
 			$branches = $this->Contact->Branch->find('list');
 			if(empty($branches)){
 				$this->notice(__('Please add a branch first'), array('level' => 'notice','redirect' => array('controller' => 'branches')));

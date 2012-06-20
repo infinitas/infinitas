@@ -17,7 +17,7 @@
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
-	echo $this->Form->create('Address');
+	echo $this->Form->create();
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
 		echo $this->Form->input('continent_id', array('empty' => Configure::read('Website.empty_select')));
