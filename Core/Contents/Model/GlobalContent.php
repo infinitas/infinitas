@@ -68,7 +68,7 @@
 				)
 			),
 		);
-		
+
 		public $findMethods = array(
 			'contentIssues' => true,
 			'categoryList' => true,
@@ -131,22 +131,22 @@
 				$this->virtualFields['keywords_short']			= '(LENGTH(' . $this->alias . '.meta_keywords) <= 10 AND LENGTH(' . $this->alias . '.meta_keywords) >= 1)';
 				$this->virtualFields['keywords_duplicate']		= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.meta_keywords = ' . $this->alias . '.meta_keywords)';
 				$this->virtualFields['keyword_density_problem']	= '(' . $this->alias . '.keyword_density < 1 OR ' . $this->alias . '.keyword_density > 4)';
-				
+
 				$this->virtualFields['description_missing']		= '(' . $this->alias . '.meta_description IS NULL OR ' . $this->alias . '.meta_description)';
 				$this->virtualFields['description_short']		= '(LENGTH(' . $this->alias . '.meta_description) <= 10 AND LENGTH(' . $this->alias . '.meta_description) >= 1)';
 				$this->virtualFields['description_duplicate']	= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.meta_description = ' . $this->alias . '.meta_description)';
 				$this->virtualFields['description_too_long']	= 'LENGTH(' . $this->alias . '.meta_description) >= 153';
-				
+
 				$this->virtualFields['missing_category']		= '(' . $this->alias . '.model <> "Contents.GlobalCategory" AND (' . $this->alias . '.global_category_id IS NULL OR ' . $this->alias . '.global_category_id = ""))';
-				
+
 				$this->virtualFields['missing_layout']			= '(' . $this->alias . '.layout_id IS NULL OR ' . $this->alias . '.layout_id = "" )';
 				$this->virtualFields['missmatched_layout']		= '(Layout.model <> '. $this->alias . '.model)';
-				
-				
+
+
 				$this->virtualFields['introduction_duplicate']	= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.introduction = ' . $this->alias . '.introduction)';
 				$this->virtualFields['body_duplicate']	= '(GlobalContentDuplicate.id != ' . $this->alias . '.id AND GlobalContentDuplicate.body = ' . $this->alias . '.body)';
 				$this->virtualFields['body_word_count'] = 'SUM(LENGTH(' . $this->alias . '.body) - LENGTH(REPLACE(' . $this->alias . '.body, " ", "")) + 1)';
-				
+
 				$query['fields'] = array_merge(
 					(array)$query['fields'],
 					array(
@@ -157,7 +157,7 @@
 						'introduction_duplicate', 'body_duplicate', 'body_word_count'
 					)
 				);
-				
+
 				$query['joins'][] = array(
 					'table' => 'global_contents',
 					'alias' => 'GlobalContentDuplicate',
@@ -174,8 +174,8 @@
 				);
 				if($this->findQueryType != 'count') {
 					$query['group'] = array(
-						$this->alias . '.' . $this->primaryKey .' HAVING (' . 
-							$this->alias . '__description_too_long = 1 OR ' . 
+						$this->alias . '.' . $this->primaryKey .' HAVING (' .
+							$this->alias . '__description_too_long = 1 OR ' .
 							$this->alias . '__keyword_not_in_description = 1 OR ' .
 							$this->alias . '__keywords_missing = 1 OR ' .
 							$this->alias . '__keywords_short = 1 OR ' .
@@ -193,7 +193,7 @@
 							$this->alias . '__missmatched_layout = 1 OR '   .
 							$this->alias . '__introduction_duplicate = 1 OR '   .
 							$this->alias . '__body_duplicate = 1 OR '   .
-							$this->alias . '__body_word_count < 300)' 
+							$this->alias . '__body_word_count < 300)'
 					);
 				}
 
@@ -227,7 +227,7 @@
 		 */
 		protected function _findCategoryList($state, $query, $results = array()) {
 			$this->findQueryType = 'list';
-			
+
 			if ($state === 'before') {
 				$query['conditions'] = array_merge(
 					(array)$query['conditions'],
@@ -244,29 +244,29 @@
 				return $query;
 			}
 
-			$query['list']['groupPath'] = '';
+			$query['list']['groupPath'] = null;
 			return $this->_findList($state, $query, $results);
 		}
-		
-		protected function _findLatestList($state, $query, $results = array()) {	
+
+		protected function _findLatestList($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query = $this->__getListQuery($query);
 				$query['order'] = array($this->alias . '.created' => 'desc');
-				
+
 				return $query;
 			}
-			
+
 			return $results;
 		}
-		
-		protected function _findPopularList($state, $query, $results = array()) {				
+
+		protected function _findPopularList($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$Model = ClassRegistry::init($query['model']);
 				$query = $this->__getListQuery($query);
 				if(!$Model->useTable) {
 					return $query;
 				}
-				
+
 				$query['joins'][] = array(
 					'table' => $Model->tablePrefix . $Model->useTable,
 					'alias' => $Model->alias,
@@ -275,43 +275,43 @@
 						'GlobalContent.foreign_key = ' . $Model->alias . '.' . $Model->primaryKey
 					)
 				);
-				
+
 				if($Model->hasField('views')) {
 					$query['order'] = array($Model->alias. '.views' => 'desc');
 				}
-				
+
 				return $query;
 			}
-			
+
 			return $results;
 		}
-		
-		protected function _findSearch($state, $query, $results = array()) {				
+
+		protected function _findSearch($state, $query, $results = array()) {
 			if ($state === 'before') {
 				if(empty($query[0])) {
 					throw new Exception('No search term defined');
 				}
-				
+
 				$query['conditions'] = array(
 					sprintf('%s.full_text_search LIKE \'%%%s%%\'', $this->alias, $query[0]),
 					$this->alias . '.model NOT LIKE' => '%Category%'
 				);
-				
+
 				if(!empty($query[1])) {
 					$query['conditions']['GlobalCategory.id'] = $query[1];
 					unset($query[1]);
 				}
-				
+
 				$query['order'] = array(
 					$this->alias . '.modified' => 'desc',
 				);
-				
+
 				return $query;
 			}
-			
+
 			return $results;
 		}
-		
+
 		private function __getListQuery($query) {
 			if(!empty($query['model'])) {
 				$query['conditions'][$this->alias . '.model'] = $query['model'];
@@ -336,11 +336,11 @@
 				);
 				$query['conditions']['GlobalContentCategoryData.slug'] = $query['category'];
 			}
-			
+
 			unset($query['model'], $query['category']);
 			return $query;
 		}
-		
+
 		protected function _findGetRelationsCategory($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['fields'] = array(
@@ -387,7 +387,7 @@
 				unset($query[0]);
 				return $query;
 			}
-			
+
 			$return = array();
 			foreach($results as &$result) {
 				$result['GlobalContent']['id'] = $result['GlobalContent']['foreign_key'];
@@ -395,7 +395,7 @@
 				unset($result['GlobalContent']['foreign_key'], $result['GlobalContent']['model']);
 
 				$return[$model][] = $result['GlobalContent'];
-				
+
 				if(!empty($result['SubCategoryData']['id'])) {
 					$return['Contents.SubCategory'][] = $result['SubCategoryData'];
 				}
@@ -430,10 +430,10 @@
 			$return = array();
 			$return['moved'] = 0;
 
-			$Model = ClassRegistry::init($model);			
+			$Model = ClassRegistry::init($model);
 			$return['total'] = $Model->find(
 				'count',
-				array(					
+				array(
 					'conditions' => array(
 						$Model->alias . '.' . $Model->displayField . ' IS NOT NULL'
 					)
@@ -455,7 +455,7 @@
 					'limit' => $limit
 				)
 			);
-			
+
 			foreach($rows as $row){
 				$newContent = array();
 				$newContent[$this->alias] = $row[$Model->alias];
@@ -465,7 +465,7 @@
 				if(!isset($newContent[$this->alias]['group_id'])) {
 					$newContent[$this->alias]['group_id'] = 2;
 				}
-				
+
 				unset($newContent[$this->alias][$Model->primaryKey]);
 				$this->create();
 				if($this->save($newContent)){
@@ -484,7 +484,7 @@
 		 * @access public
 		 *
 		 * @param int $months the number of months back to look
-		 * 
+		 *
 		 * @return array the data found
 		 */
 		public function getNewContentByMonth($months = 24) {
@@ -563,7 +563,7 @@
 				}
 			}
 			$dates = array_fill_keys(array_keys($dates), 0);
-			
+
 			return array(
 				'labels' => $labels,
 				'new' => array_merge($dates, $new),

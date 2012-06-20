@@ -184,21 +184,21 @@
 
 		/**
 		 * @brief build a link from a menu item in the database
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param array $data the data from a menuItem find
 		 * @param array $config configs for the link, @see HtmlHelper::link()
-		 * 
-		 * @return string 
+		 *
+		 * @return string
 		 */
 		public function link($data, $config = array()) {
 			$url = InfinitasRouter::url($this->url($data));
-			
+
 			if(empty($config)) {
 				$config = array('class' => $data['MenuItem']['class']);
 			}
-			
+
 			else if(empty($config['class'])) {
 				$config['class'] = $data['MenuItem']['class'];
 			}
@@ -211,20 +211,20 @@
 
 		/**
 		 * @brief generate a url from a menu item
-		 * 
+		 *
 		 * @access public
-		 * 
-		 * @throws Exception 
-		 * 
+		 *
+		 * @throws Exception
+		 *
 		 * @param array $data the data from the find
-		 * 
+		 *
 		 * @return array
 		 */
 		public function url($data) {
 			if(empty($data['MenuItem'])) {
 				throw new Exception('Menu item is not valid');
 			}
-			
+
 			if(!empty($data['MenuItem']['link'])) {
 				return $data['MenuItem']['link'];
 			}

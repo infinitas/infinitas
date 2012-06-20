@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * The MenuItem model.
-	 * 
+	 *
 	 * The MenuItem model handles the items within a menu, these are the indervidual
 	 * links that are used to build up the menu required.
 	 *
@@ -23,7 +23,7 @@
 
 	class MenuItem extends MenusAppModel {
 		public $useTable = 'menu_items';
-		
+
 		/**
 		 * The relations for menu items
 		 * @var array
@@ -59,7 +59,7 @@
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-			
+
 			$this->order = array(
 				$this->alias . '.menu_id' => 'ASC',
 				$this->alias . '.lft' => 'ASC'
@@ -145,7 +145,7 @@
 		 *
 		 * @param array $field the field being validated
 		 * @access public
-		 * 
+		 *
 		 * @return bool is it valid?
 		 */
 		public function validateEmptyOrCssClass($field){
@@ -153,9 +153,9 @@
 			if(empty($field) && $field !== 0) {
 				return true;
 			}
-			
+
 			preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', $field, $matches);
-			
+
 			return current($matches) === $field;
 		}
 
@@ -171,7 +171,7 @@
 		 */
 		public function beforeValidate($options = array()){
 			$foreignKey = $this->belongsTo[$this->Menu->alias]['foreignKey'];
-				
+
 			if(!empty($this->data[$this->alias][$foreignKey]) && empty($this->data[$this->alias]['parent_id'])) {
 				$menuItem = $this->find(
 					'first',
@@ -185,11 +185,11 @@
 						)
 					)
 				);
-				
+
 				if(empty($menuItem[$this->alias]['id'])) {
 					return false;
 				}
-				
+
 				$this->data[$this->alias]['parent_id'] = $menuItem[$this->alias]['id'];
 			}
 
@@ -219,7 +219,7 @@
 			$menus = $this->find(
 				'threaded',
 				array(
-					'fields' => array(						
+					'fields' => array(
 						$this->alias . '.id',
 						$this->alias . '.name',
 						$this->alias . '.link',
@@ -262,7 +262,7 @@
 					)
 				)
 			);
-			
+
 			foreach($menus as &$menu) {
 				$this->__underscore($menu);
 			}
@@ -271,16 +271,16 @@
 
 			return $menus;
 		}
-		
+
 		/**
 		 * convert the camelcase stuff to underscored so links work properly
-		 * 
+		 *
 		 * @param array $menu the row of menu data
 		 */
 		private function __underscore(&$menu) {
 			$menu[$this->alias]['plugin'] = Inflector::underscore($menu[$this->alias]['plugin']);
 			$menu[$this->alias]['controller'] = substr(Inflector::underscore($menu[$this->alias]['controller']), 0, -11);
-			
+
 			if(!empty($menu['children'])) {
 				foreach($menu['children'] as &$child) {
 					$this->__underscore($child);
@@ -309,7 +309,7 @@
 					)
 				)
 			);
-			
+
 			if($count > 0){
 				return true;
 			}
@@ -328,23 +328,23 @@
 			$this->create();
 			return (bool)$this->save($data, array('validate' => false));
 		}
-		
+
 		/**
 		 * @brief get the menus for the ajax select in the backend
-		 * 
+		 *
 		 * @access public
-		 * 
-		 * @throws Exception 
-		 * 
+		 *
+		 * @throws Exception
+		 *
 		 * @param string $menuId the menu to look up
-		 * 
+		 *
 		 * @return array
 		 */
 		public function getParents($menuId = null) {
 			if(!$menuId) {
 				throw new Exception('No menu selected');
 			}
-			
+
 			return $this->generateTreeList(array('MenuItem.menu_id' => $menuId));
 		}
 	}
