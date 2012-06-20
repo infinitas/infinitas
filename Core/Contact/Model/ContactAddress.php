@@ -3,6 +3,14 @@
 	 *
 	 */
 	class ContactAddress extends ContactAppModel {
+		/**
+		 * the table prefix for this plugin
+		 *
+		 * @var string
+		 * @access public
+		 */
+		public $tablePrefix = '';
+
 		public $virtualFields = array(
 			'address' => 'CONCAT(ContactAddress.street, ", ", ContactAddress.city, ", ", ContactAddress.province)'
 		);

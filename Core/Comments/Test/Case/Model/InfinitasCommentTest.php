@@ -3,7 +3,7 @@
 	App::uses('InfinitasComment', 'Comments.Model');
 
 	class InfinitasCommentTest extends CakeTestCase {
-		var $fixtures = array(
+		public $fixtures = array(
 			'plugin.configs.config',
 			'plugin.themes.theme',
 			'plugin.routes.route',
@@ -13,16 +13,16 @@
 			'plugin.comments.infinitas_comment_attribute'
 		);
 
-		function startTest() {
+		public function startTest() {
 			$this->Comment = ClassRegistry::init('Comments.InfinitasComment');
 		}
 
-		function endTest() {
+		public function endTest() {
 			unset($this->Comment);
 			ClassRegistry::flush();
 		}
 
-		function testStuff(){
+		public function testStuff(){
 			$this->assertInstanceOf('InfinitasComment', $this->Comment);
 		}
 	}

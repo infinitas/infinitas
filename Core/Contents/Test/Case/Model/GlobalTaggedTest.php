@@ -36,7 +36,11 @@ class GlobalTaggedTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.contents.global_tagged',
 		'plugin.contents.global_tag',
-		'plugin.contents.article');
+		'plugin.contents.article',
+
+		'plugin.contents.global_content',
+		'plugin.installer.plugin'
+	);
 
 /**
  *
