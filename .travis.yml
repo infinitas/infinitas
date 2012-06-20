@@ -79,4 +79,4 @@ script:
   - ./lib/Cake/Console/cake test core Utility/Hash
 
 notifications:
-  false
+  irc: "irc.freenode.org#infinitas"
