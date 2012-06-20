@@ -57,13 +57,10 @@
 					)
 				),
 				'phone' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please enter some text for the body')
-					),
 					'phone' => array(
 						'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
-						'message' => __('The number does not seem to be valid')
+						'message' => __('The number does not seem to be valid'),
+						'allowEmpty' => true
 					)
 				),
 				'fax' => array(
@@ -87,7 +84,7 @@
 		 * of different branches.
 		 *
 		 * @param array $queryData the find data
-		 * 
+		 *
 		 * @return bool
 		 */
 		public function beforeFind($queryData){
