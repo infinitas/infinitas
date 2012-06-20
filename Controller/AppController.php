@@ -228,7 +228,7 @@
 				parent::__construct($request, $response);
 				return;
 			}
-			
+
 			$this->__setupConfig();
 			$event = EventCore::trigger($this, 'requireComponentsToLoad');
 
@@ -283,7 +283,7 @@
 			}
 
 			$this->__callBacks[__FUNCTION__] = true;
-			
+
 			$this->prettyModelName = prettyName($this->modelClass);
 			if(!empty($this->Session) && !$this->Session->read('ip_address')){
 				$this->Session->write('ip_address', $this->request->clientIp());
@@ -521,6 +521,8 @@
 		 * @return Full output string of view contents
 		 */
 		public function render($view = null, $layout = null) {
+			var_dump(Debugger::trace());
+			exit;
 			if(($this->request->action == 'admin_edit' || $this->request->action == 'admin_add')) {
 				$viewPath = App::pluginPath($this->plugin) . 'View' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
 				if(!file_exists($viewPath)) {
@@ -756,11 +758,11 @@
 					if($e instanceof MissingActionException) {
 						$e = null;
 					}
-					
+
 					if(empty($e)) {
 						$e = $request->params['pass'];
 					}
-					
+
 					return $this->{$component}->dispatchMethod($action, $e);
 				}
 			}
