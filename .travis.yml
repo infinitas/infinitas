@@ -11,7 +11,7 @@ before_script:
 
 script:
   - ./lib/Cake/Console/cake test CakePdf AllCakePdf
-  - for plugin in `ls ./cakephp/app/Core`; do ./lib/Cake/Console/cake test -app ./infinitas $plugin 'All' $plugin 'Tests'; done
+  - for plugin in `ls ./infinitas/Core`; do ./lib/Cake/Console/cake test -app ./infinitas $plugin 'All' $plugin 'Tests'; done
 
 notifications:
   email: false
