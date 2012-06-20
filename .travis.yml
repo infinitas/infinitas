@@ -75,7 +75,7 @@ before_script:
     }" > infinitas/Config/database.php
 
 script:
-  - lib/Cake/Console/cake test core Utility/Hash
+  - lib/Cake/Console/cake test app -app infinitas AllCoreTests
 
 notifications:
   irc: "irc.freenode.org#infinitas"
