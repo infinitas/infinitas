@@ -1,5 +1,5 @@
 <?php
-App::uses('Upload.Upload', 'Model/Behavior');
+App::uses('Filemanager.Upload', 'Model/Behavior');
 App::uses('Folder', 'Utility');
 
 class TestUpload extends CakeTestModel {
@@ -17,7 +17,7 @@ class TestUpload extends CakeTestModel {
 
 class UploadBehaviorTest extends CakeTestCase {
 
-	var $fixtures = array('plugin.upload.upload');
+	var $fixtures = array('plugin.filemanager.upload');
 	var $TestUpload = null;
 	var $MockUpload = null;
 	var $data = array();

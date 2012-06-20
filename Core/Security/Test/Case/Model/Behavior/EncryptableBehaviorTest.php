@@ -28,7 +28,7 @@
 
 		public $fixtures = array(
 			'plugin.configs.config',
-			'plugin.view_counter.view_count',
+			'plugin.view_counter.view_counter_view',
 
 			'plugin.contents.global_category',
 			'plugin.users.group',

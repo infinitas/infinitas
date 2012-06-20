@@ -6,7 +6,7 @@
 			'plugin.configs.config',
 			'plugin.themes.theme',
 			'plugin.routes.route',
-			'plugin.view_counter.view_count',
+			'plugin.view_counter.view_counter_view',
 
 			'plugin.crons.cron'
 		);

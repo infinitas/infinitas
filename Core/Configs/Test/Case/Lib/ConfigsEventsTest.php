@@ -4,7 +4,7 @@
 			'plugin.configs.config',
 			'plugin.themes.theme',
 			'plugin.routes.route',
-			'plugin.view_counter.view_count',
+			'plugin.view_counter.view_counter_view',
 
 			'plugin.categories.category',
 			'plugin.users.group',
@@ -20,6 +20,6 @@
 		}
 
 		public function testGenerateSiteMapData(){
-			$this->assertInjstanceOf('EventCore', $this->Event);
+			$this->assertInstanceOf('EventCore', $this->Event);
 		}
 	}

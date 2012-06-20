@@ -4,10 +4,10 @@
 			'plugin.configs.config',
 			'plugin.themes.theme',
 			'plugin.routes.route',
-			'plugin.view_counter.view_count',
+			'plugin.view_counter.view_counter_view',
 
-			'plugin.comments.comment',
-			'plugin.comments.comment_attribute'
+			'plugin.comments.infinitas_comment',
+			'plugin.comments.infinitas_comment_attribute'
 		);
 
 		public function startTest() {

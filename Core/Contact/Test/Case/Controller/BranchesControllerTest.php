@@ -18,10 +18,10 @@
 			'plugin.modules.module',
 			'plugin.modules.module_position',
 			'plugin.modules.modules_route',
-			'plugin.view_counter.view_count',
+			'plugin.view_counter.view_counter_view',
 			'plugin.blog.post',
 
-			'plugin.contact.branche',
+			'plugin.contact.branch',
 			'plugin.contact.contact',
 			'plugin.contact.address',
 			'plugin.users.user',
