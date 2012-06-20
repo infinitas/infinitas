@@ -9,7 +9,6 @@ env:
 before_script:
   - cd .. && git clone git://github.com/cakephp/cakephp && cd cakephp && git checkout $CAKE_VERSION
   - cd .. && ln -s cakephp/lib lib
-  - cd infinitas
   - chmod -R 777 ./tmp
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE infinitas_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE infinitas_test;' -U postgres; fi"
@@ -73,10 +72,10 @@ before_script:
         \$this->{\$source} = \$config;
       }
     }
-    }" > Config/database.php
+    }" > infinitas/Config/database.php
 
 script:
-  - ./lib/Cake/Console/cake test core Utility/Hash
+  - lib/Cake/Console/cake test core Utility/Hash
 
 notifications:
   irc: "irc.freenode.org#infinitas"
