@@ -2,6 +2,7 @@ language: php
 
 php:
   - 5.3
+  - 5.4
 
 env:
   - CAKE_VERSION=2.2
@@ -10,8 +11,7 @@ before_script:
   - git clone --depth 1 git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp && git checkout $CAKE_VERSION
 
 script:
-  - ./lib/Cake/Console/cake test CakePdf AllCakePdf
   - for plugin in `ls ./infinitas/Core`; do ./lib/Cake/Console/cake test -app ./infinitas $plugin 'All' $plugin 'Tests'; done
 
 notifications:
-  email: false
+  irc: "irc.freenode.org#infinitas"
