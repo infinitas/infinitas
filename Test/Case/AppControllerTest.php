@@ -3,21 +3,25 @@
 	App::import('Controller', 'AppController');
 
 	class TestAppControllerController extends AppController {
-		var $autoRender = false;
+		public $autoRender = false;
 
-		function redirect($url, $status = null, $exit = true) {
+		public function redirect($url, $status = null, $exit = true) {
 			$this->redirectUrl = $url;
 		}
 	}
 
 	class AppControllerTest extends CakeTestCase {
-		function startTest() {
+		public function startTest() {
 			$this->AppController = new AppController();
 			$this->AppController->constructClasses();
 		}
 
-		function endTest() {
+		public function endTest() {
 			unset($this->AppController);
 			ClassRegistry::flush();
+		}
+
+		public function testSomething() {
+			$this->assertTrue(true);
 		}
 	}

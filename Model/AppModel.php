@@ -157,7 +157,7 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
-			
+
 			$this->findMethods['active'] = true;
 			$this->findMethods['inactive'] = true;
 
@@ -219,8 +219,8 @@
 		 *
 		 * @return void
 		 */
-		public function afterSave($created){
-			$this->__clearCache();
+		public function afterSave($created) {
+			return $this->__clearCache();
 		}
 
 		/**
@@ -232,8 +232,8 @@
 		 *
 		 * @return void
 		 */
-		public function afterDelete(){
-			$this->__clearCache();
+		public function afterDelete() {
+			return $this->__clearCache();
 		}
 
 		/**
@@ -249,23 +249,8 @@
 		 *
 		 * @return void
 		 */
-		private function __clearCache(){
-			if(in_array($this->plugin, Cache::configured())){
-				$_cache = Cache::getInstance()->__config[$this->plugin];
-				$path = CACHE.str_replace('.', DS, $_cache['prefix']);
-				if(CACHE !== $path && is_dir($path)){
-					$Folder = new Folder($path);
-					if($Folder->delete()){
-						$this->log('deleted: '.$path, 'cache_clearing');
-					}
-					else{
-						$this->log('failed: '.$path, 'cache_clearing');
-					}
-				}
-				else{
-					$this->log('skip: '.$path, 'cache_clearing');
-				}
-			}
+		private function __clearCache() {
+			return ClearCache::engines(Inflector::underscore($this->plugin));
 		}
 
 		/**
@@ -497,11 +482,11 @@
 		public function fullModelName() {
 			return $this->plugin . '.' . $this->alias;
 		}
-		
+
 		/**
 		 * @brief find active rows
-		 * 
-		 * @throws CakeException 
+		 *
+		 * @throws CakeException
 		 *
 		 * @param string $state Either "before" or "after"
 		 * @param array $query
@@ -514,18 +499,18 @@
 				if(!$this->hasField('active')) {
 					throw new CakeException('Missing active field in model ' . $this->name);
 				}
-				
+
 				$query['conditions'][$this->alias . '.active'] = 1;
 				return $query;
 			}
-			
+
 			return $results;
 		}
-		
+
 		/**
 		 * @brief find inactive rows
-		 * 
-		 * @throws CakeException 
+		 *
+		 * @throws CakeException
 		 *
 		 * @param string $state Either "before" or "after"
 		 * @param array $query
@@ -538,11 +523,11 @@
 				if(!$this->hasField('active')) {
 					throw new CakeException('Missing active field in model ' . $this->name);
 				}
-				
+
 				$query['conditions'][$this->alias . '.active'] = 0;
 				return $query;
 			}
-			
+
 			return $results;
 		}
 

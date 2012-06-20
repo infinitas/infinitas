@@ -30,10 +30,8 @@
 		 * @var array
 		 * @access public
 		 */
-		public $order = array(
-			'Config.key' => 'ASC'
-		);
-		
+		public $order = array();
+
 		/**
 		 * @copydoc AppModel::__construct()
 		 */
@@ -41,45 +39,49 @@
 			parent::__construct($id, $table, $ds);
 
 			$this->_configTypes = array(
-				0          => __('Please Select'),
-				'string'   => __('String'),
-				'integer'  => __('Integer'),
-				'dropdown' => __('Dropdown'),
-				'bool'     => __('Bool'),
-				'array'    => __('Array')
+				0          => __d('configs', 'Please Select'),
+				'string'   => __d('configs', 'String'),
+				'integer'  => __d('configs', 'Integer'),
+				'dropdown' => __d('configs', 'Dropdown'),
+				'bool'     => __d('configs', 'Bool'),
+				'array'    => __d('configs', 'Array')
 			);
 
 			$ruleCheck = $this->_configTypes;
 			unset($ruleCheck[0]);
 
+			$this->order = array(
+				$this->alias . '.key' => 'ASC'
+			);
+
 			$this->validate = array(
 				'key' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of this config')
+						'message' => __d('configs', 'Please enter the name of this config')
 					),
 					'validKeyName' => array(
 						'rule' => '/^[A-Z][A-Za-z]*\.[a-z_\.]+$/',
-						'message' => __('The key must be in the format "Plugin.config_name"'),
+						'message' => __d('configs', 'The key must be in the format "Plugin.config_name"'),
 						'on' => 'create'
 					)
 				),
 				'value' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the value')
+						'message' => __d('configs', 'Please enter the value')
 					)
 				),
 				'type' => array(
 					'allowedChoice' => array(
 						'rule' => array('inList', array_keys($ruleCheck)),
-						'message' => __('Please select the type')
+						'message' => __d('configs', 'Please select the type')
 					)
 				),
 				'options' => array(
 					'customOptionCheck' => array(
 						'rule' => 'customOptionCheck',
-						'message' => __('Please enter some valid options')
+						'message' => __d('configs', 'Please enter some valid options')
 					)
 				)
 			);
@@ -97,8 +99,7 @@
 		 *
 		 * @return parent method
 		 */
-		public function afterSave($created){
-			Cache::delete('global_configs');
+		public function afterSave($created) {
 			return parent::afterSave($created);
 		}
 
@@ -108,14 +109,12 @@
 		 * after saving something delete the main core_configs cache so that
 		 * the changes will take effect
 		 *
-		 * @param bool $created is it new or not
 		 * @access public
 		 *
 		 * @return parent method
 		 */
-		public function afterDelete($created){
-			Cache::delete('global_configs');
-			return parent::afterDelete($created);
+		public function afterDelete() {
+			return parent::afterDelete();
 		}
 
 		/**
@@ -129,11 +128,11 @@
 		 * @return bool is it valid or not
 		 */
 		public function customOptionCheck($data){
-			if (!isset($this->data['Config']['type']) || empty($this->data['Config']['type'])) {
+			if (!isset($this->data[$this->alias]['type']) || empty($this->data[$this->alias]['type'])) {
 				return true;
 			}
 
-			switch($this->data['Config']['type']){
+			switch($this->data[$this->alias]['type']){
 				case 'string':
 					return true;
 					break;
@@ -145,12 +144,11 @@
 					break;
 
 				case 'dropdown':
-					if (is_int($data['options'])) {
+					if (empty($data['options']) || is_int($data['options'])) {
 						return false;
 					}
 					//@todo needs a bit more work
-					return preg_match('/[0-9A-Za-z*\,]+$/', $data['options']);
-					break;
+					return is_string($data['options']);
 
 				case 'bool':
 					if ($data['options'] === 'true,false' || $data['options'] === 'false,true') {
@@ -159,7 +157,7 @@
 					break;
 
 				case 'array':
-					return $this->getJson($this->data['Config']['value'], array(), false);
+					return $this->getJson($this->data[$this->alias]['value'], array(), false);
 					break;
 			} // switch
 
@@ -171,7 +169,7 @@
 		 *
 		 * This gets and formats an array of config values for the app to use. it goes
 		 * through the list and formats the values to match the type that was passed.
-		 * 
+		 *
 		 * @param bool $format should it be formated for configure::write or not.
 		 * @access public
 		 *
@@ -190,32 +188,32 @@
 				'all',
 				array(
 					'fields' => array(
-						'Config.key',
-						'Config.value',
-						'Config.type'
+						$this->alias . '.key',
+						$this->alias . '.value',
+						$this->alias . '.type'
 					),
 					'conditions' => array(
-						'Config.key !=' => -1
+						$this->alias . '.key !=' => -1
 					)
 				)
 			);
 
 			foreach($configs as $k => $config) {
-				switch($configs[$k]['Config']['type']) {
+				switch($configs[$k][$this->alias]['type']) {
 					case 'bool':
-						$configs[$k]['Config']['value'] = ($configs[$k]['Config']['value'] == 'true') ? true : false;
+						$configs[$k][$this->alias]['value'] = ($configs[$k][$this->alias]['value'] == 'true') ? true : false;
 						break;
 
 					case 'string':
-						$configs[$k]['Config']['value'] = (string)$configs[$k]['Config']['value'];
+						$configs[$k][$this->alias]['value'] = (string)$configs[$k][$this->alias]['value'];
 						break;
 
 					case 'integer':
-						$configs[$k]['Config']['value'] = (int)$configs[$k]['Config']['value'];
+						$configs[$k][$this->alias]['value'] = (int)$configs[$k][$this->alias]['value'];
 						break;
 
 					case 'array':
-						$configs[$k]['Config']['value'] = $this->getJson($configs[$k]['Config']['value']);
+						$configs[$k][$this->alias]['value'] = $this->getJson($configs[$k][$this->alias]['value']);
 						break;
 				} // switch
 			}
@@ -244,9 +242,9 @@
 
 			$format = array();
 			foreach($configs as $k => $config) {
-				$format[$configs[$k]['Config']['key']] = ($json) ? json_encode($configs[$k]['Config']['value']) : $configs[$k]['Config']['value'];
+				$format[$configs[$k][$this->alias]['key']] = ($json) ? json_encode($configs[$k][$this->alias]['value']) : $configs[$k][$this->alias]['value'];
 			}
-			
+
 			return $format;
 		}
 
@@ -265,7 +263,7 @@
 				'all',
 				array(
 					'conditions' => array(
-						'Config.key LIKE ' => 'Website.%'
+						$this->alias . '.key LIKE ' => 'Website.%'
 					)
 				)
 			);
@@ -277,7 +275,7 @@
 		 * Just for generating code for the configs, can be used in the dev installer
 		 * plugin stuff to avoid typing out stuff.
 		 *
-		 * @internal 
+		 * @internal
 		 * @access public
 		 */
 		public function generateCode($config){
@@ -286,35 +284,35 @@
 					$return[] = self::generateCode($_config);
 				}
 			}
-			
-			if(is_bool($config['Config']['value'])){
-				if($config['Config']['value']){
+
+			if(is_bool($config[$this->alias]['value'])){
+				if($config[$this->alias]['value']){
 					$_config = 'true';
 				}
-				
+
 				else{
 					$_config = 'false';
 				}
 			}
 
-			else if(is_array($config['Config']['value'])){
+			else if(is_array($config[$this->alias]['value'])){
 				$_config = 'array(';
-				foreach($config['Config']['value'] as $k => $v){
+				foreach($config[$this->alias]['value'] as $k => $v){
 					$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
 					$_config .= '=> \''.$v.'\',';
 				}
 				$_config .= ')';
 			}
 
-			else if(is_string($config['Config']['value'])){
-				$_config = '\''.$config['Config']['value'].'\'';
+			else if(is_string($config[$this->alias]['value'])){
+				$_config = '\''.$config[$this->alias]['value'].'\'';
 			}
 
 			else{
-				$_config = $config['Config']['value'];
+				$_config = $config[$this->alias]['value'];
 			}
 
-			return 'Configure::write(\''.$config['Config']['key'].'\', '.$_config.');';
+			return 'Configure::write(\''.$config[$this->alias]['key'].'\', '.$_config.');';
 		}
 
 		/**
@@ -322,7 +320,7 @@
 		 *
 		 * This gets a list of possible values that can be changed in the backend
 		 * unsetting a few options first that should not be fiddled with.
-		 * 
+		 *
 		 * @return array the config options to be overloaded.
 		 */
 		public function availableConfigs(){
