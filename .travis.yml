@@ -14,6 +14,7 @@ before_script:
   - cd .. # ~/builds/<user>
   - cd infinitas # ~/builds/<user>/infinitas
   - sh -c "pwd"
+  - sh -c "ls ../ -al"
   - sh -c "ls -al"
   - chmod -R 777 ./tmp
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE infinitas_test;'; fi"
