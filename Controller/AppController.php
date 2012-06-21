@@ -1,5 +1,4 @@
 <?php
-
 	/**
 	 * @mainpage Infinitas - CakePHP powered Content Management Framework
 	 *
