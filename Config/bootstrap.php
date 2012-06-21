@@ -113,7 +113,11 @@
 
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
-	InfinitasPlugin::loadInstalled();
+	if (getenv('TRAVIS_PHP_VERSION')) {
+		InfinitasPlugin::load(InfinitasPlugin::listPlugins('nonCore'));
+	} else {
+		InfinitasPlugin::loadInstalled();
+	}
 
 	/**
 	* Make sure the json defines are loaded.
