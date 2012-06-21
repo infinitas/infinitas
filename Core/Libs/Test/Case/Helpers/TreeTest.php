@@ -3,14 +3,16 @@
 
 	App::import('Helper', 'Libs.Tree');
 
-	class ScopedNumberTree extends CakeTestModel {
-		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
+	if(!class_exists('ScopedNumberTree')) {
+		class ScopedNumberTree extends CakeTestModel {
+			public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
+		}
 	}
 
 	/**
 	 * TreeHelperTest class
 	 */
-	class TreeHelperTest extends AppModelTestCase {
+	class TreeHelperTest extends CakeTestCase {
 
 		public $setup = array(
 			'model' => 'Libs.ScopedNumberTree',
@@ -25,7 +27,7 @@
 
 		function startTest($method) {
 			parent::startTest($method);
-	
+
 			$this->Tree = new TreeHelper();
 		}
 
@@ -113,7 +115,7 @@
 			$expected = array('model' => 'ScopedNumberTree', 'left'=> 'lft', 'right' => 'rght', 'primaryKey' => 'id', 'parent' => 'parent_id');
 			$this->assertEqual($expected, $this->Tree->settings);
 		}
-		
+
 		function testSubTree() {
 			$data = $this->ScopedNumberTree->children('cat-b-3');
 

@@ -1,14 +1,14 @@
 <?php
 	App::import('lib', 'libs.test/app_helper_test.php');
 	App::import('helper', 'Libs.InfiniTime');
-	
-	class TestInfiniTimeHelper extends AppHelperTestCase {
+
+	class TestInfiniTimeHelper extends CakeTestCase {
 
 		/**
 		 * @brief Configuration for the test case
 		 *
 		 * Loading fixtures:
-		 * 
+		 *
 		 * List all the needed fixtures in the do part of the fixture array.
 		 * In replace you can overwrite fixtures of other plugins by your own.
 		 *
@@ -20,26 +20,26 @@
 		 *			'Core.User' => 'SomePlugin.User
 		 *		)
 		 * )
-		 * @var array 
+		 * @var array
 		 */
 		public $setup = array(
 			'helper' => 'Libs.InfiniTime'
 		);
-		
+
 		/**
 		 * @brief Contains a list of test methods to run
 		 *
 		 * If it is set to false all the methods will run. Otherwise pass in an array
 		 * with a list of tests to run.
 		 *
-		 * @var mixed 
+		 * @var mixed
 		 */
 		public $tests = false;
 
 		/**
 		 * @brief Contains the backup of the system timezone
 		 *
-		 * @var string 
+		 * @var string
 		 */
 		private $__timeZoneBackup = null;
 
@@ -57,10 +57,10 @@
 
 		public function endTest($method) {
 			parent::endTest($method);
-	
+
 			date_default_timezone_set($this->__timeZoneBackup);
 		}
-		
+
 		/**
 		 * @brief Tests fromString
 		 *
@@ -107,7 +107,7 @@
 			 * Test with UTC server timezone
 			 */
 			date_default_timezone_set('UTC');
-			
+
 			//Test timezones in DST
 			$dateString = '2011-08-17 16:00:00';
 
@@ -117,7 +117,7 @@
 			$this->assertEqual('Wed, Aug 17th 2011, 18:00', $this->InfiniTime->nice($dateString));
 			CakeSession::write('Auth.User.time_zone', 'America/Mexico_City');
 			$this->assertEqual('Wed, Aug 17th 2011, 11:00', $this->InfiniTime->nice($dateString));
-			
+
 			//Test timezones currently not in DST
 			$dateString = '2011-01-10 12:00:00';
 
@@ -191,7 +191,7 @@
 
 			$result = $this->InfiniTime->timeAgoInWords('2010-05-10 10:00:00', array('format' => 'Y-m-d H:i:s'));
 			$this->assertEqual('on 2010-05-10 12:00:00', $result);
-			
+
 			$result = $this->InfiniTime->timeAgoInWords(strtotime('1995-01-10 10:00:00'), array('format' => 'Y-m-d H:i:s'));
 			$this->assertEqual('on 1995-01-10 11:00:00', $result);
 
@@ -205,7 +205,7 @@
 			CakeSession::write('Auth.User.time_zone', 'Europe/London');
 			$result = $this->InfiniTime->dayAsSql('2009-10-30', 'Item.created');
 			$this->assertEqual("(Item.created >= '2009-10-30 00:00:00') AND (Item.created <= '2009-10-30 23:59:59')", $result);
-			
+
 			$result = $this->InfiniTime->format('Y-m-d H:i:s', '2010-10-24 14:15:10');
 			$this->assertEqual('2010-10-24 15:15:10', $result);
 

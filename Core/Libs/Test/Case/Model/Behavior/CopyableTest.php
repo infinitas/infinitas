@@ -1,13 +1,13 @@
 <?php
 	App::import('lib', 'libs.test/AppBehaviorTest');
-	
-	class TestCopyableBehavior extends AppBehaviorTestCase {
+
+	class TestCopyableBehavior extends CakeTestCase {
 
 		/**
 		 * @brief Configuration for the test case
 		 *
 		 * Loading fixtures:
-		 * 
+		 *
 		 * List all the needed fixtures in the do part of the fixture array.
 		 * In replace you can overwrite fixtures of other plugins by your own.
 		 *
@@ -19,7 +19,7 @@
 		 *			'Core.User' => 'SomePlugin.User
 		 *		)
 		 * )
-		 * @var array 
+		 * @var array
 		 */
 		public $setup = array(
 			'behavior' => 'libs.Copyable',
@@ -36,14 +36,14 @@
 				)
 			)
 		);
-		
+
 		/**
 		 * @brief Contains a list of test methods to run
 		 *
 		 * If it is set to false all the methods will run. Otherwise pass in an array
 		 * with a list of tests to run.
 		 *
-		 * @var mixed 
+		 * @var mixed
 		 */
 		public $tests = false;
 

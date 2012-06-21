@@ -1,5 +1,5 @@
 <?php
-	class Item extends CakeTestModel {
+	class SingleItem extends CakeTestModel {
 		public $actsAs = array('Libs.Sequence');
 	}
 
@@ -27,25 +27,25 @@
 		 */
 		public function setUp() {
 			parent::setUp();
-			
-			$this->Item = ClassRegistry::init('Item');
+
+			$this->SingleItem = ClassRegistry::init('SingleItem');
 			$this->GroupedItem = ClassRegistry::init('GroupedItem');
 			$this->MultiGroupedItem = ClassRegistry::init('MultiGroupedItem');
-			
-			$this->Item->Behaviors->detach('Libs.Sequence');
-			$this->Item->Behaviors->attach('Libs.Sequence', array('orderField' => 'ordering'));
-			
+
+			$this->SingleItem->Behaviors->detach('Libs.Sequence');
+			$this->SingleItem->Behaviors->attach('Libs.Sequence', array('orderField' => 'ordering'));
+
 			$this->GroupedItem->Behaviors->detach('Libs.Sequence');
 			$this->GroupedItem->Behaviors->attach('Libs.Sequence', array('groupFields' => 'group_field'));
 
 			$this->MultiGroupedItem->Behaviors->detach('Libs.Sequence');
 			$this->MultiGroupedItem->Behaviors->attach('Libs.Sequence', array('groupFields' => array('group_field_1', 'group_field_2')));
 		}
-		
+
 		public function tearDown() {
 			parent::tearDown();
-			
-			unset($this->Item, $this->GroupedItem, $this->MultiGroupedItem);
+
+			unset($this->SingleItem, $this->GroupedItem, $this->MultiGroupedItem);
 		}
 
 		/**
@@ -55,15 +55,15 @@
 			/**
 			 * ungrouped
 			 */
-			$this->assertEqual(5, $this->Item->getHighestOrder());
-			$this->assertTrue($this->Item->delete(1));
-			$this->assertEqual(4, $this->Item->getHighestOrder());
-			
-			$result = $this->Item->save(array('Item' => array('name' => 'foo')));
+			$this->assertEqual(5, $this->SingleItem->getHighestOrder());
+			$this->assertTrue($this->SingleItem->delete(1));
+			$this->assertEqual(4, $this->SingleItem->getHighestOrder());
+
+			$result = $this->SingleItem->save(array('Item' => array('name' => 'foo')));
 			$expected = array('Item' => array('name' => 'foo', 'ordering' => 5, 'id' => 6));
 			$this->assertEqual($result, $expected);
-			
-			$this->assertEqual(5, $this->Item->getHighestOrder());
+
+			$this->assertEqual(5, $this->SingleItem->getHighestOrder());
 
 			/**
 			 * grouped
@@ -71,18 +71,18 @@
 			$this->assertEqual(5, $this->GroupedItem->getHighestOrder(array('group_field' => 1)));
 			$this->assertEqual(5, $this->GroupedItem->getHighestOrder(array('group_field' => 2)));
 			$this->assertEqual(5, $this->GroupedItem->getHighestOrder(array('group_field' => 3)));
-			
+
 			$this->assertTrue($this->GroupedItem->delete(1));
-			$this->assertTrue($this->GroupedItem->delete(6)); 
+			$this->assertTrue($this->GroupedItem->delete(6));
 			$this->assertTrue($this->GroupedItem->delete(7));
-			$this->assertTrue($this->GroupedItem->delete(13)); 
-			$this->assertTrue($this->GroupedItem->delete(14)); 
+			$this->assertTrue($this->GroupedItem->delete(13));
+			$this->assertTrue($this->GroupedItem->delete(14));
 			$this->assertTrue($this->GroupedItem->delete(15));
-			
+
 			$result = $this->GroupedItem->save(array('GroupedItem' => array('name' => 'foo', 'group_field' => 1)));
 			$expected = array('GroupedItem' => array('name' => 'foo', 'group_field' => 1, 'ordering' => 5, 'id' => 16));
 			$this->assertEqual($result, $expected);
-			
+
 			$this->assertEqual(5, $this->GroupedItem->getHighestOrder(array('group_field' => 1)));
 			$this->assertEqual(3, $this->GroupedItem->getHighestOrder(array('group_field' => 2)));
 			$this->assertEqual(2, $this->GroupedItem->getHighestOrder(array('group_field' => 3)));
@@ -96,7 +96,7 @@
 			$this->assertEqual(5, $this->MultiGroupedItem->getHighestOrder(array('group_field_1' => 2, 'group_field_2' => 2)));
 
 			$this->assertTrue($this->MultiGroupedItem->delete(1));
-			
+
 			$result = $this->MultiGroupedItem->save(array('MultiGroupedItem' => array('name' => 'foo', 'group_field_1' => 2, 'group_field_2' => 2)));
 			$expected = array('MultiGroupedItem' => array('name' => 'foo', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 6, 'id' => 126));
 			$this->assertEqual($expected, $result);
@@ -114,26 +114,26 @@
 			/**
 			 * deleting ungrouped rows
 			 */
-			$this->assertTrue($this->Item->delete(1));
+			$this->assertTrue($this->SingleItem->delete(1));
 			$expected = array(
 				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 4)));
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
-			$this->assertTrue($this->Item->delete(3));
+			$this->assertTrue($this->SingleItem->delete(3));
 			$expected = array(
 				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 2)),
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 3)));
-			$this->assertEqual($expected, $this->Item->find('all'));
-			
-			$this->assertTrue($this->Item->delete(5));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
+
+			$this->assertTrue($this->SingleItem->delete(5));
 			$expected = array(
 				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 2)));
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			/**
 			 * group delete
@@ -195,9 +195,9 @@
 		/**
 		 * @test insert rows
 		 */
-		public function testInsert() {	
-			$this->Item->create();
-			$result = $this->Item->save(array('Item' => array('name' => 'Item F')));
+		public function testInsert() {
+			$this->SingleItem->create();
+			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item F')));
 			$expected = array('Item' => array('name' => 'Item F', 'ordering' => 6, 'id' => 6));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -208,10 +208,10 @@
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)),
 				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 6)),
 			);
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
-			$this->Item->create();
-			$result = $this->Item->save(array('Item' => array('name' => 'Item G', 'ordering' => '1')));
+			$this->SingleItem->create();
+			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item G', 'ordering' => '1')));
 			$expected = array('Item' => array('name' => 'Item G', 'ordering' => 1, 'id' => 7));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -223,10 +223,10 @@
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 6)),
 				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 7)),
 			);
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
-			$this->Item->create();
-			$result = $this->Item->save(array('Item' => array('name' => 'Item H', 'ordering' => '3')));
+			$this->SingleItem->create();
+			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item H', 'ordering' => '3')));
 			$expected = array('Item' => array('name' => 'Item H', 'ordering' => 3, 'id' => 8));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -239,10 +239,10 @@
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
 				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
 			);
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
-			$this->Item->create();
-			$result = $this->Item->save(array('Item' => array('name' => 'Item I', 'ordering' => '9')));
+			$this->SingleItem->create();
+			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item I', 'ordering' => '9')));
 			$expected = array('Item' => array('name' => 'Item I', 'ordering' => 9, 'id' => 9));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -256,10 +256,10 @@
 				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
 				array('Item' => array('id' => 9, 'name' => 'Item I', 'ordering' => 9)),
 			);
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
-			$this->Item->create();
-			$result = $this->Item->save(array('Item' => array('name' => 'Item J', 'ordering' => '20')));
+			$this->SingleItem->create();
+			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item J', 'ordering' => '20')));
 			$expected = array('Item' => array('name' => 'Item J', 'ordering' => 10, 'id' => 10));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -274,7 +274,7 @@
 				array('Item' => array('id' => 9, 'name' => 'Item I', 'ordering' => 9)),
 				array('Item' => array('id' => 10, 'name' => 'Item J', 'ordering' => 10)),
 			);
-			$this->assertEqual($expected, $this->Item->find('all'));
+			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			/**
 			 * test group insert
@@ -287,7 +287,7 @@
 				array('GroupedItem' => array('id' => 4, 'name' => 'Group 1 Item D', 'group_field' => 1, 'ordering' => 4)),
 				array('GroupedItem' => array('id' => 5, 'name' => 'Group 1 Item E', 'group_field' => 1, 'ordering' => 5)));
 			$this->assertEqual($expected, $results);
-			
+
 			$this->GroupedItem->create();
 			$result = $this->GroupedItem->save(array('GroupedItem' => array('name' => 'Group 1 Item F', 'group_field' => '1', 'ordering' => '4')));
 			$expected = array('GroupedItem' => array('name' => 'Group 1 Item F', 'group_field' => '1', 'ordering' => 4, 'id' => 16));
@@ -301,7 +301,7 @@
 				array('GroupedItem' => array('id' => 4, 'name' => 'Group 1 Item D', 'group_field' => 1, 'ordering' => 5)),
 				array('GroupedItem' => array('id' => 5, 'name' => 'Group 1 Item E', 'group_field' => 1, 'ordering' => 6)));
 			$this->assertEqual($expected, $results);
-			
+
 
 			/**
 			 * check the other group is still ordered correctly
@@ -329,7 +329,7 @@
 				array('GroupedItem' => array('id' => 5, 'name' => 'Group 1 Item E', 'group_field' => 1, 'ordering' => 6)),
 				array('GroupedItem' => array('id' => 17, 'name' => 'Group 1 Item G', 'group_field' => 1, 'ordering' => 7)));
 			$this->assertEqual($expected, $results);
-			
+
 			/**
 			 * no group set
 			 */
@@ -350,7 +350,7 @@
 			$results = $this->GroupedItem->find('all', array('conditions' => array('group_field' => null)));
 			$expected = array(array('GroupedItem' => array('id' => 18, 'name' => 'Group Null Item A', 'group_field' => null, 'ordering' => 1)));
 			$this->assertEqual($expected, $results);
-			
+
 			/**
 			 * multi group insert
 			 */
@@ -366,7 +366,7 @@
 				array('MultiGroupedItem' => array('id' => 10, 'name' => 'Group1 1 Group2 2 Item E', 'group_field_1' => 1, 'group_field_2' => 2, 'ordering' => 6))
 			);
 			$this->assertEqual($expected, $results);
-			
+
 			/**
 			 * no ordering set
 			 */
@@ -383,9 +383,9 @@
 				array('MultiGroupedItem' => array('id' => 127, 'name' => 'Group1 1 Group2 2 Item G', 'group_field_1' => 1, 'group_field_2' => 2, 'ordering' => 7)),
 			);
 			$this->assertEqual($expected, $results);
-			
+
 			/**
-			 * only setting one of the groups 
+			 * only setting one of the groups
 			 */
 			$this->assertEqual(27, $this->MultiGroupedItem->find('count', array('conditions' => array('group_field_1' => 1))));
 			$this->MultiGroupedItem->create();
@@ -393,7 +393,7 @@
 			$expected = array('MultiGroupedItem' => array('name' => 'Group1 1 Group2 Null Item A', 'group_field_1' => '1', 'ordering' => 1, 'id' => 128));
 			$this->assertEqual($result, $expected);
 			$this->assertEqual(28, $this->MultiGroupedItem->find('count', array('conditions' => array('group_field_1' => 1))));
-			
+
 			$expected = array(array('MultiGroupedItem' => array('id' => 128, 'name' => 'Group1 1 Group2 Null Item A', 'group_field_1' => 1, 'group_field_2' => null, 'ordering' => 1)));
 			$this->assertEqual($expected, $this->MultiGroupedItem->find('all', array('conditions' => array('MultiGroupedItem.group_field_2 IS NULL'))));
 		}
@@ -408,9 +408,9 @@
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
-			
-			$result = $this->Item->save(array('Item' => array('id' => '1', 'name' => 'Item A - edit')));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+
+			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'name' => 'Item A - edit')));
 			$expected = array('Item' => array('id' => 1, 'name' => 'Item A - edit'));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -419,9 +419,9 @@
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
-			$result = $this->Item->save(array('Item' => array('id' => '1', 'ordering' => '3')));
+			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '3')));
 			$expected = array('Item' => array('id' => 1, 'ordering' => '3'));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -430,9 +430,9 @@
 				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 3)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
-			
-			$result = $this->Item->save(array('Item' => array('id' => '1', 'ordering' => '5')));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+
+			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '5')));
 			$expected = array('Item' => array('id' => '1', 'ordering' => '5'));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -441,9 +441,9 @@
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 4)),
 				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
-			$result = $this->Item->save(array('Item' => array('id' => '4', 'ordering' => '5')));
+			$result = $this->SingleItem->save(array('Item' => array('id' => '4', 'ordering' => '5')));
 			$expected = array('Item' => array('id' => 4, 'ordering' => 5));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -452,9 +452,9 @@
 				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 3)),
 				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 4)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
-		
-			$result = $this->Item->save(array('Item' => array('id' => '5', 'ordering' => '1')));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+
+			$result = $this->SingleItem->save(array('Item' => array('id' => '5', 'ordering' => '1')));
 			$expected = array('Item' => array('id' => 5, 'ordering' => 1));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -463,9 +463,9 @@
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
 				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 4)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
-			$result = $this->Item->save(array('Item' => array('id' => '1', 'ordering' => '5')));
+			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '5')));
 			$expected = array('Item' => array('id' => 1, 'ordering' => 5));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -474,9 +474,9 @@
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
 				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
-			$result = $this->Item->save(array('Item' => array('id' => '4', 'ordering' => '3')));
+			$result = $this->SingleItem->save(array('Item' => array('id' => '4', 'ordering' => '3')));
 			$expected = array('Item' => array('id' => 4, 'ordering' => 3));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -485,9 +485,9 @@
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
 				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
-			$result = $this->Item->save(array('Item' => array('id' => '1', 'ordering' => '1')));
+			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '1')));
 			$expected = array('Item' => array('id' => 1, 'ordering' => 1));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -496,9 +496,9 @@
 				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 3)),
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
-			$result = $this->Item->save(array('Item' => array('id' => '2', 'ordering' => '10')));
+			$result = $this->SingleItem->save(array('Item' => array('id' => '2', 'ordering' => '10')));
 			$expected = array('Item' => array('id' => 2, 'ordering' => 5));
 			$this->assertEqual($result, $expected);
 			$expected = array(
@@ -507,7 +507,7 @@
 				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
 				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
 				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->Item->find('all', array('order' => array('Item.ordering'))));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
 
 
 			/**
@@ -520,7 +520,7 @@
 				array('GroupedItem' => array('id' => 2, 'name' => 'Group 1 Item B', 'group_field' => 1, 'ordering' => 2)),
 				array('GroupedItem' => array('id' => 4, 'name' => 'Group 1 Item D', 'group_field' => 1, 'ordering' => 3)),
 				array('GroupedItem' => array('id' => 5, 'name' => 'Group 1 Item E', 'group_field' => 1, 'ordering' => 4)),
-				
+
 				array('GroupedItem' => array('id' => 6, 'name' => 'Group 2 Item A', 'group_field' => 2, 'ordering' => 1)),
 				array('GroupedItem' => array('id' => 7, 'name' => 'Group 2 Item B', 'group_field' => 2, 'ordering' => 2)),
 				array('GroupedItem' => array('id' => 3, 'name' => 'Group 1 Item C', 'group_field' => 2, 'ordering' => 3)),
@@ -542,15 +542,15 @@
 				array('GroupedItem' => array('id' => 4, 'name' => 'Group 1 Item D', 'group_field' => 1, 'ordering' => 3)),
 				array('GroupedItem' => array('id' => 5, 'name' => 'Group 1 Item E', 'group_field' => 1, 'ordering' => 4)),
 				array('GroupedItem' => array('id' => 8, 'name' => 'Group 2 Item C', 'group_field' => 1, 'ordering' => 5)),
-				
+
 				array('GroupedItem' => array('id' => 6, 'name' => 'Group 2 Item A', 'group_field' => 2, 'ordering' => 1)),
 				array('GroupedItem' => array('id' => 7, 'name' => 'Group 2 Item B', 'group_field' => 2, 'ordering' => 2)),
 				array('GroupedItem' => array('id' => 3, 'name' => 'Group 1 Item C', 'group_field' => 2, 'ordering' => 3)),
 				array('GroupedItem' => array('id' => 9, 'name' => 'Group 2 Item D', 'group_field' => 2, 'ordering' => 4)),
 				array('GroupedItem' => array('id' => 10, 'name' => 'Group 2 Item E', 'group_field' => 2, 'ordering' => 5)));
 			$this->assertEqual($expected, $results);
-			
-			
+
+
 			$results = $this->MultiGroupedItem->find(
 				'all', array('conditions' => array('or' => array(
 						array('group_field_1' => 1, 'group_field_2' => 1),
@@ -569,7 +569,7 @@
 				array('MultiGroupedItem' => array('id' => 34, 'name' => 'Group1 2 Group2 2 Item D', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 4)),
 				array('MultiGroupedItem' => array('id' => 35, 'name' => 'Group1 2 Group2 2 Item E', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 5)));
 			$this->assertEqual($expected, $results);
-			
+
 			$this->MultiGroupedItem->save(array('MultiGroupedItem' => array('id' => '3', 'group_field_1' => '2', 'group_field_2' => '2')));
 			$results = $this->MultiGroupedItem->find(
 				'all', array('conditions' => array('or' => array(
@@ -589,7 +589,7 @@
 				array('MultiGroupedItem' => array('id' => 35, 'name' => 'Group1 2 Group2 2 Item E', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 5)),
 				array('MultiGroupedItem' => array('id' => 3, 'name' => 'Group1 1 Group2 1 Item C', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 6)));
 			$this->assertEqual($expected, $results);
-			
+
 			/**
 			 * move groups with new order specified
 			 */
@@ -612,7 +612,7 @@
 				array('MultiGroupedItem' => array('id' => 35, 'name' => 'Group1 2 Group2 2 Item E', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 4)),
 				array('MultiGroupedItem' => array('id' => 3, 'name' => 'Group1 1 Group2 1 Item C', 'group_field_1' => 2, 'group_field_2' => 2, 'ordering' => 5)));
 			$this->assertEqual($expected, $results);
-			
+
 			/**
 			 * no changes, make sure everything stays the same
 			 */

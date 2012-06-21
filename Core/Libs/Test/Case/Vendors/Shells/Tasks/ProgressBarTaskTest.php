@@ -15,7 +15,7 @@
 	 *
 	 */
 	App::import('Shell', 'Shell', false);
-	App::import('Vendor', 'ProgressBar.ProgressBarTask', array('file' => 'shells' . DS . 'tasks' . DS . 'progress_bar.php'));
+	App::uses('ProgressBarTask', 'Libs.Console/Command/Task');
 
 	if (!defined('DISABLE_AUTO_DISPATCH')) {
 		define('DISABLE_AUTO_DISPATCH', true);
@@ -68,16 +68,6 @@
 		}
 	}
 
-	Mock::generatePartial(
-		'ShellDispatcher', 'TestProgressBarTaskMockShellDispatcher',
-		array('getInput', 'stdout', 'stderr', '_stop', '_initEnvironment')
-	);
-
-	Mock::generatePartial(
-		'TestProgressBarTask', 'MockProgressBarTask',
-		array('in', '_stop', 'err')
-	);
-	
 	/**
 	 * ProgressBarTask Test class
 	 *
