@@ -12,9 +12,8 @@ before_script:
   - cd cakephp # ~/builds/<user>/cakephp
   - git checkout $CAKE_VERSION
   - cd .. # ~/builds/<user>
-  - ln -s cakephp/lib lib
   - cd infinitas # ~/builds/<user>/infinitas
-  - chmod -R 777 tmp
+  - chmod -R 777 ./tmp
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE infinitas_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE infinitas_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE SCHEMA infinitas_test;' -U postgres -d infinitas_test; fi"
@@ -80,7 +79,9 @@ before_script:
     }" > Config/database.php
 
 script:
-  - ../cakephp/lib/Cake/Console/cake test app AllCoreTests --stderr
+	- pwd
+	- ls -al
+  - ../cakephp/lib/Cake/Console/cake test app -app ../infinitas AllCoreTests --stderr
 
 notifications:
   irc: "irc.freenode.org#infinitas"
