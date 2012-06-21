@@ -521,8 +521,6 @@
 		 * @return Full output string of view contents
 		 */
 		public function render($view = null, $layout = null) {
-			var_dump(Debugger::trace());
-			exit;
 			if(($this->request->action == 'admin_edit' || $this->request->action == 'admin_add')) {
 				$viewPath = App::pluginPath($this->plugin) . 'View' . DS . $this->viewPath . DS . $this->request->action . '.ctp';
 				if(!file_exists($viewPath)) {
