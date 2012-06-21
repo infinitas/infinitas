@@ -80,7 +80,7 @@ before_script:
     }" > Config/database.php
 
 script:
-  - ../cakephp/lib/Cake/Console/cake test app AllCoreTests
+  - ../cakephp/lib/Cake/Console/cake test app AllCoreTests --stderr
 
 notifications:
   irc: "irc.freenode.org#infinitas"
