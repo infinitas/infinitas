@@ -104,11 +104,11 @@
 			$conditions = array();
 			
 			
-			if(isset($this->request->params['named']['ViewCounterView.foreign_key'])){
+			if(isset($this->request->params['named']['ViewCounterView.foreign_key'])) {
 				$conditions['ViewCounterView.foreign_key'] = $this->request->params['named']['ViewCounterView.foreign_key'];
 			}
 
-			if(isset($this->request->params['named']['ViewCounterView.model'])){
+			if(isset($this->request->params['named']['ViewCounterView.model'])) {
 				$conditions['ViewCounterView.model'] = $this->request->params['named']['ViewCounterView.model'];
 			}
 
@@ -124,9 +124,9 @@
 			
 			$this->set(compact('overview', 'yearOnYear', 'monthOnMonth', 'weekOnWeek', 'byWeek', 'byDay', 'dayOfWeek', 'hourOnHour', 'byRegion'));
 
-			if(isset($this->request->params['named']['ViewCounterView.model']) && isset($this->request->params['named']['ViewCounterView.foreign_key'])){
+			if(isset($this->request->params['named']['ViewCounterView.model']) && isset($this->request->params['named']['ViewCounterView.foreign_key'])) {
 				$relatedModel = $this->ViewCounterView->reportPopularRows($conditions, $this->request->params['named']['ViewCounterView.model']);
-				if(isset($relatedModel[0])){
+				if(isset($relatedModel[0])) {
 					$relatedModel = $relatedModel[0];
 				}
 
@@ -134,12 +134,12 @@
 				$this->set(compact('relatedModel', 'byRegion'));
 			}
 
-			else if(isset($this->request->params['named']['ViewCounterView.model']) && !isset($this->request->params['named']['ViewCounterView.foreign_key'])){
+			else if(isset($this->request->params['named']['ViewCounterView.model']) && !isset($this->request->params['named']['ViewCounterView.foreign_key'])) {
 				$foreignKeys = $this->ViewCounterView->reportPopularRows($conditions, $this->request->params['named']['ViewCounterView.model']);
 				$this->set(compact('foreignKeys', 'byRegion'));
 			}
 			
-			else if(!isset($this->request->params['named']['ViewCounterView.model']) && !isset($this->request->params['named']['ViewCounterView.foreign_key'])){
+			else if(!isset($this->request->params['named']['ViewCounterView.model']) && !isset($this->request->params['named']['ViewCounterView.foreign_key'])) {
 				$allModels = $this->ViewCounterView->reportPopularModels();
 				$this->set(compact('allModels'));
 			}

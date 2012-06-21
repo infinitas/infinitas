@@ -87,7 +87,7 @@
 		 *
 		 * @return bool
 		 */
-		public function beforeFind($queryData){
+		public function beforeFind($queryData) {
 			return true;
 		}
 	}

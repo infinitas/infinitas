@@ -47,21 +47,21 @@
 		}
 
 		private function __renderCss($data) {
-			if(!empty($data['Layout']['css'])){
+			if(!empty($data['Layout']['css'])) {
 				return sprintf('<style type="text/css">%s</style>', $data['Layout']['css']);
 			}
 
-			if(!empty($data['GlobalLayout']['css'])){
+			if(!empty($data['GlobalLayout']['css'])) {
 				return sprintf('<style type="text/css">%s</style>', $data['Layout']['css']);
 			}
 		}
 
 		private function __renderHtml($data) {
-			if(!empty($data['Layout']['html'])){
+			if(!empty($data['Layout']['html'])) {
 				echo $data['Layout']['html'];
 			}
 
-			if(!empty($data['GlobalLayout']['html'])){
+			if(!empty($data['GlobalLayout']['html'])) {
 				echo $data['GlobalLayout']['html'];
 			}
 		}

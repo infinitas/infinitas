@@ -36,44 +36,44 @@
 			)
 		);
 
-		public function draw($data = array(), $imageProperties = array(), $linkOnly = false){
-			if(!$linkOnly){
+		public function draw($data = array(), $imageProperties = array(), $linkOnly = false) {
+			if(!$linkOnly) {
 				$cache = $this->_checkCache(array($data, $imageProperties));
-				if($cache !== false){
+				if($cache !== false) {
 					return $cache;
 				}
 			}
 
 			$this->query = $data;
 
-			if(!isset($this->query['location']) || !$this->__getValidLocation($this->query['location'])){				
-				if(!isset($this->query['markers']) || count($this->query['markers']) < 2){
+			if(!isset($this->query['location']) || !$this->__getValidLocation($this->query['location'])) {				
+				if(!isset($this->query['markers']) || count($this->query['markers']) < 2) {
 					$this->errors[] = 'Invalid location';
 					return false;
 				}
 			}
 			
-			if(isset($this->query['visible']) && empty($this->query['visable'])){
+			if(isset($this->query['visible']) && empty($this->query['visable'])) {
 				$this->query['visible'] = $this->__getValidLocation($this->query['visible']);
 			}
 			else{
 				$this->query['visible'] = null;
 			}
 
-			if(!$this->query['visible'] && !(isset($this->query['zoom']) || !$this->__validZoom($this->query['zoom']))){
+			if(!$this->query['visible'] && !(isset($this->query['zoom']) || !$this->__validZoom($this->query['zoom']))) {
 				$this->query['zoom'] = $this->_default['zoom'];
 			}
 
-			if(!isset($this->query['size']) || !$this->__validSize($this->query['size'])){
+			if(!isset($this->query['size']) || !$this->__validSize($this->query['size'])) {
 				$this->errors[] = 'Invalid size';
 				return false;
 			}
 
-			if(!isset($this->query['image_type']) || !$this->__validImageType($this->query['image_type'])){
+			if(!isset($this->query['image_type']) || !$this->__validImageType($this->query['image_type'])) {
 				$this->query['image_type'] = $this->_default['image_type'];
 			}
 
-			if(!isset($this->query['map_type']) || !$this->__validMapType($this->query['map_type'])){
+			if(!isset($this->query['map_type']) || !$this->__validMapType($this->query['map_type'])) {
 				$this->query['map_type'] = $this->_default['map_type'];
 			}
 
@@ -81,7 +81,7 @@
 			$this->query['markers'] = $this->__markersValid(isset($this->query['markers']) ? $this->query['markers'] : array());
 
 			$url = $this->__buildQuery();
-			if($linkOnly){
+			if($linkOnly) {
 				return $url;
 			}
 			
@@ -93,8 +93,8 @@
 
 		}
 
-		private function __buildQuery(){
-			if($this->query['visible']){
+		private function __buildQuery() {
+			if($this->query['visible']) {
 				$return[] = 'visible='.$this->query['visible'];
 			}
 
@@ -105,7 +105,7 @@
 			$return[] = 'size='.$this->query['size']['width'].'x'.$this->query['size']['height'];
 			$return[] = 'sensor='.$this->query['sensor'];
 
-			foreach($this->query['markers'] as $marker){
+			foreach($this->query['markers'] as $marker) {
 				$return[] = $this->__formatMarker($marker);
 			}
 
@@ -124,22 +124,22 @@
 		 *
 		 * @param unknown_type $marker
 		 */
-		private function __formatMarker($marker){
-			if(empty($marker['location'])){
+		private function __formatMarker($marker) {
+			if(empty($marker['location'])) {
 				return null;
 			}
 			$return = array();
 			$return[] = $marker['location'];
 
-			if(!empty($marker['color'])){
+			if(!empty($marker['color'])) {
 				$return[] = 'color:'.$marker['color'];
 			}
 
-			if(!empty($marker['label'])){
+			if(!empty($marker['label'])) {
 				$return[] = 'label:'.$marker['label'];
 			}
 
-			if(!empty($marker['size'])){
+			if(!empty($marker['size'])) {
 				$return[] = 'size:'.$marker['size'];
 			}
 
@@ -204,14 +204,14 @@
 		 *
 		 * @param array $data
 		 */
-		protected function __getValidLocation($location){
-			if(isset($location) && !empty($location) && !is_array($location)){
+		protected function __getValidLocation($location) {
+			if(isset($location) && !empty($location) && !is_array($location)) {
 				return urlencode($location);
 			}
 
-			if(isset($location['latitude']) && isset($location['longitude'])){
+			if(isset($location['latitude']) && isset($location['longitude'])) {
 				$valid = $this->__validLatitude($location['latitude']) && $this->__validLongitude($location['longitude']);
-				if($valid){
+				if($valid) {
 					return urlencode(implode(',', $location));
 				}
 			}
@@ -226,7 +226,7 @@
 		 *
 		 * @param float $latitude
 		 */
-		protected function __validLatitude($latitude){
+		protected function __validLatitude($latitude) {
 			return -90 <= (float)$latitude && (float)$latitude <= 90;
 		}
 
@@ -237,7 +237,7 @@
 		 *
 		 * @param float $longitude
 		 */
-		protected function __validLongitude($longitude){
+		protected function __validLongitude($longitude) {
 			return -180 <= (float)$longitude && (float)$longitude <= 180;
 		}
 
@@ -251,7 +251,7 @@
 		 *
 		 * @param unknown_type $zoom
 		 */
-		protected function __validZoom($zoom){
+		protected function __validZoom($zoom) {
 			return 0 <= $zoom && $zoom <= 21;
 		}
 
@@ -261,7 +261,7 @@
 		 * Images may be retrieved in sizes up to 640 by 640 pixels.
 		 * @param array $sizes
 		 */
-		protected function __validSize($sizes){
+		protected function __validSize($sizes) {
 			return $sizes['width'] <= $this->__maxWidth && $sizes['height'] <= $this->__maxHeight;
 		}
 
@@ -272,7 +272,7 @@
 		 *
 		 * @param string $imageType
 		 */
-		protected function __validImageType($imageType){
+		protected function __validImageType($imageType) {
 			return in_array($imageType, $this->__imageTypes);
 		}
 
@@ -290,7 +290,7 @@
    	 	 *
 		 * @param string $mapType
 		 */
-		protected function __validMapType($mapType){
+		protected function __validMapType($mapType) {
 			return in_array($mapType, $this->__mapTypes);
 		}
 
@@ -301,8 +301,8 @@
    	 	 *
 		 * @param string $mapType
 		 */
-		protected function __SensorType($sensor){
-			switch(true){
+		protected function __SensorType($sensor) {
+			switch(true) {
 				case $sensor === true:
 				case strtolower($sensor) === 'true':
 					return 'true';
@@ -318,14 +318,14 @@
 		 * validate and remove unneded params for markers
 		 * @param array $markers
 		 */
-		protected function __markersValid($markers){
-			if(empty($markers) || !is_array($markers)){
+		protected function __markersValid($markers) {
+			if(empty($markers) || !is_array($markers)) {
 				return array();
 			}
 
 			$return = array();
 			$i = 0;
-			foreach($markers as $marker){
+			foreach($markers as $marker) {
 				$return[$i]['size'] =  $this->__validMarkerSize(isset($marker['size']) ? $marker['size'] : '');
 				$return[$i]['color'] = $this->__validMarkerColor(isset($marker['color']) ? $marker['color'] : '');
 				$return[$i]['label'] = $this->__validMarkerLabel(isset($marker['label']) ? $marker['label'] : '');
@@ -343,8 +343,8 @@
 		 * if its the default dont add it, waste of url chars :)
 		 * @param unknown_type $size
 		 */
-		protected function __validMarkerSize($size){
-			if(empty($size) || !in_array(strtolower($size), $this->__markerSizes) && strtolower($size) !== $this->__markerSizes[0]){
+		protected function __validMarkerSize($size) {
+			if(empty($size) || !in_array(strtolower($size), $this->__markerSizes) && strtolower($size) !== $this->__markerSizes[0]) {
 				return null;
 			}
 			return $size;
@@ -354,8 +354,8 @@
 		 * check colors are valid.
 		 * @param unknown_type $color
 		 */
-		protected function __validMarkerColor($color){
-			if(empty($color) || !preg_match('/^([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?$/', 'fff111')){
+		protected function __validMarkerColor($color) {
+			if(empty($color) || !preg_match('/^([a-f]|[A-F]|[0-9]) {3}(([a-f]|[A-F]|[0-9]) {3})?$/', 'fff111')) {
 				return null;
 			}
 
@@ -366,8 +366,8 @@
 		 * a single uppercase alphanumeric character from the set {A-Z, 0-9}
 		 * @param $label
 		 */
-		protected function __validMarkerLabel($label){
-			if(!empty($label) && preg_match('/^[A-Z0-9]$/', '1')){
+		protected function __validMarkerLabel($label) {
+			if(!empty($label) && preg_match('/^[A-Z0-9]$/', '1')) {
 				return $label;
 			}
 			return '';

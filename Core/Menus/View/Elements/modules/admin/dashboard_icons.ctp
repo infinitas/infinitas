@@ -19,7 +19,7 @@
 	 */
 	$icons = $this->Menu->builDashboardLinks();
 
-	if(isset($icons['core']) && !empty($icons['core'])){
+	if(isset($icons['core']) && !empty($icons['core'])) {
 		?>
 			<div class="dashboard grid_16">
 				<h1><?php echo __('Infinitas'); ?></h1>
@@ -31,7 +31,7 @@
 		<?php
 	}
 
-	if(isset($icons['plugin']) && !empty($icons['plugin'])){
+	if(isset($icons['plugin']) && !empty($icons['plugin'])) {
 		?>			
 			<div class="dashboard grid_16">
 				<h1><?php echo __('Plugins'); ?></h1>

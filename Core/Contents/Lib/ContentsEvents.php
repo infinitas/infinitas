@@ -58,27 +58,27 @@
 			);
 		}
 
-		public function onRequireHelpersToLoad(){
+		public function onRequireHelpersToLoad() {
 			return array(
 				'Contents.TagCloud',
 				'Contents.GlobalContents'
 			);
 		}
 
-		public function onRequireJavascriptToLoad($event){
+		public function onRequireJavascriptToLoad($event) {
 			return array(
 				'Contents.jq-tags',
 				'Contents.tags'
 			);
 		}
 
-		public function onRequireCssToLoad($event){
+		public function onRequireCssToLoad($event) {
 			return array(
 				'Contents.tags'
 			);
 		}
 
-		public function onSiteMapRebuild($event){
+		public function onSiteMapRebuild($event) {
 			$Category = ClassRegistry::init('Contents.GlobalCategory');
 			$newest = $Category->getNewestRow();
 			$frequency = $Category->getChangeFrequency();
@@ -100,7 +100,7 @@
 			);
 
 			$categories = $Category->find('list', array('fields' => array('GlobalCategory.id', 'GlobalCategory.slug')));
-			foreach($categories as $category){
+			foreach($categories as $category) {
 				$return[] = array(
 					'url' => Router::url(
 						array(

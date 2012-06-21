@@ -20,20 +20,20 @@
 
 	$category['GlobalCategory']['before_event'] = '';
 	$eventData = $this->Event->trigger('contentsBeforeCategoryRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data){
+	foreach((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data) {
 		$category['GlobalCategory']['before_event'] .= '<div class="before '.$_plugin.'">'.$_data.'</div>';
 	}
 
 	$category['GlobalCategory']['after_event'] = '';
 	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data){
+	foreach((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data) {
 		$category['GlobalCategory']['after_event'] .= '<div class="after '.$_plugin.'">'.$_data.'</div>';
 	}
 
-	if(isset($category['GlobalCategory']['created'])){
+	if(isset($category['GlobalCategory']['created'])) {
 		$category['GlobalCategory']['created'] = $this->Time->niceShort($category['GlobalCategory']['created']);
 	}
-	if(isset($category['GlobalCategory']['modified'])){
+	if(isset($category['GlobalCategory']['modified'])) {
 		$category['GlobalCategory']['modified'] = $this->Time->niceShort($category['GlobalCategory']['modified']);
 	}
 

@@ -51,7 +51,7 @@
 			//$this->Controller->Auth->authorize	= array('Actions' => array('actionPath' => 'controllers/'));
 			$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
-			if(Configure::read('Website.login_type') == 'email'){
+			if(Configure::read('Website.login_type') == 'email') {
 				$this->Controller->fields = array('username' => 'email', 'password' => 'password');
 			}
 
@@ -109,7 +109,7 @@
 		 * @param array $data the username and password form the login atempt.
 		 * @return true
 		 */
-		public function badLoginAttempt($data){
+		public function badLoginAttempt($data) {
 			$old = (array)$this->Controller->Session->read('Infinitas.Security.loginAttempts');
 			$old[] = $data;
 			$this->Controller->Session->write('Infinitas.Security.loginAttempts', $old);

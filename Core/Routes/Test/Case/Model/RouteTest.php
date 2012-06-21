@@ -12,7 +12,7 @@
 			$this->Route = ClassRegistry::init('Routes.Route');
 		}
 
-		public function testGetValues(){
+		public function testGetValues() {
 			//$this->assertEquals('_getValues', 'getValues');
 			//cant test private Route::_getValues() like this
 

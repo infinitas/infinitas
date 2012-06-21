@@ -27,7 +27,7 @@
 		/**
 		* Test the validation methods
 		*/
-		public function testValidationRules(){
+		public function testValidationRules() {
 			// fake the submision
 			$this->data['User']['password'] = 'cd4f70413dececd8b813e1d5c56c6421e1a35018';
 			$this->data['User']['email'] = 'test@example.com';
@@ -75,7 +75,7 @@
 		/**
 		* Test the other methods
 		*/
-		public function testMethods(){
+		public function testMethods() {
 			$result = $this->User->getLastLogon(1);
 			$expected['User'] = array(
 				'ip_address' => '127.0.0.1',

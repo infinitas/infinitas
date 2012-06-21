@@ -79,14 +79,14 @@
 		 *
 		 * @return array the most viewed records
 		 */
-		public function getMostViewed($Model, $limit = 10){
+		public function getMostViewed($Model, $limit = 10) {
 			$fields = array(
 				$Model->alias.'.id',
 				$Model->alias.'.'.$Model->displayField,
 				$Model->alias.'.views'
 			);
 
-			if($Model->hasField('slug')){
+			if($Model->hasField('slug')) {
 				$fields[] = $Model->alias.'.slug';
 			}
 
@@ -115,7 +115,7 @@
 		 *
 		 * @return int the number of rows found
 		 */
-		public function getToalViews($Model, $foreignKey = 0){
+		public function getToalViews($Model, $foreignKey = 0) {
 			return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias, $foreignKey);
 		}
 	}

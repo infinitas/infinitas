@@ -13,20 +13,20 @@
 		<webMaster><?php echo Configure::read('Website.email'); ?></webMaster>
 		<?php
 			foreach ($feed as $item) {
-				if(isset($item['Feed']['name'])){
+				if(isset($item['Feed']['name'])) {
 					$post['title'] = $item['Feed']['name'];
 				}
-				else if(isset($item['Feed']['title'])){
+				else if(isset($item['Feed']['title'])) {
 					$post['title'] = $item['Feed']['title'];
 				}
 
-				if(isset($item['Feed']['body'])){
+				if(isset($item['Feed']['body'])) {
 					$post['body'] = $item['Feed']['body'];
 				}
-				else if(isset($item['Feed']['info'])){
+				else if(isset($item['Feed']['info'])) {
 					$post['info'] = $item['Feed']['info'];
 				}
-				else if(isset($item['Feed']['description'])){
+				else if(isset($item['Feed']['description'])) {
 					$post['description'] = $item['Feed']['description'];
 				}
 

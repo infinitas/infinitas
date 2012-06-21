@@ -157,12 +157,12 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			$this->__getPlugin();
-			
+
 			$this->findMethods['active'] = true;
 			$this->findMethods['inactive'] = true;
 
 			parent::__construct($id, $table, $ds);
-			if($this->tablePrefix != ''){
+			if($this->tablePrefix != '') {
 				$config = $this->getDataSource()->config;
 
 				if(isset($config['prefix'])) {
@@ -219,8 +219,8 @@
 		 *
 		 * @return void
 		 */
-		public function afterSave($created){
-			$this->__clearCache();
+		public function afterSave($created) {
+			return $this->__clearCache();
 		}
 
 		/**
@@ -232,8 +232,8 @@
 		 *
 		 * @return void
 		 */
-		public function afterDelete(){
-			$this->__clearCache();
+		public function afterDelete() {
+			return $this->__clearCache();
 		}
 
 		/**
@@ -249,23 +249,8 @@
 		 *
 		 * @return void
 		 */
-		private function __clearCache(){
-			if(in_array($this->plugin, Cache::configured())){
-				$_cache = Cache::getInstance()->__config[$this->plugin];
-				$path = CACHE.str_replace('.', DS, $_cache['prefix']);
-				if(CACHE !== $path && is_dir($path)){
-					$Folder = new Folder($path);
-					if($Folder->delete()){
-						$this->log('deleted: '.$path, 'cache_clearing');
-					}
-					else{
-						$this->log('failed: '.$path, 'cache_clearing');
-					}
-				}
-				else{
-					$this->log('skip: '.$path, 'cache_clearing');
-				}
-			}
+		private function __clearCache() {
+			return ClearCache::engines(Inflector::underscore($this->plugin));
 		}
 
 		/**
@@ -277,16 +262,16 @@
 		 *
 		 * @return array the data from the find
 		 */
-		public function uniqueList($displayField = '', $primaryKey = false, $order = null){
-			if(empty($displayField) || !is_string($displayField) || !$this->hasField($displayField)){
+		public function uniqueList($displayField = '', $primaryKey = false, $order = null) {
+			if(empty($displayField) || !is_string($displayField) || !$this->hasField($displayField)) {
 				$displayField = $this->displayField;
 			}
 
-			if(empty($primaryKey) || !is_string($primaryKey) || !$this->hasField($primaryKey)){
+			if(empty($primaryKey) || !is_string($primaryKey) || !$this->hasField($primaryKey)) {
 				$primaryKey = $this->primaryKey;
 			}
 
-			if(empty($order)){
+			if(empty($order)) {
 				$order = array(
 					$this->alias . '.' . $displayField => 'asc'
 				);
@@ -376,7 +361,7 @@
 		 *
 		 * @return void
 		 */
-		private function __setupDatabaseConnections(){
+		private function __setupDatabaseConnections() {
 			$connections = array_filter(current(EventCore::trigger($this, 'requireDatabaseConfigs')));
 
 			foreach($connections as $plugin => $connection) {
@@ -385,7 +370,7 @@
 
 				$alreadyUsed = strtolower($key) == 'default' || in_array($key, ConnectionManager::sourceList());
 
-				if($alreadyUsed){
+				if($alreadyUsed) {
 					continue;
 					throw new Exception(sprintf(__('The connection "%s" in the plugin "%s" has already been used. Skipping'), $key, $plugin));
 				}
@@ -417,20 +402,20 @@
 		 *
 		 * @return see the methods for tranasactions in cakephp dbo
 		 */
-		public function transaction($action = null){
+		public function transaction($action = null) {
 			$this->__dataSource = $this->getDataSource();
 
 			$return = false;
 
-			if($action === null){
+			if($action === null) {
 				$return = $this->__dataSource->begin($this);
 			}
 
-			else if($action === true){
+			else if($action === true) {
 				$return = $this->__dataSource->commit($this);
 			}
 
-			else if($action === false){
+			else if($action === false) {
 				$return = $this->__dataSource->rollback($this);
 			}
 
@@ -497,11 +482,11 @@
 		public function fullModelName() {
 			return $this->plugin . '.' . $this->alias;
 		}
-		
+
 		/**
 		 * @brief find active rows
-		 * 
-		 * @throws CakeException 
+		 *
+		 * @throws CakeException
 		 *
 		 * @param string $state Either "before" or "after"
 		 * @param array $query
@@ -514,18 +499,18 @@
 				if(!$this->hasField('active')) {
 					throw new CakeException('Missing active field in model ' . $this->name);
 				}
-				
+
 				$query['conditions'][$this->alias . '.active'] = 1;
 				return $query;
 			}
-			
+
 			return $results;
 		}
-		
+
 		/**
 		 * @brief find inactive rows
-		 * 
-		 * @throws CakeException 
+		 *
+		 * @throws CakeException
 		 *
 		 * @param string $state Either "before" or "after"
 		 * @param array $query
@@ -538,11 +523,11 @@
 				if(!$this->hasField('active')) {
 					throw new CakeException('Missing active field in model ' . $this->name);
 				}
-				
+
 				$query['conditions'][$this->alias . '.active'] = 0;
 				return $query;
 			}
-			
+
 			return $results;
 		}
 

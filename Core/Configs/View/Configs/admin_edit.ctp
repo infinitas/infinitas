@@ -27,7 +27,7 @@
 
 			echo $this->Form->hidden('type');
 
-			switch( $this->data['Config']['type']){
+			switch( $this->data['Config']['type']) {
 				case 'bool':
 					$_label = explode('.', $this->data['Config']['key']);
 					$label = (isset($_label[1]) ? $_label[1] : $_label[0]);
@@ -45,7 +45,7 @@
 
 				case 'dropdown':
 					$_options = explode(',', $this->data['Config']['options']);
-					foreach($_options as $o){
+					foreach($_options as $o) {
 						$options[$o] = $o;
 					}
 

@@ -140,7 +140,7 @@
 			}
 		}
 
-		public function __massActionDelete($ids){
+		public function __massActionDelete($ids) {
 			return $this->MassAction->delete($this->__canDelete($ids));
 		}
 

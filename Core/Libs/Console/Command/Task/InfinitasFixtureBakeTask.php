@@ -37,7 +37,7 @@
 		 *
 		 * @return see generateFixtureFile()
 		 */
-		public function setup($modelName = null, $new = true){
+		public function setup($modelName = null, $new = true) {
 			list($this->plugin, $modelName) = pluginSplit($modelName);
 			$this->connection = 'default';
 
@@ -45,7 +45,7 @@
 			try{
 				$useTable = ClassRegistry::init($this->plugin . '.' . $modelName)->tablePrefix . ClassRegistry::init($this->plugin . '.' . $modelName)->useTable;
 			}
-			catch(Exception $e){
+			catch(Exception $e) {
 				
 			}
 
@@ -54,7 +54,7 @@
 			if(!$new) {
 				$oldFixture = $this->getOldFixture($this->plugin, $modelName);
 				
-				if(!$oldFixture){
+				if(!$oldFixture) {
 					$this->err(sprintf('There is no fixture for %s', $modelName));
 					return false;
 				}
@@ -62,8 +62,8 @@
 				$addFields = array_diff(array_keys($newFixture['fixture']['schema']), array_keys($oldFixture['fields']));
 				$removeFields = array_diff(array_keys($oldFixture['fields']), array_keys($newFixture['fixture']['schema']));
 
-				foreach($newFixture['fixture']['schema'] as $newField => $config){
-					if(!isset($oldFixture['fields'][$newField])){
+				foreach($newFixture['fixture']['schema'] as $newField => $config) {
+					if(!isset($oldFixture['fields'][$newField])) {
 						$oldFixture['fields'][$newField] = $config;
 						continue;
 					}
@@ -71,8 +71,8 @@
 					$oldFixture['fields'][$newField] = array_merge($oldFixture['fields'][$newField], $config);
 				}
 
-				foreach($oldFixture['fields'] as $field => $config){
-					if(in_array($field, $removeFields)){
+				foreach($oldFixture['fields'] as $field => $config) {
+					if(in_array($field, $removeFields)) {
 						unset($oldFixture['fields'][$field]);
 					}
 				}
@@ -109,22 +109,22 @@
 		 *
 		 * @return array the old fixture with new stuff merged in
 		 */
-		private function __cleanupRecords($fixture, $new, $old){
-			foreach($new as $newField){
-				foreach($fixture['records'] as $k => $record){
+		private function __cleanupRecords($fixture, $new, $old) {
+			foreach($new as $newField) {
+				foreach($fixture['records'] as $k => $record) {
 					$fixture['records'][$k][$newField] = 'null';
 				}
 			}
 			
-			foreach($old as $oldField){
-				foreach($fixture['records'] as $k => $record){
+			foreach($old as $oldField) {
+				foreach($fixture['records'] as $k => $record) {
 					unset($fixture['records'][$k][$oldField]);
 				}
 			}
 
-			foreach($fixture['records'] as $k => $record){
-				foreach($record as $field => $value){
-					if(!is_int($value)){
+			foreach($fixture['records'] as $k => $record) {
+				foreach($record as $field => $value) {
+					if(!is_int($value)) {
 						$fixture['records'][$k][$field] = sprintf("'%s'", $fixture['records'][$k][$field]);
 					}
 				}
@@ -191,9 +191,9 @@
 		 *
 		 * @return array details of the fixture (records, fields etc)
 		 */
-		public function getOldFixture($plugin, $model){
+		public function getOldFixture($plugin, $model) {
 			$file = App::pluginPath($plugin) . 'tests' . DS . 'fixtures' . DS . Inflector::underscore($model) . '_fixture.php';
-			if(!is_file($file)){
+			if(!is_file($file)) {
 				return array();
 			}
 
@@ -219,9 +219,9 @@
 		 *
 		 * @return see FixtureTask::generateFixtureFile()
 		 */
-		public function generateFixtureFile($model, $options){
+		public function generateFixtureFile($model, $options) {
 			$options['fields'] = explode("\n", $this->_generateSchema($options['fields']));
-			foreach($options['fields'] as $k => $line){
+			foreach($options['fields'] as $k => $line) {
 				$options['fields'][$k] = "\t" . $options['fields'][$k];
 			}
 			$options['fields'] = implode("\n", $options['fields']);
@@ -229,7 +229,7 @@
 			$options['schema'] = $options['fields'];
 			
 			$options['records'] = explode("\n", $this->_makeRecordString($options['records']));
-			foreach($options['records'] as $k => $line){
+			foreach($options['records'] as $k => $line) {
 				$options['records'][$k] = "\t" . $options['records'][$k];
 			}
 			$options['records'] = implode("\n", $options['records']);

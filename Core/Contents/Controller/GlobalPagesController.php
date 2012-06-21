@@ -66,7 +66,7 @@
 		}
 
 		public function admin_edit($filename) {
-			if (!$filename){
+			if (!$filename) {
 				$this->notice('invalid');
 			}
 

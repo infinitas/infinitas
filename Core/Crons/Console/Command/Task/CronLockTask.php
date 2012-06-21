@@ -18,11 +18,11 @@
 		 *
 		 * @todo should see if there is a way to kill the process for self maintanence.
 		 */
-		public function start(){
+		public function start() {
 			return $this->Cron->start();
 		}
 
-		public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0){
+		public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0) {
 			return $this->Cron->end($tasksRan, $memAverage, $loadAverage);
 		}
 
@@ -35,7 +35,7 @@
 		 *
 		 * @return bool true if time has passed, false if time has not passed
 		 */
-		public function checkTimePassed(){
+		public function checkTimePassed() {
 			$date = strtotime('-' . Configure::read('Cron.run_every'));
 			return !(bool)$this->Cron->countJobsAfter(date('Y-m-d H:i:s', $date));
 		}

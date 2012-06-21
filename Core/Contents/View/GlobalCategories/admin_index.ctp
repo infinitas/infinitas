@@ -87,7 +87,7 @@
                 		</td>
                 		<td>
                 			<?php
-                				if(!empty($category['Group']['name'])){
+                				if(!empty($category['Group']['name'])) {
                 					echo $category['Group']['name'];
                 				}
                 				else{

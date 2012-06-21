@@ -40,7 +40,7 @@
 			ClassRegistry::flush();
 		}
 
-		function testStuff(){
+		function testStuff() {
 			$this->assertInstanceOf('BranchesController', $this->Branches);
 		}
 	}

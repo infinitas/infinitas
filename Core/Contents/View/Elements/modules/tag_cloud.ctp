@@ -23,9 +23,9 @@
 	}
 
 	// format is different of views / the find above
-	if(!isset($tags[0]['GlobalTag'])){
+	if(!isset($tags[0]['GlobalTag'])) {
 		$_tags = array();
-		foreach($tags as $tag){
+		foreach($tags as $tag) {
 			$_tags[]['GlobalTag'] = $tag;
 		}
 		$tags = $_tags;

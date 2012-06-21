@@ -30,7 +30,7 @@
 
 		public $primaryKey = 'file_name';
 
-		public function __construct( $id = false, $table = null, $ds = null ){
+		public function __construct( $id = false, $table = null, $ds = null ) {
 			parent::__construct($id, $table, $ds);
 
 			$this->_schema = array(
@@ -89,15 +89,15 @@
 			return !is_file($this->__path($this->data[$this->alias]['file_name']));
 		}
 
-		public function schema($field = false){
-			if(is_string($field)){
+		public function schema($field = false) {
+			if(is_string($field)) {
 				return $this->_schema[$field];
 			}
 
 			return $this->_schema;
 		}
 
-		public function paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array()){
+		public function paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array()) {
 			App::import('Core', 'Folder');
 
 			$Folder = new Folder($this->__path());
@@ -108,8 +108,8 @@
 			unset($Folder);
 
 			$returnPages = array();
-			foreach($pages as $page){
-				if(strpos($page, '.ctp') !== false){
+			foreach($pages as $page) {
+				if(strpos($page, '.ctp') !== false) {
 					$returnPages[][$this->alias] = $this->__getPageData(basename($page));
 				}
 			}
@@ -121,7 +121,7 @@
 			return Set::sort($returnPages, '{n}.' . $this->alias . '.file_name', 'asc');
 		}
 
-		private function __path($id = null){
+		private function __path($id = null) {
 			if ($id) {
 				$id = DS . $id;
 			}
@@ -145,7 +145,7 @@
 			);
 		}
 
-		public function paginateCount($conditions = null, $recursive = 0, $extra = array()){
+		public function paginateCount($conditions = null, $recursive = 0, $extra = array()) {
 			App::import('Core', 'Folder');
 
 			$Folder = new Folder($this->__path());
@@ -156,8 +156,8 @@
 			return count($pages[1]);
 		}
 
-		public function read($fields = null, $filename = null){
-			if($filename === null){
+		public function read($fields = null, $filename = null) {
+			if($filename === null) {
 				$filename = $this->id;
 			}
 			
@@ -179,17 +179,17 @@
 			return false;
 		}
 
-		public function find($type, $options = array()){
+		public function find($type, $options = array()) {
 			$Folder = new Folder($this->__path());
 
 			$conditions = '.*';
-			if(isset($options['conditions'][$this->alias . '.file_name'])){
+			if(isset($options['conditions'][$this->alias . '.file_name'])) {
 				$conditions = regexEscape($options['conditions'][$this->alias . '.file_name']);
 			}
 
 			$results = $Folder->find($conditions);
 
-			switch($type){
+			switch($type) {
 				case 'count' :
 					return count($results);
 					break;
@@ -205,16 +205,16 @@
 			}
 		}
 
-		public function save($data = null, $validate = true){
+		public function save($data = null, $validate = true) {
 			if(!empty($data[$this->alias])) {
 				$this->data[$this->alias] = $data[$this->alias];
 			}
 
-			if(empty($this->data)){
+			if(empty($this->data)) {
 				return false;
 			}
 			
-			if(strpos($this->data[$this->alias]['file_name'], '.ctp') === false){
+			if(strpos($this->data[$this->alias]['file_name'], '.ctp') === false) {
 				$this->data[$this->alias]['file_name'] .= '.ctp';
 			}
 
@@ -228,7 +228,7 @@
 			return false;
 		}
 
-		public function delete($id = null){
+		public function delete($id = null) {
 			if (!$id) {
 				return false;
 			}

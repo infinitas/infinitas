@@ -1,7 +1,7 @@
 <div class="dashboard half">
 	<?php
 		echo $this->ViewCounter->header('overview', $overview);
-		if(empty($overview)){
+		if(empty($overview)) {
 			echo $this->ViewCounter->noData();
 		}
 		

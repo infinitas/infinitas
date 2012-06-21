@@ -56,7 +56,7 @@
                 )
             );
 
-            foreach($comments as $comment){
+            foreach($comments as $comment) {
 				$rowClass = $this->Infinitas->rowClass();
                 ?>
                     <tr class="<?php echo $rowClass; ?> multi-line">
@@ -78,7 +78,7 @@
                         <td rowspan="2">
                             <?php
 								echo $this->Infinitas->status($comment['InfinitasComment']['active'], $comment['InfinitasComment']['id']);
-                            	if(!$comment['InfinitasComment']['active']){
+                            	if(!$comment['InfinitasComment']['active']) {
                             		echo ' ', Inflector::humanize($comment['InfinitasComment']['status']);
                             	}
 								echo $this->Infinitas->status(

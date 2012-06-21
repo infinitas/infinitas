@@ -9,7 +9,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testLibIsLoaded(){
+		public function testLibIsLoaded() {
 			$this->assertIsA($this->Event, 'EventCore');
 			$this->assertTrue(class_exists('ChartDataManipulation'));
 		}

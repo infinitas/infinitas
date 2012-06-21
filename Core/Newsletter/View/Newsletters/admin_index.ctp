@@ -61,7 +61,7 @@
                 )
             );
 
-            foreach($newsletters as $newsletter){
+            foreach($newsletters as $newsletter) {
                 ?>
                     <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>
@@ -82,7 +82,7 @@
                         <td><?php echo $newsletter['Newsletter']['reply_to']; ?>&nbsp;</td>
                         <td>
                             <?php
-                                if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']){
+                                if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']) {
                                     echo $this->Html->image(
                                         'core/icons/actions/16/update.png',
                                         array(
@@ -99,7 +99,7 @@
                         </td>
                         <td>
                             <?php
-                                if ($newsletter['Newsletter']['sent']){
+                                if ($newsletter['Newsletter']['sent']) {
                                     echo $this->Html->link(
                                         $this->Html->image(
                                             'core/icons/actions/16/reports.png'

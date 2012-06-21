@@ -38,11 +38,11 @@
 <h3><?php echo __('Campaigns set to use this template'); ?></h3>
 <ul>
     <?php
-        if (empty($template['Campaign'])){
+        if (empty($template['Campaign'])) {
             echo '<li>', __('There are none'), '</li>';
         }
         else{
-            foreach($template['Campaign'] as $campaign){
+            foreach($template['Campaign'] as $campaign) {
                 echo '<li>'.$campaign['name'].'</li>';
             }
         }
@@ -52,11 +52,11 @@
 <h3><?php echo __('Newsletters using this template'); ?></h3>
 <ul>
     <?php
-        if (empty($template['Newsletter'])){
+        if (empty($template['Newsletter'])) {
             echo '<li>', __('There are none'), '</li>';
         }
         else{
-            foreach($template['Newsletter'] as $newsletter){
+            foreach($template['Newsletter'] as $newsletter) {
                 echo '<li>', $newsletter['subject'], '</li>';
             }
         }

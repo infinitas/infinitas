@@ -22,7 +22,7 @@
 ?>
 <div class="comments">
 	<?php
-		foreach($comments as $comment){
+		foreach($comments as $comment) {
 			echo $this->element('Comments.single_comment', array('comment' => $comment));
 		}
 	?>

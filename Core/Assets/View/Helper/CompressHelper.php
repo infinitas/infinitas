@@ -66,7 +66,7 @@
 				$this->cacheLength = (int)$cacheLength;
 			}
 
-			if(Configure::read('debug') != 2){
+			if(Configure::read('debug') != 2) {
 				$this->enabled = true;
 			}
 		}
@@ -138,7 +138,7 @@
 			return $this->Html->css($cssFiles);
 		}
 
-		protected function _getCssFiles($cssFiles){
+		protected function _getCssFiles($cssFiles) {
 			$urlMatches = $cssData = array();
 
 			$_setting = Configure::read('Assets.timestamp');
@@ -154,7 +154,7 @@
 				$cssPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
 				if (is_file($cssPath)) {
 					$css = file_get_contents($cssPath);
-					if(strstr($css, '../')){
+					if(strstr($css, '../')) {
 						$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
 						$css = str_replace('../', '/' .$parts[0] . '/', $css);
 					}
@@ -235,7 +235,7 @@
 			$this->Html->script($jsFiles);
 		}
 
-		protected function _getJsFiles($jsFiles){
+		protected function _getJsFiles($jsFiles) {
 			$urlMatches = $jsData = array();
 
 			$_setting = Configure::read('Asset.timestamp');

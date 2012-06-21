@@ -8,7 +8,7 @@
 		}
 
 		public function __isset($key) {
-			if($this->__isPosition($key)){
+			if($this->__isPosition($key)) {
 				App::import('Helper', 'Modules.ModuleLoader');
 				$ModuleLoader = new ModuleLoaderHelper();
 				$this->_data[$key] = $ModuleLoader->load($key);
@@ -16,13 +16,13 @@
 			}
 		}
 
-		private function __isPosition($position){
+		private function __isPosition($position) {
 			return ClassRegistry::init('Modules.ModulePosition')->isPosition($position);
 		}
 	}
 	
 	final class ModulesEvents extends AppEvents {
-		public function onSetupCache(){
+		public function onSetupCache() {
 			return array(
 				'name' => 'modules',
 				'config' => array(
@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'All' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index'),
 				'Frontend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0),
@@ -42,19 +42,19 @@
 			return $menu;
 		}
 
-		public function onRequireHelpersToLoad($event){
+		public function onRequireHelpersToLoad($event) {
 			return array(
 				'Modules.ModuleLoader'
 			);
 		}
 
-		public function onRequireGlobalTemplates($event){
+		public function onRequireGlobalTemplates($event) {
 			return array(
 				'ModuleLoader' => new ModuleTemplate()
 			);
 		}
 
-		public function onGetRequiredFixtures($event){
+		public function onGetRequiredFixtures($event) {
 			return array(
 				'Modules.Module',
 				'Modules.ModulePosition',

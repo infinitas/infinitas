@@ -19,7 +19,7 @@
 	 */
 
 	final class ViewCounterEvents extends AppEvents {
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'dashboard'),
 				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports'),
@@ -49,13 +49,13 @@
 			);
 		}
 
-		public function onRequireComponentsToLoad(){
+		public function onRequireComponentsToLoad() {
 			return array(
 				'ViewCounter.ViewCounter'
 			);
 		}
 
-		public function onRequireHelpersToLoad(){
+		public function onRequireHelpersToLoad() {
 			return array(
 				'ViewCounter.ViewCounter'
 			);
@@ -65,7 +65,7 @@
 		 * Called before blog post is echo'ed
 		 */
 		public function onBlogBeforeContentRender($event, $data) {
-			if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))){
+			if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))) {
 				return false;
 			}
 
@@ -80,7 +80,7 @@
 		 * Called after blog post is echo'ed
 		 */
 		public function onBlogAfterContentRender($event, $data) {
-			if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))){
+			if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))) {
 				return false;
 			}
 
@@ -118,10 +118,10 @@
 		 * @param int the number of views
 		 * @return string the view text
 		 */
-		private function __views($views = 0, $model = null){
+		private function __views($views = 0, $model = null) {
 			$average = ClassRegistry::init('ViewCounter.ViewCounterView')->getAverage($model);
 			
-			switch($views){
+			switch($views) {
 				case 0:
 					$text = __('Go on, be the first to view this post');
 					break;
@@ -166,7 +166,7 @@
 			return true;
 		}
 
-		public function onGetRequiredFixtures($event){
+		public function onGetRequiredFixtures($event) {
 			return array(
 				'ViewCounter.ViewCounterView',
 			);

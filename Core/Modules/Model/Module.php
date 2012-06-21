@@ -191,13 +191,13 @@
 			return true;
 		}
 
-		public function getModules($position = null, $admin = false){
+		public function getModules($position = null, $admin = false) {
 			if (!$position) {
 				return array();
 			}
 
 			$modules = Cache::read($position . '.' . (($admin) ? 'admin' : 'user'), 'modules');
-			if($modules !== false){
+			if($modules !== false) {
 				return $modules;
 			}
 
@@ -261,13 +261,13 @@
 			return $modules;
 		}
 
-		public function getModule($module = null, $admin = false){
+		public function getModule($module = null, $admin = false) {
 			if (!$module) {
 				return array();
 			}
 
 			$_module = Cache::read('single.' . (($admin) ? 'admin' : 'user'), 'modules');
-			if($_module !== false){
+			if($_module !== false) {
 				return $_module;
 			}
 
@@ -296,7 +296,7 @@
 			return $module;
 		}
 
-		public function getModuleList($plugin = null){
+		public function getModuleList($plugin = null) {
 			$admin = $nonAdmin = array();
 
 			$conditions = array();
@@ -311,16 +311,16 @@
 
 			$files = $this->Folder->read();
 
-			foreach($files[1] as $file){
+			foreach($files[1] as $file) {
 				$file = str_replace('.ctp', '', $file);
 				$nonAdmin[$file] = Inflector::humanize($file);
 			}
 
-			if(!empty($files[0]) && is_dir($path.$this->subPath.'admin')){
+			if(!empty($files[0]) && is_dir($path.$this->subPath.'admin')) {
 				$this->Folder->cd($path.$this->subPath.'admin');
 				$files = $this->Folder->read();
 
-				foreach($files[1] as &$file){
+				foreach($files[1] as &$file) {
 					$file = str_replace('.ctp', '', $file);
 					$admin['admin/'.$file] = Inflector::humanize($file);
 				}

@@ -46,7 +46,7 @@
                 )
             );
 
-            foreach ($shortUrls as $shortUrl){
+            foreach ($shortUrls as $shortUrl) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($shortUrl); ?>&nbsp;</td>

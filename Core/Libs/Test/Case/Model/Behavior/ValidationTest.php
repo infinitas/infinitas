@@ -19,12 +19,12 @@
 		/**
 		 * check validation is attached
 		 */
-		public function testValidationAttached(){
+		public function testValidationAttached() {
 			$this->assertTrue($this->User->Behaviors->attached('Validation'));
 		}
 
 		
-		public function testValidateJson(){
+		public function testValidateJson() {
 			$this->User->validate = array(
 				'field_1' => array(
 					'validateJson' => array(
@@ -52,7 +52,7 @@
 		/**
 		 * test either or
 		 */
-		public function testValidateEitherOr(){
+		public function testValidateEitherOr() {
 			$this->User->validate = array(
 				'field_1' => array(
 					'validateEitherOr' => array(
@@ -109,7 +109,7 @@
 		/**
 		 * tests is url or absolute path
 		 */
-		public function testValidateUrlOrAbsolute(){
+		public function testValidateUrlOrAbsolute() {
 			$this->User->validate = array(
 				'url' => array(
 					'validateUrlOrAbsolute' => array(
@@ -151,7 +151,7 @@
 		/**
 		 * tests comparing passwords
 		 */
-		public function testValidateComparePasswords(){
+		public function testValidateComparePasswords() {
 			$this->User->validate = array(
 				'password' => array(
 					'validateCompareFields' => array(
@@ -180,7 +180,7 @@
 		/**
 		 * test comparing normal fields
 		 */
-		public function testCompareFields(){
+		public function testCompareFields() {
 			$this->User->validate = array(
 				'field_1' => array(
 					'validateCompareFields' => array(

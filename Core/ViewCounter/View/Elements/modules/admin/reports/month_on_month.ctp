@@ -1,7 +1,7 @@
 <div class="dashboard half">
 	<?php
 		echo $this->ViewCounter->header('month_on_month', $monthOnMonth);
-		if(empty($monthOnMonth['sub_total'])){
+		if(empty($monthOnMonth['sub_total'])) {
 			echo $this->ViewCounter->noData();
 		}
 		else{

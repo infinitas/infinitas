@@ -43,7 +43,7 @@
 			return true;
 		}
 
-		public function settings(){
+		public function settings() {
 			$this->reset();
 			$this->delivery = Configure::read('Newsletter.send_method');
 
@@ -79,9 +79,9 @@
 			$this->trackViews = Configure::read('Newsletter.track_views');
 		}
 
-		public function sendDirectMail($userDetails, $email = array()){
+		public function sendDirectMail($userDetails, $email = array()) {
 			$this->trackViews = false;
-			if(empty($userDetails)){
+			if(empty($userDetails)) {
 				return false;
 			}
 

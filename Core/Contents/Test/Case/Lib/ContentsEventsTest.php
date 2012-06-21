@@ -20,7 +20,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testGenerateSiteMapData(){
+		public function testGenerateSiteMapData() {
 			$this->assertInstanceOf('EventCore', $this->Event);
 
 			$result = $this->Event->trigger(new Object(), 'Contents.siteMapRebuild');

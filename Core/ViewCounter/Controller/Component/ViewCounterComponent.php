@@ -68,7 +68,7 @@
 				// only track actions that are set
 				in_array($Controller->request->params['action'], $settings['actions']);
 			
-			if($check){
+			if($check) {
 				$Controller->{$Controller->modelClass}->Behaviors->attach('ViewCounter.Viewable');
 				$Controller->{$Controller->modelClass}->__referer = $this->Controller->referer();
 			}

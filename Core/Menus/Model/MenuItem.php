@@ -148,7 +148,7 @@
 		 *
 		 * @return bool is it valid?
 		 */
-		public function validateEmptyOrCssClass($field){
+		public function validateEmptyOrCssClass($field) {
 			$field = current($field);
 			if(empty($field) && $field !== 0) {
 				return true;
@@ -169,7 +169,7 @@
 		 *
 		 * @return the parent method
 		 */
-		public function beforeValidate($options = array()){
+		public function beforeValidate($options = array()) {
 			$foreignKey = $this->belongsTo[$this->Menu->alias]['foreignKey'];
 
 			if(!empty($this->data[$this->alias][$foreignKey]) && empty($this->data[$this->alias]['parent_id'])) {
@@ -206,7 +206,7 @@
 		 *
 		 * @return array the menu items that belong to the type you asked for
 		 */
-		public function getMenu($type = null){
+		public function getMenu($type = null) {
 			if (!$type) {
 				return false;
 			}
@@ -310,7 +310,7 @@
 				)
 			);
 
-			if($count > 0){
+			if($count > 0) {
 				return true;
 			}
 

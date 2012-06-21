@@ -53,7 +53,7 @@ defaults('GRAPH_SIZE', 200);					// Image size
 
 // "define if not defined"
 function defaults($d,$v) {
-	if (!defined($d)){
+	if (!defined($d)) {
 		define($d,$v);
 	}
 }
@@ -140,27 +140,27 @@ foreach($vardom as $var => $dom) {
 }
 
 // check parameter sematics
-if (empty($MYREQUEST['SCOPE'])){
+if (empty($MYREQUEST['SCOPE'])) {
 	$MYREQUEST['SCOPE'] = "A";
 }
 
-if (empty($MYREQUEST['SORT1'])){
+if (empty($MYREQUEST['SORT1'])) {
 	$MYREQUEST['SORT1'] = "H";
 }
 
-if (empty($MYREQUEST['SORT2'])){
+if (empty($MYREQUEST['SORT2'])) {
 	$MYREQUEST['SORT2'] = "D";
 }
 
-if (empty($MYREQUEST['OB'])){
+if (empty($MYREQUEST['OB'])) {
 	$MYREQUEST['OB'] = OB_HOST_STATS;
 }
 
-if (!isset($MYREQUEST['COUNT'])){
+if (!isset($MYREQUEST['COUNT'])) {
 	$MYREQUEST['COUNT'] = 20;
 }
 
-if (!isset($scope_list[$MYREQUEST['SCOPE']])){
+if (!isset($scope_list[$MYREQUEST['SCOPE']])) {
 	$MYREQUEST['SCOPE'] = 'A';
 }
 
@@ -262,7 +262,7 @@ function duration($ts) {
 function graphics_avail() {
 	return extension_loaded('gd');
 }
-if (isset($MYREQUEST['IMG'])){
+if (isset($MYREQUEST['IMG'])) {
 	if (!graphics_avail()) {
 		exit(0);
 	}
@@ -349,7 +349,7 @@ if (isset($MYREQUEST['IMG'])){
 
 
 	$size = GRAPH_SIZE; // image size
-	if ($MYREQUEST['IMG']==3){
+	if ($MYREQUEST['IMG']==3) {
 		$image = imagecreate(2*$size+150, $size+10);
 	}
 	
@@ -483,7 +483,7 @@ if (isset($MYREQUEST['IMG'])){
 // pretty printer for byte values
 function bsize($s) {
 	foreach (array('','K','M','G') as $i => $k) {
-		if ($s < 1024){
+		if ($s < 1024) {
 			break;
 		}
 		$s/=1024;
@@ -518,7 +518,7 @@ function menu_entry($ob,$title) {
 	}
 }
 
-function put_login_link($s="Login"){
+function put_login_link($s="Login") {
 	global $MY_SELF,$MYREQUEST,$AUTHENTICATED;
 	// needs ADMIN_PASSWORD to be changed!
 	//
@@ -526,7 +526,7 @@ function put_login_link($s="Login"){
 		return;
 	} 
 	
-	else if (ADMIN_PASSWORD == 'password'){
+	else if (ADMIN_PASSWORD == 'password') {
 		print <<<EOB
 			<a href="#" onClick="javascript:alert('You need to set a password at the top of apc.php before this will work!');return false";>$s</a>
 EOB;
@@ -545,7 +545,7 @@ EOB;
 	}
 }
 
-function block_sort($array1, $array2){
+function block_sort($array1, $array2) {
 	if ($array1['offset'] > $array2['offset']) {
 		return 1;
 	}
@@ -828,11 +828,11 @@ case OB_HOST_STATS:
 		<tr class=tr-1><td class=td-0>PHP Version</td><td>$phpversion</td></tr>
 EOB;
 
-	if(!empty($_SERVER['SERVER_NAME'])){
+	if(!empty($_SERVER['SERVER_NAME'])) {
 		echo "<tr class=tr-0><td class=td-0>APC Host</td><td>{$_SERVER['SERVER_NAME']} $host</td></tr>\n";
 	}
 
-	if(!empty($_SERVER['SERVER_SOFTWARE'])){
+	if(!empty($_SERVER['SERVER_SOFTWARE'])) {
 		echo "<tr class=tr-1><td class=td-0>Server Software</td><td>{$_SERVER['SERVER_SOFTWARE']}</td></tr>\n";
 	}
 
@@ -884,7 +884,7 @@ EOB;
 		$j = 1 - $j;
 	}
 
-	if($mem['num_seg']>1 || $mem['num_seg']==1 && count($mem['block_lists'][0])>1){
+	if($mem['num_seg']>1 || $mem['num_seg']==1 && count($mem['block_lists'][0])>1) {
 		$mem_note = "Memory Usage<br /><font size=-2>(multiple slices indicate fragments)</font>";
 	}
 	else{
@@ -930,7 +930,7 @@ EOB;
 
 			$ptr = $block['offset'] + $block['size'];
 			/* Only consider blocks <5M for the fragmentation % */
-			if($block['size']<(5*1024*1024)){
+			if($block['size']<(5*1024*1024)) {
 				$fragsize += $block['size'];
 			}
 
@@ -1262,7 +1262,7 @@ EOB;
 	foreach($cache[$scope_list[$MYREQUEST['SCOPE']]] as $entry) {
 		$n = dirname($entry['filename']);
 		if ($MYREQUEST['AGGR'] > 0) {
-			$n = preg_replace("!^(/?(?:[^/\\\\]+[/\\\\]){".($MYREQUEST['AGGR']-1)."}[^/\\\\]*).*!", "$1", $n);
+			$n = preg_replace("!^(/?(?:[^/\\\\]+[/\\\\]) {".($MYREQUEST['AGGR']-1)."}[^/\\\\]*).*!", "$1", $n);
 		}
 		if (!isset($tmp[$n])) {
 			$tmp[$n] = array('hits'=>0,'size'=>0,'ents'=>0);

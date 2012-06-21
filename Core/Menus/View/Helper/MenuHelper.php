@@ -55,22 +55,22 @@
 		 *
 		 * @return mixed
 		 */
-		public function builAdminMenu(){
+		public function builAdminMenu() {
 			$this->__adminMenuUrl['plugin'] = $this->request->plugin;
 			$menus = $this->Event->trigger($this->plugin . '.adminMenu');
 			$items = (isset($menus['adminMenu'][$this->plugin]['main'])) ? $menus['adminMenu'][$this->plugin]['main'] : array();
 			$items = array('Home' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'dashboard')) + $items;
 
 			$return = array();
-			foreach($items as $name => $url){
-				if(is_array($url)){
+			foreach($items as $name => $url) {
+				if(is_array($url)) {
 					$url = array_merge($this->__adminMenuUrl, $url);
 				}
 
 				$options = array(
 					'escape' => false
 				);
-				if($this->here == Router::url($url)){
+				if($this->here == Router::url($url)) {
 					$options = array_merge($options, array('class' => 'current'));
 				}
 
@@ -99,12 +99,12 @@
 		 *
 		 * @return array the menu that was built
 		 */
-		public function builDashboardLinks($plugins = array(), $type = null, $cache = true){
-			if(!$type){
+		public function builDashboardLinks($plugins = array(), $type = null, $cache = true) {
+			if(!$type) {
 				$type = $this->plugin;
 			}
 
-			if(empty($plugins)){
+			if(empty($plugins)) {
 				$plugins = $this->Event->trigger('pluginRollCall');
 				$plugins = array_filter($plugins['pluginRollCall']);
 				$type = 'all';
@@ -116,7 +116,7 @@
 			foreach($plugins as $name => $info) {
 				$name = Inflector::camelize($name);
 				$info = array_merge($this->__adminDashboardIcon, $info);
-				if(empty($info['name'])){
+				if(empty($info['name'])) {
 					$info['name'] = __(prettyName($name));
 				}
 
@@ -129,11 +129,11 @@
 				}
 
 				$var = 'plugin';
-				if($type !== 'all'){
+				if($type !== 'all') {
 					$var = $type;
 				}
 
-				else if(strstr(App::pluginPath($name), APP . 'Core' . DS)){
+				else if(strstr(App::pluginPath($name), APP . 'Core' . DS)) {
 					$var = 'core';
 				}
 
@@ -166,7 +166,7 @@
 		 *
 		 * @return a nice formated <ul> list
 		 */
-		public function nestedList($data = array(), $type = 'horizontal'){
+		public function nestedList($data = array(), $type = 'horizontal') {
 			if (empty($data)) {
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;
@@ -258,7 +258,7 @@
 		 *
 		 * @return part of the formated tree.
 		 */
-		private function __buildDropdownMenu($array = array(), $model = ''){
+		private function __buildDropdownMenu($array = array(), $model = '') {
 			if (empty($array['MenuItem']) || $model = '') {
 				$this->errors[] = 'nothing passed to generate';
 				return false;
@@ -296,7 +296,7 @@
 					$this->_currentCssDone = true;
 				}
 
-				if(!empty($currentCss) && $this->_currentCssDone === false && Router::url($menuLink) == $this->here){
+				if(!empty($currentCss) && $this->_currentCssDone === false && Router::url($menuLink) == $this->here) {
 					$currentCss = ' current';
 					$this->_currentCssDone = true;
 				}
@@ -312,7 +312,7 @@
 
 				if (!empty($array['children'])) {
 					$this->_menuData .= '<ul class="pureCssMenum">';
-					foreach($array['children'] as $k => $v){
+					foreach($array['children'] as $k => $v) {
 						$this->_menuLevel = 1;
 						$this->__buildDropdownMenu($v, $model);
 					}

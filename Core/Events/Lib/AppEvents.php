@@ -32,13 +32,13 @@
 		 * builds a list of available events
 		 */
 		public function  __construct() {
-			if(!empty($this->__events)){
+			if(!empty($this->__events)) {
 				return true;
 			}
 			
 			$this->__events = get_class_methods('AppEvents');
-			foreach($this->__events as $k => $event){
-				if(substr($event, 0, 2) != 'on'){
+			foreach($this->__events as $k => $event) {
+				if(substr($event, 0, 2) != 'on') {
 					unset($this->__events[$k]);
 				}
 			}
@@ -51,26 +51,26 @@
 		 *
 		 * returns an array of all the available events.
 		 */
-		final public function availableEvents(){
+		final public function availableEvents() {
 			return $this->__events;
 		}
 		
 		/**
 		 * test if things are working
 		 */
-		final public function testEvent(){
+		final public function testEvent() {
 			echo '<h1>your event is working</h1>';
 			echo '<p>The following events are available for use in the Infinitas core</p>';
 			pr($this->availableEvents());
 			exit;
 		}
 
-		public function onPluginRollCall(){}
+		public function onPluginRollCall() {}
 
 		/**
 		 * @brief allow plugins to include libs early on in the request.
 		 */
-		public function onRequireLibs(){}
+		public function onRequireLibs() {}
 
 		/**
 		 * Load up some of your own 'AppControllers' so that you can create a base
@@ -81,7 +81,7 @@
 		 *
 		 * They will be loaded when 'AppController' is included, before it runs.
 		 */
-		public function onLoadAppController(){}
+		public function onLoadAppController() {}
 		
 
 		/**
@@ -93,7 +93,7 @@
 		 *
 		 * They will be loaded when 'AppModel' is included, before it runs.
 		 */
-		public function onLoadAppModel(){}
+		public function onLoadAppModel() {}
 
 		/**
 		 * Add database connections from your plugins with this trigger.
@@ -104,7 +104,7 @@
 		 *
 		 * @param object $event
 		 */
-		public function onRequireDatabaseConfigs($event){}
+		public function onRequireDatabaseConfigs($event) {}
 
 		/**
 		 * Load the default cache settings.
@@ -116,11 +116,11 @@
 		 *
 		 * @return true
 		 */
-		public function onSetupCache($event, $data = null){}
+		public function onSetupCache($event, $data = null) {}
 
-		public function onSetupConfigStart($event, $data = null){}
+		public function onSetupConfigStart($event, $data = null) {}
 		
-		public function onSetupConfigEnd($event, $data = null){}
+		public function onSetupConfigEnd($event, $data = null) {}
 
 		/**
 		 * Adding routes
@@ -131,7 +131,7 @@
 		 * 
 		 * @return nothing, it wont do anything
 		 */
-		public function onSetupRoutes($event, $data = null){}
+		public function onSetupRoutes($event, $data = null) {}
 
 		/**
 		 * parse extensions
@@ -140,7 +140,7 @@
 		 *
 		 * @return array of extensions that should be registered.
 		 */
-		public function onSetupExtensions($event){}
+		public function onSetupExtensions($event) {}
 
 		/**
 		 * @brief called when editing a row is canceled
@@ -157,28 +157,28 @@
 		/**
 		 *
 		 */
-		public function onAttachBehaviors($event = null){}
+		public function onAttachBehaviors($event = null) {}
 
 
 
 
-		#public function onSetupThemeStart($event, $data = null){}
+		#public function onSetupThemeStart($event, $data = null) {}
 
-		#public function onSetupThemeSelector($event, $data = null){}
+		#public function onSetupThemeSelector($event, $data = null) {}
 
-		#public function onSetupThemeEnd($event, $data = null){}
+		#public function onSetupThemeEnd($event, $data = null) {}
 
-		#public function onFindBrowser($event, $data = null){}
+		#public function onFindBrowser($event, $data = null) {}
 
-		#public function onFindOperatingSystem($event, $data = null){}
+		#public function onFindOperatingSystem($event, $data = null) {}
 
-		#public function onSetupThemeLayout($event, $data = null){}
+		#public function onSetupThemeLayout($event, $data = null) {}
 
-		#public function onUserLogin($event, $data = null){}
+		#public function onUserLogin($event, $data = null) {}
 
-		#public function onUserRegistration($event, $data = null){}
+		#public function onUserRegistration($event, $data = null) {}
 
-		#public function onUserActivation($event, $data = null){}
+		#public function onUserActivation($event, $data = null) {}
 
 		/**
 		 * Require Global templates used in page rendering.
@@ -191,12 +191,12 @@
 		 * you can use {{templates.foo.phone}} in your views to show your phone
 		 * number.
 		 */
-		public function onRequireGlobalTemplates($event){}
+		public function onRequireGlobalTemplates($event) {}
 
 		/**
 		 * @brief used to build the menus for the admin pages
 		 */
-		public function onAdminMenu(){}
+		public function onAdminMenu() {}
 
 		/**
 		 * Load helpers.
@@ -208,7 +208,7 @@
 		 *
 		 * @return mixed string | array like you would use in Controller->helpers
 		 */
-		public function onRequireHelpersToLoad($event = null){
+		public function onRequireHelpersToLoad($event = null) {
 			return array();
 		}
 
@@ -223,7 +223,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of javascript like HtmlHelper::script() takes
 		 */
-		public function onRequireJavascriptToLoad($event, $data = null){}
+		public function onRequireJavascriptToLoad($event, $data = null) {}
 
 		/**
 		 * Get vcss files to include
@@ -236,7 +236,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
-		public function onRequireCssToLoad($event, $data = null){}
+		public function onRequireCssToLoad($event, $data = null) {}
 
 		/**
 		 * Load components
@@ -249,7 +249,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
-		public function onRequireComponentsToLoad($event = null){
+		public function onRequireComponentsToLoad($event = null) {
 			return array();
 		}
 
@@ -303,7 +303,7 @@
 		 *	$return[0]['url']  = array();
 		 * @endcode
 		 */
-		public function onRequireTodoList($event){}
+		public function onRequireTodoList($event) {}
 
 		/**
 		 * Last event to fire.
@@ -311,7 +311,7 @@
 		 * Called after everything is done and finished. should not really be used
 		 * for output unless in debug mode. 
 		 */
-		public function onRequestDone(){}
+		public function onRequestDone() {}
 
 		/**
 		 * @brief Called when the system crons are being run
@@ -324,7 +324,7 @@
 		 *
 		 * @access public
 		 */
-		public function onRunCrons($event){
+		public function onRunCrons($event) {
 			return false;
 		}
 	}

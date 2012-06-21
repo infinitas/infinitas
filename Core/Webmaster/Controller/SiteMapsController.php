@@ -6,7 +6,7 @@
 	class SiteMapsController extends WebmasterAppController {
 		public $uses = array();
 
-		public function index(){
+		public function index() {
 			Configure::write('debug', 0);
 			$this->helpers[] = 'Xml';
 
@@ -14,12 +14,12 @@
 			$this->set('map', $map['urlset']);
 		}
 
-		private function __rebuild(){
+		private function __rebuild() {
 			$siteMaps = $this->Event->trigger('siteMapRebuild');
 			$map = array();
-			foreach((array)$siteMaps['siteMapRebuild'] as $plugin){
-				foreach((array)$plugin as $link){
-					if(!isset($link['url'])){
+			foreach((array)$siteMaps['siteMapRebuild'] as $plugin) {
+				foreach((array)$plugin as $link) {
+					if(!isset($link['url'])) {
 						continue;
 					}
 

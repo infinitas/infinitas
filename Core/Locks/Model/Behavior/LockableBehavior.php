@@ -48,7 +48,7 @@
 		 * @return void
 		 */
 		public function setup($Model, $config = null) {
-			if($Model->alias == 'Lock' || !$Model->Behaviors->enabled('Locks.Lockable')){
+			if($Model->alias == 'Lock' || !$Model->Behaviors->enabled('Locks.Lockable')) {
 				return;
 			}
 
@@ -98,7 +98,7 @@
 		public function afterFind($Model, $results, $primary) {
 			$this->userId = class_exists('CakeSession') ? CakeSession::read('Auth.User.id') : null;
 			
-			if(!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)){
+			if(!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)) {
 				if(!$this->userId || $Model->findQueryType != 'all') {
 					return $results;
 				}
@@ -126,12 +126,12 @@
 					)
 				);
 
-				if(isset($lock[0]['Lock']['user_id']) && $this->userId == $lock[0]['Lock']['user_id']){
+				if(isset($lock[0]['Lock']['user_id']) && $this->userId == $lock[0]['Lock']['user_id']) {
 					$Lock->delete($lock[0]['Lock']['id']);
 					$lock = array();
 				}
 
-				if(!empty($lock)){
+				if(!empty($lock)) {
 					return $lock;
 				}
 
@@ -161,7 +161,7 @@
 		 * @return array the find query data
 		 */
 		public function beforeFind($Model, $query) {
-			if($Model->findQueryType == 'count'){
+			if($Model->findQueryType == 'count') {
 				return $query;
 			}
 
@@ -212,7 +212,7 @@
 		 *
 		 * @return bool true on succsess false if not.
 		 */
-		public function afterSave($Model, $created){
+		public function afterSave($Model, $created) {
 			if(!$created) {
 				$this->__deleteLock($Model, $Model->data[$Model->alias][$Model->primaryKey]);
 			}

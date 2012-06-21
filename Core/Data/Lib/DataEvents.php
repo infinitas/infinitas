@@ -21,7 +21,7 @@
 	 */
 
 	class DataEvents extends AppEvents{
-		public function onSetupExtensions(){
+		public function onSetupExtensions() {
 			return array(
 				'csv'
 			);

@@ -43,7 +43,7 @@
 			Configure::write('debug', 2);
 		}
 		
-		public function help(){
+		public function help() {
 			$this->h1('Cron Help');
 			$this->p(
 				'The Infinitas cron shell is designed to be set up and run '.
@@ -85,13 +85,13 @@
 				$this->params['only'] = explode(',', (array)$this->params['only']);
 			}
 			
-			if(!$this->params['verbose'] && !$this->CronLock->checkTimePassed()){
+			if(!$this->params['verbose'] && !$this->CronLock->checkTimePassed()) {
 				$this->CronResource->log(sprintf('skipping (%s)', date('Y-m-d H:i:s')));
 				return false;
 			}
 			
 			$this->CronResource->start = microtime(true);			
-			if(!$this->_start()){
+			if(!$this->_start()) {
 				$this->_abort();
 			}
 
@@ -100,14 +100,14 @@
 			$this->_end();
 		}
 
-		public function dispatchCrons(){
+		public function dispatchCrons() {
 			$plugins = $this->Event->pluginsWith('runCrons');
 
 			$this->CronResource->logMemoryUsage(sprintf('→ Getting events (%s)', count($plugins)));
 			
 			$count = 0;
-			foreach($plugins as $plugin){
-				if(!empty($this->params['only']) && !in_array($plugin, $this->params['only'])){
+			foreach($plugins as $plugin) {
+				if(!empty($this->params['only']) && !in_array($plugin, $this->params['only'])) {
 					continue;
 				}
 				
@@ -119,7 +119,7 @@
 				}
 
 				$jobRan = isset($data['runCrons']) && current($data['runCrons']);
-				if($jobRan){
+				if($jobRan) {
 					++$this->jobsRun;
 				}
 
@@ -162,7 +162,7 @@
 		 *
 		 * @access protected
 		 */
-		protected function _end(){
+		protected function _end() {
 			$this->CronResource->logMemoryUsage();
 
 			$this->CronResource->log(sprintf('Cron Ended	   :: %s', date('Y-m-d H:i:s')));

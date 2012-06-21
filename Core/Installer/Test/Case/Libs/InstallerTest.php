@@ -62,7 +62,7 @@
 				)
 			);
 			$expected = $connection['connection'];
-			if(!$expected['port']){
+			if(!$expected['port']) {
 				unset($expected['port']);
 			}
 			$this->assertEqual($expected, $Installer->cleanConnectionDetails($connection));

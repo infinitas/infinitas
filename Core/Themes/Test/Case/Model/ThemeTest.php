@@ -18,7 +18,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testGetting(){
+		public function testGetting() {
 			$expected['Theme'] = array(
 				'id' => 4,
 				'name' => 'aqueous_light',
@@ -54,7 +54,7 @@
 			$this->assertFalse($result[3]['Theme']['active']);
 		}
 
-		public function testKeepingOneActiveThemeAtATime(){
+		public function testKeepingOneActiveThemeAtATime() {
 			// adding a new theme that is active should be the only active one
 			$theme = $this->Theme->find('first', array('conditions' => array('Theme.active' => 0)));
 			unset($theme['Theme']['id']);

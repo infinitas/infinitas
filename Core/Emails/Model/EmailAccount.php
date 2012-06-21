@@ -78,7 +78,7 @@
 		 * @param array $field the field being validated
 		 * @return bool is it valid
 		 */
-		public function validServer($field){
+		public function validServer($field) {
 			return 
 				// server like mail.something.ext
 				preg_match('/^[a-z0-9]*\.[a-z0-9]*\.([a-z]{2,3}|[a-z]{2,3}\.[a-z]{2,3})*$/', current($field)) ||
@@ -92,7 +92,7 @@
 		 *
 		 * @return bool were we able to connect?
 		 */
-		public function beforeSave(){
+		public function beforeSave() {
 			return true; //is_int(ClassRegistry::init('Emails.MailSystem')->testConnection($this->data['EmailAccount']));
 		}
 
@@ -103,7 +103,7 @@
 		 * @param <type> $user_id the user requesting
 		 * @return <type> array of accounts
 		 */
-		public function getMyAccounts($userId){
+		public function getMyAccounts($userId) {
 			$accounts = $this->find(
 				'all',
 				array(
@@ -128,7 +128,7 @@
 		/**
 		 * @brief get a list of mails that are set to download with crons
 		 */
-		public function getCronAccounts(){
+		public function getCronAccounts() {
 			return $this->find(
 				'all',
 				array(
@@ -150,7 +150,7 @@
 			);
 		}
 
-		public function getConnectionDetails($id){
+		public function getConnectionDetails($id) {
 			$account = $this->find(
 				'first',
 				array(
@@ -160,7 +160,7 @@
 				)
 			);
 
-			if(!empty($account)){
+			if(!empty($account)) {
 				return $account['EmailAccount'];
 			}
 

@@ -7,11 +7,11 @@
 		 * @param array $data Data to pass to event handler
 		 * @return array:
 		 */
-		public function trigger($eventName, $data = array()){
+		public function trigger($eventName, $data = array()) {
 			return EventCore::trigger($this, $eventName, $data);
 		}
 
-		public function pluginsWith($eventName){
+		public function pluginsWith($eventName) {
 			return EventCore::pluginsWith($eventName);
 		}
 	}

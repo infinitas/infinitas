@@ -86,7 +86,7 @@
                 		</td>
                 		<td>
                 			<?php
-                				if(isset($menuItem['Group']['name'])){
+                				if(isset($menuItem['Group']['name'])) {
                 					echo __(Inflector::humanize($menuItem['Group']['name']));
                 				}
                 				else{

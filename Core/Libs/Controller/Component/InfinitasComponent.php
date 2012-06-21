@@ -57,7 +57,7 @@
 			$wysiwygEditors = Cache::read('wysiwyg_editors', 'core');
 			if($wysiwygEditors === false) {
 				$eventData = $this->Event->trigger('registerWysiwyg');
-				if(is_array($eventData) && !empty($eventData)){
+				if(is_array($eventData) && !empty($eventData)) {
 					$editors = implode(',', current($eventData));
 					Cache::write('wysiwyg_editors', $editors, 'core');
 				}
@@ -73,7 +73,7 @@
 		 * @param array $options
 		 * @return
 		 */
-		public function changePaginationLimit($options=array(),$params=array()){
+		public function changePaginationLimit($options=array(),$params=array()) {
 			// remove the current / default value
 			if (isset($params['named']['limit'])) {
 				unset($params['named']['limit']);
@@ -99,7 +99,7 @@
 		 * @param int $limit the current limit that is being requested
 		 * @return int site max if limit was to high :: the limit that was set if its not to high
 		 */
-		public function paginationHardLimit($limit = null, $return = false){
+		public function paginationHardLimit($limit = null, $return = false) {
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
 				$this->Controller->request->params['limit'] = Configure::read('Global.pagination_limit');
 
@@ -123,7 +123,7 @@
 		 *
 		 * this will force your site to use the sub domain www.
 		 */
-		public function forceWwwUrl(){
+		public function forceWwwUrl() {
 			// read the host from the server environment
 			$host = env('HTTP_HOST');
 			if ($host == 'localhost') {
@@ -141,7 +141,7 @@
 
 			// if the host is not starting with www. redirect the
 			// user to the same URL but with www :-)
-			if (!strpos($host, 'www')){
+			if (!strpos($host, 'www')) {
 				$this->redirect('www' . $host);
 			}
 		}
@@ -151,7 +151,7 @@
 		 *
 		 * return string the users browser name or Unknown.
 		 */
-		public function getBrowser(){
+		public function getBrowser() {
 			$event = $this->Controller->Event->trigger('findBrowser');
 			if (isset($event['findBrowser'][$this->Controller->plugin]) && is_string($event['findBrowser'][$this->Controller->plugin])) {
 				return $event['findBrowser'][$this->Controller->plugin];
@@ -175,7 +175,7 @@
 				return 'MS Internet Explorer '.$m[1];
 			}
 
-			else if (preg_match( "/netscape.?\/([\d\.]*)/i", $agent, $m )){
+			else if (preg_match( "/netscape.?\/([\d\.]*)/i", $agent, $m )) {
 					// Netscape 6.x, 7.x ...
 					return 'Netscape '.$m[1];
 			}
@@ -196,8 +196,8 @@
 				// Other
 				Configure::load('browsers');
 				$browsers	  = Configure::read('Browsers');
-				foreach ( $browsers as $key => $value){
-					if ( preg_match( '/'.regexEscape($value).'.?\/([\d\.]*)/i', $agent, $m ) ){
+				foreach ( $browsers as $key => $value) {
+					if ( preg_match( '/'.regexEscape($value).'.?\/([\d\.]*)/i', $agent, $m ) ) {
 						return $browsers[$key].' '.$m[1];
 						break;
 					}
@@ -212,7 +212,7 @@
 		 *
 		 * @return string the name of the opperating sustem or Unknown if unable to detect
 		 */
-		public function getOperatingSystem(){
+		public function getOperatingSystem() {
 			$event = $this->Controller->Event->trigger('findOperatingSystem');
 			if (isset($event['findOperatingSystem'][$this->Controller->plugin]) && is_string($event['findOperatingSystem'][$this->Controller->plugin])) {
 				return $event['findOperatingSystem'][$this->Controller->plugin];
@@ -222,8 +222,8 @@
 			Configure::load('operating_systems');
 			$operatingSystems = Configure::read('OperatingSystems');
 
-			foreach ( $operatingSystems as $key => $value){
-				if ( preg_match( "/$value/i", $agent ) ){
+			foreach ( $operatingSystems as $key => $value) {
+				if ( preg_match( "/$value/i", $agent ) ) {
 					return $operatingSystems[$key];
 				}
 			}
@@ -233,7 +233,7 @@
 
 		public function getPluginAssets() {
 			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
-			if(isset($event['requireJavascriptToLoad']['assets'])){
+			if(isset($event['requireJavascriptToLoad']['assets'])) {
 				$libs['assets'] = $event['requireJavascriptToLoad']['assets'];
 				$event['requireJavascriptToLoad'] = $libs + $event['requireJavascriptToLoad'];
 			}
@@ -319,7 +319,7 @@
 		 *
 		 * This is used for moving sequenced records and is called by admin_reorder.
 		 */
-		public function orderedMove(){
+		public function orderedMove() {
 			$modelName = $this->Controller->modelClass;
 			
 			$orderable = isset($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']) &&
@@ -359,7 +359,7 @@
 		 * @version	 1.0
 		 * @license	 MIT
 		 */
-		private function __paginationRecall(){
+		private function __paginationRecall() {
 			$paramsUrl = isset($this->Controller->params['url']) ? $this->Controller->params['url'] : array();
 
 			$options = array();
@@ -465,14 +465,14 @@
 			}
 		}
 
-		protected function _getPlugins(){
+		protected function _getPlugins() {
 			$plugins = array(
 				'infinitas',
 				'extentions',
 				'plugins'
 			);
 			$return = array();
-			foreach($plugins as $plugin ){
+			foreach($plugins as $plugin ) {
 				$return = array_merge($return, $this->_getPluginControllerNames($plugin));
 			}
 

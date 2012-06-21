@@ -3,7 +3,7 @@
 		public function onPluginRollCall() {
 		}
 
-		public function onSetupCache(){
+		public function onSetupCache() {
 			return array(
 				'name' => 'core',
 				'config' => array(
@@ -12,7 +12,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Configuration' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site')
 			);
@@ -20,8 +20,8 @@
 			return $menu;
 		}
 
-		public function onSlugUrl($event, $data){
-			switch($data['type']){
+		public function onSlugUrl($event, $data) {
+			switch($data['type']) {
 				case 'comments':
 					return array(
 						'plugin' => 'management',
@@ -58,7 +58,7 @@
 			);
 		}
 
-		public function onGetRequiredFixtures($event){
+		public function onGetRequiredFixtures($event) {
 			return array(
 				'Management.Ticket',
 				'Management.Session'

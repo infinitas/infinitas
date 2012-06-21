@@ -52,9 +52,9 @@
 			'setupExtensions' => 'all'
 		);
 
-		private function __construct(){}
+		private function __construct() {}
 
-		private function __clone(){}
+		private function __clone() {}
 
 		/**
 		 * Returns a singleton instance of the EventCore class.
@@ -62,7 +62,7 @@
 		 * @return EventCore instance
 		 * @access public
 		 */
-		public function getInstance(){
+		public function getInstance() {
 			static $instance = array();
 
 			if (empty($instance)) {
@@ -83,14 +83,14 @@
 		static public function trigger(&$HandlerObject, $eventName, $data = array()) {
 			$_this = EventCore::getInstance();
 
-			if(!is_array($eventName)){
+			if(!is_array($eventName)) {
 				$eventName = array($eventName);
 			}
 
 			$eventNames = Set::filter($eventName);
 
 			$return = array();
-			foreach($eventNames as $eventName){
+			foreach($eventNames as $eventName) {
 				$eventData = EventCore::_parseEventName($eventName);
 				$return[$eventData['event']] = EventCore::_dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
@@ -111,14 +111,14 @@
 		 *
 		 * @return array the array of plugins that will be run
 		 */
-		public function pluginsWith($eventName){
+		public function pluginsWith($eventName) {
 			$_this = EventCore::getInstance();
-			if(!isset($_this->_eventHandlerCache[$eventName])){
+			if(!isset($_this->_eventHandlerCache[$eventName])) {
 				return array();
 			}
 
 			$return = array();
-			foreach($_this->_eventHandlerCache[$eventName] as $plugin){
+			foreach($_this->_eventHandlerCache[$eventName] as $plugin) {
 				$return[] = $_this->_extractPluginName($plugin);
 			}
 
@@ -189,7 +189,7 @@
 		 * Loads all available event handler classes for enabled plugins
 		 *
 		 */
-		protected function _loadEventHandlers(){
+		protected function _loadEventHandlers() {
 			$this->_eventHandlerCache = Cache::read('event_handlers', 'core');
 
 			if(!empty($this->_eventHandlerCache)) {
@@ -224,7 +224,7 @@
 		 * @return array
 		 *
 		 */
-		static protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()){
+		static protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()) {
 			$_this = EventCore::getInstance();
 			$eventHandlerMethod = $_this->_handlerMethodName($eventName);
 
@@ -242,7 +242,7 @@
 						continue;
 					}
 
-					if(($scope == 'Global' || $scope == $pluginName)){
+					if(($scope == 'Global' || $scope == $pluginName)) {
 						EventCore::_loadEventClass($eventClass);
 						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
@@ -262,14 +262,14 @@
 		 * @param string $eventName the name of the event
 		 * @return array the scope + event name
 		 */
-		protected function _parseEventName($eventName){
+		protected function _parseEventName($eventName) {
 			$_this = EventCore::getInstance();
 
-			if(!isset($_this->eventNameCache->{$eventName})){
+			if(!isset($_this->eventNameCache->{$eventName})) {
 				$eventTokens = String::tokenize($eventName, '.');
 				$scope = 'Global';
 				$event = $eventTokens[0];
-				if (count($eventTokens) > 1){
+				if (count($eventTokens) > 1) {
 					list($scope, $event) = $eventTokens;
 
 					if($scope != Inflector::camelize($scope)) {
@@ -295,9 +295,9 @@
 		 * @return string the method to be called
 		 *
 		 */
-		protected function _handlerMethodName($eventName){
+		protected function _handlerMethodName($eventName) {
 			$_this = EventCore::getInstance();
-			if(!isset($_this->handlerNameCache->{$eventName})){
+			if(!isset($_this->handlerNameCache->{$eventName})) {
 				$_this->handlerNameCache->{$eventName} = 'on' . Inflector::camelize($eventName);
 			}
 
@@ -310,15 +310,15 @@
 		 * @param object $Event
 		 * @access private
 		 */
-		protected function _getAvailableHandlers($Event){
-			if(is_object($Event)){
+		protected function _getAvailableHandlers($Event) {
+			if(is_object($Event)) {
 				$_this = EventCore::getInstance();
 
 				$reflection = new ReflectionClass($Event);
 				$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class == "'.get_class($Event).'" && substr($v->name, 0, 2) == "on";'));
 				$handlers = array_map(create_function('$v', 'return lcfirst(substr($v->name, 2));'), $classMethods);
 
-				foreach($handlers as $handlerName){
+				foreach($handlers as $handlerName) {
 						$_this->_eventHandlerCache[$handlerName][] = get_class($Event);
 				}
 			}
@@ -331,7 +331,7 @@
 		 * @param string $filename the file name of the event
 		 * @access private
 		 */
-		protected function _loadEventClass($className, $filename = false){
+		protected function _loadEventClass($className, $filename = false) {
 			$_this = EventCore::getInstance();
 			if(isset($_this->_eventClasses[$className]) && is_object($_this->_eventClasses[$className])) {
 				return true;
@@ -354,7 +354,7 @@
 				$_this->_eventClasses[$className] = new $className();
 				return true;
 			}
-			catch(Exception $e){
+			catch(Exception $e) {
 				$this->log(serialize($e), 'core');
 				return false;
 			}
@@ -369,9 +369,9 @@
 		 * @return string the plugin being called.
 		 * @access private
 		 */
-		protected function _extractPluginName($className){
+		protected function _extractPluginName($className) {
 			$_this = EventCore::getInstance();
-			if(!isset($_this->pluginNameCache->{$className})){
+			if(!isset($_this->pluginNameCache->{$className})) {
 				$_this->pluginNameCache->{$className} = substr($className, 0, strlen($className) - 6);
 			}
 

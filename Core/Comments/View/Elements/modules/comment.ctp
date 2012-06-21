@@ -18,7 +18,7 @@
      * @since         0.5a
      */
 
-	if(!Configure::read(Inflector::camelize($this->plugin).'.allow_comments')){
+	if(!Configure::read(Inflector::camelize($this->plugin).'.allow_comments')) {
 		return false;
 	}
 ?>
@@ -34,7 +34,7 @@
 			? $data[$modelName][$modelName.'Comment']
 			: $data[$modelName.'Comment'];
 
-		if(!empty($comments)){
+		if(!empty($comments)) {
 			echo $this->Html->link(
 				__('View all comments'),
 				array(
@@ -47,20 +47,20 @@
 			);
 
 			$_comments = array();
-			foreach($comments as $comment){
+			foreach($comments as $comment) {
 				$_comments[] = $this->element('Comments.single_comment', array('comment' => $comment));
 			}
 
 			echo implode('', $_comments);
 		}
 
-		if(Configure::read('Comments.require_auth') === true && !AuthComponent::user('id')){
+		if(Configure::read('Comments.require_auth') === true && !AuthComponent::user('id')) {
 			?><div class="comment"><?php echo __('Please log in to leave a comment'); ?></div><?php
 			echo '</div>'; // dont remove it keeps things even when exiting early
 			return;
 		}
 
-		if(isset($this->data[$modelName.'Comment']) && is_array($this->data[$modelName.'Comment'])){
+		if(isset($this->data[$modelName.'Comment']) && is_array($this->data[$modelName.'Comment'])) {
 			$this->request->data[$modelName . 'Comment'] = array_merge((array)AuthComponent::user(), $this->data[$modelName.'Comment']);
 		}
 		
@@ -68,7 +68,7 @@
 			$this->request->data[$modelName . 'Comment'] = AuthComponent::user();
 		}
 
-        if (isset($urlParams)){
+        if (isset($urlParams)) {
             echo $this->Form->create(
                 $modelName,
                 array(
@@ -94,14 +94,14 @@
 			echo $this->Form->hidden($modelName.'Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
 			
 			echo '<div class="comment">';
-			foreach($commentFields as $field){
+			foreach($commentFields as $field) {
 
-				if ($field != 'comment'){
+				if ($field != 'comment') {
 					$value = '';
 					$method = 'input';
-					if(isset($this->data[$modelName.'Comment'][$field])){
+					if(isset($this->data[$modelName.'Comment'][$field])) {
 						$value = isset($this->data[$modelName.'Comment'][$field]) ? $this->data[$modelName.'Comment'][$field] : '';
-						if($this->action != 'comment'){
+						if($this->action != 'comment') {
 							$method = 'hidden';
 						}
 					}
@@ -112,7 +112,7 @@
 				
 				$options = array('type' => 'textarea', 'class' => 'title');
 				$submitOptions = array();
-				if($this->action != 'comment'){
+				if($this->action != 'comment') {
 					$options = array_merge(
 						$options,
 						array(

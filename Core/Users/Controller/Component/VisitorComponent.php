@@ -23,7 +23,7 @@
 
 	class VisitorComponent extends InfinitasComponent {		
 		public function initialize($Controller, $settings = array()) {
-			if($Controller->Session->read('Auth.User.id')){
+			if($Controller->Session->read('Auth.User.id')) {
 				$User = ClassRegistry::init('Users.User');
 				$User->unbindModel(
 					array(

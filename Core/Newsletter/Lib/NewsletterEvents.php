@@ -21,7 +21,7 @@
 	 */
 
 	final class NewsletterEvents extends AppEvents {
-		public function onPluginRollCall(){
+		public function onPluginRollCall() {
 			return array(
 				'name' => 'Newsletter',
 				'description' => 'Keep in contact with your user base',
@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard'),
 				'Campaigns' => array('plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index'),
@@ -42,7 +42,7 @@
 			return $menu;
 		}
 		 
-		public function onRequireComponentsToLoad(){
+		public function onRequireComponentsToLoad() {
 			return array(
 				'Email',
 				'Newsletter.Emailer'

@@ -10,7 +10,7 @@
 			unset($vars['debugToolbarPanels']);
 			unset($vars['debugToolbarJavascript']);
 
-			if (is_array($vars)){
+			if (is_array($vars)) {
 				header('Content-type: application/json');
 
 				Configure::write('debug', 0); // Omit time in end of view

@@ -232,14 +232,14 @@
 			$this->__setupConfig();
 			$event = EventCore::trigger($this, 'requireComponentsToLoad');
 
-			if(isset($event['requireComponentsToLoad']['libs'])){
+			if(isset($event['requireComponentsToLoad']['libs'])) {
 				$libs['libs'] = $event['requireComponentsToLoad']['libs'];
 				$event['requireComponentsToLoad'] = $libs + $event['requireComponentsToLoad'];
 			}
 
-			foreach($event['requireComponentsToLoad'] as $plugin => $components){
-				if(!empty($components)){
-					if(!is_array($components)){
+			foreach($event['requireComponentsToLoad'] as $plugin => $components) {
+				if(!empty($components)) {
+					if(!is_array($components)) {
 						$components = array($components);
 					}
 					$this->components = array_merge((array)$this->components, (array)$components);
@@ -266,7 +266,7 @@
 
 			$this->request->params['admin'] = isset($this->request->params['admin']) ? $this->request->params['admin'] : false;
 
-			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Auth->user('group_id') != 1){
+			if($this->request->params['admin'] && $this->request->params['action'] != 'admin_login' && $this->Auth->user('group_id') != 1) {
 				$this->redirect(array('admin' => 1, 'plugin' => 'users', 'controller' => 'users', 'action' => 'login'));
 			}
 
@@ -285,7 +285,7 @@
 			$this->__callBacks[__FUNCTION__] = true;
 
 			$this->prettyModelName = prettyName($this->modelClass);
-			if(!empty($this->Session) && !$this->Session->read('ip_address')){
+			if(!empty($this->Session) && !$this->Session->read('ip_address')) {
 				$this->Session->write('ip_address', $this->request->clientIp());
 			}
 
@@ -316,7 +316,7 @@
 		public function beforeRender() {
 			parent::beforeRender();
 
-			switch(true){
+			switch(true) {
 				case (!empty($this->request->params['ext']) && $this->request->params['ext'] == 'json'):
 					$this->viewVars['json'] = array('json' => $this->viewVars['json']);
 					$this->set('_serialize', 'json');
@@ -448,7 +448,7 @@
 		 *
 		 * @return mixed bool for adding/removing or array when requesting data
 		 */
-		public function addCss($css = false){
+		public function addCss($css = false) {
 			return $this->__loadAsset($css, __FUNCTION__);
 		}
 
@@ -463,7 +463,7 @@
 		 *
 		 * @return mixed bool for adding/removing or array when requesting data
 		 */
-		public function addJs($js = false){
+		public function addJs($js = false) {
 			return $this->__loadAsset($js, __FUNCTION__);
 		}
 
@@ -480,24 +480,24 @@
 		 *
 		 * @return mixed true on success, arry if you pass true
 		 */
-		private function __loadAsset($data, $method){
+		private function __loadAsset($data, $method) {
 			$property = '__' . $method;
-			if($data === false){
+			if($data === false) {
 				$this->{$property} = array();
 				return true;
 			}
 
-			else if($data === true){
+			else if($data === true) {
 				return $this->{$property};
 			}
 
-			foreach((array)$data as $_data){
-				if(is_array($_data)){
+			foreach((array)$data as $_data) {
+				if(is_array($_data)) {
 					$this->{$method}($_data);
 					continue;
 				}
 
-				if(!in_array($_data, $this->{$property}) && !empty($_data)){
+				if(!in_array($_data, $this->{$property}) && !empty($_data)) {
 					$this->{$property}[] = $_data;
 				}
 			}
@@ -631,8 +631,8 @@
 			);
 
 			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
-			if($config['redirect'] || $config['redirect'] === ''){
-				if($config['redirect'] === true){
+			if($config['redirect'] || $config['redirect'] === '') {
+				if($config['redirect'] === true) {
 					$config['redirect'] = $this->referer();
 				}
 				$this->redirect($config['redirect']);
@@ -652,11 +652,11 @@
 		 *
 		 * @return void
 		 */
-		protected function __setupConfig(){
+		protected function __setupConfig() {
 			$configs = ClassRegistry::init('Configs.Config')->getConfig();
 
 			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigStart', $configs);
-			if (isset($eventData['setupConfigStart'][$this->plugin])){
+			if (isset($eventData['setupConfigStart'][$this->plugin])) {
 				$configs = (array)$eventData['setupConfigStart'][$this->plugin];
 
 				if (!array($configs)) {
@@ -665,7 +665,7 @@
 			}
 
 			$eventData = EventCore::trigger($this, $this->plugin.'.setupConfigEnd');
-			if (isset($eventData['setupConfigEnd'][$this->plugin])){
+			if (isset($eventData['setupConfigEnd'][$this->plugin])) {
 				$configs = $configs + (array)$eventData['setupConfigEnd'][$this->plugin];
 			}
 
@@ -685,9 +685,9 @@
 		 *
 		 * @return bool
 		 */
-		private function __writeConfigs($configs){
+		private function __writeConfigs($configs) {
 			foreach($configs as $config) {
-				if(empty($config) || !is_array($config)){
+				if(empty($config) || !is_array($config)) {
 					continue;
 				}
 

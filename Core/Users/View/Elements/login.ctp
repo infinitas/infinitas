@@ -67,8 +67,8 @@
 	<div class="oAuthLogin">
 		<?php
 			$providers = $this->Event->trigger('oauthProviders');
-			foreach($providers['oauthProviders'] as $provider){
-				if(isset($provider['element']) && isset($provider['config'])){
+			foreach($providers['oauthProviders'] as $provider) {
+				if(isset($provider['element']) && isset($provider['config'])) {
 					echo $this->element((string)$provider['element'], (array)$provider['config']);
 				}
 			}

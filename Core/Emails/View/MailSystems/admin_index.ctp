@@ -49,7 +49,7 @@
 				)
 			);
 
-			foreach($mails as $mail){
+			foreach($mails as $mail) {
 				$class = $mail['MailSystem']['unread'] ? 'unread' : '';
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">

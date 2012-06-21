@@ -9,7 +9,7 @@
             echo $this->Html->meta('icon');
 			
 			foreach($css_for_layout as $i => $css) {
-				if(strstr($css, '/assets/')){
+				if(strstr($css, '/assets/')) {
 					unset($css_for_layout[$i]);
 				}
 			}

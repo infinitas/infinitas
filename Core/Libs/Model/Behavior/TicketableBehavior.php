@@ -31,10 +31,10 @@
 		 *
 		 * @param string $info the information to save. will be serialized so arrays are fine
 		 */
-		function createTicket(&$Model, $info = null){
+		function createTicket(&$Model, $info = null) {
 			$this->cleanup();
 
-			if (!$info){
+			if (!$info) {
 				return false;
 			}
 
@@ -43,7 +43,7 @@
 
 			$this->Ticket->create();
 			$return = $this->Ticket->save($data);
-			if ($this->Ticket->id > 0){
+			if ($this->Ticket->id > 0) {
 				return $this->Ticket->id;
 			}
 
@@ -58,9 +58,9 @@
 		 *
 		 * @param string $ticket the ticket uuid
 		 */
-		function getTicket(&$Model, $ticket = null){
+		function getTicket(&$Model, $ticket = null) {
 			$this->cleanup();
-			if (!$ticket){
+			if (!$ticket) {
 				return false;
 			}
 
@@ -73,8 +73,8 @@
 				)
 			);
 
-			if (isset($data['Ticket']) && is_array($data['Ticket'])){
-				if($this->Ticket->delete($ticket)){
+			if (isset($data['Ticket']) && is_array($data['Ticket'])) {
+				if($this->Ticket->delete($ticket)) {
 					return unserialize($data['Ticket']['data']);
 				}
 			}
@@ -87,7 +87,7 @@
 		 *
 		 * When things are done, remove old tickets that have expired.
 		 */
-		function cleanup(){
+		function cleanup() {
 			$this->Ticket->deleteAll(
 				array(
 					'Ticket.expires < ' => date('Y-m-d H:i:s')

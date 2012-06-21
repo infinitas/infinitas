@@ -14,7 +14,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testEvents(){
+		public function testEvents() {
 			$result = $this->Event->trigger('foo');
 			$expected = array('foo'=> array());
 			$this->assertEquals($expected, $result);

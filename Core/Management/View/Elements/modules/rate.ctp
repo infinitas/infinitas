@@ -8,7 +8,7 @@
 		$allow &= date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $data[$modelName]['modified'];
 	}
 
-	if (!isset(${strtolower($modelName)}[$modelName]['rating']) || $allow !== true){
+	if (!isset(${strtolower($modelName)}[$modelName]['rating']) || $allow !== true) {
 		echo __('Rating is currently dissabled for this page');
 		return false;
 	}
@@ -20,7 +20,7 @@
 			if ($data[$modelName]['rating_count'] > 0 && $stats) {
 				echo sprintf(__('Currently rated %s (out of %s votes)'), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
 			}
-			else if($stats){
+			else if($stats) {
 				echo sprintf(__('This %s has not been rated yet'), prettyName($modelName));
 			}
 		?>

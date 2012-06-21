@@ -116,14 +116,14 @@
 		 * Allows other plugins to register routes to be used in the app and builds
 		 * the routes from the database.
 		 */
-		private static function __buildRoutes(){
+		private static function __buildRoutes() {
 			App::uses('ClassRegistry', 'Utility');
 			EventCore::trigger(new StdClass(), 'setupRoutes');
 
 			if(InfinitasPlugin::infinitasInstalled()) {
 				$routes = ClassRegistry::init('Routes.Route')->getRoutes();
 				if (!empty($routes)) {
-					foreach($routes as $route ){
+					foreach($routes as $route ) {
 						if (false) {
 							debugRoute($route);
 							continue;
@@ -144,13 +144,13 @@
 		 *
 		 * Call all plugins and see what extensions are need, this is cached
 		 */
-		private static function __registerExtensions(){
+		private static function __registerExtensions() {
 			$extensions = Cache::read('extensions', 'routes');
 			if($extensions === false) {
 				$extensions = EventCore::trigger(new StdClass(), 'setupExtensions');
 
 				$_extensions = array();
-				foreach($extensions['setupExtensions'] as $plugin => $ext){
+				foreach($extensions['setupExtensions'] as $plugin => $ext) {
 					$_extensions = array_merge($_extensions, (array)$ext);
 				}
 

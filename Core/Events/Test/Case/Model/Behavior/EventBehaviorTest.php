@@ -16,7 +16,7 @@
 			ClassRegistry::flush();
 		}
 
-		public function testEvent(){
+		public function testEvent() {
 			$result = $this->DummyModel->triggerEvent('foo');
 			$expected = array('foo'=> array());
 			$this->assertEquals($expected, $result);

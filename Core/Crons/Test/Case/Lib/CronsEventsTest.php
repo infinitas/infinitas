@@ -17,7 +17,7 @@
 		/**
 		 * test if the checks are working fine
 		 */
-		public function testAreCronsSetup(){
+		public function testAreCronsSetup() {
 			$result = $this->Event->trigger($this, 'Crons.areCronsSetup');
 			$expected = array('areCronsSetup' => array('Crons' => '2010-12-07 14:21:01'));
 			$this->assertEquals($expected, $result);
@@ -31,7 +31,7 @@
 		/**
 		 * test the todo list stuff is working fine
 		 */
-		public function testRequireTodoList(){
+		public function testRequireTodoList() {
 			/**
 			 * were running but broke/stoped
 			 */

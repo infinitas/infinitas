@@ -3,15 +3,17 @@
 App::uses('Contact', 'Contact.Model');
 
 class ContactTest extends CakeTestCase {
-	function startTest() {
+
+	public $fixtures = array('plugin.contact.contact');
+
+	public function startTest() {
 		$this->Contact = ClassRegistry::init('Contact.Contact');
 	}
 
-	function testDummy() {}
+	public function testDummy() {}
 
-	function endTest() {
+	public function endTest() {
 		unset($this->Contact);
 		ClassRegistry::flush();
 	}
-
 }

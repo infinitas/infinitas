@@ -542,7 +542,7 @@
 				if (isset($groupValues[$escapedGroupField])) {
 					$groupValue = $groupValues[$escapedGroupField];
 				}
-				else if(isset($groupValues[$groupField])){
+				else if(isset($groupValues[$groupField])) {
 					$groupValue = $groupValues[$groupField];
 				}
 

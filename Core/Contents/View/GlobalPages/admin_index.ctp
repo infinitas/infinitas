@@ -33,7 +33,7 @@
 
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
 
-	if(!$writable){ ?>
+	if(!$writable) { ?>
 		<div class="error-message">
 			<?php sprintf(__('Please ensure that %s is writable by the web server.'), $path); ?>
 		</div><?php

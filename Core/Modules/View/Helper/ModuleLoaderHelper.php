@@ -41,7 +41,7 @@
 		 * @params string $position this is the possition that is to be loaded, can be anything from the database
 		 * @params bool $admin if true its a admin module that should be loaded.
 		 */
-		public function load($position = null, $admin = false){
+		public function load($position = null, $admin = false) {
 			if (!$position) {
 				$this->errors[] = 'No position selected to load modules';
 				return false;
@@ -66,7 +66,7 @@
 				}
 				$params = $this->__getModuleParams($module, $admin);
 				
-				if($params === false){
+				if($params === false) {
 					continue; // from userland and its not active
 				}
 
@@ -74,7 +74,7 @@
 				
 				$error = !empty($this->_View->viewVars['error']) && $this->_View->viewVars['error'] instanceof Exception;
 
-				if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute){
+				if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute) {
 					foreach($module['ModuleRoute'] as $route) {
 						if (empty($route['Route']['url']) || $route['Route']['url'] == $currentRoute->template) {
 							$out .= $moduleOut;
@@ -100,12 +100,12 @@
 		 * @params string $position this is the possition that is to be loaded, can be anything from the database
 		 * @params bool $admin if true its a admin module that should be loaded.
 		 */
-		public function loadModule($module = null, $params = array()){
-			if(!$module){
+		public function loadModule($module = null, $params = array()) {
+			if(!$module) {
 				return false;
 			}
 
-			if($params == null){
+			if($params == null) {
 				$params = $this->__getModuleParams($module);
 			}
 
@@ -207,14 +207,14 @@
 		 *
 		 * @return array the params for loading the module.
 		 */
-		private function __getModuleParams($module, $admin = null){
-			if(!$admin){
+		private function __getModuleParams($module, $admin = null) {
+			if(!$admin) {
 				$admin = isset($this->_View->request->params['admin']) ? $this->_View->request->params['admin'] : false;
 			}
 
 			if(is_string($module)) {
 				$module = ClassRegistry::init('Modules.Module')->getModule($module, $admin);
-				if(empty($module)){
+				if(empty($module)) {
 					return false;
 				}
 			}
@@ -241,7 +241,7 @@
 		* @access protected
 		* @params string $config some JSON data to be decoded.
 		*/
-		private function __getModuleConfig($config = ''){
+		private function __getModuleConfig($config = '') {
 			if (empty($config['config'])) {
 				return array();
 			}

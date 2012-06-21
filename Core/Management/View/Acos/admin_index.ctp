@@ -9,7 +9,7 @@
 		<td>Public</td>
 	</tr>
 	<?php
-		foreach ($acos as $aco){
+		foreach ($acos as $aco) {
 			?>
 				<tr>
 					<td><?php echo $aco['Aco']['id']; ?></td>

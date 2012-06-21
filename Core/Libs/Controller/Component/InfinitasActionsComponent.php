@@ -10,7 +10,7 @@
 		 *
 		 * @return void
 		 */
-		public function actionAdminGetPlugins(){
+		public function actionAdminGetPlugins() {
 			$this->Controller->set('json', $this->Controller->{$this->Controller->modelClass}->getPlugins());
 		}
 
@@ -21,7 +21,7 @@
 		 *
 		 * @return void
 		 */
-		public function actionAdminGetControllers(){
+		public function actionAdminGetControllers() {
 			if (!isset($this->Controller->request->data[$this->Controller->modelClass]['plugin'])) {
 				$this->Controller->set('json', array('error'));
 				return;
@@ -42,7 +42,7 @@
 		 *
 		 * @return void
 		 */
-		public function actionAdminGetModels(){
+		public function actionAdminGetModels() {
 			if (!isset($this->Controller->request->data[$this->Controller->modelClass]['plugin'])) {
 				$this->Controller->set('json', array('error'));
 				return;
@@ -63,7 +63,7 @@
 		 *
 		 * @return void
 		 */
-		public function actionAdminGetActions(){
+		public function actionAdminGetActions() {
 			if (!(isset($this->Controller->request->data[$this->Controller->modelClass]['plugin']) &&
 					isset($this->Controller->request->data[$this->Controller->modelClass]['controller'] ))) {
 				$this->Controller->set('json', array('error'));
@@ -86,7 +86,7 @@
 		 *
 		 * @return void
 		 */
-		public function actionAdminGetRecords(){
+		public function actionAdminGetRecords() {
 			if (!(isset($this->Controller->request->data[$this->Controller->modelClass]['plugin']) &&
 					isset($this->Controller->request->data[$this->Controller->modelClass]['model'] ))) {
 				$this->Controller->set('json', array('error'));
@@ -146,7 +146,7 @@
 		 * @return void
 		 */
 		public function actionAdminEdit($id = null, $query = array()) {
-			if(empty($this->Controller->request->data) && !$id){
+			if(empty($this->Controller->request->data) && !$id) {
 				$this->Controller->notice('invalid');
 			}
 
@@ -158,11 +158,11 @@
 				$this->Controller->notice('not_saved');
 			}
 
-			if(empty($this->Controller->request->data) && $id){
+			if(empty($this->Controller->request->data) && $id) {
 				$query['conditions'][$this->Controller->{$this->Controller->modelClass}->alias . '.' . $this->Controller->{$this->Controller->modelClass}->primaryKey] = $id;
 
 				$this->Controller->request->data = $this->Controller->{$this->Controller->modelClass}->find('first', $query);
-				if(empty($this->Controller->request->data)){
+				if(empty($this->Controller->request->data)) {
 					$this->Controller->notice('invalid');
 				}
 			}
@@ -187,7 +187,7 @@
 		 * @return void
 		 */
 		public function actionAdminPreview($id = null) {
-			if(!is_callable(array($this->Controller->{$this->Controller->modelClass}, 'getViewData'))){
+			if(!is_callable(array($this->Controller->{$this->Controller->modelClass}, 'getViewData'))) {
 				$this->Controller->notice(
 					__('There is no preview available'),
 					array(
@@ -227,7 +227,7 @@
 		 *
 		 * redirects to the filtered url for the users own records
 		 */
-		public function actionAdminMine(){
+		public function actionAdminMine() {
 			if(!$this->Controller->{$this->Controller->modelClass}->hasField('user_id')) {
 				$this->Controller->notice(
 					__('Cant determin a user field'),
@@ -370,7 +370,7 @@
 					$message = sprintf(__('Saved! new rating %s (out of %s)'), $data[$this->Controller->modelClass]['rating'], $data[$this->Controller->modelClass]['rating_count']);
 				}
 
-				if($this->Controller->RequestHandler->isAjax()){
+				if($this->Controller->RequestHandler->isAjax()) {
 					Configure::write('debug', 0);
 					$this->Controller->set('json', array('message' => $message));
 				}

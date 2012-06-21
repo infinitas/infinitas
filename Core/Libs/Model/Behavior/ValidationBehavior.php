@@ -10,7 +10,7 @@
 		 *
 		 * @return bool is it valid
 		 */
-		public function validateEmptyOrJsonDeprecated($Model, $field){
+		public function validateEmptyOrJsonDeprecated($Model, $field) {
 			return strlen(current($field)) == 0 || $Model->validateJson(current($field));
 		}
 		
@@ -24,7 +24,7 @@
 		 *
 		 * @return bool is it valid
 		 */
-		public function validateJson($Model, $field){
+		public function validateJson($Model, $field) {
 			return $Model->getJson($Model->data[$Model->alias][current(array_keys($field))], array(), false);
 		}
 
@@ -82,7 +82,7 @@
 		 *
 		 * @return bool is it valid
 		 */
-		public function validateUrlOrAbsolute($Model, $field){
+		public function validateUrlOrAbsolute($Model, $field) {
 			return
 				// not in use
 				current($field) == '' ||
@@ -133,8 +133,8 @@
 		 * @param bool $fields the fields to compare
 		 */
 		public function validateCompareFields($Model, $field, $fields) {
-			if($fields[0] == 'password'){
-				if(!class_exists('Security')){
+			if($fields[0] == 'password') {
+				if(!class_exists('Security')) {
 					App::import('Security');
 				}
 				
@@ -156,7 +156,7 @@
 		 *
 		 * @return bool is it valid?
 		 */
-		public function validateRecordExists($Model, $field){
+		public function validateRecordExists($Model, $field) {
 			$aliases = array_flip(array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo));
 
 			$alias = !empty($aliases[key($field)]) ? $aliases[key($field)] : null;

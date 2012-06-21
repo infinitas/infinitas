@@ -12,7 +12,7 @@
 			$this->Time->niceShort($byDay['end_date'])
 		);
 		
-		if(empty($byDay['day'])){
+		if(empty($byDay['day'])) {
 			echo $this->ViewCounter->noData();
 		}
 

@@ -26,7 +26,7 @@
 		}
 
 		private function __autoUserLocation() {
-			if(!$this->Controller->Session->read('GeoLocation')){
+			if(!$this->Controller->Session->read('GeoLocation')) {
 				$data = $this->Controller->Event->trigger('GeoLocation.getLocation');
 				$this->Controller->Session->write('GeoLocation', current($data['getLocation']));
 			}
@@ -38,8 +38,8 @@
 		 * Attempt to get the country the user is from.  returns unknown if its not
 		 * able to match something.
 		 */
-		public function getCountryData($ipAddress = null, $code = false){
-			if (!$ipAddress){
+		public function getCountryData($ipAddress = null, $code = false) {
+			if (!$ipAddress) {
 				$ipAddress = $this->RequestHandler->getClientIP();
 				if (!$ipAddress) {
 					return $this->__emptyCountry;
@@ -69,8 +69,8 @@
 		/**
 		 * Get the city the user is in.
 		 */
-		public function getCityData($ipAddress = null){
-			if (!$ipAddress){
+		public function getCityData($ipAddress = null) {
+			if (!$ipAddress) {
 				$ipAddress = $this->RequestHandler->getClientIP();
 
 				if (!$ipAddress) {
@@ -82,7 +82,7 @@
 			App::import('Lib', 'Libs.Geoip/city.php');
 			App::import('Lib', 'Libs.Geoip/region_vars.php');
 
-			if(!is_file($this->cityDataFile)){
+			if(!is_file($this->cityDataFile)) {
 				return $this->__emptyCity;
 			}
 

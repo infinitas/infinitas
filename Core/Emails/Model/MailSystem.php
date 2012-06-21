@@ -32,12 +32,12 @@
 		 *
 		 * Validation method before saving an email account.
 		 */
-		public function testConnection($details){
+		public function testConnection($details) {
 			$this->server = $details;
 			return $this->find('count');
 		}
 
-		public function checkNewMail($account){
+		public function checkNewMail($account) {
 			$mails = $this->find(
 				'all',
 				array(

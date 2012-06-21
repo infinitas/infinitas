@@ -21,7 +21,7 @@
 		 *
 		 * @expectedException PHPUnit_Framework_Error_Warning
 		 */
-		public function testStartAndStop(){
+		public function testStartAndStop() {
 			$this->assertInstanceOf('Cron', $this->Cron);
 
 			/**
@@ -88,7 +88,7 @@
 		/**
 		 * test clearing out the old logs
 		 */
-		public function testClearOutOldLogs(){
+		public function testClearOutOldLogs() {
 			$result = $this->Cron->countJobsAfter('2010-12-7 06:47:06');
 			$expected = 89;
 			$this->assertEquals($expected, $result);

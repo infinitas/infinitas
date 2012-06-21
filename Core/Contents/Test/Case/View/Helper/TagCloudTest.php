@@ -22,7 +22,31 @@
  * @subpackage	plugins.tags.tests.cases.helpers
  */
 
-App::import('Helper', array('Html', 'Contents.TagCloud'));
+App::uses('Controller', 'Controller');
+App::uses('Helper', 'View');
+App::uses('AppHelper', 'View/Helper');
+App::uses('TagCloudHelper', 'Contents.View/Helper');
+/**
+ * TheHtmlTestController class
+ *
+ * @package       Cake.Test.Case.View.Helper
+ */
+class TheTagCloudTestController extends Controller {
+
+/**
+ * name property
+ *
+ * @var string 'TheTest'
+ */
+	public $name = 'TheTagCloud';
+
+/**
+ * uses property
+ *
+ * @var mixed null
+ */
+	public $uses = null;
+}
 
 class TagCloudHelperTestCase extends CakeTestCase {
 
@@ -37,8 +61,11 @@ class TagCloudHelperTestCase extends CakeTestCase {
  * @see cake/tests/lib/CakeTestCase#startTest($method)
  */
 	public function startTest() {
-		$this->TagCloud = new TagCloudHelper();
-		$this->TagCloud->Html = new HtmlHelper();
+		$this->View = $this->getMock('View', array('append'), array(new TheTagCloudTestController()));
+		$this->TagCloud = new TagCloudHelper($this->View);
+		$this->TagCloud->request = new CakeRequest(null, false);
+		$this->TagCloud->request->webroot = '';
+
 	}
 
 /**
@@ -47,12 +74,12 @@ class TagCloudHelperTestCase extends CakeTestCase {
  * @return void
  */
 	public function testDisplay() {
-		$result = $this->TagCloud->display();
+		$result = $this->TagCloud->display(array('plugin' => 'contents'));
 		$expected = '';
 		$this->assertEquals($expected, $result);
 		$tags = array(
 			array(
-				'Tag' => array(
+				'GlobalTag' => array(
 					'id'  => 1,
 					'identifier'  => null,
 					'name'  => 'CakePHP',
@@ -61,7 +88,7 @@ class TagCloudHelperTestCase extends CakeTestCase {
 					'created'  => '2008-06-02 18:18:11',
 					'modified'  => '2008-06-02 18:18:37')),
 			array(
-				'Tag' => array(
+				'GlobalTag' => array(
 					'id'  => 2,
 					'identifier'  => null,
 					'name'  => 'CakeDC',

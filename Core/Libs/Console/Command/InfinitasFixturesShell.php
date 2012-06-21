@@ -29,7 +29,7 @@
 			$method = strtoupper($this->in(__('What would you like to do?'), array_keys($this->__options)));
 
 			$method = $this->__options[$method];
-			if(!is_callable(array($this, $method))){
+			if(!is_callable(array($this, $method))) {
 				$this->out(__('You have made an invalid selection. Please choose an option from above.'));
 			}
 			else{
@@ -39,33 +39,33 @@
 			$this->main();
 		}
 
-		public function generate(){
+		public function generate() {
 			$plugins = $this->_selectPlugins(true, 'all');
-			if(!$plugins){
+			if(!$plugins) {
 				return false;
 			}
 			
-			foreach($plugins as $plugin){
+			foreach($plugins as $plugin) {
 				$this->__generateFixture($plugin, true);
 			}
 		}
 
-		public function update(){
+		public function update() {
 			$plugins = $this->_selectPlugins(true, 'all');
-			if(!$plugins){
+			if(!$plugins) {
 				return false;
 			}
 
-			foreach($plugins as $plugin){
+			foreach($plugins as $plugin) {
 				$this->__generateFixture($plugin, false);
 			}
 		}
 
-		public function import(){
+		public function import() {
 
 		}
 
-		private function __generateFixture($plugin, $new){
+		private function __generateFixture($plugin, $new) {
 			$models = App::objects('model', App::pluginPath($plugin) . 'models', false);
 			$models = array_combine(range(1, count($models)), $models);
 			
@@ -78,11 +78,11 @@
 			$this->tabbedList($models);
 
 			$option = null;
-			while(!$option){
+			while(!$option) {
 				$option = strtoupper($this->in(__('Which model would you like a fixture for')));
 			}
 
-			if(!isset($models[$option]) || $option == 'B'){
+			if(!isset($models[$option]) || $option == 'B') {
 				return false;
 			}
 

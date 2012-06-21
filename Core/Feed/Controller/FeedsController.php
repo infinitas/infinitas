@@ -1,6 +1,6 @@
 <?php
 	class FeedsController extends FeedAppController {
-		public function index(){
+		public function index() {
 			$feeds = $this->Feed->find(
 				'all',
 				array(
@@ -22,8 +22,8 @@
 			$this->set(compact('feeds'));
 		}
 
-		public function view(){
-			if(!$this->request->params['slug']){
+		public function view() {
+			if(!$this->request->params['slug']) {
 				$this->notice(
 					__('Invalid feed selected'),
 					array(
@@ -34,7 +34,7 @@
 
 			$feeds = $this->Feed->getFeed($this->request->params['slug'], $this->Auth->user('group_id'));
 
-			if(empty($feeds)){
+			if(empty($feeds)) {
 				$this->notice(
 					__('The feed you have selected is not valid'),
 					array(

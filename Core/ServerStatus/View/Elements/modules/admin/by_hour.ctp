@@ -15,7 +15,7 @@
 			$this->Time->niceShort($byHour['end_date'])
 		);
 
-		if(empty($byHour['hour'])){
+		if(empty($byHour['hour'])) {
 			echo $this->ViewCounter->noData();
 		}
 		

@@ -9,7 +9,7 @@
 		 */
 		public function onRequireTodoList($event) {
 			$crons = $this->onAreCronsSetup();
-			if(!$crons){
+			if(!$crons) {
 				return array(
 					array(
 						'name' => __('Crons are not configured yet'),
@@ -37,7 +37,7 @@
 		 *
 		 * @return string|bool false if not, or datetime of last run
 		 */
-		public function onAreCronsSetup(){
+		public function onAreCronsSetup() {
 			$date = ClassRegistry::init('Crons.Cron')->getLastRun();
 			return ($date) ? date('Y-m-d H:i:s', strtotime($date)) : $date;
 		}

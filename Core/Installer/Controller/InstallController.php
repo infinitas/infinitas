@@ -214,7 +214,7 @@
 			$this->loadModel('Installer.Install');
 
 			$database = array();
-			foreach($this->InstallerLib->getSupportedDbs() as $databaseType => $config){
+			foreach($this->InstallerLib->getSupportedDbs() as $databaseType => $config) {
 				if(isset($config['has'])) {
 					$database[$databaseType] = $config['has'];
 				}

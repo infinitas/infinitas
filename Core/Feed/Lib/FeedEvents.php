@@ -1,6 +1,6 @@
 <?php
 	final class FeedEvents extends AppEvents {
-		public function onPluginRollCall(){
+		public function onPluginRollCall() {
 			return array(
 				'name' => 'Feeds',
 				'description' => 'Provide RSS feeds of anything to your users',
@@ -10,7 +10,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Feeds' => array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'index')
 			);
@@ -18,7 +18,7 @@
 			return $menu;
 		}
 
-		public function onSetupCacheStart(){
+		public function onSetupCacheStart() {
 			return array(
 				'name' => 'feed',
 				'config' => array(
@@ -27,17 +27,17 @@
 			);
 		}
 
-		public function onSetupExtensions(){
+		public function onSetupExtensions() {
 			return array(
 				'rss'
 			);
 		}
 
-		public function onListAvailableFeeds(){
+		public function onListAvailableFeeds() {
 			return ClassRegistry::init('Feed.Feed')->listFeeds();
 		}
 
-		public function onSlugUrl($event, $data){
+		public function onSlugUrl($event, $data) {
 			return array(
 				'html' => array(
 					'plugin' => 'feed',
@@ -55,7 +55,7 @@
 			);
 		}
 
-		public function onSetupRoutes(){
+		public function onSetupRoutes() {
 			InfinitasRouter::connect(
 				'/feeds/subscribe/:slug',
 				array(

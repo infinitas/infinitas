@@ -62,7 +62,7 @@
 		 * @return void
 		 */
 		function admin_view($id = null) {
-			if(!$id){
+			if(!$id) {
 				$this->notice('invalid');
 			}
 

@@ -4,15 +4,16 @@ App::uses('ContactAddress', 'Contact.Model');
 
 class ContactAddressTest extends CakeTestCase {
 
-	function startTest() {
+	public $fixtures = array('plugin.contact.contact_address');
+
+	public function startTest() {
 		$this->ContactAddress = ClassRegistry::init('Contact.ContactAddress');
 	}
 
-	function testDummy() {}
+	public function testDummy() {}
 
-	function endTest() {
+	public function endTest() {
 		unset($this->ContactAddress);
 		ClassRegistry::flush();
 	}
-
 }

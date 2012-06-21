@@ -205,7 +205,7 @@
 			$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
 
 			$points = $data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_points']];
-			if($points < Configure::read('Comments.spam_threshold')){
+			if($points < Configure::read('Comments.spam_threshold')) {
 				return false;
 			}
 
@@ -430,7 +430,7 @@
 		 */
 		private function __rateEmail($Model, $data) {
 			$parts = explode('@', $data[$this->__settings[$Model->alias]['column_email']]);
-			if(is_int($parts[0])){
+			if(is_int($parts[0])) {
 				return -15;
 			}
 
@@ -454,7 +454,7 @@
 			);
 
 			foreach ($comments as $comment) {
-				switch($comment[$this->__settings[$Model->alias]['class']]['status']){
+				switch($comment[$this->__settings[$Model->alias]['class']]['status']) {
 					case 'approved':
 						++$points;
 						break;

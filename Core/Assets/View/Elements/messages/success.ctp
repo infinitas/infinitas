@@ -5,7 +5,7 @@
 			array('alt' => 'success')
 		);
 
-		if(isset($code) && $code){
+		if(isset($code) && $code) {
 			sprintf('<b>%s:</b> %s', $code, $message);
 		}
 

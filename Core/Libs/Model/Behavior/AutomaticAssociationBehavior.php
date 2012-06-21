@@ -33,7 +33,7 @@
 		*
 		* Checks routes and model loaded to see if it needs to be done
 		*/
-		function __autoBind(){
+		function __autoBind() {
 			$relations = $this->AssocType->getRelations();
 			if (false /* 2 way bind */) {
 				$this->__reverseBind();
@@ -47,21 +47,21 @@
 		 * gets a list of models that can be unbinded, check the routes and
 		 * unbind the correct ones
 		 */
-		function __autoUnbindBind(){
+		function __autoUnbindBind() {
 
 		}
 
 		/**
 		* public method to easily bind models.
 		*/
-		function bindModel($className = null){
+		function bindModel($className = null) {
 
 		}
 
 		/**
 		 * public method to easily un-bind models.
 		 */
-		function unbindModel($className = null){
+		function unbindModel($className = null) {
 
 		}
 	}

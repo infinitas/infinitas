@@ -1,5 +1,5 @@
 <?php
-	foreach($comments as $comment){
+	foreach($comments as $comment) {
 		?>
 			<div class="comment">
 				<div class="gravitar"><?php echo $this->Gravatar->image($comment['InfinitasComment']['email'], array('size' => '50')); ?></div>

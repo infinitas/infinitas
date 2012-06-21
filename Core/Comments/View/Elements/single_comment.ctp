@@ -19,26 +19,26 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	if(!isset($comment)){
+	if(!isset($comment)) {
 		return false;
 	}
 	$comment = isset($comment['InfinitasComment']) ? $comment['InfinitasComment'] : $comment;
 
 	$comment['comment'] = str_replace('\\n', '', strip_tags($comment['comment']));
-	if($this->plugin != 'Comments'){
+	if($this->plugin != 'Comments') {
 		$comment['comment'] = $this->Text->truncate($comment['comment'], 350);
 	}
 ?>
 <div class="comment">
 	<h4>
 		<?php
-			if(isset($comment['website']) && isset($comment['username'])){
+			if(isset($comment['website']) && isset($comment['username'])) {
 				echo $this->Html->link(
 					$comment['username'],
 					$comment['website'], array('rel' => 'nofollow')
 				);
 			}
-			else if(isset($comment['username'])){
+			else if(isset($comment['username'])) {
 				echo $comment['username'];
 			}
 		?>

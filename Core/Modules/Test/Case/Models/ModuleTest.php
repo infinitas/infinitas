@@ -25,7 +25,7 @@
 			$this->Module = new ModuleTest();
 		}
 
-		public function testGet(){
+		public function testGet() {
 			$this->assertEqual(array(), $this->Module->getModules());
 			$result = $this->Module->getModules('top');
 			//pr($result);

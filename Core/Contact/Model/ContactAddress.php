@@ -3,6 +3,14 @@
 	 *
 	 */
 	class ContactAddress extends ContactAppModel {
+		/**
+		 * the table prefix for this plugin
+		 *
+		 * @var string
+		 * @access public
+		 */
+		public $tablePrefix = '';
+
 		public $virtualFields = array(
 			'address' => 'CONCAT(ContactAddress.street, ", ", ContactAddress.city, ", ", ContactAddress.province)'
 		);
@@ -11,13 +19,13 @@
 			'Contact.Country'
 		);
 
-		public function getAddressByUser($userId = null, $type = 'list'){
-			if(!$userId){
+		public function getAddressByUser($userId = null, $type = 'list') {
+			if(!$userId) {
 				return false;
 			}
 
 			$contain = array();
-			if($type === 'all'){
+			if($type === 'all') {
 				$contain = array(
 					'Country'
 				);
@@ -45,7 +53,7 @@
 		 * @param array $conditions the conditions to search for
 		 * @return array list of addresses
 		 */
-		public function getAddressesByRelated($conditions = array()){
+		public function getAddressesByRelated($conditions = array()) {
 			return $this->find(
 				'list',
 				array(

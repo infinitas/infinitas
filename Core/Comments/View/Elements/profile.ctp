@@ -19,18 +19,18 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	if(!isset($comments)){
+	if(!isset($comments)) {
 		$comments = ClassRegistry::init('Comments.Comment')->getUsersComments(AuthComponent::user('id'));
 	}
 ?>
 <h3><?php echo __('Your Comments'); ?></h3>
 <?php
-	if(count($comments) == 0){
+	if(count($comments) == 0) {
 		echo '<p>', __('You have not made any comments yet.'), '</p>';
 		return true;
 	}
 
-	foreach($comments as $comment){
+	foreach($comments as $comment) {
 		$_comments[] = $this->element('Comments.single_comment', array('comment' => $comment));
 	}
 	echo implode('', $_comments);

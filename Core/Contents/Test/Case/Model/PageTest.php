@@ -4,7 +4,7 @@ App::import('Page', 'Management.Model');
 
 class PageTestCase extends CakeTestCase {
 	function startTest() {
-		$this->Page = ClassRegistry::init('Management.Page');
+		$this->Page = ClassRegistry::init('Contents.GlobalPage');
 	}
 
 	function testDummy() {}

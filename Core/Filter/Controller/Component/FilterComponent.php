@@ -97,7 +97,7 @@
 				$this->useTime = $this->settings['useTime'];
 			}
 
-			foreach($actions as $action){
+			foreach($actions as $action) {
 				$this->processAction($Controller, $action);
 			}
 		}
@@ -126,12 +126,12 @@
 			}
 		}
 
-		function _paginationRecall($controller){
+		function _paginationRecall($controller) {
 			$params = array_filter(explode('/', $this->url));
 			$options = array();
-			foreach($params as $param){
+			foreach($params as $param) {
 				$parts = explode(':', $param);
-				switch(count($parts)){
+				switch(count($parts)) {
 					case 0:
 						break;
 
@@ -214,7 +214,7 @@
 						}
 
 						if ($filteredFieldData != '') {
-							if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
+							if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ) {
 								continue;
 							}
 
@@ -250,7 +250,7 @@
 									$filteredFieldData = $this->_prepare_datetime($filteredFieldData);
 								}
 								if ($filteredFieldData != '') {
-									if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
+									if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ) {
 										continue;
 									}
 
@@ -287,7 +287,7 @@
 								}
 								if ($filteredFieldData != '') {
 									// if filter is in whitelist
-									if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ){
+									if (is_array($whiteList) && !in_array($filteredFieldName, $whiteList) ) {
 										continue;
 									}
 									// check if there are some fieldFormatting set
@@ -315,7 +315,7 @@
 				}
 
 				// Unset empty model data
-				if (count($fields) == 0){
+				if (count($fields) == 0) {
 					unset($controller->request->data[$model]);
 				}
 			}
@@ -389,8 +389,8 @@
 			$sanitize = new Sanitize();
 
 			$controller->params['named'] = $sanitize->clean($controller->params['named'], array('encode' => false));
-			if (isset($controller->params['named']['Filter.parsed'])){
-				if ($controller->params['named']['Filter.parsed']){
+			if (isset($controller->params['named']['Filter.parsed'])) {
+				if ($controller->params['named']['Filter.parsed']) {
 					$this->parsed = true;
 					$filter = array();
 				}
@@ -418,7 +418,7 @@
 		 * @return string
 		 */
 		function _prepareDatetime($date) {
-			if ($this->useTime){
+			if ($this->useTime) {
 				return  "{$date['year']}-{$date['month']}-{$date['day']}"
 					. ' ' . (($date['meridian'] == 'pm' && $date['hour'] != 12) ? $date['hour'] + 12 : $date['hour'])
 					. ':' . (($date['min'] < 10) ? "0{$date['min']}" : $date['min']);

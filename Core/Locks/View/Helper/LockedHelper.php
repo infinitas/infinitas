@@ -34,7 +34,7 @@
 		 *
 		 * @return sstring some html with the image
 		 */
-		public function display($row = array(), $model = 'Lock'){
+		public function display($row = array(), $model = 'Lock') {
 			$row = array_filter($row[$model]);
 			if(!empty($row['id'])) {
 				return $this->Html->image(

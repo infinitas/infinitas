@@ -1,7 +1,7 @@
 <div class="dashboard half">
 	<?php
 		echo $this->ViewCounter->header('hour_on_hour', $hourOnHour);
-		if(empty($hourOnHour['sub_total'])){
+		if(empty($hourOnHour['sub_total'])) {
 			echo $this->ViewCounter->noData();
 		}
 		else{

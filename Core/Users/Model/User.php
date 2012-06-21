@@ -127,7 +127,7 @@
 		 * @params array $field the array $field => $value from the form
 		 * @return bool true if password matches the regex and false if not
 		 */
-		public function validPassword($field = null){
+		public function validPassword($field = null) {
 			return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
 		}
 
@@ -140,7 +140,7 @@
 		 * @param int $userId the users id.
 		 * @return array the data from the last login.
 		 */
-		public function getLastLogon($userId = null){
+		public function getLastLogon($userId = null) {
 			if (!$userId) {
 				return false;
 			}
@@ -161,16 +161,16 @@
 			);
 		}
 
-		public function loggedInUserCount(){
+		public function loggedInUserCount() {
 			$Session = ClassRegistry::init('Session');
 			return $Session->find('count');
 		}
 
-		public function latestUsers($limit = 10){
+		public function latestUsers($limit = 10) {
 			$Session = ClassRegistry::init('Session');
 			$sessions = $Session->find('all');
 
-			foreach($sessions as &$session){
+			foreach($sessions as &$session) {
 				$session['User'] = explode('Auth|', $session['Session']['data']);
 
 				if(isset($session['User'][1])) {
@@ -240,7 +240,7 @@
 			}
 		}
 
-		public function getSiteRelatedList(){
+		public function getSiteRelatedList() {
 			return $this->find(
 				'list',
 				array(
@@ -260,8 +260,8 @@
 		 *
 		 * @return bool, true if valid, false if not
 		 */
-		public function validUserId($userId){
-			if(!$userId){
+		public function validUserId($userId) {
+			if(!$userId) {
 				return false;
 			}
 			

@@ -2,11 +2,11 @@
 	class DatabasesController extends ServerStatusAppController {
 		public $uses = array();
 
-		public function admin_dashboard(){
+		public function admin_dashboard() {
 			
 		}
 
-		public function admin_mysql(){
+		public function admin_mysql() {
 			$User = ClassRegistry::init('Users.User');
 			$globalVars = $User->query('show global variables');
 			$globalVars = array_combine(

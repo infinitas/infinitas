@@ -55,7 +55,7 @@
 				)
 			);
 			
-			if(isset($this->request->params['category'])){
+			if(isset($this->request->params['category'])) {
 				$this->Paginator->settings[$this->modelClass]['conditions']['GlobalContent.slug'] = $this->request->params['category'];
 			}
 
@@ -90,7 +90,7 @@
 
 			$category = $this->GlobalCategory->find('getCategory', array('conditions' => $conditions));
 			
-			if(empty($category)){
+			if(empty($category)) {
 				$this->notice('invalid');
 			}
 

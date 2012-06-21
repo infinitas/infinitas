@@ -17,7 +17,7 @@
 	 */
 
 	class ContactsController extends ContactAppController {
-		public function view(){
+		public function view() {
 			if (!isset($this->request->params['slug'])) {
 				$this->notice('invalid');
 			}
@@ -56,7 +56,7 @@
 			$this->set(compact('contact'));
 		}
 
-		public function admin_index(){
+		public function admin_index() {
 			$this->Paginator->settings = array(
 				'contain' => array(
 					'Branch'
@@ -78,17 +78,17 @@
 			$this->set(compact('contacts', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
 			$branches = $this->Contact->Branch->find('list');
-			if(empty($branches)){
+			if(empty($branches)) {
 				$this->notice(__('Please add a branch first'), array('level' => 'notice','redirect' => array('controller' => 'branches')));
 			}
 			$this->set(compact('branches'));
 		}
 
-		public function admin_edit($id = null){
+		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
 			$branches = $this->Contact->Branch->find('list');

@@ -102,7 +102,7 @@
 			'admin_user',
 		);
 
-		public function __construct(){
+		public function __construct() {
 			$message = array(
 				__d('installer',
 					'Thank-you for choosing %s to power your website.'),
@@ -142,7 +142,7 @@ LICENCE;
 			$text = explode('</p><p>', str_replace(array("\n", '&copy;'), array('', '©'), $this->__license['html']));
 
 			$this->__license['text'] = '';
-			foreach($text as $t){
+			foreach($text as $t) {
 				$this->__license['text'] .= wordwrap(strip_tags($t), 75, "\r\n");
 				$this->__license['text'] .= "\r\n";
 			}
@@ -184,7 +184,7 @@ LICENCE;
 		 *
 		 * @return string the licence
 		 */
-		public function getLicense($type = 'html'){
+		public function getLicense($type = 'html') {
 			return $this->__getData($type, '__license');
 		}
 
@@ -195,7 +195,7 @@ LICENCE;
 		 *
 		 * @return string the licence
 		 */
-		public function getWelcome($type = 'html'){
+		public function getWelcome($type = 'html') {
 			return $this->__getData($type, '__welcome');
 		}
 
@@ -271,10 +271,10 @@ LICENCE;
 			return $recomendations;
 		}
 
-		private function __getData($type, $from){
+		private function __getData($type, $from) {
 			$type = (string)$type;
 
-			if(!isset($this->{$from}[$type])){
+			if(!isset($this->{$from}[$type])) {
 				$type = 'html';
 			}
 
@@ -325,7 +325,7 @@ LICENCE;
 		/**
 		 * Test if the details provided to connect to the database are correct
 		 */
-		public function testConnection($connection = array()){
+		public function testConnection($connection = array()) {
 			$connection = $this->__validDbConfig($connection, true);
 			if($connection) {
 				$adminConnectionDetails = (!isset($connection['Admin'])) ? false : array_merge($connection['Install'], $connection['Admin']);
@@ -512,7 +512,7 @@ LICENCE;
 		 * @param <type> $connectionDetails
 		 * @return <type>
 		 */
-		public function __databaseVersion($connectionDetails){
+		public function __databaseVersion($connectionDetails) {
 			$requiredVersion = $this->__supportedDatabases[$connectionDetails['driver']];
 			$version = ConnectionManager::getDataSource('installer')->query($requiredVersion['versionQuery']);
 			$version = isset($version[0][0]['version()']) ? $version[0][0]['version()'] : false;

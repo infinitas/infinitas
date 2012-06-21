@@ -30,7 +30,7 @@
 		 * This is a few of the smaller items that dont need to be directly on the
 		 * main dashboard as they will not be used all that often.
 		 */
-		public function admin_site(){
+		public function admin_site() {
 
 		}
 	}

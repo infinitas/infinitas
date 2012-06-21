@@ -417,13 +417,13 @@
 		 *
 		 * @return array with how many items were found and how many were moved
 		 */
-		public function moveContent($model = null, $limit = 500){
-			if(!$model){
+		public function moveContent($model = null, $limit = 500) {
+			if(!$model) {
 				trigger_error(__('No model selected to move'), E_USER_WARNING);
 				return false;
 			}
 
-			if(!is_int($limit)){
+			if(!is_int($limit)) {
 				$limit = 500;
 			}
 
@@ -440,7 +440,7 @@
 				)
 			);
 
-			if($Model->displayField == $Model->primaryKey){
+			if($Model->displayField == $Model->primaryKey) {
 				trigger_error(sprintf(__('Display field and primary key are the same for %s, cant move'), $model), E_USER_WARNING);
 				return false;
 			}
@@ -456,7 +456,7 @@
 				)
 			);
 
-			foreach($rows as $row){
+			foreach($rows as $row) {
 				$newContent = array();
 				$newContent[$this->alias] = $row[$Model->alias];
 				$newContent[$this->alias]['foreign_key'] = $row[$Model->alias][$Model->primaryKey];
@@ -468,7 +468,7 @@
 
 				unset($newContent[$this->alias][$Model->primaryKey]);
 				$this->create();
-				if($this->save($newContent)){
+				if($this->save($newContent)) {
 					$Model->id = $row[$Model->alias][$Model->primaryKey];
 					$Model->saveField($Model->displayField, '', false);
 					$return['moved']++;

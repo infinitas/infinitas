@@ -514,7 +514,7 @@
 				$this->__setScope($Model, $options['scope']);
 			}
 
-			if(!$data || !is_array($data)){
+			if(!$data || !is_array($data)) {
 				return false;
 			}
 

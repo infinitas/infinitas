@@ -28,14 +28,14 @@
     	$Model     = ClassRegistry::init($this->request->plugin . '.' . $modelName);
 		$data = &${strtolower($modelName)};
 
-		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])){
+		if(isset($this->data[$modelName]) && is_array($this->data[$modelName])) {
 			$this->data[$modelName] = array_merge((array)AuthComponent::user(), $this->data[$modelName]);
 		}
 		else{
 			$this->data[$modelName] = AuthComponent::user();
 		}
 
-        if (isset($urlParams)){
+        if (isset($urlParams)) {
             echo $this->Form->create(
                 $modelName,
                 array(
@@ -60,13 +60,13 @@
 
 			echo $this->Form->input($modelName.'.'.$Model->primaryKey, array('value' => $data[$modelName][$Model->primaryKey]));
 
-			foreach($commentFields as $field){
-				if ($field != 'comment'){
+			foreach($commentFields as $field) {
+				if ($field != 'comment') {
 					$value = '';
 					$method = 'input';
-					if(isset($this->data[$modelName][$field])){
+					if(isset($this->data[$modelName][$field])) {
 						$value = isset($this->data[$modelName][$field]) ? $this->data[$modelName][$field] : '';
-						if($this->action != 'comment'){
+						if($this->action != 'comment') {
 							$method = 'hidden';
 						}
 					}
@@ -76,7 +76,7 @@
 
 
 				$options = array('type' => 'textarea', 'class' => 'title');
-				if($this->action != 'comment'){
+				if($this->action != 'comment') {
 					$options = array(
 						'label' => false,
 						'div' => false,
@@ -90,7 +90,7 @@
 
 				echo $this->Form->submit('Submit');
 
-				if($this->action != 'comment'){
+				if($this->action != 'comment') {
 					echo '</div>';
 				}
 			}

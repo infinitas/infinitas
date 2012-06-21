@@ -61,7 +61,7 @@
 			);
 
 			$i = 0;
-			foreach ($addresses as $address){
+			foreach ($addresses as $address) {
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($address); ?>&nbsp;</td>

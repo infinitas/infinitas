@@ -24,7 +24,7 @@
 		public function admin_status() {
 			$current = $current['Load'] = $allTime = array();
 			
-			if(count($this->serverLoad) >= 3){
+			if(count($this->serverLoad) >= 3) {
 				$current['Load'] = array(
 					'1 min' => $this->serverLoad[0],
 					'5 min' => $this->serverLoad[1],
@@ -41,7 +41,7 @@
 			$this->set('current', array_merge(systemInfo(), $current));
 
 			$data = $this->Event->trigger('Crons.areCronsSetup');
-			if(!current($data['areCronsSetup'])){
+			if(!current($data['areCronsSetup'])) {
 				$this->notice(
 					__('Crons are not currently running, reporting is disabled'),
 					array(

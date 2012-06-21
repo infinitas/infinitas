@@ -96,7 +96,7 @@
 			);
 		}
 
-		public function listFeeds(){
+		public function listFeeds() {
 			$feeds = $this->find(
 				'all',
 				array(
@@ -112,7 +112,7 @@
 			);
 
 			$return = array();
-			foreach($feeds as $feed){
+			foreach($feeds as $feed) {
 				$return[] = array(
 					'name' => $feed['Feed']['name'],
 					'url' => Router::url(array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'view', 'slug' => $feed['Feed']['slug']), true)
@@ -122,8 +122,8 @@
 			return $return;
 		}
 
-		public function getFeed($slug = null, $grouId = 999){
-			if(!$slug){
+		public function getFeed($slug = null, $grouId = 999) {
+			if(!$slug) {
 				return array();
 			}
 
@@ -138,7 +138,7 @@
 				)
 			);
 			
-			if(empty($mainFeed)){
+			if(empty($mainFeed)) {
 				return array();
 			}
 			
@@ -150,7 +150,7 @@
 				)
 			);
 			
-			if(empty($items)){
+			if(empty($items)) {
 				return array();
 			}
 
@@ -165,19 +165,19 @@
 			);
 
 			
-			if(empty($items)){
+			if(empty($items)) {
 				return array();
 			}
 
-			foreach($items as $item){
+			foreach($items as $item) {
 				$mainFeed['FeedItem'][] = $item['Feed'];
 			}
 
 			return $this->feedArrayFormat($this->getJsonRecursive($mainFeed));
 		}
 
-		public function feedArrayFormat($feed = array()){
-			if (empty($feed)){
+		public function feedArrayFormat($feed = array()) {
+			if (empty($feed)) {
 				return array();
 			}
 
@@ -191,7 +191,7 @@
 				'action' => $feed['Feed']['action']
 			);
 
-			foreach($feed['FeedItem'] as $item){
+			foreach($feed['FeedItem'] as $item) {
 				$plugin = Inflector::camelize($item['plugin']);
 				$controller = Inflector::camelize(Inflector::singularize($item['controller']));
 				$query['feed'][$plugin.'.'.$controller] = array(

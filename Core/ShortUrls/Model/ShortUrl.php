@@ -69,7 +69,7 @@
 			}
 			
 			// full url
-			else if(preg_match('/^((mailto\:|(news|(ht|f)tp(s?))\:\/\/){1}\S+).*$/', current($field))){
+			else if(preg_match('/^((mailto\:|(news|(ht|f)tp(s?))\:\/\/) {1}\S+).*$/', current($field))) {
 				return true;
 			}
 
@@ -87,7 +87,7 @@
 		 * @return string the code of the short url to be used with slugUrl event
 		 */
 		public function shorten($url = null) {
-			if(!$url){
+			if(!$url) {
 				return false;
 			}
 
@@ -106,7 +106,7 @@
 
 					$this->id = isset($id['ShortUrl']['id']) ? $id['ShortUrl']['id'] : false;
 					
-					if(!$this->id){
+					if(!$this->id) {
 						return false;
 					}
 				}
@@ -122,13 +122,13 @@
 		 * @return mixed false on fail, string url on true
 		 */
 		public function getUrl($code = null) {
-			if(!$code){
+			if(!$code) {
 				return false;
 			}
 
 			$check = $this->read(null, $this->__decode($code));
 
-			if(!empty($check)){
+			if(!empty($check)) {
 				return $check['ShortUrl']['url'];
 			}
 

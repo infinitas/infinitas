@@ -20,7 +20,7 @@
 			ClassRegistry::flush();
 		}
 
-		function testEvents(){
+		function testEvents() {
 			$result = $this->DummyController->Event->trigger('foo');
 			$expected = array('foo'=> array());
 			$this->assertEquals($expected, $result);

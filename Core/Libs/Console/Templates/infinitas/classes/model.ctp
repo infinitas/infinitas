@@ -52,7 +52,7 @@
 
 
 COMMENT;
-		if ($useDbConfig != 'default'){
+		if ($useDbConfig != 'default') {
 		$output .= <<<COMMENT
 		/**
 		 * The database config to use
@@ -65,7 +65,7 @@ COMMENT;
 			$output .= "\t\tpublic \$useDbConfig = '$useDbConfig';\n\n";
 		}
 
-		if ($useTable && $useTable !== Inflector::tableize($name)){
+		if ($useTable && $useTable !== Inflector::tableize($name)) {
 		$output .= <<<COMMENT
 		/**
 		 * The table that the model is using
@@ -78,7 +78,7 @@ COMMENT;
 			$output .= "\t\tpublic \$useTable = '$useTable';\n\n";
 		}
 
-		if ($primaryKey !== 'id'){
+		if ($primaryKey !== 'id') {
 		$output .= <<<COMMENT
 		/**
 		 * The primary key of the table
@@ -91,7 +91,7 @@ COMMENT;
 			$output .= "\t\tpublic \$primaryKey = '$primaryKey';\n\n";
 		}
 
-		if ($displayField){
+		if ($displayField) {
 		$output .= <<<COMMENT
 		/**
 		 * The display field for select boxes
@@ -104,7 +104,7 @@ COMMENT;
 			$output .= "\t\tpublic \$displayField = '$displayField';\n\n";
 		}
 
-		if(in_array('views', array_keys($schema))){
+		if(in_array('views', array_keys($schema))) {
 		$output .= <<<COMMENT
 		/**
 		 * Set to true if you would like to track view counts
@@ -129,8 +129,8 @@ COMMENT;
 		$output .= "\t\tpublic \$actsAs = array(\n";
 
 		echo $output;
-			foreach ($schema as $field => $data){
-				switch($field){
+			foreach ($schema as $field => $data) {
+				switch($field) {
 					case 'deleted':
 						echo "\t\t\t'Libs.SoftDeletable',\n";
 						break;
@@ -194,7 +194,7 @@ COMMENT;
 			$_order.
 		"\t\t);\n\n";
 
-		foreach (array('hasOne', 'belongsTo') as $assocType){
+		foreach (array('hasOne', 'belongsTo') as $assocType) {
 		echo <<<COMMENT
 		/**
 		 * $assocType relations for this model
@@ -208,10 +208,10 @@ COMMENT;
 				if ($assocType == 'belongsTo') {
 					echo $_belongsTo;
 				}
-				if (!empty($associations[$assocType])){
+				if (!empty($associations[$assocType])) {
 					$typeCount = count($associations[$assocType]);
 
-					foreach ($associations[$assocType] as $i => $relation){
+					foreach ($associations[$assocType] as $i => $relation) {
 						$out = "\t\t\t'{$relation['alias']}' => array(\n";
 						$out .= "\t\t\t\t'className' => '{$relation['className']}',\n";
 						$out .= "\t\t\t\t'foreignKey' => '{$relation['foreignKey']}',\n";
@@ -223,7 +223,7 @@ COMMENT;
 							$relatedCounterCache = false;
 							$relatedActive = false;
 							$relatedDeleted = false;
-							foreach($relatedSchema as $field => $data){
+							foreach($relatedSchema as $field => $data) {
 								if (strstr($field, '_count')) {
 									$relatedCounterCache = true;
 								}
@@ -280,10 +280,10 @@ COMMENT;
 COMMENT;
 		
 		echo "\t\tpublic \$hasMany = array(\n";
-			if (!empty($associations['hasMany'])){
+			if (!empty($associations['hasMany'])) {
 				$belongsToCount = count($associations['hasMany']);
 
-				foreach ($associations['hasMany'] as $i => $relation){
+				foreach ($associations['hasMany'] as $i => $relation) {
 					$out = "\t\t\t'{$relation['alias']}' => array(\n";
 					$out .= "\t\t\t\t'className' => '{$relation['className']}',\n";
 					$out .= "\t\t\t\t'foreignKey' => '{$relation['foreignKey']}',\n";
@@ -320,10 +320,10 @@ COMMENT;
 COMMENT;
 		
 		echo "\t\tpublic \$hasAndBelongsToMany = array(\n";
-			if (!empty($associations['hasAndBelongsToMany'])){
+			if (!empty($associations['hasAndBelongsToMany'])) {
 				$habtmCount = count($associations['hasAndBelongsToMany']);
 
-				foreach ($associations['hasAndBelongsToMany'] as $i => $relation){
+				foreach ($associations['hasAndBelongsToMany'] as $i => $relation) {
 					$out = "\t\t\t'{$relation['alias']}' => array(\n";
 					$out .= "\t\t\t\t'className' => '{$relation['className']}',\n";
 					$out .= "\t\t\t\t'joinTable' => '{$relation['joinTable']}',\n";
@@ -370,13 +370,13 @@ COMMENT;
 			echo "\t\t\tparent::__construct(\$id, \$table, \$ds);\n\n";
 
 			echo "\t\t\t\$this->validate = array(\n";
-				if (!empty($validate)){
-					foreach ($validate as $field => $validations){
+				if (!empty($validate)) {
+					foreach ($validate as $field => $validations) {
 						if (in_array($field, $validationIgnore) || preg_match('/[a-z_]+_count/i', $field)) {
 							continue;
 						}
 						echo "\t\t\t\t'$field' => array(\n";
-						foreach ($validations as $key => $validator){
+						foreach ($validations as $key => $validator) {
 							echo "\t\t\t\t\t'$key' => array(\n";
 							echo "\t\t\t\t\t\t'rule' => array('$validator'),\n";
 							echo "\t\t\t\t\t\t//'message' => 'Your custom message here',\n";
@@ -402,8 +402,8 @@ COMMENT;
 		 */
 
 COMMENT;
-		echo "\t\tpublic function getViewData(\$conditions = array()){\n";
-			echo "\t\t\tif(!\$conditions){\n";
+		echo "\t\tpublic function getViewData(\$conditions = array()) {\n";
+			echo "\t\t\tif(!\$conditions) {\n";
 				echo "\t\t\t\treturn false;\n";
 			echo "\t\t\t}\n\n";
 

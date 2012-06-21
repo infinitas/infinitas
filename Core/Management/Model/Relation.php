@@ -10,7 +10,7 @@
 			//'Management.RelationType'
 		);
 
-		public function getRelations($bind = true){
+		public function getRelations($bind = true) {
 			$return =  $this->find(
 				'all',
 				array(

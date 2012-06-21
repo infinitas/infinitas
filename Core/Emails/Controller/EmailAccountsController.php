@@ -1,6 +1,6 @@
 <?php
 	class EmailAccountsController extends EmailsAppController {
-		public function admin_index(){
+		public function admin_index() {
 			$emailAccounts = $this->Paginator->paginate(null, $this->Filter->filter);
 
 			$filterOptions = $this->Filter->filterOptions;
@@ -15,10 +15,10 @@
 			$this->set(compact('emailAccounts', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
-			if(empty($this->request->data)){
+			if(empty($this->request->data)) {
 				$this->request->data['EmailAccount'] = array(
 					'name' => sprintf(__('%s\'s mail'), $this->Auth->user('username')),
 					'server' => sprintf('mail.%s', env('HTTP_HOST')),
@@ -35,7 +35,7 @@
 			$this->set('types', $this->EmailAccount->types);
 		}
 
-		public function admin_edit($id){
+		public function admin_edit($id) {
 			parent::admin_edit($id);
 
 			$this->set('users', $this->EmailAccount->User->getSiteRelatedList());

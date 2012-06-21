@@ -28,7 +28,7 @@
 		/**
 		 * @todo remove recursive 0
 		 */
-		public function index(){
+		public function index() {
 			$this->Branch->recursive = 0;
 
 			$branches = $this->Paginator->paginate(
@@ -57,7 +57,7 @@
 			$this->set(compact('branches', 'filterOptions'));
 		}
 
-		public function view(){
+		public function view() {
 			if (!isset($this->request->params['slug'])) {
 				$this->notice('invalid');
 			}
@@ -98,7 +98,7 @@
 			$this->set(compact('branch'));
 		}
 
-		public function admin_index(){
+		public function admin_index() {
 			$branches = $this->Paginator->paginate(
 				null,
 				$this->Filter->filter
@@ -113,14 +113,14 @@
 			$this->set(compact('branches', 'filterOptions'));
 		}
 
-		public function admin_add(){
+		public function admin_add() {
 			parent::admin_add();
 
 			//$timeZones = $this->Branch->TimeZone->find('list');
 			$this->set(compact('timeZones'));
 		}
 
-		public function admin_edit($id = null){
+		public function admin_edit($id = null) {
 			parent::admin_edit();
 
 			//$timeZones = $this->Branch->TimeZone->find('list');

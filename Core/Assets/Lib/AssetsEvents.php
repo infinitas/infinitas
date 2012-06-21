@@ -18,7 +18,7 @@
 				'Assets.libs/number'
 			);
 			
-			if(isset($event->Handler->params['admin']) && $event->Handler->params['admin']){
+			if(isset($event->Handler->params['admin']) && $event->Handler->params['admin']) {
 				$return[] = 'Assets.3rd/date';
 				$return[] = 'Assets.3rd/image_drop_down';
 			}

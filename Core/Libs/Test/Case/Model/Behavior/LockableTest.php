@@ -24,7 +24,7 @@
 			$this->LockableContent = new LockableContent();
 		}
 
-		function testLocking(){
+		function testLocking() {
 			$content = $this->LockableContent->find('first');
 			unset($content['LockableContent']['id']);
 			unset($content['LockableContent']['locked']);

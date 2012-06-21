@@ -31,14 +31,14 @@
 		 *
 		 * @return void, outputs to terminal
 		 */
-		protected function _output(){
+		protected function _output() {
 			$out = array('not-installed' => array(), 'behind' => array(), 'changes' => array(), 'ok' => array());
-			foreach($this->__plugins as $plugin => $status){
-				if(!$status['installed']){
+			foreach($this->__plugins as $plugin => $status) {
+				if(!$status['installed']) {
 					$out['not-installed'][] = $plugin;
 				}
 
-				else if($status['migrations_behind'] > 0){
+				else if($status['migrations_behind'] > 0) {
 
 					$row = sprintf(
 						"%s	%s		%d/%d [%d]", str_pad($plugin, 15), ($status['installed']) ? '✔' : '☐',
@@ -48,9 +48,9 @@
 				}
 
 				else if ($status['changes']) {
-					foreach($status['changes'] as $table => $actions){
+					foreach($status['changes'] as $table => $actions) {
 						$text = array();
-						foreach($actions as $action => $fields){
+						foreach($actions as $action => $fields) {
 							$text[] = sprintf('[%s: %s]', $action, implode(', ', array_keys($fields)));
 						}
 						
@@ -63,28 +63,28 @@
 				}
 			}
 
-			if(!empty($out['not-installed'])){
+			if(!empty($out['not-installed'])) {
 				$this->h2('Not Installed');
 				$this->__outputList($out['not-installed']);
 			}
 
-			if(!empty($out['behind'])){
+			if(!empty($out['behind'])) {
 				$this->h2('Schema Behind');
 				$this->out("Plugin		Installed	Migrations");
-				foreach($out['behind'] as $row){
+				foreach($out['behind'] as $row) {
 					$this->out($row);
 				}
 			}
 
-			if(!empty($out['changes'])){
+			if(!empty($out['changes'])) {
 				$this->h2('Local Changes');
 				$this->out("Plugin		Table		Fields");
-				foreach($out['changes'] as $row){
+				foreach($out['changes'] as $row) {
 					$this->Infinitas->out($row);
 				}
 			}
 
-			if(!empty($out['ok'])){
+			if(!empty($out['ok'])) {
 				$this->h2('All Ok');
 				$this->__outputList($out['ok']);
 			}
@@ -97,13 +97,13 @@
 		 *
 		 * @return void
 		 */
-		private function __getStatus(){
+		private function __getStatus() {
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 			$allPlugins = $Plugin->getAllPlugins();
 
-			foreach($allPlugins as $plugin){
+			foreach($allPlugins as $plugin) {
 				$this->interactive(sprintf('Checking %s', $plugin));
-				if(in_array($plugin, array('Newsletter'))){
+				if(in_array($plugin, array('Newsletter'))) {
 					continue;
 				}
 
@@ -111,7 +111,7 @@
 				$this->interactive('.', true);
 
 				$this->__plugins[$plugin]['changes'] = false;
-				if($this->__plugins[$plugin]['installed'] && $this->__plugins[$plugin]['migrations_behind'] == 0){
+				if($this->__plugins[$plugin]['installed'] && $this->__plugins[$plugin]['migrations_behind'] == 0) {
 					$this->__plugins[$plugin]['changes'] = $this->Migration->checkForChanges($plugin);
 					$this->interactive('.', true);
 				}
@@ -127,12 +127,12 @@
 		 *
 		 * @param array $list array of data
 		 */
-		private function __outputList($list){
+		private function __outputList($list) {
 			$data = array();
-			foreach($list as $row){
+			foreach($list as $row) {
 				$data[] = str_pad($row, 15);
 
-				if(count($data) >= 4){
+				if(count($data) >= 4) {
 					$this->out(implode('', $data));
 					$data = array();
 				}

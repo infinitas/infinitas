@@ -55,7 +55,7 @@
                 )
             );
 
-            foreach ($configs as $config){
+            foreach ($configs as $config) {
                 ?>
                 	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
                         <td><?php echo $this->Infinitas->massActionCheckBox($config); ?>&nbsp;</td>
@@ -67,7 +67,7 @@
                 		</td>
                 		<td>
                 			<?php
-                			    if (!empty($config['Config']['options'])){
+                			    if (!empty($config['Config']['options'])) {
                 			        echo $this->Text->toList(explode(',', Inflector::humanize($config['Config']['options'])), 'or');
                 			    }
                 			?>&nbsp;

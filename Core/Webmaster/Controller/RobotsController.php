@@ -10,17 +10,17 @@
 		/**
 		 * takes your robots.txt
 		 */
-		public function admin_edit(){
+		public function admin_edit() {
 			Configure::write('Wysiwyg.editor', 'text');
 			$File = new File(APP . 'webroot' . DS . 'robots.txt', true);
 
-			if(isset($this->request->data['robots']) && !empty($this->request->data['robots'])){
+			if(isset($this->request->data['robots']) && !empty($this->request->data['robots'])) {
 				$content = $this->request->data['robots'];
 				$sitemap = sprintf('Sitemap: %ssitemap.xml', Router::url('/', true));
 				if (strpos($content, $sitemap) === false) {
 					$content = $sitemap . "\n" . $content;
 				}
-				if($File->write($content)){
+				if($File->write($content)) {
 					$this->notice(
 						__('Robots file updated'),
 						array(
@@ -37,7 +37,7 @@
 				);
 			}
 
-			if(!isset($this->request->data['robots'])){
+			if(!isset($this->request->data['robots'])) {
 				$this->request->data['robots'] = $File->read();
 			}
 		}

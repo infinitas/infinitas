@@ -1,6 +1,6 @@
 <?php
 	final class RoutesEvents extends AppEvents {
-		public function onPluginRollCall(){
+		public function onPluginRollCall() {
 			return array(
 				'name' => 'Routes',
 				'description' => 'Route pretty urls to your code',
@@ -9,7 +9,7 @@
 			);
 		}
 
-		public function onSetupCache(){
+		public function onSetupCache() {
 			return array(
 				'name' => 'routes',
 				'config' => array(
@@ -18,7 +18,7 @@
 			);
 		}
 
-		public function onAdminMenu($event){
+		public function onAdminMenu($event) {
 			$menu['main'] = array(
 				'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index'),
 				'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
@@ -28,7 +28,7 @@
 			return $menu;
 		}
 
-		public function onGetRequiredFixtures($event){
+		public function onGetRequiredFixtures($event) {
 			return array(
 				'Routes.Route',
 			);

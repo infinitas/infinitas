@@ -1,7 +1,7 @@
 <div class="dashboard grid_16">
 	<?php
 		echo $this->ViewCounter->header('day_of_month', $byDay);
-		if(empty($byDay['sub_total'])){
+		if(empty($byDay['sub_total'])) {
 			echo $this->ViewCounter->noData();
 		}
 		else{
