@@ -77,7 +77,7 @@
 									echo $module['Theme']['name'];
 								}
 								else{
-									echo __('Any');
+									echo __d('modules', 'Any');
 								}
 							?>&nbsp;
 						</td>
@@ -87,7 +87,7 @@
 									echo Inflector::humanize($module['Module']['plugin']);
 								}
 								else{
-									echo __('Global');
+									echo __d('modules', 'Global');
 								}
 							?>&nbsp;
 						</td>

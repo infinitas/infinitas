@@ -21,7 +21,7 @@
 	echo $this->Form->create('ModulePosition');
 		echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Module Position'); ?></h1><?php
+			<h1><?php echo __d('modules', 'Module Position'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name'); ?>
 		</fieldset><?php

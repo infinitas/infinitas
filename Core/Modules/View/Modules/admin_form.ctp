@@ -42,7 +42,7 @@
 				<div class="input select smaller">
 					<label for="ModulePlugin">{$parts['module']}</label>
 					{$this->Form->input('plugin', array('label' => false, 'div' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModules'}, target:'ModuleModule'}"))}
-					{$this->Form->input('module', array('label' => false, 'div' => false, 'empty' => __(Configure::read('Website.empty_select'))))}
+					{$this->Form->input('module', array('label' => false, 'div' => false, 'empty' => __d('modules', Configure::read('Website.empty_select'))))}
 				</div>
 				{$this->Form->input('config', array('class' => 'title'))}
 				{$this->Form->input('active')}
@@ -54,7 +54,7 @@
 TAB1;
 
 		$content[1] = $this->Form->input('group_id', array('empty' => Configure::read('Website.empty_select'))) .
-			$this->Form->input('theme_id', array('empty' => __('All Themes'))) .
+			$this->Form->input('theme_id', array('empty' => __d('modules', 'All Themes'))) .
 			$this->Form->input('position_id', array('empty' => Configure::read('Website.empty_select'))) .
 			$this->Form->input('Route', array('type' => 'select', 'multiple' => 'checkbox', 'value' => Set::extract('/ModuleRoute/Route/id', $this->request->data)));
 

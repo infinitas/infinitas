@@ -13,7 +13,7 @@
 		public function validateEmptyOrJsonDeprecated($Model, $field) {
 			return strlen(current($field)) == 0 || $Model->validateJson(current($field));
 		}
-		
+
 		/**
 		 * @brief This can either be empty or a valid json string.
 		 *
@@ -137,7 +137,7 @@
 				if(!class_exists('Security')) {
 					App::import('Security');
 				}
-				
+
 				return Security::hash($Model->data[$Model->alias][$fields[1]], null, true) === $Model->data[$Model->alias][$fields[0]];
 			}
 
@@ -165,14 +165,14 @@
 					list(, $alias) = pluginSplit($Model->data[$Model->alias]['model']);
 					$Model->{$alias} = ClassRegistry::init($Model->data[$Model->alias]['model']);
 				}
-				
+
 				if(!$alias) {
 					return false;
 				}
 			}
-			
+
 			$count = $Model->{$alias}->find(
-				'count', 
+				'count',
 				array(
 					'conditions' => array(
 						$alias . '.' . $Model->{$alias}->primaryKey => current($field)
@@ -181,5 +181,9 @@
 			);
 
 			return $count > 0;
+		}
+
+		public function validatePluginExists($Model, $field) {
+			return in_array(current($field), InfinitasPlugin::listPlugins());
 		}
 	}

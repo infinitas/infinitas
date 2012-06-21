@@ -37,11 +37,11 @@
 			$filterOptions['fields'] = array(
 				'name',
 				'plugin' => $this->Module->getPlugins(),
-				'theme_id' => array(null => __('All')) + $this->Module->Theme->find('list'),
-				'position_id' => array(null => __('All')) + $this->Module->Position->find('list'),
+				'theme_id' => array(null => __d('modules', 'All')) + $this->Module->Theme->find('list'),
+				'position_id' => array(null => __d('modules', 'All')) + $this->Module->Position->find('list'),
 				'author',
 				'licence',
-				'group_id' => array(null => __('Public')) + $this->Module->Group->find('list'),
+				'group_id' => array(null => __d('modules', 'Public')) + $this->Module->Group->find('list'),
 				'core' => Configure::read('CORE.core_options'),
 				'active' => Configure::read('CORE.active_options')
 			);
@@ -54,8 +54,8 @@
 
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
-			$routes = array(0 => __('All Pages')) + $this->Module->Route->find('list');
-			$themes = array(0 => __('All Themes')) + $this->Module->Theme->find('list');
+			$routes = array(0 => __d('modules', 'All Pages')) + $this->Module->Route->find('list');
+			$themes = array(0 => __d('modules', 'All Themes')) + $this->Module->Theme->find('list');
 			$plugins = $this->Module->getPlugins();
 			$modules = $this->Module->getModuleList();
 			$this->set(compact('positions', 'groups', 'routes', 'themes', 'plugins', 'modules'));
@@ -66,8 +66,8 @@
 
 			$positions = $this->Module->Position->find('list');
 			$groups = $this->Module->Group->find('list');
-			$routes = array(0 => __('All Pages')) + $this->Module->Route->find('list');
-			$themes = array(0 => __('All Themes')) + $this->Module->Theme->find('list');
+			$routes = array(0 => __d('modules', 'All Pages')) + $this->Module->Route->find('list');
+			$themes = array(0 => __d('modules', 'All Themes')) + $this->Module->Theme->find('list');
 			$plugins = $this->Module->getPlugins();
 
 			$modules = $this->Module->getModuleList($this->request->data['Module']['plugin']);
