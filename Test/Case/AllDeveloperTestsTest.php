@@ -1,5 +1,5 @@
 <?php
-class AllCoreTestsTest extends PHPUnit_Framework_TestSuite {
+class AllDeveloperTestsTest extends PHPUnit_Framework_TestSuite {
 
 /**
  * Suite define the tests for this suite

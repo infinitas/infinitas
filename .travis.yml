@@ -79,7 +79,7 @@ before_script:
     }" > Config/database.php
 
 script:
-  - Console/cake test app AllPluginTests
+  - Console/cake test app AllTests
 
 notifications:
   irc: "irc.freenode.org#infinitas"

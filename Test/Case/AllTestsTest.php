@@ -7,10 +7,11 @@ class AllTestsTest extends PHPUnit_Framework_TestSuite {
  * @return void
  */
 	public static function suite() {
-		$suite = new CakeTestSuite('All plugins test');
-		$suite->addTestFile('AllCoreTestsTest');
-		$suite->addTestFile('AllDeveloperTestsTest');
-		$suite->addTestFile('AllPluginTestsTest');
+		$suite = new CakeTestSuite('All test');
+		$path = APP . 'Test' . DS . 'Case' . DS;
+		$suite->addTestFile($path . 'AllCoreTestsTest.php');
+		$suite->addTestFile($path . 'AllDeveloperTestsTest.php');
+		$suite->addTestFile($path . 'AllPluginTestsTest.php');
 		return $suite;
 	}
 }
