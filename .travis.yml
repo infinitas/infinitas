@@ -7,7 +7,7 @@ env:
   - CAKE_VERSION=2.2
 
 before_script:
-  - for file in `find /home/vagrant/.phpenv -name 'xdebug.ini'`; do echo "xdebug.max_nesting_level=200" >> $file; done;
+  - for file in `find /home/vagrant/.phpenv -name 'xdebug.ini'`; do echo "xdebug.max_nesting_level=1000" >> $file; done;
   - cd .. # ~/builds/<user>
   - git clone git://github.com/cakephp/cakephp
   - cd cakephp # ~/builds/<user>/cakephp
