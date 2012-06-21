@@ -36,12 +36,24 @@
 	App::uses('AppModel', 'Model');
 	App::uses('AppController', 'Controller');
 	App::uses('AppHelper', 'View/Helper');
-	
+
 	App::uses('ClearCache', 'Data.Lib');
 	App::uses('EventCore', 'Events.Lib');
 	App::uses('InfinitasRouter', 'Routes.Routing');
-	
-	
+
+	// Add logging configuration.
+	CakeLog::config('debug', array(
+		'engine' => 'FileLog',
+		'types' => array('notice', 'info', 'debug'),
+		'file' => 'debug',
+	));
+	CakeLog::config('error', array(
+		'engine' => 'FileLog',
+		'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
+		'file' => 'error',
+	));
+
+
 	/**
 	 * Cache configuration.
 	 *
@@ -52,7 +64,7 @@
 		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
 			$cacheEngine = 'Apc';
 			break;
-		
+
 		case function_exists('xcache_info'):
 			$cacheEngine = 'Xcache';
 			break;
@@ -90,7 +102,7 @@
 	}
 
 	unset($cacheEngine, $cachedConfigs);
-	
+
 	InfinitasPlugin::loadCore();
 	EventCore::trigger(new StdClass(), 'requireLibs');
 
@@ -100,7 +112,7 @@
 	 */
 
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
-	
+
 	InfinitasPlugin::loadInstalled();
 
 	/**
@@ -134,7 +146,7 @@
 			else{
 				$cache['config']['prefix'] = Inflector::slug(APP_DIR) . '_' . str_replace(DS, '_', $folder);
 			}
-			
+
 			$cache['config']['prefix'] = cachePrefix() . $cache['config']['prefix'];
 
 			$cache['config'] = array_merge(array('engine' => Configure::read('Cache.engine')), (array)$cache['config']);
@@ -149,12 +161,12 @@
 		}
 		unset($cacheDetails, $cache, $folder, $plugin);
 	}
-	
+
 	function cachePrefix() {
 		if(!defined('INFINITAS_CACHE_PREFIX')) {
 			define('INFINITAS_CACHE_PREFIX', substr(sha1(env('DOCUMENT_ROOT') . env('HTTP_HOST')), 0, 10));
 		}
-		
+
 		return INFINITAS_CACHE_PREFIX;
 	}
 
@@ -280,36 +292,36 @@
 				//'args' => null,
 			);
 			$line = $v;
-			
+
 			$pass = array();
 			foreach($line['args'] as $k => &$v) {
 				if(empty($v)) {
 					continue;
 				}
-				
+
 				if(is_object($v)) {
 					$pass[] = $v = sprintf('$%s', get_class($v));
 					continue;
 				}
-				
+
 				if(is_array($v)) {
 					$pass[] = 'array()';
 					continue;
 				}
-				
+
 				if(is_int($v)) {
 					$pass[] = $v;
 					continue;
 				}
-				
+
 				if($v === null) {
 					$pass[] = '<i>null</i>';
 					continue;
 				}
-				
+
 				$pass[] = sprintf("'%s'", $v);
 			}
-			
+
 			$line['function'] = sprintf(
 				'%s(%s)',
 				implode($line['type'], array($line['class'], $line['function'])),
@@ -327,26 +339,26 @@
 			);
 			unset($line['object'], $line['class'], $line['type'], $line['args']);
 			$line = array_merge($default, $line);
-			
+
 			$line['file'] = str_replace(
-				array(APP . 'Core' . DS, APP, CAKE), 
-				array('INFINTIAS/', 'APP/', 'CAKE/'), 
+				array(APP . 'Core' . DS, APP, CAKE),
+				array('INFINTIAS/', 'APP/', 'CAKE/'),
 				$line['file']
 			);
-			
+
 			$lines[] = sprintf(
 				'<td>%s<td>',
 				implode('</td><td>', $line)
 			);
 		}
-		
+
 		$lines = sprintf(
 			'<script type="text/javascript">function debugToggle(id) {var e = document.getElementById(\'backtrace-\' + id);if(e.style.display == \'block\') {e.style.display = \'none\';}else {e.style.display = \'block\';}}</script>'.
-			'<table style="width:80%%; margin:auto;"><tr><th>%s</th></tr><tr>%s</tr></table>', 
+			'<table style="width:80%%; margin:auto;"><tr><th>%s</th></tr><tr>%s</tr></table>',
 			implode('</th><th>', array('Line', 'File', 'Function')),
 			implode('</tr><tr>', array_reverse($lines))
 		);
-		
+
 		echo $lines;
 	}
 
