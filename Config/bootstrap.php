@@ -129,6 +129,7 @@
 
 	if (!function_exists('lcfirst')) {
 		function lcfirst($str) {
+			define('INFINITAS_FUNCTION_LCFIRST', true);
 			return (string)(strtolower(substr($str, 0, 1)) . substr($str, 1));
 		}
 	}
@@ -143,7 +144,7 @@
 
 			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile') {
 				if(!is_dir(CACHE . $folder)) {
-					$Folder = new Folder(CACHE . $folder, true);
+					$Folder = new Folder(CACHE . $folder, true, 755);
 				}
 			}
 
@@ -270,20 +271,32 @@
 	 *
 	 * @return null echo's out the route.
 	 */
-	function debugRoute($route) {
-		echo 'InfinitasRouter::connect(\''.$route['Route']['url'].'\', array(';
+	function debugRoute($route, $return = true) {
+		$out = '';
+		$out .= 'InfinitasRouter::connect(\''.$route['Route']['url'].'\', array(';
 		$parts = array();
 		foreach($route['Route']['values'] as $k => $v) {
 			$parts[] = "'$k' => '$v'";
 		}
-		echo implode(', ', $parts);
-		echo '), array(';
+		$out .= implode(', ', $parts);
+		$out .= ')';
 		$parts = array();
 		foreach($route['Route']['regex'] as $k => $v) {
 			$parts[] = "'$k' => '$v'";
 		}
-		echo implode(', ', $parts);
-		echo ')); </br>';
+		
+		if(!empty($parts)) {
+			$out .= ', array(';
+			$out .= implode(', ', $parts);
+			$out .= ')';
+		}
+		$out .= ');';
+
+		if($return) {
+			return $out;
+		}
+
+		echo $out;
 	}
 
 	function debugBacktrace($backtrace) {
