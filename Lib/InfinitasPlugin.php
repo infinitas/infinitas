@@ -195,9 +195,14 @@
 					break;
 
 				case 'installed':
-					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
-						self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getInstalledPlugins();
-						natsort(self::$__plugins[$type]);
+					try {
+						if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
+							self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getInstalledPlugins();
+							natsort(self::$__plugins[$type]);
+						}
+					}
+					catch(Exception $e) {
+						self::$__plugins[$type] = array();
 					}
 					break;
 
@@ -212,19 +217,29 @@
 					break;
 
 				case 'loaded':
-					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
-						self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins();
-						natsort(self::$__plugins[$type]);
+					try {
+						if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
+							self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins();
+							natsort(self::$__plugins[$type]);
+						}
+					}
+					catch(Exception $e) {
+						self::$__plugins[$type] = array();
 					}
 					break;
 
 				case 'notLoaded':
-					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
-						self::$__plugins[$type] = array_diff(
-							array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins()),
-							parent::loaded()
-						);
-						natsort(self::$__plugins[$type]);
+					try {
+						if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
+							self::$__plugins[$type] = array_diff(
+								array_values(ClassRegistry::init('Installer.Plugin')->getActiveInstalledPlugins()),
+								parent::loaded()
+							);
+							natsort(self::$__plugins[$type]);
+						}
+					}
+					catch(Exception $e) {
+						self::$__plugins[$type] = array();
 					}
 					break;
 			}
