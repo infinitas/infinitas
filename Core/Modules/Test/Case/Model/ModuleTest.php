@@ -106,6 +106,16 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
+ * @brief test finding a list of modules
+ *
+ * @dataProvider moduleListData
+ */
+	public function testGetModulesList($data, $expected) {
+		$result = $this->Module->getModuleList($data);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * validationFailData data provider
  *
  * @return void
@@ -192,5 +202,28 @@ class ModuleTestCase extends CakeTestCase {
 				)
 			)
 		);
+	}
+
+/**
+ * moduleListData data provider
+ *
+ * @return void
+ */
+	public function moduleListData() {
+		return array(
+			array(
+				null,
+				array('admin' => array(), 'user' => array())),
+			array(
+				'Users', array(
+					'admin' => array('admin/registrations' => 'Registrations'),
+					'user' => array('login' => 'Login'))),
+			array(
+				'ViewCounter', array(
+					'admin' => array(
+						'admin/overall' => 'Overall',
+						'admin/popular_items' => 'Popular Items',
+						'admin/quick_view' => 'Quick View'),
+					'user' => array())));
 	}
 }
