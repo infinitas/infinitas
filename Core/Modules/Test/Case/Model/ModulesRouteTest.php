@@ -13,6 +13,10 @@ class ModulesRouteTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
+		'plugin.modules.module_position',
+		'plugin.modules.module',
+		'plugin.routes.route',
+		'plugin.installer.plugin',
 		'plugin.modules.modules_route'
 	);
 
@@ -24,6 +28,7 @@ class ModulesRouteTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->ModulesRoute = ClassRegistry::init('Modules.ModulesRoute');
+		$this->ModulesRoute->Behaviors->attach('Libs.Validation');
 	}
 
 /**
@@ -57,9 +62,44 @@ class ModulesRouteTest extends CakeTestCase {
 			array(
 				array(),
 				array(
-					'position_id' => array('Please select the position this module will show in'),
-					'module_id' => array('Please select the position this module will show in'),
+					'module_id' => array('A module is required'),
+					'route_id' => array('A route is required'),
 				)
+			),
+			array(
+				array(
+					'module_id' => 'fake-module',
+					'route_id' => 'fake-route'
+				),
+				array(
+					'module_id' => array('The selected module is not valid'),
+					'route_id' => array('The selected route is not valid'),
+				)
+			),
+			array(
+				array(
+					'module_id' => 'module-login',
+					'route_id' => 'fake-route'
+				),
+				array(
+					'route_id' => array('The selected route is not valid'),
+				)
+			),
+			array(
+				array(
+					'module_id' => 'fake-module',
+					'route_id' => 7
+				),
+				array(
+					'module_id' => array('The selected module is not valid'),
+				)
+			),
+			array(
+				array(
+					'module_id' => 'module-login',
+					'route_id' => 7
+				),
+				array()
 			),
 		);
 	}
