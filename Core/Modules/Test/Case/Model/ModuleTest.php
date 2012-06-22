@@ -112,7 +112,7 @@ class ModuleTestCase extends CakeTestCase {
  */
 	public function validationFailData() {
 		return array(
-			1 => array(
+			array(
 				array(),
 				array(
 					'name' => array('Please enter a name for this module'),
