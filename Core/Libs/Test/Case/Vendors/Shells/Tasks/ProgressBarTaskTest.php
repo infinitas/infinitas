@@ -1,4 +1,4 @@
-	<?php
+<?php
 	/**
 	 * ProgressBarTask Test Cases
 	 *
@@ -83,9 +83,9 @@
 		 * @access public
 		 */
 		public function startTest() {
-			$this->Dispatcher = new TestProgressBarTaskMockShellDispatcher();
+			$this->Dispatcher = new ShellDispatcher();
 			$this->Dispatcher->shellPaths = App::path('shells');
-			$this->Task = new MockProgressBarTask($this->Dispatcher);
+			$this->Task = new TestProgressBarTask($this->Dispatcher);
 			$this->Task->Dispatch = $this->Dispatcher;
 			$this->Task->path = TMP . 'tests' . DS;
 		}

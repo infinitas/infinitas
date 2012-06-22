@@ -11,6 +11,8 @@
 	}
 
 	class ConfigsControllerTest extends CakeTestCase {
+		public $fixtures = array('plugin.configs.config');
+
 		function startTest() {
 			$this->Configs = new TestConfigsController();
 			$this->Configs->constructClasses();
