@@ -27,7 +27,7 @@
  * @subpackage    cake.cake.libs.view.helpers
  * @link http://book.cakephp.org/view/1470/Time
  */
-App::import('Helper', 'Time');
+App::uses('Time', 'View/Helper');
 
 class InfiniTimeHelper extends TimeHelper {
 
@@ -202,7 +202,7 @@ class InfiniTimeHelper extends TimeHelper {
  */
 	function toRSS($dateString, $userOffset = null) {
 		$userOffset = $this->__userOffset($dateString, $userOffset);
-		
+
 		if($userOffset == 0) {
 			$timeZoneString = '+0000';
 		} else {

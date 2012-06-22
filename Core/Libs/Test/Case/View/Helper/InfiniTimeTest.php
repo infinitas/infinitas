@@ -1,6 +1,5 @@
 <?php
-	App::import('lib', 'libs.test/app_helper_test.php');
-	App::import('helper', 'Libs.InfiniTime');
+	App::uses('InfiniTime', 'Libs.View/Helper');
 
 	class TestInfiniTimeHelper extends CakeTestCase {
 

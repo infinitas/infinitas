@@ -1,7 +1,7 @@
 	<?php
 	App::import('lib', 'libs.test/app_model_test.php');
 
-	class ScopedNumberTree extends CakeTestModel {
+	class ScopedNumberTree123 extends CakeTestModel {
 		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
 	}
 
