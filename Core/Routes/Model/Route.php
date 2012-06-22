@@ -19,7 +19,7 @@
 
 	class Route extends RoutesAppModel {
 		public $useTable = 'routes';
-		
+
 		public $order = array();
 
 		public $belongsTo = array(
@@ -35,7 +35,7 @@
 
 		public function  __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-			
+
 			$this->order = array(
 				$this->alias . '.ordering' => 'ASC'
 			);
@@ -78,14 +78,16 @@
 					)
 				),
 				'force_frontend' => array(
-					'validateNothingEitherOr' => array(
-						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+					'validateEitherOr' => array(
+						'allowEmpty' => true,
+						'rule' => array('validateEitherOr', array('force_backend', 'force_frontend')),
 						'message' => __('Please chose only one, or none')
 					)
 				),
 				'force_backend' => array(
-					'validateNothingEitherOr' => array(
-						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+					'validateEitherOr' => array(
+						'allowEmpty' => true,
+						'rule' => array('validateEitherOr', array('force_backend', 'force_frontend')),
 						'message' => __('Please chose only one, or none')
 					)
 				),
@@ -105,7 +107,7 @@
 			if(!empty($this->data[$this->alias]['plugin'])) {
 				$this->data[$this->alias]['plugin'] = Inflector::underscore($this->data[$this->alias]['plugin']);
 			}
-			
+
 			if(!empty($this->data[$this->alias]['controller'])) {
 				$this->data[$this->alias]['controller'] = str_replace('_controller', '', Inflector::underscore($this->data[$this->alias]['controller']));
 			}
@@ -181,11 +183,11 @@
 					)
 				)
 			);
-			
+
 			try {
 				$routes = $this->find('all', $config);
 			}
-			
+
 			catch(Exception $e) {
 				CakeLog::write('core', $e->getMessage());
 				$routes = array();

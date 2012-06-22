@@ -11,6 +11,9 @@
 	}
 
 	class GlobalCategoriesControllerTest extends CakeTestCase {
+
+		public $fixtures = array('plugin.configs.config');
+
 		function startTest() {
 			$this->Categories = new TestCategoriesController();
 			$this->Categories->constructClasses();

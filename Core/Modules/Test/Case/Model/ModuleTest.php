@@ -93,9 +93,9 @@ class ModuleTestCase extends CakeTestCase {
 						),
 						'Route' =>
 							array(
-								'id' => NULL,
-								'url' => NULL,
-								'name' => NULL,
+								'id' => null,
+								'url' => null,
+								'name' => null,
 							)
 					)
 				)
@@ -106,13 +106,43 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
+ * @brief test finding a list of modules
+ *
+ * @dataProvider moduleListData
+ */
+	public function testGetModulesList($data, $expected) {
+		$result = $this->Module->getModuleList($data);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * @brief test getting module data
+ *
+ * @dataProvider getModuleData
+ */
+	public function testGetModule($data, $expected) {
+		$result = $this->Module->getModule($data['module'], $data['admin']);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * @brief test getting modules data
+ *
+ * @dataProvider getModulesData
+ */
+	public function testGetModules($data, $expected) {
+		$result = $this->Module->getModules($data['position'], $data['admin']);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * validationFailData data provider
  *
  * @return void
  */
 	public function validationFailData() {
 		return array(
-			1 => array(
+			array(
 				array(),
 				array(
 					'name' => array('Please enter a name for this module'),
@@ -183,14 +213,120 @@ class ModuleTestCase extends CakeTestCase {
 							),
 							'Route' =>
 								array(
-									'id' => NULL,
-									'url' => NULL,
-									'name' => NULL,
+									'id' => null,
+									'url' => null,
+									'name' => null,
 								)
 						)
 					)
 				)
 			)
+		);
+	}
+
+/**
+ * moduleListData data provider
+ *
+ * @return void
+ */
+	public function moduleListData() {
+		return array(
+			array(
+				null,
+				array('admin' => array(), 'user' => array())),
+			array(
+				'Users', array(
+					'admin' => array('admin/registrations' => 'Registrations'),
+					'user' => array('login' => 'Login'))),
+			array(
+				'ViewCounter', array(
+					'admin' => array(
+						'admin/overall' => 'Overall',
+						'admin/popular_items' => 'Popular Items',
+						'admin/quick_view' => 'Quick View'),
+					'user' => array())));
+	}
+
+/**
+ * getModuleData data provider
+ *
+ * @return void
+ */
+	public function getModuleData() {
+		return array(
+			array(
+				array('module' => 'foo-bar', 'admin' => false), false),
+			array(
+				array('module' => 'foo-bar', 'admin' => true), false),
+			array(
+				array('module' => 'login', 'admin' => false),
+				array(
+					'Module' => array(
+						'id' => 'module-login',
+						'name' => 'login',
+						'plugin' => 'Management',
+						'content' => '',
+						'module' => 'login',
+						'config' => '',
+						'show_heading' => false,
+					),
+					'ModuleRoute' => array(
+						array(
+							'ModuleRoute' =>
+								array(
+									'id' => '65',
+									'module_id' => 'module-login',
+									'route_id' => '0'),
+								'Route' => array(
+									'id' => null,
+									'url' => null,
+									'name' => null))))),
+			array(
+				array('module' => 'login', 'admin' => true), false),
+		);
+	}
+
+/**
+ * getModulesData data provider
+ *
+ * @return void
+ */
+	public function getModulesData() {
+		return array(
+			array(
+				array('position' => 'foo-bar', 'admin' => false), array()),
+			array(
+				array('position' => 'foo-bar', 'admin' => true), array()),
+			array(
+				array('position' => 'custom3', 'admin' => false),
+				array(
+					array(
+						'Module' => array(
+							'id' => 'module-some-news',
+							'name' => 'News module',
+							'plugin' => 'News',
+							'content' => '',
+							'module' => 'news',
+							'config' => '',
+							'show_heading' => true,
+						),
+						'Position' => array(
+							'id' => 'module-position-custom3',
+							'name' => 'custom3',
+						),
+						'Group' => array(
+							'id' => '2',
+							'name' => 'Users',
+						),
+						'Theme' => array(
+							'id' => null,
+							'name' => null,
+						),
+						'ModuleRoute' => array(
+						)
+					))),
+			array(
+				array('position' => 'custom3', 'admin' => true), array()),
 		);
 	}
 }

@@ -91,15 +91,15 @@
 					)
 				),
 				'force_frontend' => array(
-					'validateNothingEitherOr' => array(
-						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+					'validateEitherOr' => array(
+						'rule' => array('validateEitherOr', array('force_backend', 'force_frontend')),
 						'allowEmpty' => true,
 						'message' => __d('menus', 'You can only force one area of the site')
 					)
 				),
 				'force_backend' => array(
-					'validateNothingEitherOr' => array(
-						'rule' => array('validateNothingEitherOr', array('force_backend', 'force_frontend')),
+					'validateEitherOr' => array(
+						'rule' => array('validateEitherOr', array('force_backend', 'force_frontend')),
 						'allowEmpty' => true,
 						'message' => __d('menus', 'You can only force one area of the site')
 					)
