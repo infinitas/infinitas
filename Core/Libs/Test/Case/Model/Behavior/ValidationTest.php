@@ -6,6 +6,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 		'plugin.users.user',
 		'plugin.management.ticket',
 		'plugin.users.group',
+		'plugin.installer.plugin',
 	);
 
 	public function startTest() {
@@ -251,5 +252,48 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 		$this->assertTrue($this->User->validates());
 		$expected = array();
 		$this->assertEqual($this->User->validationErrors, $expected);
+	}
+
+/**
+ * @brief test validation
+ *
+ * @dataProvider pluginValidationData
+ */
+	public function testValidatePluginExists($data, $expected) {
+		$this->User->validate = array(
+			'plugin' => array(
+				'rule' => 'validatePluginExists',
+				'message' => 'plugin does not exist',
+				'required' => true
+			)
+		);
+		$this->User->set($data); $this->User->validates();
+		$result = $this->User->validationErrors;
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * @brief pluginValidationData data provider
+ */
+	public function pluginValidationData() {
+		InfinitasPlugin::load('Users');
+		return array(
+			array(
+				array('plugin' => 'foo'),
+				array('plugin' => array('plugin does not exist'))
+			),
+			array(
+				array('plugin' => ''),
+				array('plugin' => array('plugin does not exist'))
+			),
+			array(
+				array('plugin' => 123),
+				array('plugin' => array('plugin does not exist'))
+			),
+			array(
+				array('plugin' => 'Users'),
+				array()
+			)
+		);
 	}
 }
