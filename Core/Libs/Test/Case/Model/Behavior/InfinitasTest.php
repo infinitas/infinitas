@@ -14,7 +14,7 @@
 	class RouteTest2 extends Route {
 		public $useDbConfig = 'test';
 
-		function _getList($conditions = array()) {
+		public function _getList($conditions = array()) {
 			return $this->find('list', array('conditions' => $conditions));
 		}
 	}

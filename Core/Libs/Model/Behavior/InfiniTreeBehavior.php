@@ -53,7 +53,7 @@
 		 *
 		 * Overriden to transparently manage setting the lft and rght fields if and only if the parent field is included in the
 		 * parameters to be saved.
-		 * 
+		 *
 		 * Will trigger counterCache updates if enabled, tries to set the scope based on passed data.
 		 *
 		 * @param AppModel $Model Model instance.
@@ -81,7 +81,7 @@
 					$this->__oldParentId = null;
 				}
 			}
-			
+
 			return $return;
 		}
 
@@ -89,7 +89,7 @@
 		 * Before delete method. Called before all deletes
 		 *
 		 * Will delete the current node and all children using the deleteAll method and sync the table.
-		 * 
+		 *
 		 * If scoped it will automatically set the needed scope data for the extended TreeBehavior.
 		 *
 		 * @param AppModel $Model Model instance
@@ -146,12 +146,12 @@
 		 * If false is passed for the id parameter, all top level nodes are counted, or all nodes are counted.
 		 *
 		 * Scoped behavior:
-		 * 
+		 *
 		 * If the model is scoped and the id parameter is given it will automatically set the scope. To count the top
 		 * level nodes you have to pass the scopeField as the id parameter.
-		 * 
+		 *
 		 * Example: array('scope' => 5) or array('id' => false, 'scope' => 5)
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to read or false to read all top level nodes
 		 * @param boolean $direct whether to count direct, or all, children
@@ -168,7 +168,7 @@
 				$id = $this->__setScopeFromId($Model, $id);
 			}
 
-			return parent::childcount($Model, $id, $direct);
+			return parent::childCount($Model, (string)$id, (bool)$direct);
 		}
 
 		/**
@@ -178,12 +178,12 @@
 		 * If false is passed for the id parameter, top level, or all (depending on direct parameter appropriate) are counted.
 		 *
 		 * Scoped behavior:
-		 * 
+		 *
 		 * If the model is scoped and the id parameter is given it will automatically set the scope. For no id parameter
 		 * you will have to pass the scope.
-		 * 
+		 *
 		 * Example: array('scope' => 5) or array('id' => false, 'scope' => 5)
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to read
 		 * @param boolean $direct whether to return only the direct, or all, children
@@ -212,7 +212,7 @@
 		 * A convenience method for returning a hierarchical array used for HTML select boxes
 		 *
 		 * For the scoped behavior you always have to pass the scope conditions with the conditions.
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $conditions SQL conditions as a string or as an array('field' =>'value',...)
 		 * @param string $keyPath A string path to the key, i.e. "{n}.Post.id"
@@ -225,7 +225,7 @@
 		 */
 		public function generateTreeList($Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
 			if($this->scoped($Model)) {
-				$this->__setScope($Model, $conditions);		
+				$this->__setScope($Model, $conditions);
 			}
 			return parent::generateTreeList($Model, $conditions, $keyPath, $valuePath, $spacer, $recursive);
 		}
@@ -235,9 +235,9 @@
 		 *
 		 * If the model is scoped and the id parameter is given it will automatically set the scope. For no id parameter
 		 * you will have to pass the scope.
-		 * 
+		 *
 		 * Example: array('scope' => 5) or array('id' => false, 'scope' => 5)
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to read
 		 * @param mixed $fields Either a single string of a field name, or an array of field names
@@ -343,7 +343,7 @@
 		 * This method does not change the parent of any node.
 		 *
 		 * If the id parameter is not given the scope parameter is required to make this work on scoped trees.
-		 * 
+		 *
 		 * Requires a valid tree, by default it verifies the tree before beginning.
 		 *
 		 * Options:
@@ -383,10 +383,10 @@
 		 *
 		 * If the parameter delete is false, the node will become a new top level node. Otherwise the node will be deleted
 		 * after the children are reparented.
-		 * 
+		 *
 		 * If the model is scoped and the id parameter is given it will automatically set the scope. For no id parameter
 		 * you will have to pass the scope.
-		 * 
+		 *
 		 * Example: array('scope' => 5) or array('id' => false, 'scope' => 5)
 		 *
 		 * @param AppModel $Model Model instance
@@ -420,7 +420,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1630/Verify
 		 */
-		
+
 		public function verify($Model, $scope = null) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model, $scope);
@@ -431,9 +431,9 @@
 
 		/**
 		 * Mass create nodes to initialize trees. If the model is scoped you need to pass 'scope' to the options array.
-		 * 
+		 *
 		 * Example data parameter structure:
-		 * 
+		 *
 		 *	Array
 		 *	(
 		 *		[ScopedNumberTree] => Array
@@ -490,11 +490,11 @@
 		 *
 		 *	)
 		 *
-		 * 
+		 *
 		 * Options:
 		 *
 		 * - 'scope' The tree scope
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param array $data The nodes to create
 		 * @param array $options Settings
@@ -536,7 +536,7 @@
 		 *
 		 * @param object $Model the model that is doing the save
 		 * @param bool $id The lowest node to start updating from
-		 * 
+		 *
 		 * @return Array model data
 		 */
 		public function updateTreeCounterCache($Model, $id=null) {
@@ -614,7 +614,7 @@
 		 *
 		 * @param object $Model the model that is doing the save
 		 * @param bool $id The row to fetch
-		 * 
+		 *
 		 * @return Array model data
 		 */
 		private function __getNodeInfo($Model, $id) {
@@ -632,31 +632,31 @@
 
 			return $node;
 		}
-		
+
 		/**
 		 * Return a boolean if any of the counterCache methods are enabled
 		 *
 		 * @access public
 		 *
 		 * @param object $Model the model that is doing the save
-		 * 
+		 *
 		 * @return Array model data
 		 */
 		public function counterCacheEnabled($Model) {
 			return $this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache'];
 		}
-		
+
 		/**
 		 *
-		 * Private function that saves the nodes recursively 
-		 * 
+		 * Private function that saves the nodes recursively
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param array $data The nodes to create
 		 * @param array $options Settings
 		 * @return mixed true if succesfully saved or false on error
 		 * @access private
 		 */
-		private function __doTreeSave($Model, $data, $options = array()) {		
+		private function __doTreeSave($Model, $data, $options = array()) {
 			$return = false;
 
 			//Special case in the first run
@@ -688,7 +688,7 @@
 
 		/**
 		 * Private function to handle id parameters that could be the id or an array with the scope.
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The node id or an array containing id and/or scope.
 		 * @return string The id value that the original tree behavior expects as the id parameter
@@ -729,7 +729,7 @@
 
 		/**
 		 * Private function that tries to set the scope based on a given scope value, id, conditions or record data
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $data The data given to try and get the scope from
 		 * @param bool $beforeSave Set to true when called from the beforeSave to set the scopeField to the data array
@@ -771,7 +771,7 @@
 
 		/**
 		 * Returns the scope value for a given id
-		 * 
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The row to get the scope from
 		 * @return mixed The scope value.
