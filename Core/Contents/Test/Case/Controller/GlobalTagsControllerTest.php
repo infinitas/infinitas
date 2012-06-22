@@ -29,7 +29,7 @@ class TestTagsController extends GlobalTagsController {
 
 	public $uses = array('Contents.GlobalTag');
 
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'Libs.InfinitasActions');
 /**
  * Auto render
  *
@@ -89,8 +89,11 @@ class GlobalTagsControllerTest extends CakeTestCase {
 		$this->GlobalTags = new TestTagsController(new CakeRequest('controller_posts/admin_index'));
 		$this->GlobalTags->params = array(
 			'named' => array(),
-			'url' => array());
+			'url' => array(),
+			'pass' => array()
+		);
 		$this->GlobalTags->constructClasses();
+		$this->GlobalTags->InfinitasActions->initialize($this->GlobalTags);
 	}
 
 /**
@@ -132,6 +135,7 @@ class GlobalTagsControllerTest extends CakeTestCase {
  * @access public
  */
 	public function testAdminAdd() {
+		$this->GlobalTags->request->params['action'] = 'admin_add';
 		$this->GlobalTags->request->data = array(
 			'Tag' => array(
 				'tags' => 'tag1, tag2, tag3'));
@@ -148,6 +152,8 @@ class GlobalTagsControllerTest extends CakeTestCase {
  * @access public
  */
 	public function testAdminEdit() {
+		$this->GlobalTags->request->params['action'] = 'admin_edit';
+		$this->GlobalTags->request->params['pass'] = array(1);
 		$this->GlobalTags->admin_edit(1);
 		$result = $this->GlobalTags->request->data;
 		$expected = array(

@@ -1,5 +1,4 @@
-	<?php
-	App::import('Model', 'Cms.Content');
+<?php
 	class LockableContent extends CakeTestModel{
 		public $useDbConfig = 'test';
 		public $useTable = 'cms_content';
@@ -14,10 +13,10 @@
 
 		//need something to set with
 		var $fixtures = array(
-			'plugin.categories.global_category',
-			'plugin.cms.content',
+			'plugin.contents.global_category',
+			'plugin.cms.cms_content',
 			'plugin.management.ticket',
-			'plugin.management.group'
+			'plugin.users.group'
 		);
 
 		function startTest() {
@@ -42,7 +41,7 @@
 		}
 
 		function endTest() {
-			unset($this->Infinitas);
+			unset($this->LockableContent);
 			ClassRegistry::flush();
 		}
 	}
