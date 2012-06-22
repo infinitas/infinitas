@@ -288,18 +288,18 @@
 					if (!$this->Controller->{$model}->moveUp($check[$model]['id'], abs(1))) {
 						$message = __('Unable to move the record up');
 					}
-					
+
 					else {
 						$this->Controller->{$model}->afterSave(false);
 					}
 					break;
-					
+
 				case 'down':
 					$message = __('The record was moved down');
 					if (!$this->Controller->{$model}->moveDown($check[$model]['id'], abs(1))) {
 						$message = __('Unable to move the record down');
 					}
-					
+
 					else {
 						$this->Controller->{$model}->afterSave(false);
 					}
@@ -321,7 +321,7 @@
 		 */
 		public function orderedMove() {
 			$modelName = $this->Controller->modelClass;
-			
+
 			$orderable = isset($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']) &&
 				!empty($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']);
 

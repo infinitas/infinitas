@@ -1,8 +1,8 @@
-	<?php
+<?php
 	/* Infinitas Test cases generated on: 2010-03-13 14:03:31 : 1268484451*/
 	App::uses('InfinitasBehavior', 'Libs.Model/Behavior');
 	App::uses('Route', 'Routes.Model');
-	
+
 	class RouteTest1 extends Route {
 		public $useDbConfig = 'test';
 
@@ -36,10 +36,10 @@
 			$this->expectError(true);
 			$this->AppModel = new AppModel(array('table' => false));
 		}
-		
+
 		public function tearDown() {
 			parent::tearDown();
-			
+
 			unset($this->Infinitas);
 		}
 

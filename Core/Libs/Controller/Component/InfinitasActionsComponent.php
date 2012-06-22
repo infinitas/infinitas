@@ -69,7 +69,7 @@
 				$this->Controller->set('json', array('error'));
 				return;
 			}
-			
+
 			$this->Controller->set(
 				'json',
 				$this->Controller->{$this->Controller->modelClass}->getActions(
@@ -92,7 +92,7 @@
 				$this->Controller->set('json', array('error'));
 				return;
 			}
-			
+
 			$this->Controller->set(
 				'json',
 				$this->Controller->{$this->Controller->modelClass}->getRecords(
@@ -101,7 +101,7 @@
 				)
 			);
 		}
-		
+
 		/**
 		 * @brief Simple Admin add method.
 		 *
@@ -119,11 +119,11 @@
 		public function actionAdminAdd() {
 			if (!empty($this->Controller->request->data)) {
 				$this->Controller->{$this->Controller->modelClass}->create();
-				
+
 				if ($this->Controller->{$this->Controller->modelClass}->saveAll($this->Controller->request->data)) {
 					$this->Controller->notice('saved');
 				}
-				
+
 				$this->Controller->notice('not_saved');
 			}
 
@@ -154,7 +154,7 @@
 				if ($this->Controller->{$this->Controller->modelClass}->saveAll($this->Controller->request->data)) {
 					$this->Controller->notice('saved');
 				}
-				
+
 				$this->Controller->notice('not_saved');
 			}
 
@@ -208,10 +208,10 @@
 			$this->Controller->set($varName, $$varName);
 			$this->Controller->request->params['admin'] = false;
 			$this->Controller->layout = 'front';
-			
+
 			$this->Controller->render('view');
 		}
-		
+
 		public function actionAdminExport($id = null) {
 			$this->Controller->notice(
 				__d($this->Controller->request->params['plugin'], 'Export is currently disabled'),
@@ -291,7 +291,7 @@
 						$redirectConfig
 					);
 				}
-				
+
 				$this->Controller->Infinitas->orderedMove();
 			}
 
@@ -302,7 +302,7 @@
 						$redirectConfig
 					);
 				}
-				
+
 				$this->Controller->Infinitas->treeMove($this->Controller->request->params['named']['direction']);
 			}
 
