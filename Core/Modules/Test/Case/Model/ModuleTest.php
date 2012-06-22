@@ -93,9 +93,9 @@ class ModuleTestCase extends CakeTestCase {
 						),
 						'Route' =>
 							array(
-								'id' => NULL,
-								'url' => NULL,
-								'name' => NULL,
+								'id' => null,
+								'url' => null,
+								'name' => null,
 							)
 					)
 				)
@@ -122,6 +122,16 @@ class ModuleTestCase extends CakeTestCase {
  */
 	public function testGetModule($data, $expected) {
 		$result = $this->Module->getModule($data['module'], $data['admin']);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * @brief test getting modules data
+ *
+ * @dataProvider getModulesData
+ */
+	public function testGetModules($data, $expected) {
+		$result = $this->Module->getModules($data['position'], $data['admin']);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -203,9 +213,9 @@ class ModuleTestCase extends CakeTestCase {
 							),
 							'Route' =>
 								array(
-									'id' => NULL,
-									'url' => NULL,
-									'name' => NULL,
+									'id' => null,
+									'url' => null,
+									'name' => null,
 								)
 						)
 					)
@@ -268,11 +278,55 @@ class ModuleTestCase extends CakeTestCase {
 									'module_id' => 'module-login',
 									'route_id' => '0'),
 								'Route' => array(
-									'id' => NULL,
-									'url' => NULL,
-									'name' => NULL))))),
+									'id' => null,
+									'url' => null,
+									'name' => null))))),
 			array(
 				array('module' => 'login', 'admin' => true), false),
+		);
+	}
+
+/**
+ * getModulesData data provider
+ *
+ * @return void
+ */
+	public function getModulesData() {
+		return array(
+			array(
+				array('position' => 'foo-bar', 'admin' => false), array()),
+			array(
+				array('position' => 'foo-bar', 'admin' => true), array()),
+			array(
+				array('position' => 'custom3', 'admin' => false),
+				array(
+					array(
+						'Module' => array(
+							'id' => 'module-some-news',
+							'name' => 'News module',
+							'plugin' => 'News',
+							'content' => '',
+							'module' => 'news',
+							'config' => '',
+							'show_heading' => true,
+						),
+						'Position' => array(
+							'id' => 'module-position-custom3',
+							'name' => 'custom3',
+						),
+						'Group' => array(
+							'id' => '2',
+							'name' => 'Users',
+						),
+						'Theme' => array(
+							'id' => null,
+							'name' => null,
+						),
+						'ModuleRoute' => array(
+						)
+					))),
+			array(
+				array('position' => 'custom3', 'admin' => true), array()),
 		);
 	}
 }
