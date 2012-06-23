@@ -27,7 +27,7 @@
  * @subpackage    cake.cake.libs.view.helpers
  * @link http://book.cakephp.org/view/1470/Time
  */
-App::uses('Time', 'View/Helper');
+App::uses('TimeHelper', 'View/Helper');
 
 class InfiniTimeHelper extends TimeHelper {
 
