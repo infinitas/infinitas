@@ -290,6 +290,12 @@ class Module extends ModulesAppModel {
 			return $modules;
 		}
 
+		$lockerBehavior = false;
+		if($this->Behaviors->enabled('Lockable')) {
+			$lockerBehavior = true;
+			$this->Behaviors->disable('Lockable');
+		}
+
 		$modules = $this->find(
 			'all',
 			array(
@@ -347,6 +353,10 @@ class Module extends ModulesAppModel {
 
 		Cache::write($position . '.' . (($admin) ? 'admin' : 'user'), $modules, 'modules');
 
+		if($lockerBehavior) {
+			$this->Behaviors->enable('Lockable');
+		}
+
 		return $modules;
 	}
 
@@ -362,6 +372,12 @@ class Module extends ModulesAppModel {
 		$_module = Cache::read('single.' . (($admin) ? 'admin' : 'user'), 'modules');
 		if($_module !== false) {
 			return $_module;
+		}
+
+		$lockerBehavior = false;
+		if($this->Behaviors->enabled('Lockable')) {
+			$lockerBehavior = true;
+			$this->Behaviors->disable('Lockable');
 		}
 
 		$module = $this->find(
@@ -385,6 +401,10 @@ class Module extends ModulesAppModel {
 			)
 		);
 		Cache::write('single.' . (($admin) ? 'admin' : 'user'), $module, 'modules');
+
+		if($lockerBehavior) {
+			$this->Behaviors->enable('Lockable');
+		}
 
 		return $module;
 	}

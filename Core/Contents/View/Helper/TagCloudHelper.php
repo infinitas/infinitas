@@ -64,9 +64,12 @@
 			);
 			$options = array_merge($defaults, $options);
 
-			$weights = Set::extract($tags, $options['extract']);
-			$maxWeight = max($weights);
-			$minWeight = min($weights);
+			$weights = Set::extract($options['extract'], $tags);
+			$maxWeight = $minWeight = 1;
+			if($weights) {
+				$maxWeight = max($weights);
+				$minWeight = min($weights);
+			}
 
 			// find the range of values
 			$spread = $maxWeight - $minWeight;
@@ -91,7 +94,7 @@
 					$tag['GlobalTag']['name'],
 					current($url['slugUrl']),
 					array(
-						'class' => 'tag-' . $tag['GlobalTag']['id']
+						'class' => 'tag tag-' . $tag['GlobalTag']['id']
 					)
 				) . ' ';
 			}
@@ -125,7 +128,7 @@
 					$tagged['GlobalTag']['name'],
 					$this->here . '#'
 				);
-				
+
 				$limit--;
 			}
 			if($seperator == ',') {

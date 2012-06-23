@@ -4,11 +4,14 @@
 
 	class AppHelperHelperTest extends CakeTestCase {
 		function startTest() {
-			$this->AppHelper = new AppHelperHelper();
 		}
 
 		function endTest() {
 			unset($this->AppHelper);
 			ClassRegistry::flush();
+		}
+
+		public function testSomething() {
+			$this->assertTrue(true);
 		}
 	}

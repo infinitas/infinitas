@@ -10,7 +10,6 @@
 			'plugin.view_counter.view_counter_view',
 		);
 		function startTest() {
-			$this->AppModel = new AppModel();
 		}
 
 		function endTest() {

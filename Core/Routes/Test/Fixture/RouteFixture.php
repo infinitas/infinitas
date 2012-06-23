@@ -5,7 +5,7 @@
  */
 class RouteFixture extends CakeTestFixture {
 	public $name = 'Route';
-	
+
 	public $table = 'core_routes';
 
 /**
@@ -183,7 +183,7 @@ class RouteFixture extends CakeTestFixture {
 			'url' => '/admin/cms',
 			'prefix' => 'admin',
 			'plugin' => 'cms',
-			'controller' => 'categories',
+			'controller' => 'cms_contents',
 			'action' => 'dashboard',
 			'values' => '',
 			'pass' => '',

@@ -58,6 +58,7 @@ class UploadBehaviorTest extends CakeTestCase {
 			)
 		);
 	}
+
 	public function mockUpload($methods = array()) {
 		if (!is_array($methods)) {
 			$methods = (array) $methods;
@@ -147,12 +148,13 @@ class UploadBehaviorTest extends CakeTestCase {
 		$this->TestUpload->actsAs['Filemanager.Upload']['photo']['deleteOnUpdate'] = true;
 		$this->mockUpload();
 		$this->MockUpload->expects($this->once())->method('handleUploadedFile')->will($this->returnValue(true));
-		$this->MockUpload->expects($this->once())->method('unlink')->will($this->returnValue(true));
+		$this->MockUpload->expects($this->exactly(2))->method('unlink')->will($this->returnValue(true));
 
 		$existingRecord = $this->TestUpload->findById($this->data['test_update']['id']);
-		$this->MockUpload->expects($this->once())->method('unlink')->with(
+		$this->MockUpload->expects($this->exactly(2))->method('unlink')->with(
 			$this->MockUpload->settings['TestUpload']['photo']['path'] . $existingRecord['TestUpload']['dir'] . DS . $existingRecord['TestUpload']['photo']
 		);
+
 		$this->MockUpload->expects($this->once())->method('handleUploadedFile')->with(
 			$this->TestUpload->alias,
 			'photo',

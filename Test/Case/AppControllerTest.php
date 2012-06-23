@@ -11,9 +11,14 @@
 	}
 
 	class AppControllerTest extends CakeTestCase {
+		public $fixtures = array(
+			'plugin.configs.config',
+			'plugin.management.aco',
+			'plugin.management.aro',
+			'plugin.management.aros_aco',
+		);
+
 		public function startTest() {
-			$this->AppController = new AppController();
-			$this->AppController->constructClasses();
 		}
 
 		public function endTest() {

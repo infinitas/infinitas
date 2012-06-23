@@ -8,6 +8,11 @@ class AllCoreTestsTest extends PHPUnit_Framework_TestSuite {
  */
 	public static function suite() {
 		$suite = new CakeTestSuite('All Core plugins test');
+		$path = APP . 'Test' . DS . 'Case' . DS;
+		$suite->addTestFile($path . 'AppControllerTest.php');
+		$suite->addTestFile($path . 'AppModelTest.php');
+		$suite->addTestFile($path . 'AppHelperHelperTest.php');
+
 		$plugins = App::objects('plugin', APP . 'Core', false);
 		foreach ($plugins as $plugin) {
 			if (CakePlugin::loaded($plugin)) {

@@ -7,10 +7,13 @@ class ModuleTestCase extends CakeTestCase {
 		'plugin.modules.module_position',
 		'plugin.modules.module',
 		'plugin.themes.theme',
+		'plugin.users.user',
 		'plugin.users.group',
 		'plugin.routes.route',
 		'plugin.modules.modules_route',
 		'plugin.installer.plugin',
+		'plugin.locks.global_lock',
+		'plugin.management.ticket',
 	);
 
 /**
@@ -61,45 +64,45 @@ class ModuleTestCase extends CakeTestCase {
 	public function testFind() {
 		$expected = array(
 			'Module' => array(
-					'id' => 'module-login',
-					'name' => 'login',
-					'content' => '',
-					'module' => 'login',
-					'config' => '',
-					'theme_id' => '0',
-					'position_id' => 'module-position-custom1',
-					'group_id' => '2',
-					'ordering' => '1',
-					'admin' => false,
-					'active' => true,
-					'show_heading' => false,
-					'core' => false,
-					'author' => 'Infinitas',
-					'licence' => 'MIT',
-					'url' => 'http://www.infinitas-cms.org',
-					'update_url' => '',
-					'created' => '2010-01-19 00:30:53',
-					'modified' => '2010-06-02 14:53:06',
-					'plugin' => 'Management',
-					'list_name' => 'login',
-					'save_name' => 'login',
-				),
-				'ModuleRoute' => array(
-					array(
-						'ModuleRoute' => array(
-							'id' => '65',
-							'module_id' => 'module-login',
-							'route_id' => '0',
-						),
-						'Route' =>
-							array(
-								'id' => null,
-								'url' => null,
-								'name' => null,
-							)
-					)
+				'id' => 'module-login',
+				'name' => 'login',
+				'content' => '',
+				'module' => 'login',
+				'config' => '',
+				'theme_id' => '0',
+				'position_id' => 'module-position-custom1',
+				'group_id' => '2',
+				'ordering' => '1',
+				'admin' => false,
+				'active' => true,
+				'show_heading' => false,
+				'core' => false,
+				'author' => 'Infinitas',
+				'licence' => 'MIT',
+				'url' => 'http://www.infinitas-cms.org',
+				'update_url' => '',
+				'created' => '2010-01-19 00:30:53',
+				'modified' => '2010-06-02 14:53:06',
+				'plugin' => 'Management',
+				'list_name' => 'login',
+				'save_name' => 'login',
+			),
+			'ModuleRoute' => array(
+				array(
+					'ModuleRoute' => array(
+						'id' => '65',
+						'module_id' => 'module-login',
+						'route_id' => '0',
+					),
+					'Route' =>
+						array(
+							'id' => null,
+							'url' => null,
+							'name' => null,
+						)
 				)
-			);
+			)
+		);
 
 		$result = $this->Module->find('first', array('conditions' => array('Module.id' => 'module-login')));
 		$this->assertEquals($expected, $result);
@@ -280,7 +283,19 @@ class ModuleTestCase extends CakeTestCase {
 								'Route' => array(
 									'id' => null,
 									'url' => null,
-									'name' => null))))),
+									'name' => null))),
+					'Position' => array(
+
+					),
+					'Theme' => array(
+
+					),
+					'Group' => array(
+
+					),
+					'Route' => array(
+
+					))),
 			array(
 				array('module' => 'login', 'admin' => true), false),
 		);

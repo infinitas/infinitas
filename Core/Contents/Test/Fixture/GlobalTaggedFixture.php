@@ -64,7 +64,7 @@ class GlobalTaggedFixture extends CakeTestFixture {
 			'id' => '49357f3f-c464-461f-86ac-a85d4a35e6b6',
 			'foreign_key' => 1,
 			'tag_id' => 1, //cakephp
-			'model' => 'Article',
+			'model' => 'BlogPost',
 			'language' => 'eng',
 			'created' => '2008-12-02 12:32:31 ',
 			'modified' => '2008-12-02 12:32:31',
@@ -73,7 +73,7 @@ class GlobalTaggedFixture extends CakeTestFixture {
 			'id' => '49357f3f-c66c-4300-a128-a85d4a35e6b6',
 			'foreign_key' => 1,
 			'tag_id' => 2, //cakedc
-			'model' => 'Article',
+			'model' => 'BlogPost',
 			'language' => 'eng',
 			'created' => '2008-12-02 12:32:31 ',
 			'modified' => '2008-12-02 12:32:31',
@@ -82,7 +82,7 @@ class GlobalTaggedFixture extends CakeTestFixture {
 			'id' => '493dac81-1b78-4fa1-a761-43ef4a35e6b2',
 			'foreign_key' => 2,
 			'tag_id' => '49357f3f-17a0-4c42-af78-a85d4a35e6b6', //cakedc
-			'model' => 'Article',
+			'model' => 'BlogPost',
 			'language' => 'eng',
 			'created' => '2008-12-02 12:32:31 ',
 			'modified' => '2008-12-02 12:32:31',

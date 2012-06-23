@@ -183,14 +183,11 @@
 			}
 
 			$schema = $this->schema();
-			if (!empty($schema) && php_sapi_name() != 'cli') {
+			if (!empty($schema)) {
 				if($this->Behaviors->enabled('Event')) {
 					$this->triggerEvent('attachBehaviors');
 					$this->Behaviors->attach('Containable');
 				}
-			}
-			elseif(php_sapi_name() == 'cli') {
-				$this->actsAs = array();
 			}
 		}
 

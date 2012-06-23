@@ -301,7 +301,7 @@ class UploadBehavior extends ModelBehavior {
 		foreach ($this->__filesToRemove[$model->alias] as $file) {
 			$result[] = $this->unlink($file);
 		}
-		
+
 		return $result;
 	}
 
@@ -331,7 +331,7 @@ class UploadBehavior extends ModelBehavior {
 		if(empty($this->__filesToRemove[$model->alias])) {
 			return array();
 		}
-		
+
 		foreach ($this->__filesToRemove[$model->alias] as $file) {
 			$result[] = $this->unlink($file);
 		}
@@ -1200,7 +1200,7 @@ class UploadBehavior extends ModelBehavior {
 		$filePathDir = $this->settings[$model->alias][$field]['path'] . $dir . DS;
 		$filePath = $filePathDir.$data[$model->alias][$field];
 		$pathInfo = $this->_pathinfo($filePath);
-	
+
 		$this->__filesToRemove[$model->alias] = array();
 		$this->__filesToRemove[$model->alias][] = $filePath;
 
@@ -1278,34 +1278,34 @@ class UploadBehavior extends ModelBehavior {
 		}
 		return $pathInfo;
 	}
-	
+
 	/**
 	 * @brief get the upload path the model is set to use
-	 * 
+	 *
 	 * @access public
-	 * 
+	 *
 	 * @param object $Model the model being used
 	 * @param string $field the field to check for
-	 * 
+	 *
 	 * @return mixed false if not found, string path if found
 	 */
 	public function uploadFilePath($Model, $field = '') {
 		if(isset($this->settings[$Model->alias][$field]['path'])) {
 			return str_replace('webroot/img/', '', $this->settings[$Model->alias][$field]['path']);
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * @brief get the full path for images
-	 * 
+	 *
 	 * @access public
-	 * 
+	 *
 	 * @param Model $Model the model the check is being done on
-	 * @param string $field name to use 
-	 * 
-	 * @return type 
+	 * @param string $field name to use
+	 *
+	 * @return type
 	 */
 	public function fullPath($Model, $field = '') {
 		return APP . WEBROOT_DIR . DS . 'img' . DS . $this->uploadFilePath($Model, $field);
