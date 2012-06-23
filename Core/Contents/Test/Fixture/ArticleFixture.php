@@ -23,6 +23,7 @@
  */
 
 class ArticleFixture extends CakeTestFixture {
+	public $table = 'articles';
 /**
  * fields property
  *
@@ -30,7 +31,7 @@ class ArticleFixture extends CakeTestFixture {
  * @access public
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
+		'id' => array('type' => 'integer'),
 		'title' => array('type' => 'string', 'null' => false));
 
 /**

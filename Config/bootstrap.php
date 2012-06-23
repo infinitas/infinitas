@@ -113,7 +113,7 @@
 
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
-	if (getenv('TRAVIS_PHP_VERSION')) {
+	if(in_array('test', env('argv'))) {
 		InfinitasPlugin::load(InfinitasPlugin::listPlugins('nonCore'));
 	} else {
 		InfinitasPlugin::loadInstalled();
@@ -284,7 +284,7 @@
 		foreach($route['Route']['regex'] as $k => $v) {
 			$parts[] = "'$k' => '$v'";
 		}
-		
+
 		if(!empty($parts)) {
 			$out .= ', array(';
 			$out .= implode(', ', $parts);

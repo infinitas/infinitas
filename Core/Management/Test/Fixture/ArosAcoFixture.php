@@ -2,7 +2,7 @@
 /* ArosAco Fixture generated on: 2010-03-11 21:03:08 : 1268336108 */
 class ArosAcoFixture extends CakeTestFixture {
 	var $name = 'ArosAco';
-	var $table = 'aros_aco';
+	var $table = 'aros_acos';
 
 	var $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
