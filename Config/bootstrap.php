@@ -113,7 +113,7 @@
 
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
 
-	if(in_array('test', env('argv'))) {
+	if(in_array('test', (array)env('argv'))) {
 		InfinitasPlugin::load(InfinitasPlugin::listPlugins('nonCore'));
 	} else {
 		InfinitasPlugin::loadInstalled();
