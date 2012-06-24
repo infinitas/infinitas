@@ -285,11 +285,6 @@ class Module extends ModulesAppModel {
 			return array();
 		}
 
-		$modules = Cache::read($position . '.' . (($admin) ? 'admin' : 'user'), 'modules');
-		if($modules !== false) {
-			return $modules;
-		}
-
 		$lockerBehavior = false;
 		if($this->Behaviors->enabled('Lockable')) {
 			$lockerBehavior = true;
@@ -350,8 +345,6 @@ class Module extends ModulesAppModel {
 				)
 			)
 		);
-
-		Cache::write($position . '.' . (($admin) ? 'admin' : 'user'), $modules, 'modules');
 
 		if($lockerBehavior) {
 			$this->Behaviors->enable('Lockable');
