@@ -321,24 +321,19 @@
 		 */
 		public function orderedMove() {
 			$modelName = $this->Controller->modelClass;
-
-			$orderable = isset($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']) &&
-				!empty($this->Controller->{$modelName}->actsAs['Libs.Sequence']['groupFields']);
-
-			if ($orderable) {
-				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
-			}
-			else{
-				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->params['named']['position'];
-			}
-
 			$this->Controller->{$modelName}->transaction();
+
 			try {
-				$this->Controller->{$modelName}->save($this->Controller->request->data);
+				if(!$this->Controller->{$modelName}->Behaviors->attached('Sequence')) {
+					throw new Exception('Cant move items');
+				}
+
+				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
+
+				$this->Controller->{$modelName}->save($this->Controller->request->data, array('validate' => false));
 				$this->Controller->{$modelName}->transaction(true);
 				return true;
-			}
-			catch(Exception $e) {
+			} catch(Exception $e) {
 				$this->Controller->{$modelName}->transaction(false);
 				$this->Controller->notice(
 					$e->getMessage(),

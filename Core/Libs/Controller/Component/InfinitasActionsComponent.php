@@ -287,7 +287,7 @@
 			if (!empty($this->Controller->request->params['named']['position'])) {
 				if(!$this->Controller->{$model}->Behaviors->attached('Sequence')) {
 					$this->Controller->notice(
-						__('A problem occured moving the ordered record.'),
+						__d('infinitas', 'A problem occured moving the ordered record.'),
 						$redirectConfig
 					);
 				}

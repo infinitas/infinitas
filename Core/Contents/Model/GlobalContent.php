@@ -294,7 +294,8 @@
 
 				$query['conditions'] = array(
 					sprintf('%s.full_text_search LIKE \'%%%s%%\'', $this->alias, $query[0]),
-					$this->alias . '.model NOT LIKE' => '%Category%'
+					array($this->alias . '.model NOT LIKE' => '%Category%'),
+					array($this->alias . '.model NOT LIKE' => '%Gallery%'),
 				);
 
 				if(!empty($query[1])) {
