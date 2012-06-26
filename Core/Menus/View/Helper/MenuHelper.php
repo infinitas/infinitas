@@ -240,11 +240,11 @@
 			);
 
 			if($data['MenuItem']['force_backend']) {
-				$url['admin'] = 1;
+				$url['admin'] = true;
 			}
 
 			else if($data['MenuItem']['force_frontend']) {
-				$url['admin'] = 0;
+				$url['admin'] = false;
 			}
 
 			return $url;

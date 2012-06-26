@@ -75,6 +75,7 @@
 				),
 				'link' => array(
 					'validateEitherOr' => array(
+						'allowEmpty' => true,
 						'rule' => array('validateEitherOr', array('link', 'plugin')),
 						'message' => __d('menus', 'Please only use external link or the route'),
 						'required' => true

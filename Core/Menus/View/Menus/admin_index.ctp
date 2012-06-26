@@ -50,7 +50,7 @@
                     $this->Paginator->sort('count') => array(
                         'style' => 'width:100px;'
                     ),
-                    $this->Paginator->sort('active', true) => array(
+                    $this->Paginator->sort('active') => array(
                         'style' => 'width:50px;'
                     )
                 )
