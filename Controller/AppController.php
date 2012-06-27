@@ -630,7 +630,12 @@
 				'plugin' => $config['plugin']
 			);
 
-			$this->Session->setFlash($message, 'messages/'.$config['level'], $vars);
+			$element = 'messages/' . $config['level'];
+			if(isset($this->request->params['admin']) && $this->request->params['admin']) {
+				$element = 'messages/admin/' . $config['level'];
+			}
+			
+			$this->Session->setFlash($message, $element, $vars);
 			if($config['redirect'] || $config['redirect'] === '') {
 				if($config['redirect'] === true) {
 					$config['redirect'] = $this->referer();
