@@ -301,6 +301,10 @@
 			if(!class_exists('FilterHelper')) {
 				App::uses('FilterHelper', 'Filter.View/Helper');
 			}
+			
+			if(is_array($massActions)) {
+				$massActions = $this->massActionButtons($massActions);
+			}
 
 			return sprintf(
 				'<div class="adminTopBar">%s%s</div><div class="filters">%s</div>',
@@ -319,6 +323,9 @@
 		 * @return string the markup for the page
 		 */
 		public function adminOtherHead($massActions = null) {
+			if(is_array($massActions)) {
+				$massActions = $this->massActionButtons($massActions);
+			}
 			return sprintf(
 				'<div class="adminTopBar">%s%s</div>',
 				$this->adminPageHead(),
@@ -408,7 +415,7 @@
 			if(!$text) {
 				$link = $id;
 			}
-			
+
 			return $this->Html->link($link, $url);
 		}
 
@@ -740,7 +747,7 @@
 			$controller = str_replace(array('global', $this->request->params['plugin']), '', $controller);
 			$controller = str_replace('_', ' ', $controller);
 			$pluralController = Inflector::pluralize($controller);
-			
+
 			switch(strtolower($switch)) {
 				case 'add':
 					$heading = sprintf('%s %s', __('Create a New'), $controller);
