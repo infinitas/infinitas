@@ -61,36 +61,36 @@
 
 	echo<<<COMMENT
 <?php
-	/**
-	 * @brief Add some documentation for this $action form.
-	 *
-	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
-	 *
-	 * @link		  http://infinitas-cms.org/$plugin
-	 * @package	   $plugin.views.$action
-	 * @license	   http://infinitas-cms.org/mit-license The MIT License
-	 * @since $version
-	 *
-	 * @author $username
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
+/**
+ * @brief Add some documentation for this $action form.
+ *
+ * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+ *
+ * @link		  http://infinitas-cms.org/$plugin
+ * @package	   $plugin.View.$action
+ * @license	   http://infinitas-cms.org/mit-license The MIT License
+ * @since $version
+ *
+ * @author $username
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ */
 
 COMMENT;
-	echo "\techo \$this->Form->create('$modelClass', array('action' => 'mass'));\n\n".
-		"\t\$massActions = \$this->Infinitas->massActionButtons(\n".
-			"\t\tarray(\n".
-				"\t\t\t'add',\n".
-				"\t\t\t'edit',\n".
-				"\t\t\t'toggle',\n".
-				"\t\t\t'copy',\n".
-				"\t\t\t'delete',\n\n".
-				"\t\t\t// other methods available\n".
-				"\t\t\t// 'unlock',\n".
-			"\t\t)\n".
-		"\t);\n\n".
-		"\techo \$this->Infinitas->adminIndexHead(\$filterOptions, \$massActions);\n".
+	echo "echo \$this->Form->create('$modelClass', array('action' => 'mass'));\n\n".
+		"\$massActions = \$this->Infinitas->massActionButtons(\n".
+			"\tarray(\n".
+				"\t\t'add',\n".
+				"\t\t'edit',\n".
+				"\t\t'toggle',\n".
+				"\t\t'copy',\n".
+				"\t\t'delete',\n\n".
+				"\t\t// other methods available\n".
+				"\t\t// 'unlock',\n".
+			"\t)\n".
+		");\n\n".
+		"echo \$this->Infinitas->adminIndexHead(\$filterOptions, \$massActions);\n".
 	"?>\n";
 ?>
 <div class="table">
@@ -114,7 +114,7 @@ COMMENT;
 								foreach ($associations['belongsTo'] as $alias => $details) {
 									if ($field === $details['foreignKey']) {
 										$isKey = true;
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$alias}', '{$alias}.{$details['displayField']}'),\n";
+										echo "\t\t\t\t\t\$this->Paginator->sort('{$alias}.{$details['displayField']}', '{$alias}'),\n";
 										break;
 									}
 								}
@@ -137,7 +137,7 @@ COMMENT;
 
 									case str_replace('_count', '', $field) != $field:
 										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$name}', '{$field}') => array(\n".
+										echo "\t\t\t\t\t\$this->Paginator->sort('{$field}', '{$name}') => array(\n".
 											"\t\t\t\t\t\t'style' => 'width:50px;'\n".
 										"\t\t\t\t\t),\n";
 										break;
@@ -175,11 +175,11 @@ COMMENT;
 								switch($field) {
 									case 'created':
 									case 'modified':
-										$endFields .= "\t\t\t\t\t<td><?php echo \$this->Time->niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+										$endFields .= "\t\t\t\t\t<td><?php echo CakeTime::niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
 										break;
 
 									case 'active':
-										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->status(\${$singularVar}['{$modelClass}']['{$field}'], \${$singularVar}['{$modelClass}']['id']); ?>&nbsp;</td>\n".$endFields;
+										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->status(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
 										break;
 
 									case 'locked':
