@@ -75,7 +75,7 @@
 		public function status($status = null, $options = array()) {
 			$image = false;
 			$params = array();
-			
+
 			$options = array_merge(
 				array(
 					'title_yes' => __d('infinitas', 'Status :: This record is active'),

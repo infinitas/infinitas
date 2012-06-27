@@ -54,11 +54,14 @@
 	/**
 	 * toggle checkboxes
 	 */
-	FormHelper.checkboxToggleAll = function(toggleId) {
+	FormHelper.checkboxToggleAll = function(selector) {
 		var tog = false;
-		$(toggleId).click(function(){
-			$("input:checkbox[not:"+toggleId+"]").attr("checked",!tog).change();
-			tog = !tog;
+
+		$.each($(selector), function(k, v) {
+			$(v).live('click', function() {
+				$("input:checkbox[not:" + $(this).attr('id') + "]", $(this).parents('table')).attr("checked",!tog).change();
+				tog = !tog;
+			});
 		});
 	};
 

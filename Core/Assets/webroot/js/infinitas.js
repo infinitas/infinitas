@@ -50,8 +50,8 @@ switch(Infinitas.params.prefix) {
 					return false;
 				}
 			});
-			
-			$.FormHelper.checkboxToggleAll('#' + Infinitas.model + 'All');
+
+			$.FormHelper.checkboxToggleAll('[id*="All"]:checkbox');
 
 			$(".trigger").click(function(){
 				$this = $(this);
@@ -83,9 +83,9 @@ switch(Infinitas.params.prefix) {
 			$('#ProductImageProductImage').imageSelect();
 		});
 		break;
-		
+
 	default:
-		$(document).ready(function(){			
+		$(document).ready(function(){
 			$('.tabs').tabs();
 			//setupStarRating();
 
@@ -116,7 +116,7 @@ function setupAjaxDropdowns(){
 		var $this = $(this);
 		var $formId = '#' + $(this).closest('form').attr('id');
 		metaData = $.HtmlHelper.getParams($this);
-		
+
 		$.FormHelper.emptySelect(metaData);
 		if ($this.val().length != 0) {
 			metaData.postData = $($formId).serialize();
