@@ -202,18 +202,7 @@ COMMENT;
 												$title = " title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
 
 											default:
-												echo "\t\t\t\t\t<td{$title}>\n".
-														"\t\t\t\t\t\t<?php \n".
-															"\t\t\t\t\t\t\techo \$this->Html->link(\n".
-																"\t\t\t\t\t\t\t\t\${$singularVar}['{$modelClass}']['{$field}'],\n".
-																	"\t\t\t\t\t\t\t\tarray(\n".
-																		"\t\t\t\t\t\t\t\t\t'action' => 'edit',\n".
-																		"\t\t\t\t\t\t\t\t\t\${$singularVar}['{$modelClass}']['{$primaryKey}']\n".
-																	"\t\t\t\t\t\t\t\t)\n".
-																"\t\t\t\t\t\t\t);\n".
-															"\t\t\t\t\t\t?>&nbsp;\n".
-														"\t\t\t\t\t</td>\n";
-												break;
+												echo "\t\t\t\t\t<td{$title}><?php echo \$this->Html->adminQuickLink(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
 										} // switch
 										break;
 
