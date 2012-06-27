@@ -71,7 +71,7 @@ table.listing,
 
 table.listing{
 	margin-top: 0;
-	padding:10px;
+	padding: 0 10px;
 	color:#202020;
 	width: 100%;
 	border-collapse: separate;
@@ -353,7 +353,7 @@ form fieldset,
 		color: #2450ff;
 		font-weight: bold;
 	}
-	
+
 	.dashboard .info a{
 		color: #E4E7EA;
 	}
@@ -381,7 +381,7 @@ form fieldset,
 
 		clear:none;
 	}
-	
+
 	.module:nth-of-type(odd) .dashboard.half {
 		margin-right: 0;
 		margin-left: 6px;
@@ -433,7 +433,7 @@ form fieldset,
 		border-color:#c3c9ce;
 		color:#333;
 	}
-	
+
 .dashboard.full {
 	clear: both;
 }
@@ -776,4 +776,37 @@ table.listing tr.details div span {
 	border-bottom: 1px solid gray;
 	background-color: #cccccc;
 	padding-left: 10px;
+}
+
+
+/**
+ * dl lists
+ */
+.tabs dl {
+	width:100%;
+	overflow:hidden;
+}
+dl.half {
+	width: 50%;
+	float: left;
+}
+.tabs dt, dd {
+	padding: 5px;
+}
+
+.tabs dt {
+	float:left;
+	width:38%;
+	padding-left: 10px;
+	clear: left;
+}
+
+.tabs dd {
+	float:left;
+	width:50%;
+}
+
+dt.altrow,
+dd.altrow {
+	background-color: #f4f4f4;
 }
