@@ -26,7 +26,7 @@
 	class MassActionComponent extends InfinitasComponent {
 		public function initialize($Controller) {
 			parent::initialize($Controller);
-			
+
 			if($this->getAction(false) == 'cancel') {
 				$Controller->Event->trigger(
 					'editCanceled',
@@ -35,7 +35,7 @@
 				$Controller->redirect($Controller->getPageRedirectVar());
 			}
 		}
-		
+
 		/**
 		 * Mass actions
 		 *
@@ -47,15 +47,15 @@
 		 */
 		public function actionAdminMass() {
 			$massAction = $this->getAction();
-			
+
 			if(isset($this->Controller->modelClass)) {
 				$modelName = $this->Controller->modelClass;
 			}
-			
+
 			if(!empty($this->Controller->request->data['Confirm']['model'])) {
 				$modelName = $this->Controller->request->data['Confirm']['model'];
 			}
-			
+
 			$ids = $this->getIds(
 				$massAction,
 				$this->Controller->request->data[$modelName]
@@ -73,7 +73,7 @@
 
 			return $this->generic($massAction, $ids);
 		}
-		
+
 		/**
 		 * Get submitted ids.
 		 *
@@ -154,7 +154,7 @@
 			foreach($this->Controller->{$this->Controller->modelClass}->belongsTo as $model => $options) {
 				if(empty($this->Controller->data[$model])) {
 					continue;
-				}  
+				}
 
 				foreach((array)$this->Controller->data[$model] as $k => $field) {
 					if ((empty($field) && $field !== 0) || is_int($k) || $k == 'all' || $k == 'massCheckBox') {
@@ -215,7 +215,7 @@
 				$this->Controller->render($this->Controller->plugin . '.Global/delete');
 				return;
 			}
-			
+
 			$this->Controller->render('Libs.Global/delete');
 			$this->Controller->saveRedirectMarker();
 		}
@@ -241,7 +241,7 @@
 				$this->Controller->{$this->Controller->modelClass}->transaction(true);
 				$this->Controller->notice('deleted');
 			}
-			
+
 			$this->Controller->{$this->Controller->modelClass}->transaction(false);
 			$this->Controller->notice('not_deleted');
 		}
@@ -258,11 +258,11 @@
 			if(!$this->Controller->{$this->Controller->modelClass}->hasField('active')) {
 				throw new Exception(sprintf('The model "%s" does not have an active field', $this->Controller->modelClass));
 			}
-			
+
 			if(empty($ids)) {
 				return false;
 			}
-			
+
 			$conditions = array($this->Controller->modelClass . '.id' => $ids);
 			$newValues = array(
 				$this->Controller->modelClass . '.active' => '1 - `' . $this->Controller->modelClass . '`.`active`'
@@ -313,7 +313,7 @@
 		public function copy($ids) {
 			$copyText = sprintf(' - %s (%s)', __('copy'), date('Y-m-d'));
 			$saves = 0;
-			
+
 			if($this->Controller->{$this->Controller->modelClass}->Behaviors->attached('Contentable')) {
 				$this->Controller->notice(
 					__d('content', 'Copy is not currently supported for this data'),
@@ -323,14 +323,14 @@
 					)
 				);
 			}
-			
+
 			foreach($ids as $id) {
 				$record = $this->Controller->{$this->Controller->modelClass}->read(null, $id);
-				
+
 				unset($record[$this->Controller->modelClass]['id']);
-				
+
 				$check = $record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] != $this->Controller->{$this->Controller->modelClass}->primaryKey;
-				
+
 				if ($check) {
 					$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] =
 								$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] . $copyText;
@@ -353,7 +353,7 @@
 					if(!empty($schema['key']) && $schema['key'] == 'unique') {
 						$record[$this->Controller->modelClass][$field] .= ' - ' . time();
 					}
-					
+
 					if(strstr($field, '_count')) {
 						unset($record[$this->Controller->modelClass][$field]);
 					}
@@ -445,7 +445,7 @@
 					$this->Controller->set(strtolower($alias), $_Model->find('list'));
 				}
 			}
-			
+
 			if(array_filter(Set::flatten($relations)) == array()) {
 				$this->Controller->notice(
 					__d($this->Controller->request->params['plugin'], 'There is nothing to move for these records'),
@@ -458,15 +458,15 @@
 			$modelSetup['displayField'] = $this->Controller->{$this->Controller->modelClass}->displayField;
 			$modelSetup['primaryKey'] = $this->Controller->{$this->Controller->modelClass}->primaryKey;
 			$this->Controller->set(compact('rows', 'model', 'modelSetup', 'relations'));
-			
+
 			$this->Controller->saveRedirectMarker();
-			
+
 			$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'move.ctp';
 			if(is_file($pluginOverload)) {
 				$this->Controller->render($this->Controller->plugin . '.Global/move');
 				return;
 			}
-			
+
 			$this->Controller->render('Libs.Global/move');
 		}
 
@@ -540,10 +540,11 @@
 		* @param int $id the id of the record that is selected.
 		*/
 		public function generic($action = 'add', $ids = null) {
-			if (!$ids || !isset($ids[0])) {
-				$this->Controller->redirect(array('action' => $action));
+			$url = array('action' => $action);
+			if (!empty($ids)) {
+				$url = array_merge($url, $ids);
 			}
 
-			$this->Controller->redirect(array('action' => $action, $ids[0]));
+			$this->Controller->redirect(array_merge($url, $this->Controller->request->params['named'], (array)$this->request->params['pass']));
 		}
 	}
