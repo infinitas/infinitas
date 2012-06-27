@@ -67,88 +67,88 @@
 	* generate the index code
 	*/
 	echo <<<COMMENT
-		/**
-		 * @brief the index method
-		 *
-		 * Show a paginated list of $currentModelName records.
-		 *
-		 * @todo update the documentation
-		 *
-		 * @return void
-		 */
+/**
+ * @brief the index method
+ *
+ * Show a paginated list of $currentModelName records.
+ *
+ * @todo update the documentation
+ *
+ * @return void
+ */
 
 COMMENT;
-	echo "\t\tfunction {$admin}index() {\n";
-		echo "\t\t\t\$$pluralName = \$this->paginate(null, \$this->Filter->filter);\n\n";
+	echo "\tpublic function {$admin}index() {\n";
+		echo "\t\t\$$pluralName = \$this->paginate(null, \$this->Filter->filter);\n\n";
 
-		echo "\t\t\t\$filterOptions = \$this->Filter->filterOptions;\n";
-		echo "\t\t\t\$filterOptions['fields'] = array(\n";
+		echo "\t\t\$filterOptions = \$this->Filter->filterOptions;\n";
+		echo "\t\t\$filterOptions['fields'] = array(\n";
 			foreach ($modelObj->_schema as $field => $data) {
 				switch($field) {
 					case $modelObj->displayField:
-						echo "\t\t\t\t'{$modelObj->displayField}',\n";
+						echo "\t\t\t'{$modelObj->displayField}',\n";
 						break;
 
 					case 'active':
-						echo "\t\t\t\t'active' => (array)Configure::read('CORE.active_options'),\n";
+						echo "\t\t\t'active' => (array)Configure::read('CORE.active_options'),\n";
 						break;
 
 					case 'locked':
-						echo "\t\t\t\t'locked' => (array)Configure::read('CORE.locked_options'),\n";
+						echo "\t\t\t'locked' => (array)Configure::read('CORE.locked_options'),\n";
 						break;
 
 					case substr($field, -1, 2) == 'id':
-						echo "\t\t\t\t'$field' => \$this->{$currentModelName}->".Inflector::classify(substr($field, -1, 2))."->find('list'),\n";
+						echo "\t\t\t'$field' => \$this->{$currentModelName}->".Inflector::classify(substr($field, -1, 2))."->find('list'),\n";
 						break;
 				} // switch
 				// like 'layout_id' => $this->Content->Layout->find('list'),
 			}
-		echo "\t\t\t);\n\n";
-		echo "\t\t\t\$this->set(compact('$pluralName','filterOptions'));\n";
-	echo "\t\t}\n\n";
+		echo "\t\t);\n\n";
+		echo "\t\t\$this->set(compact('$pluralName','filterOptions'));\n";
+	echo "\t}\n\n";
 
 	/**
 	 * generate the view code
 	 */
-	$idDocs = "\n\t\t * @param mixed \$id int or string uuid or the row to find\n";
+	$idDocs = "\n * @param mixed \$id int or string uuid or the row to find";
 	echo <<<COMMENT
-		/**
-		 * @brief view method for a single row
-		 *
-		 * Show detailed information on a single $currentModelName
-		 *
-		 * @todo update the documentation $idDocs
-		 *
-		 * @return void
-		 */
+/**
+ * @brief view method for a single row
+ *
+ * Show detailed information on a single $currentModelName
+ *
+ * @todo update the documentation $idDocs
+ *
+ * @return void
+ */
 
 COMMENT;
 	if(!$admin && in_array('slug', array_keys($modelObj->_schema))) {
 		// for tabels with slugs
-		echo "\t\tfunction {$admin}view() {\n";
-		echo "\t\t\tif(!isset(\$this->request->params['slug']) || !\$this->request->params['slug']) {\n";
-			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
-		echo "\t\t\t}\n\n";
+		echo "\tpublic function {$admin}view() {\n";
+		echo "\t\tif(!isset(\$this->request->params['slug']) || !\$this->request->params['slug']) {\n";
+			echo "\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
+		echo "\t\t}\n\n";
 
-		echo "\t\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
-			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.slug' => \$this->request->params['slug'])\n";
-		echo "\t\t\t);\n\n";
+		echo "\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
+			echo "\t\t\tarray(\$this->{$currentModelName}->alias . '.slug' => \$this->request->params['slug'])\n";
+		echo "\t\t);\n\n";
 	}
 
 	else{
 		// for admin and non-slugged tables
-		echo "\t\tfunction {$admin}view(\$id = null) {\n";
-		echo "\t\t\tif(!\$id) {\n";
-			echo "\t\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
-		echo "\t\t\t}\n\n";
+		echo "\tpublic function {$admin}view(\$id = null) {\n";
+		echo "\t\tif(!\$id) {\n";
+			echo "\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
+		echo "\t\t}\n\n";
 
-		echo "\t\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
-			echo "\t\t\t\tarray(\$this->{$currentModelName}->alias . '.' . \$this->{$currentModelName}->primaryKey => \$id)\n";
-		echo "\t\t\t);\n\n";
+		echo "\t\t\${$singularName} = \$this->{$currentModelName}->getViewData(\n";
+			echo "\t\t\tarray(\$this->{$currentModelName}->alias . '.' . \$this->{$currentModelName}->primaryKey => \$id)\n";
+		echo "\t\t);\n\n";
 	}
 
-		echo "\t\t\t\$this->set(compact('$singularName'));\n";
-	echo "\t\t}\n\n";
+		echo "\t\t\$this->set(compact('$singularName'));\n";
+	echo "\t}\n\n";
 
 	/**
 	* generaly only need admin add / edit methods.
@@ -157,20 +157,20 @@ COMMENT;
 		/**
 		 * generate the add code
 		 */
-		echo <<<COMMENT
-		/**
-		 * @brief admin create action
-		 *
-		 * Adding new $currentModelName records.
-		 *
-		 * @todo update the documentation
-		 *
-		 * @return void
-		 */
+	echo <<<COMMENT
+/**
+ * @brief admin create action
+ *
+ * Adding new $currentModelName records.
+ *
+ * @todo update the documentation
+ *
+ * @return void
+ */
 
 COMMENT;
-		echo "\t\tfunction {$admin}add() {\n";
-			echo "\t\t\tparent::{$admin}add();\n\n";
+		echo "\tpublic function {$admin}add() {\n";
+			echo "\t\tparent::{$admin}add();\n\n";
 
 			$compact = array();
 			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc) {
@@ -179,35 +179,35 @@ COMMENT;
 						$otherModelName  = $this->_modelName($associationName);
 						$otherPluralName = $this->_pluralName($associationName);
 
-						echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
+						echo "\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
 						$compact[] = "'{$otherPluralName}'";
 					}
 				}
 			}
 
 			if (!empty($compact)) {
-				echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
+				echo "\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 			}
-		echo "\t\t}\n\n";
+		echo "\t}\n\n";
 
 		/**
 		 * generate the edit code
 		 */
 		echo <<<COMMENT
-		/**
-		 * @brief admin edit action
-		 *
-		 * Edit old $currentModelName records.
-		 *
-		 * @todo update the documentation
-		 * @param mixed \$id int or string uuid or the row to edit
-		 *
-		 * @return void
-		 */
+/**
+ * @brief admin edit action
+ *
+ * Edit old $currentModelName records.
+ *
+ * @todo update the documentation
+ * @param mixed \$id int or string uuid or the row to edit
+ *
+ * @return void
+ */
 
 COMMENT;
-		echo "\t\tfunction {$admin}edit(\$id = null) {\n";
-			echo "\t\t\tparent::{$admin}edit(\$id);\n\n";
+		echo "\tpublic function {$admin}edit(\$id = null) {\n";
+			echo "\t\tparent::{$admin}edit(\$id);\n\n";
 
 			$compact = array();
 			foreach (array('belongsTo', 'hasAndBelongsToMany') as $assoc) {
@@ -216,14 +216,14 @@ COMMENT;
 						$otherModelName  = $this->_modelName($associationName);
 						$otherPluralName = $this->_pluralName($associationName);
 
-						echo "\t\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
+						echo "\t\t\${$otherPluralName} = \$this->{$currentModelName}->{$otherModelName}->find('list');\n";
 						$compact[] = "'{$otherPluralName}'";
 					}
 				}
 			}
 
 			if (!empty($compact)) {
-				echo "\t\t\t\$this->set(compact(".join(', ', $compact)."));\n";
+				echo "\t\t\$this->set(compact(".join(', ', $compact)."));\n";
 			}
-		echo "\t\t}\n";
+		echo "\t}\n";
 	}

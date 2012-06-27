@@ -27,85 +27,76 @@
 	$username ? $username : '{username}';
 
 	$version = Configure::read('Infinitas.version');
-	
+
 	echo <<<COMMENT
 <?php
-	/**
-	 * $controllerName controller
-	 *
-	 * @brief Add some documentation for $controllerName controller.
-	 *
-	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
-	 *
-	 * @link		  http://infinitas-cms.org/$plugin
-	 * @package	   $plugin.controllers.$controllerName
-	 * @license	   http://infinitas-cms.org/mit-license The MIT License
-	 * @since $version
-	 *
-	 * @author $username
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
+/**
+ * $controllerName controller
+ *
+ * @brief Add some documentation for $controllerName controller.
+ *
+ * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
+ *
+ * @link		  http://infinitas-cms.org/$plugin
+ * @package	   $plugin.Controller
+ * @license	   http://infinitas-cms.org/mit-license The MIT License
+ * @since $version
+ *
+ * @author $username
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ */
 
-	class {$controllerName}Controller extends $parentController {
-		/**
-		 * The name of the controller
-		 *
-		 * @access public
-		 * @var string
-		 */
-		public \$name = '$controllerName';
-
+class {$controllerName}Controller extends $parentController {
 
 COMMENT;
 
 		echo <<<COMMENT
-		/**
-		 * The helpers linked to this controller
-		 *
-		 * @access public
-		 * @var string
-		 */
+/**
+ * The helpers linked to this controller
+ *
+ * @access public
+ * @var array
+ */
 
 COMMENT;
-			echo "\t\tpublic \$helpers = array(\n";
-				if (count($helpers)) {
-					for ($i = 0, $len = count($helpers); $i < $len; $i++) {
-						echo "'" . Inflector::camelize($helpers[$i]) . "', ";
-					}
+		echo "\tpublic \$helpers = array(\n";
+			if (count($helpers)) {
+				for ($i = 0, $len = count($helpers); $i < $len; $i++) {
+					echo "'" . Inflector::camelize($helpers[$i]) . "', ";
 				}
-				echo "\t\t\t//'$plugin.$plugin', // uncoment this for a custom plugin controller\n";
-				echo "\t\t\t//'Libs.Design',\n";
-				echo "\t\t\t//'Libs.Gravatar',\n";
-			echo "\t\t);\n\n";
+			}
+			echo "\t\t//'$plugin.$plugin', // uncoment this for a custom plugin controller\n";
+			echo "\t\t//'Libs.Gravatar',\n";
+		echo "\t);\n\n";
 
-			if (count($components)) {
-		echo <<<COMMENT
-		/**
-		 * The components linked to this controller
-		 *
-		 * @access public
-		 * @var string
-		 */
+		if (count($components)) {
+	echo <<<COMMENT
+/**
+ * The components linked to this controller
+ *
+ * @access public
+ * @var array
+ */
 
 COMMENT;
-				echo "\t\tpublic \$components = array(";
-				for ($i = 0, $len = count($components); $i < $len; $i++) {
-					if ($i != $len - 1) {
-						echo "\t\t\t'" . Inflector::camelize($components[$i]) . "',\n";
-					}
-					else{
-						echo "\t\t\t'" . Inflector::camelize($components[$i]) . "'\n";
-					}
+			echo "\tpublic \$components = array(";
+			for ($i = 0, $len = count($components); $i < $len; $i++) {
+				if ($i != $len - 1) {
+					echo "\t\t'" . Inflector::camelize($components[$i]) . "',\n";
 				}
-				echo "\t\t);\n";
+				else{
+					echo "\t\t'" . Inflector::camelize($components[$i]) . "'\n";
+				}
 			}
+			echo "\t);\n";
+		}
 
-			if(trim($actions) == 'scaffold') {
-				echo "\t\tpublic \$scaffold;\n";
-			}
-			else{
-				echo $actions;
-			}
-		echo "\t}";
+		if(trim($actions) == 'scaffold') {
+			echo "\tpublic \$scaffold;\n";
+		}
+		else{
+			echo $actions;
+		}
+	echo "}";
