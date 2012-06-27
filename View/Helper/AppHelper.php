@@ -301,7 +301,7 @@
 			if(!class_exists('FilterHelper')) {
 				App::uses('FilterHelper', 'Filter.View/Helper');
 			}
-			
+
 			if(is_array($massActions)) {
 				$massActions = $this->massActionButtons($massActions);
 			}
@@ -643,11 +643,12 @@
 		 * @brief create some mass action buttons like add, edit, delete etc.
 		 *
 		 * @param array $buttons the buttons to create
+		 * @param array $name The name of the current controller used for AppHelper::niceTitleText()
 		 * @access public
 		 *
 		 * @return string the markup for the buttons
 		 */
-		public function massActionButtons($buttons = null) {
+		public function massActionButtons($buttons = null, $name = array()) {
 			if (!$buttons) {
 				$this->errors[] = 'No buttons set';
 				return false;
@@ -669,7 +670,7 @@
 					array(
 						'value' => strtolower(str_replace(array('-', ' '), '_', $button)),
 						'name' => 'action',
-						'title' => $this->niceTitleText($button),
+						'title' => $this->niceTitleText($button, $name),
 						'div' => false
 						)
 					);
@@ -735,43 +736,54 @@
 		 * This method is used to generate nice looking information title text
 		 * depending on what is displayed to the user.
 		 *
-		 * @param $switch this is the title that is passed in
-		 * @param $notHuman if this is true the prettyName function will be
-		 *		called making the text human readable.
+		 * @param string $switch this is the title that is passed in
+		 * @param array|string $name the name of the controller used to generate the text
+		 *	- string: will use this name for singular and Inflector::pluralize() for plural
+		 *  - array: keys singluar and plural
 		 * @access public
 		 *
 		 * @return string the text for the title.
 		 */
-		public function niceTitleText($switch = null) {
-			$controller = __(Inflector::singularize($this->request->params['controller']));
-			$controller = str_replace(array('global', $this->request->params['plugin']), '', $controller);
-			$controller = str_replace('_', ' ', $controller);
-			$pluralController = Inflector::pluralize($controller);
+		public function niceTitleText($switch = null, $name = array()) {
+			if(!is_array($name)) {
+				$name = array('singular' => $name);
+			}
+
+			$name = array_merge(array('singular' => null, 'plural' => null), $name);
+			if(empty($name['singular'])) {
+				$name['singular'] = __(Inflector::singularize($this->request->params['controller']));
+				$name['singular'] = str_replace(array('global', $this->request->params['plugin']), '', $name['singular']);
+				$name['singular'] = str_replace('_', ' ', $name['singular']);
+			}
+
+			if(empty($name['plural'])) {
+				$name['plural'] = Inflector::pluralize($name['singular']);
+			}
 
 			switch(strtolower($switch)) {
 				case 'add':
-					$heading = sprintf('%s %s', __('Create a New'), $controller);
-					$text = __('Click here to create a new %s. You do not need to tick any checkboxes <br/>to create a new %s.', $controller, $controller);
+					$heading = sprintf('%s %s', __('Create a'), $name['singular']);
+					$text = __('Click here to create a new %s. You do not need to tick any checkboxes <br/>to create a new %s.', $name['singular'], $name['singular']);
 					break;
 
 				case 'edit':
-					$heading = sprintf('%s %s', __('Edit the'), $controller);
-					$text = __('Tick the checkbox next to the %s you want to edit then click here.<br/>Currently you may only edit one %s at a time.', $controller, $controller);
+					$heading = sprintf('%s %s', __('Edit a'), $name['singular']);
+					$text = __('Tick the checkbox next to the %s you want to edit then click here.<br/>Currently you may only edit one %s at a time.', $name['singular'], $name['singular']);
 					break;
 
 				case 'copy':
-					$heading = sprintf('%s %s', __('Copy some'), $pluralController);
-					$text = __('Tick the checkboxes next to the %s you want to copy then click here.<br/>You may copy as many %s as you like.', $controller, $controller);
+					$heading = sprintf('%s %s', __('Copy some'), $name['plural']);
+					$text = __('Tick the checkboxes next to the %s you want to copy then click here.<br/>You may copy as many %s as you like.', $name['singular'], $name['singular']);
 					break;
 
 				case 'toggle':
-					$heading = sprintf('%s %s', __('Toggle some'), $pluralController);
-					$text = __('Tick the checkboxes next to the %s you want to toggle then click here.<br/>Inactive %s will become active, and active %s will become inactive', $controller, $controller, $controller);
+					$heading = sprintf('%s %s', __('Toggle some'), $name['plural']);
+					$text = __('Tick the checkboxes next to the %s you want to toggle then click here.<br/>Inactive %s will become active, and active %s will become inactive', $name['singular'], $name['singular'], $name['singular']);
 					break;
 
 				case 'delete':
-					$heading = sprintf('%s %s', __('Delete some'), $pluralController);
-					$text = __('Tick the checkboxes next to the %s you want to delete then click here.<br/>If possible the %s will be moved to the trash can. If not they will be deleted permanently.', $controller, $controller);
+					$heading = sprintf('%s %s', __('Delete some'), $name['plural']);
+					$text = __('Tick the checkboxes next to the %s you want to delete then click here.<br/>If possible the %s will be moved to the trash can. If not they will be deleted permanently.', $name['singular'], $name['singular']);
 					if($this->request->params['action'] == 'admin_index' && $this->request->params['plugin'] == 'trash') {
 						$heading = __('Delete records');
 						$text = __('Deleting these records can not be undone, <br/>please make sure you check the correct records');
@@ -779,43 +791,46 @@
 					break;
 
 				case 'disabled':
-					$heading = sprintf('%s %s', __('Activate some'), $pluralController);
-					$text = __('This %s currently disabled, to enable it tick the check to the left and <br/>click toggle.', $controller);
+					$heading = sprintf('%s %s', __('Activate some'), $name['plural']);
+					$text = __('This %s currently disabled, to enable it tick the check to the left and <br/>click toggle.', $name['singular']);
 					break;
 
 				case 'active':
-					$heading = sprintf('%s %s', __('Disable some'), $pluralController);
-					$text = __('This %s currently active, to disable it tick the check to the left and <br/>click toggle.', $controller);
+					$heading = sprintf('%s %s', __('Disable some'), $name['plural']);
+					$text = __('This %s currently active, to disable it tick the check to the left and <br/>click toggle.', $name['singular']);
 					break;
 
 				case 'save':
-					$heading = sprintf('%s %s', __('Save the'), $controller);
-					$text = __('Click here to save your %s. This will save your current changes and take <br/>you back to the index list.', $controller);
+					$heading = sprintf('%s %s', __('Save the'), $name['singular']);
+					$text = __('Click here to save your %s. This will save your current changes and take <br/>you back to the index list.', $name['singular']);
 					break;
 
 				case 'cancel':
 					$heading = sprintf('%s', __('Discard your changes'));
-					$text = __('Click here to return to the index page without saving the changes you <br/>have made to the %s.', $controller);
+					$text = __('Click here to return to the index page without saving the changes you <br/>have made to the %s.', $name['singular']);
 					break;
 
 				case 'move':
-					$heading = sprintf('%s %s', __('Move the '), $pluralController);
-					$text = __('Tick the checkboxes next to the %s you want to move then click here. <br/>You will be prompted with a page, asking how you would like to move the %s', $controller, $controller);
+					$heading = sprintf('%s %s', __('Move some'), $name['plural']);
+					$text = __('Tick the checkboxes next to the %s you want to move then click here. <br/>You will be prompted with a page, asking how you would like to move the %s', $name['singular'], $name['singular']);
 					break;
 
 				case 'preview':
-					$heading = sprintf('%s %s', __('Preview the '), $controller);
-					$text = __('Tick the checkbox next to the %s you want to preview then click here. <br/>This will normally open in a popup and not affect your view counts', $controller, $controller);
+					$heading = sprintf('%s %s', __('Preview a'), $name['singular']);
+					$text = __('Tick the checkbox next to the %s you want to preview then click here. <br/>This will normally open in a popup and not affect your view counts', $name['singular'], $name['singular']);
 					break;
 
 				case 'restore':
-					$heading = sprintf('%s %s', __('Restore records'), $controller);
+					$heading = sprintf('%s %s', __('Restore records'), $name['singular']);
 					$text = __('Tick the checkboxes next to the rows you would like to restore then click here.');
 					break;
 
 				default:
 					$heading = $switch;
-					$text = 'todo: Need to add something';
+					$text = '';
+					if(Configure::read('debug')) {
+						$text = 'todo: Need to add an option for ' . $switch;
+					}
 			}
 
 			return sprintf('%s :: %s', $heading, $text);
