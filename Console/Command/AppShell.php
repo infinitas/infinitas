@@ -11,20 +11,20 @@
 	* Add your application-wide methods in the class below, your shells
 	* will inherit them.
 	*/
-	
+
 	class AppShell extends Shell {
 		public function main($title = null) {
 			if($title === null) {
 				$title = Inflector::humanize(Inflector::underscore(str_replace('Shell', '', get_class($this))));
 			}
-			
+
 			if(!$title) {
 				return;
 			}
-			
+
 			$this->h1($title);
 		}
-		
+
 		/**
 		 * @brief width to wrap text to
 		 */
@@ -32,7 +32,7 @@
 
 		/**
 		 * @brief the width of the terminal
-		 * 
+		 *
 		 * @var int
 		 */
 		public $terminalWidth = 25;
@@ -46,14 +46,14 @@
 			InfinitasPlugin::loadForInstaller();
 
 			parent::__construct($stdout, $stderr, $stdin);
-			
+
 			$this->__verbose = isset($this->params['verbose']) && $this->params['verbose'];
 		}
-		
+
 		/**
 		 * @brief create a heading for infinitas shell stuff
 		 */
-		public function h1($title) {			
+		public function h1($title) {
 			$this->clear();
 			$this->out("         _____        __ _       _ _");
 			$this->out("        |_   _|	     / _(_)     (_) |");
@@ -94,7 +94,7 @@
 		/**
 		 * @brief center text
 		 */
-		public function center($text, $ends = '') {			
+		public function center($text, $ends = '') {
 			$space1 = $space2 = str_repeat(' ', intval(($this->wrap - strlen($text)) / 2) -4);
 			$this->out(sprintf('%s%s%s%s%s', $ends, $space1, $text, $space2, $ends));
 		}
@@ -180,7 +180,7 @@
 		}
 
 		public function interactiveClear() {
-			$this->Dispatch->stdout("\r" . str_repeat(' ', $this->terminalWidth - 2), false);
+			$this->stdout->write("\r" . str_repeat(' ', $this->terminalWidth - 2), 0);
 			$this->__interactiveBuffer = null;
 		}
 
@@ -192,7 +192,7 @@
 				$this->__interactiveBuffer = $text;
 			}
 
-			$this->Dispatch->stdout("\r" . str_pad($this->__interactiveBuffer, $this->terminalWidth - 2), false);
+			$this->stdout->write("\r" . str_pad($this->__interactiveBuffer, $this->terminalWidth - 2), 0);
 		}
 
 		/**
@@ -295,14 +295,14 @@
 			if(!$filter) {
 				$filter = 'all';
 			}
-			
+
 			$plugins = $this->__getPlugins($filter);
 
 			if($allowAll) {
 				$plugins['A'] = 'all';
 				$plugins['B'] = 'back';
 			}
-			
+
 			self::tabbedList($plugins);
 			$availableOptions = array_keys($plugins);
 
@@ -314,12 +314,12 @@
 			if($option == 'B') {
 				return array();
 			}
-			
+
 			else if($allowAll && $option == 'A') {
 				unset($plugins['A'], $plugins['B']);
 				return $plugins;
 			}
-			
+
 			else if(isset($plugins[$option])) {
 				return array($plugins[$option]);
 			}
@@ -414,7 +414,7 @@
 		private function __getPlugins($filter) {
 			$Plugin = ClassRegistry::init('Installer.Plugin');
 			$plugins = array();
-			
+
 			switch($filter) {
 				case 'all':
 					$plugins = $Plugin->getAllPlugins();
