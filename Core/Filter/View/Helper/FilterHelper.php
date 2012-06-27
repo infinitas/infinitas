@@ -142,7 +142,7 @@
 				return false;
 			}
 
-			$model = current($this->request->params['models']);
+			$model = implode('.', current($this->request->params['models']));
 			$letters = ClassRegistry::init($model)->getLetterList();
 
 			$return = array();
@@ -151,7 +151,7 @@
 				if(is_array($url)) {
 					$url = $this->Html->link(
 						$key,
-						Router::url($url),
+						InfinitasRouter::url($url),
 						array(
 							'title' => sprintf(__('Rows starting with "%s"'), $key)
 						)
@@ -175,7 +175,7 @@
 			if(!$text) {
 				return false;
 			}
-			$model = current($this->request->params['models']);
+			$model = implode('.', current($this->request->params['models']));
 
 			$filter = array(
 				ClassRegistry::init($model)->alias . '.' . ClassRegistry::init($model)->displayField => $text
