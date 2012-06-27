@@ -15,7 +15,7 @@
 	 * @subpackage app.controller.components
 	 */
 	App::uses('InfinitasComponent', 'Libs/Component');
-	
+
 	class FilterComponent extends InfinitasComponent {
 		/**
 		 * Fields which will replace the regular syntax in where i.e. field = 'value'
@@ -105,7 +105,7 @@
 		public function processAction($Controller, $controllerAction) {
 			if ($Controller->request->params['action'] == $controllerAction) {
 				$this->filter = $this->processFilters($Controller);
-				
+
 				$this->_paginationRecall($Controller);
 				$url = (empty($this->url)) ? '/' : $this->url;
 
@@ -185,14 +185,14 @@
 			if(empty($data[$controller->{$controller->modelClass}->alias])) {
 				$data[$controller->{$controller->modelClass}->alias] = array();
 			}
-			
+
 			$ret = array();
 			if (empty($controller->request->data)) {
 				$this->__checkRedirect();
-				
+
 				return $ret;
 			}
-			
+
 			foreach($data as $model => $fields) {
 				$modelFieldNames = array();
 				if (!empty($controller->{$model}) && $controller->{$model} instanceof Model) {
@@ -202,7 +202,7 @@
 				else if (isset($controller->{$controller->modelClass}->belongsTo[$model]) || isset($controller->{$controller->modelClass}->hasOne[$model])) {
 					$modelFieldNames = $controller->{$controller->modelClass}->{$model}->getColumnTypes();
 				}
-				
+
 				if (!empty($modelFieldNames)) {
 					foreach($fields as $filteredFieldName => $filteredFieldData) {
 						if(isset($controller->{$model}) && $controller->{$model} instanceof Model && !$controller->{$model}->hasField($filteredFieldName)) {
@@ -220,7 +220,12 @@
 
 							if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
 								// insert value into fieldFormatting
-								$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
+								if($modelFieldNames[$filteredFieldName] == 'string' && strlen($filteredFieldData) == 1) {
+									$tmp = sprintf("LIKE '%s%%'", $filteredFieldData);
+								} else {
+									$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);
+								}
+
 								// don't put key.fieldname as array key if a LIKE clause
 								if (substr($tmp, 0, 4) == 'LIKE') {
 									$ret[] = "{$model}.{$filteredFieldName} {$tmp}";
@@ -319,15 +324,15 @@
 					unset($controller->request->data[$model]);
 				}
 			}
-			
+
 			$this->__checkRedirect();
-			
+
 			return $ret;
 		}
-		
+
 		/**
-		 * If redirect has been set true, and the data had not been parsed before 
-		 * and put into the url, does it now 
+		 * If redirect has been set true, and the data had not been parsed before
+		 * and put into the url, does it now
 		 */
 		private function __checkRedirect() {
 			if (!$this->parsed && $this->redirect) {
