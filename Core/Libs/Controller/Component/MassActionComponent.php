@@ -61,7 +61,7 @@ class MassActionComponent extends InfinitasComponent {
 
 		$ids = $this->getIds(
 			$massAction,
-			$this->Controller->request->data[$modelName]
+			!empty($this->Controller->request->data[$modelName]) ? $this->Controller->request->data[$modelName] : array()
 		);
 
 		$massActionMethod = '__massAction' . ucfirst($massAction);
