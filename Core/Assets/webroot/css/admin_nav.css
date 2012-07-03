@@ -109,7 +109,8 @@ table.listing tr.multi-line td{
 */
 .powered-by{
 	float: right;
-	margin-right: 10px;
+	margin-right: 13px;
+	padding-top: 5px;
 }
 	.powered-by a,
 	.powered-by a:hover{
