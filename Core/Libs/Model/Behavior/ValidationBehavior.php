@@ -62,7 +62,7 @@ class ValidationBehavior extends ModelBehavior {
 	public function validateUrlOrAbsolute(Model $Model, $field) {
 		return
 			// aboulute url
-			substr(current($field), 0, 1) == '/' ||
+			substr(current($field), 0, 1) == '/' || substr(current($field), 0, 1) == '#' ||
 
 			// valid url
 			Validation::url(current($field), true);
