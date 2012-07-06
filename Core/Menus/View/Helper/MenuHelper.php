@@ -166,13 +166,18 @@
 		 *
 		 * @return a nice formated <ul> list
 		 */
-		public function nestedList($data = array(), $type = 'horizontal') {
+		public function nestedList($data = array(), $config = array()) {
 			if (empty($data)) {
 				$this->errors[] = 'There are no items to make the menu with';
 				return false;
 			}
 
-			$this->_menuData = '<ul class="pureCssMenu pureCssMenum0">';
+			$config = array_merge(
+				array('class' => null, 'id' => null),
+				$config
+			);
+
+			$this->_menuData = String::insert('<ul class=":class" id=":id">', $config);
 				foreach( $data as $k => $v ) {
 					$this->_menuLevel = 0;
 					$this->__buildDropdownMenu($v, 'MenuItem');
@@ -218,7 +223,7 @@
 		 *
 		 * @param array $data the data from the find
 		 *
-		 * @return array
+		 * @return string|array
 		 */
 		public function url($data) {
 			if(empty($data['MenuItem'])) {
@@ -229,6 +234,8 @@
 				return $data['MenuItem']['link'];
 			}
 
+			unset($data['MenuItem']['params']['data-attr']);
+
 			$url = array_merge(
 				array(
 					'plugin' => $data['MenuItem']['plugin'],
@@ -236,7 +243,7 @@
 					'action' => $data['MenuItem']['action'],
 					//'prefix' => $data['MenuItem']['prefix'],
 				),
-				(array)json_decode($data['MenuItem']['params'], true)
+				$data['MenuItem']['params']
 			);
 
 			if($data['MenuItem']['force_backend']) {
@@ -258,7 +265,7 @@
 		 *
 		 * @return part of the formated tree.
 		 */
-		private function __buildDropdownMenu($array = array(), $model = '') {
+		private function __buildDropdownMenu($array = array(), $model = '', $config = array()) {
 			if (empty($array['MenuItem']) || $model = '') {
 				$this->errors[] = 'nothing passed to generate';
 				return false;
@@ -282,6 +289,7 @@
 				$linkName = '<span>'.$linkName.'</span>';
 			}
 
+			$cssClass = 'pureCssMenui';
 			$class = 'pureCssMenui'.$suffix;
 			if($isSeperator) {
 				$class .= ' seperator';
@@ -291,12 +299,7 @@
 			if(!$isSeperator) {
 				$menuLink = $this->url($array);
 
-				if($menuLink == $this->here || (is_array($menuLink) && ($menuLink['controller'] == $this->request->params['controller'] || $menuLink['plugin'] == $this->request->params['plugin']))) {
-					$currentCss = ' current';
-					$this->_currentCssDone = true;
-				}
-
-				if(!empty($currentCss) && $this->_currentCssDone === false && Router::url($menuLink) == $this->here) {
+				if($this->_currentCssDone === false && Router::url($menuLink) == $this->here) {
 					$currentCss = ' current';
 					$this->_currentCssDone = true;
 				}
@@ -305,8 +308,10 @@
 					$linkName,
 					InfinitasRouter::url($menuLink),
 					array(
-						'class' => 'pureCssMenui'.$suffix.$currentCss,
-						'escape' => false
+						'class' => String::insert(':subClass:suffix:currentCss', array('subClass' => $cssClass, 'suffix' => $suffix, 'currentCss' => $currentCss)),
+						'escape' => false,
+						'data-description' => !empty($array['MenuItem']['params']['data-attr']['description']) ? $array['MenuItem']['params']['data-attr']['description'] : '',
+						'target' => is_string($menuLink) && !in_array($menuLink{0}, array('/', '#')) ? '_blank' : '_self'
 					)
 				);
 
