@@ -58,11 +58,12 @@
 				'maxSize' => 160,
 				'minSize' => 80,
 				'url' => array(
+					'plugin' => $this->request->params['plugin'],
 					'action' => 'index'
 				),
 				'named' => 'by'
 			);
-			$options = array_merge($defaults, $options);
+			$options = array_merge($defaults, array_filter($options));
 
 			$weights = Set::extract($options['extract'], $tags);
 			$maxWeight = $minWeight = 1;

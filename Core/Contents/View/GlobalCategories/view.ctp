@@ -39,30 +39,36 @@
 
 	$category['GlobalCategory']['item_count'] = sprintf(__d('contents', '%d items'), $category['GlobalCategory']['item_count']);
 	$category['GlobalCategory']['author'] = $this->GlobalContents->author($category);
-	
+
 	// need to overwrite the stuff in the viewVars for mustache
 	if(!empty($category['CategoryContent'])) {
 		if(!empty($category['CategoryContent']['Contents.GlobalCategory'])) {
 			$currentCategory = array_shift($category['CategoryContent']['Contents.GlobalCategory']);
 			unset($category['CategoryContent']['Contents.GlobalCategory']);
 		}
-		
+
 		$_relatedOut = array(
 			'<div class="section related">',
 			sprintf('<h3>%s</h3>', __d('contents', 'Related Content'))
 		);
-		
+
+		$idsDone = array();
 		foreach($category['CategoryContent'] as $model => $relatedContents) {
 			$model = pluginSplit($model);
 
 			foreach($relatedContents as $relatedContent) {
+				if(in_array($relatedContent['id'], $idsDone)) {
+					continue;
+				}
+
+				$idsDone[] = $relatedContent['id'];
 				$relatedContent['GlobalCategory'] = $category['GlobalCategory'];
 				$relatedContent[$model[1]] = $relatedContent;
-				
+
 				if(!empty($relatedContent['SubCategory'])) {
 					$relatedContent['GlobalCategory'] = $relatedContent['SubCategory'];
 				}
-				
+
 				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => $relatedContent));
 				$tmp = current($tmp['slugUrl']);
 
@@ -70,9 +76,8 @@
 					$relatedContent['link'] = InfinitasRouter::url($tmp);
 
 					$_relatedOut[] = $this->element(
-						'related_content',
+						'Contents.related_content',
 						array(
-							'plugin' => 'contents',
 							'data' => $relatedContent,
 							'pluginName' => $model[0]
 						)

@@ -264,12 +264,12 @@ class Module extends ModulesAppModel {
  * @param type $options array
  * @return boolean
  */
-	public function beforeSave($options = array()) {
+	public function beforeValidate($options = array()) {
 		if(!empty($this->data[$this->alias]['module'])) {
 			$this->data[$this->alias]['admin'] = strstr($this->data[$this->alias]['module'], 'admin/') ? 1 : 0;
 		}
 
-		return true;
+		return parent::beforeValidate($options);
 	}
 
 /**

@@ -34,7 +34,7 @@
                     ),
                     $this->Paginator->sort('title'),
                     $this->Paginator->sort('model'),
-                    $this->Paginator->sort('GlobalLayout.name', __d('contents', 'Layout')) => array(
+                    $this->Paginator->sort('Layout.name', __d('contents', 'Layout')) => array(
                         'style' => 'width:100px;'
                     ),
                     $this->Paginator->sort('ContentGroup.name', __d('contents', 'Group')) => array(
@@ -58,7 +58,7 @@
                 			<?php echo $content['GlobalContent']['model']; ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php 
+                			<?php
 								echo $this->Html->adminQuickLink(
 									$content['Layout'],
 									array('controller' => 'global_layouts'),

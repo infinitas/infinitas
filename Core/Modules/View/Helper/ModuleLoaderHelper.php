@@ -1,11 +1,11 @@
 <?php
-	/* 
+	/*
 	 * Short Description / title.
-	 * 
+	 *
 	 * Overview of what the file does. About a paragraph or two
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -13,14 +13,14 @@
 	 * @subpackage {see_below}
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since {check_current_milestone_in_lighthouse}
-	 * 
+	 *
 	 * @author {your_name}
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class ModuleLoaderHelper extends InfinitasHelper{
+	class ModuleLoaderHelper extends InfinitasHelper {
 		/**
 		 * Skip modules.
 		 *
@@ -65,13 +65,13 @@
 					continue;
 				}
 				$params = $this->__getModuleParams($module, $admin);
-				
+
 				if($params === false) {
 					continue; // from userland and its not active
 				}
 
 				$moduleOut = $this->loadModule($module['Module']['module'], $params);
-				
+
 				$error = !empty($this->_View->viewVars['error']) && $this->_View->viewVars['error'] instanceof Exception;
 
 				if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute) {
@@ -111,7 +111,7 @@
 
 			$class = isset($params['config']['class']) ? $params['config']['class'] : '';
 			$id = isset($params['config']['id']) ? $params['config']['id'] : '';
-			
+
 			$moduleOut = $params['content'];
 			if (!empty($module)) {
 				$plugin = null;
@@ -119,20 +119,20 @@
 					$plugin = $params['plugin'];
 					unset($params['plugin']);
 				}
-				
+
 				$path = 'modules/';
-				$moduleOut = $this->_View->element(
-					implode('.', array(Inflector::camelize($plugin), $path . $module)),
-					$params,
-					true
-				);
 
-
+				try {
+					$moduleOut = $this->_View->element(
+						implode('.', array(Inflector::camelize($plugin), $path . $module)),
+						$params
+					);
+				} catch(Exception $e) {
+					$moduleOut = $e->getMessage();
+				}
 			}
-			
-			return sprintf('<div class="module %s %s">%s</div>', str_replace('/', '-', $module), $class, $moduleOut);
 
-			return $moduleOut;
+			return sprintf('<div class="module %s %s">%s</div>', str_replace('/', '-', $module), $class, $moduleOut);
 		}
 
 		/**
@@ -178,20 +178,20 @@
 					}
 				}
 			}
-			
+
 			$module = sprintf('%s.%s', $plugin, $module);
-			
+
 			try{
 				return $this->_View->element($module, array('config' => $params));
 			}
-			
+
 			catch(Exception $e) {
 				$message = sprintf(
 					'Error: Could not load module "%s" (%s)',
 					$module,
 					$e->getMessage()
 				);
-				
+
 				throw new Exception($message);
 			}
 		}
@@ -221,7 +221,7 @@
 
 			$title = ($module['Module']['show_heading']) ?  : false;
 			$content = (!empty($module['Module']['content'])) ? $module['Module']['content'] : false;
-			
+
 			return array(
 				'plugin' => $module['Module']['plugin'],
 				'title' => $title,

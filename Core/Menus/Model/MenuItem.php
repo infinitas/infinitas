@@ -281,6 +281,7 @@
 		private function __underscore(&$menu) {
 			$menu[$this->alias]['plugin'] = Inflector::underscore($menu[$this->alias]['plugin']);
 			$menu[$this->alias]['controller'] = substr(Inflector::underscore($menu[$this->alias]['controller']), 0, -11);
+			$menu[$this->alias]['params'] = (array)json_decode($menu[$this->alias]['params'], true);
 
 			if(!empty($menu['children'])) {
 				foreach($menu['children'] as &$child) {

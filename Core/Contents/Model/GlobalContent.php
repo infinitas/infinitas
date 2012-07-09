@@ -363,6 +363,13 @@
 					'SubCategoryData.canonical_url',
 					'SubCategoryData.global_category_id'
 				);
+
+				foreach((array)$this->virtualFields as $field => $value) {
+					if(strstr($field, 'content_image_path')) {
+						$query['fields'][] = 'GlobalContent.' . $field;
+					}
+				}
+
 				$query['conditions'] = array(
 					'GlobalContent.global_category_id' => $query[0]
 				);
@@ -395,6 +402,10 @@
 				$model = $result['GlobalContent']['model'];
 				unset($result['GlobalContent']['foreign_key'], $result['GlobalContent']['model']);
 
+
+				if(!empty($result['GlobalTagged'])) {
+					$result['GlobalContent']['GlobalTagged'] = $result['GlobalTagged'];
+				}
 				$return[$model][] = $result['GlobalContent'];
 
 				if(!empty($result['SubCategoryData']['id'])) {
