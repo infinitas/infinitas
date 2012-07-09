@@ -121,17 +121,18 @@
 				}
 
 				$path = 'modules/';
-				$moduleOut = $this->_View->element(
-					implode('.', array(Inflector::camelize($plugin), $path . $module)),
-					$params
-				);
 
-
+				try {
+					$moduleOut = $this->_View->element(
+						implode('.', array(Inflector::camelize($plugin), $path . $module)),
+						$params
+					);
+				} catch(Exception $e) {
+					$moduleOut = $e->getMessage();
+				}
 			}
 
 			return sprintf('<div class="module %s %s">%s</div>', str_replace('/', '-', $module), $class, $moduleOut);
-
-			return $moduleOut;
 		}
 
 		/**
