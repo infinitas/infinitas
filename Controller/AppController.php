@@ -317,9 +317,12 @@
 			parent::beforeRender();
 
 			switch(true) {
+				case $this->request->is('ajax'):
 				case (!empty($this->request->params['ext']) && $this->request->params['ext'] == 'json'):
-					$this->viewVars['json'] = array('json' => $this->viewVars['json']);
-					$this->set('_serialize', 'json');
+					if(isset($this->viewVars['json'])) {
+						$this->viewVars['json'] = array('json' => $this->viewVars['json']);
+						$this->set('_serialize', 'json');
+					}
 					//Configure::write('debug', 0);
 					break;
 
@@ -634,13 +637,30 @@
 			if(isset($this->request->params['admin']) && $this->request->params['admin']) {
 				$element = 'messages/admin/' . $config['level'];
 			}
-			
-			$this->Session->setFlash($message, $element, $vars);
+
+			$_redirect = false;
 			if($config['redirect'] || $config['redirect'] === '') {
 				if($config['redirect'] === true) {
 					$config['redirect'] = $this->referer();
 				}
-				$this->redirect($config['redirect']);
+				$_redirect = $config['redirect'];
+			}
+
+			if(!$this->request->is('ajax')) {
+				$this->Session->setFlash($message, $element, $vars);
+				if($_redirect !== false) {
+					$this->redirect($_redirect);
+				}
+			} else {
+				$vars['level'] = $config['level'];
+				$vars['message'] = $message;
+				$this->set(
+					'json',
+					array(
+						'flash' => $vars,
+						'redirect' => $_redirect
+					)
+				);
 			}
 
 			unset($_default, $config, $vars);
