@@ -223,6 +223,7 @@
 			$content = (!empty($module['Module']['content'])) ? $module['Module']['content'] : false;
 
 			return array(
+				'_module_id' => $module['Module']['id'],
 				'plugin' => $module['Module']['plugin'],
 				'title' => $title,
 				'config' => $this->__getModuleConfig($module['Module']),
