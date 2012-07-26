@@ -613,6 +613,13 @@
 				'plugin' => 'assets',
 				'redirect' => false
 			);
+			if($message instanceof Exception) {
+				$config = array_merge(
+					array('level' => 'error', 'redirect' => ''),
+					$config
+				);
+				$message = $message->getMessage();
+			}
 
 			if(!empty($this->notice[$message])) {
 				if(!is_array($this->notice[$message])) {
