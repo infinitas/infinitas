@@ -17,7 +17,7 @@
 	 * @package       progress_bar
 	 * @subpackage    progress_bar.vendors.shells.tasks
 	 */
-	class ProgressBarTask extends Shell {
+	class ProgressBarTask extends AppShell {
 
 		/**
 		 * Console Width

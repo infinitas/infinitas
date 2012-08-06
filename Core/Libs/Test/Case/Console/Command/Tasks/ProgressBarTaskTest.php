@@ -51,11 +51,11 @@
 		 * @return void
 		 * @access public
 		 */
-		function niceRemaining() {
+		public function niceRemaining() {
 			return $this->_niceRemaining();
 		}
 
-		function messages($clear = true) {
+		public function messages($clear = true) {
 			$return = $this->messages;
 			if ($clear) {
 				$this->messages = array();
@@ -63,7 +63,7 @@
 			return $return;
 		}
 
-		function out($message) {
+		public function out($message) {
 			$this->messages[] = $message;
 		}
 	}
@@ -83,10 +83,14 @@
 		 * @access public
 		 */
 		public function startTest() {
-			$this->Dispatcher = new ShellDispatcher();
-			$this->Dispatcher->shellPaths = App::path('shells');
-			$this->Task = new TestProgressBarTask($this->Dispatcher);
-			$this->Task->Dispatch = $this->Dispatcher;
+			$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
+			$in = $this->getMock('ConsoleInput', array(), array(), '', false);
+
+			$this->Task = $this->getMock('TestProgressBarTask',
+				array('in', 'err', 'createFile', '_stop', '_checkUnitTest'),
+				array($out, $out, $in)
+			);
+			$this->Task->name = 'ProgressBar';
 			$this->Task->path = TMP . 'tests' . DS;
 		}
 
