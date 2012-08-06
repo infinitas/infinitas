@@ -1,41 +1,5 @@
 <?php
-	App::import('lib', 'libs.test/AppBehaviorTest');
-
 	class TestCopyableBehavior extends CakeTestCase {
-
-		/**
-		 * @brief Configuration for the test case
-		 *
-		 * Loading fixtures:
-		 *
-		 * List all the needed fixtures in the do part of the fixture array.
-		 * In replace you can overwrite fixtures of other plugins by your own.
-		 *
-		 * 'fixtures' => array(
-		 *		'do' => array(
-		 *			'SomePlugin.SomeModel
-		 *		),
-		 *		'replace' => array(
-		 *			'Core.User' => 'SomePlugin.User
-		 *		)
-		 * )
-		 * @var array
-		 */
-		public $setup = array(
-			'behavior' => 'libs.Copyable',
-			'models' => array(
-				'Users.User',
-				'Modules.Module',
-				'Modules.ModulePosition',
-				'Routes.Route'
-			),
-			'fixtures' => array(
-				'do' => array(
-					'Contents.GlobalTag',
-					'Contents.GlobalTagged'
-				)
-			)
-		);
 
 		/**
 		 * @brief Contains a list of test methods to run
@@ -46,6 +10,34 @@
 		 * @var mixed
 		 */
 		public $tests = false;
+
+		public $fixtures = array(
+			'plugin.management.ticket',
+			'plugin.users.user',
+			'plugin.users.group',
+			'plugin.modules.module',
+			'plugin.modules.modules_route',
+			'plugin.modules.module_position',
+			'plugin.routes.route',
+			'plugin.locks.global_lock',
+			'plugin.installer.plugin',
+			'plugin.contents.global_tag',
+			'plugin.themes.theme'
+		);
+
+		public function startTest($method) {
+			parent::startTest($method);
+
+			$this->User = ClassRegistry::init('Users.User');
+			$this->Module = ClassRegistry::init('Modules.Module');
+			$this->ModulePosition = ClassRegistry::init('Modules.ModulePosition');
+		}
+
+		public function tearDown() {
+			unset($this->User, $this->Module, $this->ModulePosition);
+
+			parent::tearDown();
+		}
 
 		/**
 		 * @brief Tests setup
@@ -136,18 +128,17 @@
 			$this->assertTrue($this->User->Behaviors->attached('Containable'));
 
 			$this->Module->Behaviors->attach('Libs.Copyable');
-			$expected = array(0 => 'Route');
+			$expected = array('ModuleRoute' => array(), 0 => 'Route');
 			$this->assertEqual($expected, $this->Module->generateContain());
 			$this->assertEqual($expected, $this->Module->Behaviors->Copyable->contain);
 
 			$this->ModulePosition->Behaviors->attach('Libs.Copyable');
-			$expected = array('Module' => array());
+			$expected = array('Module' => array('ModuleRoute' => array()));
 			$this->assertEqual($expected, $this->ModulePosition->generateContain());
 			$this->assertEqual($expected, $this->ModulePosition->Behaviors->Copyable->contain);
 
-			$this->expectError(); // its gonna use AppModel for the join here.
 			$this->assertTrue($this->Module->bindModel(array('hasAndBelongsToMany' => array('GlobalTag' => array('className' => 'Contents.GlobalTag', 'with' => 'global_tags'))), false));
-			$expected = array(0 => 'Route', 1 => 'GlobalTag');
+			$expected = array('ModuleRoute' => array(), 0 => 'Route', 1 => 'GlobalTag');
 			$this->assertEqual($expected, $this->Module->generateContain());
 		}
 
@@ -181,28 +172,31 @@
 			/**
 			 * copy the bottom module position that has no modules
 			 */
-			$this->assertTrue($id = $this->ModulePosition->copy('module-position-bottom'));
+			$id = $this->ModulePosition->copy('module-position-bottom');
+			$this->assertTrue((bool)$id);
+			$this->assertTrue($this->ModulePosition->exists($id));
 			$this->assertIdentical(12, $this->ModulePosition->find('count'));
 			$this->assertIdentical(10, $this->ModulePosition->Module->find('count'));
 
 			$actual = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => 'module-position-bottom'), 'contain' => array('Module')));
 			$copy = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => $id), 'contain' => array('Module')));
 			$this->assertIdentical($actual['Module'], $copy['Module']);
-			$this->assertTrue(strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
+			$this->assertTrue((bool)strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
 
 			/**
 			 * copy the bottom module position that has no modules
 			 */
-			$this->assertTrue($id = $this->ModulePosition->copy('module-position-custom1'));
+			$id = $this->ModulePosition->copy('module-position-custom1');
+			$this->assertTrue((bool)$id);
 			$this->assertIdentical(13, $this->ModulePosition->find('count'));
 			$this->assertIdentical(12, $this->ModulePosition->Module->find('count'));
 
 			$actual = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => 'module-position-custom1'), 'contain' => array('Module')));
 			$copy = $this->ModulePosition->find('first', array('conditions' => array('ModulePosition.id' => $id), 'contain' => array('Module')));
 			$this->assertIdentical(count($actual['Module']), count($copy['Module']));
-			$this->assertTrue(strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
+			$this->assertTrue((bool)strstr($copy['ModulePosition']['name'], $actual['ModulePosition']['name'] . ' - copied ' . date('Ymd')));
 			foreach($copy['Module'] as $k => $module) {
-				$this->assertTrue(strstr($module['name'], $actual['Module'][$k]['name'] . ' - copied ' . date('Ymd')));
+				$this->assertTrue((bool)strstr($module['name'], $actual['Module'][$k]['name'] . ' - copied ' . date('Ymd')));
 			}
 
 			/**
@@ -218,17 +212,20 @@
 			 * test transactions externally
 			 */
 			$this->assertTrue($this->ModulePosition->transaction());
-			$this->assertTrue($this->ModulePosition->copy('module-position-custom4'));
+			$id = $this->ModulePosition->copy('module-position-custom4');
+			$this->assertTrue((bool)$id);
 			$this->assertTrue($this->ModulePosition->transaction(true));
 			$this->assertIdentical(16, $this->ModulePosition->find('count'));
 
 			/**
 			 * test saving another copy of the same thing
 			 */
-			$this->assertTrue($id = $this->ModulePosition->copy('module-position-custom4'));
+			$id = $this->ModulePosition->copy('module-position-custom4');
+			$this->assertTrue((bool)$id);
 			$this->assertIdentical(17, $this->ModulePosition->find('count'));
 
-			$this->assertTrue($id = $this->ModulePosition->copy('module-position-custom4'));
+			$id = $this->ModulePosition->copy('module-position-custom4');
+			$this->assertTrue((bool)$id);
 			$this->assertIdentical(18, $this->ModulePosition->find('count'));
 		}
 	}

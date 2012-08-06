@@ -25,7 +25,7 @@
 		 * Behavior settings
 		 *
 		 * @access public
-		 * 
+		 *
 		 * @var array
 		 */
 		public $settings = array();
@@ -56,7 +56,7 @@
 		 * will look in the $this->contain array.
 		 *
 		 * @access private
-		 * 
+		 *
 		 * @var array
 		 */
 		private $defaults = array(
@@ -100,7 +100,7 @@
 			if(!$id) {
 				$id = $Model->id;
 			}
-			
+
 			if(!$id) {
 				return false;
 			}
@@ -108,7 +108,7 @@
 			if(is_array($id)) {
 				return $this->__multiCopy($Model, $id);
 			}
-			
+
 			$this->generateContain($Model);
 
 			$this->record = $Model->find(
@@ -118,7 +118,7 @@
 					'contain' => $this->contain
 				)
 			);
-			
+
 			if (empty($this->record)) {
 				return false;
 			}
@@ -163,13 +163,13 @@
 		 */
 		private function __multiCopy($Model, $ids) {
 			$ids = array_keys($Model->find('list', array('conditions' => array($Model->alias . '.' . $Model->primaryKey => array_filter((array)$ids)))));
-			
+
 			if(empty($ids)) {
 				return false;
 			}
-			
+
 			$transaction = $Model->transaction();
-			
+
 			$multiSave = array();
 			foreach($ids as $id) {
 				$multiSave[] = $this->copy($Model, $id);
@@ -179,7 +179,7 @@
 				$Model->transaction(true);
 				return array_combine($ids, $multiSave);
 			}
-			
+
 			else if($transaction) {
 				$Model->transaction(false);
 				return false;
@@ -200,7 +200,7 @@
 			if (!$this->__verifyContainable($Model)) {
 				return false;
 			}
-			
+
 			$this->contain = array_merge($this->__recursiveChildContain($Model, $Model->alias), array_keys($Model->hasAndBelongsToMany));
 			$this->__removeIgnored($Model);
 			return $this->contain;
@@ -216,11 +216,11 @@
 		 *
 		 * @return boolean
 		 */
-		private function __removeIgnored($Model) {			
+		private function __removeIgnored($Model) {
 			if (!$this->settings[$Model->alias]['ignore']) {
 				return true;
 			}
-			
+
 			$ignore = array_unique($this->settings[$Model->alias]['ignore']);
 			foreach ($ignore as $path) {
 				if (Set::check($this->contain, $path)) {
@@ -255,7 +255,7 @@
 				if (isset($record[$key][0])) {
 					foreach ($record[$key] as $innerKey => $innerVal) {
 						$record[$key][$innerKey] = $this->__stripFields($Model->{$key}, $innerVal);
-						
+
 						if (array_key_exists($val['foreignKey'], $innerVal)) {
 							unset($record[$key][$innerKey][$val['foreignKey']]);
 						}
@@ -308,6 +308,10 @@
 		 */
 		private function __renameUniqueFields($Model, $record) {
 			foreach(array_keys($record) as $field) {
+				if(!$Model->hasField($field)) {
+					continue;
+				}
+				
 				$modified = false;
 				if(isset($Model->validate[$field]['isUnique'])) {
 					$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
@@ -320,6 +324,7 @@
 						$modified = true;
 					}
 				}
+
 				$count = $Model->find('count', array('conditions' => array($Model->alias . '.' . $field => $record[$field])));
 				if($modified === true && $count > 0) {
 					$record[$field] = $record[$field] . sprintf(' (%s)', $count);
@@ -347,7 +352,7 @@
 			if (!$this->settings[$Model->alias]['habtm']) {
 				return $record;
 			}
-			
+
 			foreach ($Model->hasAndBelongsToMany as $key => $val) {
 				if (!isset($record[$val['className']]) || empty($record[$val['className']])) {
 					continue;
@@ -404,7 +409,7 @@
 			if(!isset($this->settings[$Model->alias])) {
 				$this->settings[$Model->alias] = $this->settings[$mainModelAlias];
 			}
-			
+
 			$contain = array();
 			if (!$this->settings[$Model->alias]['recursive']) {
 				return $contain;
@@ -415,7 +420,7 @@
 				if ($Model->alias == $child) {
 					continue;
 				}
-				
+
 				$contain[$child] = $this->__recursiveChildContain($Model->{$child}, $Model->alias);
 			}
 
@@ -439,7 +444,7 @@
 					unset($record[$field]);
 				}
 			}
-			
+
 			$record = $this->__renameUniqueFields($Model, $record);
 
 			return $record;
