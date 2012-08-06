@@ -179,6 +179,31 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
+ * @brief validate that the passed in model exists
+ *
+ * @param Model $Model the model doingvalidation
+ * @param array $field the field being validated
+ *
+ * @return boolean
+ */
+	public function validateModelExists(Model $Model, $field) {
+		$plugin = $model = null;
+		list($plugin, $model) = pluginSplit(current($field));
+
+		if($plugin && !$this->validatePluginExists($Model, array($plugin))) {
+			return false;
+		}
+
+		try {
+			return get_class(ClassRegistry::init(implode('.', array($plugin, $model)))) == $model;
+		} catch(Exception $e) {
+			return false;
+		}
+
+		return false;
+	}
+
+/**
  * @brief check if the selected controller is valid
  *
  * By default this method will look for a field in the models data array called
