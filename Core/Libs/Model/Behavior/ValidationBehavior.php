@@ -123,13 +123,16 @@ class ValidationBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function validateRecordExists(Model $Model, $field) {
-		$aliases = array_flip(array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo));
+		$aliases = array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo);
 
-		$alias = !empty($aliases[key($field)]) ? $aliases[key($field)] : null;
-		if(!$alias) {
-			if(key($field) == 'foreign_key' && in_array('model', array_keys($Model->data[$Model->alias])) && !empty($Model->data[$Model->alias]['model'])) {
+		if(empty($aliases)) {
+			$check = key($field) == 'foreign_key' &&
+			in_array('model', array_keys($Model->data[$Model->alias])) && !empty($Model->data[$Model->alias]['model']);
+
+			if($check) {
 				list(, $alias) = pluginSplit($Model->data[$Model->alias]['model']);
 				$Model->{$alias} = ClassRegistry::init($Model->data[$Model->alias]['model']);
+				$aliases = array($alias);
 			}
 
 			if(!$alias) {
@@ -137,16 +140,22 @@ class ValidationBehavior extends ModelBehavior {
 			}
 		}
 
-		$count = $Model->{$alias}->find(
-			'count',
-			array(
-				'conditions' => array(
-					$alias . '.' . $Model->{$alias}->primaryKey => current($field)
+		foreach($aliases as $alias => $fk) {
+			$count = $Model->{$alias}->find(
+				'count',
+				array(
+					'conditions' => array(
+						$Model->{$alias}->alias . '.' . $Model->{$alias}->primaryKey => current($field)
+					)
 				)
-			)
-		);
+			);
 
-		return $count > 0;
+			if($count > 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 /**
