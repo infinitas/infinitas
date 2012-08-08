@@ -7,13 +7,13 @@
 	HtmlHelper.url = function(options) {
 		var opts = $.extend({}, HtmlHelper.url.defaults, options.url);
 		var returnUrl = [];
-		
+
 		returnUrl = [
 			opts.plugin,
 			opts.controller,
 			opts.action
 		].join('/');
-		
+
 		if(opts.prefix) {
 			returnUrl = opts.prefix + '/' + returnUrl;
 		}
@@ -21,10 +21,15 @@
 		returnUrl = Infinitas.base + returnUrl;
 
 		end = '/';
-		$.each(options.params, function(key, value){
-			end += key + ':' + value + '/';
+		$.each(opts.params, function(key, value) {
+			if(isNaN(key)) {
+				end += key + ':' + value + '/';
+			} else {
+				end += value + '/';
+			}
+
 		});
-		
+
 		return returnUrl + end;
 	};
 
@@ -91,15 +96,15 @@
 			}
 		);
 	};
-	
+
 	/**
 	 * @breif submit some POST data to a url
-	 * 
+	 *
 	 */
 	HtmlHelper.submit = function(metaData, callback) {
 		//HtmlHelper.loading(metaData.target, true);
 		var submitUrl = HtmlHelper.url(metaData) + '.json';
-		
+
 		$.post(
 			submitUrl,
 			metaData.postData,
