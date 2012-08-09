@@ -811,3 +811,7 @@ dt.altrow,
 dd.altrow {
 	background-color: #f4f4f4;
 }
+
+table tr.no-bottom-border > td {
+	border-bottom: none;
+}
