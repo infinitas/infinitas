@@ -815,3 +815,8 @@ dd.altrow {
 table tr.no-bottom-border > td {
 	border-bottom: none;
 }
+
+img.icon-status {
+	width: 16px;
+	padding-right: 5px;
+}

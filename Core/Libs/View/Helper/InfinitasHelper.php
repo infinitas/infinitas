@@ -74,7 +74,7 @@
 		*/
 		public function status($status = null, $options = array()) {
 			$image = false;
-			$params = array();
+			$params = array('class' => 'icon-status');
 
 			$options = array_merge(
 				array(
@@ -95,7 +95,6 @@
 					$image = $this->Html->image(
 						$this->Image->getRelativePath('status', 'active'),
 						$params + array(
-							'width' => '16px',
 							'alt' => __d('infinitas', 'On')
 						)
 					);
@@ -111,7 +110,6 @@
 					$image = $this->Html->image(
 						$this->Image->getRelativePath('status', 'inactive'),
 						$params + array(
-							'width' => '16px',
 							'alt' => __d('infinitas', 'Off')
 						)
 					);
