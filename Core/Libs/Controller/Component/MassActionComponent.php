@@ -93,7 +93,7 @@ class MassActionComponent extends InfinitasComponent {
 			return null;
 		}
 
-		$ids = array_values(array_filter(Set::extract('/massCheckBox', $data)));
+		$ids = array_values(array_filter(Hash::extract($data, '{n}.massCheckBox')));
 		if (empty($ids)) {
 			$this->Controller->notice(
 				__('Nothing was selected, please select something and try again.'),
