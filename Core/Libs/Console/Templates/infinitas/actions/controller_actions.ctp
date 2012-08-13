@@ -79,16 +79,16 @@
 
 COMMENT;
 	echo "\tpublic function {$admin}index() {\n";
-		echo "\t\t\$this->Paginator->settings(\n";
+		echo "\t\t\$this->Paginator->settings = array(\n";
 		echo "\t\t\t'contain' => array(\n";
 
-		foreach (array('belongsTo', 'hasAndBelongsToMany', 'hasOne', 'hasMany') as $assoc) {
+		foreach (array('belongsTo', 'hasOne') as $assoc) {
 			foreach ($modelObj->{$assoc} as $associationName => $relation) {
-				echo "\t\t\t\t\${$associationName},\n";
+				echo "\t\t\t\t'{$associationName}',\n";
 			}
 		}
 
-		echo "\t\t\t);\n";
+		echo "\t\t\t)\n";
 		echo "\t\t);\n\n";
 		echo "\t\t\$$pluralName = \$this->Paginator->paginate(null, \$this->Filter->filter);\n\n";
 
