@@ -47,6 +47,7 @@
 		'types' => array('notice', 'info', 'debug'),
 		'file' => 'debug',
 	));
+
 	CakeLog::config('error', array(
 		'engine' => 'FileLog',
 		'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
