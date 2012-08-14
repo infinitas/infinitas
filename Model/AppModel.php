@@ -251,6 +251,15 @@
 		}
 
 		/**
+		 * @brief get the number of rows that was affected by the last query
+		 *
+		 * @return integer
+		 */
+		public function getAffectedRows() {
+			return ConnectionManager::getDataSource($this->useDbConfig)->lastAffected();
+		}
+
+		/**
 		 * @brief get a unique list of any model field, used in the search
 		 *
 		 * @param string $displayField the field to search by
