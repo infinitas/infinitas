@@ -15,7 +15,7 @@
 
 	class SequenceBehaviorNoGroupTestCase extends CakeTestCase {
 		public $fixtures = array(
-			'plugin.libs.item',
+			'plugin.libs.single_item',
 			'plugin.libs.grouped_item',
 			'plugin.libs.multi_grouped_item',
 		);
@@ -59,8 +59,8 @@
 			$this->assertTrue($this->SingleItem->delete(1));
 			$this->assertEqual(4, $this->SingleItem->getHighestOrder());
 
-			$result = $this->SingleItem->save(array('Item' => array('name' => 'foo')));
-			$expected = array('Item' => array('name' => 'foo', 'ordering' => 5, 'id' => 6));
+			$result = $this->SingleItem->save(array('SingleItem' => array('name' => 'foo')));
+			$expected = array('SingleItem' => array('name' => 'foo', 'ordering' => 5, 'id' => 6));
 			$this->assertEqual($result, $expected);
 
 			$this->assertEqual(5, $this->SingleItem->getHighestOrder());
@@ -116,23 +116,23 @@
 			 */
 			$this->assertTrue($this->SingleItem->delete(1));
 			$expected = array(
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 4)));
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 4)));
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			$this->assertTrue($this->SingleItem->delete(3));
 			$expected = array(
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 2)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 3)));
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 3)));
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			$this->assertTrue($this->SingleItem->delete(5));
 			$expected = array(
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 2)));
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 2)));
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			/**
@@ -197,82 +197,82 @@
 		 */
 		public function testInsert() {
 			$this->SingleItem->create();
-			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item F')));
-			$expected = array('Item' => array('name' => 'Item F', 'ordering' => 6, 'id' => 6));
+			$result = $this->SingleItem->save(array('SingleItem' => array('name' => 'Item F')));
+			$expected = array('SingleItem' => array('name' => 'Item F', 'ordering' => 6, 'id' => 6));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 1, 'name' => 'Item A', 'ordering' => 1)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)),
-				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 6)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)),
+				array('SingleItem' => array('id' => 6, 'name' => 'Item F', 'ordering' => 6)),
 			);
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			$this->SingleItem->create();
-			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item G', 'ordering' => '1')));
-			$expected = array('Item' => array('name' => 'Item G', 'ordering' => 1, 'id' => 7));
+			$result = $this->SingleItem->save(array('SingleItem' => array('name' => 'Item G', 'ordering' => '1')));
+			$expected = array('SingleItem' => array('name' => 'Item G', 'ordering' => 1, 'id' => 7));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
-				array('Item' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 3)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 6)),
-				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 7)),
+				array('SingleItem' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 6)),
+				array('SingleItem' => array('id' => 6, 'name' => 'Item F', 'ordering' => 7)),
 			);
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			$this->SingleItem->create();
-			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item H', 'ordering' => '3')));
-			$expected = array('Item' => array('name' => 'Item H', 'ordering' => 3, 'id' => 8));
+			$result = $this->SingleItem->save(array('SingleItem' => array('name' => 'Item H', 'ordering' => '3')));
+			$expected = array('SingleItem' => array('name' => 'Item H', 'ordering' => 3, 'id' => 8));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
-				array('Item' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
-				array('Item' => array('id' => 8, 'name' => 'Item H', 'ordering' => 3)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 4)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 6)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
-				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
+				array('SingleItem' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 8, 'name' => 'Item H', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 6)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
+				array('SingleItem' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
 			);
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			$this->SingleItem->create();
-			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item I', 'ordering' => '9')));
-			$expected = array('Item' => array('name' => 'Item I', 'ordering' => 9, 'id' => 9));
+			$result = $this->SingleItem->save(array('SingleItem' => array('name' => 'Item I', 'ordering' => '9')));
+			$expected = array('SingleItem' => array('name' => 'Item I', 'ordering' => 9, 'id' => 9));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
-				array('Item' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
-				array('Item' => array('id' => 8, 'name' => 'Item H', 'ordering' => 3)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 4)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 6)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
-				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
-				array('Item' => array('id' => 9, 'name' => 'Item I', 'ordering' => 9)),
+				array('SingleItem' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 8, 'name' => 'Item H', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 6)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
+				array('SingleItem' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
+				array('SingleItem' => array('id' => 9, 'name' => 'Item I', 'ordering' => 9)),
 			);
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
 			$this->SingleItem->create();
-			$result = $this->SingleItem->save(array('Item' => array('name' => 'Item J', 'ordering' => '20')));
-			$expected = array('Item' => array('name' => 'Item J', 'ordering' => 10, 'id' => 10));
+			$result = $this->SingleItem->save(array('SingleItem' => array('name' => 'Item J', 'ordering' => '20')));
+			$expected = array('SingleItem' => array('name' => 'Item J', 'ordering' => 10, 'id' => 10));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
-				array('Item' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
-				array('Item' => array('id' => 8, 'name' => 'Item H', 'ordering' => 3)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 4)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 6)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
-				array('Item' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
-				array('Item' => array('id' => 9, 'name' => 'Item I', 'ordering' => 9)),
-				array('Item' => array('id' => 10, 'name' => 'Item J', 'ordering' => 10)),
+				array('SingleItem' => array('id' => 7, 'name' => 'Item G', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 8, 'name' => 'Item H', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 6)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 7)),
+				array('SingleItem' => array('id' => 6, 'name' => 'Item F', 'ordering' => 8)),
+				array('SingleItem' => array('id' => 9, 'name' => 'Item I', 'ordering' => 9)),
+				array('SingleItem' => array('id' => 10, 'name' => 'Item J', 'ordering' => 10)),
 			);
 			$this->assertEqual($expected, $this->SingleItem->find('all'));
 
@@ -403,111 +403,111 @@
 		 */
 		public function testEdit() {
 			$expected = array(
-				array('Item' => array('id' => 1, 'name' => 'Item A', 'ordering' => 1)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'name' => 'Item A - edit')));
-			$expected = array('Item' => array('id' => 1, 'name' => 'Item A - edit'));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '1', 'name' => 'Item A - edit')));
+			$expected = array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit'));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 1)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '3')));
-			$expected = array('Item' => array('id' => 1, 'ordering' => '3'));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '1', 'ordering' => '3')));
+			$expected = array('SingleItem' => array('id' => 1, 'ordering' => '3'));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 3)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '5')));
-			$expected = array('Item' => array('id' => '1', 'ordering' => '5'));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '1', 'ordering' => '5')));
+			$expected = array('SingleItem' => array('id' => '1', 'ordering' => '5'));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 4)),
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '4', 'ordering' => '5')));
-			$expected = array('Item' => array('id' => 4, 'ordering' => 5));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '4', 'ordering' => '5')));
+			$expected = array('SingleItem' => array('id' => 4, 'ordering' => 5));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 3)),
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 4)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '5', 'ordering' => '1')));
-			$expected = array('Item' => array('id' => 5, 'ordering' => 1));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '5', 'ordering' => '1')));
+			$expected = array('SingleItem' => array('id' => 5, 'ordering' => 1));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 1)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 4)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '5')));
-			$expected = array('Item' => array('id' => 1, 'ordering' => 5));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '1', 'ordering' => '5')));
+			$expected = array('SingleItem' => array('id' => 1, 'ordering' => 5));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 1)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '4', 'ordering' => '3')));
-			$expected = array('Item' => array('id' => 4, 'ordering' => 3));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '4', 'ordering' => '3')));
+			$expected = array('SingleItem' => array('id' => 4, 'ordering' => 3));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 1)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '1', 'ordering' => '1')));
-			$expected = array('Item' => array('id' => 1, 'ordering' => 1));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '1', 'ordering' => '1')));
+			$expected = array('SingleItem' => array('id' => 1, 'ordering' => 1));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 1)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 2)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 3)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
-			$result = $this->SingleItem->save(array('Item' => array('id' => '2', 'ordering' => '10')));
-			$expected = array('Item' => array('id' => 2, 'ordering' => 5));
+			$result = $this->SingleItem->save(array('SingleItem' => array('id' => '2', 'ordering' => '10')));
+			$expected = array('SingleItem' => array('id' => 2, 'ordering' => 5));
 			$this->assertEqual($result, $expected);
 			$expected = array(
-				array('Item' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 1)),
-				array('Item' => array('id' => 5, 'name' => 'Item E', 'ordering' => 2)),
-				array('Item' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
-				array('Item' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
-				array('Item' => array('id' => 2, 'name' => 'Item B', 'ordering' => 5)));
-			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('Item.ordering'))));
+				array('SingleItem' => array('id' => 1, 'name' => 'Item A - edit', 'ordering' => 1)),
+				array('SingleItem' => array('id' => 5, 'name' => 'Item E', 'ordering' => 2)),
+				array('SingleItem' => array('id' => 4, 'name' => 'Item D', 'ordering' => 3)),
+				array('SingleItem' => array('id' => 3, 'name' => 'Item C', 'ordering' => 4)),
+				array('SingleItem' => array('id' => 2, 'name' => 'Item B', 'ordering' => 5)));
+			$this->assertEqual($expected, $this->SingleItem->find('all', array('order' => array('SingleItem.ordering'))));
 
 
 			/**

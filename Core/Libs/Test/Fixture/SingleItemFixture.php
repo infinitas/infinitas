@@ -1,6 +1,6 @@
 <?php
-	class ItemFixture extends CakeTestFixture {
-		public $table = 'items';
+	class SingleItemFixture extends CakeTestFixture {
+		public $table = 'single_items';
 
 		public $fields = array(
 			'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
