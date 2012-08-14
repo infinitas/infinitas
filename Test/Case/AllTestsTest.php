@@ -22,18 +22,20 @@ class AllTestsTest extends PHPUnit_Framework_TestSuite {
 
 		if (!isset($this->coverageSetup) || !$this->coverageSetup) {
 			$coverage = $result->getCodeCoverage();
-			$coverage->setProcessUncoveredFilesFromWhitelist(true);
+			if(!empty($coverage)) {
+				$coverage->setProcessUncoveredFilesFromWhitelist(true);
 
-			$coverageFilter = $coverage->filter();
+				$coverageFilter = $coverage->filter();
 
-			$coverageFilter->addDirectoryToBlacklist(CORE_PATH);
-			$coverageFilter->addDirectoryToBlacklist(APP . DS . 'Test');
-			$coverageFilter->addDirectoryToBlacklist(APP . DS . 'Config');
-			foreach(InfinitasPlugin::listPlugins('all') as $plugin) {
-				$coverageFilter->addDirectoryToBlacklist(CakePlugin::path($plugin) . 'Test');
+				$coverageFilter->addDirectoryToBlacklist(CORE_PATH);
+				$coverageFilter->addDirectoryToBlacklist(APP . DS . 'Test');
+				$coverageFilter->addDirectoryToBlacklist(APP . DS . 'Config');
+				foreach(InfinitasPlugin::listPlugins('all') as $plugin) {
+					$coverageFilter->addDirectoryToBlacklist(CakePlugin::path($plugin) . 'Test');
+				}
+
+				$this->coverageSetup = true;
 			}
-
-			$this->coverageSetup = true;
 		}
 		return parent::run($result, $filter, $groups, $excludeGroups, $processIsolation);
 	}
