@@ -107,10 +107,10 @@
 		 * @access protected
 		 */
 		protected $_update;
-		
+
 		/**
 		 * @brief internal cache of the settings per model
-		 * 
+		 *
 		 * @access private
 		 * @var array
 		 */
@@ -139,20 +139,24 @@
 			if (is_string($config)) {
 				$config = array('orderField' => $config);
 			}
-			
+
 			$this->__settings[$Model->alias] = array_merge($this->_defaults, $config);
 			$this->__settings[$Model->alias]['escaped_orderField'] = $Model->escapeField($this->__settings[$Model->alias]['orderField']);
-			
+
 			if (!empty($this->__settings[$Model->alias]['groupFields'])) {
 				if (is_string($this->__settings[$Model->alias]['groupFields'])) {
 					$this->__settings[$Model->alias]['groupFields'] = array($this->__settings[$Model->alias]['groupFields']);
 				}
-				
+
 				$this->__settings[$Model->alias]['groupFields'] = array_flip($this->__settings[$Model->alias]['groupFields']);
 				foreach ($this->__settings[$Model->alias]['groupFields'] as $groupField => $null) {
 					$this->__settings[$Model->alias]['groupFields'][$groupField] = $Model->escapeField($groupField);
 				}
 			}
+		}
+
+		public function sequenceGroupFields(Model $Model) {
+			return $this->__settings[$Model->alias]['groupFields'];
 		}
 
 		/**
@@ -168,9 +172,9 @@
 		public function beforeFind($Model, $queryData) {
 			// order can can sometimes be not set, or empty, or array(0 => null)
 			$check = !isset($queryData['order']) ||
-				empty($queryData['order']) || 
+				empty($queryData['order']) ||
 				(is_array($queryData['order']) && count($queryData['order']) == 1 && empty($queryData['order'][0]));
-			
+
 			if ($check) {
 				$queryData['order'] = (array)$this->__settings[$Model->alias]['escaped_orderField'];
 			}
@@ -190,12 +194,12 @@
 		 */
 		public function beforeSave($Model) {
 			$this->_update[$Model->alias] = array();
-			
+
 			$this->_setNewOrder($Model);
 			$this->_setNewGroups($Model);
 
 			$orderField = $this->__settings[$Model->alias]['orderField'];
-			
+
 			$highestPossible = $this->getHighestOrder($Model, $this->_newGroups[$Model->alias]);
 
 			if (!$Model->id) {
@@ -215,7 +219,7 @@
 		 * This method works out what needs to be done for new rows, called in beforeSave()
 		 *
 		 * @access protected
-		 * 
+		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param int $highestPossible the highest possible value for the order field
 		 *
@@ -223,7 +227,7 @@
 		 */
 		protected function _beforeSaveCreate($Model, $highestPossible) {
 			$orderField = $this->__settings[$Model->alias]['orderField'];
-			
+
 			if(isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
 				$Model->data[$Model->alias][$orderField] = $highestPossible;
 			}
@@ -260,18 +264,18 @@
 		 */
 		protected function _beforeSaveUpdate($Model, $highestPossible) {
 			$orderField = $this->__settings[$Model->alias]['orderField'];
-			
+
 			if(!empty($this->_newGroups[$Model->alias])) {
 				$highestPossible++;
 			}
-			
+
 			if(isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
 				$Model->data[$Model->alias][$orderField] = $highestPossible;
 			}
-			
+
 			$this->_setOldOrder($Model);
 			$this->_setOldGroups($Model);
-	  
+
 			if (!isset($this->_newOrder[$Model->alias]) && !isset($this->_newGroups[$Model->alias])) {
 				return true;
 			}
@@ -341,7 +345,7 @@
 					);
 				}
 			}
-			
+
 			return true;
 		}
 
@@ -371,7 +375,7 @@
 		 */
 		public function beforeDelete($Model) {
 			$this->_update[$Model->alias] = array();
-			
+
 			$this->_setOldOrder($Model);
 			$this->_setOldGroups($Model);
 
@@ -391,7 +395,7 @@
 		 * @access public
 		 *
 		 * @param Model $Model Model object that method is triggered on
-		 * 
+		 *
 		 * @return boolean
 		 */
 		public function afterDelete($Model) {
@@ -410,7 +414,7 @@
 		 *
 		 * @return integer Value of order field of last record in set
 		 */
-		public function getHighestOrder($Model, $groupValues = false) {	
+		public function getHighestOrder($Model, $groupValues = false) {
 			$count = $Model->find(
 				'count',
 				array(
@@ -418,7 +422,7 @@
 					'contain' => false
 				)
 			);
-			
+
 			// If there is a last record (i.e. any) in the set, return the it's order
 			if ($count) {
 				return $count;
@@ -433,7 +437,7 @@
 		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
-		 * 
+		 *
 		 * @return void
 		 */
 		protected function _setOldOrder($Model) {
@@ -483,11 +487,11 @@
 
 			$orderField = $this->__settings[$Model->alias]['orderField'];
 			$startAt = $this->__settings[$Model->alias]['startAt'];
-			
+
 			if (!isset($Model->data[$Model->alias][$orderField]) || $Model->data[$Model->alias][$orderField] < $startAt) {
 				return;
 			}
-			
+
 			$this->_newOrder[$Model->alias] = $Model->data[$Model->alias][$orderField];
 
 		}
@@ -499,7 +503,7 @@
 		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
-		 * 
+		 *
 		 * @return void
 		 */
 		protected function _setNewGroups($Model) {
@@ -511,7 +515,7 @@
 
 			foreach(array_keys($Model->data[$Model->alias]) as $key) {
 				$escapedField = $Model->escapeField($key);
-				
+
 				if(in_array($escapedField, $this->__settings[$Model->alias]['groupFields'])) {
 					$this->_newGroups[$Model->alias][$escapedField] = $Model->data[$Model->alias][$key];
 				}
@@ -526,14 +530,14 @@
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $groupValues Array of group field => group value pairs
-		 * 
+		 *
 		 * @return array Array of escaped group field => group value pairs
 		 */
 		protected function _conditionsForGroups($Model, $groupValues = false) {
 			if ($this->__settings[$Model->alias]['groupFields'] === false) {
 				return array();
 			}
-			
+
 			$groupValues = ($groupValues !== false) ? $groupValues : $this->_oldGroups[$Model->alias];
 
 			$conditions = array();
@@ -548,7 +552,7 @@
 
 				$conditions[] = array($escapedGroupField => $groupValue);
 			}
-			
+
 			return $conditions;
 		}
 
@@ -560,7 +564,7 @@
 		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
-		 * 
+		 *
 		 * @return array Array Model.primary_key <> => $id
 		 */
 		protected function _conditionsNotCurrent($Model) {
@@ -573,7 +577,7 @@
 		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
-		 * 
+		 *
 		 * @return boolean
 		 */
 		protected function _updateAll($Model) {
@@ -588,7 +592,7 @@
 				if (isset($update['group_values'])) {
 					$groupValues = $update['group_values'];
 				}
-				
+
 				// Actual conditions for the update are a combination of what's derived in
 				// the beforeSave or beforeDelete, and conditions to not the record we've
 				// just modified/inserted and conditions to make sure only records in the
