@@ -35,34 +35,24 @@
 
 	App::uses('AppError', 'Lib');
 	App::uses('InfinitasException', 'Lib/Error');
-//	Configure::write(
-//		'Error',
-//		array(
-//			'handler' => 'AppError::handleError',
-//			'level' => E_ALL,
-//			'renderer' => 'InfinitasErrorRenderer',
-//			'trace' => true,
-//		)
-//	);
-	Configure::write('Error', array(
-		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL & ~E_DEPRECATED,
-		'trace' => true
-	));
+	Configure::write(
+		'Error',
+		array(
+			'handler' => 'AppError::handleError',
+			'level' => E_ALL,
+			'renderer' => 'InfinitasErrorRenderer',
+			'trace' => true,
+		)
+	);
 
-//	Configure::write(
-//		'Exception',
-//		array(
-//			'handler' => 'AppError::handleException',
-//			'renderer' => 'InfinitasExceptionRenderer',
-//			'log' => true,
-//		)
-//	);
-	Configure::write('Exception', array(
-		'handler' => 'ErrorHandler::handleException',
-		'renderer' => 'ExceptionRenderer',
-		'log' => true
-	));
+	Configure::write(
+		'Exception',
+		array(
+			'handler' => 'AppError::handleException',
+			'renderer' => 'InfinitasExceptionRenderer',
+			'log' => true,
+		)
+	);
 
 	Configure::write('Dispatcher.filters', array(
 		'AssetDispatcher',
