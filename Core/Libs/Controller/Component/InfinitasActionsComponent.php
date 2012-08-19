@@ -272,6 +272,7 @@
 		 * @return void
 		 */
 		public function actionAdminReorder($id = null) {
+			$this->Controller->saveRedirectMarker();
 			$model = $this->Controller->modelClass;
 
 			if (!$id) {
@@ -285,13 +286,6 @@
 			$this->Controller->request->data[$model]['id'] = $id;
 
 			if (!empty($this->Controller->request->params['named']['position'])) {
-				if(!$this->Controller->{$model}->Behaviors->attached('Sequence')) {
-					$this->Controller->notice(
-						__d('infinitas', 'A problem occured moving the ordered record.'),
-						$redirectConfig
-					);
-				}
-
 				$this->Controller->Infinitas->orderedMove();
 			}
 
