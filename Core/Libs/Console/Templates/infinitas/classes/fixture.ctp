@@ -19,22 +19,28 @@
  * @since		 CakePHP(tm) v 1.3
  * @license	   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-?>
-<?php echo '<?php' . "\n"; ?>
-	class <?php echo $model; ?>Fixture extends CakeTestFixture {
-		public $name = '<?php echo $model; ?>';
-	<?php if ($table): ?>
-		public $table = '<?php echo $table; ?>';
-	<?php endif; ?>
-	<?php if ($import): ?>
-		public $import = <?php echo $import; ?>;
-	<?php endif; ?>
 
-	<?php if ($schema): ?>
-		public $fields = <?php echo $schema; ?>;
-	<?php endif;?>
+echo '<?php' . "\n"; ?>
+/**
+ * @brief updated fixture file
+ *
+ * @package <?php echo sprintf("%s.Fixture\n", $plugin); ?>
+ * @since <?php echo Configure::read('Infinitas.version') . "\n"; ?>
+ */
+class <?php echo $model; ?>Fixture extends CakeTestFixture {
+	public $name = '<?php echo $model; ?>';
+<?php if ($table): ?>
+	public $table = '<?php echo $table; ?>';
+<?php endif; ?>
+<?php if ($import): ?>
+	public $import = <?php echo $import; ?>;
+<?php endif; ?>
 
-	<?php if ($records): ?>
-		public $records = <?php echo $records; ?>;
-	<?php endif;?>
-	}
+<?php if ($schema): ?>
+	public $fields = <?php echo $schema; ?>;
+<?php endif;?>
+
+<?php if ($records): ?>
+	public $records = <?php echo $records; ?>;
+<?php endif;?>
+}

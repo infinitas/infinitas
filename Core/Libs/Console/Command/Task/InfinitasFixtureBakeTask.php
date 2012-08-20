@@ -53,6 +53,7 @@
 
 			if(!$new) {
 				$oldFixture = $this->getOldFixture($this->plugin, $modelName);
+				$oldFixture['plugin'] = $this->plugin;
 
 				if(!$oldFixture) {
 					$this->err(sprintf('There is no fixture for %s', $modelName));
@@ -112,21 +113,13 @@
 		private function __cleanupRecords($fixture, $new, $old) {
 			foreach($new as $newField) {
 				foreach($fixture['records'] as $k => $record) {
-					$fixture['records'][$k][$newField] = 'null';
+					$fixture['records'][$k][$newField] = null;
 				}
 			}
 
 			foreach($old as $oldField) {
 				foreach($fixture['records'] as $k => $record) {
 					unset($fixture['records'][$k][$oldField]);
-				}
-			}
-
-			foreach($fixture['records'] as $k => $record) {
-				foreach($record as $field => $value) {
-					if(!is_int($value)) {
-						$fixture['records'][$k][$field] = sprintf("'%s'", $fixture['records'][$k][$field]);
-					}
 				}
 			}
 
@@ -221,17 +214,11 @@
 		 */
 		public function generateFixtureFile($model, $options) {
 			$options['fields'] = explode("\n", $this->_generateSchema($options['fields']));
-			foreach($options['fields'] as $k => $line) {
-				$options['fields'][$k] = "\t" . $options['fields'][$k];
-			}
 			$options['fields'] = implode("\n", $options['fields']);
 
 			$options['schema'] = $options['fields'];
 
 			$options['records'] = explode("\n", $this->_makeRecordString($options['records']));
-			foreach($options['records'] as $k => $line) {
-				$options['records'][$k] = "\t" . $options['records'][$k];
-			}
 			$options['records'] = implode("\n", $options['records']);
 
 			return parent::generateFixtureFile($model, $options);
