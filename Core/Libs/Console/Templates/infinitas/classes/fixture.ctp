@@ -22,7 +22,7 @@
 
 echo '<?php' . "\n"; ?>
 /**
- * @brief updated fixture file
+ * @brief fixture file for <?php echo $model; ?> tests.
  *
  * @package <?php echo sprintf("%s.Fixture\n", $plugin); ?>
  * @since <?php echo Configure::read('Infinitas.version') . "\n"; ?>
