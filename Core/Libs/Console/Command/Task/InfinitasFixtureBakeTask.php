@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * @file
-	 * 
+	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
 	 * @package Infinitas.Libs.Vendors.Shells
@@ -46,14 +46,14 @@
 				$useTable = ClassRegistry::init($this->plugin . '.' . $modelName)->tablePrefix . ClassRegistry::init($this->plugin . '.' . $modelName)->useTable;
 			}
 			catch(Exception $e) {
-				
+
 			}
 
 			$newFixture = $this->getNewFixture($modelName, $useTable, array());
-			
+
 			if(!$new) {
 				$oldFixture = $this->getOldFixture($this->plugin, $modelName);
-				
+
 				if(!$oldFixture) {
 					$this->err(sprintf('There is no fixture for %s', $modelName));
 					return false;
@@ -82,7 +82,7 @@
 			$oldTableParams = $oldFixture['fields']['indexes'];
 			unset($oldFixture['fields']['indexes']);
 			$oldFixture['fields']['indexes'] = $oldTableParams;
-			
+
 			$oldTableParams = $oldFixture['fields']['tableParameters'];
 			unset($oldFixture['fields']['tableParameters']);
 			$oldFixture['fields']['tableParameters'] = $oldTableParams;
@@ -115,7 +115,7 @@
 					$fixture['records'][$k][$newField] = 'null';
 				}
 			}
-			
+
 			foreach($old as $oldField) {
 				foreach($fixture['records'] as $k => $record) {
 					unset($fixture['records'][$k][$oldField]);
@@ -148,14 +148,14 @@
 			if (!class_exists('CakeSchema')) {
 				App::import('Model', 'CakeSchema', false);
 			}
-			
+
 			$table = $schema = $records = $import = $modelImport = null;
 			$importBits = array();
 
 			if (!$useTable) {
 				$useTable = Inflector::tableize($model);
-			} 
-			
+			}
+
 			else if ($useTable != Inflector::tableize($model)) {
 				$table = $useTable;
 			}
@@ -192,12 +192,12 @@
 		 * @return array details of the fixture (records, fields etc)
 		 */
 		public function getOldFixture($plugin, $model) {
-			$file = App::pluginPath($plugin) . 'tests' . DS . 'fixtures' . DS . Inflector::underscore($model) . '_fixture.php';
+			$file = App::pluginPath($plugin) . 'Test' . DS . 'Fixture' . DS . $model . 'Fixture.php';
 			if(!is_file($file)) {
 				return array();
 			}
 
-			$cakeFixture = CAKE_CORE_INCLUDE_PATH . DS . 'cake' . DS . 'tests' . DS . 'lib' . DS . 'cake_test_fixture.php';
+			$cakeFixture = CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'TestSuite' . DS . 'Fixture' . DS . 'CakeTestFixture.php';
 			require_once $cakeFixture;
 			require_once $file;
 
@@ -213,7 +213,7 @@
 		 * to cakes normal fixture writing method.
 		 *
 		 * @access public
-		 * 
+		 *
 		 * @param string $model the
 		 * @param array $options the data for the fixture
 		 *
@@ -227,7 +227,7 @@
 			$options['fields'] = implode("\n", $options['fields']);
 
 			$options['schema'] = $options['fields'];
-			
+
 			$options['records'] = explode("\n", $this->_makeRecordString($options['records']));
 			foreach($options['records'] as $k => $line) {
 				$options['records'][$k] = "\t" . $options['records'][$k];

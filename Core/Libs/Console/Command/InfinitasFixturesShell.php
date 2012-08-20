@@ -1,5 +1,5 @@
 <?php
-	App::import('lib', 'Libs.InfinitasAppShell');
+	App::uses('FixtureTask', 'Console/Command/Task');
 
 	class InfinitasFixturesShell extends AppShell {
 		public $uses = array();
@@ -66,7 +66,7 @@
 		}
 
 		private function __generateFixture($plugin, $new) {
-			$models = App::objects('model', App::pluginPath($plugin) . 'models', false);
+			$models = App::objects('Model', InfinitasPlugin::path($plugin) . 'Model', false);
 			$models = array_combine(range(1, count($models)), $models);
 
 			foreach($models as $k => $model) {
