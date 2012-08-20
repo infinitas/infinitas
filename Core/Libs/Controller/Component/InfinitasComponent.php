@@ -323,16 +323,40 @@
 			$modelName = $this->Controller->modelClass;
 			$this->Controller->{$modelName}->transaction();
 
+			if(!$this->Controller->{$modelName}->Behaviors->attached('Sequence')) {
+				$this->Controller->notice(
+					__d('infinitas', 'A problem occured moving the ordered record.'),
+					array(
+						'level' => 'error',
+						'redirect' => true
+					)
+				);
+			}
+
+			$fields = array_values($this->Controller->{$modelName}->sequenceGroupFields());
+			$fields[] = $this->Controller->{$modelName}->alias . '.' . $this->Controller->{$modelName}->primaryKey;
+			$data = $this->Controller->{$modelName}->find(
+				'first',
+				array(
+					'fields' => $fields,
+					'conditions' => array(
+						$this->Controller->{$modelName}->alias . '.' . $this->Controller->{$modelName}->primaryKey => $this->Controller->request->data[$modelName][$this->Controller->{$modelName}->primaryKey]
+					),
+					'callbacks' => false
+				)
+			);
+			$data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
+
 			try {
-				if(!$this->Controller->{$modelName}->Behaviors->attached('Sequence')) {
-					throw new Exception('Cant move items');
+				if($this->Controller->{$modelName}->save($data, array('validate' => false))) {
+					$this->Controller->{$modelName}->transaction(true);
+					$this->Controller->notice(
+						__d('infinitas', 'The record was moved'),
+						array(
+							'redirect' => ''
+						)
+					);
 				}
-
-				$this->Controller->request->data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
-
-				$this->Controller->{$modelName}->save($this->Controller->request->data, array('validate' => false));
-				$this->Controller->{$modelName}->transaction(true);
-				return true;
 			} catch(Exception $e) {
 				$this->Controller->{$modelName}->transaction(false);
 				$this->Controller->notice(
