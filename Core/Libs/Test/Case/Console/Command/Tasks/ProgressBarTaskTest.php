@@ -154,13 +154,13 @@
 			$this->Task->finish(1);
 
 			$result = end($this->Task->messages());
-			$this->assertPattern('@\[-{25}>] 50.0% 50/100.*remaining$@', $result);
+			$this->assertPattern('@\[-{15}>] 50.0% 50/100.*remaining$@', $result);
 
 			$this->Task->start(100);
 			$this->Task->next(150);
 
 			$result = end($this->Task->messages());
-			$this->assertPattern('@\[-{25}>\] 150.0% 150/100.*remaining$@', $result);
+			$this->assertPattern('@\[-{15}>\] 150.0% 150/100.*remaining$@', $result);
 		}
 
 		/**
@@ -181,7 +181,7 @@
 			$this->Task->message('Changed and muuuuuuuuuuuuuuuuuch longer message');
 			$this->Task->next(1);
 			$result = end($this->Task->messages());
-			$this->assertPattern('@Changed and muuuuuuuuuuuuuuuuuch longer messa... 2.0% 2/100.*remaining \[>\s+\]$@', $result);
+			$this->assertPattern('@Changed and muuuuuuuuuuuuuuuuuch longer message\s+2.0% 2/100.*remaining \[>\s+\]$@', $result);
 		}
 
 		/**
