@@ -84,13 +84,76 @@ class UploadBehavior extends ModelBehavior {
  * @return void
  * @access public
  */
-	public function setup(&$model, $config = array()) {
-		if (isset($this->settings[$model->alias])) return;
-		$this->settings[$model->alias] = array();
+	public function setup(&$Model, $config = array()) {
+		if (isset($this->settings[$Model->alias])) return;
+		$this->settings[$Model->alias] = array();
 
 		foreach ($config as $field => $options) {
-			$this->_setupField($model, $field, $options);
+			if(!$Model->hasField($field)) {
+				throw new InvalidArgumentException(sprintf('Model "%s" does not contain the field "%s"', $Model->name, $field));
+			}
+
+			$this->_setupField($Model, $field, $options);
+			$this->_generateVirtualFields($Model, $field);
 		}
+	}
+
+/**
+ * @brief set up virtual fields for the model object for easy access to the image files
+ *
+ * @param Model $Model
+ * @param string $field
+ *
+ * @return boolean
+ */
+	protected function _generateVirtualFields($Model, $field) {
+		$virtualFieldTemplate = sprintf(
+			'CASE WHEN %%s IS NULL OR %%s = "" THEN "%%s" ELSE ' .
+			'CONCAT("%s", %%s, "/%%s", %%s) END',
+			$this->_getUrlPath($Model, $field)
+		);
+
+		$Model->virtualFields[$field . '_full'] = sprintf(
+			$virtualFieldTemplate,
+			$Model->alias . '.' . $field,
+			$Model->alias . '.' . $field,
+			$this->_emptyFilePath(),
+			$Model->alias . '.' . $Model->primaryKey,
+			'',
+			$Model->alias . '.' . $field
+		);
+
+		if(empty($this->settings[$Model->alias][$field]['thumbnailSizes'])) {
+			return true;
+		}
+
+		foreach($this->settings[$Model->alias][$field]['thumbnailSizes'] as $name => $size) {
+			$Model->virtualFields[$field .  '_' . $name] = sprintf(
+				$virtualFieldTemplate,
+				$Model->alias . '.' . $field,
+				$Model->alias . '.' . $field,
+				$this->_emptyFilePath(),
+				$Model->alias . '.' . $Model->primaryKey,
+				$name . '_',
+				$Model->alias . '.' . $field
+			);
+		}
+	}
+
+/**
+ * @brief get the url path to where images are stored.
+ *
+ * @param Model $Model
+ * @param string $field
+ *
+ * @return string
+ */
+	protected function _getUrlPath($Model, $field) {
+		return str_replace(APP . 'webroot', '', $this->settings[$Model->alias][$field]['path']);
+	}
+
+	protected function _emptyFilePath() {
+		return '/filemanager/img/no-image.png';
 	}
 
 /**
