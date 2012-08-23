@@ -1,20 +1,26 @@
 <?php
-/* GlobalCommentAttribute Fixture generated on: 2010-12-13 17:12:02 : 1292259722 */
+/**
+ * @brief fixture file for InfinitasCommentAttribute tests.
+ *
+ * @package Comments.Fixture
+ * @since 0.9b1
+ */
 class InfinitasCommentAttributeFixture extends CakeTestFixture {
-	var $name = 'InfinitasCommentAttribute';
+	public $name = 'InfinitasCommentAttribute';
+	public $table = 'infinitas_comment_attributes';
 
-	var $table = 'infinitas_comment_attributes';
-
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'infinitas_comment_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10),
-		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'val' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'infinitas_comment_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'val' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 5,
 			'infinitas_comment_id' => 3,
@@ -41,4 +47,3 @@ class InfinitasCommentAttributeFixture extends CakeTestFixture {
 		),
 	);
 }
-?>

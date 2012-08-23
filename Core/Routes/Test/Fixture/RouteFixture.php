@@ -1,48 +1,42 @@
 <?php
 /**
- * CoreRouteFixture
+ * @brief fixture file for Route tests.
  *
+ * @package Routes.Fixture
+ * @since 0.9b1
  */
 class RouteFixture extends CakeTestFixture {
 	public $name = 'Route';
-
 	public $table = 'core_routes';
 
-/**
- * Fields
- *
- * @var array
- */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'core' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'url' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'prefix' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'plugin' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'controller' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'values' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'pass' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'rules' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'core' => array('type' => 'boolean', 'null' => false, 'default' => null),
+		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'url' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'prefix' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'plugin' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'controller' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'action' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'values' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'pass' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'rules' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'layout' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'layout' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'order_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
-		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'active_routes' => array('column' => array('ordering', 'active', 'theme_id'), 'unique' => 1)),
+		'ordering' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
+		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'active_routes' => array('column' => array('ordering', 'active', 'theme_id'), 'unique' => 1)
+		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-/**
- * Records
- *
- * @var array
- */
 	public $records = array(
 		array(
 			'id' => 7,
@@ -253,7 +247,7 @@ class RouteFixture extends CakeTestFixture {
 			'action' => '',
 			'values' => 'day:null',
 			'pass' => 'year,month,day',
-			'rules' => 'year:[12][0-9]{3}\r\nmonth:0[1-9]|1[012]\r\nday:0[1-9]|[12][0-9]|3[01]\r\n',
+			'rules' => 'year:[12][0-9]{3}\\r\\nmonth:0[1-9]|1[012]\\r\\nday:0[1-9]|[12][0-9]|3[01]\\r\\n',
 			'force_backend' => 0,
 			'force_frontend' => 1,
 			'layout' => 'front',

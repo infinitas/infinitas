@@ -1,31 +1,37 @@
 <?php
-/* CoreCron Fixture generated on: 2010-12-13 12:12:16 : 1292242636 */
+/**
+ * @brief fixture file for Cron tests.
+ *
+ * @package Crons.Fixture
+ * @since 0.9b1
+ */
 class CronFixture extends CakeTestFixture {
-	var $name = 'Cron';
+	public $name = 'Cron';
+	public $table = 'core_crons';
 
-	var $table = 'core_crons';
-
-	var $fields = array(
-		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'process_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8),
-		'year' => array('type' => 'text', 'null' => false, 'default' => NULL, 'length' => 4),
-		'month' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 2),
-		'day' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 2),
-		'start_time' => array('type' => 'time', 'null' => false, 'default' => NULL),
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'process_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 8),
+		'year' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 4, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'month' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 2),
+		'day' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 2),
+		'start_time' => array('type' => 'time', 'null' => false, 'default' => null),
 		'start_mem' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'start_load' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'end_time' => array('type' => 'time', 'null' => true, 'default' => NULL),
-		'end_mem' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 10),
+		'end_time' => array('type' => 'time', 'null' => true, 'default' => null),
+		'end_mem' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 10),
 		'end_load' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'mem_ave' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'mem_ave' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'load_ave' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 10, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'tasks_ran' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
 		'done' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 3),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => '4cfd9bee-96f4-4b3c-818d-62796318cd70',
 			'process_id' => 25209,
@@ -2388,7 +2394,6 @@ class CronFixture extends CakeTestFixture {
 			'load_ave' => '0',
 			'tasks_ran' => 2,
 			'done' => 1
-		)
+		),
 	);
 }
-?>

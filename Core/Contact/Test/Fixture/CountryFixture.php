@@ -1,26 +1,35 @@
 <?php
-/* CoreCountry Fixture generated on: 2010-08-17 14:08:17 : 1282055117 */
+/**
+ * @brief fixture file for Country tests.
+ *
+ * @package Contact.Fixture
+ * @since 0.9b1
+ */
 class CountryFixture extends CakeTestFixture {
-	var $name = 'Country';
+	public $name = 'Country';
+	public $table = 'contact_countries';
 
-	var $table = 'contact_countries';
-
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'code' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 5),
-		'continent_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 80, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'iso' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 2, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'printable_name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 80, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'iso3' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 3, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'numcode' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 6),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'iso', 'unique' => 1)
+		),
+		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 	);
 
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1,
 			'name' => 'South Africa',
-			'code' => 'ZAF',
-			'continent_id' => 0
+			'iso' => null,
+			'printable_name' => null,
+			'iso3' => null,
+			'numcode' => null
 		),
 	);
 }
-?>

@@ -1,33 +1,47 @@
 <?php
-/* CoreUser Fixture generated on: 2010-08-17 01:08:26 : 1282003706 */
+/**
+ * @brief fixture file for User tests.
+ *
+ * @package Users.Fixture
+ * @since 0.9b1
+ */
 class UserFixture extends CakeTestFixture {
-	var $name = 'User';
+	public $name = 'User';
+	public $table = 'core_users';
 
-	var $table = 'core_users';
-
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
-		'username' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50, 'key' => 'index'),
-		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'password' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 40),
-		'birthday' => array('type' => 'date', 'null' => true, 'default' => NULL),
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'primary', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'username' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'email' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'password' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 40, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'birthday' => array('type' => 'date', 'null' => true, 'default' => null),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'group_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'ip_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'browser' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'operating_system' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'last_login' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'last_click' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'country' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
-		'city' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 150),
+		'group_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'ip_address' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'browser' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'operating_system' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'last_login' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'last_click' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'country' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'city' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'is_mobile' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username' => array('column' => array('username', 'email'), 'unique' => 1)),
+		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'facebook_id' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 20),
+		'twitter_id' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 20, 'key' => 'index'),
+		'time_zone' => array('type' => 'string', 'null' => false, 'default' => 'UTC', 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'full_name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'prefered_name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'username' => array('column' => 'username', 'unique' => 1),
+			'email' => array('column' => 'email', 'unique' => 1),
+			'twitter_id' => array('column' => 'twitter_id', 'unique' => 0)
+		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1,
 			'username' => 'admin',
@@ -45,7 +59,12 @@ class UserFixture extends CakeTestFixture {
 			'city' => '',
 			'is_mobile' => 0,
 			'created' => '2010-02-04 16:54:48',
-			'modified' => '2010-02-04 16:54:48'
+			'modified' => '2010-02-04 16:54:48',
+			'facebook_id' => null,
+			'twitter_id' => null,
+			'time_zone' => 'UTC',
+			'full_name' => 'Admin Guy',
+			'prefered_name' => null
 		),
 		array(
 			'id' => 15,
@@ -64,7 +83,12 @@ class UserFixture extends CakeTestFixture {
 			'city' => '',
 			'is_mobile' => 0,
 			'created' => '2010-05-15 14:35:32',
-			'modified' => '2010-05-15 14:36:19'
+			'modified' => '2010-05-15 14:36:19',
+			'facebook_id' => null,
+			'twitter_id' => null,
+			'time_zone' => 'UTC',
+			'full_name' => null,
+			'prefered_name' => 'dogmatic69'
 		),
 	);
 }

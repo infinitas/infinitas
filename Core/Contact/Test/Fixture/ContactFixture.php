@@ -1,33 +1,39 @@
 <?php
-/* ContactContact Fixture generated on: 2010-08-17 14:08:06 : 1282055106 */
+/**
+ * @brief fixture file for Contact tests.
+ *
+ * @package Contact.Fixture
+ * @since 0.9b1
+ */
 class ContactFixture extends CakeTestFixture {
-	var $name = 'Contact';
+	public $name = 'Contact';
+	public $table = 'contact_contacts';
 
-	var $table = 'contact_contacts';
-
-	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'image' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'first_name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 50),
-		'last_name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'slug' => array('type' => 'string', 'null' => false, 'default' => NULL),
-		'position' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 100),
-		'phone' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
-		'mobile' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),
-		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
-		'skype' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50),
-		'branch_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'ordering' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'configs' => array('type' => 'text', 'null' => false, 'default' => NULL),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+	public $fields = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'image' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'first_name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'last_name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'slug' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'position' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'phone' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'mobile' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'email' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'skype' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'branch_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'ordering' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'configs' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'active' => array('type' => 'boolean', 'null' => false, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	var $records = array(
+	public $records = array(
 		array(
 			'id' => 1,
 			'user_id' => 0,
@@ -68,4 +74,3 @@ class ContactFixture extends CakeTestFixture {
 		),
 	);
 }
-?>
