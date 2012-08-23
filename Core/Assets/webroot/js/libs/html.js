@@ -37,7 +37,8 @@
 		prefix: Infinitas.params.prefix,
 		plugin: Infinitas.params.plugin,
 		controller: Infinitas.params.controller,
-		action: Infinitas.params.action
+		action: Infinitas.params.action,
+		params: {}
 	};
 
 	HtmlHelper.getParams = function(that){
