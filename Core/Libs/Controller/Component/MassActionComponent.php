@@ -256,8 +256,9 @@ class MassActionComponent extends InfinitasComponent {
  * they will be inactive and inactive records will be active.
  *
  * @param array $ids array of ids.
+ * @param string $message optional string you want the notice to display
  */
-	public function toggle($ids) {
+	public function toggle($ids, $message = null) {
 		if(!$this->Controller->{$this->Controller->modelClass}->hasField('active')) {
 			throw new Exception(sprintf('The model "%s" does not have an active field', $this->Controller->modelClass));
 		}
@@ -286,6 +287,16 @@ class MassActionComponent extends InfinitasComponent {
 		if ($this->Controller->{$this->Controller->modelClass}->updateAll($newValues, $conditions)) {
 			$this->Controller->{$this->Controller->modelClass}->afterSave(false);
 
+			
+			if (!empty($message)) {
+				$this->Controller->notice(
+					$message,
+					array(
+						'redirect' => true
+					)
+				);	
+			}
+			
 			$this->Controller->notice(
 				sprintf(__('The %s were toggled'), $this->Controller->prettyModelName),
 				array(
@@ -547,7 +558,8 @@ class MassActionComponent extends InfinitasComponent {
 		if (!empty($ids)) {
 			$url = array_merge($url, $ids);
 		}
-
-		$this->Controller->redirect(array_merge($url, $this->Controller->request->params['named'], (array)$this->request->params['pass']));
+		
+		$this->Controller->redirect(array_merge($url, $this->Controller->request->params['named'], (array)$this->Controller->request->params['pass']));
 	}
+	
 }

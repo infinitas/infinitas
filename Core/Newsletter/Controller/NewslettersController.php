@@ -451,4 +451,38 @@
 				)
 			);
 		}
+
+		public function admin_mass() {
+   			if ($this->MassAction->getAction() == 'send') {
+	        	$ids = $this->{$this->modelClass}->find(
+	            	'list',
+	           			 array(
+	               		 'conditions' => array(
+	                    $this->{$this->modelClass}->alias . '.active' => 0,
+	                    $this->{$this->modelClass}->alias . '.' . $this->{$this->modelClass}->primaryKey => $this->MassAction->getIds($this->MassAction->getAction(), $this->request->data[$this->modelClass])
+	                	)
+	            	)
+	        	);
+
+		        if(empty($ids)) {
+		            $this->notice(
+		                __d('newsletter', 'Nothing to send'),
+		                array(
+		                    'level' => 'warning',
+		                    'redirect' => ''
+		                )
+		            );
+		        }
+ 				
+ 				if (count($ids) == 1) {
+ 					$message = 'Newsletter is now sending';	
+ 				} else {
+ 					$message = 'The Newsletters are now sending';
+ 				}
+ 				
+        		$this->MassAction->toggle(array_keys($ids), $message);
+    		}
+ 
+    		parent::admin_mass();
+		}
 	}
