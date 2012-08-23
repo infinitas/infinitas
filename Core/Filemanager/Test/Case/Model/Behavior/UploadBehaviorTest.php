@@ -132,12 +132,13 @@ class UploadBehaviorTest extends CakeTestCase {
 		$newRecord = $this->TestUpload->findById($this->TestUpload->id);
 		$expectedRecord = array(
 			'TestUpload' => array(
-				'id' => 2,
+				'id' => '2',
 				'photo' => 'Photo.png',
-				'dir' => 2,
+				'dir' => '2',
 				'type' => 'image/png',
-				'size' => 8192,
-				'other_field' => null
+				'size' => '8192',
+				'other_field' => null,
+				'photo_full' => '/files/test_upload/photo/2/Photo.png'
 			)
 		);
 

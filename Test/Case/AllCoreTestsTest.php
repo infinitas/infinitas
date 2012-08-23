@@ -12,6 +12,7 @@ class AllCoreTestsTest extends PHPUnit_Framework_TestSuite {
 		$suite->addTestFile($path . 'AppControllerTest.php');
 		$suite->addTestFile($path . 'AppModelTest.php');
 		$suite->addTestFile($path . 'AppHelperHelperTest.php');
+		$suite->addTestFile($path . 'BootstrapFunctionsTest.php');
 
 		$plugins = App::objects('plugin', APP . 'Core', false);
 		foreach ($plugins as $plugin) {

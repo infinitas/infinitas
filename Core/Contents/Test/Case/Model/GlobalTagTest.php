@@ -103,6 +103,8 @@ class GlobalTagTestCase extends CakeTestCase {
 				'weight' => '2',
 				'created'  => '2008-06-02 18:18:11',
 				'modified'  => '2008-06-02 18:18:37',
+				'meta_keywords' => 'cakephp',
+				'meta_description' => 'cakephp',
 				'description' => 'nice'));
 		$this->assertEquals($expected, $results);
 	}

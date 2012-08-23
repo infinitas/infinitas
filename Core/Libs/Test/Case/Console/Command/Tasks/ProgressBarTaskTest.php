@@ -150,17 +150,19 @@
 		 */
 		public function testSimpleBoundaries() {
 			$this->Task->start(100);
+			$this->Task->setTerminalWidth(80);
+			$this->Task->size = 25;
 			$this->Task->next(50);
 			$this->Task->finish(1);
 
 			$result = end($this->Task->messages());
-			$this->assertPattern('@\[-{15}>] 50.0% 50/100.*remaining$@', $result);
+			$this->assertPattern('@\[-{25}>] 50.0% 50/100.*remaining$@', $result);
 
 			$this->Task->start(100);
 			$this->Task->next(150);
 
 			$result = end($this->Task->messages());
-			$this->assertPattern('@\[-{15}>\] 150.0% 150/100.*remaining$@', $result);
+			$this->assertPattern('@\[-{12}>\] 150.0% 150/100.*remaining$@', $result);
 		}
 
 		/**

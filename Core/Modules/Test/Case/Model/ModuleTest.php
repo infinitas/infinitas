@@ -20,8 +20,9 @@ class ModuleTestCase extends CakeTestCase {
  * @brief test startup
  */
 	public function startTest() {
-		$this->Module = new Module();
+		$this->Module = ClassRegistry::init('Modules.Module');
 		$this->Module->Behaviors->attach('Libs.Validation');
+		$this->Module->Behaviors->detach('Lockable');
 	}
 
 /**
@@ -52,7 +53,8 @@ class ModuleTestCase extends CakeTestCase {
 	public function testSave($data, $expected) {
 		$this->Module->create();
 		$this->assertTrue((bool)$this->Module->save($data));
-		$result = $this->Module->read();
+		$result = $this->Module->find('first', array('conditions' => array('Module.id' => $this->Module->id)));
+
 		$this->assertTrue(is_array($result['Module']));
 		$this->assertTrue(is_array($result['ModuleRoute']));
 		$this->assertEquals(array(), $this->Module->validationErrors);
@@ -285,16 +287,19 @@ class ModuleTestCase extends CakeTestCase {
 									'url' => null,
 									'name' => null))),
 					'Position' => array(
-
+						'id' => 'module-position-custom1',
+						'name' => 'custom1'
 					),
 					'Theme' => array(
-
+						'id' => null,
+						'name' => null
 					),
 					'Group' => array(
-
+						'id' => '2',
+						'name' => 'Users'
 					),
 					'Route' => array(
-
+						
 					))),
 			array(
 				array('module' => 'login', 'admin' => true), false),

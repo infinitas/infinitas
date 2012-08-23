@@ -178,18 +178,24 @@ class ConfigTestCase extends CakeTestCase {
 		$expected = array(
 			array(
 				'Config' => array(
-					'id' => 9, 'key' => 'Website.description',
+					'id' => '9',
+					'key' => 'Website.description',
 					'value' => 'Infinitas Cms is a open source content management system that is designed to be fast and user friendly, with all the features you need.',
-					'type' => 'string', 'options' => null,
-					'description' => 'This is the main description about the site', 'core' => 0
+					'type' => 'string',
+					'options' => '',
+					'created' => null,
+					'modified' => null
 				)
 			),
 			array(
 				'Config' => array(
-					'id' => 8, 'key' => 'Website.name', 'value' => 'Infinitas Cms',
-					'type' => 'string', 'options' => null,
-					'description' => '<p>This is the name of the site that will be used in emails and on the website its self</p>',
-					'core' => 0
+					'id' => '8',
+					'key' => 'Website.name',
+					'value' => 'Infinitas Cms',
+					'type' => 'string',
+					'options' => '',
+					'created' => null,
+					'modified' => null
 				)
 			)
 		);

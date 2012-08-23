@@ -3,17 +3,18 @@
 	App::uses('Cron', 'Crons.Model');
 
 	class CronTest extends CakeTestCase {
-		var $fixtures = array(
+		public $fixtures = array(
 			'plugin.crons.cron'
 		);
 
-		function startTest() {
+		public function setUp() {
+			parent::setUp();
 			$this->Cron = ClassRegistry::init('Crons.Cron');
 		}
 
-		function endTest() {
+		public function tearDown() {
+			parent::tearDown();
 			unset($this->Cron);
-			ClassRegistry::flush();
 		}
 
 		/**

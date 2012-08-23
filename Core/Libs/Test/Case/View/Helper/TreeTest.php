@@ -1,7 +1,7 @@
 <?php
 	App::import('lib', 'libs.test/app_model_test.php');
 
-	App::import('Helper', 'Libs.Tree');
+	App::uses('TreeHelper', 'Libs.View/Helper');
 
 	if(!class_exists('ScopedNumberTree')) {
 		class ScopedNumberTree extends CakeTestModel {
@@ -13,25 +13,19 @@
 	 * TreeHelperTest class
 	 */
 	class TreeHelperTest extends CakeTestCase {
-
-		public $setup = array(
-			'model' => 'Libs.ScopedNumberTree',
-			'fixtures' => array(
-				'do' => array(
-					'Libs.ScopedNumberTree'
-				)
-			)
+		public $fixtures = array(
+			'plugin.libs.scoped_number_tree'
 		);
 
-		var $fixtures = array('plugin.libs.ScopedNumberTree');
-
-		function startTest($method) {
+		public function startTest($method) {
 			parent::startTest($method);
 
-			$this->Tree = new TreeHelper();
+			$this->View = new View(null);
+			$this->Tree = new TreeHelper($this->View);
+			$this->ScopedNumberTree = ClassRegistry::init('ScopedNumberTree');
 		}
 
-		function testSettings() {
+		public function testSettings() {
 			$data = array('one', 'two', 'tree');
 
 			$this->Tree->settings(array(
@@ -49,7 +43,7 @@
 			$this->assertEqual($expected, $this->Tree->settings);
 		}
 
-		function testFullTree() {
+		public function testFullTree() {
 			$data = $this->ScopedNumberTree->children(array('scope' => 'cat-a'));
 
 			$this->Tree->settings(array(
@@ -116,7 +110,7 @@
 			$this->assertEqual($expected, $this->Tree->settings);
 		}
 
-		function testSubTree() {
+		public function testSubTree() {
 			$data = $this->ScopedNumberTree->children('cat-b-3');
 
 			$this->Tree->settings(array(
@@ -155,7 +149,7 @@
 			$this->assertEqual($expected, $nodeInfo);
 		}
 
-		function testFilteredTree() {
+		public function testFilteredTree() {
 			//Build conditions to get only a filtered list
 			$conditions = array(
 				'OR' => array(
