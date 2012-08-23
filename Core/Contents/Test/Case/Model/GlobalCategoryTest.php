@@ -41,7 +41,11 @@ class GlobalCategoryTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Category->getActiveIds();
-		$expected = array(1 => 1, 2 => 2, 3 => 3);
+		$expected = array(
+			'category-1' => 'category-1',
+			'category-2' => 'category-2',
+			'category-2a' => 'category-2a'
+		);
 		$this->assertEquals($expected, $result);
 	}
 }

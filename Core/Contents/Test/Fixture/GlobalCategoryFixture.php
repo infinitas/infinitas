@@ -6,7 +6,7 @@
  * @since 0.9b1
  */
 class GlobalCategoryFixture extends CakeTestFixture {
-	public $table = 'GlobalCategory';
+	public $table = 'global_categories';
 
 	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'primary', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
