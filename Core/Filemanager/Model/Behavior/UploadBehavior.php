@@ -89,8 +89,9 @@ class UploadBehavior extends ModelBehavior {
 		$this->settings[$Model->alias] = array();
 
 		foreach ($config as $field => $options) {
-			if(!$Model->hasField($field)) {
-				throw new InvalidArgumentException(sprintf('Model "%s" does not contain the field "%s"', $Model->name, $field));
+			if (is_int($field)) {
+				$field = $options;
+				$options = array();
 			}
 
 			$this->_setupField($Model, $field, $options);
@@ -166,11 +167,6 @@ class UploadBehavior extends ModelBehavior {
  * @author Jose Diaz-Gonzalez
  */
 	public function _setupField(&$model, $field, $options) {
-		if (is_int($field)) {
-			$field = $options;
-			$options = array();
-		}
-
 		$this->defaults['rootDir'] = ROOT . DS . APP_DIR . DS;
 		if (!isset($this->settings[$model->alias][$field])) {
 			$options = array_merge($this->defaults, (array) $options);

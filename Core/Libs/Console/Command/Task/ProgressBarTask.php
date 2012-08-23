@@ -205,7 +205,7 @@
 			$this->total = $total;
 			$this->done = 0;
 			$this->startTime = time();
-			$this->_setTerminalWidth();
+			$this->setTerminalWidth();
 			if ($clear) {
 				$this->out('', 1);
 			}
@@ -242,10 +242,12 @@
 		 *
 		 * @TODO can you get windows to tell you the size of the terminal?
 		 * @param mixed $width null
+		 * 
 		 * @return void
-		 * @access protected
+		 *
+		 * @access public
 		 */
-		protected function _setTerminalWidth($width = null) {
+		public function setTerminalWidth($width = null) {
 			if ($width === null) {
 				if (DS === '/') {
 					$width = `tput cols`;

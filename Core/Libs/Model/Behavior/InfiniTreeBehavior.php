@@ -27,7 +27,7 @@
 		 * @return void
 		 * @access public
 		 */
-		public function setup($Model, $config = array()) {
+		public function setup(Model $Model, $config = array()) {
 
 			$defaults = array(
 				'scopeField' => false,
@@ -61,7 +61,7 @@
 		 * @return boolean true on success, false on failure
 		 * @access public
 		 */
-		public function afterSave($Model, $created) {
+		public function afterSave(Model $Model, $created) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model, $Model->data[$Model->alias]);
 			}
@@ -96,7 +96,7 @@
 		 * @return boolean true to continue, false to abort the delete
 		 * @access public
 		 */
-		public function beforeDelete($Model) {
+		public function beforeDelete(Model $Model) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model);
 			}
@@ -115,7 +115,7 @@
 		 * @return boolean true to continue, false to abort the delete
 		 * @access public
 		 */
-		public function afterDelete($Model) {
+		public function afterDelete(Model $Model) {
 			if($this->counterCacheEnabled($Model) && $this->__parentId) {
 				$this->updateTreeCounterCache($Model, $this->__parentId);
 			}
@@ -123,7 +123,7 @@
 			return parent::afterDelete($Model);
 		}
 
-		public function beforeSave($Model) {
+		public function beforeSave(Model $Model) {
 			if($this->scoped($Model)) {
 				if(!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
 					if(!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
@@ -159,7 +159,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1347/Counting-children
 		 */
-		public function childcount($Model, $id = null, $direct = false) {
+		public function childcount(Model $Model, $id = null, $direct = false) {
 			if($this->scoped($Model)) {
 				if(empty($id)) {
 					return false;
@@ -196,7 +196,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1346/Children
 		 */
-		public function children($Model, $id = null, $direct = false, $fields = null, $order = null, $limit = null, $page = 1, $recursive = null) {
+		public function children(Model $Model, $id = null, $direct = false, $fields = null, $order = null, $limit = null, $page = 1, $recursive = null) {
 			if($this->scoped($Model)) {
 				if(empty($id)) {
 					return false;
@@ -223,7 +223,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1348/generateTreeList
 		 */
-		public function generateTreeList($Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
+		public function generateTreeList(Model $Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model, $conditions);
 			}
@@ -244,9 +244,9 @@
 		 * @param integer $recursive The number of levels deep to fetch associated records
 		 * @return array Array of nodes from top most parent to current node
 		 * @access public
-		 * @link http://book.cakephp.org/view/1350/getpath
+		 * @link http://book.cakephp.org/view/1350/getPath
 		 */
-		public function getpath($Model, $id = null, $fields = null, $recursive = null) {
+		public function getPath(Model $Model, $id = null, $fields = null, $recursive = null) {
 			if($this->scoped($Model)) {
 				$id = $this->__setScopeFromId($Model, $id);
 
@@ -255,7 +255,7 @@
 				}
 			}
 
-			return parent::getpath($Model, $id, $fields, $recursive);
+			return parent::getPath($Model, $id, $fields, $recursive);
 		}
 
 		/**
@@ -270,7 +270,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1352/moveDown
 		 */
-		public function movedown($Model, $id = null, $number = 1) {
+		public function movedown(Model $Model, $id = null, $number = 1) {
 			if($this->scoped($Model)) {
 				$id = $this->__setScopeFromId($Model, $id);
 
@@ -294,7 +294,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1353/moveUp
 		 */
-		public function moveup($Model, $id = null, $number = 1) {
+		public function moveup(Model $Model, $id = null, $number = 1) {
 			if($this->scoped($Model)) {
 				if(empty($id)) {
 					return false;
@@ -324,7 +324,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1628/Recover
 		 */
-		public function recover($Model, $mode = 'parent', $missingParentAction = null, $scope = null) {
+		public function recover(Model $Model, $mode = 'parent', $missingParentAction = null, $scope = null) {
 			if($this->scoped($Model)) {
 				if(empty($scope)) {
 					return false;
@@ -360,7 +360,7 @@
 		 * @link http://book.cakephp.org/view/1355/reorder
 		 * @link http://book.cakephp.org/view/1629/Reorder
 		 */
-		public function reorder($Model, $options = array()) {
+		public function reorder(Model $Model, $options = array()) {
 			if($this->scoped($Model)) {
 				if(empty($options[$Model->primaryKey]) && empty($options['scope'])) {
 					return false;
@@ -396,7 +396,7 @@
 		 * @access public
 		 * @link http://book.cakephp.org/view/1354/removeFromTree
 		 */
-		public function removefromtree($Model, $id = null, $delete = false, $scopeField = null) {
+		public function removefromtree(Model $Model, $id = null, $delete = false, $scopeField = null) {
 			if($this->scoped($Model)) {
 				$id = $this->__setScopeFromId($Model, $id);
 
@@ -421,7 +421,7 @@
 		 * @link http://book.cakephp.org/view/1630/Verify
 		 */
 
-		public function verify($Model, $scope = null) {
+		public function verify(Model $Model, $scope = null) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model, $scope);
 			}
@@ -501,7 +501,7 @@
 		 * @return mixed true if succesfully saved or false on error
 		 * @access public
 		 */
-		public function treeSave($Model, $data = array(), $options = array()) {
+		public function treeSave(Model $Model, $data = array(), $options = array()) {
 			if(empty($data)) {
 				return false;
 			}
@@ -525,7 +525,7 @@
 			return false;
 		}
 
-		public function scoped($Model) {
+		public function scoped(Model $Model) {
 			return !empty($this->settings[$Model->alias]['scopeField']);
 		}
 
@@ -539,10 +539,11 @@
 		 *
 		 * @return Array model data
 		 */
-		public function updateTreeCounterCache($Model, $id=null) {
+		public function updateTreeCounterCache(Model $Model, $id=null) {
 			if(is_null($id)) {
 				$id = $Model->id;
 			}
+
 			if(!$id) {
 				return false;
 			}
@@ -557,30 +558,21 @@
 
 			$counts = array();
 
-			//Calculate children count
 			if($this->settings[$Model->alias]['counterCache']) {
-				//Take a shortcut if we dont do any extra conditions
-				if(empty($this->settings[$Model->alias]['conditions'])) {
-					$childrenCount = ($node[$Model->alias][$this->settings[$Model->alias]['right']] - $node[$Model->alias][$this->settings[$Model->alias]['left']] - 1) / 2;
-				} else {
-					$childrenCount = $Model->find('count', array(
-						'conditions' => array(
-							array_merge(array(), array(
-								$Model->alias . '.' . $this->settings[$Model->alias]['left'] . ' >' => $node[$Model->alias][$this->settings[$Model->alias]['left']],
-								$Model->alias . '.' . $this->settings[$Model->alias]['right'] . ' <' => $node[$Model->alias][$this->settings[$Model->alias]['right']],
-								$this->settings[$Model->alias]['scope']
-							))
-						),
-						'contain' => false
-					));
-				}
-
-				$counts[$this->settings[$Model->alias]['counterCache']] = $childrenCount;
+				$counts[$this->settings[$Model->alias]['counterCache']] = $Model->find('count', array(
+					'conditions' => array(
+						array_merge(array(), array(
+							$Model->alias . '.' . $this->settings[$Model->alias]['left'] . ' >' => $node[$Model->alias][$this->settings[$Model->alias]['left']],
+							$Model->alias . '.' . $this->settings[$Model->alias]['right'] . ' <' => $node[$Model->alias][$this->settings[$Model->alias]['right']],
+							$this->settings[$Model->alias]['scope']
+						))
+					),
+					'contain' => false
+				));
 			}
 
-			//Calculate direct children count
 			if($this->settings[$Model->alias]['directCounterCache']) {
-				$directChildrenCount = $Model->find('count', array(
+				$counts[$this->settings[$Model->alias]['directCounterCache']] = $Model->find('count', array(
 					'conditions' => array(
 						array_merge(array(), array(
 							$Model->alias . '.' . $this->settings[$Model->alias]['parent'] => $id,
@@ -589,11 +581,17 @@
 					),
 					'contain' => false
 				));
-
-				$counts[$this->settings[$Model->alias]['directCounterCache']] = $directChildrenCount;
 			}
+
 			$Model->id = $id;
-			$result = $Model->save(array($Model->alias => $counts), array('fieldList' => array_keys($counts), 'validate' => false, 'callbacks' => false));
+			$result = $Model->save(
+				array($Model->alias => $counts),
+				array(
+					'fieldList' => array_keys($counts),
+					'validate' => false,
+					'callbacks' => false
+				)
+			);
 
 			if(!empty($node[$Model->alias][$this->settings[$Model->alias]['parent']])) {
 				$this->updateTreeCounterCache($Model, $node[$Model->alias][$this->settings[$Model->alias]['parent']]);
@@ -617,7 +615,7 @@
 		 *
 		 * @return Array model data
 		 */
-		private function __getNodeInfo($Model, $id) {
+		private function __getNodeInfo(Model $Model, $id) {
 			$node = $Model->find('first', array(
 				'conditions' => array(
 					$Model->alias . '.' . $Model->primaryKey => $id
@@ -642,7 +640,7 @@
 		 *
 		 * @return Array model data
 		 */
-		public function counterCacheEnabled($Model) {
+		public function counterCacheEnabled(Model $Model) {
 			return $this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache'];
 		}
 
@@ -656,7 +654,7 @@
 		 * @return mixed true if succesfully saved or false on error
 		 * @access private
 		 */
-		private function __doTreeSave($Model, $data, $options = array()) {
+		private function __doTreeSave(Model $Model, $data, $options = array()) {
 			$return = false;
 
 			//Special case in the first run
@@ -694,7 +692,7 @@
 		 * @return string The id value that the original tree behavior expects as the id parameter
 		 * @access private
 		 */
-		private function __setScopeFromId($Model, $id) {
+		private function __setScopeFromId(Model $Model, $id) {
 			if($this->scoped($Model)) {
 				$scope = false;
 
@@ -736,7 +734,7 @@
 		 * @return bool True on success false if the scope couldnt be found.
 		 * @access private
 		 */
-		private function __setScope($Model, $data = null, $beforeSave = false) {
+		private function __setScope(Model $Model, $data = null, $beforeSave = false) {
 			$scope = null;
 
 			//Is the scope given as an id?
@@ -777,7 +775,7 @@
 		 * @return mixed The scope value.
 		 * @access private
 		 */
-		private function __getScopeFromId($Model, $id) {
+		private function __getScopeFromId(Model $Model, $id) {
 			$data = $Model->find('first', array(
 				'fields' => $this->settings[$Model->alias]['scopeField'],
 				'conditions' => array(

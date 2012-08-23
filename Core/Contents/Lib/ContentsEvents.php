@@ -99,7 +99,18 @@ final class ContentsEvents extends AppEvents {
 			'change_frequency' => $frequency
 		);
 
-		$categories = $Category->find('list', array('fields' => array('GlobalCategory.id', 'GlobalCategory.slug')));
+		$categories = ClassRegistry::init('Contents.GlobalContent')->find(
+			'list',
+			array(
+				'fields' => array(
+					'GlobalContent.foreign_key',
+					'GlobalContent.slug'
+				),
+				'conditions' => array(
+					'GlobalContent.model' => 'Contents.GlobalCategory'
+				)
+			)
+		);
 		foreach($categories as $category) {
 			$return[] = array(
 				'url' => Router::url(
