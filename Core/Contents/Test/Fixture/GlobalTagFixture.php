@@ -6,7 +6,6 @@
  * @since 0.9b1
  */
 class GlobalTagFixture extends CakeTestFixture {
-	public $name = 'GlobalTag';
 	public $table = 'global_tags';
 
 	public $fields = array(

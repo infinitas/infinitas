@@ -26,29 +26,22 @@ App::uses('Model', 'Model');
 
 class Article extends AppModel {
 	public $useTable = 'articles';
+
 	public $belongsTo = array();
+
 	public $hasAndBelongsToMany = array();
+
 	public $hasMany = array();
+
 	public $hasOne = array();
-	public $actsAs = array('Contents.Taggable', 'Containable');
+
+	public $actsAs = array(
+		'Contents.Taggable',
+		'Containable'
+	);
 }
 
 class TaggableBehaviorTest extends CakeTestCase {
-/**
- * Plugin name used for fixtures loading
- *
- * @var string
- * @access public
- */
-	public $plugin = 'contents';
-
-/**
- * Holds the instance of the model
- *
- * @var mixed $UsersAddon
- * @access public
- */
-	public $Article = null;
 
 /**
  * Fixtures associated with this test case
@@ -58,10 +51,10 @@ class TaggableBehaviorTest extends CakeTestCase {
  * @access public
  */
 	public $fixtures = array(
+		'plugin.installer.plugin',
 		'plugin.contents.global_tagged',
 		'plugin.contents.global_tag',
-		'plugin.contents.article',
-		'plugin.installer.plugin'
+		'plugin.contents.article'
 	);
 
 /**
