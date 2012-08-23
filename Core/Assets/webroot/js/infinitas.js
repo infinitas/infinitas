@@ -34,6 +34,7 @@ switch(Infinitas.params.prefix) {
 			setupDatePicker();
 			setupAjaxPagination();
 			setupRowDetails();
+			setupHrefToggle();
 
 			$(document).bind('keydown', 'ctrl+s', function(event) {
 				if(event.ctrlKey && event.which == 83) { // ctrl+s
@@ -91,8 +92,20 @@ switch(Infinitas.params.prefix) {
 
 			///$("#accordion").accordion({collapsible: true});
 			setupAjaxDropdowns();
+			setupHrefToggle();
 		});
 		break;
+}
+
+function setupHrefToggle() {
+	$('a.toggle-target').live('click', function(){
+		var target = $(this).data('target');
+
+		if(target) {
+			$(target).toggle();
+			return false;
+		}
+	});
 }
 
 function setupRowDetails() {
