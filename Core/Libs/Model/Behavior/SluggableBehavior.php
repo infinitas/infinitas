@@ -61,21 +61,21 @@
 
 			$field = $Model->schema($this->__settings[$Model->alias]['slug']);
 			$this->__settings[$Model->alias]['length'] = $field['length'];
-			
+
 			if (!is_array($this->__settings[$Model->alias]['label'])) {
 				$this->__settings[$Model->alias]['label'] = array($this->__settings[$Model->alias]['label']);
 			}
-			
+
 			foreach ($this->__settings[$Model->alias]['label'] as $k => $field) {
 				if (!$Model->hasField($field)) {
 					unset($this->__settings[$Model->alias]['label'][$k]);
 				}
-				
+
 				if($field == $this->__settings[$Model->alias]['slug']) {
 					throw new Exception(sprintf('Model "%s" can not slug its slug field "%s"', $Model->alias, $this->__settings[$Model->alias]['slug']));
 				}
 			}
-			
+
 			if(empty($this->__settings[$Model->alias]['label'])) {
 				throw new Exception(sprintf('Model "%s" has no sluggable fields', $Model->alias));
 			}
@@ -94,22 +94,22 @@
 		 */
 		public function beforeSave($Model) {
 			$return = parent::beforeSave($Model);
-			
+
 			$isBlank = false;
 			if(isset($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']]) && empty($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']])) {
 				$isBlank = true;
 			}
-			
+
 			$shouldSlug = $Model->hasField($this->__settings[$Model->alias]['slug']) && (
-				$isBlank || 
-				$this->__settings[$Model->alias]['overwrite'] || 
+				$isBlank ||
+				$this->__settings[$Model->alias]['overwrite'] ||
 				empty($Model->id)
 			);
-			
+
 			if(!$shouldSlug) {
 				return $return;
 			}
-			
+
 			$label = '';
 			foreach ($this->__settings[$Model->alias]['label'] as $field) {
 				if (!empty($Model->data[$Model->alias][$field])) {
@@ -120,9 +120,11 @@
 			if (empty($label)) {
 				return $return;
 			}
-			
+
 			$slug = $this->__slug($label, $this->__settings[$Model->alias]);
-			$conditions = array($Model->alias . '.' . $this->__settings[$Model->alias]['slug'] => 'LIKE ' . $slug . '%');
+			$conditions = array(
+				sprintf('%s.%s LIKE', $Model->alias, $this->__settings[$Model->alias]['slug']) => $slug . '%'
+			);
 
 			if (!empty($Model->id)) {
 				$conditions[$Model->alias . '.' . $Model->primaryKey] = '!= ' . $Model->id;
