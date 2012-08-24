@@ -315,13 +315,17 @@
 		 * parameter only applies to "parent" mode and determines what to do if the parent field contains an id that is not present.
 		 *
 		 * @todo Could be written to be faster, *maybe*. Ideally using a subquery and putting all the logic burden on the DB.
+		 *
 		 * @param AppModel $Model Model instance
 		 * @param string $mode parent or tree
 		 * @param mixed $missingParentAction 'return' to do nothing and return, 'delete' to
 		 * delete, or the id of the parent to set as the parent_id
 		 * @param string $scope The scopeField to select which tree to recover
+		 *
 		 * @return boolean true on success, false on failure
+		 *
 		 * @access public
+		 *
 		 * @link http://book.cakephp.org/view/1628/Recover
 		 */
 		public function recover(Model $Model, $mode = 'parent', $missingParentAction = null, $scope = null) {

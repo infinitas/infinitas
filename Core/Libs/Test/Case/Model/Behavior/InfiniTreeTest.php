@@ -33,6 +33,54 @@ class ScopedNumberTreeTest extends CakeTestCase {
 		$this->assertIdentical($validTree, true);
 	}
 
+	public function testRecoverFromParent() {
+		$this->ScopedNumberTree->Behaviors->disable('InfiniTree');
+		$this->ScopedNumberTree->deleteAll(array('ScopedNumberTree.id !=' => 0));
+		$data = array(
+			array(
+				'id' => '1',
+				'name' => '1',
+				'category_id' => 'cat-1',
+				'parent_id' => null
+			),
+			array(
+				'id' => '1-1',
+				'name' => '1-1',
+				'category_id' => 'cat-1',
+				'parent_id' => '1'
+			),
+			array(
+				'id' => '1-1-1',
+				'name' => '1-1-1',
+				'category_id' => 'cat-1',
+				'parent_id' => '1-1'
+			)
+		);
+		$this->ScopedNumberTree->create();
+		$this->assertTrue((bool)$this->ScopedNumberTree->saveAll($data));
+
+		$results = $this->ScopedNumberTree->find('all');
+		$parent = array_unique(Set::extract($results, '/ScopedNumberTree/parent_id'));
+		$lft = current(array_unique(Set::extract($results, '/ScopedNumberTree/lft')));
+		$rght = current(array_unique(Set::extract($results, '/ScopedNumberTree/rght')));
+
+		$this->assertEquals(array(null, '1', '1-1'), $parent);
+		$this->assertEquals(0, $lft);
+		$this->assertEquals(0, $rght);
+
+		$this->ScopedNumberTree->Behaviors->enable('InfiniTree');
+		$this->assertTrue($this->ScopedNumberTree->recover('parent', null, 'cat-1'));
+
+		$results = $this->ScopedNumberTree->find('all');
+		$parent = array_unique(Set::extract($results, '/ScopedNumberTree/parent_id'));
+		$lft = array_unique(Set::extract($results, '/ScopedNumberTree/lft'));
+		$rght = array_unique(Set::extract($results, '/ScopedNumberTree/rght'));
+
+		$this->assertEquals(array(null, '1', '1-1'), $parent);
+		$this->assertEquals(array(1, 2, 3), $lft);
+		$this->assertEquals(array(6, 5, 4), $rght);
+	}
+
 	public function testTreeSave() {
 		//Test invalid values
 		$this->assertFalse($this->ScopedNumberTree->treeSave());
