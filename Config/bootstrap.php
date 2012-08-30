@@ -36,6 +36,7 @@
 	App::uses('AppModel', 'Model');
 	App::uses('AppController', 'Controller');
 	App::uses('AppHelper', 'View/Helper');
+	App::uses('InfinitasEmail', 'Core/Emails/Network/Email');
 
 	App::uses('ClearCache', 'Data.Lib');
 	App::uses('EventCore', 'Events.Lib');

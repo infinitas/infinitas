@@ -27,7 +27,7 @@
 <h3><?php echo __('Test in a mail client'); ?></h3>
 <?php
     echo $this->Form->create('Newsletter', array('action' => 'view'));
-    echo '<p>', __('Enter the email addresses you would like to send to seperated by a , {comma}.'), '</p>';
+    echo '<p>', __('Enter the email addresses you would like to send to seperated by a , {comma} (but with no spaces)'), '</p>';
     echo $this->Form->input('id', array('value' => $this->data['Newsletter']['id']));
     echo $this->Form->input('email_addresses', array('type' => 'textarea', 'class' => 'title'));
     echo $this->Form->end('Send the test');
