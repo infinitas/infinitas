@@ -10,7 +10,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Feeds' => array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'index')
 			);
@@ -27,7 +27,7 @@
 			);
 		}
 
-		public function onSetupExtensions() {
+		public function onSetupExtensions($event) {
 			return array(
 				'rss'
 			);
@@ -37,7 +37,7 @@
 			return ClassRegistry::init('Feed.Feed')->listFeeds();
 		}
 
-		public function onSlugUrl($event, $data) {
+		public function onSlugUrl($event, $data = null, $type = null) {
 			return array(
 				'html' => array(
 					'plugin' => 'feed',
@@ -55,7 +55,7 @@
 			);
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			InfinitasRouter::connect(
 				'/feeds/subscribe/:slug',
 				array(

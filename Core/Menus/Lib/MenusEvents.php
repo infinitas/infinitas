@@ -22,7 +22,7 @@
 	 */
 
 	final class MenusEvents extends AppEvents {
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'menus',
 				'config' => array(
@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Menus' => array('controller' => false, 'action' => false),
@@ -41,7 +41,7 @@
 			return $menu;
 		}
 
-		public function onRequireHelpersToLoad($event) {
+		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'Menus.Menu'
 			);

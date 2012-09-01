@@ -3,7 +3,7 @@
 		public function onPluginRollCall() {
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'core',
 				'config' => array(
@@ -12,7 +12,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Configuration' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site')
 			);
@@ -20,7 +20,7 @@
 			return $menu;
 		}
 
-		public function onSlugUrl($event, $data) {
+		public function onSlugUrl($event, $data = null, $type = null) {
 			switch($data['type']) {
 				case 'comments':
 					return array(
@@ -34,7 +34,7 @@
 			} // switch
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			InfinitasRouter::connect(
 				'/admin',
 				array(

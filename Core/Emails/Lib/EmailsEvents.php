@@ -8,7 +8,7 @@
 			);
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'emails',
 				'config' => array(
@@ -27,7 +27,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('controller' => 'mail_systems', 'action' => 'dashboard'),
 				'Accounts' => array('controller' => 'email_accounts', 'action' => 'index'),
@@ -36,7 +36,7 @@
 			return $menu;
 		}
 
-		public function onSlugUrl($event, $data) {
+		public function onSlugUrl($event, $data = null, $type = null) {
 			switch($data['type']) {
 				case 'inbox':
 					return array(
@@ -78,7 +78,7 @@
 			}
 		}
 
-		public function onSetupRoutes($event) {
+		public function onSetupRoutes($event, $data = null) {
 			// dashboard
 			InfinitasRouter::connect(
 				'/admin/mail',

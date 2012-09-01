@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard'),
 				'Campaigns' => array('plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index'),
@@ -42,7 +42,7 @@
 			return $menu;
 		}
 		 
-		public function onRequireComponentsToLoad() {
+		public function onRequireComponentsToLoad($event = null) {
 			return array(
 				'Email',
 				'Newsletter.Emailer'

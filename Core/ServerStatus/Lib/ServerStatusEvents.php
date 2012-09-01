@@ -1,6 +1,6 @@
 <?php
 	final class ServerStatusEvents extends AppEvents {
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main']['Dashboard'] = array('controller' => 'server_status', 'action' => 'dashboard');
 			switch($event->Handler->params['controller']) {
 				case 'php':
@@ -12,7 +12,7 @@
 			return $menu;
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			InfinitasRouter::connect(
 				'/admin/server_status',
 				array(

@@ -21,7 +21,7 @@
 	 */
 
 	final class GoogleEvents extends AppEvents {
-		public function onRequireHelpersToLoad() {
+		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'Google.Chart'
 			);

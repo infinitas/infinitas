@@ -1,6 +1,6 @@
 <?php
 	final class TrashEvents extends AppEvents{
-		public function onAttachBehaviors($event) {
+		public function onAttachBehaviors($event = null) {
 			if($event->Handler->shouldAutoAttachBehavior()) {
 				$noTrashModels = array(
 					'Session', 'SchemaMigration', 'Config',
@@ -17,7 +17,7 @@
 			}
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Trash' => array('controller' => 'trash', 'action' => 'index')

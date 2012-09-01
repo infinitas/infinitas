@@ -19,7 +19,7 @@
 	 */
 
 	final class ViewCounterEvents extends AppEvents {
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'dashboard'),
 				'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports'),
@@ -49,13 +49,13 @@
 			);
 		}
 
-		public function onRequireComponentsToLoad() {
+		public function onRequireComponentsToLoad($event = null) {
 			return array(
 				'ViewCounter.ViewCounter'
 			);
 		}
 
-		public function onRequireHelpersToLoad() {
+		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'ViewCounter.ViewCounter'
 			);
@@ -145,7 +145,7 @@
 		/**
 		 * attach the reporting behavior for models with views
 		 */
-		public function onAttachBehaviors($event) {
+		public function onAttachBehaviors($event = null) {
 			if($event->Handler->shouldAutoAttachBehavior()) {
 				if ($event->Handler->hasField('views')) {
 					$event->Handler->Behaviors->attach('ViewCounter.ViewableReporting');

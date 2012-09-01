@@ -19,7 +19,7 @@
 	Configure::load('Contact.config');
 
 	final class ContactEvents extends AppEvents{
-		public function onAdminMenu($event) {			
+		public function onAdminMenu() {			
 			$menu['main'] = array(
 				'Branches' => array('plugin' => 'contact', 'controller' => 'branches', 'action' => 'index'),
 				'Contacts' => array('plugin' => 'contact', 'controller' => 'contacts', 'action' => 'index')
@@ -28,13 +28,13 @@
 			return $menu;
 		}
 		
-		public function onRequireCssToLoad($event) {
+		public function onRequireCssToLoad($event, $data = null) {
 			return array(
 				'Contact.contact'
 			);
 		}
 
-		public function onSetupExtensions() {
+		public function onSetupExtensions($event) {
 			return array(
 				'vcf'
 			);

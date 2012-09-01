@@ -19,7 +19,7 @@
 	 */
 
 	final class ShortUrlsEvents extends AppEvents{
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Short Urls' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
@@ -28,7 +28,7 @@
 			return $menu;
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			// preview
 			InfinitasRouter::connect(
 				'/s/p/*',
@@ -54,7 +54,7 @@
 			
 		}
 
-		public function onSlugUrl($event, $data) {
+		public function onSlugUrl($event, $data = null, $data = null) {
 			$data['type'] = isset($data['type']) ? $data['type'] : '';
 			switch($data['type']) {
 				case 'preview':

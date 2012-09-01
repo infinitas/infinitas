@@ -22,7 +22,7 @@
 	}
 	
 	final class ModulesEvents extends AppEvents {
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'modules',
 				'config' => array(
@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'All' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index'),
 				'Frontend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0),
@@ -42,7 +42,7 @@
 			return $menu;
 		}
 
-		public function onRequireHelpersToLoad($event) {
+		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'Modules.ModuleLoader'
 			);

@@ -28,7 +28,7 @@ final class ContentsEvents extends AppEvents {
 		);
 	}
 
-	public function onAdminMenu($event) {
+	public function onAdminMenu() {
 		$menu['main'] = array(
 			'Dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'dashboard'),
 			'Layouts' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index'),
@@ -40,7 +40,7 @@ final class ContentsEvents extends AppEvents {
 		return $menu;
 	}
 
-	public function onAttachBehaviors($event) {
+	public function onAttachBehaviors($event = null) {
 		if($event->Handler->shouldAutoAttachBehavior()) {
 			if (isset($event->Handler->contentable) && $event->Handler->contentable && !$event->Handler->Behaviors->enabled('Contents.Contentable')) {
 				$event->Handler->Behaviors->attach('Contents.Contentable');
@@ -58,21 +58,21 @@ final class ContentsEvents extends AppEvents {
 		);
 	}
 
-	public function onRequireHelpersToLoad() {
+	public function onRequireHelpersToLoad($event = null) {
 		return array(
 			'Contents.TagCloud',
 			'Contents.GlobalContents'
 		);
 	}
 
-	public function onRequireJavascriptToLoad($event) {
+	public function onRequireJavascriptToLoad($event, $data = null) {
 		return array(
 			'Contents.jq-tags',
 			'Contents.tags'
 		);
 	}
 
-	public function onRequireCssToLoad($event) {
+	public function onRequireCssToLoad($event, $data = null) {
 		return array(
 			'Contents.tags'
 		);
@@ -145,7 +145,7 @@ final class ContentsEvents extends AppEvents {
 		);
 	}
 
-	public function onSlugUrl($event, $data = null) {
+	public function onSlugUrl($event, $data = null, $type = null) {
 		if(empty($data['type'])) {
 			$data['type'] = 'category';
 		}

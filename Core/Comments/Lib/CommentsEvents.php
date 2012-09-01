@@ -29,7 +29,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu($event = null) {
 			$menu['main'] = array(
 				'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index'),
 				'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
@@ -46,7 +46,7 @@
 			);
 		}
 		
-		public function onAttachBehaviors($event) {
+		public function onAttachBehaviors($event = null) {
 			if(is_subclass_of($event->Handler, 'Model')) {
 				if ($event->Handler->hasField('comment_count')) {					
 					if(!$event->Handler->Behaviors->enabled('Comments.Commentable')) {
@@ -56,13 +56,13 @@
 			}
 		}
 
-		public function onRequireCssToLoad($event) {
+		public function onRequireCssToLoad($event, $data = null) {
 			return array(
 				'Comments.comment'
 			);
 		}
 
-		public function onRequireJavascriptToLoad($event) {
+		public function onRequireJavascriptToLoad($event, $data = null) {
 			return array(
 				'Comments.comment'
 			);

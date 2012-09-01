@@ -1,12 +1,12 @@
 <?php
 	class LibsEvents extends AppEvents {
-		public function onSetupExtensions() {
+		public function onSetupExtensions($event) {
 			return array(
 				'json'
 			);
 		}
 
-		public function onAttachBehaviors($event) {
+		public function onAttachBehaviors($event = null) {
 			if($event->Handler->shouldAutoAttachBehavior()) {
 
 				// attach the expandable (eva) behavior if there is a table for it
@@ -55,7 +55,7 @@
 			}
 		}
 
-		public function onRequireComponentsToLoad($event) {
+		public function onRequireComponentsToLoad($event = null) {
 			return array(
 				'Libs.Infinitas',
 				'Paginator',
@@ -71,7 +71,7 @@
 			);
 		}
 
-		public function onRequireHelpersToLoad($event) {
+		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'Html', 'Form', 'Js', 'Session', 'Time', 'Text', // core general things from cake
 				'Libs.Infinitas',
@@ -79,7 +79,7 @@
 			);
 		}
 
-		public function onRequireCssToLoad() {
+		public function onRequireCssToLoad($event, $data = null) {
 			return array(
 				'Assets.jquery_ui'
 			);

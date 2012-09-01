@@ -30,7 +30,7 @@
 				'dashboard' => array('plugin' => 'webmaster', 'controller' => 'webmaster', 'action' => 'dashboard')
 			);
 		}
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'webmaster', 'controller' => 'webmaster', 'action' => 'dashboard'),
 				'Edit Robots' => array('plugin' => 'webmaster', 'controller' => 'robots', 'action' => 'edit'),
@@ -46,7 +46,7 @@
 			);
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'webmaster',
 				'config' => array(
@@ -55,7 +55,7 @@
 			);
 		}
 		
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			InfinitasRouter::connect(
 				'/sitemap',
 				array(
@@ -67,7 +67,7 @@
 			);
 		}
 
-		public function onSetupExtensions() {
+		public function onSetupExtensions($event) {
 			return array(
 				'xml'
 			);

@@ -1,6 +1,6 @@
 <?php
 	final class LocksEvents extends AppEvents {
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'locks',
 				'config' => array(
@@ -9,7 +9,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Locks' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
@@ -18,13 +18,13 @@
 			return $menu;
 		}
 
-		public function onRequireComponentsToLoad($event) {
+		public function onRequireComponentsToLoad($event = null) {
 			return array(
 				'Locks.Locker'
 			);
 		}
 
-		public function onRequireHelpersToLoad($event) {
+		public function onRequireHelpersToLoad($event = null) {
 			return array(
 				'Locks.Locked'
 			);
@@ -38,7 +38,7 @@
 			}
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			InfinitasRouter::connect(
 				'/admin/content-locked',
 				array(

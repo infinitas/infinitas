@@ -21,7 +21,7 @@
 	 */
 
 	class InstallerEvents extends AppEvents{
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			// infinitas is not installed
 			$databaseConfig = APP . 'Config' . DS . 'database.php';
 			InfinitasRouter::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
@@ -51,7 +51,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'dashboard'),
 				'Plugins' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index'),

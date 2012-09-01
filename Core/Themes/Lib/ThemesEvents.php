@@ -2,7 +2,7 @@
 	App::uses('InfinitasTheme', 'Themes.Lib');
 	
 	final class ThemesEvents extends AppEvents {
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'themes',
 				'config' => array(
@@ -11,7 +11,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Themes' => array('controller' => false, 'action' => false),

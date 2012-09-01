@@ -10,7 +10,7 @@
 			);
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'users',
 				'config' => array(
@@ -19,7 +19,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),
 				'Users' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'index'),
@@ -30,7 +30,7 @@
 			return $menu;
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes($event, $data = null) {
 			/**
 			 * frontend urls
 			 */
@@ -51,7 +51,7 @@
 			InfinitasRouter::connect('/admin/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
 		}
 
-		public function onRequireComponentsToLoad($events) {
+		public function onRequireComponentsToLoad($events = null) {
 			return array(
 				'Users.Visitor'
 			);

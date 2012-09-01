@@ -9,7 +9,7 @@
 			);
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'routes',
 				'config' => array(
@@ -18,7 +18,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index'),
 				'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),

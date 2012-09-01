@@ -31,7 +31,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu() {
 			$menu['main'] = array(
 				'Root Dir' => array('controller' => false, 'action' => false)
 			);
@@ -39,7 +39,7 @@
 			return $menu;
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache($event, $data = null) {
 			return array(
 				'name' => 'filemanager',
 				'config' => array(
