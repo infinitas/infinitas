@@ -29,7 +29,7 @@
 		/**
 		* Controllers initialize function.
 		*/
-		public function initialize($controller, $settings = array()) {
+		public function initialize(Controller $controller, $settings = array()) {
 			$this->settings = array_merge($this->_default, (array)$settings);
 			$this->settings();
 			

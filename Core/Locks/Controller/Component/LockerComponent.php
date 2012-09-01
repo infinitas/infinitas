@@ -22,7 +22,7 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 
 	class LockerComponent extends InfinitasComponent {
-		public function initialize($Controller) {
+		public function initialize(Controller $Controller) {
 			$disable = !strstr($Controller->action, 'admin') && 
 				!empty($Controller->uses) && 
 				isset($Controller->{$Controller->modelClass}->Behaviors);

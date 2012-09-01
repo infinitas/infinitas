@@ -158,7 +158,7 @@
 		 * @param object $Controller A reference to the instantiating controller object
 		 * @access public
 		 */
-		function initialize($Controller, $settings = array()) {
+		function initialize(Controller $Controller, $settings = array()) {
 			$this->Controller = $Controller;
 
 			$this->_sessionKey = $this->Session->check('Wizard.complete') ? 'Wizard.complete' : 'Wizard.' . $this->Controller->name;

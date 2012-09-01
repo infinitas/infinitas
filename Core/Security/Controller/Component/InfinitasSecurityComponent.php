@@ -2,7 +2,7 @@
 	App::uses('InfinitasComponent', 'Libs/Component');
 	
 	class InfinitasSecurityComponent extends InfinitasComponent {
-		public function initialize($Controller) {
+		public function initialize(Controller $Controller) {
 			parent::initialize($Controller);
 
 			$this->__checkBadLogins();
