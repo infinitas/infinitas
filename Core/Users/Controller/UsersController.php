@@ -494,7 +494,7 @@
 		public function admin_login() {
             App::uses('GoogleAuthenticator', 'Users.Lib');
             $GoogleAuth = new GoogleAuthenticator();
-            var_dump($GoogleAuth->generateSecret());
+       //     var_dump($GoogleAuth->generateSecret());
 			$this->layout = 'admin_login';
 
 			$this->_createCookie();
@@ -505,7 +505,10 @@
 					$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
 					$data = $this->_getUserData();
                     
-                    $GoogleAuth->checkCode($data[$this->modelClass]['secret'], $this->request->data[$this->modelClass]['code']);
+                    if(!$GoogleAuth->checkCode('OOWMBMCOWYHKD2UW', $this->request->data[$this->modelClass]['code'])) {
+			$this->notice(__d('users', '2 step auth failed'),
+				array('level' => 'warning', 'redirect' => '/admin/logout'));
+		}
 
 					if ($this->{$this->modelClass}->save($data)) {
 						$currentUser = $this->Auth->user();

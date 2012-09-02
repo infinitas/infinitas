@@ -8,5 +8,6 @@
 			echo $this->Form->input('username');
 		}
 		echo $this->Form->input('password');
+		echo $this->Form->input('code');
 	echo $this->Form->end('Login');
 ?>
