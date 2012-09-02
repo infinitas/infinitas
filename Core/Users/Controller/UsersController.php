@@ -492,14 +492,20 @@
 		}
 
 		public function admin_login() {
+            App::uses('GoogleAuthenticator', 'Users.Lib');
+            $GoogleAuth = new GoogleAuthenticator();
+            var_dump($GoogleAuth->generateSecret());
 			$this->layout = 'admin_login';
 
 			$this->_createCookie();
 
 			if($this->request->data) {
 				if($this->Auth->login()) {
+                    
 					$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
 					$data = $this->_getUserData();
+                    
+                    $GoogleAuth->checkCode($data[$this->modelClass]['secret'], $this->request->data[$this->modelClass]['code']);
 
 					if ($this->{$this->modelClass}->save($data)) {
 						$currentUser = $this->Auth->user();
