@@ -12,7 +12,7 @@
 // limitations under the License.
 
 
-App::uses('FixedByteNotation', 'Users.Lib');
+App::uses('FixedBitNotation', 'Users.Lib');
 
 class GoogleAuthenticator {
     static $PASS_CODE_LENGTH = 6;
