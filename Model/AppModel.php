@@ -260,6 +260,178 @@
 		}
 
 		/**
+		 * @brief create model joins
+		 *
+		 * Create a join automatically from what has been defined in the models
+		 * already.
+		 *
+		 * The method can be called with one param having an array of options or
+		 * just the model being joined in simple cases.
+		 *
+		 *  - from: The model joining from (optional, will use calling model if not set)
+		 *  - model: Used as the to model if passing first argument as array (required)
+		 *  - table: if you need to change the table from the default in the model (optional)
+		 *  - alias: alias of the join being made (optional)
+		 *  - conditions: built using the relation fk if defined, else the conditions. see AppModel::_joinConditions()
+		 *
+		 * @param Model|array|string $Model see AppModel::_getModelObject()
+		 * @param array $options join options
+		 *
+		 * @return array
+		 */
+		public function joinModel($Model, $options = array()) {
+			if(is_array($Model) && !empty($Model['model'])) {
+				$options = $Model;
+				$Model = $options['model'];
+				unset($options['model']);
+			}
+
+			$Model = $this->_getModelObject($Model);
+
+			$options = array_merge(
+				array(
+					'table' => $this->fullTableName($Model),
+					'alias' => $Model->alias,
+					'type' => 'left',
+					'conditions' => null
+				),
+				$options
+			);
+
+			$this->_joinConditions($Model, $options);
+
+			return $options;
+		}
+
+		/**
+		 * @brief figure out the relation between two models
+		 *
+		 * will return a relation type such as hasOne, belongsTo etc if found,
+		 * false if nothing is found.
+		 *
+		 * @param Model|array|string $Model see AppModel::_getModelObject()
+		 * @param Model|array|string $FromModel see AppModel::_getModelObject()
+		 *
+		 * @return string|boolean
+		 */
+		protected function _relationType($Model, $FromModel = null) {
+			$Model = $this->_getModelObject($Model);
+			$FromModel = $this->_getModelObject($FromModel);
+
+			foreach(array('hasOne', 'belongsTo', 'hasMany', 'hasAndBelongsToMany') as $relation) {
+				if(!empty($FromModel->{$relation}[$Model->alias])) {
+					return $relation;
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * @brief build the join conditions
+		 *
+		 * @param Model|array|string $Model see AppModel::_getModelObject()
+		 * @param array $options The options being built for the join
+		 *
+		 * @return void
+		 *
+		 * @throws InvalidArgumentException
+		 */
+		protected function _joinConditions($Model, &$options) {
+			if(!empty($options['conditions'])) {
+				return;
+			}
+
+			$FromModel = $this;
+			if(!empty($options['from'])) {
+				$FromModel = $this->_getModelObject($options['from']);
+			}
+
+			$relationType = $this->_relationType($Model, $FromModel);
+			switch($relationType) {
+				case 'hasOne':
+					throw new InvalidArgumentException('Not implemented');
+					break;
+
+				case 'hasMany':
+				case 'belongsTo':
+					if(empty($FromModel->{$relationType}[$Model->alias]['foreignKey'])) {
+						if(empty($FromModel->{$relationType}[$Model->alias]['conditions'])) {
+							throw new InvalidArgumentException('Unable to determin relation');
+						}
+
+						return $options['conditions'] = $FromModel->{$relationType}[$Model->alias]['conditions'];
+					}
+
+					if($relationType == 'belongsTo') {
+						return $options['conditions'] = array(
+							$Model->alias . '.' . $FromModel->primaryKey . ' = ' . $FromModel->alias . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey']
+						);
+					} elseif($relationType == 'hasMany') {
+						return $options['conditions'] = array(
+							$Model->alias . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey'] . ' = ' . $FromModel->alias . '.' . $FromModel->primaryKey
+						);
+					}
+					break;
+
+				default:
+					throw new InvalidArgumentException(sprintf('Unknown join "%s" to "%s"', $FromModel->alias, $Model->alias));
+					break;
+			}
+		}
+
+		/**
+		 * @brief figure out the model object from a string or model
+		 *
+		 * This is used to find the correct model object from a string, in a relation
+		 * or it will be loaded.
+		 *
+		 * @param Model|string $Model A model instance or Plugin.Model string
+		 *
+		 * @return \Model
+		 *
+		 * @throws InvalidArgumentException
+		 */
+		protected function _getModelObject($Model) {
+			if($Model === null) {
+				return $this;
+			}
+
+			if($Model instanceof Model) {
+				return $Model;
+			}
+
+			if(strstr($Model, '.') === false) {
+				throw new InvalidArgumentException('Invalid model name passed for relation');
+			}
+
+			list(, $model) = pluginSplit($Model);
+			if(!empty($this->{$model}) && $this->{$model} instanceof Model) {
+				return $this->{$model};
+			}
+
+			return ClassRegistry::init($Model);
+		}
+
+		/**
+		 * @brief generate the full table for joins that are safe accros database connections
+		 *
+		 * @param Model|string $Model A model instance or Plugin.Model string
+		 *
+		 * @return string
+		 */
+		public function fullTableName($Model = null) {
+			$Model = $this->_getModelObject($Model);
+
+			return sprintf(
+				'%s.%s%s',
+				$Model->schemaName,
+				$Model->tablePrefix,
+				$Model->useTable
+			);
+		}
+
+		/**
 		 * @brief get a unique list of any model field, used in the search
 		 *
 		 * @param string $displayField the field to search by
