@@ -31,6 +31,7 @@
 	App::uses('Sanitize', 'Utility');
 	App::uses('ClassRegistry', 'Utility');
 	App::uses('InfinitasPlugin', 'Lib');
+	App::uses('CakeNumber', 'Utility');
 	App::uses('CakeLog', 'Log');
 
 	App::uses('AppModel', 'Model');
