@@ -8,7 +8,8 @@ class BigDataBehavior extends ModelBehavior {
 	protected $_defaultConfig = array(
 		'validate' => true,
 		'chunk' => 500,
-		'transaction' => true
+		'transaction' => true,
+		'disableIndex' => true
 	);
 
 	protected $_inexing = array(
@@ -37,7 +38,8 @@ class BigDataBehavior extends ModelBehavior {
 			'config' => array(
 
 			),
-			'engine' => null
+			'engine' => null,
+			'saveTemplate' => 'INSERT INTO `%s` (%s) VALUES %s;'
 		);
 		$this->_settings[$Model->alias]['config'] = array_merge(
 			$this->_defaultConfig,
@@ -130,7 +132,7 @@ class BigDataBehavior extends ModelBehavior {
 			$types
 		);
 
-		$this->_toggle(array_fill_keys($types, false));
+		$this->_toggle($Model, array_fill_keys($types, false));
 	}
 
 /**
@@ -145,7 +147,7 @@ class BigDataBehavior extends ModelBehavior {
 			$types
 		);
 
-		$this->_toggle(array_fill_keys($types, true));
+		$this->_toggle($Model, array_fill_keys($types, true));
 	}
 
 /**
@@ -190,10 +192,6 @@ class BigDataBehavior extends ModelBehavior {
 
 		if(empty($data)) {
 			return true;
-		}
-
-		if(empty($this->saveTemplate)) {
-			$this->saveTemplate = 'INSERT INTO `%s` (%s) VALUES %s;';
 		}
 
 		if(!empty($data[0][$Model->alias])) {
@@ -250,15 +248,28 @@ class BigDataBehavior extends ModelBehavior {
 			$options['transaction'] = $Model->transaction();
 		}
 
+		if($options['disableIndex']) {
+			$indexOptions = array();
+			if(is_array($options['disableIndex'])) {
+				$indexOptions = $options['disableIndex'];
+			}
+
+			$this->disableIndexing($Model, $indexOptions);
+		}
+
 		$saved = true;
 		foreach(array_chunk($data, $options['chunk']) as $dataChunk) {
 			$query = sprintf(
-				$this->saveTemplate,
+				$this->_settings[$Model->alias]['saveTemplate'],
 				$Model->fullTableName(null, false),
 				'`' . implode('`, `', $schema) . '`',
 				implode(', ', $dataChunk)
 			);
 			$saved = $saved && $this->_db($Model)->rawQuery($query);
+		}
+
+		if($options['disableIndex']) {
+			$this->enableIndexing($Model, $indexOptions);
 		}
 
 		if($options['transaction']) {
