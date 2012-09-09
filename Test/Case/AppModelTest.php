@@ -266,7 +266,8 @@ class AppModelTest extends CakeTestCase {
 			'test 3',
 			'test 4'
 		);
-		$result = $this->Theme->find('list');
-		$this->assertEquals($expected, array_values($result));
+		$result = array_values($this->Theme->find('list'));
+		sort($result);
+		$this->assertEquals($expected, $result);
 	}
 }
