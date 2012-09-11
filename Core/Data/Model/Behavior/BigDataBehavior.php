@@ -126,7 +126,7 @@ class BigDataBehavior extends ModelBehavior {
  * @param Model $Model the model object in use
  * @param array $types options to disable
  */
-	protected function disableIndexing(Model $Model, $types = array()) {
+	public function disableIndexing(Model $Model, $types = array()) {
 		$types = array_merge(
 			$this->_inexing[$this->engineType($Model)],
 			$types
@@ -141,7 +141,7 @@ class BigDataBehavior extends ModelBehavior {
  * @param Model $Model the model object in use
  * @param array $types options to enable
  */
-	protected function enableIndexing(Model $Model, $types = array()) {
+	public function enableIndexing(Model $Model, $types = array()) {
 		$types = array_merge(
 			$this->_inexing[$this->engineType($Model)],
 			$types
