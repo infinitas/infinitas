@@ -9,7 +9,7 @@
 		Configure::write('debug', 2);
 	}
 	else{
-		Configure::write('debug', 2);
+		Configure::write('debug', 0);
 	}
 
 	Configure::write('log', true);
