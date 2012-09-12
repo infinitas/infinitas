@@ -248,9 +248,10 @@ App::uses('ModelBehavior', 'Model');
 	 * @access public
 	 */
 		public function tagArrayToString(Model $Model, $data = null) {
-			if ($data) {
+			if (is_array($data) && !empty($data)) {
 				return join($this->settings[$Model->alias]['separator'].' ', Set::extract($data, '{n}.name'));
 			}
+
 			return '';
 		}
 
@@ -277,14 +278,15 @@ App::uses('ModelBehavior', 'Model');
 			extract($this->settings[$Model->alias]);
 			foreach ($results as $key => $row) {
 				if (isset($row[$tagAlias]) && !empty($row[$tagAlias])) {
-					$row[$Model->alias][$field] = '';
 					$row[$Model->alias][$field] = $this->tagArrayToString($Model, $row[$tagAlias]);
 					if ($unsetInAfterFind == true) {
 						unset($row[$tagAlias]);
 					}
 				}
+				
 				$results[$key] = $row;
 			}
+
 			return $results;
 		}
 	}
