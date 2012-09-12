@@ -279,7 +279,7 @@
 		 *
 		 * @return array
 		 */
-		public function joinModel($Model, $options = array()) {
+		public function autoJoinModel($Model, $options = array()) {
 			if(is_array($Model) && !empty($Model['model'])) {
 				$options = $Model;
 				$Model = $options['model'];
