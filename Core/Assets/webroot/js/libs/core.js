@@ -6,15 +6,26 @@
 	 */
 	Core.config = function(key) {
 		parts = key.split('.');
-		if (parts.length == 1) {
-			return Infinitas.config[key];
-		}
-		else if (parts.length == 2) {
-			return Infinitas.config[parts[0]][parts[1]];
-		}
-		else if (parts.length == 3) {
-			return Infinitas.config[parts[0]][parts[1]][parts[2]];
-		}
+		var _return = Infinitas.config;
+
+		var done = false;
+		$.each(parts, function(k, v) {
+			if(!done) {
+				if(typeof _return[v] == 'undefined') {
+					_return = null;
+					return;
+				}
+
+				if(typeof _return[v] == 'object') {
+					_return = _return[v];
+				} else if(typeof _return[v] == 'string') {
+					_return = _return[v];
+					done = true;
+				}
+			}
+		});
+
+		return _return;
 	};
 
 	/**
