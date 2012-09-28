@@ -14,15 +14,15 @@
 		protected function _loadFile($type = 'country') {
 			$type = strtolower((string)$type);
 
+			new GeoIP();
 			switch($type) {
 				case 'country':
-					new GeoIP();
 					if(!is_file($this->countryDataFile)) {
 						throw new Exception(sprintf(__('%s data file is missing'), $type));
 						return false;
 					}
 
-					return geoip_open($this->countryDataFile, GEOIP_STANDARD);
+					return $this->_openDb($this->countryDataFile);
 					break;
 
 				case 'city':
@@ -33,16 +33,18 @@
 
 					App::import('Lib', 'GeoLocation.Geoip/region_vars.php');
 
-					return geoip_open($this->cityDataFile, GEOIP_STANDARD);
-					break;
-
-				default:
-					throw new Exception(sprintf(__('%s is not a valid data file'), $type));
+					return $this->_openDb($this->cityDataFile);
 					break;
 			}
+
+			throw new InvalidArgumentException(sprintf(__('%s is not a valid data file'), $type));
 		}
 
-		private function __getIpAddress() {
+		protected function _openDb($type) {
+			return geoip_open($type, GEOIP_STANDARD);
+		}
+
+		protected function _getIpAddress() {
 			return CakeRequest::clientIp();
 		}
 
@@ -59,7 +61,7 @@
 		 */
 		public function getCountryData($ipAddress = null, $code = false) {
 			if (!$ipAddress) {
-				$ipAddress = $this->__getIpAddress();
+				$ipAddress = $this->_getIpAddress();
 			}
 
 			$data = $this->_loadFile();
@@ -135,7 +137,7 @@
 				unset($city['country_name']);
 			}
 
-			if(empty($return['country']) && $ipAddress == '127.0.0.1') {
+			if(empty($city['country']) && $ipAddress == '127.0.0.1') {
 				$city['country'] = 'localhost';
 				$city['city'] = 'localhost';
 			}
@@ -143,6 +145,6 @@
 			geoip_close($data);
 			unset($data);
 
-			return (array)$city;
+			return $city;
 		}
 	}
