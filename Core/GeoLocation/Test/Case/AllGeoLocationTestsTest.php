@@ -1,5 +1,5 @@
 <?php
-class AllContactTestsTest extends PHPUnit_Framework_TestSuite {
+class AllGeoLocationTestsTest extends PHPUnit_Framework_TestSuite {
 
 /**
  * Suite define the tests for this suite
