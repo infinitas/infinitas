@@ -17,17 +17,17 @@ class ServerStatusController extends ServerStatusAppController {
 	}
 
 	public function admin_cache_status() {
-		$this->set('cacheStatus', ClearCache::status());
-	}
+		if(isset($this->request->params['named']['clear']) && $this->request->params['named']['clear']) {
+			$this->set('clearedCache', ClearCache::run());
+			$this->notice(
+				__d('server_status', 'Cache cleared'),
+				array(
+					'redirect' => false
+				)
+			);
+		}
 
-	public function admin_clear_cache() {
-		ClearCache::run();
-		$this->notice(
-			__d('server_status', 'Cache cleared'),
-			array(
-				'redirect' => true
-			)
-		);
+		$this->set('cacheStatus', ClearCache::status());
 	}
 
 	public function admin_status() {
