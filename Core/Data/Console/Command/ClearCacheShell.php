@@ -22,7 +22,7 @@
  * @package       app
  * @subpackage    app.plugins.clear_cache.Console.Command
  */
-class ClearCacheShell extends Shell {
+class ClearCacheShell extends AppShell {
 
 /**
  * ClearCache instance
@@ -57,6 +57,26 @@ class ClearCacheShell extends Shell {
 		$this->files();
 		$this->assets();
 		$this->engines();
+	}
+
+/**
+ * @brief see how much cache is being used by different engines
+ *
+ * @return void
+ */
+	public function status() {
+		parent::main();
+		$this->out("Type \t\tUsed \t\tTotal \t\tAvailable");
+		$this->hr();
+		foreach(call_user_func_array(array($this->_Cleaner, 'status'), $this->args) as $type => $values) {
+			$this->out(sprintf(
+				"%s \t%s \t%s \t%s",
+				str_pad(Inflector::humanize($type), 10, ' '),
+				str_pad(convert($values['used']), 10, ' '),
+				str_pad(convert($values['total']), 10, ' '),
+				str_pad(convert($values['available']), 10, ' ')
+			));
+		}
 	}
 
 /**

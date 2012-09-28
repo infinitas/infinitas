@@ -39,6 +39,47 @@ class ClearCache {
 	}
 
 /**
+ * @brief get cache status
+ *
+ * @return array
+ */
+	public static function status() {
+		$return = array(
+			'files' => array(
+				'used' => self::_fileSize(glob(CACHE . '{.,*}' . DS . '*', GLOB_BRACE)),
+				'total' => disk_total_space('/'),
+				'available' => disk_free_space('/')
+			),
+			'assets' => array(
+				'used' => self::_fileSize(glob(APP . 'webroot' . DS . '*' . DS . 'combined.*')),
+				'total' => disk_total_space('/'),
+				'available' => disk_free_space('/')
+			)
+		);
+
+		$keys = Cache::configured();
+		foreach ($keys as $key) {
+			$config = Cache::settings($key);
+			switch($config['engine']) {
+				case 'Apc':
+						$smaInfo = apc_sma_info(true);
+						$cacheInfo = apc_cache_info();
+						$return[$config['engine']] = array(
+							'used' => $smaInfo['avail_mem'] - $cacheInfo['mem_size'],
+							'total' => $cacheInfo['mem_size'],
+							'available' => $smaInfo['avail_mem']
+						);
+						if($return[$config['engine']]['used'] < 0) {
+							$return[$config['engine']]['used'] *= -1;
+						}
+					break;
+			}
+		}
+
+		return $return;
+	}
+
+/**
  * Clears content of CACHE subfolders
  *
  * @param mixed any amount of strings - names of CACHE subfolders or '.' (dot) for CACHE folder itself
@@ -115,5 +156,19 @@ class ClearCache {
 		}
 
 		return compact('deleted', 'error');
+	}
+
+/**
+ * @brief compute the size of the files passed in
+ *
+ * @param array $files the files to check
+ */
+	protected static function _fileSize(array $files) {
+		$size = 0;
+		array_walk($files, function($file) use(&$size) {
+			$size += filesize($file);
+		});
+
+		return $size;
 	}
 }
