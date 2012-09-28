@@ -79,14 +79,9 @@
 		public function admin_edit($id = null) {
 			parent::admin_edit($id);
 
-			$menus   = $this->{$this->modelClass}->Menu->find('list');
-			$groups  = array(0 => __('Public')) + $this->{$this->modelClass}->Group->find('list');
-			$parents = array(0 => __('Root')) + $this->{$this->modelClass}->generateTreeList(
-				array(
-					$this->modelClass . '.parent_id !=' => 0,
-					$this->modelClass . '.menu_id' => $this->request->data[$this->modelClass]['menu_id']
-				)
-			);
+			$menus = $this->{$this->modelClass}->Menu->find('list');
+			$groups = $this->{$this->modelClass}->Group->find('list');
+			$parents = $this->{$this->modelClass}->getParents($this->request->data[$this->modelClass]['menu_id']);
 			$plugins = $this->{$this->modelClass}->getPlugins();
 			$controllers = $this->{$this->modelClass}->getControllers($this->request->data[$this->modelClass]['plugin']);
 			$actions = $this->{$this->modelClass}->getActions($this->request->data[$this->modelClass]['plugin'], $this->request->data[$this->modelClass]['controller']);
@@ -105,11 +100,11 @@
 			if(empty($this->request->data[$this->modelClass]['menu_id'])) {
 				return false;
 			}
-			
+
 			try {
 				$this->set('json', $this->{$this->modelClass}->getParents($this->request->data[$this->modelClass]['menu_id']));
 			}
-			
+
 			catch(Exception $e) {
 				throw $e;
 			}
