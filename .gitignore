@@ -1,17 +1,24 @@
 # Infinitas ignores
 Config/database.php
-Libs/Cronjobs
-Plugin/*
-tmp/*
-View/Themed/*
-View/Pages/*
-webroot/img/content/*
-webroot/*
+
+Core/Contents/webroot/pages/*
 Core/Emails/attachments/*
 Core/Emails/webroot/img/images/*
-Core/Contents/webroot/pages/*
+Core/GeoLocation/Lib/GeoIP/city.dat
 Core/Newsletter/Config/Config.php
+
+Libs/Cronjobs
+Plugin/*
+
+tmp/
+
+View/Themed/*
+View/Pages/*
+
 webroot/robots.txt
+webroot/img/content/*
+webroot/*
+
 .gitignore
 
 # Ignore Mac system files
