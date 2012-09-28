@@ -19,6 +19,8 @@
 	 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	 */
 
+require_once 'region_vars.php';
+
 	define("GEOIP_COUNTRY_BEGIN", 16776960);
 	define("GEOIP_STATE_BEGIN_REV0", 16700000);
 	define("GEOIP_STATE_BEGIN_REV1", 16000000);
@@ -251,7 +253,7 @@
 			print "error opening $file: $php_errormsg\n";
 			exit;
 		}
-		
+
 		$s_array = fstat($fp);
 		$size = $s_array['size'];
 		if ($shmid = @shmop_open(GEOIP_SHM_KEY, "w", 0, 0)) {

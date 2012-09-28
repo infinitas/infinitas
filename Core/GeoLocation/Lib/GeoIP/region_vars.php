@@ -1,7 +1,7 @@
 <?php
-	/**
-	 * Copyright 2009 Maxmind LLC All Rights Reserved
-	 */
+/**
+ * Copyright 2009 Maxmind LLC All Rights Reserved
+ */
 // @codingStandardsIgnoreStart
 	$GEOIP_REGION_NAME = array(
 		"AD" => array(
