@@ -1,0 +1,15 @@
+<?php
+App::uses('RoutesEvents', 'Routes.Lib');
+class RoutesEventsTest extends CakeTestCase {
+	public function setUp() {
+		parent::setUp();
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+	}
+
+	public function testSomething() {
+
+	}
+}

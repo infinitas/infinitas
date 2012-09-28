@@ -1,27 +1,27 @@
 <?php
 /**
-	* Mass action component
-	*
-	* This handles all the different form actions, especialy delete / copy /
-	* toggle where you need to manipulate many records at a time.
-	*
-	* Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	*
-	* @filesource
-	* @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	* @link http://www.infinitas-cms.org
-	* @package libs
-	* @subpackage libs.controllers.components.mass_action
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.7a
-	*
-	* @author Carl Sutton ( dogmatic69 )
-	* @author dakota
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	*/
-App::uses('InfinitasComponent', 'Libs/Component');
+ * Mass action component
+ *
+ * This handles all the different form actions, especialy delete / copy /
+ * toggle where you need to manipulate many records at a time.
+ *
+ * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ *
+ * @filesource
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package libs
+ * @subpackage libs.controllers.components.mass_action
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton ( dogmatic69 )
+ * @author dakota
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ */
+App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
 class MassActionComponent extends InfinitasComponent {
 /**

@@ -1,6 +1,6 @@
 <?php
-	App::uses('InfinitasComponent', 'Libs/Component');
-	
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
+
 	class VoucherComponent extends InfinitasComponent {
 		/**
 		 * components being used here
@@ -13,7 +13,7 @@
 		public $path = '';
 
 		public $voucher = 'gift-voucher.png';
-		
+
 		public $font = 'C:\xampp\php\extras\fonts\ttf\Vera.ttf';
 
 		public $errors = null;

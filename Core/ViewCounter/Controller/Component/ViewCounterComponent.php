@@ -5,9 +5,9 @@
 	 * Track views of rows when users browse the site.
 	 *
 	 * @todo session tracking to show the user what they last seen.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -15,13 +15,13 @@
 	 * @subpackage Infinitas.ViewCounter.components.ViewCounter
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	App::uses('InfinitasComponent', 'Libs/Component');
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
 	class ViewCounterComponent extends InfinitasComponent {
 		/**
@@ -62,12 +62,12 @@
 
 			$check =
 				// dont tack anything in admin
-				$settings['admin'] === false && 
+				$settings['admin'] === false &&
 				!(isset($Controller->request->params['admin']) && $Controller->request->params['admin']) &&
 
 				// only track actions that are set
 				in_array($Controller->request->params['action'], $settings['actions']);
-			
+
 			if($check) {
 				$Controller->{$Controller->modelClass}->Behaviors->attach('ViewCounter.Viewable');
 				$Controller->{$Controller->modelClass}->__referer = $this->Controller->referer();

@@ -21,8 +21,9 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-
-	class MenuHelper extends InfinitasHelper{
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
+	
+	class MenuHelper extends InfinitasHelper {
 		public $helpers = array(
 			'Html',
 			'Events.Event'

@@ -1,9 +1,9 @@
 <?php
 	/**
 	 * Show who locked what.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -11,19 +11,20 @@
 	 * @subpackage Infinitas.locks.helpers.locked
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
 	class LockedHelper extends InfinitasHelper {
 		public $helpers = array(
 			'Time', 'Html',
 			'Libs.Image'
 		);
-		
+
 		/**
 		 * Create a locked icon.
 		 *
@@ -50,7 +51,7 @@
 					)
 				);
 			}
-			
+
 			return $this->Html->image(
 				$this->Image->getRelativePath('status', 'not-locked'),
 				array(

@@ -17,7 +17,7 @@
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since		 0.5a
 	 */
-
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
 	class WysiwygHelper extends InfinitasHelper {
 		public $helpers = array(
 			'Form'
@@ -25,7 +25,7 @@
 
 		public function load($editor = null, $field = null, $config = array()) {
 			$helperName = sprintf('Wysiwyg%s', Inflector::Classify($editor));
-			
+
 			switch($editor) {
 				case 'text':
 				case CakePlugin::loaded($helperName) == false:
@@ -37,11 +37,11 @@
 				App::uses($helperName . 'Helper', $helperName . '.View/Helper');
 				$this->Editor = $this->_View->Helpers->load($helperName . '.' . $helperName);
 			}
-			
+
 			catch(MissingHelperException $e) {
 				return $this->input($field, array('style' => 'width:98%; height:500px;')) . $e->getMessage();
 			}
-			
+
 			$fields = explode('.', $field);
 
 			$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';

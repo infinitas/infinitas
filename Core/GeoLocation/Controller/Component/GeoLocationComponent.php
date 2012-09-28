@@ -1,5 +1,5 @@
 <?php
-App::uses('InfinitasComponent', 'Libs/Component');
+App::uses('InfinitasComponent', 'Libs.Controller/Component');
 App::uses('IpLocation', 'GeoLocation.Libs');
 
 class GeoLocationComponent extends InfinitasComponent {
@@ -10,7 +10,7 @@ class GeoLocationComponent extends InfinitasComponent {
 
 /**
  * @brief load up the users location data when available
- * 
+ *
  * @param Controller $Controller
  */
 	public function initialize(Controller $Controller) {

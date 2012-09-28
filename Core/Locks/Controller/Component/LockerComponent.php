@@ -19,12 +19,11 @@
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
-	App::uses('InfinitasComponent', 'Libs/Component');
-
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	class LockerComponent extends InfinitasComponent {
 		public function initialize($Controller) {
-			$disable = !strstr($Controller->action, 'admin') && 
-				!empty($Controller->uses) && 
+			$disable = !strstr($Controller->action, 'admin') &&
+				!empty($Controller->uses) &&
 				isset($Controller->{$Controller->modelClass}->Behaviors);
 
 			$disable = $disable || (!empty($Controller->request->data['action']) && $Controller->request->data['action'] == 'copy');

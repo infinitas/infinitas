@@ -20,6 +20,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
+	App::uses('InfinitasHelper', 'Libs.View/Helper');
 	class ModuleLoaderHelper extends InfinitasHelper {
 		/**
 		 * Skip modules.

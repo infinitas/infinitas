@@ -2,6 +2,7 @@
 	/**
 	 * Some global methods for admin
 	 */
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	class InfinitasActionsComponent extends InfinitasComponent {
 		/**
 		 * @brief get a list of all the plugins in the app

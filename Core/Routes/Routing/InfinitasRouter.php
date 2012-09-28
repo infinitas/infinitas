@@ -1,11 +1,11 @@
 <?php
-	/* 
+	/*
 	 * Short Description / title.
-	 * 
+	 *
 	 * Overview of what the file does. About a paragraph or two
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -13,18 +13,19 @@
 	 * @subpackage Infinitas.routes.events
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
 	App::uses('InfinitasRoute', 'Routes.Lib');
-	
+	App::uses('Router', 'Routing');
+
 	class InfinitasRouter extends Router {
 		protected static $_reverseLookup = array();
-		
+
 		public static function connect($route, $defaults = array(), $options = array()) {
 			if(empty($options['routeClass'])) {
 				$options['routeClass'] = 'InfinitasRoute';
@@ -35,10 +36,10 @@
 					exit;
 				}
 			}
-			
+
 			parent::connect($route, $defaults, $options);
 		}
-		
+
 		public function setup() {
 			self::__registerExtensions();
 			self::__buildRoutes();
@@ -49,24 +50,24 @@
 			if(!empty(self::$_reverseLookup[$hash])) {
 				return self::$_reverseLookup[$hash];
 			}
-			
+
 			foreach(parent::$routes as &$route) {
 				ksort($route->defaults);
 				ksort($request);
-				
+
 				if(array_filter($route->defaults) !== array_filter($request) || !strstr($route->template, ':')) {
 					continue;
 				}
 
 				$templateParams = self::__getTemplateParams($route->template);
-				
+
 				$intersect = array_intersect($templateParams, array_keys($params));
-				
+
 				if($templateParams == $intersect) {
 					foreach($templateParams as $v) {
 						$request[$v] = $params[$v];
 					}
-					
+
 					if(substr($route->template, -2) == '/*') {
 						$add = $params;
 						foreach($intersect as $k => $v) {
@@ -74,7 +75,7 @@
 								unset($add[$v]);
 							}
 						}
-						
+
 						$request = array_merge(array_values($add), $request);
 					}
 					$bestMatch = false;
@@ -158,11 +159,11 @@
 				Cache::write('extentions', $extensions, 'routes');
 				unset($_extensions);
 			}
-			
+
 			call_user_func_array(array('Router', 'parseExtensions'), $extensions);
 		}
 	 }
 
 	 class IRouter extends InfinitasRouter {
-		 
+
 	 }

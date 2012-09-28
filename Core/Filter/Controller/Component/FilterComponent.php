@@ -14,7 +14,7 @@
 	 * @package	app
 	 * @subpackage app.controller.components
 	 */
-	App::uses('InfinitasComponent', 'Libs/Component');
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
 	class FilterComponent extends InfinitasComponent {
 		/**

@@ -1,13 +1,12 @@
 <?php
-	App::uses('InfinitasComponent', 'Libs/Component');
-	
+	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	class InfinitasSecurityComponent extends InfinitasComponent {
 		public function initialize($Controller) {
 			parent::initialize($Controller);
 
 			$this->__checkBadLogins();
 			$this->__blockByIp();
-			
+
 			$this->__setupAuth();
 			$this->__setupSecurity();
 		}
@@ -152,7 +151,7 @@
 			return true;
 		}
 	}
-	
+
 	class InfinitasSecurityBlockedException extends Exception {
-		
+
 	}

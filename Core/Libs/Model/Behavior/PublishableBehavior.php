@@ -20,7 +20,7 @@
 
 	class PublishableBehavior extends ModelBehavior {
 		private $__settings = array();
-		
+
 		protected $_built = array();
 
 		public function setup($Model, $settings = array()) {
@@ -30,7 +30,7 @@
 			);
 
 			if (!isset($this->__settings[$Model->alias])) $this->__settings[$Model->alias] = $default;
-			$this->__settings[$Model->alias] = am($this->__settings[$Model->alias], !empty(is_array($settings)) ? $settings : array());
+			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
 
 			$this->_checkColumn($Model, $this->__settings[$Model->alias]['start_column']);
 			$this->_checkColumn($Model, $this->__settings[$Model->alias]['end_column']);
@@ -62,7 +62,7 @@
 					)
 				);
 			}
-			
+
 			return array(
 				'or' => array(
 					$Model->alias . '.' . $this->__settings[$Model->alias]['start_column'] . ' >' => date("Y-m-d H:i:s"),

@@ -79,7 +79,7 @@
 				$this->__settings[$model->alias] = $default;
 			}
 
-			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], !empty(is_array($settings)) ? $settings : array());
+			$this->__settings[$model->alias] = array_merge($this->__settings[$model->alias], (array)$settings);
 			// handles model binding to the model
 			// according to the auto_bind settings (default true)
 			if ($this->__settings[$model->alias]['auto_bind']) {
@@ -99,7 +99,7 @@
 						'counterScope' => $this->__settings[$model->alias]['counter_cache_scope']
 					)
 				);
-				
+
 				$model->bindModel(array('hasMany' => $hasManyReview), false);
 				$model->Review->bindModel(array('belongsTo' => $reviewBelongsTo), false);
 			}
@@ -190,7 +190,7 @@
 					}
 				}
 			}
-			
+
 			return false;
 		}
 
@@ -211,7 +211,7 @@
 					$options['options']
 				);
 			}
-			
+
 			$parameters = (isset($parameters) && !$this->_checkForEmptyVal($parameters)) ? $parameters : array();
 			return $model->Review->find('all', $parameters);
 		}
@@ -290,11 +290,11 @@
 			if ($length >= 20 && $this->totalLinks <= 0) {
 				return 2;
 			}
-			
+
 			else if ($length >= 20 && $this->totalLinks == 1) {
 				return 1;
 			}
-			
+
 			else if ($length < 20) {
 				return - 1;
 			}
@@ -319,7 +319,7 @@
 					if ($review['Review']['status'] == 'spam') {
 						--$points;
 					}
-					
+
 					else if ($reviews['Review']['status'] == 'approved') {
 						++$points;
 					}
@@ -387,8 +387,8 @@
 			$isEmpty = 0;
 			foreach ($array as $key => $item) {
 				if (is_numeric($item)) {
-				} 
-				
+				}
+
 				else if (empty($item)) {
 					$isEmpty++;
 				}
