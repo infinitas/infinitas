@@ -111,8 +111,7 @@ class UploadBehaviorTest extends CakeTestCase {
 	public function testFileSize() {
 		$this->mockUpload();
 		$this->MockUpload->expects($this->once())->method('handleUploadedFile')->will($this->returnValue(true));
-		$result = $this->TestUpload->save($this->data['test_ok']);
-		$this->assertInternalType('array', $result);
+		$this->assertTrue($this->TestUpload->save($this->data['test_ok']));
 		$newRecord = $this->TestUpload->findById($this->TestUpload->id);
 		$this->assertEquals($this->data['test_ok']['photo']['size'], $newRecord['TestUpload']['size']);
 	}
@@ -127,8 +126,7 @@ class UploadBehaviorTest extends CakeTestCase {
 			$this->data['test_ok']['photo']['tmp_name'],
 			$this->MockUpload->settings['TestUpload']['photo']['path'] . 2 . DS . $this->data['test_ok']['photo']['name']
 		);
-		$result = $this->TestUpload->save($this->data['test_ok']);
-		$this->assertInternalType('array', $result);
+		$this->assertTrue( $this->TestUpload->save($this->data['test_ok']));
 		$newRecord = $this->TestUpload->findById($this->TestUpload->id);
 		$expectedRecord = array(
 			'TestUpload' => array(
@@ -162,8 +160,7 @@ class UploadBehaviorTest extends CakeTestCase {
 			$this->data['test_update']['photo']['tmp_name'],
 			$this->MockUpload->settings['TestUpload']['photo']['path'] . $this->data['test_update']['id'] . DS . $this->data['test_update']['photo']['name']
 		);
-		$result = $this->TestUpload->save($this->data['test_update']);
-		$this->assertInternalType('array', $result);
+		$this->assertTrue($this->TestUpload->save($this->data['test_update']));
 	}
 
 	public function testDeleteOnUpdateWithoutNewUpload() {
