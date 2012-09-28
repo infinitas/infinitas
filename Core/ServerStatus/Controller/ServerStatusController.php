@@ -18,12 +18,27 @@
 		}
 
 		public function admin_dashboard() {
+
+		}
+
+		public function admin_cache_status() {
 			
+		}
+
+		public function admin_clear_cache() {
+			App::uses('ClearCache', 'Data.Lib');
+			ClearCache::run();
+			$this->notice(
+				__d('server_status', 'Cache cleared'),
+				array(
+					'redirect' => true
+				)
+			);
 		}
 
 		public function admin_status() {
 			$current = $current['Load'] = $allTime = array();
-			
+
 			if(count($this->serverLoad) >= 3) {
 				$current['Load'] = array(
 					'1 min' => $this->serverLoad[0],
@@ -31,12 +46,12 @@
 					'15 min' => $this->serverLoad[2],
 				);
 			}
-			
+
 			$current['Memory'] = array(
 				'current' => $this->memoryUsage['current'],
 				'limit' => str_replace('M', '', $this->memoryUsage['limit']) * 1024 * 1024,
 			);
-			
+
 			unset($this->serverLoad, $this->memoryUsage);
 			$this->set('current', array_merge(systemInfo(), $current));
 
@@ -48,7 +63,7 @@
 						'level' => 'error',
 					)
 				);
-				
+
 				$allTime = $lastTwoWeeks = $lastSixMonths = $byHour = $byDay = array();
 			}
 			else{
@@ -58,9 +73,9 @@
 				$byHour = $this->ServerStatus->reportByHour();
 				$byDay = $this->ServerStatus->reportByDay();
 			}
-			
+
 			$this->set(compact('allTime', 'lastTwoWeeks', 'lastSixMonths', 'byHour', 'byDay'));
-			
+
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$this->notice(
 					__('This information may not be accurate on windows based systems'),

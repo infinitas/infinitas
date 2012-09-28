@@ -20,6 +20,13 @@
 			'icon' => '/server_status/img/mysql.png',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'server_status', 'controller' => 'databases', 'action' => 'mysql'),
+		),
+		array(
+			'name' => 'Cache',
+			'description' => 'Clear all cached data',
+			'icon' => '/server_status/img/cache.png',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'server_status', 'controller' => 'server_status', 'action' => 'cache_status'),
 		)
 	);
 ?>
