@@ -33,49 +33,6 @@ class ClearCacheShell extends Shell {
 	public $_Cleaner;
 
 /**
- * Main shell method
- *
- * Clears content of CACHE subfolders and configured cache engines
- *
- * @return array associative array with cleanup results
- * @access public
- */
-	public function main() {
-		$this->files();
-		$this->engines();
-	}
-
-/**
- * Clears content of cache engines
- *
- * @return void
- * @access public
- */
-	public function engines() {
-		$output = call_user_func_array(array(&$this->_Cleaner, 'engines'), $this->args);
-
-		foreach ($output as $key => $result) {
-			$this->out($key . ': ' . ($result ? 'cleared' : 'error'));
-		}
-	}
-
-/**
- * Clears content of CACHE subfolders
- *
- * @return void
- * @access public
- */
-	public function files() {
-		$output = call_user_func_array(array(&$this->_Cleaner, 'files'), $this->args);
-
-		foreach ($output as $result => $files) {
-			foreach ($files as $file) {
-				$this->out($result . ': ' . $file);
-			}
-		}
-	}
-
-/**
  * Shell startup
  *
  * Initializes $_Cleaner property
@@ -86,6 +43,69 @@ class ClearCacheShell extends Shell {
 	public function startup() {
 		App::uses('ClearCache', 'Data.Lib');
 		$this->_Cleaner = new ClearCache();
+	}
+
+/**
+ * Main shell method
+ *
+ * Clears content of CACHE subfolders and configured cache engines
+ *
+ * @return array associative array with cleanup results
+ * @access public
+ */
+	public function main() {
+		$this->files();
+		$this->assets();
+		$this->engines();
+	}
+
+/**
+ * Clears content of CACHE subfolders
+ *
+ * @return void
+ * @access public
+ */
+	public function files() {
+		$this->_output(call_user_func_array(array($this->_Cleaner, 'files'), $this->args));
+	}
+
+/**
+ * Clears content of cache engines
+ *
+ * @return void
+ * @access public
+ */
+	public function assets() {
+		$this->_output(call_user_func_array(array($this->_Cleaner, 'assets'), $this->args));
+	}
+
+/**
+ * Clears content of cache engines
+ *
+ * @return void
+ * @access public
+ */
+	public function engines() {
+		$this->_output(call_user_func_array(array($this->_Cleaner, 'engines'), $this->args));
+	}
+
+/**
+ * @brief output the results of the cache clearing
+ *
+ * @param array $output
+ *
+ * @return void
+ */
+	protected function _output(array $output) {
+		foreach ($output as $k => $v) {
+			if(is_array($v)) {
+				foreach ($v as $vv) {
+					$this->out($k . ': ' . $vv);
+				}
+			} else {
+				$this->out($k . ': ' . ($v ? 'cleared' : 'error'));
+			}
+		}
 	}
 
 }
