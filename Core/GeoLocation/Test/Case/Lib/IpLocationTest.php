@@ -1,11 +1,17 @@
 <?php
 App::uses('IpLocation', 'GeoLocation.Lib');
 class IpLocationTest extends CakeTestCase {
-
+/**
+ * @brief test configs
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->IpLocation = new IpLocation();
 	}
+
+/**
+ * @brief clear up the test class
+ */
 	public function tearDown() {
 		parent::tearDown();
 

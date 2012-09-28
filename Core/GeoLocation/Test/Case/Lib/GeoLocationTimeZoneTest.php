@@ -1,12 +1,14 @@
 <?php
 App::uses('GeoLocationTimeZone', 'GeoLocation.Lib');
 class GeoLocationTimeZoneTest extends CakeTestCase {
-
-	public function setUp() {
-		parent::setUp();
-	}
-	public function tearDown() {
-		parent::tearDown();
+/**
+ * @brief test counrty data
+ *
+ * @dataProvider dataProvider
+ */
+	public function testFromIp($data, $expected) {
+		$result = GeoLocationTimeZone::fromIp($data['ip']);
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -14,11 +16,16 @@ class GeoLocationTimeZoneTest extends CakeTestCase {
  *
  * @dataProvider dataProvider
  */
-	public function testCountryData($data, $expected) {
-		$result = GeoLocationTimeZone::fromIp($data['ip']);
+	public function testFromCountry($data, $expected) {
+		$result = GeoLocationTimeZone::fromCountry($data['country_code'], $data['region']);
 		$this->assertEquals($expected, $result);
 	}
 
+/**
+ * @brief data provider for tests
+ *
+ * @return array
+ */
 	public function dataProvider() {
 		return array(
 			'empty' => array(
