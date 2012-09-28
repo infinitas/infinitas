@@ -68,6 +68,8 @@ class ClearCache {
 			$files = glob(CACHE . $folders[0] . DS . '*');
 		}
 
+		$files = array_merge($files, glob(APP . 'webroot' . DS . '*' . DS . 'combined.*'));
+
 		foreach ($files as $file) {
 			if (is_file($file) && basename($file) !== 'empty') {
 				if (unlink($file)) {
