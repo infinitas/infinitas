@@ -19,6 +19,8 @@ class InfinitasEventTestCase extends CakeTestCase {
 		$this->ViewtEvent = new Event('ViewtEvent', $this->ViewObject, $this->plugin);
 		$this->ControllerEvent = new Event('ControllerEvent', $this->ControllerObject, $this->plugin);
 
+		EventCore::loadEventHandler($this->plugin);
+
 		$this->Event = EventCore::getInstance();
 
 		$this->_loadEventClass();
@@ -47,7 +49,7 @@ class InfinitasEventTestCase extends CakeTestCase {
  * @brief load and get an instance of the event class being tested
  */
 	protected function _loadEventClass() {
-		//App::uses($this->plugin . 'Events', $this->plugin . '.Lib');
+		App::uses($this->plugin . 'Events', $this->plugin . '.Lib');
 
 		$this->EventClass = $this->plugin . 'Events';
 		$this->EventClass = new $this->EventClass();
@@ -65,7 +67,12 @@ class InfinitasEventTestCase extends CakeTestCase {
  */
 	public function testPluginRollCall() {
 		$expected = array('pluginRollCall' => array($this->EventClass->onPluginRollCall()));
-		$expected['pluginRollCall'] = array_filter($expected['pluginRollCall']);
+		$return = current(array_filter($expected['pluginRollCall']));
+		$expected['pluginRollCall'] = array();
+		if($return) {
+			$expected['pluginRollCall'] = array($this->plugin => $return);
+		}
+
 		$result = $this->Event->trigger($this->ObjectObject, $this->plugin . '.pluginRollCall');
 		$this->assertEquals($expected, $result);
 	}
@@ -75,7 +82,12 @@ class InfinitasEventTestCase extends CakeTestCase {
  */
 	public function testRequireDatabaseConfigs() {
 		$expected = array('requireDatabaseConfigs' => array($this->EventClass->onRequireDatabaseConfigs($this->ModelEvent)));
-		$expected['requireDatabaseConfigs'] = array_filter($expected['requireDatabaseConfigs']);
+		$return = current(array_filter($expected['requireDatabaseConfigs']));
+		$expected['requireDatabaseConfigs'] = array();
+		if($return) {
+			$expected['requireDatabaseConfigs'] = array($this->plugin => $return);
+		}
+
 		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.requireDatabaseConfigs');
 		$this->assertEquals($expected, $result);
 	}
