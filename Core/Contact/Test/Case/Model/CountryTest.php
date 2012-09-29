@@ -37,4 +37,8 @@ class CountryTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

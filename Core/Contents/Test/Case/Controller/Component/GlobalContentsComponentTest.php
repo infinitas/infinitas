@@ -31,4 +31,8 @@ class GlobalContentsComponentTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

@@ -7,6 +7,7 @@
  */
 class CountryFixture extends CakeTestFixture {
 	public $name = 'Country';
+	
 	public $table = 'contact_countries';
 
 	public $fields = array(
@@ -26,10 +27,10 @@ class CountryFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'name' => 'South Africa',
-			'iso' => null,
-			'printable_name' => null,
-			'iso3' => null,
-			'numcode' => null
+			'iso' => 'ZA',
+			'printable_name' => 'South Africa',
+			'iso3' => 'ZAR',
+			'numcode' => 123
 		),
 	);
 }

@@ -31,4 +31,8 @@ class VisitorComponentTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

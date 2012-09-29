@@ -14,14 +14,15 @@ class GlobalLayoutTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.contents.global_layout',
-		'plugin.contents.theme',
 		'plugin.contents.global_content',
 		'plugin.contents.global_category',
-		'plugin.contents.group',
-		'plugin.contents.view_counter_view',
-		'plugin.contents.user',
 		'plugin.contents.global_tagged',
-		'plugin.contents.global_tag'
+		'plugin.contents.global_tag',
+
+		'plugin.themes.theme',
+		'plugin.users.group',
+		'plugin.view_counter.view_counter_view',
+		'plugin.users.user'
 	);
 
 /**

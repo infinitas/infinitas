@@ -1,8 +1,8 @@
 <?php
 if(!class_exists('ScopedNumberTree')) {
-class ScopedNumberTree extends CakeTestModel {
-	public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
-}
+	class ScopedNumberTree extends CakeTestModel {
+		public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
+	}
 }
 class ScopedCounterNumberTree extends CakeTestModel {
 	public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id', 'counterCache' => true, 'directCounterCache' => true));

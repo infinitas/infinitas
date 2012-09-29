@@ -14,7 +14,7 @@ class GlobalCategoriesControllerTest extends ControllerTestCase {
  */
 	public $fixtures = array(
 		'plugin.contents.global_category',
-		'plugin.contents.view_counter_view'
+		'plugin.view_counter.view_counter_view'
 	);
 
 /**

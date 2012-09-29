@@ -1,16 +1,18 @@
 <?php
-	/* Commentable Test cases generated on: 2010-12-14 02:12:04 : 1292295484*/
-	App::uses('CommentableBehavior', 'Comments.Model/Behavior');
+App::uses('CommentableBehavior', 'Comments.Model/Behavior');
 
-	class CommentableBehaviorTest extends CakeTestCase {
-		function startTest() {
-			$this->Commentable = new CommentableBehavior();
-		}
-
-		function testDummy() {}
-
-		function endTest() {
-			unset($this->Commentable);
-			ClassRegistry::flush();
-		}
+class CommentableBehaviorTest extends CakeTestCase {
+	public function setUp() {
+		parent::setUp();
+		$this->Commentable = new CommentableBehavior();
 	}
+
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->Commentable);
+	}
+
+	public function testSomething() {
+
+	}
+}

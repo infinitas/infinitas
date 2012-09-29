@@ -14,7 +14,7 @@ class InfinitasCommentsControllerTest extends ControllerTestCase {
  */
 	public $fixtures = array(
 		'plugin.comments.infinitas_comment',
-		'plugin.comments.infinitas_comment_attributes'
+		'plugin.comments.infinitas_comment_attribute'
 	);
 
 /**

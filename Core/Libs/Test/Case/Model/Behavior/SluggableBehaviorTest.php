@@ -3,7 +3,7 @@
 	App::uses('GlobalContent', 'Contents.Model');
 	App::uses('Model', 'Model');
 
-	class GlobalContentTest extends Model {
+	class SluggableGlobalContentTest extends Model {
 		public $useTable = 'global_contents';
 
 		public $alias = 'GlobalContent';
@@ -36,7 +36,7 @@
 		public function setUp() {
 			parent::setUp();
 
-			$this->GlobalContent = ClassRegistry::init('GlobalContentTest');
+			$this->GlobalContent = ClassRegistry::init('SluggableGlobalContentTest');
 
 			$this->Sluggable = new SluggableBehavior();
 		}

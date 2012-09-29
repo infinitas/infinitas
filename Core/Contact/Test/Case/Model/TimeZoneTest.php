@@ -37,4 +37,8 @@ class TimeZoneTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

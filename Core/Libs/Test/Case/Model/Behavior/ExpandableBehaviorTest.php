@@ -28,4 +28,8 @@ class ExpandableBehaviorTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }
