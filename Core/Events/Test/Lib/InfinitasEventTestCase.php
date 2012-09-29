@@ -135,6 +135,34 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
+ * @brief test getting the cache config
+ */
+	public function testCacheConfig() {
+		if(!$this->_hasTrigger('setupCache')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('setupCache', $this->ObjectEvent);
+
+		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.setupCache');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * @brief test getting the required fixtures
+ */
+	public function testRequiredFixtures() {
+		if(!$this->_hasTrigger('getRequiredFixtures')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('getRequiredFixtures', $this->ObjectEvent);
+
+		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.getRequiredFixtures');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * @brief test getting the admin menu
  */
 	public function testAdminMenu() {
