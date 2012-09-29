@@ -83,17 +83,20 @@ class InfinitasEventTestCase extends CakeTestCase {
  *
  * @param string $event the event to check for
  *
- * @return boolean 
+ * @return boolean
  */
 	protected function _hasTrigger($event) {
-		$method = 'on' . ucfirst($event);
-		$parentMethods = get_class_methods(get_parent_class($this->EventClass));
-		$methods = get_class_methods($this->EventClass);
-		if(!in_array($method, array_diff($methods, $parentMethods))) {
-			return false;
+		$eventClass = new ReflectionClass(get_class($this->EventClass));
+		$parentMethods = $eventClass->getParentClass()->getMethods(ReflectionMethod::IS_PUBLIC);
+
+		foreach($parentMethods as $parentMethod) {
+			$declaringClass = $eventClass->getMethod($parentMethod->getName())->getDeclaringClass()->getName();
+			if($declaringClass === $eventClass->getName() && $parentMethod->getName() == 'on' . ucfirst($event)) {
+				return true;
+			}
 		}
 
-		return true;
+		return false;
 	}
 
 /**
@@ -162,6 +165,20 @@ class InfinitasEventTestCase extends CakeTestCase {
 /**
  *@brief test required helpers load correctly
  */
+	public function testRequireComponents() {
+		if(!$this->_hasTrigger('requireComponentsToLoad')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('requireComponentsToLoad', $this->ViewtEvent);
+
+		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.requireComponentsToLoad');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ *@brief test required helpers load correctly
+ */
 	public function testRequireCss() {
 		if(!$this->_hasTrigger('requireCssToLoad')) {
 			return false;
@@ -170,6 +187,34 @@ class InfinitasEventTestCase extends CakeTestCase {
 		$expected = $this->_manualCall('requireCssToLoad', $this->ViewtEvent);
 
 		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.requireCssToLoad');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ *@brief test required helpers load correctly
+ */
+	public function testRequireJs() {
+		if(!$this->_hasTrigger('requireJavascriptToLoad')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('requireJavascriptToLoad', $this->ViewtEvent);
+
+		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.requireJavascriptToLoad');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ *@brief test required helpers load correctly
+ */
+	public function testUserProfile() {
+		if(!$this->_hasTrigger('userProfile')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('userProfile', $this->ViewtEvent);
+
+		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.userProfile');
 		$this->assertEquals($expected, $result);
 	}
 }
