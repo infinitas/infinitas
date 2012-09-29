@@ -31,4 +31,8 @@ class ViewCounterComponentTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

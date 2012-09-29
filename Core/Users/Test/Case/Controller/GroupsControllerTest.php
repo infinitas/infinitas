@@ -1,6 +1,4 @@
 <?php
-	App::uses('AppControllerTestCase', 'Libs.Lib/test');
-
 	class TestGroupsController extends CakeTestCase {
 		/**
 		 * @brief Tests admin_index

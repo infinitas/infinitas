@@ -50,7 +50,7 @@
 			$field['confirm_password'] = '�^%&^%*^&�$%�';
 			$result = $this->User->validPassword($field);
 			$expected = 0;
-			$this->assertSame($expected);
+			$this->assertEquals($expected, $result);
 
 			// pw regex advanced
 			Configure::write('Website.password_regex', '^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,8}$');

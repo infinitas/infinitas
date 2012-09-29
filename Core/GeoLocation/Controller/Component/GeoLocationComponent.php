@@ -1,6 +1,6 @@
 <?php
 App::uses('InfinitasComponent', 'Libs.Controller/Component');
-App::uses('IpLocation', 'GeoLocation.Libs');
+App::uses('IpLocation', 'GeoLocation.Lib');
 
 class GeoLocationComponent extends InfinitasComponent {
 /**

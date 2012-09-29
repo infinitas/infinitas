@@ -18,7 +18,7 @@ class PluginTest extends CakeTestCase {
  * @test getting installed plugins
  */
 	public function testGetInstalledPlugins() {
-		$this->disableBehavior('Trashable');
+		$this->Plugin->Behaviors->disable('Trashable');
 
 		$expected = array(
 			'4cdc2083-430c-42f1-be78-235e6318cd70' => 'Backlinks',
@@ -144,7 +144,7 @@ class PluginTest extends CakeTestCase {
  * @test getting installed plugins
  */
 	public function testGetActiveInstalledPlugins() {
-		$this->disableBehavior('Trashable');
+		$this->Plugin->Behaviors->disable('Trashable');
 
 		$expected = array(
 			'4c94edcb-3394-4e47-ad23-78d86318cd70' => 'Google',
@@ -210,7 +210,7 @@ class PluginTest extends CakeTestCase {
  * @test get plugins that are not installed
  */
 	public function testGetNonInstalledPlugins() {
-		$this->disableBehavior('Trashable');
+		$this->Plugin->Behaviors->disable('Trashable');
 
 		$notInstalled = array_values($this->Plugin->getNonInstalledPlugins());
 		$this->Plugin->delete('4cdc2282-927c-46c3-81ee-247a6318cd70');
@@ -226,7 +226,7 @@ class PluginTest extends CakeTestCase {
  * @test checking if a plugin is installed
  */
 	public function testIsInstalled() {
-		$this->disableBehavior('Trashable');
+		$this->Plugin->Behaviors->disable('Trashable');
 
 		$this->assertFalse($this->Plugin->isInstalled());
 		$this->assertFalse($this->Plugin->isInstalled(false));

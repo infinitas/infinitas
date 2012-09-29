@@ -128,7 +128,7 @@ Class IpLocation extends Object {
  */
 	public function getCityData($ipAddress = null, $fields = array()) {
 		if (!$ipAddress) {
-			$ipAddress = $this->__getIpAddress();
+			$ipAddress = $this->_getIpAddress();
 		}
 
 		$data = $this->_loadFile('city');

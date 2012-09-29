@@ -31,4 +31,8 @@ class LockerComponentTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+		
+	}
+
 }
