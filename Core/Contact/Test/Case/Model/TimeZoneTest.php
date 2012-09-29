@@ -13,7 +13,7 @@ class TimeZoneTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.contact.time_zone'
+		//'plugin.contact.time_zone'
 	);
 
 /**

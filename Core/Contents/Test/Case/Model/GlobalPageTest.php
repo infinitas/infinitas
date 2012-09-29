@@ -12,9 +12,7 @@ class GlobalPageTest extends CakeTestCase {
  *
  * @var array
  */
-	public $fixtures = array(
-		'plugin.contents.global_page'
-	);
+	public $fixtures = array();
 
 /**
  * setUp method
