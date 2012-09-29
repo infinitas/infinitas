@@ -1,10 +1,10 @@
 <?php
 	class Cron extends CronsAppModel {
 		public $useTable = 'crons';
-		
+
 		/**
 		 * @brief The process that is currently running
-		 * 
+		 *
 		 * @property _currentProcess
 		 */
 		protected $_currentProcess;
@@ -32,12 +32,12 @@
 		 *
 		 * @return bool|void true if everything is cool, null if already running or could not start
 		 */
-		public function start() {			
+		public function start() {
 			$data = null;
 			$memUsage = memoryUsage(false, false);
 			$serverLoad = serverLoad(false);
 			$serverLoad[0] = ($serverLoad[0] >= 0) ? $serverLoad[0] : 0;
-			
+
 			$data['Cron'] = array(
 				'process_id' => @getmypid(),
 				'year'	=> date('Y'),
@@ -76,7 +76,7 @@
 				trigger_error(__('Cron not yet started'), E_USER_WARNING);
 				return false;
 			}
-			
+
 			$data = null;
 			$memUsage = memoryUsage(false, false);
 			$serverLoad = serverLoad(false);
@@ -129,7 +129,7 @@
 		 * than the time span required.
 		 *
 		 * @param string $date the datetime since the last cron should have run
-		 * 
+		 *
 		 * @return bool are there jobs recently
 		 */
 		public function countJobsAfter($date) {
@@ -190,7 +190,7 @@
 				array(
 					'Cron.created <= ' => $date
 				),
-					false
+				false
 			);
 		}
 	}

@@ -13,11 +13,17 @@ class CronsEventsTest extends InfinitasEventTestCase {
 		'plugin.crons.cron'
 	);
 
+/**
+ * @brief adding the cron model for the tests
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->Cron = ClassRegistry::init('Crons.Cron');
 	}
 
+/**
+ * @brief clean up after testing
+ */
 	public function tearDown() {
 		parent::tearDown();
 		unset($this->Cron);
@@ -63,5 +69,17 @@ class CronsEventsTest extends InfinitasEventTestCase {
 		$result = $this->Event->trigger($this, 'Crons.requireTodoList');
 		$expected = array('requireTodoList' => array('Crons' => true));
 		$this->assertEqual($expected, $result);
+	}
+
+/**
+ * @brief test that the crons are run correctly
+ */
+	public function testRunCrons() {
+		$count = ClassRegistry::init('Crons.Cron')->find('count');
+		$this->assertEquals(139, $count);
+		$this->Event->trigger($this, 'Crons.runCrons');
+
+		$count = ClassRegistry::init('Crons.Cron')->find('count');
+		$this->assertEquals(0, $count);
 	}
 }
