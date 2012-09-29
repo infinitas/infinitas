@@ -16,10 +16,10 @@ class NewsletterTest extends CakeTestCase {
 		'plugin.newsletter.newsletter',
 		'plugin.newsletter.campaign',
 		'plugin.newsletter.template',
-		'plugin.newsletter.view_counter_view',
-		'plugin.newsletter.user',
-		'plugin.newsletter.group',
-		'plugin.newsletter.newsletters_user'
+		'plugin.newsletter.newsletters_user',
+		'plugin.view_counter.view_counter_view',
+		'plugin.users.user',
+		'plugin.users.group',
 	);
 
 /**

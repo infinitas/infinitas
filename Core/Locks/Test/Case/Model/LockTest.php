@@ -6,7 +6,6 @@ App::uses('Lock', 'Locks.Model');
  *
  */
 class LockTest extends CakeTestCase {
-
 /**
  * Fixtures
  *
@@ -14,8 +13,8 @@ class LockTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.locks.lock',
-		'plugin.locks.user',
-		'plugin.locks.group'
+		'plugin.users.user',
+		'plugin.users.group'
 	);
 
 /**

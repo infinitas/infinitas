@@ -1,5 +1,5 @@
 <?php
-class GlobalEventsTest extends PHPUnit_Framework_TestSuite {
+class EventsLayerTest extends PHPUnit_Framework_TestSuite {
 
 /**
  * Suite define the tests for this suite

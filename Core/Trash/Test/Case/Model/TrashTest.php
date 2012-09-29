@@ -14,8 +14,8 @@ class TrashTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.trash.trash',
-		'plugin.trash.user',
-		'plugin.trash.group'
+		'plugin.users.user',
+		'plugin.users.group'
 	);
 
 /**

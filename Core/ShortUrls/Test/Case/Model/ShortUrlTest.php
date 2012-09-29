@@ -14,7 +14,7 @@ class ShortUrlTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.short_urls.short_url',
-		'plugin.short_urls.view_counter_view'
+		'plugin.view_counter.view_counter_view'
 	);
 
 /**

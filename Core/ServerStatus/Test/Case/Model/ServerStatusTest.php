@@ -13,7 +13,7 @@ class ServerStatusTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.server_status.server_status'
+		'plugin.crons.cron'
 	);
 
 /**

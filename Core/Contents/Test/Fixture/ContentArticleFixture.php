@@ -22,7 +22,7 @@
  * @subpackage	plugins.tags.tests.fixtures
  */
 
-class ArticleFixture extends CakeTestFixture {
+class ContentArticleFixture extends CakeTestFixture {
 	public $table = 'articles';
 /**
  * fields property
@@ -32,7 +32,8 @@ class ArticleFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer'),
-		'title' => array('type' => 'string', 'null' => false));
+		'title' => array('type' => 'string', 'null' => false)
+	);
 
 /**
  * records property
@@ -49,7 +50,8 @@ class ArticleFixture extends CakeTestFixture {
 			'title' => 'Second Article'),
 		array(
 			'id' => 3,
-			'title' => 'Third Article'));
+			'title' => 'Third Article')
+	);
 
 }
 ?>

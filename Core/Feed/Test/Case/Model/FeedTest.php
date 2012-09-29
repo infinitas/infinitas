@@ -14,9 +14,10 @@ class FeedTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.feed.feed',
-		'plugin.feed.group',
-		'plugin.feed.view_counter_view',
-		'plugin.feed.feeds_feed'
+		'plugin.feed.feeds_feed',
+
+		'plugin.users.group',
+		'plugin.view_counter.view_counter_view',
 	);
 
 /**

@@ -54,7 +54,7 @@ class TaggableBehaviorTest extends CakeTestCase {
 		'plugin.installer.plugin',
 		'plugin.contents.global_tagged',
 		'plugin.contents.global_tag',
-		'plugin.contents.article'
+		'plugin.contents.content_article'
 	);
 
 /**
