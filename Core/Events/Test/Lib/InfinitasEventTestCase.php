@@ -56,6 +56,29 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
+ * @brief manuall call an event
+ *
+ * This will manually call an event to get the return, for auto testing of triggers
+ * that do not use complex checks, just standard returns.
+ *
+ * @param string $event the name of the event
+ * @param Event $object the event object that would be passed
+ *
+ * @return array
+ */
+	protected function _manualCall($event, $object = null) {
+		$method = 'on' . ucfirst($event);
+		$expected = array($event => array(call_user_func_array(array($this->EventClass, $method), array($object))));
+		$return = current(array_filter($expected[$event]));
+		$expected[$event] = array();
+		if($return) {
+			$expected[$event] = array($this->plugin => $return);
+		}
+
+		return $expected;
+	}
+
+/**
  * @brief test the instance is loaded correctly
  */
 	public function testInstance() {
@@ -66,12 +89,7 @@ class InfinitasEventTestCase extends CakeTestCase {
  * @brief test getting the plugins details
  */
 	public function testPluginRollCall() {
-		$expected = array('pluginRollCall' => array($this->EventClass->onPluginRollCall()));
-		$return = current(array_filter($expected['pluginRollCall']));
-		$expected['pluginRollCall'] = array();
-		if($return) {
-			$expected['pluginRollCall'] = array($this->plugin => $return);
-		}
+		$expected = $this->_manualCall('pluginRollCall');
 
 		$result = $this->Event->trigger($this->ObjectObject, $this->plugin . '.pluginRollCall');
 		$this->assertEquals($expected, $result);
@@ -81,12 +99,7 @@ class InfinitasEventTestCase extends CakeTestCase {
  * @brief test getting additional db configs
  */
 	public function testRequireDatabaseConfigs() {
-		$expected = array('requireDatabaseConfigs' => array($this->EventClass->onRequireDatabaseConfigs($this->ModelEvent)));
-		$return = current(array_filter($expected['requireDatabaseConfigs']));
-		$expected['requireDatabaseConfigs'] = array();
-		if($return) {
-			$expected['requireDatabaseConfigs'] = array($this->plugin => $return);
-		}
+		$expected = $this->_manualCall('requireDatabaseConfigs', $this->ObjectEvent);
 
 		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.requireDatabaseConfigs');
 		$this->assertEquals($expected, $result);
