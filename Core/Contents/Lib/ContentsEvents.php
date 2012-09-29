@@ -58,13 +58,13 @@ final class ContentsEvents extends AppEvents {
  * @param Event $Event
  */
 	public function onAttachBehaviors(Event $Event) {
-		if($event->Handler->shouldAutoAttachBehavior()) {
-			if (isset($event->Handler->contentable) && $event->Handler->contentable && !$event->Handler->Behaviors->enabled('Contents.Contentable')) {
-				$event->Handler->Behaviors->attach('Contents.Contentable');
+		if($Event->Handler->shouldAutoAttachBehavior()) {
+			if (isset($Event->Handler->contentable) && $Event->Handler->contentable && !$Event->Handler->Behaviors->enabled('Contents.Contentable')) {
+				$Event->Handler->Behaviors->attach('Contents.Contentable');
 			}
 
-			if (array_key_exists('category_id', $event->Handler->schema())  && !$event->Handler->Behaviors->enabled('Contents.Categorisable')) {
-				$event->Handler->Behaviors->attach('Contents.Categorisable');
+			if (array_key_exists('category_id', $Event->Handler->schema())  && !$Event->Handler->Behaviors->enabled('Contents.Categorisable')) {
+				$Event->Handler->Behaviors->attach('Contents.Categorisable');
 			}
 		}
 	}
