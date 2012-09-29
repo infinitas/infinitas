@@ -2,16 +2,6 @@
 App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
 class AssetsEventsTest extends InfinitasEventTestCase {
 /**
- *@brief test required helpers load correctly
- */
-	public function testRequireHelpers() {
-		$this->ViewObject->params = array();
-		$expected = array('requireHelpersToLoad' => array('Assets' => array('Assets.Compress')));
-		$result = $this->Event->trigger($this->ViewObject, 'Assets.requireHelpersToLoad');
-		$this->assertEquals($expected, $result);
-	}
-
-/**
  * @brief test required js loads correctly
  */
 	public function testRequireJavascript() {

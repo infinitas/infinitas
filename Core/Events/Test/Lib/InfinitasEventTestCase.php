@@ -105,10 +105,23 @@ class InfinitasEventTestCase extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+/**
+ * @brief test getting the admin menu
+ */
 	public function testAdminMenu() {
 		$expected = $this->_manualCall('adminMenu', $this->ObjectEvent);
 
 		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.adminMenu');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ *@brief test required helpers load correctly
+ */
+	public function testRequireHelpers() {
+		$expected = $this->_manualCall('requireHelpersToLoad', $this->ViewtEvent);
+
+		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.requireHelpersToLoad');
 		$this->assertEquals($expected, $result);
 	}
 }
