@@ -1,5 +1,5 @@
 <?php
-class TestPlugin extends CakeTestCase {
+class PluginTest extends CakeTestCase {
 /**
  * @test getting all plugins within the system
  */
