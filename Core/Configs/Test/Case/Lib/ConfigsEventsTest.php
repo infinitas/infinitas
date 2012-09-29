@@ -1,25 +1,11 @@
 <?php
-	class ConfigsEventsTest extends CakeTestCase {
-		var $fixturesasd = array(
-			'plugin.configs.config',
-			'plugin.themes.theme',
-			'plugin.routes.route',
-			'plugin.view_counter.view_counter_view',
+/**
+ * @brief ConfigsEventsTest
+ *
+ * These tests are extended from InfinitasEventTestCase which does most of the
+ * automated testing for simple events
+ */
+App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
+class ConfigsEventsTest extends InfinitasEventTestCase {
 
-			'plugin.categories.category',
-			'plugin.users.group',
-		);
-
-		public function startTest() {
-			$this->Event = EventCore::getInstance();
-		}
-
-		public function endTest() {
-			unset($this->Event);
-			ClassRegistry::flush();
-		}
-
-		public function testGenerateSiteMapData() {
-			$this->assertInstanceOf('EventCore', $this->Event);
-		}
-	}
+}
