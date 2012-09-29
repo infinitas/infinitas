@@ -18,6 +18,11 @@
  */
 
 final class ContentsEvents extends AppEvents {
+/**
+ * @brief get the plugin details
+ *
+ * @return array
+ */
 	public function onPluginRollCall() {
 		return array(
 			'name' => 'Content',
@@ -28,7 +33,14 @@ final class ContentsEvents extends AppEvents {
 		);
 	}
 
-	public function onAdminMenu($event) {
+/**
+ * @brief get the admin menu
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onAdminMenu(Event $Event) {
 		$menu['main'] = array(
 			'Dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'dashboard'),
 			'Layouts' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index'),
@@ -40,7 +52,12 @@ final class ContentsEvents extends AppEvents {
 		return $menu;
 	}
 
-	public function onAttachBehaviors($event) {
+/**
+ * @brief attach behaviors
+ *
+ * @param Event $Event
+ */
+	public function onAttachBehaviors(Event $Event) {
 		if($event->Handler->shouldAutoAttachBehavior()) {
 			if (isset($event->Handler->contentable) && $event->Handler->contentable && !$event->Handler->Behaviors->enabled('Contents.Contentable')) {
 				$event->Handler->Behaviors->attach('Contents.Contentable');
@@ -52,12 +69,24 @@ final class ContentsEvents extends AppEvents {
 		}
 	}
 
-	public function onRequireComponentsToLoad($event = null) {
+/**
+ * @brief get the components to load
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onRequireComponentsToLoad(Event $Event) {
 		return array(
 			'Contents.GlobalContents'
 		);
 	}
 
+/**
+ * @brief get the helpers to load
+ *
+ * @return array
+ */
 	public function onRequireHelpersToLoad() {
 		return array(
 			'Contents.TagCloud',
@@ -65,20 +94,41 @@ final class ContentsEvents extends AppEvents {
 		);
 	}
 
-	public function onRequireJavascriptToLoad($event) {
+/**
+ * @brief get the js to load
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onRequireJavascriptToLoad(Event $Event) {
 		return array(
 			'Contents.jq-tags',
 			'Contents.tags'
 		);
 	}
 
-	public function onRequireCssToLoad($event) {
+/**
+ * @brief get the css to load
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onRequireCssToLoad(Event $Event) {
 		return array(
 			'Contents.tags'
 		);
 	}
 
-	public function onSiteMapRebuild($event) {
+/**
+ * @brief get data for building the sitemap
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onSiteMapRebuild(Event $Event) {
 		$Category = ClassRegistry::init('Contents.GlobalCategory');
 		$newest = $Category->getNewestRow();
 		$frequency = $Category->getChangeFrequency();
@@ -132,7 +182,15 @@ final class ContentsEvents extends AppEvents {
 		return $return;
 	}
 
-	public function onSetupRoutes($event, $data = null) {
+/**
+ * @brief setup any hard coded routes
+ *
+ * @param Event $Event
+ * @param mixed $data
+ *
+ * return void
+ */
+	public function onSetupRoutes(Event $Event, $data = null) {
 		InfinitasRouter::connect(
 			'/admin/contents',
 			array(
@@ -145,7 +203,17 @@ final class ContentsEvents extends AppEvents {
 		);
 	}
 
-	public function onSlugUrl($event, $data = null) {
+/**
+ * @brief get the params for building a url
+ *
+ * @see AppEvents::onSlugUrl()
+ *
+ * @param Event $Event
+ * @param mixed $data
+ *
+ * @return array
+ */
+	public function onSlugUrl(Event $Event, $data = null) {
 		if(empty($data['type'])) {
 			$data['type'] = 'category';
 		}
@@ -164,10 +232,18 @@ final class ContentsEvents extends AppEvents {
 				break;
 		}
 
-		return parent::onSlugUrl($event, $data['data'], $data['type']);
+		return parent::onSlugUrl($Event, $data['data'], $data['type']);
 	}
 
-	public function onRouteParse($event, $data) {
+/**
+ * @brief parse a route to check if it should be used
+ *
+ * @param Event $Event
+ * @param array $data
+ *
+ * @return boolean|array
+ */
+	public function onRouteParse(Event $Event, array $data) {
 		$return = null;
 
 		if(!empty($data['slug'])) {

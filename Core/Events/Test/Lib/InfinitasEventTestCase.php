@@ -1,7 +1,12 @@
 <?php
 /**
  * @brief base test class for testing Events
+ *
+ * Some test classes that extend from this will not have any methods directly in
+ * them as they extend from the InfinitasEventTestCase class which does automated
+ * testing for the less complex events
  */
+
 class InfinitasEventTestCase extends CakeTestCase {
 /**
  * @brief set up required objects for testing
@@ -145,6 +150,20 @@ class InfinitasEventTestCase extends CakeTestCase {
 		$expected = $this->_manualCall('setupCache', $this->ObjectEvent);
 
 		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.setupCache');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * @brief test getting the required fixtures
+ */
+	public function testRequiredExtentions() {
+		if(!$this->_hasTrigger('setupExtensions')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('setupExtensions', $this->ObjectEvent);
+
+		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.setupExtensions');
 		$this->assertEquals($expected, $result);
 	}
 

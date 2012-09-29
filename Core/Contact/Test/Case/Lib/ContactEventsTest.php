@@ -1,15 +1,13 @@
 <?php
-App::uses('ContactEvents', 'Contact.Lib');
-class ContactEventsTest extends CakeTestCase {
-	public function setUp() {
-		parent::setUp();
-	}
+/**
+ * @brief ContactEventsTest
+ *
+ * These tests are extended from InfinitasEventTestCase which does most of the
+ * automated testing for simple events
+ */
 
-	public function tearDown() {
-		parent::tearDown();
-	}
+App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
 
-	public function testSomething() {
-
-	}
+class ContactEventsTest extends InfinitasEventTestCase {
+	
 }
