@@ -79,6 +79,24 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
+ * @brief test if the event class has the required event
+ *
+ * @param string $event the event to check for
+ *
+ * @return boolean 
+ */
+	protected function _hasTrigger($event) {
+		$method = 'on' . ucfirst($event);
+		$parentMethods = get_class_methods(get_parent_class($this->EventClass));
+		$methods = get_class_methods($this->EventClass);
+		if(!in_array($method, array_diff($methods, $parentMethods))) {
+			return false;
+		}
+
+		return true;
+	}
+
+/**
  * @brief test the instance is loaded correctly
  */
 	public function testInstance() {
@@ -89,6 +107,10 @@ class InfinitasEventTestCase extends CakeTestCase {
  * @brief test getting the plugins details
  */
 	public function testPluginRollCall() {
+		if(!$this->_hasTrigger('pluginRollCall')) {
+			return false;
+		}
+
 		$expected = $this->_manualCall('pluginRollCall');
 
 		$result = $this->Event->trigger($this->ObjectObject, $this->plugin . '.pluginRollCall');
@@ -99,6 +121,10 @@ class InfinitasEventTestCase extends CakeTestCase {
  * @brief test getting additional db configs
  */
 	public function testRequireDatabaseConfigs() {
+		if(!$this->_hasTrigger('requireDatabaseConfigs')) {
+			return false;
+		}
+
 		$expected = $this->_manualCall('requireDatabaseConfigs', $this->ObjectEvent);
 
 		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.requireDatabaseConfigs');
@@ -109,6 +135,10 @@ class InfinitasEventTestCase extends CakeTestCase {
  * @brief test getting the admin menu
  */
 	public function testAdminMenu() {
+		if(!$this->_hasTrigger('adminMenu')) {
+			return false;
+		}
+
 		$expected = $this->_manualCall('adminMenu', $this->ObjectEvent);
 
 		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.adminMenu');
@@ -119,9 +149,27 @@ class InfinitasEventTestCase extends CakeTestCase {
  *@brief test required helpers load correctly
  */
 	public function testRequireHelpers() {
+		if(!$this->_hasTrigger('requireHelpersToLoad')) {
+			return false;
+		}
+
 		$expected = $this->_manualCall('requireHelpersToLoad', $this->ViewtEvent);
 
 		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.requireHelpersToLoad');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ *@brief test required helpers load correctly
+ */
+	public function testRequireCss() {
+		if(!$this->_hasTrigger('requireCssToLoad')) {
+			return false;
+		}
+
+		$expected = $this->_manualCall('requireCssToLoad', $this->ViewtEvent);
+
+		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.requireCssToLoad');
 		$this->assertEquals($expected, $result);
 	}
 }
