@@ -104,4 +104,11 @@ class InfinitasEventTestCase extends CakeTestCase {
 		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.requireDatabaseConfigs');
 		$this->assertEquals($expected, $result);
 	}
+
+	public function testAdminMenu() {
+		$expected = $this->_manualCall('adminMenu', $this->ObjectEvent);
+
+		$result = $this->Event->trigger($this->ViewObject, $this->plugin . '.adminMenu');
+		$this->assertEquals($expected, $result);
+	}
 }
