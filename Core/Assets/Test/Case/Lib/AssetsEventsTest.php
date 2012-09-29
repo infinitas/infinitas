@@ -5,9 +5,9 @@ class AssetsEventsTest extends InfinitasEventTestCase {
  *@brief test required helpers load correctly
  */
 	public function testRequireHelpers() {
-		$this->Object->params = array();
+		$this->ViewObject->params = array();
 		$expected = array('requireHelpersToLoad' => array('Assets' => array('Assets.Compress')));
-		$result = $this->Event->trigger($this->Object, 'Assets.requireHelpersToLoad');
+		$result = $this->Event->trigger($this->ViewObject, 'Assets.requireHelpersToLoad');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -15,7 +15,7 @@ class AssetsEventsTest extends InfinitasEventTestCase {
  * @brief test required js loads correctly
  */
 	public function testRequireJavascript() {
-		$this->Object->params = array();
+		$this->ViewObject->params = array();
 		$expected = array('requireJavascriptToLoad' => array('Assets' => array(
 			'Assets.3rd/jquery',
 			'Assets.3rd/jquery_ui',
@@ -28,10 +28,10 @@ class AssetsEventsTest extends InfinitasEventTestCase {
 			'Assets.3rd/rater',
 			'Assets.3rd/moving_boxes'
 		)));
-		$result = $this->Event->trigger($this->Object, 'Assets.requireJavascriptToLoad');
+		$result = $this->Event->trigger($this->ViewObject, 'Assets.requireJavascriptToLoad');
 		$this->assertEquals($expected, $result);
 
-		$this->Object->params = array(
+		$this->ViewObject->params = array(
 			'admin' => true
 		);
 		$expected = array('requireJavascriptToLoad' => array('Assets' => array(
@@ -46,7 +46,7 @@ class AssetsEventsTest extends InfinitasEventTestCase {
 			'Assets.3rd/date',
 			'Assets.3rd/image_drop_down'
 		)));
-		$result = $this->Event->trigger($this->Object, 'Assets.requireJavascriptToLoad');
+		$result = $this->Event->trigger($this->ViewObject, 'Assets.requireJavascriptToLoad');
 		$this->assertEquals($expected, $result);
 	}
 }

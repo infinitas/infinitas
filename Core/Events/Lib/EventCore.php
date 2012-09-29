@@ -45,7 +45,7 @@
 		private $__availablePlugins = array();
 
 		private $__installedPlugins = array();
-		
+
 		private $__pluginsMap = array(
 			'testEvent' => 'all',
 			'setupRoutes' => 'all',
@@ -203,7 +203,7 @@
 
 			Cache::write('event_handlers', $this->_eventHandlerCache, 'core');
 		}
-		
+
 		public static function loadEventHandler($plugin) {
 			$_this = self::getInstance();
 			$filename = App::pluginPath($plugin) . 'Lib' . DS . $plugin . 'Events.php';
@@ -232,12 +232,12 @@
 			if(isset($_this->_eventHandlerCache[$eventName])) {
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
 					$pluginName = EventCore::_extractPluginName($eventClass);
-					
+
 					$pluginType = 'loaded';
 					if(isset($_this->__pluginsMap[$eventName])) {
 						$pluginType = $_this->__pluginsMap[$eventName];
 					}
-					
+
 					if(!in_array(Inflector::camelize($pluginName), (array)InfinitasPlugin::listPlugins($pluginType))) {
 						continue;
 					}
@@ -399,7 +399,7 @@
 		 * @param string $eventName Name of the Event
 		 * @param array $data optional array with k/v data
 		 */
-		public function __construct($eventName, &$HandlerObject, $pluginName) {
+		public function __construct($eventName, $HandlerObject, $pluginName) {
 			$this->name = $eventName;
 			$this->Handler = $HandlerObject;
 			$this->plugin = $pluginName;

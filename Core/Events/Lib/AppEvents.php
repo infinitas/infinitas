@@ -1,13 +1,13 @@
 <?php
 	/**
 	 * Base class for events.
-	 * 
+	 *
 	 * This is the base class for events that can provide some documentation about
 	 * what events are available and what they do. It extends Object so you can
 	 * do things like $this->log(), redirect() and other basic methods
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -15,9 +15,9 @@
 	 * @subpackage infinitas.events.app_events
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -35,7 +35,7 @@
 			if(!empty($this->__events)) {
 				return true;
 			}
-			
+
 			$this->__events = get_class_methods('AppEvents');
 			foreach($this->__events as $k => $event) {
 				if(substr($event, 0, 2) != 'on') {
@@ -54,7 +54,7 @@
 		final public function availableEvents() {
 			return $this->__events;
 		}
-		
+
 		/**
 		 * test if things are working
 		 */
@@ -82,7 +82,7 @@
 		 * They will be loaded when 'AppController' is included, before it runs.
 		 */
 		public function onLoadAppController() {}
-		
+
 
 		/**
 		 * Load up some of your own 'AppModels' so that you can create a base
@@ -99,12 +99,12 @@
 		 * Add database connections from your plugins with this trigger.
 		 * Its called in appModel before anything is created, even before default
 		 * (which is a reserved value)
-		 * 
+		 *
 		 * Event should return in the format 'name' => array('configs')
 		 *
 		 * @param object $event
 		 */
-		public function onRequireDatabaseConfigs($event) {}
+		public function onRequireDatabaseConfigs(Event $Event) {}
 
 		/**
 		 * Load the default cache settings.
@@ -116,11 +116,11 @@
 		 *
 		 * @return true
 		 */
-		public function onSetupCache($event, $data = null) {}
+		public function onSetupCache(Event $Event, $data = null) {}
 
-		public function onSetupConfigStart($event, $data = null) {}
-		
-		public function onSetupConfigEnd($event, $data = null) {}
+		public function onSetupConfigStart(Event $Event, $data = null) {}
+
+		public function onSetupConfigEnd(Event $Event, $data = null) {}
 
 		/**
 		 * Adding routes
@@ -128,10 +128,10 @@
 		 * Add routing to for the app from your plugin by calling Router::connect
 		 * This should be used for routes that will not change if your plugin
 		 * has routes that can be configured they should be in the database.
-		 * 
+		 *
 		 * @return nothing, it wont do anything
 		 */
-		public function onSetupRoutes($event, $data = null) {}
+		public function onSetupRoutes(Event $Event, $data = null) {}
 
 		/**
 		 * parse extensions
@@ -140,7 +140,7 @@
 		 *
 		 * @return array of extensions that should be registered.
 		 */
-		public function onSetupExtensions($event) {}
+		public function onSetupExtensions(Event $Event) {}
 
 		/**
 		 * @brief called when editing a row is canceled
@@ -152,12 +152,12 @@
 		 * @param Event $event the event being called
 		 * @param string $id
 		 */
-		public function onEditCanceled($event, $id) {}
+		public function onEditCanceled(Event $Event, $id) {}
 
 		/**
 		 *
 		 */
-		public function onAttachBehaviors($event = null) {}
+		public function onAttachBehaviors(Event $Event = null) {}
 
 
 
@@ -191,7 +191,7 @@
 		 * you can use {{templates.foo.phone}} in your views to show your phone
 		 * number.
 		 */
-		public function onRequireGlobalTemplates($event) {}
+		public function onRequireGlobalTemplates(Event $Event) {}
 
 		/**
 		 * @brief used to build the menus for the admin pages
@@ -208,7 +208,7 @@
 		 *
 		 * @return mixed string | array like you would use in Controller->helpers
 		 */
-		public function onRequireHelpersToLoad($event = null) {
+		public function onRequireHelpersToLoad(Event $Event = null) {
 			return array();
 		}
 
@@ -217,13 +217,13 @@
 		 *
 		 * Allows you to include javascript from your plugin that can be loaded
 		 * on any page
-		 * 
+		 *
 		 * called in AppController::beforeRender()
 		 *
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of javascript like HtmlHelper::script() takes
 		 */
-		public function onRequireJavascriptToLoad($event, $data = null) {}
+		public function onRequireJavascriptToLoad(Event $Event, $data = null) {}
 
 		/**
 		 * Get vcss files to include
@@ -236,7 +236,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
-		public function onRequireCssToLoad($event, $data = null) {}
+		public function onRequireCssToLoad(Event $Event, $data = null) {}
 
 		/**
 		 * Load components
@@ -249,7 +249,7 @@
 		 * @param $event some data for the current event
 		 * @return mixed string | array() of css like HtmlHelper::css() takes
 		 */
-		public function onRequireComponentsToLoad($event = null) {
+		public function onRequireComponentsToLoad(Event $Event = null) {
 			return array();
 		}
 
@@ -261,11 +261,11 @@
 		 * normally in the form of Model::find(first) that you can use.
 		 *
 		 */
-		public function onSlugUrl($event, $data = null, $type = null) {
+		public function onSlugUrl(Event $Event, $data = null, $type = null) {
 			if(empty($data) || $type == null) {
 				return false;
 			}
-			
+
 			$plugin = str_replace('Events', '', get_class($this));
 			$data = Set::flatten($data);
 
@@ -297,19 +297,19 @@
 		 * dependancies or configs, new records like pending comments etc.
 		 *
 		 * @code
-		 *	// format should be 
+		 *	// format should be
 		 *	$return[0]['name'] = 'something';
 		 *	$return[0]['type'] = 'warning|error';
 		 *	$return[0]['url']  = array();
 		 * @endcode
 		 */
-		public function onRequireTodoList($event) {}
+		public function onRequireTodoList(Event $Event) {}
 
 		/**
 		 * Last event to fire.
 		 *
 		 * Called after everything is done and finished. should not really be used
-		 * for output unless in debug mode. 
+		 * for output unless in debug mode.
 		 */
 		public function onRequestDone() {}
 
@@ -324,7 +324,7 @@
 		 *
 		 * @access public
 		 */
-		public function onRunCrons($event) {
+		public function onRunCrons(Event $Event) {
 			return false;
 		}
 	}
