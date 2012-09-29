@@ -12,9 +12,9 @@ class InfinitasEventTestCase extends CakeTestCase {
 		parent::setUp();
 		$this->_setPlugin();
 
-		$this->ModelObject = $this->ViewObject = $this->ControllerObject = new Object();
+		$this->ObjectObject = $this->ModelObject = $this->ViewObject = $this->ControllerObject = new Object();
 
-		$this->ObjectEvent = new Event('TestEvent', new Object(), $this->plugin);
+		$this->ObjectEvent = new Event('TestEvent', $this->ObjectObject, $this->plugin);
 		$this->ModelEvent = new Event('ModelEvent', $this->ModelObject, $this->plugin);
 		$this->ViewtEvent = new Event('ViewtEvent', $this->ViewObject, $this->plugin);
 		$this->ControllerEvent = new Event('ControllerEvent', $this->ControllerObject, $this->plugin);
@@ -66,7 +66,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	public function testPluginRollCall() {
 		$expected = array('pluginRollCall' => array($this->EventClass->onPluginRollCall()));
 		$expected['pluginRollCall'] = array_filter($expected['pluginRollCall']);
-		$result = $this->Event->trigger(new Object(), $this->plugin . '.pluginRollCall');
+		$result = $this->Event->trigger($this->ObjectObject, $this->plugin . '.pluginRollCall');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -76,7 +76,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	public function testRequireDatabaseConfigs() {
 		$expected = array('requireDatabaseConfigs' => array($this->EventClass->onRequireDatabaseConfigs($this->ModelEvent)));
 		$expected['requireDatabaseConfigs'] = array_filter($expected['requireDatabaseConfigs']);
-		$result = $this->Event->trigger(new Object(), $this->plugin . '.requireDatabaseConfigs');
+		$result = $this->Event->trigger($this->ModelObject, $this->plugin . '.requireDatabaseConfigs');
 		$this->assertEquals($expected, $result);
 	}
 }
