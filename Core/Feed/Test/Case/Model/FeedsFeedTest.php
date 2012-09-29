@@ -37,4 +37,8 @@ class FeedsFeedTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

@@ -37,4 +37,8 @@ class NewslettersUserTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+
+	}
+
 }

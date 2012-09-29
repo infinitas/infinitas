@@ -60,8 +60,8 @@ class UserFixture extends CakeTestFixture {
 			'is_mobile' => 0,
 			'created' => '2010-02-04 16:54:48',
 			'modified' => '2010-02-04 16:54:48',
-			'facebook_id' => null,
-			'twitter_id' => null,
+			'facebook_id' => 0,
+			'twitter_id' => 0,
 			'time_zone' => 'UTC',
 			'full_name' => 'Admin Guy',
 			'prefered_name' => null
@@ -84,8 +84,8 @@ class UserFixture extends CakeTestFixture {
 			'is_mobile' => 0,
 			'created' => '2010-05-15 14:35:32',
 			'modified' => '2010-05-15 14:36:19',
-			'facebook_id' => null,
-			'twitter_id' => null,
+			'facebook_id' => 0,
+			'twitter_id' => 0,
 			'time_zone' => 'UTC',
 			'full_name' => null,
 			'prefered_name' => 'dogmatic69'
