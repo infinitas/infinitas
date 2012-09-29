@@ -31,4 +31,8 @@ class CsvHelperTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+	public function testSomething() {
+		
+	}
+
 }
