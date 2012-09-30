@@ -8,6 +8,8 @@
 class LockFixture extends CakeTestFixture {
 	public $name = 'Lock';
 
+	public $table = 'global_locks';
+
 	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'class' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 128, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -22,5 +24,12 @@ class LockFixture extends CakeTestFixture {
 	);
 
 	public $records = array(
+		array(
+			'id' => 'lock-1',
+			'class' => 'Blog.Post',
+			'foreign_key' => 'post-1',
+			'user_id' => '1',
+			'created' => '2012-06-21 16:44:36'
+		),
 	);
 }
