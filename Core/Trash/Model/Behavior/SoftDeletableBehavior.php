@@ -10,6 +10,7 @@
 	 * @package app
 	 * @subpackage app.models.behaviors
 	 */
+	App::uses('ModelBehavior', 'Model');
 
 	/**
 	 * Model behavior to support soft deleting records.
@@ -271,7 +272,7 @@
 					}
 
 					if (is_string($queryData['conditions'])) {
-						$queryData['conditions'] = $Db->name($model->alias) . '.' . 
+						$queryData['conditions'] = $Db->name($model->alias) . '.' .
 							$Db->name($this->settings[$model->alias]['field']) . ' != 1 AND ' . $queryData['conditions'];
 					}
 

@@ -6,8 +6,25 @@
  * @since 0.9b1
  */
 class TrashFixture extends CakeTestFixture {
+/**
+ * Fixture name
+ *
+ * @var string
+ */
 	public $name = 'Trash';
 
+/**
+ * Table name
+ *
+ * @var string
+ */
+	public $table = 'core_trash';
+
+/**
+ * schema
+ *
+ * @var string
+ */
 	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
