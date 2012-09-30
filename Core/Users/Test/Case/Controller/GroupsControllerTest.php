@@ -1,38 +1,10 @@
 <?php
-	class TestGroupsController extends CakeTestCase {
-		/**
-		 * @brief Tests admin_index
-		 *
-		 * @test Enter description here
-		 */
-		public function testAdminIndex() {
+class GroupsControllerTest extends CakeTestCase {
+	public $fixtures = array(
+		'plugin.users.group'
+	);
 
-		}
+	public function testSomething() {
 
-		/**
-		 * @brief Tests admin_view
-		 *
-		 * @test Enter description here
-		 */
-		public function testAdminView() {
-
-		}
-
-		/**
-		 * @brief Tests admin_add
-		 *
-		 * @test Enter description here
-		 */
-		public function testAdminAdd() {
-
-		}
-
-		/**
-		 * @brief Tests admin_edit
-		 *
-		 * @test Enter description here
-		 */
-		public function testAdminEdit() {
-
-		}
 	}
+}

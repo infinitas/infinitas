@@ -7,6 +7,7 @@
  */
 class GroupFixture extends CakeTestFixture {
 	public $name = 'Group';
+	
 	public $table = 'core_groups';
 
 	public $fields = array(

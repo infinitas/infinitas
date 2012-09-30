@@ -35,6 +35,7 @@
 	App::uses('CakeLog', 'Log');
 
 	App::uses('AppModel', 'Model');
+	App::uses('ModelBehavior', 'Model');
 	App::uses('AppController', 'Controller');
 	App::uses('AppHelper', 'View/Helper');
 

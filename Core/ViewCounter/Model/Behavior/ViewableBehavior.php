@@ -16,7 +16,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
-
+	
 	class ViewableBehavior extends ModelBehavior {
 		/**
 		 * Contain settings indexed by model name.
@@ -54,7 +54,7 @@
 				$this->__settings[$Model->alias],
 				$settings
 			);
-			
+
 			$Model->bindModel(
 				array(
 					'hasMany' => array(
@@ -92,13 +92,13 @@
 		 */
 		public function afterFind($Model, $data) {
 			// skip finds with more than one result.
-			$skip = $Model->findQueryType == 'neighbors' || $Model->findQueryType == 'count' || 
-				empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1 || 
+			$skip = $Model->findQueryType == 'neighbors' || $Model->findQueryType == 'count' ||
+				empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1 ||
 				!isset($data[0][$Model->alias][$Model->primaryKey]);
 			if ($skip) {
 				return $data;
 			}
-			
+
 			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']) {
 				$this->__session[$Model->alias] = CakeSession::read('Viewable.'.$Model->alias);
 			}
@@ -110,7 +110,7 @@
 				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey],
 				'referer' => str_replace(InfinitasRouter::url('/'), '/', $Model->__referer)
 			);
-			
+
 			$location = EventCore::trigger($this, 'GeoLocation.getLocation');
 			$location = current($location['getLocation']);
 
@@ -123,7 +123,7 @@
 			$view['ViewCount']['day_of_year'] = date('z');
 			$view['ViewCount']['week_of_year'] = date('W');
 			$view['ViewCount']['hour'] = date('G'); // no leading 0
-			
+
 			$view['ViewCount']['city'] = $view['ViewCount']['city'] ? $view['ViewCount']['city'] : 'Unknown';
 
 			/**
@@ -133,7 +133,7 @@
 			$view['ViewCount']['day_of_week'] = date('w') + 1;
 
 			$Model->ViewCount->unBindModel(array('belongsTo' => array('GlobalCategory')));
-			
+
 			$Model->ViewCount->create();
 			$Model->ViewCount->save($view);
 			return $data;

@@ -3,15 +3,22 @@
 App::uses('Group', 'Users.Model');
 
 class GroupTestCase extends CakeTestCase {
-	function startTest() {
+	public $fixtures = array(
+		'plugin.users.group'
+	);
+
+	public function setUp() {
+		parent::setUp();
 		$this->Group = ClassRegistry::init('Users.Group');
 	}
 
-	function testDummy() {}
-
-	function endTest() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Group);
-		ClassRegistry::flush();
+	}
+
+	public function testSomething() {
+
 	}
 
 }
