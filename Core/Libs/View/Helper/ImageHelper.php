@@ -1,204 +1,212 @@
 <?php
-	/**
-	 * ImageHelper
-	 *
-	 * @package
-	 * @author dogmatic
-	 * @copyright Copyright (c) 2010
-	 * @version $Id$
-	 * @access public
-	 */
-	class ImageHelper extends AppHelper {
-		public $settings = array(
-			'width' => '20px'
-		);
-		
-		public $places = null;
+/**
+ * ImageHelper
+ *
+ * @package
+ * @author Carl Sutton (dogmatic69)
+ * @copyright Copyright (c) 2010
+ * @version $Id$
+ * @access public
+ */
+class ImageHelper extends AppHelper {
+/**
+ * @brief default config for the images
+ *
+ * @var array
+ */
+	public $settings = array(
+		'width' => '20px'
+	);
 
-		public $images = null;
+/**
+ * @brief cached list of the places
+ *
+ * @var array
+ */
+	protected $_places = array();
 
-		function image($path = null, $key = null) {
-			$images = Configure::read('CoreImages.images');
-			if (!$path && !$key) {
-				$this->errors[] = 'Give some data';
-				return false;
-			}
+/**
+ * @brief cached list of the images
+ *
+ * @var array
+ */
+	protected $_images = array();
 
-			if (!$path) {
-				return $this->findByExtention($key);
-			}
-
-			return $this->Html->image(
-					Configure::read('CoreImages.path') . $path . '/' . $images[$path][$key],
-					$this->settings + array(
-				'title' => $this->niceTitleText($key),
-				'alt' => $this->niceAltText($key)
-					)
-			);
+/**
+ * @brief get an image
+ *
+ * @param string $path the relative path (to core images path)
+ * @param string $key the key
+ *
+ * @return boolean|string
+ */
+	public function image($path, $key, array $config = array()) {
+		$image = $this->getRelativePath($path, $key);
+		if(!$image) {
+			return false;
 		}
 
-		/**
-		 * ImageHelper::findByExtention()
-		 *
-		 * @param mixed $extention
-		 * @return
-		 */
-		function findByExtention($extention = null) {
-			$images = Configure::read('CoreImages');
-			$imageData = array();
-			if (!$extention) {
-				$imageData['path'] = Configure::read('CoreImages.path') . 'folders/' . $images['images']['folders']['empty'];
-				$imageData['title'] = $imageData['alt'] = $this->niceAltText('folder');
-			}
-
-			if (empty($imageData)) {
-				foreach ($images['images'] as $path => $image) {
-					if (isset($image[$extention])) {
-						$imageData['path'] = Configure::read('CoreImages.path') . $path . '/' . $image[$extention];
-						$imageData['title'] = $imageData['alt'] = $this->niceTitleText($extention);
-					}
-				}
-			}
-
-			if ($extention[0] == '.' || empty($imageData)) {
-				$imageData['path'] = Configure::read('CoreImages.path') . 'unknown/' . $images['images']['unknown']['unknown'];
-				$imageData['title'] = $imageData['alt'] = $this->niceAltText('unknown');
-			}
-
-			return $this->Html->image(
-					$imageData['path'],
-					$this->settings + array(
-				'title' => $imageData['title'],
-				'alt' => $imageData['alt']
-					)
-			);
-		}
-
-		/**
-		 * ImageHelper::findByExtention()
-		 *
-		 * @param mixed $extention
-		 * @return
-		 */
-		function findByChildren($children = array()) {
-			$images = Configure::read('CoreImages.images');
-			if (empty($children[1])) {
-				return $this->Html->image(
-						Configure::read('CoreImages.path') . 'folders/' . $images['folders']['empty'],
-						$this->settings + array(
-					'title' => __('Empty Folder'),
-					'alt' => __('Empty Folder')
-						)
-				);
-			}
-
-			App::import('File');
-
-			foreach ($children[1] as $child) {
-				$File = new File($child);
-				$ext = $File->ext();
-
-				if (!isset($data[$ext])) {
-					$data[$ext] = 0;
-					continue;
-				}
-
-				$data[$ext]++;
-				unset($File);
-			}
-
-			$highest = 0;
-			$_ext = '';
-			foreach ($data as $k => $v) {
-				if ($v > $highest) {
-					$highest = $v;
-					$_ext = $k;
-				}
-			}
-
-			return $this->findByExtention($_ext);
-		}
-
-		function getRelativePath($places = null, $key = null) {
-			$places = $this->__placeExists($places);
-
-			if (!$places) {
-				return $places;
-			}
-
-			if (!$key) {
-				$this->errors[] = 'No key or place given to find a path';
-			}
-
-			foreach ($this->__getImages() as $path => $image) {
-				$return = $this->__imageExists($path, $key, 'relativePath');
-
-				if ($return !== false) {
-					return $return;
-				}
-			}
-		}
-
-		function __placeExists($places = null) {
-			if (!is_array($places)) {
-				$places = array($places);
-			}
-
-			foreach ($places as $k => $place) {
-				if (!in_array($place, $this->__getPlaces())) {
-					unset($places[$k]);
-				}
-			}
-
-			if (empty($places)) {
-				$this->errors[] = 'the place(s) does not exist.';
-				return false;
-			}
-
-			return $places;
-		}
-
-		function __getImages() {
-			if (!$this->images) {
-				$this->images = Configure::read('CoreImages.images');
-			}
-
-			return $this->images;
-		}
-
-		function __getPlaces() {
-			if (!$this->places) {
-				$this->places = array_keys($this->__getImages());
-			}
-
-			return $this->places;
-		}
-
-		function __imageExists($place, $key, $returnType = null) {
-			$images = $this->__getImages();
-
-			if (!isset($images[$place][$key])) {
-				$this->errors[] = 'CoreImages.images.' . $place . '.' . $key . ' does not exist';
-				return false;
-			}
-
-			switch ($returnType) {
-				case 'fileName':
-					return $images[$place][$key];
-					break;
-
-				case 'relativePath':
-					return Configure::read('CoreImages.path') . $place . '/' . $images[$place][$key];
-					break;
-
-				case 'absolutePath':
-					//  @todo fix this
-					echo 'todo: ' . __LINE__ . ' - ' . __FILE__;
-					exit;
-					break;
-
-				default:
-					return true;
-			} // switch
-		}
+		return $this->Html->image($image, $this->_config($config, $key));
 	}
+
+/**
+ * @brief find an image by its extension
+ *
+ * @param string $extention the extension to lookup
+ *
+ * @return string
+ */
+	public function findByExtention($extention = null, array $config = array()) {
+		$images = Configure::read('CoreImages');
+		$imageData = array();
+		$key = null;
+		if (!$extention) {
+			$imageData['path'] = $images['path'] . 'folders/' . $images['images']['folders']['empty'];
+			$key = 'folder';
+		}
+
+		if (empty($imageData)) {
+			foreach ($images['images'] as $path => $image) {
+				if (isset($image[$extention])) {
+					$imageData['path'] = $images['path'] . $path . '/' . $image[$extention];
+					$key = $extention;
+				}
+			}
+		}
+
+		if ($extention[0] == '.' || empty($imageData)) {
+			$imageData['path'] = $images['path'] . 'unknown/' . $images['images']['unknown']['unknown'];
+			$key = 'unknown';
+		}
+
+		return $this->Html->image($imageData['path'], $this->_config($config, $key));
+	}
+
+/**
+ * @brief get a relative path
+ *
+ * @param string $place the place
+ * @param string $key the key
+ *
+ * @return boolean|string
+ */
+	public function getRelativePath($place, $key = null) {
+		return $this->exists($place, $key, 'relativePath');
+	}
+
+/**
+ * @brief check if the passed location exists
+ *
+ * @param type $places
+ *
+ * @return boolean|array
+ */
+	public function placeExists($places = null) {
+		if (!is_array($places)) {
+			$places = array($places);
+		}
+
+		$currentPlaces = $this->getPlaces();
+		foreach ($places as $k => $place) {
+			if (!in_array($place, $currentPlaces)) {
+				unset($places[$k]);
+			}
+		}
+
+		if (empty($places)) {
+			$this->errors[] = 'the place(s) does not exist.';
+			return false;
+		}
+
+		return $places;
+	}
+
+/**
+ * @brief get a list of the images
+ *
+ * @return array
+ */
+	public function getImages() {
+		if (!$this->_images) {
+			$this->_images = Configure::read('CoreImages.images');
+		}
+
+		return $this->_images;
+	}
+
+/**
+ * @brief get a list of possible locations
+ *
+ * @return array
+ */
+	public function getPlaces() {
+		if (!$this->_places) {
+			$this->_places = array_keys($this->getImages());
+		}
+
+		return $this->_places;
+	}
+
+/**
+ * @brief check if an image exists
+ *
+ * You can get a return of the following:
+ *  - fileName: the file name
+ *  - relativePath: the full relative path
+ *	- absolutePath: the full path
+ *
+ * @param string $place the location
+ * @param string $key the type
+ * @param string $returnType what data is returned
+ *
+ * @return boolean
+ */
+	public function exists($place, $key, $returnType = null) {
+		$images = $this->getImages();
+
+		if (!isset($images[$place][$key])) {
+			$this->errors[] = 'CoreImages.images.' . $place . '.' . $key . ' does not exist';
+			return false;
+		}
+
+		switch ($returnType) {
+			case 'fileName':
+				return $images[$place][$key];
+
+			case 'relativePath':
+				return Configure::read('CoreImages.path') . $place . '/' . $images[$place][$key];
+
+			case 'absolutePath':
+				//  @todo implement this
+		}
+
+		return true;
+	}
+
+/**
+ * @brief get a config for the image tags
+ *
+ * @param array $config the config to overload with
+ *
+ * @return array
+ */
+	protected function _config(array $config, $key = null) {
+		$config = array_merge($this->settings, $config);
+		if(empty($config['title'])) {
+			$config['title'] = $this->niceTitleText($key);
+		}
+
+		if(substr($config['title'], -4) == ' :: ') {
+			$config['title'] = str_replace(' :: ', '', $config['title']);
+		}
+		if(empty($config['alt'])) {
+			$config['alt'] = $config['title'];
+		}
+
+		if(strstr($config['alt'], '  :: ') !== false) {
+			$config['alt'] = trim(current(explode(' :: ', $config['alt'])));
+		}
+
+		return $config;
+	}
+}
