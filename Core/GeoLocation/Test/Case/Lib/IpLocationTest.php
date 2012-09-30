@@ -34,8 +34,18 @@ class IpLocationTest extends CakeTestCase {
  * @dataProvider dataProvider
  */
 	public function testCityData($data, $expected) {
+		$this->skipIf(!$this->IpLocation->hasCityData());
+
 		$result = $this->IpLocation->getCityData($data['ip'], $data['code']);
 		$this->assertEquals($expected['city'], $result);
+	}
+
+/**
+ * @brief test the file checks
+ */
+	public function testFileChecks() {
+		$this->assertTrue($this->IpLocation->hasCountryData() === is_file($this->IpLocation->countryDataFile));
+		$this->assertTrue($this->IpLocation->hasCityData() === is_file($this->IpLocation->cityDataFile));
 	}
 
 /**

@@ -25,7 +25,7 @@ Class IpLocation extends Object {
 		new GeoIP();
 		switch($type) {
 			case 'country':
-				if(!is_file($this->countryDataFile)) {
+				if(!$this->hasCountryData()) {
 					throw new InvalidArgumentException(sprintf(__('%s data file is missing (tried: %s)'), $type, $this->countryDataFile));
 					return false;
 				}
@@ -35,7 +35,7 @@ Class IpLocation extends Object {
 
 			case 'city':
 				new GeoIPCity();
-				if(!is_file($this->cityDataFile)) {
+				if(!$this->hasCityData()) {
 					return false;
 				}
 
@@ -166,5 +166,23 @@ Class IpLocation extends Object {
 		unset($data);
 
 		return $city;
+	}
+
+/**
+ * @brief check if the city data file is available
+ *
+ * @return boolean
+ */
+	public function hasCityData() {
+		return is_file($this->cityDataFile);
+	}
+
+/**
+ * @brief check if the country data file is available
+ *
+ * @return boolean
+ */
+	public function hasCountryData() {
+		return is_file($this->countryDataFile);
 	}
 }
