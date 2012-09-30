@@ -1,10 +1,26 @@
 <?php
 class InstallerTest extends CakeTestCase {
+	public $fixtures = array(
+		'plugin.installer.plugin',
+		'plugin.migrations.schema_migration',
+		'plugin.blog.blog_post'
+	);
+
+	public function setUp() {
+		parent::setUp();
+		$this->Plugin = ClassRegistry::init('Installer.Plugin');
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->Plugin);
+	}
+
 /**
  * @test some random methods in the install lib
  */
 	public function testInstallerMethods() {
-		$this->assertTrue(App::import('lib', 'Installer.Installer'), 'Could not import the insatller lib');
+		App::uses('InstallerLib', 'Installer.Lib');
 		$Installer = new InstallerLib();
 
 		$data = $Installer->getLicense();
@@ -58,10 +74,11 @@ class InstallerTest extends CakeTestCase {
  * @test installing plugins
  */
 	public function testInstaller() {
+		$this->skipIf(true);
 		$this->__cleanSystem();
 
-		$this->assertTrue(App::import('lib', 'Installer.Installer'), 'Could not import the insatller lib');
-		$this->assertTrue(App::import('Lib', 'Installer.ReleaseVersion'), 'Could not import Versions lib');
+		App::uses('InstallerLib', 'Installer.Lib');
+		App::uses('ReleaseVersion', 'Installer.Lib');
 
 		$Installer = new InstallerLib();
 		$Version = new ReleaseVersion(array('connection' => 'test_suite'));
@@ -111,9 +128,9 @@ class InstallerTest extends CakeTestCase {
  */
 	private function __cleanSystem($all = true) {
 		if(!isset($this->__oldTables)) {
-			$this->__oldTables = $this->db->listSources();
+			$this->__oldTables = ConnectionManager::getDataSource('test')->listSources();
 		}
-		foreach($this->db->listSources() as $table) {
+		foreach(ConnectionManager::getDataSource('test')->listSources() as $table) {
 			if(!$all && in_array($table, $this->__oldTables)) {
 				continue;
 			}

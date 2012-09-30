@@ -1,5 +1,21 @@
 <?php
 class PluginTest extends CakeTestCase {
+	public $fixtures = array(
+		'plugin.installer.plugin',
+		'plugin.migrations.schema_migration',
+		'plugin.blog.blog_post'
+	);
+
+	public function setUp() {
+		parent::setUp();
+		$this->Plugin = ClassRegistry::init('Installer.Plugin');
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->Plugin);
+	}
+
 /**
  * @test getting all plugins within the system
  */

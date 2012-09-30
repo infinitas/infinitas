@@ -13,7 +13,7 @@ class InstallTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.installer.install'
+		//'plugin.installer.install'
 	);
 
 /**
