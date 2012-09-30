@@ -113,7 +113,7 @@
 		)
 	);
 
-	if($this->Infinitas->hasPlugin('ViewCounter')) {
+	if(InfinitasPlugin::loaded('ViewCounter')) {
 		$links['config'][] =  array(
 			'name' => __d('newsletter', 'Views'),
 			'description' => __d('newsletter', 'Track content popularity'),

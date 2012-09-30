@@ -38,7 +38,7 @@
 		)
 	);
 
-	if($this->Infinitas->hasPlugin('ViewCounter')) {
+	if(InfinitasPlugin::loaded('ViewCounter')) {
 		$links['config'][] =  array(
 			'name' => __d('view_counter', 'Views'),
 			'description' => __d('blog', 'Track content popularity'),
