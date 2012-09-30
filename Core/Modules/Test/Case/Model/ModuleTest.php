@@ -12,7 +12,7 @@ class ModuleTestCase extends CakeTestCase {
 		'plugin.routes.route',
 		'plugin.modules.modules_route',
 		'plugin.installer.plugin',
-		'plugin.locks.global_lock',
+		'plugin.locks.lock',
 		'plugin.management.ticket',
 	);
 
@@ -299,7 +299,7 @@ class ModuleTestCase extends CakeTestCase {
 						'name' => 'Users'
 					),
 					'Route' => array(
-						
+
 					))),
 			array(
 				array('module' => 'login', 'admin' => true), false),

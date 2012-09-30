@@ -19,7 +19,7 @@
 			'plugin.modules.modules_route',
 			'plugin.modules.module_position',
 			'plugin.routes.route',
-			'plugin.locks.global_lock',
+			'plugin.locks.lock',
 			'plugin.installer.plugin',
 			'plugin.contents.global_tag',
 			'plugin.themes.theme'

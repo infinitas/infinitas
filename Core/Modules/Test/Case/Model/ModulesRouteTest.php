@@ -18,7 +18,7 @@ class ModulesRouteTest extends CakeTestCase {
 		'plugin.routes.route',
 		'plugin.installer.plugin',
 		'plugin.modules.modules_route',
-		'plugin.locks.global_lock',
+		'plugin.locks.lock',
 		'plugin.management.ticket',
 		'plugin.users.user',
 		'plugin.users.group',

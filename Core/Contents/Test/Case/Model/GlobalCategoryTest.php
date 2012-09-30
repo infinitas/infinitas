@@ -13,7 +13,7 @@ class GlobalCategoryTest extends CakeTestCase {
 		'plugin.view_counter.view_counter_view',
 		'plugin.users.user',
 		'plugin.users.group',
-		'plugin.locks.global_lock',
+		'plugin.locks.lock',
 		'plugin.management.ticket'
 	);
 

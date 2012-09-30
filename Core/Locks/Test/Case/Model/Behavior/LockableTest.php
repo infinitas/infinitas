@@ -28,7 +28,7 @@ class LockableTestCase extends CakeTestCase {
 		'plugin.users.user',
 		'plugin.users.group',
 
-		'plugin.locks.global_lock'
+		'plugin.locks.lock'
 	);
 
 	public function startTest() {
