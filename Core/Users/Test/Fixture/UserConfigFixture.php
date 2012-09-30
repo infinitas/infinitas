@@ -4,8 +4,8 @@ class UserConfigFixture extends CakeTestFixture {
 	var $name = 'UserConfig';
 
 	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'length' => 10, 'key' => 'primary'),
+		'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
 		'key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'key' => 'unique'),
 		'value' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'type' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 20),

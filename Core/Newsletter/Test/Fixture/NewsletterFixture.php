@@ -10,9 +10,9 @@ class NewsletterFixture extends CakeTestFixture {
 	public $table = 'newsletter_newsletters';
 
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'campaign_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'key' => 'index'),
-		'template_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary'),
+		'campaign_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'key' => 'index'),
+		'template_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
 		'from' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'reply_to' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'subject' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),

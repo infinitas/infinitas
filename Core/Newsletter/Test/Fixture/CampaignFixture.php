@@ -10,12 +10,12 @@ class CampaignFixture extends CakeTestFixture {
 	public $table = 'newsletter_campaigns';
 
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'length' => 10, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'newsletter_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'template_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'template_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'deleted' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 1),

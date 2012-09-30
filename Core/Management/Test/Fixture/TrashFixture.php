@@ -5,7 +5,7 @@ class TrashFixture extends CakeTestFixture {
 	var $table = 'core_trash';
 
 	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
 		'model' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100),
 		'foreign_key' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL),

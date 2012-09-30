@@ -10,7 +10,7 @@ class RouteFixture extends CakeTestFixture {
 	public $table = 'core_routes';
 
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary'),
 		'core' => array('type' => 'boolean', 'null' => false, 'default' => null),
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'url' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -24,9 +24,9 @@ class RouteFixture extends CakeTestFixture {
 		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'layout' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 150, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'order_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
+		'order_id' => array('type' => 'string', 'null' => false, 'default' => '1', 'length' => 36),
 		'ordering' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'theme_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'theme_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => null),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),

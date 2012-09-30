@@ -6,8 +6,8 @@ class SubscriberFixture extends CakeTestFixture {
 	var $table = 'newsletter_subscribers';
 
 	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 10, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'length' => 10, 'key' => 'primary'),
+		'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),

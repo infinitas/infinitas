@@ -16,9 +16,9 @@ class LogFixture extends CakeTestFixture {
 		'model' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'model_id' => array('type' => 'integer', 'null' => true, 'default' => null),
 		'action' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'user_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36),
 		'change' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'version_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'version_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)

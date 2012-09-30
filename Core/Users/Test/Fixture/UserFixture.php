@@ -16,7 +16,7 @@ class UserFixture extends CakeTestFixture {
 		'password' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 40, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'birthday' => array('type' => 'date', 'null' => true, 'default' => null),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'group_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'group_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
 		'ip_address' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'browser' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'operating_system' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),

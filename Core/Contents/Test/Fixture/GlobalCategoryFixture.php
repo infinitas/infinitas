@@ -11,7 +11,7 @@ class GlobalCategoryFixture extends CakeTestFixture {
 	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'primary', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'group_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 3, 'key' => 'index'),
+		'group_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'key' => 'index'),
 		'item_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'lft' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),

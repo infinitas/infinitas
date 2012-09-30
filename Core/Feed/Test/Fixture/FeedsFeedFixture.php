@@ -9,9 +9,9 @@ class FeedsFeedFixture extends CakeTestFixture {
 	public $name = 'FeedsFeed';
 
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'main_feed_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'sub_feed_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary'),
+		'main_feed_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
+		'sub_feed_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

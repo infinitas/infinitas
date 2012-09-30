@@ -24,7 +24,7 @@ class FeedFixture extends CakeTestFixture {
 		'order' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'limit' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'group_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'group_id' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 36),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(

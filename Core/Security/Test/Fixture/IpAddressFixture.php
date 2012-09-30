@@ -13,7 +13,7 @@ class IpAddressFixture extends CakeTestFixture {
 	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'ip_address' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'user_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36),
 		'description' => array('type' => 'text', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'times_blocked' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 6),
 		'unlock_at' => array('type' => 'datetime', 'null' => true, 'default' => null),

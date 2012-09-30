@@ -4,7 +4,7 @@ class UploadFixture extends CakeTestFixture {
 	var $name = 'Upload';
 
 	var $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary'),
 		'photo' => array('type' => 'string', 'null' => true, 'default' => NULL),
 		'dir' => array('type' => 'string', 'null' => true, 'default' => NULL),
 		'type' => array('type' => 'string', 'null' => true, 'default' => NULL),
@@ -20,7 +20,7 @@ class UploadFixture extends CakeTestFixture {
 			'photo' => 'Photo.png',
 			'dir' => '1',
 			'type' => 'image/png',
-			'size' => 8192	
+			'size' => 8192
 		),
 	);
 }
