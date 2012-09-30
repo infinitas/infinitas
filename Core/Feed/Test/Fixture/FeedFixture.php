@@ -7,7 +7,8 @@
  */
 class FeedFixture extends CakeTestFixture {
 	public $name = 'Feed';
-	public $table = 'global_feed';
+	
+	public $table = 'global_feeds';
 
 	public $fields = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
