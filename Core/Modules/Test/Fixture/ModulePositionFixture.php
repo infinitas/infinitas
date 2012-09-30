@@ -28,77 +28,77 @@ class ModulePositionFixture extends CakeTestFixture {
 			'name' => 'top',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-bottom',
 			'name' => 'bottom',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-left',
 			'name' => 'left',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-right',
 			'name' => 'right',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-custom1',
 			'name' => 'custom1',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-custom2',
 			'name' => 'custom2',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-custom3',
 			'name' => 'custom3',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-custom4',
 			'name' => 'custom4',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-bread-crumbs',
 			'name' => 'bread_crumbs',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-debug',
 			'name' => 'debug',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 		array(
 			'id' => 'module-position-hidden',
 			'name' => 'hidden',
 			'created' => '2010-01-18 21:45:23',
 			'modified' => '2010-01-18 21:45:23',
-			'module_count' => 'null'
+			'module_count' => 0
 		),
 	);
 }
