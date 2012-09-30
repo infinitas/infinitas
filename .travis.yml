@@ -4,6 +4,7 @@ php:
   - 5.3
 
 env:
+  - CAKE_VERSION=2.2
   - CAKE_VERSION=2.3
 
 env:
