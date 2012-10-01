@@ -163,6 +163,7 @@
 				$query['conditions'][$this->Controller->{$this->Controller->modelClass}->alias . '.' . $this->Controller->{$this->Controller->modelClass}->primaryKey] = $id;
 
 				$this->Controller->request->data = $this->Controller->{$this->Controller->modelClass}->find('first', $query);
+			
 				if(empty($this->Controller->request->data)) {
 					$this->Controller->notice('invalid');
 				}

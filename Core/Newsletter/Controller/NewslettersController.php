@@ -244,6 +244,22 @@
 		}
 
 		public function admin_add() {
+			if ($this->request->isPost()) {	
+				$campaignId = $this->request->data['Newsletter']['campaign_id'];
+				
+				$campaign = $this->Newsletter->Campaign->find('first', array(
+					'fields' => array(
+						'template_id'
+						),
+					'conditions' => array(
+						'Campaign.id' => $campaignId
+						)
+					)
+				);
+
+				$this->request->data['Newsletter']['template_id'] = $campaign['Campaign']['template_id'];
+			}
+		
 			parent::admin_add();
 
 			$campaigns = $this->Newsletter->Campaign->find('list');
@@ -268,6 +284,8 @@
 			}
 
 			$newsletter = $this->Newsletter->read(null, $id);
+			$templateId = $newsletter['Newsletter']['template_id'];
+			$template = $this->Newsletter->Template->read(null, $templateId);
 
 			if (!empty($this->request->data)) {
 				$id = $this->request->data['Newsletter']['id'];
@@ -282,24 +300,20 @@
 						)
 					);
 				}
-
+				
 				$sent = 0;
 				foreach($addresses as $address) {
-					$this->Email->from = 'Infinitas Test Mail <' . $newsletter['Newsletter']['from'] . '>';
-					$this->Email->to = 'Test <' . $address . '>';
+					$email = new InfinitasEmail('gmail');
+					$email->from(array($newsletter['Newsletter']['from'] => 'Infinitas'));
+					$email->to($address);
 
-					$this->Email->subject = strip_tags($newsletter['Newsletter']['subject']);
-					$this->set('email', $newsletter['Template']['header'] . $newsletter['Newsletter']['html'] . $newsletter['Template']['footer']);
+					$email->subject(strip_tags($newsletter['Newsletter']['subject']));
 
-					if ($this->Email->send()) {
+					if ($email->send($template['Template']['header'] . $newsletter['Newsletter']['html'] . $template['Template']['footer'])) {
 						$sent++;
 					}
-
-					pr($this->Email->smtpError);
-
-					$this->Email->reset();
-				}
-
+				} 
+				
 				$this->notice(sprintf(__('%s mails were sent'), $sent));
 			}
 
@@ -308,6 +322,12 @@
 			}
 
 			$this->set('newsletter', $this->Newsletter->read(null, $id));
+		}
+
+		public function admin_edit($id = null) {
+			parent::admin_edit();
+
+			$this->set('campaigns', $this->Newsletter->Campaign->find('list'));
 		}
 
 		public function admin_preview($id = null) {
@@ -338,6 +358,7 @@
 				);
 
 				$this->set('data', $newsletter['Template']['header'] . $newsletter['Newsletter']['html'] . $newsletter['Template']['footer']);
+				Configure::write('debug', 0);
 			}
 		}
 
@@ -450,5 +471,39 @@
 					'redirect' => true
 				)
 			);
+		}
+
+		public function admin_mass() {
+   			if ($this->MassAction->getAction() == 'send') {
+	        	$ids = $this->{$this->modelClass}->find(
+	            	'list',
+	           			 array(
+	               		 'conditions' => array(
+	                    $this->{$this->modelClass}->alias . '.active' => 0,
+	                    $this->{$this->modelClass}->alias . '.' . $this->{$this->modelClass}->primaryKey => $this->MassAction->getIds($this->MassAction->getAction(), $this->request->data[$this->modelClass])
+	                	)
+	            	)
+	        	);
+
+		        if(empty($ids)) {
+		            $this->notice(
+		                __d('newsletter', 'Nothing to send'),
+		                array(
+		                    'level' => 'warning',
+		                    'redirect' => ''
+		                )
+		            );
+		        }
+ 				
+ 				if (count($ids) == 1) {
+ 					$message = 'Newsletter is now sending';	
+ 				} else {
+ 					$message = 'The Newsletters are now sending';
+ 				}
+ 				
+        		$this->MassAction->toggle(array_keys($ids), $message);
+    		}
+ 
+    		parent::admin_mass();
 		}
 	}
