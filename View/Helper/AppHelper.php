@@ -326,10 +326,12 @@
 			if(is_array($massActions)) {
 				$massActions = $this->massActionButtons($massActions);
 			}
-			return sprintf(
-				'<div class="adminTopBar">%s%s</div>',
-				$this->adminPageHead(),
-				$massActions
+
+			return $this->Html->tag(
+				'div',
+				$this->adminPageHead() . $massActions,
+				array('class' => 'adminTopBar')
+
 			);
 		}
 
@@ -458,8 +460,9 @@
 
 			if ($currentPosition > 1) {
 				$out .= $this->Html->link(
-					$this->Html->image(
-						$this->Image->getRelativePath('actions', 'arrow-up'),
+					$this->Image->image(
+						'actions',
+						'arrow-up',
 						array(
 							'alt' => __('Up'),
 							'title' => __('Move up'),
@@ -475,7 +478,10 @@
 			}
 
 			if($results == null || $currentPosition < $maxPosition) {
-				$out .= $this->Html->link($this->Html->image($this->Image->getRelativePath('actions', 'arrow-down'),
+				$out .= $this->Html->link(
+					$this->Image->image(
+						'actions',
+						'arrow-down',
 						array(
 							'alt' => __('Down'),
 							'title' => __('Move down'),
@@ -522,8 +528,9 @@
 
 			if(!$options['firstChild']) {
 				$out .= $this->Html->link(
-					$this->Html->image(
-						$this->Image->getRelativePath('actions', 'arrow-up'),
+					$this->Image->image(
+						'actions',
+						'arrow-up',
 						array(
 							'alt' => __('Up'),
 							'title' => __('Move up'),
@@ -544,8 +551,9 @@
 
 			if(!$options['lastChild']) {
 				$out .= $this->Html->link(
-					$this->Html->image(
-						$this->Image->getRelativePath('actions', 'arrow-down'),
+					$this->Image->image(
+						'actions',
+						'arrow-down',
 						array(
 							'alt' => __('Down'),
 							'title' => __('Move down'),
@@ -654,31 +662,26 @@
 				return false;
 			}
 
-			$out = '';
+			$out = array();
 			foreach($buttons as $button) {
-				$imagePath = $this->Image->getRelativePath(array('actions'), $button);
-
-				$buttonCaption = '<span>';
-				if ($imagePath) {
-					$buttonCaption .= $this->Html->image($imagePath) . '<br/>';
-				}
-
-				$buttonCaption .= __(Inflector::humanize($button)) . '</span>';
-
-				$out .= $this->Form->button(
-					 $buttonCaption,
+				$out[] = $this->Form->button(
+					 $this->Html->tag(
+						'span',
+						$this->Image->image('actions', $button, array('width' => '32')) . '<br/>' . __(Inflector::humanize($button))
+					),
 					array(
 						'value' => strtolower(str_replace(array('-', ' '), '_', $button)),
 						'name' => 'action',
 						'title' => $this->niceTitleText($button, $name),
 						'div' => false
-						)
-					);
+					)
+				);
 			}
 
-			return sprintf(
-				'<div class="massActions"><div class="wrapper">%s</div></div>',
-				$out
+			return $this->Html->tag(
+				'div',
+				$this->Html->tag('div', implode('', $out), array('class' => 'wrapper')),
+				array('class' => 'massActions')
 			);
 		}
 
@@ -707,8 +710,9 @@
 			}
 
 			return $this->Html->link(
-				$this->Html->image(
-					$this->Image->getRelativePath('actions', 'new-window'),
+				$this->Image->image(
+					'actions',
+					'new-window',
 					array(
 						'title' => __('Preview'),
 						'alt' => __('Preview')
