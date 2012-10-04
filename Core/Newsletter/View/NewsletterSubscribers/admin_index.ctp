@@ -65,8 +65,9 @@
 							<?php
 								echo $newsletterSubscriber['NewsletterSubscriber']['subscriber_name'];
 								if(!empty($newsletterSubscriber['User']['id'])) {
-									echo $this->Html->image(
-										$this->Image->getRelativePath('actions', 'new-window'),
+									echo $this->Image->image(
+										'actions',
+										'new-window',
 										array(
 											'title' => __d('newsletter', 'View'),
 											'alt' => __d('newsletter', 'View'),
