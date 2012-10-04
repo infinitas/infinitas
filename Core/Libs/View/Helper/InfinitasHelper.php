@@ -20,6 +20,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  */
+App::uses('CakeTime', 'Utility');
 App::uses('AppHelper', 'View/Helper');
 
 class InfinitasHelper extends AppHelper {
@@ -133,5 +134,40 @@ class InfinitasHelper extends AppHelper {
 		);
 
 		return $checkbox;
+	}
+
+/**
+ * @brief generate a date display box
+ *
+ * @param string|array $date a date string or record with created / modified date
+ * @param string $method the CakeTime method to use
+ *
+ * @return string
+ */
+	public function date($date, $method = 'niceShort') {
+		if(!method_exists('CakeTime', $method)) {
+			return false;
+		}
+
+		if(is_array($date)) {
+			if(!empty($date['modified'])) {
+				$date = $date['modified'];
+			} elseif(!empty($date['created'])) {
+				$date = $date['created'];
+			} else {
+				$date = null;
+			}
+		}
+
+		if(empty($date)) {
+			return false;
+		}
+
+		return $this->Html->tag(
+			'div',
+			$this->Html->tag('span', call_user_func('CakeTime::' . $method), array('class' => $method)) .
+			$this->Html->tag('span', $date, array('class' => 'full')),
+			array('class' => 'date')
+		);
 	}
 }

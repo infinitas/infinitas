@@ -231,4 +231,123 @@ class InfinitasHelperTest extends CakeTestCase {
 		);
 	}
 
+/**
+ * @brief test date display
+ *
+ * @param type $data
+ * @param type $expected
+ *
+ * @dataProvider dateDataProvider
+ */
+	public function testDate($data, $expected) {
+		if(isset($data['method'])) {
+			$result = $this->Infinitas->date($data['date'], $data['method']);
+		} else {
+			$result = $this->Infinitas->date($data['date']);
+		}
+		$this->assertTags($result, $expected);
+	}
+
+	public function dateDataProvider() {
+		App::uses('CakeTime', 'Utility');
+		$date = date('Y-m-d H:i:s');
+		return array(
+			'simple' => array(
+				array('date' => $date),
+				array(
+					array('div' => array(
+						'class' => 'date'
+					)),
+					array('span' => array(
+						'class' => 'niceShort'
+					)),
+					CakeTime::niceShort($date),
+					'/span',
+					array('span' => array(
+						'class' => 'full'
+					)),
+					$date,
+					'/span',
+					'/div'
+				)
+			),
+			'custom' => array(
+				array('date' => $date, 'method' => 'nice'),
+				array(
+					array('div' => array(
+						'class' => 'date'
+					)),
+					array('span' => array(
+						'class' => 'nice'
+					)),
+					CakeTime::nice($date),
+					'/span',
+					array('span' => array(
+						'class' => 'full'
+					)),
+					$date,
+					'/span',
+					'/div'
+				)
+			),
+			'modified' => array(
+				array('date' => array('modified' => $date), 'method' => 'nice'),
+				array(
+					array('div' => array(
+						'class' => 'date'
+					)),
+					array('span' => array(
+						'class' => 'nice'
+					)),
+					CakeTime::nice($date),
+					'/span',
+					array('span' => array(
+						'class' => 'full'
+					)),
+					$date,
+					'/span',
+					'/div'
+				)
+			),
+			'created' => array(
+				array('date' => array('created' => $date), 'method' => 'nice'),
+				array(
+					array('div' => array(
+						'class' => 'date'
+					)),
+					array('span' => array(
+						'class' => 'nice'
+					)),
+					CakeTime::nice($date),
+					'/span',
+					array('span' => array(
+						'class' => 'full'
+					)),
+					$date,
+					'/span',
+					'/div'
+				)
+			),
+			'both' => array(
+				array('date' => array('modified' => $date, 'created' => date('Y-m-d H:i:s', strtotime('-10 years')))),
+				array(
+					array('div' => array(
+						'class' => 'date'
+					)),
+					array('span' => array(
+						'class' => 'niceShort'
+					)),
+					CakeTime::niceShort($date),
+					'/span',
+					array('span' => array(
+						'class' => 'full'
+					)),
+					$date,
+					'/span',
+					'/div'
+				)
+			)
+		);
+	}
+
 }
