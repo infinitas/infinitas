@@ -54,8 +54,9 @@
 	   		}
 
 			$output .= $this->Form->button(
-				$this->Html->image(
-					$this->Image->getRelativePath(array('actions'), 'filter'),
+				$this->Image->image(
+					'actions',
+					'filter',
 					array(
 						'width' => '16px'
 					)

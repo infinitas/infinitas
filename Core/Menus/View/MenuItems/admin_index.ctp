@@ -104,8 +104,9 @@
                 		</td>
 						<td>
 							<?php
-								echo $this->Html->image(
-									$this->Image->getRelativePath('actions', 'add'),
+								echo $this->Image->image(
+									'actions',
+									'add',
 									array(
 										'width' => '16px',
 										'url' => array(
