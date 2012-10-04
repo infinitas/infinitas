@@ -340,14 +340,26 @@
 					continue;
 				}
 
-				$pass[] = sprintf("'%s'", $v);
+				$pass[] = sprintf("'%s'", htmlspecialchars($v));
 			}
 
-			$line['function'] = sprintf(
-				'%s(%s)',
-				implode($line['type'], array($line['class'], $line['function'])),
-				implode(', ', $pass)
-			);
+			if(empty($line['type'])) {
+				$line['type'] = '';
+			}
+
+			if(!empty($line['class'])) {
+				$line['function'] = sprintf(
+					'%s(%s)',
+					implode($line['type'], array($line['class'], $line['function'])),
+					implode(', ', $pass)
+				);
+			} else {
+				$line['function'] = sprintf(
+					'%s(%s)',
+					$line['function'],
+					implode(', ', $pass)
+				);
+			}
 			array_walk($line['args'], function(&$line) {
 				$line = print_r($line, true);
 			});
