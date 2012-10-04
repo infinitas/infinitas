@@ -35,6 +35,7 @@ switch(Infinitas.params.prefix) {
 			setupAjaxPagination();
 			setupRowDetails();
 			setupHrefToggle();
+			dateToggle();
 
 			$(document).bind('keydown', 'ctrl+s', function(event) {
 				if(event.ctrlKey && event.which == 83) { // ctrl+s
@@ -95,6 +96,15 @@ switch(Infinitas.params.prefix) {
 			setupHrefToggle();
 		});
 		break;
+}
+
+function dateToggle() {
+	var dateSpan = $('div.date span');
+	$('div.date').hover(function() {
+		dateSpan.toggle()
+	}, function() {
+		dateSpan.toggle();
+	});
 }
 
 function setupHrefToggle() {
