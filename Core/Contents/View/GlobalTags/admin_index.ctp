@@ -57,7 +57,7 @@
 						<td><?php echo $tag['GlobalTag']['name']; ?></td>
 						<td><?php echo $tag['GlobalTag']['keyname']; ?></td>
 						<td><?php echo $tag['GlobalTag']['weight']; ?></td>
-						<td><?php echo $this->Time->niceShort($tag['GlobalTag']['created']); ?></td>
+						<td><?php echo $this->Infinitas->date($tag['GlobalTag']['created']); ?></td>
 					</tr>
 				<?php
 			}

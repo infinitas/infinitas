@@ -72,7 +72,7 @@
 					</td>
 					<td><?php echo $page['GlobalPage']['file_name']; ?>&nbsp;</td>
 					<td><?php echo convert($page['GlobalPage']['size']); ?>&nbsp;</td>
-					<td><?php echo CakeTime::niceShort($page['GlobalPage']['modified']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($page['GlobalPage']['modified']); ?>&nbsp;</td>
 				</tr><?php
 				$id++;
 			}

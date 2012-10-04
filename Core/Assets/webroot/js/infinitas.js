@@ -99,11 +99,10 @@ switch(Infinitas.params.prefix) {
 }
 
 function dateToggle() {
-	var dateSpan = $('div.date span');
 	$('div.date').hover(function() {
-		dateSpan.toggle()
+		$('span', this).toggle();
 	}, function() {
-		dateSpan.toggle();
+		$('span', this).toggle();
 	});
 }
 

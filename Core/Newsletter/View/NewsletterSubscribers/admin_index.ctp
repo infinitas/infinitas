@@ -89,8 +89,8 @@
 							?>&nbsp;
 						</td>
                         <td><?php echo $newsletterSubscriber['NewsletterSubscriber']['subscription_count']; ?>&nbsp;</td>
-                        <td><?php echo $this->Time->niceShort($newsletterSubscriber['NewsletterSubscriber']['created']); ?>&nbsp;</td>
-                        <td><?php echo $this->Time->niceShort($newsletterSubscriber['NewsletterSubscriber']['modified']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['created']); ?>&nbsp;</td>
+                        <td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['modified']); ?>&nbsp;</td>
                         <td>
                             <?php
                                 echo $this->Infinitas->status($newsletterSubscriber['NewsletterSubscriber']['active'], $newsletterSubscriber['NewsletterSubscriber']['id']);

@@ -60,7 +60,7 @@
 							<?php echo $modulePosition['ModulePosition']['module_count']; ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($modulePosition['ModulePosition']['modified']); ?>&nbsp;
+							<?php echo $this->Infinitas->date($modulePosition['ModulePosition']['modified']); ?>&nbsp;
 						</td>
 					</tr>
 				<?php

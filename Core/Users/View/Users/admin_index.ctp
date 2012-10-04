@@ -82,16 +82,16 @@
 						<td>
 							<?php
 								if ($user['User']['birthday']) {
-									echo $this->Time->niceShort($user['User']['birthday'], null, false);
+									echo $this->Infinitas->date($user['User']['birthday'], null, false);
 								}
 								else{
 									echo __('Not Set');
 								}
 							?>&nbsp;
 						</td>
-						<td><?php echo $this->Time->niceShort($user['User']['created']); ?>&nbsp;</td>
-						<td><?php echo $this->Time->niceShort($user['User']['modified']); ?>&nbsp;</td>
-						<td><?php echo $this->Time->niceShort($user['User']['last_login']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->date($user['User']['created']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->date($user['User']['modified']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->date($user['User']['last_login']); ?>&nbsp;</td>
 						<td><?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;</td>
 					</tr>
 				<?php

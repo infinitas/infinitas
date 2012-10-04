@@ -78,8 +78,8 @@
                             ?>
                         </td>
                         <td style="text-align:center;"><?php echo $campaign['Campaign']['newsletter_count']; ?></td>
-                        <td><?php echo $this->Time->niceShort($campaign['Campaign']['created']); ?></td>
-                        <td><?php echo $this->Time->niceShort($campaign['Campaign']['modified']); ?></td>
+                        <td><?php echo $this->Infinitas->date($campaign['Campaign']['created']); ?></td>
+                        <td><?php echo $this->Infinitas->date($campaign['Campaign']['modified']); ?></td>
                         <td>
                             <?php
                                 $newsletterStatuses = Set::extract('/Newsletter/sent', $campaign);

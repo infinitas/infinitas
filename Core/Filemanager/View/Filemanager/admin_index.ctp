@@ -119,13 +119,13 @@
 							<?php echo $folder['Folder']['permission'].' / '.$folder['Folder']['octal']; ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($folder['Folder']['created']); ?>
+							<?php echo $this->Infinitas->date($folder['Folder']['created']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($folder['Folder']['modified']); ?>
+							<?php echo $this->Infinitas->date($folder['Folder']['modified']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($folder['Folder']['accessed']); ?>
+							<?php echo $this->Infinitas->date($folder['Folder']['accessed']); ?>
 						</td>
 					</tr>
 				<?php
@@ -166,13 +166,13 @@
 							<?php echo $file['File']['permission'].' / '.$file['File']['octal']; ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($file['File']['created']); ?>
+							<?php echo $this->Infinitas->date($file['File']['created']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($file['File']['modified']); ?>
+							<?php echo $this->Infinitas->date($file['File']['modified']); ?>
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($file['File']['accessed']); ?>
+							<?php echo $this->Infinitas->date($file['File']['accessed']); ?>
 						</td>
 					</tr>
 				<?php

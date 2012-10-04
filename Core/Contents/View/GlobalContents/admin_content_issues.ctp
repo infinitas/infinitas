@@ -161,7 +161,7 @@
 							?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort($content['GlobalContent']['modified']); ?>&nbsp;
+                			<?php echo $this->Infinitas->date($content['GlobalContent']['modified']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

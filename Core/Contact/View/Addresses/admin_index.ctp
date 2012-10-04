@@ -90,7 +90,7 @@
 							<?php echo __(Configure::read('Contact.continents.' . $address['ContactAddress']['continent_id'])); ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($address['ContactAddress']['modified']); ?>&nbsp;
+							<?php echo $this->Infinitas->date($address['ContactAddress']['modified']); ?>&nbsp;
 						</td>
 					</tr>
 				<?php

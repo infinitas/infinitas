@@ -107,7 +107,7 @@
 							<?php echo $this->Infinitas->ordering($contact['Contact']['id'], $contact['Contact']['ordering'], 'Contact.Contact'); ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($contact['Contact']['modified']); ?>
+							<?php echo $this->Infinitas->date($contact['Contact']['modified']); ?>
 						</td>
 						<td>
 							<?php echo $this->Infinitas->status($contact['Contact']['active']); ?>&nbsp;

@@ -76,7 +76,7 @@
                 			<?php echo Inflector::humanize($config['Config']['type']); ?>&nbsp;
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort($config['Config']['modified']); ?>&nbsp;
+                			<?php echo $this->Infinitas->date($config['Config']['modified']); ?>&nbsp;
                 		</td>
                 	</tr>
                 <?php

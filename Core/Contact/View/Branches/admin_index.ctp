@@ -96,7 +96,7 @@
 							<?php echo $this->Infinitas->ordering($branch['Branch']['id'], $branch['Branch']['ordering'], 'Contact.Branch'); ?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($branch['Branch']['modified']); ?>&nbsp;
+							<?php echo $this->Infinitas->date($branch['Branch']['modified']); ?>&nbsp;
 						</td>
 						<td>
 							<?php echo $this->Infinitas->status($branch['Branch']['active']); ?>&nbsp;

@@ -67,7 +67,7 @@
 						<td><?php echo $mail['MailSystem']['subject']; ?>&nbsp;</td>
 						<td><?php echo $this->EmailAttachments->hasAttachment($mail['MailSystem']); ?>&nbsp;</td>
 						<td><?php echo convert($mail['MailSystem']['size']); ?>&nbsp;</td>
-						<td><?php echo $this->Time->niceShort($mail['MailSystem']['created']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->date($mail['MailSystem']['created']); ?>&nbsp;</td>
 					</tr>
 				<?php
 			}

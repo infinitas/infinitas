@@ -95,7 +95,7 @@
 						<?php echo $this->Html->link($feed['Group']['name'], array('controller' => 'groups', 'action' => 'edit', $feed['Group']['id'])); ?>
 					</td>
 					<td><?php echo $this->Infinitas->status($feed['Feed']['active'], $feed['Feed']['id']); ?>&nbsp;</td>
-					<td><?php echo $this->Time->niceShort($feed['Feed']['modified']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($feed['Feed']['modified']); ?>&nbsp;</td>
 				</tr><?php
 			}
 		?>

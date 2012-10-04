@@ -102,7 +102,7 @@
                 			<?php echo $category['GlobalCategory']['views']; ?>
                 		</td>
                 		<td>
-                			<?php echo $this->Time->niceShort($category['GlobalCategory']['modified']); ?>
+                			<?php echo $this->Infinitas->date($category['GlobalCategory']['modified']); ?>
                 		</td>
                 		<td>
                 			<?php echo $this->Infinitas->treeOrdering($category['GlobalCategory']); ?>&nbsp;

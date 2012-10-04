@@ -14,7 +14,7 @@
 		<div class="dashboard">
 			<h1>
 				<?php echo $mail['MailSystem']['subject']; ?>
-				<small><?php echo $this->Time->niceShort($mail['MailSystem']['created']); ?></small>
+				<small><?php echo $this->Infinitas->date($mail['MailSystem']['created']); ?></small>
 			</h1>
 			<div class="mail">
 				<div class="sender">

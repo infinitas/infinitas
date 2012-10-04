@@ -73,7 +73,7 @@
 								if(!$layout['GlobalLayout']['theme_id']) {
 									$layout['Theme']['name'] = __d('themes', 'Global');
 								}
-							
+
 								if(!$layout['GlobalLayout']['layout']) {
 									$layout['GlobalLayout']['layout'] = __d('themes', 'Global');
 								}
@@ -81,7 +81,7 @@
 							?>&nbsp;
                 		</td>
                 		<td><?php echo $layout['GlobalLayout']['content_count']; ?>&nbsp;</td>
-                		<td><?php echo $this->Time->niceShort($layout['GlobalLayout']['modified']); ?>&nbsp;</td>
+                		<td><?php echo $this->Infinitas->date($layout['GlobalLayout']['modified']); ?>&nbsp;</td>
                 		<td><?php echo $this->Locked->display($layout); ?>&nbsp;</td>
                 	</tr>
                 <?php

@@ -66,8 +66,8 @@
 						?>&nbsp;
 					</td>
 					<td><?php echo $group['Group']['parent_id']; ?>&nbsp;</td>
-					<td><?php echo $this->Time->niceShort($group['Group']['created']); ?>&nbsp;</td>
-					<td><?php echo $this->Time->niceShort($group['Group']['modified']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($group['Group']['created']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($group['Group']['modified']); ?>&nbsp;</td>
 				</tr><?php
 			}
 		?>

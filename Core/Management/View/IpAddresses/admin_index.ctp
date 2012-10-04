@@ -65,7 +65,7 @@
 							?>&nbsp;
 						</td>
 						<td>
-							<?php echo $this->Time->niceShort($ipAddress['IpAddress']['modified']); ?>&nbsp;
+							<?php echo $this->Infinitas->date($ipAddress['IpAddress']['modified']); ?>&nbsp;
 						</td>
 						<td>
 							<?php echo $this->Infinitas->status($ipAddress['IpAddress']['active']); ?>&nbsp;
