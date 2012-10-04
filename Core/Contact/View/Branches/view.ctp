@@ -75,8 +75,9 @@
 					<td>
 						<a href="skype:<?php echo $contact['skype']; ?>?chat" title="<?php echo $contact['skype']; ?>">
 							<?php
-								echo $this->Html->image(
-									$this->Image->getRelativePath('social', 'skype'),
+								echo $this->Image->image(
+									'social',
+									'skype',
 									array(
 										'width' => '16px'
 									)
@@ -84,8 +85,9 @@
 							?>
 						</a>
 						<?php
-							echo $this->Html->image(
-								$this->Image->getRelativePath('social', 'vcf'),
+							echo $this->Image->image(
+								'social',
+								'vcf',
 								array(
 									'width' => '16px',
 									'url' => array(

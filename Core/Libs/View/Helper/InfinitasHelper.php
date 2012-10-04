@@ -88,12 +88,12 @@ class InfinitasHelper extends AppHelper {
 		if(in_array((string)strtolower($status), array('1', 'yes', 'on'))) {
 			$params['title'] = $options['title_yes'];
 			$params['alt'] = __d('infinitas', 'On');
-			return $this->Html->image($this->Image->getRelativePath('status', 'active'), $params);
+			return $this->Image->image('status', 'active', $params);
 		}
 
 		$params['title'] = $options['title_no'];
 		$params['alt'] = __d('infinitas', 'Off');
-		return $this->Html->image($this->Image->getRelativePath('status', 'inactive'), $params);
+		return $this->Image->image('status', 'inactive', $params);
 	}
 
 /**

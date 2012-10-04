@@ -38,8 +38,9 @@
 		public function display($row = array(), $model = 'Lock') {
 			$row = array_filter($row[$model]);
 			if(!empty($row['id'])) {
-				return $this->Html->image(
-					$this->Image->getRelativePath('status', 'locked'),
+				return $this->Image->image(
+					'status',
+					'locked',
 					array(
 						'alt' => __d('locks', 'Locked'),
 						'width' => '16px',
@@ -52,8 +53,9 @@
 				);
 			}
 
-			return $this->Html->image(
-				$this->Image->getRelativePath('status', 'not-locked'),
+			return $this->Image->image(
+				'status',
+				'not-locked',
 				array(
 					'alt' => __d('locks', 'Not Locked'),
 					'width' => '16px',

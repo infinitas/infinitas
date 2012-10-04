@@ -42,8 +42,9 @@
 			<?php echo $contact['Contact']['skype']; ?>
 			<a href="skype:<?php echo $contact['Contact']['skype']; ?>?chat" title="<?php echo $contact['Contact']['skype']; ?>" alt="<?php echo $contact['Contact']['skype']; ?>">
 				<?php
-					echo $this->Html->image(
-						$this->Image->getRelativePath('social', 'skype'),
+					echo $this->Image->image(
+						'social',
+						'skype',
 						array(
 							'width' => '16px'
 						)
