@@ -347,10 +347,27 @@
 				$FromModel = $this->_getModelObject($options['from']);
 			}
 
+			$alias = $Model->alias;
+			if(!empty($options['alias'])) {
+				$alias = $options['alias'];
+			}
+
 			$relationType = $this->_relationType($Model, $FromModel);
 			switch($relationType) {
 				case 'hasOne':
-					throw new InvalidArgumentException('Not implemented');
+					if(empty($FromModel->{$relationType}[$Model->alias]['foreignKey'])) {
+						if(empty($FromModel->{$relationType}[$Model->alias]['conditions'])) {
+							throw new InvalidArgumentException('Unable to determin relation');
+						}
+
+						return $options['conditions'] = $FromModel->{$relationType}[$Model->alias]['conditions'];
+					}
+
+					if(!empty($FromModel->{$relationType}[$Model->alias]['conditions'])) {
+						$options['conditions'] = $FromModel->{$relationType}[$Model->alias]['conditions'];
+					}
+					$options['conditions'][] = $options['alias'] . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey'] . ' = ' . $FromModel->alias . '.' . $FromModel->primaryKey;
+					return;
 					break;
 
 				case 'hasMany':
@@ -365,11 +382,11 @@
 
 					if($relationType == 'belongsTo') {
 						return $options['conditions'] = array(
-							$Model->alias . '.' . $FromModel->primaryKey . ' = ' . $FromModel->alias . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey']
+							$options['alias'] . '.' . $FromModel->primaryKey . ' = ' . $FromModel->alias . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey']
 						);
 					} elseif($relationType == 'hasMany') {
 						return $options['conditions'] = array(
-							$Model->alias . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey'] . ' = ' . $FromModel->alias . '.' . $FromModel->primaryKey
+							$options['alias'] . '.' . $FromModel->{$relationType}[$Model->alias]['foreignKey'] . ' = ' . $FromModel->alias . '.' . $FromModel->primaryKey
 						);
 					}
 					break;
