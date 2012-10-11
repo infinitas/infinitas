@@ -47,7 +47,10 @@
 	);
 
 	foreach($fields as $field) {
-		if ($schema[$field]['type'] == 'text') {
+		$check = $schema[$field]['type'] == 'text' || (
+			in_array('created', $fields) && in_array('modified', $fields)
+		);
+		if ($check) {
 			$ignore[] = $field;
 		}
 	}
@@ -78,7 +81,7 @@
  */
 
 COMMENT;
-	echo "echo \$this->Form->create('$modelClass', array('action' => 'mass'));\n\n".
+	echo "echo \$this->Form->create(null, array('action' => 'mass'));\n\n".
 		"\$massActions = \$this->Infinitas->massActionButtons(\n".
 			"\tarray(\n".
 				"\t\t'add',\n".
@@ -175,7 +178,7 @@ COMMENT;
 								switch($field) {
 									case 'created':
 									case 'modified':
-										$endFields .= "\t\t\t\t\t<td><?php echo CakeTime::niceShort(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n";
+										$endFields .= "\t\t\t\t\t<td><?php echo \$this->Infinitas->date(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
 										break;
 
 									case 'active':

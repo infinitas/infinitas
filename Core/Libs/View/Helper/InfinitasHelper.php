@@ -120,7 +120,7 @@ class InfinitasHelper extends AppHelper {
 			$options['primaryKey'] = ClassRegistry::init($modelClass)->primaryKey;
 		}
 
-		if(empty($data[$options['alias']]) || empty($data[$options['alias']][$options['primaryKey']])) {
+		if(empty($data[$options['alias']]) || !isset($data[$options['alias']][$options['primaryKey']])) {
 			return false;
 		}
 

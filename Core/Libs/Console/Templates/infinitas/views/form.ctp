@@ -69,10 +69,10 @@
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
-	 * @link		  http://infinitas-cms.org/$plugin
-	 * @package	   $plugin.views.$action
-	 * @license	   http://infinitas-cms.org/mit-license The MIT License
-	 * @since $version
+	 * @link    http://infinitas-cms.org/$plugin
+	 * @package	$plugin.views.$action
+	 * @license	http://infinitas-cms.org/mit-license The MIT License
+	 * @since   $version
 	 *
 	 * @author $username
 	 *
@@ -88,11 +88,11 @@ COMMENT;
 
 	foreach ($fields as $field) {
 		if (in_array($field, $possibleFileFields)) {
-			$fileUpload = ", array('type' => 'file')";
+			$fileUpload = "null, array('type' => 'file')";
 		}
 	}
 
-	echo "\techo \$this->Form->create('{$modelClass}'{$fileUpload});\n".
+	echo "\techo \$this->Form->create({$fileUpload});\n".
 		"\t\techo \$this->Infinitas->adminEditHead(); ?>\n";
 		echo "\t\t<fieldset>\n" .
 			"\t\t\t<h1><?php echo __('" . prettyName($modelClass) . "'); ?></h1><?php\n";
