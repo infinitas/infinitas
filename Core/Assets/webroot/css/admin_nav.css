@@ -561,15 +561,24 @@ form select{
 
 	form .date select,
 	form .smaller div.select,
+	form .smaller div.input,
+	form .smaller input,
 	form .smaller select{
 		width: 31%;
 		margin-right: 9px;
 	}
+	form div.tiny {
+		overflow: auto;
+	}
+	form .tiny input {
+		width: 21%;
+		margin-right: 10px;
+		float: left;
+	}
 
 	form .smaller {
-
 		overflow: auto;
-}
+	}
 	form .smaller div.select {
 		float: left;
 	}
