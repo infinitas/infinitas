@@ -300,6 +300,16 @@
 
 			$this->_joinConditions($Model, $options);
 
+			if($Model->alias !== $options['alias']) {
+				$conditions = array();
+				foreach($options['conditions'] as $k => $v) {
+					$k = str_replace($Model->alias, $options['alias'], $k);
+					$v = str_replace($Model->alias, $options['alias'], $v);
+					$conditions[$k] = $v;
+				}
+				$options['conditions'] = $conditions;
+			}
+
 			return $options;
 		}
 
