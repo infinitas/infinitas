@@ -100,12 +100,12 @@ COMMENT;
 <div class="table">
 	<table class="listing" cellpadding="0" cellspacing="0">
 		<?php
-			echo "<?php\n".
-				"\t\t\techo \$this->Infinitas->adminTableHeader(\n".
-					"\t\t\t\tarray(\n".
-						"\t\t\t\t\t\$this->Form->checkbox('all') => array(\n".
-							"\t\t\t\t\t\t'class' => 'first',\n".
-							"\t\t\t\t\t\t'style' => 'width:25px;'\n".
+			echo "<?php\n" .
+				"\t\t\techo \$this->Infinitas->adminTableHeader(\n" .
+					"\t\t\t\tarray(\n" .
+						"\t\t\t\t\t\$this->Form->checkbox('all') => array(\n" .
+							"\t\t\t\t\t\t'class' => 'first',\n" .
+							"\t\t\t\t\t\t'style' => 'width:25px;'\n" .
 						"\t\t\t\t\t),\n";
 						$endFields = '';
 						foreach($fields as $field ) {
@@ -127,22 +127,22 @@ COMMENT;
 								switch($field) {
 									case 'created':
 									case 'modified':
-										$endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
-											"\t\t\t\t\t\t'style' => 'width:75px;'\n".
+										$endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n" .
+											"\t\t\t\t\t\t'style' => 'width:75px;'\n" .
 										"\t\t\t\t\t),\n";
 										break;
 
 									case 'active':
 									case 'locked':
-										$endFields = "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n".
-											"\t\t\t\t\t\t'style' => 'width:50px;'\n".
-										"\t\t\t\t\t),\n".$endFields;
+										$endFields = "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n" .
+											"\t\t\t\t\t\t'style' => 'width:50px;'\n" .
+										"\t\t\t\t\t),\n" .$endFields;
 										break;
 
 									case str_replace('_count', '', $field) != $field:
 										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$field}', '{$name}') => array(\n".
-											"\t\t\t\t\t\t'style' => 'width:50px;'\n".
+										echo "\t\t\t\t\t\$this->Paginator->sort('{$field}', '{$name}') => array(\n" .
+											"\t\t\t\t\t\t'style' => 'width:50px;'\n" .
 										"\t\t\t\t\t),\n";
 										break;
 
@@ -152,11 +152,11 @@ COMMENT;
 							}
 						}
 						echo $endFields;
-					echo "\t\t\t\t)\n".
-				"\t\t\t);\n\n".
+					echo "\t\t\t\t)\n" .
+				"\t\t\t);\n\n" .
 
-				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}) { ?>\n".
-					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n".
+				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}) { ?>\n" .
+					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n" .
 						"\t\t\t\t\t<td><?php echo \$this->Infinitas->massActionCheckBox(\${$singularVar}); ?>&nbsp;</td>\n";
 
 						$endFields = '';
@@ -183,15 +183,15 @@ COMMENT;
 										break;
 
 									case 'active':
-										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->status(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
+										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->status(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n" .$endFields;
 										break;
 
 									case 'locked':
-										$endFields = "\t\t\t\t\t<td><?php echo \$this->Locked->display(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n".$endFields;
+										$endFields = "\t\t\t\t\t<td><?php echo \$this->Locked->display(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n" .$endFields;
 										break;
 
 									case 'email':
-										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n".$endFields;
+										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n" .$endFields;
 										break;
 
 									case 'ordering':
@@ -207,17 +207,17 @@ COMMENT;
 
 											default:
 												echo "\t\t\t\t\t<td{$title}><?php echo \$this->Html->adminQuickLink(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
-										} // switch
+										}
 										break;
 
 									default:
 										echo "\t\t\t\t\t<td><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
-								} // switch
+								}
 							}
 						}
 						echo $endFields;
-					echo "\t\t\t\t</tr><?php\n".
-				"\t\t\t}\n".
+					echo "\t\t\t\t</tr><?php\n" .
+				"\t\t\t}\n" .
 			"\t\t?>\n"
 		?>
 	</table>
