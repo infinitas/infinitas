@@ -141,17 +141,19 @@
 		 *
 		 * @return string ul->li list of things found
 		 */
-		public function alphabetFilter() {
-			if(empty($this->request->params['models'])) {
-				return false;
+		public function alphabetFilter($model = null) {
+			if(empty($model)) {
+				if(empty($this->request->params['models'])) {
+					return false;
+				}
+				$model = implode('.', current($this->request->params['models']));
 			}
 
-			$model = implode('.', current($this->request->params['models']));
 			$letters = ClassRegistry::init($model)->getLetterList();
 
 			$return = array();
 			foreach($letters as $key => $value) {
-				$url = ($value == true) ? $this->__filterLink($key) : $key;
+				$url = ($value == true) ? $this->__filterLink($model, $key) : $key;
 				if(is_array($url)) {
 					$url = $this->Html->link(
 						$key,
@@ -175,11 +177,10 @@
 		 * @param string $text the text to show/filter with
 		 * @return array the url cake style
 		 */
-		private function __filterLink($text = null) {
+		private function __filterLink($model, $text = null) {
 			if(!$text) {
 				return false;
 			}
-			$model = implode('.', current($this->request->params['models']));
 
 			$filter = array(
 				ClassRegistry::init($model)->alias . '.' . ClassRegistry::init($model)->displayField => $text
