@@ -111,10 +111,15 @@
 
 				$done[] = $_f;
 
-				$text = explode(':', $_f);
-				$text = explode('.', $text[0]);
+				$text = explode('.', current(explode(':', $_f)));
 				$text = (count($text ) > 1) ? $text[1] : $text[0];
 
+				if(strpos($text, $this->request->params['plugin']) === 0) {
+					$text = substr_replace($text, '', 0, strlen($this->request->params['plugin']));
+				}
+				if(substr($text, -3) == '_id') {
+					$text = substr($text, 0, -3);
+				}
 				$out .= '<div class="left">'.
 							'<div class="remove">'.
 									$this->Html->link(
