@@ -48,7 +48,7 @@
 
 	foreach($fields as $field) {
 		$check = $schema[$field]['type'] == 'text' || (
-			in_array('created', $fields) && in_array('modified', $fields)
+			$field == 'created' && in_array('modifeid', $fields)
 		);
 		if ($check) {
 			$ignore[] = $field;
