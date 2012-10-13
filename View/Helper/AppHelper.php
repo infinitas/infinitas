@@ -243,7 +243,49 @@
 		 * @return string the markup for the page header
 		 */
 		public function adminPageHead() {
-			return '<h1>' . sprintf(__('%s Manager'), prettyName($this->request->params['controller'])) . '<small>' . $this->breadcrumbs() . '</small></h1>';
+			$name = prettyName(self::stripPluginName($this->request->params['controller']));
+			return '<h1>' . sprintf(__('%s Manager'), $name) . '<small>' . $this->breadcrumbs() . '</small></h1>';
+		}
+
+		/**
+		 * @brief strip the plugin name from the start of the text
+		 *
+		 * @code 
+		 * 	// $this->request->params['plugin'] = 'foo';
+		 *  $this->YourHelper->stripPluginName('foo_bar'); // return 'bar'
+		 * @endcode
+		 * 
+		 * @param string $text the text to be manipulated
+		 * 
+		 * @return string
+		 */
+		public function stripPluginName($text) {
+			if(empty($this->request->params['plugin'])) {
+				return $text;
+			}
+
+			return self::_stripText($text, $this->request->params['plugin'] . '_');
+		}
+
+		/**
+		 * @brief strip text from a string
+		 * 
+		 * @param string $text the text to be manipulated
+		 * @param string $remove the text to be removed
+		 * @param integer $position the possition to look / remove from
+		 * 
+		 * @return string
+		 */
+		protected function _stripText($text, $remove, $position = 0) {
+			if(empty($remove)) {
+				return $text;
+			}
+			
+			if(strpos($text, $remove) === $position) {
+				$text = substr_replace($text, '', $position, strlen($remove));
+			}
+
+			return $text;
 		}
 
 		/**
