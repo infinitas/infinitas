@@ -81,19 +81,20 @@
  */
 
 COMMENT;
-	echo "echo \$this->Form->create(null, array('action' => 'mass'));\n\n".
-		"\$massActions = \$this->Infinitas->massActionButtons(\n".
-			"\tarray(\n".
-				"\t\t'add',\n".
-				"\t\t'edit',\n".
-				"\t\t'toggle',\n".
-				"\t\t'copy',\n".
-				"\t\t'delete',\n\n".
-				"\t\t// other methods available\n".
-				"\t\t// 'unlock',\n".
-			"\t)\n".
-		");\n\n".
-		"echo \$this->Infinitas->adminIndexHead(\$filterOptions, \$massActions);\n".
+	echo "echo \$this->Form->create(null, array('action' => 'mass'));\n\n" .
+		"\$massActions = \$this->Infinitas->massActionButtons(\n" .
+			"\tarray(\n" .
+				"\t\t'add',\n" .
+				"\t\t'edit',\n" .
+				"\t\t'toggle',\n" .
+				"\t\t'copy',\n" .
+				"\t\t'delete',\n\n" .
+				"\t\t// other methods available\n" .
+				"\t\t// 'unlock',\n" .
+			"\t)\n" .
+		");\n\n" .
+		"echo \$this->Infinitas->adminIndexHead(\$filterOptions, \$massActions);\n" .
+		"echo \$this->Filter->alphabetFilter();\n" .
 	"?>\n";
 ?>
 <div class="table">
