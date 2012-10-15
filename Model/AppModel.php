@@ -703,6 +703,17 @@
 		}
 
 		/**
+		 * @brief get the full field name Model.field
+		 * 
+		 * @param string $field the field 
+		 * 
+		 * @return string
+		 */
+		public function fullFieldName($field) {
+			return $this->alias . '.' . $field;
+		}
+
+		/**
 		 * @brief find active rows
 		 *
 		 * @throws CakeException
