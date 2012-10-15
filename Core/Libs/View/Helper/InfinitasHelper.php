@@ -165,7 +165,7 @@ class InfinitasHelper extends AppHelper {
 
 		return $this->Html->tag(
 			'div',
-			$this->Html->tag('span', call_user_func('CakeTime::' . $method), array('class' => $method)) .
+			$this->Html->tag('span', call_user_func('CakeTime::' . $method, $date), array('class' => $method)) .
 			$this->Html->tag('span', $date, array('class' => 'full')),
 			array('class' => 'date')
 		);
