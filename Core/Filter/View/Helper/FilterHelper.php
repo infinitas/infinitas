@@ -6,6 +6,14 @@
 
 		public $count = 0;
 
+		/**
+		 * @brief build a search form
+		 * 
+		 * @param string $model the model for the search form
+		 * @param array $filter the fields for searching
+		 * 
+		 * @return string
+		 */
 		public function form($model, $filter = array()) {
 			if (empty($filter) || !isset($filter['fields'])) {
 				$this->errors[] = 'There is no filters';
@@ -25,7 +33,8 @@
 							break;
 					}
 
-					$emptyText = sprintf(__('Select the %s'), Inflector::humanize(str_replace('_id', '', $emptyText)));
+					$emptyText = $this->Html->stripPluginName($emptyText);
+					$emptyText = __('Select the %s', Inflector::humanize(str_replace('_id', '', $emptyText)));
 					$output .= $this->Form->input(
 						$field,
 						array(
