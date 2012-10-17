@@ -144,30 +144,31 @@
 		 * @return string the markup for the bread crumbs
 		 */
 		public function breadcrumbs($seperator = ' :: ') {
-			$action = '';
+			$action = $this->request->params['action'];
 			if(strstr($this->request->params['action'], 'mass') === false) {
-				$action = str_replace('admin_', '', $this->request->params['action']);
+				$action = $this->_stripText($this->request->params['action'], 'admin_');
 			}
 
-			else{
-				$action = $this->request->data['action'];
+			$pluginName = Inflector::camelize($this->request->params['plugin']);
+			$dashboard = current(EventCore::trigger($this, $pluginName . '.pluginRollCall'));
+			if(!empty($dashboard[$pluginName]['dashboard'])) {
+				$dashboard = $dashboard[$pluginName]['dashboard'];
+			} else {
+				$dashboard = array(
+					'plugin' => $this->request->params['plugin'],
+					'controller' => false,
+					'action' => false
+				);
 			}
 
 			$breadcrumbs = array(
+				$this->Html->link(__d($this->request->params['plugin'], $this->request->params['plugin']), $dashboard),
 				$this->Html->link(
-					__($this->request->params['plugin']),
+					__d($this->request->params['plugin'], strtolower(prettyName($this->stripPluginName($this->request->params['controller'])))),
 					array(
 						'plugin' => $this->request->params['plugin'],
-						'controller' => false,
-						'action' => false
-					)
-				),
-				$this->Html->link(
-					__(strtolower(prettyName($this->request->params['controller']))),
-					array(
-						'plugin' => $this->request->params['plugin'],
-						'controller' => Inflector::underscore($this->request->params['controller']),
-						'action' => false
+						'controller' => $this->request->params['controller'],
+						'action' => 'index'
 					)
 				),
 				$action
@@ -178,8 +179,8 @@
 			if ($_prefix !== false) {
 				$breadcrumbs = array_merge(
 					(array)$this->Html->link(
-						__($_prefix),
-						'/'.$_prefix
+						__d($this->request->params['plugin'], $_prefix),
+						'/' . $_prefix
 					),
 					$breadcrumbs
 				);
