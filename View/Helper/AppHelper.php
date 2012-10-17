@@ -335,12 +335,8 @@
 				$massActions = $this->massActionButtons($massActions);
 			}
 
-			return sprintf(
-				'<div class="adminTopBar">%s%s</div><div class="filters">%s</div>',
-				$this->adminPageHead(),
-				$massActions,
-				FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions)
-			);
+			return $this->Html->tag('div', $this->adminPageHead() . $massActions, array('class' => 'adminTopBar')) . 
+				$this->Html->tag('div', FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions), array('class' => 'filters'));
 		}
 
 		/**
@@ -891,32 +887,37 @@
 		 */
 		public function datePicker($classes, $model = null, $time = false) {
 			$model = (!$model) ? Inflector::classify($this->request->params['controller']) : $model;
+			$timeFormOptions = array('type' => 'time', 'class' => 'timePicker');
 
-			$out = '<div class="datePicker">';
+			$out = array();
 			foreach((array)$classes as $class) {
-				$out .= sprintf(
-					'<div class="date"><label>%s</label><div id="%sDatePicker%s"></div>%s</div>',
-					Inflector::humanize($class),
-					$model,
-					ucfirst(Inflector::classify($class)),
-					$this->Form->hidden($model.'.'.$class, array('type' => 'text'))
+				$out[] = $this->Html->tag(
+					'div',
+					implode('', array(
+						$this->Form->label(Inflector::humanize($class)),
+						$this->Html->tag('div', '', array(
+							'class' => sprintf('%sDatePicker%s', $model, ucfirst(Inflector::classify($class)))
+						)),
+						$this->Form->hidden($model . '.' . $class, array('type' => 'text'))
+					))
 				);
 
 				if($time === true) {
-					$out .= '<div class="time">';
-					$out .= $this->Form->input($model.'.'.str_replace('date', 'time', $class), array('type' => 'time', 'class' => 'timePicker'));
-					$out .= '</div>';
+					$out[] = $this->Html->tag(
+						'div',
+						$this->Form->input($model . '.' . str_replace('date', 'time', $class), $timeFormOptions),
+						array('class' => 'time')
+					);
 				}
 
-				else if(is_array($time)) {
+				if(is_array($time)) {
 					foreach($time as $t) {
-						$out .= $this->Form->input($model.'.'.$t, array('type' => 'time', 'class' => 'timePicker'));
+						$out[] = $this->Form->input($model . '.' . $t, $timeFormOptions);
 					}
 				}
-				$out .= "\n";
 			}
 
-			return $out . '</div>';
+			return $this->Html->tag('div', implode("\n", $out), array('class' => 'datePicker'));
 		}
 
 		/**
