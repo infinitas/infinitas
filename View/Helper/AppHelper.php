@@ -118,20 +118,6 @@
 		);
 
 		/**
-		 * @deprecated
-		 *
-		 * this should be removed
-		 */
-		function niceBox($n = null) {}
-
-		/**
-		 * @deprecated
-		 *
-		 * this should be removed
-		 */
-		function niceBoxEnd($n = null) {}
-
-		/**
 		 * @brief create some bread crumbs
 		 *
 		 * This is used in the admin backend to generate bread crumbs of where
