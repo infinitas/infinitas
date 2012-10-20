@@ -15,31 +15,38 @@
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
-	echo $this->Form->create('Route');
-		echo $this->Infinitas->adminEditHead(); ?>
-		<fieldset>
-			<h1><?php echo __('Route'); ?></h1><?php
-			echo $this->Form->input('id');
-			echo $this->Form->input('name'); 
-			echo $this->Form->input('url'); ?>
-			<div class="dynamic"><?php
-				$options = Configure::read('Routing.prefixes');
-				$options = array_combine($options, $options);
-				echo $this->Form->input('prefix', array('options' => $options, 'type' => 'select', 'empty' => __('None')));
-				echo $this->element('Routes.route_select'); ?>
-			</div><?php
-			echo $this->Form->input('values');
-			echo $this->Form->input('rules'); ?>
-		</fieldset>
-		<fieldset>
-			<h1><?php echo __('Config'); ?></h1>
-			<div class="dynamic"><?php
-				echo $this->Form->input('pass');
-				echo $this->Form->input('force_backend');
-				echo $this->Form->input('force_frontend'); ?>
-			</div><?php
-			echo $this->Form->input('active');
-			echo $this->element('Themes.theme_select');
-			echo $this->Form->hidden('order_id', array('value' => 1)); ?>
-		</fieldset>
-	<?php echo $this->Form->end(); ?>
+	echo $this->Form->create();
+		echo $this->Infinitas->adminEditHead();
+		echo $this->Form->input('id');
+
+		$tabs = array(
+			__d('routes', 'Route'),
+			__d('routes', 'Configuration')
+		);
+
+		$options = Configure::read('Routing.prefixes');
+		$options = array_combine($options, $options);
+
+		$contents = array(
+			implode('', array(
+				$this->Form->input('name'),
+				$this->Form->input('url'),
+				$this->Html->tag('div', implode('', array(
+					$this->Form->input('prefix', array('options' => $options, 'type' => 'select', 'empty' => __('None'))),
+					$this->element('Routes.route_select')
+				)), array('class' => 'dynamic')),
+				$this->Form->input('active'),
+				$this->element('Themes.theme_select')
+			)),
+			implode('', array(
+				$this->Html->tag('div', implode('', array(
+					$this->Form->input('pass'),
+					$this->Form->input('force_backend'),
+					$this->Form->input('force_frontend')
+				)), array('class' => 'dynamic')),
+				$this->Form->input('values'),
+				$this->Form->input('rules'),
+			))
+		);
+		echo $this->Design->tabs($tabs, $contents);
+	echo $this->Form->end();
