@@ -118,7 +118,7 @@ class UploadBehavior extends ModelBehavior {
 			$virtualFieldTemplate,
 			$Model->alias . '.' . $field,
 			$Model->alias . '.' . $field,
-			$this->_emptyFilePath(),
+			$this->emptyFilePath(),
 			$Model->alias . '.' . $Model->primaryKey,
 			'',
 			$Model->alias . '.' . $field
@@ -133,12 +133,35 @@ class UploadBehavior extends ModelBehavior {
 				$virtualFieldTemplate,
 				$Model->alias . '.' . $field,
 				$Model->alias . '.' . $field,
-				$this->_emptyFilePath(),
+				$this->emptyFilePath(),
 				$Model->alias . '.' . $Model->primaryKey,
 				$name . '_',
 				$Model->alias . '.' . $field
 			);
 		}
+	}
+
+	public function uploadImageSizes(Model $Model, $field) {
+		if(empty($this->settings[$Model->alias][$field]['thumbnailSizes'])) {
+			return array();
+		}
+		return array_keys($this->settings[$Model->alias][$field]['thumbnailSizes']);
+	}
+
+	public function uploadImageUrl(Model $Model, $field, $id, $file, $size = null) {
+		if($size) {
+			$file = sprintf('%s_%s', $size, $file);
+		}
+
+		if(empty($id)) {
+			return $this->emptyFilePath();
+		}
+
+		return String::insert(':path:dir/:file', array(
+			'path' => $this->_getUrlPath($Model, $field),
+			'dir' => $id,
+			'file' => $file
+		));
 	}
 
 /**
@@ -153,7 +176,7 @@ class UploadBehavior extends ModelBehavior {
 		return str_replace(APP . 'webroot', '', $this->settings[$Model->alias][$field]['path']);
 	}
 
-	protected function _emptyFilePath() {
+	public function emptyFilePath() {
 		return '/filemanager/img/no-image.png';
 	}
 
