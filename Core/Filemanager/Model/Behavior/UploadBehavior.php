@@ -388,6 +388,12 @@ class UploadBehavior extends ModelBehavior {
 	}
 
 	public function handleUploadedFile($modelAlias, $field, $tmp, $filePath) {
+		if(php_sapi_name() == 'cli') {
+			$copy = !@copy($tmp, $filePath);
+			unlink($tmp);
+			return $copy;
+		}
+
 		return !is_uploaded_file($tmp) || !@move_uploaded_file($tmp, $filePath);
 	}
 
