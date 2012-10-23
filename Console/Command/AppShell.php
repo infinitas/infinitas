@@ -27,6 +27,13 @@
 
 		private $__interactiveBuffer = null;
 
+		/**
+		 * @brief overload constructor
+		 * 
+		 * @param ConsoleOutput $stdout A ConsoleOutput object for stdout.
+		 * @param ConsoleOutput $stderr A ConsoleOutput object for stderr.
+		 * @param ConsoleInput $stdin A ConsoleInput object for stdin.
+		 */
 		public function __construct($stdout = null, $stderr = null, $stdin = null) {
 			$this->setTerminalWidth();
 
@@ -36,16 +43,8 @@
 			parent::__construct($stdout, $stderr, $stdin);
 		}
 
-		public function main($title = null) {
-			if($title === null) {
-				$title = Inflector::humanize(Inflector::underscore(str_replace('Shell', '', get_class($this))));
-			}
-
-			if(!$title) {
-				return;
-			}
-
-			$this->h1($title);
+		protected function _welcome() {
+			$this->h1(Inflector::humanize(Inflector::underscore(str_replace('Shell', '', get_class($this)))));
 		}
 
 		/**
