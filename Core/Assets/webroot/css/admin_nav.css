@@ -454,12 +454,13 @@ ul.pagination{
 		padding:4px 0;
 		position:relative;
 	}
-		ul.pagination li.form{
-			padding-top: 5px;
-		}
+			ul.pagination li.form select {
+				margin: 0;
+			}
 
-		ul.pagination li.text{
-			padding-top: 5px;
+		ul.pagination li.form,
+		ul.pagination li.text {
+			float: right;
 		}
 
 		ul.pagination li.current{
@@ -469,8 +470,9 @@ ul.pagination{
 
 		ul.pagination li a{
 			-moz-border-radius:3px 3px 3px 3px;
+			border-radius:3px 3px 3px 3px;
 			display:block;
-			padding:3px 6px 2px;
+			padding:5px 10px 5px;
 			background: repeat-x scroll 50% 50% #F6F6F6;
 			border:1px solid #DDDDDD;
 			color:#0073EA;
