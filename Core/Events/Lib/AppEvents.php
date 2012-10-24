@@ -133,6 +133,8 @@ class AppEvents extends Object {
  */
 	public function onSetupRoutes(Event $Event, $data = null) {}
 
+	public function onRouteParse(Event $Ecent, $data = null) {}
+
 /**
  * parse extensions
  *
