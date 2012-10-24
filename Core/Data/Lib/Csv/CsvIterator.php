@@ -9,13 +9,6 @@ App::uses('CsvFileObject', 'Data.Lib/Csv');
 
 class CsvIterator implements Iterator {
 /**
- * @brief the max size of a row in the csv file
- *
- * @var integer
- */
-	protected $_rowSize = 4096;
-
-/**
  * @brief the current row from the csv file
  *
  * @var array
@@ -30,13 +23,6 @@ class CsvIterator implements Iterator {
 	protected $_rowCounter;
 
 /**
- * @brief delimiter for fields in the csv file
- *
- * @var string
- */
-	protected $_delimiter;
-
-/**
  * @brief the CsvFileObject being used
  *
  * @var CsvFileObject
@@ -47,7 +33,6 @@ class CsvIterator implements Iterator {
  * @brief set up the options for reading the csv file
  *
  * @param string $file the csv file to read
- * @param string $delimiter the delimiter used for splitting the fields
  * @param integer $rowSize the max size of a single row (0 for unlimited)
  */
 
@@ -64,7 +49,7 @@ class CsvIterator implements Iterator {
 		$this->_CsvFileObject->rewind();
 
 		if($this->_CsvFileObject->hasHeadings()) {
-			$this->next();
+			$this->_CsvFileObject->read();
 		}
 	}
 
@@ -75,7 +60,7 @@ class CsvIterator implements Iterator {
  */
 	public function current() {
 		if(empty($this->_currentRow) && $this->valid()) {
-			$this->_currentRow = $this->_CsvFileObject->fgetcsv();
+			$this->_currentRow = $this->_CsvFileObject->read();
 		}
 
 		return $this->_currentRow;
@@ -83,6 +68,8 @@ class CsvIterator implements Iterator {
 
 /**
  * @brief get the key for the current row
+ *
+ * If the csv file has headings the counter is returned as $normalCount - 1
  *
  * @return integer
  */
@@ -97,8 +84,13 @@ class CsvIterator implements Iterator {
  */
 	public function next() {
 		$this->_currentRow = array();
-		$this->_CsvFileObject->fgetcsv();
-		return $this->_rowCounter++;
+		$this->current();
+
+		if($this->valid()) {
+			return $this->_rowCounter++;
+		}
+
+		return $this->_rowCounter;
 	}
 
 /**
@@ -109,4 +101,5 @@ class CsvIterator implements Iterator {
 	public function valid(){
 		return !$this->_CsvFileObject->eof();
 	}
+
 }

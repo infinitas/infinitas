@@ -26,6 +26,14 @@ class CsvFileObject extends SplFileObject {
  * @var array
  */
 	protected $_headings = array();
+
+/**
+ * @brief the default model this data belongs to
+ *
+ * @var string
+ */
+	protected $_model = null;
+
 /**
  * @brief set up the csv iterator object
  *
@@ -36,6 +44,10 @@ class CsvFileObject extends SplFileObject {
  *  - enclosure: the csv field enclosure (default ")
  *	- escape: the csv data escape char (default \)
  *	- heading: boolean, true if first row is headings, false if not (default true)
+ *
+ * To take advantage of this classes functionality, even though it extends SplFileObject
+ * for reading csv files, that method should not be used direcly but instead only use
+ * CsvFileObject::read()
  *
  * @param string $file the file to be loaded
  * @param array $settings
@@ -50,7 +62,8 @@ class CsvFileObject extends SplFileObject {
 			'delimiter' => ',',
 			'enclosure' => '"',
 			'escape' => '\\',
-			'heading' => true
+			'heading' => true,
+			'model' => null
 		), $settings);
 
 		$this->_hasHeading = $settings['heading'];
@@ -59,7 +72,8 @@ class CsvFileObject extends SplFileObject {
 
 		$this->setCsvControl($settings['delimiter'], $settings['enclosure'], $settings['escape']);
 
-		$this->heading();
+		$this->_model = $settings['model'];
+		$this->headings();
 	}
 
 /**
@@ -79,13 +93,26 @@ class CsvFileObject extends SplFileObject {
  *
  * @return array
  */
-	public function heading() {
+	public function headings() {
 		if($this->hasHeadings() && empty($this->_headings)) {
 			$this->rewind();
-			$this->_headings = $this->fgetcsv('_heading_');
+			$this->_headings = $this->fgetcsv();
 
 			foreach($this->_headings as &$heading) {
-				$heading = Inflector::slug(strtolower($heading));
+				if(strstr($heading, '.') === false) {
+					$heading = array($this->_model, $heading);
+				} else {
+					$heading = pluginSplit($heading);
+				}
+
+				$heading[0] = Inflector::classify($heading[0]);
+				$heading[1] = Inflector::slug(strtolower($heading[1]));
+
+				$heading = implode('.', array_filter($heading));
+			}
+
+			if(count($this->_headings) != count(array_unique($this->_headings))) {
+				throw new CakeException('Some headings are not unique (Case insensitive)');
 			}
 		}
 
@@ -95,30 +122,19 @@ class CsvFileObject extends SplFileObject {
 /**
  * @brief overload the method to create array with heading => value
  *
- * @todo rename this method and not call it from the iterator
- *
- * @param string $a used to identify if fetching a header row to skip doing the manipulation
- * @param string $b not used, only for compatibility
- * @param string $c not used, only for compatibility
- *
  * @return array
  */
-	public function fgetcsv($a = null, $b = null, $c = null) {
-		$headings = array();
-		if($a != '_heading_') {
-			$headings = $this->heading();
-		}
-
-		$row = parent::fgetcsv();
-
-		if(count($row) === 1 && is_null(current($row))) {
+	public function read() {
+		$row = $this->fgetcsv();
+		if(count($row) === 1 && is_null(current($row)) || is_null($row)) {
 			return array();
 		}
 
+		$headings = $this->headings();
 		if(!empty($headings)) {
 			$row = array_combine($headings, $row);
 		}
 
-		return $row;
+		return Hash::expand($row);
 	}
 }
