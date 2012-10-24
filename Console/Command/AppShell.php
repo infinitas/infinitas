@@ -29,7 +29,7 @@
 
 		/**
 		 * @brief overload constructor
-		 * 
+		 *
 		 * @param ConsoleOutput $stdout A ConsoleOutput object for stdout.
 		 * @param ConsoleOutput $stderr A ConsoleOutput object for stderr.
 		 * @param ConsoleInput $stdin A ConsoleInput object for stdin.
@@ -43,8 +43,22 @@
 			parent::__construct($stdout, $stderr, $stdin);
 		}
 
+		/**
+		 * @brief custom welcom message
+		 */
 		protected function _welcome() {
 			$this->h1(Inflector::humanize(Inflector::underscore(str_replace('Shell', '', get_class($this)))));
+		}
+
+		public function startup() {
+			parent::startup();
+
+			if(is_int($this->_ticks)) {
+				register_tick_function(array($this, 'ticker'));
+				if($this->_ticks === 1) {
+					declare(ticks = 10000);
+				}
+			}
 		}
 
 		/**
@@ -57,8 +71,10 @@
 			$this->out("          | |  _ __ | |_ _ _ __  _| |_  __ _ ___");
 			$this->out("          | | | '_ \|  _| | '_ \| | __|/ _` / __|");
 			$this->out("          | |_| | | | | | | | | | | |_| (_| \__ \ ");
-			$this->out("        |_____|_| |_|_| |_|_| |_|_|\__|\__,_|___/ " . Configure::read('Infinitas.version'));
-			$this->h2($title);
+			$lastRow = "        |_____|_| |_|_| |_|_| |_|_|\__|\__,_|___/ " . Configure::read('Infinitas.version');
+			$this->out($lastRow);
+			$this->out(str_pad(__d('infinitas', 'Powered by CakePHP %s', Configure::version()), strlen($lastRow), ' ', STR_PAD_LEFT));
+			$this->h2(__('%s Console', $title));
 		}
 
 		/**
@@ -455,5 +471,31 @@
 			$models = App::objects('model', App::pluginPath($plugin) . 'models');
 			natsort($models);
 			return array_combine(range(1, count($models)), $models);
+		}
+
+		protected $_ticks = null;
+
+		protected $_tickerCount = 0;
+
+		public function tickerCount($rowCount) {
+			$this->_tickerCount = $rowCount;
+		}
+
+		public function ticker() {
+			$memory = memoryUsage(false);
+			if(!$this->_tickerCount) {
+				return $this->out(sprintf(
+					"Memory: %s\tMax: %s\r",
+					$memory['current'],
+					$memory['max']
+				), 0);
+			}
+
+			$this->out(sprintf(
+				"Row: %d\tMemory: %s\tMax: %s\r",
+				str_pad($this->_tickerCount, 5, ' ', STR_PAD_LEFT),
+				$memory['current'],
+				$memory['max']
+			), 0);
 		}
 	}
