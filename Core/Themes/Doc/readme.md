@@ -1,0 +1,7 @@
+These are built into Infinitas to provide the ability to change how your website looks. Infinitas is built using the CakePHP [MVC](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) framework which means the presentation (the `V` or themes) is completely seperated from the data (the `M`).
+
+Besides the Assets plugin that has upto date versions of various frontend frameworks available such as `jQuery`, `jQuery UI` and (coming soon) `Twitter bootstrap`, Infinitas does not provide much in the way of desining the look and feel of your site. There are a number of helper methods for building markup, which is generally in a format very similar to the frameworks mentioned above.
+
+For the most part, using existing themes from places like `Theme Forest` is relativly simple if using a standard HTML template. Trying to use themes from other applications such as `Wordpress` or `Joomla` is possible, but may require a lot of work as the markup generated in Infinitas will not necessarily match what is generated in the other applications.
+
+> Infinitas is currently moving towards using `Twitter Bootstrap` for the backend and due to this all the assets will already be included in the Assets plugin. This will make future development of themes as easy as dropping in a custom css override for Bootstrap and your site will be skinned.
