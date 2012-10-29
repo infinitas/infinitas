@@ -1,0 +1,1 @@
+You can create and manage ShortUrls in the [admin backend](/admin/short_urls). 
