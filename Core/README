@@ -1,1 +1,0 @@
-These are core extentions that are needed by Infinitas to function. 
