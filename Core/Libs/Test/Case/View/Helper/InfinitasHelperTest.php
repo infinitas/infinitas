@@ -57,7 +57,8 @@ class InfinitasHelperTest extends CakeTestCase {
 						'src' => '/img/core/icons/status/active.png',
 						'class' => 'icon-status',
 						'title' => 'Status :: This record is active',
-						'alt' => 'On'
+						'alt' => 'On',
+						'width' => '20px'
 					))
 				)
 			),
@@ -68,7 +69,8 @@ class InfinitasHelperTest extends CakeTestCase {
 						'src' => '/img/core/icons/status/active.png',
 						'class' => 'icon-status',
 						'title' => 'foo bar',
-						'alt' => 'On'
+						'alt' => 'On',
+						'width' => '20px'
 					))
 				)
 			),
@@ -79,7 +81,8 @@ class InfinitasHelperTest extends CakeTestCase {
 						'src' => '/img/core/icons/status/inactive.png',
 						'class' => 'icon-status',
 						'title' => 'Status :: This record is disabled',
-						'alt' => 'Off'
+						'alt' => 'Off',
+						'width' => '20px'
 					))
 				)
 			),
@@ -90,7 +93,8 @@ class InfinitasHelperTest extends CakeTestCase {
 						'src' => '/img/core/icons/status/inactive.png',
 						'class' => 'icon-status',
 						'title' => 'foo bar',
-						'alt' => 'Off'
+						'alt' => 'Off',
+						'width' => '20px'
 					))
 				)
 			)

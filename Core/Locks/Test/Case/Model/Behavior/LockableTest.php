@@ -45,6 +45,8 @@ class LockableTestCase extends CakeTestCase {
 		unset($content['LockableContent']['created']);
 		unset($content['LockableContent']['modified']);
 
+		$content['LockableContent']['created_by'] = 'bob';
+
 		$this->LockableContent->create();
 		$this->LockableContent->save($content);
 

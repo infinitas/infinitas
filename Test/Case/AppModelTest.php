@@ -94,7 +94,7 @@ class AppModelTest extends CakeTestCase {
 			18 => '18'
 		);
 		$result = $this->Route->uniqueList('id');
-		$this->assertEqual($expected, $result);
+		$this->assertEquals($expected, $result);
 
 		$expected = array(
 			'Home Page' => '7',
@@ -109,7 +109,7 @@ class AppModelTest extends CakeTestCase {
 			'Blog Test' => '18',
 		);
 		$result = $this->Route->uniqueList('id', 'name');
-		$this->assertIdentical($expected, $result);
+		$this->assertEquals($expected, $result);
 
 		$expected = array(
 			8 => 'Pages',

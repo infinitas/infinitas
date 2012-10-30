@@ -16,13 +16,48 @@ class TestUpload extends CakeTestModel {
 
 
 class UploadBehaviorTest extends CakeTestCase {
+/**
+ * @brief fixtures for the test
+ * 
+ * @var array
+ */
+	public $fixtures = array(
+		'plugin.filemanager.upload'
+	);
 
-	public $fixtures = array('plugin.filemanager.upload');
+/**
+ * @brief TestUpload model
+ * 
+ * @var CakeTestModel
+ */
 	public $TestUpload = null;
+	
+/**
+ * @brief MockUpload behavior
+ * 
+ * @var UploadBehavior
+ */
 	public $MockUpload = null;
+
+/**
+ * @brief data
+ * 
+ * @var array
+ */
 	public $data = array();
+	
+/**
+ * @brief current test being run
+ * 
+ * @var string
+ */
 	public $currentTestMethod;
 
+/**
+ * @brief start test
+ * 
+ * @return void
+ */
 	public function startTest($method) {
 		$this->TestUpload = ClassRegistry::init('TestUpload');
 		$this->currentTestMethod = $method;
@@ -59,6 +94,26 @@ class UploadBehaviorTest extends CakeTestCase {
 		);
 	}
 
+/**
+ * @brief end test
+ * 
+ * @return void
+ */
+	public function endTest() {
+		$folder = new Folder(TMP);
+		$folder->delete(ROOT . DS . APP_DIR . DS . 'webroot' . DS . 'files' . DS . 'test_upload');
+		$folder->delete(ROOT . DS . APP_DIR . DS . 'tmp' . DS . 'tests' . DS . 'path');
+		Classregistry::flush();
+		unset($this->TestUpload);
+	}
+
+/**
+ * @brief create an upload behavior mock
+ * 
+ * @param  array  $methods [description]
+ * 
+ * @return void
+ */
 	public function mockUpload($methods = array()) {
 		if (!is_array($methods)) {
 			$methods = (array) $methods;
@@ -70,14 +125,6 @@ class UploadBehaviorTest extends CakeTestCase {
 
 		$this->MockUpload->setup($this->TestUpload, $this->TestUpload->actsAs['Filemanager.Upload']);
 		$this->TestUpload->Behaviors->set('Upload', $this->MockUpload);
-	}
-
-	public function endTest() {
-		$folder = new Folder(TMP);
-		$folder->delete(ROOT . DS . APP_DIR . DS . 'webroot' . DS . 'files' . DS . 'test_upload');
-		$folder->delete(ROOT . DS . APP_DIR . DS . 'tmp' . DS . 'tests' . DS . 'path');
-		Classregistry::flush();
-		unset($this->TestUpload);
 	}
 
 	public function testSetup() {
@@ -117,6 +164,7 @@ class UploadBehaviorTest extends CakeTestCase {
 	}
 
 	public function testSimpleUpload() {
+		$this->data['test_ok']['id'] = 2;
 		$this->mockUpload();
 		$this->MockUpload->expects($this->once())->method('handleUploadedFile')->will($this->returnValue(true));
 		$this->MockUpload->expects($this->never())->method('unlink');
