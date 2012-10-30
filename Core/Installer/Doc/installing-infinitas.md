@@ -35,9 +35,17 @@ If you do not want to make use of the shell installer you can use the web based 
 
 This page will show any issues that may need to be resolved before the installation can continue.
 
+[![](http://assets.infinitas-cms.org/docs/Core/Installer/welcome.png "Welcome screen")](http://assets.infinitas-cms.org/docs/Core/Installer/welcome.png)
+
 #### Database config
 
-Here you will be given the chance to choose an data store and enter the login details that Infinitas will use. You are also able to enter `root` credentials should the user provided for the Infinitas installation not have the required privileges of creating and modifying tables.
+Here you will be given the chance to choose an data store and enter the login details that Infinitas will use. 
+
+[![](http://assets.infinitas-cms.org/docs/Core/Installer/database.png "Database configuration")](http://assets.infinitas-cms.org/docs/Core/Installer/database.png)
+
+You are also able to enter `root` credentials should the user provided for the Infinitas installation not have the required privileges of creating and modifying tables. These details are not stored, only used for the installation and then discarded.
+
+[![](http://assets.infinitas-cms.org/docs/Core/Installer/advanced.png "Database root credentials")](http://assets.infinitas-cms.org/docs/Core/Installer/advanced.png)
 
 #### Plugin options
 
@@ -49,12 +57,18 @@ You can also chose to install sample data that may be helpfull to new users. The
 
 Depending on the plugins that have been chosen the installer might take a little while to complete. This could be anything from a couple of seconds to a minute or two.
 
+[![](http://assets.infinitas-cms.org/docs/Core/Installer/plugins.png "Install plugins and sample data")](http://assets.infinitas-cms.org/docs/Core/Installer/plugins.png)
+
 #### Admin details
 
 Once all the plugins have been installed with the required database tables and fields you will be given a form to create the initial `admin` user. Once you have created the initial `admin` user you will be able to log into the application and continue to create and manage the system. 
+
+[![](http://assets.infinitas-cms.org/docs/Core/Installer/user.png "Admin user")](http://assets.infinitas-cms.org/docs/Core/Installer/user.png)
 
 > Without this `admin` user nobody will be able to gain access to the backend. **Skipping this step is not recomended.**
 
 ### Done
 
 You should now have a working copy of Infinitas running. You can continue with the rest of the docs or start playing by clicking the provided links at the end of the installation. 
+
+[![](http://assets.infinitas-cms.org/docs/Core/Installer/done.png "Install complete")](http://assets.infinitas-cms.org/docs/Core/Installer/done.png)
