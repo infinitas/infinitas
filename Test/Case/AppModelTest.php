@@ -55,10 +55,11 @@ class AppModelTest extends CakeTestCase {
  * @brief test getting the full table name used in joins
  */
 	public function testFullTableName() {
-		$this->assertEquals('test.core_routes', $this->Route->fullTableName());
+		$schemaName = $this->Route->schemaName;
+		$this->assertEquals($schemaName . '.core_routes', $this->Route->fullTableName());
 
 		$this->Route->useTable = 'core_plugins';
-		$this->assertEquals('test.core_core_plugins', $this->Route->fullTableName());
+		$this->assertEquals($schemaName . '.core_core_plugins', $this->Route->fullTableName());
 	}
 
 /**

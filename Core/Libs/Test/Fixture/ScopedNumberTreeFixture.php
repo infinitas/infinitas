@@ -4,14 +4,14 @@ class ScopedNumberTreeFixture extends CakeTestFixture {
 	var $table = 'scoped_number_trees';
 
 	var $fields = array(
-		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'name'	=> array('type' => 'string','null' => false),
-		'parent_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'category_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'lft'	=> array('type' => 'integer','null' => false),
-		'rght'	=> array('type' => 'integer','null' => false)
+		'parent_id' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'category_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'lft' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'rght' => array('type' => 'integer', 'null' => false, 'default' => '0')
 	);
-	
+
 	public $records = array(
 		/* Nodes for category a */
 		array(
