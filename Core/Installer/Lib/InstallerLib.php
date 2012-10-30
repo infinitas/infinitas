@@ -13,13 +13,13 @@
 		 * @var <type>
 		 */
 		private $__supportedDatabases = array(
-			'Mysql' => array(
+			'Database/Mysql' => array(
 				'name' => 'MySQL',
 				'version' => '5.0',
-				'versionQuery' => 'select version();',
+				'versionQuery' => 'SELEct VERSION();',
 			 	'function' => 'mysql_connect',
 			),
-			'mssql' => array(
+			'Database/Mssql' => array(
 				'name' => 'Microsoft SQL Server',
 				'version' => '8.0',
 				'versionQuery' => 'SELECT CAST(SERVERPROPERTY(\'productversion\') AS VARCHAR)',
@@ -210,12 +210,12 @@ LICENCE;
 			$core = array();
 
 			if(phpversion() < $this->__phpVersion) {
-				$core[] = sprintf(__('PHP version %s detected, %s needs at least version %s.'), phpversion(), 'Infinitas', $this->__phpVersion . '.x');
+				$core[] = sprintf(__d('installer', 'PHP version %s detected, %s needs at least version %s.'), phpversion(), 'Infinitas', $this->__phpVersion . '.x');
 			}
 
 			foreach($this->__requiredExtensions as $extension => $message) {
 				if(!extension_loaded($extension)) {
-					$core[] = __($message);
+					$core[] = __d('installer', $message);
 				}
 			}
 
@@ -241,7 +241,7 @@ LICENCE;
 						$function = 'is_readable';
 				}
 				if(!$function(APP.$path)) {
-					$paths[] = sprintf(__($options['message']), APP.$path);
+					$paths[] = sprintf(__d('installer', $options['message']), APP.$path);
 				}
 			}
 
@@ -263,7 +263,7 @@ LICENCE;
 			foreach($this->__recommendedIniSettings as $k => $setting) {
 				if((int)ini_get($setting['setting']) !== $setting['recomendation']) {
 					$setting['current'] = (int)ini_get($setting['setting']);
-					$setting['desc'] = __($setting['desc']);
+					$setting['desc'] = __d('installer', $setting['desc']);
 					$recomendations[] = $setting;
 				}
 			}
@@ -289,7 +289,7 @@ LICENCE;
 			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
 				if(function_exists($supportedDatabase['function'])) {
 					$this->__supportedDatabases[$cakeType]['has'] = sprintf(
-						__('%s (Version %s or newer)'), $supportedDatabase['name'], $supportedDatabase['version']
+						__d('installer', '%s (Version %s or newer)'), $supportedDatabase['name'], $supportedDatabase['version']
 					);
 				}
 			}
@@ -327,39 +327,36 @@ LICENCE;
 		 */
 		public function testConnection($connection = array()) {
 			$connection = $this->__validDbConfig($connection, true);
-			if($connection) {
-				$adminConnectionDetails = (!isset($connection['Admin'])) ? false : array_merge($connection['Install'], $connection['Admin']);
-
-				$connection['Install']['datasource'] = 'Database/' . $connection['Install']['driver'];
-				$InstallerConnection = ConnectionManager::create('installer', $connection['Install']);
-				if(!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
-					return false;
-				}
-
-				if(isset($connection['Admin']['login']) && trim($connection['Admin']['login']) != '') {
-					$InstallerRootConnection = ConnectionManager::create('admin', $adminConnectionDetails);
-					if(!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
-						return false;
-					}
-				}
-
-				$version = $this->__databaseVersion($connection['Install']);
-				if(version_compare($version, $this->__supportedDatabases[$connection['Install']['driver']]['version']) >= 0) {
-					return true;
-				}
-
-				return array(
-					'versionError' => $version,
-					'requiredDb' => $this->__supportedDatabases[$connection['driver']]['version']
-				);
+			if(!$connection) {
+				return false;
 			}
 
-			return false;
+			$adminConnectionDetails = (!isset($connection['Admin'])) ? false : array_merge($connection['Install'], $connection['Admin']);
+			$InstallerConnection = ConnectionManager::create('installer', $connection['Install']);
+			if(!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
+				return false;
+			}
+
+			if(isset($connection['Admin']['login']) && trim($connection['Admin']['login']) != '') {
+				$InstallerRootConnection = ConnectionManager::create('admin', $adminConnectionDetails);
+				if(!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
+					return false;
+				}
+			}
+
+			$version = $this->__databaseVersion($connection['Install']);
+			if(version_compare($version, $this->__supportedDatabases[$connection['Install']['datasource']]['version']) >= 0) {
+				return true;
+			}
+
+			return array(
+				'versionError' => $version,
+				'requiredDb' => $this->__supportedDatabases[$connection['Install']['datasource']]['version']
+			);
 		}
 
 		public function installPlugins($dbConfig) {
 			$dbConfig = $this->__validDbConfig($dbConfig, true);
-			$dbConfig['Install']['datasource'] = 'Database/' . $dbConfig['Install']['driver'];
 			$db = ConnectionManager::create('default', $dbConfig['Install']);
 
 			$plugins = CakePlugin::loaded();
@@ -458,7 +455,7 @@ LICENCE;
 			);
 
 			$replacements = array(
-				'Database/' . $dbConfig['Install']['driver'],
+				$dbConfig['Install']['datasource'],
 				$dbConfig['Install']['host'],
 				$dbConfig['Install']['login'],
 				$dbConfig['Install']['password'],
@@ -513,7 +510,7 @@ LICENCE;
 		 * @return <type>
 		 */
 		public function __databaseVersion($connectionDetails) {
-			$requiredVersion = $this->__supportedDatabases[$connectionDetails['driver']];
+			$requiredVersion = $this->__supportedDatabases[$connectionDetails['datasource']];
 			$version = ConnectionManager::getDataSource('installer')->query($requiredVersion['versionQuery']);
 			$version = isset($version[0][0]['version()']) ? $version[0][0]['version()'] : false;
 
