@@ -54,6 +54,8 @@ class Route extends RoutesAppModel {
 				'notEmpty' => array(
 					'required' => true,
 					'rule' => 'notEmpty',
+					'required' => true,
+					'on' => 'create',
 					'message' => __d('routes', 'Please enter a name for this route')
 				),
 				'isUnique' => array(
