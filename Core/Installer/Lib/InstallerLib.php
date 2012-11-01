@@ -164,16 +164,16 @@ LICENCE;
 
 			$ClearCache->run();
 		}
-		
+
 		/**
 		 * @brief create symlinks for all the plugins.
-		 * 
+		 *
 		 * retrun symlinks created or not
 		 */
 		public function symlink() {
 			App::uses('DevLib', 'Dev.Lib');
 			$Dev = new DevLib();
-			
+
 			return $Dev->autoAssetLinks();
 		}
 
@@ -372,7 +372,7 @@ LICENCE;
 				try{
 					$result[$plugin] = $this->installPlugin($Version, $dbConfig, $plugin);
 				}
-				
+
 				catch(Exception $e) {
 					pr($plugin);
 					pr($e->getMessage());
@@ -383,7 +383,7 @@ LICENCE;
 			foreach($plugins as $pluginName) {
 				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
 			}
-			
+
 			$this->symlink();
 
 			return $result;
@@ -511,79 +511,78 @@ LICENCE;
 		 */
 		public function __databaseVersion($connectionDetails) {
 			$requiredVersion = $this->__supportedDatabases[$connectionDetails['datasource']];
-			$version = ConnectionManager::getDataSource('installer')->query($requiredVersion['versionQuery']);
-			$version = isset($version[0][0]['version()']) ? $version[0][0]['version()'] : false;
 
-			$version = explode('-', $version);
-			return $version[0];
+			$version = current(Hash::flatten(ConnectionManager::getDataSource('installer')->query($requiredVersion['versionQuery'])));
+
+			return current(explode('-', $version));
 		}
-		
+
 		/**
 		 * @brief install a local theme
-		 * 
-		 * Theme names are 'Plugin.theme' for plugin based themes and just 'theme' 
+		 *
+		 * Theme names are 'Plugin.theme' for plugin based themes and just 'theme'
 		 * for app based themes.
-		 * 
+		 *
 		 * @exception Exception
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param string $theme the theme to install
-		 * 
-		 * @return bool true on save, other methods will throw exceptions 
+		 *
+		 * @return bool true on save, other methods will throw exceptions
 		 */
 		public static function localTheme($theme) {
 			return ClassRegistry::init('Themes.Theme')->install($theme);
 		}
-		
+
 		/**
 		 * @brief generate the path to a plugins theme dir
-		 * 
-		 * If the specific theme is available it will return the path to the 
-		 * theme, if not it will return the path to where the themes for that plugin 
+		 *
+		 * If the specific theme is available it will return the path to the
+		 * theme, if not it will return the path to where the themes for that plugin
 		 * are kept
-		 * 
+		 *
 		 * If no plugin is null, it is assumed that the path for app themes are required
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param string $plugin the name of the plugin
 		 * @param string $theme the name of the theme
-		 * 
-		 * @return string the path that is requested 
+		 *
+		 * @return string the path that is requested
 		 */
 		public static function themePath($plugin = null, $theme = null) {
 			if(!$plugin) {
 				if(!$theme) {
 					return APP . 'View' . DS . 'Themed';
 				}
-				
+
 				return APP . 'View' . DS . 'Themed' . DS . $theme;
 			}
-			
+
 			if(!$theme) {
 				return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed';
 			}
-			
+
 			return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed' . DS . $theme;
 		}
-		
+
 		/**
 		 * @brief find theme dirs for the plugin passed or in the app dir
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param string $plugin the plugin to check in
-		 * 
-		 * @return type 
+		 *
+		 * @return type
 		 */
 		public static function findThemes($plugin = null) {
 			$path = self::themePath($plugin);
-			
+
 			if(!is_dir($path)) {
 				return array();
 			}
-			
+
 			$Folder = new Folder($path);
 			return current($Folder->read());
 		}

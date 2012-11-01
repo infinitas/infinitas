@@ -47,13 +47,13 @@
 				<?php echo __('There is an error with the database administrator details you supplied. Please ensure that they are correct and that the user does have permissions to create, drop and alter tables in the database.'); ?>
 			</div>
 		<?php }?>
-		
+
 		<h4 class="field-heading">Basic database settings</h4>
 		<div>
 			<?php
 				$serverName = pathinfo(env('SERVER_NAME'));
 				$serverName = $serverName['filename'];
-				echo $this->Form->input( 'Install.driver', array(
+				echo $this->Form->input( 'Install.datasource', array(
 					'label' => 'Database driver',
 					'options' => $database,
 					'empty' => '-- Database driver --',
@@ -86,7 +86,7 @@
 				));
 			?>
 		</div>
-		
+
 		<h4 class="field-heading">Advanced database settings</h4>
 		<div>
 			<?php
@@ -101,7 +101,7 @@
 				));
 			?>
 		</div>
-		
+
 		<h4 class="field-heading">Database administrator details</h4>
 		<div>
 			<blockquote>
