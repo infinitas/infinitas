@@ -1,0 +1,3 @@
+This plugin allows you to create and manage Menus for your application, it also has a number of helper methods for generating markup for displaying the menus to users.
+
+You can create a number of different menus for your site, which when combined with the Modules plugin can be positioned almost anywhere. Menus are also tied to user groups which makes it possible to display certain menu items to the specified user types.
