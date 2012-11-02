@@ -114,4 +114,4 @@ The `CsvIterator` implements PHP [SPL Iterator](http://php.net/manual/en/spl.ite
 		ClassRegistry::init('Example')->saveAll($Csv->current());
 	}
 
-> The `CsvIterator` will be linked with the [mass save](/infintias\_docs/Data/developer-mass-save) in future versions so that it will be possible to build importers that can save csv data to the database much quicker.
+> The `CsvIterator` will be linked with the [mass save](/infinitas\_docs/Data/developer-mass-save) in future versions so that it will be possible to build importers that can save csv data to the database much quicker.
