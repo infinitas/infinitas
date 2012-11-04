@@ -16,7 +16,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
-	
+
 	class ViewableBehavior extends ModelBehavior {
 		/**
 		 * Contain settings indexed by model name.
@@ -54,11 +54,13 @@
 				$this->__settings[$Model->alias],
 				$settings
 			);
-
+			if(!$Model->useTable) {
+				return false;
+			}
 			$Model->bindModel(
 				array(
 					'hasMany' => array(
-						'ViewCount' => array(
+						$Model->ViewCount->alias => array(
 							'className' => 'ViewCounter.ViewCounterView',
 							'foreignKey' => 'foreign_key',
 							'conditions' => array(
@@ -100,11 +102,16 @@
 			}
 
 			if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']) {
-				$this->__session[$Model->alias] = CakeSession::read('Viewable.'.$Model->alias);
+				$sessionName = 'Viewable.' . $Model->alias;
+				$views = array_flip((array)CakeSession::read($sessionName));
+				$record = $data[0][$Model->alias][$Model->primaryKey];
+				unset($views[$record]);
+				array_unshift($views, $record);
+				CakeSession::write($sessionName, array_flip($views));
 			}
 
 			$user_id = AuthComponent::user('id');
-			$view['ViewCount'] = array(
+			$view[$Model->ViewCount->alias] = array(
 				'user_id' => $user_id > 0 ? $user_id : 0,
 				'model' => Inflector::camelize($Model->plugin).'.'.$Model->name,
 				'foreign_key' => $data[0][$Model->alias][$Model->primaryKey],
@@ -114,25 +121,27 @@
 			$location = EventCore::trigger($this, 'GeoLocation.getLocation');
 			$location = current($location['getLocation']);
 
-			foreach($location as $k => $v) {
-				$view['ViewCount'][$k] = $v;
+			foreach((array)$location as $k => $v) {
+				$view[$Model->ViewCount->alias][$k] = $v;
 			}
-			$view['ViewCount']['year'] = date('Y');
-			$view['ViewCount']['month'] = date('m');
-			$view['ViewCount']['day'] = date('j');
-			$view['ViewCount']['day_of_year'] = date('z');
-			$view['ViewCount']['week_of_year'] = date('W');
-			$view['ViewCount']['hour'] = date('G'); // no leading 0
+			$view[$Model->ViewCount->alias]['year'] = date('Y');
+			$view[$Model->ViewCount->alias]['month'] = date('m');
+			$view[$Model->ViewCount->alias]['day'] = date('j');
+			$view[$Model->ViewCount->alias]['day_of_year'] = date('z');
+			$view[$Model->ViewCount->alias]['week_of_year'] = date('W');
+			$view[$Model->ViewCount->alias]['hour'] = date('G'); // no leading 0
 
-			$view['ViewCount']['city'] = $view['ViewCount']['city'] ? $view['ViewCount']['city'] : 'Unknown';
+			$view[$Model->ViewCount->alias]['city'] = !empty($view[$Model->ViewCount->alias]['city']) ? $view[$Model->ViewCount->alias]['city'] : 'Unknown';
 
 			/**
 			 * http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_dayofweek
 			 * sunday is 1, php uses 0
 			 */
-			$view['ViewCount']['day_of_week'] = date('w') + 1;
+			$view[$Model->ViewCount->alias]['day_of_week'] = date('w') + 1;
 
-			$Model->ViewCount->unBindModel(array('belongsTo' => array('GlobalCategory')));
+			$Model->ViewCount->unBindModel(array(
+				'belongsTo' => array('GlobalCategory')
+			));
 
 			$Model->ViewCount->create();
 			$Model->ViewCount->save($view);

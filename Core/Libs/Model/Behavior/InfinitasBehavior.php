@@ -735,6 +735,10 @@
 				return false;
 			}
 
+			if($Model->useTable == false) {
+				return false;
+			}
+
 			$schema = $Model->schema();
 			if(empty($schema)) {
 				return false;
