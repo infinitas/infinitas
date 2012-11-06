@@ -21,7 +21,7 @@
 				'text/html'
 			)
 		);
-		
+
 		public $headers = array(
 			'message_id' => null,
 			'to' => null,
@@ -43,7 +43,7 @@
 
 		/**
 		 * @brief convert raw emails into arrays of data that can be later maniplutated
-		 * 
+		 *
 		 * @param <type> $rawEmail
 		 */
 		public function parse($rawEmail) {
@@ -69,7 +69,7 @@
 				}
 			}
 			unset($_headers, $_header, $key, $value);
-			
+
 			$return['headers'] = array_merge($this->headers, $header);
 			$return['body'] = $this->_formatBody($_body);
 
@@ -84,13 +84,13 @@
 				$body[$k]['charset'] = isset($part['type']['extra']['charset']) ? $part['type']['extra']['charset'] : null;
 				$body[$k]['type'] = $part['type']['value'];
 			}
-			
+
 			return $body;
 		}
 
 		/**
 		 * @brief format the data into something more usable
-		 * 
+		 *
 		 * @param string|array $value the value to manipulate
 		 * @param string $key the key that $value belongs to
 		 * @access protected

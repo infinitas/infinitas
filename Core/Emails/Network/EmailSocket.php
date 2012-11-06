@@ -1,5 +1,4 @@
 <?php
-	//App::import('Libs', 'Libs.BaseSocket');
 	App::uses('CakeSocket', 'Network');
 	/**
 	 * @base Email socket is a low level class for communicating directly with mail servers

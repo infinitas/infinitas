@@ -175,6 +175,7 @@ class EmailSource extends DataSource {
 		}
 		$connection['persistent'] = false;
 		$this->Server->set($connection);
+		$this->_connectionDetails = $connection;
 
 		return $this->Server->login();
 	}
@@ -218,6 +219,10 @@ class EmailSource extends DataSource {
 			case 'smtp':
 				App::uses('SmtpSocket', 'Emails.Network');
 				return $this->Server = new SmtpSocket();
+
+			case 'imap':
+				App::uses('ImapSocket', 'Emails.Network');
+				return $this->Server = new ImapSocket();
 		}
 
 		return false;
@@ -291,6 +296,9 @@ class EmailSource extends DataSource {
 
 		$return['Email']['Spam'] = $message['headers']['spam_status'];
 		$return['Email']['Spam']['level'] = $message['headers']['spam_level'];
+		$return['Email']['thread_count'] = 0;
+		$return['Email']['subject'] = $message['headers']['subject'];
+		$return['Email']['created'] = $message['headers']['date']['date_time'];
 
 		$return['Sender']['date'] = $message['headers']['delivery_date']['date_time'];
 		$return['Sender']['time_zone'] = $message['headers']['delivery_date']['time_zone'];
@@ -302,10 +310,12 @@ class EmailSource extends DataSource {
 		$return['Message']['id'] = $message['id'];
 		$return['Message']['size_formatted'] = $message['sizeReadable'];
 		$return['Message']['message_number'] = $message['message_number'];
-		$return['Message']['text'] = Set::extract('/body[type=text/plain]', $message);
-		$return['Message']['text'] = isset($return['Message']['text'][0]['body']) ? $return['Message']['text'][0]['body'] : null;
-		$return['Message']['html'] = Set::extract('/body[type=text/html]', $message);
-		$return['Message']['html'] = isset($return['Message']['html'][0]['body']) ? $return['Message']['html'][0]['body'] : null;
+		$return['Message']['text'] = $message['plain'];
+		$return['Message']['html'] = $message['html'];
+		$return['Message']['unread'] = true;
+
+		$return['From'] = $message['headers']['from'];
+		$return[$Model->alias] = $this->_connectionDetails;
 
 		unset($message);
 

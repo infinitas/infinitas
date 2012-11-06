@@ -111,8 +111,8 @@ class Pop3Socket extends EmailSocket {
 		$list = $this->write('LIST ', 'cleanData', 1024);
 
 		/**
-			* @todo getting big lists causes problems
-			*
+		 * @todo getting big lists causes problems
+		 *
 
 		$mailSize = parent::_getSize($list) || parent::_isOk($list);
 
@@ -125,7 +125,7 @@ class Pop3Socket extends EmailSocket {
 
 		$list = $list . $this->write('LIST ', null, $mailSize);
 
-			*/
+		 */
 
 		if(!$list || empty($list)) {
 			return false;
@@ -251,14 +251,7 @@ class Pop3Socket extends EmailSocket {
 	}
 
 	public function getMail($id) {
-		$data = $this->write('RETR ' . $id, null, 50);
-		$mailSize = parent::_getSize($data);
-		if(!$mailSize) {
-			unset($data);
-			return array();
-		}
-
-		$mail = $data . $this->write('RETR ' . $id, null, $mailSize);
+		$mail = $this->write('RETR ' . $id, null, $this->mailList[$id]['size']);
 		if(!parent::_isOk($mail)) {
 			unset($mail);
 			return array();

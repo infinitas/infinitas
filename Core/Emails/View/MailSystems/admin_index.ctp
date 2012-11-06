@@ -50,24 +50,24 @@
 			);
 
 			foreach($mails as $mail) {
-				$class = $mail['MailSystem']['unread'] ? 'unread' : '';
+				$class = $mail['Message']['unread'] ? 'unread' : '';
 				?>
 					<tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">
 						<td><?php echo $this->Infinitas->massActionCheckBox($mail); ?>&nbsp;</td>
 						<td>
 							<?php
-								$_url = $this->Event->trigger('Emails.slugUrl', array('type' => 'view', 'data' => $mail));
+								$_url = array('slugUrl' => array()); //$this->Event->trigger('Emails.slugUrl', array('type' => 'view', 'data' => $mail));
 								echo $this->EmailAttachments->isFlagged($mail['MailSystem']),
 									$this->Html->link(
-										sprintf('%s (%s)', $mail['From']['name'], $mail['MailSystem']['thread_count']),
+										sprintf('%s (%s)', $mail['From']['name'], $mail['Email']['thread_count']),
 										current($_url['slugUrl'])
 									);
 							?>&nbsp;
 						</td>
-						<td><?php echo $mail['MailSystem']['subject']; ?>&nbsp;</td>
+						<td><?php echo $mail['Email']['subject']; ?>&nbsp;</td>
 						<td><?php echo $this->EmailAttachments->hasAttachment($mail['MailSystem']); ?>&nbsp;</td>
-						<td><?php echo convert($mail['MailSystem']['size']); ?>&nbsp;</td>
-						<td><?php echo $this->Infinitas->date($mail['MailSystem']['created']); ?>&nbsp;</td>
+						<td><?php echo convert($mail['Email']['size']); ?>&nbsp;</td>
+						<td><?php echo $this->Infinitas->date($mail['Email']['created']); ?>&nbsp;</td>
 					</tr>
 				<?php
 			}
