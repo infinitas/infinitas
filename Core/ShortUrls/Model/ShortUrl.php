@@ -20,14 +20,14 @@
 
 		/**
 		 * A string of chars used in the encoding / decoding
-		 * 
+		 *
 		 * @var string
 		 */
 		private $__codeSet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 		/**
 		 * The length of the $__codeSet
-		 * 
+		 *
 		 * @var int
 		 */
 		private $__base;
@@ -35,7 +35,7 @@
 
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-			
+
 			$this->validate = array(
 				'url' => array(
 					'isUnique' => array(
@@ -52,7 +52,7 @@
 					)
 				)
 			);
-			
+
 			$this->__base = strlen($this->__codeSet);
 		}
 
@@ -64,19 +64,14 @@
 		 */
 		public function someTypeOfUrl($field) {
 			// absolute url
-			if(substr(current($field), 0, 1) == '/') {
-				return true;
-			}
-			
-			// full url
-			else if(preg_match('/^((mailto\:|(news|(ht|f)tp(s?))\:\/\/) {1}\S+).*$/', current($field))) {
+			if(Validation::url(current($field), true)) {
 				return true;
 			}
 
 			else if(false) {
 				// validate json so that you can use a cake url that can change with routing.
 			}
-			
+
 			return false;
 		}
 
@@ -105,7 +100,7 @@
 					);
 
 					$this->id = isset($id['ShortUrl']['id']) ? $id['ShortUrl']['id'] : false;
-					
+
 					if(!$this->id) {
 						return false;
 					}
@@ -117,7 +112,7 @@
 
 		/**
 		 * convert a short url to a long one.
-		 * 
+		 *
 		 * @param string $code the code from the short url
 		 * @return mixed false on fail, string url on true
 		 */
