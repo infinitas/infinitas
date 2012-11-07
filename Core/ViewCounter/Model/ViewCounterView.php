@@ -30,7 +30,7 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-			
+
 			$this->ChartDataManipulation = new ChartDataManipulation();
 		}
 
@@ -135,7 +135,7 @@
 					'group' => $group
 				)
 			);
-			
+
 			if(!empty($data)) {
 				$data = Set::extract('/' . $this->alias . '/views', $data);
 				$data = round(array_sum($data) / count($data));
@@ -190,7 +190,7 @@
 			}
 			$data['global_total_views'] = $this->find('count');
 			$data['total_ratio'] = ($data['total_views'] / $data['global_total_views']) * 100;
-			
+
 			$data['unique_views']['visits'] = $this->find(
 				'all',
 				array(
@@ -209,7 +209,7 @@
 					)
 				)
 			);
-			
+
 			/**
 			 * unique visitors
 			 */
@@ -254,7 +254,7 @@
 
 		/**
 		 * Report showing averages accross years
-		 * 
+		 *
 		 * @param array $conditions the conditions to limit the data
 		 *
 		 * @return array the data for selected range
@@ -697,7 +697,7 @@
 		 *
 		 * @param array $conditions the conditions to limit the find
 		 * @param int $limit the max number of regions to find for
-		 * 
+		 *
 		 * @return array of regions sorted by views
 		 */
 		public function reportByRegion($conditions = array(), $limit = 24) {
@@ -811,7 +811,7 @@
 				)
 			);
 		}
-		
+
 		public function beforeSave($options = array()) {
 			unset($this->belongsTo['Image']);
 			return parent::beforeSave($options);
