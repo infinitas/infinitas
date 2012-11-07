@@ -214,6 +214,10 @@
 		 * @return ImapInterface
 		 */
 		public function __set($name, $value = null) {
+			if(substr($name, 0, 1) === '_') {
+				return $this->{$name} = $value;
+			}
+			
 			if(!array_key_exists($name, $this->__connectionOptions)) {
 				throw new EmailSocketConfigOptionException(array($name));
 			}
@@ -308,7 +312,7 @@
 		 * string|array depending on the callbacks
 		 */
 		public function read($size = 1024, $method = false) {
-			$data = parent::read($size);
+			$data = $this->_read($size);
 			if($data) {
 				if($method && is_callable(array($this, $method))) {
 					$method = '_' . $method;
@@ -322,17 +326,21 @@
 			return false;
 		}
 
+		protected function _read($size) {
+			return parent::read($size);
+		}
+
 		public function write($data, $method = false, $size = 1024) {
 			$didWrite = parent::write($data . $this->eol);
 
 			if($didWrite && $size > 0) {
 				if($method && is_callable(array($this, '_' . $method))) {
-					$data = parent::read($size, $method);
+					$data = $this->read($size, $method);
 					$method = '_' . $method;
 					return $this->{$method}($data);
 				}
 
-				return parent::read($size);
+				return $this->read($size);
 			}
 
 			return $didWrite;

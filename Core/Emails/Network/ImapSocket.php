@@ -102,11 +102,13 @@ class ImapSocket extends EmailSocket {
 			'to' => $header['to']
 		);
 		$email['sizeReadable'] = convert($email['details']['html']['size']);
+		exit;
 
 		return array_merge($this->_emails[$this->_mailbox][$id], $email);
 	}
 
 	protected function _getMail($data) {
+		debug($data);
 		$id = array();
 		preg_match('/--([a-f0-9]+)/', $data, $id);
 		if(empty($id[1])) {
@@ -311,32 +313,59 @@ class ImapSocket extends EmailSocket {
 	}
 
 	protected function _cleanCapabilities($data) {
-		$data = explode(' ', current(explode("\n", $data, 2)));
-		if(empty($data)) {
-			return array();
+		if(empty($this->_cap)) {
+			$this->_cap = explode(' ', current(explode("\n", $data, 2)));
+			if(empty($this->_cap)) {
+				return array();
+			}
+
+			array_walk($this->_cap, function(&$cap) {
+				$cap = trim($cap);
+			});
+			foreach($this->_cap as $k => $v) {
+				if(in_array($v, array('*', 'CAPABILITY'))) {
+					unset($this->_cap[$k]);
+					continue;
+				}
+				if(strstr($v, 'AUTH=')) {
+					$this->_cap[] = str_replace('AUTH=', '', $v);
+					unset($this->_cap[$k]);
+					continue;
+				}
+			}
 		}
 
-		array_walk($data, function(&$cap) {
-			$cap = trim($cap);
-		});
-		foreach($data as $k => $v) {
-			if(in_array($v, array('*', 'CAPABILITY'))) {
-				unset($data[$k]);
-				continue;
+		return $this->_cap;
+	}
+
+	public function write($data, $method = false, $size = 1024) {
+		$data = sprintf('%s %s', $this->_counter(), $data);
+		return parent::write($data, $method, $size);
+	}
+
+	public function read($size = 1024, $method = false) {
+		$data = null;
+		$count = 0;
+		$counter = $this->_counter;
+		$match = false;
+		while(!$match) {
+			$data = $this->_read($size, false);
+			$match = preg_match(sprintf('/%s /', $counter), $data);
+			if(!$match) {
+				$this->noop();
 			}
-			if(strstr($v, 'AUTH=')) {
-				$data[] = str_replace('AUTH=', '', $v);
-				unset($data[$k]);
-				continue;
-			}
+		}
+
+		$_method = '_' . $method;
+		if($method && is_callable(array($this, $_method))) {
+			return $this->{$_method}($data);
 		}
 
 		return $data;
 	}
 
-	public function write($data, $method = false, $size = 1024) {
-		$data = sprintf('A%s %s', str_pad($this->_counter++, 4, '0', STR_PAD_LEFT), $data);
-		return parent::write($data, $method, $size);
+	protected function _counter() {
+		return 'A' . str_pad($this->_counter++, 4, '0', STR_PAD_LEFT);
 	}
 
 /**
@@ -362,8 +391,19 @@ class ImapSocket extends EmailSocket {
 		return array();
 	}
 
-	public function noop() {
-		throw new Exception(__FUNCTION__);
+/**
+ * @brief send NOOP command, optional sleep time
+ *
+ * @param integer $sleep the microtime to sleep for (1/1000000 of second)
+ *
+ * @return string
+ */
+	public function noop($sleep = 100000) {
+		$noop = $this->write('NOOP', false, 0);
+		if($sleep) {
+			usleep($sleep);
+		}
+		return $noop;
 	}
 
 	public function undoDeletes() {
