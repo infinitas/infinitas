@@ -280,7 +280,7 @@
 				unset($Folder, $folders['.git'], $folders['Config'], $folders['Locale'],
 					$folders['nbproject'], $folders['Console'], $folders['tmp'], $folders['View'],
 					$folders['Controller'],  $folders['Lib'], $folders['webroot'], $folders['Test'],
-					$folders['Model']);
+					$folders['Model'], $folders['CakePHP']);
 
 				self::$__pluginPaths = array();
 				foreach(array_flip($folders) as $folder) {
