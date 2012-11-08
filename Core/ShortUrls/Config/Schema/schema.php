@@ -9,7 +9,7 @@ class ShortUrlsSchema extends CakeSchema {
 	}
 
 	public $core_short_urls = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'id' => array('type' => 'biginteger', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'url' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'views' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 9),
 		'dead' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
