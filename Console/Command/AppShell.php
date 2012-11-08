@@ -142,9 +142,7 @@
 		 * or the text is scrolled off the screen.
 		 */
 		public function helpPause() {
-			if(!isset($this->Dispatch->shellCommand) || $this->Dispatch->shellCommand != 'help') {
-				$this->pause();
-			}
+			$this->pause();
 		}
 
 		/**
