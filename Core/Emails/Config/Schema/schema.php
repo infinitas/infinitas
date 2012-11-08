@@ -23,6 +23,9 @@ class EmailsSchema extends CakeSchema {
 		'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'system' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'outgoing' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
+		'cron' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
