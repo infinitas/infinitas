@@ -5,11 +5,9 @@
 	 * Used to configure some base settings and load configs from all the plugins in the app.
 	 */
 
+	Configure::write('debug', 0);
 	if(substr(env('SERVER_ADDR'), 0, 3) == 127 || substr(env('HTTP_HOST'), -3) == 'dev') {
 		Configure::write('debug', 2);
-	}
-	else{
-		Configure::write('debug', 0);
 	}
 
 	Configure::write('log', true);

@@ -142,8 +142,8 @@
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
 			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';
 			$folder = str_replace('.', DS, $cache['config']['prefix']);
-			if(!strstr($folder, 'core' . DS)) {
-				$folder = 'plugins' . DS . $folder;
+			if(!strstr($folder, 'Core' . DS)) {
+				$folder = 'Plugin' . DS . $folder;
 			}
 
 			if(Configure::read('Cache.engine') == 'Libs.NamespaceFile') {
