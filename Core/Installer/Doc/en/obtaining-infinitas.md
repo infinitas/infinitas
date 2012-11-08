@@ -2,7 +2,17 @@
 
 The installation of most webservers will create a folder in `/var/www` for storing your web sites. This guide will assume that is the case and refer to this path. If you are using your own path there should not be any issues, you will just need to adjust the commands to match your setup as the guide progresses.
 
-If you have followed the [CakePHP installation guide](/infinitas\_docs/Installer/cakephp-installation) you should already have this folder and CakePHP up and running.
+If you are going to use `git` for obtaining the code you do not need to worry about CakePHP as it is included as a submodule. Make sure to include the submodules if you want to have CakePHP included automatically (recommended).
+
+CakePHP and all other plugins
+
+	git submodule update --init
+
+Or just CakePHP with no other plugins
+
+	git submodule CakePHP update --init
+
+If you do not want to use the included CakePHP repo see the [installation guide](/infinitas\_docs/Installer/cakephp-installation) for CakePHP.
 
 The code for Infinitas is open sourced under the MIT licence. You can obtain free copies of the code from the following locations:
 
@@ -51,7 +61,7 @@ After you have initialised the plugins you require you need to updte the reposit
 
 	git submodule update
 
-To get everything in one command (recomended) use the following single command
+To get everything in one command (recomended) use the following single command (includes the required CakePHP code also)
 
 	git submodule update --init --recursive
 

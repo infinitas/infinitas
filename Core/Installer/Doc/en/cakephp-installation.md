@@ -1,3 +1,5 @@
+The Infinitas repository contains a submodule that points to the correct version of CakePHP. If you are using git for your development you should not need to download or configure CakePHP besides initialising the submodules. The details below are for more advanced users that do not wish to use the included CakePHP submodule.
+
 You can obtain the CakePHP code from a number of locations including the following:
 
 - git repo: `git://github.com/cakephp/cakephp.git`
@@ -8,7 +10,7 @@ Git is by far the most prefered method as you are sure to have the latest upto d
 
 ### Preface
 
-It is best to keep your copy of CakePHP in `shared location` so that you will be able to use the same copy for multiple applications. This guide will use `/var/www/frameworks/cakephp` as that location. 
+It is best to keep your copy of CakePHP in `shared location` so that you will be able to use the same copy for multiple applications. This guide will use `/var/www/frameworks/cakephp` as that location.
 
 To make this copy of CakePHP available without having to modify every single app we can make a small addition to the `php.ini` file that tells PHP where it can find Cake. Here we will assume you are using `PHP FPM` to serve request, although this could be something else like `cgi` or `apache`.
 
@@ -30,7 +32,7 @@ You can then clone CakePHP with the above url into our shared location:
 
 	git clone git://github.com/cakephp/cakephp.git frameworks/cakephp
 
-Make sure you are on the correct `branch` by changing to the newly created dir 
+Make sure you are on the correct `branch` by changing to the newly created dir
 
 	cd frameworks/cakephp
 
