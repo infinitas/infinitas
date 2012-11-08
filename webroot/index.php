@@ -70,9 +70,15 @@
 		define('WWW_ROOT', dirname(__FILE__) . DS);
 	}
 
+	$failed = false;
 	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
+		$root = getcwd();
 		if (function_exists('ini_set')) {
-			ini_set('include_path', ROOT . DS . 'lib' . PATH_SEPARATOR . ini_get('include_path'));
+			$root = ROOT . DS . APP_DIR . DS . 'CakePHP';
+			if(is_dir($root . DS . 'lib')) {
+				define('INFINITAS_CAKEPHP_SUBMODULE', true);
+				ini_set('include_path', $root . DS . 'lib' . PATH_SEPARATOR . ini_get('include_path'));
+			}
 		}
 		if (!include('Cake' . DS . 'bootstrap.php')) {
 			$failed = true;
@@ -82,8 +88,11 @@
 			$failed = true;
 		}
 	}
-	if (!empty($failed)) {
-		trigger_error("CakePHP core could not be found.  Check the value of CAKE_CORE_INCLUDE_PATH in APP/webroot/index.php.  It should point to the directory containing your " . DS . "cake core directory and your " . DS . "vendors root directory.", E_USER_ERROR);
+	if ($failed) {
+		$message = sprintf('<h1>%s</h1>', 'CakePHP core could not be found.');
+		$message .= sprintf('<p>%s</p>', 'Infinitas has tried the following paths: <br/></br>%s<br/><br/><b>See:</b> %s');
+		echo sprintf($message, implode('<br/>', explode(PATH_SEPARATOR, ini_get('include_path'))), 'http://infinitas-cms.org/infinitas_docs/Installer');
+		exit;
 	}
 
 	if (isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] == '/favicon.ico') {
@@ -95,4 +104,4 @@
 	$Dispatcher = new Dispatcher();
 	$Dispatcher->dispatch(new CakeRequest(), new CakeResponse(array('charset' => Configure::read('App.encoding'))));
 
-	EventCore::trigger(new stdClass(), 'requestDone');
+	EventCore::trigger($Dispatcher, 'requestDone');

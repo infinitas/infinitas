@@ -46,3 +46,6 @@
 [submodule "Plugin/InfinitasJobs"]
 	path = Plugin/InfinitasJobs
 	url = git://github.com/Infinitas-Plugins/InfinitasJobs.git
+[submodule "CakePHP"]
+	path = CakePHP
+	url = git://github.com/cakephp/cakephp
