@@ -49,3 +49,6 @@
 [submodule "CakePHP"]
 	path = CakePHP
 	url = git://github.com/cakephp/cakephp
+[submodule "Plugin/InfinitasPiwik"]
+	path = Plugin/InfinitasPiwik
+	url = https://github.com/Infinitas-Plugins/InfinitasPiwik.git
