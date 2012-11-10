@@ -383,6 +383,11 @@ form fieldset,
 		clear:none;
 	}
 
+	.dashboard.half:nth-child(2n+2) {
+		float: right;
+		margin-right: 0;
+	}
+
 	.module:nth-of-type(odd) .dashboard.half {
 		margin-right: 0;
 		margin-left: 6px;
