@@ -4,7 +4,7 @@
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.Contents.models
+	 * @package Core.Contents.Model
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -21,7 +21,7 @@
 		 * @access public
 		 */
 		public $lockable = true;
-		
+
 		public $contentable = true;
 
 		/**
@@ -47,7 +47,7 @@
 				'counterCache' => true
 			)
 		);
-		
+
 		public $belongsTo = array(
 			'Theme' => array(
 				'className' => 'Themes.Theme'
@@ -126,7 +126,7 @@
 					$results[$k][$this->alias]['model'] = $parts[1];
 				}
 			}
-			
+
 			return $results;
 		}
 
@@ -144,7 +144,7 @@
 				$query['fields'] = array(
 					'GlobalLayout.*'
 				);
-				
+
 				unset($query['model'], $query['plugin'], $query['action']);
 				return $query;
 			}
@@ -158,19 +158,19 @@
 				if(isset($query['plugin'])) {
 					$data[] = $query['plugin'];
 				}
-				
+
 				if(isset($query['model'])) {
 					$data[] = $query['model'];
 				}
-				
+
 				$query['_data'] = implode('.', $data);
-				
+
 				$query['fields'] = array(
 					$this->alias . '.id',
 					$this->alias . '.name',
 					$this->alias . '.model'
 				);
-				
+
 				unset($query['model'], $query['plugin']);
 				return $query;
 			}
@@ -179,16 +179,16 @@
 				__d('contents', 'Related') => array(),
 				__d('contents', 'Other') => array()
 			);
-			
-			foreach($results as $result) {				
+
+			foreach($results as $result) {
 				if(strstr($result[$this->alias]['model_class'], $query['_data'])) {
 					$return[__d('contents', 'Related')][$result[$this->alias][$this->primaryKey]] = $result[$this->alias]['name'];
 					continue;
 				}
-				
+
 				$return[__d('contents', 'Other')][$result[$this->alias][$this->primaryKey]] = $result[$this->alias]['name'];
 			}
-			
+
 			return $return;
 		}
 

@@ -20,5 +20,6 @@
 		<ignore>*/releases/*</ignore>
 		<ignore>tmp/*</ignore>
 		<ignore>webroot/*</ignore>
+		<ignore>Core/GeoLocation/Lib/GeoIP/*</ignore>
 	</files>
 </phpdocumentor>

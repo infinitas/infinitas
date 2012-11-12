@@ -7,7 +7,7 @@
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
 	 * @link		  http://infinitas-cms.org/Users
-	 * @package	   Users.controllers.Groups
+	 * @package Core.Users.Controller
 	 * @license	   http://infinitas-cms.org/mit-license The MIT License
 	 * @since 0.9b1
 	 *
@@ -52,7 +52,7 @@
 		 *
 		 * Show detailed information on a single Group
 		 *
-		 * @todo update the documentation 
+		 * @todo update the documentation
 		 * @param mixed $id int or string uuid or the row to find
 
 		 *

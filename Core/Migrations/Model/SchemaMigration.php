@@ -7,7 +7,7 @@
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
 	 * @link		http://infinitas-cms.org/Migrations
-	 * @package		Migrations.models.SchemaMigration
+	 * @package Core.Migrations.Model
 	 * @license		http://infinitas-cms.org/mit-license The MIT License
 	 * @since		0.9b1
 	 *
@@ -85,7 +85,7 @@
 		 */
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-			
+
 			$this->validate = array(
 			);
 		}

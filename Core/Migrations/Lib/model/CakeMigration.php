@@ -11,7 +11,7 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation
 	 * @link	  http://codaset.com/cakedc/migrations/
-	 * @package   plugns.migrations
+	 * @package Core.Migrations.Model
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Model', 'CakeSchema', false);
