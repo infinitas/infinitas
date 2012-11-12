@@ -21,11 +21,11 @@ webroot/*
 
 .gitignore
 
-# Ignore Mac system files
-.Ds_Store
-
 # If you are using an ide other than below add ignores for the files it creates
 # and commit the changes.
+
+# Ignore Mac system files
+.Ds_Store
 
 # PHPEdit project files
 *.PHPEditProject
