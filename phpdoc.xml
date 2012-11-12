@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdocumentor>
 	<parser>
-		<default-package-name>Infinitas CMS</default-package-name>
+		<default-package-name>Core</default-package-name>
+		<title>Infinitas Cms 0.9</title>
 		<target>./tmp/cache/</target>
 		<extensions>
 			<extension>php</extension>
@@ -12,9 +13,11 @@
 		<template name="responsive"/>
 	</transformer>
 	<files>
-		<directory>./</directory>
+		<directory>./Core</directory>
 		<ignore>CakePHP/*</ignore>
 		<ignore>*/Test/*</ignore>
+		<ignore>*/Schema/*</ignore>
+		<ignore>*/releases/*</ignore>
 		<ignore>tmp/*</ignore>
 		<ignore>webroot/*</ignore>
 	</files>
