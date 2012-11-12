@@ -5,7 +5,7 @@
  * This handles all the different form actions, especialy delete / copy /
  * toggle where you need to manipulate many records at a time.
  *
- * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
  *
  * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -17,8 +17,8 @@
  * @author Carl Sutton ( dogmatic69 )
  * @author dakota
  *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
+ *
+ *
  */
 App::uses('InfinitasComponent', 'Libs.Controller/Component');
 

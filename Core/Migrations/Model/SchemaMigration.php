@@ -11,10 +11,7 @@
 	 * @license		http://infinitas-cms.org/mit-license The MIT License
 	 * @since		0.9b1
 	 *
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 
 	class SchemaMigration extends MigrationsAppModel {

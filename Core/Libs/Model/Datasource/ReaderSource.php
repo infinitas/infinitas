@@ -2,7 +2,7 @@
 	/*
 	 * Generic data fetcher.
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -11,11 +11,11 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.6a
 	 *
-	 * @author dogmatic69
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 * @author Ceeram
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 */
 	App::uses('OauthSocket', 'Libs.Lib');
 	abstract class ReaderSource extends DataSource {

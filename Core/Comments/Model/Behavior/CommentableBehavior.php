@@ -16,7 +16,7 @@
 	 * @since 0.6a
 	 *
 	 * @author Jose Diaz-Gonzalez - http://github.com/josegonzalez/cakephp-commentable-behavior
-	 * @author dogmatic69
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 *
 	 * @todo this code should be refactored into a spam filter lib that can be used
 	 * all over (eg: email contact forms) the comment model can just check in beforeSave
@@ -24,8 +24,8 @@
 	 *
 	 * @todo add a rating method for amount of text with no links vs total amount of text
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 */
 	App::uses('ModelBehavior', 'Model');
 	class CommentableBehavior extends ModelBehavior{

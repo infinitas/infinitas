@@ -11,10 +11,7 @@
 	 * @since 0.7a
 	 *
 	 * @author markstory
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 	App::uses('AppHelper', 'View/Helper');
 	class VcfHelper extends AppHelper {

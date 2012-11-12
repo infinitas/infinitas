@@ -8,8 +8,8 @@
  *
  * Copyright 2010, Jose Diaz-Gonzalez
  *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
+ *
+ *
  *
  * @copyright     Copyright 2010, Jose Diaz-Gonzalez
  * @package Core.Filemanager.Model.Behavior

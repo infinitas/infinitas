@@ -5,7 +5,7 @@
 	 * This is just a way to store the names of the menu groups that have been
 	 * created
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -14,10 +14,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 
 	class Menu extends MenusAppModel {

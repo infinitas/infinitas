@@ -14,10 +14,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 	App::uses('AppHelper', 'View/Helper');
 	class ContactsHelper extends AppHelper{

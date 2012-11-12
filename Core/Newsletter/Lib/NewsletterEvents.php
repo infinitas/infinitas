@@ -4,7 +4,7 @@
 	 *
 	 * events for the newsletter system
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -15,8 +15,8 @@
 	 *
 	 * @author dogmatic
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 */
 
 	final class NewsletterEvents extends AppEvents {

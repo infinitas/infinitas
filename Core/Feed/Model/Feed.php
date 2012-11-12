@@ -6,8 +6,8 @@
 	 *
 	 * Copyright (c) dogmatic69
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 *
 	 * @filesource
 	 * @copyright	 Copyright (c) 2009 {yourName}
@@ -15,7 +15,7 @@
 	 * @package Core.Feed.Model
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 *
-	 * @author dogmatic69
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 
 	class Feed extends FeedAppModel {

@@ -8,8 +8,8 @@
 	 *
 	 * Copyright 2009, Brightball, Inc. (http://www.brightball.com)
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 *
 	 * @filesource
 	 * @copyright Copyright 2009, Brightball, Inc. (http://www.brightball.com)

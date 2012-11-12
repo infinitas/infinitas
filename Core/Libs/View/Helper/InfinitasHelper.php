@@ -5,7 +5,7 @@
  * Does a lot of stuff like generating ordering buttons, load modules and
  * other things needed all over infinitas.
  *
- * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
  *
  * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -16,8 +16,8 @@
  *
  * @author Carl Sutton ( dogmatic69 )
  *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
+ *
+ *
  */
 App::uses('CakeTime', 'Utility');
 App::uses('AppHelper', 'View/Helper');

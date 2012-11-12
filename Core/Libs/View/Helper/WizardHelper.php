@@ -8,7 +8,7 @@
 	 *
 	 * Comments and bug reports welcome at jaredhoyt AT gmail DOT com
 	 *
-	 * Licensed under The MIT License
+	 *
 	 *
 	 * @writtenby		jaredhoyt
 	 * @lastmodified	Date: March 11, 2009

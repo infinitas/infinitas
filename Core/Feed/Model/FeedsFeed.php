@@ -4,7 +4,7 @@
 	 *
 	 * Overview of what the file does. About a paragraph or two
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -15,8 +15,8 @@
 	 *
 	 * @author {your_name}
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 */
 
 	class FeedsFeed extends FeedAppModel {

@@ -7,7 +7,7 @@
 	 * This will avoid any issues with many people working on content at the same
 	 * time
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -19,8 +19,8 @@
 	 * @author Carl Sutton ( dogmatic69 )
 	 * @author Ceeram
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 */
 
 	class LockableBehavior extends ModelBehavior {

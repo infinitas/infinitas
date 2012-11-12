@@ -3,7 +3,7 @@
 	
 	/**
 	 * http://code.google.com/apis/maps/documentation/staticmaps/#Usage
-	 * @author dogmatic69
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 *
 	 * @todo custom icons
 	 * @todo
@@ -148,7 +148,7 @@
 
 		/**
 		 * There is no need to modyfy this class.
-		 * @author dogmatic69
+		 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 		 */
 		/**
 		 * The map api url

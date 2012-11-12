@@ -6,8 +6,8 @@
 	 *
 	 * Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 *
 	 * @copyright Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com

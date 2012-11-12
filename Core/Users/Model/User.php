@@ -4,7 +4,7 @@
 	 *
 	 * Model for managing users
 	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+
 	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
@@ -15,8 +15,8 @@
 	 *
 	 * @author Carl Sutton (dogmatic69)
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 */
 	App::uses('UsersAppModel', 'Users.Model');
 

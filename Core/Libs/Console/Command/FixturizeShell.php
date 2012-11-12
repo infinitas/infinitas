@@ -6,8 +6,8 @@
 	 * Hibiskusweg 26c
 	 * 13089 Berlin, Germany
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 *
+	 *
 	 *
 	 * @copyright Copyright 2008, Debuggable, Ltd.
 	 * @version 1.0

@@ -6,8 +6,8 @@
  *
  * Copyright 2010, Marc Ypes, The Netherlands
  *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
+ *
+ *
  *
  * @package Core.Data.Lib
  * @copyright     2010 Marc Ypes, The Netherlands
