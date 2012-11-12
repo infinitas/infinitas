@@ -2,7 +2,7 @@
 /**
  * Chart Engine
  *
- * *nk http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
+ * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
  *
  * @package Infinitas.Charts.Helper
  */
@@ -27,9 +27,9 @@ App::uses('AppHelper', 'View/Helper');
  * back the cahce without even calling the engine.
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
- * *nk http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
+ * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
  * @package Infinitas.Charts.Helper
- * *cense http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
