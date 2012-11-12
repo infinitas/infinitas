@@ -12,8 +12,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.locks
-	 * @subpackage Infinitas.locks.behaviors.lockable
+	 * @package Core.Locks.Model.Behavior
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 *
@@ -24,7 +23,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	class LockableBehavior extends ModelBehavior {		
+	class LockableBehavior extends ModelBehavior {
 		/**
 		 * Contain default settings.
 		 *
@@ -33,10 +32,10 @@
 		 */
 		protected $_defaults = array(
 		);
-		
+
 		public function __construct() {
 			parent::__construct();
-			
+
 			ClassRegistry::init('Locks.Lock')->clearOldLocks();
 		}
 
@@ -97,7 +96,7 @@
 		 */
 		public function afterFind($Model, $results, $primary) {
 			$this->userId = class_exists('CakeSession') ? CakeSession::read('Auth.User.id') : null;
-			
+
 			if(!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)) {
 				if(!$this->userId || $Model->findQueryType != 'all') {
 					return $results;
@@ -197,7 +196,7 @@
 					'LockLocker.id = Lock.user_id',
 				)
 			);
-			
+
 			return $query;
 		}
 
@@ -254,7 +253,7 @@
 			if(!AuthComponent::user('id') || !$id) {
 				return true;
 			}
-			
+
 			return ClassRegistry::init('Locks.Lock')->deleteAll(
 				array(
 					'Lock.foreign_key' => $id,

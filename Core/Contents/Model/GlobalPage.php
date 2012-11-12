@@ -9,8 +9,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package management
-	 * @subpackage management.models.page
+	 * @package Core.Contents.Model
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
@@ -84,7 +83,7 @@
 				)
 			);
 		}
-		
+
 		public function isUnique($field = array()) {
 			return !is_file($this->__path($this->data[$this->alias]['file_name']));
 		}
@@ -113,7 +112,7 @@
 					$returnPages[][$this->alias] = $this->__getPageData(basename($page));
 				}
 			}
-			
+
 			if(empty($returnPages)) {
 				return array();
 			}
@@ -127,14 +126,14 @@
 			}
 
 			$path = str_replace(array('/', '\\'), DS, Configure::read('Contents.page_path')) . $id;
-			
+
 			if(!is_dir($path) && !strstr($path, '.ctp')) {
 				new Folder($path, true);
 			}
-			
+
 			return $path;
 		}
-		
+
 		private function __getPageData($page) {
 			return array(
 				'name' => Inflector::humanize(substr($page, 0, strlen($page) - 4)),
@@ -160,11 +159,11 @@
 			if($filename === null) {
 				$filename = $this->id;
 			}
-			
+
 			if(!strstr($filename, '.ctp')) {
 				$filename .= '.ctp';
 			}
-			
+
 			$pageFile = $this->__path($filename);
 
 			$this->id = null;
@@ -213,7 +212,7 @@
 			if(empty($this->data)) {
 				return false;
 			}
-			
+
 			if(strpos($this->data[$this->alias]['file_name'], '.ctp') === false) {
 				$this->data[$this->alias]['file_name'] .= '.ctp';
 			}
@@ -224,7 +223,7 @@
 				$File = new File($this->__path($this->id), true);
 				return $File->write($this->data[$this->alias]['body']);
 			}
-			
+
 			return false;
 		}
 

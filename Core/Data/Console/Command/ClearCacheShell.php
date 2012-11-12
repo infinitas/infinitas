@@ -9,8 +9,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @package       app
- * @subpackage    app.plugins.clear_cache.vendors.shells
+ * @package Core.Data.Console
  * @copyright     2010 Marc Ypes, The Netherlands
  * @author        Ceeram
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -19,8 +18,7 @@
 /**
  * Helps clear content of CACHE subfolders as well as content in cache engines from console
  *
- * @package       app
- * @subpackage    app.plugins.clear_cache.Console.Command
+ * @package Core.Data.Console
  */
 class ClearCacheShell extends AppShell {
 

@@ -9,8 +9,7 @@
  * @filesource
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  * @link http://infinitas-cms.org
- * @package sort
- * @subpackage sort.comments
+ * @package Core.Themes.Controller
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
  */
@@ -18,7 +17,7 @@
 class ThemesController extends ThemesAppController {
 /**
  * list available themes
- * 
+ *
  * @return void
  */
 	public function admin_index() {
@@ -39,12 +38,12 @@ class ThemesController extends ThemesAppController {
 
 /**
  * add a new theme
- * 
+ *
  * @return void
  */
 	public function admin_add() {
 		parent::admin_add();
-		
+
 		if(!$themes = $this->Theme->notInstalled()) {
 			$this->notice(
 				__d('themes', 'You do not have any themes to add'),
@@ -54,15 +53,15 @@ class ThemesController extends ThemesAppController {
 				)
 			);
 		}
-		
+
 		$this->set(compact('themes'));
 	}
 
 /**
  * edit an existing theme
- * 
+ *
  * @param string $id the id of the theme to edit
- * 
+ *
  * @return void
  */
 	public function admin_edit($id) {
@@ -78,7 +77,7 @@ class ThemesController extends ThemesAppController {
 		}
 		$this->set(compact('themes', 'defaultLayouts'));
 	}
-	
+
 	public function frontend_css() {
 		$this->layout = 'ajax';
 		$this->response->type('css');
@@ -117,10 +116,10 @@ class ThemesController extends ThemesAppController {
 			)
 		);
 	}
-	
+
 	/**
 	 * redirect to the installer to add a new theme.
-	 * 
+	 *
 	 * @param null $ids not used
 	 */
 	public function __massActionInstall($ids) {

@@ -18,8 +18,7 @@
 	/**
 	 * Short description for class.
 	 *
-	 * @package		plugins.tags
-	 * @subpackage	plugins.tags.models
+	 * @package Core.Contents.Model
 	 */
 
 	class GlobalTagged extends ContentsAppModel {
@@ -111,19 +110,19 @@
 						)
 					);
 				}
-				
+
 				if (!empty($query['model'])) {
 					$query['conditions'] = Set::merge(
-						$query['conditions'], 
+						$query['conditions'],
 						array(
 							'or' => array(
-								'GlobalTagged.model' => $query['model'], 
+								'GlobalTagged.model' => $query['model'],
 								'GlobalContent.model' => $query['model']
 							)
 						)
 					);
 				}
-				
+
 				if (!empty($query['foreign_key'])) {
 					$query['conditions'][] = array(
 						$this->alias . '.foreign_key' => $query['foreign_key']
@@ -148,7 +147,7 @@
 						)
 					);
 					$query['conditions'] = Set::merge(
-						$query['conditions'], 
+						$query['conditions'],
 						array(
 							'GlobalContentCategoryData.slug' => $query['category']
 						)

@@ -11,8 +11,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
+	 * @package Core.Newsletter.Model
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
@@ -53,7 +52,7 @@
 				$this->alias . '.header',
 				$this->alias . '.footer',
 			);
-					
+
 			if($data) {
 				$template = $this->find(
 					'first',
@@ -82,11 +81,11 @@
 					)
 				)
 			);
-			
+
 			if(empty($template)) {
 				throw new Exception(sprintf('No template found for %s', $data));
 			}
-			
+
 			return $template;
 		}
 	}

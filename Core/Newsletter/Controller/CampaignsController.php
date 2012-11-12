@@ -12,7 +12,7 @@
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
 	 * @package sort
-	 * @subpackage sort.comments
+	 * @package Core.Newsletter.Controller
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
@@ -48,7 +48,7 @@
 					)
 				);
 			}
-			
+
 			$newsletters = $this->Campaign->Newsletter->find('list');
 			$this->set(compact('templates', 'newsletters'));
 		}
@@ -131,7 +131,7 @@
 			if (!empty($ids)) {
 				return $ids;
 			}
-			
+
 			$this->notice(
 				__('None of the campaigns you selected are deletable.'),
 				array(

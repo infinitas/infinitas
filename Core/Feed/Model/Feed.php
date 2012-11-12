@@ -4,7 +4,7 @@
 	 *
 	 * Add some documentation for Feed model.
 	 *
-	 * Copyright (c) {yourName}
+	 * Copyright (c) dogmatic69
 	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
@@ -12,12 +12,13 @@
 	 * @filesource
 	 * @copyright	 Copyright (c) 2009 {yourName}
 	 * @link		  http://infinitas-cms.org
-	 * @package	   Management
-	 * @subpackage	Management.models.Feed
+	 * @package Core.Feed.Model
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
+	 *
+	 * @author dogmatic69
 	 */
 
-	class Feed extends FeedAppModel {		
+	class Feed extends FeedAppModel {
 		public $actsAs = array(
 			// 'Libs.Commentable',
 			// 'Libs.Rateable
@@ -137,11 +138,11 @@
 					)
 				)
 			);
-			
+
 			if(empty($mainFeed)) {
 				return array();
 			}
-			
+
 			$items = ClassRegistry::init('Feed.FeedsFeed')->find(
 				'list',
 				array(
@@ -149,7 +150,7 @@
 					'fields' => array('FeedsFeed.sub_feed_id', 'FeedsFeed.sub_feed_id')
 				)
 			);
-			
+
 			if(empty($items)) {
 				return array();
 			}
@@ -164,7 +165,7 @@
 				)
 			);
 
-			
+
 			if(empty($items)) {
 				return array();
 			}
@@ -206,7 +207,7 @@
 				);
 			}
 
-			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::camelize(Inflector::singularize($feed['Feed']['controller'])));			
+			$_Model = ClassRegistry::init($feed['Feed']['plugin'].'.'.Inflector::camelize(Inflector::singularize($feed['Feed']['controller'])));
 
 			return $_Model->find('feed', $query);
 		}

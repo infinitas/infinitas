@@ -11,15 +11,14 @@
  *
  * @copyright 2009 - 2010, Cake Development Corporation (http://cakedc.com)
  * @link	  http://github.com/CakeDC/Tags
- * @package   plugins.tags
+ * @package Core.Contents.Model.Behavior
  * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
  * Short description for class.
  *
- * @package		plugins.tags
- * @subpackage	plugins.tags.tests.cases.behaviors
+ * @package Core.Contents.Model.Behavior
  */
 
 App::uses('Model', 'Model');

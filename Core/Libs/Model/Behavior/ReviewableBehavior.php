@@ -12,8 +12,7 @@
 	 *
 	 * @filesource
 	 * @copyright Stoop Dev
-	 * @package core
-	 * @subpackage core.models.behaviors.reviewable
+	 * @package Core.Libs.Model.Behavior
 	 * @modifiedby Jose Diaz-Gonzalez
 	 * @modifiedby Carl Sutton
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License

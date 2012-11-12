@@ -11,13 +11,12 @@
 	 *
 	 * @copyright Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com
-	 * @package google
-	 * @subpackage google.models.google_contacts
+	 * @package Core.Google.Model
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	class GoogleContacts extends AppModel {
 		public $useDbConfig = 'google_contacts';
-		
+
 		public $primaryKey = 'id';
 
 		public function create($model) {

@@ -20,8 +20,7 @@
 	/**
 	 * Migration shell.
 	 *
-	 * @package	   migrations
-	 * @subpackage	migrations.vendors.shells
+	 * @package Core.Migrations.Console
 	 */
 	class MigrationShell extends Shell {
 

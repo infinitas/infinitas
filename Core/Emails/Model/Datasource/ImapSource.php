@@ -7,8 +7,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package libs
-	 * @subpackage libs.models.datasources.reader
+	 * @package Core.Emails.Model.Datasource
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -23,7 +22,7 @@
 		private $__isConnected = false;
 
 		private $__connectionString = null;
-		
+
 		private $__baseConfigs = array(
 			'global' => array(
 				'username' => false,
@@ -40,7 +39,7 @@
 				'port' => 110
 			)
 		);
-		
+
 		private $__connectionType = 'pop3';
 
 		/**
@@ -146,7 +145,7 @@
 			if ($this->__isConnected) {
 				return true;
 			}
-			
+
 			if(!isset($query['conditions'][$Model->alias.'.account'])) {
 				return false;
 			}
@@ -242,7 +241,7 @@
 		 */
 		private function __getMails($Model, $query) {
 			$pagination = $this->_figurePagination($query);
-			
+
 			$mails = array();
 			for ($i = $pagination['start']; $i > $pagination['end']; $i--) {
 				$mails[] = $this->__getFormattedMail($Model, $i);
@@ -262,7 +261,7 @@
 		private function __getFormattedMail($Model, $messageId) {
 			$mail = imap_headerinfo($this->MailServer, $messageId);
 			$structure = imap_fetchstructure($this->MailServer, $mail->Msgno);
-			
+
 			$toName = isset($mail->to[0]->personal) ? $mail->to[0]->personal : $mail->to[0]->mailbox;
 			$fromName = isset($mail->from[0]->personal) ? $mail->from[0]->personal : $mail->from[0]->mailbox;
 			$replyToName = isset($mail->reply_to[0]->personal) ? $mail->reply_to[0]->personal : $mail->reply_to[0]->mailbox;
@@ -308,22 +307,22 @@
 
 			$return['To'] = array(
 				'name' => $toName,
-				'email' => $mail->toaddress				
+				'email' => $mail->toaddress
 			);
 
 			$return['From'] = array(
 				'name' => $fromName,
-				'email' => sprintf('%s@%s', $mail->from[0]->mailbox, $mail->from[0]->host)				
+				'email' => sprintf('%s@%s', $mail->from[0]->mailbox, $mail->from[0]->host)
 			);
 
 			$return['ReplyTo'] = array(
 				'name' => $replyToName,
-				'email' => sprintf('%s@%s', $mail->reply_to[0]->mailbox, $mail->reply_to[0]->host)				
+				'email' => sprintf('%s@%s', $mail->reply_to[0]->mailbox, $mail->reply_to[0]->host)
 			);
-			
+
 			$return['Sender'] = array(
 				'name' => $replyToName,
-				'email' => sprintf('%s@%s', $mail->sender[0]->mailbox, $mail->sender[0]->host)				
+				'email' => sprintf('%s@%s', $mail->sender[0]->mailbox, $mail->sender[0]->host)
 			);
 
 			$return['Email'] = array(
@@ -340,7 +339,7 @@
 
 		/**
 		 * Get any attachments for the current message, images, documents etc
-		 * 
+		 *
 		 * @param <type> $structure
 		 * @param <type> $messageId
 		 * @return <type>
@@ -385,7 +384,7 @@
 							$attachments[] = $cachedAttachment;
 							continue;
 						}
-						
+
 						$attachment['attachment'] = imap_fetchbody($this->MailServer, $messageId, $i+1);
 						if($structure->parts[$i]->encoding == 3) { // 3 = BASE64
 							$attachment['format'] = 'base64';
@@ -412,7 +411,7 @@
 
 		/**
 		 * get a usable uuid for use in the code
-		 * 
+		 *
 		 * @param string $uuid in the format <.*@.*> from the email
 		 *
 		 * @return mixed on imap its the unique id (int) and for others its a base64_encoded string
@@ -428,7 +427,7 @@
 					break;
 			}
 		}
-		
+
 
 		/**
 		 * get the count of mails for the given conditions and params
@@ -475,7 +474,7 @@
 							return true;
 						}
 
-						else {							
+						else {
 							return array(
 								'type' => $structure->type,
 								'subtype' => $structure->subtype,
@@ -510,7 +509,7 @@
 				// start at the end - x pages
 				$count = ($pages - $query['page'] + 1) * $query['limit'];
 			}
-			
+
 			$return = array('start' => $count);
 
 			$return['end'] = ($query['limit'] >= $count) ? 0 : $return['start'] - $query['limit'];
@@ -531,7 +530,7 @@
 			if ($structure->subtype) {
 				return $primaryMimeType[(int) $structure->type] . '/' . $structure->subtype;
 			}
-			
+
 			return 'TEXT/PLAIN';
 		}
 
@@ -546,7 +545,7 @@
 
 				return imap_fetchbody($this->MailServer, $msgNumber, $partNumber);
 			}
-			
+
 			/* multipart */
 			if ($structure->type == 1) {
 				foreach($structure->parts as $index => $subStructure) {
@@ -572,7 +571,7 @@
 			if(isset($mail->reference) || isset($mail->in_reply_to)) {
 				return '?';
 			}
-			
+
 			return 0;
 		}
 	}

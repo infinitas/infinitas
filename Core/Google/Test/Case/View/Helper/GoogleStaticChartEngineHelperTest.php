@@ -34,9 +34,6 @@
 
 	/**
 	 * HtmlHelperTest class
-	 *
-	 * @package	   cake
-	 * @subpackage	cake.tests.cases.libs.view.helpers
 	 */
 	class GoogleStaticChartEngineHelperTest extends CakeTestCase {
 		/**

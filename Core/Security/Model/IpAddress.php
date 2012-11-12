@@ -9,8 +9,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package management
-	 * @subpackage management.models.ip_address
+	 * @package Core.Security.Model
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
@@ -167,7 +166,7 @@
 					'contain' => false
 				)
 			);
-			
+
 			if(!(is_string($data) || is_int($data))) {
 				$data = serialize($data);
 			}
@@ -190,12 +189,12 @@
 				case 'low':
 					$time = $save[$this->alias]['times_blocked'] * 5;
 					break;
-				
+
 				case 'medium':
 					$time = $save[$this->alias]['times_blocked'] * 10;
 					break;
 			} // switch
-			
+
 			$save[$this->alias]['unlock_at'] = date('Y-m-d H:i:s', ($time * 5 * 60 * ($risk + 1)) + $save[$this->alias]['unlock_at']);
 
 			if ($this->save($save)) {

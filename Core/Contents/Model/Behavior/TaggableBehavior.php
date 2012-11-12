@@ -12,15 +12,14 @@ App::uses('ModelBehavior', 'Model');
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation (http://cakedc.com)
 	 * @link	  http://github.com/CakeDC/Tags
-	 * @package   plugins.tags
+	 * @package Core.Contents.Model.Behavior
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 
 	/**
 	 * Short description for class.
 	 *
-	 * @package		plugins.tags
-	 * @subpackage	plugins.tags.models.behaviors
+	 * @package Core.Contents.Model.Behavior
 	 */
 
 	class TaggableBehavior extends ModelBehavior {
@@ -283,7 +282,7 @@ App::uses('ModelBehavior', 'Model');
 						unset($row[$tagAlias]);
 					}
 				}
-				
+
 				$results[$key] = $row;
 			}
 

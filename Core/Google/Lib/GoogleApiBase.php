@@ -11,8 +11,7 @@
 	 *
 	 * @copyright Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com
-	 * @package google
-	 * @subpackage google.vendors.GoogleApiBase
+	 * @package Core.Google.Lib
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Core', 'HttpSocket');
@@ -131,7 +130,7 @@
 			 */
 			$header[] = "Authorization: GoogleLogin auth=" . $this->_authKey;
 			$header[] = "GData-Version: 3.0";
-			
+
 			switch ($action) {
 				case "CREATE":
 					$method = "POST";
@@ -188,7 +187,7 @@
 				}
 			}
 
-			debug("GOOGLE RESPONSE: " . $atom);			
+			debug("GOOGLE RESPONSE: " . $atom);
 			return Set::reverse(new XML($atom));
 		}
 	}

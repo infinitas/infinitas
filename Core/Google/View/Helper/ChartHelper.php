@@ -12,8 +12,7 @@
 	 * @filesource
 	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link		  http://www.dogmatic.co.za
-	 * @package	   google
-	 * @subpackage	google.views.helpers.chart
+	 * @package Core.Google.Helper
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 	class ChartHelper extends AppHelper {
@@ -22,7 +21,7 @@
 			'Session',
 			'Number'
 		);
-		
+
 		/**
 		 * Country codes by continent.
 		 *
@@ -235,7 +234,7 @@
 		 * internal to hold origional data for caching.
 		 */
 		public $input = array();
-		
+
 		/**
 		 * Map names to code.
 		 *
@@ -444,7 +443,7 @@
 
 		/**
 		 * dispatch method based on the key / value options passed in
-		 * 
+		 *
 		 * @param <type> $key
 		 * @param <type> $value
 		 */

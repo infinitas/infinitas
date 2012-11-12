@@ -11,8 +11,7 @@
 	 *
 	 * @copyright	 Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com
-	 * @package	   google
-	 * @subpackage	google.models.datasources.google.google_contacts
+	 * @package Core.Google.Model.Datasource
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Lib', 'GoogleApiContacts');
@@ -119,7 +118,7 @@
 					else {
 						$tmp = $result['Feed']['Entry'];
 					}
-					
+
 					return $tmp;
 				}
 			}

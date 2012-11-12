@@ -28,9 +28,6 @@ Mock::generatePartial(
 
 /**
  * Custom class to test expectation
- *
- * @package	   migrations
- * @subpackage	migrations.tests.cases.shells
  */
 class MigrationShellExpectation extends SimpleExpectation {
 /**
@@ -65,9 +62,6 @@ class MigrationShellExpectation extends SimpleExpectation {
 
 /**
  * TestMigrationShell
- *
- * @package	   migrations
- * @subpackage	migrations.tests.cases.shells
  */
 class TestMigrationShell extends TestMigrationShellMockMigrationShell {
 
@@ -126,9 +120,6 @@ class TestMigrationShell extends TestMigrationShellMockMigrationShell {
 
 /**
  * TestMigrationShellMockedRunMigrationVersion
- *
- * @package	   migrations
- * @subpackage	migrations.tests.cases.shells
  */
 class TestMigrationShellMockedRunMigrationVersion extends TestMigrationShellMockMigrationVersion {
 
@@ -149,9 +140,6 @@ class TestMigrationShellMockedRunMigrationVersion extends TestMigrationShellMock
 
 /**
  * MigrationShellTest
- *
- * @package	   migrations
- * @subpackage	migrations.tests.cases.shells
  */
 class MigrationShellTest extends CakeTestCase {
 

@@ -11,8 +11,7 @@
 	 *
 	 * @copyright Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com
-	 * @package google
-	 * @subpackage google.vendors.GoogleApiContacts
+	 * @package Core.Google.Lib
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Lib', 'GoogleApiBase');
@@ -182,7 +181,7 @@
 					)
 				)
 			);
-			
+
 			return $schema;
 		}
 
@@ -196,7 +195,7 @@
 		public function toAtom($object) {
 			$atom = "<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'" .
 				" xmlns:gContact='http://schemas.google.com/contact/2008'>";
-			
+
 			if (isset($object['id'])) {
 				$atom .= "<id>" . $object['id'] . "</id>";
 			}

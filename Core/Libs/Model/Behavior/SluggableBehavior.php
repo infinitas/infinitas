@@ -7,15 +7,13 @@
 	 * @link http://cake-syrup.sourceforge.net/ingredients/sluggable-behavior/
 	 * @version $Revision: 36 $
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @package app
-	 * @subpackage app.models.behaviors
+	 * @package Core.Libs.Model.Behavior
 	 */
 
 	/**
 	 * Model behavior to support generation of slugs for models.
 	 *
-	 * @package app
-	 * @subpackage app.models.behaviors
+	 * @package Core.Libs.Model.Behavior
 	 */
 	class SluggableBehavior extends ModelBehavior {
 

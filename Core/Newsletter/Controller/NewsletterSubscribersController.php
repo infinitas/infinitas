@@ -11,8 +11,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
+	 * @package Core.Newsletter.Controller
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
@@ -34,7 +33,7 @@
 
 		public function admin_add() {
 			parent::admin_add();
-			
+
 			$users = $this->NewsletterSubscriber->User->find('list');
 			$this->set(compact('users'));
 		}

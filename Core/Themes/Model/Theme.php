@@ -12,14 +12,13 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package management
-	 * @subpackage management.models.theme
+	 * @package Core.Themes.Model
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
 	class Theme extends ThemesAppModel {
 		public $useTable = 'themes';
-		
+
 		public $hasMay = array(
 			'Route' => array(
 				'className' => 'Routes.Route'
@@ -61,9 +60,9 @@
 
 		/**
 		 * Get the current Theme
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return array $theme the current theme.
 		 */
 		public function getCurrentTheme() {
@@ -72,7 +71,7 @@
 			if ($theme !== false) {
 				return $theme;
 			}
-			
+
 			try {
 				$theme = $this->find(
 					'first',
@@ -91,7 +90,7 @@
 
 				Cache::write('current_theme', $theme, 'core');
 			}
-			
+
 			catch(Exception $e) {
 				CakeLog::write('core', $e->getMessage());
 				$theme = array();
@@ -104,9 +103,9 @@
 		 * before saving
 		 *
 		 * if the new / edited theme is active deactivte everything.
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return bool
 		 */
 		public function beforeSave() {
@@ -121,11 +120,11 @@
 		 * before deleteing
 		 *
 		 * If the theme is active do not let it be deleted.
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @param $cascade bool
-		 * 
+		 *
 		 * @return bool true to delete, false to stop
 		 */
 		public function beforeDelete($cascade) {
@@ -138,7 +137,7 @@
 		 *
 		 * This is used before activating a theme to make sure that there is only
 		 * ever one theme active.
-		 * 
+		 *
 		 * @access public
 		 *
 		 * @return bool true on sucsess false if not.
@@ -150,42 +149,42 @@
 				)
 			);
 		}
-		
+
 		public function install($theme) {
 			list($plugin, $theme) = pluginSplit($theme);
 			$path = InstallerLib::themePath($plugin, $theme);
 			$targetSymlink = InstallerLib::themePath(null, $theme);
-			
+
 			if(is_dir($path) && !is_dir($targetSymlink)) {
 				if(symlink($path, $targetSymlink)) {
 					if($this->save($this->__parseThemeConfig($path))) {
 						return true;
 					}
-					
+
 					unlink($targetSymlink);
 					throw new Exception(__d('themes', 'Could not install the "%s" theme', $theme));
 				}
-				
+
 				throw new Exception(__d('themes', 'Could not symlink the theme directory'));
 			}
-			
+
 			throw new Exception(__d('themes', 'Path error installing the "%s" theme', $theme));
 		}
-		
+
 		private function __parseThemeConfig($path) {
 			if(!is_file($path . DS . 'config.json')) {
 				throw new Exception('Missing configuration for selected theme');
 			}
-			
+
 			$File = new File($path . DS . 'config.json');
 			return array($this->alias => json_decode($File->read(), true));
 		}
-		
+
 		/**
-		 * get a list of themes that are already installed 
-		 * 
+		 * get a list of themes that are already installed
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return array list of installed themes
 		 */
 		public function installed() {
@@ -198,25 +197,25 @@
 					)
 				)
 			);
-			
+
 			foreach($themes as &$theme) {
 				$theme = Inflector::humanize($theme);
 			}
-			
+
 			return $themes;
 		}
-		
+
 		/**
 		 * get a list of themes that are not yet installed
-		 * 
+		 *
 		 * @access public
-		 * 
+		 *
 		 * @return array list of themes that are not installed
 		 */
 		public function notInstalled() {
 			App::uses('InstallerLib', 'Installer.Lib');
 			$installed = $this->installed();
-			
+
 			$notInstalled = array();
 			foreach(InfinitasPlugin::listPlugins('loaded') as $plugin) {
 				foreach(InstallerLib::findThemes($plugin) as $theme) {
@@ -225,13 +224,13 @@
 					}
 				}
 			}
-			
+
 			foreach(InstallerLib::findThemes() as $theme) {
 				if(!linkinfo(InstallerLib::themePath(null, $theme)) && !array_key_exists($theme, $installed)) {
 					$notInstalled[$theme] = Inflector::humanize(Inflector::underscore($theme));
 				}
 			}
-			
+
 			return $notInstalled;
 		}
 	}

@@ -46,8 +46,7 @@
 	 * @copyright (c) 2010 Neil Crookes
 	 * @license MIT License - http://www.opensource.org/licenses/mit-license.php
 	 * @link http://www.neilcrookes.com
-	 * @package cake
-	 * @subpackage cake.base
+	 * @package Core.Libs.Model.Behavior
 	 */
 	class SequenceBehavior extends ModelBehavior {
 		/**

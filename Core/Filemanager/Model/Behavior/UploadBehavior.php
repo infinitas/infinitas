@@ -12,8 +12,7 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2010, Jose Diaz-Gonzalez
- * @package       upload
- * @subpackage    upload.models.behaviors
+ * @package Core.Filemanager.Model.Behavior
  * @link          http://github.com/josegonzalez/upload
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */

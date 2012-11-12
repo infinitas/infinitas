@@ -17,9 +17,6 @@
 
 	/**
 	 * EncryptableBehaviorTest class
-	 *
-	 * @package       cake
-	 * @subpackage    cake.tests.cases.libs.model.behaviors
 	 */
 	class EncryptableBehaviorTest extends CakeTestCase {
 		public $settings = array(
@@ -129,7 +126,7 @@
 		 */
 		public function testSaveAndFind() {
 			$this->skipIf(!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
-			
+
 			$this->truncate();
 
 			/**

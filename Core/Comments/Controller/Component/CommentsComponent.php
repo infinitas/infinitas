@@ -1,5 +1,10 @@
 <?php
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
+	/**
+	 * Comments component
+	 *
+	 * 
+	 */
 	class CommentsComponent extends InfinitasComponent {
 		/**
 		 * allow posting comments to any controller

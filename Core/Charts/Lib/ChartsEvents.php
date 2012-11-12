@@ -96,7 +96,7 @@
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
- * @package Infinitas.Charts
+ * @package Core.Charts.Lib
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *

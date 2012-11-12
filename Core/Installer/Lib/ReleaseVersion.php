@@ -19,8 +19,7 @@
 	/**
 	 * Migration version management.
 	 *
-	 * @package       migrations
-	 * @subpackage    migrations.libs
+	 * @package Core.Installer.Lib
 	 */
 	class ReleaseVersion {
 		/**
@@ -265,7 +264,7 @@
 
 			$db = ConnectionManager::getDataSource($this->connection);
 			list(,$tableName) = pluginSplit($db->fullTableName('schema_migrations', false));
-			
+
 			if (!in_array($tableName, $db->listSources())) {
 				$map = $this->__loadFile('map', 'Migrations');
 
@@ -329,15 +328,5 @@
 			}
 			return true;
 		}
-
-	}
-
-	/**
-	 * Usually used when migrations file/class or map files are not found
-	 *
-	 * @package       migrations
-	 * @subpackage    migrations.libs
-	 */
-	class MigrationVersionException extends Exception {
 
 	}

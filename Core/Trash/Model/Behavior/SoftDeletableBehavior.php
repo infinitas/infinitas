@@ -7,16 +7,14 @@
 	 * @link http://cake-syrup.sourceforge.net/ingredients/soft-deletable-behavior/
 	 * @version	$Revision: 966 $
 	 * @license	http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @package app
-	 * @subpackage app.models.behaviors
+	 * @package Core.Libs.Model.Behavior
 	 */
 	App::uses('ModelBehavior', 'Model');
 
 	/**
 	 * Model behavior to support soft deleting records.
 	 *
-	 * @package app
-	 * @subpackage app.models.behaviors
+	 * @package Core.Libs.Model.Behavior
 	 */
 	class SoftDeletableBehavior extends ModelBehavior {
 		/**

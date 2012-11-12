@@ -9,8 +9,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package management
-	 * @subpackage management.models.user
+	 * @package Core.Users.Model
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7alpha
 	 *
@@ -20,7 +19,7 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	App::uses('UsersAppModel', 'Users.Model');
-	 
+
 	class User extends UsersAppModel{
 		public $useTable = 'users';
 
@@ -103,7 +102,7 @@
 		/**
 		 * auto hash passwords when other plugins use the model with a different alias
 		 *
-		 * Auth does not auto has the pw field when the alias is not User, so we 
+		 * Auth does not auto has the pw field when the alias is not User, so we
 		 * have to do it here so that it seems auto for other plugins.
 		 *
 		 * @param array $options see parent::beforeValidate
@@ -264,7 +263,7 @@
 			if(!$userId) {
 				return false;
 			}
-			
+
 			return (bool)$this->find(
 				'count',
 				array(
@@ -282,7 +281,7 @@
 					$this->alias . '.email'
 				);
 			}
-			
+
 			return $this->find(
 				'list',
 				array(

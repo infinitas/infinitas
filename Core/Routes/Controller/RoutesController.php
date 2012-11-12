@@ -11,8 +11,7 @@
  * @filesource
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  * @link http://infinitas-cms.org
- * @package sort
- * @subpackage sort.comments
+ * @package Core.Routes.Controller
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
  */
@@ -22,7 +21,7 @@ class RoutesController extends RoutesAppController {
 
 /**
  * get a list of themes
- * 
+ *
  * @return boolean
  */
 	public function beforeFilter() {
@@ -36,7 +35,7 @@ class RoutesController extends RoutesAppController {
 
 /**
  * list the routes for the site
- * 
+ *
  * @return void
  */
 	public function admin_index() {
@@ -62,7 +61,7 @@ class RoutesController extends RoutesAppController {
 
 /**
  * add a new route
- * 
+ *
  * @return void
  */
 	public function admin_add() {
@@ -75,9 +74,9 @@ class RoutesController extends RoutesAppController {
 
 /**
  * edit an existing route
- * 
+ *
  * @param stirng $id the id of the route being edited
- * 
+ *
  * @return void
  */
 	public function admin_edit($id = null) {

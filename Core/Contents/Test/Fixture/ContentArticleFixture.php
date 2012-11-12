@@ -16,10 +16,7 @@
  */
 
 /**
- * Short description for class.
- *
- * @package		plugins.tags
- * @subpackage	plugins.tags.tests.fixtures
+ * Content article fixtures
  */
 
 class ContentArticleFixture extends CakeTestFixture {

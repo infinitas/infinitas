@@ -12,8 +12,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package google
-	 * @subpackage google.setup
+	 * @package Core.Google.Config
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 	class GoogleConfig {
@@ -48,7 +47,7 @@
 			$analytics = array(
 				'profile_id' => 'xxxxxxxx-x'
 			);
-			
+
 			Configure::write('Google.Analytics', $analytics);
 		}
 	}

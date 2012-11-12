@@ -11,8 +11,7 @@
  * @filesource
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  * @link http://infinitas-cms.org
- * @package sort
- * @subpackage sort.comments
+ * @package Core.Installer.Model
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
  */
@@ -22,21 +21,21 @@ App::uses('Model', 'Model');
 class Install extends Model {
 /**
  * this model does not use a table
- * 
+ *
  * @var boolean
  */
 	public $useTable = false;
 
 /**
- * no behaviors 
- * 
+ * no behaviors
+ *
  * @var boolean
  */
 	public $actsAs = false;
 
 /**
  * overload construct for translated validation
- * 
+ *
  * @param boolean $id    [description]
  * @param [type]  $table [description]
  * @param [type]  $ds    [description]
@@ -70,7 +69,7 @@ class Install extends Model {
 
 /**
  * merge defaults before validation
- * 
+ *
  * @return void
  */
 	public function beforeValidate() {
@@ -86,5 +85,5 @@ class Install extends Model {
 	public function find() {
 		return true;
 	}
-	
+
 }

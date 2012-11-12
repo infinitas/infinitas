@@ -11,7 +11,7 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation
 	 * @link      http://codaset.com/cakedc/migrations/
-	 * @package   plugns.migrations
+	 * @package Core.Installer.Model
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Model', 'Installer.CakeSchema', false);
@@ -19,8 +19,7 @@
 	/**
 	 * Base Class for Migration management
 	 *
-	 * @package       migrations
-	 * @subpackage    migrations.libs.model
+	 * @package Core.Installer.Model
 	 */
 	class CakeRelease extends Object {
 
@@ -124,7 +123,7 @@
 			if (!empty($options['up'])) {
 				$this->migration['up'] = $options['up'];
 			}
-			
+
 			if (!empty($options['down'])) {
 				$this->migration['down'] = $options['down'];
 			}
@@ -254,7 +253,7 @@
 					case 'create_table':
 						$methodName = '_createTable';
 						break;
-					
+
 					case 'drop_table':
 						$methodName = '_dropTable';
 						break;
@@ -290,7 +289,7 @@
 							E_USER_NOTICE
 						);
 				}
-				
+
 				$this->{$methodName}($type, $info);
 			}
 		}
@@ -308,7 +307,7 @@
 				if (in_array($table, $this->db->listSources())) {
 					throw new MigrationException($this, sprintf(__d('migrations', 'Table "%s" already exists in database.'), $table));
 				}
-				
+
 				$this->Schema->tables = array($table => $fields);
 
 				$this->_invokeCallbacks('beforeAction', 'create_table', array('table' => $table));
@@ -334,7 +333,7 @@
 				if (!in_array($table, $this->db->listSources())) {
 					throw new MigrationException($this, sprintf(__d('migrations', 'Table "%s" does not exists in database.'), $table));
 				}
-				
+
 				$this->Schema->tables = array($table => array());
 
 				$this->_invokeCallbacks('beforeAction', 'drop_table', array('table' => $table));
@@ -399,7 +398,7 @@
 					if ($type === 'drop') {
 						$field = $col;
 					}
-					
+
 					if ($type !== 'add' && !isset($tableFields[$field])) {
 						if($field == 'tableParameters') {
 							continue;
@@ -412,7 +411,7 @@
 							if (isset($tableFields[$field])) {
 								throw new MigrationException($this, sprintf(__d('migrations', 'Field "%s" already exists in "%s".'), $field, $table));
 							}
-							
+
 							$sql = $this->db->alterSchema(array($table => array('add' => array($field => $col))));
 							break;
 
@@ -526,7 +525,7 @@
 			if (empty($table)) {
 				$table = Inflector::tableize($name);
 			}
-			
+
 			$defaults = array('name' => $name, 'table' => $table, 'ds' => $this->connection);
 			$options = array_merge($defaults, $options);
 
@@ -534,34 +533,3 @@
 		}
 
 	}
-
-// @codingStandardsIgnoreStart
-	/**
-	 * Exception used when something goes wrong on migrations
-	 *
-	 * @package       migrations
-	 * @subpackage    migrations.libs.model
-	 */
-	class MigrationException extends Exception {
-
-		/**
-		 * Reference to the Migration being processed on time the error ocurred
-
-		 * @var CakeMigration
-		 */
-		public $Migration;
-
-		/**
-		 * Constructor
-		 *
-		 * @param CakeMigration $Migration Reference to the Migration
-		 * @param string $message Message explaining the error
-		 * @param int $code Error code
-		 * @return void
-		 */
-		public function __construct($Migration, $message = '', $code = 0) {
-			parent::__construct($message, $code);
-			$this->Migration = $Migration;
-		}
-	}
-// @codingStandardsIgnoreEnd

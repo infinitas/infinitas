@@ -19,8 +19,7 @@
 	/**
 	 * Base Class for Migration management
 	 *
-	 * @package	   migrations
-	 * @subpackage	migrations.libs.model
+	 * @package Core.Migrations.Lib
 	 */
 	class CakeMigration extends Object {
 
@@ -458,8 +457,7 @@
 	/**
 	 * Exception used when something goes wrong on migrations
 	 *
-	 * @package	   migrations
-	 * @subpackage	migrations.libs.model
+	 * @package Core.Migrations.Lib
 	 */
 	class MigrationException extends Exception {
 

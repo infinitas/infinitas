@@ -8,10 +8,10 @@
 
 		/**
 		 * build a search form
-		 * 
+		 *
 		 * @param string $model the model for the search form
 		 * @param array $filter the fields for searching
-		 * 
+		 *
 		 * @return string
 		 */
 		public function form($model, $filter = array()) {
@@ -94,8 +94,7 @@
 		 * @filesource
 		 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 		 * @link		  http://infinitas-cms.org
-		 * @package	   sort
-		 * @subpackage	sort.comments
+		 * @package Core.Filter.Helper
 		 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 		 * @since		 0.5a
 		 */

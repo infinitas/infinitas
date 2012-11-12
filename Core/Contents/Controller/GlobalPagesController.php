@@ -9,8 +9,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package Contents
-	 * @subpackage Contents.Controllers
+	 * @package Core.Contents.Controller
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
 	 *
@@ -25,15 +24,15 @@
 			if (!$page) {
 				$this->notice('invalid');
 			}
-			
+
 			$page = $this->{$this->modelClass}->read(null, $page);
-			
+
 			if (empty($page)) {
 				$this->notice('invalid');
 			}
-			
+
 			$title_for_layout = $page[$this->modelClass]['name'];
-			
+
 			$this->set(compact('page', 'title_for_layout'));
 		}
 
@@ -111,7 +110,7 @@
 			if ($delete) {
 				$this->notice('deleted');
 			}
-			
+
 			$this->notice('not_deleted');
 		}
 	}

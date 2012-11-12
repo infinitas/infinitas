@@ -17,9 +17,6 @@
 
 /**
  * Short description for class.
- *
- * @package		plugins.tags
- * @subpackage	plugins.tags.tests.cases.models
  */
 
 App::uses('GlobalTagged', 'Contents.Model');

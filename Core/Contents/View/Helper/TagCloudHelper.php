@@ -11,15 +11,14 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation (http://cakedc.com)
 	 * @link	  http://github.com/CakeDC/Tags
-	 * @package   plugins.tags
+	 * @package   Core.Contents.Helper
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 
 	/**
 	 * Tag cloud helper
 	 *
-	 * @package		plugins.tags
-	 * @subpackage	plugins.tags.views.helpers
+	 * @package Core.Contents.Helper
 	 */
 	class TagCloudHelper extends AppHelper {
 

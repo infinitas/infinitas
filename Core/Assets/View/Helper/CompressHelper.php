@@ -3,7 +3,7 @@
 	 * The helper definition for the Script Combiner helper.
 	 * @author Geoffrey Garbers
 	 * @version 0.1
-	 * @package Assets.Helper
+	 * @package Core.Assets.Helper
 	 *
 	 * @property JavascriptHelper $Javascript
 	 */

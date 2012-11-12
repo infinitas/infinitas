@@ -10,8 +10,7 @@
  * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
- * @package libs
- * @subpackage libs.controllers.components.mass_action
+ * @package Core.Libs.Controller.Component
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.7a
  *
@@ -287,16 +286,16 @@ class MassActionComponent extends InfinitasComponent {
 		if ($this->Controller->{$this->Controller->modelClass}->updateAll($newValues, $conditions)) {
 			$this->Controller->{$this->Controller->modelClass}->afterSave(false);
 
-			
+
 			if (!empty($message)) {
 				$this->Controller->notice(
 					$message,
 					array(
 						'redirect' => true
 					)
-				);	
+				);
 			}
-			
+
 			$this->Controller->notice(
 				sprintf(__('The %s were toggled'), $this->Controller->prettyModelName),
 				array(
@@ -558,8 +557,8 @@ class MassActionComponent extends InfinitasComponent {
 		if (!empty($ids)) {
 			$url = array_merge($url, $ids);
 		}
-		
+
 		$this->Controller->redirect(array_merge($url, $this->Controller->request->params['named'], (array)$this->Controller->request->params['pass']));
 	}
-	
+
 }

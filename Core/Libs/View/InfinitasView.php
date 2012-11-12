@@ -10,8 +10,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package infinitas
-	 * @subpackage infinitas.extentions.views.infinitas
+	 * @package Core.Libs.View
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -188,17 +187,17 @@
 			if(substr($this->request->params['action'], 0, 5) == 'admin') {
 				return;
 			}
-			
+
 			preg_match_all('/\[(snip|module):([A-Za-z0-9_\-\.\#]*)(.*?)\]/i', $out, $snips);
 			$snips = array_unique($snips[0]);
 
 			if(empty($snips)) {
 				return;
 			}
-			
+
 			foreach($snips as $key => $match) {
 				try {
-					$pos = strpos($out, $match); 
+					$pos = strpos($out, $match);
 					if ($pos !== false) {
 						$out = substr_replace($out, $this->__parseSnipParams($match), $pos, strlen($match));
 					}
@@ -231,11 +230,11 @@
 			if(strstr($match, '#') === false) {
 				$match .= '#';
 			}
-			
+
 			list($params['modelClass'], $params['id']) = explode('#', $match);
 			list($params['type'], $params['modelClass']) = explode(':', $params['modelClass']);
 			list($params['plugin'], $params['model']) = pluginSplit($params['modelClass']);
-			
+
 			switch($params['type']) {
 				case 'snip':
 					return $this->ModuleLoader->loadDirect($params['plugin'] . '.snip', $params);

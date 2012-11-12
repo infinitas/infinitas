@@ -11,8 +11,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package sort
-	 * @subpackage sort.comments
+	 * @package Core.Newsletter.Controller
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 */
@@ -103,7 +102,7 @@
 
 			App::Import('Helper', 'Xml');
 			$Xml = new XmlHelper();
-			
+
 			$File->path = $path . DS . 'template.xml';
 			$File->write($Xml->serialize($xml));
 

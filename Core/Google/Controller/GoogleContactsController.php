@@ -11,8 +11,7 @@
 	 *
 	 * @copyright Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com
-	 * @package google
-	 * @subpackage google.controllers.GoogleContactsController
+	 * @package Core.Google.Controller
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 

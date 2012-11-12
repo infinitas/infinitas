@@ -30,10 +30,6 @@
 
 	/**
 	 * TestProgressBarTask class
-	 *
-	 * @uses          ProgressBarTask
-	 * @package       progress_bar
-	 * @subpackage    progress_bar.tests.cases.vendors.shells.tasks
 	 */
 	class TestProgressBarTask extends ProgressBarTask {
 
@@ -70,9 +66,6 @@
 
 	/**
 	 * ProgressBarTask Test class
-	 *
-	 * @package       progress_bar
-	 * @subpackage    progress_bar.tests.cases.vendors.shells.tasks
 	 */
 	class ProgressBarTaskTest extends CakeTestCase {
 

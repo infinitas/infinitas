@@ -16,8 +16,7 @@
 	 *
 	 * Short description for class.
 	 *
-	 * @package		plugins.tags
-	 * @subpackage	plugins.tags.models
+	 * @package Core.Contents.Model
 	 */
 
 	class GlobalTag extends ContentsAppModel {

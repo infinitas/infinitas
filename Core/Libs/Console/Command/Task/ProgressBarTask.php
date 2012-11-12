@@ -14,8 +14,7 @@
 	 * ProgressBarTask class
 	 *
 	 * @uses          Shell
-	 * @package       progress_bar
-	 * @subpackage    progress_bar.vendors.shells.tasks
+	 * @package Core.Libs.Console.Task
 	 */
 	class ProgressBarTask extends AppShell {
 
@@ -242,7 +241,7 @@
 		 *
 		 * @TODO can you get windows to tell you the size of the terminal?
 		 * @param mixed $width null
-		 * 
+		 *
 		 * @return void
 		 *
 		 * @access public

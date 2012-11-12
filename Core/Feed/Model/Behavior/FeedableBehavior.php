@@ -11,8 +11,7 @@
 	* @filesource
 	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	* @link http://infinitas-cms.org
-	* @package sort
-	* @subpackage sort.comments
+	* @package Core.Feed.Model.Behavior
 	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	* @since 0.5a
 	*/
@@ -48,7 +47,7 @@
 			else {
 				$this->settings[$Model->alias] = $this->_defaults;
 			}
-			
+
 			$Model->findMethods['findFeed'] = true;
 		}
 
@@ -85,7 +84,7 @@
 			   	}
 
 				$query = array_merge($this->basicStatement, $query);
-				$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($query['setup']), false, false)));				
+				$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($query['setup']), false, false)));
 				$sql = $DboMysql->renderStatement(
 					'select',
 					array(
@@ -105,7 +104,7 @@
 				foreach($_results as $res) {
 					$this->_results[]['Feed'] = $res[0];
 				}
-				
+
 				return $query;
 			}
 

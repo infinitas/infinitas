@@ -20,7 +20,7 @@
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.Charts.helpers
+	 * @package Core.Charts.Helper
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -436,7 +436,7 @@
 			if(is_bool($normalize)) {
 				$this->normalize = $normalize;
 			}
-			
+
 			else if(isset($this->__originalData['normalize']) && is_bool($this->__originalData['normalize'])) {
 				$this->normalize = $this->__originalData['normalize'];
 			}
@@ -670,7 +670,7 @@
 								$data[$k][$kk][$kkk] = 0;
 								continue;
 							}
-							
+
 							$data[$k][$kk][$kkk] = round(($___data / $this->data['values']['max']) * 100);
 						}
 						continue;
@@ -682,7 +682,7 @@
 							$data[$k][$kk] = 0;
 							continue;
 						}
-						
+
 						$data[$k][$kk] = round(($__data / $this->data['values']['max']) * 100);
 					}
 				}

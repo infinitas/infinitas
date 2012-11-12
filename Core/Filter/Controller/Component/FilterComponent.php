@@ -11,8 +11,7 @@
 	 * @version 0.5
 	 * @author Jeffrey Marvin <support@blitztiger.com>
 	 * @license	http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @package	app
-	 * @subpackage app.controller.components
+	 * @package	Core.Filter.Controller.Component
 	 */
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
