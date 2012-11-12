@@ -2,13 +2,13 @@
 /**
  * Assets exceptions
  *
- * @package Core.Assets.Error
+ * @package Infinitas.Assets.Error
  */
 
 /**
  * JS Min Exception
  *
- * @package Core.Assets.Error
+ * @package Infinitas.Assets.Error
  * 
  * @internal
  */

@@ -11,7 +11,7 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation
 	 * @link	  http://codaset.com/cakedc/migrations/
-	 * @package Core.Migrations.Console
+	 * @package Infinitas.Migrations.Console
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Model', 'CakeSchema', false);
@@ -20,7 +20,7 @@
 	/**
 	 * Migration shell.
 	 *
-	 * @package Core.Migrations.Console
+	 * @package Infinitas.Migrations.Console
 	 */
 	class MigrationShell extends Shell {
 

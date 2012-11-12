@@ -9,7 +9,7 @@
  *
  *
  *
- * @package Core.Data.Console
+ * @package Infinitas.Data.Console
  * @copyright     2010 Marc Ypes, The Netherlands
  * @author        Ceeram
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -18,7 +18,7 @@
 /**
  * Helps clear content of CACHE subfolders as well as content in cache engines from console
  *
- * @package Core.Data.Console
+ * @package Infinitas.Data.Console
  */
 class ClearCacheShell extends AppShell {
 

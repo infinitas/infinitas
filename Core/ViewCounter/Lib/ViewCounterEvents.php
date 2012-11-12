@@ -7,7 +7,7 @@
  * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
- * @package Core.ViewCounter.Lib
+ * @package Infinitas.ViewCounter.Lib
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8
  *

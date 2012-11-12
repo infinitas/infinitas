@@ -12,7 +12,7 @@
  *
  *
  * @copyright     Copyright 2010, Jose Diaz-Gonzalez
- * @package Core.Filemanager.Model.Behavior
+ * @package Infinitas.Filemanager.Model.Behavior
  * @link          http://github.com/josegonzalez/upload
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */

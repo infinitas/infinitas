@@ -11,14 +11,14 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation (http://cakedc.com)
 	 * @link	  http://github.com/CakeDC/Tags
-	 * @package   Core.Contents.Helper
+	 * @package Infinitas.Contents.Helper
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 
 	/**
 	 * Tag cloud helper
 	 *
-	 * @package Core.Contents.Helper
+	 * @package Infinitas.Contents.Helper
 	 */
 	class TagCloudHelper extends AppHelper {
 

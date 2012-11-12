@@ -3,7 +3,7 @@
 	* Class to dynamically create a zip file (archive) of file(s) and/or directory
 	*
 	* @author Rochak Chauhan  www.rochakchauhan.com
-	* @package Core.Libs.Vendor
+	* @package Infinitas.Libs.Vendor
 	* @see Distributed under "General Public License"
 	* @version 1.0
 	* @link http://www.phpclasses.org/browse/file/9524.html

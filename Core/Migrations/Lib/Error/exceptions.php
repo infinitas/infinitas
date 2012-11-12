@@ -2,7 +2,7 @@
 /**
  * Exception used when something goes wrong on migrations
  *
- * @package Core.Migrations.Error
+ * @package Infinitas.Migrations.Error
  */
 class MigrationException extends Exception {
 
@@ -31,7 +31,7 @@ class MigrationException extends Exception {
 /**
  * Usually used when migrations file/class or map files are not found
  *
- * @package Core.Migrations.Error
+ * @package Infinitas.Migrations.Error
  */
 class MigrationVersionException extends Exception {
 

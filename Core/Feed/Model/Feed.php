@@ -12,7 +12,7 @@
 	 * @filesource
 	 * @copyright	 Copyright (c) 2009 {yourName}
 	 * @link		  http://infinitas-cms.org
-	 * @package Core.Feed.Model
+	 * @package Infinitas.Feed.Model
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 *
 	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>

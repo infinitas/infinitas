@@ -7,7 +7,7 @@
  *
  * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
  *
- * @package Core.Charts.Lib
+ * @package Infinitas.Charts.Lib
  */
 
 /**
@@ -100,7 +100,7 @@
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
- * @package Core.Charts.Lib
+ * @package Infinitas.Charts.Lib
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *

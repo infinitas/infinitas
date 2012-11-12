@@ -7,7 +7,7 @@
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
 	 * @link		http://infinitas-cms.org/Migrations
-	 * @package	Core.Migrations.Model
+	 * @package Infinitas.Migrations.Model
 	 * @license		http://infinitas-cms.org/mit-license The MIT License
 	 * @since		0.9b1
 	 *

@@ -4,7 +4,7 @@
  *
  * @link http://infinitas-cms.org/infinitas_docs/Assets Infinitas Assets
  *
- * @package Core.Assets.Helper
+ * @package Infinitas.Assets.Helper
  */
 
 App::uses('InfinitasHelper', 'Libs.View/Helper');
@@ -18,7 +18,7 @@ App::uses('File', 'Utility');
  *
  * @copyright Copyright (c) 2010 Geoffrey Garbers
  * @link http://infinitas-cms.org/infinitas_docs/Assets Infinitas Assets
- * @package Core.Assets.Helper
+ * @package Infinitas.Assets.Helper
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *

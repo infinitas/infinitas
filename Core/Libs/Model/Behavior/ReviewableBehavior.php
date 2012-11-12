@@ -12,7 +12,7 @@
 	 *
 	 * @filesource
 	 * @copyright Stoop Dev
-	 * @package Core.Libs.Model.Behavior
+	 * @package Infinitas.Libs.Model.Behavior
 	 * @modifiedby Jose Diaz-Gonzalez
 	 * @modifiedby Carl Sutton
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License

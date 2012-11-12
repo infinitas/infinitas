@@ -11,7 +11,7 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation
 	 * @link	  http://codaset.com/cakedc/migrations/
-	 * @package Core.Migrations.Model
+	 * @package Infinitas.Migrations.Model
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Model', 'CakeSchema', false);
@@ -19,7 +19,7 @@
 	/**
 	 * Base Class for Migration management
 	 *
-	 * @package Core.Migrations.Lib
+	 * @package Infinitas.Migrations.Lib
 	 */
 	class CakeMigration extends Object {
 
@@ -457,7 +457,7 @@
 	/**
 	 * Exception used when something goes wrong on migrations
 	 *
-	 * @package Core.Migrations.Lib
+	 * @package Infinitas.Migrations.Lib
 	 */
 	class MigrationException extends Exception {
 

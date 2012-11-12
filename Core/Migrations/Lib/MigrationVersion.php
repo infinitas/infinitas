@@ -11,7 +11,7 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation
 	 * @link	  http://codaset.com/cakedc/migrations/
-	 * @package Core.Migrations.Lib
+	 * @package Infinitas.Migrations.Lib
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Model', 'Migrations.CakeMigration', false);
@@ -19,7 +19,7 @@
 	/**
 	 * Migration version management.
 	 *
-	 * @package Core.Migrations.Lib
+	 * @package Infinitas.Migrations.Lib
 	 */
 	class MigrationVersion {
 

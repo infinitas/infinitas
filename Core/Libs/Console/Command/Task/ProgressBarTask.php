@@ -14,7 +14,7 @@
 	 * ProgressBarTask class
 	 *
 	 * @uses          Shell
-	 * @package Core.Libs.Console.Task
+	 * @package Infinitas.Libs.Console.Task
 	 */
 	class ProgressBarTask extends AppShell {
 

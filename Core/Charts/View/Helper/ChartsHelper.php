@@ -4,7 +4,7 @@
  *
  * *nk http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
  *
- * @package Core.Charts.Helper
+ * @package Infinitas.Charts.Helper
  */
 
 App::uses('BaseChartEngine', 'Charts.Lib');
@@ -28,7 +28,7 @@ App::uses('AppHelper', 'View/Helper');
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * *nk http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
- * @package Core.Charts.Helper
+ * @package Infinitas.Charts.Helper
  * *cense http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *

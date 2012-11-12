@@ -12,7 +12,7 @@
 	 * @filesource
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
-	 * @package Core.Google.Config
+	 * @package Infinitas.Google.Config
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 	class GoogleConfig {

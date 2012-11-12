@@ -46,7 +46,7 @@
 	 * @copyright (c) 2010 Neil Crookes
 	 * @license MIT License - http://www.opensource.org/licenses/mit-license.php
 	 * @link http://www.neilcrookes.com
-	 * @package Core.Libs.Model.Behavior
+	 * @package Infinitas.Libs.Model.Behavior
 	 */
 	class SequenceBehavior extends ModelBehavior {
 		/**

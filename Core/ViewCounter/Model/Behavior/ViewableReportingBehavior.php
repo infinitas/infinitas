@@ -13,7 +13,7 @@
  * @filesource
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  * @link http://infinitas-cms.org
- * @package Core.ViewCounter.Model.Behavior
+ * @package Infinitas.ViewCounter.Model.Behavior
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  */

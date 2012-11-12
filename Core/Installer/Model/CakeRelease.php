@@ -11,7 +11,7 @@
 	 *
 	 * @copyright 2009 - 2010, Cake Development Corporation
 	 * @link      http://codaset.com/cakedc/migrations/
-	 * @package Core.Installer.Model
+	 * @package Infinitas.Installer.Model
 	 * @license   MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Model', 'Installer.CakeSchema', false);
@@ -19,7 +19,7 @@
 	/**
 	 * Base Class for Migration management
 	 *
-	 * @package Core.Installer.Model
+	 * @package Infinitas.Installer.Model
 	 */
 	class CakeRelease extends Object {
 

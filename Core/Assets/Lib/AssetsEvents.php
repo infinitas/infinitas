@@ -4,7 +4,7 @@
  *
  * @link http://infinitas-cms.org/infinitas_docs/Assets Infinitas Assets
  *
- * @package Core.Assets.Lib
+ * @package Infinitas.Assets.Lib
  */
 
 /**
@@ -14,7 +14,7 @@
  *
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
  * @link http://infinitas-cms.org/infinitas_docs/Assets Infinitas Assets
- * @package Core.Assets.Lib
+ * @package Infinitas.Assets.Lib
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.9a
  *

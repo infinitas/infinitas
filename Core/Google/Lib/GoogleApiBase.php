@@ -11,7 +11,7 @@
 	 *
 	 * @copyright Copyright (c) 2009 Juan Carlos del Valle ( imekinox )
 	 * @link http://www.imekinox.com
-	 * @package Core.Google.Lib
+	 * @package Infinitas.Google.Lib
 	 * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
 	 */
 	App::import('Core', 'HttpSocket');
