@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for GlobalContent tests.
+ * fixture file for GlobalContent tests.
  *
  * @package Contents.Fixture
  * @since 0.9b1

@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief VcfHelper is used to generate vCards for the saved contacts
+	 * VcfHelper is used to generate vCards for the saved contacts
 	 *
 	 * Helps with the creation of vCard files
 	 *
@@ -65,7 +65,7 @@
 		protected $_terminator = ';';
 
 		/**
-		 * @brief Overloaded call method
+		 * Overloaded call method
 		 *
 		 * @param string $method Name of method called
 		 * @param mixed $params Params for method.
@@ -82,7 +82,7 @@
 		}
 
 		/**
-		 * @brief begin a vcard
+		 * begin a vcard
 		 *
 		 * @access public
 		 *
@@ -92,7 +92,7 @@
 			return "BEGIN:VCARD" . $this->_eol;
 		}
 		/**
-		 * @brief End a vcard
+		 * End a vcard
 		 *
 		 * @access public
 		 *
@@ -103,7 +103,7 @@
 		}
 
 		/**
-		 * @brief Create a new attribute for the vCard
+		 * Create a new attribute for the vCard
 		 *
 		 * @see VcfHelper::__call()
 		 *
@@ -135,7 +135,7 @@
 		}
 
 		/**
-		 * @brief Create an Address element. Takes the following keys
+		 * Create an Address element. Takes the following keys
 		 *
 		 * - street
 		 * - city
@@ -170,7 +170,7 @@
 		}
 
 		/**
-		 * @brief Escape values for vcard
+		 * Escape values for vcard
 		 *
 		 * @param mixed $values Values either string or array.
 		 * @access protected

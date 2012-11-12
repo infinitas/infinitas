@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief ContentsEventsTest
+ * ContentsEventsTest
  *
  * These tests are extended from InfinitasEventTestCase which does most of the
  * automated testing for simple events
@@ -10,28 +10,28 @@ App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
 
 class ContentsEventsTest extends InfinitasEventTestCase {
 /**
- * @brief test behaviors are attached correctly
+ * test behaviors are attached correctly
  */
 	public function testAttachBehaviors() {
 
 	}
 
 /**
- * @brief test site map building
+ * test site map building
  */
 	public function testSiteMapRebuild() {
 
 	}
 
 /**
- * @brief test hard coded routes
+ * test hard coded routes
  */
 	public function testSetupRoutes() {
 		
 	}
 
 /**
- * @brief test slugged urls
+ * test slugged urls
  *
  * @dataProvider slugUrlsDataProvider
  */
@@ -41,7 +41,7 @@ class ContentsEventsTest extends InfinitasEventTestCase {
 	}
 
 /**
- * @brief data provider for url data
+ * data provider for url data
  *
  * @return array
  */
@@ -64,7 +64,7 @@ class ContentsEventsTest extends InfinitasEventTestCase {
 	}
 
 /**
- * @brief test route parsing
+ * test route parsing
  */
 	public function testRouteParse() {
 

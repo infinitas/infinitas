@@ -7,7 +7,7 @@ class MigrationTask extends AppShell {
 	public $type = 'app';
 
 /**
- * @brief Generate a new migration file
+ * Generate a new migration file
  *
  * @return void
  */
@@ -57,7 +57,7 @@ class MigrationTask extends AppShell {
 	}
 
 /**
- * @brief check if there has been any changes in the schema for a plugin
+ * check if there has been any changes in the schema for a plugin
  *
  * Run through all the models comparing any existing schema file to the
  * current database that is being used. Will report back any errors like
@@ -89,7 +89,7 @@ class MigrationTask extends AppShell {
 	}
 
 /**
- * @brief Return the path used
+ * Return the path used
  *
  * @param string $type Can be 'app' or a plugin name
  *
@@ -108,7 +108,7 @@ class MigrationTask extends AppShell {
 	}
 
 /**
- * @brief Generate a migration string using comparison
+ * Generate a migration string using comparison
  *
  * @param array $migration Migration instructions array
  * @param array $comparison Result from CakeSchema::compare()
@@ -204,7 +204,7 @@ class MigrationTask extends AppShell {
 	}
 
 /**
- * @brief Reads the schema data
+ * Reads the schema data
  *
  * @return array
  */
@@ -224,7 +224,7 @@ class MigrationTask extends AppShell {
 	}
 
 /**
- * @brief Generate and write a migration with given name
+ * Generate and write a migration with given name
  *
  * @param string $name Name of migration
  * @param string $class Class name of migration
@@ -296,7 +296,7 @@ class MigrationTask extends AppShell {
 	}
 
 /**
-* @brief Format a array/string into a one-line syntax
+* Format a array/string into a one-line syntax
 *
 * @param array $values Array to be converted
  *

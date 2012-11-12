@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Contacts controller for managing contacts
+	 * Contacts controller for managing contacts
 	 *
 	 * Used for managing contacts at the company of the application
 	 *

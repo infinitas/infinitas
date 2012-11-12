@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief base test class for testing Events
+ * base test class for testing Events
  *
  * Some test classes that extend from this will not have any methods directly in
  * them as they extend from the InfinitasEventTestCase class which does automated
@@ -9,7 +9,7 @@
 
 class InfinitasEventTestCase extends CakeTestCase {
 /**
- * @brief set up required objects for testing
+ * set up required objects for testing
  *
  * @todo setup MVC objects to pass in the correct places
  */
@@ -32,7 +32,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief clear up the enviroment
+ * clear up the enviroment
  */
 	public function tearDown() {
 		parent::tearDown();
@@ -42,7 +42,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief setup the current plugin name
+ * setup the current plugin name
  */
 	protected function _setPlugin() {
 		if(!isset($this->plugin)) {
@@ -51,7 +51,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief load and get an instance of the event class being tested
+ * load and get an instance of the event class being tested
  */
 	protected function _loadEventClass() {
 		App::uses($this->plugin . 'Events', $this->plugin . '.Lib');
@@ -61,7 +61,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief manuall call an event
+ * manuall call an event
  *
  * This will manually call an event to get the return, for auto testing of triggers
  * that do not use complex checks, just standard returns.
@@ -84,7 +84,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test if the event class has the required event
+ * test if the event class has the required event
  *
  * @param string $event the event to check for
  *
@@ -105,14 +105,14 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test the instance is loaded correctly
+ * test the instance is loaded correctly
  */
 	public function testInstance() {
 		$this->assertInstanceOf('EventCore', $this->Event);
 	}
 
 /**
- * @brief test getting the plugins details
+ * test getting the plugins details
  */
 	public function testPluginRollCall() {
 		if(!$this->_hasTrigger('pluginRollCall')) {
@@ -126,7 +126,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting additional db configs
+ * test getting additional db configs
  */
 	public function testRequireDatabaseConfigs() {
 		if(!$this->_hasTrigger('requireDatabaseConfigs')) {
@@ -140,7 +140,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting the cache config
+ * test getting the cache config
  */
 	public function testCacheConfig() {
 		if(!$this->_hasTrigger('setupCache')) {
@@ -154,7 +154,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting the required fixtures
+ * test getting the required fixtures
  */
 	public function testRequiredExtentions() {
 		if(!$this->_hasTrigger('setupExtensions')) {
@@ -168,7 +168,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting the required fixtures
+ * test getting the required fixtures
  */
 	public function testRequiredFixtures() {
 		if(!$this->_hasTrigger('getRequiredFixtures')) {
@@ -182,7 +182,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting the admin menu
+ * test getting the admin menu
  */
 	public function testAdminMenu() {
 		if(!$this->_hasTrigger('adminMenu')) {
@@ -196,7 +196,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- *@brief test required helpers load correctly
+ *test required helpers load correctly
  */
 	public function testRequireHelpers() {
 		if(!$this->_hasTrigger('requireHelpersToLoad')) {
@@ -210,7 +210,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- *@brief test required helpers load correctly
+ *test required helpers load correctly
  */
 	public function testRequireComponents() {
 		if(!$this->_hasTrigger('requireComponentsToLoad')) {
@@ -224,7 +224,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- *@brief test required helpers load correctly
+ *test required helpers load correctly
  */
 	public function testRequireCss() {
 		if(!$this->_hasTrigger('requireCssToLoad')) {
@@ -238,7 +238,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- *@brief test required helpers load correctly
+ *test required helpers load correctly
  */
 	public function testRequireJs() {
 		if(!$this->_hasTrigger('requireJavascriptToLoad')) {
@@ -252,7 +252,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 	}
 
 /**
- *@brief test required helpers load correctly
+ *test required helpers load correctly
  */
 	public function testUserProfile() {
 		if(!$this->_hasTrigger('userProfile')) {

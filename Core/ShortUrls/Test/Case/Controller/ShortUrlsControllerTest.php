@@ -1,21 +1,21 @@
 <?php
 class ShortUrlsControllerTest extends CakeTestCase {
 /**
- * @brief test the short url redirect
+ * test the short url redirect
  */
 	public function testView() {
 
 	}
 
 /**
- * @brief test the short url preview
+ * test the short url preview
  */
 	public function testPreview() {
 
 	}
 
 /**
- * @brief Tests admin_index
+ * Tests admin_index
  *
  * @test Enter description here
  */

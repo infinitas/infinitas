@@ -39,7 +39,7 @@ class ClearCache {
 	}
 
 /**
- * @brief get cache status
+ * get cache status
  *
  * @return array
  */
@@ -102,7 +102,7 @@ class ClearCache {
 	}
 
 /**
- * @brief clear out combined asset files
+ * clear out combined asset files
  *
  * @return array
  */
@@ -136,7 +136,7 @@ class ClearCache {
 	}
 
 /**
- * @brief delete files
+ * delete files
  *
  * @param array $files
  *
@@ -159,7 +159,7 @@ class ClearCache {
 	}
 
 /**
- * @brief compute the size of the files passed in
+ * compute the size of the files passed in
  *
  * @param array $files the files to check
  */

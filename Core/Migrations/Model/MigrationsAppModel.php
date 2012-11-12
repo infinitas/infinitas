@@ -2,7 +2,7 @@
 	/**
 	 * MigrationsAppModel model
 	 *
-	 * @brief Add some documentation for SchemaMigration model.
+	 * Add some documentation for SchemaMigration model.
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *

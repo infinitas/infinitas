@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief the Events file for the Assets plugin
+ * the Events file for the Assets plugin
  *
  *
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
@@ -17,7 +17,7 @@
 
 class AssetsEvents extends AppEvents {
 /**
- * @brief get helpers to load
+ * get helpers to load
  *
  * @param Event $event The Event being triggered
  *
@@ -30,7 +30,7 @@ class AssetsEvents extends AppEvents {
 	}
 
 /**
- * @brief load javascript assets
+ * load javascript assets
  *
  * @param Event $event The Event being triggered
  *

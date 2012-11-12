@@ -8,7 +8,7 @@
 			return $this->_buildChart($data);
 		}
 		/**
-		 * @brief google-o-meter
+		 * google-o-meter
 		 *
 		 * @copydetails ChartsBaseEngineHelper::gauge()
 		 *
@@ -21,7 +21,7 @@
 		}
 
 		/**
-		 * @brief pie
+		 * pie
 		 *
 		 * @copydetails ChartsBaseEngineHelper::pie()
 		 *
@@ -34,7 +34,7 @@
 		}
 
 		/**
-		 * @brief google bar chart
+		 * google bar chart
 		 *
 		 * @copydetails ChartsBaseEngineHelper::bar()
 		 *
@@ -47,7 +47,7 @@
 		}
 
 		/**
-		 * @brief google line chart
+		 * google line chart
 		 *
 		 * @copydetails ChartsBaseEngineHelper::line()
 		 *
@@ -60,14 +60,14 @@
 		}
 
 		/**
-		 * @brief an array of helpers that will be used within this class
+		 * an array of helpers that will be used within this class
 		 */
 		public $helpers = array(
 			'Html'
 		);
 
 		/**
-		 * @brief the type of chart being rendered
+		 * the type of chart being rendered
 		 *
 		 * @property _chartType
 		 * @access protected
@@ -75,7 +75,7 @@
 		protected $_chartType;
 
 		/**
-		 * @brief the api url for the charts interface
+		 * the api url for the charts interface
 		 *
 		 * @property _apiUrl
 		 * @access protected
@@ -85,7 +85,7 @@
 		protected $_apiUrlIndex = 0;
 
 		/**
-		 * @brief a list of charts and valid params that can be passed
+		 * a list of charts and valid params that can be passed
 		 *
 		 * This is a list of the different chart types with the possible values
 		 * that can be passed to them.
@@ -224,7 +224,7 @@
 		);
 
 		/**
-		 * @brief the map of data types to the format.
+		 * the map of data types to the format.
 		 *
 		 * This is a map of the parts to build up the urls. Every data type
 		 * has a key and a seperator. This is used to implode the arrays into
@@ -281,7 +281,7 @@
 		);
 
 		/**
-		 * @brief map of chart to allowed colors
+		 * map of chart to allowed colors
 		 *
 		 * This is a list of the charts with the possible color values that can
 		 * be passed to them. Some charts are able to specify background colors
@@ -393,7 +393,7 @@
 		);
 
 		/**
-		 * @brief map color types to the structures
+		 * map color types to the structures
 		 *
 		 * The colors are similar to the different $_formats so this holds
 		 * the map to the color types and the data used to build that part
@@ -414,7 +414,7 @@
 		);
 
 		/**
-		 * @brief the size limit for the chart
+		 * the size limit for the chart
 		 *
 		 * @link
 		 */
@@ -425,7 +425,7 @@
 		}
 
 		/**
-		 * @brief main method for building a chart
+		 * main method for building a chart
 		 *
 		 * This is where it all starts, the keys are checked against the
 		 * chart type being rendered and if its a valid option for the
@@ -493,7 +493,7 @@
 		}
 
 		/**
-		 * @brief generate the final full url for rendering
+		 * generate the final full url for rendering
 		 *
 		 * @return string the full url and query string
 		 */
@@ -512,7 +512,7 @@
 		}
 
 		/**
-		 * @brief generate different urls for downloading multi images at a time
+		 * generate different urls for downloading multi images at a time
 		 *
 		 * @link http://code.google.com/apis/chart/docs/making_charts.html#enhancements
 		 *
@@ -527,7 +527,7 @@
 		}
 
 		/**
-		 * @brief generate the required markup for displaying as an image
+		 * generate the required markup for displaying as an image
 		 *
 		 * @param string $query the query that was generated
 		 * @param array|string|integer $extra any extra data that was passed from the ChartsHelper
@@ -541,7 +541,7 @@
 		}
 
 		/**
-		 * @brief convert the array data to a fragment to build up the query
+		 * convert the array data to a fragment to build up the query
 		 *
 		 * @access protected
 		 */
@@ -576,7 +576,7 @@
 		}
 
 		/**
-		 * @brief format the data array into the query
+		 * format the data array into the query
 		 *
 		 * @param array $value the data array to be formatted
 		 * @access protected
@@ -603,7 +603,7 @@
 		}
 
 		/**
-		 * @brief generate the query string for lables and axes
+		 * generate the query string for lables and axes
 		 *
 		 * some examples
 		 * @li array(array(Groovy),array(slow,faster,crazy)) becomes chxl=0:|Groovy|1:|slow|faster|crazy
@@ -690,7 +690,7 @@
 		}
 
 		/**
-		 * @brief custom fill colors
+		 * custom fill colors
 		 *
 		 * @todo this needs to be implemented
 		 *
@@ -753,7 +753,7 @@
 		}
 
 		/**
-		 * @brief format a size array into part of the query string
+		 * format a size array into part of the query string
 		 *
 		 * If only one param is passed then the image will be square.
 		 *
@@ -793,7 +793,7 @@
 		}
 
 		/**
-		 * @brief generate query string for lengend
+		 * generate query string for lengend
 		 *
 		 * 2 parts to the legend is the labels and the layout.
 		 *
@@ -881,7 +881,7 @@
 		}
 
 		/**
-		 * @brief build the query string for the line style
+		 * build the query string for the line style
 		 *
 		 * This is a bit of a custom one for the gauge chart with the arrow size
 		 *
@@ -923,7 +923,7 @@
 		}
 
 		/**
-		 * @brief convert arrays into the parts of the query string
+		 * convert arrays into the parts of the query string
 		 *
 		 * This method does all the generic conversions of data to strings based
 		 * on the data types setup in the _formats property
@@ -945,7 +945,7 @@
 		}
 
 		/**
-		 * @brief implode an array with the separator needed to form the correct query string
+		 * implode an array with the separator needed to form the correct query string
 		 *
 		 * @param string $dataType a key from _formats
 		 * @param array $data the data being exploded

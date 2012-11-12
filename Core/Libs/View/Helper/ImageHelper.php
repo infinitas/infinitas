@@ -10,7 +10,7 @@
  */
 class ImageHelper extends AppHelper {
 /**
- * @brief default config for the images
+ * default config for the images
  *
  * @var array
  */
@@ -19,21 +19,21 @@ class ImageHelper extends AppHelper {
 	);
 
 /**
- * @brief cached list of the places
+ * cached list of the places
  *
  * @var array
  */
 	protected $_places = array();
 
 /**
- * @brief cached list of the images
+ * cached list of the images
  *
  * @var array
  */
 	protected $_images = array();
 
 /**
- * @brief get an image
+ * get an image
  *
  * @param string $path the relative path (to core images path)
  * @param string $key the key
@@ -50,7 +50,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief find an image by its extension
+ * find an image by its extension
  *
  * @param string $extention the extension to lookup
  *
@@ -83,7 +83,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief get a relative path
+ * get a relative path
  *
  * @param string $place the place
  * @param string $key the key
@@ -95,7 +95,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief check if the passed location exists
+ * check if the passed location exists
  *
  * @param type $places
  *
@@ -122,7 +122,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief get a list of the images
+ * get a list of the images
  *
  * @return array
  */
@@ -135,7 +135,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief get a list of possible locations
+ * get a list of possible locations
  *
  * @return array
  */
@@ -148,7 +148,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief check if an image exists
+ * check if an image exists
  *
  * You can get a return of the following:
  *  - fileName: the file name
@@ -184,7 +184,7 @@ class ImageHelper extends AppHelper {
 	}
 
 /**
- * @brief get a config for the image tags
+ * get a config for the image tags
  *
  * @param array $config the config to overload with
  *

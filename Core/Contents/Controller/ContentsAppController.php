@@ -37,7 +37,7 @@
 	 */
 
 	/**
-	 * @brief ContentsAppController is the base controller class that all contents controllers
+	 * ContentsAppController is the base controller class that all contents controllers
 	 * extend from.
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )

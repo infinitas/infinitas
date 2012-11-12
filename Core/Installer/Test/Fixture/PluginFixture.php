@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Plugin tests.
+ * fixture file for Plugin tests.
  *
  * @package Installer.Fixture
  * @since 0.9b1

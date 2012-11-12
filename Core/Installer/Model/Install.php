@@ -21,21 +21,21 @@ App::uses('Model', 'Model');
 
 class Install extends Model {
 /**
- * @brief this model does not use a table
+ * this model does not use a table
  * 
  * @var boolean
  */
 	public $useTable = false;
 
 /**
- * @brief no behaviors 
+ * no behaviors 
  * 
  * @var boolean
  */
 	public $actsAs = false;
 
 /**
- * @brief overload construct for translated validation
+ * overload construct for translated validation
  * 
  * @param boolean $id    [description]
  * @param [type]  $table [description]
@@ -69,7 +69,7 @@ class Install extends Model {
 	}
 
 /**
- * @brief merge defaults before validation
+ * merge defaults before validation
  * 
  * @return void
  */

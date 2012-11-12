@@ -8,7 +8,7 @@ class ModulePosition extends ModulesAppModel {
 	);
 
 /**
- * @brief overload __construct to create validation messages that are translateable
+ * overload __construct to create validation messages that are translateable
  *
  * @param type $id
  * @param type $table
@@ -33,7 +33,7 @@ class ModulePosition extends ModulesAppModel {
 	}
 
 /**
- * @brief check if the passed in position is valid
+ * check if the passed in position is valid
  *
  * @param string $position the name of a position
  * @return boolean

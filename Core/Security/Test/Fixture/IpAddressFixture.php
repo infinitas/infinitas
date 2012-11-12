@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for IpAddress tests.
+ * fixture file for IpAddress tests.
  *
  * @package Security.Fixture
  * @since 0.9b1

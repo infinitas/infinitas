@@ -18,14 +18,14 @@ class GlobalCategoryTest extends CakeTestCase {
 	);
 
 /**
- * @brief start test
+ * start test
  */
 	public function startTest() {
 		$this->Category = ClassRegistry::init('Contents.GlobalCategory');
 	}
 
 /**
- * @brief end test
+ * end test
  */
 	public function endTest() {
 		unset($this->Category);
@@ -33,7 +33,7 @@ class GlobalCategoryTest extends CakeTestCase {
 	}
 
 /**
- * @brief test finding active categories
+ * test finding active categories
  */
 	public function testFindActive() {
 		$result = $this->Category->find('count');

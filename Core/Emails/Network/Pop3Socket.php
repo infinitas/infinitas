@@ -2,7 +2,7 @@
 App::uses('EmailSocket', 'Emails.Network');
 
 /**
- * @brief A pop3 driver for the email socket to recive emails without the php-imap extention
+ * A pop3 driver for the email socket to recive emails without the php-imap extention
  *
  * This class implements the methods of the pop3 protocol using the EmailSocket
  * class to do the communication between the servers. See the links for more
@@ -14,7 +14,7 @@ App::uses('EmailSocket', 'Emails.Network');
  */
 class Pop3Socket extends EmailSocket {
 /**
- * @brief The pop3 class constructor
+ * The pop3 class constructor
  *
  * You can set connection details in a number of ways. First being passing
  * an array of connection details to the constructor. The other method

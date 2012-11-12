@@ -20,7 +20,7 @@
 		}
 
 		/**
-		 * @brief get some average overall stats
+		 * get some average overall stats
 		 */
 		public function reportAllTime() {
 			$this->virtualFields['average_memory'] = 'ROUND(AVG(' . $this->alias . '.start_mem), 3)';

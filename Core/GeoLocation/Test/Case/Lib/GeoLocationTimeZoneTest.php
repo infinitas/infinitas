@@ -2,7 +2,7 @@
 App::uses('GeoLocationTimeZone', 'GeoLocation.Lib');
 class GeoLocationTimeZoneTest extends CakeTestCase {
 /**
- * @brief test counrty data
+ * test counrty data
  *
  * @dataProvider dataProvider
  */
@@ -14,7 +14,7 @@ class GeoLocationTimeZoneTest extends CakeTestCase {
 	}
 
 /**
- * @brief test counrty data
+ * test counrty data
  *
  * @dataProvider dataProvider
  */
@@ -24,7 +24,7 @@ class GeoLocationTimeZoneTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for tests
+ * data provider for tests
  *
  * @return array
  */

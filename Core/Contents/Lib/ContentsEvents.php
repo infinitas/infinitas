@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief ContentsEvents plugin events.
+ * ContentsEvents plugin events.
  *
  * The events for the Contents plugin for setting up cache and the general
  * configuration of the plugin.
@@ -19,7 +19,7 @@
 
 final class ContentsEvents extends AppEvents {
 /**
- * @brief get the plugin details
+ * get the plugin details
  *
  * @return array
  */
@@ -34,7 +34,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the admin menu
+ * get the admin menu
  *
  * @param Event $Event
  *
@@ -53,7 +53,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief attach behaviors
+ * attach behaviors
  *
  * @param Event $Event
  */
@@ -70,7 +70,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the components to load
+ * get the components to load
  *
  * @param Event $Event
  *
@@ -83,7 +83,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the helpers to load
+ * get the helpers to load
  *
  * @return array
  */
@@ -95,7 +95,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the js to load
+ * get the js to load
  *
  * @param Event $Event
  *
@@ -109,7 +109,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the css to load
+ * get the css to load
  *
  * @param Event $Event
  *
@@ -122,7 +122,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get data for building the sitemap
+ * get data for building the sitemap
  *
  * @param Event $Event
  *
@@ -183,7 +183,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief setup any hard coded routes
+ * setup any hard coded routes
  *
  * @param Event $Event
  * @param mixed $data
@@ -204,7 +204,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the params for building a url
+ * get the params for building a url
  *
  * @see AppEvents::onSlugUrl()
  *
@@ -236,7 +236,7 @@ final class ContentsEvents extends AppEvents {
 	}
 
 /**
- * @brief parse a route to check if it should be used
+ * parse a route to check if it should be used
  *
  * @param Event $Event
  * @param array $data

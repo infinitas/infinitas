@@ -1,7 +1,7 @@
 <?php
 class ShortUrlsController extends ShortUrlsAppController {
 /**
- * @brief view a short url (redirect to it)
+ * view a short url (redirect to it)
  *
  * This uses the view method to take advantage of the automatic view counter
  */
@@ -25,7 +25,7 @@ class ShortUrlsController extends ShortUrlsAppController {
 	}
 
 /**
- * @brief preview a short url before redirecting to it
+ * preview a short url before redirecting to it
  */
 	public function preview() {
 		if(!isset($this->request->params['pass'][0])) {
@@ -56,7 +56,7 @@ class ShortUrlsController extends ShortUrlsAppController {
 	}
 
 /**
- * @brief manage the short urls in the app
+ * manage the short urls in the app
  */
 	public function admin_index() {
 		$this->Paginator->settings = array(

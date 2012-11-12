@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief ConfigsEventsTest
+ * ConfigsEventsTest
  *
  * These tests are extended from InfinitasEventTestCase which does most of the
  * automated testing for simple events
@@ -10,7 +10,7 @@ App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
 
 class AssetsEventsTest extends InfinitasEventTestCase {
 /**
- * @brief test required js loads correctly
+ * test required js loads correctly
  */
 	public function testRequireJavascript() {
 		$this->ViewObject->params = array();

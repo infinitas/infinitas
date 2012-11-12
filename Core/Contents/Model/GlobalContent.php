@@ -104,7 +104,7 @@
 		}
 
 		/**
-		 * @brief find row with missing keywords, descriptions, layouts or categories
+		 * find row with missing keywords, descriptions, layouts or categories
 		 *
 		 * This method finds rows with missing important data and can help identify
 		 * content that would not be displayed properly (missing layouts) etc
@@ -211,7 +211,7 @@
 		}
 
 		/**
-		 * @brief get a list of categories
+		 * get a list of categories
 		 *
 		 * @access public
 		 *
@@ -417,7 +417,7 @@
 		}
 
 		/**
-		 * @brief migrate data from a normal model setup to the contents plugin
+		 * migrate data from a normal model setup to the contents plugin
 		 *
 		 * This will try and match data from your tables to the content plugin and
 		 * move it over.
@@ -491,7 +491,7 @@
 		}
 
 		/**
-		 * @brief get counts of new content vs deleted content vs edited content
+		 * get counts of new content vs deleted content vs edited content
 		 *
 		 * @access public
 		 *

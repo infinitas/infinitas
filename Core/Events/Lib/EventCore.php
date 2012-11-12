@@ -100,7 +100,7 @@
 
 
 		/**
-		 * @brief Get a list of plugins that will be affected by running an event
+		 * Get a list of plugins that will be affected by running an event
 		 *
 		 * This will return all plugins that have an event class but sometimes if
 		 * you need to run a global trigger but want to do it one at a time this
@@ -126,7 +126,7 @@
 		}
 
 		/**
-		 * @brief dynamically turn plugins on during a request.
+		 * dynamically turn plugins on during a request.
 		 *
 		 * This can be used to turn a plugin on programatically.
 		 *
@@ -163,7 +163,7 @@
 		}
 
 		/**
-		 * @brief check if a plugin is active for the current request
+		 * check if a plugin is active for the current request
 		 *
 		 * This method is used within the core to stop people accessing the controllers
 		 * and actions directly. It can also be used to see if plugins are active

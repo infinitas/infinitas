@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Theme tests.
+ * fixture file for Theme tests.
  *
  * @package Themes.Fixture
  * @since 0.9b1

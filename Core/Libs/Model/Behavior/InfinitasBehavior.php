@@ -641,7 +641,7 @@
 		}
 
 		/**
-		 * @brief get the root node of a model according to some condition
+		 * get the root node of a model according to some condition
 		 *
 		 * This method is handy if you use a wrapper for the MPTT data that acts
 		 * as the sole root record.
@@ -677,7 +677,7 @@
 		}
 
 		/**
-		 * @brief Returns the minimum of fields required to generate a link
+		 * Returns the minimum of fields required to generate a link
 		 *
 		 * This method is handy to generate links for data in table rows
 		 *
@@ -704,7 +704,7 @@
 		}
 
 		/**
-		 * @brief check if behaviors should / can be auto attached
+		 * check if behaviors should / can be auto attached
 		 *
 		 * Adding a behavior to the actsAs will stop the behavior from auto loading
 		 * if it is setup to autoload in the events. There are some issues with

@@ -1,13 +1,13 @@
 <?php
 App::uses('IpLocation', 'GeoLocation.Lib');
 /**
- * @brief GeoLocation events class
+ * GeoLocation events class
  *
  * This class provides a means for plugins to get location data when available
  */
 final class GeoLocationEvents extends AppEvents {
 /**
- * @brief load location components
+ * load location components
  *
  * @param Event $event
  *

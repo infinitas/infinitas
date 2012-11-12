@@ -9,7 +9,7 @@ Class IpLocation extends Object {
 	}
 
 /**
- * @brief load up the classes and database
+ * load up the classes and database
  *
  * @param string $type the type of lookup being done
  *
@@ -49,7 +49,7 @@ Class IpLocation extends Object {
 	}
 
 /**
- * @brief open the geoip database
+ * open the geoip database
  *
  * @param string $type the type of db being opened
  *
@@ -60,7 +60,7 @@ Class IpLocation extends Object {
 	}
 
 /**
- * @brief get the client ip address if not passed in
+ * get the client ip address if not passed in
  *
  * @see CakeRequest::clientIp()
  *
@@ -169,7 +169,7 @@ Class IpLocation extends Object {
 	}
 
 /**
- * @brief check if the city data file is available
+ * check if the city data file is available
  *
  * @return boolean
  */
@@ -178,7 +178,7 @@ Class IpLocation extends Object {
 	}
 
 /**
- * @brief check if the country data file is available
+ * check if the country data file is available
  *
  * @return boolean
  */

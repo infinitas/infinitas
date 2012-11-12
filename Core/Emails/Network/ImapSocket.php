@@ -2,7 +2,7 @@
 App::uses('EmailSocket', 'Emails.Network');
 
 /**
- * @brief A pop3 driver for the email socket to recive emails without the php-imap extention
+ * A pop3 driver for the email socket to recive emails without the php-imap extention
  *
  * This class implements the methods of the pop3 protocol using the EmailSocket
  * class to do the communication between the servers. See the links for more
@@ -12,7 +12,7 @@ App::uses('EmailSocket', 'Emails.Network');
  */
 class ImapSocket extends EmailSocket {
 /**
- * @brief counter for message sending
+ * counter for message sending
  *
  * All messages are given a suffix of Axxxxx where x is an int starting at 0
  *
@@ -21,13 +21,13 @@ class ImapSocket extends EmailSocket {
 	protected $_counter = 0;
 
 /**
- * @brief current mailbox
+ * current mailbox
  *
  * @var string
  */
 	protected $_mailbox = null;
 /**
- * @brief mailbox flags
+ * mailbox flags
  *
  * @var array
  */
@@ -369,7 +369,7 @@ class ImapSocket extends EmailSocket {
 	}
 
 /**
- * @brief get a list of available mail boxes
+ * get a list of available mail boxes
  *
  * @param string $ref
  * @param string $wildcard
@@ -392,7 +392,7 @@ class ImapSocket extends EmailSocket {
 	}
 
 /**
- * @brief send NOOP command, optional sleep time
+ * send NOOP command, optional sleep time
  *
  * @param integer $sleep the microtime to sleep for (1/1000000 of second)
  *

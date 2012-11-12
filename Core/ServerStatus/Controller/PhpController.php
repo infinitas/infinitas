@@ -3,7 +3,7 @@
 		public $uses = array();
 
 		/**
-		 * @brief Status pannel for apc
+		 * Status pannel for apc
 		 */
 		public function admin_apc() {
 			// Configure::write('debug', 0);

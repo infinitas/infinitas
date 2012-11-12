@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief ConfigsEvents for the Configs plugin to attach into the application
+ * ConfigsEvents for the Configs plugin to attach into the application
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
@@ -16,7 +16,7 @@
 
 class ConfigsEvents extends AppEvents {
 /**
- * @brief get the cache config for this plugin
+ * get the cache config for this plugin
  *
  * @return array
  */
@@ -30,7 +30,7 @@ class ConfigsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the admin menu
+ * get the admin menu
  *
  * @return array
  */
@@ -45,7 +45,7 @@ class ConfigsEvents extends AppEvents {
 	}
 
 /**
- * @brief get required fixtures
+ * get required fixtures
  *
  * @return array
  */

@@ -60,7 +60,7 @@
 		}
 
 		/**
-		 * @brief custom paginated find for campaigns
+		 * custom paginated find for campaigns
 		 *
 		 * @param string $state before or after the find
 		 * @param array $query the find query

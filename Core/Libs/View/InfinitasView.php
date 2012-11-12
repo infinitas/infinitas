@@ -49,7 +49,7 @@
 		}
 
 		/**
-		 * @brief render views
+		 * render views
 		 *
 		 * Let cake render the view as per normal, then pass the data to Mustache
 		 * to render the data into any templates
@@ -72,7 +72,7 @@
 		}
 
 		/**
-		 * @brief render any mustache templates with the viewVars
+		 * render any mustache templates with the viewVars
 		 *
 		 * you can pass ?mustache=false in the url to see the raw output skipping
 		 * the template rendering. could be handy for debugging. if debug is off
@@ -123,7 +123,7 @@
 		}
 
 		/**
-		 * @brief check if mustache should be used to render a template
+		 * check if mustache should be used to render a template
 		 *
 		 * only on for admin or it renders the stuff in the editor which is pointless
 		 * could maybe just turn it off for edit or some other work around
@@ -176,7 +176,7 @@
 		}
 
 		/**
-		 * @brief look for and insert dynamic snips
+		 * look for and insert dynamic snips
 		 *
 		 * @access private
 		 *
@@ -212,7 +212,7 @@
 		}
 
 		/**
-		 * @brief figure out what was requested and load the module
+		 * figure out what was requested and load the module
 		 *
 		 * @param <type> $match
 		 * @return <type>

@@ -2,14 +2,14 @@
 
 class InfinitasEmail extends CakeEmail {
 /**
- * @brief default from name
+ * default from name
  *
  * @var string
  */
 	protected $_fromName;
 
 /**
- * @brief set default settings
+ * set default settings
  *
  * @param array $config the configs for the class
  *
@@ -22,7 +22,7 @@ class InfinitasEmail extends CakeEmail {
 	}
 
 /**
- * @brief send a basic email
+ * send a basic email
  *
  * @param array $options the options for the email to be sent
  *
@@ -96,7 +96,7 @@ class InfinitasEmail extends CakeEmail {
 	}
 
 /**
- * @brief overload the config method to use the database email configs
+ * overload the config method to use the database email configs
  *
  * Passing a string will check the db for a system email config that can be used
  * for sending.
@@ -122,7 +122,7 @@ class InfinitasEmail extends CakeEmail {
 	}
 
 /**
- * @brief get information from the configs that will be used in sending mails
+ * get information from the configs that will be used in sending mails
  *
  * @param array $config the db config
  *

@@ -189,7 +189,7 @@
 		}
 
 		/**
-		 * @brief build a link from a menu item in the database
+		 * build a link from a menu item in the database
 		 *
 		 * @access public
 		 *
@@ -216,7 +216,7 @@
 		}
 
 		/**
-		 * @brief generate a url from a menu item
+		 * generate a url from a menu item
 		 *
 		 * @access public
 		 *

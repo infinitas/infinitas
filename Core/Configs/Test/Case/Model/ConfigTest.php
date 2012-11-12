@@ -202,7 +202,7 @@ class ConfigTestCase extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 /**
- * @brief test cache is cleared after calling save
+ * test cache is cleared after calling save
  */
 	public function testCacheRelatedStuff() {
 		return; // @todo broken tests
@@ -222,7 +222,7 @@ class ConfigTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test formatting of values for configuration
+ * test formatting of values for configuration
  */
 	public function testFormatting() {
 		$this->Config->afterSave(true);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for User tests.
+ * fixture file for User tests.
  *
  * @package Users.Fixture
  * @since 0.9b1

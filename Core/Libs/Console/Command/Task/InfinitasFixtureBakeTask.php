@@ -15,20 +15,20 @@
 	 */
 
 	 /**
-	  * @brief InfinitasFixtureBakeTask for generating fixtures.
+	  * InfinitasFixtureBakeTask for generating fixtures.
 	  *
 	  * This task is for generating fixtures in your app. Its similar to the cake
 	  * fixture stuff but will also allow you to update your fixtures.
 	  */
 	class InfinitasFixtureBakeTask extends FixtureTask {
 		/**
-		 * @brief additional tasks that are used within this task.
+		 * additional tasks that are used within this task.
 		 * @var <type>
 		 */
 		public $tasks = array('Fixture', 'Model', 'Template');
 
 		/**
-		 * @brief generate the fixture specified
+		 * generate the fixture specified
 		 *
 		 * @access public
 		 *
@@ -94,7 +94,7 @@
 		}
 
 		/**
-		 * @brief clean up the old fixture, merging the new data with it
+		 * clean up the old fixture, merging the new data with it
 		 *
 		 * This method will remove any fields that are no longer present in the
 		 * database and remove any fields in the fixture data that are not needed
@@ -127,7 +127,7 @@
 		}
 
 		/**
-		 * @brief generate the data for a new fixture
+		 * generate the data for a new fixture
 		 *
 		 * @access public
 		 *
@@ -175,7 +175,7 @@
 		}
 
 		/**
-		 * @brief read the data from an existing fixture
+		 * read the data from an existing fixture
 		 *
 		 * @access public
 		 *

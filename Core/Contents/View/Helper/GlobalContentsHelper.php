@@ -6,7 +6,7 @@
 		);
 		
 		/**
-		 * @brief generate a link to view an author
+		 * generate a link to view an author
 		 * 
 		 * @param <type> $data
 		 * @return <type>

@@ -2,7 +2,7 @@
 	class TestCopyableBehavior extends CakeTestCase {
 
 		/**
-		 * @brief Contains a list of test methods to run
+		 * Contains a list of test methods to run
 		 *
 		 * If it is set to false all the methods will run. Otherwise pass in an array
 		 * with a list of tests to run.
@@ -40,7 +40,7 @@
 		}
 
 		/**
-		 * @brief Tests setup
+		 * Tests setup
 		 *
 		 * @test check that you can configure the behavior how you like
 		 */
@@ -110,7 +110,7 @@
 		}
 
 		/**
-		 * @brief Tests generateContain
+		 * Tests generateContain
 		 *
 		 * @test test that getting contains fetches the correct stuff.
 		 */
@@ -143,7 +143,7 @@
 		}
 
 		/**
-		 * @brief Tests copy
+		 * Tests copy
 		 *
 		 * @test Enter description here
 		 */

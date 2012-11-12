@@ -6,14 +6,14 @@ class InfinitasPluginTask extends AppShell {
 	);
 
 /**
- * @brief the plugin being released
+ * the plugin being released
  *
  * @var string
  */
 	private $__plugin = null;
 
 /**
- * @brief the config path
+ * the config path
  *
  * @var string
  */
@@ -24,7 +24,7 @@ class InfinitasPluginTask extends AppShell {
 	private $__models = array();
 
 /**
- * @brief Questions for building the release
+ * Questions for building the release
  *
  * @var array
  */
@@ -61,7 +61,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief generate a release for a plugin
+ * generate a release for a plugin
  *
  * @param string $plugin Name of the plugin to generate the release for.
  *
@@ -143,7 +143,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief initialise the plugins dependencies
+ * initialise the plugins dependencies
  */
 	private function __initializeDependencies() {
 		if (isset($this->params['dep'])) {
@@ -160,7 +160,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief initialise all the models for the current plugin
+ * initialise all the models for the current plugin
  *
  * @return void
  */
@@ -233,7 +233,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief get information that needs updating when re-releasing a plugin
+ * get information that needs updating when re-releasing a plugin
  *
  * @return array
  */
@@ -290,7 +290,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief write the plugin release to disk
+ * write the plugin release to disk
  *
  * @param array $options options to be written
  * @param boolean $writeConfig true to write the config
@@ -330,7 +330,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief write the plugins config file
+ * write the plugins config file
  *
  * @return boolean
  */
@@ -340,7 +340,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief write the release file
+ * write the release file
  *
  * @param array $options array of options for the release
  *
@@ -363,7 +363,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief update the version in the database
+ * update the version in the database
  *
  * When creating migrations localy obviously your table is upto date so
  * it should be marked as such in the schema_migrations table so that there
@@ -435,7 +435,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief configure plugin models
+ * configure plugin models
  */
 	private function __configureModels() {
 		$models = App::objects('model', CakePlugin::path($this->__plugin) . 'Model' . DS, false);
@@ -470,7 +470,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief configure the model information
+ * configure the model information
  *
  * @param string $model the model being configured
  */
@@ -501,7 +501,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief display plugin details before confirming
+ * display plugin details before confirming
  *
  * @return string
  */
@@ -518,7 +518,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief display plugin info
+ * display plugin info
  *
  * @param boolean $asMenu display as menu (true) or info (false)
  */
@@ -530,7 +530,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief display dependancies for the plugin
+ * display dependancies for the plugin
  *
  * @param boolean $asMenu display as menu (true) or info (false)
  */
@@ -548,7 +548,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief display the models detected in the plugin
+ * display the models detected in the plugin
  *
  * @return void
  */
@@ -568,7 +568,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief get any plugin dependancies
+ * get any plugin dependancies
  */
 	private function __configureDependancies() {
 		$possiblePlugins = $this->__getPluginList();
@@ -602,7 +602,7 @@ class InfinitasPluginTask extends AppShell {
 	}
 
 /**
- * @brief get the details about the plugin being released
+ * get the details about the plugin being released
  *
  * @return void
  */

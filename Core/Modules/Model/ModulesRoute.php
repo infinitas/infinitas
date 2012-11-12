@@ -1,7 +1,7 @@
 <?php
 class ModulesRoute extends ModulesAppModel {
 /**
- * @brief belongs to relations
+ * belongs to relations
  *
  * @var array
  */
@@ -11,7 +11,7 @@ class ModulesRoute extends ModulesAppModel {
 	);
 
 /**
- * @brief overload __construct for translateable validation
+ * overload __construct for translateable validation
  * 
  * @param type $id
  * @param type $table

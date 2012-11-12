@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Base class for chart engines.
+	 * Base class for chart engines.
 	 *
 	 * This just defines a few of the more common types that would be used, they
 	 * will just throw errors if used and the selected engine does not support the
@@ -10,7 +10,7 @@
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.Charts.libs
+	 * @package Charts.Lib
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
 	 *
@@ -22,7 +22,7 @@
 	App::uses('AppHelper', 'View/Helper');
 	class ChartsBaseEngineHelper extends AppHelper {
 		/**
-		 * @brief draw an area chart
+		 * draw an area chart
 		 *
 		 * An area chart or area graph displays graphically quantitive data. It
 		 * is based on the line chart. The area between axis and line are commonly
@@ -40,7 +40,7 @@
 		}
 
 		/**
-		 * @brief draw a bar chart
+		 * draw a bar chart
 		 *
 		 * A bar chart or bar graph is a chart with rectangular bars with lengths
 		 * proportional to the values that they represent. The bars can also be
@@ -59,7 +59,7 @@
 		}
 
 		/**
-		 * @brief draw a box chart
+		 * draw a box chart
 		 *
 		 * Box charts, also called box plots or box and whisker charts, are a type
 		 * of chart that shows the grouping of one or more series into quartiles
@@ -77,7 +77,7 @@
 		}
 
 		/**
-		 * @brief draw a candlestick chart
+		 * draw a candlestick chart
 		 *
 		 * A candlestick chart is a style of bar-chart used primarily to describe
 		 * price movements of a security, derivative, or currency over time. It
@@ -95,7 +95,7 @@
 		}
 
 		/**
-		 * @brief draw a gauge chart
+		 * draw a gauge chart
 		 *
 		 * Generate a meter type chart like the google-o-meter
 		 * http://code.google.com/apis/chart/docs/gallery/googleometer_chart.html
@@ -111,7 +111,7 @@
 		}
 
 		/**
-		 * @brief draw a line chart
+		 * draw a line chart
 		 *
 		 * A line chart or line graph is a type of graph, which displays
 		 * information as a series of data points connected by straight line
@@ -130,7 +130,7 @@
 		}
 
 		/**
-		 * @brief draw a organization chart
+		 * draw a organization chart
 		 *
 		 * An organizational chart (often called organization chart, org chart,
 		 * organigram(me), or organogram(me)) is a diagram that shows the structure
@@ -150,7 +150,7 @@
 		}
 
 		/**
-		 * @brief draw a pie chart
+		 * draw a pie chart
 		 *
 		 * A pie chart (or a circle graph) is a circular chart divided into sectors,
 		 * illustrating proportion. In a pie chart, the arc length of each sector
@@ -168,7 +168,7 @@
 		}
 
 		/**
-		 * @brief draw a radar chart
+		 * draw a radar chart
 		 *
 		 * A radar chart is a graphical method of displaying multivariate data
 		 * in the form of a two-dimensional chart of three or more quantitative
@@ -188,7 +188,7 @@
 		}
 
 		/**
-		 * @brief draw a scatter chart
+		 * draw a scatter chart
 		 *
 		 * A scatter plot or scattergraph is a type of mathematical diagram using
 		 * Cartesian coordinates to display values for two variables for a set of
@@ -208,7 +208,7 @@
 		}
 
 		/**
-		 * @brief Convert data into a table
+		 * Convert data into a table
 		 *
 		 * @param array $data
 		 * @access public
@@ -221,7 +221,7 @@
 		}
 
 		/**
-		 * @brief draw a treemap
+		 * draw a treemap
 		 *
 		 * Treemaps display hierarchical (tree-structured) data as a set of nested
 		 * rectangles. Each branch of the tree is given a rectangle, which is
@@ -240,7 +240,7 @@
 		}
 
 		/**
-		 * @brief draw a venn diagram
+		 * draw a venn diagram
 		 *
 		 * Venn diagrams or set diagrams are diagrams that show all hypothetically
 		 * possible logical relations between a finite collection of sets

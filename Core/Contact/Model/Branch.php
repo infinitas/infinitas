@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief The Branch model.
+ * The Branch model.
  *
  * CRUD for database of Contact branches
  *

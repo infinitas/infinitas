@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Newsletter tests.
+ * fixture file for Newsletter tests.
  *
  * @package Newsletter.Fixture
  * @since 0.9b1

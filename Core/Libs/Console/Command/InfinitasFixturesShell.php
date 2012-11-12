@@ -7,7 +7,7 @@
 		public $tasks = array('Fixture', 'Libs.InfinitasFixtureBake');
 
 		/**
-		 * @brief map options to methods
+		 * map options to methods
 		 * @var <type>
 		 */
 		private $__options = array(

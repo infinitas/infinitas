@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief CronsEventsTest
+ * CronsEventsTest
  *
  * These tests are extended from InfinitasEventTestCase which does most of the
  * automated testing for simple events
@@ -14,7 +14,7 @@ class CronsEventsTest extends InfinitasEventTestCase {
 	);
 
 /**
- * @brief adding the cron model for the tests
+ * adding the cron model for the tests
  */
 	public function setUp() {
 		parent::setUp();
@@ -22,7 +22,7 @@ class CronsEventsTest extends InfinitasEventTestCase {
 	}
 
 /**
- * @brief clean up after testing
+ * clean up after testing
  */
 	public function tearDown() {
 		parent::tearDown();
@@ -72,7 +72,7 @@ class CronsEventsTest extends InfinitasEventTestCase {
 	}
 
 /**
- * @brief test that the crons are run correctly
+ * test that the crons are run correctly
  */
 	public function testRunCrons() {
 		$count = ClassRegistry::init('Crons.Cron')->find('count');

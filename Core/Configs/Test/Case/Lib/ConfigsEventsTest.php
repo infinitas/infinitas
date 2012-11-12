@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief ConfigsEventsTest
+ * ConfigsEventsTest
  *
  * These tests are extended from InfinitasEventTestCase which does most of the
  * automated testing for simple events

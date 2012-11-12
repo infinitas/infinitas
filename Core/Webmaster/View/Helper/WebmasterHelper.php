@@ -6,7 +6,7 @@
 		);
 		
 		/**
-		 * @brief generate all meta tags
+		 * generate all meta tags
 		 *
 		 * @return string of html tags describing the site
 		 */
@@ -55,7 +55,7 @@
 		}
 
 		/**
-		 * @brief robots tag
+		 * robots tag
 		 *
 		 * This helps controll what robots follow and index. For example it is a
 		 * good idea to not index pagination pages but allow robots to follow the
@@ -96,7 +96,7 @@
 		}
 
 		/**
-		 * @brief set the meta description for the page
+		 * set the meta description for the page
 		 *
 		 * Description is automatically truncated to 255 so that it is not too
 		 * long and spamy for the search engines
@@ -127,7 +127,7 @@
 		}
 
 		/**
-		 * @brief set the meta keywords for the page
+		 * set the meta keywords for the page
 		 *
 		 * Keywords are automatically truncated to 255 so that it is not too
 		 * long and spamy for the search engines
@@ -162,7 +162,7 @@
 		}
 
 		/**
-		 * @brief tell serach engines which is the correct page
+		 * tell serach engines which is the correct page
 		 *
 		 * As it is possible to get to content from various pages it is best
 		 * to tell the search engin what the canonical url is. This stops
@@ -184,7 +184,7 @@
 		}
 
 		/**
-		 * @brief generate an author meta tag
+		 * generate an author meta tag
 		 *
 		 * If there is no author specified the site name is used as the author
 		 *
@@ -203,7 +203,7 @@
 		}
 
 		/**
-		 * @brief generate a generator meta tag
+		 * generate a generator meta tag
 		 *
 		 * If there is no generator specified Infinitas + version numeber is used
 		 *
@@ -222,7 +222,7 @@
 		}
 
 		/**
-		 * @brief render the favicon tag
+		 * render the favicon tag
 		 *
 		 * @access public
 		 *
@@ -233,7 +233,7 @@
 		}
 
 		/**
-		 * @brief render the charset tag
+		 * render the charset tag
 		 *
 		 * @access public
 		 *
@@ -244,7 +244,7 @@
 		}
 
 		/**
-		 * @brief provide a google site authentication tag
+		 * provide a google site authentication tag
 		 *
 		 * If you need to provide google site authentication add a config under
 		 * Webmaster.google_site_verification with the value provided by google
@@ -265,7 +265,7 @@
 		}
 
 		/**
-		 * @brief display the page title
+		 * display the page title
 		 *
 		 * This should not be longer than 70 chars as that is the limit on google
 		 * search. The default when using WebmasterHelper::seoMetaTags() is to limit
@@ -287,7 +287,7 @@
 		}
 
 		/**
-		 * @brief display a rss feed link
+		 * display a rss feed link
 		 *
 		 * The default is to just show the current url + .rss extension.
 		 * You can use a string url or array url and specify the title and

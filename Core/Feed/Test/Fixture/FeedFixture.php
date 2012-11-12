@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Feed tests.
+ * fixture file for Feed tests.
  *
  * @package Feed.Fixture
  * @since 0.9b1

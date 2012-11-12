@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for CakeRelease tests.
+ * fixture file for CakeRelease tests.
  *
  * @package Installer.Fixture
  * @since 0.9b1

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief Contact plugin events.
+ * Contact plugin events.
  *
  * The events for the Contact plugin for setting up cache and the general
  * configuration of the plugin.
@@ -19,7 +19,7 @@
 
 class ContactEvents extends AppEvents{
 /**
- * @brief load the admin menu
+ * load the admin menu
  *
  * @param type $event
  *
@@ -35,7 +35,7 @@ class ContactEvents extends AppEvents{
 	}
 
 /**
- * @brief load required css
+ * load required css
  *
  * @param Event $Event
  *
@@ -48,7 +48,7 @@ class ContactEvents extends AppEvents{
 	}
 
 /**
- * @brief specify any extentions that need to be registered
+ * specify any extentions that need to be registered
  *
  * @return array
  */
@@ -59,7 +59,7 @@ class ContactEvents extends AppEvents{
 	}
 
 /**
- * @brief get data for rebuilding the site map
+ * get data for rebuilding the site map
  *
  * @param Event $Event
  * 

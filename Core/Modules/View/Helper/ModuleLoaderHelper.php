@@ -137,7 +137,7 @@
 		}
 
 		/**
-		 * @brief load modules directly
+		 * load modules directly
 		 *
 		 * This is basically a short cut method to using ->element() but does
 		 * all the checking link is the plugin available, does the module exist

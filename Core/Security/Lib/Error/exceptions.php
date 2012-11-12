@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief base Security plugin exception 
+	 * base Security plugin exception 
 	 */
 	class SecurityException extends InfinitasException {
 		public $layout = 'error_security';
@@ -11,7 +11,7 @@
 	}
 	
 	/**
-	 * @brief exception thrown when a users IP address has been blocked 
+	 * exception thrown when a users IP address has been blocked 
 	 */
 	class SecurityIpAddressBlockedException extends SecurityException {
 		protected $_messageTemplate = 'Your IP address "%s" has been temporarily blocked.';

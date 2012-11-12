@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief CommentsAppModel is the base model that all the models in comments extends
+	 * CommentsAppModel is the base model that all the models in comments extends
 	 * 
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org

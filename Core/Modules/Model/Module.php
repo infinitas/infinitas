@@ -1,10 +1,10 @@
 <?php
 /**
- * @brief Module
+ * Module
  */
 class Module extends ModulesAppModel {
 /**
- * @brief enable row locking see Locks plugin
+ * enable row locking see Locks plugin
  * @var type
  */
 	public $lockable = true;
@@ -32,7 +32,7 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * @brief has many relations
+ * has many relations
  *
  * @var type
  */
@@ -44,7 +44,7 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * @brief has and belongs to many relations
+ * has and belongs to many relations
  *
  * @var type
  */
@@ -59,7 +59,7 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * @brief reusable contain array
+ * reusable contain array
  *
  * @var type
  */
@@ -92,7 +92,7 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * @brief overload __construct to use the alias and translatable validation errors
+ * overload __construct to use the alias and translatable validation errors
  *
  * @param type $id
  * @param type $table
@@ -182,7 +182,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief check that the position entered is valid
+ * check that the position entered is valid
  *
  * @param array $field the field being validated
  *
@@ -193,7 +193,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief check that a module is valid
+ * check that a module is valid
  * @param type $field
  */
 	public function validateValidModule($field = array()) {
@@ -215,7 +215,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief after getting modules add the related routes to the find
+ * after getting modules add the related routes to the find
  *
  * @param type $results
  * @param type $primary
@@ -259,7 +259,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief decide if its an admin module or not.
+ * decide if its an admin module or not.
  *
  * @param type $options array
  * @return boolean
@@ -273,7 +273,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief get a list of modules based on the select position and admin flag
+ * get a list of modules based on the select position and admin flag
  *
  * @param string $position the name of the position to look up
  * @param boolean $admin true to get admin modules, false for frontend stuff
@@ -354,7 +354,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief get a single module
+ * get a single module
  *
  * @param string $module the name of the module to find
  * @param boolean $admin the type (could be admin / frontend with the same name)
@@ -403,7 +403,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief get a list of modules with the option to limit by plugin
+ * get a list of modules with the option to limit by plugin
  *
  * @param string|null $plugin the name of a plugin or nothing for all modules
  *
@@ -446,7 +446,7 @@ class Module extends ModulesAppModel {
 	}
 
 /**
- * @brief check if a plugin has the specified module
+ * check if a plugin has the specified module
  *
  * @param string $plugin the name of the plugin
  * @param string $module the name of the module

@@ -166,7 +166,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief create symlinks for all the plugins.
+		 * create symlinks for all the plugins.
 		 *
 		 * retrun symlinks created or not
 		 */
@@ -200,7 +200,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief check if the server has correct support for infinitas
+		 * check if the server has correct support for infinitas
 		 *
 		 * @access public
 		 *
@@ -223,7 +223,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief check the paths have the correct permissions
+		 * check the paths have the correct permissions
 		 *
 		 * @access public
 		 *
@@ -249,7 +249,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief check the settings of php
+		 * check the settings of php
 		 *
 		 * Check that everything is configured properly for infinitas to run
 		 *
@@ -298,7 +298,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief check if connection details are valid
+		 * check if connection details are valid
 		 *
 		 * @access private
 		 *
@@ -429,7 +429,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief write the database.php file
+		 * write the database.php file
 		 *
 		 * take the connection details that were passed in and write the file to disk
 		 *
@@ -518,7 +518,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief install a local theme
+		 * install a local theme
 		 *
 		 * Theme names are 'Plugin.theme' for plugin based themes and just 'theme'
 		 * for app based themes.
@@ -536,7 +536,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief generate the path to a plugins theme dir
+		 * generate the path to a plugins theme dir
 		 *
 		 * If the specific theme is available it will return the path to the
 		 * theme, if not it will return the path to where the themes for that plugin
@@ -568,7 +568,7 @@ LICENCE;
 		}
 
 		/**
-		 * @brief find theme dirs for the plugin passed or in the app dir
+		 * find theme dirs for the plugin passed or in the app dir
 		 *
 		 * @access public
 		 *

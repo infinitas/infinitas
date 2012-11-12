@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief The CronShell manages and dispaches cron jobs from a single location
+	 * The CronShell manages and dispaches cron jobs from a single location
 	 *
 	 * @todo track system load every few min
 	 *
@@ -132,7 +132,7 @@
 		}
 
 		/**
-		 * @brief The startup method records the start time and some mem stats
+		 * The startup method records the start time and some mem stats
 		 *
 		 * @access public
 		 */
@@ -158,7 +158,7 @@
 		}
 
 		/**
-		 * @brief the end method records the end time and logs some stats
+		 * the end method records the end time and logs some stats
 		 *
 		 * @access protected
 		 */

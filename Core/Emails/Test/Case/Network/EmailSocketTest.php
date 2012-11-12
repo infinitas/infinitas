@@ -32,7 +32,7 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief test setting configs
+ * test setting configs
  *
  * @dataProvider setDataProvider
  */
@@ -42,7 +42,7 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief set data provider
+ * set data provider
  *
  * @return array
  */
@@ -101,7 +101,7 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief test set exceptions
+ * test set exceptions
  *
  * @dataProvider setExceptionsDataProvider
  * @expectedException EmailSocketException
@@ -111,7 +111,7 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief set exceptions data provider
+ * set exceptions data provider
  */
 	public function setExceptionsDataProvider() {
 		return array(
@@ -131,14 +131,14 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief test is connected
+ * test is connected
  */
 	public function testIsConnected() {
 		$this->assertFalse($this->Email->isConnected());
 	}
 
 /**
- * @brief test loginException
+ * test loginException
  *
  * @expectedException EmailSocketCommunicationException
  */
@@ -150,7 +150,7 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief test errors
+ * test errors
  */
 	public function testErrors() {
 		$expected = array();
@@ -169,7 +169,7 @@ class EmailSocketTest extends CakeTestCase {
 	}
 
 /**
- * @brief test logs
+ * test logs
  */
 	public function testLogs() {
 		$expected = array();

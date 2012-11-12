@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for MenuItem tests.
+ * fixture file for MenuItem tests.
  *
  * @package Menus.Fixture
  * @since 0.9b1

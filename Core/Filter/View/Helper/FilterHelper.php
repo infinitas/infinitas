@@ -7,7 +7,7 @@
 		public $count = 0;
 
 		/**
-		 * @brief build a search form
+		 * build a search form
 		 * 
 		 * @param string $model the model for the search form
 		 * @param array $filter the fields for searching

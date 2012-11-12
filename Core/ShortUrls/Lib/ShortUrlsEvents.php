@@ -20,7 +20,7 @@
 
 class ShortUrlsEvents extends AppEvents {
 /**
- * @brief create the admin menus
+ * create the admin menus
  *
  * @param Event $Event
  *
@@ -36,7 +36,7 @@ class ShortUrlsEvents extends AppEvents {
 	}
 
 /**
- * @brief configure some routes for short urls
+ * configure some routes for short urls
  *
  * @return void
  */
@@ -67,7 +67,7 @@ class ShortUrlsEvents extends AppEvents {
 	}
 
 /**
- * @brief slug a shortened url
+ * slug a shortened url
  *
  * @param Event $Event the event being triggered
  * @param array $data the data
@@ -100,7 +100,7 @@ class ShortUrlsEvents extends AppEvents {
 	}
 
 /**
- * @brief get a shortened url
+ * get a shortened url
  *
  * event to create short urls from anywere in the code. show a preview
  * link by setting type => preview or leave type out type to go direct to

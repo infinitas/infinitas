@@ -73,7 +73,7 @@
 		}
 		
 		/**
-		 * @brief create a container for the menus if none exists
+		 * create a container for the menus if none exists
 		 * 
 		 * @access public
 		 * 

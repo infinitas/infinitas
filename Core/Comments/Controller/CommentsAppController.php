@@ -94,7 +94,7 @@
 	 */
 
 	/**
-	 * @brief CommentsAppController is the base class that all comments controllers extend
+	 * CommentsAppController is the base class that all comments controllers extend
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org

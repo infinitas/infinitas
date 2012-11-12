@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Lock tests.
+ * fixture file for Lock tests.
  *
  * @package Locks.Fixture
  * @since 0.9b1

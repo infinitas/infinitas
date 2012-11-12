@@ -21,7 +21,7 @@ class Route extends RoutesAppModel {
 	public $useTable = 'routes';
 
 /**
- * @brief belongs to relations
+ * belongs to relations
  *
  * @var array
  */
@@ -37,7 +37,7 @@ class Route extends RoutesAppModel {
 	);
 
 /**
- * @brief overload __construct for translateable validation errors
+ * overload __construct for translateable validation errors
  * @param type $id
  * @param type $table
  * @param type $ds
@@ -138,7 +138,7 @@ class Route extends RoutesAppModel {
 	}
 
 /**
- * @brief sort out the plugin name before saving
+ * sort out the plugin name before saving
  *
  * @param type $options
  * @return boolean
@@ -158,7 +158,7 @@ class Route extends RoutesAppModel {
 	}
 
 /**
- * @brief after finding routes fix up the plugin names
+ * after finding routes fix up the plugin names
  *
  * @param type $results
  * @param type $primary

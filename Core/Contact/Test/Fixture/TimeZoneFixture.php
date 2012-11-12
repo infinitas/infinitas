@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for TimeZone tests.
+ * fixture file for TimeZone tests.
  *
  * @package Contact.Fixture
  * @since 0.9b1

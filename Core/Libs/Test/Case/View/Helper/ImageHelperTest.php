@@ -62,7 +62,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for testing images
+ * data provider for testing images
  *
  * @return array
  */
@@ -97,7 +97,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for testing by extention
+ * data provider for testing by extention
  *
  * @return array
  */
@@ -174,7 +174,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test checking places exist
+ * test checking places exist
  *
  * @return void
  */
@@ -202,7 +202,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test getting image
+ * test getting image
  */
 	public function testGetImages() {
 		$expected = array(
@@ -228,7 +228,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test getting places
+ * test getting places
  */
 	public function testGetPlaces() {
 		$expected = array('foo', 'bar', 'folders', 'unknown');
@@ -237,7 +237,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test exists
+ * test exists
  *
  * @dataProvider existsDataProvider
  */
@@ -250,7 +250,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for existing images
+ * data provider for existing images
  * @return type
  */
 	public function existsDataProvider() {
@@ -275,7 +275,7 @@ class ImageHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test non existant
+ * test non existant
  */
 	public function testNonExists() {
 		$result = $this->Image->exists('foo', 'bar1');

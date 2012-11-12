@@ -31,7 +31,7 @@
 	 */
 
 	/**
-	 * @brief ConfigsAppController is the main controller class that all other
+	 * ConfigsAppController is the main controller class that all other
 	 * configuration related controllers extend.
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )

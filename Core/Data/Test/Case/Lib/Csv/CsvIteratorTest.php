@@ -3,7 +3,7 @@ App::uses('CsvIterator', 'Data.Lib/Csv');
 
 class CsvIteratorTest extends CakeTestCase {
 /**
- * @brief start up method
+ * start up method
  */
 	public function setUp() {
 		parent::setUp();
@@ -37,7 +37,7 @@ class CsvIteratorTest extends CakeTestCase {
 	}
 
 /**
- * @brief tear down method
+ * tear down method
  */
 	public function tearDown() {
 		unset($this->Csv, $this->CsvNoHeading);
@@ -45,7 +45,7 @@ class CsvIteratorTest extends CakeTestCase {
 	}
 
 /**
- * @brief test readings csv data
+ * test readings csv data
  */
 	public function testRead() {
 		$result = $this->Csv->current();
@@ -72,7 +72,7 @@ class CsvIteratorTest extends CakeTestCase {
 	}
 
 /**
- * @brief test rewind
+ * test rewind
  */
 	public function testRewind() {
 		$result = $this->Csv->current();
@@ -114,7 +114,7 @@ class CsvIteratorTest extends CakeTestCase {
 	}
 
 /**
- * @brief test key is returned correctly
+ * test key is returned correctly
  */
 	public function testKey() {
 		$this->Csv->rewind();
@@ -159,7 +159,7 @@ class CsvIteratorTest extends CakeTestCase {
 	}
 
 /**
- * @brief test valid 
+ * test valid 
  */
 	public function testValid() {
 		$this->Csv->rewind();

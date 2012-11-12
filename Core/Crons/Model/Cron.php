@@ -3,7 +3,7 @@
 		public $useTable = 'crons';
 
 		/**
-		 * @brief The process that is currently running
+		 * The process that is currently running
 		 *
 		 * @property _currentProcess
 		 */
@@ -24,7 +24,7 @@
 		}
 
 		/**
-		 * @brief save the start of a cron run
+		 * save the start of a cron run
 		 *
 		 * This is later used to check if any processes are running, along with
 		 * some stats befor the cron starts. This will enable infinitas to show
@@ -58,7 +58,7 @@
 		}
 
 		/**
-		 * @brief updates the cron row to show the process as complete
+		 * updates the cron row to show the process as complete
 		 *
 		 * When the cron run is done this method is called to mark the end of the
 		 * process, along with recording some stats on the system that can
@@ -100,7 +100,7 @@
 		}
 
 		/**
-		 * @brief check if a cron is already running
+		 * check if a cron is already running
 		 *
 		 * This does a simple check against the database to see if any jobs are
 		 * open (not marked done). If there are there could be something still
@@ -122,7 +122,7 @@
 		}
 
 		/**
-		 * @brief check if enough time has elapsed since the last run
+		 * check if enough time has elapsed since the last run
 		 *
 		 * the query checks if there are any jobs between the desired date and the
 		 * last run. If there are that means there was a job that ran more recently
@@ -149,7 +149,7 @@
 		}
 
 		/**
-		 * @brief get the last run job
+		 * get the last run job
 		 *
 		 * This gets the last time a cron ran, and can be used for checking if
 		 * the crons are setup or if they are running.
@@ -174,7 +174,7 @@
 		}
 
 		/**
-		 * @brief clear out old data
+		 * clear out old data
 		 *
 		 * This method is used to clear out old data, normally it is called via
 		 * crons to happen automatically, but could be used in other places.

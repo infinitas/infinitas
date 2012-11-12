@@ -68,7 +68,7 @@ class AppEvents extends Object {
 	public function onPluginRollCall() {}
 
 /**
- * @brief allow plugins to include libs early on in the request.
+ * allow plugins to include libs early on in the request.
  */
 	public function onRequireLibs() {}
 
@@ -145,7 +145,7 @@ class AppEvents extends Object {
 	public function onSetupExtensions(Event $Event) {}
 
 /**
- * @brief called when editing a row is canceled
+ * called when editing a row is canceled
  *
  * If id is null it is because it was a new row not something being updated
  *
@@ -193,7 +193,7 @@ class AppEvents extends Object {
 	public function onRequireGlobalTemplates(Event $Event) {}
 
 /**
- * @brief used to build the menus for the admin pages
+ * used to build the menus for the admin pages
  */
 	public function onAdminMenu() {}
 
@@ -313,7 +313,7 @@ class AppEvents extends Object {
 	public function onRequestDone() {}
 
 /**
- * @brief Called when the system crons are being run
+ * Called when the system crons are being run
  *
  * Use this method to do maintainence to you plugin like clearing logs,
  * populating db data or what ever. Normally the system is set to run
@@ -328,7 +328,7 @@ class AppEvents extends Object {
 	}
 
 /**
- * @brief get required fixtures
+ * get required fixtures
  *
  * @return array
  */

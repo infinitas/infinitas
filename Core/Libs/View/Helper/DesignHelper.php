@@ -1,10 +1,10 @@
 <?php
 /**
- * @brief DesignHelper to provide methods for building the interface
+ * DesignHelper to provide methods for building the interface
  */
 class DesignHelper extends AppHelper {
 /**
- * @brief helpers that are used in this helper
+ * helpers that are used in this helper
  *
  * @var array
  */
@@ -14,7 +14,7 @@ class DesignHelper extends AppHelper {
 	);
 
 /**
- * @brief convert an array to a list <li>
+ * convert an array to a list <li>
  *
  * @param array $array the data to convert
  * @param mixed $class the class / configs for the list
@@ -74,7 +74,7 @@ class DesignHelper extends AppHelper {
 	}
 
 /**
- * @brief generate a tab box
+ * generate a tab box
  *
  * @param array $tabs
  * @param array $content

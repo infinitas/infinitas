@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief EmailerComponent
+ * EmailerComponent
  *
  * This allows the requestAction call to bypass the usage of
  * Router::url which can increase performance. The url based arrays are the
@@ -25,21 +25,21 @@
 
 class EmailerComponent extends EmailComponent {
 /**
- * @brief component settings
+ * component settings
  *
  * @var array
  */
 	public $settings = array();
 
 /**
- * @brief default configs
+ * default configs
  *
  * @var array
  */
 	protected $_default = array();
 
 /**
- * @brief Component initialize function.
+ * Component initialize function.
  */
 	public function initialize($controller, $settings = array()) {
 		$this->settings = array_merge($this->_default, (array)$settings);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Trash tests.
+ * fixture file for Trash tests.
  *
  * @package Trash.Fixture
  * @since 0.9b1

@@ -2,7 +2,7 @@
 	class GoogleAdsenseHelper extends InfinitasHelper {
 		public $clientId = null;
 		/**
-		 * @brief default ad configuration
+		 * default ad configuration
 		 * 
 		 * @var array 
 		 */
@@ -13,7 +13,7 @@
 		);
 		
 		/**
-		 * @brief customised ad configuration
+		 * customised ad configuration
 		 * 
 		 * @var array 
 		 */
@@ -22,7 +22,7 @@
 		private $__jsUrl = 'http://pagead2.googlesyndication.com/pagead/show_ads.js';
 		
 		/**
-		 * @brief list of possible ad types
+		 * list of possible ad types
 		 * 
 		 * @var array 
 		 */
@@ -32,7 +32,7 @@
 		);
 		
 		/**
-		 * @brief internal count of the number of ads displayed.
+		 * internal count of the number of ads displayed.
 		 * 
 		 * As per TOS you may only have a specific number of ads, more than this
 		 * could get your account closed.
@@ -48,7 +48,7 @@
 		);
 		
 		/**
-		 * @brief possible display formats
+		 * possible display formats
 		 * 
 		 * @var array
 		 */
@@ -121,7 +121,7 @@
 		);
 		
 		/**
-		 * @brief load up the passed in configs
+		 * load up the passed in configs
 		 * 
 		 * @access public
 		 * 
@@ -136,7 +136,7 @@
 		}
 		
 		/**
-		 * @brief configure the ads
+		 * configure the ads
 		 * 
 		 * @access public
 		 * 
@@ -161,7 +161,7 @@
 		}
 		
 		/**
-		 * @brief merge the new configs with the current configs
+		 * merge the new configs with the current configs
 		 * 
 		 * @throws Exception 
 		 * 
@@ -203,7 +203,7 @@
 		}
 		
 		/**
-		 * @brief set the ad type for the current config
+		 * set the ad type for the current config
 		 * 
 		 * @throws Exception 
 		 * 
@@ -224,7 +224,7 @@
 		}
 		
 		/**
-		 * @brief set the size of the ad to be displayed
+		 * set the size of the ad to be displayed
 		 * 
 		 * @throws Exception 
 		 * 
@@ -250,7 +250,7 @@
 		}
 		
 		/**
-		 * @brief set the size of the ad to be displayed
+		 * set the size of the ad to be displayed
 		 * 
 		 * @throws Exception 
 		 * 

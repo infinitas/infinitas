@@ -2,7 +2,7 @@
 	/**
 	 * Groups controller
 	 *
-	 * @brief Add some documentation for Groups controller.
+	 * Add some documentation for Groups controller.
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
@@ -31,7 +31,7 @@
 		);
 
 		/**
-		 * @brief the index method
+		 * the index method
 		 *
 		 * Show a paginated list of Group records.
 		 *
@@ -51,7 +51,7 @@
 		}
 
 		/**
-		 * @brief view method for a single row
+		 * view method for a single row
 		 *
 		 * Show detailed information on a single Group
 		 *
@@ -74,7 +74,7 @@
 		}
 
 		/**
-		 * @brief admin create action
+		 * admin create action
 		 *
 		 * Adding new Group records.
 		 *
@@ -88,7 +88,7 @@
 		}
 
 		/**
-		 * @brief admin edit action
+		 * admin edit action
 		 *
 		 * Edit old Group records.
 		 *

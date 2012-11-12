@@ -29,7 +29,7 @@ class TheInfiniTimeTestController extends Controller {
 
 class TestInfiniTimeHelper extends CakeTestCase {
 /**
- * @brief Contains a list of test methods to run
+ * Contains a list of test methods to run
  *
  * If it is set to false all the methods will run. Otherwise pass in an array
  * with a list of tests to run.
@@ -39,7 +39,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	public $tests = false;
 
 /**
- * @brief Contains the backup of the system timezone
+ * Contains the backup of the system timezone
  *
  * @var string
  */
@@ -78,7 +78,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	}
 
 /**
- * @brief Tests fromString
+ * Tests fromString
  *
  * @test Enter description here
  */
@@ -102,7 +102,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	}
 
 /**
- * @brief Tests nice strings
+ * Tests nice strings
  *
  * @test Enter description here
  */
@@ -152,7 +152,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	}
 
 /**
- * @brief test relative time functions
+ * test relative time functions
  */
 	public function testRelativeTimeFunctions() {
 		CakeSession::write('Auth.User.time_zone', 'America/New_York');
@@ -185,7 +185,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	}
 
 /**
- * @brief test formatting
+ * test formatting
  */
 	public function testOutputFormats() {
 		CakeSession::write('Auth.User.time_zone', 'America/New_York');
@@ -206,7 +206,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	}
 
 /**
- * @brief Tests timeAgoInWords
+ * Tests timeAgoInWords
  */
 	public function testTimeAgoInWord() {
 		CakeSession::write('Auth.User.time_zone', 'Europe/Brussels');
@@ -226,7 +226,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	}
 
 /**
- * @brief test other methods
+ * test other methods
  */
 	public function testVarious() {
 		CakeSession::write('Auth.User.time_zone', 'Europe/London');

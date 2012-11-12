@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Backup tests.
+ * fixture file for Backup tests.
  *
  * @package Management.Fixture
  * @since 0.9b1

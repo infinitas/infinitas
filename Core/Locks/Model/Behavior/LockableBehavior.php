@@ -238,7 +238,7 @@
 		}
 
 		/**
-		 * @brief internal private method for deleting locks
+		 * internal private method for deleting locks
 		 *
 		 * This will delete locks for records only when there is a user_id
 		 * in the session. It deletes based on model, pk and user_id.

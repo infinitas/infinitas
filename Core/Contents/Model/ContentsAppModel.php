@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief ContentsAppModel base model
+	 * ContentsAppModel base model
 	 *
 	 * The model that all the Contents related models extends from
 	 *

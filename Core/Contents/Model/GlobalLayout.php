@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief GlobalLayout handles the CRUD for layouts within infinitas
+	 * GlobalLayout handles the CRUD for layouts within infinitas
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org

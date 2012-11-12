@@ -17,7 +17,7 @@ class ModuleTestCase extends CakeTestCase {
 	);
 
 /**
- * @brief test startup
+ * test startup
  */
 	public function startTest() {
 		$this->Module = ClassRegistry::init('Modules.Module');
@@ -26,7 +26,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test cleanup
+ * test cleanup
  */
 	public function endTest() {
 		unset($this->Module);
@@ -34,7 +34,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief check validation rules
+ * check validation rules
  *
  * @dataProvider validationFailData
  */
@@ -46,7 +46,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief check saving valid data
+ * check saving valid data
  *
  * @dataProvider correctData
  */
@@ -61,7 +61,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test correct data in finds
+ * test correct data in finds
  */
 	public function testFind() {
 		$expected = array(
@@ -111,7 +111,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test finding a list of modules
+ * test finding a list of modules
  *
  * @dataProvider moduleListData
  */
@@ -121,7 +121,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting module data
+ * test getting module data
  *
  * @dataProvider getModuleData
  */
@@ -131,7 +131,7 @@ class ModuleTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test getting modules data
+ * test getting modules data
  *
  * @dataProvider getModulesData
  */

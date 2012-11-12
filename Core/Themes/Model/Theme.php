@@ -60,7 +60,7 @@
 		}
 
 		/**
-		 * @brief Get the current Theme
+		 * Get the current Theme
 		 * 
 		 * @access public
 		 * 
@@ -101,7 +101,7 @@
 		}
 
 		/**
-		 * @brief before saving
+		 * before saving
 		 *
 		 * if the new / edited theme is active deactivte everything.
 		 * 
@@ -118,7 +118,7 @@
 		}
 
 		/**
-		 * @brief before deleteing
+		 * before deleteing
 		 *
 		 * If the theme is active do not let it be deleted.
 		 * 
@@ -134,7 +134,7 @@
 		}
 
 		/**
-		 * @brief deactivate all themes.
+		 * deactivate all themes.
 		 *
 		 * This is used before activating a theme to make sure that there is only
 		 * ever one theme active.
@@ -182,7 +182,7 @@
 		}
 		
 		/**
-		 * @brief get a list of themes that are already installed 
+		 * get a list of themes that are already installed 
 		 * 
 		 * @access public
 		 * 
@@ -207,7 +207,7 @@
 		}
 		
 		/**
-		 * @brief get a list of themes that are not yet installed
+		 * get a list of themes that are not yet installed
 		 * 
 		 * @access public
 		 * 

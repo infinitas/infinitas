@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Cron tests.
+ * fixture file for Cron tests.
  *
  * @package Crons.Fixture
  * @since 0.9b1

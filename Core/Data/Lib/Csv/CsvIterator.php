@@ -2,35 +2,35 @@
 App::uses('CsvFileObject', 'Data.Lib/Csv');
 
 /**
- * @brief CsvIterator
+ * CsvIterator
  *
  * @param CsvFileObject $_CsvFileObject
  */
 
 class CsvIterator implements Iterator {
 /**
- * @brief the current row from the csv file
+ * the current row from the csv file
  *
  * @var array
  */
 	protected $_currentRow;
 
 /**
- * @brief count of rows in the csv file
+ * count of rows in the csv file
  *
  * @var integer
  */
 	protected $_rowCounter;
 
 /**
- * @brief the CsvFileObject being used
+ * the CsvFileObject being used
  *
  * @var CsvFileObject
  */
 	protected $_CsvFileObject;
 
 /**
- * @brief set up the options for reading the csv file
+ * set up the options for reading the csv file
  *
  * @param string $file the csv file to read
  * @param integer $rowSize the max size of a single row (0 for unlimited)
@@ -41,7 +41,7 @@ class CsvIterator implements Iterator {
 	}
 
 /**
- * @brief rewind the Iterator to the begining
+ * rewind the Iterator to the begining
  */
 	public function rewind() {
 		$this->_rowCounter = 0;
@@ -54,7 +54,7 @@ class CsvIterator implements Iterator {
 	}
 
 /**
- * @brief get the current row of the csv file
+ * get the current row of the csv file
  *
  * @return array
  */
@@ -67,7 +67,7 @@ class CsvIterator implements Iterator {
 	}
 
 /**
- * @brief get the key for the current row
+ * get the key for the current row
  *
  * If the csv file has headings the counter is returned as $normalCount - 1
  *
@@ -78,7 +78,7 @@ class CsvIterator implements Iterator {
 	}
 
 /**
- * @brief go to the next row
+ * go to the next row
  *
  * @return boolean
  */
@@ -94,7 +94,7 @@ class CsvIterator implements Iterator {
 	}
 
 /**
- * @brief check if the current row is valid
+ * check if the current row is valid
  *
  * @return boolean
  */

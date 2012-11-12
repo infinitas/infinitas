@@ -3,7 +3,7 @@ App::uses('CsvFileObject', 'Data.Lib/Csv');
 
 class CsvFileObjectTest extends CakeTestCase {
 /**
- * @brief start up method
+ * start up method
  */
 	public function setUp() {
 		$this->path = InfinitasPlugin::path('Data') . 'Test' . DS . 'Fixtures' . DS;
@@ -11,14 +11,14 @@ class CsvFileObjectTest extends CakeTestCase {
 	}
 
 /**
- * @brief tear down method
+ * tear down method
  */
 	public function tearDown() {
 		parent::tearDown();
 	}
 
 /**
- * @brief test headings
+ * test headings
  */
 	public function testHeading() {
 		$Csv = new CsvFileObject($this->path . 'file1.csv');
@@ -80,7 +80,7 @@ class CsvFileObjectTest extends CakeTestCase {
 	}
 
 /**
- * @brief test rewind
+ * test rewind
  */
 	public function testRewind() {
 		$Csv = new CsvFileObject($this->path . 'file1.csv');
@@ -120,7 +120,7 @@ class CsvFileObjectTest extends CakeTestCase {
 	}
 
 /**
- * @brief test reading csv files
+ * test reading csv files
  */
 	public function testRead() {
 		$Csv = new CsvFileObject($this->path . 'file1.csv');
@@ -153,7 +153,7 @@ class CsvFileObjectTest extends CakeTestCase {
 	}
 
 /**
- * @brief test reading with a default model defined
+ * test reading with a default model defined
  */
 	public function testReadDefaultModel() {
 		$Csv = new CsvFileObject($this->path . 'file1.csv', array(
@@ -248,7 +248,7 @@ class CsvFileObjectTest extends CakeTestCase {
 	}
 
 /**
- * @brief test read different models custom
+ * test read different models custom
  */
 	public function testReadDifferentModelsCustom() {
 		$Csv = new CsvFileObject($this->path . 'file2.csv', array(

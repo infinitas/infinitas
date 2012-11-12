@@ -42,7 +42,7 @@
 		public $body = array();
 
 		/**
-		 * @brief convert raw emails into arrays of data that can be later maniplutated
+		 * convert raw emails into arrays of data that can be later maniplutated
 		 *
 		 * @param <type> $rawEmail
 		 */
@@ -89,7 +89,7 @@
 		}
 
 		/**
-		 * @brief format the data into something more usable
+		 * format the data into something more usable
 		 *
 		 * @param string|array $value the value to manipulate
 		 * @param string $key the key that $value belongs to

@@ -2,7 +2,7 @@
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	class CommentsComponent extends InfinitasComponent {
 		/**
-		 * @brief allow posting comments to any controller
+		 * allow posting comments to any controller
 		 *
 		 * @todo this needs to be moved to the Comments plugin and is part of
 		 * the reason this code needs to be more extendable

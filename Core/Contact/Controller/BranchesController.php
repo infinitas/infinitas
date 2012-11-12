@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Contact plugin Branches controller.
+	 * Contact plugin Branches controller.
 	 *
 	 * controller to manage branches in the company.
 	 *

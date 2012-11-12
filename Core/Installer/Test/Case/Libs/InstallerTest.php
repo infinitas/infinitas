@@ -57,7 +57,7 @@ class InstallerTest extends CakeTestCase {
 	}
 
 /**
- * @brief test root install
+ * test root install
  * 
  * @return void
  */
@@ -130,7 +130,7 @@ class InstallerTest extends CakeTestCase {
 	}
 
 /**
- * @brief drop all tables for testing the installer
+ * drop all tables for testing the installer
  */
 	private function __cleanSystem($all = true) {
 		if(!isset($this->__oldTables)) {
@@ -150,7 +150,7 @@ class InstallerTest extends CakeTestCase {
 	}
 
 /**
- * @brief check that the installed version matches the supplied releases
+ * check that the installed version matches the supplied releases
  */
 	private function __checkVersionCount($plugin) {
 		$path = CakePlugin::path($plugin) . 'Config' . DS . 'releases';

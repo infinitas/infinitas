@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for RelationType tests.
+ * fixture file for RelationType tests.
  *
  * @package Management.Fixture
  * @since 0.9b1

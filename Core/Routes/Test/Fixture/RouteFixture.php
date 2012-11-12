@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Route tests.
+ * fixture file for Route tests.
  *
  * @package Routes.Fixture
  * @since 0.9b1

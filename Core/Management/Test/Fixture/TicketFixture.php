@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Ticket tests.
+ * fixture file for Ticket tests.
  *
  * @package Management.Fixture
  * @since 0.9b1

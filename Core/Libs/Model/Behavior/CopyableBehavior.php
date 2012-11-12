@@ -144,7 +144,7 @@
 		}
 
 		/**
-		 * @brief copy many rows at a time
+		 * copy many rows at a time
 		 *
 		 * This method is called by copy() when you pass an array of id's to it.
 		 * After doing a filter on the passed id's to get only valid ones, it will
@@ -297,7 +297,7 @@
 		}
 
 		/**
-		 * @brief rename any fields that have a unique index on them
+		 * rename any fields that have a unique index on them
 		 *
 		 * @access private
 		 *

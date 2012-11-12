@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for GlobalTagged tests.
+ * fixture file for GlobalTagged tests.
  *
  * @package Contents.Fixture
  * @since 0.9b1

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for InfinitasCommentAttribute tests.
+ * fixture file for InfinitasCommentAttribute tests.
  *
  * @package Comments.Fixture
  * @since 0.9b1

@@ -1,7 +1,7 @@
 <?php
 class TestSchemaMigration extends CakeTestCase {
 /**
- * @brief Tests Validation
+ * Tests Validation
  *
  * @test Enter description here
  */

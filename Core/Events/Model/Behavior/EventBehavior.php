@@ -31,7 +31,7 @@
 		}
 
 		/**
-		 * @brief build up some conditions to only select rows with active pluging data
+		 * build up some conditions to only select rows with active pluging data
 		 *
 		 * This stops things like routes and modules (or any other data) that is plugin
 		 * specific being pulled out when a plugin is disabled

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Rating tests.
+ * fixture file for Rating tests.
  *
  * @package Libs.Fixture
  * @since 0.9b1

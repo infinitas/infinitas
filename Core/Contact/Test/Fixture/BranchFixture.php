@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Branch tests.
+ * fixture file for Branch tests.
  *
  * @package Contact.Fixture
  * @since 0.9b1

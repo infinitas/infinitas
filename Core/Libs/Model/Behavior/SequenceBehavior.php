@@ -109,7 +109,7 @@
 		protected $_update;
 
 		/**
-		 * @brief internal cache of the settings per model
+		 * internal cache of the settings per model
 		 *
 		 * @access private
 		 * @var array
@@ -214,7 +214,7 @@
 		}
 
 		/**
-		 * @brief ordering for new rows
+		 * ordering for new rows
 		 *
 		 * This method works out what needs to be done for new rows, called in beforeSave()
 		 *
@@ -251,7 +251,7 @@
 		}
 
 		/**
-		 * @brief ordering for new rows
+		 * ordering for new rows
 		 *
 		 * This method works out what needs to be done for new rows, called in beforeSave()
 		 *

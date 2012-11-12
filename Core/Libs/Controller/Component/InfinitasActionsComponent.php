@@ -5,7 +5,7 @@
 	App::uses('InfinitasComponent', 'Libs.Controller/Component');
 	class InfinitasActionsComponent extends InfinitasComponent {
 		/**
-		 * @brief get a list of all the plugins in the app
+		 * get a list of all the plugins in the app
 		 *
 		 * @access public
 		 *
@@ -16,7 +16,7 @@
 		}
 
 		/**
-		 * @brief get a list of all the controllers for the selected plugin
+		 * get a list of all the controllers for the selected plugin
 		 *
 		 * @access public
 		 *
@@ -37,7 +37,7 @@
 		}
 
 		/**
-		 * @brief get a list of all the models for the selected plugin
+		 * get a list of all the models for the selected plugin
 		 *
 		 * @access public
 		 *
@@ -58,7 +58,7 @@
 		}
 
 		/**
-		 * @brief get a list of all the actions for the selected plugin + controller
+		 * get a list of all the actions for the selected plugin + controller
 		 *
 		 * @access public
 		 *
@@ -81,7 +81,7 @@
 		}
 
 		/**
-		 * @brief get a list of all the actions for the selected plugin + controller
+		 * get a list of all the actions for the selected plugin + controller
 		 *
 		 * @access public
 		 *
@@ -104,7 +104,7 @@
 		}
 
 		/**
-		 * @brief Simple Admin add method.
+		 * Simple Admin add method.
 		 *
 		 * If you need simple Add method for your admin just dont create one and
 		 * it will fall back to this. It does the basics, saveAll with a
@@ -132,7 +132,7 @@
 		}
 
 		/**
-		 * @brief Simple Admin edit method
+		 * Simple Admin edit method
 		 *
 		 * If you need simple Edit method for your admin just dont create one and
 		 * it will fall back to this. It does the basics, saveAll with a
@@ -173,7 +173,7 @@
 		}
 
 		/**
-		 * @brief preview pages from admin when they are inactive
+		 * preview pages from admin when they are inactive
 		 *
 		 * method for admin to preview items without having them active, this
 		 * expects a few things from the code being previewed.
@@ -225,7 +225,7 @@
 		}
 
 		/**
-		 * @brief prg method to show the users documents
+		 * prg method to show the users documents
 		 *
 		 * redirects to the filtered url for the users own records
 		 */
@@ -306,7 +306,7 @@
 		}
 
 		/**
-		 * @brief Common method for rating.
+		 * Common method for rating.
 		 *
 		 * This is the default method for a rating, if you would like to change
 		 * the way it works for your own plugin just define your own method in the

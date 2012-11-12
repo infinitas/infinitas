@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for ContactAddress tests.
+ * fixture file for ContactAddress tests.
  *
  * @package Contact.Fixture
  * @since 0.9b1

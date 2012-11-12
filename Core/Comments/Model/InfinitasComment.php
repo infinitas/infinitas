@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Comment Model class file handles comment CRUD.
+	 * Comment Model class file handles comment CRUD.
 	 *
 	 * This is the model that handles comment saving and other CRUD actions, the
 	 * commentable behavior will auto relate and attach this model to the models
@@ -146,7 +146,7 @@
 
 
 		/**
-		 * @brief hack to get the attributes for comments
+		 * hack to get the attributes for comments
 		 *
 		 * @todo this is a hack to get the atributes in the comment, this should
 		 * be handled in the attributes behavior but cake does not do model callbacks
@@ -196,7 +196,7 @@
 		}
 
 		/**
-		 * @brief get comments by user
+		 * get comments by user
 		 *
 		 * Find all comments that a particulat user has created with a limit of
 		 * $limit
@@ -224,7 +224,7 @@
 		}
 
 		/**
-		 * @brief get some stats for notices in admin
+		 * get some stats for notices in admin
 		 *
 		 * Find the number of comments that are pending and active so admin will
 		 * be able to take action.
@@ -273,7 +273,7 @@
 		}
 
 		/**
-		 * @brief get a list of all the models that have comments
+		 * get a list of all the models that have comments
 		 *
 		 * @todo add cache
 		 *
@@ -301,7 +301,7 @@
 		}
 
 		/**
-		 * @brief get a list of the latest comments
+		 * get a list of the latest comments
 		 *
 		 * used in things like comment wigets etc. will get a list of comments
 		 * from the site.

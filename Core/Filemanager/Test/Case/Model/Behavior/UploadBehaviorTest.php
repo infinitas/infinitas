@@ -17,7 +17,7 @@ class TestUpload extends CakeTestModel {
 
 class UploadBehaviorTest extends CakeTestCase {
 /**
- * @brief fixtures for the test
+ * fixtures for the test
  * 
  * @var array
  */
@@ -26,35 +26,35 @@ class UploadBehaviorTest extends CakeTestCase {
 	);
 
 /**
- * @brief TestUpload model
+ * TestUpload model
  * 
  * @var CakeTestModel
  */
 	public $TestUpload = null;
 	
 /**
- * @brief MockUpload behavior
+ * MockUpload behavior
  * 
  * @var UploadBehavior
  */
 	public $MockUpload = null;
 
 /**
- * @brief data
+ * data
  * 
  * @var array
  */
 	public $data = array();
 	
 /**
- * @brief current test being run
+ * current test being run
  * 
  * @var string
  */
 	public $currentTestMethod;
 
 /**
- * @brief start test
+ * start test
  * 
  * @return void
  */
@@ -95,7 +95,7 @@ class UploadBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * @brief end test
+ * end test
  * 
  * @return void
  */
@@ -108,7 +108,7 @@ class UploadBehaviorTest extends CakeTestCase {
 	}
 
 /**
- * @brief create an upload behavior mock
+ * create an upload behavior mock
  * 
  * @param  array  $methods [description]
  * 

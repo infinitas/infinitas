@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for BouncedMail tests.
+ * fixture file for BouncedMail tests.
  *
  * @package Newsletter.Fixture
  * @since 0.9b1

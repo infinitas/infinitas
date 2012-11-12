@@ -100,7 +100,7 @@ class UploadBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief set up virtual fields for the model object for easy access to the image files
+ * set up virtual fields for the model object for easy access to the image files
  *
  * @param Model $Model
  * @param string $field
@@ -165,7 +165,7 @@ class UploadBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief get the url path to where images are stored.
+ * get the url path to where images are stored.
  *
  * @param Model $Model
  * @param string $field
@@ -1368,7 +1368,7 @@ class UploadBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @brief get the upload path the model is set to use
+	 * get the upload path the model is set to use
 	 *
 	 * @access public
 	 *
@@ -1386,7 +1386,7 @@ class UploadBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * @brief get the full path for images
+	 * get the full path for images
 	 *
 	 * @access public
 	 *

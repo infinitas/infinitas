@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Campaign tests.
+ * fixture file for Campaign tests.
  *
  * @package Newsletter.Fixture
  * @since 0.9b1

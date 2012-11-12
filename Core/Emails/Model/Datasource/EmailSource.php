@@ -137,7 +137,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief connect to the mail server
+ * connect to the mail server
  */
 	private function __connectToServer($Model, $query) {
 		if ($this->connected) {
@@ -181,7 +181,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief load connection details from the database
+ * load connection details from the database
  *
  * @param Model $Model the model being used
  * @param string $emailAccountId the email account id
@@ -202,7 +202,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief load the socket class for the connection
+ * load the socket class for the connection
  *
  * See Emails/Network/*Socket.php for available socket types
  *
@@ -423,7 +423,7 @@ class EmailSource extends DataSource {
 
 
 /**
- * @brief get the count of mails for the given conditions and params
+ * get the count of mails for the given conditions and params
  *
  * @todo conditions / order other find params
  *
@@ -436,7 +436,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief used to check / get the attachements in an email.
+ * used to check / get the attachements in an email.
  *
  * @param object $structure the structure of the email
  * @param bool $count count them (true), or get them (false)
@@ -486,7 +486,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief calculate pagination
+ * calculate pagination
  *
  * Figure out how many and from where emails should be returned. Uses the
  * current page and the limit set to figure out what to send back
@@ -519,7 +519,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief get the mime type of the specifed structure
+ * get the mime type of the specifed structure
  *
  * @param object $structure the structure to get the mime type of
  *
@@ -535,7 +535,7 @@ class EmailSource extends DataSource {
 	}
 
 /**
- * @brief get part of an email
+ * get part of an email
  *
  * @param string $msgNumber the message to get from
  * @param string $mimeType the message part mime type

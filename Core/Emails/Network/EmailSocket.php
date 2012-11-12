@@ -80,7 +80,7 @@
 		);
 
 		/**
-		 * @brief a unique key per server so that some commands do not need to be run all the time
+		 * a unique key per server so that some commands do not need to be run all the time
 		 */
 		private $__cacheKey;
 
@@ -91,7 +91,7 @@
 		protected $_response = array();
 
 		/**
-		 * @brief a list of capabilities that the server has available.
+		 * a list of capabilities that the server has available.
 		 *
 		 * @property _capabilities
 		 */
@@ -107,7 +107,7 @@
 		}
 
 		/**
-		 * @brief attempt to log the user out of the mail server
+		 * attempt to log the user out of the mail server
 		 *
 		 * This is part of the cleanup process, if the driver has done authentication
 		 * you should use this method to logout of the session.
@@ -117,7 +117,7 @@
 		abstract public function logout();
 
 		/**
-		 * @brief Get some basic stats for the email account
+		 * Get some basic stats for the email account
 		 *
 		 * This method should be cached per user and can be used as a way to
 		 * check if there is any new mail. A hash of the number of mails + the
@@ -128,19 +128,19 @@
 		abstract protected function _getStats();
 
 		/**
-		 * @brief Get a list of the mail numbers and the sizes for later use
+		 * Get a list of the mail numbers and the sizes for later use
 		 *
 		 * @return bool true if found, false if not
 		 */
 		abstract protected function _getList();
 
 		/**
-		 * @brief Get the details of what the server has available
+		 * Get the details of what the server has available
 		 */
 		abstract protected function _getCapabilities();
 
 		/**
-		 * @brief Get a list of possible mail boxes
+		 * Get a list of possible mail boxes
 		 *
 		 * This should be cached per user
 		 *
@@ -151,7 +151,7 @@
 		abstract protected function _getMailboxes($ref = '', $wildcard = '*');
 
 		/**
-		 * @brief Just returns a +OK response for keep-alive
+		 * Just returns a +OK response for keep-alive
 		 *
 		 * @link http://www.apps.ietf.org/rfc/rfc1939.html#page-9
 		 *
@@ -162,7 +162,7 @@
 		abstract public function noop();
 
 		/**
-		 * @brief Sort of undelete
+		 * Sort of undelete
 		 *
 		 * will reset mails that were set to delete.
 		 *
@@ -175,7 +175,7 @@
 		abstract public function undoDeletes();
 
 		/**
-		 * @brief allow method chaning for setting values
+		 * allow method chaning for setting values
 		 *
 		 * The set method is able to take an array of values or normal name, value
 		 * params so you are able to connect in a number of ways. The following
@@ -205,7 +205,7 @@
 		}
 
 		/**
-		 * @brief set the connection details
+		 * set the connection details
 		 *
 		 * @param string $name
 		 * @param string|integer $value
@@ -256,7 +256,7 @@
 		}
 
 		/**
-		 * @brief Check if there is a connection to the mail server
+		 * Check if there is a connection to the mail server
 		 *
 		 * @access public
 		 *
@@ -267,7 +267,7 @@
 		}
 
 		/**
-		 * @brief set up the connection for the socket
+		 * set up the connection for the socket
 		 *
 		 * This method will connect to the server and wait for the welcome
 		 * message. It is the responsibility of the driver to authenticate
@@ -290,7 +290,7 @@
 		}
 
 		/**
-		 * @brief Read data directly from the socket that is open
+		 * Read data directly from the socket that is open
 		 *
 		 * This is the low level interface to the socket class for reading data
 		 * from the mail server. You are able to pass a call back method that
@@ -365,7 +365,7 @@
 		}
 
 		/**
-		 * @brief get the last response from the server
+		 * get the last response from the server
 		 *
 		 * @return <type>
 		 */
@@ -379,7 +379,7 @@
 		}
 
 		/**
-		 * @brief Check if the server has the capability passed in
+		 * Check if the server has the capability passed in
 		 *
 		 * @param string $capability check the drivers for a list of capabilities
 		 *
@@ -390,7 +390,7 @@
 		}
 
 		/**
-		 * @brief Explode the data into an array and remove the new lines
+		 * Explode the data into an array and remove the new lines
 		 *
 		 * the data will be returned as array('response_code' => array('data', 'goes', 'here'))
 		 *
@@ -411,7 +411,7 @@
 		}
 
 		/**
-		 * @brief Generate a unique cache key for the server that is being used.
+		 * Generate a unique cache key for the server that is being used.
 		 */
 		private function __cacheKey() {
 			if(!$this->__cacheKey) {
@@ -422,7 +422,7 @@
 		}
 
 		/**
-		 * @brief wrapper for Cache::read()
+		 * wrapper for Cache::read()
 		 *
 		 * @link http://api13.cakephp.org/class/cache#method-Cacheread
 		 *
@@ -437,7 +437,7 @@
 		}
 
 		/**
-		 * @brief wrapper for Cache::write()
+		 * wrapper for Cache::write()
 		 *
 		 * @link http://api13.cakephp.org/class/cache#method-Cachewrite
 		 *
@@ -453,7 +453,7 @@
 		}
 
 		/**
-		 * @brief record an error
+		 * record an error
 		 *
 		 * @param string $text the error message
 		 * @access public
@@ -466,7 +466,7 @@
 		}
 
 		/**
-		 * @brief Log the raw data that the server is returning
+		 * Log the raw data that the server is returning
 		 *
 		 * @param string $text the raw logs
 		 * @param integer $size the size of the packet
@@ -486,7 +486,7 @@
 		}
 
 		/**
-		 * @brief Get any errors that occured during the connection
+		 * Get any errors that occured during the connection
 		 *
 		 * @access public
 		 *
@@ -497,7 +497,7 @@
 		}
 
 		/**
-		 * @brief public method to get the raw logs
+		 * public method to get the raw logs
 		 *
 		 * @access public
 		 *

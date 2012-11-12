@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Country tests.
+ * fixture file for Country tests.
  *
  * @package Contact.Fixture
  * @since 0.9b1

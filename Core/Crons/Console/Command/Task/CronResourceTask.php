@@ -18,7 +18,7 @@
 		}
 
 		/**
-		 * @brief overload log to show on the screen when needed and log files
+		 * overload log to show on the screen when needed and log files
 		 *
 		 * @see http://api13.cakephp.org/class/object#method-Objectlog
 		 *
@@ -33,7 +33,7 @@
 		}
 
 		/**
-		 * @brief overload the hr method so the logs are more readable
+		 * overload the hr method so the logs are more readable
 		 */
 		public function hr() {
 			$this->log('');
@@ -42,7 +42,7 @@
 		}
 
 		/**
-		 * @brief Log the memory usage as we go along to make sure things dont get out of hand
+		 * Log the memory usage as we go along to make sure things dont get out of hand
 		 *
 		 * Eventually if something is hogging to much memory it will (should) be
 		 * stopped so that the server is not hogged.
@@ -93,7 +93,7 @@
 		}
 
 		/**
-		 * @brief Log the server load while crons are running
+		 * Log the server load while crons are running
 		 *
 		 * @access public
 		 *
@@ -111,28 +111,28 @@
 		}
 
 		/**
-		 * @brief Get the current average memory usage
+		 * Get the current average memory usage
 		 */
 		public function averageMemoryUsage() {
 			return round(array_sum($this->_memoryLog) / count($this->_memoryLog), 3);
 		}
 
 		/**
-		 * @brief Get the current average memory usage
+		 * Get the current average memory usage
 		 */
 		public function averageLoad() {
 			return array_sum($this->_loadLog) / count($this->_loadLog);
 		}
 
 		/**
-		 * @brief Get the time elapsed since the start
+		 * Get the time elapsed since the start
 		 */
 		public function elapsedTime() {
 			return round(microtime(true) - $this->start, 3);
 		}
 
 		/**
-		 * @brief output some stats for the cron that just ran
+		 * output some stats for the cron that just ran
 		 */
 		public function stats() {
 			if($this->verbose) {

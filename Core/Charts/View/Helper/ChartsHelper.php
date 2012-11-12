@@ -3,7 +3,7 @@
 	App::uses('AppHelper', 'View/Helper');
 
 	/**
-	 * @brief Charts helper is a charting abstraction that is extended by using different
+	 * Charts helper is a charting abstraction that is extended by using different
 	 * engines.
 	 *
 	 * The charts helper uses the same sort of Engine pattern found in CakePHP's
@@ -32,7 +32,7 @@
 
 	class ChartsHelper extends AppHelper {
 		/**
-		 * @brief the engine to use when rendering the chart
+		 * the engine to use when rendering the chart
 		 *
 		 * @var string
 		 * @access public
@@ -40,7 +40,7 @@
 		public $engine = null;
 
 		/**
-		 * @brief The raw chart data.
+		 * The raw chart data.
 		 *
 		 * @var array
 		 * @access public
@@ -48,7 +48,7 @@
 		public $data = array();
 
 		/**
-		 * @brief normalize data to a percentage
+		 * normalize data to a percentage
 		 *
 		 * should the data be normalized to a base 100, good for high numbers
 		 * in the data set. look will still be the same as the y axis will use
@@ -62,7 +62,7 @@
 		public $normalize = true;
 
 		/**
-		 * @brief Current Javascript Engine that is being used
+		 * Current Javascript Engine that is being used
 		 *
 		 * @var string
 		 * @access private
@@ -70,7 +70,7 @@
 		private $__engineName = null;
 
 		/**
-		 * @brief Defaults for the charts
+		 * Defaults for the charts
 		 *
 		 * @var array
 		 * @access private
@@ -93,7 +93,7 @@
 		);
 
 		/**
-		 * @brief Construct the charts object.
+		 * Construct the charts object.
 		 *
 		 * This will take the settings passed to the helper and set the engine
 		 * to that value. A default of HtmlChartEngine is used when nothing matches
@@ -122,7 +122,7 @@
 		}
 
 		/**
-		 * @brief draw the chart
+		 * draw the chart
 		 *
 		 * if passing the data to this method it will call the processing methods
 		 * and then dispatch the data to the engine that was set. If you have already
@@ -175,7 +175,7 @@
 		}
 
 		/**
-		 * @brief set the type of chart to draw
+		 * set the type of chart to draw
 		 *
 		 * set the type of chart. $type is the method that will be called in the
 		 * selected engine. if an array is passed the extra details will be sent
@@ -202,7 +202,7 @@
 		}
 
 		/**
-		 * @brief set the title of the chart
+		 * set the title of the chart
 		 *
 		 * @param string $title a title for the chart
 		 * @access public
@@ -229,7 +229,7 @@
 		}
 
 		/**
-		 * @brief set the charts width
+		 * set the charts width
 		 *
 		 * @param int $width the width of the chart
 		 * @access public
@@ -248,7 +248,7 @@
 		}
 
 		/**
-		 * @brief set the charts height
+		 * set the charts height
 		 *
 		 * @param int $height the height of the chart
 		 * @access public
@@ -267,7 +267,7 @@
 		}
 
 		/**
-		 * @brief set the width and height in one call
+		 * set the width and height in one call
 		 *
 		 * set the charts size, can take an array of width / height or just width,
 		 * an int for width or a comma seperated list of width,height
@@ -329,7 +329,7 @@
 		}
 
 		/**
-		 * @brief set the axes available in the chart.
+		 * set the axes available in the chart.
 		 *
 		 * the array passed should be a key => value array where the
 		 * keys are the axes, the values would be the lables for that axis
@@ -355,7 +355,7 @@
 		}
 
 		/**
-		 * @brief build the labels for each axis
+		 * build the labels for each axis
 		 *
 		 * This method fills each axis with labels, they can either be passed in
 		 * or generated automaically.
@@ -415,7 +415,7 @@
 		}
 
 		/**
-		 * @brief Set the chart data
+		 * Set the chart data
 		 *
 		 * This method sets the actuall data for the chart. if the normalize key
 		 * is true the data will be converted to a % or 100.
@@ -449,7 +449,7 @@
 		}
 
 		/**
-		 * @brief set color options for the chart
+		 * set color options for the chart
 		 *
 		 * @param array $colors key values like background -> ff0000
 		 * @access public
@@ -475,7 +475,7 @@
 		}
 
 		/**
-		 * @brief set the scale and increments for the graph.
+		 * set the scale and increments for the graph.
 		 *
 		 * @param array $data the data for the chart
 		 * @param int $increments the number of steps in the axis defaults to 6
@@ -499,7 +499,7 @@
 		}
 
 		/**
-		 * @brief set spacing.
+		 * set spacing.
 		 *
 		 * Adjust the spacing of values and elemnts in the chart passing the
 		 * options here.
@@ -526,7 +526,7 @@
 		}
 
 		/**
-		 * @brief set the tool tip
+		 * set the tool tip
 		 *
 		 * Used to set the tool tip pattern that will be applied where possible
 		 * to the elements in the chart to display some more detailed information
@@ -554,7 +554,7 @@
 		}
 
 		/**
-		 * @brief set some extra data for the engine
+		 * set some extra data for the engine
 		 *
 		 * This is used to pass things like extra params to the engine building
 		 * the chart.
@@ -570,7 +570,7 @@
 		}
 
 		/**
-		 * @brief Build the data array to be passed to the engine selected
+		 * Build the data array to be passed to the engine selected
 		 *
 		 * This will take the data when it is passed to the main method (not using the
 		 * seperate methods) and call all the required methods to properly format the data
@@ -604,7 +604,7 @@
 		}
 
 		/**
-		 * @brief validate the chart data.
+		 * validate the chart data.
 		 *
 		 * This makes sure that the data is in a std format and converts any
 		 * comma seperated lists of data into arrays.
@@ -641,7 +641,7 @@
 		}
 
 		/**
-		 * @brief normalize data to percentage values
+		 * normalize data to percentage values
 		 *
 		 * convert large values to % values so that the data being manipulated
 		 * is much smaller. There is no difference in the presentation
@@ -692,7 +692,7 @@
 		}
 
 		/**
-		 * @brief Convert strings to arrays.
+		 * Convert strings to arrays.
 		 *
 		 * Defaults to comma seperated lists but could be anything like | for
 		 * example.
@@ -759,7 +759,7 @@
 		}
 
 		/**
-		 * @brief wrapper for stats.
+		 * wrapper for stats.
 		 *
 		 * Lazy way to get the various averages, min max etx that is used to
 		 * workout things like labels, position siezes and build the chart later
@@ -779,7 +779,7 @@
 		}
 
 		/**
-		 * @brief Get the maximum value that is in the data array.
+		 * Get the maximum value that is in the data array.
 		 *
 		 * The value is cached to the data array and just returned when its set.
 		 *
@@ -803,7 +803,7 @@
 
 
 		/**
-		 * @brief Get the minimum value that is in the data array.
+		 * Get the minimum value that is in the data array.
 		 *
 		 * The value is cached to the data array and just returned when its set.
 		 *
@@ -826,7 +826,7 @@
 		}
 
 		/**
-		 * @brief get the average of all data values
+		 * get the average of all data values
 		 *
 		 * get the average amount for all the data that was passed for chart
 		 * rendering.
@@ -851,7 +851,7 @@
 		}
 
 		/**
-		 * @brief send the request to the engine specified.
+		 * send the request to the engine specified.
 		 *
 		 * do some final checks and then if all is good trigger the chart engine
 		 * that is needed and return the chart.

@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief CategorisableBehavior Allows any model to have categories.
+	 * CategorisableBehavior Allows any model to have categories.
 	 *
 	 * Add the field category_id to your model to have it all auto bind the
 	 * behaviors and relate the models

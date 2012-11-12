@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief ContactsHelper is a collection of methods to help build up contact related
+	 * ContactsHelper is a collection of methods to help build up contact related
 	 * pages
 	 *
 	 * Currently can output a business card type markup for contacts.

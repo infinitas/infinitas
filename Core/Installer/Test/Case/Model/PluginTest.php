@@ -264,7 +264,7 @@ class PluginTest extends CakeTestCase {
 	}
 
 /**
- * @brief you should have all the supported plugins available for testing plugins
+ * you should have all the supported plugins available for testing plugins
  * @test installing a plugin
  */
 	public function testInstallPlugin() {

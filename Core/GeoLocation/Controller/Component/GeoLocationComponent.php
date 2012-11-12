@@ -9,7 +9,7 @@ class GeoLocationComponent extends InfinitasComponent {
 	public $configs = array();
 
 /**
- * @brief load up the users location data when available
+ * load up the users location data when available
  *
  * @param Controller $Controller
  */

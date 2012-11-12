@@ -3,13 +3,14 @@
 	 * The helper definition for the Script Combiner helper.
 	 * @author Geoffrey Garbers
 	 * @version 0.1
+	 * @package Assets.Helper
 	 *
 	 * @property JavascriptHelper $Javascript
 	 */
 
 	App::uses('InfinitasHelper', 'Libs.View/Helper');
 	App::uses('File', 'Utility');
-	
+
 	class CompressHelper extends InfinitasHelper {
 		/**
 		 * The directory to which the combined CSS files will be cached.
@@ -60,8 +61,8 @@
 			$cacheLength = Configure::read('Assets.cacheLength');
 			if (is_string($cacheLength)) {
 				$this->cacheLength = strtotime($cacheLength) - time();
-			} 
-			
+			}
+
 			else {
 				$this->cacheLength = (int)$cacheLength;
 			}
@@ -158,7 +159,7 @@
 						$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
 						$css = str_replace('../', '/' .$parts[0] . '/', $css);
 					}
-					
+
 					$cssData[] = $css;
 					unset($parts, $css);
 				}
@@ -175,7 +176,7 @@
 
 		public function script() {
 			$args = func_get_args();
-			
+
 			if(!empty($args)) {
 				$tmp = array();
 				foreach($args[0] as $k => &$v) {
@@ -186,9 +187,9 @@
 				}
 				return call_user_func_array(array($this, 'js'), $args) .
 					$this->Html->script($tmp);
-				
+
 			}
-			
+
 			else {
 				return $this->js();
 			}
@@ -229,9 +230,9 @@
 			if ($this->File->write($jsData)) {
 				return $this->Html->script($this->convertToUrl($cacheFile));
 			}
-			
+
 			CakeLog::write('assets', 'Unable to write combined js file');
-			
+
 			$this->Html->script($jsFiles);
 		}
 
@@ -349,7 +350,7 @@
 		 */
 		private function compressJs($jsData) {
 			App::uses('JSMin', 'Assets.Lib');
-			
+
 			return JSMin::minify($jsData);
 		}
 	}

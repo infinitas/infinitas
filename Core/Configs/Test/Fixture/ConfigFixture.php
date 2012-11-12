@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Config tests.
+ * fixture file for Config tests.
  *
  * @package Configs.Fixture
  * @since 0.9b1

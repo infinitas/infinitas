@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Config model is for saving and editing site configurations.
+	 * Config model is for saving and editing site configurations.
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
@@ -89,7 +89,7 @@
 		}
 
 		/**
-		 * @brief delete config cache
+		 * delete config cache
 		 *
 		 * after saving something delete the main core_configs cache so that
 		 * the changes will take effect
@@ -104,7 +104,7 @@
 		}
 
 		/**
-		 * @brief delete config cache
+		 * delete config cache
 		 *
 		 * after saving something delete the main core_configs cache so that
 		 * the changes will take effect
@@ -118,7 +118,7 @@
 		}
 
 		/**
-		 * @brief validate the options based on what type is set for the row
+		 * validate the options based on what type is set for the row
 		 *
 		 * @todo this should be renamed to validateCustomOptionCheck
 		 *
@@ -165,7 +165,7 @@
 		}
 
 		/**
-		 * @brief Get configuration for the app.
+		 * Get configuration for the app.
 		 *
 		 * This gets and formats an array of config values for the app to use. it goes
 		 * through the list and formats the values to match the type that was passed.
@@ -228,7 +228,7 @@
 		}
 
 		/**
-		 * @brief format the data into a key value array to be used in Configure::write
+		 * format the data into a key value array to be used in Configure::write
 		 *
 		 * @param array $configs the unformatted configs
 		 * @access private
@@ -249,7 +249,7 @@
 		}
 
 		/**
-		 * @brief Installer setup.
+		 * Installer setup.
 		 *
 		 * This gets some config values that are used in the installer for the site
 		 * setup.
@@ -270,7 +270,7 @@
 		}
 
 		/**
-		 * @brief build up the code to see what is being used or to avoid typing
+		 * build up the code to see what is being used or to avoid typing
 		 *
 		 * Just for generating code for the configs, can be used in the dev installer
 		 * plugin stuff to avoid typing out stuff.
@@ -316,7 +316,7 @@
 		}
 
 		/**
-		 * @brief Get a list of config options that can be overloaded by an admin user.
+		 * Get a list of config options that can be overloaded by an admin user.
 		 *
 		 * This gets a list of possible values that can be changed in the backend
 		 * unsetting a few options first that should not be fiddled with.

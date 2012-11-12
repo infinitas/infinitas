@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief get time zone informtaion
+ * get time zone informtaion
  *
  * Get a time zone based on the two letter country code and region or ip address
  */
@@ -8,7 +8,7 @@
 App::uses('IpLocation', 'GeoLocation.Lib');
 class GeoLocationTimeZone {
 /**
- * @brief get the time zone based on the ip address
+ * get the time zone based on the ip address
  *
  * @param string $ipAddress
  *
@@ -25,7 +25,7 @@ class GeoLocationTimeZone {
 	}
 
 /**
- * @brief get the time zone based on the country / region codes
+ * get the time zone based on the country / region codes
  *
  * Copyright 2009 Maxmind LLC All Rights Reserved
  *

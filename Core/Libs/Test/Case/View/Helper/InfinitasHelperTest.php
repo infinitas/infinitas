@@ -36,7 +36,7 @@ class InfinitasHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test status icon
+ * test status icon
  *
  * @dataProvider statusDataProvider
  */
@@ -46,7 +46,7 @@ class InfinitasHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for testing status
+ * data provider for testing status
  */
 	public function statusDataProvider() {
 		return array(
@@ -102,7 +102,7 @@ class InfinitasHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test mass action check box
+ * test mass action check box
  *
  * @dataProvider massActionCheckBoxDataProvider
  */
@@ -113,7 +113,7 @@ class InfinitasHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for mass action checkbox tests
+ * data provider for mass action checkbox tests
  *
  * @return array
  */
@@ -236,7 +236,7 @@ class InfinitasHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test date display
+ * test date display
  *
  * @param type $data
  * @param type $expected

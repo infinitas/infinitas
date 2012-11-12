@@ -108,7 +108,7 @@
 		public $installerProgress = array();
 
 		/**
-		 * @brief load up the installer lib
+		 * load up the installer lib
 		 *
 		 * The installer uses a lib that is shared between the frontend and shell
 		 * installer.
@@ -176,7 +176,7 @@
 		}
 
 		/**
-		 * @brief welcome page
+		 * welcome page
 		 *
 		 * Does a few system checks to make sure that the server is setup to run
 		 * Infinitas. Check things like paths, extentions and version are correct.
@@ -194,7 +194,7 @@
 		}
 
 		/**
-		 * @brief process welcome
+		 * process welcome
 		 *
 		 * There is nothing to do at this stage
 		 */
@@ -203,7 +203,7 @@
 		}
 
 		/**
-		 * @brief get database connection details
+		 * get database connection details
 		 *
 		 * Get the supported databases that are installed on the server and show
 		 * a form to enter connection details.
@@ -224,7 +224,7 @@
 		}
 
 		/**
-		 * @brief process the details for the databse
+		 * process the details for the databse
 		 *
 		 * Check that the details passed in were correct and that the installer
 		 * is able to connect to the database.
@@ -249,7 +249,7 @@
 		}
 
 		/**
-		 * @brief prepare to install
+		 * prepare to install
 		 *
 		 * Get a list of plugins that will be installed and ask the user if they
 		 * would like to install some sample data.
@@ -272,7 +272,7 @@
 		}
 
 		/**
-		 * @brief install Infinitas and plugins
+		 * install Infinitas and plugins
 		 *
 		 * @todo in prepare make checkboxes next to plugin list and allow users to select plugins to install
 		 *
@@ -289,7 +289,7 @@
 		}
 
 		/**
-		 * @brief get the details of the administrator
+		 * get the details of the administrator
 		 *
 		 * @access public
 		 */
@@ -313,7 +313,7 @@
 		}
 
 		/**
-		 * @brief save the administrator details
+		 * save the administrator details
 		 *
 		 * @access public
 		 */

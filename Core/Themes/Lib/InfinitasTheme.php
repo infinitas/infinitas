@@ -100,7 +100,7 @@
 		}
 		
 		/**
-		 * @brief generate the path to a plugins theme dir
+		 * generate the path to a plugins theme dir
 		 * 
 		 * If the specific theme is available it will return the path to the 
 		 * theme, if not it will return the path to where the themes for that plugin 

@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief ConfigsAppModel is the main model class that all other configuration models
+	 * ConfigsAppModel is the main model class that all other configuration models
 	 * extend.
 	 *
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )

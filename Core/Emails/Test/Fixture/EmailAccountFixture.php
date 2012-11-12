@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for EmailAccount tests.
+ * fixture file for EmailAccount tests.
  *
  * @package Emails.Fixture
  * @since 0.9b1

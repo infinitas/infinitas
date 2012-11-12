@@ -22,11 +22,11 @@ class EventsLayerTest extends PHPUnit_Framework_TestSuite {
 }
 
 /**
- * @brief Iterator for finding event test files
+ * Iterator for finding event test files
  */
 class AllEventsTestsFilterIterator extends FilterIterator {
 /**
- * @brief find all event test files
+ * find all event test files
  *
  * Will return true if its a match
  *

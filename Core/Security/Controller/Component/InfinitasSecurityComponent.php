@@ -12,7 +12,7 @@
 		}
 
 		/**
-		 * @brief look for bots fillilng out honey traps and stop them from being a pain
+		 * look for bots fillilng out honey traps and stop them from being a pain
 		 *
 		 * Bots are redirected to /?spam=true in which case you can use your web
 		 * server to block them or redirect them to another site.

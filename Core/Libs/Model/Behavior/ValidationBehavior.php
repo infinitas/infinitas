@@ -3,7 +3,7 @@ App::uses('Security', 'Utility');
 
 class ValidationBehavior extends ModelBehavior {
 /**
- * @brief check that a field is valid json
+ * check that a field is valid json
  *
  * @param array $field the field being validated
  *
@@ -14,7 +14,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief allow the selection of one field or another
+ * allow the selection of one field or another
  *
  * This is used in times where one thing should be filled out and another
  * should be left empty.
@@ -49,7 +49,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief check for urls either /something/here or full
+ * check for urls either /something/here or full
  *
  * this can be a url relative to the site /my/page or full like
  * http://site.com/my/page it can also be empty for times when the selects
@@ -69,7 +69,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief compare 2 fields and make sure they are the same
+ * compare 2 fields and make sure they are the same
  *
  * This method can compare 2 fields, with password having a special meaning
  * as they will be hashed automatically.
@@ -112,7 +112,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief check if a given foreign key exists
+ * check if a given foreign key exists
  *
  * This is used in to validate foreign keys while saving or updating
  * records
@@ -159,7 +159,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief validate that the passed in plugin is valid
+ * validate that the passed in plugin is valid
  *
  * Simple check for installed plugins
  * @code
@@ -188,7 +188,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief validate that the passed in model exists
+ * validate that the passed in model exists
  *
  * @param Model $Model the model doingvalidation
  * @param array $field the field being validated
@@ -213,7 +213,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief check if the selected controller is valid
+ * check if the selected controller is valid
  *
  * By default this method will look for a field in the models data array called
  * 'plugin'. You can change the behavior by setting the validation as follows
@@ -265,7 +265,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief check that an action exists for the given plugin / controller pair
+ * check that an action exists for the given plugin / controller pair
  *
  * @param Model $Model the model being validated
  * @param array $field the field being validated
@@ -302,7 +302,7 @@ class ValidationBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief get the value of a field
+ * get the value of a field
  *
  * This is an internal method to figure out values based on Model.field or field.
  * If there is no . it is assumed that the field is within the $Model->alias array

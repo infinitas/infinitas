@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for MailSystem tests.
+ * fixture file for MailSystem tests.
  *
  * @package Emails.Fixture
  * @since 0.9b1

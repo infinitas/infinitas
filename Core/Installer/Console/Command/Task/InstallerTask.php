@@ -2,7 +2,7 @@
 App::uses('InstallerLib', 'Installer.Lib');
 
 /**
- * @brief InstallShell
+ * InstallShell
  *
  * @param InstallerTask $Installer
  * @param InfinitasPluginTask $InfinitasPlugin
@@ -11,7 +11,7 @@ App::uses('InstallerLib', 'Installer.Lib');
 
 class InstallerTask extends AppShell {
 /**
- * @brief tasks used for the installer
+ * tasks used for the installer
  *
  * @var array
  */
@@ -21,7 +21,7 @@ class InstallerTask extends AppShell {
 	);
 
 /**
- * @brief install config defaults
+ * install config defaults
  *
  * @var array
  */

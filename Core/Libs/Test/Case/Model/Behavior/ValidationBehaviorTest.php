@@ -28,7 +28,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test json validation
+ * test json validation
  */
 	public function testValidateJson() {
 		$this->User->validate = array(
@@ -56,7 +56,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test either or
+ * test either or
  *
  * @dataProvider eitherOrData
  */
@@ -83,7 +83,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief tests is url or absolute path
+ * tests is url or absolute path
  */
 	public function testValidateUrlOrAbsolute() {
 		$this->User->validate = array(
@@ -125,7 +125,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief tests comparing passwords
+ * tests comparing passwords
  */
 	public function testValidateComparePasswords() {
 		$this->User->validate = array(
@@ -154,7 +154,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test comparing normal fields
+ * test comparing normal fields
  */
 	public function testCompareFields() {
 		$this->User->validate = array(
@@ -179,7 +179,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief check a related record exists
+ * check a related record exists
  */
 	public function testValidateRecordExists() {
 		//Add validation rule for the user record
@@ -211,7 +211,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test validation
+ * test validation
  *
  * @dataProvider pluginValidationData
  */
@@ -229,7 +229,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test validation
+ * test validation
  */
 	public function testValidatePluginExistsAdvanced() {
 		$this->User->validate = array(
@@ -309,7 +309,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test a controller exists within the selected plugin
+ * test a controller exists within the selected plugin
  *
  * @dataProvider controllerValidationData
  */
@@ -329,7 +329,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test a controller exists within hardcoded plugin
+ * test a controller exists within hardcoded plugin
  *
  * @dataProvider controllerValidationAdvancedData
  */
@@ -350,7 +350,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test a controller exists within hardcoded plugin
+ * test a controller exists within hardcoded plugin
  *
  * @dataProvider actionValidationData
  */
@@ -371,7 +371,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief pluginValidationData data provider
+ * pluginValidationData data provider
  */
 	public function pluginValidationData() {
 		return array(
@@ -395,7 +395,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief testValidateEitherOr data provider
+ * testValidateEitherOr data provider
  */
 	public function eitherOrData() {
 		$validation = array(
@@ -463,7 +463,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief controllerValidationData data provider
+ * controllerValidationData data provider
  * @return type
  */
 	public function controllerValidationData() {
@@ -487,7 +487,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief controllerValidationAdvancedData data provider
+ * controllerValidationAdvancedData data provider
  */
 	public function controllerValidationAdvancedData() {
 		return array(
@@ -510,7 +510,7 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief actionValidationData data provider
+ * actionValidationData data provider
  */
 	public function actionValidationData() {
 		return array(

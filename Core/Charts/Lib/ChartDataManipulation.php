@@ -1,4 +1,18 @@
 <?php
+/**
+ * ChartDataManipulation
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Charts.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @author dogmatic69
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ */
 	class ChartDataManipulation extends Object{
 		/**
 		 *
@@ -89,7 +103,7 @@
 			$options = $this->_defaults($options);
 			$return = $this->getDates($data, $options);
 			$return = array_merge($return, $this->getData($data, $options));
-			
+
 			$options['fields'] = $options['blank_field'];
 			$options['stats'] = false;
 			$return = array_merge($return, $this->getData($data, $options));
@@ -100,8 +114,8 @@
 		}
 
 		/**
-		 * @brief normalize data
-		 * 
+		 * normalize data
+		 *
 		 * @param <type> $data
 		 * @param <type> $options
 		 * @return <type>
@@ -110,7 +124,7 @@
 			if(!$options['normalize']) {
 				return $data;
 			}
-			
+
 			$round = isset($options['normalize']['round']) ? (int)$options['normalize']['round'] : 0;
 			$base = isset($options['normalize']['base']) ? (int)$options['normalize']['base'] : (int)$options['normalize'];
 
@@ -125,8 +139,8 @@
 		}
 
 		/**
-		 * @brief get some stats on the numbers passed in
-		 * 
+		 * get some stats on the numbers passed in
+		 *
 		 * @param <type> $data
 		 * @param <type> $options
 		 * @return <type>
@@ -138,21 +152,21 @@
 
 			$empty = array('max' => 0, 'min' => 0, 'total' => 0, 'average' => 0, 'median' => 0);
 			$return = array('stats' => $empty);
-			
+
 			foreach($data as $field => $values) {
-				
+
 				if(empty($values)) {
 					$return['stats'][$field] = $empty;
 					continue;
 				}
-				
+
 				$return['stats'][$field]['max']     = max($values);
 				$return['stats'][$field]['min']     = min($values);
 				$return['stats'][$field]['total']   = array_sum($values);
 				$return['stats'][$field]['average'] = $this->_average($values);
 				$return['stats'][$field]['median']  = $this->_median($values);
 			}
-			
+
 			$values = Set::flatten($data);
 
 			if($values) {
@@ -168,8 +182,8 @@
 		}
 
 		/**
-		 * @brief get the average of an array of numbers
-		 * 
+		 * get the average of an array of numbers
+		 *
 		 * @param <type> $values
 		 * @return <type>
 		 */
@@ -178,8 +192,8 @@
 		}
 
 		/**
-		 * @brief get the median of an array of numbers
-		 * 
+		 * get the median of an array of numbers
+		 *
 		 * @param <type> $values
 		 * @return <type>
 		 */
@@ -187,12 +201,12 @@
 			sort($values);
 			$count = count($values);
 			$mid = intval($count / 2);
-			
+
 			return ($count % 2 == 0) ? ($values[$mid] + $values[$mid - 1]) / 2 : $values[$mid];
 		}
 
 		/**
-		 * @brief extract the min and max date from the data
+		 * extract the min and max date from the data
 		 *
 		 * @param array $data the array of data from the model
 		 * @param string $options options for the extraction
@@ -224,15 +238,15 @@
 		}
 
 		/**
-		 * @brief extract the data from the array
-		 * 
+		 * extract the data from the array
+		 *
 		 * @param <type> $data
 		 * @param <type> $options
 		 * @return <type>
 		 */
 		public function getData($data, $options) {
 			$options = $this->_defaults($options);
-			
+
 			if(!$options['extract'] && $options['alias']) {
 				$options['extract'] = '/' . $options['alias'] . '/%s';
 			}
@@ -244,7 +258,7 @@
 			if(!is_array($options['fields'])) {
 				$options['fields'] = array($options['fields']);
 			}
-			
+
 			$_data = array();
 			foreach($options['fields'] as $field) {
 				$_data[$field] = Set::extract(sprintf($options['extract'], $field), $data);
@@ -263,15 +277,15 @@
 		}
 
 		/**
-		 * @brief normalizes the data
-		 * 
+		 * normalizes the data
+		 *
 		 * @param <type> $data
 		 * @param <type> $options
 		 * @return <type>
 		 */
 		public function getBlanks($data, $options) {
 			$options = $this->_defaults($options);
-			
+
 			if(!$options['blanks']) {
 				return $data;
 			}
@@ -279,7 +293,7 @@
 			if(!is_array($options['range'])) {
 				return array();
 			}
-			
+
 			if(count($data) != count($options['range'])) {
 				switch($options['insert']) {
 					case 'before':
@@ -298,14 +312,14 @@
 						return array();
 						break;
 				}
-			}			
+			}
 
 			return $data;
 		}
 
 		/**
-		 * @brief sets all values to a default so that no checks need to be done
-		 * 
+		 * sets all values to a default so that no checks need to be done
+		 *
 		 * @param <type> $options
 		 * @return <type>
 		 */

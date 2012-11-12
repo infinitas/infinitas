@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Configuration defaults for the comments plugin
+	 * Configuration defaults for the comments plugin
 	 *
 	 * Default options should always be overlaoded in the backend via the
 	 * congfigs plugin.

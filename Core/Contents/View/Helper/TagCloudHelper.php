@@ -104,7 +104,7 @@
 		}
 
 		/**
-		 * @brief convert an array of tags to a list of tags with links
+		 * convert an array of tags to a list of tags with links
 		 *
 		 * @access public
 		 *

@@ -2,7 +2,7 @@
 App::uses('InstallerLib', 'Installer.Lib');
 
 /**
- * @brief InstallShell
+ * InstallShell
  *
  * @param InstallerTask $Installer
  * @param InfinitasPluginTask $InfinitasPlugin
@@ -11,7 +11,7 @@ App::uses('InstallerLib', 'Installer.Lib');
 
 class InstallShell extends AppShell {
 /**
- * @brief install related tasks to load
+ * install related tasks to load
  *
  * @var array
  */
@@ -21,7 +21,7 @@ class InstallShell extends AppShell {
 	);
 
 /**
- * @brief Setup the installer lib class
+ * Setup the installer lib class
  *
  * @param type $stdout
  * @param type $stderr
@@ -34,7 +34,7 @@ class InstallShell extends AppShell {
 	}
 
 /**
- * @brief display help
+ * display help
  */
 	public function help() {
 		$this->h1('Interactive Install Shell Help');

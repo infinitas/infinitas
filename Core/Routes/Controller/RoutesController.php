@@ -21,7 +21,7 @@ class RoutesController extends RoutesAppController {
 	public $listThemes = array(0 => 'Default');
 
 /**
- * @brief get a list of themes
+ * get a list of themes
  * 
  * @return boolean
  */
@@ -35,7 +35,7 @@ class RoutesController extends RoutesAppController {
 	}
 
 /**
- * @brief list the routes for the site
+ * list the routes for the site
  * 
  * @return void
  */
@@ -61,7 +61,7 @@ class RoutesController extends RoutesAppController {
 	}
 
 /**
- * @brief add a new route
+ * add a new route
  * 
  * @return void
  */
@@ -74,7 +74,7 @@ class RoutesController extends RoutesAppController {
 	}
 
 /**
- * @brief edit an existing route
+ * edit an existing route
  * 
  * @param stirng $id the id of the route being edited
  * 

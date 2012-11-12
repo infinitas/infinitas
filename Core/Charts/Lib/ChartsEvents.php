@@ -89,7 +89,7 @@
  */
 
 /**
- * @brief Charts plugin events
+ * Charts plugin events
  *
  * The events for the charts plugin allows the plugin to integrate with the
  * core code.
@@ -108,14 +108,14 @@
 
 class ChartsEvents extends AppEvents {
 /**
- * @brief make the required libs available
+ * make the required libs available
  */
 	public function onRequireLibs() {
 		App::uses('ChartDataManipulation', 'Charts.Lib');
 	}
 
 /**
- * @brief load the default helpers for the chart engine
+ * load the default helpers for the chart engine
  *
  * @param Event $event
  *

@@ -361,7 +361,7 @@
 		}
 
 		/**
-		 * @brief trigger the tag save
+		 * trigger the tag save
 		 *
 		 * As cake does not trigger events down deep relations we need to trigger
 		 * the tag save here. The model being saved is the one using GlobalContent

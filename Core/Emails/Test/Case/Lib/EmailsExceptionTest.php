@@ -1,12 +1,12 @@
 <?php
 /**
- * @brief test email exceptions
+ * test email exceptions
  */
 App::uses('InfinitasExceptionTestCase', 'Libs.Test/Lib');
 
 class EmailsExceptionTest extends InfinitasExceptionTestCase {
 /**
- * @brief test exception message
+ * test exception message
  *
  * @dataProvider exceptionMessageDataProvider
  */
@@ -16,7 +16,7 @@ class EmailsExceptionTest extends InfinitasExceptionTestCase {
 	}
 
 /**
- * @brief exception message data provider
+ * exception message data provider
  *
  * @return array
  */

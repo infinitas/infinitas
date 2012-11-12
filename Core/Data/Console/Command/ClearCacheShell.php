@@ -60,7 +60,7 @@ class ClearCacheShell extends AppShell {
 	}
 
 /**
- * @brief see how much cache is being used by different engines
+ * see how much cache is being used by different engines
  *
  * @return void
  */
@@ -110,7 +110,7 @@ class ClearCacheShell extends AppShell {
 	}
 
 /**
- * @brief output the results of the cache clearing
+ * output the results of the cache clearing
  *
  * @param array $output
  *

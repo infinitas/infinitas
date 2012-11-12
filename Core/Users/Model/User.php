@@ -101,7 +101,7 @@
 		}
 
 		/**
-		 * @brief auto hash passwords when other plugins use the model with a different alias
+		 * auto hash passwords when other plugins use the model with a different alias
 		 *
 		 * Auth does not auto has the pw field when the alias is not User, so we 
 		 * have to do it here so that it seems auto for other plugins.
@@ -252,7 +252,7 @@
 		}
 
 		/**
-		 * @brief check that the given user id is a valid user.
+		 * check that the given user id is a valid user.
 		 *
 		 * @access public
 		 *
@@ -295,7 +295,7 @@
 		}
 
 		/**
-		 * @brief get a count of registrations per month for the last two years
+		 * get a count of registrations per month for the last two years
 		 *
 		 * @access public
 		 *

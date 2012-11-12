@@ -25,7 +25,7 @@ App::uses('AppHelper', 'View/Helper');
 
 class InfinitasHelper extends AppHelper {
 /**
- * @brief other helpers being used
+ * other helpers being used
  *
  * @var array
  */
@@ -98,7 +98,7 @@ class InfinitasHelper extends AppHelper {
 	}
 
 /**
- * @brief generate a checkbox for rows that use mass_action stuff
+ * generate a checkbox for rows that use mass_action stuff
  *
  * it will keep track of the $i for the checkbox number so there are no duplicates.
  * MassActionComponent::filter() will remove these fields from the searches so there
@@ -137,7 +137,7 @@ class InfinitasHelper extends AppHelper {
 	}
 
 /**
- * @brief generate a date display box
+ * generate a date display box
  *
  * @param string|array $date a date string or record with created / modified date
  * @param string $method the CakeTime method to use

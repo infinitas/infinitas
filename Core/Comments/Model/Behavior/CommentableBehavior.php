@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Commentable Model Behavior
+	 * Commentable Model Behavior
 	 *
 	 * Allows you to attach a comment to any model in your application
 	 * Moderates/Validates comments to check for spam.
@@ -60,7 +60,7 @@
 		private $__settings = array();
 
 		/**
-		 * @brief Initiate behaviour for the model using settings.
+		 * Initiate behaviour for the model using settings.
 		 *
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
@@ -141,7 +141,7 @@
 		}
 
 		/**
-		 * @brief create a new comment calls the methods to do the spam checks
+		 * create a new comment calls the methods to do the spam checks
 		 *
 		 * @param object $Model the model object
 		 * @param array $data the comment being saved
@@ -258,7 +258,7 @@
 		}
 
 		/**
-		 * @brief gets comments
+		 * gets comments
 		 *
 		 * @var $Model object the model object
 		 * @var $options array the data from the form
@@ -288,7 +288,7 @@
 		}
 
 		/**
-		 * @brief get the rating of a comment before its saved
+		 * get the rating of a comment before its saved
 		 *
 		 * the main method that calls all the comment rating code. after getting
 		 * the score it will set a staus for the comment.
@@ -335,7 +335,7 @@
 		}
 
 		/**
-		 * @brief adds points based on the amount and length of links in the comment
+		 * adds points based on the amount and length of links in the comment
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
@@ -380,7 +380,7 @@
 		}
 
 		/**
-		 * @brief rate according to the lenght of the text
+		 * rate according to the lenght of the text
 		 *
 		 * Rate the length of the comment. if the length is greater than the required
 		 * and there are no links then 2 points are added. with links only 1 point
@@ -413,7 +413,7 @@
 		}
 
 		/**
-		 * @brief rate according to past history
+		 * rate according to past history
 		 *
 		 * Check previous comments by the same user. If they have been marked as
 		 * active they get points added, if they are marked as spam points are
@@ -469,7 +469,7 @@
 		}
 
 		/**
-		 * @brief check for blacklisted words
+		 * check for blacklisted words
 		 *
 		 * Checks the text to see if it contains any of the blacklisted words.
 		 * If there are, 1 point is deducted for each match.
@@ -493,7 +493,7 @@
 		}
 
 		/**
-		 * @brief rate according to the start of the comment
+		 * rate according to the start of the comment
 		 *
 		 * Checks the first word against the blacklist keywords. if there is a
 		 * match then 10 points are deducted.
@@ -515,7 +515,7 @@
 		}
 
 		/**
-		 * @brief Deduct points if it is a copy of any other comments in the database.
+		 * Deduct points if it is a copy of any other comments in the database.
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
@@ -541,7 +541,7 @@
 		}
 
 		/**
-		 * @brief rate according to the structure of words
+		 * rate according to the structure of words
 		 *
 		 * Rate according to the text. Generaly words do not contain more than
 		 * a few consecutive consonants. -1 point is given per 5 consecutive

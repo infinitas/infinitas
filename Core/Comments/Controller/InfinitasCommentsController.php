@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief CommentsController is used for the management of comments
+	 * CommentsController is used for the management of comments
 	 *
 	 * allowing admins to view, toggle and delete as needed.
 	 *

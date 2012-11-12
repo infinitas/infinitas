@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief model for testing
+ * model for testing
  */
 class LockableContent extends CakeTestModel{
 	public $useDbConfig = 'test';

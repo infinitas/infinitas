@@ -2,7 +2,7 @@
 App::uses('IpLocation', 'GeoLocation.Lib');
 class IpLocationTest extends CakeTestCase {
 /**
- * @brief test configs
+ * test configs
  */
 	public function setUp() {
 		parent::setUp();
@@ -10,7 +10,7 @@ class IpLocationTest extends CakeTestCase {
 	}
 
 /**
- * @brief clear up the test class
+ * clear up the test class
  */
 	public function tearDown() {
 		parent::tearDown();
@@ -19,7 +19,7 @@ class IpLocationTest extends CakeTestCase {
 	}
 
 /**
- * @brief test counrty data
+ * test counrty data
  *
  * @dataProvider dataProvider
  */
@@ -29,7 +29,7 @@ class IpLocationTest extends CakeTestCase {
 	}
 
 /**
- * @brief test city data
+ * test city data
  *
  * @dataProvider dataProvider
  */
@@ -41,7 +41,7 @@ class IpLocationTest extends CakeTestCase {
 	}
 
 /**
- * @brief test the file checks
+ * test the file checks
  */
 	public function testFileChecks() {
 		$this->assertTrue($this->IpLocation->hasCountryData() === is_file($this->IpLocation->countryDataFile));
@@ -49,7 +49,7 @@ class IpLocationTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for ip -> location
+ * data provider for ip -> location
  * @return type
  */
 	public function dataProvider() {

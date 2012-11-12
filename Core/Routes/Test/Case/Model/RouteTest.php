@@ -10,7 +10,7 @@ class RouteTest extends CakeTestCase {
 	);
 
 /**
- * @brief test startup
+ * test startup
  */
 	public function startTest() {
 		$this->Route = new Route();
@@ -19,7 +19,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief test cleanup
+ * test cleanup
  */
 	public function endTest() {
 		unset($this->Route);
@@ -27,7 +27,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief test when missing connection
+ * test when missing connection
  */
 	public function brokentestBrokenDatabaseOrPreInstall() {
 		$expected = array();
@@ -37,7 +37,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief check validation rules
+ * check validation rules
  *
  * @dataProvider validationFailData
  */
@@ -48,14 +48,14 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief test saving routes
+ * test saving routes
  */
 	public function testSaveRoutes() {
 
 	}
 
 /**
- * @brief test building the data for the router
+ * test building the data for the router
  *
  * @dataProvider routeData
  */
@@ -64,7 +64,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief test building the regex and pass params
+ * test building the regex and pass params
  *
  * @dataProvider regexData
  */
@@ -77,7 +77,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief test getting the route out of the database formatted for InfinitasRouter::connect()
+ * test getting the route out of the database formatted for InfinitasRouter::connect()
  */
 	public function testGetRoutes() {
 		//basic find
@@ -129,7 +129,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief routeData data provider
+ * routeData data provider
  */
 	public function routeData() {
 		return array(
@@ -259,7 +259,7 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief regexData data provider
+ * regexData data provider
  */
 	public function regexData() {
 		return array(

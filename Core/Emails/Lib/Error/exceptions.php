@@ -1,27 +1,27 @@
 <?php
 /**
- * @brief EmailSocketException
+ * EmailSocketException
  */
 class EmailSocketException extends SocketException {
 
 }
 
 /**
- * @brief EmailSocketConfigOptionException
+ * EmailSocketConfigOptionException
  */
 class EmailSocketConfigOptionException extends EmailSocketException {
 	protected $_messageTemplate = '"%s" is not a valid config option';
 }
 
 /**
- * @brief EmailSocketConfigValueException
+ * EmailSocketConfigValueException
  */
 class EmailSocketConfigValueException extends EmailSocketException {
 	protected $_messageTemplate = '"%s" is not a valid value for "%s"';
 }
 
 /**
- * @brief EmailSocketCommunicationException
+ * EmailSocketCommunicationException
  */
 class EmailSocketCommunicationException extends EmailSocketException {
 	protected $_messageTemplate = 'Error: %s';

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Folders tests.
+ * fixture file for Folders tests.
  *
  * @package Filemanager.Fixture
  * @since 0.9b1

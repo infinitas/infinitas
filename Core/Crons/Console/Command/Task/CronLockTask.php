@@ -10,7 +10,7 @@
 		public $Cron;
 
 		/**
-		 * @brief This method checks if there is a cron already running befor starting a new one
+		 * This method checks if there is a cron already running befor starting a new one
 		 *
 		 * If there is already a cron running this method will prevent the cron
 		 * from continuing. If It has been a long time since the cron has run
@@ -27,7 +27,7 @@
 		}
 
 		/**
-		 * @brief check if its time to do a run
+		 * check if its time to do a run
 		 *
 		 * Make sure that enough time has passed since the last cron before running
 		 * the next one. This has nothing to do with if the cron is already

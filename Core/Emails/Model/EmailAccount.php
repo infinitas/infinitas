@@ -1,7 +1,7 @@
 <?php
 class EmailAccount extends EmailsAppModel {
 /**
- * @brief custom find methods
+ * custom find methods
  *
  * @var array
  */
@@ -10,7 +10,7 @@ class EmailAccount extends EmailsAppModel {
 	);
 
 /**
- * @brief belongsTo relations
+ * belongsTo relations
  *
  * @var array
  */
@@ -26,7 +26,7 @@ class EmailAccount extends EmailsAppModel {
 	);
 
 /**
- * @brief overload constructor for translated validation
+ * overload constructor for translated validation
  *
  * @param type $id
  * @param type $table
@@ -149,7 +149,7 @@ class EmailAccount extends EmailsAppModel {
 	}
 
 /**
- * @brief get a list of mails that are set to download with crons
+ * get a list of mails that are set to download with crons
  */
 	public function getCronAccounts() {
 		return $this->find(
@@ -191,7 +191,7 @@ class EmailAccount extends EmailsAppModel {
 	}
 
 /**
- * @brief find email config for sending mails
+ * find email config for sending mails
  *
  * This method will look for configs that are used for sending out emails with the
  * InfinitasEmail class. The email can be selected in two ways.

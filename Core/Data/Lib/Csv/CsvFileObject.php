@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief CsvFileObject for reading csv data from files
+ * CsvFileObject for reading csv data from files
  *
  * This creates a SplFileObject class suited for reading / parsing csv files. It
  * allows passing all the options required and configures the object with
@@ -14,28 +14,28 @@
 
 class CsvFileObject extends SplFileObject {
 /**
- * @brief does the csv file contain a heading as the first row
+ * does the csv file contain a heading as the first row
  *
  * @var boolean
  */
 	protected $_hasHeading;
 
 /**
- * @brief internal cache of the headings
+ * internal cache of the headings
  *
  * @var array
  */
 	protected $_headings = array();
 
 /**
- * @brief the default model this data belongs to
+ * the default model this data belongs to
  *
  * @var string
  */
 	protected $_model = null;
 
 /**
- * @brief set up the csv iterator object
+ * set up the csv iterator object
  *
  * $settings can contain the following:
  *	- mode: @see http://www.php.net/manual/en/function.fopen.php
@@ -77,7 +77,7 @@ class CsvFileObject extends SplFileObject {
 	}
 
 /**
- * @brief check if the file has headings
+ * check if the file has headings
  *
  * @return boolean
  */
@@ -86,7 +86,7 @@ class CsvFileObject extends SplFileObject {
 	}
 
 /**
- * @brief get headings from the csv file
+ * get headings from the csv file
  *
  * If there are headings available (see the settings) this will get them and return
  * an array that has been fomatted to suite easy importing.
@@ -120,7 +120,7 @@ class CsvFileObject extends SplFileObject {
 	}
 
 /**
- * @brief overload the method to create array with heading => value
+ * overload the method to create array with heading => value
  *
  * @return array
  */

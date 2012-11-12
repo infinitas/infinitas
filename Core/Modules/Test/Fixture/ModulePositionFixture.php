@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for ModulePosition tests.
+ * fixture file for ModulePosition tests.
  *
  * @package Modules.Fixture
  * @since 0.9b1

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Log tests.
+ * fixture file for Log tests.
  *
  * @package Management.Fixture
  * @since 0.9b1

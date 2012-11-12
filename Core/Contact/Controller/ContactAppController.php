@@ -48,7 +48,7 @@
 	 */
 
 	/**
-	 * @brief The main contact's plugin model
+	 * The main contact's plugin model
 	 *
 	 * this is extended by the other models in contact plugin
 	 *

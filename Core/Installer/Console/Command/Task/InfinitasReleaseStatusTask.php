@@ -1,21 +1,21 @@
 <?php
 class InfinitasReleaseStatusTask extends AppShell {
 /**
- * @brief tasks to load
+ * tasks to load
  *
  * @var array
  */
 	public $tasks = array('Installer.Migration', 'Installer.InfinitasFixture');
 
 /**
- * @brief list of plugins with the data that relates to them
+ * list of plugins with the data that relates to them
  *
  * @var array
  */
 	private $__plugins = array();
 
 /**
- * @brief get the data and output the status
+ * get the data and output the status
  */
 	public function execute() {
 		$this->h1('Plugin Schema status');
@@ -94,7 +94,7 @@ class InfinitasReleaseStatusTask extends AppShell {
 	}
 
 /**
- * @brief sort out data into something manageable
+ * sort out data into something manageable
  *
  * @access protected
  *

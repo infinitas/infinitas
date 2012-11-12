@@ -1,11 +1,11 @@
 <?php
 /**
- * @brief base class for testing exception data
+ * base class for testing exception data
  */
 
 class InfinitasExceptionTestCase extends CakeTestCase {
 /**
- * @brief test exception values
+ * test exception values
  *
  * This method is a wrapper to get data from an exception when testing. The method
  * will throw and catch the passed error and then run the selected function on it

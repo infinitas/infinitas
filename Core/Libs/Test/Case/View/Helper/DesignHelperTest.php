@@ -46,7 +46,7 @@ class DesignHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief array to list data provider
+ * array to list data provider
  */
 	public function arrayToListDataProvider() {
 		return array(
@@ -213,7 +213,7 @@ class DesignHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief test tab exception
+ * test tab exception
  *
  * @expectedException InvalidArgumentException
  */
@@ -232,7 +232,7 @@ class DesignHelperTest extends CakeTestCase {
 	}
 
 /**
- * @brief data provider for testing tabs
+ * data provider for testing tabs
  *
  * @return array
  */

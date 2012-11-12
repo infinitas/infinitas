@@ -24,7 +24,7 @@
 		}
 
 		/**
-		 * @brief get a list of all the plugins that are in the system
+		 * get a list of all the plugins that are in the system
 		 *
 		 * This will not check plugins that are installed, but anything within
 		 * any of the defined plugin directories.
@@ -47,7 +47,7 @@
 		}
 
 		/**
-		 * @brief get a list of plugins that have been installed on Infinitas
+		 * get a list of plugins that have been installed on Infinitas
 		 *
 		 * @access public
 		 *
@@ -78,7 +78,7 @@
 		}
 
 		/**
-		 * @brief get a list of active installed plugins
+		 * get a list of active installed plugins
 		 *
 		 * This is used in things like the EventCore to know where to trigger
 		 * events
@@ -92,7 +92,7 @@
 		}
 		
 		/**
-		 * @brief get a list of installed plugins that are not active
+		 * get a list of installed plugins that are not active
 		 * 
 		 * @param type $type
 		 * 
@@ -103,7 +103,7 @@
 		}
 		
 		/**
-		 * @brief DRY code to find plugins by state.
+		 * DRY code to find plugins by state.
 		 * 
 		 * Inactive plugins are non-code disabled plugins
 		 * Active plugins are all core and any other installed + enabled pluings
@@ -148,7 +148,7 @@
 		}
 
 		/**
-		 * @brief method to find a list of plugins not yet installed
+		 * method to find a list of plugins not yet installed
 		 *
 		 * This uses the getAllPlugins() method and getInstalledPlugins() method
 		 * with array_diff to show a list of plugins that have not yet been installed
@@ -171,7 +171,7 @@
 		}
 
 		/**
-		 * @brief install a plugin
+		 * install a plugin
 		 *
 		 * This method is used to install a plugin and record the details in the
 		 * plugin table. There are options that can be used for installing your
@@ -222,7 +222,7 @@
 		}
 
 		/**
-		 * @brief load up the details from the plugins config file
+		 * load up the details from the plugins config file
 		 *
 		 * This will attempt to get the plugins details so that they can be saved
 		 * to the database.
@@ -241,7 +241,7 @@
 		}
 
 		/**
-		 * @brief run a plugins release (create tables, update schema etc)
+		 * run a plugins release (create tables, update schema etc)
 		 *
 		 * This runs the migrations part of a plugin install. It will run all
 		 * the migrations found. If something goes wrong it will return false
@@ -334,7 +334,7 @@
 		}
 
 		/**
-		 * @brief get migrations / installed count for a specific plugin
+		 * get migrations / installed count for a specific plugin
 		 *
 		 * @access public
 		 *
@@ -357,7 +357,7 @@
 		}
 
 		/**
-		 * @brief check if a plugin is installed
+		 * check if a plugin is installed
 		 *
 		 * @access public
 		 *

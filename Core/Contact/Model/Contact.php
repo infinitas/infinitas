@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief The Contact model handles the CRUD for user details.
+	 * The Contact model handles the CRUD for user details.
 	 *
 	 * @todo link up the contacts to users in the User table
 	 *

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for SchemaMigration tests.
+ * fixture file for SchemaMigration tests.
  *
  * @package Migrations.Fixture
  * @since 0.9b1

@@ -332,7 +332,7 @@
 		}
 
 		/**
-		 * @brief get the menus for the ajax select in the backend
+		 * get the menus for the ajax select in the backend
 		 *
 		 * @access public
 		 *

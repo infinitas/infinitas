@@ -47,7 +47,7 @@ class ModulesRouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief test validation
+ * test validation
  *
  * @dataProvider validationDataBad
  */
@@ -59,7 +59,7 @@ class ModulesRouteTest extends CakeTestCase {
 	}
 
 /**
- * @brief validationDataBad data provider
+ * validationDataBad data provider
  */
 	public function validationDataBad() {
 		return array(

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief CommentsEvents for the comments plugin
+ * CommentsEvents for the comments plugin
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
@@ -16,7 +16,7 @@
 
 class CommentsEvents extends AppEvents {
 /**
- * @brief get the plugin information
+ * get the plugin information
  *
  * @return array
  */
@@ -35,7 +35,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the admin menu
+ * get the admin menu
  *
  * @param Event $event
  *
@@ -53,7 +53,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the required components
+ * get the required components
  *
  * @param Event $event
  *
@@ -66,7 +66,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the behaviors to attach
+ * get the behaviors to attach
  *
  * @param Event $event
  */
@@ -81,7 +81,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the css to load
+ * get the css to load
  *
  * @param Event $event
  *
@@ -94,7 +94,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the js to load
+ * get the js to load
  *
  * @param Event $event
  *
@@ -107,7 +107,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the sitemap information
+ * get the sitemap information
  *
  * @param Event $event
  *
@@ -131,7 +131,7 @@ class CommentsEvents extends AppEvents {
 	}
 
 /**
- * @brief get the user profile elements to load
+ * get the user profile elements to load
  *
  * @param Event $event
  *

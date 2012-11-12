@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for GlobalCategory tests.
+ * fixture file for GlobalCategory tests.
  *
  * @package Contents.Fixture
  * @since 0.9b1

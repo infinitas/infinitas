@@ -22,7 +22,7 @@ class ModulePositionTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief check validation rules
+ * check validation rules
  */
 	public function testValidationRules() {
 		$data = array();
@@ -59,7 +59,7 @@ class ModulePositionTestCase extends CakeTestCase {
 	}
 
 /**
- * @brief test if a module position is valid
+ * test if a module position is valid
  *
  * @dataProvider positions
  */

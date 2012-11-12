@@ -33,7 +33,7 @@ class CronsEvents extends AppEvents {
 	}
 
 /**
- * @brief check if crons are running
+ * check if crons are running
  *
  * @return string|bool false if not, or datetime of last run
  */
@@ -43,7 +43,7 @@ class CronsEvents extends AppEvents {
 	}
 
 /**
- * @brief housekeeping, clear out old cron logs.
+ * housekeeping, clear out old cron logs.
  *
  * @param Event $Event
  * 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for Files tests.
+ * fixture file for Files tests.
  *
  * @package Filemanager.Fixture
  * @since 0.9b1

@@ -1,6 +1,6 @@
 <?php
 /**
- * @brief fixture file for FeedsFeed tests.
+ * fixture file for FeedsFeed tests.
  *
  * @package Feed.Fixture
  * @since 0.9b1

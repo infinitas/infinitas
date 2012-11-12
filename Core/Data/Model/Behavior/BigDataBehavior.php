@@ -1,7 +1,7 @@
 <?php
 class BigDataBehavior extends ModelBehavior {
 /**
- * @brief default config for the behavior
+ * default config for the behavior
  *
  * @var array
  */
@@ -21,14 +21,14 @@ class BigDataBehavior extends ModelBehavior {
 	);
 
 /**
- * @brief Datasource instance
+ * Datasource instance
  *
  * @var DataSource
  */
 	protected $_db = null;
 
 /**
- * @brief setup the model based on the supplied configs
+ * setup the model based on the supplied configs
  *
  * @param Model $Model the model being loaded
  * @param array $config config options
@@ -64,7 +64,7 @@ class BigDataBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief toggle services on the database
+ * toggle services on the database
  *
  * @see http://dev.mysql.com/doc/refman/5.0/en/innodb-tuning.html
  *
@@ -121,7 +121,7 @@ class BigDataBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief disable indexing to speed up mass inserts
+ * disable indexing to speed up mass inserts
  *
  * @param Model $Model the model object in use
  * @param array $types options to disable
@@ -136,7 +136,7 @@ class BigDataBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief enable indexing after doing mass saves
+ * enable indexing after doing mass saves
  *
  * @param Model $Model the model object in use
  * @param array $types options to enable
@@ -151,7 +151,7 @@ class BigDataBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief access the data source
+ * access the data source
  *
  * @param Model $Model
  * @return DataSource
@@ -165,7 +165,7 @@ class BigDataBehavior extends ModelBehavior {
 	}
 
 /**
- * @brief mass save rows
+ * mass save rows
  *
  * Created and modified times will be set much like normal saves. Fields
  * that do not belong will be removed from the data.

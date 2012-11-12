@@ -17,7 +17,7 @@
 
 class ThemesController extends ThemesAppController {
 /**
- * @brief list available themes
+ * list available themes
  * 
  * @return void
  */
@@ -38,7 +38,7 @@ class ThemesController extends ThemesAppController {
 	}
 
 /**
- * @brief add a new theme
+ * add a new theme
  * 
  * @return void
  */
@@ -59,7 +59,7 @@ class ThemesController extends ThemesAppController {
 	}
 
 /**
- * @brief edit an existing theme
+ * edit an existing theme
  * 
  * @param string $id the id of the theme to edit
  * 
@@ -119,7 +119,7 @@ class ThemesController extends ThemesAppController {
 	}
 	
 	/**
-	 * @brief redirect to the installer to add a new theme.
+	 * redirect to the installer to add a new theme.
 	 * 
 	 * @param null $ids not used
 	 */

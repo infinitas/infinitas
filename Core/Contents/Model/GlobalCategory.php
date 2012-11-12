@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * @brief Category model handles the CRUD for categories.
+	 * Category model handles the CRUD for categories.
 	 *
 	 * Saving and editing categories are done here.
 	 *
@@ -199,7 +199,7 @@
 		}
 		
 		/**
-		 * @brief generate a category drop down tree
+		 * generate a category drop down tree
 		 * 
 		 * @param string $state
 		 * @param array $query

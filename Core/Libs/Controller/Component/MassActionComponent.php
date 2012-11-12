@@ -25,7 +25,7 @@ App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
 class MassActionComponent extends InfinitasComponent {
 /**
- * @brief check if cancel has been clicked to allow things such as locking to act
+ * check if cancel has been clicked to allow things such as locking to act
  *
  * @param Controller $Controller
  */
@@ -42,7 +42,7 @@ class MassActionComponent extends InfinitasComponent {
 	}
 
 /**
- * @brief Method to handle mass actions (Such as mass deletions, toggles, etc.)
+ * Method to handle mass actions (Such as mass deletions, toggles, etc.)
  *
  * @access public
  *
@@ -78,7 +78,7 @@ class MassActionComponent extends InfinitasComponent {
 	}
 
 /**
- * @brief Get submitted ids.
+ * Get submitted ids.
  *
  * Checks the form data and returns an array of all the ids found for that
  * model.
