@@ -1,29 +1,35 @@
 <?php
 /**
- * the Events file for the Assets plugin
+ * Asset Compress helper
  *
+ * @link http://infinitas-cms.org/infinitas_docs/Assets Infinitas Assets
+ *
+ * @package Core.Assets.Lib
+ */
+
+/**
+ * Assets events
+ *
+ * The events class for the Assets plugin
  *
  * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
+ * @link http://infinitas-cms.org/infinitas_docs/Assets Infinitas Assets
  * @package Core.Assets.Lib
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.9a
  *
- * @author dogmatic69
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class AssetsEvents extends AppEvents {
 /**
  * get helpers to load
  *
- * @param Event $event The Event being triggered
+ * @param Event $Event The Event being triggered
  *
  * @return array
  */
-	public function onRequireHelpersToLoad(Event $event) {
+	public function onRequireHelpersToLoad(Event $Event) {
 		return array(
 			'Assets.Compress'
 		);
@@ -32,11 +38,11 @@ class AssetsEvents extends AppEvents {
 /**
  * load javascript assets
  *
- * @param Event $event The Event being triggered
+ * @param Event $Event The Event being triggered
  *
  * @return array
  */
-	public function onRequireJavascriptToLoad(Event $event) {
+	public function onRequireJavascriptToLoad(Event $Event) {
 		$return = array(
 			'Assets.3rd/jquery',
 			'Assets.3rd/jquery_ui',
@@ -52,7 +58,7 @@ class AssetsEvents extends AppEvents {
 			'Assets.3rd/rater',
 			'Assets.3rd/moving_boxes'
 		);
-		if(isset($event->Handler->params['admin']) && $event->Handler->params['admin']) {
+		if(isset($Event->Handler->params['admin']) && $Event->Handler->params['admin']) {
 			$added = array(
 				'Assets.3rd/date',
 				'Assets.3rd/image_drop_down'

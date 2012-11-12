@@ -200,11 +200,15 @@ class AppEvents extends Object {
  * Load helpers.
  *
  * This event provides a way for you to attach your helper to the entire
- * application without needin to modyfy app_controller.php
+ * application without needin to modify AppController.php
  *
- * called in AppController::beforeRender()
+ * Return should be the same as what is used in AppController::$helpers
  *
- * @return mixed string | array like you would use in Controller->helpers
+ * @see AppController::beforeRender()
+ *
+ * @param Event $Event The event that was triggered
+ *
+ * @return array
  */
 	public function onRequireHelpersToLoad(Event $Event = null) {
 		return array();
