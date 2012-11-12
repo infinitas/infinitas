@@ -1,139 +1,140 @@
 <?php
-	App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
-	/**
-	 * Html chart engine
-	 *
-	 * This is an example of engine use, that will generate a range of html based
-	 * charts. It is automatically called via the ChartsHelper and should not be used
-	 * directly for generating charts.
-	 *
-	 * To use this set up your controller with something like the following:
-	 * <code>
-	 *	public $helpers = array(
-	 *		...
-	 *		'Charts.Charts' => array(
-	 *			'Charts.Html'
-	 *		)
-	 *	);
-	 * </code>
-	 *
-	 * Then in your code you will just call it in your views like below:
-	 * <code>
-	 *	<?php echo $this->Charts->draw('bar', $dataArray); ?>
-	 * </code>
-	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package Core.Charts.Helper
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.8a
-	 *
-	 * @todo http://meyerweb.com/eric/css/edge/bargraph/demo.html
-	 *
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
+/**
+ * Html Chart Engine Helper
+ *
+ * Chart engine for generating HTML charts
+ * 
+ * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
+ *
+ * @package Core.Charts.Helper
+ */
 
-	class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
-		/**
-		 * Some helpers that are needed internally for this helper to function
-		 *
-		 * @var array
-		 * @access public
-		 */
-		public $helpers = array(
-			'Html'
-		);
+App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
 
-		/**
-		 * a small template for the charts.
-		 *
-		 * @todo expand to an array with keys for each chart type
-		 *
-		 * @var <type>
-		 * @access private
-		 */
-		private $__chartWrapper = '<div class="html-chart bar verticle">%s %s</div>';
+/**
+ * Html chart engine
+ *
+ * This is an example of engine use, that will generate a range of html based
+ * charts. It is automatically called via the ChartsHelper and should not be used
+ * directly for generating charts.
+ *
+ * To use this set up your controller with something like the following:
+ * <code>
+ *	public $helpers = array(
+ *		...
+ *		'Charts.Charts' => array(
+ *			'Charts.Html'
+ *		)
+ *	);
+ * </code>
+ *
+ * Then in your code you will just call it in your views like below:
+ * <code>
+ *	<?php echo $this->Charts->draw('bar', $dataArray); ?>
+ * </code>
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
+ * @package Core.Charts.Helper
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @todo http://meyerweb.com/eric/css/edge/bargraph/demo.html
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-		/**
-		 * Generate a html markup based bar chart.
-		 *
-		 * @todo horizontal charts also needed
-		 *
-		 * @param array $data the formatted data from the ChartsHelper
-		 * @access public
-		 *
-		 * @return string the markup for the chart that was generated.
-		 */
-		public function bar($data) {
-			$legend = '';
-			$chart = '';
+class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
+/**
+ * Some helpers that are needed internally for this helper to function
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Html'
+	);
 
-			$y = $rows = $cols = array();
-			$last = 0;
-			foreach($data['data'][0] as $key => $value) {
-				$change = ($value > $last) ? __('up (%s%%)') : __('down (%s%%)');
-				$change = sprintf($change, abs($last - $value));
-				if($value == $last) {
-					$change = __('no change');
-				}
-				$cols[] = sprintf(
-					'<td class="col" title="%s"><div class="empty e%d"></div><div class="fill f%d"></div></td>',
-					sprintf($data['tooltip'], $value, round($data['values']['max'] * ($value / 100)), $change),
-					100 - $value,
-					$value
-				);
-				$last = $value;
+/**
+ * a small template for the charts.
+ *
+ * @todo expand to an array with keys for each chart type
+ *
+ * @var string
+ */
+	private $__chartWrapper = '<div class="html-chart bar verticle">%s %s</div>';
+
+/**
+ * Generate a html markup based bar chart.
+ *
+ * @todo horizontal charts also needed
+ *
+ * @param array $data the formatted data from the ChartsHelper
+ *
+ * @return string the markup for the chart that was generated.
+ */
+	public function bar($data) {
+		$legend = '';
+		$chart = '';
+
+		$y = $rows = $cols = array();
+		$last = 0;
+		foreach($data['data'][0] as $key => $value) {
+			$change = ($value > $last) ? __('up (%s%%)') : __('down (%s%%)');
+			$change = sprintf($change, abs($last - $value));
+			if($value == $last) {
+				$change = __('no change');
 			}
-
-			foreach($data['labels']['y'] as $label) {
-				$y[] = $label;
-			}
-
-			rsort($y);
-
-			$rows[] = '<tr class="data"><td class="y-axis"><table><tr><td>' .
-				implode('</td></tr><tr><td>', $y) . '</td></tr></table></td>' .
-				implode('', $cols) . '</tr>';
-			$rows[] = '<tr class="x-axis"><td>&nbsp;</td><td>' .
-				implode('</td><td>', $data['labels'][$data['axes'][0]]) . '</td><tr>';
-
-			$chart = sprintf(
-				'<table>%s</table><div class="legend">%s</div>',
-				implode('', $rows),
-				$legend
+			$cols[] = sprintf(
+				'<td class="col" title="%s"><div class="empty e%d"></div><div class="fill f%d"></div></td>',
+				sprintf($data['tooltip'], $value, round($data['values']['max'] * ($value / 100)), $change),
+				100 - $value,
+				$value
 			);
-
-			$html = sprintf($this->__chartWrapper, $data['title'], $chart);
-
-			return sprintf(
-				'%s<style type=text/css>%s %s</style>%s',
-				$this->Html->css('Charts.html_chart_engine'),
-				$this->__generateBarCss($data),
-				$this->__css($data),
-				$html
-			);
+			$last = $value;
 		}
 
-		/**
-		 * build some on-the-fly css for the chart.
-		 *
-		 * @param array $data the data for the chart
-		 * @access private
-		 *
-		 * @return string some css
-		 */
-		private function __generateBarCss($data) {
-			$colWidth = (($data['width'] + $data['spacing']['padding']) / count($data['data'][0]) / $data['width']) * 100;
-			$margin = round($data['spacing']['padding'] / 2);
-			$colWidth -= $data['spacing']['padding'];
+		foreach($data['labels']['y'] as $label) {
+			$y[] = $label;
+		}
 
-			return <<<cssData
+		rsort($y);
+
+		$rows[] = '<tr class="data"><td class="y-axis"><table><tr><td>' .
+			implode('</td></tr><tr><td>', $y) . '</td></tr></table></td>' .
+			implode('', $cols) . '</tr>';
+		$rows[] = '<tr class="x-axis"><td>&nbsp;</td><td>' .
+			implode('</td><td>', $data['labels'][$data['axes'][0]]) . '</td><tr>';
+
+		$chart = sprintf(
+			'<table>%s</table><div class="legend">%s</div>',
+			implode('', $rows),
+			$legend
+		);
+
+		$html = sprintf($this->__chartWrapper, $data['title'], $chart);
+
+		return sprintf(
+			'%s<style type=text/css>%s %s</style>%s',
+			$this->Html->css('Charts.html_chart_engine'),
+			$this->__generateBarCss($data),
+			$this->__css($data),
+			$html
+		);
+	}
+
+/**
+ * build some on-the-fly css for the chart.
+ *
+ * @param array $data the data for the chart
+ *
+ * @return string some css
+ */
+	private function __generateBarCss($data) {
+		$colWidth = (($data['width'] + $data['spacing']['padding']) / count($data['data'][0]) / $data['width']) * 100;
+		$margin = round($data['spacing']['padding'] / 2);
+		$colWidth -= $data['spacing']['padding'];
+
+		return <<<cssData
 	.html-chart.bar.verticle{
 		width: {$data['width']}px;
 		height: {$data['height']}px;
@@ -165,17 +166,23 @@
 
 cssData;
 
-		}
-
-		private function __css($data) {
-			$css = array();
-			foreach(range(1, 100) as $num) {
-				$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' .
-					$num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
-			}
-
-			return implode('', $css);
-		}
 	}
 
+	/**
+	 * Generate css for the charts
+	 *
+	 * @param array $data options for the css
+	 *
+	 * @return string
+	 */
+	private function __css($data) {
+		$css = array();
+		foreach(range(1, 100) as $num) {
+			$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' .
+				$num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
+		}
 
+		return implode('', $css);
+	}
+
+}

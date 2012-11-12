@@ -1,6 +1,17 @@
 <?php
 /**
- * @page Charts-Plugin Charts plugin
+ * Charts-Plugin Charts plugin
+ *
+ * The events for the charts plugin allows the plugin to integrate with the
+ * core code.
+ *
+ * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
+ *
+ * @package Core.Charts.Lib
+ */
+
+/**
+ * Charts plugin events
  *
  * @section charts-overview What is it
  *
@@ -86,24 +97,14 @@
  * @ref EventCore
  * @ref GoogleStaticChartHelper
  * @ref HtmlChartEngineHelper
- */
-
-/**
- * Charts plugin events
- *
- * The events for the charts plugin allows the plugin to integrate with the
- * core code.
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
- * @link http://www.infinitas-cms.org
+ * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
  * @package Core.Charts.Lib
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *
- * @author dogmatic69
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class ChartsEvents extends AppEvents {
@@ -117,15 +118,16 @@ class ChartsEvents extends AppEvents {
 /**
  * load the default helpers for the chart engine
  *
- * @param Event $event
+ * @param Event $Event
  *
  * @return array
  */
-	public function onRequireHelpersToLoad(Event $event) {
+	public function onRequireHelpersToLoad(Event $Event) {
 		return array(
 			'Charts.Charts' => array(
 				Configure::read('Charts.default_engine')
 			)
 		);
 	}
+	
 }
