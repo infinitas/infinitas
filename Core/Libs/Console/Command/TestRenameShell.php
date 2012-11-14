@@ -1,4 +1,13 @@
 <?php
+/**
+ *  TestRenameShell
+ */
+
+/**
+ * TestRenameShell
+ *
+ * @todo remove this
+ */
 	class TestRenameShell extends AppShell {
 		public function main() {
 			Configure::write('debug', 2);
@@ -11,7 +20,7 @@
 		private function __moveFolders($path) {
 			$this->Folder = new Folder($path);
 			$folders = $this->Folder->read();
-			
+
 			foreach($folders[0] as $folder) {
 				$old = $path . DS . $folder;
 				$new = $path . DS . Inflector::camelize($folder);
@@ -27,7 +36,7 @@
 		private function __moveFiles($path) {
 			$this->Folder = new Folder($path);
 			$files = $this->Folder->read();
-			
+
 			foreach($files[1] as $file) {
 				$old = $path . DS . $file;
 

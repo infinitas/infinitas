@@ -1,15 +1,47 @@
 <?php
+/**
+ * ViewCounterViewsController
+ *
+ * @package Infinitas.ViewCounter.Controller
+ */
+
+/**
+ * ViewCounterViewsController
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.ViewCounter.Controller
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 class ViewCounterViewsController extends ViewCounterAppController {
+/**
+ * Helpers to load
+ *
+ * @var array
+ */
 	public $helpers = array(
 		'Charts.Charts' => array(
 			'Google.GoogleStatic'
 		)
 	);
 
+/**
+ * ViewCounter dashboard
+ *
+ * @return void
+ */
 	public function admin_dashboard() {
 		$this->set('viewCount', $this->ViewCounterView->find('count'));
 	}
 
+/**
+ * Custom reporting
+ *
+ * @return void
+ */
 	public function admin_custom() {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
@@ -29,6 +61,11 @@ class ViewCounterViewsController extends ViewCounterAppController {
 		$this->set(compact('filterOptions'));
 	}
 
+/**
+ * List referers
+ *
+ * @return void
+ */
 	public function admin_referers() {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
@@ -85,6 +122,8 @@ class ViewCounterViewsController extends ViewCounterAppController {
  * Generate reports on views
  *
  * Create pretty graphs of all the data collected for the
+ *
+ * @return void
  */
 	public function admin_reports() {
 		if(!$this->ViewCounterView->find('count')) {

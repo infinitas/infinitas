@@ -1,11 +1,41 @@
 <?php
 /**
- * @author dakota
+ * ReleaseShell
  *
+ * @package Infinitas.Installer.Console
  */
-class ReleaseShell extends AppShell {
-	public $tasks = array('Installer.InfinitasPlugin', 'Installer.InfinitasReleaseStatus');
 
+/**
+ * ReleaseShell
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Installer.Console
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ * @author dakota
+ */
+
+class ReleaseShell extends AppShell {
+/**
+ * Tasks to load
+ *
+ * @var array
+ */
+	public $tasks = array(
+		'Installer.InfinitasPlugin',
+		'Installer.InfinitasReleaseStatus'
+	);
+
+/**
+ * Display release help
+ *
+ * @todo use 2.0 help
+ *
+ * @return void
+ */
 	public function help() {
 		$this->h1('Interactive Release Shell Help');
 		$this->p(
@@ -33,6 +63,11 @@ class ReleaseShell extends AppShell {
 		$this->helpPause();
 	}
 
+/**
+ * Release shell main method
+ *
+ * @return void
+ */
 	public function main() {
 		do {
 			$this->h1('Interactive Release Shell');
@@ -82,4 +117,5 @@ class ReleaseShell extends AppShell {
 			}
 		} while($input != 'Q');
 	}
+	
 }

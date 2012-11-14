@@ -1,67 +1,114 @@
 <?php
-	class PluginsController extends InstallerAppController {
-		public function admin_dashboard() {
-			
-		}
+/**
+ * PluginsController
+ *
+ * @package Infinitas.Installer.Controller
+ */
 
-		public function admin_index() {
-			$plugins = $this->Paginator->paginate(null, $this->Filter->filter);
+/**
+ * PluginsController
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Installer.Controller
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-			$filterOptions = $this->Filter->filterOptions;
+class PluginsController extends InstallerAppController {
+/**
+ * Plugin dashboard
+ *
+ * @return void
+ */
+	public function admin_dashboard() {
 
-			$filterOptions['fields'] = array(
-				'name',
-				'author',
-				'version',
-				'core' => Configure::read('CORE.core_options'),
-				'active' => Configure::read('CORE.active_options')
-			);
-
-			$this->set(compact('plugins', 'filterOptions'));
-		}
-
-		public function admin_add() {
-			$this->notice(
-				__('Nothing to see, move along'),
-				array(
-					'level' => 'warning',
-					'redirect' => true
-				)
-			);
-		}
-
-		public function admin_edit() {
-			self::admin_add();
-		}
-
-		public function admin_install() {
-			$this->notice['saved'] = array(
-				'message' => 'The selected items were installed successfully',
-				'redirect' => ''
-			);
-			
-			if($this->request->data) {
-				try{
-					unset($this->request->data['action']);
-					$this->Plugin->processInstall($this->request->data);
-					
-					$this->notice('saved');
-				}
-				catch(Exception $e) {
-					$this->notice(
-						$e->getMessage(),
-						array(
-							'level' => 'warning'
-						)
-					);
-				}
-			}
-			
-			$this->set('possibleThemes', ClassRegistry::init('Themes.Theme')->notInstalled());
-			$this->saveRedirectMarker();
-		}
-
-		public function admin_update_infinitas() {
-			
-		}
 	}
+
+/**
+ * List plugins
+ *
+ * @return void
+ */
+	public function admin_index() {
+		$plugins = $this->Paginator->paginate(null, $this->Filter->filter);
+
+		$filterOptions = $this->Filter->filterOptions;
+
+		$filterOptions['fields'] = array(
+			'name',
+			'author',
+			'version',
+			'core' => Configure::read('CORE.core_options'),
+			'active' => Configure::read('CORE.active_options')
+		);
+
+		$this->set(compact('plugins', 'filterOptions'));
+	}
+
+/**
+ * Disable adding manually
+ *
+ * @return void
+ */
+	public function admin_add() {
+		$this->notice(
+			__('Nothing to see, move along'),
+			array(
+				'level' => 'warning',
+				'redirect' => true
+			)
+		);
+	}
+
+/**
+ * Edit plugin details
+ *
+ * @return void
+ */
+	public function admin_edit() {
+		self::admin_add();
+	}
+
+/**
+ * Plugin install method
+ *
+ * @return void
+ */
+	public function admin_install() {
+		$this->notice['saved'] = array(
+			'message' => 'The selected items were installed successfully',
+			'redirect' => ''
+		);
+
+		if($this->request->data) {
+			try{
+				unset($this->request->data['action']);
+				$this->Plugin->processInstall($this->request->data);
+
+				$this->notice('saved');
+			}
+			catch(Exception $e) {
+				$this->notice(
+					$e->getMessage(),
+					array(
+						'level' => 'warning'
+					)
+				);
+			}
+		}
+
+		$this->set('possibleThemes', ClassRegistry::init('Themes.Theme')->notInstalled());
+		$this->saveRedirectMarker();
+	}
+
+/**
+ * Plugin update method
+ */
+	public function admin_update_infinitas() {
+
+	}
+
+}
