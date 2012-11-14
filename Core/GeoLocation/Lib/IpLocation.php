@@ -106,7 +106,7 @@ Class IpLocation extends Object {
  * @param string $ipAddress the ip address to check against
  * @param bool $code get the country code or not
  *
- * @return array the data requested
+ * @return array
  */
 	public function getCountryData($ipAddress = null, $code = false) {
 		if (!$ipAddress) {
@@ -153,7 +153,7 @@ Class IpLocation extends Object {
  *
  * @todo remove $fields variable
  *
- * @return array the data requested
+ * @return array
  */
 	public function getCityData($ipAddress = null, $fields = array()) {
 		if (!$ipAddress) {

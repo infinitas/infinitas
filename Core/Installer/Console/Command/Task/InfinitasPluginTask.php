@@ -210,7 +210,7 @@ class InfinitasPluginTask extends AppShell {
  * Returns a list of available plugins
  *
  * @param boolean $searchAll True if we should return all plugins, false for only plugins in /plugins and plugin plugins.
- * @return array Array of available plugins
+ * @return array
  */
 	private function __getPluginList($searchType = 'Plugin') {
 		$plugins = App::objects('plugin');
@@ -373,7 +373,7 @@ class InfinitasPluginTask extends AppShell {
  *
  * @param string $plugin the name of the plugin
  *
- * @return bool, true on save, false on error
+ * @return boolean, true on save, false on error
  */
 	private function __makeInstalled($plugin) {
 		$SchemaMigration = ClassRegistry::init('SchemaMigration');

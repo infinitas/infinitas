@@ -32,7 +32,7 @@
 		/**
 		 * Get Google Contacts Schema
 		 *
-		 * @return array $schema
+		 * @return array
 		 * @access public
 		 */
 		public function getSchema() {
@@ -189,7 +189,7 @@
 		/**
 		 * Convert Google Contacts schema-based Object into Atom text
 		 *
-		 * @return string $atom
+		 * @return string
 		 * @access public
 		 */
 		public function toAtom($object) {

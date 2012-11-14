@@ -217,7 +217,7 @@ App::uses('ModelBehavior', 'Model');
 	 *
 	 * @param object Model instance
 	 * @param string Tag name string
-	 * @return string Multibyte safe key string
+	 * @return string
 	 * @access public
 	 */
 		public function multibyteKey(Model $Model, $string = null) {

@@ -101,7 +101,7 @@ class Branch extends ContactAppModel {
 	 *
 	 * @param array $queryData the find data
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function beforeFind($queryData) {
 		return true;

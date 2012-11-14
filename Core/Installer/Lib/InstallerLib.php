@@ -182,7 +182,7 @@ LICENCE;
 		 *
 		 * @param string $type the type of licence to return
 		 *
-		 * @return string the licence
+		 * @return string
 		 */
 		public function getLicense($type = 'html') {
 			return $this->__getData($type, '__license');
@@ -193,7 +193,7 @@ LICENCE;
 		 *
 		 * @param string $type the type of licence to return
 		 *
-		 * @return string the licence
+		 * @return string
 		 */
 		public function getWelcome($type = 'html') {
 			return $this->__getData($type, '__welcome');
@@ -304,7 +304,7 @@ LICENCE;
 		 *
 		 * @param array $connection the database config to check
 		 *
-		 * @return bool true if valid, else false
+		 * @return boolean
 		 */
 		private function __validDbConfig($connection, $return = false) {
 			App::import('Model', 'Installer.Install');
@@ -529,7 +529,7 @@ LICENCE;
 		 *
 		 * @param string $theme the theme to install
 		 *
-		 * @return bool true on save, other methods will throw exceptions
+		 * @return boolean
 		 */
 		public static function localTheme($theme) {
 			return ClassRegistry::init('Themes.Theme')->install($theme);
@@ -549,7 +549,7 @@ LICENCE;
 		 * @param string $plugin the name of the plugin
 		 * @param string $theme the name of the theme
 		 *
-		 * @return string the path that is requested
+		 * @return string
 		 */
 		public static function themePath($plugin = null, $theme = null) {
 			if(!$plugin) {

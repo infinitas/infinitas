@@ -142,7 +142,7 @@
 		 * 
 		 * @param mixed $config null to get current config, array to set
 		 * 
-		 * @return array the current config
+		 * @return array
 		 */
 		public function configure($config = null) {
 			if($config !== null) {
@@ -169,7 +169,7 @@
 		 * 
 		 * @param array $config the config array
 		 * 
-		 * @return array of the new current config
+		 * @return array
 		 */
 		private function __config($type, $config) {
 			if(!is_array($config)) {

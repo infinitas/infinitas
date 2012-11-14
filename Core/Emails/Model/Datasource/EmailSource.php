@@ -50,7 +50,7 @@ class EmailSource extends DataSource {
  * describe the data
  *
  * @param mixed $Model
- * @return array the shcema of the model
+ * @return array
  */
 	public function describe($Model) {
 		return $Model->schema;
@@ -61,7 +61,7 @@ class EmailSource extends DataSource {
  *
  * list the sources???
  *
- * @return array sources
+ * @return array
  */
 	public function listSources() {
 		return array('listSources');
@@ -230,7 +230,7 @@ class EmailSource extends DataSource {
  * @param object $Model
  * @param array $query
  *
- * @return array the email according to the find
+ * @return array
  */
 	private function __getMail($Model, $query) {
 		if (!isset($query['conditions'][$Model->alias . '.id']) || empty($query['conditions'][$Model->alias . '.id'])) {
@@ -258,7 +258,7 @@ class EmailSource extends DataSource {
  *
  * @param object $Model the model doing the find
  * @param array $query the find conditions and params
- * @return array the data that was found
+ * @return array
  */
 	private function __getMails($Model, $query) {
 		$pagination = $this->_figurePagination($query);
@@ -275,7 +275,7 @@ class EmailSource extends DataSource {
  * get the basic details like sender and reciver with flags like attatchments etc
  *
  * @param int $messageId the id of the message
- * @return array empty on error/nothing or array of formatted details
+ * @return array
  */
 	private function __getFormattedMail($Model, $messageId) {
 		$return = array();
@@ -425,7 +425,7 @@ class EmailSource extends DataSource {
  *
  * @param array $query conditions for the query
  *
- * @return int the number of emails found
+ * @return integer
  */
 	protected function _mailCount($query) {
 		return isset($this->Server->mailStats['totalCount']) ? $this->Server->mailStats['totalCount'] : 0;
@@ -571,7 +571,7 @@ class EmailSource extends DataSource {
  * Figure out how many emails there are in the thread for this mail.
  *
  * @param object $mail the imap header of the mail
- * @return int the number of mails in the thred
+ * @return integer
  */
 	protected function _getThreadCount($mail) {
 		if(isset($mail->reference) || isset($mail->in_reply_to)) {

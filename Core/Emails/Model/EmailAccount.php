@@ -99,7 +99,7 @@ class EmailAccount extends EmailsAppModel {
  * check the mail server is valid
  *
  * @param array $field the field being validated
- * @return bool is it valid
+ * @return boolean
  */
 	public function validServer($field) {
 		return
@@ -113,7 +113,7 @@ class EmailAccount extends EmailsAppModel {
  * this is used for making sure that the mail server details are correct
  * before saving them to the database.
  *
- * @return bool were we able to connect?
+ * @return boolean
  */
 	public function beforeSave() {
 		return true; //is_int(ClassRegistry::init('Emails.MailSystem')->testConnection($this->data['EmailAccount']));

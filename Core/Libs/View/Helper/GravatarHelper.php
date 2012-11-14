@@ -77,7 +77,7 @@
 		 *
 		 * @param string $email Email address
 		 * @param array $options Array of options, keyed from default settings
-		 * @return string Gravatar image string
+		 * @return string
 		 * @access public
 		 */
 		public function image($email, $options = array()) {
@@ -99,7 +99,7 @@
 		 *
 		 * @param string $email Email address
 		 * @param string $options Array of options, keyed from default settings
-		 * @return string Gravatar Image URL
+		 * @return string
 		 * @access public
 		 */
 		public function url($email, $options = array()) {
@@ -126,7 +126,7 @@
 		 * Generate an array of default images for preview purposes
 		 *
 		 * @param array $options Array of options, keyed from default settings
-		 * @return array Default images array
+		 * @return array
 		 * @access public
 		 */
 		public function defaultImages($options = array()) {
@@ -145,7 +145,7 @@
 		 * Sanitize the options array
 		 *
 		 * @param array $options Array of options, keyed from default settings
-		 * @return array Clean options array
+		 * @return array
 		 * @access private
 		 */
 		private function __cleanOptions($options) {
@@ -179,7 +179,7 @@
 		 *
 		 * @param string $email Email address
 		 * @param string $type Hash type to employ
-		 * @return string Email address hash
+		 * @return string
 		 * @access private
 		 */
 		private function __emailHash($email, $type) {
@@ -190,7 +190,7 @@
 		 * Build Options URL string
 		 *
 		 * @param array $options Array of options, keyed from default settings
-		 * @return string URL string of options
+		 * @return string
 		 * @access private
 		 */
 		private function __buildOptions($options = array()) {

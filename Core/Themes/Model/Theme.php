@@ -63,7 +63,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return array $theme the current theme.
+		 * @return array
 		 */
 		public function getCurrentTheme() {
 			$theme = Cache::read('current_theme', 'core');
@@ -106,7 +106,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return bool
+		 * @return boolean
 		 */
 		public function beforeSave() {
 			if(isset($this->data[$this->alias]['active']) && $this->data[$this->alias]['active']) {
@@ -125,7 +125,7 @@
 		 *
 		 * @param $cascade bool
 		 *
-		 * @return bool true to delete, false to stop
+		 * @return boolean
 		 */
 		public function beforeDelete($cascade) {
 			$active = $this->read('active');
@@ -140,7 +140,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return bool true on sucsess false if not.
+		 * @return boolean
 		 */
 		public function deactivateAll() {
 			return $this->updateAll(
@@ -185,7 +185,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return array list of installed themes
+		 * @return array
 		 */
 		public function installed() {
 			$themes = $this->find(
@@ -210,7 +210,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return array list of themes that are not installed
+		 * @return array
 		 */
 		public function notInstalled() {
 			App::uses('InstallerLib', 'Installer.Lib');

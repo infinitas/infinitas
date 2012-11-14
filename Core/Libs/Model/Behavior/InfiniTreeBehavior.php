@@ -58,7 +58,7 @@
 		 *
 		 * @param AppModel $Model Model instance.
 		 * @param boolean $created indicates whether the node just saved was created or updated
-		 * @return boolean true on success, false on failure
+		 * @return boolean
 		 * @access public
 		 */
 		public function afterSave(Model $Model, $created) {
@@ -93,7 +93,7 @@
 		 * If scoped it will automatically set the needed scope data for the extended TreeBehavior.
 		 *
 		 * @param AppModel $Model Model instance
-		 * @return boolean true to continue, false to abort the delete
+		 * @return boolean
 		 * @access public
 		 */
 		public function beforeDelete(Model $Model) {
@@ -112,7 +112,7 @@
 		 * If countercache is enabled, the parent id will be updated with the correct counts.
 		 *
 		 * @param AppModel $Model Model instance
-		 * @return boolean true to continue, false to abort the delete
+		 * @return boolean
 		 * @access public
 		 */
 		public function afterDelete(Model $Model) {
@@ -155,7 +155,7 @@
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to read or false to read all top level nodes
 		 * @param boolean $direct whether to count direct, or all, children
-		 * @return integer number of child nodes
+		 * @return integer
 		 * @access public
 		 * @link http://book.cakephp.org/view/1347/Counting-children
 		 */
@@ -192,7 +192,7 @@
 		 * @param integer $limit SQL LIMIT clause, for calculating items per page.
 		 * @param integer $page Page number, for accessing paged data
 		 * @param integer $recursive The number of levels deep to fetch associated records
-		 * @return array Array of child nodes
+		 * @return array
 		 * @access public
 		 * @link http://book.cakephp.org/view/1346/Children
 		 */
@@ -219,7 +219,7 @@
 		 * @param string $valuePath A string path to the value, i.e. "{n}.Post.title"
 		 * @param string $spacer The character or characters which will be repeated
 		 * @param integer $recursive The number of levels deep to fetch associated records
-		 * @return array An associative array of records, where the id is the key, and the display field is the value
+		 * @return array
 		 * @access public
 		 * @link http://book.cakephp.org/view/1348/generateTreeList
 		 */
@@ -242,7 +242,7 @@
 		 * @param mixed $id The ID of the record to read
 		 * @param mixed $fields Either a single string of a field name, or an array of field names
 		 * @param integer $recursive The number of levels deep to fetch associated records
-		 * @return array Array of nodes from top most parent to current node
+		 * @return array
 		 * @access public
 		 * @link http://book.cakephp.org/view/1350/getPath
 		 */
@@ -266,7 +266,7 @@
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to move
 		 * @param int|bool $number how many places to move the node or true to move to last position
-		 * @return boolean true on success, false on failure
+		 * @return boolean
 		 * @access public
 		 * @link http://book.cakephp.org/view/1352/moveDown
 		 */
@@ -290,7 +290,7 @@
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to move
 		 * @param int|bool $number how many places to move the node, or true to move to first position
-		 * @return boolean true on success, false on failure
+		 * @return boolean
 		 * @access public
 		 * @link http://book.cakephp.org/view/1353/moveUp
 		 */
@@ -322,7 +322,7 @@
 		 * delete, or the id of the parent to set as the parent_id
 		 * @param string $scope The scopeField to select which tree to recover
 		 *
-		 * @return boolean true on success, false on failure
+		 * @return boolean
 		 *
 		 * @access public
 		 *
@@ -360,7 +360,7 @@
 		 *
 		 * @param AppModel $Model Model instance
 		 * @param array $options array of options to use in reordering.
-		 * @return boolean true on success, false on failure
+		 * @return boolean
 		 * @link http://book.cakephp.org/view/1355/reorder
 		 * @link http://book.cakephp.org/view/1629/Reorder
 		 */
@@ -396,7 +396,7 @@
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The ID of the record to remove
 		 * @param boolean $delete whether to delete the node after reparenting children (if any)
-		 * @return boolean true on success, false on failure
+		 * @return boolean
 		 * @access public
 		 * @link http://book.cakephp.org/view/1354/removeFromTree
 		 */
@@ -541,7 +541,7 @@
 		 * @param object $Model the model that is doing the save
 		 * @param bool $id The lowest node to start updating from
 		 *
-		 * @return Array model data
+		 * @return array
 		 */
 		public function updateTreeCounterCache(Model $Model, $id=null) {
 			if(is_null($id)) {
@@ -617,7 +617,7 @@
 		 * @param object $Model the model that is doing the save
 		 * @param bool $id The row to fetch
 		 *
-		 * @return Array model data
+		 * @return array
 		 */
 		private function __getNodeInfo(Model $Model, $id) {
 			$node = $Model->find('first', array(
@@ -642,7 +642,7 @@
 		 *
 		 * @param object $Model the model that is doing the save
 		 *
-		 * @return Array model data
+		 * @return array
 		 */
 		public function counterCacheEnabled(Model $Model) {
 			return $this->settings[$Model->alias]['counterCache'] || $this->settings[$Model->alias]['directCounterCache'];
@@ -693,7 +693,7 @@
 		 *
 		 * @param AppModel $Model Model instance
 		 * @param mixed $id The node id or an array containing id and/or scope.
-		 * @return string The id value that the original tree behavior expects as the id parameter
+		 * @return string
 		 * @access private
 		 */
 		private function __setScopeFromId(Model $Model, $id) {
@@ -735,7 +735,7 @@
 		 * @param AppModel $Model Model instance
 		 * @param mixed $data The data given to try and get the scope from
 		 * @param bool $beforeSave Set to true when called from the beforeSave to set the scopeField to the data array
-		 * @return bool True on success false if the scope couldnt be found.
+		 * @return boolean
 		 * @access private
 		 */
 		private function __setScope(Model $Model, $data = null, $beforeSave = false) {

@@ -66,7 +66,7 @@
 		/**
 		 * 
 		 * @param <type> $attachments
-		 * @return string html block of attachments
+		 * @return string
 		 */
 		public function listAttachments($attachments = array()) {
 			if(empty($attachments) || !is_array($attachments)) {

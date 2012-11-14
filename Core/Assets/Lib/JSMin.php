@@ -218,7 +218,7 @@
 		/**
 		* Is $c a letter, digit, underscore, dollar sign, or non-ASCII character.
 		*
-		* @return bool
+		* @return boolean
 		*/
 		protected function isAlphaNum($c) {
 			return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;

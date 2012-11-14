@@ -239,7 +239,7 @@
 		 * @param object $Model model object
 		 * @param array $record
 		 *
-		 * @return array $record
+		 * @return array
 		 */
 		private function __convertChildren($Model, $record) {
 			foreach (array_merge($Model->hasMany, $Model->hasOne) as $key => $val) {
@@ -286,7 +286,7 @@
 		 *
 		 * @param object $Model Model object
 		 *
-		 * @return array $this->record
+		 * @return array
 		 */
 		private function __convertData($Model) {
 			$this->record[$Model->alias] = $this->__stripFields($Model, $this->record[$Model->alias]);
@@ -304,7 +304,7 @@
 		 * @param object $Model the model being copied
 		 * @param array $record the data being copied
 		 *
-		 * @return array of the modified data
+		 * @return array
 		 */
 		private function __renameUniqueFields($Model, $record) {
 			foreach(array_keys($record) as $field) {
@@ -346,7 +346,7 @@
 		 *
 		 * @param object $Model	Model object
 		 *
-		 * @return array modified $record
+		 * @return array
 		 */
 		private function __convertHabtm($Model, $record) {
 			if (!$this->settings[$Model->alias]['habtm']) {

@@ -30,7 +30,7 @@
 		 * some stats befor the cron starts. This will enable infinitas to show
 		 * how much resources the crons are taking up.
 		 *
-		 * @return bool|void true if everything is cool, null if already running or could not start
+		 * @return boolean|void true if everything is cool, null if already running or could not start
 		 */
 		public function start() {
 			$data = null;
@@ -130,7 +130,7 @@
 		 *
 		 * @param string $date the datetime since the last cron should have run
 		 *
-		 * @return bool are there jobs recently
+		 * @return boolean
 		 */
 		public function countJobsAfter($date) {
 			$data = $this->find(

@@ -12,7 +12,7 @@
 		 * eventually want 'AND' instead.
 		 * TODO: Test in conditions where no 'with'
 		 *
-		 * @return array Modified queryData array
+		 * @return array
 		 */
 		function beforeFind(&$model, $queryData) {
 			$retQueryData = $queryData;

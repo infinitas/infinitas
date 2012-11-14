@@ -412,7 +412,7 @@
 		/**
 		 * Finds the first incomplete step (i.e. step data not saved in Session).
 		 *
-		 * @return string $step or false if complete
+		 * @return string
 		 * @access protected
 		 */
 		function _getExpectedStep() {

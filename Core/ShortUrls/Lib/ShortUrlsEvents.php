@@ -104,7 +104,7 @@ class ShortUrlsEvents extends AppEvents {
  *
  * @param $event the event object
  * @param $data array of type and url
- * @return array a cake url array for the short url that was created
+ * @return array
  */
 	public function onGetShortUrl($event, $data) {
 		$data['code'] = ClassRegistry::init('ShortUrls.ShortUrl')->shorten($data['url']);

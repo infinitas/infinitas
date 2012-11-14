@@ -133,7 +133,7 @@ class AppEvents extends Object {
  *
  * This will allow your plugin to regiser extensions with parseExtensions
  *
- * @return array of extensions that should be registered.
+ * @return array
  */
 	public function onSetupExtensions(Event $Event) {}
 

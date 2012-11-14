@@ -48,7 +48,7 @@ class ClearCacheShell extends AppShell {
  *
  * Clears content of CACHE subfolders and configured cache engines
  *
- * @return array associative array with cleanup results
+ * @return array
  * @access public
  */
 	public function main() {

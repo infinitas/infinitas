@@ -129,7 +129,7 @@ class CakeSchema extends Object {
  * Before callback to be implemented in subclasses
  *
  * @param array $event schema object properties
- * @return boolean Should process continue
+ * @return boolean
  */
 	public function before($event = array()) {
 		return true;
@@ -148,7 +148,7 @@ class CakeSchema extends Object {
  * Reads database and creates schema tables
  *
  * @param array $options schema object properties
- * @return array Set of name and tables
+ * @return array
  */
 	public function load($options = array()) {
 		if (is_string($options)) {
@@ -186,7 +186,7 @@ class CakeSchema extends Object {
  * - 'models' - a list of models to use, or false to ignore models
  *
  * @param array $options schema object properties
- * @return array Array indexed by name and tables
+ * @return array
  */
 	public function read($options = array()) {
 		extract(array_merge(
@@ -395,7 +395,7 @@ class CakeSchema extends Object {
  *
  * @param string $table Table name you want returned.
  * @param array $fields Array of field information to generate the table with.
- * @return string Variable declaration for a schema class
+ * @return string
  */
 	public function generateTable($table, $fields) {
 		$out = "\tpublic \${$table} = array(\n";
@@ -439,7 +439,7 @@ class CakeSchema extends Object {
  *
  * @param mixed $old Schema object or array
  * @param mixed $new Schema object or array
- * @return array Tables (that are added, dropped, or changed)
+ * @return array
  */
 	public function compare($old, $new = null) {
 		if (empty($new)) {
@@ -530,7 +530,7 @@ class CakeSchema extends Object {
  *
  * @param array $array1 Base array
  * @param array $array2 Corresponding array checked for equality
- * @return array Difference as array with array(keys => values) from input array
+ * @return array
  *     where match was not found.
  */
 	protected function _arrayDiffAssoc($array1, $array2) {
@@ -564,7 +564,7 @@ class CakeSchema extends Object {
  * Formats Schema columns from Model Object
  *
  * @param array $values options keys(type, null, default, key, length, extra)
- * @return array Formatted values
+ * @return array
  */
 	protected function _values($values) {
 		$vals = array();
@@ -585,7 +585,7 @@ class CakeSchema extends Object {
  * Formats Schema columns from Model Object
  *
  * @param array $Obj model object
- * @return array Formatted columns
+ * @return array
  */
 	protected function _columns(&$Obj) {
 		$db = $Obj->getDataSource();
@@ -695,7 +695,7 @@ class CakeSchema extends Object {
  *
  * @param string $prefix Table prefix
  * @param string $table Full table name
- * @return string Prefix-less table name
+ * @return string
  */
 	protected function _noPrefixTable($prefix, $table) {
 		return preg_replace('/^' . preg_quote($prefix) . '/', '', $table);

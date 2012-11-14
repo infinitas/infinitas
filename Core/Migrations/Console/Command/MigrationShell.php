@@ -652,7 +652,7 @@ TEXT;
 		 * Return the path used
 		 *
 		 * @param string $type Can be 'app' or a plugin name
-		 * @return string Path used
+		 * @return string
 		 * @access private
 		 */
 		private function __getPath($type = null) {

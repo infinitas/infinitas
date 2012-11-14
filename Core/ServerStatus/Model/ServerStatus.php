@@ -54,7 +54,7 @@
 		 * Generate a report on the last two weeks
 		 *
 		 * @param array $conditions normal conditions for the find
-		 * @return array array of data with model, totals and days
+		 * @return array
 		 */
 		public function reportLastTwoWeeks($conditions = array()) {
 			$viewCountsByDay = $this->find(
@@ -93,7 +93,7 @@
 		 * Generate a report on the last six months
 		 *
 		 * @param array $conditions normal conditions for the find
-		 * @return array array of data with model, totals and days
+		 * @return array
 		 */
 		public function reportLastSixMonths($conditions = array()) {
 			$lastSixMonths = $this->find(
@@ -132,7 +132,7 @@
 		 *
 		 * @param array $conditions normal conditions for the find
 		 * @param int $limit the maximum number of rows to return
-		 * @return array array of data with model, totals and days
+		 * @return array
 		 */
 		public function reportByHour($conditions = array()) {
 			$viewCountsByHour = $this->find(
@@ -168,7 +168,7 @@
 		 * Generate a report on the daily loads
 		 *
 		 * @param array $conditions normal conditions for the find
-		 * @return array array of data with model, totals and days
+		 * @return array
 		 */
 		public function reportByDay($conditions = array()) {
 			$this->virtualFields['sub_total']   = 'ROUND(AVG(' . $this->alias . '.load_ave), 3)';

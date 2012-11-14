@@ -113,7 +113,7 @@
 		 * @param string $plugin the name of the plugin
 		 * @param string $theme the name of the theme
 		 * 
-		 * @return string the path that is requested 
+		 * @return string
 		 */
 		public static function themePath($plugin = null, $theme = null) {
 			if(!$plugin) {

@@ -124,7 +124,7 @@
 		 * backend by changing the config value "Website.password_regex".
 		 *
 		 * @params array $field the array $field => $value from the form
-		 * @return bool true if password matches the regex and false if not
+		 * @return boolean
 		 */
 		public function validPassword($field = null) {
 			return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
@@ -137,7 +137,7 @@
 		 * login and ipaddress to them.
 		 *
 		 * @param int $userId the users id.
-		 * @return array the data from the last login.
+		 * @return array
 		 */
 		public function getLastLogon($userId = null) {
 			if (!$userId) {
@@ -257,7 +257,7 @@
 		 *
 		 * @param mixed $userId user id to check
 		 *
-		 * @return bool, true if valid, false if not
+		 * @return boolean, true if valid, false if not
 		 */
 		public function validUserId($userId) {
 			if(!$userId) {

@@ -85,7 +85,7 @@ class MassActionComponent extends InfinitasComponent {
  * @param string $massAction the action to preform
  * @param array $data the form data
  *
- * @return array $ids the array of ids for the model that was selected.
+ * @return array
  */
 	public function getIds($massAction, $data) {
 		if (in_array($massAction, array('add', 'filter', 'install'))) {
@@ -113,7 +113,7 @@ class MassActionComponent extends InfinitasComponent {
  *
  * @param array $form the data from the form submition $this->request->params['form']
  *
- * @return string the action selected, or redirect to referer if no action found.
+ * @return string
  */
 	public function getAction($redirect = true) {
 		if (!empty($this->Controller->request->data['action'])) {

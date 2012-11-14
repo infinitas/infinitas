@@ -33,7 +33,7 @@
 		 * the next one. This has nothing to do with if the cron is already
 		 * running and is only a tiny request if it fails.
 		 *
-		 * @return bool true if time has passed, false if time has not passed
+		 * @return boolean
 		 */
 		public function checkTimePassed() {
 			$date = strtotime('-' . Configure::read('Cron.run_every'));

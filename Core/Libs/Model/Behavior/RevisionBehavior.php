@@ -158,7 +158,7 @@
 		 *
 		 * @example $this->Post->id = 5; $this->Post->createRevision();
 		 * @param object $Model
-		 * @return boolean success
+		 * @return boolean
 		 */
 		function createRevision(&$Model) {
 			if (!$Model->id) {
@@ -469,7 +469,7 @@
 		 *
 		 * @param object $Model
 		 * @param array $options 'conditions','date'
-		 * @return boolean success
+		 * @return boolean
 		 */
 		function revertAll($Model, $options = array()) {
 			if (!$Model->ShadowModel) {

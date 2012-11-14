@@ -97,7 +97,7 @@
 		 * setting the Global.pagination_limit to 0 should turn this off
 		 *
 		 * @param int $limit the current limit that is being requested
-		 * @return int site max if limit was to high :: the limit that was set if its not to high
+		 * @return integer
 		 */
 		public function paginationHardLimit($limit = null, $return = false) {
 			if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
@@ -210,7 +210,7 @@
 		/**
 		 * Get users opperating system.
 		 *
-		 * @return string the name of the opperating sustem or Unknown if unable to detect
+		 * @return string
 		 */
 		public function getOperatingSystem() {
 			$event = $this->Controller->Event->trigger('findOperatingSystem');

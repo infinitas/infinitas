@@ -153,7 +153,7 @@
 		 * @param bool $primary is this the primary model doing the find
 		 * @access public
 		 *
-		 * @return array the results after bing formatted
+		 * @return array
 		 */
 		public function afterFind($results, $primary) {
 			if($this->findQueryType == 'linkedComments') {
@@ -202,7 +202,7 @@
 		 * @param int $limit the max number of records to get
 		 * @access public
 		 *
-		 * @return array the comments that were found
+		 * @return array
 		 */
 		public function getUsersComments($userId = null, $limit = 5) {
 			$comments = $this->find(
@@ -274,7 +274,7 @@
 		 *
 		 * @todo add cache
 		 *
-		 * @return array list of model classes
+		 * @return array
 		 */
 		public function getUniqueClassList() {
 			$this->displayField = 'class';
@@ -307,7 +307,7 @@
 		 * @param int $limit the msx number of comments to get
 		 * @access public
 		 *
-		 * @return array the comments found
+		 * @return array
 		 */
 		public function latestComments($all = true, $limit = 10) {
 			$cacheName = cacheName('latest_comments_', array($all, $limit));

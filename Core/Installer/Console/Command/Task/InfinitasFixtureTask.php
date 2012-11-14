@@ -43,7 +43,7 @@ class InfinitasFixtureTask extends Shell {
  *
  * @param string $modelName name of the model to take records from.
  * @param string $useTable Name of table to use.
- * @return array Array of records.
+ * @return array
  * @access protected
  */
 	function _getRecordsFromTable($modelName, $condition, $useTable = null) {
@@ -81,7 +81,7 @@ class InfinitasFixtureTask extends Shell {
  * Convert a $records array into a a string.
  *
  * @param array $records Array of records to be converted to string
- * @return string A string value of the $records array.
+ * @return string
  * @access protected
  */
 	function _makeRecordString($records) {

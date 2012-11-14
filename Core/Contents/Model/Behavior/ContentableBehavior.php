@@ -73,7 +73,7 @@
 		 *
 		 * @param object $Model the model doing the find
 		 * @param array $query the conditions of the find
-		 * @return array the modified query
+		 * @return array
 		 */
 		public function beforeFind($Model, $query) {
 			$ignore = array(
@@ -265,7 +265,7 @@
 		 * @param array $results the data from the find
 		 * @param bool $primary is it this model doing the query
 		 *
-		 * @return array the modified data from the find
+		 * @return array
 		 */
 		public function afterFind($Model, $results, $primary = false) {
 			parent::afterFind($Model, $results, $primary);
@@ -344,7 +344,7 @@
 		 * make sure the model is set for the record to be able to link
 		 *
 		 * @param object $Model the model that is doing the save
-		 * @return bool true to save, false to skip
+		 * @return boolean
 		 */
 		public function beforeSave($Model) {
 			if(!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])) {

@@ -85,7 +85,7 @@ class ViewableBehavior extends ModelBehavior {
  *
  * @param object $Model Model about to be saved.
  *
- * @return boolean true if save should proceed, false otherwise
+ * @return boolean
  */
 	public function afterFind($Model, $data) {
 		// skip finds with more than one result.

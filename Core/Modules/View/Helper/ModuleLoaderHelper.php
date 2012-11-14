@@ -202,7 +202,7 @@
 		 * @param mixed $module string from userland, array (like find(first)) from core
 		 * @param bool $admin affects the path the module is loaded from.
 		 *
-		 * @return array the params for loading the module.
+		 * @return array
 		 */
 		private function __getModuleParams($module, $admin = null) {
 			if(!$admin) {

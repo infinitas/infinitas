@@ -93,7 +93,7 @@ class MigrationTask extends AppShell {
  *
  * @param string $type Can be 'app' or a plugin name
  *
- * @return string Path used
+ * @return string
  */
 	private function __getPath($type = null) {
 		if ($type === null) {

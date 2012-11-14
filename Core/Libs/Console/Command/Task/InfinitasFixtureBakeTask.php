@@ -105,7 +105,7 @@
 		 * @param array $new list of new fields (to add)
 		 * @param array $old list of old fields (to remove)
 		 *
-		 * @return array the old fixture with new stuff merged in
+		 * @return array
 		 */
 		private function __cleanupRecords($fixture, $new, $old) {
 			foreach($new as $newField) {
@@ -132,7 +132,7 @@
 		 * @param string $useTable the table that the model uses
 		 * @param array $importOptions options for the import
 		 *
-		 * @return array of fixture data
+		 * @return array
 		 */
 		public function getNewFixture($model, $useTable = false, $importOptions = array()) {
 			if (!class_exists('CakeSchema')) {
@@ -179,7 +179,7 @@
 		 * @param string $plugin the name of the plugin
 		 * @param string $model the name of the model
 		 *
-		 * @return array details of the fixture (records, fields etc)
+		 * @return array
 		 */
 		public function getOldFixture($plugin, $model) {
 			$file = App::pluginPath($plugin) . 'Test' . DS . 'Fixture' . DS . $model . 'Fixture.php';

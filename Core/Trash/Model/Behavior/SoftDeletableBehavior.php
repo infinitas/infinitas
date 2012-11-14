@@ -45,7 +45,7 @@
 		 *
 		 * @param object $model Model about to be deleted
 		 * @param boolean $cascade If true records that depend on this record will also be deleted
-		 * @return boolean Set to true to continue with delete, false otherwise
+		 * @return boolean
 		 */
 		public function beforeDelete($model, $cascade = true) {
 			$this->__result = null;
@@ -64,7 +64,7 @@
 		 * @param object $model Model from where the method is being executed.
 		 * @param mixed $id ID of the soft-deleted record.
 		 * @param boolean $cascade Also delete dependent records
-		 * @return boolean Result of the operation.
+		 * @return boolean
 		 */
 		public function softDelete($model, $id, $cascade = false) {
 			$attributes = $this->settings[$model->alias];
@@ -121,7 +121,7 @@
 		 * @param object $model Model from where the method is being executed.
 		 * @param mixed $id ID of the soft-deleted record.
 		 * @param boolean $cascade Also delete dependent records
-		 * @return boolean Result of the operation.
+		 * @return boolean
 		 */
 		public function hardDelete($model, $id, $cascade = true) {
 			$onFind = $this->settings[$model->alias]['find'];
@@ -141,7 +141,7 @@
 		 *
 		 * @param object $model Model from where the method is being executed.
 		 * @param boolean $cascade Also delete dependent records
-		 * @return boolean Result of the operation.
+		 * @return boolean
 		 */
 		public function purge($model, $cascade = true) {
 			$purged = false;
@@ -166,7 +166,7 @@
 		 * @param object $model Model from where the method is being executed.
 		 * @param mixed $id ID of the soft-deleted record.
 		 * @param $attributes Other fields to change (in the form of field => value)
-		 * @return boolean Result of the operation.
+		 * @return boolean
 		 */
 		public function undelete($model, $id = null, $attributes = array()) {
 			if ($model->hasField($this->settings[$model->alias]['field'])) {
@@ -287,7 +287,7 @@
 		 * Run before a model is saved, used to disable beforeFind() override.
 		 *
 		 * @param object $model Model about to be saved.
-		 * @return boolean True if the operation should continue, false if it should abort
+		 * @return boolean
 		 */
 		public function beforeSave($model) {
 			if ($this->settings[$model->alias]['find']) {

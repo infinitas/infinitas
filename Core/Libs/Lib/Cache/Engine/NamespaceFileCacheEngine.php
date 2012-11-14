@@ -70,7 +70,7 @@
 		 * To reinitialize the settings call Cache::engine('EngineName', [optional] settings = array());
 		 *
 		 * @param array $setting array of setting for the engine
-		 * @return boolean True if the engine has been successfully initialized, false if not
+		 * @return boolean
 		 * @access public
 		 */
 		function init($settings = array()) {
@@ -101,7 +101,7 @@
 		/**
 		 * Garbage collection. Permanently remove all expired and deleted data
 		 *
-		 * @return boolean True if garbage collection was succesful, false on failure
+		 * @return boolean
 		 * @access public
 		 */
 		function gc() {
@@ -114,7 +114,7 @@
 		 * @param string $key Identifier for the data
 		 * @param mixed $data Data to be cached
 		 * @param mixed $duration How long to cache the data, in seconds
-		 * @return boolean True if the data was succesfully cached, false on failure
+		 * @return boolean
 		 * @access public
 		 */
 		public function write($key, $value, $duration) {
@@ -220,7 +220,7 @@
 		 * Delete a key from the cache
 		 *
 		 * @param string $key Identifier for the data
-		 * @return boolean True if the value was successfully deleted, false if it didn't exist or couldn't be removed
+		 * @return boolean
 		 * @access public
 		 */
 		function delete($key) {
@@ -236,7 +236,7 @@
 		 * Delete all values from the cache
 		 *
 		 * @param boolean $check Optional - only delete expired cache items
-		 * @return boolean True if the cache was succesfully cleared, false otherwise
+		 * @return boolean
 		 * @access public
 		 */
 		function clear($check = false) {

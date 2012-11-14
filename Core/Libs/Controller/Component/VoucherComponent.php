@@ -62,7 +62,7 @@
 		/**
 		 * Creates a blank voucher for manipulation.
 		 *
-		 * @return bool true if image is created false if not
+		 * @return boolean
 		 */
 		function __generateNewVoucher() {
 			// get the size of the image
@@ -94,7 +94,7 @@
 		/**
 		 * Write the code to the voucher
 		 *
-		 * @return bool true if text added false if not
+		 * @return boolean
 		 */
 		function __writeVoucherCode($color = array(255, 255, 0)) {
 			$yellow = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
@@ -111,7 +111,7 @@
 		/**
 		 * Write the users name
 		 *
-		 * @return bool true if text added false if not
+		 * @return boolean
 		 */
 		function __writeUserName($userName = null, $color = array(255, 255, 0), $shadow = true) {
 			if (!$userName) {
@@ -145,7 +145,7 @@
 		 *
 		 * Will default to a date 1 week from now if there is no date passed.
 		 *
-		 * @return bool true if text added false if not
+		 * @return boolean
 		 */
 		function __writeExpiryDate($date = null, $color = array(255, 255, 0)) {
 			if ($date && $date < date('Y-m-d H:i:s')) {
@@ -172,7 +172,7 @@
 		 * Terms and conditions
 		 *
 		 * @param array $color the text collor for terms, defaults to black
-		 * @return bool true if terms are created
+		 * @return boolean
 		 */
 		function __writeTerms($color = array(0, 0, 0)) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
@@ -194,7 +194,7 @@
 		 * Voucher title
 		 *
 		 * @param array $color the text collor for terms, defaults to black
-		 * @return bool true if text written, false if not
+		 * @return boolean
 		 */
 		function __writeVoucherTitle($color = array(0, 146, 63), $shadow = true) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
@@ -212,7 +212,7 @@
 		 * Voucher description
 		 *
 		 * @param array $color the text collor for terms, defaults to black
-		 * @return bool true if text written, false if not
+		 * @return boolean
 		 */
 		function __writeVoucherDescription($color = array(0, 0, 0)) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
@@ -274,7 +274,7 @@
 		 *
 		 * Saves the image to disk.
 		 *
-		 * @return bool true if file writes, false if not
+		 * @return boolean
 		 */
 		function __saveVoucher() {
 			$newVoucher = $this->path.'test.png';

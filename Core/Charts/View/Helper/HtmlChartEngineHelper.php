@@ -70,7 +70,7 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
  *
  * @param array $data the formatted data from the ChartsHelper
  *
- * @return string the markup for the chart that was generated.
+ * @return string
  */
 	public function bar($data) {
 		$legend = '';
@@ -127,7 +127,7 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
  *
  * @param array $data the data for the chart
  *
- * @return string some css
+ * @return string
  */
 	private function __generateBarCss($data) {
 		$colWidth = (($data['width'] + $data['spacing']['padding']) / count($data['data'][0]) / $data['width']) * 100;

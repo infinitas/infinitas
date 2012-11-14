@@ -128,7 +128,7 @@
 		 *
 		 * @param mixed $message A string or a an array of strings to output
 		 * @param integer $newlines Number of newlines to append
-		 * @return integer Returns the number of bytes returned from writing to stdout.
+		 * @return integer
 		 * @access public
 		 */
 		public function out($message = null, $newLines = 0) {

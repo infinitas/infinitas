@@ -94,7 +94,7 @@
 		 * Before migration callback
 		 *
 		 * @param string $direction, up or down direction of migration process
-		 * @return boolean Should process continue
+		 * @return boolean
 		 * @access public
 		 */
 		public function before($direction) {
@@ -105,7 +105,7 @@
 		 * After migration callback
 		 *
 		 * @param string $direction, up or down direction of migration process
-		 * @return boolean Should process continue
+		 * @return boolean
 		 * @access public
 		 */
 		public function after($direction) {
@@ -140,7 +140,7 @@
 		 * Run migration
 		 *
 		 * @param string $direction, up or down direction of migration process
-		 * @return boolean Status of the process
+		 * @return boolean
 		 * @access public
 		 */
 		public function run($direction, $basePrefix = '', $sample = false) {
@@ -299,7 +299,7 @@
 		 *
 		 * @param string $type Type of operation to be done, in this case 'create_table'
 		 * @param array $tables List of tables to be created
-		 * @return boolean Return true in case of success, otherwise false
+		 * @return boolean
 		 * @access protected
 		 */
 		protected function _createTable($type, $tables) {
@@ -325,7 +325,7 @@
 		 *
 		 * @param string $type Type of operation to be done, in this case 'drop_table'
 		 * @param array $tables List of tables to be dropped
-		 * @return boolean Return true in case of success, otherwise false
+		 * @return boolean
 		 * @access protected
 		 */
 		protected function _dropTable($type, $tables) {
@@ -350,7 +350,7 @@
 		 *
 		 * @param string $type Type of operation to be done, this case 'rename_table'
 		 * @param array $tables List of tables to be renamed
-		 * @return boolean Return true in case of success, otherwise false
+		 * @return boolean
 		 * @access protected
 		 */
 		protected function _renameTable($type, $tables) {
@@ -380,7 +380,7 @@
 		 *
 		 * @param string $type Type of operation to be done
 		 * @param array $tables List of tables and fields
-		 * @return boolean Return true in case of success, otherwise false
+		 * @return boolean
 		 * @access protected
 		 */
 		protected function _alterTable($type, $tables) {

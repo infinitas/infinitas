@@ -109,7 +109,7 @@
 		 * @param string $eventName the name of the event to run
 		 * @access public
 		 *
-		 * @return array the array of plugins that will be run
+		 * @return array
 		 */
 		public function pluginsWith($eventName) {
 			$_this = EventCore::getInstance();
@@ -133,7 +133,7 @@
 		 * @param mixed $plugins single / list of plugins to turn on
 		 * @param bool $allowUninstalled allow turning on a plugin that is not installed (not recommended)
 		 *
-		 * @return bool true if they were added, false if not
+		 * @return boolean
 		 */
 		static public function activatePlugins($plugins = array(), $allowUninstalled = false) {
 			$_this = EventCore::getInstance();
@@ -174,7 +174,7 @@
 		 *
 		 * @param string $plugin the name of the plugin to check
 		 *
-		 * @return bool true if its active, false if not
+		 * @return boolean
 		 */
 		public function isPluginActive($plugin) {
 			$_this = EventCore::getInstance();
@@ -260,7 +260,7 @@
 		 * and alling the string class to much.
 		 *
 		 * @param string $eventName the name of the event
-		 * @return array the scope + event name
+		 * @return array
 		 */
 		protected function _parseEventName($eventName) {
 			$_this = EventCore::getInstance();
@@ -292,7 +292,7 @@
 		 * so that there are less calls to the inflector method.
 		 *
 		 * @param string $eventName
-		 * @return string the method to be called
+		 * @return string
 		 *
 		 */
 		protected function _handlerMethodName($eventName) {
@@ -366,7 +366,7 @@
 		 * so many times.
 		 *
 		 * @param string $className the name of the class being called
-		 * @return string the plugin being called.
+		 * @return string
 		 * @access private
 		 */
 		protected function _extractPluginName($className) {

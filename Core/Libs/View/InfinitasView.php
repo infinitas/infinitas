@@ -55,7 +55,7 @@
 		 * @param string $viewFile the file that is being rendered
 		 * @param array $data see cake docs
 		 *
-		 * @return string the rendered output
+		 * @return string
 		 */
 		protected function _render($viewFile, $data = array()) {
 			$this->__loadHelpers();
@@ -112,7 +112,7 @@
 		 * @param string $template the mustache template
 		 * @param array $variables variables that will be instered into the template
 		 *
-		 * @return string the rendered template with variables inserted
+		 * @return string
 		 */
 		public function renderTemplate($template, array $variables = array()) {
 			return $this->Mustache->render($template, $variables);

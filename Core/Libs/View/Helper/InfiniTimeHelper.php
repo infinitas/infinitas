@@ -34,7 +34,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Parsed timestamp
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -47,7 +47,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Formatted date string
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -65,7 +65,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Described, relative date string
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -80,7 +80,7 @@ class InfiniTimeHelper extends TimeHelper {
  * @param string $dateString Datetime string or Unix timestamp
  * @param string $fieldName Name of database field to compare with
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Partial SQL string.
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -93,7 +93,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return boolean True if datetime string is today
+ * @return boolean
  * @access public
  */
 	function isToday($dateString, $userOffset = null) {
@@ -104,7 +104,7 @@ class InfiniTimeHelper extends TimeHelper {
  * Returns true if given datetime string is within this week
  * @param string $dateString
  * @param int $userOffset User's offset from GMT (in hours)
- * @return boolean True if datetime string is within current week
+ * @return boolean
  * @access public
  * @link http://book.cakephp.org/view/1472/Testing-Time
  */
@@ -116,7 +116,7 @@ class InfiniTimeHelper extends TimeHelper {
  * Returns true if given datetime string is within this month
  * @param string $dateString
  * @param int $userOffset User's offset from GMT (in hours)
- * @return boolean True if datetime string is within current month
+ * @return boolean
  * @access public
  * @link http://book.cakephp.org/view/1472/Testing-Time
  */
@@ -128,7 +128,7 @@ class InfiniTimeHelper extends TimeHelper {
  * Returns true if given datetime string is within current year.
  *
  * @param string $dateString Datetime string or Unix timestamp
- * @return boolean True if datetime string is within current year
+ * @return boolean
  * @access public
  * @link http://book.cakephp.org/view/1472/Testing-Time
  */
@@ -141,7 +141,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return boolean True if datetime string was yesterday
+ * @return boolean
  * @access public
  * @link http://book.cakephp.org/view/1472/Testing-Time
  *
@@ -155,7 +155,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return boolean True if datetime string was yesterday
+ * @return boolean
  * @access public
  * @link http://book.cakephp.org/view/1472/Testing-Time
  */
@@ -168,7 +168,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string to be represented as a Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return integer Unix timestamp
+ * @return integer
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -181,7 +181,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Formatted date string
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -194,7 +194,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Formatted date string
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -235,7 +235,7 @@ class InfiniTimeHelper extends TimeHelper {
  *
  * @param string $dateString Datetime string or Unix timestamp
  * @param array $options Default format if timestamp is used in $dateString
- * @return string Relative time string.
+ * @return string
  * @access public
  * @link http://book.cakephp.org/view/1471/Formatting
  */
@@ -249,7 +249,7 @@ class InfiniTimeHelper extends TimeHelper {
  * @param mixed $dateTime Datetime string (strtotime-compatible) or Unix timestamp
  * @param mixed $options Default format string, if timestamp is used in $dateTime, or an array of options to be passed
  *   on to timeAgoInWords().
- * @return string Relative time string.
+ * @return string
  * @see TimeHelper::timeAgoInWords
  * @access public
  * @deprecated This method alias will be removed in future versions.
@@ -266,7 +266,7 @@ class InfiniTimeHelper extends TimeHelper {
  *    Example of valid types: 6 hours, 2 days, 1 minute.
  * @param mixed $dateString the datestring or unix timestamp to compare
  * @param int $userOffset User's offset from GMT (in hours)
- * @return bool
+ * @return boolean
  * @access public
  * @link http://book.cakephp.org/view/1472/Testing-Time
  */
@@ -283,7 +283,7 @@ class InfiniTimeHelper extends TimeHelper {
  * @param string $dateString Datetime string (or a date format string)
  * @param boolean $invalid flag to ignore results of fromString == false
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Formatted date string
+ * @return string
  * @access public
  */
 	function format($format, $date = null, $invalid = false, $userOffset = null) {
@@ -298,7 +298,7 @@ class InfiniTimeHelper extends TimeHelper {
  * @param string $format strftime format string.
  * @param boolean $invalid flag to ignore results of fromString == false
  * @param int $userOffset User's offset from GMT (in hours)
- * @return string Formatted and translated date string @access public
+ * @return string
  * @access public
  */
 	function i18nFormat($date, $format = null, $invalid = false, $userOffset = null) {

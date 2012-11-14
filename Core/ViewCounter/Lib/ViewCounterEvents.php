@@ -112,7 +112,7 @@ class ViewCounterEvents extends AppEvents {
  * generate some info for the number of views
  *
  * @param int the number of views
- * @return string the view text
+ * @return string
  */
 	private function __views($views = 0, $model = null) {
 		$average = ClassRegistry::init('ViewCounter.ViewCounterView')->getAverage($model);

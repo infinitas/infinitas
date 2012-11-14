@@ -41,7 +41,7 @@
 		 * @var $results array what was found
 		 * @var $primary if its the main model doing the call
 		 *
-		 * @return array the modified find data
+		 * @return array
 		 */
 		public function afterFind(&$Model, $results, $primary) {
 			extract($this->settings[$Model->alias]);
@@ -78,7 +78,7 @@
 		 *
 		 * @var $Model object the model object of the "main" model
 		 *
-		 * @return bool true
+		 * @return boolean
 		 */
 		public function afterSave(&$Model) {
 			extract($this->settings[$Model->alias]);

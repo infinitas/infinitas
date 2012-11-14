@@ -60,7 +60,7 @@
 		 * make sure we save only valid urls.
 		 *
 		 * @param array the field being validated
-		 * @return bool if it is valid or not
+		 * @return boolean
 		 */
 		public function someTypeOfUrl($field) {
 			// absolute url
@@ -79,7 +79,7 @@
 		 * Convert a long url to a short one.
 		 *
 		 * @param string $url the url to shroten
-		 * @return string the code of the short url to be used with slugUrl event
+		 * @return string
 		 */
 		public function shorten($url = null) {
 			if(!$url) {
@@ -134,7 +134,7 @@
 		 * encode the id to a few chars
 		 *
 		 * @param int $id
-		 * @return string the code for the short url
+		 * @return string
 		 */
 		private function __encode($id) {
 			$return = '';
@@ -152,7 +152,7 @@
 		 * returned.
 		 *
 		 * @param string $data the code from the short url
-		 * @return int the id of the record that has the url
+		 * @return integer
 		 */
 		private function __decode($data) {
 			$return = '';

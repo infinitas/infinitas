@@ -172,7 +172,7 @@
 		 * @param mixed $values Values either string or array.
 		 * @access protected
 		 *
-		 * @return string Escaped string
+		 * @return string
 		 */
 		protected function _escape($values) {
 			$find = array(':');

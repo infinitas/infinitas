@@ -147,7 +147,7 @@
 		 * @param array $data the comment being saved
 		 * @access public
 		 *
-		 * @return bool true on save, false when not.
+		 * @return boolean
 		 */
 		public function createComment($Model, $data = array()) {
 			if (empty($data[$this->__settings[$Model->alias]['class']])) {
@@ -264,7 +264,7 @@
 		 * @var $options array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to add/deduct
+		 * @return integer
 		 */
 		public function getComments($Model, $options = array()) {
 			$options = array_merge(array('id' => $Model->id, 'options' => array()), $options);
@@ -297,7 +297,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to add/deduct
+		 * @return integer
 		 */
 		private function __rateComment($Model, $data) {
 			if (empty($data)) {
@@ -341,7 +341,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to add/deduct
+		 * @return integer
 		 */
 		private function __rateLinks($Model, $data) {
 			$links = preg_match_all(
@@ -390,7 +390,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to add/deduct
+		 * @return integer
 		 */
 		private function __rateLength($Model, $data) {
 			// How long is the body
@@ -426,7 +426,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to deduct
+		 * @return integer
 		 */
 		private function __rateEmail($Model, $data) {
 			$parts = explode('@', $data[$this->__settings[$Model->alias]['column_email']]);
@@ -478,7 +478,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to deduct
+		 * @return integer
 		 */
 		private function __rateKeywords($Model, $data) {
 			$points = 0;
@@ -502,7 +502,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to deduct
+		 * @return integer
 		 */
 		private function __rateStartingWord($Model, $data) {
 			$firstWord = mb_substr(
@@ -521,7 +521,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to deduct
+		 * @return integer
 		 */
 		private function __rateByPreviousComment($Model, $data) {
 			// Body used in previous comment
@@ -551,7 +551,7 @@
 		 * @var $data array the data from the form
 		 * @access private
 		 *
-		 * @return int the amout of points to deduct
+		 * @return integer
 		 */
 		private function __rateBody($Model, $data) {
 			$consonants = preg_match_all(

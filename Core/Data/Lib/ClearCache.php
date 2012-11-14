@@ -25,7 +25,7 @@ class ClearCache {
 /**
  * Clears content of CACHE subfolders and configured cache engines
  *
- * @return array associative array with cleanup results
+ * @return array
  * @access public
  */
 	public static function run() {
@@ -81,7 +81,7 @@ class ClearCache {
  * Clears content of CACHE subfolders
  *
  * @param mixed any amount of strings - names of CACHE subfolders or '.' (dot) for CACHE folder itself
- * @return array associative array with cleanup results
+ * @return array
  * @access public
  */
 	public static function files() {
@@ -114,7 +114,7 @@ class ClearCache {
  * Clears content of cache engines
  *
  * @param mixed any amount of strings - keys of configure cache engines
- * @return array associative array with cleanup results
+ * @return array
  * @access public
  */
 	public static function engines() {

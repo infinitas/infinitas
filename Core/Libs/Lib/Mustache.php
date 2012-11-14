@@ -151,7 +151,7 @@ class Mustache {
 	 * @param string $template (default: null)
 	 * @param mixed $view (default: null)
 	 * @param array $partials (default: null)
-	 * @return string Rendered Mustache template.
+	 * @return string
 	 */
 	public function render($template = null, $view = null, $partials = null) {
 		if ($template === null) $template = $this->_template;
@@ -189,7 +189,7 @@ class Mustache {
 	 *
 	 * @access protected
 	 * @param string $template
-	 * @return string Rendered Mustache template.
+	 * @return string
 	 */
 	protected function _renderTemplate($template) {
 		$template = $this->_renderSection($template);
@@ -328,7 +328,7 @@ class Mustache {
 	 *
 	 * @access protected
 	 * @param string $pragma_name
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function _hasPragma($pragma_name) {
 		if (array_key_exists($pragma_name, $this->_localPragmas) && $this->_localPragmas[$pragma_name]) {
@@ -649,7 +649,7 @@ class Mustache {
 	 *
 	 * @access protected
 	 * @param mixed $var
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function _varIsIterable($var) {
 		return $var instanceof Traversable || (is_array($var) && !array_diff_key($var, array_keys(array_keys($var))));

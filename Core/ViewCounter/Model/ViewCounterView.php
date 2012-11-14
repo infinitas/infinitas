@@ -35,7 +35,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param string $class the class to count
  *
- * @return int the number of rows found
+ * @return integer
  */
 	public function getToalViews($class = null, $foreignKey = 0) {
 		$conditions = array();
@@ -61,7 +61,7 @@ class ViewCounterView extends ViewCounterAppModel {
  * builds an array of all models that are being tracked for use in creating
  * some pretty graphs and stats for the user.
  *
- * @return array of data
+ * @return array
  */
 	public function getGlobalStats($limit = 5, $plugin = null) {
 		$models = $this->getUniqueModels($plugin);
@@ -86,7 +86,7 @@ class ViewCounterView extends ViewCounterAppModel {
 /**
  * Get totals per model and overall
  *
- * @return array list of models and counts
+ * @return array
  */
 	public function getGlobalTotalCount() {
 		$models = $this->getUniqueModels();
@@ -105,7 +105,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param string $model the model to check against
  *
- * @return int the average views of the selected range.
+ * @return integer
  */
 	public function getAverage($model = null) {
 		$this->virtualFields['views'] = 'COUNT(' . $this->alias . '.id)';
@@ -145,7 +145,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param string $plugin the name of a plugin to check for
  *
- * @return array list of id -> models that are being tracked
+ * @return array
  */
 	public function getUniqueModels($plugin = null) {
 		$this->displayField = 'model';
@@ -175,7 +175,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param array $conditions the conditions to limit the data
  *
- * @return array an overview of the data
+ * @return array
  */
 	public function reportOverview($conditions) {
 		$this->virtualFields['unique_visits'] = 'CONCAT_WS(\'-\', `' .$this->alias . '`.`ip_address`, `' . $this->alias . '`.`user_id`)';
@@ -253,7 +253,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param array $conditions the conditions to limit the data
  *
- * @return array the data for selected range
+ * @return array
  */
 	public function reportYearOnYear($conditions) {
 		$this->virtualFields = array(
@@ -287,7 +287,7 @@ class ViewCounterView extends ViewCounterAppModel {
  * @param array $conditions normal conditions for the find
  * @param int $limit the maximum number of rows to return
  *
- * @return array array of data with model, totals and months
+ * @return array
  */
 	public function reportMonthOnMonth($conditions = array()) {
 		$this->virtualFields = array(
@@ -346,7 +346,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param array $conditions the conditions to limit the data
  *
- * @return array the data found for the conditions passed in
+ * @return array
  */
 	public function reportWeekOnWeek($conditions = array()) {
 		$this->virtualFields = array(
@@ -388,7 +388,7 @@ class ViewCounterView extends ViewCounterAppModel {
  * @param array $conditions normal conditions for the find
  * @param int $limit the maximum number of rows to return
  *
- * @return array array of data with model, totals and days
+ * @return array
  */
 	public function reportByDayOfMonth($conditions = array()) {
 		$this->virtualFields = array(
@@ -429,7 +429,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param array $conditions the conditions to limit the data
  *
- * @return array the data by week
+ * @return array
  */
 	public function reportDayOfWeek($conditions = array()) {
 		$this->virtualFields = array(
@@ -484,7 +484,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param array $conditions the conditions to limit the data
  *
- * @return array the data by week
+ * @return array
  */
 	public function reportLastTwoWeeks($conditions = array()) {
 		$this->virtualFields = array(
@@ -538,7 +538,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param array $conditions the conditions to limit the data
  *
- * @return array the data per hour
+ * @return array
  */
 	public function reportHourOnHour($conditions = array()) {
 		$this->virtualFields = array(
@@ -579,7 +579,7 @@ class ViewCounterView extends ViewCounterAppModel {
  *
  * @param string $model the model to join
  *
- * @return array the fields to be used in the find/join
+ * @return array
  */
 	private function __bindRelation($model) {
 		$Model = ClassRegistry::init($model);
@@ -618,7 +618,7 @@ class ViewCounterView extends ViewCounterAppModel {
  * @param string $model the model being checked
  * @param int $limit the number of rows to limit the find to
  *
- * @return array the $limit most popular rows
+ * @return array
  */
 	public function reportPopularRows($conditions = array(), $model, $limit = 20) {
 		$this->virtualFields = array(
@@ -657,7 +657,7 @@ class ViewCounterView extends ViewCounterAppModel {
 /**
  * simmilar to the popular rows, this returns the most popular models overal
  *
- * @return array of popular models
+ * @return array
  */
 	public function reportPopularModels() {
 		$this->virtualFields = array(
@@ -694,7 +694,7 @@ class ViewCounterView extends ViewCounterAppModel {
  * @param array $conditions the conditions to limit the find
  * @param int $limit the max number of regions to find for
  *
- * @return array of regions sorted by views
+ * @return array
  */
 	public function reportByRegion($conditions = array(), $limit = 24) {
 		$this->virtualFields = array(

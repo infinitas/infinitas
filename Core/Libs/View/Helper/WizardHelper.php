@@ -50,7 +50,7 @@
 		 * @param string $htmlAttributes
 		 * @param string $confirmMessage
 		 * @param string $escapeTitle
-		 * @return string link to a specific step
+		 * @return string
 		 */
 		public function link($title, $step = null, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
 			if ($step == null) {
@@ -67,7 +67,7 @@
 		 *
 		 * @param string $step optional name of step
 		 * @param string $shiftIndex optional offset of returned array index. Default 1
-		 * @return string step number. Returns false if not found
+		 * @return string
 		 */
 		public function stepNumber($step = null, $shiftIndex = 1) {
 			if ($step == null) {

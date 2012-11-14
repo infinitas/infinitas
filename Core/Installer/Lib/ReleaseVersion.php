@@ -63,7 +63,7 @@
 		 * Get last version for given type
 		 *
 		 * @param string $type Can be 'app' or a plugin name
-		 * @return integer Last version migrated
+		 * @return integer
 		 * @access public
 		 */
 		public function getVersion($type) {

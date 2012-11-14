@@ -24,7 +24,7 @@ class M4af6d40056b04408808500cb58157726 extends CakeMigration {
  * Before migration callback
  *
  * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
+ * @return boolean
  * @access public
  */
 	public function before($direction) {
@@ -35,7 +35,7 @@ class M4af6d40056b04408808500cb58157726 extends CakeMigration {
  * After migration callback
  *
  * @param string $direction, up or down direction of migration process
- * @return boolean Should process continue
+ * @return boolean
  * @access public
  */
 	public function after($direction) {

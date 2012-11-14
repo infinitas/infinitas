@@ -77,7 +77,7 @@
 		 * @param array $Model
 		 * @param string $connection the connection to use for getting tables.
 		 *
-		 * @return array list of tables.
+		 * @return array
 		 */
 		public function getTables(Model $Model, $connection = 'default') {
 			$this->db = ConnectionManager::getDataSource($connection);
@@ -367,7 +367,7 @@
 		 * Just gets a list of plugins and returns them after rempving the plugins
 		 * that should not be displayed to the user.
 		 *
-		 * @return array all the plugins in infinitas.
+		 * @return array
 		 */
 		public function getPlugins($skipBlocked = true) {
 			$plugins = CakePlugin::loaded();
@@ -394,7 +394,7 @@
 		* @param object $Model the currect model
 		* @param string $plugin the plugin to search for controllers
 		*
-		* @return array a list of controllers that were found
+		* @return array
 		*/
 		public function getControllers(Model $Model, $plugin) {
 			if(empty($plugin)) {
@@ -436,7 +436,7 @@
 		* @param object $Model the currect model
 		* @param string $plugin the plugin to search for models
 		*
-		* @return array a list of models that were found
+		* @return array
 		*/
 		public function getModels(Model $Model, $plugin) {
 			$plugin = Inflector::camelize($plugin);
@@ -527,7 +527,7 @@
 		*
 		* This filters out noise actions for the Infinitas::getActions method
 		*
-		* @return array the stuff that can be ignored
+		* @return array
 		*/
 		public function _filterMethods() {
 			$ignores = get_class_methods('AppController');
@@ -594,7 +594,7 @@
 		 * Generate a list of possible first characters to filter by. letters,
 		 * numbers and special chars
 		 * @param object $Model the model object
-		 * @return array key -> value array were a value of true means there is a row that matches
+		 * @return array
 		 */
 		public function getLetterList(Model $Model) {
 			$Model->virtualFields['letters'] = sprintf('LOWER(LEFT(%s.%s, 1))', $Model->alias, $Model->displayField);

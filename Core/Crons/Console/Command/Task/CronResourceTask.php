@@ -24,7 +24,7 @@
 		 *
 		 * @param string $message the message to log
 		 *
-		 * @return boolean Success of log write
+		 * @return boolean
 		 */
 		public function log($message) {
 			$this->out($message);

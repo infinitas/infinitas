@@ -109,7 +109,7 @@ class Config extends ConfigsAppModel {
  *
  * @param array $data the field being validated
  *
- * @return bool is it valid or not
+ * @return boolean
  */
 	public function customOptionCheck($data) {
 		if (!isset($this->data[$this->alias]['type']) || empty($this->data[$this->alias]['type'])) {
@@ -216,7 +216,7 @@ class Config extends ConfigsAppModel {
  * @param array $configs the unformatted configs
  * @param boolean $json true if $configs is json
  *
- * @return array the data that has been formatted
+ * @return array
  */
 	private function _formatConfigs($configs = array(), $json = false) {
 		if (empty($configs)) {

@@ -89,7 +89,7 @@
 		 *
 		 * @access public 
 		 * 
-		 * @return array list of ids for categories that are active
+		 * @return array
 		 */
 		public function getActiveIds() {
 			$ids = $this->find(
@@ -205,7 +205,7 @@
 		 * @param array $query
 		 * @param array $results
 		 * 
-		 * @return array category list with active / inactive rows
+		 * @return array
 		 */
 		public function _findCategoryList($state, $query, $results = array()) {
 			if ($state === 'before') {

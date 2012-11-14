@@ -24,7 +24,7 @@
 		 *
 		 * @param string $response the json that will be converted
 		 *
-		 * @return array the data from json or empty array if there is nothing passed
+		 * @return array
 		 */
 		protected function _process($response = null) {
 			if (empty($response)) {

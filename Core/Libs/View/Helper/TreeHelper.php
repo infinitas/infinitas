@@ -94,7 +94,7 @@
 		 * 
 		 * @access public
 		 * 
-		 * @return array Information about the current selected node
+		 * @return array
 		 */
 		public function tick() {
 			if(count($this->__stack) > 0) {
@@ -168,7 +168,7 @@
 		 * 
 		 * @access private
 		 * 
-		 * @return string The value of the field selected 
+		 * @return string
 		 */
 		private function __field($field, $i = false) {
 			if($i === false) {

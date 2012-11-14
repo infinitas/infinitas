@@ -87,7 +87,7 @@
 		 * Run before a model is saved, used to set up slug for model.
 		 *
 		 * @param object $Model Model about to be saved.
-		 * @return boolean true if save should proceed, false otherwise
+		 * @return boolean
 		 * @access public
 		 */
 		public function beforeSave($Model) {
@@ -173,7 +173,7 @@
 		 *
 		 * @param string $string String from where to generate slug
 		 * @param array $settings Settings to use (looks for 'separator' and 'length')
-		 * @return string Slug for given string
+		 * @return string
 		 * @access private
 		 */
 		public function __slug($string, $settings) {

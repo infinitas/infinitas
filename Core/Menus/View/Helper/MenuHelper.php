@@ -94,7 +94,7 @@
 		 *
 		 * @deprecated cache is causing loads of issues, and not enough speed.
 		 *
-		 * @return array the menu that was built
+		 * @return array
 		 */
 		public function builDashboardLinks($plugins = array(), $type = null, $cache = true) {
 			if(!$type) {

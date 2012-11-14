@@ -166,7 +166,7 @@
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $queryData Original queryData
 		 *
-		 * @return array Modified queryData
+		 * @return array
 		 */
 		public function beforeFind($Model, $queryData) {
 			// order can can sometimes be not set, or empty, or array(0 => null)
@@ -189,7 +189,7 @@
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
-		 * @return boolean Always true otherwise model will not save
+		 * @return boolean
 		 */
 		public function beforeSave($Model) {
 			$this->_update[$Model->alias] = array();
@@ -370,7 +370,7 @@
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
-		 * @return boolean Always true
+		 * @return boolean
 		 */
 		public function beforeDelete($Model) {
 			$this->_update[$Model->alias] = array();
@@ -411,7 +411,7 @@
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $groupValues Array with group field => group values, used for conditions
 		 *
-		 * @return integer Value of order field of last record in set
+		 * @return integer
 		 */
 		public function getHighestOrder($Model, $groupValues = false) {
 			$count = $Model->find(
@@ -530,7 +530,7 @@
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $groupValues Array of group field => group value pairs
 		 *
-		 * @return array Array of escaped group field => group value pairs
+		 * @return array
 		 */
 		protected function _conditionsForGroups($Model, $groupValues = false) {
 			if ($this->__settings[$Model->alias]['groupFields'] === false) {
@@ -564,7 +564,7 @@
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
-		 * @return array Array Model.primary_key <> => $id
+		 * @return array
 		 */
 		protected function _conditionsNotCurrent($Model) {
 			return array($Model->escapeField($Model->primaryKey) . ' <>' => $Model->id);

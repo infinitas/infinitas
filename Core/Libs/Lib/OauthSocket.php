@@ -234,7 +234,7 @@
 		 *
 		 * @param string $name E.g. 'oauth_signature_method'
 		 * @param string $value E.g. 'HMAC-SHA1'
-		 * @return string E.g. 'oauth_signature_method="HMAC-SHA1"'
+		 * @return string
 		 */
 		public function authorizationHeaderParamEncode($name, $value) {
 			return $this->parameterEncode($name) . '="' . $this->parameterEncode($value) . '"';
@@ -265,7 +265,7 @@
 		 *
 		 * @param array $a Array with key for 'name' and one for 'value'
 		 * @param array $b Array with key for 'name' and one for 'value'
-		 * @return integer 1, 0 or -1 depending on whether a greater than b, less than
+		 * @return integer
 		 *  or the same.
 		 */
 		public function sortByNameThenByValue($a, $b) {

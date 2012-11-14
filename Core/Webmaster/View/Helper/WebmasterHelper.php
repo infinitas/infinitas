@@ -8,7 +8,7 @@
 		/**
 		 * generate all meta tags
 		 *
-		 * @return string of html tags describing the site
+		 * @return string
 		 */
 		public function seoMetaTags() {
 			$contentIndex = Configure::read($this->plugin . '.robots.' . $this->request->params['action'] . '.index');
@@ -73,7 +73,7 @@
 		 * @param bool $contentIndex allow robots to index content
 		 * @param bool $contentFollow allow robots to follow links
 		 *
-		 * @return string robots meta tag
+		 * @return string
 		 */
 		public function metaRobotTag($contentIndex = true, $contentFollow = true) {
 			$robot = array('all');
@@ -104,7 +104,7 @@
 		 * @access public
 		 *
 		 * @param string $description the description of the page
-		 * @return string meta description tag
+		 * @return string
 		 */
 		public function metaDescription($description = null) {
 			if(!$description && !empty($this->_View->viewVars['seoMetaDescription'])) {
@@ -135,7 +135,7 @@
 		 * @access public
 		 *
 		 * @param mixed $keywords string or array of keywords to use
-		 * @return string meta keywords
+		 * @return string
 		 */
 		public function metaKeywords($keywords = null) {
 			if(!$keywords && !empty($this->_View->viewVars['seoMetaKeywords'])) {
@@ -173,7 +173,7 @@
 		 *
 		 * @param mixed $url string or array url of the canonical url
 		 *
-		 * @return string the meta canonical url
+		 * @return string
 		 */
 		public function metaCanonicalUrl($canonicalUrl = null) {
 			if(empty($canonicalUrl)) {
@@ -192,7 +192,7 @@
 		 *
 		 * @param string $author the author
 		 *
-		 * @return string author meta tag
+		 * @return string
 		 */
 		public function metaAuthor($author = null) {
 			if(!$author) {
@@ -211,7 +211,7 @@
 		 *
 		 * @param string $generator the generator
 		 *
-		 * @return string generator meta tag
+		 * @return string
 		 */
 		public function metaGenerator($generator = null) {
 			if(!$generator) {
@@ -226,7 +226,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return string meta tag of the favicon
+		 * @return string
 		 */
 		public function metaIcon() {
 			return $this->Html->meta('icon');
@@ -237,7 +237,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return string meta tag of the charset
+		 * @return string
 		 */
 		public function metaCharset() {
 			return $this->Html->charset();
@@ -252,7 +252,7 @@
 		 * If the configuration option is set it will automatically insert the
 		 * correct tags for google to authorise the site.
 		 *
-		 * @return string meta tag for google site verification
+		 * @return string
 		 */
 		public function metaGoogleVerification() {
 			if(!Configure::read('Webmaster.google_site_verification')) {
@@ -276,7 +276,7 @@
 		 *
 		 * @param string $title the title of the page
 		 *
-		 * @return string the title tag
+		 * @return string
 		 */
 		public function metaTitle($title = null) {
 			if(!$title) {
@@ -295,7 +295,7 @@
 		 *
 		 * @param mixed $feed the string url or array of data
 		 *
-		 * @return string an rss feed link
+		 * @return string
 		 */
 		public function metaRss($feed = null) {
 			if(!is_array($feed)) {

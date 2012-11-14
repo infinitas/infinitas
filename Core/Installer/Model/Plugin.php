@@ -33,7 +33,7 @@
 		 *
 		 * @param string $type list / count
 		 *
-		 * @return array all plugins in alphabetical order
+		 * @return array
 		 */
 		public function getAllPlugins($type = 'list') {
 			$plugins = App::objects('plugin');
@@ -53,7 +53,7 @@
 		 *
 		 * @param string $type list / count / all
 		 *
-		 * @return array list of all the installed plugins
+		 * @return array
 		 */
 		public function getInstalledPlugins($type = 'list') {
 			if(!in_array($type, array('list', 'count', 'all'))) {
@@ -157,7 +157,7 @@
 		 *
 		 * @param string $type list / count
 		 *
-		 * @return array list of plugins not yet installed
+		 * @return array
 		 */
 		public function getNonInstalledPlugins($type = 'list') {
 			$nonInstalled = array_diff($this->getAllPlugins(), array_values($this->getInstalledPlugins()));
@@ -186,7 +186,7 @@
 		 * @param string $pluginName the name of the plugin being installed
 		 * @param array $options the options for the install
 		 *
-		 * @return bool true if installed, false if not.
+		 * @return boolean
 		 */
 		public function installPlugin($pluginName, $options = array()) {
 			$options = array_merge(
@@ -232,7 +232,7 @@
 		 *
 		 * @param string $pluginName the name of the plugin to load
 		 *
-		 * @return array the details found or false if not found
+		 * @return array
 		 */
 		private function __loadPluginDetails($pluginName) {
 			$configFile = CakePlugin::path($pluginName) . 'Config' . DS . 'config.json';
@@ -363,7 +363,7 @@
 		 *
 		 * @param string $plugin the name of the plugin
 		 *
-		 * @return bool true if its installed, false if not
+		 * @return boolean
 		 */
 		public function isInstalled($plugin = null) {
 			if(!$plugin) {

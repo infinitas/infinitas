@@ -76,7 +76,7 @@ class ViewableReportingBehavior extends ModelBehavior {
  * @param object $Model the model that is being used.
  * @param int $limit the number or records to return
  *
- * @return array the most viewed records
+ * @return array
  */
 	public function getMostViewed($Model, $limit = 10) {
 		$fields = array(
@@ -112,7 +112,7 @@ class ViewableReportingBehavior extends ModelBehavior {
  * Short cut method for models using the viewable behavior to get the
  * total number of views for that model.
  *
- * @return int the number of rows found
+ * @return integer
  */
 	public function getToalViews($Model, $foreignKey = 0) {
 		return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias, $foreignKey);

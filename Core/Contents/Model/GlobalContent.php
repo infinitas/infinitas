@@ -122,7 +122,7 @@
 		 * @param array $query the qurey being done
 		 * @param array $results the results from the find
 		 *
-		 * @return array in before its a query, in after its the data
+		 * @return array
 		 */
 		protected function _findContentIssues($state, $query, $results = array()) {
 			if ($state === 'before') {
@@ -223,7 +223,7 @@
 		 * @param array $query the qurey being done
 		 * @param array $results the results from the find
 		 *
-		 * @return array in before its a query, in after its the data
+		 * @return array
 		 */
 		protected function _findCategoryList($state, $query, $results = array()) {
 			$this->findQueryType = 'list';
@@ -427,7 +427,7 @@
 		 * @param string $model the name of the plugin.model to move
 		 * @param int $limit the number of rows to move
 		 *
-		 * @return array with how many items were found and how many were moved
+		 * @return array
 		 */
 		public function moveContent($model = null, $limit = 500) {
 			if(!$model) {
@@ -497,7 +497,7 @@
 		 *
 		 * @param int $months the number of months back to look
 		 *
-		 * @return array the data found
+		 * @return array
 		 */
 		public function getNewContentByMonth($months = 24) {
 			$this->virtualFields['post_date'] = 'CONCAT_WS("/", YEAR(`' . $this->alias . '`.`created`), LPAD(MONTH(`' . $this->alias . '`.`created`), 2, 0))';

@@ -53,7 +53,7 @@
 		* greater than the current it will just redirect with a message
 		*
 		* @param mixed $Model from {@see ClassRegistry::init }
-		* @return int the id of the newest record in the model being backed up
+		* @return integer
 		*/
 		function __checkBackups($Model) {
 			$newLastId = $Model->find(

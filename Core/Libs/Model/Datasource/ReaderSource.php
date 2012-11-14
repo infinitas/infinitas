@@ -64,7 +64,7 @@
 		 * describe the data
 		 *
 		 * @param mixed $model
-		 * @return array the shcema of the model
+		 * @return array
 		 */
 		public function describe(&$model) {
 			return $model->schema;
@@ -75,7 +75,7 @@
 		 *
 		 * list the sources???
 		 *
-		 * @return array sources
+		 * @return array
 		 */
 		public function listSources() {
 			return array('listSources');
@@ -146,7 +146,7 @@
 		 *
 		 * @param array $request the request details
 		 *
-		 * @return string the xml that is returned from the site.
+		 * @return string
 		 */
 		protected function _getData($request) {
 			$OauthSocket = new OauthSocket();

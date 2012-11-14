@@ -47,7 +47,7 @@ class CronsEvents extends AppEvents {
  *
  * @param Event $Event
  * 
- * @return bool
+ * @return boolean
  */
 	public function onRunCrons(Event $Event) {
 		ClassRegistry::init('Crons.Cron')->clearOldLogs();

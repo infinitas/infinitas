@@ -40,7 +40,7 @@
 		 *
 		 * @param Model $Model the model doing the find
 		 *
-		 * @return array conditions to add to a find
+		 * @return array
 		 */
 		private function __getPossiblePlugins($Model, $field, &$conditions) {
 			$toIgnore = ClassRegistry::init('Installer.Plugin')->getInactiveInstalledPlugins();

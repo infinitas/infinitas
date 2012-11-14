@@ -51,7 +51,7 @@
 		 * be related to what they user is looking for.
 		 *
 		 * @param array $conditions the conditions to search for
-		 * @return array list of addresses
+		 * @return array
 		 */
 		public function getAddressesByRelated($conditions = array()) {
 			return $this->find(

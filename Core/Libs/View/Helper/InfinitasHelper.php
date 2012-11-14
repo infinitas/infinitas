@@ -71,7 +71,7 @@ class InfinitasHelper extends AppHelper {
  *
  * @param int $status the status tinyint(1) from a db find.
  *
- * @return string some html for the generated image.
+ * @return string
  */
 	public function status($status, $options = array()) {
 		$params = array('class' => 'icon-status');

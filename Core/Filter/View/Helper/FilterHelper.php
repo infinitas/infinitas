@@ -147,7 +147,7 @@
 		 * bulid a list of leters and numbers with filtered links to rows that
 		 * start with that letter or number
 		 *
-		 * @return string ul->li list of things found
+		 * @return string
 		 */
 		public function alphabetFilter($model = null) {
 			if(empty($model)) {
@@ -183,7 +183,7 @@
 		 * create a link for some text against the display field
 		 *
 		 * @param string $text the text to show/filter with
-		 * @return array the url cake style
+		 * @return array
 		 */
 		private function __filterLink($model, $text = null) {
 			if(!$text) {

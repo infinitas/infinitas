@@ -435,7 +435,7 @@
 		 * @param array $data one of the value arrays from the ChartsHelper data
 		 * @access protected
 		 *
-		 * @return string the chart requested
+		 * @return string
 		 */
 		public function _buildChart($data) {
 			$this->_query = array();
@@ -495,7 +495,7 @@
 		/**
 		 * generate the final full url for rendering
 		 *
-		 * @return string the full url and query string
+		 * @return string
 		 */
 		public function _generateFullUrl() {
 			array_unshift($this->_query, $this->_chartTypes[$this->_chartType]['_indicator']);
@@ -516,7 +516,7 @@
 		 *
 		 * @link http://code.google.com/apis/chart/docs/making_charts.html#enhancements
 		 *
-		 * @return string the domain to pull images from
+		 * @return string
 		 */
 		public function _apiUrl() {
 			if($this->_apiUrlIndex > 9) {
@@ -533,7 +533,7 @@
 		 * @param array|string|integer $extra any extra data that was passed from the ChartsHelper
 		 * @access protected
 		 *
-		 * @return string some html markup
+		 * @return string
 		 */
 		public function _image($query, $extra) {
 			$extra = isset($extra['image']) ? $extra['image'] : array();
@@ -581,7 +581,7 @@
 		 * @param array $value the data array to be formatted
 		 * @access protected
 		 *
-		 * @return string a piece of the query string
+		 * @return string
 		 */
 		public function _formatData($value) {
 			if(!is_array($value[0])) {
@@ -951,7 +951,7 @@
 		 * @param array $data the data being exploded
 		 * @access protected
 		 *
-		 * @return string the imploded data
+		 * @return string
 		 */
 		public function _implode($dataType, $value) {
 			if(!is_array($value)) {

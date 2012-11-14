@@ -123,14 +123,14 @@
 		 * check if there is any new mail. A hash of the number of mails + the
 		 * total size could be used.
 		 *
-		 * @return bool return true, or false on error
+		 * @return boolean
 		 */
 		abstract protected function _getStats();
 
 		/**
 		 * Get a list of the mail numbers and the sizes for later use
 		 *
-		 * @return bool true if found, false if not
+		 * @return boolean
 		 */
 		abstract protected function _getList();
 
@@ -146,7 +146,7 @@
 		 *
 		 * @access abstract
 		 *
-		 * @return bool|array false on error, or array of mailboxes
+		 * @return boolean|array false on error, or array of mailboxes
 		 */
 		abstract protected function _getMailboxes($ref = '', $wildcard = '*');
 
@@ -157,7 +157,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return bool true if server is still available, false when connection is lost
+		 * @return boolean
 		 */
 		abstract public function noop();
 
@@ -170,7 +170,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return bool
+		 * @return boolean
 		 */
 		abstract public function undoDeletes();
 
@@ -260,7 +260,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return bool true if connected, false if not
+		 * @return boolean
 		 */
 		public function isConnected() {
 			return $this->connected;
@@ -273,7 +273,7 @@
 		 * message. It is the responsibility of the driver to authenticate
 		 * if that is needed.
 		 *
-		 * @return bool was the login correct of not
+		 * @return boolean
 		 */
 		public function login() {
 			parent::connect();
@@ -308,7 +308,7 @@
 		 * @param string $method a callback method to trigger
 		 * @access public
 		 *
-		 * @return bool|string|array false on fail, string for raw and
+		 * @return boolean|string|array false on fail, string for raw and
 		 * string|array depending on the callbacks
 		 */
 		public function read($size = 1024, $method = false) {
@@ -383,7 +383,7 @@
 		 *
 		 * @param string $capability check the drivers for a list of capabilities
 		 *
-		 * @return bool it does or does not
+		 * @return boolean
 		 */
 		public function hasCapability($capability) {
 			return isset($this->_capabilities[$capability]);
@@ -395,7 +395,7 @@
 		 * the data will be returned as array('response_code' => array('data', 'goes', 'here'))
 		 *
 		 * @param string $data the data from the read
-		 * @return array formatted data without the response
+		 * @return array
 		 */
 		public function _cleanData($data) {
 			if($data === false || empty($data)) {
@@ -446,7 +446,7 @@
 		 * @param string $config the config to use when writing
 		 * @access public
 		 *
-		 * @return bool true on write, false for error.
+		 * @return boolean
 		 */
 		public function writeCache($key, $data, $config = 'emails') {
 			return Cache::write($this->__cacheKey() . '.' . $key, $data, $config);
@@ -458,7 +458,7 @@
 		 * @param string $text the error message
 		 * @access public
 		 *
-		 * @return bool true
+		 * @return boolean
 		 */
 		public function error($text) {
 			$this->__errors[] = $text;
@@ -472,7 +472,7 @@
 		 * @param integer $size the size of the packet
 		 * @access public
 		 *
-		 * @return bool true
+		 * @return boolean
 		 */
 		public function log($text, $size = 0) {
 			$size = ($size) ? $size : strlen($text);
@@ -490,7 +490,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return array the errors
+		 * @return array
 		 */
 		public function errors() {
 			return $this->__errors;
@@ -501,7 +501,7 @@
 		 *
 		 * @access public
 		 *
-		 * @return array the logs
+		 * @return array
 		 */
 		public function logs() {
 			return $this->__logs;

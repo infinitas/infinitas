@@ -80,7 +80,7 @@
 		 * @param object $Model the model that the behavior is affecting
 		 * @access public
 		 *
-		 * @return array nested list of categories. TreeBehavior::generateTreeList
+		 * @return array
 		 */
 		public function generateCategoryList($Model) {
 			return $Model->GlobalCategory->generateTreeList();
@@ -99,7 +99,7 @@
 		 * @param bool $created if the row is new or updated
 		 * @access public
 		 *
-		 * @return bool true
+		 * @return boolean
 		 */
 		public function afterSave($Model, $created) {
 			return parent::afterSave($Model, $created);

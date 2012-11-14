@@ -143,7 +143,7 @@
 		 * @param array $field the field being validated
 		 * @access public
 		 *
-		 * @return bool is it valid?
+		 * @return boolean
 		 */
 		public function validateEmptyOrCssClass($field) {
 			$field = current($field);
@@ -201,7 +201,7 @@
 		 * @param string $type the menu that you want to pull
 		 * @access public
 		 *
-		 * @return array the menu items that belong to the type you asked for
+		 * @return array
 		 */
 		public function getMenu($type = null) {
 			if (!$type) {
@@ -295,7 +295,7 @@
 		 * @param string $name the name of the menu
 		 * @access public
 		 *
-		 * @return bool if there is a container, or sone was created.
+		 * @return boolean
 		 */
 		public function hasContainer($menuId, $name = null) {
 			$count = $this->find(

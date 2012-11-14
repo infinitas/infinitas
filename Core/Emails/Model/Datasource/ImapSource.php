@@ -52,7 +52,7 @@
 		 * describe the data
 		 *
 		 * @param mixed $model
-		 * @return array the shcema of the model
+		 * @return array
 		 */
 		public function describe(&$model) {
 			return $model->schema;
@@ -63,7 +63,7 @@
 		 *
 		 * list the sources???
 		 *
-		 * @return array sources
+		 * @return array
 		 */
 		public function listSources() {
 			return array('listSources');
@@ -206,7 +206,7 @@
 		 * @param object $Model
 		 * @param array $query
 		 *
-		 * @return array the email according to the find
+		 * @return array
 		 */
 		private function __getMail($Model, $query) {
 			if (!isset($query['conditions'][$Model->alias . '.id']) || empty($query['conditions'][$Model->alias . '.id'])) {
@@ -234,7 +234,7 @@
 		 *
 		 * @param object $Model the model doing the find
 		 * @param array $query the find conditions and params
-		 * @return array the data that was found
+		 * @return array
 		 */
 		private function __getMails($Model, $query) {
 			$pagination = $this->_figurePagination($query);
@@ -253,7 +253,7 @@
 		 * get the basic details like sender and reciver with flags like attatchments etc
 		 *
 		 * @param int $messageId the id of the message
-		 * @return array empty on error/nothing or array of formatted details
+		 * @return array
 		 */
 		private function __getFormattedMail($Model, $messageId) {
 			$mail = imap_headerinfo($this->MailServer, $messageId);
@@ -432,7 +432,7 @@
 		 * @todo conditions / order other find params
 		 *
 		 * @param array $query conditions for the query
-		 * @return int the number of emails found
+		 * @return integer
 		 */
 		protected function _mailCount($query) {
 			return imap_num_msg($this->MailServer);
@@ -495,7 +495,7 @@
 		 * current page and the limit set to figure out what to send back
 		 *
 		 * @param array $query the current query
-		 * @return array of start / end int for the for() loop in the email find
+		 * @return array
 		 */
 		protected function _figurePagination($query) {
 			$count = $this->_mailCount($query); // total mails
@@ -562,7 +562,7 @@
 		 * Figure out how many emails there are in the thread for this mail.
 		 *
 		 * @param object $mail the imap header of the mail
-		 * @return int the number of mails in the thred
+		 * @return integer
 		 */
 		protected function _getThreadCount($mail) {
 			if(isset($mail->reference) || isset($mail->in_reply_to)) {

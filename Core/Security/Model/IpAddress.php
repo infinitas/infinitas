@@ -162,7 +162,7 @@ class IpAddress extends ManagementAppModel {
  * @param mixed $data the data that was submited for that request.
  * @param integer $risk the risk determined for that login.
  *
- * @return bool
+ * @return boolean
  */
 	public function blockIp($ipAddress = null, $data = null, $risk = 0) {
 		if (!$ipAddress) {

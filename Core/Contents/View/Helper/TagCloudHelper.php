@@ -111,7 +111,7 @@
 		 * @param string $seperator what to seperate with
 		 * @param integer $limit max number of tags to show
 		 *
-		 * @return string html list of tags as links
+		 * @return string
 		 */
 		public function tagList($data, $seperator = 'and', $limit = 5) {
 			if(empty($data['GlobalTagged'])) {
