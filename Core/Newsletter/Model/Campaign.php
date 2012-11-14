@@ -1,106 +1,142 @@
 <?php
-	/**
-	 * Comment Template.
-	 *
-	 * @todo Implement .this needs to be sorted out.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 *
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Newsletter.Model
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
-	 */
+/**
+ * Campaign
+ *
+ * @package Infinitas.Newsletter.Model
+ */
 
-	class Campaign extends NewsletterAppModel {
-		public $lockable = true;
+/**
+ * Campaign
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Newsletter.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-		public $order = array(
-			'Campaign.name' => 'asc'
-		);
+class Campaign extends NewsletterAppModel {
+/**
+ * Make the model lockable
+ *
+ * @var boolean
+ */
+	public $lockable = true;
 
-		public $hasMany = array(
-			'Newsletter.Newsletter'
-		);
+/**
+ * Data order
+ *
+ * @var array
+ */
+	public $order = array(
+		'Campaign.name' => 'asc'
+	);
 
-		public $belongsTo = array(
-			'Newsletter.Template'
-		);
+/**
+ * HasMany relations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Newsletter.Newsletter'
+	);
 
-		public $findMethods = array(
-			'paginated' => true
-		);
+/**
+ * BelongsTo relations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Newsletter.Template'
+	);
 
-		public function  __construct($id = false, $table = null, $ds = null) {
-			parent::__construct($id, $table, $ds);
+/**
+ * Custom find methods
+ *
+ * @var array
+ */
+	public $findMethods = array(
+		'paginated' => true
+	);
 
-			$this->validate = array(
-				'name' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of this campaign')
-					),
-					'isUnique' => array(
-						'rule' => 'isUnique',
-						'message' => __('There is already a campaign with that name')
-					)
+/**
+ * Constructor
+ *
+ * @param type $id
+ * @param type $table
+ * @param type $ds
+ *
+ * @return void
+ */
+	public function  __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->validate = array(
+			'name' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please enter the name of this campaign')
 				),
-				'template_id' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __('Please select the default template for this campaign')
-					)
+				'isUnique' => array(
+					'rule' => 'isUnique',
+					'message' => __('There is already a campaign with that name')
 				)
-			);
-		}
+			),
+			'template_id' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __('Please select the default template for this campaign')
+				)
+			)
+		);
+	}
 
-		/**
-		 * custom paginated find for campaigns
-		 *
-		 * @param string $state before or after the find
-		 * @param array $query the find query
-		 * @param array $results rows found
-		 *
-		 * @return string
-		 */
-		protected function _findPaginated($state, $query, $results = array()) {
-			if ($state === 'before') {
-				if(!is_array($query['fields'])) {
-					$query['fields'] = array($query['fields']);
-				}
-
-				$query['fields'] = array_merge(
-					$query['fields'],
-					array(
-						'Campaign.id',
-						'Campaign.name',
-						'Campaign.description',
-						'Campaign.newsletter_count',
-						'Campaign.active',
-						'Campaign.created',
-						'Campaign.modified',
-						'Template.id',
-						'Template.name',
-					)
-				);
-
-				$query['joins'][] = array(
-					'table' => 'newsletter_templates',
-					'alias' => 'Template',
-					'type' => 'LEFT',
-					'foreignKey' => false,
-					'conditions' => array(
-						'Template.id = Campaign.template_id'
-					)
-				);
-
-				return $query;
+/**
+ * custom paginated find for campaigns
+ *
+ * @param string $state before or after the find
+ * @param array $query the find query
+ * @param array $results rows found
+ *
+ * @return string
+ */
+	protected function _findPaginated($state, $query, $results = array()) {
+		if ($state === 'before') {
+			if(!is_array($query['fields'])) {
+				$query['fields'] = array($query['fields']);
 			}
 
-			return $results;
+			$query['fields'] = array_merge(
+				$query['fields'],
+				array(
+					'Campaign.id',
+					'Campaign.name',
+					'Campaign.description',
+					'Campaign.newsletter_count',
+					'Campaign.active',
+					'Campaign.created',
+					'Campaign.modified',
+					'Template.id',
+					'Template.name',
+				)
+			);
+
+			$query['joins'][] = array(
+				'table' => 'newsletter_templates',
+				'alias' => 'Template',
+				'type' => 'LEFT',
+				'foreignKey' => false,
+				'conditions' => array(
+					'Template.id = Campaign.template_id'
+				)
+			);
+
+			return $query;
 		}
+
+		return $results;
 	}
+
+}

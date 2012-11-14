@@ -1,26 +1,30 @@
 <?php
 /**
- * Comment Template.
+ * NewslettersController
  *
- * @todo Implement .this needs to be sorted out.
+ * @package Infinitas.Newsletter.Controller
+ */
+
+/**
+ * NewslettersController
  *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- *
- *
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
  * @package Infinitas.Newsletter.Controller
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class NewslettersController extends NewsletterAppController {
+/**
+ * BeforeFilter callback
+ *
+ * @return void
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		//  @todo make sure function track is allowed by all
-		//$this->Auth->allow('track');
 
 		$this->notice['sent'] = array(
 			'message' => 'Your message has been sent',
@@ -28,6 +32,11 @@ class NewslettersController extends NewsletterAppController {
 		);
 	}
 
+/**
+ * Contact form
+ *
+ * @return void
+ */
 	public function contact() {
 		if(!empty($this->request->data)) {
 			$body = '<p>A new email has been sent from your site. The details are below</p>';
@@ -70,6 +79,14 @@ class NewslettersController extends NewsletterAppController {
 		$this->request->data['Newsletter']['email'] = $this->Auth->user('email');
 	}
 
+/**
+ * Newsletter tracking
+ *
+ * Basic newsletter tracking by rendering a 1x1 image through php and tracking
+ * loads
+ *
+ * @param string $id newsletter id
+ */
 	public function track($id) {
 		Configure::write('debug', 0);
 		$this->autoRender = false;
@@ -94,6 +111,11 @@ class NewslettersController extends NewsletterAppController {
 		exit;
 	}
 
+/**
+ * Send an email
+ *
+ * @return void
+ */
 	public function sendEmail() {
 		$this->autoRender = false;
 		$info = array_merge(
@@ -119,6 +141,11 @@ class NewslettersController extends NewsletterAppController {
 		$this->Emailer->send($info['html']);
 	}
 
+/**
+ * Send newsletters
+ *
+ * @return void
+ */
 	public function sendNewsletters() {
 		$this->autoRender = false;
 		$this->layout = 'ajax';
@@ -197,6 +224,11 @@ class NewslettersController extends NewsletterAppController {
 		}
 	}
 
+/**
+ * Newsletter dashboard
+ *
+ * @return void
+ */
 	public function admin_dashboard() {
 		$hasCampaign = $this->Newsletter->Campaign->find('count') >= 1;
 		$hasTemplate = $this->Newsletter->Template->find('count') >= 1;
@@ -205,12 +237,24 @@ class NewslettersController extends NewsletterAppController {
 		$this->set(compact('hasCampaign', 'hasTemplate', 'hasNewsletter'));
 	}
 
+/**
+ * Newsletter reporting
+ *
+ * @param string $id
+ *
+ * @return void
+ */
 	public function admin_report($id) {
 		if (!$id) {
 			$this->notice('invalid');
 		}
 	}
 
+/**
+ * List all newsletters
+ *
+ * @return void
+ */
 	public function admin_index() {
 		$this->Paginator->settings = array(
 			'fields' => array(
@@ -246,6 +290,11 @@ class NewslettersController extends NewsletterAppController {
 		$this->set(compact('newsletters', 'filterOptions'));
 	}
 
+/**
+ * Create a newsletter
+ *
+ * @return void
+ */
 	public function admin_add() {
 		if ($this->request->isPost()) {
 			$campaignId = $this->request->data['Newsletter']['campaign_id'];
@@ -281,6 +330,13 @@ class NewslettersController extends NewsletterAppController {
 		$this->set(compact('campaigns'));
 	}
 
+/**
+ * View a newsletter
+ *
+ * @param string $id the newsletter id to view
+ *
+ * @return void
+ */
 	public function admin_view($id = null) {
 		if (!$id && empty($this->request->data)) {
 			$this->notice('invalid');
@@ -327,48 +383,75 @@ class NewslettersController extends NewsletterAppController {
 		$this->set('newsletter', $this->Newsletter->read(null, $id));
 	}
 
+/**
+ * Edit a newsletter
+ *
+ * @param string $id the newsletter id
+ *
+ * @return void
+ */
 	public function admin_edit($id = null) {
 		parent::admin_edit();
 
 		$this->set('campaigns', $this->Newsletter->Campaign->find('list'));
 	}
 
+/**
+ * Preview a newsletter
+ *
+ * @param string $id the newsletter id
+ *
+ * @return void
+ */
 	public function admin_preview($id = null) {
 		$this->layout = 'ajax';
+		Configure::write('debug', 0);
 
 		if (!$id) {
-			$this->set('data', __('The template was not found'));
-		}else {
-			$newsletter = $this->Newsletter->find(
-				'first',
-				array(
-					'fields' => array(
-						'Newsletter.id',
-						'Newsletter.html'
-					),
-					'conditions' => array(
-						'Newsletter.id' => $id
-					),
-					'contain' => array(
-						'Template' => array(
-							'fields' => array(
-								'Template.header',
-								'Template.footer',
-							)
+			return $this->set('data', __('The template was not found'));
+		}
+		$newsletter = $this->Newsletter->find(
+			'first',
+			array(
+				'fields' => array(
+					'Newsletter.id',
+					'Newsletter.html'
+				),
+				'conditions' => array(
+					'Newsletter.id' => $id
+				),
+				'contain' => array(
+					'Template' => array(
+						'fields' => array(
+							'Template.header',
+							'Template.footer',
 						)
 					)
 				)
-			);
+			)
+		);
 
-			$this->set('data', $newsletter['Template']['header'] . $newsletter['Newsletter']['html'] . $newsletter['Template']['footer']);
-			Configure::write('debug', 0);
-		}
+		$this->set('data', $newsletter['Template']['header'] . $newsletter['Newsletter']['html'] . $newsletter['Template']['footer']);
 	}
 
+/**
+ * Handle mass deletes
+ *
+ * @param array $ids list of ids to delete
+ *
+ * @return boolean
+ */
 	public function __massActionDelete($ids) {
 		return $this->MassAction->delete($this->__canDelete($ids));
 	}
 
+/**
+ * Check if a newsletter can be deleted
+ *
+ * @param array $ids newsletter ids to delete
+ *
+ * @return array
+ */
 	private function __canDelete($ids) {
 		$newsletters = $this->Newsletter->find(
 			'list',
@@ -397,6 +480,13 @@ class NewslettersController extends NewsletterAppController {
 		return $newsletters;
 	}
 
+/**
+ * Toggle and send newsletters
+ *
+ * @param string $id the newsletter id to toggle
+ *
+ * @return void
+ */
 	public function admin_toggleSend($id = null) {
 		if (!$id) {
 			$this->notice('invalid');
@@ -447,6 +537,11 @@ class NewslettersController extends NewsletterAppController {
 		);
 	}
 
+/**
+ * Stop newsletter sending
+ *
+ * @return void
+ */
 	public function admin_stopAll() {
 		$runningNewsletters = $this->Newsletter->find(
 			'list',
@@ -476,6 +571,11 @@ class NewslettersController extends NewsletterAppController {
 		);
 	}
 
+/**
+ * Mass Action overload
+ *
+ * @return void
+ */
 	public function admin_mass() {
 		if ($this->MassAction->getAction() == 'send') {
 			$ids = $this->{$this->modelClass}->find(

@@ -143,7 +143,7 @@ class Folders extends AppModel {
 			case 'list':
 				$this->__simpleFolderFind($conditions);
 				break;
-		} // switch
+		}
 		Cache::write('folders.' . sha1($this->path . $conditions), $this->return, 'filemanager');
 
 		return $this->return;

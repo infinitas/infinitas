@@ -1,22 +1,24 @@
 <?php
 /**
- * Comment Template.
+ * Install
  *
- * @todo Implement .this needs to be sorted out.
- *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- *
- *
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
  * @package Infinitas.Installer.Model
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @since 0.5a
  */
 
 App::uses('Model', 'Model');
+
+/**
+ * Install
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Installer.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 
 class Install extends Model {
 /**
@@ -82,6 +84,11 @@ class Install extends Model {
 		$this->data[$this->alias]['prefix'] = !empty($this->data[$this->alias]['prefix']) ? $this->data[$this->alias]['prefix'] : null;
 	}
 
+/**
+ * Disable Finds
+ *
+ * @return boolean
+ */
 	public function find() {
 		return true;
 	}

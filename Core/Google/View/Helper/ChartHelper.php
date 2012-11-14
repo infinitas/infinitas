@@ -399,7 +399,7 @@
 
 				default:
 					;
-			} // switch
+			}
 		}
 
 		public function display($name = null, $data = array(), $absolute = false) {
@@ -484,7 +484,7 @@
 				case 'axis_style':
 					$this->__setAxis($key, $value);
 					break;
-			} // switch
+			}
 		}
 
 		function __checkCache() {
@@ -538,13 +538,13 @@
 					case 'transparency':
 						$param[$k][] = 'a';
 						break;
-				} // switch
+				}
 
 				switch ($fill['type']) {
 					case 'solid':
 						$param[$k][] = 's';
 						break;
-				} // switch
+				}
 
 				if (!isset($fill['color'])) {
 					unset($param[$k]);
@@ -870,7 +870,7 @@
 					$width = 440;
 					$height = 220;
 					break;
-			} // switch
+			}
 			$size = $width . 'x' . $height;
 
 			$render = $this->settings['api_address'] . 'cht=t&' .

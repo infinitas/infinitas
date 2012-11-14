@@ -1,57 +1,89 @@
 <?php
-	/**
-	 * Comment Template.
-	 *
-	 * @todo -c Implement .this needs to be sorted out.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 *
-	 *
-	 *
-	 * @filesource
-	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link		  http://infinitas-cms.org
-	 * @package Infinitas.Libs.Helper
-	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since		 0.5a
-	 */
-	App::uses('InfinitasHelper', 'Libs.View/Helper');
-	class WysiwygHelper extends InfinitasHelper {
-		public $helpers = array(
-			'Form'
-		);
+/**
+ * WysiwygHelper
+ *
+ * @package Infinitas.Libs.Helper
+ */
 
-		public function load($editor = null, $field = null, $config = array()) {
-			$helperName = sprintf('Wysiwyg%s', Inflector::Classify($editor));
+App::uses('InfinitasHelper', 'Libs.View/Helper');
 
-			switch($editor) {
-				case 'text':
-				case CakePlugin::loaded($helperName) == false:
-					return $this->text($field);
-					break;
-			} // switch
+/**
+ * WysiwygHelper
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Libs.Helper
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-			try{
-				App::uses($helperName . 'Helper', $helperName . '.View/Helper');
-				$this->Editor = $this->_View->Helpers->load($helperName . '.' . $helperName);
-			}
+class WysiwygHelper extends InfinitasHelper {
+/**
+ * Helpers to load
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Form'
+	);
 
-			catch(MissingHelperException $e) {
-				return $this->input($field, array('style' => 'width:98%; height:500px;')) . $e->getMessage();
-			}
+/**
+ * Load the wysiwyg editor
+ *
+ * @param string $editor
+ * @param string $field
+ * @param array $config
+ *
+ * @return string
+ */
+	public function load($editor = null, $field = null, $config = array()) {
+		$helperName = sprintf('Wysiwyg%s', Inflector::Classify($editor));
 
-			$fields = explode('.', $field);
-
-			$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
-			return $heading . $this->input($field, array('label' => false)) . $this->Editor->editor($field, $config) . '</div>';
+		switch($editor) {
+			case 'text':
+			case CakePlugin::loaded($helperName) == false:
+				return $this->text($field);
+				break;
 		}
 
-		public function text($id = null) {
-			return $this->input($id, array('type' => 'textarea'));
+		try{
+			App::uses($helperName . 'Helper', $helperName . '.View/Helper');
+			$this->Editor = $this->_View->Helpers->load($helperName . '.' . $helperName);
 		}
 
-		public function input($id, $params = array('style' => 'width:98%; height:500px;')) {
-			return $this->Form->input($id, $params);
+		catch(MissingHelperException $e) {
+			return $this->input($field, array('style' => 'width:98%; height:500px;')) . $e->getMessage();
 		}
+
+		$fields = explode('.', $field);
+
+		$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
+		return $heading . $this->input($field, array('label' => false)) . $this->Editor->editor($field, $config) . '</div>';
 	}
+
+/**
+ * Wysiwyg textarea
+ *
+ * @param string $field
+ *
+ * @return string
+ */
+	public function text($id = null) {
+		return $this->input($id, array('type' => 'textarea'));
+	}
+
+/**
+ * Wysiwyg form input
+ *
+ * @param string $field field
+ * @param array $options
+ *
+ * @return string
+ */
+	public function input($field, $options = array('style' => 'width:98%; height:500px;')) {
+		return $this->Form->input($field, $options);
+	}
+
+}

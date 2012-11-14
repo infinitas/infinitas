@@ -31,7 +31,7 @@
 						'category' => 'user-feedback'
 					);
 					break;
-			} // switch
+			}
 		}
 
 		public function onSetupRoutes() {

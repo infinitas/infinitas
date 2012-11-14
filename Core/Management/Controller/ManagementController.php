@@ -1,35 +1,50 @@
 <?php
-	/**
-	 * Comment Template.
-	 *
-	 * @todo Implement .this needs to be sorted out.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 *
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Managemen.Controller
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
-	 */
+/**
+ * ManagementController
+ *
+ * @package Infinitas.Management.Controller
+ */
 
-	class ManagementController extends ManagementAppController {
-		public $uses = array();
+/**
+ * ManagementController
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Management.Controller
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-		/**
-		 * This is the main admin dashboard when visiting admin/
-		 */
-		public function admin_dashboard() {
-		}
+class ManagementController extends ManagementAppController {
+/**
+ * Disable model loading
+ *
+ * @var boolean
+ */
+	public $uses = false;
 
-		/**
-		 * This is a few of the smaller items that dont need to be directly on the
-		 * main dashboard as they will not be used all that often.
-		 */
-		public function admin_site() {
-
-		}
+/**
+ * Management dashboard
+ *
+ * This is the main admin dashboard when visiting admin
+ *
+ * @return void
+ */
+	public function admin_dashboard() {
 	}
+
+/**
+ * Site
+ * 
+ * This is a few of the smaller items that dont need to be directly on the
+ * main dashboard as they will not be used all that often.
+ *
+ * @return void
+ */
+	public function admin_site() {
+
+	}
+
+}

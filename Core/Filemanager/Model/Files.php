@@ -144,7 +144,7 @@ class Files extends AppModel {
 			case 'list':
 				$this->__simpleFileFind($conditions);
 				break;
-		} // switch
+		}
 		$this->return;
 
 		Cache::write('files.' . sha1($this->path . $conditions), $this->return, 'filemanager');

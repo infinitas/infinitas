@@ -1,19 +1,20 @@
 <?php
 /**
- * Comment Template.
+ * ViewableBehavior
  *
- * @todo Implement .this needs to be sorted out.
+ * @package Infinitas.ViewCounter.Model.Behavior
+ */
+
+/**
+ * ViewableBehavior
  *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- *
- *
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
  * @package Infinitas.ViewCounter.Model.Behavior
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class ViewableBehavior extends ModelBehavior {
@@ -24,20 +25,21 @@ class ViewableBehavior extends ModelBehavior {
  */
 	public $__settings = array();
 
-	public $__session = array();
-
 /**
  * Initiate behavior for the model using specified settings.
+ *
  * Available settings:
  *
  * - view_counter: string :: the field in the table that has the count
  * - session_tracking false to disable, int for number of views to keep track of
  * 	views are tracked by displayField and will do funny things if displayField is not a string.
  *
- * @param object $Model Model using the behaviour
+ * @param Model $Model Model using the behaviour
  * @param array $settings Settings to override for model.
+ *
+ * @return void
  */
-	public function setup($Model, $settings = array()) {
+	public function setup(Model $Model, $settings = array()) {
 		$default = array(
 			'view_counter' => 'views',
 			'session_tracking' => 20
@@ -81,11 +83,11 @@ class ViewableBehavior extends ModelBehavior {
 /**
  * This happens after a find happens.
  *
- * @param object $Model Model about to be saved.
+ * @param Model $Model Model about to be saved.
  *
  * @return boolean
  */
-	public function afterFind($Model, $data) {
+	public function afterFind(Model $Model, $data) {
 		// skip finds with more than one result.
 		$skip = $Model->findQueryType == 'neighbors' || $Model->findQueryType == 'count' ||
 			empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1 ||
@@ -140,4 +142,5 @@ class ViewableBehavior extends ModelBehavior {
 		$Model->ViewCount->save($view);
 		return $data;
 	}
+	
 }

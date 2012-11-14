@@ -1,47 +1,66 @@
 <?php
-	/**
-	 * Comment Template.
-	 *
-	 * @todo Implement .this needs to be sorted out.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 *
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Newsletter.Controller
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.5a
-	 */
+/**
+ * NewsletterSubscribersController
+ *
+ * @package Infinitas.Newsletter.Controller
+ */
 
-	class NewsletterSubscribersController extends NewsletterAppController {
-		public function admin_index() {
-			$this->Paginator->settings = array('paginated');
+/**
+ * NewsletterSubscribersController
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Newsletter.Controller
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-			$newsletterSubscribers = $this->Paginator->paginate('NewsletterSubscriber', $this->Filter->filter);
+class NewsletterSubscribersController extends NewsletterAppController {
+/**
+ * List all subscribers
+ *
+ * @return void
+ */
+	public function admin_index() {
+		$this->Paginator->settings = array('paginated');
 
-			$filterOptions = $this->Filter->filterOptions;
-			$filterOptions['fields'] = array(
-				'prefered_name',
-				'email'
-			);
+		$newsletterSubscribers = $this->Paginator->paginate('NewsletterSubscriber', $this->Filter->filter);
 
-			$this->set(compact('newsletterSubscribers', 'filterOptions'));
-		}
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'prefered_name',
+			'email'
+		);
 
-		public function admin_add() {
-			parent::admin_add();
-
-			$users = $this->NewsletterSubscriber->User->find('list');
-			$this->set(compact('users'));
-		}
-
-		public function admin_edit($id) {
-			parent::admin_edit($id);
-
-			$users = $this->NewsletterSubscriber->User->find('list');
-			$this->set(compact('users'));
-		}
+		$this->set(compact('newsletterSubscribers', 'filterOptions'));
 	}
+
+/**
+ * Add new subscriber details
+ *
+ * @return void
+ */
+	public function admin_add() {
+		parent::admin_add();
+
+		$users = $this->NewsletterSubscriber->User->find('list');
+		$this->set(compact('users'));
+	}
+
+/**
+ * Edit a newsletter subscriber
+ *
+ * @param string $id the subscirber id
+ *
+ * @return void
+ */
+	public function admin_edit($id) {
+		parent::admin_edit($id);
+
+		$users = $this->NewsletterSubscriber->User->find('list');
+		$this->set(compact('users'));
+	}
+
+}
