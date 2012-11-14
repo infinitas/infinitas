@@ -1,15 +1,32 @@
 <?php
+/**
+ * GeoLocation events class
+ *
+ * @package Infinitas.GeoLocation.Lib
+ */
+
 App::uses('IpLocation', 'GeoLocation.Lib');
+
 /**
  * GeoLocation events class
  *
  * This class provides a means for plugins to get location data when available
+ * through the event system.
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.GeoLocation.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
-final class GeoLocationEvents extends AppEvents {
+
+class GeoLocationEvents extends AppEvents {
 /**
  * load location components
  *
- * @param Event $event
+ * @param Event $Event
  *
  * @return array
  */
@@ -20,27 +37,28 @@ final class GeoLocationEvents extends AppEvents {
 	}
 
 /**
-* Get the location, will try for city, but if not available will get the
-* country.
-*
-* @param object $event the event object
+ * Get the location,
  *
-* @param string $ipAddress the ip address
+ * Will try for city, but if not available will get the country.
  *
-* @return array the details requested
-*/
-	public function onGetLocation($event, $ipAddress = null) {
-		return $this->onGetCity($event, $ipAddress) || $this->onGetCountry($event, $ipAddress);
+ * @param Event $Event the event object
+ * @param string $ipAddress the ip address
+ *
+ * @return array the details requested
+ */
+	public function onGetLocation(Event $Event, $ipAddress = null) {
+		return $this->onGetCity($Event, $ipAddress) || $this->onGetCountry($Event, $ipAddress);
 	}
 
 /**
-* Get the country data
-*
-* @param object $event the event object
-* @param string $ipAddress the ip address
-* @return array the details requested
-*/
-	public function onGetCountry($event, $ipAddress = null) {
+ * Get the country data
+ *
+ * @param Event $Event the event object
+ * @param string $ipAddress the ip address
+ *
+ * @return array the details requested
+ */
+	public function onGetCountry(Event $Event, $ipAddress = null) {
 		$IpLocation = new IpLocation();
 
 		$return = $IpLocation->getCountryData($ipAddress);
@@ -50,13 +68,14 @@ final class GeoLocationEvents extends AppEvents {
 	}
 
 /**
-* Get the city data
-*
-* @param object $event the event object
-* @param string $ipAddress the ip address
-* @return array the details requested
-*/
-	public function onGetCity($event, $ipAddress = null) {
+ * Get the city data
+ *
+ * @param Event $Event the event object
+ * @param string $ipAddress the ip address
+ *
+ * @return array the details requested
+ */
+	public function onGetCity(Event $Event, $ipAddress = null) {
 		$IpLocation = new IpLocation();
 
 		$return = $IpLocation->getCityData($ipAddress);
@@ -64,4 +83,5 @@ final class GeoLocationEvents extends AppEvents {
 		unset($IpLocation);
 		return $return;
 	}
+
 }

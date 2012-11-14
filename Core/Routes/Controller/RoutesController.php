@@ -1,26 +1,34 @@
 <?php
 /**
- * Comment Template.
+ * RoutesController
  *
- * @todo Implement .this needs to be sorted out.
+ * @package Infinitas.Routes.Controller
+ */
+
+/**
+ * RoutesController
  *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- *
- *
- *
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
  * @package Infinitas.Routes.Controller
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class RoutesController extends RoutesAppController {
+/**
+ * List of themes
+ *
+ * @var array
+ */
 	public $listThemes = array(0 => 'Default');
 
 /**
- * get a list of themes
+ * BeforeFilter callback
+ *
+ * Get a list of themes
  *
  * @return boolean
  */
@@ -28,7 +36,7 @@ class RoutesController extends RoutesAppController {
 		parent::beforeFilter();
 
 		$this->listThemes = array(
-			0 => __('Default')
+			0 => __d('routes', 'Default')
 		) + $this->Route->Theme->find('list');
 		return true;
 	}
@@ -52,7 +60,7 @@ class RoutesController extends RoutesAppController {
 			'name',
 			'url',
 			'plugin' => $this->Route->getPlugins(),
-			'theme_id' => array(null => __('All')) + $this->Route->Theme->find('list'),
+			'theme_id' => array(null => __d('routes', 'All')) + $this->Route->Theme->find('list'),
 			'active' => Configure::read('CORE.active_options')
 		);
 
@@ -95,4 +103,5 @@ class RoutesController extends RoutesAppController {
 
 		$this->set(compact('plugins', 'controllers', 'actions', 'themes'));
 	}
+	
 }

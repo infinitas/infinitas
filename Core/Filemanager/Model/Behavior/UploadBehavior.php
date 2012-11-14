@@ -17,8 +17,6 @@ App::uses('Folder', 'Utility');
  *
  * PHP versions 4 and 5
  *
- * @internal
- *
  * @copyright Copyright 2010, Jose Diaz-Gonzalez
  * @package Infinitas.Filemanager.Model.Behavior
  * @link http://github.com/josegonzalez/upload
@@ -122,12 +120,12 @@ class UploadBehavior extends ModelBehavior {
 /**
  * Initiate Upload behavior
  *
- * @param Model $model instance of model
+ * @param Model $Model instance of model
  * @param array $config array of configuration settings.
  *
  * @return void
  */
-	public function setup(Model $model, $config = array()) {
+	public function setup(Model $Model, $config = array()) {
 		if (isset($this->settings[$Model->alias])) return;
 		$this->settings[$Model->alias] = array();
 

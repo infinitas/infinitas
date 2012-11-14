@@ -1,36 +1,68 @@
 <?php
-	final class RoutesEvents extends AppEvents {
-		public function onPluginRollCall() {
-			return array(
-				'name' => 'Routes',
-				'description' => 'Route pretty urls to your code',
-				'icon' => '/routes/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
+/**
+ * RoutesEvents
+ *
+ * @package Infinitas.Routes.Lib
+ */
 
-		public function onSetupCache() {
-			return array(
-				'name' => 'routes',
-				'config' => array(
-					'prefix' => 'core.routes.'
-				)
-			);
-		}
+/**
+ * RoutesEvents
+ *
+ * The events that can be triggered for the Routes plugin
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Routes.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-		public function onAdminMenu($event) {
-			$menu['main'] = array(
-				'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index'),
-				'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
-				'Disabled' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
-			);
-
-			return $menu;
-		}
-
-		public function onGetRequiredFixtures($event) {
-			return array(
-				'Routes.Route',
-			);
-		}
+class RoutesEvents extends AppEvents {
+/**
+ * Plugin rollcall
+ *
+ * @return array
+ */
+	public function onPluginRollCall() {
+		return array(
+			'name' => 'Routes',
+			'description' => 'Route pretty urls to your code',
+			'icon' => '/routes/img/icon.png',
+			'author' => 'Infinitas'
+		);
 	}
+
+/**
+ * Configure routes cache
+ *
+ * @return array
+ */
+	public function onSetupCache() {
+		return array(
+			'name' => 'routes',
+			'config' => array(
+				'prefix' => 'core.routes.'
+			)
+		);
+	}
+
+/**
+ * Admin menu bar
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onAdminMenu(Event $Event) {
+		$menu['main'] = array(
+			'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index'),
+			'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
+			'Disabled' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
+		);
+
+		return $menu;
+	}
+
+}

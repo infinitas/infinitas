@@ -1,8 +1,35 @@
 <?php
+/**
+ * IpLocation
+ *
+ * @package Infinitas.GeoLocation.Lib
+ */
+
 App::uses('GeoIP', 'GeoLocation.Lib/GeoIP');
 App::uses('GeoIPCity', 'GeoLocation.Lib/GeoIP');
 
+/**
+ * IpLocation
+ *
+ * Class for getting the location based on the ip address.
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.GeoLocation.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 Class IpLocation extends Object {
+/**
+ * Constructor
+ *
+ * Set the paths to the GeoIP data files
+ *
+ * @return void
+ */
 	public function __construct() {
 		$this->countryDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'country.dat';
 		$this->cityDataFile = App::pluginPath('GeoLocation') . 'Lib' . DS . 'GeoIP' . DS . 'city.dat';
@@ -122,7 +149,9 @@ Class IpLocation extends Object {
  * able to match something.
  *
  * @param string $ipAddress the ip address to check against
- * @param bool $code get the country code or not
+ * @param array $fields not used
+ *
+ * @todo remove $fields variable
  *
  * @return array the data requested
  */
@@ -185,4 +214,5 @@ Class IpLocation extends Object {
 	public function hasCountryData() {
 		return is_file($this->countryDataFile);
 	}
+
 }

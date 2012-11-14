@@ -1,24 +1,25 @@
 <?php
 /**
- * Comment Template.
+ * Route
  *
- * @todo Implement .this needs to be sorted out.
+ * @package Infinitas.Routes.Model
+ */
+
+/**
+ * Filemanager Events
  *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ * The events that can be triggered for the events class.
  *
- *
- *
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
  * @package Infinitas.Routes.Model
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class Route extends RoutesAppModel {
-	public $useTable = 'routes';
-
 /**
  * belongs to relations
  *
@@ -36,10 +37,13 @@ class Route extends RoutesAppModel {
 	);
 
 /**
- * overload __construct for translateable validation errors
+ * Constructor
+ *
  * @param type $id
  * @param type $table
  * @param type $ds
+ *
+ * @return void
  */
 	public function  __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
@@ -137,9 +141,12 @@ class Route extends RoutesAppModel {
 	}
 
 /**
- * sort out the plugin name before saving
+ * BeforeSave callback
  *
- * @param type $options
+ * Sort out the plugin name before saving
+ *
+ * @param array $options
+ *
  * @return boolean
  */
 	public function beforeSave($options = array()) {
@@ -157,10 +164,12 @@ class Route extends RoutesAppModel {
 	}
 
 /**
- * after finding routes fix up the plugin names
+ * AfterFind callback
  *
- * @param type $results
- * @param type $primary
+ * After finding routes fix up the plugin names
+ *
+ * @param array $results
+ * @param boolean $primary
  *
  * @return string
  */
@@ -185,7 +194,7 @@ class Route extends RoutesAppModel {
  * the onSlugUrl events are able to detect the type of url that is needed
  * and build them automatically.
  *
- * @return array the formatted routes
+ * @return array
  */
 	public function getRoutes() {
 		$routes = false; //Cache::read('routes', 'routes');
@@ -296,7 +305,7 @@ class Route extends RoutesAppModel {
  *
  * @param array $route the route from the database
  *
- * @return formatted array for Router::connect
+ * @return array
  */
 	public function getValues($route = array()) {
 		if (!$route) {
@@ -342,9 +351,9 @@ class Route extends RoutesAppModel {
  * returns an empty array.
  *
  * @param array $field the data from the rute
- * @param mixed $pass array of fields to pass back to the controller
+ * @param string $pass array of fields to pass back to the controller
  *
- * @return array the data for Router::connect
+ * @return array
  */
 	public function getRegex($field, $pass = null) {
 		$values = array();
@@ -353,9 +362,10 @@ class Route extends RoutesAppModel {
 		}
 
 		if ($pass) {
-			$values['pass'] = explode( ',', $pass);
+			$values['pass'] = explode(',', $pass);
 		}
 
 		return $values;
 	}
+
 }

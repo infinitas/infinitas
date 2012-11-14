@@ -1,16 +1,31 @@
 <?php
 /**
- * get time zone informtaion
+ * Time Zone lib
  *
- * Get a time zone based on the two letter country code and region or ip address
+ * @package Infinitas.GeoLocation.Lib
  */
 
 App::uses('IpLocation', 'GeoLocation.Lib');
+
+/**
+ * Time Zone lib
+ *
+ * Get a time zone based on the two letter country code and region or ip address
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.GeoLocation.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 class GeoLocationTimeZone {
 /**
  * get the time zone based on the ip address
  *
- * @param string $ipAddress
+ * @param string $ipAddress the ip address to lookup
  *
  * @return string
  */
@@ -25,9 +40,12 @@ class GeoLocationTimeZone {
 	}
 
 /**
- * get the time zone based on the country / region codes
+ * Get the time zone based on the country / region codes
  *
  * Copyright 2009 Maxmind LLC All Rights Reserved
+ *
+ * @param type $country the country to look in
+ * @param type $region the region to look in
  *
  * @return boolean|string
  */
