@@ -49,3 +49,15 @@
 [submodule "Plugin/InfinitasPiwik"]
 	path = Plugin/InfinitasPiwik
 	url = https://github.com/Infinitas-Plugins/InfinitasPiwik.git
+[submodule "Developer/Xhprof"]
+	path = Developer/Xhprof
+	url = git://github.com/Infinitas-Plugins/Xhprof.git
+[submodule "Developer/Dummy"]
+	path = Developer/Dummy
+	url = git://github.com/Infinitas-Plugins/Dummy.git
+[submodule "Developer/Dev"]
+	path = Developer/Dev
+	url = git://github.com/Infinitas-Plugins/Dev.git
+[submodule "Developer/InfinitasDocs"]
+	path = Developer/InfinitasDocs
+	url = git://github.com/Infinitas-Plugins/InfinitasDocs.git
