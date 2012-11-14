@@ -148,8 +148,6 @@
 		 * Login method.
 		 *
 		 * Cake magic
-		 *
-		 * @access public
 		 */
 		public function login() {
 			if (!Configure::read('Website.allow_login')) {
@@ -252,8 +250,6 @@
 		 * Logout method.
 		 *
 		 * Cake magic
-		 *
-		 * @access public
 		 */
 		public function logout() {
 			$this->Event->trigger('beforeUserLogout', array('user' => $this->Auth->user()));

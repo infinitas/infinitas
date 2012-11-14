@@ -33,7 +33,6 @@ class GlobalTaggedTest extends CakeTestCase {
  *
  *
  * @return void
- * @access public
  */
 	public function setUp() {
 		$this->skipIf(true);
@@ -45,7 +44,6 @@ class GlobalTaggedTest extends CakeTestCase {
  *
  *
  * @return void
- * @access public
  */
 	public function tearDown() {
 		parent::teardown();

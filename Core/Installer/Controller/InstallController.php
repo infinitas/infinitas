@@ -23,7 +23,6 @@
 		 * No models required
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $uses = array();
 
@@ -31,7 +30,6 @@
 		 * No components required
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $components = array('Libs.Wizard', 'Session');
 
@@ -111,8 +109,6 @@
 		 *
 		 * The installer uses a lib that is shared between the frontend and shell
 		 * installer.
-		 *
-		 * @access public
 		 */
 		public function __construct($request = null, $response = null) {
 			parent::__construct($request, $response);
@@ -179,8 +175,6 @@
 		 *
 		 * Does a few system checks to make sure that the server is setup to run
 		 * Infinitas. Check things like paths, extentions and version are correct.
-		 *
-		 * @access public
 		 */
 		public function _prepareWelcome() {
 			$core = $this->InstallerLib->checkCore();
@@ -206,8 +200,6 @@
 		 *
 		 * Get the supported databases that are installed on the server and show
 		 * a form to enter connection details.
-		 *
-		 * @access public
 		 */
 		public function _prepareDatabase() {
 			$this->loadModel('Installer.Install');
@@ -227,8 +219,6 @@
 		 *
 		 * Check that the details passed in were correct and that the installer
 		 * is able to connect to the database.
-		 *
-		 * @access public
 		 *
 		 * @return type
 		 */
@@ -252,8 +242,6 @@
 		 *
 		 * Get a list of plugins that will be installed and ask the user if they
 		 * would like to install some sample data.
-		 *
-		 * @access public
 		 */
 		public function _prepareInstall() {
 			$_plugins = CakePlugin::loaded();
@@ -289,8 +277,6 @@
 
 		/**
 		 * get the details of the administrator
-		 *
-		 * @access public
 		 */
 		public function _prepareAdminUser() {
 			if(!is_readable(APP . 'Config' . DS . 'database.php') || filesize(APP . 'Config' . DS . 'database.php') == 0) {
@@ -313,8 +299,6 @@
 
 		/**
 		 * save the administrator details
-		 *
-		 * @access public
 		 */
 		public function _processAdminUser() {
 			$this->loadModel('Users.User');

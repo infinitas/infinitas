@@ -30,7 +30,6 @@
 		 * Instance of File class
 		 *
 		 * @var File
-		 * @access public
 		 */
 		public $File = null;
 
@@ -43,7 +42,6 @@
 		 *
 		 * @var array
 		 * @see CacheEngine::__defaults
-		 * @access public
 		 */
 		public $settings = array();
 
@@ -51,15 +49,13 @@
 		 * Set to true if NamespaceFileEngine::init(); and NamespaceFileEngine::__active(); do not fail.
 		 *
 		 * @var boolean
-		 * @access private
 		 */
 		private $__active = false;
-		
+
 		/**
 		 * True unless NamespaceFileEngine::__active(); fails
 		 *
 		 * @var boolean
-		 * @access private
 		 */
 		private $__init = true;
 
@@ -70,8 +66,8 @@
 		 * To reinitialize the settings call Cache::engine('EngineName', [optional] settings = array());
 		 *
 		 * @param array $setting array of setting for the engine
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		function init($settings = array()) {
 			parent::init(
@@ -102,7 +98,6 @@
 		 * Garbage collection. Permanently remove all expired and deleted data
 		 *
 		 * @return boolean
-		 * @access public
 		 */
 		function gc() {
 			return $this->clear(true);
@@ -114,8 +109,8 @@
 		 * @param string $key Identifier for the data
 		 * @param mixed $data Data to be cached
 		 * @param mixed $duration How long to cache the data, in seconds
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		public function write($key, $value, $duration) {
 			$writable = $this->__setKey($key);
@@ -180,8 +175,8 @@
 		 * Read a key from the cache
 		 *
 		 * @param string $key Identifier for the data
+		 *
 		 * @return mixed The cached data, or false if the data doesn't exist, has expired, or if there was an error fetching it
-		 * @access public
 		 */
 		function read($key) {
 			$readable = $this->__setKey($key);
@@ -220,8 +215,8 @@
 		 * Delete a key from the cache
 		 *
 		 * @param string $key Identifier for the data
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		function delete($key) {
 			$deletable = $this->__setKey($key);
@@ -236,8 +231,8 @@
 		 * Delete all values from the cache
 		 *
 		 * @param boolean $check Optional - only delete expired cache items
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		function clear($check = false) {
 			if (!$this->__init) {
@@ -284,8 +279,8 @@
 		 * Get absolute file for a given key
 		 *
 		 * @param string $key The key
+		 *
 		 * @return mixed Absolute cache file for the given key or false if erroneous
-		 * @access private
 		 */
 		function __getPath($key) {
 			return $this->settings['path'] . str_replace('.', DS, $key);
@@ -295,8 +290,8 @@
 		 * Get absolute folder for a given key
 		 *
 		 * @param string $key The key
+		 *
 		 * @return mixed Absolute cache file for the given key or false if erroneous
-		 * @access private
 		 */
 		function __getFolderPath($key) {
 			return $this->__getPath(substr($key, 0, strrpos($key, '.') + 1));
@@ -306,8 +301,8 @@
 		 * Return the class (File/Folder) for a key.
 		 *
 		 * @param string $key The key
+		 *
 		 * @return mixed File or Folder class for a key.
-		 * @access private
 		 */
 		function __setKey($key) {
 			return $this->__setPath($this->__getPath($key));
@@ -317,8 +312,8 @@
 		 * Return the class (File/Folder) for a path.
 		 *
 		 * @param string $path The path
+		 *
 		 * @return mixed File or Folder class for a path.
-		 * @access private
 		 */
 		function __setPath($path) {
 			$this->File->Folder->cd($path);
@@ -336,7 +331,6 @@
 		 * Determine is cache directory is writable
 		 *
 		 * @return boolean
-		 * @access private
 		 */
 		function __active() {
 			if (!$this->__active && $this->__init && !is_writable($this->settings['path'])) {
@@ -355,8 +349,8 @@
 		 * Override the parents key method, so the keys don't get transformed
 		 *
 		 * @param string $key The key
+		 *
 		 * @return mixed The key if one is passed else return false
-		 * @access public
 		 */
 		function key($key = null) {
 			if (empty($key)) {

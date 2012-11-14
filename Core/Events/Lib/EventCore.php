@@ -22,7 +22,6 @@
 		 * a cache of the event names
 		 *
 		 * @var object
-		 * @access public
 		 */
 		public $eventNameCache;
 
@@ -30,7 +29,6 @@
 		 * a cache of the handler names
 		 *
 		 * @var object
-		 * @access public
 		 */
 		public $handlerNameCache;
 
@@ -38,7 +36,6 @@
 		 * a cache of the plugin names
 		 *
 		 * @var object
-		 * @access public
 		 */
 		public $pluginNameCache;
 
@@ -60,7 +57,6 @@
 		 * Returns a singleton instance of the EventCore class.
 		 *
 		 * @return EventCore instance
-		 * @access public
 		 */
 		public function getInstance() {
 			static $instance = array();
@@ -107,7 +103,6 @@
 		 * list will help out.
 		 *
 		 * @param string $eventName the name of the event to run
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -169,8 +164,6 @@
 		 * and actions directly. It can also be used to see if plugins are active
 		 * for the request. Even if something is installed and active, it may have
 		 * been dynamically turned off (or the other way round)
-		 *
-		 * @access public
 		 *
 		 * @param string $plugin the name of the plugin to check
 		 *
@@ -308,7 +301,6 @@
 		 * Loads list of available event handlers in a event object
 		 *
 		 * @param object $Event
-		 * @access private
 		 */
 		protected function _getAvailableHandlers($Event) {
 			if(is_object($Event)) {
@@ -329,7 +321,6 @@
 		 *
 		 * @param string $className the event class to load
 		 * @param string $filename the file name of the event
-		 * @access private
 		 */
 		protected function _loadEventClass($className, $filename = false) {
 			$_this = EventCore::getInstance();
@@ -367,7 +358,6 @@
 		 *
 		 * @param string $className the name of the class being called
 		 * @return string
-		 * @access private
 		 */
 		protected function _extractPluginName($className) {
 			$_this = EventCore::getInstance();

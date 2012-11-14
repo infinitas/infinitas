@@ -21,8 +21,7 @@
 		/**
 		 * Console Width
 		 *
-		 * @var int
-		 * @access public
+		 * @var integer
 		 */
 		public $terminalWidth = null;
 
@@ -30,31 +29,27 @@
 		 * message displayed during updates
 		 *
 		 * @var string ''
-		 * @access public
 		 */
 		public $message = '';
 
 		/**
 		 * Maximum value on the bar
 		 *
-		 * @var int
-		 * @access public
+		 * @var integer
 		 */
 		public $total = 100;
 
 		/**
 		 * Size
 		 *
-		 * @var int
-		 * @access public
+		 * @var integer
 		 */
 		public $size = 25;
 
 		/**
 		 * Amount Completed
 		 *
-		 * @var int
-		 * @access public
+		 * @var integer
 		 */
 		public $done = 0;
 
@@ -62,15 +57,13 @@
 		 * Start Time
 		 *
 		 * @var mixed
-		 * @access public
 		 */
 		public $startTime = null;
 
 		/**
 		 * String length for the previous line.  Used to overwrite hanging chars/
 		 *
-		 * @var int
-		 * @access public
+		 * @var integer
 		 */
 		public $strLenPrevLine = null;
 
@@ -78,7 +71,6 @@
 		 * Execute the task - nothing to do by default
 		 *
 		 * @return void
-		 * @access public
 		 */
 		public function execute() {
 		}
@@ -90,7 +82,6 @@
 		 * if you don't know the exact number of steps it's going to take
 		 *
 		 * @return void
-		 * @access public
 		 */
 		public function finish() {
 			if ($this->done < $this->total) {
@@ -103,7 +94,6 @@
 		 *
 		 * @param string $message ''
 		 * @return void
-		 * @access public
 		 */
 		public function message($message = '') {
 			$this->message = $message;
@@ -113,7 +103,6 @@
 		 * Increment the progress
 		 *
 		 * @return void
-		 * @access public
 		 */
 		public function next($inc = 1) {
 			$this->done += $inc;
@@ -128,8 +117,8 @@
 		 *
 		 * @param mixed $message A string or a an array of strings to output
 		 * @param integer $newlines Number of newlines to append
+		 *
 		 * @return integer
-		 * @access public
 		 */
 		public function out($message = null, $newLines = 0) {
 			return parent::out($message, $newLines);
@@ -139,7 +128,6 @@
 		 * Set the values and output
 		 *
 		 * @return void
-		 * @access public
 		 */
 		/**
 		 * set method
@@ -147,7 +135,6 @@
 		 * @param string $done Amount completed
 		 * @param string $doneSize bar size
 		 * @return void
-		 * @access public
 		 */
 		public function set($done = null, $doneSize = null) {
 			if ($done) {
@@ -197,8 +184,8 @@
 		 * Start a progress bar
 		 *
 		 * @param string $total Total value of the progress bar
+		 *
 		 * @return void
-		 * @access public
 		 */
 		public function start($total, $clear = true) {
 			$this->total = $total;
@@ -214,7 +201,6 @@
 		 * Calculate remaining time in a nice format
 		 *
 		 * @return void
-		 * @access public
 		 */
 		protected function _niceRemaining() {
 			$now = time();
@@ -243,8 +229,6 @@
 		 * @param mixed $width null
 		 *
 		 * @return void
-		 *
-		 * @access public
 		 */
 		public function setTerminalWidth($width = null) {
 			if ($width === null) {

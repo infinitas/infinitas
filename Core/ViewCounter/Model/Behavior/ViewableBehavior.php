@@ -21,7 +21,6 @@ class ViewableBehavior extends ModelBehavior {
  * Contain settings indexed by model name.
  *
  * @var array
- * @access private
  */
 	public $__settings = array();
 
@@ -37,7 +36,6 @@ class ViewableBehavior extends ModelBehavior {
  *
  * @param object $Model Model using the behaviour
  * @param array $settings Settings to override for model.
- * @access public
  */
 	public function setup($Model, $settings = array()) {
 		$default = array(

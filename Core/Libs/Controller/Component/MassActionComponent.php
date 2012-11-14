@@ -43,8 +43,6 @@ class MassActionComponent extends InfinitasComponent {
 /**
  * Method to handle mass actions (Such as mass deletions, toggles, etc.)
  *
- * @access public
- *
  * @return void
  */
 	public function actionAdminMass() {

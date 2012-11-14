@@ -35,7 +35,7 @@
 		/**
 		 * @param object $Model Model using the behavior
 		 * @param array $settings Settings to override for model.
-		 * @access public
+		 * 
 		 * @return void
 		 */
 		public function setup($Model, $config = null) {

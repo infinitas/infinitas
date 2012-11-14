@@ -70,7 +70,6 @@
 		 * the type of chart being rendered
 		 *
 		 * @property _chartType
-		 * @access protected
 		 */
 		protected $_chartType;
 
@@ -78,7 +77,6 @@
 		 * the api url for the charts interface
 		 *
 		 * @property _apiUrl
-		 * @access protected
 		 */
 		protected $_apiUrl = 'http://%d.chart.apis.google.com/';
 
@@ -91,7 +89,6 @@
 		 * that can be passed to them.
 		 *
 		 * @property _chartTypes
-		 * @access protected
 		 */
 		protected $_chartTypes = array(
 			'bar' => array(
@@ -166,7 +163,7 @@
 			'map' => array(
 				'_indicator' => 'cht=map',
 				'size',
-				
+
 				'legend',
 				'line_style',
 				'color',
@@ -231,7 +228,6 @@
 		 * the correct format.
 		 *
 		 * @property _formats
-		 * @access protected
 		 */
 		protected $_formats = array(
 			'_global' => array(
@@ -288,7 +284,6 @@
 		 * and others are not. This sorts the differences out
 		 *
 		 * @property _colorTypes
-		 * @access protected
 		 */
 		protected $_colorTypes = array(
 			'bar' => array(
@@ -400,7 +395,6 @@
 		 * of the query string.
 		 *
 		 * @property _colorFormats
-		 * @access protected
 		 */
 		protected $_colorFormats = array(
 			'series' => array(
@@ -433,7 +427,6 @@
 		 * into the different pieces of the query string.
 		 *
 		 * @param array $data one of the value arrays from the ChartsHelper data
-		 * @access protected
 		 *
 		 * @return string
 		 */
@@ -531,7 +524,6 @@
 		 *
 		 * @param string $query the query that was generated
 		 * @param array|string|integer $extra any extra data that was passed from the ChartsHelper
-		 * @access protected
 		 *
 		 * @return string
 		 */
@@ -542,8 +534,6 @@
 
 		/**
 		 * convert the array data to a fragment to build up the query
-		 *
-		 * @access protected
 		 */
 		public function _formatQueryParts($key, $value) {
 			if(empty($value)) {
@@ -579,7 +569,6 @@
 		 * format the data array into the query
 		 *
 		 * @param array $value the data array to be formatted
-		 * @access protected
 		 *
 		 * @return string
 		 */
@@ -607,8 +596,6 @@
 		 *
 		 * some examples
 		 * @li array(array(Groovy),array(slow,faster,crazy)) becomes chxl=0:|Groovy|1:|slow|faster|crazy
-		 *
-		 * @access protected
 		 */
 		public function _formatLabels($value) {
 			$i = 0;
@@ -617,12 +604,12 @@
 				if($v === false) {
 					continue;
 				}
-				
+
 				$_part = $i . ':' . $this->_formats['labels']['separator'];
 				$return[] = $_part . implode($this->_formats['labels']['separator'], $v);
 				++$i;
 			}
-			
+
 			if(empty($return)) {
 				return false;
 			}
@@ -635,8 +622,6 @@
 
 		/**
 		 * @li labels chxl=0:|Groovy|1:|slow|faster|crazy
-		 *
-		 * @access protected
 		 */
 		public function _formatColor($value) {
 			$return = array();
@@ -708,7 +693,6 @@
 		 * @link http://code.google.com/apis/chart/docs/gallery/bar_charts.html#chbh
 		 *
 		 * @param array $value
-		 * @access protected
 		 *
 		 * @return <type>
 		 */
@@ -756,8 +740,6 @@
 		 * format a size array into part of the query string
 		 *
 		 * If only one param is passed then the image will be square.
-		 *
-		 * @access protected
 		 */
 		public function _formatSize($value) {
 			if(!is_array($value)) {
@@ -932,8 +914,6 @@
 		 *
 		 * @li data 'data' => array(20, 40, 60) -> chd=t:20,40,60
 		 * @li size 'size' => array('width' => 200, 'height' => 125)) -> chs=200x125
-		 *
-		 * @access protected
 		 */
 		public function _formatGeneric($key, $value) {
 			if(!is_array($value)) {
@@ -949,7 +929,6 @@
 		 *
 		 * @param string $dataType a key from _formats
 		 * @param array $data the data being exploded
-		 * @access protected
 		 *
 		 * @return string
 		 */

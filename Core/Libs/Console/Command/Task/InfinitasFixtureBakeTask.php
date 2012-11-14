@@ -27,8 +27,6 @@
 		/**
 		 * generate the fixture specified
 		 *
-		 * @access public
-		 *
 		 * @param string $modelName the model to be generated in Plugin.Model format
 		 * @param bool $new true if its a new fixture, false if you are updating
 		 *
@@ -99,8 +97,6 @@
 		 * It will also add any new fields that were found in the database to the
 		 * fixture and data.
 		 *
-		 * @access public
-		 *
 		 * @param array $fixture the old version of the fixture
 		 * @param array $new list of new fields (to add)
 		 * @param array $old list of old fields (to remove)
@@ -125,8 +121,6 @@
 
 		/**
 		 * generate the data for a new fixture
-		 *
-		 * @access public
 		 *
 		 * @param string $model the model to generate the fixture for
 		 * @param string $useTable the table that the model uses
@@ -174,8 +168,6 @@
 		/**
 		 * read the data from an existing fixture
 		 *
-		 * @access public
-		 *
 		 * @param string $plugin the name of the plugin
 		 * @param string $model the name of the model
 		 *
@@ -201,8 +193,6 @@
 		 *
 		 * This method will first convert the arrays to flat text and then pass it
 		 * to cakes normal fixture writing method.
-		 *
-		 * @access public
 		 *
 		 * @param string $model the
 		 * @param array $options the data for the fixture

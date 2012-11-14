@@ -26,7 +26,6 @@
 		 * Connection used
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $connection = 'default';
 
@@ -34,7 +33,6 @@
 		 * Instance of SchemaMigrations model
 		 *
 		 * @var Model
-		 * @access public
 		 */
 		public $Version;
 
@@ -42,7 +40,6 @@
 		 * Mapping cache
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__mapping = array();
 
@@ -63,8 +60,8 @@
 		 * Get last version for given type
 		 *
 		 * @param string $type Can be 'app' or a plugin name
+		 *
 		 * @return integer
-		 * @access public
 		 */
 		public function getVersion($type) {
 			$version = $this->Version->find(
@@ -93,8 +90,8 @@
 		 * @param string $type Can be 'app' or a plugin name
 		 * @param boolean $migrated If true, will add the record to the database
 		 * 		If false, will remove the record from the database
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		public function setVersion($version, $type, $migrated = true) {
 			if ($migrated) {
@@ -120,8 +117,8 @@
 		 * Get mapping for the given type
 		 *
 		 * @param string $type Can be 'app' or a plugin name
+		 *
 		 * @return mixed False in case of no file found, array with mapping
-		 * @access public
 		 */
 		public function getMapping($type) {
 			if (!empty($this->__mapping[$type])) {
@@ -165,8 +162,8 @@
 		 * @param string $class Migration class name
 		 * @param string $type Can be 'app' or a plugin name
 		 * @param array $options Extra options to send to CakeMigration class
+		 *
 		 * @return boolean|CakeMigration False in case of no file found, instance of the migration
-		 * @access public
 		 */
 		public function getMigration($name, $class, $type, $options = array()) {
 			if (!class_exists($class) && (!$this->__loadFile($name, $type) || !class_exists($class))) {
@@ -194,8 +191,8 @@
 		 * - `version` - Until what version want migrate to
 		 *
 		 * @param array $options An array with options.
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		public function run($options) {
 			$targetVersion = $latestVersion = $this->getVersion($options['type']);
@@ -254,7 +251,6 @@
 		 * Initialize the migrations schema and keep it up-to-date
 		 *
 		 * @return void
-		 * @access private
 		 */
 		private function __initMigrations() {
 			$options = array(
@@ -293,8 +289,8 @@
 		 *
 		 * @param string $name File name to be loaded
 		 * @param string $type Can be 'app' or a plugin name
+		 * 
 		 * @return mixed Throw an exception in case of no file found, array with mapping
-		 * @access private
 		 */
 		private function __loadFile($name, $type) {
 			$path = APP . 'Config' . DS . 'releases' . DS;

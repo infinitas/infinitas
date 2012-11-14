@@ -28,7 +28,6 @@
 		 * Version for this Data Source.
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $version = '0.1';
 
@@ -36,7 +35,6 @@
 		 * Description string for this Data Source.
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $description = 'Google Base Datasource';
 
@@ -44,7 +42,6 @@
 		 * Client Login URL
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_loginUri = "https://www.google.com/accounts/ClientLogin"; //you'll have to uncomment extension=php_openssl.dll from php.ini
 
@@ -52,7 +49,6 @@
 		 * Auth key returned by google API
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_authKey;
 
@@ -60,7 +56,6 @@
 		 * Method used to make requests (curl or file_get_contents)
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_method;
 
@@ -68,7 +63,6 @@
 		 * Default Constructor
 		 *
 		 * @param array $config options
-		 * @access public
 		 */
 		public function __construct($config) {
 			// _toPost keys are case sensitive for google api, changin them will result in bad authentication
@@ -119,7 +113,6 @@
 		 * @param string $url URL to do the request
 		 * @param string $method GET or POST
 		 * @return xml object
-		 * @access public
 		 */
 		public function sendRequest($url, $action, $content = null) {
 			/*

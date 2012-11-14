@@ -24,7 +24,6 @@
 		 * each step in between.)
 		 *
 		 * @var boolean
-		 * @access public
 		 */
 		public $autoAdvance = true;
 
@@ -35,7 +34,6 @@
 		 * after invalid navigation.
 		 *
 		 * @var boolean
-		 * @access public
 		 */
 		public $autoReset = false;
 
@@ -44,7 +42,6 @@
 		 * validate the model data against the models included in the controller's uses array.
 		 *
 		 * @var boolean
-		 * @access public
 		 */
 		public $autoValidate = false;
 
@@ -63,7 +60,6 @@
 		 * is included by default (if $defaultBranch = true).
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $steps = array();
 
@@ -71,7 +67,6 @@
 		 * Controller action that processes your step.
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $wizardAction = 'wizard';
 
@@ -80,7 +75,6 @@
 		 * Controller::afterComplete() is called directly before redirection.
 		 *
 		 * @var mixed
-		 * @access public
 		 */
 		public $completeUrl = '/';
 
@@ -88,7 +82,6 @@
 		 * Url to be redirected to after 'Cancel' submit button has been pressed by user.
 		 *
 		 * @var mixed
-		 * @access public
 		 */
 		public $cancelUrl = '/';
 
@@ -97,7 +90,6 @@
 		 * not been included specifically.
 		 *
 		 * @var boolean
-		 * @access public
 		 */
 		public $defaultBranch = true;
 
@@ -106,7 +98,6 @@
 		 * "locked down" to the current step.
 		 *
 		 * @var boolean
-		 * @access public
 		 */
 		public $lockdown = false;
 
@@ -114,7 +105,6 @@
 		 * Internal step tracking.
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_currentStep = null;
 
@@ -122,7 +112,6 @@
 		 * Holds the session key for data storage.
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_sessionKey = null;
 
@@ -130,7 +119,6 @@
 		 * Other session keys used.
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_configKey = null;
 
@@ -140,7 +128,6 @@
 		 * Holds the array based url for redirecting.
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_wizardUrl = array();
 
@@ -148,7 +135,6 @@
 		 * Other components used.
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $components = array('Session');
 
@@ -156,7 +142,6 @@
 		 * Initializes WizardComponent for use in the controller
 		 *
 		 * @param object $Controller A reference to the instantiating controller object
-		 * @access public
 		 */
 		function initialize($Controller, $settings = array()) {
 			$this->Controller = $Controller;
@@ -172,7 +157,6 @@
 		 * Component startup method.
 		 *
 		 * @param object $controller A reference to the instantiating controller object
-		 * @access public
 		 */
 		function startup(&$controller) {
 			$this->steps = $this->_parseSteps($this->steps);
@@ -189,7 +173,6 @@
 		 * Main Component method.
 		 *
 		 * @param string $step Name of step associated in $this->steps to be processed.
-		 * @access public
 		 */
 		function process($step) {
 			if (isset($this->Controller->params['form']['Cancel'])) {
@@ -293,7 +276,6 @@
 		 *
 		 * @param string $name Branch name to be included in steps.
 		 * @param boolean $skip Branch will be skipped instead of included if true.
-		 * @access public
 		 */
 		function branch($name, $skip = false) {
 			$branches = array();
@@ -315,8 +297,8 @@
 		 *
 		 * @param string $name Name of configuration variable.
 		 * @param mixed $value Value to be stored.
+		 *
 		 * @return mixed
-		 * @access public
 		 */
 		function config($name, $value = null) {
 			if ($value == null) {
@@ -331,7 +313,6 @@
 		 *
 		 * @param mixed $name The name of the session variable (or a path as sent to Set.extract)
 		 * @return mixed The value of the session variable
-		 * @access public
 		 */
 		function read($key = null) {
 			if ($key == null) {
@@ -357,7 +338,6 @@
 		 * @param integer $status Optional HTTP status code (eg: 404)
 		 * @param boolean $exit If true, exit() will be called after the redirect
 		 * @see Controller::redirect()
-		 * @access public
 		 */
 		function redirect($step = null, $status = null, $exit = true) {
 			if ($step == null) {
@@ -370,8 +350,6 @@
 
 		/**
 		 * Resets the wizard by deleting the wizard session.
-		 *
-		 * @access public
 		 */
 		function resetWizard() {
 			$this->reset();
@@ -379,8 +357,6 @@
 
 		/**
 		 * Resets the wizard by deleting the wizard session.
-		 *
-		 * @access public
 		 */
 		function reset() {
 			$this->Session->delete($this->_branchKey);
@@ -392,8 +368,6 @@
 		 *
 		 * Please note: This is normally called automatically by the component after
 		 * a successful _processCallback, but can be called directly for advanced navigation purposes.
-		 *
-		 * @access public
 		 */
 		function save() {
 			$this->Session->write($this->_sessionKey . '.' . $this->_currentStep, $this->Controller->data);
@@ -403,7 +377,6 @@
 		 * Removes a branch from the steps array.
 		 *
 		 * @param string $branch Name of branch to be removed from steps array.
-		 * @access public
 		 */
 		function unbranch($branch) {
 			$this->Session->delete($this->_branchKey . '.' . $branch);
@@ -413,7 +386,6 @@
 		 * Finds the first incomplete step (i.e. step data not saved in Session).
 		 *
 		 * @return string
-		 * @access protected
 		 */
 		function _getExpectedStep() {
 			foreach ($this->steps as $step) {
@@ -430,7 +402,6 @@
 		 * Saves configuration details for use in WizardHelper.
 		 *
 		 * @return mixed
-		 * @access protected
 		 */
 		function _branchType($branch) {
 			if ($this->Session->check($this->_branchKey . '.' . $branch )) {
@@ -445,8 +416,8 @@
 		 * and returns a simple array with the correct steps.
 		 *
 		 * @param array $steps Array to be parsed for nested arrays and returned as simple array.
+		 *
 		 * @return array
-		 * @access protected
 		 */
 		function _parseSteps($steps) {
 			$parsed = array();
@@ -489,7 +460,6 @@
 		 * Moves internal array pointer of $this->steps to $step and sets $this->_currentStep.
 		 *
 		 * @param $step Step to point to.
-		 * @access protected
 		 */
 		function _setCurrentStep($step) {
 			$this->_currentStep = reset($this->steps);
@@ -505,7 +475,6 @@
 		 * is no processCallback in the controller for the current step.
 		 *
 		 * @return boolean
-		 * @access protected
 		 */
 		function _validateData() {
 			$controller = $this->Controller;
@@ -529,8 +498,8 @@
 		 *   2. Validates that the step is either before or exactly the expected step.
 		 *
 		 * @param $step Step to validate.
+		 * 
 		 * @return mixed
-		 * @access protected
 		 */
 		function _validStep($step) {
 			if (in_array($step, $this->steps)) {

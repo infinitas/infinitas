@@ -3,7 +3,6 @@
 	 * undocumented class
 	 *
 	 * @package default
-	 * @access public
 	 */
 	/**
 	 * http://github.com/felixge/debuggable-scraps/blob/master/cakephp/behaviors/expandable/expandable.php
@@ -14,7 +13,6 @@
 		 * the settings for the behavior
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $settings = array();
 
@@ -27,7 +25,7 @@
 
 			foreach ($Model->hasMany as $assoc => $option) {
 				if (strpos($assoc, 'Attribute') !== false) {
-					$conventions = array('with' => $assoc, 'foreignKey' => $Model->hasMany[$assoc]['foreignKey']);					
+					$conventions = array('with' => $assoc, 'foreignKey' => $Model->hasMany[$assoc]['foreignKey']);
 					return $this->settings[$Model->alias] = am($base, $conventions, !empty($settings) ? $settings : array());
 				}
 			}
@@ -66,7 +64,7 @@
 					$results[$i][$Model->alias][$field['key']] = $field['val'];
 				}
 			}
-			
+
 			return $results;
 		}
 

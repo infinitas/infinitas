@@ -21,10 +21,8 @@
 
 		/**
 		 * Constructor
-		 *
-		 * @access protected
 		 */
-		public function getLastBackup($odel = null, $plugin = null) {
+		public function getLastBackup($model = null, $plugin = null) {
 			$lastBackup = $this->find(
 				'first',
 				array(

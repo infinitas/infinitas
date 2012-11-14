@@ -20,7 +20,6 @@
 		 * Contain settings indexed by model name.
 		 *
 		 * @var array
-		 * @access private
 		 */
 		public $settings = array();
 
@@ -29,7 +28,6 @@
 		 * to change the way it works.
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_defaults = array(
 			'categoryAlias' => 'GlobalCategory',
@@ -45,7 +43,6 @@
 		 *
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -78,7 +75,6 @@
 		 * get a list of categories.
 		 *
 		 * @param object $Model the model that the behavior is affecting
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -97,7 +93,6 @@
 		 *
 		 * @param object $Model the model being worked with
 		 * @param bool $created if the row is new or updated
-		 * @access public
 		 *
 		 * @return boolean
 		 */

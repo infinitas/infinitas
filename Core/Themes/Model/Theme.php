@@ -61,8 +61,6 @@
 		/**
 		 * Get the current Theme
 		 *
-		 * @access public
-		 *
 		 * @return array
 		 */
 		public function getCurrentTheme() {
@@ -104,8 +102,6 @@
 		 *
 		 * if the new / edited theme is active deactivte everything.
 		 *
-		 * @access public
-		 *
 		 * @return boolean
 		 */
 		public function beforeSave() {
@@ -121,8 +117,6 @@
 		 *
 		 * If the theme is active do not let it be deleted.
 		 *
-		 * @access public
-		 *
 		 * @param $cascade bool
 		 *
 		 * @return boolean
@@ -137,8 +131,6 @@
 		 *
 		 * This is used before activating a theme to make sure that there is only
 		 * ever one theme active.
-		 *
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -183,8 +175,6 @@
 		/**
 		 * get a list of themes that are already installed
 		 *
-		 * @access public
-		 *
 		 * @return array
 		 */
 		public function installed() {
@@ -207,8 +197,6 @@
 
 		/**
 		 * get a list of themes that are not yet installed
-		 *
-		 * @access public
 		 *
 		 * @return array
 		 */

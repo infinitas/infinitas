@@ -24,7 +24,6 @@
 		 * hasMany associations
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $hasMany = array(
 			'GlobalTagged' => array(

@@ -18,7 +18,6 @@
 		/**
 		 * The helpers linked to this controller
 		 *
-		 * @access public
 		 * @var string
 		 */
 		public $helpers = array(

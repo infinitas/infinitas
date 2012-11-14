@@ -20,7 +20,7 @@
 		* Function to create the directory where the file(s) will be unzipped
 		*
 		* @param string $directoryName
-		* @access public
+		 *
 		* @return void
 		*/
 		function addDirectory($directoryName) {
@@ -69,8 +69,8 @@
 		*
 		* @param string $directoryName
 		* @param string $data
+		 *
 		* @return void
-		* @access public
 		*/
 		function addFile($data, $directoryName) {
 			$directoryName = str_replace($this->mainPath, '', $directoryName);
@@ -123,7 +123,7 @@
 		* Function to return the zip file
 		*
 		* @return zipfile (archive)
-		* @access public
+		 *
 		* @return void
 		*/
 		function getZippedfile() {
@@ -145,7 +145,7 @@
 		* Function to parse a directory to return all its files and sub directories as array
 		*
 		* @param string $dir
-		* @access private
+		 *
 		* @return array
 		*/
 		function parseDirectory($rootPath, $seperator = "/") {
@@ -168,7 +168,7 @@
 		* Function to Zip entire directory with all its files and subdirectories
 		*
 		* @param string $dirName
-		* @access public
+		 * 
 		* @return void
 		*/
 		function zipDirectory($dirName, $outputDir) {

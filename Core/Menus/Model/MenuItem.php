@@ -22,8 +22,8 @@
 
 		/**
 		 * The relations for menu items
+		 *
 		 * @var array
-		 * @access public
 		 */
 		public $belongsTo = array(
 			'Menu' => array(
@@ -49,7 +49,6 @@
 		 * way that MPTT records show the hierarchy
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $order = array();
 
@@ -141,7 +140,6 @@
 		 * Empty string or valid css class
 		 *
 		 * @param array $field the field being validated
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -162,7 +160,6 @@
 		 * level menu items and not the sub items.
 		 *
 		 * @param bool $cascade not used
-		 * @access public
 		 *
 		 * @return the parent method
 		 */
@@ -199,7 +196,6 @@
 		 * database.
 		 *
 		 * @param string $type the menu that you want to pull
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -293,7 +289,6 @@
 		 *
 		 * @param string $id the id of the menu
 		 * @param string $name the name of the menu
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -329,8 +324,6 @@
 
 		/**
 		 * get the menus for the ajax select in the backend
-		 *
-		 * @access public
 		 *
 		 * @throws Exception
 		 *

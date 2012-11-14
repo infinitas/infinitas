@@ -9,7 +9,7 @@
 	 * @package Infinitas.Contents.models
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.7a
-	 * 
+	 *
 	 *
 	 *
 	 */
@@ -22,7 +22,6 @@
 		 * preventing anyone from accessing that row.
 		 *
 		 * @var bool
-		 * @access public
 		 */
 		public $lockable = true;
 
@@ -30,7 +29,6 @@
 		 * default order of the model is set to lft as its an mptt table
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $order = array(
 		);
@@ -39,7 +37,6 @@
 		 * the relations for the category model
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $belongsTo = array(
 			//'Parent' => array(
@@ -62,7 +59,7 @@
 			)
 		);
 
-		/** 
+		/**
 		 * @copydoc AppModel::__construct()
 		 */
 		public function  __construct($id = false, $table = null, $ds = null) {
@@ -87,8 +84,6 @@
 		 * get active ids of the categories for use in other finds where you only
 		 * want the active rows according to what categories are active.
 		 *
-		 * @access public 
-		 * 
 		 * @return array
 		 */
 		public function getActiveIds() {
@@ -109,13 +104,12 @@
 
 		/**
 		 * overwrite childern method to allow finding by slug or name
-		 * 
+		 *
 		 * @param mixed $id the id of the parent
 		 * @param bool $direct direct children only or all like grandchildren
-		 * @access public
 		 *
 		 * @todo seems like a bug here with uuid's
-		 * 
+		 *
 		 * @return TreeBehavior::children
 		 */
 		public function children($id = null, $direct = false) {
@@ -191,20 +185,20 @@
 					$results['ParentCategory']['canonical_url'] = $results['ParentCategoryData']['canonical_url'];
 					unset($results['ParentCategoryData']);
 				}
-				
+
 				$results['CategoryContent'] = $this->GlobalContent->find('getRelationsCategory', $results[$this->alias][$this->primaryKey]);
 			}
 
 			return $results;
 		}
-		
+
 		/**
 		 * generate a category drop down tree
-		 * 
+		 *
 		 * @param string $state
 		 * @param array $query
 		 * @param array $results
-		 * 
+		 *
 		 * @return array
 		 */
 		public function _findCategoryList($state, $query, $results = array()) {
@@ -219,34 +213,34 @@
 			}
 			$_active = __d('contents', 'Active');
 			$_inactive = __d('contents', 'Inactive');
-			
+
 			$return = array($_active => array(), $_inactive => array());
 			foreach($results as $result) {
 				$title = $result['GlobalCategory']['title'];
 				if($result['GlobalCategory']['path_depth']) {
 					$title = sprintf('%s %s', str_repeat('-', $result['GlobalCategory']['path_depth']), $title);
 				}
-				
+
 				if($result['GlobalCategory']['active']) {
 					$return[$_active][$result['GlobalCategory']['id']] = $title;
 					continue;
 				}
-				
+
 				$return[$_inactive][$result['GlobalCategory']['id']] = $title;
 			}
 
 			return $return;
 		}
-		
+
 		public function afterSave($created) {
 			$this->saveField(
-				'path_depth', 
+				'path_depth',
 				count($this->getPath($this->id)) - 1,
 				array(
 					'callbacks' => false
 				)
 			);
-			
+
 			return parent::afterSave($created);
 		}
 	}

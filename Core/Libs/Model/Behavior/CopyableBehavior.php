@@ -20,32 +20,28 @@
 	 */
 
 	class CopyableBehavior extends ModelBehavior {
-
 		/**
 		 * Behavior settings
-		 *
-		 * @access public
 		 *
 		 * @var array
 		 */
 		public $settings = array();
+
 		/**
 		 * Array of contained models.
-		 *
-		 * @access public
 		 *
 		 * @var array
 		 */
 		public $contain = array();
+
 		/**
 		 * The full results of Model::find() that are modified and saved
 		 * as a new copy.
 		 *
-		 * @access public
-		 *
 		 * @var array
 		 */
 		public $record = array();
+
 		/**
 		 * Default values for settings.
 		 *
@@ -54,8 +50,6 @@
 		 * - stripFields: fields to strip during copy process
 		 * - ignore: aliases of any associations that should be ignored, using dot (.) notation.
 		 * will look in the $this->contain array.
-		 *
-		 * @access private
 		 *
 		 * @var array
 		 */
@@ -68,8 +62,6 @@
 
 		/**
 		 * Configuration method.
-		 *
-		 * @access public
 		 *
 		 * @param object $Model Model object
 		 * @param array $config Config array
@@ -88,8 +80,6 @@
 
 		/**
 		 * Copy method.
-		 *
-		 * @access public
 		 *
 		 * @param object $Model model object
 		 * @param mixed $id String or integer model ID
@@ -154,8 +144,6 @@
 		 * transactions will not be started if they were started within the model calling
 		 * copy()
 		 *
-		 * @access private
-		 *
 		 * @param object $Model the model being copied
 		 * @param array $ids array of id's being copied
 		 *
@@ -190,8 +178,6 @@
 		 * Wrapper method that combines the results of __recursiveChildContain()
 		 * with the models' HABTM associations.
 		 *
-		 * @access public
-		 *
 		 * @param object $Model Model object
 		 *
 		 * @return array
@@ -209,8 +195,6 @@
 		/**
 		 * Removes any ignored associations, as defined in the model settings, from
 		 * the $this->contain array.
-		 *
-		 * @access public
 		 *
 		 * @param object $Model Model object
 		 *
@@ -233,8 +217,6 @@
 		/**
 		 * Strips primary keys and other unwanted fields
 		 * from hasOne and hasMany records.
-		 *
-		 * @access private
 		 *
 		 * @param object $Model model object
 		 * @param array $record
@@ -282,8 +264,6 @@
 		 * Strips primary and parent foreign keys (where applicable)
 		 * from $this->record in preparation for saving.
 		 *
-		 * @access private
-		 *
 		 * @param object $Model Model object
 		 *
 		 * @return array
@@ -299,8 +279,6 @@
 		/**
 		 * rename any fields that have a unique index on them
 		 *
-		 * @access private
-		 *
 		 * @param object $Model the model being copied
 		 * @param array $record the data being copied
 		 *
@@ -311,7 +289,7 @@
 				if(!$Model->hasField($field)) {
 					continue;
 				}
-				
+
 				$modified = false;
 				if(isset($Model->validate[$field]['isUnique'])) {
 					$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
@@ -341,8 +319,6 @@
 		 * a simple collection of IDs of the associated records, since
 		 * HABTM join tables may contain extra information (sorting
 		 * order, etc).
-		 *
-		 * @access public
 		 *
 		 * @param object $Model	Model object
 		 *
@@ -380,8 +356,6 @@
 		/**
 		 * Performs the actual creation and save.
 		 *
-		 * @access private
-		 *
 		 * @param object $Model Model object
 		 *
 		 * @return mixed
@@ -398,8 +372,6 @@
 		 * Generates a contain array for Containable behavior by
 		 * recursively looping through $Model->hasMany and
 		 * $Model->hasOne associations.
-		 *
-		 * @access private
 		 *
 		 * @param object $Model Model object
 		 *
@@ -431,8 +403,6 @@
 		 * Strips unwanted fields from $record, taken from
 		 * the 'stripFields' setting.
 		 *
-		 * @access private
-		 *
 		 * @param object $Model Model object
 		 * @param array $record
 		 *
@@ -452,8 +422,6 @@
 
 		/**
 		 * Attaches Containable if it's not already attached.
-		 *
-		 * @access private
 		 *
 		 * @param object $Model Model object
 		 *

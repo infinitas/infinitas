@@ -26,7 +26,6 @@
 		 * Other helpers to load
 		 *
 		 * @var public $helpers
-		 * @access public
 		 */
 		public $helpers = array('Html', 'Text');
 
@@ -43,8 +42,8 @@
 		 *  - minSize: size of the lightest tag [default: 80]
 		 *  - url: an array containing the default url
 		 *  - named: the named parameter used to send the tag [default: by]
+		 *
 		 * @return string
-		 * @access public
 		 */
 		public function display($tags = null, $options = array()) {
 			if (empty($tags) || !is_array($tags)) {
@@ -105,8 +104,6 @@
 		/**
 		 * convert an array of tags to a list of tags with links
 		 *
-		 * @access public
-		 *
 		 * @param array $data the row of data from find
 		 * @param string $seperator what to seperate with
 		 * @param integer $limit max number of tags to show
@@ -142,7 +139,6 @@
 		 * Replaces %size% in strings with the calculated "size" of the tag
 		 *
 		 * @return string
-		 * @access protected
 		 */
 		protected function _replace($string, $size) {
 			return str_replace("%size%", $size, $string);

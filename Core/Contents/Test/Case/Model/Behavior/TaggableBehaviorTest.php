@@ -46,8 +46,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * Fixtures associated with this test case
  *
  * @var array
- * @return void
- * @access public
  */
 	public $fixtures = array(
 		'plugin.installer.plugin',
@@ -60,7 +58,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * Method executed before each test
  *
  * @return void
- * @access public
  */
 	public function startTest() {
 		$this->Article = ClassRegistry::init('Article');
@@ -70,7 +67,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * Method executed after each test
  *
  * @return void
- * @access public
  */
 	public function endTest() {
 		unset($this->Article);
@@ -81,7 +77,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * Testings saving of tags trough the specified field in the tagable model
  *
  * @return void
- * @access public
  */
 	public function testTagSaving() {
 		$data['id'] = 1;
@@ -124,7 +119,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * Testings Taggable::tagArrayToString()
  *
  * @return void
- * @access public
  */
 	public function testTagArrayToString() {
 		$data['id'] = 1;
@@ -147,7 +141,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * Testings Taggable::multibyteKey()
  *
  * @return void
- * @access public
  */
 	public function testMultibyteKey() {
 		$result = $this->Article->multibyteKey('this is _ a Nice ! - _ key!');
@@ -163,7 +156,6 @@ class TaggableBehaviorTest extends CakeTestCase {
  * testAfterFind callback method
  *
  * @return void
- * @access public
  */
 	public function testAfterFind() {
 		$data['id'] = 1;

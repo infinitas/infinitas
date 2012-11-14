@@ -144,8 +144,6 @@
 		 *
 		 * This should be cached per user
 		 *
-		 * @access abstract
-		 *
 		 * @return boolean|array false on error, or array of mailboxes
 		 */
 		abstract protected function _getMailboxes($ref = '', $wildcard = '*');
@@ -154,8 +152,6 @@
 		 * Just returns a +OK response for keep-alive
 		 *
 		 * @link http://www.apps.ietf.org/rfc/rfc1939.html#page-9
-		 *
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -167,8 +163,6 @@
 		 * will reset mails that were set to delete.
 		 *
 		 * @link http://www.apps.ietf.org/rfc/rfc1939.html#page-9
-		 *
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -209,7 +203,6 @@
 		 *
 		 * @param string $name
 		 * @param string|integer $value
-		 * @access public
 		 *
 		 * @return ImapInterface
 		 */
@@ -217,7 +210,7 @@
 			if(substr($name, 0, 1) === '_') {
 				return $this->{$name} = $value;
 			}
-			
+
 			if(!array_key_exists($name, $this->__connectionOptions)) {
 				throw new EmailSocketConfigOptionException(array($name));
 			}
@@ -257,8 +250,6 @@
 
 		/**
 		 * Check if there is a connection to the mail server
-		 *
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -306,7 +297,6 @@
 		 *
 		 * @param int $size the size of data to read upto
 		 * @param string $method a callback method to trigger
-		 * @access public
 		 *
 		 * @return boolean|string|array false on fail, string for raw and
 		 * string|array depending on the callbacks
@@ -428,7 +418,6 @@
 		 *
 		 * @param string $key the name of the cache file
 		 * @param string $config the config to use when reading
-		 * @access public
 		 *
 		 * @return mixed false for nothing, any data if there was
 		 */
@@ -444,7 +433,6 @@
 		 * @param string $key the name of the cache file
 		 * @param array $data the data that should be written to cache
 		 * @param string $config the config to use when writing
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -456,7 +444,6 @@
 		 * record an error
 		 *
 		 * @param string $text the error message
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -470,7 +457,6 @@
 		 *
 		 * @param string $text the raw logs
 		 * @param integer $size the size of the packet
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -488,8 +474,6 @@
 		/**
 		 * Get any errors that occured during the connection
 		 *
-		 * @access public
-		 *
 		 * @return array
 		 */
 		public function errors() {
@@ -498,8 +482,6 @@
 
 		/**
 		 * public method to get the raw logs
-		 *
-		 * @access public
 		 *
 		 * @return array
 		 */

@@ -187,8 +187,6 @@
 		/**
 		 * build a link from a menu item in the database
 		 *
-		 * @access public
-		 *
 		 * @param array $data the data from a menuItem find
 		 * @param array $config configs for the link, @see HtmlHelper::link()
 		 *
@@ -213,8 +211,6 @@
 
 		/**
 		 * generate a url from a menu item
-		 *
-		 * @access public
 		 *
 		 * @throws Exception
 		 *

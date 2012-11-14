@@ -111,8 +111,6 @@
 		 *
 		 * It is a custom find and can be called using pagination.
 		 *
-		 * @access public
-		 *
 		 * @code
 		 *	$this->Paginator->settings = array('missingData');
 		 *	$this->set('data', $this->Paginator->paginate());
@@ -212,8 +210,6 @@
 
 		/**
 		 * get a list of categories
-		 *
-		 * @access public
 		 *
 		 * @code
 		 *	$this->GlobalContent->find('categoryList');
@@ -422,8 +418,6 @@
 		 * This will try and match data from your tables to the content plugin and
 		 * move it over.
 		 *
-		 * @access public
-		 *
 		 * @param string $model the name of the plugin.model to move
 		 * @param int $limit the number of rows to move
 		 *
@@ -492,8 +486,6 @@
 
 		/**
 		 * get counts of new content vs deleted content vs edited content
-		 *
-		 * @access public
 		 *
 		 * @param int $months the number of months back to look
 		 *

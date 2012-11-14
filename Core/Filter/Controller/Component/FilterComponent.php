@@ -175,7 +175,6 @@
 		 *
 		 * @param object $controller the class of the controller which call this component
 		 * @param array $whiteList contains list of allowed filter attributes
-		 * @access public
 		 */
 		public function processFilters($controller, $whiteList = null) {
 			$controller = $this->_prepareFilter($controller);

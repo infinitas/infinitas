@@ -102,22 +102,21 @@
 		/**
 		 * Behavior settings
 		 *
-		 * @access public
 		 * @var array
 		 */
 		public $settings = array();
+
 		/**
 		 * Shadow table prefix
 		 * Only change this value if it causes table name crashes
 		 *
-		 * @access private
 		 * @var string
 		 */
 		public $revisionSuffix = '_revs';
+
 		/**
 		 * Defaul setting values
 		 *
-		 * @access private
 		 * @var array
 		 */
 		public $defaults = array(
@@ -127,6 +126,7 @@
 			'useDbConfig' => null,
 			'model' => null
 		);
+
 		/**
 		 * Old data, used to detect changes
 		 *
@@ -186,7 +186,7 @@
 					'contain' => $habtm
 				)
 			);
-			
+
 			$Model->ShadowModel->create($data);
 			$Model->ShadowModel->set('versionCreated', date('Y-m-d H:i:s'));
 			foreach ($habtm as $assocAlias) {
@@ -352,7 +352,7 @@
 					'contain' => $habtm
 				)
 			);
-			
+
 			$versionCreated = date('Y-m-d H:i:s');
 			foreach ($all as $data) {
 				$Model->ShadowModel->create($data);
@@ -499,7 +499,7 @@
 					'fields' => array('versionId', $Model->primaryKey)
 				)
 			);
-			
+
 			$createdBeforeDateIds = Set::extract($createdBeforeDate, '/' . $Model->alias . '/' . $Model->primaryKey);
 			$deleteIds = array_diff($allIds, $createdBeforeDateIds);
 			// delete all Model rows where there are only versionCreated later than date
@@ -515,7 +515,7 @@
 					'fields' => array('versionId', $Model->primaryKey)
 				)
 			);
-			
+
 			$createdAfterDateIds = Set::extract($createdAfterDate, '/' . $Model->alias . '/' . $Model->primaryKey);
 			$updateIds = array_diff($createdAfterDateIds, $deleteIds);
 
@@ -770,7 +770,7 @@
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
 			}
-			
+
 			if (!$Model->ShadowModel) {
 				trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 				return false;
@@ -1096,7 +1096,7 @@
 			if (is_null($this->settings[$Model->alias]['useDbConfig'])) {
 				$dbConfig = $Model->useDbConfig;
 			}
-			
+
 			else {
 				$dbConfig = $this->settings[$Model->alias]['useDbConfig'];
 			}
@@ -1105,11 +1105,11 @@
 			if ($Model->useTable) {
 				$shadowTable = $Model->useTable;
 			}
-			
+
 			else {
 				$shadowTable = Inflector::tableize($Model->name);
 			}
-			
+
 			$shadowTable = $shadowTable . $this->revisionSuffix;
 			$prefix = ($Model->tablePrefix) ? $Model->tablePrefix : $db->config['prefix'];
 			$fullTableName = $prefix . $shadowTable;
@@ -1124,7 +1124,7 @@
 			if (is_string($useShadowModel) && App::import('model', $useShadowModel)) {
 				$Model->ShadowModel = new $useShadowModel(false, $shadowTable, $dbConfig);
 			}
-			
+
 			else {
 				$Model->ShadowModel = new Model(false, $shadowTable, $dbConfig);
 			}

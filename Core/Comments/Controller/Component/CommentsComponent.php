@@ -3,7 +3,7 @@
 	/**
 	 * Comments component
 	 *
-	 * 
+	 *
 	 */
 	class CommentsComponent extends InfinitasComponent {
 		/**
@@ -11,8 +11,6 @@
 		 *
 		 * @todo this needs to be moved to the Comments plugin and is part of
 		 * the reason this code needs to be more extendable
-		 *
-		 * @access public
 		 *
 		 * @return void
 		 */

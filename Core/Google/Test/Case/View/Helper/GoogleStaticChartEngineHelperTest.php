@@ -17,7 +17,6 @@
 	 * name property
 	 *
 	 * @var string 'TheTest'
-	 * @access public
 	 */
 		var $name = 'TheTest';
 
@@ -25,7 +24,6 @@
 	 * uses property
 	 *
 	 * @var mixed null
-	 * @access public
 	 */
 		var $uses = null;
 	}
@@ -40,14 +38,12 @@
 		 * html property
 		 *
 		 * @var object
-		 * @access public
 		 */
 		public $GoogleStaticChartEngine = null;
 
 		/**
 		 * setUp method
 		 *
-		 * @access public
 		 * @return void
 		 */
 		function startTest() {
@@ -60,7 +56,6 @@
 		/**
 		 * endTest method
 		 *
-		 * @access public
 		 * @return void
 		 */
 		function endTest() {

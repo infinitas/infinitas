@@ -17,7 +17,7 @@
 
 /**
  * Helps clear content of CACHE subfolders as well as content in cache engines
- * 
+ *
  * @package Infinitas.Data.Lib
  */
 class ClearCache {
@@ -26,7 +26,6 @@ class ClearCache {
  * Clears content of CACHE subfolders and configured cache engines
  *
  * @return array
- * @access public
  */
 	public static function run() {
 		$files = self::files();
@@ -81,8 +80,8 @@ class ClearCache {
  * Clears content of CACHE subfolders
  *
  * @param mixed any amount of strings - names of CACHE subfolders or '.' (dot) for CACHE folder itself
+ *
  * @return array
- * @access public
  */
 	public static function files() {
 		$folders = func_get_args();
@@ -114,8 +113,8 @@ class ClearCache {
  * Clears content of cache engines
  *
  * @param mixed any amount of strings - keys of configure cache engines
+ *
  * @return array
- * @access public
  */
 	public static function engines() {
 		$result = array();
@@ -160,6 +159,8 @@ class ClearCache {
  * compute the size of the files passed in
  *
  * @param array $files the files to check
+ *
+ * @return integer
  */
 	protected static function _fileSize(array $files) {
 		$size = 0;
@@ -169,4 +170,5 @@ class ClearCache {
 
 		return $size;
 	}
+	
 }

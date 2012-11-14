@@ -21,7 +21,6 @@
 		 * Contain settings indexed by model name.
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__settings = array();
 
@@ -46,7 +45,6 @@
 		 *
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
-		 * @access public
 		 */
 		public function setup($Model, $settings = array()) {
 			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'overwrite' => false, 'translation' => null);
@@ -87,8 +85,8 @@
 		 * Run before a model is saved, used to set up slug for model.
 		 *
 		 * @param object $Model Model about to be saved.
+		 *
 		 * @return boolean
-		 * @access public
 		 */
 		public function beforeSave($Model) {
 			$return = parent::beforeSave($Model);
@@ -173,8 +171,8 @@
 		 *
 		 * @param string $string String from where to generate slug
 		 * @param array $settings Settings to use (looks for 'separator' and 'length')
+		 * 
 		 * @return string
-		 * @access private
 		 */
 		public function __slug($string, $settings) {
 			if (!empty($settings['translation']) && is_array($settings['translation'])) {

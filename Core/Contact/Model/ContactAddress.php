@@ -7,7 +7,6 @@
 		 * the table prefix for this plugin
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $tablePrefix = '';
 

@@ -213,8 +213,6 @@ class Plugin extends InstallerAppModel {
  *  - sampleData true/false to install any sample data
  *  - installRelease true/fase (true will run the fixtures, false will only save the details so it is officially installed)
  *
- * @access public
- *
  * @param string $pluginName the name of the plugin being installed
  * @param array $options the options for the install
  *

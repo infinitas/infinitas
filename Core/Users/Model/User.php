@@ -123,7 +123,8 @@
 		 * password is secure. The user can update this and the message in the
 		 * backend by changing the config value "Website.password_regex".
 		 *
-		 * @params array $field the array $field => $value from the form
+		 * @param array $field the array $field => $value from the form
+		 *
 		 * @return boolean
 		 */
 		public function validPassword($field = null) {
@@ -226,7 +227,6 @@
 		 *
 		 * Update the aro for the user.
 		 *
-		 * @access public
 		 * @return void
 		 */
 		public function afterSave($created) {
@@ -252,8 +252,6 @@
 
 		/**
 		 * check that the given user id is a valid user.
-		 *
-		 * @access public
 		 *
 		 * @param mixed $userId user id to check
 		 *
@@ -295,8 +293,6 @@
 
 		/**
 		 * get a count of registrations per month for the last two years
-		 *
-		 * @access public
 		 *
 		 * @return array, list of (year_month => count)
 		 */

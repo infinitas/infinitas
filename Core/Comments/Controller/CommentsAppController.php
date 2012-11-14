@@ -93,6 +93,8 @@
 	 * @ref ExpandableBehavior
 	 */
 
+	App::uses('AppController', 'Controller');
+
 	/**
 	 * CommentsAppController is the base class that all comments controllers extend
 	 *
@@ -104,13 +106,11 @@
 	 *
 	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
-	App::uses('AppController', 'Controller');
 	class CommentsAppController extends AppController{
 		/**
 		 * some helpers to load for this plugin
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $helpers = array(
 			'Libs.Gravatar'

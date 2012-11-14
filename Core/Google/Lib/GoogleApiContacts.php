@@ -33,7 +33,6 @@
 		 * Get Google Contacts Schema
 		 *
 		 * @return array
-		 * @access public
 		 */
 		public function getSchema() {
 			$schema = array(
@@ -190,7 +189,6 @@
 		 * Convert Google Contacts schema-based Object into Atom text
 		 *
 		 * @return string
-		 * @access public
 		 */
 		public function toAtom($object) {
 			$atom = "<atom:entry xmlns:atom='http://www.w3.org/2005/Atom' xmlns:gd='http://schemas.google.com/g/2005'" .

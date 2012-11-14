@@ -113,7 +113,6 @@ class ParseMail {
 		*
 		* @param string|array $value the value to manipulate
 		* @param string $key the key that $value belongs to
-		* @access protected
 		*
 		* @return string|array the formatted data
 		*/

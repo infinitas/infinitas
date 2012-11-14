@@ -6,7 +6,6 @@
  * @author Carl Sutton (dogmatic69)
  * @copyright Copyright (c) 2010
  * @version $Id$
- * @access public
  */
 class ImageHelper extends AppHelper {
 /**

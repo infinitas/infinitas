@@ -16,7 +16,6 @@
 		 * Gravatar avatar image base URL
 		 *
 		 * @var string
-		 * @access private
 		 */
 		private $__url = 'http://www.gravatar.com/avatar/';
 
@@ -24,7 +23,6 @@
 		 * Hash type to use for email addresses
 		 *
 		 * @var string
-		 * @access private
 		 */
 		private $__hashType = 'md5';
 
@@ -32,7 +30,6 @@
 		 * Collection of allowed ratings
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__allowedRatings = array('g', 'pg', 'r', 'x');
 
@@ -40,7 +37,6 @@
 		 * Default Icon sets
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__defaultIcons = array(
 			'none',
@@ -53,7 +49,6 @@
 		 * Default settings
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__default = array(
 			'default' => 'identicon',
@@ -66,7 +61,6 @@
 		 * Helpers used by this helper
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $helpers = array(
 			'Html'
@@ -77,8 +71,8 @@
 		 *
 		 * @param string $email Email address
 		 * @param array $options Array of options, keyed from default settings
+		 *
 		 * @return string
-		 * @access public
 		 */
 		public function image($email, $options = array()) {
 			$imageOptions = array();
@@ -99,8 +93,8 @@
 		 *
 		 * @param string $email Email address
 		 * @param string $options Array of options, keyed from default settings
+		 *
 		 * @return string
-		 * @access public
 		 */
 		public function url($email, $options = array()) {
 			$options = array_merge(
@@ -126,8 +120,8 @@
 		 * Generate an array of default images for preview purposes
 		 *
 		 * @param array $options Array of options, keyed from default settings
+		 *
 		 * @return array
-		 * @access public
 		 */
 		public function defaultImages($options = array()) {
 			$options = $this->__cleanOptions(array_merge($this->__default, $options));
@@ -145,8 +139,8 @@
 		 * Sanitize the options array
 		 *
 		 * @param array $options Array of options, keyed from default settings
+		 *
 		 * @return array
-		 * @access private
 		 */
 		private function __cleanOptions($options) {
 			if (!isset($options['size']) || empty($options['size']) || !is_numeric($options['size'])) {
@@ -179,8 +173,8 @@
 		 *
 		 * @param string $email Email address
 		 * @param string $type Hash type to employ
+		 *
 		 * @return string
-		 * @access private
 		 */
 		private function __emailHash($email, $type) {
 			return Security::hash(mb_strtolower($email), $type);
@@ -190,8 +184,8 @@
 		 * Build Options URL string
 		 *
 		 * @param array $options Array of options, keyed from default settings
+		 * 
 		 * @return string
-		 * @access private
 		 */
 		private function __buildOptions($options = array()) {
 			if (!empty($options)) {

@@ -1,12 +1,13 @@
 <?php
-/*
- * Short Description / title.
+/**
+ * ViewCounterAppModel
  *
- * Overview of what the file does. About a paragraph or two
- *
+ * @package Infinitas.ViewCounter.Model
+ */
 
+/**
+ * ViewCounterAppModel
  *
- * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.ViewCounter.Model

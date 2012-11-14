@@ -14,22 +14,20 @@
  */
 
 class Branch extends ContactAppModel {
-	/**
-	 * hasMany related models
-	 *
-	 * @var array
-	 * @access public
-	 */
+/**
+ * hasMany related models
+ *
+ * @var array
+ */
 	public $hasMany = array(
 		'Contact.Contact'
 	);
 
-	/**
-	 * belongsTo related models
-	 *
-	 * @var array
-	 * @access public
-	 */
+/**
+ * belongsTo related models
+ *
+ * @var array
+ */
 	public $belongsTo = array(
 		'Contact.ContactAddress'
 	);
@@ -95,14 +93,16 @@ class Branch extends ContactAppModel {
 		);
 	}
 
-	/**
-	 * @todo list all the time zones so that the current time can be shown
-	 * of different branches.
-	 *
-	 * @param array $queryData the find data
-	 *
-	 * @return boolean
-	 */
+/**
+ * BeforeFind callback
+ * 
+ * @todo list all the time zones so that the current time can be shown
+ * of different branches.
+ *
+ * @param array $queryData the find data
+ *
+ * @return boolean
+ */
 	public function beforeFind($queryData) {
 		return true;
 	}

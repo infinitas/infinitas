@@ -50,8 +50,6 @@
 		 * Let cake render the view as per normal, then pass the data to Mustache
 		 * to render the data into any templates
 		 *
-		 * @access protected
-		 *
 		 * @param string $viewFile the file that is being rendered
 		 * @param array $data see cake docs
 		 *
@@ -73,8 +71,6 @@
 		 * you can pass ?mustache=false in the url to see the raw output skipping
 		 * the template rendering. could be handy for debugging. if debug is off
 		 * this has no effect.
-		 *
-		 * @access protected
 		 *
 		 * @param string $out the output for the browser
 		 *
@@ -107,8 +103,6 @@
 		/**
 		 * @breif render a mustache template with the passed in variables
 		 *
-		 * @access public
-		 *
 		 * @param string $template the mustache template
 		 * @param array $variables variables that will be instered into the template
 		 *
@@ -123,8 +117,6 @@
 		 *
 		 * only on for admin or it renders the stuff in the editor which is pointless
 		 * could maybe just turn it off for edit or some other work around
-		 *
-		 * @access protected
 		 */
 		private function __skipMustacheRender() {
 			return (isset($this->request->params['admin']) && $this->request->params['admin']) || !($this->Mustache instanceof Mustache) ||
@@ -173,8 +165,6 @@
 
 		/**
 		 * look for and insert dynamic snips
-		 *
-		 * @access private
 		 *
 		 * @param string $out the data for output by reference
 		 *

@@ -6,7 +6,6 @@
 	 * @author dogmatic
 	 * @copyright Copyright (c) 2010
 	 * @version $Id$
-	 * @access public
 	 */
 	App::uses('Router', 'Routing');
 	class InfinitasComponent extends Component {

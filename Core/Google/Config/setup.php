@@ -19,28 +19,26 @@
 		/**
 		 * Current version: http://github.com/dogmatic/cakephp_google_plugin
 		 *
-		 * @access public
+		 * @var string
 		 */
 		public $version = '0.1';
 
 		/**
 		 * Settings
 		 *
-		 * @access public
+		 * @var array
 		 */
 		public $settings = array();
 
 		/**
 		 * Singleton Instance
 		 *
-		 * @access private
-		 * @static
+		 * @var GoogleConfig
 		 */
 		private $__instance;
 
 		/**
 		 *
-		 * @access private
 		 * @return void
 		 */
 		public function __construct() {

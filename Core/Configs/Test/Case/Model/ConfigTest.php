@@ -9,7 +9,6 @@ App::uses('Config', 'Configs.Model');
  * @author dogmatic
  * @copyright Copyright (c) 2010
  * @version $Id$
- * @access public
  */
 class ConfigTestCase extends CakeTestCase {
 	public $fixtures = array(

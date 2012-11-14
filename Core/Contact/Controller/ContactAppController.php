@@ -69,7 +69,6 @@
 		 * Helpers used within this plugin
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $helpers = array(
 			'Contact.Vcf',

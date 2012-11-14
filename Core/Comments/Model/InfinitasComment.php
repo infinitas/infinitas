@@ -29,7 +29,6 @@
 		 * behaviors that are attached to the model.
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $actsAs = array(
 			'Libs.Expandable'
@@ -39,7 +38,6 @@
 		 * relations for the model
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $hasMany = array(
 			'CommentAttribute' => array(
@@ -151,7 +149,6 @@
 		 *
 		 * @param array $results the data found
 		 * @param bool $primary is this the primary model doing the find
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -200,7 +197,6 @@
 		 *
 		 * @param string $user_id the users id
 		 * @param int $limit the max number of records to get
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -228,7 +224,6 @@
 		 *
 		 * @param string $class the model class that the comments should be in
 		 * eg blog.post for blog comments
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -305,7 +300,6 @@
 		 *
 		 * @param bool $all all or just active
 		 * @param int $limit the msx number of comments to get
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -336,13 +330,13 @@
 
 			return $comments;
 		}
-		
+
 		public function blockIp($ipAddresses) {
 			$IpAddress = ClassRegistry::init('Security.IpAddress');
 			if(!is_array($ipAddresses)) {
 				$ipAddresses = array($ipAddresses);
 			}
-			
+
 			$ipAddresses = $this->find(
 				'list',
 				array(
@@ -355,7 +349,7 @@
 					)
 				)
 			);
-			
+
 			foreach($ipAddresses as $ip) {
 				$IpAddress->blockIp($ip, 'Blocked for spam comments');
 			}

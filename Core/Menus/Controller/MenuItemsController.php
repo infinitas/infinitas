@@ -89,8 +89,6 @@
 		 *
 		 * Used for the ajax getting of parent menus items to populate the ajax
 		 * dropdown menus when building and editing menu items.
-		 *
-		 * @access public
 		 */
 		public function admin_getParents() {
 			if(empty($this->request->data[$this->modelClass]['menu_id'])) {

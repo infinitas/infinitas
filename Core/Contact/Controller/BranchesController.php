@@ -18,7 +18,6 @@
 		 * The Branch model
 		 *
 		 * @var Branch
-		 * @access public
 		 */
 		public $Branch;
 

@@ -18,7 +18,6 @@
 		 * @ref LockableBehavior
 		 *
 		 * @var bool
-		 * @access public
 		 */
 		public $lockable = true;
 
@@ -31,7 +30,6 @@
 		 * installing infinitas
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $useTable = 'global_layouts';
 
@@ -39,7 +37,6 @@
 		 * belongs to relations for the GlobalLayout model
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $hasMany = array(
 			'GlobalContent' => array(

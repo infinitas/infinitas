@@ -19,7 +19,6 @@
 		 * map element names to vcard elements
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_elements = array(
 			'name' => 'N:%last%;%first%;%middle%;%title%',
@@ -42,7 +41,6 @@
 		 * Separator between values.
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_separator = ':';
 
@@ -57,7 +55,6 @@
 		 * End of attribute terminator.
 		 *
 		 * @var string
-		 * @access protected
 		 */
 		protected $_terminator = ';';
 
@@ -66,7 +63,6 @@
 		 *
 		 * @param string $method Name of method called
 		 * @param mixed $params Params for method.
-		 * @access public
 		 *
 		 * @return mixed
 		 */
@@ -81,8 +77,6 @@
 		/**
 		 * begin a vcard
 		 *
-		 * @access public
-		 *
 		 * @return string
 		 */
 		public function begin() {
@@ -90,8 +84,6 @@
 		}
 		/**
 		 * End a vcard
-		 *
-		 * @access public
 		 *
 		 * @return string
 		 */
@@ -106,7 +98,6 @@
 		 *
 		 * @param string $type Type of element to make
 		 * @param string $value Value to put into the card
-		 * @access public
 		 *
 		 * @return mixed False on non-existant type or empty values,  string on success
 		 */
@@ -142,7 +133,6 @@
 		 *
 		 * @param string $type The type of address you are making
 		 * @param array $values Array of values for the address see above
-		 * @access public
 		 *
 		 * @return sting the address line
 		 */
@@ -170,7 +160,6 @@
 		 * Escape values for vcard
 		 *
 		 * @param mixed $values Values either string or array.
-		 * @access protected
 		 *
 		 * @return string
 		 */

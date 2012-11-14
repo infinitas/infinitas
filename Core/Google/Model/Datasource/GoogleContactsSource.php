@@ -27,35 +27,30 @@
 		 * Version for this Data Source.
 		 *
 		 * @public string
-		 * @access public
 		 */
 		public $version = '0.1';
 		/**
 		 * Description string for this Data Source.
 		 *
 		 * @public string
-		 * @access public
 		 */
 		public $description = 'GoogleContacts Datasource';
 		/**
 		 * Google api base class
 		 *
 		 * @public Object
-		 * @access public
 		 */
 		public $GoogleApiBase;
 		/**
 		 * Google Contacts custom schema
 		 *
 		 * @public Array
-		 * @access protected
 		 */
 		protected $_schema;
 		/**
 		 * Url to request contacts
 		 *
 		 * @public String
-		 * @access public
 		 */
 		public $readUri = "http://www.google.com/m8/feeds/contacts/default/full";
 
@@ -63,7 +58,6 @@
 		 * Default Constructor
 		 *
 		 * @param array $config options
-		 * @access public
 		 */
 		function __construct($config) {
 			//Select contacts service for login token
@@ -77,7 +71,6 @@
 		 *
 		 * @param object $model
 		 * @param array $queryData
-		 * @access public
 		 */
 		function read($model, $queryData = array()) {
 			if (isset($queryData['conditions']['id'])) {
@@ -130,7 +123,6 @@
 		 * @param object $model
 		 * @param array $fields
 		 * @param array $values
-		 * @access public
 		 */
 		function create($model, $fields = array(), $values = array()) {
 			$baseObject = $model->data['GoogleContacts'];
@@ -145,7 +137,6 @@
 		 * @param object $model
 		 * @param array $fields
 		 * @param array $values
-		 * @access public
 		 */
 		function update($model, $fields = array(), $values = array()) {
 			$baseObject = $model->data['GoogleContacts'];
@@ -159,7 +150,6 @@
 		 *
 		 * @param object $model
 		 * @param string $id
-		 * @access public
 		 */
 		function delete($model, $id = null) {
 			debug("delete");
@@ -171,7 +161,6 @@
 		 * @param object $model
 		 * @param string $func
 		 * @param array $params
-		 * @access public
 		 */
 		public function calculate(&$model, $func, $params = array()) {
 			$params = (array) $params;
@@ -192,7 +181,6 @@
 		 * @param array $query
 		 * @param array $params
 		 * @param object $model
-		 * @access public
 		 */
 		public function query($query, $params, $model) {
 			switch ($query) {

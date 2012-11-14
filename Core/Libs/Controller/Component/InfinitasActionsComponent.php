@@ -7,8 +7,6 @@
 		/**
 		 * get a list of all the plugins in the app
 		 *
-		 * @access public
-		 *
 		 * @return void
 		 */
 		public function actionAdminGetPlugins() {
@@ -17,8 +15,6 @@
 
 		/**
 		 * get a list of all the controllers for the selected plugin
-		 *
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -39,8 +35,6 @@
 		/**
 		 * get a list of all the models for the selected plugin
 		 *
-		 * @access public
-		 *
 		 * @return void
 		 */
 		public function actionAdminGetModels() {
@@ -59,8 +53,6 @@
 
 		/**
 		 * get a list of all the actions for the selected plugin + controller
-		 *
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -82,8 +74,6 @@
 
 		/**
 		 * get a list of all the actions for the selected plugin + controller
-		 *
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -113,8 +103,6 @@
 		 * @todo sanitize input
 		 * @todo render generic view
 		 *
-		 * @access public
-		 *
 		 * @return void
 		 */
 		public function actionAdminAdd() {
@@ -142,7 +130,6 @@
 		 * @todo render generic view
 		 *
 		 * @param mixed $id int | string (uuid) the id of the record to edit.
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -163,7 +150,7 @@
 				$query['conditions'][$this->Controller->{$this->Controller->modelClass}->alias . '.' . $this->Controller->{$this->Controller->modelClass}->primaryKey] = $id;
 
 				$this->Controller->request->data = $this->Controller->{$this->Controller->modelClass}->find('first', $query);
-			
+
 				if(empty($this->Controller->request->data)) {
 					$this->Controller->notice('invalid');
 				}
@@ -184,7 +171,6 @@
 		 * the page will be passed a variable named with Inflector::variable()
 		 *
 		 * @param mixed $id id of the record
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -269,8 +255,6 @@
 		 *
 		 * @param int $id the id of the record to move.
 		 *
-		 * @access public
-		 *
 		 * @return void
 		 */
 		public function actionAdminReorder($id = null) {
@@ -320,7 +304,6 @@
 		 * @todo needs to go on a diet, moved to a rating plugin
 		 *
 		 * @param int $id the id of the itme you are rating.
-		 * @access public
 		 *
 		 * @return null, will redirect.
 		 */

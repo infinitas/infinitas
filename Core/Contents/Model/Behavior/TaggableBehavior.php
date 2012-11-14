@@ -28,7 +28,6 @@ App::uses('ModelBehavior', 'Model');
 	 * Settings array
 	 *
 	 * @var array
-	 * @access public
 	 */
 		public $settings = array();
 
@@ -46,7 +45,6 @@ App::uses('ModelBehavior', 'Model');
 	 * language					- only tags in a certain language, string or array
 	 *
 	 * @var array
-	 * @access protected
 	 */
 		protected $_defaults = array(
 			'separator' => ',',
@@ -67,7 +65,6 @@ App::uses('ModelBehavior', 'Model');
 	 *
 	 * @param AppModel $Model
 	 * @param array $settings
-	 * @access public
 	 */
 		public function setup(Model $Model, $settings = array()) {
 			if (!isset($this->settings[$Model->alias])) {
@@ -107,8 +104,8 @@ App::uses('ModelBehavior', 'Model');
 	 * @param boolean true will remove tags that are not in the $string, false wont
 	 * do this and just add new tags without removing existing tags associated to
 	 * the current set foreign key
+	 *
 	 * @return array
-	 * @access public
 	 */
 		public function saveTags(Model $Model, $string = null, $foreignKey = null, $update = true) {
 			if (is_string($string) && !empty($string) && (!empty($foreignKey) || $foreignKey === false)) {
@@ -217,8 +214,8 @@ App::uses('ModelBehavior', 'Model');
 	 *
 	 * @param object Model instance
 	 * @param string Tag name string
+	 *
 	 * @return string
-	 * @access public
 	 */
 		public function multibyteKey(Model $Model, $string = null) {
 			$str = mb_strtolower($string);
@@ -243,8 +240,8 @@ App::uses('ModelBehavior', 'Model');
 	 * </code>
 	 *
 	 * @param array $string
+	 * 
 	 * @return string
-	 * @access public
 	 */
 		public function tagArrayToString(Model $Model, $data = null) {
 			if (is_array($data) && !empty($data)) {

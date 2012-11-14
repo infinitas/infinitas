@@ -36,7 +36,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * Tag Instance
  *
  * @var instance
- * @access public
  */
 	public $GlobalTag = null;
 
@@ -44,7 +43,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * startTest
  *
  * @var array
- * @access public
  */
 	public $fixtures = array(
 		'plugin.contents.global_tagged',
@@ -54,7 +52,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * startTest
  *
  * @return void
- * @access public
  */
 	public function startTest() {
 		$this->GlobalTag = new TestTag();
@@ -64,7 +61,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * endTest
  *
  * @return void
- * @access public
  */
 	public function endTest() {
 		unset($this->GlobalTag);
@@ -74,7 +70,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * testTagInstance
  *
  * @return void
- * @access public
  */
 	public function testTagInstance() {
 		$this->assertInstanceOf('GlobalTag', $this->GlobalTag);
@@ -84,7 +79,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * testTagFind
  *
  * @return void
- * @access public
  */
 	public function testTagFind() {
 		$this->GlobalTag->recursive = -1;
@@ -110,7 +104,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * testView
  *
  * @return void
- * @access public
  */
 	public function testView() {
 		$result = $this->GlobalTag->getViewData('cakephp');
@@ -129,7 +122,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * testAdd
  *
  * @return void
- * @access public
  */
 	public function testAdd() {
 //		$result = $this->GlobalTag->add(array(
@@ -150,7 +142,6 @@ class GlobalTagTestCase extends CakeTestCase {
  * testAdd
  *
  * @return void
- * @access public
  */
 	public function testEdit() {
 //		$this->assertNull($this->GlobalTag->edit(1));

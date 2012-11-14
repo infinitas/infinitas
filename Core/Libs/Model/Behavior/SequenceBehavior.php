@@ -53,7 +53,6 @@
 		 * Default settings for a model that has this behavior attached.
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_defaults = array(
 			'orderField' => 'ordering',
@@ -65,7 +64,6 @@
 		 * Stores the current order of the record
 		 *
 		 * @var integer
-		 * @access protected
 		 */
 		protected $_oldOrder;
 
@@ -73,7 +71,6 @@
 		 * Stores the new order of the record
 		 *
 		 * @var integer
-		 * @access protected
 		 */
 		protected $_newOrder;
 
@@ -82,7 +79,6 @@
 		 * saved or deleted, retrieved from the database
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_oldGroups;
 
@@ -91,7 +87,6 @@
 		 * or deleted, retrieved from the model->data
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_newGroups;
 
@@ -103,14 +98,12 @@
 		 * the new order in the new group is specified.
 		 *
 		 * @var array
-		 * @access protected
 		 */
 		protected $_update;
 
 		/**
 		 * internal cache of the settings per model
 		 *
-		 * @access private
 		 * @var array
 		 */
 		private $__settings = array();
@@ -119,8 +112,6 @@
 		 * Merges the passed config array defined in the model's actsAs property with
 		 * the behavior's defaults and stores the resultant array in this->__settings
 		 * for the current model.
-		 *
-		 * @access public
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $config Configuration options include:
@@ -161,8 +152,6 @@
 		/**
 		 * Adds order value if not already set in query data
 		 *
-		 * @access public
-		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $queryData Original queryData
 		 *
@@ -184,8 +173,6 @@
 		/**
 		 * Sets update actions and their conditions which get executed in after save,
 		 * affects model->data when necessary
-		 *
-		 * @access public
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
@@ -216,8 +203,6 @@
 		 * ordering for new rows
 		 *
 		 * This method works out what needs to be done for new rows, called in beforeSave()
-		 *
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param int $highestPossible the highest possible value for the order field
@@ -253,8 +238,6 @@
 		 * ordering for new rows
 		 *
 		 * This method works out what needs to be done for new rows, called in beforeSave()
-		 *
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param int $highestPossible the highest possible value for the order field
@@ -351,8 +334,6 @@
 		/**
 		 * Called automatically after model gets saved, triggers order updates
 		 *
-		 * @access public
-		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param boolean $created Whether the record was created or not
 		 *
@@ -365,8 +346,6 @@
 		/**
 		 * When you delete a record from a set, you need to decrement the order of all
 		 * records that were after it in the set.
-		 *
-		 * @access public
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
@@ -391,8 +370,6 @@
 		/**
 		 * Called automatically after model gets deleted, triggers order updates
 		 *
-		 * @access public
-		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
 		 * @return boolean
@@ -405,8 +382,6 @@
 		 * Returns the current highest order of all records in the set. When a new
 		 * record is added to the set, it is added at the current highest order, plus
 		 * one.
-		 *
-		 * @access public
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $groupValues Array with group field => group values, used for conditions
@@ -433,7 +408,6 @@
 		/**
 		 * If editing or deleting a record, set the oldOrder property to the current
 		 * order in the database.
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
@@ -450,8 +424,6 @@
 		/**
 		 * If editing or deleting a record, set the oldGroups property to the current
 		 * group values in the database for each group field for this model.
-		 *
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
@@ -475,8 +447,6 @@
 		/**
 		 * Sets new order property for current model to value in model->data
 		 *
-		 * @access protected
-		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
 		 * @return void
@@ -498,8 +468,6 @@
 		/**
 		 * Set new groups property with keys of group field and values from
 		 * $Model->data, if set.
-		 *
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
@@ -524,8 +492,6 @@
 		/**
 		 * Returns array of conditions for restricting a record set according to the
 		 * model's group fields setting.
-		 *
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 * @param array $groupValues Array of group field => group value pairs
@@ -560,8 +526,6 @@
 		 * you've just modified, as the order will have been set already, so exclude
 		 * it with some conditions.
 		 *
-		 * @access protected
-		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *
 		 * @return array
@@ -572,8 +536,6 @@
 
 		/**
 		 * Executes the update, if there are any. Called in afterSave and afterDelete.
-		 *
-		 * @access protected
 		 *
 		 * @param Model $Model Model object that method is triggered on
 		 *

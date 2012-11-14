@@ -33,7 +33,6 @@
 		 * Settings initialized with the behavior
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $defaults = array(
 			'plugin' => 'Comments',
@@ -55,7 +54,6 @@
 		 * Contain settings indexed by model name.
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__settings = array();
 
@@ -64,7 +62,6 @@
 		 *
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
-		 * @access public
 		 *
 		 * @return void
 		 */
@@ -113,7 +110,7 @@
 				),
 				false
 			);
-			
+
 			$Model->Comment = $Model->{$this->__settings[$Model->alias]['class']};
 		}
 
@@ -133,7 +130,7 @@
 					sprintf('/%s[foreign_id=%s]', $this->__settings[$Model->alias]['class'], $result[$Model->alias][$Model->primaryKey]),
 					$comments
 				);
-				
+
 				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract('{n}.' . $this->__settings[$Model->alias]['class'], $comments);
 			}
 
@@ -145,7 +142,6 @@
 		 *
 		 * @param object $Model the model object
 		 * @param array $data the comment being saved
-		 * @access public
 		 *
 		 * @return boolean
 		 */
@@ -199,7 +195,7 @@
 					)
 				)
 			);
-			
+
 			$data[$this->__settings[$Model->alias]['class']]['mx_record'] = $this->__mxRecord($data[$this->__settings[$Model->alias]['class']]['email']);
 
 			$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
@@ -225,7 +221,7 @@
 				$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']] =
 						Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']]);
 			}
-			
+
 			$Model->{$this->__settings[$Model->alias]['class']}->create();
 			if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
 				return true;
@@ -233,11 +229,11 @@
 
 			return false;
 		}
-		
+
 		private function __mxRecord($email) {
 			preg_match(
-				'/@((?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel))$/i', 
-				$email, 
+				'/@((?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel))$/i',
+				$email,
 				$host
 			);
 
@@ -262,7 +258,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $options array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -295,7 +290,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -339,7 +333,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -388,7 +381,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -424,7 +416,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -476,7 +467,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -500,7 +490,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -519,7 +508,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */
@@ -549,7 +537,6 @@
 		 *
 		 * @var $Model object the model object
 		 * @var $data array the data from the form
-		 * @access private
 		 *
 		 * @return integer
 		 */

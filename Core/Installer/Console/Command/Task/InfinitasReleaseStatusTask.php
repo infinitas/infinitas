@@ -52,8 +52,6 @@ class InfinitasReleaseStatusTask extends AppShell {
  * Shows the status of plugins schema grouped by not installed, behind origin,
  * installed with local changes and upto date
  *
- * @access protected
- *
  * @return void, outputs to terminal
  */
 	protected function _output() {
@@ -117,8 +115,6 @@ class InfinitasReleaseStatusTask extends AppShell {
 
 /**
  * sort out data into something manageable
- *
- * @access protected
  *
  * @return void
  */

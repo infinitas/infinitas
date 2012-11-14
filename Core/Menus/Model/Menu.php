@@ -24,7 +24,6 @@
 		 * The relations for the menu
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $hasMany = array(
 			'MenuItem' => array(
@@ -71,8 +70,6 @@
 		/**
 		 * create a container for the menus if none exists
 		 *
-		 * @access public
-		 *
 		 * @see Model::save()
 		 *
 		 * @param array $data
@@ -101,8 +98,6 @@
 		 * If the menu is deleted, the menu items should also be deleted. As its a
 		 * mptt tree deleting the root node will cause cake to delete everything
 		 * within the tree and the whole thing will be gone
-		 *
-		 * @access public
 		 *
 		 * @return mixed what ever the parent returns
 		 */

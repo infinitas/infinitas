@@ -26,7 +26,6 @@
 		 * Table that is used
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $useTable = 'global_tagged';
 
@@ -34,7 +33,6 @@
 		 * Find methodes
 		 *
 		 * @var array
-		 * @access public
 		 */
 		public $findMethods = array(
 			'cloud' => true,
@@ -45,7 +43,6 @@
 		 * belongsTo associations
 		 *
 		 * @var string
-		 * @access public
 		 */
 		public $belongsTo = array(
 			'GlobalTag' => array(
@@ -68,8 +65,8 @@
 		 * @param string
 		 * @param array
 		 * @param array
+		 * 
 		 * @return array
-		 * @access public
 		 */
 		public function _findCloud($state, $query, $results = array()) {
 			if ($state == 'before') {

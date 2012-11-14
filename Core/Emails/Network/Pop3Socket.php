@@ -25,7 +25,6 @@ class Pop3Socket extends EmailSocket {
  * up automagically.
  *
  * @param array $connection the connection details
- * @access public
  *
  * @return void
  */

@@ -22,7 +22,6 @@
 		/**
 		 * Settings initialized with the behavior
 		 *
-		 * @access public
 		 * @var array
 		 */
 		public $defaults = array(
@@ -54,7 +53,6 @@
 		 * Contain settings indexed by model name.
 		 *
 		 * @var array
-		 * @access private
 		 */
 		private $__settings = array();
 
@@ -63,7 +61,6 @@
 		 *
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
-		 * @access public
 		 */
 		public function setup($model, $settings = array()) {
 			$default = $this->defaults;

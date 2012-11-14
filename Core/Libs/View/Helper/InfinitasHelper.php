@@ -40,7 +40,6 @@ class InfinitasHelper extends AppHelper {
  * JSON errors.
  *
  * Set up some errors for json.
- * @access public
  */
 	public $jsonErrors = array(
 		JSON_ERROR_NONE	  => 'No error',

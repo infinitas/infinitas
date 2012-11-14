@@ -202,8 +202,6 @@ LICENCE;
 		/**
 		 * check if the server has correct support for infinitas
 		 *
-		 * @access public
-		 *
 		 * @return array
 		 */
 		public function checkCore() {
@@ -224,8 +222,6 @@ LICENCE;
 
 		/**
 		 * check the paths have the correct permissions
-		 *
-		 * @access public
 		 *
 		 * @return array
 		 */
@@ -252,8 +248,6 @@ LICENCE;
 		 * check the settings of php
 		 *
 		 * Check that everything is configured properly for infinitas to run
-		 *
-		 * @access public
 		 *
 		 * @return type
 		 */
@@ -299,8 +293,6 @@ LICENCE;
 
 		/**
 		 * check if connection details are valid
-		 *
-		 * @access private
 		 *
 		 * @param array $connection the database config to check
 		 *
@@ -433,8 +425,6 @@ LICENCE;
 		 *
 		 * take the connection details that were passed in and write the file to disk
 		 *
-		 * @access public
-		 *
 		 * @return type
 		 */
 		public function writeDbConfig($dbConfig = array()) {
@@ -525,8 +515,6 @@ LICENCE;
 		 *
 		 * @exception Exception
 		 *
-		 * @access public
-		 *
 		 * @param string $theme the theme to install
 		 *
 		 * @return boolean
@@ -543,8 +531,6 @@ LICENCE;
 		 * are kept
 		 *
 		 * If no plugin is null, it is assumed that the path for app themes are required
-		 *
-		 * @access public
 		 *
 		 * @param string $plugin the name of the plugin
 		 * @param string $theme the name of the theme
@@ -569,8 +555,6 @@ LICENCE;
 
 		/**
 		 * find theme dirs for the plugin passed or in the app dir
-		 *
-		 * @access public
 		 *
 		 * @param string $plugin the plugin to check in
 		 *

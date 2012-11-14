@@ -142,8 +142,6 @@ class AppEvents extends Object {
  *
  * If id is null it is because it was a new row not something being updated
  *
- * @access public
- *
  * @param Event $event the event being called
  * @param string $id
  */
@@ -317,8 +315,6 @@ class AppEvents extends Object {
  * often so dont always run the job
  *
  * @param object $event the event object (this is normally the shell)
- *
- * @access public
  */
 	public function onRunCrons(Event $Event) {
 		return false;

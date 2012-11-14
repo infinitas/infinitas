@@ -23,7 +23,7 @@ class ValidationBehavior extends ModelBehavior {
  * pass with niether field filled out
  *
  * @param array $field not used
- * @params array $fields list of 2 fields that should be checked
+ * @param array $fields list of 2 fields that should be checked
  *
  * @return boolean
  */
@@ -118,7 +118,7 @@ class ValidationBehavior extends ModelBehavior {
  * records
  *
  * @param array $field contains the field / data to be validated
- * @params array $alias optional the alias on the association to test
+ * @param array $alias optional the alias on the association to test
  *
  * @return boolean
  */

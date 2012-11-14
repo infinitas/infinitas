@@ -16,6 +16,11 @@
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 	class ChartHelper extends AppHelper {
+		/**
+		 * Helpers to load
+		 *
+		 * @var array
+		 */
 		public $helpers = array(
 			'Html',
 			'Session',
@@ -27,8 +32,7 @@
 		 *
 		 * This is used by the chart helper to generate maps.
 		 *
-		 * @public array
-		 * @access public
+		 * @var array
 		 */
 		public $countryToContinent = array(
 			'Africa' => array(
@@ -76,6 +80,7 @@
 				'PY', 'GF', 'SR', 'EC'
 			)
 		);
+
 		/**
 		 * Setting up charts.
 		 *
@@ -84,8 +89,7 @@
 		 * not showing in your graph check Chart::debug as it alert you if you added something that is
 		 * not supported.
 		 *
-		 * @public array
-		 * @access public
+		 * @var array
 		 */
 		public $setup = array(
 			'pie3d' => array(
@@ -159,63 +163,60 @@
 				'colors' => true,
 			)
 		);
+
 		/**
 		 * the query that is sent to the api to generate the chart.
 		 *
-		 * @public string
-		 * @access public
+		 * @var string
 		 */
 		public $return = null;
+
 		/**
 		 * turn debug on or off.
 		 *
-		 * @public bool
-		 * @access public
+		 * @var bool
 		 */
 		public $debug = false;
+
 		/**
 		 * turn cache on or off.
 		 *
-		 * @public bool
-		 * @access public
+		 * @var bool
 		 */
 		public $cache = true;
+
 		/**
 		 * Path to store cached images
 		 *
-		 * @public string
-		 * @access public
+		 * @var string
 		 */
 		public $cachePath = '';
+
 		/**
 		 * Path to use when displaying cached images
 		 *
-		 * @public string
-		 * @access public
+		 * @var string
 		 */
 		public $cacheImagePath = '';
 
 		/**
 		 * the seperator between params in the url.
 		 *
-		 * @public string
-		 * @access public
+		 * @var string
 		 */
 		public $paramSeperator = '&';
 
 		/**
 		 * the max size of the graph (height x width).
 		 *
-		 * @public int
-		 * @access private
+		 * @var int
 		 */
 		private $__maxSize = 300000;
 
 		/**
 		 * the api address.
 		 *
-		 * @public string
-		 * @access private
+		 * @var string
 		 */
 		private $__apiUrl = 'http://chart.apis.google.com/chart?';
 
@@ -225,13 +226,14 @@
 		 * holds a list of errors / warnings that were generated while trying
 		 * generate the query string for the api
 		 *
-		 * @public array
-		 * @access private
+		 * @var array
 		 */
 		private $__errors = array();
 
 		/**
 		 * internal to hold origional data for caching.
+		 *
+		 * @var array
 		 */
 		public $input = array();
 
@@ -241,8 +243,7 @@
 		 * this is used to conver the english names used in the helper to
 		 * the codes needed by google to create the graph.
 		 *
-		 * @public array
-		 * @access public
+		 * @var array
 		 */
 		public $map = array(
 			'data' => array(//done
@@ -333,8 +334,7 @@
 		 *
 		 * This is used to generat the maps based on a friendly name.
 		 *
-		 * @public array
-		 * @access public
+		 * @var array
 		 */
 		public $chartTypes = array(
 			//pie charts
