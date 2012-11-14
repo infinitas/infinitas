@@ -6,9 +6,6 @@
  * what events are available and what they do. It extends Object so you can
  * do things like $this->log(), redirect() and other basic methods
  *
-
- *
- * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.App

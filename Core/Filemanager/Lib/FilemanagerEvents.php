@@ -1,61 +1,95 @@
 <?php
-	/*
-	 * Short Description / title.
-	 *
-	 * Overview of what the file does. About a paragraph or two
-	 *
+/**
+ * Filemanager Events
+ *
+ * @package Infinitas.Filemanager.Lib
+ */
 
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.Filemanager.Lib
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
-	 *
-	 * @author {your_name}
-	 *
-	 *
-	 *
-	 */
+/**
+ * Filemanager Events
+ *
+ * The events that can be triggered for the events class.
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Filemanager.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-	final class FilemanagerEvents extends AppEvents {
-		public function onPluginRollCall() {
-			return;
-			return array(
-				'name' => 'Files',
-				'description' => 'Allow you to manage files from the backend',
-				'icon' => '/filemanager/img/icon.png',
-				'author' => 'Infinitas'
-			);
-		}
-
-		public function onAdminMenu($event) {
-			$menu['main'] = array(
-				'Root Dir' => array('controller' => false, 'action' => false)
-			);
-
-			return $menu;
-		}
-
-		public function onSetupCache() {
-			return array(
-				'name' => 'filemanager',
-				'config' => array(
-					'prefix' => 'core.filemanager.',
-				)
-			);
-		}
-
-		public function onRequireCssToLoad($event, $data = null) {
-			return array(
-				'Filemanager.jquery_file_tree'
-			);
-		}
-
-		public function onRequireJavascriptToLoad($event, $data = null) {
-			return array(
-				'Filemanager.jquery_file_tree'
-			);
-		}
+class FilemanagerEvents extends AppEvents {
+/**
+ * Filemanager dashboard icon and details
+ *
+ * @return array
+ */
+	public function onPluginRollCall() {
+		return;
+		return array(
+			'name' => 'Files',
+			'description' => 'Allow you to manage files from the backend',
+			'icon' => '/filemanager/img/icon.png',
+			'author' => 'Infinitas'
+		);
 	}
+
+/**
+ * Admin menu bar
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onAdminMenu(Event $Event) {
+		$menu['main'] = array(
+			'Root Dir' => array('controller' => false, 'action' => false)
+		);
+
+		return $menu;
+	}
+
+/**
+ * Filemanager cache configuration
+ *
+ * @return array
+ */
+	public function onSetupCache() {
+		return array(
+			'name' => 'filemanager',
+			'config' => array(
+				'prefix' => 'core.filemanager.',
+			)
+		);
+	}
+
+/**
+ * Filemanager css
+ *
+ * @param Event $Event
+ * @param array $data
+ *
+ * @return array
+ */
+	public function onRequireCssToLoad(Event $Event, $data = null) {
+		return array(
+			'Filemanager.jquery_file_tree'
+		);
+	}
+
+/**
+ * Filemanager JavaScript
+ *
+ * @param Event $Event
+ * @param array $data
+ *
+ * @return array
+ */
+	public function onRequireJavascriptToLoad(Event $Event, $data = null) {
+		return array(
+			'Filemanager.jquery_file_tree'
+		);
+	}
+
+}

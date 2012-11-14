@@ -13,7 +13,7 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since {check_current_milestone_in_lighthouse}
 	 *
-	 * @author {your_name}
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 *
 	 *
 	 *
