@@ -7,6 +7,8 @@ App::uses('InstallerLib', 'Installer.Lib');
  * @param InstallerTask $Installer
  * @param InfinitasPluginTask $InfinitasPlugin
  * @param InstallerLib $InstallerLib
+ * 
+ * @author dakota
  */
 
 class InstallerTask extends AppShell {

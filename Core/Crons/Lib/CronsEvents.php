@@ -1,11 +1,31 @@
 <?php
+/**
+ * CronsEvents
+ *
+ * @package Infinitas.Crons.Lib
+ */
+
+/**
+ * CronsEvents
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Crons.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 class CronsEvents extends AppEvents {
 /**
- * @copydoc AppError::onRequireTodoList()
+ * Todo list
  *
  * Check if the crons are running and if not add a notice to the admin
  * so that they can take action. If they are setup but something has
  * gone wrong and they are not running show an error.
+ *
+ * @return boolean
  */
 	public function onRequireTodoList(Event $Event) {
 		$crons = $this->onAreCronsSetup();
@@ -35,7 +55,7 @@ class CronsEvents extends AppEvents {
 /**
  * check if crons are running
  *
- * @return string|bool false if not, or datetime of last run
+ * @return string|boolean
  */
 	public function onAreCronsSetup() {
 		$date = ClassRegistry::init('Crons.Cron')->getLastRun();
@@ -46,11 +66,12 @@ class CronsEvents extends AppEvents {
  * housekeeping, clear out old cron logs.
  *
  * @param Event $Event
- * 
+ *
  * @return boolean
  */
 	public function onRunCrons(Event $Event) {
 		ClassRegistry::init('Crons.Cron')->clearOldLogs();
 		return true;
 	}
+
 }

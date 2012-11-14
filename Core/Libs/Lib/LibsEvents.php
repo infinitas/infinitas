@@ -1,87 +1,137 @@
 <?php
-	class LibsEvents extends AppEvents {
-		public function onSetupExtensions() {
-			return array(
-				'json'
-			);
-		}
+/**
+ * LibsEvents
+ *
+ * @package Infinitas.Libs.Lib
+ */
 
-		public function onAttachBehaviors($event) {
-			if($event->Handler->shouldAutoAttachBehavior()) {
+/**
+ * LibsEvents
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Libs.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-				// attach the expandable (eva) behavior if there is a table for it
-				$attributesTable = Inflector::singularize($event->Handler->tablePrefix.$event->Handler->table) . '_attributes';
-				if(in_array($attributesTable, $event->Handler->getTables($event->Handler->useDbConfig))) {
-					$event->Handler->bindModel(
-						array(
-							'hasMany' => array(
-								$event->Handler->name.'Attribute' => array(
-									'className' => Inflector::camelize($attributesTable),
-									'foreignKey' => Inflector::underscore($event->Handler->name).'_id',
-									'dependent' => true
-								)
+class LibsEvents extends AppEvents {
+/**
+ * Load general behaviors
+ *
+ * @param Event $Event
+ *
+ * @return void
+ */
+	public function onAttachBehaviors(Event $Event) {
+		if($Event->Handler->shouldAutoAttachBehavior()) {
+
+			// attach the expandable (eva) behavior if there is a table for it
+			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix.$Event->Handler->table) . '_attributes';
+			if(in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
+				$Event->Handler->bindModel(
+					array(
+						'hasMany' => array(
+							$Event->Handler->name.'Attribute' => array(
+								'className' => Inflector::camelize($attributesTable),
+								'foreignKey' => Inflector::underscore($Event->Handler->name).'_id',
+								'dependent' => true
 							)
-						),
-						false
-					);
-
-					$event->Handler->Behaviors->attach('Libs.Expandable');
-				}
-
-				if ($event->Handler->shouldAutoAttachBehavior('Libs.Sluggable', array('slug'))) {
-					$event->Handler->Behaviors->attach(
-						'Libs.Sluggable',
-						array(
-							'label' => array($event->Handler->displayField)
 						)
-					);
-				}
+					),
+					false
+				);
 
-				if ($event->Handler->shouldAutoAttachBehavior('Libs.Sequence', array('ordering'))) {
-					$event->Handler->Behaviors->attach('Libs.Sequence');
-				}
+				$Event->Handler->Behaviors->attach('Libs.Expandable');
+			}
 
-				if ($event->Handler->shouldAutoAttachBehavior('Libs.Rateable', array('rating'))) {
-					$event->Handler->Behaviors->attach('Libs.Rateable');
-				}
+			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Sluggable', array('slug'))) {
+				$Event->Handler->Behaviors->attach(
+					'Libs.Sluggable',
+					array(
+						'label' => array($Event->Handler->displayField)
+					)
+				);
+			}
 
-				if($event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))) {
-					$event->Handler->Behaviors->attach('Tree');
-				}
+			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Sequence', array('ordering'))) {
+				$Event->Handler->Behaviors->attach('Libs.Sequence');
+			}
 
-				if($event->Handler->shouldAutoAttachBehavior('Libs.Validation')) {
-					$event->Handler->Behaviors->attach('Libs.Validation');
-				}
+			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Rateable', array('rating'))) {
+				$Event->Handler->Behaviors->attach('Libs.Rateable');
+			}
+
+			if($Event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $Event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))) {
+				$Event->Handler->Behaviors->attach('Tree');
+			}
+
+			if($Event->Handler->shouldAutoAttachBehavior('Libs.Validation')) {
+				$Event->Handler->Behaviors->attach('Libs.Validation');
 			}
 		}
-
-		public function onRequireComponentsToLoad($event) {
-			return array(
-				'Libs.Infinitas',
-				'Paginator',
-				'Session',
-				'RequestHandler',
-				'Auth',
-				'Acl',
-				'Security' => array(
-					'csrfCheck' => false
-				),
-				'Libs.MassAction',
-				'Libs.InfinitasActions'
-			);
-		}
-
-		public function onRequireHelpersToLoad($event) {
-			return array(
-				'Html', 'Form', 'Js', 'Session', 'Time', 'Text', // core general things from cake
-				'Libs.Infinitas',
-				'Libs.Image', 'Libs.Design', 'Libs.Gravatar'
-			);
-		}
-
-		public function onRequireCssToLoad() {
-			return array(
-				'Assets.jquery_ui'
-			);
-		}
 	}
+
+/**
+ * Configure extensions for the router to parse
+ *
+ * @return array
+ */
+	public function onSetupExtensions() {
+		return array(
+			'json'
+		);
+	}
+
+/**
+ * Load general components
+ *
+ * @param Event $Event the event being triggered
+ *
+ * @return array
+ */
+	public function onRequireComponentsToLoad(Event $Event) {
+		return array(
+			'Libs.Infinitas',
+			'Paginator',
+			'Session',
+			'RequestHandler',
+			'Auth',
+			'Acl',
+			'Security' => array(
+				'csrfCheck' => false
+			),
+			'Libs.MassAction',
+			'Libs.InfinitasActions'
+		);
+	}
+
+/**
+ * Load general helpers
+ *
+ * @param Event $Event the event being triggered
+ *
+ * @return array
+ */
+	public function onRequireHelpersToLoad(Event $Event) {
+		return array(
+			'Html', 'Form', 'Js', 'Session', 'Time', 'Text', // core general things from cake
+			'Libs.Infinitas',
+			'Libs.Image', 'Libs.Design', 'Libs.Gravatar'
+		);
+	}
+
+/**
+ * Load general css
+ *
+ * @return array
+ */
+	public function onRequireCssToLoad() {
+		return array(
+			'Assets.jquery_ui'
+		);
+	}
+
+}

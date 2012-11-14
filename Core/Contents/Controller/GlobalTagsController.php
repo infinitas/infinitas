@@ -1,21 +1,39 @@
 <?php
-	class GlobalTagsController extends ContentsAppController {
-		/**
-		 * Admin Index
-		 *
-		 * @return void
-		 * @access public
-		 */
-		public function admin_index() {
-			$tags = $this->Paginator->paginate();
+/**
+ * GlobalTagsController
+ *
+ * @package Infinitas.Contents.Controller
+ */
 
-			$filterOptions = $this->Filter->filterOptions;
-			$filterOptions['fields'] = array(
-				'name',
-				'identifier',
-				'keyname'
-			);
+/**
+ * GlobalTagsController
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Contents.Controller
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-			$this->set(compact('tags', 'filterOptions'));
-		}
+class GlobalTagsController extends ContentsAppController {
+/**
+ * List all tags
+ *
+ * @return void
+ */
+	public function admin_index() {
+		$tags = $this->Paginator->paginate();
+
+		$filterOptions = $this->Filter->filterOptions;
+		$filterOptions['fields'] = array(
+			'name',
+			'identifier',
+			'keyname'
+		);
+
+		$this->set(compact('tags', 'filterOptions'));
 	}
+
+}

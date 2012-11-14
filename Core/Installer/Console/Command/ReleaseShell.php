@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author dakota
+ *
+ */
 class ReleaseShell extends AppShell {
 	public $tasks = array('Installer.InfinitasPlugin', 'Installer.InfinitasReleaseStatus');
 

@@ -1,11 +1,33 @@
 <?php
+/**
+ * InfinitasReleaseStatusTask
+ *
+ * @package Infinitas.Installer.Console.Task
+ */
+
+/**
+ * InfinitasReleaseStatusTask
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Installer.Console.Task
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ * @author dakota
+ */
+
 class InfinitasReleaseStatusTask extends AppShell {
 /**
  * tasks to load
  *
  * @var array
  */
-	public $tasks = array('Installer.Migration', 'Installer.InfinitasFixture');
+	public $tasks = array(
+		'Installer.Migration',
+		'Installer.InfinitasFixture'
+	);
 
 /**
  * list of plugins with the data that relates to them
@@ -143,4 +165,5 @@ class InfinitasReleaseStatusTask extends AppShell {
 
 		$this->out(implode('', $data));
 	}
+
 }

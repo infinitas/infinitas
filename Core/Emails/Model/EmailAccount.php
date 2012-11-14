@@ -1,4 +1,21 @@
 <?php
+/**
+ * EmailAccount
+ *
+ * @package Infinitas.Emails.Model
+ */
+
+/**
+ * Country
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Emails.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 class EmailAccount extends EmailsAppModel {
 /**
  * custom find methods
@@ -99,6 +116,7 @@ class EmailAccount extends EmailsAppModel {
  * check the mail server is valid
  *
  * @param array $field the field being validated
+ *
  * @return boolean
  */
 	public function validServer($field) {
@@ -110,6 +128,8 @@ class EmailAccount extends EmailsAppModel {
 	}
 
 /**
+ * BeforeSave callback
+ *
  * this is used for making sure that the mail server details are correct
  * before saving them to the database.
  *
@@ -120,11 +140,14 @@ class EmailAccount extends EmailsAppModel {
 	}
 
 /**
+ * Email account list
+ *
  * Get a list of email accounts that are associated to the user plus the
  * main account for the system.
  *
- * @param <type> $user_id the user requesting
- * @return <type> array of accounts
+ * @param string $userId the user requesting
+ *
+ * @return array
  */
 	public function getMyAccounts($userId) {
 		$accounts = $this->find(
@@ -150,6 +173,8 @@ class EmailAccount extends EmailsAppModel {
 
 /**
  * get a list of mails that are set to download with crons
+ *
+ * @return array
  */
 	public function getCronAccounts() {
 		return $this->find(
@@ -173,6 +198,13 @@ class EmailAccount extends EmailsAppModel {
 		);
 	}
 
+/**
+ * Get connection details
+ *
+ * @param string $id the id of the connection to fetch
+ *
+ * @return boolean
+ */
 	public function getConnectionDetails($id) {
 		$account = $this->find(
 			'first',

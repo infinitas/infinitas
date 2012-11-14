@@ -1,5 +1,28 @@
 <?php
+/**
+ * ModulePosition
+ *
+ * @package Infinitas.Modules.Model
+ */
+
+/**
+ * ModulePosition
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Modules.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.6a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 class ModulePosition extends ModulesAppModel {
+/**
+ * HasMany relations
+ *
+ * @var array
+ */
 	public $hasMany = array(
 		'Module' => array(
 			'className' => 'Modules.Module',
@@ -8,11 +31,13 @@ class ModulePosition extends ModulesAppModel {
 	);
 
 /**
- * overload __construct to create validation messages that are translateable
+ * Constructor
  *
  * @param type $id
  * @param type $table
  * @param type $ds
+ *
+ * @return void
  */
 	public function  __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
@@ -36,6 +61,7 @@ class ModulePosition extends ModulesAppModel {
  * check if the passed in position is valid
  *
  * @param string $position the name of a position
+ *
  * @return boolean
  */
 	public function isPosition($position) {
@@ -48,4 +74,5 @@ class ModulePosition extends ModulesAppModel {
 			)
 		);
 	}
+
 }

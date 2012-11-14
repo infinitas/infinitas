@@ -1,4 +1,22 @@
 <?php
+/**
+ * BigDataBehavior
+ *
+ * @package Infinitas.Data.Model.Behavior
+ */
+
+/**
+ * BigDataBehavior
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Data.Model.Behavior
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.9a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 class BigDataBehavior extends ModelBehavior {
 /**
  * default config for the behavior
@@ -12,6 +30,11 @@ class BigDataBehavior extends ModelBehavior {
 		'disableIndex' => true
 	);
 
+/**
+ * Indexing settings
+ *
+ * @var array
+ */
 	protected $_inexing = array(
 		'innodb' => array(
 			'unique_checks',
@@ -47,6 +70,13 @@ class BigDataBehavior extends ModelBehavior {
 		);
 	}
 
+/**
+ * Get the database engine type
+ *
+ * @param Model $Model
+ *
+ * @return string
+ */
 	public function engineType(Model $Model) {
 		if(empty($this->_settings[$Model->alias]['engine'])) {
 			$return = current((array)$Model->query(
@@ -71,6 +101,7 @@ class BigDataBehavior extends ModelBehavior {
  * @param Model $Model the model object being used
  * @param string|array $type the service being changed
  * @param boolean $on service should be enabled or disabled
+ *
  * @return void
  *
  * @throws InvalidArgumentException
@@ -102,7 +133,9 @@ class BigDataBehavior extends ModelBehavior {
 					throw new InvalidArgumentException(sprintf('Unknown command "%s"', $type));
 					break;
 			}
-		} elseif($this->engineType($Model) == 'myisam') {
+			return;
+		}
+		if($this->engineType($Model) == 'myisam') {
 			switch($type) {
 				case 'keys':
 					$Model->query(sprintf('ALTER TABLE %s %s KEYS;', $Model->fullTableName(), $on ? 'ENABLE' : 'DISABLE'));
@@ -125,6 +158,8 @@ class BigDataBehavior extends ModelBehavior {
  *
  * @param Model $Model the model object in use
  * @param array $types options to disable
+ *
+ * @return void
  */
 	public function disableIndexing(Model $Model, $types = array()) {
 		$types = array_merge(
@@ -140,6 +175,8 @@ class BigDataBehavior extends ModelBehavior {
  *
  * @param Model $Model the model object in use
  * @param array $types options to enable
+ *
+ * @return void
  */
 	public function enableIndexing(Model $Model, $types = array()) {
 		$types = array_merge(
@@ -154,6 +191,7 @@ class BigDataBehavior extends ModelBehavior {
  * access the data source
  *
  * @param Model $Model
+ *
  * @return DataSource
  */
 	protected function _db(Model $Model) {
@@ -278,4 +316,5 @@ class BigDataBehavior extends ModelBehavior {
 
 		return $saved;
 	}
+	
 }

@@ -1,7 +1,38 @@
 <?php
+/**
+ * InfinitasFixtureTask
+ *
+ * @package Infinitas.Installer.Console.Task
+ */
+
+/**
+ * InfinitasFixtureTask
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Installer.Console.Task
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 class InfinitasFixtureTask extends Shell {
+/**
+ * Connection to use
+ *
+ * @var string
+ */
 	public $connection = 'default';
 
+/**
+ * Generate a fixture
+ *
+ * @param array $models the models to generate fixtures for
+ * @param string $plugin the plugin to generate a fixture for
+ *
+ * @return string
+ */
 	public function generate($models = null, $plugin = null) {
 		if ($models == null) {
 			$models = array('Aco', 'Aro', 'ArosAco', 'Session');
@@ -38,13 +69,16 @@ class InfinitasFixtureTask extends Shell {
 	}
 
 /**
+ * Get records to fill fixture data
+ *
  * Interact with the user to get a custom SQL condition and use that to extract data
  * to build a fixture.
  *
  * @param string $modelName name of the model to take records from.
+ * @param string $connection the connection to use
  * @param string $useTable Name of table to use.
+ *
  * @return array
- * @access protected
  */
 	function _getRecordsFromTable($modelName, $condition, $useTable = null) {
 		$ModelObject = ClassRegistry::init($modelName);
@@ -81,8 +115,8 @@ class InfinitasFixtureTask extends Shell {
  * Convert a $records array into a a string.
  *
  * @param array $records Array of records to be converted to string
+ * 
  * @return string
- * @access protected
  */
 	function _makeRecordString($records) {
 		$out = '';

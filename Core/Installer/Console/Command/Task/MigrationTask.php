@@ -1,6 +1,9 @@
 <?php
 App::uses('CakeSchema', 'Installer.Model');
-
+/**
+ *
+ * @author dakota
+ */
 class MigrationTask extends AppShell {
 	public $connection = 'default';
 

@@ -1,5 +1,29 @@
 <?php
+/**
+ * InfinitasPluginTask
+ *
+ * @package Infinitas.Installer.Console.Task
+ */
+
+/**
+ * InfinitasPluginTask
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Installer.Console.Task
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ * @author dakota
+ */
+
 class InfinitasPluginTask extends AppShell {
+/**
+ * Shell tasks to load
+ *
+ * @var array
+ */
 	public $tasks = array(
 		'Installer.Migration',
 		'Installer.InfinitasFixture'
@@ -19,8 +43,18 @@ class InfinitasPluginTask extends AppShell {
  */
 	private $__configPath = null;
 
+/**
+ * Plugin info
+ *
+ * @var array
+ */
 	private $__info = array();
 
+/**
+ * Plugin models
+ *
+ * @var array
+ */
 	private $__models = array();
 
 /**
@@ -38,6 +72,13 @@ class InfinitasPluginTask extends AppShell {
 		'version' => 'What version is this release?'
 	);
 
+/**
+ * Shell execute
+ *
+ * Start the release process
+ *
+ * @return void
+ */
 	public function execute() {
 		$plugins = InfinitasPlugin::listPlugins('all');
 
@@ -127,6 +168,11 @@ class InfinitasPluginTask extends AppShell {
 		}
 	}
 
+/**
+ * Output the release information
+ *
+ * @return void
+ */
 	private function __writeOut() {
 		$this->hr();
 
@@ -144,6 +190,8 @@ class InfinitasPluginTask extends AppShell {
 
 /**
  * initialise the plugins dependencies
+ *
+ * @return void
  */
 	private function __initializeDependencies() {
 		if (isset($this->params['dep'])) {
@@ -210,6 +258,7 @@ class InfinitasPluginTask extends AppShell {
  * Returns a list of available plugins
  *
  * @param boolean $searchAll True if we should return all plugins, false for only plugins in /plugins and plugin plugins.
+ *
  * @return array
  */
 	private function __getPluginList($searchType = 'Plugin') {
@@ -422,6 +471,7 @@ class InfinitasPluginTask extends AppShell {
  *
  * @param string $template Template file name
  * @param array $vars List of variables to be used on tempalte
+ *
  * @return string
  */
 	private function __generateTemplate($template, $vars) {
@@ -436,6 +486,8 @@ class InfinitasPluginTask extends AppShell {
 
 /**
  * configure plugin models
+ *
+ * @return void
  */
 	private function __configureModels() {
 		$models = App::objects('model', CakePlugin::path($this->__plugin) . 'Model' . DS, false);
@@ -473,6 +525,8 @@ class InfinitasPluginTask extends AppShell {
  * configure the model information
  *
  * @param string $model the model being configured
+ *
+ * @return void
  */
 	private function __configureModel($model) {
 		$this->hr();
@@ -521,6 +575,8 @@ class InfinitasPluginTask extends AppShell {
  * display plugin info
  *
  * @param boolean $asMenu display as menu (true) or info (false)
+ *
+ * @return void
  */
 	private function __displayInformation($asMenu = false) {
 		$this->out('Plugin internal name: ' . $this->__plugin);
@@ -533,6 +589,8 @@ class InfinitasPluginTask extends AppShell {
  * display dependancies for the plugin
  *
  * @param boolean $asMenu display as menu (true) or info (false)
+ *
+ * @return void
  */
 	private function __displayDependancies($asMenu = false) {
 		$text = ($asMenu) ? '5. ' : '' . 'Dependancies: ';
@@ -569,6 +627,8 @@ class InfinitasPluginTask extends AppShell {
 
 /**
  * get any plugin dependancies
+ *
+ * @return void
  */
 	private function __configureDependancies() {
 		$possiblePlugins = $this->__getPluginList();
