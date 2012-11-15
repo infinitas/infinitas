@@ -68,15 +68,15 @@
                 ?>
                 	<tr class="parent <?php echo $rowClass; ?>">
                         <td>
-							<?php 
-								echo '<span class="toggle"><a href="#">+</a></span>', 
-								$this->Infinitas->massActionCheckBox($category); 
+							<?php
+								echo '<span class="toggle"><a href="#">+</a></span>',
+								$this->Infinitas->massActionCheckBox($category);
 							?>&nbsp;
 						</td>
                 		<td>
                 			<?php
                 				if ($category['GlobalCategory']['path_depth'] >= 1) {
-                					echo '<b>', str_repeat('- ', $category['GlobalCategory']['path_depth']), ' |</b> ';
+                					echo '<b>', str_repeat('|—', $category['GlobalCategory']['path_depth']), '</b> ';
                 				}
 
 	                			echo $this->Html->link(
@@ -118,7 +118,7 @@
                 	</tr>
 					<tr class="details <?php echo $rowClass; ?>">
 						<td colspan="100">
-							<?php 
+							<?php
 								echo $this->element('Contents.expanded/body', array('data' => $category['GlobalCategory']));
 								echo $this->element('Contents.expanded/image', array('data' => $category['GlobalCategory']));
 								echo $this->element('Contents.expanded/seo', array('data' => $category['GlobalCategory']));
