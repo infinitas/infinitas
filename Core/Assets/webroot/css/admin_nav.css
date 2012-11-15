@@ -695,8 +695,8 @@ table.listing tr:hover td{
 }
 
 table.listing td {
-	color:      #000000;
-	padding:    3px 5px;
+	color: #000000;
+	padding: 0px 4px;;
 }
 
 table.listing td,
