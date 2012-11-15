@@ -79,7 +79,7 @@ class CompressHelper extends InfinitasHelper {
 
 		$this->cacheLength = (int)$cacheLength;
 
-		if(Configure::read('debug') <= 2) {
+		if(Configure::read('debug') <= 1) {
 			$this->enabled = true;
 		}
 	}
