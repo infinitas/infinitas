@@ -35,8 +35,8 @@ class DataEvents extends AppEvents {
  * @param Event $Event
  */
 	public function onAttachBehaviors(Event $Event) {
-		if($event->Handler->shouldAutoAttachBehavior()) {
-			$event->Handler->Behaviors->attach('Data.BigData');
+		if($Event->Handler->shouldAutoAttachBehavior()) {
+			$Event->Handler->Behaviors->attach('Data.BigData');
 		}
 	}
 

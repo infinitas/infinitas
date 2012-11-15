@@ -1,35 +1,67 @@
 <?php
-	App::uses('InfinitasTheme', 'Themes.Lib');
-	
-	final class ThemesEvents extends AppEvents {
-		public function onSetupCache() {
-			return array(
-				'name' => 'themes',
-				'config' => array(
-					'prefix' => 'core.themes.',
-				)
-			);
-		}
+/**
+ * ThemesEvents
+ *
+ * @package Infinitas.Themes.Lib
+ */
 
-		public function onAdminMenu($event) {
-			$menu['main'] = array(
-				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
-				'Themes' => array('controller' => false, 'action' => false),
-				'Default Theme' => array('controller' => 'themes', 'action' => 'index', 'Theme.active' => 1)
-			);
+App::uses('InfinitasTheme', 'Themes.Lib');
 
-			return $menu;
-		}
+/**
+ * ThemesEvents
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Themes.Lib
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.6a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-		public function onRequireComponentsToLoad($event = null) {
-			return array(
-				'Themes.Themes'
-			);
-		}
-
-		public function onGetRequiredFixtures($event) {
-			return array(
-				'Themes.Theme',
-			);
-		}
+class ThemesEvents extends AppEvents {
+/**
+ * Setup theme cache
+ *
+ * @return array
+ */
+	public function onSetupCache() {
+		return array(
+			'name' => 'themes',
+			'config' => array(
+				'prefix' => 'core.themes.',
+			)
+		);
 	}
+
+/**
+ * Admin nav bar links
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onAdminMenu(Event $Event) {
+		$menu['main'] = array(
+			'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
+			'Themes' => array('controller' => false, 'action' => false),
+			'Default Theme' => array('controller' => 'themes', 'action' => 'index', 'Theme.active' => 1)
+		);
+
+		return $menu;
+	}
+
+/**
+ * Load theme components
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onRequireComponentsToLoad(Event $Event) {
+		return array(
+			'Themes.Themes'
+		);
+	}
+
+}

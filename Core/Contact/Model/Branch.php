@@ -1,12 +1,18 @@
 <?php
 /**
- * The Branch model.
+ * Branch
+ *
+ * @package Infinitas.Contact.Model
+ */
+
+/**
+ * Branch
  *
  * CRUD for database of Contact branches
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
- * @package Infinitas.Contact.models
+ * @package Infinitas.Contact.Model
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.7a
  *
@@ -15,7 +21,7 @@
 
 class Branch extends ContactAppModel {
 /**
- * hasMany related models
+ * hasMany relations
  *
  * @var array
  */
@@ -24,7 +30,7 @@ class Branch extends ContactAppModel {
 	);
 
 /**
- * belongsTo related models
+ * belongsTo relations
  *
  * @var array
  */
@@ -34,7 +40,7 @@ class Branch extends ContactAppModel {
 
 
 /**
- * belongsTo associations
+ * Behaivors to load
  *
  * @var array
  */
@@ -51,9 +57,15 @@ class Branch extends ContactAppModel {
 		)
 	);
 
-	/**
-	 * @copydoc AppModel::__construct()
-	 */
+/**
+ * Constructor
+ *
+ * @param type $id
+ * @param type $table
+ * @param type $ds
+ *
+ * @return void
+ */
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 
@@ -95,7 +107,7 @@ class Branch extends ContactAppModel {
 
 /**
  * BeforeFind callback
- * 
+ *
  * @todo list all the time zones so that the current time can be shown
  * of different branches.
  *
@@ -106,4 +118,5 @@ class Branch extends ContactAppModel {
 	public function beforeFind($queryData) {
 		return true;
 	}
+	
 }

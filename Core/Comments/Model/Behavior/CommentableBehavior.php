@@ -11,7 +11,7 @@
 	 *
 	 * @copyright Stoop Dev
 	 * @link http://github.com/josegonzalez/cakephp-commentable-behavior
-	 * @package Infinitas.Comments.models.behaviors
+	 * @package Infinitas.Comments.Model.Behavior
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.6a
 	 *

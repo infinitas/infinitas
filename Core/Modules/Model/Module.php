@@ -1,14 +1,35 @@
 <?php
 /**
  * Module
+ *
+ * @package Infinitas.Modules.Model
  */
+
+/**
+ * Module
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Modules.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
 class Module extends ModulesAppModel {
 /**
  * enable row locking see Locks plugin
- * @var type
+ *
+ * @var boolean
  */
 	public $lockable = true;
 
+/**
+ * Behaviors to load
+ *
+ * @var array
+ */
 	public $actsAs = array(
 		'Libs.Sequence' => array(
 			'groupFields' => array(
@@ -17,6 +38,11 @@ class Module extends ModulesAppModel {
 		)
 	);
 
+/**
+ * BelongsTo relations
+ *
+ * @var array
+ */
 	public $belongsTo = array(
 		'Position' => array(
 			'className' => 'Modules.ModulePosition',
@@ -32,9 +58,9 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * has many relations
+ * HasMany relations
  *
- * @var type
+ * @var array
  */
 	public $hasMany = array(
 		'ModuleRoute' => array(
@@ -44,9 +70,9 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * has and belongs to many relations
+ * HasAndBelongsToMany relations
  *
- * @var type
+ * @var array
  */
 	public $hasAndBelongsToMany = array(
 		'Route' => array(
@@ -61,7 +87,7 @@ class Module extends ModulesAppModel {
 /**
  * reusable contain array
  *
- * @var type
+ * @var array
  */
 	private $__contain = array(
 		'Position' => array(
@@ -92,11 +118,13 @@ class Module extends ModulesAppModel {
 	);
 
 /**
- * overload __construct to use the alias and translatable validation errors
+ * Constructor
  *
  * @param type $id
  * @param type $table
  * @param type $ds
+ *
+ * @return void
  */
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);

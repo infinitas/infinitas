@@ -1,17 +1,20 @@
 <?php
 /**
- * Themes controller for managing the themes in infinitas
+ * ThemesController
  *
- * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ * @package Infinitas.Themes.Controller
+ */
+
+/**
+ * ThemesController
  *
- *
- *
- * @filesource
- * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
- * @link http://infinitas-cms.org
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
  * @package Infinitas.Themes.Controller
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
 class ThemesController extends ThemesAppController {
@@ -71,13 +74,18 @@ class ThemesController extends ThemesAppController {
 		try{
 			$defaultLayouts = InfinitasTheme::layouts($this->request->data['Theme']['id']);
 		} catch(Exception $e) {
-			$this->notice($e->getMessage(), array(
-				'level' => 'warning'
-			));
+			$this->notice($e);
 		}
 		$this->set(compact('themes', 'defaultLayouts'));
 	}
 
+/**
+ * Get the frontend css for a theme
+ *
+ * Useful for wysiwyg editors in the backend to display content correctly
+ *
+ * @return void
+ */
 	public function frontend_css() {
 		$this->layout = 'ajax';
 		$this->response->type('css');
@@ -85,14 +93,16 @@ class ThemesController extends ThemesAppController {
 		$this->set('css', array_filter(array_values(Set::flatten($css))));
 	}
 
-	/**
-	 * Mass toggle action.
-	 *
-	 * This overwrites the default toggle action so that other themes can
-	 * be deactivated first as you should only have one active at a time.
-	 *
-	 * @var array $ids the id of the theme to toggle
-	 */
+/**
+ * Mass toggle action.
+ *
+ * This overwrites the default toggle action so that other themes can
+ * be deactivated first as you should only have one active at a time.
+ *
+ * @param array $ids the id of the theme to toggle
+ *
+ * @return void
+ */
 	public function __massActionToggle($ids) {
 		if (count($ids) > 1) {
 			$this->notice(
@@ -117,11 +127,13 @@ class ThemesController extends ThemesAppController {
 		);
 	}
 
-	/**
-	 * redirect to the installer to add a new theme.
-	 *
-	 * @param null $ids not used
-	 */
+/**
+ * redirect to the installer to add a new theme.
+ *
+ * @param null $ids not used
+ *
+ * @return void
+ */
 	public function __massActionInstall($ids) {
 		$this->redirect(
 			array(
@@ -131,4 +143,5 @@ class ThemesController extends ThemesAppController {
 			)
 		);
 	}
+
 }

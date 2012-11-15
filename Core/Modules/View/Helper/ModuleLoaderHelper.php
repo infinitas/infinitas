@@ -98,8 +98,8 @@ class ModuleLoaderHelper extends InfinitasHelper {
  * This is used by the core module loader, and to load single modules. This
  * can be handy when you just want to load a particular module inside a view.
  *
- * @param string $position this is the possition that is to be loaded, can be anything from the database
- * @param bool $admin if true its a admin module that should be loaded.
+ * @param string $module the module to load
+ * @param array $params the module params
  *
  * @return string
  */
