@@ -81,7 +81,7 @@ class LockerComponent extends InfinitasComponent {
  *
  * @return void
  */
-	public function beforeRedirect(Controller $Controller) {
+	public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
 		if(!empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable) {
 			if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel') {
 				ClassRegistry::init('Locks.Lock')->deleteAll(

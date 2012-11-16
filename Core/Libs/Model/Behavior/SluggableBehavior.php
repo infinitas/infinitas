@@ -46,7 +46,7 @@
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
 		 */
-		public function setup($Model, $settings = array()) {
+		public function setup(Model $Model, $settings = array()) {
 			$default = array('label' => array('name'), 'slug' => 'slug', 'separator' => '-', 'overwrite' => false, 'translation' => null);
 
 			if (!isset($this->__settings[$Model->alias])) {
@@ -88,7 +88,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function beforeSave($Model) {
+		public function beforeSave(Model $Model) {
 			$return = parent::beforeSave($Model);
 
 			$isBlank = false;
@@ -171,7 +171,7 @@
 		 *
 		 * @param string $string String from where to generate slug
 		 * @param array $settings Settings to use (looks for 'separator' and 'length')
-		 * 
+		 *
 		 * @return string
 		 */
 		public function __slug($string, $settings) {
@@ -338,4 +338,5 @@
 
 			return $string;
 		}
+		
 	}

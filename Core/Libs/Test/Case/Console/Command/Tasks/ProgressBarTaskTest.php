@@ -116,15 +116,18 @@
 		public function testSimpleFormatting() {
 			$this->Task->start(100);
 			$this->Task->next(1);
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@\[>\s+\] 1.0% 1/100.*remaining$@', $result);
 
 			$this->Task->next(49);
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@\[-+>\s+\] 50.0% 50/100.*remaining$@', $result);
 
 			$this->Task->next(50);
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@\[-+>\] 100.0% 100/100.*remaining$@', $result);
 		}
 
@@ -145,13 +148,15 @@
 			$this->Task->next(50);
 			$this->Task->finish(1);
 
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@\[-{25}>] 50.0% 50/100.*remaining$@', $result);
 
 			$this->Task->start(100);
 			$this->Task->next(150);
 
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@\[-{12}>\] 150.0% 150/100.*remaining$@', $result);
 		}
 
@@ -167,12 +172,14 @@
 			$this->Task->terminalWidth = 100;
 
 			$this->Task->next(1);
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@Running your 100 step process\s+1.0% 1/100.*remaining \[>\s+\]$@', $result);
 
 			$this->Task->message('Changed and muuuuuuuuuuuuuuuuuch longer message');
 			$this->Task->next(1);
-			$result = end($this->Task->messages());
+			$result = $this->Task->messages();
+			$result = end($result);
 			$this->assertPattern('@Changed and muuuuuuuuuuuuuuuuuch longer message\s+2.0% 2/100.*remaining \[>\s+\]$@', $result);
 		}
 

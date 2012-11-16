@@ -14,13 +14,13 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-final class ContentsEvents extends AppEvents {
+class ContentsEvents extends AppEvents {
 /**
  * get the plugin details
  *
  * @return array
  */
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return array(
 			'name' => 'Content',
 			'description' => 'Mange the way content works inside Infinitas',
@@ -84,7 +84,7 @@ final class ContentsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onRequireHelpersToLoad() {
+	public function onRequireHelpersToLoad(Event $Event) {
 		return array(
 			'Contents.TagCloud',
 			'Contents.GlobalContents'
@@ -210,7 +210,7 @@ final class ContentsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSlugUrl(Event $Event, $data = null) {
+	public function onSlugUrl(Event $Event, $data = null, $type = null) {
 		if(empty($data['type'])) {
 			$data['type'] = 'category';
 		}
@@ -240,7 +240,7 @@ final class ContentsEvents extends AppEvents {
  *
  * @return boolean|array
  */
-	public function onRouteParse(Event $Event, array $data) {
+	public function onRouteParse(Event $Event, $data = null) {
 		$return = null;
 
 		if(!empty($data['slug'])) {
@@ -262,4 +262,5 @@ final class ContentsEvents extends AppEvents {
 
 		return $data;
 	}
+
 }

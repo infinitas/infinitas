@@ -23,7 +23,7 @@
 
 		protected $_built = array();
 
-		public function setup($Model, $settings = array()) {
+		public function setup(Model $Model, $settings = array()) {
 			$default = array(
 				'start_column' => 'begin_publishing',
 				'end_column' => 'end_publishing'
@@ -36,7 +36,7 @@
 			$this->_checkColumn($Model, $this->__settings[$Model->alias]['end_column']);
 		}
 
-		public function beforeFind($Model, $query) {
+		public function beforeFind(Model $Model, $query) {
 			if (!array_key_exists('published', $query)) return true;
 
 			if ($query['published']) { // Return published
@@ -52,7 +52,7 @@
 			return $query;
 		}
 
-		function publishConditions($Model, $published = true) {
+		function publishConditions(Model $Model, $published = true) {
 			if ($published) {
 				return array(
 					$Model->alias . '.' . $this->__settings[$Model->alias]['start_column'] . ' <=' => date("Y-m-d H:i:s"),
@@ -72,14 +72,14 @@
 			);
 		}
 
-		function _checkColumn($Model, $column) {
+		function _checkColumn(Model $Model, $column) {
 			$col = $Model->schema($column);
 			if (empty($col)) {
 				trigger_error('Publishable Model "' . $Model->alias . '" is missing column: ' . $column);
 			}
 		}
 
-		function isPublished($Model, $id = '') {
+		function isPublished(Model $Model, $id = '') {
 			if (empty($id)) {
 				$id = $Model->id;
 			}
@@ -108,15 +108,15 @@
 			return true;
 		}
 
-		function publish($Model, $id = array()) {
+		function publish(Model $Model, $id = array()) {
 			return $this->_publishing($Model, $id);
 		}
 
-		function unpublish($Model, $id = array()) {
+		function unpublish(Model $Model, $id = array()) {
 			return $this->_publishing($Model, $id, false);
 		}
 
-		function _publishing($Model, $id = array(), $publish = true) {
+		function _publishing(Model $Model, $id = array(), $publish = true) {
 			if (empty($id)) {
 				if (!empty($Model->id)) {
 					$id = $Model->id;

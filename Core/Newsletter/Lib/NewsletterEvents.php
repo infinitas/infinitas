@@ -19,8 +19,8 @@
 	 *
 	 */
 
-	final class NewsletterEvents extends AppEvents {
-		public function onPluginRollCall() {
+	class NewsletterEvents extends AppEvents {
+		public function onPluginRollCall(Event $Event) {
 			return array(
 				'name' => 'Newsletter',
 				'description' => 'Keep in contact with your user base',
@@ -30,7 +30,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu(Event $Event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'dashboard'),
 				'Campaigns' => array('plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index'),
@@ -41,14 +41,14 @@
 			return $menu;
 		}
 
-		public function onRequireComponentsToLoad() {
+		public function onRequireComponentsToLoad(Event $Event) {
 			return array(
 				'Email',
 				'Newsletter.Emailer'
 			);
 		}
 
-		public function onSetupRoutes($event, $data = null) {
+		public function onSetupRoutes(Event $Event, $data = null) {
 			InfinitasRouter::connect(
 				'/admin/newsletter',
 				array(
@@ -60,4 +60,5 @@
 				)
 			);
 		}
-	 }
+
+	}

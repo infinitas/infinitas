@@ -81,7 +81,7 @@
 			);
 		}
 
-		public function isUnique($field = array()) {
+		public function isUnique($fields, $or = true) {
 			return !is_file($this->__path($this->data[$this->alias]['file_name']));
 		}
 
@@ -175,12 +175,12 @@
 			return false;
 		}
 
-		public function find($type, $options = array()) {
+		public function find($type = 'first', $query = array()) {
 			$Folder = new Folder($this->__path());
 
 			$conditions = '.*';
-			if(isset($options['conditions'][$this->alias . '.file_name'])) {
-				$conditions = regexEscape($options['conditions'][$this->alias . '.file_name']);
+			if(isset($query['conditions'][$this->alias . '.file_name'])) {
+				$conditions = regexEscape($query['conditions'][$this->alias . '.file_name']);
 			}
 
 			$results = $Folder->find($conditions);
@@ -201,7 +201,7 @@
 			}
 		}
 
-		public function save($data = null, $validate = true) {
+		public function save($data = null, $validate = true, $fieldList = array()) {
 			if(!empty($data[$this->alias])) {
 				$this->data[$this->alias] = $data[$this->alias];
 			}
@@ -224,7 +224,7 @@
 			return false;
 		}
 
-		public function delete($id = null) {
+		public function delete($id = null, $cascade = true) {
 			if (!$id) {
 				return false;
 			}

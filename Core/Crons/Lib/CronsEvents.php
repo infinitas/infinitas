@@ -28,7 +28,7 @@ class CronsEvents extends AppEvents {
  * @return boolean
  */
 	public function onRequireTodoList(Event $Event) {
-		$crons = $this->onAreCronsSetup();
+		$crons = $this->onAreCronsSetup($Event);
 		if(!$crons) {
 			return array(
 				array(
@@ -57,7 +57,7 @@ class CronsEvents extends AppEvents {
  *
  * @return string|boolean
  */
-	public function onAreCronsSetup() {
+	public function onAreCronsSetup(Event $Event) {
 		$date = ClassRegistry::init('Crons.Cron')->getLastRun();
 		return $date ? date('Y-m-d H:i:s', strtotime($date)) : $date;
 	}

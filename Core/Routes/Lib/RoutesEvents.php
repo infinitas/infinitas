@@ -25,7 +25,7 @@ class RoutesEvents extends AppEvents {
  *
  * @return array
  */
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return array(
 			'name' => 'Routes',
 			'description' => 'Route pretty urls to your code',
@@ -39,7 +39,7 @@ class RoutesEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'routes',
 			'config' => array(

@@ -49,7 +49,7 @@ class ContactEvents extends AppEvents{
  *
  * @return array
  */
-	public function onSetupExtensions() {
+	public function onSetupExtensions(Event $Event) {
 		return array(
 			'vcf'
 		);
@@ -59,7 +59,7 @@ class ContactEvents extends AppEvents{
  * get data for rebuilding the site map
  *
  * @param Event $Event
- * 
+ *
  * @return array
  */
 	public function onSiteMapRebuild(Event $Event) {
@@ -94,4 +94,5 @@ class ContactEvents extends AppEvents{
 
 		return $return;
 	}
+	
 }

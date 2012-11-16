@@ -76,7 +76,7 @@ class GlobalContentsHelper extends AppHelper {
  *
  * @return array
  */
-	public function url($data) {
+	public function url($data = null, $full = true) {
 		list($plugin, $model) = pluginSplit($data['GlobalContent']['model']);
 
 		$event = $this->Event->trigger($plugin . '.slugUrl', $data);

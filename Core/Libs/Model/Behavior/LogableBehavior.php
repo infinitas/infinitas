@@ -96,7 +96,7 @@
 		 * @param Object $Model
 		 * @param array $config
 		 */
-		function setup($Model, $config = array()) {
+		function setup(Model $Model, $config = array()) {
 			if (!is_array($config)) {
 				$config = array();
 			}
@@ -119,11 +119,11 @@
 			}
 		}
 
-		function settings($Model) {
+		function settings(Model $Model) {
 			return $this->settings[$Model->alias];
 		}
 
-		function enableLog($Model, $enable = null) {
+		function enableLog(Model $Model, $enable = null) {
 			if ($enable !== null) {
 				$this->settings[$Model->alias]['enabled'] = $enable;
 			}
@@ -151,7 +151,7 @@
 		 * @param array $params
 		 * @return array
 		 */
-		function findLog($Model, $params = array()) {
+		function findLog(Model $Model, $params = array()) {
 			$defaults = array($this->settings[$Model->alias]['classField'] => null,
 				'action' => null,
 				'order' => 'created DESC',
@@ -171,8 +171,8 @@
 			if ($params[$this->settings[$Model->alias]['classField']]) {
 				if (isset($this->Log->_schema[$this->settings[$Model->alias]['classField']])) {
 					$options['conditions'][$this->settings[$Model->alias]['classField']] = $params[$this->settings[$Model->alias]['classField']];
-				} 
-				
+				}
+
 				else if (isset($this->Log->_schema['description'])) {
 					$options['conditions']['description LIKE '] = $params[$this->settings[$Model->alias]['classField']] . '%';
 				}
@@ -210,7 +210,7 @@
 		 * @param array $params
 		 * @return array
 		 */
-		function findUserActions($Model, $userId, $params = array()) {
+		function findUserActions(Model $Model, $userId, $params = array()) {
 			if (!$this->UserModel) {
 				return null;
 			}
@@ -253,7 +253,7 @@
 					'fields' => $fields
 				)
 			);
-			
+
 			if (!isset($params['events']) || (isset($params['events']) && $params['events'] == false)) {
 				return $data;
 			}
@@ -273,13 +273,13 @@
 					if ($one['action'] == 'edit') {
 						$result[$key]['Log']['event'] .= ' edited ' . $one['change'] . ' of ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 							'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
-					} 
-					
+					}
+
 					else if ($one['action'] == 'add') {
 						$result[$key]['Log']['event'] .= ' added a ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 							'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
-					} 
-					
+					}
+
 					else if ($one['action'] == 'delete') {
 						$result[$key]['Log']['event'] .= ' deleted the ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 							'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
@@ -292,12 +292,12 @@
 						$result[$key]['Log']['event'] .= ' edited ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 							'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
 					}
-					
+
 					else if ($one['action'] == 'add') {
 						$result[$key]['Log']['event'] .= ' added a ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 							'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
-					} 
-					
+					}
+
 					else if ($one['action'] == 'delete') {
 						$result[$key]['Log']['event'] .= ' deleted the ' . strtolower($one[$this->settings[$Model->alias]['classField']]) .
 							'(id ' . $one[$this->settings[$Model->alias]['foreignKey']] . ')';
@@ -326,7 +326,7 @@
 		 * @param Object $Model
 		 * @param array $userData
 		 */
-		function setUserData($Model, $userData = null) {
+		function setUserData(Model $Model, $userData = null) {
 			if ($userData) {
 				$this->user = $userData;
 			}
@@ -341,7 +341,7 @@
 		 * @param int $id id of the logged item (ie model_id in logs table)
 		 * @param array $values optional other values for your logs table
 		 */
-		function customLog($Model, $action, $id, $values = array()) {
+		function customLog(Model $Model, $action, $id, $values = array()) {
 			$logData['Log'] = $values;
 			/**
 			 * @todo clean up $logData
@@ -360,15 +360,15 @@
 			$this->_saveLog($Model, $logData, $title);
 		}
 
-		function clearUserData($Model) {
+		function clearUserData(Model $Model) {
 			$this->user = null;
 		}
 
-		function setUserIp($Model, $userIP = null) {
+		function setUserIp(Model $Model, $userIP = null) {
 			$this->userIP = $userIP;
 		}
 
-		function beforeDelete(&$Model) {
+		function beforeDelete(Model $Model, $cascade = true) {
 			if (!$this->settings[$Model->alias]['enabled']) {
 				return true;
 			}
@@ -382,7 +382,7 @@
 			return true;
 		}
 
-		function afterDelete($Model) {
+		function afterDelete(Model $Model) {
 			if (!$this->settings[$Model->alias]['enabled']) {
 				return true;
 			}
@@ -409,7 +409,7 @@
 			$this->_saveLog($Model, $logData);
 		}
 
-		function beforeSave($Model) {
+		function beforeSave(Model $Model) {
 			if (isset($this->Log->_schema['change']) && $Model->id) {
 				$this->old = $Model->find('first', array('conditions' => array($Model->primaryKey => $Model->id), 'recursive' => - 1));
 			}
@@ -417,7 +417,7 @@
 			return true;
 		}
 
-		function afterSave($Model, $created) {
+		function afterSave(Model $Model, $created) {
 			$check = (!$this->settings[$Model->alias]['enabled']) ||
 				(isset($this->settings[$Model->alias]['skip']['add']) && $this->settings[$Model->alias]['skip']['add'] && $created) ||
 				(isset($this->settings[$Model->alias]['skip']['edit']) && $this->settings[$Model->alias]['skip']['edit'] && !$created);
@@ -434,7 +434,7 @@
 			if ($Model->id) {
 				$id = $Model->id;
 			}
-			
+
 			else if ($Model->insertId) {
 				$id = $Model->insertId;
 			}
@@ -465,7 +465,7 @@
 			if (isset($this->Log->_schema['action']) && $created) {
 				$logData['Log']['action'] = 'add';
 			}
-			
+
 			else if (isset($this->Log->_schema['action']) && !$created) {
 				$logData['Log']['action'] = 'edit';
 			}
@@ -524,13 +524,13 @@
 		 * @param Object $Model
 		 * @param array $logData
 		 */
-		function _saveLog($Model, $logData, $title = null) {
+		function _saveLog(Model $Model, $logData, $title = null) {
 			if ($title !== null) {
 				$logData['Log']['title'] = $title;
 			} elseif ($Model->displayField == $Model->primaryKey) {
 				$logData['Log']['title'] = $Model->alias . ' (' . $Model->id . ')';
 			}
-			
+
 			else if (isset($Model->data[$Model->alias][$Model->displayField])) {
 				$logData['Log']['title'] = $Model->data[$Model->alias][$Model->displayField];
 			}
@@ -551,8 +551,8 @@
 			if ($check) {
 				if ($Model->id) {
 					$logData['Log'][$this->settings[$Model->alias]['foreignKey']] = $Model->id;
-				} 
-				
+				}
+
 				else if ($Model->insertId) {
 					$logData['Log'][$this->settings[$Model->alias]['foreignKey']] = $Model->insertId;
 				}
@@ -560,8 +560,8 @@
 
 			if (!isset($this->Log->_schema['action'])) {
 				unset($logData['Log']['action']);
-			} 
-			
+			}
+
 			else if (isset($Model->logableAction) && !empty($Model->logableAction)) {
 				$logData['Log']['action'] = implode(',', $Model->logableAction); // . ' ' . $logData['Log']['action'];
 				unset($Model->logableAction);

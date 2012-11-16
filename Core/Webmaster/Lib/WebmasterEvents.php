@@ -23,7 +23,7 @@ class WebmasterEvents extends AppEvents {
  *
  * @return array
  */
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return array(
 			'name' => 'Webmaster',
 			'description' => 'Manage your sites robots files and sitemaps',
@@ -68,7 +68,7 @@ class WebmasterEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'webmaster',
 			'config' => array(
@@ -82,7 +82,7 @@ class WebmasterEvents extends AppEvents {
  *
  * @return void
  */
-	public function onSetupRoutes() {
+	public function onSetupRoutes(Event $Event) {
 		InfinitasRouter::connect(
 			'/sitemap',
 			array(
@@ -99,7 +99,7 @@ class WebmasterEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupExtensions() {
+	public function onSetupExtensions(Event $Event) {
 		return array(
 			'xml'
 		);

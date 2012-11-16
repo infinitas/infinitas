@@ -140,7 +140,7 @@
 		 * @param object $Model
 		 * @param array $config
 		 */
-		function setup(&$Model, $config = null) {
+		function setup(Model $Model, $config = null) {
 			if (is_array($config)) {
 				$this->settings[$Model->alias] = array_merge($this->defaults, $config);
 			}
@@ -160,7 +160,7 @@
 		 * @param object $Model
 		 * @return boolean
 		 */
-		function createRevision(&$Model) {
+		function createRevision(Model $Model) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -209,7 +209,7 @@
 		 * @param array $options
 		 * @return array
 		 */
-		function diff($Model, $fromVersionId = null, $toVersionId = null, $options = array()) {
+		function diff(Model $Model, $fromVersionId = null, $toVersionId = null, $options = array()) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -294,7 +294,7 @@
 		 * @param int $limit number of rows to initialize in one go
 		 * @return boolean
 		 */
-		function initializeRevisions($Model, $limit = 100) {
+		function initializeRevisions(Model $Model, $limit = 100) {
 			if (!$Model->ShadowModel) {
 				trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 				return false;
@@ -335,7 +335,7 @@
 		 * @param int $page
 		 * @param int $limit
 		 */
-		function init($Model, $page, $limit) {
+		function init(Model $Model, $page, $limit) {
 			$habtm = array();
 			$allHabtm = $Model->getAssociated('hasAndBelongsToMany');
 			foreach ($allHabtm as $assocAlias) {
@@ -371,7 +371,7 @@
 		 * @param array $options
 		 * @return array
 		 */
-		function newest($Model, $options = array()) {
+		function newest(Model $Model, $options = array()) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -403,7 +403,7 @@
 		 * @param array $options
 		 * @return array
 		 */
-		function oldest($Model, $options = array()) {
+		function oldest(Model $Model, $options = array()) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -434,7 +434,7 @@
 		 * @param array $options
 		 * @return array
 		 */
-		function previous($Model, $options = array()) {
+		function previous(Model $Model, $options = array()) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -471,7 +471,7 @@
 		 * @param array $options 'conditions','date'
 		 * @return boolean
 		 */
-		function revertAll($Model, $options = array()) {
+		function revertAll(Model $Model, $options = array()) {
 			if (!$Model->ShadowModel) {
 				trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 				return false;
@@ -539,7 +539,7 @@
 		 * @param int $versionId
 		 * @return boolean
 		 */
-		function revertTo($Model, $versionId) {
+		function revertTo(Model $Model, $versionId) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -578,7 +578,7 @@
 		 * @param boolean $forceDelete
 		 * @return boolean
 		 */
-		function revertToDate($Model, $datetime, $cascade = false, $forceDelete = false) {
+		function revertToDate(Model $Model, $datetime, $cascade = false, $forceDelete = false) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -729,7 +729,7 @@
 		 * @param boolean $includeCurrent If true will include last saved (live) data
 		 * @return array
 		 */
-		function revisions(&$Model, $options = array(), $includeCurrent = false) {
+		function revisions(Model $Model, $options = array(), $includeCurrent = false) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -765,7 +765,7 @@
 		 * @param object $Model
 		 * @return boolean
 		 */
-		function undelete(&$Model) {
+		function undelete(Model $Model) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -836,7 +836,7 @@
 		 * @param object $Model
 		 * @return boolean
 		 */
-		function undo(&$Model) {
+		function undo(Model $Model) {
 			if (!$Model->id) {
 				trigger_error('RevisionBehavior: Model::id must be set', E_USER_WARNING);
 				return null;
@@ -871,7 +871,7 @@
 		 * @param object $Model
 		 * @param array $idlist
 		 */
-		function updateRevisions(&$Model, $idlist = array()) {
+		function updateRevisions(Model $Model, $idlist = array()) {
 			if (!$Model->ShadowModel) {
 				trigger_error('RevisionBehavior: ShadowModel doesnt exist.', E_USER_WARNING);
 				return null;
@@ -890,7 +890,7 @@
 		 *
 		 * @param unknown_type $Model
 		 */
-		function afterDelete(&$Model) {
+		function afterDelete(Model $Model) {
 			if ($this->settings[$Model->alias]['auto'] === false) {
 				return true;
 			}
@@ -916,7 +916,7 @@
 		 * @param boolean $created
 		 * @return boolean
 		 */
-		function afterSave($Model, $created) {
+		function afterSave(Model $Model, $created) {
 			if ($this->settings[$Model->alias]['auto'] === false) {
 				return true;
 			}
@@ -1026,7 +1026,7 @@
 		 * @param object $Model
 		 * @return boolean
 		 */
-		function beforeDelete(&$Model) {
+		function beforeDelete(Model $Model, $cascade = true) {
 			if ($this->settings[$Model->alias]['auto'] === false || !$Model->ShadowModel) {
 				return true;
 			}
@@ -1054,7 +1054,7 @@
 		 * @param object $Model
 		 * @return boolean
 		 */
-		function beforeSave($Model) {
+		function beforeSave(Model $Model) {
 			if ($this->settings[$Model->alias]['auto'] === false) {
 				return true;
 			}
@@ -1092,7 +1092,7 @@
 		 * @param object $Model
 		 * @return boolean
 		 */
-		function createShadowModel(&$Model) {
+		function createShadowModel(Model $Model) {
 			if (is_null($this->settings[$Model->alias]['useDbConfig'])) {
 				$dbConfig = $Model->useDbConfig;
 			}

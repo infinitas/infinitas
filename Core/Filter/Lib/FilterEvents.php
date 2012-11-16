@@ -16,8 +16,8 @@
 	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 
-	final class FilterEvents extends AppEvents {
-		public function onRequireComponentsToLoad($event) {
+	class FilterEvents extends AppEvents {
+		public function onRequireComponentsToLoad(Event $Event) {
 			return array(
 				'Filter.Filter' => array(
 					'actions' => array('admin_index', 'index')
@@ -25,13 +25,13 @@
 			);
 		}
 
-		public function onRequireHelpersToLoad($event) {
+		public function onRequireHelpersToLoad(Event $Event) {
 			return array(
 				'Filter.Filter'
 			);
 		}
 
-		public function onRequireCssToLoad($event, $data = null) {
+		public function onRequireCssToLoad(Event $Event, $data = null) {
 			return array(
 				'Filter.filter'
 			);

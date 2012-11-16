@@ -58,8 +58,7 @@ class UploadBehaviorTest extends CakeTestCase {
  *
  * @return void
  */
-	public function startUp() {
-		parent::startUp();
+	public function startTest($method) {
 		$this->TestUpload = ClassRegistry::init('TestUpload');
 		$this->currentTestMethod = $method;
 		$this->data['test_ok'] = array(
@@ -100,8 +99,8 @@ class UploadBehaviorTest extends CakeTestCase {
  *
  * @return void
  */
-	public function tearDown() {
-		parent::tearDown();
+	public function endTest($method) {
+		parent::endTest($method);
 		$folder = new Folder(TMP);
 		$folder->delete(ROOT . DS . APP_DIR . DS . 'webroot' . DS . 'files' . DS . 'test_upload');
 		$folder->delete(ROOT . DS . APP_DIR . DS . 'tmp' . DS . 'tests' . DS . 'path');

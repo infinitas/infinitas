@@ -119,7 +119,7 @@ class InfinitasEventTestCase extends CakeTestCase {
 			return false;
 		}
 
-		$expected = $this->_manualCall('pluginRollCall');
+		$expected = $this->_manualCall('pluginRollCall', $this->ObjectEvent);
 
 		$result = $this->Event->trigger($this->ObjectObject, $this->plugin . '.pluginRollCall');
 		$this->assertEquals($expected, $result);

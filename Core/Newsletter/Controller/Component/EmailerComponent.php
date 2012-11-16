@@ -41,15 +41,15 @@ class EmailerComponent extends EmailComponent {
 /**
  * Component initialize function.
  */
-	public function initialize($controller, $settings = array()) {
+	public function initialize(Controller $Controller, $settings = array()) {
 		$this->settings = array_merge($this->_default, (array)$settings);
 		$this->settings();
 
 		return true;
 	}
 
-	public function startup($controller) {
-		$this->Controller = $controller;
+	public function startup(Controller $Controller) {
+		$this->Controller = $Controller;
 		$this->settings();
 
 		return true;

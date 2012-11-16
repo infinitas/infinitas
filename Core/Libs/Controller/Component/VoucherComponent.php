@@ -27,10 +27,9 @@
 		/**
 		 * Controllers initialize function.
 		 */
-		public function initialize($controller, $settings = array()) {
-			$settings = array_merge(array(), (array)$settings);
-			$this->path = APP.'extensions'.DS.'libs'.DS.'webroot'.DS.'img'.DS;
-			$this->voucher = $this->path.$this->voucher;
+		public function initialize(Controller $Controller) {
+			$this->path = APP . 'extensions' . DS . 'libs' . DS . 'webroot' . DS . 'img' . DS;
+			$this->voucher = $this->path . $this->voucher;
 		}
 
 		public function getVoucher() {

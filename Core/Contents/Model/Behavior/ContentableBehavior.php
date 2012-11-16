@@ -23,7 +23,7 @@
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
 		 */
-		public function setup($Model, $settings = array()) {
+		public function setup(Model $Model, $settings = array()) {
 			$default = $this->defaults;
 
 			if (!isset($this->__settings[$Model->alias])) {
@@ -72,7 +72,7 @@
 		 * @param array $query the conditions of the find
 		 * @return array
 		 */
-		public function beforeFind($Model, $query) {
+		public function beforeFind(Model $Model, $query) {
 			$ignore = array(
 				//'count',
 				'getRelationsCategory'
@@ -264,7 +264,7 @@
 		 *
 		 * @return array
 		 */
-		public function afterFind($Model, $results, $primary = false) {
+		public function afterFind(Model $Model, $results, $primary = false) {
 			parent::afterFind($Model, $results, $primary);
 
 			$ignore = array(
@@ -343,7 +343,7 @@
 		 * @param object $Model the model that is doing the save
 		 * @return boolean
 		 */
-		public function beforeSave($Model) {
+		public function beforeSave(Model $Model) {
 			if(!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])) {
 				$Model->data['GlobalContent']['model'] = $this->__getModel($Model);
 			}
@@ -371,7 +371,7 @@
 		 *
 		 * @return void
 		 */
-		public function afterSave($Model, $created) {
+		public function afterSave(Model $Model, $created) {
 			if (!empty($Model->data['GlobalContent']['tags'])) {
 				$Model->GlobalContent->saveTags($Model->data['GlobalContent']['tags'], $Model->GlobalContent->id);
 			}
@@ -409,7 +409,7 @@
 					count(explode(' ', $fullText))) * 100, 3);
 		}
 
-		public function mainKeywords($Model, $fullText = null, $keywordCount = 10) {
+		public function mainKeywords(Model $Model, $fullText = null, $keywordCount = 10) {
 			if(empty($fullText)) {
 				return array();
 			}
@@ -492,7 +492,7 @@
 			return current(array_chunk(array_reverse($phraseMap), $keywordCount, true));
 		}
 
-		public function getContentId($Model, $slug) {
+		public function getContentId(Model $Model, $slug) {
 			$id = array();
 			$id = $Model->GlobalContent->find(
 				'first',
@@ -515,11 +515,12 @@
 			return current(Set::extract('/' . $Model->GlobalContent->alias . '/foreign_key', $id));
 		}
 
-		private function __getModel($Model) {
+		private function __getModel(Model $Model) {
 			return Inflector::camelize($Model->plugin) . '.' . $Model->alias;
 		}
 
-		public function hasLayouts($Model) {
+		public function hasLayouts(Model $Model) {
 			return ClassRegistry::init('Contents.GlobalLayout')->hasLayouts($Model->fullModelName());
 		}
+		
 	}

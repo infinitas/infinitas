@@ -87,7 +87,7 @@ class ViewableBehavior extends ModelBehavior {
  *
  * @return boolean
  */
-	public function afterFind(Model $Model, $data) {
+	public function afterFind(Model $Model, $data, $primary) {
 		// skip finds with more than one result.
 		$skip = $Model->findQueryType == 'neighbors' || $Model->findQueryType == 'count' ||
 			empty($data) || isset($data[0][0]['count']) || isset($data[0]) && count($data) > 1 ||
@@ -142,5 +142,5 @@ class ViewableBehavior extends ModelBehavior {
 		$Model->ViewCount->save($view);
 		return $data;
 	}
-	
+
 }

@@ -39,7 +39,7 @@ class ViewableReportingBehavior extends ModelBehavior {
  * @param object $Model Model using the behaviour
  * @param array $settings Settings to override for model.
  */
-	public function setup($Model, $settings = array()) {
+	public function setup(Model $Model, $settings = array()) {
 		$Model->bindModel(
 			array(
 				'hasMany' => array(
@@ -76,7 +76,7 @@ class ViewableReportingBehavior extends ModelBehavior {
  *
  * @return array
  */
-	public function getMostViewed($Model, $limit = 10) {
+	public function getMostViewed(Model $Model, $limit = 10) {
 		$fields = array(
 			$Model->alias.'.id',
 			$Model->alias.'.'.$Model->displayField,
@@ -112,7 +112,8 @@ class ViewableReportingBehavior extends ModelBehavior {
  *
  * @return integer
  */
-	public function getToalViews($Model, $foreignKey = 0) {
+	public function getToalViews(Model $Model, $foreignKey = 0) {
 		return $Model->ViewCount->getToalViews($Model->plugin.'.'.$Model->alias, $foreignKey);
 	}
+	
 }

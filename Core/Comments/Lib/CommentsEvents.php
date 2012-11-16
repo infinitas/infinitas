@@ -17,7 +17,7 @@ class CommentsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return array(
 			'name' => 'Comments',
 			'description' => 'See what your users have to say',
@@ -38,7 +38,7 @@ class CommentsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onAdminMenu(Event $event) {
+	public function onAdminMenu(Event $Event) {
 		$menu['main'] = array(
 			'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index'),
 			'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
@@ -139,4 +139,5 @@ class CommentsEvents extends AppEvents {
 			'element' => 'profile'
 		);
 	}
+	
 }

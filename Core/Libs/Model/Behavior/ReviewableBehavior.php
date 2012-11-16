@@ -62,7 +62,7 @@
 		 * @param object $Model Model using the behaviour
 		 * @param array $settings Settings to override for model.
 		 */
-		public function setup($model, $settings = array()) {
+		public function setup(Model $model, $settings = array()) {
 			$default = $this->defaults;
 			$default['conditions'] = array('Review.class' => $model->alias);
 
@@ -101,7 +101,7 @@
 			}
 		}
 
-		public function createReview($model, $id, $data = array()) {
+		public function createReview(Model $model, $id, $data = array()) {
 			if (!empty($data[$this->__settings[$model->alias]['class']])) {
 				unset($data[$model->alias]);
 				$model->Review->validate = array($this->__settings[$model->alias]['column_author'] => array(
@@ -190,7 +190,7 @@
 			return false;
 		}
 
-		public function getReviews($model, $options = array()) {
+		public function getReviews(Model $model, $options = array()) {
 			$options = array_merge(array('id' => $model->id, 'options' => array()), $options);
 
 			$parameters = array();
@@ -212,7 +212,7 @@
 			return $model->Review->find('all', $parameters);
 		}
 
-		protected function _rateReview($model, $data) {
+		protected function _rateReview(Model $model, $data) {
 			if (!empty($data)) {
 				$points = $this->_rateLinks($model, $data);
 				$points += $this->_rateLength($model, $data);
@@ -248,7 +248,7 @@
 			return $data;
 		}
 
-		protected function _rateLinks($model, $data) {
+		protected function _rateLinks(Model $model, $data) {
 			$links = preg_match_all(
 				"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
 				$data[$this->__settings[$model->alias]['column_content']], $matches);
@@ -278,7 +278,7 @@
 			return $points;
 		}
 
-		protected function _rateLength($model, $data) {
+		protected function _rateLength(Model $model, $data) {
 			// How long is the body
 			// +2 if more then 20 chars and no links, -1 if less then 20
 			$length = mb_strlen($data[$this->__settings[$model->alias]['column_content']]);
@@ -296,7 +296,7 @@
 			}
 		}
 
-		protected function _rateEmail($model, $data) {
+		protected function _rateEmail(Model $model, $data) {
 			$points = 0;
 			// Number of previous reviewss from email
 			// +1 per approved, -1 per spam
@@ -324,7 +324,7 @@
 			return $points;
 		}
 
-		protected function _rateKeywords($model, $data) {
+		protected function _rateKeywords(Model $model, $data) {
 			$points = 0;
 			// Keyword search
 			// -1 per blacklisted keyword
@@ -337,7 +337,7 @@
 			return $points;
 		}
 
-		protected function _rateStartingWord($model, $data) {
+		protected function _rateStartingWord(Model $model, $data) {
 			// Body starts with...
 			// -10 points
 			$firstWord = mb_substr($data[$this->__settings[$model->alias]['column_content']],
@@ -347,7 +347,7 @@
 			return (in_array(mb_strtolower($firstWord), $this->__settings[$model->alias]['blacklist_keywords'])) ? - 10 : 0;
 		}
 
-		protected function _rateAuthorName($model, $data) {
+		protected function _rateAuthorName(Model $model, $data) {
 			// Author name has http:// in it
 			// -2 points
 			if (stripos($data[$this->__settings[$model->alias]['column_author']], 'http://') !== false) {
@@ -357,7 +357,7 @@
 			return 0;
 		}
 
-		protected function _rateByPreviousReview($model, $data) {
+		protected function _rateByPreviousReview(Model $model, $data) {
 			// Body used in previous review
 			// -1 per exact review
 			$previousReviews = $model->Review->find('count', array(
@@ -370,7 +370,7 @@
 			return ($previousReviews > 0) ? - $previousReviews : 0;
 		}
 
-		protected function _rateBody($model, $data) {
+		protected function _rateBody(Model $model, $data) {
 			// Random character match
 			// -1 point per 5 consecutive consonants
 			$consonants = preg_match_all('/[^aAeEiIoOuU\s]{5,}+/i', $data[$this->__settings[$model->alias]['column_content']], $matches);

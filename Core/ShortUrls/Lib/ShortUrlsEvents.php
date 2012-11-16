@@ -36,7 +36,7 @@ class ShortUrlsEvents extends AppEvents {
  *
  * @return void
  */
-	public function onSetupRoutes() {
+	public function onSetupRoutes(Event $Event) {
 		// preview
 		InfinitasRouter::connect(
 			'/s/p/*',
@@ -58,7 +58,7 @@ class ShortUrlsEvents extends AppEvents {
 		);
 	}
 
-	public function onShortenUrl($event, $url) {
+	public function onShortenUrl(Event $Event, $url) {
 
 	}
 
@@ -70,7 +70,7 @@ class ShortUrlsEvents extends AppEvents {
  *
  * @return type
  */
-	public function onSlugUrl(Event $Event, array $data) {
+	public function onSlugUrl(Event $Event, $data = null, $type = null) {
 		$data['type'] = isset($data['type']) ? $data['type'] : '';
 		switch($data['type']) {
 			case 'preview':
@@ -102,16 +102,17 @@ class ShortUrlsEvents extends AppEvents {
  * link by setting type => preview or leave type out type to go direct to
  * the url
  *
- * @param $event the event object
+ * @param $Event the event object
  * @param $data array of type and url
  * @return array
  */
-	public function onGetShortUrl($event, $data) {
+	public function onGetShortUrl(Event $Event, $data) {
 		$data['code'] = ClassRegistry::init('ShortUrls.ShortUrl')->shorten($data['url']);
 		if(!$data['code']) {
 			throw new Exception('Could not find the url');
 		}
 
-		return $this->onSlugUrl($event, $data);
+		return $this->onSlugUrl($Event, $data);
 	}
+
 }

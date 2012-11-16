@@ -111,7 +111,7 @@ class ChartsEvents extends AppEvents {
 /**
  * make the required libs available
  */
-	public function onRequireLibs() {
+	public function onRequireLibs(Event $Event) {
 		App::uses('ChartDataManipulation', 'Charts.Lib');
 	}
 
@@ -129,5 +129,5 @@ class ChartsEvents extends AppEvents {
 			)
 		);
 	}
-	
+
 }

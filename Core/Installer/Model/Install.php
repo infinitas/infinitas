@@ -74,7 +74,7 @@ class Install extends Model {
  *
  * @return void
  */
-	public function beforeValidate() {
+	public function beforeValidate($options = array()) {
 		$this->data[$this->alias] = array_merge(
 			array('datasource' => null, 'host' => null, 'login' => null, 'password' => null, 'database' => null, 'port' => null, 'prefix' => null),
 			array_filter($this->data[$this->alias])
@@ -89,7 +89,7 @@ class Install extends Model {
  *
  * @return boolean
  */
-	public function find() {
+	public function find($type = 'first', $query = array()) {
 		return true;
 	}
 

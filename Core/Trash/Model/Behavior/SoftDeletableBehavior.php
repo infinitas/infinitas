@@ -30,7 +30,7 @@
 		 * @param object $model Model using the behaviour
 		 * @param array $settings Settings to override for model.
 		 */
-		public function setup($model, $settings = array()) {
+		public function setup(Model $model, $settings = array()) {
 			$default = array('field' => 'deleted', 'field_date' => 'deleted_date', 'delete' => true, 'find' => true);
 
 			if (!isset($this->settings[$model->alias])) {
@@ -47,7 +47,7 @@
 		 * @param boolean $cascade If true records that depend on this record will also be deleted
 		 * @return boolean
 		 */
-		public function beforeDelete($model, $cascade = true) {
+		public function beforeDelete(Model $model, $cascade = true) {
 			$this->__result = null;
 
 			if ($this->settings[$model->alias]['delete'] && $model->hasField($this->settings[$model->alias]['field'])) {
@@ -66,7 +66,7 @@
 		 * @param boolean $cascade Also delete dependent records
 		 * @return boolean
 		 */
-		public function softDelete($model, $id, $cascade = false) {
+		public function softDelete(Model $model, $id, $cascade = false) {
 			$attributes = $this->settings[$model->alias];
 			$data = array($model->alias => array(
 				$attributes['field'] => 1
@@ -123,7 +123,7 @@
 		 * @param boolean $cascade Also delete dependent records
 		 * @return boolean
 		 */
-		public function hardDelete($model, $id, $cascade = true) {
+		public function hardDelete(Model $model, $id, $cascade = true) {
 			$onFind = $this->settings[$model->alias]['find'];
 			$onDelete = $this->settings[$model->alias]['delete'];
 			$this->enableSoftDeletable($model, false);
@@ -143,7 +143,7 @@
 		 * @param boolean $cascade Also delete dependent records
 		 * @return boolean
 		 */
-		public function purge($model, $cascade = true) {
+		public function purge(Model $model, $cascade = true) {
 			$purged = false;
 
 			if ($model->hasField($this->settings[$model->alias]['field'])) {
@@ -168,7 +168,7 @@
 		 * @param $attributes Other fields to change (in the form of field => value)
 		 * @return boolean
 		 */
-		public function undelete($model, $id = null, $attributes = array()) {
+		public function undelete(Model $model, $id = null, $attributes = array()) {
 			if ($model->hasField($this->settings[$model->alias]['field'])) {
 				if (empty($id)) {
 					$id = $model->id;
@@ -210,7 +210,7 @@
 		 * @param mixed $methods If string, method (find / delete) to enable on, if array array of method names, if boolean, enable it for find method
 		 * @param boolean $enable If specified method should be overriden.
 		 */
-		public function enableSoftDeletable($model, $methods, $enable = true) {
+		public function enableSoftDeletable(Model $model, $methods, $enable = true) {
 			if (is_bool($methods)) {
 				$enable = $methods;
 				$methods = array('find', 'delete');
@@ -232,7 +232,7 @@
 		 * @param array $queryData Data used to execute this query, i.e. conditions, order, etc.
 		 * @return mixed Set to false to abort find operation, or return an array with data used to execute query
 		 */
-		public function beforeFind($model, $queryData) {
+		public function beforeFind(Model $model, $queryData) {
 			if ($this->settings[$model->alias]['find'] && $model->hasField($this->settings[$model->alias]['field'])) {
 				$Db = ConnectionManager::getDataSource($model->useDbConfig);
 				$include = false;
@@ -289,7 +289,7 @@
 		 * @param object $model Model about to be saved.
 		 * @return boolean
 		 */
-		public function beforeSave($model) {
+		public function beforeSave(Model $model) {
 			if ($this->settings[$model->alias]['find']) {
 				if (!isset($this->__backAttributes)) {
 					$this->__backAttributes = array($model->alias => array());
@@ -311,7 +311,7 @@
 		 * @param object $model Model just saved.
 		 * @param boolean $created True if this save created a new record
 		 */
-		public function afterSave($model, $created) {
+		public function afterSave(Model $model, $created) {
 			if (isset($this->__backAttributes[$model->alias]['find'])) {
 				$this->enableSoftDeletable($model, 'find', $this->__backAttributes[$model->alias]['find']);
 				$this->enableSoftDeletable($model, 'delete', $this->__backAttributes[$model->alias]['delete']);

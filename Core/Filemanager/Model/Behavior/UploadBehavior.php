@@ -503,7 +503,7 @@ class UploadBehavior extends ModelBehavior {
  *
  * @return boolean
  */
-	public function beforeDelete(Model $model, $cascade) {
+	public function beforeDelete(Model $model, $cascade = true) {
 		$data = $model->find('first', array(
 			'conditions' => array("{$model->alias}.{$model->primaryKey}" => $model->id),
 			'contain' => false,
@@ -557,7 +557,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isUnderPhpSizeLimit(Model $model, $check) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -575,7 +576,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isUnderFormSizeLimit(Model $model, $check) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -593,7 +595,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isCompletedUpload(Model $model, $check) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -611,7 +614,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isFileUpload(Model $model, $check) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -630,7 +634,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function tempDirExists(Model $model, $check, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -654,7 +659,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isSuccessfulWrite(Model $model, $check, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -678,7 +684,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function noPhpExtensionErrors(Model $model, $check, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -703,7 +710,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isValidMimeType(Model $model, $check, $mimetypes = array(), $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -746,7 +754,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isWritable(Model $model, $check, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -770,7 +779,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isValidDir(Model $model, $check, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -795,7 +805,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isBelowMaxSize(Model $model, $check, $size = null, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -827,7 +838,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isAboveMinSize(Model $model, $check, $size = null, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -859,7 +871,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isValidExtension(Model $model, $check, $extensions = array(), $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -905,7 +918,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isAboveMinHeight(Model $model, $check, $height = null, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -938,7 +952,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isBelowMaxHeight(Model $model, $check, $height = null, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -971,7 +986,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isAboveMinWidth(Model $model, $check, $width = null, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;
@@ -1004,7 +1020,8 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function isBelowMaxWidth(Model $model, $check, $width = null, $requireUpload = true) {
-		$field = array_pop(array_keys($check));
+		$field = array_keys($check);
+		$field = array_pop($field);
 
 		if (!empty($check[$field]['remove'])) {
 			return true;

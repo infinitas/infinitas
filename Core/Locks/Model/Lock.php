@@ -44,7 +44,7 @@ class Lock extends LocksAppModel {
  *
  * @return boolean
  */
-	public function beforeDelete($cascade) {
+	public function beforeDelete($cascade = true) {
 		$this->Behaviors->detach('Trashable');
 		return parent::beforeDelete($cascade);
 	}

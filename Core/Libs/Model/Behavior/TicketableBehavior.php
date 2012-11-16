@@ -54,7 +54,7 @@ class TicketableBehavior extends ModelBehavior {
  * @return string|boolean
  */
 	public function createTicket(Model $Model, $info = null) {
-		$this->cleanup();
+		$this->removeOldTickets();
 
 		if (!$info) {
 			return false;
@@ -111,7 +111,7 @@ class TicketableBehavior extends ModelBehavior {
  *
  * @return void
  */
-	public function cleanup() {
+	public function removeOldTickets() {
 		$this->Ticket->deleteAll(
 			array(
 				$this->Ticket->alias . '.expires < ' => date('Y-m-d H:i:s')

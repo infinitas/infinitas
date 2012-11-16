@@ -15,7 +15,7 @@
  */
 
 class ViewCounterEvents extends AppEvents {
-	public function onAdminMenu($event) {
+	public function onAdminMenu(Event $Event) {
 		$menu['main'] = array(
 			'Dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'dashboard'),
 			'Reports' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports'),
@@ -26,7 +26,7 @@ class ViewCounterEvents extends AppEvents {
 		return $menu;
 	}
 
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return array(
 			'name' => 'View Counts',
 			'description' => 'View your sites traffic',
@@ -36,7 +36,7 @@ class ViewCounterEvents extends AppEvents {
 		);
 	}
 
-	public function onSetupCache($event, $data = null) {
+	public function onSetupCache(Event $Event, $data = null) {
 		return array(
 			'name' => 'view_counter',
 			'config' => array(
@@ -45,13 +45,13 @@ class ViewCounterEvents extends AppEvents {
 		);
 	}
 
-	public function onRequireComponentsToLoad() {
+	public function onRequireComponentsToLoad(Event $Event) {
 		return array(
 			'ViewCounter.ViewCounter'
 		);
 	}
 
-	public function onRequireHelpersToLoad() {
+	public function onRequireHelpersToLoad(Event $Event) {
 		return array(
 			'ViewCounter.ViewCounter'
 		);
@@ -60,12 +60,12 @@ class ViewCounterEvents extends AppEvents {
 /**
  * Called before blog post is echo'ed
  */
-	public function onBlogBeforeContentRender($event, $data) {
-		if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))) {
+	public function onBlogBeforeContentRender(Event $Event, $data) {
+		if(!isset($Event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))) {
 			return false;
 		}
 
-		$Model = ClassRegistry::init(Inflector::camelize($event->Handler->params['plugin']).'.'.$event->Handler->params['models'][0]);
+		$Model = ClassRegistry::init(Inflector::camelize($Event->Handler->params['plugin']).'.'.$Event->Handler->params['models'][0]);
 		$Model->Behaviors->attach('ViewCounter.Viewable');
 		$views = $Model->getToalViews($class);
 
@@ -75,19 +75,19 @@ class ViewCounterEvents extends AppEvents {
 /**
  * Called after blog post is echo'ed
  */
-	public function onBlogAfterContentRender($event, $data) {
-		if(!isset($event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))) {
+	public function onBlogAfterContentRender(Event $Event, $data) {
+		if(!isset($Event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))) {
 			return false;
 		}
 
-		$Model = ClassRegistry::init(Inflector::camelize($event->Handler->params['plugin']).'.'.$event->Handler->params['models'][0]);
+		$Model = ClassRegistry::init(Inflector::camelize($Event->Handler->params['plugin']).'.'.$Event->Handler->params['models'][0]);
 		$Model->Behaviors->attach('ViewCounter.Viewable');
 		$views = $Model->getToalViews($data['post']['Post']['id']);
 
 		return $this->__views($views, 'Blog.BlogPost');
 	}
 
-	public function onSetupRoutes($event, $data = null) {
+	public function onSetupRoutes(Event $Event, $data = null) {
 		InfinitasRouter::connect(
 			'/admin/view_counter',
 			array(
@@ -102,7 +102,7 @@ class ViewCounterEvents extends AppEvents {
 /**
  * Include some css
  */
-	public function onRequireCssToLoad($event, $data = null) {
+	public function onRequireCssToLoad(Event $Event, $data = null) {
 		return array(
 			'ViewCounter.view_counter'
 		);
@@ -141,10 +141,10 @@ class ViewCounterEvents extends AppEvents {
 /**
  * attach the reporting behavior for models with views
  */
-	public function onAttachBehaviors($event) {
-		if($event->Handler->shouldAutoAttachBehavior()) {
-			if ($event->Handler->hasField('views')) {
-				$event->Handler->Behaviors->attach('ViewCounter.ViewableReporting');
+	public function onAttachBehaviors(Event $Event) {
+		if($Event->Handler->shouldAutoAttachBehavior()) {
+			if ($Event->Handler->hasField('views')) {
+				$Event->Handler->Behaviors->attach('ViewCounter.ViewableReporting');
 			}
 		}
 	}
@@ -157,12 +157,12 @@ class ViewCounterEvents extends AppEvents {
  * @note You should disable crons if you want to test some functionality
  * on localhost.
  */
-	public function onRunCrons($event) {
+	public function onRunCrons(Event $Event) {
 		ClassRegistry::init('ViewCounter.ViewCounterView')->clearLocalhost();
 		return true;
 	}
 
-	public function onGetRequiredFixtures($event) {
+	public function onGetRequiredFixtures(Event $Event) {
 		return array(
 			'ViewCounter.ViewCounterView',
 		);

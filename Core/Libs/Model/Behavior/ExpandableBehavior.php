@@ -16,7 +16,7 @@
 		 */
 		public $settings = array();
 
-		public function setup(&$Model, $settings = array()) {
+		public function setup(Model $Model, $settings = array()) {
 			$base = array('schema' => $Model->schema());
 			if (isset($settings['with'])) {
 				$conventions = array('foreignKey', $Model->hasMany[$settings['with']]['foreignKey']);
@@ -41,7 +41,7 @@
 		 *
 		 * @return array
 		 */
-		public function afterFind(&$Model, $results, $primary) {
+		public function afterFind(Model $Model, $results, $primary) {
 			extract($this->settings[$Model->alias]);
 			if (!Set::matches('/'.$with, $results)) {
 				return;
@@ -78,7 +78,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function afterSave(&$Model) {
+		public function afterSave(Model $Model, $created) {
 			extract($this->settings[$Model->alias]);
 			$fields = array_diff_key($Model->data[$Model->alias], $schema);
 			$id = $Model->id;
@@ -108,4 +108,5 @@
 
 			return true;
 		}
+
 	}
