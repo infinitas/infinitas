@@ -24,5 +24,41 @@
 				)
 			);
 		}
-		
+
+/**
+ * Return the server status for IRC bots
+ * 
+ * @param Event $Event The event being run
+ * @param array $data the message data being parsed
+ * 
+ * @return boolean
+ */
+	public function onIrcMessage(Event $Event, $data = null) {
+		if($data['command'] != 'server') {
+			return;
+		}
+
+		$memoryUsage = memoryUsage(false);
+		$memoryUsage['load'] = implode(' ', serverLoad(false));
+		$data['message'] = explode(' ', $data['message'], 2);
+
+		$message = ':to: Memory: :current Load: :load';
+		if($data['args']) {
+			$message = ':to: Invalid option, try: !server [current|max|load]';
+			if($data['args'] == 'help') {
+				$message = ':to: !server [current|max|load]';
+			}
+			if(array_key_exists($data['args'], $memoryUsage)) {
+				$message = ':to: :' . $data['args'];
+			}
+		}
+
+		$Event->Handler->reply($data['channel'], $message, array_merge(
+			array('to' => $data['to']),
+			$memoryUsage
+		));
+
+		return true;
 	}
+		
+}
