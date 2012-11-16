@@ -59,7 +59,7 @@
 			return $return;
 		}
 
-		public function out($message) {
+		public function out($message = NULL, $newlines = 1, $level = 1) {
 			$this->messages[] = $message;
 		}
 	}
@@ -68,34 +68,29 @@
 	 * ProgressBarTask Test class
 	 */
 	class ProgressBarTaskTest extends CakeTestCase {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
+		$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
+		$in = $this->getMock('ConsoleInput', array(), array(), '', false);
 
-		/**
-		 * startTest method
-		 *
-		 * @return void
-		 * @access public
-		 */
-		public function startTest() {
-			$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
-			$in = $this->getMock('ConsoleInput', array(), array(), '', false);
+		$this->Task = $this->getMock('TestProgressBarTask',
+			array('in', 'err', 'createFile', '_stop', '_checkUnitTest'),
+			array($out, $out, $in)
+		);
+		$this->Task->name = 'ProgressBar';
+		$this->Task->path = TMP . 'tests' . DS;
+	}
 
-			$this->Task = $this->getMock('TestProgressBarTask',
-				array('in', 'err', 'createFile', '_stop', '_checkUnitTest'),
-				array($out, $out, $in)
-			);
-			$this->Task->name = 'ProgressBar';
-			$this->Task->path = TMP . 'tests' . DS;
-		}
-
-		/**
-		 * endTest method
-		 *
-		 * @return void
-		 * @access public
-		 */
-		public function endTest() {
-			ClassRegistry::flush();
-		}
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->Task);
+	}
 
 		/**
 		 * testStartup method

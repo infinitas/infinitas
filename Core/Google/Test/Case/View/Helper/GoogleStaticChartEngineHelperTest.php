@@ -40,28 +40,24 @@
 		 * @var object
 		 */
 		public $GoogleStaticChartEngine = null;
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
+		$view = new View(new TheGoogleStaticChartEngineTestController());
+		$this->GoogleStaticChartEngine = new GoogleStaticChartEngineHelper($view);
+		$this->GoogleStaticChartEngine->Html = new HtmlHelper($view);
+		ClassRegistry::addObject('view', $view);
+	}
 
-		/**
-		 * setUp method
-		 *
-		 * @return void
-		 */
-		function startTest() {
-			$view = new View(new TheGoogleStaticChartEngineTestController());
-			$this->GoogleStaticChartEngine = new GoogleStaticChartEngineHelper($view);
-			$this->GoogleStaticChartEngine->Html = new HtmlHelper($view);
-			ClassRegistry::addObject('view', $view);
-		}
-
-		/**
-		 * endTest method
-		 *
-		 * @return void
-		 */
-		function endTest() {
-			ClassRegistry::flush();
-			unset($this->GoogleStaticChartEngine);
-		}
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->GoogleStaticChartEngine);
+	}
 
 		/**
 		 * test the implod method

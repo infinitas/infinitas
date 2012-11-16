@@ -56,7 +56,7 @@ class BigDataBehavior extends ModelBehavior {
  * @param Model $Model the model being loaded
  * @param array $config config options
  */
-	public function setup(Model $Model, array $config = array()) {
+	public function setup(Model $Model, $config = array()) {
 		$this->_settings[$Model->alias] = array(
 			'config' => array(
 
@@ -316,5 +316,5 @@ class BigDataBehavior extends ModelBehavior {
 
 		return $saved;
 	}
-	
+
 }

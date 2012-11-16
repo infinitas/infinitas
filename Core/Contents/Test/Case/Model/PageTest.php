@@ -3,15 +3,24 @@
 App::import('Page', 'Management.Model');
 
 class PageTestCase extends CakeTestCase {
-	function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Page = ClassRegistry::init('Contents.GlobalPage');
 	}
 
-	function testDummy() {}
-
-	function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Page);
-		ClassRegistry::flush();
+	}
+
+	public function testSomething() {
+
 	}
 
 }

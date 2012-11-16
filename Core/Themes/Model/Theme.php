@@ -124,7 +124,7 @@ class Theme extends ThemesAppModel {
  *
  * @return boolean
  */
-	public function beforeSave() {
+	public function beforeSave($options = array()) {
 		if(isset($this->data[$this->alias]['active']) && $this->data[$this->alias]['active']) {
 			return $this->deactivateAll();
 		}
@@ -141,7 +141,7 @@ class Theme extends ThemesAppModel {
  *
  * @return boolean
  */
-	public function beforeDelete($cascade) {
+	public function beforeDelete($cascade = true) {
 		$active = $this->read('active');
 		return isset($active[$this->alias]['active']) && !$active[$this->alias]['active'];
 	}

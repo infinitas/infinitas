@@ -175,13 +175,11 @@ class MigrationShellTest extends CakeTestCase {
 			'updated' => 'datetime'
 		)
 	);
-
 /**
- * start test
- *
- * @return void
- **/
-	function startTest() {
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Dispatcher = new TestMigrationShellMockShellDispatcher();
 		$this->Shell = new TestMigrationShell($this->Dispatcher);
 		$this->Shell->Version = new MigrationVersion(array('connection' => 'test_suite'));
@@ -195,11 +193,10 @@ class MigrationShellTest extends CakeTestCase {
 	}
 
 /**
- * endTest method
- *
- * @return void
- **/
-	function endTest() {
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		App::build(array('plugins' => $this->plugins), true);
 		unset($this->Dispatcher, $this->Shell, $this->plugins);
 	}

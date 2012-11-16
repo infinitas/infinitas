@@ -1,19 +1,27 @@
 <?php
-/* Contacts Test cases generated on: 2010-12-14 13:12:08 : 1292334968*/
 App::uses('ContactsHelper', 'Contact.View/Helper');
 App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 
 class ContactsHelperTest extends CakeTestCase {
-	function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Contacts = new ContactsHelper(new View(new Controller()));
 	}
 
-	function testDummy() {}
-
-	function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Contacts);
-		ClassRegistry::flush();
+	}
+
+	public function testSomething() {
+
 	}
 
 }

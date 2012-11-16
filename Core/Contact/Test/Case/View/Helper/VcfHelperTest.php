@@ -1,19 +1,28 @@
 <?php
-/* Vcf Test cases generated on: 2010-12-14 13:12:02 : 1292334962*/
 App::uses('VcfHelper', 'Contact.View/Helper');
 App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 
 class VcfHelperTest extends CakeTestCase {
-	function startTest() {
+
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Vcf = new VcfHelper(new View(new Controller()));
 	}
 
-	function testDummy() {}
-
-	function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Vcf);
-		ClassRegistry::flush();
+	}
+
+	public function testSomething() {
+
 	}
 
 }

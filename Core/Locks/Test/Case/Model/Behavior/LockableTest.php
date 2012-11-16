@@ -30,9 +30,20 @@ class LockableTestCase extends CakeTestCase {
 
 		'plugin.locks.lock'
 	);
-
-	public function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->LockableContent = new LockableContent();
+	}
+
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->LockableContent);
 	}
 
 	public function testLocking() {
@@ -54,8 +65,4 @@ class LockableTestCase extends CakeTestCase {
 		//$this->assertEqual(0, $new['LockableContent']['locked']);
 	}
 
-	public function endTest() {
-		unset($this->LockableContent);
-		ClassRegistry::flush();
-	}
 }

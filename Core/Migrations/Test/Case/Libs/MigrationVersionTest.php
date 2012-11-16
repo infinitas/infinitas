@@ -23,11 +23,10 @@ class MigrationVersionTest extends CakeTestCase {
 	public $Version;
 
 /**
- * start test
- *
- * @return void
- **/
-	function startTest() {
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Version = new MigrationVersion(array(
 			'connection' => 'test_suite'
 		));
@@ -38,11 +37,10 @@ class MigrationVersionTest extends CakeTestCase {
 	}
 
 /**
- * endTest method
- *
- * @return void
- **/
-	function endTest() {
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		App::build(array('plugins' => $this->plugins), true);
 		unset($this->Version, $this->plugins);
 	}

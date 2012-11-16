@@ -40,7 +40,7 @@ class GlobalTagTestCase extends CakeTestCase {
 	public $GlobalTag = null;
 
 /**
- * startTest
+ * fixtures
  *
  * @var array
  */
@@ -49,20 +49,18 @@ class GlobalTagTestCase extends CakeTestCase {
 		'plugin.contents.global_tag');
 
 /**
- * startTest
- *
- * @return void
+ * @brief set up at the start
  */
-	public function startTest() {
+	public function setUp() {
+		parent::setUp();
 		$this->GlobalTag = new TestTag();
 	}
 
 /**
- * endTest
- *
- * @return void
+ * @brief break down at the end
  */
-	public function endTest() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->GlobalTag);
 	}
 

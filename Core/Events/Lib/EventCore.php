@@ -58,7 +58,7 @@
 		 *
 		 * @return EventCore instance
 		 */
-		public function getInstance() {
+		public static function getInstance() {
 			static $instance = array();
 
 			if (empty($instance)) {
@@ -87,7 +87,7 @@
 
 			$return = array();
 			foreach($eventNames as $eventName) {
-				$eventData = EventCore::_parseEventName($eventName);
+				$eventData = $_this->_parseEventName($eventName);
 				$return[$eventData['event']] = EventCore::_dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
 
@@ -224,7 +224,7 @@
 			$return = array();
 			if(isset($_this->_eventHandlerCache[$eventName])) {
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
-					$pluginName = EventCore::_extractPluginName($eventClass);
+					$pluginName = $_this->_extractPluginName($eventClass);
 
 					$pluginType = 'loaded';
 					if(isset($_this->__pluginsMap[$eventName])) {
@@ -236,7 +236,7 @@
 					}
 
 					if(($scope == 'Global' || $scope == $pluginName)) {
-						EventCore::_loadEventClass($eventClass);
+						$_this->_loadEventClass($eventClass);
 						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
 						$return[$pluginName] = call_user_func_array(array($_this->_eventClasses[$eventClass], $eventHandlerMethod), array($Event, $data));

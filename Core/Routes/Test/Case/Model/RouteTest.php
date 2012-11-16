@@ -8,22 +8,22 @@ class RouteTest extends CakeTestCase {
 		'plugin.themes.theme',
 		'plugin.installer.plugin'
 	);
-
 /**
- * test startup
+ * @brief set up at the start
  */
-	public function startTest() {
+	public function setUp() {
+		parent::setUp();
 		$this->Route = new Route();
 		$this->Route = ClassRegistry::init('Routes.Route');
 		$this->Route->Behaviors->attach('Libs.Validation');
 	}
 
 /**
- * test cleanup
+ * @brief break down at the end
  */
-	public function endTest() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Route);
-		ClassRegistry::flush();
 	}
 
 /**

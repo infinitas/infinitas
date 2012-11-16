@@ -25,8 +25,8 @@
 			'plugin.themes.theme'
 		);
 
-		public function startTest($method) {
-			parent::startTest($method);
+		public function setUp() {
+			parent::setUp();
 
 			$this->User = ClassRegistry::init('Users.User');
 			$this->Module = ClassRegistry::init('Modules.Module');

@@ -1,16 +1,25 @@
 <?php
-	/* Categorisable Test cases generated on: 2010-12-14 01:12:28 : 1292289928*/
-	App::uses('CategorisableBehavior', 'Contents.Model/Behavior');
+App::uses('CategorisableBehavior', 'Contents.Model/Behavior');
 
-	class CategorisableBehaviorTest extends CakeTestCase {
-		function startTest() {
-			$this->Categorisable = new CategorisableBehavior();
-		}
+class CategorisableBehaviorTest extends CakeTestCase {
 
-		function testDummy() {}
-
-		function endTest() {
-			unset($this->Categorisable);
-			ClassRegistry::flush();
-		}
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		$this->Categorisable = new CategorisableBehavior();
+		parent::setUp();
 	}
+
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		unset($this->Categorisable);
+		parent::tearDown();
+	}
+
+	public function testSomething() {
+	}
+
+}

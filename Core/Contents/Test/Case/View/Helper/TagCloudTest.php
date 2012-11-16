@@ -54,15 +54,22 @@ class TagCloudHelperTestCase extends CakeTestCase {
 	public $TagCloud;
 
 /**
- * (non-PHPdoc)
- * @see cake/tests/lib/CakeTestCase#startTest($method)
+ * @brief set up at the start
  */
-	public function startTest() {
+	public function setUp() {
+		parent::setUp();
 		$this->View = $this->getMock('View', array('append'), array(new TheTagCloudTestController()));
 		$this->TagCloud = new TagCloudHelper($this->View);
 		$this->TagCloud->request = new CakeRequest(null, false);
 		$this->TagCloud->request->webroot = '';
+	}
 
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->View, $this->TagCloud);
 	}
 
 /**
@@ -130,15 +137,6 @@ class TagCloudHelperTestCase extends CakeTestCase {
 		$expected = '<span size="100"><a href="/search/index/from:twitter/query:cakephp" id="tag-1">CakePHP</a> </span><!-- size: 100 -->'.
 			'<span size="1"><a href="/search/index/from:twitter/query:cakedc" id="tag-2">CakeDC</a> </span><!-- size: 1 -->';
 		$this->assertEquals($expected, $result);
-	}
-
-/**
- * (non-PHPdoc)
- * @see cake/tests/lib/CakeTestCase#endTest($method)
- */
-	public function endTest() {
-		unset($this->TagCloud);
-		ClassRegistry::flush();
 	}
 
 }

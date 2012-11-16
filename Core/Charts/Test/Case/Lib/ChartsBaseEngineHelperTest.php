@@ -1,18 +1,28 @@
 <?php
-	/* BaseChartEngine Test cases generated on: 2010-12-14 02:12:10 : 1292292070*/
-	App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
-	App::uses('View', 'View');
-	App::uses('Controller', 'Controller');
+App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
+App::uses('View', 'View');
+App::uses('Controller', 'Controller');
 
-	class ChartsBaseEngineHelperTest extends CakeTestCase {
-		function startTest() {
-			$this->BaseEngine = new ChartsBaseEngineHelper(new View(new Controller()));
-		}
+class ChartsBaseEngineHelperTest extends CakeTestCase {
 
-		function testDummy() {}
-
-		function endTest() {
-			unset($this->BaseEngine);
-			ClassRegistry::flush();
-		}
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
+		$this->BaseEngine = new ChartsBaseEngineHelper(new View(new Controller()));
 	}
+
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->BaseEngine);
+	}
+
+	public function testSomething() {
+
+	}
+
+}

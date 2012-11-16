@@ -1,32 +1,29 @@
 <?php
-	/* AppHelper Test cases generated on: 2010-12-14 01:12:39 : 1292290119*/
-	App::import('Controller', 'AppController');
+App::import('Controller', 'AppController');
 
-	class TestAppControllerController extends AppController {
-		public $autoRender = false;
+class AppControllerTest extends CakeTestCase {
+	public $fixtures = array(
+		'plugin.configs.config',
+		'plugin.management.aco',
+		'plugin.management.aro',
+		'plugin.management.aros_aco',
+	);
 
-		public function redirect($url, $status = null, $exit = true) {
-			$this->redirectUrl = $url;
-		}
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 	}
 
-	class AppControllerTest extends CakeTestCase {
-		public $fixtures = array(
-			'plugin.configs.config',
-			'plugin.management.aco',
-			'plugin.management.aro',
-			'plugin.management.aros_aco',
-		);
-
-		public function startTest() {
-		}
-
-		public function endTest() {
-			unset($this->AppController);
-			ClassRegistry::flush();
-		}
-
-		public function testSomething() {
-			$this->assertTrue(true);
-		}
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 	}
+
+	public function testSomething() {
+
+	}
+}

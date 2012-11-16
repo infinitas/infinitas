@@ -125,7 +125,7 @@
 		 *
 		 * @return void
 		 */
-		public function setup($Model, $config = array()) {
+		public function setup(Model $Model, $config = array()) {
 			if (is_string($config)) {
 				$config = array('orderField' => $config);
 			}
@@ -157,7 +157,7 @@
 		 *
 		 * @return array
 		 */
-		public function beforeFind($Model, $queryData) {
+		public function beforeFind(Model $Model, $queryData) {
 			// order can can sometimes be not set, or empty, or array(0 => null)
 			$check = !isset($queryData['order']) ||
 				empty($queryData['order']) ||
@@ -178,7 +178,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function beforeSave($Model) {
+		public function beforeSave(Model $Model) {
 			$this->_update[$Model->alias] = array();
 
 			$this->_setNewOrder($Model);
@@ -209,7 +209,7 @@
 		 *
 		 * @return void
 		 */
-		protected function _beforeSaveCreate($Model, $highestPossible) {
+		protected function _beforeSaveCreate(Model $Model, $highestPossible) {
 			$orderField = $this->__settings[$Model->alias]['orderField'];
 
 			if(isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
@@ -244,7 +244,7 @@
 		 *
 		 * @return void
 		 */
-		protected function _beforeSaveUpdate($Model, $highestPossible) {
+		protected function _beforeSaveUpdate(Model $Model, $highestPossible) {
 			$orderField = $this->__settings[$Model->alias]['orderField'];
 
 			if(!empty($this->_newGroups[$Model->alias])) {
@@ -339,7 +339,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function afterSave($Model, $created) {
+		public function afterSave(Model $Model, $created) {
 			return $this->_updateAll($Model);
 		}
 
@@ -351,7 +351,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function beforeDelete($Model) {
+		public function beforeDelete(Model $Model, $cascade = true) {
 			$this->_update[$Model->alias] = array();
 
 			$this->_setOldOrder($Model);
@@ -374,7 +374,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function afterDelete($Model) {
+		public function afterDelete(Model $Model) {
 			return $this->_updateAll($Model);
 		}
 
@@ -388,7 +388,7 @@
 		 *
 		 * @return integer
 		 */
-		public function getHighestOrder($Model, $groupValues = false) {
+		public function getHighestOrder(Model $Model, $groupValues = false) {
 			$count = $Model->find(
 				'count',
 				array(
@@ -413,7 +413,7 @@
 		 *
 		 * @return void
 		 */
-		protected function _setOldOrder($Model) {
+		protected function _setOldOrder(Model $Model) {
 			$this->_oldOrder[$Model->alias] = null;
 
 			$orderField = $this->__settings[$Model->alias]['orderField'];
@@ -429,7 +429,7 @@
 		 *
 		 * @return void
 		 */
-		protected function _setOldGroups($Model) {
+		protected function _setOldGroups(Model $Model) {
 			$this->_oldGroups[$Model->alias] = null;
 
 			$groupFields = $this->__settings[$Model->alias]['groupFields'];
@@ -451,7 +451,7 @@
 		 *
 		 * @return void
 		 */
-		protected function _setNewOrder($Model) {
+		protected function _setNewOrder(Model $Model) {
 			$this->_newOrder[$Model->alias] = null;
 
 			$orderField = $this->__settings[$Model->alias]['orderField'];
@@ -473,7 +473,7 @@
 		 *
 		 * @return void
 		 */
-		protected function _setNewGroups($Model) {
+		protected function _setNewGroups(Model $Model) {
 			$this->_newGroups[$Model->alias] = null;
 
 			if ($this->__settings[$Model->alias]['groupFields'] === false) {
@@ -498,7 +498,7 @@
 		 *
 		 * @return array
 		 */
-		protected function _conditionsForGroups($Model, $groupValues = false) {
+		protected function _conditionsForGroups(Model $Model, $groupValues = false) {
 			if ($this->__settings[$Model->alias]['groupFields'] === false) {
 				return array();
 			}
@@ -530,7 +530,7 @@
 		 *
 		 * @return array
 		 */
-		protected function _conditionsNotCurrent($Model) {
+		protected function _conditionsNotCurrent(Model $Model) {
 			return array($Model->escapeField($Model->primaryKey) . ' <>' => $Model->id);
 		}
 
@@ -541,7 +541,7 @@
 		 *
 		 * @return boolean
 		 */
-		protected function _updateAll($Model) {
+		protected function _updateAll(Model $Model) {
 			if (empty($this->_update[$Model->alias])) {
 				return true;
 			}

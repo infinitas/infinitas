@@ -14,14 +14,21 @@ class ConfigTestCase extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.configs.config'
 	);
-
-	public function startTest() {
+	
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Config = ClassRegistry::init('Configs.Config');
 	}
 
-	public function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Config);
-		ClassRegistry::flush();
 	}
 
 /**

@@ -7,14 +7,21 @@ class ThemeTest extends CakeTestCase {
 		'plugin.trash.trash',
 	);
 
-	public function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Theme = ClassRegistry::init('Themes.Theme');
 		$this->Theme->Behaviors->detach('Trashable');
 	}
 
-	public function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Theme);
-		ClassRegistry::flush();
 	}
 
 	public function testGetting() {
