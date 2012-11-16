@@ -27,6 +27,10 @@ webroot/*
 # Ignore Mac system files
 .Ds_Store
 
+# Sublime
+
+*.sublime*
+
 # PHPEdit project files
 *.PHPEditProject
 *.PHPEditBackup
