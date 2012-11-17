@@ -58,12 +58,12 @@ class AppEvents extends Object {
 		exit;
 	}
 
-	public function onPluginRollCall() {}
+	public function onPluginRollCall(Event $Event) {}
 
 /**
  * allow plugins to include libs early on in the request.
  */
-	public function onRequireLibs() {}
+	public function onRequireLibs(Event $Event) {}
 
 /**
  * Load up some of your own 'AppControllers' so that you can create a base
@@ -74,7 +74,7 @@ class AppEvents extends Object {
  *
  * They will be loaded when 'AppController' is included, before it runs.
  */
-	public function onLoadAppController() {}
+	public function onLoadAppController(Event $Event) {}
 
 
 /**
@@ -86,7 +86,7 @@ class AppEvents extends Object {
  *
  * They will be loaded when 'AppModel' is included, before it runs.
  */
-	public function onLoadAppModel() {}
+	public function onLoadAppModel(Event $Event) {}
 
 /**
  * Add database connections from your plugins with this trigger.
@@ -109,11 +109,11 @@ class AppEvents extends Object {
  *
  * @return true
  */
-	public function onSetupCache(Event $Event, $data = null) {}
+	public function onSetupCache(Event $Event) {}
 
-	public function onSetupConfigStart(Event $Event, $data = null) {}
+	public function onSetupConfigStart(Event $Event) {}
 
-	public function onSetupConfigEnd(Event $Event, $data = null) {}
+	public function onSetupConfigEnd(Event $Event) {}
 
 /**
  * Adding routes
@@ -124,9 +124,9 @@ class AppEvents extends Object {
  *
  * @return nothing, it wont do anything
  */
-	public function onSetupRoutes(Event $Event, $data = null) {}
+	public function onSetupRoutes(Event $Event) {}
 
-	public function onRouteParse(Event $Ecent, $data = null) {}
+	public function onRouteParse(Event $Event, $data = null) {}
 
 /**
  * parse extensions
@@ -150,7 +150,7 @@ class AppEvents extends Object {
 /**
  *
  */
-	public function onAttachBehaviors(Event $Event = null) {}
+	public function onAttachBehaviors(Event $Event) {}
 
 	#public function onSetupThemeStart($event, $data = null) {}
 
@@ -186,7 +186,7 @@ class AppEvents extends Object {
 /**
  * used to build the menus for the admin pages
  */
-	public function onAdminMenu() {}
+	public function onAdminMenu(Event $Event) {}
 
 /**
  * Load helpers.
@@ -202,7 +202,7 @@ class AppEvents extends Object {
  *
  * @return array
  */
-	public function onRequireHelpersToLoad(Event $Event = null) {
+	public function onRequireHelpersToLoad(Event $Event) {
 		return array();
 	}
 
@@ -217,7 +217,7 @@ class AppEvents extends Object {
  * @param $event some data for the current event
  * @return mixed string | array() of javascript like HtmlHelper::script() takes
  */
-	public function onRequireJavascriptToLoad(Event $Event, $data = null) {}
+	public function onRequireJavascriptToLoad(Event $Event) {}
 
 /**
  * Get vcss files to include
@@ -230,7 +230,7 @@ class AppEvents extends Object {
  * @param $event some data for the current event
  * @return mixed string | array() of css like HtmlHelper::css() takes
  */
-	public function onRequireCssToLoad(Event $Event, $data = null) {}
+	public function onRequireCssToLoad(Event $Event) {}
 
 /**
  * Load components
@@ -243,7 +243,7 @@ class AppEvents extends Object {
  * @param $event some data for the current event
  * @return mixed string | array() of css like HtmlHelper::css() takes
  */
-	public function onRequireComponentsToLoad(Event $Event = null) {
+	public function onRequireComponentsToLoad(Event $Event) {
 		return array();
 	}
 
@@ -305,7 +305,7 @@ class AppEvents extends Object {
  * Called after everything is done and finished. should not really be used
  * for output unless in debug mode.
  */
-	public function onRequestDone() {}
+	public function onRequestDone(Event $Event) {}
 
 /**
  * Called when the system crons are being run

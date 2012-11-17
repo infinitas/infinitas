@@ -17,12 +17,17 @@
 			'plugin.libs.scoped_number_tree'
 		);
 
-		public function startTest($method) {
-			parent::startTest($method);
+		public function setUp() {
+			parent::setUp();
 
 			$this->View = new View(null);
 			$this->Tree = new TreeHelper($this->View);
 			$this->ScopedNumberTree = ClassRegistry::init('ScopedNumberTree');
+		}
+
+		public function tearDown() {
+			parent::tearDown();
+			unset($this->View, $this->Tree, $this->ScopedNumberTree);
 		}
 
 		public function testSettings() {

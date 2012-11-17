@@ -25,7 +25,7 @@ class FilemanagerEvents extends AppEvents {
  *
  * @return array
  */
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return;
 		return array(
 			'name' => 'Files',
@@ -55,7 +55,7 @@ class FilemanagerEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'filemanager',
 			'config' => array(

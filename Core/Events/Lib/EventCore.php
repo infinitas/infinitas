@@ -58,12 +58,13 @@
 		 *
 		 * @return EventCore instance
 		 */
-		public function getInstance() {
+		public static function getInstance() {
 			static $instance = array();
 
 			if (empty($instance)) {
 				$instance[0] = new EventCore();
 				$instance[0]->_loadEventHandlers();
+				$instance[0]->eventNameCache = new stdClass;
 			}
 			return $instance[0];
 		}
@@ -87,7 +88,7 @@
 
 			$return = array();
 			foreach($eventNames as $eventName) {
-				$eventData = EventCore::_parseEventName($eventName);
+				$eventData = $_this->_parseEventName($eventName);
 				$return[$eventData['event']] = EventCore::_dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
 
@@ -203,8 +204,8 @@
 			$className = $plugin . 'Events';
 
 			if(file_exists($filename)) {
-				if(EventCore::_loadEventClass($className, $filename)) {
-					EventCore::_getAvailableHandlers($_this->_eventClasses[$className]);
+				if($_this->_loadEventClass($className, $filename)) {
+					$_this->_getAvailableHandlers($_this->_eventClasses[$className]);
 				}
 			}
 		}
@@ -224,7 +225,7 @@
 			$return = array();
 			if(isset($_this->_eventHandlerCache[$eventName])) {
 				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
-					$pluginName = EventCore::_extractPluginName($eventClass);
+					$pluginName = $_this->_extractPluginName($eventClass);
 
 					$pluginType = 'loaded';
 					if(isset($_this->__pluginsMap[$eventName])) {
@@ -236,7 +237,7 @@
 					}
 
 					if(($scope == 'Global' || $scope == $pluginName)) {
-						EventCore::_loadEventClass($eventClass);
+						$_this->_loadEventClass($eventClass);
 						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
 						$return[$pluginName] = call_user_func_array(array($_this->_eventClasses[$eventClass], $eventHandlerMethod), array($Event, $data));
@@ -270,11 +271,13 @@
 						$scope = Inflector::camelize($scope, E_USER_NOTICE);
 					}
 				}
-
-				$_this->eventNameCache->{$eventName}  = array(
+				$array = (array)$_this->eventNameCache;
+				$array[$eventName] = array(
 					'scope' => $scope,
 					'event' => $event
 				);
+
+				$_this->eventNameCache = (object)$array;
 			}
 
 			return $_this->eventNameCache->{$eventName};
@@ -291,7 +294,10 @@
 		protected function _handlerMethodName($eventName) {
 			$_this = EventCore::getInstance();
 			if(!isset($_this->handlerNameCache->{$eventName})) {
-				$_this->handlerNameCache->{$eventName} = 'on' . Inflector::camelize($eventName);
+				$array = (array)$_this->handlerNameCache;
+				$array[$eventName] = 'on' . Inflector::camelize($eventName);
+
+				$_this->handlerNameCache = (object)$array;
 			}
 
 			return $_this->handlerNameCache->{$eventName};
@@ -362,7 +368,10 @@
 		protected function _extractPluginName($className) {
 			$_this = EventCore::getInstance();
 			if(!isset($_this->pluginNameCache->{$className})) {
-				$_this->pluginNameCache->{$className} = substr($className, 0, strlen($className) - 6);
+				$array = (array)$_this->pluginNameCache;
+				$array[$className] = substr($className, 0, strlen($className) - 6);
+
+				$_this->pluginNameCache = (object)$array;
 			}
 
 			return $_this->pluginNameCache->{$className};

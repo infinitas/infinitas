@@ -26,7 +26,6 @@ if(typeof Infinitas.params.prefix == 'undefined'){
 switch(Infinitas.params.prefix) {
 	case 'admin':
 		$(document).ready(function() {
-			$('.tabs').tabs();
 			$('.accordions').accordion();
 			$.FormHelper.foucusOnFirst();
 			setupAjaxDropdowns();
@@ -35,6 +34,7 @@ switch(Infinitas.params.prefix) {
 			setupAjaxPagination();
 			setupRowDetails();
 			setupHrefToggle();
+			setupTabs();
 			dateToggle();
 
 			$(document).bind('keydown', 'ctrl+s', function(event) {
@@ -88,7 +88,7 @@ switch(Infinitas.params.prefix) {
 
 	default:
 		$(document).ready(function(){
-			$('.tabs').tabs();
+			setupTabs();
 			//setupStarRating();
 
 			///$("#accordion").accordion({collapsible: true});
@@ -96,6 +96,13 @@ switch(Infinitas.params.prefix) {
 			setupHrefToggle();
 		});
 		break;
+}
+
+function setupTabs() {
+	var $tabs = $('.tabs');
+	if($tabs.length) {
+		$tabs.tabs()
+	}
 }
 
 function dateToggle() {

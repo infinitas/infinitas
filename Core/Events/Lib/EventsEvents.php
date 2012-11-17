@@ -1,16 +1,18 @@
 <?php
-	final class EventsEvents extends AppEvents {		
-		public function onRequireHelpersToLoad() {
-			return array(
-				'Events.Event' => true
-			);
-		}
-
-		public function onRequireComponentsToLoad() {
-			return 'Events.Event';
-		}
-
-		public function onReturnEventForTest($event) {
-			return $event;
-		}
+class EventsEvents extends AppEvents {
+	public function onRequireHelpersToLoad(Event $Event) {
+		return array(
+			'Events.Event' => true
+		);
 	}
+
+	public function onRequireComponentsToLoad(Event $Event) {
+		return array(
+			'Events.Event'
+		);
+	}
+
+	public function onReturnEventForTest(Event $Event) {
+		return $Event;
+	}
+}

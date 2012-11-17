@@ -82,7 +82,7 @@
 		 * @param array settings['redirect'] is whether after filtering is completed it should redirect and put the filters in the url,
 		 * @param array settings['useTime'] is whether to filter date times with date in addition to time
 		 */
-		public function initialize($Controller) {
+		public function initialize(Controller $Controller) {
 			$actions = !empty($this->settings['actions']) ? $this->settings['actions'] : array('index');
 
 

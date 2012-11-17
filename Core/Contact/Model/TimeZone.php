@@ -39,7 +39,7 @@ class TimeZone extends ContactAppModel {
  *
  * @return array
  */
-	public function find($type) {
+	public function find($type = 'first', $query = array()) {
 		$return = timezone_identifiers_list();
 
 		switch($type) {

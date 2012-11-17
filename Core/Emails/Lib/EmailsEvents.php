@@ -1,6 +1,6 @@
 <?php
-	final class EmailsEvents extends AppEvents {
-		public function onRequireDatabaseConfigs($event) {
+	class EmailsEvents extends AppEvents {
+		public function onRequireDatabaseConfigs(Event $Event) {
 			return array(
 				'emails' => array(
 					'datasource' => 'Emails.EmailSource'
@@ -8,7 +8,7 @@
 			);
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache(Event $Event) {
 			return array(
 				'name' => 'emails',
 				'config' => array(
@@ -17,7 +17,7 @@
 			);
 		}
 
-		public function onPluginRollCall() {
+		public function onPluginRollCall(Event $Event) {
 			return array(
 				'name' => 'Emails',
 				'description' => 'Manage your mails',
@@ -27,7 +27,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu(Event $Event) {
 			$menu['main'] = array(
 				'Dashboard' => array('controller' => 'mail_systems', 'action' => 'dashboard'),
 				'Accounts' => array('controller' => 'email_accounts', 'action' => 'index'),
@@ -36,7 +36,7 @@
 			return $menu;
 		}
 
-		public function onSlugUrl($event, $data) {
+		public function onSlugUrl(Event $Event, $data = null, $type = null) {
 			switch($data['type']) {
 				case 'inbox':
 					return array(
@@ -78,7 +78,7 @@
 			}
 		}
 
-		public function onSetupRoutes($event) {
+		public function onSetupRoutes(Event $Event) {
 			// dashboard
 			InfinitasRouter::connect(
 				'/admin/mail',
@@ -105,7 +105,7 @@
 			);
 		}
 
-		public function onRunCrons($event) {
+		public function onRunCrons(Event $Event) {
 			return false;
 			$accounts = ClassRegistry::init('Emails.EmailAccount')->getCronAccounts();
 
@@ -115,7 +115,7 @@
 				}
 
 				$this->_dispatchMails(
-					$event,
+					$Event,
 					ClassRegistry::init('Emails.MailSystem')->checkNewMail($account['EmailAccount'])
 				);
 			}
@@ -123,9 +123,9 @@
 			return true;
 		}
 
-		protected function _dispatchMails($event, $mails) {
+		protected function _dispatchMails(Event $Event, $mails) {
 			foreach($mails as $mail) {
-				EventCore::trigger($event, 'receiveMails', $mail);
+				EventCore::trigger($Event, 'receiveMails', $mail);
 			}
 		}
 	}

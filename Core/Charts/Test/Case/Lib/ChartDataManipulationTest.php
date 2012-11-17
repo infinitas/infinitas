@@ -1,25 +1,32 @@
 <?php
-	App::uses('ChartDataManipulation', 'Charts.Lib');
+App::uses('ChartDataManipulation', 'Charts.Lib');
 
-	class ChartDataManipulationTest extends CakeTestCase {
-		public $fixtures = array(
-			'plugin.configs.config',
-			'plugin.themes.theme',
-			'plugin.routes.route',
-			'plugin.view_counter.view_counter_view',
+class ChartDataManipulationTest extends CakeTestCase {
+	public $fixtures = array(
+		'plugin.configs.config',
+		'plugin.themes.theme',
+		'plugin.routes.route',
+		'plugin.view_counter.view_counter_view',
 
-			'plugin.crons.cron'
-		);
+		'plugin.crons.cron'
+	);
 
-		public function startTest() {
-			$this->ChartManipulation = new ChartDataManipulation();
-			$this->Cron = ClassRegistry::init('Crons.Cron');
-		}
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
+		$this->ChartManipulation = new ChartDataManipulation();
+		$this->Cron = ClassRegistry::init('Crons.Cron');
+	}
 
-		public function endTest() {
-			unset($this->ChartManipulation);
-			ClassRegistry::flush();
-		}
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->ChartManipulation);
+	}
 
 		/**
 		 * test getting the min / max date

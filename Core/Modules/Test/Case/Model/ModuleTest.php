@@ -15,22 +15,22 @@ class ModuleTestCase extends CakeTestCase {
 		'plugin.locks.lock',
 		'plugin.management.ticket',
 	);
-
 /**
- * test startup
+ * @brief set up at the start
  */
-	public function startTest() {
+	public function setUp() {
+		parent::setUp();
 		$this->Module = ClassRegistry::init('Modules.Module');
 		$this->Module->Behaviors->attach('Libs.Validation');
 		$this->Module->Behaviors->detach('Lockable');
 	}
 
 /**
- * test cleanup
+ * @brief break down at the end
  */
-	public function endTest() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Module);
-		ClassRegistry::flush();
 	}
 
 /**

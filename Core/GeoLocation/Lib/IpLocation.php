@@ -94,7 +94,12 @@ Class IpLocation extends Object {
  * @return string
  */
 	protected function _getIpAddress() {
-		return CakeRequest::clientIp();
+		$CakeRequest = InfinitasRouter::getRequest();
+		if(!$CakeRequest instanceof CakeRequest) {
+			return false;
+		}
+
+		return $CakeRequest->clientIp();
 	}
 
 /**

@@ -11,14 +11,20 @@ class ModulePositionTestCase extends CakeTestCase {
 		'plugin.routes.route',
 		'plugin.modules.modules_route',
 	);
-
-	public function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->ModulePosition = ClassRegistry::init('Modules.ModulePosition');
 	}
 
-	public function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->ModulePosition);
-		ClassRegistry::flush();
 	}
 
 /**

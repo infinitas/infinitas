@@ -53,24 +53,20 @@ class TaggableBehaviorTest extends CakeTestCase {
 		'plugin.contents.global_tag',
 		'plugin.contents.content_article'
 	);
-
 /**
- * Method executed before each test
- *
- * @return void
+ * @brief set up at the start
  */
-	public function startTest() {
+	public function setUp() {
+		parent::setUp();
 		$this->Article = ClassRegistry::init('Article');
 	}
 
 /**
- * Method executed after each test
- *
- * @return void
+ * @brief break down at the end
  */
-	public function endTest() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Article);
-		ClassRegistry::flush();
 	}
 
 /**

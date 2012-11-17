@@ -60,7 +60,7 @@ class EncryptableBehavior extends ModelBehavior {
  *
  * @return void
  */
-	public function setup($Model, $settings = array()) {
+	public function setup(Model $Model, $settings = array()) {
 		$this->settings[$Model->alias] = array_merge($this->_defaults, $settings);
 
 		if(empty($this->settings[$Model->alias]['fields']) && is_array($this->settings[$Model->alias]['fields'])) {
@@ -85,7 +85,7 @@ class EncryptableBehavior extends ModelBehavior {
  *
  * @return string
  */
-	public function generateSecret($Model) {
+	public function generateSecret(Model $Model) {
 		$string = Configure::read('Security.salt') . serialize($Model->data[$Model->alias]) . time();
 		return substr(sha1($string, true), 0, 15);
 	}

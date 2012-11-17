@@ -18,7 +18,7 @@ class TestUpload extends CakeTestModel {
 class UploadBehaviorTest extends CakeTestCase {
 /**
  * fixtures for the test
- * 
+ *
  * @var array
  */
 	public $fixtures = array(
@@ -27,35 +27,35 @@ class UploadBehaviorTest extends CakeTestCase {
 
 /**
  * TestUpload model
- * 
+ *
  * @var CakeTestModel
  */
 	public $TestUpload = null;
-	
+
 /**
  * MockUpload behavior
- * 
+ *
  * @var UploadBehavior
  */
 	public $MockUpload = null;
 
 /**
  * data
- * 
+ *
  * @var array
  */
 	public $data = array();
-	
+
 /**
  * current test being run
- * 
+ *
  * @var string
  */
 	public $currentTestMethod;
 
 /**
  * start test
- * 
+ *
  * @return void
  */
 	public function startTest($method) {
@@ -96,22 +96,22 @@ class UploadBehaviorTest extends CakeTestCase {
 
 /**
  * end test
- * 
+ *
  * @return void
  */
-	public function endTest() {
+	public function endTest($method) {
+		parent::endTest($method);
 		$folder = new Folder(TMP);
 		$folder->delete(ROOT . DS . APP_DIR . DS . 'webroot' . DS . 'files' . DS . 'test_upload');
 		$folder->delete(ROOT . DS . APP_DIR . DS . 'tmp' . DS . 'tests' . DS . 'path');
-		Classregistry::flush();
 		unset($this->TestUpload);
 	}
 
 /**
  * create an upload behavior mock
- * 
+ *
  * @param  array  $methods [description]
- * 
+ *
  * @return void
  */
 	public function mockUpload($methods = array()) {

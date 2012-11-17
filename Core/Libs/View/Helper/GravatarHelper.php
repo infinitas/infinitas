@@ -96,7 +96,7 @@
 		 *
 		 * @return string
 		 */
-		public function url($email, $options = array()) {
+		public function url($email = null, $options = array()) {
 			$options = array_merge(
 				array('ext' => 'png'),
 				$options
@@ -184,7 +184,7 @@
 		 * Build Options URL string
 		 *
 		 * @param array $options Array of options, keyed from default settings
-		 * 
+		 *
 		 * @return string
 		 */
 		private function __buildOptions($options = array()) {

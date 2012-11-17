@@ -65,7 +65,7 @@
 		 *
 		 * @return void
 		 */
-		public function setup($Model, $settings = array()) {
+		public function setup(Model $Model, $settings = array()) {
 			$default = $this->defaults;
 			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
 			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
@@ -114,7 +114,7 @@
 			$Model->Comment = $Model->{$this->__settings[$Model->alias]['class']};
 		}
 
-		public function attachComments($Model, $results) {
+		public function attachComments(Model $Model, $results) {
 			$ids = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
 			$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
 				'linkedComments',
@@ -145,7 +145,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function createComment($Model, $data = array()) {
+		public function createComment(Model $Model, $data = array()) {
 			if (empty($data[$this->__settings[$Model->alias]['class']])) {
 				return false;
 			}
@@ -261,7 +261,7 @@
 		 *
 		 * @return integer
 		 */
-		public function getComments($Model, $options = array()) {
+		public function getComments(Model $Model, $options = array()) {
 			$options = array_merge(array('id' => $Model->id, 'options' => array()), $options);
 			$parameters = array();
 
@@ -293,7 +293,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateComment($Model, $data) {
+		private function __rateComment(Model $Model, $data) {
 			if (empty($data)) {
 				$data[$this->__settings[$Model->alias]['column_points']] = -100;
 				$data[$this->__settings[$Model->alias]['column_status']] = 'delete';
@@ -336,7 +336,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateLinks($Model, $data) {
+		private function __rateLinks(Model $Model, $data) {
 			$links = preg_match_all(
 				"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
 				$data[$this->__settings[$Model->alias]['column_content']],
@@ -384,7 +384,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateLength($Model, $data) {
+		private function __rateLength(Model $Model, $data) {
 			// How long is the body
 			// +2 if more then 20 chars and no links, -1 if less then 20
 			$length = mb_strlen($data[$this->__settings[$Model->alias]['column_content']]);
@@ -419,7 +419,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateEmail($Model, $data) {
+		private function __rateEmail(Model $Model, $data) {
 			$parts = explode('@', $data[$this->__settings[$Model->alias]['column_email']]);
 			if(is_int($parts[0])) {
 				return -15;
@@ -470,7 +470,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateKeywords($Model, $data) {
+		private function __rateKeywords(Model $Model, $data) {
 			$points = 0;
 
 			foreach ($this->__settings[$Model->alias]['blacklist_keywords'] as $keyword) {
@@ -493,7 +493,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateStartingWord($Model, $data) {
+		private function __rateStartingWord(Model $Model, $data) {
 			$firstWord = mb_substr(
 				$data[$this->__settings[$Model->alias]['column_content']],
 				0,
@@ -511,7 +511,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateByPreviousComment($Model, $data) {
+		private function __rateByPreviousComment(Model $Model, $data) {
 			// Body used in previous comment
 			// -1 per exact comment
 			$previousComments = $Model->{$this->__settings[$Model->alias]['class']}->find(
@@ -540,7 +540,7 @@
 		 *
 		 * @return integer
 		 */
-		private function __rateBody($Model, $data) {
+		private function __rateBody(Model $Model, $data) {
 			$consonants = preg_match_all(
 				'/[^aAeEiIoOuU\s]{5,}+/i',
 				$data[$this->__settings[$Model->alias]['column_content']],

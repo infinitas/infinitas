@@ -79,7 +79,7 @@ class LibsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupExtensions() {
+	public function onSetupExtensions(Event $Event) {
 		return array(
 			'json'
 		);
@@ -128,7 +128,7 @@ class LibsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onRequireCssToLoad() {
+	public function onRequireCssToLoad(Event $Event) {
 		return array(
 			'Assets.jquery_ui'
 		);

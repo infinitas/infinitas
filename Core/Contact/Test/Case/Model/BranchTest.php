@@ -1,20 +1,28 @@
 <?php
-/* Branch Test cases generated on: 2010-12-14 13:12:22 : 1292334982*/
 App::uses('Branch', 'Contact.Model');
 
 class BranchTest extends CakeTestCase {
 
 	public $fixtures = array('plugin.contact.branch');
 
-	function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
 		$this->Branch = ClassRegistry::init('Contact.Branch');
+		parent::setUp();
 	}
 
-	function testDummy() {}
-
-	function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
 		unset($this->Branch);
-		ClassRegistry::flush();
+		parent::tearDown();
+	}
+
+	public function testSomething() {
+
 	}
 
 }

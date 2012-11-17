@@ -66,7 +66,7 @@
 		 * @param mixed $model
 		 * @return array
 		 */
-		public function describe(&$model) {
+		public function describe($model) {
 			return $model->schema;
 		}
 
@@ -77,7 +77,7 @@
 		 *
 		 * @return array
 		 */
-		public function listSources() {
+		public function listSources($data = null) {
 			return array('listSources');
 		}
 
@@ -92,7 +92,7 @@
 		 *
 		 * @return the data requested by the model
 		 */
-		public function read(&$model, $query) {
+		public function read(Model $model, $queryData = array(), $recursive = null) {
 			$this->request = array_merge($this->request, $model->request);
 			$response = $this->_process(
 				$this->_getData($this->request)

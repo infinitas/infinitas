@@ -67,4 +67,5 @@ class AssetsEvents extends AppEvents {
 
 		return array_merge($return, $added);
 	}
+	
 }

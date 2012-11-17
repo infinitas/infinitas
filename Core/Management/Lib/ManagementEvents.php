@@ -1,9 +1,9 @@
 <?php
-	final class ManagementEvents extends AppEvents {
-		public function onPluginRollCall() {
+	class ManagementEvents extends AppEvents {
+		public function onPluginRollCall(Event $Event) {
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache(Event $Event) {
 			return array(
 				'name' => 'core',
 				'config' => array(
@@ -12,7 +12,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu(Event $Event) {
 			$menu['main'] = array(
 				'Configuration' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site')
 			);
@@ -20,7 +20,7 @@
 			return $menu;
 		}
 
-		public function onSlugUrl($event, $data) {
+		public function onSlugUrl(Event $Event, $data = null, $type = null) {
 			switch($data['type']) {
 				case 'comments':
 					return array(
@@ -34,7 +34,7 @@
 			}
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes(Event $Event) {
 			InfinitasRouter::connect(
 				'/admin',
 				array(
@@ -58,7 +58,7 @@
 			);
 		}
 
-		public function onGetRequiredFixtures($event) {
+		public function onGetRequiredFixtures(Event $Event) {
 			return array(
 				'Management.Ticket',
 				'Management.Session'

@@ -1,19 +1,27 @@
 <?php
-	/* Charts Test cases generated on: 2010-12-14 01:12:17 : 1292291837*/
-	App::uses('ChartsHelper', 'Charts.View/Helper');
-	App::uses('View', 'View');
-	App::uses('Controller', 'Controller');
+App::uses('ChartsHelper', 'Charts.View/Helper');
+App::uses('View', 'View');
+App::uses('Controller', 'Controller');
 
-	class ChartsHelperTest extends CakeTestCase {
-		function startTest() {
-			$this->Charts = new ChartsHelper(new View(new Controller()));
-		}
+class ChartsHelperTest extends CakeTestCase {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
+		$this->Charts = new ChartsHelper(new View(new Controller()));
+	}
 
-		function testDummy() {}
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
+		unset($this->Charts);
+	}
 
-		function endTest() {
-			unset($this->Charts);
-			ClassRegistry::flush();
-		}
+	public function testSomething() {
 
 	}
+
+}

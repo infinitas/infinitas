@@ -16,20 +16,20 @@ class GlobalCategoryTest extends CakeTestCase {
 		'plugin.locks.lock',
 		'plugin.management.ticket'
 	);
-
 /**
- * start test
+ * @brief set up at the start
  */
-	public function startTest() {
+	public function setUp() {
+		parent::setUp();
 		$this->Category = ClassRegistry::init('Contents.GlobalCategory');
 	}
 
 /**
- * end test
+ * @brief break down at the end
  */
-	public function endTest() {
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Category);
-		ClassRegistry::flush();
 	}
 
 /**
@@ -48,4 +48,5 @@ class GlobalCategoryTest extends CakeTestCase {
 		);
 		$this->assertEquals($expected, $result);
 	}
+	
 }

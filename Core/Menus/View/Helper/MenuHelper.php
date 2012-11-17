@@ -218,7 +218,7 @@
 		 *
 		 * @return string|array
 		 */
-		public function url($data) {
+		public function url($data = array(), $full = null) {
 			if(empty($data['MenuItem'])) {
 				throw new Exception('Menu item is not valid');
 			}

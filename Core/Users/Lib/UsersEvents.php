@@ -1,6 +1,6 @@
 <?php
-	final class UsersEvents extends AppEvents {
-		public function onPluginRollCall() {
+	class UsersEvents extends AppEvents {
+		public function onPluginRollCall(Event $Event) {
 			return array(
 				'name' => 'Users',
 				'description' => 'Manage your community',
@@ -10,7 +10,7 @@
 			);
 		}
 
-		public function onSetupCache() {
+		public function onSetupCache(Event $Event) {
 			return array(
 				'name' => 'users',
 				'config' => array(
@@ -19,7 +19,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu(Event $Event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),
 				'Users' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'index'),
@@ -30,7 +30,7 @@
 			return $menu;
 		}
 
-		public function onSetupRoutes() {
+		public function onSetupRoutes(Event $Event) {
 			/**
 			 * frontend urls
 			 */
@@ -51,16 +51,17 @@
 			InfinitasRouter::connect('/admin/logout', array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout', 'admin' => true, 'prefix' => 'admin'));
 		}
 
-		public function onRequireComponentsToLoad($events) {
+		public function onRequireComponentsToLoad(Event $Event) {
 			return array(
 				'Users.Visitor'
 			);
 		}
 
-		public function onGetRequiredFixtures($event) {
+		public function onGetRequiredFixtures(Event $Event) {
 			return array(
 				'Users.User',
 				'Users.Group',
 			);
 		}
+		
 	}

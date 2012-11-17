@@ -120,8 +120,8 @@
 		 *
 		 * @return integer
 		 */
-		public function out($message = null, $newLines = 0) {
-			return parent::out($message, $newLines);
+		public function out($message = null, $newlines = 1, $level = 1) {
+			return parent::out($message, $newLines, $level);
 		}
 
 		/**

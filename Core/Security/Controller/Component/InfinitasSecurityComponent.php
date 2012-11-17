@@ -162,6 +162,10 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 			return true;
 		}
 
+		if(empty($this->Controller->data)) {
+			return true;
+		}
+
 		$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 
 		if (count($old) > 0) {

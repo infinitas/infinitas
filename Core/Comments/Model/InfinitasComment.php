@@ -152,7 +152,7 @@
 		 *
 		 * @return array
 		 */
-		public function afterFind($results, $primary) {
+		public function afterFind($results, $primary = false) {
 			if($this->findQueryType == 'linkedComments') {
 				return $results;
 			}

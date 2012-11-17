@@ -108,7 +108,7 @@
 		 * @param array $options see parent::beforeValidate
 		 * @return parent::beforeValidate
 		 */
-		public function beforeValidate($options) {
+		public function beforeValidate($options = array()) {
 			if(!empty($this->data[$this->alias]['confirm_password'])) {
 				$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
 			}

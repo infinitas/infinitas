@@ -7,7 +7,7 @@
 			'admin_add'
 		);
 
-		public function beforeRender($Controller) {
+		public function beforeRender(Controller $Controller) {
 			if(empty($Controller->uses)) {
 				return true;
 			}
@@ -49,9 +49,9 @@
 			$Controller->set('contentGroups', $Model->Group->find('list'));
 			$Controller->set('contentAuthors', $authors);
 			$Controller->set(
-				'contentLayouts', 
+				'contentLayouts',
 				$Model->GlobalLayout->find(
-					'layoutList', 
+					'layoutList',
 					array(
 						'plugin' => $this->Controller->plugin,
 						'model' => $this->Controller->modelClass
@@ -65,7 +65,7 @@
 			if($this->Controller->request->params['admin']) {
 				return;
 			}
-			
+
 			$layout = ClassRegistry::init('Contents.GlobalLayout')->find(
 				'autoLoadLayout', $options
 			);

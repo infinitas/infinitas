@@ -9,15 +9,21 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 		'plugin.users.group',
 		'plugin.installer.plugin',
 	);
-
-	public function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->User = ClassRegistry::init('Users.User');
 		$this->User->Behaviors->attach('Libs.Validation');
 	}
 
-	public function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Infinitas);
-		ClassRegistry::flush();
 	}
 
 /**

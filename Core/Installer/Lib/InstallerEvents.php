@@ -25,7 +25,7 @@ class InstallerEvents extends AppEvents{
  *
  * @return boolean
  */
-	public function onSetupRoutes() {
+	public function onSetupRoutes(Event $Event) {
 		// infinitas is not installed
 		$databaseConfig = APP . 'Config' . DS . 'database.php';
 		InfinitasRouter::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
@@ -50,7 +50,7 @@ class InstallerEvents extends AppEvents{
  *
  * @return array
  */
-	public function onPluginRollCall() {
+	public function onPluginRollCall(Event $Event) {
 		return array(
 			'name' => 'Plugins',
 			'description' => 'Manage, install and remove plugins',

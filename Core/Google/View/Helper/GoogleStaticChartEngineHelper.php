@@ -943,7 +943,7 @@
 				return false;
 			}
 
-			return implode($this->_formats[$dataType]['separator'], $value);
+			return implode($this->_formats[$dataType]['separator'], array_filter($value));
 		}
 
 		/**

@@ -83,7 +83,7 @@ class ModulesEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'modules',
 			'config' => array(

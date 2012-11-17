@@ -25,7 +25,7 @@ class ConfigsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'configs',
 			'config' => array(
@@ -53,7 +53,7 @@ class ConfigsEvents extends AppEvents {
 
 /**
  * get required fixtures
- * 
+ *
  * @param Event $Event
  *
  * @return array

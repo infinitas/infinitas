@@ -141,9 +141,9 @@
 		/**
 		 * Initializes WizardComponent for use in the controller
 		 *
-		 * @param object $Controller A reference to the instantiating controller object
+		 * @param Controller $Controller A reference to the instantiating controller object
 		 */
-		function initialize($Controller, $settings = array()) {
+		function initialize(Controller $Controller, $settings = array()) {
 			$this->Controller = $Controller;
 
 			$this->_sessionKey = $this->Session->check('Wizard.complete') ? 'Wizard.complete' : 'Wizard.' . $this->Controller->name;
@@ -156,9 +156,9 @@
 		/**
 		 * Component startup method.
 		 *
-		 * @param object $controller A reference to the instantiating controller object
+		 * @param Controller $controller A reference to the instantiating controller object
 		 */
-		function startup(&$controller) {
+		function startup(Controller $Controller) {
 			$this->steps = $this->_parseSteps($this->steps);
 
 			$this->config('wizardAction', $this->wizardAction);
@@ -498,7 +498,7 @@
 		 *   2. Validates that the step is either before or exactly the expected step.
 		 *
 		 * @param $step Step to validate.
-		 * 
+		 *
 		 * @return mixed
 		 */
 		function _validStep($step) {

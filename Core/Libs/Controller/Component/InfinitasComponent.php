@@ -33,7 +33,7 @@
 		/**
 		* Controllers initialize function.
 		*/
-		public function initialize($Controller) {
+		public function initialize(Controller $Controller) {
 			parent::initialize($Controller);
 
 			$this->Controller = $Controller;

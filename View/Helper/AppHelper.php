@@ -237,13 +237,13 @@
 		/**
 		 * @brief strip the plugin name from the start of the text
 		 *
-		 * @code 
+		 * @code
 		 * 	// $this->request->params['plugin'] = 'foo';
 		 *  $this->YourHelper->stripPluginName('foo_bar'); // return 'bar'
 		 * @endcode
-		 * 
+		 *
 		 * @param string $text the text to be manipulated
-		 * 
+		 *
 		 * @return string
 		 */
 		public function stripPluginName($text) {
@@ -256,18 +256,18 @@
 
 		/**
 		 * @brief strip text from a string
-		 * 
+		 *
 		 * @param string $text the text to be manipulated
 		 * @param string $remove the text to be removed
 		 * @param integer $position the possition to look / remove from
-		 * 
+		 *
 		 * @return string
 		 */
 		protected function _stripText($text, $remove, $position = 0) {
 			if(empty($remove)) {
 				return $text;
 			}
-			
+
 			if(strpos($text, $remove) === $position) {
 				$text = substr_replace($text, '', $position, strlen($remove));
 			}
@@ -335,7 +335,7 @@
 				$massActions = $this->massActionButtons($massActions);
 			}
 
-			return $this->Html->tag('div', $this->adminPageHead() . $massActions, array('class' => 'adminTopBar')) . 
+			return $this->Html->tag('div', $this->adminPageHead() . $massActions, array('class' => 'adminTopBar')) .
 				$this->Html->tag('div', FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions), array('class' => 'filters'));
 		}
 
@@ -965,8 +965,10 @@
 		 *
 		 * @return void
 		 */
-		public function beforeRender() {
-			$this->urlExtras = array_intersect_key($this->request->params, array_combine($this->urlParamFields, $this->urlParamFields));
+		public function beforeRender($viewFile) {
+			$this->urlExtras = array_intersect_key(
+				$this->request->params, array_combine($this->urlParamFields, $this->urlParamFields)
+			);
 		}
 
 		/**
@@ -978,7 +980,7 @@
 		 *
 		 * @return void
 		 */
-		public function afterLayout() {
+		public function afterLayout($layoutFile) {
 			if (is_a($this, 'HtmlHelper')) {
 				Cache::write($this->urlKey, $this->urlCache, 'core');
 			}

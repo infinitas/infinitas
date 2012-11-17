@@ -63,7 +63,7 @@ class EmailSource extends DataSource {
  *
  * @return array
  */
-	public function listSources() {
+	public function listSources($data = null) {
 		return array('listSources');
 	}
 
@@ -78,7 +78,7 @@ class EmailSource extends DataSource {
  *
  * @return the data requested by the model
  */
-	public function read($Model, $query) {
+	public function read(Model $Model, $query = array(), $recursive = null) {
 		if (!$this->__connectToServer($Model, $query)) {
 			throw new CakeException('Unable to connect to the server');
 		}

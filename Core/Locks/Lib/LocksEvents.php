@@ -26,7 +26,7 @@ class LocksEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'locks',
 			'config' => array(
@@ -97,7 +97,7 @@ class LocksEvents extends AppEvents {
  *
  * @return void
  */
-	public function onSetupRoutes() {
+	public function onSetupRoutes(Event $Event) {
 		InfinitasRouter::connect(
 			'/admin/content-locked',
 			array(

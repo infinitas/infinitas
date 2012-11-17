@@ -23,7 +23,7 @@ class DataEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupExtensions() {
+	public function onSetupExtensions(Event $Event) {
 		return array(
 			'csv'
 		);

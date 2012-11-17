@@ -1,19 +1,26 @@
 <?php
-/* Contact Test cases generated on: 2010-12-14 13:12:18 : 1292334978*/
 App::uses('Contact', 'Contact.Model');
 
 class ContactTest extends CakeTestCase {
 
 	public $fixtures = array('plugin.contact.contact');
-
-	public function startTest() {
+/**
+ * @brief set up at the start
+ */
+	public function setUp() {
+		parent::setUp();
 		$this->Contact = ClassRegistry::init('Contact.Contact');
 	}
 
-	public function testDummy() {}
-
-	public function endTest() {
+/**
+ * @brief break down at the end
+ */
+	public function tearDown() {
+		parent::tearDown();
 		unset($this->Contact);
-		ClassRegistry::flush();
+	}
+
+	public function testSomething() {
+
 	}
 }

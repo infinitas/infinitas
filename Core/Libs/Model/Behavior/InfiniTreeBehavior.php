@@ -94,7 +94,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function beforeDelete(Model $Model) {
+		public function beforeDelete(Model $Model, $cascade = true) {
 			if($this->scoped($Model)) {
 				$this->__setScope($Model);
 			}
@@ -103,7 +103,7 @@
 				$this->__parentId = $Model->field($this->settings[$Model->alias]['parent']);
 			}
 
-			return parent::beforeDelete($Model);
+			return parent::beforeDelete($Model, $cascade);
 		}
 
 		/**

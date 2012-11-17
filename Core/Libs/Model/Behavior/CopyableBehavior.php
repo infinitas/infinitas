@@ -68,7 +68,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function setup($Model, $config = array()) {
+		public function setup(Model $Model, $config = array()) {
 			$this->settings[$Model->alias] = array_merge($this->defaults, $config);
 
 			$this->settings[$Model->alias]['recursive'] = (bool)$this->settings[$Model->alias]['recursive'];
@@ -86,7 +86,7 @@
 		 *
 		 * @return boolean
 		 */
-		public function copy($Model, $id = null) {
+		public function copy(Model $Model, $id = null) {
 			if(!$id) {
 				$id = $Model->id;
 			}
@@ -149,7 +149,7 @@
 		 *
 		 * @return mixed array of old_id => new_id or false
 		 */
-		private function __multiCopy($Model, $ids) {
+		private function __multiCopy(Model $Model, $ids) {
 			$ids = array_keys($Model->find('list', array('conditions' => array($Model->alias . '.' . $Model->primaryKey => array_filter((array)$ids)))));
 
 			if(empty($ids)) {
@@ -182,7 +182,7 @@
 		 *
 		 * @return array
 		 */
-		public function generateContain($Model) {
+		public function generateContain(Model $Model) {
 			if (!$this->__verifyContainable($Model)) {
 				return false;
 			}
@@ -200,7 +200,7 @@
 		 *
 		 * @return boolean
 		 */
-		private function __removeIgnored($Model) {
+		private function __removeIgnored(Model $Model) {
 			if (!$this->settings[$Model->alias]['ignore']) {
 				return true;
 			}
@@ -223,7 +223,7 @@
 		 *
 		 * @return array
 		 */
-		private function __convertChildren($Model, $record) {
+		private function __convertChildren(Model $Model, $record) {
 			foreach (array_merge($Model->hasMany, $Model->hasOne) as $key => $val) {
 				if (!isset($record[$key])) {
 					continue;
@@ -268,7 +268,7 @@
 		 *
 		 * @return array
 		 */
-		private function __convertData($Model) {
+		private function __convertData(Model $Model) {
 			$this->record[$Model->alias] = $this->__stripFields($Model, $this->record[$Model->alias]);
 
 			$this->record = $this->__convertHabtm($Model, $this->record);
@@ -284,7 +284,7 @@
 		 *
 		 * @return array
 		 */
-		private function __renameUniqueFields($Model, $record) {
+		private function __renameUniqueFields(Model $Model, $record) {
 			foreach(array_keys($record) as $field) {
 				if(!$Model->hasField($field)) {
 					continue;
@@ -324,7 +324,7 @@
 		 *
 		 * @return array
 		 */
-		private function __convertHabtm($Model, $record) {
+		private function __convertHabtm(Model $Model, $record) {
 			if (!$this->settings[$Model->alias]['habtm']) {
 				return $record;
 			}
@@ -360,7 +360,7 @@
 		 *
 		 * @return mixed
 		 */
-		private function __copyRecord($Model) {
+		private function __copyRecord(Model $Model) {
 			$Model->create();
 			$saved = $Model->saveAll($this->record, array('validate' => false));
 
@@ -377,7 +377,7 @@
 		 *
 		 * @return array
 		 */
-		private function __recursiveChildContain($Model, $mainModelAlias = null) {
+		private function __recursiveChildContain(Model $Model, $mainModelAlias = null) {
 			if(!isset($this->settings[$Model->alias])) {
 				$this->settings[$Model->alias] = $this->settings[$mainModelAlias];
 			}
@@ -408,7 +408,7 @@
 		 *
 		 * @return array
 		 */
-		private function __stripFields($Model, $record) {
+		private function __stripFields(Model $Model, $record) {
 			foreach($record as $field => $value) {
 				if(in_array($field, $this->settings[$Model->alias]['stripFields'])) {
 					unset($record[$field]);
@@ -427,7 +427,7 @@
 		 *
 		 * @return boolean
 		 */
-		private function __verifyContainable($Model) {
+		private function __verifyContainable(Model $Model) {
 			if (!$Model->Behaviors->attached('Containable')) {
 				return $Model->Behaviors->attach('Containable');
 			}

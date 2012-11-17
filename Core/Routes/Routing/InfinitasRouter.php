@@ -62,7 +62,7 @@ class InfinitasRouter extends Router {
  *
  * @return void
  */
-	public function setup() {
+	public static function setup() {
 		self::_registerExtensions();
 		self::_buildRoutes();
 	}

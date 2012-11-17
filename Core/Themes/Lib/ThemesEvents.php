@@ -25,7 +25,7 @@ class ThemesEvents extends AppEvents {
  *
  * @return array
  */
-	public function onSetupCache() {
+	public function onSetupCache(Event $Event) {
 		return array(
 			'name' => 'themes',
 			'config' => array(

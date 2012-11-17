@@ -17,8 +17,8 @@
 	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 
-	final class MenusEvents extends AppEvents {
-		public function onSetupCache() {
+	class MenusEvents extends AppEvents {
+		public function onSetupCache(Event $Event) {
 			return array(
 				'name' => 'menus',
 				'config' => array(
@@ -27,7 +27,7 @@
 			);
 		}
 
-		public function onAdminMenu($event) {
+		public function onAdminMenu(Event $Event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
 				'Menus' => array('controller' => false, 'action' => false),
@@ -37,9 +37,10 @@
 			return $menu;
 		}
 
-		public function onRequireHelpersToLoad($event) {
+		public function onRequireHelpersToLoad(Event $Event) {
 			return array(
 				'Menus.Menu'
 			);
 		}
+		
 	}

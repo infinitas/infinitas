@@ -98,7 +98,7 @@
 		 * Before saving the record make sure that the model is set to the correct
 		 * value so that it will be linked up properly to the related rows.
 		 */
-		public function beforeSave($options) {
+		public function beforeSave($options = array()) {
 			if(!empty($this->data['GlobalLayout']['model'])) {
 				$this->data['GlobalLayout']['model'] =
 					$this->data['GlobalLayout']['plugin'] . '.' . $this->data['GlobalLayout']['model'];
