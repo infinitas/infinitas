@@ -225,8 +225,11 @@ class ChartDataManipulation extends Object{
 		sort($values);
 		$count = count($values);
 		$mid = intval($count / 2);
+		if($count % 2 == 0) {
+			return ((int)$values[$mid] + (int)$values[$mid - 1]) / 2;
+		}
 
-		return ($count % 2 == 0) ? ($values[$mid] + $values[$mid - 1]) / 2 : $values[$mid];
+		return (int)$values[$mid];
 	}
 
 /**
