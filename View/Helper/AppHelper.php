@@ -188,7 +188,7 @@
 		 */
 		public function cleanCurrentUrl($array = true) {
 			$params = array(
-				'prefix' => $this->request->params['prefix'],
+				'prefix' => !empty($this->request->params['prefix']) ? $this->request->params['prefix'] : null,
 				'plugin' => $this->request->params['plugin'],
 				'controller' => $this->request->params['controller'],
 				'action' => $this->request->params['action']
