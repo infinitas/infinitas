@@ -123,12 +123,10 @@ class LocksEvents extends AppEvents {
 			return false;
 		}
 
-		if(is_callable(array($Event->Handler->{$event->Handler->modelClass}, 'unlock'))) {
+		if($Event->Handler instanceof Model && $Event->Handler->{$Event->Handler->modelClass}->hasMethod('unlock')) {
 			try {
-				$Event->Handler->{$event->Handler->modelClass}->unlock($id);
-			}
-
-			catch(Exception $e) {
+				return $Event->Handler->{$Event->Handler->modelClass}->unlock($id);
+			} catch(Exception $e) {
 				return false;
 			}
 		}
