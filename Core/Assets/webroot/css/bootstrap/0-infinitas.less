@@ -1,0 +1,279 @@
+/*!
+ * Bootstrap v2.2.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+// CSS Reset
+@import "/assets/css/bootstrap/reset.less";
+
+// Core variables and mixins
+@import "/assets/css/bootstrap/0-infinitas-variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "/assets/css/bootstrap/mixins.less";
+
+// Grid system and page structure
+@import "/assets/css/bootstrap/scaffolding.less";
+@import "/assets/css/bootstrap/grid.less";
+@import "/assets/css/bootstrap/layouts.less";
+
+// Base CSS
+@import "/assets/css/bootstrap/type.less";
+@import "/assets/css/bootstrap/code.less";
+@import "/assets/css/bootstrap/forms.less";
+@import "/assets/css/bootstrap/tables.less";
+
+// Components: common
+@import "/assets/css/bootstrap/sprites.less";
+@import "/assets/css/bootstrap/dropdowns.less";
+@import "/assets/css/bootstrap/wells.less";
+@import "/assets/css/bootstrap/component-animations.less";
+@import "/assets/css/bootstrap/close.less";
+
+// Components: Buttons & Alerts
+@import "/assets/css/bootstrap/buttons.less";
+@import "/assets/css/bootstrap/button-groups.less";
+@import "/assets/css/bootstrap/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+
+// Components: Nav
+@import "/assets/css/bootstrap/navs.less";
+@import "/assets/css/bootstrap/navbar.less";
+@import "/assets/css/bootstrap/breadcrumbs.less";
+@import "/assets/css/bootstrap/pagination.less";
+@import "/assets/css/bootstrap/pager.less";
+
+// Components: Popovers
+@import "/assets/css/bootstrap/modals.less";
+@import "/assets/css/bootstrap/tooltip.less";
+@import "/assets/css/bootstrap/popovers.less";
+
+// Components: Misc
+@import "/assets/css/bootstrap/thumbnails.less";
+@import "/assets/css/bootstrap/media.less";
+@import "/assets/css/bootstrap/labels-badges.less";
+@import "/assets/css/bootstrap/progress-bars.less";
+@import "/assets/css/bootstrap/accordion.less";
+@import "/assets/css/bootstrap/carousel.less";
+@import "/assets/css/bootstrap/hero-unit.less";
+
+// Utility classes
+@import "/assets/css/bootstrap/utilities.less"; // Has to be last to override when necessary
+
+html,
+body {
+	height: 100%;
+}
+
+h1 {
+	font-size: 130%;
+	margin: 0px 0;
+	small {
+		font-size: 100%;
+		.pull-right;
+	}
+}
+
+p.info {
+	.alert;
+	.alert-info;
+}
+
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 10px auto -60px;
+}
+
+/**
+ * Headers
+ */
+.adminTopBar {
+	.hero-unit;
+	padding-top: 25px;
+	padding-bottom: 80px;
+
+	.wrapper {
+		.pull-right;
+	}
+	#searchForm {
+		.pull-left;
+	}
+}
+
+/**
+ *
+ */
+
+.dashboard-icons {
+	a.active {
+		color: white;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+		background-color: #08C;
+	}
+
+	li {
+		margin-left: 0;
+		margin-right: 5px;
+		width: 70px;
+		font-size: 84%;
+		.pull-left;
+		p {
+			margin: 4px 0 0;
+		}
+	}
+}
+
+.dashboard-icons-list {
+	li {
+		min-width: 100px;
+		margin-bottom: 5px;
+		text-align: left;
+		img {
+			width: 20px;
+			padding-right: 5px;
+			.pull-left;
+		}
+		p {
+			margin: 0;
+		}
+	}
+}
+
+.dashboard {
+	ul.icons {
+		.thumbnails;
+		.row-fluid .thumbnails;
+		text-align: center;
+		.dashboard-icons;
+	}
+}
+
+/**
+ * Modules
+ */
+
+.modules.left {
+	.well;
+	ul {
+		text-align: center;
+		.dashboard-icons;
+		.dashboard-icons-list;
+	}
+}
+
+.modules.top {
+	.navbar {
+		a.current {
+			color: white;
+			background-color: #111;
+		}
+		p {
+			.pull-right;
+			.navbar-text;
+			a {
+				.pull-right;
+			}
+
+			img {
+				width: 20px;
+				padding-left: 5px;
+			}
+		}
+	}
+}
+
+.modules.bottom .module {
+	.well;
+	margin-right: 25px;
+	.pull-left;
+}
+
+/**
+ * Footer
+ */
+
+#push,
+#footer {
+	height: 60px;
+}
+#footer {
+	background-color: #f5f5f5;
+	.credit {
+		.muted;
+	}
+}
+
+@media (max-width: 767px) {
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+/**
+ * Tables
+ */
+table.listing {
+	.table;
+	.table-striped;
+	.table-hover;
+	.table-condensed;
+}
+
+/**
+ * Forms
+ */
+button {
+	.btn;
+}
+
+/**
+ * Search
+ */
+
+.filters {
+	.filter-form {
+		display: none;
+		.well;
+		button {
+			.pull-right;
+		}
+		input[type="text"], select {
+			margin-right: 15px;
+		}
+	}
+
+	.wrap {
+		.left {
+			.pull-left;
+			margin-right: 10px;
+			.remove {
+				a {
+					.btn;
+					.btn-inverse;
+					.btn-mini;
+				}
+				a::after {
+					content: " ×";
+				}
+			}
+		}
+	}
+}
+
+/**
+ * General
+ */
+
+body #debug-kit-toolbar {
+	top: 41px;
+}
+.date .full {
+	display: none;
+}
