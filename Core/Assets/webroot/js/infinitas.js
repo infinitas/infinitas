@@ -75,11 +75,11 @@ switch(Infinitas.params.prefix) {
 				});
 			}
 
-			$("[title]:not(.textarea *)").tooltip({
+			/**$("[title]:not(.textarea *)").tooltip({
 				track: true, delay: 0, showURL: false,
 				fixPNG: true, showBody: " :: ",
 				left: 5, top: -5
-			});
+			});**/
 
 			$('#' + Infinitas.model + 'ImageId').imageSelect();
 			$('#ProductImageProductImage').imageSelect();
