@@ -78,14 +78,14 @@ $managementGeneral = $this->Menu->builDashboardLinks($managementGeneral, 'manage
 $managementContent = $this->Menu->builDashboardLinks($managementContent, 'management_content');
 
 echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h1', __('infinitas', 'Site Management')),
+	$this->Html->tag('h1', __d('infinitas', 'Site Management')),
 	$this->Design->arrayToList(current((array)$managementGeneral), array(
 		'ul' => 'icons'
 	))
 )), array('class' => 'dashboard'));
 
 echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h1', __('infinitas', 'Site Layout')),
+	$this->Html->tag('h1', __d('infinitas', 'Site Layout')),
 	$this->Design->arrayToList(current((array)$managementContent), array(
 		'ul' => 'icons'
 	))
