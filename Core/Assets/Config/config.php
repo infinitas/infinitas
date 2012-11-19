@@ -2,7 +2,7 @@
 	/**
 	 * Configuration file for the Script Combiner helper. This file is used to determine
 	 * the behaviour of the helper.
-	 * 
+	 *
 	 * @author Geoffrey Garbers
 	 * @version 0.1
 	 */
@@ -16,10 +16,11 @@
 		'cssCachePath' => CSS . 'combined' . DS,
 		'jsCachePath' => JS . 'combined' . DS,
 		'fileSeparator' => "\n\n/** FILE SEPARATOR **/\n\n",
+		'bootstrap' => true
 	);
-	
+
 	/**
-	 * Core icons 
+	 * Core icons
 	 */
 	$config['CoreImages']['path'] = 'core/icons/';
 	$config['CoreImages']['images'] = array(
@@ -73,7 +74,7 @@
 			'zoom-in' => 'zoom-in.png',
 			'zoom-out' => 'zoom-out.png'
 		),
-	
+
 		'applications' => array(
 			'ai' => '',
 			'doc' => 'doc.png',
@@ -93,7 +94,7 @@
 			'xls' => 'sxl.png',
 			'xlsx' => 'xlsx.png'
 		),
-	
+
 		'archives' => array(
 			'7z' => '7z.png',
 			'cab' => 'cab.png',
@@ -104,7 +105,7 @@
 			'tar' => 'tar.png',
 			'zip' => '',
 		),
-	
+
 		'folders' => array(
 			'config' => 'config.png',
 			'documents' => 'documents.png',
@@ -117,7 +118,7 @@
 			'video' => 'video.png',
 			'web' => 'web.png'
 		),
-	
+
 		'images' => array(
 			'bmp' => 'bmp.png',
 			'gif' => 'gif.png',
@@ -132,7 +133,7 @@
 			'tif' => 'tiff.png',
 			'tiff' => 'tiff.png'
 		),
-	
+
 		'multiMedia' => array(
 			'3gp' => '3gp.png',
 			'dvi' => 'dvi.png',
@@ -152,7 +153,7 @@
 			'wav' => 'wav.png',
 			'wma' => 'wma.png'
 		),
-	
+
 		'notifications' => array(
 			'forbidden' => 'forbidden.png',
 			'help' => 'help.png',
@@ -164,7 +165,7 @@
 			'warning' => 'warning.png',
 			'loading' => 'loading.gif'
 		),
-	
+
 		'social' => array(
 			'badoo' => '',
 			'gmail' => '',
@@ -180,7 +181,7 @@
 			'vcf' => 'vcf.png',
 			'yahoo' => 'yahoo-messanger.png'
 		),
-	
+
 		'status' => array(
 			'active' => 'active.png',
 			'inactive' => 'inactive.png',
@@ -191,13 +192,13 @@
 			'featured' => 'featured.png',
 			'not-featured' => 'not-featured.png',
 		),
-	
+
 		'unknown' => array(
 			'unknown' => 'unknown.png',
 			'readme' => 'readme.png',
 			'' => 'readme.png'
 		),
-	
+
 		'weather' => array(
 			'clear' => 'clear.png',
 			'clear-night' => 'clear-night.png',
@@ -209,7 +210,7 @@
 			'snow' => 'snow.png',
 			'storm' => 'storm.png'
 		),
-	
+
 		'web' => array(
 			'asx' => 'asx.png',
 			'css' => 'css.png',
