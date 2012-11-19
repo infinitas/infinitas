@@ -129,7 +129,7 @@
 		 *
 		 * @return string the markup for the bread crumbs
 		 */
-		public function breadcrumbs($seperator = ' :: ') {
+		public function breadcrumbs($seperator = '/') {
 			$action = $this->request->params['action'];
 			if(strstr($this->request->params['action'], 'mass') === false) {
 				$action = $this->_stripText($this->request->params['action'], 'admin_');
@@ -147,32 +147,39 @@
 				);
 			}
 
+			$divider = $this->Html->tag('span', $seperator, array(
+				'class' => 'divider'
+			));
+
 			$breadcrumbs = array(
-				$this->Html->link(__d($this->request->params['plugin'], $this->request->params['plugin']), $dashboard),
+				$this->Html->link(__d($this->request->params['plugin'], Inflector::humanize($this->request->params['plugin'])), $dashboard, array(
+					'escape' => false
+				)) . $divider,
 				$this->Html->link(
-					__d($this->request->params['plugin'], strtolower(prettyName($this->stripPluginName($this->request->params['controller'])))),
+					__d($this->request->params['plugin'], prettyName($this->stripPluginName($this->request->params['controller']))),
 					array(
 						'plugin' => $this->request->params['plugin'],
 						'controller' => $this->request->params['controller'],
 						'action' => 'index'
-					)
-				),
-				$action
+					),
+					array('escape' => false)
+				) . $divider,
+				prettyName($action)
 			);
 
 			$_prefix = isset($this->request->params['prefix']) ? $this->request->params['prefix'] : false;
 
 			if ($_prefix !== false) {
-				$breadcrumbs = array_merge(
-					(array)$this->Html->link(
-						__d($this->request->params['plugin'], $_prefix),
-						'/' . $_prefix
-					),
-					$breadcrumbs
-				);
+				array_unshift($breadcrumbs, $this->Html->link(
+					__d($this->request->params['plugin'], ucfirst($_prefix)),
+					'/' . $_prefix,
+					array('escape' => false)
+				) . $divider);
 			}
 
-			return implode($seperator, $breadcrumbs);
+			return $this->Design->arrayToList($breadcrumbs, array(
+				'ul' => 'breadcrumb'
+			));
 		}
 
 		/**
@@ -230,8 +237,7 @@
 		 * @return string the markup for the page header
 		 */
 		public function adminPageHead() {
-			$name = prettyName(self::stripPluginName($this->request->params['controller']));
-			return '<h1>' . sprintf(__('%s Manager'), $name) . '<small>' . $this->breadcrumbs() . '</small></h1>';
+			return $this->Html->tag('h1', __('%s Manager', prettyName(self::stripPluginName($this->request->params['controller']))));
 		}
 
 		/**
@@ -336,7 +342,7 @@
 			}
 
 			return $this->Html->tag('div', $this->adminPageHead() . $massActions, array('class' => 'adminTopBar')) .
-				$this->Html->tag('div', FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions), array('class' => 'filters'));
+				$this->Html->tag('div', FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions), array('class' => 'filters')) .$this->breadcrumbs();
 		}
 
 		/**
@@ -352,12 +358,10 @@
 				$massActions = $this->massActionButtons($massActions);
 			}
 
-			return $this->Html->tag(
-				'div',
+			return $this->Html->tag('div',
 				$this->adminPageHead() . $massActions,
 				array('class' => 'adminTopBar')
-
-			);
+			) . $this->breadcrumbs();
 		}
 
 		/**
