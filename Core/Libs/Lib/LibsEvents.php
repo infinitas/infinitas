@@ -123,15 +123,4 @@ class LibsEvents extends AppEvents {
 		);
 	}
 
-/**
- * Load general css
- *
- * @return array
- */
-	public function onRequireCssToLoad(Event $Event) {
-		return array(
-			'Assets.jquery_ui'
-		);
-	}
-
 }
