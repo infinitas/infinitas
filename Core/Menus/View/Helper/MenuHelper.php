@@ -56,7 +56,6 @@
 			$this->__adminMenuUrl['plugin'] = $this->request->plugin;
 			$menus = $this->Event->trigger($this->plugin . '.adminMenu');
 			$items = (isset($menus['adminMenu'][$this->plugin]['main'])) ? $menus['adminMenu'][$this->plugin]['main'] : array();
-			$items = array('Home' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'dashboard')) + $items;
 
 			$return = array();
 			foreach($items as $name => $url) {
@@ -111,16 +110,17 @@
 
 			$return = array();
 			foreach($plugins as $name => $info) {
+				$plugin = Inflector::underscore($name);
 				$name = Inflector::camelize($name);
 				$info = array_merge($this->__adminDashboardIcon, $info);
 				if(empty($info['name'])) {
-					$info['name'] = __(prettyName($name));
+					$info['name'] = __d($plugin, prettyName($name));
 				}
 
 				if(empty($info['dashboard'])) {
 					$info['dashboard'] = array(
-						'plugin' => strtolower($name),
-						'controller' => strtolower($name),
+						'plugin' => $plugin,
+						'controller' => $plugin,
 						'action' => 'index'
 					);
 				}
@@ -128,23 +128,28 @@
 				$var = 'plugin';
 				if($type !== 'all') {
 					$var = $type;
-				}
-
-				else if(strstr(App::pluginPath($name), APP . 'Core' . DS)) {
+				} else if(strstr(InfinitasPlugin::path($name), APP . 'Core' . DS)) {
 					$var = 'core';
 				}
 
-				$_options = array(
-					'title' => sprintf('%s :: %s', __($info['name']), __($info['description'])),
-					'escape' => false,
-					'style' => 'background-image: url(' . Router::url(isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png') . ');'
-				);
+				$info['title'] = sprintf('%s :: %s', __d($plugin, $info['name']), __d($plugin, $info['description']));
+				$info['icon'] = isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png';
 
-				$return[$var][] = $this->Html->link(
-					$info['name'],
-					$info['dashboard'],
-					array_merge($_options, $info['options'])
-				);
+				$class = null;
+				if(!empty($info['dashboard']['plugin']) && $info['dashboard']['plugin'] == $this->request->params['plugin']) {
+					 $class = 'active';
+				}
+				$return[$var][] = $this->Html->link(implode('', array(
+					$this->Html->image($info['icon']),
+					$this->Html->tag('p', $info['name'])
+				)), $info['dashboard'], array(
+					'title' => $info['title'],
+					'escape' => false,
+					'class' => array(
+						'thumbnail',
+						$class
+					)
+				));;
 			}
 
 			unset($plugins);
