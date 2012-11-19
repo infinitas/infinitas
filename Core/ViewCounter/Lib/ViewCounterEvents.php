@@ -28,7 +28,7 @@ class ViewCounterEvents extends AppEvents {
 
 	public function onPluginRollCall(Event $Event) {
 		return array(
-			'name' => 'View Counts',
+			'name' => 'Views',
 			'description' => 'View your sites traffic',
 			'icon' => '/view_counter/img/icon.png',
 			'author' => 'Infinitas',
