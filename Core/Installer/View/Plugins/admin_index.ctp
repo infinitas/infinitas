@@ -60,14 +60,13 @@
                 		<td><?php echo $plugin['Plugin']['version']; ?>&nbsp;</td>
                 		<td><?php echo $this->Infinitas->status($plugin['Plugin']['active']); ?>&nbsp;</td>
                 		<td><?php echo $this->Infinitas->status($plugin['Plugin']['core']); ?>&nbsp;</td>
-                		<td><?php echo $this->Time->timeAgoInWords($plugin['Plugin']['created']); ?>&nbsp;</td>
+                		<td><?php echo $this->Infinitas->date($plugin['Plugin']['created']); ?>&nbsp;</td>
                 		<td>
 							<?php
 								if($plugin['Plugin']['created'] == $plugin['Plugin']['modified']) {
-									echo __('Never');
-								}
-								else{
-									echo $this->Time->timeAgoInWords($plugin['Plugin']['created']);
+									echo __d('installer', 'Never');
+								} else{
+									echo $this->Infinitas->date($plugin['Plugin']['created']);
 								}
 							?>&nbsp;
 						</td>

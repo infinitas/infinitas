@@ -5,14 +5,14 @@
 			'description' => 'View core plugins',
 			'icon' => '/installer/img/icon.png',
 			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index', 'Plugin.core' => 1)
+			'dashboard' => array('controller' => 'plugins', 'action' => 'index', 'Plugin.core' => 1)
 		),
 		array(
 			'name' => 'Update',
 			'description' => 'Update your site',
 			'icon' => '/installer/img/update.png',
 			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'update_infinitas')
+			'dashboard' => array('controller' => 'plugins', 'action' => 'update_infinitas')
 		),
 	);
 	$nonCore = array(
@@ -21,14 +21,14 @@
 			'description' => 'View, install and manage your plugins',
 			'icon' => '/installer/img/icon.png',
 			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index', 'Plugin.core' => 0)
+			'dashboard' => array('controller' => 'plugins', 'action' => 'index', 'Plugin.core' => 0)
 		),
 		array(
 			'name' => 'Install',
 			'description' => 'Install additional plugins and themes',
 			'icon' => '/installer/img/install.png',
 			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'install')
+			'dashboard' => array('controller' => 'plugins', 'action' => 'install')
 		),
 	);
 	$core = $this->Menu->builDashboardLinks($core, 'plugins_core');
