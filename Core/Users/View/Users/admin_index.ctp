@@ -1,21 +1,15 @@
 <?php
 	/**
-	 * Comment Template.
+	 * View for managing users
 	 *
-	 * @todo -c Implement .this needs to be sorted out.
+	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+	 * @link http://infinitas-cms.org
+	 * @package Infinitas.Users.View
+	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+	 * @since 0.5a
 	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 *
-	 * @filesource
-	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link		  http://infinitas-cms.org
-	 * @package	   sort
-	 * @subpackage	sort.comments
-	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since		 0.5a
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
 
 	echo $this->Form->create(null, array('action' => 'mass'));
@@ -34,8 +28,7 @@
 			echo $this->Infinitas->adminTableHeader(
 				array(
 					$this->Form->checkbox('all') => array(
-						'class' => 'first',
-						'style' => 'width:25px;'
+						'class' => 'first'
 					),
 					$this->Paginator->sort('username'),
 					$this->Paginator->sort('email'),

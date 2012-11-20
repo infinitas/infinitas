@@ -1,35 +1,24 @@
 <?php
 	/**
-	 * @brief Add some documentation for this admin_index form.
+	 * View for managing groups
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
 	 *
-	 * @link		  http://infinitas-cms.org/users
-	 * @package	   users.views.admin_index
-	 * @license	   http://infinitas-cms.org/mit-license The MIT License
+	 * @link http://infinitas-cms.org/users
+	 * @package Infinitas.Users.View
+	 * @license http://infinitas-cms.org/mit-license The MIT License
 	 * @since 0.9b1
 	 *
-	 * @author dogmatic69
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
-	echo $this->Form->create('Group', array('action' => 'mass'));
-
-	$massActions = $this->Infinitas->massActionButtons(
-		array(
-			'add',
-			'edit',
-			'toggle',
-			'copy',
-			'delete',
-
-			// other methods available
-			// 'unlock',
-		)
-	);
-
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Form->create(null, array('action' => 'mass'));
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'edit',
+		'toggle',
+		'copy',
+		'delete'
+	));
 ?>
 <div class="table">
 	<table class="listing" cellpadding="0" cellspacing="0">
@@ -37,16 +26,14 @@
 			echo $this->Infinitas->adminTableHeader(
 				array(
 					$this->Form->checkbox('all') => array(
-						'class' => 'first',
-						'style' => 'width:25px;'
+						'class' => 'first'
 					),
 					$this->Paginator->sort('name'),
-					$this->Paginator->sort('parent_id'),
-					$this->Paginator->sort('created') => array(
-						'style' => 'width:75px;'
+					$this->Paginator->sort('parent_id') => array(
+						'class' => 'larger'
 					),
 					$this->Paginator->sort('modified') => array(
-						'style' => 'width:75px;'
+						'class' => 'date'
 					),
 				)
 			);
@@ -55,7 +42,7 @@
 				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
 					<td><?php echo $this->Infinitas->massActionCheckBox($group); ?>&nbsp;</td>
 					<td>
-						<?php 
+						<?php
 							echo $this->Html->link(
 								$group['Group']['name'],
 								array(
@@ -66,7 +53,6 @@
 						?>&nbsp;
 					</td>
 					<td><?php echo $group['Group']['parent_id']; ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->date($group['Group']['created']); ?>&nbsp;</td>
 					<td><?php echo $this->Infinitas->date($group['Group']['modified']); ?>&nbsp;</td>
 				</tr><?php
 			}
