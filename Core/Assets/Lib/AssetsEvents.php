@@ -51,8 +51,27 @@ class AssetsEvents extends AppEvents {
 			'Assets.libs/core',
 			'Assets.libs/form',
 			'Assets.libs/html',
-			'Assets.libs/number'
+			'Assets.libs/number',
+			'Assets.3rd/less'
 		);
+
+		if(Configure::read('Assets.bootstrap')) {
+			$return = array_merge($return, array(
+				'Assets.3rd/bootstrap/bootstrap-affix',
+				'Assets.3rd/bootstrap/bootstrap-collapse',
+				'Assets.3rd/bootstrap/bootstrap-scrollspy',
+				'Assets.3rd/bootstrap/bootstrap-typeahead',
+				'Assets.3rd/bootstrap/bootstrap-alert',
+				'Assets.3rd/bootstrap/bootstrap-dropdown',
+				'Assets.3rd/bootstrap/bootstrap-tab',
+				'Assets.3rd/bootstrap/bootstrap-button',
+				'Assets.3rd/bootstrap/bootstrap-modal',
+				'Assets.3rd/bootstrap/bootstrap-tooltip',
+				'Assets.3rd/bootstrap/bootstrap-carousel',
+				'Assets.3rd/bootstrap/bootstrap-popover',
+				'Assets.3rd/bootstrap/bootstrap-transition'
+			));
+		}
 
 		$added = array(
 			'Assets.3rd/rater',
@@ -67,5 +86,24 @@ class AssetsEvents extends AppEvents {
 
 		return array_merge($return, $added);
 	}
-	
+
+/**
+ * Load general css
+ *
+ * @return array
+ */
+	public function onRequireCssToLoad(Event $Event) {
+		$return = array(
+			'Assets.jquery_ui'
+		);
+
+		if(Configure::read('Assets.bootstrap')) {
+			$return = array_merge(array(
+				//'Assets.bootstrap'
+			), $return);
+		}
+
+		return $return;
+	}
+
 }
