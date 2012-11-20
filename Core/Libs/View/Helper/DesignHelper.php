@@ -117,4 +117,43 @@ class DesignHelper extends AppHelper {
 			implode('', $content)
 		);
 	}
+
+/**
+ * Render sidebar markup for forms
+ *
+ * Valid options inclode:
+ *	- title: this is the tag to render, defaults to H4
+ *	- hr: boolean, true (default) to render a hr below the title
+ *	- any other options that HtmlHelper::tag() can use
+ *
+ * @param array|sring $content the content for the side bar, arrays are imploded
+ * @param string $title optional title ("details" used as default) translated with current plugin
+ * @param array $options the options for rendering
+ *
+ * @return string
+ */
+	public function sidebar($content, $title = null, $options = array()) {
+		$options = array_merge(array(
+			'title' => 'h4',
+			'hr' => true,
+			'class' => 'span3 sidebar'
+		), $options);
+		if(!$title) {
+			$title = __d($this->request->params['plugin'], 'Details');
+		}
+		if($options['title']) {
+			$title = $this->Html->tag($options['title'], $title);
+		}
+		if($options['hr']) {
+			$title .= $this->Html->tag('hr');
+		}
+		unset($options['title'], $options['hr']);
+
+		if(is_array($content)) {
+			$content = implode('', $content);
+		}
+
+		return $this->Html->tag('div', $title . $content, $options);
+	}
+
 }
