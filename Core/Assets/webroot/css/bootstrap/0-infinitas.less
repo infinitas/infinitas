@@ -61,14 +61,10 @@
 
 // Utility classes
 @import "/assets/css/bootstrap/utilities.less"; // Has to be last to override when necessary
-
-html,
 body {
-	height: 100%;
+	padding-top: 56px;
 }
-
 h1 {
-	font-size: 130%;
 	margin: 0px 0;
 	small {
 		font-size: 100%;
@@ -81,18 +77,11 @@ p.info {
 	.alert-info;
 }
 
-#wrap {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 10px auto -60px;
-}
-
 /**
  * Headers
  */
 .adminTopBar {
-	.hero-unit;
+	.page-header;
 	padding-top: 25px;
 	padding-bottom: 80px;
 
@@ -102,17 +91,26 @@ p.info {
 	#searchForm {
 		.pull-left;
 	}
+
+	.massActions {
+		.wrapper {
+			button {
+				margin-left: 5px;
+				.size(65px, 75px);
+			}
+		}
+	}
 }
 
 /**
- *
+ * Dashboard
  */
 
 .dashboard-icons {
 	a.active {
-		color: white;
+		color: @white;
 		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-		background-color: #08C;
+		background-color: @blueDark;
 	}
 
 	li {
@@ -168,8 +166,8 @@ p.info {
 .modules.top {
 	.navbar {
 		a.current {
-			color: white;
-			background-color: #111;
+			color: @white;
+			background-color: @navbarInverseBackground;
 		}
 		p {
 			.pull-right;
@@ -196,23 +194,14 @@ p.info {
  * Footer
  */
 
-#push,
-#footer {
-	height: 60px;
-}
-#footer {
-	background-color: #f5f5f5;
-	.credit {
-		.muted;
+#footer.navbar {
+	.navbar-inner {
+		padding-top: 12px;
+		min-height: 25px;
 	}
-}
-
-@media (max-width: 767px) {
-	#footer {
-		margin-left: -20px;
-		margin-right: -20px;
-		padding-left: 20px;
-		padding-right: 20px;
+	.credit {
+		.pull-right;
+		padding-right: 10px;
 	}
 }
 
@@ -224,6 +213,27 @@ table.listing {
 	.table-striped;
 	.table-hover;
 	.table-condensed;
+
+	th.first,
+	th.tiny {
+		width: 25px;
+	}
+	th.status,
+	th.small {
+		width: 50px;
+	}
+	th.medium {
+		width: 75px;
+	}
+	th.large {
+		width: 100px;
+	}
+	th.larger {
+		width: 125px;
+	}
+	th.date {
+		width: 150px;
+	}
 }
 
 /**
@@ -276,4 +286,63 @@ body #debug-kit-toolbar {
 }
 .date .full {
 	display: none;
+}
+
+/**
+ * Login Page
+ */
+
+body#login {
+	#gradient .radial();
+	background-color: @grayDark;
+	padding-top: 0;
+
+	.container {
+		width: 355px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -206px;
+		margin-left: -150px;
+	}
+}
+#login h1 {
+	font-size: 50px;
+}
+#login .login {
+	max-width: 300px;
+	padding: 19px 29px 29px;
+	margin: 0 auto 20px;
+	background-color: @white;
+	border: 1px solid @navbarInverseBorder;
+	-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+			border-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+			box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+#login .login .login-heading,
+#login .login .checkbox {
+	margin-bottom: 10px;
+}
+#login .login input[type="text"],
+#login .login input[type="password"] {
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+	width: 94%;
+}
+#login .login select {
+	width: 100%;
+}
+
+#login .checkbox {
+	.pull-right;
+	padding-top: 5px;
+}
+
+#login #debug-kit-toolbar {
+	display:none;
 }
