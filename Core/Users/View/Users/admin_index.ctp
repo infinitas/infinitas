@@ -44,9 +44,6 @@
 					$this->Paginator->sort('birthday') => array(
 						'class' => 'medium'
 					),
-					$this->Paginator->sort('created') => array(
-						'class' => 'date'
-					),
 					$this->Paginator->sort('modified') => array(
 						'class' => 'date'
 					),
@@ -88,9 +85,8 @@
 							echo $date;
 						?>&nbsp;
 					</td>
-					<td><?php echo $this->Infinitas->date($user['User']['created']); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->date($user['User']['modified']); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->date($user['User']['last_login']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($user['User']['modified']); ?></td>
+					<td><?php echo $this->Infinitas->date($user['User']['last_login']); ?></td>
 					<td><?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;</td>
 				</tr> <?php
 			}
