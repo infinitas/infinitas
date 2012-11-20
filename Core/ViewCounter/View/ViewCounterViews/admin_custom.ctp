@@ -1,5 +1,6 @@
 <?php
     echo $this->Form->create('ViewCount', array('action' => 'reports'));
-        $massActions = $this->Infinitas->massActionButtons(array('export'));
-		echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+		echo $this->Infinitas->adminIndexHead($filterOptions, array(
+			'export'
+		));
 	$this->Form->end();

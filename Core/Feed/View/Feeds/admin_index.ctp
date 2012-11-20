@@ -18,88 +18,83 @@
 	 */
 
 	echo $this->Form->create('Feed', array('url' => array('controller' => 'feeds', 'action' => 'mass', 'admin' => true)));
-
-	$massActions = $this->Infinitas->massActionButtons(
-		array(
-			'add',
-			'edit',
-			'toggle',
-			'copy',
-			'delete',
-
-			// other methods available
-			// 'unlock',
-		)
-	);
-
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'edit',
+		'toggle',
+		'copy',
+		'delete',
+	));
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo $this->Infinitas->adminTableHeader(
-				array(
-					$this->Form->checkbox('all') => array(
-						'class' => 'first',
-						'style' => 'width:25px;'
-					),
-					$this->Paginator->sort('name'),
-					$this->Paginator->sort('model') => array(
-						'style' => 'width:75px;'
-					),
-					__('Links To'),
-					$this->Paginator->sort('limit') => array(
-						'style' => 'width:50px;'
-					),
-					$this->Paginator->sort('Group.name', __d('feed', 'For')) => array(
-						'style' => 'width:50px;'
-					),
-					$this->Paginator->sort('active') => array(
-						'style' => 'width:50px;'
-					),
-					$this->Paginator->sort('modified') => array(
-						'style' => 'width:100px;'
-					),
-				)
-			);
-			foreach ($feeds as $feed) { ?>
-				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-					<td><?php echo $this->Infinitas->massActionCheckBox($feed); ?>&nbsp;</td>
-					<td>
-						<?php
-							echo $this->Html->link(
-								$feed['Feed']['name'],
-								array(
-									'action' => 'edit',
-									$feed['Feed']['id']
-								)
-							);
-						?>&nbsp;
-					</td>
-					<td><?php echo implode('.', array(ucfirst($feed['Feed']['plugin']), Inflector::singularize($feed['Feed']['controller']))); ?>&nbsp;</td>				
-					<td>
-						<?php
-							echo Router::url(
-								array(
-									'plugin' => $feed['Feed']['plugin'],
-									'controller' => $feed['Feed']['controller'],
-									'action' => $feed['Feed']['action'],
-									'slug' => 'a-page',
-									'admin' => $feed['Group']['name'] == 'admin' ? true : false
-								)
-							);
-						?>&nbsp;
-					</td>
-					<td><?php echo $feed['Feed']['limit']; ?>&nbsp;</td>
-					<td>
-						<?php echo $this->Html->link($feed['Group']['name'], array('controller' => 'groups', 'action' => 'edit', $feed['Group']['id'])); ?>
-					</td>
-					<td><?php echo $this->Infinitas->status($feed['Feed']['active'], $feed['Feed']['id']); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->date($feed['Feed']['modified']); ?>&nbsp;</td>
-				</tr><?php
-			}
-		?>
-	</table>
-	<?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('name'),
+			$this->Paginator->sort('model') => array(
+				'style' => 'width:75px;'
+			),
+			__('Links To'),
+			$this->Paginator->sort('limit') => array(
+				'style' => 'width:50px;'
+			),
+			$this->Paginator->sort('Group.name', __d('feed', 'For')) => array(
+				'style' => 'width:50px;'
+			),
+			$this->Paginator->sort('active') => array(
+				'style' => 'width:50px;'
+			),
+			$this->Paginator->sort('modified') => array(
+				'style' => 'width:100px;'
+			),
+		));
+
+		foreach ($feeds as $feed) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($feed); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link(
+							$feed['Feed']['name'],
+							array(
+								'action' => 'edit',
+								$feed['Feed']['id']
+							)
+						);
+					?>&nbsp;
+				</td>
+				<td><?php echo implode('.', array(ucfirst($feed['Feed']['plugin']), Inflector::singularize($feed['Feed']['controller']))); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo Router::url(
+							array(
+								'plugin' => $feed['Feed']['plugin'],
+								'controller' => $feed['Feed']['controller'],
+								'action' => $feed['Feed']['action'],
+								'slug' => 'a-page',
+								'admin' => $feed['Group']['name'] == 'admin' ? true : false
+							)
+						);
+					?>&nbsp;
+				</td>
+				<td><?php echo $feed['Feed']['limit']; ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link($feed['Group']['name'], array(
+							'controller' => 'groups',
+							'action' => 'edit',
+							$feed['Group']['id']
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo $this->Infinitas->status($feed['Feed']['active'], $feed['Feed']['id']); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($feed['Feed']['modified']); ?></td>
+			</tr><?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

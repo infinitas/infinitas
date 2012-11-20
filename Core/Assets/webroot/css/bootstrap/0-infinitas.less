@@ -238,6 +238,26 @@ table.listing {
 	th.xxlarge {
 		width: 2000px;
 	}
+
+	tr.details {
+		.hide;
+		div {
+			width: 20%;
+			.pull-left;
+			margin-right: 20px;
+
+			span {
+				font-size: 110%;
+				font-weight: bold;
+				clear: both;
+				display: block;
+			}
+		}
+	}
+
+	td.center {
+		text-align: center;
+	}
 }
 
 /**
@@ -259,7 +279,7 @@ select {
 
 .filters {
 	.filter-form {
-		display: none;
+		.hide;
 		.well;
 		button {
 			.pull-right;
@@ -311,7 +331,15 @@ body #debug-kit-toolbar {
 	top: 41px;
 }
 .date .full {
-	display: none;
+	.hide;
+}
+
+a.new-window {
+	img {
+		width: 16px;
+	}
+	.pull-left;
+	padding-right: 5px;
 }
 
 /**
@@ -370,5 +398,5 @@ body#login {
 }
 
 #login #debug-kit-toolbar {
-	display:none;
+	.hide;
 }

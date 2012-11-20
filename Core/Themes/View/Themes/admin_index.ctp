@@ -26,66 +26,65 @@
 		'delete'
 	));
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo $this->Infinitas->adminTableHeader(array(
-				$this->Form->checkbox('all') => array(
-					'class' => 'first'
-				),
-				$this->Paginator->sort('name'),
-				$this->Paginator->sort('default_layout'),
-				$this->Paginator->sort('licence') => array(
-					'class' => 'xlarge'
-				),
-				$this->Paginator->sort('author') => array(
-					'class' => 'large'
-				),
-				$this->Paginator->sort('core') => array(
-					'class' => 'small'
-				),
-				$this->Paginator->sort('active') => array(
-					'class' => 'small'
-				)
-			));
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('name'),
+			$this->Paginator->sort('default_layout'),
+			$this->Paginator->sort('licence') => array(
+				'class' => 'xlarge'
+			),
+			$this->Paginator->sort('author') => array(
+				'class' => 'large'
+			),
+			$this->Paginator->sort('core') => array(
+				'class' => 'small'
+			),
+			$this->Paginator->sort('active') => array(
+				'class' => 'small'
+			)
+		));
 
-			foreach($themes as $theme) { ?>
-				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-					<td><?php echo $this->Infinitas->massActionCheckBox($theme); ?>&nbsp;</td>
-					<td>
-						<?php
-							echo $this->Html->link(Inflector::humanize($theme['Theme']['name']), array(
-								'action' => 'edit',
-								$theme['Theme']['id']
-							));
-						?>&nbsp;
-					</td>
-					<td><?php echo Inflector::humanize($theme['Theme']['default_layout']); ?>&nbsp;</td>
-					<td>
-						<?php
-							if($theme['Theme']['licence']) {
-								echo $theme['Theme']['licence'];
-							} else {
-								echo sprintf('&copy; %s', $theme['Theme']['author']);
-							}
-						?>&nbsp;
-					</td>
-					<td>
-						<?php
-							$auth = $theme['Theme']['author'];
-							if (!empty($theme['Theme']['url'])) {
-								$auth = $this->Html->link($theme['Theme']['author'], $theme['Theme']['url'], array('target' => '_blank'));
-							}
+		foreach($themes as $theme) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($theme); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link(Inflector::humanize($theme['Theme']['name']), array(
+							'action' => 'edit',
+							$theme['Theme']['id']
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo Inflector::humanize($theme['Theme']['default_layout']); ?>&nbsp;</td>
+				<td>
+					<?php
+						if($theme['Theme']['licence']) {
+							echo $theme['Theme']['licence'];
+						} else {
+							echo sprintf('&copy; %s', $theme['Theme']['author']);
+						}
+					?>&nbsp;
+				</td>
+				<td>
+					<?php
+						$auth = $theme['Theme']['author'];
+						if (!empty($theme['Theme']['url'])) {
+							$auth = $this->Html->link($theme['Theme']['author'], $theme['Theme']['url'], array('target' => '_blank'));
+						}
 
-							echo $auth;
-						?>&nbsp;
-					</td>
-					<td><?php echo $this->Infinitas->status($theme['Theme']['core']); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->status($theme['Theme']['active']); ?>&nbsp;</td>
-				</tr> <?php
-			}
-		?>
-	</table>
-	<?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+						echo $auth;
+					?>&nbsp;
+				</td>
+				<td><?php echo $this->Infinitas->status($theme['Theme']['core']); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->status($theme['Theme']['active']); ?>&nbsp;</td>
+			</tr> <?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

@@ -21,63 +21,58 @@
 	 */
 
 	echo $this->Form->create('GlobalPage', array('action' => 'mass'));
-
-	$massActions = $this->Infinitas->massActionButtons(
-		array(
-			'add',
-			'edit',
-			'copy',
-			'delete'
-		)
+	$massActions = array(
+		'add',
+		'edit',
+		'copy',
+		'delete'
 	);
+	$errorMessage = null;
+	if(!$writable) {
+		$errorMessage = $this->Html->tag('div',
+			$this->Html->tag('h4', __d('contents', 'Error')) .
+			sprintf(__d('contents', 'Please ensure that %s is writable by the web server.'), str_replace(APP, 'APP/', $path)),
+			array('class' => 'alert')
+		);
+		$massActions = false;
+	}
 
 	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
-
-	if(!$writable) { ?>
-		<div class="error-message">
-			<?php sprintf(__('Please ensure that %s is writable by the web server.'), $path); ?>
-		</div><?php
-	}
+	echo $errorMessage;
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo $this->Infinitas->adminTableHeader(
-				array(
-					$this->Form->checkbox( 'all' ) => array(
-						'class' => 'first',
-						'style' => 'width:25px;'
-					),
-					$this->Paginator->sort('name'),
-					$this->Paginator->sort('file_name'),
-					__d('contents', 'Size'),
-					__d('contents', 'Modified'),
-				)
-			);
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox( 'all' ) => array(
+				'class' => 'first',
+			),
+			$this->Paginator->sort('name'),
+			$this->Paginator->sort('file_name'),
+			__d('contents', 'Size'),
+			__d('contents', 'Modified'),
+		));
 
-			$id = 0;
-			foreach ($pages as $page) { ?>
-				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-					<td><?php echo $this->Infinitas->massActionCheckBox($page); ?>&nbsp;</td>
-					<td>
-						<?php 
-							echo $this->Html->link(
-								Inflector::humanize($page['GlobalPage']['name']), 
-								array(
-									'action' => 'edit', 
-									$page['GlobalPage']['file_name']
-								)
-							); 
-						?>&nbsp;
-					</td>
-					<td><?php echo $page['GlobalPage']['file_name']; ?>&nbsp;</td>
-					<td><?php echo convert($page['GlobalPage']['size']); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->date($page['GlobalPage']['modified']); ?>&nbsp;</td>
-				</tr><?php
-				$id++;
-			}
-		?>
-	</table>
-	<?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach ($pages as $page) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($page); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link(
+							Inflector::humanize($page['GlobalPage']['name']),
+							array(
+								'action' => 'edit',
+								$page['GlobalPage']['file_name']
+							)
+						);
+					?>&nbsp;
+				</td>
+				<td><?php echo $page['GlobalPage']['file_name']; ?>&nbsp;</td>
+				<td><?php echo convert($page['GlobalPage']['size']); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($page['GlobalPage']['modified']); ?></td>
+			</tr><?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

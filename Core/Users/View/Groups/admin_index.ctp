@@ -11,6 +11,7 @@
 	 *
 	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
 	 */
+
 	echo $this->Form->create(null, array('action' => 'mass'));
 	echo $this->Infinitas->adminIndexHead($filterOptions, array(
 		'add',
@@ -20,44 +21,41 @@
 		'delete'
 	));
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo $this->Infinitas->adminTableHeader(
-				array(
-					$this->Form->checkbox('all') => array(
-						'class' => 'first'
-					),
-					$this->Paginator->sort('name'),
-					$this->Paginator->sort('parent_id') => array(
-						'class' => 'larger'
-					),
-					$this->Paginator->sort('modified') => array(
-						'class' => 'date'
-					),
-				)
-			);
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('name'),
+			$this->Paginator->sort('parent_id') => array(
+				'class' => 'larger'
+			),
+			$this->Paginator->sort('modified') => array(
+				'class' => 'date'
+			),
+		));
 
-			foreach ($groups as $group) { ?>
-				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-					<td><?php echo $this->Infinitas->massActionCheckBox($group); ?>&nbsp;</td>
-					<td>
-						<?php
-							echo $this->Html->link(
-								$group['Group']['name'],
-								array(
-									'action' => 'edit',
-									$group['Group']['id']
-								)
-							);
-						?>&nbsp;
-					</td>
-					<td><?php echo $group['Group']['parent_id']; ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->date($group['Group']['modified']); ?></td>
-				</tr><?php
-			}
-		?>
-	</table>
-	<?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach ($groups as $group) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($group); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link(
+							$group['Group']['name'],
+							array(
+								'action' => 'edit',
+								$group['Group']['id']
+							)
+						);
+					?>&nbsp;
+				</td>
+				<td><?php echo $group['Group']['parent_id']; ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($group['Group']['modified']); ?></td>
+			</tr><?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

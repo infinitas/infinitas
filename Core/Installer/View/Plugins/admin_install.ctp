@@ -19,21 +19,23 @@
      */
 
 	echo $this->Form->create('Install', array('type' => 'file'));
-		echo $this->Infinitas->adminIndexHead(null, $this->Infinitas->massActionButtons(array('install', 'cancel')));
-		
+		echo $this->Infinitas->adminIndexHead(null, array(
+			'install',
+			'cancel'
+		));
+
 		$tabs = array(
 			__d('installer', 'Plugin'),
 			__d('installer', 'Theme'),
 		);
-		
+
 		$content = array(
-			$this->Form->input('Plugin.file', array('type' => 'file')) . $this->Form->input('Plugin.url') . 
+			$this->Form->input('Plugin.file', array('type' => 'file')) . $this->Form->input('Plugin.url') .
 			$this->Form->input('Plugin.local', array('empty' => Configure::read('Website.empty_select'), 'options' => InfinitasPlugin::listPlugins('notInstalled'))),
-			
-			$this->Form->input('Theme.file', array('type' => 'file')) . $this->Form->input('Theme.url') . 
+
+			$this->Form->input('Theme.file', array('type' => 'file')) . $this->Form->input('Theme.url') .
 			$this->Form->input('Theme.local', array('empty' => Configure::read('Website.empty_select'), 'options' => $possibleThemes))
 		);
-		
+
 		echo $this->Design->tabs($tabs, $content);
 	echo $this->Form->end();
-?>

@@ -1,91 +1,70 @@
 <?php
     echo $this->Form->create('Config', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(array('add'));
-		echo $this->Infinitas->adminIndexHead(null, $massActions);
+		echo $this->Infinitas->adminIndexHead(null, array(
+			'add'
+		));
+	echo $this->Form->end();
+
+	echo $this->Html->tag('h1', __d('configs', 'Overloaded Values') .
+		$this->Html->tag('small', __d('configs', 'Click a link below to edit / delete the overladed value'))
+	);
 ?>
-<div class="table">
-	<h1 class="no-gap">
-		<?php echo __('Overloaded Values'); ?>
-		<small><?php echo __('Click a link below to edit / delete the overladed value'); ?></small>
-	</h1>
-    <table class="listing no-gap" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    __('Key') => array(
-                        'style' => 'width:200px;'
-                    ),
-                    __('Value') => array(
-                        'style' => 'width:200px;'
-                    )
-                )
-            );
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			__d('configs', 'Key') => array(
+				'style' => 'width:200px;'
+			),
+			__d('configs', 'Value') => array(
+				'style' => 'width:200px;'
+			)
+		));
 
-            foreach ($overloaded as $key => $value) {
-				unset($configs[$key]);
-                ?>
-                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                		<td>
-                			<?php
-								echo $this->Html->link(
-									$key,
-									array(
-										'action' => 'index',
-										'Config.key' => $key
-									)
-								);
-							?>&nbsp;
-                		</td>
-                		<td>
-                			<?php echo $value; ?>&nbsp;
-                		</td>
-                	</tr>
-                <?php
-            }
-        ?>
-    </table>
-    <?php echo $this->Form->end(); ?>
-</div>
+		foreach ($overloaded as $key => $value) {
+			unset($configs[$key]); ?>
+			<tr>
+				<td>
+					<?php
+						echo $this->Html->link($key, array(
+							'action' => 'index',
+							'Config.key' => $key
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo $value; ?>&nbsp;</td>
+			</tr> <?php
+		}
+	?>
+</table>
 
-<div class="table">
-	<h1 class="no-gap">
-		<?php echo __('Default Values'); ?>
-		<small><?php echo __('Click a link below to overload the config with new values'); ?></small>
-	</h1>
-    <table class="listing no-gap" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    __('Key') => array(
-                        'style' => 'width:200px;'
-                    ),
-                    __('Value') => array(
-                        'style' => 'width:200px;'
-                    )
-                )
-            );
+<?php
+	echo $this->Html->tag('h1', __d('configs', 'Default Values') .
+		$this->Html->tag('small', __d('configs', 'Click a link below to overload the config with new values'))
+	);
+?>
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			__d('configs', 'Key') => array(
+				'style' => 'width:200px;'
+			),
+			__d('configs', 'Value') => array(
+				'style' => 'width:200px;'
+			)
+		));
 
-            foreach ($configs as $key => $value) {
-                ?>
-                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                		<td>
-                			<?php
-								echo $this->Html->link(
-									$key,
-									array(
-										'action' => 'add',
-										'Config.key' => $key
-									)
-								);
-							?>&nbsp;
-                		</td>
-                		<td>
-                			<?php echo $value; ?>&nbsp;
-                		</td>
-                	</tr>
-                <?php
-            }
-        ?>
-    </table>
-    <?php echo $this->Form->end(); ?>
-</div>
+		foreach ($configs as $key => $value) {?>
+			<tr>
+				<td>
+					<?php
+						echo $this->Html->link($key, array(
+							'action' => 'add',
+							'Config.key' => $key
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo $value; ?>&nbsp;</td>
+			</tr> <?php
+		}
+	?>
+</table>

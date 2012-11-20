@@ -1,4 +1,4 @@
-<table class="listing" cellpadding="0" cellspacing="0">
+<table class="listing">
 	<?php
 		echo $this->Infinitas->adminTableHeader(
 			array(
@@ -21,7 +21,7 @@
 		foreach ( $users as $user )
 		{
 			?>
-				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+				<tr>
 					<td>
 						<?php echo $this->Html->link( $user['User']['username'], array('action' => 'edit', $user['User']['id'])); ?>&nbsp;
 					</td>

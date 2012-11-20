@@ -81,146 +81,140 @@
  */
 
 COMMENT;
-	echo "echo \$this->Form->create(null, array('action' => 'mass'));\n\n" .
-		"\$massActions = \$this->Infinitas->massActionButtons(\n" .
-			"\tarray(\n" .
-				"\t\t'add',\n" .
-				"\t\t'edit',\n" .
-				"\t\t'toggle',\n" .
-				"\t\t'copy',\n" .
-				"\t\t'delete',\n\n" .
-				"\t\t// other methods available\n" .
-				"\t\t// 'unlock',\n" .
-			"\t)\n" .
-		");\n\n" .
-		"echo \$this->Infinitas->adminIndexHead(\$filterOptions, \$massActions);\n" .
+	echo "\necho \$this->Form->create(null, array('action' => 'mass'));\n" .
+		"echo \$this->Infinitas->adminIndexHead(\$filterOptions, array(\n" .
+			"\t'add',\n" .
+			"\t'edit',\n" .
+			"\t'toggle',\n" .
+			"\t'copy',\n" .
+			"\t'delete',\n\n" .
+		"echo ));\n" .
 		"echo \$this->Filter->alphabetFilter();\n" .
 	"?>\n";
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo "<?php\n" .
-				"\t\t\techo \$this->Infinitas->adminTableHeader(\n" .
-					"\t\t\t\tarray(\n" .
-						"\t\t\t\t\t\$this->Form->checkbox('all') => array(\n" .
-							"\t\t\t\t\t\t'class' => 'first',\n" .
-							"\t\t\t\t\t\t'style' => 'width:25px;'\n" .
-						"\t\t\t\t\t),\n";
-						$endFields = '';
-						foreach($fields as $field ) {
-							if (in_array($field, $ignore)) {
-								continue;
-							}
-
-							$isKey = false;
-							if (!empty($associations['belongsTo'])) {
-								foreach ($associations['belongsTo'] as $alias => $details) {
-									if ($field === $details['foreignKey']) {
-										$isKey = true;
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$alias}.{$details['displayField']}', '{$alias}'),\n";
-										break;
-									}
-								}
-							}
-							if ($isKey !== true) {
-								switch($field) {
-									case 'created':
-									case 'modified':
-										$endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n" .
-											"\t\t\t\t\t\t'style' => 'width:75px;'\n" .
-										"\t\t\t\t\t),\n";
-										break;
-
-									case 'active':
-									case 'locked':
-										$endFields = "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n" .
-											"\t\t\t\t\t\t'style' => 'width:50px;'\n" .
-										"\t\t\t\t\t),\n" .$endFields;
-										break;
-
-									case str_replace('_count', '', $field) != $field:
-										$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$field}', '{$name}') => array(\n" .
-											"\t\t\t\t\t\t'style' => 'width:50px;'\n" .
-										"\t\t\t\t\t),\n";
-										break;
-
-									default:
-										echo "\t\t\t\t\t\$this->Paginator->sort('{$field}'),\n";
-								} // switch
-							}
+<table class="listing">
+	<?php
+		echo "<?php\n" .
+			"\t\t\techo \$this->Infinitas->adminTableHeader(\n" .
+				"\t\t\t\tarray(\n" .
+					"\t\t\t\t\t\$this->Form->checkbox('all') => array(\n" .
+						"\t\t\t\t\t\t'class' => 'first',\n" .
+					"\t\t\t\t\t),\n";
+					$endFields = '';
+					foreach($fields as $field ) {
+						if (in_array($field, $ignore)) {
+							continue;
 						}
-						echo $endFields;
-					echo "\t\t\t\t)\n" .
-				"\t\t\t);\n\n" .
 
-				"\t\t\tforeach (\${$pluralVar} as \${$singularVar}) { ?>\n" .
-					"\t\t\t\t<tr class=\"<?php echo \$this->Infinitas->rowClass(); ?>\">\n" .
-						"\t\t\t\t\t<td><?php echo \$this->Infinitas->massActionCheckBox(\${$singularVar}); ?>&nbsp;</td>\n";
-
-						$endFields = '';
-						foreach ($fields as $field) {
-							if (in_array($field, $ignore)) {
-								continue;
-							}
-
-							$isKey = false;
-							if (!empty($associations['belongsTo'])) {
-								foreach ($associations['belongsTo'] as $alias => $details) {
-									if ($field === $details['foreignKey']) {
-										$isKey = true;
-										echo "\t\t\t\t\t<td>\n\t\t\t\t\t\t<?php echo \$this->Html->link(\${$singularVar}['{$alias}']['{$details['displayField']}'], array('controller' => '{$details['controller']}', 'action' => 'view', \${$singularVar}['{$alias}']['{$details['primaryKey']}'])); ?>\n\t\t\t\t\t</td>\n";
-										break;
-									}
-								}
-							}
-							if ($isKey !== true) {
-								switch($field) {
-									case 'created':
-									case 'modified':
-										$endFields .= "\t\t\t\t\t<td><?php echo \$this->Infinitas->date(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
-										break;
-
-									case 'active':
-										$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->status(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n" .$endFields;
-										break;
-
-									case 'locked':
-										$endFields = "\t\t\t\t\t<td><?php echo \$this->Locked->display(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n" .$endFields;
-										break;
-
-									case 'email':
-										echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n" .$endFields;
-										break;
-
-									case 'ordering':
-										echo "\t\t\t\t\t<td><?php echo \$this->{$plugin}->ordering(\${$singularVar}['{$modelClass}']['{$primaryKey}'], \${$singularVar}['{$modelClass}']['ordering']); ?>&nbsp;</td>\n";
-										break;
-
-
-									case $displayField:
-										$title = '';
-										switch(in_array('slug', $fields)) {
-											case true:
-												$title = " title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
-
-											default:
-												echo "\t\t\t\t\t<td{$title}><?php echo \$this->Html->adminQuickLink(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
-										}
-										break;
-
-									default:
-										echo "\t\t\t\t\t<td><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
+						$isKey = false;
+						if (!empty($associations['belongsTo'])) {
+							foreach ($associations['belongsTo'] as $alias => $details) {
+								if ($field === $details['foreignKey']) {
+									$isKey = true;
+									echo "\t\t\t\t\t\$this->Paginator->sort('{$alias}.{$details['displayField']}', '{$alias}'),\n";
+									break;
 								}
 							}
 						}
-						echo $endFields;
-					echo "\t\t\t\t</tr><?php\n" .
-				"\t\t\t}\n" .
-			"\t\t?>\n"
-		?>
-	</table>
-	<?php echo "<?php echo \$this->Form->end(); ?>\n"; ?>
-</div>
-<?php echo "<?php echo \$this->element('pagination/admin/navigation'); ?>" ?>
+						if ($isKey !== true) {
+							switch($field) {
+								case 'created':
+								case 'modified':
+									$endFields .= "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n" .
+										"\t\t\t\t\t\t'style' => 'width:75px;'\n" .
+									"\t\t\t\t\t),\n";
+									break;
+
+								case 'active':
+								case 'locked':
+									$endFields = "\t\t\t\t\t\$this->Paginator->sort('{$field}') => array(\n" .
+										"\t\t\t\t\t\t'style' => 'width:50px;'\n" .
+									"\t\t\t\t\t),\n" .$endFields;
+									break;
+
+								case str_replace('_count', '', $field) != $field:
+									$name = Inflector::humanize(Inflector::pluralize(Inflector::underscore(str_replace('_count', '', $field))));
+									echo "\t\t\t\t\t\$this->Paginator->sort('{$field}', '{$name}') => array(\n" .
+										"\t\t\t\t\t\t'style' => 'width:50px;'\n" .
+									"\t\t\t\t\t),\n";
+									break;
+
+								default:
+									echo "\t\t\t\t\t\$this->Paginator->sort('{$field}'),\n";
+							} // switch
+						}
+					}
+					echo $endFields;
+				echo "\t\t\t\t)\n" .
+			"\t\t\t);\n\n" .
+
+			"\t\t\tforeach (\${$pluralVar} as \${$singularVar}) { ?>\n" .
+				"\t\t\t\t<tr>\n" .
+					"\t\t\t\t\t<td><?php echo \$this->Infinitas->massActionCheckBox(\${$singularVar}); ?>&nbsp;</td>\n";
+
+					$endFields = '';
+					foreach ($fields as $field) {
+						if (in_array($field, $ignore)) {
+							continue;
+						}
+
+						$isKey = false;
+						if (!empty($associations['belongsTo'])) {
+							foreach ($associations['belongsTo'] as $alias => $details) {
+								if ($field === $details['foreignKey']) {
+									$isKey = true;
+									echo "\t\t\t\t\t<td>\n\t\t\t\t\t\t<?php echo \$this->Html->link(\${$singularVar}['{$alias}']['{$details['displayField']}'], array('controller' => '{$details['controller']}', 'action' => 'view', \${$singularVar}['{$alias}']['{$details['primaryKey']}'])); ?>\n\t\t\t\t\t</td>\n";
+									break;
+								}
+							}
+						}
+						if ($isKey !== true) {
+							switch($field) {
+								case 'created':
+								case 'modified':
+									$endFields .= "\t\t\t\t\t<td><?php echo \$this->Infinitas->date(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
+									break;
+
+								case 'active':
+									$endFields = "\t\t\t\t\t<td><?php echo \$this->Infinitas->status(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n" .$endFields;
+									break;
+
+								case 'locked':
+									$endFields = "\t\t\t\t\t<td><?php echo \$this->Locked->display(\${$singularVar}, '{$modelClass}'); ?>&nbsp;</td>\n" .$endFields;
+									break;
+
+								case 'email':
+									echo "\t\t\t\t\t<td><?php echo \$this->Text->autoLinkEmails(\${$singularVar}['{$modelClass}']['{$field}']); ?>&nbsp;</td>\n" .$endFields;
+									break;
+
+								case 'ordering':
+									echo "\t\t\t\t\t<td><?php echo \$this->{$plugin}->ordering(\${$singularVar}['{$modelClass}']['{$primaryKey}'], \${$singularVar}['{$modelClass}']['ordering']); ?>&nbsp;</td>\n";
+									break;
+
+
+								case $displayField:
+									$title = '';
+									switch(in_array('slug', $fields)) {
+										case true:
+											$title = " title=\"<?php echo \${$singularVar}['{$modelClass}']['slug']; ?>\"";
+
+										default:
+											echo "\t\t\t\t\t<td{$title}><?php echo \$this->Html->adminQuickLink(\${$singularVar}['{$modelClass}']); ?>&nbsp;</td>\n";
+									}
+									break;
+
+								default:
+									echo "\t\t\t\t\t<td><?php echo \${$singularVar}['{$modelClass}']['{$field}']; ?>&nbsp;</td>\n";
+							}
+						}
+					}
+					echo $endFields;
+				echo "\t\t\t\t</tr><?php\n" .
+			"\t\t\t}\n" .
+		"\t\t?>\n"
+	?>
+</table>
+<?php
+	echo "<?php\n";
+	echo "\techo \$this->Form->end();\n";
+	echo "\techo \$this->element('pagination/admin/navigation');" ?>

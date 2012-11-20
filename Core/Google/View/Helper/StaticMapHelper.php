@@ -1,6 +1,6 @@
 <?php
-	App::import('Helper', 'Google.GoogleAppHelper');
-	
+	App::uses('GoogleAppHelper', 'Google.View/Helper');
+
 	/**
 	 * http://code.google.com/apis/maps/documentation/staticmaps/#Usage
 	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
@@ -46,13 +46,13 @@
 
 			$this->query = $data;
 
-			if(!isset($this->query['location']) || !$this->__getValidLocation($this->query['location'])) {				
+			if(!isset($this->query['location']) || !$this->__getValidLocation($this->query['location'])) {
 				if(!isset($this->query['markers']) || count($this->query['markers']) < 2) {
 					$this->errors[] = 'Invalid location';
 					return false;
 				}
 			}
-			
+
 			if(isset($this->query['visible']) && empty($this->query['visable'])) {
 				$this->query['visible'] = $this->__getValidLocation($this->query['visible']);
 			}
@@ -84,7 +84,7 @@
 			if($linkOnly) {
 				return $url;
 			}
-			
+
 			$this->_writeCache(array($data, $imageProperties), $url);
 			return $this->Html->image(
 				$url,

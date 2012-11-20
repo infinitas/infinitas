@@ -19,88 +19,78 @@
      */
 
     echo $this->Form->create('NewsletterSubscriber', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'add',
-                'edit',
-                'toggle',
-                'delete'
-            )
-        );
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'edit',
+		'toggle',
+		'delete'
+	));
 
 ?>
-<div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    $this->Form->checkbox('all') => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
-                    $this->Paginator->sort('subscriber_name'),
-                    $this->Paginator->sort('subscriber_email'),
-                    $this->Paginator->sort('subscription_count', __d('newsletter', 'Subscriptions')) => array(
-                        'width' => '50px'
-                    ),
-                    $this->Paginator->sort('created') => array(
-                        'width' => '120px'
-                    ),
-                    $this->Paginator->sort('modified') => array(
-                        'width' => '120px'
-                    ),
-                    __d('newsletter', 'Status') => array(
-                        'class' => 'actions',
-                        'width' => '50px'
-                    )
-                )
-            );
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('subscriber_name'),
+			$this->Paginator->sort('subscriber_email'),
+			$this->Paginator->sort('subscription_count', __d('newsletter', 'Subscriptions')) => array(
+				'width' => '50px'
+			),
+			$this->Paginator->sort('created') => array(
+				'width' => '120px'
+			),
+			$this->Paginator->sort('modified') => array(
+				'width' => '120px'
+			),
+			__d('newsletter', 'Status') => array(
+				'class' => 'actions',
+				'width' => '50px'
+			)
+		));
 
-            foreach($newsletterSubscribers as $newsletterSubscriber) {
-                ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Infinitas->massActionCheckBox($newsletterSubscriber); ?>&nbsp;</td>
-                        <td>
-							<?php
-								echo $newsletterSubscriber['NewsletterSubscriber']['subscriber_name'];
-								if(!empty($newsletterSubscriber['User']['id'])) {
-									echo $this->Image->image(
-										'actions',
-										'new-window',
-										array(
-											'title' => __d('newsletter', 'View'),
-											'alt' => __d('newsletter', 'View'),
-											'width' => '12px',
-											'url' => $this->Infinitas->adminQuickLink($newsletterSubscriber['User'], array('plugin' => 'users', 'controller' => 'users'), 'User', true)
-										)
-									);
-								}
-							?>&nbsp;
-						</td>
-                        <td>
-							<?php
-								if(!empty($newsletterSubscriber['User']['id'])) {
-									echo $newsletterSubscriber['User']['email'];
-								}
-								else {
-									echo $newsletterSubscriber['NewsletterSubscriber']['email'];
-								}
-							?>&nbsp;
-						</td>
-                        <td><?php echo $newsletterSubscriber['NewsletterSubscriber']['subscription_count']; ?>&nbsp;</td>
-                        <td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['created']); ?>&nbsp;</td>
-                        <td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['modified']); ?>&nbsp;</td>
-                        <td>
-                            <?php
-                                echo $this->Infinitas->status($newsletterSubscriber['NewsletterSubscriber']['active'], $newsletterSubscriber['NewsletterSubscriber']['id']);
-                            ?>
-                        </td>
-                    </tr>
-                <?php
-            }
-        ?>
-    </table>
-    <?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach($newsletterSubscribers as $newsletterSubscriber) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($newsletterSubscriber); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $newsletterSubscriber['NewsletterSubscriber']['subscriber_name'];
+						if(!empty($newsletterSubscriber['User']['id'])) {
+							echo $this->Image->image(
+								'actions',
+								'new-window',
+								array(
+									'title' => __d('newsletter', 'View'),
+									'alt' => __d('newsletter', 'View'),
+									'width' => '12px',
+									'url' => $this->Infinitas->adminQuickLink($newsletterSubscriber['User'], array('plugin' => 'users', 'controller' => 'users'), 'User', true)
+								)
+							);
+						}
+					?>&nbsp;
+				</td>
+				<td>
+					<?php
+						if(!empty($newsletterSubscriber['User']['id'])) {
+							echo $newsletterSubscriber['User']['email'];
+						} else {
+							echo $newsletterSubscriber['NewsletterSubscriber']['email'];
+						}
+					?>&nbsp;
+				</td>
+				<td><?php echo $newsletterSubscriber['NewsletterSubscriber']['subscription_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['created']); ?></td>
+				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['modified']); ?></td>
+				<td>
+					<?php
+						echo $this->Infinitas->status($newsletterSubscriber['NewsletterSubscriber']['active'], $newsletterSubscriber['NewsletterSubscriber']['id']);
+					?>&nbsp;
+				</td>
+			</tr> <?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

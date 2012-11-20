@@ -19,84 +19,63 @@
 	 */
 
 	echo $this->Form->create(null, array('action' => 'mass'));
-		$massActions = $this->Infinitas->massActionButtons(
-			array(
-				'add',
-				'edit',
-				'copy',
-				'delete'
-			)
-		);
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'edit',
+		'copy',
+		'delete'
+	));
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo $this->Infinitas->adminTableHeader(
-				array(
-					$this->Form->checkbox('all') => array(
-						'class' => 'first',
-						'style' => 'width:25px;'
-					),
-					$this->Paginator->sort('plugin') => array(
-						'style' => 'width:75px;'
-					),
-					$this->Paginator->sort('name') => array(
-						'style' => 'width:100px;'
-					),
-					$this->Paginator->sort('street'),
-					$this->Paginator->sort('city'),
-					$this->Paginator->sort('province'),
-					$this->Paginator->sort('postal'),
-					$this->Paginator->sort(__('Country'), 'Country.name') => array(
-						'style' => 'width:75px;'
-					),
-					__('Continent') => array(
-						'style' => 'width:75px;'
-					),
-					$this->Paginator->sort('modified') => array(
-						'style' => 'width:50px;'
-					)
-				)
-			);
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('plugin') => array(
+				'style' => 'width:75px;'
+			),
+			$this->Paginator->sort('name') => array(
+				'style' => 'width:100px;'
+			),
+			$this->Paginator->sort('street'),
+			$this->Paginator->sort('city'),
+			$this->Paginator->sort('province'),
+			$this->Paginator->sort('postal'),
+			$this->Paginator->sort(__('Country'), 'Country.name') => array(
+				'style' => 'width:75px;'
+			),
+			__('Continent') => array(
+				'style' => 'width:75px;'
+			),
+			$this->Paginator->sort('modified') => array(
+				'style' => 'width:50px;'
+			)
+		));
 
-			$i = 0;
-			foreach ($addresses as $address) {
-				?>
-					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Infinitas->massActionCheckBox($address); ?>&nbsp;</td>
-						<td>
-							<?php echo sprintf('%s.%s', $address['ContactAddress']['plugin'], $address['ContactAddress']['model']); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $this->Html->link($address['ContactAddress']['name'], array('action' => 'edit', $address['ContactAddress']['id'])); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $address['ContactAddress']['street']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $address['ContactAddress']['city']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $address['ContactAddress']['province']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $address['ContactAddress']['postal']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $address['Country']['name']; ?>&nbsp;
-						</td>
-						<td>
-							<?php echo __(Configure::read('Contact.continents.' . $address['ContactAddress']['continent_id'])); ?>&nbsp;
-						</td>
-						<td>
-							<?php echo $this->Infinitas->date($address['ContactAddress']['modified']); ?>&nbsp;
-						</td>
-					</tr>
-				<?php
-			}
-		?>
-	</table>
-	<?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach ($addresses as $address) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($address); ?>&nbsp;</td>
+				<td><?php echo implode('.', array($address['ContactAddress']['plugin'], $address['ContactAddress']['model'])); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link($address['ContactAddress']['name'], array(
+							'action' => 'edit',
+							$address['ContactAddress']['id']
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo $address['ContactAddress']['street']; ?>&nbsp;</td>
+				<td><?php echo $address['ContactAddress']['city']; ?>&nbsp;</td>
+				<td><?php echo $address['ContactAddress']['province']; ?>&nbsp;</td>
+				<td><?php echo $address['ContactAddress']['postal']; ?>&nbsp;</td>
+				<td><?php echo $address['Country']['name']; ?>&nbsp;</td>
+				<td><?php echo __(Configure::read('Contact.continents.' . $address['ContactAddress']['continent_id'])); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($address['ContactAddress']['modified']); ?></td>
+			</tr><?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

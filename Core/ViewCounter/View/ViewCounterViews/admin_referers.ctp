@@ -19,32 +19,33 @@
     echo $this->Form->create('ViewCounterView', array('action' => 'mass'));
 	echo $this->Infinitas->adminIndexHead($filterOptions);
 ?>
-<div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    $this->Paginator->sort('referer'),
-                    $this->Paginator->sort('ViewCounterView.referer_count', __d('blog', 'Referals')) => array(
-                        'style' => 'width:130px;'
-                    ),
-                    $this->Paginator->sort('external') => array(
-                        'style' => 'width:30px;'
-                    )
-                )
-            );
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Paginator->sort('referer'),
+			$this->Paginator->sort('ViewCounterView.referer_count', __d('view_counter', 'Referals')) => array(
+				'style' => 'width:130px;'
+			),
+			$this->Paginator->sort('external') => array(
+				'style' => 'width:30px;'
+			)
+		));
 
-            foreach($views as $view) {
-                ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $view['ViewCounterView']['referer']; ?>&nbsp;</td>
-                        <td><?php echo $view['ViewCounterView']['referer_count']; ?>&nbsp;</td>
-                        <td><?php echo $this->Infinitas->status($view['ViewCounterView']['external'], $view['ViewCounterView']['id']); ?>&nbsp;</td>
-                    </tr>
-                <?php
-            }
-        ?>
-    </table>
-    <?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach($views as $view) { ?>
+			<tr>
+				<td>
+					<?php
+						echo $this->Html->link(String::truncate($view['ViewCounterView']['referer']), $view['ViewCounterView']['referer'], array(
+							'target' => '_blank'
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo $view['ViewCounterView']['referer_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->status($view['ViewCounterView']['external'], $view['ViewCounterView']['id']); ?>&nbsp;</td>
+			</tr> <?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

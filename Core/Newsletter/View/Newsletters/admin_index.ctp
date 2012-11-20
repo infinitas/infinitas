@@ -19,115 +19,102 @@
      */
 
     echo $this->Form->create('Newsletter', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'add',
-                'view',
-                'edit',
-                'copy',
-                'toggle',
-                'send',
-                'delete'
-            )
-        );
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'view',
+		'edit',
+		'copy',
+		'toggle',
+		'send',
+		'delete'
+	));
 ?>
-<div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-    	<?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    $this->Form->checkbox('all') => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
-                    $this->Paginator->sort('subject'),
-                    $this->Paginator->sort('Campaign.name', __d('newsletter', 'Campaign')) => array(
-                        'style' => 'width:150px;'
-                    ),
-                    $this->Paginator->sort('from') => array(
-                        'style' => 'width:100px;'
-                    ),
-                    $this->Paginator->sort('reply_to') => array(
-                        'style' => 'width:100px;'
-                    ),
-                    $this->Paginator->sort('sent') => array(
-                        'style' => 'width:100px;'
-                    ),
-                    __d('newsletter', 'Status') => array(
-                        'class' => 'actions',
-                        'width' => '50px'
-                    )
-                )
-            );
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('subject'),
+			$this->Paginator->sort('Campaign.name', __d('newsletter', 'Campaign')) => array(
+				'style' => 'width:150px;'
+			),
+			$this->Paginator->sort('from') => array(
+				'style' => 'width:100px;'
+			),
+			$this->Paginator->sort('reply_to') => array(
+				'style' => 'width:100px;'
+			),
+			$this->Paginator->sort('sent') => array(
+				'style' => 'width:100px;'
+			),
+			__d('newsletter', 'Status') => array(
+				'class' => 'actions',
+				'width' => '50px'
+			)
+		));
 
-            foreach($newsletters as $newsletter) {
-                ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>
-                        <td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
-                        <td>
-                            <?php
-                                echo $this->Html->link(
-                                    $newsletter['Campaign']['name'],
-                                    array(
-                                        'controller' => 'campaign',
-                                        'action' => 'view',
-                                        $newsletter['Newsletter']['campaign_id']
-                                    )
-                                );
-                            ?>&nbsp;
-                        </td>
-                        <td><?php echo $newsletter['Newsletter']['from']; ?>&nbsp;</td>
-                        <td><?php echo $newsletter['Newsletter']['reply_to']; ?>&nbsp;</td>
-                        <td>
-                            <?php
-                                if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']) {
-                                    echo $this->Html->image(
-                                        'core/icons/actions/16/update.png',
-                                        array(
-                                            'alt' => __('In Progress'),
-                                            'title' => __('Busy sending')
-                                        )
-                                    );
-                                }
-
-                                else{
-                                    echo $this->Infinitas->status($newsletter['Newsletter']['sent']);
-                                }
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                                if ($newsletter['Newsletter']['sent']) {
-                                    echo $this->Html->link(
-                                        $this->Html->image(
-                                            'core/icons/actions/16/reports.png'
-                                        ),
-                                        array(
-                                            'action' => 'report',
-                                            $newsletter['Newsletter']['id']
-                                        ),
-                                        array(
-                                            'title' => __('Sending complete. See the report.'),
-                                            'alt' => __('Done', true ),
-                                            'escape' => false
-                                        )
-                                    );
-                                }
-
-                                else{
-                                    echo $this->Infinitas->status($newsletter['Newsletter']['active']);
-                                }
-                            ?>
-                        </td>
-                    </tr>
-                <?php
-            }
-        ?>
-    </table>
-    <?php
-        echo $this->Form->end();
-    ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach($newsletters as $newsletter) {
+			?>
+				<tr>
+					<td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>
+					<td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
+					<td>
+						<?php
+							echo $this->Html->link(
+								$newsletter['Campaign']['name'],
+								array(
+									'controller' => 'campaign',
+									'action' => 'view',
+									$newsletter['Newsletter']['campaign_id']
+								)
+							);
+						?>&nbsp;
+					</td>
+					<td><?php echo $newsletter['Newsletter']['from']; ?>&nbsp;</td>
+					<td><?php echo $newsletter['Newsletter']['reply_to']; ?>&nbsp;</td>
+					<td>
+						<?php
+							if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']) {
+								echo $this->Html->image(
+									'core/icons/actions/16/update.png',
+									array(
+										'alt' => __('In Progress'),
+										'title' => __('Busy sending')
+									)
+								);
+							} else {
+								echo $this->Infinitas->status($newsletter['Newsletter']['sent']);
+							}
+						?>&nbsp;
+					</td>
+					<td>
+						<?php
+							if ($newsletter['Newsletter']['sent']) {
+								echo $this->Html->link(
+									$this->Html->image(
+										'core/icons/actions/16/reports.png'
+									),
+									array(
+										'action' => 'report',
+										$newsletter['Newsletter']['id']
+									),
+									array(
+										'title' => __('Sending complete. See the report.'),
+										'alt' => __('Done', true ),
+										'escape' => false
+									)
+								);
+							} else {
+								echo $this->Infinitas->status($newsletter['Newsletter']['active']);
+							}
+						?>&nbsp;
+					</td>
+				</tr>
+			<?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

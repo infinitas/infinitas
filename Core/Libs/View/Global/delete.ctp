@@ -20,51 +20,42 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	echo $this->Form->create($model, array('url' => '/' . $this->request->url));
-		$massActions = $this->Infinitas->massActionButtons(
+	echo $this->Form->create($model);
+	echo $this->Infinitas->adminIndexHead(null, array(
+		'delete',
+		'cancel'
+	));
+?>
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(
 			array(
-				'delete',
-				'cancel'
+				$this->Form->checkbox('all') => array(
+					'class' => 'first'
+				),
+				__('Record') => array(
+					'style' => 'width:150px;'
+				)
 			)
 		);
-	echo $this->Infinitas->adminIndexHead(null, $massActions);
-?>
-	<div class="table">
-		<table class="listing" cellpadding="0" cellspacing="0">
-			<?php
-				echo $this->Infinitas->adminTableHeader(
-					array(
-						$this->Form->checkbox('all') => array(
-							'class' => 'first',
-							'style' => 'width:25px;'
-						),
-						__('Record') => array(
-							'style' => 'width:150px;'
-						)
-					)
-				);
 
-				foreach($rows as $id => $value) {
-					?>
-						<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-							<td>
-								<?php
-									echo $this->Infinitas->massActionCheckBox(
-										array($model => array('id' => $id)),
-										array('checked' => true, 'model' => $model, 'primaryKey' => 'id')
-									);
-								?>&nbsp;
-							</td>
-							<td>
-								<?php echo $value; ?>
-							</td>
-						</tr>
+		foreach($rows as $id => $value) { ?>
+			<tr>
+				<td>
 					<?php
-				}
-				
-				echo $this->Form->hidden('Confirm.model', array('value' => $model));
-				echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
-			?>
-		</table>
-		<?php echo $this->Form->end(); ?>
-	</div>
+						echo $this->Infinitas->massActionCheckBox(
+							array($model => array('id' => $id)),
+							array('checked' => true, 'model' => $model, 'primaryKey' => 'id')
+						);
+					?>&nbsp;
+				</td>
+				<td><?php echo $value; ?>&nbsp;</td>
+			</tr> <?php
+		}
+
+		echo $this->Form->hidden('Confirm.model', array('value' => $model));
+		echo $this->Form->hidden('Confirm.confirmed', array('value' => 1));
+	?>
+</table>
+<?php
+	echo $this->Form->end();

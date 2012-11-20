@@ -19,54 +19,49 @@
      */
 
     echo $this->Form->create('Lock', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'unlock'
-            )
-        );
-	echo $this->Infinitas->adminIndexHead(null, $massActions);
+	echo $this->Infinitas->adminIndexHead(null, array(
+		'unlock'
+	));
 ?>
-<div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    $this->Form->checkbox('all') => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
-					$this->Paginator->sort('User.username', __d('locks', 'User')),
-					$this->Paginator->sort('class'),
-					$this->Paginator->sort('foreign_key'),
-					$this->Paginator->sort('created'),
-                )
-            );
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('User.username', __d('locks', 'User')),
+			$this->Paginator->sort('class'),
+			$this->Paginator->sort('foreign_key'),
+			$this->Paginator->sort('created'),
+		));
 
-            foreach ($locks as $lock) {
-                ?>
-                	<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Infinitas->massActionCheckBox($lock); ?>&nbsp;</td>
-                		<td>
-							<?php
-								echo $this->Html->link(
-									$lock['Locker']['username'],
-									array(
-										'plugin' => 'users',
-										'controller' => 'users',
-										'action' => 'edit',
-										$lock['Locker']['id']
-									)
-								);
-							?>&nbsp;
-						</td>
-                		<td><?php echo $lock['Lock']['class']; ?>&nbsp;</td>
-                		<td><?php echo $lock['Lock']['foreign_key']; ?>&nbsp;</td>
-                		<td><?php echo $this->Time->timeAgoInWords($lock['Lock']['created']); ?>&nbsp;</td>
-                	</tr>
-                <?php
-            }
-        ?>
-    </table>
-	<div style="display:none"><?php echo $this->Form->checkbox('Lock.0.id', array('checked' => true)); ?></div>
-    <?php echo $this->Form->end(); ?>
-</div>
+		foreach ($locks as $lock) {
+			?>
+				<tr>
+					<td><?php echo $this->Infinitas->massActionCheckBox($lock); ?>&nbsp;</td>
+					<td>
+						<?php
+							echo $this->Html->link(
+								$lock['Locker']['username'],
+								array(
+									'plugin' => 'users',
+									'controller' => 'users',
+									'action' => 'edit',
+									$lock['Locker']['id']
+								)
+							);
+						?>&nbsp;
+					</td>
+					<td><?php echo $lock['Lock']['class']; ?>&nbsp;</td>
+					<td><?php echo $lock['Lock']['foreign_key']; ?>&nbsp;</td>
+					<td><?php echo $this->Time->timeAgoInWords($lock['Lock']['created']); ?>&nbsp;</td>
+				</tr>
+			<?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Html->tag('div', $this->Form->checkbox('Lock.0.id', array('checked' => true)), array(
+		'class' => 'hide'
+	));
+	echo $this->Form->end();

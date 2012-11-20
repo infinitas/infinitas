@@ -19,58 +19,53 @@
      */
 ?>
 <?php
-        echo $this->Form->create('Template', array('action' => 'mass'));
-        $massActions = $this->Infinitas->massActionButtons(
-            array(
-                'add',
-                'edit',
-                'copy',
-                'view',
-                'export',
-                'delete'
-            )
-        );
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Form->create('Template', array('action' => 'mass'));
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'edit',
+		'copy',
+		'view',
+		'export',
+		'delete'
+	));
 ?>
-<div class="table">
-    <table class="listing" cellpadding="0" cellspacing="0">
-        <?php
-            echo $this->Infinitas->adminTableHeader(
-                array(
-                    $this->Form->checkbox('all') => array(
-                        'class' => 'first',
-                        'style' => 'width:25px;'
-                    ),
-                    $this->Paginator->sort('name'),
-                    $this->Paginator->sort('created') => array(
-                        'style' => 'width:100px;'
-                    ),
-                    $this->Paginator->sort('modified') => array(
-                        'style' => 'width:100px;'
-                    ),
-                    __('Status') => array(
-                        'class' => 'actions',
-                        'width' => '50px'
-                    )
-                )
-            );
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('name'),
+			$this->Paginator->sort('created') => array(
+				'style' => 'width:100px;'
+			),
+			$this->Paginator->sort('modified') => array(
+				'style' => 'width:100px;'
+			),
+			__('Status') => array(
+				'class' => 'actions',
+				'width' => '50px'
+			)
+		));
 
-            foreach($templates as $template) {
-                ?>
-                    <tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-                        <td><?php echo $this->Infinitas->massActionCheckBox($template); ?>&nbsp;</td>
-                        <td><?php echo $this->Html->link($template['Template']['name'], array('action' => 'edit', $template['Template']['id'])); ?>&nbsp;</td>
-                        <td><?php echo $this->Infinitas->date($template['Template']['created']); ?>&nbsp;</td>
-                        <td><?php echo $this->Infinitas->date($template['Template']['modified']); ?>&nbsp;</td>
-                        <td><?php echo $this->Locked->display($template); ?>&nbsp;</td>
-                    </tr>
-                <?php
-            }
-        ?>
-    </table>
-    <?php
-        echo $this->Form->end();
-
-    ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach($templates as $template) { ?>
+			<tr>
+				<td><?php echo $this->Infinitas->massActionCheckBox($template); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link($template['Template']['name'], array(
+							'action' => 'edit',
+							$template['Template']['id']
+						));
+					?>&nbsp;
+				</td>
+				<td><?php echo $this->Infinitas->date($template['Template']['created']); ?></td>
+				<td><?php echo $this->Infinitas->date($template['Template']['modified']); ?></td>
+				<td><?php echo $this->Locked->display($template); ?>&nbsp;</td>
+			</tr> <?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation'); ?>

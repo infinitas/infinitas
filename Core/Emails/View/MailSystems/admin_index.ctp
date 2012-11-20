@@ -19,60 +19,51 @@
 	 */
 
 	echo $this->Form->create('MailSystem', array('action' => 'mass'));
-		$massActions = $this->Infinitas->massActionButtons(
-			array(
-				'view',
-				'reply',
-				'forward',
-				'delete'
-			)
-		);
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'view',
+		'reply',
+		'forward',
+		'delete'
+	));
 ?>
-<div class="table">
-	<table class="listing" cellpadding="0" cellspacing="0">
-		<?php
-			echo $this->Infinitas->adminTableHeader(
-				array(
-					$this->Form->checkbox('all') => array(
-						'class' => 'first',
-						'style' => 'width:25px;'
-					),
-					$this->Paginator->sort('from'),
-					$this->Paginator->sort('subject'),
-					$this->EmailAttachments->hasAttachment(true) => array(
-						'class' => 'actions',
-						'width' => '20px'
-					),
-					$this->Paginator->sort('size'),
-					$this->Paginator->sort('date'),
-				)
-			);
+<table class="listing">
+	<?php
+		echo $this->Infinitas->adminTableHeader(array(
+			$this->Form->checkbox('all') => array(
+				'class' => 'first'
+			),
+			$this->Paginator->sort('from'),
+			$this->Paginator->sort('subject'),
+			$this->EmailAttachments->hasAttachment(true) => array(
+				'class' => 'actions',
+				'width' => '20px'
+			),
+			$this->Paginator->sort('size'),
+			$this->Paginator->sort('date'),
+		));
 
-			foreach($mails as $mail) {
-				$class = $mail['Message']['unread'] ? 'unread' : '';
-				?>
-					<tr class="<?php echo $this->Infinitas->rowClass(), ' ', $class; ?>">
-						<td><?php echo $this->Infinitas->massActionCheckBox($mail); ?>&nbsp;</td>
-						<td>
-							<?php
-								$_url = array('slugUrl' => array()); //$this->Event->trigger('Emails.slugUrl', array('type' => 'view', 'data' => $mail));
-								echo $this->EmailAttachments->isFlagged($mail['MailSystem']),
-									$this->Html->link(
-										sprintf('%s (%s)', $mail['From']['name'], $mail['Email']['thread_count']),
-										current($_url['slugUrl'])
-									);
-							?>&nbsp;
-						</td>
-						<td><?php echo $mail['Email']['subject']; ?>&nbsp;</td>
-						<td><?php echo $this->EmailAttachments->hasAttachment($mail['MailSystem']); ?>&nbsp;</td>
-						<td><?php echo convert($mail['Email']['size']); ?>&nbsp;</td>
-						<td><?php echo $this->Infinitas->date($mail['Email']['created']); ?>&nbsp;</td>
-					</tr>
-				<?php
-			}
-		?>
-	</table>
-	<?php echo $this->Form->end(); ?>
-</div>
-<?php echo $this->element('pagination/admin/navigation'); ?>
+		foreach($mails as $mail) {
+			$class = $mail['Message']['unread'] ? 'unread' : ''; ?>
+			<tr class="<?php echo $class; ?>">
+				<td><?php echo $this->Infinitas->massActionCheckBox($mail); ?>&nbsp;</td>
+				<td>
+					<?php
+						$_url = array('slugUrl' => array()); //$this->Event->trigger('Emails.slugUrl', array('type' => 'view', 'data' => $mail));
+						echo $this->EmailAttachments->isFlagged($mail['MailSystem']),
+							$this->Html->link(
+								sprintf('%s (%s)', $mail['From']['name'], $mail['Email']['thread_count']),
+								current($_url['slugUrl'])
+							);
+					?>&nbsp;
+				</td>
+				<td><?php echo $mail['Email']['subject']; ?>&nbsp;</td>
+				<td><?php echo $this->EmailAttachments->hasAttachment($mail['MailSystem']); ?>&nbsp;</td>
+				<td><?php echo convert($mail['Email']['size']); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($mail['Email']['created']); ?></td>
+			</tr><?php
+		}
+	?>
+</table>
+<?php
+	echo $this->Form->end();
+	echo $this->element('pagination/admin/navigation');

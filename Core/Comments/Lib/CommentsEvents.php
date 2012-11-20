@@ -41,9 +41,9 @@ class CommentsEvents extends AppEvents {
 	public function onAdminMenu(Event $Event) {
 		$menu['main'] = array(
 			'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index'),
-			'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 1),
-			'Pending' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.active' => 0, 'Comment.status' => 'approved'),
-			'Spam' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'Comment.status' => 'spam')
+			'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.active' => 1),
+			'Pending' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.active' => 0, 'InfinitasComment.status' => 'approved'),
+			'Spam' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.status' => 'spam')
 		);
 
 		return $menu;
@@ -139,5 +139,5 @@ class CommentsEvents extends AppEvents {
 			'element' => 'profile'
 		);
 	}
-	
+
 }

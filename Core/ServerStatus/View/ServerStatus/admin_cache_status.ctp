@@ -1,6 +1,6 @@
 <div class="dashboard grid_8">
 	<h1><?php echo __d('server_status', 'Cache Status'); ?></h1>
-	<table class="listing" cellpadding="0" cellspacing="0">
+	<table class="listing">
 		<thead>
 			<tr>
 				<th><?php echo __d('server_status', 'Section'); ?></th>
