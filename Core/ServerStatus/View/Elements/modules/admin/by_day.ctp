@@ -3,7 +3,7 @@
 		return false;
 	}
 ?>
-<div class="dashboard grid_16">
+<div class="page-header span12">
 	<?php
 		echo sprintf(
 			__('<h1>%s<small>Data between %s and %s</small></h1>'),
@@ -11,7 +11,7 @@
 			$this->Time->niceShort($byDay['start_date']),
 			$this->Time->niceShort($byDay['end_date'])
 		);
-		
+
 		if(empty($byDay['day'])) {
 			echo $this->ViewCounter->noData();
 		}

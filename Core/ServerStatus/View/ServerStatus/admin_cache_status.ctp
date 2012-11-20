@@ -53,26 +53,25 @@
 			'description' => 'Clear all cached data',
 			'icon' => '/server_status/img/cache.png',
 			'author' => 'Infinitas',
-			'dashboard' => array('plugin' => 'server_status', 'controller' => 'server_status', 'action' => 'cache_status', 'clear' => 1),
+			'dashboard' => array('controller' => 'server_status', 'action' => 'cache_status', 'clear' => 1),
 		)
-	)
-?>
-<div class="dashboard grid_8">
-	<h1><?php echo __d('server_status', 'Cache Options'); ?></h1>
-	<ul class="icons"><li><?php echo implode('</li><li>', current((array)$this->Menu->builDashboardLinks($icons, 'cache_status'))); ?></li></ul>
-</div>
+	);
 
-<?php
+	echo $this->Html->tag('div', implode('', array(
+		$this->Html->tag('h1', __d('server_status', 'Cache Options')),
+		$this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($icons, 'cache_status')), array('ul' => 'icons'))
+	)), array('class' => 'dashboard'));
+
 	if(empty($clearedCache)) {
 		return;
 	}
 ?>
-<div class="dashboard grid_16">
+<div class="dashboard">
 	<h1><?php echo __d('server_status', 'Cleared'); ?></h1>
-	<table class="listing" cellpadding="0" cellspacing="0">
+	<table>
 		<thead>
-			<td><?php __d('server_status', 'Type'); ?></td>
-			<td><?php __d('server_status', 'What'); ?></td>
+			<th class="xlarge"><?php echo __d('server_status', 'Cache'); ?></th>
+			<th class="small"><?php echo __d('server_status', 'Action'); ?></th>
 		</thead>
 		<tbody>
 			<?php

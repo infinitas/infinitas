@@ -3,12 +3,12 @@
 		return false;
 	}
 ?>
-<div class="dashboard grid_16">
+<div class="page-header span12">
 	<?php
 		if(empty($byHour)) {
 			$byHour = ClassRegistry::init('ServerStatus.ServerStatus')->reportByHour();
 		}
-		
+
 		echo sprintf(
 			__('<h1>Server load average by hour<small>Data between %s and %s</small></h1>'),
 			$this->Time->niceShort($byHour['start_date']),
@@ -18,7 +18,7 @@
 		if(empty($byHour['hour'])) {
 			echo $this->ViewCounter->noData();
 		}
-		
+
 		else{
 			echo $this->Charts->draw(
 				'line',

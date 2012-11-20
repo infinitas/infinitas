@@ -3,18 +3,18 @@
 		return false;
 	}
 ?>
-<div class="dashboard half">
+<div class="page-header span6">
 	<?php
 		echo sprintf(
 			__('<h1>Load for the last six months<small>Data between %s and %s</small></h1>'),
 			$this->Time->niceShort($lastSixMonths['start_date']),
 			$this->Time->niceShort($lastSixMonths['end_date'])
 		);
-		
+
 		if(empty($lastSixMonths['month'])) {
 			echo $this->ViewCounter->noData();
 		}
-		
+
 		else{
 			echo $this->Charts->draw(
 				array(

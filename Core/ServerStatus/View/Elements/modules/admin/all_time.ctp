@@ -3,7 +3,7 @@
 		return false;
 	}
 ?>
-<div class="dashboard half">
+<div class="page-header span6">
 	<?php
 		echo sprintf(__('<h1>%s</h1>'), __('Overall usage statistics'));
 	?>

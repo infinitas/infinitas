@@ -1,4 +1,4 @@
-<div class="dashboard half" style="height: 645px;">
+<div class="page-header span6" style="height: 645px;">
 	<?php
 		echo sprintf(
 			__('<h1>%s<small>%s<br/>%s</small></h1>'),
@@ -6,7 +6,7 @@
 			$current['Server']['version'],
 			$current['Server']['release']
 		);
-		
+
 		$plugins = App::objects('plugin');
 	?>
 	<table class="listing" style="margin: auto; width: 96%; background: none;">

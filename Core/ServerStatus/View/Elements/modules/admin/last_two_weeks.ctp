@@ -3,18 +3,18 @@
 		return false;
 	}
 ?>
-<div class="dashboard half">
+<div class="page-header span6">
 	<?php
 		echo sprintf(
 			__('<h1>Last two weeks<small>Data between %s and %s</small></h1>'),
 			$this->Time->niceShort($lastTwoWeeks['start_date']),
 			$this->Time->niceShort($lastTwoWeeks['end_date'])
 		);
-		
+
 		if(empty($lastTwoWeeks['day'])) {
 			echo $this->ViewCounter->noData();
 		}
-		
+
 		else{
 			echo $this->Charts->draw(
 				'line',
