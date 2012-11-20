@@ -16,6 +16,27 @@
 
 class ShortUrlsEvents extends AppEvents {
 /**
+ * Get plugin details
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onPluginRollCall(Event $Event) {
+		return array(
+			'name' => 'Short Urls',
+			'description' => 'Create and manage short urls',
+			'icon' => '/short_urls/img/icon.png',
+			'author' => 'Infinitas',
+			'dashboard' => array(
+				'plugin' => 'short_urls',
+				'controller' => 'short_urls',
+				'action' => 'index'
+			),
+		);
+	}
+
+/**
  * create the admin menus
  *
  * @param Event $Event
