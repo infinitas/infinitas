@@ -231,8 +231,12 @@ table.listing {
 	th.larger {
 		width: 125px;
 	}
+	th.xlarge,
 	th.date {
 		width: 150px;
+	}
+	th.xxlarge {
+		width: 2000px;
 	}
 }
 
@@ -246,6 +250,12 @@ button {
 /**
  * Search
  */
+input[type="text"],
+select {
+	width: 100%;
+}
+
+
 
 .filters {
 	.filter-form {
@@ -276,6 +286,22 @@ button {
 		}
 	}
 }
+
+form {
+	.form {
+		.sidebar {
+			input[type="text"] {
+				width: 96%;
+			}
+			.input.date {
+				select {
+					width: 30%;
+				}
+			}
+		}
+	}
+}
+
 
 /**
  * General
