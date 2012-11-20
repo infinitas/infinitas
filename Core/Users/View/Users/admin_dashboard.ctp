@@ -19,18 +19,15 @@
 			)
 		),
 		array(
-			'name' => 'Access - ACL',
+			'name' => 'Access',
 			'description' => 'Manage who can view what',
 			'icon' => '/users/img/groups.png',
 			'dashboard' => $this->here . '#'
 		)
 	);
-	
-	$dashboardIcons = $this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard');
-?>
-<div class="dashboard grid_16">
-	<h1><?php echo __('User Manager'); ?></h1>
-	<?php echo $this->Design->arrayToList(current((array)$dashboardIcons), array('ul' => 'icons')); ?>
-</div>
-<?php
+
+	echo $this->Html->tag('div', implode('', array(
+		$this->Html->tag('h1', __d('users', 'User Manager')),
+		$this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard')), array('ul' => 'icons'))
+	)), array('class' => 'dashboard'));
 	echo $this->ModuleLoader->loadDirect('Users.registrations');

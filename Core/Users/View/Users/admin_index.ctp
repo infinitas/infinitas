@@ -18,19 +18,15 @@
 	 * @since		 0.5a
 	 */
 
-	echo $this->Form->create( 'User', array( 'url' => array( 'controller' => 'users', 'action' => 'mass', 'admin' => 'true' ) ) );
-
-		$massActions = $this->Infinitas->massActionButtons(
-			array(
-				'add',
-				'edit',
-				'copy',
-				'move',
-				'toggle',
-				'delete'
-			)
-		);
-	echo $this->Infinitas->adminIndexHead($filterOptions, $massActions);
+	echo $this->Form->create(null, array('action' => 'mass'));
+	echo $this->Infinitas->adminIndexHead($filterOptions, array(
+		'add',
+		'edit',
+		'copy',
+		'move',
+		'toggle',
+		'delete'
+	));
 ?>
 <div class="table">
 	<table class="listing" cellpadding="0" cellspacing="0">
@@ -44,57 +40,66 @@
 					$this->Paginator->sort('username'),
 					$this->Paginator->sort('email'),
 					$this->Paginator->sort('browser') => array(
-						'style' => 'width:75px;'
+						'class' => 'large'
 					),
 					$this->Paginator->sort('operating_system', __d('users', 'OS')) => array(
-						'style' => 'width:75px;'
+						'class' => 'large'
 					),
 					$this->Paginator->sort('country') => array(
-						'style' => 'width:75px;'
+						'class' => 'large'
 					),
 					$this->Paginator->sort('birthday') => array(
-						'style' => 'width:75px;'
+						'class' => 'medium'
 					),
 					$this->Paginator->sort('created') => array(
-						'style' => 'width:75px;'
+						'class' => 'date'
 					),
 					$this->Paginator->sort('modified') => array(
-						'style' => 'width:75px;'
+						'class' => 'date'
 					),
 					$this->Paginator->sort('last_login') => array(
-						'style' => 'width:75px;'
+						'class' => 'date'
 					),
 					__d('users', 'Active') => array(
-						'style' => 'width:50px;'
+						'class' => 'small'
 					)
 				)
 			);
 
-			foreach ($users as $user) {
-				?>
-					<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
-						<td><?php echo $this->Infinitas->massActionCheckBox($user); ?>&nbsp;</td>
-						<td><?php echo $this->Infinitas->adminQuickLink($user['User']); ?>&nbsp;</td>
-						<td><?php echo $this->Text->autoLinkEmails($user['User']['email']); ?>&nbsp;</td>
-						<td><?php echo $user['User']['browser']; ?>&nbsp;</td>
-						<td><?php echo $user['User']['operating_system']; ?>&nbsp;</td>
-						<td><?php echo $user['User']['country']; ?>&nbsp;</td>
-						<td>
-							<?php
-								if ($user['User']['birthday']) {
-									echo $this->Infinitas->date($user['User']['birthday'], null, false);
-								}
-								else{
-									echo __('Not Set');
-								}
-							?>&nbsp;
-						</td>
-						<td><?php echo $this->Infinitas->date($user['User']['created']); ?>&nbsp;</td>
-						<td><?php echo $this->Infinitas->date($user['User']['modified']); ?>&nbsp;</td>
-						<td><?php echo $this->Infinitas->date($user['User']['last_login']); ?>&nbsp;</td>
-						<td><?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;</td>
-					</tr>
-				<?php
+			foreach ($users as $user) { ?>
+				<tr class="<?php echo $this->Infinitas->rowClass(); ?>">
+					<td><?php echo $this->Infinitas->massActionCheckBox($user); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->adminQuickLink($user['User']); ?>&nbsp;</td>
+					<td><?php echo $this->Text->autoLinkEmails($user['User']['email']); ?>&nbsp;</td>
+					<td>
+						<?php
+							echo $this->Html->link($user['User']['browser'], array(
+								'User.browser' => preg_replace('/[^a-z]/', '', strtolower($user['User']['browser']))
+							));
+						?>&nbsp;
+					</td>
+					<td>
+						<?php
+							echo $this->Html->link($user['User']['operating_system'], array(
+								'User.operating_system' => preg_replace('/[^a-z]/', '', strtolower($user['User']['operating_system']))
+							));
+						?>&nbsp;
+					</td>
+					<td><?php echo $user['User']['country']; ?>&nbsp;</td>
+					<td>
+						<?php
+							$date = __d('users', 'Not Set');
+							if ($user['User']['birthday']) {
+								$date = $this->Infinitas->date($user['User']['birthday'], null, false);
+							}
+							echo $date;
+						?>&nbsp;
+					</td>
+					<td><?php echo $this->Infinitas->date($user['User']['created']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($user['User']['modified']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->date($user['User']['last_login']); ?>&nbsp;</td>
+					<td><?php echo $this->Infinitas->status($user['User']['active']); ?>&nbsp;</td>
+				</tr> <?php
 			}
 		?>
 	</table>
