@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet/less" type="text/css" href="/assets/css/bootstrap/0-infinitas.less">
+		<link rel="stylesheet/less" type="text/css" href="/assets/less/infinitas/admin.less">
 		<?php
 			echo $this->Html->charset();
 			echo $this->Html->tag('title', sprintf('Infinitas Admin :: %s', $title_for_layout));

@@ -8,7 +8,7 @@
             echo $this->Html->meta('icon');
 			echo $this->Compress->css($css_for_layout);
 		?>
-		<link rel="stylesheet/less" type="text/css" href="/assets/css/bootstrap/0-infinitas.less">
+		<link rel="stylesheet/less" type="text/css" href="/assets/less/infinitas/admin.less">
 		<script type="text/javascript">
 			Infinitas = <?php echo json_encode(isset($infinitasJsData) ? $infinitasJsData : ''); ?>;
 			if (Infinitas.base != '/') {
