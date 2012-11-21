@@ -1,7 +1,6 @@
 # Infinitas ignores
 Config/database.php
 
-Core/Assets/View/Themed/*
 Core/Contents/webroot/pages/*
 Core/Emails/attachments/*
 Core/Emails/webroot/img/images/*
