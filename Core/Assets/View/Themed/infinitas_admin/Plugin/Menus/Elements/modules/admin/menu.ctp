@@ -64,6 +64,8 @@
 					)),
 					$this->Html->tag('p', implode('', $links))
 				)), array('class' => 'nav-collapse collapse'));
+
+				echo $this->element('Users.language_select');
 			?>
 		</div>
 	</div>
