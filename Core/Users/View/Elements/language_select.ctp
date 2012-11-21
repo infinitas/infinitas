@@ -1,7 +1,7 @@
 <?php
 $languageOptions = array('name' => true);
 $languages = array(
-	'england' => $this->Html->link($this->Contacts->flag('england'), $this->here . '#', array(
+	'england' => $this->Html->link($this->Contacts->flag('england') . $this->Html->tag('b', '', array('class' => 'caret')), $this->here . '#', array(
 		'class' => 'dropdown-toggle',
 		'role' => 'button',
 		'data-toggle' => 'dropdown',

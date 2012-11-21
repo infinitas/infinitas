@@ -216,32 +216,36 @@
 		 * redirects to the filtered url for the users own records
 		 */
 		public function actionAdminMine() {
-			if(!$this->Controller->{$this->Controller->modelClass}->hasField('user_id')) {
-				$this->Controller->notice(
-					__('Cant determin a user field'),
-					array(
-						'redirect' => true,
-						'level' => 'error'
-					)
-				);
+			$userId = AuthComponent::user('id');
+			if(!$userId) {
+				$this->Controller->notice(__('You need to be logged in to do that'), array(
+					'redirect' => true,
+					'level' => 'error'
+				));
 			}
 
-			if(!$this->Controller->Auth->user('id')) {
-				$this->Controller->notice(
-					__('You need to be logged in to do that'),
-					array(
-						'redirect' => true,
-						'level' => 'error'
-					)
-				);
-			}
-
-			$this->Controller->redirect(
-				array(
-					'action' => 'index',
-					$this->Controller->{$this->Controller->modelClass}->alias . '.user_id' => $this->Controller->Auth->user('id')
-				)
+			$field = 'user_id';
+			$redirect = array(
+				'action' => 'index',
+				$this->Controller->{$this->Controller->modelClass}->alias . '.' . $field => $userId
 			);
+
+			if($this->Controller->modelClass == 'User') {
+				$field = 'id';
+				$redirect = array(
+					'action' => 'edit',
+					$userId
+				);
+			}
+
+			if(!$this->Controller->{$this->Controller->modelClass}->hasField($field)) {
+				$this->Controller->notice(__('Cant determin a user field'), array(
+					'redirect' => true,
+					'level' => 'error'
+				));
+			}
+
+			$this->Controller->redirect($redirect);
 		}
 
 		/**

@@ -12,14 +12,6 @@
 			);
 		}
 
-		public function onAdminMenu(Event $Event) {
-			$menu['main'] = array(
-				'Configuration' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site')
-			);
-
-			return $menu;
-		}
-
 		public function onSlugUrl(Event $Event, $data = null, $type = null) {
 			switch($data['type']) {
 				case 'comments':
