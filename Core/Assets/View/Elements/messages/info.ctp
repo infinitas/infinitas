@@ -5,4 +5,4 @@
 	echo $this->Html->tag('div', implode('', array(
 		$this->Form->button('&times;', array('class' => 'close', 'data-dismiss' => 'alert')),
 		$message
-	)), array('class' => array('alert')));
+	)), array('class' => array('alert', 'alert-info')));

@@ -1,13 +1,8 @@
-<div class="user-warning warning">
-	<?php
-		echo $this->Image->image('notifications', 'warning', array('alt' => 'warning'));
-
-		if(isset($code) && $code) {
-			sprintf('<b>%s:</b> %s', $code, $message);
-		}
-
-		else{
-			echo $message;
-		}
-	?>
-</div>
+<?php
+	if($code) {
+		$message = $this->Html->tag('strong', $code . ':') . $message;
+	}
+	echo $this->Html->tag('div', implode('', array(
+		$this->Form->button('&times;', array('class' => 'close', 'data-dismiss' => 'alert')),
+		$message
+	)), array('class' => array('alert')));

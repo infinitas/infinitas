@@ -1,28 +1,41 @@
 <?php
-	/* 
-	 * Short Description / title.
-	 * 
-	 * Overview of what the file does. About a paragraph or two
-	 * 
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package {see_below}
-	 * @subpackage {see_below}
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
-	 * 
-	 * @author {your_name}
-	 * 
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
+/*
+ * Login module
+ * 
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Users.View
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
 	if(AuthComponent::user('id')) {
 		echo $this->element('logout', array('plugin' => 'users'));
-	}
-	else{
-		echo $this->element('login', array('plugin' => 'users'));
+	} else {
+		echo $this->Form->create('User', array(
+			'url' => array(
+				'plugin' => 'users',
+				'controller' => 'users',
+				'action' => 'login'
+			),
+			'inputDefaults' => array(
+				'div' => false,
+				'label' => false
+			),
+			'class' => 'navbar-form pull-right'
+		));
+			echo $this->Form->input('usename', array(
+				'placeholder' => __d('users', 'Username'),
+				'class' => 'span2'
+			));
+			echo $this->Form->input('password', array(
+				'placeholder' => __d('users', 'Password'),
+				'class' => 'span2'
+			));
+			echo $this->Form->button(__d('users', 'Login'), array(
+				'class' => 'btn'
+			));
+		echo $this->Form->end();
 	}
