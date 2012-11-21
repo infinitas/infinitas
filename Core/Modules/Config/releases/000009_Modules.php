@@ -4,7 +4,7 @@
 	 *
 	 * Auto generated database update
 	 */
-	 
+
 	class R4f5634accfa0451eb99e43556318cd70 extends CakeRelease {
 
 	/**
@@ -88,7 +88,7 @@
 				),
 			),
 		);
-		
+
 		public $fixtures = array(
 			'core' => array(
 				'ModulePosition' => array(
@@ -192,26 +192,6 @@
 						'update_url' => 'http://infinitas-cms.org/plugins/menus/',
 					),
 					array(
-						'id' => '00000000-3394-4e47-0002-000000000001',
-						'name' => 'Plugin Dock',
-						'content' => '',
-						'plugin' => 'Menus',
-						'module' => 'admin/dock',
-						'config' => '',
-						'theme_id' => 0,
-						'position_id' => '00000000-3394-4e47-0001-000000000000',
-						'group_id' => 1,
-						'ordering' => 2,
-						'admin' => 1,
-						'active' => 1,
-						'show_heading' => 0,
-						'core' => 1,
-						'author' => 'Infinitas',
-						'licence' => 'MIT',
-						'url' => 'http://infinitas-cms.org',
-						'update_url' => 'http://infinitas-cms.org/plugins/menus/',
-					),
-					array(
 						'id' => '00000000-3394-4e47-0002-000000000002',
 						'name' => 'Todo List',
 						'content' => '',
@@ -239,7 +219,7 @@
 						'module' => 'admin/dashboard_icons',
 						'config' => '',
 						'theme_id' => 0,
-						'position_id' => '00000000-3394-4e47-0001-000000000005',
+						'position_id' => '00000000-3394-4e47-0001-000000000006',
 						'group_id' => 1,
 						'ordering' => 1,
 						'admin' => 1,
@@ -415,7 +395,7 @@
 			)
 		);
 
-	
+
 	/**
 	* Before migration callback
 	*
