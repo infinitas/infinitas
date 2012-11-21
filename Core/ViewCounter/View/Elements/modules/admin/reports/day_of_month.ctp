@@ -3,8 +3,7 @@
 		echo $this->ViewCounter->header('day_of_month', $byDay);
 		if(empty($byDay['sub_total'])) {
 			echo $this->ViewCounter->noData();
-		}
-		else{
+		} else{
 			echo $this->Charts->draw(
 				array(
 					'bar' => array(

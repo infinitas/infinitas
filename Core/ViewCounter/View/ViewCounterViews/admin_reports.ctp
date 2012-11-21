@@ -12,16 +12,11 @@
 				)
 			);
 		}
-		$icons = $this->Menu->builDashboardLinks($icons, 'view_counts_totals'); ?>
-		<div class="dashboard grid_16">
-			<h1>
-				<?php echo __('Totals per model'); ?>
-			</h1>
-			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
-		</div><?php
-	}
-
-	else if(isset($foreignKeys) && $foreignKeys) {
+		$icons = $this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($icons, 'view_counts_totals')), array(
+			'ul' => 'icons'
+		));
+		echo $this->Design->dashboard($icons, __d('view_counter', 'Totals per model'));
+	} else if(isset($foreignKeys) && $foreignKeys) {
 		$icons = array();
 		foreach($foreignKeys as $foreignKey) {
 			$model = str_replace('.', '', $foreignKey['ViewCounterView']['model']);
@@ -37,27 +32,16 @@
 			);
 		}
 
-		$icons = $this->Menu->builDashboardLinks($icons, 'view_counts_totals_' . $model); ?>
-		<div class="dashboard grid_16">
-			<h1>
-				<?php echo __('Views by Row'); ?>
-			</h1>
-			<ul class="icons"><li><?php echo implode('</li><li>', current((array)$icons)); ?></li></ul>
-		</div><?php
-	}
-
-	else if(isset($relatedModel) && $relatedModel) { ?>
-		<div class="dashboard grid_16">
-			<h1>
-				<?php
-					echo sprintf(
-						__('Showing data for "%s", row 3%d'),
-						$relatedModel[str_replace('.', '', $relatedModel['ViewCounterView']['model'])]['title'],
-						$relatedModel[str_replace('.', '', $relatedModel['ViewCounterView']['model'])]['id']
-					);
-				?>
-			</h1>
-		</div><?php
+		$icons = $this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($icons, 'view_counts_totals_' . $model)), array(
+			'ul' => 'icons'
+		));
+		echo $this->Design->dashboard($icons, __d('view_counter', 'Views by Row'));
+	} else if(isset($relatedModel) && $relatedModel) {
+		$title = __d('view_counter', 'Showing data for "%s", row 3%d',
+			$relatedModel[str_replace('.', '', $relatedModel['ViewCounterView']['model'])]['title'],
+			$relatedModel[str_replace('.', '', $relatedModel['ViewCounterView']['model'])]['id']
+		);
+		echo $this->Design->dashboard('', $title);
 	}
 
 	echo $this->ModuleLoader->loadDirect('ViewCounter.reports/overview',       array('overview'     => $overview));

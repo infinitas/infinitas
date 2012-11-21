@@ -15,13 +15,6 @@ $managementGeneral = array(
 		'dashboard' => array('plugin' => 'configs', 'controller' => 'configs', 'action' => 'index')
 	),
 	array(
-		'name' => 'Locks',
-		'description' => 'Stop others editing things you are working on',
-		'icon' => '/locks/img/icon.png',
-		'author' => 'Infinitas',
-		'dashboard' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
-	),
-	array(
 		'name' => 'Server',
 		'description' => 'Track your servers health',
 		'icon' => '/server_status/img/icon.png',
@@ -34,13 +27,6 @@ $managementGeneral = array(
 		'icon' => '/short_urls/img/icon.png',
 		'author' => 'Infinitas',
 		'dashboard' => array('plugin' => 'short_urls', 'controller' => 'short_urls', 'action' => 'index')
-	),
-	array(
-		'name' => 'Trash',
-		'description' => 'Manage the deleted content',
-		'icon' => '/trash/img/icon.png',
-		'author' => 'Infinitas',
-		'dashboard' => array('plugin' => 'trash', 'controller' => 'trash', 'action' => 'index')
 	),
 	array(
 		'name' => 'Contact',
@@ -74,19 +60,17 @@ $managementContent = array(
 		'dashboard' => array('plugin' => 'themes', 'controller' => 'themes', 'action' => 'index')
 	)
 );
-$managementGeneral = $this->Menu->builDashboardLinks($managementGeneral, 'management_general');
-$managementContent = $this->Menu->builDashboardLinks($managementContent, 'management_content');
 
-echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h1', __d('infinitas', 'Site Management')),
-	$this->Design->arrayToList(current((array)$managementGeneral), array(
-		'ul' => 'icons'
-	))
-)), array('class' => 'dashboard'));
+$managementGeneral = $this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($managementGeneral, 'management_general')), array(
+	'ul' => 'icons'
+));
+$managementContent = $this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($managementContent, 'management_content')), array(
+	'ul' => 'icons'
+));
 
-echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h1', __d('infinitas', 'Site Layout')),
-	$this->Design->arrayToList(current((array)$managementContent), array(
-		'ul' => 'icons'
-	))
-)), array('class' => 'dashboard'));
+echo $this->Design->dashboard($managementContent, __d('infinitas', 'Site Layout'), array(
+	'class' => 'dashboard span6',
+));
+echo $this->Design->dashboard($managementGeneral, __d('infinitas', 'Site Management'), array(
+	'class' => 'dashboard span6',
+));

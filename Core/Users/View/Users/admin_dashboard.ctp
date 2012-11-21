@@ -26,8 +26,8 @@ $dashboardIcons = array(
 	)
 );
 
-echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h1', __d('users', 'User Manager')),
-	$this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard')), array('ul' => 'icons'))
-)), array('class' => 'dashboard'));
+$dashboardIcons = current((array)$this->Menu->builDashboardLinks($dashboardIcons, 'user_dashboard'));
+echo $this->Design->dashboard($this->Design->arrayToList($dashboardIcons, array('ul' => 'icons')), __d('users', 'User Manager'), array(
+	'class' => 'dashboard span6'
+));
 echo $this->ModuleLoader->loadDirect('Users.registrations');

@@ -132,28 +132,91 @@ class DesignHelper extends AppHelper {
  *
  * @return string
  */
-	public function sidebar($content, $title = null, $options = array()) {
+	public function sidebar($content, $title = null, array $options = array()) {
 		$options = array_merge(array(
 			'title' => 'h4',
 			'hr' => true,
 			'class' => 'span3 sidebar'
 		), $options);
-		if(!$title) {
-			$title = __d($this->request->params['plugin'], 'Details');
-		}
-		if($options['title']) {
-			$title = $this->Html->tag($options['title'], $title);
-		}
-		if($options['hr']) {
-			$title .= $this->Html->tag('hr');
-		}
-		unset($options['title'], $options['hr']);
+
+		$title = $this->_title($title, $options);
 
 		if(is_array($content)) {
 			$content = implode('', $content);
 		}
 
 		return $this->Html->tag('div', $title . $content, $options);
+	}
+
+	public function dashboard($content, $title = null, array $options = array()) {
+		$options = array_merge(array(
+			'title' => 'h1',
+			'class' => 'dashboard',
+			'hr' => true,
+			'info' => null,
+			'alert' => null
+		), $options);
+
+		$title = $this->_title($title, $options);
+		$content = implode('', (array)$content) . self::info($options['info']) . self::alert($options['alert']);
+
+		return $this->Html->tag('div', $title . $content, $options);
+	}
+
+	public function info($info, array $options = array()) {
+		if(empty($info)) {
+			return null;
+		}
+		$options = array_merge(array(
+			'class' => 'info',
+			'title' => 'p'
+		), $options);
+		return $this->Html->tag('p', implode('', (array)$info), $options);
+	}
+
+	public function alert($info, array $options = array()) {
+		if(empty($info)) {
+			return null;
+		}
+		$options = array_merge(array(
+			'class' => 'alert',
+			'title' => 'p'
+		), $options);
+		return $this->Html->tag('p', implode('', (array)$info), $options);
+	}
+
+/**
+ * Build title markup for various boxes
+ *
+ * Options:
+ *	- title: this is the tag used when building the markup
+ *	- hr: set to true to render a <hr> tag below the title element
+ *
+ * All options this method uses will be removed from the passed in options so the
+ * options can later be used without interference.
+ *
+ * @param string $title the title text
+ * @param array $options the title options
+ *
+ * @return string
+ */
+	protected function _title($title, array &$options) {
+		$options = array_merge(array(
+			'title' => null,
+			'hr' => null
+		), $options);
+		if(!$title) {
+			$title = __d($this->request->params['plugin'], 'Details');
+		}
+		if(!empty($options['title'])) {
+			$title = $this->Html->tag($options['title'], $title);
+		}
+
+		if($options['hr']) {
+			$title .= $this->Html->tag('hr');
+		}
+		unset($options['title'], $options['hr']);
+		return $title;
 	}
 
 }

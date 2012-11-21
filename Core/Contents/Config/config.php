@@ -28,5 +28,9 @@
 				)
 			)
 		),
-		'page_path' => CakePlugin::path('Contents') . 'webroot' . DS . 'pages'
+		'page_path' => CakePlugin::path('Contents') . 'webroot' . DS . 'pages',
+		'info' => array(
+			'reports' => __d('contents', 'Content reports can help identify issues with your content, including possible SEO problems'),
+			'contents' => __d('contents', 'This section is the base for your site')
+		)
 	);

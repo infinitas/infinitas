@@ -30,7 +30,7 @@ $devIcons = array(
 	)
 );
 
-echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h1', __d('server_status', 'Manage your server')),
-	$this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($devIcons, 'server_status')), array('ul' => 'icons'))
-)), array('class' => 'dashboard'));
+$devIcons = current((array)$this->Menu->builDashboardLinks($devIcons, 'server_status'));
+echo $this->Design->dashboard($this->Design->arrayToList($devIcons, array('ul' => 'icons')), __d('server_status', 'Manage your server'), array(
+	'class' => 'dashboard span6'
+));
