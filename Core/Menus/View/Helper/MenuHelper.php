@@ -157,6 +157,61 @@
 			return $return;
 		}
 
+		public function bootstrapNav($menus, $ulOptions = array(), $child = false) {
+			foreach($menus as &$menu) {
+				$ulOptions = array(
+					'class' => 'nav'
+				);
+				$linkOptions = array(
+					'escape' => false
+				);
+				$hasChildren = !empty($menu['children']);
+
+				if($child && !$hasChildren) {
+					$ulOptions = array(
+						'class' => 'dropdown-menu'
+					);
+				}
+
+				$caret = null;
+				if($hasChildren) {
+					$linkOptions = array_merge(array(
+						'class' => 'dropdown-toggle',
+						'data-toggle' => 'dropdown'
+					), $linkOptions);
+					$caret = $this->Html->tag('b', '', array('class' => 'caret'));
+				}
+				$url = $this->url($menu);
+				if($menu['MenuItem']['name'] == '--') {
+					$menu['MenuItem']['name'] = $this->Html->tag('li', '', array('class' => 'divider'));
+					$hasChildren = false;
+				} else if($menu['MenuItem']['class'] == 'nav-header') {
+					$menu['MenuItem']['name'] = $this->Html->tag('li', $menu['MenuItem']['name'], array('class' => 'nav-header'));
+				} else {
+					$menu['MenuItem']['name'] = $this->Html->link($menu['MenuItem']['name'] . $caret, $url, $linkOptions);
+				}
+				
+				if($hasChildren) {
+					$menu['MenuItem']['name'] .= self::bootstrapNav($menu['children'], array(), true);
+				}
+
+				$menu = $this->Html->tag('li', $menu['MenuItem']['name'], array(
+					'class' => array(
+						$this->here == $url ? 'active' : null,
+						$hasChildren ? 'dropdown' : null
+					)
+				));
+			}
+
+			$menus = $this->Html->tag('ul', implode('', $menus), $ulOptions);
+			if($child) {
+				return $menus;
+			}
+			return $this->Html->tag('div', $menus, array(
+				'class' => 'nav-collapse collapse'
+			));
+		}
+
 		/**
 		 * Create nested list menu.
 		 *

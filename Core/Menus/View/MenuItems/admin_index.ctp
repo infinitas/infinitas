@@ -65,10 +65,20 @@
 							echo '<b>', str_repeat('- ', $paths-1), ' |</b> ';
 						}
 
-						echo $this->Html->link(
-							$menuItem['MenuItem']['name'] == '--' ? __('Seperator' ) : Inflector::humanize($menuItem['MenuItem']['name']),
-							array('action' => 'edit', $menuItem['MenuItem']['id'])
-						);
+						if($menuItem['MenuItem']['name'] == '--') {
+							$menuItem['MenuItem']['name'] = $this->Html->tag('span', __d('menus', 'Separator'), array(
+								'class' => 'label'
+							));
+						}
+						if($menuItem['MenuItem']['class'] == 'nav-header') {
+							$menuItem['MenuItem']['name'] = $this->Html->tag('span', $menuItem['MenuItem']['name'], array(
+								'class' => 'label label-info'
+							));
+						}
+						echo $this->Html->link($menuItem['MenuItem']['name'], array(
+							'action' => 'edit',
+							$menuItem['MenuItem']['id']
+						), array('escape' => false));
 					?>&nbsp;
 				</td>
 				<td><?php echo Inflector::humanize($menuItem['Menu']['name']); ?>&nbsp;</td>
