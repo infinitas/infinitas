@@ -158,20 +158,15 @@ class InfinitasSecurityComponent extends InfinitasComponent {
  * @return true or blackHole;
  */
 	protected function _checkBadLogins() {
-		if($this->Controller->Auth->user('id')) {
-			return true;
-		}
-
-		if(empty($this->Controller->data)) {
+		if($this->Controller->Auth->user('id') || empty($this->Controller->request->data)) {
 			return true;
 		}
 
 		$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
-
 		if (count($old) > 0) {
 			$this->risk = ClassRegistry::init('Security.IpAddress')->findSimmilarAttempts(
 				$this->Controller->RequestHandler->getClientIp(),
-				$this->Controller->data['User']['username']
+				$this->Controller->request->data['User']['username']
 			);
 		}
 
