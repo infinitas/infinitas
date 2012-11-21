@@ -55,20 +55,17 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		 */
 
 		$currentRoute = Configure::read('CORE.current_route');
-
-		$out = '<div class="modules '.$position.'">';
+		$out = array();
 		foreach($modules as $module) {
-			if (
-				($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
-				in_array($module['Module']['module'], $this->moduleIgnoreOverload)
-			) {
-				//skip modules that are not for the current theme
+			$shouldSkip = ($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
+				in_array($module['Module']['module'], $this->moduleIgnoreOverload);
+			if ($shouldSkip) {
 				continue;
 			}
-			$params = $this->__getModuleParams($module, $admin);
 
+			$params = $this->__getModuleParams($module, $admin);
 			if($params === false) {
-				continue; // from userland and its not active
+				continue;
 			}
 
 			$moduleOut = $this->loadModule($module['Module']['module'], $params);
@@ -78,18 +75,21 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute) {
 				foreach($module['ModuleRoute'] as $route) {
 					if (empty($route['Route']['url']) || $route['Route']['url'] == $currentRoute->template) {
-						$out .= $moduleOut;
+						$out[] = $moduleOut;
+						break;
 					}
 				}
-			}
-
-			else if (empty($module['ModuleRoute']) || $error) {
-				$out .= $moduleOut;
+			} else if (empty($module['ModuleRoute']) || $error) {
+				$out[] = $moduleOut;
 			}
 		}
-		$out .= '</div>';
 
-		return $out;
+		return $this->Html->tag('div', implode('', $out), array(
+			'class' => array(
+				'modules',
+				$position
+			)
+		));
 	}
 
 /**
@@ -134,8 +134,17 @@ class ModuleLoaderHelper extends InfinitasHelper {
 				$moduleOut = $e->getMessage();
 			}
 		}
+		if(!$moduleOut) {
+			return false;
+		}
 
-		return sprintf('<div class="module %s %s">%s</div>', str_replace('/', '-', $module), $class, $moduleOut);
+		return $this->Html->tag('div', $moduleOut, array(
+			'class' => array(
+				'module',
+				str_replace('/', '-', $module),
+				$class
+			)
+		));
 	}
 
 /**
@@ -182,20 +191,12 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			}
 		}
 
-		$module = sprintf('%s.%s', $plugin, $module);
+		$module = implode('.', array($plugin, $module));
 
 		try{
 			return $this->_View->element($module, array('config' => $params));
-		}
-
-		catch(Exception $e) {
-			$message = sprintf(
-				'Error: Could not load module "%s" (%s)',
-				$module,
-				$e->getMessage()
-			);
-
-			throw new Exception($message);
+		} catch(Exception $e) {
+			throw new CakeException(__d('modules', 'Error: Could not load module "%s" (%s)', $module, $e->getMessage()));
 		}
 	}
 
