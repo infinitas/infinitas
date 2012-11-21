@@ -55,6 +55,12 @@ class ContactEvents extends AppEvents{
 		);
 	}
 
+	public function onRequireHelpersToLoad(Event $Event) {
+		return array(
+			'Contact.Contacts'
+		);
+	}
+
 /**
  * get data for rebuilding the site map
  *
@@ -94,5 +100,5 @@ class ContactEvents extends AppEvents{
 
 		return $return;
 	}
-	
+
 }

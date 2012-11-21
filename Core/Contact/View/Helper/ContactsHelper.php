@@ -1,99 +1,125 @@
 <?php
-	/**
-	 * ContactsHelper is a collection of methods to help build up contact related
-	 * pages
-	 *
-	 * Currently can output a business card type markup for contacts.
-	 *
-	 * @todo contact forms. pass in a contact row and a form will be made using the
-	 * supplied email address etc.
-	 *
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package Infinitas.Contact.helpers
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.8a
-	 *
-	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
-	 */
-	App::uses('AppHelper', 'View/Helper');
-	class ContactsHelper extends AppHelper{
-		public $helpers = array(
-			'Text',
-			'Html'
-		);
+/**
+ * ContactsHelper is a collection of methods to help build up contact related
+ * pages
+ *
+ * Currently can output a business card type markup for contacts.
+ *
+ * @todo contact forms. pass in a contact row and a form will be made using the
+ * supplied email address etc.
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Contact.helpers
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.8a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-		public function drawCard($details) {
-			if(is_array(current($details))) {
-				$this->drawCards($details);
-			}
+class ContactsHelper extends AppHelper {
+/**
+ * Helpers to load
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Text',
+		'Html'
+	);
 
-			$out = '<div class="contact-card">';
-				$out .= $this->__output($details);
-			$out .= '</div>';
+/**
+ * Render a country flag
+ *
+ * Possible options:
+ *	- size: the size of the flag, currently only small is available
+ *	- other: any other options for HtmlHelper::image()
+ *
+ * @param string $code the two / three letter country code
+ * @param array $options options for the flag
+ *
+ * @return string
+ */
+	public function flag($code, array $options = array()) {
+		$options = array_merge(array(
+			'size' => 'small',
+			'alt' => $code,
+			'name' => null
+		), $options);
+		$size = $options['size'];
+		unset($options['size']);
 
-			return $out;
+		$flag = $this->Html->image(sprintf('Contact.flags/%s/%s.png', $size, $code), $options);
+
+		if($options['name'] == true) {
+			return $flag . $this->Html->tag('span', $code);
 		}
-
-		private function __output($details) {
-			$default = array(
-				'checkbox' => '',
-				'avitar' => '',
-				'user' => '',
-				'company' => '',
-				'mobile' =>  '',
-				'landline' => '',
-				'email' => '',
-				'address'
-			);
-
-			$return = array();
-
-			$details = array_merge($default, $details);
-
-			if(!empty($details['avitar'])) {
-				$return[] = $this->Html->image(
-					$details['avitar'],
-					array(
-						'style' => 'width: 75; height: 75',
-						'title' => sprintf('%s - %s', $details['user'], $details['company'])
-					)
-				);
-			}
-
-			if(!empty($details['mobile'])) {
-				$return[] = sprintf('<li class="mobile">%s</li>', $details['mobile']);
-			}
-
-			if(!empty($details['landline'])) {
-				$return[] = sprintf('<li class="landline">%s</li>', $details['landline']);
-			}
-
-			if(!empty($details['email'])) {
-				$return[] = sprintf('<li class="email">%s</li>', $this->Text->autoLinkEmails($details['email']));
-			}
-
-			if(!empty($details['address'])) {
-				$return[] = sprintf('<li class="address">%s</li>', $details['address']);
-			}
-
-			if(!empty($details['extra'])) {
-				$return[] = sprintf('<li class="extra">%s</li>', $details['extra']);
-			}
-
-			if(empty($details['user']) && !empty($details['company'])) {
-				$name = $details['company'];
-			}
-
-			else if(!empty($details['company'])) {
-				$name = sprintf('%s - %s', $details['company'], $details['user']);
-			}
-
-			else{
-				$name = $details['user'];
-			}
-
-			return sprintf('<h2>%s%s</h2>', $details['checkbox'], $name) .
-				'<ul class="details">' . implode('', $return) . '</ul>';
-		}
+		return $flag;
 	}
+
+	public function drawCard($details) {
+		if(is_array(current($details))) {
+			$this->drawCards($details);
+		}
+
+		return $this->Html->tag('div', $this->_output($details), array(
+			'class' => 'contact-card'
+		));
+	}
+
+	protected function _output($details) {
+		$details = array_merge(array(
+			'checkbox' => null,
+			'avitar' => null,
+			'user' => null,
+			'company' => null,
+			'mobile' =>  null,
+			'landline' => null,
+			'email' => null,
+			'address' => null
+		), $details);
+
+		$return = array();
+		if(!empty($details['avitar'])) {
+			$return[] = $this->Html->image(
+				$details['avitar'],
+				array(
+					'style' => 'width: 75; height: 75',
+					'title' => sprintf('%s - %s', $details['user'], $details['company'])
+				)
+			);
+		}
+
+		if(!empty($details['mobile'])) {
+			$return[] = $this->Html->tag('li', $details['mobile'], array('class' => 'mobile'));
+		}
+
+		if(!empty($details['landline'])) {
+			$return[] = $this->Html->tag('li', $details['landline'], array('class' => 'landline'));
+		}
+
+		if(!empty($details['email'])) {
+			$return[] = $this->Html->tag('li', $this->Text->autoLinkEmails($details['email']), array('class' => 'email'));
+		}
+
+		if(!empty($details['address'])) {
+			$return[] = $this->Html->tag('li', $details['address'], array('class' => 'address'));
+		}
+
+		if(!empty($details['extra'])) {
+			$return[] = $this->Html->tag('li', $details['extra'], array('class' => 'extra'));
+		}
+
+		$name = $details['user'];
+		if(empty($details['user']) && !empty($details['company'])) {
+			$name = $details['company'];
+		} else if(!empty($details['company'])) {
+			$name = sprintf('%s - %s', $details['company'], $details['user']);
+		}
+
+		return $this->Html->tag('h2', $details['checkbox'] . $name) . $this->Html->tag('ul', implode('', $return), array(
+			'class' => 'details'
+		));
+	}
+
+}
