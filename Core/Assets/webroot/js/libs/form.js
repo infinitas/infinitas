@@ -59,7 +59,11 @@
 
 		$.each($(selector), function(k, v) {
 			$(v).live('click', function() {
-				$("input:checkbox[not:" + $(this).attr('id') + "]", $(this).parents('table')).attr("checked",!tog).change();
+				$(this).parents('table')
+					.find('input[type="checkbox"]')
+					.not($(this))
+					.attr("checked", !tog)
+					.trigger('change');
 				tog = !tog;
 			});
 		});
