@@ -16,7 +16,10 @@ echo $this->Form->create(null, array(
 		'empty' => Configure::read('Website.empty_select')
 	)
 ));
-	echo $this->Infinitas->adminOtherHead(array('cancel'));
+	echo $this->Infinitas->adminOtherHead(array(
+		'save',
+		'cancel'
+	));
 	echo $this->Form->input('id');
 
 	$tabs = array(
