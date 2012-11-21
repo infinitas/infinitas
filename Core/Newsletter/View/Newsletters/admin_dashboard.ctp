@@ -85,7 +85,7 @@ $links['main'] = array(
 		'dashboard' => array('controller' => 'newsletter_subscribers', 'action' => 'index')
 	),
 	array(
-		'name' => __d('newsletter', 'Bounced Mail'),
+		'name' => __d('newsletter', 'Bounced'),
 		'description' => __d('newsletter', 'View bounced mail'),
 		'icon' => '/newsletter/img/icon/bounce.png',
 		'dashboard' => array('controller' => 'bounced_mail', 'action' => 'index')
