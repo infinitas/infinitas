@@ -160,7 +160,20 @@ class InfinitasTheme {
 		$return = array();
 		foreach($files[1] as &$file) {
 			$file = pathinfo($file);
-			$return[$file['filename']] = Inflector::humanize($file['filename']);
+
+			$type = __d('themes', 'Frontend');
+			if(strstr($file['filename'], 'admin') !== false) {
+				$type = __d('themes', 'Admin');
+			}
+
+			if(strstr($file['filename'], 'installer') !== false) {
+				$type = __d('themes', 'Install');
+			}
+
+			$return[$type][$file['filename']] = Inflector::humanize(str_replace('admin', '', $file['filename']));
+			if(empty($return[$type][$file['filename']])) {
+				$return[$type][$file['filename']] = __d('themes', 'Main');
+			}
 		}
 
 		return $return;
