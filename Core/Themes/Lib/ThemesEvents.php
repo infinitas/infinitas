@@ -64,4 +64,18 @@ class ThemesEvents extends AppEvents {
 		);
 	}
 
+/**
+ * Return the default theme config for the insatller to use
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onInstallerTheme(Event $Event) {
+		return array(
+			'theme' => 'infinitas',
+			'layout' => 'installer'
+		);
+	}
+
 }

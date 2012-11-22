@@ -198,9 +198,31 @@ class InstallController extends Controller {
 		return true;
 	}
 
+/**
+ * Trigger event to get the theme that should be used for the installer
+ *
+ * You can provide your own custom install theme by using the `onInstallerTheme`
+ * event from your plugin. You can return any theme but if its not the default
+ * will need to call the code for creating a symlink first assets are required.
+ *
+ * @see InfinitasTheme::install()
+ *
+ * @return void
+ *
+ * @throws InvalidArgumentException
+ */
 	public function beforeRender() {
-		$this->theme = 'infinitas';
-		$this->layout = 'installer';
+		$theme = EventCore::trigger($this, 'installerTheme');
+		if(count($theme['installerTheme']) > 1) {
+			unset($theme['installerTheme']['Themes']);
+		}
+		$theme = current($theme['installerTheme']);
+		if(empty($theme)) {
+			throw new InvalidArgumentException(__d('installer', 'No theme handler found'));
+		}
+
+		$this->theme = $theme['theme'];
+		$this->layout = $theme['layout'];
 
 		parent::beforeRender();
 	}
