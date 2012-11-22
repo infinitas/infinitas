@@ -51,9 +51,12 @@ class AssetsEvents extends AppEvents {
 			'Assets.libs/core',
 			'Assets.libs/form',
 			'Assets.libs/html',
-			'Assets.libs/number',
-			'Assets.3rd/less'
+			'Assets.libs/number'
 		);
+
+		if(Configure::read('debug')) {
+			$return[] = 'Assets.3rd/less';
+		}
 
 		if(Configure::read('Assets.bootstrap')) {
 			$return = array_merge($return, array(

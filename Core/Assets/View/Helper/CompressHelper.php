@@ -106,12 +106,17 @@ class CompressHelper extends InfinitasHelper {
 			return '';
 		}
 
-		if (!$this->enabled) {
-			return $this->_View->Helpers->load('Html')->css($cssFiles);
+		if (is_array($cssFiles[0])) {
+			if(empty($cssFiles[0][2]['ext']) || $cssFiles[0][2]['ext'] != '.less') {
+				$cssFiles = $cssFiles[0];
+			}
 		}
 
-		if (is_array($cssFiles[0])) {
-			$cssFiles = $cssFiles[0];
+		if (!$this->enabled) {
+			if(!empty($cssFiles[0][2]['ext'])) {
+				return $this->Html->css($cssFiles[0][0], $cssFiles[0][1], $cssFiles[0][2]);
+			}
+			return $this->Html->css($cssFiles);
 		}
 
 		$cacheFile = $this->cssCachePath . 'combined.' . md5(serialize($cssFiles)) . '.css';
@@ -146,23 +151,38 @@ class CompressHelper extends InfinitasHelper {
 
 		$_setting = Configure::read('Assets.timestamp');
 		Configure::write('Assets.timestamp', false);
-		$links = $this->Html->css($cssFiles, 'import');
+		if(!empty($cssFiles[0][2]['ext'])) {
+			$links = $this->Html->css($cssFiles[0][0], 'import', $cssFiles[0][2]);
+		} else {
+			$links = $this->Html->css($cssFiles, 'import');
+		}
 		Configure::write('Assets.timestamp', $_setting);
 
 		preg_match_all('#\(([^\)]+)\)#i', $links, $urlMatches);
 		$urlMatches = isset($urlMatches[1]) ? $urlMatches[1] : array();
 
-		$cssData = array();
-		foreach ($urlMatches as $urlMatch) {
-			$cssPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
-			if (is_file($cssPath)) {
-				$css = file_get_contents($cssPath);
-				if(strstr($css, '../')) {
-					$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
-					$css = str_replace('../', '/' .$parts[0] . '/', $css);
-				}
+		if(!empty($cssFiles[0][2]['ext']) && $cssFiles[0][2]['ext'] == '.less') {
+			App::uses('lessc', 'Assets.Lib');
+			$Less = new lessc();
+			$Less->importDir = array(
+				WWW_ROOT
+			);
+			$cssData = array(
+				$Less->compileFile(rtrim(WWW_ROOT, DS) . current($urlMatches))
+			);
+		} else {
+			$cssData = array();
+			foreach ($urlMatches as $urlMatch) {
+				$cssPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
+				if (is_file($cssPath)) {
+					$css = file_get_contents($cssPath);
+					if(strstr($css, '../')) {
+						$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
+						$css = str_replace('../', '/' .$parts[0] . '/', $css);
+					}
 
-				$cssData[] = $css;
+					$cssData[] = $css;
+				}
 				unset($parts, $css);
 			}
 		}
