@@ -65,8 +65,7 @@ class GlobalContentsHelper extends AppHelper {
 			throw new InvalidArgumentException('Can not find template to render');
 		}
 
-		$return = $this->__renderCss($data);
-		$return .= $this->__renderHtml($data);
+		return $this->__renderCss($data) . $this->__renderHtml($data);
 	}
 
 /**
@@ -100,7 +99,7 @@ class GlobalContentsHelper extends AppHelper {
 		}
 
 		if(!empty($data['GlobalLayout']['css'])) {
-			return sprintf('<style type="text/css">%s</style>', $data['Layout']['css']);
+			return sprintf("<style type=\"text/css\">\n%s\n</style>", $data['Layout']['css']);
 		}
 	}
 
