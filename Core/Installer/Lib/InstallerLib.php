@@ -1,6 +1,7 @@
 <?php
 	App::uses('ConnectionManager', 'Model');
 	App::uses('File', 'Utility');
+	
 	class InstallerLib {
 		/**
 		 * minimum php version number required to run infinitas
@@ -359,13 +360,10 @@ LICENCE;
 
 			$result['app'] = $this->installPlugin($Version, $dbConfig, 'app');
 
-			//Then install all other plugins
 			foreach($plugins as $plugin) {
 				try{
 					$result[$plugin] = $this->installPlugin($Version, $dbConfig, $plugin);
-				}
-
-				catch(Exception $e) {
+				} catch(Exception $e) {
 					pr($plugin);
 					pr($e->getMessage());
 				}
@@ -393,27 +391,18 @@ LICENCE;
 
 			$versionResult = false;
 			if(file_exists($checkFile) && file_exists($configPath . 'releases' . DS . 'map.php')) {
-				try {
-					$this->config = array_merge(array('sample_data' => false), $this->config);
-					$latest = $Version->getMapping($plugin);
-					$latest = array_pop($latest);
-					$versionResult = $Version->run(
-						array(
-							'type' => $plugin,
-							'version' => $latest['version'],
-							'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
-							'sample' => (bool)$this->config['sample_data']
-						)
-					);
-				}
-
-				catch (Exception $e) {
-					throw $e;
-					return false;
-				}
-			}
-
-			else if(file_exists($checkFile)) {
+				$this->config = array_merge(array('sample_data' => false), $this->config);
+				$latest = $Version->getMapping($plugin);
+				$latest = array_pop($latest);
+				$versionResult = $Version->run(
+					array(
+						'type' => $plugin,
+						'version' => $latest['version'],
+						'basePrefix' => (isset($dbConfig['prefix']) ? $dbConfig['prefix'] : ''),
+						'sample' => (bool)$this->config['sample_data']
+					)
+				);
+			} else if(file_exists($checkFile)) {
 				// databaseless plugin, but it has a config file
 				return true;
 			}
@@ -525,36 +514,6 @@ LICENCE;
 		}
 
 		/**
-		 * generate the path to a plugins theme dir
-		 *
-		 * If the specific theme is available it will return the path to the
-		 * theme, if not it will return the path to where the themes for that plugin
-		 * are kept
-		 *
-		 * If no plugin is null, it is assumed that the path for app themes are required
-		 *
-		 * @param string $plugin the name of the plugin
-		 * @param string $theme the name of the theme
-		 *
-		 * @return string
-		 */
-		public static function themePath($plugin = null, $theme = null) {
-			if(!$plugin) {
-				if(!$theme) {
-					return APP . 'View' . DS . 'Themed';
-				}
-
-				return APP . 'View' . DS . 'Themed' . DS . $theme;
-			}
-
-			if(!$theme) {
-				return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed';
-			}
-
-			return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed' . DS . $theme;
-		}
-
-		/**
 		 * find theme dirs for the plugin passed or in the app dir
 		 *
 		 * @param string $plugin the plugin to check in
@@ -562,7 +521,7 @@ LICENCE;
 		 * @return type
 		 */
 		public static function findThemes($plugin = null) {
-			$path = self::themePath($plugin);
+			$path = InfinitasTheme::themePath($plugin);
 
 			if(!is_dir($path)) {
 				return array();
