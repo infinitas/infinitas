@@ -110,6 +110,17 @@ class InfinitasTheme {
 	}
 
 /**
+ * Get a count of layouts available in the theme
+ *
+ * @param string $theme the name of a theme
+ *
+ * @return integer
+ */
+	public static function layoutCount($theme) {
+		return count(Hash::flatten(self::layouts($theme)));
+	}
+
+/**
  * Get layouts for a theme
  *
  * Passing a theme will get only its layouts, or pass null for all themes layouts

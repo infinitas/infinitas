@@ -1,24 +1,17 @@
 <?php
-	/**
-	 * Comment Template.
-	 *
-	 * @todo -c Implement .this needs to be sorted out.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 *
-	 * @filesource
-	 * @copyright	 Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link		  http://infinitas-cms.org
-	 * @package	   sort
-	 * @subpackage	sort.comments
-	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since		 0.5a
-	 */
+/**
+ * Theme listing
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Theme.View
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-	echo $this->Form->create(false, array('action' => 'mass'));
+echo $this->Form->create(false, array('action' => 'mass'));
 	echo $this->Infinitas->adminIndexHead($filterOptions, array(
 		'install',
 		'edit',
@@ -34,6 +27,9 @@
 			),
 			$this->Paginator->sort('name'),
 			$this->Paginator->sort('default_layout'),
+			__d('themes', 'Layouts') => array(
+				'class' => 'small'
+			),
 			$this->Paginator->sort('licence') => array(
 				'class' => 'xlarge'
 			),
@@ -59,7 +55,25 @@
 						));
 					?>&nbsp;
 				</td>
-				<td><?php echo Inflector::humanize($theme['Theme']['default_layout']); ?>&nbsp;</td>
+				<td>
+					<?php
+						$theme['Theme']['default_layout'] = trim(Inflector::humanize($theme['Theme']['default_layout']));
+						if(empty($theme['Theme']['default_layout'])) {
+							$theme['Theme']['default_layout'] = Inflector::humanize(Configure::read('Themes.default_layout')) . ' ' .
+								$this->Html->tag('span', __d('installer', 'Default'), array(
+									'class' => 'label label-info'
+								));
+						}
+						echo $theme['Theme']['default_layout'];
+					?>&nbsp;
+				</td>
+				<td>
+					<?php
+						echo $this->Html->tag('span', InfinitasTheme::layoutCount($theme['Theme']['name']), array(
+							'class' => 'badge badge-success'
+						));
+					?>&nbsp;
+				</td>
 				<td>
 					<?php
 						if($theme['Theme']['licence']) {
