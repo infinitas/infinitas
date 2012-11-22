@@ -4,7 +4,7 @@
 	 *
 	 * Auto generated database update
 	 */
-	 
+
 	class R4f5634c57a60462b8ac743556318cd70 extends CakeRelease {
 
 	/**
@@ -66,7 +66,7 @@
 				),
 			),
 		);
-		
+
 		public $fixtures = array(
 			'core' => array(
 				'Route' => array(
@@ -191,7 +191,7 @@
 						'url' => '/blog/:category/:slug',
 						'prefix' => null,
 						'plugin' => 'blog',
-						'controller' => 'blog_post',
+						'controller' => 'blog_posts',
 						'action' => 'view',
 						'values' => '',
 						'pass' => 'category,slug',
@@ -210,7 +210,7 @@
 						'url' => '/blog/archive/:year/*',
 						'prefix' => null,
 						'plugin' => 'blog',
-						'controller' => 'blog_post',
+						'controller' => 'blog_posts',
 						'action' => 'index',
 						'values' => '',
 						'pass' => 'year',
@@ -229,7 +229,7 @@
 						'url' => '/blog/tag/:tag',
 						'prefix' => null,
 						'plugin' => 'blog',
-						'controller' => 'blog_post',
+						'controller' => 'blog_posts',
 						'action' => 'index',
 						'values' => '',
 						'pass' => 'tag',
@@ -248,7 +248,7 @@
 						'url' => '/blog/*',
 						'prefix' => null,
 						'plugin' => 'blog',
-						'controller' => 'blog_post',
+						'controller' => 'blog_posts',
 						'action' => 'index',
 						'values' => '',
 						'pass' => '',
@@ -283,7 +283,7 @@
 			)
 		);
 
-	
+
 	/**
 	* Before migration callback
 	*
