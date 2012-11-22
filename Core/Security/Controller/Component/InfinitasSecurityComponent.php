@@ -71,14 +71,12 @@ class InfinitasSecurityComponent extends InfinitasComponent {
  * @return void
  */
 	protected function _setupAuth() {
-		//$this->Controller->Auth->allow();
 		$this->Controller->Auth->allow('display');
 
 		if (!isset($this->Controller->request->params['prefix']) || $this->Controller->request->params['prefix'] != 'admin') {
 			$this->Controller->Auth->allow();
 		}
 
-		//$this->Controller->Auth->authorize	= array('Actions' => array('actionPath' => 'controllers/'));
 		$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
 		if(Configure::read('Website.login_type') == 'email') {
@@ -161,12 +159,22 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 		if($this->Controller->Auth->user('id') || empty($this->Controller->request->data)) {
 			return true;
 		}
+		$field = null;
+		if(!empty($this->Controller->request->data['User']['username'])) {
+			$field = $this->Controller->request->data['User']['username'];
+		} else if(!empty($this->Controller->request->data['User']['email'])) {
+			$field = $this->Controller->request->data['User']['email'];
+		}
+
+		if (!$field) {
+			return false;
+		}
 
 		$old = $this->Controller->Session->read('Infinitas.Security.loginAttempts');
 		if (count($old) > 0) {
 			$this->risk = ClassRegistry::init('Security.IpAddress')->findSimmilarAttempts(
 				$this->Controller->RequestHandler->getClientIp(),
-				$this->Controller->request->data['User']['username']
+				$field
 			);
 		}
 

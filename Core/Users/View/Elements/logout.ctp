@@ -1,63 +1,21 @@
 <?php
-	/* 
-	 * Short Description / title.
-	 * 
-	 * Overview of what the file does. About a paragraph or two
-	 * 
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package {see_below}
-	 * @subpackage {see_below}
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
-	 * 
-	 * @author {your_name}
-	 * 
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
+/**
+ * Logout element
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Users.View
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.6a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-	echo $this->Html->link(
-		__('logout'),
-		array(
-			'plugin' => 'users',
-			'controller' => 'users',
-			'action' => 'logout'
-		),
-		array(
-			'class' => 'niceLink'
-		)
-	);
-?>
-<div id="login-box">
-	<div class="siteLogout">
-		<?php
-			echo sprintf(__('Welcome back to %s'), Configure::read('Website.name'));
-			echo $this->Html->link(__('Logout'), array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout'), array('class' => 'niceLink'));
-		?>
-	</div>
-	<div class="login-links">
-		<?php
-			echo $this->Html->link(
-				__('Manage Your profile'),
-				array(
-					'plugin' => 'users',
-					'controller' => 'users',
-					'action' => 'view',
-					AuthComponent::user('id')
-				)
-			), '<br/>',
-			$this->Html->link(
-				__('See whats going on'),
-				array(
-					'plugin' => 'feed',
-					'controller' => 'feeds',
-					'action' => 'index'
-				)
-			);
-		?>
-	</div>
-</div>
+echo $this->Html->tag('div', implode('', array(
+	__d('users', 'Welcome, %s', $this->Html->tag('em', AuthComponent::user('prefered_name'))),
+	$this->Html->link($this->Html->tag('i', '', array('class' => 'icon-remove-circle')), array(
+		'plugin' => 'users',
+		'controller' => 'users',
+		'action' => 'logout'
+	), array('escape' => false))
+)), array('class' => 'pull-right welcome'));

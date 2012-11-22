@@ -1,7 +1,7 @@
 <?php
 /*
  * Login module
- * 
+ *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Users.View
@@ -12,7 +12,7 @@
  */
 
 	if(AuthComponent::user('id')) {
-		echo $this->element('logout', array('plugin' => 'users'));
+		echo $this->element('Users.logout');
 	} else {
 		echo $this->Form->create('User', array(
 			'url' => array(
@@ -26,7 +26,7 @@
 			),
 			'class' => 'navbar-form pull-right'
 		));
-			echo $this->Form->input('usename', array(
+			echo $this->Form->input('username', array(
 				'placeholder' => __d('users', 'Username'),
 				'class' => 'span2'
 			));

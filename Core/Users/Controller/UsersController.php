@@ -38,9 +38,7 @@
 
 			if($this->request->params['admin']) {
 				$this->layout = 'admin_login';
-			}
-
-			else if($this->theme && file_exists(APP . 'View' . DS . 'Themed' . DS . $this->theme . DS . 'Layouts' . DS . 'front_login.ctp')) {
+			} else if($this->theme && file_exists(APP . 'View' . DS . 'Themed' . DS . $this->theme . DS . 'Layouts' . DS . 'front_login.ctp')) {
 				$this->layout = 'front_login';
 			}
 		}
@@ -162,34 +160,34 @@
 
 			$this->_createCookie();
 
-			if($this->Auth->login()) {
-				$this->{$this->modelClass}->recursive = -1;
+			if (!empty($this->request->data)) {
+				if($this->Auth->login()) {
+					$this->{$this->modelClass}->recursive = -1;
 
-				$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
-				$data = $this->_getUserData();
+					$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
+					$data = $this->_getUserData();
 
-				if ($this->{$this->modelClass}->save($data)) {
-					$currentUser = $this->Auth->user();
+					if ($this->{$this->modelClass}->save($data)) {
+						$currentUser = $this->Auth->user();
 
-					$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
-					$this->notice(
-						sprintf(
-							__d('users', 'Welcome back %s, your last login was from %s, %s on %s. (%s)'),
-							$currentUser['username'],
-							$lastLogon[$this->modelClass]['country'],
-							$lastLogon[$this->modelClass]['city'],
-							$lastLogon[$this->modelClass]['last_login'],
-							$lastLogon[$this->modelClass]['ip_address']
-						)
-					);
+						$this->Session->write('Auth.User', array_merge($data[$this->modelClass], $currentUser));
+						$this->notice(
+							sprintf(
+								__d('users', 'Welcome back %s, your last login was from %s, %s on %s. (%s)'),
+								$currentUser['username'],
+								$lastLogon[$this->modelClass]['country'],
+								$lastLogon[$this->modelClass]['city'],
+								$lastLogon[$this->modelClass]['last_login'],
+								$lastLogon[$this->modelClass]['ip_address']
+							)
+						);
+					}
+
+					$this->Event->trigger('userLogin', $currentUser);
+					unset($lastLogon, $data);
+					$this->redirect($this->Auth->redirect());
 				}
 
-				$this->Event->trigger('userLogin', $currentUser);
-				unset($lastLogon, $data);
-				$this->redirect($this->Auth->redirect());
-			}
-
-			if (!(empty($this->request->data)) && !$this->Auth->user()) {
 				$this->InfinitasSecurity->badLoginAttempt($this->request->data[$this->modelClass]);
 				$this->notice(__d('users', 'Your login details have not been recognised'), array('level' => 'warning'));
 			}
