@@ -198,6 +198,13 @@ class InstallController extends Controller {
 		return true;
 	}
 
+	public function beforeRender() {
+		$this->theme = 'infinitas';
+		$this->layout = 'installer';
+
+		parent::beforeRender();
+	}
+
 /**
  * Installer index
  *
