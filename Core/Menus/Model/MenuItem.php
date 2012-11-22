@@ -238,6 +238,12 @@
 						$this->alias . '.parent_id != ' => NULL,
 						$this->Menu->alias . '.active' => 1,
 						$this->Menu->alias . '.type' => $type,
+						'or' => array(
+							$this->alias . '.group_id' => array(
+								0,
+								AuthComponent::user('group_id')
+							)
+						)
 					),
 					'joins' => array(
 						array(
