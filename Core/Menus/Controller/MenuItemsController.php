@@ -20,7 +20,8 @@
 		public function admin_index() {
 			$this->Paginator->settings = array(
 				'contain' => array(
-					'Menu'
+					'Menu',
+					'Group'
 				)
 			);
 
@@ -76,7 +77,7 @@
 			parent::admin_edit($id);
 
 			$menus = $this->{$this->modelClass}->Menu->find('list');
-			$groups = $this->{$this->modelClass}->Group->find('list');
+			$groups = array(0 => __('Public')) + $this->{$this->modelClass}->Group->find('list');
 			$parents = $this->{$this->modelClass}->getParents($this->request->data[$this->modelClass]['menu_id']);
 			$plugins = $this->{$this->modelClass}->getPlugins();
 			$controllers = $this->{$this->modelClass}->getControllers($this->request->data[$this->modelClass]['plugin']);
