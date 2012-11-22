@@ -85,9 +85,10 @@
 				<td>
 					<?php
 						if(empty($menuItem['Group']['name'])) {
-							$menuItem['Group']['name'] = __d('menus', 'Public');
+							echo __d('menus', 'Public');
+						} else {
+							echo $this->Html->tag('span', $menuItem['Group']['name'], array('class' => 'label label-warning'));
 						}
-						echo $menuItem['Group']['name'];
 					?>&nbsp;
 				</td>
 				<td><?php echo $this->Infinitas->treeOrdering($menuItem['MenuItem']); ?>&nbsp;</td>
