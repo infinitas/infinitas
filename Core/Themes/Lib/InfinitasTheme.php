@@ -52,7 +52,10 @@ class InfinitasTheme {
  */
 	public static function install($theme) {
 		$FolderSymlink = new FolderSymlink();
-		$themePath = self::themePath($theme);
+		$themePath = self::themePath($theme) . DS . 'webroot';
+		if(!is_dir($themePath)) {
+			return true;
+		}
 		$linkPath = self::linkPath($theme);
 		if(!$FolderSymlink->create($linkPath , $themePath)) {
 			throw new CakeException('Unable to symlink theme');
