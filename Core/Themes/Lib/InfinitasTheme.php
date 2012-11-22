@@ -6,6 +6,7 @@
  */
 
 App::uses('InstallerLib', 'Installer.Lib');
+App::uses('FolderSymlink', 'Filemanager.Utility');
 
 /**
  * InfinitasTheme
@@ -23,17 +24,54 @@ App::uses('InstallerLib', 'Installer.Lib');
 
 class InfinitasTheme {
 /**
- * Install a theme
+ * Make sure the default theme is available for installing Infinitas
+ *
+ * @param string $theme the name of the default theme (usually `infinitas`)
+ *
+ * @return boolean
+ *
+ * @throws CakeException
  */
-	public static function install() {
+	public function defaultThemeInstall($theme = 'infinitas') {
+		if(!self::install($theme)) {
+			throw new CakeException('Could not configure the default theme, make sure to clone / download it');
+		}
+		return true;
+	}
 
+/**
+ * Install a theme
+ *
+ * Create the required symlinks for a theme to work
+ *
+ * @param string $theme the name of the theme (its folder)
+ *
+ * @return void
+ *
+ * @throws CakeException
+ */
+	public static function install($theme) {
+		$FolderSymlink = new FolderSymlink();
+		$themePath = self::themePath($theme);
+		$linkPath = self::linkPath($theme);
+		if(!$FolderSymlink->create($linkPath , $themePath)) {
+			throw new CakeException('Unable to symlink theme');
+		}
+		return $FolderSymlink->isLink($linkPath);
 	}
 
 /**
  * Uninstall a theme
+ *
+ * Remove any created symlinks
  */
-	public static function uninstall() {
+	public static function uninstall($theme) {
+		$FolderSymlink = new FolderSymlink();
 
+		$linkPath = self::linkPath($theme);
+		$FolderSymlink->delete($linkPath);
+
+		return !$FolderSymlink->isLink($linkPath);
 	}
 
 /**
@@ -54,26 +92,17 @@ class InfinitasTheme {
 		switch($type) {
 			case 'installed':
 				return ClassRegistry::init('Themes.Theme')->installed();
-				break;
 
 			case 'notInstalled':
 				return array_intersect(self::themes('all'), self::themes('installed'));
-				break;
 
 			default:
 			case 'all':
 				$return = array();
-				foreach(InfinitasPlugin::listPlugins('loaded') as $plugin) {
-					foreach(InstallerLib::findThemes($plugin) as $theme) {
-						$return[$plugin . '.' . $theme] = Inflector::humanize(Inflector::underscore($plugin . Inflector::camelize($theme)));
-					}
-				}
-
 				foreach(InstallerLib::findThemes() as $theme) {
 					$return[$theme] = Inflector::humanize(Inflector::underscore($theme));
 				}
 				return $return;
-				break;
 		}
 	}
 
@@ -122,13 +151,7 @@ class InfinitasTheme {
 			$theme = $temp['Theme']['name'];
 		}
 
-		list($plugin, $theme) = pluginSplit($theme);
-
-		if(!$plugin) {
-			$plugin = self::findPlugin($theme);
-		}
-
-		$Folder = new Folder(self::themePath($plugin, $theme) . DS . 'Layouts');
+		$Folder = new Folder(self::themePath($theme) . DS . 'Layouts');
 		$files = $Folder->read();
 
 		$return = array();
@@ -141,53 +164,39 @@ class InfinitasTheme {
 	}
 
 /**
- * Find the plugin for a theme
- *
- * @param string $theme the theme name to look up
- *
- * @return string
- *
- * @throws CakeException
- */
-	public static function findPlugin($theme) {
-		foreach(self::themes('all') as $pluginTheme => $niceName) {
-			list($p, $t) = pluginSplit($pluginTheme);
-			if($t == $theme) {
-				return $p;
-			}
-		}
-
-		throw new CakeException('Could not find selected theme');
-	}
-
-/**
- * generate the path to a plugins theme dir
+ * generate the path to a theme dir
  *
  * If the specific theme is available it will return the path to the
- * theme, if not it will return the path to where the themes for that plugin
- * are kept
+ * theme, if not it will return the path to where the themes are kept
  *
- * If no plugin is null, it is assumed that the path for app themes are required
- *
- * @param string $plugin the name of the plugin
  * @param string $theme the name of the theme
  *
  * @return string
  */
-	public static function themePath($plugin = null, $theme = null) {
-		if(!$plugin) {
-			if(!$theme) {
-				return APP . 'View' . DS . 'Themed';
-			}
-
-			return APP . 'View' . DS . 'Themed' . DS . $theme;
-		}
-
+	public static function themePath($theme = null) {
 		if(!$theme) {
-			return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed';
+			return APP . 'View' . DS . 'Themed';
 		}
 
-		return InfinitasPlugin::path($plugin) . 'View' . DS . 'Themed' . DS . $theme;
+		return self::themePath() . DS . $theme;
+	}
+
+/**
+ * Get the path to the themes symlink in the webroot
+ *
+ * If a theme is specified the path will be to the theme, else to the folder
+ * where themes are linked to.
+ *
+ * @param string $theme the name of the theme (folder)
+ *
+ * @return string
+ */
+	public function linkPath($theme = null) {
+		if(!$theme) {
+			return WWW_ROOT . 'theme';
+		}
+
+		return self::linkPath() . DS . $theme;
 	}
 
 }

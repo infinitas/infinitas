@@ -40,6 +40,8 @@ class InstallerEvents extends AppEvents{
 			Configure::write('Session.save', 'php');
 			InfinitasRouter::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
 			InfinitasRouter::connect('/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
+
+			InfinitasTheme::defaultThemeInstall();
 		}
 
 		return true;
