@@ -1,42 +1,39 @@
 <?php
-	/**
-	* base database config file
-	*
-	* Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	*
-	* Licensed under The MIT License
-	* Redistributions of files must retain the above copyright notice.
-	* @filesource
-	* @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	* @link http://infinitas-cms.org
-	* @package Infinitas.installer
-	* @subpackage Infinitas.installer.config
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.5a
-	*/
+/**
+ * Database config
+ *
+ * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ * @link http://infinitas-cms.org
+ * @package Infinitas.Installer.Config
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-	class DATABASE_CONFIG {
-		public $default = array(
-			'datasource' => '{default_datasource}',
-			'persistent' => true,
-			'host' => '{default_host}',
-			'login' => '{default_login}',
-			'password' => '{default_password}',
-			'database' => '{default_database}',
-			'prefix' => '{default_prefix}',
-			'port' => '{default_port}',
-			'encoding' => 'utf8'
-		);
+class DATABASE_CONFIG {
+	public $default = array(
+		'datasource' => '{default_datasource}',
+		'persistent' => true,
+		'host' => '{default_host}',
+		'login' => '{default_login}',
+		'password' => '{default_password}',
+		'database' => '{default_database}',
+		'prefix' => '{default_prefix}',
+		'port' => '{default_port}',
+		'encoding' => 'utf8'
+	);
 
-		public $test = array(
-			'datasource' => '{default_datasource}',
-			'persistent' => true,
-			'host' => '{default_host}',
-			'login' => '{default_login}',
-			'password' => '{default_password}',
-			'database' => 'test_{default_database}',
-			'prefix' => '',
-			'port' => '{default_port}',
-			'encoding' => 'utf8'
-		);
-	}
+	public $test = array(
+		'datasource' => '{default_datasource}',
+		'persistent' => true,
+		'host' => '{default_host}',
+		'login' => '{default_login}',
+		'password' => '{default_password}',
+		'database' => 'test_{default_database}',
+		'prefix' => '',
+		'port' => '{default_port}',
+		'encoding' => 'utf8'
+	);
+
+}
