@@ -122,7 +122,7 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 		$currentIp = $this->Controller->request->clientIp();
 
 		if(ClassRegistry::init('Security.IpAddress')->getBlockedIpAddresses($currentIp)) {
-			throw new SecurityIpAddressBlockedException(array($currentIp));
+			$this->blockAccess();
 		}
 
 		$this->Controller->Session->write('Infinitas.Security.ip_checked', true);
@@ -184,11 +184,23 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 				$this->Controller->Session->read('Infinitas.Security.loginAttempts'),
 				$this->risk
 			);
+			$this->Controller->Session->destroy();
 
-			$this->Controller->Security->blackHole($this->Controller, 'invalidLogin');
+			$this->blockAccess();
 		}
 
 		return true;
+	}
+
+/**
+ * Block a user from accessing the site
+ * 
+ * @throws SecurityIpAddressBlockedException
+ */
+	public function blockAccess() {
+		throw new SecurityIpAddressBlockedException(array(
+			$this->Controller->request->clientIp()
+		));
 	}
 
 }
