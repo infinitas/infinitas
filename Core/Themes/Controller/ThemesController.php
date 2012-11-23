@@ -19,17 +19,43 @@
 
 class ThemesController extends ThemesAppController {
 /**
+ * BeforeFilter callback
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		$this->notice['no_themes'] = array(
+			'message' => __d('themes', 'You do not have any themes to add'),
+			'level' => 'warning',
+			'redirect' => true
+		);
+
+		$this->notice['only_one_theme'] = array(
+			'message' => __d('themes', 'Please select only one theme to be active'),
+			'level' => 'warning',
+			'redirect' => true
+		);
+
+		$this->notice['cant_deactivate_others'] = array(
+			'message' => __d('themes', 'There was a problem deactivating the other theme'),
+			'level' => 'error',
+			'redirect' => true
+		);
+	}
+
+/**
  * list available themes
  *
  * @return void
  */
 	public function admin_index() {
-		$this->Theme->recursive = 1;
 		$themes = $this->Paginator->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
-			'name' => $this->Theme->find('list'),
+			'name' => $this->{$this->modelClass}->find('list'),
 			'licence',
 			'author',
 			'core' => Configure::read('CORE.core_options'),
@@ -45,19 +71,7 @@ class ThemesController extends ThemesAppController {
  * @return void
  */
 	public function admin_add() {
-		parent::admin_add();
-
-		if(!$themes = $this->Theme->notInstalled()) {
-			$this->notice(
-				__d('themes', 'You do not have any themes to add'),
-				array(
-					'level' => 'warning',
-					'redirect' => true
-				)
-			);
-		}
-
-		$this->set(compact('themes'));
+		$this->notice('not_implemented');
 	}
 
 /**
@@ -70,9 +84,9 @@ class ThemesController extends ThemesAppController {
 	public function admin_edit($id) {
 		parent::admin_edit($id);
 		$themes = InfinitasTheme::themes('notInstalled');
-		$themes[$this->request->data['Theme']['name']] = $this->request->data['Theme']['name'];
+		$themes[$this->request->data[$this->modelClass]['name']] = $this->request->data[$this->modelClass]['name'];
 		try{
-			$defaultLayouts = InfinitasTheme::layouts($this->request->data['Theme']['id']);
+			$defaultLayouts = InfinitasTheme::layouts($this->request->data[$this->modelClass]['id']);
 		} catch(Exception $e) {
 			$this->notice($e);
 		}
@@ -105,26 +119,14 @@ class ThemesController extends ThemesAppController {
  */
 	public function __massActionToggle($ids) {
 		if (count($ids) > 1) {
-			$this->notice(
-				__d('themes', 'Please select only one theme to be active'),
-				array(
-					'level' => 'warning',
-					'redirect' => true
-				)
-			);
+			$this->notice('only_one_theme');
 		}
 
-		if ($this->Theme->deactivateAll()) {
+		if ($this->{$this->modelClass}->deactivateAll()) {
 			return $this->MassAction->toggle($ids);
 		}
 
-		$this->notice(
-			__d('themes', 'There was a problem deactivating the other theme'),
-			array(
-				'level' => 'error',
-				'redirect' => true
-			)
-		);
+		$this->notice('cant_deactivate_others');
 	}
 
 /**
@@ -135,13 +137,11 @@ class ThemesController extends ThemesAppController {
  * @return void
  */
 	public function __massActionInstall($ids) {
-		$this->redirect(
-			array(
-				'plugin' => 'installer',
-				'controller' => 'plugins',
-				'action' => 'install'
-			)
-		);
+		$this->redirect(array(
+			'plugin' => 'installer',
+			'controller' => 'plugins',
+			'action' => 'install'
+		));
 	}
 
 }

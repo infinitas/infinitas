@@ -2,7 +2,7 @@
 $images = InfinitasTheme::screenshots($theme);
 
 if(empty($images)) {
-	return $this->Design->alert(__d('themes', 'There are no screen shots available for this theme'));
+	echo $this->Design->alert(__d('themes', 'There are no screen shots available for this theme'));
 }
 
 $main = array();
