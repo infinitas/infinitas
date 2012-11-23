@@ -1,7 +1,7 @@
 <?php
 	App::uses('ConnectionManager', 'Model');
 	App::uses('File', 'Utility');
-	
+
 	class InstallerLib {
 		/**
 		 * minimum php version number required to run infinitas
@@ -511,23 +511,5 @@ LICENCE;
 		 */
 		public static function localTheme($theme) {
 			return ClassRegistry::init('Themes.Theme')->install($theme);
-		}
-
-		/**
-		 * find theme dirs for the plugin passed or in the app dir
-		 *
-		 * @param string $plugin the plugin to check in
-		 *
-		 * @return type
-		 */
-		public static function findThemes($plugin = null) {
-			$path = InfinitasTheme::themePath($plugin);
-
-			if(!is_dir($path)) {
-				return array();
-			}
-
-			$Folder = new Folder($path);
-			return current($Folder->read());
 		}
 	}
