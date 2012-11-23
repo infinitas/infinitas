@@ -106,6 +106,11 @@ class Theme extends ThemesAppModel {
 				throw new NoThemeSelectedException(array());
 			}
 
+			$field = 'frontend';
+			if($query['admin'] === true) {
+				$field = 'admin';
+			}
+
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.' . $this->displayField,
@@ -113,7 +118,7 @@ class Theme extends ThemesAppModel {
 			));
 
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
-				$this->alias . '.admin' => $query['admin']
+				$this->alias . '.' . $field => true
 			));
 
 			return $query;
