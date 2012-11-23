@@ -22,7 +22,7 @@
 	/**
 	 * Core icons
 	 */
-	$config['CoreImages']['path'] = 'core/icons/';
+	$config['CoreImages']['path'] = '/assets/img/icons/';
 	$config['CoreImages']['images'] = array(
 		'actions' => array(
 			'accept' => 'accept.png',
