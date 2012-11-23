@@ -31,7 +31,8 @@ class AssetsEvents extends AppEvents {
  */
 	public function onRequireHelpersToLoad(Event $Event) {
 		return array(
-			'Assets.Compress'
+			'Assets.Compress',
+			'Assets.Image'
 		);
 	}
 
