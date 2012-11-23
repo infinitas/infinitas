@@ -24,9 +24,11 @@ echo $this->Form->create(null, array(
 
 	$tabs = array(
 		__d('themes', 'Theme'),
-		__d('themes', 'Information')
+		__d('themes', 'Information'),
+		__d('themes', 'Screen shots')
 	);
 
+	$defaultLayouts = !empty($defaultLayouts) ? $defaultLayouts : array();
 	$contents = array(
 		implode('', array(
 			$this->Form->input('name', array(
@@ -35,10 +37,14 @@ echo $this->Form->create(null, array(
 				'disabled' => true,
 				'label' => __d('themes', 'Theme')
 			)),
-			!empty($defaultLayouts) ? $this->Form->input('default_layout', array('options' => $defaultLayouts)) : '',
-			$this->Form->input('active')
+			$this->Form->input('default_layout', array('options' => $defaultLayouts)),
+			$this->Form->input('admin'),
+			$this->Form->input('frontend'),
 		)),
-		$this->request->data['Theme']['description']
+		$this->request->data['Theme']['description'],
+		$this->element('Themes.screenshots', array(
+			'theme' => $this->request->data['Theme']['name']
+		))
 	);
 
 	$right = array(

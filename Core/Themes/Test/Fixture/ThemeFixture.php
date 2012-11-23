@@ -6,7 +6,6 @@
  * @since 0.9b1
  */
 class ThemeFixture extends CakeTestFixture {
-	public $name = 'Theme';
 	public $table = 'core_themes';
 
 	public $fields = array(
@@ -18,13 +17,13 @@ class ThemeFixture extends CakeTestFixture {
 		'update_url' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'licence' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'default_layout' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
+		'frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'active' => array('column' => 'active', 'unique' => 0)
+			'active' => array('column' => 'admin', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
@@ -39,8 +38,8 @@ class ThemeFixture extends CakeTestFixture {
 			'update_url' => '',
 			'licence' => '',
 			'default_layout' => null,
-			'active' => 0,
-			'core' => 1,
+			'admin' => 0,
+			'frontend' => 1,
 			'created' => '2010-01-14 01:39:54',
 			'modified' => '2010-01-14 01:39:57'
 		),
@@ -53,8 +52,8 @@ class ThemeFixture extends CakeTestFixture {
 			'update_url' => '',
 			'licence' => '',
 			'default_layout' => null,
-			'active' => 0,
-			'core' => 0,
+			'admin' => 0,
+			'frontend' => 0,
 			'created' => '0000-00-00 00:00:00',
 			'modified' => '0000-00-00 00:00:00'
 		),
@@ -67,8 +66,8 @@ class ThemeFixture extends CakeTestFixture {
 			'update_url' => '',
 			'licence' => '',
 			'default_layout' => null,
-			'active' => 0,
-			'core' => 0,
+			'admin' => 0,
+			'frontend' => 0,
 			'created' => '0000-00-00 00:00:00',
 			'modified' => '0000-00-00 00:00:00'
 		),
@@ -81,8 +80,8 @@ class ThemeFixture extends CakeTestFixture {
 			'update_url' => '',
 			'licence' => '',
 			'default_layout' => null,
-			'active' => 1,
-			'core' => 0,
+			'admin' => 1,
+			'frontend' => 0,
 			'created' => '0000-00-00 00:00:00',
 			'modified' => '0000-00-00 00:00:00'
 		),

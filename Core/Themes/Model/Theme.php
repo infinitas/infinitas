@@ -22,13 +22,6 @@
 
 class Theme extends ThemesAppModel {
 /**
- * Custom table
- *
- * @var string
- */
-	public $useTable = 'themes';
-
-/**
  * HasMany relations
  *
  * @var array
@@ -37,6 +30,16 @@ class Theme extends ThemesAppModel {
 		'Route' => array(
 			'className' => 'Routes.Route'
 		)
+	);
+
+/**
+ * custom find methods
+ *
+ * @var array
+ */
+	public $findMethods = array(
+		'currentTheme' => true,
+		'installed' => true
 	);
 
 /**
@@ -82,39 +85,48 @@ class Theme extends ThemesAppModel {
 	}
 
 /**
- * Get the current Theme
+ * Find the currently selected theme
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
  *
  * @return array
+ *
+ * @throws ThemesConfigurationException
+ * @throws NoThemeConfiguredException
  */
-	public function getCurrentTheme() {
-		$theme = Cache::read('current_theme', 'core');
+	protected function _findCurrentTheme($state, $query, $results = array()) {
+		if($state == 'before') {
+			$query = array_merge(array(
+				'admin' => null
+			), $query);
 
-		if ($theme !== false) {
-			return $theme;
-		}
+			if($query['admin'] === null) {
+				throw new NoThemeSelectedException(array());
+			}
 
-		try {
-			$theme = $this->find('first', array(
-				'fields' => array(
-					$this->alias . '.' . $this->primaryKey,
-					$this->alias . '.' . $this->displayField,
-					$this->alias . '.default_layout',
-					$this->alias . '.core'
-				),
-				'conditions' => array(
-					$this->alias . '.active' => true
-				)
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.' . $this->displayField,
+				$this->alias . '.default_layout'
 			));
 
-			Cache::write('current_theme', $theme, 'core');
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.admin' => $query['admin']
+			));
+
+			return $query;
 		}
 
-		catch(Exception $e) {
-			CakeLog::write('core', $e->getMessage());
-			$theme = array();
+		if(empty($results)) {
+			throw new NoThemeConfiguredException(array());
 		}
 
-		return $theme;
+		$results = current($results);
+		Cache::write('current_theme', $results, 'core');
+
+		return $results;
 	}
 
 /**
@@ -125,8 +137,11 @@ class Theme extends ThemesAppModel {
  * @return boolean
  */
 	public function beforeSave($options = array()) {
-		if(isset($this->data[$this->alias]['active']) && $this->data[$this->alias]['active']) {
-			return $this->deactivateAll();
+		if(isset($this->data[$this->alias]['admin']) && $this->data[$this->alias]['admin']) {
+			return $this->deactivateAll('admin');
+		}
+		if(isset($this->data[$this->alias]['frontend']) && $this->data[$this->alias]['frontend']) {
+			return $this->deactivateAll('frontend');
 		}
 
 		return parent::beforeSave();
@@ -142,8 +157,12 @@ class Theme extends ThemesAppModel {
  * @return boolean
  */
 	public function beforeDelete($cascade = true) {
-		$active = $this->read('active');
-		return isset($active[$this->alias]['active']) && !$active[$this->alias]['active'];
+		$state = $this->read(array('admin', 'frontend'));
+		if(empty($state) ||  $state[$this->alias]['admin'] || $state[$this->alias]['frontend']) {
+			return false;
+		}
+
+		return true;
 	}
 
 /**
@@ -154,108 +173,53 @@ class Theme extends ThemesAppModel {
  *
  * @return boolean
  */
-	public function deactivateAll() {
+	public function deactivateAll($type) {
 		return $this->updateAll(array(
-			$this->alias . '.active' => false
+			$this->alias . '.' . $type => false
 		));
 	}
 
 /**
  * Install a theme
  *
- * @param string $theme the Plugin.Theme name
+ * This method will create the symlink for a theme and then attempt to save
+ * the data from the config to the db.
+ *
+ * @param string $theme the name of a theme to install
  *
  * @return boolean
  *
  * @throws CakeException
  */
 	public function install($theme) {
-		list($plugin, $theme) = pluginSplit($theme);
-		$path = InstallerLib::themePath($plugin, $theme);
-		$targetSymlink = InstallerLib::themePath(null, $theme);
-
-		if(is_dir($path) && !is_dir($targetSymlink)) {
-			if(symlink($path, $targetSymlink)) {
-				if($this->save($this->__parseThemeConfig($path))) {
-					return true;
-				}
-
-				unlink($targetSymlink);
-				throw new CakeException(__d('themes', 'Could not install the "%s" theme', $theme));
-			}
-
-			throw new CakeException(__d('themes', 'Could not symlink the theme directory'));
+		if(InfinitasTheme::install($theme) && $this->save(InfinitasTheme::config($theme))) {
+			return true;
 		}
 
-		throw new CakeException(__d('themes', 'Path error installing the "%s" theme', $theme));
+		InfinitasTheme::uninstall($theme);
+		throw new CakeException(__d('themes', 'Could not install the "%s" theme', $theme));
 	}
 
-/**
- * Read the theme config
- *
- * @param string $path the path to the theme
- *
- * @return array
- *
- * @throws CakeException
- */
-	private function __parseThemeConfig($path) {
-		$path .= DS . 'config.json';
-		if(!is_file($path)) {
-			throw new CakeException('Missing configuration for selected theme');
-		}
-
-		$File = new File($path);
-		return array(
-			$this->alias => json_decode($File->read(), true)
-		);
-	}
-
-/**
- * get a list of themes that are already installed
- *
- * @return array
- */
-	public function installed() {
-		$themes = $this->find('list', array(
-			'fields' => array(
+	protected function _findInstalled($state, $query, $results = array()) {
+		if($state == 'before') {
+			$query['fields'] = array(
 				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.' . $this->displayField
-			)
-		));
-
-		foreach($themes as &$theme) {
-			$theme = Inflector::humanize($theme);
+			);
+			return $query;
 		}
 
-		return $themes;
-	}
+		$results = Hash::combine($results,
+			'{n}.' . $this->alias . '.' . $this->primaryKey,
+			'{n}.' . $this->alias . '.' . $this->displayField
+		);
 
-/**
- * get a list of themes that are not yet installed
- *
- * @return array
- */
-	public function notInstalled() {
-		App::uses('InstallerLib', 'Installer.Lib');
-		$installed = $this->installed();
-
-		$notInstalled = array();
-		foreach(InfinitasPlugin::listPlugins('loaded') as $plugin) {
-			foreach(InstallerLib::findThemes($plugin) as $theme) {
-				if(!array_key_exists($theme, $installed)) {
-					$notInstalled[$plugin . '.' . $theme] = Inflector::humanize(Inflector::underscore($plugin . Inflector::camelize($theme)));
-				}
-			}
+		$return = array();
+		foreach($results as $result) {
+			$return[$result] = Inflector::humanize($result);
 		}
 
-		foreach(InstallerLib::findThemes() as $theme) {
-			if(!linkinfo(InstallerLib::themePath(null, $theme)) && !array_key_exists($theme, $installed)) {
-				$notInstalled[$theme] = Inflector::humanize(Inflector::underscore($theme));
-			}
-		}
-
-		return $notInstalled;
+		return $return;
 	}
 
 }

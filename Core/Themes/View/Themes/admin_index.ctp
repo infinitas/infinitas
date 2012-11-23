@@ -15,7 +15,6 @@ echo $this->Form->create(false, array('action' => 'mass'));
 	echo $this->Infinitas->adminIndexHead($filterOptions, array(
 		'install',
 		'edit',
-		'toggle',
 		'delete'
 	));
 ?>
@@ -26,22 +25,19 @@ echo $this->Form->create(false, array('action' => 'mass'));
 				'class' => 'first'
 			),
 			$this->Paginator->sort('name'),
-			$this->Paginator->sort('default_layout'),
+			$this->Paginator->sort('default_layout', __d('themes', 'Layout')) => array(
+				'title' => __d('themes', 'The default layout that will be used when this theme is active')
+			),
 			__d('themes', 'Layouts') => array(
 				'class' => 'small'
 			),
+			__d('installer', 'Status'),
 			$this->Paginator->sort('licence') => array(
 				'class' => 'xlarge'
 			),
 			$this->Paginator->sort('author') => array(
 				'class' => 'large'
 			),
-			$this->Paginator->sort('core') => array(
-				'class' => 'small'
-			),
-			$this->Paginator->sort('active') => array(
-				'class' => 'small'
-			)
 		));
 
 		foreach($themes as $theme) { ?>
@@ -76,6 +72,26 @@ echo $this->Form->create(false, array('action' => 'mass'));
 				</td>
 				<td>
 					<?php
+						if ($theme['Theme']['admin']) {
+							echo $this->Html->tag('span', __d('themes', 'Admin'), array(
+								'class' => 'label label-inverse'
+							));
+						}
+						if ($theme['Theme']['frontend']) {
+							echo $this->Html->tag('span', __d('themes', 'Frontend'), array(
+								'class' => 'label label-info'
+							));
+						}
+
+						if(!$theme['Theme']['admin'] && !$theme['Theme']['frontend']) {
+							echo $this->Html->tag('span', __d('themes', 'Frontend'), array(
+								'class' => 'label'
+							));
+						}
+					?>&nbsp;
+				</td>
+				<td>
+					<?php
 						if($theme['Theme']['licence']) {
 							echo $theme['Theme']['licence'];
 						} else {
@@ -93,8 +109,6 @@ echo $this->Form->create(false, array('action' => 'mass'));
 						echo $auth;
 					?>&nbsp;
 				</td>
-				<td><?php echo $this->Infinitas->status($theme['Theme']['core']); ?>&nbsp;</td>
-				<td><?php echo $this->Infinitas->status($theme['Theme']['active']); ?>&nbsp;</td>
 			</tr> <?php
 		}
 	?>

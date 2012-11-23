@@ -94,19 +94,34 @@ class InfinitasTheme {
 	public static function themes($type = 'installed') {
 		switch($type) {
 			case 'installed':
-				return ClassRegistry::init('Themes.Theme')->installed();
+				return ClassRegistry::init('Themes.Theme')->find('installed');
 
 			case 'notInstalled':
 				return array_intersect(self::themes('all'), self::themes('installed'));
 
 			default:
 			case 'all':
-				$return = array();
-				foreach(InstallerLib::findThemes() as $theme) {
-					$return[$theme] = Inflector::humanize(Inflector::underscore($theme));
-				}
-				return $return;
+				return self::_getThemes();
 		}
+	}
+
+/**
+ * Find themes within the application
+ *
+ * Themes should be located in APP/View/Themed. This can be symlinked from another
+ * location and will be symilined to the webroot for fast asset loading.
+ *
+ * @return array
+ */
+	protected static function _getThemes() {
+		$Folder = new Folder(self::themePath());
+
+		$return = array();
+		foreach(current($Folder->read()) as $theme) {
+			$return[$theme] = Inflector::humanize(Inflector::underscore($theme));
+		}
+
+		return $return;
 	}
 
 /**
@@ -140,6 +155,24 @@ class InfinitasTheme {
 		}
 
 		return $return;
+	}
+
+/**
+ * Get the screen shots for a theme
+ *
+ * @param string $theme the name of the theme
+ *
+ * @return array
+ */
+	public static function screenshots($theme) {
+		$path = self::linkPath($theme) . DS . 'img' . DS . 'screenshots' . DS;
+		$Folder = new Folder($path);
+		$Folder = end($Folder->read());
+		foreach($Folder as &$screenshot) {
+			$screenshot = str_replace(WWW_ROOT, DS, $path) . $screenshot;
+		}
+
+		return $Folder;
 	}
 
 /**
@@ -188,6 +221,31 @@ class InfinitasTheme {
 		}
 
 		return $return;
+	}
+
+/**
+ * Read the theme config
+ *
+ * @param string $path the path to the theme
+ *
+ * @return array
+ *
+ * @throws CakeException
+ */
+	protected function config($theme) {
+		$path = self::themePath($theme) . DS . 'config.json';
+		if(!is_file($path)) {
+			throw new ThemesConfigurationException('Missing configuration for selected theme');
+		}
+
+		$File = new File($path);
+		$File = json_decode($File->read(), true);
+		if(empty($File)) {
+			throw new ThemesConfigurationException(vsprintf('Configuration for "%s" seems invalid', array(
+				$theme
+			)));
+		}
+		return array('Theme' => $File);
 	}
 
 /**

@@ -73,7 +73,10 @@ class ThemesComponent extends InfinitasComponent {
 		$Controller->layout = Configure::read('Themes.default_layout');
 		$theme = Cache::read('currentTheme');
 		if($theme === false) {
-			$theme = ClassRegistry::init('Themes.Theme')->getCurrentTheme();
+			$admin = isset($Controller->request->params['admin']) && $Controller->request->params['admin'];
+			$theme = ClassRegistry::init('Themes.Theme')->find('currentTheme', array(
+				'admin' => $admin
+			));
 		}
 
 		if(!empty($theme['Theme']['default_layout'])) {

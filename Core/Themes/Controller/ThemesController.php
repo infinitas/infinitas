@@ -69,7 +69,7 @@ class ThemesController extends ThemesAppController {
  */
 	public function admin_edit($id) {
 		parent::admin_edit($id);
-		$themes = $this->Theme->notInstalled();
+		$themes = InfinitasTheme::themes('notInstalled');
 		$themes[$this->request->data['Theme']['name']] = $this->request->data['Theme']['name'];
 		try{
 			$defaultLayouts = InfinitasTheme::layouts($this->request->data['Theme']['id']);
