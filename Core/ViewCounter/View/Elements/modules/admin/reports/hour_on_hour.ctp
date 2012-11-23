@@ -1,4 +1,4 @@
-<div class="dashboard half">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('hour_on_hour', $hourOnHour);
 		if(empty($hourOnHour['sub_total'])) {

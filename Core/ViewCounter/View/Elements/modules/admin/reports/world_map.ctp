@@ -1,4 +1,4 @@
-<div class="dashboard grid_16">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('world_map', $byRegion);
 		if(!empty($byRegion['country_codes'])) {

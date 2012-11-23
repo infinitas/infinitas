@@ -25,7 +25,7 @@
 	if(ClassRegistry::init('ViewCounter.ViewCounterView')->find('count') == 0) {
 		return;
 	}
-	
+
 	if($this->plugin == 'view_counter' || $this->plugin == 'management') {
 		$conditions['month >= '] = date('m') - 1;
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCounterView')->reportByDayOfMonth($conditions);
@@ -33,14 +33,12 @@
 			$byWeek['model'] = pluginSplit($byWeek['model']);
 		}
 		$header = __('Popular content this month');
-	}
-
-	else{
+	} else{
 		$conditions['month >= '] = date('m') -3;
 		if(isset($model)) {
 			$conditions['ViewCounterView.model'] = $model;
 		}
-		
+
 		$byWeek = ClassRegistry::init('ViewCounter.ViewCounterView')->reportByDayOfMonth($conditions);
 		if(!isset($byWeek['totals'])) {
 			$byWeek['totals'] = array();
@@ -54,11 +52,11 @@
 			'controller' => 'view_counter_views',
 			'action' => 'reports'
 		);
-		
+
 		if(!empty($class)) {
 			$url['ViewCounterView.model'] = $class;
 		}
-		
+
 		$link = $this->Html->link(
 			__d('view_counter', 'More reports'),
 			$url,

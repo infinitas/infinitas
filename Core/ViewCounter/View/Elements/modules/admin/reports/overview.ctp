@@ -1,13 +1,13 @@
-<div class="dashboard half">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('overview', $overview);
 		if(empty($overview)) {
 			echo $this->ViewCounter->noData();
 		}
-		
+
 		else {
 			$overview['unique_views']['country_codes'] = array_filter($overview['unique_views']['country_codes']);
-			
+
 			$uniqueVisitMap = $newVisitorMap = false;
 			if(!empty($overview['unique_views']['country_codes'])) {
 				$uniqueVisitMap = $this->Charts->draw(
@@ -71,7 +71,7 @@
 											)
 										);
 									}
-									
+
 									echo $label;
 								?>
 							</td>
@@ -97,7 +97,7 @@
 											)
 										);
 									}
-									
+
 									echo $label;
 								?>
 							</td>
