@@ -187,6 +187,11 @@
 				'level' => 'error',
 				'redirect' => true
 			),
+			'not_implemented' => array(
+				'message' => 'The selected action has not been implemented',
+				'level' => 'warning',
+				'redirect' => true
+			),
 			'auth' => null
 		);
 
@@ -651,6 +656,9 @@
 					$config['redirect'] = $this->referer();
 				}
 				$_redirect = $config['redirect'];
+				if(isset($this->request->params['admin']) && $this->request->params['admin'] && $_redirect == '/') {
+					$_redirect = '/admin';
+				}
 			}
 
 			if(!$this->request->is('ajax')) {
