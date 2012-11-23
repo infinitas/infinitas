@@ -172,10 +172,20 @@ LICENCE;
 		 * retrun symlinks created or not
 		 */
 		public function symlink() {
-			App::uses('DevLib', 'Dev.Lib');
-			$Dev = new DevLib();
+			$plugins = CakePlugin::loaded();
 
-			return $Dev->autoAssetLinks();
+			App::uses('FolderSymlink', 'Filemanager.Utility');
+			$FolderSymlink = new FolderSymlink();
+			foreach($plugins as $plugin) {
+				$pluginWebroot = App::pluginPath($plugin) . 'webroot' . DS;
+				if(!is_dir($pluginWebroot)) {
+					continue;
+				}
+
+				if(!is_dir(getcwd() . DS . $plugin)) {
+					$FolderSymlink->create(WWW_ROOT . Inflector::underscore($plugin), $pluginWebroot);
+				}
+			}
 		}
 
 		/**
