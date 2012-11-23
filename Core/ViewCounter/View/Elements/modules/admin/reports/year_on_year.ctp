@@ -1,4 +1,4 @@
-<div class="dashboard half">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('year_on_year', $yearOnYear);
 		if(empty($yearOnYear['totals'])) {

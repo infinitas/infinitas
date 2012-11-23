@@ -1,4 +1,4 @@
-<div class="dashboard grid_16">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('day_of_month', $byDay);
 		if(empty($byDay['sub_total'])) {

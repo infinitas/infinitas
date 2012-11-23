@@ -1,4 +1,4 @@
-<div class="dashboard grid_16">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('week_on_week', $weekOnWeek);
 		if(empty($weekOnWeek['sub_total'])) {

@@ -1,4 +1,4 @@
-<div class="dashboard half">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('day_of_week', $dayOfWeek);
 		if(empty($dayOfWeek['sub_total'])) {

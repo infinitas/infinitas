@@ -1,4 +1,4 @@
-<div class="dashboard half">
+<div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('month_on_month', $monthOnMonth);
 		if(empty($monthOnMonth['sub_total'])) {
