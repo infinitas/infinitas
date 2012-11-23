@@ -1,5 +1,6 @@
 <?php
 App::uses('InstallerLib', 'Installer.Lib');
+App::uses('MigrationInformation', 'Migrations.Lib');
 
 /**
  * InstallShell
@@ -7,7 +8,7 @@ App::uses('InstallerLib', 'Installer.Lib');
  * @param InstallerTask $Installer
  * @param InfinitasPluginTask $InfinitasPlugin
  * @param InstallerLib $InstallerLib
- * 
+ *
  * @author dakota
  */
 
@@ -309,7 +310,7 @@ class InstallerTask extends AppShell {
 		Configure::write('debug', 2);
 		$plugins = array();
 		foreach($Plugin->getInstalledPlugins() as $plugin) {
-			$status = $Plugin->getMigrationStatus($plugin);
+			$status = MigrationInformation::status($plugin);
 
 			if($status['migrations_behind']) {
 				$plugins[] = $plugin;

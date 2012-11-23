@@ -148,12 +148,33 @@ class InfinitasPlugin extends CakePlugin {
 		return true;
 	}
 
+/**
+ * Check if the given name is of a plugin
+ *
+ * There may be a folder that is in the correct place for a plugin but is not an
+ * actual plugin (such as unititialised git submodules)
+ *
+ * @param string $plugin the plugins name
+ *
+ * @return boolean
+ */
 	public static function isPlugin($plugin) {
 		try {
 			return (bool)self::config($plugin);
 		} catch (Exception $e) {}
 
 		return false;
+	}
+
+/**
+ * Check if the plugin is already installed
+ *
+ * @param string $plugin the plugin name
+ *
+ * @return boolean
+ */
+	public static function isInstalled($plugin) {
+		return ClassRegistry::init('Installer.Plugin')->isInstalled($plugin);
 	}
 
 /**
@@ -378,11 +399,31 @@ class InfinitasPlugin extends CakePlugin {
 		return true;
 	}
 
+/**
+ * Uninstall a plugin
+ *
+ * This will remove all the plugins data and unlink the webroot folder. This is
+ * the opposit of InfinitasPlugin::install()
+ *
+ * @param string $plugin the name of the plugin to uninstall
+ *
+ * @return boolean
+ */
 	public static function uninstall($plugin) {
 
 		return self::deactivate($plugin);
 	}
 
+/**
+ * Deactivate a plugin
+ *
+ * When a plugin is not active, remove the links so its files are not accesible
+ * via the web. This is the opposit of InfinitasPlugin::activate()
+ *
+ * @param string $plugin the name of the plugin to deactivate
+ *
+ * @return boolean
+ */
 	public static function deactivate($plugin) {
 		$FolderSymlink = new FolderSymlink();
 		$FolderSymlink->delete(WWW_ROOT . Inflector::underscore($plugin));
@@ -415,47 +456,6 @@ class InfinitasPlugin extends CakePlugin {
 		}
 
 		return $File;
-	}
-
-/**
-* get the current installed version of the migration
-*
-* @param string $plugin the name of the plugin to check
-*
-* @return string|boolean
-*/
-	public function getMigrationVersion($plugin) {
-		$migration = ClassRegistry::init('SchemaMigration')->find('first', array(
-			'conditions' => array(
-				'SchemaMigration.type' => $plugin
-			),
-			'order' => array(
-				'SchemaMigration.version' => 'desc'
-			)
-		));
-		if(!isset($migration['SchemaMigration']['version'])) {
-			return false;
-		}
-
-		return $migration['SchemaMigration']['version'];
-	}
-
-/**
- * get the current version for the passed in plugin
- *
- * @param string $plugin the name of the plugin
- *
- * @return integer
- */
-	public function getAvailableMigrationsCount($plugin) {
-		$path = self::path($plugin) . 'Config' . DS . 'releases';
-		$Folder = new Folder($path);
-		$Folder = $Folder->read();
-
-		$Folder = array_flip($Folder[1]);
-		unset($Folder['map.php']);
-
-		return count($Folder);
 	}
 
 }

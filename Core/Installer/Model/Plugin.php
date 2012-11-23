@@ -244,38 +244,16 @@ class Plugin extends InstallerAppModel {
 	}
 
 /**
- * get migrations / installed count for a specific plugin
- *
- * @param string $plugin the name of the plugin.
- *
- * @return array
- */
-	public function getMigrationStatus($plugin) {
-		$return = array(
-			'migrations_available' => InfinitasPlugin::getAvailableMigrationsCount($plugin),
-			'migrations_installed' => InfinitasPlugin::getMigrationVersion($plugin),
-			'installed' => $this->isInstalled($plugin)
-		);
-		$return['migrations_behind'] = $return['migrations_available'] - $return['migrations_installed'];
-
-		return $return;
-	}
-
-/**
  * check if a plugin is installed
  *
  * @param string $plugin the name of the plugin
  *
  * @return boolean
  */
-	public function isInstalled($plugin = null) {
-		if(!$plugin) {
-			return false;
-		}
-
+	public function isInstalled($plugin) {
 		return (bool)$this->find('count', array(
 			'conditions' => array(
-				$this->alias . '.internal_name' => Inflector::camelize($plugin)
+				$this->alias . '.internal_name' => $plugin
 			)
 		));
 	}

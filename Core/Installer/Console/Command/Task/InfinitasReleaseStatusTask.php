@@ -5,6 +5,8 @@
  * @package Infinitas.Installer.Console.Task
  */
 
+App::uses('MigrationInformation', 'Migrations.Lib');
+
 /**
  * InfinitasReleaseStatusTask
  *
@@ -128,7 +130,12 @@ class InfinitasReleaseStatusTask extends AppShell {
 				continue;
 			}
 
-			$this->__plugins[$plugin] = $Plugin->getMigrationStatus($plugin);
+			$this->__plugins[$plugin] = MigrationInformation::status($plugin);
+			if(empty($this->__plugins[$plugin])) {
+				unset($this->__plugins[$plugin]);
+				continue;
+			}
+
 			$this->interactive('.', true);
 
 			$this->__plugins[$plugin]['changes'] = false;
