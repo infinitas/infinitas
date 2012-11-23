@@ -4,7 +4,7 @@
 	 *
 	 * Auto generated database update
 	 */
-	 
+
 	class R50aee8e55e8c49e3a13109856318cd70 extends CakeRelease {
 
 	/**
@@ -35,32 +35,26 @@
 				'core_themes' => array(
 					'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index', 'after' => 'default_layout'),
 					'frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'after' => 'admin'),
-					'indexes' => array(
-						'active' => array('column' => 'admin', 'unique' => 0),
-					),
 				),
 			),
 			'drop_field' => array(
-				'core_themes' => array('active', 'core', 'indexes' => array('active')),
+				'core_themes' => array('active', 'core'),
 			),
 		),
 		'down' => array(
 			'drop_field' => array(
-				'core_themes' => array('admin', 'frontend', 'indexes' => array('active')),
+				'core_themes' => array('admin', 'frontend'),
 			),
 			'create_field' => array(
 				'core_themes' => array(
 					'active' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'key' => 'index'),
 					'core' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-					'indexes' => array(
-						'active' => array(),
-					),
 				),
 			),
 		),
 		);
 
-	
+
 	/**
 	* Before migration callback
 	*
