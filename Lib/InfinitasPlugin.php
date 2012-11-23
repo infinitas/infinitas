@@ -1,4 +1,7 @@
 <?php
+App::uses('FolderSymlink', 'Filemanager.Utility');
+App::uses('ReleaseVersion', 'Installer.Lib');
+
 class InfinitasPlugin extends CakePlugin {
 /**
  * @brief internal list of various plugins by the current state
@@ -143,6 +146,14 @@ class InfinitasPlugin extends CakePlugin {
 		self::$__plugins['loaded'][] = $plugin;
 
 		return true;
+	}
+
+	public static function isPlugin($plugin) {
+		try {
+			return (bool)self::config($plugin);
+		} catch (Exception $e) {}
+
+		return false;
 	}
 
 /**
@@ -295,6 +306,156 @@ class InfinitasPlugin extends CakePlugin {
 		}
 
 		return App::build(array('Plugin' => self::$_pluginPaths));
+	}
+
+/**
+ * Install a plugin
+ *
+ * This method runs the release to create / modify the db and then activates the
+ * plugin.
+ *
+ * @param string $plugin the name of the plugin to install
+ * @param array $options the options for the install
+ *
+ * @return boolean
+ */
+	public static function install($plugin, array $options = array()) {
+		if(self::runRelease($plugin, $options) === false) {
+			return false;
+		}
+
+		return self::activate($plugin);
+	}
+
+/**
+ * Run a plugins release
+ *
+ * If the release should not be run or is not specified null will be returned.
+ * False is returned if there was a problem, and true when all was run correctly.
+ *
+ * Options:
+ *	- sampleData: boolean true for installing sample data, false for not
+ *	- installRelease: boolean true to run the release, false if not
+ *
+ * @param string $plugin the name of the plugin to install
+ * @param array $options the options for the install
+ *
+ * @return null|boolean
+ */
+	public static function runRelease($plugin, array $options) {
+		if(!array_key_exists('installRelease', $options) || !$options['installRelease']) {
+			return null;
+		}
+
+		$Version = new ReleaseVersion();
+		$mapping = $Version->getMapping($plugin);
+		$latest = array_pop($mapping);
+
+		return $Version->run(array(
+			'type' => $plugin,
+			'version' => $latest['version'],
+			'sample' => !empty($options['sampleData']) ? (bool)$options['sampleData'] : false
+		));
+	}
+
+/**
+ * Activate a plugin
+ *
+ * Preform tasks that are required to make a plugin available
+ *
+ * @param string $plugin the plugin name
+ *
+ * @return boolean
+ */
+	public static function activate($plugin) {
+		$FolderSymlink = new FolderSymlink();
+
+		$pluginWebroot = InfinitasPlugin::path($plugin) . 'webroot' . DS;
+		$pluginAsset = Inflector::underscore($plugin);
+		if(is_dir($pluginWebroot) && !is_dir(getcwd() . DS . $pluginAsset)) {
+			$FolderSymlink->create(WWW_ROOT . $pluginAsset, $pluginWebroot);
+		}
+		return true;
+	}
+
+	public static function uninstall($plugin) {
+
+		return self::deactivate($plugin);
+	}
+
+	public static function deactivate($plugin) {
+		$FolderSymlink = new FolderSymlink();
+		$FolderSymlink->delete(WWW_ROOT . Inflector::underscore($plugin));
+
+		return true;
+	}
+
+/**
+ * load up the details from the plugins config file
+ *
+ * This will attempt to get the plugins details so that they can be saved
+ * to the database.
+ *
+ * If the plugin has not had a release created then it will return false
+ * and will not be able to be saved.
+ *
+ * @param string $pluginName the name of the plugin to load
+ *
+ * @return array
+ */
+	public static function config($pluginName) {
+		$configFile = CakePlugin::path($pluginName) . 'Config' . DS . 'config.json';
+		if(!is_file($configFile)) {
+			throw new InstallerConfigurationException(array($pluginName, 'missing'));
+		}
+		$File = new File($configFile);
+		$File = Set::reverse(json_decode($File->read(), true));
+		if(empty($File)) {
+			throw new InstallerConfigurationException(array($pluginName, 'invalid'));
+		}
+
+		return $File;
+	}
+
+/**
+* get the current installed version of the migration
+*
+* @param string $plugin the name of the plugin to check
+*
+* @return string|boolean
+*/
+	public function getMigrationVersion($plugin) {
+		$migration = ClassRegistry::init('SchemaMigration')->find('first', array(
+			'conditions' => array(
+				'SchemaMigration.type' => $plugin
+			),
+			'order' => array(
+				'SchemaMigration.version' => 'desc'
+			)
+		));
+		if(!isset($migration['SchemaMigration']['version'])) {
+			return false;
+		}
+
+		return $migration['SchemaMigration']['version'];
+	}
+
+/**
+ * get the current version for the passed in plugin
+ *
+ * @param string $plugin the name of the plugin
+ *
+ * @return integer
+ */
+	public function getAvailableMigrationsCount($plugin) {
+		$path = self::path($plugin) . 'Config' . DS . 'releases';
+		$Folder = new Folder($path);
+		$Folder = $Folder->read();
+
+		$Folder = array_flip($Folder[1]);
+		unset($Folder['map.php']);
+
+		return count($Folder);
 	}
 
 }

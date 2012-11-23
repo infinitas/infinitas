@@ -368,7 +368,9 @@ LICENCE;
 			App::uses('ReleaseVersion', 'Installer.Lib');
 			$Version = new ReleaseVersion();
 
-			$result['app'] = $this->installPlugin($Version, $dbConfig, 'app');
+			$result = array(
+				'app' => $this->installPlugin($Version, $dbConfig, 'app')
+			);
 
 			foreach($plugins as $plugin) {
 				try{
@@ -381,10 +383,14 @@ LICENCE;
 
 			$this->Plugin = ClassRegistry::init('Installer.Plugin');
 			foreach($plugins as $pluginName) {
-				$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
+				if(!InfinitasPlugin::isPlugin($pluginName)) {
+					continue;
+				}
+				$this->Plugin->installPlugin($pluginName, array(
+					'sampleData' => false,
+					'installRelease' => false
+				));
 			}
-
-			$this->symlink();
 
 			return $result;
 		}
@@ -394,7 +400,7 @@ LICENCE;
 			$checkFile = $configPath . 'releases' . DS . 'map.php';
 
 			if($plugin !== 'app') {
-				$pluginPath = CakePlugin::path($plugin);
+				$pluginPath = InfinitasPlugin::path($plugin);
 				$configPath = $pluginPath . 'Config' . DS;
 				$checkFile = $configPath . 'config.json';
 			}

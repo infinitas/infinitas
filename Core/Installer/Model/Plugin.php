@@ -122,7 +122,7 @@ class Plugin extends InstallerAppModel {
  * @return array|integer
  */
 	public function getActiveInstalledPlugins($type = 'list') {
-		return $this->__installedPluginsByState(1, $type);
+		return $this->_installedPluginsByState(1, $type);
 	}
 
 /**
@@ -133,7 +133,7 @@ class Plugin extends InstallerAppModel {
  * @return array|integer
  */
 	public function getInactiveInstalledPlugins($type = 'list') {
-		return $this->__installedPluginsByState(0, $type);
+		return $this->_installedPluginsByState(0, $type);
 	}
 
 /**
@@ -147,7 +147,7 @@ class Plugin extends InstallerAppModel {
  *
  * @return array|integer
  */
-	private function __installedPluginsByState($active = 1, $type = 'list') {
+	protected function _installedPluginsByState($active = 1, $type = 'list') {
 		if(!in_array($type, array('list', 'count', 'all'))) {
 			$type = 'list';
 		}
@@ -219,136 +219,28 @@ class Plugin extends InstallerAppModel {
  * @return boolean
  */
 	public function installPlugin($pluginName, $options = array()) {
-		$options = array_merge(
-			array(
-				'sampleData' => false,
-				'installRelease' => true
-			),
-			$options
-		);
+		$options = array_merge(array(
+			'sampleData' => false,
+			'installRelease' => true
+		), $options);
 
-		$pluginDetails = $this->__loadPluginDetails($pluginName);
+		$pluginDetails = InfinitasPlugin::config($pluginName);
+		$pluginDetails['dependancies'] = json_encode($pluginDetails['dependancies']);
+		$pluginDetails['internal_name'] = $pluginName;
+		$pluginDetails['active'] = true;
+		$pluginDetails['core'] = strpos(CakePlugin::path($pluginName), APP . 'Core' . DS) !== false;
 
-		if($pluginDetails !== false && isset($pluginDetails['id'])) {
-			$pluginDetails['dependancies'] = json_encode($pluginDetails['dependancies']);
-			$pluginDetails['internal_name'] = $pluginName;
-			$pluginDetails['active'] = true;
-			$pluginDetails['core'] = strpos(CakePlugin::path($pluginName), APP . 'Core' . DS) !== false;
+		$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';
 
-			$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';
-
-			$installed = false;
-			$this->create();
-			if($this->save(array($this->alias => $pluginDetails))) {
-				$installed = true;
-
-				if($options['installRelease'] === true) {
-					$installed = $this->__processRelease($pluginName, $options['sampleData']);
-				}
-			}
-
-			return $installed;
-		}
-	}
-
-/**
- * load up the details from the plugins config file
- *
- * This will attempt to get the plugins details so that they can be saved
- * to the database.
- *
- * If the plugin has not had a release created then it will return false
- * and will not be able to be saved.
- *
- * @param string $pluginName the name of the plugin to load
- *
- * @return array
- */
-	private function __loadPluginDetails($pluginName) {
-		$configFile = CakePlugin::path($pluginName) . 'Config' . DS . 'config.json';
-
-		return file_exists($configFile) ? Set::reverse(json_decode(file_get_contents($configFile))) : false;
-	}
-
-/**
- * run a plugins release (create tables, update schema etc)
- *
- * This runs the migrations part of a plugin install. It will run all
- * the migrations found. If something goes wrong it will return false
- *
- * @param string $pluginName the name of the plugin to process
- * @param bool $sampleData true to install sample data, false if not
- *
- * @return mixed false on fail, true on success
- */
-	private function __processRelease($pluginName, $sampleData = false) {
-		App::uses('ReleaseVersion', 'Installer.Lib');
-
-		$Version = new ReleaseVersion();
-		$mapping = $Version->getMapping($pluginName);
-		$latest = array_pop($mapping);
-
-		return $Version->run(
-			array(
-				'type' => $pluginName,
-				'version' => $latest['version'],
-				'sample' => $sampleData
-			)
-		);
-
-		return true;
-	}
-
-/**
-* get the current installed version of the migration
-*
-* @param string $plugin the name of the plugin to check
-*
-* @return string|boolean
-*/
-	public function getMigrationVersion($plugin = null) {
-		if(!$plugin) {
-			return false;
+		$this->create();
+		if($this->save(array($this->alias => $pluginDetails))) {
+			return InfinitasPlugin::install($pluginName, array(
+				'sampleData' => $options['sampleData'],
+				'installRelease' => $options['installRelease']
+			));
 		}
 
-		$migration = ClassRegistry::init('SchemaMigration')->find(
-			'first',
-			array(
-				'conditions' => array(
-					'SchemaMigration.type' => $plugin
-				),
-				'order' => array(
-					'SchemaMigration.version' => 'desc'
-				)
-			)
-		);
-
-		return (isset($migration['SchemaMigration']['version'])) ? $migration['SchemaMigration']['version'] : null;
-	}
-
-/**
- * get the current version for the passed in plugin
- *
- * @param string $plugin the name of the plugin
- *
- * @return integer|boolean
- */
-	public function getAvailableMigrationsCount($plugin = null) {
-		if(!$plugin) {
-			return false;
-		}
-
-		$path = CakePlugin::path($plugin) . 'Config' . DS . 'releases';
-		$Folder = new Folder($path);
-
-		$data = $Folder->read();
-		unset($Folder, $plugin, $path);
-
-		if(in_array('map.php', $data[1])) {
-			return count($data[1]) - 1;
-		}
-
-		return null;
+		return false;
 	}
 
 /**
@@ -358,16 +250,13 @@ class Plugin extends InstallerAppModel {
  *
  * @return array
  */
-	public function getMigrationStatus($plugin = null) {
-		if(!$plugin) {
-			return false;
-		}
-
-		$return = array();
-		$return['migrations_available'] = $this->getAvailableMigrationsCount($plugin);
-		$return['migrations_installed'] = $this->getMigrationVersion($plugin);
+	public function getMigrationStatus($plugin) {
+		$return = array(
+			'migrations_available' => InfinitasPlugin::getAvailableMigrationsCount($plugin),
+			'migrations_installed' => InfinitasPlugin::getMigrationVersion($plugin),
+			'installed' => $this->isInstalled($plugin)
+		);
 		$return['migrations_behind'] = $return['migrations_available'] - $return['migrations_installed'];
-		$return['installed'] = $this->isInstalled($plugin);
 
 		return $return;
 	}

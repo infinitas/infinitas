@@ -232,7 +232,7 @@ class InfinitasTheme {
  *
  * @throws CakeException
  */
-	protected function config($theme) {
+	public function config($theme) {
 		$path = self::themePath($theme) . DS . 'config.json';
 		if(!is_file($path)) {
 			throw new ThemesConfigurationException('Missing configuration for selected theme');
