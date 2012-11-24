@@ -38,7 +38,7 @@
 				)
 			);
 			
-			if(empty($return)) {
+			if (empty($return)) {
 				return $return;
 			}
 

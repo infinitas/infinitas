@@ -175,7 +175,7 @@ class GoogleAdsenseHelper extends InfinitasHelper {
  * @return array
  */
 	public function configure($config = null) {
-		if($config !== null) {
+		if ($config !== null) {
 			$this->__config($config);
 		}
 
@@ -195,7 +195,7 @@ class GoogleAdsenseHelper extends InfinitasHelper {
 	public function display($type, $config = array()) {
 		$this->__config($type, $config);
 
-		if(!$this->clientId) {
+		if (!$this->clientId) {
 			throw new InvalidArgumentException('Missing client ID');
 		}
 	}
@@ -211,7 +211,7 @@ class GoogleAdsenseHelper extends InfinitasHelper {
  * @throws InvalidArgumentException
  */
 	private function __config($type, $config) {
-		if(!is_array($config)) {
+		if (!is_array($config)) {
 			throw new InvalidArgumentException('Config should be an array');
 		}
 
@@ -221,12 +221,12 @@ class GoogleAdsenseHelper extends InfinitasHelper {
 			$config
 		);
 
-		if(!empty($this->__currentConfig['clientId'])) {
+		if (!empty($this->__currentConfig['clientId'])) {
 			$this->clientId = $this->__currentConfig['clientId'];
 		}
 
-		if(!$type) {
-			if(empty($this->__currentConfig['type'])) {
+		if (!$type) {
+			if (empty($this->__currentConfig['type'])) {
 				throw new InvalidArgumentException('Ad type is required');
 			}
 
@@ -251,7 +251,7 @@ class GoogleAdsenseHelper extends InfinitasHelper {
  * @throws InvalidArgumentException
  */
 	private function __setAddType($type) {
-		if(!is_string($type) || !array_key_exists($type, $this->__adTypes)) {
+		if (!is_string($type) || !array_key_exists($type, $this->__adTypes)) {
 			throw new InvalidArgumentException(sprintf('"%s" (%s) is not a valid add type', (string)$type, gettype($type)));
 		}
 
@@ -268,15 +268,15 @@ class GoogleAdsenseHelper extends InfinitasHelper {
  * @throws InvalidArgumentException
  */
 	private function __setFormat() {
-		if(empty($this->__currentConfig['format'])) {
-			foreach($this->__adFormat as $format => $types) {
-				if(!in_array($this->__currentConfig['type'], $types)) {
+		if (empty($this->__currentConfig['format'])) {
+			foreach ($this->__adFormat as $format => $types) {
+				if (!in_array($this->__currentConfig['type'], $types)) {
 					continue;
 				}
 				$this->__currentConfig['format'] = $format;
 			}
 
-			if(empty($this->__currentConfig['format'])) {
+			if (empty($this->__currentConfig['format'])) {
 				throw new InvalidArgumentException('Could not detect the format of the ad');
 			}
 		}
@@ -292,15 +292,15 @@ class GoogleAdsenseHelper extends InfinitasHelper {
  * @throws InvalidArgumentException
  */
 	private function __setSize() {
-		if(empty($this->__currentConfig['size'])) {
+		if (empty($this->__currentConfig['size'])) {
 			$this->__currentConfig['size'] = current($this->__adSizes[$this->__currentConfig['type']]);
 		}
 
-		if(is_array($this->__currentConfig['size'])) {
+		if (is_array($this->__currentConfig['size'])) {
 			$this->__currentConfig['size'] = implode('x', $this->__currentConfig['size']);
 		}
 
-		if(!array_key_exists($this->__currentConfig['size'], $this->__adSizes[$this->__currentConfig['type']])) {
+		if (!array_key_exists($this->__currentConfig['size'], $this->__adSizes[$this->__currentConfig['type']])) {
 			throw new InvalidArgumentException(sprintf('Selected size "%s" is not valid for ad type "%s"', $this->__currentConfig['size'], $this->__currentConfig['type']));
 		}
 

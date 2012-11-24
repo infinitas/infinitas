@@ -46,7 +46,7 @@
 		'lft', 'rght' // mptt fields
 	);
 
-	foreach($fields as $field) {
+	foreach ($fields as $field) {
 		$check = $schema[$field]['type'] == 'text' || (
 			$field == 'created' && in_array('modifeid', $fields)
 		);
@@ -101,7 +101,7 @@ COMMENT;
 						"\t\t\t\t\t\t'class' => 'first',\n" .
 					"\t\t\t\t\t),\n";
 					$endFields = '';
-					foreach($fields as $field ) {
+					foreach ($fields as $field ) {
 						if (in_array($field, $ignore)) {
 							continue;
 						}

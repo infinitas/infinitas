@@ -69,7 +69,7 @@ class RouteTest extends CakeTestCase {
  * @dataProvider regexData
  */
 	public function testRegex($data, $expected) {
-		if(!isset($data['pass'])) {
+		if (!isset($data['pass'])) {
 			return $this->assertEquals($expected, $this->Route->getRegex($data['rules']));
 		}
 

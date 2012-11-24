@@ -63,7 +63,7 @@ class Folders extends AppModel {
 			$this->validationErrors[] = array(
 				'field' => 'basePath',
 				'message' => __d('filemanager', 'Base path does not exist')
-				);
+			);
 			return false;
 		}
 
@@ -81,7 +81,7 @@ class Folders extends AppModel {
 			$this->validationErrors[] = array(
 				'field' => 'path',
 				'message' => __d('filemanager', 'Path does not exist')
-				);
+			);
 			return false;
 		}
 
@@ -124,6 +124,7 @@ class Folders extends AppModel {
  * @return void
  */
 	public function chmod($path) {
+
 	}
 
 /**
@@ -135,7 +136,7 @@ class Folders extends AppModel {
  * @return array
  */
 	private function __read($findType, $conditions) {
-		switch($findType) {
+		switch ($findType) {
 			case 'all':
 				$this->__advancedFolderFind($conditions);
 				break;
@@ -161,9 +162,9 @@ class Folders extends AppModel {
 			$this->return = array();
 			return true;
 		}
-		$i = 0;
 
-		foreach($this->fileList[0] as $folder) {
+		$i = 0;
+		foreach ($this->fileList[0] as $folder) {
 			if (in_array($folder, $this->ignore)) {
 				continue;
 			}
@@ -234,33 +235,27 @@ class Folders extends AppModel {
 		$str .= ($p&0x0100) ? 'r' : '-';
 		$str .= ($p&0x0080) ? 'w' : '-';
 
-		if($p&0x0040) {
+		if ($p&0x0040) {
 			$str .= ($p&0x0800) ? 's' : 'x';
-		}
-
-		else{
+		} else {
 			$str .= ($p&0x0800) ? 'S' : '-';
 		}
 
 		$str .= ($p&0x0020) ? 'r' : '-';
 		$str .= ($p&0x0010) ? 'w' : '-';
 
-		if($p&0x0008) {
+		if ($p&0x0008) {
 			$str .= ($p&0x0400) ? 's' : 'x';
-		}
-
-		else{
+		} else {
 			$str .= ($p&0x0400) ? 'S' : '-';
 		}
 
 		$str .= ($p&0x0004) ? 'r' : '-';
 		$str .= ($p&0x0002) ? 'w' : '-';
 
-		if($p&0x0001) {
+		if ($p&0x0001) {
 			$str .= ($p&0x0200) ? 't' : 'x';
-		}
-
-		else{
+		} else {
 			$str .= ($p&0x0200) ? 'T' : '-';
 		}
 
@@ -287,7 +282,7 @@ class Folders extends AppModel {
 			return true;
 		}
 
-		foreach($this->fileList[0] as $file) {
+		foreach ($this->fileList[0] as $file) {
 			if (in_array($file, $this->ignore)) {
 				continue;
 			}
@@ -320,11 +315,11 @@ class Folders extends AppModel {
 			$order = array($order);
 		}
 
-		foreach($order as $field => $direction) {
+		foreach ($order as $field => $direction) {
 			if ($field == 'name') {
 				if (strtolower($direction) == 'asc') {
 					sort($this->fileList[0]);
-				}else {
+				} else {
 					rsort($this->fileList[0]);
 				}
 			}

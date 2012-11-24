@@ -4,11 +4,11 @@
 	 * creators
 	 */
 	$options = array('options' => $contentAuthors, 'selected' => AuthComponent::user('id'));
-	if(strstr($this->request->params['action'], 'edit')) {
+	if (strstr($this->request->params['action'], 'edit')) {
 		$options = false;
 	}
 
-	if($options) {
+	if ($options) {
 		$fields = $this->Form->input('GlobalContent.author_id', $options);
 		unset($options['options'], $options['selected']);
 		$fields .= $this->Form->input('GlobalContent.author_alias', $options);
@@ -20,7 +20,7 @@
 	}
 
 	$template = '%s';
-	if(!empty($metaFieldSet) && $metaFieldSet === true) {
+	if (!empty($metaFieldSet) && $metaFieldSet === true) {
 		$template = sprintf(
 			'<fieldset><h1>%s</h1>%%s</fieldset>',
 			__d('contents', 'Author')
@@ -34,7 +34,7 @@
 	 */
 
 	$options = array('options' => $contentAuthors, 'selected' => AuthComponent::user('id'));
-	if(strstr($this->request->params['action'], 'add')) {
+	if (strstr($this->request->params['action'], 'add')) {
 		$options['readonly'] = true;
 	}
 
@@ -43,7 +43,7 @@
 	$fields .= $this->Form->input('GlobalContent.editor_alias', $options);
 
 	$template = '%s';
-	if(!empty($metaFieldSet) && $metaFieldSet === true) {
+	if (!empty($metaFieldSet) && $metaFieldSet === true) {
 		$template = sprintf(
 			'<fieldset><h1>%s</h1>%%s</fieldset>',
 			__d('contents', 'Editor')

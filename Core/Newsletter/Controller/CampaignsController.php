@@ -47,7 +47,7 @@ class CampaignsController extends NewsletterAppController {
 		parent::admin_add();
 
 		$templates = $this->Campaign->Template->find('list');
-		if(empty($templates)) {
+		if (empty($templates)) {
 			$this->notice(
 				__d('newsletter', 'Please create a template before creating your campaigns'),
 				array(
@@ -160,7 +160,7 @@ class CampaignsController extends NewsletterAppController {
 			return $ids;
 		}
 
-		foreach($ids as $k => $v) {
+		foreach ($ids as $k => $v) {
 			if (isset($newsletters[$v])) {
 				unset($ids[$k]);
 			}

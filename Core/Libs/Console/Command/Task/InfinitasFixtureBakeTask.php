@@ -46,11 +46,11 @@
 
 			$newFixture = $this->getNewFixture($modelName, $useTable, array());
 
-			if(!$new) {
+			if (!$new) {
 				$oldFixture = $this->getOldFixture($this->plugin, $modelName);
 				$oldFixture['plugin'] = $this->plugin;
 
-				if(!$oldFixture) {
+				if (!$oldFixture) {
 					$this->err(sprintf('There is no fixture for %s', $modelName));
 					return false;
 				}
@@ -58,8 +58,8 @@
 				$addFields = array_diff(array_keys($newFixture['fixture']['schema']), array_keys($oldFixture['fields']));
 				$removeFields = array_diff(array_keys($oldFixture['fields']), array_keys($newFixture['fixture']['schema']));
 
-				foreach($newFixture['fixture']['schema'] as $newField => $config) {
-					if(!isset($oldFixture['fields'][$newField])) {
+				foreach ($newFixture['fixture']['schema'] as $newField => $config) {
+					if (!isset($oldFixture['fields'][$newField])) {
 						$oldFixture['fields'][$newField] = $config;
 						continue;
 					}
@@ -67,8 +67,8 @@
 					$oldFixture['fields'][$newField] = array_merge($oldFixture['fields'][$newField], $config);
 				}
 
-				foreach($oldFixture['fields'] as $field => $config) {
-					if(in_array($field, $removeFields)) {
+				foreach ($oldFixture['fields'] as $field => $config) {
+					if (in_array($field, $removeFields)) {
 						unset($oldFixture['fields'][$field]);
 					}
 				}
@@ -104,14 +104,14 @@
 		 * @return array
 		 */
 		private function __cleanupRecords($fixture, $new, $old) {
-			foreach($new as $newField) {
-				foreach($fixture['records'] as $k => $record) {
+			foreach ($new as $newField) {
+				foreach ($fixture['records'] as $k => $record) {
 					$fixture['records'][$k][$newField] = null;
 				}
 			}
 
-			foreach($old as $oldField) {
-				foreach($fixture['records'] as $k => $record) {
+			foreach ($old as $oldField) {
+				foreach ($fixture['records'] as $k => $record) {
 					unset($fixture['records'][$k][$oldField]);
 				}
 			}
@@ -175,7 +175,7 @@
 		 */
 		public function getOldFixture($plugin, $model) {
 			$file = App::pluginPath($plugin) . 'Test' . DS . 'Fixture' . DS . $model . 'Fixture.php';
-			if(!is_file($file)) {
+			if (!is_file($file)) {
 				return array();
 			}
 

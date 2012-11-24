@@ -68,9 +68,9 @@ class CommentsEvents extends AppEvents {
  * @param Event $event
  */
 	public function onAttachBehaviors(Event $event) {
-		if(is_subclass_of($event->Handler, 'Model')) {
+		if (is_subclass_of($event->Handler, 'Model')) {
 			if ($event->Handler->hasField('comment_count')) {
-				if(!$event->Handler->Behaviors->enabled('Comments.Commentable')) {
+				if (!$event->Handler->Behaviors->enabled('Comments.Commentable')) {
 					$event->Handler->Behaviors->attach('Comments.Commentable');
 				}
 			}
@@ -113,7 +113,7 @@ class CommentsEvents extends AppEvents {
 	public function onSiteMapRebuild(Event $event) {
 		$newestRow = ClassRegistry::init('Comments.Comment')->getNewestRow();
 
-		if(!$newestRow) {
+		if (!$newestRow) {
 			return false;
 		}
 

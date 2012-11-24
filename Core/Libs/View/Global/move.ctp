@@ -34,15 +34,15 @@
 		);
 
 		$belongs = $habtm = array();
-		foreach($relations['belongsTo'] as $alias => $belongsTo) {
-			if(in_array($alias, $ignore)) {
+		foreach ($relations['belongsTo'] as $alias => $belongsTo) {
+			if (in_array($alias, $ignore)) {
 				continue;
 			}
 			$belongs[] = __d('libs', prettyName($alias));
 		}
 
-		foreach($relations['hasAndBelongsToMany'] as $alias => $hasAndBelongsToMany) {
-			if(in_array($alias, $ignore)) {
+		foreach ($relations['hasAndBelongsToMany'] as $alias => $hasAndBelongsToMany) {
+			if (in_array($alias, $ignore)) {
 				continue;
 			}
 			$habtm[] = __d('libs', prettyName(Inflector::pluralize($alias)));
@@ -54,31 +54,29 @@
 			),
 			__d('libs', 'Record') => array(
 				'style' => 'width:150px;'
-			)),
-			$belongs,
-			$habtm
-		));
+			)
+		), $belongs, $habtm));
 
-		foreach($rows as $row) { ?>
+		foreach ($rows as $row) { ?>
 			<tr>
 				<td><?php echo $this->Infinitas->massActionCheckBox($row); ?>&nbsp;</td>
 				<td>
 					<?php echo $row[$model][$modelSetup['displayField']]; ?>
 				</td>
 				<?php
-					foreach($relations['belongsTo'] as $alias => $belongsTo) {
-						if(in_array($alias, $ignore)) {
+					foreach ($relations['belongsTo'] as $alias => $belongsTo) {
+						if (in_array($alias, $ignore)) {
 							continue;
 						}
 
-						if(isset(${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]])) {
+						if (isset(${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]])) {
 							echo $this->Html->tag('td', ${strtolower(Inflector::pluralize($alias))}[$row[$model][$belongsTo['foreignKey']]]);
-						} else{
+						} else {
 							echo $this->Html->tag('td', __d('infinitas', 'Not set'));
 						}
 					}
 
-					foreach($relations['hasAndBelongsToMany'] as $alias => $hasAndBelongsToMany) {
+					foreach ($relations['hasAndBelongsToMany'] as $alias => $hasAndBelongsToMany) {
 						echo $this->Html->tag('td', __d('infinitas', 'Some tags'));
 					}
 				?>
@@ -90,8 +88,8 @@
 	echo $this->Form->hidden('Move.model', array('value' => $model));
 	echo $this->Form->hidden('Move.confirmed', array('value' => 1));
 
-	foreach($relations['belongsTo'] as $alias => $belongsTo) {
-		if(in_array($alias, $ignore)) {
+	foreach ($relations['belongsTo'] as $alias => $belongsTo) {
+		if (in_array($alias, $ignore)) {
 			continue;
 		}
 
@@ -104,7 +102,7 @@
 		)), array('class' => 'info'));
 	}
 
-	foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo) {
+	foreach ($relations['hasAndBelongsToMany'] as $alias => $belongsTo) {
 		echo $this->Html->tag('div', implode('', array(
 			$this->Html->tag('h3', __d('libs', prettyName(Inflector::pluralize($alias)))),
 			$this->Form->input('Move.'.$alias, array(

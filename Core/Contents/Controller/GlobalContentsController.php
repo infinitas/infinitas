@@ -73,12 +73,12 @@ class GlobalContentsController extends ContentsAppController {
  * @return void
  */
 	public function admin_transfer() {
-		if(!empty($this->request->data)) {
-			if(isset($this->request->data['GlobalContent']['plugin']) && isset($this->request->data['GlobalContent']['model'])) {
+		if (!empty($this->request->data)) {
+			if (isset($this->request->data['GlobalContent']['plugin']) && isset($this->request->data['GlobalContent']['model'])) {
 				$model = sprintf('%s.%s', $this->request->data['GlobalContent']['plugin'], $this->request->data['GlobalContent']['model']);
 				$return = $this->GlobalContent->moveContent($model, $this->request->data['GlobalContent']['rows_to_move']);
-				if($return) {
-					if($return['moved'] == 0  && $return['total'] == 0) {
+				if ($return) {
+					if ($return['moved'] == 0  && $return['total'] == 0) {
 						$this->notice(
 							sprintf(__d('contents', 'There are no more items to move'), $return['moved'], $return['total']),
 							array(
@@ -156,7 +156,7 @@ class GlobalContentsController extends ContentsAppController {
 			)
 		);
 
-		if(empty($layouts)) {
+		if (empty($layouts)) {
 			$this->notice(
 				__d('contents', 'Please create a layout for this content type'),
 				array(

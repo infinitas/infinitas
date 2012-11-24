@@ -1,11 +1,11 @@
 <?php
-	if(!isset($byHour) || empty($byHour)) {
+	if (!isset($byHour) || empty($byHour)) {
 		return false;
 	}
 ?>
 <div class="page-header span12">
 	<?php
-		if(empty($byHour)) {
+		if (empty($byHour)) {
 			$byHour = ClassRegistry::init('ServerStatus.ServerStatus')->reportByHour();
 		}
 
@@ -15,7 +15,7 @@
 			$this->Time->niceShort($byHour['end_date'])
 		);
 
-		if(empty($byHour['hour'])) {
+		if (empty($byHour['hour'])) {
 			echo $this->ViewCounter->noData();
 		}
 

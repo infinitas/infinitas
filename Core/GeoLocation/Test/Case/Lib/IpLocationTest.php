@@ -34,7 +34,7 @@ class IpLocationTest extends CakeTestCase {
  * @dataProvider dataProvider
  */
 	public function testCityData($data, $expected) {
-		$this->skipIf(!$this->IpLocation->hasCityData());
+		$this->skipif (!$this->IpLocation->hasCityData());
 
 		$result = $this->IpLocation->getCityData($data['ip'], $data['code']);
 		$this->assertEquals($expected['city'], $result);

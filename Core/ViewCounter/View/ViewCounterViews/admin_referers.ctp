@@ -31,7 +31,7 @@
 			)
 		));
 
-		foreach($views as $view) { ?>
+		foreach ($views as $view) { ?>
 			<tr>
 				<td>
 					<?php

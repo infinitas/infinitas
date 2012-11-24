@@ -86,7 +86,7 @@
 		}
 
 		public function schema($field = false) {
-			if(is_string($field)) {
+			if (is_string($field)) {
 				return $this->_schema[$field];
 			}
 
@@ -104,13 +104,13 @@
 			unset($Folder);
 
 			$returnPages = array();
-			foreach($pages as $page) {
-				if(strpos($page, '.ctp') !== false) {
+			foreach ($pages as $page) {
+				if (strpos($page, '.ctp') !== false) {
 					$returnPages[][$this->alias] = $this->__getPageData(basename($page));
 				}
 			}
 
-			if(empty($returnPages)) {
+			if (empty($returnPages)) {
 				return array();
 			}
 
@@ -124,7 +124,7 @@
 
 			$path = str_replace(array('/', '\\'), DS, Configure::read('Contents.page_path')) . $id;
 
-			if(!is_dir($path) && !strstr($path, '.ctp')) {
+			if (!is_dir($path) && !strstr($path, '.ctp')) {
 				new Folder($path, true);
 			}
 
@@ -153,18 +153,18 @@
 		}
 
 		public function read($fields = null, $filename = null) {
-			if($filename === null) {
+			if ($filename === null) {
 				$filename = $this->id;
 			}
 
-			if(!strstr($filename, '.ctp')) {
+			if (!strstr($filename, '.ctp')) {
 				$filename .= '.ctp';
 			}
 
 			$pageFile = $this->__path($filename);
 
 			$this->id = null;
-			if(file_exists($pageFile)) {
+			if (file_exists($pageFile)) {
 				$this->id = $filename;
 				return array($this->alias => array_merge(
 					array('body' => file_get_contents($pageFile)),
@@ -179,7 +179,7 @@
 			$Folder = new Folder($this->__path());
 
 			$conditions = '.*';
-			if(isset($query['conditions'][$this->alias . '.file_name'])) {
+			if (isset($query['conditions'][$this->alias . '.file_name'])) {
 				$conditions = regexEscape($query['conditions'][$this->alias . '.file_name']);
 			}
 
@@ -193,7 +193,7 @@
 					return $results;
 					break;
 				case 'first' :
-					if(isset($results[0]))
+					if (isset($results[0]))
 						return $results[0];
 					else
 						return false;
@@ -202,21 +202,21 @@
 		}
 
 		public function save($data = null, $validate = true, $fieldList = array()) {
-			if(!empty($data[$this->alias])) {
+			if (!empty($data[$this->alias])) {
 				$this->data[$this->alias] = $data[$this->alias];
 			}
 
-			if(empty($this->data)) {
+			if (empty($this->data)) {
 				return false;
 			}
 
-			if(strpos($this->data[$this->alias]['file_name'], '.ctp') === false) {
+			if (strpos($this->data[$this->alias]['file_name'], '.ctp') === false) {
 				$this->data[$this->alias]['file_name'] .= '.ctp';
 			}
 
 			$this->id = $this->data[$this->alias]['file_name'];
 
-			if($validate === false || $this->validates()) {
+			if ($validate === false || $this->validates()) {
 				$File = new File($this->__path($this->id), true);
 				return $File->write($this->data[$this->alias]['body']);
 			}

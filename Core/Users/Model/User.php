@@ -109,7 +109,7 @@
 		 * @return parent::beforeValidate
 		 */
 		public function beforeValidate($options = array()) {
-			if(!empty($this->data[$this->alias]['confirm_password'])) {
+			if (!empty($this->data[$this->alias]['confirm_password'])) {
 				$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
 			}
 
@@ -170,10 +170,10 @@
 			$Session = ClassRegistry::init('Session');
 			$sessions = $Session->find('all');
 
-			foreach($sessions as &$session) {
+			foreach ($sessions as &$session) {
 				$session['User'] = explode('Auth|', $session['Session']['data']);
 
-				if(isset($session['User'][1])) {
+				if (isset($session['User'][1])) {
 					$session['User'] = unserialize($session['User'][1]);
 					if (isset($session['User']['User'])) {
 						$session['User'] = $session['User']['User'];
@@ -258,7 +258,7 @@
 		 * @return boolean, true if valid, false if not
 		 */
 		public function validUserId($userId) {
-			if(!$userId) {
+			if (!$userId) {
 				return false;
 			}
 
@@ -273,7 +273,7 @@
 		}
 
 		public function getAdmins($fields = array()) {
-			if(!$fields) {
+			if (!$fields) {
 				$fields = array(
 					$this->alias . '.username',
 					$this->alias . '.email'

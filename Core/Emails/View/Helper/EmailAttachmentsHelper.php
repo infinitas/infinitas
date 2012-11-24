@@ -50,7 +50,7 @@ class EmailAttachmentsHelper extends AppHelper {
  * @return boolean|string
  */
 	public function hasAttachment($mail = array(), $small = true) {
-		if((isset($mail['attachments']) && $mail['attachments']) || $mail === true) {
+		if ((isset($mail['attachments']) && $mail['attachments']) || $mail === true) {
 			$size = ($small === true) ? 16 : 24;
 			return $this->Html->image(
 				'/newsletter/img/attachment.png',
@@ -79,7 +79,7 @@ class EmailAttachmentsHelper extends AppHelper {
 		$title = __d('emails', 'Flagged :: This email has been flagged');
 		$alt = __d('emails', 'Flagged');
 
-		if((isset($mail['flagged']) && (bool)$mail['flagged'] === false) || $mail === false) {
+		if ((isset($mail['flagged']) && (bool)$mail['flagged'] === false) || $mail === false) {
 			$image = '/newsletter/img/flagged-not.png';
 			$title = __d('emails', 'Not Flagged :: Flag this email');
 			$alt = __d('emails', 'Not Flagged');
@@ -106,12 +106,12 @@ class EmailAttachmentsHelper extends AppHelper {
  * @return string
  */
 	public function listAttachments($attachments = array()) {
-		if(empty($attachments) || !is_array($attachments)) {
+		if (empty($attachments) || !is_array($attachments)) {
 			return false;
 		}
 
 		$return = array();
-		foreach($attachments as $attachment) {
+		foreach ($attachments as $attachment) {
 			switch($attachment['type']) {
 				case 'jpeg':
 				case 'gif':
@@ -132,7 +132,7 @@ class EmailAttachmentsHelper extends AppHelper {
 			$return[] = $this->__addAttachment($attachment, $data);
 		}
 
-		if(!empty($return)) {
+		if (!empty($return)) {
 			return sprintf('<ul class="attachments"><li>%s</li></ul>', implode('</li><li>', $return));
 		}
 

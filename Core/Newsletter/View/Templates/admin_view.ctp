@@ -42,7 +42,7 @@
             echo '<li>', __d('newsletter', 'There are none'), '</li>';
         }
         else{
-            foreach($template['Campaign'] as $campaign) {
+            foreach ($template['Campaign'] as $campaign) {
                 echo '<li>'.$campaign['name'].'</li>';
             }
         }
@@ -56,7 +56,7 @@
             echo '<li>', __d('newsletter', 'There are none'), '</li>';
         }
         else{
-            foreach($template['Newsletter'] as $newsletter) {
+            foreach ($template['Newsletter'] as $newsletter) {
                 echo '<li>', $newsletter['subject'], '</li>';
             }
         }

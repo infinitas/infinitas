@@ -1,5 +1,5 @@
 <?php
-	if(!isset($lastSixMonths) || empty($lastSixMonths)) {
+	if (!isset($lastSixMonths) || empty($lastSixMonths)) {
 		return false;
 	}
 ?>
@@ -11,7 +11,7 @@
 			$this->Time->niceShort($lastSixMonths['end_date'])
 		);
 
-		if(empty($lastSixMonths['month'])) {
+		if (empty($lastSixMonths['month'])) {
 			echo $this->ViewCounter->noData();
 		}
 

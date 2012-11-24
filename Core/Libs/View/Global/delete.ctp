@@ -39,7 +39,7 @@
 			)
 		);
 
-		foreach($rows as $id => $value) { ?>
+		foreach ($rows as $id => $value) { ?>
 			<tr>
 				<td>
 					<?php

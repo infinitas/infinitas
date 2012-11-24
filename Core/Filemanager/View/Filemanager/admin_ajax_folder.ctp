@@ -1,9 +1,9 @@
 <?php
 	$out = array();
 	
-	foreach($files as $file) {
+	foreach ($files as $file) {
 		$check = file_exists($file) && !is_dir($file) && basename($file) != 'empty';
-		if(!$check) {
+		if (!$check) {
 			continue;
 		}
 		
@@ -13,10 +13,10 @@
 		list($plugin, $path) = explode('/webroot/img/', $file);
 		$plugin = basename($plugin);
 		
-		if(is_array($size)) {
+		if (is_array($size)) {
 			$sizeType = 'height';
 			$sizeInt = $size[1];
-			if($size[0] > $size[1]) {
+			if ($size[0] > $size[1]) {
 				$sizeType = 'width';
 				$sizeInt = $size[0];
 			}
@@ -39,7 +39,7 @@
 			);
 		}
 		
-		if(empty($image)) {
+		if (empty($image)) {
 			$image = 'other';
 		}
 		

@@ -1,5 +1,5 @@
 <?php
-	if($code) {
+	if ($code) {
 		$message = $this->Html->tag('strong', $code . ':') . $message;
 	}
 	echo $this->Html->tag('div', implode('', array(

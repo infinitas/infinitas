@@ -28,11 +28,11 @@ class GlobalCategoriesController extends ContentsAppController {
 	public function beforeRender() {
 		parent::beforeRender();
 
-		if($this->request->params['admin']) {
+		if ($this->request->params['admin']) {
 			return;
 		}
 
-		if(!empty($this->viewVars['category'])) {
+		if (!empty($this->viewVars['category'])) {
 			$this->set('title_for_layout', $this->viewVars['category']['GlobalCategory']['title']);
 
 			$canonicalUrl = $this->Event->trigger('Contents.slugUrl', array('type' => 'category', 'data' => array('GlobalCategory' => $this->viewVars['category']['GlobalCategory'])));
@@ -43,7 +43,7 @@ class GlobalCategoriesController extends ContentsAppController {
 			return;
 		}
 
-		if(Configure::read('Contents.GlobalCagegories')) {
+		if (Configure::read('Contents.GlobalCagegories')) {
 			Configure::write('Website.description', Configure::read('Contents.GlobalCagegories.description'));
 			Configure::write('Website.keywords', Configure::read('Contents.GlobalCagegories.keywords'));
 		}
@@ -70,7 +70,7 @@ class GlobalCategoriesController extends ContentsAppController {
 			)
 		);
 
-		if(isset($this->request->params['category'])) {
+		if (isset($this->request->params['category'])) {
 			$this->Paginator->settings[$this->modelClass]['conditions']['GlobalContent.slug'] = $this->request->params['category'];
 		}
 
@@ -100,7 +100,7 @@ class GlobalCategoriesController extends ContentsAppController {
  * @return void
  */
 	public function view() {
-		if(empty($this->request->params['slug'])) {
+		if (empty($this->request->params['slug'])) {
 			$this->notice('invalid');
 		}
 
@@ -110,7 +110,7 @@ class GlobalCategoriesController extends ContentsAppController {
 
 		$category = $this->GlobalCategory->find('getCategory', array('conditions' => $conditions));
 
-		if(empty($category)) {
+		if (empty($category)) {
 			$this->notice('invalid');
 		}
 

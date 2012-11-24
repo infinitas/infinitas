@@ -103,7 +103,7 @@ class NewsletterSubscriber extends NewsletterAppModel {
  */
 	protected function _findPaginated($state, $query, $results = array()) {
 		if ($state === 'before') {
-			if(!is_array($query['fields'])) {
+			if (!is_array($query['fields'])) {
 				$query['fields'] = array($query['fields']);
 			}
 

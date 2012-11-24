@@ -55,7 +55,7 @@
 			)
 		));
 
-		foreach($emailAccounts as $emailAccount) {
+		foreach ($emailAccounts as $emailAccount) {
 			?>
 				<tr>
 					<td><?php echo $this->Infinitas->massActionCheckBox($emailAccount); ?>&nbsp;</td>

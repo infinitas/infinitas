@@ -88,7 +88,7 @@
 			}
 
 			$ids = array();
-			foreach($data as $id => $selected) {
+			foreach ($data as $id => $selected) {
 				if ($selected) {
 					$ids[] = $selected['id'];
 				}
@@ -103,7 +103,7 @@
 
 		public function __massActionDelete($ids) {
 			$deleted = true;
-			foreach($ids as $id) {
+			foreach ($ids as $id) {
 				$deleted = $deleted && $this->{$this->modelClass}->delete($id);
 			}
 

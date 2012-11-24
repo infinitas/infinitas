@@ -48,7 +48,7 @@ class EmailAccountsController extends EmailsAppController {
 	public function admin_add() {
 		parent::admin_add();
 
-		if(empty($this->request->data)) {
+		if (empty($this->request->data)) {
 			$this->request->data['EmailAccount'] = array(
 				'name' => __d('emails', '%s\'s mail', $this->Auth->user('username')),
 				'server' => sprintf('mail.%s', env('HTTP_HOST')),

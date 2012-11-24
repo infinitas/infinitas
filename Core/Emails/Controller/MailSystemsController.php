@@ -37,7 +37,7 @@ class MailSystemsController extends EmailsAppController {
 	public function admin_dashboard() {
 		$accounts = ClassRegistry::init('Emails.EmailAccount')->getMyAccounts($this->Auth->user('id'));
 
-		if(empty($accounts)) {
+		if (empty($accounts)) {
 			$this->notice('You do not have any accounts set up', 'notice');
 		}
 
@@ -50,7 +50,7 @@ class MailSystemsController extends EmailsAppController {
  * @return void
  */
 	public function admin_index() {
-		if(!$this->request->params['account']) {
+		if (!$this->request->params['account']) {
 			$this->notice(__d('emails', 'Please select an account'), 'notice', 0, null, true);
 		}
 
@@ -80,7 +80,7 @@ class MailSystemsController extends EmailsAppController {
  * @return void
  */
 	public function admin_view() {
-		if(!$this->request->params['email']) {
+		if (!$this->request->params['email']) {
 			$this->notice(__d('emails', 'Please select an email to view'), 'error', 0, true);
 		}
 
@@ -103,7 +103,7 @@ class MailSystemsController extends EmailsAppController {
  * @return void
  */
 	public function admin_get_mail() {
-		if(!$this->request->params['email']) {
+		if (!$this->request->params['email']) {
 			$this->notice(__d('emails', 'Please select an email to view'), 'error', 0, true);
 		}
 

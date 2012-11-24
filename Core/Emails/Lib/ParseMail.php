@@ -73,14 +73,14 @@ class ParseMail {
 		MIME5::split_mail($rawEmail, $_headers, $_body);
 		unset($rawEmail);
 
-		foreach($_headers as $_header) {
+		foreach ($_headers as $_header) {
 			$key = $this->_key($_header['name']);
 			$vaule = $this->_value($_header['value'], $key);
-			if(!isset($header[$key])) {
+			if (!isset($header[$key])) {
 				$header[$key] = $vaule;
 			}
 			else{
-				if(!is_array($header[$key])) {
+				if (!is_array($header[$key])) {
 					$tmp = $header[$key];
 					$header[$key] = array($tmp);
 				}
@@ -100,7 +100,7 @@ class ParseMail {
 
 	protected function _formatBody($body) {
 		$return = array();
-		foreach($body as $k => $part) {
+		foreach ($body as $k => $part) {
 			$body[$k]['charset'] = isset($part['type']['extra']['charset']) ? $part['type']['extra']['charset'] : null;
 			$body[$k]['type'] = $part['type']['value'];
 		}
@@ -143,7 +143,7 @@ class ParseMail {
 			case 'spam_status':
 				$value = explode($explode, $value);
 				$return = array();
-				foreach($value as $_value) {
+				foreach ($value as $_value) {
 					$_value = explode('=', trim($_value));
 					$return[$_value[0]] = preg_replace('/\s+/', '', $_value[1]);
 				}

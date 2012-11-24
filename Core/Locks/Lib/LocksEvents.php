@@ -85,7 +85,7 @@ class LocksEvents extends AppEvents {
  * @return void
  */
 	public function onAttachBehaviors(Event $Event) {
-		if($Event->Handler->shouldAutoAttachBehavior()) {
+		if ($Event->Handler->shouldAutoAttachBehavior()) {
 			if (isset($Event->Handler->lockable) && $Event->Handler->lockable && !$Event->Handler->Behaviors->enabled('Locks.Lockable')) {
 				$Event->Handler->Behaviors->attach('Locks.Lockable');
 			}
@@ -119,11 +119,11 @@ class LocksEvents extends AppEvents {
  * @return boolean
  */
 	public function onEditCanceled(Event $Event, $id = null) {
-		if(!$id) {
+		if (!$id) {
 			return false;
 		}
 
-		if($Event->Handler instanceof Model && $Event->Handler->{$Event->Handler->modelClass}->hasMethod('unlock')) {
+		if ($Event->Handler instanceof Model && $Event->Handler->{$Event->Handler->modelClass}->hasMethod('unlock')) {
 			try {
 				return $Event->Handler->{$Event->Handler->modelClass}->unlock($id);
 			} catch(Exception $e) {

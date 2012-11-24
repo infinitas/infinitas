@@ -5,13 +5,13 @@ class TrashableBehavior extends ModelBehavior {
 	public $Trash = null;
 
 	public function beforeDelete(Model $Model, $cascade = true) {
-		if($this->Trash === null) {
+		if ($this->Trash === null) {
 			$this->Trash = ClassRegistry::init('Trash.Trash');
 		}
 
 		$userId = AuthComponent::user('id');
 
-		if(!$userId) {
+		if (!$userId) {
 			return false;
 		}
 

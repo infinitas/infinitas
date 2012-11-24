@@ -58,15 +58,15 @@
 			$items = (isset($menus['adminMenu'][$this->plugin]['main'])) ? $menus['adminMenu'][$this->plugin]['main'] : array();
 
 			$return = array();
-			foreach($items as $name => $url) {
-				if(is_array($url)) {
+			foreach ($items as $name => $url) {
+				if (is_array($url)) {
 					$url = array_merge($this->__adminMenuUrl, $url);
 				}
 
 				$options = array(
 					'escape' => false
 				);
-				if($this->here == Router::url($url)) {
+				if ($this->here == Router::url($url)) {
 					$options = array_merge($options, array('class' => 'current'));
 				}
 
@@ -96,11 +96,11 @@
 		 * @return array
 		 */
 		public function builDashboardLinks($plugins = array(), $type = null, $cache = true) {
-			if(!$type) {
+			if (!$type) {
 				$type = $this->plugin;
 			}
 
-			if(empty($plugins)) {
+			if (empty($plugins)) {
 				$plugins = $this->Event->trigger('pluginRollCall');
 				$plugins = array_filter($plugins['pluginRollCall']);
 				$type = 'all';
@@ -109,15 +109,15 @@
 			ksort($plugins);
 
 			$return = array();
-			foreach($plugins as $name => $info) {
+			foreach ($plugins as $name => $info) {
 				$plugin = Inflector::underscore($name);
 				$name = Inflector::camelize($name);
 				$info = array_merge($this->__adminDashboardIcon, $info);
-				if(empty($info['name'])) {
+				if (empty($info['name'])) {
 					$info['name'] = __d($plugin, prettyName($name));
 				}
 
-				if(empty($info['dashboard'])) {
+				if (empty($info['dashboard'])) {
 					$info['dashboard'] = array(
 						'plugin' => $plugin,
 						'controller' => $plugin,
@@ -126,9 +126,9 @@
 				}
 
 				$var = 'plugin';
-				if($type !== 'all') {
+				if ($type !== 'all') {
 					$var = $type;
-				} else if(strstr(InfinitasPlugin::path($name), APP . 'Core' . DS)) {
+				} else if (strstr(InfinitasPlugin::path($name), APP . 'Core' . DS)) {
 					$var = 'core';
 				}
 
@@ -136,7 +136,7 @@
 				$info['icon'] = isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png';
 
 				$class = null;
-				if(!empty($info['dashboard']['plugin']) && $info['dashboard']['plugin'] == $this->request->params['plugin']) {
+				if (!empty($info['dashboard']['plugin']) && $info['dashboard']['plugin'] == $this->request->params['plugin']) {
 					 $class = 'active';
 				}
 				$return[$var][] = $this->Html->link(implode('', array(
@@ -158,7 +158,7 @@
 		}
 
 		public function bootstrapNav($menus, $ulOptions = array(), $child = false) {
-			foreach($menus as &$menu) {
+			foreach ($menus as &$menu) {
 				$ulOptions = array(
 					'class' => 'nav'
 				);
@@ -167,14 +167,14 @@
 				);
 				$hasChildren = !empty($menu['children']);
 
-				if($child && !$hasChildren) {
+				if ($child && !$hasChildren) {
 					$ulOptions = array(
 						'class' => 'dropdown-menu'
 					);
 				}
 
 				$caret = null;
-				if($hasChildren) {
+				if ($hasChildren) {
 					$linkOptions = array_merge(array(
 						'class' => 'dropdown-toggle',
 						'data-toggle' => 'dropdown'
@@ -182,16 +182,16 @@
 					$caret = $this->Html->tag('b', '', array('class' => 'caret'));
 				}
 				$url = $this->url($menu);
-				if($menu['MenuItem']['name'] == '--') {
+				if ($menu['MenuItem']['name'] == '--') {
 					$menu['MenuItem']['name'] = $this->Html->tag('li', '', array('class' => 'divider'));
 					$hasChildren = false;
-				} else if($menu['MenuItem']['class'] == 'nav-header') {
+				} else if ($menu['MenuItem']['class'] == 'nav-header') {
 					$menu['MenuItem']['name'] = $this->Html->tag('li', $menu['MenuItem']['name'], array('class' => 'nav-header'));
 				} else {
 					$menu['MenuItem']['name'] = $this->Html->link($menu['MenuItem']['name'] . $caret, $url, $linkOptions);
 				}
 
-				if($hasChildren) {
+				if ($hasChildren) {
 					$menu['MenuItem']['name'] .= self::bootstrapNav($menu['children'], array(), true);
 				}
 
@@ -204,7 +204,7 @@
 			}
 
 			$menus = $this->Html->tag('ul', implode('', $menus), $ulOptions);
-			if($child) {
+			if ($child) {
 				return $menus;
 			}
 			return $this->Html->tag('div', $menus, array(
@@ -235,7 +235,7 @@
 			);
 
 			$this->_menuData = String::insert('<ul class=":class" id=":id">', $config);
-				foreach( $data as $k => $v ) {
+				foreach ( $data as $k => $v ) {
 					$this->_menuLevel = 0;
 					$this->__buildDropdownMenu($v, 'MenuItem');
 				}
@@ -255,11 +255,11 @@
 		public function link($data, $config = array()) {
 			$url = InfinitasRouter::url($this->url($data));
 
-			if(empty($config)) {
+			if (empty($config)) {
 				$config = array('class' => $data['MenuItem']['class']);
 			}
 
-			else if(empty($config['class'])) {
+			else if (empty($config['class'])) {
 				$config['class'] = $data['MenuItem']['class'];
 			}
 			else {
@@ -279,11 +279,11 @@
 		 * @return string|array
 		 */
 		public function url($data = array(), $full = null) {
-			if(empty($data['MenuItem'])) {
+			if (empty($data['MenuItem'])) {
 				throw new Exception('Menu item is not valid');
 			}
 
-			if(!empty($data['MenuItem']['link'])) {
+			if (!empty($data['MenuItem']['link'])) {
 				return $data['MenuItem']['link'];
 			}
 
@@ -299,11 +299,11 @@
 				$data['MenuItem']['params']
 			);
 
-			if($data['MenuItem']['force_backend']) {
+			if ($data['MenuItem']['force_backend']) {
 				$url['admin'] = true;
 			}
 
-			else if($data['MenuItem']['force_frontend']) {
+			else if ($data['MenuItem']['force_frontend']) {
 				$url['admin'] = false;
 			}
 
@@ -332,7 +332,7 @@
 
 			$isSeperator = ($array['MenuItem']['name'] == '--') ? true : false;
 
-			if($isSeperator) {
+			if ($isSeperator) {
 				$array['MenuItem']['item'] = '';
 			}
 
@@ -344,15 +344,15 @@
 
 			$cssClass = 'pureCssMenui';
 			$class = 'pureCssMenui'.$suffix;
-			if($isSeperator) {
+			if ($isSeperator) {
 				$class .= ' seperator';
 			}
 
 			$this->_menuData .= '<li class="'.$class.'">';
-			if(!$isSeperator) {
+			if (!$isSeperator) {
 				$menuLink = $this->url($array);
 
-				if($this->_currentCssDone === false && Router::url($menuLink) == $this->here) {
+				if ($this->_currentCssDone === false && Router::url($menuLink) == $this->here) {
 					$currentCss = ' current';
 					$this->_currentCssDone = true;
 				}
@@ -370,7 +370,7 @@
 
 				if (!empty($array['children'])) {
 					$this->_menuData .= '<ul class="pureCssMenum">';
-					foreach($array['children'] as $k => $v) {
+					foreach ($array['children'] as $k => $v) {
 						$this->_menuLevel = 1;
 						$this->__buildDropdownMenu($v, $model);
 					}

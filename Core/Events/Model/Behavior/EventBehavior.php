@@ -49,15 +49,15 @@ class EventBehavior extends ModelBehavior {
 	public function beforeFind(Model $Model, $query) {
 		$query['conditions'] = !empty($query['conditions']) ? (array)$query['conditions'] : array();
 
-		if($Model->hasField('plugin')) {
+		if ($Model->hasField('plugin')) {
 			$this->__getPossiblePlugins($Model, 'plugin', $query['conditions']);
 		}
 
-		if($Model->hasField('model')) {
+		if ($Model->hasField('model')) {
 			$this->__getPossiblePlugins($Model, 'model', $query['conditions']);
 		}
 
-		if($Model->hasField('class')) {
+		if ($Model->hasField('class')) {
 			//pr('not sure what is going on here :/ ');
 			//exit;
 		}
@@ -81,7 +81,7 @@ class EventBehavior extends ModelBehavior {
 		$toIgnore = ClassRegistry::init('Installer.Plugin')->getInactiveInstalledPlugins();
 
 		$return = array();
-		foreach($toIgnore as $plugin) {
+		foreach ($toIgnore as $plugin) {
 			$conditions[] = array(
 				sprintf('%s.%s NOT LIKE ', $Model->alias, $field) => sprintf('%%%s%%', $plugin)
 			);

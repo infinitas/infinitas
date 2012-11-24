@@ -32,19 +32,19 @@
 		public function beforeRender() {
 			parent::beforeRender();
 
-			if(!strstr($this->request->params['action'], 'login') && !strstr($this->request->params['action'], 'register')) {
+			if (!strstr($this->request->params['action'], 'login') && !strstr($this->request->params['action'], 'register')) {
 				return;
 			}
 
-			if($this->request->params['admin']) {
+			if ($this->request->params['admin']) {
 				$this->layout = 'admin_login';
-			} else if($this->theme && file_exists(APP . 'View' . DS . 'Themed' . DS . $this->theme . DS . 'Layouts' . DS . 'front_login.ctp')) {
+			} else if ($this->theme && file_exists(APP . 'View' . DS . 'Themed' . DS . $this->theme . DS . 'Layouts' . DS . 'front_login.ctp')) {
 				$this->layout = 'front_login';
 			}
 		}
 
 		public function view() {
-			if(!$this->Auth->user('id')) {
+			if (!$this->Auth->user('id')) {
 				$this->notice(
 					__d('users', 'You must be logged in to view your profile'),
 					array(
@@ -63,7 +63,7 @@
 				)
 			);
 
-			if(empty($user)) {
+			if (empty($user)) {
 				$this->notice(
 					__d('users', 'Please login to view your profile'),
 					array(
@@ -77,7 +77,7 @@
 		}
 
 		public function profile() {
-			if(!$this->Auth->user('id')) {
+			if (!$this->Auth->user('id')) {
 				$this->notice(
 					__d('users', 'You must be logged in to edit your profile'),
 					array(
@@ -87,17 +87,17 @@
 				);
 			}
 
-			if(!empty($this->request->data)) {
-				if($this->request->data[$this->modelClass]['id'] == $this->Auth->user('id')) {
-					if(isset($this->request->data[$this->modelClass]['prefered_name']) && empty($this->request->data[$this->modelClass]['prefered_name'])) {
+			if (!empty($this->request->data)) {
+				if ($this->request->data[$this->modelClass]['id'] == $this->Auth->user('id')) {
+					if (isset($this->request->data[$this->modelClass]['prefered_name']) && empty($this->request->data[$this->modelClass]['prefered_name'])) {
 						$this->request->data[$this->modelClass]['prefered_name'] = $this->request->data[$this->modelClass]['username'];
 					}
 
-					if(empty($this->request->data[$this->modelClass]['password'])) {
+					if (empty($this->request->data[$this->modelClass]['password'])) {
 						unset($this->request->data[$this->modelClass]['password'], $this->request->data[$this->modelClass]['confirm_password']);
 					}
 					try{
-						if($this->{$this->modelClass}->save($this->request->data)) {
+						if ($this->{$this->modelClass}->save($this->request->data)) {
 							$this->notice('saved');
 						}
 
@@ -116,7 +116,7 @@
 				}
 			}
 
-			if($this->Auth->user('id') && !$this->request->data) {
+			if ($this->Auth->user('id') && !$this->request->data) {
 				$this->request->data = $this->{$this->modelClass}->find(
 					'first',
 					array(
@@ -128,7 +128,7 @@
 				);
 			}
 
-			if(empty($this->request->data)) {
+			if (empty($this->request->data)) {
 				$this->notice(
 					__d('users', 'Please login to edit your profile'),
 					array(
@@ -161,7 +161,7 @@
 			$this->_createCookie();
 
 			if (!empty($this->request->data)) {
-				if($this->Auth->login()) {
+				if ($this->Auth->login()) {
 					$this->{$this->modelClass}->recursive = -1;
 
 					$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
@@ -489,8 +489,8 @@
 
 			$this->_createCookie();
 
-			if($this->request->data) {
-				if($this->Auth->login()) {
+			if ($this->request->data) {
+				if ($this->Auth->login()) {
 					$lastLogon = $this->{$this->modelClass}->getLastLogon($this->Auth->user('id'));
 					$data = $this->_getUserData();
 
@@ -521,7 +521,7 @@
 				$this->InfinitasSecurity->badLoginAttempt($this->request->data[$this->modelClass]);
 			}
 
-			if($this->Auth->user()) {
+			if ($this->Auth->user()) {
 				$this->redirect('/admin');
 			}
 		}

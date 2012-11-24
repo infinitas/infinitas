@@ -18,9 +18,9 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	if(empty($viewStats)) {
+	if (empty($viewStats)) {
 		$viewStats = ClassRegistry::init('ViewCounter.ViewCounterView')->getGlobalTotalCount();
-		if(empty($viewStats)) {
+		if (empty($viewStats)) {
 			return;
 		}
 	}
@@ -38,7 +38,7 @@
 
 		$i = 0;
 		$legend = array();
-		foreach($viewStats as $model => $count) {
+		foreach ($viewStats as $model => $count) {
 			list($plugin, $model) = pluginSplit($model);
 			$model = prettyName(str_replace($plugin, '', Inflector::singularize($model)));
 			$legend[] = sprintf(__d('view_counter', '%s: %s %s views'), $labels[$i], $count, $model);

@@ -22,7 +22,7 @@
 	$todo = $this->Event->trigger('requireTodoList');
 	$todo = array_filter($todo['requireTodoList']);
 
-	if(empty($todo)) {
+	if (empty($todo)) {
 		return true;
 	}
 
@@ -34,10 +34,10 @@
 
 	$out = '';
 
-	foreach($todo as $name => $info) {
+	foreach ($todo as $name => $info) {
 		$out .= '<h3>'.__d('menus', prettyName($name)).'</h3>';
 		$out .= '<ul>';
-			foreach((array)$info as $item) {
+			foreach ((array)$info as $item) {
 				$out .= '<li class="'.$item['type'].'">'.$this->Html->link(
 					$item['name'],
 					$item['url'],

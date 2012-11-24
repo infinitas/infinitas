@@ -99,7 +99,7 @@
 		public function testGetPlugins() {
 			$_allPlugins = InfinitasPlugin::listPlugins('all');
 			$allPlugins = array() + array('' => 'None');
-			foreach($_allPlugins as $k => $v) {
+			foreach ($_allPlugins as $k => $v) {
 				$allPlugins[Inflector::underscore($v)] = $v;
 			}
 			// need to see how to do this
@@ -114,7 +114,7 @@
 		}
 
 		public function testGettingTableThings() {
-			$this->skipIf(true); // @todo this changes when the tests run all. Need to mock or something.
+			$this->skipif (true); // @todo this changes when the tests run all. Need to mock or something.
 			// find all the tables
 			$expected = array(
 				'core_plugins',

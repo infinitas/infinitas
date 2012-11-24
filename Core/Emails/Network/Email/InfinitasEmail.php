@@ -63,30 +63,30 @@ class InfinitasEmail extends CakeEmail {
 			'emailFormat' => 'both'
 		), $options);
 
-		if($options['replyTo'] === null) {
+		if ($options['replyTo'] === null) {
 			$options['replyTo'] = $options['from'];
 		}
 
 		$options['charset'] = strtolower($options['charset']);
-		if($options['headerCharset'] === null) {
+		if ($options['headerCharset'] === null) {
 			$options['headerCharset'] = $options['charset'];
 		}
 
-		if($options['readReceipt'] !== false) {
+		if ($options['readReceipt'] !== false) {
 			$options['readReceipt'] = $options['replyTo'];
 		} else {
 			unset($options['readReceipt']);
 		}
 
-		foreach($options as $k => $v) {
+		foreach ($options as $k => $v) {
 			switch($k) {
 				case 'to':
 				case 'cc':
 				case 'bcc':
-					if($v === null) {
+					if ($v === null) {
 						continue;
 					}
-					if(!is_array($v)) {
+					if (!is_array($v)) {
 						$v = array($v => null);
 					}
 					$this->_setEmail('_' . $k, key($v), current($v));
@@ -100,7 +100,7 @@ class InfinitasEmail extends CakeEmail {
 				case 'emailFormat':
 				case 'charset':
 				case 'headerCharset':
-					if(is_array($v)) {
+					if (is_array($v)) {
 						$this->{$k}(key($v), current($v));
 						continue;
 					}
@@ -127,7 +127,7 @@ class InfinitasEmail extends CakeEmail {
  * @return parent::config()
  */
 	public function config($config = null) {
-		if(!is_array($config)) {
+		if (!is_array($config)) {
 			$config = ClassRegistry::init('Emails.EmailAccount')->find('systemAccount', array(
 				'config' => (string)$config
 			));

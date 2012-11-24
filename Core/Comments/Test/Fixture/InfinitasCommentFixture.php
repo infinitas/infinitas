@@ -6,7 +6,9 @@
  * @since 0.9b1
  */
 class InfinitasCommentFixture extends CakeTestFixture {
+
 	public $name = 'InfinitasComment';
+
 	public $table = 'infinitas_comments';
 
 	public $fields = array(

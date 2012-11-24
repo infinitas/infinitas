@@ -22,7 +22,5 @@ class ChartsBaseEngineHelperTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-
 }

@@ -244,7 +244,7 @@ class InfinitasHelperTest extends CakeTestCase {
  * @dataProvider dateDataProvider
  */
 	public function testDate($data, $expected) {
-		if(isset($data['method'])) {
+		if (isset($data['method'])) {
 			$result = $this->Infinitas->date($data['date'], $data['method']);
 		} else {
 			$result = $this->Infinitas->date($data['date']);

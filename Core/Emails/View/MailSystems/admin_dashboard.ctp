@@ -14,12 +14,12 @@ echo $this->Design->dashboard($this->Design->arrayToList(current((array)$dashboa
 	'info' => Configure::read('Email.info.general')
 ));
 
-if(empty($accounts)) {
+if (empty($accounts)) {
 	echo $this->Design->alert(__d('emails', 'You do not have any accounts set up'));
 	return;
 }
 
-foreach($accounts as &$account) {
+foreach ($accounts as &$account) {
 	$_url = $this->Event->trigger('Emails.slugUrl', array('type' => 'inbox', 'data' => $account));
 	$_url = current($_url['slugUrl']);
 	unset($_url['plugin']);

@@ -63,9 +63,9 @@ class EncryptableBehavior extends ModelBehavior {
 	public function setup(Model $Model, $settings = array()) {
 		$this->settings[$Model->alias] = array_merge($this->_defaults, $settings);
 
-		if(empty($this->settings[$Model->alias]['fields']) && is_array($this->settings[$Model->alias]['fields'])) {
-			foreach($Model->schema() as $key => $value) {
-				if($value['type'] == 'text') {
+		if (empty($this->settings[$Model->alias]['fields']) && is_array($this->settings[$Model->alias]['fields'])) {
+			foreach ($Model->schema() as $key => $value) {
+				if ($value['type'] == 'text') {
 					$this->settings[$Model->alias]['fields'][] = $key;
 				}
 			}
@@ -154,9 +154,9 @@ class EncryptableBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function beforeSave(Model $Model) {
-		if(is_array(current($Model->data[$Model->alias]))) {
+		if (is_array(current($Model->data[$Model->alias]))) {
 			// saveall
-			foreach($Model->data[$Model->alias] as $k => $row) {
+			foreach ($Model->data[$Model->alias] as $k => $row) {
 				foreach ($this->settings[$Model->alias]['fields'] AS $field) {
 					if (isset($Model->data[$Model->alias][$k][$field])) {
 						$Model->data[$Model->alias][$k][$field . '_search'] = $this->searchFieldData($Model->alias, $Model->data[$Model->alias][$k][$field]);
@@ -240,7 +240,7 @@ class EncryptableBehavior extends ModelBehavior {
 			$data = $data2;
 		}
 
-		if(empty($data)) {
+		if (empty($data)) {
 			return '';
 		}
 
@@ -276,12 +276,12 @@ class EncryptableBehavior extends ModelBehavior {
  * @return string
  */
 	public function searchFieldData($alias, $string) {
-		if(empty($string) || strlen($string) < $this->settings[$alias]['searchWordMinLenght']) {
+		if (empty($string) || strlen($string) < $this->settings[$alias]['searchWordMinLenght']) {
 			return '';
 		}
 
-		foreach(explode(' ', (string)$string) as $k => $v) {
-			if(strlen($v) > $this->settings[$alias]['searchWordLength']) {
+		foreach (explode(' ', (string)$string) as $k => $v) {
+			if (strlen($v) > $this->settings[$alias]['searchWordLength']) {
 				$words[] = $v;
 			}
 		}

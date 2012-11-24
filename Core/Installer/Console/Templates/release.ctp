@@ -52,7 +52,7 @@ echo "<?php\n";
 	<?php echo $migration; ?>
 		);
 
-	<?php if(!empty($fixtures)) { ?>
+	<?php if (!empty($fixtures)) { ?>
 	/**
 	* Fixtures for data
 	*

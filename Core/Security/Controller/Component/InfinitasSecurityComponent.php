@@ -49,15 +49,15 @@ class InfinitasSecurityComponent extends InfinitasComponent {
  * @return void
  */
 	protected function _detectBot() {
-		if(!empty($this->Controller->request->data[$this->Controller->modelClass]['om_nom_nom'])) {
+		if (!empty($this->Controller->request->data[$this->Controller->modelClass]['om_nom_nom'])) {
 			$this->Controller->Session->write('Spam.bot', true);
 			$this->Controller->Session->write('Spam.detected', time());
 
 			$this->redirect('/?spam=true');
 		}
 
-		if($this->Controller->Session->read('Spam.bot')) {
-			if((time() - 3600) > $this->Controller->Session->read('Spam.detected')) {
+		if ($this->Controller->Session->read('Spam.bot')) {
+			if ((time() - 3600) > $this->Controller->Session->read('Spam.detected')) {
 				$this->Controller->Session->write('Spam', null);
 			}
 		}
@@ -79,7 +79,7 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 
 		$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
 
-		if(Configure::read('Website.login_type') == 'email') {
+		if (Configure::read('Website.login_type') == 'email') {
 			$this->Controller->fields = array('username' => 'email', 'password' => 'password');
 		}
 
@@ -121,7 +121,7 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 	protected function _blockByIp() {
 		$currentIp = $this->Controller->request->clientIp();
 
-		if(ClassRegistry::init('Security.IpAddress')->getBlockedIpAddresses($currentIp)) {
+		if (ClassRegistry::init('Security.IpAddress')->getBlockedIpAddresses($currentIp)) {
 			$this->blockAccess();
 		}
 
@@ -156,13 +156,13 @@ class InfinitasSecurityComponent extends InfinitasComponent {
  * @return true or blackHole;
  */
 	protected function _checkBadLogins() {
-		if($this->Controller->Auth->user('id') || empty($this->Controller->request->data)) {
+		if ($this->Controller->Auth->user('id') || empty($this->Controller->request->data)) {
 			return true;
 		}
 		$field = null;
-		if(!empty($this->Controller->request->data['User']['username'])) {
+		if (!empty($this->Controller->request->data['User']['username'])) {
 			$field = $this->Controller->request->data['User']['username'];
-		} else if(!empty($this->Controller->request->data['User']['email'])) {
+		} else if (!empty($this->Controller->request->data['User']['email'])) {
 			$field = $this->Controller->request->data['User']['email'];
 		}
 

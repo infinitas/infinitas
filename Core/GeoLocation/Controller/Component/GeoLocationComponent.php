@@ -36,7 +36,7 @@ class GeoLocationComponent extends InfinitasComponent {
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
 
-		if(!$this->Controller->Session->read('GeoLocation')) {
+		if (!$this->Controller->Session->read('GeoLocation')) {
 			$data = $this->Controller->Event->trigger('GeoLocation.getLocation');
 			$this->Controller->Session->write('GeoLocation', current($data['getLocation']));
 		}

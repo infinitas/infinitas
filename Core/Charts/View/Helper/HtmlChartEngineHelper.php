@@ -39,12 +39,11 @@ App::uses('ChartsBaseEngineHelper', 'Charts.Lib');
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.8a
  *
- * @todo http://meyerweb.com/eric/css/edge/bargraph/demo.html
- *
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
+class HtmlChartEngineHelper extends ChartsBaseEngineHelper {
+
 /**
  * Some helpers that are needed internally for this helper to function
  *
@@ -57,8 +56,6 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
 /**
  * a small template for the charts.
  *
- * @todo expand to an array with keys for each chart type
- *
  * @var string
  */
 	private $__chartWrapper = '<div class="html-chart bar verticle">%s %s</div>';
@@ -66,7 +63,7 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
 /**
  * Generate a html markup based bar chart.
  *
- * @todo horizontal charts also needed
+ * @link http://meyerweb.com/eric/css/edge/bargraph/demo.html
  *
  * @param array $data the formatted data from the ChartsHelper
  *
@@ -78,10 +75,10 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
 
 		$y = $rows = $cols = array();
 		$last = 0;
-		foreach($data['data'][0] as $key => $value) {
+		foreach ($data['data'][0] as $key => $value) {
 			$change = ($value > $last) ? __d('charts', 'up (%s%%)') : __d('charts', 'down (%s%%)');
 			$change = sprintf($change, abs($last - $value));
-			if($value == $last) {
+			if ($value == $last) {
 				$change = __d('charts', 'no change');
 			}
 			$cols[] = sprintf(
@@ -93,7 +90,7 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
 			$last = $value;
 		}
 
-		foreach($data['labels']['y'] as $label) {
+		foreach ($data['labels']['y'] as $label) {
 			$y[] = $label;
 		}
 
@@ -165,21 +162,20 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
 	}
 
 cssData;
-
 	}
 
-	/**
-	 * Generate css for the charts
-	 *
-	 * @param array $data options for the css
-	 *
-	 * @return string
-	 */
+/**
+ * Generate css for the charts
+ *
+ * @param array $data options for the css
+ *
+ * @return string
+ */
 	private function __css($data) {
 		$css = array();
-		foreach(range(1, 100) as $num) {
+		foreach (range(1, 100) as $num) {
 			$css[] = '.html-chart.bar.verticle .empty.e' . $num . ', .html-chart.bar.verticle .fill.f' .
-				$num . ' {height: ' . round($num * ($data['height'] / 100)) .'px;}' . "\n";
+				$num . ' {height: ' . round($num * ($data['height'] / 100)) . 'px;}' . "\n";
 		}
 
 		return implode('', $css);

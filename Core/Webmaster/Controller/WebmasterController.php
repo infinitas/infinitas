@@ -31,7 +31,7 @@ class WebmasterController extends WebmasterAppController {
  * @return void
  */
 	public function admin_dashboard() {
-		if(!is_file(APP . 'webroot' . DS . 'robots.txt')) {
+		if (!is_file(APP . 'webroot' . DS . 'robots.txt')) {
 			$this->notice(
 				__d('webmaster', 'You do not seem to have a robots file'),
 				array(

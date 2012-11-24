@@ -23,7 +23,7 @@ class ContactAddressesController extends ContactAppController {
  * @return void
  */
 	public function add() {
-		if(!$this->Auth->user('id')) {
+		if (!$this->Auth->user('id')) {
 			$this->notice(
 				__d('contact', 'You must be logged in to do that'),
 				array(

@@ -78,7 +78,7 @@
 				</td>
 				<td>
 					<?php
-						if(empty($category['Group']['name'])) {
+						if (empty($category['Group']['name'])) {
 							$category['Group']['name'] = __d('contents', 'Public');
 						}
 						echo $category['Group']['name'];

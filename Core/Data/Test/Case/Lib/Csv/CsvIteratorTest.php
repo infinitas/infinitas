@@ -90,7 +90,7 @@ class CsvIteratorTest extends CakeTestCase {
 		$this->assertEquals($this->expected[0], $result);
 
 
-		foreach($this->expected as &$v) {
+		foreach ($this->expected as &$v) {
 			$v = array_values($v);
 		}
 		array_unshift($this->expected, array(

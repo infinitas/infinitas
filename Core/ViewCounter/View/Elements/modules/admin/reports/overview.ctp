@@ -1,7 +1,7 @@
 <div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('overview', $overview);
-		if(empty($overview)) {
+		if (empty($overview)) {
 			echo $this->ViewCounter->noData();
 		}
 
@@ -9,7 +9,7 @@
 			$overview['unique_views']['country_codes'] = array_filter($overview['unique_views']['country_codes']);
 
 			$uniqueVisitMap = $newVisitorMap = false;
-			if(!empty($overview['unique_views']['country_codes'])) {
+			if (!empty($overview['unique_views']['country_codes'])) {
 				$uniqueVisitMap = $this->Charts->draw(
 					'map',
 					array(
@@ -29,7 +29,7 @@
 				);
 			}
 
-			if(!empty($overview['new_visitors']['country_codes'])) {
+			if (!empty($overview['new_visitors']['country_codes'])) {
 				$this->Charts->draw(
 					'map',
 					array(
@@ -61,7 +61,7 @@
 							<td>
 								<?php
 									$label = __d('view_counter', 'Unique Visits');
-									if($uniqueVisitMap) {
+									if ($uniqueVisitMap) {
 										$label = $this->Html->link(
 											$label,
 											$uniqueVisitMap . '&TB_iframe=true',
@@ -87,7 +87,7 @@
 							<td>
 								<?php
 									$label = __d('view_counter', 'New Visits');
-									if($uniqueVisitMap) {
+									if ($uniqueVisitMap) {
 										$label = $this->Html->link(
 											$label,
 											$newVisitorMap . '&TB_iframe=true',

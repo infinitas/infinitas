@@ -31,11 +31,11 @@ class InfinitasCommentsController extends CommentsAppController {
 			'Comment.active' => 1
 		);
 
-		if(isset($this->request->params['named']['Comment.class'])) {
+		if (isset($this->request->params['named']['Comment.class'])) {
 			$conditions['Comment.class'] = $this->request->params['named']['Comment.class'];
 		}
 
-		if(isset($this->request->params['named']['Comment.foreign_id'])) {
+		if (isset($this->request->params['named']['Comment.foreign_id'])) {
 			$conditions['Comment.foreign_id'] = $this->request->params['named']['Comment.foreign_id'];
 		}
 
@@ -58,7 +58,7 @@ class InfinitasCommentsController extends CommentsAppController {
  */
 	public function admin_mass() {
 		$action = $this->MassAction->getAction();
-		if($action == 'spam') {
+		if ($action == 'spam') {
 			$this->__removeSpam();
 		}
 
@@ -74,9 +74,9 @@ class InfinitasCommentsController extends CommentsAppController {
 		$this->Paginator->settings = array('adminIndex');
 		$comments = $this->Paginator->paginate(null, $this->Filter->filter);
 
-		foreach($comments as &$comment) {
+		foreach ($comments as &$comment) {
 			$class = ClassRegistry::init(ucfirst($comment[$this->modelClass]['class']));
-			if(isset($class->contentable) && $class->contentable) {
+			if (isset($class->contentable) && $class->contentable) {
 				$class = ClassRegistry::init('Contents.GlobalContent');
 				$list = $class->find(
 					'list',
@@ -90,7 +90,7 @@ class InfinitasCommentsController extends CommentsAppController {
 						)
 					)
 				);
-				if(empty($list)) {
+				if (empty($list)) {
 					$list = array(__d('comments', 'Invalid Record'));
 				}
 				$comment[$this->modelClass]['post'] = current($list);
@@ -187,7 +187,7 @@ class InfinitasCommentsController extends CommentsAppController {
 
 		$counter = 0;
 
-		foreach($ids as $id) {
+		foreach ($ids as $id) {
 			if (ClassRegistry::init('Comment.Comment')->delete($id)) {
 				$counter++;
 			}
@@ -207,7 +207,7 @@ class InfinitasCommentsController extends CommentsAppController {
  * @return void
  */
 	private function __removeSpam() {
-		if($this->{$this->modelClass}->deleteAll(array($this->modelClass . '.status' => 'spam'))) {
+		if ($this->{$this->modelClass}->deleteAll(array($this->modelClass . '.status' => 'spam'))) {
 			$this->notice(
 				__d('comments', 'Spam comments have been removed'),
 				array(

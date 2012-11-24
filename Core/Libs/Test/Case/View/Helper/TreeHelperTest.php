@@ -3,7 +3,7 @@
 
 	App::uses('TreeHelper', 'Libs.View/Helper');
 
-	if(!class_exists('ScopedNumberTree')) {
+	if (!class_exists('ScopedNumberTree')) {
 		class ScopedNumberTree extends CakeTestModel {
 			public $actsAs = array('Libs.InfiniTree' => array('scopeField' => 'category_id'));
 		}

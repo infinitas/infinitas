@@ -1,9 +1,9 @@
 <?php
-	if(empty($contentCategories)) {
+	if (empty($contentCategories)) {
 		$contentCategories = ClassRegistry::init('Contents.GlobalCategory')->find('list');
 	}
 
-	if(!isset($options)) {
+	if (!isset($options)) {
 		$options = array();
 	}
 	

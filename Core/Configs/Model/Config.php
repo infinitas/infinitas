@@ -181,7 +181,7 @@ class Config extends ConfigsAppModel {
 			)
 		);
 
-		foreach($configs as $k => $config) {
+		foreach ($configs as $k => $config) {
 			switch($configs[$k][$this->alias]['type']) {
 				case 'bool':
 					$configs[$k][$this->alias]['value'] = ($configs[$k][$this->alias]['value'] == 'true') ? true : false;
@@ -224,7 +224,7 @@ class Config extends ConfigsAppModel {
 		}
 
 		$format = array();
-		foreach($configs as $k => $config) {
+		foreach ($configs as $k => $config) {
 			$format[$configs[$k][$this->alias]['key']] = ($json) ? json_encode($configs[$k][$this->alias]['value']) : $configs[$k][$this->alias]['value'];
 		}
 
@@ -261,14 +261,14 @@ class Config extends ConfigsAppModel {
  * @internal
  */
 	public function generateCode($config) {
-		if(isset($config[0])) {
-			foreach($config as $_config) {
+		if (isset($config[0])) {
+			foreach ($config as $_config) {
 				$return[] = self::generateCode($_config);
 			}
 		}
 
-		if(is_bool($config[$this->alias]['value'])) {
-			if($config[$this->alias]['value']) {
+		if (is_bool($config[$this->alias]['value'])) {
+			if ($config[$this->alias]['value']) {
 				$_config = 'true';
 			}
 
@@ -277,16 +277,16 @@ class Config extends ConfigsAppModel {
 			}
 		}
 
-		else if(is_array($config[$this->alias]['value'])) {
+		else if (is_array($config[$this->alias]['value'])) {
 			$_config = 'array(';
-			foreach($config[$this->alias]['value'] as $k => $v) {
+			foreach ($config[$this->alias]['value'] as $k => $v) {
 				$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
 				$_config .= '=> \''.$v.'\',';
 			}
 			$_config .= ')';
 		}
 
-		else if(is_string($config[$this->alias]['value'])) {
+		else if (is_string($config[$this->alias]['value'])) {
 			$_config = '\''.$config[$this->alias]['value'].'\'';
 		}
 

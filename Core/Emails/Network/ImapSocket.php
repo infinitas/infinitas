@@ -37,11 +37,11 @@ class ImapSocket extends EmailSocket {
  * @copydoc EmailSocket::login()
  */
 	public function login() {
-		if(!parent::login()) {
+		if (!parent::login()) {
 			return false;
 		}
 
-		if(!$this->write(sprintf('LOGIN %s %s', $this->config['username'], $this->config['password']), 'isOk')) {
+		if (!$this->write(sprintf('LOGIN %s %s', $this->config['username'], $this->config['password']), 'isOk')) {
 			$this->error(sprintf('There seems to be a problem with the username (%s)', $this->config['username']));
 			return false;
 		}
@@ -59,16 +59,16 @@ class ImapSocket extends EmailSocket {
 	}
 
 	protected function _cleanMailbox($data) {
-		if(empty($this->_flags[$this->_mailbox])) {
+		if (empty($this->_flags[$this->_mailbox])) {
 			$this->_flags[$this->_mailbox] = $this->_getFlags($data);
 		}
 	}
 
 	protected function _getFlags($data) {
 		preg_match_all('/([a-z]+)/i', current(explode("\n", $data, 2)), $flags);
-		if(!empty($flags[1])) {
-			foreach($flags[1] as $k => $flag) {
-				if(in_array($flag, array('FLAGS', 'FETCH'))) {
+		if (!empty($flags[1])) {
+			foreach ($flags[1] as $k => $flag) {
+				if (in_array($flag, array('FLAGS', 'FETCH'))) {
 					unset($flags[1][$k]);
 				}
 			}
@@ -79,7 +79,7 @@ class ImapSocket extends EmailSocket {
 	}
 
 	public function getMail($id) {
-		if(empty($this->_emails[$this->_mailbox][$id])) {
+		if (empty($this->_emails[$this->_mailbox][$id])) {
 			return false;
 		}
 
@@ -111,7 +111,7 @@ class ImapSocket extends EmailSocket {
 		debug($data);
 		$id = array();
 		preg_match('/--([a-f0-9]+)/', $data, $id);
-		if(empty($id[1])) {
+		if (empty($id[1])) {
 			return array();
 		}
 
@@ -120,7 +120,7 @@ class ImapSocket extends EmailSocket {
 		preg_match('/\{([0-9]+)\}/', $id, $id);
 
 		$return = array();
-		foreach($parts as $part) {
+		foreach ($parts as $part) {
 			list($mime, $part) = explode("\n", trim($part), 2);
 			$part = trim($part);
 
@@ -142,9 +142,9 @@ class ImapSocket extends EmailSocket {
 		$data = explode("\n", $data);
 
 		$return = array();
-		foreach($data as $k => &$v) {
+		foreach ($data as $k => &$v) {
 			$v = trim($v);
-			if(empty($v) || $v == ')') {
+			if (empty($v) || $v == ')') {
 				unset($data[$k]);
 				continue;
 			}
@@ -156,20 +156,20 @@ class ImapSocket extends EmailSocket {
 				'to' => '/^To: (.*)$/'
 			);
 
-			foreach($array as $type => $regex) {
+			foreach ($array as $type => $regex) {
 				$matches = array();
-				if(preg_match($regex, $v, $matches)) {
+				if (preg_match($regex, $v, $matches)) {
 					$matches[1] = trim($matches[1]);
 					$return[$type] = $matches[1];
 
-					if($type == 'date') {
+					if ($type == 'date') {
 						$timezone = array();
 						preg_match('/(\+[0-9]+)$/', $matches[1], $timezone);
 						$return[$type] = array(
 							'date_time' => date('Y-m-d H:i:s', strtotime($matches[1])),
 							'time_zone' => $timezone[1]
 						);
-					} else if($type == 'from') {
+					} else if ($type == 'from') {
 						$email = array();
 						preg_match('/<(.*)>$/', $matches[1], $email);
 						$return[$type] = array(
@@ -193,14 +193,14 @@ class ImapSocket extends EmailSocket {
  * @copydoc EmailSocket::logout()
  */
 	public function logout() {
-		if(!$this->Socket->isConnected()) {
+		if (!$this->Socket->isConnected()) {
 			$this->_errors[] = 'Can not logout, no connection';
 			return true;
 		}
 
 		$quit = $this->write('QUIT', 'isOk');
 
-		if(!$quit) {
+		if (!$quit) {
 			$this->_errors[] = 'Could not log out';
 		}
 
@@ -208,7 +208,7 @@ class ImapSocket extends EmailSocket {
 	}
 
 	protected function _getStats() {
-		foreach($this->write('UID SEARCH ALL', 'mailIds') as $k => $mailId) {
+		foreach ($this->write('UID SEARCH ALL', 'mailIds') as $k => $mailId) {
 			$this->_emails[$this->_mailbox][$k+1] = array(
 				'uuid' => $mailId,
 				'id' => $mailId,
@@ -221,7 +221,7 @@ class ImapSocket extends EmailSocket {
 
 		unset($stats);
 
-		if($this->mailStats['totalSize'] > 0) {
+		if ($this->mailStats['totalSize'] > 0) {
 			$this->mailStats['totalSizeReadable'] = convert($this->mailStats['totalSize']);
 		}
 
@@ -242,7 +242,7 @@ class ImapSocket extends EmailSocket {
 
 	protected function _getList() {
 		$i = 0;
-		foreach($this->_emails[$this->_mailbox] as $mailId => &$mail) {
+		foreach ($this->_emails[$this->_mailbox] as $mailId => &$mail) {
 			$mail['message_number'] = $i++;
 			$mail['flags'] = $this->write(sprintf('FETCH %s (flags)', $i), 'getFlags');
 			$mail['id'] = $mailId;
@@ -258,9 +258,9 @@ class ImapSocket extends EmailSocket {
 		$data = explode("\n", $data);
 		array_shift($data);
 
-		foreach($data as $k => &$v) {
+		foreach ($data as $k => &$v) {
 			$v = trim($v);
-			if(empty($v) || $v == ')') {
+			if (empty($v) || $v == ')') {
 				unset($data[$k]);
 				continue;
 			}
@@ -281,16 +281,16 @@ class ImapSocket extends EmailSocket {
 
 	protected function _getCapabilities() {
 		$cache = $this->readCache('capabilities');
-		if($cache) {
+		if ($cache) {
 			$this->_capabilities = $cache;
 			return true;
 		}
 
 		$capabilities = $this->write('CAPABILITY', 'cleanCapabilities');
-		if(empty($capabilities)) {
+		if (empty($capabilities)) {
 			return false;
 		}
-		foreach($capabilities as $capability) {
+		foreach ($capabilities as $capability) {
 			switch($capability) {
 				case 'IMAP4rev1':
 				case 'UNSELECT':
@@ -313,21 +313,21 @@ class ImapSocket extends EmailSocket {
 	}
 
 	protected function _cleanCapabilities($data) {
-		if(empty($this->_cap)) {
+		if (empty($this->_cap)) {
 			$this->_cap = explode(' ', current(explode("\n", $data, 2)));
-			if(empty($this->_cap)) {
+			if (empty($this->_cap)) {
 				return array();
 			}
 
 			array_walk($this->_cap, function(&$cap) {
 				$cap = trim($cap);
 			});
-			foreach($this->_cap as $k => $v) {
-				if(in_array($v, array('*', 'CAPABILITY'))) {
+			foreach ($this->_cap as $k => $v) {
+				if (in_array($v, array('*', 'CAPABILITY'))) {
 					unset($this->_cap[$k]);
 					continue;
 				}
-				if(strstr($v, 'AUTH=')) {
+				if (strstr($v, 'AUTH=')) {
 					$this->_cap[] = str_replace('AUTH=', '', $v);
 					unset($this->_cap[$k]);
 					continue;
@@ -351,13 +351,13 @@ class ImapSocket extends EmailSocket {
 		while(!$match) {
 			$data = $this->_read($size, false);
 			$match = preg_match(sprintf('/%s /', $counter), $data);
-			if(!$match) {
+			if (!$match) {
 				$this->noop();
 			}
 		}
 
 		$_method = '_' . $method;
-		if($method && is_callable(array($this, $_method))) {
+		if ($method && is_callable(array($this, $_method))) {
 			return $this->{$_method}($data);
 		}
 
@@ -384,7 +384,7 @@ class ImapSocket extends EmailSocket {
 		$matches = array();
 		preg_match_all('/"\/" "(.*)"/', $data, $matches);
 
-		if(!empty($matches[1])) {
+		if (!empty($matches[1])) {
 			return $matches[1];
 		}
 
@@ -400,7 +400,7 @@ class ImapSocket extends EmailSocket {
  */
 	public function noop($sleep = 100000) {
 		$noop = $this->write('NOOP', false, 0);
-		if($sleep) {
+		if ($sleep) {
 			usleep($sleep);
 		}
 		return $noop;

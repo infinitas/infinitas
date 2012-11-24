@@ -50,13 +50,13 @@
 			)
 		));
 
-		foreach($newsletterSubscribers as $newsletterSubscriber) { ?>
+		foreach ($newsletterSubscribers as $newsletterSubscriber) { ?>
 			<tr>
 				<td><?php echo $this->Infinitas->massActionCheckBox($newsletterSubscriber); ?>&nbsp;</td>
 				<td>
 					<?php
 						echo $newsletterSubscriber['NewsletterSubscriber']['subscriber_name'];
-						if(!empty($newsletterSubscriber['User']['id'])) {
+						if (!empty($newsletterSubscriber['User']['id'])) {
 							echo $this->Image->image(
 								'actions',
 								'new-window',
@@ -72,7 +72,7 @@
 				</td>
 				<td>
 					<?php
-						if(!empty($newsletterSubscriber['User']['id'])) {
+						if (!empty($newsletterSubscriber['User']['id'])) {
 							echo $newsletterSubscriber['User']['email'];
 						} else {
 							echo $newsletterSubscriber['NewsletterSubscriber']['email'];

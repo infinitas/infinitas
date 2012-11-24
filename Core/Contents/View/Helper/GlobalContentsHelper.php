@@ -36,7 +36,7 @@ class GlobalContentsHelper extends AppHelper {
  * @return string
  */
 	public function author($data) {
-		if(empty($data['ContentAuthor']['id']) && empty($data['GlobalContent']['author_alias'])) {
+		if (empty($data['ContentAuthor']['id']) && empty($data['GlobalContent']['author_alias'])) {
 			return false;
 		}
 
@@ -61,7 +61,7 @@ class GlobalContentsHelper extends AppHelper {
  * @throws InvalidArgumentException
  */
 	public function renderTemplate($data = array()) {
-		if(empty($data['Layout']) && empty($data['GlobalLayout'])) {
+		if (empty($data['Layout']) && empty($data['GlobalLayout'])) {
 			throw new InvalidArgumentException('Can not find template to render');
 		}
 
@@ -94,11 +94,11 @@ class GlobalContentsHelper extends AppHelper {
  * @return string
  */
 	private function __renderCss($data) {
-		if(!empty($data['Layout']['css'])) {
+		if (!empty($data['Layout']['css'])) {
 			return sprintf('<style type="text/css">%s</style>', $data['Layout']['css']);
 		}
 
-		if(!empty($data['GlobalLayout']['css'])) {
+		if (!empty($data['GlobalLayout']['css'])) {
 			return sprintf("<style type=\"text/css\">\n%s\n</style>", $data['Layout']['css']);
 		}
 	}
@@ -114,11 +114,11 @@ class GlobalContentsHelper extends AppHelper {
  * @return void
  */
 	private function __renderHtml($data) {
-		if(!empty($data['Layout']['html'])) {
+		if (!empty($data['Layout']['html'])) {
 			echo $data['Layout']['html'];
 		}
 
-		if(!empty($data['GlobalLayout']['html'])) {
+		if (!empty($data['GlobalLayout']['html'])) {
 			echo $data['GlobalLayout']['html'];
 		}
 	}

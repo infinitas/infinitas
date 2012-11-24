@@ -83,7 +83,7 @@ class PluginsController extends InstallerAppController {
 			'redirect' => ''
 		);
 
-		if($this->request->data) {
+		if ($this->request->data) {
 			try{
 				unset($this->request->data['action']);
 				$this->Plugin->processInstall($this->request->data);

@@ -36,10 +36,10 @@
 			$config = array_merge(array('scopeField' => false, 'counterCache' => false, 'directCounterCache' => false), $config);
 
 			//Set default counterCache fieldnames if none specified
-			if($config['counterCache'] === true) {
+			if ($config['counterCache'] === true) {
 				$config['counterCache'] = 'children_count';
 			}
-			if($config['directCounterCache'] === true) {
+			if ($config['directCounterCache'] === true) {
 				$config['directCounterCache'] = 'direct_children_count';
 			}
 
@@ -60,20 +60,20 @@
 		 * @return boolean
 		 */
 		public function afterSave(Model $Model, $created) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$this->__setScope($Model, $Model->data[$Model->alias]);
 			}
 
 			//Pass on to TreeBehavior to do stuff that trees like to do
 			$return = parent::afterSave($Model, $created);
 
-			if($this->counterCacheEnabled($Model)) {
+			if ($this->counterCacheEnabled($Model)) {
 				$parent_id = $Model->field($this->settings[$Model->alias]['parent']);
-				if($parent_id) {
+				if ($parent_id) {
 					$this->updateTreeCounterCache($Model, $parent_id);
 				}
 
-				if($this->counterCacheEnabled($Model) && isset($this->__oldParentId) && !empty($this->__oldParentId)) {
+				if ($this->counterCacheEnabled($Model) && isset($this->__oldParentId) && !empty($this->__oldParentId)) {
 					$this->updateTreeCounterCache($Model, $this->__oldParentId);
 
 					$this->__oldParentId = null;
@@ -95,11 +95,11 @@
 		 * @return boolean
 		 */
 		public function beforeDelete(Model $Model, $cascade = true) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$this->__setScope($Model);
 			}
 
-			if($this->counterCacheEnabled($Model)) {
+			if ($this->counterCacheEnabled($Model)) {
 				$this->__parentId = $Model->field($this->settings[$Model->alias]['parent']);
 			}
 
@@ -114,7 +114,7 @@
 		 * @return boolean
 		 */
 		public function afterDelete(Model $Model) {
-			if($this->counterCacheEnabled($Model) && $this->__parentId) {
+			if ($this->counterCacheEnabled($Model) && $this->__parentId) {
 				$this->updateTreeCounterCache($Model, $this->__parentId);
 			}
 
@@ -122,15 +122,15 @@
 		}
 
 		public function beforeSave(Model $Model) {
-			if($this->scoped($Model)) {
-				if(!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
-					if(!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
+			if ($this->scoped($Model)) {
+				if (!$Model->id || $Model->id && array_key_exists($this->settings[$Model->alias]['parent'], $Model->data)) {
+					if (!$this->__setScope($Model, $Model->data[$Model->alias], true)) {
 						return false;
 					}
 				}
 			}
 
-			if($this->counterCacheEnabled($Model) && $Model->id) {
+			if ($this->counterCacheEnabled($Model) && $Model->id) {
 				$this->__oldParentId = $Model->field($this->settings[$Model->alias]['parent']);
 			}
 
@@ -159,8 +159,8 @@
 		 * @link http://book.cakephp.org/view/1347/Counting-children
 		 */
 		public function childcount(Model $Model, $id = null, $direct = false) {
-			if($this->scoped($Model)) {
-				if(empty($id)) {
+			if ($this->scoped($Model)) {
+				if (empty($id)) {
 					return false;
 				}
 
@@ -197,8 +197,8 @@
 		 * @link http://book.cakephp.org/view/1346/Children
 		 */
 		public function children(Model $Model, $id = null, $direct = false, $fields = null, $order = null, $limit = null, $page = 1, $recursive = null) {
-			if($this->scoped($Model)) {
-				if(empty($id)) {
+			if ($this->scoped($Model)) {
+				if (empty($id)) {
 					return false;
 				}
 
@@ -225,7 +225,7 @@
 		 * @link http://book.cakephp.org/view/1348/generateTreeList
 		 */
 		public function generateTreeList(Model $Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$this->__setScope($Model, $conditions);
 			}
 			return parent::generateTreeList($Model, $conditions, $keyPath, $valuePath, $spacer, $recursive);
@@ -249,10 +249,10 @@
 		 * @link http://book.cakephp.org/view/1350/getPath
 		 */
 		public function getPath(Model $Model, $id = null, $fields = null, $recursive = null) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$id = $this->__setScopeFromId($Model, $id);
 
-				if(empty($id)) {
+				if (empty($id)) {
 					return false;
 				}
 			}
@@ -274,10 +274,10 @@
 		 * @link http://book.cakephp.org/view/1352/moveDown
 		 */
 		public function movedown(Model $Model, $id = null, $number = 1) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$id = $this->__setScopeFromId($Model, $id);
 
-				if(empty($id)) {
+				if (empty($id)) {
 					return false;
 				}
 			}
@@ -299,8 +299,8 @@
 		 * @link http://book.cakephp.org/view/1353/moveUp
 		 */
 		public function moveup(Model $Model, $id = null, $number = 1) {
-			if($this->scoped($Model)) {
-				if(empty($id)) {
+			if ($this->scoped($Model)) {
+				if (empty($id)) {
 					return false;
 				}
 
@@ -331,8 +331,8 @@
 		 * @link http://book.cakephp.org/view/1628/Recover
 		 */
 		public function recover(Model $Model, $mode = 'parent', $missingParentAction = null, $scope = null) {
-			if($this->scoped($Model)) {
-				if(empty($scope)) {
+			if ($this->scoped($Model)) {
+				if (empty($scope)) {
 					return false;
 				}
 
@@ -367,12 +367,12 @@
 		 * @link http://book.cakephp.org/view/1629/Reorder
 		 */
 		public function reorder(Model $Model, $options = array()) {
-			if($this->scoped($Model)) {
-				if(empty($options[$Model->primaryKey]) && empty($options['scope'])) {
+			if ($this->scoped($Model)) {
+				if (empty($options[$Model->primaryKey]) && empty($options['scope'])) {
 					return false;
 				}
 
-				if(!empty($options[$Model->primaryKey])) {
+				if (!empty($options[$Model->primaryKey])) {
 					$scope = $this->__getScopeFromid($Model, $options[$Model->primaryKey]);
 				} else {
 					$scope = $options['scope'];
@@ -404,10 +404,10 @@
 		 * @link http://book.cakephp.org/view/1354/removeFromTree
 		 */
 		public function removefromtree(Model $Model, $id = null, $delete = false, $scopeField = null) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$id = $this->__setScopeFromId($Model, $id);
 
-				if(empty($id)) {
+				if (empty($id)) {
 					return false;
 				}
 			}
@@ -430,7 +430,7 @@
 		 */
 
 		public function verify(Model $Model, $scope = null) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$this->__setScope($Model, $scope);
 			}
 
@@ -510,23 +510,23 @@
 		 * @return mixed true if succesfully saved or false on error
 		 */
 		public function treeSave(Model $Model, $data = array(), $options = array()) {
-			if(empty($data)) {
+			if (empty($data)) {
 				return false;
 			}
 
-			if($this->scoped($Model)) {
-				if(empty($options['scope'])) {
+			if ($this->scoped($Model)) {
+				if (empty($options['scope'])) {
 					return false;
 				}
 
 				$this->__setScope($Model, $options['scope']);
 			}
 
-			if(!$data || !is_array($data)) {
+			if (!$data || !is_array($data)) {
 				return false;
 			}
 
-			if($this->__doTreeSave($Model, $data, array('scope' => $options['scope'], 'parent' => null, 'depth' => 0))) {
+			if ($this->__doTreeSave($Model, $data, array('scope' => $options['scope'], 'parent' => null, 'depth' => 0))) {
 				return true;
 			}
 
@@ -546,11 +546,11 @@
 		 * @return array
 		 */
 		public function updateTreeCounterCache(Model $Model, $id=null) {
-			if(is_null($id)) {
+			if (is_null($id)) {
 				$id = $Model->id;
 			}
 
-			if(!$id) {
+			if (!$id) {
 				return false;
 			}
 
@@ -564,7 +564,7 @@
 
 			$counts = array();
 
-			if($this->settings[$Model->alias]['counterCache']) {
+			if ($this->settings[$Model->alias]['counterCache']) {
 				$counts[$this->settings[$Model->alias]['counterCache']] = $Model->find('count', array(
 					'conditions' => array(
 						array_merge(array(), array(
@@ -577,7 +577,7 @@
 				));
 			}
 
-			if($this->settings[$Model->alias]['directCounterCache']) {
+			if ($this->settings[$Model->alias]['directCounterCache']) {
 				$counts[$this->settings[$Model->alias]['directCounterCache']] = $Model->find('count', array(
 					'conditions' => array(
 						array_merge(array(), array(
@@ -599,7 +599,7 @@
 				)
 			);
 
-			if(!empty($node[$Model->alias][$this->settings[$Model->alias]['parent']])) {
+			if (!empty($node[$Model->alias][$this->settings[$Model->alias]['parent']])) {
 				$this->updateTreeCounterCache($Model, $node[$Model->alias][$this->settings[$Model->alias]['parent']]);
 			}
 
@@ -660,9 +660,9 @@
 			$return = false;
 
 			//Special case in the first run
-			if($options['depth'] > 0) {
+			if ($options['depth'] > 0) {
 				$Model->create();
-				if(!$Model->save(array_diff_key(array_merge(array($this->settings[$Model->alias]['scopeField']  => $options['scope'], $this->settings[$Model->alias]['parent'] => $options['parent']), $data), array($Model->alias => $Model->alias)))) {
+				if (!$Model->save(array_diff_key(array_merge(array($this->settings[$Model->alias]['scopeField']  => $options['scope'], $this->settings[$Model->alias]['parent'] => $options['parent']), $data), array($Model->alias => $Model->alias)))) {
 					return false;
 				}
 
@@ -671,11 +671,11 @@
 				$return = true;
 			}
 
-			if(array_key_exists($Model->alias, $data)) {
+			if (array_key_exists($Model->alias, $data)) {
 				$options['depth']++;
 
-				foreach($data[$Model->alias] as $childData) {
-					if(!$this->__doTreeSave($Model, $childData, $options)) {
+				foreach ($data[$Model->alias] as $childData) {
+					if (!$this->__doTreeSave($Model, $childData, $options)) {
 						return false;
 					};
 				}
@@ -695,17 +695,17 @@
 		 * @return string
 		 */
 		private function __setScopeFromId(Model $Model, $id) {
-			if($this->scoped($Model)) {
+			if ($this->scoped($Model)) {
 				$scope = false;
 
-				if(is_array($id)) {
-					if(array_key_exists($Model->primaryKey, $id)) {
+				if (is_array($id)) {
+					if (array_key_exists($Model->primaryKey, $id)) {
 						$_id = $id[$Model->primaryKey];
 					} else {
 						$_id = null;
 					}
 
-					if(array_key_exists('scope', $id)) {
+					if (array_key_exists('scope', $id)) {
 						$scope = $id['scope'];
 					}
 
@@ -713,11 +713,11 @@
 				}
 
 				//Scope still not given, load it from the id
-				if(!$scope) {
+				if (!$scope) {
 					$scope = $this->__getScopeFromId($Model, $id);
 				}
 
-				if(!$scope) {
+				if (!$scope) {
 					return $id;
 				}
 
@@ -740,27 +740,27 @@
 			$scope = null;
 
 			//Is the scope given as an id?
-			if(!empty($data) && !is_array($data)) {
+			if (!empty($data) && !is_array($data)) {
 				$scope = $data;
 
 			//Is the scopeField given in the data array?
-			} elseif(!empty($data) && array_key_exists($this->settings[$Model->alias]['scopeField'], $data)) {
+			} elseif (!empty($data) && array_key_exists($this->settings[$Model->alias]['scopeField'], $data)) {
 				$scope = $data[$this->settings[$Model->alias]['scopeField']];
 
 			//Is the scopeField given in the conditions for a find?
-			} elseif(!empty($data) && array_key_exists($Model->alias . '.' . $this->settings[$Model->alias]['scopeField'], $data)) {
+			} elseif (!empty($data) && array_key_exists($Model->alias . '.' . $this->settings[$Model->alias]['scopeField'], $data)) {
 				$scope = $data[$Model->alias . '.' . $this->settings[$Model->alias]['scopeField']];
 
 			//Is the parent_id given in the data array?
-			} elseif(!empty($data) && array_key_exists($this->settings[$Model->alias]['parent'], $data) && !empty($data[$this->settings[$Model->alias]['parent']])) {
+			} elseif (!empty($data) && array_key_exists($this->settings[$Model->alias]['parent'], $data) && !empty($data[$this->settings[$Model->alias]['parent']])) {
 				$scope = $this->__getScopeFromId($Model, $data[$this->settings[$Model->alias]['parent']]);
-			} elseif($Model->id) {
+			} elseif ($Model->id) {
 				$scope = $this->__getScopeFromId($Model, $Model->id);
 			}
 
-			if($scope) {
+			if ($scope) {
 				$this->settings[$Model->alias]['scope'] = array($Model->alias . '.' . $this->settings[$Model->alias]['scopeField'] => $scope);
-				if($beforeSave) {
+				if ($beforeSave) {
 					$Model->data[$Model->alias][$this->settings[$Model->alias]['scopeField']] = $scope;
 				}
 				return true;

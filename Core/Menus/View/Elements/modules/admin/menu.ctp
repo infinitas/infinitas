@@ -2,7 +2,7 @@
 	<div id="menunav">
 		<ul>
 			<?php
-				if(isset($pluginInfo['pluginRollCall'][$this->plugin]['icon'])) {
+				if (isset($pluginInfo['pluginRollCall'][$this->plugin]['icon'])) {
 					echo '<li class="icon">'.$this->Html->image(DS . $this->plugin . DS . 'img' . DS . 'icon.png').'</li>';
 				}
 			?>
@@ -30,7 +30,7 @@
 
 			$helpPlugin = !empty($this->request->plugin) ? Inflector::camelize($this->request->plugin) : null;
 			$helpUrl = 'http://infinitas-cms.org/infinitas_docs/' . $helpPlugin;
-			if(Configure::read('debug') && in_array('InfinitasDocs', InfinitasPlugin::listPlugins())) {
+			if (Configure::read('debug') && in_array('InfinitasDocs', InfinitasPlugin::listPlugins())) {
 				$helpUrl = array(
 					'plugin' => 'infinitas_docs',
 					'controller' => 'infinitas_docs',

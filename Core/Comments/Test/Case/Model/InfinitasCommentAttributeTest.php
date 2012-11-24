@@ -2,6 +2,12 @@
 App::uses('InfinitasCommentAttribute', 'Comments.Model');
 
 class InfinitasCommentAttributeTest extends CakeTestCase {
+
+/**
+ * Fixtures
+ *
+ * @var type
+ */
 	public $fixtures = array(
 		'plugin.comments.infinitas_comment',
 		'plugin.comments.infinitas_comment_attribute'
@@ -24,7 +30,5 @@ class InfinitasCommentAttributeTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-	
 }

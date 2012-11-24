@@ -12,7 +12,7 @@
 		<tbody>
 			<?php
 				$total = 0;
-				foreach($cacheStatus as $type => $amount) { ?>
+				foreach ($cacheStatus as $type => $amount) { ?>
 					<tr>
 						<td>
 							<?php
@@ -62,7 +62,7 @@
 		$this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($icons, 'cache_status')), array('ul' => 'icons'))
 	)), array('class' => 'dashboard'));
 
-	if(empty($clearedCache)) {
+	if (empty($clearedCache)) {
 		return;
 	}
 ?>
@@ -75,9 +75,9 @@
 		</thead>
 		<tbody>
 			<?php
-			foreach($clearedCache as $type => $cleared) {
-				if($type == 'engines') {
-					foreach($cleared as $config => $status) { ?>
+			foreach ($clearedCache as $type => $cleared) {
+				if ($type == 'engines') {
+					foreach ($cleared as $config => $status) { ?>
 						<tr>
 							<td><?php echo $config; ?>&nbsp;</td>
 							<td><?php echo $status ? __d('server_status', 'Deleted') : __d('server_status', 'Error'); ?>&nbsp;</td>
@@ -85,8 +85,8 @@
 					}
 				}
 				else {
-					foreach($cleared as $status => $files) {
-						foreach($files as $file) { ?>
+					foreach ($cleared as $status => $files) {
+						foreach ($files as $file) { ?>
 							<tr>
 								<td><?php echo str_replace(array(CACHE, APP, '/./'), array('CACHE/', 'APP/', '/'), $file); ?>&nbsp;</td>
 								<td><?php echo Inflector::humanize($status); ?>&nbsp;</td>

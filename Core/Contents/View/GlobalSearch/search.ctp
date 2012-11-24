@@ -1,5 +1,5 @@
 <?php
-	if(empty($this->request->pass[0])) {
+	if (empty($this->request->pass[0])) {
 		$this->request->pass = array('');
 	}
 	
@@ -9,7 +9,7 @@
 	);
 	
 	$results = array();
-	foreach($search as &$s) {
+	foreach ($search as &$s) {
 		$s['GlobalContent']['title'] = String::highlight($s['GlobalContent']['title'], $this->request->pass[0], $hilightOptions);
 		$s['GlobalContent']['body'] = String::highlight(String::excerpt(strip_tags($s['GlobalContent']['body']), $this->request->pass[0]), $this->request->pass[0], $hilightOptions);
 		$s['GlobalContent']['url'] = InfinitasRouter::url($this->GlobalContents->url($s));

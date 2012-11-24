@@ -50,7 +50,7 @@
 			}
 
 			$menus   = $this->{$this->modelClass}->Menu->find('list');
-			if(empty($menus)) {
+			if (empty($menus)) {
 				$this->notice(
 					__d('menus', 'Please add a menu before adding items'),
 					array(
@@ -92,7 +92,7 @@
 		 * dropdown menus when building and editing menu items.
 		 */
 		public function admin_getParents() {
-			if(empty($this->request->data[$this->modelClass]['menu_id'])) {
+			if (empty($this->request->data[$this->modelClass]['menu_id'])) {
 				return false;
 			}
 

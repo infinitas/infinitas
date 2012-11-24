@@ -32,7 +32,7 @@ class GeoLocationTimeZone {
 	public static function fromIp($ipAddress) {
 		$IpLocation = new IpLocation();
 		$ipAddress = $IpLocation->getCityData($ipAddress);
-		if(!$ipAddress) {
+		if (!$ipAddress) {
 			return false;
 		}
 

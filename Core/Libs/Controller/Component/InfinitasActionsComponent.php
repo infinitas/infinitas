@@ -134,7 +134,7 @@
 		 * @return void
 		 */
 		public function actionAdminEdit($id = null, $query = array()) {
-			if(empty($this->Controller->request->data) && !$id) {
+			if (empty($this->Controller->request->data) && !$id) {
 				$this->Controller->notice('invalid');
 			}
 
@@ -146,12 +146,12 @@
 				$this->Controller->notice('not_saved');
 			}
 
-			if(empty($this->Controller->request->data) && $id) {
+			if (empty($this->Controller->request->data) && $id) {
 				$query['conditions'][$this->Controller->{$this->Controller->modelClass}->alias . '.' . $this->Controller->{$this->Controller->modelClass}->primaryKey] = $id;
 
 				$this->Controller->request->data = $this->Controller->{$this->Controller->modelClass}->find('first', $query);
 
-				if(empty($this->Controller->request->data)) {
+				if (empty($this->Controller->request->data)) {
 					$this->Controller->notice('invalid');
 				}
 			}
@@ -175,7 +175,7 @@
 		 * @return void
 		 */
 		public function actionAdminPreview($id = null) {
-			if(!is_callable(array($this->Controller->{$this->Controller->modelClass}, 'getViewData'))) {
+			if (!is_callable(array($this->Controller->{$this->Controller->modelClass}, 'getViewData'))) {
 				$this->Controller->notice(
 					__d('libs', 'There is no preview available'),
 					array(
@@ -217,7 +217,7 @@
 		 */
 		public function actionAdminMine() {
 			$userId = AuthComponent::user('id');
-			if(!$userId) {
+			if (!$userId) {
 				$this->Controller->notice(__d('libs', 'You need to be logged in to do that'), array(
 					'redirect' => true,
 					'level' => 'error'
@@ -230,7 +230,7 @@
 				$this->Controller->{$this->Controller->modelClass}->alias . '.' . $field => $userId
 			);
 
-			if($this->Controller->modelClass == 'User') {
+			if ($this->Controller->modelClass == 'User') {
 				$field = 'id';
 				$redirect = array(
 					'action' => 'edit',
@@ -238,7 +238,7 @@
 				);
 			}
 
-			if(!$this->Controller->{$this->Controller->modelClass}->hasField($field)) {
+			if (!$this->Controller->{$this->Controller->modelClass}->hasField($field)) {
 				$this->Controller->notice(__d('libs', 'Cant determin a user field'), array(
 					'redirect' => true,
 					'level' => 'error'
@@ -280,7 +280,7 @@
 			}
 
 			if (!empty($this->Controller->request->params['named']['direction'])) {
-				if(!$this->Controller->{$model}->Behaviors->attached('Tree')) {
+				if (!$this->Controller->{$model}->Behaviors->attached('Tree')) {
 					$this->Controller->notice(
 						__d('libs', 'A problem occured moving that MPTT record.'),
 						$redirectConfig
@@ -353,7 +353,7 @@
 					$message = sprintf(__d('libs', 'Saved! new rating %s (out of %s)'), $data[$this->Controller->modelClass]['rating'], $data[$this->Controller->modelClass]['rating_count']);
 				}
 
-				if($this->Controller->RequestHandler->isAjax()) {
+				if ($this->Controller->RequestHandler->isAjax()) {
 					Configure::write('debug', 0);
 					$this->Controller->set('json', array('message' => $message));
 				}

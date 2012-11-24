@@ -267,7 +267,7 @@ class PluginTest extends CakeTestCase {
  * @test installing a plugin
  */
 	public function testInstallPlugin() {
-		$this->skipIf(true);
+		$this->skipif (true);
 		$SchemaMigration = ClassRegistry::init('SchemaMigration');
 
 		$this->assertTrue($this->Plugin->installPlugin('Twitter'));

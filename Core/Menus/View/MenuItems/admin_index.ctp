@@ -65,12 +65,12 @@
 							echo '<b>', str_repeat('- ', $paths-1), ' |</b> ';
 						}
 
-						if($menuItem['MenuItem']['name'] == '--') {
+						if ($menuItem['MenuItem']['name'] == '--') {
 							$menuItem['MenuItem']['name'] = $this->Html->tag('span', __d('menus', 'Separator'), array(
 								'class' => 'label'
 							));
 						}
-						if($menuItem['MenuItem']['class'] == 'nav-header') {
+						if ($menuItem['MenuItem']['class'] == 'nav-header') {
 							$menuItem['MenuItem']['name'] = $this->Html->tag('span', $menuItem['MenuItem']['name'], array(
 								'class' => 'label label-info'
 							));
@@ -84,7 +84,7 @@
 				<td><?php echo Inflector::humanize($menuItem['Menu']['name']); ?>&nbsp;</td>
 				<td>
 					<?php
-						if(empty($menuItem['Group']['name'])) {
+						if (empty($menuItem['Group']['name'])) {
 							echo __d('menus', 'Public');
 						} else {
 							echo $this->Html->tag('span', $menuItem['Group']['name'], array('class' => 'label label-warning'));

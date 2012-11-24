@@ -28,7 +28,7 @@
 		'delete'
 	);
 	$errorMessage = null;
-	if(!$writable) {
+	if (!$writable) {
 		$errorMessage = $this->Html->tag('div',
 			$this->Html->tag('h4', __d('contents', 'Error')) .
 			sprintf(__d('contents', 'Please ensure that %s is writable by the web server.'), str_replace(APP, 'APP/', $path)),

@@ -83,7 +83,7 @@ class ViewableReportingBehavior extends ModelBehavior {
 			$Model->alias.'.views'
 		);
 
-		if($Model->hasField('slug')) {
+		if ($Model->hasField('slug')) {
 			$fields[] = $Model->alias.'.slug';
 		}
 

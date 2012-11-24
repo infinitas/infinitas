@@ -35,7 +35,7 @@ class GlobalTaggedTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
-		$this->skipIf(true);
+		$this->skipif (true);
 		parent::setUp();
 		$this->GlobalTagged = ClassRegistry::init('Contents.GlobalTagged');
 	}

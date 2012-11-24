@@ -9,6 +9,7 @@
 App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
 
 class AssetsEventsTest extends InfinitasEventTestCase {
+
 /**
  * test required js loads correctly
  */

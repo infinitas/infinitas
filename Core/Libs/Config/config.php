@@ -20,7 +20,7 @@ $config['Routing'] = array(
 
 
 $cookieName = 'INFINITAS';
-if(substr(env('REQUEST_URI'), 0, 6) == '/admin') {
+if (substr(env('REQUEST_URI'), 0, 6) == '/admin') {
 	$cookieName .= '_ADMIN';
 }
 

@@ -32,11 +32,11 @@ class ThemesComponent extends InfinitasComponent {
 	public function beforeRender(Controller $Controller) {
 		parent::beforeRender($Controller);
 
-		if($Controller->layout == 'ajax') {
+		if ($Controller->layout == 'ajax') {
 			return;
 		}
 
-		if(!empty($Controller->viewVars['error']) && $Controller->viewVars['error'] instanceof Exception) {
+		if (!empty($Controller->viewVars['error']) && $Controller->viewVars['error'] instanceof Exception) {
 			$error = $Controller->viewVars['error'];
 			unset($Controller->viewVars['error']);
 		}
@@ -44,17 +44,17 @@ class ThemesComponent extends InfinitasComponent {
 		$layout = array_values($Controller->viewVars);
 		$theme = current(Set::extract('/Layout/theme_id', $layout));
 		$tmp = current(Set::extract('/Layout/layout', $layout));
-		if(empty($tmp)) {
+		if (empty($tmp)) {
 			$tmp = current(Set::extract('/GlobalLayout/layout', $layout));
 		}
 		$layout = $tmp;
 
-		if(!empty($error)) {
+		if (!empty($error)) {
 			$Controller->viewVars['error'] = $error;
 			$layout = 'error';
 		}
 
-		if($layout) {
+		if ($layout) {
 			Configure::write('Themes.default_layout', $layout);
 		}
 
@@ -72,14 +72,14 @@ class ThemesComponent extends InfinitasComponent {
 
 		$Controller->layout = Configure::read('Themes.default_layout');
 		$theme = Cache::read('currentTheme');
-		if($theme === false) {
+		if ($theme === false) {
 			$admin = isset($Controller->request->params['admin']) && $Controller->request->params['admin'];
 			$theme = ClassRegistry::init('Themes.Theme')->find('currentTheme', array(
 				'admin' => $admin
 			));
 		}
 
-		if(!empty($theme['Theme']['default_layout'])) {
+		if (!empty($theme['Theme']['default_layout'])) {
 			$Controller->layout = $theme['Theme']['default_layout'];
 		}
 
@@ -135,13 +135,13 @@ class ThemesComponent extends InfinitasComponent {
 
 		$currentRoute = Router::currentRoute(Configure::read('CORE.current_route'));
 		if (!empty($routes) && is_object($currentRoute)) {
-			foreach($routes as $route) {
+			foreach ($routes as $route) {
 				if ($route['Route']['url'] == $currentRoute->template) {
-					if(!empty($route['Route']['theme'])) {
+					if (!empty($route['Route']['theme'])) {
 						$Controller->theme = $route['Route']['theme'];
 					}
 
-					if(!empty($route['Route']['layout'])) {
+					if (!empty($route['Route']['layout'])) {
 						$Controller->layout = $route['Route']['layout'];
 					}
 				}
@@ -166,7 +166,7 @@ class ThemesComponent extends InfinitasComponent {
  * @return void
  */
 	public function actionAdminGetThemeLayouts() {
-		if(empty($this->Controller->request->data[$this->Controller->modelClass]['theme_id'])) {
+		if (empty($this->Controller->request->data[$this->Controller->modelClass]['theme_id'])) {
 			$this->Controller->set('json', false);
 		}
 

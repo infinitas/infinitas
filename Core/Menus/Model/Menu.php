@@ -83,7 +83,7 @@
 
 			$saved = parent::save($data, $validate, $fieldList);
 
-			if($saved && $this->MenuItem->hasContainer($this->id)) {
+			if ($saved && $this->MenuItem->hasContainer($this->id)) {
 				$this->transaction(true);
 			}
 
@@ -104,7 +104,7 @@
 		public function afterDelete() {
 			$menuItem = $this->MenuItem->find('first', array('conditions' => array('menu_id' => $this->id, 'parent_id' => null)));
 
-			if(!empty($menuItem['MenuItem']['id'])) {
+			if (!empty($menuItem['MenuItem']['id'])) {
 				$this->MenuItem->Behaviors->disable('Trashable');
 				$this->MenuItem->delete($menuItem['MenuItem']['id']);
 				$this->MenuItem->Behaviors->enable('Trashable');

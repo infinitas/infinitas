@@ -30,7 +30,7 @@ class Pop3Socket extends EmailSocket {
  */
 	public function  __construct($connection = array()) {
 		parent::__construct($connection);
-		if(!empty($connection) && is_array($connection)) {
+		if (!empty($connection) && is_array($connection)) {
 			$this->set($connection);
 		}
 	}
@@ -39,16 +39,16 @@ class Pop3Socket extends EmailSocket {
  * @copydoc EmailSocket::login()
  */
 	public function login() {
-		if(!parent::login()) {
+		if (!parent::login()) {
 			return false;
 		}
 
-		if(!$this->write(sprintf('USER %s', $this->config['username']), 'isOk')) {
+		if (!$this->write(sprintf('USER %s', $this->config['username']), 'isOk')) {
 			$this->error(sprintf('There seems to be a problem with the username (%s)', $this->config['username']));
 			return false;
 		}
 
-		if(!$this->write(sprintf('PASS %s', $this->config['password']), 'isOk')) {
+		if (!$this->write(sprintf('PASS %s', $this->config['password']), 'isOk')) {
 			$this->error(sprintf('The password seems invalid for this user (%s)', $this->config['username']));
 			return false;
 		}
@@ -62,14 +62,14 @@ class Pop3Socket extends EmailSocket {
  * @copydoc EmailSocket::logout()
  */
 	public function logout() {
-		if(!$this->Socket->isConnected()) {
+		if (!$this->Socket->isConnected()) {
 			$this->_errors[] = 'Can not logout, no connection';
 			return true;
 		}
 
 		$quit = $this->write('QUIT', 'isOk');
 
-		if(!$quit) {
+		if (!$quit) {
 			$this->_errors[] = 'Could not log out';
 		}
 
@@ -82,21 +82,21 @@ class Pop3Socket extends EmailSocket {
 	protected function _getStats() {
 		$stats = $this->write('STAT', 'cleanData');
 		$stats =  explode(' ', current(array_keys($stats)));
-		if($stats[0] != '+OK') {
+		if ($stats[0] != '+OK') {
 			$this->_errors[] = 'Could not get stats';
 		}
 
-		if(isset($stats[1])) {
+		if (isset($stats[1])) {
 			$this->mailStats['totalCount'] = $stats[1];
 		}
 
-		if(isset($stats[2])) {
+		if (isset($stats[2])) {
 			$this->mailStats['totalSize'] = $stats[2];
 		}
 
 		unset($stats);
 
-		if($this->mailStats['totalSize'] > 0) {
+		if ($this->mailStats['totalSize'] > 0) {
 			$this->mailStats['totalSizeReadable'] = convert($this->mailStats['totalSize']);
 		}
 
@@ -115,7 +115,7 @@ class Pop3Socket extends EmailSocket {
 
 		$mailSize = parent::_getSize($list) || parent::_isOk($list);
 
-		if(!$mailSize) {
+		if (!$mailSize) {
 			unset($list);
 			return array();
 		}
@@ -126,16 +126,16 @@ class Pop3Socket extends EmailSocket {
 
 		 */
 
-		if(!$list || empty($list)) {
+		if (!$list || empty($list)) {
 			return false;
 		}
 
 		$uids = $this->_getUid();
 
 		$this->mailList = array();
-		foreach($list[current(array_keys($list))] as $item) {
+		foreach ($list[current(array_keys($list))] as $item) {
 			$parts = explode(' ', $item);
-			if(count($parts) == 2 && $parts[0] > 0 && !empty($parts[1])) {
+			if (count($parts) == 2 && $parts[0] > 0 && !empty($parts[1])) {
 				$uuid = (isset($uids[$parts[0]])) ? $uids[$parts[0]] : null;
 				$listItem = array(
 					'id' => null,
@@ -158,9 +158,9 @@ class Pop3Socket extends EmailSocket {
 
 		$data = $this->write('UIDL');
 
-		if($this->_isOk($data)) {
+		if ($this->_isOk($data)) {
 			$data = current($this->_cleanData($data));
-			foreach($data as $_data) {
+			foreach ($data as $_data) {
 				$_data = explode(' ', $_data);
 				$return[$_data[0]] = $_data[1];
 			}
@@ -178,17 +178,17 @@ class Pop3Socket extends EmailSocket {
  */
 	protected function _getCapabilities() {
 		$cache = $this->readCache('capabilities');
-		if($cache) {
+		if ($cache) {
 			$this->_capabilities = $cache;
 			return true;
 		}
 
 		$capabilities = $this->write('CAPA', 'cleanData');
-		if(empty($capabilities)) {
+		if (empty($capabilities)) {
 			return false;
 		}
 
-		foreach(current($capabilities) as $capability) {
+		foreach (current($capabilities) as $capability) {
 			$parts = explode(' ', $capability, 2);
 			switch($capability) {
 				// The TOP capability indicates the optional TOP command is available.
@@ -251,7 +251,7 @@ class Pop3Socket extends EmailSocket {
 
 	public function getMail($id) {
 		$mail = $this->write('RETR ' . $id, null, $this->mailList[$id]['size']);
-		if(!parent::_isOk($mail)) {
+		if (!parent::_isOk($mail)) {
 			unset($mail);
 			return array();
 		}

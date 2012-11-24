@@ -105,7 +105,7 @@ class TreeHelper extends AppHelper {
  * @return array
  */
 	public function tick() {
-		if(count($this->__stack) > 0) {
+		if (count($this->__stack) > 0) {
 			while($this->__stack && $this->__stack[count($this->__stack) - 1] < $this->__field('right')) {
 				array_pop($this->__stack);
 			}
@@ -134,7 +134,7 @@ class TreeHelper extends AppHelper {
 	public function isFirstChild() {
 		$firstChild = false;
 
-		if(!isset($this->data[$this->__i - 1]) || $this->__field('left', $this->__i - 1) == $this->__field('left') - 1) {
+		if (!isset($this->data[$this->__i - 1]) || $this->__field('left', $this->__i - 1) == $this->__field('left') - 1) {
 			$firstChild = true;
 		}
 
@@ -173,7 +173,7 @@ class TreeHelper extends AppHelper {
  * @return string
  */
 	private function __field($field, $i = false) {
-		if($i === false) {
+		if ($i === false) {
 			$i = $this->__i;
 		}
 

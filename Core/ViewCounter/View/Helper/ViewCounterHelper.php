@@ -74,7 +74,7 @@ class ViewCounterHelper extends AppHelper {
 				break;
 		}
 
-		if(!isset($data['stats']['total'])) {
+		if (!isset($data['stats']['total'])) {
 			$data['stats']['total'] = $data['total_views'];
 		}
 

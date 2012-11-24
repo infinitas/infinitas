@@ -36,7 +36,7 @@ class ValidationBehavior extends ModelBehavior {
 			$Model->validate[$fields[1]][__FUNCTION__]['allowEmpty'] &&
 			empty($Model->data[$Model->alias][$fields[1]]);
 
-		if($allowEmpty) {
+		if ($allowEmpty) {
 			return true;
 		}
 
@@ -104,7 +104,7 @@ class ValidationBehavior extends ModelBehavior {
  * @param boolean
  */
 	public function validateCompareFields(Model $Model, $field, $fields) {
-		if($fields[0] == 'password') {
+		if ($fields[0] == 'password') {
 			return Security::hash($Model->data[$Model->alias][$fields[1]], null, true) === $Model->data[$Model->alias][$fields[0]];
 		}
 
@@ -125,22 +125,22 @@ class ValidationBehavior extends ModelBehavior {
 	public function validateRecordExists(Model $Model, $field) {
 		$aliases = array_map(create_function('$v', 'return $v["foreignKey"];'), $Model->belongsTo);
 
-		if(empty($aliases)) {
+		if (empty($aliases)) {
 			$check = key($field) == 'foreign_key' &&
 			in_array('model', array_keys($Model->data[$Model->alias])) && !empty($Model->data[$Model->alias]['model']);
 
-			if($check) {
+			if ($check) {
 				list(, $alias) = pluginSplit($Model->data[$Model->alias]['model']);
 				$Model->{$alias} = ClassRegistry::init($Model->data[$Model->alias]['model']);
 				$aliases = array($alias);
 			}
 
-			if(!$alias) {
+			if (!$alias) {
 				return false;
 			}
 		}
 
-		foreach($aliases as $alias => $fk) {
+		foreach ($aliases as $alias => $fk) {
 			$count = $Model->{$alias}->find(
 				'count',
 				array(
@@ -150,7 +150,7 @@ class ValidationBehavior extends ModelBehavior {
 				)
 			);
 
-			if($count > 0) {
+			if ($count > 0) {
 				return true;
 			}
 		}
@@ -180,7 +180,7 @@ class ValidationBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function validatePluginExists(Model $Model, $field, $conditions = array()) {
-		if(empty($conditions['pluginType'])) {
+		if (empty($conditions['pluginType'])) {
 			$conditions['pluginType'] = 'installed';
 		}
 
@@ -199,7 +199,7 @@ class ValidationBehavior extends ModelBehavior {
 		$plugin = $model = null;
 		list($plugin, $model) = pluginSplit(current($field));
 
-		if($plugin && !$this->validatePluginExists($Model, array($plugin))) {
+		if ($plugin && !$this->validatePluginExists($Model, array($plugin))) {
 			return false;
 		}
 
@@ -243,15 +243,15 @@ class ValidationBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function validateControllerExists(Model $Model, $field, $conditions = array()) {
-		if(!empty($conditions['pluginField'])) {
+		if (!empty($conditions['pluginField'])) {
 			$plugin = $this->_getField($Model, $conditions['pluginField']);
 		}
 
-		if(!empty($conditions['setPlugin'])) {
+		if (!empty($conditions['setPlugin'])) {
 			$plugin = $conditions['setPlugin'];
 		}
 
-		if(empty($plugin)) {
+		if (empty($plugin)) {
 			return false;
 		}
 
@@ -281,14 +281,14 @@ class ValidationBehavior extends ModelBehavior {
 
 		$plugin = Inflector::camelize($this->_getField($Model, $conditions['pluginField']));
 		$controller = Inflector::camelize($this->_getField($Model, $conditions['controllerField']));
-		if(empty($plugin) || empty($controller)) {
+		if (empty($plugin) || empty($controller)) {
 			return false;
 		}
 
 		try {
 			$actions = $Model->getActions($plugin, $controller);
-			foreach($actions as $actionList) {
-				if(isset($actionList[current($field)])) {
+			foreach ($actions as $actionList) {
+				if (isset($actionList[current($field)])) {
 					return true;
 				}
 			}
@@ -314,7 +314,7 @@ class ValidationBehavior extends ModelBehavior {
  */
 	protected function _getField(Model $Model, $field) {
 		$alias = $Model->alias;
-		if(strstr('.', $field)) {
+		if (strstr('.', $field)) {
 			list($alias, $field) = pluginSplit($field);
 		}
 

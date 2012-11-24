@@ -134,10 +134,10 @@ COMMENT;
  */
 
 COMMENT;
-	if(!$admin && in_array('slug', array_keys($modelObj->_schema))) {
+	if (!$admin && in_array('slug', array_keys($modelObj->_schema))) {
 		// for tabels with slugs
 		echo "\tpublic function {$admin}view() {\n";
-		echo "\t\tif(!isset(\$this->request->params['slug']) || !\$this->request->params['slug']) {\n";
+		echo "\t\tif (!isset(\$this->request->params['slug']) || !\$this->request->params['slug']) {\n";
 			echo "\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t}\n\n";
 
@@ -149,7 +149,7 @@ COMMENT;
 	else{
 		// for admin and non-slugged tables
 		echo "\tpublic function {$admin}view(\$id = null) {\n";
-		echo "\t\tif(!\$id) {\n";
+		echo "\t\tif (!\$id) {\n";
 			echo "\t\t\t\$this->Infinitas->noticeInvalidRecord();\n";
 		echo "\t\t}\n\n";
 

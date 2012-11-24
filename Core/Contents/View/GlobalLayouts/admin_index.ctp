@@ -62,11 +62,11 @@
 				<td><?php echo $layout['GlobalLayout']['model_class']; ?>&nbsp;</td>
 				<td>
 					<?php
-						if(!$layout['GlobalLayout']['theme_id']) {
+						if (!$layout['GlobalLayout']['theme_id']) {
 							$layout['Theme']['name'] = __d('themes', 'Global');
 						}
 
-						if(!$layout['GlobalLayout']['layout']) {
+						if (!$layout['GlobalLayout']['layout']) {
 							$layout['GlobalLayout']['layout'] = __d('themes', 'Global');
 						}
 						echo implode('<b>.</b>', array($layout['Theme']['name'], $layout['GlobalLayout']['layout']));

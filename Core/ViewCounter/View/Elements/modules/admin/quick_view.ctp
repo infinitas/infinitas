@@ -1,10 +1,10 @@
 <?php
-	if(!empty($config)) {
+	if (!empty($config)) {
 		extract($config);
 	}
 	
-	if(empty($chartData)) {
-		if(empty($model) || empty($foreignKey)) {
+	if (empty($chartData)) {
+		if (empty($model) || empty($foreignKey)) {
 			throw new CakeException('Missing model or foreignKey');
 		}
 		
@@ -17,7 +17,7 @@
 	}
 	
 	$defaultSize = array('width' => 150, 'height' => 50);
-	if(!empty($size) && is_array($size)) {
+	if (!empty($size) && is_array($size)) {
 		$size = array_merge($defaultSize, $size);
 	}
 	

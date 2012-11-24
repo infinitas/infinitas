@@ -1,5 +1,5 @@
 <?php
-	if(empty($userRegistrations)) {
+	if (empty($userRegistrations)) {
 		$userRegistrations = ClassRegistry::init('Users.User')->getRegistrationChartData();
 	}
 ?>
@@ -7,8 +7,8 @@
 	<h1><?php echo __d('users', 'Registrations per month'); ?></h1>
 	<?php
 		$labels = array();
-		foreach(array_keys($userRegistrations) as $k => $v) {
-			if($k % 2 == 0) {
+		foreach (array_keys($userRegistrations) as $k => $v) {
+			if ($k % 2 == 0) {
 				$labels[] = $v;
 			}
 			else {

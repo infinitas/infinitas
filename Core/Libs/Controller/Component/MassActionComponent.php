@@ -31,7 +31,7 @@ class MassActionComponent extends InfinitasComponent {
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
 
-		if($this->getAction(false) == 'cancel') {
+		if ($this->getAction(false) == 'cancel') {
 			$Controller->Event->trigger(
 				'editCanceled',
 				!empty($Controller->request->data[$Controller->modelClass]['id']) ? $Controller->request->data[$Controller->modelClass]['id'] : null
@@ -48,11 +48,11 @@ class MassActionComponent extends InfinitasComponent {
 	public function actionAdminMass() {
 		$massAction = $this->getAction();
 
-		if(isset($this->Controller->modelClass)) {
+		if (isset($this->Controller->modelClass)) {
 			$modelName = $this->Controller->modelClass;
 		}
 
-		if(!empty($this->Controller->request->data['Confirm']['model'])) {
+		if (!empty($this->Controller->request->data['Confirm']['model'])) {
 			$modelName = $this->Controller->request->data['Confirm']['model'];
 		}
 
@@ -63,11 +63,11 @@ class MassActionComponent extends InfinitasComponent {
 
 		$massActionMethod = '__massAction' . ucfirst($massAction);
 
-		if(method_exists($this->Controller, $massActionMethod)) {
+		if (method_exists($this->Controller, $massActionMethod)) {
 			return $this->Controller->{$massActionMethod}($ids);
 		}
 
-		else if(method_exists($this, $massAction)) {
+		else if (method_exists($this, $massAction)) {
 			return $this->{$massAction}($ids);
 		}
 
@@ -118,7 +118,7 @@ class MassActionComponent extends InfinitasComponent {
 			return $this->Controller->request->data['action'];
 		}
 
-		if($redirect) {
+		if ($redirect) {
 			$this->Controller->notice(
 				__d('libs', 'I dont know what to do.'),
 				array(
@@ -139,29 +139,29 @@ class MassActionComponent extends InfinitasComponent {
  */
 	public function filter($null = null) {
 		$data = array();
-		foreach($this->Controller->data[$this->Controller->modelClass] as $k => $field ) {
+		foreach ($this->Controller->data[$this->Controller->modelClass] as $k => $field ) {
 			if (is_int($k) || $k == 'all' || $k == 'massCheckBox') {
 				continue;
 			}
 
-			if(empty($field) && $field !== 0) {
+			if (empty($field) && $field !== 0) {
 				continue;
 			}
 
 			$data[$this->Controller->modelClass.'.'.$k] = $field;
 		}
 
-		foreach($this->Controller->{$this->Controller->modelClass}->belongsTo as $model => $options) {
-			if(empty($this->Controller->data[$model])) {
+		foreach ($this->Controller->{$this->Controller->modelClass}->belongsTo as $model => $options) {
+			if (empty($this->Controller->data[$model])) {
 				continue;
 			}
 
-			foreach((array)$this->Controller->data[$model] as $k => $field) {
+			foreach ((array)$this->Controller->data[$model] as $k => $field) {
 				if ((empty($field) && $field !== 0) || is_int($k) || $k == 'all' || $k == 'massCheckBox') {
 					continue;
 				}
 
-				if(empty($field) && $field !== 0) {
+				if (empty($field) && $field !== 0) {
 					continue;
 				}
 
@@ -189,7 +189,7 @@ class MassActionComponent extends InfinitasComponent {
 		$delete = (isset($this->Controller->data['Confirm']['confirmed']) && $this->Controller->data['Confirm']['confirmed']) ||
 				(isset($this->Controller->{$this->Controller->modelClass}->noConfirm));
 		if ($delete) {
-			if(method_exists($this->Controller, '__handleDeletes')) {
+			if (method_exists($this->Controller, '__handleDeletes')) {
 				$this->Controller->__handleDeletes($ids);
 			}
 
@@ -211,7 +211,7 @@ class MassActionComponent extends InfinitasComponent {
 		$this->Controller->set(compact('rows'));
 
 		$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'delete.ctp';
-		if(is_file($pluginOverload)) {
+		if (is_file($pluginOverload)) {
 			$this->Controller->render($this->Controller->plugin . '.Global/delete');
 			return;
 		}
@@ -232,12 +232,12 @@ class MassActionComponent extends InfinitasComponent {
 	public function __handleDeletes($ids) {
 		$this->Controller->{$this->Controller->modelClass}->transaction();
 		$deleted = true;
-		foreach($ids as $id) {
+		foreach ($ids as $id) {
 			$deleted = $deleted && $this->Controller->{$this->Controller->modelClass}->delete($id);
 		}
 
 		$params = array();
-		if($deleted) {
+		if ($deleted) {
 			$this->Controller->{$this->Controller->modelClass}->transaction(true);
 			$this->Controller->notice('deleted');
 		}
@@ -256,11 +256,11 @@ class MassActionComponent extends InfinitasComponent {
  * @param string $message optional string you want the notice to display
  */
 	public function toggle($ids, $message = null) {
-		if(!$this->Controller->{$this->Controller->modelClass}->hasField('active')) {
+		if (!$this->Controller->{$this->Controller->modelClass}->hasField('active')) {
 			throw new Exception(sprintf('The model "%s" does not have an active field', $this->Controller->modelClass));
 		}
 
-		if(empty($ids)) {
+		if (empty($ids)) {
 			return false;
 		}
 
@@ -269,7 +269,7 @@ class MassActionComponent extends InfinitasComponent {
 			$this->Controller->modelClass . '.active' => '1 - `' . $this->Controller->modelClass . '`.`active`'
 		);
 
-		if($this->Controller->{$this->Controller->modelClass}->hasField('modified')) {
+		if ($this->Controller->{$this->Controller->modelClass}->hasField('modified')) {
 			$newValues[$this->Controller->modelClass . '.modified'] = '\'' . date('Y-m-d H:m:s') . '\'';
 		}
 
@@ -325,7 +325,7 @@ class MassActionComponent extends InfinitasComponent {
 		$copyText = sprintf(' - %s (%s)', __d('libs', 'copy'), date('Y-m-d'));
 		$saves = 0;
 
-		if($this->Controller->{$this->Controller->modelClass}->Behaviors->attached('Contentable')) {
+		if ($this->Controller->{$this->Controller->modelClass}->Behaviors->attached('Contentable')) {
 			$this->Controller->notice(
 				__d('content', 'Copy is not currently supported for this data'),
 				array(
@@ -335,7 +335,7 @@ class MassActionComponent extends InfinitasComponent {
 			);
 		}
 
-		foreach($ids as $id) {
+		foreach ($ids as $id) {
 			$record = $this->Controller->{$this->Controller->modelClass}->read(null, $id);
 
 			unset($record[$this->Controller->modelClass]['id']);
@@ -359,13 +359,13 @@ class MassActionComponent extends InfinitasComponent {
 			/**
 				* unset anything fields that are countercache
 				*/
-			foreach($record[$this->Controller->modelClass] as $field => $value) {
+			foreach ($record[$this->Controller->modelClass] as $field => $value) {
 				$schema = $this->Controller->{$this->Controller->modelClass}->schema($field);
-				if(!empty($schema['key']) && $schema['key'] == 'unique') {
+				if (!empty($schema['key']) && $schema['key'] == 'unique') {
 					$record[$this->Controller->modelClass][$field] .= ' - ' . time();
 				}
 
-				if(strstr($field, '_count')) {
+				if (strstr($field, '_count')) {
 					unset($record[$this->Controller->modelClass][$field]);
 				}
 			}
@@ -404,7 +404,7 @@ class MassActionComponent extends InfinitasComponent {
  */
 	public function move($ids) {
 		if (isset($this->Controller->data['Move']['confirmed']) && $this->Controller->data['Move']['confirmed']) {
-			if(method_exists($this->Controller, '__handleMove')) {
+			if (method_exists($this->Controller, '__handleMove')) {
 				$this->Controller->__handleMove($ids);
 			}
 			else {
@@ -419,7 +419,7 @@ class MassActionComponent extends InfinitasComponent {
 		if (isset($this->Controller->{$this->Controller->modelClass}->belongsTo)) {
 			$relations['belongsTo'] = $this->Controller->{$this->Controller->modelClass}->belongsTo;
 
-			foreach($relations['belongsTo'] as $alias => $belongsTo) {
+			foreach ($relations['belongsTo'] as $alias => $belongsTo) {
 				switch($alias) {
 					case 'Locker':
 						break;
@@ -428,7 +428,7 @@ class MassActionComponent extends InfinitasComponent {
 					case 'Parent':
 						$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $this->Controller->modelClass);
 
-						if(in_array('Tree', $_Model->Behaviors->_attached)) {
+						if (in_array('Tree', $_Model->Behaviors->_attached)) {
 							$_Model->order = array();
 							$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
 						}
@@ -451,13 +451,13 @@ class MassActionComponent extends InfinitasComponent {
 		if (isset($this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany)) {
 			$relations['hasAndBelongsToMany'] = $this->Controller->{$this->Controller->modelClass}->hasAndBelongsToMany;
 
-			foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo) {
+			foreach ($relations['hasAndBelongsToMany'] as $alias => $belongsTo) {
 				$_Model = ClassRegistry::init($this->Controller->plugin . '.' . $alias);
 				$this->Controller->set(strtolower($alias), $_Model->find('list'));
 			}
 		}
 
-		if(array_filter(Set::flatten($relations)) == array()) {
+		if (array_filter(Set::flatten($relations)) == array()) {
 			$this->Controller->notice(
 				__d($this->Controller->request->params['plugin'], 'There is nothing to move for these records'),
 				array(
@@ -473,7 +473,7 @@ class MassActionComponent extends InfinitasComponent {
 		$this->Controller->saveRedirectMarker();
 
 		$pluginOverload = App::pluginPath($this->Controller->plugin) . 'View' . DS . 'Global' . DS . 'move.ctp';
-		if(is_file($pluginOverload)) {
+		if (is_file($pluginOverload)) {
 			$this->Controller->render($this->Controller->plugin . '.Global/move');
 			return;
 		}
@@ -500,8 +500,8 @@ class MassActionComponent extends InfinitasComponent {
 			$_data = array_merge(array_filter($movedTo), $row);
 
 			$_mn = $this->Controller->modelClass;
-			foreach($_data as $key => $value) {
-				if(is_array($value)) {
+			foreach ($_data as $key => $value) {
+				if (is_array($value)) {
 					$save[$key][$key] = $value;
 				}
 				else{
@@ -518,11 +518,11 @@ class MassActionComponent extends InfinitasComponent {
 			unset($save);
 		}
 
-		if(in_array('Tree', $this->Controller->{$this->Controller->modelClass}->Behaviors->attached())) {
+		if (in_array('Tree', $this->Controller->{$this->Controller->modelClass}->Behaviors->attached())) {
 			//$this->Controller->{$this->Controller->modelClass}->recover('parent');
 		}
 
-		if($result == true) {
+		if ($result == true) {
 			$params = array(
 				'message' => sprintf(__d('libs', 'The %s have been moved'), $this->Controller->prettyModelName)
 			);

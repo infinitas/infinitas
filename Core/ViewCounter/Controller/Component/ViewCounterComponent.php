@@ -45,11 +45,11 @@ class ViewCounterComponent extends InfinitasComponent {
 	public function initialize(Controller $Controller, $settings = array()) {
 		parent::initialize($Controller);
 
-		if($this->Controller->Session->read('Spam.bot') || strstr($this->Controller->request->url, '?spam=true')) {
+		if ($this->Controller->Session->read('Spam.bot') || strstr($this->Controller->request->url, '?spam=true')) {
 			return;
 		}
 
-		if(empty($this->Controller->modelClass)) {
+		if (empty($this->Controller->modelClass)) {
 			// no model being used.
 			return;
 		}
@@ -64,7 +64,7 @@ class ViewCounterComponent extends InfinitasComponent {
 			// only track actions that are set
 			in_array($Controller->request->params['action'], $settings['actions']);
 
-		if($check) {
+		if ($check) {
 			$Controller->{$Controller->modelClass}->Behaviors->attach('ViewCounter.Viewable');
 			$Controller->{$Controller->modelClass}->__referer = $this->Controller->referer();
 		}

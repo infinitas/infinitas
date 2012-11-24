@@ -215,7 +215,7 @@ class EmailAccount extends EmailsAppModel {
 			)
 		);
 
-		if(!empty($account)) {
+		if (!empty($account)) {
 			return $account['EmailAccount'];
 		}
 
@@ -248,7 +248,7 @@ class EmailAccount extends EmailsAppModel {
  * @throws CakeException
  */
 	protected function _findSystemAccount($state, array $query, array $results = array()) {
-		if($state == 'before') {
+		if ($state == 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.name',
 				$this->alias . '.email',
@@ -260,12 +260,12 @@ class EmailAccount extends EmailsAppModel {
 				$this->alias . '.password'
 			));
 
-			if(empty($query['config'])) {
+			if (empty($query['config'])) {
 				$config = Configure::read('Emails.default_config');
 				$query['config'] = $config;
 			}
 
-			if(!empty($query['config'])) {
+			if (!empty($query['config'])) {
 				$query['conditions'] = array_merge((array)$query['conditions'], array(
 					$this->alias . '.slug' => $query['config']
 				));
@@ -280,10 +280,10 @@ class EmailAccount extends EmailsAppModel {
 			return $query;
 		}
 
-		if(empty($results[0][$this->alias])) {
-			if(class_exists('EmailConfig')) {
+		if (empty($results[0][$this->alias])) {
+			if (class_exists('EmailConfig')) {
 				$Email = new EmailConfig();
-				if(!empty($Email->default)) {
+				if (!empty($Email->default)) {
 					return $Email->default;
 				}
 			}

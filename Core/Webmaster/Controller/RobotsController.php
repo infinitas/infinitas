@@ -14,13 +14,13 @@
 			Configure::write('Wysiwyg.editor', 'text');
 			$File = new File(APP . 'webroot' . DS . 'robots.txt', true);
 
-			if(isset($this->request->data['robots']) && !empty($this->request->data['robots'])) {
+			if (isset($this->request->data['robots']) && !empty($this->request->data['robots'])) {
 				$content = $this->request->data['robots'];
 				$sitemap = sprintf('Sitemap: %ssitemap.xml', Router::url('/', true));
 				if (strpos($content, $sitemap) === false) {
 					$content = $sitemap . "\n" . $content;
 				}
-				if($File->write($content)) {
+				if ($File->write($content)) {
 					$this->notice(
 						__d('webmaster', 'Robots file updated'),
 						array(
@@ -37,7 +37,7 @@
 				);
 			}
 
-			if(!isset($this->request->data['robots'])) {
+			if (!isset($this->request->data['robots'])) {
 				$this->request->data['robots'] = $File->read();
 			}
 		}

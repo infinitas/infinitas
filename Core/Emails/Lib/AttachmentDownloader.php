@@ -89,7 +89,7 @@ class AttachmentDownloader extends Object{
  */
 	public function alreadySaved($attachment) {
 		$filename = self::__getCachedName($attachment);
-		if(is_file($this->attachmentPath . DS . $filename)) {
+		if (is_file($this->attachmentPath . DS . $filename)) {
 			$this->File = new File($this->attachmentPath . DS . $filename);
 			return unserialize($this->File->read());
 		}
@@ -114,13 +114,13 @@ class AttachmentDownloader extends Object{
 		$name = $this->attachmentPath . DS . $filename;
 
 		$this->File = new File($name, true);
-		if($this->File->write(base64_decode($attachment['attachment']))) {
+		if ($this->File->write(base64_decode($attachment['attachment']))) {
 
 			unset($attachment['attachment']);
 			$filename = self::__getCachedName($attachment);
 			$name = $this->attachmentPath . DS . $filename;
 			$this->File = new File($name, true);
-			if($this->File->write(serialize($attachment))) {
+			if ($this->File->write(serialize($attachment))) {
 				return $attachment;
 			}
 		}
@@ -143,7 +143,7 @@ class AttachmentDownloader extends Object{
 		$file = $this->webrootPath . DS .'original_' . $attachment['filename'];
 
 		$this->File = new File($file, true);
-		if($this->File->write(base64_decode($attachment['attachment']))) {
+		if ($this->File->write(base64_decode($attachment['attachment']))) {
 			return array(
 				'original' => sprintf('/email/img/images/%s/original_%s', $attachment['message_id'], urlencode($attachment['filename'])),
 				'thumbnail' => sprintf('/email/img/images/%s/thumbnail_%s', $attachment['message_id'], urlencode($attachment['filename'])), // resize here

@@ -1,7 +1,7 @@
 <?php
 	$out = array();
-	foreach($files as $file) {
-		if(!is_dir($file)) {
+	foreach ($files as $file) {
+		if (!is_dir($file)) {
 			continue;
 		}
 

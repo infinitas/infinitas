@@ -139,7 +139,7 @@ App::uses('ModelBehavior', 'Model');
 						$existingTagKeyNames = Set::extract($existingTags, '{n}.GlobalTag.keyname');
 						$existingTagIds = Set::extract($existingTags, '{n}.GlobalTag.id');
 						$newTags = array();
-						foreach($tags as $possibleNewTag) {
+						foreach ($tags as $possibleNewTag) {
 							$key = $this->multibyteKey($Model, $possibleNewTag);
 							if (!in_array($key, $existingTagKeyNames)) {
 								$newTags[] = $possibleNewTag;

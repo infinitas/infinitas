@@ -65,7 +65,7 @@
 
 			$weights = Set::extract($options['extract'], $tags);
 			$maxWeight = $minWeight = 1;
-			if($weights) {
+			if ($weights) {
 				$maxWeight = max($weights);
 				$minWeight = min($weights);
 			}
@@ -111,13 +111,13 @@
 		 * @return string
 		 */
 		public function tagList($data, $seperator = 'and', $limit = 5) {
-			if(empty($data['GlobalTagged'])) {
+			if (empty($data['GlobalTagged'])) {
 				return __d('contents', 'No tags');
 			}
 
 			$return = array();
-			foreach($data['GlobalTagged'] as $tagged) {
-				if($limit <= 0) {
+			foreach ($data['GlobalTagged'] as $tagged) {
+				if ($limit <= 0) {
 					continue;
 				}
 
@@ -128,7 +128,7 @@
 
 				$limit--;
 			}
-			if($seperator == ',') {
+			if ($seperator == ',') {
 				return implode(', ', $return);
 			}
 

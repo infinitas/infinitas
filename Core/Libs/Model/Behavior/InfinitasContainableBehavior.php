@@ -17,7 +17,7 @@
 		public function beforeFind(Model $Model, $query) {
 			$query['recursive'] = -1;
 			
-			if(empty($query['contain'])) {
+			if (empty($query['contain'])) {
 				return $query;
 			}
 			
@@ -26,12 +26,12 @@
 			$this->__cache[$Model->alias]['currentQuery'] = md5($Model->alias . serialize($query));
 			
 			$joins = $fields = array();
-			if(empty($query['fields'])) {
+			if (empty($query['fields'])) {
 				$fields = array(sprintf('%s.*', $Model->alias));
 			}
 			
-			foreach($query['contain'] as $join => $config) {
-				if(is_int($join) && !is_array($config)) {
+			foreach ($query['contain'] as $join => $config) {
+				if (is_int($join) && !is_array($config)) {
 					$join = $config;
 					$config = array();
 				}
@@ -51,11 +51,11 @@
 		}
 		
 		private function __normaliseContainConfig(&$config) {
-			if(empty($config)) {
+			if (empty($config)) {
 				return;
 			}
 			
-			if(!is_array($config)) {
+			if (!is_array($config)) {
 				$config = array($config);
 			}
 			
@@ -73,14 +73,14 @@
 		}
 		
 		public function afterFind(Model $Model, $results, $primary) {
-			if(empty($this->__afterFind[$Model->alias])) {
+			if (empty($this->__afterFind[$Model->alias])) {
 				return $results;
 			}
 			
-			foreach($this->__afterFind[$Model->alias]['hasMany'] as $relation => $data) {
+			foreach ($this->__afterFind[$Model->alias]['hasMany'] as $relation => $data) {
 				$data = array_merge(array('conditions' => array(), 'fields' => array(), 'order' => array()), $data);
 				$joinConditions = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
-				if(empty($joinConditions)) {
+				if (empty($joinConditions)) {
 					continue;
 				}
 				
@@ -91,7 +91,7 @@
 				$hasManyData = $Model->{$relation}->find('all', $data);
 				$this->__sortContain($Model->{$relation}, $hasManyData);
 				
-				foreach($results as $k => $result) {
+				foreach ($results as $k => $result) {
 					$template = sprintf(
 						'/%s[%s=/%s/i]',
 						$Model->{$relation}->alias,
@@ -111,18 +111,18 @@
 		}
 		
 		private function __sortContain($Relation, &$hasManyData) {
-			if(empty($hasManyData)) {
+			if (empty($hasManyData)) {
 				return;
 			}
 			
-			if(!in_array($Relation->alias, array_keys(current($hasManyData)))) {
+			if (!in_array($Relation->alias, array_keys(current($hasManyData)))) {
 				return;
 			}
 			
 			
-			foreach($hasManyData as $k => &$v) {
-				foreach($v as $kk => &$vv) {
-					if($kk == $Relation->alias) {
+			foreach ($hasManyData as $k => &$v) {
+				foreach ($v as $kk => &$vv) {
+					if ($kk == $Relation->alias) {
 						continue;
 					}
 					
@@ -133,31 +133,31 @@
 		}
 		
 		private function __normaliseQuery(&$query) {
-			if(empty($query['fields'])) {
+			if (empty($query['fields'])) {
 				$query['fields'] = array();
 			}
 			
-			if(!is_array($query['fields'])) {
+			if (!is_array($query['fields'])) {
 				$query['fields'] = array($query['fields']);
 			}
 			
-			if(empty($query['conditions'])) {
+			if (empty($query['conditions'])) {
 				$query['conditions'] = array();
 			}
 			
-			if(!is_array($query['conditions'])) {
+			if (!is_array($query['conditions'])) {
 				$query['conditions'] = array($query['conditions']);
 			}
 		}
 		
 		private function __getJoin($Model, $join, $config) {
 			$join = $this->{$this->__joinMethod($Model, $join)}($Model, $join, $config);
-			if(!$join) {
+			if (!$join) {
 				return $join;
 			}
 			
-			if(!empty($this->__cache[$this->__cache[$Model->alias]['currentQuery']])) {
-				if(is_array($this->__cache[$this->__cache[$Model->alias]['currentQuery']])) {
+			if (!empty($this->__cache[$this->__cache[$Model->alias]['currentQuery']])) {
+				if (is_array($this->__cache[$this->__cache[$Model->alias]['currentQuery']])) {
 					$this->__cache[$this->__cache[$Model->alias]['currentQuery']][] = $join['alias'];
 					return $join;
 				}				
@@ -182,7 +182,7 @@
 		private function __getMethodName($Model, $join, $type) {
 			$method = sprintf('__%s%s', $this->__relationType($Model, $join), $type);
 			
-			if(!method_exists($this, $method)) {
+			if (!method_exists($this, $method)) {
 				throw new Exception(sprintf('No method found for join "%s"', $method));
 			}
 			
@@ -190,22 +190,22 @@
 		}
 		
 		private function __relationType($Model, $join) {
-			if(!empty($this->__cache[$Model->alias]['relation'][$join])) {
+			if (!empty($this->__cache[$Model->alias]['relation'][$join])) {
 				return $this->__cache[$Model->alias]['relation'][$join];
 			}
 			
-			foreach($this->__relationTypes as $type) {
-				if(empty($Model->{$type})) {
+			foreach ($this->__relationTypes as $type) {
+				if (empty($Model->{$type})) {
 					continue;
 				}
 				
-				if(in_array($join, $Model->{$type}) || !empty($Model->{$type}[$join])) {
+				if (in_array($join, $Model->{$type}) || !empty($Model->{$type}[$join])) {
 					$this->__cache[$Model->alias]['relation'][$join] = $type;
 					break;
 				}
 			}
 			
-			if(empty($this->__cache[$Model->alias]['relation'][$join])) {
+			if (empty($this->__cache[$Model->alias]['relation'][$join])) {
 				throw new Exception(sprintf('Invalid type specified "%s"', $type));
 			}
 			
@@ -214,13 +214,13 @@
 		
 		private function __belongsToJoin($Model, $join, $config) {
 			$hash = md5(serialize(array($join) + $config));
-			if(!empty($this->__cache[$Model->alias]['joins'][$hash])) {
+			if (!empty($this->__cache[$Model->alias]['joins'][$hash])) {
 				return $this->__cache[$Model->alias]['joins'][$hash];
 			}
 			
 			$joinConfig = $this->__defaultConfig($Model, $join, __METHOD__);
 			
-			if(!empty($config['conditions'])) {
+			if (!empty($config['conditions'])) {
 				$joinConfig['conditions'] = $config['conditions'];
 			}
 			
@@ -231,13 +231,13 @@
 		
 		private function __hasOneJoin($Model, $join, $config) {
 			$hash = md5(serialize(array($join) + $config));
-			if(!empty($this->__cache[$Model->alias]['joins'][$hash])) {
+			if (!empty($this->__cache[$Model->alias]['joins'][$hash])) {
 				return $this->__cache[$Model->alias]['joins'][$hash];
 			}
 			
 			$joinConfig = $this->__defaultConfig($Model, $join, __METHOD__);
 			
-			if(!empty($config['conditions'])) {
+			if (!empty($config['conditions'])) {
 				$joinConfig['conditions'] = $config['conditions'];
 			}
 			
@@ -247,7 +247,7 @@
 		}
 		
 		private function __hasManyJoin($Model, $join, $config) {
-			if(empty($this->__afterFind[$Model->alias]['hasMany'][$join])) {
+			if (empty($this->__afterFind[$Model->alias]['hasMany'][$join])) {
 				$this->__afterFind[$Model->alias]['hasMany'][$join] = $config;
 				return array();
 			}
@@ -261,7 +261,7 @@
 		}
 		
 		private function __belongsToFields($Model, $join, $config) {
-			if(empty($config['fields'])) {
+			if (empty($config['fields'])) {
 				$config['fields'] = array(sprintf('%s.*', $Model->{$join}->alias));
 			}
 			
@@ -269,7 +269,7 @@
 		}
 		
 		private function __hasOneFields($Model, $join, $config) {
-			if(empty($config['fields'])) {
+			if (empty($config['fields'])) {
 				$config['fields'] = array(sprintf('%s.*', $Model->{$join}->alias));
 			}
 			
@@ -277,11 +277,11 @@
 		}
 		
 		private function __hasManyFields($Model, $join, $config) {
-			if(empty($config['fields'])) {
+			if (empty($config['fields'])) {
 				$config['fields'] = array(sprintf('%s.*', $Model->{$join}->alias));
 			}
 			
-			if(empty($this->__afterFind[$Model->alias]['hasMany'][$join]['fields'])) {
+			if (empty($this->__afterFind[$Model->alias]['hasMany'][$join]['fields'])) {
 				$this->__afterFind[$Model->alias]['hasMany'][$join]['fields'] = $config['fields'];
 				return array();
 			}
@@ -335,7 +335,7 @@
 					break;
 			}
 			
-			if(!$return) {
+			if (!$return) {
 				throw new Exception(sprintf('Could not build the join for "%s"', $type));
 			}
 			

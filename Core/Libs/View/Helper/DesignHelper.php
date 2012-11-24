@@ -23,21 +23,21 @@ class DesignHelper extends AppHelper {
  * @return string
  */
 	public function arrayToList(array $array, $class = null, $div = null) {
-		if(isset($class['div']) && $class['div']) {
-			if(is_bool($class['div'])) {
+		if (isset($class['div']) && $class['div']) {
+			if (is_bool($class['div'])) {
 				unset($class['div']);
 			}
 
-			if($div === null) {
+			if ($div === null) {
 				$div = true;
 			}
 		}
-		if(isset($class['div_id']) && $class['div_id']) {
-			if($div === null) {
+		if (isset($class['div_id']) && $class['div_id']) {
+			if ($div === null) {
 				$div = true;
 			}
 		}
-		if(!is_array($class)) {
+		if (!is_array($class)) {
 			$class = array(
 				'div' => $class,
 				'div_id' => null,
@@ -51,7 +51,7 @@ class DesignHelper extends AppHelper {
 			$class
 		);
 		$base = '%s';
-		if($div) {
+		if ($div) {
 			$base = $this->Html->tag('div', '%s', array(
 				'id' => ':div_id',
 				'class' => ':div'
@@ -84,14 +84,14 @@ class DesignHelper extends AppHelper {
  * @throws Exception
  */
 	public function tabs(array $tabs, array $content) {
-		if(count($tabs) != count($content)) {
+		if (count($tabs) != count($content)) {
 			throw new InvalidArgumentException('Tab count does not match content');
 		}
 
 		$uuid = String::uuid();
 		$i = 0;
-		foreach($tabs as $k => $tab) {
-			if(!is_array($tab)) {
+		foreach ($tabs as $k => $tab) {
+			if (!is_array($tab)) {
 				$tab = array('text' => $tab);
 			}
 
@@ -141,7 +141,7 @@ class DesignHelper extends AppHelper {
 
 		$title = $this->_title($title, $options);
 
-		if(is_array($content)) {
+		if (is_array($content)) {
 			$content = implode('', $content);
 		}
 
@@ -164,7 +164,7 @@ class DesignHelper extends AppHelper {
 	}
 
 	public function info($info, array $options = array()) {
-		if(empty($info)) {
+		if (empty($info)) {
 			return null;
 		}
 		$options = array_merge(array(
@@ -175,7 +175,7 @@ class DesignHelper extends AppHelper {
 	}
 
 	public function alert($info, array $options = array()) {
-		if(empty($info)) {
+		if (empty($info)) {
 			return null;
 		}
 		$options = array_merge(array(
@@ -205,14 +205,14 @@ class DesignHelper extends AppHelper {
 			'title' => null,
 			'hr' => null
 		), $options);
-		if(!$title) {
+		if (!$title) {
 			$title = __d($this->request->params['plugin'], 'Details');
 		}
-		if(!empty($options['title'])) {
+		if (!empty($options['title'])) {
 			$title = $this->Html->tag($options['title'], $title);
 		}
 
-		if($options['hr']) {
+		if ($options['hr']) {
 			$title .= $this->Html->tag('hr');
 		}
 		unset($options['title'], $options['hr']);

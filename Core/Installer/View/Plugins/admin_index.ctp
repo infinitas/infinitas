@@ -65,7 +65,7 @@ echo $this->Infinitas->adminIndexHead($filterOptions, array(
 				<td>
 					<?php
 						$plugin['Plugin']['dependancies'] = json_decode($plugin['Plugin']['dependancies'], true);
-						if(empty($plugin['Plugin']['dependancies'])) {
+						if (empty($plugin['Plugin']['dependancies'])) {
 							$plugin['Plugin']['dependancies'] = array('-');
 						}
 						echo $this->Text->toList($plugin['Plugin']['dependancies']);
@@ -86,7 +86,7 @@ echo $this->Infinitas->adminIndexHead($filterOptions, array(
 				<td>
 					<?php
 						$out = __d('installer', 'Never') . '&nbsp;';
-						if($plugin['Plugin']['created'] != $plugin['Plugin']['modified']) {
+						if ($plugin['Plugin']['created'] != $plugin['Plugin']['modified']) {
 							$out = $this->Infinitas->date($plugin['Plugin']['modified']);
 						}
 						echo $out;

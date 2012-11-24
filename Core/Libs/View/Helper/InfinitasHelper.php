@@ -84,7 +84,7 @@ class InfinitasHelper extends AppHelper {
 		);
 
 
-		if(in_array((string)strtolower($status), array('1', 'yes', 'on'))) {
+		if (in_array((string)strtolower($status), array('1', 'yes', 'on'))) {
 			$params['title'] = $options['title_yes'];
 			$params['alt'] = __d('infinitas', 'On');
 			return $this->Image->image('status', 'active', $params);
@@ -114,11 +114,11 @@ class InfinitasHelper extends AppHelper {
 			array('alias' => $alias, 'hidden' => false, 'checked' => false, 'primaryKey' => false),
 			$options
 		);
-		if(empty($options['primaryKey'])) {
+		if (empty($options['primaryKey'])) {
 			$options['primaryKey'] = ClassRegistry::init($modelClass)->primaryKey;
 		}
 
-		if(empty($data[$options['alias']]) || !isset($data[$options['alias']][$options['primaryKey']])) {
+		if (empty($data[$options['alias']]) || !isset($data[$options['alias']][$options['primaryKey']])) {
 			return false;
 		}
 
@@ -143,21 +143,21 @@ class InfinitasHelper extends AppHelper {
  * @return string
  */
 	public function date($date, $method = 'niceShort') {
-		if(!method_exists('CakeTime', $method)) {
+		if (!method_exists('CakeTime', $method)) {
 			return false;
 		}
 
-		if(is_array($date)) {
-			if(!empty($date['modified'])) {
+		if (is_array($date)) {
+			if (!empty($date['modified'])) {
 				$date = $date['modified'];
-			} elseif(!empty($date['created'])) {
+			} elseif (!empty($date['created'])) {
 				$date = $date['created'];
 			} else {
 				$date = null;
 			}
 		}
 
-		if(empty($date)) {
+		if (empty($date)) {
 			return false;
 		}
 

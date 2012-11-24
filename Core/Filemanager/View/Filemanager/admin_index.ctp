@@ -74,7 +74,7 @@ echo $this->Infinitas->adminIndexHead(null, array(
 			<td>&nbsp;</td>
 		</tr> <?php
 
-		foreach($folders as $folder) { ?>
+		foreach ($folders as $folder) { ?>
 			<tr>
 				<td><?php echo $this->Form->checkbox('Folder.'.$folder['Folder']['path']); ?>&nbsp;</td>
 				<td><?php echo $this->Image->findByExtention(); ?>&nbsp;</td>

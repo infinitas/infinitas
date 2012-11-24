@@ -96,7 +96,7 @@ COMMENT;
 			$output .= "\tpublic \$displayField = '$displayField';\n\n";
 		}
 
-		if(in_array('views', array_keys($schema))) {
+		if (in_array('views', array_keys($schema))) {
 		$output .= <<<COMMENT
 /**
  * Set to true if you would like to track view counts
@@ -215,7 +215,7 @@ COMMENT;
 							$relatedCounterCache = false;
 							$relatedActive = false;
 							$relatedDeleted = false;
-							foreach($relatedSchema as $field => $data) {
+							foreach ($relatedSchema as $field => $data) {
 								if (strstr($field, '_count')) {
 									$relatedCounterCache = true;
 								}
@@ -395,7 +395,7 @@ COMMENT;
 
 COMMENT;
 		echo "\tpublic function getViewData(\$conditions = array()) {\n";
-			echo "\t\tif(!\$conditions) {\n";
+			echo "\t\tif (!\$conditions) {\n";
 				echo "\t\t\treturn false;\n";
 			echo "\t\t}\n\n";
 

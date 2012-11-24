@@ -33,7 +33,7 @@ class AllEventsTestsFilterIterator extends FilterIterator {
  * @return boolean
  */
 	public function accept() {
-		if($this->current()->getExtension() == 'php') {
+		if ($this->current()->getExtension() == 'php') {
 			return strstr($this->current(), 'EventsTest.php');
 		}
 	}

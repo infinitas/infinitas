@@ -12,7 +12,7 @@ $options = array_merge(array(
 
 $links['config'] = array();
 
-if($options['layouts']) {
+if ($options['layouts']) {
 	$links['config'][] = array(
 		'name' => __d('contents', 'Layouts'),
 		'description' => __d('blog', 'Configure the layouts for your content'),
@@ -21,7 +21,7 @@ if($options['layouts']) {
 	);
 }
 
-if($options['categories']) {
+if ($options['categories']) {
 	$links['config'][] = array(
 		'name' => __d('contents', 'Categories'),
 		'description' => __d('contents', 'Configure the categories for your content'),
@@ -30,7 +30,7 @@ if($options['categories']) {
 	);
 }
 
-if($options['routes']) {
+if ($options['routes']) {
 	$links['config'][] = array(
 		'name' => __d('routes', 'Routes'),
 		'description' => __d('blog', 'Manage content routes'),
@@ -39,7 +39,7 @@ if($options['routes']) {
 	);
 }
 
-if($options['modules']) {
+if ($options['modules']) {
 	$links['config'][] = array(
 		'name' => __d('modules', 'Modules'),
 		'description' => __d('blog', 'Manage content modules'),
@@ -48,7 +48,7 @@ if($options['modules']) {
 	);
 }
 
-if($options['locks']) {
+if ($options['locks']) {
 	$links['config'][] = array(
 		'name' => __d('locks', 'Locked'),
 		'description' => __d('blog', 'Manage locked content'),
@@ -57,7 +57,7 @@ if($options['locks']) {
 	);
 }
 
-if($options['trash']) {
+if ($options['trash']) {
 	$links['config'][] = array(
 		'name' => __d('trash', 'Trash'),
 		'description' => __d('blog', 'View / Restore previously removed content'),
@@ -66,7 +66,7 @@ if($options['trash']) {
 	);
 }
 
-if($options['views'] && InfinitasPlugin::loaded('ViewCounter')) {
+if ($options['views'] && InfinitasPlugin::loaded('ViewCounter')) {
 	$links['config'][] =  array(
 		'name' => __d('view_counter', 'Views'),
 		'description' => __d('blog', 'Track content popularity'),
@@ -75,7 +75,7 @@ if($options['views'] && InfinitasPlugin::loaded('ViewCounter')) {
 	);
 }
 
-if(empty($links['config'])) {
+if (empty($links['config'])) {
 	return;
 }
 

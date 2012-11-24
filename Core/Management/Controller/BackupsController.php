@@ -102,7 +102,7 @@ class BackupsController extends AppController {
 	 */
 	private function __saveBackup($data, $Model) {
 		if (isset($Model->hasAndBelongsToMany)) {
-			foreach($Model->hasAndBelongsToMany as $__model => $relation) {
+			foreach ($Model->hasAndBelongsToMany as $__model => $relation) {
 				if (isset($relation['joinTable'])) {
 					Inflector::classify($relation['joinTable']);
 				}

@@ -1,5 +1,5 @@
 <?php
-if(!$viewCount) {
+if (!$viewCount) {
 	echo $this->Design->dashboard('', __d('view_counter', 'You have not recorded any views yet'), array(
 		'alert' => __d('view_counter', 'Once your site is live you will be able to track site stats from here')
 	));

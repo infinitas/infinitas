@@ -433,36 +433,36 @@
 		public function _buildChart($data) {
 			$this->_query = array();
 
-			if(isset($data['extra']['scale'])) {
-				if($data['extra']['scale'] == 'relative') {
+			if (isset($data['extra']['scale'])) {
+				if ($data['extra']['scale'] == 'relative') {
 					$data['scale'] = array(0, $data['values']['max']);
 				}
 			}
 
-			if(isset($data['config']['type'])) {
+			if (isset($data['config']['type'])) {
 				$this->_chartType .= '_' . strtolower($data['config']['type']);
 			}
 
-			if(!isset($this->_chartTypes[(string)$this->_chartType])) {
+			if (!isset($this->_chartTypes[(string)$this->_chartType])) {
 				trigger_error(sprintf(__d('google', 'The chart type "%s" is invalid'), (string)$this->_chartType), E_USER_ERROR);
 				return false;
 			}
 
-			if($this->_chartType == 'gauge' && isset($data['extra']['arrows'])) {
+			if ($this->_chartType == 'gauge' && isset($data['extra']['arrows'])) {
 				$data['line_style'] = $data['extra']['arrows'];
 			}
-			if(strstr($this->_chartType, 'line')) {
-				if(isset($data['extra']['line_style'])) {
+			if (strstr($this->_chartType, 'line')) {
+				if (isset($data['extra']['line_style'])) {
 					$data['line_style'] = $data['extra']['line_style'];
 				}
 
-				if(isset($data['extra']['line_marker'])) {
+				if (isset($data['extra']['line_marker'])) {
 					$data['line_marker'] = $data['extra']['line_marker'];
 				}
 			}
 
-			foreach($data as $key => $value) {
-				if(!in_array($key, $this->_chartTypes[$this->_chartType])) {
+			foreach ($data as $key => $value) {
+				if (!in_array($key, $this->_chartTypes[$this->_chartType])) {
 					continue;
 				}
 
@@ -495,7 +495,7 @@
 
 			$return = $this->_apiUrl() . $this->_formatGeneric('_global', Set::flatten($this->_query));
 
-			if(strlen($return) > 2048) {
+			if (strlen($return) > 2048) {
 				trigger_error(sprintf(__d('google', 'The query string is too long (%d chars)'), strlen($return)), E_USER_ERROR);
 			}
 
@@ -512,7 +512,7 @@
 		 * @return string
 		 */
 		public function _apiUrl() {
-			if($this->_apiUrlIndex > 9) {
+			if ($this->_apiUrlIndex > 9) {
 				$this->_apiUrlIndex = 0;
 			}
 
@@ -536,7 +536,7 @@
 		 * convert the array data to a fragment to build up the query
 		 */
 		public function _formatQueryParts($key, $value) {
-			if(empty($value)) {
+			if (empty($value)) {
 				return false;
 			}
 
@@ -573,14 +573,14 @@
 		 * @return string
 		 */
 		public function _formatData($value) {
-			if(!is_array($value[0])) {
+			if (!is_array($value[0])) {
 				$value = array($value);
 			}
 
 			$return = array();
-			foreach($value as $_value) {
-				if(is_array(current($_value))) {
-					foreach($_value as $__value) {
+			foreach ($value as $_value) {
+				if (is_array(current($_value))) {
+					foreach ($_value as $__value) {
 						$return[] = $this->_implode('data', $__value);
 					}
 					continue;
@@ -600,8 +600,8 @@
 		public function _formatLabels($value) {
 			$i = 0;
 			$return = array();
-			foreach($value as $k => $v) {
-				if($v === false) {
+			foreach ($value as $k => $v) {
+				if ($v === false) {
 					continue;
 				}
 
@@ -610,7 +610,7 @@
 				++$i;
 			}
 
-			if(empty($return)) {
+			if (empty($return)) {
 				return false;
 			}
 
@@ -625,25 +625,25 @@
 		 */
 		public function _formatColor($value) {
 			$return = array();
-			foreach($value as $k => $v) {
-				if(!in_array($k, $this->_colorTypes[$this->_chartType])) {
+			foreach ($value as $k => $v) {
+				if (!in_array($k, $this->_colorTypes[$this->_chartType])) {
 					continue;
 				}
 
-				if(!is_array($v)) {
+				if (!is_array($v)) {
 					$v = array($v);
 				}
 
-				if(empty($v)) {
+				if (empty($v)) {
 					continue;
 				}
 
 
-				if($k == 'fill') {
-					if(strstr($this->_chartType, 'bar')) {
+				if ($k == 'fill') {
+					if (strstr($this->_chartType, 'bar')) {
 						$__data = array();
-						foreach($v as $dataSet => $fillData) {
-							if(!is_array($fillData)) {
+						foreach ($v as $dataSet => $fillData) {
+							if (!is_array($fillData)) {
 								$fillData = array('color' => $fillData);
 							}
 
@@ -658,9 +658,9 @@
 					}
 				}
 
-				if(isset($v[0]) && is_array($v[0])) {
+				if (isset($v[0]) && is_array($v[0])) {
 					$colors = array();
-					foreach($v as $kk => $vv) {
+					foreach ($v as $kk => $vv) {
 						$colors[] = implode('|', $vv);
 					}
 
@@ -719,12 +719,12 @@
 					break;
 			}
 
-			if(isset($value['padding'])) {
+			if (isset($value['padding'])) {
 				$return[] = $value['padding'];
 
 				// if its a group add some padding to the group too
-				if(strstr($this->_chartType, 'group')) {
-					if(isset($value['grouping'])) {
+				if (strstr($this->_chartType, 'group')) {
+					if (isset($value['grouping'])) {
 						$return[] = $value['grouping'];
 					}
 					else{
@@ -742,23 +742,23 @@
 		 * If only one param is passed then the image will be square.
 		 */
 		public function _formatSize($value) {
-			if(!is_array($value)) {
+			if (!is_array($value)) {
 				$value = array('width' => $value);
 			}
 
-			if(!isset($value['width']) && !isset($value['height'])) {
+			if (!isset($value['width']) && !isset($value['height'])) {
 				trigger_error(__d('google', 'No size specified'), E_USER_ERROR);
 				return false;
 			}
 
-			if(isset($value['width']) && !isset($value['height'])) {
+			if (isset($value['width']) && !isset($value['height'])) {
 				$value['height'] = $value['width'];
 			}
-			else if(isset($value['height']) && !isset($value['width'])) {
+			else if (isset($value['height']) && !isset($value['width'])) {
 				$value['width'] = $value['height'];
 			}
 
-			if($value['width'] * $value['height'] > $this->__sizeLimit) {
+			if ($value['width'] * $value['height'] > $this->__sizeLimit) {
 				trigger_error(
 					sprintf(
 						__d('google', 'Size of %dpx is greater than maximum allowed size %spx'),
@@ -785,7 +785,7 @@
 		 * @return <type>
 		 */
 		public function _formatLegend($value) {
-			if(!isset($value['labels']) || empty($value['labels'])) {
+			if (!isset($value['labels']) || empty($value['labels'])) {
 				trigger_error(__d('google', 'Skipping legend, no lables specified'), E_USER_WARNING);
 				return false;
 			}
@@ -827,7 +827,7 @@
 
 			switch($value['order']) {
 				case is_array($value['order']):
-					if(count($value['order']) != count($value['labels'])) {
+					if (count($value['order']) != count($value['labels'])) {
 						trigger_error(
 							sprintf(
 								__d('google', 'Count of orders (%d) does not match count of lables (%d). Using default order '),
@@ -876,20 +876,20 @@
 		 */
 		public function _formatLineStyle($value) {
 			$return = $out = $arrows = array();
-			foreach($value as $k => $v) {
+			foreach ($value as $k => $v) {
 				$out[] = isset($v['thickness']) ? $v['thickness'] : null;
-				if(isset($v['dash'])) {
-					if(!is_array($v['dash'])) {
+				if (isset($v['dash'])) {
+					if (!is_array($v['dash'])) {
 						$v['dash'] = array((int)$v['dash']);
 					}
-					if(count($v['dash']) == 1) {
+					if (count($v['dash']) == 1) {
 						$v['dash'][] = current($v['dash']);
 					}
 
 					$out = array_merge($out, array($v['dash'][0], $v['dash'][1]));
 				}
 
-				if(isset($v['arrow'])) {
+				if (isset($v['arrow'])) {
 					$arrows[] = (int)$v['arrow'];
 				}
 
@@ -916,7 +916,7 @@
 		 * @li size 'size' => array('width' => 200, 'height' => 125)) -> chs=200x125
 		 */
 		public function _formatGeneric($key, $value) {
-			if(!is_array($value)) {
+			if (!is_array($value)) {
 				trigger_error(sprintf(__d('google', 'Value for %s is type %s and expecting array'), $key, gettype($value)), E_USER_WARNING);
 				return false;
 			}
@@ -933,12 +933,12 @@
 		 * @return string
 		 */
 		public function _implode($dataType, $value) {
-			if(!is_array($value)) {
+			if (!is_array($value)) {
 				trigger_error(sprintf(__d('google', 'Value for %s is type %s and expecting array'), $dataType, gettype($value)), E_USER_WARNING);
 				return false;
 			}
 
-			if(!isset($this->_formats[$dataType])) {
+			if (!isset($this->_formats[$dataType])) {
 				trigger_error(sprintf(__d('google', 'No format available for %s'), $dataType), E_USER_WARNING);
 				return false;
 			}

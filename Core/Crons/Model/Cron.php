@@ -79,7 +79,7 @@ class Cron extends CronsAppModel {
 
 		$this->create();
 		$alreadyRunning = $this->_isRunning();
-		if($this->save($data)) {
+		if ($this->save($data)) {
 			$this->_currentProcess = $this->id;
 			return $alreadyRunning === false;
 		}
@@ -99,7 +99,7 @@ class Cron extends CronsAppModel {
  * @return boolean|array
  */
 	public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0) {
-		if(!$this->_currentProcess) {
+		if (!$this->_currentProcess) {
 			trigger_error(__d('crons', 'Cron not yet started'), E_USER_WARNING);
 			return false;
 		}
@@ -211,7 +211,7 @@ class Cron extends CronsAppModel {
  * @return boolean
  */
 	public function clearOldLogs($date = null) {
-		if(!$date) {
+		if (!$date) {
 			$date = Configure::read('Cron.clear_logs');
 		}
 

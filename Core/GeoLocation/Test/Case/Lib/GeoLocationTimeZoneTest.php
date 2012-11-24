@@ -8,7 +8,7 @@ class GeoLocationTimeZoneTest extends CakeTestCase {
  */
 	public function testFromIp($data, $expected) {
 		$IpLocation = new IpLocation();
-		$this->skipIf(!$IpLocation->hasCityData());
+		$this->skipif (!$IpLocation->hasCityData());
 		$result = GeoLocationTimeZone::fromIp($data['ip']);
 		$this->assertEquals($expected, $result);
 	}

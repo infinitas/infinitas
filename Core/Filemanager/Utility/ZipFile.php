@@ -33,7 +33,7 @@ class ZipFile extends File {
 		parent::__construct($path, $create, $mode);
 
 		$this->Zip = new ZipArchive();
-		if($this->Zip->open($path) !== true) {
+		if ($this->Zip->open($path) !== true) {
 			throw new CakeException('Unable to open zip file');
 		}
 		$this->_path = $path;
@@ -53,20 +53,20 @@ class ZipFile extends File {
 			'delete' => false,
 			'move' => true
 		), $options);
-		if(!$this->Folder->create($to)) {
+		if (!$this->Folder->create($to)) {
 			throw new UnableToCreateTargetException(array($to));
 		}
 
-		if(!$this->Zip->extractTo($to)) {
+		if (!$this->Zip->extractTo($to)) {
 			return false;
 		}
 
-		if($options['delete']) {
+		if ($options['delete']) {
 			$this->delete();
 		}
 		$this->Folder->cd($to);
 		$folders = current($this->Folder->read());
-		if($options['move'] && count($folders) == 1) {
+		if ($options['move'] && count($folders) == 1) {
 			$dir = $to . DS . current($folders) . DS;
 			$this->Folder->move(array(
 				'to' => $to . DS,

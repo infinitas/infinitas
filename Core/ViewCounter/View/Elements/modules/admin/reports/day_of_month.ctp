@@ -1,9 +1,9 @@
 <div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('day_of_month', $byDay);
-		if(empty($byDay['sub_total'])) {
+		if (empty($byDay['sub_total'])) {
 			echo $this->ViewCounter->noData();
-		} else{
+		} else {
 			echo $this->Charts->draw(
 				array(
 					'bar' => array(
@@ -35,7 +35,7 @@
 						'labels' => array(
 							__d('view_counter', 'Views')
 						)
-					),
+					)
 				)
 			);
 		}

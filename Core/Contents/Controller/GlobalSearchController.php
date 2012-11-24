@@ -35,7 +35,7 @@ class GlobalSearchController extends ContentsAppController {
  * @return void
  */
 	public function search($term = null) {
-		if(!empty($this->data[$this->modelClass]['search'])) {
+		if (!empty($this->data[$this->modelClass]['search'])) {
 			$url = array(
 				'action' => 'search',
 				Sanitize::paranoid($this->data[$this->modelClass]['search']),

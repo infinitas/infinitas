@@ -35,7 +35,7 @@ class LockerComponent extends InfinitasComponent {
 			isset($Controller->{$Controller->modelClass}->Behaviors);
 
 		$disable = $disable || (!empty($Controller->request->data['action']) && $Controller->request->data['action'] == 'copy');
-		if($disable) {
+		if ($disable) {
 			$Controller->{$Controller->modelClass}->Behaviors->detach('Lockable');
 		}
 
@@ -52,11 +52,11 @@ class LockerComponent extends InfinitasComponent {
  * @return boolean
  */
 	public function beforeRender(Controller $Controller) {
-		if(empty($Controller->params['admin']) || !$Controller->params['admin']) {
+		if (empty($Controller->params['admin']) || !$Controller->params['admin']) {
 			return true;
 		}
 
-		if(isset($Controller->request->data['Lock']['user_id']) && $Controller->request->data['Lock']['user_id'] != $Controller->Session->read('Auth.User.id')) {
+		if (isset($Controller->request->data['Lock']['user_id']) && $Controller->request->data['Lock']['user_id'] != $Controller->Session->read('Auth.User.id')) {
 			$Controller->notice(
 				sprintf(
 					__d('locks', 'The %s you requested has been locked by %s'),
@@ -82,8 +82,8 @@ class LockerComponent extends InfinitasComponent {
  * @return void
  */
 	public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
-		if(!empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable) {
-			if(isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel') {
+		if (!empty($Controller->uses) && isset($Controller->{$Controller->modelClass}->lockable) && $Controller->{$Controller->modelClass}->lockable) {
+			if (isset($Controller->params['form']['action']) && $Controller->params['form']['action'] == 'cancel') {
 				ClassRegistry::init('Locks.Lock')->deleteAll(
 					array(
 						'Lock.class' => Inflector::camelize($Controller->plugin).'.'.$Controller->modelClass,

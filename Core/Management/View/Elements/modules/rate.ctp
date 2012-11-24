@@ -4,7 +4,7 @@
 	$data = &${strtolower($modelName)};
 	$allow = Configure::read($this->request->plugin . '.allow_ratings');
 
-	if(Configure::read('Rating.time_limit')) {
+	if (Configure::read('Rating.time_limit')) {
 		$allow &= date('Y-m-d H:i:s', strtotime('- '.Configure::read('Rating.time_limit'))) < $data[$modelName]['modified'];
 	}
 
@@ -20,7 +20,7 @@
 			if ($data[$modelName]['rating_count'] > 0 && $stats) {
 				echo sprintf(__d('management', 'Currently rated %s (out of %s votes)'), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
 			}
-			else if($stats) {
+			else if ($stats) {
 				echo sprintf(__d('management', 'This %s has not been rated yet'), prettyName($modelName));
 			}
 		?>

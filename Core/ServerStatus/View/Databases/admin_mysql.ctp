@@ -33,7 +33,7 @@ echo $this->Html->tag('h1', __d('server_status', 'Local Variables') .
 		</tr>
 	</thead>
 	<?php
-		foreach($localVars as $name => $value) {
+		foreach ($localVars as $name => $value) {
 			$globalVars[$name] = $this->Html->tag('span', $globalVars[$name], array('class' => 'label label-warning'));
 			$value = $this->Html->tag('span', $value, array('class' => 'label label-info'));
 			?>
@@ -60,7 +60,7 @@ echo $this->Html->tag('h1', __d('server_status', 'Local Variables') .
 		</tr>
 	</thead>
 	<?php
-		foreach($globalVars as $name => $value) { ?>
+		foreach ($globalVars as $name => $value) { ?>
 			<tr>
 				<td><?php echo $name; ?></td>
 				<td><?php echo $value; ?></td>

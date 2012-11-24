@@ -93,7 +93,7 @@ class EmailerComponent extends EmailComponent {
 
 	public function sendDirectMail($userDetails, $email = array()) {
 		$this->trackViews = false;
-		if(empty($userDetails)) {
+		if (empty($userDetails)) {
 			return false;
 		}
 

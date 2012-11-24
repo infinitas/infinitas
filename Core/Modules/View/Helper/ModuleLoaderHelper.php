@@ -56,7 +56,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 
 		$currentRoute = Configure::read('CORE.current_route');
 		$out = array();
-		foreach($modules as $module) {
+		foreach ($modules as $module) {
 			$shouldSkip = ($module['Theme']['name'] != '' && $module['Theme']['name'] != $this->theme) ||
 				in_array($module['Module']['module'], $this->moduleIgnoreOverload);
 			if ($shouldSkip) {
@@ -64,7 +64,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			}
 
 			$params = $this->__getModuleParams($module, $admin);
-			if($params === false) {
+			if ($params === false) {
 				continue;
 			}
 
@@ -73,7 +73,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			$error = !empty($this->_View->viewVars['error']) && $this->_View->viewVars['error'] instanceof Exception;
 
 			if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute) {
-				foreach($module['ModuleRoute'] as $route) {
+				foreach ($module['ModuleRoute'] as $route) {
 					if (empty($route['Route']['url']) || $route['Route']['url'] == $currentRoute->template) {
 						$out[] = $moduleOut;
 						break;
@@ -104,11 +104,11 @@ class ModuleLoaderHelper extends InfinitasHelper {
  * @return string
  */
 	public function loadModule($module = null, $params = array()) {
-		if(!$module) {
+		if (!$module) {
 			return false;
 		}
 
-		if($params == null) {
+		if ($params == null) {
 			$params = $this->__getModuleParams($module);
 		}
 
@@ -118,7 +118,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		$moduleOut = $params['content'];
 		if (!empty($module)) {
 			$plugin = null;
-			if(!empty($params['plugin'])) {
+			if (!empty($params['plugin'])) {
 				$plugin = $params['plugin'];
 				unset($params['plugin']);
 			}
@@ -134,7 +134,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 				$moduleOut = $e->getMessage();
 			}
 		}
-		if(!$moduleOut) {
+		if (!$moduleOut) {
 			return false;
 		}
 
@@ -166,11 +166,11 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		// if not plugin return 'plugin foobar is not loaded / does not exist'
 
 		$admin = (isset($this->_View->request->params['admin']) && $this->_View->request->params['admin']) || (isset($params['admin']) && $params['admin']);
-		if($admin && (isset($params['admin']) && $params['admin'] == false)) {
+		if ($admin && (isset($params['admin']) && $params['admin'] == false)) {
 			$admin = false;
 		}
 
-		if($admin) {
+		if ($admin) {
 			$module = sprintf('admin/%s', $module);
 		}
 
@@ -179,9 +179,9 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		$pluginDir = App::pluginPath($plugin) . 'View' . DS  . 'Elements' . DS . $module . '.ctp';
 		$themeDir = App::themePath($this->theme) . $plugin . 'Elements' . DS . $module . '.ctp';
 
-		if(!is_file($pluginDir)) {
-			if(!is_file($themeDir)) {
-				if(Configure::read('debug')) {
+		if (!is_file($pluginDir)) {
+			if (!is_file($themeDir)) {
+				if (Configure::read('debug')) {
 					return sprintf(
 						'Could not find the module, looking in: <br/>%s<br/>%s',
 						str_replace(APP, 'APP' . DS, $pluginDir),
@@ -214,13 +214,13 @@ class ModuleLoaderHelper extends InfinitasHelper {
  * @return array
  */
 	private function __getModuleParams($module, $admin = null) {
-		if(!$admin) {
+		if (!$admin) {
 			$admin = isset($this->_View->request->params['admin']) ? $this->_View->request->params['admin'] : false;
 		}
 
-		if(is_string($module)) {
+		if (is_string($module)) {
 			$module = ClassRegistry::init('Modules.Module')->getModule($module, $admin);
-			if(empty($module)) {
+			if (empty($module)) {
 				return false;
 			}
 		}

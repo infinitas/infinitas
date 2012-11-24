@@ -45,7 +45,7 @@
 
 				case 'dropdown':
 					$_options = explode(',', $this->data['Config']['options']);
-					foreach($_options as $o) {
+					foreach ($_options as $o) {
 						$options[$o] = $o;
 					}
 

@@ -25,13 +25,13 @@ class AppEvents extends Object {
  * builds a list of available events
  */
 	public function  __construct() {
-		if(!empty($this->__events)) {
+		if (!empty($this->__events)) {
 			return true;
 		}
 
 		$this->__events = get_class_methods('AppEvents');
-		foreach($this->__events as $k => $event) {
-			if(substr($event, 0, 2) != 'on') {
+		foreach ($this->__events as $k => $event) {
+			if (substr($event, 0, 2) != 'on') {
 				unset($this->__events[$k]);
 			}
 		}
@@ -256,7 +256,7 @@ class AppEvents extends Object {
  *
  */
 	public function onSlugUrl(Event $Event, $data = null, $type = null) {
-		if(empty($data) || $type == null) {
+		if (empty($data) || $type == null) {
 			return false;
 		}
 
@@ -264,7 +264,7 @@ class AppEvents extends Object {
 		$data = Set::flatten($data);
 
 		$urlConfig = Configure::read($plugin . '.slugUrl.' . $type);
-		if(!$urlConfig) {
+		if (!$urlConfig) {
 			throw new Exception(sprintf('Configuration for url types "%s.%s" not found', $plugin, $type));
 		}
 
@@ -274,8 +274,8 @@ class AppEvents extends Object {
 		$url['plugin'] = Inflector::underscore($plugin);
 
 		$urlParams = array();
-		foreach($urlConfig as $key => $value) {
-			if(!empty($data[$key])) {
+		foreach ($urlConfig as $key => $value) {
+			if (!empty($data[$key])) {
 				$urlParams[$value] = $data[$key];
 			}
 		}

@@ -11,7 +11,7 @@
 	class TestRenameShell extends AppShell {
 		public function main() {
 			Configure::write('debug', 2);
-			foreach(CakePlugin::loaded() as $plugin) {
+			foreach (CakePlugin::loaded() as $plugin) {
 				$path = App::pluginPath($plugin) . 'Test';
 				$this->__moveFolders($path);
 			}
@@ -21,10 +21,10 @@
 			$this->Folder = new Folder($path);
 			$folders = $this->Folder->read();
 
-			foreach($folders[0] as $folder) {
+			foreach ($folders[0] as $folder) {
 				$old = $path . DS . $folder;
 				$new = $path . DS . Inflector::camelize($folder);
-				if($folder != Inflector::camelize($folder)) {
+				if ($folder != Inflector::camelize($folder)) {
 					`mv $old $new`;
 				}
 
@@ -37,15 +37,15 @@
 			$this->Folder = new Folder($path);
 			$files = $this->Folder->read();
 
-			foreach($files[1] as $file) {
+			foreach ($files[1] as $file) {
 				$old = $path . DS . $file;
 
 				$file = explode('.', $file, 2);
-				if($file[1] == 'php') {
+				if ($file[1] == 'php') {
 					$file[1] = '.' . $file[1];
 				}
 				$new = $path . DS . Inflector::camelize($file[0]) . ucfirst($file[1]);
-				if($old != $new) {
+				if ($old != $new) {
 					`mv $old $new`;
 				}
 			}

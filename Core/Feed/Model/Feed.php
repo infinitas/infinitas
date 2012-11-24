@@ -122,7 +122,7 @@ class Feed extends FeedAppModel {
 		);
 
 		$return = array();
-		foreach($feeds as $feed) {
+		foreach ($feeds as $feed) {
 			$return[] = array(
 				'name' => $feed[$this->alias]['name'],
 				'url' => Router::url(array(
@@ -146,7 +146,7 @@ class Feed extends FeedAppModel {
  * @return array
  */
 	public function getFeed($slug = null, $groupId = 999) {
-		if(!$slug) {
+		if (!$slug) {
 			return array();
 		}
 
@@ -161,7 +161,7 @@ class Feed extends FeedAppModel {
 			)
 		);
 
-		if(empty($mainFeed)) {
+		if (empty($mainFeed)) {
 			return array();
 		}
 
@@ -173,7 +173,7 @@ class Feed extends FeedAppModel {
 			)
 		);
 
-		if(empty($items)) {
+		if (empty($items)) {
 			return array();
 		}
 
@@ -188,11 +188,11 @@ class Feed extends FeedAppModel {
 		);
 
 
-		if(empty($items)) {
+		if (empty($items)) {
 			return array();
 		}
 
-		foreach($items as $item) {
+		foreach ($items as $item) {
 			$mainFeed['FeedItem'][] = $item['Feed'];
 		}
 
@@ -221,7 +221,7 @@ class Feed extends FeedAppModel {
 			'action' => $feed['Feed']['action']
 		);
 
-		foreach($feed['FeedItem'] as $item) {
+		foreach ($feed['FeedItem'] as $item) {
 			$plugin = Inflector::camelize($item['plugin']);
 			$controller = Inflector::camelize(Inflector::singularize($item['controller']));
 			$query['feed'][$plugin.'.'.$controller] = array(

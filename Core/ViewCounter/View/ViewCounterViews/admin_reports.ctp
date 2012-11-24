@@ -1,7 +1,7 @@
 <?php
-	if(isset($allModels) && $allModels) {
+	if (isset($allModels) && $allModels) {
 		$icons = array();
-		foreach($allModels as $model) {
+		foreach ($allModels as $model) {
 			$plugin = pluginSplit($model['ViewCounterView']['model']);
 			$icons[] = array(
 				'name' => __d(Inflector::underscore($plugin), Inflector::pluralize(implode(' ', $plugin))),
@@ -16,9 +16,9 @@
 			'ul' => 'icons'
 		));
 		echo $this->Design->dashboard($icons, __d('view_counter', 'Totals per model'));
-	} else if(isset($foreignKeys) && $foreignKeys) {
+	} else if (isset($foreignKeys) && $foreignKeys) {
 		$icons = array();
-		foreach($foreignKeys as $foreignKey) {
+		foreach ($foreignKeys as $foreignKey) {
 			$model = str_replace('.', '', $foreignKey['ViewCounterView']['model']);
 			$plugin = pluginSplit($foreignKey['ViewCounterView']['model']);
 			$icons[] = array(
@@ -36,7 +36,7 @@
 			'ul' => 'icons'
 		));
 		echo $this->Design->dashboard($icons, __d('view_counter', 'Views by Row'));
-	} else if(isset($relatedModel) && $relatedModel) {
+	} else if (isset($relatedModel) && $relatedModel) {
 		$title = __d('view_counter', 'Showing data for "%s", row 3%d',
 			$relatedModel[str_replace('.', '', $relatedModel['ViewCounterView']['model'])]['title'],
 			$relatedModel[str_replace('.', '', $relatedModel['ViewCounterView']['model'])]['id']

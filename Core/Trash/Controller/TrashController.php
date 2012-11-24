@@ -25,7 +25,7 @@ class TrashController extends TrashAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		if(isset($this->request->params['form']['action']) && $this->request->params['form']['action'] == 'cancel') {
+		if (isset($this->request->params['form']['action']) && $this->request->params['form']['action'] == 'cancel') {
 			unset($this->request->params['form']['action']);
 			$this->redirect(array_merge(array('action' => 'list_items'), $this->request->params['named']));
 		}
@@ -63,7 +63,7 @@ class TrashController extends TrashAppController {
  * @return void
  */
 	public function __massActionRestore($ids) {
-		if($this->Trash->restore($ids)) {
+		if ($this->Trash->restore($ids)) {
 			$this->notice(
 				__d('trash', 'The items have been restored'),
 				array(

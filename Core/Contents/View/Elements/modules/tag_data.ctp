@@ -1,5 +1,5 @@
 <?php
-	if(empty($tagData['GlobalTag']['description'])) {
+	if (empty($tagData['GlobalTag']['description'])) {
 		return;
 	}
 ?>
@@ -8,7 +8,7 @@
 	<blockquote>
 		<div class="description">
 			<?php
-				if(!$tagData['Tag']['description']) {
+				if (!$tagData['Tag']['description']) {
 					echo sprintf(
 						'<p>%s</p>',
 						'There does not seem to be a description for this tag'

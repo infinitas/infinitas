@@ -26,7 +26,7 @@ class ServerStatusEvents extends AppEvents {
 	}
 
 	public function onRequireJavascriptToLoad(Event $Event) {
-		if($Event->Handler->request->params['plugin'] == 'server_status') {
+		if ($Event->Handler->request->params['plugin'] == 'server_status') {
 			return array(
 				'ServerStatus.server_status'
 			);
@@ -42,7 +42,7 @@ class ServerStatusEvents extends AppEvents {
  * @return boolean
  */
 	public function onIrcMessage(Event $Event, $data = null) {
-		if($data['command'] != 'server') {
+		if ($data['command'] != 'server') {
 			return;
 		}
 
@@ -51,12 +51,12 @@ class ServerStatusEvents extends AppEvents {
 		$data['message'] = explode(' ', $data['message'], 2);
 
 		$message = ':to: Memory: :current Load: :load';
-		if($data['args']) {
+		if ($data['args']) {
 			$message = ':to: Invalid option, try: !server [current|max|load]';
-			if($data['args'] == 'help') {
+			if ($data['args'] == 'help') {
 				$message = ':to: !server [current|max|load]';
 			}
-			if(array_key_exists($data['args'], $memoryUsage)) {
+			if (array_key_exists($data['args'], $memoryUsage)) {
 				$message = ':to: :' . $data['args'];
 			}
 		}

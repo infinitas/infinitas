@@ -1,9 +1,9 @@
 <?php
-if(!($hasCampaign && $hasTemplate && $hasNewsletter)) { ?>
+if (!($hasCampaign && $hasTemplate && $hasNewsletter)) { ?>
 	<div class="dashboard grid_16">
 		<h1><?php echo __d('newsletter', 'Please setup the Newsletter plugin before use'); ?></h1>
 		<?php
-			if(!$hasTemplate) { ?>
+			if (!$hasTemplate) { ?>
 				<p class="info">
 					<?php
 						echo sprintf(
@@ -20,7 +20,7 @@ if(!($hasCampaign && $hasTemplate && $hasNewsletter)) { ?>
 				</p> <?php
 			}
 
-			if(!$hasCampaign) { ?>
+			if (!$hasCampaign) { ?>
 				<p class="info">
 					<?php
 						echo sprintf(
@@ -37,7 +37,7 @@ if(!($hasCampaign && $hasTemplate && $hasNewsletter)) { ?>
 				</p> <?php
 			}
 
-			if(!$hasNewsletter) { ?>
+			if (!$hasNewsletter) { ?>
 				<p class="info">
 					<?php
 						echo sprintf(
@@ -92,7 +92,7 @@ $links['main'] = array(
 	),
 );
 
-foreach($links as $name => &$link) {
+foreach ($links as $name => &$link) {
 	$link = $this->Design->arrayToList(current((array)$this->Menu->builDashboardLinks($link, 'newsletter_dashboard_' . $name)), array(
 		'ul' => 'icons'
 	));

@@ -29,7 +29,7 @@ class CronsEvents extends AppEvents {
  */
 	public function onRequireTodoList(Event $Event) {
 		$crons = $this->onAreCronsSetup($Event);
-		if(!$crons) {
+		if (!$crons) {
 			return array(
 				array(
 					'name' => __d('crons', 'Crons are not configured yet'),
@@ -39,7 +39,7 @@ class CronsEvents extends AppEvents {
 			);
 		}
 
-		if(date('Y-m-d H:i:s', strtotime('-' . Configure::read('Cron.run_every'))) > $crons) {
+		if (date('Y-m-d H:i:s', strtotime('-' . Configure::read('Cron.run_every'))) > $crons) {
 			return array(
 				array(
 					'name' => sprintf(__d('crons', 'The crons are not running, last run was %s'), $crons),

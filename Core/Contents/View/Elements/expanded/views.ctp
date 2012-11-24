@@ -1,5 +1,5 @@
 <?php
-	if(!InfinitasPlugin::loaded('ViewCounter') || empty($model) || empty($data['id'])) {
+	if (!InfinitasPlugin::loaded('ViewCounter') || empty($model) || empty($data['id'])) {
 		return false;
 	}
 	

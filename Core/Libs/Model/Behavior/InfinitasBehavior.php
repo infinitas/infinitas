@@ -103,11 +103,11 @@ class InfinitasBehavior extends ModelBehavior {
  */
 	public function getTables(Model $Model, $connection = 'default') {
 		$this->db = ConnectionManager::getDataSource($connection);
-		if(!$this->db) {
+		if (!$this->db) {
 			return false;
 		}
 		$tables = Cache::read($connection . '_tables', 'core');
-		if($tables != false) {
+		if ($tables != false) {
 			return $tables;
 		}
 
@@ -132,12 +132,12 @@ class InfinitasBehavior extends ModelBehavior {
  */
 	public function getTablesAdvanced(Model $Model, $connection = 'default') {
 		$this->db = ConnectionManager::getDataSource($connection);
-		if(!$this->db) {
+		if (!$this->db) {
 			return false;
 		}
 
 		$tables = Cache::read($connection.'_tables_advanced', 'core');
-		if($tables != false) {
+		if ($tables != false) {
 			return $tables;
 		}
 
@@ -168,7 +168,7 @@ class InfinitasBehavior extends ModelBehavior {
 
 		$this->db	= ConnectionManager::getDataSource($connection);
 
-		foreach($tableNames as $table ) {
+		foreach ($tableNames as $table ) {
 			$fields = $this->db->query('DESCRIBE '.$table);
 			$fields = Set::extract('/COLUMNS/Field', $fields);
 
@@ -212,11 +212,11 @@ class InfinitasBehavior extends ModelBehavior {
  * @return string
  */
 	private function __getDateField(Model $Model) {
-		if($Model->hasField('created')) {
+		if ($Model->hasField('created')) {
 			return 'created';
 		}
 
-		else if($Model->hasField('modified')) {
+		else if ($Model->hasField('modified')) {
 			return 'modified';
 		}
 	}
@@ -233,7 +233,7 @@ class InfinitasBehavior extends ModelBehavior {
 	public function getChangeFrequency(Model $Model) {
 		$field = $this->__getDateField($Model);
 
-		if(!$field) {
+		if (!$field) {
 			return 'weekly';
 		}
 
@@ -253,12 +253,12 @@ class InfinitasBehavior extends ModelBehavior {
 			)
 		);
 
-		if(!isset($data[0][0])) {
+		if (!isset($data[0][0])) {
 			return 'weekly';
 		}
 
 		$data = $data[0][0];
-		if($data['count'] == 0)  {
+		if ($data['count'] == 0)  {
 			$data['count'] = 1;
 		}
 
@@ -268,8 +268,8 @@ class InfinitasBehavior extends ModelBehavior {
 
 		$average = ($timeSinceLast + $timeBetweenChanges) / 2;
 
-		foreach($this->__frequency as $time => $frequency) {
-			if($average > $time) {
+		foreach ($this->__frequency as $time => $frequency) {
+			if ($average > $time) {
 				return $frequency;
 			}
 		}
@@ -286,7 +286,7 @@ class InfinitasBehavior extends ModelBehavior {
 	public function getNewestRow(Model $Model) {
 		$field = $this->__getDateField($Model);
 
-		if(!$field) {
+		if (!$field) {
 			return false;
 		}
 
@@ -303,7 +303,7 @@ class InfinitasBehavior extends ModelBehavior {
 			)
 		);
 
-		if(empty($row)) {
+		if (empty($row)) {
 			return false;
 		}
 
@@ -362,16 +362,16 @@ class InfinitasBehavior extends ModelBehavior {
  * @return array
  */
 	public function getJsonRecursive(Model $Model, $data = array(), $config = array()) {
-		if(!is_array($data)) {
+		if (!is_array($data)) {
 			$data = (array)$data;
 		}
 
-		foreach($data as $k => $v) {
-			if(is_array($v)) {
+		foreach ($data as $k => $v) {
+			if (is_array($v)) {
 				$data[$k] = $this->getJsonRecursive($Model, $v, $config, true);
 			}
 
-			if(self::getJson($Model, $v, $config, false)) {
+			if (self::getJson($Model, $v, $config, false)) {
 				$data[$k] = $this->getJson($Model, $v, $config, true);
 			}
 		}
@@ -398,7 +398,7 @@ class InfinitasBehavior extends ModelBehavior {
 
 		$return = array();
 
-		foreach($array as $k => $v) {
+		foreach ($array as $k => $v) {
 			if (is_array($v)) {
 				continue;
 			}
@@ -425,7 +425,7 @@ class InfinitasBehavior extends ModelBehavior {
 			return $plugins;
 		}
 
-		foreach($plugins as $plugin) {
+		foreach ($plugins as $plugin) {
 			if (!in_array($plugin, $this->blockedPlugins)) {
 				$return[$plugin] = $plugin;
 			}
@@ -446,7 +446,7 @@ class InfinitasBehavior extends ModelBehavior {
  * @return array
  */
 	public function getControllers(Model $Model, $plugin) {
-		if(empty($plugin)) {
+		if (empty($plugin)) {
 			return false;
 		}
 
@@ -457,13 +457,13 @@ class InfinitasBehavior extends ModelBehavior {
 			false
 		);
 		$controllers = array();
-		foreach($list as $controller) {
-			if($controller == $plugin . 'AppController') {
+		foreach ($list as $controller) {
+			if ($controller == $plugin . 'AppController') {
 				continue;
 			}
 
 			$name = str_replace(array($plugin, 'Controller'), '', $controller);
-			if(empty($name)) {
+			if (empty($name)) {
 				$name = sprintf('%s - %s', str_replace(array('Controller'), '', $controller), __d(Inflector::underscore($plugin), 'main'));
 
 				$controllers = array_merge(array($controller => $name), $controllers);
@@ -496,8 +496,8 @@ class InfinitasBehavior extends ModelBehavior {
 		);
 
 		$models = array();
-		foreach($list as $model) {
-			if($model == $plugin . 'AppModel') {
+		foreach ($list as $model) {
+			if ($model == $plugin . 'AppModel') {
 				continue;
 			}
 
@@ -530,12 +530,12 @@ class InfinitasBehavior extends ModelBehavior {
 		$ignore = $this->_filterMethods();
 
 		$actions = array();
-		foreach((array)$list as $action) {
+		foreach ((array)$list as $action) {
 			if (in_array($action, $ignore) || strpos($action, '_') === 0) {
 				continue;
 			}
 			else{
-				if(strstr($action, 'admin')) {
+				if (strstr($action, 'admin')) {
 					$actions[__d('infinitas', 'Admin')][$action] = str_replace('admin_', '', $action);
 					continue;
 				}
@@ -559,7 +559,7 @@ class InfinitasBehavior extends ModelBehavior {
 		try {
 			$_Model = ClassRegistry::init($plugin . '.' . $model);
 
-			if(!isset($_Model->contentable) || !$_Model->contentable) {
+			if (!isset($_Model->contentable) || !$_Model->contentable) {
 				return $_Model->find('list');
 			}
 
@@ -593,7 +593,7 @@ class InfinitasBehavior extends ModelBehavior {
 		$ignores = get_class_methods('AppController');
 		$dontIgnores = get_class_methods('Controller');
 
-		foreach($ignores as &$ignore) {
+		foreach ($ignores as &$ignore) {
 			if (in_array($ignore, $dontIgnores)) {
 				unset($ignore);
 			}
@@ -624,7 +624,7 @@ class InfinitasBehavior extends ModelBehavior {
 			$class = Inflector::camelize($plugin).'.'.Inflector::classify($model);
 		}
 		$this->Model = !empty($class) ? ClassRegistry::init($class) : $Model;
-		if(get_class($this->Model) == 'AppModel' && !$this->Model->useTable) {
+		if (get_class($this->Model) == 'AppModel' && !$this->Model->useTable) {
 			return false;
 		}
 
@@ -672,7 +672,7 @@ class InfinitasBehavior extends ModelBehavior {
 			array_combine(range('a', 'z'), array_fill(0, 26, false))
 		);
 
-		foreach($found as $value) {
+		foreach ($found as $value) {
 			switch($value) {
 				case is_int($value):
 					$return['#'] = 1;
@@ -705,22 +705,22 @@ class InfinitasBehavior extends ModelBehavior {
  * @return string
  */
 	public function getRootNode(Model $Model, $conditions = array()) {
-		if(!is_callable(array($Model, 'generateTreeList'))) {
+		if (!is_callable(array($Model, 'generateTreeList'))) {
 			return false;
 		}
 
 		$data = $Model->generateTreeList($conditions, null, null, '@', -1);
 
 		$roots = array();
-		foreach($data as $id => $name) {
-			if(substr($name, 0, 1) != '@') {
+		foreach ($data as $id => $name) {
+			if (substr($name, 0, 1) != '@') {
 				$roots[] = $id;
 			}
 		}
 
 		unset($data);
 
-		if(count($roots) != 1) {
+		if (count($roots) != 1) {
 			return false;
 		}
 
@@ -738,7 +738,7 @@ class InfinitasBehavior extends ModelBehavior {
  * @return array
  */
 	public function getLinkData(Model $Model, $id = null) {
-		if(is_null($id)) {
+		if (is_null($id)) {
 			$id = $Model->id;
 		}
 
@@ -761,12 +761,12 @@ class InfinitasBehavior extends ModelBehavior {
  *
  * @code
  * // auto load FooBehavior to any model if its not attached or in actsAs
- *	if($Model->shouldAutoAttachBehavior('Foo')) {
+ *	if ($Model->shouldAutoAttachBehavior('Foo')) {
  *		$Model->Behaviors->attach('Foo');
  *	}
  *
  * // auto load FooBehavior to any model with the `bar` field if its not attached or in actsAs
- *	if($Model->shouldAutoAttachBehavior('Foo', array('bar'))) {
+ *	if ($Model->shouldAutoAttachBehavior('Foo', array('bar'))) {
  *		$Model->Behaviors->attach('Foo');
  *	}
  * @endcode
@@ -778,28 +778,28 @@ class InfinitasBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function shouldAutoAttachBehavior(Model $Model, $behavior = null, $onlyWithFields = array()) {
-		if(!is_subclass_of($Model, 'Model')) {
+		if (!is_subclass_of($Model, 'Model')) {
 			return false;
 		}
 
-		if($Model->useTable == false) {
+		if ($Model->useTable == false) {
 			return false;
 		}
 
 		$schema = $Model->schema();
-		if(empty($schema)) {
+		if (empty($schema)) {
 			return false;
 		}
 
-		if($behavior === null) {
+		if ($behavior === null) {
 			return true;
 		}
 
 
-		if(!isset($Model->actsAs[$behavior]) && !in_array($behavior, $Model->actsAs) && !$Model->Behaviors->enabled($behavior)) {
+		if (!isset($Model->actsAs[$behavior]) && !in_array($behavior, $Model->actsAs) && !$Model->Behaviors->enabled($behavior)) {
 			$should = true;
-			if(!empty($onlyWithFields)) {
-				foreach((array)$onlyWithFields as $field) {
+			if (!empty($onlyWithFields)) {
+				foreach ((array)$onlyWithFields as $field) {
 					$should = $should && $Model->hasField($field);
 				}
 			}

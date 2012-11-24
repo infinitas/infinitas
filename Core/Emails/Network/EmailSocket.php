@@ -186,8 +186,8 @@
 		 * @return ImapSocket
 		 */
 		public function set($name, $value = false) {
-			if(is_array($name)) {
-				foreach($name as $key => $value) {
+			if (is_array($name)) {
+				foreach ($name as $key => $value) {
 					self::set($key, $value);
 				}
 
@@ -207,28 +207,28 @@
 		 * @return ImapInterface
 		 */
 		public function __set($name, $value = null) {
-			if(substr($name, 0, 1) === '_') {
+			if (substr($name, 0, 1) === '_') {
 				return $this->{$name} = $value;
 			}
 
-			if(!array_key_exists($name, $this->__connectionOptions)) {
+			if (!array_key_exists($name, $this->__connectionOptions)) {
 				throw new EmailSocketConfigOptionException(array($name));
 			}
 
-			if($name == 'server') {
+			if ($name == 'server') {
 				$name = 'host';
 			}
 
 			switch($name) {
 				case 'port':
-					if((int)$value == 0) {
+					if ((int)$value == 0) {
 						throw new EmailSocketConfigValueException(array($value, $name));
 					}
 					$value = intval($value);
 					break;
 
 				case 'ssl':
-					if($value === true) {
+					if ($value === true) {
 						$this->config['request']['uri']['scheme'] = 'https';
 					}
 					$this->config[$name] = (bool)$value;
@@ -236,10 +236,10 @@
 
 				case 'host':
 				case 'username':
-					if(empty($value)) {
+					if (empty($value)) {
 						throw new EmailSocketConfigOptionException(array($name));
 					}
-					if(!is_string($value)) {
+					if (!is_string($value)) {
 						throw new EmailSocketConfigValueException(array($value, $name));
 					}
 					break;
@@ -269,11 +269,11 @@
 		public function login() {
 			parent::connect();
 
-			if(!parent::read(1024, 'isOk')) {
+			if (!parent::read(1024, 'isOk')) {
 				throw new EmailSocketCommunicationException(array('Server not responding, exiting'));
 			}
 
-			if(!$this->_getCapabilities()) {
+			if (!$this->_getCapabilities()) {
 				$this->error('Unable to get the sockets capabilities');
 			}
 
@@ -303,8 +303,8 @@
 		 */
 		public function read($size = 1024, $method = false) {
 			$data = $this->_read($size);
-			if($data) {
-				if($method && is_callable(array($this, $method))) {
+			if ($data) {
+				if ($method && is_callable(array($this, $method))) {
 					$method = '_' . $method;
 					return $this->{$method}($data);
 				}
@@ -323,8 +323,8 @@
 		public function write($data, $method = false, $size = 1024) {
 			$didWrite = parent::write($data . $this->eol);
 
-			if($didWrite && $size > 0) {
-				if($method && is_callable(array($this, '_' . $method))) {
+			if ($didWrite && $size > 0) {
+				if ($method && is_callable(array($this, '_' . $method))) {
 					$data = $this->read($size, $method);
 					$method = '_' . $method;
 					return $this->{$method}($data);
@@ -337,10 +337,10 @@
 		}
 
 		protected function _getSize($data) {
-			if(!$this->_isOk($data)) {
+			if (!$this->_isOk($data)) {
 				return 0;
 			}
-			/*if(strstr($data, ' messages ')) {
+			/*if (strstr($data, ' messages ')) {
 				$data = explode('(', $data, 2);
 				$data = explode(' ', isset($data[1]) ? $data[1] : '');
 				return isset($data[0]) ? $data[0] : false;
@@ -361,7 +361,7 @@
 		 */
 		public function lastResponse() {
 			$index = count($this->_response) - 1;
-			if($index < 0 || !isset($this->_response[$index])) {
+			if ($index < 0 || !isset($this->_response[$index])) {
 				return false;
 			}
 
@@ -388,7 +388,7 @@
 		 * @return array
 		 */
 		public function _cleanData($data) {
-			if($data === false || empty($data)) {
+			if ($data === false || empty($data)) {
 				return false;
 			}
 
@@ -404,7 +404,7 @@
 		 * Generate a unique cache key for the server that is being used.
 		 */
 		private function __cacheKey() {
-			if(!$this->__cacheKey) {
+			if (!$this->__cacheKey) {
 				$this->__cacheKey = sha1(serialize(array($this->config['host'], $this->config['type'], $this->config['port'], $this->config['ssl'])));
 			}
 

@@ -143,7 +143,7 @@ LICENCE;
 			$text = explode('</p><p>', str_replace(array("\n", '&copy;'), array('', '©'), $this->__license['html']));
 
 			$this->__license['text'] = '';
-			foreach($text as $t) {
+			foreach ($text as $t) {
 				$this->__license['text'] .= wordwrap(strip_tags($t), 75, "\r\n");
 				$this->__license['text'] .= "\r\n";
 			}
@@ -176,13 +176,13 @@ LICENCE;
 
 			App::uses('FolderSymlink', 'Filemanager.Utility');
 			$FolderSymlink = new FolderSymlink();
-			foreach($plugins as $plugin) {
+			foreach ($plugins as $plugin) {
 				$pluginWebroot = App::pluginPath($plugin) . 'webroot' . DS;
-				if(!is_dir($pluginWebroot)) {
+				if (!is_dir($pluginWebroot)) {
 					continue;
 				}
 
-				if(!is_dir(getcwd() . DS . $plugin)) {
+				if (!is_dir(getcwd() . DS . $plugin)) {
 					$FolderSymlink->create(WWW_ROOT . Inflector::underscore($plugin), $pluginWebroot);
 				}
 			}
@@ -218,12 +218,12 @@ LICENCE;
 		public function checkCore() {
 			$core = array();
 
-			if(phpversion() < $this->__phpVersion) {
+			if (phpversion() < $this->__phpVersion) {
 				$core[] = sprintf(__d('installer', 'PHP version %s detected, %s needs at least version %s.'), phpversion(), 'Infinitas', $this->__phpVersion . '.x');
 			}
 
-			foreach($this->__requiredExtensions as $extension => $message) {
-				if(!extension_loaded($extension)) {
+			foreach ($this->__requiredExtensions as $extension => $message) {
+				if (!extension_loaded($extension)) {
 					$core[] = __d('installer', $message);
 				}
 			}
@@ -239,7 +239,7 @@ LICENCE;
 		public function checkPaths() {
 			$paths = array();
 
-			foreach($this->__paths as $path => $options) {
+			foreach ($this->__paths as $path => $options) {
 				switch($options['type']) {
 					case 'write':
 						$function = 'is_writable';
@@ -247,7 +247,7 @@ LICENCE;
 					default:
 						$function = 'is_readable';
 				}
-				if(!$function(APP.$path)) {
+				if (!$function(APP.$path)) {
 					$paths[] = sprintf(__d('installer', $options['message']), APP.$path);
 				}
 			}
@@ -265,8 +265,8 @@ LICENCE;
 		public function checkIniSettings() {
 			$recomendations = array();
 
-			foreach($this->__recommendedIniSettings as $k => $setting) {
-				if((int)ini_get($setting['setting']) !== $setting['recomendation']) {
+			foreach ($this->__recommendedIniSettings as $k => $setting) {
+				if ((int)ini_get($setting['setting']) !== $setting['recomendation']) {
 					$setting['current'] = (int)ini_get($setting['setting']);
 					$setting['desc'] = __d('installer', $setting['desc']);
 					$recomendations[] = $setting;
@@ -279,7 +279,7 @@ LICENCE;
 		private function __getData($type, $from) {
 			$type = (string)$type;
 
-			if(!isset($this->{$from}[$type])) {
+			if (!isset($this->{$from}[$type])) {
 				$type = 'html';
 			}
 
@@ -291,8 +291,8 @@ LICENCE;
 		 * @return array
 		 */
 		public function getSupportedDbs($databaseSupported = false) {
-			foreach($this->__supportedDatabases as $cakeType => $supportedDatabase) {
-				if(function_exists($supportedDatabase['function'])) {
+			foreach ($this->__supportedDatabases as $cakeType => $supportedDatabase) {
+				if (function_exists($supportedDatabase['function'])) {
 					$this->__supportedDatabases[$cakeType]['has'] = sprintf(
 						__d('installer', '%s (Version %s or newer)'), $supportedDatabase['name'], $supportedDatabase['version']
 					);
@@ -314,11 +314,11 @@ LICENCE;
 			$Install = new Install(false, false, false);
 			$Install->set($connection);
 
-			if(!$Install->validates()) {
+			if (!$Install->validates()) {
 				return false;
 			}
 
-			if($return) {
+			if ($return) {
 				return $Install->data;
 			}
 
@@ -330,25 +330,25 @@ LICENCE;
 		 */
 		public function testConnection($connection = array()) {
 			$connection = $this->__validDbConfig($connection, true);
-			if(!$connection) {
+			if (!$connection) {
 				return false;
 			}
 
 			$adminConnectionDetails = (!isset($connection['Admin'])) ? false : array_merge($connection['Install'], $connection['Admin']);
 			$InstallerConnection = ConnectionManager::create('installer', $connection['Install']);
-			if(!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
+			if (!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
 				return false;
 			}
 
-			if(isset($connection['Admin']['login']) && trim($connection['Admin']['login']) != '') {
+			if (isset($connection['Admin']['login']) && trim($connection['Admin']['login']) != '') {
 				$InstallerRootConnection = ConnectionManager::create('admin', $adminConnectionDetails);
-				if(!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
+				if (!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
 					return false;
 				}
 			}
 
 			$version = $this->__databaseVersion($connection['Install']);
-			if(version_compare($version, $this->__supportedDatabases[$connection['Install']['datasource']]['version']) >= 0) {
+			if (version_compare($version, $this->__supportedDatabases[$connection['Install']['datasource']]['version']) >= 0) {
 				return true;
 			}
 
@@ -372,7 +372,7 @@ LICENCE;
 				'app' => $this->installPlugin($Version, $dbConfig, 'app')
 			);
 
-			foreach($plugins as $plugin) {
+			foreach ($plugins as $plugin) {
 				try{
 					$result[$plugin] = $this->installPlugin($Version, $dbConfig, $plugin);
 				} catch(Exception $e) {
@@ -382,8 +382,8 @@ LICENCE;
 			}
 
 			$this->Plugin = ClassRegistry::init('Installer.Plugin');
-			foreach($plugins as $pluginName) {
-				if(!InfinitasPlugin::isPlugin($pluginName)) {
+			foreach ($plugins as $pluginName) {
+				if (!InfinitasPlugin::isPlugin($pluginName)) {
 					continue;
 				}
 				$this->Plugin->installPlugin($pluginName, array(
@@ -399,14 +399,14 @@ LICENCE;
 			$configPath = APP . 'Config' . DS;
 			$checkFile = $configPath . 'releases' . DS . 'map.php';
 
-			if($plugin !== 'app') {
+			if ($plugin !== 'app') {
 				$pluginPath = InfinitasPlugin::path($plugin);
 				$configPath = $pluginPath . 'Config' . DS;
 				$checkFile = $configPath . 'config.json';
 			}
 
 			$versionResult = false;
-			if(file_exists($checkFile) && file_exists($configPath . 'releases' . DS . 'map.php')) {
+			if (file_exists($checkFile) && file_exists($configPath . 'releases' . DS . 'map.php')) {
 				$this->config = array_merge(array('sample_data' => false), $this->config);
 				$latest = $Version->getMapping($plugin);
 				$latest = array_pop($latest);
@@ -418,7 +418,7 @@ LICENCE;
 						'sample' => (bool)$this->config['sample_data']
 					)
 				);
-			} else if(file_exists($checkFile)) {
+			} else if (file_exists($checkFile)) {
 				// databaseless plugin, but it has a config file
 				return true;
 			}
@@ -478,11 +478,11 @@ LICENCE;
 			$config = $connectionDetails['connection'];
 			unset($config['step']);
 
-			if(empty($config['port']) || trim($config['port']) == '') {
+			if (empty($config['port']) || trim($config['port']) == '') {
 				unset($config['port']);
 			}
 
-			if(empty($config['prefix']) || trim($config['prefix']) == '') {
+			if (empty($config['prefix']) || trim($config['prefix']) == '') {
 				unset($config['prefix']);
 			}
 
@@ -491,7 +491,7 @@ LICENCE;
 				isset($connectionDetails['root']) ? (array)$connectionDetails['root'] : array()
 			);
 
-			if($connectionDetails['root']['login'] && $connectionDetails['root']['password']) {
+			if ($connectionDetails['root']['login'] && $connectionDetails['root']['password']) {
 				$config['login'] = $connectionDetails['root']['login'];
 				$config['password'] = $connectionDetails['root']['password'];
 			}

@@ -51,14 +51,14 @@ class ContactsHelper extends AppHelper {
 
 		$flag = $this->Html->image(sprintf('Contact.flags/%s/%s.png', $size, $code), $options);
 
-		if($options['name'] == true) {
+		if ($options['name'] == true) {
 			return $flag . $this->Html->tag('span', $code);
 		}
 		return $flag;
 	}
 
 	public function drawCard($details) {
-		if(is_array(current($details))) {
+		if (is_array(current($details))) {
 			$this->drawCards($details);
 		}
 
@@ -80,7 +80,7 @@ class ContactsHelper extends AppHelper {
 		), $details);
 
 		$return = array();
-		if(!empty($details['avitar'])) {
+		if (!empty($details['avitar'])) {
 			$return[] = $this->Html->image(
 				$details['avitar'],
 				array(
@@ -90,30 +90,30 @@ class ContactsHelper extends AppHelper {
 			);
 		}
 
-		if(!empty($details['mobile'])) {
+		if (!empty($details['mobile'])) {
 			$return[] = $this->Html->tag('li', $details['mobile'], array('class' => 'mobile'));
 		}
 
-		if(!empty($details['landline'])) {
+		if (!empty($details['landline'])) {
 			$return[] = $this->Html->tag('li', $details['landline'], array('class' => 'landline'));
 		}
 
-		if(!empty($details['email'])) {
+		if (!empty($details['email'])) {
 			$return[] = $this->Html->tag('li', $this->Text->autoLinkEmails($details['email']), array('class' => 'email'));
 		}
 
-		if(!empty($details['address'])) {
+		if (!empty($details['address'])) {
 			$return[] = $this->Html->tag('li', $details['address'], array('class' => 'address'));
 		}
 
-		if(!empty($details['extra'])) {
+		if (!empty($details['extra'])) {
 			$return[] = $this->Html->tag('li', $details['extra'], array('class' => 'extra'));
 		}
 
 		$name = $details['user'];
-		if(empty($details['user']) && !empty($details['company'])) {
+		if (empty($details['user']) && !empty($details['company'])) {
 			$name = $details['company'];
-		} else if(!empty($details['company'])) {
+		} else if (!empty($details['company'])) {
 			$name = sprintf('%s - %s', $details['company'], $details['user']);
 		}
 

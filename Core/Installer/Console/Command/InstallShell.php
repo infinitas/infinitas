@@ -121,7 +121,7 @@ class InstallShell extends AppShell {
  * install a clean app
  */
 	public function everything() {
-		foreach($this->InstallerLib->steps as $step) {
+		foreach ($this->InstallerLib->steps as $step) {
 			print_r($this->Installer->{$step}());
 		}
 	}

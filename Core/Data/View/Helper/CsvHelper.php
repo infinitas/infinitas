@@ -46,16 +46,16 @@ class CsvHelper extends AppHelper {
  * @return boolean
  */
 	public function output($rows = null, $params = array(), $generated = true) {
-		if(!$rows || empty($params)) {
+		if (!$rows || empty($params)) {
 			return false;
 		}
 
 		$row = array();
 
 		if (!empty($rows)) {
-			foreach($params['needed'][key($params['needed'])] as $head) {
+			foreach ($params['needed'][key($params['needed'])] as $head) {
 				if (!in_array($head, $this->ignore)) {
-					if($head == 'id') {
+					if ($head == 'id') {
 						$parts[] = __d('data', Inflector::humanize(key($params['needed']))).' #';
 						continue;
 					}
@@ -65,12 +65,12 @@ class CsvHelper extends AppHelper {
 
 			$row[] = implode(',', $parts);
 
-			foreach($rows as $k => $array) {
+			foreach ($rows as $k => $array) {
 				$parts = array();
 
-				foreach($array[key($params['needed'])] as $field => $value) {
+				foreach ($array[key($params['needed'])] as $field => $value) {
 					if (!in_aray($field, $this->ignore)) {
-						if($field == 'id') {
+						if ($field == 'id') {
 							$parts[] = str_pad($value, 5, 0, STR_PAD_LEFT);
 						}
 
@@ -94,7 +94,7 @@ class CsvHelper extends AppHelper {
 			}
 		}
 
-		if($generated) {
+		if ($generated) {
 			$row[] = '';
 			$row[] = sprintf(__d('data', 'Generated on the %s at %s by %s'), date('Y-m-d'), date('H:m:s'), AuthComponent::user('username'));
 		}

@@ -165,11 +165,11 @@ class UploadBehavior extends ModelBehavior {
 			$Model->alias . '.' . $field
 		);
 
-		if(empty($this->settings[$Model->alias][$field]['thumbnailSizes'])) {
+		if (empty($this->settings[$Model->alias][$field]['thumbnailSizes'])) {
 			return true;
 		}
 
-		foreach($this->settings[$Model->alias][$field]['thumbnailSizes'] as $name => $size) {
+		foreach ($this->settings[$Model->alias][$field]['thumbnailSizes'] as $name => $size) {
 			$Model->virtualFields[$field .  '_' . $name] = sprintf(
 				$virtualFieldTemplate,
 				$Model->alias . '.' . $field,
@@ -191,7 +191,7 @@ class UploadBehavior extends ModelBehavior {
  * @return array
  */
 	public function uploadImageSizes(Model $Model, $field) {
-		if(empty($this->settings[$Model->alias][$field]['thumbnailSizes'])) {
+		if (empty($this->settings[$Model->alias][$field]['thumbnailSizes'])) {
 			return array();
 		}
 		return array_keys($this->settings[$Model->alias][$field]['thumbnailSizes']);
@@ -209,11 +209,11 @@ class UploadBehavior extends ModelBehavior {
  * @return string
  */
 	public function uploadImageUrl(Model $Model, $field, $id, $file, $size = null) {
-		if($size) {
+		if ($size) {
 			$file = sprintf('%s_%s', $size, $file);
 		}
 
-		if(empty($id)) {
+		if (empty($id)) {
 			return $this->emptyFilePath();
 		}
 
@@ -448,7 +448,7 @@ class UploadBehavior extends ModelBehavior {
 		}
 
 		if (!empty($temp[$model->alias])) {
-			foreach($temp[$model->alias] as $field => $value) {
+			foreach ($temp[$model->alias] as $field => $value) {
 				$model->saveField($field, $value);
 			}
 		}
@@ -475,7 +475,7 @@ class UploadBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function handleUploadedFile($modelAlias, $field, $tmp, $filePath) {
-		if(php_sapi_name() == 'cli') {
+		if (php_sapi_name() == 'cli') {
 			$copy = !@copy($tmp, $filePath);
 			unlink($tmp);
 			return $copy;
@@ -525,7 +525,7 @@ class UploadBehavior extends ModelBehavior {
  */
 	public function afterDelete(Model $model) {
 		$result = array();
-		if(empty($this->__filesToRemove[$model->alias])) {
+		if (empty($this->__filesToRemove[$model->alias])) {
 			return array();
 		}
 
@@ -1644,7 +1644,7 @@ class UploadBehavior extends ModelBehavior {
  * @return string|boolean
  */
 	public function uploadFilePath(Model $Model, $field = '') {
-		if(isset($this->settings[$Model->alias][$field]['path'])) {
+		if (isset($this->settings[$Model->alias][$field]['path'])) {
 			return str_replace('webroot/img/', '', $this->settings[$Model->alias][$field]['path']);
 		}
 

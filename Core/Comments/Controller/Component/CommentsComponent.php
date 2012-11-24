@@ -24,7 +24,7 @@
 				$this->Controller->request->data[$this->Controller->modelClass.'Comment']['ip_address'] = $this->Controller->request->clientIp();
 				$this->Controller->request->data[$this->Controller->modelClass.'Comment']['class'] = $this->Controller->request->plugin . '.' . $this->Controller->modelClass;
 
-				if(!empty($this->Controller->request->data[$this->Controller->modelClass.'Comment']['om_non_nom'])) {
+				if (!empty($this->Controller->request->data[$this->Controller->modelClass.'Comment']['om_non_nom'])) {
 					$this->Controller->Session->write('Spam.bot', true);
 					$this->Controller->Session->write('Spam.detected', time());
 

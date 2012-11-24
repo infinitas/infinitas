@@ -1,5 +1,5 @@
 <?php
-	foreach($categories as &$category) {
+	foreach ($categories as &$category) {
 		$event = $this->Event->trigger('Contents.slugUrl', array('type' => 'category', 'data' => $category));
 		
 		$category['GlobalCategory']['url'] = Router::url($event['slugUrl']['Contents'], true);

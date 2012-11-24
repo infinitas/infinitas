@@ -32,7 +32,7 @@
 			}
 
 			$_response = json_decode($response);
-			if(!empty($_response)) {
+			if (!empty($_response)) {
 				$response = $_response;
 			}
 

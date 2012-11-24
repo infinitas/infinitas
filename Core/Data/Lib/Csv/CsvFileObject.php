@@ -94,12 +94,12 @@ class CsvFileObject extends SplFileObject {
  * @return array
  */
 	public function headings() {
-		if($this->hasHeadings() && empty($this->_headings)) {
+		if ($this->hasHeadings() && empty($this->_headings)) {
 			$this->rewind();
 			$this->_headings = $this->fgetcsv();
 
-			foreach($this->_headings as &$heading) {
-				if(strstr($heading, '.') === false) {
+			foreach ($this->_headings as &$heading) {
+				if (strstr($heading, '.') === false) {
 					$heading = array($this->_model, $heading);
 				} else {
 					$heading = pluginSplit($heading);
@@ -111,7 +111,7 @@ class CsvFileObject extends SplFileObject {
 				$heading = implode('.', array_filter($heading));
 			}
 
-			if(count($this->_headings) != count(array_unique($this->_headings))) {
+			if (count($this->_headings) != count(array_unique($this->_headings))) {
 				throw new CakeException('Some headings are not unique (Case insensitive)');
 			}
 		}
@@ -126,12 +126,12 @@ class CsvFileObject extends SplFileObject {
  */
 	public function read() {
 		$row = $this->fgetcsv();
-		if(count($row) === 1 && is_null(current($row)) || is_null($row)) {
+		if (count($row) === 1 && is_null(current($row)) || is_null($row)) {
 			return array();
 		}
 
 		$headings = $this->headings();
-		if(!empty($headings)) {
+		if (!empty($headings)) {
 			$row = array_combine($headings, $row);
 		}
 

@@ -146,7 +146,7 @@
 	 *
 	 * @code
 	 *	// customized css for the layout
-	 *	if(!empty($post['Layout']['css'])) {
+	 *	if (!empty($post['Layout']['css'])) {
 	 *		?><style type="text/css"><?php echo $post['Layout']['css']; ?></style><?php
 	 *	}
 	 *
@@ -175,7 +175,7 @@
 	 *	$this->set('post', $post);
 	 *
 	 *	// customized css for the layout
-	 *	if(!empty($post['Layout']['css'])) {
+	 *	if (!empty($post['Layout']['css'])) {
 	 *		?><style type="text/css"><?php echo $post['Layout']['css']; ?></style><?php
 	 *	}
 	 *

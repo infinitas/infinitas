@@ -100,7 +100,7 @@ class ContactsController extends ContactAppController {
 		parent::admin_add();
 
 		$branches = $this->Contact->Branch->find('list');
-		if(empty($branches)) {
+		if (empty($branches)) {
 			$this->notice(__d('contact', 'Please add a branch first'), array('level' => 'notice','redirect' => array('controller' => 'branches')));
 		}
 		$this->set(compact('branches'));

@@ -140,20 +140,20 @@ class EmailSource extends DataSource {
 			return true;
 		}
 
-		if(!isset($query['conditions']) || empty($query['conditions'])) {
+		if (!isset($query['conditions']) || empty($query['conditions'])) {
 			return false;
 		}
 
-		if(!empty($query['conditions'][$Model->alias . '.account'])) {
+		if (!empty($query['conditions'][$Model->alias . '.account'])) {
 			$this->_connectionDetails($Model, $query['conditions'][$Model->alias . '.account'], $query['conditions']);
 		}
 
 		$type = null;
-		if(!empty($query['conditions'][$Model->alias . '.type'])) {
+		if (!empty($query['conditions'][$Model->alias . '.type'])) {
 			$type = $query['conditions'][$Model->alias . '.type'];
 		}
 
-		if(!$this->_loadSocket($type)) {
+		if (!$this->_loadSocket($type)) {
 			return false;
 		}
 
@@ -162,9 +162,9 @@ class EmailSource extends DataSource {
 			'slug', 'name', 'account', 'user_id', 'email', 'readonly'
 		);
 		$connection = array();
-		foreach($query['conditions'] as $k => $v) {
+		foreach ($query['conditions'] as $k => $v) {
 			$k = str_replace($Model->alias . '.', '', $k);
-			if(in_array($k, $ignore)) {
+			if (in_array($k, $ignore)) {
 				continue;
 			}
 			$connection[$k] = $v;
@@ -192,7 +192,7 @@ class EmailSource extends DataSource {
 				$EmailAccount->alias . '.' . $EmailAccount->primaryKey => $emailAccountId
 			)
 		));
-		if(!empty($config)) {
+		if (!empty($config)) {
 			$conditions = array_merge($conditions, Hash::flatten(array($Model->alias => $config[$EmailAccount->alias])));
 		}
 	}
@@ -281,7 +281,7 @@ class EmailSource extends DataSource {
 		$return = array();
 		$message = $this->Server->getMail($messageId);
 
-		if(!$message) {
+		if (!$message) {
 			return false;
 		}
 
@@ -335,7 +335,7 @@ class EmailSource extends DataSource {
  */
 	protected function _getAttachments($structure, $messageId) {
 		$attachments = array();
-		if(isset($structure->parts) && count($structure->parts)) {
+		if (isset($structure->parts) && count($structure->parts)) {
 			for($i = 0; $i < count($structure->parts); $i++) {
 
 				$attachment = array(
@@ -349,36 +349,36 @@ class EmailSource extends DataSource {
 					'attachment' => ''
 				);
 
-				if($structure->parts[$i]->ifdparameters) {
-					foreach($structure->parts[$i]->dparameters as $object) {
-						if(strtolower($object->attribute) == 'filename') {
+				if ($structure->parts[$i]->ifdparameters) {
+					foreach ($structure->parts[$i]->dparameters as $object) {
+						if (strtolower($object->attribute) == 'filename') {
 							$attachment['is_attachment'] = true;
 							$attachment['filename'] = $object->value;
 						}
 					}
 				}
 
-				if($structure->parts[$i]->ifparameters) {
-					foreach($structure->parts[$i]->parameters as $object) {
-						if(strtolower($object->attribute) == 'name') {
+				if ($structure->parts[$i]->ifparameters) {
+					foreach ($structure->parts[$i]->parameters as $object) {
+						if (strtolower($object->attribute) == 'name') {
 							$attachment['is_attachment'] = true;
 							$attachment['name'] = $object->value;
 						}
 					}
 				}
-				if($attachment['is_attachment']) {
+				if ($attachment['is_attachment']) {
 
 					$cachedAttachment = $this->AttachmentDownloader->alreadySaved($attachment);
-					if($cachedAttachment !== false) {
+					if ($cachedAttachment !== false) {
 						$attachments[] = $cachedAttachment;
 						continue;
 					}
 
 					$attachment['attachment'] = imap_fetchbody($this->MailServer, $messageId, $i+1);
-					if($structure->parts[$i]->encoding == 3) { // 3 = BASE64
+					if ($structure->parts[$i]->encoding == 3) { // 3 = BASE64
 						$attachment['format'] = 'base64';
 					}
-					elseif($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
+					elseif ($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
 						$attachment['attachment'] = quoted_printable_decode($attachment['attachment']);
 						//$attachment['format'] = 'base64';
 					}
@@ -450,7 +450,7 @@ class EmailSource extends DataSource {
 
 				else {
 					$attachment = $this->_attachement($messageId, $partOfPart, $count);
-					if(!empty($attachment)) {
+					if (!empty($attachment)) {
 						$attachments[] = $attachment;
 					}
 				}
@@ -496,7 +496,7 @@ class EmailSource extends DataSource {
 		$pages = ceil($count / $query['limit']); // total pages
 		$query['page'] = ($query['page'] <= $pages) ? $query['page'] : $pages; // dont let the page be more than available pages
 
-		if($query['page'] != 1) {
+		if ($query['page'] != 1) {
 			$count = ($pages - $query['page'] + 1) * $query['limit']; // start at the end - x pages
 		}
 		$return = array('start' =>  $count);
@@ -554,7 +554,7 @@ class EmailSource extends DataSource {
 
 		/* multipart */
 		if ($structure->type == 1) {
-			foreach($structure->parts as $index => $subStructure) {
+			foreach ($structure->parts as $index => $subStructure) {
 				if ($partNumber) {
 					$prefix = $partNumber . '.';
 				}
@@ -574,7 +574,7 @@ class EmailSource extends DataSource {
  * @return integer
  */
 	protected function _getThreadCount($mail) {
-		if(isset($mail->reference) || isset($mail->in_reply_to)) {
+		if (isset($mail->reference) || isset($mail->in_reply_to)) {
 			return '?';
 		}
 

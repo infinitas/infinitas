@@ -55,7 +55,7 @@ class CsvFileObjectTest extends CakeTestCase {
 			$this->assertEquals($headings, $result);
 		}
 
-		foreach($expected as &$v) {
+		foreach ($expected as &$v) {
 			$v = array_values($v);
 		}
 		array_unshift($expected, array(

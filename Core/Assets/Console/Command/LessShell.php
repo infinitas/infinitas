@@ -2,6 +2,7 @@
 App::uses('lessc', 'Assets.Lib');
 
 class LessShell extends AppShell {
+
 	public function main() {
 		//$this->_write($this->_compile($this->_bootstrap()), InfinitasPlugin::path('Assets') . 'webroot' . DS . 'css' . DS . 'bootstrap.css');
 		$this->_write(
@@ -12,8 +13,8 @@ class LessShell extends AppShell {
 
 	protected function _write($contents, $file) {
 		$contents = explode("\n", $contents);
-		foreach($contents as $k => $content) {
-			if(substr($content, 0, 7) == '@import') {
+		foreach ($contents as $k => $content) {
+			if (substr($content, 0, 7) == '@import') {
 				unset($contents[$k]);
 			}
 		}
@@ -32,8 +33,8 @@ class LessShell extends AppShell {
  * @return string
  */
 	protected function _compile($files) {
-		if(is_array($files)) {
-			foreach($files as &$file) {
+		if (is_array($files)) {
+			foreach ($files as &$file) {
 				$File = new File($file);
 				$file = $File->read();
 			}
@@ -41,7 +42,7 @@ class LessShell extends AppShell {
 		}
 		$LessC = new lessc();
 
-		if(is_readable($files)) {
+		if (is_readable($files)) {
 			return $LessC->compileFile($files);
 		}
 
@@ -56,8 +57,8 @@ class LessShell extends AppShell {
 	protected function _bootstrap() {
 		$files = glob(InfinitasPlugin::path('Assets') . 'Lib' . DS . 'bootstrap' . DS . '*.less');
 
-		foreach($files as $k => $file) {
-			if(strstr($file, '/variables.less') !== false) {
+		foreach ($files as $k => $file) {
+			if (strstr($file, '/variables.less') !== false) {
 				unset($files[$k]);
 			}
 		}

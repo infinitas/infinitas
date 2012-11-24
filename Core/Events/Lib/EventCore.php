@@ -80,14 +80,14 @@
 		static public function trigger(&$HandlerObject, $eventName, $data = array()) {
 			$_this = EventCore::getInstance();
 
-			if(!is_array($eventName)) {
+			if (!is_array($eventName)) {
 				$eventName = array($eventName);
 			}
 
 			$eventNames = Set::filter($eventName);
 
 			$return = array();
-			foreach($eventNames as $eventName) {
+			foreach ($eventNames as $eventName) {
 				$eventData = $_this->_parseEventName($eventName);
 				$return[$eventData['event']] = EventCore::_dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
@@ -109,12 +109,12 @@
 		 */
 		public function pluginsWith($eventName) {
 			$_this = EventCore::getInstance();
-			if(!isset($_this->_eventHandlerCache[$eventName])) {
+			if (!isset($_this->_eventHandlerCache[$eventName])) {
 				return array();
 			}
 
 			$return = array();
-			foreach($_this->_eventHandlerCache[$eventName] as $plugin) {
+			foreach ($_this->_eventHandlerCache[$eventName] as $plugin) {
 				$return[] = $_this->_extractPluginName($plugin);
 			}
 
@@ -134,23 +134,23 @@
 		static public function activatePlugins($plugins = array(), $allowUninstalled = false) {
 			$_this = EventCore::getInstance();
 
-			if(!is_array($plugins)) {
+			if (!is_array($plugins)) {
 				$plugins = array($plugins);
 			}
 
-			if(empty($plugins)) {
+			if (empty($plugins)) {
 				return false;
 			}
 
-			if($allowUninstalled) {
+			if ($allowUninstalled) {
 				$_this->__installedPlugins = App::objects('plugin');
 			}
 			else {
 				$_this->__installedPlugins = CakePlugin::loaded();
 			}
 
-			foreach($plugins as $plugin) {
-				if(in_array($plugin, $_this->__installedPlugins) && !in_array($plugin, $_this->__availablePlugins)) {
+			foreach ($plugins as $plugin) {
+				if (in_array($plugin, $_this->__installedPlugins) && !in_array($plugin, $_this->__availablePlugins)) {
 					$_this->__availablePlugins[] = $plugin;
 				}
 			}
@@ -172,7 +172,7 @@
 		 */
 		public function isPluginActive($plugin) {
 			$_this = EventCore::getInstance();
-			if(!$plugin || !in_array(Inflector::camelize($plugin), $_this->__availablePlugins)) {
+			if (!$plugin || !in_array(Inflector::camelize($plugin), $_this->__availablePlugins)) {
 				return false;
 			}
 
@@ -186,12 +186,12 @@
 		protected function _loadEventHandlers() {
 			$this->_eventHandlerCache = Cache::read('event_handlers', 'core');
 
-			if(!empty($this->_eventHandlerCache)) {
+			if (!empty($this->_eventHandlerCache)) {
 				return;
 			}
 
 			$plugins = CakePlugin::loaded();
-			foreach((array)$plugins as $pluginName) {
+			foreach ((array)$plugins as $pluginName) {
 				self::loadEventHandler($pluginName);
 			}
 
@@ -203,8 +203,8 @@
 			$filename = App::pluginPath($plugin) . 'Lib' . DS . $plugin . 'Events.php';
 			$className = $plugin . 'Events';
 
-			if(file_exists($filename)) {
-				if($_this->_loadEventClass($className, $filename)) {
+			if (file_exists($filename)) {
+				if ($_this->_loadEventClass($className, $filename)) {
 					$_this->_getAvailableHandlers($_this->_eventClasses[$className]);
 				}
 			}
@@ -223,20 +223,20 @@
 			$eventHandlerMethod = $_this->_handlerMethodName($eventName);
 
 			$return = array();
-			if(isset($_this->_eventHandlerCache[$eventName])) {
-				foreach($_this->_eventHandlerCache[$eventName] as $eventClass) {
+			if (isset($_this->_eventHandlerCache[$eventName])) {
+				foreach ($_this->_eventHandlerCache[$eventName] as $eventClass) {
 					$pluginName = $_this->_extractPluginName($eventClass);
 
 					$pluginType = 'loaded';
-					if(isset($_this->__pluginsMap[$eventName])) {
+					if (isset($_this->__pluginsMap[$eventName])) {
 						$pluginType = $_this->__pluginsMap[$eventName];
 					}
 
-					if(!in_array(Inflector::camelize($pluginName), (array)InfinitasPlugin::listPlugins($pluginType))) {
+					if (!in_array(Inflector::camelize($pluginName), (array)InfinitasPlugin::listPlugins($pluginType))) {
 						continue;
 					}
 
-					if(($scope == 'Global' || $scope == $pluginName)) {
+					if (($scope == 'Global' || $scope == $pluginName)) {
 						$_this->_loadEventClass($eventClass);
 						$Event = new Event($eventName, $HandlerObject, $pluginName);
 
@@ -259,14 +259,14 @@
 		protected function _parseEventName($eventName) {
 			$_this = EventCore::getInstance();
 
-			if(!isset($_this->eventNameCache->{$eventName})) {
+			if (!isset($_this->eventNameCache->{$eventName})) {
 				$eventTokens = String::tokenize($eventName, '.');
 				$scope = 'Global';
 				$event = $eventTokens[0];
 				if (count($eventTokens) > 1) {
 					list($scope, $event) = $eventTokens;
 
-					if($scope != Inflector::camelize($scope)) {
+					if ($scope != Inflector::camelize($scope)) {
 						user_error(sprintf('%s.%s is not valid, camelized plugins required', $scope, $event));
 						$scope = Inflector::camelize($scope, E_USER_NOTICE);
 					}
@@ -293,7 +293,7 @@
 		 */
 		protected function _handlerMethodName($eventName) {
 			$_this = EventCore::getInstance();
-			if(!isset($_this->handlerNameCache->{$eventName})) {
+			if (!isset($_this->handlerNameCache->{$eventName})) {
 				$array = (array)$_this->handlerNameCache;
 				$array[$eventName] = 'on' . Inflector::camelize($eventName);
 
@@ -309,14 +309,14 @@
 		 * @param object $Event
 		 */
 		protected function _getAvailableHandlers($Event) {
-			if(is_object($Event)) {
+			if (is_object($Event)) {
 				$_this = EventCore::getInstance();
 
 				$reflection = new ReflectionClass($Event);
 				$classMethods = array_filter($reflection->getMethods(), create_function('$v', 'return $v->class == "'.get_class($Event).'" && substr($v->name, 0, 2) == "on";'));
 				$handlers = array_map(create_function('$v', 'return lcfirst(substr($v->name, 2));'), $classMethods);
 
-				foreach($handlers as $handlerName) {
+				foreach ($handlers as $handlerName) {
 						$_this->_eventHandlerCache[$handlerName][] = get_class($Event);
 				}
 			}
@@ -330,17 +330,17 @@
 		 */
 		protected function _loadEventClass($className, $filename = false) {
 			$_this = EventCore::getInstance();
-			if(isset($_this->_eventClasses[$className]) && is_object($_this->_eventClasses[$className])) {
+			if (isset($_this->_eventClasses[$className]) && is_object($_this->_eventClasses[$className])) {
 				return true;
 			}
 
-			if($filename === false) {
+			if ($filename === false) {
 				$baseName = Inflector::underscore($className) . '.php';
 				$pluginName = Inflector::camelize(preg_replace('/events.php$/i', '', $baseName));
 				$pluginPath = App::pluginPath($pluginName);
 				$filename = $pluginPath . $baseName;
 			}
-			if(empty($pluginName)) {
+			if (empty($pluginName)) {
 				$baseName = Inflector::underscore($className) . '.php';
 				$pluginName = Inflector::camelize(preg_replace('/events.php$/i', '', $baseName));
 			}
@@ -367,7 +367,7 @@
 		 */
 		protected function _extractPluginName($className) {
 			$_this = EventCore::getInstance();
-			if(!isset($_this->pluginNameCache->{$className})) {
+			if (!isset($_this->pluginNameCache->{$className})) {
 				$array = (array)$_this->pluginNameCache;
 				$array[$className] = substr($className, 0, strlen($className) - 6);
 

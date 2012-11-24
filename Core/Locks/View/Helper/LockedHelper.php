@@ -46,7 +46,7 @@ class LockedHelper extends InfinitasHelper {
  */
 	public function display($row = array(), $model = 'Lock') {
 		$row = array_filter($row[$model]);
-		if(!empty($row['id'])) {
+		if (!empty($row['id'])) {
 			return $this->Image->image(
 				'status',
 				'locked',

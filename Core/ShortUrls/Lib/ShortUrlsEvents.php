@@ -129,7 +129,7 @@ class ShortUrlsEvents extends AppEvents {
  */
 	public function onGetShortUrl(Event $Event, $data) {
 		$data['code'] = ClassRegistry::init('ShortUrls.ShortUrl')->shorten($data['url']);
-		if(!$data['code']) {
+		if (!$data['code']) {
 			throw new Exception('Could not find the url');
 		}
 

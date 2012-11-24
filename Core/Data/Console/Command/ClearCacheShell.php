@@ -63,7 +63,7 @@ class ClearCacheShell extends AppShell {
 		parent::main();
 		$this->out("Type \t\tUsed \t\tTotal \t\tAvailable");
 		$this->hr();
-		foreach(call_user_func_array(array($this->_Cleaner, 'status'), $this->args) as $type => $values) {
+		foreach (call_user_func_array(array($this->_Cleaner, 'status'), $this->args) as $type => $values) {
 			$this->out(sprintf(
 				"%s \t%s \t%s \t%s",
 				str_pad(Inflector::humanize($type), 10, ' '),
@@ -110,7 +110,7 @@ class ClearCacheShell extends AppShell {
  */
 	protected function _output(array $output) {
 		foreach ($output as $k => $v) {
-			if(is_array($v)) {
+			if (is_array($v)) {
 				foreach ($v as $vv) {
 					$this->out($k . ': ' . $vv);
 				}

@@ -82,7 +82,7 @@ class FeedableBehavior extends ModelBehavior {
  * @return array
  */
 	protected function _findFeed(Model $Model, $state, $query, $results = array()) {
-		if($state == 'before') {
+		if ($state == 'before') {
 			if (!isset($query['feed'])) {
 				return $query;
 			}
@@ -91,7 +91,7 @@ class FeedableBehavior extends ModelBehavior {
 
 
 			$sql = '';
-			foreach((array)$query['feed'] as $key => $feed) {
+			foreach ((array)$query['feed'] as $key => $feed) {
 				$feed = array_merge($this->basicStatement, $feed);
 				$sql .= ' UNION ';
 
@@ -131,7 +131,7 @@ class FeedableBehavior extends ModelBehavior {
 
 			$_results = $Model->query($sql);
 
-			foreach($_results as $res) {
+			foreach ($_results as $res) {
 				$this->_results[]['Feed'] = $res[0];
 			}
 

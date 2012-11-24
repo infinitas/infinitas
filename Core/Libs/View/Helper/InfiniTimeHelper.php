@@ -201,7 +201,7 @@ class InfiniTimeHelper extends TimeHelper {
 	public function toRSS($dateString, $userOffset = null) {
 		$userOffset = $this->__userOffset($dateString, $userOffset);
 
-		if($userOffset == 0) {
+		if ($userOffset == 0) {
 			$timeZoneString = '+0000';
 		} else {
 			$hours = (int) floor(abs($userOffset));
@@ -304,19 +304,19 @@ class InfiniTimeHelper extends TimeHelper {
 	}
 
 	private function __userOffset($dateString, $userOffset = null) {
-		if(is_array($userOffset)) {
-			if(!array_key_exists('userOffset', $userOffset) || is_null($userOffset['userOffset'])) {
+		if (is_array($userOffset)) {
+			if (!array_key_exists('userOffset', $userOffset) || is_null($userOffset['userOffset'])) {
 				$userOffset['userOffset'] = $this->__userOffset($dateString);
 			}
 
 			return $userOffset;
 		}
 
-		if(is_null($userOffset) && CakeSession::check('Auth.User.time_zone')) {
+		if (is_null($userOffset) && CakeSession::check('Auth.User.time_zone')) {
 			$timeZone = CakeSession::read('Auth.User.time_zone');
 
-			if(phpversion() >= 5.2) {
-				if(is_int($dateString)) {
+			if (phpversion() >= 5.2) {
+				if (is_int($dateString)) {
 					$dateString = '@' . $dateString;
 				}
 				$date = new DateTime($dateString, new DateTimeZone('UTC'));

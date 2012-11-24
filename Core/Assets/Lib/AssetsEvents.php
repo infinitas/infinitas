@@ -22,6 +22,7 @@
  */
 
 class AssetsEvents extends AppEvents {
+
 /**
  * get helpers to load
  *
@@ -55,11 +56,11 @@ class AssetsEvents extends AppEvents {
 			'Assets.libs/number'
 		);
 
-		if(Configure::read('debug')) {
+		if (Configure::read('debug')) {
 			$return[] = 'Assets.3rd/less';
 		}
 
-		if(Configure::read('Assets.bootstrap')) {
+		if (Configure::read('Assets.bootstrap')) {
 			$return = array_merge($return, array(
 				'Assets.3rd/bootstrap/bootstrap-affix',
 				'Assets.3rd/bootstrap/bootstrap-collapse',
@@ -81,7 +82,7 @@ class AssetsEvents extends AppEvents {
 			'Assets.3rd/rater',
 			'Assets.3rd/moving_boxes'
 		);
-		if(isset($Event->Handler->params['admin']) && $Event->Handler->params['admin']) {
+		if (isset($Event->Handler->params['admin']) && $Event->Handler->params['admin']) {
 			$added = array(
 				'Assets.3rd/date',
 				'Assets.3rd/image_drop_down'
@@ -101,7 +102,7 @@ class AssetsEvents extends AppEvents {
 			'Assets.jquery_ui'
 		);
 
-		if(Configure::read('Assets.bootstrap')) {
+		if (Configure::read('Assets.bootstrap')) {
 			$return = array_merge(array(
 				//'Assets.bootstrap'
 			), $return);

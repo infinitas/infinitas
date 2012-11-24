@@ -52,7 +52,7 @@ class FilterHelper extends AppHelper {
 		}
 
 		$output = '<div class="filter-form"><h1>'.__d('filter', 'Search').'</h1>';
-		foreach($filter['fields'] as $field => $options) {
+		foreach ($filter['fields'] as $field => $options) {
 			if (is_array($options)) {
 				switch($field) {
 					case 'active':
@@ -77,7 +77,7 @@ class FilterHelper extends AppHelper {
 					)
 				);
 			}
-			else if(strstr($options, 'date')) {
+			else if (strstr($options, 'date')) {
 				$output .= $this->Html->datePicker(array($options));
 			}
 			else{
@@ -134,7 +134,7 @@ class FilterHelper extends AppHelper {
 		$parts = explode( '/', $filter['url'][0] );
 		$done = array();
 
-		foreach($parts as $_f) {
+		foreach ($parts as $_f) {
 			if (empty($_f) || in_array($_f, $done)) {
 				continue;
 			}
@@ -145,7 +145,7 @@ class FilterHelper extends AppHelper {
 			$text = (count($text ) > 1) ? $text[1] : $text[0];
 
 			$text = $this->stripPluginName($text);
-			if(substr($text, -3) == '_id') {
+			if (substr($text, -3) == '_id') {
 				$text = substr($text, 0, -3);
 			}
 			$out .= '<div class="left">'.
@@ -176,8 +176,8 @@ class FilterHelper extends AppHelper {
  * @return string
  */
 	public function alphabetFilter($model = null) {
-		if(empty($model)) {
-			if(empty($this->request->params['models'])) {
+		if (empty($model)) {
+			if (empty($this->request->params['models'])) {
 				return false;
 			}
 			$model = implode('.', current($this->request->params['models']));
@@ -186,9 +186,9 @@ class FilterHelper extends AppHelper {
 		$letters = ClassRegistry::init($model)->getLetterList();
 
 		$return = array();
-		foreach($letters as $key => $value) {
+		foreach ($letters as $key => $value) {
 			$url = ($value == true) ? $this->__filterLink($model, $key) : $key;
-			if(is_array($url)) {
+			if (is_array($url)) {
 				$url = $this->Html->link(
 					$key,
 					InfinitasRouter::url($url),
@@ -214,7 +214,7 @@ class FilterHelper extends AppHelper {
  * @return array
  */
 	private function __filterLink($model, $text = null) {
-		if(!$text) {
+		if (!$text) {
 			return false;
 		}
 

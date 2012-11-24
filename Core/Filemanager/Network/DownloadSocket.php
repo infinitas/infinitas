@@ -38,21 +38,21 @@ class DownloadSocket extends HttpSocket {
  * @return File|boolean
  */
 	public function download($from, $to = null) {
-		if(empty($to)) {
+		if (empty($to)) {
 			$to = TMP . 'downloads' . DS . String::uuid() . basename($from);
 		}
 
 		$this->get($from, array(), array('redirect' => true));
 
 		$this->File = new File($to, true, 0775);
-		if($this->response->code == '200' && $this->File->write($this->response->body)) {
+		if ($this->response->code == '200' && $this->File->write($this->response->body)) {
 			return true;
 		}
 		return false;
 	}
 
 	public function pwd() {
-		if(empty($this->File)) {
+		if (empty($this->File)) {
 			return false;
 		}
 

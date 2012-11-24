@@ -29,7 +29,7 @@
 		);
 		
 		$options = array('type' => 'text');
-		if(strstr($this->request->params['action'], 'edit')) {
+		if (strstr($this->request->params['action'], 'edit')) {
 			$options['readonly'] = true;
 		}
 		

@@ -78,14 +78,14 @@ class BigDataBehavior extends ModelBehavior {
  * @return string
  */
 	public function engineType(Model $Model) {
-		if(empty($this->_settings[$Model->alias]['engine'])) {
+		if (empty($this->_settings[$Model->alias]['engine'])) {
 			$return = current((array)$Model->query(
 				sprintf(
 					'SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_NAME = "%s"', $Model->fullTableName(null, false)
 				)
 			));
 
-			if(!empty($return['TABLES']['ENGINE'])) {
+			if (!empty($return['TABLES']['ENGINE'])) {
 				$this->_settings[$Model->alias]['engine'] = strtolower($return['TABLES']['ENGINE']);
 			}
 		}
@@ -107,14 +107,14 @@ class BigDataBehavior extends ModelBehavior {
  * @throws InvalidArgumentException
  */
 	protected function _toggle(Model $Model, $type, $on = false) {
-		if(is_array($type)) {
-			foreach($type as $k => $v) {
+		if (is_array($type)) {
+			foreach ($type as $k => $v) {
 				$this->_toggle($Model, $k, $v);
 			}
 			return;
 		}
 
-		if($this->engineType($Model) == 'innodb') {
+		if ($this->engineType($Model) == 'innodb') {
 			switch($type) {
 				case 'unique_checks':
 				case 'foreign_key_checks':
@@ -122,7 +122,7 @@ class BigDataBehavior extends ModelBehavior {
 					break;
 
 				case 'autocommit':
-					if(!$on) {
+					if (!$on) {
 						$Model->query(sprintf('SET %s = %d;', $type, (int)$on));
 					} else {
 						$Model->query('COMMIT;');
@@ -135,7 +135,7 @@ class BigDataBehavior extends ModelBehavior {
 			}
 			return;
 		}
-		if($this->engineType($Model) == 'myisam') {
+		if ($this->engineType($Model) == 'myisam') {
 			switch($type) {
 				case 'keys':
 					$Model->query(sprintf('ALTER TABLE %s %s KEYS;', $Model->fullTableName(), $on ? 'ENABLE' : 'DISABLE'));
@@ -195,7 +195,7 @@ class BigDataBehavior extends ModelBehavior {
  * @return DataSource
  */
 	protected function _db(Model $Model) {
-		if(!$this->_db) {
+		if (!$this->_db) {
 			$this->_db = $Model->getDataSource();
 		}
 
@@ -228,17 +228,17 @@ class BigDataBehavior extends ModelBehavior {
 			$options
 		);
 
-		if(empty($data)) {
+		if (empty($data)) {
 			return true;
 		}
 
-		if(!empty($data[0][$Model->alias])) {
+		if (!empty($data[0][$Model->alias])) {
 			$data = Set::extract('{n}.' . $Model->alias, $data);
 		}
 
 		$fields = array_keys(current($data));
-		foreach(array('created', 'modified') as $dateField) {
-			if(!in_array($dateField, $fields) && $Model->hasField($dateField)) {
+		foreach (array('created', 'modified') as $dateField) {
+			if (!in_array($dateField, $fields) && $Model->hasField($dateField)) {
 				$fields[] = $dateField;
 
 				array_walk($data, function(&$row) use($dateField) {
@@ -249,7 +249,7 @@ class BigDataBehavior extends ModelBehavior {
 
 		$primaryKeySchema = $Model->schema($Model->primaryKey);
 
-		if($primaryKeySchema['type'] == 'string' && !in_array($Model->primaryKey, $fields)) {
+		if ($primaryKeySchema['type'] == 'string' && !in_array($Model->primaryKey, $fields)) {
 			$fields[] = $pk = $Model->primaryKey;
 			array_walk($data, function(&$row) use($pk) {
 				$row[$pk] = String::uuid();
@@ -258,7 +258,7 @@ class BigDataBehavior extends ModelBehavior {
 
 		$schema = array_keys($Model->schema());
 
-		foreach(array_diff($fields, $schema) as $unknownField) {
+		foreach (array_diff($fields, $schema) as $unknownField) {
 			array_walk($data, function(&$row) use($unknownField) {
 				unset($row[$unknownField]);
 			});
@@ -267,14 +267,14 @@ class BigDataBehavior extends ModelBehavior {
 		$schema = array_intersect($schema, $fields);
 		sort($schema);
 
-		foreach($data as $k => $row) {
+		foreach ($data as $k => $row) {
 			foreach ($row as $field => $value) {
 				$row[$field] = $this->_db($Model)->value($value, $field);
 			}
 
-			if($options['validate']) {
+			if ($options['validate']) {
 				$Model->set($row);
-				if(!$Model->validates()) {
+				if (!$Model->validates()) {
 					throw new CakeException(sprintf('Row %d does not validate', $k + 1));
 				}
 			}
@@ -282,13 +282,13 @@ class BigDataBehavior extends ModelBehavior {
 			$data[$k] = "(" . implode(", ", $row) . ")";
 		}
 
-		if($options['transaction']) {
+		if ($options['transaction']) {
 			$options['transaction'] = $Model->transaction();
 		}
 
-		if($options['disableIndex']) {
+		if ($options['disableIndex']) {
 			$indexOptions = array();
-			if(is_array($options['disableIndex'])) {
+			if (is_array($options['disableIndex'])) {
 				$indexOptions = $options['disableIndex'];
 			}
 
@@ -296,7 +296,7 @@ class BigDataBehavior extends ModelBehavior {
 		}
 
 		$saved = true;
-		foreach(array_chunk($data, $options['chunk']) as $dataChunk) {
+		foreach (array_chunk($data, $options['chunk']) as $dataChunk) {
 			$query = sprintf(
 				$this->_settings[$Model->alias]['saveTemplate'],
 				$Model->fullTableName(null, false),
@@ -306,11 +306,11 @@ class BigDataBehavior extends ModelBehavior {
 			$saved = $saved && $this->_db($Model)->rawQuery($query);
 		}
 
-		if($options['disableIndex']) {
+		if ($options['disableIndex']) {
 			$this->enableIndexing($Model, $indexOptions);
 		}
 
-		if($options['transaction']) {
+		if ($options['transaction']) {
 			$Model->transaction(true);
 		}
 

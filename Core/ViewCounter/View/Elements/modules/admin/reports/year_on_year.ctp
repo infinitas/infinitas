@@ -1,7 +1,7 @@
 <div class="dashboard span6">
 	<?php
 		echo $this->ViewCounter->header('year_on_year', $yearOnYear);
-		if(empty($yearOnYear['totals'])) {
+		if (empty($yearOnYear['totals'])) {
 			echo $this->ViewCounter->noData();
 		}
 		else{

@@ -81,7 +81,7 @@ class Template extends NewsletterAppModel {
 			$this->alias . '.footer',
 		);
 
-		if($data) {
+		if ($data) {
 			$template = $this->find(
 				'first',
 				array(
@@ -95,7 +95,7 @@ class Template extends NewsletterAppModel {
 				)
 			);
 
-			if(!empty($template)) {
+			if (!empty($template)) {
 				return $template;
 			}
 		}
@@ -110,7 +110,7 @@ class Template extends NewsletterAppModel {
 			)
 		);
 
-		if(empty($template)) {
+		if (empty($template)) {
 			throw new Exception(sprintf('No template found for %s', $data));
 		}
 

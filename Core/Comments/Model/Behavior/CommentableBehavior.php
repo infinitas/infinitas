@@ -1,552 +1,543 @@
 <?php
-	/**
-	 * Commentable Model Behavior
-	 *
-	 * Allows you to attach a comment to any model in your application
-	 * Moderates/Validates comments to check for spam.
-	 * Validates comments based on a point system. High points is an automatic approval,
-	 * where as low points is marked as spam or deleted.
-	 *
-	 * Based on Jonathan Snooks outline.
-	 *
-	 * @copyright Stoop Dev
-	 * @link http://github.com/josegonzalez/cakephp-commentable-behavior
-	 * @package Infinitas.Comments.Model.Behavior
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since 0.6a
-	 *
-	 * @author Jose Diaz-Gonzalez - http://github.com/josegonzalez/cakephp-commentable-behavior
-	 * @author Carl Sutton <dogmatic69@infinitas-cms.org>
-	 *
-	 * @todo this code should be refactored into a spam filter lib that can be used
-	 * all over (eg: email contact forms) the comment model can just check in beforeSave
-	 * that it is not spam, could even be a validation rule.
-	 *
-	 * @todo add a rating method for amount of text with no links vs total amount of text
-	 *
-	 *
-	 *
-	 */
-	App::uses('ModelBehavior', 'Model');
-	class CommentableBehavior extends ModelBehavior{
-		/**
-		 * Settings initialized with the behavior
-		 *
-		 * @var array
-		 */
-		public $defaults = array(
-			'plugin' => 'Comments',
-			'class' => 'InfinitasComment',				// name of Comment model
-			'auto_bind' => true,				// automatically bind the model to the User model (default true),
-			'sanitize' => true,					// whether to sanitize incoming comments
-			'column_author' => 'name',			// Column name for the authors name
-			'column_content' => 'comment',		// Column name for the comments body
-			'column_class' => 'class',			// Column name for the foreign model
-			'column_email' => 'email',			// Column name for the authors email
-			'column_website' => 'website',		// Column name for the authors website
-			'column_foreign_id' => 'foreign_id',// Column name of the foreign id that links to the article/entry/etc
-			'column_status' => 'status',		// Column name for automatic rating
-			'column_points' => 'points',		// Column name for accrued points
-			'deletion' => -10					// How many points till the comment is deleted (negative)
+/**
+ * CommentableBehavior
+ *
+ * @package Infinitas.Comments.Model.Behavior
+ */
+
+App::uses('ModelBehavior', 'Model');
+
+/**
+ * CommentableBehavior
+ *
+ * Allows you to attach a comment to any model in your application
+ * Moderates/Validates comments to check for spam.
+ *  Validates comments based on a point system. High points is an automatic approval,
+ * where as low points is marked as spam or deleted.
+ *
+ * Based on Jonathan Snooks outline.
+ *
+ * @copyright Stoop Dev
+ * @link http://github.com/josegonzalez/cakephp-commentable-behavior
+ * @package Infinitas.Comments.Model.Behavior
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.6a
+ *
+ * @author Jose Diaz-Gonzalez - http://github.com/josegonzalez/cakephp-commentable-behavior
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ *
+ * @todo this code should be refactored into a spam filter lib that can be used
+ * all over (eg: email contact forms) the comment model can just check in beforeSave
+ * that it is not spam, could even be a validation rule.
+ *
+ * @todo add a rating method for amount of text with no links vs total amount of text
+ */
+
+class CommentableBehavior extends ModelBehavior {
+
+/**
+ * Settings initialized with the behavior
+ *
+ * @var array
+ */
+	public $defaults = array(
+		'plugin' => 'Comments',
+		'class' => 'InfinitasComment',				// name of Comment model
+		'auto_bind' => true,				// automatically bind the model to the User model (default true),
+		'sanitize' => true,					// whether to sanitize incoming comments
+		'column_author' => 'name',			// Column name for the authors name
+		'column_content' => 'comment',		// Column name for the comments body
+		'column_class' => 'class',			// Column name for the foreign model
+		'column_email' => 'email',			// Column name for the authors email
+		'column_website' => 'website',		// Column name for the authors website
+		'column_foreign_id' => 'foreign_id',// Column name of the foreign id that links to the article/entry/etc
+		'column_status' => 'status',		// Column name for automatic rating
+		'column_points' => 'points',		// Column name for accrued points
+		'deletion' => -10					// How many points till the comment is deleted (negative)
+	);
+
+/**
+ * Contain settings indexed by model name.
+ *
+ * @var array
+ */
+	private $__settings = array();
+
+/**
+ * Initiate behaviour for the model using settings.
+ *
+ * @param object $Model Model using the behaviour
+ * @param array $settings Settings to override for model.
+ *
+ * @return void
+ */
+	public function setup(Model $Model, $settings = array()) {
+		$default = $this->defaults;
+		$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
+		$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
+		$default['conditions'] = array('Comment.class' => $Model->alias);
+		$default['class'] = $Model->name.'Comment';
+
+		if (!isset($this->__settings[$Model->alias])) {
+			$this->__settings[$Model->alias] = $default;
+		}
+
+		$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
+
+		$Model->bindModel(
+			array(
+				'hasMany' => array(
+					$this->__settings[$Model->alias]['class'] => array(
+						'className' => 'Comments.InfinitasComment',
+						'foreignKey' => 'foreign_id',
+						'limit' => 5,
+						'order' => array(
+							$this->__settings[$Model->alias]['class'] . '.created' => 'desc'
+						),
+						'fields' => array(
+							$this->__settings[$Model->alias]['class'] . '.id',
+							$this->__settings[$Model->alias]['class'] . '.class',
+							$this->__settings[$Model->alias]['class'] . '.foreign_id',
+							$this->__settings[$Model->alias]['class'] . '.user_id',
+							$this->__settings[$Model->alias]['class'] . '.email',
+							$this->__settings[$Model->alias]['class'] . '.comment',
+							$this->__settings[$Model->alias]['class'] . '.active',
+							$this->__settings[$Model->alias]['class'] . '.status',
+							$this->__settings[$Model->alias]['class'] . '.created'
+						),
+						'conditions' => array(
+							'or' => array(
+								$this->__settings[$Model->alias]['class'] . '.active' => 1
+							)
+						),
+						'dependent' => true
+					)
+				)
+			),
+			false
 		);
 
-		/**
-		 * Contain settings indexed by model name.
-		 *
-		 * @var array
-		 */
-		private $__settings = array();
+		$Model->Comment = $Model->{$this->__settings[$Model->alias]['class']};
+	}
 
-		/**
-		 * Initiate behaviour for the model using settings.
-		 *
-		 * @param object $Model Model using the behaviour
-		 * @param array $settings Settings to override for model.
-		 *
-		 * @return void
-		 */
-		public function setup(Model $Model, $settings = array()) {
-			$default = $this->defaults;
-			$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
-			$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
-			$default['conditions'] = array('Comment.class' => $Model->alias);
-			$default['class'] = $Model->name.'Comment';
+	public function attachComments(Model $Model, $results) {
+		$ids = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
+		$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
+			'linkedComments',
+			array(
+				'conditions' => array(
+					$this->__settings[$Model->alias]['class'] . '.foreign_id' => $ids
+				)
+			)
+		);
 
-			if (!isset($this->__settings[$Model->alias])) {
-				$this->__settings[$Model->alias] = $default;
-			}
-
-			$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
-
-			$Model->bindModel(
-				array(
-					'hasMany' => array(
-						$this->__settings[$Model->alias]['class'] => array(
-							'className' => 'Comments.InfinitasComment',
-							'foreignKey' => 'foreign_id',
-							'limit' => 5,
-							'order' => array(
-								$this->__settings[$Model->alias]['class'] . '.created' => 'desc'
-							),
-							'fields' => array(
-								$this->__settings[$Model->alias]['class'] . '.id',
-								$this->__settings[$Model->alias]['class'] . '.class',
-								$this->__settings[$Model->alias]['class'] . '.foreign_id',
-								$this->__settings[$Model->alias]['class'] . '.user_id',
-								$this->__settings[$Model->alias]['class'] . '.email',
-								$this->__settings[$Model->alias]['class'] . '.comment',
-								$this->__settings[$Model->alias]['class'] . '.active',
-								$this->__settings[$Model->alias]['class'] . '.status',
-								$this->__settings[$Model->alias]['class'] . '.created'
-							),
-							'conditions' => array(
-								'or' => array(
-									$this->__settings[$Model->alias]['class'] . '.active' => 1
-								)
-							),
-							'dependent' => true
-						)
-					)
-				),
-				false
+		foreach ($results as &$result) {
+			$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract(
+				sprintf('/%s[foreign_id=%s]', $this->__settings[$Model->alias]['class'], $result[$Model->alias][$Model->primaryKey]),
+				$comments
 			);
 
-			$Model->Comment = $Model->{$this->__settings[$Model->alias]['class']};
+			$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract('{n}.' . $this->__settings[$Model->alias]['class'], $comments);
 		}
 
-		public function attachComments(Model $Model, $results) {
-			$ids = Set::extract('/' . $Model->alias . '/' . $Model->primaryKey, $results);
-			$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
-				'linkedComments',
-				array(
-					'conditions' => array(
-						$this->__settings[$Model->alias]['class'] . '.foreign_id' => $ids
-					)
-				)
-			);
+		return $results;
+	}
 
-			foreach($results as &$result) {
-				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract(
-					sprintf('/%s[foreign_id=%s]', $this->__settings[$Model->alias]['class'], $result[$Model->alias][$Model->primaryKey]),
-					$comments
-				);
-
-				$result[$this->__settings[$Model->alias]['class'] . ''] = Set::extract('{n}.' . $this->__settings[$Model->alias]['class'], $comments);
-			}
-
-			return $results;
-		}
-
-		/**
-		 * create a new comment calls the methods to do the spam checks
-		 *
-		 * @param object $Model the model object
-		 * @param array $data the comment being saved
-		 *
-		 * @return boolean
-		 */
-		public function createComment(Model $Model, $data = array()) {
-			if (empty($data[$this->__settings[$Model->alias]['class']])) {
-				return false;
-			}
-
-			unset($data[$Model->alias]);
-			$Model->Comment->validate = array(
-				$this->__settings[$Model->alias]['column_content'] => array(
-					'notempty' => array(
-						'rule' => array('notempty')
-					)
-				),
-
-				$this->__settings[$Model->alias]['column_email'] => array(
-					'notempty' => array(
-						'rule' => array('notempty')
-					),
-					'email' => array(
-						'rule' => array('email'),
-						'message' => __d('comments', 'Please enter a valid email address')
-					)
-				),
-
-				$this->__settings[$Model->alias]['column_class'] => array(
-					'notempty' => array(
-						'rule' => array('notempty')
-					)
-				),
-
-				$this->__settings[$Model->alias]['column_foreign_id'] => array(
-					'notempty' => array(
-						'rule' => array('notempty')
-					)
-				),
-
-				$this->__settings[$Model->alias]['column_status'] => array(
-					'notempty' => array(
-						'rule' => array('notempty')
-					)
-				),
-
-				$this->__settings[$Model->alias]['column_points'] => array(
-					'notempty' => array(
-						'rule' => array('notempty')
-					),
-					'numeric' => array(
-						'rule' => array('numeric'),
-					)
-				)
-			);
-
-			$data[$this->__settings[$Model->alias]['class']]['mx_record'] = $this->__mxRecord($data[$this->__settings[$Model->alias]['class']]['email']);
-
-			$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
-
-			$points = $data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_points']];
-			if($points < Configure::read('Comments.spam_threshold')) {
-				return false;
-			}
-
-			$data[$this->__settings[$Model->alias]['class']]['active'] = 0;
-			if (Configure::read('Comments.auto_moderate') === true &&
-				$data[$this->__settings[$Model->alias]['class']]['status'] == 'pending' ||
-				$data[$this->__settings[$Model->alias]['class']]['status'] == 'approved'
-			) {
-				$data[$this->__settings[$Model->alias]['class']]['active'] = 1;
-			}
-
-			if ($this->__settings[$Model->alias]['sanitize']) {
-				App::import('Sanitize');
-				$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_email']] =
-						Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_email']]);
-
-				$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']] =
-						Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']]);
-			}
-
-			$Model->{$this->__settings[$Model->alias]['class']}->create();
-			if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
-				return true;
-			}
-
+/**
+ * create a new comment calls the methods to do the spam checks
+ *
+ * @param object $Model the model object
+ * @param array $data the comment being saved
+ *
+ * @return boolean
+ */
+	public function createComment(Model $Model, $data = array()) {
+		if (empty($data[$this->__settings[$Model->alias]['class']])) {
 			return false;
 		}
 
-		private function __mxRecord($email) {
-			preg_match(
-				'/@((?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel))$/i',
-				$email,
-				$host
+		unset($data[$Model->alias]);
+		$Model->Comment->validate = array(
+			$this->__settings[$Model->alias]['column_content'] => array(
+				'notempty' => array(
+					'rule' => array('notempty')
+				)
+			),
+
+			$this->__settings[$Model->alias]['column_email'] => array(
+				'notempty' => array(
+					'rule' => array('notempty')
+				),
+				'email' => array(
+					'rule' => array('email'),
+					'message' => __d('comments', 'Please enter a valid email address')
+				)
+			),
+
+			$this->__settings[$Model->alias]['column_class'] => array(
+				'notempty' => array(
+					'rule' => array('notempty')
+				)
+			),
+
+			$this->__settings[$Model->alias]['column_foreign_id'] => array(
+				'notempty' => array(
+					'rule' => array('notempty')
+				)
+			),
+
+			$this->__settings[$Model->alias]['column_status'] => array(
+				'notempty' => array(
+					'rule' => array('notempty')
+				)
+			),
+
+			$this->__settings[$Model->alias]['column_points'] => array(
+				'notempty' => array(
+					'rule' => array('notempty')
+				),
+				'numeric' => array(
+					'rule' => array('numeric'),
+				)
+			)
+		);
+
+		$data[$this->__settings[$Model->alias]['class']]['mx_record'] = $this->__mxRecord($data[$this->__settings[$Model->alias]['class']]['email']);
+
+		$data[$this->__settings[$Model->alias]['class']] = $this->__rateComment($Model, $data[$this->__settings[$Model->alias]['class']]);
+
+		$points = $data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_points']];
+		if ($points < Configure::read('Comments.spam_threshold')) {
+			return false;
+		}
+
+		$data[$this->__settings[$Model->alias]['class']]['active'] = 0;
+		if (Configure::read('Comments.auto_moderate') === true &&
+			$data[$this->__settings[$Model->alias]['class']]['status'] == 'pending' ||
+			$data[$this->__settings[$Model->alias]['class']]['status'] == 'approved'
+		) {
+			$data[$this->__settings[$Model->alias]['class']]['active'] = 1;
+		}
+
+		if ($this->__settings[$Model->alias]['sanitize']) {
+			App::import('Sanitize');
+			$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_email']] =
+					Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_email']]);
+
+			$data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']] =
+					Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']]);
+		}
+
+		$Model->{$this->__settings[$Model->alias]['class']}->create();
+		if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private function __mxRecord($email) {
+		preg_match(
+			'/@((?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel))$/i',
+			$email,
+			$host
+		);
+
+		if (empty($host[1])) {
+			return false;
+			continue;
+		}
+
+		if (function_exists('getmxrr')) {
+			return getmxrr($host[1], $mxhosts);
+		} else if (function_exists('checkdnsrr')) {
+			return checkdnsrr($host[1], 'MX');
+		}
+
+		return gethostbynamel($host[1]);
+	}
+
+/**
+ * gets comments
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	public function getComments(Model $Model, $options = array()) {
+		$options = array_merge(array('id' => $Model->id, 'options' => array()), $options);
+		$parameters = array();
+
+		if (isset($options['id']) && is_numeric($options['id'])) {
+			$settings = $this->__settings[$Model->alias];
+			$parameters = array_merge_recursive(
+				array(
+					'conditions' => array(
+						$settings['class'] . '.' . $settings['column_class'] => $Model->alias,
+						$settings['class'] . '.foreign_id' => $options['id'],
+						$settings['class'] . '.' . $settings['column_status'] => 'approved'
+					)
+				),
+				$options['options']
 			);
-
-			if(empty($host[1])) {
-				return false;
-				continue;
-			}
-
-			if (function_exists('getmxrr')) {
-				return getmxrr($host[1], $mxhosts);
-			}
-
-			else if (function_exists('checkdnsrr')) {
-				return checkdnsrr($host[1], 'MX');
-			}
-
-			return gethostbynamel($host[1]);
 		}
 
-		/**
-		 * gets comments
-		 *
-		 * @var $Model object the model object
-		 * @var $options array the data from the form
-		 *
-		 * @return integer
-		 */
-		public function getComments(Model $Model, $options = array()) {
-			$options = array_merge(array('id' => $Model->id, 'options' => array()), $options);
-			$parameters = array();
+		return $Model->{$this->__settings[$Model->alias]['class']}->find('all', $parameters);
+	}
 
-			if (isset($options['id']) && is_numeric($options['id'])) {
-				$settings = $this->__settings[$Model->alias];
-				$parameters = array_merge_recursive(
-					array(
-						'conditions' => array(
-							$settings['class'] . '.' . $settings['column_class'] => $Model->alias,
-							$settings['class'] . '.foreign_id' => $options['id'],
-							$settings['class'] . '.' . $settings['column_status'] => 'approved'
-						)
-					),
-					$options['options']
-				);
-			}
-
-			return $Model->{$this->__settings[$Model->alias]['class']}->find('all', $parameters);
-		}
-
-		/**
-		 * get the rating of a comment before its saved
-		 *
-		 * the main method that calls all the comment rating code. after getting
-		 * the score it will set a staus for the comment.
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateComment(Model $Model, $data) {
-			if (empty($data)) {
-				$data[$this->__settings[$Model->alias]['column_points']] = -100;
-				$data[$this->__settings[$Model->alias]['column_status']] = 'delete';
-				return $data;
-			}
-
-			$points = $this->__rateLinks($Model, $data);
-			$points += $this->__rateLength($Model, $data);
-			$points += $this->__rateEmail($Model, $data);
-			$points += $this->__rateKeywords($Model, $data);
-			$points += $this->__rateStartingWord($Model, $data);
-			$points += $this->__rateByPreviousComment($Model, $data);
-			$points += $this->__rateBody($Model, $data);
-			$data[$this->__settings[$Model->alias]['column_points']] = $points;
-
-			if ($points >= 1) {
-				$data[$this->__settings[$Model->alias]['column_status']] = 'approved';
-			}
-
-			else if ($points == 0) {
-				$data[$this->__settings[$Model->alias]['column_status']] = 'pending';
-			}
-
-			else if ($points <= $this->__settings[$Model->alias]['deletion']) {
-				$data[$this->__settings[$Model->alias]['column_status']] = 'delete';
-			}
-
-			else {
-				$data[$this->__settings[$Model->alias]['column_status']] = 'spam';
-			}
-
+/**
+ * get the rating of a comment before its saved
+ *
+ * the main method that calls all the comment rating code. after getting
+ * the score it will set a staus for the comment.
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateComment(Model $Model, $data) {
+		if (empty($data)) {
+			$data[$this->__settings[$Model->alias]['column_points']] = -100;
+			$data[$this->__settings[$Model->alias]['column_status']] = 'delete';
 			return $data;
 		}
 
-		/**
-		 * adds points based on the amount and length of links in the comment
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateLinks(Model $Model, $data) {
-			$links = preg_match_all(
-				"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
-				$data[$this->__settings[$Model->alias]['column_content']],
-				$matches
-			);
+		$points = $this->__rateLinks($Model, $data);
+		$points += $this->__rateLength($Model, $data);
+		$points += $this->__rateEmail($Model, $data);
+		$points += $this->__rateKeywords($Model, $data);
+		$points += $this->__rateStartingWord($Model, $data);
+		$points += $this->__rateByPreviousComment($Model, $data);
+		$points += $this->__rateBody($Model, $data);
+		$data[$this->__settings[$Model->alias]['column_points']] = $points;
 
-			$links = $matches[0];
-
-			$this->totalLinks = count($links);
-			$length = mb_strlen($data[$this->__settings[$Model->alias]['column_content']]);
-			// How many links are in the body
-			// -1 per link if over 2, otherwise +2 if less than 2
-			$maxLinks = Configure::read('Comments.maximum_links');
-			$maxLinks = ($maxLinks > 0) ? $maxLinks : 2;
-
-			$points = ($this->totalLinks > $maxLinks) ? $this->totalLinks * -1 : 2;
-			// URLs that have certain words or characters in them
-			// -1 per blacklisted word
-			// URL length
-			// -1 if more then 30 chars
-			foreach ($links as $link) {
-				foreach ($this->__settings[$Model->alias]['blacklist_words'] as $word) {
-					$points = (stripos($link, $word) !== false) ? $points - 1 : $points;
-				}
-
-				foreach ($this->__settings[$Model->alias]['blacklist_keywords'] as $keyword) {
-					$points = (stripos($link, $keyword) !== false) ? $points - 1 : $points;
-				}
-
-				$points = (strlen($link) >= 30) ? $points - 1 : $points;
-			}
-
-			return $points;
+		if ($points >= 1) {
+			$data[$this->__settings[$Model->alias]['column_status']] = 'approved';
+		} else if ($points == 0) {
+			$data[$this->__settings[$Model->alias]['column_status']] = 'pending';
+		} else if ($points <= $this->__settings[$Model->alias]['deletion']) {
+			$data[$this->__settings[$Model->alias]['column_status']] = 'delete';
+		} else {
+			$data[$this->__settings[$Model->alias]['column_status']] = 'spam';
 		}
 
-		/**
-		 * rate according to the lenght of the text
-		 *
-		 * Rate the length of the comment. if the length is greater than the required
-		 * and there are no links then 2 points are added. with links only 1 point
-		 * is added. if the lenght is too short 1 point is deducted
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateLength(Model $Model, $data) {
-			// How long is the body
-			// +2 if more then 20 chars and no links, -1 if less then 20
-			$length = mb_strlen($data[$this->__settings[$Model->alias]['column_content']]);
+		return $data;
+	}
 
-			$minLenght = (Configure::read('Comments.minimum_length') > 0) ? Configure::read('Comments.minimum_length') : 20;
+/**
+ * adds points based on the amount and length of links in the comment
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateLinks(Model $Model, $data) {
+		$links = preg_match_all(
+			"#(^|[\n ])(?:(?:http|ftp|irc)s?:\/\/|www.)(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,4}(?:[-a-zA-Z0-9._\/&=+%?;\#]+)#is",
+			$data[$this->__settings[$Model->alias]['column_content']],
+			$matches
+		);
 
-			if ($length >= $minLenght && $this->totalLinks <= 0) {
-				return 2;
+		$links = $matches[0];
+
+		$this->totalLinks = count($links);
+		$length = mb_strlen($data[$this->__settings[$Model->alias]['column_content']]);
+		// How many links are in the body
+		// -1 per link if over 2, otherwise +2 if less than 2
+		$maxLinks = Configure::read('Comments.maximum_links');
+		$maxLinks = ($maxLinks > 0) ? $maxLinks : 2;
+
+		$points = ($this->totalLinks > $maxLinks) ? $this->totalLinks * -1 : 2;
+		// URLs that have certain words or characters in them
+		// -1 per blacklisted word
+		// URL length
+		// -1 if more then 30 chars
+		foreach ($links as $link) {
+			foreach ($this->__settings[$Model->alias]['blacklist_words'] as $word) {
+				$points = (stripos($link, $word) !== false) ? $points - 1 : $points;
 			}
-
-			elseif ($length >= $minLenght && $this->totalLinks == 1) {
-				return 1;
-			}
-
-			elseif ($length < $minLenght) {
-				return - 1;
-			}
-		}
-
-		/**
-		 * rate according to past history
-		 *
-		 * Check previous comments by the same user. If they have been marked as
-		 * active they get points added, if they are marked as spam points are
-		 * deducted.
-		 *
-		 * on dogmatic69.com 95% of the spam had a number as the email address,
-		 * There is hardly any people that have a number as the email address.
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateEmail(Model $Model, $data) {
-			$parts = explode('@', $data[$this->__settings[$Model->alias]['column_email']]);
-			if(is_int($parts[0])) {
-				return -15;
-			}
-
-			$conditions = array(
-				$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_email'] =>
-					$data[$this->__settings[$Model->alias]['column_email']],
-				$this->__settings[$Model->alias]['class'] . '.active' => 1
-			);
-
-			$points = 0;
-			$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
-				'all',
-				array(
-					'fields' => array(
-						$this->__settings[$Model->alias]['class'] . '.id',
-						$this->__settings[$Model->alias]['class'] . '.status'
-					),
-					'conditions' => $conditions,
-					'contain' => false
-				)
-			);
-
-			foreach ($comments as $comment) {
-				switch($comment[$this->__settings[$Model->alias]['class']]['status']) {
-					case 'approved':
-						++$points;
-						break;
-
-					case 'spam':
-						--$points;
-						break;
-				}
-			}
-
-			return $points;
-		}
-
-		/**
-		 * check for blacklisted words
-		 *
-		 * Checks the text to see if it contains any of the blacklisted words.
-		 * If there are, 1 point is deducted for each match.
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateKeywords(Model $Model, $data) {
-			$points = 0;
 
 			foreach ($this->__settings[$Model->alias]['blacklist_keywords'] as $keyword) {
-				if (stripos($data[$this->__settings[$Model->alias]['column_content']], $keyword) !== false) {
-					--$points;
-				}
+				$points = (stripos($link, $keyword) !== false) ? $points - 1 : $points;
 			}
 
-			return $points;
+			$points = (strlen($link) >= 30) ? $points - 1 : $points;
 		}
 
-		/**
-		 * rate according to the start of the comment
-		 *
-		 * Checks the first word against the blacklist keywords. if there is a
-		 * match then 10 points are deducted.
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateStartingWord(Model $Model, $data) {
-			$firstWord = mb_substr(
-				$data[$this->__settings[$Model->alias]['column_content']],
-				0,
-				stripos($data[$this->__settings[$Model->alias]['column_content']], ' ')
-			);
+		return $points;
+	}
 
-			return (in_array(mb_strtolower($firstWord), $this->__settings[$Model->alias]['blacklist_keywords'])) ? - 10 : 0;
-		}
+/**
+ * rate according to the lenght of the text
+ *
+ * Rate the length of the comment. if the length is greater than the required
+ * and there are no links then 2 points are added. with links only 1 point
+ * is added. if the lenght is too short 1 point is deducted
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateLength(Model $Model, $data) {
+		// How long is the body
+		// +2 if more then 20 chars and no links, -1 if less then 20
+		$length = mb_strlen($data[$this->__settings[$Model->alias]['column_content']]);
 
-		/**
-		 * Deduct points if it is a copy of any other comments in the database.
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateByPreviousComment(Model $Model, $data) {
-			// Body used in previous comment
-			// -1 per exact comment
-			$previousComments = $Model->{$this->__settings[$Model->alias]['class']}->find(
-				'count',
-				array(
-					'conditions' => array(
-						$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_content'] =>
-							$data[$this->__settings[$Model->alias]['column_content']]
-					),
-					'contain' => false
-				)
-			);
+		$minLenght = (Configure::read('Comments.minimum_length') > 0) ? Configure::read('Comments.minimum_length') : 20;
 
-			return 0 - $previousComments;
-		}
-
-		/**
-		 * rate according to the structure of words
-		 *
-		 * Rate according to the text. Generaly words do not contain more than
-		 * a few consecutive consonants. -1 point is given per 5 consecutive
-		 * consonants.
-		 *
-		 * @var $Model object the model object
-		 * @var $data array the data from the form
-		 *
-		 * @return integer
-		 */
-		private function __rateBody(Model $Model, $data) {
-			$consonants = preg_match_all(
-				'/[^aAeEiIoOuU\s]{5,}+/i',
-				$data[$this->__settings[$Model->alias]['column_content']],
-				$matches
-			);
-
-			return 0 - count($matches[0]);
+		if ($length >= $minLenght && $this->totalLinks <= 0) {
+			return 2;
+		} else if ($length >= $minLenght && $this->totalLinks == 1) {
+			return 1;
+		} else if ($length < $minLenght) {
+			return - 1;
 		}
 	}
+
+/**
+ * rate according to past history
+ *
+ * Check previous comments by the same user. If they have been marked as
+ * active they get points added, if they are marked as spam points are
+ * deducted.
+ *
+ * on dogmatic69.com 95% of the spam had a number as the email address,
+ * There is hardly any people that have a number as the email address.
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateEmail(Model $Model, $data) {
+		$parts = explode('@', $data[$this->__settings[$Model->alias]['column_email']]);
+		if (is_int($parts[0])) {
+			return -15;
+		}
+
+		$conditions = array(
+			$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_email'] =>
+				$data[$this->__settings[$Model->alias]['column_email']],
+			$this->__settings[$Model->alias]['class'] . '.active' => 1
+		);
+
+		$points = 0;
+		$comments = $Model->{$this->__settings[$Model->alias]['class']}->find(
+			'all',
+			array(
+				'fields' => array(
+					$this->__settings[$Model->alias]['class'] . '.id',
+					$this->__settings[$Model->alias]['class'] . '.status'
+				),
+				'conditions' => $conditions,
+				'contain' => false
+			)
+		);
+
+		foreach ($comments as $comment) {
+			switch($comment[$this->__settings[$Model->alias]['class']]['status']) {
+				case 'approved':
+					++$points;
+					break;
+
+				case 'spam':
+					--$points;
+					break;
+			}
+		}
+
+		return $points;
+	}
+
+/**
+ * check for blacklisted words
+ *
+ * Checks the text to see if it contains any of the blacklisted words.
+ * If there are, 1 point is deducted for each match.
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateKeywords(Model $Model, $data) {
+		$points = 0;
+
+		foreach ($this->__settings[$Model->alias]['blacklist_keywords'] as $keyword) {
+			if (stripos($data[$this->__settings[$Model->alias]['column_content']], $keyword) !== false) {
+				--$points;
+			}
+		}
+
+		return $points;
+	}
+
+/**
+ * rate according to the start of the comment
+ *
+ * Checks the first word against the blacklist keywords. if there is a
+ * match then 10 points are deducted.
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateStartingWord(Model $Model, $data) {
+		$firstWord = mb_substr(
+			$data[$this->__settings[$Model->alias]['column_content']],
+			0,
+			stripos($data[$this->__settings[$Model->alias]['column_content']], ' ')
+		);
+
+		return (in_array(mb_strtolower($firstWord), $this->__settings[$Model->alias]['blacklist_keywords'])) ? - 10 : 0;
+	}
+
+/**
+ * Deduct points if it is a copy of any other comments in the database.
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateByPreviousComment(Model $Model, $data) {
+		// Body used in previous comment
+		// -1 per exact comment
+		$previousComments = $Model->{$this->__settings[$Model->alias]['class']}->find('count', array(
+			'conditions' => array(
+				$this->__settings[$Model->alias]['class'] . '.' . $this->__settings[$Model->alias]['column_content'] =>
+					$data[$this->__settings[$Model->alias]['column_content']]
+			),
+			'contain' => false
+		));
+
+		return 0 - $previousComments;
+	}
+
+/**
+ * rate according to the structure of words
+ *
+ * Rate according to the text. Generaly words do not contain more than
+ * a few consecutive consonants. -1 point is given per 5 consecutive
+ * consonants.
+ *
+ * @param Model $Model object the model object
+ * @param array $data array the data from the form
+ *
+ * @return integer
+ */
+	private function __rateBody(Model $Model, $data) {
+		$consonants = preg_match_all(
+			'/[^aAeEiIoOuU\s]{5,}+/i',
+			$data[$this->__settings[$Model->alias]['column_content']],
+			$matches
+		);
+
+		return 0 - count($matches[0]);
+	}
+}

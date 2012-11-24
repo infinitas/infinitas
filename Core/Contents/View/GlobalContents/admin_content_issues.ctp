@@ -44,9 +44,9 @@
 				<td><?php echo $this->Infinitas->massActionCheckBox($content); ?>&nbsp;</td>
 				<td>
 					<?php
-						if(!empty($content['GlobalCategory']['title'])) {
+						if (!empty($content['GlobalCategory']['title'])) {
 							echo $content['GlobalCategory']['title'];
-						} else if($content['GlobalContent']['model'] != 'Contents.GlobalCategory') {
+						} else if ($content['GlobalContent']['model'] != 'Contents.GlobalCategory') {
 							echo __d('contents', 'Uncatgorised');
 						} else {
 							echo '-';
@@ -74,78 +74,78 @@
 				</td>
 				<?php
 					$issues = array();
-					if($content['GlobalContent']['keyword_not_in_description']) {
+					if ($content['GlobalContent']['keyword_not_in_description']) {
 						$issues[] = __d('contents', 'Main keyword not in description');
 					}
 
-					if($content['GlobalContent']['keywords_missing']) {
+					if ($content['GlobalContent']['keywords_missing']) {
 						$issues[] = __d('contents', 'No meta keywords');
 					}
 
-					if($content['GlobalContent']['keywords_short']) {
+					if ($content['GlobalContent']['keywords_short']) {
 						$issues[] = __d('contents', 'Short meta keywords');
 					}
 
-					if($content['GlobalContent']['keywords_duplicate']) {
+					if ($content['GlobalContent']['keywords_duplicate']) {
 						$issues[] = __d('contents', 'Duplicate keywords');
 					}
 
-					if($content['GlobalContent']['description_missing']) {
+					if ($content['GlobalContent']['description_missing']) {
 						$issues[] = __d('contents', 'No meta description');
 					}
 
-					if($content['GlobalContent']['description_short']) {
+					if ($content['GlobalContent']['description_short']) {
 						$issues[] = __d('contents', 'Short meta description');
 					}
 
-					if($content['GlobalContent']['description_duplicate']) {
+					if ($content['GlobalContent']['description_duplicate']) {
 						$issues[] = __d('contents', 'Duplicate description');
 					}
 
-					if($content['GlobalContent']['description_too_long']) {
+					if ($content['GlobalContent']['description_too_long']) {
 						$issues[] = __d('contents', 'Description too long for SERP (%s chars)', strlen($content['GlobalContent']['meta_description']));
 					}
 
-					if($content['GlobalContent']['missing_category']) {
+					if ($content['GlobalContent']['missing_category']) {
 						$issues[] = __d('contents', 'Not linked to a category');
 					}
 
-					if($content['GlobalContent']['missing_layout']) {
+					if ($content['GlobalContent']['missing_layout']) {
 						$issues[] = __d('contents', 'No layout found');
 					}
 
-					if($content['GlobalContent']['missmatched_layout']) {
+					if ($content['GlobalContent']['missmatched_layout']) {
 						$issues[] = __d('contents', 'Layout linked from another model');
 					}
 
-					if(count(explode(' ', strip_tags($content['GlobalContent']['body']))) < 300) {
+					if (count(explode(' ', strip_tags($content['GlobalContent']['body']))) < 300) {
 						$issues[] = __d('contents', 'Content body is short');
 					}
 
-					if($content['GlobalContent']['introduction_duplicate']) {
+					if ($content['GlobalContent']['introduction_duplicate']) {
 						$issues[] = __d('contents', 'Two or more content share this intro');
 					}
 
-					if($content['GlobalContent']['body_duplicate']) {
+					if ($content['GlobalContent']['body_duplicate']) {
 						$issues[] = __d('contents', 'Two or more content share this body');
 					}
 
-					if($content['GlobalContent']['keyword_density_problem']) {
+					if ($content['GlobalContent']['keyword_density_problem']) {
 						$highLow = $content['GlobalContent']['keyword_density'] < 5 ? __d('contents', 'Low') : __d('contents', 'High');
 						$issues[] = __d('contents', 'Keyword density <b>%s</b> too %s', $content['GlobalContent']['keyword_density'], $highLow);
 					}
 
 					$issueCount = 0;
-					if($content['GlobalContent']['foreign_key'] && $issues) {
+					if ($content['GlobalContent']['foreign_key'] && $issues) {
 						$issueCount = count($issues);
 						$issues = __d('contents', 'Possible Issues :: %s', $this->Design->arrayToList($issues));
 					}
 				?>
 				<td title="<?php echo $issueCount ? $issues : ''; ?>">
 					<?php
-						if($issueCount) {
+						if ($issueCount) {
 							echo __dn('contents', '%d issue', '%d issues', $issueCount, $issueCount, $issueCount);
-						} else if(!$content['GlobalContent']['foreign_key']) {
+						} else if (!$content['GlobalContent']['foreign_key']) {
 							echo 'Orphan';
 						} else {
 							echo '-';

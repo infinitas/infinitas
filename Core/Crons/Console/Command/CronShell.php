@@ -81,17 +81,17 @@
 		public function main() {
 			$this->params['only'] = isset($this->params['only']) ? $this->params['only'] : array();
 
-			if(!is_array($this->params['only'])) {
+			if (!is_array($this->params['only'])) {
 				$this->params['only'] = explode(',', (array)$this->params['only']);
 			}
 
-			if(!$this->params['verbose'] && !$this->CronLock->checkTimePassed()) {
+			if (!$this->params['verbose'] && !$this->CronLock->checkTimePassed()) {
 				$this->CronResource->log(sprintf('skipping (%s)', date('Y-m-d H:i:s')));
 				return false;
 			}
 
 			$this->CronResource->start = microtime(true);
-			if(!$this->_start()) {
+			if (!$this->_start()) {
 				$this->_abort();
 			}
 
@@ -106,8 +106,8 @@
 			$this->CronResource->logMemoryUsage(sprintf('→ Getting events (%s)', count($plugins)));
 
 			$count = 0;
-			foreach($plugins as $plugin) {
-				if(!empty($this->params['only']) && !in_array($plugin, $this->params['only'])) {
+			foreach ($plugins as $plugin) {
+				if (!empty($this->params['only']) && !in_array($plugin, $this->params['only'])) {
 					continue;
 				}
 
@@ -119,7 +119,7 @@
 				}
 
 				$jobRan = isset($data['runCrons']) && current($data['runCrons']);
-				if($jobRan) {
+				if ($jobRan) {
 					++$this->jobsRun;
 				}
 
@@ -147,7 +147,7 @@
 		}
 
 		protected function _abort() {
-			if($this->params['verbose']) {
+			if ($this->params['verbose']) {
 				return true;
 			}
 

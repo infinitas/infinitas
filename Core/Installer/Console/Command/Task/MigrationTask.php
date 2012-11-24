@@ -18,7 +18,7 @@ class MigrationTask extends AppShell {
 		$this->type = $plugin;
 		$this->path = $this->__getPath() . 'Config' . DS . 'releases' . DS;
 
-		if(!is_dir($this->__getPath() . 'Config' . DS . 'Schema')) {
+		if (!is_dir($this->__getPath() . 'Config' . DS . 'Schema')) {
 			new Folder($this->__getPath() . 'Config' . DS . 'Schema', true);
 		}
 
@@ -83,7 +83,7 @@ class MigrationTask extends AppShell {
 			}
 
 			$comparison = $this->Schema->compare($oldSchema, $this->_readSchema());
-			if(!empty($comparison)) {
+			if (!empty($comparison)) {
 				return $comparison;
 			}
 		}

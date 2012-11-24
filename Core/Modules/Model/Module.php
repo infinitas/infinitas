@@ -132,11 +132,11 @@ class Module extends ModulesAppModel {
 		$this->subPath = 'View' . DS . 'Elements' . DS . 'modules' . DS;
 
 		$this->virtualFields = array(
-			'list_name' => "IF(:alias.admin = 1, CONCAT('Admin :: ', :alias.name), :alias.name)",
-			'save_name' => "IF(:alias.admin = 1, CONCAT('admin/', :alias.module), :alias.module)"
+			'list_name' => "if (:alias.admin = 1, CONCAT('Admin :: ', :alias.name), :alias.name)",
+			'save_name' => "if (:alias.admin = 1, CONCAT('admin/', :alias.module), :alias.module)"
 		);
 
-		foreach($this->virtualFields as &$field) {
+		foreach ($this->virtualFields as &$field) {
 			$field = String::insert($field, array('alias' => $this->alias));
 		}
 
@@ -225,7 +225,7 @@ class Module extends ModulesAppModel {
  * @param type $field
  */
 	public function validateValidModule($field = array()) {
-		if(empty($this->data[$this->alias]['plugin'])) {
+		if (empty($this->data[$this->alias]['plugin'])) {
 			return false;
 		}
 
@@ -250,8 +250,8 @@ class Module extends ModulesAppModel {
  * @return type
  */
 	public function afterFind($results, $primary = false) {
-		foreach($results as &$result) {
-			if(empty($result[$this->alias]['id'])) {
+		foreach ($results as &$result) {
+			if (empty($result[$this->alias]['id'])) {
 				$result['ModuleRoute'] = array();
 				continue;
 			}
@@ -293,7 +293,7 @@ class Module extends ModulesAppModel {
  * @return boolean
  */
 	public function beforeValidate($options = array()) {
-		if(!empty($this->data[$this->alias]['module'])) {
+		if (!empty($this->data[$this->alias]['module'])) {
 			$this->data[$this->alias]['admin'] = strstr($this->data[$this->alias]['module'], 'admin/') ? 1 : 0;
 		}
 
@@ -314,7 +314,7 @@ class Module extends ModulesAppModel {
 		}
 
 		$lockerBehavior = false;
-		if($this->Behaviors->enabled('Lockable')) {
+		if ($this->Behaviors->enabled('Lockable')) {
 			$lockerBehavior = true;
 			$this->Behaviors->disable('Lockable');
 		}
@@ -374,7 +374,7 @@ class Module extends ModulesAppModel {
 			)
 		);
 
-		if($lockerBehavior) {
+		if ($lockerBehavior) {
 			$this->Behaviors->enable('Lockable');
 		}
 
@@ -391,12 +391,12 @@ class Module extends ModulesAppModel {
  */
 	public function getModule($module, $admin = false) {
 		$_module = Cache::read('single.' . (($admin) ? 'admin' : 'user'), 'modules');
-		if($_module !== false) {
+		if ($_module !== false) {
 			return $_module;
 		}
 
 		$lockerBehavior = false;
-		if($this->Behaviors->enabled('Lockable')) {
+		if ($this->Behaviors->enabled('Lockable')) {
 			$lockerBehavior = true;
 			$this->Behaviors->disable('Lockable');
 		}
@@ -423,7 +423,7 @@ class Module extends ModulesAppModel {
 		);
 		Cache::write('single.' . (($admin) ? 'admin' : 'user'), $module, 'modules');
 
-		if($lockerBehavior) {
+		if ($lockerBehavior) {
 			$this->Behaviors->enable('Lockable');
 		}
 
@@ -452,16 +452,16 @@ class Module extends ModulesAppModel {
 
 		$files = $this->Folder->read();
 
-		foreach($files[1] as $file) {
+		foreach ($files[1] as $file) {
 			$file = str_replace('.ctp', '', $file);
 			$nonAdmin[$file] = Inflector::humanize($file);
 		}
 
-		if(!empty($files[0]) && is_dir($path.$this->subPath.'admin')) {
+		if (!empty($files[0]) && is_dir($path.$this->subPath.'admin')) {
 			$this->Folder->cd($path . $this->subPath . 'admin');
 			$files = $this->Folder->read();
 
-			foreach($files[1] as &$file) {
+			foreach ($files[1] as &$file) {
 				$file = str_replace('.ctp', '', $file);
 				$admin['admin/'.$file] = Inflector::humanize($file);
 			}

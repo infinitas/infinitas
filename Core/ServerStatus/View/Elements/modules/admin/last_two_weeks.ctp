@@ -1,5 +1,5 @@
 <?php
-	if(!isset($lastTwoWeeks) || empty($lastTwoWeeks)) {
+	if (!isset($lastTwoWeeks) || empty($lastTwoWeeks)) {
 		return false;
 	}
 ?>
@@ -11,7 +11,7 @@
 			$this->Time->niceShort($lastTwoWeeks['end_date'])
 		);
 
-		if(empty($lastTwoWeeks['day'])) {
+		if (empty($lastTwoWeeks['day'])) {
 			echo $this->ViewCounter->noData();
 		}
 

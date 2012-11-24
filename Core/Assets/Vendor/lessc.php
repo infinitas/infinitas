@@ -828,7 +828,7 @@ class lessc {
 			$color[1],$color[2], $color[3]);
 	}
 
-	protected function lib_argb($color){
+	protected function lib_argb($color) {
 		return $this->lib_rgbahex($color);
 	}
 
@@ -1324,7 +1324,7 @@ class lessc {
 				if (isset(self::$cssColors[$name])) {
 					$rgba = explode(',', self::$cssColors[$name]);
 
-					if(isset($rgba[3]))
+					if (isset($rgba[3]))
 						return array('color', $rgba[0], $rgba[1], $rgba[2], $rgba[3]);
 
 					return array('color', $rgba[0], $rgba[1], $rgba[2]);
@@ -1472,7 +1472,7 @@ class lessc {
 		return $this->fixColor($out);
 	}
 
-	function lib_red($color){
+	function lib_red($color) {
 		$color = $this->coerceColor($color);
 		if (is_null($color)) {
 			$this->throwError('color expected for red()');
@@ -1481,7 +1481,7 @@ class lessc {
 		return $color[1];
 	}
 
-	function lib_green($color){
+	function lib_green($color) {
 		$color = $this->coerceColor($color);
 		if (is_null($color)) {
 			$this->throwError('color expected for green()');
@@ -1490,7 +1490,7 @@ class lessc {
 		return $color[2];
 	}
 
-	function lib_blue($color){
+	function lib_blue($color) {
 		$color = $this->coerceColor($color);
 		if (is_null($color)) {
 			$this->throwError('color expected for blue()');

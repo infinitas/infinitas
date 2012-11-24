@@ -87,15 +87,15 @@
 		 * @return boolean
 		 */
 		public function copy(Model $Model, $id = null) {
-			if(!$id) {
+			if (!$id) {
 				$id = $Model->id;
 			}
 
-			if(!$id) {
+			if (!$id) {
 				return false;
 			}
 
-			if(is_array($id)) {
+			if (is_array($id)) {
 				return $this->__multiCopy($Model, $id);
 			}
 
@@ -120,8 +120,8 @@
 			$transaction = $Model->transaction();
 			$saved = $this->__copyRecord($Model);
 
-			if($transaction) {
-				if($saved) {
+			if ($transaction) {
+				if ($saved) {
 					$Model->transaction(true);
 				}
 
@@ -152,23 +152,23 @@
 		private function __multiCopy(Model $Model, $ids) {
 			$ids = array_keys($Model->find('list', array('conditions' => array($Model->alias . '.' . $Model->primaryKey => array_filter((array)$ids)))));
 
-			if(empty($ids)) {
+			if (empty($ids)) {
 				return false;
 			}
 
 			$transaction = $Model->transaction();
 
 			$multiSave = array();
-			foreach($ids as $id) {
+			foreach ($ids as $id) {
 				$multiSave[] = $this->copy($Model, $id);
 			}
 
-			if($transaction && count(array_filter($multiSave)) == count($ids)) {
+			if ($transaction && count(array_filter($multiSave)) == count($ids)) {
 				$Model->transaction(true);
 				return array_combine($ids, $multiSave);
 			}
 
-			else if($transaction) {
+			else if ($transaction) {
 				$Model->transaction(false);
 				return false;
 			}
@@ -285,26 +285,26 @@
 		 * @return array
 		 */
 		private function __renameUniqueFields(Model $Model, $record) {
-			foreach(array_keys($record) as $field) {
-				if(!$Model->hasField($field)) {
+			foreach (array_keys($record) as $field) {
+				if (!$Model->hasField($field)) {
 					continue;
 				}
 
 				$modified = false;
-				if(isset($Model->validate[$field]['isUnique'])) {
+				if (isset($Model->validate[$field]['isUnique'])) {
 					$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
 					$modified = true;
 				}
 				else{
 					$index = ConnectionManager::getDataSource($Model->useDbConfig)->index($Model);
-					if(isset($index[$field]['unique']) && $index[$field]['unique']) {
+					if (isset($index[$field]['unique']) && $index[$field]['unique']) {
 						$record[$field] = sprintf('%s - copied %s', $record[$field], date('Ymd H:i:s'));
 						$modified = true;
 					}
 				}
 
 				$count = $Model->find('count', array('conditions' => array($Model->alias . '.' . $field => $record[$field])));
-				if($modified === true && $count > 0) {
+				if ($modified === true && $count > 0) {
 					$record[$field] = $record[$field] . sprintf(' (%s)', $count);
 				}
 			}
@@ -378,7 +378,7 @@
 		 * @return array
 		 */
 		private function __recursiveChildContain(Model $Model, $mainModelAlias = null) {
-			if(!isset($this->settings[$Model->alias])) {
+			if (!isset($this->settings[$Model->alias])) {
 				$this->settings[$Model->alias] = $this->settings[$mainModelAlias];
 			}
 
@@ -409,8 +409,8 @@
 		 * @return array
 		 */
 		private function __stripFields(Model $Model, $record) {
-			foreach($record as $field => $value) {
-				if(in_array($field, $this->settings[$Model->alias]['stripFields'])) {
+			foreach ($record as $field => $value) {
+				if (in_array($field, $this->settings[$Model->alias]['stripFields'])) {
 					unset($record[$field]);
 				}
 			}

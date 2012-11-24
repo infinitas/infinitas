@@ -29,7 +29,7 @@
 			$method = strtoupper($this->in(__d('libs', 'What would you like to do?'), array_keys($this->__options)));
 
 			$method = $this->__options[$method];
-			if(!is_callable(array($this, $method))) {
+			if (!is_callable(array($this, $method))) {
 				$this->out(__d('libs', 'You have made an invalid selection. Please choose an option from above.'));
 			}
 			else{
@@ -41,22 +41,22 @@
 
 		public function generate() {
 			$plugins = $this->_selectPlugins(true, 'all');
-			if(!$plugins) {
+			if (!$plugins) {
 				return false;
 			}
 
-			foreach($plugins as $plugin) {
+			foreach ($plugins as $plugin) {
 				$this->__generateFixture($plugin, true);
 			}
 		}
 
 		public function update() {
 			$plugins = $this->_selectPlugins(true, 'all');
-			if(!$plugins) {
+			if (!$plugins) {
 				return false;
 			}
 
-			foreach($plugins as $plugin) {
+			foreach ($plugins as $plugin) {
 				$this->__generateFixture($plugin, false);
 			}
 		}
@@ -69,7 +69,7 @@
 			$models = App::objects('Model', InfinitasPlugin::path($plugin) . 'Model', false);
 			$models = array_combine(range(1, count($models)), $models);
 
-			foreach($models as $k => $model) {
+			foreach ($models as $k => $model) {
 				$models[$k] = Inflector::humanize(str_replace('.php', '', $model));
 			}
 			$models['A'] = 'all';
@@ -82,15 +82,15 @@
 				$option = strtoupper($this->in(__d('libs', 'Which model would you like a fixture for')));
 			}
 
-			if(!isset($models[$option]) || $option == 'B') {
+			if (!isset($models[$option]) || $option == 'B') {
 				return false;
 			}
 
-			if($option != 'A') {
+			if ($option != 'A') {
 				$models = array($models[$option]);
 			}
 
-			foreach($models as $model) {
+			foreach ($models as $model) {
 				$this->InfinitasFixtureBake->setup($plugin . '.' . $model, $new);
 			}
 		}

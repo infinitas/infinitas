@@ -170,7 +170,7 @@
 						)
 					)
 				);
-				if($this->findQueryType != 'count') {
+				if ($this->findQueryType != 'count') {
 					$query['group'] = array(
 						$this->alias . '.' . $this->primaryKey .' HAVING (' .
 							$this->alias . '__description_too_long = 1 OR ' .
@@ -259,7 +259,7 @@
 			if ($state === 'before') {
 				$Model = ClassRegistry::init($query['model']);
 				$query = $this->__getListQuery($query);
-				if(!$Model->useTable) {
+				if (!$Model->useTable) {
 					return $query;
 				}
 
@@ -272,7 +272,7 @@
 					)
 				);
 
-				if($Model->hasField('views')) {
+				if ($Model->hasField('views')) {
 					$query['order'] = array($Model->alias. '.views' => 'desc');
 				}
 
@@ -284,7 +284,7 @@
 
 		protected function _findSearch($state, $query, $results = array()) {
 			if ($state === 'before') {
-				if(empty($query[0])) {
+				if (empty($query[0])) {
 					throw new Exception('No search term defined');
 				}
 
@@ -294,7 +294,7 @@
 					array($this->alias . '.model NOT LIKE' => '%Gallery%'),
 				);
 
-				if(!empty($query[1])) {
+				if (!empty($query[1])) {
 					$query['conditions']['GlobalCategory.id'] = $query[1];
 					unset($query[1]);
 				}
@@ -310,11 +310,11 @@
 		}
 
 		private function __getListQuery($query) {
-			if(!empty($query['model'])) {
+			if (!empty($query['model'])) {
 				$query['conditions'][$this->alias . '.model'] = $query['model'];
 			}
 
-			if(!empty($query['category']) && is_string($query['category'])) {
+			if (!empty($query['category']) && is_string($query['category'])) {
 				$query['joins'][] = array(
 					'table' => 'global_categories',
 					'alias' => 'GlobalContentCategory',
@@ -360,8 +360,8 @@
 					'SubCategoryData.global_category_id'
 				);
 
-				foreach((array)$this->virtualFields as $field => $value) {
-					if(strstr($field, 'content_image_path')) {
+				foreach ((array)$this->virtualFields as $field => $value) {
+					if (strstr($field, 'content_image_path')) {
 						$query['fields'][] = 'GlobalContent.' . $field;
 					}
 				}
@@ -393,18 +393,18 @@
 			}
 
 			$return = array();
-			foreach($results as &$result) {
+			foreach ($results as &$result) {
 				$result['GlobalContent']['id'] = $result['GlobalContent']['foreign_key'];
 				$model = $result['GlobalContent']['model'];
 				unset($result['GlobalContent']['foreign_key'], $result['GlobalContent']['model']);
 
 
-				if(!empty($result['GlobalTagged'])) {
+				if (!empty($result['GlobalTagged'])) {
 					$result['GlobalContent']['GlobalTagged'] = $result['GlobalTagged'];
 				}
 				$return[$model][] = $result['GlobalContent'];
 
-				if(!empty($result['SubCategoryData']['id'])) {
+				if (!empty($result['SubCategoryData']['id'])) {
 					$return['Contents.SubCategory'][] = $result['SubCategoryData'];
 				}
 			}
@@ -424,12 +424,12 @@
 		 * @return array
 		 */
 		public function moveContent($model = null, $limit = 500) {
-			if(!$model) {
+			if (!$model) {
 				trigger_error(__d('contents', 'No model selected to move'), E_USER_WARNING);
 				return false;
 			}
 
-			if(!is_int($limit)) {
+			if (!is_int($limit)) {
 				$limit = 500;
 			}
 
@@ -446,7 +446,7 @@
 				)
 			);
 
-			if($Model->displayField == $Model->primaryKey) {
+			if ($Model->displayField == $Model->primaryKey) {
 				trigger_error(sprintf(__d('contents', 'Display field and primary key are the same for %s, cant move'), $model), E_USER_WARNING);
 				return false;
 			}
@@ -462,19 +462,19 @@
 				)
 			);
 
-			foreach($rows as $row) {
+			foreach ($rows as $row) {
 				$newContent = array();
 				$newContent[$this->alias] = $row[$Model->alias];
 				$newContent[$this->alias]['foreign_key'] = $row[$Model->alias][$Model->primaryKey];
 				$newContent[$this->alias]['model'] = $Model->plugin . '.' . $Model->alias;
 
-				if(!isset($newContent[$this->alias]['group_id'])) {
+				if (!isset($newContent[$this->alias]['group_id'])) {
 					$newContent[$this->alias]['group_id'] = 2;
 				}
 
 				unset($newContent[$this->alias][$Model->primaryKey]);
 				$this->create();
-				if($this->save($newContent)) {
+				if ($this->save($newContent)) {
 					$Model->id = $row[$Model->alias][$Model->primaryKey];
 					$Model->saveField($Model->displayField, '', false);
 					$return['moved']++;
@@ -558,8 +558,8 @@
 			);
 
 			$labels = array();
-			foreach(array_keys($dates) as $k => $v) {
-				if($k % 2 == 0) {
+			foreach (array_keys($dates) as $k => $v) {
+				if ($k % 2 == 0) {
 					$labels[] = $v;
 				}
 				else {

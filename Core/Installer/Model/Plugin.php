@@ -75,7 +75,7 @@ class Plugin extends InstallerAppModel {
 		$plugins = App::objects('plugin');
 		natsort($plugins);
 
-		if($type == 'count') {
+		if ($type == 'count') {
 			return count($plugins);
 		}
 
@@ -90,7 +90,7 @@ class Plugin extends InstallerAppModel {
  * @return array|integer
  */
 	public function getInstalledPlugins($type = 'list') {
-		if(!in_array($type, array('list', 'count', 'all'))) {
+		if (!in_array($type, array('list', 'count', 'all'))) {
 			$type = 'list';
 		}
 
@@ -99,7 +99,7 @@ class Plugin extends InstallerAppModel {
 			$this->alias . '.internal_name'
 		);
 
-		if($type !== 'list') {
+		if ($type !== 'list') {
 			$fields = array();
 		}
 
@@ -148,7 +148,7 @@ class Plugin extends InstallerAppModel {
  * @return array|integer
  */
 	protected function _installedPluginsByState($active = 1, $type = 'list') {
-		if(!in_array($type, array('list', 'count', 'all'))) {
+		if (!in_array($type, array('list', 'count', 'all'))) {
 			$type = 'list';
 		}
 		$active = (bool)$active;
@@ -158,12 +158,12 @@ class Plugin extends InstallerAppModel {
 			$this->alias . '.internal_name'
 		);
 
-		if($type !== 'list') {
+		if ($type !== 'list') {
 			$fields = array();
 		}
 
 		$conditionType = 'or';
-		if(!$active) {
+		if (!$active) {
 			$conditionType = 'and';
 		}
 
@@ -195,7 +195,7 @@ class Plugin extends InstallerAppModel {
 		$nonInstalled = array_diff($this->getAllPlugins(), array_values($this->getInstalledPlugins()));
 		natsort($nonInstalled);
 
-		if($type == 'count') {
+		if ($type == 'count') {
 			return count($nonInstalled);
 		}
 
@@ -233,7 +233,7 @@ class Plugin extends InstallerAppModel {
 		$pluginDetails['license'] = !empty($pluginDetails['license']) ? $pluginDetails['license'] : $pluginDetails['author'] . ' (c)';
 
 		$this->create();
-		if($this->save(array($this->alias => $pluginDetails))) {
+		if ($this->save(array($this->alias => $pluginDetails))) {
 			return InfinitasPlugin::install($pluginName, array(
 				'sampleData' => $options['sampleData'],
 				'installRelease' => $options['installRelease']
@@ -268,16 +268,16 @@ class Plugin extends InstallerAppModel {
  * @throws CakeException
  */
 	public function processInstall($data) {
-		if(empty($data['Plugin']['file']['name'])) {
+		if (empty($data['Plugin']['file']['name'])) {
 			unset($data['Plugin']['file']);
 		}
 
-		if(empty($data['Theme']['file']['name'])) {
+		if (empty($data['Theme']['file']['name'])) {
 			unset($data['Theme']['file']);
 		}
 		$data = array_filter(Set::flatten($data));
 
-		if(!$data) {
+		if (!$data) {
 			throw new CakeException(__d('installer', 'Nothing selected to install'));
 		}
 

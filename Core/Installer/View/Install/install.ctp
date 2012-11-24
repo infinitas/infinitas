@@ -49,7 +49,7 @@
 		</thead>
 		<tbody>
 			<?php
-				foreach($plugins as $plugin => $data) {
+				foreach ($plugins as $plugin => $data) {
 					?>
 						<tr>
 							<td title="<?php echo $data['description']; ?>"><?php echo Inflector::humanize($data['name']); ?>&nbsp;</td>

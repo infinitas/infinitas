@@ -59,7 +59,7 @@ class ConfigsController extends ConfigsAppController {
 	public function admin_add() {
 		parent::admin_add();
 
-		if(isset($this->request->params['named']['Config.key'])) {
+		if (isset($this->request->params['named']['Config.key'])) {
 			$this->request->data['Config']['key'] = $this->request->params['named']['Config.key'];
 			$value = Configure::read($this->request->params['named']['Config.key']);
 			switch(true) {
@@ -73,7 +73,7 @@ class ConfigsController extends ConfigsAppController {
 
 				default:
 					$array = explode(',', $value);
-					if(count($array) > 1) {
+					if (count($array) > 1) {
 						$this->request->data['Config']['type'] = 'array';
 						$this->request->data['Config']['value'] = $array[0];
 						$this->request->data['Config']['options'] = $value;
@@ -83,7 +83,7 @@ class ConfigsController extends ConfigsAppController {
 					}
 			}
 
-			if(!isset($this->request->data['Config']['value'])) {
+			if (!isset($this->request->data['Config']['value'])) {
 				$this->request->data['Config']['value'] = $value;
 			}
 		}

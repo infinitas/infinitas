@@ -55,7 +55,7 @@ class LockableBehavior extends ModelBehavior {
  * @return void
  */
 	public function setup(Model $Model, $config = null) {
-		if($Model->alias == 'Lock' || !$Model->Behaviors->enabled('Locks.Lockable')) {
+		if ($Model->alias == 'Lock' || !$Model->Behaviors->enabled('Locks.Lockable')) {
 			return;
 		}
 
@@ -107,12 +107,12 @@ class LockableBehavior extends ModelBehavior {
 	public function afterFind(Model $Model, $results, $primary) {
 		$this->userId = class_exists('CakeSession') ? CakeSession::read('Auth.User.id') : null;
 
-		if(!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)) {
-			if(!$this->userId || $Model->findQueryType != 'all') {
+		if (!$this->userId || $Model->findQueryType != 'first' || !$primary || empty($results)) {
+			if (!$this->userId || $Model->findQueryType != 'all') {
 				return $results;
 			}
 
-			foreach($results as $k => &$result) {
+			foreach ($results as $k => &$result) {
 				$result['Lock']['Locker'] = $result['LockLocker'];
 				unset($result['LockLocker']);
 			}
@@ -120,7 +120,7 @@ class LockableBehavior extends ModelBehavior {
 			return $results;
 		}
 
-		if(isset($results[0][$Model->alias][$Model->primaryKey])) {
+		if (isset($results[0][$Model->alias][$Model->primaryKey])) {
 			$Lock = ClassRegistry::init('Locks.Lock');
 			$lock = $Lock->find(
 				'all',
@@ -135,12 +135,12 @@ class LockableBehavior extends ModelBehavior {
 				)
 			);
 
-			if(isset($lock[0]['Lock']['user_id']) && $this->userId == $lock[0]['Lock']['user_id']) {
+			if (isset($lock[0]['Lock']['user_id']) && $this->userId == $lock[0]['Lock']['user_id']) {
 				$Lock->delete($lock[0]['Lock']['id']);
 				$lock = array();
 			}
 
-			if(!empty($lock)) {
+			if (!empty($lock)) {
 				return $lock;
 			}
 
@@ -170,11 +170,11 @@ class LockableBehavior extends ModelBehavior {
  * @return array
  */
 	public function beforeFind(Model $Model, $query) {
-		if($Model->findQueryType == 'count') {
+		if ($Model->findQueryType == 'count') {
 			return $query;
 		}
 
-		if(!is_array($query['fields'])) {
+		if (!is_array($query['fields'])) {
 			$query['fields'] = array($query['fields']);
 		}
 
@@ -222,7 +222,7 @@ class LockableBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function afterSave(Model $Model, $created) {
-		if(!$created) {
+		if (!$created) {
 			$this->__deleteLock($Model, $Model->data[$Model->alias][$Model->primaryKey]);
 		}
 
@@ -256,7 +256,7 @@ class LockableBehavior extends ModelBehavior {
  * @return boolean
  */
 	private function __deleteLock(Model $Model, $id = null) {
-		if(!AuthComponent::user('id') || !$id) {
+		if (!AuthComponent::user('id') || !$id) {
 			return true;
 		}
 

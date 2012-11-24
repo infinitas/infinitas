@@ -1,5 +1,5 @@
 <?php
-	if(empty($data['image'])) {
+	if (empty($data['image'])) {
 		return;
 	}
 	

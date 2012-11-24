@@ -1,5 +1,5 @@
 <?php
-	if(empty($data['keyword_density']) && empty($data['body'])) {
+	if (empty($data['keyword_density']) && empty($data['body'])) {
 		return false;
 	}
 	

@@ -67,12 +67,12 @@
 					unset($this->__settings[$Model->alias]['label'][$k]);
 				}
 
-				if($field == $this->__settings[$Model->alias]['slug']) {
+				if ($field == $this->__settings[$Model->alias]['slug']) {
 					throw new Exception(sprintf('Model "%s" can not slug its slug field "%s"', $Model->alias, $this->__settings[$Model->alias]['slug']));
 				}
 			}
 
-			if(empty($this->__settings[$Model->alias]['label'])) {
+			if (empty($this->__settings[$Model->alias]['label'])) {
 				throw new Exception(sprintf('Model "%s" has no sluggable fields', $Model->alias));
 			}
 
@@ -92,7 +92,7 @@
 			$return = parent::beforeSave($Model);
 
 			$isBlank = false;
-			if(isset($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']]) && empty($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']])) {
+			if (isset($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']]) && empty($Model->data[$Model->alias][$this->__settings[$Model->alias]['slug']])) {
 				$isBlank = true;
 			}
 
@@ -102,7 +102,7 @@
 				empty($Model->id)
 			);
 
-			if(!$shouldSlug) {
+			if (!$shouldSlug) {
 				return $return;
 			}
 

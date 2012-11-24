@@ -1,9 +1,9 @@
 <?php
-	if(empty($model)) {
+	if (empty($model)) {
 		$model = implode('.', $this->request->models[current(array_keys($this->request->models))]);
 	}
 
-	else if(!strstr($model, '.')) {
+	else if (!strstr($model, '.')) {
 		$model = ClassRegistry::init($model)->plugin . '.' . ClassRegistry::init($model)->alias;
 	}
 
@@ -23,17 +23,17 @@
 		'</div>' .
 		$this->Form->input('GlobalContent.tags', array('value' => implode(',', (array)Set::extract('/GlobalTagged/GlobalTag/name', $this->request->data))));
 
-	if(!isset($image) || $image !== false) {
+	if (!isset($image) || $image !== false) {
 		$fields .= $this->element('Filemanager.file_upload', array('fieldName' => 'GlobalContent.image', 'inputOptions' => array('label' => __d('contents', 'Content Image'))));
 	}
 
-	if(!isset($intro) || $intro !== false) {
+	if (!isset($intro) || $intro !== false) {
 		$fields .= $this->Infinitas->wysiwyg('GlobalContent.introduction');
 	}
 	$fields .= $this->Infinitas->wysiwyg('GlobalContent.body');
 
 	$template = '%s';
-	if(!empty($metaFieldSet) && $metaFieldSet === true) {
+	if (!empty($metaFieldSet) && $metaFieldSet === true) {
 		$template = sprintf(
 			'<fieldset><h1>%s</h1>%%s</fieldset>',
 			__d('contents', 'Content')

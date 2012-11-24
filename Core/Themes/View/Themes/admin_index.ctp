@@ -40,7 +40,7 @@ echo $this->Form->create(false, array('action' => 'mass'));
 			),
 		));
 
-		foreach($themes as $theme) { ?>
+		foreach ($themes as $theme) { ?>
 			<tr>
 				<td><?php echo $this->Infinitas->massActionCheckBox($theme); ?>&nbsp;</td>
 				<td>
@@ -54,7 +54,7 @@ echo $this->Form->create(false, array('action' => 'mass'));
 				<td>
 					<?php
 						$theme['Theme']['default_layout'] = trim(Inflector::humanize($theme['Theme']['default_layout']));
-						if(empty($theme['Theme']['default_layout'])) {
+						if (empty($theme['Theme']['default_layout'])) {
 							$theme['Theme']['default_layout'] = Inflector::humanize(Configure::read('Themes.default_layout')) . ' ' .
 								$this->Html->tag('span', __d('installer', 'Default'), array(
 									'class' => 'label label-info'
@@ -83,7 +83,7 @@ echo $this->Form->create(false, array('action' => 'mass'));
 							));
 						}
 
-						if(!$theme['Theme']['admin'] && !$theme['Theme']['frontend']) {
+						if (!$theme['Theme']['admin'] && !$theme['Theme']['frontend']) {
 							echo $this->Html->tag('span', __d('themes', 'Frontend'), array(
 								'class' => 'label'
 							));
@@ -92,7 +92,7 @@ echo $this->Form->create(false, array('action' => 'mass'));
 				</td>
 				<td>
 					<?php
-						if($theme['Theme']['licence']) {
+						if ($theme['Theme']['licence']) {
 							echo $theme['Theme']['licence'];
 						} else {
 							echo sprintf('&copy; %s', $theme['Theme']['author']);

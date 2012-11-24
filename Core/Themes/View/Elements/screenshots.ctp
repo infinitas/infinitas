@@ -1,12 +1,12 @@
 <?php
 $images = InfinitasTheme::screenshots($theme);
 
-if(empty($images)) {
+if (empty($images)) {
 	echo $this->Design->alert(__d('themes', 'There are no screen shots available for this theme'));
 }
 
 $main = array();
-foreach($images as $k => &$image) {
+foreach ($images as $k => &$image) {
 	$layout = str_replace('.png', '', basename($image));
 	$image = $this->Html->link(
 		$this->Html->image($image),
@@ -21,13 +21,13 @@ foreach($images as $k => &$image) {
 	);
 	$image .= $this->Html->tag('h4', Inflector::humanize($layout));
 
-	if(in_array($layout, array('admin', 'front'))) {
+	if (in_array($layout, array('admin', 'front'))) {
 		$main[] = $image;
 		unset($images[$k]);
 	}
 }
 
-if(!empty($main)) {
+if (!empty($main)) {
 	echo $this->Html->tag('h3', __d('themes', 'Main layouts'));
 	echo $this->Design->arrayToList($main, array(
 		'ul' => 'thumbnails',
@@ -35,7 +35,7 @@ if(!empty($main)) {
 	));
 }
 
-if(!empty($images)) {
+if (!empty($images)) {
 	echo $this->Html->tag('h3', __d('themes', 'Additional layouts'));
 	echo $this->Design->arrayToList($images, array(
 		'ul' => 'thumbnails',

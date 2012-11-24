@@ -267,7 +267,7 @@
 				list($name, $class) = each($map[1]);
 				$migration = $this->getMigration($name, $class, 'Migrations');
 
-				if($migration->run('up')) {
+				if ($migration->run('up')) {
 					$this->Version = ClassRegistry::init($options);
 					$this->setVersion(1, 'Migrations');
 				}

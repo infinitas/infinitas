@@ -21,7 +21,7 @@ App::uses('AppHelper', 'View/Helper');
  * Once the data has been formatted correctly and there are no errors its passed
  * along to the chart engine that was set, to be rendered.
  *
- * @todo add in some caching. If something is cached only the key should be passed
+ * Need to add in some caching. If something is cached only the key should be passed
  * along to the engine. This means that the engine should use the same cache key
  * to store a chache of the actuall chart. It could be possible to just pass
  * back the cahce without even calling the engine.
@@ -36,6 +36,7 @@ App::uses('AppHelper', 'View/Helper');
  */
 
 class ChartsHelper extends AppHelper {
+
 /**
  * the engine to use when rendering the chart
  *
@@ -110,14 +111,12 @@ class ChartsHelper extends AppHelper {
 		$className = 'Html';
 		if (is_array($settings) && isset($settings[0])) {
 			$className = $settings[0];
-		}
-
-		elseif (is_string($settings)) {
+		} elseif (is_string($settings)) {
 			$className = $settings;
 		}
 
 		$engineName = $className;
-		list($plugin, $className) = pluginSplit($className);
+		list(, $className) = pluginSplit($className);
 
 		$this->__engineName = $className . 'ChartEngine';
 		$this->helpers[] = $engineName . 'ChartEngine';
@@ -157,19 +156,19 @@ class ChartsHelper extends AppHelper {
  * @return string
  */
 	public function draw($type = '', $data = array(), $engine = null) {
-		if(!$type && !isset($this->data['type'])) {
+		if (!$type && !isset($this->data['type'])) {
 			trigger_error(__d('charts', 'Please specify the chart type'), E_USER_WARNING);
 			return false;
 		}
 
 		$engine = (string)$engine;
 		$this->__engineName = !empty($engine) ? $engine : $this->__engineName;
-		if(!$this->__engineName) {
+		if (!$this->__engineName) {
 			trigger_error(__d('charts', 'You need to specify the engine to use'), E_USER_WARNING);
 			return false;
 		}
 
-		if(!empty($data)) {
+		if (!empty($data)) {
 			$this->__buildChartData($type, $data);
 		}
 
@@ -188,15 +187,13 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setType($type = null) {
-		if(is_string($type) && !empty($type)) {
+		if (is_string($type) && !empty($type)) {
 			$this->data['type'] = $type;
 			return $this;
-		}
-		else if(is_array($type) && !empty($type)) {
+		} else if (is_array($type) && !empty($type)) {
 			$this->data['type'] = current(array_keys($type));
 			$this->data['config'] = current($type);
-		}
-		else{
+		} else {
 			$this->data['type'] = 'nothing';
 			trigger_error(__d('charts', 'Could not detect the type of chart'), E_USER_NOTICE);
 		}
@@ -213,17 +210,17 @@ class ChartsHelper extends AppHelper {
  */
 	public function setTitle($title = null) {
 		// nothing set and somthing from draw()
-		if((!isset($this->data['title']) || empty($this->data['title'])) && isset($this->__originalData['title'])) {
+		if ((!isset($this->data['title']) || empty($this->data['title'])) && isset($this->__originalData['title'])) {
 			$this->data['title'] = $this->__originalData['title'];
 		}
 
 		// something was passed.
-		if($title) {
+		if ($title) {
 			$this->data['title'] = $title;
 		}
 
 		// still nothing, just set it to false
-		if(!isset($this->data['title']) || !is_string($this->data['title']) || empty($this->data['title'])) {
+		if (!isset($this->data['title']) || !is_string($this->data['title']) || empty($this->data['title'])) {
 			$this->data['title'] = false;
 		}
 
@@ -241,7 +238,7 @@ class ChartsHelper extends AppHelper {
  */
 	public function setWidth($width) {
 		$this->data['size']['width'] = $width;
-		if(!is_int($this->data['size']['width']) || (int)$this->data['size']['width'] < 1) {
+		if (!is_int($this->data['size']['width']) || (int)$this->data['size']['width'] < 1) {
 			$this->data['size']['width'] = $this->__defaults['width'];
 			trigger_error(sprintf(__d('charts', 'Width (%s) is not an int or too small, using default'), $width), E_USER_NOTICE);
 		}
@@ -260,7 +257,7 @@ class ChartsHelper extends AppHelper {
  */
 	public function setHeight($height) {
 		$this->data['size']['height'] = $height;
-		if(!is_int($this->data['size']['height']) || (int)$this->data['size']['height'] < 1) {
+		if (!is_int($this->data['size']['height']) || (int)$this->data['size']['height'] < 1) {
 			$this->data['size']['height'] = $this->__defaults['height'];
 			trigger_error(sprintf(__d('charts', 'Height (%s) is not an int or too small, using default'), $height), E_USER_NOTICE);
 		}
@@ -269,47 +266,47 @@ class ChartsHelper extends AppHelper {
 	}
 
 /**
-* Set the width and height in one call
-*
-* set the charts size, can take an array of width / height or just width,
-* an int for width or a comma seperated list of width,height
-*
-* * ChartsHelper::setWidth()
-* * ChartsHelper::setHeight()
-*
-* @param mixed $size string in the form 'w,h' or array
-* @param string $delimiter the delimiter of the data, can be anything defaults to
+ * Set the width and height in one call
  *
-* @throws E_USER_WARNING if none, or more than 2 elements are passed for the size.
-*
-* @return ChartsHelper
-*/
+ * set the charts size, can take an array of width / height or just width,
+ * an int for width or a comma seperated list of width,height
+ *
+ * * ChartsHelper::setWidth()
+ * * ChartsHelper::setHeight()
+ *
+ * @param mixed $size string in the form 'w,h' or array
+ * @param string $delimiter the delimiter of the data, can be anything defaults to
+ *
+ * @throws E_USER_WARNING if none, or more than 2 elements are passed for the size.
+ *
+ * @return ChartsHelper
+ */
 	public function setSize($size = null, $delimiter = ',') {
-		if(!$size && isset($this->__originalData['size'])) {
+		if (!$size && isset($this->__originalData['size'])) {
 			$size = $this->__originalData['size'];
 		}
 
-		if(!$size && isset($this->__originalData['width'])) {
+		if (!$size && isset($this->__originalData['width'])) {
 			$size = $this->__originalData['width'];
-			if(isset($this->__originalData['height'])) {
+			if (isset($this->__originalData['height'])) {
 				$size .= $delimiter . $this->__originalData['height'];
 			}
 		}
 
-		if(!$size) {
+		if (!$size) {
 			trigger_error(__d('charts', 'Size could not be determined, using default'), E_USER_NOTICE);
 			$size = $this->__defaults['width'] . $delimiter . $this->__defaults['height'];
 		}
 
-		if(!is_array($size)) {
+		if (!is_array($size)) {
 			$size = explode($delimiter, $size);
 		}
 
 		$count = count($size);
-		if(isset($size['width'])) {
+		if (isset($size['width'])) {
 			$size[0] = $size['width'];
 		}
-		if(isset($size['height'])) {
+		if (isset($size['height'])) {
 			$size[1] = $size['height'];
 		}
 		switch($count) {
@@ -345,7 +342,7 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setAxes($axes = null) {
-		if(!$axes && isset($this->__originalData['axes'])) {
+		if (!$axes && isset($this->__originalData['axes'])) {
 			$axes = $this->__originalData['axes'];
 		}
 		$this->data['axes'] = array_keys((array)$axes);
@@ -375,18 +372,18 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setLabels($data, $delimiter = ',') {
-		if(!isset($this->data['axes'])) {
+		if (!isset($this->data['axes'])) {
 			trigger_error(__d('charts', 'Axes should be set before labels, skipping'), E_USER_NOTICE);
 			return $this;
 		}
 
-		if(!isset($this->data['data'])) {
+		if (!isset($this->data['data'])) {
 			trigger_error(__d('charts', 'Data should be set before labels, skipping'), E_USER_NOTICE);
 			return $this;
 		}
 
-		foreach((array)$this->data['axes'] as $axes) {
-			if(!isset($this->__originalData['axes'][$axes]) || $this->__originalData['axes'][$axes] === true) {
+		foreach ((array)$this->data['axes'] as $axes) {
+			if (!isset($this->__originalData['axes'][$axes]) || $this->__originalData['axes'][$axes] === true) {
 				$this->data['labels'][$axes] = $this->__defaultLablesFromData($this->data['data']);
 				continue;
 			}
@@ -406,18 +403,16 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setLegend($data = null, $delimiter = ',') {
-		if(!$data) {
+		if (!$data) {
 			$data = isset($this->__originalData['legend']) ? $this->__originalData['legend'] : array();
 		}
 
-		if(!empty($data)) {
-			$_defaults = array(
+		if (!empty($data)) {
+			$this->data['legend'] = array_merge(array(
 				'position' => null,
 				'order' => null,
 				'labels' => array()
-			);
-
-			$this->data['legend'] = array_merge($_defaults, (array)$data);
+			), (array)$data);
 		}
 
 		return $this;
@@ -429,7 +424,7 @@ class ChartsHelper extends AppHelper {
  * This method sets the actuall data for the chart. if the normalize key
  * is true the data will be converted to a % or 100.
  *
- * * ChartsHelper::__normalizeData()
+ * - ChartsHelper::__normalizeData()
  *
  * @param array $data array of data to set for the chart ranges
  * @param bool $normalize switch the normalizing on or off passing this param
@@ -437,15 +432,13 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setData($data = null, $normalize = null) {
-		if(!$data) {
+		if (!$data) {
 			$data = $this->data['data'];
 		}
 
-		if(is_bool($normalize)) {
+		if (is_bool($normalize)) {
 			$this->normalize = $normalize;
-		}
-
-		else if(isset($this->__originalData['normalize']) && is_bool($this->__originalData['normalize'])) {
+		} else if (isset($this->__originalData['normalize']) && is_bool($this->__originalData['normalize'])) {
 			$this->normalize = $this->__originalData['normalize'];
 		}
 
@@ -464,18 +457,14 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setColors($colors = null) {
-		if(!$colors) {
+		if (!$colors) {
 			$colors = isset($this->__originalData['color']) ? $this->__originalData['color'] : array();
 		}
 
-		if(!is_array($colors) || empty($colors)) {
+		if (!is_array($colors) || empty($colors)) {
 			$this->data['color'] = $this->__defaults['color'];
-		}
-		else{
-			$this->data['color'] = array_merge(
-				$this->__defaults['color'],
-				$colors
-			);
+		} else {
+			$this->data['color'] = array_merge($this->__defaults['color'], $colors);
 		}
 
 		return $this;
@@ -515,7 +504,7 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setSpacing($spacing = null) {
-		if(!$spacing) {
+		if (!$spacing) {
 			$spacing = isset($this->__originalData['spacing']) ? $this->__originalData['spacing'] : array();
 		}
 
@@ -542,15 +531,14 @@ class ChartsHelper extends AppHelper {
  * @return ChartsHelper
  */
 	public function setTooltip($tooltip = null) {
-		if(!$tooltip || !is_string($tooltip)) {
+		if (!$tooltip || !is_string($tooltip)) {
 			$tooltip = isset($this->__originalData['tooltip']) ? $this->__originalData['tooltip'] : false;
 		}
 
 		$this->data['tooltip'] = isset($this->data['tooltip']) ? $this->data['tooltip'] : null;
-		if($tooltip === true) {
+		if ($tooltip === true) {
 			$this->data['tooltip'] = $this->__defaults['tooltip'];
-		}
-		else{
+		} else {
 			$this->data['tooltip'] = $tooltip;
 		}
 
@@ -568,7 +556,7 @@ class ChartsHelper extends AppHelper {
  * @return void
  */
 	public function setExtra($extra = array()) {
-		if(!$extra) {
+		if (!$extra) {
 			$extra = isset($this->__originalData['extra']) ? $this->__originalData['extra'] : array();
 		}
 
@@ -590,7 +578,7 @@ class ChartsHelper extends AppHelper {
 	private function __buildChartData($type, $data) {
 		$this->__originalData = $data;
 
-		if(isset($data['normalize'])) {
+		if (isset($data['normalize'])) {
 			$this->normalize = (bool)$data['normalize'];
 		}
 
@@ -621,20 +609,20 @@ class ChartsHelper extends AppHelper {
  *
  * @return ChartsHelper
  */
-	private function validateData($data = null) {
-		if(!$data) {
+	public function validateData($data = null) {
+		if (!$data) {
 			$data = $this->__originalData['data'];
 		}
 
-		if(!isset($data[0][0])) {
-			if(!is_array($data)) {
+		if (!isset($data[0][0])) {
+			if (!is_array($data)) {
 				$data = array($data);
 			}
 
 			$data = array($data);
 		}
 
-		foreach($data as $k => $v) {
+		foreach ($data as $k => $v) {
 			$this->data['data'][$k] = $this->__anythingToArray('data', $v, ',', true);
 		}
 
@@ -659,35 +647,35 @@ class ChartsHelper extends AppHelper {
  * @return array
  */
 	private function __normalizeData($data, $max = null) {
-		if(!$this->normalize) {
+		if (!$this->normalize) {
 			$this->data['ratio'] = 'fixed';
 			return $this;
 		}
 
 		$this->data['ratio'] = 'percentage';
 
-		foreach($data as $k => $_data) {
-			foreach($_data as $kk => $__data) {
-				if(is_array($__data)) {
-					foreach($__data as $kkk => $___data) {
-						if($this->data['values']['max'] == 0) {
+		foreach ($data as $k => $_data) {
+			foreach ($_data as $kk => $vv) {
+				if (is_array($vv)) {
+					foreach ($vv as $kkk => $vvv) {
+						if ($this->data['values']['max'] == 0) {
 							$data[$k][$kk][$kkk] = 0;
 							continue;
 						}
 
-						$data[$k][$kk][$kkk] = round(($___data / $this->data['values']['max']) * 100);
+						$data[$k][$kk][$kkk] = round(($vvv / $this->data['values']['max']) * 100);
 					}
 					continue;
 				}
 
 				$data[$k][$kk] = 0;
-				if($this->data['values']['max']) {
-					if($this->data['values']['max'] == 0) {
+				if ($this->data['values']['max']) {
+					if ($this->data['values']['max'] == 0) {
 						$data[$k][$kk] = 0;
 						continue;
 					}
 
-					$data[$k][$kk] = round(($__data / $this->data['values']['max']) * 100);
+					$data[$k][$kk] = round(($vv / $this->data['values']['max']) * 100);
 				}
 			}
 		}
@@ -709,23 +697,22 @@ class ChartsHelper extends AppHelper {
  * @return array|boolean
  */
 	private function __anythingToArray($field, $data, $delimiter = ',', $return = false) {
-		if(!$data && isset($this->__originalData[$field])) {
+		if (!$data && isset($this->__originalData[$field])) {
 			$data = $this->__originalData[$field];
 		}
 
-		if(!is_array($data) && !empty($data)) {
+		if (!is_array($data) && !empty($data)) {
 			$data = explode($delimiter, $data);
 		}
 
-		if(!$data || empty($data)) {
-			if($return) {
+		if (!$data || empty($data)) {
+			if ($return) {
 				return false;
 			}
 
 			$this->data[$field] = false;
-		}
-		else{
-			if($return) {
+		} else {
+			if ($return) {
 				return $data;
 			}
 
@@ -788,18 +775,17 @@ class ChartsHelper extends AppHelper {
  * @return integer
  */
 	private function __getMaxDataValue($data = null) {
-		if(!$data) {
+		if (!$data) {
 			$data = $this->data['data'];
 		}
 
-		if(!isset($this->data['values']['max'])) {
+		if (!isset($this->data['values']['max'])) {
 			$this->data['values']['max'] = max(Set::flatten($data));
 		}
 
 		unset($data);
 		return $this->data['values']['max'];
 	}
-
 
 /**
  * Get the minimum value that is in the data array.
@@ -811,11 +797,11 @@ class ChartsHelper extends AppHelper {
  * @return integer
  */
 	private function __getMinDataValue($data = null) {
-		if(!$data) {
+		if (!$data) {
 			$data = $this->data['data'];
 		}
 
-		if(!isset($this->data['values']['min'])) {
+		if (!isset($this->data['values']['min'])) {
 			$this->data['values']['min'] = min(Set::flatten($data));
 		}
 
@@ -824,21 +810,21 @@ class ChartsHelper extends AppHelper {
 	}
 
 /**
-* Get the average of all data values
-*
-* get the average amount for all the data that was passed for chart
-* rendering.
-*
-* @param array $data the data used for the
-*
-* @return integer
-*/
+ * Get the average of all data values
+ *
+ * get the average amount for all the data that was passed for chart
+ * rendering.
+ *
+ * @param array $data the data used for the
+ *
+ * @return integer
+ */
 	private function __getAverageDataValue($data = null) {
-		if(!$data) {
+		if (!$data) {
 			$data = $this->data['data'];
 		}
 
-		if(!isset($this->data['values']['average'])) {
+		if (!isset($this->data['values']['average'])) {
 			$flat = Set::flatten($data);
 			$this->data['values']['average'] = round(array_sum($flat) / count($flat));
 		}
@@ -853,18 +839,17 @@ class ChartsHelper extends AppHelper {
  * do some final checks and then if all is good trigger the chart engine
  * that is needed and return the chart.
  *
- * @throws E_USER_WARNING when no data is passed
- * @throws E_USER_WARNING when the engine is not available
+ * @throws CakeException
  *
  * @return string
  */
 	private function __dispatch() {
-		if(empty($this->data)) {
-			throw new Exception(__d('charts', 'You need to pass data, or use the methods to set data'));
+		if (empty($this->data)) {
+			throw new CakeException(__d('charts', 'You need to pass data, or use the methods to set data'));
 		}
 
-		if(!is_callable(array($this->{$this->__engineName}, $this->data['type']))) {
-			throw new Exception(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']));
+		if (!is_callable(array($this->{$this->__engineName}, $this->data['type']))) {
+			throw new CakeException(sprintf('(%s) does not have a (%s) chart type', get_class($this->{$this->__engineName}), $this->data['type']));
 		}
 
 		$chart = $this->{$this->__engineName}->{$this->data['type']}($this->data);
@@ -873,5 +858,4 @@ class ChartsHelper extends AppHelper {
 
 		return $chart;
 	}
-
 }

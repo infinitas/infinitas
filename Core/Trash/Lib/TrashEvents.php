@@ -1,7 +1,7 @@
 <?php
 	class TrashEvents extends AppEvents{
 		public function onAttachBehaviors(Event $Event) {
-			if($Event->Handler->shouldAutoAttachBehavior()) {
+			if ($Event->Handler->shouldAutoAttachBehavior()) {
 				$noTrashModels = array(
 					'Session', 'SchemaMigration', 'Config',
 					'Aco', 'Aro', 'Trash', 'Lock'

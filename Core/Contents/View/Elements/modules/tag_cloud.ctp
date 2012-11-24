@@ -1,16 +1,16 @@
 <?php
-	if(!empty($config['model'])) {
+	if (!empty($config['model'])) {
 		list($plugin,) = pluginSplit($config['model']);
-		if(Inflector::underscore($plugin) != $this->request->plugin) {
+		if (Inflector::underscore($plugin) != $this->request->plugin) {
 			return;
 		}
 	}
 	
-	if(isset($config['category']) && $config['category'] && !empty($this->request->params['category'])) {
+	if (isset($config['category']) && $config['category'] && !empty($this->request->params['category'])) {
 		$config['category'] = $this->request->params['category'];
 	}
 	
-	if(empty($tags)) {
+	if (empty($tags)) {
 		$tags = ClassRegistry::init('Blog.BlogPost')->GlobalTagged->find(
 			'cloud',
 			array(
@@ -23,28 +23,28 @@
 	}
 
 	// format is different of views / the find above
-	if(!isset($tags[0]['GlobalTag'])) {
+	if (!isset($tags[0]['GlobalTag'])) {
 		$_tags = array();
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$_tags[]['GlobalTag'] = $tag;
 		}
 		$tags = $_tags;
 		unset($_tags);
 	}
 	
-	if(!$tags) {
+	if (!$tags) {
 		return false;
 	}
 	
 	$url = !empty($config['url']) ? $config['url'] : array();
-	if(empty($url) && !empty($config['model'])) {
+	if (empty($url) && !empty($config['model'])) {
 		list($plugin, $model) = pluginSplit($config['model']);
 		$url['plugin'] = Inflector::underscore($plugin);
 		$url['controller'] = Inflector::tableize($model);
 		$url['action'] = 'index';
 	}
 	
-	if(!empty($config['category'])) {
+	if (!empty($config['category'])) {
 		$url['category'] = $config['category'];
 	}
 ?>

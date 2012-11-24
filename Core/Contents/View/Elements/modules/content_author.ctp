@@ -1,5 +1,5 @@
 <?php
-	if(!$autorId) {
+	if (!$autorId) {
 		return false;
 	}
 

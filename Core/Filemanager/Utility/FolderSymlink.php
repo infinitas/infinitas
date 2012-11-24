@@ -88,7 +88,7 @@ class FolderSymlink extends Folder {
 		}
 
 		$path = rtrim($path, DS);
-		if($this->isLink($path)) {
+		if ($this->isLink($path)) {
 			return @unlink($path);
 		}
 
@@ -103,7 +103,7 @@ class FolderSymlink extends Folder {
  * @return boolean
  */
 	public function isLink($file = null) {
-		if(!$file) {
+		if (!$file) {
 			$file = $this->path;
 		}
 		return is_link($file);
@@ -119,7 +119,7 @@ class FolderSymlink extends Folder {
  * @throws NotValidLinkSourceException
  */
 	protected function _validSource($path) {
-		if(!is_dir($path)) {
+		if (!is_dir($path)) {
 			throw new NotValidLinkSourceException(array($path));
 		}
 		return true;

@@ -76,7 +76,7 @@
 		 */
 		public function image($email, $options = array()) {
 			$imageOptions = array();
-			if(!empty($options['image'])) {
+			if (!empty($options['image'])) {
 				$imageOptions = $options['image'];
 				unset($options['image']);
 			}

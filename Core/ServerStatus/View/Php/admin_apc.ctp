@@ -63,7 +63,7 @@ function defaults($d,$v) {
 $PHP_SELF= isset($_SERVER['PHP_SELF']) ? htmlentities(strip_tags($_SERVER['PHP_SELF'],''), ENT_QUOTES, 'UTF-8') : '';
 $time = time();
 $host = php_uname('n');
-if($host) { 
+if ($host) { 
 	$host = '('.$host.')';
 }
 
@@ -125,7 +125,7 @@ if (empty($_REQUEST)) {
 }
 
 // check parameter syntax
-foreach($vardom as $var => $dom) {
+foreach ($vardom as $var => $dom) {
 	if (!isset($_REQUEST[$var])) {
 		$MYREQUEST[$var]=NULL;
 	}
@@ -220,14 +220,14 @@ if ($AUTHENTICATED && !empty($MYREQUEST['DU'])) {
 	apc_delete($MYREQUEST['DU']);
 }
 
-if(!function_exists('apc_cache_info') || !($cache=@apc_cache_info($cache_mode))) {
+if (!function_exists('apc_cache_info') || !($cache=@apc_cache_info($cache_mode))) {
 	echo "No cache info available.  APC does not appear to be running.";
   exit;
 }
 
 $cache_user = apc_cache_info('user', 1);  
 $mem=apc_sma_info();
-if(!$cache['num_hits']) { $cache['num_hits']=1; $time++; }  // Avoid division by 0 errors on a cache clear
+if (!$cache['num_hits']) { $cache['num_hits']=1; $time++; }  // Avoid division by 0 errors on a cache clear
 
 // don't cache this page
 //
@@ -244,15 +244,15 @@ function duration($ts) {
     $hours = (int)(($rem)/3600) - $days*24 - $weeks*7*24;
     $mins = (int)(($rem)/60) - $hours*60 - $days*24*60 - $weeks*7*24*60;
     $str = '';
-    if($years==1) $str .= "$years year, ";
-    if($years>1) $str .= "$years years, ";
-    if($weeks==1) $str .= "$weeks week, ";
-    if($weeks>1) $str .= "$weeks weeks, ";
-    if($days==1) $str .= "$days day,";
-    if($days>1) $str .= "$days days,";
-    if($hours == 1) $str .= " $hours hour and";
-    if($hours>1) $str .= " $hours hours and";
-    if($mins == 1) $str .= " 1 minute";
+    if ($years==1) $str .= "$years year, ";
+    if ($years>1) $str .= "$years years, ";
+    if ($weeks==1) $str .= "$weeks week, ";
+    if ($weeks>1) $str .= "$weeks weeks, ";
+    if ($days==1) $str .= "$days day,";
+    if ($days>1) $str .= "$days days,";
+    if ($hours == 1) $str .= " $hours hour and";
+    if ($hours>1) $str .= " $hours hours and";
+    if ($mins == 1) $str .= " 1 minute";
     else $str .= " $mins minutes";
     return $str;
 }
@@ -315,7 +315,7 @@ if (isset($MYREQUEST['IMG'])) {
 		$y1=$y+$h-1;
 
 		imagerectangle($im, $x, $y1, $x1+1, $y+1, $col_black);
-		if($y1>$y) imagefilledrectangle($im, $x, $y, $x1, $y1, $color2);
+		if ($y1>$y) imagefilledrectangle($im, $x, $y, $x1, $y1, $color2);
 		else imagefilledrectangle($im, $x, $y1, $x1, $y, $color2);
 		imagerectangle($im, $x, $y1, $x1, $y, $color1);
 		if ($text) {
@@ -379,11 +379,11 @@ if (isset($MYREQUEST['IMG'])) {
 				$ptr = 0;
 				$free = $mem['block_lists'][$i];
 				uasort($free, 'block_sort');
-				foreach($free as $block) {
-					if($block['offset']!=$ptr) {       // Used block
+				foreach ($free as $block) {
+					if ($block['offset']!=$ptr) {       // Used block
 						$angle_to = $angle_from+($block['offset']-$ptr)/$s;
-						if(($angle_to+$fuzz)>1) $angle_to = 1;
-						if( ($angle_to*360) - ($angle_from*360) >= 1) {
+						if (($angle_to+$fuzz)>1) $angle_to = 1;
+						if ( ($angle_to*360) - ($angle_from*360) >= 1) {
 							fill_arc($image,$x,$y,$size,$angle_from*360,$angle_to*360,$col_black,$col_red);
 							if (($angle_to-$angle_from)>0.05) {
 								array_push($string_placement, array($angle_from,$angle_to));
@@ -392,8 +392,8 @@ if (isset($MYREQUEST['IMG'])) {
 						$angle_from = $angle_to;
 					}
 					$angle_to = $angle_from+($block['size'])/$s;
-					if(($angle_to+$fuzz)>1) $angle_to = 1;
-					if( ($angle_to*360) - ($angle_from*360) >= 1) {
+					if (($angle_to+$fuzz)>1) $angle_to = 1;
+					if ( ($angle_to*360) - ($angle_from*360) >= 1) {
 						fill_arc($image,$x,$y,$size,$angle_from*360,$angle_to*360,$col_black,$col_green);
 						if (($angle_to-$angle_from)>0.05) {
 							array_push($string_placement, array($angle_from,$angle_to));
@@ -404,7 +404,7 @@ if (isset($MYREQUEST['IMG'])) {
 				}
 				if ($ptr < $mem['seg_size']) { // memory at the end
 					$angle_to = $angle_from + ($mem['seg_size'] - $ptr)/$s;
-					if(($angle_to+$fuzz)>1) $angle_to = 1;
+					if (($angle_to+$fuzz)>1) $angle_to = 1;
 					fill_arc($image,$x,$y,$size,$angle_from*360,$angle_to*360,$col_black,$col_red);
 					if (($angle_to-$angle_from)>0.05) {
 						array_push($string_placement, array($angle_from,$angle_to));
@@ -437,12 +437,12 @@ if (isset($MYREQUEST['IMG'])) {
 				$ptr = 0;
 				$free = $mem['block_lists'][$i];
 				uasort($free, 'block_sort');
-				foreach($free as $block) {
-					if($block['offset']!=$ptr) {       // Used block
+				foreach ($free as $block) {
+					if ($block['offset']!=$ptr) {       // Used block
 						$h=(GRAPH_SIZE-5)*($block['offset']-$ptr)/$s;
 						if ($h>0) {
 													$j++;
-							if($j<75) fill_box($image,$x,$y,50,$h,$col_black,$col_red,bsize($block['offset']-$ptr),$j);
+							if ($j<75) fill_box($image,$x,$y,50,$h,$col_black,$col_red,bsize($block['offset']-$ptr),$j);
 													else fill_box($image,$x,$y,50,$h,$col_black,$col_red);
 											}
 						$y+=$h;
@@ -450,7 +450,7 @@ if (isset($MYREQUEST['IMG'])) {
 					$h=(GRAPH_SIZE-5)*($block['size'])/$s;
 					if ($h>0) {
 											$j++;
-						if($j<75) fill_box($image,$x,$y,50,$h,$col_black,$col_green,bsize($block['size']),$j);
+						if ($j<75) fill_box($image,$x,$y,50,$h,$col_black,$col_green,bsize($block['size']),$j);
 						else fill_box($image,$x,$y,50,$h,$col_black,$col_green);
 									}
 					$y+=$h;
@@ -828,11 +828,11 @@ case OB_HOST_STATS:
 		<tr class=tr-1><td class=td-0>PHP Version</td><td>$phpversion</td></tr>
 EOB;
 
-	if(!empty($_SERVER['SERVER_NAME'])) {
+	if (!empty($_SERVER['SERVER_NAME'])) {
 		echo "<tr class=tr-0><td class=td-0>APC Host</td><td>{$_SERVER['SERVER_NAME']} $host</td></tr>\n";
 	}
 
-	if(!empty($_SERVER['SERVER_SOFTWARE'])) {
+	if (!empty($_SERVER['SERVER_SOFTWARE'])) {
 		echo "<tr class=tr-1><td class=td-0>Server Software</td><td>{$_SERVER['SERVER_SOFTWARE']}</td></tr>\n";
 	}
 
@@ -884,7 +884,7 @@ EOB;
 		$j = 1 - $j;
 	}
 
-	if($mem['num_seg']>1 || $mem['num_seg']==1 && count($mem['block_lists'][0])>1) {
+	if ($mem['num_seg']>1 || $mem['num_seg']==1 && count($mem['block_lists'][0])>1) {
 		$mem_note = "Memory Usage<br /><font size=-2>(multiple slices indicate fragments)</font>";
 	}
 	else{
@@ -923,14 +923,14 @@ EOB;
 	$nseg = $freeseg = $fragsize = $freetotal = 0;
 	for($i=0; $i<$mem['num_seg']; $i++) {
 		$ptr = 0;
-		foreach($mem['block_lists'][$i] as $block) {
+		foreach ($mem['block_lists'][$i] as $block) {
 			if ($block['offset'] != $ptr) {
 				++$nseg;
 			}
 
 			$ptr = $block['offset'] + $block['size'];
 			/* Only consider blocks <5M for the fragmentation % */
-			if($block['size']<(5*1024*1024)) {
+			if ($block['size']<(5*1024*1024)) {
 				$fragsize += $block['size'];
 			}
 
@@ -959,10 +959,10 @@ EOB;
 		</td>
 		</tr>
 EOB;
-        if(isset($mem['adist'])) {
-          foreach($mem['adist'] as $i=>$v) {
+        if (isset($mem['adist'])) {
+          foreach ($mem['adist'] as $i=>$v) {
             $cur = pow(2,$i); $nxt = pow(2,$i+1)-1;
-            if($i==0) $range = "1";
+            if ($i==0) $range = "1";
             else $range = "$cur - $nxt";
             echo "<tr><th align=right>$range</th><td align=right>$v</td></tr>\n";
           }
@@ -997,7 +997,7 @@ case OB_SYS_CACHE:
 	{
 		$fieldname='filename';
 		$fieldheading='Script Filename';
-		if(ini_get("apc.stat")) $fieldkey='inode';
+		if (ini_get("apc.stat")) $fieldkey='inode';
 		else $fieldkey='filename'; 
 	}
 	if (!empty($MYREQUEST['SH']))
@@ -1008,10 +1008,10 @@ case OB_SYS_CACHE:
 EOB;
 
 		$m=0;
-		foreach($scope_list as $j => $list) {
-			foreach($cache[$list] as $i => $entry) {
+		foreach ($scope_list as $j => $list) {
+			foreach ($cache[$list] as $i => $entry) {
 				if (md5($entry[$fieldkey])!=$MYREQUEST['SH']) continue;
-				foreach($entry as $k => $value) {
+				foreach ($entry as $k => $value) {
 					if (!$AUTHENTICATED) {
 						// hide all path entries if not logged in
 						$value=preg_replace('/^.*(\\/|\\\\)/','<i>&lt;hidden&gt;</i>/',$value);
@@ -1021,7 +1021,7 @@ EOB;
 						$value=sprintf("%s (%.2f%%)",$value,$value*100/$cache['num_hits']);
 					}
 					if ($k == 'deletion_time') {
-						if(!$entry['deletion_time']) $value = "None";
+						if (!$entry['deletion_time']) $value = "None";
 					}
 					echo
 						"<tr class=tr-$m>",
@@ -1030,7 +1030,7 @@ EOB;
 						"</tr>";
 					$m=1-$m;
 				}
-				if($fieldkey=='info') {
+				if ($fieldkey=='info') {
 					echo "<tr class=tr-$m><td class=td-0>Stored Value</td><td class=td-last><pre>";
 					$output = var_export(apc_fetch($entry[$fieldkey]),true);
 					echo htmlspecialchars($output);
@@ -1065,7 +1065,7 @@ EOB;
 		"<option value=M",$MYREQUEST['SORT1']=='M' ? " selected":"",">Last modified</option>",
 		"<option value=C",$MYREQUEST['SORT1']=='C' ? " selected":"",">Created at</option>",
 		"<option value=D",$MYREQUEST['SORT1']=='D' ? " selected":"",">Deleted at</option>";
-	if($fieldname=='info') echo
+	if ($fieldname=='info') echo
 		"<option value=D",$MYREQUEST['SORT1']=='T' ? " selected":"",">Timeout</option>";
 	echo 
 		'</select>',
@@ -1107,7 +1107,7 @@ EOB;
 		'<th>',sortheader('M','Last modified',"&OB=".$MYREQUEST['OB']),'</th>',
 		'<th>',sortheader('C','Created at',   "&OB=".$MYREQUEST['OB']),'</th>';
 
-	if($fieldname=='info') {
+	if ($fieldname=='info') {
 		$cols+=2;
 		 echo '<th>',sortheader('T','Timeout',"&OB=".$MYREQUEST['OB']),'</th>';
 	}
@@ -1116,7 +1116,7 @@ EOB;
 	// builds list with alpha numeric sortable keys
 	//
 	$list = array();
-	foreach($cache[$scope_list[$MYREQUEST['SCOPE']]] as $i => $entry) {
+	foreach ($cache[$scope_list[$MYREQUEST['SCOPE']]] as $i => $entry) {
 		switch($MYREQUEST['SORT1']) {
 			case 'A': $k=sprintf('%015d-',$entry['access_time']); 	break;
 			case 'H': $k=sprintf('%015d-',$entry['num_hits']); 		break;
@@ -1146,8 +1146,8 @@ EOB;
 		
 		// output list
 		$i=0;
-		foreach($list as $k => $entry) {
-      if(!$MYREQUEST['SEARCH'] || preg_match($MYREQUEST['SEARCH'], $entry[$fieldname]) != 0) {  
+		foreach ($list as $k => $entry) {
+      if (!$MYREQUEST['SEARCH'] || preg_match($MYREQUEST['SEARCH'], $entry[$fieldname]) != 0) {  
         $field_value = htmlentities(strip_tags($entry[$fieldname],''), ENT_QUOTES, 'UTF-8');
         echo
           '<tr class=tr-',$i%2,'>',
@@ -1158,8 +1158,8 @@ EOB;
           '<td class="td-n center">',date(DATE_FORMAT,$entry['mtime']),'</td>',
           '<td class="td-n center">',date(DATE_FORMAT,$entry['creation_time']),'</td>';
 
-        if($fieldname=='info') {
-          if($entry['ttl'])
+        if ($fieldname=='info') {
+          if ($entry['ttl'])
             echo '<td class="td-n center">'.$entry['ttl'].' seconds</td>';
           else
             echo '<td class="td-n center">None</td>';
@@ -1259,7 +1259,7 @@ EOB;
 	// builds list with alpha numeric sortable keys
 	//
 	$tmp = $list = array();
-	foreach($cache[$scope_list[$MYREQUEST['SCOPE']]] as $entry) {
+	foreach ($cache[$scope_list[$MYREQUEST['SCOPE']]] as $entry) {
 		$n = dirname($entry['filename']);
 		if ($MYREQUEST['AGGR'] > 0) {
 			$n = preg_replace("!^(/?(?:[^/\\\\]+[/\\\\]) {".($MYREQUEST['AGGR']-1)."}[^/\\\\]*).*!", "$1", $n);
@@ -1295,7 +1295,7 @@ EOB;
 		
 		// output list
 		$i = 0;
-		foreach($list as $entry) {
+		foreach ($list as $entry) {
 			echo
 				'<tr class=tr-',$i%2,'>',
 				"<td class=td-0>",$entry[0],'</a></td>',

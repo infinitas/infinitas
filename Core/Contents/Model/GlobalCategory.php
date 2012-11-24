@@ -93,7 +93,7 @@ class GlobalCategory extends ContentsAppModel {
  * @return boolean
  */
 	public function beforeValidate($options = array()) {
-		if(empty($this->data[$this->alias]['parent_id'])) {
+		if (empty($this->data[$this->alias]['parent_id'])) {
 			$this->data[$this->alias]['parent_id'] = 0;
 		}
 		return parent::beforeValidate($options);
@@ -134,7 +134,7 @@ class GlobalCategory extends ContentsAppModel {
  * @return array
  */
 	public function children($id = null, $direct = false) {
-		if(!$id || is_int($id)) {
+		if (!$id || is_int($id)) {
 			return parent::children($id, $direct);
 		}
 
@@ -150,7 +150,7 @@ class GlobalCategory extends ContentsAppModel {
 			)
 		);
 
-		if(isset($id['GlobalCategory']['id']) && !empty($id['GlobalCategory']['id'])) {
+		if (isset($id['GlobalCategory']['id']) && !empty($id['GlobalCategory']['id'])) {
 			$id = $id['GlobalCategory']['id'];
 		}
 
@@ -208,8 +208,8 @@ class GlobalCategory extends ContentsAppModel {
 
 		$results = current($results);
 
-		if(!empty($results[$this->alias][$this->primaryKey])) {
-			if(!empty($results['ParentCategory'][$this->primaryKey])) {
+		if (!empty($results[$this->alias][$this->primaryKey])) {
+			if (!empty($results['ParentCategory'][$this->primaryKey])) {
 				$results['ParentCategory']['title'] = $results['ParentCategoryData']['title'];
 				$results['ParentCategory']['slug'] = $results['ParentCategoryData']['slug'];
 				$results['ParentCategory']['canonical_url'] = $results['ParentCategoryData']['canonical_url'];
@@ -245,13 +245,13 @@ class GlobalCategory extends ContentsAppModel {
 		$_inactive = __d('contents', 'Inactive');
 
 		$return = array($_active => array(), $_inactive => array());
-		foreach($results as $result) {
+		foreach ($results as $result) {
 			$title = $result['GlobalCategory']['title'];
-			if($result['GlobalCategory']['path_depth']) {
+			if ($result['GlobalCategory']['path_depth']) {
 				$title = sprintf('%s %s', str_repeat('-', $result['GlobalCategory']['path_depth']), $title);
 			}
 
-			if($result['GlobalCategory']['active']) {
+			if ($result['GlobalCategory']['active']) {
 				$return[$_active][$result['GlobalCategory']['id']] = $title;
 				continue;
 			}

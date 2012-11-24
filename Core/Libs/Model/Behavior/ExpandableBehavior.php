@@ -50,13 +50,13 @@
 			foreach ($results as $i => $item) {
 				$done = false;
 				$keys = array_keys($item);
-				foreach($keys as $key) {
-					if(strstr($key, 'Attribute')) {
+				foreach ($keys as $key) {
+					if (strstr($key, 'Attribute')) {
 						$item[$Model->alias][$item[$key]['key']] = $item[$key]['val'];
 						$done = true;
 					}
 				}
-				if($done) {
+				if ($done) {
 					continue;
 				}
 

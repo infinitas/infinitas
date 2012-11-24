@@ -79,7 +79,7 @@
 					</td>
 					<td>
 						<?php
-							if(!empty($module['Module']['plugin'])) {
+							if (!empty($module['Module']['plugin'])) {
 								echo Inflector::humanize($module['Module']['plugin']);
 							} else {
 								echo __d('modules', 'Global');

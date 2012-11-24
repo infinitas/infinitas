@@ -1,16 +1,23 @@
 <?php
-	App::uses('InfinitasComment', 'Comments.Model');
+App::uses('InfinitasComment', 'Comments.Model');
 
-	class InfinitasCommentTest extends CakeTestCase {
-		public $fixtures = array(
-			'plugin.configs.config',
-			'plugin.themes.theme',
-			'plugin.routes.route',
-			'plugin.view_counter.view_counter_view',
+class InfinitasCommentTest extends CakeTestCase {
 
-			'plugin.comments.infinitas_comment',
-			'plugin.comments.infinitas_comment_attribute'
-		);
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'plugin.configs.config',
+		'plugin.themes.theme',
+		'plugin.routes.route',
+		'plugin.view_counter.view_counter_view',
+
+		'plugin.comments.infinitas_comment',
+		'plugin.comments.infinitas_comment_attribute'
+	);
+
 /**
  * @brief set up at the start
  */
@@ -28,6 +35,5 @@
 	}
 
 	public function testSomething() {
-
 	}
 }

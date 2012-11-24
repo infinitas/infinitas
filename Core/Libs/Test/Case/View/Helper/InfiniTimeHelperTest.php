@@ -53,7 +53,7 @@ class TestInfiniTimeHelper extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->skipIf(true);
+		$this->skipif (true);
 		$this->View = $this->getMock('View', array('append'), array(new TheInfiniTimeTestController()));
 		$this->InfiniTime = new InfiniTimeHelper($this->View);
 		$this->InfiniTime->request = new CakeRequest(null, false);

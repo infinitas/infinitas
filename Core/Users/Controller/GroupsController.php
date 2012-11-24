@@ -44,7 +44,7 @@ class GroupsController extends UsersAppController {
  * @return void
  */
 	public function admin_view($id = null) {
-		if(!$id) {
+		if (!$id) {
 			$this->notice('invalid');
 		}
 

@@ -37,7 +37,7 @@ class DesignHelperTest extends CakeTestCase {
  * @dataProvider arrayToListDataProvider
  */
 	public function testArrayToList($data, $expected) {
-		if(isset($data['div'])) {
+		if (isset($data['div'])) {
 			$result = $this->Design->arrayToList($data['data'], $data['options'], $data['div']);
 		} else {
 			$result = $this->Design->arrayToList($data['data'], $data['options']);

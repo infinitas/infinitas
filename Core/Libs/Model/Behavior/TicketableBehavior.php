@@ -96,7 +96,7 @@ class TicketableBehavior extends ModelBehavior {
 		));
 
 		if (isset($data[$this->Ticket->alias]) && is_array($data[$this->Ticket->alias])) {
-			if($this->Ticket->delete($ticket)) {
+			if ($this->Ticket->delete($ticket)) {
 				return unserialize($data[$this->Ticket->alias]['data']);
 			}
 		}

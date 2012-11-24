@@ -42,7 +42,7 @@
 				<td>
 					<?php
 						$type = pluginSplit($trash['Trash']['model']);
-						if(isset($type[1])) {
+						if (isset($type[1])) {
 							$type[1] = prettyName($type[1]);
 						}
 						echo implode(' ', array_unique($type));

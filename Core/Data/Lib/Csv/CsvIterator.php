@@ -48,7 +48,7 @@ class CsvIterator implements Iterator {
 		$this->_currentRow = array();
 		$this->_CsvFileObject->rewind();
 
-		if($this->_CsvFileObject->hasHeadings()) {
+		if ($this->_CsvFileObject->hasHeadings()) {
 			$this->_CsvFileObject->read();
 		}
 	}
@@ -59,7 +59,7 @@ class CsvIterator implements Iterator {
  * @return array
  */
 	public function current() {
-		if(empty($this->_currentRow) && $this->valid()) {
+		if (empty($this->_currentRow) && $this->valid()) {
 			$this->_currentRow = $this->_CsvFileObject->read();
 		}
 
@@ -86,7 +86,7 @@ class CsvIterator implements Iterator {
 		$this->_currentRow = array();
 		$this->current();
 
-		if($this->valid()) {
+		if ($this->valid()) {
 			return $this->_rowCounter++;
 		}
 
@@ -98,7 +98,7 @@ class CsvIterator implements Iterator {
  *
  * @return boolean
  */
-	public function valid(){
+	public function valid() {
 		return !$this->_CsvFileObject->eof();
 	}
 

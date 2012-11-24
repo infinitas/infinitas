@@ -55,7 +55,7 @@ class ContentsEvents extends AppEvents {
  * @param Event $Event
  */
 	public function onAttachBehaviors(Event $Event) {
-		if($Event->Handler->shouldAutoAttachBehavior()) {
+		if ($Event->Handler->shouldAutoAttachBehavior()) {
 			if (isset($Event->Handler->contentable) && $Event->Handler->contentable && !$Event->Handler->Behaviors->enabled('Contents.Contentable')) {
 				$Event->Handler->Behaviors->attach('Contents.Contentable');
 			}
@@ -158,7 +158,7 @@ class ContentsEvents extends AppEvents {
 				)
 			)
 		);
-		foreach($categories as $category) {
+		foreach ($categories as $category) {
 			$return[] = array(
 				'url' => Router::url(
 					array(
@@ -211,15 +211,15 @@ class ContentsEvents extends AppEvents {
  * @return array
  */
 	public function onSlugUrl(Event $Event, $data = null, $type = null) {
-		if(empty($data['type'])) {
+		if (empty($data['type'])) {
 			$data['type'] = 'category';
 		}
 
-		if(!empty($data['model'])) {
+		if (!empty($data['model'])) {
 			$data = array('type' => $data['model'], 'data' => array('GlobalCategory' => $data));
 		}
 
-		if(!empty($data['GlobalCategory'])) {
+		if (!empty($data['GlobalCategory'])) {
 			$data = array('type' => 'category', 'data' => array('GlobalCategory' => $data));
 		}
 
@@ -243,7 +243,7 @@ class ContentsEvents extends AppEvents {
 	public function onRouteParse(Event $Event, $data = null) {
 		$return = null;
 
-		if(!empty($data['slug'])) {
+		if (!empty($data['slug'])) {
 			$return = ClassRegistry::init('Contents.GlobalContent')->find(
 				'count',
 				array(
@@ -253,7 +253,7 @@ class ContentsEvents extends AppEvents {
 				)
 			);
 
-			if($return > 0) {
+			if ($return > 0) {
 				return $data;
 			}
 

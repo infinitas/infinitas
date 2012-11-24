@@ -242,7 +242,7 @@ class ImageHelperTest extends CakeTestCase {
  * @dataProvider existsDataProvider
  */
 	public function testExists($data, $expected) {
-		foreach($expected as $returnType => $expect) {
+		foreach ($expected as $returnType => $expect) {
 			$result = $this->Image->exists($data['place'], $data['key'], $returnType);
 			$this->assertEquals($expect, $result);
 			$this->assertEmpty($this->Image->errors);

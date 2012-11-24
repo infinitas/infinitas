@@ -65,7 +65,7 @@ class GoogleAppHelper extends AppHelper{
 	protected function _writeCache($data, $url) {
 		$file = sha1(serialize($data)).'.png';
 
-		if(is_writable($this->cachePath)) {
+		if (is_writable($this->cachePath)) {
 			$contents = file_get_contents($url);
 
 			$fp = fopen($this->cachePath.$file, 'w');

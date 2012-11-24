@@ -212,7 +212,7 @@
 		protected function _beforeSaveCreate(Model $Model, $highestPossible) {
 			$orderField = $this->__settings[$Model->alias]['orderField'];
 
-			if(isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
+			if (isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
 				$Model->data[$Model->alias][$orderField] = $highestPossible;
 			}
 
@@ -247,11 +247,11 @@
 		protected function _beforeSaveUpdate(Model $Model, $highestPossible) {
 			$orderField = $this->__settings[$Model->alias]['orderField'];
 
-			if(!empty($this->_newGroups[$Model->alias])) {
+			if (!empty($this->_newGroups[$Model->alias])) {
 				$highestPossible++;
 			}
 
-			if(isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
+			if (isset($Model->data[$Model->alias][$orderField]) && $Model->data[$Model->alias][$orderField] > $highestPossible) {
 				$Model->data[$Model->alias][$orderField] = $highestPossible;
 			}
 
@@ -480,10 +480,10 @@
 				return;
 			}
 
-			foreach(array_keys($Model->data[$Model->alias]) as $key) {
+			foreach (array_keys($Model->data[$Model->alias]) as $key) {
 				$escapedField = $Model->escapeField($key);
 
-				if(in_array($escapedField, $this->__settings[$Model->alias]['groupFields'])) {
+				if (in_array($escapedField, $this->__settings[$Model->alias]['groupFields'])) {
 					$this->_newGroups[$Model->alias][$escapedField] = $Model->data[$Model->alias][$key];
 				}
 			}
@@ -506,12 +506,12 @@
 			$groupValues = ($groupValues !== false) ? $groupValues : $this->_oldGroups[$Model->alias];
 
 			$conditions = array();
-			foreach($this->__settings[$Model->alias]['groupFields'] as $groupField => $escapedGroupField) {
+			foreach ($this->__settings[$Model->alias]['groupFields'] as $groupField => $escapedGroupField) {
 				$groupValue = null;
 				if (isset($groupValues[$escapedGroupField])) {
 					$groupValue = $groupValues[$escapedGroupField];
 				}
-				else if(isset($groupValues[$groupField])) {
+				else if (isset($groupValues[$groupField])) {
 					$groupValue = $groupValues[$groupField];
 				}
 

@@ -99,7 +99,7 @@ class TemplatesController extends NewsletterAppController {
 
 		$imageFiles = array();
 		if (!empty($images[1])) {
-			foreach($images[1] as $img) {
+			foreach ($images[1] as $img) {
 				$img = str_replace('/', $slash, $img);
 				$img = str_replace('\\', $slash . $slash, $img);
 
@@ -201,7 +201,7 @@ class TemplatesController extends NewsletterAppController {
 				)
 			);
 
-		foreach($ids as $k => $v) {
+		foreach ($ids as $k => $v) {
 			if (isset($newsletters[$v])) {
 				unset($ids[$k]);
 			}
@@ -229,7 +229,7 @@ class TemplatesController extends NewsletterAppController {
 			)
 		);
 
-		foreach($ids as $k => $v) {
+		foreach ($ids as $k => $v) {
 			if (isset($campaigns[$v])) {
 				unset($ids[$k]);
 			}

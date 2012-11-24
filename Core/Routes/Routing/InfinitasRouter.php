@@ -44,11 +44,11 @@ class InfinitasRouter extends Router {
  * @return void
  */
 	public static function connect($route, $defaults = array(), $options = array()) {
-		if(empty($options['routeClass'])) {
+		if (empty($options['routeClass'])) {
 			$options['routeClass'] = 'InfinitasRoute';
 		}
 		else {
-			if($options['routeClass'] != 'PluginShortRoute') {
+			if ($options['routeClass'] != 'PluginShortRoute') {
 				var_dump($options);
 				exit;
 			}
@@ -78,15 +78,15 @@ class InfinitasRouter extends Router {
  */
 	public static function bestMatch($request, $params = array(), $bestMatch = true) {
 		$hash = md5(serialize($request + $params + array($bestMatch)));
-		if(!empty(self::$_reverseLookup[$hash])) {
+		if (!empty(self::$_reverseLookup[$hash])) {
 			return self::$_reverseLookup[$hash];
 		}
 
-		foreach(parent::$routes as &$route) {
+		foreach (parent::$routes as &$route) {
 			ksort($route->defaults);
 			ksort($request);
 
-			if(array_filter($route->defaults) !== array_filter($request) || !strstr($route->template, ':')) {
+			if (array_filter($route->defaults) !== array_filter($request) || !strstr($route->template, ':')) {
 				continue;
 			}
 
@@ -94,15 +94,15 @@ class InfinitasRouter extends Router {
 
 			$intersect = array_intersect($templateParams, array_keys($params));
 
-			if($templateParams == $intersect) {
-				foreach($templateParams as $v) {
+			if ($templateParams == $intersect) {
+				foreach ($templateParams as $v) {
 					$request[$v] = $params[$v];
 				}
 
-				if(substr($route->template, -2) == '/*') {
+				if (substr($route->template, -2) == '/*') {
 					$add = $params;
-					foreach($intersect as $k => $v) {
-						if(isset($params[$v])) {
+					foreach ($intersect as $k => $v) {
+						if (isset($params[$v])) {
 							unset($add[$v]);
 						}
 					}
@@ -113,7 +113,7 @@ class InfinitasRouter extends Router {
 			}
 		}
 
-		if($bestMatch && !empty($params['id'])) {
+		if ($bestMatch && !empty($params['id'])) {
 			$request = array_merge($request, array('id' => $params['id']));
 		}
 
@@ -131,14 +131,14 @@ class InfinitasRouter extends Router {
  */
 	protected static function _getTemplateParams($template) {
 		$fragments = array_filter((array)explode('/', $template));
-		foreach($fragments as $k => $fragment) {
-			if(!strstr($fragment, ':')) {
+		foreach ($fragments as $k => $fragment) {
+			if (!strstr($fragment, ':')) {
 				unset($fragments[$k]);
 			}
 		}
 
 		$fragments = array_filter(explode(':', implode('', $fragments)));
-		foreach($fragments as &$param) {
+		foreach ($fragments as &$param) {
 			$param = str_replace(array('-'), '', $param);
 		}
 
@@ -171,10 +171,10 @@ class InfinitasRouter extends Router {
 		App::uses('ClassRegistry', 'Utility');
 		EventCore::trigger(new StdClass(), 'setupRoutes');
 
-		if(InfinitasPlugin::infinitasInstalled()) {
+		if (InfinitasPlugin::infinitasInstalled()) {
 			$routes = ClassRegistry::init('Routes.Route')->getRoutes();
 			if (!empty($routes)) {
-				foreach($routes as $route ) {
+				foreach ($routes as $route ) {
 					if (false) {
 						debugRoute($route);
 						continue;
@@ -184,7 +184,7 @@ class InfinitasRouter extends Router {
 				}
 			}
 
-			if(!defined('INFINITAS_ROUTE_HASH')) {
+			if (!defined('INFINITAS_ROUTE_HASH')) {
 				define('INFINITAS_ROUTE_HASH', md5(serialize($routes)));
 			}
 		}
@@ -199,11 +199,11 @@ class InfinitasRouter extends Router {
  */
 	protected static function _registerExtensions() {
 		$extensions = Cache::read('extensions', 'routes');
-		if($extensions === false) {
+		if ($extensions === false) {
 			$extensions = EventCore::trigger(new StdClass(), 'setupExtensions');
 
 			$_extensions = array();
-			foreach($extensions['setupExtensions'] as $plugin => $ext) {
+			foreach ($extensions['setupExtensions'] as $plugin => $ext) {
 				$_extensions = array_merge($_extensions, (array)$ext);
 			}
 

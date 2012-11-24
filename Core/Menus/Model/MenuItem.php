@@ -145,7 +145,7 @@
 		 */
 		public function validateEmptyOrCssClass($field) {
 			$field = current($field);
-			if(empty($field) && $field !== 0) {
+			if (empty($field) && $field !== 0) {
 				return true;
 			}
 
@@ -166,7 +166,7 @@
 		public function beforeValidate($options = array()) {
 			$foreignKey = $this->belongsTo[$this->Menu->alias]['foreignKey'];
 
-			if(!empty($this->data[$this->alias][$foreignKey]) && empty($this->data[$this->alias]['parent_id'])) {
+			if (!empty($this->data[$this->alias][$foreignKey]) && empty($this->data[$this->alias]['parent_id'])) {
 				$menuItem = $this->find(
 					'first',
 					array(
@@ -180,7 +180,7 @@
 					)
 				);
 
-				if(empty($menuItem[$this->alias]['id'])) {
+				if (empty($menuItem[$this->alias]['id'])) {
 					return false;
 				}
 
@@ -262,7 +262,7 @@
 				)
 			);
 
-			foreach($menus as &$menu) {
+			foreach ($menus as &$menu) {
 				$this->__underscore($menu);
 			}
 
@@ -281,8 +281,8 @@
 			$menu[$this->alias]['controller'] = substr(Inflector::underscore($menu[$this->alias]['controller']), 0, -11);
 			$menu[$this->alias]['params'] = (array)json_decode($menu[$this->alias]['params'], true);
 
-			if(!empty($menu['children'])) {
-				foreach($menu['children'] as &$child) {
+			if (!empty($menu['children'])) {
+				foreach ($menu['children'] as &$child) {
 					$this->__underscore($child);
 				}
 			}
@@ -309,7 +309,7 @@
 				)
 			);
 
-			if($count > 0) {
+			if ($count > 0) {
 				return true;
 			}
 
@@ -338,7 +338,7 @@
 		 * @return array
 		 */
 		public function getParents($menuId = null) {
-			if(!$menuId) {
+			if (!$menuId) {
 				throw new Exception('No menu selected');
 			}
 

@@ -44,7 +44,7 @@ class InstallerTest extends CakeTestCase {
 		);
 		unset($connection['connection']['prefix']);
 		$expected = $connection['connection'];
-		if(empty($expected['port'])) {
+		if (empty($expected['port'])) {
 			unset($expected['port']);
 		}
 
@@ -62,7 +62,7 @@ class InstallerTest extends CakeTestCase {
  * @return void
  */
 	public function testRootInstall() {
-		$this->skipIf(true);
+		$this->skipif (true);
 		App::uses('InstallerLib', 'Installer.Lib');
 		$Installer = new InstallerLib();
 
@@ -80,7 +80,7 @@ class InstallerTest extends CakeTestCase {
  * @test installing plugins
  */
 	public function testInstaller() {
-		$this->skipIf(true);
+		$this->skipif (true);
 		$this->__cleanSystem();
 
 		App::uses('InstallerLib', 'Installer.Lib');
@@ -113,8 +113,8 @@ class InstallerTest extends CakeTestCase {
 
 		$pluginsToInstall = App::objects('plugin');
 		natsort($pluginsToInstall);
-		foreach($pluginsToInstall as $k => $pluginToInstall) {
-			if(in_array($pluginToInstall, array('Migrations'))) {
+		foreach ($pluginsToInstall as $k => $pluginToInstall) {
+			if (in_array($pluginToInstall, array('Migrations'))) {
 				continue;
 			}
 
@@ -124,7 +124,7 @@ class InstallerTest extends CakeTestCase {
 			);
 		}
 
-		foreach($pluginsToInstall as $pluginToInstall) {
+		foreach ($pluginsToInstall as $pluginToInstall) {
 			$this->__checkVersionCount($pluginToInstall);
 		}
 	}
@@ -133,11 +133,11 @@ class InstallerTest extends CakeTestCase {
  * drop all tables for testing the installer
  */
 	private function __cleanSystem($all = true) {
-		if(!isset($this->__oldTables)) {
+		if (!isset($this->__oldTables)) {
 			$this->__oldTables = ConnectionManager::getDataSource('test')->listSources();
 		}
-		foreach(ConnectionManager::getDataSource('test')->listSources() as $table) {
-			if(!$all && in_array($table, $this->__oldTables)) {
+		foreach (ConnectionManager::getDataSource('test')->listSources() as $table) {
+			if (!$all && in_array($table, $this->__oldTables)) {
 				continue;
 			}
 

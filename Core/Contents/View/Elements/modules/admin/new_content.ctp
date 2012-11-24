@@ -1,5 +1,5 @@
 <?php
-	if(empty($newContent)) {
+	if (empty($newContent)) {
 		$newContent = ClassRegistry::init('Contents.GlobalContent')->getNewContentByMonth();
 	}
 ?>

@@ -53,11 +53,11 @@ class Trash extends TrashAppModel {
 		$trashed = $this->find('all', array('conditions' => array('id' => $ids)));
 
 		$result = true;
-		foreach($trashed as $trash) {
+		foreach ($trashed as $trash) {
 			$data = unserialize($trash['Trash']['data']);
 
 			$model = ClassRegistry::init($trash['Trash']['model']);
-			if($model) {
+			if ($model) {
 				$model->create();
 				$result = $result && $model->save($data);
 				$this->delete($trash['Trash']['id']);

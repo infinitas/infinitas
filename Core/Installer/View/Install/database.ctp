@@ -32,17 +32,17 @@
 				echo __d('installer',  'If you are unsure how to create a database, please contact your hosting provider\'s technical support.', true );
 			?>
 		</p>
-		<?php if(isset($dbError) && $dbError === true) {?>
+		<?php if (isset($dbError) && $dbError === true) {?>
 			<div class="general-error">
 				<?php echo __d('installer', 'There is an error with your database connection. Please ensure that the details supplied are correct and that the database server is running.'); ?>
 			</div>
 		<?php }?>
-		<?php if(isset($versionError)) {?>
+		<?php if (isset($versionError)) {?>
 			<div class="general-error">
 				<?php echo sprintf(__d('installer', 'The database server you selected is running version %1$s. Infinitas requires at least %3$s version %2$s.'), $versionError, $requiredDb['version'], $requiredDb['name']); ?>
 			</div>
 		<?php }?>
-		<?php if(isset($adminDbError) && $adminDbError === true) {?>
+		<?php if (isset($adminDbError) && $adminDbError === true) {?>
 			<div class="general-error">
 				<?php echo __d('installer', 'There is an error with the database administrator details you supplied. Please ensure that they are correct and that the user does have permissions to create, drop and alter tables in the database.'); ?>
 			</div>

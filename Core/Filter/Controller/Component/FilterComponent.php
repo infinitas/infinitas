@@ -96,7 +96,7 @@
 				$this->useTime = $this->settings['useTime'];
 			}
 
-			foreach($actions as $action) {
+			foreach ($actions as $action) {
 				$this->processAction($Controller, $action);
 			}
 		}
@@ -128,7 +128,7 @@
 		function _paginationRecall($controller) {
 			$params = array_filter(explode('/', $this->url));
 			$options = array();
-			foreach($params as $param) {
+			foreach ($params as $param) {
 				$parts = explode(':', $param);
 				switch(count($parts)) {
 					case 0:
@@ -177,13 +177,13 @@
 		 * @param array $whiteList contains list of allowed filter attributes
 		 */
 		public function processFilters($controller, $whiteList = null) {
-			if(empty($Controller->uses)) {
+			if (empty($Controller->uses)) {
 				return array();
 			}
 			$controller = $this->_prepareFilter($controller);
 			$data = $controller->request->data;
 			unset($data[$controller->{$controller->modelClass}->alias]['all']);
-			if(empty($data[$controller->{$controller->modelClass}->alias])) {
+			if (empty($data[$controller->{$controller->modelClass}->alias])) {
 				$data[$controller->{$controller->modelClass}->alias] = array();
 			}
 
@@ -194,7 +194,7 @@
 				return $ret;
 			}
 
-			foreach($data as $model => $fields) {
+			foreach ($data as $model => $fields) {
 				$modelFieldNames = array();
 				if (!empty($controller->{$model}) && $controller->{$model} instanceof Model) {
 					$modelFieldNames = $controller->{$model}->getColumnTypes();
@@ -205,8 +205,8 @@
 				}
 
 				if (!empty($modelFieldNames)) {
-					foreach($fields as $filteredFieldName => $filteredFieldData) {
-						if(isset($controller->{$model}) && $controller->{$model} instanceof Model && !$controller->{$model}->hasField($filteredFieldName)) {
+					foreach ($fields as $filteredFieldName => $filteredFieldData) {
+						if (isset($controller->{$model}) && $controller->{$model} instanceof Model && !$controller->{$model}->hasField($filteredFieldName)) {
 							continue;
 						}
 
@@ -221,7 +221,7 @@
 
 							if (isset($modelFieldNames[$filteredFieldName]) && isset($this->fieldFormatting[$modelFieldNames[$filteredFieldName]])) {
 								// insert value into fieldFormatting
-								if($modelFieldNames[$filteredFieldName] == 'string' && strlen($filteredFieldData) == 1) {
+								if ($modelFieldNames[$filteredFieldName] == 'string' && strlen($filteredFieldData) == 1) {
 									$tmp = sprintf("LIKE '%s%%'", $filteredFieldData);
 								} else {
 									$tmp = sprintf($this->fieldFormatting[$modelFieldNames[$filteredFieldName]], $filteredFieldData);

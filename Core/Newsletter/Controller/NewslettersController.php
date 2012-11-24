@@ -38,14 +38,14 @@ class NewslettersController extends NewsletterAppController {
  * @return void
  */
 	public function contact() {
-		if(!empty($this->request->data)) {
+		if (!empty($this->request->data)) {
 			$body = '<p>A new email has been sent from your site. The details are below</p>';
 			$body .= sprintf('<p>The sender: %s <%>s</p>', h($this->request->data['Newsletter']['name']), $this->request->data['Newsletter']['email']);
 			$body .= sprintf('<p>IP address: %s</p>', $this->Auth->user('ip_address'));
 			$body .= '<p>=====================================================</p>';
 			$body .= htmlspecialchars($this->request->data['Newsletter']['query']);
 
-			if(empty($this->request->data['Newsletter']['subject'])) {
+			if (empty($this->request->data['Newsletter']['subject'])) {
 				$subject = sprintf('New email from %s', Configure::read('Website.name'));
 			}
 
@@ -53,7 +53,7 @@ class NewslettersController extends NewsletterAppController {
 				$subject = strip_tags($this->request->data['Newsletter']['subject']);
 			}
 
-			foreach(ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
+			foreach (ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
 				try {
 					$this->Emailer->sendDirectMail(array($email => $username), array(
 						'subject' => $subject,
@@ -185,7 +185,7 @@ class NewslettersController extends NewsletterAppController {
 			)
 		);
 
-		foreach($newsletters as $newsletter) {
+		foreach ($newsletters as $newsletter) {
 			if (empty($newsletter['User'])) {
 				continue;
 			}
@@ -205,7 +205,7 @@ class NewslettersController extends NewsletterAppController {
 				)
 			);
 
-			foreach($newsletter['User'] as $user) {
+			foreach ($newsletter['User'] as $user) {
 				$to = $user['email'];
 				$name = $user['username'];
 				//  @todo send the email here
@@ -315,7 +315,7 @@ class NewslettersController extends NewsletterAppController {
 		parent::admin_add();
 
 		$campaigns = $this->Newsletter->Campaign->find('list');
-		if(empty($campaigns)) {
+		if (empty($campaigns)) {
 			$this->notice(
 				__d('newsletter', 'Please create a campaign before creating a newsletter'),
 				array(
@@ -361,7 +361,7 @@ class NewslettersController extends NewsletterAppController {
 			}
 
 			$sent = 0;
-			foreach($addresses as $address) {
+			foreach ($addresses as $address) {
 				$email = new InfinitasEmail('gmail');
 				$email->from(array($newsletter['Newsletter']['from'] => 'Infinitas'));
 				$email->to($address);
@@ -558,7 +558,7 @@ class NewslettersController extends NewsletterAppController {
 			)
 		);
 
-		foreach($runningNewsletters as $id) {
+		foreach ($runningNewsletters as $id) {
 			$this->Newsletter->id = $id;
 			$this->Newsletter->saveField('active', 0);
 		}
@@ -588,7 +588,7 @@ class NewslettersController extends NewsletterAppController {
 				)
 			);
 
-			if(empty($ids)) {
+			if (empty($ids)) {
 				$this->notice(
 					__d('newsletter', 'Nothing to send'),
 					array(

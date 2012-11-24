@@ -61,7 +61,7 @@ class ViewCounterEvents extends AppEvents {
  * Called before blog post is echo'ed
  */
 	public function onBlogBeforeContentRender(Event $Event, $data) {
-		if(!isset($Event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))) {
+		if (!isset($Event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.before'))) {
 			return false;
 		}
 
@@ -76,7 +76,7 @@ class ViewCounterEvents extends AppEvents {
  * Called after blog post is echo'ed
  */
 	public function onBlogAfterContentRender(Event $Event, $data) {
-		if(!isset($Event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))) {
+		if (!isset($Event->Handler->params['models'][0]) || !in_array('view_count', (array)Configure::read('Blog.after'))) {
 			return false;
 		}
 
@@ -142,7 +142,7 @@ class ViewCounterEvents extends AppEvents {
  * attach the reporting behavior for models with views
  */
 	public function onAttachBehaviors(Event $Event) {
-		if($Event->Handler->shouldAutoAttachBehavior()) {
+		if ($Event->Handler->shouldAutoAttachBehavior()) {
 			if ($Event->Handler->hasField('views')) {
 				$Event->Handler->Behaviors->attach('ViewCounter.ViewableReporting');
 			}

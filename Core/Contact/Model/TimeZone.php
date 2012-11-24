@@ -48,7 +48,7 @@ class TimeZone extends ContactAppModel {
 				break;
 
 			case 'all':
-				foreach($return as $key => $value) {
+				foreach ($return as $key => $value) {
 					$data[] = array(
 						'TimeZone' => array(
 							'id' => $key,

@@ -204,7 +204,7 @@
 		 */
 		protected function _niceRemaining() {
 			$now = time();
-			if($now == $this->startTime || $this->done == 0) {
+			if ($now == $this->startTime || $this->done == 0) {
 				return '?';
 			}
 

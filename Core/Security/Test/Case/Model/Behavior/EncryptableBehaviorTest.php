@@ -57,7 +57,7 @@
 		 * test encrypting data
 		 */
 		public function testEncrypt() {
-			$this->skipIf(!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
+			$this->skipif (!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
 
 			Configure::write('Security.encryption_salt', '');
 			Configure::write('Security.encryption_secret', '­sç„¢˜4m™¤Àsç');
@@ -92,7 +92,7 @@
 		 * test decrypting data
 		 */
 		public function testDecrypt() {
-			$this->skipIf(!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
+			$this->skipif (!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
 
 			Configure::write('Security.encryption_secret', '­sç„¢˜4m™¤Àsç');
 			$result = $this->Category->decrypt('Gcav7FmvCHLJZj41u6pQXgAmvm2GKG6O0QPxaqYfRoQ=');
@@ -125,7 +125,7 @@
 		 * test finding and saving encrypted data
 		 */
 		public function testSaveAndFind() {
-			$this->skipIf(!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
+			$this->skipif (!function_exists('mcrypt_encrypt'), 'mcrypt does not seem to be installed');
 
 			$this->truncate();
 

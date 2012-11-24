@@ -67,10 +67,10 @@ class ValidationBehaviorTestCase extends CakeTestCase {
  * @dataProvider eitherOrData
  */
 	public function testValidateEitherOr($data, $expected) {
-		if(empty($data['data'])) {
+		if (empty($data['data'])) {
 			$data['data'] = $data;
 		}
-		if(empty($data['validate'])) {
+		if (empty($data['validate'])) {
 			$data['validate'] = array(
 				'field_1' => array(
 					'validateEitherOr' => array(

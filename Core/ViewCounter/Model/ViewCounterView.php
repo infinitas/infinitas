@@ -40,10 +40,10 @@ class ViewCounterView extends ViewCounterAppModel {
 	public function getToalViews($class = null, $foreignKey = 0) {
 		$conditions = array();
 
-		if($class) {
+		if ($class) {
 			$conditions = array($this->alias . '.model' => $class);
 		}
-		if((int)$foreignKey > 0) {
+		if ((int)$foreignKey > 0) {
 			$conditions[$this->alias . '.foreign_key'] = $foreignKey;
 		}
 
@@ -67,7 +67,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$models = $this->getUniqueModels($plugin);
 
 		$return = array();
-		foreach($models as $model) {
+		foreach ($models as $model) {
 			$Model = ClassRegistry::init($model);
 			$return[] = array(
 				'class' => $model,
@@ -92,7 +92,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$models = $this->getUniqueModels();
 
 		$return = array();
-		foreach($models as $model) {
+		foreach ($models as $model) {
 			ClassRegistry::init($model)->Behaviors->attach('ViewCounter.Viewable');
 			$return[$model] = $this->getToalViews($model);
 		}
@@ -110,14 +110,14 @@ class ViewCounterView extends ViewCounterAppModel {
 	public function getAverage($model = null) {
 		$this->virtualFields['views'] = 'COUNT(' . $this->alias . '.id)';
 		$conditions = $group = array();
-		if($model) {
+		if ($model) {
 			$conditions[$this->alias . '.model'] = (string)$model;
 			$group[] = $this->alias . '.foreign_key';
 		}
 
 		$cacheName = cacheName('view_average', array($conditions, $group));
 		$data = Cache::read($cacheName, 'view_counts');
-		if($data !== false) {
+		if ($data !== false) {
 			return $data;
 		}
 
@@ -132,7 +132,7 @@ class ViewCounterView extends ViewCounterAppModel {
 			)
 		);
 
-		if(!empty($data)) {
+		if (!empty($data)) {
 			$data = Set::extract('/' . $this->alias . '/views', $data);
 			$data = round(array_sum($data) / count($data));
 			Cache::write($cacheName, $data, 'view_counts');
@@ -151,7 +151,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$this->displayField = 'model';
 
 		$conditions = array();
-		if($plugin) {
+		if ($plugin) {
 			$conditions = array(
 				$this->alias . '.model LIKE' => Inflector::camelize($plugin).'%'
 			);
@@ -181,7 +181,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$this->virtualFields['unique_visits'] = 'CONCAT_WS(\'-\', `' .$this->alias . '`.`ip_address`, `' . $this->alias . '`.`user_id`)';
 		$this->virtualFields['sub_total'] = 'COUNT(' . $this->alias . '.id)';
 		$data['total_views'] = $this->find('count', array('conditions' => $conditions));
-		if(empty($data['total_views'])) {
+		if (empty($data['total_views'])) {
 			return false;
 		}
 		$data['global_total_views'] = $this->find('count');
@@ -321,7 +321,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$viewCountsByMonth = $this->ChartDataManipulation->getFormatted($viewCountsByMonth, $options);
 
 		$viewCountsByMonth['month'] = isset($viewCountsByMonth['month']) ? $viewCountsByMonth['month'] : array();
-		foreach($viewCountsByMonth['month'] as $k => $v) {
+		foreach ($viewCountsByMonth['month'] as $k => $v) {
 			switch($v) {
 				case  1: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Jan'); break;
 				case  2: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Feb'); break;
@@ -463,7 +463,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$return = $this->ChartDataManipulation->getFormatted($return, $options);
 
 		$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
-		foreach($return['day_of_week'] as $k => $v) {
+		foreach ($return['day_of_week'] as $k => $v) {
 			switch($v) {
 				case 1: $return['day_of_week'][$k] = __d('view_counter', 'Sun'); break;
 				case 2: $return['day_of_week'][$k] = __d('view_counter', 'Mon'); break;
@@ -518,7 +518,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		$return = $this->ChartDataManipulation->getFormatted($return, $options);
 
 		$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
-		foreach($return['day_of_week'] as $k => $v) {
+		foreach ($return['day_of_week'] as $k => $v) {
 			switch($v) {
 				case 1: $return['day_of_week'][$k] = __d('view_counter', 'Sun'); break;
 				case 2: $return['day_of_week'][$k] = __d('view_counter', 'Mon'); break;
@@ -592,7 +592,7 @@ class ViewCounterView extends ViewCounterAppModel {
 		unset($Model);
 
 		$_fields = array();
-		foreach(current($fields) as $field) {
+		foreach (current($fields) as $field) {
 			$_fields[] = current(array_keys($fields)) . '.' . $field;
 		}
 
@@ -746,9 +746,9 @@ class ViewCounterView extends ViewCounterAppModel {
 
 		App::import('Lib', 'Libs.IpLocation');
 		$this->IpLocation = new IpLocation();
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$temp = $this->IpLocation->getCountryData($row[$this->alias]['ip_address'], true);
-			if($temp['country_code'] == 'Unknown') {
+			if ($temp['country_code'] == 'Unknown') {
 				$temp['country_code'] = '-';
 			}
 			$row[$this->alias] = array_merge($row[$this->alias], $temp);
@@ -767,17 +767,17 @@ class ViewCounterView extends ViewCounterAppModel {
 			)
 		);
 
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$temp = EventCore::trigger($this, 'getLocation', $row[$this->alias]['ip_address']);
 			$temp = current($temp['getLocation']);
 
-			if($temp['country_code'] == 'Unknown') {
+			if ($temp['country_code'] == 'Unknown') {
 				$temp['country_code'] = '-';
 			}
-			if(empty($temp['city'])) {
+			if (empty($temp['city'])) {
 				unset($temp['city']);
 			}
-			if(empty($temp['continent_code'])) {
+			if (empty($temp['continent_code'])) {
 				$temp['continent_code'] = '-';
 			}
 

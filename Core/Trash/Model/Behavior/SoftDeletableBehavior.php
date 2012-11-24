@@ -76,7 +76,7 @@
 				$data[$model->alias][$attributes['field_date']] = date('Y-m-d H:i:s');
 			}
 
-			foreach(array_merge(array_keys($data[$model->alias]), array('field', 'field_date', 'find', 'delete')) as $field) {
+			foreach (array_merge(array_keys($data[$model->alias]), array('field', 'field_date', 'find', 'delete')) as $field) {
 				unset($attributes[$field]);
 			}
 
@@ -220,7 +220,7 @@
 				$methods = array($methods);
 			}
 
-			foreach($methods as $method) {
+			foreach ($methods as $method) {
 				$this->settings[$model->alias][$method] = $enable;
 			}
 		}
@@ -247,7 +247,7 @@
 						$this->settings[$model->alias]['field']
 					);
 
-					foreach($fields as $field) {
+					foreach ($fields as $field) {
 						$check = preg_match('/^' . preg_quote($field) . '[\s=!]+/i', $queryData['conditions']) ||
 								preg_match('/\\x20+' . preg_quote($field) . '[\s=!]+/i', $queryData['conditions']);
 						if ($check) {

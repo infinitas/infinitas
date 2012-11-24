@@ -73,45 +73,45 @@ class geoipdnsrecord {
 function getrecordwithdnsservice($str) {
 	$record = new geoipdnsrecord;
 	$keyvalue = explode(";", $str);
-	foreach($keyvalue as $keyvalue2) {
+	foreach ($keyvalue as $keyvalue2) {
 		list($key, $value) = explode("=", $keyvalue2);
-		if($key == "co") {
+		if ($key == "co") {
 			$record->country_code = $value;
 		}
-		if($key == "ci") {
+		if ($key == "ci") {
 			$record->city = $value;
 		}
-		if($key == "re") {
+		if ($key == "re") {
 			$record->region = $value;
 		}
-		if($key == "ac") {
+		if ($key == "ac") {
 			$record->areacode = $value;
 		}
-		if($key == "dm" || $key == "me") {
+		if ($key == "dm" || $key == "me") {
 			$record->dmacode = $value;
 			$record->metrocode = $value;
 		}
-		if($key == "is") {
+		if ($key == "is") {
 			$record->isp = $value;
 		}
-		if($key == "or") {
+		if ($key == "or") {
 			$record->org = $value;
 		}
-		if($key == "zi") {
+		if ($key == "zi") {
 			$record->postal_code = $value;
 		}
-		if($key == "la") {
+		if ($key == "la") {
 			$record->latitude = $value;
 		}
-		if($key == "lo") {
+		if ($key == "lo") {
 			$record->longitude = $value;
 		}
 	}
 	$number = $GLOBALS['GEOIP_COUNTRY_CODE_TO_NUMBER'][$record->country_code];
 	$record->country_code3 = $GLOBALS['GEOIP_COUNTRY_CODES3'][$number];
 	$record->country_name = $GLOBALS['GEOIP_COUNTRY_NAMES'][$number];
-	if($record->region != "") {
-		if(($record->country_code == "US") || ($record->country_code == "CA")) {
+	if ($record->region != "") {
+		if (($record->country_code == "US") || ($record->country_code == "CA")) {
 			$record->regionname = $GLOBALS['ISO'][$record->country_code][$record->region];
 		}
 		else {
@@ -123,7 +123,7 @@ function getrecordwithdnsservice($str) {
 
 function _get_record_v6($gi, $ipnum) {
 	$seek_country = _geoip_seek_country_v6($gi, $ipnum);
-	if($seek_country == $gi->databaseSegments) {
+	if ($seek_country == $gi->databaseSegments) {
 		return NULL;
 	}
 	return _common_get_record($gi, $seek_country);
@@ -135,10 +135,10 @@ function _common_get_record($gi, $seek_country) {
 
 	$record_pointer = $seek_country + (2 * $gi->record_length - 1) * $gi->databaseSegments;
 
-	if($gi->flags & GEOIP_MEMORY_CACHE) {
+	if ($gi->flags & GEOIP_MEMORY_CACHE) {
 		$record_buf = substr($gi->memory_buffer, $record_pointer, FULL_RECORD_LENGTH);
 	}
-	elseif($gi->flags & GEOIP_SHARED_MEMORY) {
+	elseif ($gi->flags & GEOIP_SHARED_MEMORY) {
 		$record_buf = @shmop_read($gi->shmid, $record_pointer, FULL_RECORD_LENGTH);
 	}
 	else {
@@ -160,7 +160,7 @@ function _common_get_record($gi, $seek_country) {
 		$str_length++;
 		$char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
 	}
-	if($str_length > 0) {
+	if ($str_length > 0) {
 		$record->region = substr($record_buf, $record_buf_pos, $str_length);
 	}
 	$record_buf_pos += $str_length + 1;
@@ -171,7 +171,7 @@ function _common_get_record($gi, $seek_country) {
 		$str_length++;
 		$char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
 	}
-	if($str_length > 0) {
+	if ($str_length > 0) {
 		$record->city = substr($record_buf, $record_buf_pos, $str_length);
 	}
 	$record_buf_pos += $str_length + 1;
@@ -182,7 +182,7 @@ function _common_get_record($gi, $seek_country) {
 		$str_length++;
 		$char = ord(substr($record_buf, $record_buf_pos + $str_length, 1));
 	}
-	if($str_length > 0) {
+	if ($str_length > 0) {
 		$record->postal_code = substr($record_buf, $record_buf_pos, $str_length);
 	}
 	$record_buf_pos += $str_length + 1;
@@ -200,9 +200,9 @@ function _common_get_record($gi, $seek_country) {
 		$longitude += ($char << ($j * 8));
 	}
 	$record->longitude = ($longitude / 10000) - 180;
-	if(GEOIP_CITY_EDITION_REV1 == $gi->databaseType) {
+	if (GEOIP_CITY_EDITION_REV1 == $gi->databaseType) {
 		$metroarea_combo = 0;
-		if($record->country_code == "US") {
+		if ($record->country_code == "US") {
 			for($j = 0; $j < 3; ++$j) {
 				$char = ord(substr($record_buf, $record_buf_pos++, 1));
 				$metroarea_combo += ($char << ($j * 8));
@@ -216,7 +216,7 @@ function _common_get_record($gi, $seek_country) {
 }
 
 function GeoIP_record_by_addr_v6($gi, $addr) {
-	if($addr == NULL) {
+	if ($addr == NULL) {
 		return 0;
 	}
 	$ipnum = inet_pton($addr);
@@ -225,14 +225,14 @@ function GeoIP_record_by_addr_v6($gi, $addr) {
 
 function _get_record($gi, $ipnum) {
 	$seek_country = _geoip_seek_country($gi, $ipnum);
-	if($seek_country == $gi->databaseSegments) {
+	if ($seek_country == $gi->databaseSegments) {
 		return NULL;
 	}
 	return _common_get_record($gi, $seek_country);
 }
 
 function GeoIP_record_by_addr($gi, $addr) {
-	if($addr == NULL) {
+	if ($addr == NULL) {
 		return 0;
 	}
 	$ipnum = ip2long($addr);

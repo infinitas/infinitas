@@ -44,7 +44,7 @@ class ModuleTemplate{
  * @return boolean
  */
 	public function __isset($key) {
-		if($this->__isPosition($key)) {
+		if ($this->__isPosition($key)) {
 			App::import('Helper', 'Modules.ModuleLoader');
 			$ModuleLoader = new ModuleLoaderHelper();
 			$this->_data[$key] = $ModuleLoader->load($key);

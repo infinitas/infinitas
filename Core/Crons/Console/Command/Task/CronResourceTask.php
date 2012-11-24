@@ -108,7 +108,7 @@ class CronResourceTask extends Shell {
  */
 	public function logMemoryUsage($doing = 'running', $prefix = '') {
 		$memoryUsage = memoryUsage(false);
-		if(empty($this->memoryUsage['start'])) {
+		if (empty($this->memoryUsage['start'])) {
 			$this->log(
 				sprintf(
 					"Memory %s %s %s %s %s %s",
@@ -156,7 +156,7 @@ class CronResourceTask extends Shell {
  */
 	public function logServerLoad() {
 		$load = serverLoad(false);
-		if(!isset($this->memoryUsage['start']['load'])) {
+		if (!isset($this->memoryUsage['start']['load'])) {
 			$this->memoryUsage['start']['load'] = $load[0];
 		}
 
@@ -198,7 +198,7 @@ class CronResourceTask extends Shell {
  * @return void
  */
 	public function stats() {
-		if($this->verbose) {
+		if ($this->verbose) {
 			$this->log('Below are the stats for the run');
 			$this->hr();
 		}

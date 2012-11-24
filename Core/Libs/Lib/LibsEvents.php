@@ -26,11 +26,11 @@ class LibsEvents extends AppEvents {
  * @return void
  */
 	public function onAttachBehaviors(Event $Event) {
-		if($Event->Handler->shouldAutoAttachBehavior()) {
+		if ($Event->Handler->shouldAutoAttachBehavior()) {
 
 			// attach the expandable (eva) behavior if there is a table for it
 			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix.$Event->Handler->table) . '_attributes';
-			if(in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
+			if (in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
 				$Event->Handler->bindModel(
 					array(
 						'hasMany' => array(
@@ -64,11 +64,11 @@ class LibsEvents extends AppEvents {
 				$Event->Handler->Behaviors->attach('Libs.Rateable');
 			}
 
-			if($Event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $Event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))) {
+			if ($Event->Handler->shouldAutoAttachBehavior('Tree', array('lft', 'rght')) && $Event->Handler->shouldAutoAttachBehavior('InfiniTree', array('lft', 'rght'))) {
 				$Event->Handler->Behaviors->attach('Tree');
 			}
 
-			if($Event->Handler->shouldAutoAttachBehavior('Libs.Validation')) {
+			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Validation')) {
 				$Event->Handler->Behaviors->attach('Libs.Validation');
 			}
 		}

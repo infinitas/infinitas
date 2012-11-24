@@ -108,6 +108,7 @@
  */
 
 class ChartsEvents extends AppEvents {
+
 /**
  * make the required libs available
  */
@@ -129,5 +130,4 @@ class ChartsEvents extends AppEvents {
 			)
 		);
 	}
-
 }

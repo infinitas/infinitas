@@ -66,7 +66,7 @@ class ClearCache {
 							'total' => $cacheInfo['mem_size'],
 							'available' => $smaInfo['avail_mem']
 						);
-						if($return[$config['engine']]['used'] < 0) {
+						if ($return[$config['engine']]['used'] < 0) {
 							$return[$config['engine']]['used'] *= -1;
 						}
 					break;

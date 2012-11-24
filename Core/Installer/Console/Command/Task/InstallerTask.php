@@ -63,7 +63,7 @@ class InstallerTask extends AppShell {
 		$this->h2('MIT Licence');
 		$this->out($this->InstallerLib->getLicense('text'));
 
-		if($confirm) {
+		if ($confirm) {
 			$this->li(
 				array(
 					'[Y]es',
@@ -99,7 +99,7 @@ class InstallerTask extends AppShell {
 
 	public function install() {
 		$this->h1(__d('insatller', 'Installing'));
-		foreach($this->config['connection'] as $k => $v) {
+		foreach ($this->config['connection'] as $k => $v) {
 			echo $k . ' :: ' . $v . "\r\n";
 		}
 
@@ -126,8 +126,8 @@ class InstallerTask extends AppShell {
 		$result['Installer'] = $this->InstallerLib->installPlugin($Version, $dbConfig, 'Installer');
 
 		//Then install all other plugins
-		foreach($plugins as $plugin) {
-			if($plugin == 'Installer') {
+		foreach ($plugins as $plugin) {
+			if ($plugin == 'Installer') {
 				continue;
 			}
 
@@ -139,7 +139,7 @@ class InstallerTask extends AppShell {
 		pr($result);
 
 		$this->Plugin = ClassRegistry::init('Installer.Plugin');
-		foreach($plugins as $pluginName) {
+		foreach ($plugins as $pluginName) {
 			$this->interactive(sprintf('Updating: %s', $plugin));
 			$this->Plugin->installPlugin($pluginName, array('sampleData' => false, 'installRelease' => false));
 		}
@@ -151,17 +151,17 @@ class InstallerTask extends AppShell {
 
 	public function installLocalPlugin() {
 		$plugins = $this->__getPluginToInstall();
-		if(!$plugins) {
+		if (!$plugins) {
 			return false;
 		}
 
-		if(!is_array($plugins)) {
+		if (!is_array($plugins)) {
 			$plugins = array($plugins);
 		}
 
 		$Plugin = ClassRegistry::init('Installer.Plugin');
 
-		foreach($plugins as $plugin) {
+		foreach ($plugins as $plugin) {
 			try {
 				$Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
 				$output = sprintf('%s Plugin updated', $plugin);
@@ -179,17 +179,17 @@ class InstallerTask extends AppShell {
 
 	public function updatePlugin() {
 		$plugins = $this->__getPluginToUpdate();
-		if(!$plugins) {
+		if (!$plugins) {
 			return false;
 		}
 
-		if(!is_array($plugins)) {
+		if (!is_array($plugins)) {
 			$plugins = array($plugins);
 		}
 
 		$Plugin = ClassRegistry::init('Installer.Plugin');
 
-		foreach($plugins as $plugin) {
+		foreach ($plugins as $plugin) {
 			try{
 				$Plugin->installPlugin($plugin);
 				$output = sprintf('%s Plugin updated', $plugin);
@@ -215,7 +215,7 @@ class InstallerTask extends AppShell {
 	public function _getDbEngine($validationFailed) {
 		$this->h1(__d('insatller', 'Database configuration'));
 
-		if($validationFailed) {
+		if ($validationFailed) {
 			$this->p(__d('insatller', 'The connection test failed to connect to '.
 			'your database engine, please ensure the details provided are '.
 			'correct', true));
@@ -240,7 +240,7 @@ class InstallerTask extends AppShell {
 	public function _getDbConnection($validationFailed) {
 		$this->h1(sprintf('%s (%s)', __d('insatller', 'Database configuration'), $this->config['connection']['driver']));
 
-		if($validationFailed) {
+		if ($validationFailed) {
 			$this->p(__d('insatller', 'The connection test failed to connect to '.
 			'your database engine, please ensure the details provided are '.
 			'correct', true));
@@ -283,7 +283,7 @@ class InstallerTask extends AppShell {
 		*/
 	public function _validateDbConnection() {
 		$this->h1(sprintf(__d('insatller', 'Testing %s connection'), $this->config['connection']['driver']));
-		if(!$this->InstallerLib->testConnection($this->config['connection'])) {
+		if (!$this->InstallerLib->testConnection($this->config['connection'])) {
 			$this->database(false);
 		}
 	}
@@ -309,17 +309,17 @@ class InstallerTask extends AppShell {
 		$Plugin = ClassRegistry::init('Installer.Plugin');
 		Configure::write('debug', 2);
 		$plugins = array();
-		foreach($Plugin->getInstalledPlugins() as $plugin) {
+		foreach ($Plugin->getInstalledPlugins() as $plugin) {
 			$status = MigrationInformation::status($plugin);
 
-			if($status['migrations_behind']) {
+			if ($status['migrations_behind']) {
 				$plugins[] = $plugin;
 			}
 		}
 
 		do {
 			$this->h1('Interactive Install Shell');
-			foreach($plugins as $i => $plugin) {
+			foreach ($plugins as $i => $plugin) {
 				$this->out($i + 1 . ') ' . $plugin);
 			}
 			$this->out('A)ll');
@@ -327,11 +327,11 @@ class InstallerTask extends AppShell {
 			$this->br();
 			$input = strtoupper($this->in('Which plugin do you want to update?'));
 
-			if(isset($plugins[$input - 1])) {
+			if (isset($plugins[$input - 1])) {
 				return $plugins[$input - 1];
 			}
 
-			if($input == 'A') {
+			if ($input == 'A') {
 				return $plugins;
 			}
 		} while($input != 'Q');
@@ -343,7 +343,7 @@ class InstallerTask extends AppShell {
 
 		do {
 			$this->h1('Interactive Install Shell');
-			foreach($plugins as $i => $plugin) {
+			foreach ($plugins as $i => $plugin) {
 				$this->out($i + 1 . ') ' . $plugin);
 			}
 			$this->out('A)ll');
@@ -351,11 +351,11 @@ class InstallerTask extends AppShell {
 			$this->br();
 			$input = strtoupper($this->in('Which plugin do you want to install?'));
 
-			if(isset($plugins[$input - 1])) {
+			if (isset($plugins[$input - 1])) {
 				return $plugins[$input - 1];
 			}
 
-			if($input == 'A') {
+			if ($input == 'A') {
 				return $plugins;
 			}
 		} while($input != 'Q');

@@ -2,6 +2,7 @@
 App::uses('CommentableBehavior', 'Comments.Model/Behavior');
 
 class CommentableBehaviorTest extends CakeTestCase {
+
 	public function setUp() {
 		parent::setUp();
 		$this->Commentable = new CommentableBehavior();
@@ -13,6 +14,5 @@ class CommentableBehaviorTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
 }

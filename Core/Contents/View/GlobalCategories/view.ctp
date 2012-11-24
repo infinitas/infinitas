@@ -20,20 +20,20 @@
 
 	$category['GlobalCategory']['before_event'] = '';
 	$eventData = $this->Event->trigger('contentsBeforeCategoryRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data) {
+	foreach ((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data) {
 		$category['GlobalCategory']['before_event'] .= '<div class="before '.$_plugin.'">'.$_data.'</div>';
 	}
 
 	$category['GlobalCategory']['after_event'] = '';
 	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('_this' => $this, 'content' => $category));
-	foreach((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data) {
+	foreach ((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data) {
 		$category['GlobalCategory']['after_event'] .= '<div class="after '.$_plugin.'">'.$_data.'</div>';
 	}
 
-	if(isset($category['GlobalCategory']['created'])) {
+	if (isset($category['GlobalCategory']['created'])) {
 		$category['GlobalCategory']['created'] = $this->Time->niceShort($category['GlobalCategory']['created']);
 	}
-	if(isset($category['GlobalCategory']['modified'])) {
+	if (isset($category['GlobalCategory']['modified'])) {
 		$category['GlobalCategory']['modified'] = $this->Time->niceShort($category['GlobalCategory']['modified']);
 	}
 
@@ -41,8 +41,8 @@
 	$category['GlobalCategory']['author'] = $this->GlobalContents->author($category);
 
 	// need to overwrite the stuff in the viewVars for mustache
-	if(!empty($category['CategoryContent'])) {
-		if(!empty($category['CategoryContent']['Contents.GlobalCategory'])) {
+	if (!empty($category['CategoryContent'])) {
+		if (!empty($category['CategoryContent']['Contents.GlobalCategory'])) {
 			$currentCategory = array_shift($category['CategoryContent']['Contents.GlobalCategory']);
 			unset($category['CategoryContent']['Contents.GlobalCategory']);
 		}
@@ -53,11 +53,11 @@
 		);
 
 		$idsDone = array();
-		foreach($category['CategoryContent'] as $model => $relatedContents) {
+		foreach ($category['CategoryContent'] as $model => $relatedContents) {
 			$model = pluginSplit($model);
 
-			foreach($relatedContents as $relatedContent) {
-				if(in_array($relatedContent['id'], $idsDone)) {
+			foreach ($relatedContents as $relatedContent) {
+				if (in_array($relatedContent['id'], $idsDone)) {
 					continue;
 				}
 
@@ -65,14 +65,14 @@
 				$relatedContent['GlobalCategory'] = $category['GlobalCategory'];
 				$relatedContent[$model[1]] = $relatedContent;
 
-				if(!empty($relatedContent['SubCategory'])) {
+				if (!empty($relatedContent['SubCategory'])) {
 					$relatedContent['GlobalCategory'] = $relatedContent['SubCategory'];
 				}
 
 				$tmp = $this->Event->trigger($model[0] . '.slugUrl', array('data' => $relatedContent));
 				$tmp = current($tmp['slugUrl']);
 
-				if(!empty($tmp)) {
+				if (!empty($tmp)) {
 					$relatedContent['link'] = InfinitasRouter::url($tmp);
 
 					$_relatedOut[] = $this->element(
@@ -89,10 +89,10 @@
 		$this->set('relatedContent', implode('', $_relatedOut));
 	}
 
-	if(!empty($category['CategoryContent']['Contents.SubCategory'])) {
+	if (!empty($category['CategoryContent']['Contents.SubCategory'])) {
 		$this->set('subCategory', $category['CategoryContent']['Contents.SubCategory']);
 	}
-	if(!empty($category['ParentCategory']['id'])) {
+	if (!empty($category['ParentCategory']['id'])) {
 		$this->set('parentCategory', $category['ParentCategory']);
 	}
 	$this->set('category', $category);

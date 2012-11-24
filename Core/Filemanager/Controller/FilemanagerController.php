@@ -37,7 +37,7 @@ class FilemanagerController extends AppController {
  */
 	public function admin_index() {
 		$path = '/';
-		if(!empty($this->request->params['pass'])) {
+		if (!empty($this->request->params['pass'])) {
 			$path = implode('/', $this->request->params['pass']);
 		}
 
@@ -80,7 +80,7 @@ class FilemanagerController extends AppController {
  * @return void
  */
 	public function admin_view() {
-		if(!empty($this->request->params['pass'])) {
+		if (!empty($this->request->params['pass'])) {
 			$path = implode('/', $this->request->params['pass']);
 		}
 
@@ -142,13 +142,13 @@ class FilemanagerController extends AppController {
  * @return void
  */
 	public function admin_ajax_tree() {
-		if(empty($this->request->data['dir']) || !is_dir(APP . $this->request->data['dir'])) {
+		if (empty($this->request->data['dir']) || !is_dir(APP . $this->request->data['dir'])) {
 			//throw new Exception('Invalid dir');
 		}
 
 		Configure::write('Themes.default_layout_admin', 'ajax');
 		$dir = $this->request->data['dir'];
-		if($dir == '/') {
+		if ($dir == '/') {
 			$dir = APP;
 		}
 
@@ -173,27 +173,27 @@ class FilemanagerController extends AppController {
  * @return array
  */
 	private function __getFiles(&$dir) {
-		if($dir == APP) {
+		if ($dir == APP) {
 			return $this->__getPlugins();
 		}
 
-		if($dir == APP . 'webroot' . DS . 'img') {
+		if ($dir == APP . 'webroot' . DS . 'img') {
 			$files = scandir($dir);
 			natcasesort($files);
 
-			foreach($files as &$file) {
+			foreach ($files as &$file) {
 				$file = APP . 'webroot' . DS . 'img' . $file;
 			}
 
 			return $files;
 		}
 
-		if(is_dir($dir)) {
+		if (is_dir($dir)) {
 			$files = scandir($dir);
 			natcasesort($files);
 
-			foreach($files as $k => &$file) {
-				if(substr($file, 0, 1) == '.') {
+			foreach ($files as $k => &$file) {
+				if (substr($file, 0, 1) == '.') {
 					unset($files[$k]);
 					continue;
 				}
@@ -214,7 +214,7 @@ class FilemanagerController extends AppController {
 		$plugins = InfinitasPlugin::listPlugins('loaded');
 		natcasesort($plugins);
 
-		foreach($plugins as &$plugin) {
+		foreach ($plugins as &$plugin) {
 			$plugin = InfinitasPlugin::path($plugin) . 'webroot' . DS . 'img' . DS;
 		}
 
@@ -231,15 +231,15 @@ class FilemanagerController extends AppController {
  * @return array
  */
 	private function __getPluginFiles($dir) {
-		if(!is_dir($dir)) {
+		if (!is_dir($dir)) {
 			return array();
 		}
 
 		$files = scandir($dir);
 		natcasesort($files);
 
-		foreach($files as $k => &$file) {
-			if(substr($file, 0, 1) == '.') {
+		foreach ($files as $k => &$file) {
+			if (substr($file, 0, 1) == '.') {
 				unset($files[$k]);
 				continue;
 			}

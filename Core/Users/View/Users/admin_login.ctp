@@ -5,11 +5,11 @@ echo $this->Form->create(null, array(
 		'label' => false
 	)
 ));
-	if(Configure::read('Website.login_type') == 'email') {
+	if (Configure::read('Website.login_type') == 'email') {
 		echo $this->Form->input('email', array(
 			'placeholder' => __d('users', 'Email')
 		));
-	} else{
+	} else {
 		echo $this->Form->input('username', array(
 			'placeholder' => __d('users', 'Username'),
 		));

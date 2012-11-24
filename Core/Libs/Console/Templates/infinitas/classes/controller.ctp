@@ -93,7 +93,7 @@ COMMENT;
 			echo "\t);\n";
 		}
 
-		if(trim($actions) == 'scaffold') {
+		if (trim($actions) == 'scaffold') {
 			echo "\tpublic \$scaffold;\n";
 		}
 		else{

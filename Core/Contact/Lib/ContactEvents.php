@@ -80,7 +80,7 @@ class ContactEvents extends AppEvents{
 		);
 
 		$branches = ClassRegistry::init('Contact.Branch')->find('list');
-		foreach($branches as $branch) {
+		foreach ($branches as $branch) {
 			$return[] = array(
 				'url' => Router::url(
 					array(

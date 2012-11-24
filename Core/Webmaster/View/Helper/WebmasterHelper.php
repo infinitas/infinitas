@@ -35,30 +35,30 @@ class WebmasterHelper extends AppHelper {
  */
 	public function seoMetaTags() {
 		$contentIndex = Configure::read($this->plugin . '.robots.' . $this->request->params['action'] . '.index');
-		if(isset($this->_View->viewVars['seoContentIndex'])) {
+		if (isset($this->_View->viewVars['seoContentIndex'])) {
 			$contentIndex = $this->_View->viewVars['seoContentIndex'];
 		}
 
-		if(!is_bool($contentIndex)) {
+		if (!is_bool($contentIndex)) {
 			$contentIndex = true;
 		}
 
 		$contentFollow = Configure::read($this->plugin . '.robots.' . $this->request->params['action'] . '.follow');
-		if(isset($this->_View->viewVars['seoContentFollow'])) {
+		if (isset($this->_View->viewVars['seoContentFollow'])) {
 			$contentFollow = $this->_View->viewVars['seoContentFollow'];
 		}
 
-		if(!is_bool($contentFollow)) {
+		if (!is_bool($contentFollow)) {
 			$contentFollow = true;
 		}
 
 		$canonicalUrl = null;
-		if(isset($this->_View->viewVars['seoCanonicalUrl'])) {
+		if (isset($this->_View->viewVars['seoCanonicalUrl'])) {
 			$canonicalUrl = $this->_View->viewVars['seoCanonicalUrl'];
 		}
 
 		$contentTitle = Configure::read('Website.name');
-		if(!empty($this->_View->viewVars['title_for_layout'])) {
+		if (!empty($this->_View->viewVars['title_for_layout'])) {
 			$siteName = Configure::read('Website.name');
 			$contentTitle = sprintf('%s :: %s', substr($this->_View->viewVars['title_for_layout'], 0, 66 - strlen($siteName)), $siteName);
 		}
@@ -100,15 +100,15 @@ class WebmasterHelper extends AppHelper {
  */
 	public function metaRobotTag($contentIndex = true, $contentFollow = true) {
 		$robot = array('all');
-		if(!$contentIndex || !$contentFollow) {
+		if (!$contentIndex || !$contentFollow) {
 			$robot = array();
 			$robot['index'] = 'noindex';
-			if($contentIndex !== false) {
+			if ($contentIndex !== false) {
 				$robot['index'] = 'index';
 			}
 
 			$robot['follow'] = 'nofollow';
-			if($contentFollow !== false) {
+			if ($contentFollow !== false) {
 				$robot['follow'] = 'follow';
 			}
 		}
@@ -129,19 +129,19 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaDescription($description = null) {
-		if(!$description && !empty($this->_View->viewVars['seoMetaDescription'])) {
+		if (!$description && !empty($this->_View->viewVars['seoMetaDescription'])) {
 			$description = $this->_View->viewVars['seoMetaDescription'];
 		}
 
-		if(!$description) {
+		if (!$description) {
 			$description = Configure::read($this->plugin . '.meta.description');
 		}
 
-		if(!$description) {
+		if (!$description) {
 			$description = Configure::read('Website.description');
 		}
 
-		if(!$description) {
+		if (!$description) {
 			return false;
 		}
 
@@ -159,23 +159,23 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaKeywords($keywords = null) {
-		if(!$keywords && !empty($this->_View->viewVars['seoMetaKeywords'])) {
+		if (!$keywords && !empty($this->_View->viewVars['seoMetaKeywords'])) {
 			$keywords = $this->_View->viewVars['seoMetaKeywords'];
 		}
 
-		if(!$keywords) {
+		if (!$keywords) {
 			$keywords = Configure::read($this->plugin . '.meta.keywords');
 		}
 
-		if(!$keywords) {
+		if (!$keywords) {
 			$keywords = Configure::read('Website.keywords');
 		}
 
-		if(is_array($keywords)) {
+		if (is_array($keywords)) {
 			$keywords = implode(',', $keywords);
 		}
 
-		if(!$keywords) {
+		if (!$keywords) {
 			return false;
 		}
 
@@ -195,7 +195,7 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaCanonicalUrl($canonicalUrl = null) {
-		if(empty($canonicalUrl)) {
+		if (empty($canonicalUrl)) {
 			return false;
 		}
 
@@ -212,7 +212,7 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaAuthor($author = null) {
-		if(!$author) {
+		if (!$author) {
 			$author = Configure::read('Website.name');
 		}
 
@@ -229,7 +229,7 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaGenerator($generator = null) {
-		if(!$generator) {
+		if (!$generator) {
 			$generator = sprintf('Infinitas %s', Configure::read('Infinitas.version'));
 		}
 
@@ -266,7 +266,7 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaGoogleVerification() {
-		if(!Configure::read('Webmaster.google_site_verification')) {
+		if (!Configure::read('Webmaster.google_site_verification')) {
 			return false;
 		}
 
@@ -288,7 +288,7 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaTitle($title = null) {
-		if(!$title) {
+		if (!$title) {
 			return false;
 		}
 
@@ -307,7 +307,7 @@ class WebmasterHelper extends AppHelper {
  * @return string
  */
 	public function metaRss($feed = null) {
-		if(!is_array($feed)) {
+		if (!is_array($feed)) {
 			$feed = array('url' => $feed);
 		}
 

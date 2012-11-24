@@ -31,8 +31,8 @@ class InstallerEvents extends AppEvents{
 		InfinitasRouter::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
 		InfinitasRouter::connect('/install/:step', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'), array('pass' => array('step')));
 
-		if(!file_exists($databaseConfig) || filesize($databaseConfig) == 0) {
-			if(!file_exists($databaseConfig)) {
+		if (!file_exists($databaseConfig) || filesize($databaseConfig) == 0) {
+			if (!file_exists($databaseConfig)) {
 				$file = fopen($databaseConfig, 'w');
 				fclose($file);
 			}

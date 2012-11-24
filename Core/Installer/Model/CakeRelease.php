@@ -400,7 +400,7 @@
 					}
 
 					if ($type !== 'add' && !isset($tableFields[$field])) {
-						if($field == 'tableParameters') {
+						if ($field == 'tableParameters') {
 							continue;
 						}
 						throw new MigrationException($this, sprintf(__d('migrations', 'Field "%s" does not exists in "%s".'), $field, $table));

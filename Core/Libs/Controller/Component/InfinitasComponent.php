@@ -54,9 +54,9 @@
 			 * wysiwyg editors
 			 */
 			$wysiwygEditors = Cache::read('wysiwyg_editors', 'core');
-			if($wysiwygEditors === false) {
+			if ($wysiwygEditors === false) {
 				$eventData = $this->Event->trigger('registerWysiwyg');
-				if(is_array($eventData) && !empty($eventData)) {
+				if (is_array($eventData) && !empty($eventData)) {
 					$editors = implode(',', current($eventData));
 					Cache::write('wysiwyg_editors', $editors, 'core');
 				}
@@ -232,23 +232,23 @@
 
 		public function getPluginAssets() {
 			$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
-			if(isset($event['requireJavascriptToLoad']['Assets'])) {
+			if (isset($event['requireJavascriptToLoad']['Assets'])) {
 				$libs['Assets'] = $event['requireJavascriptToLoad']['Assets'];
 				$event['requireJavascriptToLoad'] = $libs + $event['requireJavascriptToLoad'];
 			}
 
-			if(is_array($event) && !empty($event)) {
+			if (is_array($event) && !empty($event)) {
 				$this->Controller->addJs(current($event));
 			}
 
 			$libs = array();
 			$event = $this->Controller->Event->trigger('requireCssToLoad', $this->Controller->params);
-			if(isset($event['requireCssToLoad']['Libs'])) {
+			if (isset($event['requireCssToLoad']['Libs'])) {
 				$libs['Libs'] = $event['requireCssToLoad']['Libs'];
 				$event['requireCssToLoad'] = $libs + $event['requireCssToLoad'];
 			}
 
-			if(is_array($event) && !empty($event)) {
+			if (is_array($event) && !empty($event)) {
 				$this->Controller->addCss(current($event));
 			}
 		}
@@ -322,7 +322,7 @@
 			$modelName = $this->Controller->modelClass;
 			$this->Controller->{$modelName}->transaction();
 
-			if(!$this->Controller->{$modelName}->Behaviors->attached('Sequence')) {
+			if (!$this->Controller->{$modelName}->Behaviors->attached('Sequence')) {
 				$this->Controller->notice(
 					__d('infinitas', 'A problem occured moving the ordered record.'),
 					array(
@@ -347,7 +347,7 @@
 			$data[$modelName]['ordering'] = $this->Controller->request->params['named']['position'];
 
 			try {
-				if($this->Controller->{$modelName}->save($data, array('validate' => false))) {
+				if ($this->Controller->{$modelName}->save($data, array('validate' => false))) {
 					$this->Controller->{$modelName}->transaction(true);
 					$this->Controller->notice(
 						__d('infinitas', 'The record was moved'),
@@ -397,7 +397,7 @@
 		}
 
 		public function addToPaginationRecall($options = array(), $controller = null) {
-			if(!$controller) {
+			if (!$controller) {
 				$controller = $this->Controller;
 			}
 
@@ -431,7 +431,7 @@
 			// Add scaffold defaults if scaffolds are being used
 			$properties = get_class_vars($ctrlclass);
 			if (is_array($properties) && array_key_exists('scaffold', $properties)) {
-				if($properties['scaffold'] == 'admin') {
+				if ($properties['scaffold'] == 'admin') {
 					$methods = array_merge($methods, array('admin_add', 'admin_edit', 'admin_index', 'admin_view', 'admin_delete'));
 				}
 			}
@@ -490,7 +490,7 @@
 				'plugins'
 			);
 			$return = array();
-			foreach($plugins as $plugin ) {
+			foreach ($plugins as $plugin ) {
 				$return = array_merge($return, $this->_getPluginControllerNames($plugin));
 			}
 
@@ -509,7 +509,7 @@
 			$arr = array();
 
 			// Loop through the plugins
-			foreach($Plugins as $pluginName) {
+			foreach ($Plugins as $pluginName) {
 				// Change directory to the plugin
 				$didCD = $folder->cd(APP . $plugin. DS . $pluginName . DS . 'controllers');
 				// Get a list of the files that have a file name that ends
@@ -517,7 +517,7 @@
 				$files = $folder->findRecursive('.*_controller\.php');
 
 				// Loop through the controllers we found in the plugins directory
-				foreach($files as $fileName) {
+				foreach ($files as $fileName) {
 					// Get the base file name
 					$file = basename($fileName);
 
@@ -546,7 +546,7 @@
 			$currentVersion = $Version->getVersion('app');
 			$latestVersion = end($Version->getMapping('app'));
 
-			if($currentVersion < $latestVersion['version']) {
+			if ($currentVersion < $latestVersion['version']) {
 				$this->Controller->redirect(array('plugin' => 'installer', 'controller' => 'upgrade', 'action' => 'index', 'admin' => true));
 			}
 		}

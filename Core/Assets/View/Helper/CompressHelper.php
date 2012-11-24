@@ -27,6 +27,7 @@ App::uses('File', 'Utility');
  */
 
 class CompressHelper extends InfinitasHelper {
+
 /**
  * The directory to which the combined CSS files will be cached.
  *
@@ -79,7 +80,7 @@ class CompressHelper extends InfinitasHelper {
 
 		$this->cacheLength = (int)$cacheLength;
 
-		if(Configure::read('debug') <= 1) {
+		if (Configure::read('debug') <= 1) {
 			$this->enabled = true;
 		}
 	}
@@ -107,32 +108,30 @@ class CompressHelper extends InfinitasHelper {
 		}
 
 		if (is_array($cssFiles[0])) {
-			if(empty($cssFiles[0][2]['ext']) || $cssFiles[0][2]['ext'] != '.less') {
+			if (empty($cssFiles[0][2]['ext']) || $cssFiles[0][2]['ext'] != '.less') {
 				$cssFiles = $cssFiles[0];
 			}
 		}
 
 		if (!$this->enabled) {
-			if(!empty($cssFiles[0][2]['ext'])) {
+			if (!empty($cssFiles[0][2]['ext'])) {
 				return $this->Html->css($cssFiles[0][0], $cssFiles[0][1], $cssFiles[0][2]);
 			}
 			return $this->Html->css($cssFiles);
 		}
 
 		$cacheFile = $this->cssCachePath . 'combined.' . md5(serialize($cssFiles)) . '.css';
-
 		$this->File = new File($cacheFile);
 
-
-		if ($this->isCacheFileValid($cacheFile)) {
-			$cacheFile = $this->convertToUrl($cacheFile);
+		if ($this->_isCacheFileValid($cacheFile)) {
+			$cacheFile = $this->_convertToUrl($cacheFile);
 			return $this->Html->css($cacheFile);
 		}
 
 		$cssData = $this->_getCssFiles($cssFiles);
 
 		if ($this->File->write($cssData)) {
-			return $this->Html->css($this->convertToUrl($cacheFile));
+			return $this->Html->css($this->_convertToUrl($cacheFile));
 		}
 
 		trigger_error("Cannot combine CSS files to {$cacheFile}. Please ensure this directory is writable.", E_USER_WARNING);
@@ -151,7 +150,7 @@ class CompressHelper extends InfinitasHelper {
 
 		$_setting = Configure::read('Assets.timestamp');
 		Configure::write('Assets.timestamp', false);
-		if(!empty($cssFiles[0][2]['ext'])) {
+		if (!empty($cssFiles[0][2]['ext'])) {
 			$links = $this->Html->css($cssFiles[0][0], 'import', $cssFiles[0][2]);
 		} else {
 			$links = $this->Html->css($cssFiles, 'import');
@@ -161,8 +160,8 @@ class CompressHelper extends InfinitasHelper {
 		preg_match_all('#\(([^\)]+)\)#i', $links, $urlMatches);
 		$urlMatches = isset($urlMatches[1]) ? $urlMatches[1] : array();
 
-		if(!empty($cssFiles[0][2]['ext']) && $cssFiles[0][2]['ext'] == '.less') {
-			App::uses('lessc', 'Assets.Lib');
+		if (!empty($cssFiles[0][2]['ext']) && $cssFiles[0][2]['ext'] == '.less') {
+			App::uses('lessc', 'Assets.Vendor');
 			$Less = new lessc();
 			$Less->importDir = array(
 				WWW_ROOT
@@ -176,9 +175,9 @@ class CompressHelper extends InfinitasHelper {
 				$cssPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
 				if (is_file($cssPath)) {
 					$css = file_get_contents($cssPath);
-					if(strstr($css, '../')) {
+					if (strstr($css, '../')) {
 						$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
-						$css = str_replace('../', '/' .$parts[0] . '/', $css);
+						$css = str_replace('../', '/' . $parts[0] . '/', $css);
 					}
 
 					$cssData[] = $css;
@@ -190,7 +189,7 @@ class CompressHelper extends InfinitasHelper {
 		$cssData = implode(Configure::read('Assets.fileSeparator'), $cssData);
 
 		if (Configure::read('Assets.compressCss')) {
-			$cssData = $this->compressCss($cssData);
+			$cssData = $this->_compressCss($cssData);
 		}
 
 		return $cssData;
@@ -208,10 +207,10 @@ class CompressHelper extends InfinitasHelper {
 	public function script() {
 		$args = func_get_args();
 
-		if(!empty($args)) {
+		if (!empty($args)) {
 			$tmp = array();
-			foreach($args[0] as $k => &$v) {
-				if(strstr(strtolower($v), 'wysiwyg')) {
+			foreach ($args[0] as $k => &$v) {
+				if (strstr(strtolower($v), 'wysiwyg')) {
 					$tmp[] = $v;
 					unset($args[0][$k]);
 				}
@@ -252,13 +251,13 @@ class CompressHelper extends InfinitasHelper {
 		$cacheFile = $this->jsCachePath . 'combined.' . $cacheKey . '.js';
 		$this->File = new File($cacheFile);
 
-		if ($this->isCacheFileValid($cacheFile)) {
-			return $this->Html->script($this->convertToUrl($cacheFile));
+		if ($this->_isCacheFileValid($cacheFile)) {
+			return $this->Html->script($this->_convertToUrl($cacheFile));
 		}
 
 		$jsData = $this->_getJsFiles($jsFiles);
 		if ($this->File->write($jsData)) {
-			return $this->Html->script($this->convertToUrl($cacheFile));
+			return $this->Html->script($this->_convertToUrl($cacheFile));
 		}
 
 		CakeLog::write('assets', 'Unable to write combined js file');
@@ -294,7 +293,7 @@ class CompressHelper extends InfinitasHelper {
 		$jsData = implode(Configure::read('Assets.fileSeparator'), $jsData);
 
 		if (Configure::read('Assets.compressJs')) {
-			$jsData = $this->compressJs($jsData);
+			$jsData = $this->_compressJs($jsData);
 		}
 
 		$jsData = "/** \r\n * Files included \r\n * " . implode("\r\n * ", $urlMatches) . "\r\n */ \r\n" . $jsData;
@@ -312,7 +311,7 @@ class CompressHelper extends InfinitasHelper {
  *
  * @return boolean
  */
-	private function isCacheFileValid($cacheFile) {
+	protected function _isCacheFileValid($cacheFile) {
 		if (is_file($cacheFile) && $this->cacheLength > 0) {
 			$lastModified = filemtime($cacheFile);
 			$timeNow = time();
@@ -334,12 +333,12 @@ class CompressHelper extends InfinitasHelper {
  *
  * @return string
  */
-	private function convertToUrl($filePath) {
-		$___path = Set::filter(explode(DS, $filePath));
-		$___root = Set::filter(explode(DS, WWW_ROOT));
-		$webroot = array_diff_assoc($___root, $___path);
+	protected function _convertToUrl($filePath) {
+		$path = Set::filter(explode(DS, $filePath));
+		$root = Set::filter(explode(DS, WWW_ROOT));
+		$webroot = array_diff_assoc($root, $path);
 
-		$webrootPaths = array_diff_assoc($___path, $___root);
+		$webrootPaths = array_diff_assoc($path, $root);
 		return ('/' . implode('/', $webrootPaths));
 	}
 
@@ -354,7 +353,7 @@ class CompressHelper extends InfinitasHelper {
  *
  * @return string
  */
-	private function compressCss($cssData) {
+	protected function _compressCss($cssData) {
 		// let's remove all the comments from the css code.
 		$cssData = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $cssData);
 
@@ -385,14 +384,12 @@ class CompressHelper extends InfinitasHelper {
  * Compresses the supplied Javascript data, removing extra whitespaces, as well
  * as any comments found.
  *
- * @todo Implement reliable Javascript compression without use of a 3rd party.
- *
  * @param string $jsData The Javascript data to be compressed.
  *
  * @return string
  */
-	private function compressJs($jsData) {
-		App::uses('JSMin', 'Assets.Lib');
+	protected function _compressJs($jsData) {
+		App::uses('JSMin', 'Assets.Vendor');
 
 		return JSMin::minify($jsData);
 	}

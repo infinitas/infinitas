@@ -434,7 +434,7 @@ class InfinitasPluginTask extends AppShell {
 
 		$SchemaMigration->create();
 
-		if(!empty($migration)) {
+		if (!empty($migration)) {
 			unset($migration['SchemaMigration']['id']);
 			$migration['SchemaMigration']['version'] += 1;
 			return (bool)$SchemaMigration->save($migration);

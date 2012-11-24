@@ -125,7 +125,7 @@
 						$class .= ' active';
 					}
 
-					if($noLink !== false) {
+					if ($noLink !== false) {
 						$this->output .= "<$wrap class='$class'>" . 
 							$this->Html->link($title, array('action' => $wizardAction, $step), $htmlAttributes, $confirmMessage, $escapeTitle) .
 						"</$wrap>";

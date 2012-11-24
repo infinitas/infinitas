@@ -77,19 +77,19 @@
 		 * @return void
 		 */
 		private function __renderMustache(&$out) {
-			if(Configure::read('debug') < 1 && isset($this->request['url']['mustache'])) {
+			if (Configure::read('debug') < 1 && isset($this->request['url']['mustache'])) {
 				unset($this->request['url']['mustache']);
 			}
 
-			if($this->__skipMustacheRender()) {
+			if ($this->__skipMustacheRender()) {
 				return;
 			}
 
-			if(empty($this->__mustacheTemplates)) {
+			if (empty($this->__mustacheTemplates)) {
 				$this->__mustacheTemplates = array_filter(current($this->Event->trigger('requireGlobalTemplates')));
 			}
 
-			foreach($this->__mustacheTemplates as $plugin => $template) {
+			foreach ($this->__mustacheTemplates as $plugin => $template) {
 				$this->__vars['viewVars'][Inflector::classify($plugin) . 'Template'] = $template;
 			}
 
@@ -125,9 +125,9 @@
 
 		private function __loadHelpers() {
 			$helpers = EventCore::trigger($this, 'requireHelpersToLoad');
-			foreach($helpers['requireHelpersToLoad'] as $plugin) {
-				foreach((array)$plugin as $helper => $config) {
-					if(is_int($helper) && is_string($config)) {
+			foreach ($helpers['requireHelpersToLoad'] as $plugin) {
+				foreach ((array)$plugin as $helper => $config) {
+					if (is_int($helper) && is_string($config)) {
 						$helper = $config;
 						$config = array();
 					}
@@ -141,7 +141,7 @@
 		 * Set some data for the infinitas js lib.
 		 */
 		private function __setJsVariables() {
-			if($this->request->is('ajax')) {
+			if ($this->request->is('ajax')) {
 				return false;
 			}
 			if (!empty($this->request->params['models'])) {
@@ -171,18 +171,18 @@
 		 * @return void
 		 */
 		private function __parseSnips(&$out) {
-			if(substr($this->request->params['action'], 0, 5) == 'admin') {
+			if (substr($this->request->params['action'], 0, 5) == 'admin') {
 				return;
 			}
 
 			preg_match_all('/\[(snip|module):([A-Za-z0-9_\-\.\#]*)(.*?)\]/i', $out, $snips);
 			$snips = array_unique($snips[0]);
 
-			if(empty($snips)) {
+			if (empty($snips)) {
 				return;
 			}
 
-			foreach($snips as $key => $match) {
+			foreach ($snips as $key => $match) {
 				try {
 					$pos = strpos($out, $match);
 					if ($pos !== false) {
@@ -204,7 +204,7 @@
 		 * @return <type>
 		 */
 		private function __parseSnipParams($match) {
-			if(empty($match)) {
+			if (empty($match)) {
 				return false;
 			}
 
@@ -214,7 +214,7 @@
 			);
 
 			$match = str_replace(array('[', ']'), '', $match);
-			if(strstr($match, '#') === false) {
+			if (strstr($match, '#') === false) {
 				$match .= '#';
 			}
 

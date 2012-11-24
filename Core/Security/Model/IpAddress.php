@@ -179,7 +179,7 @@ class IpAddress extends ManagementAppModel {
 			)
 		);
 
-		if(!(is_string($data) || is_int($data))) {
+		if (!(is_string($data) || is_int($data))) {
 			$data = serialize($data);
 		}
 

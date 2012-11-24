@@ -42,7 +42,7 @@
 			$this->Paginator->sort('date'),
 		));
 
-		foreach($mails as $mail) {
+		foreach ($mails as $mail) {
 			$class = $mail['Message']['unread'] ? 'unread' : ''; ?>
 			<tr class="<?php echo $class; ?>">
 				<td><?php echo $this->Infinitas->massActionCheckBox($mail); ?>&nbsp;</td>

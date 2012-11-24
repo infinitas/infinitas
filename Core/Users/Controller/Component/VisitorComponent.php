@@ -30,7 +30,7 @@ class VisitorComponent extends InfinitasComponent {
  */
 	public function initialize(Controller $Controller, $settings = array()) {
 		$userId = AuthComponent::user('id');
-		if(!$userId) {
+		if (!$userId) {
 			return;
 		}
 

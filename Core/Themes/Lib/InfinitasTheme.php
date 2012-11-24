@@ -33,7 +33,7 @@ class InfinitasTheme {
  * @throws CakeException
  */
 	public function defaultThemeInstall($theme = 'infinitas') {
-		if(!self::install($theme)) {
+		if (!self::install($theme)) {
 			throw new CakeException('Could not configure the default theme, make sure to clone / download it');
 		}
 		return true;
@@ -53,11 +53,11 @@ class InfinitasTheme {
 	public static function install($theme) {
 		$FolderSymlink = new FolderSymlink();
 		$themePath = self::themePath($theme) . DS . 'webroot';
-		if(!is_dir($themePath)) {
+		if (!is_dir($themePath)) {
 			return true;
 		}
 		$linkPath = self::linkPath($theme);
-		if(!$FolderSymlink->create($linkPath , $themePath)) {
+		if (!$FolderSymlink->create($linkPath , $themePath)) {
 			throw new CakeException('Unable to symlink theme');
 		}
 		return $FolderSymlink->isLink($linkPath);
@@ -117,7 +117,7 @@ class InfinitasTheme {
 		$Folder = new Folder(self::themePath());
 
 		$return = array();
-		foreach(current($Folder->read()) as $theme) {
+		foreach (current($Folder->read()) as $theme) {
 			$return[$theme] = Inflector::humanize(Inflector::underscore($theme));
 		}
 
@@ -145,12 +145,12 @@ class InfinitasTheme {
  * @return array
  */
 	public static function layouts($theme = null) {
-		if($theme) {
+		if ($theme) {
 			return self::__layoutsFor($theme);
 		}
 
 		$return = array();
-		foreach(self::themes() as $theme) {
+		foreach (self::themes() as $theme) {
 			$return[$theme] = self::__layoutsFor($theme);
 		}
 
@@ -168,7 +168,7 @@ class InfinitasTheme {
 		$path = self::linkPath($theme) . DS . 'img' . DS . 'screenshots' . DS;
 		$Folder = new Folder($path);
 		$Folder = end($Folder->read());
-		foreach($Folder as &$screenshot) {
+		foreach ($Folder as &$screenshot) {
 			$screenshot = str_replace(WWW_ROOT, DS, $path) . $screenshot;
 		}
 
@@ -194,7 +194,7 @@ class InfinitasTheme {
 				)
 			)
 		);
-		if(!empty($temp['Theme']['name'])) {
+		if (!empty($temp['Theme']['name'])) {
 			$theme = $temp['Theme']['name'];
 		}
 
@@ -202,20 +202,20 @@ class InfinitasTheme {
 		$files = $Folder->read();
 
 		$return = array();
-		foreach($files[1] as &$file) {
+		foreach ($files[1] as &$file) {
 			$file = pathinfo($file);
 
 			$type = __d('themes', 'Frontend');
-			if(strstr($file['filename'], 'admin') !== false) {
+			if (strstr($file['filename'], 'admin') !== false) {
 				$type = __d('themes', 'Admin');
 			}
 
-			if(strstr($file['filename'], 'installer') !== false) {
+			if (strstr($file['filename'], 'installer') !== false) {
 				$type = __d('themes', 'Install');
 			}
 
 			$return[$type][$file['filename']] = Inflector::humanize(str_replace('admin', '', $file['filename']));
-			if(empty($return[$type][$file['filename']])) {
+			if (empty($return[$type][$file['filename']])) {
 				$return[$type][$file['filename']] = __d('themes', 'Main');
 			}
 		}
@@ -234,13 +234,13 @@ class InfinitasTheme {
  */
 	public function config($theme) {
 		$path = self::themePath($theme) . DS . 'config.json';
-		if(!is_file($path)) {
+		if (!is_file($path)) {
 			throw new ThemesConfigurationException('Missing configuration for selected theme');
 		}
 
 		$File = new File($path);
 		$File = json_decode($File->read(), true);
-		if(empty($File)) {
+		if (empty($File)) {
 			throw new ThemesConfigurationException(vsprintf('Configuration for "%s" seems invalid', array(
 				$theme
 			)));
@@ -259,7 +259,7 @@ class InfinitasTheme {
  * @return string
  */
 	public static function themePath($theme = null) {
-		if(!$theme) {
+		if (!$theme) {
 			return APP . 'View' . DS . 'Themed';
 		}
 
@@ -277,7 +277,7 @@ class InfinitasTheme {
  * @return string
  */
 	public function linkPath($theme = null) {
-		if(!$theme) {
+		if (!$theme) {
 			return WWW_ROOT . 'theme';
 		}
 

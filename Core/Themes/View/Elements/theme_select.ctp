@@ -25,7 +25,7 @@
 	$themes = InfinitasTheme::themes();
 
 	$layouts = array();
-	if(!empty($this->request->data[$model]['theme_id'])) {
+	if (!empty($this->request->data[$model]['theme_id'])) {
 		$layouts = InfinitasTheme::layouts($this->request->data[$model]['theme_id']);
 	}
 

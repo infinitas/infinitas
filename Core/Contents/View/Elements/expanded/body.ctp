@@ -1,5 +1,5 @@
 <?php 
-	if(empty($data['body'])) {
+	if (empty($data['body'])) {
 		return false;
 	}
 	

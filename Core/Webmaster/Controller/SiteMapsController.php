@@ -17,9 +17,9 @@
 		private function __rebuild() {
 			$siteMaps = $this->Event->trigger('siteMapRebuild');
 			$map = array();
-			foreach((array)$siteMaps['siteMapRebuild'] as $plugin) {
-				foreach((array)$plugin as $link) {
-					if(!isset($link['url'])) {
+			foreach ((array)$siteMaps['siteMapRebuild'] as $plugin) {
+				foreach ((array)$plugin as $link) {
+					if (!isset($link['url'])) {
 						continue;
 					}
 

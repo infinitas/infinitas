@@ -53,7 +53,7 @@ class ViewableBehavior extends ModelBehavior {
 			$this->__settings[$Model->alias],
 			$settings
 		);
-		if(!$Model->useTable) {
+		if (!$Model->useTable) {
 			return false;
 		}
 		$Model->bindModel(array(
@@ -96,7 +96,7 @@ class ViewableBehavior extends ModelBehavior {
 			return $data;
 		}
 
-		if(isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']) {
+		if (isset($this->__settings[$Model->alias]['session_tracking']) && $this->__settings[$Model->alias]['session_tracking']) {
 			$sessionName = 'Viewable.' . $Model->alias;
 			$views = array_flip((array)CakeSession::read($sessionName));
 			$record = $data[0][$Model->alias][$Model->primaryKey];
@@ -116,7 +116,7 @@ class ViewableBehavior extends ModelBehavior {
 		$location = EventCore::trigger($this, 'GeoLocation.getLocation');
 		$location = current($location['getLocation']);
 
-		foreach((array)$location as $k => $v) {
+		foreach ((array)$location as $k => $v) {
 			$view[$Model->ViewCount->alias][$k] = $v;
 		}
 		$view[$Model->ViewCount->alias]['year'] = date('Y');

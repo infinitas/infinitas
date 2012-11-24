@@ -17,14 +17,14 @@ class SmtpSocket extends EmailSocket {
  * @copydoc EmailSocket::logout()
  */
 	public function logout() {
-		if(!$this->Socket->isConnected()) {
+		if (!$this->Socket->isConnected()) {
 			$this->_errors[] = 'Can not logout, no connection';
 			return true;
 		}
 
 		$quit = $this->write('QUIT', 'isOk');
 
-		if(!$quit) {
+		if (!$quit) {
 			$this->_errors[] = 'Could not log out';
 		}
 
@@ -34,21 +34,21 @@ class SmtpSocket extends EmailSocket {
 	protected function _getStats() {
 		$stats = $this->write('STAT', 'cleanData');
 		$stats =  explode(' ', current(array_keys($stats)));
-		if($stats[0] != '+OK') {
+		if ($stats[0] != '+OK') {
 			$this->_errors[] = 'Could not get stats';
 		}
 
-		if(isset($stats[1])) {
+		if (isset($stats[1])) {
 			$this->mailStats['totalCount'] = $stats[1];
 		}
 
-		if(isset($stats[2])) {
+		if (isset($stats[2])) {
 			$this->mailStats['totalSize'] = $stats[2];
 		}
 
 		unset($stats);
 
-		if($this->mailStats['totalSize'] > 0) {
+		if ($this->mailStats['totalSize'] > 0) {
 			$this->mailStats['totalSizeReadable'] = convert($this->mailStats['totalSize']);
 		}
 

@@ -1,9 +1,9 @@
 <?php
-	if(empty($fieldName)) {
+	if (empty($fieldName)) {
 		$fieldName = 'file';
 	}
 	
-	if(isset($inputOptions)) {
+	if (isset($inputOptions)) {
 		$inputOptions = array_merge(array('type' => 'file'), $inputOptions);
 	}
 	

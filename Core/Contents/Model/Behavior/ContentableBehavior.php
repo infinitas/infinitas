@@ -50,14 +50,14 @@
 				false
 			);
 
-			$Model->virtualFields['content_image_path_full'] = 'IF((GlobalContent.image = \'\' OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", GlobalContent.image))';
+			$Model->virtualFields['content_image_path_full'] = 'if ((GlobalContent.image = \'\' OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", GlobalContent.image))';
 
-			if(empty($Model->GlobalContent->actsAs['Filemanager.Upload'])) {
+			if (empty($Model->GlobalContent->actsAs['Filemanager.Upload'])) {
 				return;
 			}
 
-			foreach($Model->GlobalContent->actsAs['Filemanager.Upload']['image']['thumbnailSizes'] as $name => $size) {
-				$Model->virtualFields['content_image_path_' . $name] = 'IF((GlobalContent.image = "" OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", "' . $name . '_", GlobalContent.image))';
+			foreach ($Model->GlobalContent->actsAs['Filemanager.Upload']['image']['thumbnailSizes'] as $name => $size) {
+				$Model->virtualFields['content_image_path_' . $name] = 'if ((GlobalContent.image = "" OR GlobalContent.image IS NULL), "/contents/img/no-image.png", CONCAT("/files/global_content/image/", GlobalContent.dir, "/", "' . $name . '_", GlobalContent.image))';
 			}
 		}
 
@@ -78,33 +78,33 @@
 				'getRelationsCategory'
 			);
 
-			if(in_array($Model->findQueryType, $ignore)) {
+			if (in_array($Model->findQueryType, $ignore)) {
 				return $query;
 			}
 
-			if(empty($query['fields'])) {
+			if (empty($query['fields'])) {
 				$query['fields'] = array($Model->alias . '.*');
 			}
 
-			if(!is_array($query['fields'])) {
+			if (!is_array($query['fields'])) {
 				$query['fields'] = array($query['fields']);
 			}
 
 
 			$imageFields = array('content_image_path_full', 'GlobalContent.dir');
-			foreach($Model->virtualFields as $k => $v) {
-				if(strstr($k, 'content_image_path')) {
+			foreach ($Model->virtualFields as $k => $v) {
+				if (strstr($k, 'content_image_path')) {
 					$imageFields[] = $k;
 				}
 			}
 
-			if($Model->findQueryType == 'list') {
+			if ($Model->findQueryType == 'list') {
 				$displayField = 'GlobalContent.title';
-				if($Model->displayField != $Model->primaryKey) {
+				if ($Model->displayField != $Model->primaryKey) {
 					$displayField = $Model->alias . '.' . $Model->displayField;
 				}
 
-				if(empty($query['fields'])) {
+				if (empty($query['fields'])) {
 					$query['fields'] = array(
 						$Model->alias . '.' . $Model->primaryKey,
 						$displayField
@@ -115,7 +115,7 @@
 				$query['list']['valuePath'] = '{n}.' . $query['fields'][1];
 			}
 
-			else if($Model->findQueryType == 'neighbors') {
+			else if ($Model->findQueryType == 'neighbors') {
 
 				$query['fields'] = array_merge(
 					$query['fields'],
@@ -137,10 +137,10 @@
 
 				return $query;
 			}
-			else if($Model->findQueryType == 'layoutList') {
+			else if ($Model->findQueryType == 'layoutList') {
 				return $query;
 			}
-			else if($Model->findQueryType != 'count') {
+			else if ($Model->findQueryType != 'count') {
 				$query['fields'] = array_merge(
 					$query['fields'],
 					array(
@@ -168,7 +168,7 @@
 				$imageFields
 			);
 
-			if($Model->alias != 'GlobalContent') {
+			if ($Model->alias != 'GlobalContent') {
 				$gc = array(
 					'table' => 'global_contents',
 					'alias' => 'GlobalContent',
@@ -180,13 +180,13 @@
 				);
 
 				$done = false;
-				foreach($query['joins'] as $join) {
-					if($join == $gc) {
+				foreach ($query['joins'] as $join) {
+					if ($join == $gc) {
 						$done = true;
 					}
 				}
 
-				if(!$done) {
+				if (!$done) {
 					array_unshift($query['joins'], $gc);
 				}
 			}
@@ -200,7 +200,7 @@
 				)
 			);
 
-			if($Model->alias != 'GlobalCategory') {
+			if ($Model->alias != 'GlobalCategory') {
 				$query['joins'][] = array(
 					'table' => 'global_categories',
 					'alias' => 'GlobalCategory',
@@ -273,7 +273,7 @@
 				'layoutList'
 			);
 
-			if(in_array($Model->findQueryType, $ignore) || empty($results)) {
+			if (in_array($Model->findQueryType, $ignore) || empty($results)) {
 				return $results;
 			}
 
@@ -302,34 +302,34 @@
 				)
 			);
 
-			foreach($globalTags as &$tag) {
+			foreach ($globalTags as &$tag) {
 				$tag['GlobalTagged']['GlobalTag'] = $tag['GlobalTag'];
 				unset($tag['GlobalTag']);
 			}
 
-			foreach($results as $k => $result) {
+			foreach ($results as $k => $result) {
 				$template = sprintf(
 					'/GlobalTagged[foreign_key=/%s/i]',
 					$results[$k]['GlobalContent'][$Model->GlobalContent->primaryKey]
 				);
 				$results[$k]['GlobalTagged'] = Set::extract('{n}.GlobalTagged', Set::extract($template, $globalTags));
 
-				if(isset($results[$k]['GlobalCategoryContent'])) {
+				if (isset($results[$k]['GlobalCategoryContent'])) {
 					$results[$k]['GlobalCategory'] = array_merge(
 						$results[$k]['GlobalCategoryContent'],
 						$results[$k]['GlobalCategory']
 					);
 				}
-				if(isset($results[$k]['GlobalContent']['GlobalLayout'])) {
+				if (isset($results[$k]['GlobalContent']['GlobalLayout'])) {
 					$results[$k]['Layout'] = $results[$k]['GlobalContent']['GlobalLayout'];
 				}
 
-				if(isset($results[$k]['GlobalContent']['Group'])) {
+				if (isset($results[$k]['GlobalContent']['Group'])) {
 					$results[$k]['Group'] = $results[$k]['GlobalContent']['Group'];
 				}
 				unset($results[$k]['GlobalContent']['GlobalLayout'], $results[$k]['GlobalContent']['Group']);
 
-				if(isset($results[$k]['GlobalContent'])) {
+				if (isset($results[$k]['GlobalContent'])) {
 					$results[$k][$Model->alias] = array_merge($results[$k]['GlobalContent'], $results[$k][$Model->alias]);
 				}
 			}
@@ -344,11 +344,11 @@
 		 * @return boolean
 		 */
 		public function beforeSave(Model $Model) {
-			if(!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])) {
+			if (!isset($Model->data['GlobalContent']['model']) || empty($Model->data['GlobalContent']['model'])) {
 				$Model->data['GlobalContent']['model'] = $this->__getModel($Model);
 			}
 
-			if(!isset($Model->data['GlobalContent']['introduction'])) {
+			if (!isset($Model->data['GlobalContent']['introduction'])) {
 				$Model->data['GlobalContent']['introduction'] = '';
 			}
 
@@ -378,7 +378,7 @@
 		}
 
 		private function __fullTextSave($Model) {
-			if(empty($Model->data['GlobalContent']['body'])) {
+			if (empty($Model->data['GlobalContent']['body'])) {
 				return false;
 			}
 
@@ -410,7 +410,7 @@
 		}
 
 		public function mainKeywords(Model $Model, $fullText = null, $keywordCount = 10) {
-			if(empty($fullText)) {
+			if (empty($fullText)) {
 				return array();
 			}
 			$phraseMap = array();
@@ -420,14 +420,14 @@
 			$phrase = '';
 			$lastTok = array();
 			while ($tok !== false) {
-				if(strlen($tok) <= 2) {
+				if (strlen($tok) <= 2) {
 					$tok = strtok(' ');
 					continue;
 				}
 
-				if(count($lastTok) >= 3) {
+				if (count($lastTok) >= 3) {
 					$phrase = implode(' ', $lastTok);
-					if(isset($phraseMap[$phrase])) {
+					if (isset($phraseMap[$phrase])) {
 						$phraseMap[$phrase]++;
 					}
 					else{
@@ -435,18 +435,18 @@
 					}
 				}
 
-				if($count % 2) {
+				if ($count % 2) {
 					$phrase = end($lastTok) . ' ' . $tok;
-					if(isset($phraseMap[$phrase])) {
+					if (isset($phraseMap[$phrase])) {
 						$phraseMap[$phrase]++;
 					}
 					else{
 						$phraseMap[$phrase] = 1;
 					}
 
-					if(count($phrase) >= 3) {
+					if (count($phrase) >= 3) {
 						$phrase = implode(' ', $lastTok);
-						if(isset($phraseMap[$phrase])) {
+						if (isset($phraseMap[$phrase])) {
 							$phraseMap[$phrase]++;
 						}
 						else{
@@ -456,16 +456,16 @@
 				}
 				else {
 					$phrase = end($lastTok) . ' ' . $tok;
-					if(isset($phraseMap[$phrase])) {
+					if (isset($phraseMap[$phrase])) {
 						$phraseMap[$phrase]++;
 					}
 					else{
 						$phraseMap[$phrase] = 1;
 					}
 
-					if(count($phrase) >= 3) {
+					if (count($phrase) >= 3) {
 						$phrase = implode(' ', $lastTok);
-						if(isset($phraseMap[$phrase])) {
+						if (isset($phraseMap[$phrase])) {
 							$phraseMap[$phrase]++;
 						}
 						else{
@@ -474,7 +474,7 @@
 					}
 				}
 
-				if(count($lastTok) >= 3) {
+				if (count($lastTok) >= 3) {
 					array_shift($lastTok);
 					$lastTok = array_values($lastTok);
 				}
@@ -484,7 +484,7 @@
 				$count++;
 			}
 
-			if(empty($phraseMap)) {
+			if (empty($phraseMap)) {
 				return array();
 			}
 

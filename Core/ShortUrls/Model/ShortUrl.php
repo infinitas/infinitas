@@ -94,11 +94,11 @@ class ShortUrl extends ShortUrlsAppModel{
 	 */
 	public function someTypeOfUrl($field) {
 		// absolute url
-		if(Validation::url(current($field), true)) {
+		if (Validation::url(current($field), true)) {
 			return true;
 		}
 
-		else if(false) {
+		else if (false) {
 			// validate json so that you can use a cake url that can change with routing.
 		}
 
@@ -113,14 +113,14 @@ class ShortUrl extends ShortUrlsAppModel{
 	 * @return string
 	 */
 	public function shorten($url = null) {
-		if(!$url) {
+		if (!$url) {
 			return false;
 		}
 
 		$data['ShortUrl']['url'] = $url;
 		$this->create();
-		if(!$this->save($data)) {
-			if(current($this->validationErrors['url']) == $this->validate['url']['isUnique']['message']) {
+		if (!$this->save($data)) {
+			if (current($this->validationErrors['url']) == $this->validate['url']['isUnique']['message']) {
 				$id = $this->find('first', array(
 					'conditions' => array(
 						'ShortUrl.url' => $url
@@ -129,7 +129,7 @@ class ShortUrl extends ShortUrlsAppModel{
 
 				$this->id = isset($id['ShortUrl']['id']) ? $id['ShortUrl']['id'] : false;
 
-				if(!$this->id) {
+				if (!$this->id) {
 					return false;
 				}
 			}
@@ -146,13 +146,13 @@ class ShortUrl extends ShortUrlsAppModel{
 	 * @return boolean|string
 	 */
 	public function getUrl($code = null) {
-		if(!$code) {
+		if (!$code) {
 			return false;
 		}
 
 		$check = $this->read(null, $this->__decode($code));
 
-		if(!empty($check)) {
+		if (!empty($check)) {
 			return $check['ShortUrl']['url'];
 		}
 

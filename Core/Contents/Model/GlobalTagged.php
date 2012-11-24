@@ -97,7 +97,7 @@
 				}
 				$query = $options;
 
-				if(!empty($query['model']) || !empty($query['category'])) {
+				if (!empty($query['model']) || !empty($query['category'])) {
 					$query['joins'][] = array(
 						'table' => 'global_contents',
 						'alias' => 'GlobalContent',

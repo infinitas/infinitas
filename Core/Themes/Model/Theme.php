@@ -97,17 +97,17 @@ class Theme extends ThemesAppModel {
  * @throws NoThemeConfiguredException
  */
 	protected function _findCurrentTheme($state, $query, $results = array()) {
-		if($state == 'before') {
+		if ($state == 'before') {
 			$query = array_merge(array(
 				'admin' => null
 			), $query);
 
-			if($query['admin'] === null) {
+			if ($query['admin'] === null) {
 				throw new NoThemeSelectedException(array());
 			}
 
 			$field = 'frontend';
-			if($query['admin'] === true) {
+			if ($query['admin'] === true) {
 				$field = 'admin';
 			}
 
@@ -124,7 +124,7 @@ class Theme extends ThemesAppModel {
 			return $query;
 		}
 
-		if(empty($results)) {
+		if (empty($results)) {
 			throw new NoThemeConfiguredException(array());
 		}
 
@@ -142,10 +142,10 @@ class Theme extends ThemesAppModel {
  * @return boolean
  */
 	public function beforeSave($options = array()) {
-		if(isset($this->data[$this->alias]['admin']) && $this->data[$this->alias]['admin']) {
+		if (isset($this->data[$this->alias]['admin']) && $this->data[$this->alias]['admin']) {
 			return $this->deactivateAll('admin');
 		}
-		if(isset($this->data[$this->alias]['frontend']) && $this->data[$this->alias]['frontend']) {
+		if (isset($this->data[$this->alias]['frontend']) && $this->data[$this->alias]['frontend']) {
 			return $this->deactivateAll('frontend');
 		}
 
@@ -163,7 +163,7 @@ class Theme extends ThemesAppModel {
  */
 	public function beforeDelete($cascade = true) {
 		$state = $this->read(array('admin', 'frontend'));
-		if(empty($state) ||  $state[$this->alias]['admin'] || $state[$this->alias]['frontend']) {
+		if (empty($state) ||  $state[$this->alias]['admin'] || $state[$this->alias]['frontend']) {
 			return false;
 		}
 
@@ -197,7 +197,7 @@ class Theme extends ThemesAppModel {
  * @throws CakeException
  */
 	public function install($theme) {
-		if(InfinitasTheme::install($theme) && $this->save(InfinitasTheme::config($theme))) {
+		if (InfinitasTheme::install($theme) && $this->save(InfinitasTheme::config($theme))) {
 			return true;
 		}
 
@@ -206,7 +206,7 @@ class Theme extends ThemesAppModel {
 	}
 
 	protected function _findInstalled($state, $query, $results = array()) {
-		if($state == 'before') {
+		if ($state == 'before') {
 			$query['fields'] = array(
 				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.' . $this->displayField
@@ -220,7 +220,7 @@ class Theme extends ThemesAppModel {
 		);
 
 		$return = array();
-		foreach($results as $result) {
+		foreach ($results as $result) {
 			$return[$result] = Inflector::humanize($result);
 		}
 

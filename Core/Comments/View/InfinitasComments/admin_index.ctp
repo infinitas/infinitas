@@ -49,7 +49,7 @@
 			)
 		));
 
-		foreach($comments as $comment) { ?>
+		foreach ($comments as $comment) { ?>
 			<tr class="multi-line">
 				<td><?php echo $this->Infinitas->massActionCheckBox($comment); ?>&nbsp;</td>
 				<td>
@@ -69,7 +69,7 @@
 				<td>
 					<?php
 						echo $this->Infinitas->status($comment['InfinitasComment']['active'], $comment['InfinitasComment']['id']);
-						if(!$comment['InfinitasComment']['active']) {
+						if (!$comment['InfinitasComment']['active']) {
 							echo ' ', Inflector::humanize($comment['InfinitasComment']['status']);
 						}
 						echo $this->Infinitas->status(

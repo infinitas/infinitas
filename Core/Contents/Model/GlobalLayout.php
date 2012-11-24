@@ -99,7 +99,7 @@
 		 * value so that it will be linked up properly to the related rows.
 		 */
 		public function beforeSave($options = array()) {
-			if(!empty($this->data['GlobalLayout']['model'])) {
+			if (!empty($this->data['GlobalLayout']['model'])) {
 				$this->data['GlobalLayout']['model'] =
 					$this->data['GlobalLayout']['plugin'] . '.' . $this->data['GlobalLayout']['model'];
 				return true;
@@ -115,8 +115,8 @@
 		public function afterFind($results, $primary = false) {
 			parent::afterFind($results, $primary);
 
-			if(isset($results[0][$this->alias]['model'])) {
-				foreach($results as $k => $result) {
+			if (isset($results[0][$this->alias]['model'])) {
+				foreach ($results as $k => $result) {
 					$parts = pluginSplit($results[$k][$this->alias]['model']);
 					$results[$k][$this->alias]['model_class'] = $results[$k][$this->alias]['model'];
 					$results[$k][$this->alias]['plugin'] = $parts[0];
@@ -129,7 +129,7 @@
 
 		public function _findAutoLoadLayout($state, $query, $results = array()) {
 			if ($state === 'before') {
-				if(empty($query['plugin']) || empty($query['model']) || empty($query['action'])) {
+				if (empty($query['plugin']) || empty($query['model']) || empty($query['action'])) {
 					return $query;
 				}
 
@@ -152,11 +152,11 @@
 		public function _findLayoutList($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$data = array();
-				if(isset($query['plugin'])) {
+				if (isset($query['plugin'])) {
 					$data[] = $query['plugin'];
 				}
 
-				if(isset($query['model'])) {
+				if (isset($query['model'])) {
 					$data[] = $query['model'];
 				}
 
@@ -177,8 +177,8 @@
 				__d('contents', 'Other') => array()
 			);
 
-			foreach($results as $result) {
-				if(strstr($result[$this->alias]['model_class'], $query['_data'])) {
+			foreach ($results as $result) {
+				if (strstr($result[$this->alias]['model_class'], $query['_data'])) {
 					$return[__d('contents', 'Related')][$result[$this->alias][$this->primaryKey]] = $result[$this->alias]['name'];
 					continue;
 				}

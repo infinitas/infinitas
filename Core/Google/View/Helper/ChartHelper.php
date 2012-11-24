@@ -706,7 +706,7 @@
 		private function __numbersToPercentage($array) {
 			$max = max($array);
 			$percentages = array();
-			foreach($array as $part) {
+			foreach ($array as $part) {
 				$percentages[] = round(($part / $max) * 100);
 			}
 

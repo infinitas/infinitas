@@ -8,6 +8,7 @@
  * @version $Id$
  */
 class ImageHelper extends AppHelper {
+
 /**
  * default config for the images
  *
@@ -41,7 +42,7 @@ class ImageHelper extends AppHelper {
  */
 	public function image($path, $key, array $config = array()) {
 		$image = $this->getRelativePath($path, $key);
-		if(!$image) {
+		if (!$image) {
 			return false;
 		}
 
@@ -159,6 +160,8 @@ class ImageHelper extends AppHelper {
  * @param string $returnType what data is returned
  *
  * @return boolean
+ *
+ * @throws NotImplementedException
  */
 	public function exists($place, $key, $returnType = null) {
 		$images = $this->getImages();
@@ -176,7 +179,7 @@ class ImageHelper extends AppHelper {
 				return Configure::read('CoreImages.path') . $place . '/' . $images[$place][$key];
 
 			case 'absolutePath':
-				//  @todo implement this
+				throw new NotImplementedException('absolutePath');
 		}
 
 		return true;
@@ -191,18 +194,18 @@ class ImageHelper extends AppHelper {
  */
 	protected function _config(array $config, $key = null) {
 		$config = array_merge($this->settings, $config);
-		if(empty($config['title'])) {
+		if (empty($config['title'])) {
 			$config['title'] = $this->niceTitleText($key);
 		}
 
-		if(substr($config['title'], -4) == ' :: ') {
+		if (substr($config['title'], -4) == ' :: ') {
 			$config['title'] = str_replace(' :: ', '', $config['title']);
 		}
-		if(empty($config['alt'])) {
+		if (empty($config['alt'])) {
 			$config['alt'] = $config['title'];
 		}
 
-		if(strstr($config['alt'], '  :: ') !== false) {
+		if (strstr($config['alt'], '  :: ') !== false) {
 			$config['alt'] = trim(current(explode(' :: ', $config['alt'])));
 		}
 

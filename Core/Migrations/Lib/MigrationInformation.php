@@ -19,7 +19,7 @@ class MigrationInformation {
  * @return array
  */
 	public static function status($plugin) {
-		if(!InfinitasPlugin::isPlugin($plugin)) {
+		if (!InfinitasPlugin::isPlugin($plugin)) {
 			return array();
 		}
 		$return = array(
@@ -40,7 +40,7 @@ class MigrationInformation {
 * @return string|boolean
 */
 	public static function version($plugin) {
-		if(!InfinitasPlugin::isPlugin($plugin)) {
+		if (!InfinitasPlugin::isPlugin($plugin)) {
 			return null;
 		}
 
@@ -52,7 +52,7 @@ class MigrationInformation {
 				'SchemaMigration.version' => 'desc'
 			)
 		));
-		if(!isset($migration['SchemaMigration']['version'])) {
+		if (!isset($migration['SchemaMigration']['version'])) {
 			return false;
 		}
 
@@ -67,7 +67,7 @@ class MigrationInformation {
  * @return integer
  */
 	public static function count($plugin) {
-		if(!InfinitasPlugin::isPlugin($plugin)) {
+		if (!InfinitasPlugin::isPlugin($plugin)) {
 			return 0;
 		}
 

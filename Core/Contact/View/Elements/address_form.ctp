@@ -1,12 +1,12 @@
 <?php
-	if(!isset($plugin) || !$plugin || $plugin == 'contact') {
+	if (!isset($plugin) || !$plugin || $plugin == 'contact') {
 		$plugin = $this->plugin;
 	}
-	if(!isset($model) || !$model) {
+	if (!isset($model) || !$model) {
 		$model = $this->request->params['models'][0];
 	}
 
-	if(!isset($countries) || !$countries) {
+	if (!isset($countries) || !$countries) {
 		$countries = ClassRegistry::init('Contact.ContactAddress')->Country->find('list');
 	}
 
@@ -21,7 +21,7 @@
 		'ContactAddress.model' => $model
 	));
 
-	if($addressSelect) {
+	if ($addressSelect) {
 		echo $this->Form->input($model . '.address_id', array('options' => $options, 'label' => __d('contact', 'Use existing'), 'empty' => Configure::read('Website.empty_select')));
 	}
 

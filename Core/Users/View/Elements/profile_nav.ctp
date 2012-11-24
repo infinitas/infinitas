@@ -3,13 +3,13 @@ $gravitar = $this->Gravatar->image(AuthComponent::user('email'), array(
 	'size' => 20
 ));
 $name = AuthComponent::user('prefered_name');
-if(empty($name)) {
+if (empty($name)) {
 	$name = AuthComponent::user('username');
 }
 
 $helpPlugin = !empty($this->request->plugin) ? Inflector::camelize($this->request->plugin) : null;
 $helpUrl = 'http://infinitas-cms.org/infinitas_docs/' . $helpPlugin;
-if(Configure::read('debug') && in_array('InfinitasDocs', InfinitasPlugin::listPlugins())) {
+if (Configure::read('debug') && in_array('InfinitasDocs', InfinitasPlugin::listPlugins())) {
 	$helpUrl = array(
 		'plugin' => 'infinitas_docs',
 		'controller' => 'infinitas_docs',

@@ -28,6 +28,7 @@ App::uses('AppHelper', 'View/Helper');
  */
 
 class ChartsBaseEngineHelper extends AppHelper {
+
 /**
  * draw an area chart
  *

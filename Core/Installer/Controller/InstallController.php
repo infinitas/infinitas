@@ -213,11 +213,11 @@ class InstallController extends Controller {
  */
 	public function beforeRender() {
 		$theme = EventCore::trigger($this, 'installerTheme');
-		if(count($theme['installerTheme']) > 1) {
+		if (count($theme['installerTheme']) > 1) {
 			unset($theme['installerTheme']['Themes']);
 		}
 		$theme = current($theme['installerTheme']);
-		if(empty($theme)) {
+		if (empty($theme)) {
 			throw new InvalidArgumentException(__d('installer', 'No theme handler found'));
 		}
 
@@ -235,7 +235,7 @@ class InstallController extends Controller {
  * @return void
  */
 	public function index($step = null) {
-		if(filesize(APP . 'Config' . DS . 'database.php') > 0 && $this->Session->read('installing') == false) {
+		if (filesize(APP . 'Config' . DS . 'database.php') > 0 && $this->Session->read('installing') == false) {
 			$this->Session->setFlash(__d('installer', 'Infinitas has already been installed'));
 			$this->redirect('/');
 		}
@@ -298,8 +298,8 @@ class InstallController extends Controller {
 		$this->loadModel('Installer.Install');
 
 		$database = array();
-		foreach($this->InstallerLib->getSupportedDbs() as $databaseType => $config) {
-			if(isset($config['has'])) {
+		foreach ($this->InstallerLib->getSupportedDbs() as $databaseType => $config) {
+			if (isset($config['has'])) {
 				$database[$databaseType] = $config['has'];
 			}
 		}
@@ -317,12 +317,12 @@ class InstallController extends Controller {
  */
 	public function _processDatabase() {
 		$valid = $this->InstallerLib->testConnection($this->request->data);
-		if($valid === true) {
+		if ($valid === true) {
 			$this->Session->write('Install.database_config', $this->request->data);
 			return true;
 		}
 
-		if(is_array($valid)) {
+		if (is_array($valid)) {
 			pr($valid);
 			exit;
 		}
@@ -343,9 +343,9 @@ class InstallController extends Controller {
 		natsort($_plugins);
 
 		$plugins = array();
-		foreach($_plugins as $_plugin) {
+		foreach ($_plugins as $_plugin) {
 			$configFile = CakePlugin::path($_plugin) . 'Config' . DS . 'config.json';
-			if(file_exists($configFile)) {
+			if (file_exists($configFile)) {
 				$plugins[$_plugin] = Set::reverse(json_decode(file_get_contents($configFile)));
 			}
 		}
@@ -372,7 +372,7 @@ class InstallController extends Controller {
  * @return void
  */
 	public function _prepareAdminUser() {
-		if(!is_readable(APP . 'Config' . DS . 'database.php') || filesize(APP . 'Config' . DS . 'database.php') == 0) {
+		if (!is_readable(APP . 'Config' . DS . 'database.php') || filesize(APP . 'Config' . DS . 'database.php') == 0) {
 			$this->Session->delete('Wizard');
 			$this->notice(
 				__d('insatller', 'There was an unrecoverable error configuring your database. '.
@@ -408,7 +408,7 @@ class InstallController extends Controller {
 		$this->request->data['User']['active'] = 1;
 		$this->request->data['User']['last_login'] = date('Y-m-d H:i:s');
 
-		if($this->User->save($this->request->data)) {
+		if ($this->User->save($this->request->data)) {
 			return true;
 		}
 

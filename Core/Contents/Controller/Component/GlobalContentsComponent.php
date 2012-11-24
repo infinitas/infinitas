@@ -8,12 +8,12 @@
 		);
 
 		public function beforeRender(Controller $Controller) {
-			if(empty($Controller->uses)) {
+			if (empty($Controller->uses)) {
 				return true;
 			}
 
 			$isContentable = isset($Controller->{$Controller->modelClass}->contentable) && $Controller->{$Controller->modelClass}->contentable;
-			if($isContentable && in_array($Controller->params['action'], $this->__methods)) {
+			if ($isContentable && in_array($Controller->params['action'], $this->__methods)) {
 				$this->__setFormVariables($Controller);
 			}
 
@@ -28,10 +28,10 @@
 		}
 
 		private function __setFormVariables($Controller) {
-			if(isset($Controller->{$Controller->modelClass}->GlobalContent)) {
+			if (isset($Controller->{$Controller->modelClass}->GlobalContent)) {
 				$Model = $Controller->{$Controller->modelClass}->GlobalContent;
 			}
-			else if(isset($Controller->GlobalContent)) {
+			else if (isset($Controller->GlobalContent)) {
 				$Model = $Controller->GlobalContent;
 			}
 
@@ -62,7 +62,7 @@
 		}
 
 		private function __loadLayout($Controller, $options) {
-			if($this->Controller->request->params['admin']) {
+			if ($this->Controller->request->params['admin']) {
 				return;
 			}
 
@@ -70,7 +70,7 @@
 				'autoLoadLayout', $options
 			);
 
-			if($layout) {
+			if ($layout) {
 				$Controller->set('globalLayoutTemplate', $layout);
 			}
 		}

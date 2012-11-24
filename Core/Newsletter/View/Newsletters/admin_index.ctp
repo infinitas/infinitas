@@ -54,7 +54,7 @@
 			)
 		));
 
-		foreach($newsletters as $newsletter) {
+		foreach ($newsletters as $newsletter) {
 			?>
 				<tr>
 					<td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>

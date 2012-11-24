@@ -19,12 +19,12 @@
 		);
 
 		public function getAddressByUser($userId = null, $type = 'list') {
-			if(!$userId) {
+			if (!$userId) {
 				return false;
 			}
 
 			$contain = array();
-			if($type === 'all') {
+			if ($type === 'all') {
 				$contain = array(
 					'Country'
 				);

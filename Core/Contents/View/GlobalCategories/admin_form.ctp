@@ -33,7 +33,7 @@
 				$this->Form->input('active') . $this->Form->input('hide') . $this->element('Contents.meta_form')
 		);
 
-		if($edit) {
+		if ($edit) {
 			$headings[] = __d('contents', 'Statistics');
 			$tabs[] = $this->element('ViewCounter.modules/admin/overall') . $this->element('ViewCounter.modules/admin/popular_items');
 		}

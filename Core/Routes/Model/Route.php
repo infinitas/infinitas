@@ -152,11 +152,11 @@ class Route extends RoutesAppModel {
 	public function beforeSave($options = array()) {
 		parent::beforeSave($options);
 
-		if(!empty($this->data[$this->alias]['plugin'])) {
+		if (!empty($this->data[$this->alias]['plugin'])) {
 			$this->data[$this->alias]['plugin'] = Inflector::underscore($this->data[$this->alias]['plugin']);
 		}
 
-		if(!empty($this->data[$this->alias]['controller'])) {
+		if (!empty($this->data[$this->alias]['controller'])) {
 			$this->data[$this->alias]['controller'] = str_replace('_controller', '', Inflector::underscore($this->data[$this->alias]['controller']));
 		}
 
@@ -176,7 +176,7 @@ class Route extends RoutesAppModel {
 	public function afterFind($results, $primary = false) {
 		$results = parent::afterFind($results, $primary);
 
-		if($this->findQueryType == 'first' && !empty($results[0][$this->alias][$this->primaryKey])) {
+		if ($this->findQueryType == 'first' && !empty($results[0][$this->alias][$this->primaryKey])) {
 			$results[0][$this->alias]['plugin'] = Inflector::camelize($results[0][$this->alias]['plugin']);
 			$results[0][$this->alias]['controller'] = Inflector::camelize($results[0][$this->alias]['controller']) . 'Controller';
 		}
@@ -253,7 +253,7 @@ class Route extends RoutesAppModel {
 
 		$config = array();
 		$routingRules = array();
-		foreach($routes as $array) {
+		foreach ($routes as $array) {
 			$vaules = $regex = array();
 			$routingRules[][$this->alias] = array(
 				'url' => $array[$this->alias]['url'],
@@ -263,25 +263,25 @@ class Route extends RoutesAppModel {
 				'layout' => !empty($array[$this->alias]['layout']) ? $array[$this->alias]['layout'] : $array[$this->Theme->alias]['default_layout'],
 			);
 
-			if(!strstr($array[$this->alias]['url'], ':')) {
+			if (!strstr($array[$this->alias]['url'], ':')) {
 				continue;
 			}
 
 			$array = $array[$this->alias];
 
 			$params = array();
-			foreach(explode('/', $array['url']) as $param) {
-				if(!strstr($param, ':')) {
+			foreach (explode('/', $array['url']) as $param) {
+				if (!strstr($param, ':')) {
 					continue;
 				}
 
-				foreach(array_filter(explode(':', $param)) as $part) {
+				foreach (array_filter(explode(':', $param)) as $part) {
 					$params[] = trim($part, ' -');
 				}
 			}
 
 			$array['plugin'] = !empty($array['plugin']) ? $array['plugin'] : '__APP__';
-			if($array['prefix']) {
+			if ($array['prefix']) {
 				$config[Inflector::camelize($array['plugin'])][$array['controller']][$array['prefix']][$array['action']][$array['url']] = $params;
 			}
 			else{

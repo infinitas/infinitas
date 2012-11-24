@@ -1,5 +1,5 @@
 <?php
-	if(!isset($allTime) || empty($allTime)) {
+	if (!isset($allTime) || empty($allTime)) {
 		return false;
 	}
 ?>

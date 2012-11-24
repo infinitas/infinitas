@@ -2,27 +2,27 @@
 	$hasErrors = false;
 	$errors = '';
 
-	if(!empty($core)) {
+	if (!empty($core)) {
 		$hasErrors = true;
 		$errors .= '<h4>'.__d('insatller', 'Critical errors') . '</h4>';
 		$errors .= '<ul>';
-		foreach($core as $coreError) {
+		foreach ($core as $coreError) {
 			$errors .= '<li>' . $coreError . '</li>';
 		}
 		$errors .= '</ul>';
 	}
 
-	if(!empty($paths)) {
+	if (!empty($paths)) {
 		$hasErrors = true;
 		$errors .= '<h4>'.__d('insatller', 'Path errors') . '</h4>';
 		$errors .= '<ul>';
-		foreach($paths as $pathError) {
+		foreach ($paths as $pathError) {
 			$errors .= '<li>' . $pathError . '</li>';
 		}
 		$errors .= '</ul>';
 	}
 
-	if($database == false) {
+	if ($database == false) {
 		$hasErrors = true;
 		$errors .= '<h4>'.__d('insatller', 'Database errors') . '</h4>';
 		$errors .= '<ul>';
@@ -31,10 +31,10 @@
 		$errors .= '</ul>';
 	}
 
-	if(!empty($recomendations)) {
+	if (!empty($recomendations)) {
 		$errors .= '<h4>'.__d('insatller', 'PHP setting recomendations') . '</h4>';
 		$errors .= '<ul>';
-		foreach($recomendations as $recomendation) {
+		foreach ($recomendations as $recomendation) {
 			$errors .= '<li>' . sprintf(__d('insatller', 'The PHP setting <em>%1$s</em> is recommend to be set to <strong>%2$s</strong> (It is currently <strong>%3$s</strong>). %4$s') ,$recomendation['setting'], $recomendation['recomendation'], $recomendation['current'], $recomendation['desc']) . '</li>';
 		}
 		$errors .= '</ul>';
@@ -66,7 +66,7 @@
 <?php if (!empty($errors)) { ?>
 	<div id="errors">
 		<h2><?php echo __d('insatller', 'Errors and recommendations'); ?></h2>
-		<?php if($hasErrors) {?>
+		<?php if ($hasErrors) {?>
 			<div class="general-error">
 				<?php echo __d('insatller', 'There are a number of errors preventing Infinitas from installing. Please fix the errors and then refresh this page.'); ?>
 			</div>

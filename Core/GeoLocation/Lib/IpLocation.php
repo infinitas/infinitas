@@ -52,7 +52,7 @@ Class IpLocation extends Object {
 		new GeoIP();
 		switch($type) {
 			case 'country':
-				if(!$this->hasCountryData()) {
+				if (!$this->hasCountryData()) {
 					throw new InvalidArgumentException(sprintf(__d('geo_location', '%s data file is missing (tried: %s)'), $type, $this->countryDataFile));
 					return false;
 				}
@@ -62,7 +62,7 @@ Class IpLocation extends Object {
 
 			case 'city':
 				new GeoIPCity();
-				if(!$this->hasCityData()) {
+				if (!$this->hasCityData()) {
 					return false;
 				}
 
@@ -95,7 +95,7 @@ Class IpLocation extends Object {
  */
 	protected function _getIpAddress() {
 		$CakeRequest = InfinitasRouter::getRequest();
-		if(!$CakeRequest instanceof CakeRequest) {
+		if (!$CakeRequest instanceof CakeRequest) {
 			return false;
 		}
 
@@ -126,7 +126,7 @@ Class IpLocation extends Object {
 			'ip_address' => null
 		);
 		$data = $this->_loadFile();
-		if(!$data) {
+		if (!$data) {
 			return $empty;
 		}
 
@@ -137,7 +137,7 @@ Class IpLocation extends Object {
 			'ip_address' => $ipAddress
 		));
 
-		if(empty($return['country']) && $ipAddress == '127.0.0.1') {
+		if (empty($return['country']) && $ipAddress == '127.0.0.1') {
 			$return['country'] = $return['city'] = 'localhost';
 		}
 
@@ -166,7 +166,7 @@ Class IpLocation extends Object {
 		}
 
 		$data = $this->_loadFile('city');
-		if(!$data) {
+		if (!$data) {
 			return false;
 		}
 
@@ -186,12 +186,12 @@ Class IpLocation extends Object {
 			(array)geoip_record_by_addr($data, $ipAddress)
 		);
 
-		if(!empty($city['country_name'])) {
+		if (!empty($city['country_name'])) {
 			$city['country'] = $city['country_name'];
 			unset($city['country_name']);
 		}
 
-		if(empty($city['country']) && $ipAddress == '127.0.0.1') {
+		if (empty($city['country']) && $ipAddress == '127.0.0.1') {
 			$city['country'] = 'localhost';
 			$city['city'] = 'localhost';
 		}
