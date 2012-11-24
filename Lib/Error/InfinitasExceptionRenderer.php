@@ -9,8 +9,6 @@ class InfinitasExceptionRenderer extends ExceptionRenderer {
  * @param Exception $exception
  */
 	public function __construct(Exception $exception) {
-		var_dump($exception);
-		exit;
 		parent::__construct($exception);
 
 		$plugin = 'Libs';

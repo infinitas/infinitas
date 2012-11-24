@@ -15,7 +15,7 @@ class CommentsComponent extends InfinitasComponent {
  */
 	public function actionComment() {
 		$modelClass = $this->Controller->modelClass . 'Comment';
-		if (!empty($this->Controller->request->data[])) {
+		if (!empty($this->Controller->request->data[$modelClass])) {
 			$message = 'Your comment has been saved and will be available after admin moderation.';
 			if (Configure::read('Comments.auto_moderate') === true) {
 				$message = 'Your comment has been saved and is active.';
