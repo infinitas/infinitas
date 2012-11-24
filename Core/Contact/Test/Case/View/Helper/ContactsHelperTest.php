@@ -4,6 +4,7 @@ App::uses('View', 'View');
 App::uses('Controller', 'Controller');
 
 class ContactsHelperTest extends CakeTestCase {
+
 /**
  * @brief set up at the start
  */
@@ -21,7 +22,5 @@ class ContactsHelperTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-
 }

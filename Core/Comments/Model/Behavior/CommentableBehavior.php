@@ -12,7 +12,7 @@ App::uses('ModelBehavior', 'Model');
  *
  * Allows you to attach a comment to any model in your application
  * Moderates/Validates comments to check for spam.
- *  Validates comments based on a point system. High points is an automatic approval,
+ * Validates comments based on a point system. High points is an automatic approval,
  * where as low points is marked as spam or deleted.
  *
  * Based on Jonathan Snooks outline.
@@ -25,12 +25,6 @@ App::uses('ModelBehavior', 'Model');
  *
  * @author Jose Diaz-Gonzalez - http://github.com/josegonzalez/cakephp-commentable-behavior
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
- *
- * @todo this code should be refactored into a spam filter lib that can be used
- * all over (eg: email contact forms) the comment model can just check in beforeSave
- * that it is not spam, could even be a validation rule.
- *
- * @todo add a rating method for amount of text with no links vs total amount of text
  */
 
 class CommentableBehavior extends ModelBehavior {
@@ -76,7 +70,7 @@ class CommentableBehavior extends ModelBehavior {
 		$default['blacklist_keywords'] = explode(',', Configure::read('Website.blacklist_keywords'));
 		$default['blacklist_words'] = explode(',', Configure::read('Website.blacklist_words'));
 		$default['conditions'] = array('Comment.class' => $Model->alias);
-		$default['class'] = $Model->name.'Comment';
+		$default['class'] = $Model->name . 'Comment';
 
 		if (!isset($this->__settings[$Model->alias])) {
 			$this->__settings[$Model->alias] = $default;
@@ -245,7 +239,6 @@ class CommentableBehavior extends ModelBehavior {
 
 		if (empty($host[1])) {
 			return false;
-			continue;
 		}
 
 		if (function_exists('getmxrr')) {

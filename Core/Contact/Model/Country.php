@@ -18,11 +18,11 @@
  */
 
 class Country extends ContactAppModel {
+
 /**
  * Custom display field
  *
  * @var string
  */
 	public $displayField = 'printable_name';
-	
 }

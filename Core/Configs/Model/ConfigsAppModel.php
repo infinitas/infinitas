@@ -21,11 +21,11 @@
  */
 
 class ConfigsAppModel extends AppModel {
+
 /**
  * Custom prefix
  *
  * @var string
  */
 	public $tablePrefix = 'core_';
-	
 }

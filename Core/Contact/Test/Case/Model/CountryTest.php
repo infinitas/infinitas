@@ -38,7 +38,5 @@ class CountryTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-
 }

@@ -6,7 +6,9 @@
  * @since 0.9b1
  */
 class ContactAddressFixture extends CakeTestFixture {
+
 	public $name = 'ContactAddress';
+
 	public $table = 'contact_addresses';
 
 	public $fields = array(

@@ -18,6 +18,7 @@
  */
 
 class TimeZone extends ContactAppModel {
+
 /**
  * Remove table prefix
  *
@@ -45,7 +46,6 @@ class TimeZone extends ContactAppModel {
 		switch($type) {
 			case 'list':
 				return $return;
-				break;
 
 			case 'all':
 				foreach ($return as $key => $value) {
@@ -57,8 +57,6 @@ class TimeZone extends ContactAppModel {
 					);
 				}
 				return $data;
-				break;
 		}
 	}
-
 }

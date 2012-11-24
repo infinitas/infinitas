@@ -1,51 +1,51 @@
 <?php
-	App::uses('InfinitasComponent', 'Libs.Controller/Component');
-	/**
-	 * Comments component
-	 *
-	 *
-	 */
-	class CommentsComponent extends InfinitasComponent {
-		/**
-		 * allow posting comments to any controller
-		 *
-		 * @todo this needs to be moved to the Comments plugin and is part of
-		 * the reason this code needs to be more extendable
-		 *
-		 * @return void
-		 */
-		public function actionComment() {
-			if (!empty($this->Controller->request->data[$this->Controller->modelClass.'Comment'])) {
-				$message = 'Your comment has been saved and will be available after admin moderation.';
-				if (Configure::read('Comments.auto_moderate') === true) {
-					$message = 'Your comment has been saved and is active.';
-				}
+App::uses('InfinitasComponent', 'Libs.Controller/Component');
+/**
+ * Comments component
+ *
+ *
+ */
 
-				$this->Controller->request->data[$this->Controller->modelClass.'Comment']['ip_address'] = $this->Controller->request->clientIp();
-				$this->Controller->request->data[$this->Controller->modelClass.'Comment']['class'] = $this->Controller->request->plugin . '.' . $this->Controller->modelClass;
+class CommentsComponent extends InfinitasComponent {
 
-				if (!empty($this->Controller->request->data[$this->Controller->modelClass.'Comment']['om_non_nom'])) {
-					$this->Controller->Session->write('Spam.bot', true);
-					$this->Controller->Session->write('Spam.detected', time());
-
-					$this->Controller->notice(
-						__d('comments', 'Not so fast spam bot.'),
-						array(
-							'redirect' => '/?bot=true'
-						)
-					);
-				}
-
-				if ($this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data)) {
-					$this->Controller->notice(
-						__d('comments', $message),
-						array('redirect' => true)
-					);
-				}
-
-				$this->Controller->notice('not_saved');
+/**
+ * Allow posting comments to any controller
+ *
+ * @return void
+ */
+	public function actionComment() {
+		$modelClass = $this->Controller->modelClass . 'Comment';
+		if (!empty($this->Controller->request->data[])) {
+			$message = 'Your comment has been saved and will be available after admin moderation.';
+			if (Configure::read('Comments.auto_moderate') === true) {
+				$message = 'Your comment has been saved and is active.';
 			}
 
-			return $this->Controller->render(null, null, App::pluginPath('Comments') . 'View' . DS . 'InfinitasComments' . DS . 'add.ctp');
+			$this->Controller->request->data[$modelClass]['ip_address'] = $this->Controller->request->clientIp();
+			$this->Controller->request->data[$modelClass]['class'] = $this->Controller->request->plugin . '.' . $this->Controller->modelClass;
+
+			if (!empty($this->Controller->request->data[$modelClass]['om_non_nom'])) {
+				$this->Controller->Session->write('Spam.bot', true);
+				$this->Controller->Session->write('Spam.detected', time());
+
+				$this->Controller->notice(
+					__d('comments', 'Not so fast spam bot.'),
+					array(
+						'redirect' => '/?bot=true'
+					)
+				);
+			}
+
+			if ($this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data)) {
+				$this->Controller->notice(
+					__d('comments', $message),
+					array('redirect' => true)
+				);
+			}
+
+			$this->Controller->notice('not_saved');
 		}
+
+		return $this->Controller->render(null, null, App::pluginPath('Comments') . 'View' . DS . 'InfinitasComments' . DS . 'add.ctp');
 	}
+}

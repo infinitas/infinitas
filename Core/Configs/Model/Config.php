@@ -20,6 +20,7 @@
  */
 
 class Config extends ConfigsAppModel {
+
 /**
  * Custom table
  *
@@ -94,8 +95,8 @@ class Config extends ConfigsAppModel {
 				)
 			),
 			'options' => array(
-				'customOptionCheck' => array(
-					'rule' => 'customOptionCheck',
+				'validateCustomOptionCheck' => array(
+					'rule' => 'validateCustomOptionCheck',
 					'message' => __d('configs', 'Please enter some valid options')
 				)
 			)
@@ -105,13 +106,11 @@ class Config extends ConfigsAppModel {
 /**
  * validate the options based on what type is set for the row
  *
- * @todo this should be renamed to validateCustomOptionCheck
- *
  * @param array $data the field being validated
  *
  * @return boolean
  */
-	public function customOptionCheck($data) {
+	public function validateCustomOptionCheck($data) {
 		if (!isset($this->data[$this->alias]['type']) || empty($this->data[$this->alias]['type'])) {
 			return true;
 		}
@@ -119,7 +118,6 @@ class Config extends ConfigsAppModel {
 		switch($this->data[$this->alias]['type']) {
 			case 'string':
 				return true;
-				break;
 
 			case 'integer':
 				if (!empty($data['options']) && is_int($data['options'])) {
@@ -131,7 +129,6 @@ class Config extends ConfigsAppModel {
 				if (empty($data['options']) || is_int($data['options'])) {
 					return false;
 				}
-				//@todo needs a bit more work
 				return is_string($data['options']);
 
 			case 'bool':
@@ -142,7 +139,6 @@ class Config extends ConfigsAppModel {
 
 			case 'array':
 				return $this->getJson($this->data[$this->alias]['value'], array(), false);
-				break;
 		}
 
 		return false;
@@ -218,7 +214,7 @@ class Config extends ConfigsAppModel {
  *
  * @return array
  */
-	private function _formatConfigs($configs = array(), $json = false) {
+	protected function _formatConfigs($configs = array(), $json = false) {
 		if (empty($configs)) {
 			return false;
 		}
@@ -240,14 +236,11 @@ class Config extends ConfigsAppModel {
  * @return array
  */
 	public function getInstallSetupConfigs() {
-		return $this->find(
-			'all',
-			array(
-				'conditions' => array(
-					$this->alias . '.key LIKE ' => 'Website.%'
-				)
+		return $this->find('all', array(
+			'conditions' => array(
+				$this->alias . '.key LIKE ' => 'Website.%'
 			)
-		);
+		));
 	}
 
 /**
@@ -267,34 +260,24 @@ class Config extends ConfigsAppModel {
 			}
 		}
 
+		$_config = $config[$this->alias]['value'];
 		if (is_bool($config[$this->alias]['value'])) {
+			$_config = 'false';
 			if ($config[$this->alias]['value']) {
 				$_config = 'true';
 			}
-
-			else{
-				$_config = 'false';
-			}
-		}
-
-		else if (is_array($config[$this->alias]['value'])) {
+		} else if (is_array($config[$this->alias]['value'])) {
 			$_config = 'array(';
 			foreach ($config[$this->alias]['value'] as $k => $v) {
-				$_config .= !is_int($k) ? '\''.$k.'\'' : $k;
-				$_config .= '=> \''.$v.'\',';
+				$_config .= !is_int($k) ? '\'' . $k . '\'' : $k;
+				$_config .= '=> \'' . $v . '\',';
 			}
 			$_config .= ')';
+		} else if (is_string($config[$this->alias]['value'])) {
+			$_config = '\'' . $config[$this->alias]['value'] . '\'';
 		}
 
-		else if (is_string($config[$this->alias]['value'])) {
-			$_config = '\''.$config[$this->alias]['value'].'\'';
-		}
-
-		else{
-			$_config = $config[$this->alias]['value'];
-		}
-
-		return 'Configure::write(\''.$config[$this->alias]['key'].'\', '.$_config.');';
+		return 'Configure::write(\'' . $config[$this->alias]['key'] . '\', ' . $_config . ');';
 	}
 
 /**
@@ -313,5 +296,4 @@ class Config extends ConfigsAppModel {
 
 		return $configs;
 	}
-
 }

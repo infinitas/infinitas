@@ -9,5 +9,5 @@
 App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
 
 class ContactEventsTest extends InfinitasEventTestCase {
-	
+
 }

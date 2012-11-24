@@ -20,16 +20,13 @@
  */
 
 class BranchesController extends ContactAppController {
+
 /**
  * View all available branch records
- *
- * @todo remove recursive 0
  *
  * @return void
  */
 	public function index() {
-		$this->Branch->recursive = 0;
-
 		$branches = $this->Paginator->paginate(
 			null,
 			$this->Filter->filter

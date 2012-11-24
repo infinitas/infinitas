@@ -3,7 +3,15 @@ App::uses('Contact', 'Contact.Model');
 
 class ContactTest extends CakeTestCase {
 
-	public $fixtures = array('plugin.contact.contact');
+/**
+ * Fixtures
+ *
+ * @var array
+ */
+	public $fixtures = array(
+		'plugin.contact.contact'
+	);
+
 /**
  * @brief set up at the start
  */
@@ -21,6 +29,5 @@ class ContactTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
 }

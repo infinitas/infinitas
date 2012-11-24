@@ -22,7 +22,5 @@ class ContactAddressTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-	
 }

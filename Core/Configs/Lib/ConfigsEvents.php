@@ -20,6 +20,7 @@
  */
 
 class ConfigsEvents extends AppEvents {
+
 /**
  * get the cache config for this plugin
  *

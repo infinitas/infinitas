@@ -10,8 +10,6 @@
  *
  * The Contact model handles the CRUD for user details.
  *
- * @todo link up the contacts to users in the User table
- *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Contacts.Model
@@ -22,6 +20,7 @@
  */
 
 class Contact extends ContactAppModel {
+
 /**
  * Behaviors to load
  *
@@ -43,8 +42,8 @@ class Contact extends ContactAppModel {
 	public $belongsTo = array(
 		'Branch' => array(
 			'className' => 'Contact.Branch',
-			'counterCache' =>  'user_count',
-			'counterScope' =>  array('Contact.active' => 1)
+			'counterCache' => 'user_count',
+			'counterScope' => array('Contact.active' => 1)
 		)
 	);
 
@@ -77,14 +76,14 @@ class Contact extends ContactAppModel {
 				'phone' => array(
 					'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
 					'message' => __d('contact', 'The number does not seem to be valid'),
-					'allowEmpty' =>  true
+					'allowEmpty' => true
 				)
 			),
 			'mobile' => array(
 				'phone' => array(
 					'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
 					'message' => __d('contact', 'Please enter a valid mobile number'),
-					'allowEmpty' =>  true
+					'allowEmpty' => true
 				)
 			),
 			'email' => array(
@@ -103,5 +102,4 @@ class Contact extends ContactAppModel {
 			)
 		);
 	}
-
 }

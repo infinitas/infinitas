@@ -6,8 +6,9 @@
  * @since 0.9b1
  */
 class CountryFixture extends CakeTestFixture {
+
 	public $name = 'Country';
-	
+
 	public $table = 'contact_countries';
 
 	public $fields = array(

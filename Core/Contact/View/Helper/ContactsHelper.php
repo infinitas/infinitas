@@ -5,9 +5,6 @@
  *
  * Currently can output a business card type markup for contacts.
  *
- * @todo contact forms. pass in a contact row and a form will be made using the
- * supplied email address etc.
- *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Contact.helpers
@@ -18,6 +15,7 @@
  */
 
 class ContactsHelper extends AppHelper {
+
 /**
  * Helpers to load
  *
@@ -73,7 +71,7 @@ class ContactsHelper extends AppHelper {
 			'avitar' => null,
 			'user' => null,
 			'company' => null,
-			'mobile' =>  null,
+			'mobile' => null,
 			'landline' => null,
 			'email' => null,
 			'address' => null

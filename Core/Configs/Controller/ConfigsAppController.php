@@ -36,5 +36,5 @@ App::uses('AppController', 'Controller');
  */
 
 class ConfigsAppController extends AppController {
-	
+
 }

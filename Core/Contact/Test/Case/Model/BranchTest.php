@@ -22,7 +22,5 @@ class BranchTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-
 }

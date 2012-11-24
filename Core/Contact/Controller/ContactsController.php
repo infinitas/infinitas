@@ -20,6 +20,7 @@
  */
 
 class ContactsController extends ContactAppController {
+
 /**
  * View a contacts details
  *
@@ -30,28 +31,25 @@ class ContactsController extends ContactAppController {
 			$this->notice('invalid');
 		}
 
-		$contact = $this->Contact->find(
-			'first',
-			array(
-				'conditions' => array(
-					'Contact.slug' => $this->request->params['slug'],
-					'Contact.active' => 1
-				),
-				'contain' => array(
-					'Branch' => array(
-						'fields' => array(
-							'id',
-							'name',
-							'slug',
-							'active'
-						),
-						'ContactAddress' => array(
-							'Country'
-						)
+		$contact = $this->Contact->find('first', array(
+			'conditions' => array(
+				'Contact.slug' => $this->request->params['slug'],
+				'Contact.active' => 1
+			),
+			'contain' => array(
+				'Branch' => array(
+					'fields' => array(
+						'id',
+						'name',
+						'slug',
+						'active'
+					),
+					'ContactAddress' => array(
+						'Country'
 					)
 				)
 			)
-		);
+		));
 
 		if (!$contact['Branch']['active']) {
 			$this->notice('invalid');
@@ -119,5 +117,4 @@ class ContactsController extends ContactAppController {
 		$branches = $this->Contact->Branch->find('list');
 		$this->set(compact('branches'));
 	}
-
 }

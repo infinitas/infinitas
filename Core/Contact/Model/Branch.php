@@ -20,6 +20,7 @@
  */
 
 class Branch extends ContactAppModel {
+
 /**
  * hasMany relations
  *
@@ -37,7 +38,6 @@ class Branch extends ContactAppModel {
 	public $belongsTo = array(
 		'Contact.ContactAddress'
 	);
-
 
 /**
  * Behaivors to load
@@ -84,16 +84,16 @@ class Branch extends ContactAppModel {
 			),
 			'phone' => array(
 				'phone' => array(
-					'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), // @todo Configure::read('Website.phone_regex')),
+					'rule' => array('phone', Configure::read('Contact.phone_regex')),
 					'message' => __d('contact', 'The number does not seem to be valid'),
 					'allowEmpty' => true
 				)
 			),
 			'fax' => array(
 				'phone' => array(
-					'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), // @todo Configure::read('Website.phone_regex')),
+					'rule' => array('phone', Configure::read('Contact.phone_regex')),
 					'message' => __d('contact', 'Please enter a valid fax number'),
-					'allowEmpty' =>  true
+					'allowEmpty' => true
 				)
 			),
 			'time_zone_id' => array(
@@ -108,9 +108,6 @@ class Branch extends ContactAppModel {
 /**
  * BeforeFind callback
  *
- * @todo list all the time zones so that the current time can be shown
- * of different branches.
- *
  * @param array $queryData the find data
  *
  * @return boolean
@@ -118,5 +115,5 @@ class Branch extends ContactAppModel {
 	public function beforeFind($queryData) {
 		return true;
 	}
-	
+
 }

@@ -22,7 +22,5 @@ class VcfHelperTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-
 }

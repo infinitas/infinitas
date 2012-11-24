@@ -16,7 +16,9 @@
  *
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
+
 class ContactAddressesController extends ContactAppController {
+
 /**
  * Add new contact address
  *

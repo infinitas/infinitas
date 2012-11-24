@@ -38,7 +38,5 @@ class TimeZoneTest extends CakeTestCase {
 	}
 
 	public function testSomething() {
-
 	}
-
 }

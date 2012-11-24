@@ -6,7 +6,9 @@
  * @since 0.9b1
  */
 class BranchFixture extends CakeTestFixture {
+
 	public $name = 'Branch';
+
 	public $table = 'contact_branches';
 
 	public $fields = array(

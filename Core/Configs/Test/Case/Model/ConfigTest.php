@@ -1,5 +1,4 @@
 <?php
-/* Config Test cases generated on: 2010-03-13 11:03:23 : 1268471123*/
 App::uses('Config', 'Configs.Model');
 
 /**
@@ -11,10 +10,16 @@ App::uses('Config', 'Configs.Model');
  * @version $Id$
  */
 class ConfigTestCase extends CakeTestCase {
+
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 	public $fixtures = array(
 		'plugin.configs.config'
 	);
-	
+
 /**
  * @brief set up at the start
  */
@@ -38,117 +43,108 @@ class ConfigTestCase extends CakeTestCase {
  */
 	public function testValidationRules() {
 		$data = array();
-		$result = $this->Config->customOptionCheck(array('options' => 'no type set yet so dont validate'));
+		$result = $this->Config->validateCustomOptionCheck(array('options' => 'no type set yet so dont validate'));
 		$this->assertTrue($result);
-		/**
-		 * test string inputs
-		 */
+
+		// test string inputs
 		$this->Config->data['Config']['type'] = 'string';
 		$data['options'] = 'abc';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 123;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = null;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
-		/**
-		 * test integer inputs
-		 */
+		// test integer inputs
 		$this->Config->data['Config']['type'] = 'integer';
 		$data['options'] = null;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$data['options'] = 'text';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$data['options'] = 123;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
-		/**
-		 * test dropdowns inputs
-		 */
+		// test dropdowns inputs
 		$this->Config->data['Config']['type'] = 'dropdown';
 		$data['options'] = null;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$data['options'] = 'text';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 'option1,option2,option3,option4';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 'option1, option2, option3, option4';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 'option1 ,option2 ,option3 ,option4';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 'option1 ,option2, option3 ,option4';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 123;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
-		/**
-		 * test bool
-		 */
+		// test bool
 		$this->Config->data['Config']['type'] = 'bool';
 		$data['options'] = null;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$data['options'] = true;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$data['options'] = false;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$data['options'] = 'true,false';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
 		$data['options'] = 'false,true';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 
-		/**
-		 * test array
-		 */
+		// test array
 		$this->Config->data['Config']['type'] = 'array';
 		$data = array();
 
 		$this->Config->data['Config']['value'] = null;
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$this->Config->data['Config']['value'] = '{}';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		$this->Config->data['Config']['value'] = 'some text';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertFalse($result);
 
 		// see more tests for checking json in the app model tests
 		$this->Config->data['Config']['value'] = '{"hello":"world"}';
-		$result = $this->Config->customOptionCheck($data);
+		$result = $this->Config->validateCustomOptionCheck($data);
 		$this->assertTrue($result);
 	}
 
@@ -211,7 +207,7 @@ class ConfigTestCase extends CakeTestCase {
  * test cache is cleared after calling save
  */
 	public function testCacheRelatedStuff() {
-		return; // @todo broken tests
+		$this->skipIf(true);
 		$result = Cache::read('global_configs');
 		$this->assertTrue($result, 'There is nothing in the cache');
 		$cacheConfigs = $this->Config->getConfig();

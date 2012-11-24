@@ -6,7 +6,9 @@
  * @since 0.9b1
  */
 class ConfigFixture extends CakeTestFixture {
+
 	public $name = 'Config';
+
 	public $table = 'core_configs';
 
 	public $fields = array(

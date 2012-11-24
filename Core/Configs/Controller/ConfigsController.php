@@ -20,6 +20,7 @@
  */
 
 class ConfigsController extends ConfigsAppController {
+
 /**
  * List configs in the database
  *
@@ -64,7 +65,7 @@ class ConfigsController extends ConfigsAppController {
 			$value = Configure::read($this->request->params['named']['Config.key']);
 			switch(true) {
 				case is_int($value):
-						$this->request->data['Config']['type'] = 'integer';
+					$this->request->data['Config']['type'] = 'integer';
 					break;
 
 				case is_bool($value):
@@ -77,8 +78,7 @@ class ConfigsController extends ConfigsAppController {
 						$this->request->data['Config']['type'] = 'array';
 						$this->request->data['Config']['value'] = $array[0];
 						$this->request->data['Config']['options'] = $value;
-					}
-					else{
+					} else {
 						$this->request->data['Config']['type'] = 'string';
 					}
 			}

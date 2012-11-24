@@ -12,6 +12,7 @@
  */
 
 class CommentsEvents extends AppEvents {
+
 /**
  * get the plugin information
  *
@@ -139,5 +140,4 @@ class CommentsEvents extends AppEvents {
 			'element' => 'profile'
 		);
 	}
-
 }
