@@ -108,7 +108,6 @@
 	unset($cacheEngine, $cachedConfigs);
 
 	InfinitasPlugin::loadCore();
-	EventCore::trigger(new StdClass(), 'requireLibs');
 
 	/**
 	 * @todo cake2.0
@@ -122,6 +121,7 @@
 	} else {
 		InfinitasPlugin::loadInstalled();
 	}
+	EventCore::trigger(new StdClass(), 'requireLibs');
 
 	/**
 	* Make sure the json defines are loaded.
