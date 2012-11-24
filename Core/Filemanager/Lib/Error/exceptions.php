@@ -44,3 +44,13 @@ class PathIsFileException extends FilemanagerException {
 
 }
 
+/**
+ * UnableToCreateTargetException
+ *
+ * @package Infinitas.Filemanager.Error
+ */
+class UnableToCreateTargetException extends FilemanagerException {
+	protected $_messageTemplate = 'Not able to create the path "%s" for extraction';
+
+}
+
