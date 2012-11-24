@@ -33,7 +33,7 @@
 			$this->Form->checkbox('all') => array(
 				'class' => 'first'
 			),
-			$this->Paginator->sort(__('Where'), 'class'),
+			$this->Paginator->sort(__d('comments', 'Where'), 'class'),
 			$this->Paginator->sort('email') => array(
 				'style' => '50px;'
 			),
@@ -44,7 +44,7 @@
 			$this->Paginator->sort('points') => array(
 				'width' => '50px'
 			),
-			__('Status') => array(
+			__d('comments', 'Status') => array(
 				'class' => 'actions'
 			)
 		));

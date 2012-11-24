@@ -59,7 +59,7 @@ class ContactsController extends ContactAppController {
 
 		$this->set(
 			'title_for_layout',
-			sprintf(__('Contact details for %s %s'), $contact['Contact']['first_name'], $contact['Contact']['last_name'])
+			__d('contact', 'Contact details for %s %s', $contact['Contact']['first_name'], $contact['Contact']['last_name'])
 		);
 		$this->set(compact('contact'));
 	}
@@ -84,7 +84,7 @@ class ContactsController extends ContactAppController {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'name',
-			'branch_id' => array(null => __('All branches')) + $this->Contact->Branch->find('list'),
+			'branch_id' => array(null => __d('contact', 'All branches')) + $this->Contact->Branch->find('list'),
 			'active' => (array)Configure::read('CORE.active_options')
 		);
 
@@ -101,7 +101,7 @@ class ContactsController extends ContactAppController {
 
 		$branches = $this->Contact->Branch->find('list');
 		if(empty($branches)) {
-			$this->notice(__('Please add a branch first'), array('level' => 'notice','redirect' => array('controller' => 'branches')));
+			$this->notice(__d('contact', 'Please add a branch first'), array('level' => 'notice','redirect' => array('controller' => 'branches')));
 		}
 		$this->set(compact('branches'));
 	}

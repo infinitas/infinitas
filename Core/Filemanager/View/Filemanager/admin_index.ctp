@@ -33,30 +33,30 @@ echo $this->Infinitas->adminIndexHead(null, array(
 			$this->Form->checkbox('all') => array(
 				'class' => 'first',
 			),
-			__('Type') => array(
+			__d('filemanager', 'Type') => array(
 				'class' => 'small'
 			),
-			__('Name'),
-			__('Path'),
-			__('Size') => array(
+			__d('filemanager', 'Name'),
+			__d('filemanager', 'Path'),
+			__d('filemanager', 'Size') => array(
 				'style' => 'width:75px;'
 			),
-			__('Owner / Group') => array(
+			__d('filemanager', 'Owner / Group') => array(
 				'style' => 'width:60px;'
 			),
-			__('Folders / Files') => array(
+			__d('filemanager', 'Folders / Files') => array(
 				'style' => 'width:60px;'
 			),
-			__('Chmod / Octal') => array(
+			__d('filemanager', 'Chmod / Octal') => array(
 				'style' => 'width:100px;'
 			),
-			__('Created') => array(
+			__d('filemanager', 'Created') => array(
 				'style' => 'width:100px;'
 			),
-			__('Modified') => array(
+			__d('filemanager', 'Modified') => array(
 				'style' => 'width:100px;'
 			),
-			__('Accessed') => array(
+			__d('filemanager', 'Accessed') => array(
 				'style' => 'width:100px;'
 			)
 		)); ?>

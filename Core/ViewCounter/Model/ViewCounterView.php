@@ -323,18 +323,18 @@ class ViewCounterView extends ViewCounterAppModel {
 		$viewCountsByMonth['month'] = isset($viewCountsByMonth['month']) ? $viewCountsByMonth['month'] : array();
 		foreach($viewCountsByMonth['month'] as $k => $v) {
 			switch($v) {
-				case  1: $viewCountsByMonth['month'][$k] = __('Jan'); break;
-				case  2: $viewCountsByMonth['month'][$k] = __('Feb'); break;
-				case  3: $viewCountsByMonth['month'][$k] = __('Mar'); break;
-				case  4: $viewCountsByMonth['month'][$k] = __('Apr'); break;
-				case  5: $viewCountsByMonth['month'][$k] = __('May'); break;
-				case  6: $viewCountsByMonth['month'][$k] = __('Jun'); break;
-				case  7: $viewCountsByMonth['month'][$k] = __('Jul'); break;
-				case  8: $viewCountsByMonth['month'][$k] = __('Aug'); break;
-				case  9: $viewCountsByMonth['month'][$k] = __('Sep'); break;
-				case 10: $viewCountsByMonth['month'][$k] = __('Oct'); break;
-				case 11: $viewCountsByMonth['month'][$k] = __('Nov'); break;
-				case 12: $viewCountsByMonth['month'][$k] = __('Dev'); break;
+				case  1: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Jan'); break;
+				case  2: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Feb'); break;
+				case  3: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Mar'); break;
+				case  4: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Apr'); break;
+				case  5: $viewCountsByMonth['month'][$k] = __d('view_counter', 'May'); break;
+				case  6: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Jun'); break;
+				case  7: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Jul'); break;
+				case  8: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Aug'); break;
+				case  9: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Sep'); break;
+				case 10: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Oct'); break;
+				case 11: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Nov'); break;
+				case 12: $viewCountsByMonth['month'][$k] = __d('view_counter', 'Dev'); break;
 			}
 		}
 
@@ -465,13 +465,13 @@ class ViewCounterView extends ViewCounterAppModel {
 		$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
 		foreach($return['day_of_week'] as $k => $v) {
 			switch($v) {
-				case 1: $return['day_of_week'][$k] = __('Sun'); break;
-				case 2: $return['day_of_week'][$k] = __('Mon'); break;
-				case 3: $return['day_of_week'][$k] = __('Tue'); break;
-				case 4: $return['day_of_week'][$k] = __('Wen'); break;
-				case 5: $return['day_of_week'][$k] = __('Thu'); break;
-				case 6: $return['day_of_week'][$k] = __('Fri'); break;
-				case 7: $return['day_of_week'][$k] = __('Sat'); break;
+				case 1: $return['day_of_week'][$k] = __d('view_counter', 'Sun'); break;
+				case 2: $return['day_of_week'][$k] = __d('view_counter', 'Mon'); break;
+				case 3: $return['day_of_week'][$k] = __d('view_counter', 'Tue'); break;
+				case 4: $return['day_of_week'][$k] = __d('view_counter', 'Wen'); break;
+				case 5: $return['day_of_week'][$k] = __d('view_counter', 'Thu'); break;
+				case 6: $return['day_of_week'][$k] = __d('view_counter', 'Fri'); break;
+				case 7: $return['day_of_week'][$k] = __d('view_counter', 'Sat'); break;
 			}
 		}
 
@@ -520,13 +520,13 @@ class ViewCounterView extends ViewCounterAppModel {
 		$return['day_of_week'] = isset($return['day_of_week']) ? $return['day_of_week'] : array();
 		foreach($return['day_of_week'] as $k => $v) {
 			switch($v) {
-				case 1: $return['day_of_week'][$k] = __('Sun'); break;
-				case 2: $return['day_of_week'][$k] = __('Mon'); break;
-				case 3: $return['day_of_week'][$k] = __('Tue'); break;
-				case 4: $return['day_of_week'][$k] = __('Wen'); break;
-				case 5: $return['day_of_week'][$k] = __('Thu'); break;
-				case 6: $return['day_of_week'][$k] = __('Fri'); break;
-				case 7: $return['day_of_week'][$k] = __('Sat'); break;
+				case 1: $return['day_of_week'][$k] = __d('view_counter', 'Sun'); break;
+				case 2: $return['day_of_week'][$k] = __d('view_counter', 'Mon'); break;
+				case 3: $return['day_of_week'][$k] = __d('view_counter', 'Tue'); break;
+				case 4: $return['day_of_week'][$k] = __d('view_counter', 'Wen'); break;
+				case 5: $return['day_of_week'][$k] = __d('view_counter', 'Thu'); break;
+				case 6: $return['day_of_week'][$k] = __d('view_counter', 'Fri'); break;
+				case 7: $return['day_of_week'][$k] = __d('view_counter', 'Sat'); break;
 			}
 		}
 

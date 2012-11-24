@@ -43,7 +43,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function area($data) {
-		trigger_error(sprintf(__('%s does not have area() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(__d('charts', '%s does not have area() implemented', get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -62,7 +62,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function bar($data) {
-		trigger_error(sprintf(__('%s does not have bar() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have bar() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -80,7 +80,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function box($data) {
-		trigger_error(sprintf(__('%s does not have box() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have box() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -98,7 +98,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function candlestick($data) {
-		trigger_error(sprintf(__('%s does not have candlestick() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have candlestick() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -114,7 +114,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function gauge($data) {
-		trigger_error(sprintf(__('%s does not have gauge() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have gauge() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -133,7 +133,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function line($data) {
-		trigger_error(sprintf(__('%s does not have line() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have line() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -153,7 +153,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function organization($data) {
-		trigger_error(sprintf(__('%s does not have organization() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have organization() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -171,7 +171,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function pie($data) {
-		trigger_error(sprintf(__('%s does not have pie() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have pie() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -191,7 +191,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function radar($data) {
-		trigger_error(sprintf(__('%s does not have radar() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have radar() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -211,7 +211,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function scatter($data) {
-		trigger_error(sprintf(__('%s does not have scatter() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have scatter() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -224,7 +224,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function table($data) {
-		trigger_error(sprintf(__('%s does not have table() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have table() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -243,7 +243,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function treemap($data) {
-		trigger_error(sprintf(__('%s does not have treemap() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have treemap() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 /**
@@ -262,7 +262,7 @@ class ChartsBaseEngineHelper extends AppHelper {
  * @return string
  */
 	public function venn($data) {
-		trigger_error(sprintf(__('%s does not have venn() implemented'), get_class($this)), E_USER_WARNING);
+		trigger_error(sprintf(__d('charts', '%s does not have venn() implemented'), get_class($this)), E_USER_WARNING);
 	}
 
 }

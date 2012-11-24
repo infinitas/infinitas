@@ -39,12 +39,12 @@
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter a tag')
+						'message' => __d('contents', 'Please enter a tag')
 					)
 				),
 				'keyname' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter the key name')
+					'message' => __d('contents', 'Please enter the key name')
 				)
 			);
 		}

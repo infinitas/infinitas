@@ -52,7 +52,7 @@ class ServerStatusController extends ServerStatusAppController {
 		$data = $this->Event->trigger('Crons.areCronsSetup');
 		if(!current($data['areCronsSetup'])) {
 			$this->notice(
-				__('Crons are not currently running, reporting is disabled'),
+				__d('server_status', 'Crons are not currently running, reporting is disabled'),
 				array(
 					'level' => 'error',
 				)
@@ -72,7 +72,7 @@ class ServerStatusController extends ServerStatusAppController {
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			$this->notice(
-				__('This information may not be accurate on windows based systems'),
+				__d('server_status', 'This information may not be accurate on windows based systems'),
 				array(
 					'level' => 'warning'
 				)

@@ -4,7 +4,7 @@
 		foreach($allModels as $model) {
 			$plugin = pluginSplit($model['ViewCounterView']['model']);
 			$icons[] = array(
-				'name' => __(Inflector::pluralize(implode(' ', $plugin))),
+				'name' => __d(Inflector::underscore($plugin), Inflector::pluralize(implode(' ', $plugin))),
 				'description' => sprintf('%s views in total', $model['ViewCounterView']['sub_total']),
 				'icon' => '/' . $plugin[0] . '/img/icon.png',
 				'dashboard' => array(

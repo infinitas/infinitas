@@ -37,7 +37,7 @@ class BranchesController extends ContactAppController {
 
 		if (empty($branches)) {
 			$this->notice(
-				__('There are no contact details available'),
+				__d('contact', 'There are no contact details available'),
 				array(
 					'redirect' => true
 				)
@@ -92,14 +92,14 @@ class BranchesController extends ContactAppController {
 
 		if (empty($branch)) {
 			$this->notice(
-				__('The branch does not exsit'),
+				__d('contact', 'The branch does not exsit'),
 				array(
 					'redirect' => true
 				)
 			);
 		}
 
-		$this->set('title_for_layout', sprintf(__('Contact us at %s'), $branch['Branch']['name']));
+		$this->set('title_for_layout', __d('contact', 'Contact us at %s', $branch['Branch']['name']));
 		$this->set(compact('branch'));
 	}
 

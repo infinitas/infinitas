@@ -21,7 +21,7 @@
 	echo $this->Form->create('Config');
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Configuration'); ?></h1><?php
+			<h1><?php echo __d('configs', 'Configuration'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('key');
 			echo $this->Form->input('value');

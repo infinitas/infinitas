@@ -407,12 +407,12 @@
 			$this->originalData = array('name' => $name, 'data' => $data);
 
 			if (!$name) {
-				$this->__errors[] = __('Please specify what graph you need');
+				$this->__errors[] = __d('google', 'Please specify what graph you need');
 				return false;
 			}
 
 			if (empty($data)) {
-				$this->__errors[] = __('No data was given');
+				$this->__errors[] = __d('google', 'No data was given');
 				return false;
 			}
 
@@ -426,12 +426,12 @@
 
 			foreach ($data as $key => $value) {
 				if (is_array($name) && !isset($this->setup[$name['name']][$key])) {
-					$this->__errors[] = __('Param "' . $key . '" is not supported in chart type "' . $name . '"');
+					$this->__errors[] = __d('google', 'Param "' . $key . '" is not supported in chart type "' . $name . '"');
 					continue;
 				}
 
 				else if (!isset($this->setup[$name][$key])) {
-					$this->__errors[] = __('Param "' . $key . '" is not supported in chart type "' . $name . '"');
+					$this->__errors[] = __d('google', 'Param "' . $key . '" is not supported in chart type "' . $name . '"');
 					continue;
 				}
 
@@ -508,7 +508,7 @@
 				fclose($fp);
 
 				if (!is_file($this->cachePath . $file)) {
-					$this->__errors[] = __('Could not create the cache file');
+					$this->__errors[] = __d('google', 'Could not create the cache file');
 				}
 			}
 		}
@@ -578,7 +578,7 @@
 				if (isset($title['size'])) {
 					if (empty($params)) {
 						$params[] = '4F4F4F';
-						$this->__errors[] = __('No color was set, adding a default');
+						$this->__errors[] = __d('google', 'No color was set, adding a default');
 					}
 					$params[] = (int) $title['size'];
 				}
@@ -671,16 +671,16 @@
 
 			if ($data[0] > 1000) {
 				$data[0] = 1000;
-				$this->erros[] = __('Width to big, reset to 1000px');
+				$this->erros[] = __d('google', 'Width to big, reset to 1000px');
 			}
 
 			if ($data[1] > 1000) {
 				$data[1] = 1000;
-				$this->erros[] = __('Height to big, reset to 1000px');
+				$this->erros[] = __d('google', 'Height to big, reset to 1000px');
 			}
 
 			if ($data[0] * $data[1] > $this->__maxSize) {
-				$this->erros[] = __('Sizes exceed the maximum for google charts api');
+				$this->erros[] = __d('google', 'Sizes exceed the maximum for google charts api');
 				$data = array(100, 100);
 			}
 
@@ -742,7 +742,7 @@
 			if (is_array($name)) {
 				$nameArray = $name;
 				if (!isset($name['name'])) {
-					$this->__errors[] = __('Please specify the type of chart with array( \'name\' => \'some_name\' ); or just \'some_name\'.');
+					$this->__errors[] = __d('google', 'Please specify the type of chart with array( \'name\' => \'some_name\' ); or just \'some_name\'.');
 					return false;
 				}
 
@@ -754,11 +754,11 @@
 			}
 			if (!empty($nameArray)) {
 				if (!in_array(str_replace($nameArray['name'] . '_', '', $name), array_flip($this->chartTypes[$nameArray['name']]))) {
-					$this->__errors[] = __('Incorect chart type');
+					$this->__errors[] = __d('google', 'Incorect chart type');
 					return false;
 				}
 			} else if (!isset($this->chartTypes[$name])) {
-				$this->__errors[] = __('Incorect chart type');
+				$this->__errors[] = __d('google', 'Incorect chart type');
 				return false;
 			}
 
@@ -1010,8 +1010,8 @@
 			return $this->Html->image(
 					$render,
 					array(
-						'title' => __('Health: ') . $this->Number->toPercentage($data, 0),
-						'alt' => __('Health: ') . $this->Number->toPercentage($data, 0),
+						'title' => __d('google', 'Health: ') . $this->Number->toPercentage($data, 0),
+						'alt' => __d('google', 'Health: ') . $this->Number->toPercentage($data, 0),
 						'width' => $size['width'],
 						'height' => $size['height']
 					)

@@ -20,16 +20,16 @@
 ?>
 <div class="install form">
 	<blockquote class="extract">
-	    <p><?php 
-				echo __('Infinitas is now ready to install onto your server.', true );
-				echo __(', .');
+	    <p><?php
+				echo __d('insatller', 'Infinitas is now ready to install onto your server.', true );
+				echo __d('insatller', ', .');
 			?>
 		</p>
 	</blockquote>
 	<br />
 	<?php
 		echo $this->Form->input(
-			'Sample.sample', 
+			'Sample.sample',
 			array(
 				'type' => 'radio',
 				'options' => array(1 => 'Yes', 0 => 'No'),
@@ -39,7 +39,7 @@
 		);
 	?>
 </div>
-	<h4 class="field-heading"><?php echo sprintf(__('Plugins included for installation (%d)'), count($plugins)); ?></h4>
+	<h4 class="field-heading"><?php echo sprintf(__d('insatller', 'Plugins included for installation (%d)'), count($plugins)); ?></h4>
 	<table width="100%">
 		<thead>
 			<th>Plugin</th>
@@ -48,7 +48,7 @@
 			<th>License</th>
 		</thead>
 		<tbody>
-			<?php 
+			<?php
 				foreach($plugins as $plugin => $data) {
 					?>
 						<tr>

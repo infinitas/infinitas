@@ -21,7 +21,7 @@
     echo $this->Form->create('NewsletterSubscriber');
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('User'); ?></h1><?php
+			<h1><?php echo __d('newsletter', 'User'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('user_id', array('empty' => Configure::read('Website.empty_select')));
 			echo $this->Form->input('prefered_name', array('class' => 'title'));

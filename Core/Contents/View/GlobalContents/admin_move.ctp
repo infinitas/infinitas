@@ -19,9 +19,9 @@
 	echo $this->Form->create('GlobalContent');
         echo $this->Infinitas->adminEditHead(array('move', 'cancel'));	?>
 		<fieldset>
-			<h1><?php echo __('Content'); ?></h1>
+			<h1><?php echo __d('contents', 'Content'); ?></h1>
 			<div class="input smaller required">
-				<label for="GlobalLayoutPlugin"><?php echo __('Select a model'); ?></label><?php
+				<label for="GlobalLayoutPlugin"><?php echo __d('contents', 'Select a model'); ?></label><?php
 				echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModels'}, target:'GlobalContentModel'}"));
 				echo $this->Form->input('model', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false)); ?>
 			</div><?php

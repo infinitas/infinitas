@@ -55,7 +55,7 @@ class PluginsController extends InstallerAppController {
  */
 	public function admin_add() {
 		$this->notice(
-			__('Nothing to see, move along'),
+			__d('insatller', 'Nothing to see, move along'),
 			array(
 				'level' => 'warning',
 				'redirect' => true

@@ -50,7 +50,7 @@ class EmailAccountsController extends EmailsAppController {
 
 		if(empty($this->request->data)) {
 			$this->request->data['EmailAccount'] = array(
-				'name' => sprintf(__('%s\'s mail'), $this->Auth->user('username')),
+				'name' => __d('emails', '%s\'s mail', $this->Auth->user('username')),
 				'server' => sprintf('mail.%s', env('HTTP_HOST')),
 				'username' => sprintf('%s@%s', $this->Auth->user('username'), env('HTTP_HOST')),
 				'email' => $this->Auth->user('email'),

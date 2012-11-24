@@ -73,29 +73,29 @@ class Feed extends FeedAppModel {
 			'name' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter a name for your feed item')
+					'message' => __d('feed', 'Please enter a name for your feed item')
 				),
 				'isUnique' => array(
 					'rule' => 'isUnique',
-					'message' => __('There is already a feed item with that name')
+					'message' => __d('feed', 'There is already a feed item with that name')
 				)
 			),
 			'fields' => array(
 				'validateJson' => array(
 					'rule' => 'validateJson',
-					'message' => __('Your fields are not valid')
+					'message' => __d('feed', 'Your fields are not valid')
 				)
 			),
 			'conditions' => array(
 				'validateJson' => array(
 					'rule' => 'validateJson',
-					'message' => __('Your conditions are not valid')
+					'message' => __d('feed', 'Your conditions are not valid')
 				)
 			),
 			'order' => array(
 				'validateJson' => array(
 					'rule' => 'validateJson',
-					'message' => __('Your order is not valid')
+					'message' => __d('feed', 'Your order is not valid')
 				)
 			),
 		);

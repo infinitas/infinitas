@@ -56,10 +56,10 @@ class CsvHelper extends AppHelper {
 			foreach($params['needed'][key($params['needed'])] as $head) {
 				if (!in_array($head, $this->ignore)) {
 					if($head == 'id') {
-						$parts[] = __(Inflector::humanize(key($params['needed']))).' #';
+						$parts[] = __d('data', Inflector::humanize(key($params['needed']))).' #';
 						continue;
 					}
-					$parts[] = __(Inflector::humanize(str_replace('_id', ' #', $head)));
+					$parts[] = __d('data', Inflector::humanize(str_replace('_id', ' #', $head)));
 				}
 			}
 
@@ -96,7 +96,7 @@ class CsvHelper extends AppHelper {
 
 		if($generated) {
 			$row[] = '';
-			$row[] = sprintf(__('Generated on the %s at %s by %s'), date('Y-m-d'), date('H:m:s'), AuthComponent::user('username'));
+			$row[] = sprintf(__d('data', 'Generated on the %s at %s by %s'), date('Y-m-d'), date('H:m:s'), AuthComponent::user('username'));
 		}
 
 		return $csv = implode("\r\n", $row);

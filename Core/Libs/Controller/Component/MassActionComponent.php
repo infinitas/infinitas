@@ -93,7 +93,7 @@ class MassActionComponent extends InfinitasComponent {
 		$ids = array_values(array_filter(Hash::extract($data, '{n}.massCheckBox')));
 		if (empty($ids)) {
 			$this->Controller->notice(
-				__('Nothing was selected, please select something and try again.'),
+				__d('libs', 'Nothing was selected, please select something and try again.'),
 				array(
 					'level' => 'warning',
 					'redirect' => ''
@@ -120,7 +120,7 @@ class MassActionComponent extends InfinitasComponent {
 
 		if($redirect) {
 			$this->Controller->notice(
-				__('I dont know what to do.'),
+				__d('libs', 'I dont know what to do.'),
 				array(
 					'level' => 'error',
 					'redirect' => true
@@ -295,7 +295,7 @@ class MassActionComponent extends InfinitasComponent {
 			}
 
 			$this->Controller->notice(
-				sprintf(__('The %s were toggled'), $this->Controller->prettyModelName),
+				sprintf(__d('libs', 'The %s were toggled'), $this->Controller->prettyModelName),
 				array(
 					'redirect' => true
 				)
@@ -303,7 +303,7 @@ class MassActionComponent extends InfinitasComponent {
 		}
 
 		$this->Controller->notice(
-			sprintf(__('The %s could not be toggled'), $this->Controller->prettyModelName),
+			sprintf(__d('libs', 'The %s could not be toggled'), $this->Controller->prettyModelName),
 			array(
 				'level' => 'error',
 				'redirect' => true
@@ -322,7 +322,7 @@ class MassActionComponent extends InfinitasComponent {
  * @param array $ids array of ids.
  */
 	public function copy($ids) {
-		$copyText = sprintf(' - %s (%s)', __('copy'), date('Y-m-d'));
+		$copyText = sprintf(' - %s (%s)', __d('libs', 'copy'), date('Y-m-d'));
 		$saves = 0;
 
 		if($this->Controller->{$this->Controller->modelClass}->Behaviors->attached('Contentable')) {
@@ -378,7 +378,7 @@ class MassActionComponent extends InfinitasComponent {
 
 		if ($saves) {
 			$this->Controller->notice(
-				sprintf(__('%s copies of %s were made'), $saves, $this->Controller->prettyModelName),
+				sprintf(__d('libs', '%s copies of %s were made'), $saves, $this->Controller->prettyModelName),
 				array(
 					'redirect' => true
 				)
@@ -386,7 +386,7 @@ class MassActionComponent extends InfinitasComponent {
 		}
 
 		$this->Controller->notice(
-			sprintf(__('No copies of %s could be made'), $this->Controller->prettyModelName),
+			sprintf(__d('libs', 'No copies of %s could be made'), $this->Controller->prettyModelName),
 			array(
 				'level' => 'error',
 				'redirect' => true
@@ -524,14 +524,14 @@ class MassActionComponent extends InfinitasComponent {
 
 		if($result == true) {
 			$params = array(
-				'message' => sprintf(__('The %s have been moved'), $this->Controller->prettyModelName)
+				'message' => sprintf(__d('libs', 'The %s have been moved'), $this->Controller->prettyModelName)
 			);
 		}
 
 		else {
 			$params = array(
 				'level' => 'warning',
-				'message' => sprintf(__('Some of the %s could not be moved'), $this->Controller->prettyModelName)
+				'message' => sprintf(__d('libs', 'Some of the %s could not be moved'), $this->Controller->prettyModelName)
 			);
 		}
 

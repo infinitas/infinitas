@@ -33,15 +33,15 @@ echo $this->Infinitas->adminIndexHead($filterOptions, array(
 				'class' => 'first'
 			),
 			$this->Paginator->sort('name'),
-			__('Url', true ),
-			__('Route', true ),
-			__('Theme', true ) => array(
+			__d('routes', 'Url', true ),
+			__d('routes', 'Route', true ),
+			__d('routes', 'Theme', true ) => array(
 				'style' => 'width:95px;'
 			),
-			__( 'Order', true ) => array(
+			__d('routes',  'Order', true ) => array(
 				'style' => 'width:50px;'
 			),
-			__( 'Active', true ) => array(
+			__d('routes',  'Active', true ) => array(
 				'style' => 'width:50px;'
 			)
 		));

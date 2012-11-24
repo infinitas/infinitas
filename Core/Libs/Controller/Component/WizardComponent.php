@@ -220,7 +220,7 @@
 						}
 
 						else {
-							trigger_error(sprintf(__('Process Callback not found. Please create Controller::%s'), $processCallback), E_USER_WARNING);
+							trigger_error(sprintf(__d('libs', 'Process Callback not found. Please create Controller::%s'), $processCallback), E_USER_WARNING);
 						}
 
 						if ($proceed) {
@@ -260,7 +260,7 @@
 				}
 
 				else {
-					trigger_error(sprintf(__('Step validation: %s is not a valid step.'), $step), E_USER_WARNING);
+					trigger_error(sprintf(__d('libs', 'Step validation: %s is not a valid step.'), $step), E_USER_WARNING);
 				}
 			}
 

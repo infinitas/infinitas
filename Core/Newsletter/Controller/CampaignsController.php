@@ -49,7 +49,7 @@ class CampaignsController extends NewsletterAppController {
 		$templates = $this->Campaign->Template->find('list');
 		if(empty($templates)) {
 			$this->notice(
-				__('Please create a template before creating your campaigns'),
+				__d('newsletter', 'Please create a template before creating your campaigns'),
 				array(
 					'level' => 'notice',
 					'redirect' => array(
@@ -112,7 +112,7 @@ class CampaignsController extends NewsletterAppController {
 
 		if (!$data['Campaign']['active'] && empty($data['Newsletter'])) {
 			$this->notice(
-				__('You can not enable a campaign with no mails.'),
+				__d('newsletter', 'You can not enable a campaign with no mails.'),
 				array(
 					'level' => 'warning',
 					'redirect' => true
@@ -171,7 +171,7 @@ class CampaignsController extends NewsletterAppController {
 		}
 
 		$this->notice(
-			__('None of the campaigns you selected are deletable.'),
+			__d('newsletter', 'None of the campaigns you selected are deletable.'),
 			array(
 				'level' => 'warning',
 				'redirect' => true

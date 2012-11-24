@@ -1,3 +1,3 @@
 <div class="dashboard">
-	<h1><?php echo __('Update your site'); ?></h1>
+	<h1><?php echo __d('installer', 'Update your site'); ?></h1>
 </div>

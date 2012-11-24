@@ -26,11 +26,11 @@
 			$this->out('[I]mport');
 			$this->out('[Q]uit');
 
-			$method = strtoupper($this->in(__('What would you like to do?'), array_keys($this->__options)));
+			$method = strtoupper($this->in(__d('libs', 'What would you like to do?'), array_keys($this->__options)));
 
 			$method = $this->__options[$method];
 			if(!is_callable(array($this, $method))) {
-				$this->out(__('You have made an invalid selection. Please choose an option from above.'));
+				$this->out(__d('libs', 'You have made an invalid selection. Please choose an option from above.'));
 			}
 			else{
 				$this->{$method}();
@@ -79,7 +79,7 @@
 
 			$option = null;
 			while(!$option) {
-				$option = strtoupper($this->in(__('Which model would you like a fixture for')));
+				$option = strtoupper($this->in(__d('libs', 'Which model would you like a fixture for')));
 			}
 
 			if(!isset($models[$option]) || $option == 'B') {

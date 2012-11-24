@@ -444,7 +444,7 @@
 			}
 
 			if(!isset($this->_chartTypes[(string)$this->_chartType])) {
-				trigger_error(sprintf(__('The chart type "%s" is invalid'), (string)$this->_chartType), E_USER_ERROR);
+				trigger_error(sprintf(__d('google', 'The chart type "%s" is invalid'), (string)$this->_chartType), E_USER_ERROR);
 				return false;
 			}
 
@@ -496,7 +496,7 @@
 			$return = $this->_apiUrl() . $this->_formatGeneric('_global', Set::flatten($this->_query));
 
 			if(strlen($return) > 2048) {
-				trigger_error(sprintf(__('The query string is too long (%d chars)'), strlen($return)), E_USER_ERROR);
+				trigger_error(sprintf(__d('google', 'The query string is too long (%d chars)'), strlen($return)), E_USER_ERROR);
 			}
 
 			$this->_query = null;
@@ -715,7 +715,7 @@
 					break;
 
 				default:
-					trigger_error(sprintf(__('Spacing type should be absolute or relative, not %s'), $value['type']), E_USER_WARNING);
+					trigger_error(sprintf(__d('google', 'Spacing type should be absolute or relative, not %s'), $value['type']), E_USER_WARNING);
 					break;
 			}
 
@@ -747,7 +747,7 @@
 			}
 
 			if(!isset($value['width']) && !isset($value['height'])) {
-				trigger_error(__('No size specified'), E_USER_ERROR);
+				trigger_error(__d('google', 'No size specified'), E_USER_ERROR);
 				return false;
 			}
 
@@ -761,7 +761,7 @@
 			if($value['width'] * $value['height'] > $this->__sizeLimit) {
 				trigger_error(
 					sprintf(
-						__('Size of %dpx is greater than maximum allowed size %spx'),
+						__d('google', 'Size of %dpx is greater than maximum allowed size %spx'),
 						$value['width'] * $value['height'],
 						$this->__sizeLimit
 					),
@@ -786,7 +786,7 @@
 		 */
 		public function _formatLegend($value) {
 			if(!isset($value['labels']) || empty($value['labels'])) {
-				trigger_error(__('Skipping legend, no lables specified'), E_USER_WARNING);
+				trigger_error(__d('google', 'Skipping legend, no lables specified'), E_USER_WARNING);
 				return false;
 			}
 			$value['position'] = isset($value['position']) ? $value['position'] : 'default';
@@ -830,7 +830,7 @@
 					if(count($value['order']) != count($value['labels'])) {
 						trigger_error(
 							sprintf(
-								__('Count of orders (%d) does not match count of lables (%d). Using default order '),
+								__d('google', 'Count of orders (%d) does not match count of lables (%d). Using default order '),
 								count($value['order']),
 								count($value['labels'])
 							),
@@ -917,7 +917,7 @@
 		 */
 		public function _formatGeneric($key, $value) {
 			if(!is_array($value)) {
-				trigger_error(sprintf(__('Value for %s is type %s and expecting array'), $key, gettype($value)), E_USER_WARNING);
+				trigger_error(sprintf(__d('google', 'Value for %s is type %s and expecting array'), $key, gettype($value)), E_USER_WARNING);
 				return false;
 			}
 
@@ -934,12 +934,12 @@
 		 */
 		public function _implode($dataType, $value) {
 			if(!is_array($value)) {
-				trigger_error(sprintf(__('Value for %s is type %s and expecting array'), $dataType, gettype($value)), E_USER_WARNING);
+				trigger_error(sprintf(__d('google', 'Value for %s is type %s and expecting array'), $dataType, gettype($value)), E_USER_WARNING);
 				return false;
 			}
 
 			if(!isset($this->_formats[$dataType])) {
-				trigger_error(sprintf(__('No format available for %s'), $dataType), E_USER_WARNING);
+				trigger_error(sprintf(__d('google', 'No format available for %s'), $dataType), E_USER_WARNING);
 				return false;
 			}
 

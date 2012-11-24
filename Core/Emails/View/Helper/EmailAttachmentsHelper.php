@@ -55,10 +55,10 @@ class EmailAttachmentsHelper extends AppHelper {
 			return $this->Html->image(
 				'/newsletter/img/attachment.png',
 				array(
-					'alt' => __('Attachment'),
+					'alt' => __d('emails', 'Attachment'),
 					'height' => $size.'px',
 					'width' => $size.'px',
-					'title' => __('This email has attachments')
+					'title' => __d('emails', 'This email has attachments')
 				)
 			);
 		}
@@ -76,13 +76,13 @@ class EmailAttachmentsHelper extends AppHelper {
  * @return string
  */
 	public function isFlagged($mail = array(), $image = '/newsletter/img/flagged.png', $small = true) {
-		$title = __('Flagged :: This email has been flagged');
-		$alt = __('Flagged');
+		$title = __d('emails', 'Flagged :: This email has been flagged');
+		$alt = __d('emails', 'Flagged');
 
 		if((isset($mail['flagged']) && (bool)$mail['flagged'] === false) || $mail === false) {
 			$image = '/newsletter/img/flagged-not.png';
-			$title = __('Not Flagged :: Flag this email');
-			$alt = __('Not Flagged');
+			$title = __d('emails', 'Not Flagged :: Flag this email');
+			$alt = __d('emails', 'Not Flagged');
 		}
 
 		$size = ($small === true) ? 16 : 24;

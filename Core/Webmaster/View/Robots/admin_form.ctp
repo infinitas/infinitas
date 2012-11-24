@@ -23,7 +23,7 @@
     echo $this->Form->create(false);
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Robots File'); ?></h1><?php
+			<h1><?php echo __d('webmaster', 'Robots File'); ?></h1><?php
 			echo $this->Form->input('robots', array('title' => false, 'type' => 'textarea')); ?>
 		</fieldset>
 	<?php echo $this->Form->end();?>

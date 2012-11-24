@@ -23,19 +23,19 @@
 		$model = $model['className'];
 	}
 	$themes = InfinitasTheme::themes();
-	
+
 	$layouts = array();
 	if(!empty($this->request->data[$model]['theme_id'])) {
 		$layouts = InfinitasTheme::layouts($this->request->data[$model]['theme_id']);
 	}
-	
+
 	$error = $this->Form->error('plugin');
 	$errorClass = !empty($error) ? 'error' : '';
 ?>
 <div class="input smaller <?php echo $errorClass; ?>">
-	<label for="<?php echo $model; ?>Plugin"><?php echo __('Layout'); ?></label><?php
+	<label for="<?php echo $model; ?>Plugin"><?php echo __d('themes', 'Layout'); ?></label><?php
 	echo $this->Form->input(
-		'theme_id', 
+		'theme_id',
 		array(
 			'error' => false,
 			'div' => false,

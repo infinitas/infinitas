@@ -21,12 +21,12 @@
 <div class="install">
     <p>
 		<?php
-			echo __('Congratulations, you have successfuly installed Infinitas. You can start using your site immediately.');
+			echo __d('installer', 'Congratulations, you have successfuly installed Infinitas. You can start using your site immediately.');
 		?>
 	</p>
 	<p>
 		<?php
-			echo __('Infinitas has two main areas. The <em>frontend</em> and the <em>administration panel</em>.
+			echo __d('installer', 'Infinitas has two main areas. The <em>frontend</em> and the <em>administration panel</em>.
 					The frontend is what visitors to you site will see.
 					The administration panel is where you configure your site and add content.
 					You can access either section by using the links provided below.', true);
@@ -34,14 +34,14 @@
 	</p>
 	<p>
         <?php
-			echo __('Frontend: ');
+			echo __d('installer', 'Frontend: ');
             echo $this->Html->link(
                 Router::url( '/', true),
                 Router::url( '/', true )
             );
         ?><br />
         <?php
-			echo __('Administration panel: ');
+			echo __d('installer', 'Administration panel: ');
             echo $this->Html->link(
                 Router::url( '/admin', true),
                 Router::url( '/admin', true)

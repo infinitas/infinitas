@@ -21,7 +21,7 @@
 <div class="install form">
 	    <p>
 			<?php
-				echo __( 'Database tables and core data is about to be installed. '.
+				echo __d('installer',  'Database tables and core data is about to be installed. '.
 			    	'Please make sure you have created a database already, then fill out the '.
 			    	'connection details below. If the installer is not able to connect to the database '.
 			    	'the installer will not be able to continue', true );
@@ -29,22 +29,22 @@
 		</p>
 	    <p>
 			<?php
-				echo __( 'If you are unsure how to create a database, please contact your hosting provider\'s technical support.', true );
+				echo __d('installer',  'If you are unsure how to create a database, please contact your hosting provider\'s technical support.', true );
 			?>
 		</p>
 		<?php if(isset($dbError) && $dbError === true) {?>
 			<div class="general-error">
-				<?php echo __('There is an error with your database connection. Please ensure that the details supplied are correct and that the database server is running.'); ?>
+				<?php echo __d('installer', 'There is an error with your database connection. Please ensure that the details supplied are correct and that the database server is running.'); ?>
 			</div>
 		<?php }?>
 		<?php if(isset($versionError)) {?>
 			<div class="general-error">
-				<?php echo sprintf(__('The database server you selected is running version %1$s. Infinitas requires at least %3$s version %2$s.'), $versionError, $requiredDb['version'], $requiredDb['name']); ?>
+				<?php echo sprintf(__d('installer', 'The database server you selected is running version %1$s. Infinitas requires at least %3$s version %2$s.'), $versionError, $requiredDb['version'], $requiredDb['name']); ?>
 			</div>
 		<?php }?>
 		<?php if(isset($adminDbError) && $adminDbError === true) {?>
 			<div class="general-error">
-				<?php echo __('There is an error with the database administrator details you supplied. Please ensure that they are correct and that the user does have permissions to create, drop and alter tables in the database.'); ?>
+				<?php echo __d('installer', 'There is an error with the database administrator details you supplied. Please ensure that they are correct and that the user does have permissions to create, drop and alter tables in the database.'); ?>
 			</div>
 		<?php }?>
 
@@ -57,32 +57,32 @@
 					'label' => 'Database driver',
 					'options' => $database,
 					'empty' => '-- Database driver --',
-					'after' => '<div>'.__('What type of database server should Infinitas use').'</div>'
+					'after' => '<div>'.__d('installer', 'What type of database server should Infinitas use').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.host', array(
 					'label' => 'Database host',
 					'value' => isset($this->data['Install']) ? $this->data['Install']['host'] : 'localhost',
-					'after' => '<div>'.__('The server for your database. <strong>localhost</strong> should work, if it does not then you can get the info from your web host.').'</div>'
+					'after' => '<div>'.__d('installer', 'The server for your database. <strong>localhost</strong> should work, if it does not then you can get the info from your web host.').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.login', array(
 					'label' => 'Database username',
 					'value' => isset($this->data['Install']) ? $this->data['Install']['login'] : $serverName,
-					'after' => '<div>'.__('The username to access the database').'</div>'
+					'after' => '<div>'.__d('installer', 'The username to access the database').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.password', array(
 					'type' => 'text',
 					'label' => 'Database password',
 					'value' => isset($this->data['Install']) ? $this->data['Install']['password'] : $serverName,
-					'after' =>'<div>'. __('The password to your database').'</div>'
+					'after' =>'<div>'. __d('installer', 'The password to your database').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.database', array(
 					'label' => 'Database name',
 					'value' => isset($this->data['Install']) ? $this->data['Install']['database'] : $serverName,
-					'after' => '<div>'.__('This is the name of the database Infinitas will use').'</div>'
+					'after' => '<div>'.__d('installer', 'This is the name of the database Infinitas will use').'</div>'
 				));
 			?>
 		</div>
@@ -92,12 +92,12 @@
 			<?php
 				echo $this->Form->input( 'Install.port', array(
 					'label' => 'Database port',
-					'after' => '<div>'.__('This is the port your database server runs is on, leave blank for default.').'</div>'
+					'after' => '<div>'.__d('installer', 'This is the port your database server runs is on, leave blank for default.').'</div>'
 				));
 
 				echo $this->Form->input( 'Install.prefix', array(
 					'label' => 'Table prefix',
-					'after' => '<div>'.__('This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.').'</div>'
+					'after' => '<div>'.__d('installer', 'This is a prefix for all the tables that infinitas will create. Useful if you want to share the database with other applications.').'</div>'
 				));
 			?>
 		</div>
@@ -114,14 +114,14 @@
 				echo $this->Form->input( 'Admin.username', array(
 					'label' => 'Database administrator username',
 					'value' => isset($this->data['Admin']) ? $this->data['Admin']['username'] : '',
-					'after' => '<div>'.__('The username of a user that can create tables in your database.').'</div><br style="clear:both;" />'
+					'after' => '<div>'.__d('installer', 'The username of a user that can create tables in your database.').'</div><br style="clear:both;" />'
 				));
 
 				echo $this->Form->input( 'Admin.password', array(
 					'type' => 'text',
 					'label' => 'Database administrator password',
 					'value' => isset($this->data['Admin']) ? $this->data['Admin']['password'] : '',
-					'after' =>'<div>'. __('The password for the above user.').'</div><br style="clear:both;" />'
+					'after' =>'<div>'. __d('installer', 'The password for the above user.').'</div><br style="clear:both;" />'
 				));
 			?>
 		</div>

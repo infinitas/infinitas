@@ -25,7 +25,7 @@
 				</div>
 				<div class="config">
 					<?php
-							?><h2><?php echo __('File info'); ?></h2><?php
+							?><h2><?php echo __d('filemanager', 'File info'); ?></h2><?php
 							pr($info);
 							echo 'todo';
 					?>

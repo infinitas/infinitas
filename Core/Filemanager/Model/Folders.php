@@ -62,7 +62,7 @@ class Folders extends AppModel {
 		if (empty($this->basePath)) {
 			$this->validationErrors[] = array(
 				'field' => 'basePath',
-				'message' => __('Base path does not exist')
+				'message' => __d('filemanager', 'Base path does not exist')
 				);
 			return false;
 		}
@@ -80,7 +80,7 @@ class Folders extends AppModel {
 		if (empty($Folder->path)) {
 			$this->validationErrors[] = array(
 				'field' => 'path',
-				'message' => __('Path does not exist')
+				'message' => __d('filemanager', 'Path does not exist')
 				);
 			return false;
 		}

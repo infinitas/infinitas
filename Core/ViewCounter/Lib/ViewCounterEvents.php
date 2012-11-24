@@ -119,16 +119,16 @@ class ViewCounterEvents extends AppEvents {
 
 		switch($views) {
 			case 0:
-				$text = __('Go on, be the first to view this post');
+				$text = __d('view_counter', 'Go on, be the first to view this post');
 				break;
 
 			case $views < $average / 10:
-				$text = sprintf(__('%s views (new post)'), $views);
+				$text = sprintf(__d('view_counter', '%s views (new post)'), $views);
 				break;
 
 			default:
 				$text = sprintf(
-					__('<span class="%s popular">%s views</span>'),
+					__d('view_counter', '<span class="%s popular">%s views</span>'),
 					$views > $average * 1.25 ? 'extra' : '',
 					$views
 				);

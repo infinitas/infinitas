@@ -100,7 +100,7 @@ class Cron extends CronsAppModel {
  */
 	public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0) {
 		if(!$this->_currentProcess) {
-			trigger_error(__('Cron not yet started'), E_USER_WARNING);
+			trigger_error(__d('crons', 'Cron not yet started'), E_USER_WARNING);
 			return false;
 		}
 

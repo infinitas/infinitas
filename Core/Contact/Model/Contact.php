@@ -64,42 +64,42 @@ class Contact extends ContactAppModel {
 			'first_name' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter the contacts first name')
+					'message' => __d('contact', 'Please enter the contacts first name')
 				),
 			),
 			'last_name' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter the contacts last name')
+					'message' => __d('contact', 'Please enter the contacts last name')
 				),
 			),
 			'phone' => array(
 				'phone' => array(
 					'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
-					'message' => __('The number does not seem to be valid'),
+					'message' => __d('contact', 'The number does not seem to be valid'),
 					'allowEmpty' =>  true
 				)
 			),
 			'mobile' => array(
 				'phone' => array(
 					'rule' => array('phone', '/\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$/'), //Configure::read('Website.phone_regex')),
-					'message' => __('Please enter a valid mobile number'),
+					'message' => __d('contact', 'Please enter a valid mobile number'),
 					'allowEmpty' =>  true
 				)
 			),
 			'email' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter an email address')
+					'message' => __d('contact', 'Please enter an email address')
 				),
 				'email' => array(
 					'rule' => array('email', true),
-					'message' => __('That email address does not seem valid')
+					'message' => __d('contact', 'That email address does not seem valid')
 				)
 			),
 			'branch_id' => array(
 				'rule' => array('comparison', '>', 0),
-				'message' => __('Please select a branch')
+				'message' => __d('contact', 'Please select a branch')
 			)
 		);
 	}

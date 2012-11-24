@@ -81,7 +81,7 @@
 						'label' => false,
 						'div' => false,
 						'type' => 'text',
-						'value' => __('Enter your comment...')
+						'value' => __d($this->request->params['plugin'], 'Enter your comment...')
 					);
 					echo '<div class="comment">';
 				}

@@ -98,7 +98,7 @@ class InstallerTask extends AppShell {
 	}
 
 	public function install() {
-		$this->h1(__('Installing'));
+		$this->h1(__d('insatller', 'Installing'));
 		foreach($this->config['connection'] as $k => $v) {
 			echo $k . ' :: ' . $v . "\r\n";
 		}
@@ -213,10 +213,10 @@ class InstallerTask extends AppShell {
  * get the users database engine preference
  */
 	public function _getDbEngine($validationFailed) {
-		$this->h1(__('Database configuration'));
+		$this->h1(__d('insatller', 'Database configuration'));
 
 		if($validationFailed) {
-			$this->p(__('The connection test failed to connect to '.
+			$this->p(__d('insatller', 'The connection test failed to connect to '.
 			'your database engine, please ensure the details provided are '.
 			'correct', true));
 		}
@@ -238,10 +238,10 @@ class InstallerTask extends AppShell {
 	 * get the connection details for the selected database engine
 	 */
 	public function _getDbConnection($validationFailed) {
-		$this->h1(sprintf('%s (%s)', __('Database configuration'), $this->config['connection']['driver']));
+		$this->h1(sprintf('%s (%s)', __d('insatller', 'Database configuration'), $this->config['connection']['driver']));
 
 		if($validationFailed) {
-			$this->p(__('The connection test failed to connect to '.
+			$this->p(__d('insatller', 'The connection test failed to connect to '.
 			'your database engine, please ensure the details provided are '.
 			'correct', true));
 		}
@@ -282,7 +282,7 @@ class InstallerTask extends AppShell {
 		* check that the details for the database given are correct.
 		*/
 	public function _validateDbConnection() {
-		$this->h1(sprintf(__('Testing %s connection'), $this->config['connection']['driver']));
+		$this->h1(sprintf(__d('insatller', 'Testing %s connection'), $this->config['connection']['driver']));
 		if(!$this->InstallerLib->testConnection($this->config['connection'])) {
 			$this->database(false);
 		}

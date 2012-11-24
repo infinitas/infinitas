@@ -77,7 +77,7 @@
 			}
 
 			if ($Model->_schema[$Model->displayField]['length'] > $Model->_schema[$this->__settings[$Model->alias]['slug']]['length']) {
-				throw new Exception(sprintf(__('%s slugs will be truncated, slug field too short'), $Model->alias));
+				throw new Exception(sprintf(__d('libs', '%s slugs will be truncated, slug field too short'), $Model->alias));
 			}
 		}
 
@@ -338,5 +338,5 @@
 
 			return $string;
 		}
-		
+
 	}

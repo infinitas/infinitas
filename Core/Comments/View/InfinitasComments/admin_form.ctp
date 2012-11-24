@@ -2,7 +2,7 @@
 	echo $this->Form->create();
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Configuration'); ?></h1><?php
+			<h1><?php echo __d('comments', 'Configuration'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('class', array('readonly' => true));
 			echo $this->Form->input('email', array('readonly' => true));

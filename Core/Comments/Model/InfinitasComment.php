@@ -55,17 +55,17 @@
 				'email' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter your email address')
+						'message' => __d('comments', 'Please enter your email address')
 					),
 					'email' => array(
 						'rule' => array('email'),
-						'message' => __('Please enter a valid email address')
+						'message' => __d('comments', 'Please enter a valid email address')
 					)
 				),
 				'comment' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter your comments')
+						'message' => __d('comments', 'Please enter your comments')
 					)
 				)
 			);

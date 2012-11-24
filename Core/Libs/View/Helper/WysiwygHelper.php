@@ -59,7 +59,7 @@ class WysiwygHelper extends InfinitasHelper {
 
 		$fields = explode('.', $field);
 
-		$heading = '<div><h3>' . __(ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
+		$heading = '<div><h3>' . __d('libs', ucfirst(isset($fields[1]) ? $fields[1] : $fields[0])).'</h3>';
 		return $heading . $this->input($field, array('label' => false)) . $this->Editor->editor($field, $config) . '</div>';
 	}
 

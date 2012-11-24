@@ -186,10 +186,10 @@ class InstallController extends Controller {
 		);
 
 		$this->installerProgress = array(
-			'welcome' => __('Welcome'),
-			'database' => __('Database configuration'),
-			'install' => __('Ready to install'),
-			'admin_user' => __('Site administrator'),
+			'welcome' => __d('insatller', 'Welcome'),
+			'database' => __d('insatller', 'Database configuration'),
+			'install' => __d('insatller', 'Ready to install'),
+			'admin_user' => __d('insatller', 'Site administrator'),
 		);
 
 		$this->Wizard->completeUrl = array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish');
@@ -375,7 +375,7 @@ class InstallController extends Controller {
 		if(!is_readable(APP . 'Config' . DS . 'database.php') || filesize(APP . 'Config' . DS . 'database.php') == 0) {
 			$this->Session->delete('Wizard');
 			$this->notice(
-				__('There was an unrecoverable error configuring your database. '.
+				__d('insatller', 'There was an unrecoverable error configuring your database. '.
 						'Unfortunately you need to restart the installation process. '.
 						'You may need to clear any tables that have been created', true),
 				array(

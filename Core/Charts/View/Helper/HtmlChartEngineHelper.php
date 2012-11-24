@@ -3,7 +3,7 @@
  * Html Chart Engine Helper
  *
  * Chart engine for generating HTML charts
- * 
+ *
  * @link http://infinitas-cms.org/infinitas_docs/Charts Infinitas Charts
  *
  * @package Infinitas.Charts.Helper
@@ -79,10 +79,10 @@ class HtmlChartEngineHelper extends ChartsBaseEngineHelper{
 		$y = $rows = $cols = array();
 		$last = 0;
 		foreach($data['data'][0] as $key => $value) {
-			$change = ($value > $last) ? __('up (%s%%)') : __('down (%s%%)');
+			$change = ($value > $last) ? __d('charts', 'up (%s%%)') : __d('charts', 'down (%s%%)');
 			$change = sprintf($change, abs($last - $value));
 			if($value == $last) {
-				$change = __('no change');
+				$change = __d('charts', 'no change');
 			}
 			$cols[] = sprintf(
 				'<td class="col" title="%s"><div class="empty e%d"></div><div class="fill f%d"></div></td>',

@@ -6,7 +6,7 @@
 <div class="page-header span6">
 	<?php
 		echo sprintf(
-			__('<h1>Load for the last six months<small>Data between %s and %s</small></h1>'),
+			__d('server_status', '<h1>Load for the last six months<small>Data between %s and %s</small></h1>'),
 			$this->Time->niceShort($lastSixMonths['start_date']),
 			$this->Time->niceShort($lastSixMonths['end_date'])
 		);
@@ -46,8 +46,8 @@
 						'position' => 'right',
 						'order' => 'default',
 						'labels' => array(
-							__('Max Load'),
-							__('Ave Load')
+							__d('server_status', 'Max Load'),
+							__d('server_status', 'Ave Load')
 						)
 					),
 				)

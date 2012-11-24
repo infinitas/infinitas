@@ -18,37 +18,37 @@
      * @since         0.5a
      */
 
-    echo $this->Html->link( __( 'Dashboard', true ), '/admin/newsletter', array( 'class' => 'link' ) );
+    echo $this->Html->link(__d('newsletter', 'Dashboard'), '/admin/newsletter', array( 'class' => 'link') );
 ?>
-<h3><?php echo __( 'Templates' ); ?></h3>
+<h3><?php echo __d('newsletter', 'Templates'); ?></h3>
 <ul class="nav">
-    <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'add', ) ); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Index'), array( 'plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'index')); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'New'), array( 'plugin' => 'newsletter', 'controller' => 'templates', 'action' => 'add')); ?></li>
 </ul>
-<h3><?php echo __( 'Campaigns' ); ?></h3>
+<h3><?php echo __d('newsletter', 'Campaigns'); ?></h3>
 <ul class="nav">
-    <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 'Campaign.active' => 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 'Campaign.active' => 0 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Add', true ), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'add' ) ); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Index'), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index')); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Active'), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 'Campaign.active' => 1)); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Pending'), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'index', 'Campaign.active' => 0)); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Add'), array( 'plugin' => 'newsletter', 'controller' => 'campaigns', 'action' => 'add')); ?></li>
 </ul>
-<h3><?php echo __( 'Newsletters' ); ?></h3>
+<h3><?php echo __d('newsletter', 'Newsletters'); ?></h3>
 <ul class="nav">
-    <li><?php echo $this->Html->link( __( 'Index', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index' ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Active', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Pending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 0 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Sending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 1, 'Newsletter.sent' => 0 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'Completed', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.sent' => 1 ) ); ?></li>
-    <li><?php echo $this->Html->link( __( 'New', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'add' ) ); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Index'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index')); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Active'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 1)); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Pending'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 0)); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Sending'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.active' => 1, 'Newsletter.sent' => 0)); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Completed'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'index', 'Newsletter.sent' => 1)); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'New'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'add')); ?></li>
 </ul>
 
-<h3><?php echo __( 'Maintanence' ); ?></h3>
+<h3><?php echo __d('newsletter', 'Maintanence'); ?></h3>
 <ul class="nav">
-    <li><?php echo $this->Html->link( __( 'Stop Sending', true ), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'stopAll' ) ); ?></li>
+    <li><?php echo $this->Html->link(__d('newsletter', 'Stop Sending'), array( 'plugin' => 'newsletter', 'controller' => 'newsletters', 'action' => 'stopAll')); ?></li>
     <li>
         <?php
             echo $this->Html->link(
-                __( 'Backup Templates', true ),
+                __d('newsletter', 'Backup Templates'),
                 array(
                     'plugin' => 'core',
                     'controller' => 'backups',
@@ -57,7 +57,7 @@
                     'm' => 'template'
                 ),
                 array(
-                    'title' => __( 'Save a backup of all templates', true )
+                    'title' => __d('newsletter', 'Save a backup of all templates')
                 )
             );
         ?>
@@ -65,7 +65,7 @@
     <li>
         <?php
             echo $this->Html->link(
-                __( 'Backup Campaigns', true ),
+                __d('newsletter', 'Backup Campaigns'),
                 array(
                     'plugin' => 'core',
                     'controller' => 'backups',
@@ -74,7 +74,7 @@
                     'm' => 'campaign'
                 ),
                 array(
-                    'title' => __( 'Save a backup of all campaigns', true )
+                    'title' => __d('newsletter', 'Save a backup of all campaigns')
                 )
             );
         ?>
@@ -82,7 +82,7 @@
     <li>
         <?php
             echo $this->Html->link(
-                __( 'Backup Newsletters', true ),
+                __d('newsletter', 'Backup Newsletters'),
                 array(
                     'plugin' => 'core',
                     'controller' => 'backups',
@@ -91,7 +91,7 @@
                     'm' => 'newsletter'
                 ),
                 array(
-                    'title' => __( 'Save a backup of all newsletters', true )
+                    'title' => __d('newsletter', 'Save a backup of all newsletters')
                 )
             );
         ?>

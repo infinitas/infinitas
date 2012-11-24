@@ -29,7 +29,7 @@
 	<span class="jx-separator-right"></span>
 	<ul class="jx-bar-button-right">
 		<?php $items = $this->Session->read('Compare.Item');?>
-		<li alt="Compare <?php echo count($items) > 0 ? ' ('.count($items).' '.__((count($items) == 1) ? 'items' : 'item').')' : ''; ?>"><?php echo $this->Html->image('status_bar/compare.png', array('url' => array('plugin' => 'compare', 'controller' => 'items', 'action' => 'view'))); ?></li>
+		<li alt="Compare <?php echo count($items) > 0 ? ' ('.count($items).' '.__d('management', (count($items) == 1) ? 'items' : 'item').')' : ''; ?>"><?php echo $this->Html->image('status_bar/compare.png', array('url' => array('plugin' => 'compare', 'controller' => 'items', 'action' => 'view'))); ?></li>
 	</ul>
 	<span class="jx-separator-right"></span>
 </div>

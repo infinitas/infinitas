@@ -32,7 +32,7 @@
 				$this->Form->input('name'),
 				$this->Form->input('url'),
 				$this->Html->tag('div', implode('', array(
-					$this->Form->input('prefix', array('options' => $options, 'type' => 'select', 'empty' => __('None'))),
+					$this->Form->input('prefix', array('options' => $options, 'type' => 'select', 'empty' => __d('routes', 'None'))),
 					$this->element('Routes.route_select')
 				)), array('class' => 'dynamic')),
 				$this->Form->input('active'),

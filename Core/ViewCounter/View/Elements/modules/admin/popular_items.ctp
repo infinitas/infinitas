@@ -32,7 +32,7 @@
 		if(isset($byWeek['model'])) {
 			$byWeek['model'] = pluginSplit($byWeek['model']);
 		}
-		$header = __('Popular content this month');
+		$header = __d('view_counter', 'Popular content this month');
 	} else{
 		$conditions['month >= '] = date('m') -3;
 		if(isset($model)) {
@@ -43,7 +43,7 @@
 		if(!isset($byWeek['totals'])) {
 			$byWeek['totals'] = array();
 		}
-		$header = sprintf(__('Views for the last few weeks'));
+		$header = sprintf(__d('view_counter', 'Views for the last few weeks'));
 	}
 
 	if($this->plugin != 'view_counter') {
@@ -70,7 +70,7 @@
 	<h1><?php echo sprintf('%s<small>%s<br/>Total: %s</small>', $header, $link, $byWeek['stats']['total']); ?></h1>
 	<?php
 		if(!isset($byWeek['sub_total']) || empty($byWeek['sub_total'])) {
-			?><span class="chart"><?php echo __('Not enough data collected'); ?></span><?php
+			?><span class="chart"><?php echo __d('view_counter', 'Not enough data collected'); ?></span><?php
 		}
 		else{
 			echo $this->Charts->draw(
@@ -84,7 +84,7 @@
 					'legend' => array(
 						'position' => 'top',
 						'labels' => array(
-							__('Views'),
+							__d('view_counter', 'Views'),
 						)
 					),
 				)

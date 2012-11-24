@@ -153,7 +153,7 @@
 					$perc * 100,
 					$this->done, $this->total,
 					$this->_niceRemaining(),
-					__('remaining'),
+					__d('libs', 'remaining'),
 					str_repeat("-", $doneSize),
 					str_repeat(" ", $this->size - $doneSize)
 				);
@@ -171,7 +171,7 @@
 					$perc * 100,
 					$this->done, $this->total,
 					$this->_niceRemaining(),
-					__('remaining'),
+					__d('libs', 'remaining'),
 					$this->done, $this->total
 				);
 			}

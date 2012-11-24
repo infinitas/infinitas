@@ -6,8 +6,8 @@
 <div class="page-header span12">
 	<?php
 		echo sprintf(
-			__('<h1>%s<small>Data between %s and %s</small></h1>'),
-			__('Server load average by day'),
+			__d('server_status', '<h1>%s<small>Data between %s and %s</small></h1>'),
+			__d('server_status', 'Server load average by day'),
 			$this->Time->niceShort($byDay['start_date']),
 			$this->Time->niceShort($byDay['end_date'])
 		);
@@ -28,8 +28,8 @@
 					'legend' => array(
 						'position' => 'top',
 						'labels' => array(
-							__('Max Load'),
-							__('Ave Load')
+							__d('server_status', 'Max Load'),
+							__d('server_status', 'Ave Load')
 						)
 					),
 				)

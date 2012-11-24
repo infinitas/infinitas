@@ -85,19 +85,19 @@
 				'title' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter a name for this content item')
+						'message' => __d('contents', 'Please enter a name for this content item')
 					)
 				),
 				'layout_id' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select the layout for this content item')
+						'message' => __d('contents', 'Please select the layout for this content item')
 					)
 				),
 				'body' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the body of this content item')
+						'message' => __d('contents', 'Please enter the body of this content item')
 					)
 				)
 			);
@@ -425,7 +425,7 @@
 		 */
 		public function moveContent($model = null, $limit = 500) {
 			if(!$model) {
-				trigger_error(__('No model selected to move'), E_USER_WARNING);
+				trigger_error(__d('contents', 'No model selected to move'), E_USER_WARNING);
 				return false;
 			}
 
@@ -447,7 +447,7 @@
 			);
 
 			if($Model->displayField == $Model->primaryKey) {
-				trigger_error(sprintf(__('Display field and primary key are the same for %s, cant move'), $model), E_USER_WARNING);
+				trigger_error(sprintf(__d('contents', 'Display field and primary key are the same for %s, cant move'), $model), E_USER_WARNING);
 				return false;
 			}
 

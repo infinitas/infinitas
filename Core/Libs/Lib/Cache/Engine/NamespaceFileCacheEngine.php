@@ -335,7 +335,7 @@
 		function __active() {
 			if (!$this->__active && $this->__init && !is_writable($this->settings['path'])) {
 				$this->__init = false;
-				trigger_error(sprintf(__('%s is not writable'), $this->settings['path']), E_USER_WARNING);
+				trigger_error(sprintf(__d('libs', '%s is not writable'), $this->settings['path']), E_USER_WARNING);
 			}
 
 			else {

@@ -103,7 +103,7 @@
 				$this->Controller->request->params['limit'] = Configure::read('Global.pagination_limit');
 
 				$this->Controller->notice(
-					__('You requested to many records, defaulting to site maximum'),
+					__d('libs', 'You requested to many records, defaulting to site maximum'),
 					array(
 						'redirect' => array(
 							'plugin'	 => $this->Controller->request->params['plugin'],
@@ -272,7 +272,7 @@
 
 			if (empty($check[$model]['id'])) {
 				$this->Controller->notice(
-					__('Nothing found to move'),
+					__d('libs', 'Nothing found to move'),
 					array(
 						'redirect' => false
 					)
@@ -280,12 +280,12 @@
 				return false;
 			}
 
-			$message = __('Error occured reordering the records');
+			$message = __d('libs', 'Error occured reordering the records');
 			switch($direction) {
 				case 'up':
-					$message = __('The record was moved up');
+					$message = __d('libs', 'The record was moved up');
 					if (!$this->Controller->{$model}->moveUp($check[$model]['id'], abs(1))) {
-						$message = __('Unable to move the record up');
+						$message = __d('libs', 'Unable to move the record up');
 					}
 
 					else {
@@ -294,9 +294,9 @@
 					break;
 
 				case 'down':
-					$message = __('The record was moved down');
+					$message = __d('libs', 'The record was moved down');
 					if (!$this->Controller->{$model}->moveDown($check[$model]['id'], abs(1))) {
-						$message = __('Unable to move the record down');
+						$message = __d('libs', 'Unable to move the record down');
 					}
 
 					else {

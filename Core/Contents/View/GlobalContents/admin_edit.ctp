@@ -21,7 +21,7 @@
 	echo $this->Form->create('GlobalContent', array('inputDefaults' => array('empty' => Configure::read('Website.empty_select'))));
         echo $this->Infinitas->adminEditHead();	?>
 		<fieldset>
-			<h1><?php echo __('Content'); ?></h1><?php
+			<h1><?php echo __d('contents', 'Content'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('title', array('readonly' => true));
 			echo $this->Form->input('group_id');

@@ -1,7 +1,7 @@
 <div class="page-header span6" style="height: 645px;">
 	<?php
 		echo sprintf(
-			__('<h1>%s<small>%s<br/>%s</small></h1>'),
+			__d('server_status', '<h1>%s<small>%s<br/>%s</small></h1>'),
 			$current['Server']['name'],
 			$current['Server']['version'],
 			$current['Server']['release']
@@ -12,46 +12,46 @@
 	<table class="listing" style="margin: auto; width: 96%; background: none;">
 		<thead>
 			<tr>
-				<th colspan="3"><?php echo __('Server Details'); ?></th>
+				<th colspan="3"><?php echo __d('server_status', 'Server Details'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<th rowspan="3"><?php echo __('Php'); ?>&nbsp</th>
-				<td><?php echo __('version'); ?>&nbsp</td>
+				<th rowspan="3"><?php echo __d('server_status', 'Php'); ?>&nbsp</th>
+				<td><?php echo __d('server_status', 'version'); ?>&nbsp</td>
 				<td class="right"><?php echo $current['Php']['version']; ?>&nbsp</td>
 			</tr>
 			<tr>
-				<td><?php echo __('Server API'); ?>&nbsp</td>
+				<td><?php echo __d('server_status', 'Server API'); ?>&nbsp</td>
 				<td class="right"><?php echo $current['Php']['sapi']; ?>&nbsp</td>
 			</tr>
 			<tr>
-				<td><?php echo __('Memory Limit'); ?>&nbsp</td>
+				<td><?php echo __d('server_status', 'Memory Limit'); ?>&nbsp</td>
 				<td class="right"><?php echo $current['Php']['memory_limit']; ?>&nbsp</td>
 			</tr>
 			<tr>
-				<th rowspan="3"><?php echo __('Infinitas'); ?>&nbsp</th>
-				<td><?php echo __('version'); ?>&nbsp</td>
+				<th rowspan="3"><?php echo __d('server_status', 'Infinitas'); ?>&nbsp</th>
+				<td><?php echo __d('server_status', 'version'); ?>&nbsp</td>
 				<td class="right"><?php echo Configure::read('Infinitas.version'); ?>&nbsp</td>
 			</tr>
 			<tr>
-				<td><?php echo $this->Html->link(__('Plugins'), array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index')); ?>&nbsp</td>
+				<td><?php echo $this->Html->link(__d('server_status', 'Plugins'), array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'index')); ?>&nbsp</td>
 				<td class="right"><?php echo count($plugins); ?>&nbsp</td>
 			</tr>
 			<tr>
 				<td colspan="2"><?php echo implode(', ', $plugins); ?>&nbsp</td>
 			</tr>
 			<tr>
-				<th rowspan="3"><?php echo __('Load'); ?>&nbsp</th>
-				<td><?php echo __('1 Minute'); ?>&nbsp</td>
+				<th rowspan="3"><?php echo __d('server_status', 'Load'); ?>&nbsp</th>
+				<td><?php echo __d('server_status', '1 Minute'); ?>&nbsp</td>
 				<td class="right"><?php echo $current['Load']['1 min']; ?>&nbsp</td>
 			</tr>
 			<tr>
-				<td><?php echo __('5 Minute'); ?>&nbsp</td>
+				<td><?php echo __d('server_status', '5 Minute'); ?>&nbsp</td>
 				<td class="right"><?php echo $current['Load']['5 min']; ?>&nbsp</td>
 			</tr>
 			<tr>
-				<td><?php echo __('11 Minute'); ?>&nbsp</td>
+				<td><?php echo __d('server_status', '11 Minute'); ?>&nbsp</td>
 				<td class="right"><?php echo $current['Load']['15 min']; ?>&nbsp</td>
 			</tr>
 		</tbody>

@@ -27,5 +27,5 @@
 		echo $this->Form->input('password', array('value' => ''));
 		echo $this->Form->input('confirm_password', array('type' => 'password', 'value' => ''));
 		echo $this->Form->input('birthday', array('minYear' => date('Y') - 100, 'maxYear' => date('Y') - 16));
-	echo $this->Form->end(__('Register'));
+	echo $this->Form->end(__d('users', 'Register'));
 ?>

@@ -70,8 +70,8 @@ class LetterHelper extends AppHelper {
 				return $link = $this->Html->link($this->Html->image(
 						'core/icons/file_types/16/mail.png',
 						array(
-							'alt' => __('Pending'),
-							'title' => __('Click to start sending'),
+							'alt' => __d('newsletter', 'Pending'),
+							'title' => __d('newsletter', 'Click to start sending'),
 							'width' => '16px'
 							)
 						),
@@ -89,8 +89,8 @@ class LetterHelper extends AppHelper {
 				return $this->Html->image(
 					'core/icons/actions/16/active.png',
 					array(
-						'alt' => __('Done'),
-						'title' => __('Sending Complete'),
+						'alt' => __d('newsletter', 'Done'),
+						'title' => __d('newsletter', 'Sending Complete'),
 						'width' => '16px'
 						)
 					);

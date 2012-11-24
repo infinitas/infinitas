@@ -164,7 +164,7 @@
 					),
 					'email' => array(
 						'rule' => array('email'),
-						'message' => __('Please enter a valid email address')
+						'message' => __d('comments', 'Please enter a valid email address')
 					)
 				),
 

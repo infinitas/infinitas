@@ -10,7 +10,7 @@
 		}
 
 		echo sprintf(
-			__('<h1>Server load average by hour<small>Data between %s and %s</small></h1>'),
+			__d('server_status', '<h1>Server load average by hour<small>Data between %s and %s</small></h1>'),
 			$this->Time->niceShort($byHour['start_date']),
 			$this->Time->niceShort($byHour['end_date'])
 		);
@@ -31,8 +31,8 @@
 					'legend' => array(
 						'position' => 'top',
 						'labels' => array(
-							__('Max Load'),
-							__('Ave Load')
+							__d('server_status', 'Max Load'),
+							__d('server_status', 'Ave Load')
 						)
 					),
 				)

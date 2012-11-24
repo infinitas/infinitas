@@ -66,45 +66,45 @@
 				'campaign_id' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select the campaign this email belongs to')
+						'message' => __d('newsletter', 'Please select the campaign this email belongs to')
 					)
 				),
 				'from' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the from address')
+						'message' => __d('newsletter', 'Please enter the from address')
 					),
 					'email' => array(
 						'rule' => array( 'email', true ),
-						'message' => __('Please enter a valid email addres')
+						'message' => __d('newsletter', 'Please enter a valid email addres')
 					)
 				),
 				'reply_to' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the reply to email')
+						'message' => __d('newsletter', 'Please enter the reply to email')
 					),
 					'email' => array(
 						'rule' => array('email', true),
-						'message' => __('Please enter a valid email addres')
+						'message' => __d('newsletter', 'Please enter a valid email addres')
 					)
 				),
 				'subject' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the subject of this newsletter')
+						'message' => __d('newsletter', 'Please enter the subject of this newsletter')
 					)
 				),
 				'html' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the html version of your email')
+						'message' => __d('newsletter', 'Please enter the html version of your email')
 					)
 				),
 				'text' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the text version of your email')
+						'message' => __d('newsletter', 'Please enter the text version of your email')
 					)
 				)
 			);

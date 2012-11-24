@@ -36,7 +36,7 @@
 			$this->Paginator->sort('model') => array(
 				'style' => 'width:75px;'
 			),
-			__('Links To'),
+			__d('feed', 'Links To'),
 			$this->Paginator->sort('limit') => array(
 				'style' => 'width:50px;'
 			),

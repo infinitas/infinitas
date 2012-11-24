@@ -34,7 +34,7 @@ class ShortUrlsController extends ShortUrlsAppController {
 
 		if(empty($url)) {
 			$this->notice(
-				__('Page not found'),
+				__d('short_urls', 'Page not found'),
 				array(
 					'redirect' => true
 				)
@@ -58,7 +58,7 @@ class ShortUrlsController extends ShortUrlsAppController {
 
 		if(empty($url)) {
 			$this->notice(
-				__('Page not found'),
+				__d('short_urls', 'Page not found'),
 				array(
 					'redirect' => true
 				)
@@ -98,5 +98,5 @@ class ShortUrlsController extends ShortUrlsAppController {
 
 		$this->set(compact('shortUrls', 'filterOptions'));
 	}
-	
+
 }

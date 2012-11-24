@@ -20,7 +20,7 @@
 	echo $this->Form->create('Branch', array('type' => 'file'));
 		echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Branch'); ?></h1><?php
+			<h1><?php echo __d('contact', 'Branch'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('image', array('type' => 'file'));
 			echo $this->Form->input('name');

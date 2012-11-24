@@ -33,7 +33,7 @@
 				$this->Form->checkbox('all') => array(
 					'class' => 'first'
 				),
-				__('Record') => array(
+				__d('libs', 'Record') => array(
 					'style' => 'width:150px;'
 				)
 			)

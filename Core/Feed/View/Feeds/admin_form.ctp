@@ -20,7 +20,7 @@
 	echo $this->Form->create('Feed');
 		echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('RSS Feed'); ?></h1><?php
+			<h1><?php echo __d('feed', 'RSS Feed'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name', array('class' => 'title'));
 			echo $this->Infinitas->wysiwyg('Feed.description');
@@ -32,11 +32,11 @@
 			echo $this->Form->input('limit', array('options' => $options, 'empty' => Configure::read('Website.empty_select'))); ?>
 		</fieldset>
 		<fieldset>
-			<h1><?php echo __('Configuration'); ?></h1><?php
+			<h1><?php echo __d('feed', 'Configuration'); ?></h1><?php
 			echo $this->Form->input('active');
 			echo $this->element('route_select', array('plugin' => 'Routes'));
-			echo $this->Form->input('group_id'); 
-			echo $this->Form->input('FeedsFeed', array('title' => __('Sub-Feeds'), 'type' => 'select', 'multiple' => 'checkbox')); ?>
+			echo $this->Form->input('group_id');
+			echo $this->Form->input('FeedsFeed', array('title' => __d('feed', 'Sub-Feeds'), 'type' => 'select', 'multiple' => 'checkbox')); ?>
 		</fieldset><?php
 	echo $this->Form->end();
 ?>

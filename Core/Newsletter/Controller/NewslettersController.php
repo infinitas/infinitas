@@ -317,7 +317,7 @@ class NewslettersController extends NewsletterAppController {
 		$campaigns = $this->Newsletter->Campaign->find('list');
 		if(empty($campaigns)) {
 			$this->notice(
-				__('Please create a campaign before creating a newsletter'),
+				__d('newsletter', 'Please create a campaign before creating a newsletter'),
 				array(
 					'level' => 'notice',
 					'redirect' => array(
@@ -352,7 +352,7 @@ class NewslettersController extends NewsletterAppController {
 			$addresses = explode(',', $this->request->data['Newsletter']['email_addresses']);
 			if (empty($addresses)) {
 				$this->notice(
-					__('Please input at least one email address for testing'),
+					__d('newsletter', 'Please input at least one email address for testing'),
 					array(
 						'level' => 'warning',
 						'redirect' => true
@@ -373,7 +373,7 @@ class NewslettersController extends NewsletterAppController {
 				}
 			}
 
-			$this->notice(sprintf(__('%s mails were sent'), $sent));
+			$this->notice(sprintf(__d('newsletter', '%s mails were sent'), $sent));
 		}
 
 		if (empty($this->request->data) && $id) {
@@ -408,7 +408,7 @@ class NewslettersController extends NewsletterAppController {
 		Configure::write('debug', 0);
 
 		if (!$id) {
-			return $this->set('data', __('The template was not found'));
+			return $this->set('data', __d('newsletter', 'The template was not found'));
 		}
 		$newsletter = $this->Newsletter->find(
 			'first',
@@ -470,7 +470,7 @@ class NewslettersController extends NewsletterAppController {
 
 		if (empty($newsletters)) {
 			$this->notice(
-				__('There are no newsletters to delete.'),
+				__d('newsletter', 'There are no newsletters to delete.'),
 				array(
 					'level' => 'warning',
 					'redirect' => 'true'
@@ -497,7 +497,7 @@ class NewslettersController extends NewsletterAppController {
 
 		if (!isset($sent['Newsletter']['sent'])) {
 			$this->notice(
-				__('The newsletter was not found'),
+				__d('newsletter', 'The newsletter was not found'),
 				array(
 					'level' => 'error',
 					'redirect' => true
@@ -507,7 +507,7 @@ class NewslettersController extends NewsletterAppController {
 
 		if ($sent['Newsletter']['sent']) {
 			$this->notice(
-				__('The newsletter has already been sent'),
+				__d('newsletter', 'The newsletter has already been sent'),
 				array(
 					'level' => 'warning',
 					'redirect' => true
@@ -520,7 +520,7 @@ class NewslettersController extends NewsletterAppController {
 
 			if (!$this->Newsletter->save($sent)) {
 				$this->notice(
-					__('Could not activate the newsletter'),
+					__d('newsletter', 'Could not activate the newsletter'),
 					array(
 						'level' => 'error',
 						'redirect' => true
@@ -530,7 +530,7 @@ class NewslettersController extends NewsletterAppController {
 		}
 
 		$this->notice(
-			__('Newsletter is now sending.'),
+			__d('newsletter', 'Newsletter is now sending.'),
 			array(
 				'redirect' => true
 			)
@@ -564,7 +564,7 @@ class NewslettersController extends NewsletterAppController {
 		}
 
 		$this->notice(
-			__('All newsletters have been stopped.'),
+			__d('newsletter', 'All newsletters have been stopped.'),
 			array(
 				'redirect' => true
 			)

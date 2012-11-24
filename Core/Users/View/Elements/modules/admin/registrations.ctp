@@ -44,7 +44,7 @@
 					'position' => 'right',
 					'order' => 'default',
 					'labels' => array(
-						__('New Users')
+						__d('users', 'New Users')
 					)
 				),
 			)

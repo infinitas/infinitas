@@ -162,7 +162,7 @@ class TemplatesController extends NewsletterAppController {
 		$this->layout = 'ajax';
 
 		if (!$id) {
-			return $this->set('data', __('The template was not found'));
+			return $this->set('data', __d('newsletter', 'The template was not found'));
 		}
 
 		$template = $this->Template->read(array('header', 'footer'), $id);
@@ -209,7 +209,7 @@ class TemplatesController extends NewsletterAppController {
 
 		if (empty($ids)) {
 			$this->notice(
-				__('There are some newsletters using that template.'),
+				__d('newsletter', 'There are some newsletters using that template.'),
 				array(
 					'redirect' => true
 				)
@@ -237,7 +237,7 @@ class TemplatesController extends NewsletterAppController {
 
 		if (empty($ids)) {
 			$this->notice(
-				__('There are some campaigns using that template.'),
+				__d('newsletter', 'There are some campaigns using that template.'),
 				array(
 					'redirect' => true
 				)

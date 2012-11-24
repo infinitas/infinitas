@@ -190,7 +190,7 @@
 				} else {
 					$menu['MenuItem']['name'] = $this->Html->link($menu['MenuItem']['name'] . $caret, $url, $linkOptions);
 				}
-				
+
 				if($hasChildren) {
 					$menu['MenuItem']['name'] .= self::bootstrapNav($menu['children'], array(), true);
 				}
@@ -336,7 +336,7 @@
 				$array['MenuItem']['item'] = '';
 			}
 
-			$linkName = __($array['MenuItem']['name']);
+			$linkName = __d('menus', $array['MenuItem']['name']);
 
 			if (!empty($array['children'])) {
 				$linkName = '<span>'.$linkName.'</span>';

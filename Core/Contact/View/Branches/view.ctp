@@ -2,17 +2,17 @@
 <h2><?php echo $branch['Branch']['name'];?></h2>
 <div class="details">
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Phone'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __d('contacts', 'Phone'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $branch['Branch']['phone']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Fax'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __d('contacts', 'Fax'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $branch['Branch']['fax']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Updated'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __d('contacts', 'Updated'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $this->Time->niceShort($branch['Branch']['modified']); ?>
 			&nbsp;
@@ -23,7 +23,7 @@
 	<p class="vcf">
 		<?php
 			echo $this->Html->link(
-				__('Download vCard'),
+				__d('contacts', 'Download vCard'),
 				array(
 					'action' => 'view',
 					'slug' => $branch['Branch']['slug'],
@@ -40,16 +40,16 @@
 	?>
 </div>
 <div class="related">
-	<h3><?php echo __('Contacts');?></h3>
+	<h3><?php echo __d('contacts', 'Contacts');?></h3>
 	<table cellpadding = "0" cellspacing = "0" width="100%">
 		<tr>
-			<th><?php echo __('Name'); ?></th>
-			<th><?php echo __('Position'); ?></th>
-			<th><?php echo __('Phone'); ?></th>
-			<th><?php echo __('Mobile'); ?></th>
-			<th><?php echo __('Email'); ?></th>
-			<th><?php echo __('Contact'); ?></th>
-			<th><?php echo __('Updated'); ?></th>
+			<th><?php echo __d('contacts', 'Name'); ?></th>
+			<th><?php echo __d('contacts', 'Position'); ?></th>
+			<th><?php echo __d('contacts', 'Phone'); ?></th>
+			<th><?php echo __d('contacts', 'Mobile'); ?></th>
+			<th><?php echo __d('contacts', 'Email'); ?></th>
+			<th><?php echo __d('contacts', 'Contact'); ?></th>
+			<th><?php echo __d('contacts', 'Updated'); ?></th>
 		</tr>
 		<?php
 			foreach ($branch['Contact'] as $contact) { ?>

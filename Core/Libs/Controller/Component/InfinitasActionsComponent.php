@@ -177,7 +177,7 @@
 		public function actionAdminPreview($id = null) {
 			if(!is_callable(array($this->Controller->{$this->Controller->modelClass}, 'getViewData'))) {
 				$this->Controller->notice(
-					__('There is no preview available'),
+					__d('libs', 'There is no preview available'),
 					array(
 						'level' => 'error',
 						'redirect' => Router::url('/')
@@ -218,7 +218,7 @@
 		public function actionAdminMine() {
 			$userId = AuthComponent::user('id');
 			if(!$userId) {
-				$this->Controller->notice(__('You need to be logged in to do that'), array(
+				$this->Controller->notice(__d('libs', 'You need to be logged in to do that'), array(
 					'redirect' => true,
 					'level' => 'error'
 				));
@@ -239,7 +239,7 @@
 			}
 
 			if(!$this->Controller->{$this->Controller->modelClass}->hasField($field)) {
-				$this->Controller->notice(__('Cant determin a user field'), array(
+				$this->Controller->notice(__d('libs', 'Cant determin a user field'), array(
 					'redirect' => true,
 					'level' => 'error'
 				));
@@ -282,7 +282,7 @@
 			if (!empty($this->Controller->request->params['named']['direction'])) {
 				if(!$this->Controller->{$model}->Behaviors->attached('Tree')) {
 					$this->Controller->notice(
-						__('A problem occured moving that MPTT record.'),
+						__d('libs', 'A problem occured moving that MPTT record.'),
 						$redirectConfig
 					);
 				}
@@ -323,7 +323,7 @@
 
 			if (Configure::read('Rating.require_auth') === true && !$this->Controller->request->data['Rating']['user_id']) {
 				$this->Controller->notice(
-					__('You need to be logged in to rate this item'),
+					__d('libs', 'You need to be logged in to rate this item'),
 					array(
 						'redirect' => array(
 							'plugin' => 'Users',
@@ -335,7 +335,7 @@
 			}
 
 			if (!empty($this->Controller->request->data['Rating']['rating'])) {
-				$message = __('It seems you have already voted for this item.');
+				$message = __d('libs', 'It seems you have already voted for this item.');
 
 				if ($this->Controller->{$this->Controller->modelClass}->rateRecord($this->Controller->request->data)) {
 					$data = $this->Controller->{$this->Controller->modelClass}->find(
@@ -350,7 +350,7 @@
 							)
 						)
 					);
-					$message = sprintf(__('Saved! new rating %s (out of %s)'), $data[$this->Controller->modelClass]['rating'], $data[$this->Controller->modelClass]['rating_count']);
+					$message = sprintf(__d('libs', 'Saved! new rating %s (out of %s)'), $data[$this->Controller->modelClass]['rating'], $data[$this->Controller->modelClass]['rating_count']);
 				}
 
 				if($this->Controller->RequestHandler->isAjax()) {

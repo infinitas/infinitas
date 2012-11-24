@@ -20,17 +20,17 @@
 	echo $this->Form->create('Contact', array('type' => 'file'));
 		echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Contact Details'); ?></h1><?php
+			<h1><?php echo __d('contact', 'Contact Details'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('image', array('type' => 'file'));
-			echo $this->Form->input('branch_id', array('empty' => __(Configure::read('Website.empty_select'))));
+			echo $this->Form->input('branch_id', array('empty' => __d('contact', Configure::read('Website.empty_select'))));
 			echo $this->Form->input('first_name');
 			echo $this->Form->input('last_name');
 			echo $this->Form->input('email');
 			echo $this->Form->input('active'); ?>
 		</fieldset>
 		<fieldset>
-			<h1><?php echo __('Optional'); ?></h1><?php
+			<h1><?php echo __d('contact', 'Optional'); ?></h1><?php
 			echo $this->Form->input('position');
 			echo $this->Form->input('phone');
 			echo $this->Form->input('mobile');

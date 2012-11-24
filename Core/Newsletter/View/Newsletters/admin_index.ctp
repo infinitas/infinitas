@@ -79,8 +79,8 @@
 								echo $this->Html->image(
 									'core/icons/actions/16/update.png',
 									array(
-										'alt' => __('In Progress'),
-										'title' => __('Busy sending')
+										'alt' => __d('newsletter', 'In Progress'),
+										'title' => __d('newsletter', 'Busy sending')
 									)
 								);
 							} else {
@@ -100,8 +100,8 @@
 										$newsletter['Newsletter']['id']
 									),
 									array(
-										'title' => __('Sending complete. See the report.'),
-										'alt' => __('Done', true ),
+										'title' => __d('newsletter', 'Sending complete. See the report.'),
+										'alt' => __d('newsletter', 'Done', true ),
 										'escape' => false
 									)
 								);

@@ -34,7 +34,7 @@
 						'position' => 'right',
 						'order' => 'default',
 						'labels' => array(
-							__('Views')
+							__d('view_counter', 'Views')
 						)
 					),
 				)

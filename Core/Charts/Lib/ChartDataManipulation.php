@@ -83,7 +83,7 @@ class ChartDataManipulation extends Object{
 		}
 
 		if(!empty($data)) {
-			$return['model'] = __('All');
+			$return['model'] = __d('charts', 'All');
 			if(isset($data[0][$alias]['model'])) {
 				$return['model'] = $data[0][$alias]['model'];
 			}
@@ -104,7 +104,7 @@ class ChartDataManipulation extends Object{
 		$return['total_rows']  = count($return['totals']);
 
 		if(isset($return[$fieldName]) && $return['total_rows'] != count($return[$fieldName])) {
-			trigger_error(sprintf(__('data mismach for model: %s fields: (%s)'), $return['model'], implode(', ', $fields)), E_USER_WARNING);
+			trigger_error(__d('charts', 'data mismach for model: %s fields: (%s)', $return['model'], implode(', ', $fields)), E_USER_WARNING);
 		}
 
 		unset($data);

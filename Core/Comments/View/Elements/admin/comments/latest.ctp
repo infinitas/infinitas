@@ -9,7 +9,7 @@
 						<?php
 							$toggleText = $comment['InfinitasComment']['active'] ? 'Deactivate' : 'Activate';
 							echo $this->Html->link(
-								__($toggleText),
+								__d('comments', $toggleText),
 								array(
 									'controller' => 'infinitas_comments',
 									'action' => 'toggle',
@@ -18,7 +18,7 @@
 								array('class' => 'accept')
 							), ' | ',
 							$this->Html->link(
-								__('Reply'),
+								__d('comments', 'Reply'),
 								array(
 									'controller' => 'infinitas_comments',
 									'action' => 'reply',
@@ -27,7 +27,7 @@
 								array('class' => 'reply')
 							), ' | ',
 							$this->Html->link(
-								__('Delete'),
+								__d('comments', 'Delete'),
 								array(
 									'controller' => 'infinitas_comments',
 									'action' => 'delete',

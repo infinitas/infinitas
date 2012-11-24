@@ -84,8 +84,8 @@
 								$this->Html->image(
 									'core/icons/actions/16/warning.png',
 									array(
-										'alt' => __('No Mails'),
-										'title' => __('This Campaign has no mails. Click to add some')
+										'alt' => __d('newsletter', 'No Mails'),
+										'title' => __d('newsletter', 'This Campaign has no mails. Click to add some')
 									)
 								),
 								array(
@@ -103,7 +103,7 @@
 							}
 
 							if ($campaignSentStatus) {
-								echo __('All Sent');
+								echo __d('newsletter', 'All Sent');
 							} else{
 								echo $this->Infinitas->status($campaign['Campaign']['active'], $campaign['Campaign']['id']);
 							}

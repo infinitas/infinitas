@@ -43,25 +43,25 @@
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter a name for the menu')
+						'message' => __d('menus', 'Please enter a name for the menu')
 					),
 					'validName' => array(
 						'rule' => '/[a-z_]{1,100}/i',
-						'message' => __('Please enter a name for the menu lower case letters and under-scores only')
+						'message' => __d('menus', 'Please enter a name for the menu lower case letters and under-scores only')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('There is already a menu with that name')
+						'message' => __d('menus', 'There is already a menu with that name')
 					)
 				),
 				'type' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the menu type')
+						'message' => __d('menus', 'Please enter the menu type')
 					),
 					'validName' => array(
 						'rule' => '/[a-z_]{1,100}/i',
-						'message' => __('Please enter a valid type for the menu lower case letters and under-scores only')
+						'message' => __d('menus', 'Please enter a valid type for the menu lower case letters and under-scores only')
 					)
 				)
 			);

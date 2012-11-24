@@ -25,7 +25,7 @@ class ContactAddressesController extends ContactAppController {
 	public function add() {
 		if(!$this->Auth->user('id')) {
 			$this->notice(
-				__('You must be logged in to do that'),
+				__d('contact', 'You must be logged in to do that'),
 				array(
 					'redirect' => true
 				)

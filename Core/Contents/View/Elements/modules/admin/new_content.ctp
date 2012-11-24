@@ -46,9 +46,9 @@
 					'position' => 'top',
 					'order' => 'default',
 					'labels' => array(
-						__('New'),
-						__('Updated'),
-						__('Deleted'),
+						__d('contents', 'New'),
+						__d('contents', 'Updated'),
+						__d('contents', 'Deleted'),
 					)
 				)
 			)

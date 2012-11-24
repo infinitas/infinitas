@@ -22,7 +22,7 @@
 	echo $this->Form->create('GlobalTag');
 		echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Tag'); ?></h1><?php
+			<h1><?php echo __d('contents', 'Tag'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('identifier');
 			echo $this->Form->input('name', array('readonly' => 'readonly'));

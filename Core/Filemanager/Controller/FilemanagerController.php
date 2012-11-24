@@ -86,7 +86,7 @@ class FilemanagerController extends AppController {
 
 		if (!$path || !is_file(APP.$path)) {
 			$this->notice(
-				__('Please select a file first'),
+				__d('filemanager', 'Please select a file first'),
 				array(
 					'level' => 'error',
 					'redirect' => true
@@ -107,7 +107,7 @@ class FilemanagerController extends AppController {
 	public function admin_download($file = null) {
 		if (!$file) {
 			$this->notice(
-				__('Please select a file first'),
+				__d('filemanager', 'Please select a file first'),
 				array(
 					'level' => 'error',
 					'redirect' => true

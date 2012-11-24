@@ -7,5 +7,5 @@
 		}
 		echo $form->input('new_password', array('type' => 'password'));
 		echo $form->input('confirm_password', array('type' => 'password'));
-	echo $form->end(__('Reset Password'));
+	echo $form->end(__d('users', 'Reset Password'));
 ?>

@@ -5,7 +5,7 @@
 	 */
 	class Group extends UsersAppModel {
 		public $useTable = 'groups';
-		
+
 		public $actsAs1 = array('Tree', 'Acl' => array('requester'));
 
 		public function  __construct($id = false, $table = null, $ds = null) {
@@ -15,11 +15,11 @@
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter a name for this group')
+						'message' => __d('users', 'Please enter a name for this group')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('There is alread a group with this name')
+						'message' => __d('users', 'There is alread a group with this name')
 					)
 				)
 			);

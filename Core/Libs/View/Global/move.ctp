@@ -38,21 +38,21 @@
 			if(in_array($alias, $ignore)) {
 				continue;
 			}
-			$belongs[] = __(prettyName($alias));
+			$belongs[] = __d('libs', prettyName($alias));
 		}
 
 		foreach($relations['hasAndBelongsToMany'] as $alias => $hasAndBelongsToMany) {
 			if(in_array($alias, $ignore)) {
 				continue;
 			}
-			$habtm[] = __(prettyName(Inflector::pluralize($alias)));
+			$habtm[] = __d('libs', prettyName(Inflector::pluralize($alias)));
 		}
 
 		echo $this->Infinitas->adminTableHeader(array_merge(array(
 			'' => array(
 				'class' => 'first'
 			),
-			__('Record') => array(
+			__d('libs', 'Record') => array(
 				'style' => 'width:150px;'
 			)),
 			$belongs,
@@ -96,17 +96,17 @@
 		}
 
 		echo $this->Html->tag('div', implode('', array(
-			$this->Html->tag('h3', __(prettyName($alias))),
+			$this->Html->tag('h3', __d('libs', prettyName($alias))),
 			$this->Form->input('Move.'.$belongsTo['foreignKey'], array(
 				'label' => false,
-				'empty' => __(Configure::read('Website.empty_select'))
+				'empty' => __d('libs', Configure::read('Website.empty_select'))
 			))
 		)), array('class' => 'info'));
 	}
 
 	foreach($relations['hasAndBelongsToMany'] as $alias => $belongsTo) {
 		echo $this->Html->tag('div', implode('', array(
-			$this->Html->tag('h3', __(prettyName(Inflector::pluralize($alias)))),
+			$this->Html->tag('h3', __d('libs', prettyName(Inflector::pluralize($alias)))),
 			$this->Form->input('Move.'.$alias, array(
 				'label' => false,
 				'multiple' => 'multiple',

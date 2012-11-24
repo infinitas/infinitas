@@ -21,7 +21,7 @@
     echo $this->Form->create('Template');
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Newsletter Template'); ?></h1><?php
+			<h1><?php echo __d('newsletter', 'Newsletter Template'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name', array('class' => 'title'));
 			echo $this->Infinitas->wysiwyg('Template.header');

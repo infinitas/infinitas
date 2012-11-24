@@ -133,8 +133,8 @@ class GlobalCategoriesController extends ContentsAppController {
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
 			'title',
-			'parent_id' => array(null => __('All'), 0 => __('Top Level Categories')) + $this->GlobalCategory->generateTreeList(),
-			'group_id' => array(null => __('Public')) + $this->GlobalCategory->Group->find('list'),
+			'parent_id' => array(null => __d('contents', 'All'), 0 => __d('contents', 'Top Level Categories')) + $this->GlobalCategory->generateTreeList(),
+			'group_id' => array(null => __d('contents', 'Public')) + $this->GlobalCategory->Group->find('list'),
 			'active' => (array)Configure::read('CORE.active_options')
 		);
 
@@ -183,7 +183,7 @@ class GlobalCategoriesController extends ContentsAppController {
 		$count = $this->GlobalCategory->find('count', array('conditions' => array('Category.parent_id' => $id)));
 		if ($count > 0) {
 			$this->notice(
-				sprintf(__('That %s has sub-categories'), $this->prettyModelName),
+				sprintf(__d('contents', 'That %s has sub-categories'), $this->prettyModelName),
 				array(
 					'level' => 'warning',
 					'redirect' => true
@@ -195,7 +195,7 @@ class GlobalCategoriesController extends ContentsAppController {
 
 		if (!empty($category['Content'])) {
 			$this->notice(
-				sprintf(__('That %s has content items, remove them before continuing'), $this->prettyModelName),
+				sprintf(__d('contents', 'That %s has content items, remove them before continuing'), $this->prettyModelName),
 				array(
 					'level' => 'warning',
 					'redirect' => true

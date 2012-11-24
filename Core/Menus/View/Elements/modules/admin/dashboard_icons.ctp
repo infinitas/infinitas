@@ -1,9 +1,9 @@
 <?php
 	/**
 	 * Display a list of available plugin links
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -11,9 +11,9 @@
 	 * @subpackage Infinitas.menu.modules
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.8a
-	 * 
+	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -22,7 +22,7 @@
 	if(isset($icons['core']) && !empty($icons['core'])) {
 		?>
 			<div class="dashboard grid_16">
-				<h1><?php echo __('Infinitas'); ?></h1>
+				<h1><?php echo __d('menus', 'Infinitas'); ?></h1>
 				<ul class="icons">
 					<li><?php echo implode('</li><li>', $icons['core']); ?></li>
 				</ul>
@@ -32,9 +32,9 @@
 	}
 
 	if(isset($icons['plugin']) && !empty($icons['plugin'])) {
-		?>			
+		?>
 			<div class="dashboard grid_16">
-				<h1><?php echo __('Plugins'); ?></h1>
+				<h1><?php echo __d('menus', 'Plugins'); ?></h1>
 				<ul class="icons">
 					<li><?php echo implode('</li><li>', $icons['plugin']); ?></li>
 				</ul>

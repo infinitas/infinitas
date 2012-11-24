@@ -1,11 +1,11 @@
 <?php
-	/* 
+	/*
 	 * Short Description / title.
-	 * 
+	 *
 	 * Overview of what the file does. About a paragraph or two
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * 
+	 *
 	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
@@ -13,15 +13,15 @@
 	 * @subpackage {see_below}
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since {check_current_milestone_in_lighthouse}
-	 * 
+	 *
 	 * @author {your_name}
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	$todo = $this->Event->trigger('requireTodoList');
 	$todo = array_filter($todo['requireTodoList']);
-	
+
 	if(empty($todo)) {
 		return true;
 	}
@@ -35,7 +35,7 @@
 	$out = '';
 
 	foreach($todo as $name => $info) {
-		$out .= '<h3>'.__(prettyName($name)).'</h3>';
+		$out .= '<h3>'.__d('menus', prettyName($name)).'</h3>';
 		$out .= '<ul>';
 			foreach((array)$info as $item) {
 				$out .= '<li class="'.$item['type'].'">'.$this->Html->link(
@@ -55,5 +55,5 @@
 			<?php echo $out; ?>
 		</div>
 	</div>
-	<a href="#" class="trigger"><?php echo __('Todo'); ?></a>
+	<a href="#" class="trigger"><?php echo __d('menus', 'Todo'); ?></a>
 </div>

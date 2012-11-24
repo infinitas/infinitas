@@ -19,15 +19,15 @@
      */
     echo $this->Letter->adminOtherHead();
 ?>
-<h3><?php echo __('Newsletter Preview'); ?></h3>
+<h3><?php echo __d('newsletter', 'Newsletter Preview'); ?></h3>
 <?php
     echo $this->Letter->preview($newsletter['Newsletter']['id'], 'newsletters');
 ?>
 
-<h3><?php echo __('Test in a mail client'); ?></h3>
+<h3><?php echo __d('newsletter', 'Test in a mail client'); ?></h3>
 <?php
     echo $this->Form->create('Newsletter', array('action' => 'view'));
-    echo '<p>', __('Enter the email addresses you would like to send to seperated by a , {comma} (but with no spaces)'), '</p>';
+    echo '<p>', __d('newsletter', 'Enter the email addresses you would like to send to seperated by a , {comma} (but with no spaces)'), '</p>';
     echo $this->Form->input('id', array('value' => $this->data['Newsletter']['id']));
     echo $this->Form->input('email_addresses', array('type' => 'textarea', 'class' => 'title'));
     echo $this->Form->end('Send the test');

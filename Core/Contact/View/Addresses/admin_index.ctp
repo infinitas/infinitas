@@ -42,10 +42,10 @@
 			$this->Paginator->sort('city'),
 			$this->Paginator->sort('province'),
 			$this->Paginator->sort('postal'),
-			$this->Paginator->sort(__('Country'), 'Country.name') => array(
+			$this->Paginator->sort(__d('contact', 'Country'), 'Country.name') => array(
 				'style' => 'width:75px;'
 			),
-			__('Continent') => array(
+			__d('contact', 'Continent') => array(
 				'style' => 'width:75px;'
 			),
 			$this->Paginator->sort('modified') => array(
@@ -70,7 +70,7 @@
 				<td><?php echo $address['ContactAddress']['province']; ?>&nbsp;</td>
 				<td><?php echo $address['ContactAddress']['postal']; ?>&nbsp;</td>
 				<td><?php echo $address['Country']['name']; ?>&nbsp;</td>
-				<td><?php echo __(Configure::read('Contact.continents.' . $address['ContactAddress']['continent_id'])); ?>&nbsp;</td>
+				<td><?php echo __d('contact', Configure::read('Contact.continents.' . $address['ContactAddress']['continent_id'])); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($address['ContactAddress']['modified']); ?></td>
 			</tr><?php
 		}

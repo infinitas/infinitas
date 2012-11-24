@@ -53,7 +53,7 @@ Class IpLocation extends Object {
 		switch($type) {
 			case 'country':
 				if(!$this->hasCountryData()) {
-					throw new InvalidArgumentException(sprintf(__('%s data file is missing (tried: %s)'), $type, $this->countryDataFile));
+					throw new InvalidArgumentException(sprintf(__d('geo_location', '%s data file is missing (tried: %s)'), $type, $this->countryDataFile));
 					return false;
 				}
 
@@ -72,7 +72,7 @@ Class IpLocation extends Object {
 				break;
 		}
 
-		throw new InvalidArgumentException(sprintf(__('%s is not a valid data file'), $type));
+		throw new InvalidArgumentException(sprintf(__d('geo_location', '%s is not a valid data file'), $type));
 	}
 
 /**

@@ -20,10 +20,10 @@
 	echo $this->Form->create('MenuItem');
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __('Menu Item'); ?></h1><?php
+			<h1><?php echo __d('menus', 'Menu Item'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name');
-			echo $this->Form->input('link', array('label' => __('External Link')));
+			echo $this->Form->input('link', array('label' => __d('menus', 'External Link')));
 			echo $this->Form->input('prefix');
 			echo $this->element('Routes.route_select');
 
@@ -31,7 +31,7 @@
 			$errorParent = $this->Form->error('parent_id');
 			$errorMessage = !empty($errorMenu) || !empty($errorParent) ? 'error' : ''; ?>
 			<div class="input select smaller <?php echo $errorMessage; ?>">
-				<label for=""><?php echo __('Menu / Parent Item'); ?></label><?php
+				<label for=""><?php echo __d('menus', 'Menu / Parent Item'); ?></label><?php
 				echo $this->Form->input('menu_id', array(
 					'error' => false,
 					'type' => 'select',
@@ -50,7 +50,7 @@
 			</div>
 		</fieldset>
 		<fieldset>
-			<h1><?php echo __('Config'); ?></h1><?php
+			<h1><?php echo __d('menus', 'Config'); ?></h1><?php
 			echo $this->Form->input('active');
 			echo $this->Form->input('force_backend');
 			echo $this->Form->input('force_frontend');

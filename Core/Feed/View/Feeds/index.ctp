@@ -4,15 +4,15 @@
 		foreach($feeds as $feed) {
 			$rss = $this->Event->Trigger('feed.slugUrl', $feed);
 			$rssLink = $this->Html->link(
-				__('Subscribe'),
+				__d('feed', 'Subscribe'),
 				$rss['slugUrl']['feed']['rss']
 			);
 			$htmlLink = $this->Html->link(
-				__('View'),
+				__d('feed', 'View'),
 				$rss['slugUrl']['feed']['html']
 			);
 			?><h3><?php echo $feed['Feed']['name']; ?><small><?php echo $rssLink, ' ', $htmlLink; ?></small></h3><?php
-			echo $feed['Feed']['description'];			
+			echo $feed['Feed']['description'];
 		}
 	?>
 </div>

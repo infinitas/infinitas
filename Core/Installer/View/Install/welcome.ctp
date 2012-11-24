@@ -4,7 +4,7 @@
 
 	if(!empty($core)) {
 		$hasErrors = true;
-		$errors .= '<h4>'.__('Critical errors') . '</h4>';
+		$errors .= '<h4>'.__d('insatller', 'Critical errors') . '</h4>';
 		$errors .= '<ul>';
 		foreach($core as $coreError) {
 			$errors .= '<li>' . $coreError . '</li>';
@@ -14,7 +14,7 @@
 
 	if(!empty($paths)) {
 		$hasErrors = true;
-		$errors .= '<h4>'.__('Path errors') . '</h4>';
+		$errors .= '<h4>'.__d('insatller', 'Path errors') . '</h4>';
 		$errors .= '<ul>';
 		foreach($paths as $pathError) {
 			$errors .= '<li>' . $pathError . '</li>';
@@ -24,18 +24,18 @@
 
 	if($database == false) {
 		$hasErrors = true;
-		$errors .= '<h4>'.__('Database errors') . '</h4>';
+		$errors .= '<h4>'.__d('insatller', 'Database errors') . '</h4>';
 		$errors .= '<ul>';
-		$supportedDb = Set::combine($supportedDb, '{s}.name', array(__('{0} (version {1} or newer)'), '{s}.name', '{s}.version'));
-		$errors .= '<li>'.sprintf(__('Infinitas could not detect any supported database extensions for php. Currently Infinitas supports: %1$s'), $this->Text->toList($supportedDb)).'</li>';
+		$supportedDb = Set::combine($supportedDb, '{s}.name', array(__d('insatller', '{0} (version {1} or newer)'), '{s}.name', '{s}.version'));
+		$errors .= '<li>'.sprintf(__d('insatller', 'Infinitas could not detect any supported database extensions for php. Currently Infinitas supports: %1$s'), $this->Text->toList($supportedDb)).'</li>';
 		$errors .= '</ul>';
 	}
 
 	if(!empty($recomendations)) {
-		$errors .= '<h4>'.__('PHP setting recomendations') . '</h4>';
+		$errors .= '<h4>'.__d('insatller', 'PHP setting recomendations') . '</h4>';
 		$errors .= '<ul>';
 		foreach($recomendations as $recomendation) {
-			$errors .= '<li>' . sprintf(__('The PHP setting <em>%1$s</em> is recommend to be set to <strong>%2$s</strong> (It is currently <strong>%3$s</strong>). %4$s') ,$recomendation['setting'], $recomendation['recomendation'], $recomendation['current'], $recomendation['desc']) . '</li>';
+			$errors .= '<li>' . sprintf(__d('insatller', 'The PHP setting <em>%1$s</em> is recommend to be set to <strong>%2$s</strong> (It is currently <strong>%3$s</strong>). %4$s') ,$recomendation['setting'], $recomendation['recomendation'], $recomendation['current'], $recomendation['desc']) . '</li>';
 		}
 		$errors .= '</ul>';
 	}
@@ -65,10 +65,10 @@
 
 <?php if (!empty($errors)) { ?>
 	<div id="errors">
-		<h2><?php echo __('Errors and recommendations'); ?></h2>
+		<h2><?php echo __d('insatller', 'Errors and recommendations'); ?></h2>
 		<?php if($hasErrors) {?>
 			<div class="general-error">
-				<?php echo __('There are a number of errors preventing Infinitas from installing. Please fix the errors and then refresh this page.'); ?>
+				<?php echo __d('insatller', 'There are a number of errors preventing Infinitas from installing. Please fix the errors and then refresh this page.'); ?>
 			</div>
 		<?php } ?>
 		<?php echo $errors;?>

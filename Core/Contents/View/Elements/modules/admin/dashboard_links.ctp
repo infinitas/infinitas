@@ -23,8 +23,8 @@ if($options['layouts']) {
 
 if($options['categories']) {
 	$links['config'][] = array(
-		'name' => __('Categories'),
-		'description' => __('Configure the categories for your content'),
+		'name' => __d('contents', 'Categories'),
+		'description' => __d('contents', 'Configure the categories for your content'),
 		'icon' => '/contents/img/categories.png',
 		'dashboard' => array('plugin' => 'contents', 'controller' => 'global_categories', 'action' => 'index', 'GlobalLayout.model' => $this->request->plugin)
 	);

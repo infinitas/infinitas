@@ -29,5 +29,5 @@
 		echo $this->Form->hidden('plugin');
 		echo $this->Form->hidden('model');
 		echo $this->Form->hidden('foreign_key');
-	echo $this->Form->end(__('Save'));
+	echo $this->Form->end(__d('contact', 'Save'));
 ?>

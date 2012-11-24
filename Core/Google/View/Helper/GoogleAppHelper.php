@@ -73,7 +73,7 @@ class GoogleAppHelper extends AppHelper{
 			fclose($fp);
 
 			if (!is_file($this->cachePath.$file)) {
-				$this->__errors[] = __('Could not create the cache file');
+				$this->__errors[] = __d('google', 'Could not create the cache file');
 			}
 		}
 	}

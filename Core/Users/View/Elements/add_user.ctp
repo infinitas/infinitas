@@ -2,7 +2,7 @@
 	$alias = (isset($alias)) ? $alias : 'User';
 ?>
 <fieldset>
-	<h1><?php echo sprintf(__('%s Details'), __(Inflector::humanize($alias))); ?></h1><?php
+	<h1><?php echo sprintf(__d('users', '%s Details', Inflector::humanize($alias))); ?></h1><?php
 	echo $this->Form->input($alias . '.username');
 	echo $this->Form->input($alias . '.full_name');
 	echo $this->Form->input($alias . '.prefered_name');

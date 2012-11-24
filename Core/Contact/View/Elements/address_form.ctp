@@ -13,18 +13,16 @@
 	$addressSelect = (isset($addressSelect)) ?(bool)$addressSelect : false;
 ?>
 <fieldset>
-	<h1><?php echo __('Address'); ?></h1><?php
+	<h1><?php echo __d('contact', 'Address'); ?></h1><?php
 	echo $this->Form->hidden('ContactAddress.id');
 
-	$options = ClassRegistry::init('Contact.ContactAddress')->getAddressesByRelated(
-		array(
-			'ContactAddress.plugin' => $plugin,
-			'ContactAddress.model' => $model
-		)
-	);
+	$options = ClassRegistry::init('Contact.ContactAddress')->getAddressesByRelated(array(
+		'ContactAddress.plugin' => $plugin,
+		'ContactAddress.model' => $model
+	));
 
 	if($addressSelect) {
-		echo $this->Form->input($model . '.address_id', array('options' => $options, 'label' => __('Use existing'), 'empty' => Configure::read('Website.empty_select')));
+		echo $this->Form->input($model . '.address_id', array('options' => $options, 'label' => __d('contact', 'Use existing'), 'empty' => Configure::read('Website.empty_select')));
 	}
 
 	echo $this->Form->hidden('ContactAddress.plugin', array('value' => $plugin));

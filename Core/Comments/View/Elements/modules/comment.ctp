@@ -23,7 +23,7 @@
 	}
 ?>
 <div id="comment" class="comments">
-	<?php       
+	<?php
         $commentFields = explode(',',Configure::read('Comments.fields'));
 
         $modelName = (isset($modelName)) ? $modelName : Inflector::singularize($this->name);
@@ -36,7 +36,7 @@
 
 		if(!empty($comments)) {
 			echo $this->Html->link(
-				__('View all comments'),
+				__d('comments', 'View all comments'),
 				array(
 					'plugin' => 'comments',
 					'controller' => 'infinitas_comments',
@@ -55,7 +55,7 @@
 		}
 
 		if(Configure::read('Comments.require_auth') === true && !AuthComponent::user('id')) {
-			?><div class="comment"><?php echo __('Please log in to leave a comment'); ?></div><?php
+			?><div class="comment"><?php echo __d('comments', 'Please log in to leave a comment'); ?></div><?php
 			echo '</div>'; // dont remove it keeps things even when exiting early
 			return;
 		}
@@ -63,7 +63,7 @@
 		if(isset($this->data[$modelName.'Comment']) && is_array($this->data[$modelName.'Comment'])) {
 			$this->request->data[$modelName . 'Comment'] = array_merge((array)AuthComponent::user(), $this->data[$modelName.'Comment']);
 		}
-		
+
 		else{
 			$this->request->data[$modelName . 'Comment'] = AuthComponent::user();
 		}
@@ -92,7 +92,7 @@
         }
 
 			echo $this->Form->hidden($modelName.'Comment.foreign_id', array('value' => $data[$modelName][$Model->primaryKey]));
-			
+
 			echo '<div class="comment">';
 			foreach($commentFields as $field) {
 
@@ -108,8 +108,8 @@
 					echo $this->Form->{$method}($modelName.'Comment.'.$field, array('value' => $value));
 					continue;
 				}
-				
-				
+
+
 				$options = array('type' => 'textarea', 'class' => 'title');
 				$submitOptions = array();
 				if($this->action != 'comment') {
@@ -120,7 +120,7 @@
 							'div' => false,
 						)
 					);
-					$submitOptions = array('div' => false, 'class' => 'submit');					
+					$submitOptions = array('div' => false, 'class' => 'submit');
 				}
 
 				echo $this->Form->input($modelName.'Comment.comment', $options);

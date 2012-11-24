@@ -9,7 +9,7 @@
 	}
 
 	if (!isset(${strtolower($modelName)}[$modelName]['rating']) || $allow !== true) {
-		echo __('Rating is currently dissabled for this page');
+		echo __d('management', 'Rating is currently dissabled for this page');
 		return false;
 	}
 ?>
@@ -18,10 +18,10 @@
 		<?php
 			$stats = !isset($stats) || !$stats ? false : true;
 			if ($data[$modelName]['rating_count'] > 0 && $stats) {
-				echo sprintf(__('Currently rated %s (out of %s votes)'), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
+				echo sprintf(__d('management', 'Currently rated %s (out of %s votes)'), $data[$modelName]['rating'], $data[$modelName]['rating_count']);
 			}
 			else if($stats) {
-				echo sprintf(__('This %s has not been rated yet'), prettyName($modelName));
+				echo sprintf(__d('management', 'This %s has not been rated yet'), prettyName($modelName));
 			}
 		?>
 	</span>

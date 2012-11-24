@@ -22,7 +22,7 @@
 				}
 				if($File->write($content)) {
 					$this->notice(
-						__('Robots file updated'),
+						__d('webmaster', 'Robots file updated'),
 						array(
 							'redirect' => array('controller' => 'webmaster', 'action' => 'dashboard')
 						)
@@ -30,7 +30,7 @@
 				}
 
 				$this->notice(
-					__('There was a problem updating the robots file'),
+					__d('webmaster', 'There was a problem updating the robots file'),
 					array(
 						'level' => 'error'
 					)

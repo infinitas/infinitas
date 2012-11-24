@@ -51,21 +51,21 @@ class FilterHelper extends AppHelper {
 			return false;
 		}
 
-		$output = '<div class="filter-form"><h1>'.__('Search').'</h1>';
+		$output = '<div class="filter-form"><h1>'.__d('filter', 'Search').'</h1>';
 		foreach($filter['fields'] as $field => $options) {
 			if (is_array($options)) {
 				switch($field) {
 					case 'active':
-						$emptyText = __('status');
+						$emptyText = __d('filter', 'status');
 						break;
 
 					default:
-						$emptyText = __($field);
+						$emptyText = __d('filter', $field);
 						break;
 				}
 
 				$emptyText = $this->Html->stripPluginName($emptyText);
-				$emptyText = __('Select the %s', Inflector::humanize(str_replace('_id', '', $emptyText)));
+				$emptyText = __d('filter', 'Select the %s', Inflector::humanize(str_replace('_id', '', $emptyText)));
 				$output .= $this->Form->input(
 					$field,
 					array(
@@ -193,7 +193,7 @@ class FilterHelper extends AppHelper {
 					$key,
 					InfinitasRouter::url($url),
 					array(
-						'title' => sprintf(__('Rows starting with "%s"'), $key)
+						'title' => sprintf(__d('filter', 'Rows starting with "%s"'), $key)
 					)
 				);
 			}

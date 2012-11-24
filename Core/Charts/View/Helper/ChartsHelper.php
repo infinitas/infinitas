@@ -158,14 +158,14 @@ class ChartsHelper extends AppHelper {
  */
 	public function draw($type = '', $data = array(), $engine = null) {
 		if(!$type && !isset($this->data['type'])) {
-			trigger_error(__('Please specify the chart type'), E_USER_WARNING);
+			trigger_error(__d('charts', 'Please specify the chart type'), E_USER_WARNING);
 			return false;
 		}
 
 		$engine = (string)$engine;
 		$this->__engineName = !empty($engine) ? $engine : $this->__engineName;
 		if(!$this->__engineName) {
-			trigger_error(__('You need to specify the engine to use'), E_USER_WARNING);
+			trigger_error(__d('charts', 'You need to specify the engine to use'), E_USER_WARNING);
 			return false;
 		}
 
@@ -198,7 +198,7 @@ class ChartsHelper extends AppHelper {
 		}
 		else{
 			$this->data['type'] = 'nothing';
-			trigger_error(__('Could not detect the type of chart'), E_USER_NOTICE);
+			trigger_error(__d('charts', 'Could not detect the type of chart'), E_USER_NOTICE);
 		}
 
 		return $this;
@@ -243,7 +243,7 @@ class ChartsHelper extends AppHelper {
 		$this->data['size']['width'] = $width;
 		if(!is_int($this->data['size']['width']) || (int)$this->data['size']['width'] < 1) {
 			$this->data['size']['width'] = $this->__defaults['width'];
-			trigger_error(sprintf(__('Width (%s) is not an int or too small, using default'), $width), E_USER_NOTICE);
+			trigger_error(sprintf(__d('charts', 'Width (%s) is not an int or too small, using default'), $width), E_USER_NOTICE);
 		}
 
 		return $this;
@@ -262,7 +262,7 @@ class ChartsHelper extends AppHelper {
 		$this->data['size']['height'] = $height;
 		if(!is_int($this->data['size']['height']) || (int)$this->data['size']['height'] < 1) {
 			$this->data['size']['height'] = $this->__defaults['height'];
-			trigger_error(sprintf(__('Height (%s) is not an int or too small, using default'), $height), E_USER_NOTICE);
+			trigger_error(sprintf(__d('charts', 'Height (%s) is not an int or too small, using default'), $height), E_USER_NOTICE);
 		}
 
 		return $this;
@@ -297,7 +297,7 @@ class ChartsHelper extends AppHelper {
 		}
 
 		if(!$size) {
-			trigger_error(__('Size could not be determined, using default'), E_USER_NOTICE);
+			trigger_error(__d('charts', 'Size could not be determined, using default'), E_USER_NOTICE);
 			$size = $this->__defaults['width'] . $delimiter . $this->__defaults['height'];
 		}
 
@@ -323,7 +323,7 @@ class ChartsHelper extends AppHelper {
 				break;
 
 			default:
-				trigger_error(sprintf(__('Size should be an array of either one or two values, you passed %s'), $count), E_USER_NOTICE);
+				trigger_error(sprintf(__d('charts', 'Size should be an array of either one or two values, you passed %s'), $count), E_USER_NOTICE);
 				break;
 		}
 
@@ -376,12 +376,12 @@ class ChartsHelper extends AppHelper {
  */
 	public function setLabels($data, $delimiter = ',') {
 		if(!isset($this->data['axes'])) {
-			trigger_error(__('Axes should be set before labels, skipping'), E_USER_NOTICE);
+			trigger_error(__d('charts', 'Axes should be set before labels, skipping'), E_USER_NOTICE);
 			return $this;
 		}
 
 		if(!isset($this->data['data'])) {
-			trigger_error(__('Data should be set before labels, skipping'), E_USER_NOTICE);
+			trigger_error(__d('charts', 'Data should be set before labels, skipping'), E_USER_NOTICE);
 			return $this;
 		}
 
@@ -860,7 +860,7 @@ class ChartsHelper extends AppHelper {
  */
 	private function __dispatch() {
 		if(empty($this->data)) {
-			throw new Exception(__('You need to pass data, or use the methods to set data'));
+			throw new Exception(__d('charts', 'You need to pass data, or use the methods to set data'));
 		}
 
 		if(!is_callable(array($this->{$this->__engineName}, $this->data['type']))) {

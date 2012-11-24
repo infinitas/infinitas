@@ -77,17 +77,17 @@ class Campaign extends NewsletterAppModel {
 			'name' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter the name of this campaign')
+					'message' => __d('newsletter', 'Please enter the name of this campaign')
 				),
 				'isUnique' => array(
 					'rule' => 'isUnique',
-					'message' => __('There is already a campaign with that name')
+					'message' => __d('newsletter', 'There is already a campaign with that name')
 				)
 			),
 			'template_id' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please select the default template for this campaign')
+					'message' => __d('newsletter', 'Please select the default template for this campaign')
 				)
 			)
 		);

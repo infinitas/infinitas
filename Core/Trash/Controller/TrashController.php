@@ -65,7 +65,7 @@ class TrashController extends TrashAppController {
 	public function __massActionRestore($ids) {
 		if($this->Trash->restore($ids)) {
 			$this->notice(
-				__('The items have been restored'),
+				__d('trash', 'The items have been restored'),
 				array(
 					'redirect' => true
 				)
@@ -73,7 +73,7 @@ class TrashController extends TrashAppController {
 		}
 
 		$this->notice(
-			__('The items could not be restored'),
+			__d('trash', 'The items could not be restored'),
 			array(
 				'level' => 'error',
 				'redirect' => true

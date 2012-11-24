@@ -19,7 +19,7 @@
      */
 ?>
 <div class="top-bar">
-    <h1><?php echo __($this->name); ?></h1>
+    <h1><?php echo __d('newsletter', $this->name); ?></h1>
     <div class="breadcrumbs"><?php echo $this->Letter->breadcrumbs( $this ); ?></div>
 </div>
 <div class="main-actions">
@@ -35,11 +35,11 @@
 </div>
 <div class="clr">&nbsp;</div>
 
-<h3><?php echo __('Campaigns set to use this template'); ?></h3>
+<h3><?php echo __d('newsletter', 'Campaigns set to use this template'); ?></h3>
 <ul>
     <?php
         if (empty($template['Campaign'])) {
-            echo '<li>', __('There are none'), '</li>';
+            echo '<li>', __d('newsletter', 'There are none'), '</li>';
         }
         else{
             foreach($template['Campaign'] as $campaign) {
@@ -49,11 +49,11 @@
     ?>
 </ul>
 
-<h3><?php echo __('Newsletters using this template'); ?></h3>
+<h3><?php echo __d('newsletter', 'Newsletters using this template'); ?></h3>
 <ul>
     <?php
         if (empty($template['Newsletter'])) {
-            echo '<li>', __('There are none'), '</li>';
+            echo '<li>', __d('newsletter', 'There are none'), '</li>';
         }
         else{
             foreach($template['Newsletter'] as $newsletter) {
@@ -63,5 +63,5 @@
     ?>
 </ul>
 
-<h3><?php echo __('Template Preview'); ?></h3>
+<h3><?php echo __d('newsletter', 'Template Preview'); ?></h3>
 <?php echo $this->Letter->preview($template['Template']['id'], 'templates'); ?>

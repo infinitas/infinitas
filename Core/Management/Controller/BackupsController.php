@@ -80,7 +80,7 @@ class BackupsController extends AppController {
 
 		if (isset($newLastId[$Model->name]['id']) && $this->Backup->last_id >= $newLastId[$Model->name]['id']) {
 			$this->notice(
-				__('Nothing new to backup'),
+				__d('management', 'Nothing new to backup'),
 				array(
 					'redirect' => true
 				)

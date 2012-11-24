@@ -61,29 +61,29 @@
 				'name' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please enter the name of this template')
+						'message' => __d('contents', 'Please enter the name of this template')
 					),
 					'isUnique' => array(
 						'rule' => 'isUnique',
-						'message' => __('There is already a template with that name')
+						'message' => __d('contents', 'There is already a template with that name')
 					)
 				),
 				'html' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please create the html for your template')
+						'message' => __d('contents', 'Please create the html for your template')
 					)
 				),
 				'plugin' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select the plugin that this layout is for')
+						'message' => __d('contents', 'Please select the plugin that this layout is for')
 					)
 				),
 				'model' => array(
 					'notEmpty' => array(
 						'rule' => 'notEmpty',
-						'message' => __('Please select the model that this layout is for')
+						'message' => __d('contents', 'Please select the model that this layout is for')
 					)
 				)
 			);

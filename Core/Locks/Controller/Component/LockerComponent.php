@@ -59,7 +59,7 @@ class LockerComponent extends InfinitasComponent {
 		if(isset($Controller->request->data['Lock']['user_id']) && $Controller->request->data['Lock']['user_id'] != $Controller->Session->read('Auth.User.id')) {
 			$Controller->notice(
 				sprintf(
-					__('The %s you requested has been locked by %s'),
+					__d('locks', 'The %s you requested has been locked by %s'),
 					$Controller->prettyModelName,
 					$Controller->request->data['Locker']['username']
 				),

@@ -24,13 +24,13 @@
 				if(count($list) > 24) {
 					break;
 				}
-				$list[] = sprintf(__('%s - %s view(s)'), __($country), $byRegion['totals'][$k]);
+				$list[] = sprintf(__d('view_counter', '%s - %s view(s)'), __d('view_counter', $country), $byRegion['totals'][$k]);
 			}
 
 			echo $this->Design->arrayToList($list, 'country-data');
 		}
 		else{
-			?><span class="chart"><?php echo __('Not enough data collected'); ?></span><?php
+			?><span class="chart"><?php echo __d('view_counter', 'Not enough data collected'); ?></span><?php
 		}
 	?>
 </div>

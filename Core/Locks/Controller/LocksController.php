@@ -64,7 +64,7 @@ class LocksController extends LocksAppController {
  * @return void
  */
 	public function admin_locked() {
-		$this->set('title_for_layout', __('This content is currently locked'));
+		$this->set('title_for_layout', __d('locks', 'This content is currently locked'));
 	}
 
 }

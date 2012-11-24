@@ -33,7 +33,7 @@ class PhpController extends ServerStatusAppController {
 		// Configure::write('debug', 0);
 		if(!function_exists('apc_cache_info')) {
 			$this->notice(
-				__('APC is not installed, or has been deactivated'),
+				__d('server_status', 'APC is not installed, or has been deactivated'),
 				array(
 					'level' => 'warning',
 					'redirect' => true

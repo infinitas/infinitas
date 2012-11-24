@@ -53,7 +53,7 @@ class FeedsController extends FeedAppController {
 	public function view() {
 		if(!$this->request->params['slug']) {
 			$this->notice(
-				__('Invalid feed selected'),
+				__d('feed', 'Invalid feed selected'),
 				array(
 					'redirect' => true
 				)
@@ -64,7 +64,7 @@ class FeedsController extends FeedAppController {
 
 		if(empty($feeds)) {
 			$this->notice(
-				__('The feed you have selected is not valid'),
+				__d('feed', 'The feed you have selected is not valid'),
 				array(
 					'redirect' => true
 				)

@@ -21,8 +21,8 @@
 	 */
 
 $notice = sprintf(
-	__('The record you are trying to view has been locked by another user. %s to go back'),
-	$this->Html->link(__('click here'), env('HTTP_REFERER'))
+	__d('locks', 'The record you are trying to view has been locked by another user. %s to go back'),
+	$this->Html->link(__d('locks', 'click here'), env('HTTP_REFERER'))
 );
 echo $this->Design->dashboard('', __d('locks', 'Content Locked'), array(
 	'alert' => $notice

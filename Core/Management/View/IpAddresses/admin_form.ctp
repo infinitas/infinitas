@@ -32,7 +32,7 @@
 				<div class="config">
 					<p>
 						<?php
-							echo __('You can enter a normal ip addres here to '.
+							echo __d('security', 'You can enter a normal ip addres here to '.
 								'block it. You can also use wild cards like '.
 								'123.25..*..* (the 2 dots is not a mistake) '.
 								'or you can enter a regex expresion that will '.

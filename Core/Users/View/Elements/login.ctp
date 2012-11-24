@@ -21,7 +21,7 @@
 	 */
 
 	echo $this->Html->link(
-		__('Login'),
+		__d('users', 'Login'),
 		array(
 			'plugin' => 'users',
 			'controller' => 'users',
@@ -37,15 +37,15 @@
 	<div class="siteLogin">
 		<?php
 			echo $this->Form->create('User', array('url' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'login')));
-				echo sprintf('<b>%s</b>', __('Members Login'));
-				echo $this->Form->input('username', array('label' => false, 'value' => __('Username')));
-				echo $this->Form->input('password', array('label' => false, 'value' => __('Password')));
+				echo sprintf('<b>%s</b>', __d('users', 'Members Login'));
+				echo $this->Form->input('username', array('label' => false, 'value' => __d('users', 'Username')));
+				echo $this->Form->input('password', array('label' => false, 'value' => __d('users', 'Password')));
 				echo $this->Form->submit('Login', array('class' => 'niceLink'));
 			echo $this->Form->end();
 
 			$links = array('');
 			$links[] = $this->Html->link(
-				__('Forgot your password'),
+				__d('users', 'Forgot your password'),
 				array(
 					'plugin' => 'users',
 					'controller' => 'users',
@@ -53,7 +53,7 @@
 				)
 			);
 			$links[] = $this->Html->link(
-				__('Create an account'),
+				__d('users', 'Create an account'),
 				array(
 					'plugin' => 'users',
 					'controller' => 'users',
@@ -73,6 +73,6 @@
 				}
 			}
 		?>
-		<p><?php echo __('You may us the above logins if you would like to become a member, or your account is already linked.'); ?></p>
+		<p><?php echo __d('users', 'You may us the above logins if you would like to become a member, or your account is already linked.'); ?></p>
 	</div>
 </div>

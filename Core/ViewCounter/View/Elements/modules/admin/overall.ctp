@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * Generats a graph for overall view stas.
-	 * 
+	 *
 	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 *
 	 * @filesource
@@ -13,7 +13,7 @@
 	 * @since 0.8a
 	 *
 	 * @author dogmatic69
-	 * 
+	 *
 	 * Licensed under The MIT License
 	 * Redistributions of files must retain the above copyright notice.
 	 */
@@ -26,7 +26,7 @@
 	}
 ?>
 <div class="dashboard half">
-	<h1><?php echo sprintf(__('Overall Usage [%d views]'), array_sum($viewStats)); ?></h1>
+	<h1><?php echo sprintf(__d('view_counter', 'Overall Usage [%d views]'), array_sum($viewStats)); ?></h1>
 	<?php
 		$a = 'A';
 		$labels = array();
@@ -41,7 +41,7 @@
 		foreach($viewStats as $model => $count) {
 			list($plugin, $model) = pluginSplit($model);
 			$model = prettyName(str_replace($plugin, '', Inflector::singularize($model)));
-			$legend[] = sprintf(__('%s: %s %s views'), $labels[$i], $count, $model);
+			$legend[] = sprintf(__d('view_counter', '%s: %s %s views'), $labels[$i], $count, $model);
 			++$i;
 		}
 

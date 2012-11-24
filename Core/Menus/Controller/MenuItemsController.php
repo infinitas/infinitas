@@ -33,8 +33,8 @@
 			$filterOptions = $this->Filter->filterOptions;
 			$filterOptions['fields'] = array(
 				'name',
-				'menu_id' => array(null => __('All')) + $this->{$this->modelClass}->Menu->find('list'),
-				'group_id' => array(null => __('Public')) + $this->{$this->modelClass}->Group->find('list'),
+				'menu_id' => array(null => __d('menus', 'All')) + $this->{$this->modelClass}->Menu->find('list'),
+				'group_id' => array(null => __d('menus', 'Public')) + $this->{$this->modelClass}->Group->find('list'),
 				'active' => (array)Configure::read('CORE.active_options')
 			);
 
@@ -52,7 +52,7 @@
 			$menus   = $this->{$this->modelClass}->Menu->find('list');
 			if(empty($menus)) {
 				$this->notice(
-					__('Please add a menu before adding items'),
+					__d('menus', 'Please add a menu before adding items'),
 					array(
 						'level' => 'notice',
 						'redirect' => array(
@@ -62,8 +62,8 @@
 				);
 			}
 
-			$groups  = array(0 => __('Public')) + $this->{$this->modelClass}->Group->find('list');
-			$parents = array(0 => __('Root')) + $this->{$this->modelClass}->generateTreeList(
+			$groups  = array(0 => __d('menus', 'Public')) + $this->{$this->modelClass}->Group->find('list');
+			$parents = array(0 => __d('menus', 'Root')) + $this->{$this->modelClass}->generateTreeList(
 				array(
 					$this->modelClass . '.parent_id !=' => 0,
 					$this->modelClass . '.menu_id' => reset(array_keys($menus))
@@ -77,7 +77,7 @@
 			parent::admin_edit($id);
 
 			$menus = $this->{$this->modelClass}->Menu->find('list');
-			$groups = array(0 => __('Public')) + $this->{$this->modelClass}->Group->find('list');
+			$groups = array(0 => __d('menus', 'Public')) + $this->{$this->modelClass}->Group->find('list');
 			$parents = $this->{$this->modelClass}->getParents($this->request->data[$this->modelClass]['menu_id']);
 			$plugins = $this->{$this->modelClass}->getPlugins();
 			$controllers = $this->{$this->modelClass}->getControllers($this->request->data[$this->modelClass]['plugin']);

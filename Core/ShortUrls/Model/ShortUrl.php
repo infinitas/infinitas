@@ -69,15 +69,15 @@ class ShortUrl extends ShortUrlsAppModel{
 			'url' => array(
 				'isUnique' => array(
 					'rule' => 'isUnique',
-					'message' => __('That url has already been shortened')
+					'message' => __d('short_urls', 'That url has already been shortened')
 				),
 				'url' => array(
 					'rule' => 'someTypeOfUrl',
-					'message' => __('Please enter a valid url (something that does in href)')
+					'message' => __d('short_urls', 'Please enter a valid url (something that does in href)')
 				),
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __('Please enter the url to shorten')
+					'message' => __d('short_urls', 'Please enter the url to shorten')
 				)
 			)
 		);

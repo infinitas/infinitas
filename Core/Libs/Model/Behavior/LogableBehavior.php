@@ -402,7 +402,7 @@
 					$logData['Log']['description'] .= ' (' . $Model->id . ') ';
 				}
 
-				$logData['Log']['description'] .= __('deleted');
+				$logData['Log']['description'] .= __d('libs', 'deleted');
 			}
 
 			$logData['Log']['action'] = 'delete';
@@ -454,11 +454,11 @@
 				}
 
 				if ($created) {
-					$logData['Log']['description'] .= __('added');
+					$logData['Log']['description'] .= __d('libs', 'added');
 				}
 
 				else {
-					$logData['Log']['description'] .= __('updated');
+					$logData['Log']['description'] .= __d('libs', 'updated');
 				}
 			}
 

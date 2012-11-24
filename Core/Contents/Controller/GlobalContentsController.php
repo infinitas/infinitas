@@ -80,7 +80,7 @@ class GlobalContentsController extends ContentsAppController {
 				if($return) {
 					if($return['moved'] == 0  && $return['total'] == 0) {
 						$this->notice(
-							sprintf(__('There are no more items to move'), $return['moved'], $return['total']),
+							sprintf(__d('contents', 'There are no more items to move'), $return['moved'], $return['total']),
 							array(
 								'redirect' => array(
 									'action' => 'index'
@@ -89,7 +89,7 @@ class GlobalContentsController extends ContentsAppController {
 						);
 					}
 					$this->notice(
-						sprintf(__('%s of %s fields were moved to the global content'), $return['moved'], $return['total']),
+						sprintf(__d('contents', '%s of %s fields were moved to the global content'), $return['moved'], $return['total']),
 						array(
 							'redirect' => array(
 								'action' => 'index'
@@ -99,7 +99,7 @@ class GlobalContentsController extends ContentsAppController {
 				}
 				else{
 					$this->notice(
-						__('Something went wrong, please try again'),
+						__d('contents', 'Something went wrong, please try again'),
 						array(
 							'level' => 'error'
 						)
@@ -108,7 +108,7 @@ class GlobalContentsController extends ContentsAppController {
 			}
 			else{
 				$this->notice(
-					__('Please select the model and plugin of the data you would like to move'),
+					__d('contents', 'Please select the model and plugin of the data you would like to move'),
 					array(
 						'level' => 'error'
 					)
@@ -127,7 +127,7 @@ class GlobalContentsController extends ContentsAppController {
  */
 	public function admin_add() {
 		$this->notice(
-			__('Please do not add content from here'),
+			__d('contents', 'Please do not add content from here'),
 			array(
 				'level' => 'warning',
 				'redirect' => true
@@ -146,7 +146,7 @@ class GlobalContentsController extends ContentsAppController {
 	public function admin_edit($id = null, $query = null) {
 		parent::admin_edit($id, $query);
 
-		$groups = array(0 => __('Public')) + $this->GlobalContent->Group->find('list');
+		$groups = array(0 => __d('contents', 'Public')) + $this->GlobalContent->Group->find('list');
 		$layouts = $this->GlobalContent->GlobalLayout->find(
 			'list',
 			array(
@@ -158,7 +158,7 @@ class GlobalContentsController extends ContentsAppController {
 
 		if(empty($layouts)) {
 			$this->notice(
-				__('Please create a layout for this content type'),
+				__d('contents', 'Please create a layout for this content type'),
 				array(
 					'level' => 'warning',
 					'redirect' => array(
@@ -171,5 +171,5 @@ class GlobalContentsController extends ContentsAppController {
 
 		$this->set(compact('groups', 'layouts'));
 	}
-	
+
 }

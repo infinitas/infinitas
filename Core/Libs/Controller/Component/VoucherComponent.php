@@ -156,7 +156,7 @@
 				$date = date('D, j \o\f F Y', mktime(0, 0, 0, date('m'), date('d') + 7, date('Y')));
 			}
 
-			imagettftext($this->output, 10, 0, 480, 32, imagecolorallocate($this->output, 0, 0, 0), $this->font, __('Expires:'));
+			imagettftext($this->output, 10, 0, 480, 32, imagecolorallocate($this->output, 0, 0, 0), $this->font, __d('libs', 'Expires:'));
 
 			//imagestring($this->output, 100, 20, 17, $userName, $color)
 			if (imagettftext($this->output, 10, 0, 550, 32, imagecolorallocate($this->output, $color[0], $color[1], $color[2]), $this->font, $date)) {
@@ -185,8 +185,8 @@
 				'cupidatat non proident, sunt in culpa qui officia deserunt '.
 				'mollit anim id est laborum.';
 
-			return imagettftext($this->output, 10, 90, 30, 320, $color, $this->font, __('Terms and Conditions')) &&
-			imagettftext($this->output, 6, 90, 50, 320, $color, $this->font, wordwrap(__($text), 60, "\n"));
+			return imagettftext($this->output, 10, 90, 30, 320, $color, $this->font, __d('libs', 'Terms and Conditions')) &&
+			imagettftext($this->output, 6, 90, 50, 320, $color, $this->font, wordwrap(__d('libs', $text), 60, "\n"));
 		}
 
 		/**
@@ -198,7 +198,7 @@
 		function __writeVoucherTitle($color = array(0, 146, 63), $shadow = true) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
 
-			$heading = __('One free some product');
+			$heading = __d('libs', 'One free some product');
 
 			if ($shadow) {
 				imagettftext($this->output, 30, 0, 197, 97, imagecolorallocate($this->output, 142, 143, 44), $this->font, $heading);
@@ -225,7 +225,7 @@
 				'cupidatat non proident, sunt in culpa qui officia deserunt '.
 				'mollit anim id est laborum.';
 
-			return imagettftext($this->output, 8, 0, 195, 130, $color, $this->font, wordwrap(__($text), 90, "\n"));
+			return imagettftext($this->output, 8, 0, 195, 130, $color, $this->font, wordwrap(__d('libs', $text), 90, "\n"));
 		}
 
 		/**
@@ -239,7 +239,7 @@
 		 */
 		function __voidVoucher($text = 'Expired', $color = array(128, 128, 128)) {
 			$color = imagecolorallocate($this->output, $color[0], $color[1], $color[2]);
-			$text = __($text);
+			$text = __d('libs', $text);
 
 			$return = imagettftext($this->output, 60, 45, 100, 300, $color, $this->font, $text) &&
 			imagettftext($this->output, 60, 45, 300, 300, $color, $this->font, $text) &&
