@@ -1,7 +1,7 @@
 <?php
 App::uses('View', 'View');
 App::uses('Helper', 'View');
-App::uses('ImageHelper', 'Libs.View/Helper');
+App::uses('ImageHelper', 'Assets.View/Helper');
 
 /**
  * ImageHelper Test Case
@@ -72,7 +72,7 @@ class ImageHelperTest extends CakeTestCase {
 				array('path' => 'foo', 'key' => 'foo1'),
 				array(
 					array('img' => array(
-						'src' => '/img/core/icons/foo/foo1.png',
+						'src' => '/assets/img/icons/foo/foo1.png',
 						'width' => '20px',
 						'title' => 'foo1',
 						'alt' => 'foo1'
@@ -107,7 +107,7 @@ class ImageHelperTest extends CakeTestCase {
 				array('ext' => null, 'config' => array()),
 				array(
 					array('img' => array(
-						'src' => '/img/core/icons/folders/empty.png',
+						'src' => '/assets/img/icons/folders/empty.png',
 						'width' => '20px',
 						'title' => 'folder',
 						'alt' => 'folder'
@@ -118,7 +118,7 @@ class ImageHelperTest extends CakeTestCase {
 				array('ext' => 'foo1', 'config' => array()),
 				array(
 					array('img' => array(
-						'src' => '/img/core/icons/foo/foo1.png',
+						'src' => '/assets/img/icons/foo/foo1.png',
 						'width' => '20px',
 						'title' => 'foo1',
 						'alt' => 'foo1'
@@ -129,7 +129,7 @@ class ImageHelperTest extends CakeTestCase {
 				array('ext' => '.baz', 'config' => array()),
 				array(
 					array('img' => array(
-						'src' => '/img/core/icons/unknown/unknown.png',
+						'src' => '/assets/img/icons/unknown/unknown.png',
 						'width' => '20px',
 						'title' => 'unknown',
 						'alt' => 'unknown'
@@ -140,7 +140,7 @@ class ImageHelperTest extends CakeTestCase {
 				array('ext' => 'delete', 'config' => array()),
 				array(
 					array('img' => array(
-						'src' => '/img/core/icons/foo/delete.png',
+						'src' => '/assets/img/icons/foo/delete.png',
 						'width' => '20px',
 						'title' => 'Delete some  :: Tick the checkboxes next to the  you want to delete then click here.&lt;br/&gt;If possible the  will be moved to the trash can. If not they will be deleted permanently.',
 						'alt' => 'Delete some'
@@ -156,12 +156,12 @@ class ImageHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testGetRelativePath() {
-		$expected = 'core/icons/foo/foo1.png';
+		$expected = '/assets/img/icons/foo/foo1.png';
 		$result = $this->Image->getRelativePath('foo', 'foo1');
 		$this->assertEquals($expected, $result);
 		$this->assertEmpty($this->Image->errors);
 
-		$expected = 'core/icons/bar/bar1.png';
+		$expected = '/assets/img/icons/bar/bar1.png';
 		$result = $this->Image->getRelativePath('bar', 'bar1');
 		$this->assertEquals($expected, $result);
 		$this->assertEmpty($this->Image->errors);
@@ -259,16 +259,14 @@ class ImageHelperTest extends CakeTestCase {
 				array('place' => 'foo', 'key' => 'foo1'),
 				array(
 					'fileName' => 'foo1.png',
-					'relativePath' => 'core/icons/foo/foo1.png',
-					'absolutePath' => true
+					'relativePath' => '/assets/img/icons/foo/foo1.png'
 				)
 			),
 			array(
 				array('place' => 'bar', 'key' => 'bar1'),
 				array(
 					'fileName' => 'bar1.png',
-					'relativePath' => 'core/icons/bar/bar1.png',
-					'absolutePath' => true
+					'relativePath' => '/assets/img/icons/bar/bar1.png'
 				)
 			),
 		);
