@@ -62,7 +62,7 @@
 		);
 	}
 ?>
-<div class="dashboard half">
+<div class="dashboard span6">
 	<?php
 		echo $this->Html->tag('h1', $header . $this->Html->tag('small', sprintf('%s<br/>Total: %s', $link, $byWeek['stats']['total'])));
 		if (!isset($byWeek['sub_total']) || empty($byWeek['sub_total'])) {

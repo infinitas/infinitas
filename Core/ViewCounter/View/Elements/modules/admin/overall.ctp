@@ -25,7 +25,7 @@
 		}
 	}
 ?>
-<div class="dashboard half">
+<div class="dashboard span6">
 	<h1><?php echo sprintf(__d('view_counter', 'Overall Usage [%d views]'), array_sum($viewStats)); ?></h1>
 	<?php
 		$a = 'A';
