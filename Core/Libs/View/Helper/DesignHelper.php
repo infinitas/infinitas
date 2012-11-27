@@ -249,6 +249,26 @@ class DesignHelper extends AppHelper {
 		));
 	}
 
+	public function label($text, $options = array()) {
+		if(!empty($options['class'])) {
+			if(!is_array($options['class'])) {
+				$options['class'] = array($options['class']);
+			}
+			$options['class'][] = 'label';
+		}
+		$options = array_merge(array(
+			'tag' => 'span',
+			'class' => 'label'
+		), $options);
+		return $this->Html->tag($options['tag'], $text, $options);
+	}
+
+	public function license($text) {
+		return $this->label($text, array(
+			'class' => 'license'
+		));
+	}
+
 	protected function _icon($icon) {
 		switch ($icon) {
 			case 'delete':

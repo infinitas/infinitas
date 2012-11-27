@@ -35,9 +35,17 @@
 	 * @li InfinitasHelper
 	 */
 
+	App::uses('Helper', 'View');
+	App::uses('CakeSession', 'Model/Datasource');
 
 	/**
 	 * @brief AppHelper is the base helper class that other helpers can extend
+	 *
+	 * Url Caching
+	 * Copyright (c) 2009 Matt Curry
+	 *
+	 * @link http://github.com/mcurry/url_cache
+	 * @link http://www.pseudocoder.com/archives/how-to-save-half-a-second-on-every-cakephp-requestand-maintain-reverse-routing
 	 *
 	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
 	 * @link http://infinitas-cms.org
@@ -45,18 +53,8 @@
 	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 	 * @since 0.5a
 	 *
-	 * Url Caching
-	 * Copyright (c) 2009 Matt Curry
-	 * @link http://github.com/mcurry/url_cache
-	 * @link http://www.pseudocoder.com/archives/how-to-save-half-a-second-on-every-cakephp-requestand-maintain-reverse-routing
-	 * @author      Matt Curry <matt@pseudocoder.com>
-	 * @since 0.7a
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
+	 * @author  Matt Curry <matt@pseudocoder.com>
 	 */
-	App::uses('Helper', 'View');
-	App::uses('CakeSession', 'Model/Datasource');
 
 	class AppHelper extends Helper {
 		/**

@@ -39,16 +39,10 @@
 			$this->Paginator->sort('plugin'),
 			$this->Paginator->sort('Position.name', __d('modules', 'Position')),
 			$this->Paginator->sort('author'),
-			$this->Paginator->sort('licence') => array(
-				'style' => 'width:90px;'
-			),
 			$this->Paginator->sort('Group.name', __d('modules', 'Display to')) => array(
 				'style' => 'width:75px;'
 			),
 			$this->Paginator->sort('Order') => array(
-				'style' => 'width:50px;'
-			),
-			$this->Paginator->sort('core') => array(
 				'style' => 'width:50px;'
 			),
 			$this->Paginator->sort('active', __d('modules', 'Status')) => array(
@@ -70,37 +64,44 @@
 					</td>
 					<td>
 						<?php
+							$config = array();
 							if (!empty($module['Theme']['name'])) {
-								echo $module['Theme']['name'];
+								$config = array(
+									'class' => 'label-info'
+								);
 							} else {
-								echo __d('modules', 'Any');
+								$module['Theme']['name'] = __d('modules', 'Any');
 							}
+							echo $this->Design->label(Inflector::humanize($module['Theme']['name']), $config);
 						?>&nbsp;
 					</td>
-					<td>
-						<?php
-							if (!empty($module['Module']['plugin'])) {
-								echo Inflector::humanize($module['Module']['plugin']);
-							} else {
-								echo __d('modules', 'Global');
-							}
-						?>&nbsp;
-					</td>
+					<td><?php echo Inflector::humanize($module['Module']['plugin']); ?>&nbsp;</td>
 					<td><?php echo Inflector::humanize($module['Position']['name']); ?>&nbsp;</td>
 					<td>
 						<?php
 							if (!empty($module['Module']['url'])) {
-								echo $this->Html->link($module['Module']['author'], $module['Module']['url'], array('target' => '_blank'));
-							} else {
-								echo $module['Module']['author'];
+								$module['Module']['author'] = $this->Html->link($module['Module']['author'], $module['Module']['url'], array(
+									'target' => '_blank'
+								));
 							}
+							echo $module['Module']['author'];
+							echo $this->Design->license($module['Module']['licence']);
 						?>&nbsp;
 					</td>
-					<td><?php echo $module['Module']['licence']; ?>&nbsp;</td>
 					<td><?php echo $module['Group']['name']; ?>&nbsp;</td>
 					<td><?php echo $this->Infinitas->ordering($module['Module']['id'], $module['Module']['ordering'], 'Modules.Module'); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->status($module['Module']['core']); ?>&nbsp;</td>
-					<td><?php echo $this->Infinitas->status($module['Module']['active']), $this->Locked->display($module); ?>&nbsp;</td>
+					<td>
+						<?php
+							if ($module['Module']['core']) {
+								echo $this->Html->link($this->Design->icon('locked'), $this->here . '#', array(
+									'class' => 'icon locks',
+									'title' => __d('modules', 'This is a core module'),
+									'escape' => false
+								));
+							}
+							echo $this->Infinitas->status($module['Module']['active']), $this->Locked->display($module);
+						?>&nbsp;
+					</td>
 				</tr>
 			<?php
 		}
