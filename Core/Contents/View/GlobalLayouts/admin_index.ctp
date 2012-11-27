@@ -72,7 +72,7 @@
 						echo implode('<b>.</b>', array($layout['Theme']['name'], $layout['GlobalLayout']['layout']));
 					?>&nbsp;
 				</td>
-				<td><?php echo $layout['GlobalLayout']['content_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($layout['GlobalLayout']['content_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($layout['GlobalLayout']['modified']); ?></td>
 				<td><?php echo $this->Locked->display($layout); ?>&nbsp;</td>
 			</tr> <?php

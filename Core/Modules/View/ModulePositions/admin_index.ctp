@@ -53,7 +53,7 @@
 						));
 					?>&nbsp;
 				</td>
-				<td><?php echo $modulePosition['ModulePosition']['module_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($modulePosition['ModulePosition']['module_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($modulePosition['ModulePosition']['modified']); ?>&nbsp;</td>
 			</tr> <?php
 		}

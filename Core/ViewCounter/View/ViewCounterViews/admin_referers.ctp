@@ -40,7 +40,7 @@
 						));
 					?>&nbsp;
 				</td>
-				<td><?php echo $view['ViewCounterView']['referer_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($view['ViewCounterView']['referer_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->status($view['ViewCounterView']['external'], $view['ViewCounterView']['id']); ?>&nbsp;</td>
 			</tr> <?php
 		}

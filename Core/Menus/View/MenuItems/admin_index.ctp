@@ -95,13 +95,10 @@
 				<td><?php echo $this->Infinitas->status($menuItem['MenuItem']['active']); ?>&nbsp;</td>
 				<td>
 					<?php
-						echo $this->Image->image('actions', 'add', array(
-							'width' => '16px',
-							'url' => array(
-								'action' => 'add',
-								'parent_id' => $menuItem['MenuItem']['id']
-							)
-						));
+						echo $this->Html->link($this->Design->icon('add'), array(
+							'action' => 'add',
+							'parent_id' => $menuItem['MenuItem']['id']
+						), array('class' => 'icon add', 'escape' => false));
 					?>&nbsp;
 				</td>
 			</tr> <?php

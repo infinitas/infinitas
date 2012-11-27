@@ -62,7 +62,7 @@ echo $this->Form->create('Campaign', array('action' => 'mass'));
 						);
 					?>&nbsp;
 				</td>
-				<td style="text-align:center;"><?php echo $campaign['Campaign']['newsletter_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($campaign['Campaign']['newsletter_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($campaign['Campaign']['created']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($campaign['Campaign']['modified']); ?>&nbsp;</td>
 				<td>

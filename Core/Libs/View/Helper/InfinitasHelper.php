@@ -73,26 +73,30 @@ class InfinitasHelper extends AppHelper {
  * @return string
  */
 	public function status($status, $options = array()) {
-		$params = array('class' => 'icon-status');
+		$options = array_merge(array(
+			'title_yes' => false,
+			'title_no' => __d('infinitas', 'Status :: This record is disabled'),
+		), (array)$options);
 
-		$options = array_merge(
-			array(
-				'title_yes' => __d('infinitas', 'Status :: This record is active'),
-				'title_no' => __d('infinitas', 'Status :: This record is disabled'),
-			),
-			(array)$options
+		$params = array(
+			'class' => 'icon status',
+			'title' => $options['title_yes'],
+			'alt' => __d('infinitas', 'On'),
+			'escape' => false
 		);
 
-
 		if (in_array((string)strtolower($status), array('1', 'yes', 'on'))) {
-			$params['title'] = $options['title_yes'];
-			$params['alt'] = __d('infinitas', 'On');
-			return $this->Image->image('status', 'active', $params);
+			if($options['title_yes']) {
+				return $this->Html->link($this->Design->icon('active'), $this->here . '#', $params);
+			}
+			return;
 		}
 
-		$params['title'] = $options['title_no'];
-		$params['alt'] = __d('infinitas', 'Off');
-		return $this->Image->image('status', 'inactive', $params);
+		if ($options['title_no']) {
+			$params['title'] = $options['title_no'];
+			$params['alt'] = __d('infinitas', 'Off');
+			return $this->Html->link($this->Design->icon('inactive'), $this->here . '#', $params);
+		}
 	}
 
 /**

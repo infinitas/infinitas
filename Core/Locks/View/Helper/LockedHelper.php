@@ -22,6 +22,7 @@ App::uses('InfinitasHelper', 'Libs.View/Helper');
  */
 
 class LockedHelper extends InfinitasHelper {
+
 /**
  * Helpers
  *
@@ -30,7 +31,7 @@ class LockedHelper extends InfinitasHelper {
 	public $helpers = array(
 		'Time',
 		'Html',
-		'Libs.Image'
+		'Libs.Image', 'Libs.Design'
 	);
 
 /**
@@ -47,30 +48,14 @@ class LockedHelper extends InfinitasHelper {
 	public function display($row = array(), $model = 'Lock') {
 		$row = array_filter($row[$model]);
 		if (!empty($row['id'])) {
-			return $this->Image->image(
-				'status',
-				'locked',
-				array(
-					'alt' => __d('locks', 'Locked'),
-					'width' => '16px',
-					'title' => sprintf(
-						__d('locks', 'Locked :: This record was locked %s by %s'),
-						$this->Time->timeAgoInWords($row['created']),
-						$row['Locker']['username']
-					)
-				)
-			);
+			return $this->Html->link($this->Design->icon('locked'), $this->here . '#', array(
+				'class' => 'icon locks',
+				'title' => __d('locks', 'Locked :: This record was locked %s by %s',
+					$this->Time->timeAgoInWords($row['created']),
+					$row['Locker']['username']
+				),
+				'escape' => false
+			));
 		}
-
-		return $this->Image->image(
-			'status',
-			'not-locked',
-			array(
-				'alt' => __d('locks', 'Not Locked'),
-				'width' => '16px',
-				'title' => __d('locks', 'Unlocked :: This record is not locked')
-			)
-		);
 	}
-
 }

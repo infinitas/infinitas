@@ -79,7 +79,7 @@
 						}
 					?>&nbsp;
 				</td>
-				<td><?php echo $newsletterSubscriber['NewsletterSubscriber']['subscription_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($newsletterSubscriber['NewsletterSubscriber']['subscription_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['created']); ?></td>
 				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['modified']); ?></td>
 				<td>

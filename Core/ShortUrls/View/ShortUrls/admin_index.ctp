@@ -64,7 +64,7 @@
 						));
 					?>&nbsp;
 				</td>
-				<td><?php echo $shortUrl['ShortUrl']['views']; ?></td>
+				<td><?php echo $this->Design->count($shortUrl['ShortUrl']['views']); ?></td>
 				<td><?php echo $this->Infinitas->status($shortUrl['ShortUrl']['dead']); ?></td>
 			</tr> <?php
 		}

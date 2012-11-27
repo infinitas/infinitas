@@ -52,7 +52,7 @@
 				'style' => 'width:50px;'
 			),
 			__d('contents', 'Status') => array(
-				'style' => 'width:50px;'
+				'class' => 'medium'
 			)
 		));
 
@@ -84,8 +84,8 @@
 						echo $category['Group']['name'];
 					?>
 				</td>
-				<td class="center"><?php echo $category['GlobalCategory']['item_count']; ?>&nbsp;</td>
-				<td class="center"><?php echo $category['GlobalCategory']['views']; ?>&nbsp;</td>
+				<td class="center"><?php echo $this->Design->count($category['GlobalCategory']['item_count']); ?>&nbsp;</td>
+				<td class="center"><?php echo $this->Design->count($category['GlobalCategory']['views']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($category['GlobalCategory']['modified']); ?></td>
 				<td><?php echo $this->Infinitas->treeOrdering($category['GlobalCategory']); ?>&nbsp;</td>
 				<td>

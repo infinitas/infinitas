@@ -102,6 +102,39 @@ Class IpLocation extends Object {
 		return $CakeRequest->clientIp();
 	}
 
+	public function update() {
+		App::uses('ZipFile', 'Filemanager.Utility');
+		App::uses('DownloadSocket', 'Filemanager.Network');
+
+	}
+
+	protected function _download($type) {
+		$downloads = array(
+			'city' => array(
+				'from' => 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz',
+				'to' => $this->cityDataFile
+			),
+			'country' => array(
+				'from' => 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz',
+				'to' => $this->countryDataFile
+			)
+		);
+		if(empty($downloads[$type])) {
+			throw CakeException('Invalid update type selected');
+		}
+
+		$DownloadSocket = new DownloadSocket();
+		if (!$DownloadSocket->download($downloads[$type]['from'])) {
+			throw new CakeException('Unable to fetch file from remote');
+		}
+
+		$dir = dirname($downloads[$type]['to']);
+		$ZipFile = new ZipFile($DownloadSocket->pwd());
+		$ZipFile->extract($dir, array(
+			'delete' => true
+		));
+	}
+
 /**
  * Find users country.
  *

@@ -114,7 +114,7 @@
 		 */
 		public $helpers = array(
 			'Html', 'Form',
-			'Libs.Wysiwyg', 'Libs.Image'
+			'Libs.Wysiwyg', 'Libs.Image', 'Libs.Design'
 		);
 
 		/**
@@ -484,48 +484,30 @@
 			}
 			$url['action'] = 'reorder';
 			$url = array_merge($this->urlExtras, (array)$url);
-
-			$out = '';
-
+			$linkOptions = array(
+				'escape' => false,
+				'class' => 'icon ordering',
+				'title' => __d('infinitas', 'Move record up')
+			);
+			$out = array();
 			if ($currentPosition > 1) {
-				$out .= $this->Html->link(
-					$this->Image->image(
-						'actions',
-						'arrow-up',
-						array(
-							'alt' => __('Up'),
-							'title' => __('Move up'),
-							'width' => '16px',
-							'class' => 'arrow-up'
-						)
-					),
+				$out[] = $this->Html->link(
+					$this->Design->icon('up'),
 					$url + array('position' => $currentPosition - 1, $id),
-					array(
-						'escape' => false,
-					)
+					$linkOptions
 				);
 			}
 
 			if($results == null || $currentPosition < $maxPosition) {
-				$out .= $this->Html->link(
-					$this->Image->image(
-						'actions',
-						'arrow-down',
-						array(
-							'alt' => __('Down'),
-							'title' => __('Move down'),
-							'width' => '16px',
-							'class' => 'arrow-down'
-						)
-					),
+				$linkOptions['title'] = __d('infinitas', 'Move record down');
+				$out[] = $this->Html->link(
+					$this->Design->icon('down'),
 					$url + array('position' => $currentPosition + 1, $id),
-					array(
-						'escape' => false,
-					)
+					$linkOptions
 				);
 			}
 
-			return $out;
+			return implode('', $out);
 		}
 
 		/**
@@ -541,74 +523,51 @@
 		 *
 		 * @param array $data the row being ordered
 		 * @param array $options see above
-		 * @access public
 		 *
 		 * @return string the html markup for icons to order the rows
 		 */
 		public function treeOrdering($data = null, $options = array()) {
-			$options = array_merge(array('firstChild' => false, 'lastChild' => false), $options);
-
 			if (!$data) {
 				$this->errors[] = 'There is no data to build reorder links';
 				return false;
 			}
 
-			$out = '';
+			$options = array_merge(array(
+				'firstChild' => false,
+				'lastChild' => false
+			), $options);
 
+			$url = array(
+				'action' => 'reorder',
+				'direction' => 'up',
+				$data['id']
+			);
+			$linkOptions = array(
+				'escape' => false,
+				'class' => 'ordering'
+			);
+
+			$out = array();
 			if(!$options['firstChild']) {
-				$out .= $this->Html->link(
-					$this->Image->image(
-						'actions',
-						'arrow-up',
-						array(
-							'alt' => __('Up'),
-							'title' => __('Move up'),
-							'width' => '16px',
-							'class' => 'arrow-up'
-						)
-					),
-					array(
-						'action' => 'reorder',
-						'direction' => 'up',
-						$data['id']
-					),
-					array(
-						'escape' => false,
-					)
-				);
+				$out[] = $this->Html->link($this->Design->icon('up'), $url, array_merge($linkOptions, array(
+					'title' => __d('infinitas', 'Up'),
+				)));
 			}
 
 			if(!$options['lastChild']) {
-				$out .= $this->Html->link(
-					$this->Image->image(
-						'actions',
-						'arrow-down',
-						array(
-							'alt' => __('Down'),
-							'title' => __('Move down'),
-							'width' => '16px',
-							'class' => 'arrow-down'
-						)
-					),
-					array(
-						'action' => 'reorder',
-						'direction' => 'down',
-						$data['id']
-					),
-					array(
-						'escape' => false,
-					)
-				);
+				$url['direction'] = 'down';
+				$out[] = $this->Html->link($this->Design->icon('down'), $url, array_merge($linkOptions, array(
+					'title' => __d('infinitas', 'Down'),
+				)));
 			}
 
-			return $out;
+			return implode('', $out);
 		}
 
 		/**
 		 * @brief return the pagination counter text as set in the format
 		 *
 		 * @param object $pagintion the pagination helper object
-		 * @access public
 		 *
 		 * @return string the markup
 		 */
@@ -691,25 +650,71 @@
 				return false;
 			}
 
-			$out = array();
+			$massActions = array();
 			foreach($buttons as $button) {
-				$out[] = $this->Form->button(
-					 $this->Html->tag(
-						'span',
-						$this->Image->image('actions', $button, array('width' => '32')) . '<br/>' . __(Inflector::humanize($button))
-					),
+				$underscore = Inflector::slug($button);
+				$dash = Inflector::slug($button, '-');
+				$massActions[] = $this->Form->button(
+					$this->Design->icon($dash) . __d('infinitas', Inflector::humanize($underscore)),
 					array(
-						'value' => strtolower(str_replace(array('-', ' '), '_', $button)),
+						'value' => $underscore,
 						'name' => 'action',
 						'title' => $this->niceTitleText($button, $name),
-						'div' => false
+						'div' => false,
+						'class' => array(
+							'btn',
+							'btn-' . $button
+						)
 					)
 				);
 			}
 
+			$search = EventCore::trigger($this, Inflector::camelize($this->request->params['plugin']) . '.adminMenu');
+			$search = current($search['adminMenu']);
+			$filter = array(
+				$this->Form->button(
+					$this->Design->icon('search') . __d('infinitas', 'Search'),
+					array(
+						'value' => 'search',
+						'name' => 'action',
+						'title' => $this->niceTitleText($button, $name),
+						'div' => false,
+						'class' => 'btn btn-search',
+						'id' => 'searchForm'
+					)
+				)
+			);
+			if (!empty($search['filter'])) {
+				foreach ($search['filter'] as $text => $url) {
+					$isFilter = (empty($url['plugin']) || $url['plugin'] == $this->request->params['plugin']) &&
+						(empty($url['controller']) || $url['controller'] == $this->request->params['controller']) &&
+						(empty($url['action']) || $url['action'] == str_replace('admin_', '', $this->request->params['action']));
+					unset($url['plugin'], $url['controller'], $url['action']);
+					if(empty($url)) {
+						continue;
+					}
+
+					if ($isFilter) {
+						$url = InfinitasRouter::url($url, false);
+						$class = array(
+							'btn',
+							'btn-filter'
+						);
+						if($url == $this->here) {
+							$class[] = 'active';
+						}
+						$filter[] = $this->Html->link(__d($this->request->params['plugin'], $text), $url, array(
+							'class' => $class
+						));
+					}
+				}
+			}
+
+			$filter = $this->Html->tag('div', implode('', $filter), array('class' => 'filter btn-group'));
+
 			return $this->Html->tag(
 				'div',
-				$this->Html->tag('div', implode('', $out), array('class' => 'wrapper')),
+				$filter . $this->Html->tag('div', implode('', $massActions), array('class' => 'mass-actions btn-group')),
 				array('class' => 'massActions')
 			);
 		}
@@ -739,14 +744,7 @@
 			}
 
 			return $this->Html->link(
-				$this->Image->image(
-					'actions',
-					'new-window',
-					array(
-						'title' => __('Preview'),
-						'alt' => __('Preview')
-					)
-				),
+				$this->Design->icon('preview'),
 				array_merge(
 					$this->adminQuickLink($row, $url, $model, true),
 					array(
@@ -756,7 +754,7 @@
 				),
 				array(
 					'target' => '_blank',
-					'class' => 'new-window thickbox',
+					'class' => 'icon new-window thickbox',
 					'escape' => false,
 					'title' => __('Preview of the entry')
 				)

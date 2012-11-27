@@ -19,6 +19,10 @@
 	 * Tag cloud helper
 	 *
 	 * @package Infinitas.Contents.Helper
+	 *
+	 * @property HtmlHelper $Html
+	 * @property TextHelper $Text
+	 * @property DesignHelper $Design
 	 */
 	class TagCloudHelper extends AppHelper {
 
@@ -27,7 +31,10 @@
 		 *
 		 * @var public $helpers
 		 */
-		public $helpers = array('Html', 'Text');
+		public $helpers = array(
+			'Html', 'Text',
+			'Libs.Design'
+		);
 
 		/**
 		 * Method to output a tag-cloud formatted based on the weight of the tags
@@ -122,8 +129,12 @@
 				}
 
 				$return[] = $this->Html->link(
-					$tagged['GlobalTag']['name'],
-					$this->here . '#'
+					$this->Design->icon('tag') . $tagged['GlobalTag']['name'],
+					$this->here . '#',
+					array(
+						'escape' => false,
+						'class' => 'icon tag'
+					)
 				);
 
 				$limit--;

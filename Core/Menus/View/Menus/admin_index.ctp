@@ -37,9 +37,6 @@
 			$this->Paginator->sort('type') => array(
 				'style' => 'width:75px;'
 			),
-			$this->Paginator->sort('active', __d('menus', 'Active Menus')) => array(
-				'style' => 'width:100px;'
-			),
 			$this->Paginator->sort('count') => array(
 				'style' => 'width:100px;'
 			),
@@ -64,8 +61,7 @@
 					?>&nbsp;
 				</td>
 				<td><?php echo $menu['Menu']['type']; ?>&nbsp;</td>
-				<td><?php echo $menu['Menu']['item_count']; ?>&nbsp;</td>
-				<td><?php echo $menu['Menu']['item_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($menu['Menu']['item_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->status($menu['Menu']['active']); ?>&nbsp;</td>
 			</tr> <?php
 		}

@@ -219,4 +219,91 @@ class DesignHelper extends AppHelper {
 		return $title;
 	}
 
+	public function icon($options = array()) {
+		if(!is_array($options)) {
+			$options = array('icon' => $options);
+		}
+		$options = array_merge(array(
+			'size' => null,
+			'icon' => null
+		), $options);
+
+		$icon = $this->_icon($options['icon']);
+		if (!$icon) {
+			return null;
+		}
+		return $this->Html->tag('i', '', array(
+			'class' => $icon
+		));
+	}
+
+	public function count($count, $type = null) {
+		return $this->Html->tag('span', (int)$count, array(
+			'class' => array(
+				'badge',
+				$type ? 'badge-' . $type : null
+			)
+		));
+	}
+
+	protected function _icon($icon) {
+		switch ($icon) {
+			case 'delete':
+				$icon = 'remove-circle';
+				break;
+
+			case 'reply':
+				$icon = 'share-alt';
+				break;
+
+			case 'toggle':
+				$icon = 'refresh';
+				break;
+
+			case 'spam':
+				$icon = 'exclamation-sign';
+				break;
+
+			case 'add':
+				$icon = 'plus';
+				break;
+
+			case 'cancel':
+				$icon = 'remove-sign';
+				break;
+
+			case 'up':
+			case 'down':
+				$icon = 'circle-arrow-' . $icon;
+				break;
+
+			case 'preview':
+				$icon = 'external-link';
+				break;
+
+			case 'active':
+				$icon = 'ok-circle';
+				break;
+
+			case 'inactive':
+				$icon = 'off';
+				break;
+
+			case 'locked':
+				$icon = 'lock';
+				break;
+
+			case 'unlocked':
+				$icon = 'unlock';
+				break;
+		}
+
+		$icon = 'icon-' . $icon;
+		if ($icon == 'icon-') {
+			return null;
+		}
+
+		return $icon;
+	}
+
 }

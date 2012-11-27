@@ -40,11 +40,15 @@ class CommentsEvents extends AppEvents {
  * @return array
  */
 	public function onAdminMenu(Event $Event) {
-		$menu['main'] = array(
-			'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index'),
-			'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.active' => 1),
-			'Pending' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.active' => 0, 'InfinitasComment.status' => 'approved'),
-			'Spam' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.status' => 'spam')
+		$menu = array(
+			'main' => array(
+				'Comments' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index')
+			),
+			'filter' => array(
+				'Active' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.active' => 1),
+				'Pending' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.active' => 0, 'InfinitasComment.status' => 'approved'),
+				'Spam' => array('plugin' => 'comments', 'controller' => 'infinitas_comments', 'action' => 'index', 'InfinitasComment.status' => 'spam')
+			)
 		);
 
 		return $menu;

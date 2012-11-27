@@ -80,7 +80,7 @@
 				</td>
 				<td><?php echo $branch['Branch']['phone']; ?>&nbsp;</td>
 				<td><?php echo $branch['Branch']['fax']; ?>&nbsp;</td>
-				<td><?php echo $branch['Branch']['user_count']; ?>&nbsp;</td>
+				<td><?php echo $this->Design->count($branch['Branch']['user_count']); ?>&nbsp;</td>
 				<td>
 					<?php
 						echo $this->Infinitas->ordering($branch['Branch']['id'], $branch['Branch']['ordering'], 'Contact.Branch');

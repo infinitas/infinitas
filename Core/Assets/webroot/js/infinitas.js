@@ -67,13 +67,13 @@ switch(Infinitas.params.prefix) {
 				$('#PaginationOptions').submit();
 			});
 
-			if($('.filter-form').length > 0) {
-				$('.massActions').prepend('<button id="searchForm" name="action" value="search" type="submit"><span><img alt="" src="' + Infinitas.base + 'img/core/icons/actions/search.png"><br>Search</span></button>');
-				$('#searchForm').click(function(){
-					$('.filter-form').toggle();
-					return false;
-				});
+			if(!$('.filter-form').length) {
+				$('.massActions .filter').remove();
 			}
+			$('#searchForm').click(function(){
+				$('.filter-form').toggle();
+				return false;
+			});
 
 			/**$("[title]:not(.textarea *)").tooltip({
 				track: true, delay: 0, showURL: false,
