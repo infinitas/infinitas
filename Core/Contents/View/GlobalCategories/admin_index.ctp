@@ -90,9 +90,15 @@
 				<td><?php echo $this->Infinitas->treeOrdering($category['GlobalCategory']); ?>&nbsp;</td>
 				<td>
 					<?php
+						if($category['GlobalCategory']['hide']) {
+							echo $this->Html->link($this->Design->icon('hidden'), $this->here . '#', array(
+								'title' => __d('contents', 'This category is hidden'),
+								'escape' => false,
+								'class' => 'icon hidden'
+							));
+						}
 						echo
-							$this->Infinitas->status($category['GlobalCategory']['hide'], $category['GlobalCategory']['id']),
-							$this->Infinitas->status($category['GlobalCategory']['active'], $category['GlobalCategory']['id']),
+							$this->Infinitas->status($category['GlobalCategory']['active']),
 							$this->Locked->display($category);
 					?>&nbsp;
 				</td>

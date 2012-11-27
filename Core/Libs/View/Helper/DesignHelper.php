@@ -238,6 +238,9 @@ class DesignHelper extends AppHelper {
 	}
 
 	public function count($count, $type = null) {
+		if(!$count) {
+			return '-';
+		}
 		return $this->Html->tag('span', (int)$count, array(
 			'class' => array(
 				'badge',
@@ -295,6 +298,10 @@ class DesignHelper extends AppHelper {
 
 			case 'unlocked':
 				$icon = 'unlock';
+				break;
+
+			case 'hidden':
+				$icon = 'eye-close';
 				break;
 		}
 

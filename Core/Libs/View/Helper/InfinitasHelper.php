@@ -1,26 +1,20 @@
 <?php
+App::uses('CakeTime', 'Utility');
+App::uses('AppHelper', 'View/Helper');
+
 /**
  * Infinitas Helper.
  *
- * Does a lot of stuff like generating ordering buttons, load modules and
- * other things needed all over infinitas.
+ * @property DesignHelper $Design
  *
-
- *
- * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Libs.Helper
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @since 0.6a
  *
- * @author Carl Sutton ( dogmatic69 )
- *
- *
- *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
-App::uses('CakeTime', 'Utility');
-App::uses('AppHelper', 'View/Helper');
 
 class InfinitasHelper extends AppHelper {
 /**
