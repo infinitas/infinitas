@@ -33,35 +33,28 @@ echo $this->Infinitas->adminIndexHead($filterOptions, array(
 			$this->Paginator->sort('name') => array(
 				'class' => 'larger'
 			),
+			$this->Paginator->sort('dependancies'),
 			$this->Paginator->sort('author') => array(
 				'class' => 'larger'
 			),
-			$this->Paginator->sort('dependancies'),
 			$this->Paginator->sort('version') => array(
 				'class' => 'small'
-			),
-			$this->Paginator->sort('license') => array(
-				'class' => 'small'
-			),
-			$this->Paginator->sort('active') => array(
-				'class' => 'status'
-			),
-			$this->Paginator->sort('core') => array(
-				'class' => 'status'
 			),
 			$this->Paginator->sort('created', __d('installer', 'Installed')) => array(
 				'class' => 'date'
 			),
 			$this->Paginator->sort('modified', __d('installer', 'Updated')) => array(
 				'class' => 'date'
-			)
+			),
+			$this->Paginator->sort('active', __d('installer', 'Status')) => array(
+				'class' => 'status'
+			),
 		));
 
 		foreach ($plugins as $plugin) { ?>
 			<tr>
 				<td><?php echo $this->Infinitas->massActionCheckBox($plugin); ?>&nbsp;</td>
 				<td><?php echo $plugin['Plugin']['name']; ?>&nbsp;</td>
-				<td><?php echo $this->Html->link($plugin['Plugin']['author'], $plugin['Plugin']['website']); ?>&nbsp;</td>
 				<td>
 					<?php
 						$plugin['Plugin']['dependancies'] = json_decode($plugin['Plugin']['dependancies'], true);
@@ -71,17 +64,13 @@ echo $this->Infinitas->adminIndexHead($filterOptions, array(
 						echo $this->Text->toList($plugin['Plugin']['dependancies']);
 					?>&nbsp;
 				</td>
-				<td><?php echo sprintf('v%s', $plugin['Plugin']['version']); ?>&nbsp;</td>
-				<td><?php echo $plugin['Plugin']['license']; ?>&nbsp;</td>
-				<td><?php echo $this->Infinitas->status($plugin['Plugin']['active']); ?>&nbsp;</td>
 				<td>
 					<?php
-						echo $this->Infinitas->status($plugin['Plugin']['core'], array(
-							'title_yes' => __d('installer', 'Core plugin :: This plugin is part of the Infinitas core'),
-							'title_no' => __d('installer', 'Plugin :: This plugin is not part of the Infinitas core'),
-						));
+						echo $this->Design->license($plugin['Plugin']['license']);
+						echo $this->Html->link($plugin['Plugin']['author'], $plugin['Plugin']['website']);
 					?>&nbsp;
 				</td>
+				<td><?php echo sprintf('v%s', $plugin['Plugin']['version']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($plugin['Plugin']['created']); ?></td>
 				<td>
 					<?php
@@ -91,6 +80,18 @@ echo $this->Infinitas->adminIndexHead($filterOptions, array(
 						}
 						echo $out;
 					?>
+				</td>
+				<td>
+					<?php
+						if($plugin['Plugin']['core']) {
+							echo $this->Html->link($this->Design->icon('locked'), $this->here, array(
+								'title' => __d('installer', 'This is part of the infinitas core'),
+								'class' => 'locks',
+								'escape' => false
+							));
+						}
+						echo $this->Infinitas->status($plugin['Plugin']['active']);
+					?>&nbsp;
 				</td>
 			</tr> <?php
 		}

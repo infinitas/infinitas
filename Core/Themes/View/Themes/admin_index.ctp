@@ -92,11 +92,10 @@ echo $this->Form->create(false, array('action' => 'mass'));
 				</td>
 				<td>
 					<?php
-						if ($theme['Theme']['licence']) {
-							echo $theme['Theme']['licence'];
-						} else {
-							echo sprintf('&copy; %s', $theme['Theme']['author']);
+						if (!$theme['Theme']['licence']) {
+							$theme['Theme']['licence'] = sprintf('&copy; %s', $theme['Theme']['author']);
 						}
+						echo $this->Design->license($theme['Theme']['licence']);
 					?>&nbsp;
 				</td>
 				<td>
