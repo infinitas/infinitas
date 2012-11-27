@@ -56,7 +56,7 @@ class InstallerEvents extends AppEvents{
 		return array(
 			'name' => 'Plugins',
 			'description' => 'Manage, install and remove plugins',
-			'icon' => '/installer/img/icon.png',
+			'icon' => 'bolt',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'installer', 'controller' => 'plugins', 'action' => 'dashboard'),
 		);

@@ -5,12 +5,11 @@
 		));
 	echo $this->Form->end();
 
-	echo $this->Html->tag('h1', __d('configs', 'Overloaded Values') .
-		$this->Html->tag('small', __d('configs', 'Click a link below to edit / delete the overladed value'))
-	);
+	echo $this->Html->tag('h1', __d('configs', 'Overloaded Values'));
 ?>
 <table class="listing">
 	<?php
+		echo $this->Html->tag('caption', __d('configs', 'Click a link below to edit / delete the overladed value'));
 		echo $this->Infinitas->adminTableHeader(array(
 			__d('configs', 'Key') => array(
 				'style' => 'width:200px;'
@@ -37,13 +36,10 @@
 	?>
 </table>
 
-<?php
-	echo $this->Html->tag('h1', __d('configs', 'Default Values') .
-		$this->Html->tag('small', __d('configs', 'Click a link below to overload the config with new values'))
-	);
-?>
+<?php echo $this->Html->tag('h1', __d('configs', 'Default Values')); ?>
 <table class="listing">
 	<?php
+		echo $this->Html->tag('caption', __d('configs', 'Click a link below to overload the config with new values'));
 		echo $this->Infinitas->adminTableHeader(array(
 			__d('configs', 'Key') => array(
 				'style' => 'width:200px;'

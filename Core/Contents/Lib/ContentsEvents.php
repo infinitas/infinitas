@@ -24,7 +24,7 @@ class ContentsEvents extends AppEvents {
 		return array(
 			'name' => 'Content',
 			'description' => 'Mange the way content works inside Infinitas',
-			'icon' => '/contents/img/icon.png',
+			'icon' => 'book',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'contents', 'controller' => 'global_contents', 'action' => 'dashboard')
 		);

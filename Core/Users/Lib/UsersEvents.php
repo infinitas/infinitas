@@ -4,7 +4,7 @@
 			return array(
 				'name' => 'Users',
 				'description' => 'Manage your community',
-				'icon' => '/users/img/icon.png',
+				'icon' => 'user',
 				'author' => 'Infinitas',
 				'dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),
 			);
@@ -63,5 +63,5 @@
 				'Users.Group',
 			);
 		}
-		
+
 	}

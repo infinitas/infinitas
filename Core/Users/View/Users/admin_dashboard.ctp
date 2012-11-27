@@ -3,7 +3,7 @@ $dashboardIcons = array(
 	array(
 		'name' => 'Users',
 		'description' => 'Manage your sites users',
-		'icon' => '/users/img/icon.png',
+		'icon' => 'user',
 		'dashboard' => array(
 			'controller' => 'users',
 			'action' => 'index'
@@ -12,7 +12,7 @@ $dashboardIcons = array(
 	array(
 		'name' => 'Groups',
 		'description' => 'Manage the different groups on your site',
-		'icon' => '/users/img/group.png',
+		'icon' => 'group',
 		'dashboard' => array(
 			'controller' => 'groups',
 			'action' => 'index'
@@ -21,7 +21,7 @@ $dashboardIcons = array(
 	array(
 		'name' => 'Access',
 		'description' => 'Manage who can view what',
-		'icon' => '/users/img/groups.png',
+		'icon' => 'key',
 		'dashboard' => $this->here . '#'
 	)
 );

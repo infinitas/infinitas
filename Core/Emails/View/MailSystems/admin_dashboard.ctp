@@ -3,6 +3,7 @@ $dashboardIcons = array(
 	array(
 		'name' => 'Accounts',
 		'description' => 'Manage your email accounts',
+		'icon' => 'envelope',
 		'dashboard' => array(
 			'controller' => 'email_accounts',
 			'action' => 'index'

@@ -42,10 +42,15 @@ class ThemesEvents extends AppEvents {
  * @return array
  */
 	public function onAdminMenu(Event $Event) {
-		$menu['main'] = array(
-			'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
-			'Themes' => array('controller' => false, 'action' => false),
-			'Default Theme' => array('controller' => 'themes', 'action' => 'index', 'Theme.active' => 1)
+		$menu = array(
+			'main' => array(
+				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
+				'Themes' => array('controller' => false, 'action' => false)
+			),
+			'filter' => array(
+				'Backend' => array('controller' => 'themes', 'action' => 'index', 'Theme.admin' => 1),
+				'Frontend' => array('controller' => 'themes', 'action' => 'index', 'Theme.frontend' => 1),
+			)
 		);
 
 		return $menu;

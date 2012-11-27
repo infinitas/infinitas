@@ -22,7 +22,8 @@
 	class MenuHelper extends InfinitasHelper {
 		public $helpers = array(
 			'Html',
-			'Events.Event'
+			'Events.Event',
+			'Libs.Design'
 		);
 
 		/**
@@ -110,51 +111,57 @@
 
 			$return = array();
 			foreach ($plugins as $name => $info) {
-				$plugin = Inflector::underscore($name);
-				$name = Inflector::camelize($name);
-				$info = array_merge($this->__adminDashboardIcon, $info);
-				if (empty($info['name'])) {
-					$info['name'] = __d($plugin, prettyName($name));
-				}
-
-				if (empty($info['dashboard'])) {
-					$info['dashboard'] = array(
-						'plugin' => $plugin,
-						'controller' => $plugin,
-						'action' => 'index'
-					);
-				}
-
 				$var = 'plugin';
 				if ($type !== 'all') {
 					$var = $type;
 				} else if (strstr(InfinitasPlugin::path($name), APP . 'Core' . DS)) {
 					$var = 'core';
 				}
-
-				$info['title'] = sprintf('%s :: %s', __d($plugin, $info['name']), __d($plugin, $info['description']));
-				$info['icon'] = isset($info['icon']) ? $info['icon'] : DS . $name . DS . 'img' . DS . 'icon.png';
-
-				$class = null;
-				if (!empty($info['dashboard']['plugin']) && $info['dashboard']['plugin'] == $this->request->params['plugin']) {
-					 $class = 'active';
-				}
-				$return[$var][] = $this->Html->link(implode('', array(
-					$this->Html->image($info['icon']),
-					$this->Html->tag('p', $info['name'])
-				)), $info['dashboard'], array(
-					'title' => $info['title'],
-					'escape' => false,
-					'class' => array(
-						'thumbnail',
-						$class
-					)
-				));;
+				$return[$var][] = $this->_dashboardLink($name, $info);
 			}
 
 			unset($plugins);
 
 			return $return;
+		}
+
+		protected function _dashboardLink($name, $info) {
+			$plugin = Inflector::underscore($name);
+			$name = Inflector::camelize($name);
+			$info = array_merge($this->__adminDashboardIcon, $info);
+			if (empty($info['name'])) {
+				$info['name'] = __d($plugin, prettyName($name));
+			}
+
+			if (empty($info['dashboard'])) {
+				$info['dashboard'] = array(
+					'plugin' => $plugin,
+					'controller' => $plugin,
+					'action' => 'index'
+				);
+			}
+
+			$info['title'] = sprintf('%s :: %s', __d($plugin, $info['name']), __d($plugin, $info['description']));
+			$info['icon'] = isset($info['icon']) ? $info['icon'] : 'sign-blank';
+
+			if (strstr($info['icon'], '/') === false) {
+				$info['icon'] = $this->Design->icon($info['icon']);
+			} else {
+				$info['icon'] = $this->Html->image($info['icon']);
+			}
+
+			$class = null;
+			if (!empty($info['dashboard']['plugin']) && $info['dashboard']['plugin'] == $this->request->params['plugin']) {
+					$class = 'active';
+			}
+			return $this->Html->link($this->Html->tag('span', $info['icon'] . $info['name']), $info['dashboard'], array(
+				'title' => $info['title'],
+				'escape' => false,
+				'class' => array(
+					'thumbnail',
+					$class
+				)
+			));
 		}
 
 		public function bootstrapNav($menus, $ulOptions = array(), $child = false) {

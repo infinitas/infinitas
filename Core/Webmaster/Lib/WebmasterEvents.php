@@ -27,7 +27,7 @@ class WebmasterEvents extends AppEvents {
 		return array(
 			'name' => 'Webmaster',
 			'description' => 'Manage your sites robots files and sitemaps',
-			'icon' => '/webmaster/img/icon.png',
+			'icon' => 'globe',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'webmaster', 'controller' => 'webmaster', 'action' => 'dashboard')
 		);

@@ -29,7 +29,7 @@ class RoutesEvents extends AppEvents {
 		return array(
 			'name' => 'Routes',
 			'description' => 'Route pretty urls to your code',
-			'icon' => '/routes/img/icon.png',
+			'icon' => 'road',
 			'author' => 'Infinitas'
 		);
 	}
@@ -56,10 +56,14 @@ class RoutesEvents extends AppEvents {
  * @return array
  */
 	public function onAdminMenu(Event $Event) {
-		$menu['main'] = array(
-			'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index'),
-			'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
-			'Disabled' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
+		$menu = array(
+			'main' => array(
+				'Routes' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index')
+			),
+			'filter' => array(
+				'Active' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 1),
+				'Disabled' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.active' => 0)
+			)
 		);
 
 		return $menu;

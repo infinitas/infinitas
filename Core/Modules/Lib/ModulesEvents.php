@@ -100,11 +100,16 @@ class ModulesEvents extends AppEvents {
  * @return array
  */
 	public function onAdminMenu(Event $Event) {
-		$menu['main'] = array(
-			'All' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index'),
-			'Frontend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0),
-			'Backend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 1),
-			'Module Positions' => array('controller' => 'module_positions', 'action' => 'index')
+		$menu = array(
+			'main' => array(
+				'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),
+				'Modules' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index'),
+				'Module Positions' => array('controller' => 'module_positions', 'action' => 'index')
+			),
+			'filter' => array(
+				'Frontend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 0),
+				'Backend' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.admin' => 1),
+			)
 		);
 
 		return $menu;

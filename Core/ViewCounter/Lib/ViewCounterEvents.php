@@ -30,7 +30,7 @@ class ViewCounterEvents extends AppEvents {
 		return array(
 			'name' => 'Views',
 			'description' => 'View your sites traffic',
-			'icon' => '/view_counter/img/icon.png',
+			'icon' => 'eye-open',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'dashboard')
 		);

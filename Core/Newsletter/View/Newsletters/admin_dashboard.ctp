@@ -63,31 +63,31 @@ $links['main'] = array(
 	array(
 		'name' => __d('newsletter', 'Campaigns'),
 		'description' => __d('newsletter', 'Create and manage your email Campaigns'),
-		'icon' => '/newsletter/img/icon/campaign.png',
+		'icon' => 'columns',
 		'dashboard' => array('controller' => 'campaigns', 'action' => 'index')
 	),
 	array(
 		'name' => __d('newsletter', 'Templates'),
 		'description' => __d('newsletter', 'Create and manage your email Templates'),
-		'icon' => '/newsletter/img/icon/template.png',
+		'icon' => 'table',
 		'dashboard' => array('controller' => 'templates', 'action' => 'index')
 	),
 	array(
 		'name' => __d('newsletter', 'Newsletters'),
 		'description' => __d('newsletter', 'Create and manage your Newsletters'),
-		'icon' => '/newsletter/img/icon/newsletter.png',
+		'icon' => 'envelope',
 		'dashboard' => array('controller' => 'newsletters', 'action' => 'index')
 	),
 	array(
 		'name' => __d('newsletter', 'Subscribers'),
 		'description' => __d('newsletter', 'View and manage your list of subscribers'),
-		'icon' => '/newsletter/img/icon/subscribers.png',
+		'icon' => 'group',
 		'dashboard' => array('controller' => 'newsletter_subscribers', 'action' => 'index')
 	),
 	array(
 		'name' => __d('newsletter', 'Bounced'),
 		'description' => __d('newsletter', 'View bounced mail'),
-		'icon' => '/newsletter/img/icon/bounce.png',
+		'icon' => 'exclamation-sign',
 		'dashboard' => array('controller' => 'bounced_mail', 'action' => 'index')
 	),
 );

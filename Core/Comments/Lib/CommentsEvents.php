@@ -22,7 +22,7 @@ class CommentsEvents extends AppEvents {
 		return array(
 			'name' => 'Comments',
 			'description' => 'See what your users have to say',
-			'icon' => '/comments/img/icon.png',
+			'icon' => 'comments',
 			'author' => 'Infinitas',
 			'dashboard' => array(
 				'plugin' => 'comments',

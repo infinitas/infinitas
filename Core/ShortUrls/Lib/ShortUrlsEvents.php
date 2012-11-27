@@ -26,7 +26,7 @@ class ShortUrlsEvents extends AppEvents {
 		return array(
 			'name' => 'Short Urls',
 			'description' => 'Create and manage short urls',
-			'icon' => '/short_urls/img/icon.png',
+			'icon' => 'bookmark',
 			'author' => 'Infinitas',
 			'dashboard' => array(
 				'plugin' => 'short_urls',

@@ -4,7 +4,7 @@
 			return array(
 				'name' => 'Feeds',
 				'description' => 'Provide RSS feeds of anything to your users',
-				'icon' => '/feed/img/icon.png',
+				'icon' => 'rss',
 				'author' => 'Infinitas',
 				'dashboard' => array('plugin' => 'feed', 'controller' => 'feeds', 'action' => 'index')
 			);
