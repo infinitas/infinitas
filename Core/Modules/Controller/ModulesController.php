@@ -26,27 +26,24 @@ class ModulesController extends ModulesAppController {
 	public function admin_index() {
 		$this->Paginator->settings = array(
 			'fields' => array(
-				'Module.*',
-				'Position.*',
-				'Group.*',
+				'Module.id',
+				'Module.name',
+				'Module.plugin',
+				'Module.author',
+				'Module.licence',
+				'Module.ordering',
+				'Module.core',
+				'Module.active',
+				'Position.id',
+				'Position.name',
+				'Group.id',
+				'Group.name',
+				'Theme.name',
 			),
 			'joins' => array(
-				array(
-					'table' => 'core_module_positions',
-					'alias' => 'Position',
-					'type' => 'LEFT',
-					'conditions' => array(
-						'Position.id = Module.position_id'
-					)
-				),
-				array(
-					'table' => 'core_groups',
-					'alias' => 'Group',
-					'type' => 'LEFT',
-					'conditions' => array(
-						'Group.id = Module.group_id'
-					)
-				)
+				$this->{$this->modelClass}->autoJoinModel('Modules.Position'),
+				$this->{$this->modelClass}->autoJoinModel('Users.Group'),
+				$this->{$this->modelClass}->autoJoinModel('Themes.Theme')
 			)
 		);
 
