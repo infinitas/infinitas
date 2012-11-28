@@ -4,7 +4,10 @@
 	App::uses('Route', 'Routes.Model');
 
 	class RouteTest1 extends Route {
+
 		public $useDbConfig = 'test';
+
+		public $useTable = 'routes';
 
 		public function someMethod($conditions = array()) {
 			return $this->find('list', array('conditions' => $conditions));
@@ -13,6 +16,8 @@
 
 	class RouteTest2 extends Route {
 		public $useDbConfig = 'test';
+
+		public $useTable = 'routes';
 
 		public function _getList($conditions = array()) {
 			return $this->find('list', array('conditions' => $conditions));

@@ -785,6 +785,9 @@
 				),
 				'contain' => false
 			));
+			if(empty($data)) {
+				return array();
+			}
 
 			return $data[$Model->alias][$this->settings[$Model->alias]['scopeField']];
 		}

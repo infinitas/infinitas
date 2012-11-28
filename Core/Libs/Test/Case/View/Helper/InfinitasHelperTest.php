@@ -10,7 +10,9 @@ App::uses('InfinitasHelper', 'Libs.View/Helper');
 class InfinitasHelperTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.management.ticket',
-		'plugin.users.user'
+		'plugin.users.user',
+		'plugin.routes.route',
+		'plugin.themes.theme'
 	);
 
 /**
@@ -52,50 +54,42 @@ class InfinitasHelperTest extends CakeTestCase {
 		return array(
 			'basic_yes' => array(
 				array('status' => 1, 'options' => array()),
-				array(
-					array('img' => array(
-						'src' => '/img/core/icons/status/active.png',
-						'class' => 'icon-status',
-						'title' => 'Status :: This record is active',
-						'alt' => 'On',
-						'width' => '20px'
-					))
-				)
+				array()
 			),
 			'custom_yes' => array(
 				array('status' => 1, 'options' => array('title_yes' => 'foo bar')),
-				array(
-					array('img' => array(
-						'src' => '/img/core/icons/status/active.png',
-						'class' => 'icon-status',
-						'title' => 'foo bar',
-						'alt' => 'On',
-						'width' => '20px'
-					))
-				)
+				array()
 			),
 			'basic_no' => array(
 				array('status' => 0, 'options' => array()),
 				array(
-					array('img' => array(
-						'src' => '/img/core/icons/status/inactive.png',
-						'class' => 'icon-status',
+					array('a' => array(
+						'href' => '/#',
+						'class' => 'icon status',
 						'title' => 'Status :: This record is disabled',
 						'alt' => 'Off',
-						'width' => '20px'
-					))
+					)),
+						array('i' => array(
+							'class' => 'icon-off'
+						)),
+						'/i',
+					'/a'
 				)
 			),
 			'custom_no' => array(
 				array('status' => 0, 'options' => array('title_no' => 'foo bar')),
 				array(
-					array('img' => array(
-						'src' => '/img/core/icons/status/inactive.png',
-						'class' => 'icon-status',
+					array('a' => array(
+						'href' => '/#',
+						'class' => 'icon status',
 						'title' => 'foo bar',
 						'alt' => 'Off',
-						'width' => '20px'
-					))
+					)),
+						array('i' => array(
+							'class' => 'icon-off'
+						)),
+						'/i',
+					'/a'
 				)
 			)
 		);
