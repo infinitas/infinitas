@@ -390,38 +390,29 @@ class Module extends ModulesAppModel {
  * @return array
  */
 	public function getModule($module, $admin = false) {
-		$_module = Cache::read('single.' . (($admin) ? 'admin' : 'user'), 'modules');
-		if ($_module !== false) {
-			return $_module;
-		}
-
 		$lockerBehavior = false;
 		if ($this->Behaviors->enabled('Lockable')) {
 			$lockerBehavior = true;
 			$this->Behaviors->disable('Lockable');
 		}
 
-		$module = $this->find(
-			'first',
-			array(
-				'fields' => array(
-					$this->alias . '.id',
-					$this->alias . '.name',
-					$this->alias . '.plugin',
-					$this->alias . '.content',
-					$this->alias . '.module',
-					$this->alias . '.config',
-					$this->alias . '.show_heading'
-				),
-				'conditions' => array(
-					$this->alias . '.name' => $module,
-					$this->alias . '.admin' => $admin,
-					$this->alias . '.active' => 1
-				),
-				'contain' => $this->__contain
-			)
-		);
-		Cache::write('single.' . (($admin) ? 'admin' : 'user'), $module, 'modules');
+		$module = $this->find('first', array(
+			'fields' => array(
+				$this->alias . '.id',
+				$this->alias . '.name',
+				$this->alias . '.plugin',
+				$this->alias . '.content',
+				$this->alias . '.module',
+				$this->alias . '.config',
+				$this->alias . '.show_heading'
+			),
+			'conditions' => array(
+				$this->alias . '.name' => $module,
+				$this->alias . '.admin' => $admin,
+				$this->alias . '.active' => 1
+			),
+			'contain' => $this->__contain
+		));
 
 		if ($lockerBehavior) {
 			$this->Behaviors->enable('Lockable');

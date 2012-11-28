@@ -260,9 +260,9 @@ class ModuleTestCase extends CakeTestCase {
 	public function getModuleData() {
 		return array(
 			array(
-				array('module' => 'foo-bar', 'admin' => false), false),
+				array('module' => 'foo-bar', 'admin' => false), array()),
 			array(
-				array('module' => 'foo-bar', 'admin' => true), false),
+				array('module' => 'foo-bar', 'admin' => true), array()),
 			array(
 				array('module' => 'login', 'admin' => false),
 				array(
@@ -302,7 +302,7 @@ class ModuleTestCase extends CakeTestCase {
 
 					))),
 			array(
-				array('module' => 'login', 'admin' => true), false),
+				array('module' => 'login', 'admin' => true), array()),
 		);
 	}
 
