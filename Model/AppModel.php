@@ -67,13 +67,6 @@
 	 */
 	App::uses('Model', 'Model');
 	class AppModel extends Model {
-		/**
-		 * The database configuration to use for the site.
-		 *
-		 * @var string
-		 * @access public
-		 */
-		public $useDbConfig = 'default';
 
 		/**
 		 * @brief The prefix for the table this model is using
@@ -704,9 +697,9 @@
 
 		/**
 		 * @brief get the full field name Model.field
-		 * 
-		 * @param string $field the field 
-		 * 
+		 *
+		 * @param string $field the field
+		 *
 		 * @return string
 		 */
 		public function fullFieldName($field) {

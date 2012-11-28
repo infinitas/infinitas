@@ -4,14 +4,15 @@ App::import('Model', 'AppModel');
 class AppModelTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.configs.config',
-		'plugin.themes.theme',
 		'plugin.routes.route',
+		'plugin.themes.theme',
 		'plugin.installer.plugin',
 		'plugin.view_counter.view_counter_view',
 	);
 
 	public function setUp() {
 		parent::setUp();
+
 		$this->Route = ClassRegistry::init('Routes.Route');
 		$this->Route->Behaviors->disable('Trashable');
 
@@ -21,7 +22,7 @@ class AppModelTest extends CakeTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-		unset($this->Route);
+		unset($this->Route, $this->Theme);
 	}
 
 /**
