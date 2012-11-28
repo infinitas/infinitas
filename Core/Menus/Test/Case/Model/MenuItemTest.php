@@ -71,11 +71,16 @@ class MenuItemTestCase extends CakeTestCase {
 		$this->assertEqual(count($result), 3);
 		$this->assertEqual($expected, Set::extract('/MenuItem/name', $result));
 
+		CakeSession::write('Auth.User.group_id', 2);
 		$result = $this->MenuItem->getMenu('registered_users');
 		$expected = array('About Me');
 
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual($expected, Set::extract('/MenuItem/name', $result));
+		CakeSession::destroy();
+
+		$result = $this->MenuItem->getMenu('registered_users');
+		$this->assertEmpty($result);
 	}
 
 	public function testSave() {

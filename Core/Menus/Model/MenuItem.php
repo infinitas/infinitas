@@ -18,7 +18,6 @@
 	 */
 
 	class MenuItem extends MenusAppModel {
-		public $useTable = 'menu_items';
 
 		/**
 		 * The relations for menu items
@@ -203,64 +202,48 @@
 			if (!$type) {
 				return false;
 			}
+			$conditions = array(
 
-			$menus = Cache::read($type, 'menus');
-			if (!empty($menus)) {
-				return $menus;
-			}
+			);
+			$menus = $this->find('threaded', array(
+				'fields' => array(
+					$this->alias . '.id',
+					$this->alias . '.name',
+					$this->alias . '.link',
 
-			$menus = $this->find(
-				'threaded',
-				array(
-					'fields' => array(
-						$this->alias . '.id',
-						$this->alias . '.name',
-						$this->alias . '.link',
+					$this->alias . '.prefix',
+					$this->alias . '.plugin',
+					$this->alias . '.controller',
+					$this->alias . '.action',
+					$this->alias . '.params',
+					$this->alias . '.force_backend',
+					$this->alias . '.force_frontend',
 
-						$this->alias . '.prefix',
-						$this->alias . '.plugin',
-						$this->alias . '.controller',
-						$this->alias . '.action',
-						$this->alias . '.params',
-						$this->alias . '.force_backend',
-						$this->alias . '.force_frontend',
-
-						$this->alias . '.class',
-						$this->alias . '.active',
-						$this->alias . '.menu_id',
-						$this->alias . '.parent_id',
-						$this->alias . '.lft',
-						$this->alias . '.rght',
-						$this->alias . '.group_id',
-					),
-					'conditions' => array(
-						$this->alias . '.active' => 1,
-						$this->alias . '.parent_id != ' => NULL,
-						$this->Menu->alias . '.active' => 1,
-						$this->Menu->alias . '.type' => $type,
-						'or' => array(
-							$this->alias . '.group_id' => array(
-								0,
-								AuthComponent::user('group_id')
-							)
-						)
-					),
-					'joins' => array(
-						array(
-							'table' => $this->Menu->tablePrefix . $this->Menu->useTable,
-							'alias' => $this->Menu->alias,
-							'type' => 'LEFT',
-							'conditions' => array(
-								sprintf(
-									'%s.%s = %s.%s',
-									$this->alias, $this->belongsTo[$this->Menu->alias]['foreignKey'],
-									$this->Menu->alias, $this->Menu->primaryKey
-								)
-							)
+					$this->alias . '.class',
+					$this->alias . '.active',
+					$this->alias . '.menu_id',
+					$this->alias . '.parent_id',
+					$this->alias . '.lft',
+					$this->alias . '.rght',
+					$this->alias . '.group_id',
+				),
+				'conditions' => array(
+					$this->alias . '.active' => 1,
+					$this->alias . '.parent_id != ' => NULL,
+					$this->Menu->alias . '.active' => 1,
+					$this->Menu->alias . '.type' => $type,
+					'or' => array(
+						$this->alias . '.group_id' => array(
+							null,
+							0,
+							AuthComponent::user('group_id')
 						)
 					)
+				),
+				'joins' => array(
+					$this->autoJoinModel($this->Menu->fullModelName())
 				)
-			);
+			));
 
 			foreach ($menus as &$menu) {
 				$this->__underscore($menu);
