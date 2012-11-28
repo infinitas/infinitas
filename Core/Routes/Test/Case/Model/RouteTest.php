@@ -3,17 +3,23 @@
 App::uses('Route', 'Routes.Model');
 
 class RouteTest extends CakeTestCase {
+
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 	public $fixtures = array(
 		'plugin.routes.route',
 		'plugin.themes.theme',
 		'plugin.installer.plugin'
 	);
+
 /**
  * @brief set up at the start
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Route = new Route();
 		$this->Route = ClassRegistry::init('Routes.Route');
 		$this->Route->Behaviors->attach('Libs.Validation');
 	}
@@ -80,14 +86,11 @@ class RouteTest extends CakeTestCase {
  * test getting the route out of the database formatted for InfinitasRouter::connect()
  */
 	public function testGetRoutes() {
-		//basic find
 		$routes = $this->Route->getRoutes();
 
-		//random checks
 		$this->assertTrue(isset($routes[7]));
 		$this->assertNotEmpty($routes[5]);
 
-		// advanced route
 		$expected = array(
 			'Route' => array(
 				'url' => '/p/:year/:month/:day',
@@ -109,7 +112,6 @@ class RouteTest extends CakeTestCase {
 		);
 		$this->assertEqual($routes[9], $expected);
 
-		// admin route
 		$expected = array(
 			'Route' => array(
 				'url' => '/admin',

@@ -6,7 +6,7 @@
  * @since 0.9b1
  */
 class RouteFixture extends CakeTestFixture {
-	public $name = 'Route';
+	
 	public $table = 'core_routes';
 
 	public $fields = array(

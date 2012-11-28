@@ -20,6 +20,7 @@
  */
 
 class Route extends RoutesAppModel {
+
 /**
  * belongs to relations
  *
@@ -55,11 +56,10 @@ class Route extends RoutesAppModel {
 		$this->validate = array(
 			'name' => array(
 				'notEmpty' => array(
-					'required' => true,
 					'rule' => 'notEmpty',
+					'message' => __d('routes', 'Please enter a name for this route'),
 					'required' => true,
-					'on' => 'create',
-					'message' => __d('routes', 'Please enter a name for this route')
+					'on' => 'create'
 				),
 				'isUnique' => array(
 					'rule' => 'isUnique',
