@@ -77,9 +77,9 @@ class ChartDataManipulationTest extends CakeTestCase {
 		$options = array('alias' => $this->Cron->alias, 'fields' => array('average_load', 'max_load'), 'blanks' => false, 'stats' => true);
 		$format = $this->ChartManipulation->getFormatted($crons, $options);
 		$expected = array(
-			'average_load' => unserialize('a:5:{s:3:"max";s:5:"0.155";s:3:"min";s:5:"0.000";s:5:"total";d:0.422000000000000152766688188421539962291717529296875;s:7:"average";d:0.03246153846153847222222310620054486207664012908935546875;s:6:"median";s:5:"0.017";}'),
+			'average_load' => unserialize('a:5:{s:3:"max";s:5:"0.155";s:3:"min";s:5:"0.000";s:5:"total";d:0.422000000000000152766688188421539962291717529296875;s:7:"average";d:0.03246153846153847222222310620054486207664012908935546875;s:6:"median";s:6:"0.0165";}'),
 			'stats' => unserialize('a:5:{s:3:"max";s:5:"0.360";s:3:"min";s:5:"0.000";s:5:"total";d:1.9320000000000003836930773104541003704071044921875;s:7:"average";d:0.0743076923076923245847780208350741304457187652587890625;s:6:"median";d:0.040000000000000000832667268468867405317723751068115234375;}'),
-			'max_load' => unserialize('a:5:{s:3:"max";s:5:"0.360";s:3:"min";s:5:"0.000";s:5:"total";d:1.510000000000000230926389122032560408115386962890625;s:7:"average";d:0.11615384615384617694733293546960339881479740142822265625;s:6:"median";s:5:"0.080";}')
+			'max_load' => unserialize('a:5:{s:3:"max";s:5:"0.360";s:3:"min";s:5:"0.000";s:5:"total";d:1.510000000000000230926389122032560408115386962890625;s:7:"average";d:0.11615384615384617694733293546960339881479740142822265625;s:6:"median";s:5:"0.070";}')
 		);
 		$this->assertEquals($expected['average_load'], $format['stats']['average_load']);
 		$this->assertEquals($expected['max_load'], $format['stats']['max_load']);
