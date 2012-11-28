@@ -177,9 +177,6 @@
 		 * @param array $whiteList contains list of allowed filter attributes
 		 */
 		public function processFilters($controller, $whiteList = null) {
-			if (empty($Controller->uses)) {
-				return array();
-			}
 			$controller = $this->_prepareFilter($controller);
 			$data = $controller->request->data;
 			unset($data[$controller->{$controller->modelClass}->alias]['all']);
