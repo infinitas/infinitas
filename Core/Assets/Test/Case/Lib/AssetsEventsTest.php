@@ -14,6 +14,7 @@ class AssetsEventsTest extends InfinitasEventTestCase {
  * test required js loads correctly
  */
 	public function testRequireJavascript() {
+		Configure::write('Assets.bootstrap', 0);
 		$this->ViewObject->params = array();
 		$expected = array('requireJavascriptToLoad' => array('Assets' => array(
 			'Assets.3rd/jquery',
@@ -43,7 +44,7 @@ class AssetsEventsTest extends InfinitasEventTestCase {
 			'Assets.libs/html',
 			'Assets.libs/number',
 			'Assets.3rd/date',
-			'Assets.3rd/image_drop_down'
+			'Assets.libs/image_selector'
 		)));
 		$result = $this->Event->trigger($this->ViewObject, 'Assets.requireJavascriptToLoad');
 		$this->assertEquals($expected, $result);
