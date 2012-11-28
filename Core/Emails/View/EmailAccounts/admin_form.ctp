@@ -28,7 +28,9 @@ echo $this->Form->create('EmailAccount');
 	$contents = array(
 		implode('', array(
 			$this->Form->input('name'),
-			$this->Form->input('slug'),
+			$this->Form->input('slug', array(
+				'label' => __d('emaisl', 'Alias')
+			)),
 			$this->Form->input('server'),
 			$this->Form->input('port'),
 			$this->Form->input('user_id', array('empty' => Configure::read('Website.empty_select'))),

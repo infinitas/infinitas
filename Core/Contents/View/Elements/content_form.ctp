@@ -13,7 +13,12 @@
 		$this->Form->input('GlobalContent.id') .
 		$this->Form->hidden('GlobalContent.model', array('value' => $model)) .
 		$this->Form->input('GlobalContent.title', array('div' => array('style' => 'width:500px; float:left;'))) .
-		$this->Form->input('GlobalContent.slug', array('label' => __d('contents', 'Url Slug'), 'div' => array('style' => 'width:360px; float:left; padding-left: 10px;')));
+		$this->Form->input('GlobalContent.slug', array(
+			'label' => __d('contents', 'Url Alias'),
+			'div' => array(
+				'style' => 'width:360px; float:left; padding-left: 10px;'
+			)
+		));
 
 	$fields .=
 		'<div class="input smaller required" style="clear: both;">' .

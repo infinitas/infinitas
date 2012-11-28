@@ -42,7 +42,6 @@
 		'id', 'slug', 'password', // general fields
 		'locked', 'locked_by', 'locked_since', // lockable
 		'deleted', 'deleted_date', // soft delete
-		'slug',
 		'lft', 'rght' // mptt fields
 	);
 
