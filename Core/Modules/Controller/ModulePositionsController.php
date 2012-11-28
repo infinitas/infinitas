@@ -24,6 +24,11 @@ class ModulePositionsController extends ModulesAppController {
  * @return void
  */
 	public function admin_index() {
+		$this->Paginator->settings = array(
+			'contain' => array(
+				'Module'
+			)
+		);
 		$modules = $this->Paginator->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
@@ -31,8 +36,9 @@ class ModulePositionsController extends ModulesAppController {
 			'name'
 		);
 
+		$groups = $this->{$this->modelClass}->Module->Group->find('list');
 		$modulePositions = $this->Paginator->paginate();
-		$this->set(compact('modulePositions', 'filterOptions'));
+		$this->set(compact('modulePositions', 'groups', 'filterOptions'));
 	}
 
 }

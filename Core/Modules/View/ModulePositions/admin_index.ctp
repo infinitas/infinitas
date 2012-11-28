@@ -25,6 +25,83 @@
 		'copy',
 		'delete'
 	));
+
+	$orderHandle = $this->Html->link($this->Design->icon('reorder'), $this->here . '#', array(
+		'escape' => false,
+		'class' => 'icon reorder'
+	));
+
+	$empty = array();
+	foreach ($modulePositions as $k => $modulePosition) {
+		foreach ($modulePosition['Module'] as &$module) {
+			$module = $this->Html->tag('div', implode('', array(
+				$orderHandle,
+				$this->Design->label($module['name']),
+				$this->Html->link($this->Design->icon('minus'), array(
+					'controller' => 'modules',
+					'action' => 'delete',
+					$module['id']
+				), array('escape' => false, 'class' => 'icon delete')),
+				$this->Html->link($this->Design->icon('edit'), array(
+					'controller' => 'modules',
+					'action' => 'edit',
+					$module['id']
+				), array('escape' => false, 'class' => 'icon'))
+			)), array(
+				'class' => array(
+					'module',
+					'group-' . $module['group_id']
+				)
+			));
+		}
+		$modules = implode('', $modulePosition['Module']);
+
+		$modulePositions[$k] = $this->Html->tag('div', implode('', array(
+			$this->Html->tag('h4', implode('', array(
+				$this->Infinitas->massActionCheckBox($modulePosition),
+				Inflector::humanize($modulePosition['ModulePosition']['name']),
+				$this->Html->link($this->Design->icon('add'), array(
+					'controller' => 'modules',
+					'action' => 'add',
+					'ModulePosition.id' => $modulePosition['ModulePosition']['id']
+				), array('escape' => false, 'class' => 'icon'))
+			))),
+			$modules
+		)), array(
+			'class' => 'thumbnail',
+			'data-original-position' => $modulePosition['ModulePosition']['id']
+		));
+
+		if(empty($modules)) {
+			$empty[] = $modulePositions[$k];
+			unset($modulePositions[$k]);
+		}
+	}
+
+	$groups[0] = __d('users', 'Public');
+	foreach ($groups as $k => &$group) {
+		$group = $this->Html->link($group, $this->here . '#', array(
+			'class' => 'btn btn btn-small',
+			'data-group' => $k
+		));
+	}
+	array_unshift($groups, $this->Html->link(__d('modules', 'All'), $this->here . '#', array(
+		'class' => 'module-type btn btn-primary btn btn-small disabled',
+		'data-group' => 'all'
+	)));
+	echo $this->Html->tag('div', implode('', $groups), array('class' => 'module-type btn-group'));
+
+	echo $this->Design->arrayToList($modulePositions, array(
+		'ul' => 'module-positions thumbnails',
+		'li' => 'span3'
+	));
+
+	echo $this->Html->tag('h2', __d('modules', 'Unused'));
+	echo $this->Design->arrayToList($empty, array(
+		'ul' => 'module-positions thumbnails',
+		'li' => 'span3 empty'
+	));
+	return;
 ?>
 <table class="listing">
 	<?php
