@@ -13,66 +13,99 @@ $options = array_merge(array(
 $links['config'] = array();
 
 if ($options['layouts']) {
-	$links['config'][] = array(
-		'name' => __d('contents', 'Layouts'),
-		'description' => __d('blog', 'Configure the layouts for your content'),
-		'icon' => '/contents/img/icon.png',
-		'dashboard' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index', 'GlobalLayout.model' => $this->request->plugin)
+	$icon = array(
+		'name' => 'Layout',
+		'description' => 'Manage your content layouts',
+		'icon' => 'table',
+		'dashboard' => array('plugin' => 'contents', 'controller' => 'global_layouts', 'action' => 'index')
 	);
+	if ($this->request->plugin != 'contents') {
+		$icon['GlobalLayout.model'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if ($options['categories']) {
-	$links['config'][] = array(
-		'name' => __d('contents', 'Categories'),
-		'description' => __d('contents', 'Configure the categories for your content'),
-		'icon' => '/contents/img/categories.png',
-		'dashboard' => array('plugin' => 'contents', 'controller' => 'global_categories', 'action' => 'index', 'GlobalLayout.model' => $this->request->plugin)
+	$icon = array(
+		'name' => 'Contents',
+		'description' => 'Manage the contents on your site',
+		'icon' => 'book',
+		'dashboard' => array('plugin' => 'contents', 'controller' => 'global_categories', 'action' => 'index')
 	);
+	if ($this->request->plugin != 'contents') {
+		$icon['GlobalLayout.model'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if ($options['routes']) {
-	$links['config'][] = array(
+	$icon = array(
 		'name' => __d('routes', 'Routes'),
-		'description' => __d('blog', 'Manage content routes'),
-		'icon' => '/routes/img/icon.png',
-		'dashboard' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index', 'Route.plugin' => $this->request->plugin)
+		'description' => __d('routes', 'Manage content routes'),
+		'icon' => 'road',
+		'dashboard' => array('plugin' => 'routes', 'controller' => 'routes', 'action' => 'index')
 	);
+
+	if ($this->request->plugin != 'contents') {
+		$icon['Route.plugin'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if ($options['modules']) {
-	$links['config'][] = array(
+	$icon = array(
 		'name' => __d('modules', 'Modules'),
-		'description' => __d('blog', 'Manage content modules'),
-		'icon' => '/modules/img/icon.png',
-		'dashboard' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index', 'Module.plugin' => $this->request->plugin)
+		'description' => __d('modules', 'Manage content modules'),
+		'icon' => 'list-alt',
+		'dashboard' => array('plugin' => 'modules', 'controller' => 'modules', 'action' => 'index')
 	);
+
+	if ($this->request->plugin != 'contents') {
+		$icon['Module.plugin'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if ($options['locks']) {
-	$links['config'][] = array(
-		'name' => __d('locks', 'Locked'),
-		'description' => __d('blog', 'Manage locked content'),
-		'icon' => '/locks/img/icon.png',
-		'dashboard' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index', 'Lock.class' => $this->request->plugin)
+	$icon = array(
+		'name' => __d('locks', 'Locks'),
+		'description' => __d('locks', 'Stop others editing things you are working on'),
+		'icon' => 'locked',
+		'dashboard' => array('plugin' => 'locks', 'controller' => 'locks', 'action' => 'index')
 	);
+
+	if ($this->request->plugin != 'contents') {
+		$icon['Lock.class'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if ($options['trash']) {
-	$links['config'][] = array(
+	$icon = array(
 		'name' => __d('trash', 'Trash'),
-		'description' => __d('blog', 'View / Restore previously removed content'),
-		'icon' => '/trash/img/icon.png',
-		'dashboard' => array('plugin' => 'trash', 'controller' => 'trash', 'action' => 'index', 'Trash.model' => $this->request->plugin)
+		'description' => __d('trash', 'Manage the deleted content'),
+		'icon' => 'trash',
+		'dashboard' => array('plugin' => 'trash', 'controller' => 'trash', 'action' => 'index')
 	);
+
+	if ($this->request->plugin != 'contents') {
+		$icon['Trash.model'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if ($options['views'] && InfinitasPlugin::loaded('ViewCounter')) {
-	$links['config'][] =  array(
+	$icon = array(
 		'name' => __d('view_counter', 'Views'),
-		'description' => __d('blog', 'Track content popularity'),
-		'icon' => '/view_counter/img/icon.png',
-		'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports', 'ViewCounterView.model' => $this->request->plugin)
+		'description' => __d('view_counter', 'Track content popularity'),
+		'icon' => 'eye-open',
+		'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'reports')
 	);
+
+	if ($this->request->plugin != 'contents') {
+		$icon['ViewCounterView.model'] = $this->request->plugin;
+	}
+	$links['config'][] = $icon;
 }
 
 if (empty($links['config'])) {
