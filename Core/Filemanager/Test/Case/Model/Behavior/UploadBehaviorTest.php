@@ -241,7 +241,7 @@ class UploadBehaviorTest extends CakeTestCase {
 		);
 		$result = $this->TestUpload->delete($this->data['test_update']['id']);
 		$this->assertTrue($result);
-		$this->assertFalse($this->TestUpload->findById($this->data['test_update']['id']));
+		$this->assertFalse((bool)$this->TestUpload->findById($this->data['test_update']['id']));
 	}
 
 	public function testDeleteFileOnRemoveSave() {
