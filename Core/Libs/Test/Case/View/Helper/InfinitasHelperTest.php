@@ -64,7 +64,7 @@ class InfinitasHelperTest extends CakeTestCase {
 				array('status' => 0, 'options' => array()),
 				array(
 					array('a' => array(
-						'href' => '/#',
+						'href' => 'http://localhost/#',
 						'class' => 'icon status',
 						'title' => 'Status :: This record is disabled',
 						'alt' => 'Off',
@@ -80,7 +80,7 @@ class InfinitasHelperTest extends CakeTestCase {
 				array('status' => 0, 'options' => array('title_no' => 'foo bar')),
 				array(
 					array('a' => array(
-						'href' => '/#',
+						'href' => 'http://localhost/#',
 						'class' => 'icon status',
 						'title' => 'foo bar',
 						'alt' => 'Off',
