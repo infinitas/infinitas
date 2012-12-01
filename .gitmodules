@@ -45,7 +45,7 @@
 	url = git://github.com/cakephp/cakephp
 [submodule "Plugin/InfinitasPiwik"]
 	path = Plugin/InfinitasPiwik
-	url = https://github.com/Infinitas-Plugins/InfinitasPiwik.git
+	url = git://github.com/Infinitas-Plugins/InfinitasPiwik.git
 [submodule "Developer/Xhprof"]
 	path = Developer/Xhprof
 	url = git://github.com/Infinitas-Plugins/Xhprof.git
