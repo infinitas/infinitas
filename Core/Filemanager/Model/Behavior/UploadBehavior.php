@@ -233,7 +233,7 @@ class UploadBehavior extends ModelBehavior {
  * @return string
  */
 	protected function _getUrlPath($Model, $field) {
-		return str_replace(APP . 'webroot', '', $this->settings[$Model->alias][$field]['path']);
+		return Sanitize::escape(str_replace(APP . 'webroot', '', $this->settings[$Model->alias][$field]['path']), $Model->useDbConfig);
 	}
 
 /**
