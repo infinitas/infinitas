@@ -12,7 +12,7 @@ class TrashableBehavior extends ModelBehavior {
 		$userId = AuthComponent::user('id');
 
 		if (!$userId) {
-			return false;
+			return;
 		}
 
 		$Model->contain();
