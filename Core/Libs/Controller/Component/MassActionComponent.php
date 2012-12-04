@@ -5,9 +5,6 @@
  * This handles all the different form actions, especialy delete / copy /
  * toggle where you need to manipulate many records at a time.
  *
-
- *
- * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Libs.Controller.Component
@@ -16,9 +13,6 @@
  *
  * @author Carl Sutton ( dogmatic69 )
  * @author dakota
- *
- *
- *
  */
 App::uses('InfinitasComponent', 'Libs.Controller/Component');
 
@@ -65,9 +59,7 @@ class MassActionComponent extends InfinitasComponent {
 
 		if (method_exists($this->Controller, $massActionMethod)) {
 			return $this->Controller->{$massActionMethod}($ids);
-		}
-
-		else if (method_exists($this, $massAction)) {
+		} else if (method_exists($this, $massAction)) {
 			return $this->{$massAction}($ids);
 		}
 
@@ -92,13 +84,10 @@ class MassActionComponent extends InfinitasComponent {
 
 		$ids = array_values(array_filter(Hash::extract($data, '{n}.massCheckBox')));
 		if (empty($ids)) {
-			$this->Controller->notice(
-				__d('libs', 'Nothing was selected, please select something and try again.'),
-				array(
-					'level' => 'warning',
-					'redirect' => ''
-				)
-			);
+			$this->Controller->notice(__d('libs', 'Nothing was selected, please select something and try again.'), array(
+				'level' => 'warning',
+				'redirect' => ''
+			));
 		}
 
 		return $ids;
@@ -161,20 +150,15 @@ class MassActionComponent extends InfinitasComponent {
 					continue;
 				}
 
-				if (empty($field) && $field !== 0) {
-					continue;
-				}
-
-				$data[$model.'.'.$k] = $field;
+				$data[$model . '.' . $k] = $field;
 			}
 		}
 
 		$this->Controller->redirect(array(
-				'plugin' => $this->Controller->request->params['plugin'],
-				'controller' => $this->Controller->request->params['controller'],
-				'action' => 'index'
-			) + $this->Controller->request->params['named'] + $data
-		);
+			'plugin' => $this->Controller->request->params['plugin'],
+			'controller' => $this->Controller->request->params['controller'],
+			'action' => 'index'
+		) + $this->Controller->request->params['named'] + $data);
 	}
 
 /**
@@ -191,21 +175,16 @@ class MassActionComponent extends InfinitasComponent {
 		if ($delete) {
 			if (method_exists($this->Controller, '__handleDeletes')) {
 				$this->Controller->__handleDeletes($ids);
-			}
-
-			else {
+			} else {
 				$this->__handleDeletes($ids);
 			}
 		}
 
-		$rows = $this->Controller->{$this->Controller->modelClass}->find(
-			'list',
-			array(
-				'conditions' => array(
-					$this->Controller->modelClass . '.id' => $ids
-				)
+		$rows = $this->Controller->{$this->Controller->modelClass}->find('list', array(
+			'conditions' => array(
+				$this->Controller->modelClass . '.id' => $ids
 			)
-		);
+		));
 
 		$this->Controller->set('model', $this->Controller->modelClass);
 		$this->Controller->set(compact('rows'));
@@ -236,7 +215,6 @@ class MassActionComponent extends InfinitasComponent {
 			$deleted = $deleted && $this->Controller->{$this->Controller->modelClass}->delete($id);
 		}
 
-		$params = array();
 		if ($deleted) {
 			$this->Controller->{$this->Controller->modelClass}->transaction(true);
 			$this->Controller->notice('deleted');
@@ -274,41 +252,29 @@ class MassActionComponent extends InfinitasComponent {
 		}
 
 		// unbind things for the update. dont need all the models for this.
-		$this->Controller->{$this->Controller->modelClass}->unbindModel(
-			array(
-				'belongsTo' => array_keys($this->Controller->{$this->Controller->modelClass}->belongsTo),
-				'hasOne' => array_keys($this->Controller->{$this->Controller->modelClass}->hasOne)
-			)
-		);
+		$this->Controller->{$this->Controller->modelClass}->unbindModel(array(
+			'belongsTo' => array_keys($this->Controller->{$this->Controller->modelClass}->belongsTo),
+			'hasOne' => array_keys($this->Controller->{$this->Controller->modelClass}->hasOne)
+		));
 
 		if ($this->Controller->{$this->Controller->modelClass}->updateAll($newValues, $conditions)) {
 			$this->Controller->{$this->Controller->modelClass}->afterSave(false);
 
-
 			if (!empty($message)) {
-				$this->Controller->notice(
-					$message,
-					array(
-						'redirect' => true
-					)
-				);
+				$this->Controller->notice($message, array(
+					'redirect' => true
+				));
 			}
 
-			$this->Controller->notice(
-				sprintf(__d('libs', 'The %s were toggled'), $this->Controller->prettyModelName),
-				array(
-					'redirect' => true
-				)
-			);
+			$this->Controller->notice(__d('libs', 'The %s were toggled', $this->Controller->prettyModelName), array(
+				'redirect' => true
+			));
 		}
 
-		$this->Controller->notice(
-			sprintf(__d('libs', 'The %s could not be toggled'), $this->Controller->prettyModelName),
-			array(
-				'level' => 'error',
-				'redirect' => true
-			)
-		);
+		$this->Controller->notice(__d('libs', 'The %s could not be toggled', $this->Controller->prettyModelName), array(
+			'level' => 'error',
+			'redirect' => true
+		));
 	}
 
 /**
@@ -326,13 +292,10 @@ class MassActionComponent extends InfinitasComponent {
 		$saves = 0;
 
 		if ($this->Controller->{$this->Controller->modelClass}->Behaviors->attached('Contentable')) {
-			$this->Controller->notice(
-				__d('content', 'Copy is not currently supported for this data'),
-				array(
-					'redirect' => '',
-					'level' => 'warning'
-				)
-			);
+			$this->Controller->notice(__d('content', 'Copy is not currently supported for this data'), array(
+				'redirect' => '',
+				'level' => 'warning'
+			));
 		}
 
 		foreach ($ids as $id) {
@@ -341,24 +304,22 @@ class MassActionComponent extends InfinitasComponent {
 			unset($record[$this->Controller->modelClass]['id']);
 
 			$check = $record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] != $this->Controller->{$this->Controller->modelClass}->primaryKey;
-
 			if ($check) {
 				$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] =
-							$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] . $copyText;
+					$record[$this->Controller->modelClass][$this->Controller->{$this->Controller->modelClass}->displayField] . $copyText;
 			}
 
+			unset(
+				$record[$this->Controller->modelClass]['created'],
+				$record[$this->Controller->modelClass]['modified'],
+				$record[$this->Controller->modelClass]['lft'],
+				$record[$this->Controller->modelClass]['rght'],
+				$record[$this->Controller->modelClass]['ordering'],
+				$record[$this->Controller->modelClass]['order_id'],
+				$record[$this->Controller->modelClass]['views']
+			);
 			$record[$this->Controller->modelClass]['active'] = 0;
-			unset($record[$this->Controller->modelClass]['created']);
-			unset($record[$this->Controller->modelClass]['modified']);
-			unset($record[$this->Controller->modelClass]['lft']);
-			unset($record[$this->Controller->modelClass]['rght']);
-			unset($record[$this->Controller->modelClass]['ordering']);
-			unset($record[$this->Controller->modelClass]['order_id']);
-			unset($record[$this->Controller->modelClass]['views']);
 
-			/**
-				* unset anything fields that are countercache
-				*/
 			foreach ($record[$this->Controller->modelClass] as $field => $value) {
 				$schema = $this->Controller->{$this->Controller->modelClass}->schema($field);
 				if (!empty($schema['key']) && $schema['key'] == 'unique') {
@@ -377,21 +338,15 @@ class MassActionComponent extends InfinitasComponent {
 		}
 
 		if ($saves) {
-			$this->Controller->notice(
-				sprintf(__d('libs', '%s copies of %s were made'), $saves, $this->Controller->prettyModelName),
-				array(
-					'redirect' => true
-				)
-			);
+			$this->Controller->notice(__d('libs', '%s copies of %s were made', $saves, $this->Controller->prettyModelName), array(
+				'redirect' => true
+			));
 		}
 
-		$this->Controller->notice(
-			sprintf(__d('libs', 'No copies of %s could be made'), $this->Controller->prettyModelName),
-			array(
-				'level' => 'error',
-				'redirect' => true
-			)
-		);
+		$this->Controller->notice(__d('libs', 'No copies of %s could be made', $this->Controller->prettyModelName), array(
+			'level' => 'error',
+			'redirect' => true
+		));
 	}
 
 /**
@@ -406,14 +361,15 @@ class MassActionComponent extends InfinitasComponent {
 		if (isset($this->Controller->data['Move']['confirmed']) && $this->Controller->data['Move']['confirmed']) {
 			if (method_exists($this->Controller, '__handleMove')) {
 				$this->Controller->__handleMove($ids);
-			}
-			else {
+			} else {
 				$this->__handleMove($ids);
 			}
 		}
 
-		$rows = $this->Controller->{$this->Controller->modelClass}->find('all', array('conditions' => array($this->Controller->modelClass.'.id' => $ids), 'contain' => false));
-		$model = $this->Controller->modelClass;
+		$rows = $this->Controller->{$this->Controller->modelClass}->find('all', array(
+			'conditions' => array($this->Controller->modelClass.'.id' => $ids), 
+			'contain' => false
+		));
 
 		$relations['belongsTo'] = array();
 		if (isset($this->Controller->{$this->Controller->modelClass}->belongsTo)) {
@@ -431,9 +387,7 @@ class MassActionComponent extends InfinitasComponent {
 						if (in_array('Tree', $_Model->Behaviors->_attached)) {
 							$_Model->order = array();
 							$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->generateTreeList());
-						}
-
-						else{
+						} else{
 							$this->Controller->set(strtolower(Inflector::pluralize($alias)), $_Model->find('list'));
 						}
 						break;
@@ -458,12 +412,9 @@ class MassActionComponent extends InfinitasComponent {
 		}
 
 		if (array_filter(Set::flatten($relations)) == array()) {
-			$this->Controller->notice(
-				__d($this->Controller->request->params['plugin'], 'There is nothing to move for these records'),
-				array(
-					'redirect' => true
-				)
-			);
+			$this->Controller->notice(__d($this->Controller->request->params['plugin'], 'There is nothing to move for these records'), array(
+				'redirect' => true
+			));
 		}
 
 		$modelSetup['displayField'] = $this->Controller->{$this->Controller->modelClass}->displayField;
@@ -503,8 +454,7 @@ class MassActionComponent extends InfinitasComponent {
 			foreach ($_data as $key => $value) {
 				if (is_array($value)) {
 					$save[$key][$key] = $value;
-				}
-				else{
+				} else {
 					$save[$_mn][$key] = $value;
 				}
 			}
@@ -524,14 +474,12 @@ class MassActionComponent extends InfinitasComponent {
 
 		if ($result == true) {
 			$params = array(
-				'message' => sprintf(__d('libs', 'The %s have been moved'), $this->Controller->prettyModelName)
+				'message' => __d('libs', 'The %s have been moved', $this->Controller->prettyModelName)
 			);
-		}
-
-		else {
+		} else {
 			$params = array(
 				'level' => 'warning',
-				'message' => sprintf(__d('libs', 'Some of the %s could not be moved'), $this->Controller->prettyModelName)
+				'message' => __d('libs', 'Some of the %s could not be moved', $this->Controller->prettyModelName)
 			);
 		}
 
@@ -558,5 +506,4 @@ class MassActionComponent extends InfinitasComponent {
 
 		$this->Controller->redirect(array_merge($url, $this->Controller->request->params['named'], (array)$this->Controller->request->params['pass']));
 	}
-
 }
