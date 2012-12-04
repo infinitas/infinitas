@@ -59,15 +59,16 @@ class ThemesComponent extends InfinitasComponent {
 		}
 
 		$event = $Controller->Event->trigger($Controller->plugin . '.setupThemeStart');
-		if (isset($event['setupThemeStart'][$Controller->plugin])) {
-			if (is_string($event['setupThemeStart'][$Controller->plugin])) {
-				$Controller->theme = $event['setupThemeStart'][$Controller->plugin];
-				return true;
-			}
 
-			else if ($event['setupThemeStart'][$Controller->plugin] === false) {
-				return false;
+		if (isset($event['setupThemeStart'][$Controller->plugin]) && $event['setupThemeStart'][$Controller->plugin] === false) {
+			return;
+		}
+		if (!empty($event['setupThemeStart'][$Controller->plugin]['theme'])) {
+			$Controller->theme = $event['setupThemeStart'][$Controller->plugin]['theme'];
+			if (!empty($event['setupThemeStart'][$Controller->plugin]['layout'])) {
+				$Controller->layout = $event['setupThemeStart'][$Controller->plugin]['layout'];
 			}
+			return true;
 		}
 
 		$Controller->layout = Configure::read('Themes.default_layout');
@@ -101,22 +102,16 @@ class ThemesComponent extends InfinitasComponent {
 
 		if (!isset($theme['Theme']['name'])) {
 			$theme['Theme'] = array('name' => null);
-		}
-		else {
-			$event = $Controller->Event->trigger(
-				$Controller->plugin . '.setupThemeSelector',
-				array(
-					'theme' => $theme['Theme'],
-					'params' => $Controller->request->params
-				)
-			);
+		} else {
+			$event = $Controller->Event->trigger($Controller->plugin . '.setupThemeSelector', array(
+				'theme' => $theme['Theme'],
+				'params' => $Controller->request->params
+			));
 
-			if (isset($event['setupThemeSelector'][$Controller->plugin])) {
-				if (is_array($event['setupThemeSelector'][$Controller->plugin])) {
-					$theme['Theme'] = $event['setupThemeSelector'][$Controller->plugin];
-					if (!isset($theme['Theme']['name'])) {
-						$this->cakeError('eventError', array('message' => 'The theme is invalid.', 'event' => $event));
-					}
+			if (isset($event['setupThemeSelector'][$Controller->plugin]) && is_array($event['setupThemeSelector'][$Controller->plugin])) {
+				$theme['Theme'] = $event['setupThemeSelector'][$Controller->plugin];
+				if (!isset($theme['Theme']['name'])) {
+					$this->cakeError('eventError', array('message' => 'The theme is invalid.', 'event' => $event));
 				}
 			}
 		}
