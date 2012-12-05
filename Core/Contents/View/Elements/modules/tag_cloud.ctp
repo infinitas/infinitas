@@ -1,15 +1,18 @@
 <?php
+	$config = array_merge(array(
+		'title' => __d('contents', 'Tag cloud')
+	), $config);
 	if (!empty($config['model'])) {
 		list($plugin,) = pluginSplit($config['model']);
 		if (Inflector::underscore($plugin) != $this->request->plugin) {
 			return;
 		}
 	}
-	
+
 	if (isset($config['category']) && $config['category'] && !empty($this->request->params['category'])) {
 		$config['category'] = $this->request->params['category'];
 	}
-	
+
 	if (empty($tags)) {
 		$tags = ClassRegistry::init('Blog.BlogPost')->GlobalTagged->find(
 			'cloud',
@@ -31,11 +34,11 @@
 		$tags = $_tags;
 		unset($_tags);
 	}
-	
+
 	if (!$tags) {
 		return false;
 	}
-	
+
 	$url = !empty($config['url']) ? $config['url'] : array();
 	if (empty($url) && !empty($config['model'])) {
 		list($plugin, $model) = pluginSplit($config['model']);
@@ -43,7 +46,7 @@
 		$url['controller'] = Inflector::tableize($model);
 		$url['action'] = 'index';
 	}
-	
+
 	if (!empty($config['category'])) {
 		$url['category'] = $config['category'];
 	}
@@ -52,15 +55,12 @@
 	<div class="title_bar"><?php echo $config['title']; ?></div>
 	<div class="content">
 		<?php
-			echo $this->TagCloud->display(
-				$tags,
-				array(
-					'before' => '<li size="%size%" class="tag">',
-					'after'  => '</li>',
-					'url' => $url,
-					'named' => 'tag'
-				)
-			);
+			echo $this->TagCloud->display($tags, array(
+				'before' => '<li size="%size%" class="tag">',
+				'after'  => '</li>',
+				'url' => $url,
+				'named' => 'tag'
+			));
 		?>
 	</div>
 </div>
