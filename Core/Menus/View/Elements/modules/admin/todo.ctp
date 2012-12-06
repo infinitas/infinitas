@@ -26,12 +26,6 @@
 		return true;
 	}
 
-	array(
-		'name' => '',
-		'type' => '',
-		'url' => ''
-	);
-
 	$out = '';
 
 	foreach ($todo as $name => $info) {

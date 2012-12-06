@@ -1,18 +1,9 @@
 <?php
-$config = array_merge(array(
-	'model' => null,
-	'category' => null,
-	'title' => null,
-	'limit' => null,
-	'truncate' => null
-), $config);
-
 echo $this->Form->input('ModuleConfig.title', array(
 	'type' => 'text',
 	'label' => __d('contents', 'The title of the module'),
 	'placeholder' => __d('contents', 'Sub Categories')
 ));
-
 echo $this->Form->input('ModuleConfig.explore', array(
 	'type' => 'text',
 	'label' => __d('contents', 'Link text for explore'),
@@ -33,7 +24,6 @@ echo $this->Form->input('ModuleConfig.back', array(
 	'label' => __d('contents', 'Back link text'),
 	'placeholder' => __d('contents', 'Back to %s')
 ));
-
 echo $this->Form->input('ModuleConfig.div_class', array(
 	'type' => 'text',
 	'label' => __d('contents', 'CSS class for the div'),
