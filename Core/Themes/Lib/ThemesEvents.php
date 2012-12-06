@@ -20,6 +20,17 @@ App::uses('InfinitasTheme', 'Themes.Lib');
  */
 
 class ThemesEvents extends AppEvents {
+
+	public function onPluginRollCall(Event $Event) {
+		return array(
+			'name' => 'Themes',
+			'description' => 'Theme your site',
+			'icon' => 'magic',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'themes', 'controller' => 'themes', 'action' => 'index')
+		);
+	}
+
 /**
  * Setup theme cache
  *

@@ -92,6 +92,16 @@ class ModulesEvents extends AppEvents {
 		);
 	}
 
+	public function onPluginRollCall(Event $Event) {
+		return array(
+			'name' => 'Modules',
+			'description' => 'Add sections of output to your site with ease',
+			'icon' => 'list-alt',
+			'author' => 'Infinitas',
+			'dashboard' => array('plugin' => 'modules', 'controller' => 'module_positions', 'action' => 'index')
+		);
+	}
+
 /**
  * Get admin menu
  *
