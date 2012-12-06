@@ -174,21 +174,6 @@ class Module extends ModulesAppModel {
 					'required' => true,
 					'rule' => 'validateValidPosition',
 					'message' => __d('modules', 'Please select a valid position'))),
-			'author' => array(
-				'notEmpty' => array(
-					'required' => true,
-					'rule' => 'notEmpty',
-					'message' => __d('modules', 'Please enter the author of this module'))),
-			'url' => array(
-				'notEmpty' => array(
-					'required' => true,
-					'rule' => array('url', true),
-					'message' => __d('modules', 'Please enter the url of the author'))),
-			'update_url' => array(
-				'url' => array(
-					'allowEmpty' => true,
-					'rule' => array('url', true),
-					'message' => __d('modules', 'Please enter a valid url to check for updates'))),
 			'plugin' => array(
 				'notEmpty' => array(
 					'required' => true,
@@ -439,22 +424,32 @@ class Module extends ModulesAppModel {
 		}
 
 		App::import('File');
-		$this->Folder = new Folder($path.$this->subPath);
+		$this->Folder = new Folder($path . $this->subPath);
 
 		$files = $this->Folder->read();
 
+		foreach ($files[0] as $folder) {
+			if ($folder !== 'admin') {
+				$nonAdmin[$folder] = Inflector::humanize($folder);
+			}
+		}
 		foreach ($files[1] as $file) {
 			$file = str_replace('.ctp', '', $file);
 			$nonAdmin[$file] = Inflector::humanize($file);
 		}
 
-		if (!empty($files[0]) && is_dir($path.$this->subPath.'admin')) {
+		if (!empty($files[0]) && is_dir($path . $this->subPath . 'admin')) {
 			$this->Folder->cd($path . $this->subPath . 'admin');
 			$files = $this->Folder->read();
 
+			foreach ($files[0] as $folder) {
+				if ($folder !== 'admin') {
+					$admin['admin/' . $folder] = Inflector::humanize($folder);
+				}
+			}
 			foreach ($files[1] as &$file) {
 				$file = str_replace('.ctp', '', $file);
-				$admin['admin/'.$file] = Inflector::humanize($file);
+				$admin['admin/' . $file] = Inflector::humanize($file);
 			}
 		}
 

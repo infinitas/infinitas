@@ -29,10 +29,7 @@ class ModulesController extends ModulesAppController {
 				'Module.id',
 				'Module.name',
 				'Module.plugin',
-				'Module.author',
-				'Module.licence',
 				'Module.ordering',
-				'Module.core',
 				'Module.active',
 				'Position.id',
 				'Position.name',
@@ -55,10 +52,7 @@ class ModulesController extends ModulesAppController {
 			'plugin' => $this->Module->getPlugins(),
 			'theme_id' => array(null => __d('modules', 'All')) + $this->Module->Theme->find('list'),
 			'position_id' => array(null => __d('modules', 'All')) + $this->Module->Position->find('list'),
-			'author',
-			'licence',
 			'group_id' => array(null => __d('modules', 'Public')) + $this->Module->Group->find('list'),
-			'core' => Configure::read('CORE.core_options'),
 			'active' => Configure::read('CORE.active_options')
 		);
 
@@ -90,7 +84,18 @@ class ModulesController extends ModulesAppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		if (!empty($this->request->data['ModuleConfig'])) {
+			$this->request->data['ModuleConfig'] = array_filter($this->request->data['ModuleConfig']);
+			$this->request->data[$this->modelClass]['config'] = null;
+			if ($this->request->data['ModuleConfig']) {
+				$this->request->data[$this->modelClass]['config'] = json_encode($this->request->data['ModuleConfig']);
+			}
+		}
 		parent::admin_edit($id, array('fields' => array('Module.*')));
+
+		if (empty($this->request->data['ModuleConfig'])) {
+			$this->request->data['ModuleConfig'] = json_decode($this->request->data[$this->modelClass]['config'], true);
+		}
 
 		$positions = $this->Module->Position->find('list');
 		$groups = $this->Module->Group->find('list');
@@ -116,6 +121,15 @@ class ModulesController extends ModulesAppController {
 		}
 
 		$this->set('json', $this->{$this->modelClass}->getModuleList($this->request->data[$this->modelClass]['plugin']));
+	}
+
+	public function admin_config() {
+		$error = empty($this->request->data[$this->modelClass]['plugin']) || empty($this->request->data[$this->modelClass]['module']);
+		if ($error) {
+			return $this->set('json', array('error'));
+		}
+
+		$this->set('module', $this->request->data[$this->modelClass]);
 	}
 
 }

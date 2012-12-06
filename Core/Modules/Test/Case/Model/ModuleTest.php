@@ -78,11 +78,6 @@ class ModuleTestCase extends CakeTestCase {
 				'admin' => false,
 				'active' => true,
 				'show_heading' => false,
-				'core' => false,
-				'author' => 'Infinitas',
-				'licence' => 'MIT',
-				'url' => 'http://www.infinitas-cms.org',
-				'update_url' => '',
 				'created' => '2010-01-19 00:30:53',
 				'modified' => '2010-06-02 14:53:06',
 				'plugin' => 'Management',
@@ -152,8 +147,6 @@ class ModuleTestCase extends CakeTestCase {
 				array(
 					'name' => array('Please enter a name for this module'),
 					'position_id' => array('Please select the position this module will show in'),
-					'author' => array('Please enter the author of this module'),
-					'url' => array('Please enter the url of the author'),
 					'plugin' => array('Please select the plugin this module is loaded from'),
 					'module' => array('Please select the module to load')
 				)
@@ -163,8 +156,6 @@ class ModuleTestCase extends CakeTestCase {
 				array(
 					'name' => array('Please enter a valid name (alpha numeric with spaces)'),
 					'position_id' => array('Please select the position this module will show in'),
-					'author' => array('Please enter the author of this module'),
-					'url' => array('Please enter the url of the author'),
 					'plugin' => array('Please select the plugin this module is loaded from'),
 					'module' => array('Please select the module to load')
 				)
@@ -173,14 +164,11 @@ class ModuleTestCase extends CakeTestCase {
 				array(
 					'name' => 'My Module',
 					'position_id' => 99999,
-					'author' => 'dogmatic69',
-					'url' => 'wrong-url',
 					'plugin' => 'Invalid Plugin',
 					'module' => 'nothing-too-see'
 				),
 				array(
 					'position_id' => array('Please select a valid position'),
-					'url' => array('Please enter the url of the author'),
 					'plugin' => array('Please select a valid plugin'),
 					'module' => array('Please select a valid module')
 				)
@@ -199,8 +187,6 @@ class ModuleTestCase extends CakeTestCase {
 				array(
 					'name' => 'My Module',
 					'position_id' => 'module-position-top',
-					'author' => 'dogmatic69',
-					'url' => 'http://infinitas-cms.org/module/updates',
 					'plugin' => 'ViewCounter',
 					'module' => 'admin/overall',
 					'admin' => true

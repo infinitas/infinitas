@@ -17,8 +17,13 @@
 	 * @license	   http://www.opensource.org/licenses/mit-license.php The MIT License
 	 */
 
-	echo $this->Form->create('Module');
+	echo $this->Form->create(null, array(
+		'inputDefaults' => array(
+			'empty' => Configure::read('Website.empty_select')
+		)
+	));
 		echo $this->Infinitas->adminEditHead();
+		echo $this->Form->input('id');
 
 		$parts = array(
 			'heading' => __d('modules', 'Menu Item'),
@@ -27,39 +32,60 @@
 			'where' => __d('modules', 'Where Module should show'),
 			'licence' => __d('module', 'Licence Details')
 		);
-		
+
 		$tabs = array(
-			__d('modules', 'Module Config'),
-			__d('modules', 'Display To'),
-			__d('modules', 'License Info')
+			__d('modules', 'Config'),
+			__d('modules', 'Display'),
+			__d('modules', 'Location')
+		);
+		$moduleConfig = $this->ModuleLoader->moduleConfig(array(
+			'plugin' => $this->data['Module']['plugin'],
+			'module' => $this->data['Module']['module'],
+			'admin' => isset($this->data['Module']['admin']) ? $this->data['Module']['admin'] : false,
+			'config' => $this->data['Module']['config']
+		));
+
+		$contents = array();
+		$contents[] = $this->Html->tag('div', $moduleConfig, array(
+			'class' => 'module-config'
+		));
+
+		$contents[] = implode('', array(
+			$this->Form->input('group_id'),
+			$this->Form->input('theme_id')
+		));
+		$contents[] = implode('', array(
+			$this->Form->input('position_id'),
+			$this->Form->input('Route', array(
+				'type' => 'select',
+				'multiple' => 'checkbox',
+				'value' => Set::extract('/ModuleRoute/Route/id', $this->request->data)
+			))
+		));
+
+		$right = array(
+			$this->Form->input('name'),
+			$this->Html->tag('div', implode('', array(
+				$this->Html->tag('div',
+					implode('', array(
+						$this->Form->label('plugin', $parts['module']),
+						$this->Form->input('plugin', array(
+							'label' => false,
+							'div' => false,
+							'class' => "ajaxSelectPopulate {url:{action:'getModules'}, target:'ModuleModule'}"
+						)),
+						$this->Form->input('module', array(
+							'label' => false,
+							'div' => false
+						))
+					)),
+				array('class' => 'input select smaller')),
+				$this->Form->input('active')
+			)),array('class' => 'dynamic'))
 		);
 
-		$content = array();
-		$content[0] = <<<TAB1
-			{$this->Form->input('id')}
-			{$this->Form->input('name')}
-			<div class="dynamic">
-				<div class="input select smaller">
-					<label for="ModulePlugin">{$parts['module']}</label>
-					{$this->Form->input('plugin', array('label' => false, 'div' => false, 'class' => "ajaxSelectPopulate {url:{action:'getModules'}, target:'ModuleModule'}"))}
-					{$this->Form->input('module', array('label' => false, 'div' => false, 'empty' => __d('modules', Configure::read('Website.empty_select'))))}
-				</div>
-				{$this->Form->input('config', array('class' => 'title'))}
-				{$this->Form->input('active')}
-			</div>
-			<div class="static">
-				{$this->Form->input('show_heading')}
-				{$this->Form->input('content', array('class' => 'title'))}
-			</div>
-TAB1;
-
-		$content[1] = $this->Form->input('group_id', array('empty' => Configure::read('Website.empty_select'))) .
-			$this->Form->input('theme_id', array('empty' => __d('modules', 'All Themes'))) .
-			$this->Form->input('position_id', array('empty' => Configure::read('Website.empty_select'))) .
-			$this->Form->input('Route', array('type' => 'select', 'multiple' => 'checkbox', 'value' => Set::extract('/ModuleRoute/Route/id', $this->request->data)));
-
-		$content[2] = $this->Form->input('author') . $this->Form->input('url') .
-			$this->Form->input('update_url') . $this->Form->input('licence');
-		
-		echo $this->Design->tabs($tabs, $content);
+		echo $this->Html->tag('div', implode('', array(
+			$this->Html->tag('div', $this->Design->tabs($tabs, $contents), array('class' => 'span9')),
+			$this->Design->sidebar($right, __d('infinitas', 'Module'))
+		)), array('class' => 'row-fluid form'));
 	echo $this->Form->end();

@@ -108,7 +108,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			return false;
 		}
 
-		if ($params == null) {
+		if (empty($params)) {
 			$params = $this->__getModuleParams($module);
 		}
 
@@ -126,10 +126,11 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			$path = 'modules/';
 
 			try {
-				$moduleOut = $this->_View->element(
-					implode('.', array(Inflector::camelize($plugin), $path . $module)),
-					$params
-				);
+				$moduleFile = implode('.', array(Inflector::camelize($plugin), $path . $module));
+				if (!$this->_View->elementExists($moduleFile)) {
+					$moduleFile .= DS . 'module';
+				}
+				$moduleOut = $this->_View->element($moduleFile, $params);
 			} catch(Exception $e) {
 				$moduleOut = $e->getMessage();
 			}
@@ -144,6 +145,56 @@ class ModuleLoaderHelper extends InfinitasHelper {
 				str_replace('/', '-', $module),
 				$class
 			)
+		));
+	}
+
+/**
+ * Load the config for a module if available
+ *
+ * If a module has not been selected a message will be shown
+ *
+ * This method expects the following information:
+ *	- plugin: the plugin of the module to load
+ *	- module: the module to get the config of
+ *	- admin: if its admin or not
+ *	- config: the existing config options
+ *
+ * If there is no config available a textarea will be generated for entering json configs
+ *
+ * @param array $module the details for the module
+ *
+ * @return string
+ */
+	public function moduleConfig(array $module) {
+		$module = array_merge(array(
+			'plugin' => null,
+			'module' => null,
+			'admin' => null,
+			'config' => null
+		), $module);
+
+		if (empty($module['plugin']) && empty($module['module'])) {
+			return $this->Design->alert(__d('modules', 'Select a module before configuring'));
+		}
+
+		$module['module'] = implode('/', array(
+			'modules',
+			$module['module'],
+			'config'
+		));
+		if ($module['admin']) {
+			$module['module'] = 'admin/' . $module['module'];
+		}
+		$moduleConfig = implode('.', array($module['plugin'], $module['module']));
+		if ($this->_View->elementExists($moduleConfig)) {
+			return $this->_View->element($moduleConfig, array(
+				'config' => !empty($module['config']) ? (array)json_decode($module['config']) : array()
+			));
+		}
+		return $this->Form->input('config', array(
+			'class' => 'title',
+			'type' => 'textarea',
+			'value' => $module['config']
 		));
 	}
 

@@ -128,6 +128,16 @@ class ModulesEvents extends AppEvents {
 		);
 	}
 
+	public function onRequireJavascriptToLoad(Event $Event) {
+		if(!isset($Event->Handler->request->params['admin']) || !$Event->Handler->request->params['admin']) {
+			return;
+		}
+
+		return array(
+			'Modules.modules_admin'
+		);
+	}
+
 /**
  * Load module templates
  *

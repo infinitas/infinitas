@@ -39,10 +39,6 @@ A common example is specifying that a module would only be shown on the home pag
 
 For more complex configurations it is possible to configure a module to only show based on all the specified conditions. For example, you may only want to show the module if the user belongs to the group `customers` on view pages (eg: showing a single post or product etc) when the theme used is `my theme`.
 
-The final screen for Modules covers some basic information about the author, copyright information and where updates can be found.
-
-[![](http://assets.infinitas-cms.org/docs/Core/Modules/form-creator.png)](http://assets.infinitas-cms.org/docs/Core/Modules/form-creator.png)
-
 ### Loading Modules from content
 
 Sometimes you will need to load a module directly without intervention from the theme. This may include showing a block of markup in your content pages or even possibly in an email newsletter being sent out.
