@@ -699,11 +699,15 @@
 		 * @brief get the full field name Model.field
 		 *
 		 * @param string $field the field
+		 * @param string $alias use a different alias to the models own
 		 *
 		 * @return string
 		 */
-		public function fullFieldName($field) {
-			return $this->alias . '.' . $field;
+		public function fullFieldName($field, $alias = null) {
+			if ($alias === null) {
+				$alias = $this->alias;
+			}
+			return $alias . '.' . $field;
 		}
 
 		/**
