@@ -49,6 +49,7 @@ class AssetsEvents extends AppEvents {
 			'Assets.3rd/jquery',
 			'Assets.3rd/jquery_ui',
 			'Assets.3rd/metadata',
+			'Assets.3rd/load-image',
 			'Assets.infinitas',
 			'Assets.libs/core',
 			'Assets.libs/form',
@@ -74,7 +75,8 @@ class AssetsEvents extends AppEvents {
 				'Assets.3rd/bootstrap/bootstrap-tooltip',
 				'Assets.3rd/bootstrap/bootstrap-carousel',
 				'Assets.3rd/bootstrap/bootstrap-popover',
-				'Assets.3rd/bootstrap/bootstrap-transition'
+				'Assets.3rd/bootstrap/bootstrap-transition',
+				'Assets.3rd/bootstrap/bootstrap-gallery'
 			));
 		}
 
@@ -104,7 +106,7 @@ class AssetsEvents extends AppEvents {
 
 		if (Configure::read('Assets.bootstrap')) {
 			$return = array_merge(array(
-				//'Assets.bootstrap'
+				'Assets.3rd/bootstrap/bootstrap-gallery'
 			), $return);
 		}
 
