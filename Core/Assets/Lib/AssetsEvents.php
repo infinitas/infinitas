@@ -87,6 +87,7 @@ class AssetsEvents extends AppEvents {
 		if (isset($Event->Handler->params['admin']) && $Event->Handler->params['admin']) {
 			$added = array(
 				'Assets.3rd/date',
+				'Assets.3rd/colorpicker',
 				'Assets.libs/image_selector'
 			);
 		}

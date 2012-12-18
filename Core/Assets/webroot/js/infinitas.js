@@ -39,6 +39,13 @@ switch(Infinitas.params.prefix) {
 
 			modulePositionSort();
 
+			$('.colorpicker').colorpicker().on('changeColor', function(ev) {
+				var colour = ev.color.toHex(),
+					$this = $(this);
+				$($('input', $this.parent())).val(colour.split('#')[1]);
+				$this.css({'background-color': colour});
+			});
+
 			$(document).bind('keydown', 'ctrl+s', function(event) {
 				if(event.ctrlKey && event.which == 83) { // ctrl+s
 					$form = $('form').first();

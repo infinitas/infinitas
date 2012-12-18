@@ -10,6 +10,7 @@ class DesignHelper extends AppHelper {
  */
 	public $helpers = array(
 		'Text',
+		'Form',
 		'Html'
 	);
 
@@ -331,6 +332,29 @@ class DesignHelper extends AppHelper {
 		}
 
 		return $icon;
+	}
+
+	public function colourPicker($name, array $options = array()) {
+		$options = array_merge(array(
+			'class' => 'span2',
+			'type' => 'hidden',
+			'div' => false,
+			'label' => false,
+			'value' => '#ffffff'
+		), $options);
+
+		return $this->Form->input($name, $options) .
+			$this->Html->link($this->icon('colorpicker'), $this->here . '#', array(
+				'data-color' => '#' . $options['value'],
+				'data-colour-format' => 'hex',
+				'class' => array(
+					'colorpicker',
+				),
+				'style' => array(
+					'background-color: #' . $options['value']
+				),
+				'escape' => false
+			));
 	}
 
 }
