@@ -340,7 +340,8 @@ class DesignHelper extends AppHelper {
 			'type' => 'hidden',
 			'div' => false,
 			'label' => false,
-			'value' => '#ffffff'
+			'value' => '#ffffff',
+			'style' => 'width: 55px'
 		), $options);
 
 		return $this->Form->input($name, $options) .
