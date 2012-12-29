@@ -115,13 +115,13 @@
 		/**
 		 * @brief generate a list of options
 		 */
-		public function li($options = array()) {
+		public function li($options = array(), $indent = "\t") {
 			if(!is_array($options)) {
 				$options = array($options);
 			}
 
 			foreach($options as $option) {
-				$this->out($option);
+				$this->out($indent . $option);
 			}
 		}
 
