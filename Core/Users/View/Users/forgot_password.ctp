@@ -1,5 +1,4 @@
 <?php
-	echo $form->create('User');
-		echo $form->input('email');
-	echo $form->end(__d('users', 'Reset Password'));
-?>
+	echo $this->Form->create('User');
+		echo $this->Form->input('email');
+	echo $this->Form->end(__d('users', 'Reset Password'));

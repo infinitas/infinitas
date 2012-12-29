@@ -20,17 +20,13 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 
-	echo $this->Html->link(
-		__d('users', 'Login'),
-		array(
+	echo $this->Html->link(__d('users', 'Login'), array(
 			'plugin' => 'users',
 			'controller' => 'users',
 			'action' => 'login',
 			'TB_inline?height=185&width=600&inlineId=login-box'
 		),
-		array(
-			'class' => 'niceLink thickbox'
-		)
+		array('class' => 'niceLink thickbox')
 	);
 ?>
 <div id="login-box">
@@ -38,8 +34,8 @@
 		<?php
 			echo $this->Form->create('User', array('url' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'login')));
 				echo sprintf('<b>%s</b>', __d('users', 'Members Login'));
-				echo $this->Form->input('username', array('label' => false, 'value' => __d('users', 'Username')));
-				echo $this->Form->input('password', array('label' => false, 'value' => __d('users', 'Password')));
+				echo $this->Form->input('username', array('label' => false, 'placeholder' => __d('users', 'Username')));
+				echo $this->Form->input('password', array('label' => false, 'placeholder' => __d('users', 'Password')));
 				echo $this->Form->submit('Login', array('class' => 'niceLink'));
 			echo $this->Form->end();
 
