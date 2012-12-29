@@ -669,13 +669,10 @@
 			} else {
 				$vars['level'] = $config['level'];
 				$vars['message'] = $message;
-				$this->set(
-					'json',
-					array(
-						'flash' => $vars,
-						'redirect' => $_redirect
-					)
-				);
+				$this->set('json', array(
+					'flash' => $vars,
+					'redirect' => InfinitasRouter::url($_redirect)
+				));
 			}
 
 			unset($_default, $config, $vars);
