@@ -234,7 +234,8 @@ class ModuleTestCase extends CakeTestCase {
 					'admin' => array(
 						'admin/overall' => 'Overall',
 						'admin/popular_items' => 'Popular Items',
-						'admin/quick_view' => 'Quick View'),
+						'admin/quick_view' => 'Quick View',
+						'admin/reports' => 'Reports'),
 					'user' => array())));
 	}
 
