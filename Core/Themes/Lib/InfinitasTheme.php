@@ -32,7 +32,7 @@ class InfinitasTheme {
  *
  * @throws CakeException
  */
-	public function defaultThemeInstall($theme = 'infinitas') {
+	public static function defaultThemeInstall($theme = 'infinitas') {
 		if (!self::install($theme)) {
 			throw new CakeException('Could not configure the default theme, make sure to clone / download it');
 		}
@@ -232,7 +232,7 @@ class InfinitasTheme {
  *
  * @throws CakeException
  */
-	public function config($theme) {
+	public static function config($theme) {
 		$path = self::themePath($theme) . DS . 'config.json';
 		if (!is_file($path)) {
 			throw new ThemesConfigurationException('Missing configuration for selected theme');
@@ -276,7 +276,7 @@ class InfinitasTheme {
  *
  * @return string
  */
-	public function linkPath($theme = null) {
+	public static function linkPath($theme = null) {
 		if (!$theme) {
 			return WWW_ROOT . 'theme';
 		}
