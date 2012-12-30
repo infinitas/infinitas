@@ -20,6 +20,7 @@ class AssetsEventsTest extends InfinitasEventTestCase {
 			'Assets.3rd/jquery',
 			'Assets.3rd/jquery_ui',
 			'Assets.3rd/metadata',
+			'Assets.3rd/load-image',
 			'Assets.infinitas',
 			'Assets.libs/core',
 			'Assets.libs/form',
@@ -38,12 +39,14 @@ class AssetsEventsTest extends InfinitasEventTestCase {
 			'Assets.3rd/jquery',
 			'Assets.3rd/jquery_ui',
 			'Assets.3rd/metadata',
+			'Assets.3rd/load-image',
 			'Assets.infinitas',
 			'Assets.libs/core',
 			'Assets.libs/form',
 			'Assets.libs/html',
 			'Assets.libs/number',
 			'Assets.3rd/date',
+			'Assets.3rd/colorpicker',
 			'Assets.libs/image_selector'
 		)));
 		$result = $this->Event->trigger($this->ViewObject, 'Assets.requireJavascriptToLoad');
