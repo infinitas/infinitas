@@ -9,6 +9,11 @@ App::uses('DesignHelper', 'Libs.View/Helper');
  */
 class DesignHelperTest extends CakeTestCase {
 
+	public $fixtures = array(
+		'plugin.routes.route',
+		'plugin.themes.theme',
+	);
+
 /**
  * setUp method
  *
@@ -143,7 +148,8 @@ class DesignHelperTest extends CakeTestCase {
 			'ul_class' => array(
 				array(
 					'data' => array('a', 'b'),
-					'options' => 'foo'
+					'options' => 'foo',
+					'div' => true
 				),
 				array(
 					array('div' => array('class' => 'foo')),

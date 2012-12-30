@@ -327,16 +327,20 @@ class InfinitasBehavior extends ModelBehavior {
 			$this->_errors[] = 'No data for json';
 			return false;
 		}
+		if (!is_string($data)) {
+			$this->_errors[] = 'Data is not a string';
+			return false;
+		}
 
 		$defaultConfig = array('assoc' => true);
 		$config = array_merge($defaultConfig, (array)$config);
-		$json = json_decode((string)$data, $config['assoc']);
+
+		$json = json_decode($data, $config['assoc']);
 
 		if (!$json) {
 			if (function_exists('json_last_error')) {
 				$Model->__jsonErrors[] = $this->_jsonMessages[json_last_error()];
-			}
-			else{
+			} else {
 				$Model->__jsonErrors[] = 'Json seems invalid';
 			}
 			return false;
