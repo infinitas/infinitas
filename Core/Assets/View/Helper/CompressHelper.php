@@ -246,23 +246,33 @@ class CompressHelper extends InfinitasHelper {
 		if (is_array($jsFiles[0])) {
 			$jsFiles = $jsFiles[0];
 		}
+
+		$dontCache = array();
+		$jsFiles = array_filter($jsFiles, function($file) use(&$dontCache) {
+			if (strstr($file, '?') !== false) {
+				$dontCache[] = $file;
+				return false;
+			}
+
+			return true;
+		});
 		$cacheKey = md5(serialize($jsFiles));
 
 		$cacheFile = $this->jsCachePath . 'combined.' . $cacheKey . '.js';
 		$this->File = new File($cacheFile);
 
 		if ($this->_isCacheFileValid($cacheFile)) {
-			return $this->Html->script($this->_convertToUrl($cacheFile));
+			return $this->Html->script(array_merge((array)$this->_convertToUrl($cacheFile), $dontCache));
 		}
 
 		$jsData = $this->_getJsFiles($jsFiles);
 		if ($this->File->write($jsData)) {
-			return $this->Html->script($this->_convertToUrl($cacheFile));
+			return $this->Html->script(array_merge((array)$this->_convertToUrl($cacheFile), $dontCache));
 		}
 
 		CakeLog::write('assets', 'Unable to write combined js file');
 
-		$this->Html->script($jsFiles);
+		$this->Html->script(array_merge($jsFiles, $dontCache));
 	}
 
 /**
