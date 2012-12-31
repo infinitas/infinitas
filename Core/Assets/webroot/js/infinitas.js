@@ -88,6 +88,8 @@ switch(Infinitas.params.prefix) {
 	default:
 		$(document).ready(function(){
 			setupTabs();
+
+			$.FormHelper.passwordStrength('input.password');
 			//setupStarRating();
 
 			///$("#accordion").accordion({collapsible: true});
