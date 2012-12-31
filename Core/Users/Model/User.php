@@ -149,7 +149,7 @@ class User extends UsersAppModel {
  * @return parent::beforeValidate
  */
 	public function beforeValidate($options = array()) {
-		if (!empty($this->data[$this->alias]['confirm_password'])) {
+		if (!empty($this->data[$this->alias]['password'])) {
 			$this->data[$this->alias]['password'] = Security::hash($this->data[$this->alias]['password'], null, true);
 		}
 
@@ -342,7 +342,7 @@ class User extends UsersAppModel {
 		$data[$this->alias]['group_id'] = 2;
 
 		$this->create();
-		$saved = $this->saveAll($this->request->data);
+		$saved = $this->saveAll($data);
 		if (!$saved) {
 			return false;
 		}
