@@ -22,7 +22,8 @@ class GlobalLayoutTest extends CakeTestCase {
 		'plugin.themes.theme',
 		'plugin.users.group',
 		'plugin.view_counter.view_counter_view',
-		'plugin.users.user'
+		'plugin.users.user',
+		'plugin.locks.lock'
 	);
 
 /**

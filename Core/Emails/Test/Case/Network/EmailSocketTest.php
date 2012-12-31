@@ -125,7 +125,7 @@ class EmailSocketTest extends CakeTestCase {
 				array('username' => '')
 			),
 			'invalid-username' => array(
-				array('username' => array(123))
+				array('username' => 123)
 			)
 		);
 	}
