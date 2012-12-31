@@ -1,25 +1,22 @@
 <?php
 /**
-	* User Model.
-	*
-	* Model for managing users
-	*
-
-	*
-	* @filesource
-	* @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	* @link http://www.infinitas-cms.org
-	* @package Infinitas.Users.Model
-	* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	* @since 0.7alpha
-	*
-	* @author Carl Sutton (dogmatic69)
-	*
-	*
-	*
-	*/
+ * User
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Users.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.7alpha
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 App::uses('UsersAppModel', 'Users.Model');
 
+/**
+ * @package Infinitas.Users.Model
+ *
+ * @property Group $Group
+ */
 class User extends UsersAppModel {
 
 /**
@@ -160,6 +157,21 @@ class User extends UsersAppModel {
 	}
 
 /**
+ * check that the given user id is a valid user.
+ *
+ * @param mixed $userId user id to check
+ *
+ * @return boolean, true if valid, false if not
+ */
+	public function validUserId($userId) {
+		return (bool)$this->find('count', array(
+			'conditions' => array(
+				$this->alias . '.id' => $userId
+			)
+		));
+	}
+
+/**
  * validate password.
  *
  * This method uses the regex saved in the config to check that the
@@ -205,6 +217,15 @@ class User extends UsersAppModel {
 		return $results;
 	}
 
+/**
+ * Get the details of the users last login
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ */
 	protected function _findLastLogin($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
@@ -229,6 +250,15 @@ class User extends UsersAppModel {
 		return $results[0];
 	}
 
+/**
+ * Get the details for a users profile page
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ */
 	protected function _findProfile($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			if (empty($query[0])) {
@@ -251,6 +281,17 @@ class User extends UsersAppModel {
 		return $results[0];
 	}
 
+/**
+ * Save a users profile details
+ *
+ * Only the user can save with this method. eg: auth id should be the user that is edited.
+ *
+ * @param array $data
+ *
+ * @return array
+ *
+ * @throws InvalidArgumentException
+ */
 	public function saveProfile(array $data) {
 		$userId = AuthComponent::user('id');
 		if ($data[$this->alias][$this->primaryKey] != $userId) {
@@ -268,6 +309,34 @@ class User extends UsersAppModel {
 		return $this->save($data);
 	}
 
+/**
+ * Update a users password
+ *
+ * @param array $data
+ *
+ * @return array
+ */
+	public function updatePassword(array $data) {
+		if (empty($data[$this->alias][$this->primaryKey])) {
+			return false;
+		}
+		$data = $data[$this->alias];
+		$this->id = $data[$this->primaryKey];
+
+		if ($this->saveField('password', Security::hash($data['new_password'], null, true))) {
+			return true;
+		}
+
+		return false;
+	}
+
+/**
+ * Method for saving new registrations.
+ *
+ * @param array $data the data to save
+ *
+ * @return array
+ */
 	public function saveRegistration(array $data) {
 		$data[$this->alias]['active'] = !(int)Configure::read('Website.email_validation');
 		$data[$this->alias]['group_id'] = 2;
@@ -277,8 +346,18 @@ class User extends UsersAppModel {
 		if (!$saved) {
 			return false;
 		}
+		return $saved;
 	}
 
+/**
+ * Method for saving the activation status
+ *
+ * This gets the ticket and checks everything is valid before setting the user to active.
+ *
+ * @param array $data the data to save
+ *
+ * @return array
+ */
 	public function saveActivation($hash) {
 		$this->id = $this->getTicket($hash);
 
@@ -286,39 +365,6 @@ class User extends UsersAppModel {
 			return true;
 		}
 		return false;
-	}
-
-	public function parentNode() {
-		if (!$this->id && empty($this->data)) {
-			return null;
-		}
-
-		$data = $this->data;
-		if (empty($this->data)) {
-			$data = $this->read();
-		}
-
-		if (!isset($data['User']['group_id']) || !$data['User']['group_id']) {
-			return null;
-		}
-		return array('Group' => array('id' => $data['User']['group_id']));
-	}
-
-	/**
-		* After save callback
-		*
-		* Update the aro for the user.
-		*
-		* @return void
-		*/
-	public function afterSave($created) {
-		if (!$created && is_a('Model', $this->Aro)) {
-			$parent = $this->node($this->parentNode());
-			$node = $this->node();
-			$aro = $node[0];
-			$aro['Aro']['parent_id'] = $parent[0]['Aro']['id'];
-			$this->Aro->save($aro);
-		}
 	}
 
 	public function getSiteRelatedList() {
@@ -329,21 +375,13 @@ class User extends UsersAppModel {
 		));
 	}
 
-	/**
-		* check that the given user id is a valid user.
-		*
-		* @param mixed $userId user id to check
-		*
-		* @return boolean, true if valid, false if not
-		*/
-	public function validUserId($userId) {
-		return (bool)$this->find('count', array(
-			'conditions' => array(
-				$this->alias . '.id' => $userId
-			)
-		));
-	}
-
+/**
+ * Get a list of site admins with emails
+ *
+ * @param string $fields
+ *
+ * @return array
+ */
 	public function getAdmins($fields = array()) {
 		if (!$fields) {
 			$fields = array(
@@ -360,11 +398,13 @@ class User extends UsersAppModel {
 		));
 	}
 
-	/**
-		* get a count of registrations per month for the last two years
-		*
-		* @return array, list of (year_month => count)
-		*/
+/**
+ * get a count of registrations per month for the last two years
+ *
+ * Format: list of (year_month => count)
+ *
+ * @return array
+ */
 	public function getRegistrationChartData() {
 		$this->virtualFields['join_date'] = 'CONCAT_WS("/", YEAR(`' . $this->alias . '`.`created`), LPAD(MONTH(`' . $this->alias . '`.`created`), 2, 0))';
 		$this->virtualFields['count_joins'] = 'COUNT(`' . $this->alias . '`.`id`)';
@@ -392,17 +432,36 @@ class User extends UsersAppModel {
 		return array_merge($dates, $data);
 	}
 
-	public function updatePassword(array $data) {
-		if (empty($data[$this->alias][$this->primaryKey])) {
-			return false;
-		}
-		$data = $data[$this->alias];
-		$this->id = $data[$this->primaryKey];
-
-		if ($this->saveField('password', Security::hash($data['new_password'], null, true))) {
-			return true;
+	public function parentNode() {
+		if (!$this->id && empty($this->data)) {
+			return null;
 		}
 
-		return false;
+		$data = $this->data;
+		if (empty($this->data)) {
+			$data = $this->read();
+		}
+
+		if (!isset($data['User']['group_id']) || !$data['User']['group_id']) {
+			return null;
+		}
+		return array('Group' => array('id' => $data['User']['group_id']));
+	}
+
+/**
+ * After save callback
+ *
+ * Update the aro for the user.
+ *
+ * @return void
+ */
+	public function afterSave($created) {
+		if (!$created && is_a('Model', $this->Aro)) {
+			$parent = $this->node($this->parentNode());
+			$node = $this->node();
+			$aro = $node[0];
+			$aro['Aro']['parent_id'] = $parent[0]['Aro']['id'];
+			$this->Aro->save($aro);
+		}
 	}
 }

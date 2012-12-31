@@ -21,6 +21,11 @@ class UsersController extends UsersAppController {
 		);
 	}
 
+/**
+ * BeforeRender callback
+ *
+ * @return void
+ */
 	public function beforeRender() {
 		parent::beforeRender();
 
@@ -99,6 +104,13 @@ class UsersController extends UsersAppController {
 		}
 	}
 
+/**
+ * Profile view
+ *
+ * @todo remove, same as UserController::profile() ?
+ *
+ * @return void
+ */
 	public function view() {
 		if (!$this->Auth->user('id')) {
 			$this->notice('require_auth');
@@ -113,6 +125,11 @@ class UsersController extends UsersAppController {
 		$this->set(compact('user'));
 	}
 
+/**
+ * Profile view
+ *
+ * @return void
+ */
 	public function profile() {
 		if (!empty($this->request->data)) {
 			try{
@@ -138,11 +155,11 @@ class UsersController extends UsersAppController {
 		$this->saveRedirectMarker();
 	}
 
-	/**
-		* Login method.
-		*
-		* Cake magic
-		*/
+/**
+ * Login method.
+ *
+ * @return void
+ */
 	public function login() {
 		if (!Configure::read('Website.allow_login')) {
 			$this->notice('login_disabled');
@@ -179,53 +196,6 @@ class UsersController extends UsersAppController {
 	}
 
 /**
- * get some info about the user when they log in
- *
- * @return array
- */
-	public function _getUserData() {
-		$location = $this->Event->trigger('getLocation');
-		return array_merge(array($this->modelClass => array(
-			'id' => $this->Auth->user('id'),
-			'last_login' => date('Y-m-d H:i:s'),
-			'modified' => false,
-			'browser' => $this->Infinitas->getBrowser(),
-			'operating_system' => $this->Infinitas->getOperatingSystem(),
-			'is_mobile' => $this->RequestHandler->isMobile()
-		)), current($location['getLocation']));
-	}
-
-/**
- * Check if there is a cookie to log the user in with
- *
- * @return void
- */
-	protected function _checkCookie() {
-		if (!empty($this->request->data)) {
-			$cookie = $this->Cookie->read('Auth.User');
-			if (!is_null($cookie) && $this->Auth->login()) {
-				$this->Session->del('Message.auth');
-			}
-		}
-	}
-
-/**
- * Create a remember me cookie
- *
- * @return void
- */
-	public function _createCookie() {
-		if (!$this->Auth->user() || empty($this->request->data[$this->modelClass]['remember_me'])) {
-			return;
-		}
-
-		$cookie = array();
-		$cookie['username'] = $this->request->data[$this->modelClass]['username'];
-		$cookie['password'] = $this->request->data[$this->modelClass]['password'];
-		return $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
-	}
-
-/**
  * Logout method.
  *
  * @return void
@@ -243,6 +213,8 @@ class UsersController extends UsersAppController {
  *
  * Only works when you have allowed registrations. When the email validation
  * is on the user will be sent an email to confirm the registration
+ *
+ * @return void
  */
 	public function register() {
 		if (!Configure::read('Website.allow_registration')) {
@@ -379,6 +351,11 @@ class UsersController extends UsersAppController {
 		));
 	}
 
+/**
+ * Admin login
+ *
+ * @return void
+ */
 	public function admin_login() {
 		$this->layout = 'admin_login';
 
@@ -419,6 +396,11 @@ class UsersController extends UsersAppController {
 		}
 	}
 
+/**
+ * Admin out
+ *
+ * @return void
+ */
 	public function admin_logout() {
 		$this->Session->delete('Auth');
 		$this->redirect(array(
@@ -426,10 +408,20 @@ class UsersController extends UsersAppController {
 		));
 	}
 
+/**
+ * User plugin dashboard for admin backend
+ *
+ * @return void
+ */
 	public function admin_dashboard() {
 
 	}
 
+/**
+ * display a list of users in the backend for CRUD
+ *
+ * @return void
+ */
 	public function admin_index() {
 		$users = $this->Paginator->paginate(null, $this->Filter->filter);
 
@@ -446,7 +438,7 @@ class UsersController extends UsersAppController {
 	}
 
 /**
- * Edit user details in the backend
+ * View users that are currently using the app
  *
  * @param string $id the users id
  *
@@ -499,5 +491,52 @@ class UsersController extends UsersAppController {
 
 		$groups = $this->{$this->modelClass}->Group->find('list');
 		$this->set(compact('groups'));
+	}
+
+/**
+ * get some info about the user when they log in
+ *
+ * @return array
+ */
+	public function _getUserData() {
+		$location = $this->Event->trigger('getLocation');
+		return array_merge(array($this->modelClass => array(
+			'id' => $this->Auth->user('id'),
+			'last_login' => date('Y-m-d H:i:s'),
+			'modified' => false,
+			'browser' => $this->Infinitas->getBrowser(),
+			'operating_system' => $this->Infinitas->getOperatingSystem(),
+			'is_mobile' => $this->RequestHandler->isMobile()
+		)), current($location['getLocation']));
+	}
+
+/**
+ * Check if there is a cookie to log the user in with
+ *
+ * @return void
+ */
+	protected function _checkCookie() {
+		if (!empty($this->request->data)) {
+			$cookie = $this->Cookie->read('Auth.User');
+			if (!is_null($cookie) && $this->Auth->login()) {
+				$this->Session->del('Message.auth');
+			}
+		}
+	}
+
+/**
+ * Create a remember me cookie
+ *
+ * @return void
+ */
+	public function _createCookie() {
+		if (!$this->Auth->user() || empty($this->request->data[$this->modelClass]['remember_me'])) {
+			return;
+		}
+
+		$cookie = array();
+		$cookie['username'] = $this->request->data[$this->modelClass]['username'];
+		$cookie['password'] = $this->request->data[$this->modelClass]['password'];
+		return $this->Cookie->write('Auth.User', $cookie, true, '+2 weeks');
 	}
 }
