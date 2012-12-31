@@ -358,4 +358,20 @@ class DesignHelper extends AppHelper {
 			));
 	}
 
+	public function progress($current, $max, array $options = array()) {
+		$options = array_merge(array(
+			'class' => 'progress progress-striped active',
+			'bar' => 'bar',
+			'title' => null,
+			'minimum' => 1
+		), $options);
+
+		$usage = round(($current / $max) * 100);
+		return $this->Html->tag('div', $this->Html->tag('div', '', array(
+			'class' => $options['bar'],
+			'title' => sprintf('~ %s%%', $usage),
+			'style' => sprintf('width: %s%%;', $usage ? $usage : $options['minimum'])
+		)), array('class' => $options['class']));
+	}
+
 }
