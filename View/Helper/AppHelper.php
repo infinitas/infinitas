@@ -1022,6 +1022,10 @@
 			$keyUrl = $url;
 			if (is_array($keyUrl)) {
 				$keyUrl += $this->urlExtras;
+				$keyUrl = array_merge($keyUrl, array(
+					'prefix' => !empty($this->request->params['prefix']) ? $this->request->params['prefix'] : null,
+					'admin' => !empty($this->request->params['admin']) ? $this->request->params['admin'] : null,
+				));
 			}
 
 			$key = md5(serialize($keyUrl) . $full);
