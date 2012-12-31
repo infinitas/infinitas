@@ -18,7 +18,7 @@
 	 * Same as the debug level, but will send errors to a file. Good to see
 	 * what is going on when the site's debug is off.
 	 */
-	define('LOG_ERROR', 2);
+	define('LOG_ERROR', LOG_ERR);
 
 	if(phpversion() >= 5.3) {
 		date_default_timezone_set(date_default_timezone_get());
