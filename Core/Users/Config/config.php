@@ -12,3 +12,5 @@
  */
 
 $config['User'] = array();
+
+Configure::write('Website.login_type', 'username');
