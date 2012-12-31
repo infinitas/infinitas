@@ -15,6 +15,11 @@
 
 echo $this->Html->tag('h4', __d('users', 'New user'));
 echo $this->Form->create('User', array(
+	'url' => array(
+		'plugin' => 'users',
+		'controller' => 'users',
+		'action' => 'register'
+	),
 	'inputDefaults' => array(
 		'label' => false
 	),

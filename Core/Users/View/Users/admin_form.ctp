@@ -13,7 +13,9 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-echo $this->Form->create('User');
+echo $this->Form->create('User', array(
+	'autocomplete' => 'off'
+));
 	echo $this->Infinitas->adminEditHead();
 	echo $this->Form->input('id');
 
@@ -24,10 +26,15 @@ echo $this->Form->create('User');
 	$contents = array(
 		implode('', array(
 			$this->Form->input('full_name'),
-			$this->Form->input('username', array('autocomplete' => 'off')),
-			$this->Form->input('email', array('autocomplete' => 'off')),
-			$this->Form->input('password', array('value' => '', 'autocomplete' => 'off')),
-			$this->Form->input('confirm_password', array('type' => 'password', 'value' => '', 'autocomplete' => 'off'))
+			$this->Form->input('username'),
+			$this->Form->input('email'),
+			$this->Form->input('password', array(
+				'required' => false,
+				'value' => ''
+			)),
+			$this->Form->input('confirm_password', array(
+				'required' => false
+			))
 		))
 	);
 
