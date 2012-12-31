@@ -24,21 +24,16 @@
 	$output = <<<COMMENT
 <?php
 /**
- * $name model
- *
- * @brief Add some documentation for $name model.
+ * $name
  *
  * @copyright Copyright (c) 2009 Carl Sutton (dogmatic69)
  *
- * @link		  http://infinitas-cms.org/$plugin
- * @package	   $plugin.Model
- * @license	   http://infinitas-cms.org/mit-license The MIT License
+ * @link http://infinitas-cms.org/$plugin
+ * @package	$plugin.Model
+ * @license	http://infinitas-cms.org/mit-license The MIT License
  * @since $version
  *
  * @author $username
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
  */
 
 class $name extends $parentModel {
@@ -49,7 +44,6 @@ COMMENT;
 /**
  * The database config to use
  *
- * @access public
  * @var string
  */
 
@@ -62,7 +56,6 @@ COMMENT;
 /**
  * The table that the model is using
  *
- * @access public
  * @var string
  */
 
@@ -75,7 +68,6 @@ COMMENT;
 /**
  * The primary key of the table
  *
- * @access public
  * @var string
  */
 
@@ -83,12 +75,11 @@ COMMENT;
 			$output .= "\tpublic \$primaryKey = '$primaryKey';\n\n";
 		}
 
-		if ($displayField) {
+		if ($displayField && !in_array($displayField, array('name', 'title'))) {
 		$output .= <<<COMMENT
 /**
  * The display field for select boxes
  *
- * @access public
  * @var string
  */
 
@@ -101,7 +92,6 @@ COMMENT;
 /**
  * Set to true if you would like to track view counts
  *
- * @access public
  * @var string
  */
 
@@ -113,7 +103,6 @@ COMMENT;
 /**
  * Additional behaviours that are attached to this model
  *
- * @access public
  * @var array
  */
 
@@ -177,7 +166,6 @@ COMMENT;
 /**
  * How the default ordering on this model is done
  *
- * @access public
  * @var array
  */
 
@@ -191,7 +179,6 @@ COMMENT;
 /**
  * $assocType relations for this model
  *
- * @access public
  * @var array
  */
 
@@ -265,7 +252,6 @@ COMMENT;
 /**
  * hasMany relations for this model
  *
- * @access public
  * @var array
  */
 
@@ -305,7 +291,6 @@ COMMENT;
 /**
  * hasAndBelongsToMany relations for this model
  *
- * @access public
  * @var array
  */
 
@@ -345,12 +330,9 @@ COMMENT;
 
 		echo <<<COMMENT
 /**
- * overload the construct method so that you can use translated validation
- * messages.
+ * Constructor
  *
- * @access public
- *
- * @param mixed \$id string uuid or id
+ * @param string|integer \$id string uuid or id
  * @param string \$table the table that the model is for
  * @param string \$ds the datasource being used
  *
@@ -386,11 +368,14 @@ COMMENT;
 
 		echo <<<COMMENT
 /**
+ * Get the view data
+ *
  * General method for the view pages. Gets the required data and relations
  * and can be used for the admin preview also.
  *
  * @param array \$conditions conditions for the find
- * @return array the data that was found
+
+ * @return array
  */
 
 COMMENT;
