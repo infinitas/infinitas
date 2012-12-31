@@ -5,9 +5,7 @@
 	 * The MenuItem model handles the items within a menu, these are the indervidual
 	 * links that are used to build up the menu required.
 	 *
-
 	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Menus.Model
@@ -32,6 +30,11 @@
 					'Menu.name',
 					'Menu.type',
 					'Menu.active',
+				),
+				'counterCache' => 'item_count',
+				'counterScope' => array(
+					'MenuItem.parent_id IS NOT NULL',
+					'MenuItem.active' => true
 				)
 			),
 			'Group' => array(
@@ -190,6 +193,8 @@
 		}
 
 		/**
+		 * Get a specific menu for display
+		 * 
 		 * This will get an entire menu based on the type that is selected. The
 		 * data will be cached so further requests do not require access to the
 		 * database.
@@ -198,13 +203,7 @@
 		 *
 		 * @return array
 		 */
-		public function getMenu($type = null) {
-			if (!$type) {
-				return false;
-			}
-			$conditions = array(
-
-			);
+		public function getMenu($type) {
 			$menus = $this->find('threaded', array(
 				'fields' => array(
 					$this->alias . '.id',
@@ -228,8 +227,8 @@
 					$this->alias . '.group_id',
 				),
 				'conditions' => array(
+					$this->alias . '.parent_id != ' => null,
 					$this->alias . '.active' => 1,
-					$this->alias . '.parent_id != ' => NULL,
 					$this->Menu->alias . '.active' => 1,
 					$this->Menu->alias . '.type' => $type,
 					'or' => array(
@@ -248,8 +247,6 @@
 			foreach ($menus as &$menu) {
 				$this->__underscore($menu);
 			}
-
-			Cache::write($type, $menus, 'menus');
 
 			return $menus;
 		}
@@ -282,15 +279,12 @@
 		 * @return boolean
 		 */
 		public function hasContainer($menuId, $name = null) {
-			$count = $this->find(
-				'count',
-				array(
-					'conditions' => array(
-						'menu_id' => $menuId,
-						'parent_id' => null
-					)
+			$count = $this->find('count', array(
+				'conditions' => array(
+					'menu_id' => $menuId,
+					'parent_id' => null
 				)
-			);
+			));
 
 			if ($count > 0) {
 				return true;

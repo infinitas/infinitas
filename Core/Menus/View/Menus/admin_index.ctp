@@ -35,13 +35,13 @@
 			),
 			$this->Paginator->sort('name'),
 			$this->Paginator->sort('type') => array(
-				'style' => 'width:75px;'
+				'class' => 'larger'
 			),
 			$this->Paginator->sort('count') => array(
-				'style' => 'width:100px;'
+				'class' => 'small'
 			),
 			$this->Paginator->sort('active') => array(
-				'style' => 'width:50px;'
+				'class' => 'small'
 			)
 		));
 
