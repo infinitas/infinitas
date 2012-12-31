@@ -47,7 +47,11 @@ class GeoLocationEvents extends AppEvents {
  * @return array
  */
 	public function onGetLocation(Event $Event, $ipAddress = null) {
-		return $this->onGetCity($Event, $ipAddress) || $this->onGetCountry($Event, $ipAddress);
+		$city = $this->onGetCity($Event, $ipAddress);
+		if ($city) {
+			return $city;
+		}
+		return $this->onGetCountry($Event, $ipAddress);
 	}
 
 /**
