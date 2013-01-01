@@ -31,7 +31,7 @@ class MenuItem extends MenusAppModel {
  * @var array
  */
 	public $findMethods = array(
-
+		'menu' => true
 	);
 
 /**
@@ -215,19 +215,24 @@ class MenuItem extends MenusAppModel {
 	}
 
 /**
+ *
  * Get a specific menu for display
  *
  * This will get an entire menu based on the type that is selected. The
  * data will be cached so further requests do not require access to the
  * database.
- *
- * @param string $type the menu that you want to pull
+ * @param type $state
+ * @param array $query
+ * @param array $results
  *
  * @return array
  */
-	public function getMenu($type) {
-		$menus = $this->find('threaded', array(
-			'fields' => array(
+	protected function _findMenu($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query[0])) {
+				throw new InvalidArgumentException(__d('menus', 'No menu specified'));
+			}
+			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.id',
 				$this->alias . '.name',
 				$this->alias . '.link',
@@ -247,12 +252,13 @@ class MenuItem extends MenusAppModel {
 				$this->alias . '.lft',
 				$this->alias . '.rght',
 				$this->alias . '.group_id',
-			),
-			'conditions' => array(
+			));
+
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
 				$this->alias . '.parent_id != ' => null,
 				$this->alias . '.active' => 1,
 				$this->Menu->alias . '.active' => 1,
-				$this->Menu->alias . '.type' => $type,
+				$this->Menu->alias . '.type' => $query[0],
 				'or' => array(
 					$this->alias . '.group_id' => array(
 						null,
@@ -260,17 +266,18 @@ class MenuItem extends MenusAppModel {
 						AuthComponent::user('group_id')
 					)
 				)
-			),
-			'joins' => array(
-				$this->autoJoinModel($this->Menu->fullModelName())
-			)
-		));
+			));
 
-		foreach ($menus as &$menu) {
-			$this->__underscore($menu);
+			$query['joins'] = (array)$query['joins'];
+			$query['joins'][] = $this->autoJoinModel($this->Menu);
+			return $query;
 		}
 
-		return $menus;
+		foreach ($results as &$result) {
+			$this->_underscore($result);
+		}
+
+		return $results;
 	}
 
 /**
@@ -280,7 +287,7 @@ class MenuItem extends MenusAppModel {
  *
  * @return void
  */
-	private function __underscore(&$menu) {
+	protected function _underscore(&$menu) {
 		$menu[$this->alias]['plugin'] = Inflector::underscore($menu[$this->alias]['plugin']);
 		$menu[$this->alias]['controller'] = substr(Inflector::underscore($menu[$this->alias]['controller']), 0, -11);
 		$menu[$this->alias]['params'] = (array)json_decode($menu[$this->alias]['params'], true);
@@ -312,12 +319,24 @@ class MenuItem extends MenusAppModel {
 			)
 		));
 
-		if ($count > 0) {
-			return true;
+		return ($count > 0) ? true : (bool)$this->_makeContainer($menuId, $name);
+	}
+
+/**
+ * Create a container record
+ *
+ * @param string $menuId
+ * @param string $name
+ *
+ * @return array
+ */
+	protected function _makeContainer($menuId, $name) {
+		if (!$this->Menu->exists($menuId)) {
+			throw new InvalidArgumentException(__d('menus', 'Selected menu does not exist'));
 		}
 
 		$this->create();
-		return (bool)$this->save(array(
+		return $this->save(array(
 			'name' => (string)$name,
 			'menu_id' => $menuId,
 			'parent_id' => null,

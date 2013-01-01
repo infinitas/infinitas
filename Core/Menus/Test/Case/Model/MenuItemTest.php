@@ -63,22 +63,22 @@ class MenuItemTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function testGetMenu() {
-		$result = $this->MenuItem->getMenu('main_menu');
+	public function testFindMenu() {
+		$result = $this->MenuItem->find('menu', 'main_menu');
 		$expected = array('Blog', 'About Me', 'Sandbox');
 
 		$this->assertEqual(count($result), 3);
 		$this->assertEqual($expected, Set::extract('/MenuItem/name', $result));
 
 		CakeSession::write('Auth.User.group_id', 2);
-		$result = $this->MenuItem->getMenu('registered_users');
+		$result = $this->MenuItem->find('menu', 'registered_users');
 		$expected = array('About Me');
 
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual($expected, Set::extract('/MenuItem/name', $result));
 		CakeSession::destroy();
 
-		$result = $this->MenuItem->getMenu('registered_users');
+		$result = $this->MenuItem->find('menu', 'registered_users');
 		$this->assertEmpty($result);
 	}
 
