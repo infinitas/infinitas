@@ -1,32 +1,25 @@
 <?php
-    /**
-     * Comment Template.
-     *
-     * @todo -c Implement .this needs to be sorted out.
-     *
-     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     *
-     * Licensed under The MIT License
-     * Redistributions of files must retain the above copyright notice.
-     *
-     * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       sort
-     * @subpackage    sort.comments
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     * @since         0.5a
-     */
+/**
+ * Menu index
+ *
+ * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ * @link http://infinitas-cms.org
+ * @package Infinitas.Menus.View
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-    echo $this->Form->create('MenuItem', array('action' => 'mass'));
-	echo $this->Infinitas->adminIndexHead($filterOptions, array(
-		'add',
-		'edit',
-		'toggle',
-		'copy',
-		'move',
-		'delete'
-	));
+echo $this->Form->create('MenuItem', array('action' => 'mass'));
+echo $this->Infinitas->adminIndexHead($filterOptions, array(
+	'add',
+	'edit',
+	'toggle',
+	'copy',
+	'move',
+	'delete'
+));
 ?>
 <table class="listing">
 	<?php

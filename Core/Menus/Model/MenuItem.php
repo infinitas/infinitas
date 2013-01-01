@@ -25,6 +25,8 @@
 
 class MenuItem extends MenusAppModel {
 
+	public $displayField = 'name';
+
 /**
  * Custom find methods
  *
@@ -215,6 +217,21 @@ class MenuItem extends MenusAppModel {
 	}
 
 /**
+ * Get possible values for target
+ *
+ * @return array
+ */
+	public static function targets() {
+		return array(
+			null => __d('menus', 'Default'),
+			'_blank' => __d('menus', 'Blank'),
+			'_self' => __d('menus', 'Self'),
+			'_parent' => __d('menus', 'Parent'),
+			'_top' => __d('menus', 'Top')
+		);
+	}
+
+/**
  *
  * Get a specific menu for display
  *
@@ -246,6 +263,10 @@ class MenuItem extends MenusAppModel {
 				$this->alias . '.force_frontend',
 
 				$this->alias . '.class',
+				$this->alias . '.target',
+				$this->alias . '.title',
+				$this->alias . '.image',
+
 				$this->alias . '.active',
 				$this->alias . '.menu_id',
 				$this->alias . '.parent_id',

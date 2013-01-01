@@ -59,7 +59,7 @@ class MenuItemsController extends MenusAppController {
 			$this->request->data[$this->modelClass]['parent_id'] = $this->request->params['named']['parent_id'];
 		}
 
-		$menus   = $this->{$this->modelClass}->Menu->find('list');
+		$menus = $this->{$this->modelClass}->Menu->find('list');
 		if (empty($menus)) {
 			$this->notice(__d('menus', 'Please add a menu before adding items'), array(
 				'level' => 'notice',
@@ -70,10 +70,12 @@ class MenuItemsController extends MenusAppController {
 		}
 
 		$groups  = array(0 => __d('menus', 'Public')) + $this->{$this->modelClass}->Group->find('list');
-		$parents = array(0 => __d('menus', 'Root')) + $this->{$this->modelClass}->generateTreeList(array(
-			$this->modelClass . '.parent_id !=' => 0,
-			$this->modelClass . '.menu_id' => reset(array_keys($menus))
-		));
+		if (!empty($this->request->data[$this->modelClass]['parent_id'])) {
+			$parents = array(0 => __d('menus', 'Root')) + $this->{$this->modelClass}->generateTreeList(array(
+				$this->modelClass . '.parent_id !=' => 0,
+				$this->modelClass . '.menu_id' => reset(array_keys($menus))
+			));
+		}
 		$plugins = $this->{$this->modelClass}->getPlugins();
 		$this->set(compact('menus', 'groups', 'parents', 'plugins'));
 	}
