@@ -50,4 +50,10 @@ class MenusEvents extends AppEvents {
 			'Menus.Menu'
 		);
 	}
+
+	public function onRequireJavascriptToLoad(Event $Event) {
+		return array(
+			'Menus.menus'
+		);
+	}
 }
