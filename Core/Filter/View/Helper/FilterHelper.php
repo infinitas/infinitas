@@ -25,7 +25,8 @@ class FilterHelper extends AppHelper {
  */
 	public $helpers = array(
 		'Form',
-		'Html'
+		'Html',
+		'Assets.Image'
 	);
 
 /**

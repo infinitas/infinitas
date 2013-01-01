@@ -112,7 +112,7 @@
 		 */
 		public $helpers = array(
 			'Html', 'Form',
-			'Libs.Wysiwyg', 'Libs.Image', 'Libs.Design'
+			'Libs.Wysiwyg', 'Libs.Design'
 		);
 
 		/**
@@ -319,16 +319,13 @@
 		 * @return string the markup generated
 		 */
 		public function adminIndexHead($filterOptions = array(), $massActions = null) {
-			if(!class_exists('FilterHelper')) {
-				App::uses('FilterHelper', 'Filter.View/Helper');
-			}
-
+			$Filter = $this->_View->loadHelper('Filter.Filter');
 			if(is_array($massActions)) {
 				$massActions = $this->massActionButtons($massActions);
 			}
 
 			return $this->Html->tag('div', $this->adminPageHead() . $massActions, array('class' => 'adminTopBar')) .
-				$this->Html->tag('div', FilterHelper::form('Post', $filterOptions) . FilterHelper::clear($filterOptions), array('class' => 'filters')) .$this->breadcrumbs();
+				$this->Html->tag('div', $Filter->form('Post', $filterOptions) . $Filter->clear($filterOptions), array('class' => 'filters')) .$this->breadcrumbs();
 		}
 
 		/**
