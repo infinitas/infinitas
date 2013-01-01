@@ -59,7 +59,7 @@ class MenuItemTestCase extends CakeTestCase {
 	}
 
 /**
- * testGetMenu method
+ * testFindMenu method
  *
  * @return void
  */
