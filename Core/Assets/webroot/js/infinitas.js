@@ -82,6 +82,16 @@ switch(Infinitas.params.prefix) {
 				$('.filter-form').toggle();
 				return false;
 			});
+
+			$('button').on('click', function() {
+				var $this = $(this);
+				if ($this.val() == 'cancel') {
+					var inputs = $('input, select, textarea', $this.closest('form'));
+					$.each(inputs, function(k, v) {
+						$(v).removeAttr('required');
+					});
+				}
+			})
 		});
 		break;
 
