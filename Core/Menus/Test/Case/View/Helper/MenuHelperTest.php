@@ -31,36 +31,7 @@ class MenuHelperTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
-/**
- * testBuilAdminMenu method
- *
- * @return void
- */
 	public function testBuilAdminMenu() {
-	}
-
-/**
- * testBuilDashboardLinks method
- *
- * @return void
- */
-	public function testBuilDashboardLinks() {
-	}
-
-/**
- * testNestedList method
- *
- * @return void
- */
-	public function testNestedList() {
-	}
-
-/**
- * testLink method
- *
- * @return void
- */
-	public function testLink() {
 	}
 
 }

@@ -7,7 +7,7 @@ if (empty($config['menu'])) {
 	return false;
 }
 
-$menu = ClassRegistry::init('Menus.MenuItem')->getMenu($config['menu']);
+$menu = ClassRegistry::init('Menus.MenuItem')->find('menu', $config['menu']);
 if (!empty($menu)) {
 	echo $this->Menu->nestedList($menu, $config['type']);
 }

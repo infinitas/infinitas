@@ -1,14 +1,6 @@
 <?php
 App::uses('MenusEvents', 'Menus.Lib');
-class MenusEventsTest extends CakeTestCase {
-	/*public function setUp() {
-		parent::setUp();
-	}
+App::uses('InfinitasEventTestCase', 'Events.Test/Lib');
+class MenusEventsTest extends InfinitasEventTestCase {
 
-	public function tearDown() {
-		parent::tearDown();
-	}*/
-
-	public function testSomething() {
-	}
 }

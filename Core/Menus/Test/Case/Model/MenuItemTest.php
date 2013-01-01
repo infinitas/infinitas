@@ -67,15 +67,15 @@ class MenuItemTestCase extends CakeTestCase {
 		$result = $this->MenuItem->find('menu', 'main_menu');
 		$expected = array('Blog', 'About Me', 'Sandbox');
 
-		$this->assertEqual(count($result), 3);
-		$this->assertEqual($expected, Set::extract('/MenuItem/name', $result));
+		$this->assertEquals(count($result), 3);
+		$this->assertEquals($expected, Set::extract('/MenuItem/name', $result));
 
 		CakeSession::write('Auth.User.group_id', 2);
 		$result = $this->MenuItem->find('menu', 'registered_users');
-		$expected = array('About Me');
+		$expected = array('About Me', 'Deep link');
 
-		$this->assertEqual(count($result), 1);
-		$this->assertEqual($expected, Set::extract('/MenuItem/name', $result));
+		$this->assertEquals(count($result), 2);
+		$this->assertEquals($expected, Set::extract('/MenuItem/name', $result));
 		CakeSession::destroy();
 
 		$result = $this->MenuItem->find('menu', 'registered_users');
@@ -87,7 +87,7 @@ class MenuItemTestCase extends CakeTestCase {
  */
 	public function testSave() {
 		$data = array();
-		$this->assertEqual($this->MenuItem->find('count'), 6);
+		$this->assertEqual($this->MenuItem->find('count'), 7);
 
 		$this->assertFalse($this->MenuItem->save($data));
 		$expected = array(
@@ -146,9 +146,53 @@ class MenuItemTestCase extends CakeTestCase {
  * @return void
  */
 	public function testHasContainer() {
-		$this->assertEqual($this->MenuItem->find('count'), 6);
+		$this->assertEqual($this->MenuItem->find('count'), 7);
 		$this->assertTrue($this->MenuItem->hasContainer('public-menu'));
 		$this->assertTrue($this->MenuItem->hasContainer('registered-menu'));
-		$this->assertEqual($this->MenuItem->find('count'), 6);
+		$this->assertEqual($this->MenuItem->find('count'), 7);
+	}
+
+/**
+ * @expectedException InvalidArgumentException
+ */
+	public function testContainerException() {
+		$this->MenuItem->hasContainer('fake-id');
+	}
+
+/**
+ * @expectedException InvalidArgumentException
+ */
+	public function testFindMenuException() {
+		$this->MenuItem->find('menu');
+	}
+
+/**
+ * test targets
+ */
+	public function testTargets() {
+		$results = MenuItem::targets();
+		$this->assertCount(5, $results);
+	}
+
+/**
+ * test get parents
+ */
+	public function testGetParents() {
+		$expected = array(
+			1 => 'Main_menu',
+			2 => '_Blog',
+			3 => '_Sandbox',
+			4 => '_About Me',
+		);
+		$results = $this->MenuItem->getParents('public-menu');
+		$this->assertEquals($expected, $results);
+
+		$expected = array(
+			5 => 'Main_menu',
+			6 => '_About Me',
+			7 => '__Deep link'
+		);
+		$results = $this->MenuItem->getParents('registered-menu');
+		$this->assertEquals($expected, $results);
 	}
 }

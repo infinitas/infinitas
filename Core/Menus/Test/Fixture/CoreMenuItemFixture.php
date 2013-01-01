@@ -86,7 +86,7 @@ class CoreMenuItemFixture extends CakeTestFixture {
 			'prefix' => '', 'plugin' => '', 'controller' => '', 'action' => '', 'params' => '',
 			'force_backend' => 0, 'force_frontend' => 0, 'class' => '', 'active' => 0,
 			'id_attribute' => null, 'target' => null, 'title' => null, 'image' => null,
-			'menu_id' => 'registered-menu', 'group_id' => 2, 'parent_id' => null, 'lft' => 9, 'rght' => 12,
+			'menu_id' => 'registered-menu', 'group_id' => 2, 'parent_id' => null, 'lft' => 9, 'rght' => 14,
 			'created' => '2010-09-30 22:41:15', 'modified' => '2010-09-30 22:41:15'
 		),
 			array(
@@ -95,8 +95,17 @@ class CoreMenuItemFixture extends CakeTestFixture {
 				'plugin' => '', 'controller' => '', 'action' => '', 'params' => '',
 				'force_backend' => 0, 'force_frontend' => 0, 'class' => '', 'active' => 1,
 				'id_attribute' => null, 'target' => null, 'title' => null, 'image' => null,
-				'menu_id' => 'registered-menu', 'group_id' => 2, 'parent_id' => 5, 'lft' => 10, 'rght' => 11,
+				'menu_id' => 'registered-menu', 'group_id' => 2, 'parent_id' => 5, 'lft' => 10, 'rght' => 13,
 				'created' => '2010-11-09 22:47:09', 'modified' => '2010-11-09 22:47:09'
 			),
+				array(
+					'id' => 7, 'name' => 'Deep link',
+					'slug' => 'another','link' => '', 'prefix' => '',
+					'plugin' => 'Blog', 'controller' => 'BlogPost', 'action' => 'view', 'params' => '',
+					'force_backend' => 0, 'force_frontend' => 0, 'class' => '', 'active' => 1,
+					'id_attribute' => null, 'target' => null, 'title' => null, 'image' => null,
+					'menu_id' => 'registered-menu', 'group_id' => 2, 'parent_id' => 6, 'lft' => 11, 'rght' => 12,
+					'created' => '2010-11-09 22:47:09', 'modified' => '2010-11-09 22:47:09'
+				),
 	);
 }
