@@ -5,11 +5,12 @@ App::uses('MenuItem', 'Menus.Model');
  * MenuItem Test Case
  */
 class MenuItemTestCase extends CakeTestCase {
-	/**
-	 * Fixtures
-	 *
-	 * @var array
-	 */
+
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 	public $fixtures = array(
 		'plugin.menus.core_menu',
 		'plugin.menus.core_menu_item',
@@ -18,32 +19,32 @@ class MenuItemTestCase extends CakeTestCase {
 		'plugin.installer.plugin'
 	);
 
-	/**
-	 * setUp method
-	 *
-	 * @return void
-	 */
+/**
+ * setUp method
+ *
+ * @return void
+ */
 	public function setUp() {
 		parent::setUp();
 		$this->MenuItem = ClassRegistry::init('Menus.MenuItem');
 	}
 
-	/**
-	 * tearDown method
-	 *
-	 * @return void
-	 */
+/**
+ * tearDown method
+ *
+ * @return void
+ */
 	public function tearDown() {
 		unset($this->MenuItem);
 
 		parent::tearDown();
 	}
 
-	/**
-	 * testValidateEmptyOrCssClass method
-	 *
-	 * @return void
-	 */
+/**
+ * testValidateEmptyOrCssClass method
+ *
+ * @return void
+ */
 	public function testValidateEmptyOrCssClass() {
 		$this->assertTrue($this->MenuItem->validateEmptyOrCssClass(array()));
 		$this->assertTrue($this->MenuItem->validateEmptyOrCssClass(array('abc')));
@@ -57,14 +58,12 @@ class MenuItemTestCase extends CakeTestCase {
 		$this->assertFalse($this->MenuItem->validateEmptyOrCssClass(array('asd-$')));
 	}
 
-	/**
-	 * testGetMenu method
-	 *
-	 * @return void
-	 */
+/**
+ * testGetMenu method
+ *
+ * @return void
+ */
 	public function testGetMenu() {
-		$this->assertFalse($this->MenuItem->getMenu());
-
 		$result = $this->MenuItem->getMenu('main_menu');
 		$expected = array('Blog', 'About Me', 'Sandbox');
 
@@ -83,6 +82,9 @@ class MenuItemTestCase extends CakeTestCase {
 		$this->assertEmpty($result);
 	}
 
+/**
+ * test save
+ */
 	public function testSave() {
 		$data = array();
 		$this->assertEqual($this->MenuItem->find('count'), 6);
@@ -138,16 +140,15 @@ class MenuItemTestCase extends CakeTestCase {
 		$this->assertFalse((bool)$this->MenuItem->save($data));
 	}
 
-	/**
-	 * testHasContainer method
-	 *
-	 * @return void
-	 */
+/**
+ * testHasContainer method
+ *
+ * @return void
+ */
 	public function testHasContainer() {
 		$this->assertEqual($this->MenuItem->find('count'), 6);
 		$this->assertTrue($this->MenuItem->hasContainer('public-menu'));
 		$this->assertTrue($this->MenuItem->hasContainer('registered-menu'));
 		$this->assertEqual($this->MenuItem->find('count'), 6);
 	}
-
 }

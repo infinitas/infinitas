@@ -1,6 +1,6 @@
 <?php
 class MenusControllerTest extends CakeTestCase {
-	public function testSomething() {
 
+	public function testSomething() {
 	}
 }
