@@ -374,4 +374,56 @@ class DesignHelper extends AppHelper {
 		)), array('class' => $options['class']));
 	}
 
+	protected function _button($type) {
+		switch ($type) {
+			case 'x':
+				return $this->Html->tag('button', '&times;', array(
+					'type' => 'button',
+					'class' => 'close',
+					'data-dismiss' => 'modal',
+					'aria-hidden' => 'true'
+				));
+
+			case 'close':
+				return $this->Html->tag('button', __d('infinitas', 'Close'), array(
+					'class' => 'btn',
+					'data-dismiss' => 'modal',
+					'aria-hidden' => 'true'
+				));
+		}
+	}
+
+	public function modal($title, $body, array $footer = array(), array $options = array()) {
+		$options = array_merge(array(
+			'id' => null,
+			'close' => true
+		), $options);
+
+		if ($footer) {
+			if (array_key_exists('close', $footer)) {
+				$footer['close'] = self::_button('close');
+			}
+			$footer = $this->Html->tag('div', implode('', array_values($footer)), array(
+				'class' => 'modal-footer'
+			));
+		}
+
+		$hId = String::uuid();
+		return $this->Html->tag('div', implode('', array(
+			$this->Html->tag('div', implode('', array(
+				$options['close'] ? self::_button('x') : null,
+				$this->Html->tag('h3', $title, array('id' => $hId))
+			)), array('class' => 'modal-header')),
+			$this->Html->tag('div', $body, array('class' => 'modal-body')),
+			$footer
+		)), array(
+			'id' => $options['id'],
+			'class' => 'modal hide fade',
+			'tabindex' => -1,
+			'role' => 'dialog',
+			'aria-labelledby' => $hId,
+			'aria-hidden' => true
+		));
+	}
+
 }

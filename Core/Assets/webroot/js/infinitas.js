@@ -90,8 +90,19 @@ switch(Infinitas.params.prefix) {
 					$.each(inputs, function(k, v) {
 						$(v).removeAttr('required');
 					});
+				} else if ($this.val() == 'delete') {
+					if ($this.parent().attr('class') != 'modal-footer') {
+						$($this.data('target')).modal({
+							backdrop: 'static'
+						});
+						return false;
+					}
+
+					$this.closest('form').append(
+						'<input type="hidden" name="data[Confirm][confirmed]" value="1" id="ConfirmConfirmed">'
+					);
 				}
-			})
+			});
 		});
 		break;
 
