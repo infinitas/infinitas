@@ -141,18 +141,19 @@ class ValidationBehavior extends ModelBehavior {
 		}
 
 		foreach ($aliases as $alias => $fk) {
-			$count = $Model->{$alias}->find(
-				'count',
-				array(
-					'conditions' => array(
-						$Model->{$alias}->alias . '.' . $Model->{$alias}->primaryKey => current($field)
-					)
+			$count = $Model->{$alias}->find('count', array(
+				'conditions' => array(
+					$Model->{$alias}->alias . '.' . $Model->{$alias}->primaryKey => current($field)
 				)
-			);
+			));
 
 			if ($count > 0) {
 				return true;
 			}
+		}
+		$key = key($field);
+		if ($Model->hasField($key)) {
+			return $Model->exists(current($field));
 		}
 
 		return false;
