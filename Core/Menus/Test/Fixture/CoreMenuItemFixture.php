@@ -101,7 +101,7 @@ class CoreMenuItemFixture extends CakeTestFixture {
 				array(
 					'id' => 7, 'name' => 'Deep link',
 					'slug' => 'another','link' => '', 'prefix' => '',
-					'plugin' => 'Blog', 'controller' => 'BlogPost', 'action' => 'view', 'params' => '',
+					'plugin' => 'Blog', 'controller' => 'BlogPostsController', 'action' => 'view', 'params' => '{"foo":"bar"}',
 					'force_backend' => 0, 'force_frontend' => 0, 'class' => '', 'active' => 1,
 					'id_attribute' => null, 'target' => null, 'title' => null, 'image' => null,
 					'menu_id' => 'registered-menu', 'group_id' => 2, 'parent_id' => 6, 'lft' => 11, 'rght' => 12,

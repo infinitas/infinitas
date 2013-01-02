@@ -298,7 +298,7 @@ class MenuItem extends MenusAppModel {
 			$this->_underscore($result);
 		}
 
-		return $results;
+		return Hash::nest($results);
 	}
 
 /**

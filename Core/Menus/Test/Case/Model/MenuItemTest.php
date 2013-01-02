@@ -72,10 +72,22 @@ class MenuItemTestCase extends CakeTestCase {
 
 		CakeSession::write('Auth.User.group_id', 2);
 		$result = $this->MenuItem->find('menu', 'registered_users');
-		$expected = array('About Me', 'Deep link');
+		$expected = array('About Me');
 
-		$this->assertEquals(count($result), 2);
+		$this->assertEquals(count($result), 1);
 		$this->assertEquals($expected, Set::extract('/MenuItem/name', $result));
+		$this->assertTrue(!empty($result[0]['children']));
+
+		$expected = array(
+			'plugin' => 'blog',
+			'controller' => 'blog_posts',
+			'params' => array('foo' => 'bar')
+		);
+		$this->assertEquals($expected, array(
+			'plugin' => $result[0]['children'][0]['MenuItem']['plugin'],
+			'controller' => $result[0]['children'][0]['MenuItem']['controller'],
+			'params' => $result[0]['children'][0]['MenuItem']['params'],
+		));
 		CakeSession::destroy();
 
 		$result = $this->MenuItem->find('menu', 'registered_users');
