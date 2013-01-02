@@ -192,7 +192,16 @@
 				'level' => 'warning',
 				'redirect' => true
 			),
-			'auth' => null
+			'auth' => null,
+			'require_auth' => array(
+				'message' => 'Authentication required, please login to continue',
+				'level' => 'warning',
+				'redirect' => array(
+					'plugin' => 'users',
+					'controller' => 'users',
+					'action' => 'login'
+				)
+			)
 		);
 
 		/**
