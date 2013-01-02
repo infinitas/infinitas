@@ -69,6 +69,13 @@
 		/**
 		 * Show gravatar for the supplied email address
 		 *
+		 * options:
+		 *	image: the image options (array)
+		 *	default:
+		 *	size: the image size
+		 *	rating: the PG rating
+		 *	ext: the image type
+		 *
 		 * @param string $email Email address
 		 * @param array $options Array of options, keyed from default settings
 		 *

@@ -36,15 +36,21 @@ $profileParts = $this->Html->tag('div', implode('', $profileParts['userProfile']
 	'class' => 'accordion'
 ));
 
+$heading = $this->Gravatar->image($user['User']['email'], array(
+	'size' => 50
+)) . $user['User']['username'];
 $left = $this->Html->tag('div', implode('', array(
-	$this->Html->tag('h4', $user['User']['username']),
+	$this->Html->tag('h2', $heading),
+	$this->Html->tag('h4', __d('users', 'Details')),
 	$this->Html->tag('dl', implode('', array(
 		$this->Html->tag('dt', __d('user', 'Full Name')),
-		$this->Html->tag('dd', $user['User']['full_name'] . '&nbsp;'),
+		$this->Html->tag('dd', $user['User']['full_name'] ? $user['User']['full_name'] : '-'),
 		$this->Html->tag('dt', __d('user', 'Prefered name')),
-		$this->Html->tag('dd', $user['User']['prefered_name'] . '&nbsp;'),
+		$this->Html->tag('dd', $user['User']['prefered_name'] ? $user['User']['prefered_name'] : '-'),
 		$this->Html->tag('dt', __d('user', 'Email')),
 		$this->Html->tag('dd', $user['User']['email']),
+		$this->Html->tag('dt', __d('user', 'Time zone')),
+		$this->Html->tag('dd', $user['User']['time_zone']),
 	)), array('class' => 'dl-horizontal')),
 	$this->Html->tag('h4', __d('users', 'Activity')),
 	$this->Html->tag('dl', implode('', array(
