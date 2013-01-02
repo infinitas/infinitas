@@ -56,6 +56,10 @@ class ViewableBehavior extends ModelBehavior {
 		if (!$Model->useTable) {
 			return false;
 		}
+
+		if (empty($Model->ViewCount)) {
+			$Model->ViewCount = ClassRegistry::init('ViewCounter.ViewCounterView');
+		}
 		$Model->bindModel(array(
 			'hasMany' => array(
 				$Model->ViewCount->alias => array(
