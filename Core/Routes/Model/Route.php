@@ -141,6 +141,26 @@ class Route extends RoutesAppModel {
 	}
 
 /**
+ * beforeValidate callback
+ *
+ * Set force_backend/frontend to null if it is 0 so that allowEmpty will be used for non checked boxes.
+ *
+ * @param array $options the validation options
+ *
+ * @return array
+ */
+	public function beforeValidate($options = array()) {
+		if (array_key_exists('force_backend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_backend']) {
+			$this->data[$this->alias]['force_backend'] = null;
+		}
+		if (array_key_exists('force_frontend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_frontend']) {
+			$this->data[$this->alias]['force_frontend'] = null;
+		}
+
+		return parent::beforeValidate($options);
+	}
+
+/**
  * BeforeSave callback
  *
  * Sort out the plugin name before saving

@@ -54,273 +54,6 @@ class RouteTest extends CakeTestCase {
 	}
 
 /**
- * test saving routes
- */
-	public function testSaveRoutes() {
-
-	}
-
-/**
- * test building the data for the router
- *
- * @dataProvider routeData
- */
-	public function testGetValues($data, $expected) {
-		$this->assertEquals($expected, $this->Route->getValues($data));
-	}
-
-/**
- * test building the regex and pass params
- *
- * @dataProvider regexData
- */
-	public function testRegex($data, $expected) {
-		if (!isset($data['pass'])) {
-			return $this->assertEquals($expected, $this->Route->getRegex($data['rules']));
-		}
-
-		$this->assertEquals($expected, $this->Route->getRegex($data['rules'], $data['pass']));
-	}
-
-/**
- * test getting the route out of the database formatted for InfinitasRouter::connect()
- */
-	public function testGetRoutes() {
-		$routes = $this->Route->getRoutes();
-
-		$this->assertTrue(isset($routes[7]));
-		$this->assertNotEmpty($routes[5]);
-
-		$expected = array(
-			'Route' => array(
-				'url' => '/p/:year/:month/:day',
-				'values' => array(
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'admin' => false
-				),
-				'regex' => array(
-					'pass' => array(
-						'year',
-						'month',
-						'day'
-					)
-				),
-				'theme' => 'default',
-				'layout' => 'front',
-			)
-		);
-		$this->assertEqual($routes[9], $expected);
-
-		$expected = array(
-			'Route' => array(
-				'url' => '/admin',
-				'values' => array(
-					'prefix' => 'admin',
-					'plugin' => 'management',
-					'controller' => 'management',
-					'action' => 'dashboard',
-					'admin' => true
-				),
-				'regex' => array(),
-				'theme' => null,
-				'layout' => null,
-			)
-		);
-		$this->assertEqual($routes[2], $expected);
-	}
-
-/**
- * routeData data provider
- */
-	public function routeData() {
-		return array(
-			array(array(), false),
-			array(null, false),
-			array(
-				array(
-					'prefix' => 'admin',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '',
-					'force_backend' => true,
-					'force_frontend' => false
-				),
-				array('prefix' => 'admin', 'plugin' => 'blog', 'controller' => 'posts', 'admin' => true)
-			),
-			array( // no prefix
-				array(
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '',
-					'force_backend' => true,
-					'force_frontend' => false
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => true)
-			),
-			array( // admin prefix without forcing anything
-				array(
-					'prefix' => 'admin',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '',
-					'force_backend' => false,
-					'force_frontend' => false
-				),
-				array('prefix' => 'admin', 'plugin' => 'blog', 'controller' => 'posts')
-			),
-			array( // force frontend (admin => false)
-				array(
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '',
-					'force_backend' => false,
-					'force_frontend' => true
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false)
-			),
-			array( // forcing both will default to admin
-				array(
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '',
-					'force_backend' => true,
-					'force_frontend' => true
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => true)
-			),
-			array( // force frontend with a prefix
-				array(
-					'prefix' => 'something',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '',
-					'force_backend' => false,
-					'force_frontend' => true
-				),
-				array('prefix' => 'something', 'plugin' => 'blog', 'controller' => 'posts', 'admin' => false)
-			),
-			array( // with an action
-				array(
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => 'index',
-					'values' => '',
-					'force_backend' => false,
-					'force_frontend' => true
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'action' => 'index', 'admin' => false)
-			),
-			array( // bad json data
-				array(
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '{}',
-					'force_backend' => false,
-					'force_frontend' => true
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false)
-			),
-			array( // simple values
-				array(
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '{"day":null}',
-					'force_backend' => false,
-					'force_frontend' => true
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false, 'day' => null)
-			),
-			array( // completely ignore nested arrays
-				array( // @todo cake now can use nested get params
-					'prefix' => '',
-					'plugin' => 'blog',
-					'controller' => 'posts',
-					'action' => '',
-					'values' => '{"day":null,"abc":{"test":"bad"}}',
-					'force_backend' => false,
-					'force_frontend' => true
-				),
-				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false, 'day' => null)
-			)
-		);
-	}
-
-/**
- * regexData data provider
- */
-	public function regexData() {
-		return array(
-			array(
-				array('rules' => ''),
-				array()
-			),
-			array(
-				array('rules' => '', 'pass' => ''),
-				array()
-			),
-			array(
-				array('rules' => false, 'pass' => null),
-				array()
-			),
-			array(
-				array(
-					'rules' => '{"year":"[12][0-9]{3}","month":"0[1-9]|1[012]","day":"0[1-9]|[12][0-9]|3[01]"}'
-				),
-				array('year' => '[12][0-9]{3}', 'month' => '0[1-9]|1[012]', 'day' => '0[1-9]|[12][0-9]|3[01]')
-			),
-			array( //ignore nested arrays
-				array(
-					'rules' => '{"year":"[12][0-9]{3}","month":"0[1-9]|1[012]","day":"0[1-9]|[12][0-9]|3[01]","array":{"abc":false}}'
-				),
-				array('year' => '[12][0-9]{3}', 'month' => '0[1-9]|1[012]', 'day' => '0[1-9]|[12][0-9]|3[01]')
-			),
-			array( // basic rules with pass
-				array(
-					'rules' => '{"year":"[12][0-9]{3}"}',
-					'pass' => 'id,year'
-				),
-				array('year' => '[12][0-9]{3}', 'pass' => array('id', 'year'))
-			),
-			array( // pass only one field
-				array(
-					'rules' => '{"year":"[12][0-9]{3}"}',
-					'pass' => 'id'
-				),
-				array('year' => '[12][0-9]{3}', 'pass' => array('id'))
-			),
-			array( //pass many fields
-				array(
-					'rules' => '{"year":"[12][0-9]{3}"}',
-					'pass' => 'id,name,slug,date'
-				),
-				array('year' => '[12][0-9]{3}', 'pass' => array('id', 'name', 'slug', 'date'))
-			),
-			array( //pass many fields
-				array(
-					'rules' => '',
-					'pass' => 'id'
-				),
-				array('pass' => array('id'))
-			)
-		);
-	}
-
-/**
  * validationFailData data provider
  *
  * @return void
@@ -458,5 +191,272 @@ class RouteTest extends CakeTestCase {
 				array()
 			)
 		);
+	}
+
+/**
+ * test saving routes
+ */
+	public function testSaveRoutes() {
+
+	}
+
+/**
+ * test building the data for the router
+ *
+ * @dataProvider routeData
+ */
+	public function testGetValues($data, $expected) {
+		$this->assertEquals($expected, $this->Route->getValues($data));
+	}
+
+/**
+ * routeData data provider
+ */
+	public function routeData() {
+		return array(
+			array(array(), false),
+			array(null, false),
+			array(
+				array(
+					'prefix' => 'admin',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '',
+					'force_backend' => true,
+					'force_frontend' => false
+				),
+				array('prefix' => 'admin', 'plugin' => 'blog', 'controller' => 'posts', 'admin' => true)
+			),
+			array( // no prefix
+				array(
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '',
+					'force_backend' => true,
+					'force_frontend' => false
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => true)
+			),
+			array( // admin prefix without forcing anything
+				array(
+					'prefix' => 'admin',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '',
+					'force_backend' => false,
+					'force_frontend' => false
+				),
+				array('prefix' => 'admin', 'plugin' => 'blog', 'controller' => 'posts')
+			),
+			array( // force frontend (admin => false)
+				array(
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '',
+					'force_backend' => false,
+					'force_frontend' => true
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false)
+			),
+			array( // forcing both will default to admin
+				array(
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '',
+					'force_backend' => true,
+					'force_frontend' => true
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => true)
+			),
+			array( // force frontend with a prefix
+				array(
+					'prefix' => 'something',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '',
+					'force_backend' => false,
+					'force_frontend' => true
+				),
+				array('prefix' => 'something', 'plugin' => 'blog', 'controller' => 'posts', 'admin' => false)
+			),
+			array( // with an action
+				array(
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => 'index',
+					'values' => '',
+					'force_backend' => false,
+					'force_frontend' => true
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'action' => 'index', 'admin' => false)
+			),
+			array( // bad json data
+				array(
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '{}',
+					'force_backend' => false,
+					'force_frontend' => true
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false)
+			),
+			array( // simple values
+				array(
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '{"day":null}',
+					'force_backend' => false,
+					'force_frontend' => true
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false, 'day' => null)
+			),
+			array( // completely ignore nested arrays
+				array( // @todo cake now can use nested get params
+					'prefix' => '',
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'action' => '',
+					'values' => '{"day":null,"abc":{"test":"bad"}}',
+					'force_backend' => false,
+					'force_frontend' => true
+				),
+				array('plugin' => 'blog', 'controller' => 'posts', 'admin' => false, 'day' => null)
+			)
+		);
+	}
+
+/**
+ * test building the regex and pass params
+ *
+ * @dataProvider regexData
+ */
+	public function testRegex($data, $expected) {
+		if (!isset($data['pass'])) {
+			return $this->assertEquals($expected, $this->Route->getRegex($data['rules']));
+		}
+
+		$this->assertEquals($expected, $this->Route->getRegex($data['rules'], $data['pass']));
+	}
+
+/**
+ * regexData data provider
+ */
+	public function regexData() {
+		return array(
+			array(
+				array('rules' => ''),
+				array()
+			),
+			array(
+				array('rules' => '', 'pass' => ''),
+				array()
+			),
+			array(
+				array('rules' => false, 'pass' => null),
+				array()
+			),
+			array(
+				array(
+					'rules' => '{"year":"[12][0-9]{3}","month":"0[1-9]|1[012]","day":"0[1-9]|[12][0-9]|3[01]"}'
+				),
+				array('year' => '[12][0-9]{3}', 'month' => '0[1-9]|1[012]', 'day' => '0[1-9]|[12][0-9]|3[01]')
+			),
+			array( //ignore nested arrays
+				array(
+					'rules' => '{"year":"[12][0-9]{3}","month":"0[1-9]|1[012]","day":"0[1-9]|[12][0-9]|3[01]","array":{"abc":false}}'
+				),
+				array('year' => '[12][0-9]{3}', 'month' => '0[1-9]|1[012]', 'day' => '0[1-9]|[12][0-9]|3[01]')
+			),
+			array( // basic rules with pass
+				array(
+					'rules' => '{"year":"[12][0-9]{3}"}',
+					'pass' => 'id,year'
+				),
+				array('year' => '[12][0-9]{3}', 'pass' => array('id', 'year'))
+			),
+			array( // pass only one field
+				array(
+					'rules' => '{"year":"[12][0-9]{3}"}',
+					'pass' => 'id'
+				),
+				array('year' => '[12][0-9]{3}', 'pass' => array('id'))
+			),
+			array( //pass many fields
+				array(
+					'rules' => '{"year":"[12][0-9]{3}"}',
+					'pass' => 'id,name,slug,date'
+				),
+				array('year' => '[12][0-9]{3}', 'pass' => array('id', 'name', 'slug', 'date'))
+			),
+			array( //pass many fields
+				array(
+					'rules' => '',
+					'pass' => 'id'
+				),
+				array('pass' => array('id'))
+			)
+		);
+	}
+
+/**
+ * test getting the route out of the database formatted for InfinitasRouter::connect()
+ */
+	public function testGetRoutes() {
+		$routes = $this->Route->getRoutes();
+
+		$this->assertTrue(isset($routes[7]));
+		$this->assertNotEmpty($routes[5]);
+
+		$expected = array(
+			'Route' => array(
+				'url' => '/p/:year/:month/:day',
+				'values' => array(
+					'plugin' => 'blog',
+					'controller' => 'posts',
+					'admin' => false
+				),
+				'regex' => array(
+					'pass' => array(
+						'year',
+						'month',
+						'day'
+					)
+				),
+				'theme' => 'default',
+				'layout' => 'front',
+			)
+		);
+		$this->assertEqual($routes[9], $expected);
+
+		$expected = array(
+			'Route' => array(
+				'url' => '/admin',
+				'values' => array(
+					'prefix' => 'admin',
+					'plugin' => 'management',
+					'controller' => 'management',
+					'action' => 'dashboard',
+					'admin' => true
+				),
+				'regex' => array(),
+				'theme' => null,
+				'layout' => null,
+			)
+		);
+		$this->assertEqual($routes[2], $expected);
 	}
 }
