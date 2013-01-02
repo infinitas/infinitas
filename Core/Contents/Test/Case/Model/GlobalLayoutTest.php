@@ -19,6 +19,8 @@ class GlobalLayoutTest extends CakeTestCase {
 		'plugin.contents.global_tagged',
 		'plugin.contents.global_tag',
 
+		'plugin.management.ticket',
+
 		'plugin.themes.theme',
 		'plugin.users.group',
 		'plugin.view_counter.view_counter_view',
