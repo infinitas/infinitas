@@ -53,7 +53,7 @@
 			$expected = date('d');
 			$this->assertEquals($expected, $data[0]['Cron']['day']);
 
-			$expected = date('Y-n-d ') . $data[0]['Cron']['start_time'];
+			$expected = date('Y-n-j ') . $data[0]['Cron']['start_time'];
 			$this->assertEquals($expected, $data[0]['Cron']['created']);
 
 			$this->assertNull($data[0]['Cron']['end_time']);
@@ -77,10 +77,10 @@
 			$expected = 5;
 			$this->assertEquals($expected, $data['Cron']['tasks_ran']);
 
-			$this->assertEquals(date('Y-n-d ') . $data['Cron']['end_time'], $this->Cron->getLastRun(), 'Not serious if 1 sec diff, just depends how the jobs runs');
+			$this->assertEquals(date('Y-n-j ') . $data['Cron']['end_time'], $this->Cron->getLastRun(), 'Not serious if 1 sec diff, just depends how the jobs runs');
 
 			$expected = 0;
-			$this->assertEquals($expected , $this->Cron->countJobsAfter(date('Y-n-d ') . $data['Cron']['end_time']));
+			$this->assertEquals($expected , $this->Cron->countJobsAfter(date('Y-n-j ') . $data['Cron']['end_time']));
 
 			//expects error
 			$this->Cron->end(1, 1, 1);

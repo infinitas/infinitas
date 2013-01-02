@@ -160,17 +160,14 @@ class Cron extends CronsAppModel {
  * @return integer
  */
 	public function countJobsAfter($date) {
-		$data = $this->find(
-			'count',
-			array(
-				'conditions' => array(
-					$this->alias . '.year' => date('Y', strtotime($date)),
-					$this->alias . '.month' => (int)date('m', strtotime($date)),
-					$this->alias . '.day' => (int)date('d', strtotime($date)),
-					$this->alias . '.start_time >' => date('H:i:s', strtotime($date)),
-				)
+		$data = $this->find('count', array(
+			'conditions' => array(
+				$this->alias . '.year' => date('Y', strtotime($date)),
+				$this->alias . '.month' => (int)date('m', strtotime($date)),
+				$this->alias . '.day' => (int)date('d', strtotime($date)),
+				$this->alias . '.start_time >' => date('H:i:s', strtotime($date)),
 			)
-		);
+		));
 
 		return $data;
 	}
