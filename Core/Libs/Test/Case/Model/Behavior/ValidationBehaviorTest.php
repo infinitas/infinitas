@@ -3,12 +3,19 @@ App::import('Behavior', 'libs.Validation');
 InfinitasPlugin::load('Users');
 
 class ValidationBehaviorTestCase extends CakeTestCase {
+
+/**
+ * fixtures
+ *
+ * @var array
+ */
 	public $fixtures = array(
 		'plugin.users.user',
 		'plugin.management.ticket',
 		'plugin.users.group',
 		'plugin.installer.plugin',
 	);
+
 /**
  * @brief set up at the start
  */
@@ -153,10 +160,6 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 		$data['User']['password'] = Security::hash('abc', null, true);
 		$this->User->set($data); $this->User->validates();
 		$this->assertEqual($this->User->validationErrors, $expected);
-
-		$data['User']['password_match'] = 'abc';
-		$this->User->set($data); $this->User->validates();
-		$this->assertEqual($this->User->validationErrors, array());
 	}
 
 /**
@@ -232,6 +235,66 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 		$this->User->set($data); $this->User->validates();
 		$result = $this->User->validationErrors;
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * pluginValidationData data provider
+ */
+	public function pluginValidationData() {
+		return array(
+			array(
+				array('plugin' => 'foo'),
+				array('plugin' => array('plugin does not exist'))
+			),
+			array(
+				array('plugin' => ''),
+				array('plugin' => array('plugin does not exist'))
+			),
+			array(
+				array('plugin' => 123),
+				array('plugin' => array('plugin does not exist'))
+			),
+			array(
+				array('plugin' => 'Users'),
+				array()
+			)
+		);
+	}
+
+/**
+ * test validate model exists
+ *
+ * @dataProvider validateModelExists
+ */
+	public function testValidateModelExists($data, $expected) {
+		CakePlugin::load('Menus');
+		$this->User->validate = array(
+			'model' => array(
+				'rule' => 'validateModelExists',
+				'message' => 'model does not exist',
+				'required' => true
+			)
+		);
+		$this->User->set($data); $this->User->validates();
+		$result = $this->User->validationErrors;
+		$this->assertEquals($expected, $result);
+	}
+
+	public function validateModelExists() {
+		return array(
+			'fake' => array(
+				array('model' => 'Fake.Fake'),
+				array('model' => array('model does not exist'))
+			),
+			'fake model' => array(
+				array('model' => 'Users.Fake'),
+				array('model' => array('model does not exist'))
+			),
+			'good' => array(
+				array('model' => 'Users.User'),
+				array()
+			)
+		);
 	}
 
 /**
@@ -374,29 +437,102 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 		$this->User->validates();
 
 		$this->assertEquals($expected, $this->User->validationErrors);
+
+		$this->User->validate = array(
+			'action' => array(
+				'validateActionExists' => array(
+					'rule' => array(
+						'validateActionExists',
+						'pluginField' => 'User.plugin',
+						'controllerField' => 'User.controller',
+					),
+					'message' => 'Invalid action'
+				)
+			)
+		);
+
+		$this->User->create($data);
+		$this->User->validates();
+
+		$this->assertEquals($expected, $this->User->validationErrors);
+	}
+
+	public function testValidateActionExistsBadForm() {
+		$this->User->validate = array(
+			'action' => array(
+				'validateActionExists' => array(
+					'rule' => array(
+						'validateActionExists',
+						'pluginField' => '.plugin',
+						'controllerField' => 'User.controller',
+					),
+					'message' => 'Invalid action'
+				)
+			)
+		);
+		$data = array(
+			'plugin' => 'users',
+			'controller' => 'users_controller',
+			'action' => 'register'
+		);
+
+		$this->User->create($data);
+		$this->assertTrue($this->User->validates());
+
+		$this->User->validate = array(
+			'action' => array(
+				'validateActionExists' => array(
+					'rule' => array(
+						'validateActionExists',
+						'pluginField' => 'User.plugin',
+						'controllerField' => '.controller',
+					),
+					'message' => 'Invalid action'
+				)
+			)
+		);
+		$data = array(
+			'plugin' => 'users',
+			'controller' => 'users_controller',
+			'action' => 'register'
+		);
+
+		$this->User->create($data);
+		$this->assertTrue($this->User->validates());
 	}
 
 /**
- * pluginValidationData data provider
+ * actionValidationData data provider
  */
-	public function pluginValidationData() {
+	public function actionValidationData() {
 		return array(
 			array(
-				array('plugin' => 'foo'),
-				array('plugin' => array('plugin does not exist'))
-			),
+				array('plugin' => 'false-plugin', 'controller' => 'false-controller', 'action' => 'fake'),
+				array('action' => array('Invalid action'))),
 			array(
-				array('plugin' => ''),
-				array('plugin' => array('plugin does not exist'))
-			),
+				array('plugin' => 'Users', 'controller' => 'false-controller', 'action' => 'fake'),
+				array('action' => array('Invalid action'))),
 			array(
-				array('plugin' => 123),
-				array('plugin' => array('plugin does not exist'))
-			),
+				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => 'fake'),
+				array('action' => array('Invalid action'))),
 			array(
-				array('plugin' => 'Users'),
-				array()
-			)
+				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => 'register'),
+				array()),
+			array(
+				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => 'admin_add'),
+				array()),
+			array(
+				array('plugin' => 'fake-plugin', 'controller' => 'UsersController', 'action' => 'add'),
+				array('action' => array('Invalid action'))),
+			array(
+				array('plugin' => 'fake-plugin', 'controller' => 'fake-controller', 'action' => 'add'),
+				array('action' => array('Invalid action'))),
+			array(
+				array('plugin' => 'users', 'controller' => 'users_controller', 'action' => 'register'),
+				array()),
+			array(
+				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => '_getUserData'),
+				array('action' => array('Invalid action'))),
 		);
 	}
 
@@ -512,41 +648,6 @@ class ValidationBehaviorTestCase extends CakeTestCase {
 			array(
 				array('plugin' => 'users', 'controller' => 'UsersController'),
 				array()),
-		);
-	}
-
-/**
- * actionValidationData data provider
- */
-	public function actionValidationData() {
-		return array(
-			array(
-				array('plugin' => 'false-plugin', 'controller' => 'false-controller', 'action' => 'fake'),
-				array('action' => array('Invalid action'))),
-			array(
-				array('plugin' => 'Users', 'controller' => 'false-controller', 'action' => 'fake'),
-				array('action' => array('Invalid action'))),
-			array(
-				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => 'fake'),
-				array('action' => array('Invalid action'))),
-			array(
-				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => 'register'),
-				array()),
-			array(
-				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => 'admin_add'),
-				array()),
-			array(
-				array('plugin' => 'fake-plugin', 'controller' => 'UsersController', 'action' => 'add'),
-				array('action' => array('Invalid action'))),
-			array(
-				array('plugin' => 'fake-plugin', 'controller' => 'fake-controller', 'action' => 'add'),
-				array('action' => array('Invalid action'))),
-			array(
-				array('plugin' => 'users', 'controller' => 'users_controller', 'action' => 'register'),
-				array()),
-			array(
-				array('plugin' => 'Users', 'controller' => 'UsersController', 'action' => '_getUserData'),
-				array('action' => array('Invalid action'))),
 		);
 	}
 }

@@ -28,24 +28,11 @@ class ValidationBehavior extends ModelBehavior {
  * @return boolean
  */
 	public function validateEitherOr(Model $Model, $field, $fields) {
-		$allowEmpty = isset($Model->validate[$fields[0]][__FUNCTION__]['allowEmpty']) &&
-			$Model->validate[$fields[0]][__FUNCTION__]['allowEmpty'] &&
-			empty($Model->data[$Model->alias][$fields[0]]);
-
-		$allowEmpty &= isset($Model->validate[$fields[1]][__FUNCTION__]['allowEmpty']) &&
-			$Model->validate[$fields[1]][__FUNCTION__]['allowEmpty'] &&
-			empty($Model->data[$Model->alias][$fields[1]]);
-
-		if ($allowEmpty) {
-			return true;
-		}
-
-		return
-			// either
-			empty($Model->data[$Model->alias][$fields[0]]) && !empty($Model->data[$Model->alias][$fields[1]]) ||
-
-			// or
-			!empty($Model->data[$Model->alias][$fields[0]]) && empty($Model->data[$Model->alias][$fields[1]]);
+		$data = array_filter(array(
+			$Model->data[$Model->alias][$fields[0]],
+			$Model->data[$Model->alias][$fields[1]],
+		));
+		return count($data) === 1;
 	}
 
 /**
@@ -205,10 +192,9 @@ class ValidationBehavior extends ModelBehavior {
 		}
 
 		try {
-			return get_class(ClassRegistry::init(implode('.', array($plugin, $model)))) == $model;
-		} catch(Exception $e) {
-			return false;
-		}
+			$field = implode('.', array($plugin, $model));
+			return get_class(ClassRegistry::init($field)) == $model;
+		} catch(Exception $e) {}
 
 		return false;
 	}
@@ -258,9 +244,7 @@ class ValidationBehavior extends ModelBehavior {
 
 		try {
 			return array_key_exists(Inflector::camelize(current($field)), $Model->getControllers($plugin));
-		}
-
-		catch(Exception $e) {
+		} catch(Exception $e) {
 			return false;
 		}
 	}
@@ -293,9 +277,7 @@ class ValidationBehavior extends ModelBehavior {
 					return true;
 				}
 			}
-		}
-
-		catch(Exception $e) {
+		} catch(Exception $e) {
 			return false;
 		}
 
