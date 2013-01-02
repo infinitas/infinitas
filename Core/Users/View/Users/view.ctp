@@ -12,25 +12,31 @@
  */
 
 $profileParts = $this->Event->trigger('userProfile', $user);
-foreach ($profileParts['userProfile'] as $plugin => &$profile) {
-	$id = 'accordion' . String::uuid();
-	$profile['title'] = $this->Html->link($profile['title'], $this->here . '#' . $id, array(
-		'class' => 'accordion-toggle',
-		'data-toggle' => 'collapse',
-		'data-parent' => 'accordion-plugin'
-	));
-	$profile['content'] = $this->Html->tag('div', $profile['content'], array(
-		'class' => 'accordion-inner'
-	));
-	$profile = $this->Html->tag('div', implode('', array(
-		$this->Html->tag('div', $profile['title'], array(
-			'class' => 'accordion-heading'
-		)),
-		$this->Html->tag('div', $profile['content'], array(
-			'class' => 'accordion-body collapse',
-			'id' => $id
-		))
-	)), array('class' => 'accordion-group'));
+foreach ($profileParts['userProfile'] as $plugin => &$boxes) {
+	if (!Hash::numeric(array_keys($boxes))) {
+		$boxes = array($boxes);
+	}
+	foreach ($boxes as &$profile) {
+		$id = 'accordion' . String::uuid();
+		$profile['title'] = $this->Html->link($profile['title'], $this->here . '#' . $id, array(
+			'class' => 'accordion-toggle',
+			'data-toggle' => 'collapse',
+			'data-parent' => 'accordion-plugin'
+		));
+		$profile['content'] = $this->Html->tag('div', $profile['content'], array(
+			'class' => 'accordion-inner'
+		));
+		$profile = $this->Html->tag('div', implode('', array(
+			$this->Html->tag('div', $profile['title'], array(
+				'class' => 'accordion-heading'
+			)),
+			$this->Html->tag('div', $profile['content'], array(
+				'class' => 'accordion-body collapse',
+				'id' => $id
+			))
+		)), array('class' => 'accordion-group'));
+	}
+	$boxes = implode('', $boxes);
 }
 $profileParts = $this->Html->tag('div', implode('', $profileParts['userProfile']), array(
 	'class' => 'accordion'
