@@ -83,6 +83,8 @@ class Cron extends CronsAppModel {
 			$this->_currentProcess = $this->id;
 			return $alreadyRunning === false;
 		}
+		
+		return false;
 	}
 
 /**
@@ -100,8 +102,7 @@ class Cron extends CronsAppModel {
  */
 	public function end($tasksRan = 0, $memAverage = 0, $loadAverage = 0) {
 		if (!$this->_currentProcess) {
-			trigger_error(__d('crons', 'Cron not yet started'), E_USER_WARNING);
-			return false;
+			throw new CronsNotStartedException(array());
 		}
 
 		$data = null;
@@ -138,14 +139,11 @@ class Cron extends CronsAppModel {
  * @return boolean
  */
 	protected function _isRunning() {
-		return (bool)$this->find(
-			'count',
-			array(
-				'conditions' => array(
-					$this->alias . '.done' => 0
-				)
+		return (bool)$this->find('count', array(
+			'conditions' => array(
+				$this->alias . '.done' => 0
 			)
-		);
+		));
 	}
 
 /**
@@ -181,20 +179,17 @@ class Cron extends CronsAppModel {
  * @return string|boolean
  */
 	public function getLastRun() {
-		$last = $this->find(
-			'first',
-			array(
-				'fields' => array(
-					$this->alias . '.id',
-					'created'
-				),
-				'order' => array(
-					'created' => 'desc'
-				)
+		$last = $this->find('first', array(
+			'fields' => array(
+				$this->alias . '.id',
+				'created'
+			),
+			'order' => array(
+				'created' => 'desc'
 			)
-		);
+		));
 
-		return (isset($last['Cron']['created']) && !empty($last['Cron']['created'])) ? $last['Cron']['created'] : false;
+		return !empty($last['Cron']['created']) ? $last['Cron']['created'] : false;
 	}
 
 /**
@@ -214,12 +209,9 @@ class Cron extends CronsAppModel {
 
 		$date = date('Y-m-d H:i:s', strtotime('- ' . $date));
 
-		return $this->deleteAll(
-			array(
-				'Cron.created <= ' => $date
-			),
-			false
-		);
+		return $this->deleteAll(array(
+			'Cron.created <= ' => $date
+		), false);
 	}
 
 }
