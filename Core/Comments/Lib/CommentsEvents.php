@@ -139,9 +139,10 @@ class CommentsEvents extends AppEvents {
  *
  * @return array
  */
-	public function onUserProfile(Event $event) {
+	public function onUserProfile(Event $Event, array $user) {
 		return array(
-			'element' => 'profile'
+			'title' => __d('comments', 'Comments'),
+			'content' => $Event->Handler->_View->element('Comments.profile')
 		);
 	}
 }

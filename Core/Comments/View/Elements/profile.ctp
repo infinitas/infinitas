@@ -20,13 +20,11 @@
 	 * Redistributions of files must retain the above copyright notice.
 	 */
 	if (!isset($comments)) {
-		$comments = ClassRegistry::init('Comments.Comment')->getUsersComments(AuthComponent::user('id'));
+		$comments = ClassRegistry::init('Comments.InfinitasComment')->getUsersComments(AuthComponent::user('id'));
 	}
-?>
-<h3><?php echo __d('comments', 'Your Comments'); ?></h3>
-<?php
+
 	if (count($comments) == 0) {
-		echo '<p>', __d('comments', 'You have not made any comments yet.'), '</p>';
+		echo $this->Html->tag('p', __d('comments', 'You have not made any comments yet.'));
 		return true;
 	}
 
