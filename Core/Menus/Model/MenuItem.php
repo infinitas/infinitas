@@ -128,8 +128,8 @@ class MenuItem extends MenusAppModel {
 					'message' => __d('menus', 'Please select the group that can see this link'),
 					'required' => true
 				),
-				'validateRecordExists' => array(
-					'rule' => 'validateRecordExists',
+				'validateGroupExists' => array(
+					'rule' => 'validateGroupExists',
 					'allowEmpty' => true,
 					'message' => __d('menus', 'The selected group is not valid')
 				)
@@ -144,7 +144,8 @@ class MenuItem extends MenusAppModel {
 			'class' => array(
 				'emptyOrValidCssClass' => array(
 					'rule' => 'validateEmptyOrCssClass',
-					'message' => __d('menus', 'Please enter valid css classes')
+					'message' => __d('menus', 'Please enter valid css classes'),
+					'allowEmpty' => true
 				)
 			),
 			'menu_id' => array(
@@ -181,6 +182,14 @@ class MenuItem extends MenusAppModel {
 		preg_match('/-?[_a-zA-Z]+[_a-zA-Z0-9-]*/', $field, $matches);
 
 		return current($matches) === $field;
+	}
+
+	public function validateGroupExists($field) {
+		if (current($field) === '0') {
+			return true;
+		}
+
+		return $this->validateRecordExists($field);
 	}
 
 /**
