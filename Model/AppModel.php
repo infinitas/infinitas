@@ -302,6 +302,7 @@
 				}
 				$options['conditions'] = $conditions;
 			}
+			unset($options['from']);
 
 			return $options;
 		}
