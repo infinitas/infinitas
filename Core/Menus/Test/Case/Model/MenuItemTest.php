@@ -118,7 +118,8 @@ class MenuItemTestCase extends CakeTestCase {
 			'parent_id' => null
 		);
 		$this->MenuItem->create();
-		$this->assertTrue((bool)$this->MenuItem->save($data));
+		$result = $this->MenuItem->save($data);
+		$this->assertTrue((bool)$result);
 
 		$expected = $data;
 		$expected['parent_id'] = 1;

@@ -204,6 +204,15 @@ class MenuItem extends MenusAppModel {
 	public function beforeValidate($options = array()) {
 		$foreignKey = $this->belongsTo[$this->Menu->alias]['foreignKey'];
 
+		if (!empty($this->data[$this->alias])) {
+			if (array_key_exists('force_backend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_backend']) {
+				$this->data[$this->alias]['force_backend'] = null;
+			}
+			if (array_key_exists('force_frontend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_frontend']) {
+				$this->data[$this->alias]['force_frontend'] = null;
+			}
+		}
+
 		if (!empty($this->data[$this->alias][$foreignKey]) && empty($this->data[$this->alias]['parent_id'])) {
 			$menuItem = $this->find('first', array(
 				'fields' => array(

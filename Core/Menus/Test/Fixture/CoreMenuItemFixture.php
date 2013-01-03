@@ -20,8 +20,8 @@ class CoreMenuItemFixture extends CakeTestFixture {
 		'controller' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'action' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'params' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'force_backend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'force_frontend' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'force_backend' => array('type' => 'boolean', 'null' => true, 'default' => false),
+		'force_frontend' => array('type' => 'boolean', 'null' => true, 'default' => false),
 
 		'class' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => '0'),

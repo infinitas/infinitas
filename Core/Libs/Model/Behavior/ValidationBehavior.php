@@ -29,8 +29,8 @@ class ValidationBehavior extends ModelBehavior {
  */
 	public function validateEitherOr(Model $Model, $field, $fields) {
 		$data = array_filter(array(
-			$Model->data[$Model->alias][$fields[0]],
-			$Model->data[$Model->alias][$fields[1]],
+			!empty($Model->data[$Model->alias][$fields[0]]) ? $Model->data[$Model->alias][$fields[0]] : null,
+			!empty($Model->data[$Model->alias][$fields[1]]) ? $Model->data[$Model->alias][$fields[1]] : null,
 		));
 		return count($data) === 1;
 	}
