@@ -74,7 +74,10 @@
 			break;
 
 		case class_exists('Memcache'):
-			$cacheEngine = 'Memcache';
+			$Memcache = new Memcache;
+			if (@$memcache->connect('localhost')) {
+				$cacheEngine = 'Memcache';
+			}
 			break;
 
 		default:
