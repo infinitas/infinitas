@@ -34,7 +34,7 @@ class InfinitasTheme {
  */
 	public static function defaultThemeInstall($theme = 'infinitas') {
 		if (!self::install($theme)) {
-			throw new CakeException('Could not configure the default theme, make sure to clone / download it');
+			throw new CakeException(sprintf('Could not configure the default theme "%s", make sure to clone / download it', $theme));
 		}
 		return true;
 	}
@@ -58,7 +58,7 @@ class InfinitasTheme {
 		}
 		$linkPath = self::linkPath($theme);
 		if (!$FolderSymlink->create($linkPath , $themePath)) {
-			throw new CakeException('Unable to symlink theme');
+			throw new CakeException(sprintf('Unable to symlink from "%s" to "%s"', $themePath, $linkPath));
 		}
 		return $FolderSymlink->isLink($linkPath);
 	}
