@@ -764,9 +764,7 @@
 		public function invokeAction(CakeRequest $request) {
 			try {
 				parent::invokeAction($request);
-			}
-
-			catch (MissingActionException $e) {
+			} catch (MissingActionException $e) {
 				return $this->invokeComponentAction($request, $e);
 			}
 		}
