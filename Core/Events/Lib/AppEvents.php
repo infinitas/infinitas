@@ -164,7 +164,13 @@ class AppEvents extends Object {
 
 	#public function onSetupThemeLayout($event, $data = null) {}
 
-	#public function onUserLogin($event, $data = null) {}
+/**
+ * Triggered when a user logs into the site
+ *
+ * @param Event $Event
+ * @param array $data
+ */
+	public function onUserLogin(Event $Event, array $data) {}
 
 	#public function onUserRegistration($event, $data = null) {}
 
