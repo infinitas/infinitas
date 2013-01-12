@@ -61,6 +61,6 @@
 [submodule "Developer/DebugKit"]
 	path = Developer/DebugKit
 	url = git://github.com/Infinitas-Plugins/DebugKit.git
-[submodule "View/Themed/infinitas"]
-	path = View/Themed/infinitas
+[submodule "View/Themed/Infinitas"]
+	path = View/Themed/Infinitas
 	url = git://github.com/Infinitas-Themes/Infinitas.git
