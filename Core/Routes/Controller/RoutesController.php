@@ -103,5 +103,5 @@ class RoutesController extends RoutesAppController {
 
 		$this->set(compact('plugins', 'controllers', 'actions', 'themes'));
 	}
-	
+
 }

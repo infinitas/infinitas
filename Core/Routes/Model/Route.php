@@ -151,10 +151,10 @@ class Route extends RoutesAppModel {
  */
 	public function beforeValidate($options = array()) {
 		if (array_key_exists('force_backend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_backend']) {
-			$this->data[$this->alias]['force_backend'] = null;
+			unset($this->data[$this->alias]['force_backend']);
 		}
 		if (array_key_exists('force_frontend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_frontend']) {
-			$this->data[$this->alias]['force_frontend'] = null;
+			unset($this->data[$this->alias]['force_frontend']);
 		}
 
 		return parent::beforeValidate($options);
