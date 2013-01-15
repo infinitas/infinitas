@@ -25,6 +25,14 @@
 
 class MenuItem extends MenusAppModel {
 
+/**
+ * model display field
+ *
+ * This model has both name and title fields, title is the html title attribute while name is the text
+ * displayed.
+ *
+ * @var string
+ */
 	public $displayField = 'name';
 
 /**
@@ -206,10 +214,10 @@ class MenuItem extends MenusAppModel {
 
 		if (!empty($this->data[$this->alias])) {
 			if (array_key_exists('force_backend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_backend']) {
-				$this->data[$this->alias]['force_backend'] = null;
+				unset($this->data[$this->alias]['force_backend']);
 			}
 			if (array_key_exists('force_frontend', $this->data[$this->alias]) && !$this->data[$this->alias]['force_frontend']) {
-				$this->data[$this->alias]['force_frontend'] = null;
+				unset($this->data[$this->alias]['force_frontend']);
 			}
 		}
 
