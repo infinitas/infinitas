@@ -39,10 +39,10 @@
 			__d('modules', 'Location')
 		);
 		$moduleConfig = $this->ModuleLoader->moduleConfig(array(
-			'plugin' => $this->data['Module']['plugin'],
-			'module' => $this->data['Module']['module'],
+			'plugin' => !empty($this->data['Module']['plugin']) ? $this->data['Module']['plugin'] : null,
+			'module' => !empty($this->data['Module']['module']) ? $this->data['Module']['module'] : null,
 			'admin' => isset($this->data['Module']['admin']) ? $this->data['Module']['admin'] : false,
-			'config' => $this->data['Module']['config']
+			'config' => !empty($this->data['Module']['config']) ? $this->data['Module']['config'] : null
 		));
 
 		$contents = array();
