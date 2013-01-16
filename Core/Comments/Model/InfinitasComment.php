@@ -159,7 +159,7 @@ class InfinitasComment extends CommentsAppModel {
 			return $results;
 		}
 
-		if (isset($results[0][0]['count'])) {
+		if (isset($results[0][0]['count']) || empty($results)) {
 			return $results;
 		}
 

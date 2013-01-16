@@ -78,38 +78,54 @@ class CommentableBehavior extends ModelBehavior {
 
 		$this->__settings[$Model->alias] = array_merge($this->__settings[$Model->alias], (array)$settings);
 
-		$Model->bindModel(
-			array(
-				'hasMany' => array(
-					$this->__settings[$Model->alias]['class'] => array(
-						'className' => 'Comments.InfinitasComment',
-						'foreignKey' => 'foreign_id',
-						'limit' => 5,
-						'order' => array(
-							$this->__settings[$Model->alias]['class'] . '.created' => 'desc'
-						),
-						'fields' => array(
-							$this->__settings[$Model->alias]['class'] . '.id',
-							$this->__settings[$Model->alias]['class'] . '.class',
-							$this->__settings[$Model->alias]['class'] . '.foreign_id',
-							$this->__settings[$Model->alias]['class'] . '.user_id',
-							$this->__settings[$Model->alias]['class'] . '.email',
-							$this->__settings[$Model->alias]['class'] . '.comment',
-							$this->__settings[$Model->alias]['class'] . '.active',
-							$this->__settings[$Model->alias]['class'] . '.status',
-							$this->__settings[$Model->alias]['class'] . '.created'
-						),
-						'conditions' => array(
-							'or' => array(
-								$this->__settings[$Model->alias]['class'] . '.active' => 1
-							)
-						),
-						'dependent' => true
-					)
+		$Model->bindModel(array(
+			'hasMany' => array(
+				$this->__settings[$Model->alias]['class'] => array(
+					'className' => 'Comments.InfinitasComment',
+					'foreignKey' => 'foreign_id',
+					'limit' => 5,
+					'order' => array(
+						$this->__settings[$Model->alias]['class'] . '.created' => 'desc'
+					),
+					'fields' => array(
+						$this->__settings[$Model->alias]['class'] . '.id',
+						$this->__settings[$Model->alias]['class'] . '.class',
+						$this->__settings[$Model->alias]['class'] . '.foreign_id',
+						$this->__settings[$Model->alias]['class'] . '.user_id',
+						$this->__settings[$Model->alias]['class'] . '.email',
+						$this->__settings[$Model->alias]['class'] . '.comment',
+						$this->__settings[$Model->alias]['class'] . '.active',
+						$this->__settings[$Model->alias]['class'] . '.status',
+						$this->__settings[$Model->alias]['class'] . '.created'
+					),
+					'conditions' => array(
+						'or' => array(
+							$this->__settings[$Model->alias]['class'] . '.active' => 1
+						)
+					),
+					'dependent' => true
 				)
-			),
-			false
-		);
+			)
+		), false);
+
+		$commentClass = $this->__settings[$Model->alias]['class'];
+		$counterScope = array();
+		if ($Model->hasField('active')) {
+			$counterScope[$Model->{$commentClass}->fullFieldName('active')] = true;
+		}
+		$Model->{$commentClass}->bindModel(array(
+			'belongsTo' => array(
+				$Model->alias => array(
+					'className' => $Model->fullModelName(),
+					'foreignKey' => 'foreign_id',
+					'conditions' => array(
+						$commentClass . '.class' => $Model->fullModelName()
+					),
+					'counterCache' => $Model->hasField('comment_count') ? 'comment_count' : false,
+					'counterScope' => $counterScope
+				)
+			)
+		), false);
 
 		$Model->Comment = $Model->{$this->__settings[$Model->alias]['class']};
 	}
@@ -222,6 +238,7 @@ class CommentableBehavior extends ModelBehavior {
 					Sanitize::clean($data[$this->__settings[$Model->alias]['class']][$this->__settings[$Model->alias]['column_content']]);
 		}
 
+		$data[$this->__settings[$Model->alias]['class']]['class'] = $Model->fullModelName();
 		$Model->{$this->__settings[$Model->alias]['class']}->create();
 		if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
 			return true;
