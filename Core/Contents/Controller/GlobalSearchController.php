@@ -49,24 +49,16 @@ class GlobalSearchController extends ContentsAppController {
 		try {
 			$this->Paginator->settings = array('search', Sanitize::paranoid($term), $category);
 			$this->set('search', $this->Paginator->paginate());
-		}
-
-		catch(Exception $e) {
-			$this->notice(
-				__d('contents', $e->getMessage()),
-				array(
-					'redirect' => false,
-					'level' => 'warning'
-				)
-			);
+		} catch(Exception $e) {
+			$this->notice($e);
 		}
 
 		$this->request->data[$this->modelClass]['global_category_id'] = $category;
 
-		$this->set(
-			'globalCategories',
-			array_merge(array(null => __d('contents', 'All')), $this->{$this->modelClass}->find('categoryList'))
-		);
+		$this->set('globalCategories', array_merge(
+			array(null => __d('contents', 'All')),
+			$this->{$this->modelClass}->find('categoryList')
+		));
 	}
 
 }

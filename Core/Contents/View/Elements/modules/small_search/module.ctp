@@ -8,16 +8,17 @@ if (trim($config['title'])) {
 	echo $this->Html->tag('h2', $config['title']);
 }
 
-echo $this->Form->create('Content', array(
+echo $this->Form->create('GlobalContent', array(
 	'url' => array(
 		'plugin' => 'contents',
-		'controller' => 'contents',
+		'controller' => 'global_search',
 		'action' => 'search'
 	)
 ));
 	echo $this->Form->input('search', array(
 		'label' => false,
-		'placeholder' => __d('contents', 'Search')
+		'placeholder' => __d('contents', 'Search'),
+		'default' => !empty($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null
 	));
 	if ($config['button']) {
 		echo $this->Form->submit(__d('contents', 'Search'));
