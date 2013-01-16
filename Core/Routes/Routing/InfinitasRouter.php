@@ -46,8 +46,7 @@ class InfinitasRouter extends Router {
 	public static function connect($route, $defaults = array(), $options = array()) {
 		if (empty($options['routeClass'])) {
 			$options['routeClass'] = 'InfinitasRoute';
-		}
-		else {
+		} else {
 			if ($options['routeClass'] != 'PluginShortRoute') {
 				var_dump($options);
 				exit;
@@ -165,19 +164,39 @@ class InfinitasRouter extends Router {
  * Allows other plugins to register routes to be used in the app and builds
  * the routes from the database.
  *
+ * If the route has been specified to force a particular prefix but the requested url matches the
+ * prefix already it will be ignored.
+ *
+ * eg: forcing admin prefix on /admin/* url will remove admin => true from the router connect.
+ *
  * @return void
  */
 	protected static function _buildRoutes() {
 		App::uses('ClassRegistry', 'Utility');
 		EventCore::trigger(new StdClass(), 'setupRoutes');
 
+		$CakeRequest = new CakeRequest();
+		$admin = false;
+		if (strstr($CakeRequest->here, '/admin') === 0) {
+			$admin = true;
+		}
+
 		if (InfinitasPlugin::infinitasInstalled()) {
 			$routes = ClassRegistry::init('Routes.Route')->getRoutes();
 			if (!empty($routes)) {
-				foreach ($routes as $route ) {
+				foreach ($routes as $route) {
 					if (false) {
 						debugRoute($route);
 						continue;
+					}
+					if (array_key_exists('admin', $route['Route']['values'])) {
+						if (!$admin && !$route['Route']['values']['admin']) {
+							unset($route['Route']['values']['admin']);
+						}
+
+						if ($admin && $route['Route']['values']['admin']) {
+							unset($route['Route']['values']['admin']);
+						}
 					}
 
 					call_user_func_array(array('InfinitasRouter', 'connect'), $route['Route']);
