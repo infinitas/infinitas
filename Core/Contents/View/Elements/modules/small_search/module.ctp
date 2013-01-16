@@ -15,10 +15,15 @@ echo $this->Form->create('GlobalContent', array(
 		'action' => 'search'
 	)
 ));
+
+$default = !empty($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null;
+if ($default && $this->request->params['action'] != 'search') {
+	$default = Inflector::slug($default, ' ');
+}
 	echo $this->Form->input('search', array(
 		'label' => false,
 		'placeholder' => __d('contents', 'Search'),
-		'default' => !empty($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null
+		'default' => $default
 	));
 	if ($config['button']) {
 		echo $this->Form->submit(__d('contents', 'Search'));

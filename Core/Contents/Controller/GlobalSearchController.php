@@ -38,7 +38,9 @@ class GlobalSearchController extends ContentsAppController {
 		if (!empty($this->data[$this->modelClass]['search'])) {
 			$url = array(
 				'action' => 'search',
-				Sanitize::paranoid($this->data[$this->modelClass]['search']),
+				Sanitize::paranoid($this->data[$this->modelClass]['search'], array(
+					'-', ' '
+				)),
 				'global_category_id' => !empty($this->data[$this->modelClass]['global_category_id']) ? $this->data[$this->modelClass]['global_category_id'] : null
 			);
 
