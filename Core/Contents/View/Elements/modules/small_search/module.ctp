@@ -1,6 +1,7 @@
 <?php
 $config = array_merge(array(
 	'title' => __d('contents', 'Content search'),
+	'button' => false
 ), $config);
 
 if (trim($config['title'])) {
@@ -18,5 +19,7 @@ echo $this->Form->create('Content', array(
 		'label' => false,
 		'placeholder' => __d('contents', 'Search')
 	));
-	echo $this->Form->submit(__d('contents', 'Search'));
+	if ($config['button']) {
+		echo $this->Form->submit(__d('contents', 'Search'));
+	}
 echo $this->Form->end();
