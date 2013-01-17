@@ -591,7 +591,7 @@
 			if (!empty($_editor)) {
 				$editor = $_editor;
 			}
-
+			$config['required'] = false;
 			return $this->Wysiwyg->load($editor, $id, $config);
 		}
 
