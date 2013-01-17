@@ -131,7 +131,7 @@ class AppEvents extends Object {
 /**
  * parse extensions
  *
- * This will allow your plugin to regiser extensions with parseExtensions
+ * This will allow your plugin to register extensions with parseExtensions
  *
  * @return array
  */
@@ -168,11 +168,17 @@ class AppEvents extends Object {
  * Triggered when a user logs into the site
  *
  * @param Event $Event
- * @param array $data
+ * @param array $user
  */
-	public function onUserLogin(Event $Event, array $data) {}
+	public function onUserLogin(Event $Event, array $user) {}
 
-	#public function onUserRegistration($event, $data = null) {}
+/**
+ * Triggered when a user registers on the site
+ *
+ * @param Event $Event
+ * @param array $user
+ */
+	public function onUserRegistration(Event $Event, array $user) {}
 
 	#public function onUserActivation($event, $data = null) {}
 
