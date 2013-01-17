@@ -8,17 +8,17 @@ if (trim($config['title'])) {
 	echo $this->Html->tag('h2', $config['title']);
 }
 
-echo $this->Form->create('Newsletter', array(
+echo $this->Form->create('NewsletterSubscriber', array(
 	'url' => array(
 		'plugin' => 'newsletter',
-		'controller' => 'newsletters',
+		'controller' => 'newsletter_subscribers',
 		'action' => 'subscribe'
 	)
 ));
 	echo $this->Form->hidden('email', array(
 		'value' => AuthComponent::user('id'),
 	));
-	echo $this->Form->input('name', array(
+	echo $this->Form->input('prefered_name', array(
 		'label' => false,
 		'default' => AuthComponent::user('prefered_name'),
 		'placeholder' => __d('newsletter', 'Name')

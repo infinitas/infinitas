@@ -18,13 +18,13 @@
      * @since         0.5a
      */
 
-    echo $this->Form->create('Campaign');
+    echo $this->Form->create();
         echo $this->Infinitas->adminEditHead(); ?>
 		<fieldset>
-			<h1><?php echo __d('newsletter', 'Email Campaign'); ?></h1><?php
+			<h1><?php echo __d('newsletter', 'Newsletter Template'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('name', array('class' => 'title'));
-			echo $this->Infinitas->wysiwyg('Campaign.description');
-			echo $this->Form->input('template_id', array('empty' => Configure::read('Website.empty_select'))); ?>
+			echo $this->Infinitas->wysiwyg('NewsletterTemplate.header');
+			echo $this->Infinitas->wysiwyg('NewsletterTemplate.footer'); ?>
 		</fieldset><?php
     echo $this->Form->end();

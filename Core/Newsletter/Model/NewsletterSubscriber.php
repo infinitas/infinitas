@@ -2,12 +2,6 @@
 /**
  * NewsletterSubscriber
  *
- * @package Infinitas.Newsletter.Model
- */
-
-/**
- * NewsletterSubscriber
- *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Newsletter.Model
@@ -17,13 +11,25 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-class NewsletterSubscriber extends NewsletterAppModel {
 /**
- * Custom table
+ * NewsletterSubscriber
  *
- * @var string
+ * @package Infinitas.Newsletter.Model
+ *
+ * @property User $User
+ * @property NewsletterSubscription $NewsletterSubscription
  */
-	public $useTable = 'subscribers';
+
+class NewsletterSubscriber extends NewsletterAppModel {
+
+/**
+ * Custom find methods
+ *
+ * @var array
+ */
+	public $findMethods = array(
+		'paginated' => true
+	);
 
 /**
  * BelongsTo relations
@@ -38,12 +44,14 @@ class NewsletterSubscriber extends NewsletterAppModel {
 	);
 
 /**
- * Custom find methods
+ * HasMany relations
  *
  * @var array
  */
-	public $findMethods = array(
-		'paginated' => true
+	public $hasMany = array(
+		'NewsletterSubscription' => array(
+			'className' => 'Newsletter.NewsletterSubscription'
+		)
 	);
 
 /**
@@ -72,22 +80,12 @@ class NewsletterSubscriber extends NewsletterAppModel {
  * @return array
  */
 	public function beforeFind($queryData) {
-		$queryData['fields'] = array_merge(
-			(array)$queryData['fields'],
-			array(
-				'NewsletterSubscriber.*',
-				'User.*',
-			)
-		);
+		$queryData['fields'] = array_merge((array)$queryData['fields'], array(
+			$this->alias . '.*',
+			$this->User->alias . '.*',
+		));
 
-		$queryData['joins'][] = array(
-			'table' => 'core_users',
-			'alias' => 'User',
-			'type' => 'LEFT',
-			'conditions' => array(
-				'User.id = NewsletterSubscriber.user_id'
-			)
-		);
+		$queryData['joins'][] = $this->autoJoinModel($this->User);
 
 		return $queryData;
 	}
@@ -103,9 +101,9 @@ class NewsletterSubscriber extends NewsletterAppModel {
  */
 	protected function _findPaginated($state, $query, $results = array()) {
 		if ($state === 'before') {
-			if (!is_array($query['fields'])) {
-				$query['fields'] = array($query['fields']);
-			}
+			$query['fields'] = array_merge((array)$query['fields'], array(
+
+			));
 
 			return $query;
 		}
@@ -113,4 +111,47 @@ class NewsletterSubscriber extends NewsletterAppModel {
 		return $results;
 	}
 
+/**
+ * Check if the supplied details are already subscribed
+ *
+ * @param array|string $data the users email or an array containing email key
+ *
+ * @return boolean
+ */
+	public function isSubscriber($data) {
+		if (is_array($data)) {
+			if (!empty($data[$this->alias])) {
+				$data = $data[$this->alias];
+			}
+
+			if(!empty($data['email'])) {
+				$data = $data['email'];
+			}
+		}
+
+		return (boolean)$this->find('count', array(
+			'conditions' => array(
+				$this->alias . '.email' => $data
+			)
+		));
+	}
+
+/**
+ * Subscribe to newsletters
+ *
+ * @param array $data the subscription details
+ *
+ * @return array
+ */
+	public function subscribe(array $data) {
+		if (!empty($data[$this->alias])) {
+			$data = $data[$this->alias];
+		}
+
+		$data['active'] = false;
+		$data['confimed'] = null;
+
+		$this->create();
+		return $this->save($data);
+	}
 }

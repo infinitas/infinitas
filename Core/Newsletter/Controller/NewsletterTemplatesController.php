@@ -17,7 +17,7 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-class TemplatesController extends NewsletterAppController {
+class NewsletterTemplatesController extends NewsletterAppController {
 /**
  * Template sample text
  *
@@ -33,10 +33,10 @@ class TemplatesController extends NewsletterAppController {
 	public function admin_index() {
 		$this->Paginator->settings = array(
 			'fields' => array(
-				'Template.id',
-				'Template.name',
-				'Template.created',
-				'Template.modified',
+				$this->modelClass . '.id',
+				$this->modelClass . '.name',
+				$this->modelClass . '.created',
+				$this->modelClass . '.modified',
 			)
 		);
 
@@ -62,7 +62,7 @@ class TemplatesController extends NewsletterAppController {
 			$this->notice('invalid');
 		}
 
-		$this->set('template', $this->Template->read(null, $id));
+		$this->set('newsletterTemplate', $this->{$this->modelClass}->read(null, $id));
 	}
 
 /**
@@ -77,17 +77,16 @@ class TemplatesController extends NewsletterAppController {
 			$this->notice('invalid');
 		}
 
-		$this->Template->recursive = - 1;
-		$template = $this->Template->read(array('name', 'description', 'author', 'header', 'footer'), $id);
+		$template = $this->{$this->modelClass}->read(array('name', 'description', 'author', 'header', 'footer'), $id);
 
 		if (empty($template)) {
 			$this->notice('invalid');
 		}
 
 		$pattern = "/src=[\\\"']?([^\\\"']?.*(png|jpg|gif|jpeg))[\\\"']?/i";
-		preg_match_all($pattern, $template['Template']['header'], $images);
+		preg_match_all($pattern, $template[$this->modelClass]['header'], $images);
 
-		$path = TMP . 'cache' . DS . 'newsletter' . DS . 'template' . DS . $template['Template']['name'];
+		$path = TMP . 'cache' . DS . 'newsletter' . DS . $this->modelClass . DS . $template[$this->modelClass]['name'];
 
 		$Folder = new Folder($path, 0777);
 		$slash = $Folder->correctSlashFor($path);
@@ -95,7 +94,7 @@ class TemplatesController extends NewsletterAppController {
 		App::import('File');
 		App::import('Folder');
 
-		$File = new File($path . DS . 'template.xml', true, 0777);
+		$File = new File($path . DS . $this->modelClass . '.xml', true, 0777);
 
 		$imageFiles = array();
 		if (!empty($images[1])) {
@@ -113,37 +112,37 @@ class TemplatesController extends NewsletterAppController {
 			}
 		}
 
-		$xml['template']['name'] = 'Infinitas Newsletter Template';
-		$xml['template']['generator'] = 'Infinitas Template Generator';
-		$xml['template']['version'] = Configure::read('Infinitas.version');
-		$xml['template']['template'] = $template['Template']['name'];
-		$xml['template']['description'] = $template['Template']['description'];
-		$xml['template']['author'] = $template['Template']['author'];
-		$xml['data']['header'] = $template['Template']['header'];
-		$xml['data']['footer'] = $template['Template']['footer'];
+		$xml[$this->modelClass]['name'] = 'Infinitas Newsletter Template';
+		$xml[$this->modelClass]['generator'] = 'Infinitas Template Generator';
+		$xml[$this->modelClass]['version'] = Configure::read('Infinitas.version');
+		$xml[$this->modelClass][$this->modelClass] = $template[$this->modelClass]['name'];
+		$xml[$this->modelClass]['description'] = $template[$this->modelClass]['description'];
+		$xml[$this->modelClass]['author'] = $template[$this->modelClass]['author'];
+		$xml['data']['header'] = $template[$this->modelClass]['header'];
+		$xml['data']['footer'] = $template[$this->modelClass]['footer'];
 		$xml['files']['images'] = $imageFiles;
 
 		App::Import('Helper', 'Xml');
 		$Xml = new XmlHelper();
 
-		$File->path = $path . DS . 'template.xml';
+		$File->path = $path . DS . $this->modelClass . '.xml';
 		$File->write($Xml->serialize($xml));
 
 		App::import('Vendor', 'Zip', array('file' => 'zip.php'));
 
 		$Zip = new CreateZipFile();
 		$Zip->zipDirectory($path, null);
-		$File = new File($path . DS . 'template.zip', true, 0777);
+		$File = new File($path . DS . $this->modelClass . '.zip', true, 0777);
 		$File->write($Zip->getZippedfile());
 
 		$this->view = 'Media';
 		$params = array(
-			'id' => 'template.zip',
-			'name' => $template['Template']['name'],
+			'id' => $this->modelClass . '.zip',
+			'name' => $template[$this->modelClass]['name'],
 			'download' => true,
 			'extension' => 'zip',
 			'path' => $path . DS
-			);
+		);
 
 		$this->set($params);
 		$Folder = new Folder($path);
@@ -165,8 +164,8 @@ class TemplatesController extends NewsletterAppController {
 			return $this->set('data', __d('newsletter', 'The template was not found'));
 		}
 
-		$template = $this->Template->read(array('header', 'footer'), $id);
-		$this->set('data', $template['Template']['header'] . $this->sampleText . $template['Template']['footer']);
+		$template = $this->{$this->modelClass}->read(array('header', 'footer'), $id);
+		$this->set('data', $template[$this->modelClass]['header'] . $this->sampleText . $template[$this->modelClass]['footer']);
 	}
 
 /**
@@ -188,18 +187,15 @@ class TemplatesController extends NewsletterAppController {
  * @return array
  */
 	private function __canDelete($ids) {
-		$newsletters = $this->Template->Newsletter->find(
-			'list',
-			array(
-				'fields' => array(
-					'Newsletter.template_id',
-					'Newsletter.template_id'
-					),
-				'conditions' => array(
-					'Newsletter.template_id' => $ids
-					)
-				)
-			);
+		$newsletters = $this->{$this->modelClass}->Newsletter->find('list', array(
+			'fields' => array(
+				'Newsletter.template_id',
+				'Newsletter.template_id'
+			),
+			'conditions' => array(
+				'Newsletter.template_id' => $ids
+			)
+		));
 
 		foreach ($ids as $k => $v) {
 			if (isset($newsletters[$v])) {
@@ -216,18 +212,15 @@ class TemplatesController extends NewsletterAppController {
 			);
 		}
 
-		$campaigns = $this->Template->Campaign->find(
-			'list',
-			array(
-				'fields' => array(
-					'Campaign.template_id',
-					'Campaign.template_id'
-				),
-				'conditions' => array(
-					'Campaign.template_id' => $ids
-				)
+		$campaigns = $this->{$this->modelClass}->NewsletterCampaign->find('list', array(
+			'fields' => array(
+				'NewsletterCampaign.template_id',
+				'NewsletterCampaign.template_id'
+			),
+			'conditions' => array(
+				'NewsletterCampaign.template_id' => $ids
 			)
-		);
+		));
 
 		foreach ($ids as $k => $v) {
 			if (isset($campaigns[$v])) {

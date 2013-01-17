@@ -2,12 +2,6 @@
 /**
  * Template
  *
- * @package Infinitas.Newsletter.Model
- */
-
-/**
- * Template
- *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Newsletter.Model
@@ -17,17 +11,23 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-class Template extends NewsletterAppModel {
-	//public $lockable = true;
+/**
+ * Template
+ *
+ * @package Infinitas.Newsletter.Model
+ *
+ * @property Newsletter $Newsletter
+ * @property NewsletterCampaign $NewsletterCampaign
+ */
+
+class NewsletterTemplate extends NewsletterAppModel {
 
 /**
- * Template order
+ * Make templates lockable
  *
- * @var array
+ * @var boolean
  */
-	public $order = array(
-		'Template.name' => 'asc'
-	);
+	public $lockable = false;
 
 /**
  * HasMany relations
@@ -35,8 +35,12 @@ class Template extends NewsletterAppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Newsletter.Newsletter',
-		'Newsletter.Campaign'
+		'Newsletter' => array(
+			'className' => 'Newsletter.Newsletter'
+		),
+		'NewsletterCampaign' => array(
+			'className' => 'Newsletter.NewsletterCampaign'
+		)
 	);
 
 /**
@@ -50,6 +54,10 @@ class Template extends NewsletterAppModel {
  */
 	public function  __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
+
+		$this->order = array(
+			$this->alias . '.' . $this->displayField => 'asc'
+		);
 
 		$this->validate = array(
 			'name' => array(
@@ -69,6 +77,7 @@ class Template extends NewsletterAppModel {
  * Get a template
  *
  * @param string $data the template name or id
+ * 
  * @return array
  *
  * @throws Exception
@@ -82,39 +91,32 @@ class Template extends NewsletterAppModel {
 		);
 
 		if ($data) {
-			$template = $this->find(
-				'first',
-				array(
-					'fields' => $fields,
-					'conditions' => array(
-						'or' => array(
-							$this->alias . '.id' => $data,
-							$this->alias . '.name' => $data
-						)
+			$template = $this->find('first', array(
+				'fields' => $fields,
+				'conditions' => array(
+					'or' => array(
+						$this->alias . '.' . $this->primaryKey => $data,
+						$this->alias . '.' . $this->displayField => $data
 					)
 				)
-			);
+			));
 
 			if (!empty($template)) {
 				return $template;
 			}
 		}
 
-		$template = $this->find(
-			'first',
-			array(
-				'fields' => $fields,
-				'conditions' => array(
-					$this->alias . '.name' => Configure::read('Newsletter.template')
-				)
+		$template = $this->find('first', array(
+			'fields' => $fields,
+			'conditions' => array(
+				$this->alias . '.' . $this->displayField => Configure::read('Newsletter.template')
 			)
-		);
+		));
 
 		if (empty($template)) {
-			throw new Exception(sprintf('No template found for %s', $data));
+			throw new CakeException(sprintf('No template found for %s', $data));
 		}
 
 		return $template;
 	}
-
 }

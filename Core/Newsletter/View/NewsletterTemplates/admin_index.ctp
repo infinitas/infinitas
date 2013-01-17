@@ -19,7 +19,7 @@
      */
 ?>
 <?php
-	echo $this->Form->create('Template', array('action' => 'mass'));
+	echo $this->Form->create(null, array('action' => 'mass'));
 	echo $this->Infinitas->adminIndexHead($filterOptions, array(
 		'add',
 		'edit',
@@ -36,15 +36,11 @@
 				'class' => 'first'
 			),
 			$this->Paginator->sort('name'),
-			$this->Paginator->sort('created') => array(
-				'style' => 'width:100px;'
-			),
 			$this->Paginator->sort('modified') => array(
-				'style' => 'width:100px;'
+				'class' => 'date'
 			),
 			__d('newsletter', 'Status') => array(
-				'class' => 'actions',
-				'width' => '50px'
+				'class' => 'small'
 			)
 		));
 
@@ -53,15 +49,14 @@
 				<td><?php echo $this->Infinitas->massActionCheckBox($template); ?>&nbsp;</td>
 				<td>
 					<?php
-						echo $this->Html->link($template['Template']['name'], array(
+						echo $this->Html->link($template['NewsletterTemplate']['name'], array(
 							'action' => 'edit',
-							$template['Template']['id']
+							$template['NewsletterTemplate']['id']
 						));
 					?>&nbsp;
 				</td>
-				<td><?php echo $this->Infinitas->date($template['Template']['created']); ?></td>
-				<td><?php echo $this->Infinitas->date($template['Template']['modified']); ?></td>
-				<td><?php echo $this->Locked->display($template); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($template['NewsletterTemplate']); ?></td>
+				<td><?php //echo $this->Locked->display($template); ?>&nbsp;</td>
 			</tr> <?php
 		}
 	?>

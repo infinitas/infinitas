@@ -1,11 +1,11 @@
 <?php
-App::uses('Newsletter', 'Newsletter.Model');
+App::uses('NewsletterSubscription', 'Newsletter.Model');
 
 /**
- * Newsletter Test Case
+ * NewsletterSubscription Test Case
  *
  */
-class NewsletterTest extends CakeTestCase {
+class NewsletterSubscriptionTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,9 +13,11 @@ class NewsletterTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.newsletter.newsletter',
+		'plugin.newsletter.newsletter_subscription',
+		'plugin.newsletter.newsletter_subscriber',
 		'plugin.newsletter.newsletter_campaign',
 		'plugin.newsletter.newsletter_template',
+		'plugin.newsletter.newsletter',
 		'plugin.view_counter.view_counter_view',
 		'plugin.users.user',
 		'plugin.users.group',
@@ -28,7 +30,7 @@ class NewsletterTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Model = ClassRegistry::init('Newsletter.Newsletter');
+		$this->Model = ClassRegistry::init('Newsletter.NewsletterSubscription');
 	}
 
 /**
@@ -42,8 +44,12 @@ class NewsletterTest extends CakeTestCase {
 		parent::tearDown();
 	}
 
+/**
+ * testSubscribe method
+ *
+ * @return void
+ */
 	public function testSomething() {
-
 	}
 
 }

@@ -1,64 +1,45 @@
 <?php
-	/**
-	 * Newsletter App Controller class file.
-	 *
-	 * The parent class that all the newsletter plugin controller classes extend
-	 * from. This is used to make functionality that is needed all over the
-	 * newsletter plugin.
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 *
-	 *
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Newsletter.Controller
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 */
+/**
+ * Newsletter App Controller class file.
+ *
+ * The parent class that all the newsletter plugin controller classes extend
+ * from. This is used to make functionality that is needed all over the
+ * newsletter plugin.
+ *
+ * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ *
+ * @link http://infinitas-cms.org
+ * @package Infinitas.Newsletter.Controller
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
 
-	class NewsletterAppController extends AppController {
-		public $helpers = array(
-			'Newsletter.Letter'
-		);
+class NewsletterAppController extends AppController {
 
-		/**
-		 * beforeFilter callback
-		 *
-		 * this method is run before any of the controllers in the blog plugin.
-		 * It is used to set up a cache config and some other variables that are
-		 * needed throughout the plugin.
-		 *
-		 * @param nothing $
-		 * @return nothing
-		 */
-		public function beforeFilter() {
-			parent::beforeFilter();
+/**
+ * beforeFilter callback
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
 
-			// $this->set( 'newsletterPending', ClassRegistry::init( 'Newsletter.Newsletter' )->getPending() );
-			// $this->set( 'newsletterSending', ClassRegistry::init( 'Newsletter.Newsletter' )->getSending() );
-		}
+		// $this->set( 'newsletterPending', ClassRegistry::init( 'Newsletter.Newsletter' )->getPending() );
+		// $this->set( 'newsletterSending', ClassRegistry::init( 'Newsletter.Newsletter' )->getSending() );
+	}
 
-		public function beforeRender() {
-			parent::beforeRender();
+/**
+ * BeforeRender callback
+ *
+ * @return void
+ */
+	public function beforeRender() {
+		parent::beforeRender();
 
-			if (strtolower(Configure::read('Newsletter.send_method')) == 'smtp' && $this->Email->smtpError) {
-				$this->log('newsletter_smtp_errors', $this->Emailer->smtpError);
-				Configure::write('Newsletter.smtp_errors', $this->Emailer->smtpError);
-			}
-		}
-
-		/**
-		 * afterFilter callback.
-		 *
-		 * used to do stuff before the code is rendered but after all the
-		 * controllers have finnished.
-		 *
-		 * @param nothing $
-		 * @return nothing
-		 */
-		public function afterFilter() {
-			parent::afterFilter();
+		if (strtolower(Configure::read('Newsletter.send_method')) == 'smtp' && $this->Email->smtpError) {
+			$this->log('newsletter_smtp_errors', $this->Emailer->smtpError);
+			Configure::write('Newsletter.smtp_errors', $this->Emailer->smtpError);
 		}
 	}
+}

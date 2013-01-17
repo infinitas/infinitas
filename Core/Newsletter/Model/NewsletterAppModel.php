@@ -1,14 +1,10 @@
 <?php
-/**
- * NewsletterAppModel
- *
- * @package Infinitas.Newsletter.Model
- */
 
 /**
  * NewsletterAppModel
  *
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ *
  * @link http://www.infinitas-cms.org
  * @package Infinitas.Newsletter.Model
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -17,10 +13,12 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-class NewsletterAppModel extends AppModel {
 /**
- * Custom prefix
+ * NewsletterAppModel
+ *
+ * @package Infinitas.Newsletter.Model
  */
-	public $tablePrefix = 'newsletter_';
+
+class NewsletterAppModel extends AppModel {
 
 }

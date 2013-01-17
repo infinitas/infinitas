@@ -11,7 +11,7 @@ if (!($hasCampaign && $hasTemplate && $hasNewsletter)) { ?>
 							$this->Html->link(
 								__d('newsletter', 'template'),
 								array(
-									'controller' => 'templates',
+									'controller' => 'newsletter_templates',
 									'action' => 'add'
 								)
 							)
@@ -28,7 +28,7 @@ if (!($hasCampaign && $hasTemplate && $hasNewsletter)) { ?>
 							$this->Html->link(
 								__d('newsletter', 'campaign'),
 								array(
-									'controller' => 'campaigns',
+									'controller' => 'newsletter_campaigns',
 									'action' => 'add'
 								)
 							)
@@ -64,13 +64,13 @@ $links['main'] = array(
 		'name' => __d('newsletter', 'Campaigns'),
 		'description' => __d('newsletter', 'Create and manage your email Campaigns'),
 		'icon' => 'columns',
-		'dashboard' => array('controller' => 'campaigns', 'action' => 'index')
+		'dashboard' => array('controller' => 'newsletter_campaigns', 'action' => 'index')
 	),
 	array(
 		'name' => __d('newsletter', 'Templates'),
 		'description' => __d('newsletter', 'Create and manage your email Templates'),
 		'icon' => 'table',
-		'dashboard' => array('controller' => 'templates', 'action' => 'index')
+		'dashboard' => array('controller' => 'newsletter_templates', 'action' => 'index')
 	),
 	array(
 		'name' => __d('newsletter', 'Newsletters'),
@@ -109,10 +109,4 @@ echo $this->ModuleLoader->loadDirect('Contents.dashboard_links', array(
 		'categories' => false,
 		'routes' => false,
 	)
-));
-
-echo $this->Html->tag('div', '', array('class' => 'clearfix'));
-
-echo $this->ModuleLoader->loadDirect('ViewCounter.popular_items', array(
-	'model' => 'Newsletter.Newsletter'
 ));

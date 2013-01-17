@@ -1,112 +1,316 @@
 <?php
-	/**
-	 * Newsletter Newsletter Model class file.
-	 *
-	 * This is the main model for Newsletter Newsletters. There are a number of
-	 * methods for getting the counts of all posts, active posts, pending
-	 * posts etc.  It extends {@see NewsletterAppModel} for some all round
-	 * functionality. look at {@see NewsletterAppModel::afterSave} for an example
-	 *
-	 * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 *
-	 *
-	 *
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-	 * @link http://infinitas-cms.org
-	 * @package Infinitas.Newsletter.Model
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 */
 
-	class Newsletter extends NewsletterAppModel {
-		/**
-		 * always sort newsletters by the subject
-		 */
-		public $order = array(
-			'Newsletter.subject' => 'asc'
+/**
+ * Newsletter
+ *
+ * This is the main model for Newsletter Newsletters. There are a number of
+ * methods for getting the counts of all posts, active posts, pending
+ * posts etc.  It extends {@see NewsletterAppModel} for some all round
+ * functionality. look at {@see NewsletterAppModel::afterSave} for an example
+ *
+ * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
+ *
+ * @link http://www.infinitas-cms.org
+ * @package Infinitas.Newsletter.Model
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since 0.5a
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
+/**
+ * Newsletter
+ *
+ * @package Infinitas.Newsletter.Model
+ *
+ * @property NewsletterCampaign $NewsletterCampaign
+ * @property NewsletterTemplate $NewsletterTemplate
+ */
+
+class Newsletter extends NewsletterAppModel {
+
+/**
+ * Custom prefix
+ */
+	public $tablePrefix = 'newsletter_';
+
+/**
+ * For generating lists due to not being convention of name|title
+ */
+	public $displayField = 'subject';
+
+/**
+ * Custom find methods
+ *
+ * @var array
+ */
+	public $findMethods = array(
+		'toSend' => true,
+		'paginated' => true,
+		'preview' => true,
+		'deleteable' => true
+	);
+
+/**
+ * BelongsTo relations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'NewsletterCampaign' => array(
+			'className' => 'Newsletter.NewsletterCampaign',
+			'foreignKey' => 'newsletter_campaign_id',
+			'counterCache' => 'newsletter_count',
+		),
+		'NewsletterTemplate' => array(
+			'className' => 'Newsletter.NewsletterTemplate',
+			'counterCache' => 'newsletter_count',
+		)
+	);
+
+/**
+ * Constructor
+ *
+ * @param type $id
+ * @param type $table
+ * @param type $ds
+ *
+ * @return void
+ */
+	public function  __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+
+		$this->order = array(
+			$this->alias . '.' . $this->displayField => 'asc'
 		);
 
-		/**
-		 * For generating lists due to not being convention of name|title
-		 */
-		public $displayField = 'subject';
-
-		public $hasAndBelongsToMany = array(
-			'User' => array(
-				'className' => 'Users.User',
-				'joinTable' => 'newsletters_users',
-				'foreignKey' => 'newsletter_id',
-				'associationForeignKey' => 'user_id',
-				'with' => 'Newsletter.NewslettersUser',
-				'unique' => true,
-				'conditions' => '',
-				'fields' => '',
-				'order' => '',
-				'limit' => '',
-				'offset' => '',
-				'finderQuery' => '',
-				'deleteQuery' => '',
-				'insertQuery' => ''
+		$this->validate = array(
+			'newsletter_campaign_id' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please select the campaign this email belongs to')
+				)
+			),
+			'newsletter_template_id' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please select the template this email will use')
+				)
+			),
+			'from' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please enter the from address')
+				),
+				'email' => array(
+					'rule' => array( 'email', true ),
+					'message' => __d('newsletter', 'Please enter a valid email addres')
+				)
+			),
+			'reply_to' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please enter the reply to email')
+				),
+				'email' => array(
+					'rule' => array('email', true),
+					'message' => __d('newsletter', 'Please enter a valid email addres')
+				)
+			),
+			'subject' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please enter the subject of this newsletter')
+				)
+			),
+			'html' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please enter the html version of your email')
+				)
+			),
+			'text' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'message' => __d('newsletter', 'Please enter the text version of your email')
+				)
 			)
 		);
+	}
 
-		public $belongsTo = array(
-			'Campaign' => array(
-				'className' => 'Newsletter.Campaign',
-				'counterCache' => true,
-			),
-			'Newsletter.Template'
-		);
+	protected function _findPaginated($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.newsletter_campaign_id',
+				$this->alias . '.from',
+				$this->alias . '.reply_to',
+				$this->alias . '.subject',
+				$this->alias . '.active',
+				$this->alias . '.sent',
+				$this->alias . '.created',
+			));
 
-		public function  __construct($id = false, $table = null, $ds = null) {
-			parent::__construct($id, $table, $ds);
-
-			$this->validate = array(
-				'campaign_id' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __d('newsletter', 'Please select the campaign this email belongs to')
-					)
-				),
-				'from' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __d('newsletter', 'Please enter the from address')
-					),
-					'email' => array(
-						'rule' => array( 'email', true ),
-						'message' => __d('newsletter', 'Please enter a valid email addres')
-					)
-				),
-				'reply_to' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __d('newsletter', 'Please enter the reply to email')
-					),
-					'email' => array(
-						'rule' => array('email', true),
-						'message' => __d('newsletter', 'Please enter a valid email addres')
-					)
-				),
-				'subject' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __d('newsletter', 'Please enter the subject of this newsletter')
-					)
-				),
-				'html' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __d('newsletter', 'Please enter the html version of your email')
-					)
-				),
-				'text' => array(
-					'notEmpty' => array(
-						'rule' => 'notEmpty',
-						'message' => __d('newsletter', 'Please enter the text version of your email')
+			$query['contain'] = array_merge((array)$query['fields'], array(
+				'NewsletterCampaign' => array(
+					'fields' => array(
+						'NewsletterCampaign.name'
 					)
 				)
-			);
+			));
+			return $query;
 		}
+
+		return $results;
 	}
+
+	protected function _findActive($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.id',
+				$this->alias . '.html',
+				$this->alias . '.text',
+				$this->alias . '.sends',
+
+				$this->NewsletterTemplate->fullFieldName('header'),
+				$this->NewsletterTemplate->fullFieldName('footer'),
+			));
+
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.sent' => 0,
+				$this->alias . '.active' => 1,
+			));
+
+			$query['joins'] = (array)$query['joins'];
+			$query['joins'][] = $this->autoJoinModel($this->NewsletterTemplate);
+
+			return $query;
+		}
+		if (empty($results)) {
+			return array();
+		}
+
+		foreach ($results as &$result) {
+			$result['User'] = array();
+		}
+		return $results;
+	}
+
+	protected function _findPreview($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query[0])) {
+				throw new InvalidArgumentException(__d('newsletter', 'Invalid newsletter selected'));
+			}
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.html',
+
+				$this->NewsletterTemplate->fullFieldName('header'),
+				$this->NewsletterTemplate->fullFieldName('footer')
+			));
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.' . $this->primaryKey => $query[0]
+			));
+
+			$query['joins'] = (array)$query['joins'];
+			$query['joins'][] = $this->autoJoinModel($this->NewsletterTemplate);
+
+			$query['limit'] = 1;
+			return $query;
+		}
+		if (empty($results[0])) {
+			return array();
+		}
+
+		return $results[0];
+	}
+
+/**
+ * Get newsletters that can be deleted safely
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ *
+ * @throws InvalidArgumentException
+ */
+	protected function _findDeletable($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query['ids'])) {
+				throw new InvalidArgumentException(__d('newsletter', 'No newsletters selected'));
+			}
+
+			$query['fields'] = array(
+				$this->alias . '.' . $this->primaryKey,
+			);
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.sent' => 0,
+				$this->alias . '.sends > ' => 0,
+				$this->alias . '.' . $this->primaryKey => $query['ids']
+			));
+
+			return $query;
+		}
+
+		$results = Hash::extract($results, '{n}.' . $this->alias . '.' . $this->primaryKey);
+		if (empty($results)) {
+			throw new CakeException(__d('newsletter', 'Nothing to delete'));
+		}
+
+		return $results;
+	}
+
+/**
+ * toggle the send status
+ *
+ * @param string $id the newsletter id to toggle
+ *
+ * @return boolean
+ *
+ * @throws InvalidArgumentException
+ */
+	public function toggleSend($id) {
+		$sent = $this->find('first', array(
+			'fields' => array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.sent',
+				$this->alias . '.active'
+			),
+			'conditions' => array(
+				$this->alias . '.' . $this->primaryKey => $id
+			)
+		));
+
+		if (empty($sent[$this->alias][$this->primaryKey])) {
+			throw new InvalidArgumentException(__d('newsletter', 'The newsletter was not found'));
+		}
+
+		if ($sent[$this->alias]['sent']) {
+			throw new InvalidArgumentException(__d('newsletter', 'The newsletter has already been sent'));
+		}
+
+		if (!$sent[$this->alias]['active']) {
+			$sent[$this->alias]['active'] = 1;
+			return $this->save($sent[$this->alias]);
+		}
+
+		throw new InvalidArgumentException(__d('newsletter', 'The newsletter is already being sent'));
+	}
+
+/**
+ * Stop all current email sending
+ *
+ * @return array
+ */
+	public function stopAllSending() {
+		return $this->updateAll(
+			array($this->alias . '.active = "0"'),
+			array(
+				$this->alias . '.active = "1"',
+				$this->alias . '.sent = "0"'
+			)
+		);
+	}
+}

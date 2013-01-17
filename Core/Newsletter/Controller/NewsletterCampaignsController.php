@@ -17,7 +17,17 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
-class CampaignsController extends NewsletterAppController {
+class NewsletterCampaignsController extends NewsletterAppController {
+
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		$this->notice['no_templates'] = array(
+			'message' => __d('newsletter', 'Please create a template before creating your campaigns'),
+			'level' => 'notice',
+			'redirect' => ''
+		);
+	}
 /**
  * View all campaigns
  *
@@ -26,7 +36,7 @@ class CampaignsController extends NewsletterAppController {
 	public function admin_index() {
 		$this->Paginator->settings = array('paginated');
 
-		$campaigns = $this->Paginator->paginate('Campaign', $this->Filter->filter);
+		$newsletterCampaigns = $this->Paginator->paginate(null, $this->Filter->filter);
 
 		$filterOptions = $this->Filter->filterOptions;
 		$filterOptions['fields'] = array(
@@ -35,7 +45,7 @@ class CampaignsController extends NewsletterAppController {
 			'Template.name'
 		);
 
-		$this->set(compact('campaigns', 'filterOptions'));
+		$this->set(compact('newsletterCampaigns', 'filterOptions'));
 	}
 
 /**
@@ -46,21 +56,13 @@ class CampaignsController extends NewsletterAppController {
 	public function admin_add() {
 		parent::admin_add();
 
-		$templates = $this->Campaign->Template->find('list');
-		if (empty($templates)) {
-			$this->notice(
-				__d('newsletter', 'Please create a template before creating your campaigns'),
-				array(
-					'level' => 'notice',
-					'redirect' => array(
-						'controller' => 'templates'
-					)
-				)
-			);
+		$newsletterTemplates = $this->{$this->modelClass}->NewsletterTemplate->find('list');
+		if (empty($newsletterTemplates)) {
+			$this->notice('no_templates');
 		}
 
-		$newsletters = $this->Campaign->Newsletter->find('list');
-		$this->set(compact('templates', 'newsletters'));
+		$newsletters = $this->{$this->modelClass}->Newsletter->find('list');
+		$this->set(compact('newsletterTemplates', 'newsletters'));
 	}
 
 /**
@@ -73,9 +75,12 @@ class CampaignsController extends NewsletterAppController {
 	public function admin_edit($id = null) {
 		parent::admin_edit($id);
 
-		$templates = $this->Campaign->Template->find('list');
-		$newsletters = $this->Campaign->Newsletter->find('list');
-		$this->set(compact('templates', 'newsletters'));
+		$newsletterTemplates = $this->{$this->modelClass}->NewsletterTemplate->find('list');
+		if (empty($newsletterTemplates)) {
+			$this->notice('no_templates');
+		}
+		$newsletters = $this->{$this->modelClass}->Newsletter->find('list');
+		$this->set(compact('newsletterTemplates', 'newsletters'));
 	}
 
 /**
@@ -90,27 +95,24 @@ class CampaignsController extends NewsletterAppController {
 			$this->notice('invalid');
 		}
 
-		$data = $this->Campaign->find(
-			'first',
-			array(
-				'fields' => array(
-					'Campaign.id',
-					'Campaign.active',
-				),
-				'conditions' => array(
-					'Campaign.id' => $id
-				),
-				'contain' => array(
-					'Newsletter' => array(
-						'fields' => array(
-							'Newsletter.id'
-						)
+		$data = $this->{$this->modelClass}->find('first', array(
+			'fields' => array(
+				$this->modelClass . '.id',
+				$this->modelClass . '.active',
+			),
+			'conditions' => array(
+				$this->modelClass . '.id' => $id
+			),
+			'contain' => array(
+				'Newsletter' => array(
+					'fields' => array(
+						'Newsletter.id'
 					)
 				)
 			)
-		);
+		));
 
-		if (!$data['Campaign']['active'] && empty($data['Newsletter'])) {
+		if (!$data[$this->modelClass]['active'] && empty($data['Newsletter'])) {
 			$this->notice(
 				__d('newsletter', 'You can not enable a campaign with no mails.'),
 				array(
@@ -142,7 +144,7 @@ class CampaignsController extends NewsletterAppController {
  * @return array
  */
 	private function __canDelete($ids) {
-		$newsletters = $this->Campaign->Newsletter->find(
+		$newsletters = $this->{$this->modelClass}->Newsletter->find(
 			'list',
 			array(
 				'fields' => array(

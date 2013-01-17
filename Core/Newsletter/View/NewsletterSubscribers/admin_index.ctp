@@ -33,20 +33,18 @@
 			$this->Form->checkbox('all') => array(
 				'class' => 'first'
 			),
-			$this->Paginator->sort('subscriber_name'),
-			$this->Paginator->sort('subscriber_email'),
-			$this->Paginator->sort('subscription_count', __d('newsletter', 'Subscriptions')) => array(
-				'width' => '50px'
+			$this->Paginator->sort('subscriber_name', __d('newsletter', 'Name')) => array(
+				'class' => 'larger'
 			),
-			$this->Paginator->sort('created') => array(
-				'width' => '120px'
+			$this->Paginator->sort('subscriber_email', __d('newsletter', 'Email')),
+			$this->Paginator->sort('subscription_count', __d('newsletter', 'Subscriptions')) => array(
+				'class' => 'small'
 			),
 			$this->Paginator->sort('modified') => array(
-				'width' => '120px'
+				'class' => 'date'
 			),
 			__d('newsletter', 'Status') => array(
-				'class' => 'actions',
-				'width' => '50px'
+				'class' => 'medium'
 			)
 		));
 
@@ -79,12 +77,13 @@
 						}
 					?>&nbsp;
 				</td>
-				<td><?php echo $this->Design->count($newsletterSubscriber['NewsletterSubscriber']['subscription_count']); ?>&nbsp;</td>
-				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['created']); ?></td>
-				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']['modified']); ?></td>
+				<td><?php echo $this->Design->count($newsletterSubscriber['NewsletterSubscriber']['newsletter_subscription_count']); ?>&nbsp;</td>
+				<td><?php echo $this->Infinitas->date($newsletterSubscriber['NewsletterSubscriber']); ?></td>
 				<td>
 					<?php
-						echo $this->Infinitas->status($newsletterSubscriber['NewsletterSubscriber']['active'], $newsletterSubscriber['NewsletterSubscriber']['id']);
+						echo $this->Infinitas->status($newsletterSubscriber['NewsletterSubscriber']['active'], array(
+							'title_no' => __d('newsletter', 'The users subscription is not active')
+						));
 					?>&nbsp;
 				</td>
 			</tr> <?php
