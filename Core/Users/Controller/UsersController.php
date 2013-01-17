@@ -225,26 +225,30 @@ class UsersController extends UsersAppController {
 			$data = $this->{$this->modelClass}->saveRegistration($this->request->data);
 
 			$flashMessage = 'registration_failed';
-			if ($data && !$data[$this->modelClass]['active']) {
-				$flashMessage = __d('users', 'Thank you, please check your email to complete your registration');
-				$this->Emailer->sendDirectMail(
-					array($data[$this->alias]['email']),
-					array(
-						'subject' => Configure::read('Website.name') . ' ' . __d('users', 'Confirm your registration'),
-						'body' => $data[$this->modelClass]['activation_url'],
-						'template' => 'User - Activate'
-					)
-				);
-			} else if ($data) {
-				$flashMessage = __d('users', 'Thank you, your registration was completed');
-				$this->Emailer->sendDirectMail(
-					array($data[$this->alias]['email']),
-					array(
-						'subject' => __d('users', 'Welcome to ') . ' ' . Configure::read('Website.name'),
-						'body' => '',
-						'template' => 'User - Registration'
-					)
-				);
+			if ($data) {
+				 if (!$data[$this->modelClass]['active']) {
+					$flashMessage = __d('users', 'Thank you, please check your email to complete your registration');
+					$this->Emailer->sendDirectMail(
+						array($data[$this->alias]['email']),
+						array(
+							'subject' => Configure::read('Website.name') . ' ' . __d('users', 'Confirm your registration'),
+							'body' => $data[$this->modelClass]['activation_url'],
+							'template' => 'User - Activate'
+						)
+					);
+				} else {
+					$flashMessage = __d('users', 'Thank you, your registration was completed');
+					$this->Emailer->sendDirectMail(
+						array($data[$this->alias]['email']),
+						array(
+							'subject' => __d('users', 'Welcome to ') . ' ' . Configure::read('Website.name'),
+							'body' => '',
+							'template' => 'User - Registration'
+						)
+					);
+				}
+
+				$this->Event->trigger('userRegistration', $data[$this->modelClass]);
 			}
 
 			$this->notice($flashMessage, $data ? array('redirect' => '') : array());
@@ -276,7 +280,8 @@ class UsersController extends UsersAppController {
 					'template' => 'User - Registration'
 				)
 			);
-			$this->notice('account_activated');
+			$this->Event->trigger('userActivation', $data);
+			return $this->notice('account_activated');
 		}
 
 		$this->notice('account_not_activated');
