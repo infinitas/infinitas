@@ -176,11 +176,9 @@
 			}
 
 			$schema = $this->schema();
-			if (!empty($schema)) {
-				if($this->Behaviors->enabled('Event')) {
-					$this->triggerEvent('attachBehaviors');
-					$this->Behaviors->attach('Containable');
-				}
+			if (get_class($this) !== 'AppModel' && !empty($schema) && $this->Behaviors->enabled('Event')) {
+				$this->triggerEvent('attachBehaviors');
+				$this->Behaviors->attach('Containable');
 			}
 		}
 
