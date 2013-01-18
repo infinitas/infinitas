@@ -236,7 +236,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		if (!$this->_View->elementExists($module)) {
 			$module .= '/module';
 			if (!$this->_View->elementExists($module)) {
-				throw new CakeException(__d('modules', 'Error: Could not load module "%s"', $module));
+				return __d('modules', 'Error: Could not load module "%s"', $module);
 			}
 		}
 
