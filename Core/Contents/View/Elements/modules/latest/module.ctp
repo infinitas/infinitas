@@ -1,16 +1,15 @@
 <?php
-$defaultConfig = array(
+$config = array_merge(array(
 	'title' => 'Latest Content',
 	'limit' => 5,
-	'truncate' => 60
-);
-$config = array_merge($defaultConfig, $config);
+	'truncate' => 60,
+), $config);
 
-if (isset($config['model']) && $config['model'] === true) {
+if (isset($config['model']) && $config['model'] === '1') {
 	$config['model'] = implode('.', current(array_values($this->request->models)));
 }
 
-if (isset($config['category']) && $config['category'] === true && !empty($this->request->params['category'])) {
+if (isset($config['category']) && $config['category'] === '1' && !empty($this->request->params['category'])) {
 	$config['category'] = $this->request->params['category'];
 }
 
