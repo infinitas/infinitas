@@ -13,6 +13,9 @@
 
 $profileParts = $this->Event->trigger('userProfile', $user);
 foreach ($profileParts['userProfile'] as $plugin => &$boxes) {
+	if (!is_array($boxes)) {
+		continue;
+	}
 	if (!Hash::numeric(array_keys($boxes))) {
 		$boxes = array($boxes);
 	}
