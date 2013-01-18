@@ -13,21 +13,18 @@
 	App::uses('UsersAppController', 'Users.Controller');
 
 class UsersController extends UsersAppController {
+
+/**
+ * BeforeFilter callback
+ *
+ * @return void
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow(
 			'login', 'logout', 'register',
 			'forgot_password', 'reset_password'
 		);
-	}
-
-/**
- * BeforeRender callback
- *
- * @return void
- */
-	public function beforeRender() {
-		parent::beforeRender();
 
 		$this->notice['require_auth'] = array(
 			'message' => __d('users', 'Please login first'),
@@ -92,6 +89,15 @@ class UsersController extends UsersAppController {
 			'level' => 'warning',
 			'redirect' => ''
 		);
+	}
+
+/**
+ * BeforeRender callback
+ *
+ * @return void
+ */
+	public function beforeRender() {
+		parent::beforeRender();
 
 		if (!strstr($this->request->params['action'], 'login') && !strstr($this->request->params['action'], 'register')) {
 			return;
@@ -226,28 +232,22 @@ class UsersController extends UsersAppController {
 
 			$flashMessage = 'registration_failed';
 			if ($data) {
-				 if (!$data[$this->modelClass]['active']) {
+				$email = array(
+					'email' => $data[$this->modelClass]['email'],
+					'name' => $data[$this->modelClass]['prefered_name'] ?: $data[$this->modelClass]['username'],
+				);
+				if (!$data[$this->modelClass]['active']) {
 					$flashMessage = __d('users', 'Thank you, please check your email to complete your registration');
-					$this->Emailer->sendDirectMail(
-						array($data[$this->alias]['email']),
-						array(
-							'subject' => Configure::read('Website.name') . ' ' . __d('users', 'Confirm your registration'),
-							'body' => $data[$this->modelClass]['activation_url'],
-							'template' => 'User - Activate'
-						)
-					);
+					$email['newsletter'] = 'users-confirm-registration';
 				} else {
 					$flashMessage = __d('users', 'Thank you, your registration was completed');
-					$this->Emailer->sendDirectMail(
-						array($data[$this->alias]['email']),
-						array(
-							'subject' => __d('users', 'Welcome to ') . ' ' . Configure::read('Website.name'),
-							'body' => '',
-							'template' => 'User - Registration'
-						)
-					);
+					$email['newsletter'] = 'users-account-created';
 				}
 
+				$this->Event->trigger('systemEmail', array(
+					'email' => $email,
+					'var' => $data
+				));
 				$this->Event->trigger('userRegistration', $data[$this->modelClass]);
 			}
 
@@ -269,17 +269,20 @@ class UsersController extends UsersAppController {
  */
 	public function activate($hash = null) {
 		if ($this->{$this->modelClass}->saveActivation($hash)) {
-
-			$this->Emailer->sendDirectMail(
-				(array)$this->{$this->modelClass}->field('email', array(
-					$this->{$this->modelClass}->alias . '.' . $this->{$this->modelClass}->primaryKey => $this->{$this->modelClass}->id
-				)),
-				array(
-					'subject' => __d('users', 'Welcome to ') .' '. Configure::read('Website.name'),
-					'body' => '',
-					'template' => 'User - Registration'
+			$data = $this->{$this->modelClass}->find('first', array(
+				'conditions' => array(
+					$this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $this->{$this->modelClass}->id
 				)
+			));
+			$email = array(
+				'email' => $data[$this->modelClass]['email'],
+				'name' => $data[$this->modelClass]['prefered_name'] ?: $data[$this->modelClass]['username'],
+				'newsletter' => 'users-account-created'
 			);
+			$this->Event->trigger('systemEmail', array(
+				'email' => $email,
+				'var' => $data
+			));
 			$this->Event->trigger('userActivation', $data);
 			return $this->notice('account_activated');
 		}
@@ -303,17 +306,34 @@ class UsersController extends UsersAppController {
 					$this->{$this->modelClass}->alias . '.email' => $this->request->data[$this->modelClass]['email']
 				)
 			));
-
-			if (is_array( $theUser[$this->modelClass]) && ($ticket = $this->{$this->modelClass}->createTicket($theUser[$this->modelClass]['email']) !== false)) {
-				$urlToRessetPassword = ClassRegistry::init('ShortUrls.ShortUrl')->newUrl(
-					Router::url(array('action' => 'reset_password', $ticket), true)
-				);
-
-				// @todo send a email with a link to reset.
-				$this->notice('forgot_password');
+			if (empty($theUser)) {
+				return $this->notice('forgot_password_failed');
 			}
-			$this->notice('forgot_password_failed');
+
+			$ticket = $this->{$this->modelClass}->createTicket($theUser[$this->modelClass]['email']);
+			if (empty($ticket)) {
+				return $this->notice('forgot_password_failed');
+			}
+
+			$link = current($this->Event->trigger('getShortUrl', array('url' => InfinitasRouter::url(array('action' => 'reset_password', $ticket)))));
+
+			$theUser[$this->modelClass]['reset_link'] = InfinitasRouter::url($link['ShortUrls']);
+			$email = array(
+				'email' => $theUser[$this->modelClass]['email'],
+				'name' => $theUser[$this->modelClass]['prefered_name'] ?: $theUser[$this->modelClass]['username'],
+				'newsletter' => 'users-forgot-password'
+			);
+			try {
+				$this->Event->trigger('systemEmail', array(
+					'email' => $email,
+					'var' => $theUser
+				));
+			} catch (Exception $e) {
+				return $this->notice($e);
+			}
+			$this->notice('forgot_password');
 		}
+
 		$this->saveRedirectMarker();
 	}
 
@@ -332,7 +352,7 @@ class UsersController extends UsersAppController {
 		}
 
 		if (!empty($this->request->data)) {
-			if ($this->{$this->modelClass}->updatePassord($this->request->data)) {
+			if ($this->{$this->modelClass}->updatePassword($this->request->data)) {
 				$this->notice('password_reset');
 			}
 			$this->notice('password_reset_failed');

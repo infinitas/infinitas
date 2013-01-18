@@ -1,4 +1,10 @@
 <?php
-	echo $this->Form->create('User');
-		echo $this->Form->input('email');
-	echo $this->Form->end(__d('users', 'Reset Password'));
+/**
+ * Forgot password form
+ *
+ * @package Infinitas.Users.View
+ */
+
+echo $this->Form->create();
+	echo $this->Form->input('email');
+echo $this->Form->end(__d('users', 'Reset Password'));
