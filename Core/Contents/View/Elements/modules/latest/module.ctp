@@ -9,8 +9,11 @@ if (isset($config['model']) && $config['model'] === '1') {
 	$config['model'] = implode('.', current(array_values($this->request->models)));
 }
 
-if (isset($config['category']) && $config['category'] === '1' && !empty($this->request->params['category'])) {
-	$config['category'] = $this->request->params['category'];
+if (isset($config['category']) && $config['category'] === '1') {
+	$config['category'] = null;
+	if (!empty($this->request->params['category'])) {
+		$config['category'] = $this->request->params['category'];
+	}
 }
 
 if (!empty($config['model'])) {
@@ -31,14 +34,12 @@ if (empty($config['model'])) {
 }
 
 if (empty($latestContents)) {
-	$latestContents = ClassRegistry::init('Contents.GlobalContent')->find(
-		!empty($findMethod) ? $findMethod : 'latestList',
-		array(
-			'limit' => $config['limit'],
-			'model' => !empty($config['model']) ? $config['model'] : null,
-			'category' => !empty($config['category']) ? $config['category'] : null
-		)
-	);
+	$findMethod = !empty($findMethod) ? $findMethod : 'latestList';
+	$latestContents = ClassRegistry::init('Contents.GlobalContent')->find($findMethod, array(
+		'limit' => $config['limit'],
+		'model' => !empty($config['model']) ? $config['model'] : null,
+		'category' => !empty($config['category']) ? $config['category'] : null
+	));
 }
 
 if (empty($latestContents)) {
