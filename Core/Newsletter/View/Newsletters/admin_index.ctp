@@ -35,6 +35,7 @@
 			$this->Form->checkbox('all') => array(
 				'class' => 'first'
 			),
+			$this->Paginator->sort('slug', __d('newsletter', 'Alias')),
 			$this->Paginator->sort('subject'),
 			$this->Paginator->sort('NewsletterCampaign.name', __d('newsletter', 'Campaign')) => array(
 				'class' => 'larger'
@@ -54,6 +55,14 @@
 			?>
 				<tr>
 					<td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>
+					<td>
+						<?php
+							echo $this->Html->link($newsletter['Newsletter']['slug'], array(
+								'action' => 'edit',
+								$newsletter['Newsletter']['id']
+							));
+						?>&nbsp;
+					</td>
 					<td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
 					<td>
 						<?php

@@ -189,11 +189,11 @@ class NewsletterTemplatesController extends NewsletterAppController {
 	private function __canDelete($ids) {
 		$newsletters = $this->{$this->modelClass}->Newsletter->find('list', array(
 			'fields' => array(
-				'Newsletter.template_id',
-				'Newsletter.template_id'
+				'Newsletter.newsletter_template_id',
+				'Newsletter.newsletter_template_id'
 			),
 			'conditions' => array(
-				'Newsletter.template_id' => $ids
+				'Newsletter.newsletter_template_id' => $ids
 			)
 		));
 
@@ -214,11 +214,11 @@ class NewsletterTemplatesController extends NewsletterAppController {
 
 		$campaigns = $this->{$this->modelClass}->NewsletterCampaign->find('list', array(
 			'fields' => array(
-				'NewsletterCampaign.template_id',
-				'NewsletterCampaign.template_id'
+				'NewsletterCampaign.newsletter_template_id',
+				'NewsletterCampaign.newsletter_template_id'
 			),
 			'conditions' => array(
-				'NewsletterCampaign.template_id' => $ids
+				'NewsletterCampaign.newsletter_template_id' => $ids
 			)
 		));
 

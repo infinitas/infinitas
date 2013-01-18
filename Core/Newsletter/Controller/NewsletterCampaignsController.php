@@ -144,19 +144,16 @@ class NewsletterCampaignsController extends NewsletterAppController {
  * @return array
  */
 	private function __canDelete($ids) {
-		$newsletters = $this->{$this->modelClass}->Newsletter->find(
-			'list',
-			array(
-				'fields' => array(
-					'Newsletter.campaign_id',
-					'Newsletter.campaign_id'
-				),
-				'conditions' => array(
-					'Newsletter.sent' => 1,
-					'Newsletter.campaign_id' => $ids
-				)
+		$newsletters = $this->{$this->modelClass}->Newsletter->find('list', array(
+			'fields' => array(
+				'Newsletter.newsletter_campaign_id',
+				'Newsletter.newsletter_campaign_id'
+			),
+			'conditions' => array(
+				'Newsletter.sent' => 1,
+				'Newsletter.newsletter_campaign_id' => $ids
 			)
-		);
+		));
 
 		if (empty($newsletters)) {
 			return $ids;

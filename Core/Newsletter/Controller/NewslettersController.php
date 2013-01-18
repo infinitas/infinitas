@@ -251,8 +251,8 @@ class NewslettersController extends NewsletterAppController {
  */
 	public function admin_add() {
 		if ($this->request->isPost()) {
-			$this->request->data[$this->modelClass]['template_id'] = $this->{$this->modelClass}->NewsletterCampaign->field('template_id', array(
-				'Campaign.id' => $this->request->data[$this->modelClass]['campaign_id']
+			$this->request->data[$this->modelClass]['newsletter_template_id'] = $this->{$this->modelClass}->NewsletterCampaign->field('newsletter_template_id', array(
+				'NewsletterCampaign.id' => $this->request->data[$this->modelClass]['campaign_id']
 			));
 		}
 

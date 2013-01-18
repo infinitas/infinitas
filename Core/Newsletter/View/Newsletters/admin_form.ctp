@@ -32,6 +32,7 @@ echo $this->Form->create('Newsletter');
 			'class' => 'span9'
 		)),
 		$this->Html->tag('div', implode('', array(
+			$this->Form->input('slug'),
 			$this->Form->input('campaign_id', array(
 				'empty' => Configure::read('Website.empty_select')
 			)),

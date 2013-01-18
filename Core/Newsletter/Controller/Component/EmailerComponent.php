@@ -104,9 +104,7 @@ class EmailerComponent extends EmailComponent {
 
 		try {
 			$template = ClassRegistry::init('Newsletter.Template')->getTemplate($email['template']);
-		}
-
-		catch(Exception $e) {
+		} catch(Exception $e) {
 			$this->Controller->notice(
 				$e->getMessage(),
 				array('redirect' => true)

@@ -48,7 +48,8 @@ class Newsletter extends NewsletterAppModel {
 		'toSend' => true,
 		'paginated' => true,
 		'preview' => true,
-		'deleteable' => true
+		'deleteable' => true,
+		'email' => true
 	);
 
 /**
@@ -81,7 +82,7 @@ class Newsletter extends NewsletterAppModel {
 		parent::__construct($id, $table, $ds);
 
 		$this->order = array(
-			$this->alias . '.' . $this->displayField => 'asc'
+			$this->alias . '.slug' => 'asc'
 		);
 
 		$this->validate = array(
@@ -103,7 +104,7 @@ class Newsletter extends NewsletterAppModel {
 					'message' => __d('newsletter', 'Please enter the from address')
 				),
 				'email' => array(
-					'rule' => array( 'email', true ),
+					'rule' => array('email', true),
 					'message' => __d('newsletter', 'Please enter a valid email addres')
 				)
 			),
@@ -138,10 +139,20 @@ class Newsletter extends NewsletterAppModel {
 		);
 	}
 
+/**
+ * General find
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ */
 	protected function _findPaginated($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.slug',
 				$this->alias . '.newsletter_campaign_id',
 				$this->alias . '.from',
 				$this->alias . '.reply_to',
@@ -149,21 +160,28 @@ class Newsletter extends NewsletterAppModel {
 				$this->alias . '.active',
 				$this->alias . '.sent',
 				$this->alias . '.created',
+
+				$this->NewsletterCampaign->alias . '.' . $this->NewsletterCampaign->displayField
 			));
 
-			$query['contain'] = array_merge((array)$query['fields'], array(
-				'NewsletterCampaign' => array(
-					'fields' => array(
-						'NewsletterCampaign.name'
-					)
-				)
-			));
+			$query['joins'] = (array)$query['joins'];
+			$query['joins'][] = $this->autoJoinModel($this->NewsletterCampaign);
+
 			return $query;
 		}
 
 		return $results;
 	}
 
+/**
+ * Find only active newsletters
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ */
 	protected function _findActive($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
@@ -196,11 +214,23 @@ class Newsletter extends NewsletterAppModel {
 		return $results;
 	}
 
+/**
+ * Find preview data
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ *
+ * @throws InvalidArgumentException
+ */
 	protected function _findPreview($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			if (empty($query[0])) {
 				throw new InvalidArgumentException(__d('newsletter', 'Invalid newsletter selected'));
 			}
+
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.html',
@@ -218,6 +248,7 @@ class Newsletter extends NewsletterAppModel {
 			$query['limit'] = 1;
 			return $query;
 		}
+
 		if (empty($results[0])) {
 			return array();
 		}
@@ -228,6 +259,8 @@ class Newsletter extends NewsletterAppModel {
 /**
  * Get newsletters that can be deleted safely
  *
+ * This method takes list of `ids` and returns a list of ids that can be safely removed.
+ *
  * @param string $state
  * @param array $query
  * @param array $results
@@ -236,7 +269,7 @@ class Newsletter extends NewsletterAppModel {
  *
  * @throws InvalidArgumentException
  */
-	protected function _findDeletable($state, array $query, array $results = array()) {
+	protected function _findDeleteable($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			if (empty($query['ids'])) {
 				throw new InvalidArgumentException(__d('newsletter', 'No newsletters selected'));
@@ -260,6 +293,41 @@ class Newsletter extends NewsletterAppModel {
 		}
 
 		return $results;
+	}
+
+	protected function _findEmail($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query[0])) {
+				throw new CakeException(__d('newsletter', 'No email selected'));
+			}
+
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.from',
+				$this->alias . '.reply_to',
+				$this->alias . '.subject',
+				$this->alias . '.html',
+				$this->alias . '.text',
+
+				$this->NewsletterTemplate->alias . '.header',
+				$this->NewsletterTemplate->alias . '.footer',
+			));
+
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.slug' => $query[0]
+			));
+
+			$query['joins'] = (array)$query['joins'];
+			$query['joins'][] = $this->autoJoinModel($this->NewsletterTemplate);
+
+			$query['limit'] = 1;
+			return $query;
+		}
+		if (empty($results[0])) {
+			throw new CakeException(__d('newsletter', 'No email found'));
+		}
+
+		return $results[0];
 	}
 
 /**
