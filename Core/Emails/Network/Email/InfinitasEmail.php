@@ -106,8 +106,16 @@ class InfinitasEmail extends CakeEmail {
 					}
 					$this->{$k}($v);
 					break;
+
+				case 'viewVars':
+					if (!empty($v)) {
+						$this->{$k}($v);
+					}
+					break;
 			}
 		}
+		$this->viewRender('Libs.Infinitas');
+		$this->template('default');
 
 		return $this->send($options['html']);
 	}
