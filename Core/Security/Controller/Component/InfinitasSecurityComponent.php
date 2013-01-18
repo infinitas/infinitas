@@ -31,6 +31,20 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
 
+		$admin = array_key_exists('admin', $Controller->request->params) && $Controller->request->params['admin'];
+		$groupId = AuthComponent::user('group_id');
+		if ($admin && $groupId && $groupId != 1) {
+			$Controller->Session->delete('Auth');
+			$Controller->notice(__d('security', 'Administrator access required'), array(
+				'redirect' => array(
+					'plugin' => 'users',
+					'controller' => 'users',
+					'action' => 'login'
+				),
+				'level' => 'warning'
+			));
+		}
+
 		$this->_checkBadLogins();
 		$this->_blockByIp();
 
@@ -77,7 +91,11 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 			$this->Controller->Auth->allow();
 		}
 
-		$this->Controller->Auth->loginAction  = array('plugin' => 'users', 'controller' => 'users', 'action' => 'login');
+		$this->Controller->Auth->loginAction = array(
+			'plugin' => 'users',
+			'controller' => 'users',
+			'action' => 'login'
+		);
 
 		if (Configure::read('Website.login_type') == 'email') {
 			$this->Controller->fields = array('username' => 'email', 'password' => 'password');
@@ -194,7 +212,7 @@ class InfinitasSecurityComponent extends InfinitasComponent {
 
 /**
  * Block a user from accessing the site
- * 
+ *
  * @throws SecurityIpAddressBlockedException
  */
 	public function blockAccess() {
