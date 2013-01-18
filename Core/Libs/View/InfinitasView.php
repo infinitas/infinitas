@@ -97,6 +97,9 @@
 			$this->__vars['viewVars']['templates'] =& $this->__mustacheTemplates['requireGlobalTemplates'];
 			$this->__vars['params']	= &$this->request->params;
 
+			if (empty($this->__vars['viewVars']['infinitasJsData']['config'])) {
+				$this->__vars['viewVars']['infinitasJsData']['config'] = Configure::read();
+			}
 			$out = $this->renderTemplate($out, $this->__vars['viewVars']);
 		}
 
