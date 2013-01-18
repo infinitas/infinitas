@@ -18,6 +18,7 @@
  */
 
 class TicketableBehavior extends ModelBehavior {
+
 /**
  * Initiate behavior for the model using specified settings.
  * Available settings:
@@ -84,7 +85,6 @@ class TicketableBehavior extends ModelBehavior {
  * @return array|boolean
  */
 	public function getTicket(Model $Model, $ticket = null) {
-		$this->cleanup();
 		if (!$ticket) {
 			return false;
 		}
