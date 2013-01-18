@@ -174,15 +174,8 @@ class CompressHelper extends InfinitasHelper {
 			foreach ($urlMatches as $urlMatch) {
 				$cssPath = str_replace(array('/', '\\'), DS, WWW_ROOT . ltrim(Router::normalize($urlMatch), '/'));
 				if (is_file($cssPath)) {
-					$css = file_get_contents($cssPath);
-					if (strstr($css, '../')) {
-						$parts = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
-						$css = str_replace('../', '/' . $parts[0] . '/', $css);
-					}
-
-					$cssData[] = $css;
+					$cssData[] = $this->_fetchCss($cssPath);
 				}
-				unset($parts, $css);
 			}
 		}
 
@@ -193,6 +186,33 @@ class CompressHelper extends InfinitasHelper {
 		}
 
 		return $cssData;
+	}
+
+/**
+ * Fetch css and fix relative urls to absolute urls
+ *
+ * Some css will use ../img/file.png which should be converted to /plugin/img/file.png or
+ * /theme/name/img/file.png
+ *
+ * This should also handle sub-folders.
+ *
+ * @param string $cssPath the path to the css file
+ *
+ * @return string
+ */
+	protected function _fetchCss($cssPath) {
+		$css = file_get_contents($cssPath);
+		if (strstr($css, '../')) {
+			list($theme, $plugin) = explode('/', str_replace(APP . 'webroot' . DS, '', $cssPath));
+
+			if ($theme != 'theme') {
+				$plugin = $theme;
+				$css = str_replace('../', '/' . $plugin . '/', $css);
+			} else {
+				$css = str_replace('../', '/' . $theme . '/' . $plugin . '/', $css);
+			}
+		}
+		return $css;
 	}
 
 /**
