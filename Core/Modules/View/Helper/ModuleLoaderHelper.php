@@ -228,27 +228,19 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		$module = sprintf('modules/%s', $module);
 
 		$pluginDir = App::pluginPath($plugin) . 'View' . DS  . 'Elements' . DS . $module . '.ctp';
-		$themeDir = App::themePath($this->theme) . $plugin . 'Elements' . DS . $module . '.ctp';
+		$module = implode('.', array(
+			$plugin,
+			$module
+		));
 
-		if (!is_file($pluginDir)) {
-			if (!is_file($themeDir)) {
-				if (Configure::read('debug')) {
-					return sprintf(
-						'Could not find the module, looking in: <br/>%s<br/>%s',
-						str_replace(APP, 'APP' . DS, $pluginDir),
-						str_replace(APP, 'APP' . DS, $themeDir)
-					);
-				}
+		if (!$this->_View->elementExists($module)) {
+			$module .= '/module';
+			if (!$this->_View->elementExists($module)) {
+				throw new CakeException(__d('modules', 'Error: Could not load module "%s"', $module));
 			}
 		}
 
-		$module = implode('.', array($plugin, $module));
-
-		try{
-			return $this->_View->element($module, array('config' => $params));
-		} catch(Exception $e) {
-			throw new CakeException(__d('modules', 'Error: Could not load module "%s" (%s)', $module, $e->getMessage()));
-		}
+		return $this->_View->element($module, array('config' => $params));
 	}
 
 /**
