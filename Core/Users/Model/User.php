@@ -359,12 +359,23 @@ class User extends UsersAppModel {
  * @return array
  */
 	public function saveActivation($hash) {
-		$this->id = $this->getTicket($hash);
-
-		if ($this->id && $this->saveField('active', 1, null, true)) {
-			return true;
+		$user = $this->find('first', array(
+			'conditions' => array(
+				$this->alias . '.email' => $this->getTicket($hash)
+			)
+		));
+		if (empty($user)) {
+			return false;
 		}
-		return false;
+
+		$user[$this->alias]['active'] = 1;
+
+		$saved = $this->save($user[$this->alias]);
+		if (!$saved) {
+			return false;
+		}
+
+		return $saved;
 	}
 
 	public function getSiteRelatedList() {

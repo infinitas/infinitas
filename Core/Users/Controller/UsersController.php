@@ -232,6 +232,19 @@ class UsersController extends UsersAppController {
 
 			$flashMessage = 'registration_failed';
 			if ($data) {
+				$data = $this->{$this->modelClass}->find('first', array(
+					'conditions' => array(
+						$this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $this->{$this->modelClass}->id
+					)
+				));
+				$data[$this->modelClass]['activation_url'] = current($this->Event->trigger('getShortUrl', array(
+					'url' => InfinitasRouter::url(array(
+						'action' => 'activate',
+						$this->{$this->modelClass}->createTicket($data[$this->modelClass]['email'])
+					))
+				)));
+				$data[$this->modelClass]['activation_url'] = InfinitasRouter::url($data[$this->modelClass]['activation_url']['ShortUrls']);
+
 				$email = array(
 					'email' => $data[$this->modelClass]['email'],
 					'name' => $data[$this->modelClass]['prefered_name'] ?: $data[$this->modelClass]['username'],
@@ -251,7 +264,16 @@ class UsersController extends UsersAppController {
 				$this->Event->trigger('userRegistration', $data[$this->modelClass]);
 			}
 
-			$this->notice($flashMessage, $data ? array('redirect' => '') : array());
+			$config = array(
+				'redirect' => false,
+				'level' => 'warning'
+			);
+			if ($data) {
+				$config = array(
+					'redirect' => ''
+				);
+			}
+			$this->notice($flashMessage, $config);
 		}
 		$this->saveRedirectMarker();
 	}
@@ -268,22 +290,18 @@ class UsersController extends UsersAppController {
  * @return void
  */
 	public function activate($hash = null) {
-		if ($this->{$this->modelClass}->saveActivation($hash)) {
-			$data = $this->{$this->modelClass}->find('first', array(
-				'conditions' => array(
-					$this->modelClass . '.' . $this->{$this->modelClass}->primaryKey => $this->{$this->modelClass}->id
-				)
-			));
+		$user = $this->{$this->modelClass}->saveActivation($hash);
+		if ($user) {
 			$email = array(
-				'email' => $data[$this->modelClass]['email'],
-				'name' => $data[$this->modelClass]['prefered_name'] ?: $data[$this->modelClass]['username'],
+				'email' => $user[$this->modelClass]['email'],
+				'name' => $user[$this->modelClass]['prefered_name'] ?: $user[$this->modelClass]['username'],
 				'newsletter' => 'users-account-created'
 			);
 			$this->Event->trigger('systemEmail', array(
 				'email' => $email,
-				'var' => $data
+				'var' => $user
 			));
-			$this->Event->trigger('userActivation', $data);
+			$this->Event->trigger('userActivation', $user[$this->modelClass]);
 			return $this->notice('account_activated');
 		}
 
