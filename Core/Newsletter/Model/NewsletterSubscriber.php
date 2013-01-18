@@ -154,4 +154,8 @@ class NewsletterSubscriber extends NewsletterAppModel {
 		$this->create();
 		return $this->save($data);
 	}
+
+	public function updateUserDetails(array $user) {
+		return true;
+	}
 }
