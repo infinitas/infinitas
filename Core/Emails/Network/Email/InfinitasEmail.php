@@ -60,7 +60,8 @@ class InfinitasEmail extends CakeEmail {
 			'readReceipt' => false,
 			'charset' => Configure::read('App.encoding'),
 			'headerCharset' => null,
-			'emailFormat' => 'both'
+			'emailFormat' => 'both',
+			'viewVars' => array()
 		), $options);
 
 		if ($options['replyTo'] === null) {
@@ -92,11 +93,13 @@ class InfinitasEmail extends CakeEmail {
 					$this->_setEmail('_' . $k, key($v), current($v));
 				break;
 
+				case 'subject':
+					$v = $this->_parseSubject($v, $options['viewVars']);
+
 				case 'from':
 				case 'replyTo':
 				case 'sender':
 				case 'readReceipt':
-				case 'subject':
 				case 'emailFormat':
 				case 'charset':
 				case 'headerCharset':
@@ -118,6 +121,26 @@ class InfinitasEmail extends CakeEmail {
 		$this->template('default');
 
 		return $this->send($options['html']);
+	}
+
+/**
+ * Render mustache
+ *
+ * Used for the subject mainly so variables can be used (its not passed in the normal views)
+ *
+ * The flags {{%UNESCAPED}} and {{%DOT-NOTATION}} are set so all mustache in the subject should be
+ * in the form Var.foo.bar, no lists and so on.
+ *
+ * @param string $value
+ * @param array $data
+ *
+ * @return string
+ */
+	protected function _parseSubject($value, array &$data) {
+		$data['infinitasJsData']['config'] = Configure::read();
+		App::uses('Mustache', 'Libs.Lib');
+		$Mustache = new Mustache();
+		return $Mustache->render('{{%UNESCAPED}}{{%DOT-NOTATION}}' . $value, $data);
 	}
 
 /**
@@ -159,5 +182,4 @@ class InfinitasEmail extends CakeEmail {
 
 		unset($config['name'], $config['email']);
 	}
-
 }
