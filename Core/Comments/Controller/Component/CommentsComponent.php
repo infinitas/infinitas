@@ -36,11 +36,12 @@ class CommentsComponent extends InfinitasComponent {
 				);
 			}
 
-			if ($this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data)) {
-				$this->Controller->notice(
-					__d('comments', $message),
-					array('redirect' => true)
-				);
+			$saved = $this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data);
+			if ($saved) {
+				$this->Event->trigger('Comments.newCommentSaved', $saved[$modelClass]);
+				$this->Controller->notice(__d('comments', $message), array(
+					'redirect' => true
+				));
 			}
 
 			$this->Controller->notice('not_saved');

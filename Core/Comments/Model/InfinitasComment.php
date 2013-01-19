@@ -1,6 +1,6 @@
 <?php
 /**
- * Comment Model class file handles comment CRUD.
+ * InfinitasComment
  *
  * This is the model that handles comment saving and other CRUD actions, the
  * commentable behavior will auto relate and attach this model to the models
@@ -19,6 +19,14 @@
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 
+/**
+ * InfinitasComment
+ *
+ * @package Infinitas.Comments.Model
+ *
+ * @property User $User
+ * @property CommentAttribute $InfinitasCommentAttribute
+ */
 class InfinitasComment extends CommentsAppModel {
 
 /**
@@ -28,7 +36,8 @@ class InfinitasComment extends CommentsAppModel {
  */
 	public $findMethods = array(
 		'linkedComments' => true,
-		'adminIndex' => true
+		'adminIndex' => true,
+		'otherCommentors' => true
 	);
 
 /**
@@ -48,6 +57,12 @@ class InfinitasComment extends CommentsAppModel {
 	public $hasMany = array(
 		'CommentAttribute' => array(
 			'className' => 'Comments.InfinitasCommentAttribute'
+		)
+	);
+
+	public $belongsTo = array(
+		'User' => array(
+			'className' => 'Users.User'
 		)
 	);
 
@@ -75,6 +90,66 @@ class InfinitasComment extends CommentsAppModel {
 				)
 			)
 		);
+	}
+
+	protected function _findOtherCommentors($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query['class'])) {
+				throw new InvalidArgumentException(__d('comments', 'Class not passed'));
+			}
+			if (empty($query['foreign_id'])) {
+				throw new InvalidArgumentException(__d('comments', 'Record not passed'));
+			}
+
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.email',
+				$this->User->alias . '.*'
+			));
+
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.class' => $query['class'],
+				$this->alias . '.foreign_id' => $query['foreign_id'],
+			));
+
+			if ($query['email']) {
+				$query['conditions']['not'][$this->alias . '.email'] = $query['email'];
+			}
+
+			$query['joins'] = (array)$query['joins'];
+			$query['joins'][] = $this->autoJoinModel($this->User);
+			return $query;
+		}
+		if (empty($results)) {
+			return array();
+		}
+
+		$attributes = $this->CommentAttribute->find('all', array(
+			'conditions' => array(
+				$this->CommentAttribute->alias . '.infinitas_comment_id' => Hash::extract($results, '{n}.' . $this->alias . '.' . $this->primaryKey)
+			)
+		));
+		foreach ($results as &$result) {
+			$template = sprintf('{n}.%s[infinitas_comment_id=%s]',
+				$this->CommentAttribute->alias,
+				$result[$this->alias][$this->primaryKey]
+			);
+			$result[$this->alias] = array_merge(
+				$result[$this->alias],
+				Hash::combine(Hash::extract($attributes, $template), '{n}.key', '{n}.val')
+			);
+			if (!empty($result[$this->User->alias][$this->User->id])) {
+				if ($result[$this->alias]['prefered_name']) {
+					$result[$this->alias]['name'] = $result[$this->alias]['prefered_name'];
+				} else {
+					$result[$this->alias]['name'] = $result[$this->alias]['username'];
+				}
+			} else {
+				$result[$this->alias]['name'] = $result[$this->alias]['username'];
+			}
+		}
+
+		return $results;
 	}
 
 	protected function _findLinkedComments($state, $query, $results = array()) {

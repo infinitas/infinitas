@@ -240,8 +240,9 @@ class CommentableBehavior extends ModelBehavior {
 
 		$data[$this->__settings[$Model->alias]['class']]['class'] = $Model->fullModelName();
 		$Model->{$this->__settings[$Model->alias]['class']}->create();
-		if ($Model->{$this->__settings[$Model->alias]['class']}->save($data)) {
-			return true;
+		$saved = $Model->{$this->__settings[$Model->alias]['class']}->save($data);
+		if ($saved) {
+			return $saved;
 		}
 
 		return false;

@@ -145,4 +145,48 @@ class CommentsEvents extends AppEvents {
 			'content' => $Event->Handler->_View->element('Comments.profile')
 		);
 	}
+
+/**
+ * When a new comment is made send out all the emails
+ * 
+ * @param Event $Event
+ * @param array $comment
+ */
+	public function onNewCommentSaved(Event $Event, array $comment) {
+		list($plugin) = pluginSplit($comment['class']);
+		$comment['url'] = current(EventCore::trigger($Event->Handler, $plugin . '.slugUrl', array(
+			'data' => array(
+				'id' => $comment['foreign_id']
+			)
+		)));
+		$comment['url'] = InfinitasRouter::url($comment['url'][$plugin]);
+
+		EventCore::trigger($Event->Handler, 'adminEmail', array(
+			'email' => array(
+				'newsletter' => 'comments-new-admin',
+			),
+			'var' => array(
+				'Comment' => $comment
+			)
+		));
+		$otherComments = ClassRegistry::init('Comments.InfinitasComment')->find('otherCommentors', array_intersect_key($comment, array(
+			'foreign_id' => null,
+			'class' => null,
+			'email' => null
+		)));
+
+		foreach ($otherComments as $otherComment) {
+			EventCore::trigger($Event->Handler, 'systemEmail', array(
+				'email' => array(
+					'email' => $otherComment['InfinitasComment']['email'],
+					'name' => $otherComment['InfinitasComment']['name'],
+					'newsletter' => 'comments-new-user'
+				),
+				'var' => array(
+					'Comment' => $comment,
+					'User' => $otherComment['InfinitasComment']
+				)
+			));
+		}
+	}
 }
