@@ -138,12 +138,46 @@ class NewsletterEvents extends AppEvents {
 			$email['var'] = array();
 		}
 
-		$Newsletter = ClassRegistry::init('Newsletter.Newsletter');
-		$mail = $Newsletter->find('email', $email['email']['newsletter']);
-
-		$Email = new InfinitasEmail();
-		$sent = $Email->sendMail(array(
+		return $this->_sendMail($email['email']['newsletter'], array(
 			'to' => $email['email']['email'],
+			'viewVars' => $email['var']
+		));
+	}
+
+	public function onAdminEmail(Event $Event, array $email) {
+		$email['email'] = array_merge(array(
+			'newsletter' => null
+		), $email['email']);
+		if (empty($email['var'])) {
+			$email['var'] = array();
+		}
+
+		$admins = ClassRegistry::init('Users.User')->find('all', array(
+			'fields' => array(
+				'User.id',
+				'User.email',
+				'User.prefered_name',
+				'User.username'
+			),
+			'conditions' => array(
+				'User.group_id' => 1
+			)
+		));
+		foreach ($admins as $admin) {
+			$email['var']['User'] = $admin['User'];
+			$email['var']['User']['name'] = $admin['User']['prefered_name'] ?: $admin['User']['username'];
+			$this->_sendMail($email['email']['newsletter'], array(
+				'to' => $admin['User']['email'],
+				'viewVars' => $email['var']
+			));
+		}
+
+		return true;
+	}
+
+	protected function _sendMail($template, array $config) {
+		$mail = ClassRegistry::init('Newsletter.Newsletter')->find('email', $template);
+		$config = array_merge(array(
 			'from' => $mail['Newsletter']['from'],
 			'subject' => $mail['Newsletter']['subject'],
 			'html' => $mail['NewsletterTemplate']['header'] . $mail['Newsletter']['html'] . $mail['NewsletterTemplate']['footer'],
@@ -151,14 +185,10 @@ class NewsletterEvents extends AppEvents {
 				$mail['NewsletterTemplate']['header'],
 				$mail['Newsletter']['text'],
 				$mail['NewsletterTemplate']['footer']
-			)))),
-			'viewVars' => $email['var']
-		));
+			))))
+		), $config);
 
-		if (!$sent) {
-			return false;
-		}
-
-		return true;
+		$Email = new InfinitasEmail();
+		$Email->sendMail($config);
 	}
 }
