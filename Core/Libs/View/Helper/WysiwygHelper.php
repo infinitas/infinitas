@@ -51,9 +51,7 @@ class WysiwygHelper extends InfinitasHelper {
 		try{
 			App::uses($helperName . 'Helper', $helperName . '.View/Helper');
 			$this->Editor = $this->_View->Helpers->load($helperName . '.' . $helperName);
-		}
-
-		catch(MissingHelperException $e) {
+		} catch(MissingHelperException $e) {
 			return $this->input($field, array('style' => 'width:98%; height:500px;')) . $e->getMessage();
 		}
 
@@ -82,7 +80,10 @@ class WysiwygHelper extends InfinitasHelper {
  *
  * @return string
  */
-	public function input($field, $options = array('style' => 'width:98%; height:500px;')) {
+	public function input($field, array $options = array()) {
+		$options = array_merge(array(
+			'required' => false,
+		), $options);
 		return $this->Form->input($field, $options);
 	}
 

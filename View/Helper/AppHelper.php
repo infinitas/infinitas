@@ -96,15 +96,6 @@
 		public $errors = array();
 
 		/**
-		 * @deprecated
-		 *
-		 * @todo need to make a wysiwyg engine like ChartsHelper
-		 *
-		 * @var string
-		 */
-		public $wysiwyg = 'fck';
-
-		/**
 		 * Additional helpers to load
 		 *
 		 * @var array
@@ -564,34 +555,26 @@
 		}
 
 		/**
-		 * @deprecated
+		 * Wysiwyg form
 		 *
 		 * create a wysiwyg editor for the field that is passed in. If wysiwyg
 		 * is disabled or not installed it will render a textarea.
 		 *
 		 * @param string $id the field to create a wysiwyg editor for
 		 * @param array $config some settings for the editor
-		 * @access public
 		 *
-		 * @return string markup for the editor
+		 * @return string
 		 */
 		public function wysiwyg($id = null, $config = array('toolbar' => 'Full')) {
 			if (!$id) {
-				$this->errors[] = 'No field specified for the wysiwyg editor';
 				return false;
 			}
 
-			if (!Configure::read('Wysiwyg.editor')) {
-				$this->errors[] = 'There is no editor configured';
+			$editor = trim(Configure::read('Wysiwyg.editor'));
+			if (empty($editor)) {
+				$editor = 'text';
 			}
 
-			$editor = 'text';
-
-			$_editor = Configure::read('Wysiwyg.editor');
-			if (!empty($_editor)) {
-				$editor = $_editor;
-			}
-			$config['required'] = false;
 			return $this->Wysiwyg->load($editor, $id, $config);
 		}
 
