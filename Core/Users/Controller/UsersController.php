@@ -229,6 +229,7 @@ class UsersController extends UsersAppController {
 
 		if (!empty($this->request->data)) {
 			$data = $this->{$this->modelClass}->saveRegistration($this->request->data);
+			$this->{$this->modelClass}->transaction();
 
 			$flashMessage = 'registration_failed';
 			if ($data) {
@@ -255,6 +256,15 @@ class UsersController extends UsersAppController {
 				} else {
 					$flashMessage = __d('users', 'Thank you, your registration was completed');
 					$email['newsletter'] = 'users-account-created';
+
+					$this->Event->trigger('adminEmail', array(
+						'email' => array(
+							'newsletter' => 'users-account-created-admin'
+						),
+						'var' => array(
+							'NewUser' => $data[$this->modelClass]
+						)
+					));
 				}
 
 				$this->Event->trigger('systemEmail', array(
@@ -297,6 +307,14 @@ class UsersController extends UsersAppController {
 				'name' => $user[$this->modelClass]['prefered_name'] ?: $user[$this->modelClass]['username'],
 				'newsletter' => 'users-account-created'
 			);
+			$this->Event->trigger('adminEmail', array(
+				'email' => array(
+					'newsletter' => 'users-account-created-admin'
+				),
+				'var' => array(
+					'NewUser' => $user[$this->modelClass]
+				)
+			));
 			$this->Event->trigger('systemEmail', array(
 				'email' => $email,
 				'var' => $user
