@@ -32,6 +32,15 @@ class NewsletterSubscriber extends NewsletterAppModel {
 	);
 
 /**
+ * Behaviors to attach
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Libs.Ticketable'
+	);
+
+/**
  * BelongsTo relations
  *
  * @var array
@@ -153,6 +162,31 @@ class NewsletterSubscriber extends NewsletterAppModel {
 
 		$this->create();
 		return $this->save($data);
+	}
+
+/**
+ * Method for activating a subscription
+ *
+ * This gets the ticket and checks everything is valid before setting the user to active.
+ *
+ * @param array $hash the data to save
+ *
+ * @return array
+ */
+	public function saveActivation($hash) {
+		$subscription = $this->find('first', array(
+			'conditions' => array(
+				$this->alias . '.email' => $this->getTicket($hash)
+			)
+		));
+		if (empty($subscription)) {
+			return false;
+		}
+
+		$subscription[$this->alias]['confirmed'] = date('Y-m-d H:i:s');
+		$subscription[$this->alias]['active'] = 1;
+
+		return $this->save($subscription[$this->alias]);
 	}
 
 	public function updateUserDetails(array $user) {

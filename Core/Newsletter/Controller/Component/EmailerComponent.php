@@ -10,16 +10,6 @@
  * the named args array into the Controller::params member array and does
  * not place the named args in the key 'named'.
  *
- * @code
- *	$this->Emailer->sendDirectMail(
- *		array('someone@example.com'),
- *		array(
- *			'subject' => 'this is a test email',
- *			'body' => 'The body of the email',
- *			'template' => 'User - Registration'
- *		)
- * );
- *
  * @author dogmatic
  */
 
@@ -89,38 +79,6 @@ class EmailerComponent extends EmailComponent {
 		$this->from = Configure::read('Newsletter.from_email');
 
 		$this->trackViews = Configure::read('Newsletter.track_views');
-	}
-
-	public function sendDirectMail($userDetails, $email = array()) {
-		$this->trackViews = false;
-		if (empty($userDetails)) {
-			return false;
-		}
-
-		$email = array_merge(array(
-			'body' => '',
-			'template' => ''
-		), $email);
-
-		try {
-			$template = ClassRegistry::init('Newsletter.Template')->getTemplate($email['template']);
-		} catch(Exception $e) {
-			$this->Controller->notice(
-				$e->getMessage(),
-				array('redirect' => true)
-			);
-		}
-
-		$html = $template['Template']['header'] . $email['body'] . $template['Template']['footer'];
-
-		$Email = new InfinitasEmail();
-		$Email->sendMail(array(
-			'to' => $userDetails,
-			'from' => $email['from'],
-			'subject' => $email['subject'],
-			'html' => $html,
-			'text' => strip_tags(str_replace(array('<br/>', '<br>', '</p><p>'), "\n\r", $html))
-		));
 	}
 
 }

@@ -18,6 +18,10 @@
  */
 
 class NewsletterSubscribersController extends NewsletterAppController {
+
+/**
+ * BeforeFilter callback
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
 
@@ -29,7 +33,6 @@ class NewsletterSubscribersController extends NewsletterAppController {
 
 		$this->notice['subscribed'] = array(
 			'redirect' => true,
-			'level' => 'success',
 			'message' => __d('newsletter', 'Your subscription has been saved, please check your email')
 		);
 
@@ -38,8 +41,24 @@ class NewsletterSubscribersController extends NewsletterAppController {
 			'level' => 'warning',
 			'message' => __d('newsletter', 'There was a problem saving your subscription')
 		);
+
+		$this->notice['subscription_activated'] = array(
+			'redirect' => '/',
+			'message' => __d('newsletter', 'Your subscription has been confirmed')
+		);
+
+		$this->notice['subscription_not_activated'] = array(
+			'redirect' => '/',
+			'level' => 'warning',
+			'message' => __d('newsletter', 'There was a problem activating your subscription')
+		);
 	}
 
+/**
+ * Subscribe to newsletters
+ *
+ * @return void
+ */
 	public function subscribe() {
 		if (!$this->request->is('post')) {
 			$this->notice(__d('newsletter', 'No direct access allowed'), array(
@@ -60,11 +79,60 @@ class NewsletterSubscribersController extends NewsletterAppController {
 		}
 
 		if ($this->{$this->modelClass}->subscribe($this->request->data)) {
-			// send out confirmation email
+			$this->request->data[$this->modelClass]['confirm_url'] = InfinitasRouter::url(array(
+				'action' => 'confirm',
+				$this->{$this->modelClass}->createTicket($this->request->data[$this->modelClass]['email'])
+			));
+			$this->Event->trigger('systemEmail', array(
+				'email' => array(
+					'newsletter' => 'newsletter-confirm-subscription',
+					'email' => $this->request->data[$this->modelClass]['email'],
+					'name' => $this->request->data[$this->modelClass]['prefered_name'],
+				),
+				'var' => array(
+					'Newsletter' => $this->request->data[$this->modelClass],
+					'User' => array(
+						'email' => $this->request->data[$this->modelClass]['email'],
+						'name' => $this->request->data[$this->modelClass]['prefered_name'],
+					)
+				)
+			));
 			return $this->notice('subscribed');
 		}
 
 		return $this->notice('not_subscribed');
+	}
+
+/**
+ * Confirm a subscription
+ *
+ * @param string $hash the hash key for the subscription
+ *
+ * @return void
+ */
+	public function confirm($hash = null) {
+		$subscription = $this->{$this->modelClass}->saveActivation($hash);
+		if ($subscription) {
+			$subscription[$this->modelClass]['name'] = $subscription[$this->modelClass]['prefered_name'];
+			$this->Event->trigger('adminEmail', array(
+				'email' => array('newsletter' => 'newsletter-new-subscriber-admin'),
+				'var' => array('Subscriber' => $subscription[$this->modelClass])
+			));
+
+			$this->Event->trigger('systemEmail', array(
+				'email' => array(
+					'email' => $subscription[$this->modelClass]['email'],
+					'name' => $subscription[$this->modelClass]['prefered_name'],
+					'newsletter' => 'newsletter-new-subscriber'
+				),
+				'var' => array(
+					'User' => $subscription[$this->modelClass]
+				)
+			));
+			return $this->notice('subscription_activated');
+		}
+
+		$this->notice('subscription_not_activated');
 	}
 
 /**
