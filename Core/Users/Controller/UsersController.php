@@ -266,6 +266,9 @@ class UsersController extends UsersAppController {
 					));
 				}
 
+				$data[$this->modelClass]['forgot_password'] = InfinitasRouter::url(array(
+					'action' => 'forgot_password'
+				));
 				$this->Event->trigger('systemEmail', array(
 					'email' => $email,
 					'var' => $data
@@ -278,9 +281,7 @@ class UsersController extends UsersAppController {
 				'level' => 'warning'
 			);
 			if ($data) {
-				$config = array(
-					'redirect' => ''
-				);
+				$config = array('redirect' => '/');
 			}
 			$this->notice($flashMessage, $config);
 		}
