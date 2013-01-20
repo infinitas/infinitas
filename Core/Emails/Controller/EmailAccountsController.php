@@ -61,7 +61,7 @@ class EmailAccountsController extends EmailsAppController {
 			);
 		}
 
-		$this->set('users', $this->EmailAccount->User->getSiteRelatedList());
+		$this->set('users', $this->EmailAccount->User->find('adminList'));
 		$this->set('types', $this->EmailAccount->types);
 	}
 
@@ -75,7 +75,7 @@ class EmailAccountsController extends EmailsAppController {
 	public function admin_edit($id) {
 		parent::admin_edit($id);
 
-		$this->set('users', $this->EmailAccount->User->getSiteRelatedList());
+		$this->set('users', $this->EmailAccount->User->find('adminList'));
 		$this->set('types', $this->EmailAccount->types);
 	}
 

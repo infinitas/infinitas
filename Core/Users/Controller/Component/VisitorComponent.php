@@ -20,6 +20,7 @@ App::uses('InfinitasComponent', 'Libs.Controller/Component');
  */
 
 class VisitorComponent extends InfinitasComponent {
+
 /**
  * Initialize callback
  *
@@ -29,21 +30,7 @@ class VisitorComponent extends InfinitasComponent {
  * @return void
  */
 	public function initialize(Controller $Controller, $settings = array()) {
-		$userId = AuthComponent::user('id');
-		if (!$userId) {
-			return;
-		}
-
-		$User = ClassRegistry::init('Users.User');
-		$User->unbindModel(array(
-			'belongsTo' => array_keys($User->belongsTo),
-			'hasOne' => array_keys($User->hasOne)
-		));
-
-		$User->updateAll(
-			array($User->alias . '.last_click' => '\'' . date('Y-m-d H:i:s') . '\''),
-			array($User->alias . '.id' => AuthComponent::user('id'))
-		);
+		ClassRegistry::init('Users.User')->updateLastClick();
 	}
 
 }

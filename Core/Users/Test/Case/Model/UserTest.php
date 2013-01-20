@@ -332,4 +332,85 @@ class UserTestCase extends CakeTestCase {
 		$this->assertTrue($result);
 	}
 
+/**
+ * test find admin list
+ */
+	public function testFindAdminList() {
+		$expected = array(
+			1 => 'admin',
+			15 => 'asdf'
+		);
+		$result = $this->Model->find('adminList');
+		$this->assertEquals($expected, $result);
+
+		$expected = array(
+			'admin' => 'admin',
+			'asdf' => 'asdf'
+		);
+		$result = $this->Model->find('adminList', array(
+			'fields' => array(
+				'User.username'
+			)
+		));
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Model->find('adminList', array(
+			'fields' => array(
+				'User.username'
+			),
+			'conditions' => array(
+				'User.username LIKE "a%"'
+			)
+		));
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Model->find('adminList', array(
+			'conditions' => array(
+				'User.username' => 'ddd'
+			)
+		));
+		$this->assertEmpty($result);
+	}
+
+/**
+ * test find admin emails
+ */
+	public function testFindAdminEmails() {
+		$expected = array(
+			'admin' => 'admin@admin.com',
+			'asdf' => 'dogmatic@test.com'
+		);
+		$result = $this->Model->find('adminEmails');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * test update last click
+ */
+	public function testUpdateLastClick() {
+		$result = $this->Model->updateLastClick();
+		$this->assertFalse((bool)$result);
+
+		$expected = '0000-00-00 00:00:00';
+		$result = $this->Model->field('last_click', array(
+			'User.id' => 1
+		));
+		$this->assertEquals($expected, $result);
+
+		CakeSession::write('Auth.User.id', 1);
+		$result = $this->Model->updateLastClick();
+		$this->assertTrue($result);
+
+		$expected = date('Y-m-d H:i:s');
+		$result = $this->Model->field('last_click', array(
+			'User.id' => 1
+		));
+		$this->assertEquals(strtotime($expected), strtotime($result), null, 2);
+
+		$expected = '2010-02-04 16:54:48';
+		$result = $this->Model->field('modified', array(
+			'User.id' => 1
+		));
+		$this->assertEquals($expected, $result);
+	}
 }

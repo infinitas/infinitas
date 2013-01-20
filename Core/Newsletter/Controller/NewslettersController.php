@@ -59,7 +59,7 @@ class NewslettersController extends NewsletterAppController {
 				$subject = sprintf('New email from %s', Configure::read('Website.name'));
 			}
 
-			foreach (ClassRegistry::init('Users.User')->getAdmins() as $username => $email) {
+			foreach (ClassRegistry::init('Users.User')->find('adminEmails') as $username => $email) {
 				try {
 					$this->Emailer->sendDirectMail(array($email => $username), array(
 						'subject' => $subject,

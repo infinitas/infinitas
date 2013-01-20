@@ -41,7 +41,9 @@ class User extends UsersAppModel {
 	public $findMethods = array(
 		'loggedIn' => true,
 		'lastLogin' => true,
-		'profile' => true
+		'profile' => true,
+		'adminList' => true,
+		'adminEmails' => true
 	);
 
 /**
@@ -122,7 +124,7 @@ class User extends UsersAppModel {
 				),
 				'validatePassword' => array(
 					'rule' => 'validatePassword',
-					'message' => (!empty($message) ? $message : __d('users', 'Please enter a stronger password'))
+					'message' => $message ?: __d('users', 'Please enter a stronger password')
 				),
 				'validateCompareFields' => array(
 					'rule' => array('validateCompareFields', array('password', 'confirm_password')),
@@ -269,6 +271,50 @@ class User extends UsersAppModel {
 		return $results[0];
 	}
 
+	protected function _findAdminList($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query['fields'])) {
+				$query['fields'] = array(
+					$this->alias . '.' . $this->primaryKey,
+					$this->alias . '.' . $this->displayField,
+				);
+			}
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.group_id' => 1
+			));
+
+			return $query;
+		}
+		if (empty($results)) {
+			return array();
+		}
+
+		$fields = array_values($query['fields']);
+		if (count($fields) === 1) {
+			$fields[] = current($fields);
+		}
+
+		foreach ($fields as &$field) {
+			$field = '{n}.' . $field;
+		}
+		return Hash::combine($results, $fields[0], $fields[1]);
+	}
+
+	protected function _findAdminEmails($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query['fields'])) {
+				$query['fields'] = array(
+					$this->alias . '.' . $this->displayField,
+					$this->alias . '.email',
+				);
+			}
+
+			return self::_findAdminList($state, $query);
+		}
+
+		return self::_findAdminList($state, $query, $results);
+	}
+
 /**
  * Save a users profile details
  *
@@ -362,35 +408,26 @@ class User extends UsersAppModel {
 		return $this->save($user[$this->alias]);
 	}
 
-	public function getSiteRelatedList() {
-		return $this->find('list', array(
-			'conditions' => array(
-				'User.group_id' => 1
-			)
-		));
-	}
-
 /**
- * Get a list of site admins with emails
+ * Update the last click time
  *
- * @param string $fields
- *
- * @return array
+ * @return boolean
  */
-	public function getAdmins($fields = array()) {
-		if (!$fields) {
-			$fields = array(
-				$this->alias . '.username',
-				$this->alias . '.email'
-			);
+	public function updateLastClick() {
+		$userId = AuthComponent::user('id');
+		if (!$userId) {
+			return;
 		}
 
-		return $this->find('list', array(
-			'fields' => $fields,
-			'conditions' => array(
-				$this->alias . '.group_id' => 1
-			)
+		$this->unbindModel(array(
+			'belongsTo' => array_keys($this->belongsTo),
+			'hasOne' => array_keys($this->hasOne)
 		));
+
+		return $this->updateAll(
+			array($this->alias . '.last_click' => sprintf('"%s"', date('Y-m-d H:i:s'))),
+			array($this->alias . '.' . $this->primaryKey => $userId)
+		);
 	}
 
 /**
