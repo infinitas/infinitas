@@ -121,7 +121,7 @@ class User extends UsersAppModel {
 					'message' => __d('users', 'Please re-enter your password')
 				),
 				'validatePassword' => array(
-					'rule' => 'validPassword',
+					'rule' => 'validatePassword',
 					'message' => (!empty($message) ? $message : __d('users', 'Please enter a stronger password'))
 				),
 				'validateCompareFields' => array(
@@ -157,21 +157,6 @@ class User extends UsersAppModel {
 	}
 
 /**
- * check that the given user id is a valid user.
- *
- * @param mixed $userId user id to check
- *
- * @return boolean, true if valid, false if not
- */
-	public function validUserId($userId) {
-		return (bool)$this->find('count', array(
-			'conditions' => array(
-				$this->alias . '.id' => $userId
-			)
-		));
-	}
-
-/**
  * validate password.
  *
  * This method uses the regex saved in the config to check that the
@@ -183,7 +168,7 @@ class User extends UsersAppModel {
  * @return boolean
  */
 	public function validatePassword($field = null) {
-		return preg_match('/'.Configure::read('Website.password_regex').'/', $field['confirm_password']);
+		return (bool)preg_match('/' . Configure::read('Website.password_regex') . '/', $field['confirm_password']);
 	}
 
 /**
@@ -228,6 +213,9 @@ class User extends UsersAppModel {
  */
 	protected function _findLastLogin($state, array $query, array $results = array()) {
 		if ($state == 'before') {
+			if (empty($query[0])) {
+				$query[0] = AuthComponent::user('id');
+			}
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.ip_address',
 				$this->alias . '.last_login',
@@ -236,7 +224,7 @@ class User extends UsersAppModel {
 			));
 
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
-				$this->alias . '.' . $this->primaryKey => AuthComponent::user('id')
+				$this->alias . '.' . $this->primaryKey => $query[0]
 			));
 
 			$query['limit'] = 1;
@@ -295,10 +283,10 @@ class User extends UsersAppModel {
 	public function saveProfile(array $data) {
 		$userId = AuthComponent::user('id');
 		if ($data[$this->alias][$this->primaryKey] != $userId) {
-			throw new InvalidArgumentException(__d('user', 'Invalid user specified'));
+			throw new InvalidArgumentException(__d($this->alias, 'Invalid user specified'));
 		}
 
-		if (isset($data[$this->alias]['prefered_name']) && empty($data[$this->alias]['prefered_name'])) {
+		if (array_key_exists('prefered_name', $data[$this->alias]) && empty($data[$this->alias]['prefered_name'])) {
 			$data[$this->alias]['prefered_name'] = $data[$this->alias]['username'];
 		}
 
@@ -317,17 +305,18 @@ class User extends UsersAppModel {
  * @return array
  */
 	public function updatePassword(array $data) {
+		if (empty($data[$this->alias])) {
+			$data = array($this->alias => $data);
+		}
+		if (empty($data[$this->alias][$this->primaryKey])) {
+			$data[$this->alias][$this->primaryKey] = $this->id;
+		}
 		if (empty($data[$this->alias][$this->primaryKey])) {
 			return false;
 		}
-		$data = $data[$this->alias];
-		$this->id = $data[$this->primaryKey];
 
-		if ($this->saveField('password', Security::hash($data['new_password'], null, true))) {
-			return true;
-		}
-
-		return false;
+		$this->id = $data[$this->alias][$this->primaryKey];
+		return (bool)$this->saveField('password', Security::hash($data[$this->alias]['new_password'], null, true));
 	}
 
 /**
@@ -338,15 +327,15 @@ class User extends UsersAppModel {
  * @return array
  */
 	public function saveRegistration(array $data) {
+		if (empty($data[$this->alias])) {
+			$data = array($this->alias => $data);
+		}
+
 		$data[$this->alias]['active'] = !(int)Configure::read('Website.email_validation');
 		$data[$this->alias]['group_id'] = 2;
 
 		$this->create();
-		$saved = $this->saveAll($data);
-		if (!$saved) {
-			return false;
-		}
-		return $saved;
+		return $this->saveAll($data);
 	}
 
 /**
@@ -370,12 +359,7 @@ class User extends UsersAppModel {
 
 		$user[$this->alias]['active'] = 1;
 
-		$saved = $this->save($user[$this->alias]);
-		if (!$saved) {
-			return false;
-		}
-
-		return $saved;
+		return $this->save($user[$this->alias]);
 	}
 
 	public function getSiteRelatedList() {
@@ -453,10 +437,10 @@ class User extends UsersAppModel {
 			$data = $this->read();
 		}
 
-		if (!isset($data['User']['group_id']) || !$data['User']['group_id']) {
+		if (!isset($data[$this->alias]['group_id']) || !$data[$this->alias]['group_id']) {
 			return null;
 		}
-		return array('Group' => array('id' => $data['User']['group_id']));
+		return array('Group' => array('id' => $data[$this->alias]['group_id']));
 	}
 
 /**

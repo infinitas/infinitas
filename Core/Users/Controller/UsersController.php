@@ -229,7 +229,6 @@ class UsersController extends UsersAppController {
 
 		if (!empty($this->request->data)) {
 			$data = $this->{$this->modelClass}->saveRegistration($this->request->data);
-			$this->{$this->modelClass}->transaction();
 
 			$flashMessage = 'registration_failed';
 			if ($data) {
@@ -308,12 +307,8 @@ class UsersController extends UsersAppController {
 				'newsletter' => 'users-account-created'
 			);
 			$this->Event->trigger('adminEmail', array(
-				'email' => array(
-					'newsletter' => 'users-account-created-admin'
-				),
-				'var' => array(
-					'NewUser' => $user[$this->modelClass]
-				)
+				'email' => array('newsletter' => 'users-account-created-admin'),
+				'var' => array('NewUser' => $user[$this->modelClass])
 			));
 			$this->Event->trigger('systemEmail', array(
 				'email' => $email,

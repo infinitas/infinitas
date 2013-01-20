@@ -3,6 +3,7 @@
 App::uses('Group', 'Users.Model');
 
 class GroupTestCase extends CakeTestCase {
+
 	public $fixtures = array(
 		'plugin.users.group'
 	);
