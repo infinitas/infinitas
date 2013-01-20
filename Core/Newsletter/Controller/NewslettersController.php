@@ -48,34 +48,13 @@ class NewslettersController extends NewsletterAppController {
  */
 	public function contact() {
 		if (!empty($this->request->data)) {
-			$body = '<p>A new email has been sent from your site. The details are below</p>';
-			$body .= sprintf('<p>The sender: %s <%>s</p>', h($this->request->data[$this->modelClass]['name']), $this->request->data[$this->modelClass]['email']);
-			$body .= sprintf('<p>IP address: %s</p>', $this->Auth->user('ip_address'));
-			$body .= '<p>=====================================================</p>';
-			$body .= htmlspecialchars($this->request->data[$this->modelClass]['query']);
-
-			$subject = strip_tags($this->request->data[$this->modelClass]['subject']);
-			if (empty($this->request->data[$this->modelClass]['subject'])) {
-				$subject = sprintf('New email from %s', Configure::read('Website.name'));
-			}
-
-			foreach (ClassRegistry::init('Users.User')->find('adminEmails') as $username => $email) {
-				try {
-					$this->Emailer->sendDirectMail(array($email => $username), array(
-						'subject' => $subject,
-						'body' => $body,
-						'from' => array(
-							$this->request->data[$this->modelClass]['email'] => $this->request->data[$this->modelClass]['name']
-						)
-					));
-				} catch (Exception $e) {
-					$this->notice($e->getMessage(), array(
-						'redirect' => '',
-						'level' => 'warning',
-					));
-				}
-			}
-
+			$this->request->data[$this->modelClass]['ip_address'] = $this->Auth->user('ip_address');
+			$this->request->data[$this->modelClass]['query'] = htmlspecialchars($this->request->data[$this->modelClass]['query']);
+			$this->Event->trigger('adminEmail', array(
+				'email' => array('newsletter' => 'newsletter-contact-admin'),
+				'var' => array('Newsletter' => $this->request->data[$this->modelClass])
+			));
+			
 			$this->notice('sent');
 		}
 
