@@ -1,5 +1,7 @@
 <?php
-class AllNewsletterTestsTest extends PHPUnit_Framework_TestSuite {
+App::uses('AllTestsBase', 'Test/Lib');
+
+class AllNewsletterTestsTest extends AllTestsBase {
 
 /**
  * Suite define the tests for this suite

@@ -1,5 +1,7 @@
 <?php
-class AllShortUrlsTestsTest extends PHPUnit_Framework_TestSuite {
+App::uses('AllTestsBase', 'Test/Lib');
+
+class AllShortUrlsTestsTest extends AllTestsBase {
 
 /**
  * Suite define the tests for this suite
