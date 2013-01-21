@@ -1,7 +1,7 @@
 <?php
 App::uses('AllTestsBase', 'Test/Lib');
 
-class AllTestsTest extends AllTestsBase {
+class AllInfinitasTestsTest extends AllTestsBase {
 
 /**
  * Suite define the tests for this suite
