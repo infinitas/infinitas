@@ -55,7 +55,7 @@ class InfinitasView extends View {
  *
  * @return void
  */
-	public function __construct(Controller $Controller) {
+	public function __construct(Controller $Controller = null) {
 		$this->Mustache = new Mustache();
 		parent::__construct($Controller);
 
