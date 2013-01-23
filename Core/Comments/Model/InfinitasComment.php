@@ -37,7 +37,8 @@ class InfinitasComment extends CommentsAppModel {
 	public $findMethods = array(
 		'linkedComments' => true,
 		'adminIndex' => true,
-		'otherCommentors' => true
+		'otherCommentors' => true,
+		'urlData' => true
 	);
 
 /**
@@ -166,7 +167,66 @@ class InfinitasComment extends CommentsAppModel {
 		return $results;
 	}
 
-	protected function _findLinkedComments($state, $query, $results = array()) {
+/**
+ * Get the data required to link to a comment
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ *
+ * @throws InvalidArgumentException
+ */
+	protected function _findUrlData($state, array $query, array $results = array()) {
+		if ($state == 'before') {
+			if (empty($query[0])) {
+				throw new InvalidArgumentException(__d('comments', 'Unknown comment selected'));
+			}
+
+			$query['fields'] = array_merge((array)$query['fields'], array(
+				$this->alias . '.class',
+				$this->alias . '.foreign_id'
+			));
+
+			$query['conditions'] = array_merge((array)$query['conditions'], array(
+				$this->alias . '.' . $this->primaryKey => $query[0]
+			));
+
+			$query['limit'] = 1;
+
+			return $query;
+		}
+
+		if (empty($results)) {
+			return array();
+		}
+		$results = $results[0][$this->alias];
+
+		list($plugin, $model) = pluginSplit($results['class']);
+		return array(
+			'data' => array(
+				$model => array(
+					ClassRegistry::init($results['class'])->primaryKey => $results['foreign_id'],
+				)
+			),
+			'id' => $query[0],
+			'plugin' => Inflector::camelize($plugin),
+			'model' => $model,
+			'class' => $results['class'],
+		);
+	}
+
+/**
+ * Find comments linked
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return string
+ */
+	protected function _findLinkedComments($state, array $query, array $results = array()) {
 		if ($state === 'before') {
 			$query['fields'] = array_merge((array)$query['fields'],array(
 				$this->alias . '.id',
@@ -403,6 +463,15 @@ class InfinitasComment extends CommentsAppModel {
 		return $comments;
 	}
 
+/**
+ * Block ip addresse
+ *
+ * This will only allow block ip addresses of users that have posted comments before
+ *
+ * @param array $ipAddresses
+ *
+ * @return void
+ */
 	public function blockIp($ipAddresses) {
 		$IpAddress = ClassRegistry::init('Security.IpAddress');
 		if (!is_array($ipAddresses)) {
