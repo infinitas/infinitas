@@ -125,6 +125,7 @@ class InfinitasComment extends CommentsAppModel {
 				$this->alias . '.class' => $query['class'],
 				$this->alias . '.foreign_id' => $query['foreign_id'],
 				$this->alias . '.active' => 1,
+				$this->alias . '.subscribed' => 1,
 			));
 
 			if ($query['email']) {

@@ -23,6 +23,7 @@ class CommentsSchema extends CakeSchema {
 		'user_id' => array('type' => 'string', 'null' => false, 'default' => '0', 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'comment' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'subscribed' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'active' => array('type' => 'boolean', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'rating' => array('type' => 'integer', 'null' => false, 'default' => NULL),
 		'points' => array('type' => 'integer', 'null' => false, 'default' => NULL),
