@@ -33,7 +33,8 @@ class InfinitasRoute extends CakeRoute {
 	public function parse($url) {
 		$params = parent::parse($url);
 
-		if (!empty($params['plugin'])) {
+		$admin = array_key_exists('admin', (array)$params) && $params['admin'];
+		if (!$admin && !empty($params['plugin'])) {
 			$plugin = Inflector::camelize($params['plugin']);
 			$data = current(EventCore::trigger($this, $plugin . '.routeParse', $params));
 
