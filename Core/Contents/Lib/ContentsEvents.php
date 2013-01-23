@@ -224,6 +224,25 @@ class ContentsEvents extends AppEvents {
 		}
 
 		switch($data['type']) {
+			case 'global_contents':
+				$data = ClassRegistry::init('Contents.GlobalContent')->find('first', array(
+					'conditions' => array(
+						'GlobalContent.id' => $data['data']['id']
+					)
+				));
+				list($plugin, $model) = pluginSplit($data['GlobalContent']['model']);
+				$data = current(EventCore::trigger($this->Handler, $plugin . '.slugUrl', array(
+					'data' => array(
+						$model => $data['GlobalContent'],
+						'GlobalCategory' => $data['GlobalCategory']
+					),
+				)));
+				if (!empty($data[$plugin])) {
+					return $data[$plugin];
+				}
+				return array();
+				break;
+
 			case 'Contents.GlobalCategory':
 				$data['type'] = 'category';
 				break;
