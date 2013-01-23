@@ -92,6 +92,19 @@ class InfinitasComment extends CommentsAppModel {
 		);
 	}
 
+/**
+ * Find details of other commentors on the thread
+ *
+ * Finds other active commentors on the thread so they can be notified of updates
+ *
+ * @param string $state
+ * @param array $query
+ * @param array $results
+ *
+ * @return array
+ *
+ * @throws InvalidArgumentException
+ */
 	protected function _findOtherCommentors($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			if (empty($query['class'])) {
@@ -110,6 +123,7 @@ class InfinitasComment extends CommentsAppModel {
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
 				$this->alias . '.class' => $query['class'],
 				$this->alias . '.foreign_id' => $query['foreign_id'],
+				$this->alias . '.active' => 1,
 			));
 
 			if ($query['email']) {
