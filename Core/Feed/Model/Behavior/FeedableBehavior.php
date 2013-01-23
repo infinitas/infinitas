@@ -31,7 +31,7 @@ class FeedableBehavior extends ModelBehavior {
  *
  * @var array
  */
-	protected $_results = null;
+	protected $_results = array();
 
 /**
  * Basic cake find options
@@ -46,8 +46,9 @@ class FeedableBehavior extends ModelBehavior {
 		'joins' => array(),
 		'group' => array(),
 		'fields' => array(),
-
 	);
+
+	public $mapMethods = array('/\b_findFeed\b/' => '_findFeed');
 
 /**
  * Setup the behavior
@@ -73,7 +74,7 @@ class FeedableBehavior extends ModelBehavior {
  *
  * Fetches data from many models as a single record set, being able to order by
  * a created field across all the different tables in one query
- * 
+ *
  * @param Model $Model
  * @param string $state
  * @param array $query
@@ -81,14 +82,13 @@ class FeedableBehavior extends ModelBehavior {
  *
  * @return array
  */
-	protected function _findFeed(Model $Model, $state, $query, $results = array()) {
+	public function _findFeed(Model $Model, $method, $state, $query, $results = array()) {
 		if ($state == 'before') {
-			if (!isset($query['feed'])) {
+			if (empty($query['feed'])) {
 				return $query;
 			}
 
 			$DboMysql = Connectionmanager::getDataSource($Model->useDbConfig);
-
 
 			$sql = '';
 			foreach ((array)$query['feed'] as $key => $feed) {
@@ -98,36 +98,30 @@ class FeedableBehavior extends ModelBehavior {
 				$currentModel = ClassRegistry::init($key);
 
 				$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($feed['setup']), false, false)));
-				$sql .= $DboMysql->renderStatement(
-					'select',
-					array(
-						'fields' => implode(', ', array_merge($DboMysql->fields($currentModel, null, (array)$feed['fields']), $setup)),
-						'table' => $DboMysql->fullTableName($currentModel),
-						'alias' => ' AS ' . $currentModel->alias,
-						'joins' => '',
-						'conditions' => $DboMysql->conditions($feed['conditions']),
-						'group' => '',
-						'order' => $DboMysql->order($feed['order']),
-						'limit' => $DboMysql->limit($feed['limit'])
-					)
-				);
+				$sql .= $DboMysql->renderStatement('select', array(
+					'fields' => implode(', ', array_merge($DboMysql->fields($currentModel, null, (array)$feed['fields']), $setup)),
+					'table' => $DboMysql->fullTableName($currentModel),
+					'alias' => ' AS ' . $currentModel->alias,
+					'joins' => '',
+					'conditions' => $DboMysql->conditions($feed['conditions']),
+					'group' => '',
+					'order' => $DboMysql->order($feed['order']),
+					'limit' => $DboMysql->limit($feed['limit'])
+				));
 			}
 
 			$query = array_merge($this->basicStatement, $query);
 			$setup = explode(' AND ', str_replace(array('=', '`'), array('AS', '\''), $DboMysql->conditions(array_flip($query['setup']), false, false)));
-			$sql = $DboMysql->renderStatement(
-				'select',
-				array(
-					'fields' => implode(', ', array_merge($DboMysql->fields($Model, null, (array)$query['fields']), $setup)),
-					'table' => $DboMysql->fullTableName($Model),
-					'alias' => ' AS '.$Model->alias,
-					'joins' => '',
-					'conditions' => $DboMysql->conditions($query['conditions']),
-					'group' => $sql, // @todo slight hack
-					'order' => $DboMysql->order($query['order']),
-					'limit' => $DboMysql->limit($query['limit'])
-				)
-			);
+			$sql = $DboMysql->renderStatement('select', array(
+				'fields' => implode(', ', array_merge($DboMysql->fields($Model, null, (array)$query['fields']), $setup)),
+				'table' => $DboMysql->fullTableName($Model),
+				'alias' => ' AS ' . $Model->alias,
+				'joins' => '',
+				'conditions' => $DboMysql->conditions($query['conditions']),
+				'group' => $sql, // @todo slight hack
+				'order' => $DboMysql->order($query['order']),
+				'limit' => $DboMysql->limit($query['limit'])
+			));
 
 			$_results = $Model->query($sql);
 

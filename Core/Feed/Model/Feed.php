@@ -40,20 +40,20 @@ class Feed extends FeedAppModel {
  */
 	public $hasAndBelongsToMany = array(
 		'FeedsFeed' => array(
-			'className'			  => 'Feed.FeedsFeed',
-			'joinTable'			  => 'global_feeds_feeds',
-			'with'				   => 'Feed.FeedsFeed',
-			'foreignKey'			 => 'main_feed_id',
-			'associationForeignKey'  => 'sub_feed_id',
-			'unique'				 => true,
-			'conditions'			 => '',
-			'fields'				 => '',
-			'order'				  => '',
-			'limit'				  => '',
-			'offset'				 => '',
-			'finderQuery'			=> '',
-			'deleteQuery'			=> '',
-			'insertQuery'			=> ''
+			'className'	=> 'Feed.FeedsFeed',
+			'joinTable'	=> 'global_feeds_feeds',
+			'with' => 'Feed.FeedsFeed',
+			'foreignKey' => 'main_feed_id',
+			'associationForeignKey' => 'sub_feed_id',
+			'unique' => true,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => ''
 		)
 	);
 
@@ -107,19 +107,16 @@ class Feed extends FeedAppModel {
  * @return array
  */
 	public function listFeeds() {
-		$feeds = $this->find(
-			'all',
-			array(
-				'conditions' => array(
-					$this->alias . '.active' => 1
-				),
-				'fields' => array(
-					$this->alias . '.id',
-					$this->alias . '.name',
-					$this->alias . '.slug'
-				)
+		$feeds = $this->find('all', array(
+			'conditions' => array(
+				$this->alias . '.active' => 1
+			),
+			'fields' => array(
+				$this->alias . '.id',
+				$this->alias . '.name',
+				$this->alias . '.slug'
 			)
-		);
+		));
 
 		$return = array();
 		foreach ($feeds as $feed) {
@@ -150,42 +147,38 @@ class Feed extends FeedAppModel {
 			return array();
 		}
 
-		$mainFeed = $this->find(
-			'first',
-			array(
-				'conditions' => array(
-					'Feed.active' => 1,
-					//'Feed.group_id > ' => $grouId,
-					'Feed.slug' => $slug
-				)
+		$mainFeed = $this->find('first', array(
+			'conditions' => array(
+				'Feed.active' => 1,
+				//'Feed.group_id > ' => $grouId,
+				'Feed.slug' => $slug
 			)
-		);
+		));
 
 		if (empty($mainFeed)) {
 			return array();
 		}
 
-		$items = ClassRegistry::init('Feed.FeedsFeed')->find(
-			'list',
-			array(
-				'conditions' => array('FeedsFeed.main_feed_id' => $mainFeed['Feed']['id']),
-				'fields' => array('FeedsFeed.sub_feed_id', 'FeedsFeed.sub_feed_id')
-			)
-		);
+		$items = ClassRegistry::init('Feed.FeedsFeed')->find('list', array(
+			'fields' => array(
+				'FeedsFeed.sub_feed_id',
+				'FeedsFeed.sub_feed_id'
+			),
+			'conditions' => array(
+				'FeedsFeed.main_feed_id' => $mainFeed['Feed']['id']
+			),
+		));
 
 		if (empty($items)) {
 			return array();
 		}
 
-		$items = $this->find(
-			'all',
-			array(
-				'conditions' => array(
-					'Feed.id' => $items,
-					'Feed.active' => 1
-				)
+		$items = $this->find('all', array(
+			'conditions' => array(
+				'Feed.id' => $items,
+				'Feed.active' => 1
 			)
-		);
+		));
 
 
 		if (empty($items)) {
@@ -210,35 +203,39 @@ class Feed extends FeedAppModel {
 		if (empty($feed)) {
 			return array();
 		}
-		$query = array();
-		$query['fields']	 = $feed['Feed']['fields'];
-		//$query['conditions'] = $feed['Feed']['conditions'];
-		//$query['order']	  = $feed['Feed']['order'];
-		$query['limit']	  = $feed['Feed']['limit'];
-		$query['setup']	  = array(
+		$emptyQuery = array(
+			'fields' => array(),
+			'conditions' => array(),
+			'order' => array(),
+			'limit' => null,
+			'setup' => array(),
+		);
+		$query = $emptyQuery;
+		$query['fields'] = $feed['Feed']['fields'];
+		$query['conditions'] = $feed['Feed']['conditions'];
+		$query['order'] = $feed['Feed']['order'];
+		$query['limit'] = $feed['Feed']['limit'];
+		$query['setup'] = array(
 			'plugin' => $feed['Feed']['plugin'],
 			'controller' => $feed['Feed']['controller'],
 			'action' => $feed['Feed']['action']
 		);
 
 		foreach ($feed['FeedItem'] as $item) {
-			$plugin = Inflector::camelize($item['plugin']);
-			$controller = Inflector::camelize(Inflector::singularize($item['controller']));
-			$query['feed'][$plugin.'.'.$controller] = array(
+			$query['feed'][$item['model']] = array_merge($emptyQuery, array(
 				'setup' => array(
 					'plugin' => $item['plugin'],
 					'controller' => $item['controller'],
 					'action' => $item['action']
 				),
 				'fields'	 => $item['fields'],
-				//'conditions' => $item['conditions'],
-				//'limit'	  => $item['limit']
-			);
+				'conditions' => $item['conditions'],
+				//'limit'	 => $item['limit']
+			));
 		}
 
-		$_Model = ClassRegistry::init($feed['Feed']['plugin'] . '.' . Inflector::camelize(Inflector::singularize($feed['Feed']['controller'])));
-
-		return $_Model->find('feed', $query);
+		$Model = ClassRegistry::init($feed['Feed']['model']);
+		$Model->Behaviors->attach('Feed.Feedable');
+		return $Model->find('feed', $query);
 	}
-
 }
