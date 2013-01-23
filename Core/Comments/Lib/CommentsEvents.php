@@ -27,7 +27,8 @@ class CommentsEvents extends AppEvents {
 			'dashboard' => array(
 				'plugin' => 'comments',
 				'controller' => 'infinitas_comments',
-				'action' => 'index'
+				'action' => 'index',
+				'InfinitasComment.active' => 1
 			)
 		);
 	}

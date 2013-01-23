@@ -503,6 +503,7 @@ class InfinitasComment extends CommentsAppModel {
 				$this->alias . '.user_id',
 				$this->alias . '.comment',
 				$this->alias . '.active',
+				$this->alias . '.subscribed',
 				$this->alias . '.status',
 				$this->alias . '.points',
 				$this->alias . '.foreign_id',
