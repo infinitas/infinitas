@@ -89,6 +89,9 @@
 
 			$cloud = array();
 			foreach ($tags as $tag) {
+				$options['url'] = array_merge(array(
+					'plugin' => $this->request->params['plugin']
+				), $options['url']);
 				$options['url'][$options['named']] = $tag['GlobalTag']['keyname'];
 
 				$url = EventCore::trigger($this, Inflector::camelize($options['url']['plugin']) . '.slugUrl', array('type' => 'tag', 'data' => $options['url']));
