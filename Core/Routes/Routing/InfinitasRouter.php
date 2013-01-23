@@ -159,6 +159,22 @@ class InfinitasRouter extends Router {
 	}
 
 /**
+ * Get request params for slug routing
+ *
+ * @param array $requestData
+ *
+ * @return array
+ */
+	public static function requestParams(array $requestData) {
+		$_keys = array_diff(
+			array_keys($requestData),
+			array('plugin', 'controller', 'action', 'named')
+		);
+		extract($requestData);
+		return compact($_keys);
+	}
+
+/**
  * Build routes for the app.
  *
  * Allows other plugins to register routes to be used in the app and builds
