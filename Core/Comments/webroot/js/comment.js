@@ -1,13 +1,16 @@
-$(document).ready(function(){
-	$('.comment textarea').focus(function(){
-		$(this).css('height', '125px');
-		$(this).siblings('input.submit').show();
+$(document).ready(function() {
+	$('.comments a.reply').on('click', function() {
+		$($('.comments form input:visible').first()).focus();
+		return false;
 	});
 
-	$('.comment textarea').blur(function(){
-		if($(this).val() == ''){
-			$(this).siblings('input.submit').hide();
-			$(this).css('height', '15px');
+	$('.comments a.perma-link').on('mouseover', function() {
+		var $this = $(this);
+		if ($this.data('link')) {
+			return false;
 		}
+		$this.parent().append('<span class="permalink">' + $this.attr('href') + '</span>');
+		$this.data('link', 1);
+		return false;
 	});
 });
