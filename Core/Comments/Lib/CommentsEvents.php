@@ -148,7 +148,7 @@ class CommentsEvents extends AppEvents {
 
 /**
  * When a new comment is made send out all the emails
- * 
+ *
  * @param Event $Event
  * @param array $comment
  */
@@ -188,5 +188,18 @@ class CommentsEvents extends AppEvents {
 				)
 			));
 		}
+	}
+
+	public function onSlugUrl(Event $Event, array $data) {
+		if (!empty($data['data']['id'])) {
+			$url = ClassRegistry::init('Comments.InfinitasComment')->find('urlData', $data['data']['id']);
+			$data = current(EventCore::trigger($Event->Handler, $url['plugin'] . '.slugUrl', $url['data']));
+
+			$data[$url['plugin']]['#'] = $url['id'];
+			$data[$url['plugin']][] = $data[$url['plugin']]['id'];
+			unset($data[$url['plugin']]['id']);
+			return $data[$url['plugin']];
+		}
+		return array();
 	}
 }
