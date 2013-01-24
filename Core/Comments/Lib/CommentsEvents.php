@@ -164,7 +164,7 @@ class CommentsEvents extends AppEvents {
 
 		EventCore::trigger($Event->Handler, 'adminEmail', array(
 			'email' => array(
-				'newsletter' => 'comments-new-admin',
+				'newsletter' => 'Comments.new-admin',
 			),
 			'var' => array(
 				'Comment' => $comment
@@ -181,7 +181,7 @@ class CommentsEvents extends AppEvents {
 				'email' => array(
 					'email' => $otherComment['InfinitasComment']['email'],
 					'name' => $otherComment['InfinitasComment']['name'],
-					'newsletter' => 'comments-new-user'
+					'newsletter' => 'Comments.new-user'
 				),
 				'var' => array(
 					'Comment' => $comment,

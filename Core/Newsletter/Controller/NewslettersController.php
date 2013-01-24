@@ -51,7 +51,7 @@ class NewslettersController extends NewsletterAppController {
 			$this->request->data[$this->modelClass]['ip_address'] = $this->Auth->user('ip_address');
 			$this->request->data[$this->modelClass]['query'] = htmlspecialchars($this->request->data[$this->modelClass]['query']);
 			$this->Event->trigger('adminEmail', array(
-				'email' => array('newsletter' => 'newsletter-contact-admin'),
+				'email' => array('newsletter' => 'Newsletter.contact-admin'),
 				'var' => array('Newsletter' => $this->request->data[$this->modelClass])
 			));
 

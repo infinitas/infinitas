@@ -85,7 +85,7 @@ class NewsletterSubscribersController extends NewsletterAppController {
 			));
 			$this->Event->trigger('systemEmail', array(
 				'email' => array(
-					'newsletter' => 'newsletter-confirm-subscription',
+					'newsletter' => 'Newsletter.confirm-subscription',
 					'email' => $this->request->data[$this->modelClass]['email'],
 					'name' => $this->request->data[$this->modelClass]['prefered_name'],
 				),
@@ -115,7 +115,7 @@ class NewsletterSubscribersController extends NewsletterAppController {
 		if ($subscription) {
 			$subscription[$this->modelClass]['name'] = $subscription[$this->modelClass]['prefered_name'];
 			$this->Event->trigger('adminEmail', array(
-				'email' => array('newsletter' => 'newsletter-new-subscriber-admin'),
+				'email' => array('newsletter' => 'Newsletter.new-subscriber-admin'),
 				'var' => array('Subscriber' => $subscription[$this->modelClass])
 			));
 
@@ -123,7 +123,7 @@ class NewsletterSubscribersController extends NewsletterAppController {
 				'email' => array(
 					'email' => $subscription[$this->modelClass]['email'],
 					'name' => $subscription[$this->modelClass]['prefered_name'],
-					'newsletter' => 'newsletter-new-subscriber'
+					'newsletter' => 'Newsletter.new-subscriber'
 				),
 				'var' => array(
 					'User' => $subscription[$this->modelClass]

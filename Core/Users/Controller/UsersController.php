@@ -251,14 +251,14 @@ class UsersController extends UsersAppController {
 				);
 				if (!$data[$this->modelClass]['active']) {
 					$flashMessage = __d('users', 'Thank you, please check your email to complete your registration');
-					$email['newsletter'] = 'users-confirm-registration';
+					$email['newsletter'] = 'Users.confirm-registration';
 				} else {
 					$flashMessage = __d('users', 'Thank you, your registration was completed');
-					$email['newsletter'] = 'users-account-created';
+					$email['newsletter'] = 'Users.account-created';
 
 					$this->Event->trigger('adminEmail', array(
 						'email' => array(
-							'newsletter' => 'users-account-created-admin'
+							'newsletter' => 'Users.account-created-admin'
 						),
 						'var' => array(
 							'NewUser' => $data[$this->modelClass]
@@ -302,17 +302,16 @@ class UsersController extends UsersAppController {
 	public function activate($hash = null) {
 		$user = $this->{$this->modelClass}->saveActivation($hash);
 		if ($user) {
-			$email = array(
-				'email' => $user[$this->modelClass]['email'],
-				'name' => $user[$this->modelClass]['prefered_name'] ?: $user[$this->modelClass]['username'],
-				'newsletter' => 'users-account-created'
-			);
 			$this->Event->trigger('adminEmail', array(
-				'email' => array('newsletter' => 'users-account-created-admin'),
+				'email' => array('newsletter' => 'Users.account-created-admin'),
 				'var' => array('NewUser' => $user[$this->modelClass])
 			));
 			$this->Event->trigger('systemEmail', array(
-				'email' => $email,
+				'email' => array(
+					'email' => $user[$this->modelClass]['email'],
+					'name' => $user[$this->modelClass]['prefered_name'] ?: $user[$this->modelClass]['username'],
+					'newsletter' => 'Users.account-created'
+				),
 				'var' => $user
 			));
 			$this->Event->trigger('userActivation', $user[$this->modelClass]);
@@ -350,14 +349,13 @@ class UsersController extends UsersAppController {
 			$link = current($this->Event->trigger('getShortUrl', array('url' => InfinitasRouter::url(array('action' => 'reset_password', $ticket)))));
 
 			$theUser[$this->modelClass]['reset_link'] = InfinitasRouter::url($link['ShortUrls']);
-			$email = array(
-				'email' => $theUser[$this->modelClass]['email'],
-				'name' => $theUser[$this->modelClass]['prefered_name'] ?: $theUser[$this->modelClass]['username'],
-				'newsletter' => 'users-forgot-password'
-			);
 			try {
 				$this->Event->trigger('systemEmail', array(
-					'email' => $email,
+					'email' => array(
+						'email' => $theUser[$this->modelClass]['email'],
+						'name' => $theUser[$this->modelClass]['prefered_name'] ?: $theUser[$this->modelClass]['username'],
+						'newsletter' => 'Users.forgot-password'
+					),
 					'var' => $theUser
 				));
 			} catch (Exception $e) {

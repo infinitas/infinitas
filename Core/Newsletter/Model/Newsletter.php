@@ -300,8 +300,13 @@ class Newsletter extends NewsletterAppModel {
 	protected function _findEmail($state, array $query, array $results = array()) {
 		if ($state == 'before') {
 			if (empty($query[0])) {
-				throw new CakeException(__d('newsletter', 'No email selected'));
+				throw new InvalidArgumentException(__d('newsletter', 'No email selected'));
 			}
+
+			if (strstr('.', $query[0])) {
+				throw new InvalidArgumentException(__d('newsletter', 'Invalid newsletter "%s"'));
+			}
+
 
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.' . $this->primaryKey,
@@ -315,8 +320,10 @@ class Newsletter extends NewsletterAppModel {
 				$this->NewsletterTemplate->alias . '.footer',
 			));
 
+			list ($plugin, $email) = pluginSplit($query[0]);
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
-				$this->alias . '.slug' => $query[0]
+				$this->alias . '.plugin' => $plugin,
+				$this->alias . '.slug' => $email
 			));
 
 			$query['joins'] = (array)$query['joins'];
