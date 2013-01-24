@@ -33,8 +33,13 @@ echo $this->Form->create('Newsletter');
 		)),
 		$this->Html->tag('div', implode('', array(
 			$this->Form->input('slug'),
-			$this->Form->input('campaign_id', array(
-				'empty' => Configure::read('Website.empty_select')
+			$this->Form->input('plugin', array(
+				'options' => $plugins,
+				'type' => 'select'
+			)),
+			$this->Form->input('newsletter_campaign_id', array(
+				'empty' => Configure::read('Website.empty_select'),
+				__d('newsletter', 'Campaign')
 			)),
 			$this->Form->input('from'),
 			$this->Form->input('reply_to'),

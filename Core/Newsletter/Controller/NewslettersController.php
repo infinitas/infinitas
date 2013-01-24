@@ -54,7 +54,7 @@ class NewslettersController extends NewsletterAppController {
 				'email' => array('newsletter' => 'newsletter-contact-admin'),
 				'var' => array('Newsletter' => $this->request->data[$this->modelClass])
 			));
-			
+
 			$this->notice('sent');
 		}
 
@@ -231,18 +231,38 @@ class NewslettersController extends NewsletterAppController {
 	public function admin_add() {
 		if ($this->request->isPost()) {
 			$this->request->data[$this->modelClass]['newsletter_template_id'] = $this->{$this->modelClass}->NewsletterCampaign->field('newsletter_template_id', array(
-				'NewsletterCampaign.id' => $this->request->data[$this->modelClass]['campaign_id']
+				'NewsletterCampaign.id' => $this->request->data[$this->modelClass]['newsletter_campaign_id']
 			));
 		}
 
 		parent::admin_add();
 
-		$campaigns = $this->{$this->modelClass}->NewsletterCampaign->find('list');
-		if (empty($campaigns)) {
+		$newsletterCampaigns = $this->{$this->modelClass}->NewsletterCampaign->find('list');
+		if (empty($newsletterCampaigns)) {
 			$this->notice('no_campaigns');
 		}
 
-		$this->set(compact('campaigns'));
+		$plugins = $this->{$this->modelClass}->getPlugins();
+		$this->set(compact('plugins', 'newsletterCampaigns'));
+	}
+
+/**
+ * Edit a newsletter
+ *
+ * @param string $id the newsletter id
+ *
+ * @return void
+ */
+	public function admin_edit($id = null) {
+		parent::admin_edit($id);
+
+		$newsletterCampaigns = $this->{$this->modelClass}->NewsletterCampaign->find('list');
+		if (empty($newsletterCampaigns)) {
+			$this->notice('no_campaigns');
+		}
+
+		$plugins = $this->{$this->modelClass}->getPlugins();
+		$this->set(compact('plugins', 'newsletterCampaigns'));
 	}
 
 /**
@@ -295,19 +315,6 @@ class NewslettersController extends NewsletterAppController {
 		}
 
 		$this->set('newsletter', $this->{$this->modelClass}->read(null, $id));
-	}
-
-/**
- * Edit a newsletter
- *
- * @param string $id the newsletter id
- *
- * @return void
- */
-	public function admin_edit($id = null) {
-		parent::admin_edit();
-
-		$this->set('campaigns', $this->{$this->modelClass}->NewsletterCampaign->find('list'));
 	}
 
 /**

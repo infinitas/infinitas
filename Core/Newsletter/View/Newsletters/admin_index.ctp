@@ -35,11 +35,9 @@
 			$this->Form->checkbox('all') => array(
 				'class' => 'first'
 			),
+			$this->Paginator->sort('NewsletterCampaign.name', __d('newsletter', 'Campaign')),
 			$this->Paginator->sort('slug', __d('newsletter', 'Alias')),
 			$this->Paginator->sort('subject'),
-			$this->Paginator->sort('NewsletterCampaign.name', __d('newsletter', 'Campaign')) => array(
-				'class' => 'larger'
-			),
 			$this->Paginator->sort('from') => array(
 				'class' => 'large'
 			),
@@ -57,7 +55,16 @@
 					<td><?php echo $this->Infinitas->massActionCheckBox($newsletter); ?>&nbsp;</td>
 					<td>
 						<?php
-							echo $this->Html->link($newsletter['Newsletter']['slug'], array(
+							echo $this->Html->link($newsletter['NewsletterCampaign']['name'], array(
+								'controller' => 'newsletter_campaigns',
+								'action' => 'edit',
+								$newsletter['Newsletter']['newsletter_campaign_id']
+							));
+						?>&nbsp;
+					</td>
+					<td>
+						<?php
+							echo $this->Html->link(implode('.', array($newsletter['Newsletter']['plugin'], $newsletter['Newsletter']['slug'])), array(
 								'action' => 'edit',
 								$newsletter['Newsletter']['id']
 							));
@@ -66,18 +73,22 @@
 					<td><?php echo $newsletter['Newsletter']['subject']; ?>&nbsp;</td>
 					<td>
 						<?php
-							echo $this->Html->link(
-								$newsletter['NewsletterCampaign']['name'],
-								array(
-									'controller' => 'newsletter_campaigns',
-									'action' => 'edit',
-									$newsletter['Newsletter']['newsletter_campaign_id']
-								)
-							);
+							if ($newsletter['Newsletter']['from']) {
+								echo $this->Text->autoLinkEmails($newsletter['Newsletter']['from']);
+							} else {
+								echo '-';
+							}
 						?>&nbsp;
 					</td>
-					<td><?php echo $this->Text->autoLinkEmails($newsletter['Newsletter']['from']); ?>&nbsp;</td>
-					<td><?php echo $this->Text->autoLinkEmails($newsletter['Newsletter']['reply_to']); ?>&nbsp;</td>
+					<td>
+						<?php
+							if ($newsletter['Newsletter']['reply_to']) {
+								echo $this->Text->autoLinkEmails($newsletter['Newsletter']['reply_to']);
+							} else {
+								echo '-';
+							}
+						?>&nbsp;
+					</td>
 					<td>
 						<?php
 							if ($newsletter['Newsletter']['active'] && !$newsletter['Newsletter']['sent']) {

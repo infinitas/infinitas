@@ -99,23 +99,17 @@ class Newsletter extends NewsletterAppModel {
 				)
 			),
 			'from' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => __d('newsletter', 'Please enter the from address')
-				),
 				'email' => array(
 					'rule' => array('email', true),
-					'message' => __d('newsletter', 'Please enter a valid email addres')
+					'message' => __d('newsletter', 'Please enter a valid email addres'),
+					'allowEmpty' => true
 				)
 			),
 			'reply_to' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'message' => __d('newsletter', 'Please enter the reply to email')
-				),
 				'email' => array(
 					'rule' => array('email', true),
-					'message' => __d('newsletter', 'Please enter a valid email addres')
+					'message' => __d('newsletter', 'Please enter a valid email addres'),
+					'allowEmpty' => true
 				)
 			),
 			'subject' => array(
@@ -152,6 +146,7 @@ class Newsletter extends NewsletterAppModel {
 		if ($state == 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.' . $this->primaryKey,
+				$this->alias . '.plugin',
 				$this->alias . '.slug',
 				$this->alias . '.newsletter_campaign_id',
 				$this->alias . '.from',
@@ -167,6 +162,13 @@ class Newsletter extends NewsletterAppModel {
 			$query['joins'] = (array)$query['joins'];
 			$query['joins'][] = $this->autoJoinModel($this->NewsletterCampaign);
 
+			if (empty($query['order'])) {
+				$query['order'] = array(
+					$this->NewsletterCampaign->alias . '.' . $this->NewsletterCampaign->displayField,
+					$this->alias . '.plugin' => 'asc',
+					$this->alias . '.slug' => 'asc'
+				);
+			}
 			return $query;
 		}
 
