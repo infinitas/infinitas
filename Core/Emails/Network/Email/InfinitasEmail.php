@@ -51,7 +51,7 @@ class InfinitasEmail extends CakeEmail {
 			'to' => array($this->_fromEmail => $this->_fromName),
 			'cc' => null,
 			'bcc' => null,
-			'from' => null,
+			'from' => $this->_fromEmail,
 			'sender' => array($this->_fromEmail => $this->_fromName),
 			'replyTo' => null,
 			'subject' => 'Infinitas email',
@@ -98,6 +98,10 @@ class InfinitasEmail extends CakeEmail {
 
 				case 'from':
 				case 'replyTo':
+					if (empty($v)) {
+						$v = $this->_systemAccount;
+					}
+					
 				case 'sender':
 				case 'readReceipt':
 				case 'emailFormat':
@@ -162,6 +166,8 @@ class InfinitasEmail extends CakeEmail {
 			$config = ClassRegistry::init('Emails.EmailAccount')->find('systemAccount', array(
 				'config' => (string)$config
 			));
+
+			$this->_systemAccount = $config['email'];
 
 			$this->_buildConfigs($config);
 		}
