@@ -1,35 +1,29 @@
 <?php
-	/*
-	 * Short Description / title.
-	 *
-	 * Overview of what the file does. About a paragraph or two
-	 *
-	 * Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 *
-	 * @filesource
-	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
-	 * @link http://www.infinitas-cms.org
-	 * @package {see_below}
-	 * @subpackage {see_below}
-	 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-	 * @since {check_current_milestone_in_lighthouse}
-	 *
-	 * @author {your_name}
-	 *
-	 * Licensed under The MIT License
-	 * Redistributions of files must retain the above copyright notice.
-	 */
-	if (!isset($comments)) {
-		$comments = ClassRegistry::init('Comments.InfinitasComment')->getUsersComments(AuthComponent::user('id'));
-	}
+if (empty($comments)) {
+	echo $this->Design->alert('You have not made any comments');
+	return;
+}
 
-	if (count($comments) == 0) {
-		echo $this->Html->tag('p', __d('comments', 'You have not made any comments yet.'));
-		return true;
-	}
+foreach ($comments as &$comment) {
+	$primaryKey = ClassRegistry::init($comment['InfinitasComment']['class'])->primaryKey;
+	list($plugin, $model) = pluginSplit($comment['InfinitasComment']['class']);
+	$url = current($this->Event->trigger($plugin . '.slugUrl', array(
+		'data' => array(
+			$model => array(
+				$primaryKey => $comment['InfinitasComment']['foreign_id']
+			)
+		)
+	)));
+	$url[$plugin][] = $url[$plugin][$primaryKey];
+	unset($url[$plugin][$primaryKey]);
+	$url[$plugin]['#'] = $comment['InfinitasComment']['id'];
+	$comment = $this->Html->tag('div', implode('', array(
+		$this->Html->tag('h3', CakeTime::format(Configure::read('Blog.time_format'), $comment['InfinitasComment']['created'])),
+		String::truncate($comment['InfinitasComment']['comment']),
+		$this->Html->link(Configure::read('Website.read_more'), $url[$plugin], array(
+			'class' => 'perma-link'
+		))
+	)));
+}
 
-	foreach ($comments as $comment) {
-		$_comments[] = $this->element('Comments.single_comment', array('comment' => $comment));
-	}
-	echo implode('', $_comments);
-?>
+echo implode('', $comments);

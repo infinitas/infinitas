@@ -141,9 +141,18 @@ class CommentsEvents extends AppEvents {
  * @return array
  */
 	public function onUserProfile(Event $Event, array $user) {
+		$comments = ClassRegistry::init('Comments.InfinitasComment')->find('linkedComments', array(
+			'conditions' => array(
+				'InfinitasComment.user_id' => AuthComponent::user('id')
+			),
+			'limit' => 5
+		));
+
 		return array(
-			'title' => __d('comments', 'Comments'),
-			'content' => $Event->Handler->_View->element('Comments.profile')
+			'title' => __d('comments', 'Your Comments'),
+			'content' => $Event->Handler->_View->element('Comments.profile', array(
+				'comments' => $comments
+			))
 		);
 	}
 
