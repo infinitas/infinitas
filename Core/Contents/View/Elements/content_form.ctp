@@ -19,6 +19,7 @@ if (empty($model)) {
 } else if (!strstr($model, '.')) {
 	$model = ClassRegistry::init($model)->plugin . '.' . ClassRegistry::init($model)->alias;
 }
+list($p, $m) = pluginSplit($model);
 
 echo $this->Form->input('GlobalContent.id');
 echo $this->Form->hidden('GlobalContent.model', array(
@@ -34,7 +35,6 @@ if (!isset($image) || $image !== false) {
 			'label' => __d('contents', 'Content Image')
 		)
 	));
-	list($p, $m) = pluginSplit($model);
 	$thumb = null;
 	if (!empty($this->request->data[$m])) {
 		$thumb = $this->Html->link(
@@ -132,6 +132,26 @@ if (!empty($relatedContent)) {
 		));
 	}
 	echo $this->Html->tag('div', $this->Html->tag('ul', implode('', $relatedContent), array(
-		'class' => 'related-content',
+		'class' => 'related-content records',
+	)), array('class' => 'hide'));
+}
+
+if (!empty($tags)) {
+	foreach ($tags as &$tag) {
+		$url = current($this->Event->trigger($p . '.slugUrl', array(
+			'type' => 'tag',
+			'data' => array(
+				'tag' => $tag
+			)
+		)));
+		$url[$p]['admin'] = false;
+		$tag = $this->Html->tag('li', $tag, array(
+			'data-pk' => 'tag-' . $tag,
+			'data-text' => $tag,
+			'data-url' => InfinitasRouter::url($url[$p], false)
+		));
+	}
+	echo $this->Html->tag('div', $this->Html->tag('ul', implode('', $tags), array(
+		'class' => 'related-content tags',
 	)), array('class' => 'hide'));
 }
