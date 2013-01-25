@@ -116,3 +116,22 @@ if (!empty($metaFieldSet) && $metaFieldSet === true) {
 }
 
 echo sprintf($template, $fields);
+
+if (!empty($relatedContent)) {
+	foreach ($relatedContent as &$related) {
+		$related['url']['admin'] = false;
+		foreach ($related['tags'] as &$tag) {
+			$tag = $this->Html->link($tag, '#', array(
+				'class' => 'tag'
+			));
+		}
+		$related = $this->Html->tag('li', $related['text'] . implode('', $related['tags']), array(
+			'data-pk' => $related['pk'],
+			'data-text' => $related['text'],
+			'data-url' => InfinitasRouter::url($related['url'], false)
+		));
+	}
+	echo $this->Html->tag('div', $this->Html->tag('ul', implode('', $relatedContent), array(
+		'class' => 'related-content',
+	)), array('class' => 'hide'));
+}
