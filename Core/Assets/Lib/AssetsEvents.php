@@ -50,6 +50,7 @@ class AssetsEvents extends AppEvents {
 			'Assets.3rd/jquery_ui',
 			'Assets.3rd/metadata',
 			'Assets.3rd/load-image',
+			'Assets.3rd/tag-it',
 			'Assets.infinitas',
 			'Assets.libs/core',
 			'Assets.libs/form',
@@ -102,7 +103,8 @@ class AssetsEvents extends AppEvents {
  */
 	public function onRequireCssToLoad(Event $Event) {
 		$return = array(
-			'Assets.jquery_ui'
+			'Assets.jquery_ui',
+			'Assets.3rd/tag-it',
 		);
 
 		if (Configure::read('Assets.bootstrap')) {

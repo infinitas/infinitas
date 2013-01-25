@@ -103,6 +103,15 @@ switch(Infinitas.params.prefix) {
 					);
 				}
 			});
+
+			var $tags = $('#GlobalContentTags');
+			if ($tags) {
+				$tags.tagit({
+					availableTags: $tags.data('tags').split(','),
+					caseSensitive: false,
+					allowSpaces: true
+				});
+			}
 		});
 		break;
 
