@@ -141,7 +141,7 @@ if (!empty($tags)) {
 		$url = current($this->Event->trigger($p . '.slugUrl', array(
 			'type' => 'tag',
 			'data' => array(
-				'tag' => $tag
+				'tag' => strtolower(strreplace($tag))
 			)
 		)));
 		$url[$p]['admin'] = false;
