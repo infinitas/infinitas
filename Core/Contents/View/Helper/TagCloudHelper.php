@@ -66,7 +66,8 @@
 					'plugin' => $this->request->params['plugin'],
 					'action' => 'index'
 				),
-				'named' => 'by'
+				'named' => 'by',
+				'return' => false
 			);
 			$options = array_merge($defaults, array_filter($options));
 
@@ -106,6 +107,10 @@
 						'class' => 'tag tag-' . $tag['GlobalTag']['id']
 					)
 				) . ' ';
+			}
+
+			if ($options['return']) {
+				return $cloud;
 			}
 
 			return implode($options['between'], $cloud);
