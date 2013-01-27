@@ -105,7 +105,7 @@ switch(Infinitas.params.prefix) {
 			});
 
 			var $tags = $('#GlobalContentTags');
-			if ($tags) {
+			if ($tags.length) {
 				$tags.tagit({
 					availableTags: $tags.data('tags').split(','),
 					caseSensitive: false,
