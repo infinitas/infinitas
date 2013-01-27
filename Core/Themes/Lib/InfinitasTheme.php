@@ -32,7 +32,7 @@ class InfinitasTheme {
  *
  * @throws CakeException
  */
-	public static function defaultThemeInstall($theme = 'infinitas') {
+	public static function defaultThemeInstall($theme = 'Infinitas') {
 		if (!self::install($theme)) {
 			throw new CakeException(sprintf('Could not configure the default theme "%s", make sure to clone / download it', $theme));
 		}
