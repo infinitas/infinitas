@@ -106,7 +106,7 @@
 					array(
 						'class' => 'tag tag-' . $tag['GlobalTag']['id']
 					)
-				) . ' ';
+				);
 			}
 
 			if ($options['return']) {
