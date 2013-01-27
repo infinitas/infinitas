@@ -1006,6 +1006,10 @@
 				}
 			}
 
+			if (!empty($this->request->params['pass'])) {
+				return $url;
+			}
+
 			$keyUrl = $url;
 			if (is_array($keyUrl)) {
 				$keyUrl += $this->urlExtras;
