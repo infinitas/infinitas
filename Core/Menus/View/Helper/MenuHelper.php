@@ -241,7 +241,7 @@ class MenuHelper extends InfinitasHelper {
 		$config = array_merge(array(
 			'class' => null,
 			'id' => null
-		), $config);
+		), (array)$config);
 
 		$this->_menuData = String::insert('<ul class=":class" id=":id">', $config);
 		foreach ($data as $k => $v) {
