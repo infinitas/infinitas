@@ -1007,7 +1007,7 @@
 			}
 
 			if (!empty($this->request->params['pass'])) {
-				return $url;
+				return parent::url($url);
 			}
 
 			$keyUrl = $url;
@@ -1027,9 +1027,8 @@
 				return $this->urlCache[$key];
 			}
 
-			$url = parent::url($url, $full);
-			$this->urlCache[$key] = $url;
+			$this->urlCache[$key] = parent::url($url, $full);
 
-			return $url;
+			return $this->urlCache[$key];
 		}
 	}
