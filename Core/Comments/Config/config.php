@@ -22,5 +22,6 @@ $config['Comments'] = array(
 
 	'spam_threshold' => -25, // below this things are just ignored
 	'maximum_links' => 2,    // number of links before things are considered spammy
-	'minimum_length' => 20   // below this its spammy
+	'minimum_length' => 20,   // below this its spammy
+	'time_format' => 'Y'
 );
