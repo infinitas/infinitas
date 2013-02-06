@@ -31,33 +31,29 @@ class LibsEvents extends AppEvents {
 			// attach the expandable (eva) behavior if there is a table for it
 			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix.$Event->Handler->table) . '_attributes';
 			if (in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
-				$Event->Handler->bindModel(
-					array(
-						'hasMany' => array(
-							$Event->Handler->name.'Attribute' => array(
-								'className' => Inflector::camelize($attributesTable),
-								'foreignKey' => Inflector::underscore($Event->Handler->name).'_id',
-								'dependent' => true
-							)
+				$Event->Handler->bindModel(array(
+					'hasMany' => array(
+						$Event->Handler->name.'Attribute' => array(
+							'className' => Inflector::camelize($attributesTable),
+							'foreignKey' => Inflector::underscore($Event->Handler->name).'_id',
+							'dependent' => true
 						)
-					),
-					false
-				);
+					)
+				), false);
 
 				$Event->Handler->Behaviors->attach('Libs.Expandable');
 			}
 
 			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Sluggable', array('slug'))) {
-				$Event->Handler->Behaviors->attach(
-					'Libs.Sluggable',
-					array(
-						'label' => array($Event->Handler->displayField)
-					)
-				);
+				$Event->Handler->Behaviors->attach('Libs.Sluggable', array(
+					'label' => array($Event->Handler->displayField)
+				));
 			}
 
 			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Sequence', array('ordering'))) {
-				$Event->Handler->Behaviors->attach('Libs.Sequence');
+				if (!$Event->Handler->Behaviors->attached('Sequence')) {
+					$Event->Handler->Behaviors->attach('Libs.Sequence');					
+				}
 			}
 
 			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Rateable', array('rating'))) {
