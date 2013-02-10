@@ -29,11 +29,12 @@ class LibsEvents extends AppEvents {
 		if ($Event->Handler->shouldAutoAttachBehavior()) {
 
 			// attach the expandable (eva) behavior if there is a table for it
-			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix.$Event->Handler->table) . '_attributes';
-			if (in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
+			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix . $Event->Handler->table) . '_attributes';
+			$relationName = $Event->Handler->name . 'Attribute';
+			if (!array_key_exists($relationName, $Event->Handler->hasMany) && in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
 				$Event->Handler->bindModel(array(
 					'hasMany' => array(
-						$Event->Handler->name.'Attribute' => array(
+						$relationName => array(
 							'className' => Inflector::camelize($attributesTable),
 							'foreignKey' => Inflector::underscore($Event->Handler->name).'_id',
 							'dependent' => true
