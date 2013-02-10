@@ -32,20 +32,6 @@ class ThemesEvents extends AppEvents {
 	}
 
 /**
- * Setup theme cache
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'themes',
-			'config' => array(
-				'prefix' => 'core.themes.',
-			)
-		);
-	}
-
-/**
  * Admin nav bar links
  *
  * @param Event $Event

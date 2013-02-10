@@ -51,6 +51,9 @@ class InfinitasPlugin extends CakePlugin {
 		foreach(self::listPlugins('core') as $plugin) {
 			self::load($plugin);
 		}
+		foreach(self::listPlugins('core') as $plugin) {
+			self::_loadCache($plugin);
+		}
 	}
 
 /**
@@ -69,10 +72,17 @@ class InfinitasPlugin extends CakePlugin {
 		foreach((array)self::listPlugins('notLoaded') as $plugin) {
 			self::load($plugin);
 			EventCore::trigger($object, $plugin . '.requireLibs');
-			configureCache(EventCore::trigger($object, $plugin . '.setupCache'));
-
+			self::_loadCache($plugin);
 			EventCore::loadEventHandler($plugin);
 		}
+	}
+
+	protected static function _loadCache($plugin) {
+		$cacheConfig = EventCore::trigger(new StdClass(), $plugin . '.setupCache');
+		$cacheConfig['setupCache'] = array_merge(array(
+			$plugin => array()
+		), $cacheConfig['setupCache']);
+		configureCache($cacheConfig);
 	}
 
 /**
@@ -229,12 +239,11 @@ class InfinitasPlugin extends CakePlugin {
 
 			case 'installed':
 				try {
-					if(self::infinitasInstalled() && self::$__plugins[$type] === null) {
+					if(self::infinitasInstalled() && !self::$__plugins[$type]) {
 						self::$__plugins[$type] = ClassRegistry::init('Installer.Plugin')->getInstalledPlugins();
 						natsort(self::$__plugins[$type]);
 					}
-				}
-				catch(Exception $e) {
+				} catch(Exception $e) {
 					self::$__plugins[$type] = array();
 				}
 				break;

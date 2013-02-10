@@ -26,15 +26,6 @@ class MenusEvents extends AppEvents {
 		);
 	}
 
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'menus',
-			'config' => array(
-				'prefix' => 'core.menus.'
-			)
-		);
-	}
-
 	public function onAdminMenu(Event $Event) {
 		$menu['main'] = array(
 			'Dashboard' => array('plugin' => 'management', 'controller' => 'management', 'action' => 'site'),

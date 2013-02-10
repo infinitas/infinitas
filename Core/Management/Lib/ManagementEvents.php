@@ -3,15 +3,6 @@
 		public function onPluginRollCall(Event $Event) {
 		}
 
-		public function onSetupCache(Event $Event) {
-			return array(
-				'name' => 'core',
-				'config' => array(
-					'prefix' => 'core.',
-				)
-			);
-		}
-
 		public function onSlugUrl(Event $Event, $data = null, $type = null) {
 			switch($data['type']) {
 				case 'comments':

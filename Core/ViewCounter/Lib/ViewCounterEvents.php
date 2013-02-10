@@ -2,9 +2,6 @@
 /**
  * Events for the views behavior
  *
-
- *
- * @filesource
  * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
  * @link http://www.infinitas-cms.org
  * @package Infinitas.ViewCounter.Lib
@@ -33,15 +30,6 @@ class ViewCounterEvents extends AppEvents {
 			'icon' => 'eye-open',
 			'author' => 'Infinitas',
 			'dashboard' => array('plugin' => 'view_counter', 'controller' => 'view_counter_views', 'action' => 'dashboard')
-		);
-	}
-
-	public function onSetupCache(Event $Event, $data = null) {
-		return array(
-			'name' => 'view_counter',
-			'config' => array(
-				'prefix' => 'view_counter.',
-			)
 		);
 	}
 

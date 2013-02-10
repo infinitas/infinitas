@@ -18,6 +18,19 @@
  */
 
 class LibsEvents extends AppEvents {
+
+	public function onSetupCache(Event $Event) {
+		return array(
+			'core' => array(
+			),
+			'infinitas' => array(
+				'groups' => array(
+					'plugin'
+				)
+			)
+		);
+	}
+
 /**
  * Load general behaviors
  *

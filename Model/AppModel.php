@@ -82,6 +82,20 @@
 		 */
 		public $tablePrefix;
 
+	/**
+	 * Cache general queries or not
+	 * 
+	 * @var boolean
+	 */
+		public $cacheQueries = true;
+
+	/**
+	 * Cache pagination queries or not
+	 * 
+	 * @var boolean
+	 */
+		public $cachePagination = false;
+
 		public $__jsonErrors = array();
 
 		/**
@@ -177,7 +191,9 @@
 
 			$schema = $this->schema();
 			if (get_class($this) !== 'AppModel' && !empty($schema) && $this->Behaviors->enabled('Event')) {
-				$this->triggerEvent('attachBehaviors');
+				$this->triggerEvent('attachBehaviors', array(
+					'cache' => false
+				));
 				$this->Behaviors->attach('Containable');
 			}
 		}
@@ -222,6 +238,60 @@
 		 */
 		public function afterDelete() {
 			return $this->__clearCache();
+		}
+
+	/**
+	 * Overload find to cache data
+	 *
+	 * By default all queries are cached except pagination. Cache can be controlled per plugin or model using 
+	 * the cacheQueries / cachePagination properties of the model class.
+	 *
+	 * Indervidual queries can also enable / disable cache by passing 'cache' => true/false in the query.
+	 * 
+	 * @param string $type the type of find being done
+	 * @param array  $query the query options
+	 * 
+	 * @return array
+	 */
+		public function find($type, $query = array()) {
+			$query = array_merge(array(
+				'cache' => $this->cacheQueries
+			), (array)$query);
+			if (array_key_exists('page', $query)) {
+				$query = array_merge(array(
+					'cache' => $this->cachePagination
+				), (array)$query);
+			}
+
+			if (array_key_exists('cache', (array)$query) && $query['cache'] === false) {
+				return parent::find($type, $query);
+			}
+
+			$queryCache = array_merge(array(
+				'conditions' => null, 'fields' => null, 'joins' => array(), 'limit' => null,
+				'offset' => null, 'order' => null, 'page' => 1, 'group' => null, 'callbacks' => true,
+			), (array)$query);
+
+			if ($type !== 'all' && $this->findMethods[$type] === true) {
+				$queryCache = $this->{'_find' . ucfirst($type)}('before', $queryCache);
+			}
+
+			$cacheName = cacheName(sprintf('find.%s.%s.', $this->alias, $type), $queryCache);
+			$results = Cache::read($cacheName, Inflector::underscore($this->plugin));
+			if (!$results) {
+				$results = Cache::read($cacheName, 'infinitas');
+			}
+			if ($results) {
+				return $results;
+			}
+
+			$results = parent::find($type, $query);
+			$written = Cache::write($cacheName, $results, Inflector::underscore($this->plugin));
+			if (!$written) {
+				$written = Cache::write($cacheName, $results, 'infinitas');
+			}
+
+			return $results;
 		}
 
 		/**
