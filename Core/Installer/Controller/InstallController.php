@@ -398,7 +398,6 @@ class InstallController extends Controller {
 	public function _processAdminUser() {
 		$this->loadModel('Users.User');
 
-		$this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
 		$this->request->data['User']['ip_address'] = env('REMOTE_ADDR');
 		$this->request->data['User']['browser'] = env('HTTP_USER_AGENT');
 		$this->request->data['User']['operating_system'] = '';
