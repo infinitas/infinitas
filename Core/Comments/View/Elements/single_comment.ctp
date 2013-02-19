@@ -17,7 +17,7 @@ if (!isset($comment)) {
 }
 $comment = isset($comment['InfinitasComment']) ? $comment['InfinitasComment'] : $comment;
 
-$comment['comment'] = str_replace('\\n', '<br />', $this->Text->autoLink(strip_tags($comment['comment'])));
+$comment['comment'] = $this->Text->autoLink(str_replace(array("\r\n", "\n"), '<br />', strip_tags($comment['comment'])));
 
 $link = null;
 if (isset($comment['website']) && isset($comment['username'])) {
