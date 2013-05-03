@@ -87,21 +87,21 @@
 	 *
 	 * This is cakes own in memory cache which is only per request. See
 	 * cacheFinds / cachePagination for more permanent model query cache
-	 * 
+	 *
 	 * @var boolean
 	 */
 		public $cacheQueries = false;
 
 	/**
 	 * Cache general queries or not
-	 * 
+	 *
 	 * @var boolean
 	 */
 		public $cacheFinds = true;
 
 	/**
 	 * Cache pagination queries or not
-	 * 
+	 *
 	 * @var boolean
 	 */
 		public $cachePagination = false;
@@ -257,10 +257,10 @@
 		 *
 		 * @param string $type the find type being done
 		 * @param array $query the query array of conditions
-		 * 
+		 *
 		 * @return array
 		 */
-		protected function _readDataSource($type, array $query) {
+		protected function _readDataSource($type, $query) {
 			$cache = $this->cacheFinds;
 			if (array_key_exists('page', $query)) {
 				$cache = $this->cachePagination;
