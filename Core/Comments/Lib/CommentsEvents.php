@@ -200,7 +200,7 @@ class CommentsEvents extends AppEvents {
 		}
 	}
 
-	public function onSlugUrl(Event $Event, array $data) {
+	public function onSlugUrl(Event $Event, $data = null, $type = null) {
 		if (!empty($data['data']['id'])) {
 			$url = ClassRegistry::init('Comments.InfinitasComment')->find('urlData', $data['data']['id']);
 			$data = current(EventCore::trigger($Event->Handler, $url['plugin'] . '.slugUrl', $url['data']));
