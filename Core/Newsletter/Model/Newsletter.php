@@ -184,7 +184,7 @@ class Newsletter extends NewsletterAppModel {
  *
  * @return array
  */
-	protected function _findActive($state, array $query, array $results = array()) {
+	protected function _findActive($state, $query, $results = array()) {
 		if ($state == 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.id',

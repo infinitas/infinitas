@@ -149,7 +149,7 @@ LICENCE;
 			}
 
 			$this->__paths = array(
-				'Config/database.php' => array(
+				'Config/' => array(
 					'type' => 'write',
 					'message' => 'The database configuration (%s) file should be writable during the ' .
 						'installation process. It should be set to be read-only once Infinitas has been installed.'
@@ -329,6 +329,8 @@ LICENCE;
 		 * Test if the details provided to connect to the database are correct
 		 */
 		public function testConnection($connection = array()) {
+			$file = APP . 'Config' . DS . 'database.php';
+			copy(APP . 'Config' . DS . 'database.php.default', $file);
 			$connection = $this->__validDbConfig($connection, true);
 			if (!$connection) {
 				return false;
@@ -337,21 +339,24 @@ LICENCE;
 			$adminConnectionDetails = (!isset($connection['Admin'])) ? false : array_merge($connection['Install'], $connection['Admin']);
 			$InstallerConnection = ConnectionManager::create('installer', $connection['Install']);
 			if (!is_callable(array($InstallerConnection, 'isConnected')) || !$InstallerConnection->isConnected()) {
+				unlink($file);
 				return false;
 			}
 
 			if (isset($connection['Admin']['login']) && trim($connection['Admin']['login']) != '') {
 				$InstallerRootConnection = ConnectionManager::create('admin', $adminConnectionDetails);
 				if (!is_callable(array($InstallerRootConnection, 'isConnected')) || !$InstallerRootConnection->isConnected()) {
+					unlink($file);
 					return false;
 				}
 			}
 
 			$version = $this->__databaseVersion($connection['Install']);
 			if (version_compare($version, $this->__supportedDatabases[$connection['Install']['datasource']]['version']) >= 0) {
+				unlink($file);
 				return true;
 			}
-
+			unlink($file);
 			return array(
 				'versionError' => $version,
 				'requiredDb' => $this->__supportedDatabases[$connection['Install']['datasource']]['version']
@@ -434,10 +439,9 @@ LICENCE;
 		 * @return type
 		 */
 		public function writeDbConfig($dbConfig = array()) {
-			copy(CakePlugin::path('Installer') . 'Config' . DS . 'database.install', APP . 'Config' . DS . 'database.php');
-
-			$File = new File(APP . 'Config' . DS . 'database.php', true);
+			$File = new File(CakePlugin::path('Installer') . 'Config' . DS . 'database.install');
 			$content = $File->read();
+			$File->close();
 
 			$find = array(
 				'{default_datasource}',
@@ -463,6 +467,7 @@ LICENCE;
 
 			$content = str_replace($find, $replacements, $content);
 
+			$File = new File(APP . 'Config' . DS . 'database.php', true);
 			if ($File->write($content)) {
 				return true;
 			}

@@ -141,7 +141,7 @@ class NewsletterCampaign extends NewsletterAppModel {
  *
  * @return boolean
  */
-	protected function _findActive($state, array $query, array $results = array()) {
+	protected function _findActive($state, $query, $results = array()) {
 		if ($state === 'before') {
 			$query = self::_findPaginated($state, $query);
 
