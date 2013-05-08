@@ -18,6 +18,19 @@
  */
 
 class LibsEvents extends AppEvents {
+
+	public function onSetupCache(Event $Event) {
+		return array(
+			'core' => array(
+			),
+			'infinitas' => array(
+				'groups' => array(
+					'plugin'
+				)
+			)
+		);
+	}
+
 /**
  * Load general behaviors
  *
@@ -29,35 +42,32 @@ class LibsEvents extends AppEvents {
 		if ($Event->Handler->shouldAutoAttachBehavior()) {
 
 			// attach the expandable (eva) behavior if there is a table for it
-			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix.$Event->Handler->table) . '_attributes';
-			if (in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
-				$Event->Handler->bindModel(
-					array(
-						'hasMany' => array(
-							$Event->Handler->name.'Attribute' => array(
-								'className' => Inflector::camelize($attributesTable),
-								'foreignKey' => Inflector::underscore($Event->Handler->name).'_id',
-								'dependent' => true
-							)
+			$attributesTable = Inflector::singularize($Event->Handler->tablePrefix . $Event->Handler->table) . '_attributes';
+			$relationName = $Event->Handler->name . 'Attribute';
+			if (!array_key_exists($relationName, $Event->Handler->hasMany) && in_array($attributesTable, $Event->Handler->getTables($Event->Handler->useDbConfig))) {
+				$Event->Handler->bindModel(array(
+					'hasMany' => array(
+						$relationName => array(
+							'className' => Inflector::camelize($attributesTable),
+							'foreignKey' => Inflector::underscore($Event->Handler->name).'_id',
+							'dependent' => true
 						)
-					),
-					false
-				);
+					)
+				), false);
 
 				$Event->Handler->Behaviors->attach('Libs.Expandable');
 			}
 
 			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Sluggable', array('slug'))) {
-				$Event->Handler->Behaviors->attach(
-					'Libs.Sluggable',
-					array(
-						'label' => array($Event->Handler->displayField)
-					)
-				);
+				$Event->Handler->Behaviors->attach('Libs.Sluggable', array(
+					'label' => array($Event->Handler->displayField)
+				));
 			}
 
 			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Sequence', array('ordering'))) {
-				$Event->Handler->Behaviors->attach('Libs.Sequence');
+				if (!$Event->Handler->Behaviors->attached('Sequence')) {
+					$Event->Handler->Behaviors->attach('Libs.Sequence');					
+				}
 			}
 
 			if ($Event->Handler->shouldAutoAttachBehavior('Libs.Rateable', array('rating'))) {

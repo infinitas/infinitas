@@ -189,7 +189,9 @@ class InfinitasRouter extends Router {
  */
 	protected static function _buildRoutes() {
 		App::uses('ClassRegistry', 'Utility');
-		EventCore::trigger(new StdClass(), 'setupRoutes');
+		EventCore::trigger(new StdClass(), 'setupRoutes', array(
+			'cache' => false
+		));
 
 		$CakeRequest = new CakeRequest();
 		$admin = false;

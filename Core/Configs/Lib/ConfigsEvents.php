@@ -22,20 +22,6 @@
 class ConfigsEvents extends AppEvents {
 
 /**
- * get the cache config for this plugin
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'configs',
-			'config' => array(
-				'prefix' => 'core.configs.',
-			)
-		);
-	}
-
-/**
  * get the admin menu
  *
  * @param Event $Event

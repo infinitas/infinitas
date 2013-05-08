@@ -238,9 +238,9 @@ class DesignHelper extends AppHelper {
 		));
 	}
 
-	public function count($count, $type = null) {
+	public function count($count, $type = null, $none = '-') {
 		if(!$count) {
-			return '-';
+			return $none;
 		}
 		return $this->Html->tag('span', (int)$count, array(
 			'class' => array(

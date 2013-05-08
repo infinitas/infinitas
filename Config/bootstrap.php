@@ -65,19 +65,19 @@
 	 */
 	$cacheEngine = 'File';
 	switch(true) {
+		case class_exists('Memcache'):
+			$Memcache = new Memcache;
+			if (@$Memcache->connect('localhost')) {
+				$cacheEngine = 'Memcache';
+			}
+			break;
+
 		case function_exists('apc_cache_info') && ini_get('apc.enabled'):
 			$cacheEngine = 'Apc';
 			break;
 
 		case function_exists('xcache_info'):
 			$cacheEngine = 'Xcache';
-			break;
-
-		case class_exists('Memcache'):
-			$Memcache = new Memcache;
-			if (@$memcache->connect('localhost')) {
-				$cacheEngine = 'Memcache';
-			}
 			break;
 
 		default:
@@ -110,6 +110,9 @@
 
 	unset($cacheEngine, $cachedConfigs);
 
+	configureCache(array(array(
+		array('infinitas' => array())
+	)));
 	InfinitasPlugin::loadCore();
 
 	/**
@@ -118,12 +121,12 @@
 	 */
 
 	configureCache(EventCore::trigger(new StdClass(), 'setupCache'));
-
 	if(in_array('test', (array)env('argv'))) {
 		InfinitasPlugin::load(InfinitasPlugin::listPlugins('nonCore'));
 	} else {
 		InfinitasPlugin::loadInstalled();
 	}
+
 	EventCore::trigger(new StdClass(), 'requireLibs');
 
 	/**
@@ -141,7 +144,56 @@
 		}
 	}
 
-	function configureCache($cacheDetails) {
+	function configureCache($cacheDetails, $plugin = null) {
+		$installedPlugins = InfinitasPlugin::listPlugins('installed');
+		$cacheDetails = current($cacheDetails);
+
+		foreach ($cacheDetails as $plugin => &$configs) {
+			try {
+				$folder = basename(dirname(CakePlugin::path($plugin)));
+			} catch (Exception $e) {
+				if (!$plugin) {
+					$plugin = $folder = 'App';
+				} else {
+					continue;
+				}
+			}
+			if (empty($configs)) {
+				$configs = array(Inflector::underscore($plugin) => array());
+			}
+			foreach ($configs as $k => $config) {
+				$groups = array(
+					Inflector::underscore($plugin)
+				);
+				if ($folder != 'Plugin') {
+					$groups[] = Inflector::underscore($folder);
+				}
+				$configs[$k] = array_merge(array(
+					'prefix' => md5(Inflector::slug(APP)) . '_',
+					'duration' => '+ 999 days',
+					'plugin' => $plugin,
+					'groups' => $groups,
+					'engine' => Configure::read('Cache.engine')
+				), $config);
+				$configs[$k]['name'] = $k;
+				$configs[$k]['groups'] = array_unique($configs[$k]['groups']);
+			}
+		}
+
+		if (array_key_exists(0, $cacheDetails)) {
+			$cacheDetails = Hash::extract($cacheDetails, '{n}.{s}');	
+		} else {
+			$cacheDetails = Hash::extract($cacheDetails, '{s}.{s}');
+		}
+		
+		foreach ($cacheDetails as $cacheConfig) {
+			$cacheConfig['engine'] = $cacheConfig['engine'] ?: Configure::read('Cache.engine');
+			$cacheConfig['duration'] = (Configure::read('debug') > 0) ? '+ 10 seconds' : $cacheConfig['duration'];
+
+			Cache::config($cacheConfig['name'], $cacheConfig);
+		}
+		return;
+
 		foreach($cacheDetails['setupCache'] as $plugin => $cache) {
 			$cache['config']['prefix'] = isset($cache['config']['prefix']) ? $cache['config']['prefix'] : '';
 			$folder = str_replace('.', DS, $cache['config']['prefix']);
@@ -153,9 +205,7 @@
 				if(!is_dir(CACHE . $folder)) {
 					$Folder = new Folder(CACHE . $folder, true, 0755);
 				}
-			}
-
-			else{
+			} else{
 				$cache['config']['prefix'] = Inflector::slug(APP_DIR) . '_' . str_replace(DS, '_', $folder);
 			}
 

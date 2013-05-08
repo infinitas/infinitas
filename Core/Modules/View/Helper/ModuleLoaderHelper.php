@@ -130,7 +130,15 @@ class ModuleLoaderHelper extends InfinitasHelper {
 				if (!$this->_View->elementExists($moduleFile)) {
 					$moduleFile .= DS . 'module';
 				}
-				$moduleOut = $this->_View->element($moduleFile, $params);
+				
+				$cache = $this->_moduleCache(Inflector::underscore($plugin), $params['config']);
+				if (!$cache) {
+					$moduleOut = $this->_View->element($moduleFile, $params);
+				} else {
+					$moduleOut = $this->_View->element($moduleFile, $params, array(
+						'cache' => $cache
+					));
+				}
 			} catch(Exception $e) {
 				$moduleOut = $e->getMessage();
 			}
@@ -146,6 +154,41 @@ class ModuleLoaderHelper extends InfinitasHelper {
 				$class
 			)
 		));
+	}
+
+/**
+ * Build the cache config for the module
+ * 
+ * @param array $params the modules params
+ * 
+ * @return boolean|array
+ */
+	protected function _moduleCache($plugin, &$params) {
+		if (Configure::read('debug')) {
+			return false;
+		}
+
+		$p = array_merge(array(
+			'diable_cache' => false,
+			'cache' => true
+		), $params);
+		if ($p['disable_cache'] == true || $p['cache'] == false) {
+			var_dump('no cache');
+			return false;
+		}
+		$cache = array(
+			'cache_key' => $params['_module_id'],
+			'cache_config' => $plugin
+		);
+
+		if (is_array($params['cache'])) {
+			$cache = array_merge($cache, $params['cache']);
+		}
+
+		return array(
+			'key' => $cache['cache_key'],
+			'config' => $cache['config']
+		);
 	}
 
 /**
@@ -240,7 +283,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			}
 		}
 
-		return $this->_View->element($module, array('config' => $params));
+		return $this->_View->element($module, array('config' => $params, '_module_id' => 'direct'));
 	}
 
 /**

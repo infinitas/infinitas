@@ -91,7 +91,6 @@
 				$eventData = $_this->_parseEventName($eventName);
 				$return[$eventData['event']] = EventCore::_dispatchEvent($HandlerObject, $eventData['scope'], $eventData['event'], $data);
 			}
-
 			return $return;
 		}
 
@@ -184,7 +183,7 @@
 		 *
 		 */
 		protected function _loadEventHandlers() {
-			$this->_eventHandlerCache = Cache::read('event_handlers', 'core');
+			$this->_eventHandlerCache = Cache::read('event_handlers', 'events');
 
 			if (!empty($this->_eventHandlerCache)) {
 				return;
@@ -195,7 +194,7 @@
 				self::loadEventHandler($pluginName);
 			}
 
-			Cache::write('event_handlers', $this->_eventHandlerCache, 'core');
+			Cache::write('event_handlers', $this->_eventHandlerCache, 'events');
 		}
 
 		public static function loadEventHandler($plugin) {
@@ -219,6 +218,22 @@
 		 *
 		 */
 		static protected function _dispatchEvent(&$HandlerObject, $scope, $eventName, $data = array()) {
+			$shouldCache = true;
+			if (array_key_exists('cache', (array)$data) && $data['cache'] == false) {
+				$shouldCache = false;
+			}
+
+			if ($shouldCache) {
+				$cacheName = cacheName('event_' . $scope, array(
+					'scope' => $scope,
+					'event' => $eventName,
+					'data' => $data
+				));
+				$cache = Cache::read($cacheName, 'events');
+				if ($cache !== false) {
+					return $cache;
+				}
+			}
 			$_this = EventCore::getInstance();
 			$eventHandlerMethod = $_this->_handlerMethodName($eventName);
 
@@ -243,6 +258,10 @@
 						$return[$pluginName] = call_user_func_array(array($_this->_eventClasses[$eventClass], $eventHandlerMethod), array($Event, $data));
 					}
 				}
+			}
+
+			if ($shouldCache) {
+				Cache::write($cacheName, $return, 'events');
 			}
 
 			return $return;

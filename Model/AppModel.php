@@ -82,6 +82,30 @@
 		 */
 		public $tablePrefix;
 
+	/**
+	 * Cache queries
+	 *
+	 * This is cakes own in memory cache which is only per request. See
+	 * cacheFinds / cachePagination for more permanent model query cache
+	 *
+	 * @var boolean
+	 */
+		public $cacheQueries = false;
+
+	/**
+	 * Cache general queries or not
+	 *
+	 * @var boolean
+	 */
+		public $cacheFinds = true;
+
+	/**
+	 * Cache pagination queries or not
+	 *
+	 * @var boolean
+	 */
+		public $cachePagination = false;
+
 		public $__jsonErrors = array();
 
 		/**
@@ -177,7 +201,9 @@
 
 			$schema = $this->schema();
 			if (get_class($this) !== 'AppModel' && !empty($schema) && $this->Behaviors->enabled('Event')) {
-				$this->triggerEvent('attachBehaviors');
+				$this->triggerEvent('attachBehaviors', array(
+					'cache' => false
+				));
 				$this->Behaviors->attach('Containable');
 			}
 		}
@@ -222,6 +248,41 @@
 		 */
 		public function afterDelete() {
 			return $this->__clearCache();
+		}
+
+		/**
+		 * Read from the data source
+		 *
+		 * This method is overloaded to provide cache on queries
+		 *
+		 * @param string $type the find type being done
+		 * @param array $query the query array of conditions
+		 *
+		 * @return array
+		 */
+		protected function _readDataSource($type, $query) {
+			$cache = $this->cacheFinds;
+			if (array_key_exists('page', $query)) {
+				$cache = $this->cachePagination;
+			}
+			$query = array_merge(array('cache' => $cache), $query);
+
+			if ($query['cache'] === false) {
+				return parent::_readDataSource($type, $query);
+			}
+
+			$cacheName = cacheName(sprintf('find.%s.%s.', $this->alias, $type), $query);
+			$results = Cache::read($cacheName, Inflector::underscore($this->plugin));
+			if ($results !== false) {
+				return $results;
+			}
+
+			$results = parent::_readDataSource($type, $query);
+			$written = Cache::write($cacheName, $results, Inflector::underscore($this->plugin));
+			if (!$written) {
+				$written = Cache::write($cacheName, $results, 'infinitas');
+			}
+			return $results;
 		}
 
 		/**
