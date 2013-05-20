@@ -35,20 +35,6 @@ class RoutesEvents extends AppEvents {
 	}
 
 /**
- * Configure routes cache
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'routes',
-			'config' => array(
-				'prefix' => 'core.routes.'
-			)
-		);
-	}
-
-/**
  * Admin menu bar
  *
  * @param Event $Event

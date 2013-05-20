@@ -1,0 +1,78 @@
+/**
+ * Base less file for bootstrap will include everything required.
+ *
+ * @package Infinitas.Assets.webroot
+ *
+ * @author Carl Sutton <dogmatic69@infinitas-cms.org>
+ */
+
+@import "/assets/less/bootstrap/reset.less";
+
+// Grid system and page structure
+@import "/assets/less/bootstrap/scaffolding.less";
+@import "/assets/less/bootstrap/grid.less";
+@import "/assets/less/bootstrap/layouts.less";
+
+// Base CSS
+@import "/assets/less/bootstrap/type.less";
+@import "/assets/less/bootstrap/code.less";
+@import "/assets/less/bootstrap/forms.less";
+@import "/assets/less/bootstrap/tables.less";
+
+// Components: common
+// @import "/assets/less/bootstrap/sprites.less"; usign font awesome
+@import "/assets/less/bootstrap/dropdowns.less";
+@import "/assets/less/bootstrap/wells.less";
+@import "/assets/less/bootstrap/component-animations.less";
+@import "/assets/less/bootstrap/close.less";
+
+// Components: Buttons & Alerts
+@import "/assets/less/bootstrap/buttons.less";
+@import "/assets/less/bootstrap/button-groups.less";
+@import "/assets/less/bootstrap/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+
+// Components: Nav
+@import "/assets/less/bootstrap/navs.less";
+@import "/assets/less/bootstrap/navbar.less";
+@import "/assets/less/bootstrap/breadcrumbs.less";
+@import "/assets/less/bootstrap/pagination.less";
+@import "/assets/less/bootstrap/pager.less";
+
+// Components: Popovers
+@import "/assets/less/bootstrap/modals.less";
+@import "/assets/less/bootstrap/tooltip.less";
+@import "/assets/less/bootstrap/popovers.less";
+
+// Components: Misc
+@import "/assets/less/bootstrap/thumbnails.less";
+@import "/assets/less/bootstrap/media.less";
+@import "/assets/less/bootstrap/labels-badges.less";
+@import "/assets/less/bootstrap/progress-bars.less";
+@import "/assets/less/bootstrap/accordion.less";
+@import "/assets/less/bootstrap/carousel.less";
+@import "/assets/less/bootstrap/hero-unit.less";
+
+// Utility classes
+@import "/assets/less/bootstrap/utilities.less"; // Has to be last to override when necessary
+
+/**
+ * Fontawesome include
+ */
+@fontAwesomePath: '/assets/font';
+@import "/assets/less/font-awesome/font-awesome.less";
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('/assets/font/fontawesome-webfont.eot');
+  src: url('/assets/font/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+     url('/assets/font/fontawesome-webfont.woff') format('woff'),
+     url('/assets/font/fontawesome-webfont.ttf') format('truetype'),
+     url('/assets/font/fontawesome-webfont.svg#FontAwesome') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/**
+ * Colour picker
+ */
+@import "/assets/less/bootstrap/colorpicker.less";

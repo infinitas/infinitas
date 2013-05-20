@@ -78,19 +78,6 @@ class ModuleTemplate{
  */
 
 class ModulesEvents extends AppEvents {
-/**
- * Configure module cache
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'modules',
-			'config' => array(
-				'prefix' => 'core.modules.'
-			)
-		);
-	}
 
 	public function onPluginRollCall(Event $Event) {
 		return array(

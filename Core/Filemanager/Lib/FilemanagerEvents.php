@@ -51,20 +51,6 @@ class FilemanagerEvents extends AppEvents {
 	}
 
 /**
- * Filemanager cache configuration
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'filemanager',
-			'config' => array(
-				'prefix' => 'core.filemanager.',
-			)
-		);
-	}
-
-/**
  * Filemanager css
  *
  * @param Event $Event

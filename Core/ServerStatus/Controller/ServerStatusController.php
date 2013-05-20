@@ -28,6 +28,7 @@ class ServerStatusController extends ServerStatusAppController {
 		}
 
 		$this->set('cacheStatus', ClearCache::status());
+		$this->set('cacheGroups', ClearCache::getGroups());
 	}
 
 	public function admin_status() {

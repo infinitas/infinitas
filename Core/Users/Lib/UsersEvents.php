@@ -10,15 +10,6 @@
 			);
 		}
 
-		public function onSetupCache(Event $Event) {
-			return array(
-				'name' => 'users',
-				'config' => array(
-					'prefix' => 'users.',
-				)
-			);
-		}
-
 		public function onAdminMenu(Event $Event) {
 			$menu['main'] = array(
 				'Dashboard' => array('plugin' => 'users', 'controller' => 'users', 'action' => 'dashboard'),

@@ -45,6 +45,24 @@
 			</tr>
 		</tbody>
 	</table>
+	<table class="listing">
+		<thead>
+			<tr>
+				<th><?php echo __d('server_status', 'Group'); ?></th>
+				<th><?php echo __d('server_status', 'Cache Configs'); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+				foreach ($cacheGroups as $group => $tags) { ?>
+					<tr>
+						<td><?php echo $group; ?>&nbsp;</td>
+						<td><?php echo String::toList($tags); ?></td>
+					</tr><?php
+				}
+			?>
+		</tbody>
+	</table>
 </div>
 <?php
 	$icons = array(

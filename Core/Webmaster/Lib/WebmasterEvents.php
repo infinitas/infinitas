@@ -64,20 +64,6 @@ class WebmasterEvents extends AppEvents {
 	}
 
 /**
- * Webmaster cache config
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'webmaster',
-			'config' => array(
-				'prefix' => 'webmaster.',
-			)
-		);
-	}
-
-/**
  * Configure route for sitemaps
  *
  * @return void

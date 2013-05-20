@@ -8,15 +8,6 @@
 			);
 		}
 
-		public function onSetupCache(Event $Event) {
-			return array(
-				'name' => 'emails',
-				'config' => array(
-					'prefix' => 'emails.',
-				)
-			);
-		}
-
 		public function onPluginRollCall(Event $Event) {
 			return array(
 				'name' => 'Emails',

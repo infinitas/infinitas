@@ -21,19 +21,6 @@ App::uses('InfinitasHelper', 'Libs.View/Helper');
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
 class LocksEvents extends AppEvents {
-/**
- * Locks cache config
- *
- * @return array
- */
-	public function onSetupCache(Event $Event) {
-		return array(
-			'name' => 'locks',
-			'config' => array(
-				'prefix' => 'locks.'
-			)
-		);
-	}
 
 /**
  * Locks admin nav bar
