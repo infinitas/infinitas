@@ -289,7 +289,7 @@
 		 *
 		 * @param string $name File name to be loaded
 		 * @param string $type Can be 'app' or a plugin name
-		 * 
+		 *
 		 * @return mixed Throw an exception in case of no file found, array with mapping
 		 */
 		private function __loadFile($name, $type) {

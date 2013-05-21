@@ -135,7 +135,7 @@ class EmailAccount extends EmailsAppModel {
  *
  * @return boolean
  */
-	public function beforeSave() {
+	public function beforeSave($options = array()) {
 		return true; //is_int(ClassRegistry::init('Emails.MailSystem')->testConnection($this->data['EmailAccount']));
 	}
 

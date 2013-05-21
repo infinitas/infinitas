@@ -235,7 +235,8 @@ class InstallController extends Controller {
  * @return void
  */
 	public function index($step = null) {
-		if (filesize(APP . 'Config' . DS . 'database.php') > 0 && $this->Session->read('installing') == false) {
+		$file = APP . 'Config' . DS . 'database.php';
+		if (file_exists($file) && filesize($file) > 0 && $this->Session->read('installing') == false) {
 			$this->Session->setFlash(__d('installer', 'Infinitas has already been installed'));
 			$this->redirect('/');
 		}
@@ -363,7 +364,7 @@ class InstallController extends Controller {
 	public function _processInstall() {
 		$dbConfig = $this->Session->read('Install.database_config');
 
-		return $this->InstallerLib->installPlugins($dbConfig) && $this->InstallerLib->writeDbConfig($dbConfig);
+		return $this->InstallerLib->writeDbConfig($dbConfig) && $this->InstallerLib->installPlugins($dbConfig);
 	}
 
 /**

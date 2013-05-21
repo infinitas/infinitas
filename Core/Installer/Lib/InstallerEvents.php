@@ -31,20 +31,15 @@ class InstallerEvents extends AppEvents{
 		InfinitasRouter::connect('/install/finish/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'finish'));
 		InfinitasRouter::connect('/install/:step', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'), array('pass' => array('step')));
 
-		if (!file_exists($databaseConfig) || filesize($databaseConfig) == 0) {
-			if (!file_exists($databaseConfig)) {
-				$file = fopen($databaseConfig, 'w');
-				fclose($file);
-			}
-
-			Configure::write('Session.save', 'php');
-			InfinitasRouter::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
-			InfinitasRouter::connect('/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
-
-			InfinitasTheme::defaultThemeInstall();
+		if (file_exists($databaseConfig) && filesize($databaseConfig) > 0) {
+			return true;
 		}
 
-		return true;
+		Configure::write('Session.save', 'php');
+		InfinitasRouter::connect('/', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
+		InfinitasRouter::connect('/*', array('plugin' => 'installer', 'controller' => 'install', 'action' => 'index'));
+
+		InfinitasTheme::defaultThemeInstall();
 	}
 
 /**
