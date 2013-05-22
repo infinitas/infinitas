@@ -5,6 +5,14 @@ $config['InfinitasPayments'] = array(
 		'PayPalExpress' => array(
 			'class' => 'PayPalExpress',
 			'provider' => 'PayPal'
+		),
+		'BankTransfer' => array(
+			'class' => 'BankTransfer',
+			'provider' => 'OfflinePayment'
+		),
+		'CashPayment' => array(
+			'class' => 'CashPayment',
+			'provider' => 'OfflinePayment'
 		)
 	)
 );
