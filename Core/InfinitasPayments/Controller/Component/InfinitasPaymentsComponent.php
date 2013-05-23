@@ -5,11 +5,12 @@ App::uses('InfinitasGateway', 'InfinitasPayments.Lib');
  *
  */
 class InfinitasPaymentsComponent extends InfinitasComponent {
+
 	protected function _queryData() {
 		$this->Controller->request->query = array_merge(array(
 			'token' => null,
 			'PayerID' => null
-		), $this->Controller->request->query);
+		), array_filter($this->Controller->request->params['named']), $this->Controller->request->query);
 
 		return array(
 			'token' => $this->Controller->request->query['token'],
@@ -40,11 +41,7 @@ class InfinitasPaymentsComponent extends InfinitasComponent {
 				'details' => $paymentDetails,
 				'order' => $order
 			));
-			pr($results);
-			exit;
 		}
-		pr($results);
-		exit;
 	}
 
 	public function actionInfinitasPaymentCanceled() {
@@ -57,7 +54,7 @@ class InfinitasPaymentsComponent extends InfinitasComponent {
 		}
 
 		$this->_Gateway = new InfinitasGateway();
-		$this->_Gateway->provider('paypal-express');
+		$this->_Gateway->provider('cash-payments');
 		return $this->_Gateway;
 	}
 }
