@@ -93,8 +93,8 @@ class InfinitasPaymentMethod extends InfinitasPaymentsAppModel {
 		}
 
 		$results = $results[0][$this->alias];
-		$results['live'] = json_decode($results['live']);
-		$results['sandbox'] = json_decode($results['sandbox']);
+		$results['live'] = (array)json_decode($results['live'], true);
+		$results['sandbox'] = (array)json_decode($results['sandbox'], true);
 
 		return $results;
 	}
