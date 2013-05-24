@@ -36,7 +36,7 @@ class InfinitasPaymentMethodFixture extends CakeTestFixture {
 			'sandbox' => '{"config":"foobaz"}',
 			'testing' => 1,
 			'active' => 1,
-			'infinitas_payment_log_count' => 0,
+			'infinitas_payment_log_count' => 1,
 			'created' => '2013-01-10 14:32:15',
 			'modified' => '2013-01-10 14:32:15'
 		),

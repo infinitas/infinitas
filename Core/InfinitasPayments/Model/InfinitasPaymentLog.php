@@ -66,10 +66,23 @@ class InfinitasPaymentLog extends InfinitasPaymentsAppModel {
 		return $ids;
 	}
 
+/**
+ * Get the transaction id for each order placed
+ *
+ * This will populate the data in the same way `saveTransactionDetails` does, except its done for existing logs 
+ * where required.
+ *
+ * @param array $transaction the transaction with order details
+ *
+ * @return void
+ */
 	public function getTransactionDetails(array &$transaction) {
 		$transactionIds = $this->find('transactions', array(
 			'transaction_id' => Hash::extract($transaction['orders'], '{n}.transaction_id')
 		));
+		if (empty($transactionIds)) {
+			return;
+		}
 		$transactionIds = array_flip($transactionIds);
 		foreach ($transaction['orders'] as &$order) {
 			$order['infinitas_payment_log_id'] = $transactionIds[$order['transaction_id']];

@@ -22,6 +22,7 @@ class InfinitasPaymentLogFixture extends CakeTestFixture {
 		'tax' => array('type' => 'float', 'null' => false, 'default' => '0.000000', 'length' => '15,6'),
 		'custom' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'status' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'infinitas_payment_method_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -45,6 +46,7 @@ class InfinitasPaymentLogFixture extends CakeTestFixture {
 			'tax' => 2.50,
 			'custom' => 'custom-var',
 			'status' => 'Complete',
+			'infinitas_payment_method_id' => 'paypal',
 			'created' => '2013-01-09 00:11:13',
 			'modified' => '2013-01-09 00:11:13'
 		),
