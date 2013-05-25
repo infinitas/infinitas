@@ -36,12 +36,15 @@ class InfinitasPaymentsComponent extends InfinitasComponent {
 
 		$orders = $paymentDetails['orders'];
 		unset($paymentDetails['orders']);
+		$results = array();
 		foreach ($orders as $order) {
-			$results = $this->Controller->Event->trigger('paymentCompleted', array(
+			$result = $this->Controller->Event->trigger('paymentCompleted', array(
 				'details' => $paymentDetails,
 				'order' => $order
 			));
+			$results[] = current($result['paymentCompleted']);
 		}
+		return $results;
 	}
 
 	public function actionInfinitasPaymentCanceled() {
