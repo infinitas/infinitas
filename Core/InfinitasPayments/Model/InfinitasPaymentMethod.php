@@ -40,6 +40,24 @@ class InfinitasPaymentMethod extends InfinitasPaymentsAppModel {
 	);
 
 /**
+ * behaviors that are attached
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Filemanager.Upload' => array(
+			'image' => array(
+				'thumbnailSizes' => array(
+					'large' => '1000l',
+					'medium' => '600l',
+					'small' => '300l',
+					'thumb' => '75l'
+				)
+			)
+		)
+	);
+
+/**
  * Constructor
  *
  * @param string|integer $id string uuid or id
