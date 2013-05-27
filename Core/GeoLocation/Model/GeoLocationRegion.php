@@ -30,7 +30,7 @@ class GeoLocationRegion extends GeoLocationAppModel {
  */
 	public $belongsTo = array(
 		'GeoLocationCountry' => array(
-			'className' => 'GeoLocationCountry',
+			'className' => 'GeoLocation.GeoLocationCountry',
 			'foreignKey' => 'geo_location_country_id',
 			'conditions' => '',
 			'fields' => '',
@@ -108,6 +108,19 @@ class GeoLocationRegion extends GeoLocationAppModel {
 			$query['order'] = array(
 				$this->alias . '.' . $this->displayField
 			);
+
+			if (empty($query['joins'])) {
+				$query['joins'] = array();
+			}
+			$query['joins'] = (array)$query['joins'];
+
+			$join = $this->autoJoinModel(array(
+				'model' => $this->GeoLocationCountry,
+				'type' => 'right'
+			));
+			$join['conditions'][$this->GeoLocationCountry->alias . '.active'] = 1;
+
+			$query['joins'][] = $join;
 
 			return $query;
 		}
