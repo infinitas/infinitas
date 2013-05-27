@@ -53,6 +53,9 @@ class GeoLocationRegion extends GeoLocationAppModel {
 	public function __construct($id = false, $table = null, $ds = null) {
 		parent::__construct($id, $table, $ds);
 
+		$this->order = array(
+			$this->alias . '.' . $this->displayField => 'asc'
+		);
 		$this->validate = array(
 			'name' => array(
 				'notempty' => array(
@@ -93,7 +96,8 @@ class GeoLocationRegion extends GeoLocationAppModel {
 			}
 
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
-				$this->alias .'.geo_location_country_id' => $query[0]
+				$this->alias .'.geo_location_country_id' => $query[0],
+				$this->alias . '.active' => 1
 			));
 
 			$query['fields'] = array(
@@ -101,10 +105,16 @@ class GeoLocationRegion extends GeoLocationAppModel {
 				$this->alias . '.' . $this->displayField,
 			);
 
+			$query['order'] = array(
+				$this->alias . '.' . $this->displayField
+			);
+
 			return $query;
 		}
 
 		$template = sprintf('{n}.%s.%%s', $this->alias);
-		return Hash::combine($results, sprintf($template, $this->primaryKey), sprintf($template, $this->displayField));
+		$results = Hash::combine($results, sprintf($template, $this->primaryKey), sprintf($template, $this->displayField));
+		natcasesort($results);
+		return $results;
 	}
 }
