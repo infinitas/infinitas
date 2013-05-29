@@ -20,6 +20,7 @@ App::uses('InfinitasHelper', 'Libs.View/Helper');
  */
 
 class ModuleLoaderHelper extends InfinitasHelper {
+
 /**
  * Skip modules.
  *
@@ -71,15 +72,8 @@ class ModuleLoaderHelper extends InfinitasHelper {
 			$moduleOut = $this->loadModule($module['Module']['module'], $params);
 
 			$error = !empty($this->_View->viewVars['error']) && $this->_View->viewVars['error'] instanceof Exception;
-
-			if (!empty($module['ModuleRoute']) && $currentRoute instanceof CakeRoute) {
-				foreach ($module['ModuleRoute'] as $route) {
-					if (empty($route['Route']['url']) || $route['Route']['url'] == $currentRoute->template) {
-						$out[] = $moduleOut;
-						break;
-					}
-				}
-			} else if (empty($module['ModuleRoute']) || $error) {
+			$match = empty($module['ModuleRoute']) || $error || ($currentRoute instanceof CakeRoute && $this->_routeMatch($module['ModuleRoute'], $currentRoute));
+			if ($match) {
 				$out[] = $moduleOut;
 			}
 		}
@@ -90,6 +84,23 @@ class ModuleLoaderHelper extends InfinitasHelper {
 				$position
 			)
 		));
+	}
+
+/**
+ * Check if any routes match the currect route
+ *
+ * If the routes are empty it means the module will load on all pages eles if there is a match this route should be loaded
+ * for the page passed in
+ *
+ * @param array $moduleRoutes the module routes
+ * @param CakeRoute $currentRoute the current route
+ */
+	protected function _routeMatch(array &$moduleRoutes, CakeRoute $currentRoute) {
+		foreach ($moduleRoutes as $route) {
+			if (empty($route['Route']['url']) || $route['Route']['url'] == $currentRoute->template) {
+				return true;
+			}
+		}
 	}
 
 /**
