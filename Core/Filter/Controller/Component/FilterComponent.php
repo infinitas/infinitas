@@ -83,8 +83,10 @@
 		 * @param array settings['useTime'] is whether to filter date times with date in addition to time
 		 */
 		public function initialize(Controller $Controller) {
+			if ($Controller->uses == false) {
+				return;
+			}
 			$actions = !empty($this->settings['actions']) ? $this->settings['actions'] : array('index');
-
 
 			$this->redirect = false;
 			if (isset($this->settings['redirect']) && $this->settings['redirect']) {
