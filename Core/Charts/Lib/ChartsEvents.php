@@ -130,4 +130,20 @@ class ChartsEvents extends AppEvents {
 			)
 		);
 	}
+
+/**
+ * Load JS scripts
+ *
+ * @param Event $Event
+ *
+ * @return array
+ */
+	public function onRequireJavascriptToLoad(Event $Event) {
+		return array(
+			'Charts.d3-crossfilter',
+			'Charts.d3',
+			'Charts.d3-gantt',
+			'Charts.jquery-isotope',
+		);
+	}
 }
