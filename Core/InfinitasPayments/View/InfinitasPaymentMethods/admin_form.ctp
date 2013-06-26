@@ -11,7 +11,9 @@
  *
  * @author Carl Sutton <dogmatic69@infinitas-cms.org>
  */
-echo $this->Form->create();
+echo $this->Form->create(null, array(
+	'type' => 'file'
+));
 	echo $this->Infinitas->adminEditHead();
 	echo $this->Form->input('id');
 	$tabs = array(
@@ -36,6 +38,9 @@ echo $this->Form->create();
 		$this->Html->tag('div', implode('', array(
 			$this->Form->input('name'),
 			$this->Form->input('slug'),
+			$this->Form->input('image', array(
+				'type' => 'file'
+			)),
 			$this->Form->input('testing', array(
 				'label' => __d('infinitas_payments', 'Force sandbox mode'),
 			)),

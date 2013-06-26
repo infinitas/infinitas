@@ -92,7 +92,9 @@
 						}
 					}
 					$_fields[] = $this->Form->{$method}($config['modelName'] . 'Comment.' . $field, array(
-						'value' => $value
+						'value' => $value,
+						'placeholder' => __d('comments', Inflector::humanize($field)),
+						'label' => false
 					));
 					continue;
 				}

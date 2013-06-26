@@ -51,7 +51,16 @@ echo $this->Filter->alphabetFilter();
 		foreach ($infinitasPaymentMethods as $infinitasPaymentMethod) { ?>
 			<tr>
 				<td><?php echo $this->Infinitas->massActionCheckBox($infinitasPaymentMethod); ?>&nbsp;</td>
-				<td><?php echo $this->Html->adminQuickLink($infinitasPaymentMethod['InfinitasPaymentMethod']); ?>&nbsp;</td>
+				<td>
+					<?php 
+						echo implode($this->Html->tag('br'), array(
+							$this->Html->image($infinitasPaymentMethod['InfinitasPaymentMethod']['image_thumb'], array(
+								'width' => 75
+							)),
+							$this->Html->adminQuickLink($infinitasPaymentMethod['InfinitasPaymentMethod'])
+						));
+					?>
+				</td>
 				<td><?php echo $this->Design->label($infinitasPaymentMethod['InfinitasPaymentMethod']['slug']); ?></td>
 				<td><?php echo $this->Design->count($infinitasPaymentMethod['InfinitasPaymentMethod']['infinitas_payment_log_count']); ?>&nbsp;</td>
 				<td><?php echo $this->Infinitas->date($infinitasPaymentMethod['InfinitasPaymentMethod']); ?></td>

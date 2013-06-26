@@ -19,13 +19,13 @@
 	 */
 
 	$category['GlobalCategory']['before_event'] = '';
-	$eventData = $this->Event->trigger('contentsBeforeCategoryRender', array('_this' => $this, 'content' => $category));
+	$eventData = $this->Event->trigger('contentsBeforeCategoryRender', array('content' => $category));
 	foreach ((array)$eventData['contentsBeforeCategoryRender'] as $_plugin => $_data) {
 		$category['GlobalCategory']['before_event'] .= '<div class="before '.$_plugin.'">'.$_data.'</div>';
 	}
 
 	$category['GlobalCategory']['after_event'] = '';
-	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('_this' => $this, 'content' => $category));
+	$eventData = $this->Event->trigger('contentsAfterCategoryRender', array('content' => $category));
 	foreach ((array)$eventData['contentsAfterCategoryRender'] as $_plugin => $_data) {
 		$category['GlobalCategory']['after_event'] .= '<div class="after '.$_plugin.'">'.$_data.'</div>';
 	}

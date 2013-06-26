@@ -276,15 +276,11 @@
 	 */
 	function cacheName($prefix = 'PleaseNameMe', $data = null) {
 		$hash = '';
-
 		if ($data) {
 			$hash = '_' . sha1(serialize($data));
 		}
 
-		$data = Inflector::underscore($prefix) . $hash;
-		unset($hash);
-
-		return $data;
+		return Inflector::underscore($prefix) . $hash;
 	}
 
 	/**

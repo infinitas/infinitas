@@ -40,6 +40,24 @@ class InfinitasPaymentMethod extends InfinitasPaymentsAppModel {
 	);
 
 /**
+ * behaviors that are attached
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Filemanager.Upload' => array(
+			'image' => array(
+				'thumbnailSizes' => array(
+					'large' => '1000l',
+					'medium' => '600l',
+					'small' => '300l',
+					'thumb' => '75l'
+				)
+			)
+		)
+	);
+
+/**
  * Constructor
  *
  * @param string|integer $id string uuid or id
@@ -93,8 +111,8 @@ class InfinitasPaymentMethod extends InfinitasPaymentsAppModel {
 		}
 
 		$results = $results[0][$this->alias];
-		$results['live'] = json_decode($results['live']);
-		$results['sandbox'] = json_decode($results['sandbox']);
+		$results['live'] = (array)json_decode($results['live'], true);
+		$results['sandbox'] = (array)json_decode($results['sandbox'], true);
 
 		return $results;
 	}

@@ -70,4 +70,25 @@ class GeoLocationComponent extends InfinitasComponent {
 		return $IpLocation->getCityData($ipAddress);
 	}
 
+/**
+ * Get a list of available regions by country id
+ *
+ * Get submitted country from post data and return related region list
+ */
+	public function actionGeoLocationRegions() {
+		foreach ($this->Controller->request->data as $model) {
+			foreach ($model as $field => $value) {
+				if ($field == 'geo_location_country_id') {
+					$countryId = $value;
+					break 2;
+				}
+			}
+		}
+
+		if (empty($countryId)) {
+			return false;
+		}
+		$this->Controller->set('json', ClassRegistry::init('GeoLocation.GeoLocationRegion')->find('regions', $countryId));
+	}
+
 }

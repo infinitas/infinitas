@@ -4,9 +4,7 @@
 	 *
 	 * events for the filter plugin
 	 *
-
 	 *
-	 * @filesource
 	 * @copyright Copyright (c) 2010 Carl Sutton ( dogmatic69 )
 	 * @link http://www.infinitas-cms.org
 	 * @package Infinitas.Filter.Lib

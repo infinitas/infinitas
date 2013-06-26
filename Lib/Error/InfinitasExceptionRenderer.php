@@ -10,6 +10,7 @@ class InfinitasExceptionRenderer extends ExceptionRenderer {
  */
 	public function __construct(Exception $exception) {
 		parent::__construct($exception);
+		EventCore::trigger($this, 'renderException');
 
 		$plugin = 'Libs';
 		if($exception instanceof InfinitasException) {

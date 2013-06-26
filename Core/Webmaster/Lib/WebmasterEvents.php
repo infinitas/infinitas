@@ -91,4 +91,33 @@ class WebmasterEvents extends AppEvents {
 		);
 	}
 
+/**
+ * Exception render event
+ * 
+ * This event is triggered when an exception is thrown. If its a broken url type exception it will be
+ * processed so that it can later be fixed by specifing the correct url.
+ *
+ * @param Event $Event the event object
+ */
+	public function onRenderException(Event $Event) {
+		if (!$Event->Handler->error instanceof Exception) {
+			return false;
+		}
+		$WebmasterRedirect = ClassRegistry::init('Webmaster.WebmasterRedirect');
+		$return = array();
+		switch (get_class($Event->Handler->error)) {
+			case 'MissingControllerException';
+				if (!Configure::read('Webmaster.track_404')) {
+					break;
+				}
+
+				$data = $WebmasterRedirect->recordError((array)$Event->Handler->controller->request);
+				if (!empty($data[$WebmasterRedirect->alias]['redirect_to'])) { // @todo move to the begining of a request to speed things up
+					$redirectCode = $data[$WebmasterRedirect->alias]['redirect_permanent'] ? 301 : 302;
+					$Event->Handler->controller->redirect($data[$WebmasterRedirect->alias]['redirect_to'], $redirectCode);
+				}
+				break;
+		}
+	}
+
 }
