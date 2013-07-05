@@ -254,32 +254,33 @@ class InfinitasComponent extends Component {
 	/**
 	 * Moving MPTT records
 	 *
-	 * This is used for moving mptt records and is called by admin_reorder.
+	 * This is used for moving mptt records, the record id is taken from the controller data array
+	 * and after being checked the record will move either up or down one position.
+	 *
+	 * Any messages are set to the session and either true or false returned.
+	 * 
+	 * @param string $direction up / down
+	 * 
+	 * @return boolean
 	 */
 	public function treeMove($direction) {
 		$model = $this->Controller->modelClass;
-		$check = $this->Controller->{$model}->find(
-			'first',
-			array(
-				'fields' => array($model . '.id'),
-				'conditions' => array($model . '.id' => $this->Controller->data[$model]['id']),
-				'recursive' => -1,
-				'callbacks' => false
-			)
-		);
+		$check = $this->Controller->{$model}->find('first', array(
+			'fields' => array($model . '.id'),
+			'conditions' => array($model . '.id' => $this->Controller->data[$model]['id']),
+			'recursive' => -1,
+			'callbacks' => false
+		));
 
 		if (empty($check[$model]['id'])) {
-			$this->Controller->notice(
-				__d('libs', 'Nothing found to move'),
-				array(
-					'redirect' => false
-				)
-			);
+			$this->Controller->notice(__d('libs', 'Nothing found to move'), array(
+				'redirect' => false
+			));
 			return false;
 		}
 
 		$message = __d('libs', 'Error occured reordering the records');
-		switch($direction) {
+		switch(strtolower($direction)) {
 			case 'up':
 				$message = __d('libs', 'The record was moved up');
 				if (!$this->Controller->{$model}->moveUp($check[$model]['id'], abs(1))) {
@@ -298,9 +299,6 @@ class InfinitasComponent extends Component {
 				}
 				break;
 		}
-		$this->Controller->{$model}->Behaviors->disable('Lockable');
-		$this->Controller->{$model}->Behaviors->disable('Contentable');
-		$this->Controller->{$model}->recover();
 
 		$this->Controller->notice($message, array('redirect' => false));
 
