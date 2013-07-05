@@ -1,6 +1,6 @@
 <?php
 $config = array_merge(array(
-	'title' => __d('contents', 'Content search'),
+	'title' => null,
 	'button' => false
 ), $config);
 
@@ -23,9 +23,13 @@ if ($default && $this->request->params['action'] != 'search') {
 	echo $this->Form->input('search', array(
 		'label' => false,
 		'placeholder' => __d('contents', 'Search'),
-		'default' => $default
+		'default' => $default,
+		'div' => false
 	));
 	if ($config['button']) {
-		echo $this->Form->submit(__d('contents', 'Search'));
+		echo $this->Form->submit(__d('contents', 'Search'), array(
+			'div' => false,
+			'class' => 'btn btn-flat btn-color'
+		));
 	}
 echo $this->Form->end();
