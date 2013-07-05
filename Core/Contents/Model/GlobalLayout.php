@@ -132,20 +132,20 @@
 				if (empty($query['plugin']) || empty($query['model']) || empty($query['action'])) {
 					return $query;
 				}
-
-				$query['conditions'] = array();
-				$query['conditions'][$this->alias . '.model'] = $query['plugin'];
-				$query['conditions'][$this->alias . '.model'] .= '.' . $query['model'];
-				$query['conditions'][$this->alias . '.auto_load'] = $query['action'];
+				$query['conditions'] = array_merge((array)$query['conditions'], array(
+					$this->alias . '.model' => implode('.', array(
+						$query['plugin'],
+						$query['model'],
+					)),
+					$this->alias . '.auto_load' => $query['action']
+				));
 
 				$query['fields'] = array(
 					'GlobalLayout.*'
 				);
 
-				unset($query['model'], $query['plugin'], $query['action']);
 				return $query;
 			}
-
 			return current($results);
 		}
 

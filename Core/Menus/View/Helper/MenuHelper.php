@@ -204,9 +204,10 @@ class MenuHelper extends InfinitasHelper {
 				$menu['MenuItem']['name'] .= self::bootstrapNav($menu['children'], array(), true);
 			}
 
+			$activeClass = $this->here == $url || $this->here == InfinitasRouter::url($url, false);
 			$menu = $this->Html->tag('li', $menu['MenuItem']['name'], array(
 				'class' => array(
-					$this->here == $url ? 'active' : null,
+					$activeClass ? 'active' : null,
 					$hasChildren ? 'dropdown' : null
 				)
 			));

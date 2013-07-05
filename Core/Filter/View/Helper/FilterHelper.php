@@ -66,13 +66,14 @@ class FilterHelper extends AppHelper {
 				}
 
 				$emptyText = $this->Html->stripPluginName($emptyText);
-				$emptyText = __d('filter', 'Select the %s', Inflector::humanize(str_replace('_id', '', $emptyText)));
+				$emptyText = __d('filter', 'Select a %s', Inflector::humanize(str_replace('_id', '', $emptyText)));
 				$output .= $this->Form->input($field, array(
 						'type' => 'select',
 						'div' => false,
 						'options' => $options,
 						'empty' => $emptyText,
-						'label' => false
+						'label' => false,
+						'required' => false
 					));
 			} else if (strstr($options, 'date')) {
 				$output .= $this->Html->datePicker(array($options));
