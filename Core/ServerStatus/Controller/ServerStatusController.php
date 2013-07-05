@@ -2,10 +2,22 @@
 App::uses('ClearCache', 'Data.Lib');
 
 class ServerStatusController extends ServerStatusAppController {
+
+/**
+ * Models to load
+ * 
+ * @var array
+ */
 	public $uses = array(
 		'ServerStatus.ServerStatus'
 	);
 
+/**
+ * Constructor
+ * 
+ * @param [type] $request  [description]
+ * @param [type] $response [description]
+ */
 	public function __construct(CakeRequest $request = null, CakeResponse $response = null) {
 		$this->serverLoad = serverLoad(false);
 		$this->memoryUsage = memoryUsage(false, false);
@@ -19,12 +31,12 @@ class ServerStatusController extends ServerStatusAppController {
 	public function admin_cache_status() {
 		if (isset($this->request->params['named']['clear']) && $this->request->params['named']['clear']) {
 			$this->set('clearedCache', ClearCache::run());
-			$this->notice(
-				__d('server_status', 'Cache cleared'),
-				array(
-					'redirect' => false
-				)
-			);
+			apc_clear_cache();
+  			apc_clear_cache('user');
+			apc_clear_cache('opcode');
+			$this->notice(__d('server_status', 'Cache cleared'), array(
+				'redirect' => false
+			));
 		}
 
 		$this->set('cacheStatus', ClearCache::status());
@@ -52,16 +64,12 @@ class ServerStatusController extends ServerStatusAppController {
 
 		$data = $this->Event->trigger('Crons.areCronsSetup');
 		if (!current($data['areCronsSetup'])) {
-			$this->notice(
-				__d('server_status', 'Crons are not currently running, reporting is disabled'),
-				array(
-					'level' => 'error',
-				)
-			);
+			$this->notice(__d('server_status', 'Crons are not currently running, reporting is disabled'), array(
+				'level' => 'error',
+			));
 
 			$allTime = $lastTwoWeeks = $lastSixMonths = $byHour = $byDay = array();
-		}
-		else{
+		} else{
 			$allTime = $this->ServerStatus->reportAllTime();
 			$lastTwoWeeks = $this->ServerStatus->reportLastTwoWeeks();
 			$lastSixMonths = $this->ServerStatus->reportLastSixMonths();
@@ -72,12 +80,9 @@ class ServerStatusController extends ServerStatusAppController {
 		$this->set(compact('allTime', 'lastTwoWeeks', 'lastSixMonths', 'byHour', 'byDay'));
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			$this->notice(
-				__d('server_status', 'This information may not be accurate on windows based systems'),
-				array(
-					'level' => 'warning'
-				)
-			);
+			$this->notice(__d('server_status', 'This information may not be accurate on windows based systems'), array(
+				'level' => 'warning'
+			));
 		}
 	}
 }
