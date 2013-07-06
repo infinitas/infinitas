@@ -12,6 +12,7 @@ App::uses('InstallerLib', 'Installer.Lib');
  */
 
 class InstallShell extends AppShell {
+
 /**
  * install related tasks to load
  *

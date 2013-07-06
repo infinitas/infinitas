@@ -13,6 +13,7 @@ App::uses('MigrationInformation', 'Migrations.Lib');
  */
 
 class InstallerTask extends AppShell {
+
 /**
  * tasks used for the installer
  *
@@ -44,6 +45,11 @@ class InstallerTask extends AppShell {
 		)
 	);
 
+/**
+ * Constructor
+ *
+ * @return void
+ */
 	public function __construct($stdout = null, $stderr = null, $stdin = null) {
 		parent::__construct($stdout, $stderr, $stdin);
 
@@ -51,6 +57,8 @@ class InstallerTask extends AppShell {
 	}
 
 /**
+ * Installer welcome
+ * 
  * display the licence. If you need it confirmed it will display and require
  * the user to accept. if they do not it will exit.
  *
@@ -64,13 +72,11 @@ class InstallerTask extends AppShell {
 		$this->out($this->InstallerLib->getLicense('text'));
 
 		if ($confirm) {
-			$this->li(
-				array(
-					'[Y]es',
-					'[N]o',
-					'[Q]uit'
-				)
-			);
+			$this->li(array(
+				'[Y]es',
+				'[N]o',
+				'[Q]uit'
+			));
 			$this->br();
 			$input = strtoupper($this->in('Do you accept the MIT license?', array('Y', 'N', 'Q')));
 
@@ -87,16 +93,27 @@ class InstallerTask extends AppShell {
 
 	}
 
-	/**
-		* collect database related configurations and validate them so the installer
-		* can later
-		*/
+/**
+ * Database connection checks
+ * 
+ * collect database related configurations and validate them so the installer
+ * can later
+ *
+ * @param boolean $validationFailed flag if validation failed or not
+ *
+ * @return void
+ */
 	public function database($validationFailed = false) {
 		$this->_getDbEngine($validationFailed);
 		$this->_getDbConnection($validationFailed);
 		$this->_validateDbConnection();
 	}
 
+/**
+ * Run the installer
+ *
+ * @return void
+ */
 	public function install() {
 		$this->h1(__d('insatller', 'Installing'));
 		foreach ($this->config['connection'] as $k => $v) {
@@ -136,7 +153,6 @@ class InstallerTask extends AppShell {
 		}
 
 		$this->interactiveClear();
-		pr($result);
 
 		$this->Plugin = ClassRegistry::init('Installer.Plugin');
 		foreach ($plugins as $pluginName) {
@@ -146,9 +162,32 @@ class InstallerTask extends AppShell {
 
 		$this->interactiveClear();
 
+
+		$this->InstallerLib->writeDbConfig(array('Install' => $this->config['connection']));
+
 		return $result;
 	}
 
+/**
+ * Get the admin users details and save them
+ * 
+ * @return boolean
+ */
+	public function admin_user() {
+		$user = array();
+		$user['email'] = $this->in(__d('installer', 'Email'));
+		$user['group_id'] = 1;
+		$user['username'] = $this->in(__d('installer', 'Username'), null, 'admin');
+		$user['password'] = $this->in(__d('installer', 'Password'), null, 'Admin123');
+
+		return (bool)$this->InstallerLib->createUser($user);
+	}
+
+/**
+ * Install local plugins
+ * 
+ * @return void
+ */
 	public function installLocalPlugin() {
 		$plugins = $this->__getPluginToInstall();
 		if (!$plugins) {
@@ -165,9 +204,7 @@ class InstallerTask extends AppShell {
 			try {
 				$Plugin->installPlugin($plugin, array('sampleData' => false, 'installRelease' => false));
 				$output = sprintf('%s Plugin updated', $plugin);
-			}
-
-			catch(Exception $e) {
+			} catch(Exception $e) {
 				$output = sprintf('Update for %s has failed (%s)', $plugin, $e->getMessage());
 			}
 
@@ -177,6 +214,11 @@ class InstallerTask extends AppShell {
 		$this->pause();
 	}
 
+/**
+ * Update a plugin
+ * 
+ * @return void
+ */
 	public function updatePlugin() {
 		$plugins = $this->__getPluginToUpdate();
 		if (!$plugins) {
@@ -193,9 +235,7 @@ class InstallerTask extends AppShell {
 			try{
 				$Plugin->installPlugin($plugin);
 				$output = sprintf('%s Plugin updated', $plugin);
-			}
-
-			catch(Exception $e) {
+			} catch(Exception $e) {
 				$this->out(sprintf('Update for %s has failed (%s)', $plugin, $e->getMessage()));
 				$e->getTrace();
 				continue;
@@ -211,6 +251,9 @@ class InstallerTask extends AppShell {
 
 /**
  * get the users database engine preference
+ * 
+ * @param boolean $validationFailed flag if validation failed or not
+ * @return void
  */
 	public function _getDbEngine($validationFailed) {
 		$this->h1(__d('insatller', 'Database configuration'));
@@ -229,12 +272,14 @@ class InstallerTask extends AppShell {
 			array_keys($dbs),
 			current(array_keys($dbs))
 		);
-		return;
 	}
 
-	/**
-	 * get the connection details for the selected database engine
-	 */
+/**
+ * get the connection details for the selected database engine
+ * 
+ * @param boolean $validationFailed flag if validation failed or not
+ * @return boolean
+ */
 	public function _getDbConnection($validationFailed) {
 		$this->h1(sprintf('%s (%s)', __d('insatller', 'Database configuration'), $this->config['connection']['datasource']));
 
@@ -276,9 +321,11 @@ class InstallerTask extends AppShell {
 		return true;
 	}
 
-	/**
-		* check that the details for the database given are correct.
-		*/
+/**
+ * check that the details for the database given are correct.
+ *
+ * @return void
+ */
 	public function _validateDbConnection() {
 		$this->h1(sprintf(__d('insatller', 'Testing %s connection'), $this->config['connection']['datasource']));
 		if (!$this->InstallerLib->testConnection($this->config['connection'])) {
@@ -286,6 +333,11 @@ class InstallerTask extends AppShell {
 		}
 	}
 
+/**
+ * Get the option for sample data
+ *
+ * @return void
+ */
 	public function _getSampleDataOption() {
 		$this->out('Would you like to install sample data');
 		$this->out('[Y]es, [N]o or [B]ack');
@@ -303,9 +355,13 @@ class InstallerTask extends AppShell {
 		}
 	}
 
+/**
+ * Get plugins that require updates
+ *
+ * @return void
+ */
 	private function __getPluginToUpdate() {
 		$Plugin = ClassRegistry::init('Installer.Plugin');
-		Configure::write('debug', 2);
 		$plugins = array();
 		foreach ($Plugin->getInstalledPlugins() as $plugin) {
 			$status = MigrationInformation::status($plugin);
@@ -335,6 +391,11 @@ class InstallerTask extends AppShell {
 		} while($input != 'Q');
 	}
 
+/**
+ * get plugins that require installation
+ *
+ * @return void
+ */
 	private function __getPluginToInstall() {
 		$plugins = ClassRegistry::init('Installer.Plugin')->getNonInstalledPlugins();
 		sort($plugins);
