@@ -122,7 +122,7 @@ class InstallShell extends AppShell {
  */
 	public function everything() {
 		foreach ($this->InstallerLib->steps as $step) {
-			print_r($this->Installer->{$step}());
+			$this->Installer->{$step}();
 		}
 	}
 
