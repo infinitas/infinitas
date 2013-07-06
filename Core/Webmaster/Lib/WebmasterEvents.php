@@ -100,7 +100,7 @@ class WebmasterEvents extends AppEvents {
  * @param Event $Event the event object
  */
 	public function onRenderException(Event $Event) {
-		if (!$Event->Handler->error instanceof Exception) {
+		if (!$Event->Handler->error instanceof Exception || php_sapi_name() == 'cli') {
 			return false;
 		}
 		$return = array();

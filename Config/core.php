@@ -6,7 +6,7 @@
 	 */
 
 	Configure::write('debug', 0);
-	if(substr(env('SERVER_ADDR'), 0, 3) == 127 || substr(env('HTTP_HOST'), -3) == 'dev') {
+	if(substr(env('SERVER_ADDR'), 0, 3) == 127 || substr(env('HTTP_HOST'), -3) == 'dev' || php_sapi_name() == 'cli') {
 		Configure::write('debug', 2);
 	}
 
