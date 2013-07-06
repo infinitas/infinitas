@@ -25,7 +25,7 @@
 			<h1><?php echo __d('contents', 'Tag'); ?></h1><?php
 			echo $this->Form->input('id');
 			echo $this->Form->input('identifier');
-			echo $this->Form->input('name', array('readonly' => 'readonly'));
+			echo $this->Form->input('name');
 			echo $this->Form->input('keyname'); ?>
 		</fieldset><?php
 	echo $this->Form->end();
