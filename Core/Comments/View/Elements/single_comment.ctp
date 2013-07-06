@@ -17,10 +17,7 @@ if (!isset($comment)) {
 }
 $comment = isset($comment['InfinitasComment']) ? $comment['InfinitasComment'] : $comment;
 
-$comment['comment'] = str_replace('\\n', '', strip_tags($comment['comment']));
-if ($this->plugin != 'Comments') {
-	$comment['comment'] = $this->Text->truncate($comment['comment'], 350);
-}
+$comment['comment'] = str_replace('\\n', '<br />', strip_tags($comment['comment']));
 
 $link = null;
 if (isset($comment['website']) && isset($comment['username'])) {

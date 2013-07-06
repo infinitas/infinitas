@@ -35,7 +35,7 @@ if (!isset($image) || $image !== false) {
 			'label' => __d('contents', 'Content Image')
 		)
 	));
-	$thumb = null;
+	$thumb = '';
 	if (!empty($this->request->data[$m])) {
 		$thumb = $this->Html->link(
 			$this->Html->image($this->request->data[$m]['content_image_path_thumb']),
@@ -53,6 +53,7 @@ if (!isset($image) || $image !== false) {
 		'class' => 'span1'
 	));
 }
+
 $fields = $this->Html->tag('div', implode('', array(
 	$this->Form->input('GlobalContent.title', array(
 		'div' => $class
@@ -64,6 +65,9 @@ $fields = $this->Html->tag('div', implode('', array(
 	$image
 )), array('class' => 'row-fluid'));
 
+if (empty($contentTags)) {
+	$contentTags = array();
+}
 $tags = Hash::extract($contentTags, '{n}.GlobalTag.name');
 $currentTags = (array)Hash::extract($this->request->data, 'GlobalTagged.{n}.GlobalTag.name');
 $tagAvailabel = array();
@@ -109,10 +113,7 @@ $fields .= $this->Infinitas->wysiwyg('GlobalContent.body');
 
 $template = '%s';
 if (!empty($metaFieldSet) && $metaFieldSet === true) {
-	$template = sprintf(
-		'<fieldset><h1>%s</h1>%%s</fieldset>',
-		__d('contents', 'Content')
-	);
+	$template = $this->Html->tag('fieldset', $this->Html->tag('h1', __d('contents', 'Content')) . '%%s');
 }
 
 echo sprintf($template, $fields);
@@ -141,7 +142,7 @@ if (!empty($tags)) {
 		$url = current($this->Event->trigger($p . '.slugUrl', array(
 			'type' => 'tag',
 			'data' => array(
-				'tag' => strtolower(str_replace($tag))
+				'tag' => strtolower(str_replace(' ', '', $tag))
 			)
 		)));
 		$url[$p]['admin'] = false;

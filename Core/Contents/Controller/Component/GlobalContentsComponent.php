@@ -48,9 +48,7 @@ class GlobalContentsComponent extends InfinitasComponent {
 			return;
 		}
 
-		$layout = ClassRegistry::init('Contents.GlobalLayout')->find(
-			'autoLoadLayout', $options
-		);
+		$layout = ClassRegistry::init('Contents.GlobalLayout')->find('autoLoadLayout', $options);
 
 		if ($layout) {
 			$Controller->set('globalLayoutTemplate', $layout);

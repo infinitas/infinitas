@@ -1006,6 +1006,10 @@
 				}
 			}
 
+			if (!empty($this->request->params['pass'])) {
+				return parent::url($url);
+			}
+
 			$keyUrl = $url;
 			if (is_array($keyUrl)) {
 				$keyUrl += $this->urlExtras;
@@ -1023,9 +1027,8 @@
 				return $this->urlCache[$key];
 			}
 
-			$url = parent::url($url, $full);
-			$this->urlCache[$key] = $url;
+			$this->urlCache[$key] = parent::url($url, $full);
 
-			return $url;
+			return $this->urlCache[$key];
 		}
 	}

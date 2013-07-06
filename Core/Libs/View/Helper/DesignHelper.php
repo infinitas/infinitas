@@ -101,22 +101,23 @@ class DesignHelper extends AppHelper {
 				$tab
 			);
 
+			$id = sprintf('%s-%d', $uuid, $i);
 			$tabs[$k] = $this->Html->link(
 				$tab['text'],
-				$tab['url'] . sprintf('#%s-%d', $uuid, $i),
+				$tab['url'] . '#' . $id,
 				$tab['config']
 			);
 
-			$content[$k] = sprintf('<div id="%s-%d">%s</div>', $uuid, $i, $content[$k]);
+			$content[$k] = $this->Html->tag('div', $content[$k], array(
+				'id' => $id
+			));
 
 			$i++;
 		}
 
-		return sprintf(
-			'<div class="tabs">%s%s</div>',
-			$this->arrayToList($tabs),
-			implode('', $content)
-		);
+		return $this->Html->tag('div', $this->arrayToList($tabs) . implode('', $content), array(
+			'class' => 'tabs'
+		));
 	}
 
 /**

@@ -103,14 +103,14 @@ class WebmasterEvents extends AppEvents {
 		if (!$Event->Handler->error instanceof Exception || php_sapi_name() == 'cli') {
 			return false;
 		}
-		$WebmasterRedirect = ClassRegistry::init('Webmaster.WebmasterRedirect');
 		$return = array();
 		switch (get_class($Event->Handler->error)) {
 			case 'MissingControllerException';
 				if (!Configure::read('Webmaster.track_404')) {
 					break;
 				}
-
+				
+				$WebmasterRedirect = ClassRegistry::init('Webmaster.WebmasterRedirect');
 				$data = $WebmasterRedirect->recordError((array)$Event->Handler->controller->request);
 				if (!empty($data[$WebmasterRedirect->alias]['redirect_to'])) { // @todo move to the begining of a request to speed things up
 					$redirectCode = $data[$WebmasterRedirect->alias]['redirect_permanent'] ? 301 : 302;

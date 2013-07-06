@@ -1,36 +1,36 @@
 <?php
-    /**
-     * Comment Template.
-     *
-     * @todo -c Implement .this needs to be sorted out.
-     *
-     * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     *
-     * Licensed under The MIT License
-     * Redistributions of files must retain the above copyright notice.
-     *
-     * @filesource
-     * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
-     * @link          http://infinitas-cms.org
-     * @package       sort
-     * @subpackage    sort.comments
-     * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
-     * @since         0.5a
-     */
+/**
+ * Comment Template.
+ *
+ * @todo -c Implement .this needs to be sorted out.
+ *
+ * Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @filesource
+ * @copyright     Copyright (c) 2009 Carl Sutton ( dogmatic69 )
+ * @link          http://infinitas-cms.org
+ * @package       sort
+ * @subpackage    sort.comments
+ * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @since         0.5a
+ */
 
-	if (!Configure::read(Inflector::camelize($this->plugin) . '.allow_comments')) {
-		return false;
-	}
-	if (!empty($config['config'])) {
-		$config = $config['config'];
-	}
-	$config = array_merge(array(
-		'view_all' => 'View all comments',
-		'login' => 'Please log in to leave a comment',
-		'modelName' =>  Inflector::singularize($this->name),
-		'foreignId' => null,
-		'content' => null
-	), $config);
+if (!Configure::read(Inflector::camelize($this->plugin) . '.allow_comments')) {
+	return false;
+}
+if (!empty($config['config'])) {
+	$config = $config['config'];
+}
+$config = array_merge(array(
+	'view_all' => 'View all comments',
+	'login' => 'Please log in to leave a comment',
+	'modelName' =>  Inflector::singularize($this->name),
+	'foreignId' => null,
+	'content' => null
+), $config);
 ?>
 <div id="comment" class="comments">
 	<?php

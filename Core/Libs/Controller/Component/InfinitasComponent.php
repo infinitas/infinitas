@@ -5,22 +5,24 @@
  * @package
  * @author dogmatic
  * @copyright Copyright (c) 2010
- * @version $Id$
  */
+
 App::uses('Router', 'Routing');
+
 class InfinitasComponent extends Component {
+
 	public $defaultLayout = 'default';
 
 	/**
-	* Risk is calculated on bad logins vs the number of times that username
-	* has been blocked. the higher the risk is the longer the lock out time
-	* will be.
-	*/
+	 * Risk is calculated on bad logins vs the number of times that username
+	 * has been blocked. the higher the risk is the longer the lock out time
+	 * will be.
+	 */
 	public $risk = 0;
 
 	/**
-	* components being used here
-	*/
+	 * components being used here
+	 */
 	public $components = array(
 		'Themes.Themes',
 		'Events.Event'
@@ -31,8 +33,10 @@ class InfinitasComponent extends Component {
 	public $Controller = null;
 
 	/**
-	* Controllers initialize function.
-	*/
+	 * Controllers initialize function.
+	 *
+	 * @return void
+	 */
 	public function initialize(Controller $Controller) {
 		parent::initialize($Controller);
 
@@ -49,10 +53,12 @@ class InfinitasComponent extends Component {
 		}
 	}
 
+	/**
+	 * wysiwyg editors
+	 *
+	 * @return void
+	 */
 	private function __registerPlugins() {
-		/**
-		 * wysiwyg editors
-		 */
 		$wysiwygEditors = Cache::read('wysiwyg_editors', 'core');
 		if ($wysiwygEditors === false) {
 			$eventData = $this->Event->trigger('registerWysiwyg');
@@ -69,8 +75,10 @@ class InfinitasComponent extends Component {
 	 * This is what allows you to view different number of records in the
 	 * index pages.
 	 *
-	 * @param array $options
-	 * @return
+	 * @param array $options the options for pagination limit
+	 * @param array $params the params for the current request
+	 * 
+	 * @return void
 	 */
 	public function changePaginationLimit($options = array(), $params = array()) {
 		// remove the current / default value
@@ -94,10 +102,11 @@ class InfinitasComponent extends Component {
 	 * setting the Global.pagination_limit to 0 should turn this off
 	 *
 	 * @param int $limit the current limit that is being requested
+	 * 
 	 * @return integer
 	 */
 	public function paginationHardLimit($limit = null, $return = false) {
-		if ( ( $limit && Configure::read('Global.pagination_limit') ) && $limit > Configure::read('Global.pagination_limit')) {
+		if (($limit && Configure::read('Global.pagination_limit')) && $limit > Configure::read('Global.pagination_limit')) {
 			$this->Controller->request->params['limit'] = Configure::read('Global.pagination_limit');
 
 			$this->Controller->notice(
@@ -119,6 +128,8 @@ class InfinitasComponent extends Component {
 	 * force the site to use www.
 	 *
 	 * this will force your site to use the sub domain www.
+	 *
+	 * @return void
 	 */
 	public function forceWwwUrl() {
 		// read the host from the server environment
@@ -146,7 +157,7 @@ class InfinitasComponent extends Component {
 	/**
 	 * Get the users browser.
 	 *
-	 * return string the users browser name or Unknown.
+	 * @return string
 	 */
 	public function getBrowser() {
 		$event = $this->Controller->Event->trigger('findBrowser');
@@ -170,14 +181,10 @@ class InfinitasComponent extends Component {
 		) {
 			// IE
 			return 'MS Internet Explorer '.$m[1];
-		}
-
-		else if (preg_match( "/netscape.?\/([\d\.]*)/i", $agent, $m )) {
+		} else if (preg_match( "/netscape.?\/([\d\.]*)/i", $agent, $m )) {
 				// Netscape 6.x, 7.x ...
 				return 'Netscape '.$m[1];
-		}
-
-		else if (
+		} else if (
 			preg_match( "/mozilla[\/\sa-z]*([\d\.]*)/i", $agent, $m ) &&
 			!preg_match( "/gecko/i", $agent ) &&
 			!preg_match( "/compatible/i", $agent ) &&
@@ -187,9 +194,7 @@ class InfinitasComponent extends Component {
 		) {
 			// Netscape 3.x, 4.x ...
 			return 'Netscape '.$m[1];
-		}
-
-		else{
+		} else{
 			// Other
 			Configure::load('browsers');
 			$browsers	  = Configure::read('Browsers');
@@ -227,7 +232,11 @@ class InfinitasComponent extends Component {
 
 		return 'Unknown';
 	}
-
+/**
+ * Trigger the event to get the plugin assets (css / js) that are required to load
+ * 
+ * @return void
+ */
 	public function getPluginAssets() {
 		$event = $this->Controller->Event->trigger('requireJavascriptToLoad', $this->Controller->params);
 		if (isset($event['requireJavascriptToLoad']['Assets'])) {
@@ -254,32 +263,33 @@ class InfinitasComponent extends Component {
 	/**
 	 * Moving MPTT records
 	 *
-	 * This is used for moving mptt records and is called by admin_reorder.
+	 * This is used for moving mptt records, the record id is taken from the controller data array
+	 * and after being checked the record will move either up or down one position.
+	 *
+	 * Any messages are set to the session and either true or false returned.
+	 * 
+	 * @param string $direction up / down
+	 * 
+	 * @return boolean
 	 */
 	public function treeMove($direction) {
 		$model = $this->Controller->modelClass;
-		$check = $this->Controller->{$model}->find(
-			'first',
-			array(
-				'fields' => array($model . '.id'),
-				'conditions' => array($model . '.id' => $this->Controller->data[$model]['id']),
-				'recursive' => -1,
-				'callbacks' => false
-			)
-		);
+		$check = $this->Controller->{$model}->find('first', array(
+			'fields' => array($model . '.id'),
+			'conditions' => array($model . '.id' => $this->Controller->data[$model]['id']),
+			'recursive' => -1,
+			'callbacks' => false
+		));
 
 		if (empty($check[$model]['id'])) {
-			$this->Controller->notice(
-				__d('libs', 'Nothing found to move'),
-				array(
-					'redirect' => false
-				)
-			);
+			$this->Controller->notice(__d('libs', 'Nothing found to move'), array(
+				'redirect' => false
+			));
 			return false;
 		}
 
 		$message = __d('libs', 'Error occured reordering the records');
-		switch($direction) {
+		switch(strtolower($direction)) {
 			case 'up':
 				$message = __d('libs', 'The record was moved up');
 				if (!$this->Controller->{$model}->moveUp($check[$model]['id'], abs(1))) {
@@ -298,9 +308,6 @@ class InfinitasComponent extends Component {
 				}
 				break;
 		}
-		$this->Controller->{$model}->Behaviors->disable('Lockable');
-		$this->Controller->{$model}->Behaviors->disable('Contentable');
-		$this->Controller->{$model}->recover();
 
 		$this->Controller->notice($message, array('redirect' => false));
 
@@ -311,6 +318,8 @@ class InfinitasComponent extends Component {
 	 * Moving records that actas sequenced
 	 *
 	 * This is used for moving sequenced records and is called by admin_reorder.
+	 *
+	 * @return void
 	 */
 	public function orderedMove() {
 		$modelName = $this->Controller->modelClass;

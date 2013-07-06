@@ -281,12 +281,8 @@
 
 			if (!empty($this->Controller->request->params['named']['direction'])) {
 				if (!$this->Controller->{$model}->Behaviors->attached('Tree')) {
-					$this->Controller->notice(
-						__d('libs', 'A problem occured moving that MPTT record.'),
-						$redirectConfig
-					);
+					$this->Controller->notice(__d('libs', 'A problem occured moving that MPTT record.'), $redirectConfig);
 				}
-
 				$this->Controller->Infinitas->treeMove($this->Controller->request->params['named']['direction']);
 			}
 
