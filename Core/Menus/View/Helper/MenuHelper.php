@@ -166,11 +166,11 @@ class MenuHelper extends InfinitasHelper {
 		));
 	}
 
-	public function bootstrapNav($menus, $ulOptions = array(), $child = false) {
+	public function bootstrapNav($menus, array $ulOptions = array(), $child = false) {
 		foreach ($menus as &$menu) {
-			$ulOptions = array(
+			$ulOptions = array_merge(array(
 				'class' => 'nav'
-			);
+			), $ulOptions);
 			$linkOptions = array(
 				'escape' => false
 			);
