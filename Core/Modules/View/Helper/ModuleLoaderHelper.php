@@ -267,8 +267,9 @@ class ModuleLoaderHelper extends InfinitasHelper {
 	public function loadDirect($module, $params = array()) {
 		list($plugin, $module) = pluginSplit($module);
 
-		// @check plugin is loaded
-		// if not plugin return 'plugin foobar is not loaded / does not exist'
+		if (!InfinitasPlugin::loaded($plugin)) {
+			return __d('modules', 'Plugin does not exist or is not loaded');
+		}
 
 		$admin = (isset($this->_View->request->params['admin']) && $this->_View->request->params['admin']) || (isset($params['admin']) && $params['admin']);
 		if ($admin && (isset($params['admin']) && $params['admin'] == false)) {
@@ -282,10 +283,7 @@ class ModuleLoaderHelper extends InfinitasHelper {
 		$module = sprintf('modules/%s', $module);
 
 		$pluginDir = App::pluginPath($plugin) . 'View' . DS  . 'Elements' . DS . $module . '.ctp';
-		$module = implode('.', array(
-			$plugin,
-			$module
-		));
+		$module = implode('.', array($plugin, $module));
 
 		if (!$this->_View->elementExists($module)) {
 			$module .= '/module';
