@@ -371,7 +371,9 @@ class SpamRating {
 
 	public function rateWebsite($data) {
 		$points = 0;
-		$website = $data[$this->_config('website')];
+		if (array_key_exists($this->_config('website'), $data)) {
+			$website = $data[$this->_config('website')];
+		}
 
 		if (empty($website)) {
 			return $points;
