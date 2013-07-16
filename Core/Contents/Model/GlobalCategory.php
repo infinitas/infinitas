@@ -108,17 +108,14 @@ class GlobalCategory extends ContentsAppModel {
  * @return array
  */
 	public function getActiveIds() {
-		$ids = $this->find(
-			'list',
-			array(
-				'fields' => array(
-					$this->alias . '.id', $this->alias . '.id'
-				),
-				'conditions' => array(
-					$this->alias . '.active' => 1
-				)
+		$ids = $this->find('list', array(
+			'fields' => array(
+				$this->alias . '.id', $this->alias . '.id'
+			),
+			'conditions' => array(
+				$this->alias . '.active' => 1
 			)
-		);
+		));
 
 		return $ids;
 	}
@@ -138,21 +135,15 @@ class GlobalCategory extends ContentsAppModel {
 			return parent::children($id, $direct);
 		}
 
-		$id = $this->find(
-			'first',
-			array(
-				'conditions' => array(
-					'or' => array(
-						'GlobalCategory.slug' => $id,
-						'GlobalCategory.title' => $id
-					),
-				)
-			)
-		);
-
-		if (isset($id['GlobalCategory']['id']) && !empty($id['GlobalCategory']['id'])) {
-			$id = $id['GlobalCategory']['id'];
-		}
+		$this->virtualFields['slug'] = 'GlobalContent.slug';
+		$this->virtualFields['title'] = 'GlobalContent.title';
+		$id = $this->field('id', array(
+			'or' => array(
+				'GlobalCategory.id' => $id,
+				'slug' => $id,
+				'title' => $id
+			),
+		));
 
 		return parent::children($id, $direct);
 	}

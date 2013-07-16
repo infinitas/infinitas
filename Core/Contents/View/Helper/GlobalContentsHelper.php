@@ -18,6 +18,7 @@
  */
 
 class GlobalContentsHelper extends AppHelper {
+
 /**
  * Helpers to load
  *

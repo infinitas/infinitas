@@ -113,9 +113,7 @@
 
 				$query['list']['keyPath'] = '{n}.' . $query['fields'][0];
 				$query['list']['valuePath'] = '{n}.' . $query['fields'][1];
-			}
-
-			else if ($Model->findQueryType == 'neighbors') {
+			} else if ($Model->findQueryType == 'neighbors') {
 
 				$query['fields'] = array_merge(
 					$query['fields'],
@@ -136,11 +134,9 @@
 				array_unshift($query['joins'], $gc);
 
 				return $query;
-			}
-			else if ($Model->findQueryType == 'layoutList') {
+			} else if ($Model->findQueryType == 'layoutList') {
 				return $query;
-			}
-			else if ($Model->findQueryType != 'count') {
+			} else if ($Model->findQueryType != 'count') {
 				$query['fields'] = array_merge(
 					$query['fields'],
 					array(
@@ -157,8 +153,10 @@
 						'ContentGroup.name',
 						'ContentEditor.id',
 						'ContentEditor.username',
+						'ContentEditor.email',
 						'ContentAuthor.id',
-						'ContentAuthor.username'
+						'ContentAuthor.username',
+						'ContentAuthor.email',
 					)
 				);
 			}

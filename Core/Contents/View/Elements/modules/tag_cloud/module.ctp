@@ -41,7 +41,6 @@ if (!isset($tags[0]['GlobalTag'])) {
 	$tags = $_tags;
 	unset($_tags);
 }
-
 if (!$tags) {
 	return false;
 }
