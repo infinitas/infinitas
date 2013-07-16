@@ -26,7 +26,8 @@ class GlobalContentsHelper extends AppHelper {
  */
 	public $helpers = array(
 		'Events.Event',
-		'Html'
+		'Html',
+		'Libs.Gravatar'
 	);
 
 /**
@@ -43,15 +44,19 @@ class GlobalContentsHelper extends AppHelper {
 
 		$author = !empty($data['GlobalContent']['author_alias']) ? $data['GlobalContent']['author_alias'] : $data['ContentAuthor']['username'];
 
-		return $this->Html->link(
-			$author,
-			array(
-				'plugin' => 'contents',
-				'controller' => 'global_authors',
-				'action' => 'view',
-				'author' => $author
-			)
-		);
+		return $this->Html->link($author, array(
+			'plugin' => 'contents',
+			'controller' => 'global_authors',
+			'action' => 'view',
+			'author' => $author
+		));
+	}
+
+	public function gravatar($data) {
+		if (empty($data['ContentAuthor']['id']) && empty($data['GlobalContent']['author_alias'])) {
+			return false;
+		}
+		return $this->Gravatar->image($data['ContentAuthor']['email']);
 	}
 
 /**
