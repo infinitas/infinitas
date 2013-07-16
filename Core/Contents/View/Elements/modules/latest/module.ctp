@@ -4,6 +4,9 @@ $config = array_merge(array(
 	'limit' => 5,
 	'truncate' => 60,
 ), $config);
+if (!empty($config['id'])) {
+	$config['model']= $config['id'];
+}
 
 if (isset($config['model']) && $config['model'] === '1') {
 	$config['model'] = implode('.', current(array_values($this->request->models)));
@@ -18,7 +21,7 @@ if (isset($config['category']) && $config['category'] === '1') {
 
 if (!empty($config['model'])) {
 	list($plugin,) = pluginSplit($config['model']);
-	if ($plugin != $this->plugin) {
+	if ($plugin != $this->plugin && empty($config['id'])) {
 		return;
 	}
 }
@@ -68,10 +71,8 @@ foreach ($latestContents as &$latestContent) {
 }
 
 echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('div', $config['title'], array(
-		'class' => 'title_bar'
-	)),
+	$this->Html->tag('h4', $config['title']),
 	$this->Design->arrayToList($latestContents, array(
 		'div' => 'content'
 	))
-)), array('class' => 'side_box'));
+)), array('class' => 'span3'));

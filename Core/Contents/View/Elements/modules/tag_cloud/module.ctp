@@ -8,10 +8,12 @@ $config = array_merge(array(
 	'tag_after' => '</li>',
 	'box' => true
 ), $config);
-
+if (!empty($config['id']) && strstr($config['id'], '.') !== false) {
+	$config['model'] = $config['id'];
+}
 if (!empty($config['model'])) {
 	list($plugin,) = pluginSplit($config['model']);
-	if (Inflector::underscore($plugin) != $this->request->plugin) {
+	if (Inflector::underscore($plugin) != $this->request->plugin && empty($config['id'])) {
 		return;
 	}
 }
@@ -24,6 +26,9 @@ if (empty($tags) && !empty($config['tags'])) {
 	$tags = $config['tags'];
 }
 if (empty($tags)) {
+	if (!empty($config['id']) && (!is_int($config['id']) || strlen($config['id']) !== 36)) {
+		unset($config['id']);
+	}
 	$tags = ClassRegistry::init('Blog.BlogPost')->GlobalTagged->find('cloud', array(
 		'limit' => $config['limit'],
 		'model' => $config['model'],
@@ -69,6 +74,6 @@ if (!$config['box']) {
 }
 
 echo $this->Html->tag('div', implode('', array(
-	$this->Html->tag('div', $config['title'], array('class' => 'title_bar')),
+	$this->Html->tag('h4', $config['title']),
 	$this->Html->tag('div', $tags, array('class' => 'content'))
-)),array('class' => 'side_box'));
+)),array('class' => 'span3'));
