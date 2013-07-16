@@ -27,7 +27,7 @@
 ?>
 <div class="input smaller required <?php echo $errorClass; ?>">
 	<label for="<?php echo $model; ?>Plugin"><?php echo __d('routes', 'Route'); ?></label><?php
-	echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getControllers'}, target:'" . $model . "Controller'}"));
+	echo $this->Form->input('plugin', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getControllers'}, target:'" . $model . "Controller'}", 'required' => false));
 	echo $this->Form->input('controller', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false, 'class' => "ajaxSelectPopulate {url:{action:'getActions'}, target:'" . $model . "Action'}"));
 	echo $this->Form->input('action', array('error' => false, 'div' => false, 'type' => 'select', 'label' => false));
 	echo $error; ?>
