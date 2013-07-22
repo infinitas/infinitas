@@ -52,8 +52,7 @@ class CommentShell extends AppShell {
 			
 			$save = $SpamRating->outcome($comment['InfinitasComment']);
 			$save[$this->InfinitasComment->primaryKey] = $comment['InfinitasComment']['id'];
-			var_dump($this->InfinitasComment->save($save));
-			exit;
+			$this->InfinitasComment->save($save);
 		}
 	}
 
