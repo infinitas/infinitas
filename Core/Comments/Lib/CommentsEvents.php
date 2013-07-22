@@ -163,7 +163,7 @@ class CommentsEvents extends AppEvents {
  * @param array $comment
  */
 	public function onNewCommentSaved(Event $Event, array $comment) {
-		if (!$comment['active']) {
+		if (!$comment['active'] || $comment['points'] < 0) {
 			return false;
 		}
 		
