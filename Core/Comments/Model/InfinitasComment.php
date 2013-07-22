@@ -38,7 +38,7 @@ class InfinitasComment extends CommentsAppModel {
 		'linkedComments' => true,
 		'adminIndex' => true,
 		'otherCommentors' => true,
-		'urlData' => true
+		'urlData' => true,
 	);
 
 /**
@@ -47,7 +47,7 @@ class InfinitasComment extends CommentsAppModel {
  * @var array
  */
 	public $actsAs = array(
-		'Libs.Expandable'
+		'Libs.Expandable',
 	);
 
 /**
@@ -57,14 +57,14 @@ class InfinitasComment extends CommentsAppModel {
  */
 	public $hasMany = array(
 		'CommentAttribute' => array(
-			'className' => 'Comments.InfinitasCommentAttribute'
-		)
+			'className' => 'Comments.InfinitasCommentAttribute',
+		),
 	);
 
 	public $belongsTo = array(
 		'User' => array(
-			'className' => 'Users.User'
-		)
+			'className' => 'Users.User',
+		),
 	);
 
 /**
@@ -77,19 +77,19 @@ class InfinitasComment extends CommentsAppModel {
 			'email' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __d('comments', 'Please enter your email address')
+					'message' => __d('comments', 'Please enter your email address'),
 				),
 				'email' => array(
 					'rule' => array('email'),
-					'message' => __d('comments', 'Please enter a valid email address')
-				)
+					'message' => __d('comments', 'Please enter a valid email address'),
+				),
 			),
 			'comment' => array(
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
-					'message' => __d('comments', 'Please enter your comments')
-				)
-			)
+					'message' => __d('comments', 'Please enter your comments'),
+				),
+			),
 		);
 	}
 
@@ -118,7 +118,7 @@ class InfinitasComment extends CommentsAppModel {
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.' . $this->primaryKey,
 				$this->alias . '.email',
-				$this->User->alias . '.*'
+				$this->User->alias . '.*',
 			));
 
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
@@ -142,8 +142,8 @@ class InfinitasComment extends CommentsAppModel {
 
 		$attributes = $this->CommentAttribute->find('all', array(
 			'conditions' => array(
-				$this->CommentAttribute->alias . '.infinitas_comment_id' => Hash::extract($results, '{n}.' . $this->alias . '.' . $this->primaryKey)
-			)
+				$this->CommentAttribute->alias . '.infinitas_comment_id' => Hash::extract($results, '{n}.' . $this->alias . '.' . $this->primaryKey),
+			),
 		));
 		foreach ($results as &$result) {
 			$template = sprintf('{n}.%s[infinitas_comment_id=%s]',
@@ -187,11 +187,11 @@ class InfinitasComment extends CommentsAppModel {
 
 			$query['fields'] = array_merge((array)$query['fields'], array(
 				$this->alias . '.class',
-				$this->alias . '.foreign_id'
+				$this->alias . '.foreign_id',
 			));
 
 			$query['conditions'] = array_merge((array)$query['conditions'], array(
-				$this->alias . '.' . $this->primaryKey => $query[0]
+				$this->alias . '.' . $this->primaryKey => $query[0],
 			));
 
 			$query['limit'] = 1;
@@ -209,7 +209,7 @@ class InfinitasComment extends CommentsAppModel {
 			'data' => array(
 				$model => array(
 					ClassRegistry::init($results['class'])->primaryKey => $results['foreign_id'],
-				)
+				),
 			),
 			'id' => $query[0],
 			'plugin' => Inflector::camelize($plugin),
@@ -246,7 +246,7 @@ class InfinitasComment extends CommentsAppModel {
 			$query['conditions'][$this->alias . '.active'] = 1;
 
 			$query['order'] = array(
-				$this->alias . '.created' => 'asc'
+				$this->alias . '.created' => 'asc',
 			);
 
 			$query['joins'][] = array(
@@ -254,8 +254,8 @@ class InfinitasComment extends CommentsAppModel {
 				'alias' => 'CommentAttribute',
 				'type' => 'LEFT',
 				'conditions' => array(
-					'CommentAttribute.infinitas_comment_id = ' . $this->alias . '.id'
-				)
+					'CommentAttribute.infinitas_comment_id = ' . $this->alias . '.id',
+				),
 			);
 
 			$query['joins'][] = array(
@@ -263,8 +263,8 @@ class InfinitasComment extends CommentsAppModel {
 				'alias' => 'CommentUser',
 				'type' => 'LEFT',
 				'conditions' => array(
-					'CommentUser.id = ' . $this->alias . '.user_id'
-				)
+					'CommentUser.id = ' . $this->alias . '.user_id',
+				),
 			);
 
 			return $query;
@@ -331,10 +331,11 @@ class InfinitasComment extends CommentsAppModel {
 
 				unset($results[$k][$base['with']]);
 			}
-		} else {
-			foreach ($results[$base['with']] as $field) {
-				$results[$field['key']] = $field['val'];
-			}
+			return $results;
+		}
+
+		foreach ($results[$base['with']] as $field) {
+			$results[$field['key']] = $field['val'];
 		}
 
 		return $results;
@@ -354,11 +355,11 @@ class InfinitasComment extends CommentsAppModel {
 	public function getUsersComments($userId = null, $limit = 5) {
 		$comments = $this->find('all', array(
 			'conditions' => array(
-				$this->alias . '.user_id' => $userId
+				$this->alias . '.user_id' => $userId,
 			),
 			'order' => array(
-				$this->alias . '.created' => 'asc'
-			)
+				$this->alias . '.created' => 'asc',
+			),
 		));
 
 		return $comments;
@@ -388,17 +389,17 @@ class InfinitasComment extends CommentsAppModel {
 		$counts['active'] = $this->find('count', array(
 			'conditions' => array(
 				$this->alias . '.active' => 1,
-				$this->alias . '.class' => $class
+				$this->alias . '.class' => $class,
 			),
-			'contain' => false
+			'contain' => false,
 		));
 
 		$counts['pending'] = $this->find('count', array(
 			'conditions' => array(
 				$this->alias . '.active' => 0,
-				$this->alias . '.class' => $class
+				$this->alias . '.class' => $class,
 			),
-			'contain' => false
+			'contain' => false,
 		));
 
 		Cache::write('comments_count_' . $class, $counts, 'blog');
@@ -415,11 +416,11 @@ class InfinitasComment extends CommentsAppModel {
 		$this->displayField = 'class';
 		$classes = $this->find('list', array(
 			'group' => array(
-				$this->alias . '.class'
+				$this->alias . '.class',
 			),
 			'order' => array(
-				$this->alias . '.class' => 'asc'
-			)
+				$this->alias . '.class' => 'asc',
+			),
 		));
 
 		if (empty($classes)) {
@@ -456,8 +457,8 @@ class InfinitasComment extends CommentsAppModel {
 			'conditions' => $conditions,
 			'limit' => (int)$limit,
 			'order' => array(
-				$this->alias . '.created' => 'DESC'
-			)
+				$this->alias . '.created' => 'DESC',
+			),
 		));
 
 		Cache::write($cacheName, $comments, 'core');
@@ -483,7 +484,7 @@ class InfinitasComment extends CommentsAppModel {
 		$ipAddresses = $this->find('list', array(
 			'fields' => array(
 				$this->alias . '.ip_address',
-				$this->alias . '.ip_address'
+				$this->alias . '.ip_address',
 			),
 			'conditions' => array(
 				$this->alias . '.' . $this->primaryKey => $ipAddresses
@@ -495,6 +496,15 @@ class InfinitasComment extends CommentsAppModel {
 		}
 	}
 
+/**
+ * Paginated list for admin to manage comments
+ * 
+ * @param string $state the state of the query before / after
+ * @param array $query the query conditions
+ * @param array $results the query results
+ * 
+ * @return array
+ */
 	protected function _findAdminIndex($state, $query, $results = array()) {
 		if ($state === 'before') {
 			$query['fields'] = array_merge((array)$query['fields'], array(
@@ -529,4 +539,5 @@ class InfinitasComment extends CommentsAppModel {
 
 		return $results;
 	}
+
 }
