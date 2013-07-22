@@ -10,6 +10,7 @@ class CommentShell extends AppShell {
 	public function stats() {
 
 	}
+
 /**
  * Reclasify spam status
  *

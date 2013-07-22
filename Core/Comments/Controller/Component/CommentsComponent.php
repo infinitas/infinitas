@@ -1,9 +1,8 @@
 <?php
 App::uses('InfinitasComponent', 'Libs.Controller/Component');
+
 /**
  * Comments component
- *
- *
  */
 
 class CommentsComponent extends InfinitasComponent {
@@ -28,12 +27,9 @@ class CommentsComponent extends InfinitasComponent {
 				$this->Controller->Session->write('Spam.bot', true);
 				$this->Controller->Session->write('Spam.detected', time());
 
-				$this->Controller->notice(
-					__d('comments', 'Not so fast spam bot.'),
-					array(
-						'redirect' => '/?bot=true'
-					)
-				);
+				$this->Controller->notice(__d('comments', 'Not so fast spam bot.'), array(
+					'redirect' => '/?bot=true'
+				));
 			}
 
 			$saved = $this->Controller->{$this->Controller->modelClass}->createComment($this->Controller->request->data);
@@ -49,4 +45,5 @@ class CommentsComponent extends InfinitasComponent {
 
 		return $this->Controller->render(null, null, App::pluginPath('Comments') . 'View' . DS . 'InfinitasComments' . DS . 'add.ctp');
 	}
+
 }
