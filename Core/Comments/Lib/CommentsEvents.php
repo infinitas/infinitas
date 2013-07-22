@@ -163,6 +163,10 @@ class CommentsEvents extends AppEvents {
  * @param array $comment
  */
 	public function onNewCommentSaved(Event $Event, array $comment) {
+		if (!$comment['active']) {
+			return false;
+		}
+		
 		list($plugin) = pluginSplit($comment['class']);
 		$comment['url'] = current(EventCore::trigger($Event->Handler, $plugin . '.slugUrl', array(
 			'data' => array(
