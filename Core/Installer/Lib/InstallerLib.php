@@ -466,7 +466,6 @@ LICENCE;
  * @return type
  */
 	public function writeDbConfig($dbConfig = array()) {
-		print_r($dbConfig);
 		$File = new File(CakePlugin::path('Installer') . 'Config' . DS . 'database.install');
 		$content = $File->read();
 		$File->close();
