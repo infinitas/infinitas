@@ -64,3 +64,9 @@
 [submodule "View/Themed/Infinitas"]
 	path = View/Themed/Infinitas
 	url = git://github.com/Infinitas-Themes/Infinitas.git
+[submodule "vagrant/modules/apt"]
+	path = vagrant/modules/apt
+	url = https://github.com/puppetlabs/puppetlabs-apt.git
+[submodule "vagrant/modules/mysql"]
+	path = vagrant/modules/mysql
+	url = https://github.com/puppetlabs/puppetlabs-mysql.git

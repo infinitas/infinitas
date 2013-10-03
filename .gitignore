@@ -20,6 +20,8 @@ webroot/img/content/*
 webroot/*
 
 .gitignore
+.vagrant
+*~
 
 # If you are using an ide other than below add ignores for the files it creates
 # and commit the changes.

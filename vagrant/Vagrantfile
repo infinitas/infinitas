@@ -1,0 +1,68 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+
+$script = <<SCRIPT
+cd /home/vagrant/
+echo "Update and install all the required software"
+sudo apt-get update
+sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+echo "Installing requirements"
+sudo apt-get -q -y install git autoconf automake make libtool php5-dev php5-mysql php5-cli php5-xdebug php5-fpm php-apc htop iotop gettext
+echo "Clone cherokee and install"
+git clone --recursive http://github.com/cherokee/webserver.git cherokee
+cd cherokee
+sudo ./autogen.sh
+sudo make
+sudo make install
+echo "Configure cherokee server and auto start"
+sudo cp /usr/local/var/www/vagrant/modules/cherokee/files/cherokee.conf /usr/local/etc/cherokee/cherokee.conf
+sudo chmod u+x /home/vagrant/cherokee/contrib/cherokee
+sudo ln -s /home/vagrant/cherokee/contrib/cherokee /etc/init.d/
+sudo update-rc.d cherokee defaults
+sudo ldconfig
+echo "Add the vagrant user to the www-data group"
+sudo usermod -a -G www-data vagrant
+echo "Install and configure MySQL"
+sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password root'
+sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password root'
+sudo apt-get -y install mysql-server-5.5
+echo "create database infinitas" | mysql -u root -proot
+echo "Configure file permissions"
+echo "Back home"
+cd /home/vagrant/
+sudo service cherokee start
+echo "All done, open up http://localhost:8080 on the host pc"
+SCRIPT
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "precise32"
+  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+
+  config.vm.network :private_network, ip: "192.168.2.2"
+  config.vm.network :forwarded_port, host: 8080, guest: 80
+  config.vm.network :forwarded_port, host: 9090, guest: 9090
+  config.vm.network :forwarded_port, host: 3306, guest: 3306
+  config.ssh.forward_agent = true
+
+  config.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    v.customize ["modifyvm", :id, "--memory", 2048]
+    v.customize ["modifyvm", :id, "--name", "Infinitas"]
+  end
+
+  config.vm.synced_folder "../", "/usr/local/var/www", id: "vagrant-root", nfs: true
+#  config.vm.provision :shell, :inline => "sudo apt-get update"
+
+#  config.vm.provision :puppet do |puppet|
+#    puppet.manifests_path = "manifests"
+#    puppet.module_path = "modules"
+#    puppet.options = ['--verbose']
+#  end
+
+  config.vm.provision "shell", inline: $script
+end
